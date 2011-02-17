@@ -1,0 +1,119 @@
+package com.vimukti.accounter.web.client.core;
+
+@SuppressWarnings("serial")
+public class ClientPriceLevel implements IAccounterCore {
+
+	int version;
+
+	String stringID;
+
+	String name;
+	double percentage;
+
+	boolean isPriceLevelDecreaseByThisPercentage;
+
+	boolean isDefault;
+
+	public ClientPriceLevel() {
+
+	}
+
+	/**
+	 * @return the id
+	 */
+
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+
+	/**
+	 * @return the isDefault
+	 */
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+	/**
+	 * @param isDefault
+	 *            the isDefault to set
+	 */
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the percentage
+	 */
+	public double getPercentage() {
+		return percentage;
+	}
+
+	/**
+	 * @param percentage
+	 *            the percentage to set
+	 */
+	public void setPercentage(double percentage) {
+		this.percentage = percentage;
+	}
+
+	/**
+	 * @return the isPriceLevelDecreaseByThisPercentage
+	 */
+	public boolean isPriceLevelDecreaseByThisPercentage() {
+		return isPriceLevelDecreaseByThisPercentage;
+	}
+
+	/**
+	 * @param isPriceLevelDecreaseByThisPercentage
+	 *            the isPriceLevelDecreaseByThisPercentage to set
+	 */
+	public void setPriceLevelDecreaseByThisPercentage(
+			boolean isPriceLevelDecreaseByThisPercentage) {
+		this.isPriceLevelDecreaseByThisPercentage = isPriceLevelDecreaseByThisPercentage;
+	}
+
+	@Override
+	public String getDisplayName() {
+		return this.name;
+	}
+
+	@Override
+	public AccounterCoreType getObjectType() {
+
+		return AccounterCoreType.PRICE_LEVEL;
+	}
+
+	@Override
+	public String getStringID() {
+		return this.stringID;
+	}
+
+	@Override
+	public void setStringID(String stringID) {
+		this.stringID = stringID;
+
+	}
+
+	@Override
+	public String getClientClassSimpleName() {
+
+		return "ClientPriceLevel";
+	}
+
+}

@@ -1,0 +1,164 @@
+package com.vimukti.accounter.web.client.ui.company;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.IsSerializable;
+import com.google.gwt.user.client.rpc.ServiceDefTarget;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.IAccounterGETService;
+import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
+import com.vimukti.accounter.web.client.ui.AbstractBaseView;
+import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
+import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
+
+public class CompanyListDialog extends AbstractBaseDialog<ClientCompany> {
+	DialogGrid companyGrid;
+
+	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
+
+	// String[] fieldNames = { "id;ID", "name;Name", "legal_name;Legal Name" };
+
+	public CompanyListDialog(AbstractBaseView<ClientCompany> parent) {
+		super(parent);
+		createControls();
+		getCompanyList();
+	}
+
+	private void createControls() {
+		companyGrid = new DialogGrid(false);
+		companyGrid.addColumn(ListGrid.COLUMN_TYPE_TEXTBOX, companyConstants
+				.id());
+
+		companyGrid.addColumn(ListGrid.COLUMN_TYPE_TEXTBOX, companyConstants
+				.name());
+		companyGrid.addColumn(ListGrid.COLUMN_TYPE_TEXTBOX, companyConstants
+				.legalName());
+
+		Button closeButt = new Button(companyConstants.close());
+		// closeButt.setLayoutAlign(Alignment.RIGHT);
+
+		closeButt.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				// FIXME
+				// cancelClick();
+			}
+		});
+
+		companyGrid
+				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<ClientCompany>() {
+
+					@Override
+					public void OnCellDoubleClick(ClientCompany core, int column) {
+						ClientCompany company = core;
+						UIUtils
+								.say(FinanceApplication.getCompanyMessages()
+										.fetchingCompany()
+										+ company.getStringID()
+										+ "\n"
+										+ FinanceApplication
+												.getCompanyMessages().name()
+										+ company.getName()
+										+ "\n"
+										+ FinanceApplication
+												.getCompanyMessages()
+												.legalName()
+										+ company.getTradingName());
+
+					}
+
+				});
+		companyGrid
+				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<ClientCompany>() {
+
+					@Override
+					public void OnCellDoubleClick(ClientCompany core, int column) {
+						ClientCompany company = core;
+						UIUtils
+								.say(FinanceApplication.getCompanyMessages()
+										.fetchingCompany()
+										+ company.getStringID()
+										+ "\n"
+										+ FinanceApplication
+												.getCompanyMessages().name()
+										+ company.getName()
+										+ "\n"
+										+ FinanceApplication
+												.getCompanyMessages()
+												.legalName()
+										+ company.getTradingName());
+
+					}
+
+				});
+
+		VerticalPanel mainVLay = new VerticalPanel();
+		mainVLay.add(companyGrid);
+		mainVLay.add(closeButt);
+
+		add(mainVLay);
+		setSize("400", "400");
+
+		show();
+	}
+
+	private void getCompanyList() {
+		IAccounterGETServiceAsync getService = (IAccounterGETServiceAsync) GWT
+				.create(IAccounterGETService.class);
+		((ServiceDefTarget) getService)
+				.setServiceEntryPoint(FinanceApplication.GET_SERVICE_ENTRY_POINT);
+		AsyncCallback<List<ClientCompany>> getCompanyListCallback = new AsyncCallback<List<ClientCompany>>() {
+
+			public void onFailure(Throwable caught) {
+
+			}
+
+			public void onSuccess(List<ClientCompany> result) {
+				if (result != null) {
+					fillGrid(result);
+				} else {
+				}
+			}
+
+		};
+
+		getService
+				.getObjects(AccounterCoreType.COMPANY, getCompanyListCallback);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void fillGrid(List<ClientCompany> result) {
+		// ListGridRecord[] records = new ListGridRecord[result.size()];
+		// ClientCompany c;
+		// for (int recordIndex = 0; recordIndex < records.length;
+		// ++recordIndex) {
+		// c = result.get(recordIndex);
+		// records[recordIndex] = new ListGridRecord();
+		// records[recordIndex].setAttribute("comp_id", c.getId() + "");
+		// records[recordIndex].setAttribute("name", c.getName());
+		// // records[recordIndex].setAttribute("legal_name",
+		// // c.getLegalName());
+		// }
+		List<IsSerializable> list = (ArrayList) result;
+		companyGrid.setRecords(list);
+		// companyGrid.fetchData();
+	}
+
+	@Override
+	public void processupdateView(IAccounterCore core, int command) {
+		// TODO Auto-generated method stub
+
+	}
+}

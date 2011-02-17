@@ -1,0 +1,850 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+                "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-access="field">
+
+<!-- Trigger Cash Sale for After Insert -->
+
+
+<database-object>
+		<create> 
+
+		CREATE OR REPLACE FUNCTION getReverseUpdateAccountForInvoiceAndCashSales(INTEGER, BIGINT, BIGINT, BIGINT, DOUBLE PRECISION, BIGINT) RETURNS BOOLEAN AS '
+		
+				DECLARE 
+				
+					newType ALIAS FOR $1;
+					newItemId ALIAS FOR $2; 
+					newTaxCodeId ALIAS FOR $3;
+					newAccountId ALIAS FOR $4;
+					newLineTotal ALIAS FOR $5;
+					newTransactionId ALIAS FOR $6;
+					incomeAccountId BIGINT;
+					isIncrease BOOLEAN;
+		
+				BEGIN
+				
+				
+					DELETE FROM ACCOUNT_TRANSACTION WHERE T_ID =newTransactionId;
+					
+					isIncrease := FALSE;
+					IF newType = 1 THEN
+
+						SELECT A.ID_ACCOUNT INTO incomeAccountId FROM ACCOUNT A JOIN ITEM I ON A.ID_ACCOUNT = I.INCOME_ACCOUNT_ID WHERE I.ID_ITEM = newItemId;
+						
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT = incomeAccountId;
+						
+						IF isIncrease = TRUE THEN
+						
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT =incomeAccountId;
+						
+						ELSE
+
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT =incomeAccountId;
+						
+						END IF;
+						
+						 
+		
+					ELSIF newType = 3 THEN
+		
+		
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT=(SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+						IF isIncrease = TRUE THEN
+		
+		
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT = (SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+		
+						ELSE
+		
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT = (SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+						END IF;
+		
+		
+		
+						UPDATE TAXAGENCY SET BALANCE = BALANCE - newLineTotal WHERE ID_TAXAGENCY = (SELECT TA.ID_TAXAGENCY FROM TAXAGENCY TA JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+		
+					ELSIF newType = 4 THEN
+			
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT=newAccountId;
+		
+		
+						IF isIncrease = TRUE THEN
+		
+								UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT =newAccountId;
+		
+						ELSE
+								UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT =newAccountId;
+		
+						END IF;
+		
+					END IF;	
+				return TRUE;	
+				END;	
+		
+		' LANGUAGE plpgsql;
+
+		</create>
+		<drop>DROP FUNCTION IF EXIST getReverseUpdateAccountForInvoiceAndCashSales</drop>
+	</database-object>
+
+
+<database-object>
+		<create> 
+		CREATE OR REPLACE FUNCTION getReverseUpdateAccountForEnterBillAndCashPurchaseAndCreditCardCharge(INTEGER, BIGINT, BIGINT, BIGINT, DOUBLE PRECISION, BIGINT) RETURNS BOOLEAN AS '
+		
+				DECLARE 
+				
+					newType ALIAS FOR $1;
+					newItemId ALIAS FOR $2; 
+					newTaxCodeId ALIAS FOR $3;
+					newAccountId ALIAS FOR $4;
+					newLineTotal ALIAS FOR $5;
+					newTransactionId ALIAS FOR $6;
+					expeseAccountId BIGINT;
+					isIncrease BOOLEAN;
+		
+				BEGIN
+					
+					DELETE FROM ACCOUNT_TRANSACTION WHERE T_ID = newTransactionId;
+					isIncrease := FALSE;
+					IF newType = 1 THEN
+					
+						SELECT A.ID_ACCOUNT INTO expeseAccountId FROM ACCOUNT A JOIN ITEM I ON A.ID_ACCOUNT = I.EXPENSE_ACCOUNT_ID WHERE I.ID_ITEM = newItemId;
+		
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT = expeseAccountId;
+		
+						IF isIncrease = TRUE THEN
+				
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT =expeseAccountId;
+		
+						ELSE
+		
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT =expeseAccountId;
+							
+						END IF;
+		
+		
+					ELSIF newType = 4 THEN
+			
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT=newAccountId;
+		
+		
+						IF isIncrease = TRUE THEN
+		
+								UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT =newAccountId;
+		
+						ELSE
+
+								UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT =newAccountId;
+		
+						END IF;
+		
+		
+					ELSIF newType = 3 THEN
+		
+		
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT=(SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+						IF isIncrease = TRUE THEN
+
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT = (SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+						ELSE
+		
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT = (SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+						END IF;
+		
+		
+						UPDATE TAXAGENCY SET BALANCE = BALANCE + newLineTotal WHERE ID_TAXAGENCY = (SELECT TA.ID_TAXAGENCY FROM TAXAGENCY TA JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+					END IF;	
+
+				return TRUE;
+				END;	
+		
+		' LANGUAGE plpgsql;
+		
+		</create>
+		<drop>DROP FUNCTION IF EXIST getReverseUpdateAccountForEnterBillAndCashPurchaseAndCreditCardCharge</drop>
+	</database-object>
+
+	<database-object>
+		<create> 
+	CREATE OR REPLACE FUNCTION getReverseUpdateAccountForCustomerCreditMemoAndWriteChecks(INTEGER, BIGINT, BIGINT, BIGINT, DOUBLE PRECISION, BIGINT) RETURNS BOOLEAN AS '
+		
+				DECLARE 
+				
+					newType ALIAS FOR $1;
+					newItemId ALIAS FOR $2; 
+					newTaxCodeId ALIAS FOR $3;
+					newAccountId ALIAS FOR $4;
+					newLineTotal ALIAS FOR $5;
+					newTransactionId ALIAS FOR $6;
+					incomeAccountId BIGINT;
+					isIncrease BOOLEAN;
+		
+				BEGIN
+
+					DELETE FROM ACCOUNT_TRANSACTION WHERE T_ID = newTransactionId;
+					isIncrease := FALSE;
+					IF newType = 1 THEN
+					
+						SELECT A.ID_ACCOUNT INTO incomeAccountId FROM ACCOUNT A JOIN ITEM I ON A.ID_ACCOUNT = I.INCOME_ACCOUNT_ID WHERE I.ID_ITEM = newItemId;
+		
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT = incomeAccountId;
+		
+						IF isIncrease = TRUE THEN
+
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT =incomeAccountId;
+		
+						ELSE
+		
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT =incomeAccountId;
+		
+						END IF;
+		
+		
+					ELSIF newType = 4 THEN
+			
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT=newAccountId;
+		
+		
+						IF isIncrease = TRUE THEN
+		
+								UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT =newAccountId;
+								
+						ELSE
+
+								UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT =newAccountId;
+								
+						END IF;
+		
+		
+					ELSIF newType = 3 THEN
+		
+		
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT=(SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+						IF isIncrease = TRUE THEN
+		
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT = (SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+						ELSE
+		
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT = (SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+							
+						END IF;
+		
+		
+						UPDATE TAXAGENCY SET BALANCE = BALANCE + newLineTotal WHERE ID_TAXAGENCY = (SELECT TA.ID_TAXAGENCY FROM TAXAGENCY TA JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+					END IF;	
+
+				return TRUE;
+				END;	
+		
+		' LANGUAGE plpgsql;
+	
+		</create>
+		<drop>DROP FUNCTION IF EXIST getReverseUpdateAccountForCustomerCreditMemoAndWriteChecks</drop>
+	</database-object>
+
+<database-object>
+		<create> 
+	
+	
+	CREATE OR REPLACE FUNCTION getReverseUpdateAccountForVendorCreditMemo(INTEGER, BIGINT, BIGINT, DOUBLE PRECISION, BIGINT) RETURNS BOOLEAN AS '
+		
+				DECLARE 
+				
+					newType ALIAS FOR $1;
+					newItemId ALIAS FOR $2; 
+					newAccountId ALIAS FOR $3;
+					newLineTotal ALIAS FOR $4;
+					newTransactionId ALIAS FOR $5;
+					expeseAccountId BIGINT;
+					isIncrease BOOLEAN;
+		
+				BEGIN
+
+					DELETE FROM ACCOUNT_TRANSACTION WHERE T_ID = newTransactionId;
+					isIncrease := FALSE;
+					IF newType = 1 THEN
+					
+						SELECT A.ID_ACCOUNT INTO expeseAccountId FROM ACCOUNT A JOIN ITEM I ON A.ID_ACCOUNT = I.EXPENSE_ACCOUNT_ID WHERE I.ID_ITEM = newItemId;
+		
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT = expeseAccountId;
+		
+						IF isIncrease = TRUE THEN
+
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT =expeseAccountId;
+		
+						ELSE
+						
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT =expeseAccountId;
+		
+						END IF;
+		
+		
+					ELSIF newType = 4 THEN
+			
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT=newAccountId;
+		
+		
+						IF isIncrease = TRUE THEN
+		
+								UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT =newAccountId;
+
+						ELSE
+								
+								UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT =newAccountId;
+		
+						END IF;
+		
+					END IF;	
+
+				return TRUE;
+				END;	
+		
+		' LANGUAGE plpgsql;
+	
+		</create>
+		<drop>DROP FUNCTION IF EXIST getReverseUpdateAccountForVendorCreditMemo</drop>
+	</database-object>
+
+
+
+<database-object>
+		<create> 
+		
+
+		CREATE OR REPLACE FUNCTION getUpdateAccountForInvoiceAndCashSales(INTEGER, BIGINT, BIGINT, BIGINT, DOUBLE PRECISION, BIGINT) RETURNS BOOLEAN AS '
+		
+				DECLARE 
+				
+					newType ALIAS FOR $1;
+					newItemId ALIAS FOR $2; 
+					newTaxCodeId ALIAS FOR $3;
+					newAccountId ALIAS FOR $4;
+					newLineTotal ALIAS FOR $5;
+					newTransactionId ALIAS FOR $6;
+					incomeAccountId BIGINT;
+					isIncrease BOOLEAN;
+		
+				BEGIN
+					isIncrease := FALSE;
+					IF newType = 1 THEN
+
+						SELECT A.ID_ACCOUNT INTO incomeAccountId FROM ACCOUNT A JOIN ITEM I ON A.ID_ACCOUNT = I.INCOME_ACCOUNT_ID WHERE I.ID_ITEM = newItemId;
+
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT = incomeAccountId;
+						
+						IF isIncrease = TRUE THEN
+						
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT =incomeAccountId;
+						
+						
+						ELSE
+						
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT =incomeAccountId;
+						
+						END IF;
+						
+						 
+						INSERT INTO ACCOUNT_TRANSACTION (ID_ACCOUNT_TRANSACTION,T_NUMBER,TYPE,USER_ID,T_ID,T_TYPE,T_DATE,AMOUNT) (SELECT NEXTVAL(\'sequence_account_transaction\'),(SELECT T.NUMBER FROM TRANSACTION T WHERE T.ID_TRANSACTION= newTransactionId),1,A.ID_ACCOUNT,newTransactionId,(SELECT T.T_TYPE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(SELECT T.T_DATE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(CASE WHEN A.IS_INCREASE =TRUE THEN newLineTotal ELSE -1*newLineTotal END ) FROM ACCOUNT A WHERE A.ID_ACCOUNT =incomeAccountId);
+					 
+					ELSIF newType = 3 THEN
+		
+					
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT=(SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+						IF isIncrease = TRUE THEN
+		
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT = (SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+						ELSE
+		
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT = (SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+						END IF;
+		
+						INSERT INTO ACCOUNT_TRANSACTION (ID_ACCOUNT_TRANSACTION,T_NUMBER,TYPE,USER_ID,T_ID,T_TYPE,T_DATE,AMOUNT) (SELECT NEXTVAL(\'sequence_account_transaction\'), (SELECT T.NUMBER FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),1,A.ID_ACCOUNT,newTransactionId,(SELECT T.T_TYPE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(SELECT T.T_DATE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(CASE WHEN A.IS_INCREASE = TRUE THEN newLineTotal ELSE -1*newLineTotal END ) FROM ACCOUNT A WHERE A.ID_ACCOUNT =(SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId));
+		
+						UPDATE TAXAGENCY SET BALANCE = BALANCE + newLineTotal WHERE ID_TAXAGENCY = (SELECT TA.ID_TAXAGENCY FROM TAXAGENCY TA JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+						INSERT INTO ACCOUNT_TRANSACTION (ID_ACCOUNT_TRANSACTION,T_NUMBER,TYPE,USER_ID,T_ID,T_TYPE,T_DATE,AMOUNT) (SELECT NEXTVAL(\'sequence_account_transaction\'), (SELECT T.NUMBER FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),4,TT.ID_TAXAGENCY,newTransactionId,(SELECT T.T_TYPE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(SELECT T.T_DATE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),newLineTotal FROM TAXAGENCY TT WHERE TT.ID_TAXAGENCY = (SELECT TA.ID_TAXAGENCY FROM TAXAGENCY TA JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId));
+		
+						INSERT INTO PAY_SALES_TAX_ENTRIES (ID_PAY_SALES_TAX_ENTRIES,T_ID,T_DATE,TAXCODE_ID,TAXAGENCY_ID,AMOUNT,BALANCE) VALUES ((SELECT NEXTVAL(\'sequence_paysalestax_entries\')),newTransactionId,(SELECT T.T_DATE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),newTaxCodeId,(SELECT TC.TAXAGENCY_ID FROM TAXCODE TC WHERE TC.ID_TAXCODE=newTaxCodeId),newLineTotal,newLineTotal);
+					 
+					
+					ELSIF newType = 4 THEN
+			
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT=newAccountId;
+		
+						IF isIncrease = TRUE THEN
+		
+								UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT =newAccountId;
+		
+						ELSE
+		
+								UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT =newAccountId;
+		
+						END IF;
+					
+						INSERT INTO ACCOUNT_TRANSACTION (ID_ACCOUNT_TRANSACTION,T_NUMBER,TYPE,USER_ID,T_ID,T_TYPE,T_DATE,AMOUNT) VALUES ((SELECT NEXTVAL(\'sequence_account_transaction\')),(SELECT T.NUMBER FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),1,newAccountId,newTransactionId,(SELECT T.T_TYPE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(SELECT T.T_DATE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(CASE WHEN (SELECT A.IS_INCREASE FROM ACCOUNT A WHERE A.ID_ACCOUNT =newAccountId)=TRUE THEN newLineTotal ELSE -1*newLineTotal END ));
+					
+					END IF;	
+				return TRUE;	
+				END;	
+		
+		' LANGUAGE plpgsql;
+
+		</create>
+		<drop>DROP FUNCTION IF EXIST getUpdateAccountForInvoiceAndCashSales</drop>
+	</database-object>
+	
+
+
+
+	<database-object>
+		<create> 
+		CREATE OR REPLACE FUNCTION getUpdateAccountForEnterBillAndCashPurchaseAndCreditCardCharge(INTEGER, BIGINT, BIGINT, BIGINT, DOUBLE PRECISION, BIGINT) RETURNS BOOLEAN AS '
+		
+				DECLARE 
+				
+					newType ALIAS FOR $1;
+					newItemId ALIAS FOR $2; 
+					newTaxCodeId ALIAS FOR $3;
+					newAccountId ALIAS FOR $4;
+					newLineTotal ALIAS FOR $5;
+					newTransactionId ALIAS FOR $6;
+					expeseAccountId BIGINT;
+					isIncrease BOOLEAN;
+		
+				BEGIN
+
+					isIncrease := FALSE;
+					IF newType = 1 THEN
+					
+						SELECT A.ID_ACCOUNT INTO expeseAccountId FROM ACCOUNT A JOIN ITEM I ON A.ID_ACCOUNT = I.EXPENSE_ACCOUNT_ID WHERE I.ID_ITEM = newItemId;
+		
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT = expeseAccountId;
+		
+						IF isIncrease = TRUE THEN
+		
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT =expeseAccountId;
+							
+						ELSE
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT =expeseAccountId;
+		
+						END IF;
+		
+						INSERT INTO ACCOUNT_TRANSACTION (ID_ACCOUNT_TRANSACTION,T_NUMBER,TYPE,USER_ID,T_ID,T_TYPE,T_DATE,AMOUNT) (SELECT NEXTVAL(\'sequence_account_transaction\'), (SELECT T.NUMBER FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),1,A.ID_ACCOUNT,newTransactionId,(SELECT T.T_TYPE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(SELECT T.T_DATE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(CASE WHEN A.IS_INCREASE = TRUE THEN -1*newLineTotal ELSE newLineTotal END ) FROM ACCOUNT A WHERE A.ID_ACCOUNT =expeseAccountId);
+
+		
+					ELSIF newType = 4 THEN
+			
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT=newAccountId;
+		
+						IF isIncrease = TRUE THEN
+		
+								UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT =newAccountId;
+								
+						ELSE
+								UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT =newAccountId;
+		
+						END IF;
+		
+						INSERT INTO ACCOUNT_TRANSACTION (ID_ACCOUNT_TRANSACTION,T_NUMBER,TYPE,USER_ID,T_ID,T_TYPE,T_DATE,AMOUNT) VALUES ((SELECT NEXTVAL(\'sequence_account_transaction\')), (SELECT T.NUMBER FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),1,newAccountId,newTransactionId,(SELECT T.T_TYPE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(SELECT T.T_DATE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(CASE WHEN (SELECT A.IS_INCREASE FROM ACCOUNT A WHERE A.ID_ACCOUNT =newAccountId)=TRUE THEN -1*newLineTotal ELSE newLineTotal END ));
+		
+					ELSIF newType = 3 THEN
+		
+		
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT=(SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+						IF isIncrease = TRUE THEN
+		
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT = (SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+						ELSE
+		
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT = (SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+							
+						END IF;
+		
+						INSERT INTO ACCOUNT_TRANSACTION (ID_ACCOUNT_TRANSACTION,T_NUMBER,TYPE,USER_ID,T_ID,T_TYPE,T_DATE,AMOUNT) (SELECT NEXTVAL(\'sequence_account_transaction\'), (SELECT T.NUMBER FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),1,A.ID_ACCOUNT,newTransactionId,(SELECT T.T_TYPE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(SELECT T.T_DATE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(CASE WHEN A.IS_INCREASE = TRUE THEN -1*newLineTotal ELSE newLineTotal END ) FROM ACCOUNT A WHERE A.ID_ACCOUNT =(SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId));						
+		
+						UPDATE TAXAGENCY SET BALANCE = BALANCE - newLineTotal WHERE ID_TAXAGENCY = (SELECT TA.ID_TAXAGENCY FROM TAXAGENCY TA JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+						INSERT INTO ACCOUNT_TRANSACTION (ID_ACCOUNT_TRANSACTION,T_NUMBER,TYPE,USER_ID,T_ID,T_TYPE,T_DATE,AMOUNT) (SELECT NEXTVAL(\'sequence_account_transaction\'), (SELECT T.NUMBER FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),4,TT.ID_TAXAGENCY,newTransactionId,(SELECT T.T_TYPE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(SELECT T.T_DATE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),-1*newLineTotal FROM TAXAGENCY TT WHERE TT.ID_TAXAGENCY = (SELECT TA.ID_TAXAGENCY FROM TAXAGENCY TA JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId));
+		
+					END IF;	
+				return TRUE;
+				END;	
+		
+		' LANGUAGE plpgsql;
+		
+		</create>
+		<drop>DROP FUNCTION IF EXIST getUpdateAccountForEnterBillAndCashPurchaseAndCreditCardCharge</drop>
+	</database-object>
+	
+	
+	<database-object>
+		<create> 
+	CREATE OR REPLACE FUNCTION getUpdateAccountForCustomerCreditMemoAndWriteChecks(INTEGER, BIGINT, BIGINT, BIGINT, DOUBLE PRECISION, BIGINT) RETURNS BOOLEAN AS '
+		
+				DECLARE 
+				
+					newType ALIAS FOR $1;
+					newItemId ALIAS FOR $2; 
+					newTaxCodeId ALIAS FOR $3;
+					newAccountId ALIAS FOR $4;
+					newLineTotal ALIAS FOR $5;
+					newTransactionId ALIAS FOR $6;
+					incomeAccountId BIGINT;
+					isIncrease BOOLEAN;
+		
+				BEGIN
+
+					isIncrease := FALSE;
+					IF newType = 1 THEN
+					
+						SELECT A.ID_ACCOUNT INTO incomeAccountId FROM ACCOUNT A JOIN ITEM I ON A.ID_ACCOUNT = I.INCOME_ACCOUNT_ID WHERE I.ID_ITEM = newItemId;
+		
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT = incomeAccountId;
+		
+						IF isIncrease = TRUE THEN
+		
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT =incomeAccountId;
+		
+						ELSE
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT =incomeAccountId;
+		
+						END IF;
+
+						INSERT INTO ACCOUNT_TRANSACTION (ID_ACCOUNT_TRANSACTION,T_NUMBER,TYPE,USER_ID,T_ID,T_TYPE,T_DATE,AMOUNT) (SELECT NEXTVAL(\'sequence_account_transaction\'), (SELECT T.NUMBER FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),1,A.ID_ACCOUNT,newTransactionId,(SELECT T.T_TYPE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(SELECT T.T_DATE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(CASE WHEN A.IS_INCREASE = TRUE THEN -1*newLineTotal ELSE newLineTotal END ) FROM ACCOUNT A WHERE A.ID_ACCOUNT =incomeAccountId);
+
+		
+					ELSIF newType = 4 THEN
+			
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT=newAccountId;
+		
+		
+						IF isIncrease = TRUE THEN
+		
+								UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT =newAccountId;
+								
+						ELSE
+								UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT =newAccountId;
+		
+						END IF;
+
+						INSERT INTO ACCOUNT_TRANSACTION (ID_ACCOUNT_TRANSACTION,T_NUMBER,TYPE,USER_ID,T_ID,T_TYPE,T_DATE,AMOUNT) VALUES ((SELECT NEXTVAL(\'sequence_account_transaction\')),(SELECT T.NUMBER FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),1,newAccountId,newTransactionId,(SELECT T.T_TYPE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(SELECT T.T_DATE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(CASE WHEN (SELECT A.IS_INCREASE FROM ACCOUNT A WHERE A.ID_ACCOUNT =newAccountId)=TRUE THEN -1*newLineTotal ELSE newLineTotal END ));
+
+					ELSIF newType = 3 THEN
+		
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT=(SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+						IF isIncrease = TRUE THEN
+		
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT = (SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+						ELSE
+		
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT = (SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+							
+						END IF;
+
+						INSERT INTO ACCOUNT_TRANSACTION (ID_ACCOUNT_TRANSACTION,T_NUMBER,TYPE,USER_ID,T_ID,T_TYPE,T_DATE,AMOUNT) (SELECT NEXTVAL(\'sequence_account_transaction\'), (SELECT T.NUMBER FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),1,A.ID_ACCOUNT,newTransactionId,(SELECT T.T_TYPE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(SELECT T.T_DATE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(CASE WHEN A.IS_INCREASE = TRUE THEN -1*newLineTotal ELSE newLineTotal END ) FROM ACCOUNT A WHERE A.ID_ACCOUNT =(SELECT A.ID_ACCOUNT FROM ACCOUNT A JOIN TAXAGENCY TA ON A.ID_ACCOUNT = TA.ACCOUNT_ID JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId));
+
+						UPDATE TAXAGENCY SET BALANCE = BALANCE - newLineTotal WHERE ID_TAXAGENCY = (SELECT TA.ID_TAXAGENCY FROM TAXAGENCY TA JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId);
+		
+						INSERT INTO ACCOUNT_TRANSACTION (ID_ACCOUNT_TRANSACTION,T_NUMBER,TYPE,USER_ID,T_ID,T_TYPE,T_DATE,AMOUNT) (SELECT NEXTVAL(\'sequence_account_transaction\'), (SELECT T.NUMBER FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),4,TT.ID_TAXAGENCY,newTransactionId,(SELECT T.T_TYPE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(SELECT T.T_DATE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),-1*newLineTotal FROM TAXAGENCY TT WHERE TT.ID_TAXAGENCY = (SELECT TA.ID_TAXAGENCY FROM TAXAGENCY TA JOIN TAXCODE TC ON TC.TAXAGENCY_ID = TA.ID_TAXAGENCY WHERE TC.ID_TAXCODE =newTaxCodeId));
+		
+						INSERT INTO PAY_SALES_TAX_ENTRIES (ID_PAY_SALES_TAX_ENTRIES,T_ID,T_DATE,TAXCODE_ID,TAXAGENCY_ID,AMOUNT,BALANCE) VALUES ((SELECT NEXTVAL(\'sequence_paysalestax_entries\')), newTransactionId,(SELECT T.T_DATE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),newTaxCodeId,(SELECT TC.TAXAGENCY_ID FROM TAXCODE TC WHERE TC.ID_TAXCODE=newTaxCodeId),newLineTotal,newLineTotal);
+
+					END IF;	
+				return TRUE;
+				END;	
+		
+		' LANGUAGE plpgsql;
+	
+		</create>
+		<drop>DROP FUNCTION IF EXIST getUpdateAccountForCustomerCreditMemoAndWriteChecks</drop>
+	</database-object>
+	
+
+
+	<database-object>
+		<create> 
+	
+	
+	CREATE OR REPLACE FUNCTION getUpdateAccountForVendorCreditMemo(INTEGER, BIGINT, BIGINT, DOUBLE PRECISION, BIGINT) RETURNS BOOLEAN AS '
+		
+				DECLARE 
+				
+					newType ALIAS FOR $1;
+					newItemId ALIAS FOR $2; 
+					newAccountId ALIAS FOR $3;
+					newLineTotal ALIAS FOR $4;
+					newTransactionId ALIAS FOR $5;
+					expeseAccountId BIGINT;
+					isIncrease BOOLEAN;
+		
+				BEGIN
+
+					isIncrease := FALSE;
+					IF newType = 1 THEN
+					
+						SELECT A.ID_ACCOUNT INTO expeseAccountId FROM ACCOUNT A JOIN ITEM I ON A.ID_ACCOUNT = I.EXPENSE_ACCOUNT_ID WHERE I.ID_ITEM = newItemId;
+		
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT = expeseAccountId;
+		
+						IF isIncrease = TRUE THEN
+
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT =expeseAccountId;
+		
+		
+						ELSE
+		
+							UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT =expeseAccountId;
+						END IF;
+		
+		
+						INSERT INTO ACCOUNT_TRANSACTION (ID_ACCOUNT_TRANSACTION,T_NUMBER,TYPE,USER_ID,T_ID,T_TYPE,T_DATE,AMOUNT) (SELECT NEXTVAL(\'sequence_account_transaction\'), (SELECT T.NUMBER FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),1,A.ID_ACCOUNT,newTransactionId,(SELECT T.T_TYPE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(SELECT T.T_DATE FROM TRANSACTION T WHERE T.ID_TRANSACTION=newTransactionId),(CASE WHEN A.IS_INCREASE = TRUE THEN newLineTotal ELSE -1*newLineTotal END ) FROM ACCOUNT A WHERE A.ID_ACCOUNT =expeseAccountId);
+
+		
+					ELSIF newType = 4 THEN
+			
+						SELECT A.IS_INCREASE INTO isIncrease FROM ACCOUNT A WHERE A.ID_ACCOUNT=newAccountId;
+		
+		
+						IF isIncrease = TRUE THEN
+		
+								UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE + newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE + newLineTotal WHERE ID_ACCOUNT =newAccountId;
+
+		
+						ELSE
+								
+								UPDATE ACCOUNT SET CURRENT_BALANCE = CURRENT_BALANCE - newLineTotal, TOTAL_BALANCE = TOTAL_BALANCE - newLineTotal WHERE ID_ACCOUNT =newAccountId;
+								
+		
+						END IF;
+		
+		
+						INSERT INTO ACCOUNT_TRANSACTION (ID_ACCOUNT_TRANSACTION,T_NUMBER,TYPE,USER_ID,T_ID,T_TYPE,T_DATE,AMOUNT) VALUES ((SELECT NEXTVAL(\'sequence_account_transaction\')),(SELECT T.NUMBER FROM TRANSACTION T WHERE T.ID=newTransactionId),1,newAccountId,newTransactionId,(SELECT T.T_TYPE FROM TRANSACTION T WHERE T.ID=newTransactionId),(SELECT T.T_DATE FROM TRANSACTION T WHERE T.ID=newTransactionId),(CASE WHEN (SELECT A.IS_INCREASE FROM ACCOUNT A WHERE A.ID_ACCOUNT =newAccountId)=TRUE THEN newLineTotal ELSE -1*newLineTotal END ));
+		
+		
+					END IF;	
+
+				return TRUE;
+				END;	
+		
+		' LANGUAGE plpgsql;
+	
+		</create>
+		<drop>DROP FUNCTION IF EXIST getUpdateAccountForVendorCreditMemo</drop>
+	</database-object>
+
+	<database-object>
+		<create> 
+		
+		
+		CREATE OR REPLACE FUNCTION function_transactionitem() RETURNS TRIGGER as	
+		$trigger_transactionitem$
+
+			DECLARE 
+		
+			transactionType INTEGER;
+			isVoid BOOLEAN;
+			success BOOLEAN;
+			BEGIN
+				
+			
+				IF TG_OP='INSERT' THEN	
+
+
+				RETURN NEW;
+				END IF;
+			
+				IF TG_OP='UPDATE' THEN	
+
+					<!-- 
+						Checking for whether this updation caused by the Transaction Id updation while creating Transaction Item.
+					 -->
+					
+					IF OLD.INDEX IS NULL AND NEW.INDEX IS NOT NULL THEN
+					
+						transactionType := getTransactionType(NEW.TRANSACTION_ID);
+						
+						IF transactionType = 8 OR transactionType = 1 THEN
+							success := getUpdateAccountForInvoiceAndCashSales(NEW.TYPE,NEW.ITEM_ID, NEW.TAXCODE_ID, NEW.ACCOUNT_ID, NEW.LINE_TOTAL, NEW.TRANSACTION_ID);
+						
+						ELSIF transactionType = 6 OR transactionType = 2 OR transactionType = 3 THEN 
+						
+							success := getUpdateAccountForEnterBillAndCashPurchaseAndCreditCardCharge(NEW.TYPE,NEW.ITEM_ID, NEW.TAXCODE_ID, NEW.ACCOUNT_ID, NEW.LINE_TOTAL, NEW.TRANSACTION_ID);
+					
+						ELSIF transactionType = 4  OR transactionType = 15 THEN 
+							
+							success := getUpdateAccountForCustomerCreditMemoAndWriteChecks(NEW.TYPE,NEW.ITEM_ID, NEW.TAXCODE_ID, NEW.ACCOUNT_ID, NEW.LINE_TOTAL, NEW.TRANSACTION_ID);
+					
+						ELSIF transactionType = 7 THEN 
+						
+					
+						ELSIF transactionType = 14 THEN 
+						
+							success := getUpdateAccountForVendorCreditMemo(NEW.TYPE,NEW.ITEM_ID, NEW.ACCOUNT_ID, NEW.LINE_TOTAL, NEW.TRANSACTION_ID);
+					
+						END IF;
+					
+					
+					
+					ELSIF !(OLD.INDEX = NULL AND NEW.INDEX IS NOT NULL) THEN
+					
+						transactionType := getTransactionType(NEW.TRANSACTION_ID);
+					
+						IF transactionType = 8 THEN
+						
+							SELECT I.IS_VOID INTO isVoid FROM INVOICE I WHERE I.ID_ITEM =NEW.TRANSACTION_ID;
+							
+							IF isVoid = TRUE THEN
+								success := getReverseUpdateAccountForInvoiceAndCashSales(NEW.TYPE,NEW.ITEM_ID, NEW.TAXCODE_ID, NEW.ACCOUNT_ID, NEW.LINE_TOTAL, NEW.TRANSACTION_ID);
+							END IF;
+							
+						ELSIF transactionType = 1 THEN
+						
+							SELECT I.IS_VOID INTO isVoid FROM CASH_SALES I WHERE I.ID_ITEM =NEW.TRANSACTION_ID;
+							
+							IF isVoid = TRUE THEN
+								success := getReverseUpdateAccountForInvoiceAndCashSales(NEW.TYPE,NEW.ITEM_ID, NEW.TAXCODE_ID, NEW.ACCOUNT_ID, NEW.LINE_TOTAL, NEW.TRANSACTION_ID);
+							END IF;
+							
+							
+						ELSIF transactionType = 6 THEN 
+						
+							SELECT I.IS_VOID INTO isVoid FROM ENTER_BILL I WHERE I.ID_ITEM =NEW.TRANSACTION_ID;
+							
+							IF isVoid = TRUE THEN
+								success := getReverseUpdateAccountForEnterBillAndCashPurchaseAndCreditCardCharge(NEW.TYPE,NEW.ITEM_ID, NEW.TAXCODE_ID, NEW.ACCOUNT_ID, NEW.LINE_TOTAL, NEW.TRANSACTION_ID);
+							END IF;
+						
+						ELSIF transactionType = 2 THEN 
+							
+							SELECT I.IS_VOID INTO isVoid FROM CASH_PURCHASE I WHERE I.ID_ITEM =NEW.TRANSACTION_ID;
+							
+							IF isVoid = TRUE THEN
+								success := getReverseUpdateAccountForEnterBillAndCashPurchaseAndCreditCardCharge(NEW.TYPE,NEW.ITEM_ID, NEW.TAXCODE_ID, NEW.ACCOUNT_ID, NEW.LINE_TOTAL, NEW.TRANSACTION_ID);
+							END IF;
+						
+						ELSIF transactionType = 3 THEN 
+						
+							SELECT I.IS_VOID INTO isVoid FROM CREDIT_CARD_CHARGES I WHERE I.ID_ITEM =NEW.TRANSACTION_ID;
+							
+							IF isVoid = TRUE THEN
+								success := getReverseUpdateAccountForEnterBillAndCashPurchaseAndCreditCardCharge(NEW.TYPE,NEW.ITEM_ID, NEW.TAXCODE_ID, NEW.ACCOUNT_ID, NEW.LINE_TOTAL, NEW.TRANSACTION_ID);
+							END IF;
+					
+						ELSIF transactionType = 4 THEN 
+							
+							SELECT I.IS_VOID INTO isVoid FROM CUSTOMER_CREDIT_MEMO I WHERE I.ID_ITEM =NEW.TRANSACTION_ID;
+							
+							IF isVoid = TRUE THEN
+								success := getReverseUpdateAccountForCustomerCreditMemoAndWriteChecks(NEW.TYPE,NEW.ITEM_ID, NEW.TAXCODE_ID, NEW.ACCOUNT_ID, NEW.LINE_TOTAL, NEW.TRANSACTION_ID);
+							END IF;
+					
+						ELSIF transactionType = 15 THEN 
+							
+							SELECT I.IS_VOID INTO isVoid FROM WRITE_CHECKS I WHERE I.ID_ITEM =NEW.TRANSACTION_ID;
+							
+							IF isVoid = TRUE THEN
+								success := getReverseUpdateAccountForCustomerCreditMemoAndWriteChecks(NEW.TYPE,NEW.ITEM_ID, NEW.TAXCODE_ID, NEW.ACCOUNT_ID, NEW.LINE_TOTAL, NEW.TRANSACTION_ID);
+							END IF;
+					
+						ELSIF transactionType = 7 THEN 
+						
+					
+						ELSIF transactionType = 14 THEN 
+						
+						SELECT I.IS_VOID INTO isVoid FROM VENDOR_CREDIT_MEMO I WHERE I.ID_ITEM =NEW.TRANSACTION_ID;
+							
+							IF isVoid = TRUE THEN
+								success := getReverseUpdateAccountForVendorCreditMemo(NEW.TYPE,NEW.ITEM_ID, NEW.ACCOUNT_ID, NEW.LINE_TOTAL, NEW.TRANSACTION_ID);
+							END IF;
+					
+						END IF;
+						
+						
+					
+					END IF;
+
+
+
+				RETURN NEW;
+				END IF;
+				
+				
+				
+				IF TG_OP='DELETE' THEN	
+
+					transactionType := getTransactionType(NEW.TRANSACTION_ID);
+						
+					IF transactionType = 8 OR transactionType = 1 THEN
+						success := getReverseUpdateAccountForInvoiceAndCashSales(OLD.TYPE,NEW.ITEM_ID, NEW.TAXCODE_ID, NEW.ACCOUNT_ID, NEW.LINE_TOTAL, NEW.TRANSACTION_ID);
+					
+					ELSIF transactionType = 6 OR transactionType = 2 OR transactionType = 3 THEN 
+					
+						success := getReverseUpdateAccountForEnterBillAndCashPurchaseAndCreditCardCharge(OLD.TYPE,NEW.ITEM_ID, NEW.TAXCODE_ID, NEW.ACCOUNT_ID, NEW.LINE_TOTAL, NEW.TRANSACTION_ID);
+				
+					ELSIF transactionType = 4  OR transactionType = 15 THEN 
+						
+						success := getReverseUpdateAccountForCustomerCreditMemoAndWriteChecks(OLD.TYPE,NEW.ITEM_ID, NEW.TAXCODE_ID, NEW.ACCOUNT_ID, NEW.LINE_TOTAL, NEW.TRANSACTION_ID);
+				
+					ELSIF transactionType = 7 THEN 
+					
+				
+					ELSIF transactionType = 14 THEN 
+					
+						success := getReverseUpdateAccountForVendorCreditMemo(OLD.TYPE,NEW.ITEM_ID, NEW.ACCOUNT_ID, NEW.LINE_TOTAL, NEW.TRANSACTION_ID);
+				
+					END IF;
+				
+
+
+
+				RETURN OLD;
+				END IF;
+				
+				
+			RETURN NULL;
+			END;	
+		
+		$trigger_transactionitem$ LANGUAGE plpgsql;
+		
+		</create>
+		<drop>DROP FUNCTION IF EXIST function_transactionitem</drop>
+	</database-object>
+	
+	<database-object>
+		<create> 
+		CREATE TRIGGER trigger_transactionitem AFTER INSERT OR UPDATE OR DELETE ON TRANSACTION_ITEM FOR EACH ROW
+		EXECUTE PROCEDURE function_transactionitem();
+		
+		</create>
+		<drop>DROP TRIGGER trigger_transactionitem</drop>
+	</database-object>
+	
+	
+	
+	
+	
+	
+	
+	
+</hibernate-mapping>

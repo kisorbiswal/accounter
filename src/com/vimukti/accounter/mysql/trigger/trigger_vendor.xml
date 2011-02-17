@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+                "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-access="field">
+
+
+	<database-object>
+		<create> CREATE TRIGGER INSERT_VENDOR AFTER
+			INSERT ON VENDOR FOR EACH ROW
+			BEGIN
+			UPDATE ACCOUNT A SET A.OPENING_BALANCE = A.OPENING_BALANCE + NEW.BALANCE,A.CURRENT_BALANCE = A.CURRENT_BALANCE + NEW.BALANCE,A.TOTAL_BALANCE = A.TOTAL_BALANCE + NEW.BALANCE WHERE A.ID = NEW.ACCOUNTS_PAYABLE_ID;
+			END
+		 </create>
+		<drop>DROP TRIGGER INSERT_VENDOR</drop>
+	</database-object>
+	
+</hibernate-mapping>

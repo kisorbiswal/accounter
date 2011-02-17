@@ -1,0 +1,65 @@
+package com.vimukti.accounter.web.client.ui.core;
+
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.user.client.ui.TextBox;
+import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.forms.TextItem;
+
+public class EmailField extends TextItem {
+	private String text;
+
+	public EmailField(final String name) {
+		setName(name);
+		setTitle(name);
+		// addBlurHandler(getBlurHandler());
+	}
+
+	@SuppressWarnings("unused")
+	private BlurHandler getBlurHandler() {
+		BlurHandler blurHandler = new BlurHandler() {
+
+			Object value = null;
+
+			public void onBlur(BlurEvent event) {
+
+				String emailText = ((TextBox) event.getSource()).toString();
+				if (!UIUtils.isValidEmail(emailText)) {
+					setText("");
+					try {
+						throw new Exception(
+								"Invalid Characters in Email Given!");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else
+					setEmail(emailText);
+			}
+		};
+		return blurHandler;
+	}
+
+	public void setEmail(String emailText) {
+		if (emailText == null)
+			emailText = "";
+		this.text = emailText;
+		setValue(emailText);
+
+	}
+
+	public void setText(String text) {
+		this.text = text;
+		setValue(text);
+	}
+
+	public String getEmail() {
+
+		return this.text;
+
+	}
+
+	public String getText() {
+		return text;
+	}
+
+}

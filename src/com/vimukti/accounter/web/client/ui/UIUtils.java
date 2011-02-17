@@ -1,0 +1,1688 @@
+package com.vimukti.accounter.web.client.ui;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.ComplexPanel;
+import com.google.gwt.user.client.ui.HasAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientEmail;
+import com.vimukti.accounter.web.client.core.ClientFax;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientPhone;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientTAXGroup;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
+import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.forms.DateItem;
+import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.SelectItem;
+
+public class UIUtils {
+	public static boolean isDebug = true;
+	public static final int TYPE_SC_LOG = 1;
+	public static final int TYPE_WND_ALERT = 2;
+	public static int logType = TYPE_WND_ALERT;
+	public static int[] accountTypes = { ClientAccount.TYPE_INCOME,
+			ClientAccount.TYPE_OTHER_INCOME, ClientAccount.TYPE_EXPENSE,
+			ClientAccount.TYPE_OTHER_EXPENSE,
+			ClientAccount.TYPE_COST_OF_GOODS_SOLD, ClientAccount.TYPE_CASH,
+			ClientAccount.TYPE_BANK, ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+			ClientAccount.TYPE_INVENTORY_ASSET, ClientAccount.TYPE_FIXED_ASSET,
+			ClientAccount.TYPE_CREDIT_CARD,
+			ClientAccount.TYPE_PAYROLL_LIABILITY,
+			ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
+			ClientAccount.TYPE_LONG_TERM_LIABILITY, ClientAccount.TYPE_EQUITY };
+	public static short scrollBarWidth = -1;
+
+	// public static void log(String msg) {
+	// if (!isDebug)
+	// return;
+	// switch (logType) {
+	// case TYPE_SC_LOG:
+	// // SC.logWarn(msg);
+	// break;
+	//
+	// case TYPE_WND_ALERT:
+	// Accounter.showInformation(msg);
+	// break;
+	// }
+	// }
+	//
+	// public static void logError(String errorMessage, Throwable t) {
+	//
+	// if (errorMessage == null || errorMessage.length() == 0) {
+	// errorMessage = new String("Failed! Unkown Error");
+	// }
+	//
+	// if (t == null) {
+	// t = new Exception(errorMessage);
+	// }
+	//
+	// Accounter.showError(errorMessage);
+	// // SC.logWarn(errorMessage);
+	// GWT.log(errorMessage, t);
+	// t.printStackTrace();
+	//
+	// }
+
+	public static String nbsp(String s) {
+		String t = s.replaceAll(" ", "&nbsp;");
+		return t;
+	}
+
+	public static String unbsp(String s) {
+		String t = s.replaceAll("&nbsp;", " ");
+		return t;
+	}
+
+	public static boolean isValidEmail(String email) {
+		return (email
+				.matches("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"));
+	}
+
+	public static boolean isNumber(String str) {
+		return (str.matches("^[0-9]+$"));
+	}
+
+	public static boolean isValidPhone(String phone) {
+		return (phone.matches("^[0-9]+$"));
+	}
+
+	public static boolean isValidFax(String fax) {
+		return (fax.matches("^[0-9]+$"));
+	}
+
+	public static boolean isValidAddress(String address) {
+		return (address != null && address.trim() != "");
+	}
+
+	@SuppressWarnings("deprecation")
+	public static boolean isdateEqual(ClientFinanceDate compareDate1,
+			ClientFinanceDate compareDate2) {
+		if (compareDate1.getYear() + 1900 == compareDate2.getYear() + 1900
+				&& compareDate1.getMonth() == compareDate2.getMonth()
+				&& compareDate1.getDate() == compareDate2.getDate())
+			return true;
+		else
+			return false;
+	}
+
+	@SuppressWarnings("deprecation")
+	public static boolean hasAlphaNumericCharacters(String string) {
+		if (string == null || string.equals(""))
+			return true;
+		// else
+		// return string.matches("[^a-zA-Z0-9 /s]");
+		// return string.matches("\\w+\\d+\\s+");
+		boolean valid = true;
+		for (int i = 0; i < string.length(); i++) {
+			char ch = string.charAt(i);
+			if (!(Character.isLetterOrDigit(ch) || Character.isSpace(ch)
+					|| ch == '.' || ch == '&' || ch == ',' || ch == '_' || ch == '@')) {
+				valid = false;
+				break;
+			}
+
+		}
+		return valid;
+
+	}
+
+	public static String toStr(Object o) {
+		if (o == null)
+			return "";
+		return o.toString();
+	}
+
+	public static Double toDbl(Object o) {
+		if (o == null)
+			return new Double(0);
+		return Double.valueOf(o.toString());
+	}
+
+	public static Integer toInt(Object o) {
+		if (o == null)
+			return new Integer(0);
+		return Integer.valueOf(o.toString());
+	}
+
+	public static Long toLong(Object o) {
+		if (o == null)
+			return new Long(0);
+		return Long.valueOf(o.toString());
+	}
+
+	public static ClientFinanceDate toDate(Object o) {
+		if (o == null)
+			return new ClientFinanceDate();
+		return (ClientFinanceDate) o;
+	}
+
+	// public static LayoutSpacer spacer(int w, int h) {
+	// LayoutSpacer space = new LayoutSpacer();
+	// space.setWidth(w);
+	// space.setHeight(h);
+	// return space;
+	// }
+	//
+	// public static LayoutSpacer spacer(String w, String h) {
+	// LayoutSpacer space = new LayoutSpacer();
+	// space.setSize(w, h);
+	// return space;
+	// }
+
+	public static String getStringWithSpaces(String string) {
+		String str = string.replaceAll(" ", "&nbsp;");
+		return str;
+	}
+
+	public static DynamicForm form(String frameTitle) {
+		DynamicForm f = new DynamicForm();
+		f.setIsGroup(true);
+		f.setGroupTitle(frameTitle);
+		// f.setWrapItemTitles(false);
+		return f;
+	}
+
+	public static DynamicForm form(String frameTitle, boolean wrap) {
+		DynamicForm f = new DynamicForm();
+		f.setIsGroup(true);
+		f.setGroupTitle(frameTitle);
+		// f.setWrapItemTitles(wrap);
+		return f;
+	}
+
+	public static DateItem date(String t) {
+		DateItem di = new DateItem();
+		di.setTitle(t);
+		// di.setUseTextField(true);
+		di.setValue(new Date());
+		return di;
+	}
+
+	public static Button Button(String t, String key) {
+		Button but = new Button(t);
+		// but.setAccessKey(key);
+		return but;
+	}
+
+	public static String title(String windowName) {
+		String compName = "";
+		ClientCompany company = FinanceApplication.getCompany();
+		if (company != null) {
+			compName = company.getName();
+		} else {
+			compName = "no company";
+		}
+		String appName = FinanceApplication.getAppName();
+
+		return windowName + " [" + compName + "] -- " + appName;
+	}
+
+	public static void err(String string) {
+		Accounter.showError(string);
+	}
+
+	public static void say(String string) {
+		Accounter.showError(string);
+	}
+
+	public static String dateToString(long longFormat) {
+		try {
+			// SimpleDateFormat new
+			ClientFinanceDate date = new ClientFinanceDate(new Date(longFormat));
+			DateTimeFormat dateFormatter = DateTimeFormat
+					.getFormat("MMM dd, yyyy hh:mm a");
+			String format = dateFormatter.format(date.getDateAsObject());
+			return format;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+			// return date.toString();
+		}
+	}
+
+	/*
+	 * @param longFormat the longvalue of the date
+	 * 
+	 * @param requiredFormat the format in which the need to be shown
+	 * 
+	 * @return datestring in specified format
+	 */
+	public static String dateToString(double longFormat, String requiredFormat) {
+		try {
+			// SimpleDateFormat new
+			Date date = new Date((long) longFormat);
+			DateTimeFormat dateFormatter = DateTimeFormat
+					.getFormat(requiredFormat);
+			String format = dateFormatter.format(date);
+			return format;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+			// return date.toString();
+		}
+	}
+
+	public static String dateToString(ClientFinanceDate date) {
+		try {
+			if (date == null)
+				return "";
+			DateTimeFormat dateFormatter = DateTimeFormat
+					.getFormat("yyyy-MM-dd");
+			String format = dateFormatter.format(date.getDateAsObject());
+			return format;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static String dateFormat(ClientFinanceDate date) {
+		try {
+			if (date == null)
+				return "";
+			DateTimeFormat dateFormatter = DateTimeFormat
+					.getFormat("dd/MM/yyyy");
+			String format = dateFormatter.format(date.getDateAsObject());
+			return format;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static String dateAsString(ClientFinanceDate date) {
+		return date.toString();
+	}
+
+	public static ClientFinanceDate stringToDate(String strdate) {
+		try {
+			strdate = strdate.replace("/", "-");
+			DateTimeFormat dateFormatter = DateTimeFormat
+					.getFormat("yyyy-MM-dd");
+			if (strdate != null) {
+				Date format = (Date) dateFormatter.parse(strdate);
+				return new ClientFinanceDate(format);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return null;
+	}
+
+	public static String stringToDate(Date strdate) {
+		try {
+			DateTimeFormat dateFormatter = DateTimeFormat
+					.getFormat("yyyy-MM-dd");
+			String format = dateFormatter.format(strdate);
+			return format;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static ClickHandler todoClick() {
+		return new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				say("Not yet implemented.");
+			}
+		};
+	}
+
+	public static String format(Double amount) {
+
+		if (DecimalUtil.isLessThan(amount, 0.00))
+			return "(" + UIUtils.getCurrencySymbol() + "" + (amount * -1) + ")";
+
+		return "" + UIUtils.getCurrencySymbol() + "" + amount;
+	}
+
+	public static Double unFormat(String amount) {
+
+		if (amount.substring(0, 1).equals("("))
+			return (Double
+					.parseDouble(amount.substring(2, amount.length() - 1)) * -1);
+
+		return Double.parseDouble(amount.substring(1));
+
+	}
+
+	public static String changeToLink(String value) {
+		return " " + value + " ";
+	}
+
+	public final static native String getCurrentDate()/*-{
+		var date=new Date();
+		var formate="";
+		switch(date.getDay())
+		{
+		case 0: formate+="Sun";break;
+		case 1: formate+="Mon";break;
+		case 2: formate+="Tues";break;
+		case 3: formate+="Wednes";break;
+		case 4: formate+="Thurs";break;
+		case 5: formate+="Fri";break;
+		case 6: formate+="Satur";break;
+		default: null;break;
+		}
+		formate+="day, ";
+		switch(date.getMonth()){
+		case 0:formate+="Jan";break;
+		case 1:formate+="Feb";break;
+		case 2:formate+="Mar";break;
+		case 3:formate+="Apr";break;
+		case 4:formate+="May";break;
+		case 5:formate+="Jun";break;
+		case 6:formate+="Jul";break;
+		case 7:formate+="Aug";break;
+		case 8:formate+="Sep";break;
+		case 9:formate+="Oct";break;
+		case 10:formate+="Nov";break;
+		case 11:formate+="Dec";break;
+		}
+		formate+=" "+date.getDate()+", "+date.getFullYear();
+		//		$wnd.alert(formate);
+		return formate;
+	}-*/;
+
+	public static ClientFinanceDate stringToDate(String strdate,
+			String dateFormat) {
+		try {
+			strdate = strdate.replace("/", "-");
+
+			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(dateFormat);
+			Date format = (Date) dateFormatter.parse(strdate);
+			return new ClientFinanceDate(format);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public final static native String getDateStringByDate(String dateString)/*-{
+		var date = new Date(dateString);
+		var formate="";
+		switch(date.getMonth()){
+		case 0:formate+="Jan";break;
+		case 1:formate+="Feb";break;
+		case 2:formate+="Mar";break;
+		case 3:formate+="Apr";break;
+		case 4:formate+="May";break;
+		case 5:formate+="Jun";break;
+		case 6:formate+="Jul";break;
+		case 7:formate+="Aug";break;
+		case 8:formate+="Sep";break;
+		case 9:formate+="Oct";break;
+		case 10:formate+="Nov";break;
+		case 11:formate+="Dec";break;
+		}
+		formate+=" "+date.getDate()+", "+date.getFullYear();	
+
+		return formate;
+	}-*/;
+
+	@SuppressWarnings("unchecked")
+	public static <T extends IAccounterCore> AsyncCallback<Boolean> getGeneralizedUpdateCallBack(
+			final AbstractBaseView view, final T object) {
+
+		AsyncCallback<Boolean> callBack = new AsyncCallback<Boolean>() {
+
+			public void onFailure(Throwable caught) {
+				view.saveFailed(caught);
+			}
+
+			public void onSuccess(Boolean result) {
+				if (result == null || !result) {
+					onFailure(new Exception("UnKnown Exception.... Got Null"));
+					return;
+				}
+				Accounter.stopExecution();
+				view.saveSuccess(object);
+			}
+
+		};
+
+		return callBack;
+
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T extends IAccounterCore> AsyncCallback<String> getGeneralizedSaveCallBack(
+			final AbstractBaseView view, final T object) {
+
+		AsyncCallback<String> callBack = new AsyncCallback<String>() {
+
+			public void onFailure(Throwable caught) {
+				view.saveFailed(caught);
+			}
+
+			public void onSuccess(String result) {
+				if (result == null) {
+					onFailure(new Exception("UnKnown Exception.... Got Null"));
+					return;
+				}
+				Accounter.stopExecution();
+				T core = object;
+				core.setStringID(result);
+				view.saveSuccess(core);
+			}
+
+		};
+
+		return callBack;
+
+	}
+
+	@SuppressWarnings("unchecked")
+	public static AsyncCallback<Boolean> getGeneralizedDeleteCallBack(
+			final AbstractBaseView view) {
+
+		AsyncCallback<Boolean> callBack = new AsyncCallback<Boolean>() {
+
+			public void onFailure(Throwable caught) {
+				view.deleteFailed(caught);
+			}
+
+			public void onSuccess(Boolean result) {
+				if (result == null || !result) {
+					onFailure(new Exception("UnKnown Exception.... Got Null"));
+					return;
+				}
+				Accounter.stopExecution();
+				// view.updateCompany((IAccounterCore) result);
+				view.deleteSuccess(result);
+			}
+
+		};
+
+		return callBack;
+
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T extends IAccounterCore> AsyncCallback<String> getGeneralizedSaveCallBack(
+			final AbstractBaseDialog view, final T object) {
+
+		AsyncCallback<String> callBack = new AsyncCallback<String>() {
+
+			public void onFailure(Throwable caught) {
+				view.saveFailed(caught);
+			}
+
+			public void onSuccess(String result) {
+				if (result == null) {
+					onFailure(new Exception("UnKnown Exception.... Got Null"));
+					return;
+				}
+				Accounter.stopExecution();
+				// view.updateCompany();
+				T core = object;
+				core.setStringID(result);
+				view.saveSuccess(object);
+			}
+
+		};
+
+		return callBack;
+	}
+
+	// public static AsyncCallback<Boolean> getGeneralizedUpdateCallBack(
+	// final AbstractBaseDialog view, final Object object) {
+	//
+	// AsyncCallback<Boolean> callBack = new AsyncCallback<Boolean>() {
+	//
+	// public void onFailure(Throwable caught) {
+	// view.saveFailed(caught);
+	// }
+	//
+	// public void onSuccess(Boolean result) {
+	// if (result == null) {
+	// onFailure(new Exception("UnKnown Exception.... Got Null"));
+	// return;
+	// }
+	// Accounter.stopExecution();
+	// // view.updateCompany();
+	// // view.saveSuccess(object);
+	// }
+	//
+	// };
+	//
+	// return callBack;
+	// }
+
+	public static VerticalPanel getBusyIndicator(String message) {
+
+		VerticalPanel busyindicator = new VerticalPanel();
+		Image img = new Image("/images/icons/busyindicator.gif");
+		// img.setSrc("/images/icons/busyindicator.gif");
+		img.setSize("32", "32");
+		img.setStyleName("busyindicatorImg");
+
+		busyindicator.setStyleName("busyindicator");
+		Label label = new Label(message);
+		label.setWidth("100%");
+		label.setStyleName("busyindicatorLabel");
+		busyindicator.add(img);
+		busyindicator.add(label);
+		busyindicator.setSize("100%", "100%");
+		return busyindicator;
+	}
+
+	public static List<Integer> getOptionsByType(int comboType) {
+		List<Integer> options = new ArrayList<Integer>();
+		switch (comboType) {
+		case AccountCombo.DEPOSIT_IN_ACCOUNT:
+			for (int type : accountTypes) {
+				if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+					if (
+					// type == ClientAccount.TYPE_BANK
+					// || type == ClientAccount.TYPE_CASH
+					type == ClientAccount.TYPE_OTHER_CURRENT_ASSET
+							|| type == ClientAccount.TYPE_CREDIT_CARD
+							|| type == ClientAccount.TYPE_FIXED_ASSET)
+						options.add(type);
+				}
+
+				else {
+					if (type == ClientAccount.TYPE_OTHER_CURRENT_ASSET
+							|| type == ClientAccount.TYPE_BANK
+							|| type == ClientAccount.TYPE_CREDIT_CARD
+							|| type == ClientAccount.TYPE_FIXED_ASSET)
+						options.add(type);
+				}
+			}
+			break;
+
+		case AccountCombo.PAY_FROM_COMBO:
+			for (int type : accountTypes) {
+				if (
+				// type == ClientAccount.TYPE_BANK
+				// || type == ClientAccount.TYPE_CASH
+				// ||
+				type == ClientAccount.TYPE_CREDIT_CARD
+						|| type == ClientAccount.TYPE_LONG_TERM_LIABILITY
+						|| type == ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
+						|| type == ClientAccount.TYPE_FIXED_ASSET)
+					options.add(type);
+			}
+			break;
+		case AccountCombo.GRID_ACCOUNTS_COMBO:
+			for (int type : accountTypes) {
+				if (type != ClientAccount.TYPE_CASH
+						&& type != ClientAccount.TYPE_BANK
+						&& type != ClientAccount.TYPE_INVENTORY_ASSET) {
+					options.add(type);
+				}
+			}
+
+			break;
+		case AccountCombo.CASH_BACK_ACCOUNTS_COMBO:
+		case AccountCombo.INCOME_AND_EXPENSE_ACCOUNTS_COMBO:
+
+			for (int type : accountTypes) {
+				if (type != ClientAccount.TYPE_INVENTORY_ASSET) {
+					options.add(type);
+
+				}
+			}
+			break;
+		case AccountCombo.BANK_ACCOUNTS_COMBO:
+			for (int type : accountTypes) {
+				if (type == ClientAccount.TYPE_BANK) {
+					options.add(type);
+				}
+			}
+			break;
+
+		case AccountCombo.FIXEDASSET_COMBO:
+			for (int type : accountTypes) {
+				if (type == ClientAccount.TYPE_FIXED_ASSET) {
+					options.add(type);
+				}
+			}
+			break;
+		case AccountCombo.DEPRECIATION_COMBO:
+			for (int type : accountTypes) {
+				if (type == ClientAccount.TYPE_EXPENSE) {
+					options.add(type);
+				}
+			}
+			break;
+		case AccountCombo.DEBIT_COMBO:
+			for (int type : accountTypes) {
+				if (type == ClientAccount.TYPE_INCOME
+						|| type == ClientAccount.TYPE_EXPENSE
+						|| type == ClientAccount.TYPE_EQUITY
+						|| type == ClientAccount.TYPE_LONG_TERM_LIABILITY
+						|| type == ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
+						|| type == ClientAccount.TYPE_FIXED_ASSET) {
+					options.add(type);
+				}
+			}
+			break;
+		default:
+			break;
+		}
+
+		return options;
+	}
+
+	public static String getSortCutName(String name) {
+		String[] arry = name.split(" ");
+		String sortcut = "";
+		for (String str : arry)
+			sortcut = sortcut + str.substring(0, 1).toUpperCase();
+
+		return sortcut;
+	}
+
+	public static void runAction(Object object, Action action) {
+		try {
+
+			// if (action.catagory.equals("Report"))
+			action.run(object, true);
+			// else
+			// action.run(object, object == null );
+		} catch (Throwable e) {
+			// logError(e.getMessage(), e);
+		}
+	}
+
+	public static void runAction(Object object, Action action, boolean dependent) {
+		try {
+
+			// if (action.catagory.equals("Report"))
+			action.run(object, dependent);
+			// else
+			// action.run(object, object == null );
+		} catch (Throwable e) {
+			// logError(e.getMessage(), e);
+		}
+	}
+
+	public static void runAction(String name, Action action) {
+		try {
+			// FIXME
+			// action.run();
+		} catch (Throwable e) {
+			// logError(e.getMessage(), e);
+		}
+	}
+
+	// public static void processAction(Action action, IsSerializable object,
+	// AsyncCallback<Object> callback) {
+	// try {
+	//
+	// // FIXME
+	// // action.run();
+	// } catch (Throwable e) {
+	// // logError("Failed", e);
+	// }
+	//
+	// }
+
+	public static String isAmountNagative(Double amt) {
+		if (amt < 0)
+			return "(" + String.valueOf(amt) + ")";
+		return String.valueOf(amt);
+	}
+
+	public static String isAmountTypeDolar(Double amt) {
+		return "" + UIUtils.getCurrencySymbol() + "." + String.valueOf(amt);
+	}
+
+	/**
+	 * Disable all FormItems &ListGridView in Canvas
+	 * 
+	 * @param canvas
+	 * @author kumar kasimala
+	 */
+	public static void disableView(ComplexPanel canvas) {
+		// for (Widget cans : canvas.getChildren()) {
+		// if (cans instanceof DynamicForm) {
+		// DynamicForm dyform = (DynamicForm) cans;
+		// for (FormItem fitem : dyform.getFormItems()) {
+		// fitem.setDisabled(true);
+		// }
+		// } else if (cans instanceof ListGrid) {
+		// ListGrid gridView = (ListGrid) cans;
+		// gridView.disableGrid();
+		// } /*else if (cans instanceof Panel) {
+		// cans.setDisabled(true);
+		// } */
+		// }
+
+	}
+
+	// /**
+	// * Disable complete listGridView
+	// *
+	// * @param gridView
+	// * @author kumar kasimala
+	// */
+	// public static void disableGrid(FinanceGrid gridView) {
+	// gridView.setCanEdit(false);
+	// // gridView.setShowMenu(false);
+	// // gridView.setIsDeleteEnable(false);
+	// // gridView.setEnableMenu(false);
+	// // gridView.setEditEvent(ListGridEditEvent.NONE);
+	// }
+
+	public static SelectItem getPaymentMethodCombo() {
+		SelectItem selectItem = new SelectItem();
+		selectItem.setTitle("Payment Method");
+		selectItem.setValueMap("Cash", UIUtils
+				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
+						.getCustomersMessages().check()), "Credit Card",
+				"Direct Debit", "Master Card", "Online Banking",
+				"Standing Order", "Switch/Maestro", "Visa");
+		return selectItem;
+	}
+
+	public static PopupPanel getLoadingMessageDialog(String string) {
+
+		Image image = new Image("/images/icons/loader.gif");
+		HorizontalPanel imageLayout = new HorizontalPanel();
+
+		final Label pleaseWaitLabel = new Label(string);
+		pleaseWaitLabel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
+		pleaseWaitLabel.getElement().getStyle().setProperty("padding", "4px");
+		// pleaseWaitLabel.setSize("100%", "100%");
+
+		// HorizontalPanel layout = new HorizontalPanel();
+		// layout.add(imageLayout);
+		// layout.add(pleaseWaitLabel);
+		// layout.setSpacing(10);
+
+		imageLayout.add(image);
+		imageLayout.add(pleaseWaitLabel);
+		imageLayout.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
+		imageLayout.setSize("100%", "100%");
+
+		// final DialogBox loadingDialog = new DialogBox();
+		// loadingDialog.add(imageLayout);
+		// loadingDialog.setHeight("25");
+		// loadingDialog.setWidth("250");
+		// loadingDialog.show();
+
+		final PopupPanel panel = new PopupPanel();
+		panel.center();
+		panel.setModal(true);
+		panel.add(imageLayout);
+		panel.setWidth("180");
+		panel.show();
+
+		Timer timer = new Timer() {
+			@Override
+			public void run() {
+				panel.removeFromParent();
+				this.cancel();
+			}
+		};
+		timer.schedule(60000);
+
+		return panel;
+	}
+
+	public static PopupPanel getLoadingDialog(String string) {
+
+		Image image = new Image("/images/icons/loader.gif");
+		HorizontalPanel imageLayout = new HorizontalPanel();
+
+		final Label pleaseWaitLabel = new Label(string);
+		pleaseWaitLabel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
+		pleaseWaitLabel.getElement().getStyle().setProperty("padding", "4px");
+		// pleaseWaitLabel.setSize("100%", "100%");
+
+		// HorizontalPanel layout = new HorizontalPanel();
+		// layout.add(imageLayout);
+		// layout.add(pleaseWaitLabel);
+		// layout.setSpacing(10);
+
+		imageLayout.add(image);
+		imageLayout.add(pleaseWaitLabel);
+		imageLayout.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
+		imageLayout.setSize("100%", "100%");
+
+		// final DialogBox loadingDialog = new DialogBox();
+		// loadingDialog.add(imageLayout);
+		// loadingDialog.setHeight("25");
+		// loadingDialog.setWidth("250");
+		// loadingDialog.show();
+
+		final PopupPanel panel = new PopupPanel();
+		panel.center();
+		panel.setModal(true);
+		panel.add(imageLayout);
+		panel.setWidth("247");
+		panel.show();
+
+		Timer timer = new Timer() {
+			@Override
+			public void run() {
+				panel.removeFromParent();
+				this.cancel();
+			}
+		};
+		timer.schedule(60000);
+
+		return panel;
+	}
+
+	public static <A extends Object> Object getKey(Map<?, ?> map, A value) {
+		for (Object key : map.keySet()) {
+			if (map.get(key).equals(value))
+				return key;
+		}
+		return null;
+	}
+
+	public static void addStyleToElement(String name, Element element) {
+		@SuppressWarnings("unused")
+		DynamicForm form = new DynamicForm();
+
+	}
+
+	/**
+	 * this method is used for Depreciation in Selling and Disposing Items View
+	 * calulating last months values for the Corresponding year
+	 * 
+	 * @param dateItem
+	 * @param year
+	 * @return
+	 */
+
+	public static int getAddressType(String type) {
+		if (type.equalsIgnoreCase("1"))
+			return ClientAddress.TYPE_BUSINESS;
+		else if (type.equalsIgnoreCase("Bill to"))
+			return ClientAddress.TYPE_BILL_TO;
+		else if (type.equalsIgnoreCase("Ship to"))
+			return ClientAddress.TYPE_SHIP_TO;
+		else if (type.equalsIgnoreCase("2"))
+			return ClientAddress.TYPE_WAREHOUSE;
+		else if (type.equalsIgnoreCase("3"))
+			return ClientAddress.TYPE_LEGAL;
+		else if (type.equalsIgnoreCase("4"))
+			return ClientAddress.TYPE_POSTAL;
+		else if (type.equalsIgnoreCase("5"))
+			return ClientAddress.TYPE_HOME;
+		else if (type.equalsIgnoreCase("company"))
+			return ClientAddress.TYPE_COMPANY;
+		else if (type.equalsIgnoreCase("companyregistration"))
+			return ClientAddress.TYPE_COMPANY_REGISTRATION;
+
+		return ClientAddress.TYPE_OTHER;
+	}
+
+	public static int getPhoneType(String type) {
+		if (type.equalsIgnoreCase("Company"))
+			return ClientPhone.BUSINESS_PHONE_NUMBER;
+		else if (type.equalsIgnoreCase("Mobile"))
+			return ClientPhone.MOBILE_PHONE_NUMBER;
+		else if (type.equalsIgnoreCase("Home"))
+			return ClientPhone.HOME_PHONE_NUMBER;
+		else if (type.equalsIgnoreCase("Assistant"))
+			return ClientPhone.ASSISTANT_PHONE_NUMBER;
+		else if (type.equalsIgnoreCase("Other"))
+			return ClientPhone.OTHER_PHONE_NUMBER;
+		else
+			return ClientPhone.OTHER_PHONE_NUMBER;
+
+	}
+
+	public static int getFaxType(String type) {
+		if (type.equalsIgnoreCase("Company"))
+			return ClientFax.TYPE_BUSINESS;
+		else if (type.equalsIgnoreCase("Home"))
+			return ClientFax.TYPE_HOME;
+		else if (type.equalsIgnoreCase("Other"))
+			return ClientFax.TYPE_OTHER;
+		else
+			return ClientFax.TYPE_OTHER;
+	}
+
+	public static int getEmailType(String type) {
+		if (type.equalsIgnoreCase("Email1"))
+			return ClientEmail.TYPE_EMAIL_1;
+		else if (type.equalsIgnoreCase("Email2"))
+			return ClientEmail.TYPE_EMAIL_2;
+		else if (type.equalsIgnoreCase("Email3"))
+			return ClientEmail.TYPE_EMAIL_3;
+		else
+			return ClientEmail.TYPE_EMAIL_1;
+	}
+
+	@SuppressWarnings("deprecation")
+	public static String getDateStringFormat(ClientFinanceDate cFdate) {
+		Date date = cFdate.getDateAsObject();
+		String formate = "";
+		switch (date.getMonth()) {
+		case 0:
+			formate += "01";
+			break;
+		case 1:
+			formate += "02";
+			break;
+		case 2:
+			formate += "03";
+			break;
+		case 3:
+			formate += "04";
+			break;
+		case 4:
+			formate += "05";
+			break;
+		case 5:
+			formate += "06";
+			break;
+		case 6:
+			formate += "07";
+			break;
+		case 7:
+			formate += "08";
+			break;
+		case 8:
+			formate += "09";
+			break;
+		case 9:
+			formate += "10";
+			break;
+		case 10:
+			formate += "11";
+			break;
+		case 11:
+			formate += "12";
+			break;
+		}
+		formate = date.getDate() + " " + formate + " "
+				+ (date.getYear() + 1900);
+
+		return formate;
+	}
+
+	public static char getCurrencySymbol() {
+		return (" ").charAt(0);
+		// if (FinanceApplication.getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_UK) {
+		// char f = '\u00a3';
+		// return f;
+		// } else {
+		// return '$';
+		// }
+
+	}
+
+	public static String getTransactionTypeName(int type) {
+		switch (type) {
+		case ClientTransactionItem.TYPE_ACCOUNT:
+			return "Account";
+		case ClientTransactionItem.TYPE_ITEM:
+			return "Item";
+		case ClientTransactionItem.TYPE_SALESTAX:
+			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+				return "TaxGroup";
+			else
+				return "Vat Item";
+		default:
+			break;
+		}
+		return "";
+	}
+
+	public static int getAccountSubBaseType(int accountType) {
+
+		switch (accountType) {
+
+		case ClientAccount.TYPE_CASH:
+			return ClientAccount.SUBBASETYPE_CURRENT_ASSET;
+		case ClientAccount.TYPE_BANK:
+			return ClientAccount.SUBBASETYPE_CURRENT_ASSET;
+		case ClientAccount.TYPE_ACCOUNT_RECEIVABLE:
+			return ClientAccount.SUBBASETYPE_CURRENT_ASSET;
+		case ClientAccount.TYPE_OTHER_CURRENT_ASSET:
+			return ClientAccount.SUBBASETYPE_CURRENT_ASSET;
+		case ClientAccount.TYPE_INVENTORY_ASSET:
+			return ClientAccount.SUBBASETYPE_CURRENT_ASSET;
+		case ClientAccount.TYPE_FIXED_ASSET:
+			return ClientAccount.SUBBASETYPE_FIXED_ASSET;
+		case ClientAccount.TYPE_OTHER_ASSET:
+			return ClientAccount.SUBBASETYPE_OTHER_ASSET;
+		case ClientAccount.TYPE_ACCOUNT_PAYABLE:
+			return ClientAccount.SUBBASETYPE_CURRENT_LIABILITY;
+		case ClientAccount.TYPE_CREDIT_CARD:
+			return ClientAccount.SUBBASETYPE_CURRENT_LIABILITY;
+		case ClientAccount.TYPE_OTHER_CURRENT_LIABILITY:
+			return ClientAccount.SUBBASETYPE_CURRENT_LIABILITY;
+		case ClientAccount.TYPE_PAYROLL_LIABILITY:
+			return ClientAccount.SUBBASETYPE_CURRENT_LIABILITY;
+		case ClientAccount.TYPE_LONG_TERM_LIABILITY:
+			return ClientAccount.SUBBASETYPE_LONG_TERM_LIABILITY;
+		case ClientAccount.TYPE_EQUITY:
+			return ClientAccount.SUBBASETYPE_EQUITY;
+		case ClientAccount.TYPE_INCOME:
+			return ClientAccount.SUBBASETYPE_INCOME;
+		case ClientAccount.TYPE_COST_OF_GOODS_SOLD:
+			return ClientAccount.SUBBASETYPE_COST_OF_GOODS_SOLD;
+		case ClientAccount.TYPE_EXPENSE:
+			return ClientAccount.SUBBASETYPE_EXPENSE;
+		case ClientAccount.TYPE_OTHER_INCOME:
+			return ClientAccount.SUBBASETYPE_INCOME;
+		case ClientAccount.TYPE_OTHER_EXPENSE:
+			return ClientAccount.SUBBASETYPE_OTHER_EXPENSE;
+		default:
+			return 0;
+		}
+	}
+
+	public static AccounterCoreType getAccounterCoreType(int transactionType) {
+
+		switch (transactionType) {
+
+		case ClientTransaction.TYPE_PAY_BILL:
+			return AccounterCoreType.PAYBILL;
+
+		case ClientTransaction.TYPE_MAKE_DEPOSIT:
+			return AccounterCoreType.MAKEDEPOSIT;
+
+		case ClientTransaction.TYPE_ENTER_BILL:
+			return AccounterCoreType.ENTERBILL;
+
+		case ClientTransaction.TYPE_CASH_PURCHASE:
+			return AccounterCoreType.CASHPURCHASE;
+
+		case ClientTransaction.TYPE_CASH_SALES:
+			return AccounterCoreType.CASHSALES;
+
+		case ClientTransaction.TYPE_WRITE_CHECK:
+			return AccounterCoreType.WRITECHECK;
+
+		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
+			return AccounterCoreType.CUSTOMERREFUND;
+
+		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
+			return AccounterCoreType.CUSTOMERCREDITMEMO;
+
+		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
+			return AccounterCoreType.RECEIVEPAYMENT;
+
+		case ClientTransaction.TYPE_INVOICE:
+			return AccounterCoreType.INVOICE;
+
+		case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
+			return AccounterCoreType.CREDITCARDCHARGE;
+
+		case ClientTransaction.TYPE_ESTIMATE:
+			return AccounterCoreType.ESTIMATE;
+
+		case ClientTransaction.TYPE_ISSUE_PAYMENT:
+			return AccounterCoreType.ISSUEPAYMENT;
+
+		case ClientTransaction.TYPE_TRANSFER_FUND:
+			return AccounterCoreType.TRANSFERFUND;
+
+		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
+			return AccounterCoreType.VENDORCREDITMEMO;
+
+		case ClientTransaction.TYPE_PAY_SALES_TAX:
+			return AccounterCoreType.PAY_SALES_TAX;
+
+		case ClientTransaction.TYPE_JOURNAL_ENTRY:
+			return AccounterCoreType.JOURNALENTRY;
+
+		case ClientTransaction.TYPE_SALES_ORDER:
+			return AccounterCoreType.SALESORDER;
+
+		case ClientTransaction.TYPE_PURCHASE_ORDER:
+			return AccounterCoreType.PURCHASEORDER;
+
+		case ClientTransaction.TYPE_ITEM_RECEIPT:
+			return AccounterCoreType.ITEMRECEIPT;
+
+		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
+			return AccounterCoreType.CREDITCARDCHARGE;
+
+		case ClientTransaction.TYPE_CASH_EXPENSE:
+			return AccounterCoreType.CASHPURCHASE;
+
+		case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
+			return AccounterCoreType.CASHPURCHASE;
+
+		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
+			return AccounterCoreType.CUSTOMERPREPAYMENT;
+
+		case ClientTransaction.TYPE_RECEIVE_VAT:
+			return AccounterCoreType.RECEIVEVAT;
+
+		case ClientTransaction.TYPE_PAY_VAT:
+			return AccounterCoreType.PAYVAT;
+
+		}
+		return null;
+
+	}
+
+	public static short getScroolBarWidth() {
+		if (scrollBarWidth != -1)
+			return scrollBarWidth;
+		scrollBarWidth = getScrollerWidth();
+		return scrollBarWidth;
+
+	}
+
+	private native static short getScrollerWidth() /*-{
+		var scr = null;
+		var inn = null;
+		var wNoScroll = 0;
+		var wScroll = 0;
+
+		// Outer scrolling div
+		scr = document.createElement('div');
+		scr.style.position = 'absolute';
+		scr.style.top = '-1000px';
+		scr.style.left = '-1000px';
+		scr.style.width = '100px';
+		scr.style.height = '50px';
+		// Start with no scrollbar
+		scr.style.overflow = 'hidden';
+
+		// Inner content div
+		inn = document.createElement('div');
+		inn.style.width = '100%';
+		inn.style.height = '200px';
+
+		// Put the inner div in the scrolling div
+		scr.appendChild(inn);
+		// Append the scrolling div to the doc
+		document.body.appendChild(scr);
+
+		// Width of the inner div sans scrollbar
+		wNoScroll = inn.offsetWidth;
+		// Add the scrollbar
+		scr.style.overflow = 'auto';
+		// Width of the inner div width scrollbar
+		wScroll = inn.offsetWidth;
+
+		// Remove the scrolling div from the doc
+		document.body.removeChild(document.body.lastChild);
+
+		// Pixel width of the scroller
+		var  width=(wNoScroll - wScroll);
+		if(width==0){
+		if (navigator.userAgent.indexOf("MSIE")>=0){
+		width=18;
+		}
+		width=15;
+		}
+		return width;
+	}-*/;
+
+	public static String getStringwithIncreamentedDigit(String prevNumber) {
+
+		String incredNumber = "";
+		for (int i = prevNumber.length() - 1; i >= 0; i--) {
+			char ch = prevNumber.charAt(i);
+
+			if (incredNumber.length() > 0 && !Character.isDigit(ch)) {
+				break;
+			} else if (Character.isDigit(ch)) {
+				incredNumber = ch + incredNumber;
+			}
+
+		}
+		if (incredNumber.length() > 0) {
+			// incredNumber = new
+			// StringBuffer(incredNumber).reverse().toString();
+			prevNumber = prevNumber.replace(incredNumber, ""
+					+ (Long.parseLong(incredNumber) + 1));
+		}
+		return prevNumber;
+
+	}
+
+	public static String getVendorString(String forUk, String forUs) {
+		return FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? forUk
+				: forUs;
+	}
+
+	public static long getDays_between(Date created, Date presentDate) {
+		long day = 1000 * 60 * 60 * 24;
+		long difference = Math.abs(created.getTime() - presentDate.getTime());
+		return Math.round(difference / day);
+	}
+
+	public static int compareDouble(double a1, double a2) {
+
+		Double obj1 = a1;
+		Double obj2 = a2;
+		return obj1.compareTo(obj2);
+
+	}
+
+	public static int compareInt(int category, int category2) {
+		Integer obj1 = category;
+		Integer obj2 = category2;
+		return obj1.compareTo(obj2);
+	}
+
+	public static ClientTAXItem getVATItem(String vatCodeId, boolean isSales) {
+		ClientTAXCode clientTAXCode = FinanceApplication.getCompany()
+				.getTAXCode(vatCodeId);
+		String vatIem = isSales ? clientTAXCode.getTAXItemGrpForSales()
+				: clientTAXCode.getTAXItemGrpForPurchases();
+		return FinanceApplication.getCompany().getTaxItem(vatIem);
+
+	}
+
+	public static <T extends Object> int compareTo(Comparable<T> obj1, T obj2) {
+		if (obj1 == null)
+			return -1;
+		if (obj2 == null)
+			return 1;
+		return obj1.compareTo(obj2);
+	}
+
+	public static String getDateByCompanyType(ClientFinanceDate date) {
+
+		if (date == null) {
+			return "";
+		}
+		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			DateTimeFormat dateFormatter = DateTimeFormat
+					.getFormat("dd/MM/yyyy");
+			String format = dateFormatter.format(date.getDateAsObject());
+			return format;
+		} else if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			DateTimeFormat dateFormatter = DateTimeFormat
+					.getFormat("MM/dd/yyyy");
+			String format = dateFormatter.format(date.getDateAsObject());
+			return format;
+		} else {
+			DateTimeFormat dateFormatter = DateTimeFormat
+					.getFormat("dd/MM/yyyy");
+			String format = dateFormatter.format(date.getDateAsObject());
+			return format;
+		}
+	}
+
+	public static void updateAccountsInSortedOrder(
+			List<ClientAccount> accountsList, ClientAccount toBeAddedAccount) {
+		String firstNumber = "";
+		String nextNumber = "";
+		ClientAccount account = null;
+		int index;
+		boolean type = false;
+		String toBeAddedNumber = toBeAddedAccount.getNumber();
+		if (!DecimalUtil.isEquals(toBeAddedAccount.getOpeningBalance(), 0))
+			toBeAddedAccount.setOpeningBalanceEditable(false);
+		if (DecimalUtil.isEquals(toBeAddedAccount.getTotalBalance(), 0)
+				&& !DecimalUtil.isEquals(toBeAddedAccount.getOpeningBalance(),
+						0))
+			toBeAddedAccount.setTotalBalance(toBeAddedAccount
+					.getOpeningBalance());
+		Iterator<ClientAccount> iterator = accountsList.iterator();
+		while (iterator.hasNext()) {
+			account = iterator.next();
+			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+					&& toBeAddedAccount.getNumber().equals("1175")) {
+				if (account.getNumber().equals("1180")) {
+					accountsList.add(accountsList.indexOf(account) - 1,
+							toBeAddedAccount);
+				}
+			} else {
+				nextNumber = account.getNumber();
+				if (toBeAddedAccount.getType() == account.getType()) {
+					type = true;
+					if (firstNumber.compareTo(toBeAddedNumber) < 0
+							&& nextNumber.compareTo(toBeAddedNumber) > 0) {
+						index = accountsList.indexOf(account);
+						accountsList.add(index, toBeAddedAccount);
+						break;
+					}
+
+					else {
+						firstNumber = nextNumber;
+					}
+				} else {
+					if (type) {
+						index = accountsList.indexOf(account);
+						accountsList.add(index--, toBeAddedAccount);
+						break;
+					}
+				}
+			}
+		}
+		if (!type) {
+			int sort[] = { 14, 15, 18, 16, 3, 4, 8, 9, 6, 12, 7, 13 };
+			List<Integer> list = new ArrayList<Integer>();
+			for (int i = 0; i < sort.length; i++)
+				list.add(sort[i]);
+			int tobeAddedAccountTypeIndex = list.indexOf(toBeAddedAccount
+					.getType());
+			int firstIndex = 0;
+			int nextIndex;
+			for (ClientAccount account2 : accountsList) {
+				nextIndex = list.indexOf(account2.getType());
+				if (firstIndex != nextIndex)
+					if (tobeAddedAccountTypeIndex > firstIndex
+							&& tobeAddedAccountTypeIndex < nextIndex) {
+						index = accountsList.indexOf(account2);
+						accountsList.add(index, toBeAddedAccount);
+						break;
+					}
+
+			}
+			if (!accountsList.contains(toBeAddedAccount))
+				accountsList.add(toBeAddedAccount);
+		}
+	}
+
+	public static void updateClientListAndTaxItemGroup(
+			ClientTAXItemGroup taxItemGroup, List<ClientTAXItem> taxItemList,
+			List<ClientTAXGroup> taxGroupList,
+			List<ClientTAXItemGroup> taxItemGroupList) {
+
+		if (taxItemGroup == null || taxItemList == null || taxGroupList == null
+				|| taxItemGroupList == null)
+			return;
+		ClientTAXItemGroup existObj = Utility.getObject(taxItemGroupList,
+				taxItemGroup.getStringID());
+		if (existObj == null) {
+			// objectsList.add(objectInList);
+		} else {
+			if (existObj instanceof ClientTAXItem)
+				taxItemList.remove(existObj);
+			else
+				taxGroupList.remove(existObj);
+			taxItemGroupList.remove(existObj);
+			// objectsList.add(objectInList);
+		}
+		if (taxItemGroup.getName() != null) {
+			if (taxItemGroup instanceof ClientTAXItem)
+				updateComboItemsInSortedOrder((ClientTAXItem) taxItemGroup,
+						taxItemList);
+			else
+				updateComboItemsInSortedOrder((ClientTAXGroup) taxItemGroup,
+						taxGroupList);
+			updateComboItemsInSortedOrder(taxItemGroup, taxItemGroupList);
+		} else {
+			if (taxItemGroup instanceof ClientTAXItem)
+				taxItemList.add((ClientTAXItem) taxItemGroup);
+			else
+				taxGroupList.add((ClientTAXGroup) taxItemGroup);
+			taxItemGroupList.add(existObj);
+		}
+	}
+
+	public static <T extends IAccounterCore> void updateComboItemsInSortedOrder(
+			T objectInList, List<T> objectsList) {
+		String firstName = "";
+		String nextName = "";
+		T obj = null;
+		int index;
+		boolean type = true;
+
+		String toBeAddedobj = objectInList.getName();
+
+		Iterator<T> iterator = objectsList.iterator();
+		while (iterator.hasNext()) {
+
+			obj = iterator.next();
+			nextName = obj.getName();
+			if (firstName.toLowerCase().compareTo(toBeAddedobj.toLowerCase()) < 0
+					&& nextName.toLowerCase().compareTo(
+							toBeAddedobj.toLowerCase()) > 0) {
+				type = false;
+				index = objectsList.indexOf(obj);
+				objectsList.add(index, objectInList);
+				break;
+			} else {
+				firstName = nextName;
+			}
+		}
+		if (type) {
+			objectsList.add(objectInList);
+		}
+
+	}
+
+	/**
+	 * This method is used for the reports pdf generation. The Require
+	 * parameters are report title , Reportgrid Html and Dateranges Html(The
+	 * Daterange Html is Generate Your self By Using Report Start Date and End
+	 * Date)
+	 */
+	public static void generateRertPDF(String reportTitle, String htmlbody,
+			String dateRangeHtml) {
+		// HiddenIFrame frame = new HiddenIFrame("");
+		//
+		// VerticalPanel vpanel = new VerticalPanel();
+		//
+		// Hidden reporthtmlEle = new Hidden();
+		// reporthtmlEle.setName("reporthtml");
+		// reporthtmlEle.setValue(htmlbody);
+		// vpanel.add(reporthtmlEle);
+		//
+		// Hidden newElement1 = new Hidden();
+		// newElement1.setName("reportTitle");
+		// newElement1.setValue(reportTitle);
+		// vpanel.add(newElement1);
+		//
+		// Hidden newElement2 = new Hidden();
+		// newElement1.setName("dateRangeHtml");
+		// newElement1.setValue(dateRangeHtml);
+		// vpanel.add(newElement2);
+		//
+		// frame.getForm().setAction("/do/finance/generatePDFServlet");
+		// frame.getForm().setMethod("POST");
+		// frame.getForm().add(vpanel);
+		// frame.getForm().submit();
+
+		// generateReportPDF(reportTitle, htmlbody, dateRangeHtml, frame
+		// .getElement());
+	}
+
+	/**
+	 * This method is used for the pdf generation.The Require parameters are
+	 * object StringId and Type
+	 */
+	public native static void downloadAttachment(String objectID, int type)/*-{
+		try{
+		var frame = document.createElement("IFRAME");
+		frame.setAttribute("src", "/do/finance/generatePDFServlet?objectId="+objectID+"&type="+type); 
+		frame.style.visibility = "hidden";
+		document.body.appendChild(frame);
+		}catch(e){
+		alert(e);
+		}
+	}-*/;
+
+	/**
+	 * This method is used for the reports pdf generation. The Require
+	 * parameters are report title , Reportgrid Html and Dateranges Html(The
+	 * Daterange Html is Generate Your self By Using Report Start Date and End
+	 * Date)
+	 */
+	public native static void generateReportPDF(String reportTitle,
+			String htmlbody, String dateRangeHtml)/*-{
+		try{
+		var frame = $doc.getElementById('__generatePdfFrame');
+		frame = frame.contentWindow;
+		var doc = frame.document;
+		var submitForm = doc.createElement("form");
+		var body=doc.getElementsByTagName("BODY");
+		body[0].appendChild(submitForm);
+		submitForm.method = "POST";
+		// submitForm.target="_blank";
+
+		var newElement = doc.createElement("INPUT");
+		newElement.name="reporthtml";
+		newElement.type="hidden";
+		submitForm.appendChild(newElement);
+		newElement.value = htmlbody;
+
+		var newElement1 = doc.createElement("INPUT");
+		newElement1.name="reportTitle";
+		newElement1.type="hidden";
+		submitForm.appendChild(newElement1);
+		newElement1.value = reportTitle;
+		var newElement2 = document.createElement("INPUT");
+		newElement2.name="dateRangeHtml";
+		newElement2.type="hidden";
+		submitForm.appendChild(newElement2);
+		newElement2.value = dateRangeHtml;
+		submitForm.action= "/do/finance/generatePDFServlet";
+		submitForm.submit();
+
+		body[0].removeChild(submitForm);
+		}catch(e){
+		alert(e);
+		}
+	}-*/;
+
+	public native static void generateStatementPDF(String reportTitle,
+			String htmlbody, String dateRangeHtml, String customerId)/*-{
+		try{
+		var submitForm = document.createElement("FORM");
+		 document.body.appendChild(submitForm);
+		 submitForm.method = "POST";
+		// submitForm.target="_blank";
+
+		 var newElement = document.createElement("INPUT");
+		newElement.name="reporthtml";
+		newElement.type="hidden";
+		 submitForm.appendChild(newElement);
+		 newElement.value = htmlbody;
+
+		var newElement1 = document.createElement("INPUT");
+		newElement1.name="reportTitle";
+		newElement1.type="hidden";
+		 submitForm.appendChild(newElement1);
+		 newElement1.value = reportTitle;
+
+		var newElement2 = document.createElement("INPUT");
+		newElement2.name="dateRangeHtml";
+		newElement2.type="hidden";
+		 submitForm.appendChild(newElement2);
+		 newElement2.value = dateRangeHtml;
+
+		var newElement3 = document.createElement("INPUT");
+		newElement3.name="customerId";
+		newElement3.type="hidden";
+		 submitForm.appendChild(newElement3);
+		 newElement3.value = customerId;
+
+		 submitForm.action= "/do/finance/generatePDFServlet";
+		 submitForm.submit();
+
+		}catch(e){
+		alert(e);
+		}
+	}-*/;
+
+	
+	public static String stringToDate(ClientFinanceDate date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static String getpaymentMethodCheckBy_CompanyType(
+			String paymentMethod) {
+		if (paymentMethod.equals(FinanceApplication.getCustomersMessages()
+				.cheque())
+				|| paymentMethod.equals(FinanceApplication
+						.getCustomersMessages().check())) {
+			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+				return "Cheque";
+			else if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+				return "Check";
+		}
+
+		return paymentMethod;
+
+	}
+
+	public static Double getRoundValue(Double value) {
+		value = Math.ceil(value * 100) / 100;
+		return value;
+	}
+
+	public static double getVATItemRate(ClientTAXCode taxCode, boolean isSales) {
+		if (!taxCode.getName().equals("EGS")
+				&& !taxCode.getName().equals("EGZ")
+				&& !taxCode.getName().equals("RC")) {
+			ClientTAXItemGroup vatItemGroup = FinanceApplication.getCompany()
+					.getTAXItemGroup(
+							isSales ? taxCode.getTAXItemGrpForSales() : taxCode
+									.getTAXItemGrpForPurchases());
+			if (vatItemGroup != null) {
+				if (vatItemGroup instanceof ClientTAXItem) {
+					return ((ClientTAXItem) vatItemGroup).getTaxRate();
+				}
+				return ((ClientTAXGroup) vatItemGroup).getGroupRate();
+			}
+		}
+		return 0.0;
+	}
+
+	public static native boolean isMSIEBrowser()/*-{
+		if (navigator.userAgent.indexOf("MSIE")>=0)
+		return true;
+		return false;
+	}-*/;
+
+	public static boolean isInteger(String str) {
+		try {
+			Integer.parseInt(str);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+
+	}
+
+	public static boolean isDouble(String str) {
+		try {
+			Double.parseDouble(str);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+
+	}
+
+	public static native void changeCursorStyle(String style)/*-{
+		document.body.style.cursor = style;
+	}-*/;
+}

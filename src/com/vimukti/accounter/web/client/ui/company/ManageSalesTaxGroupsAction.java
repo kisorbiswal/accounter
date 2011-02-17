@@ -1,0 +1,81 @@
+package com.vimukti.accounter.web.client.ui.company;
+
+import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.SalesTaxGroupListDialog;
+import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
+import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
+import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
+
+public class ManageSalesTaxGroupsAction extends Action {
+
+	public ManageSalesTaxGroupsAction(String text) {
+		super(text);
+		this.catagory = FinanceApplication.getCompanyMessages().company();
+	}
+
+	public ManageSalesTaxGroupsAction(String text, String iconString) {
+		super(text, iconString);
+		this.catagory = FinanceApplication.getCompanyMessages().company();
+	}
+
+	@Override
+	public ParentCanvas<?> getView() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void run(Object data, Boolean isDependent) {
+
+		runAsync(data, isDependent);
+
+	}
+
+	private void runAsync(Object data, Boolean isDependent) {
+		AccounterAsync.createAsync(new CreateViewAsyncCallBack() {
+
+			public void onCreateFailed(Throwable t) {
+				// //UIUtils.logError("Failed To Load Sales Tax Code Dialog",
+				// t);
+
+			}
+
+			public void onCreated() {
+				try {
+
+					SalesTaxGroupListDialog dialog = new SalesTaxGroupListDialog(
+							FinanceApplication.getCompanyMessages()
+									.manageSalesTaxGroup(), FinanceApplication
+									.getCompanyMessages().toAddTaxGroup());
+					ViewManager viewManager = ViewManager.getInstance();
+					viewManager.setCurrentDialog(dialog);
+					// dialog.addCallBack(getViewConfiguration().getCallback());
+					dialog.show();
+
+				} catch (Throwable e) {
+					onCreateFailed(e);
+
+				}
+
+			}
+		});
+
+	}
+
+	public ImageResource getBigImage() {
+		return null;
+	}
+
+	public ImageResource getSmallImage() {
+		return FinanceApplication.getFinanceMenuImages().manageSalesTaxGroup();
+	}
+	@Override
+	public String getImageUrl() {
+		// TODO Auto-generated method stub
+		return "/images/Manage_Sales_Tax_Group.png";
+	}
+
+}

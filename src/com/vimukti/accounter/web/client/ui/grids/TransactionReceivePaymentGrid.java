@@ -1,0 +1,902 @@
+package com.vimukti.accounter.web.client.ui.grids;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.vimukti.accounter.web.client.core.AccounterConstants;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
+import com.vimukti.accounter.web.client.ui.CashDiscountDialog;
+import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
+import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
+import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
+import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
+import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
+import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
+import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentView;
+import com.vimukti.accounter.web.client.ui.customers.WriteOffDialog;
+
+public class TransactionReceivePaymentGrid extends
+		AbstractTransactionGrid<ClientTransactionReceivePayment> {
+	CustomersMessages customerConstants = GWT.create(CustomersMessages.class);
+	ReceivePaymentView paymentView;
+	ClientCustomer customer;
+	List<Integer> selectedValues = new ArrayList<Integer>();
+	protected boolean gotCreditsAndPayments;
+	private boolean canEdit;
+	private CashDiscountDialog cashDiscountDialog;
+	private WriteOffDialog writeOffDialog;
+
+	public CustomerCreditsAndPaymentsDialiog creditsAndPaymentsDialiog;
+	public List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
+	public Map<ClientTransactionReceivePayment, List<ClientCreditsAndPayments>> value;
+
+	/* This stack tracks the recently applied credits */
+	public Stack<Map<Integer, Object>> creditsStack;
+	public Map<Integer, Object> revrtedCreditsMap;
+	private Stack<Map<Integer, Object>> revertedCreditsStack;
+
+	List<ClientTransactionReceivePayment> tranReceivePayments = new ArrayList<ClientTransactionReceivePayment>();
+	private int[] columns = { ListGrid.COLUMN_TYPE_TEXT,
+			ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+			ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_LINK,
+			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX };
+	private int[] columnsinEdit = { ListGrid.COLUMN_TYPE_TEXT,
+			ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_LINK,
+			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX };
+
+	@Override
+	public void init() {
+		super.init();
+		this.addFooterValue(FinanceApplication.getVendorsMessages().subTotal(),
+				1);
+		this.addFooterValue("" + UIUtils.getCurrencySymbol() + "0.0", 2);
+		if (!paymentView.isEditMode())
+			this.addFooterValue("" + UIUtils.getCurrencySymbol() + "0.0", 3);
+		this.addFooterValue(FinanceApplication.getVATMessages().totalcolan()
+				+ UIUtils.getCurrencySymbol() + " 0.0", 8);
+	}
+
+	public void setPaymentView(ReceivePaymentView paymentView) {
+		this.paymentView = paymentView;
+	}
+
+	public void setCustomer(ClientCustomer customer) {
+		this.customer = customer;
+	}
+
+	public TransactionReceivePaymentGrid(boolean isMultiSelectionEnable,
+			boolean showFooter) {
+		super(isMultiSelectionEnable, showFooter);
+	}
+
+	@Override
+	protected int getColumnType(int col) {
+		if (canEdit)
+			return columns[col];
+		else
+			return columnsinEdit[col];
+	}
+
+	@Override
+	protected String[] getColumns() {
+		if (canEdit) {
+			return new String[] { customerConstants.dueDate(),
+					customerConstants.invoice(),
+					customerConstants.invoiceAmount(),
+					customerConstants.amountDue(),
+					customerConstants.discountDate(),
+					customerConstants.cashDiscount(),
+					customerConstants.writeOff(),
+					customerConstants.appliedCredits(),
+					customerConstants.payment() };
+		} else
+			return new String[] { customerConstants.invoice(),
+					customerConstants.invoiceAmount(),
+					customerConstants.discountDate(),
+					customerConstants.cashDiscount(),
+					customerConstants.writeOff(),
+					customerConstants.appliedCredits(),
+					customerConstants.payment() };
+	}
+
+	@Override
+	protected Object getColumnValue(
+			ClientTransactionReceivePayment receivePayment, int col) {
+		if (canEdit) {
+			switch (col) {
+			case 0:
+				if (receivePayment.getDueDate() != 0)
+					return UIUtils.getDateByCompanyType(new ClientFinanceDate(
+							receivePayment.getDueDate()));
+				return "";
+			case 1:
+				return receivePayment.getNumber();
+			case 2:
+				return DataUtils.getAmountAsString(receivePayment
+						.getInvoiceAmount());
+			case 3:
+				return DataUtils
+						.getAmountAsString(receivePayment.getDummyDue());
+			case 4:
+				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
+						receivePayment.getDiscountDate()));
+			case 5:
+				return DataUtils.getAmountAsString(receivePayment
+						.getCashDiscount());
+			case 6:
+				return DataUtils
+						.getAmountAsString(receivePayment.getWriteOff());
+			case 7:
+				return DataUtils.getAmountAsString(receivePayment
+						.getAppliedCredits());
+			case 8:
+				return DataUtils.getAmountAsString(receivePayment.getPayment());
+			default:
+				break;
+			}
+		} else {
+			switch (col) {
+			case 0:
+				return receivePayment.getNumber();
+			case 1:
+				return DataUtils.getAmountAsString(receivePayment
+						.getInvoiceAmount());
+			case 2:
+				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
+						receivePayment.getDiscountDate()));
+			case 3:
+				return DataUtils.getAmountAsString(receivePayment
+						.getCashDiscount());
+			case 4:
+				return DataUtils
+						.getAmountAsString(receivePayment.getWriteOff());
+			case 5:
+				return DataUtils.getAmountAsString(receivePayment
+						.getAppliedCredits());
+			case 6:
+				return DataUtils.getAmountAsString(receivePayment.getPayment());
+			default:
+				break;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public void editComplete(ClientTransactionReceivePayment item,
+			Object value, int col) {
+		if ((canEdit && col == 8) || (!canEdit && col == 6)) {
+			double amt, originalPayment;
+			try {
+				originalPayment = item.getPayment();
+				amt = DataUtils.getReformatedAmount(value.toString());
+				item.setPayment(amt);
+				updateAmountDue(item);
+				double totalValue = item.getCashDiscount() + item.getWriteOff()
+						+ item.getAppliedCredits() + item.getPayment();
+				if (AccounterValidator.validate_Receive_Payment(item
+						.getAmountDue(), totalValue,
+						AccounterErrorType.RECEIVEPAYMENT_PAYMENT_EXCESS)) {
+					paymentView.recalculateGridAmounts();
+					updateTotalPayment(0.0);
+				} else {
+					item.setPayment(originalPayment);
+				}
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		updateData(item);
+		super.editComplete(item, value, col);
+	}
+
+	@Override
+	protected boolean isEditable(ClientTransactionReceivePayment obj, int row,
+			int col) {
+		if ((canEdit && col == 8) || (!canEdit && col == 6)) {
+			if (!isSelected(obj)) {
+				selectRow(row);
+				currentCol = col;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean validateGrid() {
+
+		for (ClientTransactionReceivePayment transactionReceivePayment : this
+				.getSelectedRecords()) {
+
+			double totalValue = getTotalValue(transactionReceivePayment);
+			return AccounterValidator.validate_Receive_Payment(
+					transactionReceivePayment.getAmountDue(), totalValue,
+					AccounterErrorType.RECEIVEPAYMENT_PAYMENT_EXCESS);
+		}
+		return true;
+	}
+
+	@Override
+	protected int getCellWidth(int index) {
+		return -1;
+	}
+
+	@SuppressWarnings("unchecked")
+	public CustomCombo getCustomCombo(int colIndex) {
+		return null;
+	}
+
+	@Override
+	public <E> CustomCombo<E> getCustomCombo(
+			ClientTransactionReceivePayment obj, int colIndex) {
+
+		return null;
+	}
+
+	@Override
+	protected void onClick(ClientTransactionReceivePayment obj, int row,
+			int index) {
+		if (canEdit) {
+			switch (index) {
+			case 5:
+				// if (isSelected(obj))
+				openCashDiscountDialog();
+				break;
+			case 6:
+				// if (isSelected(obj))
+				openWriteOffDialog();
+				break;
+			case 7:
+				// if (isSelected(obj)) {
+				openCreditsDialog();
+				// }
+				break;
+
+			default:
+				// List<Integer> tt = new ArrayList<Integer>();
+				// tt.add(5);
+				// tt.add(6);
+				// tt.add(7);
+				// tt.add(8);
+				// if (!(tt.contains(index)))
+				// selectRow(row);
+				break;
+			}
+		} else {
+			switch (index) {
+			case 3:
+				openCashDiscountDialog();
+				break;
+			case 4:
+				openWriteOffDialog();
+				break;
+			case 5:
+				// openCreditsDialog();
+				break;
+
+			default:
+				// List<Integer> tt = new ArrayList<Integer>();
+				// tt.add(3);
+				// tt.add(4);
+				// tt.add(5);
+				// // tt.add(6);
+				// if (!(tt.contains(index)))
+				// selectRow(row);
+				break;
+			}
+		}
+	}
+
+	@Override
+	public void selectRow(int row) {
+		if (((CheckBox) getWidget(row, 0)).getValue() != true)
+			super.selectRow(row);
+	}
+
+	public void initCreditsAndPayments(final ClientCustomer customer) {
+
+		FinanceApplication.createHomeService().getCustomerCreditsAndPayments(
+				customer.getStringID(),
+				new AsyncCallback<List<ClientCreditsAndPayments>>() {
+
+					public void onFailure(Throwable caught) {
+						Accounter
+								.showInformation("Failed to Get List of Credits and Payments for "
+										+ customer.getName());
+
+						gotCreditsAndPayments = false;
+						return;
+
+					}
+
+					public void onSuccess(List<ClientCreditsAndPayments> result) {
+						if (result == null)
+							onFailure(null);
+
+						updatedCustomerCreditsAndPayments = result;
+						creditsStack = new Stack<Map<Integer, Object>>();
+						paymentView.calculateUnusedCredits();
+
+						gotCreditsAndPayments = true;
+
+					}
+
+				});
+
+	}
+
+	public void openCashDiscountDialog() {
+		cashDiscountDialog = new CashDiscountDialog(canEdit, selectedObject
+				.getCashDiscount(), getCashDiscountAccount());
+		// } else {
+		// cashDiscountDialog.setCanEdit(canEdit);
+		// cashDiscountDialog.setCashDiscountValue(selectedObject
+		// .getCashDiscount());
+		// cashDiscountDialog.
+		// }
+		cashDiscountDialog.addInputDialogHandler(new InputDialogHandler() {
+
+			@Override
+			public void onCancelClick() {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public boolean onOkClick() {
+				if (canEdit) {
+					try {
+						if (cashDiscountDialog.validate()) {
+							selectedObject.setCashDiscount(cashDiscountDialog
+									.getCashDiscount());
+							selectedObject
+									.setDiscountAccount(cashDiscountDialog
+											.getSelectedDiscountAccount()
+											.getStringID());
+							if (validatePaymentValue()) {
+								updatePayment(selectedObject);
+							} else {
+								selectedObject.setCashDiscount(0.0D);
+								updatePayment(selectedObject);
+							}
+
+							updateData(selectedObject);
+							paymentView.recalculateGridAmounts();
+							paymentView.updateFooterValues();
+						}
+
+						else
+							return false;
+
+					} catch (Exception e) {
+						Accounter.showError(e.getMessage());
+						return false;
+					}
+					paymentView.recalculateGridAmounts();
+				}
+				return true;
+			}
+		});
+		cashDiscountDialog.show();
+	}
+
+	private ClientAccount getCashDiscountAccount() {
+
+		ClientAccount cashDiscountAccount = FinanceApplication.getCompany()
+				.getAccount(selectedObject.getDiscountAccount());
+		return cashDiscountAccount;
+	}
+
+	private ClientAccount getWriteOffAccount() {
+
+		ClientAccount writeOffAccount = FinanceApplication.getCompany()
+				.getAccount(selectedObject.getWriteOffAccount());
+		return writeOffAccount;
+	}
+
+	public void openCreditsDialog() {
+		if (gotCreditsAndPayments) {
+			if (creditsAndPaymentsDialiog == null) {
+				for (ClientCreditsAndPayments rec : updatedCustomerCreditsAndPayments) {
+					rec.setActualAmt(rec.getBalance());
+					rec.setRemaoningBalance(rec.getBalance());
+				}
+				creditsAndPaymentsDialiog = new CustomerCreditsAndPaymentsDialiog(
+						this.customer, updatedCustomerCreditsAndPayments,
+						canEdit, selectedObject);
+			} else {
+				if (selectedObject.isCreditsApplied()) {
+					Map<Integer, Object> appliedCredits = selectedObject
+							.getTempCredits();
+					int size = updatedCustomerCreditsAndPayments.size();
+					for (int i = 0; i < size; i++) {
+						if (appliedCredits.containsKey(i)) {
+							ClientCreditsAndPayments selectdCredit = updatedCustomerCreditsAndPayments
+									.get(i);
+							TempCredit tmpCr = (TempCredit) appliedCredits
+									.get(i);
+							selectdCredit.setAmtTouse(tmpCr.getAmountToUse());
+							selectdCredit.setBalance(tmpCr
+									.getRemainingBalance());
+						} else {
+							ClientCreditsAndPayments unSelectdCredit = updatedCustomerCreditsAndPayments
+									.get(i);
+							unSelectdCredit.setAmtTouse(0);
+						}
+					}
+				} else {
+					if (revertedCreditsStack != null
+							&& revertedCreditsStack.size() != 0) {
+						Map<Integer, Object> stkCredit = revertedCreditsStack
+								.peek();
+
+						for (Integer indx : stkCredit.keySet()) {
+
+							TempCredit tempCrt = (TempCredit) stkCredit
+									.get(indx);
+							ClientCreditsAndPayments rec = updatedCustomerCreditsAndPayments
+									.get(indx.intValue());
+							rec.setBalance(tempCrt.getRemainingBalance()
+									+ tempCrt.getAmountToUse());
+							rec.setRemaoningBalance(rec.getBalance());
+							rec.setAmtTouse(0);
+						}
+						revertedCreditsStack.clear();
+					} else if (creditsStack != null && creditsStack.size() != 0) {
+						Map<Integer, Object> stkCredit = creditsStack.peek();
+
+						for (Integer indx : stkCredit.keySet()) {
+
+							TempCredit tempCrt = (TempCredit) stkCredit
+									.get(indx);
+							ClientCreditsAndPayments rec = updatedCustomerCreditsAndPayments
+									.get(indx.intValue());
+							rec.setBalance(tempCrt.getRemainingBalance());
+							rec.setAmtTouse(0);
+						}
+					}
+				}
+				creditsAndPaymentsDialiog
+						.setUpdatedCreditsAndPayments(updatedCustomerCreditsAndPayments);
+				creditsAndPaymentsDialiog.setCanEdit(canEdit);
+				creditsAndPaymentsDialiog.setRecord(selectedObject);
+				creditsAndPaymentsDialiog.setCustomer(customer);
+				creditsAndPaymentsDialiog.updateFields();
+			}
+		} else if (!gotCreditsAndPayments && canEdit) {
+			Accounter.showInformation("No Credits for this customer!!");
+		}
+		if (!canEdit) {
+			creditsAndPaymentsDialiog = new CustomerCreditsAndPaymentsDialiog(
+					this.customer,
+					getSelectedCreditsAndPayments(selectedObject), canEdit,
+					selectedObject);
+		}
+
+		if (creditsAndPaymentsDialiog == null)
+			return;
+		creditsAndPaymentsDialiog
+				.addInputDialogHandler(new InputDialogHandler() {
+
+					@Override
+					public void onCancelClick() {
+						creditsAndPaymentsDialiog.cancelClicked = true;
+						// selectedObject
+						// .setAppliedCredits(creditsAndPaymentsDialiog
+						// .getTotalCreditAmount());
+						// updateData(selectedObject);
+					}
+
+					@Override
+					public boolean onOkClick() {
+
+						List<ClientCreditsAndPayments> appliedCreditsForThisRec = creditsAndPaymentsDialiog.grid
+								.getSelectedRecords();
+						Map<Integer, Object> appliedCredits = new HashMap<Integer, Object>();
+						TempCredit creditRec = null;
+
+						for (ClientCreditsAndPayments rec : appliedCreditsForThisRec) {
+							try {
+								checkBalance(rec.getAmtTouse());
+							} catch (Exception e) {
+								Accounter.showError(e.getMessage());
+								return false;
+							}
+							Integer recordIndx = creditsAndPaymentsDialiog.grid
+									.indexOf(rec);
+							creditRec = new TempCredit();
+							for (ClientTransactionReceivePayment rcvp : getSelectedRecords()) {
+								if (rcvp.isCreditsApplied()) {
+									for (Integer idx : rcvp.getTempCredits()
+											.keySet()) {
+										if (recordIndx == idx)
+											((TempCredit) rcvp.getTempCredits()
+													.get(idx))
+													.setRemainingBalance(rec
+															.getBalance());
+									}
+								}
+							}
+							creditRec.setRemainingBalance(rec.getBalance());
+							creditRec.setAmountToUse(rec.getAmtTouse());
+							appliedCredits.put(recordIndx, creditRec);
+						}
+						selectedObject.setTempCredits(appliedCredits);
+						selectedObject.setCreditsApplied(true);
+
+						creditsStack.push(appliedCredits);
+
+						try {
+
+							creditsAndPaymentsDialiog.okClicked = true;
+
+							// creditsAndPaymentsDialiog.validateTransaction();
+
+						} catch (Exception e) {
+							Accounter.showError(e.getMessage());
+							return false;
+						}
+
+						selectedObject
+								.setAppliedCredits(creditsAndPaymentsDialiog
+										.getTotalCreditAmount());
+						paymentView.recalculateGridAmounts();
+						updateRecord(selectedObject, currentRow, 4);
+						updatePayment(selectedObject);
+						paymentView.updateFooterValues();
+						paymentView.recalculateGridAmounts();
+						paymentView.unUsedCreditsText
+								.setAmount(creditsAndPaymentsDialiog.totalBalances);
+						updateData(selectedObject);
+						return true;
+					}
+				});
+		creditsAndPaymentsDialiog.show();
+
+	}
+
+	public void checkBalance(double amount) throws Exception {
+		if (DecimalUtil.isEquals(amount, 0))
+			throw new Exception("You don't have balance to apply credits");
+	}
+
+	public class TempCredit {
+		double remainingBalance;
+		double amountToUse;
+
+		public double getRemainingBalance() {
+			return remainingBalance;
+		}
+
+		public void setRemainingBalance(double remainingBalance) {
+			this.remainingBalance = remainingBalance;
+		}
+
+		public double getAmountToUse() {
+			return amountToUse;
+		}
+
+		public void setAmountToUse(double amountToUse) {
+			this.amountToUse = amountToUse;
+		}
+
+	}
+
+	private List<ClientCreditsAndPayments> getSelectedCreditsAndPayments(
+			ClientTransactionReceivePayment selectedObject) {
+		List<ClientCreditsAndPayments> createdCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
+		ClientTransactionReceivePayment tranReceivePayment;
+		tranReceivePayment = this.tranReceivePayments
+				.get(indexOf(selectedObject));
+		for (ClientTransactionCreditsAndPayments trancreditsAndPaymnets : tranReceivePayment
+				.getTransactionCreditsAndPayments()) {
+			ClientCreditsAndPayments creditsAmdPayment = trancreditsAndPaymnets
+					.getCreditsAndPayments();
+			creditsAmdPayment.setAmtTouse(trancreditsAndPaymnets
+					.getAmountToUse());
+			createdCreditsAndPayments.add(creditsAmdPayment);
+		}
+		return createdCreditsAndPayments;
+	}
+
+	public void setTranReceivePayments(
+			List<ClientTransactionReceivePayment> recievePayments) {
+		this.tranReceivePayments = recievePayments;
+	}
+
+	protected boolean validatePaymentValue() {
+		double totalValue = getTotalValue(selectedObject);
+		if (AccounterValidator.validate_Receive_Payment(selectedObject
+				.getAmountDue(), totalValue,
+				AccounterErrorType.RECEIVEPAYMENT_AMOUNT_DUE)) {
+			return true;
+		} else
+			return false;
+
+	}
+
+	private void updatePayment(ClientTransactionReceivePayment payment) {
+		double paymentValue = payment.getAmountDue() - getTotalValue(payment);
+		payment.setPayment(paymentValue);
+		updateAmountDue(payment);
+	}
+
+	private double getTotalValue(ClientTransactionReceivePayment payment) {
+		double totalValue = payment.getCashDiscount() + payment.getWriteOff()
+				+ payment.getAppliedCredits() + payment.getPayment();
+		return totalValue;
+	}
+
+	public void openWriteOffDialog() {
+		writeOffDialog = new WriteOffDialog(FinanceApplication.getCompany()
+				.getActiveAccounts(), selectedObject, canEdit,
+				getWriteOffAccount());
+		writeOffDialog.addInputDialogHandler(new InputDialogHandler() {
+
+			@Override
+			public void onCancelClick() {
+
+			}
+
+			@Override
+			public boolean onOkClick() {
+				if (canEdit) {
+					try {
+						if (writeOffDialog.validate()) {
+							selectedObject.setWriteOff(writeOffDialog
+									.getCashDiscountValue());
+							selectedObject
+									.setWriteOffAccount(writeOffDialog
+											.getSelectedWriteOffAccount()
+											.getStringID());
+							if (validatePaymentValue()) {
+								updatePayment(selectedObject);
+							} else {
+								selectedObject.setWriteOff(0.0D);
+								updatePayment(selectedObject);
+							}
+							updateData(selectedObject);
+							paymentView.recalculateGridAmounts();
+							paymentView.updateFooterValues();
+
+						} else
+							return false;
+					} catch (Exception e) {
+						Accounter.showError(e.getMessage());
+						return false;
+					}
+				}
+
+				return true;
+			}
+		});
+		writeOffDialog.show();
+	}
+
+	@Override
+	public void setCanEdit(boolean enabled) {
+		this.canEdit = enabled;
+		super.setCanEdit(enabled);
+	}
+
+	public void selectAllRows() {
+		for (ClientTransactionReceivePayment obj : this.getRecords()) {
+			if (!isSelected(obj)) {
+				((CheckBox) this.body.getWidget(indexOf(obj), 0))
+						.setValue(true);
+				selectedValues.add(indexOf(obj));
+				// updateValue(obj);
+			}
+		}
+		paymentView.recalculateGridAmounts();
+	}
+
+	public void updateValue(ClientTransactionReceivePayment obj) {
+		setAccountDefaultValues(obj);
+		obj.setPayment(obj.getAmountDue());
+		updatePayment(obj);
+		updateTotalPayment(obj.getPayment());
+		updateData(obj);
+		currentCol = canEdit ? 8 : 6;
+		currentRow = indexOf(obj);
+	}
+
+	private void setAccountDefaultValues(ClientTransactionReceivePayment obj) {
+		ClientAccount cashDiscountAccount, writeOffAccount;
+		int accountType = FinanceApplication.getCompany().getAccountingType();
+		switch (accountType) {
+		case ClientCompany.ACCOUNTING_TYPE_UK:
+			cashDiscountAccount = FinanceApplication.getCompany()
+					.getAccountByName(AccounterConstants.DISCOUNTS);
+
+			writeOffAccount = FinanceApplication.getCompany().getAccountByName(
+					AccounterConstants.DISCOUNTS_TAKEN);
+			obj.setDiscountAccount(cashDiscountAccount.getStringID());
+			obj.setWriteOffAccount(writeOffAccount.getStringID());
+			break;
+		case ClientCompany.ACCOUNTING_TYPE_US:
+			cashDiscountAccount = FinanceApplication.getCompany()
+					.getAccountByName(AccounterConstants.CASH_DISCOUNT_GIVEN);
+			writeOffAccount = FinanceApplication.getCompany().getAccountByName(
+					AccounterConstants.WRITE_OFF);
+			obj.setDiscountAccount(cashDiscountAccount.getStringID());
+			obj.setWriteOffAccount(writeOffAccount.getStringID());
+			break;
+		}
+	}
+
+	public void updateTotalPayment(Double payment) {
+		paymentView.transactionTotal += payment;
+		this.updateFooterValues(DataUtils
+				.getAmountAsString(paymentView.transactionTotal), canEdit ? 8
+				: 6);
+	}
+
+	public void deleteTotalPayment(Double payment) {
+		paymentView.transactionTotal -= payment;
+		this.updateFooterValues(DataUtils
+				.getAmountAsString(paymentView.transactionTotal), canEdit ? 8
+				: 6);
+	}
+
+	public void resetValues() {
+		for (ClientCreditsAndPayments crdt : updatedCustomerCreditsAndPayments) {
+			crdt.setBalance(crdt.getActualAmt());
+			crdt.setRemaoningBalance(0);
+			crdt.setAmtTouse(0);
+		}
+		for (ClientTransactionReceivePayment obj : this.getRecords()) {
+			resetValue(obj);
+			paymentView.recalculateGridAmounts();
+			if (creditsAndPaymentsDialiog != null
+					&& creditsAndPaymentsDialiog.grid.getRecords().size() == 0)
+				creditsStack.clear();
+			selectedValues.remove((Integer) indexOf(obj));
+		}
+		creditsAndPaymentsDialiog = null;
+		cashDiscountDialog = null;
+		writeOffDialog = null;
+	}
+
+	public void resetValue(ClientTransactionReceivePayment obj) {
+		if (obj.isCreditsApplied()) {
+			int size = updatedCustomerCreditsAndPayments.size();
+			Map<Integer, Object> toBeRvrtMap = obj.getTempCredits();
+			/* 'i' is creditRecord(in creditGrid) index */
+			for (int i = 0; i < size; i++) {
+				if (toBeRvrtMap.containsKey(i)) {
+					TempCredit toBeAddCr = (TempCredit) toBeRvrtMap.get(i);
+					/*
+					 * search for this revertedCreditRecord in all selected
+					 * payBill record's credits
+					 */
+					if (getSelectedRecords().size() != 0) {
+						for (int j = 0; j < getSelectedRecords().size(); j++) {
+							Map<Integer, Object> rcvCrsMap = getSelectedRecords()
+									.get(j).getTempCredits();
+							if (rcvCrsMap.containsKey(i)) {
+								TempCredit chngCrd = (TempCredit) rcvCrsMap
+										.get(i);
+								chngCrd.setRemainingBalance(chngCrd
+										.getRemainingBalance()
+										+ toBeAddCr.getAmountToUse());
+							}
+						}
+					} else {
+						revertedCreditsStack = new Stack<Map<Integer, Object>>();
+						revertedCreditsStack.push(toBeRvrtMap);
+					}
+				}
+			}
+
+			obj.setCreditsApplied(false);
+		}
+		if (creditsAndPaymentsDialiog != null
+				&& creditsAndPaymentsDialiog.grid.getRecords().size() == 0)
+			creditsStack.clear();
+
+		setAccountDefaultValues(obj);
+		deleteTotalPayment(obj.getPayment());
+		obj.setPayment(0.0d);
+		obj.setCashDiscount(0.0d);
+		obj.setWriteOff(0.0d);
+		obj.setAppliedCredits(0.0d);
+		obj.setDummyDue(obj.getAmountDue());
+		updateData(obj);
+		updateUnuseAmt();
+	}
+
+	@Override
+	public void onHeaderCheckBoxClick(boolean isChecked) {
+		if (isChecked) {
+			selectAllRows();
+		} else {
+			resetValues();
+		}
+		super.onHeaderCheckBoxClick(isChecked);
+	}
+
+	public boolean isSelected(ClientTransactionReceivePayment transactionList) {
+		return canEdit ? ((CheckBox) getWidget(indexOf(transactionList), 0))
+				.getValue() : true;
+	}
+
+	@Override
+	protected void onSelectionChanged(ClientTransactionReceivePayment obj,
+			int row, boolean isChecked) {
+		if (isChecked && !selectedValues.contains(row)) {
+			selectedValues.add(row);
+			// updateValue(obj);
+			updateUnuseAmt();
+		} else {
+			selectedValues.remove((Integer) row);
+			resetValue(obj);
+		}
+		super.onSelectionChanged(obj, row, isChecked);
+	}
+
+	public void updateUnuseAmt() {
+		paymentView.unUsedPayments = (paymentView.amountRecieved - paymentView.transactionTotal);
+		paymentView.setUnusedPayments(paymentView.unUsedPayments);
+	}
+
+	@Override
+	public List<ClientTransactionItem> getallTransactions(
+			ClientTransaction object) throws InvalidEntryException {
+		return null;
+	}
+
+	public Double getTotal() {
+		double total = 0.0;
+		for (ClientTransactionReceivePayment payment : this.getRecords()) {
+			total += payment.getPayment();
+		}
+		return total;
+	}
+
+	public void updateAmountDue(ClientTransactionReceivePayment item) {
+		double totalValue = item.getCashDiscount() + item.getWriteOff()
+				+ item.getAppliedCredits() + item.getPayment();
+
+		if (!DecimalUtil.isGreaterThan(totalValue, item.getAmountDue())) {
+			if (!DecimalUtil.isLessThan(item.getPayment(), 0.00))
+				item.setDummyDue(item.getAmountDue() - totalValue);
+			else
+				item.setDummyDue(item.getAmountDue() + item.getPayment()
+						- totalValue);
+
+		}
+	}
+
+	@Override
+	public void setTaxCode(String taxCode) {
+		// TODO Auto-generated method stub
+
+	}
+}

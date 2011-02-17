@@ -1,0 +1,364 @@
+/**
+ * 
+ */
+package com.vimukti.accounter.web.client;
+
+import java.util.List;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.HrEmployee;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Lists.KeyFinancialIndicators;
+
+/**
+ * @author Fernandez
+ * 
+ */
+public interface IAccounterGETServiceAsync {
+
+	// /**
+	// * Core Related
+	// */
+	//
+	// public void checkLogin(String email, String password,
+	// AsyncCallback<Boolean> callback);
+	//
+	// public void getAccount(String accountName,
+	// AsyncCallback<ClientAccount> callback);
+	//
+	// public void getAccount(Long accountId, AsyncCallback<ClientAccount>
+	// callback);
+	//
+	// public void getAccounts(AsyncCallback<List<ClientAccount>> callback);
+	//
+	// public void getCompany(String companyName,
+	// AsyncCallback<ClientCompany> callback);
+	//
+	// public void getCompany(Long companyId, AsyncCallback<ClientCompany>
+	// callback);
+	//
+	// public void getCompanies(AsyncCallback<List<ClientCompany>> callback);
+	//
+	// public void getCreditRating(String creditRatingName,
+	// AsyncCallback<ClientCreditRating> callback);
+	//
+	// public void getCreditRating(Long creditRatingId,
+	// AsyncCallback<ClientCreditRating> callback);
+	//
+	// public void getCreditRatings(
+	// AsyncCallback<List<ClientCreditRating>> callback);
+	//
+	// public void getCurrency(String currencyName,
+	// AsyncCallback<ClientCurrency> callback);
+	//
+	// public void getCurrency(Long currencyId,
+	// AsyncCallback<ClientCurrency> callback);
+	//
+	// public void getCurrencies(AsyncCallback<List<ClientCurrency>> callback);
+	//
+	// public void getCustomer(String customerName,
+	// AsyncCallback<ClientCustomer> callback);
+	//
+	// public void getCustomer(Long customerId,
+	// AsyncCallback<ClientCustomer> callback);
+	//
+	// public void getCustomers(AsyncCallback<List<ClientCustomer>> callback);
+	//
+	// public void getCustomerGroup(String customerGroupName,
+	// AsyncCallback<ClientCustomerGroup> callback);
+	//
+	// public void getCustomerGroup(Long customerGroupId,
+	// AsyncCallback<ClientCustomerGroup> callback);
+	//
+	// public void getCustomerGroups(
+	// AsyncCallback<List<ClientCustomerGroup>> callback);
+	//
+	// public void getItem(String itemName, AsyncCallback<ClientItem> callback);
+	//
+	// public void getItem(Long itemId, AsyncCallback<ClientItem> callback);
+	//
+	// public void getItems(AsyncCallback<List<ClientItem>> callback);
+	//
+	// public void getItemGroup(String itemGroupName,
+	// AsyncCallback<ClientItemGroup> callback);
+	//
+	// public void getItemGroup(Long itemGroupId,
+	// AsyncCallback<ClientItemGroup> callback);
+	//
+	// public void getItemGroups(AsyncCallback<List<ClientItemGroup>> callback);
+	//
+	// public void getPaymentTerms(String paymentsTermsName,
+	// AsyncCallback<ClientPaymentTerms> callback);
+	//
+	// public void getPaymentTerms(Long paymentsTermsId,
+	// AsyncCallback<ClientPaymentTerms> callback);
+	//
+	// public void getPaymentTerms(AsyncCallback<List<ClientPaymentTerms>>
+	// callback);
+	//
+	// public void getPriceLevel(String priceLevelName,
+	// AsyncCallback<ClientPriceLevel> callback);
+	//
+	// public void getPriceLevel(Long priceLevelId,
+	// AsyncCallback<ClientPriceLevel> callback);
+	//
+	// public void getPriceLevels(AsyncCallback<List<ClientPriceLevel>>
+	// callback);
+	//
+	// public void getSalesPerson(String salesPersonName,
+	// AsyncCallback<ClientSalesPerson> callback);
+	//
+	// public void getSalesPerson(Long salesPersonId,
+	// AsyncCallback<ClientSalesPerson> callback);
+	//
+	// public void getSalesPersons(AsyncCallback<List<ClientSalesPerson>>
+	// callback);
+	//
+	// public void getShippingMethod(String shippingMethodName,
+	// AsyncCallback<ClientShippingMethod> callback);
+	//
+	// public void getShippingMethod(Long shippingMethodId,
+	// AsyncCallback<ClientShippingMethod> callback);
+	//
+	// public void getShippingMethods(
+	// AsyncCallback<List<ClientShippingMethod>> callback);
+	//
+	// public void getShippingTerms(String shippingTermsName,
+	// AsyncCallback<ClientShippingTerms> callback);
+	//
+	// public void getShippingTerms(Long shippingTermsId,
+	// AsyncCallback<ClientShippingTerms> callback);
+	//
+	// public void getShippingTerms(
+	// AsyncCallback<List<ClientShippingTerms>> callback);
+	//
+	// public void getTaxAgency(String taxAgencyName,
+	// AsyncCallback<ClientTaxAgency> callback);
+	//
+	// public void getTaxAgency(Long taxAgencyID,
+	// AsyncCallback<ClientTaxAgency> callback);
+	//
+	// public void getTaxAgencies(AsyncCallback<List<ClientTaxAgency>>
+	// callback);
+	//
+	// public void getTaxCode(String taxCodeName,
+	// AsyncCallback<ClientTaxCode> callback);
+	//
+	// public void getTaxCode(Long taxCodeID, AsyncCallback<ClientTaxCode>
+	// callback);
+	//
+	// public void getTaxCodes(AsyncCallback<List<ClientTaxCode>> callback);
+	//
+	// public void getTaxGroup(String taxGroupName,
+	// AsyncCallback<ClientTaxGroup> callback);
+	//
+	// public void getTaxGroup(Long taxGroupID,
+	// AsyncCallback<ClientTaxGroup> callback);
+	//
+	// public void getGroups(AsyncCallback<List<ClientTaxGroup>> callback);
+	//
+	// public void getTaxRates(double rate, AsyncCallback<ClientTaxRates>
+	// callback);
+	//
+	// public void getTaxRates(Long taxRateID,
+	// AsyncCallback<ClientTaxRates> callback);
+	//
+	// public void getRates(AsyncCallback<List<ClientTaxRates>> callback);
+	//
+	// public void getUnitOfMeasure(String unitOfMeausreName,
+	// AsyncCallback<ClientUnitOfMeasure> callback);
+	//
+	// public void getUnitOfMeasure(Long unitOfMeausreId,
+	// AsyncCallback<ClientUnitOfMeasure> callback);
+	//
+	// public void getUnitOfMeasures(
+	// AsyncCallback<List<ClientUnitOfMeasure>> callback);
+	//
+	// public void getUser(long userID, AsyncCallback<ClientUser> callback);
+	//
+	// public void getUser(String email, AsyncCallback<ClientUser> callback);
+	//
+	// public void getUsers(AsyncCallback<List<ClientUser>> callback);
+	//
+	// public void getVendor(String vendorName,
+	// AsyncCallback<ClientVendor> callback);
+	//
+	// public void getVendor(Long vendorId, AsyncCallback<ClientVendor>
+	// callback);
+	//
+	// public void getVendors(AsyncCallback<List<ClientVendor>> callback);
+	//
+	// public void getVendorGroup(String vendorGroupName,
+	// AsyncCallback<ClientVendorGroup> callback);
+	//
+	// public void getVendorGroup(Long vendorGroupId,
+	// AsyncCallback<ClientVendorGroup> callback);
+	//
+	// public void getVendorGroups(AsyncCallback<List<ClientVendorGroup>>
+	// callback);
+	//
+	// /**
+	// * Transaction Related
+	// */
+	//
+	// public void getCashPurchase(Long cashPurchaseId,
+	// AsyncCallback<ClientCashPurchase> callback);
+	//
+	// public void getCashSales(Long cashSalesId,
+	// AsyncCallback<ClientCashSales> callback);
+	//
+	// public void getCreditCardCharge(Long creditCardChargeId,
+	// AsyncCallback<ClientCreditCardCharge> callback);
+	//
+	// public void getCustomerCreditMemo(Long customerCreditMemoId,
+	// AsyncCallback<ClientCustomerCreditMemo> callback);
+	//
+	// public void getCustomerRefunds(Long customerRefundsId,
+	// AsyncCallback<ClientCustomerRefund> callback);
+	//
+	// public void getEnterBill(Long enterBillId,
+	// AsyncCallback<ClientEnterBill> callback);
+	//
+	// public void getEstimate(Long estimateId,
+	// AsyncCallback<ClientEstimate> callback);
+	//
+	// public void getInvoice(Long invoiceId, AsyncCallback<ClientInvoice>
+	// callback);
+	//
+	// public void getIssuePayment(Long issuePaymentId,
+	// AsyncCallback<ClientIssuePayment> callback);
+	//
+	// public void getMakeDeposit(Long makeDepositId,
+	// AsyncCallback<ClientMakeDeposit> callback);
+	//
+	// public void getPayBill(Long payBillId, AsyncCallback<ClientPayBill>
+	// callback);
+	//
+	// public void getPurchaseOrder(Long purchaseOrderId,
+	// AsyncCallback<ClientPurchaseOrder> callback);
+	//
+	// public void getReceivePayment(Long receivePaymentId,
+	// AsyncCallback<ClientReceivePayment> callback);
+	//
+	// public void getSalesOrder(Long salesOrderId,
+	// AsyncCallback<ClientSalesOrder> callback);
+	//
+	// public void getTransferFund(Long transferFundId,
+	// AsyncCallback<ClientTransferFund> callback);
+	//
+	// public void getVendorCreditMemo(Long vendorrCreditMemoId,
+	// AsyncCallback<ClientVendorCreditMemo> callback);
+	//
+	// public void getwriterCheck(Long writeCheckId,
+	// AsyncCallback<ClientWriteCheck> callback);
+	//
+	// public void getRegister(Long accountId,
+	// AsyncCallback<List<ClientTransaction>> callback);
+	//
+	// public void getBanks(AsyncCallback<List<ClientBank>> callback);
+	//
+	// public void getCreditsAndPayments(
+	// AsyncCallback<List<ClientCreditsAndPayments>> callback);
+	//
+	// public void getCreditAndPayment(String memo,
+	// AsyncCallback<ClientCreditsAndPayments> callback);
+	//
+	// public void getCreditAndPayment(Long id,
+	// AsyncCallback<ClientCreditsAndPayments> callback);
+	//
+	// public void getPayee(AsyncCallback<List<ClientPayee>> callback);
+	//
+	// /**
+	// * Can Delete Objects
+	// */
+	//
+	// public void canDeleteAccount(Long accountId, AsyncCallback<Boolean>
+	// result);
+	//
+	// public void canDeleteCompany(AsyncCallback<Boolean> result);
+	//
+	// public void canDeleteCreditRating(Long creditRatingId,
+	// AsyncCallback<Boolean> result);
+	//
+	// public void canDeleteCustomer(Long customerId, AsyncCallback<Boolean>
+	// result);
+	//
+	// public void canDeleteCustomerGroup(Long customerGroupId,
+	// AsyncCallback<Boolean> result);
+	//
+	// public void canDeleteItem(Long itemId, AsyncCallback<Boolean> result);
+	//
+	// public void canDeleteItemGroup(Long itemGroupId,
+	// AsyncCallback<Boolean> result);
+	//
+	// public void canDeletePaymentTerms(Long paymentTermsId,
+	// AsyncCallback<Boolean> result);
+	//
+	// public void canDeletePriceLevel(Long priceLevelId,
+	// AsyncCallback<Boolean> result);
+	//
+	// public void canDeleteSalesPerson(Long salesPersonId,
+	// AsyncCallback<Boolean> result);
+	//
+	// public void canDeleteShippingMethod(Long shippingMethodId,
+	// AsyncCallback<Boolean> result);
+	//
+	// public void canDeleteShippingTerms(Long shippingTermsId,
+	// AsyncCallback<Boolean> result);
+	//
+	// public void canDeleteTaxAgency(Long taxAgencyId,
+	// AsyncCallback<Boolean> result);
+	//
+	// public void canDeleteTaxCode(Long taxCodeId, AsyncCallback<Boolean>
+	// result);
+	//
+	// public void canDeleteTaxGroup(Long taxGroupId, AsyncCallback<Boolean>
+	// result);
+	//
+	// public void canDeleteTaxRates(Long taxRatesId, AsyncCallback<Boolean>
+	// result);
+	//
+	// public void canDeleteUnitOfMeasure(Long unitOfMeasureId,
+	// AsyncCallback<Boolean> result);
+	//
+	// public void canDeleteUser(Long userId, AsyncCallback<Boolean> result);
+	//
+	// public void canDeleteVendor(Long vendorId, AsyncCallback<Boolean>
+	// result);
+	//
+	// public void canDeleteVendorGroup(Long vendorGroupId,
+	// AsyncCallback<Boolean> result);
+	//
+	// public void getFiscalYears(AsyncCallback<List<ClientFiscalYear>>
+	// callback);
+	//
+	// public void getFiscalYear(Long yearId,
+	// AsyncCallback<ClientFiscalYear> callback);
+	//
+	// public void getTransactionPaySalesTaxEntriesList(Date transactionDate,
+	// AsyncCallback<List<ClientPaySalesTaxEntries>> callback);
+	//
+	// public void getPaySalesTax(Long id,
+	// AsyncCallback<ClientPaySalesTax> callback);
+
+	public <T extends IAccounterCore> void getObjectById(
+			AccounterCoreType type, String stringID, AsyncCallback<T> callback);
+
+	public <T extends IAccounterCore> void getObjectByName(
+			AccounterCoreType type, String name, AsyncCallback<T> callback);
+
+	public <T extends IAccounterCore> void getObjects(AccounterCoreType type,
+			AsyncCallback<List<T>> callback);
+
+	void getCompany(AsyncCallback<ClientCompany> callback);
+
+	void getStringID(AsyncCallback<String> callback);
+
+	void getKeyFinancialIndicators(
+			AsyncCallback<KeyFinancialIndicators> callback);
+
+	void getHREmployees(AsyncCallback<List<HrEmployee>> callback);
+
+}

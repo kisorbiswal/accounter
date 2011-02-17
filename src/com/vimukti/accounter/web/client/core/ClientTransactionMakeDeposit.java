@@ -1,0 +1,258 @@
+package com.vimukti.accounter.web.client.core;
+
+@SuppressWarnings("serial")
+public class ClientTransactionMakeDeposit implements IAccounterCore {
+
+	public static final int TYPE_FINANCIAL_ACCOUNT = 3;
+	public static final int TYPE_VENDOR = 2;
+	public static final int TYPE_CUSTOMER = 1;
+
+	int version;
+	String stringID;
+	long date;
+	int type;
+	String account;
+	String vendor;
+	String customer;
+	String reference;
+	String paymentMethod;
+	double amount;
+	boolean isNewEntry = false;
+
+	String cashAccount;
+
+	ClientMakeDeposit makeDeposit;
+
+	double payments = 0D;
+
+	double balanceDue = 0D;
+
+	// Transaction depositedTransaction;
+	String depositedTransaction;
+
+	String number;
+
+	boolean isVoid;
+
+	
+
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	
+	public long getDate() {
+		return date;
+	}
+
+	public void setDate(long date) {
+		this.date = date;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public String getReference() {
+		return reference;
+	}
+
+	public void setReference(String reference) {
+		this.reference = reference;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public boolean isVoid() {
+		return isVoid;
+	}
+
+	public void setVoid(boolean isVoid) {
+		this.isVoid = isVoid;
+	}
+
+	public void setNewEntry(boolean isNewEntry) {
+		this.isNewEntry = isNewEntry;
+	}
+
+	/**
+	 * @return the account
+	 */
+	public String getAccount() {
+		return account;
+	}
+
+	/**
+	 * @param account
+	 *            the account to set
+	 */
+	public void setAccount(String account) {
+		this.account = account;
+	}
+
+	/**
+	 * @return the vendor
+	 */
+	public String getVendor() {
+		return vendor;
+	}
+
+	/**
+	 * @param vendor
+	 *            the vendor to set
+	 */
+	public void setVendor(String vendor) {
+		this.vendor = vendor;
+	}
+
+	/**
+	 * @return the customer
+	 */
+	public String getCustomer() {
+		return customer;
+	}
+
+	/**
+	 * @param customer
+	 *            the customer to set
+	 */
+	public void setCustomer(String customer) {
+		this.customer = customer;
+	}
+
+	
+
+	/**
+	 * @return the amount
+	 */
+
+	/**
+	 * @return the isNewEntry
+	 */
+	public boolean getIsNewEntry() {
+		return isNewEntry;
+	}
+
+	/**
+	 * @param isNewEntry
+	 *            the isNewEntry to set
+	 */
+	public void setIsNewEntry(boolean isNewEntry) {
+		this.isNewEntry = isNewEntry;
+	}
+
+	/**
+	 * @return the cashAccount
+	 */
+	public String getCashAccount() {
+		return cashAccount;
+	}
+
+	/**
+	 * @param cashAccountId
+	 *            the cashAccount to set
+	 */
+	public void setCashAccount(String cashAccountId) {
+		this.cashAccount = cashAccountId;
+	}
+
+	public ClientMakeDeposit getMakeDeposit() {
+		return makeDeposit;
+	}
+
+	public void setMakeDeposit(ClientMakeDeposit makeDepositId) {
+		this.makeDeposit = makeDepositId;
+	}
+
+	public double getPayments() {
+		return payments;
+	}
+
+	public void setPayments(double payments) {
+		this.payments = payments;
+	}
+
+	public double getBalanceDue() {
+		return balanceDue;
+	}
+
+	public void setBalanceDue(double balanceDue) {
+		this.balanceDue = balanceDue;
+	}
+
+	
+	public void setIsVoid(boolean isVoid) {
+		this.isVoid = isVoid;
+	}
+
+	/**
+	 * @return the depositedTransaction
+	 */
+	public String getDepositedTransaction() {
+		return depositedTransaction;
+	}
+
+	/**
+	 * @param depositedTransactionId
+	 *            the depositedTransaction to set
+	 */
+	public void setDepositedTransaction(String depositedTransactionId) {
+		this.depositedTransaction = depositedTransactionId;
+	}
+
+	@Override
+	public String getDisplayName() {
+		return this.getName();
+	}
+
+	
+	@Override
+	public String getStringID() {
+		return this.stringID;
+	}
+
+	@Override
+	public void setStringID(String stringID) {
+		this.stringID = stringID;
+
+	}
+
+	@Override
+	public String getClientClassSimpleName() {
+
+		return "ClientTransactionMakeDeposit";
+	}
+
+	@Override
+	public AccounterCoreType getObjectType() {
+		return AccounterCoreType.TRANSACTION_MAKEDEPOSIT;
+	}
+
+	@Override
+	public String getName() {
+		return Utility.getTransactionName(ClientTransaction.TYPE_MAKE_DEPOSIT);
+	}
+
+}

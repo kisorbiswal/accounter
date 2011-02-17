@@ -1,0 +1,109 @@
+package com.vimukti.accounter.web.client.core;
+
+@SuppressWarnings("serial")
+public class ClientUnitOfMeasure implements IAccounterCore {
+
+	int version;
+	String stringID;
+	int type;
+	String name;
+	String abbreviation;
+
+	/**
+	 * @return the version
+	 */
+	public int getVersion() {
+		return version;
+	}
+
+	/**
+	 * @param version
+	 *            the version to set
+	 */
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	/**
+	 * @return the id
+	 */
+
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+
+	/**
+	 * @return the type
+	 */
+	public int getType() {
+		return type;
+	}
+
+	/**
+	 * @param type
+	 *            the type to set
+	 */
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the abbreviation
+	 */
+	public String getAbbreviation() {
+		return abbreviation;
+	}
+
+	/**
+	 * @param abbreviation
+	 *            the abbreviation to set
+	 */
+	public void setAbbreviation(String abbreviation) {
+		this.abbreviation = abbreviation;
+	}
+
+	@Override
+	public String getDisplayName() {
+		return this.name;
+	}
+
+	@Override
+	public AccounterCoreType getObjectType() {
+		// TODO Auto-generated method stub
+		return AccounterCoreType.UNIT_OF_MEASURE;
+	}
+
+	@Override
+	public String getStringID() {
+		return this.stringID;
+	}
+
+	@Override
+	public void setStringID(String stringID) {
+		this.stringID = stringID;
+
+	}
+
+	@Override
+	public String getClientClassSimpleName() {
+
+		return "ClientUnitOfMeasure";
+	}
+
+}

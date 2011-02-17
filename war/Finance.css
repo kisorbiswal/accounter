@@ -1,0 +1,616 @@
+/** Add css rules here for your application. */
+	/** Example rules used by the template application (remove for your app) */
+.widget { /**background:url(images/icons/startBar.png) repeat-x;*/
+	background: url(images/bar-shade.png) scroll repeat-x;
+}
+
+.widget img {
+	margin-top: 3px;
+	cursor: pointer;
+}
+
+h1 {
+	font-size: 2em;
+	font-weight: bold;
+	color: #777777;
+	margin: 40px 0px 70px;
+	text-align: center;
+}
+
+.sendButton {
+	display: block;
+	font-size: 16pt;
+}
+
+.dialogVPanel {
+	margin: 5px;
+}
+
+.serverResponseLabelError {
+	color: red;
+}
+
+/** Set ids using widget.getElement().setId("idOfElement") */
+#closeButton {
+	margin: 15px 6px 6px;
+}
+
+.busyindicator {
+	padding-bottom: 0;
+	padding-right: 20px;
+	padding-left: 30%;
+	padding-right: 0;
+	padding-top: 14%;
+	position: absolute;
+}
+
+.busyindicatorLabel {
+	width: 100%;
+	margin-top: -9%;
+}
+
+.busyindicatorImg {
+	padding-right: 20px;
+	padding-left: 8%;
+}
+
+.stackpannel {
+	background: url(images/icons/stack1.png) repeat-x;
+	/**padding:5px 50px 5px 5px;*/
+	padding-right: 20px;
+	padding-left: 2px;
+}
+
+.stack {
+	border-right: 1px solid #8fbbe9;
+	border-left: 1px solid #8fbbe9;
+	border-bottom: 1px solid #8fbbe9;
+}
+
+/*.stackpan_items{
+	padding-right:20px;padding-left:15px;
+}*/
+.actionOver {
+	text-decoration: underline;
+}
+
+.actionOut {
+	text-decoration: none;
+}
+
+.menuItemImage {
+	background-repeat: no-repeat !important;
+	padding: 4px 14px 4px 30px !important;
+}
+
+.boldcell {
+	font-weight: bold;
+	cursor: default;
+}
+
+.requiredField {
+	font-weight: bold;
+}
+
+.financeBackground {
+	background: #FFFFFF none repeat scroll 0 0;
+	border: 2px solid #C6E2FF;
+	padding: 6px;
+}
+
+.listgridViewBottom {
+	border-right: 1px solid #A7ABB4;
+	border-top: 1px solid #A7ABB4;
+	border-bottom: 1px solid #A7ABB4;
+	border-left: 1px solid #A7ABB4;
+}
+
+.depth1 {
+	padding-left: 5% !important;
+}
+
+.depth2 {
+	padding-left: 7% !important;
+}
+
+.depth3 {
+	padding-left: 9% !important;
+}
+
+.depth4 {
+	padding-left: 11% !important;
+}
+
+.depth5 {
+	padding-left: 13% !important;
+}
+
+.depth6 {
+	padding-left: 15% !important;
+}
+
+.depth7 {
+	padding-left: 17% !important;
+}
+
+.depth8 {
+	padding-left: 19% !important;
+}
+
+.depth9 {
+	padding-left: 21% !important;
+}
+
+.depth10 {
+	padding-left: 23% !important;
+}
+
+.ReportGrid tr td.underline {
+	border-top: 1px solid black;
+	border-bottom: 0px none;
+	border-left: 0px none;
+	border-right: 0px none;
+	cursor: default;
+}
+
+.popup {
+	border: 1px solid;
+	z-index: 500001;
+}
+
+.financeWindow {
+	padding: 3px;
+	margin: 0 auto;
+}
+
+.noScroll {
+	overflow-y: hidden !important;
+	overflow-x: hidden !important;
+}
+
+.actionOver {
+	text-decoration: underline;
+}
+
+.actionOut {
+	text-decoration: none;
+}
+
+.newquote {
+	background: url(images/icons/newquote.png) repeat-x;
+}
+
+.newInvoice {
+	background: url(images/icons/newInvoice.png) repeat-x;
+}
+
+.newBill {
+	background: url(images/icons/newbill.png) repeat-x;
+}
+
+.handCursor {
+	text-decoration: underline;
+	cursor: pointer;
+	color: #0000AA;
+	white-space: nowrap;
+	width: 1px;
+}
+
+.ReportGrid tr td.underline {
+	border-top: 1px solid black;
+	border-bottom: 0px none;
+	border-left: 0px none;
+	border-right: 0px none;
+	cursor: default;
+}
+
+.ReportGrid .gridBody tr td {
+	border-right: 0px none !important;
+	padding-left: 5px;
+	overflow-x: hidden;
+	border-bottom: 0px none !important;
+}
+
+table tr.ReportGridRow:HOVER {
+	background: #9fd8ef url('images/mouse-hover-shade.png') repeat-x;
+}
+
+.reportGridContainer {
+	padding: 3px !important;
+}
+
+.reports-Button {
+	border: 1px solid #006;
+	background: #9cf;
+}
+
+.listgridfooter {
+	table-layout: fixed;
+	background: #EEEEEE none repeat scroll 0 0;
+	table-layout: fixed;
+	width: 100%;
+	height: 100%;
+}
+
+.listgridfooter td {
+	padding-left: 5px;
+	font-weight: bold;
+}
+
+.vender-form input[type="text"],.vender-form select,.vender-form textarea
+	{
+	width: 100%;
+}
+
+.lable-title {
+	font-weight: bold;
+	font-size: 12pt;
+}
+
+.blue-date-picker {
+	background-color: #C3D9FF;
+	color: #112ABB;
+	width: 165px;
+	z-index: 500010;
+}
+
+.blue-month-line {
+	color: #000000;
+	cursor: pointer;
+	font-family: Verdana;
+	font-size: 8pt;
+	font-weight: bold;
+	text-align: center;
+	width: 165px;
+}
+
+.blue-week-line {
+	color: black;
+	font-family: Verdana;
+	font-size: 8pt;
+	text-align: center;
+	width: 165px;
+}
+
+.blue-day-grid {
+	background-color: white;
+	border: 1pt solid #AACCEE;
+	border-collapse: collapse;
+	cursor: pointer;
+	font-family: Verdana;
+	font-size: 8pt;
+	text-align: center;
+	width: 165px;
+}
+
+.blue-day-grid tr {
+	height: 20px;
+}
+
+.blue-week-end {
+	background-color: #EEEEEE;
+	color: #AAAAAA;
+}
+
+.blue-other-day {
+	color: #AAAAAA;
+}
+
+.blue-current-month-other-day {
+	color: black;
+}
+
+.blue-current-month-week-end {
+	background-color: #EEEEEE;
+	color: black;
+}
+
+.blue-current-month-selected {
+	background-color: #CCCCCC;
+	color: black;
+	border: 1px solid #000000;
+}
+
+.calender-image {
+	background: url(images/icons/calendar.png) no-repeat;
+	cursor: pointer;
+}
+
+.previousButton {
+	background: url(images/previous.png) no-repeat;
+	padding-top: 5px;
+}
+
+.nextButton {
+	background: url(images/next.png) no-repeat;
+}
+
+.discardButton {
+	background: url(images/close-button.png) no-repeat;
+}
+
+.previousButton,.nextButton,.discardButton {
+	padding: 3px;
+	margin: 2px;
+	background-position: 0 1px;
+}
+
+.statusLabelParent {
+	vertical-align: middle;
+}
+
+.closeBtnParent {
+	align: right;
+}
+
+.margin-t {
+	margin-top: 25px;
+}
+
+.margin-b {
+	margin-bottom: 10px;
+}
+
+.Image-action {
+	table-layout: fixed;
+}
+
+.Image-action td table {
+	cursor: pointer;
+}
+
+.link-lable {
+	color: #0000AA;
+	text-decoration: underline;
+}
+
+.Image-action-container {
+	background: #edf2f8;
+	border: 1px solid #b4b5b7;
+	-moz-border-radius: 5px;
+	-webkit-radius-border: 5px;
+	margin-right: 12px;
+}
+
+.dateListParent {
+	width: 15px !important;
+}
+
+.dateList {
+	min-width: 15px !important;
+}
+
+.financialDataTitle {
+	font-weight: bold;
+	background: #c9d6e6;
+}
+
+.financialDataTitle:FIRST-CHILD {
+	font-weight: bold;
+}
+
+.align-form td:first-child {
+	width: 50px;
+}
+
+.equal-columns td {
+	width: 50%;
+}
+
+.column-seperater {
+	padding: 0 30px;
+}
+
+.borders {
+	border-top: 1px solid #000;
+	border-bottom: 1px solid #000;
+	border-collapse: collapse;
+	padding: 5px;
+}
+
+.borders td {
+	border-bottom: 1px solid #000;
+}
+
+.borders td td {
+	border-bottom: 0px none;
+}
+
+.title-color {
+	background: #EDF2F8 none repeat scroll 0 0;
+}
+
+.refresh,.link,.loading {
+	width: 15px;
+	height: 15px;
+	cursor: pointer;
+}
+
+.refresh {
+	background: transparent url(images/refreshGrid.png) no-repeat scroll 0
+		3px;
+}
+
+.link {
+	background: transparent url(images/settings.png) no-repeat scroll 0 1px;
+}
+
+.finance-portlet .portlet {
+	margin-top: 8px;
+}
+
+div.refresh:hover {
+	background: transparent url(images/refreshGrid.png) no-repeat scroll 0
+		-15px;
+}
+
+div.link:hover {
+	background: transparent url(images/settings.png) no-repeat scroll 0
+		-15px;
+}
+
+.bottom-view {
+	border-top: 1px solid #AAAAAA;
+	/*height: 28.4%;*/
+}
+
+.nav-content {
+	margin-top: 3px;
+	height: 15px;
+}
+
+.loading {
+	background: #5897DB url(images/refreshLoading.gif) scroll no-repeat 0 0;
+}
+
+.loading-panel tr td {
+	border: 0 none !important;
+}
+
+.listgrid-tl .gridBody,.listgrid-tl .gridHeader {
+	table-layout: auto !important;
+}
+
+.scroll-panel {
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.report-toolbar {
+	background: #D4E8FF;
+	padding-right: 3px;
+}
+
+.logview-border {
+	border: 1px solid #C6E2FF;
+	height: 100px;
+}
+
+.financeWindow input[disabled] {
+	color: #000;
+}
+
+tr.net-profit td {
+	border-bottom: 1px solid #FFF !important;
+}
+
+td.gridDecimalCell {
+	text-align: right;
+}
+
+.custom-combo {
+	border: 1px solid #aaa;
+	background: #FFF;
+	width: 100%;
+	height: 19px !important;
+	position: relative;
+	overflow: hidden;
+}
+
+.dropdownTable {
+	overflow-x: hidden;
+}
+
+.dropdownFlex td {
+	white-space: nowrap;
+}
+
+.dropdownFlex {
+	background: #FFF;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+table.dropdownFlex tr:hover {
+	background: #C6E2FF;
+}
+
+/*.dropdown-button {
+	background: url("images/drop.png") no-repeat scroll 0 0 #FFFFFF;
+	height: 17px;
+	position: relative;
+	right: 18px;
+	top: 3.7px;
+	width: 17px !important;
+}*/
+.dropdown-button {
+	background: url("images/drop.png") no-repeat scroll 100% 0 #FFFFFF;
+	padding-right: 15px;
+}
+
+.listgrid .custom-combo {
+	min-width: 50px !important;
+}
+
+.dropdown-disabled {
+	background: #E6E0DA;
+}
+
+.financeWindow select {
+	border: 1px solid #AAAAAA;
+}
+
+.gridAscend {
+	background: url('images/arrow-ascend.png') no-repeat scroll 98% 7px;
+}
+
+.gridDecend {
+	background: url('images/arrow-decend.png') no-repeat scroll 98% 7px;
+}
+
+.finance-portlet .portlet .gridBody tr td div {
+	font-size: 10pt;
+}
+
+.tablelayout {
+	padding-left: 4% !important;
+	padding-right: 4% !important;
+	width: 92% !important
+}
+
+.tablelayout1 {
+	padding-left: 12% !important;
+	padding-right: 12% !important;
+	width: 75% !important
+}
+
+.tablelayoutInIE {
+	padding-left: 50px !important;
+	padding-right: 50px !important;
+}
+
+.tablelayoutInIE1 {
+	padding-left: 100px !important;
+	padding-right: 100pX !important;
+}
+
+.ReportGrid tr td {
+	font-size: 9pt !important;
+}
+
+.main-w-finance {
+	padding-left: 2px !important
+}
+
+.finance-portlet .decor00 {
+	background: url(images/header-l.png) no-repeat 0px 0px !important;
+}
+
+.finance-portlet td.td10 {
+	background: transparent url(images/panel-right-img.png) repeat-y scroll
+		0 0 !important;
+}
+
+.finance-portlet .gridBody tr td div {
+	height: 16px !important;
+}
+
+.report-hover {
+	background: #D3E8A3 url('images/corser.png') repeat-x scroll 0 0;
+}
+
+.falseHyperlink {
+	color: blue;
+    cursor: pointer;
+    text-decoration: underline;
+}

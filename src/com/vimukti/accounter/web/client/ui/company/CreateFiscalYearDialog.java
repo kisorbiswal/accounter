@@ -1,0 +1,204 @@
+package com.vimukti.accounter.web.client.ui.company;
+
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientFiscalYear;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
+import com.vimukti.accounter.web.client.ui.forms.DateItem;
+import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+
+@SuppressWarnings("unchecked")
+public class CreateFiscalYearDialog extends BaseDialog {
+
+	private HTML createFiscalYearLabel;
+	private HTML descriptionLabel;
+	private DateItem startOfFiscalYear;
+	private DateItem endOfFiscalYear;
+	private DynamicForm dynamicForm;
+	private VerticalPanel mainVlayout;
+	private FiscalYearListGrid listOfFiscalYear;
+	private String title;
+
+	public CreateFiscalYearDialog(String title, String desc,
+			FiscalYearListGrid listOfperiods) {
+		super(title, desc);
+		this.title = title;
+		this.listOfFiscalYear = listOfperiods;
+		createControls();
+		center();
+		if (title.equalsIgnoreCase(FinanceApplication.getCompanyMessages()
+				.editFiscalYear())) {
+			initData();
+		} else {
+			initNewFiscalYearData();
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	private void initNewFiscalYearData() {
+		ClientFinanceDate startdate = null, presentDate, endDate;
+		if (listOfFiscalYear.getRecords() != null
+				&& listOfFiscalYear.getRecords().size() != 0) {
+			for (ClientFiscalYear fiscalYear : listOfFiscalYear.getRecords()) {
+				if (startdate == null)
+					startdate = fiscalYear.getEndDate();
+				if (startdate.before(fiscalYear.getEndDate()))
+					startdate = fiscalYear.getEndDate();
+			}
+			startdate.setDate(startdate.getDate() + 1);
+			endDate = new ClientFinanceDate(startdate.getTime());
+			endDate.setYear(endDate.getYear() + 1);
+			endDate.setDate(endDate.getDate() - 1);
+		} else {
+			presentDate = new ClientFinanceDate();
+			startdate = new ClientFinanceDate(presentDate.getYear(), 00, 01);
+			endDate = new ClientFinanceDate(presentDate.getYear(), 11, 31);
+		}
+
+		startOfFiscalYear.setDatethanFireEvent(startdate);
+		endOfFiscalYear.setDatethanFireEvent(endDate);
+
+	}
+
+	private void initData() {
+		ClientFiscalYear fiscalYear = listOfFiscalYear.getSelection();
+		startOfFiscalYear.setDatethanFireEvent(fiscalYear.getStartDate());
+		endOfFiscalYear.setDatethanFireEvent(fiscalYear.getEndDate());
+		// if (listOfFiscalYear.getRecordByIndex(0) == listOfFiscalYear
+		// .getSelection()
+		// && listOfFiscalYear.getRecords().size() == 1) {
+		// startOfFiscalYear.setDisabled(true);
+		// endOfFiscalYear.setDisabled(false);
+		// }
+		// if (listOfFiscalYear
+		// .getRecordByIndex(listOfFiscalYear.getRowCount() - 1) ==
+		// listOfFiscalYear
+		// .getSelection()
+		// && listOfFiscalYear.getRecords().size() != 1) {
+		// startOfFiscalYear.setDisabled(true);
+		// endOfFiscalYear.setDisabled(false);
+		// }
+		// if (listOfFiscalYear.getRecordByIndex(0) == listOfFiscalYear
+		// .getSelection()
+		// && listOfFiscalYear.getRecords().size() != 1) {
+		// startOfFiscalYear.setDisabled(true);
+		// endOfFiscalYear.setDisabled(true);
+		// }
+
+	}
+
+	private void createControls() {
+		createFiscalYearLabel = new HTML();
+		createFiscalYearLabel.setHTML(FinanceApplication.getCompanyMessages()
+				.createFascalYear());
+		descriptionLabel = new HTML();
+		descriptionLabel.setHTML(FinanceApplication.getCompanyMessages()
+				.enterAppropriateFiscalYear());
+		startOfFiscalYear = new DateItem();
+		// startOfFiscalYear.setDisabled(true);
+		startOfFiscalYear.setTitle(FinanceApplication.getCompanyMessages()
+				.startOfFiscalYear());
+		endOfFiscalYear = new DateItem();
+		endOfFiscalYear.setTitle(FinanceApplication.getCompanyMessages()
+				.endOfFiscalYear());
+		dynamicForm = new DynamicForm();
+		dynamicForm.setFields(startOfFiscalYear, endOfFiscalYear);
+		mainVlayout = new VerticalPanel();
+		mainVlayout.setSpacing(5);
+		// mainVlayout.add(createFiscalYearLabel);
+		mainVlayout.add(descriptionLabel);
+		mainVlayout.add(dynamicForm);
+		setBodyLayout(mainVlayout);
+		addInputDialogHandler(new InputDialogHandler() {
+
+			@Override
+			public boolean onOkClick() {
+
+				if (endOfFiscalYear.getDate().before(
+						startOfFiscalYear.getDate())) {
+					Accounter
+							.showError("End of Fiscal year is before Start of Fiscal Year");
+					return false;
+				}
+				if (title.equalsIgnoreCase(FinanceApplication
+						.getCompanyMessages().editFiscalYear())) {
+
+					final ClientFiscalYear updateFiscalYear = getEditFiscalYear();
+					ViewManager.getInstance().alterObject(updateFiscalYear,
+							CreateFiscalYearDialog.this);
+				} else if (title.equalsIgnoreCase(FinanceApplication
+						.getCompanyMessages().createFascalYear())) {
+					final ClientFiscalYear fiscalYear = getNewFiscalYear();
+					ViewManager.getInstance().createObject(fiscalYear,
+							CreateFiscalYearDialog.this);
+				}
+				return true;
+			}
+
+			@Override
+			public void onCancelClick() {
+				hide();
+			}
+		});
+	}
+
+	protected ClientFiscalYear getEditFiscalYear() {
+		ClientFiscalYear selectedFiscalYear = listOfFiscalYear.getSelection();
+		if (selectedFiscalYear != null) {
+			selectedFiscalYear.setStartDate(startOfFiscalYear.getDate()
+					.getTime());
+			selectedFiscalYear.setEndDate(endOfFiscalYear.getDate().getTime());
+		}
+		return selectedFiscalYear;
+	}
+
+	public ClientFiscalYear getNewFiscalYear() {
+		ClientFiscalYear clientFiscalYear = new ClientFiscalYear();
+		clientFiscalYear.setStartDate(startOfFiscalYear.getDate().getTime());
+		clientFiscalYear.setEndDate(endOfFiscalYear.getDate().getTime());
+		clientFiscalYear.setStatus(ClientFiscalYear.STATUS_OPEN);
+		return clientFiscalYear;
+	}
+
+	@Override
+	public void deleteFailed(Throwable caught) {
+
+	}
+
+	@Override
+	public void deleteSuccess(Boolean result) {
+
+	}
+
+	@Override
+	public void saveSuccess(IAccounterCore object) {
+		listOfFiscalYear.removeAllRecords();
+		for (ClientFiscalYear clientFiscalYear : FinanceApplication
+				.getCompany().getFiscalYears()) {
+			listOfFiscalYear.addData(clientFiscalYear);
+		}
+		// if (Utility.getObject(this.listOfFiscalYear.getRecords(), object
+		// .getStringID()) != null)
+		// listOfFiscalYear.updateData((ClientFiscalYear) object);
+		// else
+		// listOfFiscalYear.addData((ClientFiscalYear) object);
+	}
+
+	@Override
+	public void saveFailed(Throwable exception) {
+
+	}
+
+	@Override
+	public void processupdateView(IAccounterCore core, int command) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

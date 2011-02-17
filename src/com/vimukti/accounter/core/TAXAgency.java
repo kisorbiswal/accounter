@@ -1,0 +1,249 @@
+package com.vimukti.accounter.core;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
+
+import org.hibernate.CallbackException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.classic.Lifecycle;
+
+import com.bizantra.server.storage.HibernateUtil;
+import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.core.AccounterCommand;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+
+/**
+ * A type of {@link Payee} which deals with the filing and paying of 'VAT' owed.
+ * It contains two separate accounts; one for purchase transactions and the
+ * other for sales.
+ * 
+ * @author Chandan 
+ * 
+ */
+public class TAXAgency extends Payee implements Lifecycle {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3306854477062491595L;
+
+	/**
+	 * Payment Term for this VATAgency
+	 * 
+	 * @see PaymentTerms
+	 */
+	PaymentTerms paymentTerm;
+
+	/**
+	 * Liability Account for this VATAgency
+	 * 
+	 * @see Account
+	 */
+	@ReffereredObject
+	Account purchaseLiabilityAccount;
+
+	@ReffereredObject
+	Account salesLiabilityAccount;
+
+	public final static int RETURN_TYPE_NONE = 0;
+	public final static int RETURN_TYPE_UK_VAT = 1;
+	public final static int RETURN_TYPE_IRELAND_VAT = 2;
+
+	int VATReturn;
+
+	transient boolean isImported;
+
+	public TAXAgency() {
+		setType(Payee.TYPE_TAX_AGENCY);
+	}
+
+	/**
+	 * @return the id
+	 */
+	@Override
+	public long getId() {
+		return id;
+	}
+
+	/**
+	 * @return the purchaseLiabilityAccount
+	 */
+	public Account getPurchaseLiabilityAccount() {
+		return purchaseLiabilityAccount;
+	}
+
+	/**
+	 * @param purchaseLiabilityAccount
+	 *            the purchaseLiabilityAccount to set
+	 */
+	public void setPurchaseLiabilityAccount(Account purchaseLiabilityAccount) {
+		this.purchaseLiabilityAccount = purchaseLiabilityAccount;
+	}
+
+	/**
+	 * @return the paymentTerm
+	 */
+	public PaymentTerms getPaymentTerm() {
+		return paymentTerm;
+	}
+
+	public Account getSalesLiabilityAccount() {
+		return salesLiabilityAccount;
+	}
+
+	public void setSalesLiabilityAccount(Account salesLiabilityAccount) {
+		this.salesLiabilityAccount = salesLiabilityAccount;
+	}
+
+	/**
+	 * @return the vATReturn
+	 */
+	public int getVATReturn() {
+		return VATReturn;
+	}
+
+	/**
+	 * @param return1
+	 *            the vATReturn to set
+	 */
+	public void setVATReturn(int return1) {
+		VATReturn = return1;
+	}
+
+	/**
+	 * @return the address
+	 */
+	@Override
+	public Set<Address> getAddress() {
+		return address;
+	}
+
+	/**
+	 * @return the webPageAddress
+	 */
+	@Override
+	public String getWebPageAddress() {
+		return webPageAddress;
+	}
+
+	/**
+	 * @param paymentTerm
+	 *            the paymentTerm to set
+	 */
+	public void setPaymentTerm(PaymentTerms paymentTerm) {
+		this.paymentTerm = paymentTerm;
+	}
+
+	/**
+	 * Deals with updating the VATAgency's liability Account's balance. If it is
+	 * called through a {@link Customer} transaction, the account to be
+	 * considered is its salesLiabilityAccount else if it is {@link Vendor}
+	 * Transaction, then the account is purchaseLiabilityAccount.
+	 * 
+	 * @param session
+	 * @param transaction
+	 * @param transactionCategory
+	 * @param amount
+	 */
+	public void updateVATAgencyAccount(Session session,
+			Transaction transaction, int transactionCategory, double amount) {
+
+		Account account = null;
+		if (transactionCategory == Transaction.CATEGORY_CUSTOMER) {
+			account = this.salesLiabilityAccount;
+		} else if (transactionCategory == Transaction.CATEGORY_VENDOR) {
+			account = this.purchaseLiabilityAccount;
+		}
+		account.updateCurrentBalance(transaction, amount);
+		session.update(account);
+		account.onUpdate(session);
+
+		FinanceLogger.log(
+				"VATAgency account has been updated with amount: {0}", String
+						.valueOf(amount));
+
+	}
+
+	@Override
+	public boolean onDelete(Session arg0) throws CallbackException {
+		FinanceLogger.log("VAT Agency with name: {0} has been deleted ", this
+				.getName());
+		AccounterCommand accounterCore = new AccounterCommand();
+		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
+		accounterCore.setStringID(this.stringID);
+		accounterCore.setObjectType(AccounterCoreType.TAXAGENCY);
+		ChangeTracker.put(accounterCore);
+		return false;
+	}
+
+	@Override
+	public void onLoad(Session arg0, Serializable arg1) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean onSave(Session arg0) throws CallbackException {
+		if (isImported) {
+			return false;
+		}
+		if (this.isOnSaveProccessed)
+			return true;
+		this.isOnSaveProccessed = true;
+		setType(TYPE_TAX_AGENCY);
+		ChangeTracker.put(this);
+		return false;
+	}
+
+	@Override
+	public boolean onUpdate(Session arg0) throws CallbackException {
+		ChangeTracker.put(this);
+		return false;
+	}
+
+	@Override
+	public String getStringID() {
+
+		return this.stringID;
+	}
+
+	@Override
+	public void setStringID(String stringID) {
+		this.stringID = stringID;
+
+	}
+
+	@Override
+	public void setImported(boolean isImported) {
+		this.isImported = isImported;
+	}
+
+	@Override
+	public Account getAccount() {
+
+		return null;
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject)
+			throws InvalidOperationException {
+		Session session = HibernateUtil.getCurrentSession();
+		TAXAgency taxAgency = (TAXAgency) clientObject;
+		Query query = session.createQuery(
+				"from com.vimukti.accounter.core.TAXAgency V where V.name=?")
+				.setParameter(0, taxAgency.name);
+		List list = query.list();
+		if (list != null && list.size() > 0) {
+			TAXAgency newTaxAgency = (TAXAgency) list.get(0);
+			if (taxAgency.id != newTaxAgency.id) {
+				throw new InvalidOperationException(
+						"A TAXAgency already exists with this name");
+			}
+		}
+		return true;
+	}
+
+}

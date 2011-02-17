@@ -1,0 +1,400 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.vimukti.accounter.core"
+	default-access="field" auto-import="false">
+	<!--
+		<joined-subclass
+		name="com.vimukti.accounter.workspace.tool.FinanceTool"
+		table="FINANCETOOL"
+		extends="com.bizantra.server.workspace.ext.AbstractTool"> <key
+		column="ID"></key> <many-to-one name="company" lazy="false"
+		class="Company" column="COMPANY_ID" cascade="save-update,delete">
+		</many-to-one> </joined-subclass>
+	-->
+
+
+	<!-- Named HQL for Finance Tool  -->
+
+	<query name="list.TAXItem">from com.vimukti.accounter.core.TAXItem </query>
+
+	<query name="list.Account">from com.vimukti.accounter.core.Account a order by
+		a.number</query>
+	<query name="list.CommodityCode">from com.vimukti.accounter.core.CommodityCode
+	</query>
+	<query name="list.AccountTransaction">from
+		com.vimukti.accounter.core.AccountTransaction
+	</query>
+	<query name="list.FiscalYear">from com.vimukti.accounter.core.FiscalYear fy
+		order by
+		fy.startDate</query>
+	<query name="list.Bank">from com.vimukti.accounter.core.Bank b order by
+		b.name</query>
+	<query name="list.Budget">from com.vimukti.accounter.core.Budget</query>
+	<query name="list.Company">from com.vimukti.accounter.core.Company c order by
+		c.name</query>
+	<query name="list.CreditRating">from com.vimukti.accounter.core.CreditRating cr order
+		by cr.name
+	</query>
+	<query name="list.Currency">from com.vimukti.accounter.core.Currency c order by
+		c.name</query>
+	<query name="list.CustomerGroup">from com.vimukti.accounter.core.CustomerGroup cg
+		order by cg.name
+	</query>
+	<query name="list.Item">from com.vimukti.accounter.core.Item i order by
+		i.name</query>
+	<query name="list.ItemGroup">from com.vimukti.accounter.core.ItemGroup ig order by
+		ig.name</query>
+	<query name="list.Payee">from com.vimukti.accounter.core.Payee p order by
+		p.name </query>
+	<query name="list.PaymentTerms">from com.vimukti.accounter.core.PaymentTerms pt order
+		by pt.name
+	</query>
+	<query name="list.PriceLevel">from com.vimukti.accounter.core.PriceLevel pl order
+		by pl.name
+	</query>
+	<query name="list.ShippingMethod">from com.vimukti.accounter.core.ShippingMethod sm
+		order by sm.name
+	</query>
+	<query name="list.ShippingTerms">from com.vimukti.accounter.core.ShippingTerms st
+		order by st.name
+	</query>
+	<query name="list.TAXCode">from com.vimukti.accounter.core.TAXCode tc order by
+		tc.name</query>
+
+	<query name="list.TAXGroup">from com.vimukti.accounter.core.TAXGroup </query>
+	<query name="list.TaxRates">from com.vimukti.accounter.core.TaxRates</query>
+
+	<query name="list.TAXItemGroups">from com.vimukti.accounter.core.TAXItemGroup</query>
+<!-- 
+	<query name="list.TaxRateCalculation">from
+		com.vimukti.accounter.core.TaxRateCalculation
+	</query>
+ -->	
+	<query name="list.UnitOfMeasure">from com.vimukti.accounter.core.UnitOfMeasure u order
+		by u.name
+	</query>
+	<query name="list.User">from com.vimukti.accounter.core.User</query>
+	<query name="list.VendorGroup">from com.vimukti.accounter.core.VendorGroup vg order
+		by vg.name
+	</query>
+	<query name="list.Transaction">from com.vimukti.accounter.core.Transaction
+	</query>
+	<query name="list.Entry">from com.vimukti.accounter.core.Entry</query>
+	<query name="list.TransactionItem">from com.vimukti.accounter.core.TransactionItem
+	</query>
+	<query name="list.CreditsAndPayments">from
+		com.vimukti.accounter.core.CreditsAndPayments
+	</query>
+	<query name="list.TransactionCreditsAndPayments">from
+		com.vimukti.accounter.core.TransactionCreditsAndPayments</query>
+	<query name="list.TransactionMakeDeposit">from
+		com.vimukti.accounter.core.TransactionMakeDeposit</query>
+	<query name="list.TransactionPayBill">from
+		com.vimukti.accounter.core.TransactionPayBill
+	</query>
+	<query name="list.TransactionReceivePayment">from
+		com.vimukti.accounter.core.TransactionReceivePayment</query>
+	<query name="list.TransactionIssuePayment">from
+		com.vimukti.accounter.core.TransactionIssuePayment</query>
+	<query name="list.TransactionPaySalesTax">from
+		com.vimukti.accounter.core.TransactionPaySalesTax</query>
+	<query name="list.PaySalesTaxEntries">from
+		com.vimukti.accounter.core.PaySalesTaxEntries
+	</query>
+	<query name="list.TransactionMakeDepositEntries">from
+		com.vimukti.accounter.core.TransactionMakeDepositEntries</query>
+	<query name="list.TransactionExpense">from
+		com.vimukti.accounter.core.TransactionExpense
+	</query>
+	<query name="list.TransactionPayExpense">from
+		com.vimukti.accounter.core.TransactionPayExpense
+	</query>
+	<query name="list.Vendor">from com.vimukti.accounter.core.Vendor</query>
+	<query name="list.Customer">from com.vimukti.accounter.core.Customer</query>
+	<query name="list.SalesPerson">from com.vimukti.accounter.core.SalesPerson sp order
+		by sp.firstName
+	</query>
+	<query name="list.TAXAgency">from com.vimukti.accounter.core.TAXAgency</query>
+	<query name="list.FixedAsset">from com.vimukti.accounter.core.FixedAsset
+	</query>
+	<!--
+		<query name="list.SellingOrDisposingFixedAsset">from
+		com.vimukti.accounter.core.SellingOrDisposingFixedAsset</query>
+	-->
+	<query name="list.VATReturn">from com.vimukti.accounter.core.VATReturn vr order by
+		vr.taxAgency.name, vr.VATperiodStartDate</query>
+	<query name="list.TAXAdjustment">from com.vimukti.accounter.core.TAXAdjustment
+	</query>
+
+	<query name="list.TAXItemGroup"> from com.vimukti.accounter.core.TAXItemGroup vig
+		order by vig.name</query>
+	
+	<query name="list.Box">from com.vimukti.accounter.core.Box</query>
+	<query name="list.VATReturnBox">from com.vimukti.accounter.core.VATReturnBox vrb
+		order by vrb.name
+	</query>
+	<query name="unique.id.Account">from com.vimukti.accounter.core.Account a where
+		a.stringID=?</query>
+	<query name="unique.id.CommodityCode">from com.vimukti.accounter.core.CommodityCode a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.AccountTransaction">from
+		com.vimukti.accounter.core.AccountTransaction a
+		where a.stringID=?
+	</query>
+	<query name="unique.id.FiscalYear">from com.vimukti.accounter.core.FiscalYear a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.Bank">from com.vimukti.accounter.core.Bank a where
+		a.stringID=?</query>
+	<query name="unique.id.Budget">from com.vimukti.accounter.core.Budget a where
+		a.stringID=?</query>
+	<query name="unique.id.Company">from com.vimukti.accounter.core.Company a where
+		a.stringID=?</query>
+	<query name="unique.id.CreditRating">from com.vimukti.accounter.core.CreditRating a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.Currency">from com.vimukti.accounter.core.Currency a where
+		a.stringID=?</query>
+	<query name="unique.id.CustomerGroup">from com.vimukti.accounter.core.CustomerGroup a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.Item">from com.vimukti.accounter.core.Item a where
+		a.stringID=?</query>
+	<query name="unique.id.ItemReceipt">from com.vimukti.accounter.core.ItemReceipt a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.ItemGroup">from com.vimukti.accounter.core.ItemGroup a where
+		a.stringID=?</query>
+	<query name="unique.id.Payee">from com.vimukti.accounter.core.Payee a where
+		a.stringID=?</query>
+	<query name="unique.id.PaymentTerms">from com.vimukti.accounter.core.PaymentTerms a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.PaySalesTax">from com.vimukti.accounter.core.PaySalesTax a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.PriceLevel">from com.vimukti.accounter.core.PriceLevel a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.ShippingMethod">from com.vimukti.accounter.core.ShippingMethod a
+		where a.stringID=?</query>
+	<query name="unique.id.ShippingTerms">from com.vimukti.accounter.core.ShippingTerms a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.TAXCode">from com.vimukti.accounter.core.TAXCode a where
+		a.stringID=?</query>
+	<query name="unique.id.TAXItem">from com.vimukti.accounter.core.TAXItem a where
+		a.stringID=?</query>
+	<query name="unique.id.TAXGroup">from com.vimukti.accounter.core.TAXGroup a where
+		a.stringID=?</query>
+	<query name="unique.id.TaxRates">from com.vimukti.accounter.core.TaxRates a where
+		a.stringID=?</query>
+<!-- 		
+	<query name="unique.id.TaxRateCalculation">from
+		com.vimukti.accounter.core.TaxRateCalculation a
+		where a.stringID=?
+	</query>
+ -->
+	<query name="unique.id.ItemBackUp">from
+		com.vimukti.accounter.core.ItemBackUp a
+		where
+		a.stringID=?
+	</query>
+	<query name="unique.id.UnitOfMeasure">from com.vimukti.accounter.core.UnitOfMeasure a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.User">from com.vimukti.accounter.core.User a where
+		a.stringID=?</query>
+	<query name="unique.id.VendorGroup">from com.vimukti.accounter.core.VendorGroup a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.PayVAT">from com.vimukti.accounter.core.PayVAT a
+		where
+		a.stringID=?</query>
+
+	<query name="unique.id.TransactionPayVAT">from com.vimukti.accounter.core.TransactionPayVAT a
+		where
+		a.stringID=?</query>
+
+	<query name="unique.id.ReceiveVAT">from com.vimukti.accounter.core.ReceiveVAT a
+		where
+		a.stringID=?</query>
+
+	<query name="unique.id.TransactionReceiveVAT">from com.vimukti.accounter.core.TransactionReceiveVAT
+		a
+		where
+		a.stringID=?</query>
+
+	<query name="unique.id.FixedAsset">from com.vimukti.accounter.core.FixedAsset a where
+		a.stringID=?
+	</query>
+	<query name="unique.id.FixedAssetNote">from com.vimukti.accounter.core.FixedAssetNote a
+		where a.stringID=?
+	</query>
+	<!--	<query name="unique.id.SellingOrDisposingFixedAsset">from-->
+	<!--		com.vimukti.accounter.core.SellingOrDisposingFixedAsset a where-->
+	<!--		a.stringID=?</query>-->
+	<query name="unique.id.Transaction">from com.vimukti.accounter.core.Transaction a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.VATReturnBox">from com.vimukti.accounter.core.VATReturnBox a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.TAXRateCalculation">from com.vimukti.accounter.core.TAXRateCalculation a
+		where
+		a.stringID=?</query>
+
+	<query name="unique.id.TAXAgency">from com.vimukti.accounter.core.TAXAgency a where
+		a.stringID=?</query>
+	<query name="unique.id.Box">from com.vimukti.accounter.core.Box a where
+		a.stringID=?</query>
+
+
+	
+	<query name="unique.id.TAXItemGroup">from com.vimukti.accounter.core.TAXItemGroup a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.Entry">from com.vimukti.accounter.core.Entry a where
+		a.stringID=?</query>
+	<query name="unique.id.TransactionItem">from com.vimukti.accounter.core.TransactionItem a
+		where a.stringID=?</query>
+	<query name="unique.id.CreditsAndPayments">from
+		com.vimukti.accounter.core.CreditsAndPayments a
+		where a.stringID=?
+	</query>
+	<query name="unique.id.TransactionCreditsAndPayments">from
+		com.vimukti.accounter.core.TransactionCreditsAndPayments a where
+		a.stringID=?</query>
+	<query name="unique.id.TransactionMakeDeposit">from
+		com.vimukti.accounter.core.TransactionMakeDeposit a where a.stringID=?
+	</query>
+	<query name="unique.id.TransactionPayBill">from
+		com.vimukti.accounter.core.TransactionPayBill a
+		where a.stringID=?
+	</query>
+	<query name="unique.id.TransactionReceivePayment">from
+		com.vimukti.accounter.core.TransactionReceivePayment a where
+		a.stringID=?</query>
+	<query name="unique.id.TransactionIssuePayment">from
+		com.vimukti.accounter.core.TransactionIssuePayment a where
+		a.stringID=?</query>
+	<query name="unique.id.PaySalesTaxEntries">from
+		com.vimukti.accounter.core.PaySalesTaxEntries a
+		where a.stringID=?
+	</query>
+	<query name="unique.id.TransactionMakeDepositEntries">from
+		com.vimukti.accounter.core.TransactionMakeDepositEntries a where
+		a.stringID=?</query>
+	<query name="unique.id.TransactionExpense">from
+		com.vimukti.accounter.core.TransactionExpense a
+		where a.stringID=?
+	</query>
+	<query name="unique.id.TransactionPayExpense">from
+		com.vimukti.accounter.core.TransactionPayExpense
+		a where a.stringID=?
+	</query>
+	<query name="unique.id.FixedAssetHistory">from com.vimukti.accounter.core.FixedAssetHistory
+		a
+		where a.stringID=?</query>
+	<query name="unique.id.Vendor">from com.vimukti.accounter.core.Vendor a where
+		a.stringID=?</query>
+	<query name="unique.id.Customer">from com.vimukti.accounter.core.Customer a where
+		a.stringID=?</query>
+	
+	<query name="unique.id.SalesPerson">from com.vimukti.accounter.core.SalesPerson a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.Invoice">from com.vimukti.accounter.core.Invoice a where
+		a.stringID=?</query>
+	<query name="unique.id.CashPurchase">from com.vimukti.accounter.core.CashPurchase a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.CashSales">from com.vimukti.accounter.core.CashSales a where
+		a.stringID=?</query>
+	<query name="unique.id.CreditCardCharge">from com.vimukti.accounter.core.CreditCardCharge
+		a
+		where a.stringID=?</query>
+	<query name="unique.id.CustomerCreditMemo">from
+		com.vimukti.accounter.core.CustomerCreditMemo a
+		where a.stringID=?
+	</query>
+	<query name="unique.id.CustomerPrePayment">from
+		com.vimukti.accounter.core.CustomerPrePayment a
+		where a.stringID=?
+	</query>
+	<query name="unique.id.Depreciation">from
+		com.vimukti.accounter.core.Depreciation a
+		where
+		a.stringID=?
+	</query>
+	<query name="unique.id.CustomerRefund">from com.vimukti.accounter.core.CustomerRefund a
+		where a.stringID=?</query>
+	<query name="unique.id.EnterBill">from com.vimukti.accounter.core.EnterBill a where
+		a.stringID=?</query>
+	<query name="unique.id.Estimate">from com.vimukti.accounter.core.Estimate a where
+		a.stringID=?</query>
+	<query name="unique.id.MakeDeposit">from com.vimukti.accounter.core.MakeDeposit a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.PayBill">from com.vimukti.accounter.core.PayBill a where
+		a.stringID=?</query>
+	<query name="unique.id.PurchaseOrder">from com.vimukti.accounter.core.PurchaseOrder a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.ReceivePayment">from com.vimukti.accounter.core.ReceivePayment a
+		where a.stringID=?</query>
+	<query name="unique.id.SalesOrder">from com.vimukti.accounter.core.SalesOrder a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.Expense">from com.vimukti.accounter.core.Expense a where
+		a.stringID=?</query>
+	<query name="unique.id.VendorCreditMemo">from com.vimukti.accounter.core.VendorCreditMemo
+		a
+		where a.stringID=?</query>
+	<query name="unique.id.PayExpense">from com.vimukti.accounter.core.PayExpense a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.WriteCheck">from com.vimukti.accounter.core.WriteCheck a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.TransferFund">from com.vimukti.accounter.core.TransferFund a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.IssuePayment">from com.vimukti.accounter.core.IssuePayment a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.JournalEntry">from com.vimukti.accounter.core.JournalEntry a
+		where
+		a.stringID=?</query>
+	<query name="unique.id.TAXAdjustment">from
+		com.vimukti.accounter.core.TAXAdjustment a where
+		a.stringID=?
+	</query>
+	<query name="unique.id.VATReturn">from com.vimukti.accounter.core.VATReturn a where
+		a.stringID=?</query>
+
+	<query name="unique.name.Account">from com.vimukti.accounter.core.Account a where
+		a.name=?</query>
+	<query name="unique.name.Item">from com.vimukti.accounter.core.Item a where
+		a.name=?
+	</query>
+	<query name="unique.name.TAXCode">from com.vimukti.accounter.core.TAXCode a where
+		a.name=?</query>
+	<query name="unique.name.TAXItem">from com.vimukti.accounter.core.TAXItem a where
+		a.name=?</query>
+	<query name="unique.name.Vendor">from com.vimukti.accounter.core.Vendor a where
+		a.name=?</query>
+	<query name="unique.name.TAXAgency">from com.vimukti.accounter.core.TAXAgency a where
+		a.name=?</query>
+	<query name="unique.name.PaymentTerms">from com.vimukti.accounter.core.PaymentTerms a
+		where
+		a.name=?</query>
+
+	<query name="unique.name.VATReturnBox">from com.vimukti.accounter.core.VATReturnBox v
+		where
+		v.name=?</query>
+	
+</hibernate-mapping>

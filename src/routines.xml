@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+                "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.vimukti.accounter.core"
+	default-access="field">
+	
+	<database-object>
+		<create>
+		CREATE LANGUAGE plpgsql;
+		 </create>
+		<drop>DROP LANGUAGE plpgsql</drop>
+	</database-object>
+	
+	<database-object>
+		<create>
+		CREATE SEQUENCE sequence_account_transaction INCREMENT BY 1 MINVALUE 1 NO MAXVALUE START WITH 1;
+		 </create>
+		<drop>DROP SEQUENCE sequence_account_transaction</drop>
+	</database-object>
+	
+	<database-object>
+		<create>
+		CREATE SEQUENCE sequence_taxrate_calculation INCREMENT BY 1 MINVALUE 1 NO MAXVALUE START WITH 1;
+		 </create>
+		<drop>DROP SEQUENCE sequence_taxrate_calculation</drop>
+	</database-object>
+	
+	<database-object>
+		<create>
+		CREATE SEQUENCE sequence_paysalestax_entries INCREMENT BY 1 MINVALUE 1 NO MAXVALUE START WITH 1;
+		 </create>
+		<drop>DROP SEQUENCE sequence_paysalestax_entries</drop>
+	</database-object>
+	
+	<database-object>
+		<create>
+		CREATE SEQUENCE sequence_credits_and_payments INCREMENT BY 1 MINVALUE 1 NO MAXVALUE START WITH 1;
+		 </create>
+		<drop>DROP SEQUENCE sequence_credits_and_payments</drop>
+	</database-object>
+	
+	<database-object>
+		<create>
+		CREATE OR REPLACE FUNCTION getTransactionType(BIGINT) RETURNS INTEGER AS '
+		
+		DECLARE 
+			transactionId ALIAS FOR $1;
+			transactionType INTEGER;
+		BEGIN
+			SELECT T.T_TYPE INTO transactionType FROM TRANSACTION T WHERE T.ID_TRANSACTION = transactionId;
+			return transactionType;
+		END;
+		' LANGUAGE plpgsql;
+		
+		 </create>
+		<drop>DROP PROCEDURE IF EXIST getTransactionType </drop>
+	</database-object>
+	
+	
+	<database-object>
+		<create>
+		CREATE OR REPLACE FUNCTION getAccountType(BIGINT) RETURNS INTEGER AS '
+		
+		DECLARE 
+			accountId ALIAS FOR $1;
+			accountType INTEGER;
+		BEGIN
+			SELECT A.A_TYPE INTO accountType FROM ACCOUNT A WHERE A.ID_ACCOUNT = accountId;
+			return accountType;
+		END;
+		' LANGUAGE plpgsql;
+		
+		 </create>
+		<drop>DROP PROCEDURE IF EXIST getAccountType </drop>
+	</database-object>
+	
+	
+	
+	<database-object>
+		<create>
+		CREATE OR REPLACE FUNCTION isItAnySubLevelOfOpeningBalance(BIGINT) RETURNS BOOLEAN as '
+
+		DECLARE 
+			parentId ALIAS FOR $1;
+			childParentId BIGINT;
+
+		BEGIN
+
+		SELECT into childParentId A.PARENT_ID FROM ACCOUNT A WHERE A.ID_ACCOUNT = parentId;
+
+		IF childParentId != null THEN
+
+			IF childParentId = 1 THEN
+
+				RETURN TRUE;
+
+			ELSEIF childParentId = 0 THEN
+ 
+				RETURN FALSE;
+
+			ELSEIF isItAnySubLevelOfOpeningBalance(childParentId) = TRUE THEN
+
+				RETURN TRUE;
+			     
+			ELSE RETURN FALSE;
+
+					
+			END IF;
+
+
+		ELSE RETURN FALSE;
+		END IF;	
+	END;
+	' LANGUAGE plpgsql;
+		 </create>
+		<drop>DROP PROCEDURE IF EXIST isItAnySubLevelOfOpeningBalance </drop>
+	</database-object>
+	
+	</hibernate-mapping>

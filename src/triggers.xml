@@ -1,0 +1,182 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+                "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.vimukti.accounter.core"
+	default-access="field">
+	
+	<!--  @author Devesh Satwani-->
+	
+	<database-object>
+		<create> CREATE TRIGGER INSERT_INVOICE AFTER INSERT,UPDATE,DELETE ON
+			INVOICE FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerInvoice" </create>
+		<drop>DROP TRIGGER INSERT_INVOICE</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_CASHSALES AFTER INSERT,UPDATE,DELETE ON
+			CASH_SALES FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerCashSales" </create>
+		<drop>DROP TRIGGER INSERT_CASHSALES</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_ENTERBILL AFTER INSERT,UPDATE,DELETE ON
+			ENTER_BILL FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerEnterBill" </create>
+		<drop>DROP TRIGGER INSERT_ENTERBILL</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_CASHPURCHASE AFTER INSERT,UPDATE,DELETE
+			ON CASH_PURCHASE FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerCashPurchase" </create>
+		<drop>DROP TRIGGER INSERT_CASHPURCHASE</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_RECEIVE_PAYMENT AFTER
+			INSERT,UPDATE,DELETE ON RECEIVE_PAYMENT FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerReceivePayment" </create>
+		<drop>DROP TRIGGER INSERT_RECEIVE_PAYMENT</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_TRANSACTION_RECEIVE_PAYMENT AFTER
+			INSERT,UPDATE,DELETE ON TRANSACTION_RECEIVE_PAYMENT FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerTransactionReceivePayment" 
+		</create>
+		<drop>DROP TRIGGER INSERT_TRANSACTION_RECEIVE_PAYMENT</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_TRANSACTION_CREDITS_AND_PAYMENTS AFTER
+			INSERT,UPDATE,DELETE ON TRANSACTION_CREDITS_AND_PAYMENTS FOR EACH ROW
+			CALL
+			"com.vimukti.accounter.core.trigger.TriggerTransactionCreditsAndPayments" 
+		</create>
+		<drop>DROP TRIGGER INSERT_TRANSACTION_CREDITS_AND_PAYMENTS</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_PAY_BILL AFTER INSERT,UPDATE,DELETE ON
+			PAY_BILL FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerPayBill" </create>
+		<drop>DROP TRIGGER INSERT_PAY_BILL</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_CREDIT_CARD_CHARGES AFTER
+			INSERT,UPDATE,DELETE ON CREDIT_CARD_CHARGES FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerCreditCardCharge" 
+		</create>
+		<drop>DROP TRIGGER INSERT_CREDIT_CARD_CHARGES</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_CUSTOMER_CREDIT_MEMO AFTER
+			INSERT,UPDATE,DELETE ON CUSTOMER_CREDIT_MEMO FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerCustomerCreditMemo" 
+		</create>
+		<drop>DROP TRIGGER INSERT_CUSTOMER_CREDIT_MEMO</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_VENDOR_CREDIT_MEMO AFTER
+			INSERT,UPDATE,DELETE ON VENDOR_CREDIT_MEMO FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerVendorCreditMemo" 
+		</create>
+		<drop>DROP TRIGGER INSERT_VENDOR_CREDIT_MEMO</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_TRANSFER_FUND AFTER
+			INSERT,UPDATE,DELETE ON TRANSFER_FUND FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerTransferFund" </create>
+		<drop>DROP TRIGGER INSERT_TRANSFER_FUND</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_TRANSACTION_ITEM AFTER
+			INSERT,UPDATE,DELETE ON TRANSACTION_ITEM FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerTransactionItem" </create>
+		<drop>DROP TRIGGER INSERT_TRANSACTION_ITEM</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_TRANSACTION_PAYBILL AFTER
+			INSERT,UPDATE,DELETE ON TRANSACTION_PAYBILL FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerTransactionPayBill" 
+		</create>
+		<drop>DROP TRIGGER INSERT_TRANSACTION_PAYBILL</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_MAKE_DEPOSIT AFTER INSERT,UPDATE,DELETE
+			ON MAKE_DEPOSIT FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerMakeDeposit" </create>
+		<drop>DROP TRIGGER INSERT_MAKE_DEPOSIT</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_TRANSACTION_MAKE_DEPOSIT AFTER
+			INSERT,UPDATE,DELETE ON TRANSACTION_MAKE_DEPOSIT FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerTransactionMakeDeposit" 
+		</create>
+		<drop>DROP TRIGGER INSERT_TRANSACTION_MAKE_DEPOSIT</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_WRITE_CHECKS AFTER INSERT,UPDATE,DELETE
+			ON WRITE_CHECKS FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerWriteCheck" </create>
+		<drop>DROP TRIGGER INSERT_WRITE_CHECKS</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_ACCOUNT AFTER INSERT,UPDATE,DELETE ON
+			ACCOUNT FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerAccount" </create>
+		<drop>DROP TRIGGER INSERT_ACCOUNT</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_CUSTOMER_REFUND AFTER
+			INSERT,UPDATE,DELETE ON CUSTOMER_REFUND FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerCustomerRefund" </create>
+		<drop>DROP TRIGGER INSERT_CUSTOMER_REFUND</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_TRANSACTION_ISSUE_PAYMENT AFTER
+			INSERT,UPDATE,DELETE ON TRANSACTION_ISSUE_PAYMENT FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerTransactionIssuePayment" </create>
+		<drop>DROP TRIGGER INSERT_ISSUE_PAYMENT</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_CUSTOMER AFTER
+			INSERT,UPDATE,DELETE ON CUSTOMER FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerCustomer" </create>
+		<drop>DROP TRIGGER INSERT_CUSTOMER</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_VENDOR AFTER
+			INSERT,UPDATE,DELETE ON VENDOR FOR EACH ROW CALL
+			"com.vimukti.accounter.core.trigger.TriggerVendor" </create>
+		<drop>DROP TRIGGER INSERT_VENDOR</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_ENTRY AFTER
+			INSERT,UPDATE,DELETE ON ENTRY FOR EACH ROW
+			CALL
+			"com.vimukti.accounter.core.trigger.TriggerEntry" 
+		</create>
+		<drop>DROP TRIGGER INSERT_ENTRY</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_FISCAL_YEAR AFTER
+			INSERT,UPDATE,DELETE ON FISCAL_YEAR FOR EACH ROW
+			CALL
+			"com.vimukti.accounter.core.trigger.TriggerFiscalYear" 
+		</create>
+		<drop>DROP TRIGGER INSERT_FISCAL_YEAR</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_PAY_SALES_TAX AFTER
+			INSERT,UPDATE,DELETE ON PAY_SALES_TAX FOR EACH ROW
+			CALL
+			"com.vimukti.accounter.core.trigger.TriggerPaySalesTax" 
+		</create>
+		<drop>DROP TRIGGER INSERT_PAY_SALES_TAX</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE TRIGGER INSERT_TRANSACTION_PAY_SALES_TAX AFTER
+			INSERT,UPDATE,DELETE ON TRANSACTION_PAY_SALES_TAX FOR EACH ROW
+			CALL
+			"com.vimukti.accounter.core.trigger.TriggerTransactionPaySalesTax" 
+		</create>
+		<drop>DROP TRIGGER INSERT_TRANSACTION_PAY_SALES_TAX</drop>
+	</database-object>
+</hibernate-mapping>

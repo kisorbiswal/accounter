@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+                "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-access="field">
+
+<!-- Trigger Cash Sale for After Insert -->
+	<database-object>
+		<create> 
+		CREATE TRIGGER INSERT_INVOICE AFTER INSERT ON INVOICE FOR EACH ROW
+		BEGIN
+		
+	
+		END
+		</create>
+		<drop>DROP TRIGGER INSERT_INVOICE</drop>
+	</database-object>
+	
+	<database-object>
+		<create> 
+		CREATE TRIGGER UPDATE_INVOICE AFTER UPDATE ON INVOICE FOR EACH ROW
+		BEGIN
+		
+	
+		END
+		</create>
+		<drop>DROP TRIGGER UPDATE_INVOICE</drop>
+	</database-object>
+	
+	
+</hibernate-mapping>

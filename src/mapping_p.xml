@@ -1,0 +1,801 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+                "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.vimukti.accounter.web.client.core"
+	default-access="field">
+	<class name="Account" table="ACCOUNT">
+		<id name="id" column="ID_ACCOUNT">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="type" column="A_TYPE"></property>
+		<property name="number" column="A_NUMBER"></property>
+		<property name="name" column="NAME"></property>
+		<property name="isActive" column="IS_ACTIVE"></property>
+		<many-to-one name="parent" column="PARENT_ID" class="Account"
+			lazy="false">
+		</many-to-one>
+		<property name="cashFlowCategory" column="CASHFLOW_CATEGORY"></property>
+		<property name="openingBalance" column="OPENING_BALANCE"></property>
+		<property name="asOf" column="AS_OF" type="date"></property>
+		<property name="isConsiderAsCashAccount" column="IS_CASH_ACCOUNT"></property>
+		<property name="comment" column="COMMENT"></property>
+		<many-to-one name="bank" column="BANK_ID" class="Bank"
+			lazy="false">
+		</many-to-one>
+		<property name="bankAccountType" column="BANK_ACCOUNT_TYPE"></property>
+		<property name="bankAccountNumber" column="BANK_ACCOUNT_NUMBER"></property>
+		<property name="creditLimit" column="CREDIT_LIMIT"></property>
+		<property name="cardOrLoanNumber" column="CARD_NUMBER"></property>
+		<property name="isIncrease" column="IS_INCREASE"></property>
+		<property name="currentBalance" column="CURRENT_BALANCE"></property>
+		<property name="totalBalance" column="TOTAL_BALANCE"></property>
+		<many-to-one name="openingBalanceAccount" class="Account"
+			lazy="false" column="OPENING_BALANCE_ACCOUNT_ID">
+		</many-to-one>
+		<property name="isOpeningBalanceEditable" column="IS_OPENING_BALANCE_EDITABLE"></property>
+		<property name="hierarchy" column="HIERARCHY"></property>	
+	</class>
+	<class name="AccountTransaction" table="ACCOUNT_TRANSACTION">
+		<id name="id" column="ID_ACCOUNT_TRANSACTION">
+			<!--
+			<generator class="sequence" >
+			<param name="sequence">sequence_account_transaction</param>
+			</generator>
+			-->
+			<generator class="native" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<property name="transactionNumber" column="T_NUMBER"></property>
+		<property name="type" column="TYPE"></property>
+		<property name="userId" column="USER_ID"></property>
+		<property name="transactionId" column="T_ID"></property>
+		<property name="transactionType" column="T_TYPE"></property>
+		<property name="transactionDate" column="T_DATE" type="date"></property>
+		<property name="amount" column="AMOUNT"></property>
+	</class>
+	<class name="Address" table="ADDRESS">
+		<id name="id" column="ID_ADDRESS">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<!--
+			<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID"> </many-to-one>
+		-->
+		<property name="type" column="TYPE"></property>
+		<property name="street" column="STREET"></property>
+		<property name="city" column="CITY"></property>
+		<property name="stateOrProvinence" column="STATE"></property>
+		<property name="zipOrPostalCode" column="ZIP"></property>
+		<property name="countryOrRegion" column="COUNTRY"></property>
+		<property name="isSelected" column="IS_SELECTED"></property>
+	</class>
+	<class name="FiscalYear" table="FISCAL_YEAR">
+		<id name="id" column="ID_FISCAL_YEAR">
+			<generator class="increment" />
+		</id>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID"> 
+		</many-to-one>
+		<property name="startDate" column="START_DATE" type="date"></property>
+		<property name="endDate" column="END_DATE" type="date"></property>
+		<property name="status" column="STATUS"></property>
+		<property name="isCurrentFiscalYear" column="IS_CURRENT_FISCAL_YEAR"></property>
+		<property name="previousStartDate" column="PREVIOUS_START_DATE" type="date"></property>
+	</class>
+	
+	<class name="Bank" table="BANK">
+		<id name="id" column="ID_BANK">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="name" column="NAME"></property>
+	</class>
+	<class name="Company" table="COMPANY">
+		<id name="id" column="ID_COMPANY">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<property name="name" column="NAME"></property>
+		<property name="legalName" column="LEGALNAME"></property>
+		<set name="addresses" inverse="true" lazy="false" cascade="save-update,delete">
+			<key column="COMPANY_ID"></key>
+			<one-to-many class="Address" />
+		</set>
+		
+		<property name="companyEmail" column="COMPANY_EMAIL"></property>
+		<property name="companyEmailForCustomers" column="COMPANYEMAIL_FOR_CUSTOMERS"></property>
+		<many-to-one name="contact" class="Contact" column="CONTACT_ID"
+			cascade="save-update,delete" lazy="false">
+		</many-to-one>
+		<property name="ein" column="EIN"></property>
+		<property name="firstMonthOfFiscalYear" column="FIRSTMONTH_OF_FISCALYEAR"></property>
+		<property name="firstMonthOfIncomeTaxYear" column="FIRSTMONTH_OF_INCOMETAXYEAR"></property>
+		<property name="taxForm" column="TAX_FORM"></property>
+		<property name="booksClosingDate" column="BOOKS_COLSING_DATE"
+			type="date"></property>
+		<property name="closingDateWarningType" column="CLOSING_DATE_WARNINGTYPE"></property>
+		<property name="enableAccountNumbers" column="ENABLE_ACCOUNT_NUMBERS"></property>
+		<property name="customerType" column="CUSTOMER_TYPE"></property>
+		<property name="enableAutoRecall" column="ENABLE_AUTORECALL"></property>
+		<property name="restartSetupInterviews" column="RESTART_SETUP_INTERVIEWS"></property>
+		<property name="fiscalYearStarting" column="FISCAL_YEAR_STARTING"></property>
+		<property name="industry" column="INDUSTRY"></property>
+		<property name="taxId" column="TAX_ID"></property>
+		<many-to-one name="preferences" class="CompanyPreferences"
+			lazy="false" column="PREFERENCE_ID" cascade="save-update,delete">
+		</many-to-one>
+		<set name="accounts" inverse="true" lazy="false" cascade="save-update,delete">
+			<key column="COMPANY_ID"></key>
+			<one-to-many class="Account" />
+		</set>
+		<set name="itemTaxes" inverse="true" lazy="false" cascade="save-update,delete">
+			<key column="COMPANY_ID"></key>
+			<one-to-many class="ItemTax" />
+		</set>
+		<set name="paymentMethods" inverse="true" lazy="false"
+			cascade="save-update,delete">
+			<key column="COMPANY_ID"></key>
+			<one-to-many class="PaymentMethod" />
+		</set>
+		<set name="paymentTerms" inverse="true" lazy="false" cascade="save-update,delete">
+			<key column="COMPANY_ID"></key>
+			<one-to-many class="PaymentTerms" />
+		</set>
+		<property name="phone" column="PHONE"></property>
+		<property name="fax" column="FAX"></property>
+		<property name="webSite" column="WEBSITE"></property>
+		<many-to-one name="accountsReceivableAccount" class="Account"
+			lazy="false" column="ACCOUNTS_RECEIVABLE_ID">
+		</many-to-one>
+		<many-to-one name="accountsPayableAccount" class="Account"
+			lazy="false" column="ACCOUNTS_PAYABLE_ID">
+		</many-to-one>
+		<many-to-one name="openingBalancesAccount" class="Account"
+			lazy="false" column="OPENING_BALANCES_ID">
+		</many-to-one>
+		<set name="fiscalYears" inverse="true" lazy="false" cascade="save-update,delete">
+			<key column="COMPANY_ID"></key>
+			<one-to-many class="FiscalYear" />
+		</set>
+	</class>
+	
+	<class name="CompanyPreferences" table="COMPANY_PREFERENCES">
+		<id name="id" column="ID_COMPANY_PREFERENCES">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+	
+		<!-- Company Preferences -->
+		<property name="useAccountNumbers" column="USE_ACCOUNT_NUMBERS"></property>
+		<property name="useClasses" column="USE_CLASSES"></property>
+		<property name="useJobs" column="USE_JOBS"></property>
+		<property name="useChangeLog" column="USE_CHANGE_LOG"></property>
+		<property name="logSpaceUsed" column="LOG_SPACE_USED"></property>
+		<property name="allowDuplicateDocumentNumbers" column="ALLOW_DUPLICATE_DOCUMENT_NUMBERS"></property>
+		<property name="doYouPaySalesTax" column="DO_YOU_PAY_SALES_TAX"></property>
+		<property name="isAccuralBasis" column="IS_ACCURAL_BASI"></property>
+		<property name="startOfFiscalYear" column="START_OF_FISCAL_YEAR"
+			type="date"></property>
+		<property name="endOfFiscalYear" column="END_OF_FISCAL_YEAR"
+			type="date"></property>
+		<property name="useForeignCurrency" column="USE_FOREIGN_CURRENCY"></property>
+		<property name="isMyAccountantWillrunPayroll" column="IS_MY_ACCOUNTANT_WILL_RUN_PAYROLL"></property>
+		
+		
+		<!-- Customer Preferences -->
+		<property name="useCustomerId" column="USE_CUSTOMER_ID"></property>
+		<property name="defaultShippingTerm" column="DEFAULT_SHIPPING_TERM"></property>
+		<property name="defaultAnnualInterestRate" column="DEFAULT_ANNUAL_INTEREST_RATE"></property>
+		<property name="defaultMinimumFinanceCharge" column="DEFAULT_MINIMUM_FINANCE_CHARGE"></property>
+		<property name="graceDays" column="GRACE_DAYS"></property>
+		<property name="doesCalculateFinanceChargeFromInvoiceDate"
+			column="DOES_CALCULATE_FINANCE_CHARGE_FROM_INVOICE_DATE"></property>
+		
+		<!-- Customer Preferences -->
+		<property name="useVendorId" column="USE_VENDOR_ID"></property>
+		<property name="useItemNumbers" column="USE_ITEM_NUMBERS"></property>
+		<property name="checkForItemQuantityOnHand" column="CHECK_FOR_ITEM_QUANTITY_ON_HAND"></property>
+		<property name="updateCostAutomatically" column="UPDATE_COST_AUTOMATICALLY"></property>
+	</class>
+	<class name="Contact" table="CONTACT">
+		<id name="id" column="ID_CONTACT">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="isPrimary" column="IS_PRIMARY"></property>
+		<property name="name" column="NAME"></property>
+		<property name="title" column="TITLE"></property>
+		<property name="businessPhone" column="BUSINESS_PHONE"></property>
+		<property name="email" column="EMAIL"></property>
+	</class>
+	<class name="CreditRating" table="CREDITRATING">
+		<id name="id" column="ID_CREDITRATING">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="name" column="NAME"></property>
+	</class>
+	<class name="Currency" table="CURRENCY">
+		<id name="id" column="ID_CURRENCY">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="name" column="NAME"></property>
+		<property name="symbol" column="SYMBOL"></property>
+		<property name="formalName" column="FORMAL_NAME"></property>
+	</class>
+	<class name="CustomerGroup" table="CUSTOMER_GROUP">
+		<id name="id" column="ID_CUSTOMER_GROUP">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="name" column="NAME"></property>
+	</class>
+	<class name="Email" table="EMAIL">
+		<id name="id" column="ID_EMAIL">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="type" column="TYPE"></property>
+		<property name="email" column="EMAIL"></property>
+		<property name="isSelected" column="IS_SELECTED"></property>
+	</class>
+	<class name="Fax" table="FAX">
+		<id name="id" column="ID_FAX">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="type" column="TYPE"></property>
+		<property name="number" column="NUMBER"></property>
+		<property name="isSelected" column="IS_SELECTED"></property>
+	</class>
+	<class name="Item" table="ITEM">
+		<id name="id" column="ID_ITEM">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="type" column="TYPE"></property>
+		<property name="name" column="NAME"></property>
+		<property name="UPCorSKU" column="UPC_OR_SKU"></property>
+		<property name="weight" column="WEIGHT"></property>
+		<many-to-one name="itemGroup" class="ItemGroup" column="ITEMGROUP_ID"
+			lazy="false">
+		</many-to-one>
+		<property name="isActive" column="IS_ACTIVE"></property>
+		<property name="isISellThisItem" column="IS_SELL_ITEM"></property>
+		<property name="salesDescription" column="SALES_DESCRIPTION"></property>
+		<property name="salesPrice" column="SALES_PRICE"></property>
+		<many-to-one name="incomeAccount" class="Account"
+			column="INCOME_ACCOUNT_ID" lazy="false">
+		</many-to-one>
+		<many-to-one name="itemTax" class="ItemTax" column="ITEMTAX_ID"
+			lazy="false">
+		</many-to-one>
+		<property name="isCommissionItem" column="IS_COMMISSION_ITME"></property>
+		<property name="isIBuyThisItem" column="IS_BUY_ITEM"></property>
+		<property name="purchaseDescription" column="PURCHASE_DESCRIPTION"></property>
+		<property name="purchasePrice" column="PURCHASE_PRISE"></property>
+		<many-to-one name="expenseAccount" class="Account"
+			column="EXPENSE_ACCOUNT_ID" lazy="false">
+		</many-to-one>
+		<many-to-one name="preferredVendor" class="Vendor"
+			column="PREFFERED_VENDOR" lazy="false">
+		</many-to-one>
+		<property name="vendorItemNumber" column="VENDOR_ITEM_NUMBER"></property>
+		<property name="standardCost" column="SATNDARD_COST"></property>
+	</class>
+	<class name="ItemGroup" table="ITEMGROUP">
+		<id name="id" column="ID_ITEMGROUP">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="name" column="NAME"></property>
+	</class>
+	<class name="ItemTax" table="ITEMTAX">
+		<id name="id" column="ID_ITEMTAX">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="name" column="NAME"></property>
+		<property name="isTaxable" column="IS_TAXABLE"></property>
+	</class>
+	<class name="Payee" table="PAYEE">
+		<id name="id" column="ID_PAYEE">
+			<generator class="increment" />
+		</id>
+		<property name="type" column="TYPE"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="date" column="P_DATE" type="date"></property>
+		
+		<joined-subclass name="Customer" table="CUSTOMER">
+			<key column="ID_CUSTOMER" />
+			<property name="key" column="KEY"></property>
+			<property name="name" column="NAME"></property>
+			<property name="fileAs" column="FILE_AS"></property>
+			<set name="address" table="CUSTOMER_ADDRESS" lazy="false"
+				cascade="all-delete-orphan">
+				<key column="CUSTOMER_ID"></key>
+				<many-to-many column="ADDRESS_ID" class="Address" />
+			</set>
+			<set name="phoneNumbers" table="CUSTOMER_PHONE" lazy="false"
+				cascade="all-delete-orphan">
+				<key column="CUSTOMER_ID"></key>
+				<many-to-many column="PHONE_ID" class="Phone" />
+			</set>
+			<set name="faxNumbers" table="CUSTOMER_FAX" lazy="false"
+				cascade="all-delete-orphan">
+				<key column="CUSTOMER_ID"></key>
+				<many-to-many column="FAX_ID" class="Fax" />
+			</set>
+			<set name="emails" table="CUSTOMER_EMAILS" lazy="false"
+				cascade="all-delete-orphan">
+				<key column="CUSTOMER_ID"></key>
+				<many-to-many column="EMAIL_ID" class="Email" />
+			</set>
+			<property name="webPageAddress" column="WEB_PAGE_ADDRESS"></property>
+			<property name="isActive" column="IS_ACTIVE"></property>
+			<property name="customerSince" column="CUSTOMER_SINCE" type="date"></property>
+			<property name="balance" column="BALANCE"></property>
+			<property name="balanceAsOf" column="BALANCE_AS_OF" type="date"></property>
+			<set name="contacts" table="CUSTOMER_CONTACT" lazy="false"
+				cascade="save-update,delete">
+				<key column="CUSTOMER_ID"></key>
+				<many-to-many column="CONTACT_ID" class="Contact" />
+			</set>
+			<property name="memo" column="MEMO" type="text"></property>
+			<many-to-one name="salesPerson" class="SalesPerson"
+				column="SALES_PERSON_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<property name="creditLimit" column="CREDIT_LIMIT"></property>
+			<many-to-one name="priceLevel" class="PriceLevel" column="PRICE_LEVEL_ID"
+				cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<many-to-one name="creditRating" class="CreditRating"
+				column="CREDIT_RATING_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<many-to-one name="shippingMethod" class="ShippingMethod"
+				column="SHIPPING_METHOD_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<many-to-one name="paymentMethod" class="PaymentMethod"
+				column="PAYMENT_METHOD_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<many-to-one name="paymentTerm" class="PaymentTerms"
+				column="PAYMENT_TERM_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<many-to-one name="customerGroup" class="CustomerGroup"
+				column="CUSTOMER_GROUP_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<many-to-one name="taxGroup" class="TaxGroup" column="TAX_GROUP_ID"
+				cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<property name="current" column="CURRET_DUE"></property>
+			<property name="overDueOneToThirtyDays" column="OVER_DUE_ONE_TO_THIRY_DAYS"></property>
+			<property name="overDueThirtyOneToSixtyDays" column="OVER_DUE_THIRTY_ONE_TO_SIXTY_DAYS"></property>
+			<property name="overDueSixtyOneToNintyDays" column="OVER_DUE_SIXTY_ONE_TO_NINTY_DAYS"></property>
+			<property name="overDueOverNintyDays" column="OVER_DUE_OVER_NINTY_DAYS"></property>
+			<property name="overDueTotalBalance" column="OVER_DUE_TOTAL_BALANCE"></property>
+			<property name="averageDaysToPay" column="AVERAGE_DAYS_TO_PAY"></property>
+			<property name="averageDaysToPayYTD" column="AVERAGE_DAYS_TO_PAY_YTD"></property>
+			<property name="monthToDate" column="MONTH_TO_DATE"></property>
+			<property name="yearToDate" column="YEAR_TO_DATE"></property>
+			<property name="lastYear" column="LAST_YEAR"></property>
+			<property name="lifeTimeSales" column="LIFE_TIME_SALES"></property>
+			<many-to-one name="accountsReceivable" class="Account"
+				lazy="false" column="ACCOUNTS_RECEIVABLE_ID">
+			</many-to-one>
+			<many-to-one name="openingBalanceAccount" class="Account"
+				lazy="false" column="OPENING_BALANCE_ACCOUNT_ID">
+			</many-to-one>
+			<property name="customerOpeningBalance" column="CUSTOMER_OPENING_BALANCE"></property>
+		</joined-subclass>
+		<joined-subclass name="Vendor" table="VENDOR">
+			<key column="ID_VENDOR" />
+			<property name="key" column="KEY"></property>
+			<property name="instanceVersion" column="INSTANCE_VERSION"></property>
+			<property name="instanceCreatedDate" column="INSTANCE_CREATION"
+				type="date"></property>
+			<property name="instanceModifiedOn" column="INSTANCE_MODIFIED_ON"
+				type="date"></property>
+			<property name="name" column="NAME"></property>
+			<property name="fileAs" column="FILE_AS"></property>
+			<set name="address" table="VENDOR_ADDRESS" lazy="false"
+				cascade="save-update,delete">
+				<key column="VENDOR_ID"></key>
+				<many-to-many column="ADDRESS_ID" class="Address" />
+			</set>
+			<set name="phoneNumbers" table="VENDOR_PHONE" lazy="false"
+				cascade="save-update,delete">
+				<key column="VENDOR_ID"></key>
+				<many-to-many column="PHONE_ID" class="Phone" />
+			</set>
+			<set name="faxNumbers" table="VENDOR_FAX" lazy="false"
+				cascade="save-update,delete">
+				<key column="VENDOR_ID"></key>
+				<many-to-many column="FAX_ID" class="Fax" />
+			</set>
+			<set name="emails" table="VENDOR_EMAILS" lazy="false"
+				cascade="save-update,delete">
+				<key column="VENDOR_ID"></key>
+				<many-to-many column="EMAIL_ID" class="Email" />
+			</set>
+			<property name="webPageAddress" column="WEB_PAGE_ADDRESS"></property>
+			<property name="isActive" column="IS_ACTIVE"></property>
+			<property name="vendorSince" column="VENDOR_SINCE" type="date"></property>
+			<property name="accountNumber" column="ACCOUNT_NUMBER"></property>
+			<property name="balance" column="BALANCE"></property>
+			<property name="balanceAsOf" column="BALANCE_AS_OF" type="date"></property>
+			<set name="contacts" table="VENDOR_CONTACT" lazy="false"
+				cascade="save-update,delete">
+				<key column="VENDOR_ID"></key>
+				<many-to-many column="CONTACT_ID" class="Contact" />
+			</set>
+			<property name="memo" column="MEMO" type="text"></property>
+			<many-to-one name="expenseAccount" class="Account"
+				column="EXPENSE_ACCOUNT_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<property name="creditLimit" column="CREDIT_LIMIT"></property>
+			<many-to-one name="shippingMethod" class="ShippingMethod"
+				column="SHIPPING_METHOD_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<many-to-one name="paymentMethod" class="PaymentMethod"
+				column="PAYMENT_METHOD_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<many-to-one name="paymentTerms" class="PaymentTerms"
+				column="PAYMENT_TERMS_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<many-to-one name="vendorGroup" class="VendorGroup"
+				column="VENDOR_GROUP_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<property name="federalTaxId" column="FEDERAL_TAXID"></property>
+			<property name="current" column="CURRET_DUE"></property>
+			<property name="overDueOneToThirtyDays" column="OVER_DUE_ONE_TO_THIRY_DAYS"></property>
+			<property name="overDueThirtyOneToSixtyDays" column="OVER_DUE_THIRTY_ONE_TO_SIXTY_DAYS"></property>
+			<property name="overDueSixtyOneToNintyDays" column="OVER_DUE_SIXTY_ONE_TO_NINTY_DAYS"></property>
+			<property name="overDueOverNintyDays" column="OVER_DUE_OVER_NINTY_DAYS"></property>
+			<property name="overDueTotalBalance" column="OVER_DUE_TOTAL_BALANCE"></property>
+			<property name="monthToDate" column="MONTH_TO_DATE"></property>
+			<property name="yearToDate" column="YEAR_TO_DATE"></property>
+			<property name="lastYear" column="LAST_YEAR"></property>
+			<property name="lifeTimePurchases" column="LIFE_TIME_PURCHASES"></property>
+			<many-to-one name="accountsPayable" class="Account" lazy="false"
+				column="ACCOUNTS_PAYABLE_ID">
+			</many-to-one>
+			<many-to-one name="openingBalanceAccount" class="Account"
+				lazy="false" column="OPENING_BALANCE_ACCOUNT_ID">
+			</many-to-one>
+			<property name="vendorOpeningBalance" column="VENDOR_OPENING_BALANCE"></property>
+		</joined-subclass>
+		<joined-subclass name="SalesPerson" table="SALES_PERSON">
+			<key column="ID_SALES_PERSON" />
+			<property name="key" column="KEY"></property>
+			<property name="title" column="TITLE"></property>
+			<property name="firstName" column="FIRST_NAME"></property>
+			<property name="middleName1" column="MIDDLE_NAME1"></property>
+			<property name="middleName2" column="MIDDLE_NAME2"></property>
+			<property name="middleName3" column="MIDDLE_NAME3"></property>
+			<property name="lastName" column="LAST_NAME"></property>
+			<property name="suffix" column="SUFFIX"></property>
+			<property name="fileAs" column="FILE_AS"></property>
+			<property name="jobTitle" column="JOB_TITLE"></property>
+			<set name="address" table="SALESPERSON_ADDRESS" lazy="false"
+				cascade="save-update,delete">
+				<key column="SALESPERSON_ID"></key>
+				<many-to-many column="ADDRESS_ID" class="Address" />
+			</set>
+			<set name="phoneNumber" table="SALESPERSON_PHONE" lazy="false"
+				cascade="save-update,delete">
+				<key column="SALESPERSON_ID"></key>
+				<many-to-many column="PHONE_ID" class="Phone" />
+			</set>
+			<set name="faxNumber" table="SALESPERSON_FAX" lazy="false"
+				cascade="save-update,delete">
+				<key column="SALESPERSON_ID"></key>
+				<many-to-many column="FAX_ID" class="Fax" />
+			</set>
+			<set name="email" table="SALESPERSON_EMAIL" lazy="false"
+				cascade="save-update,delete">
+				<key column="SALESPERSON_ID"></key>
+				<many-to-many column="EMAIL_ID" class="Email" />
+			</set>
+			<many-to-one name="expenseAccount" class="Account"
+				column="EXPENSE_ACCOUNT_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<property name="memo" column="MEMO" type="text"></property>
+			<property name="isActive" column="IS_ACTIVE"></property>
+			<property name="gender" column="GENDER"></property>
+			<property name="dateOfBirth" column="DATE_OF_BIRTH" type="date"></property>
+			<property name="dateOfHire" column="DATE_OF_HIRE" type="date"></property>
+			<property name="dateOfLastReview" column="DATE_OF_LASTREVIEW"
+				type="date"></property>
+			<property name="dateOfRelease" column="DATE_OF_RELEASE"
+				type="date"></property>
+		</joined-subclass>
+		<joined-subclass name="TaxAgency" table="TAXAGENCY">
+			<key column="ID_TAXAGENCY" />
+			<property name="key" column="KEY"></property>
+			<property name="name" column="NAME"></property>
+			<property name="fileAs" column="FILE_AS"></property>
+			<set name="address" table="TAXAGENCY_ADDRESS" lazy="false"
+				cascade="save-update,delete">
+				<key column="TAXAGENCY_ID"></key>
+				<many-to-many column="ADDRESS_ID" class="Address" />
+			</set>
+			<set name="phoneNumber" table="TAXAGENCY_PHONE" lazy="false"
+				cascade="save-update,delete">
+				<key column="TAXAGENCY_ID"></key>
+				<many-to-many column="PHONE_ID" class="Phone" />
+			</set>
+			<set name="faxNumber" table="TAXAGENCY_FAX" lazy="false"
+				cascade="save-update,delete">
+				<key column="TAXAGENCY_ID"></key>
+				<many-to-many column="FAX_ID" class="Fax" />
+			</set>
+			<set name="email" table="TAXAGENCY_EMAILS" lazy="false"
+				cascade="save-update,delete">
+				<key column="TAXAGENCY_ID"></key>
+				<many-to-many column="EMAIL_ID" class="Email" />
+			</set>
+			<property name="webPageAddress" column="WEB_PAGE_ADDRESS"></property>
+			<property name="isActive" column="IS_ACTIVE"></property>
+			<many-to-one name="paymentTerm" class="PaymentTerms"
+				column="PAYMENT_TERM" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<many-to-one name="liabilityAccount" class="Account"
+				column="ACCOUNT_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<property name="memo" column="MEMO" type="text"></property>
+			<set name="contacts" lazy="false" cascade="save-update,delete">
+				<key column="CONTACT_ID"></key>
+				<one-to-many class="Contact" />
+			</set>
+			<property name="balance" column="BALANCE"></property>
+			<property name="taxAgencySince" column="TAXAGENCY_SINCE"
+				type="date"></property>
+		</joined-subclass>
+	</class>
+	<class name="PaymentMethod" table="PAYMENTMETHOD">
+		<id name="id" column="ID_PAYMENTMETHOD">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="type" column="TYPE"></property>
+		<property name="name" column="NAME"></property>
+	</class>
+	<class name="PaymentTerms" table="PAYMENTTERMS">
+		<id name="id" column="ID_PAYMENTTERMS">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="name" column="NAME"></property>
+		<property name="description" column="DESCRIPTION"></property>
+		<property name="due" column="DUE"></property>
+		<property name="dueDays" column="DUE_DAYS"></property>
+		<property name="discountPercent" column="DISCOUNT_PERCENT"></property>
+		<property name="ifPaidWithIn" column="IF_PAID_WITHIN"></property>
+	</class>
+	<class name="Phone" table="PHONE">
+		<id name="id" column="ID_PHONE">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="type" column="TYPE"></property>
+		<property name="number" column="NUMBER"></property>
+		<property name="isSelected" column="IS_SELECTED"></property>
+	</class>
+	<class name="PriceLevel" table="PRICELEVEL">
+		<id name="id" column="ID_PRICELEVEL">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="name" column="NAME"></property>
+		<property name="percentage" column="PERCENTAGE"></property>
+		<property name="isPriceLevelDecreaseByThisPercentage" column="IS_P_DECREASE_BY_THIS_PERCENT"></property>
+	</class>
+	<class name="ShippingMethod" table="SHIPPINGMETHOD">
+		<id name="id" column="ID_SHIPPINGMETHOD">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="name" column="NAME"></property>
+		<property name="description" column="DESCRIPTION"></property>
+	</class>
+	<class name="ShippingTerms" table="SHIPPINGTERMS">
+		<id name="id" column="ID_SHIPPINGTERMS">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="name" column="NAME"></property>
+		<property name="description" column="DESCRIPTION"></property>
+	</class>
+	<class name="TaxCode" table="TAXCODE">
+		<id name="id" column="ID_TAXCODE">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="name" column="NAME"></property>
+		<property name="description" column="DESCRIPTION"></property>
+		<many-to-one name="taxAgency" class="TaxAgency" column="TAXAGENCY_ID"
+			lazy="false">
+		</many-to-one>
+		<property name="isActive" column="IS_ACTIVE"></property>
+		<set name="taxRates" lazy="false" cascade="save-update,delete">
+			<key column="TAXCODE_ID"></key>
+			<one-to-many class="TaxRates" />
+		</set>
+	</class>
+	<class name="TaxGroup" table="TAXGROUP">
+		<id name="id" column="ID_TAXGROUP">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="name" column="NAME"></property>
+		<set name="taxCodes" table="TAXGROUP_TAXCODE" lazy="false">
+			<key column="TAXGROUP_ID"></key>
+			<many-to-many column="TAXCODE_ID" class="TaxCode" />
+		</set>
+	</class>
+	<class name="TaxRates" table="TAXRATES">
+		<id name="id" column="ID_TAXRATES">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="rate" column="RATE"></property>
+		<property name="asOf" column="AS_OF" type="date"></property>
+	</class>
+	<class name="TaxRateCalculation" table="TAX_RATE_CALCULATION">
+		<id name="id" column="ID_TAX_RATE_CALCULATION">
+			<generator class="native" />
+		</id>
+		<property name="taxAgencyAccountId" column="TAXAGENCY_ACCOUNT_ID"></property>
+		<property name="rate" column="RATE"></property>
+		<property name="transactionId" column="TRANSACTION_ID"></property>
+		<property name="transactionType" column="TRANSACTION_TYPE"></property>
+		<property name="taxCodeId" column="TAX_CODE_ID"></property>
+		<property name="total" column="TOTAL"></property>
+		<property name="taxableAmount" column="TAXABLE_AMOUNT"></property>
+		<property name="nonTaxableAmount" column="NON_TAXABLE_AMOUNT"></property>
+		<property name="taxCollected" column="TAX_COLLECTED"></property>
+		<property name="taxAgencyId" column="TAXAGENCY_ID"></property>
+		
+	</class>
+	<class name="UnitOfMeasure" table="UNIT_OF_MEASURE">
+		<id name="id" column="ID_UNIT_OF_MEASURE">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="type" column="TYPE"></property>
+		<property name="name" column="NAME"></property>
+		<property name="abbreviation" column="ABBREVIATION"></property>
+	</class>
+	<class name="User" table="USERS">
+		<id name="id" column="ID_USERS">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<property name="instanceVersion" column="INSTANCE_VERSION"></property>
+		<property name="instanceCreationDate" column="INSTANCE_CREATION"
+			type="date"></property>
+		<property name="instanceModifiedOn" column="INSTANCE_MODIFIED_ON"
+			type="date"></property>
+		<property name="fullName" column="FULL_NAME"></property>
+		<property name="email" column="EMAIL"></property>
+		<property name="passwordSha1Hash" column="PASSWD_HASH"></property>
+		<property name="lastLogin" column="LAST_LOGIN" type="date"></property>
+		<property name="createdDate" column="CREATED_DATE" type="date"></property>
+		<many-to-one name="admin" class="User" lazy="false"
+			column="ADMIN_ID">
+		</many-to-one>
+		<property name="maxUserCount" column="MAX_USER_COUNT"></property>
+		<set name="companies" table="COMPANY_USER" lazy="false">
+			<key column="USER_ID"></key>
+			<many-to-many column="COMPANY_ID" class="Company" />
+		</set>
+		<many-to-one name="userPreferences" class="UserPreferences"
+			lazy="false" column="USER_PREFERENCES_ID" cascade="save-update,delete">
+		</many-to-one>
+		<many-to-one name="defaultCompany" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<many-to-one name="address" class="Address" lazy="false"
+			cascade="save-update,delete" column="ADDRESS_ID">
+		</many-to-one>
+		<many-to-one name="contact" class="Contact" lazy="false"
+			column="CONTACT_ID">
+		</many-to-one>
+	</class>
+	<class name="UserPreferences" table="USER_PREFERENCES">
+		<id name="id" column="ID_USER_PREFERENCES">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<property name="version" column="INSTANCE_VERSION"></property>
+		<property name="createdDate" column="INSTANCE_CREATION" type="date"></property>
+		<property name="modifiedOn" column="INSTANCE_MODIFIED_ON"
+			type="date"></property>
+		<property name="dashBoardPreferences" column="DASH_BOARD_PREFERENCES"></property>
+		<property name="customerSectionViewPreferences" column="CUSTOMER_SELECTION_VIEW_PREFERENCES"></property>
+		<property name="vendorSectionViewPreferences" column="VENDOR_SELECTION_VIEW_PREFERENCES"></property>
+		<property name="bankingSectionViewPreferences" column="BANKING_SELECTION_VIEW_PREFERENCES"></property>
+		<!--<many-to-one name="user"
+			class="User" lazy="false" column="USER_ID">
+		</many-to-one>
+	--></class>
+	<class name="VendorGroup" table="VENDOR_GROUP">
+		<id name="id" column="ID_VENDOR_GROUP">
+			<generator class="increment" />
+		</id>
+		<property name="key" column="KEY"></property>
+		<many-to-one name="company" class="Company" lazy="false"
+			column="COMPANY_ID">
+		</many-to-one>
+		<property name="name" column="NAME"></property>
+	</class>
+</hibernate-mapping>

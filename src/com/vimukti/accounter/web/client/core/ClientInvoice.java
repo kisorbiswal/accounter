@@ -1,0 +1,536 @@
+package com.vimukti.accounter.web.client.core;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@SuppressWarnings("serial")
+public class ClientInvoice extends ClientTransaction {
+
+	String customer;
+
+	ClientContact contact;
+
+	ClientAddress billingAddress;
+
+	ClientAddress shippingAdress;
+
+	String phone;
+
+	String salesPerson;
+
+	String paymentTerm;
+
+	String shippingTerm;
+
+	String shippingMethod;
+
+	double discountTotal;
+
+	String priceLevel;
+
+	double salesTaxAmount;
+
+	double payments = 0D;
+
+	double balanceDue = 0D;
+
+	boolean isPaid = false;
+
+	String accountsReceivable;
+
+	boolean isEdited = false;
+
+	String estimate;
+
+	String salesOrder;
+
+	String orderNum;
+
+	ClientTAXItemGroup taxItemGroup;
+
+	long discountDate;
+	long dueDate;
+
+	long deliverydate;
+
+	Set<ClientTransactionReceivePayment> transactionReceivePayments = new HashSet<ClientTransactionReceivePayment>();
+
+	public ClientInvoice() {
+		super();
+		setType(ClientTransaction.TYPE_INVOICE);
+	}
+
+	public ClientInvoice(ClientEstimate estimate) {
+		super();
+		setType(ClientTransaction.TYPE_INVOICE);
+
+		this.customer = estimate.customer;
+		this.contact = estimate.contact;
+		this.phone = estimate.getPhone();
+		this.billingAddress = estimate.address;
+		this.paymentTerm = estimate.paymentTerm;
+		this.salesPerson = estimate.salesPerson;
+		this.priceLevel = estimate.priceLevel;
+		this.salesTaxAmount = estimate.getSalesTax();
+		this.total = estimate.getTotal();
+		this.deliverydate = estimate.getDeliveryDate();
+		this.dueDate = estimate.getDate().getTime();
+
+		this.transactionDate = estimate.getDate().getTime();
+		this.transactionItems = estimate.getTransactionItems();
+
+		this.memo = estimate.getMemo();
+		this.reference = estimate.getReference();
+	}
+
+	@Override
+	public double getAllNonTaxableLineTotal() {
+		return totalNonTaxableAmount;
+	}
+
+	@Override
+	public void setAllNonTaxableLineTotal(double allNonTaxableLineTotal) {
+		this.totalNonTaxableAmount = allNonTaxableLineTotal;
+	}
+
+	/**
+	 * @param customer
+	 *            the customer to set
+	 */
+	public void setCustomer(String customer) {
+		this.customer = customer;
+	}
+
+	/**
+	 * @param contact
+	 *            the contact to set
+	 */
+	public void setContact(ClientContact contact) {
+		this.contact = contact;
+	}
+
+	/**
+	 * @param billingAddress
+	 *            the billingAddress to set
+	 */
+	public void setBillingAddress(ClientAddress billingAddress) {
+		this.billingAddress = billingAddress;
+	}
+
+	/**
+	 * @return the shippingAdress
+	 */
+	public ClientAddress getShippingAdress() {
+		return shippingAdress;
+	}
+
+	/**
+	 * @param shippingAdress
+	 *            the shippingAdress to set
+	 */
+	public void setShippingAdress(ClientAddress shippingAdress) {
+		this.shippingAdress = shippingAdress;
+	}
+
+	/**
+	 * @return the salesPerson
+	 */
+	public String getSalesPerson() {
+		return salesPerson;
+	}
+
+	/**
+	 * @param salesPerson
+	 *            the salesPerson to set
+	 */
+	public void setSalesPerson(String salesPerson) {
+		this.salesPerson = salesPerson;
+	}
+
+	public ClientTAXItemGroup getTaxItemGroup() {
+		return taxItemGroup;
+	}
+
+	public void setTaxItemGroup(ClientTAXItemGroup taxItemGroup) {
+		this.taxItemGroup = taxItemGroup;
+	}
+
+	/**
+	 * @param paymentTerm
+	 *            the paymentTerm to set
+	 */
+	public void setPaymentTerm(String paymentTerm) {
+		this.paymentTerm = paymentTerm;
+	}
+
+	/**
+	 * @param shippingTerm
+	 *            the shippingTerm to set
+	 */
+	public void setShippingTerm(String shippingTerm) {
+		this.shippingTerm = shippingTerm;
+	}
+
+	/**
+	 * @param shippingMethod
+	 *            the shippingMethod to set
+	 */
+	public void setShippingMethod(String shippingMethod) {
+		this.shippingMethod = shippingMethod;
+	}
+
+	/**
+	 * @param priceLevel
+	 *            the priceLevel to set
+	 */
+	public void setPriceLevel(String priceLevel) {
+		this.priceLevel = priceLevel;
+	}
+
+	/**
+	 * @return the accountsReceivable
+	 */
+	public String getAccountsReceivable() {
+		return accountsReceivable;
+	}
+
+	/**
+	 * @param accountsReceivable
+	 *            the accountsReceivable to set
+	 */
+	public void setAccountsReceivable(String accountsReceivable) {
+		this.accountsReceivable = accountsReceivable;
+	}
+
+	/**
+	 * @return the estimate
+	 */
+	public String getEstimate() {
+		return estimate;
+	}
+
+	/**
+	 * @param estimate
+	 *            the estimate to set
+	 */
+	public void setEstimate(String estimate) {
+		this.estimate = estimate;
+	}
+
+	/**
+	 * @return the transactionReceivePayments
+	 */
+	public Set<ClientTransactionReceivePayment> getTransactionReceivePayments() {
+		return transactionReceivePayments;
+	}
+
+	public String getSalesOrder() {
+		return salesOrder;
+	}
+
+	public void setSalesOrder(String salesOrder) {
+		this.salesOrder = salesOrder;
+	}
+
+	/**
+	 * @param transactionReceivePayments
+	 *            the transactionReceivePayments to set
+	 */
+	public void setTransactionReceivePayments(
+			Set<ClientTransactionReceivePayment> transactionReceivePayments) {
+		this.transactionReceivePayments = transactionReceivePayments;
+	}
+
+	/**
+	 * @param isPaid
+	 *            the isPaid to set
+	 */
+	public void setPaid(boolean isPaid) {
+		this.isPaid = isPaid;
+	}
+
+	/**
+	 * @param isEdited
+	 *            the isEdited to set
+	 */
+	public void setEdited(boolean isEdited) {
+		this.isEdited = isEdited;
+	}
+
+	/**
+	 * @return the version
+	 */
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	/**
+	 * @param version
+	 *            the version to set
+	 */
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	/**
+	 * @return the phone
+	 */
+	public String getPhone() {
+		return phone;
+	}
+
+	/**
+	 * @param phone
+	 *            the phone to set
+	 */
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	/**
+	 * @return the dueDate
+	 */
+	public long getDueDate() {
+		return dueDate;
+	}
+
+	/**
+	 * @param dueDate
+	 *            the dueDate to set
+	 */
+	public void setDueDate(long dueDate) {
+		this.dueDate = dueDate;
+	}
+
+	/**
+	 * @return the deliverydate
+	 */
+	public long getDeliverydate() {
+		return deliverydate;
+	}
+
+	/**
+	 * @param deliverydate
+	 *            the deliverydate to set
+	 */
+	public void setDeliverydate(long deliverydate) {
+		this.deliverydate = deliverydate;
+	}
+
+	/**
+	 * @return the allLineTotal
+	 */
+	@Override
+	public double getAllLineTotal() {
+		return subTotal;
+	}
+
+	/**
+	 * @param allLineTotal
+	 *            the allLineTotal to set
+	 */
+	@Override
+	public void setAllLineTotal(double allLineTotal) {
+		this.subTotal = allLineTotal;
+	}
+
+	/**
+	 * @return the allTaxableLineTotal
+	 */
+	@Override
+	public double getAllTaxableLineTotal() {
+		return totalTaxableAmount;
+	}
+
+	/**
+	 * @param allTaxableLineTotal
+	 *            the allTaxableLineTotal to set
+	 */
+	@Override
+	public void setAllTaxableLineTotal(double allTaxableLineTotal) {
+		this.totalTaxableAmount = allTaxableLineTotal;
+	}
+
+	/**
+	 * @return the discountTotal
+	 */
+	public double getDiscountTotal() {
+		return discountTotal;
+	}
+
+	/**
+	 * @param discountTotal
+	 *            the discountTotal to set
+	 */
+	public void setDiscountTotal(double discountTotal) {
+		this.discountTotal = discountTotal;
+	}
+
+	/**
+	 * @return the salesTaxAmount
+	 */
+	public double getSalesTaxAmount() {
+		return salesTaxAmount;
+	}
+
+	/**
+	 * @param salesTaxAmount
+	 *            the salesTaxAmount to set
+	 */
+	public void setSalesTaxAmount(double salesTaxAmount) {
+		this.salesTaxAmount = salesTaxAmount;
+	}
+
+	/**
+	 * @return the payments
+	 */
+	public double getPayments() {
+		return payments;
+	}
+
+	/**
+	 * @param payments
+	 *            the payments to set
+	 */
+	public void setPayments(double payments) {
+		this.payments = payments;
+	}
+
+	/**
+	 * @return the balanceDue
+	 */
+	public double getBalanceDue() {
+		return balanceDue;
+	}
+
+	/**
+	 * @param balanceDue
+	 *            the balanceDue to set
+	 */
+	public void setBalanceDue(double balanceDue) {
+		this.balanceDue = balanceDue;
+	}
+
+	/**
+	 * @return the isPaid
+	 */
+	public boolean getIsPaid() {
+		return isPaid;
+	}
+
+	/**
+	 * @param isPaid
+	 *            the isPaid to set
+	 */
+	public void setIsPaid(boolean isPaid) {
+		this.isPaid = isPaid;
+	}
+
+	public boolean getIsEdited() {
+		return isEdited;
+	}
+
+	public void setIsEdited(boolean isEdited) {
+		this.isEdited = isEdited;
+	}
+
+	public long getDiscountDate() {
+		return discountDate;
+	}
+
+	public void setDiscountDate(long discountDate) {
+		this.discountDate = discountDate;
+	}
+
+	@Override
+	public void setTransactionItems(List<ClientTransactionItem> transactionItems) {
+		super.setTransactionItems(transactionItems);
+
+		this.subTotal = getLineTotalSum();
+		this.totalTaxableAmount = getTaxableLineTotalSum();
+		this.discountTotal = getDiscountTotalSum();
+
+	}
+
+	@Override
+	public String getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getPaymentTerm() {
+		// TODO Auto-generated method stub
+		return this.paymentTerm;
+	}
+
+	public String getCustomer() {
+		// TODO Auto-generated method stub
+		return this.customer;
+	}
+
+	public ClientContact getContact() {
+		// TODO Auto-generated method stub
+		return this.contact;
+	}
+
+	public String getPriceLevel() {
+		// TODO Auto-generated method stub
+		return priceLevel;
+	}
+
+	/**
+	 * @return the shippingTerm
+	 */
+	public String getShippingTerm() {
+		return shippingTerm;
+	}
+
+	public String getShippingMethod() {
+		return shippingMethod;
+	}
+
+	public ClientAddress getBillingAddress() {
+		// TODO Auto-generated method stub
+		return this.billingAddress;
+	}
+
+	@Override
+	public String getStringID() {
+		return this.stringID;
+	}
+
+	@Override
+	public void setStringID(String stringID) {
+		this.stringID = stringID;
+
+	}
+
+	@Override
+	public String getClientClassSimpleName() {
+
+		return "ClientInvoice";
+	}
+
+	@Override
+	public AccounterCoreType getObjectType() {
+		return AccounterCoreType.INVOICE;
+	}
+
+	public String getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(String orderNum) {
+		this.orderNum = orderNum;
+	}
+
+}
