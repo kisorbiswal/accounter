@@ -1685,4 +1685,53 @@ public class UIUtils {
 	public static native void changeCursorStyle(String style)/*-{
 		document.body.style.cursor = style;
 	}-*/;
+	
+	public static native void exportReport(int start, int end, int reportType,
+			String name, String dateRangeHtml)/*-{
+		try{
+		var frame = document.createElement("IFRAME");
+		frame.setAttribute("src", "/do/finance/ExportReportServlet?startDate="+start+"&endDate="+end+"&reportType="+reportType+"&navigatedName="+name+"&dateRangeHtml="+dateRangeHtml); 
+		frame.style.visibility = "hidden";
+		document.body.appendChild(frame);
+		}catch(e){
+		alert(e);
+		}
+	}-*/;
+
+	public static native void exportReport(int start, int end, int reportType,
+			String name, String dateRangeHtml, String status)/*-{
+		try{
+		var frame = document.createElement("IFRAME");
+		frame.setAttribute("src", "/do/finance/ExportReportServlet?startDate="+start+"&endDate="+end+"&reportType="+reportType+"&navigatedName="+name+"&dateRangeHtml="+dateRangeHtml+"&status="+status); 
+		frame.style.visibility = "hidden";
+		document.body.appendChild(frame);
+		}catch(e){
+		alert(e);
+		}
+	}-*/;
+
+	public static native void generateReportPDF(int start, int end,
+			int reportType, String name, String dateRangeHtml)/*-{
+		try{
+		var frame = document.createElement("IFRAME");
+		frame.setAttribute("src", "/do/finance/generatePDFServlet?startDate="+start+"&endDate="+end+"&reportType="+reportType+"&navigatedName="+name+"&dateRangeHtml="+dateRangeHtml); 
+		frame.style.visibility = "hidden";
+		document.body.appendChild(frame);
+		}catch(e){
+		alert(e);
+		}
+	}-*/;
+
+	public static native void generateReportPDF(int start, int end,
+			int reportType, String name, String dateRangeHtml, String status)/*-{
+		try{
+		var frame = document.createElement("IFRAME");
+		frame.setAttribute("src", "/do/finance/generatePDFServlet?startDate="+start+"&endDate="+end+"&reportType="+reportType+"&navigatedName="+name+"&dateRangeHtml="+dateRangeHtml+"&status="+status); 
+		frame.style.visibility = "hidden";
+		document.body.appendChild(frame);
+		}catch(e){
+		alert(e);
+		}
+	}-*/;
+	
 }

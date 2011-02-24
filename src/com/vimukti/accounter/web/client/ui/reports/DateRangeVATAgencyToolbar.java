@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientVATAgency;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -27,7 +28,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 	@SuppressWarnings("unused")
 	private ComboBoxItem reportBasisItem;
 	private ComboBoxItem dateRangeItem;
-	private TAXAgencyCombo taxAgencyCombo;
+	private TAXAgencyCombo vatAgencyCombo;
 	protected String selectedEndDate;
 	protected String selectedStartDate;
 	private Button updateButton;
@@ -79,9 +80,9 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 				// FinanceApplication.getReportsMessages().previousCalenderYear(),
 				FinanceApplication.getReportsMessages().custom() };
 
-		taxAgencyCombo = new TAXAgencyCombo(FinanceApplication
+		vatAgencyCombo = new TAXAgencyCombo(FinanceApplication
 				.getReportsMessages().chooseVATAgency(), false);
-		taxAgencyCombo
+		vatAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
 
 					@Override
@@ -97,11 +98,11 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 					}
 				});
-		List<ClientTAXAgency> taxAgencies = taxAgencyCombo.getComboItems();
-		for (ClientTAXAgency taxAgency : taxAgencies) {
-			if (taxAgency.getName().equals(
+		List<ClientTAXAgency> vatAgencies = vatAgencyCombo.getComboItems();
+		for (ClientTAXAgency vatAgency : vatAgencies) {
+			if (vatAgency.getName().equals(
 					AccounterConstants.DEFAULT_VAT_AGENCY_NAME)) {
-				taxAgencyCombo.setComboItem(taxAgency);
+				vatAgencyCombo.setComboItem(vatAgency);
 				break;
 			}
 		}
@@ -141,9 +142,9 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 				ClientFinanceDate startDate = fromItem.getDate();
 				ClientFinanceDate endDate = toItem.getDate();
-				ClientTAXAgency taxAgency = taxAgencyCombo.getSelectedValue();
-				if (taxAgency != null)
-					reportview.makeReportRequest(taxAgency.getStringID(),
+				ClientTAXAgency vatAgency = vatAgencyCombo.getSelectedValue();
+				if (vatAgency != null)
+					reportview.makeReportRequest(vatAgency.getStringID(),
 							startDate, endDate);
 
 				// itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
@@ -164,9 +165,9 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 				ClientFinanceDate start = fromItem.getDate();
 				ClientFinanceDate end = toItem.getDate();
-				ClientTAXAgency taxAgency = taxAgencyCombo.getSelectedValue();
-				if (taxAgency != null)
-					reportview.makeReportRequest(taxAgency.getStringID(),
+				ClientTAXAgency vatAgency = vatAgencyCombo.getSelectedValue();
+				if (vatAgency != null)
+					reportview.makeReportRequest(vatAgency.getStringID(),
 							start, end);
 
 				// This will update the dates in the date range layout
@@ -198,17 +199,17 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 		if (UIUtils.isMSIEBrowser()) {
 			dateRangeItem.setWidth("200px");
-			taxAgencyCombo.setWidth("200px");
+			vatAgencyCombo.setWidth("200px");
 		}
 
-		addItems(taxAgencyCombo, dateRangeItem, fromItem, toItem);
+		addItems(vatAgencyCombo, dateRangeItem, fromItem, toItem);
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 	}
 
 	// set the Default Date Range to End this Calendar quarter to date
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings("unused")
 	private void setDefaultDateRange(String[] dateRangeArray) {
 
 		dateRangeItem.setDefaultValue(dateRangeArray[9]);
@@ -234,7 +235,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 		ClientFinanceDate start = startDate;
 		ClientFinanceDate end = endDate;
-		ClientTAXAgency vatAgency = taxAgencyCombo.getSelectedValue();
+		ClientTAXAgency vatAgency = vatAgencyCombo.getSelectedValue();
 		if (vatAgency != null)
 			reportview.makeReportRequest(vatAgency.getStringID(), start, end);
 

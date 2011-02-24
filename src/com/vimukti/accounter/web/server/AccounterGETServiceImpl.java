@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.server;
 
 import java.util.List;
 
-import com.bizantra.client.data.InvaliedSessionException;
+import com.vimukti.accounter.web.client.data.InvaliedSessionException;
 import com.bizantra.server.utils.SecureUtils;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.IAccounterGETService;

@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client;
 
 import java.util.List;
 
-import com.bizantra.client.data.InvaliedSessionException;
+import com.vimukti.accounter.web.client.data.InvaliedSessionException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.ClientAccount;

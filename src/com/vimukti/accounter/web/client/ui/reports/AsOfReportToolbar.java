@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 public class AsOfReportToolbar extends ReportToolbar {
 
+	@SuppressWarnings("unused")
 	private ComboBoxItem reportBasisItem;
 	private ComboBoxItem dateRangeItem;
 	private DateItem customDate;
@@ -30,6 +31,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 	}
 
 	private void createControls() {
+		@SuppressWarnings("unused")
 		String[] reportBasisArray = {
 				FinanceApplication.getReportsMessages().cash(),
 				FinanceApplication.getReportsMessages().accrual() };
@@ -114,7 +116,6 @@ public class AsOfReportToolbar extends ReportToolbar {
 		customDate.setColSpan(2);
 		customDate.addValueChangeHandler(new ValueChangeHandler<String>() {
 
-			@SuppressWarnings("deprecation")
 			@Override
 			public void onValueChange(ValueChangeEvent<String> event) {
 				ClientFinanceDate date = (customDate.getValue());

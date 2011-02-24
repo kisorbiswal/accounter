@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.bizantra.client.data.InvaliedSessionException;
+import com.vimukti.accounter.web.client.data.InvaliedSessionException;
 import com.bizantra.server.core.IIdentity;
 import com.bizantra.server.internal.core.CollaberIdentity;
 import com.bizantra.server.services.BizantraService;

@@ -12,7 +12,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
@@ -21,6 +20,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 	public DateItem fromItem;
 	public DateItem toItem;
+	@SuppressWarnings("unused")
 	private ComboBoxItem reportBasisItem;
 	private ComboBoxItem dateRangeItem;
 	private Button updateButton;
@@ -31,6 +31,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 	}
 
 	private void createControls() {
+		@SuppressWarnings("unused")
 		String[] reportBasisArray = {
 				FinanceApplication.getReportsMessages().cash(),
 				FinanceApplication.getReportsMessages().accrual() };
@@ -127,6 +128,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		fromItem.setTitle(FinanceApplication.getReportsMessages().from());
 
 		toItem = new DateItem();
+		@SuppressWarnings("unused")
 		ClientFinanceDate date = Utility.getLastandOpenedFiscalYearEndDate();
 
 		// if (date != null)
@@ -153,20 +155,16 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (!toItem.getDate().before(fromItem.getDate())) {
-					setStartDate(fromItem.getDate());
-					setEndDate(toItem.getDate());
 
-					itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
-							fromItem.getDate(), toItem.getDate());
-					dateRangeItem.setDefaultValue(FinanceApplication
-							.getReportsMessages().custom());
-					setSelectedDateRange(FinanceApplication
-							.getReportsMessages().custom());
-				} else {
-					Accounter.showError(FinanceApplication.getReportsMessages()
-							.toDateValidation());
-				}
+				setStartDate(fromItem.getDate());
+				setEndDate(toItem.getDate());
+
+				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
+						fromItem.getDate(), toItem.getDate());
+				dateRangeItem.setDefaultValue(FinanceApplication
+						.getReportsMessages().custom());
+				setSelectedDateRange(FinanceApplication.getReportsMessages()
+						.custom());
 			}
 		});
 

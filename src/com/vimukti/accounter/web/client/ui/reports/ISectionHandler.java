@@ -1,12 +1,10 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
-import com.vimukti.accounter.web.client.ui.reports.AbstractReportView.Section;
 
-public interface ISectionHandler {
-	@SuppressWarnings("unchecked")
-	public void OnSectionAdd(Section section);
+public interface ISectionHandler<R> {
+	public void OnSectionAdd(Section<R> section);
 
-	@SuppressWarnings("unchecked")
-	public void OnSectionEnd(Section section);
+	public void OnSectionEnd(Section<R> section);
 
 }
+

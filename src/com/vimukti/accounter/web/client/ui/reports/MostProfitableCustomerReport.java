@@ -5,6 +5,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.serverreports.MostProfitableCustomerServerReport;
 
 /**
  * 
@@ -12,29 +13,12 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
  * 
  * 
  */
+@SuppressWarnings("unchecked")
 public class MostProfitableCustomerReport extends
 		AbstractReportView<MostProfitableCustomers> {
 
-	@Override
-	public int[] getColumnTypes() {
-		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT,
-				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_PERCENTAGE };
-	}
-
-	@Override
-	public String[] getColunms() {
-		return new String[] {
-				FinanceApplication.getReportsMessages().customer(),
-				FinanceApplication.getReportsMessages().invoicedAmount(),
-				FinanceApplication.getReportsMessages().cost(),
-				FinanceApplication.getReportsMessages().dollarMargin(),
-				FinanceApplication.getReportsMessages().percMargin() };
-	}
-
-	@Override
-	public String getTitle() {
-		return FinanceApplication.getReportsMessages()
-				.mostProfitableCustomers();
+	public MostProfitableCustomerReport() {
+		this.serverReport = new MostProfitableCustomerServerReport(this);
 	}
 
 	@Override
@@ -54,35 +38,6 @@ public class MostProfitableCustomerReport extends
 	}
 
 	@Override
-	public Object getColumnData(MostProfitableCustomers record, int columnIndex) {
-		switch (columnIndex) {
-		case 0:
-			return record.getCustomer();
-		case 1:
-			return record.getInvoicedAmount();
-		case 2:
-			return record.getCost();
-		case 3:
-			return record.getMargin();
-		case 4:
-			return record.getMarginPercentage();
-		}
-		return null;
-	}
-
-	@Override
-	public void processRecord(MostProfitableCustomers record) {
-		if (sectionDepth == 0) {
-			addSection("", FinanceApplication.getReportsMessages().total(),
-					new int[] { 1, 2, 3, 4 });
-		} else if (sectionDepth == 1) {
-			return;
-		}
-		// Go on recursive calling if we reached this place
-		processRecord(record);
-	}
-
-	@Override
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
 
@@ -96,60 +51,21 @@ public class MostProfitableCustomerReport extends
 
 	@Override
 	public void print() {
-		String gridhtml = grid.toString();
-		String headerhtml = grid.getHeader();
 
-		gridhtml = gridhtml.replace(headerhtml, "");
-		gridhtml = gridhtml.replaceAll(grid.getFooter(), "");
-		headerhtml = headerhtml.replaceAll("td", "th");
-		headerhtml = headerhtml.substring(headerhtml.indexOf("<tr "),
-				headerhtml.indexOf("</tbody>"));
+		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 147, "", "");
 
-		String firsRow = "<tr class=\"ReportGridRow depth\">"
-				+ grid.rowFormatter.getElement(0).getInnerHTML() + "</tr>";
-		headerhtml = headerhtml + firsRow;
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 147, "", "");
 
-		gridhtml = gridhtml.replace(firsRow, headerhtml);
-		gridhtml = gridhtml.replaceAll("<tbody>", "");
-		gridhtml = gridhtml.replaceAll("</tbody>", "");
-
-		String dateRangeHtml = "<div style=\"font-family:sans-serif;\"><strong>"
-				+ this.toolbar.getStartDate()
-				+ " - "
-				+ this.toolbar.getEndDate() + "</strong></div>";
-
-		UIUtils.generateReportPDF(this.getTitle(), gridhtml, dateRangeHtml);
 	}
 
 	@Override
 	public void printPreview() {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public ClientFinanceDate getEndDate(MostProfitableCustomers obj) {
-		return obj.getEndDate();
-	}
-
-	@Override
-	public ClientFinanceDate getStartDate(MostProfitableCustomers obj) {
-		return obj.getStartDate();
-	}
-
-	@Override
-	protected int getColumnWidth(int index) {
-		if (index == 0)
-			return 200;
-		if (index == 1 || index == 2 || index == 3 || index == 4)
-			return 150;
-
-		if (index == 0)
-			return 200;
-		if (index == 1 || index == 2 || index == 3 || index == 4)
-			return 150;
-		else
-			return -1;
 	}
 
 	public int sort(MostProfitableCustomers obj1, MostProfitableCustomers obj2,

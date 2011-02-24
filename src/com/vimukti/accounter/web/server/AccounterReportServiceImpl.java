@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.bizantra.client.data.InvaliedSessionException;
+import com.vimukti.accounter.web.client.data.InvaliedSessionException;
 import com.bizantra.server.storage.HibernateUtil;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Customer;

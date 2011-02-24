@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 @SuppressWarnings("serial")
 public abstract class ClientTransaction implements IAccounterCore {
 
+	public static final int MEMO_OPENING_BALANCE = 0;
 	public static final int TYPE_CASH_SALES = 1;
 	public static final int TYPE_CASH_PURCHASE = 2;
 	public static final int TYPE_CREDIT_CARD_CHARGE = 3;

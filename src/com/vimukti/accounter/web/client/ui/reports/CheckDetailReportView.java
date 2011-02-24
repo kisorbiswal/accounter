@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.List;
+
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -45,12 +47,12 @@ public class CheckDetailReportView extends
 		return null;
 	}
 
-	@Override
-	public int[] getColumnTypes() {
-		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER,
-				COLUMN_TYPE_DATE, COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
-				COLUMN_TYPE_AMOUNT };
-	}
+//	@Override
+//	public int[] getColumnTypes() {
+//		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER,
+//				COLUMN_TYPE_DATE, COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
+//				COLUMN_TYPE_AMOUNT };
+//	}
 
 	@Override
 	public String[] getColunms() {
@@ -78,7 +80,7 @@ public class CheckDetailReportView extends
 	}
 
 	@Override
-	protected String getDefaultDateRange() {
+	public String getDefaultDateRange() {
 		return FinanceApplication.getReportsMessages().financialYearToDate();
 	}
 
@@ -106,7 +108,7 @@ public class CheckDetailReportView extends
 	}
 
 	@Override
-	protected int getColumnWidth(int index) {
+	public int getColumnWidth(int index) {
 		switch (index) {
 		case 5:
 			return 140;
@@ -126,23 +128,23 @@ public class CheckDetailReportView extends
 
 	@Override
 	public void processRecord(CheckDetailReport record) {
-		if (sectionDepth == 0) {
-			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-					FinanceApplication.getReportsMessages().total() },
-					new int[] { 5 });
-		} else if (sectionDepth == 1) {
-			this.sectionName = Utility.getTransactionName(getType(record));
-			this.sectionID = record.getTransactionId();
-			addSection(new String[] { sectionName }, new String[] { "" },
-					new int[] { 5 });
-		} else if (sectionDepth == 2) {
-			// No need to do anything, just allow adding this record
-			if (!sectionID.equals(record.getTransactionId())) {
-				endSection();
-			} else {
-				return;
-			}
-		}
+//		if (sectionDepth == 0) {
+//			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
+//					FinanceApplication.getReportsMessages().total() },
+//					new int[] { 5 });
+//		} else if (sectionDepth == 1) {
+//			this.sectionName = Utility.getTransactionName(getType(record));
+//			this.sectionID = record.getTransactionId();
+//			addSection(new String[] { sectionName }, new String[] { "" },
+//					new int[] { 5 });
+//		} else if (sectionDepth == 2) {
+//			// No need to do anything, just allow adding this record
+//			if (!sectionID.equals(record.getTransactionId())) {
+//				endSection();
+//			} else {
+//				return;
+//			}
+//		}
 		// Go on recursive calling if we reached this place
 		processRecord(record);
 	}
@@ -184,7 +186,7 @@ public class CheckDetailReportView extends
 
 	@Override
 	public void resetVariables() {
-		this.sectionDepth = 0;
+//		this.sectionDepth = 0;
 		this.sectionName = "";
 	}
 
@@ -331,6 +333,12 @@ public class CheckDetailReportView extends
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
 
+	}
+
+	@Override
+	public void onSuccess(List<CheckDetailReport> result) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

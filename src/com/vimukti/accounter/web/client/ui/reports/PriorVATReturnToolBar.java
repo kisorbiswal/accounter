@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientVATAgency;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -25,9 +26,9 @@ import com.vimukti.accounter.web.client.ui.forms.SelectItem;
  */
 public class PriorVATReturnToolBar extends ReportToolbar {
 
-	private TAXAgencyCombo taxAgencyCombo;
+	private TAXAgencyCombo vatAgencyCombo;
 	private SelectItem endingDateCombo;
-	private ClientTAXAgency selectedTAXAgency = null;
+	private ClientTAXAgency selectedVATAgency = null;
 	private ClientFinanceDate selectedEndDate;
 	private ComboBoxItem dateRangeItem;
 
@@ -77,17 +78,17 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 				// FinanceApplication.getReportsMessages().previousCalenderYear(),
 				FinanceApplication.getReportsMessages().custom() };
 
-		taxAgencyCombo = new TAXAgencyCombo(FinanceApplication
+		vatAgencyCombo = new TAXAgencyCombo(FinanceApplication
 				.getReportsMessages().chooseVATAgency(), false);
 		// vatAgencyCombo.setWidth(40);
-		taxAgencyCombo
+		vatAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
 
 					@Override
 					public void selectedComboBoxItem(ClientTAXAgency selectItem) {
 						if (selectItem != null) {
 							// isToolBarComponentChanged = true;
-							selectedTAXAgency = selectItem;
+							selectedVATAgency = selectItem;
 							fillEndingDatesCombo(selectItem);
 						}
 
@@ -139,20 +140,20 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 
 			}
 		});
-		List<ClientTAXAgency> taxAgencies = FinanceApplication.getCompany()
+		List<ClientTAXAgency> vatAgencies = FinanceApplication.getCompany()
 				.getActiveTAXAgencies();
-		for (ClientTAXAgency taxAgency : taxAgencies) {
-			if (taxAgency.getName().equals(
+		for (ClientTAXAgency vatAgency : vatAgencies) {
+			if (vatAgency.getName().equals(
 					AccounterConstants.DEFAULT_VAT_AGENCY_NAME))
-				taxAgencyCombo.addItemThenfireEvent(taxAgency);
+				vatAgencyCombo.addItemThenfireEvent(vatAgency);
 		}
 
 		if (UIUtils.isMSIEBrowser()) {
 			dateRangeItem.setWidth("200px");
-			taxAgencyCombo.setWidth("200px");
+			vatAgencyCombo.setWidth("200px");
 			endingDateCombo.setWidth("150px");
 		}
-		addItems(dateRangeItem, taxAgencyCombo, endingDateCombo);
+		addItems(dateRangeItem, vatAgencyCombo, endingDateCombo);
 	}
 
 	public void setDateRangeHide(boolean hide) {
@@ -160,14 +161,14 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 			dateRangeItem.hide();
 	}
 
-	public void fillEndingDatesCombo(ClientTAXAgency selectedTAXAgency) {
+	public void fillEndingDatesCombo(ClientTAXAgency selectItem) {
 		List<ClientVATReturn> vatReturns = FinanceApplication.getCompany()
 				.getVatReturns();
 		List<String> endDates = new ArrayList<String>();
 		endDates.add("");
 		for (ClientVATReturn vatReturn : vatReturns) {
 			if (vatReturn.getTAXAgency().equalsIgnoreCase(
-					selectedTAXAgency.getStringID())) {
+					selectItem.getStringID())) {
 
 				endDates.add(UIUtils.dateToString(new ClientFinanceDate(
 						vatReturn.getVATperiodEndDate())));
@@ -214,7 +215,7 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 		}
 		// if (selectedEndDate.length() == 0)
 		// return;
-		reportview.makeReportRequest(selectedTAXAgency.getStringID(),
+		reportview.makeReportRequest(selectedVATAgency.getStringID(),
 				selectedEndDate);
 	}
 }

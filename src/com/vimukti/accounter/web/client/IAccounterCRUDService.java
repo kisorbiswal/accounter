@@ -3,7 +3,7 @@
  */
 package com.vimukti.accounter.web.client;
 
-import com.bizantra.client.data.InvaliedSessionException;
+import com.vimukti.accounter.web.client.data.InvaliedSessionException;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;

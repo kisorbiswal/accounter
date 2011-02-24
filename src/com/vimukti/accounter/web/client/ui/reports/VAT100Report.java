@@ -4,22 +4,29 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientVATAgency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.serverreports.VAT100ServerReport;
 
+@SuppressWarnings("unchecked")
 public class VAT100Report extends AbstractReportView<VATSummary> {
+	@SuppressWarnings("unused")
 	private String sectionName = "";
+	@SuppressWarnings("unused")
 	private int row = -1;
+	private String vatAgency;
+
 	protected Double box3amount = 0.0D;
 	protected Double box4amount = 0.0D;
 
 	public VAT100Report() {
 		super(false, "No records to show");
+		this.serverReport = new VAT100ServerReport(this);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void init() {
 		super.init();
@@ -38,10 +45,10 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 				FinanceApplication.getReportsMessages().custom());
 
 		// Make rpc request for default VAT Agency and default DateRange
-		List<ClientTAXAgency> taxAgencies = FinanceApplication.getCompany()
+		List<ClientTAXAgency> vatAgencies = FinanceApplication.getCompany()
 				.getTaxAgencies();
-		for (ClientTAXAgency taxAgency : taxAgencies) {
-			if (taxAgency.getName().equalsIgnoreCase(
+		for (ClientTAXAgency vatAgency : vatAgencies) {
+			if (vatAgency.getName().equalsIgnoreCase(
 					FinanceApplication.getReportsMessages()
 							.hmCustomsExciseVAT())) {
 				ClientFinanceDate date = new ClientFinanceDate();
@@ -51,7 +58,7 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 						.getYear(), startMonth, 1);
 				ClientFinanceDate start = startDate;
 				ClientFinanceDate end = date;
-				makeReportRequest(taxAgency.getStringID(), start, end);
+				makeReportRequest(vatAgency.getStringID(), start, end);
 				break;
 			}
 		}
@@ -59,45 +66,14 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 
 	@Override
 	public void OnRecordClick(VATSummary record) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
-	public Object getColumnData(VATSummary record, int columnIndex) {
-		switch (columnIndex) {
-		case 0:
-			return record.getVatReturnEntryName();
-		case 1:
-			return record.getValue();
-		}
-		return null;
-	}
-
-	@Override
-	public int[] getColumnTypes() {
-		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT };
-	}
-
-	@Override
-	public String[] getColunms() {
+	public String[] getDynamicHeaders() {
 		return new String[] {
 				"",
 				UIUtils.getDateByCompanyType(toolbar.getStartDate()) + "-"
 						+ UIUtils.getDateByCompanyType(toolbar.getEndDate()) };
-	}
-
-	@Override
-	protected String[] getDynamicHeaders() {
-		return new String[] {
-				"",
-				UIUtils.getDateByCompanyType(toolbar.getStartDate()) + "-"
-						+ UIUtils.getDateByCompanyType(toolbar.getEndDate()) };
-	}
-
-	@Override
-	public String getTitle() {
-		return FinanceApplication.getReportsMessages().vat100();
 	}
 
 	@Override
@@ -108,86 +84,11 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 	@Override
 	public void makeReportRequest(String vatAgency,
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		row = -1;
-		this.sectionName = "";
+		// row = -1;
+		// this.sectionName = "";
 		FinanceApplication.createReportService().getVAT100Report(vatAgency,
 				startDate.getTime(), endDate.getTime(), this);
-
-	}
-
-	@Override
-	protected String getDefaultDateRange() {
-		return FinanceApplication.getReportsMessages().lastVATQuarter();
-	}
-
-	@Override
-	public void processRecord(VATSummary record) {
-		if (this.handler == null)
-			iniHandler();
-		if (this.row == -1) {
-			this.sectionName = "";
-			addSection("", FinanceApplication.getReportsMessages()
-					.box5NetVATToPayOrReclaimIfNegative(), new int[] {});
-
-			this.sectionName = FinanceApplication.getReportsMessages().vatDue();
-			addSection(this.sectionName, FinanceApplication
-					.getReportsMessages().box3TotalVATDue(), new int[] { 1 });
-			row = 0;
-		} else if (this.row < 4) {
-			row = row + 1;
-			if (row == 3) {
-				box4amount = record.getValue();
-				// end vat Due section
-				endSection();
-				return;
-			}
-			if (row == 4) {
-				// end net VAT pay section
-				endSection();
-			}
-			return;
-		} else {
-			return;
-		}
-		// Go on recursive calling if we reached this place
-		processRecord(record);
-
-	}
-
-	protected void iniHandler() {
-
-		this.handler = new ISectionHandler() {
-
-			@SuppressWarnings("unchecked")
-			@Override
-			public void OnSectionAdd(
-					com.vimukti.accounter.web.client.ui.reports.AbstractReportView.Section section) {
-				if (section.footer.equals(FinanceApplication
-						.getReportsMessages()
-						.box5NetVATToPayOrReclaimIfNegative())) {
-					section.data[0] = "";
-				}
-			}
-
-			@SuppressWarnings("unchecked")
-			@Override
-			public void OnSectionEnd(
-					com.vimukti.accounter.web.client.ui.reports.AbstractReportView.Section section) {
-
-				if (section.footer.equals(FinanceApplication
-						.getReportsMessages().box3TotalVATDue())) {
-					box3amount = Double.valueOf(section.data[1].toString());
-				}
-				if (section.footer.equals(FinanceApplication
-						.getReportsMessages()
-						.box5NetVATToPayOrReclaimIfNegative())) {
-					section.data[1] = box3amount - box4amount;
-					sectionDepth = 1;
-				}
-
-			}
-		};
-
+		this.vatAgency = vatAgency;
 	}
 
 	@Override
@@ -210,74 +111,19 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 	@Override
 	public void print() {
 
-		if (UIUtils.isMSIEBrowser()) {
-			printDataForIEBrowser();
-		} else
-			printDataForOtherBrowser();
-	}
+		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 137, "", "", vatAgency);
 
-	private void printDataForOtherBrowser() {
-		String gridhtml = grid.toString();
-		String headerhtml = grid.getHeader();
-
-		gridhtml = gridhtml.replaceAll(headerhtml, "");
-
-		headerhtml = headerhtml.replaceAll("td", "th");
-		headerhtml = headerhtml.substring(headerhtml.indexOf("<tr "),
-				headerhtml.indexOf("</tbody>"));
-
-		String firsRow = "<tr class=\"ReportGridRow\">"
-				+ grid.rowFormatter.getElement(0).getInnerHTML() + "</tr>";
-		headerhtml = headerhtml + firsRow;
-		gridhtml = gridhtml.replace(firsRow, headerhtml);
-		gridhtml = gridhtml.replaceAll("<tbody>", "");
-		gridhtml = gridhtml.replaceAll("</tbody>", "");
-
-		String dateRangeHtml = null;
-
-		UIUtils.generateReportPDF(this.getTitle(), gridhtml, dateRangeHtml);
-	}
-
-	private void printDataForIEBrowser() {
-		String gridhtml = grid.toString();
-		String headerhtml = grid.getHeader();
-		gridhtml = gridhtml.replaceAll("\r\n", "");
-		headerhtml = headerhtml.replaceAll("\r\n", "");
-
-		gridhtml = gridhtml.replaceAll(headerhtml, "");
-
-		headerhtml = headerhtml.replaceAll("TD", "TH");
-		headerhtml = headerhtml.substring(headerhtml.indexOf("<TR "),
-				headerhtml.indexOf("</TBODY>"));
-
-		String firsRow = "<TR class=ReportGridRow>"
-				+ grid.rowFormatter.getElement(0).getInnerHTML() + "</TR>";
-		firsRow = firsRow.replaceAll("\r\n", "");
-		headerhtml = headerhtml + firsRow;
-
-		gridhtml = gridhtml.replace(firsRow, headerhtml);
-		gridhtml = gridhtml.replaceAll("<TBODY>", "");
-		gridhtml = gridhtml.replaceAll("</TBODY>", "");
-
-		String dateRangeHtml = null;
-
-		UIUtils.generateReportPDF(this.getTitle(), gridhtml, dateRangeHtml);
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 137, "", "", vatAgency);
 	}
 
 	@Override
 	public void printPreview() {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public ClientFinanceDate getEndDate(VATSummary obj) {
-		return obj.getEndDate();
-	}
-
-	@Override
-	public ClientFinanceDate getStartDate(VATSummary obj) {
-		return obj.getStartDate();
 	}
 
 	@Override
@@ -292,18 +138,4 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 		return 0;
 	}
 
-	@Override
-	public void resetVariables() {
-		this.sectionName = "";
-		this.row = -1;
-		sectionDepth = 0;
-	}
-
-	@Override
-	protected int getColumnWidth(int index) {
-		if (index == 1)
-			return 175;
-		else
-			return -1;
-	}
 }

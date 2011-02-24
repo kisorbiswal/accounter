@@ -6,7 +6,7 @@ package com.vimukti.accounter.web.server;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bizantra.client.data.InvaliedSessionException;
+import com.vimukti.accounter.web.client.data.InvaliedSessionException;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.CashSales;

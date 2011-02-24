@@ -34,6 +34,7 @@ public class APAgingSummaryReportAction extends Action {
 		return FinanceApplication.getFinanceMenuImages().reports();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
 		return this.report;

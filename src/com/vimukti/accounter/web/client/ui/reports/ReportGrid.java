@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.ui.grids.CustomTable;
  * @param <R>
  */
 public class ReportGrid<R> extends CustomTable {
+	
 	private String[] columns = {};
 	List<R> list = new ArrayList<R>();
 
@@ -90,7 +91,7 @@ public class ReportGrid<R> extends CustomTable {
 			if (maxDepth < depth)
 				this.maxDepth = depth;
 			if (values.length > i && values[i] != null) {
-				if (reportView.columnstoHide.contains(i) && record != null) {
+				if (reportView.getColumnstoHide().contains(i) && record != null) {
 					addCell(rowCount, i, bold, "", depth, false);
 				} else if (columnTypes[i] == COLUMN_TYPE_AMOUNT) {
 					addCell(rowCount, i, bold, getValue(values[i]), depth,
@@ -282,7 +283,7 @@ public class ReportGrid<R> extends CustomTable {
 	public void headerCellClicked(int colIndex) {
 		if (sorting != null) {
 			sorting.isDecending = isDecending;
-			sorting.sort(reportView.records, colIndex);
+			sorting.sort(reportView.getRecords(), colIndex);
 			isDecending = !sorting.isDecending;
 			reportView.refresh();
 		}

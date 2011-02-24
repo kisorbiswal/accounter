@@ -22,11 +22,11 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	public int precategory = 1001;
 	public String customerId;
 
-	@Override
-	public int[] getColumnTypes() {
-		return new int[] { COLUMN_TYPE_DATE, COLUMN_TYPE_TEXT,
-				COLUMN_TYPE_NUMBER, COLUMN_TYPE_NUMBER, COLUMN_TYPE_AMOUNT };
-	}
+//	@Override
+//	public int[] getColumnTypes() {
+//		return new int[] { COLUMN_TYPE_DATE, COLUMN_TYPE_TEXT,
+//				COLUMN_TYPE_NUMBER, COLUMN_TYPE_NUMBER, COLUMN_TYPE_AMOUNT };
+//	}
 
 	@Override
 	public String[] getColunms() {
@@ -50,7 +50,7 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	}
 
 	@Override
-	protected int getColumnWidth(int index) {
+	public int getColumnWidth(int index) {
 		if (index == 1)
 			return 160;
 		else if (index == 0)
@@ -386,7 +386,7 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 
 	@Override
 	public void resetVariables() {
-		sectionDepth = 0;
+//		sectionDepth = 0;
 		sectionName = "";
 		precategory = 1001;
 		types.clear();
@@ -396,7 +396,7 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	}
 
 	@Override
-	protected String getDefaultDateRange() {
+	public String getDefaultDateRange() {
 		return FinanceApplication.getReportsMessages().all();
 	}
 }

@@ -57,16 +57,16 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 	}
 
 	@Override
-	protected String getDefaultDateRange() {
+	public String getDefaultDateRange() {
 		return FinanceApplication.getReportsMessages().financialYearToDate();
 	}
 
-	@Override
-	public int[] getColumnTypes() {
-		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER,
-				COLUMN_TYPE_DATE, COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
-				COLUMN_TYPE_AMOUNT };
-	}
+//	@Override
+//	public int[] getColumnTypes() {
+//		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER,
+//				COLUMN_TYPE_DATE, COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
+//				COLUMN_TYPE_AMOUNT };
+//	}
 
 	@Override
 	public String[] getColunms() {
@@ -96,25 +96,25 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 
 	@Override
 	public void processRecord(DepositDetail record) {
-		if (sectionDepth == 0) {
-			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-					FinanceApplication.getReportsMessages().total() },
-					new int[] { 5 });
-		} else if (sectionDepth == 1) {
-			this.sectionName = Utility.getTransactionName(getType(record));
-			this.sectionID = record.getTransactionId();
-			addSection(new String[] { sectionName }, new String[] { "" },
-					new int[] { 5 });
-		} else if (sectionDepth == 2) {
-			// No need to do anything, just allow adding this record
-			// if (!sectionName
-			// .equals(Utility.getTransactionName(getType(record)))) {
-			if (!sectionID.equals(record.getTransactionId())) {
-				endSection();
-			} else {
-				return;
-			}
-		}
+//		if (sectionDepth == 0) {
+//			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
+//					FinanceApplication.getReportsMessages().total() },
+//					new int[] { 5 });
+//		} else if (sectionDepth == 1) {
+//			this.sectionName = Utility.getTransactionName(getType(record));
+//			this.sectionID = record.getTransactionId();
+//			addSection(new String[] { sectionName }, new String[] { "" },
+//					new int[] { 5 });
+//		} else if (sectionDepth == 2) {
+//			// No need to do anything, just allow adding this record
+//			// if (!sectionName
+//			// .equals(Utility.getTransactionName(getType(record)))) {
+//			if (!sectionID.equals(record.getTransactionId())) {
+//				endSection();
+//			} else {
+//				return;
+//			}
+//		}
 		// Go on recursive calling if we reached this place
 		processRecord(record);
 	}
@@ -173,7 +173,7 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 	}
 
 	@Override
-	protected int getColumnWidth(int index) {
+	public int getColumnWidth(int index) {
 		switch (index) {
 		case 5:
 			return 140;
@@ -229,7 +229,7 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 
 	@Override
 	public void resetVariables() {
-		this.sectionDepth = 0;
+//		this.sectionDepth = 0;
 		this.sectionName = "";
 		this.currentsectionName = "";
 	}

@@ -74,7 +74,6 @@ public abstract class ReportToolbar extends HorizontalPanel {
 		this.endDate = endDate;
 	}
 
-	@SuppressWarnings("deprecation")
 	public void dateRangeChanged(String dateRange) {
 		try {
 			ClientFinanceDate date = new ClientFinanceDate();
@@ -577,7 +576,6 @@ public abstract class ReportToolbar extends HorizontalPanel {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	public void getCurrentQuarter() {
 
 		ClientFinanceDate date = new ClientFinanceDate();
@@ -610,7 +608,6 @@ public abstract class ReportToolbar extends HorizontalPanel {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	public void getPreviousQuarter() {
 
 		ClientFinanceDate date = new ClientFinanceDate();
@@ -643,7 +640,6 @@ public abstract class ReportToolbar extends HorizontalPanel {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	public void getNextQuarter() {
 
 		ClientFinanceDate date = new ClientFinanceDate();

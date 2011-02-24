@@ -36,7 +36,7 @@ import org.hibernate.classic.Lifecycle;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import com.bizantra.client.data.ISearchResultObject;
+import com.vimukti.accounter.web.client.data.ISearchResultObject;
 import com.bizantra.server.core.IMember;
 import com.bizantra.server.core.IObjectPath;
 import com.bizantra.server.ext.AbstractSpaceObject;

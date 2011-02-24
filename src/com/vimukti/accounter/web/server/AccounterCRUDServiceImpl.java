@@ -6,7 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import com.bizantra.client.data.InvaliedSessionException;
+import com.vimukti.accounter.web.client.data.InvaliedSessionException;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Transaction;
