@@ -1,7 +1,7 @@
 /** Add css rules here for your application. */
 	/** Example rules used by the template application (remove for your app) */
 .widget { /**background:url(images/icons/startBar.png) repeat-x;*/
-	background: url(images/bar-shade.png) scroll repeat-x;
+	background: url(images/top-hadder.png) scroll repeat-x;
 }
 
 .widget img {
@@ -78,11 +78,10 @@ h1 {
 	text-decoration: none;
 }
 
-.menuItemImage {
+/*.menuItemImage {
 	background-repeat: no-repeat !important;
 	padding: 4px 14px 4px 30px !important;
-}
-
+}*/
 .boldcell {
 	font-weight: bold;
 	cursor: default;
@@ -94,7 +93,7 @@ h1 {
 
 .financeBackground {
 	background: #FFFFFF none repeat scroll 0 0;
-	border: 2px solid #C6E2FF;
+	border: 2px solid #CCCCCC;
 	padding: 6px;
 }
 
@@ -106,48 +105,48 @@ h1 {
 }
 
 .depth1 {
-	padding-left: 5% !important;
+	padding-left: 1% !important;
 }
 
 .depth2 {
-	padding-left: 7% !important;
+	padding-left: 2% !important;
 }
 
 .depth3 {
-	padding-left: 9% !important;
+	padding-left: 3% !important;
 }
 
 .depth4 {
-	padding-left: 11% !important;
+	padding-left: 4% !important;
 }
 
 .depth5 {
-	padding-left: 13% !important;
+	padding-left: 5% !important;
 }
 
 .depth6 {
-	padding-left: 15% !important;
+	padding-left: 6% !important;
 }
 
 .depth7 {
-	padding-left: 17% !important;
+	padding-left: 7% !important;
 }
 
 .depth8 {
-	padding-left: 19% !important;
+	padding-left: 8% !important;
 }
 
 .depth9 {
-	padding-left: 21% !important;
+	padding-left: 9% !important;
 }
 
 .depth10 {
-	padding-left: 23% !important;
+	padding-left: 10% !important;
 }
 
 .ReportGrid tr td.underline {
 	border-top: 1px solid black;
-	border-bottom: 0px none;
+	border-bottom: 0px solid black;
 	border-left: 0px none;
 	border-right: 0px none;
 	cursor: default;
@@ -160,7 +159,7 @@ h1 {
 
 .financeWindow {
 	padding: 3px;
-	margin: 0 auto;
+	/*margin: 0 auto;*/
 }
 
 .noScroll {
@@ -212,7 +211,7 @@ h1 {
 }
 
 table tr.ReportGridRow:HOVER {
-	background: #9fd8ef url('images/mouse-hover-shade.png') repeat-x;
+	background: #9fd8ef url('images/corser.png') repeat-x;
 }
 
 .reportGridContainer {
@@ -229,7 +228,6 @@ table tr.ReportGridRow:HOVER {
 	background: #EEEEEE none repeat scroll 0 0;
 	table-layout: fixed;
 	width: 100%;
-	height: 100%;
 }
 
 .listgridfooter td {
@@ -317,16 +315,16 @@ table tr.ReportGridRow:HOVER {
 }
 
 .previousButton {
-	background: url(images/previous.png) no-repeat;
+	background: url(images/previous_new.png) no-repeat;
 	padding-top: 5px;
 }
 
 .nextButton {
-	background: url(images/next.png) no-repeat;
+	background: url(images/next_new.png) no-repeat;
 }
 
 .discardButton {
-	background: url(images/close-button.png) no-repeat;
+	background: url(images/close-icon.png) no-repeat;
 }
 
 .previousButton,.nextButton,.discardButton {
@@ -382,7 +380,7 @@ table tr.ReportGridRow:HOVER {
 
 .financialDataTitle {
 	font-weight: bold;
-	background: #c9d6e6;
+	background: #BBBBBB;
 }
 
 .financialDataTitle:FIRST-CHILD {
@@ -436,12 +434,13 @@ table tr.ReportGridRow:HOVER {
 }
 
 .finance-portlet .portlet {
-	margin-top: 8px;
+	margin-top: 2px;
+	padding: 0 !important;
 }
 
 div.refresh:hover {
 	background: transparent url(images/refreshGrid.png) no-repeat scroll 0
-		-15px;
+		1px;
 }
 
 div.link:hover {
@@ -460,7 +459,8 @@ div.link:hover {
 }
 
 .loading {
-	background: #5897DB url(images/refreshLoading.gif) scroll no-repeat 0 0;
+	background: transparent url(images/refreshLoading.gif) scroll no-repeat
+		0 0;
 }
 
 .loading-panel tr td {
@@ -477,7 +477,7 @@ div.link:hover {
 }
 
 .report-toolbar {
-	background: #D4E8FF;
+	background: #CCCCCC;
 	padding-right: 3px;
 }
 
@@ -495,13 +495,18 @@ tr.net-profit td {
 }
 
 td.gridDecimalCell {
-	text-align: right;
+	text-align: right !important;
+}
+
+.ReportGrid td.gridDecimalCell {
+	padding-right: 5px;
+	text-align: right !important;
 }
 
 .custom-combo {
 	border: 1px solid #aaa;
 	background: #FFF;
-	width: 100%;
+	width: 100% ;
 	height: 19px !important;
 	position: relative;
 	overflow: hidden;
@@ -526,12 +531,12 @@ table.dropdownFlex tr:hover {
 }
 
 /*.dropdown-button {
-	background: url("images/drop.png") no-repeat scroll 0 0 #FFFFFF;
+	background: #FFFFFF url(images/drop.png) no-repeat scroll 0 0;
 	height: 17px;
-	position: relative;
-	right: 18px;
-	top: 3.7px;
-	width: 17px !important;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 15px !important;
 }*/
 .dropdown-button {
 	background: url("images/drop.png") no-repeat scroll 100% 0 #FFFFFF;
@@ -558,8 +563,25 @@ table.dropdownFlex tr:hover {
 	background: url('images/arrow-decend.png') no-repeat scroll 98% 7px;
 }
 
+.disable-TextField {
+	color: #000000 !important;
+}
+
 .finance-portlet .portlet .gridBody tr td div {
 	font-size: 10pt;
+}
+
+.gwt-MenuBar-horizontal {
+	background: url("images/top-shadow.png") repeat-x scroll 0 0 transparent
+		!important;
+}
+
+.gwt-MenuBar .gwt-MenuItem-selected {
+	background-color: #AAAAAA !important;
+}
+
+.gwt-MenuBar-vertical .subMenuIcon-selected {
+	background-color: #AAAAAA !important;
 }
 
 .tablelayout {
@@ -574,6 +596,10 @@ table.dropdownFlex tr:hover {
 	width: 75% !important
 }
 
+.ReportGrid tr td {
+	font-size: 9pt !important;
+}
+
 .tablelayoutInIE {
 	padding-left: 50px !important;
 	padding-right: 50px !important;
@@ -582,10 +608,6 @@ table.dropdownFlex tr:hover {
 .tablelayoutInIE1 {
 	padding-left: 100px !important;
 	padding-right: 100pX !important;
-}
-
-.ReportGrid tr td {
-	font-size: 9pt !important;
 }
 
 .main-w-finance {
@@ -605,8 +627,8 @@ table.dropdownFlex tr:hover {
 	height: 16px !important;
 }
 
-.report-hover {
-	background: #D3E8A3 url('images/corser.png') repeat-x scroll 0 0;
+.helpAlign {
+	margin-top: 3px;
 }
 
 .falseHyperlink {
@@ -614,3 +636,4 @@ table.dropdownFlex tr:hover {
     cursor: pointer;
     text-decoration: underline;
 }
+/**End --- Styles for Finance **/
