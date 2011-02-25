@@ -12,12 +12,16 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.IAccounterGETService;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.data.ClientIdentity;
+import com.vimukti.accounter.web.client.services.IdentityService;
+import com.vimukti.accounter.web.client.services.IdentityServiceAsync;
 import com.vimukti.accounter.web.client.ui.company.CompanySetupDialog;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
@@ -220,24 +224,38 @@ public class StartupDialog extends DialogBox {
 	}
 
 	private void checkUserLogin() {
-		@SuppressWarnings("unused")
-		final AsyncCallback<Boolean> checkLoginCallback = new AsyncCallback<Boolean>() {
+
+		final AsyncCallback<ClientIdentity> checkLoginCallback = new AsyncCallback<ClientIdentity>() {
 			public void onFailure(Throwable caught) {
 				UIUtils.say("Could not authenticate!");
 			}
 
-			public void onSuccess(Boolean result) {
-				if (result != null && result.booleanValue()) {
-					getUser();
+			public void onSuccess(ClientIdentity result) {
+				if (result != null) {
+					FinanceApplication application = new FinanceApplication("",
+							new ValueCallBack<FinanceApplication>() {
+
+								@Override
+								public void execute(FinanceApplication value) {
+									RootPanel.get().add(value);
+									StartupDialog.this.removeFromParent();
+								}
+							});
 				} else {
 					UIUtils.say("Login failed!");
 				}
 			}
 
 		};
-		// FinanceApplication.createGETService().checkLogin(
-		// userEmailText.getValue().toString(),
-		// userPassText.getValue().toString(), checkLoginCallback);
+		IdentityServiceAsync service = GWT.create(IdentityService.class);
+		((ServiceDefTarget) service)
+				.setServiceEntryPoint("/do/bizantra/identity");
+		
+		service.getUserIdentity(userEmailText.getValue().toString(),
+				userPassText.getValue().toString(), false, 11,
+				checkLoginCallback);
+		
+
 
 	}
 

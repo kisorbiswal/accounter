@@ -44,6 +44,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		createControls();
 		financeWindow = this;
 		sinkEvents(Event.ONMOUSEOVER);
+		removeLoadingImage();
 	}
 
 	public MainFinanceWindow(boolean isSales) {
@@ -52,7 +53,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		} else {
 			createPurchasesControls();
 		}
-
+		removeLoadingImage();
 		financeWindow = this;
 	}
 
@@ -110,6 +111,11 @@ public class MainFinanceWindow extends VerticalPanel {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	private native void removeLoadingImage() /*-{
+		var parent=$wnd.document.getElementById('loadingWrapper');
+		parent.style.visibility='hidden';
+	}-*/;
 
 	private void createControls() {
 		// setTitle(FinanceApplication.getFinanceUIConstants().bizantraFinance());
@@ -936,7 +942,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		salesTaxMenuBar.addItem(CompanyActionFactory
 				.getManageSalesTaxItemsAction());
 		salesTaxMenuBar.addItem(CompanyActionFactory.getPaySalesTaxAction());
-		 salesTaxMenuBar.addItem(CompanyActionFactory.getAdjustTaxAction());
+		salesTaxMenuBar.addItem(CompanyActionFactory.getAdjustTaxAction());
 		// salesTaxMenuBar.addItem(CompanyActionFactory
 		// .getViewSalesTaxLiabilityAction());
 		// salesTaxMenuBar.addItem(CompanyActionFactory.getTaxItemAction());
