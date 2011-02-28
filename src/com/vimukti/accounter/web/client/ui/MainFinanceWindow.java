@@ -5,6 +5,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -35,6 +36,7 @@ public class MainFinanceWindow extends VerticalPanel {
 	private static ScrollPanel rightCanvas;
 	private static MainFinanceWindow financeWindow;
 	private static ViewManager viewManager;
+	private Header header;
 	private static boolean isNotDetachableTab;
 	private int height;
 	private int width;
@@ -44,7 +46,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		createControls();
 		financeWindow = this;
 		sinkEvents(Event.ONMOUSEOVER);
-		removeLoadingImage();
+		// removeLoadingImage();
 	}
 
 	public MainFinanceWindow(boolean isSales) {
@@ -53,7 +55,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		} else {
 			createPurchasesControls();
 		}
-		removeLoadingImage();
+		// removeLoadingImage();
 		financeWindow = this;
 	}
 
@@ -112,10 +114,10 @@ public class MainFinanceWindow extends VerticalPanel {
 		return null;
 	}
 
-	private native void removeLoadingImage() /*-{
-		var parent=$wnd.document.getElementById('loadingWrapper');
-		parent.style.visibility='hidden';
-	}-*/;
+	// private native void removeLoadingImage() /*-{
+	// var parent=$wnd.document.getElementById('loadingWrapper');
+	// parent.style.visibility='hidden';
+	// }-*/;
 
 	private void createControls() {
 		// setTitle(FinanceApplication.getFinanceUIConstants().bizantraFinance());
@@ -125,15 +127,22 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		viewManager = ViewManager.getInstance();
 		FinanceApplication.setPurchases(true);
-
+		header = new Header();
 		CompanyActionFactory.getCompanyHomeAction().run(null, false);
 		/**
-		 * commented for defiz
+		 * // * commented for defiz
 		 */
 		// RootPanel.get().add(vlay);
 		MenuBar menuBar = getMenuBar();
-
-		add(menuBar);
+		VerticalPanel vpanel = new VerticalPanel();
+		vpanel.setSize("100%", "100%");
+		HorizontalPanel hpanel1 = new HorizontalPanel();
+		hpanel1.add(header);
+		HorizontalPanel hpanel2 = new HorizontalPanel();
+		hpanel2.add(menuBar);
+		vpanel.add(hpanel1);
+		vpanel.add(hpanel2);
+		add(vpanel);
 		add(viewManager);
 
 		// setSize("100%", "100%");
