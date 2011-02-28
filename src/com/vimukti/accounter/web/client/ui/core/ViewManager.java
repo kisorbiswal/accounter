@@ -344,19 +344,19 @@ public class ViewManager extends DockPanel {
 
 		scrollPanel.setStyleName("scroll-panel");
 
-		add(statusLayout, DockPanel.NORTH);
+		// add(statusLayout, DockPanel.NORTH);
 		add(rightCanvas, DockPanel.CENTER);
 
-		AccounterDOM.addStyleToparent(statusLayout.getElement(),
-				"statusLayoutParent");
-		AccounterDOM.addStyleToparent(statusLabel.getElement(),
-				"statusLabelParent");
-		AccounterDOM.setAttribute(
-				(Element) ((Element) ((Element) ((Element) closeButton
-						.getElement().getParentElement()).getParentElement())
-						.getParentElement()).getParentElement(), "align",
-				"right");
-		// "closeBtnParent");
+		// AccounterDOM.addStyleToparent(statusLayout.getElement(),
+		// "statusLayoutParent");
+		// AccounterDOM.addStyleToparent(statusLabel.getElement(),
+		// "statusLabelParent");
+		// AccounterDOM.setAttribute(
+		// (Element) ((Element) ((Element) ((Element) closeButton
+		// .getElement().getParentElement()).getParentElement())
+		// .getParentElement()).getParentElement(), "align",
+		// "right");
+		// // "closeBtnParent");
 
 		setSize("100%", "100%");
 	}
