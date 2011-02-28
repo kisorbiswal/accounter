@@ -1158,7 +1158,7 @@ table tr.parentRow:HOVER {
 	border: 1px solid #e6e6e6;
 	cursor: pointer;
 	/*height: 10px;*/
-	background: #b4d967; /*url('images/header.png') repeat-x scroll 0 0;*/
+	background: #83BF91; /*url('images/header.png') repeat-x scroll 0 0;*/
 	height: 22px;
 }
 
@@ -1176,10 +1176,10 @@ table tr.parentRow:HOVER {
 }
 
 /* for finance*/
-.gridHeader td.gridHeaderCell,.gridBody tr td,.gridFooterParent,.gridHeaderParent,.menuBarParent,.statusLayoutParent
+/*.gridHeader td.gridHeaderCell,.gridBody tr td,.gridFooterParent,.gridHeaderParent,.menuBarParent,.statusLayoutParent
 	{
 	height: 22px;
-}
+}  praveena */
 
 .selected {
 	background: #D3E8A3 !important;
