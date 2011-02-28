@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client;
 
 import java.util.List;
 
-import com.vimukti.accounter.web.client.data.InvaliedSessionException;
+import com.vimukti.accounter.web.client.data.InvalidSessionException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -194,60 +194,60 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public List<ClientTransactionMakeDeposit> getTransactionMakeDeposits();
 
 	public List<SalesOrdersList> getSalesOrders()
-			throws InvaliedSessionException;
+			throws InvalidSessionException;
 
 	public List<PurchaseOrdersList> getPurchaseOrders()
-			throws InvaliedSessionException;
+			throws InvalidSessionException;
 
 	public List<SalesOrdersList> getSalesOrdersForCustomer(String customerID)
-			throws InvaliedSessionException;
+			throws InvalidSessionException;
 
 	public List<SalesOrdersList> getPurchaseOrdersForVendor(String vendorID)
-			throws InvaliedSessionException;
+			throws InvalidSessionException;
 
 	public List<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
-			String vendorID) throws InvaliedSessionException;
+			String vendorID) throws InvalidSessionException;
 
 	public ClientPurchaseOrder getPurchaseOrderById(String transactionId);
 
 	public List<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
-			String vendorId) throws InvaliedSessionException;
+			String vendorId) throws InvalidSessionException;
 
 	public List<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
-			String customerId) throws InvaliedSessionException;
+			String customerId) throws InvalidSessionException;
 
 	public DepreciableFixedAssetsList getDepreciableFixedAssets(
 			long depreciationFrom, long depreciationTo)
-			throws InvaliedSessionException;
+			throws InvalidSessionException;
 
 	public ClientFinanceDate getDepreciationLastDate()
-			throws InvaliedSessionException;
+			throws InvalidSessionException;
 
 	public void rollBackDepreciation(long rollBackDepreciationTo)
-			throws InvaliedSessionException;
+			throws InvalidSessionException;
 
 	public List<ClientFinanceDate> getFinancialYearStartDates()
-			throws InvaliedSessionException;
+			throws InvalidSessionException;
 
 	public List<ClientFinanceDate> getAllDepreciationFromDates()
-			throws InvaliedSessionException;
+			throws InvalidSessionException;
 
 	public void changeDepreciationStartDateTo(long newStartDate)
-			throws InvaliedSessionException;
+			throws InvalidSessionException;
 
 	public ClientVATReturn getTAXReturn(ClientTAXAgency taxAgency,
 			long fromDate, long toDate) throws InvalidOperationException,
-			InvaliedSessionException;
+			InvalidSessionException;
 
 	public FixedAssetSellOrDisposeReviewJournal getReviewJournal(
-			TempFixedAsset fixedAsset) throws InvaliedSessionException;
+			TempFixedAsset fixedAsset) throws InvalidSessionException;
 
 	public boolean createTaxes(int[] vatReturnType);
 
 	public double getAccumulatedDepreciationAmount(int depreciationMethod,
 			double depreciationRate, double purchasePrice,
 			long depreciationfrom, long depreciationtoDate)
-			throws InvaliedSessionException;
+			throws InvalidSessionException;
 
 	public Long getNextNominalCode(int accountType);
 
@@ -262,16 +262,16 @@ public interface IAccounterHomeViewService extends RemoteService {
 			long transactionDate);
 
 	public List<ClientPayVATEntries> getPayVATEntries()
-			throws InvaliedSessionException;
+			throws InvalidSessionException;
 
 	public List<ClientReceiveVATEntries> getReceiveVATEntries()
-			throws InvaliedSessionException;
+			throws InvalidSessionException;
 
 	public List<ClientFinanceLogger> getLog(long id, boolean isNext)
-			throws InvaliedSessionException;
+			throws InvalidSessionException;
 
 	public List<ClientFinanceLogger> getLog(String date, long id, boolean isNext)
-			throws InvaliedSessionException;
+			throws InvalidSessionException;
 
 	public List<PayeeList> getPayeeList(int transactionCategory);
 

@@ -72,7 +72,7 @@ public class ARAgingSummaryServerReport extends
 		// AccounterReportServiceImpl() {
 		// @Override
 		// protected IFinanceTool getFinanceTool()
-		// throws InvaliedSessionException {
+		// throws InvalidSessionException {
 		// return this.financeTool;
 		// }
 		// };
@@ -81,7 +81,7 @@ public class ARAgingSummaryServerReport extends
 		//
 		// try {
 		// onSuccess(reportService.getDebitors(start, end));
-		// } catch (InvaliedSessionException e) {
+		// } catch (InvalidSessionException e) {
 		// // TODO Auto-generated catch block
 		// e.printStackTrace();
 		// }

@@ -3,7 +3,7 @@
  */
 package com.vimukti.accounter.web.client;
 
-import com.vimukti.accounter.web.client.data.InvaliedSessionException;
+import com.vimukti.accounter.web.client.data.InvalidSessionException;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -17,10 +17,10 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 public interface IAccounterCRUDService extends RemoteService {
 
 	String create(IAccounterCore coreObject) throws InvalidOperationException,
-			InvaliedSessionException;
+			InvalidSessionException;
 
 	Boolean update(IAccounterCore coreObject) throws InvalidOperationException,
-			InvaliedSessionException;
+			InvalidSessionException;
 
 	Boolean delete(AccounterCoreType type, String stringID)
 			throws InvalidOperationException;
@@ -29,11 +29,11 @@ public interface IAccounterCRUDService extends RemoteService {
 			throws InvalidOperationException;
 
 	Boolean voidTransaction(AccounterCoreType accounterCoreType, String stringID)
-			throws InvalidOperationException, InvaliedSessionException;
+			throws InvalidOperationException, InvalidSessionException;
 
 	Boolean deleteTransaction(AccounterCoreType accounterCoreType,
 			String stringID) throws InvalidOperationException,
-			InvaliedSessionException;
+			InvalidSessionException;
 
 	Boolean canEdit(AccounterCoreType accounterCoreType, String stringID)
 			throws InvalidOperationException;

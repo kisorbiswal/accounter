@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.vimukti.accounter.web.client.data.InvaliedSessionException;
+import com.vimukti.accounter.web.client.data.InvalidSessionException;
 import com.bizantra.server.storage.HibernateUtil;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Customer;
@@ -1617,7 +1617,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<DummyDebitor> getDebitors(long startDate, long endDate)
-			throws InvaliedSessionException {
+			throws InvalidSessionException {
 
 		getMinimumAndMaximumDates(startDate, endDate);
 
@@ -1756,7 +1756,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<DummyDebitor> getCreditors(long startDate, long endDate)
-			throws InvaliedSessionException {
+			throws InvalidSessionException {
 
 		getMinimumAndMaximumDates(startDate, endDate);
 

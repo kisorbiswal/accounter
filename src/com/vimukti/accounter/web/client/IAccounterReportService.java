@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client;
 
 import java.util.List;
 
-import com.vimukti.accounter.web.client.data.InvaliedSessionException;
+import com.vimukti.accounter.web.client.data.InvalidSessionException;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -190,10 +190,10 @@ public interface IAccounterReportService extends RemoteService {
 			long toDate);
 
 	public List<DummyDebitor> getDebitors(long startDate, long endDate)
-			throws InvaliedSessionException;
+			throws InvalidSessionException;
 
 	public List<DummyDebitor> getCreditors(long startDate, long endDate)
-			throws InvaliedSessionException;
+			throws InvalidSessionException;
 
 	public List<AgedDebtors> getAgedDebtors(String Name, long startDate,
 			long endDate);

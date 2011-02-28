@@ -6,7 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import com.vimukti.accounter.web.client.data.InvaliedSessionException;
+import com.vimukti.accounter.web.client.data.InvalidSessionException;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Transaction;
@@ -49,7 +49,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public String create(IAccounterCore coreObject)
-			throws InvalidOperationException, InvaliedSessionException
+			throws InvalidOperationException, InvalidSessionException
 
 	{
 
@@ -66,7 +66,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public Boolean update(IAccounterCore coreObject)
-			throws InvalidOperationException, InvaliedSessionException
+			throws InvalidOperationException, InvalidSessionException
 
 	{
 		IFinanceTool tool = getFinanceTool();
@@ -131,10 +131,11 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 
 		return null;
 	}
+
 	@Override
 	public Boolean voidTransaction(AccounterCoreType accounterCoreType,
 			String stringID) throws InvalidOperationException,
-			InvaliedSessionException {
+			InvalidSessionException {
 		IAccounterServerCore serverCore = (IAccounterServerCore) Util
 				.loadObjectByStringID(getSession(), accounterCoreType
 						.getServerClassSimpleName(), stringID);
@@ -153,7 +154,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public Boolean deleteTransaction(AccounterCoreType accounterCoreType,
 			String stringID) throws InvalidOperationException,
-			InvaliedSessionException {
+			InvalidSessionException {
 		IAccounterServerCore serverCore = (IAccounterServerCore) Util
 				.loadObjectByStringID(getSession(), accounterCoreType
 						.getServerClassSimpleName(), stringID);

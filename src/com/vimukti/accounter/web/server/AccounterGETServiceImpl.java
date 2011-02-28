@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.server;
 
 import java.util.List;
 
-import com.vimukti.accounter.web.client.data.InvaliedSessionException;
+import com.vimukti.accounter.web.client.data.InvalidSessionException;
 import com.bizantra.server.utils.SecureUtils;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.IAccounterGETService;
@@ -34,7 +34,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
-			String stringID) throws InvaliedSessionException {
+			String stringID) throws InvalidSessionException {
 
 		IFinanceTool tool = getFinanceTool();
 
@@ -50,7 +50,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public <T extends IAccounterCore> T getObjectByName(AccounterCoreType type,
-			String name) throws InvaliedSessionException {
+			String name) throws InvalidSessionException {
 
 		IFinanceTool tool = getFinanceTool();
 
@@ -78,7 +78,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ClientCompany getCompany() throws InvaliedSessionException {
+	public ClientCompany getCompany() throws InvalidSessionException {
 		FinanceTool tool = (FinanceTool) getFinanceTool();
 		return tool.getClientCompany();
 	}
@@ -102,7 +102,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<HrEmployee> getHREmployees() throws InvaliedSessionException {
+	public List<HrEmployee> getHREmployees() throws InvalidSessionException {
 		FinanceTool tool = (FinanceTool) getFinanceTool();
 		return tool.getHREmployees();
 	}

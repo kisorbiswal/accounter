@@ -5,7 +5,7 @@ package com.vimukti.accounter.web.client;
 
 import java.util.List;
 
-import com.vimukti.accounter.web.client.data.InvaliedSessionException;
+import com.vimukti.accounter.web.client.data.InvalidSessionException;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -22,7 +22,7 @@ public interface IAccounterGETService extends RemoteService {
 	/**
 	 * Core Related
 	 * 
-	 * @throws InvaliedSessionException
+	 * @throws InvalidSessionException
 	 */
 
 	// public Boolean checkLogin(String email, String password);
@@ -261,19 +261,19 @@ public interface IAccounterGETService extends RemoteService {
 	// public ClientPaySalesTax getPaySalesTax(Long id);
 
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
-			String stringID) throws InvaliedSessionException;
+			String stringID) throws InvalidSessionException;
 
 	public <T extends IAccounterCore> T getObjectByName(AccounterCoreType type,
-			String name) throws InvaliedSessionException;
+			String name) throws InvalidSessionException;
 
 	public <T extends IAccounterCore> List<T> getObjects(AccounterCoreType type);
 
-	public ClientCompany getCompany() throws InvaliedSessionException;
+	public ClientCompany getCompany() throws InvalidSessionException;
 
 	String getStringID();
 
 	KeyFinancialIndicators getKeyFinancialIndicators();
 
-	List<HrEmployee> getHREmployees() throws InvaliedSessionException;
+	List<HrEmployee> getHREmployees() throws InvalidSessionException;
 
 }

@@ -2,7 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.text.SimpleDateFormat;
 
-import com.vimukti.accounter.web.client.data.InvaliedSessionException;
+import com.vimukti.accounter.web.client.data.InvalidSessionException;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.reports.TransactionDetailByTaxItemReport;
@@ -136,7 +136,7 @@ public class ReportsGenerator {
 		AccounterReportServiceImpl reportsSerivce = new AccounterReportServiceImpl() {
 			@Override
 			protected IFinanceTool getFinanceTool()
-					throws InvaliedSessionException {
+					throws InvalidSessionException {
 				return finaTool;
 			}
 		};

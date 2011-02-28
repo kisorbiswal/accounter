@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.vimukti.accounter.web.client.data.InvaliedSessionException;
+import com.vimukti.accounter.web.client.data.InvalidSessionException;
 import com.bizantra.server.core.IIdentity;
 import com.bizantra.server.internal.core.CollaberIdentity;
 import com.bizantra.server.services.BizantraService;
@@ -121,13 +121,13 @@ public class AccounterRPCBaseServiceImpl extends BizantraService {
 		return 0;
 	}
 
-	protected long getThreadLocalCompanyId() throws InvaliedSessionException {
+	protected long getThreadLocalCompanyId() throws InvalidSessionException {
 
 		return getFinanceTool().getCompany().getId();
 
 	}
 
-	protected IFinanceTool getFinanceTool() throws InvaliedSessionException {
+	protected IFinanceTool getFinanceTool() throws InvalidSessionException {
 
 		IIdentity identity = getIdentity();
 
@@ -147,7 +147,7 @@ public class AccounterRPCBaseServiceImpl extends BizantraService {
 	}
 
 	@Override
-	public CollaberIdentity getIdentity() throws InvaliedSessionException {
+	public CollaberIdentity getIdentity() throws InvalidSessionException {
 		if (this.getThreadLocalRequest() != null) {
 			return super.getIdentity();
 		}

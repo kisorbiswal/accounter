@@ -150,7 +150,7 @@ public class PriorVATReturnsServerReport extends
 		// {
 		// @Override
 		// protected IFinanceTool getFinanceTool()
-		// throws InvaliedSessionException {
+		// throws InvalidSessionException {
 		// return this.financeTool;
 		// }
 		// };
