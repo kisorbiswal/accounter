@@ -1182,7 +1182,7 @@ table tr.parentRow:HOVER {
 }  praveena */
 
 .selected {
-	background: #D3E8A3 !important;
+	background: #6FDF89 !important;
 }
 
 .selected td { /*border-bottom: 1px solid #C4DEFF !important;*/
@@ -3576,7 +3576,8 @@ div.edit:hover {
 }
 
 .gridAscend,.gridDecend {
-	background: #d1e8a3 !important;
+	/*background: #d1e8a3 !important;*/
+	background:#6FDF89 !important;
 }
 
 .portel-left {
