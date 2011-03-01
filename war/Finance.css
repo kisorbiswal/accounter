@@ -2,6 +2,7 @@
 	/** Example rules used by the template application (remove for your app) */
 .widget { /**background:url(images/icons/startBar.png) repeat-x;*/
 	background: url(images/top-hadder.png) scroll repeat-x;
+	display:none;
 }
 
 .widget img {
@@ -93,8 +94,10 @@ h1 {
 
 .financeBackground {
 	background: #FFFFFF none repeat scroll 0 0;
-	border: 2px solid #CCCCCC;
+	/*border: 2px solid #CCCCCC;   praveena */
 	padding: 6px;
+	margin-left:3px;
+    margin-top:-2px;
 }
 
 .listgridViewBottom {
@@ -153,8 +156,9 @@ h1 {
 }
 
 .popup {
-	border: 1px solid;
+	border: 1px solid #aaa;
 	z-index: 500001;
+	margin-top:-3px;
 }
 
 .financeWindow {
@@ -248,7 +252,7 @@ table tr.ReportGridRow:HOVER {
 .blue-date-picker {
 	background-color: #C3D9FF;
 	color: #112ABB;
-	width: 165px;
+	width: 177px;
 	z-index: 500010;
 }
 
@@ -267,7 +271,7 @@ table tr.ReportGridRow:HOVER {
 	font-family: Verdana;
 	font-size: 8pt;
 	text-align: center;
-	width: 165px;
+	width: 177px;
 }
 
 .blue-day-grid {
@@ -278,29 +282,35 @@ table tr.ReportGridRow:HOVER {
 	font-family: Verdana;
 	font-size: 8pt;
 	text-align: center;
-	width: 165px;
+	/* width: 165px; praveena*/
+	width: 177px;
 }
 
 .blue-day-grid tr {
-	height: 20px;
+	height: 22px;
+	border:1px solid #aaa; /* praveena */
 }
 
 .blue-week-end {
 	background-color: #EEEEEE;
 	color: #AAAAAA;
+	border-right:1px solid #aaa; /* praveena */
 }
 
 .blue-other-day {
 	color: #AAAAAA;
+	border-right:1px solid #aaa; /* praveena */
 }
 
 .blue-current-month-other-day {
 	color: black;
+	border-right:1px solid #aaa; /* praveena */
 }
 
 .blue-current-month-week-end {
 	background-color: #EEEEEE;
 	color: black;
+	border-right:1px solid #aaa; /* praveena */
 }
 
 .blue-current-month-selected {
@@ -506,7 +516,7 @@ td.gridDecimalCell {
 .custom-combo {
 	border: 1px solid #aaa;
 	background: #FFF;
-	width: 100%;
+	width: 100% ;
 	height: 19px !important;
 	position: relative;
 	overflow: hidden;
@@ -527,7 +537,8 @@ td.gridDecimalCell {
 }
 
 table.dropdownFlex tr:hover {
-	background: #C6E2FF;
+	/*background: #C6E2FF;*/
+	background:#83BF91 !important;
 }
 
 /*.dropdown-button {
@@ -572,16 +583,15 @@ table.dropdownFlex tr:hover {
 }
 
 .gwt-MenuBar-horizontal {
-	background: url("images/top-shadow.png") repeat-x scroll 0 0 transparent
-		!important;
+	/*background: url("images/top-shadow.png") repeat-x scroll 0 0 transparent !important;    praveena*/
 }
 
 .gwt-MenuBar .gwt-MenuItem-selected {
-	background-color: #AAAAAA !important;
+	background-color: #508F5F !important;
 }
 
 .gwt-MenuBar-vertical .subMenuIcon-selected {
-	background-color: #AAAAAA !important;
+	background-color: #508F5F !important;
 }
 
 .tablelayout {
@@ -633,16 +643,7 @@ table.dropdownFlex tr:hover {
 
 .falseHyperlink {
 	color: blue;
-	cursor: pointer;
-	text-decoration: underline;
-}
-.main-color1 {
-	background: #0099CC;
-}
-
-.label2-style {
-	font-weight: bold;
-	font-size: 15px;
-	margin-left: 30px;
+    cursor: pointer;
+    text-decoration: underline;
 }
 /**End --- Styles for Finance **/
