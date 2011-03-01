@@ -53,24 +53,24 @@ a, a:visited, a:hover {
 	font-size:small;
 	font-weight:bold;
 	height:30px;
-	margin:0;
+	margin:3px;
 	padding:2px 5px;
 	text-decoration:none;
 	-moz-border-radius:10px;
 }
-.gwt-Button:active {
+/*.gwt-Button:active {
   border: 1px inset #ccc;
 }
 .gwt-Button:hover {
   border-color: #9cf #69e #69e #7af;
-}
+}   praveena 
 .gwt-Button[disabled] {
   cursor: default;
   color: #888;
 }
 .gwt-Button[disabled]:hover {
   border: 1px outset #ccc;
-}
+}*/
 
 .gwt-CheckBox {
 }
@@ -302,7 +302,7 @@ a, a:visited, a:hover {
 .gwt-MenuBar-vertical {
   margin-top: 0px;
   margin-left: 0px;
-  background: white;
+  background: #fff;
   border:1px solid #aaa;
 }
 .gwt-MenuBar-vertical table {
@@ -1188,11 +1188,13 @@ td.datePickerMonth {
 	color:white;
     font-size:18px;
 }
-.blue-week-line tr td{
+/*.blue-week-line tr td{
 	 border-right:1px solid #aaa;
 }
-/*.blue-week-line tr{
-    border:1px solid #aaa;
+.blue-week-line tr{
+    border-color:#AAAAAA;
+	border-style:solid solid none;
+	border-width:1px;
 } */
 
 .gwt-Label{
