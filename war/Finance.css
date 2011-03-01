@@ -271,7 +271,8 @@ table tr.ReportGridRow:HOVER {
 	font-family: Verdana;
 	font-size: 8pt;
 	text-align: center;
-	width: 177px;
+	width: 184px;
+	border-collapse: collapse;
 }
 
 .blue-day-grid {
@@ -283,7 +284,7 @@ table tr.ReportGridRow:HOVER {
 	font-size: 8pt;
 	text-align: center;
 	/* width: 165px; praveena*/
-	width: 177px;
+	width: 184px;
 }
 
 .blue-day-grid tr {
