@@ -46,7 +46,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		createControls();
 		financeWindow = this;
 		sinkEvents(Event.ONMOUSEOVER);
-		 removeLoadingImage();
+		if (GWT.isScript())
+			removeLoadingImage();
 	}
 
 	public MainFinanceWindow(boolean isSales) {
@@ -55,7 +56,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		} else {
 			createPurchasesControls();
 		}
-		 removeLoadingImage();
+		if (GWT.isScript())
+			removeLoadingImage();
 		financeWindow = this;
 	}
 
@@ -114,10 +116,10 @@ public class MainFinanceWindow extends VerticalPanel {
 		return null;
 	}
 
-	 private native void removeLoadingImage() /*-{
-	 var parent=$wnd.document.getElementById('loadingWrapper');
-	 parent.style.visibility='hidden';
-	 }-*/;
+	private native void removeLoadingImage() /*-{
+		var parent=$wnd.document.getElementById('loadingWrapper');
+		parent.style.visibility='hidden';
+	}-*/;
 
 	private void createControls() {
 		// setTitle(FinanceApplication.getFinanceUIConstants().bizantraFinance());
@@ -983,25 +985,25 @@ public class MainFinanceWindow extends VerticalPanel {
 	}
 
 	@Override
-	 public void onLoad() {
-//	  Window.addResizeHandler(new ResizeHandler() {
-//
-//	   @Override
-//	   public void onResize(ResizeEvent event) {
-//	    MainFinanceWindow.this.fitToSize(event.getHeight() - 20, 960);
-//	   }
-//	  });
+	public void onLoad() {
+		// Window.addResizeHandler(new ResizeHandler() {
+		//
+		// @Override
+		// public void onResize(ResizeEvent event) {
+		// MainFinanceWindow.this.fitToSize(event.getHeight() - 20, 960);
+		// }
+		// });
 
-	  // setHeight(this.height + "px");
-	  // if (view == null)
-	  // viewManager.fitToSize(width - 10, height);
-	  // else {
-	  // view.setHeightForCanvas((height * 80.6 / 100) + "");
-	  // view.getButtonPanel().setHeight("30px");
-	  // }
-	  super.onLoad();
-	  viewManager.fitToSize(this.getOffsetHeight(), 960);
-	 }
+		// setHeight(this.height + "px");
+		// if (view == null)
+		// viewManager.fitToSize(width - 10, height);
+		// else {
+		// view.setHeightForCanvas((height * 80.6 / 100) + "");
+		// view.getButtonPanel().setHeight("30px");
+		// }
+		super.onLoad();
+		viewManager.fitToSize(this.getOffsetHeight(), 960);
+	}
 
 	@Override
 	public void onBrowserEvent(Event event) {
