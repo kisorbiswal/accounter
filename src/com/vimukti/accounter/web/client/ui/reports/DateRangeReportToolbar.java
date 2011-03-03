@@ -87,6 +87,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// reportBasisItem.setDisabled(true);
 
 		dateRangeItem = new ComboBoxItem();
+		dateRangeItem.setHelpInformation(true);
 		dateRangeItem.setTitle(FinanceApplication.getReportsMessages()
 				.dateRange());
 		dateRangeItem.setValueMap(dateRangeArray);
@@ -124,10 +125,11 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		});
 
 		fromItem = new DateItem();
-		// fromItem.setDate(FinanceApplication.getStartDate());
+		fromItem.setHelpInformation(true);
 		fromItem.setTitle(FinanceApplication.getReportsMessages().from());
 
 		toItem = new DateItem();
+		toItem.setHelpInformation(true);
 		@SuppressWarnings("unused")
 		ClientFinanceDate date = Utility.getLastandOpenedFiscalYearEndDate();
 

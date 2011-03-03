@@ -88,6 +88,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 		// reportBasisItem.setDisabled(true);
 
 		dateRangeItem = new ComboBoxItem();
+		dateRangeItem.setHelpInformation(true);
 		dateRangeItem.setTitle(FinanceApplication.getReportsMessages()
 				.dateRange());
 		dateRangeItem.setValueMap(dateRangeArray);
@@ -109,6 +110,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 			}
 		});
 		customDate = new DateItem();
+		customDate.setHelpInformation(true);
 		// customDate.setUseTextField(true);
 		// customDate.setWidth(100);
 		customDate.setShowTitle(false);

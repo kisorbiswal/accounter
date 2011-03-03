@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
-import com.vimukti.accounter.web.client.core.ClientVATAgency;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -82,6 +81,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 		vatAgencyCombo = new TAXAgencyCombo(FinanceApplication
 				.getReportsMessages().chooseVATAgency(), false);
+		vatAgencyCombo.setHelpInformation(true);
 		vatAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
 
@@ -108,6 +108,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 		}
 
 		dateRangeItem = new ComboBoxItem();
+		dateRangeItem.setHelpInformation(true);
 		dateRangeItem.setTitle(FinanceApplication.getReportsMessages()
 				.dateRange());
 		dateRangeItem.setValueMap(dateRangeArray);
@@ -131,9 +132,11 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 		});
 
 		fromItem = new DateItem();
+		fromItem.setHelpInformation(true);
 		fromItem.setTitle(FinanceApplication.getReportsMessages().from());
 
 		toItem = new DateItem();
+		toItem.setHelpInformation(true);
 		toItem.setTitle(FinanceApplication.getReportsMessages().to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 

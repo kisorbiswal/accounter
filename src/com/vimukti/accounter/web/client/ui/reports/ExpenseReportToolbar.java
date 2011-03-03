@@ -52,6 +52,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 				FinanceApplication.getReportsMessages().custom() };
 
 		expenseCombo = new ComboBoxItem();
+		expenseCombo.setHelpInformation(true);
 		expenseCombo.setTitle(FinanceApplication.getReportsMessages()
 				.expenseRealtedTo());
 		expenseCombo.setValueMap(statusArray);
@@ -77,6 +78,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		});
 
 		dateRangeItem = new ComboBoxItem();
+		dateRangeItem.setHelpInformation(true);
 		dateRangeItem.setTitle(FinanceApplication.getReportsMessages()
 				.dateRange());
 		dateRangeItem.setValueMap(dateRangeArray);
@@ -93,10 +95,12 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		});
 
 		fromItem = new DateItem();
+		fromItem.setHelpInformation(true);
 		fromItem.setDatethanFireEvent(FinanceApplication.getStartDate());
 		fromItem.setTitle(FinanceApplication.getReportsMessages().from());
 
 		toItem = new DateItem();
+		toItem.setHelpInformation(true);
 		ClientFinanceDate date = Utility.getLastandOpenedFiscalYearEndDate();
 
 		if (date != null)

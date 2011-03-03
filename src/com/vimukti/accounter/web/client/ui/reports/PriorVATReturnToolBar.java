@@ -11,7 +11,6 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
-import com.vimukti.accounter.web.client.core.ClientVATAgency;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -80,6 +79,7 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 
 		vatAgencyCombo = new TAXAgencyCombo(FinanceApplication
 				.getReportsMessages().chooseVATAgency(), false);
+		vatAgencyCombo.setHelpInformation(true);
 		// vatAgencyCombo.setWidth(40);
 		vatAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
@@ -96,6 +96,7 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 				});
 
 		dateRangeItem = new ComboBoxItem();
+		dateRangeItem.setHelpInformation(true);
 		dateRangeItem.setTitle(FinanceApplication.getReportsMessages()
 				.dateRange());
 		dateRangeItem.setValueMap(dateRangeArray);
@@ -114,7 +115,7 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 		});
 
 		endingDateCombo = new SelectItem();
-		// endingDateCombo.setWidth(70);
+		endingDateCombo.setHelpInformation(true);
 		endingDateCombo.setTitle(FinanceApplication.getReportsMessages()
 				.chooseEndingDate());
 		endingDateCombo.addChangeHandler(new ChangeHandler() {

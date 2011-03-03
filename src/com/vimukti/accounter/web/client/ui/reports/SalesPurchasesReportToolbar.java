@@ -58,6 +58,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 				FinanceApplication.getReportsMessages().custom() };
 
 		statusCombo = new ComboBoxItem();
+		statusCombo.setHelpInformation(true);
 		statusCombo.setTitle(FinanceApplication.getVendorsMessages().status());
 		statusCombo.setValueMap(statusArray);
 		statusCombo.setDefaultValue(statusArray[0]);
@@ -85,6 +86,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		});
 
 		dateRangeItem = new ComboBoxItem();
+		dateRangeItem.setHelpInformation(true);
 		dateRangeItem.setTitle(FinanceApplication.getReportsMessages()
 				.dateRange());
 		dateRangeItem.setValueMap(dateRangeArray);
@@ -101,10 +103,12 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		});
 
 		fromItem = new DateItem();
+		fromItem.setHelpInformation(true);
 		fromItem.setDatethanFireEvent(FinanceApplication.getStartDate());
 		fromItem.setTitle(FinanceApplication.getReportsMessages().from());
 
 		toItem = new DateItem();
+		toItem.setHelpInformation(true);
 		ClientFinanceDate date = Utility.getLastandOpenedFiscalYearEndDate();
 
 		if (date != null)
