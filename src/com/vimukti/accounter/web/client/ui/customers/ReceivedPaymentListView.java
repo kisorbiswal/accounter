@@ -90,6 +90,7 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 	protected SelectItem getSelectItem() {
 		viewSelect = new SelectItem(FinanceApplication.getCustomersMessages()
 				.currentView());
+		viewSelect.setHelpInformation(true);
 		viewSelect.setValueMap(ALL, OPEN, FULLY_APPLIED, VOIDED
 		// ,DELETED
 				);

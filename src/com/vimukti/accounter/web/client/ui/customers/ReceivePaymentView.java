@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
-import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
@@ -370,8 +369,8 @@ public class ReceivePaymentView extends
 			receivePayment.setCustomer(customer.getStringID());
 		if (transactionNumber != null)
 			receivePayment.setNumber(transactionNumber.getValue().toString());
-		if (refText != null)
-			receivePayment.setReference(refText.getValue().toString());
+		// if (refText != null)
+		// receivePayment.setReference(refText.getValue().toString());
 		if (memoTextAreaItem != null)
 			receivePayment.setMemo(memoTextAreaItem.getValue().toString());
 
@@ -483,6 +482,7 @@ public class ReceivePaymentView extends
 				.receivedFrom());
 
 		amtText = new AmountField(customerConstants.amountReceived());
+		amtText.setHelpInformation(true);
 		amtText.setWidth(100);
 		amtText.setDisabled(isEdit);
 
@@ -547,8 +547,8 @@ public class ReceivePaymentView extends
 		});
 
 		memoTextAreaItem = createMemoTextAreaItem();
-		refText = createRefereceText();
-		refText.setWidth(100);
+		// refText = createRefereceText();
+		// refText.setWidth(100);
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setWidth(100);
 
@@ -559,16 +559,17 @@ public class ReceivePaymentView extends
 
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			payForm.setFields(customerCombo, amtText, paymentMethodCombo,
-					refText, memoTextAreaItem);
+					memoTextAreaItem);
 		} else
 			payForm.setFields(customerCombo, amtText, paymentMethodCombo,
-					refText, memoTextAreaItem);
+					memoTextAreaItem);
 		payForm.setStyleName("align-form");
 
 		forms.add(payForm);
 
 		customerNonEditablebalText = new AmountField(customerConstants
 				.customerBalance());
+		customerNonEditablebalText.setHelpInformation(true);
 		customerNonEditablebalText.setWidth(100);
 		customerNonEditablebalText.setDisabled(true);
 
@@ -588,9 +589,11 @@ public class ReceivePaymentView extends
 		initListGrid();
 
 		unUsedCreditsText = new AmountField(customerConstants.unusedCredits());
+		unUsedCreditsText.setHelpInformation(true);
 		unUsedCreditsText.setDisabled(true);
 
 		unUsedPaymentsText = new AmountField(customerConstants.unusedPayments());
+		unUsedPaymentsText.setHelpInformation(true);
 		unUsedPaymentsText.setDisabled(true);
 
 		DynamicForm textForm = new DynamicForm();
@@ -781,12 +784,12 @@ public class ReceivePaymentView extends
 			memoTextAreaItem.setValue(memo);
 		}
 
-		String refString = ((ClientReceivePayment) transactionObject)
-				.getReference();
-
-		if (refString != null) {
-			refText.setValue(refString);
-		}
+		// String refString = ((ClientReceivePayment) transactionObject)
+		// .getReference();
+		//
+		// if (refString != null) {
+		// refText.setValue(refString);
+		// }
 
 	}
 
@@ -839,8 +842,8 @@ public class ReceivePaymentView extends
 			memoTextAreaItem.setValue(paymentToBeEdited.getMemo());
 		if (paymentToBeEdited.getPaymentMethod() != null)
 			paymentMethodCombo.setValue(paymentToBeEdited.getPaymentMethod());
-		if (paymentToBeEdited.getReference() != null)
-			refText.setValue(paymentToBeEdited.getReference());
+		// if (paymentToBeEdited.getReference() != null)
+		// refText.setValue(paymentToBeEdited.getReference());
 		setAmountRecieved(paymentToBeEdited.getAmount());
 		initTransactionNumber();
 		initTransactionTotalNonEditableItem();
@@ -1395,7 +1398,7 @@ public class ReceivePaymentView extends
 	@Override
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

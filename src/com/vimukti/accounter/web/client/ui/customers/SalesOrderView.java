@@ -37,7 +37,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
-import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -291,13 +290,13 @@ public class SalesOrderView extends
 		Label lab2 = new Label(customerConstants.productAndService());
 
 		memoTextAreaItem = createMemoTextAreaItem();
-		refText = createRefereceText();
-		refText.setWidth(100);
+		// refText = createRefereceText();
+		// refText.setWidth(100);
 
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.setNumCols(2);
-		prodAndServiceForm1.setFields(memoTextAreaItem, refText);
+		prodAndServiceForm1.setFields(memoTextAreaItem);
 		forms.add(prodAndServiceForm1);
 
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
@@ -402,7 +401,7 @@ public class SalesOrderView extends
 		shipToAddress.getCellFormatter().setWidth(0, 1, "100");
 		shipToAddress.getCellFormatter().setWidth(0, 2, "200");
 		statusSelect.setWidth("150px");
-		refText.setWidth("200px");
+		// refText.setWidth("200px");
 	}
 
 	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
@@ -423,8 +422,8 @@ public class SalesOrderView extends
 
 		initSalesPersons();
 
-//		initTaxGroups();
-//=======
+		// initTaxGroups();
+		// =======
 		initTaxItemGroups();
 
 		initSalesTaxNonEditableItem();
@@ -555,7 +554,7 @@ public class SalesOrderView extends
 				.getDueDate()));
 
 		memoTextAreaItem.setValue(salesOrderToBeEdited.getMemo());
-		refText.setValue(salesOrderToBeEdited.getReference());
+		// refText.setValue(salesOrderToBeEdited.getReference());
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			netAmountLabel.setAmount(salesOrderToBeEdited.getNetAmount());
@@ -585,7 +584,7 @@ public class SalesOrderView extends
 			if (salesOrder != null) {
 
 				memoTextAreaItem.setValue(salesOrder.getMemo());
-				refText.setValue(salesOrder.getReference());
+				// refText.setValue(salesOrder.getReference());
 
 			}
 
@@ -685,7 +684,7 @@ public class SalesOrderView extends
 			salesOrder.setTotal(transactionTotalNonEditableText.getAmount());
 
 			salesOrder.setMemo(getMemoTextAreaItem());
-			salesOrder.setReference(getRefText());
+			// salesOrder.setReference(getRefText());
 			if (selectedEstimateId != null)
 				salesOrder.setEstimate(selectedEstimateId);
 
@@ -833,7 +832,8 @@ public class SalesOrderView extends
 		} else {
 			if (customerTransactionGrid.getGrandTotal() != null
 					&& customerTransactionGrid.getTotalValue() != null) {
-				netAmountLabel.setAmount(customerTransactionGrid.getGrandTotal());
+				netAmountLabel.setAmount(customerTransactionGrid
+						.getGrandTotal());
 				vatTotalNonEditableText.setAmount(customerTransactionGrid
 						.getTotalValue()
 						- customerTransactionGrid.getGrandTotal());
@@ -952,7 +952,7 @@ public class SalesOrderView extends
 				clientItem.setItem(item.getItem());
 				clientItem.setVatItem(item.getVatItem());
 				clientItem.setVATfraction(item.getVATfraction());
-//				clientItem.setVatCode(item.getVatCode());
+				// clientItem.setVatCode(item.getVatCode());
 				clientItem.setTaxCode(item.getTaxCode());
 				clientItem.setDescription(item.getDescription());
 				clientItem.setQuantity(item.getQuantity());

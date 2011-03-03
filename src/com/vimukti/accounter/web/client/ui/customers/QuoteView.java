@@ -35,7 +35,6 @@ import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
-import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 
 public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
@@ -162,8 +161,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			if (billingAddress != null)
 				quote.setAddress(billingAddress);
 
-			quote.setReference(this.refText.getValue() != null ? this.refText
-					.getValue().toString() : "");
+			// quote.setReference(this.refText.getValue() != null ? this.refText
+			// .getValue().toString() : "");
 			quote.setPaymentTerm(Utility.getId(paymentTerm));
 
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -233,6 +232,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		contactCombo = createContactComboItem();
 		billToCombo = createBillToComboItem();
 		phoneSelect = new SelectItem();
+		phoneSelect.setHelpInformation(true);
 		phoneSelect.setTitle(customerConstants.phone());
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isEdit);
@@ -261,6 +261,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		payTermsSelect = createPaymentTermsSelectItem();
 		quoteExpiryDate = new DateField(customerConstants.expirationDate());
+		quoteExpiryDate.setHelpInformation(true);
 		quoteExpiryDate.setEnteredDate(getTransactionDate());
 		formItems.add(quoteExpiryDate);
 		quoteExpiryDate.setDisabled(isEdit);
@@ -288,8 +289,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 
 		priceLevelSelect = createPriceLevelSelectItem();
-		refText = createRefereceText();
-		refText.setWidth(100);
+		// refText = createRefereceText();
+		// refText.setWidth(100);
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
@@ -305,13 +306,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		final TextItem disabletextbox = new TextItem();
 		disabletextbox.setVisible(false);
-		
-		
 
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
 		prodAndServiceForm1.setStyleName("align-form");
 		prodAndServiceForm1.setWidth("100%");
-		prodAndServiceForm1.setFields(memoTextAreaItem, refText);
+		prodAndServiceForm1.setFields(memoTextAreaItem);
 		forms.add(prodAndServiceForm1);
 
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
@@ -321,16 +320,16 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		int accountType = FinanceApplication.getCompany().getAccountingType();
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-//			prodAndServiceForm2.setFields(priceLevelSelect, netAmountLabel,
-//					disabletextbox, vatTotalNonEditableText, disabletextbox,
-//					transactionTotalNonEditableText);
+			// prodAndServiceForm2.setFields(priceLevelSelect, netAmountLabel,
+			// disabletextbox, vatTotalNonEditableText, disabletextbox,
+			// transactionTotalNonEditableText);
 			prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
 					disabletextbox, vatTotalNonEditableText, disabletextbox,
 					transactionTotalNonEditableText);
 		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
-//			prodAndServiceForm2.setFields(taxCodeSelect,
-//					salesTaxTextNonEditable, priceLevelSelect,
-//					transactionTotalNonEditableText);
+			// prodAndServiceForm2.setFields(taxCodeSelect,
+			// salesTaxTextNonEditable, priceLevelSelect,
+			// transactionTotalNonEditableText);
 			prodAndServiceForm2.setFields(taxCodeSelect,
 					salesTaxTextNonEditable, disabletextbox,
 					transactionTotalNonEditableText);
@@ -339,12 +338,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
-		
+
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.add(menuButton);
 		vPanel.add(prodAndServiceForm1);
 		vPanel.setWidth("100%");
-		
+
 		prodAndServiceHLay.add(vPanel);
 		prodAndServiceHLay.add(prodAndServiceForm2);
 		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
@@ -374,7 +373,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		mainVLay.add(topHLay);
 		// mainVLay.add(buttLabHLay);
 		VerticalPanel gridPanel = new VerticalPanel();
-		
+
 		gridPanel.add(customerTransactionGrid);
 		mainVLay.add(gridPanel);
 		mainVLay.add(prodAndServiceHLay);
@@ -416,7 +415,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			if (quote != null) {
 
 				memoTextAreaItem.setValue(quote.getMemo());
-				refText.setValue(quote.getReference());
+				// refText.setValue(quote.getReference());
 
 			}
 
@@ -504,7 +503,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 					.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 		}
 		memoTextAreaItem.setValue(estimate.getMemo());
-		refText.setValue(estimate.getReference());
+		// refText.setValue(estimate.getReference());
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			netAmountLabel.setAmount(estimate.getNetAmount());
 			vatTotalNonEditableText.setValue(estimate.getTotal()
@@ -708,7 +707,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		custForm.getCellFormatter().setWidth(0, 1, "200px");
 		custForm.setWidth("75%");
 		priceLevelSelect.setWidth("150px");
-		refText.setWidth("200px");
+		// refText.setWidth("200px");
 
 	}
 
