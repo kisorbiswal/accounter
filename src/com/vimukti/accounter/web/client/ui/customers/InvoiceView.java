@@ -39,10 +39,10 @@ import com.vimukti.accounter.web.client.ui.InvoicePrintLayout;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
-import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -190,6 +190,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 						setDateValues(date);
 					}
 				});
+		transactionDateItem.setHelpInformation(true);
 		transactionNumber = createTransactionNumberItem();
 		transactionNumber.setTitle(FinanceApplication.getCustomersMessages()
 				.invoiceNo());
@@ -212,6 +213,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		customerCombo = createCustomerComboItem(customerConstants
 				.customerName());
+		customerCombo.setHelpInformation(true);
+		customerCombo.setWidth("100%");
 		quoteLabel = new LabelItem();
 		quoteLabel.setValue(FinanceApplication.getCustomersMessages()
 				.quotesandsalesOrder());
@@ -239,8 +242,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		billToTextArea.setTitle(FinanceApplication.getCustomersMessages()
 				.billTo());
 		billToTextArea.setDisabled(true);
+		billToTextArea.setHelpInformation(true);
 
 		shipToCombo = createShipToComboItem();
+		shipToCombo.setHelpInformation(true);
 
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.businessSelect.addChangeHandler(new ChangeHandler() {
@@ -318,6 +323,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
+		memoTextAreaItem.setHelpInformation(true);
 		refText = createRefereceText();
 		refText.setWidth(100);
 		Button printButton = new Button();
@@ -339,29 +345,34 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.setNumCols(2);
 		prodAndServiceForm1.setFields(memoTextAreaItem, refText);
+		
+		VerticalPanel vPanel = new VerticalPanel();
+		vPanel.add(createAddNewButton());
+		vPanel.add(prodAndServiceForm1);
+		vPanel.setWidth("100%");
 		forms.add(prodAndServiceForm1);
 
 		priceLevelSelect = createPriceLevelSelectItem();
 		taxCodeSelect = createTaxCodeSelectItem();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
-		netAmount = createNetAmountField();
+		netAmountLabel = createNetAmountLabel();
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableItem();
+		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
 
-		vatTotalNonEditableText = createVATTotalNonEditableItem();
+		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
-		paymentsNonEditableText = new AmountField(customerConstants.payments());
+		paymentsNonEditableText = new AmountLabel(customerConstants.payments());
 		paymentsNonEditableText.setDisabled(true);
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
-		balanceDueNonEditableText = new AmountField(customerConstants
+		balanceDueNonEditableText = new AmountLabel(customerConstants
 				.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		salesTaxTextNonEditable = createSalesTaxNonEditableItem();
+		salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 
 		customerTransactionGrid = getGrid();
 		customerTransactionGrid.setTransactionView(this);
@@ -376,7 +387,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		prodAndServiceForm2.setCellSpacing(5);
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
-		prodAndServiceHLay.add(prodAndServiceForm1);
+		prodAndServiceHLay.add(vPanel);
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
@@ -392,25 +403,28 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			priceLevelForm.setFields(priceLevelSelect);
 			DynamicForm amountsForm = new DynamicForm();
 			amountsForm.setWidth("50%");
-			amountsForm.setFields(netAmount, vatTotalNonEditableText,
+			amountsForm.setFields(netAmountLabel, vatTotalNonEditableText,
 					transactionTotalNonEditableText, paymentsNonEditableText,
 					balanceDueNonEditableText);
-			forms.add(priceLevelForm);
+			// forms.add(priceLevelForm);
 			forms.add(amountsForm);
-			prodAndServiceHLay.add(priceLevelForm);
-			prodAndServiceHLay.setCellHorizontalAlignment(priceLevelForm,
-					ALIGN_RIGHT);
+			// prodAndServiceHLay.add(priceLevelForm);
+			// prodAndServiceHLay.setCellHorizontalAlignment(priceLevelForm,
+			// ALIGN_RIGHT);
 			prodAndServiceHLay.add(amountsForm);
 			prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
 					ALIGN_RIGHT);
 
-			listforms.add(priceLevelForm);
+			// listforms.add(priceLevelForm);
 
 		} else {
 
+			// prodAndServiceForm2.setFields(salesTaxTextNonEditable,
+			// transactionTotalNonEditableText, paymentsNonEditableText,
+			// balanceDueNonEditableText, taxCodeSelect, priceLevelSelect);
 			prodAndServiceForm2.setFields(salesTaxTextNonEditable,
 					transactionTotalNonEditableText, paymentsNonEditableText,
-					balanceDueNonEditableText, taxCodeSelect, priceLevelSelect);
+					balanceDueNonEditableText, taxCodeSelect);
 
 			forms.add(prodAndServiceForm2);
 
@@ -442,8 +456,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		// mainVLay.add(lab2);
-		mainVLay.add(createAddNewButton());
+
 		mainVLay.add(customerTransactionGrid);
+
 		mainVLay.add(prodAndServiceHLay);
 
 		if (UIUtils.isMSIEBrowser())
@@ -518,7 +533,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		} else {
 			if (customerTransactionGrid.getGrandTotal() != null
 					&& customerTransactionGrid.getTotalValue() != null) {
-				netAmount.setAmount(customerTransactionGrid.getGrandTotal());
+				netAmountLabel.setAmount(customerTransactionGrid
+						.getGrandTotal());
 				vatTotalNonEditableText.setAmount(customerTransactionGrid
 						.getTotalValue()
 						- customerTransactionGrid.getGrandTotal());
@@ -671,7 +687,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				clientItem.setItem(item.getItem());
 				clientItem.setVatItem(item.getVatItem());
 				clientItem.setVATfraction(item.getVATfraction());
-//				clientItem.setVatCode(item.getTaxCode());
+				// clientItem.setVatCode(item.getTaxCode());
 				clientItem.setTaxCode(item.getTaxCode());
 				clientItem.setDescription(item.getDescription());
 				clientItem.setQuantity(item.getQuantity());
@@ -810,7 +826,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 						: getTransactionDate());
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			netAmount.setAmount(invoiceToBeEdited.getNetAmount());
+			netAmountLabel.setAmount(invoiceToBeEdited.getNetAmount());
 			vatTotalNonEditableText.setAmount(invoiceToBeEdited.getTotal()
 					- invoiceToBeEdited.getNetAmount());
 			// vatinclusiveCheck.setValue(invoiceToBeEdited.isAmountsIncludeVAT());
@@ -957,7 +973,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				}
 				invoice.setSalesTaxAmount(this.salesTax);
 			} else if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-				invoice.setNetAmount(netAmount.getAmount());
+				invoice.setNetAmount(netAmountLabel.getAmount());
 				invoice.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 						.getValue());
 			}
@@ -1046,7 +1062,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			}
 			invoice.setSalesTaxAmount(this.salesTax);
 		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			invoice.setNetAmount(netAmount.getAmount());
+			invoice.setNetAmount(netAmountLabel.getAmount());
 			invoice
 					.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 							.getValue());
@@ -1190,7 +1206,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				clientItem.setItem(item.getItem());
 				clientItem.setVatItem(item.getVatItem());
 				clientItem.setVATfraction(item.getVATfraction());
-//				clientItem.setVatCode(item.getTaxCode());
+				// clientItem.setVatCode(item.getTaxCode());
 				clientItem.setTaxCode(item.getTaxCode());
 				clientItem.setDescription(item.getDescription());
 				clientItem.setQuantity(item.getQuantity());
@@ -1419,7 +1435,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		}
 		return toToSet;
 	}
-
 
 	@Override
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
