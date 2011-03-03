@@ -321,8 +321,9 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 				VoucherNoreset();
 			}
 		});
-		gridPanel.add(addButton);
+		
 		gridPanel.add(grid);
+		gridPanel.add(addButton);
 		// gridPanel.add(labelPanel);
 
 		if (takenJournalEntry != null) {
