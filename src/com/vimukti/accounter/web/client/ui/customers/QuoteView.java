@@ -167,7 +167,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			quote.setPaymentTerm(Utility.getId(paymentTerm));
 
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-				quote.setNetAmount(netAmount.getAmount());
+				quote.setNetAmount(netAmountLabel.getAmount());
 				quote.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 						.getValue());
 			} else
@@ -285,16 +285,16 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		memoTextAreaItem.setWidth(100);
 		taxCodeSelect = createTaxCodeSelectItem();
 
-		salesTaxTextNonEditable = createSalesTaxNonEditableItem();
+		salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 
 		priceLevelSelect = createPriceLevelSelectItem();
 		refText = createRefereceText();
 		refText.setWidth(100);
-		netAmount = createNetAmountField();
+		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
-		vatTotalNonEditableText = createVATTotalNonEditableItem();
+		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableItem();
+		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
 
 		customerTransactionGrid = getGrid();
 		customerTransactionGrid.setTransactionView(this);
@@ -305,6 +305,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		final TextItem disabletextbox = new TextItem();
 		disabletextbox.setVisible(false);
+		
+		
 
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
 		prodAndServiceForm1.setStyleName("align-form");
@@ -319,19 +321,31 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		int accountType = FinanceApplication.getCompany().getAccountingType();
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			prodAndServiceForm2.setFields(priceLevelSelect, netAmount,
+//			prodAndServiceForm2.setFields(priceLevelSelect, netAmountLabel,
+//					disabletextbox, vatTotalNonEditableText, disabletextbox,
+//					transactionTotalNonEditableText);
+			prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
 					disabletextbox, vatTotalNonEditableText, disabletextbox,
 					transactionTotalNonEditableText);
 		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
+//			prodAndServiceForm2.setFields(taxCodeSelect,
+//					salesTaxTextNonEditable, priceLevelSelect,
+//					transactionTotalNonEditableText);
 			prodAndServiceForm2.setFields(taxCodeSelect,
-					salesTaxTextNonEditable, priceLevelSelect,
+					salesTaxTextNonEditable, disabletextbox,
 					transactionTotalNonEditableText);
 		}
 		forms.add(prodAndServiceForm2);
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
-		prodAndServiceHLay.add(prodAndServiceForm1);
+		
+		VerticalPanel vPanel = new VerticalPanel();
+		vPanel.add(menuButton);
+		vPanel.add(prodAndServiceForm1);
+		vPanel.setWidth("100%");
+		
+		prodAndServiceHLay.add(vPanel);
 		prodAndServiceHLay.add(prodAndServiceForm2);
 		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
 				HasHorizontalAlignment.ALIGN_RIGHT);
@@ -360,7 +374,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		mainVLay.add(topHLay);
 		// mainVLay.add(buttLabHLay);
 		VerticalPanel gridPanel = new VerticalPanel();
-		gridPanel.add(menuButton);
+		
 		gridPanel.add(customerTransactionGrid);
 		mainVLay.add(gridPanel);
 		mainVLay.add(prodAndServiceHLay);
@@ -492,7 +506,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		memoTextAreaItem.setValue(estimate.getMemo());
 		refText.setValue(estimate.getReference());
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			netAmount.setAmount(estimate.getNetAmount());
+			netAmountLabel.setAmount(estimate.getNetAmount());
 			vatTotalNonEditableText.setValue(estimate.getTotal()
 					- estimate.getNetAmount());
 		}
@@ -540,7 +554,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			setTransactionTotal(customerTransactionGrid.getTotal()
 					+ this.salesTax);
 		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			netAmount.setAmount(customerTransactionGrid.getGrandTotal());
+			netAmountLabel.setAmount(customerTransactionGrid.getGrandTotal());
 			vatTotalNonEditableText.setAmount(customerTransactionGrid
 					.getTotalValue()
 					- customerTransactionGrid.getGrandTotal());
