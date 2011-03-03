@@ -125,6 +125,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		if (viewSelect == null) {
 			viewSelect = new SelectItem(FinanceApplication
 					.getCustomersMessages().currentView());
+			viewSelect.setHelpInformation(true);
 			viewSelect.setWidth("150px");
 			viewSelect.setValueMap(FinanceApplication.getCustomersMessages()
 					.active(), FinanceApplication.getCustomersMessages()
@@ -152,6 +153,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		if (dateRangeSelector == null) {
 			dateRangeSelector = new SelectItem(FinanceApplication
 					.getCustomersMessages().date());
+			dateRangeSelector.setHelpInformation(true);
 			dateRangeSelector.setWidth("150px");
 			dateRangeSelector.setValueMap(FinanceApplication
 					.getCustomersMessages().active(), FinanceApplication
@@ -171,10 +173,12 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		}
 
 		fromItem = new DateItem();
+		fromItem.setHelpInformation(true);
 		fromItem.setTitle(FinanceApplication.getCustomersMessages().from());
 		fromItem.setDatethanFireEvent(FinanceApplication.getStartDate());
 
 		toItem = new DateItem();
+		toItem.setHelpInformation(true);
 		toItem.setTitle(FinanceApplication.getCustomersMessages().to());
 		toItem
 				.setDatethanFireEvent(Utility

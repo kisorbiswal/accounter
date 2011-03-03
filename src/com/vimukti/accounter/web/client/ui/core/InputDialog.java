@@ -50,7 +50,7 @@ public class InputDialog extends BaseDialog {
 		cancelBtn.setWidth("60px");
 
 		setBodyLayout(layout);
-//		setSize("300", "100");
+		// setSize("300", "100");
 	}
 
 	/**
@@ -61,6 +61,7 @@ public class InputDialog extends BaseDialog {
 	 */
 	private void addTextItem(String title) {
 		textItem = new TextItem(title);
+		textItem.setHelpInformation(true);
 		textItem.setRequired(true);
 		textItems.add(textItem);
 		// form.setFields(textItems.toArray(new TextItem[1]));

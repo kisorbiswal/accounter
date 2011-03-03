@@ -22,12 +22,9 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTAXGroup;
-import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.core.ClientVATCode;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
@@ -75,7 +72,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	protected TextItem transactionNumber;
 	protected DateField transactionDateItem;
 	protected TextAreaItem memoTextAreaItem;
-	protected TextItem refText;
+	// protected TextItem refText;
 	protected Button menuButton;
 	private PopupPanel popupPanel;
 	private CustomMenuBar popupMenuBar;
@@ -292,6 +289,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 		final DateField dateItem = new DateField(FinanceApplication
 				.getVendorsMessages().transactionDate());
+		dateItem.setHelpInformation(true);
 		if (this instanceof VendorBillView)
 			dateItem.setShowTitle(true);
 		else
@@ -344,6 +342,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 		final TextItem item = new TextItem(FinanceApplication
 				.getVendorsMessages().no());
+		item.setHelpInformation(true);
 		item.setWidth(100);
 		item.setColSpan(1);
 
@@ -362,7 +361,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 		TextItem refText = new TextItem(FinanceApplication.getVendorsMessages()
 				.reference());
-
+		refText.setHelpInformation(true);
 		formItems.add(refText);
 
 		return refText;
@@ -372,13 +371,14 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	protected AmountField createNetAmountField() {
 		AmountField netAmountField = new AmountField(FinanceApplication
 				.getVendorsMessages().netAmount());
+		netAmountField.setHelpInformation(true);
 		netAmountField.setDefaultValue("£0.00");
 		netAmountField.setDisabled(true);
 		return netAmountField;
 	}
 
 	protected AmountLabel createNetAmountLabel() {
-		AmountLabel netAmountLabel =  new AmountLabel(FinanceApplication
+		AmountLabel netAmountLabel = new AmountLabel(FinanceApplication
 				.getVendorsMessages().netAmount());
 		netAmountLabel.setTitle(FinanceApplication.getVendorsMessages()
 				.netAmount());
@@ -389,6 +389,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	protected TextAreaItem createMemoTextAreaItem() {
 
 		TextAreaItem memoArea = new TextAreaItem();
+		memoArea.setHelpInformation(true);
 		memoArea.setWidth(100);
 		memoArea.setTitle(FinanceApplication.getVendorsMessages().memo());
 		// memoArea.setRowSpan(2);
@@ -569,15 +570,15 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		this.transactionObject = transactionObject;
 	}
 
-	public String getRefText() {
-		return refText != null && refText.getValue().toString() != null ? refText
-				.getValue().toString()
-				: "";
-	}
-
-	public void setRefText(String reference) {
-		this.refText.setValue(reference != null ? reference : "");
-	}
+	// public String getRefText() {
+	// return refText != null && refText.getValue().toString() != null ? refText
+	// .getValue().toString()
+	// : "";
+	// }
+	//
+	// public void setRefText(String reference) {
+	// this.refText.setValue(reference != null ? reference : "");
+	// }
 
 	public String getMemoTextAreaItem() {
 		return memoTextAreaItem != null
@@ -593,6 +594,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	public SelectItem createPaymentMethodSelectItem() {
 		String paymentType = null;
 		final SelectItem paymentMethodSelect = new SelectItem();
+		paymentMethodSelect.setHelpInformation(true);
 		paymentMethodSelect.setTitle(FinanceApplication.getVendorsMessages()
 				.Paymentmethod());
 		paymentType = UIUtils
