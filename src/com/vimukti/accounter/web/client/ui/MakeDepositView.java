@@ -42,6 +42,7 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -56,7 +57,8 @@ public class MakeDepositView extends
 	DynamicForm depoForm;
 	TextItem memoText;
 
-	AmountField cashBackAmountText, totText;
+	AmountField cashBackAmountText;
+	AmountLabel  totText;
 
 	TextItem cashBackMemoText, totAmtText;
 	DynamicForm memoForm, totForm;
@@ -895,7 +897,7 @@ public class MakeDepositView extends
 			}
 		});
 
-		totText = new AmountField(bankingConstants.total());
+		totText = new AmountLabel(bankingConstants.total());
 		totText.setWidth(100);
 		totText.setDefaultValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		totText.setDisabled(true);
@@ -907,10 +909,14 @@ public class MakeDepositView extends
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
 		topHLay.add(depoForm);
-
+		
+		VerticalPanel vPanel = new VerticalPanel();
+		vPanel.add(addButton);
+		vPanel.add(form1);
+		
 		HorizontalPanel botHLay = new HorizontalPanel();
 		botHLay.setWidth("100%");
-		botHLay.add(form1);
+		botHLay.add(vPanel);
 		botHLay.setCellHorizontalAlignment(form1, ALIGN_LEFT);
 		botHLay.add(form2);
 
@@ -964,7 +970,7 @@ public class MakeDepositView extends
 		mainVLay.add(lab);
 		mainVLay.add(topHLay);
 		// mainVLay.add(lab1);
-		mainVLay.add(addButton);
+		//mainVLay.add(addButton);
 		mainVLay.add(gridView);
 		mainVLay.add(botHLay);
 
