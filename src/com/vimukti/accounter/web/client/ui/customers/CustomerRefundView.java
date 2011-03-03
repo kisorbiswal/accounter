@@ -22,7 +22,6 @@ import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
-import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -181,6 +180,7 @@ public class CustomerRefundView extends
 		// custForm.getCellFormatter().setWidth(0, 0, "150");
 
 		payFromSelect = new PayFromAccountsCombo(customerConstants.payFrom());
+		payFromSelect.setHelpInformation(true);
 		payFromSelect.setRequired(true);
 		payFromSelect.setDisabled(isEdit);
 		payFromSelect.setWidth("100%");
@@ -200,6 +200,7 @@ public class CustomerRefundView extends
 				});
 
 		amtText = new AmountField(customerConstants.amount());
+		amtText.setHelpInformation(true);
 		amtText.setRequired(true);
 		amtText.setWidth(100);
 		amtText.setDisabled(isEdit);
@@ -244,6 +245,7 @@ public class CustomerRefundView extends
 				FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? customerConstants
 						.chequeNo()
 						: customerConstants.checkNo());
+		checkNoText.setHelpInformation(true);
 		checkNoText.setWidth(100);
 		checkNoText.setDisabled(true);
 
@@ -269,8 +271,8 @@ public class CustomerRefundView extends
 
 		memoTextAreaItem = createMemoTextAreaItem();
 
-		refText = createRefereceText();
-		refText.setWidth(100);
+		// refText = createRefereceText();
+		// refText.setWidth(100);
 
 		// payForm = new DynamicForm();
 		// payForm.setWidth("100%");
@@ -279,12 +281,12 @@ public class CustomerRefundView extends
 		// forms.add(payForm);
 
 		endBalText = new AmountField(customerConstants.endingBalance());
-		// endBalText.setWidth(100);
+		endBalText.setHelpInformation(true);
 		endBalText.setDisabled(true);
 		setEndingBalance(null);
 
 		custBalText = new AmountField(customerConstants.customerBalance());
-		// custBalText.setWidth(100);
+		custBalText.setHelpInformation(true);
 		custBalText.setDisabled(true);
 		setCustomerBalance(null);
 
@@ -293,8 +295,7 @@ public class CustomerRefundView extends
 		// memoForm.setFields(memoTextAreaItem, refText);
 		// memoForm.getCellFormatter().setWidth(0, 0, "150");
 		custForm.setFields(customerCombo, billToCombo, payFromSelect, amtText,
-				paymentMethodCombo, printCheck, checkNoText, memoTextAreaItem,
-				refText);
+				paymentMethodCombo, printCheck, checkNoText, memoTextAreaItem);
 		custForm.setCellSpacing(5);
 		custForm.setWidth("100%");
 
@@ -376,7 +377,7 @@ public class CustomerRefundView extends
 			refund.setIsToBePrinted(isChecked);
 			refund.setMemo(memoTextAreaItem.getValue().toString());
 
-			refund.setReference(refText.getValue().toString());
+			// refund.setReference(refText.getValue().toString());
 
 			refund.setType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
 
@@ -471,12 +472,12 @@ public class CustomerRefundView extends
 			memoTextAreaItem.setValue(memo);
 		}
 
-		String refString = ((ClientCustomerRefund) transactionObject)
-				.getReference();
-
-		if (refString != null) {
-			refText.setValue(refString);
-		}
+		// String refString = ((ClientCustomerRefund) transactionObject)
+		// .getReference();
+		//
+		// if (refString != null) {
+		// refText.setValue(refString);
+		// }
 
 	}
 
@@ -531,7 +532,7 @@ public class CustomerRefundView extends
 				.getAmountAsString(customerRefundTobeEdited
 						.getCustomerBalance()));
 		memoTextAreaItem.setValue(customerRefundTobeEdited.getMemo());
-		refText.setValue(customerRefundTobeEdited.getReference());
+		// refText.setValue(customerRefundTobeEdited.getReference());
 		initTransactionNumber();
 	}
 
@@ -704,7 +705,7 @@ public class CustomerRefundView extends
 	@Override
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

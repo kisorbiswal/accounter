@@ -93,6 +93,7 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 	protected SelectItem getSelectItem() {
 		viewSelect = new SelectItem(FinanceApplication.getCustomersMessages()
 				.currentView());
+		viewSelect.setHelpInformation(true);
 		viewSelect.setValueMap(NOT_ISSUED, ISSUED, VOID, ALL
 		// ,DELETED
 				);
@@ -144,8 +145,8 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 			// continue;
 			// }
 			if (text.equals(ALL)) {
-				
-					grid.addData(customerRefund);
+
+				grid.addData(customerRefund);
 			}
 		}
 		if (grid.getRecords().isEmpty()) {

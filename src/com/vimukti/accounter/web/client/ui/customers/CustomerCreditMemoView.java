@@ -37,7 +37,6 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
-import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 
 public class CustomerCreditMemoView extends
 		AbstractCustomerTransactionView<ClientCustomerCreditMemo> {
@@ -114,8 +113,10 @@ public class CustomerCreditMemoView extends
 				.customerName());
 
 		contactCombo = createContactComboItem();
+		contactCombo.setHelpInformation(true);
 		// billToCombo = createBillToComboItem();
 		billToTextArea = new TextAreaItem();
+		billToTextArea.setHelpInformation(true);
 		billToTextArea.setWidth(100);
 		billToTextArea.setTitle(FinanceApplication.getCustomersMessages()
 				.creditTo());
@@ -128,6 +129,7 @@ public class CustomerCreditMemoView extends
 		forms.add(custForm);
 
 		phoneSelect = new SelectItem();
+		phoneSelect.setHelpInformation(true);
 		phoneSelect.setTitle(customerConstants.phone());
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isEdit);
@@ -159,18 +161,17 @@ public class CustomerCreditMemoView extends
 
 		priceLevelSelect = createPriceLevelSelectItem();
 
-		refText = createRefereceText();
+		// refText = createRefereceText();
 
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
 		prodAndServiceForm1.setNumCols(2);
 		prodAndServiceForm1.setWidth("100%");
-		prodAndServiceForm1.setFields(memoTextAreaItem, refText);
+		prodAndServiceForm1.setFields(memoTextAreaItem);
 		forms.add(prodAndServiceForm1);
 
 		salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
-
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
 		netAmountLabel =createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
@@ -189,15 +190,10 @@ public class CustomerCreditMemoView extends
 		prodAndServiceForm2.setWidth("90%");
 		prodAndServiceForm2.setNumCols(4);
 		if (FinanceApplication.getCompany().getAccountingType() == 1) {
-			
-//			prodAndServiceForm2.setFields(priceLevelSelect, netAmountLabel,
-//					disabletextbox, vatTotalNonEditableText, disabletextbox,
-//					transactionTotalNonEditableText);
-			
-			prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
+
+		prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
 					disabletextbox, vatTotalNonEditableText, disabletextbox,
 					transactionTotalNonEditableText);
-			
 		} else {
 			prodAndServiceForm2.setFields(taxCodeSelect,
 					salesTaxTextNonEditable, priceLevelSelect,
@@ -236,7 +232,6 @@ public class CustomerCreditMemoView extends
 
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
-		//	mainVLay.add(createAddNewButton());
 		mainVLay.add(customerTransactionGrid);
 		mainVLay.add(prodAndServiceHLay);
 
@@ -244,7 +239,7 @@ public class CustomerCreditMemoView extends
 			resetFormView();
 		} else {
 			memoTextAreaItem.setWidth(130);
-			refText.setWidth(130);
+			// refText.setWidth(130);
 		}
 
 		canvas.add(mainVLay);
@@ -322,7 +317,7 @@ public class CustomerCreditMemoView extends
 			if (priceLevel != null)
 				creditMemo.setPriceLevel(priceLevel.getStringID());
 			creditMemo.setMemo(getMemoTextAreaItem());
-			creditMemo.setReference(getRefText());
+			// creditMemo.setReference(getRefText());
 
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 				creditMemo.setNetAmount(netAmountLabel.getAmount());
@@ -366,7 +361,7 @@ public class CustomerCreditMemoView extends
 		priceLevelSelected(this.priceLevel);
 		salesPersonSelected(this.salesPerson);
 		memoTextAreaItem.setValue(creditToBeEdited.getMemo());
-		refText.setValue(creditToBeEdited.getReference());
+		// refText.setValue(creditToBeEdited.getReference());
 		if (billingAddress != null) {
 			billToTextArea.setValue(getValidAddress(billingAddress));
 
@@ -398,8 +393,8 @@ public class CustomerCreditMemoView extends
 			if (creditMemo != null) {
 
 				memoTextAreaItem.setValue(creditMemo.getMemo());
-				if (creditMemo.getReference() != null)
-					refText.setValue(creditMemo.getReference());
+				// if (creditMemo.getReference() != null)
+				// refText.setValue(creditMemo.getReference());
 
 			}
 
@@ -662,7 +657,7 @@ public class CustomerCreditMemoView extends
 	public void resetFormView() {
 		custForm.getCellFormatter().setWidth(0, 1, "200px");
 		custForm.setWidth("75%");
-		refText.setWidth("200px");
+		// refText.setWidth("200px");
 		priceLevelSelect.setWidth("150px");
 	}
 

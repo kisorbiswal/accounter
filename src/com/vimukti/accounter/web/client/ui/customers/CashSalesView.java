@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dev.util.Empty;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -24,7 +23,6 @@ import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
-import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -117,6 +115,7 @@ public class CashSalesView extends
 
 		billToCombo = createBillToComboItem();
 		phoneSelect = new SelectItem();
+		phoneSelect.setHelpInformation(true);
 		phoneSelect.setTitle(customerConstants.phone());
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isEdit);
@@ -163,13 +162,13 @@ public class CashSalesView extends
 
 		priceLevelSelect = createPriceLevelSelectItem();
 
-		refText = createRefereceText();
-		refText.setWidth(160);
+//		refText = createRefereceText();
+//		refText.setWidth(160);
 
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
 		prodAndServiceForm1.setNumCols(2);
 		prodAndServiceForm1.setWidth("100%");
-		prodAndServiceForm1.setFields(memoTextAreaItem, refText);
+		prodAndServiceForm1.setFields();
 		forms.add(prodAndServiceForm1);
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
@@ -215,7 +214,7 @@ public class CashSalesView extends
 		VerticalPanel vPanel =  new VerticalPanel();
 		vPanel.add(createAddNewButton());
 		vPanel.add(prodAndServiceForm1);
-		vPanel.setWidth("50%");
+		vPanel.setWidth("100%");
 		prodAndServiceHLay.add(vPanel);
 		
 		prodAndServiceHLay.add(prodAndServiceForm2);
@@ -360,7 +359,7 @@ public class CashSalesView extends
 			if (priceLevel != null)
 				cashSale.setPriceLevel(priceLevel.getStringID());
 			cashSale.setMemo(getMemoTextAreaItem());
-			cashSale.setReference(getRefText());
+//			cashSale.setReference(getRefText());
 
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 				cashSale.setNetAmount(netAmountLabel.getAmount());
@@ -481,7 +480,7 @@ public class CashSalesView extends
 			isEdit = Boolean.TRUE;
 		}
 		memoTextAreaItem.setValue(cashSale.getMemo());
-		refText.setValue(cashSale.getReference());
+//		refText.setValue(cashSale.getReference());
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			netAmountLabel.setAmount(cashSale.getNetAmount());
 			vatTotalNonEditableText.setAmount(cashSale.getTotal()
@@ -518,8 +517,8 @@ public class CashSalesView extends
 				memoTextAreaItem
 						.setValue(cashSales.getMemo() != null ? cashSales
 								.getMemo() : "");
-				refText.setValue(cashSales.getReference() != null ? cashSales
-						.getReference() : "");
+//				refText.setValue(cashSales.getReference() != null ? cashSales
+//						.getReference() : "");
 
 			}
 
@@ -730,7 +729,7 @@ public class CashSalesView extends
 		custForm.getCellFormatter().setWidth(0, 1, "200px");
 		custForm.setWidth("75%");
 		priceLevelSelect.setWidth("150px");
-		refText.setWidth("200px");
+//		refText.setWidth("200px");
 		memoTextAreaItem.setWidth("200px");
 	}
 

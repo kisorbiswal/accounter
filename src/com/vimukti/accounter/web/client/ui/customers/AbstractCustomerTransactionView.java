@@ -22,7 +22,6 @@ import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
-import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -39,7 +38,6 @@ import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
-import com.vimukti.accounter.web.client.ui.combo.TaxGroupCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -104,10 +102,12 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected List<ClientPaymentTerms> paymentTermsList;
 
-	//protected AmountField ;
-	
+	// protected AmountField ;
+
 	protected AmountLabel transactionTotalNonEditableText, netAmountLabel,
-			vatTotalNonEditableText, balanceDueNonEditableText,paymentsNonEditableText,salesTaxTextNonEditable;
+			vatTotalNonEditableText, balanceDueNonEditableText,
+			paymentsNonEditableText, salesTaxTextNonEditable;
+
 	public Double transactionTotal = 0.0D;
 
 	protected Double salesTax = 0.0D;
@@ -510,6 +510,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 		customers = result;
 
 		customerCombo.initCombo(result);
+		// customerCombo.setHelpInformation(true);
 		customerCombo.setDisabled(isEdit);
 
 	}
@@ -518,6 +519,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 		CustomerCombo customerCombo = new CustomerCombo(title != null ? title
 				: FinanceApplication.getCustomersMessages().customer());
+		customerCombo.setHelpInformation(true);
 		customerCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
 
@@ -540,7 +542,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 		ContactCombo contactCombo = new ContactCombo(FinanceApplication
 				.getCustomersMessages().contact());
-
+		contactCombo.setHelpInformation(true);
 		contactCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientContact>() {
 
@@ -563,7 +565,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 		AddressCombo addressCombo = new AddressCombo(FinanceApplication
 				.getCustomersMessages().billTo());
-
+		addressCombo.setHelpInformation(true);
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
 
@@ -653,7 +655,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 		AddressCombo shipToCombo = new AddressCombo(FinanceApplication
 				.getCustomersMessages().shipTo());
-
+		shipToCombo.setHelpInformation(true);
 		shipToCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
 
@@ -678,7 +680,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 		SalesPersonCombo salesPersonCombo = new SalesPersonCombo(
 				FinanceApplication.getCustomersMessages().salesPerson());
-
+		salesPersonCombo.setHelpInformation(true);
 		salesPersonCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientSalesPerson>() {
 
@@ -703,7 +705,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 		DepositInAccountCombo accountCombo = new DepositInAccountCombo(
 				FinanceApplication.getCustomersMessages().depositIn());
-
+		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 
 		accountCombo
@@ -728,7 +730,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 		ShippingTermsCombo shippingTermsCombo = new ShippingTermsCombo(
 				FinanceApplication.getCustomersMessages().shippingTerms());
-
+		shippingTermsCombo.setHelpInformation(true);
 		shippingTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
 
@@ -752,7 +754,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 		ShippingMethodsCombo shippingMethodsCombo = new ShippingMethodsCombo(
 				FinanceApplication.getCustomersMessages().shippingMethod());
-
+		shippingMethodsCombo.setHelpInformation(true);
 		shippingMethodsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
 
@@ -775,6 +777,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 		final DateField dateItem = new DateField(FinanceApplication
 				.getCustomersMessages().deliveryDate());
+		dateItem.setHelpInformation(true);
 		dateItem.setTitle(FinanceApplication.getCustomersMessages()
 				.deliveryDate());
 		dateItem.setColSpan(1);
@@ -791,7 +794,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(FinanceApplication
 				.getCustomersMessages().tax(), true);
-
+		taxCodeCombo.setHelpInformation(true);
 		taxCodeCombo.setRequired(true);
 
 		taxCodeCombo
@@ -817,7 +820,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 		PriceLevelCombo priceLevelCombo = new PriceLevelCombo(
 				FinanceApplication.getCustomersMessages().priceLevel());
-
+		priceLevelCombo.setHelpInformation(true);
 		priceLevelCombo.setWidth(100);
 
 		priceLevelCombo
@@ -849,7 +852,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 		PaymentTermsCombo comboItem = new PaymentTermsCombo(FinanceApplication
 				.getCustomersMessages().paymentTerms());
-
+		comboItem.setHelpInformation(true);
 		comboItem
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
 
@@ -876,6 +879,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 		return amountItem;
 
 	}
+
 	protected AmountLabel createSalesTaxNonEditableLabel() {
 
 		AmountLabel amountLabel = new AmountLabel(FinanceApplication
@@ -884,6 +888,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 		return amountLabel;
 
 	}
+
 	protected AmountField createTransactionTotalNonEditableItem() {
 
 		AmountField amountItem = new AmountField(FinanceApplication
@@ -893,13 +898,14 @@ public abstract class AbstractCustomerTransactionView<T> extends
 		return amountItem;
 
 	}
+
 	protected AmountLabel createTransactionTotalNonEditableLabel() {
-		
+
 		AmountLabel amountLabel = new AmountLabel(FinanceApplication
 				.getCustomersMessages().total());
-		
+
 		return amountLabel;
-		
+
 	}
 
 	protected AmountField createVATTotalNonEditableItem() {
