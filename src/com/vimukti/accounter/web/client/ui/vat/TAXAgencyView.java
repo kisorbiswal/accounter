@@ -564,8 +564,10 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		mainVlay.add(lab);
 		mainVlay.add(topHLay);
 		mainVlay.add(contHLay);
-		mainVlay.add(addButton);
+		
 		mainVlay.add(gridView);
+		mainVlay.add(addButton);
+		
 		mainVlay.add(memoForm);
 
 		/* Adding dynamic forms in list */
