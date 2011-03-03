@@ -80,7 +80,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 			}
 		};
-
+		Ccard.setHelpInformation(true);
 		Ccard
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
@@ -202,7 +202,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 		// setting memo
 		creditCardCharge.setMemo(getMemoTextAreaItem());
 		// setting ref
-		creditCardCharge.setReference(UIUtils.toStr(refText.getValue()));
+//		creditCardCharge.setReference(UIUtils.toStr(refText.getValue()));
 
 		transactionObject = creditCardCharge;
 

@@ -82,6 +82,7 @@ public class BillListView extends BaseListView<BillsList> {
 	protected SelectItem getSelectItem() {
 		currentView = new SelectItem(FinanceApplication.getVendorsMessages()
 				.currentView());
+		currentView.setHelpInformation(true);
 		currentView.setValueMap(FinanceApplication.getVendorsMessages().open(),
 				FinanceApplication.getVendorsMessages().Voided(),
 				FinanceApplication.getVendorsMessages().overDue(),
@@ -99,9 +100,9 @@ public class BillListView extends BaseListView<BillsList> {
 			@Override
 			public void onChange(ChangeEvent event) {
 				if (currentView.getValue() != null) {
-				grid.setViewType(currentView.getValue().toString());
-				filterList(currentView.getValue().toString());
-			}
+					grid.setViewType(currentView.getValue().toString());
+					filterList(currentView.getValue().toString());
+				}
 			}
 		});
 		return currentView;

@@ -78,7 +78,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		// Setting Memo
 		cashPurchase.setMemo(getMemoTextAreaItem());
 		// Setting Reference
-		cashPurchase.setReference(getRefText());
+		// cashPurchase.setReference(getRefText());
 		return cashPurchase;
 	}
 
@@ -112,6 +112,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		employee = new SuggestionItem(employe, FinanceApplication
 				.getVendorsMessages().employee());
+		employee.setHelpInformation(true);
 		employee.setRequired(true);
 
 		paymentMethodCombo.setValueMap(FinanceApplication.getVendorsMessages()

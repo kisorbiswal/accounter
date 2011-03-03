@@ -156,7 +156,7 @@ public class PurchaseOrderView extends
 		shipToCombo = createShipToComboItem();
 
 		phoneSelect = new ComboBoxItem();
-		// phoneSelect.setWidth(100);
+		phoneSelect.setHelpInformation(true);
 		phoneSelect.setTitle(vendorConstants.phone());
 		phoneSelect.addChangeHandler(new ChangeHandler() {
 
@@ -268,8 +268,8 @@ public class PurchaseOrderView extends
 		vendorTransactionGrid.setDisabled(isEdit);
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
-		refText = createRefereceText();
-		refText.setWidth(100);
+		// refText = createRefereceText();
+		// refText.setWidth(100);
 		addLinksButton = new Button(vendorConstants.addLinks());
 		// FIXME--need to disable basing on the mode of the view being opened
 		addLinksButton.setEnabled(isEdit);
@@ -282,7 +282,7 @@ public class PurchaseOrderView extends
 
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("80%");
-		memoForm.setFields(memoTextAreaItem, refText);
+		memoForm.setFields(memoTextAreaItem);
 		forms.add(memoForm);
 		DynamicForm linksform = new DynamicForm();
 		linksform.setWidth("100%");
@@ -539,7 +539,7 @@ public class PurchaseOrderView extends
 		deliveryDateItem.setEnteredDate(new ClientFinanceDate(
 				purchaseOrderToBeEdited.getDeliveryDate()));
 		memoTextAreaItem.setValue(purchaseOrderToBeEdited.getMemo());
-		refText.setValue(purchaseOrderToBeEdited.getReference());
+		// refText.setValue(purchaseOrderToBeEdited.getReference());
 		vendorTransactionGrid.setCanEdit(false);
 
 		int status = purchaseOrderToBeEdited.getStatus();
@@ -682,7 +682,7 @@ public class PurchaseOrderView extends
 			if (salesOrder != null) {
 
 				memoTextAreaItem.setValue(salesOrder.getMemo());
-				refText.setValue(salesOrder.getReference());
+				// refText.setValue(salesOrder.getReference());
 
 			}
 
@@ -742,7 +742,7 @@ public class PurchaseOrderView extends
 
 			purchaseOrder.setMemo(getMemoTextAreaItem());
 			purchaseOrder.setTotal(vendorTransactionGrid.getTotal());
-			purchaseOrder.setReference(getRefText());
+			// purchaseOrder.setReference(getRefText());
 
 			transactionObject = purchaseOrder;
 			super.saveAndUpdateView();

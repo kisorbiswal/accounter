@@ -344,7 +344,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		Label lab = new Label(FinanceApplication.getVendorsMessages().PayBill());
 		lab.addStyleName(FinanceApplication.getVendorsMessages().lableTitle());
 		date = new DateField(vendorConstants.Date());
-		// date.setWidth(100);
+		date.setHelpInformation(true);
 		// date.setUseTextField(true);
 		date.setEnteredDate(new ClientFinanceDate());
 		setTransactionDate(new ClientFinanceDate());
@@ -392,6 +392,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 				.getVendorsMessages().onlineBanking());
 
 		dueDate = new DateField(vendorConstants.filterByBilldueonorbefore());
+		dueDate.setHelpInformation(true);
 		dueDate.setValue(new ClientFinanceDate());
 		// dueDate.setUseTextField(true);
 		// dueDate.setWidth(100);
@@ -442,11 +443,13 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		payForm.setFields(date, vendorCombo, payFromCombo, paymentMethodCombo,
 				dueDate);
 		amtText = new AmountField(vendorConstants.Amount());
+		amtText.setHelpInformation(true);
 		amtText.setWidth(100);
 		amtText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		amtText.setDisabled(true);
 
 		endBalText = new AmountField(vendorConstants.Endingbalance());
+		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		endBalText.setDisabled(true);

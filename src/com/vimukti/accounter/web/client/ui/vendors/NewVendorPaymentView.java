@@ -87,7 +87,7 @@ public class NewVendorPaymentView extends
 		endBalText.setAmount(0D);
 		vendorBalText.setAmount(0D);
 		memoTextAreaItem.setValue("");
-		refText.setValue("");
+		// refText.setValue("");
 
 	}
 
@@ -172,12 +172,14 @@ public class NewVendorPaymentView extends
 
 		// Ending and Vendor Balance
 		endBalText = new AmountField(vendorConstants.Endingbalance());
+		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setDisabled(true);
 
 		vendorBalText = new AmountField(UIUtils.getVendorString(
 				FinanceApplication.getVendorsMessages().supplierBalance(),
 				FinanceApplication.getVendorsMessages().Vendorbalance()));
+		vendorBalText.setHelpInformation(true);
 		vendorBalText.setDisabled(true);
 		vendorBalText.setWidth(100);
 
@@ -190,6 +192,7 @@ public class NewVendorPaymentView extends
 		payFromCombo = createPayFromCombo(vendorConstants.Payfrom());
 		payFromCombo.setPopupWidth("500px");
 		amountText = new AmountField(vendorConstants.Amount());
+		amountText.setHelpInformation(true);
 		amountText.setWidth(100);
 		amountText.setRequired(true);
 		amountText.addBlurHandler(getBlurHandler());
@@ -268,16 +271,16 @@ public class NewVendorPaymentView extends
 		payForm.setHeight("90%");
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
-		refText = createRefereceText();
-		refText.setWidth(100);
+		// refText = createRefereceText();
+		// refText.setWidth(100);
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			payForm.setFields(vendorCombo, billToCombo, payFromCombo,
 					amountText, paymentMethodCombo, printCheck, checkNo,
-					memoTextAreaItem, refText);
+					memoTextAreaItem);
 		else
 			payForm.setFields(vendorCombo, billToCombo, payFromCombo,
 					amountText, paymentMethodCombo, printCheck, checkNo,
-					memoTextAreaItem, refText);
+					memoTextAreaItem);
 		// memo and Reference
 
 		payForm.setCellSpacing(5);
@@ -367,7 +370,7 @@ public class NewVendorPaymentView extends
 		payBill.setMemo(getMemoTextAreaItem());
 
 		// Setting Ref
-		payBill.setReference(getRefText());
+		// payBill.setReference(getRefText());
 
 		payBill.setEndingBalance(toBeSetEndingBalance);
 
@@ -501,7 +504,7 @@ public class NewVendorPaymentView extends
 			if (payBill != null) {
 
 				setMemoTextAreaItem(payBill.getMemo());
-				setRefText(payBill.getReference());
+				// setRefText(payBill.getReference());
 
 			}
 		}

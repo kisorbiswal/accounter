@@ -124,6 +124,7 @@ public class ItemReceiptView extends
 		billToCombo = createBillToComboItem();
 		billToCombo.setWidth(100);
 		phoneSelect = new ComboBoxItem();
+		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		phoneSelect.setTitle(vendorConstants.phone());
 		phoneSelect.setDisabled(false);
@@ -169,8 +170,8 @@ public class ItemReceiptView extends
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
-		refText = createRefereceText();
-		refText.setWidth(100);
+//		refText = createRefereceText();
+//		refText.setWidth(100);
 		DynamicForm vatCheckform = new DynamicForm();
 		// vatCheckform.setFields(vatinclusiveCheck);
 		DynamicForm totalForm = new DynamicForm();
@@ -181,7 +182,7 @@ public class ItemReceiptView extends
 				transactionTotalNonEditableText);
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
-		memoForm.setFields(memoTextAreaItem, refText);
+		memoForm.setFields(memoTextAreaItem);
 		forms.add(memoForm);
 
 		transactionTotalItem = new AmountField(FinanceApplication
@@ -328,7 +329,7 @@ public class ItemReceiptView extends
 			if (itemReceipt != null) {
 
 				memoTextAreaItem.setValue(itemReceipt.getMemo());
-				refText.setValue(itemReceipt.getReference());
+//				refText.setValue(itemReceipt.getReference());
 
 			}
 
@@ -372,8 +373,8 @@ public class ItemReceiptView extends
 		}
 		if (itemReceipt.getMemo() != null)
 			memoTextAreaItem.setValue(itemReceipt.getMemo());
-		if (itemReceipt.getReference() != null)
-			refText.setValue(itemReceipt.getReference());
+//		if (itemReceipt.getReference() != null)
+//			refText.setValue(itemReceipt.getReference());
 	}
 
 	@Override
@@ -416,7 +417,7 @@ public class ItemReceiptView extends
 						.getTime());
 
 			itemReceipt.setMemo(getMemoTextAreaItem());
-			itemReceipt.setReference(getRefText());
+//			itemReceipt.setReference(getRefText());
 			itemReceipt.setTotal(vendorTransactionGrid.getTotal());
 
 			if (vatinclusiveCheck != null)
