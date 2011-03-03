@@ -572,18 +572,20 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	}
 
-	@SuppressWarnings("deprecation")
 	private VerticalPanel getGeneralTab() {
 
 		custNameText = new TextItem(customerConstants.customerName());
+		custNameText.setHelpInformation(true);
 		custNameText.setRequired(true);
 		custNameText.setWidth(100);
 
 		custNoText = new TextItem(customerConstants.customerNumber());
+		custNoText.setHelpInformation(true);
 		custNoText.setRequired(true);
 		custNoText.setWidth(100);
 
 		fileAsText = new TextItem(customerConstants.fileAs());
+		fileAsText.setHelpInformation(true);
 		fileAsText.setWidth(100);
 		custNameText.addChangeHandler(new ChangeHandler() {
 
@@ -622,11 +624,13 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		statusCheck.setValue(true);
 
 		customerSinceDate = new DateField(customerConstants.customerSince());
+		customerSinceDate.setHelpInformation(true);
 		customerSinceDate.setEnteredDate(new ClientFinanceDate());
 
 		balanceText = new AmountField(customerConstants.balance());
-
+		balanceText.setHelpInformation(true);
 		balanceDate = new DateField(customerConstants.balanceAsOf());
+		balanceDate.setHelpInformation(true);
 		ClientFinanceDate todaydate = new ClientFinanceDate();
 		todaydate.setDate(todaydate.getDate() + 1);
 		balanceDate.setDatethanFireEvent(todaydate);
@@ -859,7 +863,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		salesPersonSelect = new SalesPersonCombo(customerConstants
 				.salesPerson());
-
+		salesPersonSelect.setHelpInformation(true);
 		salesPersonSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientSalesPerson>() {
 
@@ -876,9 +880,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		salesForm.setWidth("100%");
 
 		creditLimitText = new AmountField(customerConstants.creditLimit());
+		creditLimitText.setHelpInformation(true);
 		creditLimitText.setWidth(100);
 
 		priceLevelSelect = new PriceLevelCombo(customerConstants.priceLevel());
+		priceLevelSelect.setHelpInformation(true);
 		priceLevelSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPriceLevel>() {
 
@@ -891,6 +897,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		creditRatingSelect = new CreditRatingCombo(customerConstants
 				.creditRating());
+		creditRatingSelect.setHelpInformation(true);
 		creditRatingSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCreditRating>() {
 
@@ -910,7 +917,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		shipMethSelect = new ShippingMethodsCombo(customerConstants
 				.preferredShippingMethod());
-
+		shipMethSelect.setHelpInformation(true);
 		shipMethSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
 
@@ -923,6 +930,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				});
 
 		payMethSelect = UIUtils.getPaymentMethodCombo();
+		payMethSelect.setHelpInformation(true);
 		payMethSelect.setWidth(100);
 
 		payMethSelect.addChangeHandler(new ChangeHandler() {
@@ -935,6 +943,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		});
 		selectPaymentMethodFromDetialsTab = payMethSelect.getValue().toString();
 		payTermsSelect = new PaymentTermsCombo(customerConstants.paymentTerms());
+		payTermsSelect.setHelpInformation(true);
 		payTermsSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
 
@@ -948,7 +957,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		custGroupSelect = new CustomerGroupCombo(customerConstants
 				.customerGroup());
-
+		custGroupSelect.setHelpInformation(true);
 		custGroupSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomerGroup>() {
 
@@ -960,6 +969,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 		taxGroupSelect = new TaxGroupCombo(customerConstants.taxGroup());
+		taxGroupSelect.setHelpInformation(true);
 		taxGroupSelect.setRequired(true);
 		taxGroupSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItemGroup>() {
@@ -973,10 +983,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		vatregno = new TextItem(FinanceApplication.getCustomersMessages()
 				.VATRegistrationNumber());
+		vatregno.setHelpInformation(true);
 		vatregno.setWidth(100);
 		custTaxCode = new TAXCodeCombo(FinanceApplication
 				.getCustomersMessages().customerVATCode(), true);
-
+		custTaxCode.setHelpInformation(true);
 		custTaxCode
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
 
@@ -996,7 +1007,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 					custGroupSelect, vatregno, custTaxCode);
 		else if (accounttype == 0) {
 			custTaxCode.setTitle(customerConstants.taxGroup());
-//			custTaxCode.setRequired(true);
+			// custTaxCode.setRequired(true);
 			termsForm.setFields(shipMethSelect, payMethSelect, payTermsSelect,
 					custGroupSelect, custTaxCode);
 		}
@@ -1105,8 +1116,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		if (company.getAccountingType() == 1)
 			initVatCodeList();
 		else
-//			initTaxItemGroupList();
-		initVatCodeList();
+			// initTaxItemGroupList();
+			initVatCodeList();
 		super.initData();
 
 	}
@@ -1155,7 +1166,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	@Override
 	public void setFocus() {
 		this.custNameText.setFocus();
-//		this.custNoText.setFocus();
+		// this.custNoText.setFocus();
 	}
 
 	@Override

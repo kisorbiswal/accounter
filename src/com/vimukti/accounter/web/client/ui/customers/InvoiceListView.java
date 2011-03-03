@@ -106,6 +106,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 	protected SelectItem getSelectItem() {
 		viewSelect = new SelectItem(FinanceApplication.getCustomersMessages()
 				.currentView());
+		viewSelect.setHelpInformation(true);
 		viewSelect.setValueMap(OPEN, OVER_DUE, VOID, ALL
 		// , DELETE
 				);

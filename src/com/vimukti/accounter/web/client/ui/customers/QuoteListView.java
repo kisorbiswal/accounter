@@ -94,6 +94,7 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	protected SelectItem getSelectItem() {
 		viewSelect = new SelectItem(FinanceApplication.getCustomersMessages()
 				.currentView());
+		viewSelect.setHelpInformation(true);
 		viewSelect.setValueMap(OPEN, REJECTED, ACCEPTED, EXPIRED, ALL
 		// , DELETED
 				);

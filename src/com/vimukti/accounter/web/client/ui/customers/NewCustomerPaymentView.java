@@ -43,7 +43,6 @@ import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 
 public class NewCustomerPaymentView extends
 		AbstractCustomerTransactionView<ClientCustomerPrePayment> {
@@ -82,7 +81,7 @@ public class NewCustomerPaymentView extends
 			if (customerPrePayment != null) {
 
 				setMemoTextAreaItem(customerPrePayment.getMemo());
-				setRefText(customerPrePayment.getReference());
+				// setRefText(customerPrePayment.getReference());
 
 			}
 		}
@@ -137,7 +136,7 @@ public class NewCustomerPaymentView extends
 		endBalText.setAmount(0D);
 		customerBalText.setAmount(0D);
 		memoTextAreaItem.setValue("");
-		refText.setValue("");
+		// refText.setValue("");
 
 	}
 
@@ -189,7 +188,7 @@ public class NewCustomerPaymentView extends
 			if (transactionDate != null)
 				transactionObject.setDate(transactionDate.getTime());
 			customerPrePayment.setMemo(getMemoTextAreaItem());
-			customerPrePayment.setReference(getRefText());
+			// customerPrePayment.setReference(getRefText());
 
 			if (toBeSetEndingBalance != null)
 				customerPrePayment.setEndingBalance(toBeSetEndingBalance);
@@ -391,10 +390,12 @@ public class NewCustomerPaymentView extends
 
 		// Ending and Vendor Balance
 		endBalText = new AmountField(customerConstants.endingBalance());
+		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setDisabled(true);
 
 		customerBalText = new AmountField(customerConstants.customerBalance());
+		customerBalText.setHelpInformation(true);
 		customerBalText.setDisabled(true);
 		customerBalText.setWidth(100);
 
@@ -407,6 +408,7 @@ public class NewCustomerPaymentView extends
 		depositInCombo.setPopupWidth("500px");
 
 		amountText = new AmountField(customerConstants.amount());
+		amountText.setHelpInformation(true);
 		amountText.setWidth(100);
 		amountText.setRequired(true);
 		amountText.addBlurHandler(getBlurHandler());
@@ -463,16 +465,16 @@ public class NewCustomerPaymentView extends
 		payForm = UIUtils.form(customerConstants.payment());
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
-		refText = createRefereceText();
-		refText.setWidth(100);
+		// refText = createRefereceText();
+		// refText.setWidth(100);
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			payForm.setFields(customerCombo, billToCombo, depositInCombo,
 					amountText, paymentMethodCombo, printCheck, checkNo,
-					memoTextAreaItem, refText);
+					memoTextAreaItem);
 		else
 			payForm.setFields(customerCombo, billToCombo, depositInCombo,
 					amountText, paymentMethodCombo, printCheck, checkNo,
-					memoTextAreaItem, refText);
+					memoTextAreaItem);
 		// memo and Reference
 
 		payForm.setCellSpacing(5);
@@ -523,7 +525,7 @@ public class NewCustomerPaymentView extends
 	private AddressCombo createBillToComboItem(String address) {
 		AddressCombo addressCombo = new AddressCombo(FinanceApplication
 				.getCustomersMessages().address());
-
+		addressCombo.setHelpInformation(true);
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
 
@@ -544,10 +546,12 @@ public class NewCustomerPaymentView extends
 	}
 
 	private TextItem createCheckNumberItem() {
-		return new TextItem(UIUtils
+		TextItem checkNoTextItem = new TextItem(UIUtils
 				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
 						.getCustomersMessages().check())
 				+ " " + "No");
+		checkNoTextItem.setHelpInformation(true);
+		return checkNoTextItem;
 	}
 
 	@Override
@@ -794,6 +798,6 @@ public class NewCustomerPaymentView extends
 	@Override
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
