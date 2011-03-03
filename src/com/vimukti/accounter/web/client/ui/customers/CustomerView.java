@@ -695,8 +695,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			}
 		};
 		panel.add(l1);
-		panel.add(addButton);
 		panel.add(gridView);
+		panel.add(addButton);
 
 		memoArea = new TextAreaItem();
 		memoArea.setWidth(100);
