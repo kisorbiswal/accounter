@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
-import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 
 /*Pavani vimukti5 Abstract Class for all Banking Transaction Views
@@ -45,7 +44,7 @@ public abstract class AbstractBankTransactionView<T> extends
 	@SuppressWarnings("unused")
 	private AbstractBankTransactionView<?> bankingTransactionViewInstance;
 
-	protected TextItem refText;
+	// protected TextItem refText;
 	protected AmountField amtText;
 
 	// protected PaymentMethod paymentMethod;
@@ -183,6 +182,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	}
 
+
 	public void initpayFromAccountCombo() {
 
 		// listOfAccounts = Utility.getPayFromAccounts(FinanceApplication
@@ -211,7 +211,7 @@ public abstract class AbstractBankTransactionView<T> extends
 	public PayFromAccountsCombo createPayFromselectItem() {
 		PayFromAccountsCombo payFrmSelect = new PayFromAccountsCombo(
 				bankingConstants.paymentFrom());
-
+		payFrmSelect.setHelpInformation(true);
 		payFrmSelect.setRequired(true);
 		// payFrmSelect.setWidth("*");
 		payFrmSelect.setColSpan(3);
@@ -239,7 +239,7 @@ public abstract class AbstractBankTransactionView<T> extends
 		AddressCombo addressCombo = new AddressCombo(FinanceApplication
 				.getFinanceUIConstants().billTo());
 
-		// addressCombo.setWidth("*");
+		addressCombo.setHelpInformation(true);
 
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -320,6 +320,7 @@ public abstract class AbstractBankTransactionView<T> extends
 		return amountItem;
 
 	}
+	
 	protected AmountLabel createTransactionTotalNonEditableLabel() {
 
 		AmountLabel amountItem = new AmountLabel(FinanceApplication
@@ -329,6 +330,7 @@ public abstract class AbstractBankTransactionView<T> extends
 		return amountItem;
 
 	}
+
 
 	// protected void onAddNew(String menuItem) {
 	// ClientTransactionItem transactionItem = new ClientTransactionItem();
