@@ -330,21 +330,15 @@ public abstract class CustomTable extends VerticalPanel {
 	@Override
 	public void setHeight(String height) {
 
-		this.panel.setHeight(height);
-		super.setHeight(height);
-
-		int tableHegiht = this.getOffsetHeight();
 		if (height.contains("%")) {
-			this.scrollPanelHeight = tableHegiht - 22;
-			this.panel.setHeight(this.scrollPanelHeight + "px");
+			this.panel.setHeight(height);
+			super.setHeight(height);
 			return;
 		}
 
-		this.scrollPanelHeight = Integer.parseInt(height.replace("px", "")) - 22;
-		this.panel.setHeight(this.scrollPanelHeight + "px");
-		// this.scrollPanelHeight = Integer.parseInt(height.replace("px", "")) -
-		// 22;
-
+		int heightIn = Integer.parseInt(height.replace("px", ""));
+		this.panel.setHeight(heightIn + "px");
+		super.setHeight(heightIn + "px");
 		fixHeader();
 	}
 
@@ -361,36 +355,36 @@ public abstract class CustomTable extends VerticalPanel {
 	public void fixHeader() {
 		// int gridBodyContainerHeight = Integer.parseInt(panel.getElement()
 		// .getStyle().getHeight().replace("px", ""));
-		int gridBodyContainerHeight = body.getOffsetHeight();
-		int contentHeight = this.scrollPanelHeight;
-		Label l = new Label();
-		if (gridBodyContainerHeight > contentHeight && this.isFirstTime) {
-			this.headerCellCount = this.header.getCellCount(0);
-			this.bodyCellCount = this.body.getCellCount(0);
-			this.isFirstTime = false;
-			this.header.setWidget(0, this.headerCellCount, l);
-			if (scrollBarWidth > 0)
-				this.header.getCellFormatter().setWidth(0,
-						this.headerCellCount, scrollBarWidth + "px");
-			this.header.getCellFormatter().setStyleName(0,
-					this.headerCellCount, "gridHeaderLastTd");
-			this.headerCellCount = this.header.getCellCount(0);
-			if (this.footer != null) {
-				this.footer.setWidget(0, this.headerCellCount - 1, l);
-				this.footer.getCellFormatter().setWidth(0,
-						this.headerCellCount - 1, 12 + "px");
-				this.footer.getCellFormatter().setStyleName(0,
-						this.headerCellCount - 1, "gridHeaderLastTd");
-			}
-
-		} else if (this.headerCellCount > this.bodyCellCount
-				&& gridBodyContainerHeight < contentHeight) {
-			this.header.removeCell(0, this.headerCellCount - 1);
-			if (this.footer != null)
-				this.footer.removeCell(0, this.headerCellCount - 2);
-			this.isFirstTime = true;
-			this.headerCellCount = this.header.getCellCount(0);
-		}
+		// int gridBodyContainerHeight = body.getOffsetHeight();
+		// int contentHeight = this.scrollPanelHeight;
+		// Label l = new Label();
+		// if (gridBodyContainerHeight > contentHeight && this.isFirstTime) {
+		// this.headerCellCount = this.header.getCellCount(0);
+		// this.bodyCellCount = this.body.getCellCount(0);
+		// this.isFirstTime = false;
+		// this.header.setWidget(0, this.headerCellCount, l);
+		// if (scrollBarWidth > 0)
+		// this.header.getCellFormatter().setWidth(0,
+		// this.headerCellCount, scrollBarWidth + "px");
+		// this.header.getCellFormatter().setStyleName(0,
+		// this.headerCellCount, "gridHeaderLastTd");
+		// this.headerCellCount = this.header.getCellCount(0);
+		// if (this.footer != null) {
+		// this.footer.setWidget(0, this.headerCellCount - 1, l);
+		// this.footer.getCellFormatter().setWidth(0,
+		// this.headerCellCount - 1, 12 + "px");
+		// this.footer.getCellFormatter().setStyleName(0,
+		// this.headerCellCount - 1, "gridHeaderLastTd");
+		// }
+		//
+		// } else if (this.headerCellCount > this.bodyCellCount
+		// && gridBodyContainerHeight < contentHeight) {
+		// this.header.removeCell(0, this.headerCellCount - 1);
+		// if (this.footer != null)
+		// this.footer.removeCell(0, this.headerCellCount - 2);
+		// this.isFirstTime = true;
+		// this.headerCellCount = this.header.getCellCount(0);
+		// }
 	}
 
 	@Override
