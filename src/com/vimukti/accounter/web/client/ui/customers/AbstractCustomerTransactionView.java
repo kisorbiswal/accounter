@@ -46,7 +46,9 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionUKGrid;
@@ -102,11 +104,10 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected List<ClientPaymentTerms> paymentTermsList;
 
-	protected AmountField salesTaxTextNonEditable,
-			transactionTotalNonEditableText, netAmount,
-			paymentsNonEditableText, balanceDueNonEditableText,
-			vatTotalNonEditableText;
-
+	//protected AmountField ;
+	
+	protected AmountLabel transactionTotalNonEditableText, netAmountLabel,
+			vatTotalNonEditableText, balanceDueNonEditableText,paymentsNonEditableText,salesTaxTextNonEditable;
 	public Double transactionTotal = 0.0D;
 
 	protected Double salesTax = 0.0D;
@@ -875,7 +876,14 @@ public abstract class AbstractCustomerTransactionView<T> extends
 		return amountItem;
 
 	}
+	protected AmountLabel createSalesTaxNonEditableLabel() {
 
+		AmountLabel amountLabel = new AmountLabel(FinanceApplication
+				.getCustomersMessages().salesTax());
+
+		return amountLabel;
+
+	}
 	protected AmountField createTransactionTotalNonEditableItem() {
 
 		AmountField amountItem = new AmountField(FinanceApplication
@@ -884,6 +892,14 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 		return amountItem;
 
+	}
+	protected AmountLabel createTransactionTotalNonEditableLabel() {
+		
+		AmountLabel amountLabel = new AmountLabel(FinanceApplication
+				.getCustomersMessages().total());
+		
+		return amountLabel;
+		
 	}
 
 	protected AmountField createVATTotalNonEditableItem() {
@@ -894,6 +910,13 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 		return amountItem;
 
+	}
+
+	protected AmountLabel createVATTotalNonEditableLabel() {
+		AmountLabel amountLabel = new AmountLabel(FinanceApplication
+				.getCustomersMessages().vat());
+
+		return amountLabel;
 	}
 
 	@Override
