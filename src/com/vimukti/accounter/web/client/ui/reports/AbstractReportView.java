@@ -281,7 +281,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 			@Override
 			protected void onLoad() {
 				super.onLoad();
-				grid.setHeight(tableLayout.getOffsetHeight() - 20 + "px");
+				grid.setHeight("450px");
 			}
 		};
 		this.tableLayout.addStyleName("tableLayout");
@@ -416,8 +416,8 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 					if (UIUtils.isMSIEBrowser())
 						grid.setHeight(tableLayout.getOffsetHeight() + "px");
 					else
-						grid.setHeight(tableLayout.getOffsetHeight() - 20
-								+ "px");
+//						grid.setHeight(tableLayout.getOffsetHeight() - 20
+//								+ "px");
 					super.onLoad();
 				}
 			};
