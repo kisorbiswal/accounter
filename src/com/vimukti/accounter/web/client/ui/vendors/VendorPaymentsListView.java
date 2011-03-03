@@ -91,6 +91,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 	protected SelectItem getSelectItem() {
 		currentView = new SelectItem(FinanceApplication.getVendorsMessages()
 				.currentView());
+		currentView.setHelpInformation(true);
 		currentView.setValueMap(FinanceApplication.getVendorsMessages()
 				.notIssued(), FinanceApplication.getVendorsMessages().issued(),
 				FinanceApplication.getVendorsMessages().Voided(),
@@ -128,7 +129,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 					notIssuedRecs.add(rec);
 				}
 			}
-				grid.setRecords(notIssuedRecs);
+			grid.setRecords(notIssuedRecs);
 		} else if (currentView.getValue().toString().equalsIgnoreCase("Issued")) {
 			List<PaymentsList> issued = new ArrayList<PaymentsList>();
 			List<PaymentsList> allRecs = initialRecords;
@@ -138,7 +139,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 					issued.add(rec);
 				}
 			}
-				grid.setRecords(issued);
+			grid.setRecords(issued);
 		} else if (currentView.getValue().toString().equalsIgnoreCase("Voided")) {
 			List<PaymentsList> voidedRecs = new ArrayList<PaymentsList>();
 			List<PaymentsList> allRecs = initialRecords;
@@ -148,7 +149,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 					voidedRecs.add(rec);
 				}
 			}
-				grid.setRecords(voidedRecs);
+			grid.setRecords(voidedRecs);
 		}
 		// else if (currentView.getValue().toString().equalsIgnoreCase(
 		// "Deleted")) {
@@ -164,11 +165,10 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 		//
 		// }
 		if (currentView.getValue().toString().equalsIgnoreCase("All")) {
-				grid.setRecords(initialRecords);
+			grid.setRecords(initialRecords);
 		}
-		if(grid.getRecords().isEmpty())
+		if (grid.getRecords().isEmpty())
 			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
-
 
 	}
 

@@ -259,10 +259,12 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorNameText = new TextItem(UIUtils.getVendorString(
 				FinanceApplication.getVendorsMessages().supplierName(),
 				FinanceApplication.getVendorsMessages().vendorName()));
+		vendorNameText.setHelpInformation(true);
 		vendorNameText.setRequired(true);
 		vendorNameText.setWidth(100);
 
 		fileAsText = new TextItem(vendorConstants.fileAs());
+		fileAsText.setHelpInformation(true);
 		fileAsText.setWidth(100);
 
 		vendorNameText.addChangeHandler(new ChangeHandler() {
@@ -295,14 +297,15 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorSinceDate = new DateField(UIUtils.getVendorString(
 				FinanceApplication.getVendorsMessages().supplierSince(),
 				FinanceApplication.getVendorsMessages().vendorSince()));
-		// vendorSinceDate.setWidth(100);
+		vendorSinceDate.setHelpInformation(true);
 		vendorSinceDate.setEnteredDate(new ClientFinanceDate());
 
 		accountText = new TextItem(vendorConstants.accountno());
-
+		accountText.setHelpInformation(true);
 		balanceText = new AmountField(vendorConstants.balance());
-
+		balanceText.setHelpInformation(true);
 		balanceDate = new DateField(vendorConstants.balanceasof());
+		balanceDate.setHelpInformation(true);
 		ClientFinanceDate todaydate = new ClientFinanceDate();
 		todaydate.setDate(todaydate.getDate() + 1);
 		balanceDate.setDatethanFireEvent(todaydate);
@@ -359,6 +362,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		panel.add(addButton);
 
 		memoArea = new TextAreaItem();
+		memoArea.setHelpInformation(true);
 		memoArea.setWidth(100);
 		memoArea.setTitle(vendorConstants.memo());
 
@@ -507,6 +511,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		expenseAccountsSelect = new OtherAccountsCombo(vendorConstants
 				.account());
+		expenseAccountsSelect.setHelpInformation(true);
 		expenseAccountsSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 					public void selectedComboBoxItem(ClientAccount selectItem) {
@@ -515,10 +520,12 @@ public class VendorView extends BaseView<ClientVendor> {
 				});
 
 		creditLimitText = new AmountField(vendorConstants.creditlimit());
+		creditLimitText.setHelpInformation(true);
 		creditLimitText.setWidth(100);
 
 		preferredShippingSelect = new ShippingMethodsCombo(vendorConstants
 				.preferredShippingMethod());
+		preferredShippingSelect.setHelpInformation(true);
 		preferredShippingSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
 					public void selectedComboBoxItem(
@@ -540,6 +547,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		});
 
 		payTermsSelect = new PaymentTermsCombo(vendorConstants.paymentTerms());
+		payTermsSelect.setHelpInformation(true);
 		payTermsSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
 					public void selectedComboBoxItem(
@@ -560,6 +568,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorGroupSelect = new VendorGroupCombo(UIUtils.getVendorString(
 				FinanceApplication.getVendorsMessages().supplierGroup(),
 				FinanceApplication.getVendorsMessages().vendorGroup()));
+		vendorGroupSelect.setHelpInformation(true);
 		vendorGroupSelect.setWidth(100);
 		vendorGroupSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendorGroup>() {
@@ -585,6 +594,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		}
 
 		federalText = new TextItem(vendorConstants.federalTaxId());
+		federalText.setHelpInformation(true);
 		federalText.setWidth(100);
 
 		DynamicForm vendorGrpForm = new DynamicForm();
@@ -606,10 +616,12 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		vatRegistrationNumber = new TextItem(vendorConstants
 				.vatRegistrationNumber());
+		vatRegistrationNumber.setHelpInformation(true);
 		vatRegistrationNumber.setWidth(100);
 		vendorTaxCode = new TAXCodeCombo(UIUtils.getVendorString(
 				FinanceApplication.getVendorsMessages().supplierVatCode(),
 				FinanceApplication.getVendorsMessages().vendorVatCode()), false);
+		vendorTaxCode.setHelpInformation(true);
 		vendorTaxCode.setWidth(100);
 		vendorTaxCode
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {

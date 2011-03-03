@@ -62,6 +62,7 @@ public class CashExpenseView extends CashPurchaseView {
 			}
 
 		};
+		petycash.setHelpInformation(true);
 		petycash.setComboItem(pettycash);
 		petycash.setRequired(true);
 
@@ -143,7 +144,7 @@ public class CashExpenseView extends CashPurchaseView {
 		// Setting Memo
 		cashPurchase.setMemo(getMemoTextAreaItem());
 		// Setting Reference
-		cashPurchase.setReference(getRefText());
+		// cashPurchase.setReference(getRefText());
 		return cashPurchase;
 	}
 
