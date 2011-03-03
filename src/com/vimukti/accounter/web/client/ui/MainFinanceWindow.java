@@ -983,20 +983,25 @@ public class MainFinanceWindow extends VerticalPanel {
 	}
 
 	@Override
-	public void onLoad() {
-		@SuppressWarnings("unused")
-		BaseView<?> view = viewManager.getContentPanel();
-		viewManager.fitToSize(height, width);
+	 public void onLoad() {
+//	  Window.addResizeHandler(new ResizeHandler() {
+//
+//	   @Override
+//	   public void onResize(ResizeEvent event) {
+//	    MainFinanceWindow.this.fitToSize(event.getHeight() - 20, 960);
+//	   }
+//	  });
 
-		// setHeight(this.height + "px");
-		// if (view == null)
-		// viewManager.fitToSize(width - 10, height);
-		// else {
-		// view.setHeightForCanvas((height * 80.6 / 100) + "");
-		// view.getButtonPanel().setHeight("30px");
-		// }
-		super.onLoad();
-	}
+	  // setHeight(this.height + "px");
+	  // if (view == null)
+	  // viewManager.fitToSize(width - 10, height);
+	  // else {
+	  // view.setHeightForCanvas((height * 80.6 / 100) + "");
+	  // view.getButtonPanel().setHeight("30px");
+	  // }
+	  super.onLoad();
+	  viewManager.fitToSize(this.getOffsetHeight(), 960);
+	 }
 
 	@Override
 	public void onBrowserEvent(Event event) {
