@@ -35,8 +35,10 @@ import com.vimukti.accounter.web.client.ui.CustomMenuItem;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -373,6 +375,15 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		netAmountField.setDefaultValue("£0.00");
 		netAmountField.setDisabled(true);
 		return netAmountField;
+	}
+
+	protected AmountLabel createNetAmountLabel() {
+		AmountLabel netAmountLabel =  new AmountLabel(FinanceApplication
+				.getVendorsMessages().netAmount());
+		netAmountLabel.setTitle(FinanceApplication.getVendorsMessages()
+				.netAmount());
+		netAmountLabel.setDefaultValue("£0.00");
+		return netAmountLabel;
 	}
 
 	protected TextAreaItem createMemoTextAreaItem() {
