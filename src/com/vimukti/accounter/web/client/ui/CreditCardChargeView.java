@@ -31,6 +31,7 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -439,14 +440,14 @@ public class CreditCardChargeView extends
 
 		Button addButton = createAddNewButton();// new Button(FinanceApplication
 
-		netAmount = new AmountField(FinanceApplication.getBankingsMessages()
+		netAmount = new AmountLabel(FinanceApplication.getBankingsMessages()
 				.netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableItem();
+		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
 
-		vatTotalNonEditableText = createVATTotalNonEditableItem();
+		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
 		vatinclusiveCheck = new CheckboxItem(FinanceApplication
 				.getBankingsMessages().amountincludesVat());
@@ -489,11 +490,17 @@ public class CreditCardChargeView extends
 
 		botPanel = new HorizontalPanel();
 		botPanel.setWidth("100%");
-
+		
+		VerticalPanel vPanel = new VerticalPanel();
+		vPanel.add(addButton);
+		vPanel.add(memoForm);
+		vPanel.setWidth("100%");
+		
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
-			botPanel.add(memoForm);
+			//botPanel.add(memoForm);
+			botPanel.add(vPanel);
 			botPanel.add(vatCheckform);
 			botPanel.setCellHorizontalAlignment(vatCheckform,
 					HasHorizontalAlignment.ALIGN_RIGHT);
@@ -502,7 +509,8 @@ public class CreditCardChargeView extends
 					HasHorizontalAlignment.ALIGN_RIGHT);
 		} else {
 			totForm.setFields(transactionTotalNonEditableText);
-			botPanel.add(memoForm);
+			//botPanel.add(memoForm);
+			botPanel.add(vPanel);
 			botPanel.add(totForm);
 		}
 
@@ -524,7 +532,7 @@ public class CreditCardChargeView extends
 
 		VerticalPanel vLay1 = new VerticalPanel();
 		// vLay1.add(lab2);
-		vLay1.add(addButton);
+		// vLay1.add(addButton);
 		vLay1.add(vendorTransactionGrid);
 		vLay1.add(botPanel);
 
