@@ -123,6 +123,10 @@ public class TextItem extends FormItem {
 
 	}
 
+	// void helpimformationsetposition(){
+	//		
+	// }
+
 	public void setHint(String string) {
 
 	}
