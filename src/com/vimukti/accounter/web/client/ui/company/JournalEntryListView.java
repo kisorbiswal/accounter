@@ -78,6 +78,7 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 	@Override
 	protected SelectItem getSelectItem() {
 		currentView = new SelectItem();
+		currentView.setHelpInformation(true);
 		currentView.setValueMap(FinanceApplication.getVendorsMessages()
 				.nonVoided(), FinanceApplication.getVendorsMessages().Voided(),
 				FinanceApplication.getVendorsMessages().cashBasis(),
@@ -89,7 +90,6 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 				.setSelected(FinanceApplication.getCustomersMessages().all());
 		currentView.addChangeHandler(new ChangeHandler() {
 
-			@SuppressWarnings("unchecked")
 			@Override
 			public void onChange(ChangeEvent event) {
 				if (currentView.getValue() != null) {

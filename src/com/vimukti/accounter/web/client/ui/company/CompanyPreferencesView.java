@@ -364,6 +364,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// fiscalYrForm.setPadding(10);
 
 		dateItem = new DateItem();
+		dateItem.setHelpInformation(true);
 		dateItem.setTitle(companyMessges.preventPostBefore());
 		// dateItem.setUseTextField(true);
 
@@ -418,6 +419,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 					.setTitle(companyMessges.areYouRegisteredForVAT());
 
 		vatRegNumber = new TextItem(companyMessges.vatRegNo());
+		vatRegNumber.setHelpInformation(true);
 		vatRegNumber.setDisabled(false);
 
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {

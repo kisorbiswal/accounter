@@ -32,8 +32,10 @@ public class AddPriceLevelDialog extends BaseDialog {
 	private void initiliase() {
 
 		levelText = new TextItem(companyConstants.priceLevel());
+		levelText.setHelpInformation(true);
 		levelText.setRequired(true);
 		percentText = new PercentageField(companyConstants.percentage());
+		percentText.setHelpInformation(true);
 		percentText.setPercentage(1.0);
 		percentText.setRequired(true);
 		levelRadio = new RadioGroupItem();
@@ -56,7 +58,7 @@ public class AddPriceLevelDialog extends BaseDialog {
 		nameDescForm.setSize("100%", "100%");
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.add(nameDescForm);
-//		setSize("450", "250");
+		// setSize("450", "250");
 		okbtn.setWidth("60px");
 		cancelBtn.setWidth("60px");
 

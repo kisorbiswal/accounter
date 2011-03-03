@@ -163,11 +163,13 @@ public class CompanyInfoDialog extends BaseDialog {
 		emptylabel.setShowTitle(false);
 
 		companyNameText = new TextItem(companyConstants.registeredName());
+		companyNameText.setHelpInformation(true);
 		companyNameText.setRequired(true);
 		companyNameText.setWidth(100);
 		string = "[a-zA-Z0-9 /s]";
 
 		textareaItem = new TextAreaItem(companyConstants.registeredAddress());
+		textareaItem.setHelpInformation(true);
 		textareaItem.setRequired(false);
 		textareaItem.addClickHandler(new ClickHandler() {
 			@Override
@@ -178,10 +180,13 @@ public class CompanyInfoDialog extends BaseDialog {
 		});
 
 		trandigNameText = new TextItem(companyConstants.tradingName());
+		trandigNameText.setHelpInformation(true);
 		trandigNameText.setRequired(true);
 		trandigNameText.setWidth(100);
 
 		textareaItem2 = new TextAreaItem(companyConstants.tradingAddress());
+		textareaItem2.setHelpInformation(true);
+
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 		textareaItem2.addClickHandler(new ClickHandler() {
 			@Override
@@ -200,26 +205,34 @@ public class CompanyInfoDialog extends BaseDialog {
 		VerticalPanel mainVLay2 = new VerticalPanel();
 
 		phoneText = new IntegerField(companyConstants.businessPhone());
+		phoneText.setHelpInformation(true);
 
 		faxText = new IntegerField(companyConstants.businessFax());
+		faxText.setHelpInformation(true);
 
 		emailText = new EmailField(FinanceApplication.getCompanyMessages()
 				.email());
+		emailText.setHelpInformation(true);
 
 		websiteText = new TextItem(companyConstants.webPageAddress());
+		websiteText.setHelpInformation(true);
 
 		registrationNumberText = new TextItem(companyConstants
 				.companyRegistrationNumber());
+		registrationNumberText.setHelpInformation(true);
 
 		taxIDText = new TextItem(companyConstants.federalTaxId());
+		taxIDText.setHelpInformation(true);
 
 		bankAccountText = new TextItem();
 		bankAccountText.setTitle(FinanceApplication.getCompanyMessages()
 				.bankAccountNo());
+		bankAccountText.setHelpInformation(true);
 
 		sortCodeText = new TextItem();
 		sortCodeText.setTitle(FinanceApplication.getCompanyMessages()
 				.sortCode());
+		sortCodeText.setHelpInformation(true);
 
 		phoneAndFaxForm = UIUtils.form(companyConstants.phoneAndFaxNumbers());
 
@@ -245,6 +258,7 @@ public class CompanyInfoDialog extends BaseDialog {
 					.setTitle(companyMessges.areYouRegisteredForVAT());
 		vatRegNumber = new TextItem(UIUtils.getVendorString(companyMessges
 				.vatRegNo(), companyMessges.taxRegNo()));
+		vatRegNumber.setHelpInformation(true);
 		vatRegNumber.setWidth(100);
 		vatRegNumber.setDisabled(false);
 

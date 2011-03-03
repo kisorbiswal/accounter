@@ -61,6 +61,7 @@ public class ItemGroupDialog extends BaseDialog {
 		dform = new DynamicForm();
 		itemGtext = new TextItem(FinanceApplication.getFinanceUIConstants()
 				.itemGroup());
+		itemGtext.setHelpInformation(true);
 		itemGtext.setRequired(true);
 		dform.setFields(itemGtext);
 		if (this.itemgroup != null) {

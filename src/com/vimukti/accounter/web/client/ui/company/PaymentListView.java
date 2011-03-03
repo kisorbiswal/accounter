@@ -103,6 +103,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 	protected SelectItem getSelectItem() {
 		viewSelect = new SelectItem(FinanceApplication.getBankingsMessages()
 				.currentView());
+		viewSelect.setHelpInformation(true);
 		viewSelect.setValueMap(NOT_ISSUED, ISSUED, VOID, ALL
 		// ,DELETED
 				);
@@ -136,14 +137,14 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 				if (payment.getStatus() == STATUS_NOT_ISSUED
 						|| payment.getStatus() == STATUS_PARTIALLY_PAID)
 					grid.addData(payment);
-//				else
-//					grid.addEmptyMessage("No records to show");
+				// else
+				// grid.addEmptyMessage("No records to show");
 				continue;
 			}
 			if (text.equals(ISSUED)) {
 				if (payment.getStatus() == STATUS_ISSUED)
 					grid.addData(payment);
-				
+
 				continue;
 			}
 			if (text.equals(VOID)) {
@@ -162,7 +163,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 				grid.addData(payment);
 			}
 		}
-		if(grid.getRecords().isEmpty())
+		if (grid.getRecords().isEmpty())
 			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 	}
 

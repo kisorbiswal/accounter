@@ -101,10 +101,12 @@ public class CreateFiscalYearDialog extends BaseDialog {
 		descriptionLabel.setHTML(FinanceApplication.getCompanyMessages()
 				.enterAppropriateFiscalYear());
 		startOfFiscalYear = new DateItem();
+		startOfFiscalYear.setHelpInformation(true);
 		// startOfFiscalYear.setDisabled(true);
 		startOfFiscalYear.setTitle(FinanceApplication.getCompanyMessages()
 				.startOfFiscalYear());
 		endOfFiscalYear = new DateItem();
+		endOfFiscalYear.setHelpInformation(true);
 		endOfFiscalYear.setTitle(FinanceApplication.getCompanyMessages()
 				.endOfFiscalYear());
 		dynamicForm = new DynamicForm();

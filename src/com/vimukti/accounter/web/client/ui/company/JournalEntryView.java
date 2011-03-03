@@ -248,7 +248,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 		else
 			journalEntry = new ClientJournalEntry();
-			
+
 		journalEntry.setNumber(jourNoText.getValue().toString());
 		journalEntry.setMemo(memoText.getValue().toString() != null ? memoText
 				.getValue().toString() : "");
@@ -286,6 +286,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		lab1.addStyleName(FinanceApplication.getCompanyMessages().lableTitle());
 
 		jourNoText = new TextItem(companyConstants.journalNumber());
+		jourNoText.setHelpInformation(true);
 		jourNoText.setRequired(true);
 		jourNoText.addChangeHandler(new ChangeHandler() {
 
@@ -301,7 +302,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		});
 
 		memoText = new TextItem(companyConstants.memo());
-
+		memoText.setHelpInformation(true);
 		jourForm = new DynamicForm();
 		jourForm.setIsGroup(true);
 		jourForm.setGroupTitle(companyConstants.journal());
@@ -321,8 +322,9 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 				VoucherNoreset();
 			}
 		});
-		
+
 		gridPanel.add(grid);
+
 		gridPanel.add(addButton);
 		// gridPanel.add(labelPanel);
 

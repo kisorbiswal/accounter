@@ -34,7 +34,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 			FinanceApplication.getCompanyMessages().currentMonth(),
 			FinanceApplication.getCompanyMessages().currentQuarter(),
 			FinanceApplication.getCompanyMessages().currentHalfYear(),
-			FinanceApplication.getCompanyMessages().currentYear()};
+			FinanceApplication.getCompanyMessages().currentYear() };
 
 	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
 	private Label dayLabel;
@@ -54,16 +54,19 @@ public class AddPaymentTermDialog extends BaseDialog {
 		integerRangeValidator = new IntegerRangeValidator();
 
 		payTermText = new TextItem(companyConstants.paymentTerm());
+		payTermText.setHelpInformation(true);
 		payTermText.setRequired(true);
 
 		descText = new TextItem(companyConstants.description());
-
+		descText.setHelpInformation(true);
 		dueSelect = new SelectItem(companyConstants.due());
+		dueSelect.setHelpInformation(true);
 		dueSelect.setWidth(90);
 		dueSelect.setValueMap(dueValues);
 
 		dayText = new IntegerField(FinanceApplication.getCompanyMessages()
 				.and());
+		dayText.setHelpInformation(true);
 		// dayText.setWidth(20);
 		dayText.setValidators(integerRangeValidator);
 
@@ -75,11 +78,13 @@ public class AddPaymentTermDialog extends BaseDialog {
 		nameDescForm.setSize("100%", "100%");
 
 		discText = new PercentageField(companyConstants.discount());
+		discText.setHelpInformation(true);
 		discText.setColSpan(1);
 		discText.setWidth(90);
 		discText.setHint(" if paid within ");
 
 		discDayText = new IntegerField("If paid within");
+		discDayText.setHelpInformation(true);
 		discDayText.setColSpan(1);
 		discDayText.setHint(FinanceApplication.getCompanyMessages().days());
 		// discDayText.setWidth(20);

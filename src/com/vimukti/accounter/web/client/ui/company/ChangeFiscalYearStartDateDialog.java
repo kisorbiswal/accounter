@@ -61,6 +61,8 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 				.pleaseEnterNewStartDate());
 		startDateItem = new DateField(FinanceApplication.getCompanyMessages()
 				.startDate());
+		startDateItem.setHelpInformation(true);
+
 		long startdate = FinanceApplication.getCompany().getPreferences()
 				.getStartOfFiscalYear();
 		startDateItem.setEnteredDate(new ClientFinanceDate(startdate));
