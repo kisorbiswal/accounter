@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -42,22 +41,27 @@ public class AddressDialog extends BaseDialog {
 		// .getFinanceUIConstants().streetName());
 		final TextItem address1 = new TextItem(FinanceApplication
 				.getFinanceUIConstants().address1());
+		address1.setHelpInformation(true);
 
 		final TextItem address2 = new TextItem(FinanceApplication
 				.getFinanceUIConstants().address2());
+		address2.setHelpInformation(true);
 
 		final TextItem city = new TextItem(FinanceApplication
 				.getFinanceUIConstants().city());
+		city.setHelpInformation(true);
 
 		final TextItem state = new TextItem(FinanceApplication
 				.getFinanceUIConstants().state());
+		state.setHelpInformation(true);
 
 		final TextItem country = new TextItem(FinanceApplication
 				.getFinanceUIConstants().country());
+		country.setHelpInformation(true);
 
 		final TextItem zip = new TextItem(FinanceApplication
 				.getFinanceUIConstants().postalCode());
-
+		zip.setHelpInformation(true);
 		// country.setWidth(100);
 
 		// country.setValueMap(FinanceApplication.getFinanceUIConstants().uk(),

@@ -43,9 +43,11 @@ public class AddressForm extends DynamicForm {
 
 		businessSelect = new SelectItem(FinanceApplication
 				.getFinanceUIConstants().address());
+		businessSelect.setHelpInformation(true);
 		businessSelect.setWidth(85);
 		businessSelect.getMainWidget().removeStyleName(
 				FinanceApplication.getFinanceUIConstants().gwtListBox());
+		businessSelect.setValueMap(new ClientAddress().getAddressTypes());
 		businessSelect.setValueMap(new ClientAddress().getAddressTypes());
 
 		businessSelect.addChangeHandler(new ChangeHandler() {
@@ -58,6 +60,7 @@ public class AddressForm extends DynamicForm {
 		});
 
 		addrArea = new TextAreaItem();
+		addrArea.setHelpInformation(true);
 		addrArea.setWidth(100);
 		addrArea.setShowTitle(false);
 		addrArea.addClickHandler(new ClickHandler() {
