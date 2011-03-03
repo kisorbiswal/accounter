@@ -42,6 +42,7 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
@@ -299,27 +300,27 @@ public class SalesOrderView extends
 		prodAndServiceForm1.setFields(memoTextAreaItem, refText);
 		forms.add(prodAndServiceForm1);
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableItem();
+		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
 
 		priceLevelSelect = createPriceLevelSelectItem();
 		taxCodeSelect = createTaxCodeSelectItem();
 
-		paymentsNonEditableText = new AmountField(customerConstants.payments());
+		paymentsNonEditableText = new AmountLabel(customerConstants.payments());
 		paymentsNonEditableText.setDisabled(true);
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		balanceDueNonEditableText = new AmountField(customerConstants
+		balanceDueNonEditableText = new AmountLabel(customerConstants
 				.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
-		salesTaxTextNonEditable = createSalesTaxNonEditableItem();
+		salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 
-		netAmount = createNetAmountField();
+		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
-		vatTotalNonEditableText = createVATTotalNonEditableItem();
+		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
 		customerTransactionGrid = getGrid();
 		customerTransactionGrid.setTransactionView(this);
@@ -337,7 +338,7 @@ public class SalesOrderView extends
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			TextItem dummyItem = new TextItem("");
 			dummyItem.setVisible(false);
-			prodAndServiceForm2.setFields(dummyItem, netAmount, dummyItem,
+			prodAndServiceForm2.setFields(dummyItem, netAmountLabel, dummyItem,
 					vatTotalNonEditableText, dummyItem,
 					transactionTotalNonEditableText);
 		} else {
@@ -557,7 +558,7 @@ public class SalesOrderView extends
 		refText.setValue(salesOrderToBeEdited.getReference());
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			netAmount.setAmount(salesOrderToBeEdited.getNetAmount());
+			netAmountLabel.setAmount(salesOrderToBeEdited.getNetAmount());
 			vatTotalNonEditableText.setAmount(salesOrderToBeEdited.getTotal()
 					- salesOrderToBeEdited.getNetAmount());
 		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
@@ -676,7 +677,7 @@ public class SalesOrderView extends
 				}
 				salesOrder.setSalesTaxAmount(this.salesTax);
 			} else if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-				salesOrder.setNetAmount(netAmount.getAmount());
+				salesOrder.setNetAmount(netAmountLabel.getAmount());
 				// salesOrder.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 				// .getValue());
 			}
@@ -832,7 +833,7 @@ public class SalesOrderView extends
 		} else {
 			if (customerTransactionGrid.getGrandTotal() != null
 					&& customerTransactionGrid.getTotalValue() != null) {
-				netAmount.setAmount(customerTransactionGrid.getGrandTotal());
+				netAmountLabel.setAmount(customerTransactionGrid.getGrandTotal());
 				vatTotalNonEditableText.setAmount(customerTransactionGrid
 						.getTotalValue()
 						- customerTransactionGrid.getGrandTotal());
