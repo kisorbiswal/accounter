@@ -104,9 +104,9 @@ public class VendorBillView extends
 		billToCombo.initCombo(adrsList);
 		contactCombo.setDisabled(isEdit);
 		billToCombo.setDisabled(isEdit);
-		phoneSelect.setValueMap();
+	phoneSelect.setValueMap();
 		setMemoTextAreaItem("");
-		setRefText("");
+		// setRefText("");
 
 	}
 
@@ -169,7 +169,6 @@ public class VendorBillView extends
 		paymentTermsList = FinanceApplication.getCompany().getPaymentsTerms();
 
 		paymentTermsCombo.initCombo(paymentTermsList);
-
 		paymentTermsCombo.setDisabled(isEdit);
 
 		if (transactionObject != null
@@ -381,6 +380,7 @@ public class VendorBillView extends
 		formItems.add(billToCombo);
 
 		phoneSelect = new ComboBoxItem();
+		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(80);
 		phoneSelect.setTitle(vendorConstants.phone());
 		phoneSelect.setDisabled(false);
@@ -388,6 +388,7 @@ public class VendorBillView extends
 
 		paymentTermsCombo = new PaymentTermsCombo(vendorConstants
 				.paymentTerms());
+		paymentTermsCombo.setHelpInformation(true);
 		paymentTermsCombo.setWidth(80);
 		paymentTermsCombo.setDisabled(isEdit);
 		paymentTermsCombo
@@ -402,6 +403,7 @@ public class VendorBillView extends
 				});
 
 		dueDateItem = new DateField(vendorConstants.dueDate());
+		dueDateItem.setHelpInformation(true);
 		dueDateItem.setEnteredDate(getTransactionDate());
 		dueDateItem.setColSpan(1);
 		dueDateItem.setTitle(vendorConstants.dueDate());
@@ -434,6 +436,7 @@ public class VendorBillView extends
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		balanceDueNonEditableText = new AmountField(vendorConstants
 				.balanceDue());
+		balanceDueNonEditableText.setHelpInformation(true);
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -447,8 +450,8 @@ public class VendorBillView extends
 		vendorTransactionGrid.setDisabled(isEdit);
 		memoTextAreaItem = createMemoTextAreaItem();
 		// memoTextAreaItem.setWidth(100);
-		refText = createRefereceText();
-		refText.setWidth(100);
+		// refText = createRefereceText();
+		// refText.setWidth(100);
 
 		// addLinksButton = new Button(FinanceApplication.getVendorsMessages()
 		// /addLinks());
@@ -463,7 +466,7 @@ public class VendorBillView extends
 
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
-		memoForm.setFields(memoTextAreaItem, refText);
+		memoForm.setFields(memoTextAreaItem);
 
 		// memoForm.setWidget(3, 0, addLinksButton);
 		// memoForm.setWidget(3, 1, linksText.getMainWidget());
@@ -477,6 +480,7 @@ public class VendorBillView extends
 
 		netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + 102)
 				+ "px");
+
 
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
@@ -607,7 +611,7 @@ public class VendorBillView extends
 		// Setting Memo
 		enterBill.setMemo(getMemoTextAreaItem());
 		// Setting Reference
-		enterBill.setReference(getRefText());
+		// enterBill.setReference(getRefText());
 
 		ClientFinanceDate discountDate = Utility.getCalculatedDiscountDate(
 				transactionDateItem.getEnteredDate(), selectedPaymentTerm);
@@ -654,7 +658,7 @@ public class VendorBillView extends
 	protected void initMemoAndReference() {
 
 		setMemoTextAreaItem(((ClientEnterBill) transactionObject).getMemo());
-		setRefText(((ClientEnterBill) transactionObject).getReference());
+		// setRefText(((ClientEnterBill) transactionObject).getReference());
 
 	}
 
@@ -981,7 +985,7 @@ public class VendorBillView extends
 
 	private void resetFormView() {
 		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
-		refText.setWidth("200px");
+		// refText.setWidth("200px");
 		phoneSelect.setWidth("210px");
 		paymentTermsCombo.setWidth("210px");
 	}

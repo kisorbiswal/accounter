@@ -110,12 +110,16 @@ public class CashPurchaseView extends
 		vendorCombo = createVendorComboItem(UIUtils.getVendorString(
 				FinanceApplication.getVendorsMessages().supplierName(),
 				FinanceApplication.getVendorsMessages().vendorName()));
+		vendorCombo.setHelpInformation(true);
 		vendorCombo.setWidth(100);
 		contactCombo = createContactComboItem();
+		contactCombo.setHelpInformation(true);
 		contactCombo.setWidth(100);
 		billToCombo = createBillToComboItem();
+		billToCombo.setHelpInformation(true);
 		billToCombo.setWidth(100);
 		phoneSelect = new ComboBoxItem();
+		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		phoneSelect.setTitle(vendorConstants.phone());
 		if (transactionObject != null)
@@ -191,21 +195,18 @@ public class CashPurchaseView extends
 		vendorTransactionGrid.setDisabled(isEdit);
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
-		refText = createRefereceText();
-		refText.setWidth(100);
+		// refText = createRefereceText();
+		// refText.setWidth(100);
 
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
-		memoForm.setFields(memoTextAreaItem, refText);
+		memoForm.setFields(memoTextAreaItem);
 		forms.add(memoForm);
 		DynamicForm vatCheckform = new DynamicForm();
 		// vatCheckform.setFields(vatinclusiveCheck);
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setNumCols(2);
-		totalForm.setWidth("42%");
-
-		netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + 97)
-				+ "px");
+		totalForm.setWidth("50%");
 
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
@@ -230,7 +231,7 @@ public class CashPurchaseView extends
 			vPanel.add(menuButton);
 			vPanel.add(memoForm);
 			vPanel.setWidth("100%");
-			
+
 			bottomLayout.add(vPanel);
 			bottomLayout.add(vatCheckform);
 			bottomLayout.setCellHorizontalAlignment(vatCheckform,
@@ -485,7 +486,7 @@ public class CashPurchaseView extends
 		// Setting Memo
 		cashPurchase.setMemo(getMemoTextAreaItem());
 		// Setting Reference
-		cashPurchase.setReference(getRefText());
+		// cashPurchase.setReference(getRefText());
 		return cashPurchase;
 	}
 
@@ -503,7 +504,7 @@ public class CashPurchaseView extends
 	@Override
 	protected void initMemoAndReference() {
 		setMemoTextAreaItem(((ClientCashPurchase) transactionObject).getMemo());
-		setRefText(((ClientCashPurchase) transactionObject).getReference());
+		// setRefText(((ClientCashPurchase) transactionObject).getReference());
 	}
 
 	@Override
@@ -678,7 +679,7 @@ public class CashPurchaseView extends
 	private void resetFormView() {
 		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
 		vendorForm.setWidth("75%");
-		refText.setWidth("200px");
+		// refText.setWidth("200px");
 
 	}
 }

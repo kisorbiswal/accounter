@@ -17,9 +17,9 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -76,9 +76,10 @@ public abstract class AbstractVendorTransactionView<T> extends
 			vatTotalNonEditableText;
 
 	protected AmountField balanceDueNonEditableText;// protected
-													// AbstractAccounterCombo
-													// contactCombo,
-													// billToCombo,
+	// AbstractAccounterCombo
+	// contactCombo,
+	// billToCombo,
+
 	// payFromCombo;
 
 	protected ComboBoxItem phoneSelect;
@@ -300,7 +301,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 				: UIUtils.getVendorString(FinanceApplication
 						.getVendorsMessages().supplier(), FinanceApplication
 						.getVendorsMessages().vendor()));
-
+		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(true);
 		vendorCombo.setDisabled(isEdit);
 		// vendorCombo.setShowDisabled(false);
@@ -325,7 +326,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 		VendorCombo vendorCombo = new VendorCombo(UIUtils.getVendorString(
 				FinanceApplication.getVendorsMessages().supplier(),
 				FinanceApplication.getVendorsMessages().vendor()));
-
+		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(isRequired);
 		vendorCombo.setDisabled(isEdit);
 		// vendorCombo.setShowDisabled(false);
@@ -348,7 +349,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 		ContactCombo contactCombo = new ContactCombo(FinanceApplication
 				.getVendorsMessages().contactName());
-
+		contactCombo.setHelpInformation(true);
 		contactCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientContact>() {
 
@@ -369,7 +370,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 		AddressCombo addressCombo = new AddressCombo(FinanceApplication
 				.getVendorsMessages().billTo());
-
+		addressCombo.setHelpInformation(true);
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
 
@@ -391,6 +392,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 	public PayFromAccountsCombo createPayFromCombo(String title) {
 
 		PayFromAccountsCombo payFromCombo = new PayFromAccountsCombo(title);
+		payFromCombo.setHelpInformation(true);
 		payFromCombo.setRequired(true);
 		payFromCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -472,6 +474,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 	protected TextItem createCheckNumberItem(String title) {
 
 		final TextItem checkNo = new TextItem(title);
+		checkNo.setHelpInformation(true);
 		checkNo.setDisabled(isEdit);
 		// checkNo.setShowDisabled(false);
 		if (transactionObject != null) {
@@ -492,6 +495,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 		final DateField dateItem = new DateField(FinanceApplication
 				.getVendorsMessages().deliverydate());
+		dateItem.setHelpInformation(true);
 		// dateItem.setTitle("Delivery Date");
 		// dateItem.setUseTextField(true);
 		if (transactionObject == null) {

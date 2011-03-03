@@ -98,7 +98,7 @@ public class VendorCreditMemoView extends
 		this.contact = null;
 		this.phoneNo = null;
 		setMemoTextAreaItem("");
-		setRefText("");
+		// setRefText("");
 
 	}
 
@@ -164,8 +164,8 @@ public class VendorCreditMemoView extends
 			forms.add(vendorForm);
 
 		phoneSelect = new ComboBoxItem();
+		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
-		phoneSelect.setTitle(vendorConstants.phone());
 		formItems.add(phoneSelect);
 
 		DynamicForm phoneForm = UIUtils.form(vendorConstants.phonenumber());
@@ -212,12 +212,12 @@ public class VendorCreditMemoView extends
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
-		refText = createRefereceText();
-		refText.setWidth(100);
+		// refText = createRefereceText();
+		// refText.setWidth(100);
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
-		memoForm.setFields(memoTextAreaItem, refText);
+		memoForm.setFields(memoTextAreaItem);
 		DynamicForm vatCheckform = new DynamicForm();
 		// vatCheckform.setFields(vatinclusiveCheck);
 		DynamicForm totalForm = new DynamicForm();
@@ -245,12 +245,12 @@ public class VendorCreditMemoView extends
 
 		int accountType = FinanceApplication.getCompany().getAccountingType();
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			VerticalPanel vPanel=new VerticalPanel();
-			
+			VerticalPanel vPanel = new VerticalPanel();
+
 			vPanel.add(menuButton);
 			vPanel.add(memoForm);
 			vPanel.setWidth("100%");
-			
+
 			bottomLayout1.add(vPanel);
 			bottomLayout1.add(vatCheckform);
 			bottomLayout1.setCellHorizontalAlignment(vatCheckform,
@@ -302,7 +302,7 @@ public class VendorCreditMemoView extends
 			if (vendorCreditMemo != null) {
 
 				setMemoTextAreaItem(vendorCreditMemo.getMemo());
-				setRefText(vendorCreditMemo.getReference());
+				// setRefText(vendorCreditMemo.getReference());
 
 			}
 		}
@@ -334,7 +334,7 @@ public class VendorCreditMemoView extends
 		// Setting Memo
 		vendorCreditMemo.setMemo(getMemoTextAreaItem());
 		// Setting Reference
-		vendorCreditMemo.setReference(getRefText());
+		// vendorCreditMemo.setReference(getRefText());
 
 		transactionObject = vendorCreditMemo;
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
@@ -511,6 +511,5 @@ public class VendorCreditMemoView extends
 	private void resetFormView() {
 		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
 		vendorForm.setWidth("40%");
-		refText.setWidth("200px");
 	}
 }
