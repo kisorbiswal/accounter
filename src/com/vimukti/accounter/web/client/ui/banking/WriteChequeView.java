@@ -43,6 +43,7 @@ import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -64,7 +65,7 @@ public class WriteChequeView extends
 	// private TextItem nText;
 
 	private HorizontalPanel labelLayout;
-	public AmountField amtText, netAmount, totalTxt;
+	public AmountLabel amtText, netAmount, totalTxt;
 	private TextItem text;
 	private TextAreaItem addrArea;
 	private DynamicForm payForm;
@@ -811,7 +812,7 @@ public class WriteChequeView extends
 		billToCombo = createBillToComboItem();
 		billToCombo.setWidth(100);
 
-		amtText = new AmountField(bankingConstants.amount());
+		amtText = new AmountLabel(bankingConstants.amount());
 		amtText.setWidth(36);
 		amtText.setAmount(0.00);
 		amtText.setDisabled(isEdit);
@@ -886,8 +887,8 @@ public class WriteChequeView extends
 		vatPanel = new HorizontalPanel();
 		vatPanel.setWidth("100%");
 		vatInclusiveCheck = getVATInclusiveCheckBox();
-		totalTxt = createTransactionTotalNonEditableItem();
-		netAmount = new AmountField(FinanceApplication.getBankingsMessages()
+		totalTxt = createTransactionTotalNonEditableLabel();
+		netAmount = new AmountLabel(FinanceApplication.getBankingsMessages()
 				.netAmount());
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setFields(totalTxt, netAmount);
