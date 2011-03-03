@@ -172,12 +172,12 @@ public class CashSalesView extends
 		prodAndServiceForm1.setFields(memoTextAreaItem, refText);
 		forms.add(prodAndServiceForm1);
 
-		vatTotalNonEditableText = createVATTotalNonEditableItem();
+		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
-		salesTaxTextNonEditable = createSalesTaxNonEditableItem();
-		netAmount = createNetAmountField();
+		salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
+		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
-		transactionTotalNonEditableText = createTransactionTotalNonEditableItem();
+		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
 		customerTransactionGrid = getGrid();
 		customerTransactionGrid.setTransactionView(this);
 		customerTransactionGrid.init();
@@ -193,19 +193,31 @@ public class CashSalesView extends
 		prodAndServiceForm2.setNumCols(4);
 		if (FinanceApplication.getCompany().getAccountingType() == 1) {
 
-			prodAndServiceForm2.setFields(priceLevelSelect, netAmount,
+//			prodAndServiceForm2.setFields(priceLevelSelect, netAmountLabel,
+//					disabletextbox, vatTotalNonEditableText, disabletextbox,
+//					transactionTotalNonEditableText);
+			prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
 					disabletextbox, vatTotalNonEditableText, disabletextbox,
 					transactionTotalNonEditableText);
 		} else {
+//			prodAndServiceForm2.setFields(taxCodeSelect,
+//					salesTaxTextNonEditable, priceLevelSelect,
+//					transactionTotalNonEditableText);
 			prodAndServiceForm2.setFields(taxCodeSelect,
-					salesTaxTextNonEditable, priceLevelSelect,
+					salesTaxTextNonEditable, disabletextbox,
 					transactionTotalNonEditableText);
 		}
 		forms.add(prodAndServiceForm2);
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
-		prodAndServiceHLay.add(prodAndServiceForm1);
+		
+		VerticalPanel vPanel =  new VerticalPanel();
+		vPanel.add(createAddNewButton());
+		vPanel.add(prodAndServiceForm1);
+		vPanel.setWidth("50%");
+		prodAndServiceHLay.add(vPanel);
+		
 		prodAndServiceHLay.add(prodAndServiceForm2);
 		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
 				ALIGN_RIGHT);
@@ -233,7 +245,6 @@ public class CashSalesView extends
 
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
-		mainVLay.add(createAddNewButton());
 		mainVLay.add(customerTransactionGrid);
 		mainVLay.add(prodAndServiceHLay);
 
@@ -352,7 +363,7 @@ public class CashSalesView extends
 			cashSale.setReference(getRefText());
 
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-				cashSale.setNetAmount(netAmount.getAmount());
+				cashSale.setNetAmount(netAmountLabel.getAmount());
 				cashSale.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 						.getValue());
 			} else {
@@ -401,7 +412,7 @@ public class CashSalesView extends
 					+ this.salesTax);
 
 		} else {
-			netAmount.setAmount(customerTransactionGrid.getGrandTotal());
+			netAmountLabel.setAmount(customerTransactionGrid.getGrandTotal());
 			vatTotalNonEditableText.setAmount(customerTransactionGrid
 					.getTotalValue()
 					- customerTransactionGrid.getGrandTotal());
@@ -472,7 +483,7 @@ public class CashSalesView extends
 		memoTextAreaItem.setValue(cashSale.getMemo());
 		refText.setValue(cashSale.getReference());
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			netAmount.setAmount(cashSale.getNetAmount());
+			netAmountLabel.setAmount(cashSale.getNetAmount());
 			vatTotalNonEditableText.setAmount(cashSale.getTotal()
 					- cashSale.getNetAmount());
 		} else {
