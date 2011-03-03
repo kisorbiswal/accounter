@@ -30,6 +30,7 @@ import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
@@ -147,7 +148,7 @@ public class ItemReceiptView extends
 		termsForm.setWidth("100%");
 		termsForm.setFields(payTermsSelect, deliveryDateItem);
 
-		netAmount = new AmountField("Net Amount");
+		netAmount = new AmountLabel("Net Amount");
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 		transactionTotalNonEditableText = createTransactionTotalNonEditableItem();

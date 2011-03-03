@@ -354,8 +354,9 @@ public class VendorView extends BaseView<ClientVendor> {
 			}
 		};
 		panel.add(l1);
-		panel.add(addButton);
+
 		panel.add(gridView);
+		panel.add(addButton);
 
 		memoArea = new TextAreaItem();
 		memoArea.setWidth(100);

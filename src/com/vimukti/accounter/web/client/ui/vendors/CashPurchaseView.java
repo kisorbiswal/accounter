@@ -24,9 +24,9 @@ import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -174,7 +174,7 @@ public class CashPurchaseView extends
 		Label lab2 = new Label(vendorConstants.itemsAndExpenses());
 		menuButton = createAddNewButton();
 
-		netAmount = new AmountField(FinanceApplication.getVendorsMessages()
+		netAmount = new AmountLabel(FinanceApplication.getVendorsMessages()
 				.netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
@@ -202,7 +202,11 @@ public class CashPurchaseView extends
 		// vatCheckform.setFields(vatinclusiveCheck);
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setNumCols(2);
-		totalForm.setWidth("50%");
+		totalForm.setWidth("42%");
+
+		netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + 97)
+				+ "px");
+
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
 
@@ -222,7 +226,12 @@ public class CashPurchaseView extends
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			bottomLayout.add(memoForm);
+			VerticalPanel vPanel = new VerticalPanel();
+			vPanel.add(menuButton);
+			vPanel.add(memoForm);
+			vPanel.setWidth("100%");
+			
+			bottomLayout.add(vPanel);
 			bottomLayout.add(vatCheckform);
 			bottomLayout.setCellHorizontalAlignment(vatCheckform,
 					HasHorizontalAlignment.ALIGN_RIGHT);
@@ -231,7 +240,11 @@ public class CashPurchaseView extends
 					HasHorizontalAlignment.ALIGN_RIGHT);
 		} else {
 			memoForm.setStyleName("align-form");
-			bottomLayout.add(memoForm);
+			VerticalPanel vPanel = new VerticalPanel();
+			vPanel.add(menuButton);
+			vPanel.add(memoForm);
+
+			bottomLayout.add(vPanel);
 		}
 
 		VerticalPanel mainVLay = new VerticalPanel();
@@ -240,8 +253,9 @@ public class CashPurchaseView extends
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		// mainVLay.add(lab2);
-		mainVLay.add(menuButton);
+
 		mainVLay.add(vendorTransactionGrid);
+
 		mainVLay.add(bottomLayout);
 
 		// setOverflow(Overflow.SCROLL);

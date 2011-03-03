@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -51,7 +52,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	private TransactionPayBillGrid gridView;
 	protected AmountField cashDiscountTextItem;
 	protected AmountField creditTextItem;
-	public AmountField unUsedCreditsText;
+	public AmountLabel unUsedCreditsText;
 	protected SelectItem vendorPaymentMethodCombo;
 
 	protected List<PayBillTransactionList> paybillTransactionList;
@@ -59,7 +60,6 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	protected List<PayBillTransactionList> tempList;
 	private ClientFinanceDate dueDateOnOrBefore;
 	private DynamicForm payForm, filterForm;
-	@SuppressWarnings("unused")
 	private int size;
 	public double transactionTotal = 0.0d;
 	public double totalAmountDue = 0.0d;
@@ -464,7 +464,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 		initListGrid();
 
-		unUsedCreditsText = new AmountField(vendorConstants.unusedCredits());
+		unUsedCreditsText = new AmountLabel(vendorConstants.unusedCredits());
 		unUsedCreditsText.setDisabled(true);
 
 		DynamicForm textForm = new DynamicForm();

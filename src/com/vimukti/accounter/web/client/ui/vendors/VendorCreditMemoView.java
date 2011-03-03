@@ -20,9 +20,9 @@ import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -176,7 +176,7 @@ public class VendorCreditMemoView extends
 		}
 
 		forms.add(phoneForm);
-		netAmount = new AmountField(FinanceApplication.getVendorsMessages()
+		netAmount = new AmountLabel(FinanceApplication.getVendorsMessages()
 				.netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
@@ -222,7 +222,11 @@ public class VendorCreditMemoView extends
 		// vatCheckform.setFields(vatinclusiveCheck);
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setNumCols(2);
-		totalForm.setWidth("50%");
+		totalForm.setWidth("41%");
+
+		netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + 100)
+				+ "px");
+
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
 		HorizontalPanel bottomLayout = new HorizontalPanel();
@@ -241,7 +245,13 @@ public class VendorCreditMemoView extends
 
 		int accountType = FinanceApplication.getCompany().getAccountingType();
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			bottomLayout1.add(memoForm);
+			VerticalPanel vPanel=new VerticalPanel();
+			
+			vPanel.add(menuButton);
+			vPanel.add(memoForm);
+			vPanel.setWidth("100%");
+			
+			bottomLayout1.add(vPanel);
 			bottomLayout1.add(vatCheckform);
 			bottomLayout1.setCellHorizontalAlignment(vatCheckform,
 					HasHorizontalAlignment.ALIGN_RIGHT);
@@ -258,8 +268,9 @@ public class VendorCreditMemoView extends
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay1);
 		// mainVLay.add(lab2);
-		mainVLay.add(menuButton);
+
 		mainVLay.add(vendorTransactionGrid);
+
 		mainVLay.add(bottomLayout1);
 
 		if (UIUtils.isMSIEBrowser())

@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -71,10 +72,13 @@ public abstract class AbstractVendorTransactionView<T> extends
 	protected ContactCombo contactCombo;
 	protected AddressCombo billToCombo;
 	protected PayFromAccountsCombo payFromCombo;
-	protected AmountField netAmount, transactionTotalNonEditableText,
-			vatTotalNonEditableText, balanceDueNonEditableText;
+	protected AmountLabel netAmount, transactionTotalNonEditableText,
+			vatTotalNonEditableText;
 
-	// protected AbstractAccounterCombo contactCombo, billToCombo,
+	protected AmountField balanceDueNonEditableText;// protected
+													// AbstractAccounterCombo
+													// contactCombo,
+													// billToCombo,
 	// payFromCombo;
 
 	protected ComboBoxItem phoneSelect;
@@ -193,9 +197,9 @@ public abstract class AbstractVendorTransactionView<T> extends
 		}
 	}
 
-	protected AmountField createTransactionTotalNonEditableItem() {
+	protected AmountLabel createTransactionTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(FinanceApplication
+		AmountLabel amountItem = new AmountLabel(FinanceApplication
 				.getVendorsMessages().total());
 		amountItem.setDisabled(true);
 
@@ -203,9 +207,9 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 	}
 
-	protected AmountField createVATTotalNonEditableItem() {
+	protected AmountLabel createVATTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(FinanceApplication
+		AmountLabel amountItem = new AmountLabel(FinanceApplication
 				.getCustomersMessages().vat());
 		amountItem.setDisabled(true);
 

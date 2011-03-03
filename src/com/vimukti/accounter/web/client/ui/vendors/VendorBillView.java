@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -57,7 +58,7 @@ public class VendorBillView extends
 	private CheckboxItem euVATexempVendor;
 	@SuppressWarnings("unused")
 	private CheckboxItem showPricesWithVAT;
-	private AmountField netAmount;
+	private AmountLabel netAmount;
 	@SuppressWarnings("unused")
 	private AmountField total;
 	@SuppressWarnings("unused")
@@ -421,7 +422,7 @@ public class VendorBillView extends
 		dateform.setItems(phoneSelect, paymentTermsCombo, dueDateItem,
 				deliveryDateItem);
 		forms.add(termsForm);
-		netAmount = new AmountField(FinanceApplication.getVendorsMessages()
+		netAmount = new AmountLabel(FinanceApplication.getVendorsMessages()
 				.netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
@@ -472,9 +473,14 @@ public class VendorBillView extends
 		DynamicForm vatCheckform = new DynamicForm();
 		// vatCheckform.setFields(vatinclusiveCheck);
 		DynamicForm totalForm = new DynamicForm();
-		totalForm.setWidth("50%");
+		totalForm.setWidth("41%");
+
+		netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + 102)
+				+ "px");
+
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
+
 		if (this.transactionObject != null)
 			totalForm.setFields(balanceDueNonEditableText);
 		VerticalPanel leftVLay = new VerticalPanel();
@@ -496,7 +502,12 @@ public class VendorBillView extends
 		bottomLayout.setWidth("100%");
 
 		if (FinanceApplication.getCompany().getAccountingType() == 1) {
-			bottomLayout.add(memoForm);
+			VerticalPanel vPanel = new VerticalPanel();
+			vPanel.add(menuButton);
+			vPanel.add(memoForm);
+			vPanel.setWidth("100%");
+
+			bottomLayout.add(vPanel);
 			bottomLayout.add(vatCheckform);
 			// bottomLayout.setHorizontalAlignment(align)
 			bottomLayout.setCellHorizontalAlignment(vatCheckform,
@@ -506,7 +517,11 @@ public class VendorBillView extends
 					HasHorizontalAlignment.ALIGN_RIGHT);
 		} else {
 			memoForm.setStyleName("align-form");
-			bottomLayout.add(memoForm);
+			VerticalPanel vPanel = new VerticalPanel();
+			vPanel.add(menuButton);
+			vPanel.add(memoForm);
+
+			bottomLayout.add(vPanel);
 		}
 
 		VerticalPanel mainVLay = new VerticalPanel();
@@ -514,8 +529,8 @@ public class VendorBillView extends
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.setCellHorizontalAlignment(topHLay, ALIGN_RIGHT);
 		mainVLay.add(topHLay);
-		mainVLay.add(menuButton);
 		mainVLay.add(vendorTransactionGrid);
+
 		mainVLay.add(bottomLayout);
 
 		if (UIUtils.isMSIEBrowser()) {
