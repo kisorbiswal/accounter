@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -65,7 +66,7 @@ public abstract class AbstractBankTransactionView<T> extends
 	private List<ClientAccount> listOfAccounts;
 
 	protected List<ClientAccount> accounts;
-	protected AmountField netAmount, transactionTotalNonEditableText,
+	protected AmountLabel netAmount, transactionTotalNonEditableText,
 			vatTotalNonEditableText;
 	protected ClientVendor selectedVendor;
 
@@ -166,6 +167,15 @@ public abstract class AbstractBankTransactionView<T> extends
 	protected AmountField createVATTotalNonEditableItem() {
 
 		AmountField amountItem = new AmountField(FinanceApplication
+				.getCustomersMessages().vat());
+		amountItem.setDisabled(true);
+
+		return amountItem;
+
+	}
+	protected AmountLabel createVATTotalNonEditableLabel() {
+
+		AmountLabel amountItem = new AmountLabel(FinanceApplication
 				.getCustomersMessages().vat());
 		amountItem.setDisabled(true);
 
@@ -304,6 +314,15 @@ public abstract class AbstractBankTransactionView<T> extends
 	protected AmountField createTransactionTotalNonEditableItem() {
 
 		AmountField amountItem = new AmountField(FinanceApplication
+				.getBankingsMessages().total());
+		amountItem.setDisabled(true);
+
+		return amountItem;
+
+	}
+	protected AmountLabel createTransactionTotalNonEditableLabel() {
+
+		AmountLabel amountItem = new AmountLabel(FinanceApplication
 				.getBankingsMessages().total());
 		amountItem.setDisabled(true);
 
