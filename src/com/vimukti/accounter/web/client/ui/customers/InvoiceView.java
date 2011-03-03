@@ -76,6 +76,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	private TextAreaItem billToTextArea;
 	private ShipToForm shipToAddress;
 	private TextItem orderNumText;
+	@SuppressWarnings("unused")
 	private ClientCompany company = FinanceApplication.getCompany();
 
 	@Override
@@ -236,8 +237,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		});
 
 		contactCombo = createContactComboItem();
+		contactCombo.setHelpInformation(true);
 		// billToCombo = createBillToComboItem();
 		billToTextArea = new TextAreaItem();
+		billToTextArea.setHelpInformation(true);
 		billToTextArea.setWidth(100);
 		billToTextArea.setTitle(FinanceApplication.getCustomersMessages()
 				.billTo());
@@ -246,7 +249,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		shipToCombo = createShipToComboItem();
 		shipToCombo.setHelpInformation(true);
-
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.businessSelect.addChangeHandler(new ChangeHandler() {
 
@@ -259,6 +261,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 					shipToAddress.addrArea.setValue("");
 			}
 		});
+
 		if (transactionObject != null)
 			shipToAddress.businessSelect.setDisabled(true);
 		// phoneSelect = new SelectItem();
@@ -295,6 +298,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		shippingMethodsCombo = createShippingMethodCombo();
 
 		dueDateItem = new DateField(customerConstants.dueDate());
+		dueDateItem.setHelpInformation(true);
 		dueDateItem.setEnteredDate(getTransactionDate());
 		dueDateItem.setColSpan(1);
 		dueDateItem.setTitle(customerConstants.dueDate());
@@ -304,6 +308,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		orderNumText = new TextItem(FinanceApplication.getCustomersMessages()
 				.salesorderno());
+		orderNumText.setHelpInformation(true);
 		orderNumText.setWidth(38);
 		if (transactionObject != null)
 			orderNumText.setDisabled(true);
@@ -323,9 +328,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
-		memoTextAreaItem.setHelpInformation(true);
-		refText = createRefereceText();
-		refText.setWidth(100);
 		Button printButton = new Button();
 		printButton.setText(FinanceApplication.getCustomersMessages().print());
 		printButton.addClickHandler(new ClickHandler() {
@@ -344,8 +346,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.setNumCols(2);
-		prodAndServiceForm1.setFields(memoTextAreaItem, refText);
-		
+		prodAndServiceForm1.setFields(memoTextAreaItem);
+
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.add(createAddNewButton());
 		vPanel.add(prodAndServiceForm1);
@@ -727,6 +729,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 	}
 
+	@SuppressWarnings("unused")
 	private ClientInvoice convertToInvoice(ClientEstimate selectedEstimate) {
 
 		ClientInvoice invoice = new ClientInvoice(selectedEstimate);
@@ -814,8 +817,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		taxCodeSelected(this.taxCode);
 		if (invoiceToBeEdited.getMemo() != null)
 			memoTextAreaItem.setValue(invoiceToBeEdited.getMemo());
-		if (invoiceToBeEdited.getReference() != null)
-			refText.setValue(invoiceToBeEdited.getReference());
+		// if (invoiceToBeEdited.getReference() != null)
+		// refText.setValue(invoiceToBeEdited.getReference());
 
 		if (invoiceToBeEdited.getDeliverydate() != 0)
 			this.deliveryDate.setValue(new ClientFinanceDate(invoiceToBeEdited
@@ -886,7 +889,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			if (invoice != null) {
 
 				memoTextAreaItem.setValue(invoice.getMemo());
-				refText.setValue(invoice.getReference());
+				// refText.setValue(invoice.getReference());
 
 			}
 
@@ -981,7 +984,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			// invoice.setBalanceDue(getBalanceDue());
 			invoice.setPayments(getPayments());
 			invoice.setMemo(getMemoTextAreaItem());
-			invoice.setReference(getRefText());
+			// invoice.setReference(getRefText());
 
 			ClientFinanceDate discountDate = Utility.getCalculatedDiscountDate(
 					transactionDateItem.getEnteredDate(), paymentTerm);
@@ -1071,7 +1074,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		// invoice.setBalanceDue(getBalanceDue());
 		invoice.setPayments(getPayments());
 		invoice.setMemo(getMemoTextAreaItem());
-		invoice.setReference(getRefText());
+		// invoice.setReference(getRefText());
 
 		ClientFinanceDate discountDate = Utility.getCalculatedDiscountDate(
 				transactionDateItem.getEnteredDate(), paymentTerm);
@@ -1399,7 +1402,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		shipToAddress.getCellFormatter().setWidth(0, 2, "200");
 
 		priceLevelSelect.setWidth("150px");
-		refText.setWidth("200px");
+		// refText.setWidth("200px");
 	}
 
 	@Override
