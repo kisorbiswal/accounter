@@ -167,12 +167,12 @@ public class CustomerCreditMemoView extends
 		prodAndServiceForm1.setFields(memoTextAreaItem, refText);
 		forms.add(prodAndServiceForm1);
 
-		salesTaxTextNonEditable = createSalesTaxNonEditableItem();
+		salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 
-		vatTotalNonEditableText = createVATTotalNonEditableItem();
+		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableItem();
-		netAmount = createNetAmountField();
+		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
+		netAmountLabel =createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
 		customerTransactionGrid = getGrid();
@@ -186,13 +186,18 @@ public class CustomerCreditMemoView extends
 		disabletextbox.setVisible(false);
 
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
-		prodAndServiceForm2.setWidth("70%");
+		prodAndServiceForm2.setWidth("90%");
 		prodAndServiceForm2.setNumCols(4);
 		if (FinanceApplication.getCompany().getAccountingType() == 1) {
-
-			prodAndServiceForm2.setFields(priceLevelSelect, netAmount,
+			
+//			prodAndServiceForm2.setFields(priceLevelSelect, netAmountLabel,
+//					disabletextbox, vatTotalNonEditableText, disabletextbox,
+//					transactionTotalNonEditableText);
+			
+			prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
 					disabletextbox, vatTotalNonEditableText, disabletextbox,
 					transactionTotalNonEditableText);
+			
 		} else {
 			prodAndServiceForm2.setFields(taxCodeSelect,
 					salesTaxTextNonEditable, priceLevelSelect,
@@ -202,7 +207,10 @@ public class CustomerCreditMemoView extends
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
-		prodAndServiceHLay.add(prodAndServiceForm1);
+		VerticalPanel vpanel = new VerticalPanel();
+		vpanel.add(createAddNewButton());
+		vpanel.add(prodAndServiceForm1);
+		prodAndServiceHLay.add(vpanel);
 		prodAndServiceHLay.add(prodAndServiceForm2);
 		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
 				ALIGN_RIGHT);
@@ -228,7 +236,7 @@ public class CustomerCreditMemoView extends
 
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
-		mainVLay.add(createAddNewButton());
+		//	mainVLay.add(createAddNewButton());
 		mainVLay.add(customerTransactionGrid);
 		mainVLay.add(prodAndServiceHLay);
 
@@ -317,7 +325,7 @@ public class CustomerCreditMemoView extends
 			creditMemo.setReference(getRefText());
 
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-				creditMemo.setNetAmount(netAmount.getAmount());
+				creditMemo.setNetAmount(netAmountLabel.getAmount());
 				creditMemo.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 						.getValue());
 			} else
@@ -366,7 +374,7 @@ public class CustomerCreditMemoView extends
 			billToTextArea.setValue("");
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			netAmount.setAmount(creditToBeEdited.getNetAmount());
+			netAmountLabel.setAmount(creditToBeEdited.getNetAmount());
 			vatTotalNonEditableText.setAmount(creditToBeEdited.getTotal()
 					- creditToBeEdited.getNetAmount());
 		} else {
@@ -467,7 +475,7 @@ public class CustomerCreditMemoView extends
 		} else {
 			if (customerTransactionGrid.getGrandTotal() != null
 					&& customerTransactionGrid.getTotalValue() != null) {
-				netAmount.setAmount(customerTransactionGrid.getGrandTotal());
+				netAmountLabel.setAmount(customerTransactionGrid.getGrandTotal());
 				vatTotalNonEditableText.setAmount(customerTransactionGrid
 						.getTotalValue()
 						- customerTransactionGrid.getGrandTotal());
