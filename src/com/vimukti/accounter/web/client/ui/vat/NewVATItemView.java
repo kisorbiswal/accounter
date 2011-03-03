@@ -79,25 +79,30 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 		vatItemNameText = new TextItem(FinanceApplication.getVATMessages()
 				.VATItemName());
+		vatItemNameText.setHelpInformation(true);
 		vatItemNameText.setWidth(80);
 		vatItemNameText.setRequired(true);
 
 		descriptionText = new TextItem(FinanceApplication.getVATMessages()
 				.description());
+		descriptionText.setHelpInformation(true);
 		descriptionText.setWidth(80);
 
 		vatRateText = new AmountField(FinanceApplication.getVATMessages()
 				.VATAmount());
+		vatRateText.setHelpInformation(true);
 		vatRateText.setWidth(80);
 		vatRateText.setRequired(true);
 
 		vatRateTextPerT = new PercentageField(FinanceApplication
 				.getVATMessages().VATRateInPerc());
+		vatRateTextPerT.setHelpInformation(true);
 		vatRateTextPerT.setWidth(80);
 		vatRateTextPerT.setRequired(true);
 
 		vatAgencyCombo = new TAXAgencyCombo(FinanceApplication.getVATMessages()
 				.VATAgency());
+		vatAgencyCombo.setHelpInformation(true);
 		vatAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
 
@@ -116,6 +121,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 		vatReturnBoxCombo = new VatReturnBoxCombo(FinanceApplication
 				.getVATMessages().VATReturnBox());
+		vatReturnBoxCombo.setHelpInformation(true);
 		vatReturnBoxCombo.setRequired(true);
 		vatReturnBoxCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVATReturnBox>() {

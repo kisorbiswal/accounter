@@ -70,6 +70,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 				+ FinanceApplication.getVATMessages().fileVAT());
 		taxAgencyCombo = new TAXAgencyCombo(FinanceApplication.getVATMessages()
 				.VATAgency());
+		taxAgencyCombo.setHelpInformation(true);
 		taxAgencyCombo.setRequired(true);
 
 		taxAgencyCombo
@@ -83,8 +84,10 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 				});
 		taxAgencyCombo.setWidth("200px");
 		fromDate = new DateItem(FinanceApplication.getVATMessages().from());
+		fromDate.setHelpInformation(true);
 		fromDate.setWidth(100);
 		toDate = new DateItem(FinanceApplication.getVATMessages().to());
+		toDate.setHelpInformation(true);
 		toDate.setWidth(100);
 		listforms = new ArrayList<DynamicForm>();
 

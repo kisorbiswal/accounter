@@ -82,11 +82,13 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 				.payVAT());
 		lab.setStyleName(FinanceApplication.getVendorsMessages().lableTitle());
 		date = new DateField(companyConstants.date());
+		date.setHelpInformation(true);
 		date.setTitle(companyConstants.date());
 		date.setEnteredDate(new ClientFinanceDate());
 		date.setDisabled(isEdit);
 
 		payFromAccCombo = new PayFromAccountsCombo(companyConstants.payFrom());
+		payFromAccCombo.setHelpInformation(true);
 		payFromAccCombo.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.PAY_FROM_COMBO));
 		payFromAccCombo.setRequired(true);
@@ -117,6 +119,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		paymentMethodCombo.setWidth(100);
 
 		billsDue = new DateField(companyConstants.returnsDueOnOrBefore());
+		billsDue.setHelpInformation(true);
 		billsDue.setTitle(companyConstants.returnsDueOnOrBefore());
 		billsDue.setDisabled(isEdit);
 		billsDue.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -158,10 +161,12 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		// fileterForm.setWidth("80%");
 
 		amountText = new AmountField(companyConstants.amount());
+		amountText.setHelpInformation(true);
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		amountText.setDisabled(true);
 
 		endingBalanceText = new AmountField(companyConstants.endingBalance());
+		endingBalanceText.setHelpInformation(true);
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		endingBalanceText.setDisabled(true);
 

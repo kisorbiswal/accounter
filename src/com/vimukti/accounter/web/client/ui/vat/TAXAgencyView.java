@@ -307,11 +307,12 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			lab = new Label(FinanceApplication.getVATMessages().VATAgency());
 			taxAgencyText = new TextItem(FinanceApplication.getVATMessages()
 					.VATAgency());
+			taxAgencyText.setHelpInformation(true);
 		} else {
 			lab = new Label(FinanceApplication.getCompanyMessages().taxAgency());
 			taxAgencyText = new TextItem(FinanceApplication
 					.getCompanyMessages().taxAgency());
-
+			taxAgencyText.setHelpInformation(true);
 		}
 		lab.addStyleName(FinanceApplication.getVATMessages().lableTitle());
 
@@ -319,6 +320,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		taxAgencyText.setRequired(true);
 
 		fileAsText = new TextItem(companyConstants.fileAs());
+		fileAsText.setHelpInformation(true);
 		fileAsText.setWidth(100);
 		taxAgencyText.addChangeHandler(new ChangeHandler() {
 
@@ -345,6 +347,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		paymentTermsCombo = new PaymentTermsCombo(companyConstants
 				.paymentTerm());
+		paymentTermsCombo.setHelpInformation(true);
 		paymentTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
 
@@ -359,7 +362,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		paymentTermsCombo.setRequired(true);
 
 		vatReturnCombo = new ComboBoxItem();
-
+		vatReturnCombo.setHelpInformation(true);
 		vatReturnCombo
 				.setTitle(FinanceApplication.getVATMessages().VATReturn());
 		vatReturnCombo.setRequired(true);
@@ -367,7 +370,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		liabilitySalesAccountCombo = new VATAgencyAccountCombo(
 				FinanceApplication.getVATMessages().salesLiabilityAccount());
-
+		liabilitySalesAccountCombo.setHelpInformation(true);
 		liabilitySalesAccountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
@@ -382,7 +385,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		liabilityPurchaseAccountCombo = new VATAgencyAccountCombo(
 				FinanceApplication.getVATMessages().purchaseLiabilityAccount());
-
+		liabilityPurchaseAccountCombo.setHelpInformation(true);
 		liabilityPurchaseAccountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
@@ -411,6 +414,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		memoForm = new DynamicForm();
 		memoForm.setWidth("50%");
 		memoArea = new TextAreaItem();
+		memoArea.setHelpInformation(true);
 		memoArea.setTitle(FinanceApplication.getVATMessages().memo());
 		memoArea.setWidth(100);
 		memoForm.setFields(memoArea);
@@ -564,10 +568,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		mainVlay.add(lab);
 		mainVlay.add(topHLay);
 		mainVlay.add(contHLay);
-		
+
 		mainVlay.add(gridView);
 		mainVlay.add(addButton);
-		
 		mainVlay.add(memoForm);
 
 		/* Adding dynamic forms in list */

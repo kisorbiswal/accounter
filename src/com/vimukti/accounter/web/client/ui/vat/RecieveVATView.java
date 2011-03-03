@@ -50,7 +50,7 @@ public class RecieveVATView extends
 	private static final int RECEIVEVAT_TRANSACTION_GRID = 0;
 	private ArrayList<DynamicForm> listforms;
 	private DateField date;
-	private DepositInAccountCombo DepositInAccCombo;
+	private DepositInAccountCombo depositInAccCombo;
 	private DateField billsDue;
 	private TAXAgencyCombo vatAgencyCombo;
 	private DynamicForm mainform;
@@ -89,16 +89,18 @@ public class RecieveVATView extends
 				.receiveVAT());
 		lab.setStyleName(FinanceApplication.getVendorsMessages().lableTitle());
 		date = new DateField(companyConstants.date());
+		date.setHelpInformation(true);
 		date.setTitle(companyConstants.date());
 		date.setEnteredDate(new ClientFinanceDate());
 		date.setDisabled(isEdit);
 
-		DepositInAccCombo = new DepositInAccountCombo(companyConstants
+		depositInAccCombo = new DepositInAccountCombo(companyConstants
 				.depositIn());
-		DepositInAccCombo.setAccountTypes(UIUtils
+		depositInAccCombo.setHelpInformation(true);
+		depositInAccCombo.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.DEPOSIT_IN_ACCOUNT));
-		DepositInAccCombo.setRequired(true);
-		DepositInAccCombo
+		depositInAccCombo.setRequired(true);
+		depositInAccCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
 					public void selectedComboBoxItem(ClientAccount selectItem) {
@@ -118,13 +120,14 @@ public class RecieveVATView extends
 
 				});
 
-		DepositInAccCombo.setDisabled(isEdit);
-		DepositInAccCombo.setPopupWidth("500px");
+		depositInAccCombo.setDisabled(isEdit);
+		depositInAccCombo.setPopupWidth("500px");
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setRequired(true);
 		paymentMethodCombo.setWidth(100);
 
 		billsDue = new DateField(companyConstants.returnsDueOnOrBefore());
+		billsDue.setHelpInformation(true);
 		billsDue.setTitle(companyConstants.returnsDueOnOrBefore());
 		billsDue.setDisabled(isEdit);
 		billsDue.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -158,7 +161,7 @@ public class RecieveVATView extends
 		mainform = new DynamicForm();
 		// filterForm.setWidth("100%");
 		mainform = UIUtils.form(companyConstants.filter());
-		mainform.setFields(date, DepositInAccCombo, paymentMethodCombo,
+		mainform.setFields(date, depositInAccCombo, paymentMethodCombo,
 				billsDue);
 		mainform.setWidth("80%");
 
@@ -167,10 +170,12 @@ public class RecieveVATView extends
 		// fileterForm.setWidth("80%");
 
 		amountText = new AmountField(companyConstants.amount());
+		amountText.setHelpInformation(true);
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		amountText.setDisabled(true);
 
 		endingBalanceText = new AmountField(companyConstants.endingBalance());
+		endingBalanceText.setHelpInformation(true);
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		endingBalanceText.setDisabled(true);
 
@@ -205,7 +210,7 @@ public class RecieveVATView extends
 		listforms.add(mainform);
 		listforms.add(balForm);
 
-		selectedDepositInAccount = DepositInAccCombo.getSelectedValue();
+		selectedDepositInAccount = depositInAccCombo.getSelectedValue();
 		initialEndingBalance = !DecimalUtil.isEquals(selectedDepositInAccount
 				.getTotalBalance(), 0) ? selectedDepositInAccount
 				.getTotalBalance() : 0D;
@@ -300,7 +305,7 @@ public class RecieveVATView extends
 		receiveVAT = (ClientReceiveVAT) transactionObject;
 		selectedDepositInAccount = FinanceApplication.getCompany().getAccount(
 				receiveVAT.getDepositIn());
-		DepositInAccCombo.setComboItem(selectedDepositInAccount);
+		depositInAccCombo.setComboItem(selectedDepositInAccount);
 		selectedVATAgency = FinanceApplication.getCompany().getTaxAgency(
 				receiveVAT.getVatAgency());
 		if (selectedVATAgency != null)
@@ -340,11 +345,11 @@ public class RecieveVATView extends
 		// payFromCombo.initCombo(payFromAccounts);
 		// payFromCombo.setAccountTypes(UIUtils
 		// .getOptionsByType(AccountCombo.payFromCombo));
-		DepositInAccCombo.setAccounts();
+		depositInAccCombo.setAccounts();
 		// payFromCombo.setDisabled(isEdit);
-		ClientAccount DepositInAccount = DepositInAccCombo.getSelectedValue();
+		ClientAccount DepositInAccount = depositInAccCombo.getSelectedValue();
 		if (DepositInAccount != null)
-			DepositInAccCombo.setComboItem(DepositInAccount);
+			depositInAccCombo.setComboItem(DepositInAccount);
 	}
 
 	private void fillGrid() {
@@ -630,7 +635,7 @@ public class RecieveVATView extends
 		paymentMethodCombo.setDisabled(isEdit);
 		billsDue.setDisabled(isEdit);
 		vatAgencyCombo.setDisabled(isEdit);
-		DepositInAccCombo.setDisabled(isEdit);
+		depositInAccCombo.setDisabled(isEdit);
 		super.onEdit();
 
 		fillGrid();

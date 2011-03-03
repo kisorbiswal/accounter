@@ -106,9 +106,11 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		listforms = new ArrayList<DynamicForm>();
 
 		vatCodeTxt = new TextItem(vatMessages.vatCode());
+		vatCodeTxt.setHelpInformation(true);
 		vatCodeTxt.setRequired(true);
 		vatCodeTxt.setWidth(100);
 		description = new TextAreaItem();
+		description.setHelpInformation(true);
 		description.setWidth(100);
 		description.setTitle(FinanceApplication.getVATMessages().description());
 
@@ -127,6 +129,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 		vatItemComboForPurchases = new VATItemCombo(FinanceApplication
 				.getVATMessages().VATItemForPurchases());
+		vatItemComboForPurchases.setHelpInformation(true);
 		vatItemComboForPurchases.initCombo(vatItemComboForPurchases
 				.getPurchaseWithPrcntVATItems());
 		vatItemComboForPurchases.setRequired(true);
@@ -142,6 +145,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 		vatItemComboForSales = new VATItemCombo(FinanceApplication
 				.getVATMessages().VATItemForSales());
+		vatItemComboForSales.setHelpInformation(true);
 		vatItemComboForSales.initCombo(vatItemComboForSales
 				.getSalesWithPrcntVATItems());
 		vatItemComboForSales.setRequired(true);
