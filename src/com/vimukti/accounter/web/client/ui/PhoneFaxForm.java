@@ -21,10 +21,9 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * 
  */
 public class PhoneFaxForm extends DynamicForm {
-	SelectItem businessPhoneSelect;
+	private SelectItem businessPhoneSelect, businessFaxSelect;
 	private TextItem businessPhoneText, businessFaxText;
 	private LinkedHashMap<Integer, ClientPhone> allPhones;
-	private SelectItem businessFaxSelect;
 	private LinkedHashMap<Integer, ClientFax> allFaxes;
 	private ClientPhone toBeShownPhone = null;
 	private ClientFax toBeShownFax = null;
@@ -46,6 +45,7 @@ public class PhoneFaxForm extends DynamicForm {
 
 			@Override
 			public void onChange(ChangeEvent event) {
+
 				ClientPhone p = allPhones
 						.get(UIUtils.getPhoneType(businessPhoneSelect
 								.getValue().toString()));
@@ -55,8 +55,10 @@ public class PhoneFaxForm extends DynamicForm {
 					businessPhoneText.setValue("");
 			}
 		});
+
 		businessPhoneText = new TextItem(FinanceApplication
 				.getFinanceUIConstants().phoneText());
+		businessPhoneText.setHelpInformation(true);
 		businessPhoneText.setShowTitle(false);
 		businessPhoneText.setWidth(100);
 		businessPhoneText.addChangeHandler(new ChangeHandler() {
@@ -93,6 +95,7 @@ public class PhoneFaxForm extends DynamicForm {
 		} else
 			businessPhoneSelect.setDefaultToFirstOption(true);
 		businessFaxSelect = new SelectItem("Fax");
+		businessFaxSelect.setHelpInformation(true);
 		businessFaxSelect.setWidth(85);
 		businessFaxSelect.getMainWidget().removeStyleName("gwt-ListBox");
 		businessFaxSelect.setValueMap(new ClientFax().getFaxTypes());
@@ -110,6 +113,7 @@ public class PhoneFaxForm extends DynamicForm {
 		});
 		businessFaxText = new TextItem(FinanceApplication
 				.getFinanceUIConstants().businessFax());
+		businessFaxText.setHelpInformation(true);
 		businessFaxText.setWidth(100);
 		businessFaxText.setShowTitle(false);
 

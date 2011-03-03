@@ -156,6 +156,7 @@ public class ItemView extends BaseView<ClientItem> {
 		nameText = new TextItem(this.type == TYPE_SERVICE ? FinanceApplication
 				.getCustomersMessages().serviceName() : FinanceApplication
 				.getCustomersMessages().productName());
+		nameText.setHelpInformation(true);
 		nameText.setWidth(100);
 		nameText.setRequired(true);
 		isservice = new CheckboxItem(FinanceApplication.getFinanceUIConstants()
@@ -170,16 +171,18 @@ public class ItemView extends BaseView<ClientItem> {
 		integerRangeValidator.setMin(0);
 
 		skuText = new TextItem();// new FormFieldItem("UPC/SKU",
+		skuText.setHelpInformation(true);
 		skuText.setWidth(100);
 		skuText.setTitle("UPC/SKU");
 
 		weightText = new IntegerField(FinanceApplication
 				.getFinanceUIConstants().weight());
+		weightText.setHelpInformation(true);
 		weightText.setWidth(100);
 		weightText.setValidators(integerRangeValidator);
 		commodityCode = new ItemGroupCombo(FinanceApplication
 				.getFinanceUIConstants().commmodityCode());
-
+		commodityCode.setHelpInformation(true);
 		itemForm = new DynamicForm();
 		itemForm.setWidth("98%");
 		itemForm.setIsGroup(true);
@@ -207,12 +210,14 @@ public class ItemView extends BaseView<ClientItem> {
 		}
 		itemForm.getCellFormatter().setWidth(0, 0, "118");
 		salesDescArea = new TextAreaItem();
+		salesDescArea.setHelpInformation(true);
 		salesDescArea.setWidth(100);
 		salesDescArea.setTitle(FinanceApplication.getFinanceUIConstants()
 				.salesDescription());
 
 		salesPriceText = new AmountField(FinanceApplication
 				.getFinanceUIConstants().salesPrice());
+		salesPriceText.setHelpInformation(true);
 		salesPriceText.setWidth(100);
 		// FIXME--needto implement this feature
 		// salesPriceText.setValidators(floatRangeValidator);
@@ -220,6 +225,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 		accountCombo = new SalesItemCombo(FinanceApplication
 				.getFinanceUIConstants().incomeAccount());
+		accountCombo.setHelpInformation(true);
 		accountCombo.setWidth(100);
 		accountCombo.setPopupWidth("500px");
 		accountCombo.setRequired(true);
@@ -256,6 +262,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 		stdCostText = new AmountField(FinanceApplication
 				.getFinanceUIConstants().standardCost());
+		stdCostText.setHelpInformation(true);
 		stdCostText.setWidth(100);
 		// FIXME--needto implement this feature
 		// stdCostText.setValidators(floatRangeValidator);
@@ -273,6 +280,7 @@ public class ItemView extends BaseView<ClientItem> {
 						.getCustomersMessages().serviceGroup()
 						: FinanceApplication.getCustomersMessages()
 								.productGroup());
+		itemGroupCombo.setHelpInformation(true);
 		itemGroupCombo.setWidth(100);
 		itemGroupCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientItemGroup>() {
@@ -282,6 +290,7 @@ public class ItemView extends BaseView<ClientItem> {
 				});
 		taxCode = new TAXCodeCombo(FinanceApplication.getFinanceUIConstants()
 				.vatCode(), isGeneratedFromCustomer);
+		taxCode.setHelpInformation(true);
 		taxCode.setRequired(true);
 		// if (!FinanceApplication.getCompany().getpreferences()
 		// .getDoYouPaySalesTax()) {
@@ -299,12 +308,14 @@ public class ItemView extends BaseView<ClientItem> {
 				.getFinanceUIConstants().active());
 		activeCheck.setValue(true);
 		purchaseDescArea = new TextAreaItem();
+		purchaseDescArea.setHelpInformation(true);
 		purchaseDescArea.setWidth(100);
 		purchaseDescArea.setTitle(FinanceApplication.getFinanceUIConstants()
 				.purchaseDescription());
 
 		purchasePriceTxt = new AmountField(FinanceApplication
 				.getFinanceUIConstants().purchasePrice());
+		purchasePriceTxt.setHelpInformation(true);
 		purchasePriceTxt.setWidth(100);
 		// FIXME--needto implement this feature
 		// purchasePriceTxt.setValidators(floatRangeValidator);
@@ -312,6 +323,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 		expAccCombo = new PurchaseItemCombo(FinanceApplication
 				.getFinanceUIConstants().expenseAccount());
+		expAccCombo.setHelpInformation(true);
 		expAccCombo.setRequired(true);
 		expAccCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -336,6 +348,7 @@ public class ItemView extends BaseView<ClientItem> {
 		prefVendorCombo = new VendorCombo(UIUtils.getVendorString(
 				FinanceApplication.getCustomersMessages().preferredSupplier(),
 				FinanceApplication.getCustomersMessages().preferredVendor()));
+		prefVendorCombo.setHelpInformation(true);
 		prefVendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 					public void selectedComboBoxItem(ClientVendor selectItem) {
@@ -349,6 +362,7 @@ public class ItemView extends BaseView<ClientItem> {
 				.getVendorString(FinanceApplication.getCustomersMessages()
 						.supplierServiceNo(), FinanceApplication
 						.getCustomersMessages().vendorServiceNo()));
+		vendItemNumText.setHelpInformation(true);
 		vendItemNumText.setWidth(100);
 
 		// isellCheck = new CheckboxItem(FinanceApplication

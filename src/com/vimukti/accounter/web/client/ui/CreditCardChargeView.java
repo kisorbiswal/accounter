@@ -44,7 +44,7 @@ public class CreditCardChargeView extends
 		AbstractBankTransactionView<ClientCreditCardCharge> {
 	protected DateField date, delivDate;;
 	protected TextItem cheqNoText;
-	protected TextItem refText;
+	// protected TextItem refText;
 	AmountField totText;
 
 	protected DynamicForm vendorForm, addrForm, phoneForm, termsForm, memoForm;
@@ -231,7 +231,7 @@ public class CreditCardChargeView extends
 		if (transactionObject != null)
 			setMemoTextAreaItem(((ClientCreditCardCharge) transactionObject)
 					.getMemo());
-		refText.setValue(creditCardChargeTaken.getReference());
+		// refText.setValue(creditCardChargeTaken.getReference());
 
 	}
 
@@ -327,7 +327,7 @@ public class CreditCardChargeView extends
 		payFromAccount = "";
 		phoneSelect.setValueMap("");
 		setMemoTextAreaItem("");
-		refText.setValue("");
+		// refText.setValue("");
 		cheqNoText.setValue("");
 
 	}
@@ -363,6 +363,7 @@ public class CreditCardChargeView extends
 		vendorNameSelect = new VendorCombo(UIUtils.getVendorString(
 				FinanceApplication.getVendorsMessages().supplierName(),
 				FinanceApplication.getVendorsMessages().vendorName()));
+		vendorNameSelect.setHelpInformation(true);
 		vendorNameSelect.setWidth(100);
 		vendorNameSelect.setRequired(true);
 		vendorNameSelect.setDisabled(false);
@@ -385,11 +386,13 @@ public class CreditCardChargeView extends
 				});
 
 		contactNameSelect = new SelectItem(bankingConstants.contactName());
+		contactNameSelect.setHelpInformation(true);
 		contactNameSelect.setWidth(100);
 		formItems.add(contactNameSelect);
 		billToCombo = createBillToComboItem();
 		formItems.add(billToCombo);
 		phoneSelect = new SelectItem(bankingConstants.phone());
+		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		forms.add(phoneForm);
 		formItems.add(phoneSelect);
@@ -421,12 +424,13 @@ public class CreditCardChargeView extends
 				FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? bankingConstants
 						.chequeNo()
 						: bankingConstants.chequeNo());
+		cheqNoText.setHelpInformation(true);
 		cheqNoText.setWidth(100);
 		cheqNoText.setDisabled(isEdit);
 		formItems.add(cheqNoText);
 
 		delivDate = new DateField(bankingConstants.deliveryDate());
-		// delivDate.setWidth(100);
+		delivDate.setHelpInformation(true);
 		delivDate.setColSpan(1);
 		delivDate.setValue(new ClientFinanceDate());
 		formItems.add(delivDate);
@@ -464,13 +468,14 @@ public class CreditCardChargeView extends
 		memoTextAreaItem.setWidth(100);
 		memoTextAreaItem.setDisabled(false);
 
-		refText = new TextItem(bankingConstants.reference());
-		refText.setWidth(100);
-		refText.setDisabled(false);
+		// refText = new TextItem(bankingConstants.reference());
+		//	
+		// refText.setWidth(100);
+		// refText.setDisabled(false);
 
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
-		memoForm.setFields(memoTextAreaItem, refText);
+		memoForm.setFields(memoTextAreaItem);
 		forms.add(memoForm);
 
 		DynamicForm vatCheckform = new DynamicForm();
@@ -490,16 +495,16 @@ public class CreditCardChargeView extends
 
 		botPanel = new HorizontalPanel();
 		botPanel.setWidth("100%");
-		
+
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.add(addButton);
 		vPanel.add(memoForm);
 		vPanel.setWidth("100%");
-		
+
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
-			//botPanel.add(memoForm);
+			// botPanel.add(memoForm);
 			botPanel.add(vPanel);
 			botPanel.add(vatCheckform);
 			botPanel.setCellHorizontalAlignment(vatCheckform,
@@ -509,7 +514,6 @@ public class CreditCardChargeView extends
 					HasHorizontalAlignment.ALIGN_RIGHT);
 		} else {
 			totForm.setFields(transactionTotalNonEditableText);
-			//botPanel.add(memoForm);
 			botPanel.add(vPanel);
 			botPanel.add(totForm);
 		}
@@ -664,7 +668,7 @@ public class CreditCardChargeView extends
 		// setting memo
 		creditCardCharge.setMemo(getMemoTextAreaItem());
 		// setting ref
-		creditCardCharge.setReference(UIUtils.toStr(refText.getValue()));
+		// creditCardCharge.setReference(UIUtils.toStr(refText.getValue()));
 
 		transactionObject = creditCardCharge;
 
@@ -843,6 +847,6 @@ public class CreditCardChargeView extends
 
 	private void resetFormView() {
 		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
-		refText.setWidth("200px");
+		// refText.setWidth("200px");
 	}
 }

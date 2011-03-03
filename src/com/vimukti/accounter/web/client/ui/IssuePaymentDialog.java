@@ -213,6 +213,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 		payMethodSelect = new SelectItem(FinanceApplication
 				.getFinanceUIConstants().paymentMethod());
+		payMethodSelect.setHelpInformation(true);
 		payMethodSelect.setRequired(true);
 		payMethodSelect
 				.setValueMap(new String[] {
@@ -230,6 +231,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 		accountCombo = new PayFromAccountsCombo(FinanceApplication
 				.getFinanceUIConstants().account(), false);
+		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -497,6 +499,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		if (!selectedpaymentMethod.isEmpty()) {
 			checkNoText = new TextItem(FinanceApplication
 					.getFinanceUIConstants().startingCheckNo());
+			checkNoText.setHelpInformation(true);
 			checkNoText.setWidth(100);
 			checkNoText.setRequired(true);
 			// if (selectedPayFromAccount != null)

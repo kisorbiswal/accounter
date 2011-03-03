@@ -34,9 +34,9 @@ public class ShipToForm extends DynamicForm {
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
 		setAddresses(addresses);
-
 		businessSelect = new SelectItem(FinanceApplication
 				.getFinanceUIConstants().shipTo());
+		businessSelect.setHelpInformation(true);
 		businessSelect.setWidth(85);
 		businessSelect.getMainWidget().removeStyleName(
 				FinanceApplication.getFinanceUIConstants().gwtListBox());
@@ -47,6 +47,7 @@ public class ShipToForm extends DynamicForm {
 		businessSelect.setValueMap(addressTypes);
 
 		addrArea = new TextAreaItem();
+		addrArea.setHelpInformation(true);
 		addrArea.setWidth(100);
 		addrArea.setShowTitle(false);
 		addrArea.setDisabled(true);
@@ -54,7 +55,6 @@ public class ShipToForm extends DynamicForm {
 		if (toBeShown != null) {
 			businessSelect.setValue(toBeShown.getAddressTypes().get(
 					toBeShown.getType() + ""));
-
 			String toToSet = new String();
 			if (toBeShown.getAddress1() != null) {
 				toToSet = toBeShown.getAddress1().toString() + "\n";
@@ -155,7 +155,7 @@ public class ShipToForm extends DynamicForm {
 			for (ClientAddress address : addresses) {
 				this.allAddresses.put(address.getType(), address);
 				if (address.getType() == ClientAddress.TYPE_SHIP_TO) {
-					
+
 					addrArea.setValue(getValidAddress(address));
 
 					businessSelect.setValue(address.getAddressTypes().get(

@@ -58,7 +58,8 @@ public class MakeDepositView extends
 	TextItem memoText;
 
 	AmountField cashBackAmountText;
-	AmountLabel  totText;
+	AmountLabel totText;
+
 
 	TextItem cashBackMemoText, totAmtText;
 	DynamicForm memoForm, totForm;
@@ -184,7 +185,8 @@ public class MakeDepositView extends
 
 		while (it.hasNext()) {
 			ClientTransactionMakeDeposit entry = it.next();
-//			For avoiding the deletion of transaction items before clicking on the edit button
+			// For avoiding the deletion of transaction items before clicking on
+			// the edit button
 			entry.setIsNewEntry(false);
 			records[i] = new ClientTransactionMakeDeposit();
 			// records[i].setAttribute(ATTR_CHECK, true);
@@ -768,6 +770,7 @@ public class MakeDepositView extends
 				.makeDeposit());
 		lab.addStyleName("lable-title");
 		date = UIUtils.date(bankingConstants.date());
+
 		// set the transactionDate while creation
 		setTransactionDate(date.getValue());
 		date.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -783,6 +786,7 @@ public class MakeDepositView extends
 
 		depositInSelect = new MakeDepositAccountCombo(bankingConstants
 				.depositIn());
+		depositInSelect.setHelpInformation(true);
 		depositInSelect.setRequired(true);
 		depositInSelect.setWidth(100);
 		depositInSelect.setPopupWidth("450px");
@@ -836,6 +840,7 @@ public class MakeDepositView extends
 				});
 
 		memoText = new TextItem(bankingConstants.memo());
+		memoText.setHelpInformation(true);
 		memoText.setWidth(100);
 
 		depoForm = new DynamicForm();
@@ -865,6 +870,7 @@ public class MakeDepositView extends
 
 		cashBackAccountSelect = new CashBackAccountsCombo(bankingConstants
 				.cashBackAccount());
+		cashBackAccountSelect.setHelpInformation(true);
 		cashBackAccountSelect.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.CASH_BACK_ACCOUNTS_COMBO));
 		// cashBackAccountSelect.setRequired(true);
@@ -878,6 +884,7 @@ public class MakeDepositView extends
 				});
 
 		cashBackMemoText = new TextItem(bankingConstants.cashBackMemo());
+		cashBackMemoText.setHelpInformation(true);
 		cashBackMemoText.setWidth(100);
 
 		form1 = new DynamicForm();
@@ -885,6 +892,7 @@ public class MakeDepositView extends
 		form1.setWidth("70%");
 
 		cashBackAmountText = new AmountField(bankingConstants.cashBackAmount());
+		cashBackAmountText.setHelpInformation(true);
 		cashBackAmountText.setWidth(100);
 		cashBackAmountText.setDefaultValue("" + UIUtils.getCurrencySymbol()
 				+ "0.00");
@@ -913,7 +921,7 @@ public class MakeDepositView extends
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.add(addButton);
 		vPanel.add(form1);
-		
+				
 		HorizontalPanel botHLay = new HorizontalPanel();
 		botHLay.setWidth("100%");
 		botHLay.add(vPanel);
@@ -970,8 +978,10 @@ public class MakeDepositView extends
 		mainVLay.add(lab);
 		mainVLay.add(topHLay);
 		// mainVLay.add(lab1);
-		//mainVLay.add(addButton);
+		// mainVLay.add(addButton);
+
 		mainVLay.add(gridView);
+
 		mainVLay.add(botHLay);
 
 		if (UIUtils.isMSIEBrowser()) {
@@ -1024,7 +1034,7 @@ public class MakeDepositView extends
 		switch (this.validationCount) {
 		case 7:
 			return gridView.validateGrid();
-        case 6:	
+		case 6:
 			return AccounterValidator.validateTransactionDate(transactionDate);
 		case 5:
 			return AccounterValidator.validateGrid(gridView);
@@ -1038,7 +1048,8 @@ public class MakeDepositView extends
 			return AccounterValidator.validateNagtiveAmount(cashBackAmountText
 					.getAmount());
 		case 1:
-			return AccounterValidator.validate_MakeDeposit_accountcombo(selectedDepositInAccount,gridView);
+			return AccounterValidator.validate_MakeDeposit_accountcombo(
+					selectedDepositInAccount, gridView);
 
 		default:
 			return false;

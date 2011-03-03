@@ -38,6 +38,7 @@ public class EmailForm extends DynamicForm {
 
 		businesEmailSelect = new SelectItem(FinanceApplication
 				.getFinanceUIConstants().email());
+		businesEmailSelect.setHelpInformation(true);
 		businesEmailSelect.setWidth(85);
 		businesEmailSelect.getMainWidget().removeStyleName("gwt-ListBox");
 		businesEmailSelect.setValueMap(new ClientEmail().getEmailTypes());
@@ -57,6 +58,7 @@ public class EmailForm extends DynamicForm {
 		});
 
 		businesEmailText = new EmailField("");
+		businesEmailText.setHelpInformation(true);
 		businesEmailText.setWidth(100);
 		businesEmailText.setShowTitle(false);
 
@@ -82,6 +84,7 @@ public class EmailForm extends DynamicForm {
 		});
 		webText = new TextItem(FinanceApplication.getFinanceUIConstants()
 				.webPageAddress());
+		webText.setHelpInformation(true);
 		webText.setWidth(100);
 		LinkItem emptyItem = new LinkItem();
 		emptyItem.setShowTitle(false);

@@ -221,6 +221,7 @@ public class UIUtils {
 
 	public static DateItem date(String t) {
 		DateItem di = new DateItem();
+		di.setHelpInformation(true);
 		di.setTitle(t);
 		// di.setUseTextField(true);
 		di.setValue(new Date());
@@ -383,35 +384,74 @@ public class UIUtils {
 	}
 
 	public final static native String getCurrentDate()/*-{
-		var date=new Date();
-		var formate="";
-		switch(date.getDay())
-		{
-		case 0: formate+="Sun";break;
-		case 1: formate+="Mon";break;
-		case 2: formate+="Tues";break;
-		case 3: formate+="Wednes";break;
-		case 4: formate+="Thurs";break;
-		case 5: formate+="Fri";break;
-		case 6: formate+="Satur";break;
-		default: null;break;
+		var date = new Date();
+		var formate = "";
+		switch (date.getDay()) {
+		case 0:
+			formate += "Sun";
+			break;
+		case 1:
+			formate += "Mon";
+			break;
+		case 2:
+			formate += "Tues";
+			break;
+		case 3:
+			formate += "Wednes";
+			break;
+		case 4:
+			formate += "Thurs";
+			break;
+		case 5:
+			formate += "Fri";
+			break;
+		case 6:
+			formate += "Satur";
+			break;
+		default:
+			null;
+			break;
 		}
-		formate+="day, ";
-		switch(date.getMonth()){
-		case 0:formate+="Jan";break;
-		case 1:formate+="Feb";break;
-		case 2:formate+="Mar";break;
-		case 3:formate+="Apr";break;
-		case 4:formate+="May";break;
-		case 5:formate+="Jun";break;
-		case 6:formate+="Jul";break;
-		case 7:formate+="Aug";break;
-		case 8:formate+="Sep";break;
-		case 9:formate+="Oct";break;
-		case 10:formate+="Nov";break;
-		case 11:formate+="Dec";break;
+		formate += "day, ";
+		switch (date.getMonth()) {
+		case 0:
+			formate += "Jan";
+			break;
+		case 1:
+			formate += "Feb";
+			break;
+		case 2:
+			formate += "Mar";
+			break;
+		case 3:
+			formate += "Apr";
+			break;
+		case 4:
+			formate += "May";
+			break;
+		case 5:
+			formate += "Jun";
+			break;
+		case 6:
+			formate += "Jul";
+			break;
+		case 7:
+			formate += "Aug";
+			break;
+		case 8:
+			formate += "Sep";
+			break;
+		case 9:
+			formate += "Oct";
+			break;
+		case 10:
+			formate += "Nov";
+			break;
+		case 11:
+			formate += "Dec";
+			break;
 		}
-		formate+=" "+date.getDate()+", "+date.getFullYear();
+		formate += " " + date.getDate() + ", " + date.getFullYear();
 		//		$wnd.alert(formate);
 		return formate;
 	}-*/;
@@ -432,22 +472,46 @@ public class UIUtils {
 
 	public final static native String getDateStringByDate(String dateString)/*-{
 		var date = new Date(dateString);
-		var formate="";
-		switch(date.getMonth()){
-		case 0:formate+="Jan";break;
-		case 1:formate+="Feb";break;
-		case 2:formate+="Mar";break;
-		case 3:formate+="Apr";break;
-		case 4:formate+="May";break;
-		case 5:formate+="Jun";break;
-		case 6:formate+="Jul";break;
-		case 7:formate+="Aug";break;
-		case 8:formate+="Sep";break;
-		case 9:formate+="Oct";break;
-		case 10:formate+="Nov";break;
-		case 11:formate+="Dec";break;
+		var formate = "";
+		switch (date.getMonth()) {
+		case 0:
+			formate += "Jan";
+			break;
+		case 1:
+			formate += "Feb";
+			break;
+		case 2:
+			formate += "Mar";
+			break;
+		case 3:
+			formate += "Apr";
+			break;
+		case 4:
+			formate += "May";
+			break;
+		case 5:
+			formate += "Jun";
+			break;
+		case 6:
+			formate += "Jul";
+			break;
+		case 7:
+			formate += "Aug";
+			break;
+		case 8:
+			formate += "Sep";
+			break;
+		case 9:
+			formate += "Oct";
+			break;
+		case 10:
+			formate += "Nov";
+			break;
+		case 11:
+			formate += "Dec";
+			break;
 		}
-		formate+=" "+date.getDate()+", "+date.getFullYear();	
+		formate += " " + date.getDate() + ", " + date.getFullYear();
 
 		return formate;
 	}-*/;
@@ -801,6 +865,7 @@ public class UIUtils {
 
 	public static SelectItem getPaymentMethodCombo() {
 		SelectItem selectItem = new SelectItem();
+		selectItem.setHelpInformation(true);
 		selectItem.setTitle("Payment Method");
 		selectItem.setValueMap("Cash", UIUtils
 				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
@@ -1238,12 +1303,12 @@ public class UIUtils {
 		document.body.removeChild(document.body.lastChild);
 
 		// Pixel width of the scroller
-		var  width=(wNoScroll - wScroll);
-		if(width==0){
-		if (navigator.userAgent.indexOf("MSIE")>=0){
-		width=18;
-		}
-		width=15;
+		var width = (wNoScroll - wScroll);
+		if (width == 0) {
+			if (navigator.userAgent.indexOf("MSIE") >= 0) {
+				width = 18;
+			}
+			width = 15;
 		}
 		return width;
 	}-*/;
@@ -1518,13 +1583,15 @@ public class UIUtils {
 	 * object StringId and Type
 	 */
 	public native static void downloadAttachment(String objectID, int type)/*-{
-		try{
-		var frame = document.createElement("IFRAME");
-		frame.setAttribute("src", "/do/finance/generatePDFServlet?objectId="+objectID+"&type="+type); 
-		frame.style.visibility = "hidden";
-		document.body.appendChild(frame);
-		}catch(e){
-		alert(e);
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/generatePDFServlet?objectId=" + objectID
+							+ "&type=" + type);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
 		}
 	}-*/;
 
@@ -1536,38 +1603,38 @@ public class UIUtils {
 	 */
 	public native static void generateReportPDF(String reportTitle,
 			String htmlbody, String dateRangeHtml)/*-{
-		try{
-		var frame = $doc.getElementById('__generatePdfFrame');
-		frame = frame.contentWindow;
-		var doc = frame.document;
-		var submitForm = doc.createElement("form");
-		var body=doc.getElementsByTagName("BODY");
-		body[0].appendChild(submitForm);
-		submitForm.method = "POST";
-		// submitForm.target="_blank";
+		try {
+			var frame = $doc.getElementById('__generatePdfFrame');
+			frame = frame.contentWindow;
+			var doc = frame.document;
+			var submitForm = doc.createElement("form");
+			var body = doc.getElementsByTagName("BODY");
+			body[0].appendChild(submitForm);
+			submitForm.method = "POST";
+			// submitForm.target="_blank";
 
-		var newElement = doc.createElement("INPUT");
-		newElement.name="reporthtml";
-		newElement.type="hidden";
-		submitForm.appendChild(newElement);
-		newElement.value = htmlbody;
+			var newElement = doc.createElement("INPUT");
+			newElement.name = "reporthtml";
+			newElement.type = "hidden";
+			submitForm.appendChild(newElement);
+			newElement.value = htmlbody;
 
-		var newElement1 = doc.createElement("INPUT");
-		newElement1.name="reportTitle";
-		newElement1.type="hidden";
-		submitForm.appendChild(newElement1);
-		newElement1.value = reportTitle;
-		var newElement2 = document.createElement("INPUT");
-		newElement2.name="dateRangeHtml";
-		newElement2.type="hidden";
-		submitForm.appendChild(newElement2);
-		newElement2.value = dateRangeHtml;
-		submitForm.action= "/do/finance/generatePDFServlet";
-		submitForm.submit();
+			var newElement1 = doc.createElement("INPUT");
+			newElement1.name = "reportTitle";
+			newElement1.type = "hidden";
+			submitForm.appendChild(newElement1);
+			newElement1.value = reportTitle;
+			var newElement2 = document.createElement("INPUT");
+			newElement2.name = "dateRangeHtml";
+			newElement2.type = "hidden";
+			submitForm.appendChild(newElement2);
+			newElement2.value = dateRangeHtml;
+			submitForm.action = "/do/finance/generatePDFServlet";
+			submitForm.submit();
 
-		body[0].removeChild(submitForm);
-		}catch(e){
-		alert(e);
+			body[0].removeChild(submitForm);
+		} catch (e) {
+			alert(e);
 		}
 	}-*/;
 
@@ -1611,7 +1678,6 @@ public class UIUtils {
 		}
 	}-*/;
 
-	
 	public static String stringToDate(ClientFinanceDate date) {
 		// TODO Auto-generated method stub
 		return null;
@@ -1657,8 +1723,8 @@ public class UIUtils {
 	}
 
 	public static native boolean isMSIEBrowser()/*-{
-		if (navigator.userAgent.indexOf("MSIE")>=0)
-		return true;
+		if (navigator.userAgent.indexOf("MSIE") >= 0)
+			return true;
 		return false;
 	}-*/;
 
@@ -1685,53 +1751,69 @@ public class UIUtils {
 	public static native void changeCursorStyle(String style)/*-{
 		document.body.style.cursor = style;
 	}-*/;
-	
+
 	public static native void exportReport(int start, int end, int reportType,
 			String name, String dateRangeHtml)/*-{
-		try{
-		var frame = document.createElement("IFRAME");
-		frame.setAttribute("src", "/do/finance/ExportReportServlet?startDate="+start+"&endDate="+end+"&reportType="+reportType+"&navigatedName="+name+"&dateRangeHtml="+dateRangeHtml); 
-		frame.style.visibility = "hidden";
-		document.body.appendChild(frame);
-		}catch(e){
-		alert(e);
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/ExportReportServlet?startDate=" + start
+							+ "&endDate=" + end + "&reportType=" + reportType
+							+ "&navigatedName=" + name + "&dateRangeHtml="
+							+ dateRangeHtml);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
 		}
 	}-*/;
 
 	public static native void exportReport(int start, int end, int reportType,
 			String name, String dateRangeHtml, String status)/*-{
-		try{
-		var frame = document.createElement("IFRAME");
-		frame.setAttribute("src", "/do/finance/ExportReportServlet?startDate="+start+"&endDate="+end+"&reportType="+reportType+"&navigatedName="+name+"&dateRangeHtml="+dateRangeHtml+"&status="+status); 
-		frame.style.visibility = "hidden";
-		document.body.appendChild(frame);
-		}catch(e){
-		alert(e);
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/ExportReportServlet?startDate=" + start
+							+ "&endDate=" + end + "&reportType=" + reportType
+							+ "&navigatedName=" + name + "&dateRangeHtml="
+							+ dateRangeHtml + "&status=" + status);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
 		}
 	}-*/;
 
 	public static native void generateReportPDF(int start, int end,
 			int reportType, String name, String dateRangeHtml)/*-{
-		try{
-		var frame = document.createElement("IFRAME");
-		frame.setAttribute("src", "/do/finance/generatePDFServlet?startDate="+start+"&endDate="+end+"&reportType="+reportType+"&navigatedName="+name+"&dateRangeHtml="+dateRangeHtml); 
-		frame.style.visibility = "hidden";
-		document.body.appendChild(frame);
-		}catch(e){
-		alert(e);
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/generatePDFServlet?startDate=" + start
+							+ "&endDate=" + end + "&reportType=" + reportType
+							+ "&navigatedName=" + name + "&dateRangeHtml="
+							+ dateRangeHtml);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
 		}
 	}-*/;
 
 	public static native void generateReportPDF(int start, int end,
 			int reportType, String name, String dateRangeHtml, String status)/*-{
-		try{
-		var frame = document.createElement("IFRAME");
-		frame.setAttribute("src", "/do/finance/generatePDFServlet?startDate="+start+"&endDate="+end+"&reportType="+reportType+"&navigatedName="+name+"&dateRangeHtml="+dateRangeHtml+"&status="+status); 
-		frame.style.visibility = "hidden";
-		document.body.appendChild(frame);
-		}catch(e){
-		alert(e);
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/generatePDFServlet?startDate=" + start
+							+ "&endDate=" + end + "&reportType=" + reportType
+							+ "&navigatedName=" + name + "&dateRangeHtml="
+							+ dateRangeHtml + "&status=" + status);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
 		}
 	}-*/;
-	
+
 }

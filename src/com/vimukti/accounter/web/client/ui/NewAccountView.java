@@ -128,6 +128,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		}
 		// subAccSelect.setComboItem(null);
 		subAccSelect.initCombo(subAccounts);
+		subAccSelect.setHelpInformation(true);
 		if (selectedSubAccount != null)
 			subAccSelect.setComboItem(selectedSubAccount);
 
@@ -162,6 +163,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		hierarchy = new String("");
 		accTypeSelect = new SelectItem(FinanceApplication
 				.getFinanceUIConstants().accountType());
+		accTypeSelect.setHelpInformation(true);
 		accTypeSelect.setWidth(100);
 		accTypeSelect.addChangeHandler(new ChangeHandler() {
 
@@ -174,6 +176,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		accNoText = new IntegerField(FinanceApplication.getFinanceUIConstants()
 				.accountNo());
+		accNoText.setHelpInformation(true);
 		accNoText.setRequired(true);
 		accNoText.setWidth(100);
 		accNoText.addBlurHandler(new BlurHandler() {
@@ -188,7 +191,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		accNameText = new TextItem(FinanceApplication.getFinanceUIConstants()
 				.CategoryName());
-
+		accNameText.setHelpInformation(true);
 		accNameText.setRequired(true);
 		accNameText.setWidth(100);
 		accNameText.addBlurHandler(new BlurHandler() {
@@ -253,6 +256,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		opBalText = new AmountField(FinanceApplication.getFinanceUIConstants()
 				.openingBalance());
+		opBalText.setHelpInformation(true);
 
 		opBalText.setWidth(100);
 		opBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
@@ -291,6 +295,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// });
 		asofDate = new DateField(FinanceApplication.getFinanceUIConstants()
 				.asOf());
+		asofDate.setHelpInformation(true);
 		// asofDate.setWidth(100);
 		asofDate
 				.setEnteredDate(new ClientFinanceDate(
@@ -342,6 +347,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 			hierText = new TextItem(FinanceApplication.getFinanceUIConstants()
 					.hierarchy());
+			hierText.setHelpInformation(true);
 			hierText.setDisabled(true);
 			hierText.setWidth(100);
 			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
@@ -382,6 +388,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		cashBasisForm.setWidth("100%");
 
 		commentsArea = new TextAreaItem();
+		commentsArea.setHelpInformation(true);
 		commentsArea.setTitle(FinanceApplication.getFinanceUIConstants()
 				.comments());
 		commentsArea.setWidth(100);
@@ -553,6 +560,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 			limitText = new AmountField(FinanceApplication
 					.getFinanceUIConstants().creditLimit());
+			limitText.setHelpInformation(true);
 			limitText.setWidth(100);
 			limitText.setValue("" + UIUtils.getCurrencySymbol() + "0");
 			limitText.addBlurHandler(new BlurHandler() {
@@ -589,6 +597,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			});
 			cardNumText = new IntegerField(FinanceApplication
 					.getFinanceUIConstants().cardOrLoadNumber());
+			cardNumText.setHelpInformation(true);
 			cardNumText.setWidth(100);
 			creditCardForm = UIUtils.form(FinanceApplication
 					.getFinanceUIConstants().creditCardAccountInformation());
@@ -636,6 +645,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 			bankAccNumText = new TextItem(FinanceApplication
 					.getAccounterComboConstants().bankFinanceCategorynumber());
+			bankAccNumText.setHelpInformation(true);
 			bankAccNumText.setWidth(100);
 
 			// accNameText.setWidth("*");
