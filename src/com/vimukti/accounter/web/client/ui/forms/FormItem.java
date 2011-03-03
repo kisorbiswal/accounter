@@ -3,13 +3,22 @@ package com.vimukti.accounter.web.client.ui.forms;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 
@@ -29,6 +38,7 @@ public abstract class FormItem {
 	private int columnSpan = 1;
 	private boolean isHighlighted = false;
 	private String titleStyleName;
+	private boolean ishelp = false;
 
 	public Object getValue() {
 		return this.value;
@@ -83,6 +93,7 @@ public abstract class FormItem {
 	public void setWidth(int width) {
 		this.width = width;
 		getMainWidget().setWidth(new Integer(width).toString() + "%");
+
 	}
 
 	public void setWidth(String width) {
@@ -161,7 +172,38 @@ public abstract class FormItem {
 	void addWidgets(DynamicForm parent) {
 
 		addLabelWidget(parent);
-		parent.add(getMainWidget(), columnSpan);
+		if (ishelp) {
+			addHelpImageWidget(parent);
+		} else {
+			parent.add(getMainWidget(), columnSpan);
+		}
+	}
+
+	private void addHelpImageWidget(DynamicForm parent) {
+		HorizontalPanel hPanel = new HorizontalPanel();
+		hPanel.add(getMainWidget());
+		Image helpImg = new Image("/images/icons/help.png");
+		helpImg.getElement().getStyle().setCursor(Cursor.POINTER);
+		helpImg.addMouseUpHandler(new MouseUpHandler() {
+
+			@Override
+			public void onMouseUp(MouseUpEvent event) {
+				displayHelpMessage(event);
+			}
+		});
+		hPanel.add(helpImg);
+		hPanel.setCellVerticalAlignment(helpImg,
+				HasVerticalAlignment.ALIGN_MIDDLE);
+		hPanel.setCellHorizontalAlignment(helpImg,
+				HasHorizontalAlignment.ALIGN_RIGHT);
+		parent.add(hPanel, columnSpan);
+//		Image helpImg = new Image("/images/icons/help.png");
+//		parent.add(helpImg,0);
+		
+	}
+
+	public void setHelpInformation(Boolean isHelp) {
+		this.ishelp = isHelp;
 	}
 
 	public abstract Widget getMainWidget();
@@ -280,4 +322,32 @@ public abstract class FormItem {
 			((FocusWidget) this.getMainWidget()).setFocus(true);
 		}
 	}
+
+	public String helpMessage = "Help";
+	public PopupPanel popupPanel;
+
+	public void displayHelpMessage(MouseUpEvent event) {
+		popupPanel = new PopupPanel(true);
+		Widget source = (Widget) event.getSource();
+		int x = source.getAbsoluteLeft() + 10;
+		int y = source.getAbsoluteTop() + 10;
+		popupPanel.setHeight("100px");
+		popupPanel.setWidth("100px");
+		popupPanel.setAutoHideEnabled(true);
+		popupPanel.add(helpContent());
+		popupPanel.setPopupPosition(x, y);
+		popupPanel.show();
+
+	}
+
+	private HTML helpContent(){
+		HTML content;
+		content= 	new HTML("<b>" + " About This Field :" + "</b><br><br>"+"<h3>"
+				+ helpMessage+"</h3>");
+		return content;
+	}
+	public void setHelpMessage(String hm) {
+		this.helpMessage = hm;
+	}
+
 }
