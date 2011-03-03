@@ -140,17 +140,17 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 
 	public void setHeightForCanvas(String height) {
 		this.height = height;
-		if (height != null && canvas != null) {
-			double h = Double.parseDouble(height.replaceAll("px", ""));
-			this.canvas.setHeight(h - 10 + "px");
-		}
+//		if (height != null && canvas != null) {
+//			double h = Double.parseDouble(height.replaceAll("px", ""));
+//			this.canvas.setHeight(h - 10 + "px");
+//		}
 	}
 
 	public abstract List<DynamicForm> getForms();
 
 	@Override
 	public void fitToSize(int height, int width) {
-		canvas.setHeight(height - 125 + "px");
+//		canvas.setHeight(height - 125 + "px");
 		canvas.setWidth(width - 15 + "px");
 	}
 }

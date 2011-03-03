@@ -1606,7 +1606,7 @@ public class ViewManager extends DockPanel {
 		this.width = width;
 
 		if (height - TOP_MENUBAR > 0) {
-			this.scrollPanel.setHeight(height - TOP_MENUBAR + 8 + "px");
+//			this.scrollPanel.setHeight(height - TOP_MENUBAR + 8 + "px");
 			// this.rightCanvas.setHeight(height - TOP_MENUBAR + "px");
 		}
 
@@ -1618,9 +1618,9 @@ public class ViewManager extends DockPanel {
 
 		if (currentCanvas != null && currentCanvas instanceof BaseView) {
 
-			if (height - TOP_MENUBAR - 40 > 0)
-				((BaseView) currentCanvas).setHeightForCanvas(height
-						- TOP_MENUBAR - 40 + "");
+//			if (height - TOP_MENUBAR - 40 > 0)
+//				((BaseView) currentCanvas).setHeightForCanvas(height
+//						- TOP_MENUBAR - 40 + "");
 			((BaseView) currentCanvas).getButtonPanel().setHeight("30px");
 		}
 
