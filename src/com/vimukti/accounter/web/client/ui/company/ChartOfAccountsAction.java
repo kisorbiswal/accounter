@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 public class ChartOfAccountsAction extends Action {
 
 	protected ChartOfAccountsView view;
+	public int accountType;
 
 	public ChartOfAccountsAction(String text) {
 		super(text);
@@ -28,13 +29,22 @@ public class ChartOfAccountsAction extends Action {
 		this.catagory = FinanceApplication.getCompanyMessages().company();
 	}
 
+	public ChartOfAccountsAction(String text, String iconString, int accountType) {
+		super(text, iconString);
+		this.accountType = accountType;
+		this.catagory = FinanceApplication.getCompanyMessages().company();
+	}
+
 	public void runAsync(final Object data, final Boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallBack() {
 
 			public void onCreated() {
 
 				try {
-					view = ChartOfAccountsView.getInstance();
+					if (accountType == 0)
+						view = ChartOfAccountsView.getInstance();
+					else
+						view = new ChartOfAccountsView(accountType);
 
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, ChartOfAccountsAction.this);
