@@ -93,7 +93,6 @@ public class ProfitAndLossServerReport extends
 		return new String[] {
 				"Category Number",
 				"",
-				// FIXME for reports these are NULL...
 				"" + getDateByCompanyType(getStartDate()) + " - "
 						+ getDateByCompanyType(getEndDate()),
 				"",

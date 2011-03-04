@@ -13,7 +13,8 @@ public class ARAgingSummaryServerReport extends
 		this.reportView = reportView;
 	}
 
-	public ARAgingSummaryServerReport(long startDate, long endDate,int generationType) {
+	public ARAgingSummaryServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -64,27 +65,6 @@ public class ARAgingSummaryServerReport extends
 
 	@Override
 	public void makeReportRequest(long start, long end) {
-		// FIXME
-
-		// FinanceApplication.createReportService().getDebitors(start.getTime(),
-		// new ClientFinanceDate().getTime(), this);
-		// AccounterReportServiceImpl reportService = new
-		// AccounterReportServiceImpl() {
-		// @Override
-		// protected IFinanceTool getFinanceTool()
-		// throws InvalidSessionException {
-		// return this.financeTool;
-		// }
-		// };
-		// if (this.financeTool == null)
-		// return;
-		//
-		// try {
-		// onSuccess(reportService.getDebitors(start, end));
-		// } catch (InvalidSessionException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
 
 	}
 
