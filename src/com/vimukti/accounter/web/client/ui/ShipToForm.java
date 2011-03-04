@@ -10,8 +10,8 @@ import java.util.Set;
 
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 
 /**
@@ -23,7 +23,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 public class ShipToForm extends DynamicForm {
 	LinkedHashMap<Integer, ClientAddress> allAddresses;
 	ClientAddress toBeShown = null;
-	public SelectItem businessSelect;
+	public SelectCombo businessSelect;
 	public TextAreaItem addrArea;
 
 	public ShipToForm(Set<ClientAddress> addresses) {
@@ -34,17 +34,18 @@ public class ShipToForm extends DynamicForm {
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
 		setAddresses(addresses);
-		businessSelect = new SelectItem(FinanceApplication
+		businessSelect = new SelectCombo(FinanceApplication
 				.getFinanceUIConstants().shipTo());
 		businessSelect.setHelpInformation(true);
 		businessSelect.setWidth(85);
 		businessSelect.getMainWidget().removeStyleName(
 				FinanceApplication.getFinanceUIConstants().gwtListBox());
-		LinkedHashMap<String, String> addressTypes = new LinkedHashMap<String, String>();
+		List<String> addressTypes = new ArrayList<String>();
 
-		addressTypes.putAll(new ClientAddress().getAddressTypes());
-		addressTypes.remove(ClientAddress.TYPE_BILL_TO + "");
-		businessSelect.setValueMap(addressTypes);
+		addressTypes.addAll(new ClientAddress().getAddressTypes());
+		addressTypes.remove("Bill To");
+		businessSelect.initCombo(addressTypes);
+		businessSelect.setDefaultToFirstOption(true);
 
 		addrArea = new TextAreaItem();
 		addrArea.setHelpInformation(true);
@@ -53,8 +54,8 @@ public class ShipToForm extends DynamicForm {
 		addrArea.setDisabled(true);
 
 		if (toBeShown != null) {
-			businessSelect.setValue(toBeShown.getAddressTypes().get(
-					toBeShown.getType() + ""));
+			businessSelect.setSelected(toBeShown.getAddressTypes().get(
+					toBeShown.getType()));
 			String toToSet = new String();
 			if (toBeShown.getAddress1() != null) {
 				toToSet = toBeShown.getAddress1().toString() + "\n";
@@ -105,11 +106,11 @@ public class ShipToForm extends DynamicForm {
 	@SuppressWarnings("unchecked")
 	public Set<ClientAddress> getAddresss() {
 		ClientAddress selectedAddress = allAddresses.get(UIUtils
-				.getAddressType(businessSelect.getValue().toString()));
+				.getAddressType(businessSelect.getSelectedValue()));
 		if (selectedAddress != null) {
 			selectedAddress.setIsSelected(true);
-			allAddresses.put(UIUtils.getAddressType((String) businessSelect
-					.getValue()), selectedAddress);
+			allAddresses.put(UIUtils.getAddressType(businessSelect
+					.getSelectedValue()), selectedAddress);
 		}
 		Collection add = allAddresses.values();
 		Set<ClientAddress> toBeSet = new HashSet<ClientAddress>();
@@ -127,11 +128,11 @@ public class ShipToForm extends DynamicForm {
 	@SuppressWarnings("unchecked")
 	public List<ClientAddress> getAddresssList() {
 		ClientAddress selectedAddress = allAddresses.get(businessSelect
-				.getValue());
+				.getSelectedValue());
 		if (selectedAddress != null) {
 			selectedAddress.setIsSelected(true);
 			allAddresses.put(UIUtils.getAddressType((String) businessSelect
-					.getValue()), selectedAddress);
+					.getSelectedValue()), selectedAddress);
 		}
 		Collection add = allAddresses.values();
 		List<ClientAddress> toBeSet = new ArrayList<ClientAddress>();
@@ -146,8 +147,8 @@ public class ShipToForm extends DynamicForm {
 		return toBeSet;
 	}
 
-	public void setSelectValueMap(LinkedHashMap<String, String> linkedHashMap) {
-		this.businessSelect.setValueMap(linkedHashMap);
+	public void setSelectValueMap(List<String> linkedHashMap) {
+		this.businessSelect.initCombo(linkedHashMap);
 	}
 
 	public void setAddress(List<ClientAddress> addresses) {
@@ -158,8 +159,8 @@ public class ShipToForm extends DynamicForm {
 
 					addrArea.setValue(getValidAddress(address));
 
-					businessSelect.setValue(address.getAddressTypes().get(
-							address.getType() + ""));
+					businessSelect.setSelected(address.getAddressTypes().get(
+							address.getType()));
 				}
 
 			}
@@ -172,7 +173,7 @@ public class ShipToForm extends DynamicForm {
 	public ClientAddress getAddress() {
 
 		ClientAddress selectedAddress = allAddresses.get(UIUtils
-				.getAddressType(businessSelect.getValue().toString()));
+				.getAddressType(businessSelect.getSelectedValue()));
 		return selectedAddress;
 	}
 

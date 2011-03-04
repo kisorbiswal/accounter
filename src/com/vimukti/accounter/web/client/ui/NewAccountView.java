@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.DropDownCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -54,7 +55,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	private int accountType;
 	private ClientAccount takenAccount;
-	private SelectItem accTypeSelect;
+	private SelectCombo accTypeSelect;
 	private TextItem accNameText, bankAccNumText, hierText;
 	private CheckboxItem statusBox;
 	private OtherAccountsCombo subAccSelect;
@@ -161,18 +162,20 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		lab1.addStyleName(FinanceApplication.getFinanceUIConstants()
 				.lableTitle());
 		hierarchy = new String("");
-		accTypeSelect = new SelectItem(FinanceApplication
+		accTypeSelect = new SelectCombo(FinanceApplication
 				.getFinanceUIConstants().accountType());
 		accTypeSelect.setHelpInformation(true);
 		accTypeSelect.setWidth(100);
-		accTypeSelect.addChangeHandler(new ChangeHandler() {
+		accTypeSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				selectedId = (String) accTypeSelect.getValue();
-				accounttype_selected();
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						selectedId = (String) accTypeSelect.getSelectedValue();
+						accounttype_selected();
+
+					}
+				});
 
 		accNoText = new IntegerField(FinanceApplication.getFinanceUIConstants()
 				.accountNo());
@@ -472,7 +475,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					statusBox, opBalText, asofDate);
 			// leftLayout.add(accInfoForm);
 			reset(accInfoForm);
-			accTypeSelect.setValue(selectedId);
+			accTypeSelect.setSelected(selectedId);
 			topHLay.setWidth("50%");
 
 		}
@@ -490,7 +493,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					statusBox, opBalText, asofDate);
 			leftLayout.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
 			leftLayout.add(accInfoForm);
-			accTypeSelect.setValue(selectedId);
+			accTypeSelect.setSelected(selectedId);
 
 			if (accountType == ClientAccount.TYPE_BANK) {
 
@@ -675,19 +678,20 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private void initAccountTypeSelect() {
 
 		if (isNewBankAccount) {
-			accTypeSelect.setValue(Utility.getAccountTypeString(accountType));
+			accTypeSelect
+					.setSelected(Utility.getAccountTypeString(accountType));
 			accTypeSelect.setDisabled(true);
 		} else {
 
 			if (takenAccount == null) {
-				accTypeSelect.setValueMap(getAccountTypesMap());
+				accTypeSelect.initCombo(getAccountsList());
 				accTypeSelect.setDefaultToFirstOption(true);
 				setAccountType(Integer.parseInt(defaultId));
 				accounttype_selected();
 
 			} else if (takenAccount != null) {
 
-				accTypeSelect.setValue(Utility
+				accTypeSelect.setSelected(Utility
 						.getAccountTypeString(takenAccount.getType()));
 				accTypeSelect.setDisabled(true);
 				setAccountType(takenAccount.getType());
@@ -708,6 +712,39 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					+ FinanceApplication.getAccounterComboConstants()
 							.category());
 
+	}
+
+	private List<String> getAccountsList() {
+		// List<String> list=new ArrayList<String>();
+		// list.add("Income");
+		// return list;
+		List<String> list = new ArrayList<String>();
+		if (accountTypes != null && accountTypes.size() != 0) {
+			for (int type : accountTypes) {
+				list.add(Utility.getAccountTypeString(type));
+			}
+			defaultId = String.valueOf(accountTypes.get(0));
+
+		} else {
+			for (int type : UIUtils.accountTypes) {
+				if (FinanceApplication.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK)
+					list.add(Utility.getAccountTypeString(type));
+				else if (type != ClientAccount.TYPE_BANK
+						&& type != ClientAccount.TYPE_CASH
+						&& type != ClientAccount.TYPE_OTHER_INCOME
+						&& type != ClientAccount.TYPE_INVENTORY_ASSET
+						&& type != ClientAccount.TYPE_CREDIT_CARD
+						&& type != ClientAccount.TYPE_PAYROLL_LIABILITY) {
+					list.add(Utility.getAccountTypeString(type));
+				}
+			}
+			if (accountType != ClientAccount.TYPE_BANK
+					&& accountType != ClientAccount.TYPE_CREDIT_CARD) {
+				defaultId = String.valueOf(UIUtils.accountTypes[0]);
+				accountType = UIUtils.accountTypes[0];
+			}
+		}
+		return list;
 	}
 
 	private LinkedHashMap<String, String> getAccountTypesMap() {

@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class Header extends HorizontalPanel {
 

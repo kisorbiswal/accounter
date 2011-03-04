@@ -9,10 +9,11 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.vimukti.accounter.web.client.core.ClientFax;
 import com.vimukti.accounter.web.client.core.ClientPhone;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 /**
@@ -21,7 +22,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * 
  */
 public class PhoneFaxForm extends DynamicForm {
-	private SelectItem businessPhoneSelect, businessFaxSelect;
+	private SelectCombo businessPhoneSelect, businessFaxSelect;
 	private TextItem businessPhoneText, businessFaxText;
 	private LinkedHashMap<Integer, ClientPhone> allPhones;
 	private LinkedHashMap<Integer, ClientFax> allFaxes;
@@ -37,24 +38,25 @@ public class PhoneFaxForm extends DynamicForm {
 		setGroupTitle(FinanceApplication.getFinanceUIConstants()
 				.phoneAndFaxNumbers());
 		setNumCols(3);
-		businessPhoneSelect = new SelectItem("Phone");
+		businessPhoneSelect = new SelectCombo("Phone");
+		businessPhoneSelect.setHelpInformation(true);
 		businessPhoneSelect.setWidth(85);
 		businessPhoneSelect.getMainWidget().removeStyleName("gwt-ListBox");
-		businessPhoneSelect.setValueMap(new ClientPhone().getPhoneTypes());
-		businessPhoneSelect.addChangeHandler(new ChangeHandler() {
+		businessPhoneSelect.initCombo(new ClientPhone().getPhoneTypes());
+		businessPhoneSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
-
-				ClientPhone p = allPhones
-						.get(UIUtils.getPhoneType(businessPhoneSelect
-								.getValue().toString()));
-				if (p != null)
-					businessPhoneText.setValue(p.getNumber());
-				else
-					businessPhoneText.setValue("");
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						ClientPhone p = allPhones.get(UIUtils
+								.getPhoneType(businessPhoneSelect.getValue()
+										.toString()));
+						if (p != null)
+							businessPhoneText.setValue(p.getNumber());
+						else
+							businessPhoneText.setValue("");
+					}
+				});
 
 		businessPhoneText = new TextItem(FinanceApplication
 				.getFinanceUIConstants().phoneText());
@@ -76,7 +78,7 @@ public class PhoneFaxForm extends DynamicForm {
 							ClientPhone phone = new ClientPhone();
 							phone.setType(UIUtils
 									.getPhoneType(businessPhoneSelect
-											.getValue().toString()));
+											.getSelectedValue()));
 							phone.setNumber(ph);
 							allPhones.put(UIUtils
 									.getPhoneType(businessPhoneSelect
@@ -89,28 +91,30 @@ public class PhoneFaxForm extends DynamicForm {
 			}
 		});
 		if (toBeShownPhone != null) {
-			businessPhoneSelect.setValue(toBeShownPhone.getPhoneTypes().get(
-					toBeShownPhone.getType() + ""));
+			businessPhoneSelect.setSelected(toBeShownPhone.getPhoneTypes().get(
+					toBeShownPhone.getType()));
 			businessPhoneText.setValue(toBeShownPhone.getNumber());
 		} else
 			businessPhoneSelect.setDefaultToFirstOption(true);
-		businessFaxSelect = new SelectItem("Fax");
+		businessFaxSelect = new SelectCombo("Fax");
 		businessFaxSelect.setHelpInformation(true);
 		businessFaxSelect.setWidth(85);
 		businessFaxSelect.getMainWidget().removeStyleName("gwt-ListBox");
-		businessFaxSelect.setValueMap(new ClientFax().getFaxTypes());
-		businessFaxSelect.addChangeHandler(new ChangeHandler() {
+		businessFaxSelect.initCombo(new ClientFax().getFaxTypes());
+		businessFaxSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				ClientFax f = allFaxes.get(UIUtils.getFaxType(businessFaxSelect
-						.getValue().toString()));
-				if (f != null)
-					businessFaxText.setValue(f.getNumber());
-				else
-					businessFaxText.setValue("");
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						ClientFax f = allFaxes.get(UIUtils
+								.getFaxType(businessFaxSelect
+										.getSelectedValue()));
+						if (f != null)
+							businessFaxText.setValue(f.getNumber());
+						else
+							businessFaxText.setValue("");
+					}
+				});
 		businessFaxText = new TextItem(FinanceApplication
 				.getFinanceUIConstants().businessFax());
 		businessFaxText.setHelpInformation(true);
@@ -141,7 +145,7 @@ public class PhoneFaxForm extends DynamicForm {
 		});
 		if (toBeShownFax != null) {
 			businessFaxSelect.setValue(toBeShownFax.getFaxTypes().get(
-					toBeShownFax.getType() + ""));
+					toBeShownFax.getType()));
 			businessFaxText.setValue(toBeShownFax.getNumber() + "");
 		} else
 			businessFaxSelect.setDefaultToFirstOption(true);
@@ -183,11 +187,11 @@ public class PhoneFaxForm extends DynamicForm {
 
 	public Set<ClientPhone> getAllPhones() {
 		ClientPhone selectedPhoneFromSelect = allPhones.get(UIUtils
-				.getPhoneType(businessPhoneSelect.getValue().toString()));
+				.getPhoneType(businessPhoneSelect.getSelectedValue()));
 		if (selectedPhoneFromSelect != null) {
 			selectedPhoneFromSelect.setIsSelected(true);
-			allPhones.put(UIUtils.getPhoneType(businessPhoneSelect.getValue()
-					.toString()), selectedPhoneFromSelect);
+			allPhones.put(UIUtils.getPhoneType(businessPhoneSelect
+					.getSelectedValue()), selectedPhoneFromSelect);
 
 		}
 		Collection<ClientPhone> pho = allPhones.values();
@@ -204,7 +208,7 @@ public class PhoneFaxForm extends DynamicForm {
 
 	public Set<ClientFax> getAllFaxes() {
 		ClientFax selectedFaxFromSelect = allFaxes.get(UIUtils
-				.getFaxType(businessFaxSelect.getValue().toString()));
+				.getFaxType(businessFaxSelect.getSelectedValue()));
 		if (selectedFaxFromSelect != null) {
 			selectedFaxFromSelect.setIsSelected(true);
 			allFaxes

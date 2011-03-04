@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -24,6 +23,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -35,20 +35,20 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 public class CreditCardChargeView extends
 		AbstractBankTransactionView<ClientCreditCardCharge> {
+	protected List<String> selectedComboList;
 	protected DateField date, delivDate;;
 	protected TextItem cheqNoText;
 	// protected TextItem refText;
 	AmountField totText;
 
 	protected DynamicForm vendorForm, addrForm, phoneForm, termsForm, memoForm;
-	protected SelectItem contactNameSelect, phoneSelect, payMethSelect;
+	protected SelectCombo contactNameSelect, phoneSelect, payMethSelect;
 
 	VendorCombo vendorNameSelect;
 	@SuppressWarnings("unused")
@@ -118,49 +118,47 @@ public class CreditCardChargeView extends
 		initBillToCombo();
 		billToCombo.setDisabled(isEdit);
 		Set<ClientContact> allContacts;
-		String phones[];
 		allContacts = selectedVendor.getContacts();
 		Iterator<ClientContact> it = allContacts.iterator();
-		phones = new String[allContacts.size()];
+		List<String> phones = new ArrayList<String>();
 		ClientContact primaryContact = null;
-		LinkedHashMap<String, String> idNamesForContacts = new LinkedHashMap<String, String>();
+		List<String> idNamesForContacts = new ArrayList<String>();
 		int i = 0;
 		while (it.hasNext()) {
 			ClientContact contact = it.next();
 			if (contact.isPrimary())
 				primaryContact = contact;
-			idNamesForContacts.put(String.valueOf(contact.getStringID()),
-					contact.getName());
-			phones[i] = contact.getBusinessPhone();
+			idNamesForContacts.add(contact.getName());
+			phones.add(contact.getBusinessPhone());
 			i++;
 		}
 
-		contactNameSelect.setValueMap(idNamesForContacts);
-		phoneSelect.setValueMap(phones);
+		contactNameSelect.initCombo(idNamesForContacts);
+		phoneSelect.initCombo(phones);
 
 		if (creditCardChargeTaken != null) {
 			// ClientVendor cv = FinanceApplication.getCompany().getVendor(
 			// creditCardChargeTaken.getVendor());
 			if (creditCardChargeTaken.getContact() != null)
-				contactNameSelect.setValue(creditCardChargeTaken.getContact()
+				contactNameSelect.setSelected(creditCardChargeTaken.getContact()
 						.getStringID());
 			if (creditCardChargeTaken.getPhone() != null)
 				// FIXME check and fix the below code
-				phoneSelect.setValue(creditCardChargeTaken.getPhone());
+				phoneSelect.setSelected(creditCardChargeTaken.getPhone());
 
 			contactNameSelect.setDisabled(isEdit);
 			phoneSelect.setDisabled(isEdit);
 			return;
 		}
 		if (primaryContact == null) {
-			contactNameSelect.setValue("");
-			phoneSelect.setValue("");
+			contactNameSelect.setSelected("");
+			phoneSelect.setSelected("");
 			return;
 		}
 
-		contactNameSelect
-				.setValue(String.valueOf(primaryContact.getStringID()));
-		phoneSelect.setValue(primaryContact.getBusinessPhone());
+		contactNameSelect.setSelected(String.valueOf(primaryContact
+				.getStringID()));
+		phoneSelect.setSelected(primaryContact.getBusinessPhone());
 
 		// for (Address toBeShown : allAddress) {
 		// if (toBeShown.getType() == Address.TYPE_BILL_TO) {
@@ -308,7 +306,7 @@ public class CreditCardChargeView extends
 				payFromAccount));
 		payFrmSelect.setDisabled(isEdit);
 		paymentMethodSelected(creditCardChargeTaken.getPaymentMethod());
-		payMethSelect.setValue(paymentMethod);
+		payMethSelect.setSelected(paymentMethod);
 		vendorTransactionGrid.setCanEdit(false);
 		initMemoAndReference();
 		initTransactionViewData();
@@ -377,7 +375,7 @@ public class CreditCardChargeView extends
 						if (selectedVendor.getPaymentMethod() != null) {
 							paymentMethodSelected(selectedVendor
 									.getPaymentMethod());
-							payMethSelect.setValue(paymentMethod);
+							payMethSelect.setSelected(paymentMethod);
 
 						}
 						addPhonesContactsAndAddress();
@@ -385,13 +383,13 @@ public class CreditCardChargeView extends
 
 				});
 
-		contactNameSelect = new SelectItem(bankingConstants.contactName());
+		contactNameSelect = new SelectCombo(bankingConstants.contactName());
 		contactNameSelect.setHelpInformation(true);
 		contactNameSelect.setWidth(100);
 		formItems.add(contactNameSelect);
 		billToCombo = createBillToComboItem();
 		formItems.add(billToCombo);
-		phoneSelect = new SelectItem(bankingConstants.phone());
+		phoneSelect = new SelectCombo(bankingConstants.phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		forms.add(phoneForm);
@@ -632,8 +630,8 @@ public class CreditCardChargeView extends
 			creditCardCharge.setVendorAddress(billingAddress);
 
 		// setting phone
-		if (phoneSelect.getValue() != null)
-			creditCardCharge.setPhone(phoneSelect.getValue().toString());
+		if (phoneSelect.getSelectedValue() != null)
+			creditCardCharge.setPhone(phoneSelect.getSelectedValue());
 
 		// Setting payment method
 

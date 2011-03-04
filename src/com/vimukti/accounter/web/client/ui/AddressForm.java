@@ -8,16 +8,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 
 /**
@@ -29,7 +28,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 public class AddressForm extends DynamicForm {
 	LinkedHashMap<Integer, ClientAddress> allAddresses;
 	ClientAddress toBeShown = null;
-	public SelectItem businessSelect;
+	public SelectCombo businessSelect;
 	private TextAreaItem addrArea;
 
 	public AddressForm(Set<ClientAddress> addresses) {
@@ -41,23 +40,23 @@ public class AddressForm extends DynamicForm {
 
 		setAddresses(addresses);
 
-		businessSelect = new SelectItem(FinanceApplication
+		businessSelect = new SelectCombo(FinanceApplication
 				.getFinanceUIConstants().address());
 		businessSelect.setHelpInformation(true);
 		businessSelect.setWidth(85);
 		businessSelect.getMainWidget().removeStyleName(
 				FinanceApplication.getFinanceUIConstants().gwtListBox());
-		businessSelect.setValueMap(new ClientAddress().getAddressTypes());
-		businessSelect.setValueMap(new ClientAddress().getAddressTypes());
+		businessSelect.initCombo(new ClientAddress().getAddressTypes());
 
-		businessSelect.addChangeHandler(new ChangeHandler() {
+		businessSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				new AddressDialog("", "", addrArea, businessSelect.getValue()
-						.toString(), allAddresses);
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						new AddressDialog("", "", addrArea, businessSelect
+								.getSelectedValue(), allAddresses);
+					}
+				});
 
 		addrArea = new TextAreaItem();
 		addrArea.setHelpInformation(true);
@@ -67,8 +66,8 @@ public class AddressForm extends DynamicForm {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				new AddressDialog("", "", addrArea, businessSelect.getValue()
-						.toString(), allAddresses);
+				new AddressDialog("", "", addrArea, businessSelect
+						.getSelectedValue(), allAddresses);
 
 			}
 		});
@@ -77,14 +76,14 @@ public class AddressForm extends DynamicForm {
 
 			@Override
 			public void onFocus(FocusEvent event) {
-				new AddressDialog("", "", addrArea, businessSelect.getValue()
-						.toString(), allAddresses);
+				new AddressDialog("", "", addrArea, businessSelect
+						.getSelectedValue(), allAddresses);
 
 			}
 		});
 		if (toBeShown != null) {
-			businessSelect.setValue(toBeShown.getAddressTypes().get(
-					toBeShown.getType() + ""));
+			businessSelect.setSelected(toBeShown.getAddressTypes().get(
+					toBeShown.getType()));
 
 			String toToSet = new String();
 			if (toBeShown.getAddress1() != null
@@ -141,11 +140,11 @@ public class AddressForm extends DynamicForm {
 	@SuppressWarnings("unchecked")
 	public Set<ClientAddress> getAddresss() {
 		ClientAddress selectedAddress = allAddresses.get(UIUtils
-				.getAddressType(businessSelect.getValue().toString()));
+				.getAddressType(businessSelect.getSelectedValue()));
 		if (selectedAddress != null) {
 			selectedAddress.setIsSelected(true);
-			allAddresses.put(UIUtils.getAddressType((String) businessSelect
-					.getValue()), selectedAddress);
+			allAddresses.put(UIUtils.getAddressType(businessSelect
+					.getSelectedValue()), selectedAddress);
 		}
 		Collection add = allAddresses.values();
 		Set<ClientAddress> toBeSet = new HashSet<ClientAddress>();
@@ -163,11 +162,11 @@ public class AddressForm extends DynamicForm {
 	@SuppressWarnings("unchecked")
 	public List<ClientAddress> getAddresssList() {
 		ClientAddress selectedAddress = allAddresses.get(businessSelect
-				.getValue());
+				.getSelectedValue());
 		if (selectedAddress != null) {
 			selectedAddress.setIsSelected(true);
-			allAddresses.put(UIUtils.getAddressType((String) businessSelect
-					.getValue()), selectedAddress);
+			allAddresses.put(UIUtils.getAddressType(businessSelect
+					.getSelectedValue()), selectedAddress);
 		}
 		Collection add = allAddresses.values();
 		List<ClientAddress> toBeSet = new ArrayList<ClientAddress>();
@@ -182,8 +181,8 @@ public class AddressForm extends DynamicForm {
 		return toBeSet;
 	}
 
-	public void setSelectValueMap(LinkedHashMap<String, String> linkedHashMap) {
-		this.businessSelect.setValueMap(linkedHashMap);
+	public void setSelectValueMap(List<String> linkedHashMap) {
+		this.businessSelect.initCombo(linkedHashMap);
 	}
 
 	public void setAddress(List<ClientAddress> addresses) {

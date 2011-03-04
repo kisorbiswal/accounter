@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -23,6 +21,7 @@ import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -32,7 +31,6 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.TransactionIssuePaymentGrid;
 
@@ -43,7 +41,8 @@ import com.vimukti.accounter.web.client.ui.grids.TransactionIssuePaymentGrid;
 public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 	private PayFromAccountsCombo accountCombo;
-	private SelectItem payMethodSelect;
+	private SelectCombo payMethodSelect;
+	private List<String> payMethodItemList;
 
 	private TransactionIssuePaymentGrid grid;
 	private VerticalPanel gridLayout;
@@ -211,23 +210,27 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		setWidth("80");
 		mainPanel.setSpacing(3);
 
-		payMethodSelect = new SelectItem(FinanceApplication
+		payMethodSelect = new SelectCombo(FinanceApplication
 				.getFinanceUIConstants().paymentMethod());
 		payMethodSelect.setHelpInformation(true);
 		payMethodSelect.setRequired(true);
-		payMethodSelect
-				.setValueMap(new String[] {
-						"",
-						UIUtils
-								.getpaymentMethodCheckBy_CompanyType(AccounterConstants.PAYMENT_METHOD_CHECK) });
-		payMethodSelect.addChangeHandler(new ChangeHandler() {
+		payMethodItemList = new ArrayList<String>();
+		payMethodItemList
+				.add(UIUtils
+						.getpaymentMethodCheckBy_CompanyType(AccounterConstants.PAYMENT_METHOD_CHECK));
+		payMethodSelect.initCombo(payMethodItemList);
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				payMethodSelect.getValue().toString();
-				paymentMethodSelected(payMethodSelect.getValue().toString());
-			}
-		});
+		payMethodSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						payMethodSelect.getSelectedValue();
+						paymentMethodSelected(payMethodSelect
+								.getSelectedValue());
+					}
+
+				});
 
 		accountCombo = new PayFromAccountsCombo(FinanceApplication
 				.getFinanceUIConstants().account(), false);

@@ -8,12 +8,13 @@ import java.util.Set;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.vimukti.accounter.web.client.core.ClientEmail;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 /**
@@ -22,7 +23,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * 
  */
 public class EmailForm extends DynamicForm {
-	private SelectItem businesEmailSelect;
+	private SelectCombo businesEmailSelect;
 	private LinkedHashMap<Integer, ClientEmail> allEmails;
 	private ClientEmail toBeShownEmail = null;
 	private EmailField businesEmailText;
@@ -36,26 +37,27 @@ public class EmailForm extends DynamicForm {
 				.emailAndInternet());
 		setNumCols(4);
 
-		businesEmailSelect = new SelectItem(FinanceApplication
+		businesEmailSelect = new SelectCombo(FinanceApplication
 				.getFinanceUIConstants().email());
 		businesEmailSelect.setHelpInformation(true);
 		businesEmailSelect.setWidth(85);
 		businesEmailSelect.getMainWidget().removeStyleName("gwt-ListBox");
-		businesEmailSelect.setValueMap(new ClientEmail().getEmailTypes());
+		businesEmailSelect.initCombo(new ClientEmail().getEmailTypes());
 
-		businesEmailSelect.addChangeHandler(new ChangeHandler() {
+		businesEmailSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				ClientEmail e = allEmails
-						.get(UIUtils.getEmailType(businesEmailSelect.getValue()
-								.toString()));
-				if (e != null) {
-					businesEmailText.setEmail(e.getEmail());
-				} else
-					businesEmailText.setText("");
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						ClientEmail e = allEmails.get(UIUtils
+								.getEmailType(businesEmailSelect
+										.getSelectedValue().toString()));
+						if (e != null) {
+							businesEmailText.setEmail(e.getEmail());
+						} else
+							businesEmailText.setText("");
+					}
+				});
 
 		businesEmailText = new EmailField("");
 		businesEmailText.setHelpInformation(true);
@@ -74,10 +76,10 @@ public class EmailForm extends DynamicForm {
 					} else {
 						ClientEmail email = new ClientEmail();
 						email.setType(UIUtils.getEmailType(businesEmailSelect
-								.getValue().toString()));
+								.getSelectedValue()));
 						email.setEmail(em);
 						allEmails.put(UIUtils.getEmailType(businesEmailSelect
-								.getValue().toString()), email);
+								.getSelectedValue()), email);
 					}
 				}
 			}
@@ -90,8 +92,8 @@ public class EmailForm extends DynamicForm {
 		emptyItem.setShowTitle(false);
 
 		if (toBeShownEmail != null) {
-			businesEmailSelect.setValue(toBeShownEmail.getEmailTypes().get(
-					toBeShownEmail.getType() + ""));
+			businesEmailSelect.setSelected(toBeShownEmail.getEmailTypes().get(
+					toBeShownEmail.getType()));
 			businesEmailText.setEmail(toBeShownEmail.getEmail());
 		} else
 			businesEmailSelect.setDefaultToFirstOption(true);
@@ -121,8 +123,8 @@ public class EmailForm extends DynamicForm {
 	}
 
 	public Set<ClientEmail> getAllEmails() {
-		int selectedType = UIUtils.getEmailType(businesEmailSelect.getValue()
-				.toString());
+		int selectedType = UIUtils.getEmailType(businesEmailSelect
+				.getSelectedValue());
 		ClientEmail selectedEmailFromSelect = allEmails.get(selectedType);
 		if (selectedEmailFromSelect != null) {
 			selectedEmailFromSelect.setIsSelected(true);
