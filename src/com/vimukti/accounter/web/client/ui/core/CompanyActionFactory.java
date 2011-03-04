@@ -212,6 +212,12 @@ public class CompanyActionFactory extends AbstractActionFactory {
 				"/images/icons/banking/chart_of_accounts.png");
 	}
 
+	public static ChartOfAccountsAction getChartOfAccountsAction(int accountType) {
+		return new ChartOfAccountsAction(
+				actionsConstants.financeCategoryList(),
+				"/images/icons/banking/chart_of_accounts.png", accountType);
+	}
+
 	public static SalesPersonListsAction getSalesPersonListAction() {
 		return new SalesPersonListsAction(actionsConstants.SalesPersons(),
 				"/images/icons/vendors/pay_bills.png");
@@ -282,7 +288,7 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	// .newTaxItem());
 	// }
 
-	 public static AdjustTAXAction getAdjustTaxAction() {
-	 return new AdjustTAXAction(actionsConstants.taxAdjustment());
-	 }
+	public static AdjustTAXAction getAdjustTaxAction() {
+		return new AdjustTAXAction(actionsConstants.taxAdjustment());
+	}
 }
