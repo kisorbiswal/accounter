@@ -37,8 +37,16 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 	// private static String DELETE = "Deleted";
 	protected ClientFinanceDate startDate;
 	protected ClientFinanceDate endDate;
+	public String viewType;
 
 	public InvoiceListView() {
+		isDeleteDisable = true;
+		startDate = FinanceApplication.getStartDate();
+		endDate = Utility.getLastandOpenedFiscalYearEndDate();
+	}
+
+	public InvoiceListView(String viewType) {
+		this.viewType = viewType;
 		isDeleteDisable = true;
 		startDate = FinanceApplication.getStartDate();
 		endDate = Utility.getLastandOpenedFiscalYearEndDate();
@@ -110,7 +118,10 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 		viewSelect.setValueMap(OPEN, OVER_DUE, VOID, ALL
 		// , DELETE
 				);
-		viewSelect.setDefaultValue(OPEN);
+		if (viewType != null)
+			viewSelect.setDefaultValue(viewType);
+		else
+			viewSelect.setDefaultValue(OPEN);
 		if (UIUtils.isMSIEBrowser())
 			viewSelect.setWidth("150px");
 
@@ -181,9 +192,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 			if (text.equals(OVER_DUE)) {
 				if (invoice.getBalance() != null
 						&& DecimalUtil.isGreaterThan(invoice.getBalance(), 0)
-						&& (invoice.getDueDate().toString().compareTo(
-								dateFormat.format(new ClientFinanceDate()
-										.getDateAsObject())) < 0)
+						&& (invoice.getDueDate().compareTo(new ClientFinanceDate()) < 0)
 						&& !invoice.isVoided())
 					grid.addData(invoice);
 				continue;

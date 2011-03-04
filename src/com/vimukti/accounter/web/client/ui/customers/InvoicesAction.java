@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 public class InvoicesAction extends Action {
 
 	protected InvoiceListView view;
+	public String viewType;
 
 	public InvoicesAction(String text) {
 		super(text);
@@ -33,6 +34,11 @@ public class InvoicesAction extends Action {
 
 	}
 
+	public void run(Object data, Boolean isDependent, String viewType) {
+		this.viewType = viewType;
+		runAsync(data, isDependent);
+	}
+
 	public void runAsync(final Object data, final Boolean isDependent) {
 
 		AccounterAsync.createAsync(new CreateViewAsyncCallBack() {
@@ -40,8 +46,10 @@ public class InvoicesAction extends Action {
 			public void onCreated() {
 
 				try {
-
-					view = new InvoiceListView();
+					if (viewType == null)
+						view = new InvoiceListView();
+					else
+						view = new InvoiceListView(viewType);
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, InvoicesAction.this);
 					// UIUtils.setCanvas(view, getViewConfiguration());
@@ -74,9 +82,10 @@ public class InvoicesAction extends Action {
 	public ImageResource getSmallImage() {
 		return FinanceApplication.getFinanceMenuImages().invoices();
 	}
+
 	@Override
 	public String getImageUrl() {
-		
+
 		return "/images/invoices.png";
 	}
 }
