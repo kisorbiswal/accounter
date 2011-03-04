@@ -142,6 +142,7 @@ import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetLinkedAccountMap;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetList;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReviewJournal;
+import com.vimukti.accounter.web.client.core.Lists.GraphPoints;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.core.Lists.KeyFinancialIndicators;
@@ -11203,7 +11204,333 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
 		}
 	}
+	
+	public List getGraphPointsforAccount(int chartType, long accountNo) throws DAOException {
 
+		try {
+
+			Session session = HibernateUtil.getCurrentSession();
+			Query query = null;
+
+			FinanceDate currentDate = new FinanceDate();
+			
+			if (chartType == 1) {
+				
+				Calendar dateCal[] = new Calendar[3];
+				dateCal[3].setTime(currentDate.getAsDateObject());
+				
+				for (int i=2; i>=0 ; i--) {
+					dateCal[i].setTime(dateCal[i+1].getTime());
+					dateCal[i].set(Calendar.DATE, dateCal[i].get(Calendar.DATE) - 1);
+					
+					if (dateCal[i].get(Calendar.DATE) <= 0) {
+						dateCal[i].set(Calendar.MONTH, dateCal[i].get(Calendar.MONTH) - 1);
+						dateCal[i].set(Calendar.DATE, dateCal[i].getActualMaximum(Calendar.DATE) - dateCal[i].get(Calendar.DATE));
+					}
+					
+				}
+							
+				query = session.getNamedQuery("getPointsForBankAccount")
+									.setParameter("accountNo", accountNo)
+									.setParameter("previousThreeDaysBackDateCal", new FinanceDate(dateCal[0].getTime())
+									.getTime())
+									.setParameter("previousTwoDaysBackDateCal", new FinanceDate(dateCal[1].getTime())
+									.getTime())
+									.setParameter("previousOneDayBackDateCal", new FinanceDate(dateCal[2].getTime())
+									.getTime())
+									.setParameter("currentDateCal", new FinanceDate(dateCal[3].getTime())
+									.getTime());
+				
+			}
+			
+			if (chartType == 2) {
+
+				Calendar currentMonthStartDateCal = new GregorianCalendar();
+				currentMonthStartDateCal.setTime(currentDate.getAsDateObject());
+				currentMonthStartDateCal.set(Calendar.DATE, 1);
+
+				Calendar currentMonthEndDateCal = new GregorianCalendar();
+				currentMonthEndDateCal.setTime(currentDate.getAsDateObject());
+				currentMonthEndDateCal.set(Calendar.DATE,
+						currentMonthEndDateCal
+								.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+				Calendar previousFirstMonthStartDateCal = new GregorianCalendar();
+				previousFirstMonthStartDateCal.setTime(currentDate
+						.getAsDateObject());
+				previousFirstMonthStartDateCal.set(Calendar.MONTH,
+						previousFirstMonthStartDateCal.get(Calendar.MONTH) - 1);
+				previousFirstMonthStartDateCal.set(Calendar.DATE, 1);
+
+				Calendar previousFirstMonthEndDateCal = new GregorianCalendar();
+				previousFirstMonthEndDateCal.setTime(currentDate
+						.getAsDateObject());
+				previousFirstMonthEndDateCal.set(Calendar.MONTH,
+						previousFirstMonthEndDateCal.get(Calendar.MONTH) - 1);
+				previousFirstMonthEndDateCal.set(Calendar.DATE,
+						previousFirstMonthEndDateCal
+								.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+				Calendar previousSecondMonthStartDateCal = new GregorianCalendar();
+				previousSecondMonthStartDateCal.setTime(currentDate
+						.getAsDateObject());
+				previousSecondMonthStartDateCal
+						.set(Calendar.MONTH, previousSecondMonthStartDateCal
+								.get(Calendar.MONTH) - 2);
+				previousSecondMonthStartDateCal.set(Calendar.DATE, 1);
+
+				Calendar previousSecondMonthEndDateCal = new GregorianCalendar();
+				previousSecondMonthEndDateCal.setTime(currentDate
+						.getAsDateObject());
+				previousSecondMonthEndDateCal.set(Calendar.MONTH,
+						previousSecondMonthEndDateCal.get(Calendar.MONTH) - 2);
+				previousSecondMonthEndDateCal.set(Calendar.DATE,
+						previousSecondMonthEndDateCal
+								.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+				Calendar previousThirdMonthStartDateCal = new GregorianCalendar();
+				previousThirdMonthStartDateCal.setTime(currentDate
+						.getAsDateObject());
+				previousThirdMonthStartDateCal.set(Calendar.MONTH,
+						previousThirdMonthStartDateCal.get(Calendar.MONTH) - 3);
+				previousThirdMonthStartDateCal.set(Calendar.DATE, 1);
+
+				Calendar previousThirdMonthEndDateCal = new GregorianCalendar();
+				previousThirdMonthEndDateCal.setTime(currentDate
+						.getAsDateObject());
+				previousThirdMonthEndDateCal.set(Calendar.MONTH,
+						previousThirdMonthEndDateCal.get(Calendar.MONTH) - 3);
+				previousThirdMonthEndDateCal.set(Calendar.DATE,
+						previousThirdMonthEndDateCal
+								.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+				Calendar previousFourthMonthStartDateCal = new GregorianCalendar();
+				previousFourthMonthStartDateCal.setTime(currentDate
+						.getAsDateObject());
+				previousFourthMonthStartDateCal
+						.set(Calendar.MONTH, previousFourthMonthStartDateCal
+								.get(Calendar.MONTH) - 4);
+				previousFourthMonthStartDateCal.set(Calendar.DATE, 1);
+
+				Calendar previousFourthMonthEndDateCal = new GregorianCalendar();
+				previousFourthMonthEndDateCal.setTime(currentDate
+						.getAsDateObject());
+				previousFourthMonthEndDateCal.set(Calendar.MONTH,
+						previousFourthMonthEndDateCal.get(Calendar.MONTH) - 4);
+				previousFourthMonthEndDateCal.set(Calendar.DATE,
+						previousFourthMonthEndDateCal
+								.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+				Calendar previousFifthMonthStartDateCal = new GregorianCalendar();
+				previousFifthMonthStartDateCal.setTime(currentDate
+						.getAsDateObject());
+				previousFifthMonthStartDateCal.set(Calendar.MONTH,
+						previousFifthMonthStartDateCal.get(Calendar.MONTH) - 5);
+				previousFifthMonthStartDateCal.set(Calendar.DATE, 1);
+
+				Calendar previousFifthMonthEndDateCal = new GregorianCalendar();
+				previousFifthMonthEndDateCal.setTime(currentDate
+						.getAsDateObject());
+				previousFifthMonthEndDateCal.set(Calendar.MONTH,
+						previousFifthMonthEndDateCal.get(Calendar.MONTH) - 5);
+				previousFifthMonthEndDateCal.set(Calendar.DATE,
+						previousFifthMonthEndDateCal
+								.getActualMaximum(Calendar.DAY_OF_MONTH));
+			
+
+			query = session.getNamedQuery("getGraphPointsForDebtors")
+					.setParameter("previousFifthMonthStartDateCal",
+							new FinanceDate(previousFifthMonthStartDateCal.getTime())
+							.getTime())
+					.setParameter("previousFifthMonthEndDateCal",
+							new FinanceDate(previousFifthMonthEndDateCal.getTime())
+							.getTime())
+					.setParameter("previousFourthMonthStartDateCal",
+							new FinanceDate(previousFourthMonthStartDateCal.getTime())
+							.getTime())
+					.setParameter("previousFourthMonthEndDateCal",
+							new FinanceDate(previousFourthMonthEndDateCal.getTime())
+							.getTime())
+					.setParameter("previousThirdMonthStartDateCal",
+							new FinanceDate(previousThirdMonthStartDateCal.getTime())
+							.getTime())
+					.setParameter("previousThirdMonthEndDateCal",
+							new FinanceDate(previousThirdMonthEndDateCal.getTime())
+							.getTime())
+					.setParameter("previousSecondMonthStartDateCal",
+							new FinanceDate(previousSecondMonthStartDateCal.getTime())
+							.getTime())
+					.setParameter("previousSecondMonthEndDateCal",
+							new FinanceDate(previousSecondMonthEndDateCal.getTime())
+							.getTime())
+					.setParameter("previousFirstMonthStartDateCal",
+							new FinanceDate(previousFirstMonthStartDateCal.getTime())
+							.getTime())
+					.setParameter("previousFirstMonthEndDateCal",
+							new FinanceDate(previousFirstMonthEndDateCal.getTime())
+							.getTime())
+					.setParameter("currentMonthStartDateCal",
+							new FinanceDate(currentMonthStartDateCal.getTime())
+							.getTime())
+					.setParameter("currentMonthEndDateCal", new FinanceDate(currentMonthEndDateCal.getTime())
+							.getTime());
+			
+			}
+			
+			if (chartType == 3) {
+				
+				Calendar[] dateCal = new GregorianCalendar[30];
+				dateCal[0].setTime(currentDate.getAsDateObject());
+				
+				for (int i=1; i<30 ; i++) {
+					
+					dateCal[i].setTime(dateCal[i-1].getTime());
+					dateCal[i].set(Calendar.DATE, dateCal[i].get(Calendar.DATE) + 1);
+					
+					if (dateCal[i].get(Calendar.DATE) > dateCal[i].getActualMaximum(Calendar.DATE)) {
+											
+						dateCal[i].set(Calendar.DATE, dateCal[i].get(Calendar.DATE) - dateCal[i].getActualMaximum(Calendar.DATE));
+						dateCal[i].set(Calendar.MONTH, dateCal[i].get(Calendar.MONTH) + 1);
+					}					
+				}
+				
+				query = session.getNamedQuery("getGraphPointsForCreditors")
+									.setParameter("currentDate", new FinanceDate(dateCal[0].getTime()).getTime())
+									.setParameter("oneDayAfterToCurrentDate", new FinanceDate(dateCal[1].getTime()).getTime())
+									.setParameter("twoDaysAfterToCurrentDate", new FinanceDate(dateCal[2].getTime()).getTime())
+									.setParameter("threeDaysAfterToCurrentDate", new FinanceDate(dateCal[3].getTime()).getTime())
+									.setParameter("fourDaysAfterToCurrentDate", new FinanceDate(dateCal[4].getTime()).getTime())
+									.setParameter("fiveDaysAfterToCurrentDate", new FinanceDate(dateCal[5].getTime()).getTime())
+									.setParameter("sixDaysAfterToCurrentDate", new FinanceDate(dateCal[6].getTime()).getTime())
+									.setParameter("sevenDaysAfterToCurrentDate", new FinanceDate(dateCal[7].getTime()).getTime())
+									.setParameter("eightDaysAfterToCurrentDate", new FinanceDate(dateCal[8].getTime()).getTime())
+									.setParameter("nineDaysAfterToCurrentDate", new FinanceDate(dateCal[9].getTime()).getTime())
+									.setParameter("tenDaysAfterToCurrentDate", new FinanceDate(dateCal[10].getTime()).getTime())
+									.setParameter("elevenDaysAfterToCurrentDate", new FinanceDate(dateCal[11].getTime()).getTime())
+									.setParameter("twelveDaysAfterToCurrentDate", new FinanceDate(dateCal[12].getTime()).getTime())
+									.setParameter("thirteenDaysAfterToCurrentDate", new FinanceDate(dateCal[13].getTime()).getTime())
+									.setParameter("fourteenDaysAfterToCurrentDate", new FinanceDate(dateCal[14].getTime()).getTime())
+									.setParameter("fifteenDaysAfterToCurrentDate", new FinanceDate(dateCal[15].getTime()).getTime())
+									.setParameter("sixteenDaysAfterToCurrentDate", new FinanceDate(dateCal[16].getTime()).getTime())
+									.setParameter("seventeenDaysAfterToCurrentDate", new FinanceDate(dateCal[17].getTime()).getTime())
+									.setParameter("eighteenDaysAfterToCurrentDate", new FinanceDate(dateCal[18].getTime()).getTime())
+									.setParameter("nineteenDaysAfterToCurrentDate", new FinanceDate(dateCal[19].getTime()).getTime())
+									.setParameter("twentyDaysAfterToCurrentDate", new FinanceDate(dateCal[20].getTime()).getTime())
+									.setParameter("twentyOneDaysAfterToCurrentDate", new FinanceDate(dateCal[21].getTime()).getTime())
+									.setParameter("twentyTwoDaysAfterToCurrentDate", new FinanceDate(dateCal[22].getTime()).getTime())
+									.setParameter("twentyThreeDaysAfterToCurrentDate", new FinanceDate(dateCal[23].getTime()).getTime())
+									.setParameter("twentyFourDaysAfterToCurrentDate", new FinanceDate(dateCal[24].getTime()).getTime())
+									.setParameter("twentyFiveDaysAfterToCurrentDate", new FinanceDate(dateCal[25].getTime()).getTime())
+									.setParameter("twentySixDaysAfterToCurrentDate", new FinanceDate(dateCal[26].getTime()).getTime())
+									.setParameter("twentySevenDaysAfterToCurrentDate", new FinanceDate(dateCal[27].getTime()).getTime())
+									.setParameter("twentyEightDaysAfterToCurrentDate", new FinanceDate(dateCal[28].getTime()).getTime())
+									.setParameter("twentyNineDaysAfterToCurrentDate", new FinanceDate(dateCal[29].getTime()).getTime())
+									.setParameter("thirtyDaysAfterToCurrentDate", new FinanceDate(dateCal[30].getTime()).getTime());	
+//									.setParameter("thirtyOneDaysAfterToCurrentDate", new FinanceDate(dateCal[31].getTime()).getTime());
+				
+			}
+			
+			if (chartType == 4)
+				query = session.getNamedQuery("getExpenseTotalAmounts");
+			
+
+			List<GraphPoints> list = query.list();
+			if (list != null) {
+				Object[] object = null;
+				Iterator iterator = list.iterator();
+				List<GraphPoints> graphPoints = new ArrayList<GraphPoints>();
+
+				while (iterator.hasNext()) {
+					object = (Object[]) iterator.next();
+					GraphPoints gPoints = new GraphPoints();
+					gPoints.setAccountName((String) object[1]);
+					gPoints.setFirstPoint(object[2] == null ? null
+							: (Double) object[2]);
+					gPoints.setSecondPoint(object[3] == null ? null
+							: (Double) object[3]);
+					gPoints.setThirdPoint(object[4] == null ? null
+							: (Double) object[4]);
+					gPoints.setFourthPoint(object[5] == null ? null
+							: (Double) object[5]);
+					
+					if (chartType == 2 || chartType == 3) {
+						
+					gPoints.setFifthPoint(object[6] == null ? null
+							: (Double) object[6]);
+					gPoints.setSixthPoint(object[7] == null ? null
+							: (Double) object[7]);
+					}
+					
+					if (chartType == 3) {
+						
+						gPoints.setSeventhPoint(object[8] == null ? null
+								: (Double) object[8]);
+						gPoints.setEighthPoint(object[9] == null ? null
+								: (Double) object[9]);
+						gPoints.setNinthPoint(object[10] == null ? null
+								: (Double) object[10]);
+						gPoints.setTenthPoint(object[11] == null ? null
+								: (Double) object[11]);
+						gPoints.setEleventhpoint(object[12] == null ? null
+								: (Double) object[12]);
+						gPoints.setTwelthPoint(object[13] == null ? null
+								: (Double) object[13]);
+						gPoints.setThirtinthPoint(object[14] == null ? null
+								: (Double) object[14]);
+						gPoints.setFourtinthPoint(object[15] == null ? null
+								: (Double) object[15]);
+						gPoints.setFiftinthPoint(object[16] == null ? null
+								: (Double) object[16]);
+						gPoints.setSixtinthPoint(object[17] == null ? null
+								: (Double) object[17]);
+						gPoints.setSeventinthPoint(object[18] == null ? null
+								: (Double) object[18]);
+						gPoints.setEightinthPoint(object[19] == null ? null
+								: (Double) object[19]);
+						gPoints.setNinetinthPoint(object[20] == null ? null
+								: (Double) object[20]);
+						gPoints.setTwentythPoint(object[21] == null ? null
+								: (Double) object[21]);
+						
+						gPoints.setTwentyFirstPoint(object[22] == null ? null
+								: (Double) object[22]);
+						gPoints.setTwentySecondPoint(object[23] == null ? null
+								: (Double) object[23]);
+						gPoints.setTwentyThirdPoint(object[24] == null ? null
+								: (Double) object[24]);
+						gPoints.setTwentyFourthPoint(object[25] == null ? null
+								: (Double) object[25]);
+						gPoints.setTwentyFifthPoint(object[26] == null ? null
+								: (Double) object[26]);
+						gPoints.setTwentySixthPoint(object[27] == null ? null
+								: (Double) object[27]);
+						gPoints.setTwentySeventhPoint(object[28] == null ? null
+								: (Double) object[28]);
+						gPoints.setTwentyEighthPoint(object[29] == null ? null
+								: (Double) object[29]);
+						gPoints.setTwentyNinethPoint(object[30] == null ? null
+								: (Double) object[30]);
+						gPoints.setThirtythPoint(object[31] == null ? null
+								: (Double) object[31]);
+						gPoints.setThirtyFirstPoint(object[32] == null ? null
+								: (Double) object[32]);
+						
+					}
+					
+					graphPoints.add(gPoints);
+					
+					
+
+				}
+				return graphPoints;
+			} else
+				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
+						null));
+		} catch (DAOException e) {
+			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+		}
+	}
+	
 }
 
 // throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
