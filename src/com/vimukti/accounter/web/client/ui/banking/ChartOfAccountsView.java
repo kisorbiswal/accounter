@@ -30,9 +30,16 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	protected List<ClientAccount> allAccounts;
 	private ClientAccount toBeDelete;
 	private List<ClientAccount> listOfAccounts;
+	public int typeOfAccount;
 
 	public ChartOfAccountsView() {
+		this(0);
+		isDeleteDisable = true;
+	}
+
+	public ChartOfAccountsView(int type) {
 		super();
+		typeOfAccount = type;
 		isDeleteDisable = true;
 	}
 
@@ -89,7 +96,11 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 		grid = new ChartOfAccountsListGrid(false);
 		grid.init();
 		// grid.setHeight("200");
-		listOfAccounts = FinanceApplication.getCompany().getAccounts();
+		if (typeOfAccount == 0)
+			listOfAccounts = FinanceApplication.getCompany().getAccounts();
+		else
+			listOfAccounts = FinanceApplication.getCompany().getAccounts(
+					typeOfAccount);
 		filterList(true);
 	}
 
@@ -151,8 +162,8 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 			case AccounterCommand.DELETION_SUCCESS:
 				if (obj != null) {
 					grid.deleteRecord(grid.indexOf(obj));
-					if(records!=null)
-					records.remove(obj);
+					if (records != null)
+						records.remove(obj);
 				}
 				break;
 
