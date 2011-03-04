@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -93,17 +94,22 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 				});
 
 		Ccard.setRequired(true);
+		String listString[] = new String[] {
+				FinanceApplication.getVendorsMessages().cash(),
+				UIUtils.getpaymentMethodCheckBy_CompanyType(FinanceApplication
+						.getCustomersMessages().check()),
+				FinanceApplication.getVendorsMessages().creditCard(),
+				FinanceApplication.getVendorsMessages().directDebit(),
+				FinanceApplication.getVendorsMessages().masterCard(),
+				FinanceApplication.getVendorsMessages().onlineBanking(),
+				FinanceApplication.getVendorsMessages().standingOrder(),
+				FinanceApplication.getVendorsMessages().switchMaestro() };
 
-		payMethSelect.setValueMap(FinanceApplication.getVendorsMessages()
-				.cash(), UIUtils
-				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
-						.getCustomersMessages().check()), FinanceApplication
-				.getVendorsMessages().creditCard(), FinanceApplication
-				.getVendorsMessages().directDebit(), FinanceApplication
-				.getVendorsMessages().masterCard(), FinanceApplication
-				.getVendorsMessages().onlineBanking(), FinanceApplication
-				.getVendorsMessages().standingOrder(), FinanceApplication
-				.getVendorsMessages().switchMaestro());
+		selectedComboList = new ArrayList<String>();
+		for (int i = 0; i < listString.length; i++) {
+			selectedComboList.add(listString[i]);
+		}
+		payMethSelect.initCombo(selectedComboList);
 
 		termsForm.setFields(payMethSelect, payFrmSelect, cheqNoText, delivDate);
 		HorizontalPanel hPanel = (HorizontalPanel) termsForm.getParent();
@@ -202,7 +208,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 		// setting memo
 		creditCardCharge.setMemo(getMemoTextAreaItem());
 		// setting ref
-//		creditCardCharge.setReference(UIUtils.toStr(refText.getValue()));
+		// creditCardCharge.setReference(UIUtils.toStr(refText.getValue()));
 
 		transactionObject = creditCardCharge;
 

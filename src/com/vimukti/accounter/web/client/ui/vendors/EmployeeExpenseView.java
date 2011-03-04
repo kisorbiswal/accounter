@@ -115,16 +115,22 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		employee.setHelpInformation(true);
 		employee.setRequired(true);
 
-		paymentMethodCombo.setValueMap(FinanceApplication.getVendorsMessages()
-				.cash(), UIUtils
-				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
-						.getCustomersMessages().check()), FinanceApplication
-				.getVendorsMessages().creditCard(), FinanceApplication
-				.getVendorsMessages().directDebit(), FinanceApplication
-				.getVendorsMessages().masterCard(), FinanceApplication
-				.getVendorsMessages().onlineBanking(), FinanceApplication
-				.getVendorsMessages().standingOrder(), FinanceApplication
-				.getVendorsMessages().switchMaestro());
+		String listString[] = new String[] {
+				FinanceApplication.getVendorsMessages().cash(),
+				UIUtils.getpaymentMethodCheckBy_CompanyType(FinanceApplication
+						.getCustomersMessages().check()),
+				FinanceApplication.getVendorsMessages().creditCard(),
+				FinanceApplication.getVendorsMessages().directDebit(),
+				FinanceApplication.getVendorsMessages().masterCard(),
+				FinanceApplication.getVendorsMessages().onlineBanking(),
+				FinanceApplication.getVendorsMessages().standingOrder(),
+				FinanceApplication.getVendorsMessages().switchMaestro() };
+		selectedComboList = new ArrayList<String>();
+		for (int i = 0; i < listString.length; i++) {
+			selectedComboList.add(listString[i]);
+		}
+
+		paymentMethodCombo.initCombo(selectedComboList);
 
 		vendorForm.setFields(employee);
 		termsForm.setFields(paymentMethodCombo, payFromCombo, checkNo);

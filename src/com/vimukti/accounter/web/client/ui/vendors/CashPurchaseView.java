@@ -22,12 +22,12 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
-import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
@@ -41,7 +41,7 @@ public class CashPurchaseView extends
 
 	protected DynamicForm vendorForm;
 	protected DynamicForm termsForm;
-
+	public List<String> selectedComboList;
 	private ArrayList<DynamicForm> listforms;
 	protected Label titlelabel;
 
@@ -118,10 +118,9 @@ public class CashPurchaseView extends
 		billToCombo = createBillToComboItem();
 		billToCombo.setHelpInformation(true);
 		billToCombo.setWidth(100);
-		phoneSelect = new ComboBoxItem();
+		phoneSelect = new SelectCombo(vendorConstants.phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
-		phoneSelect.setTitle(vendorConstants.phone());
 		if (transactionObject != null)
 			phoneSelect.setDisabled(true);
 

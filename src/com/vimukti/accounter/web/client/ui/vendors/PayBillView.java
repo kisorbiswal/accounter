@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -53,7 +54,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	protected AmountField cashDiscountTextItem;
 	protected AmountField creditTextItem;
 	public AmountLabel unUsedCreditsText;
-	protected SelectItem vendorPaymentMethodCombo;
+	protected SelectCombo vendorPaymentMethodCombo;
 
 	protected List<PayBillTransactionList> paybillTransactionList;
 	protected List<PayBillTransactionList> filterList;

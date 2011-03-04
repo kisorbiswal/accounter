@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
@@ -41,7 +42,6 @@ import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
-import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -155,16 +155,17 @@ public class PurchaseOrderView extends
 		billToCombo.setTitle(FinanceApplication.getVendorsMessages().billTo());
 		shipToCombo = createShipToComboItem();
 
-		phoneSelect = new ComboBoxItem();
+		phoneSelect = new SelectCombo(vendorConstants.phone());
 		phoneSelect.setHelpInformation(true);
-		phoneSelect.setTitle(vendorConstants.phone());
-		phoneSelect.addChangeHandler(new ChangeHandler() {
+		phoneSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				phoneNo = phoneSelect.getValue().toString();
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						phoneNo = phoneSelect.getSelectedValue();
+					}
+
+				});
 		phoneSelect.setDisabled(false);
 
 		formItems.add(phoneSelect);

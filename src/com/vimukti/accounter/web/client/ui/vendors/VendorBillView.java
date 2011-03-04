@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -37,7 +38,6 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
-import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -104,7 +104,7 @@ public class VendorBillView extends
 		billToCombo.initCombo(adrsList);
 		contactCombo.setDisabled(isEdit);
 		billToCombo.setDisabled(isEdit);
-	phoneSelect.setValueMap();
+		// phoneSelect.setValueMap();
 		setMemoTextAreaItem("");
 		// setRefText("");
 
@@ -379,10 +379,9 @@ public class VendorBillView extends
 		formItems.add(contactCombo);
 		formItems.add(billToCombo);
 
-		phoneSelect = new ComboBoxItem();
+		phoneSelect = new SelectCombo(vendorConstants.phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(80);
-		phoneSelect.setTitle(vendorConstants.phone());
 		phoneSelect.setDisabled(false);
 		formItems.add(phoneSelect);
 
@@ -480,7 +479,6 @@ public class VendorBillView extends
 
 		netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + 102)
 				+ "px");
-
 
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);

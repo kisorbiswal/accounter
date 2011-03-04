@@ -28,12 +28,12 @@ import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
-import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
@@ -82,10 +82,11 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 	// payFromCombo;
 
-	protected ComboBoxItem phoneSelect;
+	protected SelectCombo phoneSelect;
 	protected String[] phoneList;
 	protected String phoneNo;
 
+	protected List<String> phoneSelectItemList;
 	protected Set<ClientAddress> addressListOfVendor;
 	protected List<ClientAccount> payFromAccounts;
 	protected ClientAddress billingAddress;

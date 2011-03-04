@@ -27,11 +27,11 @@ import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
-import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -123,10 +123,9 @@ public class ItemReceiptView extends
 		contactCombo.setWidth(100);
 		billToCombo = createBillToComboItem();
 		billToCombo.setWidth(100);
-		phoneSelect = new ComboBoxItem();
+		phoneSelect = new SelectCombo(vendorConstants.phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
-		phoneSelect.setTitle(vendorConstants.phone());
 		phoneSelect.setDisabled(false);
 
 		formItems.add(phoneSelect);
@@ -170,8 +169,8 @@ public class ItemReceiptView extends
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
-//		refText = createRefereceText();
-//		refText.setWidth(100);
+		// refText = createRefereceText();
+		// refText.setWidth(100);
 		DynamicForm vatCheckform = new DynamicForm();
 		// vatCheckform.setFields(vatinclusiveCheck);
 		DynamicForm totalForm = new DynamicForm();
@@ -329,7 +328,7 @@ public class ItemReceiptView extends
 			if (itemReceipt != null) {
 
 				memoTextAreaItem.setValue(itemReceipt.getMemo());
-//				refText.setValue(itemReceipt.getReference());
+				// refText.setValue(itemReceipt.getReference());
 
 			}
 
@@ -345,7 +344,7 @@ public class ItemReceiptView extends
 		this.contact = itemReceipt.getContact();
 		if (itemReceipt.getPhone() != null)
 			this.phoneNo = itemReceipt.getPhone();
-		phoneSelect.setValue(this.phoneNo);
+		phoneSelect.setSelected(this.phoneNo);
 		// this.ve = itemReceipt.getVendorAddress();
 		this.billingAddress = itemReceipt.getVendorAddress();
 		this.paymentTerm = company
@@ -373,8 +372,8 @@ public class ItemReceiptView extends
 		}
 		if (itemReceipt.getMemo() != null)
 			memoTextAreaItem.setValue(itemReceipt.getMemo());
-//		if (itemReceipt.getReference() != null)
-//			refText.setValue(itemReceipt.getReference());
+		// if (itemReceipt.getReference() != null)
+		// refText.setValue(itemReceipt.getReference());
 	}
 
 	@Override
@@ -417,7 +416,7 @@ public class ItemReceiptView extends
 						.getTime());
 
 			itemReceipt.setMemo(getMemoTextAreaItem());
-//			itemReceipt.setReference(getRefText());
+			// itemReceipt.setReference(getRefText());
 			itemReceipt.setTotal(vendorTransactionGrid.getTotal());
 
 			if (vatinclusiveCheck != null)
@@ -464,7 +463,7 @@ public class ItemReceiptView extends
 						clientItem.setTaxCode(item.getTaxCode());
 						clientItem.setTaxable(item.isTaxable());
 					}
-		
+
 					clientItem.setQuantity(item.getQuantity());
 					clientItem.setUnitPrice(item.getUnitPrice());
 					clientItem.setDiscount(item.getDiscount());

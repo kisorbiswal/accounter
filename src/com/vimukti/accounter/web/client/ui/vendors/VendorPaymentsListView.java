@@ -4,19 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.grids.VendorPaymentsListGrid;
 
 /**
@@ -28,7 +27,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 
 	protected List<PaymentsList> allPayments;
 	private VendorsMessages vendorConstants = GWT.create(VendorsMessages.class);
-	private SelectItem currentView;
+	private SelectCombo currentView;
 
 	private VendorPaymentsListView() {
 
@@ -88,39 +87,38 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 	}
 
 	@Override
-	protected SelectItem getSelectItem() {
-		currentView = new SelectItem(FinanceApplication.getVendorsMessages()
+	protected SelectCombo getSelectItem() {
+		currentView = new SelectCombo(FinanceApplication.getVendorsMessages()
 				.currentView());
 		currentView.setHelpInformation(true);
-		currentView.setValueMap(FinanceApplication.getVendorsMessages()
-				.notIssued(), FinanceApplication.getVendorsMessages().issued(),
-				FinanceApplication.getVendorsMessages().Voided(),
-				FinanceApplication.getVendorsMessages().all()
-		// "Deleted"
-				);
-
+		listOfTypes = new ArrayList<String>();
+		listOfTypes.add(FinanceApplication.getVendorsMessages().notIssued());
+		listOfTypes.add(FinanceApplication.getVendorsMessages().issued());
+		listOfTypes.add(FinanceApplication.getVendorsMessages().Voided());
+		listOfTypes.add(FinanceApplication.getVendorsMessages().all());
+		currentView.initCombo(listOfTypes);
 		if (UIUtils.isMSIEBrowser())
 			currentView.setWidth("150px");
 
 		currentView.setDefaultValue(FinanceApplication.getVendorsMessages()
 				.all());
-		currentView.addChangeHandler(new ChangeHandler() {
+		currentView
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@SuppressWarnings("unchecked")
-			@Override
-			public void onChange(ChangeEvent event) {
-				if (viewSelect.getValue() != null) {
-					grid.setViewType(currentView.getValue().toString());
-					filterList(currentView.getValue().toString());
-				}
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						if (viewSelect.getSelectedValue() != null) {
+							grid.setViewType(currentView.getSelectedValue());
+							filterList(currentView.getSelectedValue());
+						}
+					}
+				});
 		return currentView;
 	}
 
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		if (currentView.getValue().toString().equalsIgnoreCase("Not Issued")) {
+		if (currentView.getSelectedValue().equalsIgnoreCase("Not Issued")) {
 			List<PaymentsList> notIssuedRecs = new ArrayList<PaymentsList>();
 			List<PaymentsList> allRecs = initialRecords;
 			for (PaymentsList rec : allRecs) {
@@ -130,7 +128,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 				}
 			}
 			grid.setRecords(notIssuedRecs);
-		} else if (currentView.getValue().toString().equalsIgnoreCase("Issued")) {
+		} else if (currentView.getSelectedValue().equalsIgnoreCase("Issued")) {
 			List<PaymentsList> issued = new ArrayList<PaymentsList>();
 			List<PaymentsList> allRecs = initialRecords;
 			for (PaymentsList rec : allRecs) {
@@ -140,7 +138,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 				}
 			}
 			grid.setRecords(issued);
-		} else if (currentView.getValue().toString().equalsIgnoreCase("Voided")) {
+		} else if (currentView.getSelectedValue().equalsIgnoreCase("Voided")) {
 			List<PaymentsList> voidedRecs = new ArrayList<PaymentsList>();
 			List<PaymentsList> allRecs = initialRecords;
 			for (PaymentsList rec : allRecs) {
@@ -164,7 +162,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 		// grid.setRecords(deletedRecs);
 		//
 		// }
-		if (currentView.getValue().toString().equalsIgnoreCase("All")) {
+		if (currentView.getSelectedValue().equalsIgnoreCase("All")) {
 			grid.setRecords(initialRecords);
 		}
 		if (grid.getRecords().isEmpty())

@@ -1,10 +1,9 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
@@ -13,10 +12,11 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.grids.PurchaseOrderListGrid;
 
 public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
@@ -124,24 +124,29 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 		grid.setViewType(OPEN);
 	}
 
-	protected SelectItem getSelectItem() {
-		viewSelect = new SelectItem(FinanceApplication.getVendorsMessages()
+	protected SelectCombo getSelectItem() {
+		listOfTypes = new ArrayList<String>();
+		viewSelect = new SelectCombo(FinanceApplication.getVendorsMessages()
 				.currentView());
-		viewSelect.setValueMap(OPEN, COMPLETED, CANCELLED);
+		listOfTypes.add(OPEN);
+		listOfTypes.add(COMPLETED);
+		listOfTypes.add(CANCELLED);
+		viewSelect.initCombo(listOfTypes);
 		viewSelect.setDefaultValue(OPEN);
 		if (UIUtils.isMSIEBrowser())
 			viewSelect.setWidth("120px");
-		viewSelect.addChangeHandler(new ChangeHandler() {
+		viewSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				if (viewSelect.getValue() != null) {
-					grid.setViewType(viewSelect.getValue().toString());
-					filterList(viewSelect.getValue().toString());
-				}
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						if (viewSelect.getSelectedValue() != null) {
+							grid.setViewType(viewSelect.getSelectedValue());
+							filterList(viewSelect.getSelectedValue());
+						}
 
-			}
-		});
+					}
+				});
 
 		return viewSelect;
 	}
