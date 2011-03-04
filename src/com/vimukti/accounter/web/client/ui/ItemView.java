@@ -208,7 +208,7 @@ public class ItemView extends BaseView<ClientItem> {
 			else
 				itemForm.setFields(nameText, skuText, weightText);
 		}
-		itemForm.getCellFormatter().setWidth(0, 0, "118");
+		itemForm.getCellFormatter().setWidth(0, 0, "135");
 		salesDescArea = new TextAreaItem();
 		salesDescArea.setHelpInformation(true);
 		salesDescArea.setWidth(100);
@@ -272,7 +272,7 @@ public class ItemView extends BaseView<ClientItem> {
 				.standardcost());
 		stdCostForm.setFields(stdCostText);
 		stdCostForm.setWidth("95%");
-		stdCostForm.getCellFormatter().setWidth(0, 0, "120");
+		stdCostForm.getCellFormatter().setWidth(0, 0, "140");
 		// itemGroupCombo = new ItemGroupCombo(FinanceApplication
 		// .getFinanceUIConstants().itemGroup());
 		itemGroupCombo = new ItemGroupCombo(
@@ -424,7 +424,7 @@ public class ItemView extends BaseView<ClientItem> {
 			itemInfoForm.setFields(itemGroupCombo, taxCode, activeCheck);
 		else
 			itemInfoForm.setFields(itemGroupCombo, activeCheck);
-		itemInfoForm.getCellFormatter().setWidth(0, 0, "130");
+		itemInfoForm.getCellFormatter().setWidth(0, 0, "145");
 		purchaseInfoForm = UIUtils.form(FinanceApplication
 				.getFinanceUIConstants().purchaseInformation());
 		purchaseInfoForm.setNumCols(2);
