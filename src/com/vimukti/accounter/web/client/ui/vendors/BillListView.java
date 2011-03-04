@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -13,6 +11,8 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
@@ -35,7 +35,7 @@ public class BillListView extends BaseListView<BillsList> {
 	protected List<BillsList> allEnterBills;
 	private VendorsMessages vendorsConstants = GWT
 			.create(VendorsMessages.class);
-	private SelectItem currentView;
+	private SelectCombo currentView;
 	public String viewType;
 
 	private BillListView() {
@@ -85,16 +85,17 @@ public class BillListView extends BaseListView<BillsList> {
 	}
 
 	@Override
-	protected SelectItem getSelectItem() {
-		currentView = new SelectItem(FinanceApplication.getVendorsMessages()
+	protected SelectCombo getSelectItem() {
+		currentView = new SelectCombo(FinanceApplication.getVendorsMessages()
 				.currentView());
 		currentView.setHelpInformation(true);
-		currentView.setValueMap(FinanceApplication.getVendorsMessages().open(),
-				FinanceApplication.getVendorsMessages().Voided(),
-				FinanceApplication.getVendorsMessages().overDue(),
-				FinanceApplication.getVendorsMessages().all()
-		// , "Deleted"
-				);
+		listOfTypes = new ArrayList<String>();
+		listOfTypes.add(FinanceApplication.getVendorsMessages().open());
+		listOfTypes.add(FinanceApplication.getVendorsMessages().Voided());
+		listOfTypes.add(FinanceApplication.getVendorsMessages().overDue());
+		listOfTypes.add(FinanceApplication.getVendorsMessages().all());
+		currentView.initCombo(listOfTypes);
+
 		if (UIUtils.isMSIEBrowser())
 			currentView.setWidth("150px");
 
@@ -103,18 +104,17 @@ public class BillListView extends BaseListView<BillsList> {
 		else
 			currentView.setSelected(FinanceApplication.getCustomersMessages()
 					.all());
+		currentView
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-		currentView.addChangeHandler(new ChangeHandler() {
-
-			@SuppressWarnings("unchecked")
-			@Override
-			public void onChange(ChangeEvent event) {
-				if (currentView.getValue() != null) {
-					grid.setViewType(currentView.getValue().toString());
-					filterList(currentView.getValue().toString());
-				}
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						if (currentView.getSelectedValue() != null) {
+							grid.setViewType(currentView.getSelectedValue());
+							filterList(currentView.getSelectedValue());
+						}
+					}
+				});
 		return currentView;
 	}
 

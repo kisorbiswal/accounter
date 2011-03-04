@@ -117,8 +117,8 @@ public class MainFinanceWindow extends VerticalPanel {
 	}
 
 	private native void removeLoadingImage() /*-{
-		var parent=$wnd.document.getElementById('loadingWrapper');
-		parent.style.visibility='hidden';
+		var parent = $wnd.document.getElementById('loadingWrapper');
+		parent.style.visibility = 'hidden';
 	}-*/;
 
 	private void createControls() {
