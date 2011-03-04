@@ -1,5 +1,13 @@
 package com.vimukti.accounter.web.client.ui.widgets;
 
+import com.google.gwt.dom.client.Style.Cursor;
+import com.google.gwt.dom.client.Style.TextDecoration;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -106,9 +114,48 @@ public class BizDecorPanel extends FlexTable {
 	 * @param title
 	 */
 	private void setPanelTitle(String title) {
-		Label panelTitle = new Label(title);
+		final Label panelTitle = new Label(title);
 		panelTitle.addStyleName("panel-title");
+		panelTitle.addMouseOverHandler(new MouseOverHandler() {
+
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				// TODO Auto-generated method stub
+				panelTitle.getElement().getStyle().setCursor(getTitleCursor());
+				panelTitle.getElement().getStyle().setTextDecoration(
+						getTitleDecoration());
+			}
+		});
+		panelTitle.addMouseOutHandler(new MouseOutHandler() {
+
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				// TODO Auto-generated method stub
+				panelTitle.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
+			}
+		});
+		panelTitle.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				titleClicked();
+			}
+		});
 		TC.add(panelTitle);
+	}
+
+	public Cursor getTitleCursor() {
+		return Cursor.AUTO;
+	}
+
+	public TextDecoration getTitleDecoration() {
+		return TextDecoration.NONE;
+	}
+
+	public void titleClicked() {
+
 	}
 
 	/**
