@@ -10,11 +10,11 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.grids.ChartOfAccountsListGrid;
 
 /**
@@ -23,7 +23,7 @@ import com.vimukti.accounter.web.client.ui.grids.ChartOfAccountsListGrid;
  * 
  */
 public class ChartOfAccountsView extends BaseListView<ClientAccount> {
-	SelectItem viewSelect;
+	SelectCombo viewSelect;
 	Label addAccLabel, hierLabel, lab1;
 
 	BankingMessages bankingConstants = GWT.create(BankingMessages.class);
