@@ -15,7 +15,9 @@ body {
   width:960px !important;
   overflow:auto !important;
 }
-
+html,body{
+	height:100% !important;
+}
 .widget img {
 	margin-top: 3px;
 	cursor: pointer;
@@ -108,7 +110,7 @@ h1 {
 	/*border: 2px solid #CCCCCC;   praveena */
 	padding: 6px;
 	margin-left:3px;
-    margin-top:-2px;
+   /* margin-top:-2px; praveena*/
 }
 
 .listgridViewBottom {
@@ -173,13 +175,14 @@ h1 {
 }
 
 .financeWindow {
-	padding: 3px;
+	/* padding: 3px; praveena */
 	/*margin: 0 auto;*/
 }
 
 .noScroll {
-	overflow-y: hidden !important;
-	overflow-x: hidden !important;
+	background:none repeat scroll 0 0 white !important;
+	height:100% !important;
+	overflow:hidden !important;
 }
 
 .actionOver {
@@ -410,7 +413,7 @@ table tr.ReportGridRow:HOVER {
 }
 
 .align-form td:first-child {
-	width: 50px;
+	/*width: 50px;*/
 }
 
 .equal-columns td {
@@ -452,9 +455,7 @@ table tr.ReportGridRow:HOVER {
 }
 
 .link {
-	background: transparent url(images/help-icon.png) no-repeat scroll 0 1px
-		;
-	margin-right: 5px;
+	background: transparent url(images/settings.png) no-repeat scroll 0 1px;
 }
 
 .finance-portlet .portlet {
@@ -467,11 +468,11 @@ div.refresh:hover {
 		1px;
 }
 
-/*
 div.link:hover {
 	background: transparent url(images/settings.png) no-repeat scroll 0
-		-15px/
-}*/
+		-15px;
+}
+
 .bottom-view {
 	border-top: 1px solid #AAAAAA;
 	/*height: 28.4%;*/
@@ -530,7 +531,7 @@ td.gridDecimalCell {
 .custom-combo {
 	border: 1px solid #aaa;
 	background: #FFF;
-	width: 100%;
+	width: 100% ;
 	height: 19px !important;
 	position: relative;
 	overflow: hidden;
@@ -578,6 +579,7 @@ table.dropdownFlex tr:hover {
 
 .financeWindow select {
 	border: 1px solid #AAAAAA;
+	width:100px !important;/* praveena */
 }
 
 .gridAscend {
@@ -607,7 +609,9 @@ table.dropdownFlex tr:hover {
 .gwt-MenuBar-vertical .subMenuIcon-selected {
 	background-color: #508F5F !important;
 }
-
+.gwt-MenuBar-vertical{
+	border:1px solid #aaa !important;
+}
 .tablelayout {
 	padding-left: 4% !important;
 	padding-right: 4% !important;
@@ -657,37 +661,8 @@ table.dropdownFlex tr:hover {
 
 .falseHyperlink {
 	color: blue;
-	cursor: pointer;
-	text-decoration: underline;
-}
-
-.addAccountPortlet {
-	margin: 10px !important;
-	width: 150px;
-	height: 35px;
-}
-
-.label-banking {
-	font-weight: bold;
-	font-size: 12pt;
-	margin: 6px;
-}
-
-.addButtonPortlet {
-	margin-left: 10px !important;
-	margin-top: 10px !important;
-	width: 190px;
-	height: 35px;
-}
-
-.fTablePortlet {
-	margin-left: 10px !important;
-	margin-top: 5px !important;
-}
-
-.amountLabelPortlet {
-	font-weight: bold;
-	font-size: medium;
+    cursor: pointer;
+    text-decoration: underline;
 }
 /**End --- Styles for Finance **/
 
@@ -701,7 +676,7 @@ table.dropdownFlex tr:hover {
   border: 0 !important;
 }
 .gwt-Button:hover {
-  border-color: none !important;
+  border-color: #9FC2FF !important;
 }  
 .gwt-Button[disabled] {
   cursor: none !important;
@@ -730,7 +705,7 @@ table.dropdownFlex tr:hover {
   /*background:url("/images/header-c1.jpg")repeat-x scroll 0 0 transparent ;  praveena*/
 }
 .gwt-MenuBarPopup {
-	margin-top:-1px !important;
+	margin:-1px 0 0 1px !important;
   /*margin: 0px 0px 0px 3px; praveena*/
 }
 .gwt-MenuBarPopup .menuPopupTopCenter {
@@ -771,14 +746,14 @@ table.dropdownFlex tr:hover {
 }
 .gwt-Button {
     background:url("/images/header-c3.jpg") repeat-x scroll 0 0 transparent !important;
-	border:medium none;
-	color:white;
+	border:0 none !important;
+	color:white !important;
 	cursor:pointer;
 	font-size:small;
 	font-weight:bold;
-	height:30px;
-	margin:3px;
-	padding:2px 5px;
+	height:22px !important;
+	margin:3px !important;
+	padding:0px 5px 2px !important;
 	text-decoration:none;
 	-moz-border-radius:10px;
 }
@@ -808,7 +783,7 @@ table.dropdownFlex tr:hover {
 }
 .header{
 	background:none repeat scroll 0 0 #83BF91;
-	margin-left:3px;
+	/*margin-left:3px; praveena*/
 }
 .label2-style{
 	color:white;
@@ -825,4 +800,17 @@ table.dropdownFlex tr:hover {
 
 .gwt-Label{
    text-transform: capitalize;	
+}
+.invoice-total{
+	border-collapse: collapse;
+}
+.invoice-total tr:nth-child(3){
+	border-bottom: 1px solid #aaa;
+	border-top: 1px solid #aaa;
+}
+.noScroll input[type="text"]{
+	width:150px !important;
+}
+.gwt-MenuBar-horizontal .gwt-MenuItem{
+	color:#fff !important;
 }
