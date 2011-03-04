@@ -36,9 +36,15 @@ public class BillListView extends BaseListView<BillsList> {
 	private VendorsMessages vendorsConstants = GWT
 			.create(VendorsMessages.class);
 	private SelectItem currentView;
+	public String viewType;
 
 	private BillListView() {
 		super();
+	}
+
+	public BillListView(String viewType) {
+		super();
+		this.viewType = viewType;
 	}
 
 	public static BillListView getInstance() {
@@ -92,8 +98,12 @@ public class BillListView extends BaseListView<BillsList> {
 		if (UIUtils.isMSIEBrowser())
 			currentView.setWidth("150px");
 
-		currentView
-				.setSelected(FinanceApplication.getCustomersMessages().all());
+		if (this.viewType != null)
+			currentView.setSelected(viewType);
+		else
+			currentView.setSelected(FinanceApplication.getCustomersMessages()
+					.all());
+
 		currentView.addChangeHandler(new ChangeHandler() {
 
 			@SuppressWarnings("unchecked")

@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 public class BillsAction extends Action {
 
 	protected BillListView view;
+	public String viewType;
 
 	public BillsAction(String text) {
 		super(text);
@@ -50,8 +51,10 @@ public class BillsAction extends Action {
 			}
 
 			public void onCreated() {
-
-				view = BillListView.getInstance();
+				if (viewType == null)
+					view = BillListView.getInstance();
+				else
+					view = new BillListView(viewType);
 
 				try {
 
@@ -67,6 +70,11 @@ public class BillsAction extends Action {
 			}
 
 		});
+	}
+
+	public void run(Object data, Boolean isDependent, String viewType) {
+		this.viewType = viewType;
+		run(data, isDependent);
 	}
 
 	public ImageResource getBigImage() {
