@@ -11205,7 +11205,9 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		}
 	}
 	
-	public List getGraphPointsforAccount(int chartType, long accountNo) throws DAOException {
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<GraphPoints> getGraphPointsforAccount(int chartType, long accountNo) throws DAOException {
 
 		try {
 
@@ -11517,9 +11519,25 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 						
 					}
 					
+					double maxValue, minValue;
+					minValue = (object[2] == null) ? 0 : (Double) object[2];
+					maxValue = minValue;
+					
+					for (int i = 1; i < object.length; i++) {
+
+						if (object[i] != null) {
+							if (maxValue < (Double) object[i])
+								maxValue = (Double) object[i];
+
+							if (minValue > (Double) object[i])
+								minValue = (Double) object[i];
+						}
+					}
+					
+					gPoints.setMaxPoint(maxValue);
+					gPoints.setMinPoint(minValue);
+					
 					graphPoints.add(gPoints);
-					
-					
 
 				}
 				return graphPoints;

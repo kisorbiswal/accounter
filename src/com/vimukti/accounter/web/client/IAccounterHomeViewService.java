@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client;
 
 import java.util.List;
 
+import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.data.InvalidSessionException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -37,6 +38,7 @@ import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsList;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetLinkedAccountMap;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReviewJournal;
+import com.vimukti.accounter.web.client.core.Lists.GraphPoints;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.core.Lists.OverDueInvoicesList;
@@ -289,4 +291,5 @@ public interface IAccounterHomeViewService extends RemoteService {
 			boolean isEnabledOfNoAccountActivity,
 			boolean isEnabledOfInactiveCustomer);
 
+	public List<GraphPoints> getGraphPointsforAccount(int chartType, long accountNo);
 }

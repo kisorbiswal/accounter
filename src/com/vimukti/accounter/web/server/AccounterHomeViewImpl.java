@@ -67,6 +67,7 @@ import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsList;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetLinkedAccountMap;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReviewJournal;
+import com.vimukti.accounter.web.client.core.Lists.GraphPoints;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.core.Lists.OverDueInvoicesList;
@@ -1552,6 +1553,21 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		
+		return resultList;
+	}
+	
+	@Override
+	public List<GraphPoints> getGraphPointsforAccount(int chartType, long accountNo) {
+		
+		List<GraphPoints> resultList = null;
+		try {
+			
+			resultList = getFinanceTool().getGraphPointsforAccount(chartType, accountNo);
+			
+		} catch (Exception e) {
+			 e.printStackTrace();
 		}
 		
 		return resultList;

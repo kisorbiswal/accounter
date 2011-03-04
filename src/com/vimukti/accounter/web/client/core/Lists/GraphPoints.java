@@ -38,6 +38,8 @@ public class GraphPoints implements IAccounterCore {
 	double twentyNinethPoint = 0D;
 	double thirtythPoint = 0D;
 	double thirtyFirstPoint = 0D;
+	double maxPoint = 0D;
+	double minPoint = 0D;
 	/**
 	 * @return the type
 	 */
@@ -464,6 +466,30 @@ public class GraphPoints implements IAccounterCore {
 	 */
 	public void setThirtyFirstPoint(double thirtyFirstPoint) {
 		this.thirtyFirstPoint = thirtyFirstPoint;
+	}
+	/**
+	 * @return the maxPoint
+	 */
+	public double getMaxPoint() {
+		return maxPoint;
+	}
+	/**
+	 * @param maxPoint the maxPoint to set
+	 */
+	public void setMaxPoint(double maxPoint) {
+		this.maxPoint = maxPoint;
+	}
+	/**
+	 * @return the minPoint
+	 */
+	public double getMinPoint() {
+		return minPoint;
+	}
+	/**
+	 * @param minPoint the minPoint to set
+	 */
+	public void setMinPoint(double minPoint) {
+		this.minPoint = minPoint;
 	}
 
 }
