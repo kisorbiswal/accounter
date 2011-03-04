@@ -193,10 +193,10 @@ public class AccountRegisterOthersView extends
 				// this.total += accRegister.getBalance();
 			}
 		}
-		grid.updateFooterValues(FinanceApplication.getCustomersMessages()
-				.endingbalance(), 6);
-		grid.addFooterValue(DataUtils.getAmountAsString(takenaccount
-				.getCurrentBalance()), 7);
+		// grid.updateFooterValues(FinanceApplication.getCustomersMessages()
+		// .endingbalance(), 6);
+		// grid.addFooterValue(DataUtils.getAmountAsString(takenaccount
+		// .getCurrentBalance()), 7);
 		this.total = 0;
 	}
 
