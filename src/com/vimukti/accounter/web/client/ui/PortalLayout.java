@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorSectionHomeView;
  */
 public class PortalLayout extends VerticalPanel {
 
-	private FinanceDashboard dashboardParent;
+	private DashBoard dashboardParent;
 	private CustomerSectionHomeView customerParent;
 	private VendorSectionHomeView vendorParent;
 	@SuppressWarnings("unused")
@@ -28,8 +28,8 @@ public class PortalLayout extends VerticalPanel {
 		setSize("100%", "100%");
 		if (parent instanceof CustomerSectionHomeView) {
 			this.customerParent = (CustomerSectionHomeView) parent;
-		} else if (parent instanceof FinanceDashboard) {
-			this.dashboardParent = (FinanceDashboard) parent;
+		} else if (parent instanceof DashBoard) {
+			this.dashboardParent = (DashBoard) parent;
 		} else if (parent instanceof VendorSectionHomeView) {
 			this.vendorParent = (VendorSectionHomeView) parent;
 		} else {

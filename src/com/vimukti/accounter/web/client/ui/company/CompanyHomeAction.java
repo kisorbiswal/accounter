@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.company;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.ui.DashBoard;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.FinanceDashboard;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -12,7 +13,7 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class CompanyHomeAction extends Action {
 
-	private FinanceDashboard view;
+	private DashBoard view;
 
 	public CompanyHomeAction(String text) {
 		super(text);
@@ -37,7 +38,7 @@ public class CompanyHomeAction extends Action {
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		view = new FinanceDashboard();
+		view = new DashBoard();
 
 		try {
 			MainFinanceWindow.getViewManager()
