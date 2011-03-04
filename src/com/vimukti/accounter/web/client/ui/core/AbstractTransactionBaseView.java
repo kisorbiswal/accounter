@@ -595,26 +595,26 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	public SelectCombo createPaymentMethodSelectItem() {
 		String paymentType = null;
 		payVatMethodList = new ArrayList<String>();
-		payVatMethodList.add(FinanceApplication.getVendorsMessages().cash());
-		payVatMethodList.add(paymentType);
-		payVatMethodList.add(FinanceApplication.getVendorsMessages()
-				.creditCard());
-		payVatMethodList.add(FinanceApplication.getVendorsMessages()
-				.directDebit());
-		payVatMethodList.add(FinanceApplication.getVendorsMessages()
-				.masterCard());
-		payVatMethodList.add(FinanceApplication.getVendorsMessages()
-				.onlineBanking());
-		payVatMethodList.add(FinanceApplication.getVendorsMessages()
-				.standingOrder());
-		payVatMethodList.add(FinanceApplication.getVendorsMessages()
-				.switchMaestro());
-		final SelectCombo paymentMethodSelect = new SelectCombo(
-				FinanceApplication.getVendorsMessages().Paymentmethod());
-		paymentMethodSelect.setHelpInformation(true);
 		paymentType = UIUtils
 				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
 						.getCustomersMessages().check());
+		String payVatMethodArray[] = new String[] {
+				FinanceApplication.getVendorsMessages().cash(), paymentType,
+				FinanceApplication.getVendorsMessages().creditCard(),
+				FinanceApplication.getVendorsMessages().directDebit(),
+				FinanceApplication.getVendorsMessages().masterCard(),
+				FinanceApplication.getVendorsMessages().onlineBanking(),
+				FinanceApplication.getVendorsMessages().standingOrder(),
+				FinanceApplication.getVendorsMessages().switchMaestro() };
+
+		for (int i = 0; i < payVatMethodArray.length; i++) {
+			payVatMethodList.add(payVatMethodArray[i]);
+		}
+
+		final SelectCombo paymentMethodSelect = new SelectCombo(
+				FinanceApplication.getVendorsMessages().Paymentmethod());
+		paymentMethodSelect.setHelpInformation(true);
+
 		paymentMethodSelect.setRequired(true);
 		paymentMethodSelect.initCombo(payVatMethodList);
 		paymentMethodSelect.setDefaultToFirstOption(true);

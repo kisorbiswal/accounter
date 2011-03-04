@@ -47,8 +47,8 @@ public class VATItemListGrid extends ListGrid<ClientTAXItem> {
 	@Override
 	public void init() {
 		super.init();
-		addFooterValues("", FinanceApplication.getVATMessages().groupRate()
-				+ groupRate + "%");
+		// addFooterValues("", FinanceApplication.getVATMessages().groupRate()
+		// + groupRate + "%");
 		createControls();
 	}
 

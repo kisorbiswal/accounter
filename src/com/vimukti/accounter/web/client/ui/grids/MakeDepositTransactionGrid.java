@@ -86,21 +86,22 @@ public class MakeDepositTransactionGrid extends
 	public void onHeaderCheckBoxClick(boolean isChecked) {
 		if (isChecked) {
 			selectAllRows();
-		}else
+		} else
 			resetValues();
 		super.onHeaderCheckBoxClick(isChecked);
 	};
+
 	public void resetValues() {
-		
+
 		for (ClientTransactionMakeDeposit obj : this.getRecords()) {
 			selectedValues.remove((Integer) indexOf(obj));
 			totallinetotal = 0.0;
-			super
-			.updateFooterValues(
-					DataUtils.getAmountAsString(totallinetotal), 3);
+			super.updateFooterValues(DataUtils
+					.getAmountAsString(totallinetotal), 3);
 			transactionView.updateNonEditableItems();
 		}
 	}
+
 	public void selectAllRows() {
 		for (ClientTransactionMakeDeposit obj : this.getRecords()) {
 			if (!isSelected(obj)) {
@@ -200,8 +201,8 @@ public class MakeDepositTransactionGrid extends
 		//
 		// }
 		// });
-		addFooterValues("", FinanceApplication.getBankingsMessages()
-				.totalAmount(), " ", "", "0.00");
+		// addFooterValues("", FinanceApplication.getBankingsMessages()
+		// .totalAmount(), " ", "", "0.00");
 		// this.addFooterValue("Total Amount", 2);
 		addRecordDoubleClickHandler(new RecordDoubleClickHandler<ClientTransactionMakeDeposit>() {
 

@@ -322,24 +322,27 @@ public abstract class CustomerTransactionGrid extends
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			createVATItemAndTaxCodeCombo();
 
-		if (!isBankingTransaction && !isSalesOrderTransaction)
-			this.addFooterValues(new String[] { "", "", "", "", "",
-					FinanceApplication.getCustomersMessages().total(),
-					DataUtils.getAmountAsString(0.00), });
+		if (!isBankingTransaction && !isSalesOrderTransaction){
+//			this.addFooterValues(new String[] { "", "", "", "", "",
+//					FinanceApplication.getCustomersMessages().total(),
+//					DataUtils.getAmountAsString(0.00), });
+		}
 		else if (isSalesOrderTransaction) {
 
-			this.addFooterValues(new String[] { "", "", "", "", "", "",
-					DataUtils.getAmountAsString(0.00), "" });
+//			this.addFooterValues(new String[] { "", "", "", "", "", "",
+//					DataUtils.getAmountAsString(0.00), "" });
+		
 		} else {
-			this.addFooterValues(new String[] { "", "", "",
-					DataUtils.getAmountAsString(0.00), "" });
+//			this.addFooterValues(new String[] { "", "", "",
+//					DataUtils.getAmountAsString(0.00), "" });
 		}
 		if (FinanceApplication.getCompany().getAccountingType() == 1) {
 			if (!isBankingTransaction)
 				if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-					this.addFooterValue(FinanceApplication.getVATMessages()
-							.VAT(), 7);
-					this.addFooterValue(DataUtils.getAmountAsString(0.00), 8);
+					// this.addFooterValue(FinanceApplication.getVATMessages()
+					// .VAT(), 7);
+					// this.addFooterValue(DataUtils.getAmountAsString(0.00),
+					// 8);
 				}
 			// setBottomLabelTitle("VAT: "
 			// + DataUtils.getAmountAsString(totalVat), 8);

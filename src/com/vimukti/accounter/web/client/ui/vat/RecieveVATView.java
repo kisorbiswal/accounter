@@ -291,7 +291,7 @@ public class RecieveVATView extends
 		grid.setDisabled(isEdit);
 		grid.setHeight("200px");
 		if (!isEdit) {
-			grid.addFooterValue("Total", 1);
+//			grid.addFooterValue("Total", 1);
 			grid
 					.updateFooterValues(DataUtils
 							.getAmountAsString(totalAmount), 2);

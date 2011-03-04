@@ -255,17 +255,17 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 		this.itemsMap.remove(colIndex);
 	}
 
-	@Override
-	public void addFooterValue(String value, int col) {
-		// TODO Auto-generated method stub
-		super.addFooterValue(value, col);
-	}
+	// @Override
+	// public void addFooterValue(String value, int col) {
+	// // TODO Auto-generated method stub
+	// super.addFooterValue(value, col);
+	// }
 
-	@Override
-	public void addFooterValues(String... values) {
-		// TODO Auto-generated method stub
-		super.addFooterValues(values);
-	}
+	// @Override
+	// public void addFooterValues(String... values) {
+	// // TODO Auto-generated method stub
+	// super.addFooterValues(values);
+	// }
 
 	@SuppressWarnings("unchecked")
 	public void setView(AbstractBaseDialog view) {

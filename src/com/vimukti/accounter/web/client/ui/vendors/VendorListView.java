@@ -105,9 +105,11 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	protected HorizontalPanel getTotalLayout(BaseListGrid grid) {
 
-		grid.addFooterValue(FinanceApplication.getVendorsMessages().total(), 8);
-		grid.addFooterValue(DataUtils.getAmountAsString(grid.getTotal()) + "",
-				9);
+		// grid.addFooterValue(FinanceApplication.getVendorsMessages().total(),
+		// 8);
+		// grid.addFooterValue(DataUtils.getAmountAsString(grid.getTotal()) +
+		// "",
+		// 9);
 
 		return null;
 	}
@@ -145,7 +147,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 			}
 
 		}
-		if(grid.getRecords().isEmpty())
+		if (grid.getRecords().isEmpty())
 			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 
 		getTotalLayout(grid);

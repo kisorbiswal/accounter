@@ -225,22 +225,22 @@ public class VendorTransactionUSGrid extends
 				});
 		accountsCombo.setGrid(this);
 		// accountsCombo.setWidth("600");
-		if (!isBankingTransaction && !isPurchseOrderTransaction)
-			this.addFooterValues(new String[] { "", "", "", "",
-					FinanceApplication.getVendorsMessages().total(),
-					DataUtils.getAmountAsString(0.00), });
-		else if (isPurchseOrderTransaction) {
-
-			this.addFooterValues(new String[] { "", "", "", "", "", "",
-					FinanceApplication.getVATMessages().totalcolan(), "" });
-		} else {
-			this.addFooterValues(new String[] { "", "", "",
-					FinanceApplication.getVATMessages().totalcolan(), "" });
-		}
+		// if (!isBankingTransaction && !isPurchseOrderTransaction)
+		// this.addFooterValues(new String[] { "", "", "", "",
+		// FinanceApplication.getVendorsMessages().total(),
+		// DataUtils.getAmountAsString(0.00), });
+		// else if (isPurchseOrderTransaction) {
+		//
+		// this.addFooterValues(new String[] { "", "", "", "", "", "",
+		// FinanceApplication.getVATMessages().totalcolan(), "" });
+		// } else {
+		// this.addFooterValues(new String[] { "", "", "",
+		// FinanceApplication.getVATMessages().totalcolan(), "" });
+		// }
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			if (!isBankingTransaction && !isPurchseOrderTransaction) {
-				this.addFooterValue("VAT", 6);
-				this.addFooterValue(DataUtils.getAmountAsString(0.00), 7);
+				// this.addFooterValue("VAT", 6);
+				// this.addFooterValue(DataUtils.getAmountAsString(0.00), 7);
 			}
 		}
 
@@ -410,11 +410,11 @@ public class VendorTransactionUSGrid extends
 			}
 			totalVat += rec.getVATfraction();
 		}
-		if (isPurchseOrderTransaction) {
-			this.addFooterValue(DataUtils.getAmountAsString(totallinetotal), 7);
-		} else {
-			this.addFooterValue(DataUtils.getAmountAsString(totallinetotal), 5);
-		}
+		// if (isPurchseOrderTransaction) {
+		// this.addFooterValue(DataUtils.getAmountAsString(totallinetotal), 7);
+		// } else {
+		// this.addFooterValue(DataUtils.getAmountAsString(totallinetotal), 5);
+		// }
 
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			grandTotal = totalVat + totallinetotal;
@@ -431,10 +431,11 @@ public class VendorTransactionUSGrid extends
 
 		transactionView.updateNonEditableItems();
 
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-				&& !isPurchseOrderTransaction) {
-			this.addFooterValue(DataUtils.getAmountAsString(totalVat), 7);
-		}
+		// if (FinanceApplication.getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_UK
+		// && !isPurchseOrderTransaction) {
+		// this.addFooterValue(DataUtils.getAmountAsString(totalVat), 7);
+		// }
 
 	}
 

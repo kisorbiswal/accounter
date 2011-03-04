@@ -186,15 +186,15 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 		super.onDoubleClick(obj, row, col);
 	}
 
-	@Override
-	public void addFooterValue(String value, int col) {
-		super.addFooterValue(value, col);
-	}
-
-	@Override
-	public void addFooterValues(String... values) {
-		super.addFooterValues(values);
-	}
+	// @Override
+	// public void addFooterValue(String value, int col) {
+	// super.addFooterValue(value, col);
+	// }
+	//
+	// @Override
+	// public void addFooterValues(String... values) {
+	// super.addFooterValues(values);
+	// }
 
 	@Override
 	public void onDoubleClick(T obj) {

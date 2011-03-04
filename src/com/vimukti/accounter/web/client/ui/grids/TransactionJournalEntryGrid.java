@@ -155,8 +155,8 @@ public class TransactionJournalEntryGrid extends
 		//
 		// });
 
-		this.addFooterValues(FinanceApplication.getVendorsMessages()
-				.totalAmount(), "", "", "", "0.00", "0.00", "");
+		// this.addFooterValues(FinanceApplication.getVendorsMessages()
+		// .totalAmount(), "", "", "", "0.00", "0.00", "");
 		// this.addFooterValue("Total Amount", 0);
 
 		addRecordDoubleClickHandler(new RecordDoubleClickHandler<ClientEntry>() {

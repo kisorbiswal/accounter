@@ -61,10 +61,11 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected HorizontalPanel getTotalLayout(BaseListGrid grid) {
-		grid.addFooterValue(FinanceApplication.getCustomersMessages().total(),
-				8);
-		grid.addFooterValue(DataUtils.getAmountAsString(grid.getTotal()) + "",
-				9);
+		// grid.addFooterValue(FinanceApplication.getCustomersMessages().total(),
+		// 8);
+		// grid.addFooterValue(DataUtils.getAmountAsString(grid.getTotal()) +
+		// "",
+		// 9);
 		return null;
 	}
 

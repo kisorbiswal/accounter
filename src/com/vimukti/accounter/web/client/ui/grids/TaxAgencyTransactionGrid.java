@@ -173,8 +173,8 @@ public class TaxAgencyTransactionGrid extends
 //				});
 //		taxItemCombo.initCombo(FinanceApplication.getCompany()
 //				.getActiveTaxItems());
-		this.addFooterValue(FinanceApplication.getCustomersMessages().total(),
-				2);
+		// this.addFooterValue(FinanceApplication.getCustomersMessages().total(),
+		// 2);
 
 	}
 

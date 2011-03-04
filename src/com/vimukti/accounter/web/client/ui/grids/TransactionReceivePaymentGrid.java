@@ -69,13 +69,13 @@ public class TransactionReceivePaymentGrid extends
 	@Override
 	public void init() {
 		super.init();
-		this.addFooterValue(FinanceApplication.getVendorsMessages().subTotal(),
-				1);
-		this.addFooterValue("" + UIUtils.getCurrencySymbol() + "0.0", 2);
-		if (!paymentView.isEditMode())
-			this.addFooterValue("" + UIUtils.getCurrencySymbol() + "0.0", 3);
-		this.addFooterValue(FinanceApplication.getVATMessages().totalcolan()
-				+ UIUtils.getCurrencySymbol() + " 0.0", 8);
+		// this.addFooterValue(FinanceApplication.getVendorsMessages().subTotal(),
+		// 1);
+		// this.addFooterValue("" + UIUtils.getCurrencySymbol() + "0.0", 2);
+		// if (!paymentView.isEditMode())
+		// this.addFooterValue("" + UIUtils.getCurrencySymbol() + "0.0", 3);
+		// this.addFooterValue(FinanceApplication.getVATMessages().totalcolan()
+		// + UIUtils.getCurrencySymbol() + " 0.0", 8);
 	}
 
 	public void setPaymentView(ReceivePaymentView paymentView) {

@@ -70,17 +70,20 @@ public class TransactionPayBillGrid extends
 	@Override
 	public void init() {
 		super.init();
-		this.addFooterValue(FinanceApplication.getVendorsMessages().subTotal(),
-				canEdit ? 1 : 0);
-		// OriginalAmount total
-		this.addFooterValue(DataUtils.getAmountAsString(0.00), canEdit ? 2 : 1);
-		// Total AmountDue
-		if (canEdit)
-			this.addFooterValue(DataUtils.getAmountAsString(0.00), 3);
-		// Total CashDiscount amount
-		this.addFooterValue(DataUtils.getAmountAsString(0.00), canEdit ? 5 : 3);
-		// Total Payment
-		this.addFooterValue(DataUtils.getAmountAsString(0.00), canEdit ? 7 : 6);
+		// this.addFooterValue(FinanceApplication.getVendorsMessages().subTotal(),
+		// canEdit ? 1 : 0);
+		// // OriginalAmount total
+		// this.addFooterValue(DataUtils.getAmountAsString(0.00), canEdit ? 2 :
+		// 1);
+		// // Total AmountDue
+		// if (canEdit)
+		// this.addFooterValue(DataUtils.getAmountAsString(0.00), 3);
+		// // Total CashDiscount amount
+		// this.addFooterValue(DataUtils.getAmountAsString(0.00), canEdit ? 5 :
+		// 3);
+		// // Total Payment
+		// this.addFooterValue(DataUtils.getAmountAsString(0.00), canEdit ? 7 :
+		// 6);
 	}
 
 	@Override

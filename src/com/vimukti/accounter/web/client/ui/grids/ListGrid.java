@@ -37,7 +37,6 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid.RecordClickHandler;
-import com.vimukti.accounter.web.client.ui.widgets.DatePicker;
 
 /**
  * ListGrid is Table widget that supports editing & updating Cells.Sort Columns
@@ -632,20 +631,20 @@ public abstract class ListGrid<T> extends CustomTable {
 		return this.currentCol;
 	}
 
-	public void addFooterValues(String... values) {
-		for (int i = isMultiSelectionEnable ? 1 : 0; i < nofCols; i++) {
-			if (i < values.length)
-				this.footer.setText(0, i, values[i]);
-			else
-				this.footer.setText(0, i, "");
-			
-			this.footer.getCellFormatter().addStyleName(0, i, "gridDecimalCell");
-
-			this.footer.getCellFormatter()
-					.addStyleName(0, i, "gridDecimalCell");
-
-		}
-	}
+	// public void addFooterValues(String... values) {
+	// for (int i = isMultiSelectionEnable ? 1 : 0; i < nofCols; i++) {
+	// if (i < values.length)
+	// this.footer.setText(0, i, values[i]);
+	// else
+	// this.footer.setText(0, i, "");
+	//			
+	// this.footer.getCellFormatter().addStyleName(0, i, "gridDecimalCell");
+	//
+	// this.footer.getCellFormatter()
+	// .addStyleName(0, i, "gridDecimalCell");
+	//
+	// }
+	// }
 
 	/**
 	 * add Value at footer
@@ -655,9 +654,9 @@ public abstract class ListGrid<T> extends CustomTable {
 	 * @param col
 	 *            is column index
 	 */
-	public void addFooterValue(String value, int col) {
-		this.footer.setText(0, isMultiSelectionEnable ? col + 1 : col, value);
-	}
+	// public void addFooterValue(String value, int col) {
+	// this.footer.setText(0, isMultiSelectionEnable ? col + 1 : col, value);
+	// }
 
 	public void updateFooterValues(String value, int index) {
 		this.footer.setText(0, isMultiSelectionEnable ? index + 1 : index,
