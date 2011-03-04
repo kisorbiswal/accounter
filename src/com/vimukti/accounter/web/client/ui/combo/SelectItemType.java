@@ -68,8 +68,8 @@ public enum SelectItemType {
 
 	VAT_ITEM(VatActionFactory.getNewVatItemAction()),
 
-	TAX_CODE(CustomersActionFactory.getAddEditSalesTaxCodeAction());
-
+	TAX_CODE(CustomersActionFactory.getAddEditSalesTaxCodeAction()), SHIP_TO, PHONE, EMAIL, FAX;   
+	
 	private Action action;
 	@SuppressWarnings("unused")
 	private AsyncCallback<IsSerializable> callback;
