@@ -373,8 +373,8 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		grid.init();
 		grid.setHeight("200px");
 		// grid.setIssuePaymentView(this);
-		grid.addFooterValues("", "", "", "", FinanceApplication
-				.getVendorsMessages().total(), "0.0");
+		// grid.addFooterValues("", "", "", "", FinanceApplication
+		// .getVendorsMessages().total(), "0.0");
 
 		// bottomLabelLayOut = new HorizontalPanel();
 		// bottomLabelLayOut.setWidth("100%");
