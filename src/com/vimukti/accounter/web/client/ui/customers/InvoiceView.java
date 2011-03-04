@@ -148,8 +148,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 						.getPaymentTerms(invoice.getPaymentTerm());
 				ClientFinanceDate transactionDate = this.transactionDateItem
 						.getEnteredDate();
-				ClientFinanceDate dueDate = new ClientFinanceDate(invoice
-						.getDueDate());
+				ClientFinanceDate dueDate = new ClientFinanceDate(
+						invoice.getDueDate());
 				dueDate = Utility.getCalculatedDueDate(transactionDate, terms);
 				if (dueDate != null) {
 					dueDateItem.setEnteredDate(dueDate);
@@ -326,7 +326,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		Label lab2 = new Label(customerConstants.productAndService());
 
 		memoTextAreaItem = createMemoTextAreaItem();
-		memoTextAreaItem.setWidth(100);
+		memoTextAreaItem.setWidth("450px");
 		Button printButton = new Button();
 		printButton.setText(FinanceApplication.getCustomersMessages().print());
 		printButton.addClickHandler(new ClickHandler() {
@@ -346,6 +346,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.setNumCols(2);
 		prodAndServiceForm1.setFields(memoTextAreaItem);
+		memoTextAreaItem.getMainWidget().getParent().setWidth("70%");
 
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.add(createAddNewButton());
@@ -367,8 +368,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		paymentsNonEditableText.setDisabled(true);
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
-		balanceDueNonEditableText = new AmountLabel(customerConstants
-				.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(
+				customerConstants.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -403,10 +404,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			priceLevelForm.setWidth("70%");
 			priceLevelForm.setFields(priceLevelSelect);
 			DynamicForm amountsForm = new DynamicForm();
-			amountsForm.setWidth("50%");
+			amountsForm.setWidth("100%");
 			amountsForm.setFields(netAmountLabel, vatTotalNonEditableText,
 					transactionTotalNonEditableText, paymentsNonEditableText,
 					balanceDueNonEditableText);
+			amountsForm.setStyleName("invoice-total");
 			// forms.add(priceLevelForm);
 			forms.add(amountsForm);
 			// prodAndServiceHLay.add(priceLevelForm);
@@ -426,7 +428,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			prodAndServiceForm2.setFields(salesTaxTextNonEditable,
 					transactionTotalNonEditableText, paymentsNonEditableText,
 					balanceDueNonEditableText, taxCodeSelect);
-
 			forms.add(prodAndServiceForm2);
 
 			prodAndServiceHLay.add(prodAndServiceForm2);
@@ -523,7 +524,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				return;
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(), taxableLineTotal,
+					transactionDateItem.getEnteredDate(),
+					taxableLineTotal,
 					FinanceApplication.getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -779,8 +781,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		this.orderNumText
 				.setValue(invoiceToBeEdited.getOrderNum() != null ? invoiceToBeEdited
-						.getOrderNum()
-						: "");
+						.getOrderNum() : "");
 		// this.taxCode =
 		// getTaxItemGroupForTransactionItems(this.transactionItems);
 		if (customer != null && customerCombo != null) {
@@ -824,8 +825,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 					.getDeliverydate()));
 		this.dueDateItem
 				.setValue(invoiceToBeEdited.getDueDate() != 0 ? new ClientFinanceDate(
-						invoiceToBeEdited.getDueDate())
-						: getTransactionDate());
+						invoiceToBeEdited.getDueDate()) : getTransactionDate());
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			netAmountLabel.setAmount(invoiceToBeEdited.getNetAmount());
@@ -930,9 +930,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			if (dueDateItem.getEnteredDate() != null)
 				invoice.setDueDate((dueDateItem.getEnteredDate()).getTime());
 			if (deliveryDate.getEnteredDate() != null)
-				invoice
-						.setDeliverydate(deliveryDate.getEnteredDate()
-								.getTime());
+				invoice.setDeliverydate(deliveryDate.getEnteredDate().getTime());
 			if (FinanceApplication.getCompany().getAccountingType() == 0)
 				invoice.setSalesTaxAmount(salesTaxTextNonEditable.getAmount());
 
@@ -1065,9 +1063,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			invoice.setSalesTaxAmount(this.salesTax);
 		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			invoice.setNetAmount(netAmountLabel.getAmount());
-			invoice
-					.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-							.getValue());
+			invoice.setAmountsIncludeVAT((Boolean) vatinclusiveCheck.getValue());
 		}
 		invoice.setTotal(transactionTotalNonEditableText.getAmount());
 		// invoice.setBalanceDue(getBalanceDue());
@@ -1166,8 +1162,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				}
 
 			};
-			this.rpcUtilService.getEstimatesAndSalesOrdersList(customer
-					.getStringID(), callback);
+			this.rpcUtilService.getEstimatesAndSalesOrdersList(
+					customer.getStringID(), callback);
 
 		}
 	}
@@ -1310,8 +1306,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 	@Override
 	public void print() {
-		UIUtils.downloadAttachment(((ClientInvoice) getInvoiceObject())
-				.getStringID(), ClientTransaction.TYPE_INVOICE);
+		UIUtils.downloadAttachment(
+				((ClientInvoice) getInvoiceObject()).getStringID(),
+				ClientTransaction.TYPE_INVOICE);
 	}
 
 	@Override
