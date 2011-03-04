@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class ClientPhone implements IAccounterCore {
@@ -66,13 +67,13 @@ public class ClientPhone implements IAccounterCore {
 		this.isSelected = isSelected;
 	}
 
-	public LinkedHashMap<String, String> getPhoneTypes() {
-		LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();
-		valueMap.put(BUSINESS_PHONE_NUMBER + "", "Company");
-		valueMap.put(MOBILE_PHONE_NUMBER + "", "Mobile");
-		valueMap.put(HOME_PHONE_NUMBER + "", "Home");
-		valueMap.put(ASSISTANT_PHONE_NUMBER + "", "Assistant");
-		valueMap.put(OTHER_PHONE_NUMBER + "", "Other");
+	public List<String> getPhoneTypes() {
+		List<String> valueMap = new ArrayList<String>();
+		valueMap.add("Company");
+		valueMap.add("Mobile");
+		valueMap.add("Home");
+		valueMap.add("Assistant");
+		valueMap.add("Other");
 		return valueMap;
 
 	}

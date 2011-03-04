@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class ClientAddress implements IAccounterCore {
@@ -13,8 +14,8 @@ public class ClientAddress implements IAccounterCore {
 	public static final int TYPE_POSTAL = 6;
 	public static final int TYPE_OTHER = 7;
 	public static final int TYPE_HOME = 8;
-	public static final int TYPE_COMPANY=9;
-	public static final int TYPE_COMPANY_REGISTRATION=10;
+	public static final int TYPE_COMPANY = 9;
+	public static final int TYPE_COMPANY_REGISTRATION = 10;
 
 	int type;
 
@@ -136,16 +137,16 @@ public class ClientAddress implements IAccounterCore {
 		this.isSelected = isSelected;
 	}
 
-	public LinkedHashMap<String, String> getAddressTypes() {
-		LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();
-		valueMap.put(TYPE_BILL_TO + "", "Bill To");
-		valueMap.put(TYPE_SHIP_TO + "", "Ship To");
-		valueMap.put(TYPE_BUSINESS + "", "1");
-		valueMap.put(TYPE_WAREHOUSE + "", "2");
-		valueMap.put(TYPE_LEGAL + "", "3");
-		valueMap.put(TYPE_POSTAL + "", "4");
-		valueMap.put(TYPE_HOME + "", "5");
-		valueMap.put(TYPE_OTHER + "", "6");
+	public List<String> getAddressTypes() {
+		List<String> valueMap = new ArrayList<String>();
+		valueMap.add("Bill To");
+		valueMap.add("Ship To");
+		valueMap.add("1");
+		valueMap.add("2");
+		valueMap.add("3");
+		valueMap.add("4");
+		valueMap.add("5");
+		valueMap.add("6");
 		return valueMap;
 
 	}
@@ -160,7 +161,7 @@ public class ClientAddress implements IAccounterCore {
 		StringBuffer buffer = new StringBuffer();
 		switch (type) {
 		case ClientAddress.TYPE_BILL_TO:
-//			buffer.append("BillTo: ");
+			// buffer.append("BillTo: ");
 			break;
 
 		case ClientAddress.TYPE_BUSINESS:

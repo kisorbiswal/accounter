@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class ClientFax implements IAccounterCore {
@@ -64,11 +65,11 @@ public class ClientFax implements IAccounterCore {
 		this.isSelected = isSelected;
 	}
 
-	public LinkedHashMap<String, String> getFaxTypes() {
-		LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();
-		valueMap.put(TYPE_BUSINESS + "", "Company");
-		valueMap.put(TYPE_HOME + "", "Home");
-		valueMap.put(TYPE_OTHER + "", "Other");
+	public List<String> getFaxTypes() {
+		List<String> valueMap = new ArrayList<String>();
+		valueMap.add("Company");
+		valueMap.add("Home");
+		valueMap.add("Other");
 		return valueMap;
 
 	}

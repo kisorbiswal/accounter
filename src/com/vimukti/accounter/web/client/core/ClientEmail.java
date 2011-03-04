@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class ClientEmail implements IAccounterCore {
@@ -58,11 +59,11 @@ public class ClientEmail implements IAccounterCore {
 		this.isSelected = isSelected;
 	}
 
-	public LinkedHashMap<String, String> getEmailTypes() {
-		LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();
-		valueMap.put(TYPE_EMAIL_1 + "", "Email1");
-		valueMap.put(TYPE_EMAIL_2 + "", "Email2");
-		valueMap.put(TYPE_EMAIL_3 + "", "Email3");
+	public List<String> getEmailTypes() {
+		List<String> valueMap = new ArrayList<String>();
+		valueMap.add("Email1");
+		valueMap.add("Email2");
+		valueMap.add("Email3");
 
 		return valueMap;
 
@@ -91,7 +92,6 @@ public class ClientEmail implements IAccounterCore {
 
 	@Override
 	public void setStringID(String stringID) {
-		// this.stringID = stringID;
 
 	}
 
