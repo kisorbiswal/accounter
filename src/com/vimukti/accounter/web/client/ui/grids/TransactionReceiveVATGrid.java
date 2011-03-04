@@ -70,12 +70,13 @@ public class TransactionReceiveVATGrid extends
 			updateData(editingRecord);
 
 			Double toBeSetAmount = 0.0;
-			for (ClientTransactionReceiveVAT rec: this.getSelectedRecords()) {
-				toBeSetAmount +=rec.getAmountToReceive();
+			for (ClientTransactionReceiveVAT rec : this.getSelectedRecords()) {
+				toBeSetAmount += rec.getAmountToReceive();
 			}
 
 			receiveVATView.adjustAmountAndEndingBalance(toBeSetAmount);
-			updateFooterValues(DataUtils.getAmountAsString(toBeSetAmount), 2);
+			// updateFooterValues(DataUtils.getAmountAsString(toBeSetAmount),
+			// 2);
 
 		} catch (Exception e) {
 			Accounter.showError(AccounterErrorType.INVALIDAMOUNT);
@@ -112,12 +113,11 @@ public class TransactionReceiveVATGrid extends
 		}
 		return null;
 	}
-	
+
 	public void setRecieveVATView(RecieveVATView receiveVATView) {
 		this.receiveVATView = receiveVATView;
-		
+
 	}
-	
 
 	@Override
 	public void onHeaderCheckBoxClick(boolean isChecked) {
@@ -146,7 +146,7 @@ public class TransactionReceiveVATGrid extends
 			}
 		}
 		receiveVATView.adjustAmountAndEndingBalance(totalAmount);
-		updateFooterValues(DataUtils.getAmountAsString(totalAmount), 2);
+		// updateFooterValues(DataUtils.getAmountAsString(totalAmount), 2);
 	}
 
 	public boolean isSelected(ClientTransactionReceiveVAT obj) {
@@ -165,7 +165,7 @@ public class TransactionReceiveVATGrid extends
 		// selectedValues.remove((Integer) indexOf(obj));
 		// updateData(obj);
 		// }
-		updateFooterValues("0.0", 2);
+		// updateFooterValues("0.0", 2);
 		receiveVATView.adjustAmountAndEndingBalance(0.0);
 	}
 
@@ -180,7 +180,7 @@ public class TransactionReceiveVATGrid extends
 		}
 
 		receiveVATView.adjustAmountAndEndingBalance(toBeSetAmount);
-		updateFooterValues(DataUtils.getAmountAsString(toBeSetAmount), 2);
+		// updateFooterValues(DataUtils.getAmountAsString(toBeSetAmount), 2);
 	}
 
 	@Override
@@ -193,7 +193,6 @@ public class TransactionReceiveVATGrid extends
 
 	// }
 
-
 	public void addData(ClientTransactionReceiveVAT record) {
 		super.addData(record);
 	}
@@ -201,8 +200,7 @@ public class TransactionReceiveVATGrid extends
 	@Override
 	public void setTaxCode(String taxCode) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 }

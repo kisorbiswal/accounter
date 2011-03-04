@@ -6,12 +6,10 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
-import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -96,8 +94,8 @@ public class MakeDepositTransactionGrid extends
 		for (ClientTransactionMakeDeposit obj : this.getRecords()) {
 			selectedValues.remove((Integer) indexOf(obj));
 			totallinetotal = 0.0;
-			super.updateFooterValues(DataUtils
-					.getAmountAsString(totallinetotal), 3);
+//			super.updateFooterValues(DataUtils
+//					.getAmountAsString(totallinetotal), 3);
 			transactionView.updateNonEditableItems();
 		}
 	}
@@ -124,9 +122,9 @@ public class MakeDepositTransactionGrid extends
 		for (ClientTransactionMakeDeposit rec : records)
 			totallinetotal += rec.getAmount();
 
-		super
-				.updateFooterValues(
-						DataUtils.getAmountAsString(totallinetotal), 3);
+		// super
+		// .updateFooterValues(
+		// DataUtils.getAmountAsString(totallinetotal), 3);
 		transactionView.updateNonEditableItems();
 	}
 
@@ -235,11 +233,11 @@ public class MakeDepositTransactionGrid extends
 		});
 	}
 
-	@Override
-	public void updateFooterValues(String value, int index) {
-		// TODO Auto-generated method stub
-		super.updateFooterValues(value, index);
-	}
+//	@Override
+//	public void updateFooterValues(String value, int index) {
+//		// TODO Auto-generated method stub
+//		super.updateFooterValues(value, index);
+//	}
 
 	@Override
 	public void updateData(ClientTransactionMakeDeposit obj) {

@@ -251,9 +251,9 @@ public class TaxAgencyTransactionGrid extends
 			totallinetotal += lineTotalAmt;
 		}
 
-		this.updateFooterValues(FinanceApplication.getVATMessages()
-				.totalcolan()
-				+ DataUtils.getAmountAsString(totallinetotal), 2);
+		// this.updateFooterValues(FinanceApplication.getVATMessages()
+		// .totalcolan()
+		// + DataUtils.getAmountAsString(totallinetotal), 2);
 		transactionView.updateNonEditableItems();
 
 	}

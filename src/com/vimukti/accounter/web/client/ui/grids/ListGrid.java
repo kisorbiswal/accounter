@@ -658,10 +658,10 @@ public abstract class ListGrid<T> extends CustomTable {
 	// this.footer.setText(0, isMultiSelectionEnable ? col + 1 : col, value);
 	// }
 
-	public void updateFooterValues(String value, int index) {
-		this.footer.setText(0, isMultiSelectionEnable ? index + 1 : index,
-				value);
-	}
+	// public void updateFooterValues(String value, int index) {
+	// this.footer.setText(0, isMultiSelectionEnable ? index + 1 : index,
+	// value);
+	// }
 
 	private void addCellStyles(String... styles) {
 		for (String style : styles) {

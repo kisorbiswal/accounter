@@ -276,10 +276,10 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		grid.setDisabled(isEdit);
 		grid.setHeight("200px");
 		if (!isEdit) {
-//			grid.addFooterValue("Total", 1);
-			grid
-					.updateFooterValues(DataUtils
-							.getAmountAsString(totalAmount), 2);
+			// grid.addFooterValue("Total", 1);
+			// grid
+			// .updateFooterValues(DataUtils
+			// .getAmountAsString(totalAmount), 2);
 		}
 		gridLayout.add(grid);
 
@@ -313,8 +313,8 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 				count++;
 			}
 		}
-		grid.updateFooterValues("Total"
-				+ DataUtils.getAmountAsString(payVAT.getTotal()), 2);
+		// grid.updateFooterValues("Total"
+		// + DataUtils.getAmountAsString(payVAT.getTotal()), 2);
 
 	}
 

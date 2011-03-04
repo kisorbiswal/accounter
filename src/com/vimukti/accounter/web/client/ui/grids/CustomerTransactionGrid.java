@@ -657,14 +657,16 @@ public abstract class CustomerTransactionGrid extends
 
 		// if (!isBankingTransaction)
 		// this.updateFooterValues("Discount: " + totaldiscount + "%", 5);
-		this.updateFooterValues(DataUtils.getAmountAsString(totallinetotal), 6);
-
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			if (!isBankingTransaction) {
-				this.updateFooterValues(DataUtils.getAmountAsString(totalVat),
-						8);
-			}
-		}
+		// this.updateFooterValues(DataUtils.getAmountAsString(totallinetotal),
+		// 6);
+		//
+		// if (FinanceApplication.getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_UK) {
+		// if (!isBankingTransaction) {
+		// this.updateFooterValues(DataUtils.getAmountAsString(totalVat),
+		// 8);
+		// }
+		// }
 	}
 
 	public Map<Integer, Map<String, String>> getVATDetailsMapForPrinting() {

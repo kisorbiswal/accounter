@@ -152,7 +152,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 		grid2 = new AccountRegisterListGrid(false,
 				ClientAccount.TYPE_CREDIT_CARD);
-//		grid2.addStyleName("listgrid-tl");
+		// grid2.addStyleName("listgrid-tl");
 		grid2.init();
 
 		gridLayout = new HorizontalPanel() {
@@ -211,12 +211,12 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 				}
 			}
 		}
-		grid.updateFooterValues(FinanceApplication.getCustomersMessages()
-				.endingbalance(), 7);
-//		grid.addFooterValue(DataUtils.getAmountAsString(this.account
-//				.getCurrentBalance()), 8);
-		grid2.updateFooterValues(FinanceApplication.getCustomersMessages()
-				.endingbalance(), 7);
+		// grid.updateFooterValues(FinanceApplication.getCustomersMessages()
+		// .endingbalance(), 7);
+		// grid.addFooterValue(DataUtils.getAmountAsString(this.account
+		// .getCurrentBalance()), 8);
+		// grid2.updateFooterValues(FinanceApplication.getCustomersMessages()
+		// .endingbalance(), 7);
 		// grid2.addFooterValue(DataUtils.getAmountAsString(this.account
 		// .getCurrentBalance()), 8);
 		this.total = 0;

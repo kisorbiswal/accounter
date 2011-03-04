@@ -180,7 +180,7 @@ public class ReceivePaymentView extends
 							totalInoiceAmt = 0.00d;
 							totalDueAmt = 0.00d;
 							transactionTotal = 0.00d;
-							updateFooterValues();
+							// updateFooterValues();
 						}
 					}
 
@@ -271,19 +271,19 @@ public class ReceivePaymentView extends
 		}
 		// gridView.setRecords(records);
 		recalculateGridAmounts();
-		updateFooterValues();
+		// updateFooterValues();
 
 	}
 
-	public void updateFooterValues() {
-		gridView.updateFooterValues(
-				DataUtils.getAmountAsString(totalInoiceAmt), 2);
-		if (!isEdit)
-			gridView.updateFooterValues(DataUtils
-					.getAmountAsString(totalDueAmt), 3);
-		gridView.updateFooterValues(DataUtils
-				.getAmountAsString(transactionTotal), 8);
-	}
+	// public void updateFooterValues() {
+	// gridView.updateFooterValues(
+	// DataUtils.getAmountAsString(totalInoiceAmt), 2);
+	// if (!isEdit)
+	// gridView.updateFooterValues(DataUtils
+	// .getAmountAsString(totalDueAmt), 3);
+	// gridView.updateFooterValues(DataUtils
+	// .getAmountAsString(transactionTotal), 8);
+	// }
 
 	public Double calculatePaymentForRecord(
 			ClientTransactionReceivePayment record) {
@@ -867,7 +867,7 @@ public class ReceivePaymentView extends
 			// this.gridView.selectRow(count);
 		}
 		this.transactionTotal = getGridTotal();
-		updateFooterValues();
+		// updateFooterValues();
 
 	}
 

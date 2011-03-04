@@ -116,8 +116,8 @@ public class VATItemListGrid extends ListGrid<ClientTAXItem> {
 		for (ClientTAXItem vatItem : vatItems) {
 			groupRate += vatItem.getTaxRate();
 		}
-		updateFooterValues(FinanceApplication.getVATMessages().groupRate()
-				+ groupRate + "%", 1);
+		// updateFooterValues(FinanceApplication.getVATMessages().groupRate()
+		// + groupRate + "%", 1);
 		updateData(selectedObject);
 
 	}

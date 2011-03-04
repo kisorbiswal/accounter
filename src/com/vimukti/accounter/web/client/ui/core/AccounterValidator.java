@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.TransferFundsDialog;
@@ -938,8 +937,8 @@ public class AccounterValidator {
 							amount = 0D;
 						}
 						view.gridView.updateData(trprecord);
-						view.gridView.updateFooterValues(DataUtils
-								.getAmountAsString(updatedValue), 8);
+						// view.gridView.updateFooterValues(DataUtils
+						// .getAmountAsString(updatedValue), 8);
 						if (!DecimalUtil.isGreaterThan(amount, 0D))
 							break;
 					} catch (Exception e) {

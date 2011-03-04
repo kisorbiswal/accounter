@@ -388,7 +388,7 @@ public class TransactionReceivePaymentGrid extends
 
 							updateData(selectedObject);
 							paymentView.recalculateGridAmounts();
-							paymentView.updateFooterValues();
+							// paymentView.updateFooterValues();
 						}
 
 						else
@@ -569,7 +569,7 @@ public class TransactionReceivePaymentGrid extends
 						paymentView.recalculateGridAmounts();
 						updateRecord(selectedObject, currentRow, 4);
 						updatePayment(selectedObject);
-						paymentView.updateFooterValues();
+//						paymentView.updateFooterValues();
 						paymentView.recalculateGridAmounts();
 						paymentView.unUsedCreditsText
 								.setAmount(creditsAndPaymentsDialiog.totalBalances);
@@ -683,7 +683,7 @@ public class TransactionReceivePaymentGrid extends
 							}
 							updateData(selectedObject);
 							paymentView.recalculateGridAmounts();
-							paymentView.updateFooterValues();
+//							paymentView.updateFooterValues();
 
 						} else
 							return false;
@@ -753,16 +753,16 @@ public class TransactionReceivePaymentGrid extends
 
 	public void updateTotalPayment(Double payment) {
 		paymentView.transactionTotal += payment;
-		this.updateFooterValues(DataUtils
-				.getAmountAsString(paymentView.transactionTotal), canEdit ? 8
-				: 6);
+//		this.updateFooterValues(DataUtils
+//				.getAmountAsString(paymentView.transactionTotal), canEdit ? 8
+//				: 6);
 	}
 
 	public void deleteTotalPayment(Double payment) {
 		paymentView.transactionTotal -= payment;
-		this.updateFooterValues(DataUtils
-				.getAmountAsString(paymentView.transactionTotal), canEdit ? 8
-				: 6);
+		// this.updateFooterValues(DataUtils
+		// .getAmountAsString(paymentView.transactionTotal), canEdit ? 8
+		// : 6);
 	}
 
 	public void resetValues() {

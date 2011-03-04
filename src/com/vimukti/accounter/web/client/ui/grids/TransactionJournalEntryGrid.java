@@ -718,8 +718,8 @@ public class TransactionJournalEntryGrid extends
 			creditTotal += rec.getCredit();
 			debitTotal += rec.getDebit();
 		}
-		updateFooterValues(DataUtils.getAmountAsString(debitTotal), 4);
-		updateFooterValues(DataUtils.getAmountAsString(creditTotal), 5);
+		// updateFooterValues(DataUtils.getAmountAsString(debitTotal), 4);
+		// updateFooterValues(DataUtils.getAmountAsString(creditTotal), 5);
 		setCreditTotal(creditTotal);
 		setDebitTotal(debitTotal);
 	}

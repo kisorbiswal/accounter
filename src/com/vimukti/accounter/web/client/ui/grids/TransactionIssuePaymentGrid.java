@@ -134,11 +134,11 @@ public class TransactionIssuePaymentGrid extends
 		if (isChecked) {
 			total += obj.getAmount();
 			issuePaymentView.totalAmount = total;
-			updateFooterValues(DataUtils.getAmountAsString(total), 4);
+			// updateFooterValues(DataUtils.getAmountAsString(total), 4);
 		} else {
 			total -= obj.getAmount();
 			issuePaymentView.totalAmount = total;
-			updateFooterValues(DataUtils.getAmountAsString(total), 4);
+			// updateFooterValues(DataUtils.getAmountAsString(total), 4);
 		}
 		super.onSelectionChanged(obj, row, isChecked);
 	}
@@ -154,7 +154,7 @@ public class TransactionIssuePaymentGrid extends
 			total = 0;
 			issuePaymentView.totalAmount = total;
 		}
-		updateFooterValues(DataUtils.getAmountAsString(total), 4);
+		// updateFooterValues(DataUtils.getAmountAsString(total), 4);
 		super.onHeaderCheckBoxClick(isChecked);
 	}
 
@@ -168,7 +168,7 @@ public class TransactionIssuePaymentGrid extends
 	@Override
 	public void setTaxCode(String taxCode) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

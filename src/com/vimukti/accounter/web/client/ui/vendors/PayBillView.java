@@ -290,20 +290,20 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 				cashDiscount += record.getCashDiscount();
 				records.add(record);
 			}
-			gridView.updateFooterValues(FinanceApplication.getVendorsMessages()
-					.subTotal(), 1);
-			if (!isEdit)
-				gridView.updateFooterValues(DataUtils
-						.getAmountAsString(totalOrginalAmt), 2);
-			if (!isEdit)
-				gridView.updateFooterValues(DataUtils
-						.getAmountAsString(totalDueAmt), 3);
-
-			gridView.updateFooterValues(DataUtils
-					.getAmountAsString(totalPayment), isEdit ? 6 : 7);
-			if (!isEdit)
-				gridView.updateFooterValues(DataUtils
-						.getAmountAsString(cashDiscount), 5);
+			// gridView.updateFooterValues(FinanceApplication.getVendorsMessages()
+			// .subTotal(), 1);
+			// if (!isEdit)
+			// gridView.updateFooterValues(DataUtils
+			// .getAmountAsString(totalOrginalAmt), 2);
+			// if (!isEdit)
+			// gridView.updateFooterValues(DataUtils
+			// .getAmountAsString(totalDueAmt), 3);
+			//
+			// gridView.updateFooterValues(DataUtils
+			// .getAmountAsString(totalPayment), isEdit ? 6 : 7);
+			// if (!isEdit)
+			// gridView.updateFooterValues(DataUtils
+			// .getAmountAsString(cashDiscount), 5);
 			gridView.setRecords(records);
 			size = records.size();
 		}
@@ -314,17 +314,17 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		totalOrginalAmt = 0.0D;
 		totalDueAmt = 0.0D;
 		cashDiscount = 0.0D;
-		if (!isEdit)
-			gridView.updateFooterValues(DataUtils
-					.getAmountAsString(totalOrginalAmt), 2);
-		if (!isEdit)
-			gridView.updateFooterValues(DataUtils
-					.getAmountAsString(totalDueAmt), 3);
-		gridView.updateFooterValues(DataUtils.getAmountAsString(totalPayment),
-				isEdit ? 6 : 7);
-		if (!isEdit)
-			gridView.updateFooterValues(DataUtils
-					.getAmountAsString(cashDiscount), 5);
+		// if (!isEdit)
+		// gridView.updateFooterValues(DataUtils
+		// .getAmountAsString(totalOrginalAmt), 2);
+		// if (!isEdit)
+		// gridView.updateFooterValues(DataUtils
+		// .getAmountAsString(totalDueAmt), 3);
+		// gridView.updateFooterValues(DataUtils.getAmountAsString(totalPayment),
+		// isEdit ? 6 : 7);
+		// if (!isEdit)
+		// gridView.updateFooterValues(DataUtils
+		// .getAmountAsString(cashDiscount), 5);
 	}
 
 	@SuppressWarnings("unused")

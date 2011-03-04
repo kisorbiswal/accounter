@@ -74,7 +74,8 @@ public class TransactionPayVATGrid extends
 			}
 
 			payVATView.adjustAmountAndEndingBalance(toBeSetAmount);
-			updateFooterValues(DataUtils.getAmountAsString(toBeSetAmount), 2);
+			// updateFooterValues(DataUtils.getAmountAsString(toBeSetAmount),
+			// 2);
 
 		} catch (Exception e) {
 			Accounter.showError(AccounterErrorType.INVALIDAMOUNT);
@@ -142,7 +143,7 @@ public class TransactionPayVATGrid extends
 			}
 		}
 		payVATView.adjustAmountAndEndingBalance(totalAmount);
-		updateFooterValues(DataUtils.getAmountAsString(totalAmount), 2);
+		// updateFooterValues(DataUtils.getAmountAsString(totalAmount), 2);
 	}
 
 	public boolean isSelected(ClientTransactionPayVAT obj) {
@@ -161,7 +162,7 @@ public class TransactionPayVATGrid extends
 		// selectedValues.remove((Integer) indexOf(obj));
 		// updateData(obj);
 		// }
-		updateFooterValues("0.0", 2);
+		// updateFooterValues("0.0", 2);
 		payVATView.adjustAmountAndEndingBalance(0.0);
 	}
 
@@ -176,7 +177,7 @@ public class TransactionPayVATGrid extends
 		}
 
 		payVATView.adjustAmountAndEndingBalance(toBeSetAmount);
-		updateFooterValues(DataUtils.getAmountAsString(toBeSetAmount), 2);
+		// updateFooterValues(DataUtils.getAmountAsString(toBeSetAmount), 2);
 	}
 
 	@Override
@@ -188,6 +189,6 @@ public class TransactionPayVATGrid extends
 	@Override
 	public void setTaxCode(String taxCode) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

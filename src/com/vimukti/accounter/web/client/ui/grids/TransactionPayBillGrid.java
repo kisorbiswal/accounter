@@ -708,9 +708,9 @@ public class TransactionPayBillGrid extends
 			paybillView.totalCashDiscount += rec.getCashDiscount();
 		}
 		/* updating payment(or PaidAmount) */
-		this.updateFooterValues(DataUtils
-				.getAmountAsString(paybillView.transactionTotal), canEdit ? 7
-				: 6);
+		// this.updateFooterValues(DataUtils
+		// .getAmountAsString(paybillView.transactionTotal), canEdit ? 7
+		// : 6);
 		paybillView.adjustPaymentValue(obj);
 		updateAmountDue(obj);
 	}
@@ -727,10 +727,10 @@ public class TransactionPayBillGrid extends
 				paybillView.transactionTotal += rec.getPayment();
 				paybillView.totalCashDiscount += rec.getCashDiscount();
 			}
-			this.updateFooterValues(DataUtils
-					.getAmountAsString(paybillView.transactionTotal), 7);
-			this.updateFooterValues(DataUtils
-					.getAmountAsString(paybillView.totalCashDiscount), 5);
+//			this.updateFooterValues(DataUtils
+//					.getAmountAsString(paybillView.transactionTotal), 7);
+//			this.updateFooterValues(DataUtils
+//					.getAmountAsString(paybillView.totalCashDiscount), 5);
 		} else {
 			paybillView.transactionTotal = 0.0;
 			paybillView.totalCashDiscount = 0.0;
@@ -741,15 +741,15 @@ public class TransactionPayBillGrid extends
 				paybillView.totalCashDiscount += rec.getCashDiscount();
 			}
 			/* */
-			this.updateFooterValues(DataUtils
-					.getAmountAsString(paybillView.totalOriginalAmount),
-					canEdit ? 2 : 1);
-			this.updateFooterValues(DataUtils
-					.getAmountAsString(paybillView.transactionTotal),
-					canEdit ? 7 : 6);
-			this.updateFooterValues(DataUtils
-					.getAmountAsString(paybillView.totalCashDiscount),
-					canEdit ? 5 : 3);
+			// this.updateFooterValues(DataUtils
+			// .getAmountAsString(paybillView.totalOriginalAmount),
+			// canEdit ? 2 : 1);
+			// this.updateFooterValues(DataUtils
+			// .getAmountAsString(paybillView.transactionTotal),
+			// canEdit ? 7 : 6);
+			// this.updateFooterValues(DataUtils
+			// .getAmountAsString(paybillView.totalCashDiscount),
+			// canEdit ? 5 : 3);
 		}
 	}
 
@@ -757,13 +757,13 @@ public class TransactionPayBillGrid extends
 		paybillView.transactionTotal -= rec.getPayment();
 		paybillView.totalCashDiscount -= rec.getCashDiscount();
 		/* updating payment column's footer */
-		this.updateFooterValues(DataUtils
-				.getAmountAsString(paybillView.transactionTotal), canEdit ? 7
-				: 6);
-		if (!DecimalUtil.isLessThan(paybillView.totalCashDiscount, 0))
-			this.updateFooterValues(DataUtils
-					.getAmountAsString(paybillView.totalCashDiscount),
-					canEdit ? 5 : 3);
+		// this.updateFooterValues(DataUtils
+		// .getAmountAsString(paybillView.transactionTotal), canEdit ? 7
+		// : 6);
+		// if (!DecimalUtil.isLessThan(paybillView.totalCashDiscount, 0))
+		// this.updateFooterValues(DataUtils
+		// .getAmountAsString(paybillView.totalCashDiscount),
+		// canEdit ? 5 : 3);
 	}
 
 	/*

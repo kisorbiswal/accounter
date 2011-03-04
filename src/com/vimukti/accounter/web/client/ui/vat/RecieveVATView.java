@@ -290,12 +290,12 @@ public class RecieveVATView extends
 		grid.setRecieveVATView(this);
 		grid.setDisabled(isEdit);
 		grid.setHeight("200px");
-		if (!isEdit) {
-//			grid.addFooterValue("Total", 1);
-			grid
-					.updateFooterValues(DataUtils
-							.getAmountAsString(totalAmount), 2);
-		}
+		// if (!isEdit) {
+		// // grid.addFooterValue("Total", 1);
+		// grid
+		// .updateFooterValues(DataUtils
+		// .getAmountAsString(totalAmount), 2);
+		// }
 		gridLayout.add(grid);
 
 	}
@@ -328,8 +328,8 @@ public class RecieveVATView extends
 				count++;
 			}
 		}
-		grid.updateFooterValues("Total"
-				+ DataUtils.getAmountAsString(receiveVAT.getTotal()), 2);
+		// grid.updateFooterValues("Total"
+		// + DataUtils.getAmountAsString(receiveVAT.getTotal()), 2);
 
 	}
 

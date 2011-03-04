@@ -213,9 +213,9 @@ public class PaySalesTaxView extends
 		grid.setDisabled(isEdit);
 		grid.setHeight("200px");
 		if (!isEdit)
-			grid.updateFooterValues(FinanceApplication.getVendorsMessages()
-					.total()
-					+ DataUtils.getAmountAsString(totalAmount), 3);
+			// grid.updateFooterValues(FinanceApplication.getVendorsMessages()
+			// .total()
+			// + DataUtils.getAmountAsString(totalAmount), 3);
 
 		gridLayout.add(grid);
 
@@ -495,8 +495,8 @@ public class PaySalesTaxView extends
 				count++;
 			}
 		}
-		grid.updateFooterValues(FinanceApplication.getVendorsMessages().total()
-				+ DataUtils.getAmountAsString(paySalesTax.getTotal()), 2);
+//		grid.updateFooterValues(FinanceApplication.getVendorsMessages().total()
+//				+ DataUtils.getAmountAsString(paySalesTax.getTotal()), 2);
 
 	}
 
