@@ -865,7 +865,40 @@ public interface CompanyMessages extends FinanceMessages {
 	String decreaseTAXLine();
 
 	String increaseTAXLine();
-	
+
 	String selectOneType();
 
+	String goToAccountReceivable();
+
+	String addReceivableInvoice();
+
+	String draftInvoices();
+
+	String overDueInvoices();
+
+	String addPayableInvoice();
+
+	String gotoBanking();
+
+	String goToAccountsPayable();
+
+	String addBankAccount();
+
+	String goToExpenseCliams();
+
+	String addExpenses();
+
+	String allExpenses();
+
+	String cashExpenses();
+
+	String employeeExpenses();
+
+	String creditCardExpenses();
+
+	String moneyComingIn();
+
+	String moneyGoingOut();
+
+	String expenseClaims();
 }
