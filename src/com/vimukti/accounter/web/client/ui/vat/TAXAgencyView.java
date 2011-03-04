@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VATAgencyAccountCombo;
 import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
@@ -41,7 +42,6 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
-import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -87,11 +87,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	private Button addButton;
 
-	private String[] vatReturnType = { "",
-			FinanceApplication.getVATMessages().UKVAT(),
-			FinanceApplication.getVATMessages().vAT3Ireland() };
+	private List<String> vatReturnList;
 
-	private ComboBoxItem vatReturnCombo;
+	private SelectCombo vatReturnCombo;
 
 	private static TAXAgencyView taxAgencyView;
 
@@ -233,9 +231,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		// Setting TaxAgency
 		vatAgency.setName(taxAgencyText.getValue().toString());
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			if (vatReturnCombo.getValue().toString() == "") {
+			if (vatReturnCombo.getSelectedValue() == "") {
 				vatAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_NONE);
-			} else if (vatReturnCombo.getValue().toString() == "UK VAT") {
+			} else if (vatReturnCombo.getSelectedValue() == "UK VAT") {
 				vatAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_UK_VAT);
 			} else {
 				vatAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_IRELAND_VAT);
@@ -361,13 +359,26 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		paymentTermsCombo.setRequired(true);
 
-		vatReturnCombo = new ComboBoxItem();
+		vatReturnCombo = new SelectCombo(FinanceApplication.getVATMessages()
+				.VATReturn());
 		vatReturnCombo.setHelpInformation(true);
-		vatReturnCombo
-				.setTitle(FinanceApplication.getVATMessages().VATReturn());
 		vatReturnCombo.setRequired(true);
-		vatReturnCombo.setValueMap(vatReturnType);
+		vatReturnList = new ArrayList<String>();
+		vatReturnList.add(FinanceApplication.getVATMessages().UKVAT());
+		vatReturnList.add(FinanceApplication.getVATMessages().vAT3Ireland());
+		vatReturnCombo.initCombo(vatReturnList);
+		vatReturnCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						if (vatReturnCombo.getSelectedValue() != null) {
+							vatReturnCombo.setSelected(vatReturnCombo
+									.getSelectedValue());
+						}
+
+					}
+				});
 		liabilitySalesAccountCombo = new VATAgencyAccountCombo(
 				FinanceApplication.getVATMessages().salesLiabilityAccount());
 		liabilitySalesAccountCombo.setHelpInformation(true);
@@ -500,12 +511,12 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			}
 
 			if (takenVATAgency.getVATReturn() == ClientTAXAgency.RETURN_TYPE_NONE)
-				vatReturnCombo.setValue("");
+				vatReturnCombo.setSelected("");
 			else if (takenVATAgency.getVATReturn() == ClientTAXAgency.RETURN_TYPE_UK_VAT)
-				vatReturnCombo.setValue(FinanceApplication.getVATMessages()
+				vatReturnCombo.setSelected(FinanceApplication.getVATMessages()
 						.uKVAT());
 			else
-				vatReturnCombo.setValue(FinanceApplication.getVATMessages()
+				vatReturnCombo.setSelected(FinanceApplication.getVATMessages()
 						.vAT3Ireland());
 
 			if (takenVATAgency.getSalesLiabilityAccount() != null) {
