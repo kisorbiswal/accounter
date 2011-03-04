@@ -452,7 +452,9 @@ table tr.ReportGridRow:HOVER {
 }
 
 .link {
-	background: transparent url(images/settings.png) no-repeat scroll 0 1px;
+	background: transparent url(images/help-icon.png) no-repeat scroll 0 1px
+		;
+	margin-right: 5px;
 }
 
 .finance-portlet .portlet {
@@ -465,11 +467,11 @@ div.refresh:hover {
 		1px;
 }
 
+/*
 div.link:hover {
 	background: transparent url(images/settings.png) no-repeat scroll 0
-		-15px;
-}
-
+		-15px/
+}*/
 .bottom-view {
 	border-top: 1px solid #AAAAAA;
 	/*height: 28.4%;*/
@@ -528,7 +530,7 @@ td.gridDecimalCell {
 .custom-combo {
 	border: 1px solid #aaa;
 	background: #FFF;
-	width: 100% ;
+	width: 100%;
 	height: 19px !important;
 	position: relative;
 	overflow: hidden;
@@ -655,8 +657,37 @@ table.dropdownFlex tr:hover {
 
 .falseHyperlink {
 	color: blue;
-    cursor: pointer;
-    text-decoration: underline;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.addAccountPortlet {
+	margin: 10px !important;
+	width: 150px;
+	height: 35px;
+}
+
+.label-banking {
+	font-weight: bold;
+	font-size: 12pt;
+	margin: 6px;
+}
+
+.addButtonPortlet {
+	margin-left: 10px !important;
+	margin-top: 10px !important;
+	width: 190px;
+	height: 35px;
+}
+
+.fTablePortlet {
+	margin-left: 10px !important;
+	margin-top: 5px !important;
+}
+
+.amountLabelPortlet {
+	font-weight: bold;
+	font-size: medium;
 }
 /**End --- Styles for Finance **/
 
