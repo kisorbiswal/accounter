@@ -1,7 +1,8 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -13,14 +14,15 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 
 public class ExpenseReportToolbar extends ReportToolbar {
 	private DateItem fromItem;
 	private DateItem toItem;
-	protected ComboBoxItem expenseCombo;
-	private ComboBoxItem dateRangeItem;
+	protected SelectCombo expenseCombo, dateRangeCombo;
+	protected List<String> statusList, dateRangeList;
 	private Button updateButton;
 	public static int EMPLOYEE = 1;
 	public static int CASH = 2;
@@ -51,48 +53,57 @@ public class ExpenseReportToolbar extends ReportToolbar {
 				FinanceApplication.getReportsMessages().financialYearToDate(),
 				FinanceApplication.getReportsMessages().custom() };
 
-		expenseCombo = new ComboBoxItem();
-		expenseCombo.setHelpInformation(true);
-		expenseCombo.setTitle(FinanceApplication.getReportsMessages()
+		expenseCombo = new SelectCombo(FinanceApplication.getReportsMessages()
 				.expenseRealtedTo());
-		expenseCombo.setValueMap(statusArray);
+		expenseCombo.setHelpInformation(true);
+		statusList = new ArrayList<String>();
+		for (int i = 0; i < statusArray.length; i++) {
+			statusList.add(statusArray[i]);
+		}
+		expenseCombo.initCombo(statusList);
 		expenseCombo.setDefaultValue(statusArray[0]);
-		expenseCombo.addChangeHandler(new ChangeHandler() {
+		expenseCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
 
-				if (expenseCombo.getValue().toString().equals(
-						FinanceApplication.getReportsMessages().employee())) {
-					status = ClientTransaction.TYPE_EMPLOYEE_EXPENSE;
-				} else if (expenseCombo.getValue().toString().equals(
-						FinanceApplication.getReportsMessages().cash())) {
-					status = ClientTransaction.TYPE_CASH_EXPENSE;
-				} else
-					status = ClientTransaction.TYPE_CREDIT_CARD_EXPENSE;
-				ClientFinanceDate startDate = fromItem.getDate();
-				ClientFinanceDate endDate = toItem.getDate();
-				reportview.makeReportRequest(status, startDate, endDate);
+						if (expenseCombo.getSelectedValue().equals(
+								FinanceApplication.getReportsMessages()
+										.employee())) {
+							status = ClientTransaction.TYPE_EMPLOYEE_EXPENSE;
+						} else if (expenseCombo.getSelectedValue().equals(
+								FinanceApplication.getReportsMessages().cash())) {
+							status = ClientTransaction.TYPE_CASH_EXPENSE;
+						} else
+							status = ClientTransaction.TYPE_CREDIT_CARD_EXPENSE;
+						ClientFinanceDate startDate = fromItem.getDate();
+						ClientFinanceDate endDate = toItem.getDate();
+						reportview
+								.makeReportRequest(status, startDate, endDate);
 
-			}
-		});
+					}
+				});
 
-		dateRangeItem = new ComboBoxItem();
-		dateRangeItem.setHelpInformation(true);
-		dateRangeItem.setTitle(FinanceApplication.getReportsMessages()
-				.dateRange());
-		dateRangeItem.setValueMap(dateRangeArray);
-		dateRangeItem.setDefaultValue(dateRangeArray[0]);
+		dateRangeCombo = new SelectCombo(FinanceApplication
+				.getReportsMessages().dateRange());
+		dateRangeCombo.setHelpInformation(true);
+		dateRangeList = new ArrayList<String>();
+		for (int i = 0; i < dateRangeArray.length; i++) {
+			dateRangeList.add(dateRangeArray[i]);
+		}
+		dateRangeCombo.initCombo(dateRangeList);
+		dateRangeCombo.setDefaultValue(dateRangeArray[0]);
+		dateRangeCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-		dateRangeItem.addChangeHandler(new ChangeHandler() {
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
 
-			@Override
-			public void onChange(ChangeEvent event) {
+						dateRangeChanged(dateRangeCombo.getSelectedValue());
 
-				dateRangeChanged(dateRangeItem.getValue().toString());
-
-			}
-		});
+					}
+				});
 
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
@@ -128,7 +139,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 				setEndDate(toItem.getDate());
 
 				changeDates(fromItem.getDate(), toItem.getDate());
-				dateRangeItem.setDefaultValue(FinanceApplication
+				dateRangeCombo.setDefaultValue(FinanceApplication
 						.getReportsMessages().custom());
 				setSelectedDateRange(FinanceApplication.getReportsMessages()
 						.custom());
@@ -153,10 +164,10 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		});
 
 		if (UIUtils.isMSIEBrowser()) {
-			dateRangeItem.setWidth("170px");
+			dateRangeCombo.setWidth("170px");
 			expenseCombo.setWidth("90px");
 		}
-		addItems(expenseCombo, dateRangeItem, fromItem, toItem);
+		addItems(expenseCombo, dateRangeCombo, fromItem, toItem);
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
@@ -175,12 +186,12 @@ public class ExpenseReportToolbar extends ReportToolbar {
 
 	@Override
 	public void setDateRanageOptions(String... dateRanages) {
-		dateRangeItem.setValueMap(dateRanages);
+		dateRangeCombo.setValueMap(dateRanages);
 	}
 
 	@Override
 	public void setDefaultDateRange(String defaultDateRange) {
-		dateRangeItem.setDefaultValue(defaultDateRange);
+		dateRangeCombo.setDefaultValue(defaultDateRange);
 		dateRangeChanged(defaultDateRange);
 	}
 

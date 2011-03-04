@@ -1,7 +1,8 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -12,7 +13,8 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
@@ -21,8 +23,11 @@ public class DateRangeReportToolbar extends ReportToolbar {
 	public DateItem fromItem;
 	public DateItem toItem;
 	@SuppressWarnings("unused")
-	private ComboBoxItem reportBasisItem;
-	private ComboBoxItem dateRangeItem;
+	private SelectCombo reportBasisItemCombo;
+	private SelectCombo dateRangeItemCombo;
+	@SuppressWarnings("unused")
+	private List<String> reportBasisItemList, dateRangeItemList;
+
 	private Button updateButton;
 
 	public DateRangeReportToolbar() {
@@ -86,11 +91,14 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// // report basic is not yet implemented, so disable the feature.
 		// reportBasisItem.setDisabled(true);
 
-		dateRangeItem = new ComboBoxItem();
-		dateRangeItem.setHelpInformation(true);
-		dateRangeItem.setTitle(FinanceApplication.getReportsMessages()
-				.dateRange());
-		dateRangeItem.setValueMap(dateRangeArray);
+		dateRangeItemCombo = new SelectCombo(FinanceApplication
+				.getReportsMessages().dateRange());
+		dateRangeItemCombo.setHelpInformation(true);
+		dateRangeItemList = new ArrayList<String>();
+		for (int i = 0; i < dateRangeArray.length; i++) {
+			dateRangeItemList.add(dateRangeArray[i]);
+		}
+		dateRangeItemCombo.initCombo(dateRangeItemList);
 		// dateRangeItem.setDefaultValue(dateRangeArray[0]);
 		// dateRangeItem.addChangedHandler(new ChangeHandler() {
 		//
@@ -106,23 +114,26 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// }
 		// });
 
-		dateRangeItem.addChangeHandler(new ChangeHandler() {
+		dateRangeItemCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				// if (!dateRangeItem.getValue().toString().equals("Custom")) {
-				dateRangeChanged(dateRangeItem.getValue().toString());
-				// fromItem.setDisabled(true);
-				// toItem.setDisabled(true);
-				// updateButton.setEnabled(false);
-				// } else {
-				// fromItem.setDisabled(false);
-				// toItem.setDisabled(false);
-				// updateButton.setEnabled(true);
-				// }
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						// if
+						// (!dateRangeItem.getValue().toString().equals("Custom"))
+						// {
+						dateRangeChanged(dateRangeItemCombo.getSelectedValue());
+						// fromItem.setDisabled(true);
+						// toItem.setDisabled(true);
+						// updateButton.setEnabled(false);
+						// } else {
+						// fromItem.setDisabled(false);
+						// toItem.setDisabled(false);
+						// updateButton.setEnabled(true);
+						// }
 
-			}
-		});
+					}
+				});
 
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
@@ -163,7 +174,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
 						fromItem.getDate(), toItem.getDate());
-				dateRangeItem.setDefaultValue(FinanceApplication
+				dateRangeItemCombo.setDefaultValue(FinanceApplication
 						.getReportsMessages().custom());
 				setSelectedDateRange(FinanceApplication.getReportsMessages()
 						.custom());
@@ -187,10 +198,10 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		});
 
 		if (UIUtils.isMSIEBrowser()) {
-			dateRangeItem.setWidth("200px");
+			dateRangeItemCombo.setWidth("200px");
 		}
 
-		addItems(report, dateRangeItem, fromItem, toItem);
+		addItems(report, dateRangeItemCombo, fromItem, toItem);
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
@@ -207,13 +218,13 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 	@Override
 	public void setDateRanageOptions(String... dateRanages) {
-		dateRangeItem.setValueMap(dateRanages);
+		dateRangeItemCombo.setValueMap(dateRanages);
 	}
 
 	@Override
 	public void setDefaultDateRange(String defaultDateRange) {
 		// setSelectedDateRange(defaultDateRange);
-		dateRangeItem.setDefaultValue(defaultDateRange);
+		dateRangeItemCombo.setDefaultValue(defaultDateRange);
 		dateRangeChanged(defaultDateRange);
 
 	}

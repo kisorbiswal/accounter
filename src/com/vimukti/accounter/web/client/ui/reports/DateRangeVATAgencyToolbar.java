@@ -1,9 +1,8 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -16,8 +15,8 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
-import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 
 public class DateRangeVATAgencyToolbar extends ReportToolbar {
@@ -25,12 +24,12 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 	private DateItem fromItem;
 	private DateItem toItem;
 	@SuppressWarnings("unused")
-	private ComboBoxItem reportBasisItem;
-	private ComboBoxItem dateRangeItem;
+	private SelectCombo reportBasisItem, dateRangeItem;
 	private TAXAgencyCombo vatAgencyCombo;
 	protected String selectedEndDate;
 	protected String selectedStartDate;
 	private Button updateButton;
+	private List<String> dateRangeList;
 
 	public DateRangeVATAgencyToolbar() {
 		createControls();
@@ -107,29 +106,33 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 			}
 		}
 
-		dateRangeItem = new ComboBoxItem();
-		dateRangeItem.setHelpInformation(true);
-		dateRangeItem.setTitle(FinanceApplication.getReportsMessages()
+		dateRangeItem = new SelectCombo(FinanceApplication.getReportsMessages()
 				.dateRange());
+		dateRangeItem.setHelpInformation(true);
 		dateRangeItem.setValueMap(dateRangeArray);
 		dateRangeItem.setDefaultValue(dateRangeArray[0]);
-		dateRangeItem.addChangeHandler(new ChangeHandler() {
+		dateRangeList = new ArrayList<String>();
+		for (int i = 0; i < dateRangeArray.length; i++) {
+			dateRangeList.add(dateRangeArray[i]);
+		}
+		dateRangeItem
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				if (!dateRangeItem.getValue().toString().equals("Custom")) {
-					dateRangeChanged(dateRangeItem.getValue().toString());
-					// fromItem.setDisabled(true);
-					// toItem.setDisabled(true);
-					// updateButton.setEnabled(false);
-					// } else {
-					// fromItem.setDisabled(false);
-					// toItem.setDisabled(false);
-					// updateButton.setEnabled(true);
-					// }
-				}
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						if (!dateRangeItem.getSelectedValue().equals("Custom")) {
+							dateRangeChanged(dateRangeItem.getSelectedValue());
+							// fromItem.setDisabled(true);
+							// toItem.setDisabled(true);
+							// updateButton.setEnabled(false);
+							// } else {
+							// fromItem.setDisabled(false);
+							// toItem.setDisabled(false);
+							// updateButton.setEnabled(true);
+							// }
+						}
+					}
+				});
 
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
@@ -249,7 +252,12 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 	@Override
 	public void setDateRanageOptions(String... dateRanages) {
-		dateRangeItem.setValueMap(dateRanages);
+		List<String> dateRangesList = new ArrayList<String>();
+		for (int i = 0; i < dateRanages.length; i++) {
+			dateRangesList.add(dateRanages[i]);
+		}
+
+		dateRangeItem.initCombo(dateRangesList);
 	}
 
 	@Override
