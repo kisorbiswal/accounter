@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
@@ -27,7 +27,7 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 	DynamicForm form;
 	List<ClientJournalEntry> allEntries;
 	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
-	private SelectItem currentView;
+	private SelectCombo currentView;
 
 	public JournalEntryListView() {
 		isDeleteDisable = true;
@@ -76,25 +76,27 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 	}
 
 	@Override
-	protected SelectItem getSelectItem() {
-		currentView = new SelectItem();
+	protected SelectCombo getSelectItem() {
+		currentView = new SelectCombo(null);
 		currentView.setHelpInformation(true);
-		currentView.setValueMap(FinanceApplication.getVendorsMessages()
-				.nonVoided(), FinanceApplication.getVendorsMessages().Voided(),
-				FinanceApplication.getVendorsMessages().cashBasis(),
-				FinanceApplication.getVendorsMessages().voidedCashBasis(),
-				FinanceApplication.getVendorsMessages().all()
-		// , "Deleted"
-				);
+		listOfTypes = new ArrayList<String>();
+		listOfTypes.add(FinanceApplication.getVendorsMessages()
+				.nonVoided());
+		listOfTypes.add(FinanceApplication.getVendorsMessages().Voided());
+		listOfTypes.add(FinanceApplication.getVendorsMessages().cashBasis());
+		listOfTypes.add(FinanceApplication.getVendorsMessages().voidedCashBasis());
+		listOfTypes.add(FinanceApplication.getVendorsMessages().all());
+		currentView.initCombo(listOfTypes);
 		currentView
 				.setSelected(FinanceApplication.getCustomersMessages().all());
-		currentView.addChangeHandler(new ChangeHandler() {
-
+		currentView.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+			
 			@Override
-			public void onChange(ChangeEvent event) {
-				if (currentView.getValue() != null) {
-					grid.setViewType(currentView.getValue().toString());
-					filterList(currentView.getValue().toString());
+			public void selectedComboBoxItem(String selectItem) {
+		
+				if (currentView.getSelectedValue() != null) {
+					grid.setViewType(currentView.getSelectedValue());
+					filterList(currentView.getSelectedValue());
 				}
 			}
 		});
@@ -102,7 +104,7 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 	}
 
 	private void filterList(String text) {
-		if (currentView.getValue().toString().equalsIgnoreCase("Non Voided")) {
+		if (currentView.getSelectedValue().equalsIgnoreCase("Non Voided")) {
 			List<ClientJournalEntry> nonVoidedRecs = new ArrayList<ClientJournalEntry>();
 			List<ClientJournalEntry> allRecs = initialRecords;
 			for (ClientJournalEntry rec : allRecs) {
@@ -112,7 +114,7 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 			}
 			grid.setRecords(nonVoidedRecs);
 
-		} else if (currentView.getValue().toString().equalsIgnoreCase("Voided")) {
+		} else if (currentView.getSelectedValue().equalsIgnoreCase("Voided")) {
 			List<ClientJournalEntry> voidedRecs = new ArrayList<ClientJournalEntry>();
 			List<ClientJournalEntry> allRecs = initialRecords;
 			for (ClientJournalEntry rec : allRecs) {
@@ -123,7 +125,7 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 			}
 			grid.setRecords(voidedRecs);
 
-		} else if (currentView.getValue().toString().equalsIgnoreCase(
+		} else if (currentView.getSelectedValue().equalsIgnoreCase(
 				"Cash Basis")) {
 			List<ClientJournalEntry> cashBasisRecs = new ArrayList<ClientJournalEntry>();
 			List<ClientJournalEntry> allRecs = initialRecords;
@@ -134,7 +136,7 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 			}
 			grid.setRecords(cashBasisRecs);
 
-		} else if (currentView.getValue().toString().equalsIgnoreCase(
+		} else if (currentView.getSelectedValue().equalsIgnoreCase(
 				"Voided Cash Basis")) {
 			List<ClientJournalEntry> voidedCashBasisRecs = new ArrayList<ClientJournalEntry>();
 			List<ClientJournalEntry> allRecs = initialRecords;
@@ -161,7 +163,7 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 		// grid.setRecords(deletedRecs);
 		//
 		// }
-		if (currentView.getValue().toString().equalsIgnoreCase("All")) {
+		if (currentView.getSelectedValue().equalsIgnoreCase("All")) {
 			grid.setRecords(initialRecords);
 		}
 		if (grid.getRecords().isEmpty())
