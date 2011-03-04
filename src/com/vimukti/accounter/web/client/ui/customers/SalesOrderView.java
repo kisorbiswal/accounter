@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -45,7 +46,6 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
@@ -92,9 +92,14 @@ public class SalesOrderView extends
 		lab1 = new Label(FinanceApplication.getCustomersMessages().salesOrder());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-		statusSelect = new SelectItem(FinanceApplication.getCustomersMessages()
-				.status());
-		statusSelect.setValueMap(OPEN, COMPLETED, CANCELLED);
+		statusSelect = new SelectCombo(FinanceApplication
+				.getCustomersMessages().status());
+
+		selectComboList = new ArrayList<String>();
+		selectComboList.add(OPEN);
+		selectComboList.add(COMPLETED);
+		selectComboList.add(CANCELLED);
+		statusSelect.initCombo(selectComboList);
 		statusSelect.setDefaultValue(OPEN);
 		statusSelect.setRequired(true);
 		statusSelect.setDisabled(isEdit);
@@ -179,18 +184,18 @@ public class SalesOrderView extends
 		if (transactionObject != null)
 			shipToAddress.businessSelect.setDisabled(true);
 
-		phoneSelect = new SelectItem();
+		phoneSelect = new SelectCombo(customerConstants.phone());
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isEdit);
-		phoneSelect.setTitle(customerConstants.phone());
-		phoneSelect.addChangeHandler(new ChangeHandler() {
+		phoneSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			public void onChange(ChangeEvent event) {
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						phoneNo = phoneSelect.getSelectedValue();
 
-				phoneNo = phoneSelect.getValue().toString();
-
-			}
-		});
+					}
+				});
 
 		custForm = UIUtils.form(customerConstants.billingAddress());
 		custForm.setNumCols(3);
@@ -501,7 +506,7 @@ public class SalesOrderView extends
 		shipToAddress.setListOfCustomerAdress(addresses);
 		if (shippingAddress != null) {
 			shipToAddress.businessSelect.setValue(shippingAddress
-					.getAddressTypes().get(shippingAddress.getType() + ""));
+					.getAddressTypes().get(shippingAddress.getType()));
 			shipToAddress.setAddres(shippingAddress);
 		}
 
@@ -537,7 +542,7 @@ public class SalesOrderView extends
 		initTransactionNumber();
 
 		contactSelected(this.contact);
-		phoneSelect.setValue(this.phoneNo);
+		phoneSelect.setSelected(this.phoneNo);
 
 		// billToaddressSelected(this.billingAddress);
 		// shipToAddressSelected(shippingAddress);
@@ -635,11 +640,11 @@ public class SalesOrderView extends
 		try {
 			ClientSalesOrder salesOrder = transactionObject != null ? (ClientSalesOrder) transactionObject
 					: new ClientSalesOrder();
-			if (statusSelect.getValue().toString().equals(OPEN))
+			if (statusSelect.getSelectedValue().equals(OPEN))
 				salesOrder.setStatus(ClientTransaction.STATUS_OPEN);
-			else if (statusSelect.getValue().toString().equals(COMPLETED))
+			else if (statusSelect.getSelectedValue().equals(COMPLETED))
 				salesOrder.setStatus(ClientTransaction.STATUS_COMPLETED);
-			else if (statusSelect.getValue().toString().equals(CANCELLED))
+			else if (statusSelect.getSelectedValue().equals(CANCELLED))
 				salesOrder.setStatus(ClientTransaction.STATUS_CANCELLED);
 			if (customer != null)
 				salesOrder.setCustomer(customer.getStringID());

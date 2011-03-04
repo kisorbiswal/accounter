@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -26,12 +24,13 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
@@ -231,18 +230,18 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				.getCustomersMessages().customerName());
 		contactCombo = createContactComboItem();
 		billToCombo = createBillToComboItem();
-		phoneSelect = new SelectItem();
+		phoneSelect = new SelectCombo(customerConstants.phone());
 		phoneSelect.setHelpInformation(true);
-		phoneSelect.setTitle(customerConstants.phone());
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isEdit);
-		phoneSelect.addChangeHandler(new ChangeHandler() {
+		phoneSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				phoneNo = phoneSelect.getValue().toString();
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						phoneNo = phoneSelect.getSelectedValue();
+					}
+				});
 
 		custForm = UIUtils.form(customerConstants.customer());
 		custForm.setCellSpacing(5);
@@ -470,7 +469,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		this.contact = estimate.getContact();
 
 		this.phoneNo = estimate.getPhone();
-		phoneSelect.setValue(this.phoneNo);
+		phoneSelect.setSelected(this.phoneNo);
 		this.billingAddress = estimate.getAddress();
 		this.paymentTerm = company.getPaymentTerms(estimate.getPaymentTerm());
 		this.priceLevel = company.getPriceLevel(estimate.getPriceLevel());

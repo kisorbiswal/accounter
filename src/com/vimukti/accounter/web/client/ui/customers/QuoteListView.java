@@ -1,20 +1,20 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.grids.QuoteListGrid;
 
 public class QuoteListView extends BaseListView<ClientEstimate> {
@@ -24,7 +24,7 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	protected List<ClientEstimate> estimates;
 
-	private SelectItem viewSelect;
+	private SelectCombo viewSelect;
 
 	private List<ClientEstimate> listOfEstimates;
 
@@ -75,8 +75,8 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	public void onSuccess(List<ClientEstimate> result) {
 		super.onSuccess(result);
 		listOfEstimates = result;
-		filterList(viewSelect.getValue().toString());
-		grid.setViewType(viewSelect.getValue().toString());
+		filterList(viewSelect.getSelectedValue());
+		grid.setViewType(viewSelect.getSelectedValue());
 	}
 
 	@Override
@@ -91,29 +91,34 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	}
 
-	protected SelectItem getSelectItem() {
-		viewSelect = new SelectItem(FinanceApplication.getCustomersMessages()
+	protected SelectCombo getSelectItem() {
+		viewSelect = new SelectCombo(FinanceApplication.getCustomersMessages()
 				.currentView());
 		viewSelect.setHelpInformation(true);
-		viewSelect.setValueMap(OPEN, REJECTED, ACCEPTED, EXPIRED, ALL
-		// , DELETED
-				);
+		listOfTypes = new ArrayList<String>();
+		listOfTypes.add(OPEN);
+		listOfTypes.add(REJECTED);
+		listOfTypes.add(ACCEPTED);
+		listOfTypes.add(EXPIRED);
+		listOfTypes.add(ALL);
+		viewSelect.initCombo(listOfTypes);
 
 		if (UIUtils.isMSIEBrowser())
 			viewSelect.setWidth("150px");
 
 		viewSelect.setDefaultValue(OPEN);
-		viewSelect.addChangeHandler(new ChangeHandler() {
+		viewSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				if (viewSelect.getValue() != null) {
-					grid.setViewType(viewSelect.getValue().toString());
-					filterList(viewSelect.getValue().toString());
-				}
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						if (viewSelect.getSelectedValue() != null) {
+							grid.setViewType(viewSelect.getSelectedValue().toString());
+							filterList(viewSelect.getSelectedValue().toString());
+						}
 
-			}
-		});
+					}
+				});
 
 		return viewSelect;
 	}

@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.ui.combo.ItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PriceLevelCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
@@ -46,8 +47,6 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.LabelItem;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionUKGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionUSGrid;
@@ -128,7 +127,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	protected ShippingMethodsCombo shippingMethodsCombo;
 	protected DynamicForm custForm;
 
-	protected SelectItem phoneSelect, statusSelect;
+	protected SelectCombo phoneSelect, statusSelect;
 
 	protected abstract void salesPersonSelected(ClientSalesPerson person);
 
@@ -167,6 +166,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected double amount;
 
+	protected List<String> selectComboList;
 	/**
 	 * This field contains all changed values of customer in particular
 	 * transaction

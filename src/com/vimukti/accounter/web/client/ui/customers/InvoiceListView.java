@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -14,12 +15,13 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.grids.InvoiceListGrid;
 
 public class InvoiceListView extends BaseListView<InvoicesList> {
@@ -111,13 +113,16 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 			FinanceApplication.getCustomersMessages().financialYearToDate(),
 			FinanceApplication.getCustomersMessages().custom() };
 
-	protected SelectItem getSelectItem() {
-		viewSelect = new SelectItem(FinanceApplication.getCustomersMessages()
+	protected SelectCombo getSelectItem() {
+		viewSelect = new SelectCombo(FinanceApplication.getCustomersMessages()
 				.currentView());
 		viewSelect.setHelpInformation(true);
-		viewSelect.setValueMap(OPEN, OVER_DUE, VOID, ALL
-		// , DELETE
-				);
+		listOfTypes = new ArrayList<String>();
+		listOfTypes.add(OPEN);
+		listOfTypes.add(OVER_DUE);
+		listOfTypes.add(VOID);
+		listOfTypes.add(ALL);
+		viewSelect.initCombo(listOfTypes);
 		if (viewType != null)
 			viewSelect.setDefaultValue(viewType);
 		else
@@ -125,23 +130,24 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 		if (UIUtils.isMSIEBrowser())
 			viewSelect.setWidth("150px");
 
-		viewSelect.addChangeHandler(new ChangeHandler() {
+		viewSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				if (viewSelect.getValue() != null) {
-					grid.setViewType(viewSelect.getValue().toString());
-					filterList(viewSelect.getValue().toString());
-				}
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						if (viewSelect.getSelectedValue() != null) {
+							grid.setViewType(viewSelect.getSelectedValue());
+							filterList(viewSelect.getSelectedValue());
+						}
 
-			}
-		});
+					}
+				});
 
 		return viewSelect;
 	}
 
-	protected SelectItem getDateRangeSelectItem() {
-		dateRangeSelector = new SelectItem(FinanceApplication
+	protected SelectCombo getDateRangeSelectItem() {
+		dateRangeSelector = new SelectCombo(FinanceApplication
 				.getCustomersMessages().date());
 		dateRangeSelector.setValueMap(dateRangeArray);
 		dateRangeSelector.setDefaultValue(ALL);

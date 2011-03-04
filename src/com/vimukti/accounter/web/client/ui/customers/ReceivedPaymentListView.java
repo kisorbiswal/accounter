@@ -1,19 +1,19 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.grids.ReceivedPaymentListGrid;
 
 /**
@@ -70,8 +70,8 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 	public void onSuccess(List<ReceivePaymentsList> result) {
 		super.onSuccess(result);
 		listOfRecievePayments = result;
-		filterList(viewSelect.getValue().toString());
-		grid.setViewType(viewSelect.getValue().toString());
+		filterList(viewSelect.getSelectedValue());
+		grid.setViewType(viewSelect.getSelectedValue());
 	}
 
 	@Override
@@ -87,28 +87,34 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 	}
 
-	protected SelectItem getSelectItem() {
-		viewSelect = new SelectItem(FinanceApplication.getCustomersMessages()
+	protected SelectCombo getSelectItem() {
+		viewSelect = new SelectCombo(FinanceApplication.getCustomersMessages()
 				.currentView());
 		viewSelect.setHelpInformation(true);
-		viewSelect.setValueMap(ALL, OPEN, FULLY_APPLIED, VOIDED
+		listOfTypes = new ArrayList<String>();
+		listOfTypes.add(ALL);
+		listOfTypes.add(OPEN);
+		listOfTypes.add(FULLY_APPLIED);
+		listOfTypes.add(VOIDED);
+		viewSelect.initCombo(listOfTypes);
 		// ,DELETED
-				);
 		if (UIUtils.isMSIEBrowser())
 			viewSelect.setWidth("150px");
 
 		viewSelect.setDefaultValue(VOIDED);
-		viewSelect.addChangeHandler(new ChangeHandler() {
+		viewSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				if (viewSelect.getValue() != null) {
-					grid.setViewType(viewSelect.getValue().toString());
-					filterList(viewSelect.getValue().toString());
-				}
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						// TODO Auto-generated method stub
+						if (viewSelect.getSelectedValue() != null) {
+							grid.setViewType(viewSelect.getSelectedValue());
+							filterList(viewSelect.getSelectedValue());
+						}
 
-			}
-		});
+					}
+				});
 
 		return viewSelect;
 	}
@@ -119,16 +125,16 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 		grid.removeAllRecords();
 		for (ReceivePaymentsList recievePayment : listOfRecievePayments) {
 			if (text.equals(OPEN)) {
-				if ((recievePayment.getStatus() == STATUS_UNAPPLIED
-						|| recievePayment.getStatus() == STATUS_PARTIALLY_APPLIED))
+				if ((recievePayment.getStatus() == STATUS_UNAPPLIED || recievePayment
+						.getStatus() == STATUS_PARTIALLY_APPLIED))
 					grid.addData(recievePayment);
-				
+
 				continue;
 			}
 			if (text.equals(FULLY_APPLIED)) {
 				if (recievePayment.getStatus() == STATUS_APPLIED)
 					grid.addData(recievePayment);
-				
+
 				continue;
 			}
 			if (text.equals(VOIDED)) {
@@ -145,9 +151,8 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 				grid.addData(recievePayment);
 			}
 		}
-		if(grid.getRecords().isEmpty())
+		if (grid.getRecords().isEmpty())
 			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
-
 
 	}
 

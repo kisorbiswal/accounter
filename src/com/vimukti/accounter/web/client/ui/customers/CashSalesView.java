@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -28,11 +26,12 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
@@ -114,18 +113,18 @@ public class CashSalesView extends
 		contactCombo = createContactComboItem();
 
 		billToCombo = createBillToComboItem();
-		phoneSelect = new SelectItem();
+		phoneSelect = new SelectCombo(customerConstants.phone());
 		phoneSelect.setHelpInformation(true);
-		phoneSelect.setTitle(customerConstants.phone());
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isEdit);
-		phoneSelect.addChangeHandler(new ChangeHandler() {
+		phoneSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				phoneNo = phoneSelect.getValue().toString();
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						phoneNo = phoneSelect.getSelectedValue();
+					}
+				});
 		shipToCombo = createShipToComboItem();
 		custForm = UIUtils.form(customerConstants.customer());
 		custForm.setFields(customerCombo, contactCombo, phoneSelect,
@@ -162,8 +161,8 @@ public class CashSalesView extends
 
 		priceLevelSelect = createPriceLevelSelectItem();
 
-//		refText = createRefereceText();
-//		refText.setWidth(160);
+		// refText = createRefereceText();
+		// refText.setWidth(160);
 
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
 		prodAndServiceForm1.setNumCols(2);
@@ -192,16 +191,16 @@ public class CashSalesView extends
 		prodAndServiceForm2.setNumCols(4);
 		if (FinanceApplication.getCompany().getAccountingType() == 1) {
 
-//			prodAndServiceForm2.setFields(priceLevelSelect, netAmountLabel,
-//					disabletextbox, vatTotalNonEditableText, disabletextbox,
-//					transactionTotalNonEditableText);
+			// prodAndServiceForm2.setFields(priceLevelSelect, netAmountLabel,
+			// disabletextbox, vatTotalNonEditableText, disabletextbox,
+			// transactionTotalNonEditableText);
 			prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
 					disabletextbox, vatTotalNonEditableText, disabletextbox,
 					transactionTotalNonEditableText);
 		} else {
-//			prodAndServiceForm2.setFields(taxCodeSelect,
-//					salesTaxTextNonEditable, priceLevelSelect,
-//					transactionTotalNonEditableText);
+			// prodAndServiceForm2.setFields(taxCodeSelect,
+			// salesTaxTextNonEditable, priceLevelSelect,
+			// transactionTotalNonEditableText);
 			prodAndServiceForm2.setFields(taxCodeSelect,
 					salesTaxTextNonEditable, disabletextbox,
 					transactionTotalNonEditableText);
@@ -210,13 +209,13 @@ public class CashSalesView extends
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
-		
-		VerticalPanel vPanel =  new VerticalPanel();
+
+		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.add(createAddNewButton());
 		vPanel.add(prodAndServiceForm1);
 		vPanel.setWidth("100%");
 		prodAndServiceHLay.add(vPanel);
-		
+
 		prodAndServiceHLay.add(prodAndServiceForm2);
 		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
 				ALIGN_RIGHT);
@@ -359,7 +358,7 @@ public class CashSalesView extends
 			if (priceLevel != null)
 				cashSale.setPriceLevel(priceLevel.getStringID());
 			cashSale.setMemo(getMemoTextAreaItem());
-//			cashSale.setReference(getRefText());
+			// cashSale.setReference(getRefText());
 
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 				cashSale.setNetAmount(netAmountLabel.getAmount());
@@ -442,7 +441,7 @@ public class CashSalesView extends
 		}
 		this.contact = cashSale.getContact();
 		this.phoneNo = cashSale.getPhone();
-		phoneSelect.setValue(this.phoneNo);
+		phoneSelect.setSelected(this.phoneNo);
 
 		this.billingAddress = cashSale.getBillingAddress();
 		this.shippingAddress = cashSale.getShippingAdress();
@@ -480,7 +479,7 @@ public class CashSalesView extends
 			isEdit = Boolean.TRUE;
 		}
 		memoTextAreaItem.setValue(cashSale.getMemo());
-//		refText.setValue(cashSale.getReference());
+		// refText.setValue(cashSale.getReference());
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			netAmountLabel.setAmount(cashSale.getNetAmount());
 			vatTotalNonEditableText.setAmount(cashSale.getTotal()
@@ -517,8 +516,8 @@ public class CashSalesView extends
 				memoTextAreaItem
 						.setValue(cashSales.getMemo() != null ? cashSales
 								.getMemo() : "");
-//				refText.setValue(cashSales.getReference() != null ? cashSales
-//						.getReference() : "");
+				// refText.setValue(cashSales.getReference() != null ? cashSales
+				// .getReference() : "");
 
 			}
 
@@ -729,7 +728,7 @@ public class CashSalesView extends
 		custForm.getCellFormatter().setWidth(0, 1, "200px");
 		custForm.setWidth("75%");
 		priceLevelSelect.setWidth("150px");
-//		refText.setWidth("200px");
+		// refText.setWidth("200px");
 		memoTextAreaItem.setWidth("200px");
 	}
 

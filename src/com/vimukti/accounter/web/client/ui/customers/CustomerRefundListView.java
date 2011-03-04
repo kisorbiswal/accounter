@@ -1,19 +1,19 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.grids.CustomerRefundListGrid;
 
 /**
@@ -90,29 +90,33 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 
 	}
 
-	protected SelectItem getSelectItem() {
-		viewSelect = new SelectItem(FinanceApplication.getCustomersMessages()
+	protected SelectCombo getSelectItem() {
+		viewSelect = new SelectCombo(FinanceApplication.getCustomersMessages()
 				.currentView());
 		viewSelect.setHelpInformation(true);
-		viewSelect.setValueMap(NOT_ISSUED, ISSUED, VOID, ALL
-		// ,DELETED
-				);
+		listOfTypes = new ArrayList<String>();
+		listOfTypes.add(NOT_ISSUED);
+		listOfTypes.add(ISSUED);
+		listOfTypes.add(VOID);
+		listOfTypes.add(ALL);
+		viewSelect.initCombo(listOfTypes);
 
 		if (UIUtils.isMSIEBrowser())
 			viewSelect.setWidth("150px");
 
 		viewSelect.setDefaultValue(NOT_ISSUED);
-		viewSelect.addChangeHandler(new ChangeHandler() {
+		viewSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				if (viewSelect.getValue() != null) {
-					grid.setViewType(viewSelect.getValue().toString());
-					filterList(viewSelect.getValue().toString());
-				}
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						if (viewSelect.getSelectedValue() != null) {
+							grid.setViewType(viewSelect.getSelectedValue());
+							filterList(viewSelect.getSelectedValue());
+						}
 
-			}
-		});
+					}
+				});
 
 		return viewSelect;
 	}

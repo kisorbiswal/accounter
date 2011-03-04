@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -38,6 +36,7 @@ import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.InvoicePrintLayout;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -250,18 +249,18 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		shipToCombo = createShipToComboItem();
 		shipToCombo.setHelpInformation(true);
 		shipToAddress = new ShipToForm(null);
-		shipToAddress.businessSelect.addChangeHandler(new ChangeHandler() {
-
+		shipToAddress.businessSelect.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+			
 			@Override
-			public void onChange(ChangeEvent event) {
+			public void selectedComboBoxItem(String selectItem) {
 				shippingAddress = shipToAddress.getAddress();
 				if (shippingAddress != null)
 					shipToAddress.setAddres(shippingAddress);
 				else
-					shipToAddress.addrArea.setValue("");
+					shipToAddress.addrArea.setValue("");	
 			}
-		});
-
+		}); 
+		
 		if (transactionObject != null)
 			shipToAddress.businessSelect.setDisabled(true);
 		// phoneSelect = new SelectItem();
@@ -794,7 +793,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		shipToAddress.setListOfCustomerAdress(addresses);
 		if (shippingAddress != null) {
 			shipToAddress.businessSelect.setValue(shippingAddress
-					.getAddressTypes().get(shippingAddress.getType() + ""));
+					.getAddressTypes().get(shippingAddress.getType()));
 			shipToAddress.setAddres(shippingAddress);
 		}
 
