@@ -3,11 +3,10 @@
  */
 package com.vimukti.accounter.web.client.ui.core;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -32,11 +31,11 @@ import com.vimukti.accounter.web.client.ui.CustomMenuItem;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
-import com.vimukti.accounter.web.client.ui.forms.LabelItem;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
@@ -82,9 +81,11 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	protected List<ClientTransactionItem> transactionItems;
 
+	private List<String> payVatMethodList;
+
 	protected String paymentMethod;
 
-	protected SelectItem paymentMethodCombo;
+	protected SelectCombo paymentMethodCombo;
 
 	/**
 	 * The Transaction Grid meant to Serve in all Transactions
@@ -591,35 +592,44 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		this.memoTextAreaItem.setValue(memo != null ? memo : "");
 	}
 
-	public SelectItem createPaymentMethodSelectItem() {
+	public SelectCombo createPaymentMethodSelectItem() {
 		String paymentType = null;
-		final SelectItem paymentMethodSelect = new SelectItem();
+		payVatMethodList = new ArrayList<String>();
+		payVatMethodList.add(FinanceApplication.getVendorsMessages().cash());
+		payVatMethodList.add(paymentType);
+		payVatMethodList.add(FinanceApplication.getVendorsMessages()
+				.creditCard());
+		payVatMethodList.add(FinanceApplication.getVendorsMessages()
+				.directDebit());
+		payVatMethodList.add(FinanceApplication.getVendorsMessages()
+				.masterCard());
+		payVatMethodList.add(FinanceApplication.getVendorsMessages()
+				.onlineBanking());
+		payVatMethodList.add(FinanceApplication.getVendorsMessages()
+				.standingOrder());
+		payVatMethodList.add(FinanceApplication.getVendorsMessages()
+				.switchMaestro());
+		final SelectCombo paymentMethodSelect = new SelectCombo(
+				FinanceApplication.getVendorsMessages().Paymentmethod());
 		paymentMethodSelect.setHelpInformation(true);
-		paymentMethodSelect.setTitle(FinanceApplication.getVendorsMessages()
-				.Paymentmethod());
 		paymentType = UIUtils
 				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
 						.getCustomersMessages().check());
-		paymentMethodSelect.setValueMap(FinanceApplication.getVendorsMessages()
-				.cash(), paymentType, FinanceApplication.getVendorsMessages()
-				.creditCard(), FinanceApplication.getVendorsMessages()
-				.directDebit(), FinanceApplication.getVendorsMessages()
-				.masterCard(), FinanceApplication.getVendorsMessages()
-				.onlineBanking(), FinanceApplication.getVendorsMessages()
-				.standingOrder(), FinanceApplication.getVendorsMessages()
-				.switchMaestro());
 		paymentMethodSelect.setRequired(true);
+		paymentMethodSelect.initCombo(payVatMethodList);
 		paymentMethodSelect.setDefaultToFirstOption(true);
 		paymentMethod = FinanceApplication.getVendorsMessages().cash();
 
-		paymentMethodSelect.addChangeHandler(new ChangeHandler() {
+		paymentMethodSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				paymentMethodSelected(paymentMethodSelect.getValue().toString());
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						paymentMethodSelected(paymentMethodSelect
+								.getSelectedValue());
 
-			}
-		});
+					}
+				});
 		paymentMethodSelect.setDisabled(isEdit);
 		// paymentMethodSelect.setShowDisabled(false);
 

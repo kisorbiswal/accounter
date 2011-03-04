@@ -22,11 +22,12 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.customers.CustomerListView;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.vendors.VendorListView;
 
@@ -42,7 +43,7 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorListView;
 
 public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		IAccounterList<T>, AsyncCallback<List<T>> {
-
+	protected List<String> listOfTypes;
 	@SuppressWarnings("unchecked")
 	protected BaseListGrid grid;
 
@@ -56,7 +57,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	protected double total;
 	protected boolean isDeleteDisable;
-	protected SelectItem viewSelect, dateRangeSelector;
+	protected SelectCombo viewSelect, dateRangeSelector;
 
 	protected List<T> initialRecords;
 
@@ -123,48 +124,51 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		viewSelect = getSelectItem();
 
 		if (viewSelect == null) {
-			viewSelect = new SelectItem(FinanceApplication
+			viewSelect = new SelectCombo(FinanceApplication
 					.getCustomersMessages().currentView());
 			viewSelect.setHelpInformation(true);
 			viewSelect.setWidth("150px");
-			viewSelect.setValueMap(FinanceApplication.getCustomersMessages()
-					.active(), FinanceApplication.getCustomersMessages()
-					.inActive());
+			List<String> typeList = new ArrayList<String>();
+			typeList.add(FinanceApplication.getCustomersMessages().active());
+			typeList.add(FinanceApplication.getCustomersMessages().inActive());
+			viewSelect.initCombo(typeList);
 			viewSelect.setDefaultValue(FinanceApplication
 					.getCustomersMessages().active());
-			viewSelect.addChangeHandler(new ChangeHandler() {
+			viewSelect
+					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-				@Override
-				public void onChange(ChangeEvent event) {
-					if (viewSelect.getValue() != null) {
-						if (viewSelect.getValue().toString().equalsIgnoreCase(
-								"Active"))
-							filterList(true);
-						else
-							filterList(false);
-					}
+						@Override
+						public void selectedComboBoxItem(String selectItem) {
+							if (viewSelect.getSelectedValue() != null) {
+								if (viewSelect.getSelectedValue().toString()
+										.equalsIgnoreCase("Active"))
+									filterList(true);
+								else
+									filterList(false);
+							}
 
-				}
-			});
+						}
+					});
 		}
 
 		dateRangeSelector = getDateRangeSelectItem();
 
 		if (dateRangeSelector == null) {
-			dateRangeSelector = new SelectItem(FinanceApplication
+			dateRangeSelector = new SelectCombo(FinanceApplication
 					.getCustomersMessages().date());
 			dateRangeSelector.setHelpInformation(true);
 			dateRangeSelector.setWidth("150px");
-			dateRangeSelector.setValueMap(FinanceApplication
-					.getCustomersMessages().active(), FinanceApplication
-					.getCustomersMessages().inActive());
+			List<String> typeList = new ArrayList<String>();
+			typeList.add(FinanceApplication.getCustomersMessages().active());
+			typeList.add(FinanceApplication.getCustomersMessages().inActive());
+			dateRangeSelector.initCombo(typeList);
 			dateRangeSelector.setDefaultValue(FinanceApplication
 					.getCustomersMessages().active());
 			dateRangeSelector.addChangeHandler(new ChangeHandler() {
 
 				@Override
 				public void onChange(ChangeEvent event) {
-					if (dateRangeSelector.getValue() != null) {
+					if (dateRangeSelector.getSelectedValue()!= null) {
 
 					}
 
@@ -274,11 +278,11 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	}
 
-	protected SelectItem getSelectItem() {
+	protected SelectCombo getSelectItem() {
 		return null;
 	}
 
-	protected SelectItem getDateRangeSelectItem() {
+	protected SelectCombo getDateRangeSelectItem() {
 		return null;
 	}
 
