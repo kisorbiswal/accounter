@@ -1,0 +1,76 @@
+package com.vimukti.accounter.web.client.ui;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
+
+public class GettingStartedPortlet extends DashBoardPortlet {
+	private VerticalPanel mainPanel;
+	private HTML minHtml, allHtml;
+	private Label moreLabel;
+
+	public GettingStartedPortlet(String title) {
+		super(title);
+	}
+
+	@Override
+	public void createBody() {
+		mainPanel = new VerticalPanel();
+		minHtml = new HTML(
+				"<p>Now you are ready to start using Accounter on a regular basis to record and report on normal business transcations. There is <a href=''><font color='green'>full online help</font></a> and tips on each screen in Accounter if you need it. It's really up to you what you do next.</p><ul><li> <a href=''><font color='green'>Watch the Getting Started tour.</font></a><li>Add <a href=''><font color='green'>accounts receivable </font></a>and <a href=''><font color='green'>accounts payable </font></a>invoices, <a href=''><font color='green'>bank transactions </font></a>and <a href=''><font color='green'>expense claims.</font></a><li>Set up repeating invoices for those invoices you regularly send or receive.<li><a href=''><font color='green'>Add to Contacts</font></a> the people you regularly transact with.</ul>");
+		allHtml = new HTML(
+				"<p>Now you are ready to start using Accounter on a regular basis to record and report on normal business transcations. There is <a href=''><font color='green'>full online help</font></a> and tips on each screen in Accounter if you need it. It's really up to you what you do next.</p><ul><li> <a href=''><font color='green'>Watch the Getting Started tour.</font></a><li>Add <a href=''><font color='green'>accounts receivable </font></a>and <a href=''><font color='green'>accounts payable </font></a>invoices, <a href=''><font color='green'>bank transactions </font></a>and <a href=''><font color='green'>expense claims.</font></a><li>Set up repeating invoices for those invoices you regularly send or receive.<li><a href=''><font color='green'>Add to Contacts</font></a> the people you regularly transact with.<li><a href=''><font color='green'>Invite other users</font></a> such as your accountant or financial adviser to access your organisation.<li><a href=''><font color='green'>Setup any additional bank accounts</font></a> you want to use in Accounter.<li><a href=''><font color='green'>Set up tracking categories</font></a> so that you can use Accounter's reports to track the performance of specific areas in your business.<li><a href=''><font color='green'>Create a budget</font></a> for your organisation so that you can compare with actual expenditure throughout the year.<li><a href=''><font color='green'>Run reports</font></a> over your data to see how your business is going.<li><a href=''><font color='green'>Use My Accounter</font></a> to change your password, add another organisation or manage your billing plans.</ul>");
+		moreLabel = new Label("More");
+		moreLabel.addStyleName("lesslabel");
+		moreLabel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (moreLabel.getText().equals("Less")) {
+					moreLabel.setText("More");
+					if (allHtml.isAttached()) {
+						mainPanel.remove(allHtml);
+					}
+					mainPanel.remove(moreLabel);
+					mainPanel.add(minHtml);
+					mainPanel.add(moreLabel);
+
+				} else {
+					moreLabel.setText("Less");
+					if (minHtml.isAttached()) {
+						mainPanel.remove(minHtml);
+					}
+					mainPanel.remove(moreLabel);
+					mainPanel.add(allHtml);
+					mainPanel.add(moreLabel);
+				}
+
+			}
+		});
+
+		// mainPanel.add(paraHtml);
+		mainPanel.add(minHtml);
+		mainPanel.add(moreLabel);
+		body.add(mainPanel);
+
+	}
+
+	@Override
+	public String getGoToText() {
+		return "Hide Getting Started";
+	}
+
+	@Override
+	public void goToClicked() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void helpClicked() {
+
+	}
+
+}
