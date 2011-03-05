@@ -852,37 +852,11 @@ table.dropdownFlex tr:hover {
 	border-collapse: collapse;
 }
 
-.invoice-total
- 
-tr
-:nth-child
- 
-(3){
-border-bottom
-:
- 
-1
-px
- 
-solid
- 
-#aaa
-;
-
-	
-border-top
-:
- 
-1
-px
- 
-solid
- 
-#aaa
-;
-
-
+.invoice-total tr:nth-child(3){
+ border-bottom: 1px solid #aaa;
+ border-top: 1px solid #aaa;
 }
+
 .noScroll input[type="text"] {
 	width: 150px !important;
 }
