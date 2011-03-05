@@ -2,22 +2,24 @@
 	/** Example rules used by the template application (remove for your app) */
 .widget { /**background:url(images/icons/startBar.png) repeat-x;*/
 	background: url(images/top-hadder.png) scroll repeat-x;
-	display:none;
+	display: none;
 }
 
 body {
-  color: black;
-  margin: 0px auto !important;
-  border: 0px;
-  padding: 0px;
-  background: #fff;
-  direction: ltr;
-  width:960px !important;
-  overflow:auto !important;
+	color: black;
+	margin: 0px auto !important;
+	border: 0px;
+	padding: 0px;
+	background: #fff;
+	direction: ltr;
+	width: 960px !important;
+	overflow: auto !important;
 }
-html,body{
-	height:100% !important;
+
+html,body {
+	height: 100% !important;
 }
+
 .widget img {
 	margin-top: 3px;
 	cursor: pointer;
@@ -109,8 +111,8 @@ h1 {
 	background: #FFFFFF none repeat scroll 0 0;
 	/*border: 2px solid #CCCCCC;   praveena */
 	padding: 6px;
-	margin-left:3px;
-   /* margin-top:-2px; praveena*/
+	margin-left: 3px;
+	/* margin-top:-2px; praveena*/
 }
 
 .listgridViewBottom {
@@ -171,18 +173,17 @@ h1 {
 .popup {
 	border: 1px solid #aaa;
 	z-index: 500001;
-	margin-top:-3px;
+	margin-top: -3px;
 }
 
-.financeWindow {
-	/* padding: 3px; praveena */
-	/*margin: 0 auto;*/
+.financeWindow { /* padding: 3px; praveena */ /*margin: 0 auto;*/
+	
 }
 
 .noScroll {
-	background:none repeat scroll 0 0 white !important;
-	height:100% !important;
-	overflow:hidden !important;
+	background: none repeat scroll 0 0 white !important;
+	height: 100% !important;
+	overflow: hidden !important;
 }
 
 .actionOver {
@@ -303,13 +304,13 @@ table tr.ReportGridRow:HOVER {
 
 .blue-day-grid tr {
 	height: 22px;
-	border:1px solid #aaa; /* praveena */
+	border: 1px solid #aaa; /* praveena */
 }
 
 .blue-week-end {
 	background-color: #EEEEEE;
 	color: #AAAAAA;
-	border-right:1px solid #aaa; /* praveena */
+	border-right: 1px solid #aaa; /* praveena */
 }
 
 .blue-other-day {
@@ -319,13 +320,13 @@ table tr.ReportGridRow:HOVER {
 
 .blue-current-month-other-day {
 	color: black;
-	border-right:1px solid #aaa; /* praveena */
+	border-right: 1px solid #aaa; /* praveena */
 }
 
 .blue-current-month-week-end {
 	background-color: #EEEEEE;
 	color: black;
-	border-right:1px solid #aaa; /* praveena */
+	border-right: 1px solid #aaa; /* praveena */
 }
 
 .blue-current-month-selected {
@@ -412,8 +413,8 @@ table tr.ReportGridRow:HOVER {
 	font-weight: bold;
 }
 
-.align-form td:first-child {
-	/*width: 50px;*/
+.align-form td:first-child { /*width: 50px;*/
+	
 }
 
 .equal-columns td {
@@ -533,7 +534,7 @@ td.gridDecimalCell {
 .custom-combo {
 	border: 1px solid #aaa;
 	background: #FFF;
-	width: 100% ;
+	width: 100%;
 	height: 19px !important;
 	position: relative;
 	overflow: hidden;
@@ -553,9 +554,8 @@ td.gridDecimalCell {
 	border-collapse: collapse;
 }
 
-table.dropdownFlex tr:hover {
-	/*background: #C6E2FF;*/
-	background:#83BF91 !important;
+table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
+	background: #83BF91 !important;
 }
 
 /*.dropdown-button {
@@ -581,7 +581,7 @@ table.dropdownFlex tr:hover {
 
 .financeWindow select {
 	border: 1px solid #AAAAAA;
-	width:100px !important;/* praveena */
+	width: 100px !important; /* praveena */
 }
 
 .gridAscend {
@@ -602,6 +602,7 @@ table.dropdownFlex tr:hover {
 
 .gwt-MenuBar-horizontal {
 	/*background: url("images/top-shadow.png") repeat-x scroll 0 0 transparent !important;    praveena*/
+	
 }
 
 .gwt-MenuBar .gwt-MenuItem-selected {
@@ -611,9 +612,11 @@ table.dropdownFlex tr:hover {
 .gwt-MenuBar-vertical .subMenuIcon-selected {
 	background-color: #508F5F !important;
 }
-.gwt-MenuBar-vertical{
-	border:1px solid #aaa !important;
+
+.gwt-MenuBar-vertical {
+	border: 1px solid #aaa !important;
 }
+
 .tablelayout {
 	padding-left: 4% !important;
 	padding-right: 4% !important;
@@ -852,15 +855,47 @@ table.dropdownFlex tr:hover {
 	border-collapse: collapse;
 }
 
-.invoice-total tr:nth-child(3){
- border-bottom: 1px solid #aaa;
- border-top: 1px solid #aaa;
-}
+.invoice-total
+ 
+tr
+:nth-child
+ 
+(3){
+border-bottom
+:
+ 
+1
+px
+ 
+solid
+ 
+#aaa
+;
 
+	
+border-top
+:
+ 
+1
+px
+ 
+solid
+ 
+#aaa
+;
+
+
+}
 .noScroll input[type="text"] {
 	width: 150px !important;
 }
 
 .gwt-MenuBar-horizontal .gwt-MenuItem {
 	color: #fff !important;
+}
+
+.lesslabel {
+	color: green;
+	cursor: pointer;
+	text-decoration: underline;
 }
