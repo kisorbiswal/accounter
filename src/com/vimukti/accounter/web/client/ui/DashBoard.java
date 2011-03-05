@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -73,6 +72,9 @@ public class DashBoard extends BaseHomeView {
 
 		getAddableWidgets(widgetOnSectionPage);
 
+		DashBoardPortlet gettingStartedPortlet = new GettingStartedPortlet(
+				"Getting Started using Accounter");
+
 		DashBoardPortlet bankingPortlet = new BankingPortlet(FinanceApplication
 				.getCompanyMessages().bankAccounts());
 		DashBoardPortlet moneyComingPortlet = new MoneyComingPortlet(
@@ -82,6 +84,7 @@ public class DashBoard extends BaseHomeView {
 		DashBoardPortlet expenseClaimsPortlet = new ExpenseClaimPortlet(
 				FinanceApplication.getCompanyMessages().expenseClaims());
 		FlexTable fTable = new FlexTable();
+
 		fTable.setWidget(0, 0, bankingPortlet);
 		fTable.setWidget(0, 1, moneyComingPortlet);
 		fTable.setWidget(1, 1, moneyGoingPortlet);
@@ -89,6 +92,8 @@ public class DashBoard extends BaseHomeView {
 
 		VerticalPanel leftLayout = new VerticalPanel();
 		leftLayout.setSize("100%", "100%");
+
+		leftLayout.add(gettingStartedPortlet);
 		leftLayout.add(fTable);
 		// leftLayout.add(addWidgetLinkLayout);
 		// leftLayout.add(portalLayout);
