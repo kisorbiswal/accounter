@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
 import com.vimukti.accounter.web.client.ui.core.AbstractActionFactory;
-import com.vimukti.accounter.web.client.ui.core.GeneralSettingsAction;
 import com.vimukti.accounter.web.client.ui.core.InventoryItemsAction;
 
 public class SettingsActionFactory extends AbstractActionFactory {
