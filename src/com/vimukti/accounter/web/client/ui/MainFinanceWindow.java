@@ -19,9 +19,9 @@ import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.core.FixedAssetsActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ReportsActionFactory;
-import com.vimukti.accounter.web.client.ui.core.SettingsActionFactory;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
+import com.vimukti.accounter.web.client.ui.settings.SettingsActionFactory;
 import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
 
 /**
