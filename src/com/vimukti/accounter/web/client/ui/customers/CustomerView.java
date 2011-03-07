@@ -460,8 +460,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// Setting customer Since
 		if (customerSinceDate != null
 				&& customerSinceDate.getEnteredDate() != null)
-			customer
-					.setPayeeSince(customerSinceDate.getEnteredDate().getTime());
+			customer.setPayeeSince(customerSinceDate.getEnteredDate().getTime());
 
 		// Setting Balance
 		// Setting Balance
@@ -655,10 +654,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// balanceDate.setEnteredDate(new Date(company.getPreferences()
 		// .getPreventPostingBeforeDate()));
 		// balanceDate.addDateValueChangeHandler(new DateValueChangeHandler() {
-		//			
+		//
 		// @Override
 		// public void onDateValueChange(Date date) {
-		//				
+		//
 		// }
 		// });
 		// if (fiscalYear != null) {
@@ -703,7 +702,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		panel.add(addButton);
 
 		memoArea = new TextAreaItem();
-		memoArea.setWidth(100);
+		memoArea.setWidth("400px");
 		memoArea.setTitle(customerConstants.memo());
 
 		// Button addLinksButt = new Button("AddLinks");
@@ -711,12 +710,12 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// linksText.setWidth(100);
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setStyleName("align-form");
-		memoForm.setWidth("100%");
+		// memoForm.setWidth("100%");
 		memoForm.setFields(memoArea);
 		// memoForm.setWidget(2, 0, addLinksButt);
 		// memoForm.setWidget(2, 1, linksText.getMainWidget());
 		HorizontalPanel bottomLayout = new HorizontalPanel();
-		bottomLayout.setWidth("100%");
+		// bottomLayout.setWidth("100%");
 		bottomLayout.add(memoForm);
 
 		// For Editing customer
@@ -735,8 +734,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 					takenCustomer.getFaxNumbers());
 			fonFaxForm.setWidth("100%");
 			// Setting Email Form
-			emailForm = new EmailForm(takenCustomer.getEmails(), takenCustomer
-					.getWebPageAddress());
+			emailForm = new EmailForm(takenCustomer.getEmails(),
+					takenCustomer.getWebPageAddress());
 			emailForm.setWidth("100%");
 			// Setting Status Check
 			statusCheck.setValue(takenCustomer.isActive());
@@ -826,43 +825,61 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		emailForm.getCellFormatter().setWidth(0, 0, "190");
 		emailForm.getCellFormatter().setWidth(0, 1, "150");
 
-		memoArea.getMainWidget().setWidth("250px");
+		 memoArea.getMainWidget().setWidth("250px");
 
 	}
 
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 
-		addrsForm.getCellFormatter().getElement(0, 0).setAttribute("width",
-				titlewidth + "");
-		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
-				FinanceApplication.getCustomersMessages().width(),
-				listBoxWidth - 4 + "");
+		addrsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute("width", titlewidth + "");
+		addrsForm
+				.getCellFormatter()
+				.getElement(0, 1)
+				.setAttribute(
+						FinanceApplication.getCustomersMessages().width(),
+						listBoxWidth - 4 + "");
 
-		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getCustomersMessages().width(),
-				titlewidth + "");
-		fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
-				FinanceApplication.getCustomersMessages().width(),
-				listBoxWidth + "");
+		fonFaxForm
+				.getCellFormatter()
+				.getElement(0, 0)
+				.setAttribute(
+						FinanceApplication.getCustomersMessages().width(),
+						titlewidth + "");
+		fonFaxForm
+				.getCellFormatter()
+				.getElement(0, 1)
+				.setAttribute(
+						FinanceApplication.getCustomersMessages().width(),
+						listBoxWidth + "");
 
-		customerForm.getCellFormatter().getElement(0, 0).getStyle().setWidth(
-				titlewidth + listBoxWidth, Unit.PX);
-		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getCustomersMessages().width(),
-				titlewidth + titlewidth + "");
-		emailForm.getCellFormatter().getElement(0, 1).setAttribute(
-				FinanceApplication.getCustomersMessages().width(),
-				listBoxWidth + "");
-		accInfoForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getCustomersMessages().width(),
-				listBoxWidth + "");
+		customerForm.getCellFormatter().getElement(0, 0).getStyle()
+				.setWidth(titlewidth + listBoxWidth, Unit.PX);
+		emailForm
+				.getCellFormatter()
+				.getElement(0, 0)
+				.setAttribute(
+						FinanceApplication.getCustomersMessages().width(),
+						titlewidth + titlewidth + "");
+		emailForm
+				.getCellFormatter()
+				.getElement(0, 1)
+				.setAttribute(
+						FinanceApplication.getCustomersMessages().width(),
+						listBoxWidth + "");
+		accInfoForm
+				.getCellFormatter()
+				.getElement(0, 0)
+				.setAttribute(
+						FinanceApplication.getCustomersMessages().width(),
+						listBoxWidth + "");
 
 	}
 
 	private HorizontalPanel getDetailsTab() {
 
-		salesPersonSelect = new SalesPersonCombo(customerConstants
-				.salesPerson());
+		salesPersonSelect = new SalesPersonCombo(
+				customerConstants.salesPerson());
 		salesPersonSelect.setHelpInformation(true);
 		salesPersonSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientSalesPerson>() {
@@ -895,8 +912,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 
-		creditRatingSelect = new CreditRatingCombo(customerConstants
-				.creditRating());
+		creditRatingSelect = new CreditRatingCombo(
+				customerConstants.creditRating());
 		creditRatingSelect.setHelpInformation(true);
 		creditRatingSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCreditRating>() {
@@ -915,8 +932,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				creditRatingSelect);
 		financeDitailsForm.setWidth("100%");
 
-		shipMethSelect = new ShippingMethodsCombo(customerConstants
-				.preferredShippingMethod());
+		shipMethSelect = new ShippingMethodsCombo(
+				customerConstants.preferredShippingMethod());
 		shipMethSelect.setHelpInformation(true);
 		shipMethSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
@@ -955,8 +972,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 
-		custGroupSelect = new CustomerGroupCombo(customerConstants
-				.customerGroup());
+		custGroupSelect = new CustomerGroupCombo(
+				customerConstants.customerGroup());
 		custGroupSelect.setHelpInformation(true);
 		custGroupSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomerGroup>() {
