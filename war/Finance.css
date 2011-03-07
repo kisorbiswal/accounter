@@ -247,6 +247,7 @@ table tr.ReportGridRow:HOVER {
 	background: #EEEEEE none repeat scroll 0 0;
 	table-layout: fixed;
 	width: 100%;
+	display:none;
 }
 
 .listgridfooter td {
@@ -534,7 +535,6 @@ td.gridDecimalCell {
 .custom-combo {
 	border: 1px solid #aaa;
 	background: #FFF;
-	width: 100%;
 	height: 19px !important;
 	position: relative;
 	overflow: hidden;
@@ -581,7 +581,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 
 .financeWindow select {
 	border: 1px solid #AAAAAA;
-	width: 100px !important; /* praveena */
+	width:150px !important;/* praveena */
 }
 
 .gridAscend {
@@ -670,6 +670,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	text-decoration: underline;
 }
 
+
 .addAccountPortlet {
 	margin: 10px !important;
 	width: 150px;
@@ -698,8 +699,9 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	font-weight: bold;
 	font-size: medium;
 }
-
 /**End --- Styles for Finance **/ /* this changes by praveena */
+
+/* this changes by praveena */
 .gwt-Button:active {
 	border: 0 !important;
 }
@@ -724,121 +726,105 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 
 .gwt-MenuBar-horizontal .gwt-MenuItem { /*praveena*/
 	/*background:url(/images/arrow_down.gif) no-repeat scroll 0 0 #6DAF7C; */
-	background: none no-repeat scroll 0 0 #6DAF7C !important;
-	border-color: #639F71 !important;
-	border-style: none solid none none !important;
-	border-width: 1px !important;
-	color: #ffffff;
-	font-weight: bold;
-	padding: 10px 15px 12px !important;
-	vertical-align: bottom;
+	background:none no-repeat scroll 0 0 #6DAF7C !important;
+	border-color:#639F71 !important;
+	border-style:none solid none none !important;
+	border-width:1px !important;
+	color:#ffffff !important;
+	font-weight:bold;
+	padding:10px 15px 12px !important;
+	vertical-align:bottom;
 }
 
 .gwt-MenuBar-vertical .subMenuIcon-selected {
-	background: #508F5F !important;
-	/*background:url("/images/header-c1.jpg")repeat-x scroll 0 0 transparent ;  praveena*/
+   background: #508F5F !important; 
+  /*background:url("/images/header-c1.jpg")repeat-x scroll 0 0 transparent ;  praveena*/
 }
-
 .gwt-MenuBarPopup {
-	margin: -1px 0 0 1px !important;
-	/*margin: 0px 0px 0px 3px; praveena*/
+	margin:-1px 0 0 1px !important;
+  /*margin: 0px 0px 0px 3px; praveena*/
 }
-
 .gwt-MenuBarPopup .menuPopupTopCenter {
-	background: none !important;
+  background: none !important;
 }
-
 .gwt-MenuBarPopup .menuPopupBottomCenter {
-	background: none !important;
-	-background: none !important;
-}
-
+  background: none !important;
+  -background: none !important;
+}  
 .gwt-MenuBarPopup .menuPopupMiddleLeft {
-	background: none !important;
-	-background: none !important;
-}
-
+  background: none !important;
+  -background: none !important;
+}   
 .gwt-MenuBarPopup .menuPopupMiddleRight {
-	background: none !important;
-	-background: none !important;
+  background: none !important;
+  -background: none !important;
 }
-
 .gwt-MenuBarPopup .menuPopupTopLeft {
-	background: none !important;
-	-background: none !important;
+  background: none !important;
+  -background: none !important;
 }
-
 .gwt-MenuBarPopup .menuPopupTopRight {
-	background: none !important;
-	-background: none !important;
+  background: none !important;
+  -background: none !important;
 }
-
 .gwt-MenuBarPopup .menuPopupBottomLeft {
-	background: none !important;
-	-background: none !important;
+  background: none !important;
+  -background: none !important;
 }
-
 .gwt-MenuBarPopup .menuPopupBottomRight {
-	background: none !important;
-	-background: none !important;
-}
-
+  background: none !important;
+  -background: none !important;
+}  
 .gwt-PopupPanel {
-	border: 1px solid #596E8F !important;
-	padding: 6px !important;
-	/*background: white;*/
+ border:1px solid #596E8F !important;
+ padding:6px !important;
+  /*background: white;*/
+}
+.gwt-Button {
+    background:url("/images/header-c3.jpg") repeat-x scroll 0 0 transparent !important;
+	border:0 none !important;
+	color:white !important;
+	cursor:pointer;
+	font-size:small;
+	font-weight:bold;
+	height:22px !important;
+	margin:3px !important;
+	padding:0px 5px 2px !important;
+	text-decoration:none;
+	-moz-border-radius:10px;
 }
 
-.gwt-Button {
-	background: url("/images/header-c3.jpg") repeat-x scroll 0 0 transparent
-		!important;
-	border: 0 none !important;
-	color: white !important;
-	cursor: pointer;
-	font-size: small;
-	font-weight: bold;
-	height: 22px !important;
-	margin: 3px !important;
-	padding: 0px 5px 2px !important;
-	text-decoration: none;
-	-moz-border-radius: 10px;
-}
+
+
+
 
 /* Wrote by praveena*/
-.gwt-MenuBarPopup table tr {
-	margin-top: -3px;
+.gwt-MenuBarPopup table tr{
+	margin-top:-3px;
 }
-
-.menuPopupTop,.menuPopupMiddleLeft {
-	display: none;
+.menuPopupTop,.menuPopupMiddleLeft{
+	display:none;
 }
-
-.MenuBarParent tr td {
-	margin: 0px !important;
+.MenuBarParent tr td{
+	margin:0px !important;
 }
-
-.MenuBarParent table {
+.MenuBarParent table{
 	border-spacing: 0px;
 }
-
-.gwt-Image {
-	margin: 0 0 0 7px;
+.gwt-Image{
+	/*margin:0 0 0 7px; praveena*/
 }
-
-.main-color1 {
-	padding: 10px;
+.main-color1{
+	padding:10px;
 }
-
-.header {
-	background: none repeat scroll 0 0 #83BF91;
+.header{
+	background:none repeat scroll 0 0 #83BF91;
 	/*margin-left:3px; praveena*/
 }
-
-.label2-style {
-	color: white;
-	font-size: 18px;
+.label2-style{
+	color:white;
+    font-size:18px;
 }
-
 /*.blue-week-line tr td{
 	 border-right:1px solid #aaa;
 }
@@ -847,55 +833,30 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	border-style:solid solid none;
 	border-width:1px;
 } */
-.gwt-Label {
-	text-transform: capitalize;
-}
 
-.invoice-total {
+.gwt-Label{
+   text-transform: capitalize;	
+}
+.invoice-total{
 	border-collapse: collapse;
+	margin:10px 0;
 }
-
-.invoice-total
- 
-tr
-:nth-child
- 
-(3){
-border-bottom
-:
- 
-1
-px
- 
-solid
- 
-#aaa
-;
-
-	
-border-top
-:
- 
-1
-px
- 
-solid
- 
-#aaa
-;
-
-
+.invoice-total tr:nth-child(3){
+	border-bottom: 1px solid #aaa;
+	border-top: 1px solid #aaa;
 }
-.noScroll input[type="text"] {
-	width: 150px !important;
+.noScroll input[type="text"]{
+	width:150px !important;
 }
-
-.gwt-MenuBar-horizontal .gwt-MenuItem {
-	color: #fff !important;
+.gwt-MenuBar-horizontal .gwt-MenuItem{
+	color:#fff !important;
 }
-
-.lesslabel {
-	color: green;
-	cursor: pointer;
-	text-decoration: underline;
+.report-toolbar input[type="text"]{
+	width:100px !important;
+}
+.custom-combo .dropdown-button{
+	width:50px !important;
+}
+.menu_arrow{
+	margin:0 0 0 7px;
 }
