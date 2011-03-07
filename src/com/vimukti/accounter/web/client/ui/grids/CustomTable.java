@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -18,6 +19,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
@@ -181,6 +183,7 @@ public abstract class CustomTable extends VerticalPanel {
 
 		Element par = this.header.getElement().getParentElement().cast();
 		par.addClassName("gridHeaderParent");
+		this.header.getElement().getParentElement().getStyle().setHeight(10, Unit.PX);
 
 		panel = new ScrollPanel();
 		panel.getElement().removeAttribute("style");
@@ -337,7 +340,7 @@ public abstract class CustomTable extends VerticalPanel {
 		}
 
 		int heightIn = Integer.parseInt(height.replace("px", ""));
-		this.panel.setHeight(heightIn + "px");
+//		this.panel.setHeight(heightIn + "px");
 		super.setHeight(heightIn + "px");
 		fixHeader();
 	}
