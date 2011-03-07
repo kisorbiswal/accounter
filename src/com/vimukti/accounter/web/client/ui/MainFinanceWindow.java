@@ -6,7 +6,9 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -21,7 +23,6 @@ import com.vimukti.accounter.web.client.ui.core.FixedAssetsActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ReportsActionFactory;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
-import com.vimukti.accounter.web.client.ui.settings.SettingsActionFactory;
 import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
 
 /**
@@ -33,7 +34,6 @@ import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
 public class MainFinanceWindow extends VerticalPanel {
 
 	public static int index;
-	@SuppressWarnings("unused")
 	private static ScrollPanel rightCanvas;
 	private static MainFinanceWindow financeWindow;
 	private static ViewManager viewManager;
@@ -138,12 +138,11 @@ public class MainFinanceWindow extends VerticalPanel {
 		// RootPanel.get().add(vlay);
 		MenuBar menuBar = getMenuBar();
 		VerticalPanel vpanel = new VerticalPanel();
+		vpanel.addStyleName("header");
 		vpanel.setSize("100%", "100%");
-		HorizontalPanel hpanel1 = new HorizontalPanel();
-		hpanel1.add(header);
 		HorizontalPanel hpanel2 = new HorizontalPanel();
 		hpanel2.add(menuBar);
-		vpanel.add(hpanel1);
+		vpanel.add(header);
 		vpanel.add(hpanel2);
 		add(vpanel);
 		add(viewManager);
@@ -167,78 +166,67 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	private MenuBar getMenuBar() {
 		MenuBar menuBar = new MenuBar();
+		MenuItem menuitem = menuBar.addItem(FinanceApplication
+				.getFinanceUIConstants().company(), getCompanyMenu());
+		Image child = new Image();
+		child.addStyleName("menu_arrow");
+		child.setUrl("images/arrow_down.gif");
+		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
 
-		menuBar.addItem("DashBoard", getDashBoardCommand());
-		menuBar.addItem(FinanceApplication.getFinanceUIConstants().company(),
-				getCompanyMenu());
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			menuBar.addItem(FinanceApplication.getFinanceUIConstants().vat(),
-					getVATMenu());
+			menuitem = menuBar.addItem(FinanceApplication
+					.getFinanceUIConstants().vat(), getVATMenu());
+			child = new Image();
+			child.addStyleName("menu_arrow");
+			child.setUrl("images/arrow_down.gif");
+			DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
 		}
 
-		menuBar.addItem(FinanceApplication.getFinanceUIConstants().customer(),
-				getCustomerMenu());
-		menuBar.addItem(UIUtils.getVendorString(FinanceApplication
+		menuitem = menuBar.addItem(FinanceApplication.getFinanceUIConstants()
+				.customer(), getCustomerMenu());
+		child = new Image();
+		child.addStyleName("menu_arrow");
+		child.setUrl("images/arrow_down.gif");
+		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
+
+		menuitem = menuBar.addItem(UIUtils.getVendorString(FinanceApplication
 				.getVendorsMessages().supplier(), FinanceApplication
 				.getVendorsMessages().vendor()), getVendorMenu());
-		menuBar.addItem(FinanceApplication.getFinanceUIConstants().banking(),
-				getBankingMenu());
+		child = new Image();
+		child.addStyleName("menu_arrow");
+		child.setUrl("images/arrow_down.gif");
+		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
+
+		menuitem = menuBar.addItem(FinanceApplication.getFinanceUIConstants()
+				.banking(), getBankingMenu());
+		child = new Image();
+		child.addStyleName("menu_arrow");
+		child.setUrl("images/arrow_down.gif");
+		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
+
 		// menuBar.addItem(FinanceApplication.getFinanceUIConstants()
 		// .fixedAssets(), getFixedAssetsMenu());
-		menuBar.addItem(FinanceApplication.getFinanceUIConstants().reports(),
-				getReportMenu());
-		menuBar.addItem("Settings", getSettingsMenu());
+		menuitem = menuBar.addItem(FinanceApplication.getFinanceUIConstants()
+				.reports(), getReportMenu());
+		child = new Image();
+		child.addStyleName("menu_arrow");
+		child.setUrl("images/arrow_down.gif");
+		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
+		// menuBar.addItem(FinanceApplication.getFinanceUIConstants().help(),
+		// getHelpMenu());
 
-		if (!GWT.isScript())
-			menuBar.addItem(FinanceApplication.getCompanyMessages().test(),
-					getTestMenu());
+		if (!GWT.isScript()) {
+			menuitem = menuBar.addItem(FinanceApplication.getCompanyMessages()
+					.test(), getTestMenu());
+			child = new Image();
+			child.addStyleName("menu_arrow");
+			child.setUrl("images/arrow_down.gif");
+			DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
+		}
 
 		menuBar.setAutoOpen(true);
 		menuBar.setAnimationEnabled(true);
 		return menuBar;
-	}
-
-	private CustomMenuBar getSettingsMenu() {
-		CustomMenuBar settingsMenuBar = new CustomMenuBar();
-		settingsMenuBar.addItem("General Settings", getSettingsCommand(1));
-		settingsMenuBar.addItem("Inventory Items", getSettingsCommand(2));
-		settingsMenuBar.addItem("Chart of Accounts", getSettingsCommand(3));
-		return settingsMenuBar;
-	}
-
-	private Command getSettingsCommand(final int i) {
-		Command settingsCommand = new Command() {
-
-			@Override
-			public void execute() {
-				switch (i) {
-				case 1:
-					SettingsActionFactory.getGeneralSettingsAction().run(null,
-							false);
-					break;
-				case 2:
-					SettingsActionFactory.getInventoryItemsAction().run(null,
-							false);
-					break;
-				case 3:
-					SettingsActionFactory.getChartOfAccountsAction().run(null,
-							false);
-					break;
-				}
-			}
-		};
-		return settingsCommand;
-	}
-
-	private Command getDashBoardCommand() {
-		Command dashBoardcmd = new Command() {
-
-			@Override
-			public void execute() {
-				CompanyActionFactory.getCompanyHomeAction().run(null, false);
-			}
-		};
-		return dashBoardcmd;
 	}
 
 	private CustomMenuBar getTestMenu() {
@@ -1031,13 +1019,9 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	@Override
 	public void onLoad() {
-		// Window.addResizeHandler(new ResizeHandler() {
-		//
-		// @Override
-		// public void onResize(ResizeEvent event) {
-		// MainFinanceWindow.this.fitToSize(event.getHeight() - 20, 960);
-		// }
-		// });
+		// @SuppressWarnings("unused")
+		// BaseView<?> view = viewManager.getContentPanel();
+		// viewManager.fitToSize(height, width);
 
 		// setHeight(this.height + "px");
 		// if (view == null)
