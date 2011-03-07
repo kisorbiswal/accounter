@@ -232,7 +232,7 @@ public class StartupDialog extends DialogBox {
 
 			public void onSuccess(ClientIdentity result) {
 				if (result != null) {
-					FinanceApplication application = new FinanceApplication("",
+					FinanceApplication application = new FinanceApplication("",result,
 							new ValueCallBack<FinanceApplication>() {
 
 								@Override
@@ -242,6 +242,8 @@ public class StartupDialog extends DialogBox {
 								}
 							});
 				} else {
+					
+					
 					UIUtils.say("Login failed!");
 				}
 			}
