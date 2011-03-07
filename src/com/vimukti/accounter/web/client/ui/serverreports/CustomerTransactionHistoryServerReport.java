@@ -49,21 +49,21 @@ public class CustomerTransactionHistoryServerReport extends
 
 	public int getColumnWidth(int index) {
 		if (index == 1)
-			return 85;
+			return 75;
 		else if (index == 3)
-			return 50;
+			return 45;
 		else if (index == 2)
-			return 160;
+			return 155;
 		// else if (index == 4)
 		// return 250;
 		// else if (index == 4)
 		// return 200;
 		else if (index == 0)
-			return 180;
-		else if (index == 5)
-			return 145;
-		else
 			return 175;
+		else if (index == 5)
+			return 135;
+		else
+			return 125;
 	}
 
 	@Override
