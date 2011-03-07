@@ -180,6 +180,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
+		lab1.setHeight("50px");
 
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
@@ -208,7 +209,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
-		labeldateNoLayout.add(lab1);
+//		labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
 		customerCombo = createCustomerComboItem(customerConstants
@@ -326,7 +327,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		Label lab2 = new Label(customerConstants.productAndService());
 
 		memoTextAreaItem = createMemoTextAreaItem();
-		memoTextAreaItem.setWidth("450px");
+		memoTextAreaItem.setWidth("400px");
 		Button printButton = new Button();
 		printButton.setText(FinanceApplication.getCustomersMessages().print());
 		printButton.addClickHandler(new ClickHandler() {
@@ -346,7 +347,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.setNumCols(2);
 		prodAndServiceForm1.setFields(memoTextAreaItem);
-		memoTextAreaItem.getMainWidget().getParent().setWidth("70%");
+		//memoTextAreaItem.getMainWidget().getParent().setWidth("70%");
 
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.add(createAddNewButton());
@@ -415,9 +416,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			// prodAndServiceHLay.setCellHorizontalAlignment(priceLevelForm,
 			// ALIGN_RIGHT);
 			prodAndServiceHLay.add(amountsForm);
+			
 			prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
 					ALIGN_RIGHT);
-
 			// listforms.add(priceLevelForm);
 
 		} else {
@@ -455,6 +456,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		topHLay.setCellWidth(rightVLay, "50%");
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
+		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		// mainVLay.add(lab2);
