@@ -185,13 +185,14 @@ public class CustomerCreditMemoView extends
 		disabletextbox.setVisible(false);
 
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
-		prodAndServiceForm2.setWidth("90%");
+		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
 		if (FinanceApplication.getCompany().getAccountingType() == 1) {
 
 		prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
 					disabletextbox, vatTotalNonEditableText, disabletextbox,
 					transactionTotalNonEditableText);
+		prodAndServiceForm2.addStyleName("invoice-total");
 		} else {
 			prodAndServiceForm2.setFields(taxCodeSelect,
 					salesTaxTextNonEditable, priceLevelSelect,
@@ -236,7 +237,7 @@ public class CustomerCreditMemoView extends
 		if (UIUtils.isMSIEBrowser()) {
 			resetFormView();
 		} else {
-			memoTextAreaItem.setWidth(130);
+			memoTextAreaItem.setWidth("400px");
 			// refText.setWidth(130);
 		}
 
