@@ -389,9 +389,10 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	protected TextAreaItem createMemoTextAreaItem() {
 
-		TextAreaItem memoArea = new TextAreaItem();
+		TextAreaItem memoArea = new TextAreaItem();	
+		memoArea.setWidth("150px");
 		memoArea.setHelpInformation(true);
-		memoArea.setWidth(100);
+		
 		memoArea.setTitle(FinanceApplication.getVendorsMessages().memo());
 		// memoArea.setRowSpan(2);
 		// memoArea.setColSpan(3);
