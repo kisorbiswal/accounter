@@ -189,6 +189,7 @@ public class CashSalesView extends
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("70%");
 		prodAndServiceForm2.setNumCols(4);
+		prodAndServiceForm2.addStyleName("invoice-total");
 		if (FinanceApplication.getCompany().getAccountingType() == 1) {
 
 			// prodAndServiceForm2.setFields(priceLevelSelect, netAmountLabel,
