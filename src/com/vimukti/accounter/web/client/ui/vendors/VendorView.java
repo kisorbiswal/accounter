@@ -363,7 +363,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		memoArea = new TextAreaItem();
 		memoArea.setHelpInformation(true);
-		memoArea.setWidth(100);
+		memoArea.setWidth("400px");
 		memoArea.setTitle(vendorConstants.memo());
 
 		// For Editing Vendor
