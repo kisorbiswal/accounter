@@ -156,18 +156,18 @@ public class TransactionDetailByAccountServerReport extends
 	public int getColumnWidth(int index) {
 		switch (index) {
 		case 0:
-			return 230;
+			return 225;
 		case 1:
-			return 140;
+			return 130;
 		case 2:
-			return 80;
+			return 75;
 		case 3:
-			return 140;
+			return 130;
 		case 4:
-			return 55;
+			return 50;
 
 		default:
-			return 120;
+			return 115;
 		}
 	}
 
