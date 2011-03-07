@@ -7,10 +7,10 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
-public class ConversationBalancesAction extends Action {
-	private ConversationBalancesView view;
+public class ConversionBalancesAction extends Action {
+	private ConversionBalancesView view;
 
-	public ConversationBalancesAction(String text) {
+	public ConversionBalancesAction(String text) {
 		super(text);
 		// TODO Auto-generated constructor stub
 	}
@@ -33,23 +33,30 @@ public class ConversationBalancesAction extends Action {
 		return null;
 	}
 
-	@Override
-	public void run(Object data, Boolean isDependent) {
-		runAsync(data, isDependent);
+	public void run(Object data, Boolean isDependent, String endingDate,
+			String year) {
+		runAsync(data, isDependent, endingDate, year);
 	}
 
-	private void runAsync(final Object data, final Boolean isDependent) {
+	@Override
+	public void run(Object data, Boolean isDependent) {
+		runAsync(data, isDependent, null, null);
+	}
+
+	private void runAsync(final Object data, final Boolean isDependent,
+			final String endingDate, final String year) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallBack() {
 
 			public void onCreated() {
 
 				try {
 					// if (accountType == 0)
-					view = new ConversationBalancesView();
+					view = new ConversionBalancesView(endingDate, year);
 					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, ConversationBalancesAction.this);
+							isDependent, ConversionBalancesAction.this);
 
 				} catch (Throwable e) {
+					System.out.println(e.toString());
 					onCreateFailed(e);
 				}
 

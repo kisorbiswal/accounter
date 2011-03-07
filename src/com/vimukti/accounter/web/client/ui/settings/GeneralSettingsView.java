@@ -11,11 +11,12 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 
 @SuppressWarnings("unchecked")
 public class GeneralSettingsView extends AbstractBaseView {
-	private VerticalPanel mainPanel, conversationPanel, invoiceBrandingPanel;
+	private VerticalPanel mainPanel, conversationPanel, invoiceBrandingPanel,
+			userPanel;
 	private FlexTable optionsTable;
 	private HorizontalPanel titlePanel;
 	private HTML conversionHTML, conversationCommentHTML, invoiceBrandingHTML,
-			invoiceCommentHtml, titleHtml;
+			invoiceCommentHtml, titleHtml, userHtml, userCommentHtml;
 
 	@Override
 	public void fitToSize(int height, int width) {
@@ -55,6 +56,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 		optionsTable = new FlexTable();
 		conversationPanel = new VerticalPanel();
 		invoiceBrandingPanel = new VerticalPanel();
+		userPanel = new VerticalPanel();
 
 		titleHtml = new HTML(
 				"<p><font size='5px', color='green'>General Settings</font></p>");
@@ -62,12 +64,16 @@ public class GeneralSettingsView extends AbstractBaseView {
 		conversionHTML = new HTML(
 				"<a><font size='3px', color='green'>Conversion Balances</font></a>");
 		conversationCommentHTML = new HTML(
-				"<p><font size='1px'>Update the balances from your previous accounting system. Be aware this  has an impact on transactions already entered, your conversion date, and  any reports that you may have run already.</font></p>");
+				"<p><font size='2px'>Update the balances from your previous accounting system. Be aware this  has an impact on transactions already entered, your conversion date, and  any reports that you may have run already.</font></p>");
 		invoiceBrandingHTML = new HTML(
 				"<a><font size='3px', color='green'>Invoice Branding</font></a>");
 		invoiceCommentHtml = new HTML(
-				"<p><font size='1px'>Customise the appearance of invoices, credit notes and statements. Add multiple themes with custom page titles, logos and payment advice. Also, control the automatic numbering of invoices.</font></p>");
+				"<p><font size='2px'>Customise the appearance of invoices, credit notes and statements. Add multiple themes with custom page titles, logos and payment advice. Also, control the automatic numbering of invoices.</font></p>");
 
+		userHtml = new HTML(
+				"<a><font size='3px', color='green'>Users</font></a>");
+		userCommentHtml = new HTML(
+				"<p><font size='2px'>Users are the people who can log in and view your organisation in Xero. You can add, edit and delete other users and determine the role they have.</font></p>");
 		titlePanel.add(titleHtml);
 
 		conversationPanel.add(conversionHTML);
@@ -76,7 +82,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 		conversionHTML.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				SettingsActionFactory.getConversationBalancesAction().run(null,
+				SettingsActionFactory.getConversionBalancesAction().run(null,
 						false);
 			}
 		});
@@ -93,9 +99,21 @@ public class GeneralSettingsView extends AbstractBaseView {
 			}
 		});
 
+		userPanel.add(userHtml);
+		userPanel.add(userCommentHtml);
+
+		userHtml.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+			}
+		});
+
 		titlePanel.add(titleHtml);
 		optionsTable.setWidget(0, 0, conversationPanel);
 		optionsTable.setWidget(0, 1, invoiceBrandingPanel);
+		optionsTable.setWidget(1, 0, userPanel);
 
 		mainPanel.add(titlePanel);
 		mainPanel.add(optionsTable);

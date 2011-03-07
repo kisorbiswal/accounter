@@ -25,7 +25,7 @@ public class InvoiceBrandingView extends AbstractBaseView {
 		mainPanel = new VerticalPanel();
 		titlePanel = new VerticalPanel();
 		generalSettingsHTML = new HTML(
-				"<p><font size='1px'>General Settings</font></p>");
+				"<p><font size='2px'>General Settings</font></p>");
 		invoiceBrandingHtml = new HTML(
 				"<p><font size='4px'>Innvoice Branding<font></p>");
 		generalSettingsHTML.addClickHandler(new ClickHandler() {

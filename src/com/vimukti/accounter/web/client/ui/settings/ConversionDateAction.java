@@ -1,0 +1,44 @@
+package com.vimukti.accounter.web.client.ui.settings;
+
+import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
+
+public class ConversionDateAction extends Action {
+	private ConversionDateView view;
+
+	public ConversionDateAction(String text) {
+		super(text);
+	}
+
+	@Override
+	public ImageResource getBigImage() {
+		return null;
+	}
+
+	@Override
+	public ImageResource getSmallImage() {
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ParentCanvas getView() {
+		return null;
+	}
+
+	@Override
+	public void run(Object data, Boolean isDependent) {
+		try {
+			view = new ConversionDateView();
+			MainFinanceWindow.getViewManager().showPresentView(view, data,
+					isDependent, ConversionDateAction.this);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.toString());
+		}
+
+	}
+
+}

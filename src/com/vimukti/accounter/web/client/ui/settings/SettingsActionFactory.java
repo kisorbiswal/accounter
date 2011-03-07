@@ -19,8 +19,8 @@ public class SettingsActionFactory extends AbstractActionFactory {
 
 	}
 
-	public static ConversationBalancesAction getConversationBalancesAction() {
-		return new ConversationBalancesAction("Conversation Balances");
+	public static ConversionBalancesAction getConversionBalancesAction() {
+		return new ConversionBalancesAction("Conversion Balances");
 	}
 
 	public static InvoiceBrandingAction getInvoiceBrandingAction() {
@@ -31,5 +31,8 @@ public class SettingsActionFactory extends AbstractActionFactory {
 		return new NewBrandThemeAction("New Brand Theme");
 
 	}
+	public static ConversionDateAction getConversionDateAction() {
+		return new ConversionDateAction("Conversion Date");
 
+	}
 }
