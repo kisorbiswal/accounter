@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.ui.core.FixedAssetsActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ReportsActionFactory;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
+import com.vimukti.accounter.web.client.ui.settings.SettingsActionFactory;
 import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
 
 /**
@@ -166,9 +167,16 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	private MenuBar getMenuBar() {
 		MenuBar menuBar = new MenuBar();
-		MenuItem menuitem = menuBar.addItem(FinanceApplication
-				.getFinanceUIConstants().company(), getCompanyMenu());
+
+		MenuItem menuitem = menuBar.addItem("Dashboard", getDashBoardCommand());
 		Image child = new Image();
+		child.addStyleName("menu_arrow");
+		child.setUrl("images/arrow_down.gif");
+		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
+
+		menuitem = menuBar.addItem(FinanceApplication.getFinanceUIConstants()
+				.company(), getCompanyMenu());
+		child = new Image();
 		child.addStyleName("menu_arrow");
 		child.setUrl("images/arrow_down.gif");
 		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
@@ -214,6 +222,11 @@ public class MainFinanceWindow extends VerticalPanel {
 		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
 		// menuBar.addItem(FinanceApplication.getFinanceUIConstants().help(),
 		// getHelpMenu());
+		menuitem = menuBar.addItem("Settings", getSettingsMenu());
+		child = new Image();
+		child.addStyleName("menu_arrow");
+		child.setUrl("images/arrow_down.gif");
+		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
 
 		if (!GWT.isScript()) {
 			menuitem = menuBar.addItem(FinanceApplication.getCompanyMessages()
@@ -227,6 +240,49 @@ public class MainFinanceWindow extends VerticalPanel {
 		menuBar.setAutoOpen(true);
 		menuBar.setAnimationEnabled(true);
 		return menuBar;
+	}
+
+	private CustomMenuBar getSettingsMenu() {
+		CustomMenuBar settingsMenuBar = new CustomMenuBar();
+		settingsMenuBar.addItem("General Settings", getSettingsCommand(1));
+		settingsMenuBar.addItem("Inventory Items", getSettingsCommand(2));
+		settingsMenuBar.addItem("Chart of Accounts", getSettingsCommand(3));
+		return settingsMenuBar;
+	}
+
+	private Command getSettingsCommand(final int i) {
+		Command settingsCommand = new Command() {
+
+			@Override
+			public void execute() {
+				switch (i) {
+				case 1:
+					SettingsActionFactory.getGeneralSettingsAction().run(null,
+							false);
+					break;
+				case 2:
+					SettingsActionFactory.getInventoryItemsAction().run(null,
+							false);
+					break;
+				case 3:
+					SettingsActionFactory.getChartOfAccountsAction().run(null,
+							false);
+					break;
+				}
+			}
+		};
+		return settingsCommand;
+	}
+
+	private Command getDashBoardCommand() {
+		Command dashBoardcmd = new Command() {
+
+			@Override
+			public void execute() {
+				CompanyActionFactory.getCompanyHomeAction().run(null, false);
+			}
+		};
+		return dashBoardcmd;
 	}
 
 	private CustomMenuBar getTestMenu() {
