@@ -31,8 +31,17 @@ public class SettingsActionFactory extends AbstractActionFactory {
 		return new NewBrandThemeAction("New Brand Theme");
 
 	}
+
 	public static ConversionDateAction getConversionDateAction() {
 		return new ConversionDateAction("Conversion Date");
-
 	}
+
+	public static AutomaticSequenceAction getAutomaticSequenceAction() {
+		return new AutomaticSequenceAction("Automatic Sequencing");
+	}
+
+	public static CustomThemeAction getCustomThemeAction() {
+		return new CustomThemeAction("New Brand Theme");
+	}
+
 }

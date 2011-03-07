@@ -9,15 +9,16 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 
 public class InvoiceBrandingView extends AbstractBaseView {
-
+	private NewBrandThemeDialog brandThemeDialog;
 	private HTML generalSettingsHTML, invoiceBrandingHtml;
-	private VerticalPanel mainPanel, titlePanel;
+	private VerticalPanel mainPanel, titlePanel, newThemePanel;
 	private Button newBrandButton, automaticButton;
 	private HorizontalPanel buttonPanel;
 
@@ -62,20 +63,35 @@ public class InvoiceBrandingView extends AbstractBaseView {
 			}
 		});
 		automaticButton = new Button("Automatic Sequencing");
+		automaticButton.addClickHandler(new ClickHandler() {
 
+			@Override
+			public void onClick(ClickEvent event) {
+				SettingsActionFactory.getAutomaticSequenceAction().run(null,
+						false);
+
+			}
+		});
 		buttonPanel.add(newBrandButton);
 		buttonPanel.add(automaticButton);
 
 		mainPanel.add(titlePanel);
 		mainPanel.add(buttonPanel);
+		if (brandThemeDialog != null) {
+			mainPanel.add(getThemePanel());
+		}
 		add(mainPanel);
+	}
+
+	private VerticalPanel getThemePanel() {
+		newThemePanel = new VerticalPanel();
+		return newThemePanel;
 	}
 
 	private CustomMenuBar getNewBrandMenu() {
 		CustomMenuBar menuBar = new CustomMenuBar();
 		menuBar.addItem("Standard Theme", getNewBrandCommand(1));
 		menuBar.addItem("Custom .docx Theme", getNewBrandCommand(2));
-		getNewBrandCommand(0);
 		return menuBar;
 
 	}
@@ -86,10 +102,12 @@ public class InvoiceBrandingView extends AbstractBaseView {
 			public void execute() {
 				switch (i) {
 				case 1:
-
+					SettingsActionFactory.getNewBrandThemeAction().run(null,
+							false);
 					break;
-
 				case 2:
+					SettingsActionFactory.getCustomThemeAction().run(null,
+							false);
 					break;
 				}
 			}

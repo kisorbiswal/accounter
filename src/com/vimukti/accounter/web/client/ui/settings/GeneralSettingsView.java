@@ -94,8 +94,8 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-
+				SettingsActionFactory.getInvoiceBrandingAction().run(null,
+						false);
 			}
 		});
 
