@@ -334,7 +334,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		taxAgencyForm = UIUtils.form(companyConstants.taxAgency());
 		taxAgencyForm.setWidth("100%");
-		taxAgencyForm.getCellFormatter().setWidth(0, 0, "205");
+		taxAgencyForm.getCellFormatter().setWidth(0, 0, "232");
 		taxAgencyForm.setFields(taxAgencyText, fileAsText);
 
 		accInfoForm = new DynamicForm();
@@ -427,7 +427,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		memoArea = new TextAreaItem();
 		memoArea.setHelpInformation(true);
 		memoArea.setTitle(FinanceApplication.getVATMessages().memo());
-		memoArea.setWidth(100);
+		memoArea.setWidth("400px");
 		memoForm.setFields(memoArea);
 		memoForm.setStyleName("align-form");
 
@@ -543,7 +543,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		} else { // For Creating TaxAgency
 			addrsForm = new AddressForm(null);
 			addrsForm.setWidth("100%");
-			addrsForm.getCellFormatter().setWidth(0, 0, "75");
+			addrsForm.getCellFormatter().setWidth(0, 0, "50");
 			addrsForm.getCellFormatter().setWidth(0, 1, "125");
 			phoneFaxForm = new PhoneFaxForm(null, null);
 			phoneFaxForm.setWidth("100%");
