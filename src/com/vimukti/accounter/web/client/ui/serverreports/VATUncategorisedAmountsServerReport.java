@@ -55,7 +55,7 @@ public class VATUncategorisedAmountsServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "Type", "Client Finance Date", "No",
+		return new String[] { "Type", "Date", "No",
 				"Source Name", "Amount", "Balance" };
 	}
 
@@ -68,11 +68,11 @@ public class VATUncategorisedAmountsServerReport extends
 	public int getColumnWidth(int index) {
 
 		if (index == 2 || index == 1)
-			return 68;
+			return 75;
 		else if (index == 3)
-			return 200;
+			return 175;
 		else if (index == 4 || index == 5)
-			return 125;
+			return 120;
 		else
 			return 200;
 	}
@@ -174,7 +174,7 @@ public class VATUncategorisedAmountsServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Type", "Client Financ eDate", "No",
+		return new String[] { "Type", "Date", "No",
 				"Source Name", "Amount", "Balance" };
 	}
 
