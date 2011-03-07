@@ -462,15 +462,15 @@ public class ProfitAndLossServerReport extends
 
 		switch (index) {
 		case 0:
-			return 115;
+			return 110;
 		case 2:
-			return 145;
+			return 135;
 		case 3:
-			return 100;
+			return 95;
 		case 4:
-			return 145;
+			return 135;
 		case 5:
-			return 100;
+			return 90;
 
 		default:
 			break;
@@ -480,7 +480,7 @@ public class ProfitAndLossServerReport extends
 		// else if (index == 2)
 		// return 270;
 		// else
-		return 270;
+		return 260;
 	}
 
 	@Override
