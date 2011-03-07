@@ -284,7 +284,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorForm.setWidth("100%");
 		vendorForm.setStyleName(FinanceApplication.getVendorsMessages()
 				.venderForm());
-		vendorForm.getCellFormatter().setWidth(0, 0, "205");
+		vendorForm.getCellFormatter().setWidth(0, 0, "246px");
 
 		accInfoForm = new DynamicForm();
 		accInfoForm.setIsGroup(true);
@@ -737,8 +737,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				FinanceApplication.getVendorsMessages().width(),
 				listBoxWidth + "");
 
-		vendorForm.getCellFormatter().getElement(0, 0).getStyle().setWidth(
-				titlewidth + listBoxWidth, Unit.PX);
+		//vendorForm.getCellFormatter().getElement(0, 0).getStyle().setWidth( titlewidth + listBoxWidth, Unit.PX);
 		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
 				FinanceApplication.getVendorsMessages().width(),
 				titlewidth + titlewidth + "");
