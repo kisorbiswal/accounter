@@ -71,18 +71,18 @@ public class VATDetailServerReportView extends AbstractFinaneReport<VATDetail> {
 	public int getColumnWidth(int index) {
 		switch (index) {
 		case 0:
-			return 230;
+			return 220;
 		case 1:
-			return 85;
+			return 80;
 		case 2:
-			return 65;
+			return 60;
 		case 3:
-			return 140;
+			return 135;
 		case 4:
-			return 75;
+			return 70;
 
 		default:
-			return 100;
+			return 95;
 		}
 	}
 
