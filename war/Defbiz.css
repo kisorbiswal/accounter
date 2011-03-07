@@ -2095,7 +2095,7 @@ table tr.ReportGridRow:HOVER {
 }
 
 .gwt-TabBar .gwt-TabBarItem-wrapper-selected .gwt-TabBarItem {
-	background: ##86CAEF url(images/tab-image-selected-r.jpg) no-repeat
+	background: #86CAEF url(images/tab-image-selected-r.jpg) no-repeat
 		scroll 100% 0 !important;
 }
 
