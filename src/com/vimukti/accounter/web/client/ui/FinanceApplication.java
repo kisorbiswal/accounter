@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.data.ClientIdentity;
 import com.vimukti.accounter.web.client.externalization.ActionsConstants;
 import com.vimukti.accounter.web.client.externalization.FinanceConstants;
 import com.vimukti.accounter.web.client.externalization.FinanceMessages;
@@ -77,9 +78,19 @@ public class FinanceApplication extends VerticalPanel {
 	private static ReportsMessages reportsMessages;
 	private static boolean isSales;
 	private static boolean isPurchases;
+	public  static ClientIdentity clientIdentity;
 
 	public FinanceApplication(String email,
 			ValueCallBack<FinanceApplication> callback) {
+		this.callback = callback;
+		MainFinanceWindow.makeAllViewsStaticstoNull();
+
+		getCompany("");
+	}
+
+	public FinanceApplication(String email, ClientIdentity identity,
+			ValueCallBack<FinanceApplication> callback) {
+		this.clientIdentity = identity;
 		this.callback = callback;
 		MainFinanceWindow.makeAllViewsStaticstoNull();
 
