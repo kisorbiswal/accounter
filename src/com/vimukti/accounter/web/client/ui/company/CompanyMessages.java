@@ -901,4 +901,7 @@ public interface CompanyMessages extends FinanceMessages {
 	String moneyGoingOut();
 
 	String expenseClaims();
+
+	public String userName(String loginUserName);
+
 }
