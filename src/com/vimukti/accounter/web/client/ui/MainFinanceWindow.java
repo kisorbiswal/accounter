@@ -217,7 +217,6 @@ public class MainFinanceWindow extends VerticalPanel {
 		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
 		// menuBar.addItem(FinanceApplication.getFinanceUIConstants().help(),
 		// getHelpMenu());
-		menuBar.addItem("Settings", getSettingsMenu());
 		menuitem = menuBar.addItem("Settings", getSettingsMenu());
 		child = new Image();
 		child.addStyleName("menu_arrow");
