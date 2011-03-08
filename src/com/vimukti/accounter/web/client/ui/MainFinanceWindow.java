@@ -167,20 +167,15 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	private MenuBar getMenuBar() {
 		MenuBar menuBar = new MenuBar();
-
-		MenuItem menuitem = menuBar.addItem("Dashboard", getDashBoardCommand());
+		menuBar.addItem("DashBoard", getDashBoardCommand());
+		
+		MenuItem menuitem = menuBar.addItem(FinanceApplication
+				.getFinanceUIConstants().company(), getCompanyMenu());
 		Image child = new Image();
 		child.addStyleName("menu_arrow");
 		child.setUrl("images/arrow_down.gif");
 		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
-
-		menuitem = menuBar.addItem(FinanceApplication.getFinanceUIConstants()
-				.company(), getCompanyMenu());
-		child = new Image();
-		child.addStyleName("menu_arrow");
-		child.setUrl("images/arrow_down.gif");
-		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
-
+	
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			menuitem = menuBar.addItem(FinanceApplication
 					.getFinanceUIConstants().vat(), getVATMenu());
@@ -222,6 +217,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
 		// menuBar.addItem(FinanceApplication.getFinanceUIConstants().help(),
 		// getHelpMenu());
+		menuBar.addItem("Settings", getSettingsMenu());
 		menuitem = menuBar.addItem("Settings", getSettingsMenu());
 		child = new Image();
 		child.addStyleName("menu_arrow");
