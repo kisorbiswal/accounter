@@ -48,7 +48,7 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 	protected IAccounterCRUDServiceAsync rpcDoSerivce;
 	protected IAccounterHomeViewServiceAsync rpcUtilService;
 	protected ClientCompany company;
-	protected VerticalPanel mainPanel;
+	protected VerticalPanel mainPanel, mainVLayPanel, commentPanel;
 
 	public BaseDialog(String title, String desc) {
 
@@ -156,8 +156,10 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 		 */
 
 		mainPanel = new VerticalPanel();
+		commentPanel = new VerticalPanel();
 		mainPanel.setSize("100%", "100%");
 		// mainPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
+		mainPanel.add(commentPanel);
 		mainPanel.add(headerLayout);
 		mainPanel.setCellVerticalAlignment(headerLayout,
 				HasVerticalAlignment.ALIGN_TOP);

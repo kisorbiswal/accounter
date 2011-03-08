@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -14,6 +15,8 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.vat.FileVATView;
 
 public abstract class BaseView<T> extends AbstractBaseView<T> {
+
+	protected VerticalPanel commentPanel, mainPanel;
 
 	protected ScrollPanel canvas;
 	protected HorizontalPanel buttonLayout;
@@ -62,23 +65,26 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 		setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		setWidth("100%");
 		setHeight("100%");
-
+		commentPanel = new VerticalPanel();
+		mainPanel = new VerticalPanel();
 		canvas = new ScrollPanel();
 		canvas.setWidth("100%");
-		add(canvas);
+		mainPanel.add(commentPanel);
+		mainPanel.add(canvas);
+		add(mainPanel);
 
 		buttonLayout = new HorizontalPanel();
 		buttonLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		buttonLayout.setSpacing(10);
 		buttonLayout.setHeight("30px");
-		
-			saveAndCloseButton = new CustomButton(
-					CustomButtonType.SAVE_AND_CLOSE, this);
+
+		saveAndCloseButton = new CustomButton(CustomButtonType.SAVE_AND_CLOSE,
+				this);
 		buttonLayout
 				.setCellHorizontalAlignment(saveAndCloseButton, ALIGN_RIGHT);
-		if (this != null && this instanceof FileVATView){
+		if (this != null && this instanceof FileVATView) {
 			saveAndCloseButton.setText("File VAT Return");
-		
+
 			saveAndCloseButton.setWidth("200px");
 		}
 		registerButton = new CustomButton(CustomButtonType.REGISTER, this);
@@ -105,7 +111,8 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 					this);
 			buttonLayout.setCellHorizontalAlignment(saveAndNewButton,
 					ALIGN_RIGHT);
-			if (!isFixedAssetView && !(this != null && this instanceof FileVATView))
+			if (!isFixedAssetView
+					&& !(this != null && this instanceof FileVATView))
 				buttonLayout.add(saveAndNewButton);
 		}
 
@@ -140,17 +147,17 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 
 	public void setHeightForCanvas(String height) {
 		this.height = height;
-//		if (height != null && canvas != null) {
-//			double h = Double.parseDouble(height.replaceAll("px", ""));
-//			this.canvas.setHeight(h - 10 + "px");
-//		}
+		// if (height != null && canvas != null) {
+		// double h = Double.parseDouble(height.replaceAll("px", ""));
+		// this.canvas.setHeight(h - 10 + "px");
+		// }
 	}
 
 	public abstract List<DynamicForm> getForms();
 
 	@Override
 	public void fitToSize(int height, int width) {
-//		canvas.setHeight(height - 125 + "px");
+		// canvas.setHeight(height - 125 + "px");
 		canvas.setWidth(width - 15 + "px");
 	}
 }
