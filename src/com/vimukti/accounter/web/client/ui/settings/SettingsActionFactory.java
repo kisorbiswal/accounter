@@ -44,4 +44,7 @@ public class SettingsActionFactory extends AbstractActionFactory {
 		return new CustomThemeAction("New Brand Theme");
 	}
 
+	public static UsersAction getUsersAction() {
+		return new UsersAction("Users");
+	}
 }

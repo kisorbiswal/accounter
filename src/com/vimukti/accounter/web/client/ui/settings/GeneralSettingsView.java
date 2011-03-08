@@ -106,7 +106,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-
+				SettingsActionFactory.getUsersAction().run(null, false);
 			}
 		});
 

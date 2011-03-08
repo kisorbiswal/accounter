@@ -14,7 +14,7 @@ public class CustomThemeDialog extends BaseDialog {
 
 	private HTML titleHTML;
 	private TextBox titleBox;
-	private Button okButton;
+	private Button okButton, cancelButton;
 	private FlexTable flexTable, subTable;
 	private HorizontalPanel buttonPanel;
 
@@ -46,8 +46,8 @@ public class CustomThemeDialog extends BaseDialog {
 
 			}
 		});
-		cancelBtn = new Button("Cancel");
-		cancelBtn.addClickHandler(new ClickHandler() {
+		cancelButton = new Button("Cancel");
+		cancelButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -56,12 +56,13 @@ public class CustomThemeDialog extends BaseDialog {
 			}
 		});
 		buttonPanel.add(okButton);
-		buttonPanel.add(cancelBtn);
+		buttonPanel.add(cancelButton);
 
 		flexTable = new FlexTable();
 		flexTable.setWidget(0, 0, subTable);
 		flexTable.setWidget(1, 0, buttonPanel);
-
+		okbtn.setVisible(false);
+		cancelBtn.setVisible(false);
 		mainPanel.add(flexTable);
 	}
 }

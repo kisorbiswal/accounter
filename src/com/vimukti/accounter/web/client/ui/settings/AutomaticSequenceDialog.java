@@ -19,7 +19,7 @@ public class AutomaticSequenceDialog extends BaseDialog {
 	private Label invoicePrefixlabel, creditNoteLabel, nextNumberLabel;
 	private TextBox invoiceBox, creditBox, nextBox;
 	private VerticalPanel subLayoutPanel, invoicePanel, creditPanel, nextPanel;
-	private Button saveButton;
+	private Button saveButton, cancelButton;
 	private HorizontalPanel buttonPanel;
 
 	public AutomaticSequenceDialog(String title, String desc) {
@@ -72,8 +72,8 @@ public class AutomaticSequenceDialog extends BaseDialog {
 
 			}
 		});
-		cancelBtn = new Button("Cancel");
-		cancelBtn.addClickHandler(new ClickHandler() {
+		cancelButton = new Button("Cancel");
+		cancelButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -86,6 +86,8 @@ public class AutomaticSequenceDialog extends BaseDialog {
 		subLayoutPanel.add(paraHTML);
 		subLayoutPanel.add(optionsTable);
 		subLayoutPanel.add(buttonPanel);
+		okbtn.setVisible(false);
+		cancelBtn.setVisible(false);
 		mainPanel.add(subLayoutPanel);
 	}
 }
