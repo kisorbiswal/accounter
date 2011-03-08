@@ -268,7 +268,7 @@ table tr.ReportGridRow:HOVER {
 .blue-date-picker {
 	background-color: #C3D9FF;
 	color: #112ABB;
-	width: 177px;
+	width: 185px;
 	z-index: 500010;
 }
 
@@ -333,7 +333,7 @@ table tr.ReportGridRow:HOVER {
 .blue-current-month-selected {
 	background-color: #CCCCCC;
 	color: black;
-	border: 1px solid #000000;
+	border: 1px solid #aaa;
 }
 
 .calender-image {
@@ -777,7 +777,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }  
 .gwt-PopupPanel {
  border:1px solid #596E8F !important;
- padding:6px !important;
+ padding:0px !important;
   /*background: white;*/
 }
 .gwt-Button {
@@ -850,6 +850,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 .gwt-MenuBar-horizontal .gwt-MenuItem{
 	color:#fff !important;
+	cursor:pointer !important;
 }
 .report-toolbar input[type="text"]{
 	width:100px !important;
@@ -859,4 +860,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 .menu_arrow{
 	margin:0 0 0 7px;
+}
+.gridBody input[type="text"]{
+	width:100% !important;
 }
