@@ -176,13 +176,13 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return invoice;
 	}
 
-	public List<BillsList> getBillsAndItemReceiptList() {
+	public List<BillsList> getBillsAndItemReceiptList(boolean isExpensesList) {
 
 		List<BillsList> billList = null;
 
 		try {
 
-			billList = getFinanceTool().getBillsList();
+			billList = getFinanceTool().getBillsList(isExpensesList);
 
 			// billList = (List<BillsList>) manager.merge(billList);
 
@@ -1559,9 +1559,9 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 	
 	@Override
-	public List<GraphPoints> getGraphPointsforAccount(int chartType, long accountNo) {
+	public List<Double> getGraphPointsforAccount(int chartType, long accountNo) {
 		
-		List<GraphPoints> resultList = null;
+		List<Double> resultList = null;
 		try {
 			
 			resultList = getFinanceTool().getGraphPointsforAccount(chartType, accountNo);
