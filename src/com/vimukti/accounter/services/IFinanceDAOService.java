@@ -313,7 +313,7 @@ public interface IFinanceDAOService {
 
 	// To get all Vendor Bills, Vendor Credit Memo, Cash Purchase and Credit
 	// Card Charge and Write Check -> Vendor
-	public List<BillsList> getBillsList() throws DAOException;
+	public List<BillsList> getBillsList(boolean isExpensesList) throws DAOException;
 
 	// To get all Vendor Payments, PayBills, Write Check -> Vendor and TaxAgency
 	public List<ReceivePaymentsList> getReceivePaymentsList()
@@ -635,5 +635,5 @@ public interface IFinanceDAOService {
 			boolean isEnabledOfNoAccountActivity,
 			boolean isEnabledOfInactiveCustomer) throws DAOException;
 	
-	public List<GraphPoints> getGraphPointsforAccount(int chartType, long accountNo) throws DAOException;
+	public List<Double> getGraphPointsforAccount(int chartType, long accountNo) throws DAOException;
 }
