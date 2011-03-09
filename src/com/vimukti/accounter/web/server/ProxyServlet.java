@@ -86,7 +86,6 @@ public class ProxyServlet extends HttpServlet {
 	 * @param servletConfig
 	 *            The Servlet configuration passed in by the servlet conatiner
 	 */
-	@Override
 	public void init(ServletConfig servletConfig) {
 		// Get the proxy host
 		String stringProxyHostNew = servletConfig.getInitParameter("proxyHost");
@@ -126,10 +125,11 @@ public class ProxyServlet extends HttpServlet {
 	 *            The {@link HttpServletResponse} object by which we can send a
 	 *            proxied response to the client
 	 */
-	@Override
 	public void doGet(HttpServletRequest httpServletRequest,
 			HttpServletResponse httpServletResponse) throws IOException,
 			ServletException {
+		System.out.println("Processing GET request"
+				+ httpServletRequest.getRequestURI());
 		// Create a GET request
 		GetMethod getMethodProxyRequest = new GetMethod(this
 				.getProxyURL(httpServletRequest));
@@ -150,10 +150,12 @@ public class ProxyServlet extends HttpServlet {
 	 *            The {@link HttpServletResponse} object by which we can send a
 	 *            proxied response to the client
 	 */
-	@Override
 	public void doPost(HttpServletRequest httpServletRequest,
 			HttpServletResponse httpServletResponse) throws IOException,
 			ServletException {
+
+		System.out.println("Processing post request"
+				+ httpServletRequest.getRequestURI());
 		// Create a standard POST request
 		PostMethod postMethodProxyRequest = new PostMethod(this
 				.getProxyURL(httpServletRequest));
@@ -197,7 +199,7 @@ public class ProxyServlet extends HttpServlet {
 		// Parse the request
 		try {
 			// Get the multipart items as a list
-			List<FileItem> listFileItems = servletFileUpload
+			List<FileItem> listFileItems = (List<FileItem>) servletFileUpload
 					.parseRequest(httpServletRequest);
 			// Create a list to hold all of the parts
 			List<Part> listParts = new ArrayList<Part>();
@@ -258,13 +260,14 @@ public class ProxyServlet extends HttpServlet {
 	 *            The {@link HttpServletRequest} that contains the POST data to
 	 *            be sent via the {@link PostMethod}
 	 */
-	@SuppressWarnings( { "unchecked", "deprecation" })
+	@SuppressWarnings("unchecked")
 	private void handleStandardPost(PostMethod postMethodProxyRequest,
 			HttpServletRequest httpServletRequest) {
+		System.out.println("Handling post request"
+				+ httpServletRequest.getRequestURI());
 		// Get the client POST data as a Map
-		@SuppressWarnings("unused")
 		String username = httpServletRequest.getParameter("userName");
-		Map<String, String[]> mapPostParameters = httpServletRequest
+		Map<String, String[]> mapPostParameters = (Map<String, String[]>) httpServletRequest
 				.getParameterMap();
 		// Create a List to hold the NameValuePairs to be passed to the
 		// PostMethod
@@ -339,10 +342,15 @@ public class ProxyServlet extends HttpServlet {
 			// Modify the redirect to go to this proxy servlet rather that the
 			// proxied host
 			String stringMyHostName = httpServletRequest.getServerName();
+			System.out.println("IN executeProxyRequest" + stringMyHostName);
 			if (httpServletRequest.getServerPort() != 80) {
 				stringMyHostName += ":" + httpServletRequest.getServerPort();
 			}
+
 			stringMyHostName += httpServletRequest.getContextPath();
+			System.out.println("IN executeProxyRequest ..Redirecting to "
+					+ stringLocation.replace(getProxyHostAndPort()
+							+ this.getProxyPath(), stringMyHostName));
 			httpServletResponse.sendRedirect(stringLocation.replace(
 					getProxyHostAndPort() + this.getProxyPath(),
 					stringMyHostName));
@@ -373,8 +381,10 @@ public class ProxyServlet extends HttpServlet {
 		// Send the content to the client
 		InputStream inputStreamProxyResponse = httpMethodProxyRequest
 				.getResponseBodyAsStream();
+		System.out.println(inputStreamProxyResponse);
 		BufferedInputStream bufferedInputStream = new BufferedInputStream(
 				inputStreamProxyResponse);
+
 		OutputStream outputStreamClientResponse = httpServletResponse
 				.getOutputStream();
 		int intNextByte;
@@ -383,6 +393,7 @@ public class ProxyServlet extends HttpServlet {
 		while ((intNextByte = bufferedInputStream.read()) != -1) {
 			// sb.append((char)intNextByte);
 			outputStreamClientResponse.write(intNextByte);
+			outputStreamClientResponse.flush();
 			count++;
 		}
 		// System.out.println("Length: "+count);
@@ -391,7 +402,6 @@ public class ProxyServlet extends HttpServlet {
 		outputStreamClientResponse.close();
 	}
 
-	@Override
 	public String getServletInfo() {
 		return "Jason's Proxy Servlet";
 	}
@@ -447,16 +457,18 @@ public class ProxyServlet extends HttpServlet {
 		// Set the protocol to HTTP
 		String stringProxyURL = "http://" + this.getProxyHostAndPort();
 		// Check if we are proxying to a path other that the document root
-		// if (!this.getProxyPath().equalsIgnoreCase("")) {
-		// stringProxyURL += this.getProxyPath();
-		// }
-		// // Handle the path given to the servlet
-		// stringProxyURL += httpServletRequest.getPathInfo();
-		// // Handle the query string
-		// if (httpServletRequest.getQueryString() != null) {
-		// stringProxyURL += "?" + httpServletRequest.getQueryString();
-		// }
-		stringProxyURL = stringProxyURL + httpServletRequest.getRequestURI();
+		if (!this.getProxyPath().equalsIgnoreCase("")) {
+			// stringProxyURL += this.getProxyPath();
+		}
+		// Handle the path given to the servlet
+		stringProxyURL += httpServletRequest.getRequestURI();// httpServletRequest
+		// .
+		// getPathInfo()
+		// ;
+		// Handle the query string
+		if (httpServletRequest.getQueryString() != null) {
+			stringProxyURL += "?" + httpServletRequest.getQueryString();
+		}
 		return stringProxyURL;
 	}
 
