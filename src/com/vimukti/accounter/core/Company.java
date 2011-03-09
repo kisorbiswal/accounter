@@ -3180,6 +3180,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatCode2.setTAXItemGrpForSales(vatGroup3);
 			vatCode2.setStringID(SecureUtils.createID());
 			vatCode2.setDefault(true);
+			vatCode2.setECSalesEntry(true);
 			session.save(vatCode2);
 
 			TAXCode vatCode3 = new TAXCode();
@@ -3225,6 +3226,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			// vatCode6.setVATItemGrpForSales(vatItem4);
 			vatCode6.setStringID(SecureUtils.createID());
 			vatCode6.setDefault(true);
+			vatCode6.setECSalesEntry(true);
 			session.save(vatCode6);
 
 			TAXCode vatCode7 = new TAXCode();
