@@ -120,7 +120,6 @@ public class BizDecorPanel extends FlexTable {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				// TODO Auto-generated method stub
 				panelTitle.getElement().getStyle().setCursor(getTitleCursor());
 				panelTitle.getElement().getStyle().setTextDecoration(
 						getTitleDecoration());
@@ -130,7 +129,6 @@ public class BizDecorPanel extends FlexTable {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				// TODO Auto-generated method stub
 				panelTitle.getElement().getStyle().setTextDecoration(
 						TextDecoration.NONE);
 			}
@@ -139,7 +137,8 @@ public class BizDecorPanel extends FlexTable {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
+				panelTitle.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
 				titleClicked();
 			}
 		});
