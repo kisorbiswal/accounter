@@ -67,7 +67,7 @@ public interface IAccounterHomeViewServiceAsync {
 
 	public void getLatestQuotes(AsyncCallback<List<ClientEstimate>> callBack);
 
-	public void getBillsAndItemReceiptList(
+	public void getBillsAndItemReceiptList(boolean isExpensesList,
 			AsyncCallback<List<BillsList>> callBack);
 
 	public void getTransactionPayBills(
@@ -324,5 +324,5 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<List<PayeeStatementsList>> callBack);
 	
 	public void getGraphPointsforAccount(int chartType, long accountNo,
-			AsyncCallback<List<GraphPoints>> callBack);
+			AsyncCallback<List<Double>> callBack);
 }
