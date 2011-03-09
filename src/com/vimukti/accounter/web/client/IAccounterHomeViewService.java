@@ -66,7 +66,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public List<ClientEstimate> getLatestQuotes();
 
-	public List<BillsList> getBillsAndItemReceiptList();
+	public List<BillsList> getBillsAndItemReceiptList(boolean isExpensesList);
 
 	public List<PayBillTransactionList> getTransactionPayBills();
 
@@ -291,5 +291,5 @@ public interface IAccounterHomeViewService extends RemoteService {
 			boolean isEnabledOfNoAccountActivity,
 			boolean isEnabledOfInactiveCustomer);
 
-	public List<GraphPoints> getGraphPointsforAccount(int chartType, long accountNo);
+	public List<Double> getGraphPointsforAccount(int chartType, long accountNo);
 }
