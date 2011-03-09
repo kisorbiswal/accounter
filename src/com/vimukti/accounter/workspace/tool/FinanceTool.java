@@ -6878,8 +6878,8 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 
 		long startDate1 = ((FinanceDate) ((session
-				.createQuery("select f.startDate from com.vimukti.accounter.core.FiscalYear f where f.status=:status and f.isCurrentFiscalYear=true")
-				.setParameter("status", FiscalYear.STATUS_OPEN)).list().get(0)))
+				.createQuery("select f.startDate from com.vimukti.accounter.core.FiscalYear f where f.isCurrentFiscalYear=true")
+				).list().get(0)))
 				.getTime();
 
 		/*
@@ -7151,7 +7151,8 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 				.createQuery("from com.vimukti.accounter.core.FiscalYear fs ");
 		FinanceDate actualStartDate = new FinanceDate();
 		for (FiscalYear fs : fiscalYears) {
-			if (fs.getStatus() == FiscalYear.STATUS_OPEN) {
+//			if (fs.getStatus() == FiscalYear.STATUS_OPEN) {
+			if (fs.getIsCurrentFiscalYear() == Boolean.TRUE) {
 				actualStartDate = fs.getStartDate();
 				break;
 			}
