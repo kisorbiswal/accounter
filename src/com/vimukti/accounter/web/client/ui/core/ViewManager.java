@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
+import com.vimukti.accounter.web.client.ui.DashBoard;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.FinanceDashboard;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -1596,6 +1597,14 @@ public class ViewManager extends DockPanel {
 		if (history.getView() instanceof FinanceDashboard) {
 			FinanceDashboard dashboard = (FinanceDashboard) history.getView();
 			dashboard.refreshGrids(accounterCoreObject);
+		}
+	}
+	
+	public void updateDashBoardData(IAccounterCore accounterCoreObject){
+		History history = this.historyList.get(0);
+		if (history.getView() instanceof DashBoard) {
+			DashBoard dashboard = (DashBoard) history.getView();
+			dashboard.refreshWidgetData(accounterCoreObject);
 		}
 	}
 
