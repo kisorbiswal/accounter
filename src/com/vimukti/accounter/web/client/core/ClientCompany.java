@@ -584,8 +584,8 @@ public class ClientCompany implements IAccounterCore {
 	public List<ClientItem> getActiveItems() {
 		List<ClientItem> activeItems = new ArrayList<ClientItem>();
 		for (ClientItem item : items) {
-//			if (item.isActive())
-				activeItems.add(item);
+			// if (item.isActive())
+			activeItems.add(item);
 		}
 		return Utility.getArrayList(activeItems);
 	}
@@ -1402,6 +1402,9 @@ public class ClientCompany implements IAccounterCore {
 							account);
 					ViewManager.getInstance().updateHomePageLists(
 							accounterCoreObject);
+					if (account.getType() == ClientAccount.TYPE_BANK)
+						ViewManager.getInstance().updateDashBoardData(
+								accounterCoreObject);
 					break;
 
 				case CUSTOMER:
@@ -1659,6 +1662,9 @@ public class ClientCompany implements IAccounterCore {
 					break;
 				}
 			ViewManager.getInstance().operationSuccessFull(cmd);
+			if (accounterCoreObject instanceof ClientTransaction)
+				ViewManager.getInstance().updateDashBoardData(
+						accounterCoreObject);
 		} catch (Exception e) {
 			if (e instanceof JavaScriptException) {
 				Accounter.showInformation("Execption occur:"
