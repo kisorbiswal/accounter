@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.googlecode.gchart.client.GChart;
@@ -17,7 +18,7 @@ public class GraphChart extends GChart {
 	public static final int ACCOUNTS_PAYABLE_CHART_TYPE = 3;
 
 	int chartType = 0;
-	int MAX_REVENUE = 0;
+	double MAX_REVENUE = 0;
 	int WIDTH = 0;
 	int HEIGHT = 0;
 
@@ -34,8 +35,8 @@ public class GraphChart extends GChart {
 		this(chartType, 1000, 400, 150, new ArrayList<Double>());
 	}
 
-	public GraphChart(int chartType, int MAX_REVENUE, int WIDTH, int HEIGHT,
-			ArrayList<Double> graph_Values) {
+	public GraphChart(int chartType, double MAX_REVENUE, int WIDTH, int HEIGHT,
+			List<Double> result) {
 
 		x_Axis_Labels = new ArrayList<String>();
 		this.graph_Values = new ArrayList<Double>();
@@ -44,7 +45,7 @@ public class GraphChart extends GChart {
 		this.MAX_REVENUE = MAX_REVENUE + 100;
 		this.WIDTH = WIDTH;
 		this.HEIGHT = HEIGHT;
-		this.graph_Values = graph_Values;
+		this.graph_Values = (ArrayList<Double>) result;
 
 		if (this.graph_Values == null || this.graph_Values.isEmpty())
 			intializeGraphValues();
@@ -107,9 +108,11 @@ public class GraphChart extends GChart {
 			getCurve().getSymbol().setBorderWidth(1);
 
 			for (int i = 0; i < 6; i++) {
-				getCurve().addPoint((i + 1) * 2, graph_Values.get(i));
-				getCurve().getSymbol().setHovertextTemplate(
-						GChart.formatAsHovertext("${y}"));
+				if (this.graph_Values.get(i) != null) {
+					getCurve().addPoint((i + 1) * 2, graph_Values.get(i));
+					getCurve().getSymbol().setHovertextTemplate(
+							GChart.formatAsHovertext("${y}"));
+				}
 			}
 
 		} else {
@@ -124,9 +127,11 @@ public class GraphChart extends GChart {
 			 */
 			if (chartType == BANK_ACCOUNT_CHART_TYPE) {
 				for (int i = 0; i < 4; i++) {
-					getCurve().addPoint(i * 2, graph_Values.get(i));
-					getCurve().getSymbol().setHovertextTemplate(
-							GChart.formatAsHovertext("${y}"));
+					if (this.graph_Values.get(i) != null) {
+						getCurve().addPoint(i * 2, graph_Values.get(i));
+						getCurve().getSymbol().setHovertextTemplate(
+								GChart.formatAsHovertext("${y}"));
+					}
 				}
 			}
 
@@ -135,10 +140,13 @@ public class GraphChart extends GChart {
 			 */
 
 			if (chartType == ACCOUNTS_PAYABLE_CHART_TYPE) {
-				for (int i = 0; i < 30; i++)
-					getCurve().addPoint(i * 2, graph_Values.get(i));
-				getCurve().getSymbol().setHovertextTemplate(
-						GChart.formatAsHovertext("${y}"));
+				for (int i = 0; i < 30; i++) {
+					if (this.graph_Values.get(i) != null) {
+						getCurve().addPoint(i * 2, graph_Values.get(i));
+						getCurve().getSymbol().setHovertextTemplate(
+								GChart.formatAsHovertext("${y}"));
+					}
+				}
 			}
 		}
 	}

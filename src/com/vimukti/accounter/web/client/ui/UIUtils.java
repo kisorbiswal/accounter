@@ -1704,6 +1704,20 @@ public class UIUtils {
 		return value;
 	}
 
+	public static double getMaxValue(List<Double> list) {
+		double maxValue = 0;
+		if (list == null)
+			return 0;
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i) == null)
+				continue;
+			double d = list.get(i);
+			if (maxValue < d)
+				maxValue = d;
+		}
+		return maxValue;
+	}
+
 	public static double getVATItemRate(ClientTAXCode taxCode, boolean isSales) {
 		if (!taxCode.getName().equals("EGS")
 				&& !taxCode.getName().equals("EGZ")
