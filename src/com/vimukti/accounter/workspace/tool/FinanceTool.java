@@ -1238,7 +1238,8 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<BillsList> getBillsList() throws DAOException {
+	public List<BillsList> getBillsList(boolean isExpensesList)
+			throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			Query query = session.getNamedQuery("getBillsList");
@@ -1268,7 +1269,13 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 					billsList.setDate(new ClientFinanceDate((Long) object[9]));
 
 					if (object[4] != null) {
-						queryResult.add(billsList);
+						if (isExpensesList) {
+							if (billsList.getType() == ClientTransaction.TYPE_CASH_EXPENSE
+									|| billsList.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE
+									|| billsList.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
+								queryResult.add(billsList);
+						} else
+							queryResult.add(billsList);
 					}
 				}
 				return queryResult;
@@ -11208,8 +11215,8 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<GraphPoints> getGraphPointsforAccount(int chartType,
-			long accountNo) throws DAOException {
+	public List<Double> getGraphPointsforAccount(int chartType, long accountNo)
+			throws DAOException {
 
 		try {
 
@@ -11221,9 +11228,15 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			if (chartType == 1) {
 
 				Calendar dateCal[] = new Calendar[3];
-				dateCal[3].setTime(currentDate.getAsDateObject());
+				if (dateCal[2] == null)
+					dateCal[2] = new GregorianCalendar();
+
+				dateCal[2].setTime(currentDate.getAsDateObject());
 
 				for (int i = 2; i >= 0; i--) {
+					if (dateCal[i] == null)
+						dateCal[i] = new GregorianCalendar();
+
 					dateCal[i].setTime(dateCal[i + 1].getTime());
 					dateCal[i].set(Calendar.DATE,
 							dateCal[i].get(Calendar.DATE) - 1);
@@ -11390,9 +11403,13 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			if (chartType == 3) {
 
 				Calendar[] dateCal = new GregorianCalendar[30];
+				if (dateCal[0] == null)
+					dateCal[0] = new GregorianCalendar();
 				dateCal[0].setTime(currentDate.getAsDateObject());
 
 				for (int i = 1; i < 30; i++) {
+					if (dateCal[i] == null)
+						dateCal[i] = new GregorianCalendar();
 
 					dateCal[i].setTime(dateCal[i - 1].getTime());
 					dateCal[i].set(Calendar.DATE,
@@ -11491,10 +11508,9 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 										.getTime()).setParameter(
 								"twentyNineDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[29].getTime())
-										.getTime()).setParameter(
-								"thirtyDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[30].getTime())
 										.getTime());
+				// .setParameter("thirtyDaysAfterToCurrentDate", new
+				// FinanceDate(dateCal[30].getTime()).getTime());
 				// .setParameter("thirtyOneDaysAfterToCurrentDate", new
 				// FinanceDate(dateCal[31].getTime()).getTime());
 
@@ -11503,86 +11519,106 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			if (chartType == 4)
 				query = session.getNamedQuery("getExpenseTotalAmounts");
 
-			List<GraphPoints> list = query.list();
+			List list = query.list();
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				List<GraphPoints> graphPoints = new ArrayList<GraphPoints>();
+				List<Double> gPoints = new ArrayList<Double>();
 
 				while (iterator.hasNext()) {
 					object = (Object[]) iterator.next();
-					GraphPoints gPoints = new GraphPoints();
-					gPoints.setAccountName((String) object[1]);
-					gPoints.setFirstPoint(object[2] == null ? null
-							: (Double) object[2]);
-					gPoints.setSecondPoint(object[3] == null ? null
-							: (Double) object[3]);
-					gPoints.setThirdPoint(object[4] == null ? null
-							: (Double) object[4]);
-					gPoints.setFourthPoint(object[5] == null ? null
-							: (Double) object[5]);
+
+					gPoints.add(object[2] == null ? 0 : (Double) object[2]);
+					gPoints.add(object[3] == null ? 0 : (Double) object[3]);
+					gPoints.add(object[4] == null ? 0 : (Double) object[4]);
+					gPoints.add(object[5] == null ? 0 : (Double) object[5]);
 
 					if (chartType == 2 || chartType == 3) {
 
-						gPoints.setFifthPoint(object[6] == null ? null
-								: (Double) object[6]);
-						gPoints.setSixthPoint(object[7] == null ? null
-								: (Double) object[7]);
+						gPoints.add(object[6] == null ? 0 : (Double) object[6]);
+						gPoints.add(object[7] == null ? 0 : (Double) object[7]);
+						if (chartType == 2) {
+							Object res = session.getNamedQuery(
+									"getDraftInvoicesTotal").setParameter(
+									"isInvoices", true).uniqueResult();
+							double amount = res == null ? 0 : (Double) res;
+							gPoints.add(amount);
+
+							res = session.getNamedQuery(
+									"getOverDueInvoicesTotal").setParameter(
+									"isInvoices", true).setParameter(
+									"presentDate",
+									(new FinanceDate()).getTime())
+									.uniqueResult();
+							amount = res == null ? 0 : (Double) res;
+							gPoints.add(amount);
+						}
 					}
 
 					if (chartType == 3) {
 
-						gPoints.setSeventhPoint(object[8] == null ? null
-								: (Double) object[8]);
-						gPoints.setEighthPoint(object[9] == null ? null
-								: (Double) object[9]);
-						gPoints.setNinthPoint(object[10] == null ? null
+						gPoints.add(object[8] == null ? 0 : (Double) object[8]);
+						gPoints.add(object[9] == null ? 0 : (Double) object[9]);
+						gPoints.add(object[10] == null ? 0
 								: (Double) object[10]);
-						gPoints.setTenthPoint(object[11] == null ? null
+						gPoints.add(object[11] == null ? 0
 								: (Double) object[11]);
-						gPoints.setEleventhpoint(object[12] == null ? null
+						gPoints.add(object[12] == null ? 0
 								: (Double) object[12]);
-						gPoints.setTwelthPoint(object[13] == null ? null
+						gPoints.add(object[13] == null ? 0
 								: (Double) object[13]);
-						gPoints.setThirtinthPoint(object[14] == null ? null
+						gPoints.add(object[14] == null ? 0
 								: (Double) object[14]);
-						gPoints.setFourtinthPoint(object[15] == null ? null
+						gPoints.add(object[15] == null ? 0
 								: (Double) object[15]);
-						gPoints.setFiftinthPoint(object[16] == null ? null
+						gPoints.add(object[16] == null ? 0
 								: (Double) object[16]);
-						gPoints.setSixtinthPoint(object[17] == null ? null
+						gPoints.add(object[17] == null ? 0
 								: (Double) object[17]);
-						gPoints.setSeventinthPoint(object[18] == null ? null
+						gPoints.add(object[18] == null ? 0
 								: (Double) object[18]);
-						gPoints.setEightinthPoint(object[19] == null ? null
+						gPoints.add(object[19] == null ? 0
 								: (Double) object[19]);
-						gPoints.setNinetinthPoint(object[20] == null ? null
+						gPoints.add(object[20] == null ? 0
 								: (Double) object[20]);
-						gPoints.setTwentythPoint(object[21] == null ? null
+						gPoints.add(object[21] == null ? 0
 								: (Double) object[21]);
-
-						gPoints.setTwentyFirstPoint(object[22] == null ? null
+						gPoints.add(object[22] == null ? 0
 								: (Double) object[22]);
-						gPoints.setTwentySecondPoint(object[23] == null ? null
+						gPoints.add(object[23] == null ? 0
 								: (Double) object[23]);
-						gPoints.setTwentyThirdPoint(object[24] == null ? null
+						gPoints.add(object[24] == null ? 0
 								: (Double) object[24]);
-						gPoints.setTwentyFourthPoint(object[25] == null ? null
+						gPoints.add(object[25] == null ? 0
 								: (Double) object[25]);
-						gPoints.setTwentyFifthPoint(object[26] == null ? null
+						gPoints.add(object[26] == null ? 0
 								: (Double) object[26]);
-						gPoints.setTwentySixthPoint(object[27] == null ? null
+						gPoints.add(object[27] == null ? 0
 								: (Double) object[27]);
-						gPoints.setTwentySeventhPoint(object[28] == null ? null
+						gPoints.add(object[28] == null ? 0
 								: (Double) object[28]);
-						gPoints.setTwentyEighthPoint(object[29] == null ? null
+						gPoints.add(object[29] == null ? 0
 								: (Double) object[29]);
-						gPoints.setTwentyNinethPoint(object[30] == null ? null
+						gPoints.add(object[30] == null ? 0
 								: (Double) object[30]);
-						gPoints.setThirtythPoint(object[31] == null ? null
+						gPoints.add(object[31] == null ? 0
 								: (Double) object[31]);
-						gPoints.setThirtyFirstPoint(object[32] == null ? null
-								: (Double) object[32]);
+
+						Object res = session.getNamedQuery(
+								"getDraftInvoicesTotal").setParameter(
+								"isInvoices", false).uniqueResult();
+						double amount = res == null ? 0 : (Double) res;
+						gPoints.add(amount);
+
+						res = session.getNamedQuery("getOverDueInvoicesTotal")
+								.setParameter("isInvoices", false)
+								.setParameter("presentDate",
+										(new FinanceDate()).getTime())
+								.uniqueResult();
+						amount = res == null ? 0 : (Double) res;
+						gPoints.add(amount);
+						// gPoints.add(object[32] == null ? null
+						// : (Double) object[32]);
 
 					}
 
@@ -11590,7 +11626,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 					minValue = (object[2] == null) ? 0 : (Double) object[2];
 					maxValue = minValue;
 
-					for (int i = 1; i < object.length; i++) {
+					for (int i = 2; i < object.length; i++) {
 
 						if (object[i] != null) {
 							if (maxValue < (Double) object[i])
@@ -11601,13 +11637,11 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 						}
 					}
 
-					gPoints.setMaxPoint(maxValue);
-					gPoints.setMinPoint(minValue);
-
-					graphPoints.add(gPoints);
+					// gPoints.setMaxPoint(maxValue);
+					// gPoints.setMinPoint(minValue);
 
 				}
-				return graphPoints;
+				return gPoints;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
