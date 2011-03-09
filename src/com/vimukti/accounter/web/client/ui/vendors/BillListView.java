@@ -37,6 +37,7 @@ public class BillListView extends BaseListView<BillsList> {
 			.create(VendorsMessages.class);
 	private SelectCombo currentView;
 	public String viewType;
+	public int transactionType;
 
 	private BillListView() {
 		super();
@@ -69,7 +70,8 @@ public class BillListView extends BaseListView<BillsList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		FinanceApplication.createHomeService().getBillsAndItemReceiptList(this);
+		FinanceApplication.createHomeService().getBillsAndItemReceiptList(
+				false, this);
 
 	}
 
@@ -99,10 +101,10 @@ public class BillListView extends BaseListView<BillsList> {
 		if (UIUtils.isMSIEBrowser())
 			currentView.setWidth("150px");
 
-		if (this.viewType != null)
-			currentView.setSelected(viewType);
+		if (this.viewType != null && !viewType.equals(""))
+			currentView.setComboItem(viewType);
 		else
-			currentView.setSelected(FinanceApplication.getCustomersMessages()
+			currentView.setComboItem(FinanceApplication.getCustomersMessages()
 					.all());
 		currentView
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
