@@ -54,10 +54,10 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 		endDate = Utility.getLastandOpenedFiscalYearEndDate();
 	}
 
-	@Override
-	public void initData() {
-
-	}
+	// @Override
+	// public void initData() {
+	//
+	// }
 
 	@Override
 	protected Action getAddNewAction() {
