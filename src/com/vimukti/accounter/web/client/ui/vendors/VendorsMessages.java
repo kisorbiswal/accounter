@@ -523,4 +523,7 @@ public interface VendorsMessages extends FinanceMessages {
 
 	String duplicationOfSupplierNameAreNotAllowed();
 
+	String addNewExpense();
+	
+	String expensesList();
 }
