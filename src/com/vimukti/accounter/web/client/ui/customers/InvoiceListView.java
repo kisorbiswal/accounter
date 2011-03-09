@@ -123,10 +123,10 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 		listOfTypes.add(VOID);
 		listOfTypes.add(ALL);
 		viewSelect.initCombo(listOfTypes);
-		if (viewType != null)
-			viewSelect.setDefaultValue(viewType);
+		if (viewType != null && !viewType.equals(""))
+			viewSelect.setComboItem(viewType);
 		else
-			viewSelect.setDefaultValue(OPEN);
+			viewSelect.setComboItem(OPEN);
 		if (UIUtils.isMSIEBrowser())
 			viewSelect.setWidth("150px");
 
@@ -198,7 +198,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 			if (text.equals(OVER_DUE)) {
 				if (invoice.getBalance() != null
 						&& DecimalUtil.isGreaterThan(invoice.getBalance(), 0)
-						&& (invoice.getDueDate().compareTo(new ClientFinanceDate()) < 0)
+						&& (invoice.getDueDate().compareTo(
+								new ClientFinanceDate()) < 0)
 						&& !invoice.isVoided())
 					grid.addData(invoice);
 				continue;
