@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
 import com.vimukti.accounter.web.client.ui.grids.CompanyFinancialWidgetGrid;
@@ -25,6 +26,12 @@ public class DashBoard extends BaseHomeView {
 	private String[] widgetOnSectionPage;
 	private CustomerWidgetGrid customerWidgetGrid;
 	private CompanyFinancialWidgetGrid grid;
+
+	public DashBoardPortlet gettingStartedPortlet;
+	public DashBoardPortlet bankingPortlet;
+	public DashBoardPortlet moneyComingPortlet;
+	public DashBoardPortlet moneyGoingPortlet;
+	public DashBoardPortlet expenseClaimsPortlet;
 
 	private Timer timer;
 
@@ -72,17 +79,17 @@ public class DashBoard extends BaseHomeView {
 
 		getAddableWidgets(widgetOnSectionPage);
 
-		DashBoardPortlet gettingStartedPortlet = new GettingStartedPortlet(
+		gettingStartedPortlet = new GettingStartedPortlet(
 				"Getting Started using Accounter");
 
-		DashBoardPortlet bankingPortlet = new BankingPortlet(FinanceApplication
+		bankingPortlet = new BankingPortlet(FinanceApplication
 				.getCompanyMessages().bankAccounts());
-		DashBoardPortlet moneyComingPortlet = new MoneyComingPortlet(
-				FinanceApplication.getCompanyMessages().moneyComingIn());
-		DashBoardPortlet moneyGoingPortlet = new MoneyGoingPortlet(
-				FinanceApplication.getCompanyMessages().moneyGoingOut());
-		DashBoardPortlet expenseClaimsPortlet = new ExpenseClaimPortlet(
-				FinanceApplication.getCompanyMessages().expenseClaims());
+		moneyComingPortlet = new MoneyComingPortlet(FinanceApplication
+				.getCompanyMessages().moneyComingIn());
+		moneyGoingPortlet = new MoneyGoingPortlet(FinanceApplication
+				.getCompanyMessages().moneyGoingOut());
+		expenseClaimsPortlet = new ExpenseClaimPortlet(FinanceApplication
+				.getCompanyMessages().expenseClaims());
 		FlexTable fTable = new FlexTable();
 
 		fTable.setWidget(0, 0, bankingPortlet);
@@ -210,4 +217,34 @@ public class DashBoard extends BaseHomeView {
 		super.onUnload();
 	}
 
+	public void refreshWidgetData(IAccounterCore accounterCoreObject) {
+		int transactionType = 0;
+		if (accounterCoreObject instanceof ClientTransaction)
+			transactionType = ((ClientTransaction) accounterCoreObject)
+					.getType();
+		else if (accounterCoreObject instanceof ClientAccount
+				&& ((ClientAccount) accounterCoreObject).getType() == ClientAccount.TYPE_BANK)
+			bankingPortlet.refreshWidget();
+
+		if (transactionType == ClientTransaction.TYPE_CASH_EXPENSE
+				|| transactionType == ClientTransaction.TYPE_EMPLOYEE_EXPENSE
+				|| transactionType == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE) {
+			expenseClaimsPortlet.refreshWidget();
+		}
+		if (transactionType == ClientTransaction.TYPE_INVOICE
+				|| transactionType == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO
+				|| transactionType == ClientTransaction.TYPE_CUSTOMER_PREPAYMENT
+				|| transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS
+				|| transactionType == ClientTransaction.TYPE_RECEIVE_PAYMENT) {
+			moneyComingPortlet.refreshWidget();
+		}
+		if (transactionType == ClientTransaction.TYPE_CREDIT_CARD_CHARGE
+				|| transactionType == ClientTransaction.TYPE_ENTER_BILL
+				|| transactionType == ClientTransaction.TYPE_PAY_BILL
+				|| transactionType == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO
+				|| transactionType == ClientTransaction.TYPE_VENDOR_PAYMENT
+				|| transactionType == ClientTransaction.TYPE_WRITE_CHECK) {
+			moneyGoingPortlet.refreshWidget();
+		}
+	}
 }

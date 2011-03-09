@@ -12,11 +12,13 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 
@@ -25,6 +27,11 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 	public double draftInvoiceAmount = 0.0;
 	public double overDueInvoiceAmount = 0.0;
 	public ClientAccount debitors;
+
+	public Label draftLabel;
+	public Label overDueLabel;
+	public Label draftAmtLabel;
+	public Label overDueAmtLabel;
 
 	public MoneyComingPortlet(String title) {
 		super(title);
@@ -73,17 +80,16 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 			}
 		});
 
-		Label draftLabel = getLabel(FinanceApplication.getCompanyMessages()
+		draftLabel = getLabel(FinanceApplication.getCompanyMessages()
 				.draftInvoices());
-		Label overDueLabel = getLabel(FinanceApplication.getCompanyMessages()
+		overDueLabel = getLabel(FinanceApplication.getCompanyMessages()
 				.overDueInvoices());
 		overDueLabel.getElement().getStyle().setPaddingLeft(10, Unit.PX);
 
 		updateAmounts();
 
-		Label draftAmtLabel = getAmountLabel(String.valueOf(draftInvoiceAmount));
-		Label overDueAmtLabel = getAmountLabel(String
-				.valueOf(overDueInvoiceAmount));
+		draftAmtLabel = getAmountLabel(String.valueOf(draftInvoiceAmount));
+		overDueAmtLabel = getAmountLabel(String.valueOf(overDueInvoiceAmount));
 		overDueAmtLabel.getElement().getStyle().setPaddingLeft(10, Unit.PX);
 
 		fTable.setWidget(0, 0, draftLabel);
@@ -97,10 +103,33 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 		body.add(hPanel);
 
-		GraphChart chart = new GraphChart(
-				GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE);
-		body.add(chart);
-		chart.update();
+		AsyncCallback<List<Double>> callBack = new AsyncCallback<List<Double>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Accounter
+						.showError("Failed to get Account Receivable chart values");
+			}
+
+			@Override
+			public void onSuccess(List<Double> result) {
+				overDueInvoiceAmount = result.get(result.size() - 1);
+				result.remove(result.size() - 1);
+				draftInvoiceAmount = result.get(result.size() - 1);
+				result.remove(result.size() - 1);
+				draftAmtLabel.setText(String.valueOf(draftInvoiceAmount));
+				overDueAmtLabel.setText(String.valueOf(overDueInvoiceAmount));
+
+				GraphChart chart = new GraphChart(
+						GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE, UIUtils
+								.getMaxValue(result), 400, 150, result);
+				body.add(chart);
+				chart.update();
+			}
+		};
+		FinanceApplication.createHomeService().getGraphPointsforAccount(
+				GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE, 0, callBack);
+
 	}
 
 	private void updateDebitorsAccount() {
@@ -172,5 +201,11 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 	@Override
 	public void titleClicked() {
 		BankingActionFactory.getAccountRegisterAction().run(debitors, true);
+	}
+
+	@Override
+	public void refreshWidget() {
+		this.body.clear();
+		createBody();
 	}
 }

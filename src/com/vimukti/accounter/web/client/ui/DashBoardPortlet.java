@@ -34,7 +34,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		super(title);
 		this.titleName = title;
 		// createHandlerForTitle();
-		panel = new ScrollPanel();
+		// panel = new ScrollPanel();
 		body = new VerticalPanel();
 		body.setSize("99%", "100%");
 		this.setSize("100%", "100%");
@@ -45,9 +45,9 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		createHeaderControls();
 		createBody();
 		body.getElement().getStyle().setBackgroundColor("white");
-		panel.add(body);
-		panel.setHeight("100%");
-		panel.getElement().getStyle().setPadding(0, Unit.PX);
+		// panel.add(body);
+		// panel.setHeight("100%");
+		// panel.getElement().getStyle().setPadding(0, Unit.PX);
 		// panel.setSize("98.9%", "100%");
 		super.add(body);
 
@@ -118,6 +118,10 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 	public abstract String getGoToText();
 
 	public abstract void createBody();
+
+	public void refreshWidget() {
+
+	}
 
 	@Override
 	public void setTitle(String title) {

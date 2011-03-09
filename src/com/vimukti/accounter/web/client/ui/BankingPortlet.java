@@ -11,10 +11,12 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
@@ -115,11 +117,27 @@ public class BankingPortlet extends DashBoardPortlet {
 				hPanel.add(accountLabel);
 				hPanel.add(amountLabel);
 				body.add(hPanel);
-				GraphChart chart = new GraphChart(
-						GraphChart.BANK_ACCOUNT_CHART_TYPE);
-				body.add(chart);
-				chart.update();
+				AsyncCallback<List<Double>> callBack = new AsyncCallback<List<Double>>() {
 
+					@Override
+					public void onFailure(Throwable caught) {
+						Accounter
+								.showError("Failed to get Bank account chart values");
+					}
+
+					@Override
+					public void onSuccess(List<Double> result) {
+						GraphChart chart = new GraphChart(
+								GraphChart.BANK_ACCOUNT_CHART_TYPE, UIUtils
+										.getMaxValue(result), 400, 150, result);
+						body.add(chart);
+						chart.update();
+					}
+				};
+				FinanceApplication.createHomeService()
+						.getGraphPointsforAccount(
+								GraphChart.BANK_ACCOUNT_CHART_TYPE,
+								Long.valueOf(account.getNumber()), callBack);
 			}
 		}
 	}
@@ -128,6 +146,12 @@ public class BankingPortlet extends DashBoardPortlet {
 	public void titleClicked() {
 		CompanyActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK)
 				.run(null, true);
+	}
+
+	@Override
+	public void refreshWidget() {
+		this.body.clear();
+		createBody();
 	}
 
 }

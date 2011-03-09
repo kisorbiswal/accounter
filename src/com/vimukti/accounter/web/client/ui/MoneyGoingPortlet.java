@@ -12,12 +12,14 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 
@@ -26,6 +28,11 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 	public double draftInvoiceAmount = 0.0;
 	public double overDueInvoiceAmount = 0.0;
 	public ClientAccount creditors;
+	
+	public Label draftLabel;
+	public Label overDueLabel;
+	public Label draftAmtLabel;
+	public Label overDueAmtLabel;
 
 	public MoneyGoingPortlet(String title) {
 		super(title);
@@ -74,16 +81,16 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 			}
 		});
 
-		Label draftLabel = getLabel(FinanceApplication.getCompanyMessages()
+		draftLabel = getLabel(FinanceApplication.getCompanyMessages()
 				.draftInvoices());
-		Label overDueLabel = getLabel(FinanceApplication.getCompanyMessages()
+		overDueLabel = getLabel(FinanceApplication.getCompanyMessages()
 				.overDueInvoices());
 		overDueLabel.getElement().getStyle().setPaddingLeft(10, Unit.PX);
 
 		updateAmounts();
 
-		Label draftAmtLabel = getAmountLabel(String.valueOf(draftInvoiceAmount));
-		Label overDueAmtLabel = getAmountLabel(String
+		draftAmtLabel = getAmountLabel(String.valueOf(draftInvoiceAmount));
+		overDueAmtLabel = getAmountLabel(String
 				.valueOf(overDueInvoiceAmount));
 		overDueAmtLabel.getElement().getStyle().setPaddingLeft(10, Unit.PX);
 
@@ -98,18 +105,37 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 		body.add(hPanel);
 
-		ScrollPanel panel = new ScrollPanel();
-		GraphChart chart = new GraphChart(
-				GraphChart.ACCOUNTS_PAYABLE_CHART_TYPE);
-		chart.setChartSize(1200, 150);
-		panel.add(chart);
-		panel.setSize("456px", "185px");
-		panel.getElement().getStyle().setPaddingTop(5, Unit.PX);
-		// panel.setHeight("220");
-		body.add(panel);
-		// body.add(chart);
-		// body.setWidth("90%");
-		chart.update();
+		AsyncCallback<List<Double>> callBack = new AsyncCallback<List<Double>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Accounter.showError("Failed to get Bank account chart values");
+			}
+
+			@Override
+			public void onSuccess(List<Double> result) {
+				overDueInvoiceAmount = result.get(result.size() - 1);
+				result.remove(result.size() - 1);
+				draftInvoiceAmount = result.get(result.size() - 1);
+				result.remove(result.size() - 1);
+				draftAmtLabel.setText(String.valueOf(draftInvoiceAmount));
+				overDueAmtLabel.setText(String.valueOf(overDueInvoiceAmount));
+				
+				ScrollPanel panel = new ScrollPanel();
+				GraphChart chart = new GraphChart(
+						GraphChart.ACCOUNTS_PAYABLE_CHART_TYPE, UIUtils
+								.getMaxValue(result), 1200, 150, result);
+				// chart.setChartSize(1200, 150);
+				panel.add(chart);
+				panel.setSize("456px", "185px");
+				panel.getElement().getStyle().setPaddingTop(5, Unit.PX);
+				body.add(panel);
+				chart.update();
+			}
+		};
+		FinanceApplication.createHomeService().getGraphPointsforAccount(
+				GraphChart.ACCOUNTS_PAYABLE_CHART_TYPE, 0, callBack);
+
 	}
 
 	private void updateCreditorsAccount() {
@@ -179,4 +205,9 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 		BankingActionFactory.getAccountRegisterAction().run(creditors, true);
 	}
 
+	@Override
+	public void refreshWidget() {
+		this.body.clear();
+		createBody();
+	}
 }
