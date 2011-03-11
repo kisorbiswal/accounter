@@ -692,7 +692,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			@Override
 			protected void onAttach() {
 
-				gridView.setHeight("88px");
+//				gridView.setHeight("88px");
 
 				super.onAttach();
 			}
@@ -759,7 +759,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			balanceDate.setDisabled(true);
 			// Setting Contacts
 			gridView.initContacts(takenCustomer.getContacts());
-			gridView.setHeight("88px");
+//			gridView.setHeight("88px");
 
 			// Setting Memo
 			memoArea.setValue(takenCustomer.getMemo().toString());

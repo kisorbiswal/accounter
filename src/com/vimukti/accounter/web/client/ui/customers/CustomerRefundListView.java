@@ -104,7 +104,7 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 		if (UIUtils.isMSIEBrowser())
 			viewSelect.setWidth("150px");
 
-		viewSelect.setDefaultValue(NOT_ISSUED);
+		viewSelect.setComboItem(NOT_ISSUED);
 		viewSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 

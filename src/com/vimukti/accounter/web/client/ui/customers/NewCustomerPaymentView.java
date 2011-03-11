@@ -359,7 +359,7 @@ public class NewCustomerPaymentView extends
 				.customerPrePayment());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-
+		lab1.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
 
 		transactionNumber = createTransactionNumberItem();
@@ -379,7 +379,7 @@ public class NewCustomerPaymentView extends
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
-		labeldateNoLayout.add(lab1);
+//		labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 		labeldateNoLayout.setCellHorizontalAlignment(datepanel, ALIGN_RIGHT);
 		// customer and address
@@ -500,8 +500,8 @@ public class NewCustomerPaymentView extends
 		hLay.add(rightPanel);
 
 		VerticalPanel mainVLay = new VerticalPanel();
-
 		mainVLay.setSize("100%", "100%");
+		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(hLay);
 

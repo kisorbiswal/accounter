@@ -106,14 +106,15 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 		if (UIUtils.isMSIEBrowser())
 			viewSelect.setWidth("150px");
 
-		viewSelect.setDefaultValue(OPEN);
+		viewSelect.setComboItem(OPEN);
 		viewSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						if (viewSelect.getSelectedValue() != null) {
-							grid.setViewType(viewSelect.getSelectedValue().toString());
+							grid.setViewType(viewSelect.getSelectedValue()
+									.toString());
 							filterList(viewSelect.getSelectedValue().toString());
 						}
 

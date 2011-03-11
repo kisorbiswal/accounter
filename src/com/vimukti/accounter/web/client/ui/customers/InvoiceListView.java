@@ -129,7 +129,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 			viewSelect.setComboItem(OPEN);
 		if (UIUtils.isMSIEBrowser())
 			viewSelect.setWidth("150px");
-
+		viewSelect.setComboItem(OPEN);
 		viewSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 

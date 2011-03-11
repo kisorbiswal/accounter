@@ -101,7 +101,7 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 		if (UIUtils.isMSIEBrowser())
 			viewSelect.setWidth("150px");
 
-		viewSelect.setDefaultValue(VOIDED);
+		viewSelect.setComboItem(VOIDED);
 		viewSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 

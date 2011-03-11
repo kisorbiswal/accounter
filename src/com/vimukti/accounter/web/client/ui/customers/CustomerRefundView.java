@@ -142,6 +142,7 @@ public class CustomerRefundView extends
 		Label lab1 = new Label(Utility.getTransactionName(transactionType));
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
+		lab1.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
 
@@ -160,7 +161,7 @@ public class CustomerRefundView extends
 
 		HorizontalPanel totalLabel = new HorizontalPanel();
 		totalLabel.setWidth("100%");
-		totalLabel.add(lab1);
+		// totalLabel.add(lab1);
 		totalLabel.add(labeldateNoLayout);
 		totalLabel.setCellHorizontalAlignment(labeldateNoLayout, ALIGN_RIGHT);
 
@@ -325,6 +326,7 @@ public class CustomerRefundView extends
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setWidth("100%");
+		mainVLay.add(lab1);
 		mainVLay.add(totalLabel);
 		mainVLay.add(hLay);
 

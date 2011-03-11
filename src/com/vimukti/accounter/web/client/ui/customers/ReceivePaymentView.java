@@ -456,6 +456,7 @@ public class ReceivePaymentView extends
 		lab
 				.setStyleName(FinanceApplication.getCustomersMessages()
 						.lableTitle());
+		lab.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
 
@@ -475,7 +476,7 @@ public class ReceivePaymentView extends
 
 		final HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
-		labeldateNoLayout.add(lab);
+		// labeldateNoLayout.add(lab);
 		labeldateNoLayout.add(datepanel);
 
 		customerCombo = createCustomerComboItem(customerConstants
@@ -638,7 +639,7 @@ public class ReceivePaymentView extends
 
 		mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
-
+		mainVLay.add(lab);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		mainVLay.add(gridLayout);

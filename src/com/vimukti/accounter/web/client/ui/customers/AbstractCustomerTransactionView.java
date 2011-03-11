@@ -424,13 +424,13 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	protected void showMenu() {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(FinanceApplication.getCustomersMessages()
-					.nominalCodeItem(), FinanceApplication
+					.accounts(), FinanceApplication
 					.getCustomersMessages().service(), FinanceApplication
 					.getCustomersMessages().product());
 		// FinanceApplication.getCustomersMessages().salesTax());
 		else
 			setMenuItems(FinanceApplication.getCustomersMessages()
-					.nominalCodeItem(), FinanceApplication
+					.accounts(), FinanceApplication
 					.getCustomersMessages().service(), FinanceApplication
 					.getCustomersMessages().product());
 		// FinanceApplication.getCustomersMessages().comment(),
@@ -1107,7 +1107,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	protected void onAddNew(String item) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 		if (item.equals(FinanceApplication.getCustomersMessages()
-				.nominalCodeItem())) {
+				.accounts())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			List<ClientTAXCode> taxCodes = FinanceApplication.getCompany()
 					.getActiveTaxCodes();

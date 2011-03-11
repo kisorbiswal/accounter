@@ -92,6 +92,7 @@ public class SalesOrderView extends
 		lab1 = new Label(FinanceApplication.getCustomersMessages().salesOrder());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
+		lab1.setHeight("50px");
 		statusSelect = new SelectCombo(FinanceApplication
 				.getCustomersMessages().status());
 
@@ -100,7 +101,17 @@ public class SalesOrderView extends
 		selectComboList.add(COMPLETED);
 		selectComboList.add(CANCELLED);
 		statusSelect.initCombo(selectComboList);
-		statusSelect.setDefaultValue(OPEN);
+		statusSelect.setComboItem(OPEN);
+		statusSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						if (statusSelect.getSelectedValue() != null)
+							statusSelect.setComboItem(selectItem);
+
+					}
+				});
 		statusSelect.setRequired(true);
 		statusSelect.setDisabled(isEdit);
 
@@ -126,11 +137,11 @@ public class SalesOrderView extends
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
-		labeldateNoLayout.add(lab1);
+		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
 		customerCombo = new CustomerCombo(FinanceApplication
-				.getCustomersMessages().customer(), true);
+				.getCustomersMessages().customeR(), true);
 		customerCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
 
@@ -378,11 +389,13 @@ public class SalesOrderView extends
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
+		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		// mainVLay.add(lab2);
-		mainVLay.add(createAddNewButton());
+
 		mainVLay.add(customerTransactionGrid);
+		mainVLay.add(createAddNewButton());
 		mainVLay.add(prodAndServiceHLay);
 
 		if (UIUtils.isMSIEBrowser()) {
@@ -528,13 +541,13 @@ public class SalesOrderView extends
 		int status = salesOrderToBeEdited.getStatus();
 		switch (status) {
 		case ClientTransaction.STATUS_OPEN:
-			statusSelect.setDefaultValue(OPEN);
+			statusSelect.setComboItem(OPEN);
 			break;
 		case ClientTransaction.STATUS_COMPLETED:
-			statusSelect.setDefaultValue(COMPLETED);
+			statusSelect.setComboItem(COMPLETED);
 			break;
 		case ClientTransaction.STATUS_CANCELLED:
-			statusSelect.setDefaultValue(CANCELLED);
+			statusSelect.setComboItem(CANCELLED);
 		default:
 			break;
 		}

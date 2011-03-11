@@ -267,7 +267,7 @@ public interface CustomersMessages extends FinanceMessages {
 
 	public String accounts();
 
-	public String nominalCodeItem();
+	public String accountS();
 
 	public String product();
 
@@ -622,7 +622,7 @@ public interface CustomersMessages extends FinanceMessages {
 	public String viewEdit();
 
 	public String noNegativeAmountsReceived();
-	
+
 	public String taxItem();
 
 	public String failedToloadTaxGroup();
@@ -631,4 +631,9 @@ public interface CustomersMessages extends FinanceMessages {
 
 	public String pleaseSelectTaxType();
 
+	public String customeRName();
+
+	public String producTName();
+
+	public String customeR();
 }
