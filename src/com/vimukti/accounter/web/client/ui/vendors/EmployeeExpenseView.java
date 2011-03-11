@@ -111,7 +111,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 				});
 
 		employee = new SuggestionItem(employe, FinanceApplication
-				.getVendorsMessages().employee());
+				.getVendorsMessages().employEe());
 		employee.setHelpInformation(true);
 		employee.setRequired(true);
 
@@ -163,7 +163,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		case 6:
 			if (!hrEmployees.contains(employee.getValue()))
 				throw new InvalidTransactionEntryException(
-						"Please Select An Employee.The Employee must be in Bizantra HR.");
+						"Please Select An Employee.The Employee must be in  Accounter HR.");
 			if (!vendorForm.validate())
 				throw new InvalidTransactionEntryException(
 						AccounterErrorType.REQUIRED_FIELDS);

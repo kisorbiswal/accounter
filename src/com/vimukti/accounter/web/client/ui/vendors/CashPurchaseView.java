@@ -63,7 +63,7 @@ public class CashPurchaseView extends
 				.cashPurchase());
 		titlelabel.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-
+       titlelabel.setHeight("50px");
 		listforms = new ArrayList<DynamicForm>();
 
 		transactionDateItem = createTransactionDateItem();
@@ -94,7 +94,7 @@ public class CashPurchaseView extends
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 
 		labeldateNoLayout.setWidth("100%");
-		labeldateNoLayout.add(titlelabel);
+//		labeldateNoLayout.add(titlelabel);
 		labeldateNoLayout.setHorizontalAlignment(ALIGN_RIGHT);
 		labeldateNoLayout.setCellHorizontalAlignment(datepanel, ALIGN_RIGHT);
 		labeldateNoLayout.add(datepanel);
@@ -206,7 +206,7 @@ public class CashPurchaseView extends
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setNumCols(2);
 		totalForm.setWidth("50%");
-
+        totalForm.setStyleName("invoice-total");
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
 
@@ -249,7 +249,7 @@ public class CashPurchaseView extends
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
-
+        mainVLay.add(titlelabel);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		// mainVLay.add(lab2);

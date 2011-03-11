@@ -100,8 +100,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 		if (UIUtils.isMSIEBrowser())
 			currentView.setWidth("150px");
 
-		currentView.setDefaultValue(FinanceApplication.getVendorsMessages()
-				.all());
+		currentView.setComboItem(FinanceApplication.getVendorsMessages().all());
 		currentView
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 

@@ -300,6 +300,7 @@ public class VendorBillView extends
 		// lab1 = new Label("Enter Bill(" + getTransactionStatus() + ")");
 
 		lab1.setStyleName(FinanceApplication.getVendorsMessages().lableTitle());
+		lab1.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem.setTitle(FinanceApplication.getVendorsMessages()
 				.billDate());
@@ -334,7 +335,7 @@ public class VendorBillView extends
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
-		labeldateNoLayout.add(lab1);
+//		labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 		forms.add(dateNoForm);
 
@@ -476,7 +477,7 @@ public class VendorBillView extends
 		// vatCheckform.setFields(vatinclusiveCheck);
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setWidth("41%");
-
+        totalForm.setStyleName("invoice-total");
 		netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + 102)
 				+ "px");
 
@@ -527,6 +528,7 @@ public class VendorBillView extends
 		}
 
 		VerticalPanel mainVLay = new VerticalPanel();
+		mainVLay.add(lab1);
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.setCellHorizontalAlignment(topHLay, ALIGN_RIGHT);

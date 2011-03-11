@@ -351,7 +351,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			@Override
 			protected void onAttach() {
 
-				gridView.setHeight("88px");
+//				gridView.setHeight("88px");
 
 				super.onAttach();
 			}

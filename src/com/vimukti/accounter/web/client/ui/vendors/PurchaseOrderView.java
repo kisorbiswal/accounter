@@ -76,7 +76,7 @@ public class PurchaseOrderView extends
 	private ArrayList<DynamicForm> listforms;
 	private TextItem purchaseOrderText;
 	private HTML lab1;
-
+	private List<String> listOfTypes;
 	private String OPEN = FinanceApplication.getVendorsMessages().open();
 	private String COMPLETED = FinanceApplication.getVendorsMessages()
 			.completed();
@@ -96,11 +96,26 @@ public class PurchaseOrderView extends
 		lab1 = new HTML(FinanceApplication.getVendorsMessages().purchaseOrder());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
+		lab1.setHeight("50px");
 
-		statusSelect = new SelectItem(FinanceApplication.getVendorsMessages()
+		statusSelect = new SelectCombo(FinanceApplication.getVendorsMessages()
 				.status());
-		statusSelect.setValueMap(OPEN, COMPLETED, CANCELLED);
-		statusSelect.setDefaultValue(OPEN);
+		listOfTypes = new ArrayList<String>();
+		listOfTypes.add(OPEN);
+		listOfTypes.add(COMPLETED);
+		listOfTypes.add(CANCELLED);
+		statusSelect.initCombo(listOfTypes);
+		statusSelect.setComboItem(OPEN);
+		statusSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						if (statusSelect.getSelectedValue() != null)
+							statusSelect.setComboItem(selectItem);
+
+					}
+				});
 		statusSelect.setRequired(true);
 		statusSelect.setDisabled(isEdit);
 		transactionDateItem = createTransactionDateItem();
@@ -125,14 +140,14 @@ public class PurchaseOrderView extends
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
-		labeldateNoLayout.add(lab1);
+		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
 		// vendorCombo = createVendorComboItem(vendorConstants.vendorName());
 
 		vendorCombo = new VendorCombo(UIUtils.getVendorString(
-				FinanceApplication.getVendorsMessages().supplier(),
-				FinanceApplication.getVendorsMessages().vendor()), true);
+				FinanceApplication.getVendorsMessages().supplieR(),
+				FinanceApplication.getVendorsMessages().vendoR()), true);
 		vendorCombo.setRequired(true);
 		vendorCombo.setDisabled(isEdit);
 		// vendorCombo.setShowDisabled(false);
@@ -318,12 +333,13 @@ public class PurchaseOrderView extends
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
-
+		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		// mainVLay.add(lab2);
-		mainVLay.add(menuButton);
+
 		mainVLay.add(vendorTransactionGrid);
+		mainVLay.add(menuButton);
 		mainVLay.add(bottomLayout);
 
 		if (UIUtils.isMSIEBrowser()) {
@@ -546,13 +562,13 @@ public class PurchaseOrderView extends
 		int status = purchaseOrderToBeEdited.getStatus();
 		switch (status) {
 		case ClientTransaction.STATUS_OPEN:
-			statusSelect.setDefaultValue(OPEN);
+			statusSelect.setComboItem(OPEN);
 			break;
 		case ClientTransaction.STATUS_COMPLETED:
-			statusSelect.setDefaultValue(COMPLETED);
+			statusSelect.setComboItem(COMPLETED);
 			break;
 		case ClientTransaction.STATUS_CANCELLED:
-			statusSelect.setDefaultValue(CANCELLED);
+			statusSelect.setComboItem(CANCELLED);
 		default:
 			break;
 		}
@@ -704,11 +720,11 @@ public class PurchaseOrderView extends
 					: new ClientPurchaseOrder();
 			purchaseOrder.setVendor(vendor.getStringID());
 
-			if (statusSelect.getValue().toString().equals(OPEN))
+			if (statusSelect.getSelectedValue().equals(OPEN))
 				purchaseOrder.setStatus(ClientTransaction.STATUS_OPEN);
-			else if (statusSelect.getValue().toString().equals(COMPLETED))
+			else if (statusSelect.getSelectedValue().equals(COMPLETED))
 				purchaseOrder.setStatus(ClientTransaction.STATUS_COMPLETED);
-			else if (statusSelect.getValue().toString().equals(CANCELLED))
+			else if (statusSelect.getSelectedValue().equals(CANCELLED))
 				purchaseOrder.setStatus(ClientTransaction.STATUS_CANCELLED);
 
 			if (contact != null)

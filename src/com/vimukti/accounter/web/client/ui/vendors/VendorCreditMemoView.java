@@ -126,6 +126,7 @@ public class VendorCreditMemoView extends
 
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
+		lab1.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
 
 		transactionNumber = createTransactionNumberItem();
@@ -146,7 +147,7 @@ public class VendorCreditMemoView extends
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
-		labeldateNoLayout.add(lab1);
+		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
 		forms.add(dateNoForm);
@@ -223,7 +224,7 @@ public class VendorCreditMemoView extends
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setNumCols(2);
 		totalForm.setWidth("41%");
-
+        totalForm.setStyleName("invoice-total");
 		netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + 100)
 				+ "px");
 
@@ -264,7 +265,7 @@ public class VendorCreditMemoView extends
 		}
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
-
+		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay1);
 		// mainVLay.add(lab2);

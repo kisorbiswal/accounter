@@ -62,7 +62,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 	protected DateField deliveryDateItem;
 	protected TextItem checkNo;
-	protected SelectItem statusSelect;
+	protected SelectCombo statusSelect;
 
 	// protected TextAreaItem addrTextAreaItem;
 
@@ -152,7 +152,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 					.product());
 		else
 			setMenuItems(FinanceApplication.getVendorsMessages()
-					.nominalCodeItem(), FinanceApplication.getVendorsMessages()
+					.accounts(), FinanceApplication.getVendorsMessages()
 					.service(), FinanceApplication.getVendorsMessages()
 					.product());
 		// FinanceApplication.getVendorsMessages().comment());
@@ -553,7 +553,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 	protected void onAddNew(String menuItem) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 		if (menuItem.equals(FinanceApplication.getVendorsMessages()
-				.nominalCodeItem())) {
+				.accounts())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 					&& !FinanceApplication.getCompany().getpreferences()

@@ -140,7 +140,7 @@ public class NewVendorPaymentView extends
 		);
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-
+          lab1.setHeight("50px");
 		// transaction date and number
 
 		transactionDateItem = createTransactionDateItem();
@@ -162,7 +162,7 @@ public class NewVendorPaymentView extends
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
-		labeldateNoLayout.add(lab1);
+//		labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
 		// vendor and address
@@ -306,7 +306,7 @@ public class NewVendorPaymentView extends
 		hLay.add(rightPanel);
 
 		VerticalPanel mainVLay = new VerticalPanel();
-
+        mainVLay.add(lab1);
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(hLay);

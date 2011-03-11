@@ -523,7 +523,17 @@ public interface VendorsMessages extends FinanceMessages {
 
 	String duplicationOfSupplierNameAreNotAllowed();
 
+	String employEe();
+
+	String supplieRName();
+
+	String paymentMethod();
+
 	String addNewExpense();
-	
+
 	String expensesList();
+
+	String vendoR();
+
+	String supplieR();
 }
