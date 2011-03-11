@@ -130,25 +130,28 @@ public class CompanyInfoDialog extends BaseDialog {
 	public void setAddressToTextItem(TextAreaItem textItem,
 			ClientAddress address) {
 		String toToSet = new String();
-		if (address.getAddress1() != null) {
+		if (address.getAddress1() != null && !address.getAddress1().isEmpty()) {
 			toToSet = address.getAddress1().toString() + "\n";
 		}
 
-		if (address.getStreet() != null) {
+		if (address.getStreet() != null && !address.getStreet().isEmpty()) {
 			toToSet += address.getStreet().toString() + "\n";
 		}
 
-		if (address.getCity() != null) {
+		if (address.getCity() != null && !address.getCity().isEmpty()) {
 			toToSet += address.getCity().toString() + "\n";
 		}
 
-		if (address.getStateOrProvinence() != null) {
+		if (address.getStateOrProvinence() != null
+				&& !address.getStateOrProvinence().isEmpty()) {
 			toToSet += address.getStateOrProvinence() + "\n";
 		}
-		if (address.getZipOrPostalCode() != null) {
+		if (address.getZipOrPostalCode() != null
+				&& !address.getZipOrPostalCode().isEmpty()) {
 			toToSet += address.getZipOrPostalCode() + "\n";
 		}
-		if (address.getCountryOrRegion() != null) {
+		if (address.getCountryOrRegion() != null
+				&& !address.getCountryOrRegion().isEmpty()) {
 			toToSet += address.getCountryOrRegion();
 		}
 		textItem.setValue(toToSet);

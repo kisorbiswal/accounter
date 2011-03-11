@@ -80,26 +80,28 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 		currentView = new SelectCombo(null);
 		currentView.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
-		listOfTypes.add(FinanceApplication.getVendorsMessages()
-				.nonVoided());
+		listOfTypes.add(FinanceApplication.getVendorsMessages().nonVoided());
 		listOfTypes.add(FinanceApplication.getVendorsMessages().Voided());
 		listOfTypes.add(FinanceApplication.getVendorsMessages().cashBasis());
-		listOfTypes.add(FinanceApplication.getVendorsMessages().voidedCashBasis());
+		listOfTypes.add(FinanceApplication.getVendorsMessages()
+				.voidedCashBasis());
 		listOfTypes.add(FinanceApplication.getVendorsMessages().all());
 		currentView.initCombo(listOfTypes);
+		currentView.setComboItem(FinanceApplication.getVendorsMessages().all());
 		currentView
 				.setSelected(FinanceApplication.getCustomersMessages().all());
-		currentView.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-			
-			@Override
-			public void selectedComboBoxItem(String selectItem) {
-		
-				if (currentView.getSelectedValue() != null) {
-					grid.setViewType(currentView.getSelectedValue());
-					filterList(currentView.getSelectedValue());
-				}
-			}
-		});
+		currentView
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+
+						if (currentView.getSelectedValue() != null) {
+							grid.setViewType(currentView.getSelectedValue());
+							filterList(currentView.getSelectedValue());
+						}
+					}
+				});
 		return currentView;
 	}
 
@@ -125,8 +127,8 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 			}
 			grid.setRecords(voidedRecs);
 
-		} else if (currentView.getSelectedValue().equalsIgnoreCase(
-				"Cash Basis")) {
+		} else if (currentView.getSelectedValue()
+				.equalsIgnoreCase("Cash Basis")) {
 			List<ClientJournalEntry> cashBasisRecs = new ArrayList<ClientJournalEntry>();
 			List<ClientJournalEntry> allRecs = initialRecords;
 			for (ClientJournalEntry rec : allRecs) {
