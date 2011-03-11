@@ -48,7 +48,7 @@ public class CustomDialog extends DialogBox {
 
 		cross = new Image("/images/dialog-close.png");
 //		help = new Image("/images/help-icon.png");
-		help = new Anchor("<img class='helpAlign' border=0 src='/images/help-icon.png'/>",true,"http://help.bizantra.com/","_blank");
+		help = new Anchor("<img class='helpAlign' border=0 src='/images/help-icon.png'/>",true,"http://help.Accounter.com/","_blank");
 //		help.setStyleName("helpAlign");
 		caption = new HTML();
 
