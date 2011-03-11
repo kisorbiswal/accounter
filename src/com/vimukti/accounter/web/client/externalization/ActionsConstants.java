@@ -386,8 +386,6 @@ public interface ActionsConstants extends FinanceConstants {
 
 	String newVATCode();
 
-	String transactionDetailByFinanceCategory();
-
 	String newvatGroup();
 
 	String generalLedgerReport();
@@ -422,7 +420,7 @@ public interface ActionsConstants extends FinanceConstants {
 
 	String newCreditNotes();
 
-	String financeCategoryList();
+	String accounterCategoryList();
 
 	String addNewCategory();
 
