@@ -208,13 +208,13 @@ public class CompanyActionFactory extends AbstractActionFactory {
 
 	public static ChartOfAccountsAction getChartOfAccountsAction() {
 		return new ChartOfAccountsAction(
-				actionsConstants.financeCategoryList(),
+				actionsConstants.accounterCategoryList(),
 				"/images/icons/banking/chart_of_accounts.png");
 	}
 
 	public static ChartOfAccountsAction getChartOfAccountsAction(int accountType) {
 		return new ChartOfAccountsAction(
-				actionsConstants.financeCategoryList(),
+				actionsConstants.accounterCategoryList(),
 				"/images/icons/banking/chart_of_accounts.png", accountType);
 	}
 

@@ -67,6 +67,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 		setHeight("100%");
 		commentPanel = new VerticalPanel();
 		mainPanel = new VerticalPanel();
+		mainPanel.setSize("100%", "100%");
 		canvas = new ScrollPanel();
 		canvas.setWidth("100%");
 		mainPanel.add(commentPanel);

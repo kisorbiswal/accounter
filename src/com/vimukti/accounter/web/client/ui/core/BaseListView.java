@@ -132,8 +132,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			typeList.add(FinanceApplication.getCustomersMessages().active());
 			typeList.add(FinanceApplication.getCustomersMessages().inActive());
 			viewSelect.initCombo(typeList);
-			viewSelect.setDefaultValue(FinanceApplication
-					.getCustomersMessages().active());
+			viewSelect.setComboItem(FinanceApplication.getCustomersMessages()
+					.active());
 			viewSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -168,7 +168,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 				@Override
 				public void onChange(ChangeEvent event) {
-					if (dateRangeSelector.getSelectedValue()!= null) {
+					if (dateRangeSelector.getSelectedValue() != null) {
 
 					}
 

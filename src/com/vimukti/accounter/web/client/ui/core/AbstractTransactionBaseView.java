@@ -730,7 +730,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 			CustomMenuItem item = new CustomMenuItem(itm, cmd);
 			item.addStyleName(itm);
 			ImageResource image = null;
-			if (itm.equals("Finance Category Item")) {
+			if (itm.equals("Accounts")) {
 				image = FinanceApplication.getFinanceMenuImages().Accounts();
 			} else if (itm.equals("Product Item")) {
 				image = FinanceApplication.getFinanceMenuImages().items();

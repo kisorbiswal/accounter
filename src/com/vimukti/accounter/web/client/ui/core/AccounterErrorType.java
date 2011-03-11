@@ -25,12 +25,12 @@ public interface AccounterErrorType {
 	public static final String taxAgency_Discount_PaymentTerm = "The discount for the payment term will not be applied for a tax agency.";
 	public static final String transactionDateWithinFiscalYear = "The transaction date must be within an open fiscal year."
 			+ "To create a new fiscal year, on the company menu Click Manage Fiscal Year.";
-	public static final String taxAgency_FinanceAcount = ": This financial Finance Category is specified as the "
+	public static final String taxAgency_FinanceAcount = ": This financial Account is specified as the "
 			+ "liability Finance Category of a tax agency and can only be used for tax related transactions.";
 	public static final String canVoidOrEdit = "This document cannot be edited or voided because a cash discount "
 			+ "or a write off has been applied to the payment ";
-	public static final String cannotUsePurchaseItem = "Cannot sell a Product that does not have a sales financial Finance Category.";
-	public static final String cannotUseSalesItem = "Cannot purchase a Product that does not have a purchase financial Finance Category.";
+	public static final String cannotUsePurchaseItem = "Cannot sell a Product that does not have a sales financial Account.";
+	public static final String cannotUseSalesItem = "Cannot purchase a Product that does not have a purchase financial Account.";
 	public static final String unitPrice = "You cannot enter a negative Unit Price";
 	public static final String discountAmount = "Discount Amount cannot be negative";
 	public static final String amount = "Amount Cannot be negative";
@@ -79,7 +79,7 @@ public interface AccounterErrorType {
 
 	public static final String journalEntryCustomer = "Only one customer may be used per voucher number on a journal entry";
 
-	public static final String journalEntryAccount = "Same Finance Category should not be used";
+	public static final String journalEntryAccount = "Same Account should not be used";
 
 	public static final String journalEntryVendor = "Only one "
 			+ UIUtils.getVendorString("supplier", "vendor")
