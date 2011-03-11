@@ -2,7 +2,7 @@
 	/** Example rules used by the template application (remove for your app) */
 .widget { /**background:url(images/icons/startBar.png) repeat-x;*/
 	background: url(images/top-hadder.png) scroll repeat-x;
-	display: none;
+	/*display: none;*/
 }
 
 body {
@@ -863,4 +863,8 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 .gridBody input[type="text"]{
 	width:100% !important;
+}
+.userName-style{
+text-align: right;
+margin-right: 15px;
 }
