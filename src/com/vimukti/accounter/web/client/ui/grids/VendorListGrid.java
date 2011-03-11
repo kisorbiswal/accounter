@@ -43,7 +43,7 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 							.vendorName();
 				if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 					colArray[index] = FinanceApplication.getVendorsMessages()
-							.supplierName();
+							.supplieRName();
 				break;
 			case 2:
 				colArray[index] = FinanceApplication.getCompanyMessages()

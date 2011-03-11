@@ -272,7 +272,7 @@ public abstract class CustomerTransactionGrid extends
 		// });
 
 		accountsCombo = new SalesAccountsCombo(FinanceApplication
-				.getCustomersMessages().nominalCodeItem(), isAddNewRequired);
+				.getCustomersMessages().accounts(), isAddNewRequired);
 		accountsCombo.setGrid(this);
 		accountsCombo.setRequired(true);
 		accountsCombo

@@ -31,7 +31,7 @@ public class SalesOrderUKGrid extends CustomerTransactionUKGrid {
 				FinanceApplication.getCustomersMessages().discountPerc(),
 				// "Back Order",
 				FinanceApplication.getCustomersMessages().total(),
-				FinanceApplication.getVATMessages().vatCode(),
+				FinanceApplication.getVATMessages().newVATCode(),
 				FinanceApplication.getVATMessages().VAT(),
 				FinanceApplication.getCustomersMessages().invoiced(), " " };
 	}

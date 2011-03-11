@@ -68,7 +68,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 		customerConstants = GWT.create(CustomersMessages.class);
 		return new String[] { customerConstants.type(),
 				customerConstants.paymentDate(), customerConstants.no(),
-				customerConstants.customerName(),
+				customerConstants.customeRName(),
 				customerConstants.paymentMethod(),
 				customerConstants.amountPaid(), customerConstants.voided()
 		// , ""

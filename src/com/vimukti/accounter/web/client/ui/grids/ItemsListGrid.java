@@ -80,7 +80,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	protected String[] getColumns() {
 		return new String[] {
 				FinanceApplication.getCustomersMessages().active(),
-				FinanceApplication.getCustomersMessages().productName(),
+				FinanceApplication.getCustomersMessages().producTName(),
 				FinanceApplication.getCustomersMessages().description(),
 				FinanceApplication.getCustomersMessages().type(),
 				FinanceApplication.getCustomersMessages().price(), "" };

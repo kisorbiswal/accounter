@@ -196,7 +196,7 @@ public abstract class CustomTable extends VerticalPanel {
 			initFooter();
 		}
 
-		this.setSize("100%", "80px");
+		this.setSize("100%", "120px");
 	}
 
 	private void initFooter() {

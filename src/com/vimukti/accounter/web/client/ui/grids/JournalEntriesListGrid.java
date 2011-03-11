@@ -74,14 +74,14 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 			return 150;
 		case 1:
 			return 200;
-//			return 100;
-//		case 1:
-//			return 130;
-//		case 3:
-//			return 170;
+			// return 100;
+			// case 1:
+			// return 130;
+			// case 3:
+			// return 170;
 		case 4:
 			return 75;
-//			return 70;
+			// return 70;
 			// case 5:
 			// return 60;
 			// case 6:
@@ -246,18 +246,20 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 			int index) {
 		switch (index) {
 		case 0:
+			int num1 = UIUtils.isInteger(obj1.getNumber()) ? Integer
+					.parseInt(obj1.getNumber()) : 0;
+			int num2 = UIUtils.isInteger(obj2.getNumber()) ? Integer
+					.parseInt(obj2.getNumber()) : 0;
+			if (num1 != 0 && num2 != 0)
+				return UIUtils.compareInt(num1, num2);
+			else
+				return obj1.getNumber().compareTo(obj2.getNumber());
+		case 1:
 			ClientFinanceDate date1 = obj1.getDate();
 			ClientFinanceDate date2 = obj2.getDate();
 			if (date1 != null && date2 != null)
 				return date1.compareTo(date2);
 			break;
-		case 1:
-			int num1 = UIUtils.isInteger(obj1.getNumber())?Integer.parseInt(obj1.getNumber()):0;
-			int num2 = UIUtils.isInteger(obj2.getNumber())?Integer.parseInt(obj2.getNumber()):0;
-			if (num1!=0 && num2!=0)
-				return UIUtils.compareInt(num1, num2);
-			else
-				return obj1.getNumber().compareTo(obj2.getNumber());
 		case 2:
 			if (obj1.getMemo() != null && obj2.getMemo() != null)
 				return obj1.getMemo().toLowerCase().compareTo(

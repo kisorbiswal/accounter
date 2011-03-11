@@ -63,7 +63,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	protected String[] getColumns() {
 		return new String[] { FinanceApplication.getVATMessages().active(),
 				FinanceApplication.getVATMessages().product(),
-				FinanceApplication.getVATMessages().VATAgency(),
+				FinanceApplication.getVATMessages().VatAgency(),
 				FinanceApplication.getVATMessages().description(),
 				FinanceApplication.getVATMessages().rate(), "" };
 	}

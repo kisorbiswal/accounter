@@ -179,7 +179,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 				FinanceApplication.getCustomersMessages().quantity(),
 				FinanceApplication.getVendorsMessages().unitPrice(),
 				FinanceApplication.getVendorsMessages().total(),
-				FinanceApplication.getVATMessages().vatCode(),
+				FinanceApplication.getVATMessages().newVATCode(),
 				FinanceApplication.getVATMessages().VAT(), " " };
 	}
 

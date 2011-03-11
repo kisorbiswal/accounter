@@ -34,7 +34,7 @@ public class PurchaseOrderUKGrid extends VendorTransactionUKGrid {
 				// "On Hand",
 				FinanceApplication.getVendorsMessages().total(),
 				FinanceApplication.getVendorsMessages().billsReceived(),
-				FinanceApplication.getVATMessages().vatCode(),
+				FinanceApplication.getVATMessages().newVATCode(),
 				FinanceApplication.getVATMessages().VAT(), " " };
 	}
 

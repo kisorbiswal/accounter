@@ -89,7 +89,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		customerConstants = GWT.create(CustomersMessages.class);
 		return new String[] { customerConstants.type(),
 				customerConstants.date(), customerConstants.no(),
-				customerConstants.customerName(), customerConstants.dueDate(),
+				customerConstants.customeRName(), customerConstants.dueDate(),
 				customerConstants.netPrice(), customerConstants.totalPrice(),
 				customerConstants.balance(), customerConstants.voided()
 		// , ""

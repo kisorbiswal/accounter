@@ -73,7 +73,7 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 				vendorConstants.Date(),
 				vendorConstants.no(),
 				UIUtils.getVendorString(FinanceApplication.getVendorsMessages()
-						.supplierName(), FinanceApplication
+						.supplieRName(), FinanceApplication
 						.getVendorsMessages().vendorName()),
 				vendorConstants.originalAmount(), vendorConstants.balance(),
 				vendorConstants.IsVoid()

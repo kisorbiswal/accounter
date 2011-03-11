@@ -73,7 +73,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 				break;
 			case 1:
 				colArray[index] = FinanceApplication.getCustomersMessages()
-						.customerName();
+						.customeRName();
 				break;
 			case 2:
 				colArray[index] = FinanceApplication.getCompanyMessages()
