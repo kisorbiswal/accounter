@@ -20,7 +20,9 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.core.FixedAssetsActionFactory;
+import com.vimukti.accounter.web.client.ui.core.PurchaseOrderActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ReportsActionFactory;
+import com.vimukti.accounter.web.client.ui.core.SalesOrderActionFactory;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.settings.SettingsActionFactory;
@@ -202,6 +204,18 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		menuitem = menuBar.addItem(FinanceApplication.getFinanceUIConstants()
 				.banking(), getBankingMenu());
+		child = new Image();
+		child.addStyleName("menu_arrow");
+		child.setUrl("images/arrow_down.gif");
+		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
+
+		menuitem = menuBar.addItem("Sales", getSalesSubMenu());
+		child = new Image();
+		child.addStyleName("menu_arrow");
+		child.setUrl("images/arrow_down.gif");
+		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
+
+		menuitem = menuBar.addItem("Purchases", getPurchaseSubMenu());
 		child = new Image();
 		child.addStyleName("menu_arrow");
 		child.setUrl("images/arrow_down.gif");
@@ -680,6 +694,25 @@ public class MainFinanceWindow extends VerticalPanel {
 	// .getPurchaseOpenOrderAction());
 	// return salesAndPurchaseMenuBar;
 	// }
+
+	private CustomMenuBar getSalesSubMenu() {
+		CustomMenuBar salesMenu = getSubMenu();
+		salesMenu.addItem(SalesOrderActionFactory.getSalesOrderAction());
+		salesMenu.addItem(SalesOrderActionFactory.getSalesOrderListAction());
+		salesMenu.addItem(SalesOrderActionFactory.getSalesOpenOrderAction());
+		return salesMenu;
+	}
+
+	private CustomMenuBar getPurchaseSubMenu() {
+		CustomMenuBar purchaseMenu = getSubMenu();
+		purchaseMenu.addItem(PurchaseOrderActionFactory
+				.getPurchaseOrderAction());
+		purchaseMenu.addItem(PurchaseOrderActionFactory
+				.getPurchaseOrderListAction());
+		purchaseMenu.addItem(PurchaseOrderActionFactory
+				.getPurchaseOpenOrderListAction());
+		return purchaseMenu;
+	}
 
 	private CustomMenuBar getVendorAndPayablesMenu() {
 		CustomMenuBar vendorAndPayableMenuBar = getSubMenu();

@@ -35,7 +35,7 @@ public class EmailForm extends DynamicForm {
 		setIsGroup(true);
 		setGroupTitle(FinanceApplication.getFinanceUIConstants()
 				.emailAndInternet());
-		setNumCols(4);
+		setNumCols(3);
 
 		businesEmailSelect = new SelectCombo(FinanceApplication
 				.getFinanceUIConstants().email());
@@ -59,10 +59,10 @@ public class EmailForm extends DynamicForm {
 					}
 				});
 
-		businesEmailText = new EmailField("");
+		businesEmailText = new EmailField("E-mail");
 		businesEmailText.setHelpInformation(true);
 		businesEmailText.setWidth(100);
-		businesEmailText.setShowTitle(false);
+		businesEmailText.setShowTitle(true);
 
 		businesEmailText.addChangeHandler(new ChangeHandler() {
 
@@ -100,10 +100,10 @@ public class EmailForm extends DynamicForm {
 		if (webTextValue != null)
 			webText.setValue(webTextValue);
 
-		setFields(businesEmailSelect, businesEmailText, emptyItem, webText);
+		setFields(businesEmailText, emptyItem, webText);
 		setWidth("100%");
-		this.getCellFormatter().getElement(1, 1).setAttribute("colspan", "2");
-		this.setCellPadding(5);
+//		this.getCellFormatter().getElement(1, 0).setAttribute("colspan", "2");
+//		this.setCellPadding(5);
 		// setHeight("100px");
 	}
 

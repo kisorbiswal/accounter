@@ -161,6 +161,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		lab1 = new Label();
 		lab1.addStyleName(FinanceApplication.getFinanceUIConstants()
 				.lableTitle());
+		lab1.setHeight("50px");
 		hierarchy = new String("");
 		accTypeSelect = new SelectCombo(FinanceApplication
 				.getFinanceUIConstants().accountType());
@@ -193,7 +194,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		});
 
 		accNameText = new TextItem(FinanceApplication.getFinanceUIConstants()
-				.CategoryName());
+				.accountName());
 		accNameText.setHelpInformation(true);
 		accNameText.setRequired(true);
 		accNameText.setWidth(100);
@@ -475,6 +476,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					statusBox, opBalText, asofDate);
 			// leftLayout.add(accInfoForm);
 			reset(accInfoForm);
+			if (selectedId == null)
+				accTypeSelect.setComboItem("Income");
 			accTypeSelect.setSelected(selectedId);
 			topHLay.setWidth("50%");
 
@@ -685,7 +688,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 			if (takenAccount == null) {
 				accTypeSelect.initCombo(getAccountsList());
-				accTypeSelect.setDefaultToFirstOption(true);
 				setAccountType(Integer.parseInt(defaultId));
 				accounttype_selected();
 

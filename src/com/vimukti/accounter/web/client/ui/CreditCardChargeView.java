@@ -140,8 +140,8 @@ public class CreditCardChargeView extends
 			// ClientVendor cv = FinanceApplication.getCompany().getVendor(
 			// creditCardChargeTaken.getVendor());
 			if (creditCardChargeTaken.getContact() != null)
-				contactNameSelect.setSelected(creditCardChargeTaken.getContact()
-						.getStringID());
+				contactNameSelect.setSelected(creditCardChargeTaken
+						.getContact().getStringID());
 			if (creditCardChargeTaken.getPhone() != null)
 				// FIXME check and fix the below code
 				phoneSelect.setSelected(creditCardChargeTaken.getPhone());
@@ -337,6 +337,7 @@ public class CreditCardChargeView extends
 				.creditCardCharge());
 		titlelabel.addStyleName(FinanceApplication.getFinanceUIConstants()
 				.lableTitle());
+		titlelabel.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
 
@@ -354,7 +355,7 @@ public class CreditCardChargeView extends
 		regPanel.add(dateNoForm);
 
 		labeldateNoLayout.setWidth("100%");
-		labeldateNoLayout.add(titlelabel);
+		// labeldateNoLayout.add(titlelabel);
 		labeldateNoLayout.add(regPanel);
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
 
@@ -482,7 +483,7 @@ public class CreditCardChargeView extends
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setNumCols(2);
 		totalForm.setWidth("50%");
-
+		totalForm.setStyleName("invoice-total");
 		// totText = new AmountField(FinanceApplication.getFinanceUIConstants()
 		// .total());
 		// totText.setWidth(100);
@@ -540,6 +541,7 @@ public class CreditCardChargeView extends
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
+		mainVLay.add(titlelabel);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		mainVLay.add(vLay1);
