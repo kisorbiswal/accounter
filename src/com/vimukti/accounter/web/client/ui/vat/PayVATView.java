@@ -81,6 +81,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		Label lab = new Label(FinanceApplication.getFinanceUIConstants()
 				.payVAT());
 		lab.setStyleName(FinanceApplication.getVendorsMessages().lableTitle());
+		lab.setHeight("50px");
 		date = new DateField(companyConstants.date());
 		date.setHelpInformation(true);
 		date.setTitle(companyConstants.date());

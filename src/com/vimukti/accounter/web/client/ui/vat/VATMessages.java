@@ -267,4 +267,7 @@ public interface VATMessages extends FinanceMessages {
 	String taxLine();
 
 	String taxAccount();
+
+	String VatAgency();
+
 }

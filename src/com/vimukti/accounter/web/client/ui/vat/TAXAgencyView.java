@@ -302,7 +302,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	private VerticalPanel getTopLayout() {
 		Label lab;
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			lab = new Label(FinanceApplication.getVATMessages().VATAgency());
+			lab = new Label(FinanceApplication.getVATMessages().VatAgency());
 			taxAgencyText = new TextItem(FinanceApplication.getVATMessages()
 					.VATAgency());
 			taxAgencyText.setHelpInformation(true);
@@ -313,7 +313,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			taxAgencyText.setHelpInformation(true);
 		}
 		lab.addStyleName(FinanceApplication.getVATMessages().lableTitle());
-
+		lab.setHeight("50px");
 		taxAgencyText.setWidth(100);
 		taxAgencyText.setRequired(true);
 

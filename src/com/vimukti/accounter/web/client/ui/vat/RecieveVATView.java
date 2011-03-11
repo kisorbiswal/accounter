@@ -88,6 +88,7 @@ public class RecieveVATView extends
 		Label lab = new Label(FinanceApplication.getFinanceUIConstants()
 				.receiveVAT());
 		lab.setStyleName(FinanceApplication.getVendorsMessages().lableTitle());
+		lab.setHeight("50px");
 		date = new DateField(companyConstants.date());
 		date.setHelpInformation(true);
 		date.setTitle(companyConstants.date());
