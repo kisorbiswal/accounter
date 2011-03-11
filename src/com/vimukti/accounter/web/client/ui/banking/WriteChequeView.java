@@ -1183,7 +1183,7 @@ public class WriteChequeView extends
 			case ClientWriteCheck.TYPE_TAX_AGENCY:
 				if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 					setMenuItems(FinanceApplication.getCustomersMessages()
-							.nominalCodeItem(), FinanceApplication
+							.accounts(), FinanceApplication
 							.getCustomersMessages().product()
 					// FinanceApplication.getCustomersMessages().comment(),
 					// FinanceApplication.getCustomersMessages()
@@ -1191,7 +1191,7 @@ public class WriteChequeView extends
 					);
 				else
 					setMenuItems(FinanceApplication.getCustomersMessages()
-							.nominalCodeItem(), FinanceApplication
+							.accounts(), FinanceApplication
 							.getCustomersMessages().product(),
 					// FinanceApplication.getCustomersMessages().comment(),
 							FinanceApplication.getCustomersMessages().VATItem());
@@ -1227,9 +1227,8 @@ public class WriteChequeView extends
 				// FinanceApplication.getVendorsMessages().comment());
 			}
 		} else
-			setMenuItems(FinanceApplication.getCustomersMessages()
-					.nominalCodeItem(), FinanceApplication
-					.getCustomersMessages().product()
+			setMenuItems(FinanceApplication.getCustomersMessages().accounts(),
+					FinanceApplication.getCustomersMessages().product()
 			// FinanceApplication.getFinanceUIConstants().comment(),
 			// FinanceApplication.getFinanceUIConstants().salesTax()
 			);
@@ -1242,7 +1241,7 @@ public class WriteChequeView extends
 		if (payee != null) {
 			if (payee.getType() == ClientWriteCheck.TYPE_CUSTOMER) {
 				if (item.equals(FinanceApplication.getCustomersMessages()
-						.nominalCodeItem())) {
+						.accounts())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 				} else if (item.equals(FinanceApplication
 						.getCustomersMessages().product())) {
@@ -1259,7 +1258,7 @@ public class WriteChequeView extends
 			} else if (payee.getType() == ClientWriteCheck.TYPE_VENDOR
 					|| payee.getType() == ClientWriteCheck.TYPE_TAX_AGENCY) {
 				if (item.equals(FinanceApplication.getCustomersMessages()
-						.nominalCodeItem())) {
+						.accounts())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 				} else if (item.equals(FinanceApplication
 						.getCustomersMessages().product())) {
@@ -1272,7 +1271,7 @@ public class WriteChequeView extends
 			}
 		} else {
 			if (item.equals(FinanceApplication.getCustomersMessages()
-					.nominalCodeItem())) {
+					.accounts())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			} else if (item.equals(FinanceApplication.getCustomersMessages()
 					.product())) {
