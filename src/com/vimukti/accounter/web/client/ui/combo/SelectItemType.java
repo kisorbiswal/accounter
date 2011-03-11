@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
+import com.vimukti.accounter.web.client.ui.settings.SettingsActionFactory;
 import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
 
 /**
@@ -27,7 +28,7 @@ public enum SelectItemType {
 
 	BANK_ACCOUNT(BankingActionFactory.getNewBankAccountAction()),
 
-	ADDRESS,
+	ADDRESS, BRANDING_THEME(SettingsActionFactory.getNewBrandThemeAction()),
 
 	BANK_NAME(CompanyActionFactory.getNewbankAction()),
 
@@ -68,8 +69,8 @@ public enum SelectItemType {
 
 	VAT_ITEM(VatActionFactory.getNewVatItemAction()),
 
-	TAX_CODE(CustomersActionFactory.getAddEditSalesTaxCodeAction()), SHIP_TO, PHONE, EMAIL, FAX;   
-	
+	TAX_CODE(CustomersActionFactory.getAddEditSalesTaxCodeAction()), SHIP_TO, PHONE, EMAIL, FAX;
+
 	private Action action;
 	@SuppressWarnings("unused")
 	private AsyncCallback<IsSerializable> callback;
