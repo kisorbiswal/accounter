@@ -242,6 +242,8 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 	 * Filed
 	 */
 	Account VATFiledLiabilityAccount;
+	
+	List<BrandingTheme> brandingTheme = new ArrayList<BrandingTheme>();
 
 	// Set<PaySalesTaxEntries> paySalesTaxEntriesList = new
 	// HashSet<PaySalesTaxEntries>();
@@ -2487,6 +2489,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 		setDefaultsUKValues(session);
 		createUKDefaultVATCodesAndVATAgency(session);
 		createNominalCodesRanges(session);
+		createDefaultBrandingTheme(session);
 
 	}
 
@@ -3876,6 +3879,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 
 		createUSDefaultTaxGroup(session);
 		createNominalCodesRanges(session);
+		createDefaultBrandingTheme(session);
 	}
 
 	@Override
@@ -4696,6 +4700,8 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 		cmp.bankAccountNo = this.getBankAccountNo();
 
 		cmp.sortCode = this.getSortCode();
+		
+		cmp.brandingTheme = this.getBrandingTheme();
 
 		return cmp;
 	}
@@ -4779,5 +4785,23 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 
 		return clientCompany;
 	}
+	
+	private void createDefaultBrandingTheme(Session session) {
+		BrandingTheme brandingTheme = new BrandingTheme("Standard", 1.35,
+				1.00, 1.00, "Times New Roman",
+				"10pt", "INVOICE",
+				"INVOICE", "CREDIT",
+				"STATEMENT", "democo@democo.co");
+		session.save(brandingTheme);
+	}
+
+	public List<BrandingTheme> getBrandingTheme() {
+		return brandingTheme;
+	}
+
+	public void setBrandingTheme(List<BrandingTheme> brandingTheme) {
+		this.brandingTheme = brandingTheme;
+	}
+
 
 }

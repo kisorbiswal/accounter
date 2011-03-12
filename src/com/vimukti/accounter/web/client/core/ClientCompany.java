@@ -197,6 +197,8 @@ public class ClientCompany implements IAccounterCore {
 
 	private List<ClientTAXCode> taxCodes;
 
+	private List<ClientBrandingTheme> brandingTheme;
+
 	// private List<ClientTAXItemGroup> vatItemGroups;
 
 	Set<ClientNominalCodeRange> nominalCodeRange = new HashSet<ClientNominalCodeRange>();
@@ -1660,6 +1662,10 @@ public class ClientCompany implements IAccounterCore {
 					ClientCompany cmp = (ClientCompany) accounterCoreObject;
 					this.getToClientCompany(cmp);
 					break;
+				case BRANDINGTHEME:
+					ClientBrandingTheme theme=(ClientBrandingTheme) accounterCoreObject;
+					Utility.updateClientList(theme, brandingTheme);
+					break;
 				}
 			ViewManager.getInstance().operationSuccessFull(cmd);
 			if (accounterCoreObject instanceof ClientTransaction)
@@ -2044,5 +2050,13 @@ public class ClientCompany implements IAccounterCore {
 		if (!exist)
 			Utility.updateClientList(taxCode, taxCodes);
 		return taxCode;
+	}
+
+	public void setBrandingThemes(List<ClientBrandingTheme> brandingTheme) {
+		this.brandingTheme = brandingTheme;
+	}
+
+	public List<ClientBrandingTheme> getBrandingTheme() {
+		return Utility.getArrayList(brandingTheme);
 	}
 }

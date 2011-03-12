@@ -69,7 +69,7 @@ public class AutomaticSequenceDialog extends BaseDialog {
 
 			@Override
 			public void onClick(ClickEvent event) {
-
+				okClicked();
 			}
 		});
 		cancelButton = new Button("Cancel");

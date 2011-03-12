@@ -21,10 +21,10 @@ public enum AccounterCoreType implements IsSerializable {
 
 	ITEM("ClientItem", "Item"),
 
-	TAX_GROUP("ClientTAXGroup", "TAXGroup"), 
-	
-	TAX_ITEM_GROUP(	"ClientTaxItemGroup", "TaxItemGroup"), 
-	
+	TAX_GROUP("ClientTAXGroup", "TAXGroup"),
+
+	TAX_ITEM_GROUP("ClientTaxItemGroup", "TaxItemGroup"),
+
 	BOX_1099("ClientBox1099", "Box1099"),
 
 	TAX_CODE("ClientTAXCode", "TAXCode"),
@@ -138,15 +138,15 @@ public enum AccounterCoreType implements IsSerializable {
 			"TransactionMakeDepositEntries"),
 
 	ACCOUNTTRANSACTION("ClientAccountTransaction", "AccountTransaction"),
-	
-	VATRETURN("ClientVATReturn", "VATReturn"), 
 
-	BUDGET("ClientBudget", "Budget"), 
-	
-	ITEMRECEIPT("ClientItemReceipt", "ItemReceipt"), 
-	
-	EXPENSE("ClientExpense", "Expense"), 
-	
+	VATRETURN("ClientVATReturn", "VATReturn"),
+
+	BUDGET("ClientBudget", "Budget"),
+
+	ITEMRECEIPT("ClientItemReceipt", "ItemReceipt"),
+
+	EXPENSE("ClientExpense", "Expense"),
+
 	PAYEXPENSE("ClientPayExpense", "PayExpense"),
 
 	FIXEDASSETNOTE("ClientFixedAssetNote", "FixedAssetNote"),
@@ -169,19 +169,21 @@ public enum AccounterCoreType implements IsSerializable {
 
 	TRANSACTION_PAYBILL("ClientTransactionPayBill", "TransactionPayBill"),
 
-	VATRETURNBOX("ClientVATReturnBox", "VATReturnBox"), 
-	
-	DEPRECIATION("ClientDepreciation", "Depreciation"), 
-	
-	DELETED, ERROR, 
-	
-	TAXRATECALCULATION("ClientTAXRateCalculation", "TAXRateCalculation"), 
-	
-	FINANCELOG("ClientFinanceLogger", "FinanceLogger"), 
-	
+	VATRETURNBOX("ClientVATReturnBox", "VATReturnBox"),
+
+	DEPRECIATION("ClientDepreciation", "Depreciation"),
+
+	DELETED, ERROR,
+
+	TAXRATECALCULATION("ClientTAXRateCalculation", "TAXRateCalculation"),
+
+	FINANCELOG("ClientFinanceLogger", "FinanceLogger"),
+
 	RECEIVEVAT("ClientReceiveVAT", "ReceiveVAT"),
-	
-	TAXADJUSTMENT("ClientTAXAdjustment", "TAXAdjustment");
+
+	TAXADJUSTMENT("ClientTAXAdjustment", "TAXAdjustment"),
+
+	BRANDINGTHEME("ClientBrandingTheme", "BrandingTheme");
 
 	private String clientName;
 	private String serverName;

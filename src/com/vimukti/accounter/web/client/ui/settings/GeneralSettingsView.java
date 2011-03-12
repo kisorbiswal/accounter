@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 @SuppressWarnings("unchecked")
 public class GeneralSettingsView extends AbstractBaseView {
@@ -75,7 +76,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 		userCommentHtml = new HTML(
 				"<p><font size='2px'>Users are the people who can log in and view your organisation in Xero. You can add, edit and delete other users and determine the role they have.</font></p>");
 		titlePanel.add(titleHtml);
-
+		LabelItem item = new LabelItem();
 		conversationPanel.add(conversionHTML);
 		conversationPanel.add(conversationCommentHTML);
 
@@ -106,7 +107,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-//				SettingsActionFactory.getUsersAction().run(null, false);
+				SettingsActionFactory.getUsersAction().run(null, false);
 			}
 		});
 

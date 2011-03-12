@@ -11,10 +11,13 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.forms.TextBoxItem;
+import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 @SuppressWarnings("unchecked")
 public class NewBrandThemeDialog extends BaseDialog {
@@ -23,22 +26,27 @@ public class NewBrandThemeDialog extends BaseDialog {
 			addressPadLabel, fontLabel, fontSizeLabel, draftLabel,
 			approvedLabel, overdueLabel, creditNoteLabel, statementLabel,
 			logoLabel, taxesLabel, termsLabel;
-	private RadioButton a4Button, usLetterButton, lettRadioButton,
-			rightRadioButton, exclusiveButton, inclusiveButton;
+	private RadioButton a4Button, usLetterButton, leftRadioButton,
+			rightRadioButton, exclusiveButton, inclusiveButton, cmButton,
+			inchButton;
 	private VerticalPanel checkBoxPanel, radioButtonPanel,
 			check_radio_textAreaPanel, button_textBoxPanel;
 	private HorizontalPanel mainLayoutPanel, check_radioPanel, buttonPanel;
 	private Button saveButton, cancelButton;
-	private FlexTable textBoxTable;
 	private CheckBox taxNumItem, headingItem, unitPriceItem, paymentItem,
 			columnItem, addressItem, logoItem;
-	private TextBoxItem nameBox, topMarginBox, bottomMarginBox, addressPadBox,
+	private TextBox nameBox, topMarginBox, bottomMarginBox, addressPadBox,
 			draftBox, approvedBox, overdueBox, creditNoteBox, statementBox,
 			paypalTextBox;
 	private String[] fontNameArray, fontSizeArray;
 	private ListBox fontNameBox, fontSizeBox;
-	private HTML paypalEmailHtml, contactDetailHtml;
+	private HTML paypalEmailHtml, contactDetailHtml, measureHtml;
 	private TextArea contactDetailsArea, termsPaymentArea;
+	// private DynamicForm titlesForm, subMarginForm, name_sizeForm,
+	// measureForm,
+	// radioForm;
+	private Label measureLabel;
+	private FlexTable textBoxTable;
 
 	public NewBrandThemeDialog(String title, String desc) {
 		super(title, desc);
@@ -72,15 +80,145 @@ public class NewBrandThemeDialog extends BaseDialog {
 		saveButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				NewBrandThemeDialog.this.hide();
+				okClicked();
 			}
 		});
 		cancelButton = new Button("Cancel");
 		cancelButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				NewBrandThemeDialog.this.hide();
-				removeFromParent();
+				cancelClicked();
+			}
+		});
+
+		addInputDialogHandler(new InputDialogHandler() {
+
+			@Override
+			public boolean onOkClick() {
+				ClientBrandingTheme brandingTheme = new ClientBrandingTheme();
+				saveValues(brandingTheme);
+				ViewManager.getInstance().createObject(brandingTheme,
+						NewBrandThemeDialog.this);
+				return true;
+			}
+
+			private int getPageSize() {
+				if (a4Button.isEnabled()) {
+					return 1;
+				} else {
+					return 2;
+				}
+			}
+
+			private int getLogoType() {
+				if (leftRadioButton.isEnabled()) {
+					return 1;
+				} else {
+					return 2;
+				}
+			}
+
+			private int getTaxType() {
+				if (exclusiveButton.isEnabled()) {
+					return 1;
+				} else {
+					return 2;
+				}
+			}
+
+			private String getFont(int index) {
+				switch (index) {
+				case 0:
+					return "Arial";
+				case 1:
+					return "Calibri";
+				case 2:
+					return "Cambria";
+				case 3:
+					return "Georgia";
+				case 4:
+					return "Myriad";
+				case 5:
+					return "Tahoma";
+				case 6:
+					return "Times New Roman";
+				case 7:
+					return "Trebuchet";
+
+				default:
+					return "Arial";
+				}
+
+			}
+
+			private String getFontSize(int size) {
+
+				switch (size) {
+				case 0:
+					return "8pt";
+				case 1:
+					return "9pt";
+				case 2:
+					return "10pt";
+				case 3:
+					return "11pt";
+				case 4:
+					return "12pt";
+				case 5:
+					return "13pt";
+				case 6:
+					return "14pt";
+				case 7:
+					return "15pt";
+
+				default:
+					return "8pt";
+				}
+
+			}
+
+			private void saveValues(ClientBrandingTheme brandingTheme) {
+				brandingTheme.setThemeName(String.valueOf(nameBox.getValue()));
+				brandingTheme.setPageSizeType(getPageSize());
+				brandingTheme.setTopMargin(Double.parseDouble(String
+						.valueOf(topMarginBox.getValue())));
+				brandingTheme.setBottomMargin(Double.parseDouble(String
+						.valueOf(bottomMarginBox.getValue())));
+				brandingTheme.setAddressPadding(Double.parseDouble(String
+						.valueOf(addressPadBox.getValue())));
+				brandingTheme.setFont(getFont(fontNameBox.getSelectedIndex()));
+				brandingTheme.setFontSize(getFontSize(fontSizeBox
+						.getSelectedIndex()));
+				;
+
+				brandingTheme.setCreditMemoTitle(String.valueOf(creditNoteBox
+						.getValue()));
+				brandingTheme.setOverDueInvoiceTitle(String.valueOf(overdueBox
+						.getValue()));
+				brandingTheme.setStatementTitle(String.valueOf(statementBox
+						.getValue()));
+				brandingTheme.setShowTaxNumber(taxNumItem.isEnabled());
+				brandingTheme.setShowColumnHeadings(headingItem.isEnabled());
+				brandingTheme.setShowPaymentAdviceCut_Away(paymentItem
+						.isEnabled());
+				brandingTheme.setShowUnitPrice_And_Quantity(unitPriceItem
+						.isEnabled());
+				brandingTheme.setShowTaxColumn(columnItem.isEnabled());
+				brandingTheme.setShowRegisteredAddress(addressItem.isEnabled());
+				brandingTheme.setShowLogo(logoItem.isEnabled());
+				brandingTheme.setPayPalEmailID(String.valueOf(paypalTextBox
+						.getValue()));
+				brandingTheme.setTerms_And_Payment_Advice(String
+						.valueOf(termsPaymentArea.getValue()));
+				brandingTheme.setContactDetails(String
+						.valueOf(contactDetailsArea.getValue()));
+				brandingTheme.setLogoAlignmentType(getLogoType());
+				brandingTheme.setShowTaxesAsType(getTaxType());
+			}
+
+			@Override
+			public void onCancelClick() {
+				hide();
 			}
 		});
 		buttonPanel.add(saveButton);
@@ -88,6 +226,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 
 		mainLayoutPanel.add(addTextBoxTableControl());
 		mainLayoutPanel.add(check_radio_textAreaPanel);
+
 		button_textBoxPanel.add(mainLayoutPanel);
 		button_textBoxPanel.add(buttonPanel);
 
@@ -100,19 +239,24 @@ public class NewBrandThemeDialog extends BaseDialog {
 	private VerticalPanel addRadioBoxTableControls() {
 		radioButtonPanel = new VerticalPanel();
 
+		measureLabel = new Label("Measure in");
 		logoLabel = new Label("Logo alignment");
-		lettRadioButton = new RadioButton("group2", "Left");
+		leftRadioButton = new RadioButton("group2", "Left");
 		rightRadioButton = new RadioButton("group2", "Right");
+		leftRadioButton.setChecked(true);
 		taxesLabel = new Label("Show taxes as");
 		exclusiveButton = new RadioButton("group3", "Exclusive");
 		inclusiveButton = new RadioButton("group3", "Inclusive");
+		inclusiveButton.setChecked(true);
 
 		contactDetailHtml = new HTML(
 				"<p>Enter your contact details as they should<br>appear at the top of all PDFs you print or<br>send</p>");
 		contactDetailsArea = new TextArea();
+		contactDetailsArea
+				.setText("Vimukti Technologies Private Limited,2nd floor, LIG-B 11&26, Beside TMC,Dr. A.S. Rao Nagar,ECIL Post, Kapra,Hyderabad, Andhra Pradesh,India, PIN: 500062");
 
 		radioButtonPanel.add(logoLabel);
-		radioButtonPanel.add(lettRadioButton);
+		radioButtonPanel.add(leftRadioButton);
 		radioButtonPanel.add(rightRadioButton);
 		radioButtonPanel.add(taxesLabel);
 		radioButtonPanel.add(exclusiveButton);
@@ -126,17 +270,23 @@ public class NewBrandThemeDialog extends BaseDialog {
 	private VerticalPanel addCheckBoxTableControls() {
 
 		taxNumItem = new CheckBox("Show tax Number");
+		taxNumItem.setChecked(true);
 		headingItem = new CheckBox("Show column headings");
+		headingItem.setChecked(true);
 		unitPriceItem = new CheckBox("Show unit price & quantity");
+		unitPriceItem.setChecked(true);
 		paymentItem = new CheckBox("Show payment advice cut-away");
+		paymentItem.setChecked(true);
 		columnItem = new CheckBox("Show tax column");
+		columnItem.setChecked(true);
 		addressItem = new CheckBox("Show registered address");
+		addressItem.setChecked(true);
 		logoItem = new CheckBox("Show logo");
-
+		logoItem.setChecked(true);
 		paypalEmailHtml = new HTML(
 				"<p>Enter your <b>PayPal</b> email to have<br>payment links automatically appear<br>on all your invoices</p>");
-		paypalTextBox = new TextBoxItem();
-		paypalTextBox.setWidth("2");
+		paypalTextBox = new TextBox();
+		paypalTextBox.setWidth("150px");
 
 		checkBoxPanel = new VerticalPanel();
 		checkBoxPanel.add(taxNumItem);
@@ -154,7 +304,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 	}
 
 	private FlexTable addTextBoxTableControl() {
-		// measureHtml=new HTML("<p><b>Measure in</b></p>");
+		measureHtml = new HTML("<p><b>Measure in</b></p>");
 		nameLabel = new Label("Name");
 		pageSizeLabel = new Label("Page size");
 		topMarginLabel = new Label("Top margin");
@@ -168,19 +318,40 @@ public class NewBrandThemeDialog extends BaseDialog {
 		creditNoteLabel = new Label("Credit Note title");
 		statementLabel = new Label("Statement title");
 
-		nameBox = new TextBoxItem();
-		nameBox.setWidth("150px");
-		topMarginBox = new TextBoxItem();
-		bottomMarginBox = new TextBoxItem();
-		addressPadBox = new TextBoxItem();
-		draftBox = new TextBoxItem();
-		approvedBox = new TextBoxItem();
-		overdueBox = new TextBoxItem();
-		creditNoteBox = new TextBoxItem();
-		statementBox = new TextBoxItem();
+		nameBox = new TextBox();
+		nameBox.setWidth("100px");
+		topMarginBox = new TextBox();
+		topMarginBox.setWidth("100px");
+		topMarginBox.setText("1.35");
+		bottomMarginBox = new TextBox();
+		bottomMarginBox.setWidth("100px");
+		bottomMarginBox.setText("1.0");
+		addressPadBox = new TextBox();
+		addressPadBox.setWidth("100px");
+		addressPadBox.setText("1.0");
+		draftBox = new TextBox();
+		draftBox.setWidth("100px");
+		draftBox.setText("DRAFT INVOICE");
+		approvedBox = new TextBox();
+		approvedBox.setWidth("100px");
+		approvedBox.setText("INVOICE");
+		overdueBox = new TextBox();
+		overdueBox.setWidth("100px");
+		overdueBox.setText("INVOICE");
+		creditNoteBox = new TextBox();
+		creditNoteBox.setWidth("100px");
+		creditNoteBox.setText("CREDIT");
+		statementBox = new TextBox();
+		statementBox.setWidth("100px");
+		statementBox.setText("STATEMENT");
 
 		a4Button = new RadioButton("group1", "A4");
 		usLetterButton = new RadioButton("group1", "US Letter");
+		a4Button.setChecked(true);
+
+		cmButton = new RadioButton("group4", "cm");
+		inchButton = new RadioButton("group4", "inch");
+		cmButton.setChecked(true);
 
 		fontNameArray = new String[] { "Arial", "Calibri", "Cambria",
 				"Georgia", "Myriad", "Tahoma", "Times New Roman", "Trebuchet" };
@@ -188,14 +359,25 @@ public class NewBrandThemeDialog extends BaseDialog {
 				"13pt", "14pt", "15pt" };
 
 		fontNameBox = new ListBox();
+		fontNameBox.setWidth("100px");
 		for (int i = 0; i < fontNameArray.length; i++) {
 			fontNameBox.addItem(fontNameArray[i]);
 		}
+		fontNameBox.setSelectedIndex(0);
 		fontSizeBox = new ListBox();
-		fontSizeBox.setWidth("150px");
+		fontSizeBox.setWidth("100px");
 		for (int i = 0; i < fontSizeArray.length; i++) {
 			fontSizeBox.addItem(fontSizeArray[i]);
 		}
+		fontSizeBox.setSelectedIndex(0);
+		HorizontalPanel measurePanel = new HorizontalPanel();
+		measurePanel.add(topMarginBox);
+		measurePanel.add(measureLabel);
+
+		HorizontalPanel unitsPanel = new HorizontalPanel();
+		unitsPanel.add(bottomMarginBox);
+		unitsPanel.add(cmButton);
+		unitsPanel.add(inchButton);
 
 		textBoxTable = new FlexTable();
 		textBoxTable.setWidget(0, 0, nameLabel);
@@ -204,10 +386,9 @@ public class NewBrandThemeDialog extends BaseDialog {
 		textBoxTable.setWidget(1, 1, a4Button);
 		textBoxTable.setWidget(2, 1, usLetterButton);
 		textBoxTable.setWidget(3, 0, topMarginLabel);
-		textBoxTable.setWidget(3, 1, topMarginBox);
-		// textBoxTable.setWidget(3, 2, measureHtml);
+		textBoxTable.setWidget(3, 1, measurePanel);
 		textBoxTable.setWidget(4, 0, bottomMarginLabel);
-		textBoxTable.setWidget(4, 1, bottomMarginBox);
+		textBoxTable.setWidget(4, 1, unitsPanel);
 		textBoxTable.setWidget(5, 0, addressPadLabel);
 		textBoxTable.setWidget(5, 1, addressPadBox);
 		textBoxTable.setWidget(6, 0, fontLabel);

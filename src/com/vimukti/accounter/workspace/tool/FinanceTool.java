@@ -52,6 +52,7 @@ import com.vimukti.accounter.core.AccounterConstants;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Bank;
 import com.vimukti.accounter.core.Box;
+import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.ClientConvertUtil;
@@ -10124,6 +10125,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 					data);
 			prepareObjects(AccounterCoreType.TRANSACTION_RECEIVEPAYMENT, data);
 			prepareObjects(AccounterCoreType.TRANSACTION_PAYBILL, data);
+			prepareObjects(AccounterCoreType.BRANDINGTHEME, data);
 		}
 		return data;
 	}
@@ -10298,6 +10300,10 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 				.list()));
 		company.setVatReturnBoxes(new HashSet<VATReturnBox>(session
 				.getNamedQuery("list.VATReturnBox").list()));
+
+		company.setBrandingTheme(new ArrayList<BrandingTheme>(session
+				.getNamedQuery("list.BrandingTheme").list()));
+
 		company = company.toCompany(company);
 		setCompany(company);
 

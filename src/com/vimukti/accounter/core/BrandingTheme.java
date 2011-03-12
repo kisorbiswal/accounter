@@ -1,0 +1,488 @@
+package com.vimukti.accounter.core;
+
+import java.io.Serializable;
+
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
+import org.hibernate.classic.Lifecycle;
+import com.vimukti.accounter.web.client.InvalidOperationException;
+
+@SuppressWarnings("serial")
+public class BrandingTheme implements IAccounterServerCore, Lifecycle {
+	
+	public static final String FONT_ARIAL = "Arial";
+	public static final String FONT_CALIBIRI = "Calibiri";
+	public static final String FONT_CAMBRIA = "Cambria";
+	public static final String FONT_GEORGIA = "Georgia";
+	public static final String FONT_MY_RIAD = "Myriad";
+	public static final String FONT_TAHOMA = "Tahoma";
+	public static final String FONT_TIMES_NEW_ROMAN = "Times New Roman";
+	public static final String FONT_TREBUCHET = "Trebuchet";
+	
+	public static final int PAGE_SIZE_A4 = 1;
+	public static final int PAGE_SIZE_US_LETTER = 2;
+	
+	public static final int MARGIN_MEASURES_IN_CM = 1;
+	public static final int MARGIN_MEASURES_IN_INCHES = 2;
+
+	public static final int LOGO_ALIGNMENT_LEFT = 1;
+	public static final int LOGO_ALIGNMENT_RIGHT = 2;
+	
+	public static final int SHOW_TAXES_AS_EXCLUSIVE = 1;
+	public static final int SHOW_TAXES_AS_INCLUSIVE = 2;
+	
+	long id;
+	String stringId;
+	String themeName;
+	int pageSizeType;
+	double topMargin, bottomMargin;
+	int marginsMeasurementType;
+	double addressPadding;
+	String font;
+	String fontSize;
+	String openInvoiceTitle;
+	String overDueInvoiceTitle;
+	String creditMemoTitle;
+	String statementTitle;
+	
+	boolean isShowTaxNumber;
+	boolean isShowColumnHeadings;
+	boolean isShowUnitPrice_And_Quantity;
+	boolean isShowPaymentAdviceCut_Away;
+	boolean isShowTaxColumn;
+	boolean isShowRegisteredAddress;
+	boolean isShowLogo;
+	
+	String payPalEmailID;
+	int logoAlignmentType;
+	int showTaxesAsType;
+	String contactDetails;
+	String Terms_And_Payment_Advice;
+	
+	transient boolean isImported;
+	public transient boolean isOnSaveProccessed;
+	
+	String createdBy;
+	String lastModifier;
+	FinanceDate createdDate;
+	FinanceDate lastModifiedDate;
+	
+	/**
+	 * @return the themeName
+	 */
+	public String getThemeName() {
+		return themeName;
+	}
+	/**
+	 * @param themeName the themeName to set
+	 */
+	public void setThemeName(String themeName) {
+		this.themeName = themeName;
+	}
+	/**
+	 * @return the pageSizeType
+	 */
+	public int getPageSizeType() {
+		return pageSizeType;
+	}
+	/**
+	 * @param pageSizeType the pageSizeType to set
+	 */
+	public void setPageSizeType(int pageSizeType) {
+		this.pageSizeType = pageSizeType;
+	}
+	/**
+	 * @return the topMargin
+	 */
+	public double getTopMargin() {
+		return topMargin;
+	}
+	/**
+	 * @param topMargin the topMargin to set
+	 */
+	public void setTopMargin(double topMargin) {
+		this.topMargin = topMargin;
+	}
+	/**
+	 * @return the bottomMargin
+	 */
+	public double getBottomMargin() {
+		return bottomMargin;
+	}
+	/**
+	 * @param bottomMargin the bottomMargin to set
+	 */
+	public void setBottomMargin(double bottomMargin) {
+		this.bottomMargin = bottomMargin;
+	}
+	/**
+	 * @return the marginsMeasurementType
+	 */
+	public int getMarginsMeasurementType() {
+		return marginsMeasurementType;
+	}
+	/**
+	 * @param marginsMeasurementType the marginsMeasurementType to set
+	 */
+	public void setMarginsMeasurementType(int marginsMeasurementType) {
+		this.marginsMeasurementType = marginsMeasurementType;
+	}
+	/**
+	 * @return the addressPadding
+	 */
+	public double getAddressPadding() {
+		return addressPadding;
+	}
+	/**
+	 * @param addressPadding the addressPadding to set
+	 */
+	public void setAddressPadding(double addressPadding) {
+		this.addressPadding = addressPadding;
+	}
+	/**
+	 * @return the font
+	 */
+	public String getFont() {
+		return font;
+	}
+	/**
+	 * @param font the font to set
+	 */
+	public void setFont(String font) {
+		this.font = font;
+	}
+	/**
+	 * @return the fontSize
+	 */
+	public String getFontSize() {
+		return fontSize;
+	}
+	/**
+	 * @param fontSize the fontSize to set
+	 */
+	public void setFontSize(String fontSize) {
+		this.fontSize = fontSize;
+	}
+	/**
+	 * @return the openInvoiceTitle
+	 */
+	public String getOpenInvoiceTitle() {
+		return openInvoiceTitle;
+	}
+	/**
+	 * @param openInvoiceTitle the openInvoiceTitle to set
+	 */
+	public void setOpenInvoiceTitle(String openInvoiceTitle) {
+		this.openInvoiceTitle = openInvoiceTitle;
+	}
+	/**
+	 * @return the overDueInvoiceTitle
+	 */
+	public String getOverDueInvoiceTitle() {
+		return overDueInvoiceTitle;
+	}
+	/**
+	 * @param overDueInvoiceTitle the overDueInvoiceTitle to set
+	 */
+	public void setOverDueInvoiceTitle(String overDueInvoiceTitle) {
+		this.overDueInvoiceTitle = overDueInvoiceTitle;
+	}
+	/**
+	 * @return the creditMemoTitle
+	 */
+	public String getCreditMemoTitle() {
+		return creditMemoTitle;
+	}
+	/**
+	 * @param creditMemoTitle the creditMemoTitle to set
+	 */
+	public void setCreditMemoTitle(String creditMemoTitle) {
+		this.creditMemoTitle = creditMemoTitle;
+	}
+	/**
+	 * @return the statementTitle
+	 */
+	public String getStatementTitle() {
+		return statementTitle;
+	}
+	/**
+	 * @param statementTitle the statementTitle to set
+	 */
+	public void setStatementTitle(String statementTitle) {
+		this.statementTitle = statementTitle;
+	}
+	/**
+	 * @return the isShowTaxNumber
+	 */
+	public boolean isShowTaxNumber() {
+		return isShowTaxNumber;
+	}
+	/**
+	 * @param isShowTaxNumber the isShowTaxNumber to set
+	 */
+	public void setShowTaxNumber(boolean isShowTaxNumber) {
+		this.isShowTaxNumber = isShowTaxNumber;
+	}
+	/**
+	 * @return the isShowColumnHeadings
+	 */
+	public boolean isShowColumnHeadings() {
+		return isShowColumnHeadings;
+	}
+	/**
+	 * @param isShowColumnHeadings the isShowColumnHeadings to set
+	 */
+	public void setShowColumnHeadings(boolean isShowColumnHeadings) {
+		this.isShowColumnHeadings = isShowColumnHeadings;
+	}
+	/**
+	 * @return the isShowUnitPrice_And_Quantity
+	 */
+	public boolean isShowUnitPrice_And_Quantity() {
+		return isShowUnitPrice_And_Quantity;
+	}
+	/**
+	 * @param isShowUnitPriceAndQuantity the isShowUnitPrice_And_Quantity to set
+	 */
+	public void setShowUnitPrice_And_Quantity(boolean isShowUnitPriceAndQuantity) {
+		isShowUnitPrice_And_Quantity = isShowUnitPriceAndQuantity;
+	}
+	/**
+	 * @return the isShowPaymentAdviceCut_Away
+	 */
+	public boolean isShowPaymentAdviceCut_Away() {
+		return isShowPaymentAdviceCut_Away;
+	}
+	/**
+	 * @param isShowPaymentAdviceCutAway the isShowPaymentAdviceCut_Away to set
+	 */
+	public void setShowPaymentAdviceCut_Away(boolean isShowPaymentAdviceCutAway) {
+		isShowPaymentAdviceCut_Away = isShowPaymentAdviceCutAway;
+	}
+	/**
+	 * @return the isShowTaxColumn
+	 */
+	public boolean isShowTaxColumn() {
+		return isShowTaxColumn;
+	}
+	/**
+	 * @param isShowTaxColumn the isShowTaxColumn to set
+	 */
+	public void setShowTaxColumn(boolean isShowTaxColumn) {
+		this.isShowTaxColumn = isShowTaxColumn;
+	}
+	/**
+	 * @return the isShowRegisteredAddress
+	 */
+	public boolean isShowRegisteredAddress() {
+		return isShowRegisteredAddress;
+	}
+	/**
+	 * @param isShowRegisteredAddress the isShowRegisteredAddress to set
+	 */
+	public void setShowRegisteredAddress(boolean isShowRegisteredAddress) {
+		this.isShowRegisteredAddress = isShowRegisteredAddress;
+	}
+	/**
+	 * @return the isShowLogo
+	 */
+	public boolean isShowLogo() {
+		return isShowLogo;
+	}
+	/**
+	 * @param isShowLogo the isShowLogo to set
+	 */
+	public void setShowLogo(boolean isShowLogo) {
+		this.isShowLogo = isShowLogo;
+	}
+	/**
+	 * @return the payPalEmailID
+	 */
+	public String getPayPalEmailID() {
+		return payPalEmailID;
+	}
+	/**
+	 * @param payPalEmailID the payPalEmailID to set
+	 */
+	public void setPayPalEmailID(String payPalEmailID) {
+		this.payPalEmailID = payPalEmailID;
+	}
+	/**
+	 * @return the logoAlignmentType
+	 */
+	public int getLogoAlignmentType() {
+		return logoAlignmentType;
+	}
+	/**
+	 * @param logoAlignmentType the logoAlignmentType to set
+	 */
+	public void setLogoAlignmentType(int logoAlignmentType) {
+		this.logoAlignmentType = logoAlignmentType;
+	}
+	/**
+	 * @return the showTaxesAsType
+	 */
+	public int getShowTaxesAsType() {
+		return showTaxesAsType;
+	}
+	/**
+	 * @param showTaxesAsType the showTaxesAsType to set
+	 */
+	public void setShowTaxesAsType(int showTaxesAsType) {
+		this.showTaxesAsType = showTaxesAsType;
+	}
+	/**
+	 * @return the contactDetails
+	 */
+	public String getContactDetails() {
+		return contactDetails;
+	}
+	/**
+	 * @param contactDetails the contactDetails to set
+	 */
+	public void setContactDetails(String contactDetails) {
+		this.contactDetails = contactDetails;
+	}
+	/**
+	 * @return the terms_And_Payment_Advice
+	 */
+	public String getTerms_And_Payment_Advice() {
+		return Terms_And_Payment_Advice;
+	}
+	/**
+	 * @param termsAndPaymentAdvice the terms_And_Payment_Advice to set
+	 */
+	public void setTerms_And_Payment_Advice(String termsAndPaymentAdvice) {
+		Terms_And_Payment_Advice = termsAndPaymentAdvice;
+	}
+	
+	public BrandingTheme() {
+		
+	}
+	
+	public BrandingTheme(String themeName, double topMargin,
+			double bottomMargin, double addressPadding, String font,
+			String fontSize, String openInvoiceTitle,
+			String overDueInvoiceTitle, String creditMemoTitle,
+			String statementTitle, String payPalEmailID) {
+		
+		this.themeName = themeName;
+		this.pageSizeType = PAGE_SIZE_US_LETTER;
+		this.topMargin = topMargin;
+		this.bottomMargin = bottomMargin;
+		this.marginsMeasurementType = MARGIN_MEASURES_IN_CM;
+		this.addressPadding = addressPadding;
+		this.font = font;
+		this.fontSize = fontSize;
+		this.openInvoiceTitle = openInvoiceTitle;
+		this.overDueInvoiceTitle = overDueInvoiceTitle;
+		this.creditMemoTitle = creditMemoTitle;
+		this.statementTitle = statementTitle;
+		this.isShowTaxNumber = true;
+		this.isShowColumnHeadings = true;
+		this.isShowUnitPrice_And_Quantity = true;
+		this.isShowPaymentAdviceCut_Away = true;
+		this.isShowTaxColumn = true;
+		this.isShowRegisteredAddress = true;
+		this.isShowLogo = true;
+		this.payPalEmailID = payPalEmailID;
+		this.logoAlignmentType = LOGO_ALIGNMENT_RIGHT;
+		this.showTaxesAsType = SHOW_TAXES_AS_EXCLUSIVE;
+	}
+	
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject)
+			throws InvalidOperationException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public String getStringID() {
+		return this.stringId;
+	}
+	
+	@Override
+	public void setImported(boolean isImported) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void setStringID(String stringID) {
+		this.stringId = stringID;
+	}
+	
+	@Override
+	public boolean onDelete(Session arg0) throws CallbackException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public void onLoad(Session arg0, Serializable arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public boolean onSave(Session arg0) throws CallbackException {
+		
+		if (isImported) {
+			return false;
+		}
+		if (isOnSaveProccessed)
+			return true;
+		isOnSaveProccessed = true;
+
+		return false;
+	}
+	
+	@Override
+	public boolean onUpdate(Session arg0) throws CallbackException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	/**
+	 * @return the id
+	 */
+	public long getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(long id) {
+		this.id = id;
+	}
+	/**
+	 * @return the stringId
+	 */
+	public String getStringId() {
+		return stringId;
+	}
+	/**
+	 * @param stringId the stringId to set
+	 */
+	public void setStringId(String stringId) {
+		this.stringId = stringId;
+	}
+	/**
+	 * @return the isOnSaveProccessed
+	 */
+	public boolean isOnSaveProccessed() {
+		return isOnSaveProccessed;
+	}
+	/**
+	 * @param isOnSaveProccessed the isOnSaveProccessed to set
+	 */
+	public void setOnSaveProccessed(boolean isOnSaveProccessed) {
+		this.isOnSaveProccessed = isOnSaveProccessed;
+	}
+	/**
+	 * @return the isImported
+	 */
+	public boolean isImported() {
+		return isImported;
+	}
+	
+}
