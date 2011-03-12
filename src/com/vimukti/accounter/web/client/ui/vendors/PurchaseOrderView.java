@@ -99,7 +99,7 @@ public class PurchaseOrderView extends
 		lab1.setHeight("50px");
 
 		statusSelect = new SelectCombo(FinanceApplication.getVendorsMessages()
-				.status());
+				.statuS());
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(OPEN);
 		listOfTypes.add(COMPLETED);
