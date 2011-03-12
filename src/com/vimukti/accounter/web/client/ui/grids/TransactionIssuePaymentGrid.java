@@ -33,8 +33,8 @@ public class TransactionIssuePaymentGrid extends
 				FinanceApplication.getVendorsMessages().number(),
 				FinanceApplication.getVendorsMessages().name(),
 				FinanceApplication.getVendorsMessages().memo(),
-				FinanceApplication.getVendorsMessages().Amount(),
-				FinanceApplication.getVendorsMessages().Paymentmethod() };
+				FinanceApplication.getBankingsMessages().amount(),
+				FinanceApplication.getVendorsMessages().paymentMethod() };
 	}
 
 	public boolean isSelected(ClientTransactionIssuePayment transactionList) {
