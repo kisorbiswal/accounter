@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
 import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
 import com.vimukti.accounter.web.client.ui.fixedassets.FixedAssetConstants;
 import com.vimukti.accounter.web.client.ui.reports.ReportsMessages;
+import com.vimukti.accounter.web.client.ui.settings.SettingsMessages;
 import com.vimukti.accounter.web.client.ui.vat.VATMessages;
 import com.vimukti.accounter.web.client.ui.vendors.VendorsMessages;
 
@@ -72,13 +73,14 @@ public class FinanceApplication extends VerticalPanel {
 	private static FinanceUIConstants financeUIConstants;
 	private static BankingMessages bankingMessages;
 	private static VATMessages vatMessages;
+	private static SettingsMessages settingsMessages;
 
 	private static AccounterComboConstants accounterComboConstants;
 	private static FixedAssetConstants fixedAssetConstants;
 	private static ReportsMessages reportsMessages;
 	private static boolean isSales;
 	private static boolean isPurchases;
-	public  static ClientIdentity clientIdentity;
+	public static ClientIdentity clientIdentity;
 
 	public FinanceApplication(String email,
 			ValueCallBack<FinanceApplication> callback) {
@@ -365,6 +367,14 @@ public class FinanceApplication extends VerticalPanel {
 					.create(CustomersMessages.class);
 		}
 		return customersMessages;
+	}
+
+	public static SettingsMessages getSettingsMessages() {
+		if (settingsMessages == null) {
+			settingsMessages = (SettingsMessages) GWT
+					.create(SettingsMessages.class);
+		}
+		return settingsMessages;
 	}
 
 	public static FixedAssetConstants getFixedAssetConstants() {
