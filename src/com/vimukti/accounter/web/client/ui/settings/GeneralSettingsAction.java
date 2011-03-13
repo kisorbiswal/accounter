@@ -45,7 +45,6 @@ public class GeneralSettingsAction extends Action {
 			public void onCreated() {
 
 				try {
-					// if (accountType == 0)
 					view = new GeneralSettingsView();
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, GeneralSettingsAction.this);

@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
 public class AutomaticSequenceDialog extends BaseDialog {
@@ -34,27 +35,33 @@ public class AutomaticSequenceDialog extends BaseDialog {
 
 	private void createControls() {
 		subLayoutPanel = new VerticalPanel();
-		paraHTML = new HTML(
-				"<p><font size='1px'>Define the number to be used when creating your next invoice or credit note. The number<br>will automatically increment with each new invoice or credit note you create</font></p>");
+		paraHTML = new HTML(FinanceApplication.getSettingsMessages()
+				.automaticSequencingData());
 
 		invoicePanel = new VerticalPanel();
-		invoicePrefixlabel = new Label("Invoice Prefix");
+		invoicePrefixlabel = new Label(FinanceApplication.getSettingsMessages()
+				.invoicePrefix());
 		invoiceBox = new TextBox();
-		invoiceBox.setText("INV-");
+		invoiceBox.setText(FinanceApplication.getSettingsMessages()
+				.invoicePrefixValue());
 		invoicePanel.add(invoicePrefixlabel);
 		invoicePanel.add(invoiceBox);
 
 		creditPanel = new VerticalPanel();
-		creditNoteLabel = new Label("Credit Note Prefix");
+		creditNoteLabel = new Label(FinanceApplication.getSettingsMessages()
+				.creditNotePrefix());
 		creditBox = new TextBox();
-		creditBox.setText("CN-");
+		creditBox.setText(FinanceApplication.getSettingsMessages()
+				.creditNotePrefixValue());
 		creditPanel.add(creditNoteLabel);
 		creditPanel.add(creditBox);
 
 		nextPanel = new VerticalPanel();
-		nextNumberLabel = new Label("Next Number");
+		nextNumberLabel = new Label(FinanceApplication.getSettingsMessages()
+				.nextNumber());
 		nextBox = new TextBox();
-		nextBox.setText("0036");
+		nextBox.setText(FinanceApplication.getSettingsMessages()
+				.nextNumberValue());
 		nextPanel.add(nextNumberLabel);
 		nextPanel.add(nextBox);
 
@@ -64,7 +71,8 @@ public class AutomaticSequenceDialog extends BaseDialog {
 		optionsTable.setWidget(0, 2, nextPanel);
 
 		buttonPanel = new HorizontalPanel();
-		saveButton = new Button("Save");
+		saveButton = new Button(FinanceApplication.getSettingsMessages()
+				.saveButton());
 		saveButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -72,7 +80,8 @@ public class AutomaticSequenceDialog extends BaseDialog {
 				okClicked();
 			}
 		});
-		cancelButton = new Button("Cancel");
+		cancelButton = new Button(FinanceApplication.getSettingsMessages()
+				.cancelButton());
 		cancelButton.addClickHandler(new ClickHandler() {
 
 			@Override

@@ -12,19 +12,18 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.data.ClientUser;
+import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class UsersView extends BaseView<ClientUser> {
 
-	private HTML generalSettingsHTML, usersHtml, helpHtml;
+	private HTML generalSettingsHTML, usersHtml;
 	private VerticalPanel mainLayPanel, usersPanel, recentActivityPanel;
 	private DecoratedTabPanel tabPanel;
 	private FlexTable flexTable;
 	private UsersListGrid usersListGrid;
 	private RecentActivityListGrid activityListGrid;
-
-	// private ScrollPanel panel;
 
 	@Override
 	public List<DynamicForm> getForms() {
@@ -62,9 +61,8 @@ public class UsersView extends BaseView<ClientUser> {
 
 		mainLayPanel = new VerticalPanel();
 		flexTable = new FlexTable();
-		// panel = new ScrollPanel();
-		generalSettingsHTML = new HTML(
-				"<a><font size='1px', color='green'>General Settings</font></a> >");
+		generalSettingsHTML = new HTML(FinanceApplication.getSettingsMessages()
+				.generalSettingsLabel());
 		generalSettingsHTML.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -73,19 +71,18 @@ public class UsersView extends BaseView<ClientUser> {
 						false);
 			}
 		});
-		usersHtml = new HTML("<b><font size='4px'>Users</font></b>");
-		helpHtml = new HTML(
-				"<a><font size='1px',color='D26001'>What's this?</font></a>");
+		usersHtml = new HTML(FinanceApplication.getSettingsMessages().usersTitle());
 		tabPanel = new DecoratedTabPanel();
-		tabPanel.add(getUsersPanel(), "Users");
-		tabPanel.add(getRecentActivityPanel(), "Recent Activity");
+		tabPanel.add(getUsersPanel(), FinanceApplication.getSettingsMessages()
+				.users());
+		tabPanel.add(getRecentActivityPanel(), FinanceApplication
+				.getSettingsMessages().recentActivity());
 		tabPanel.selectTab(0);
 
 		flexTable.setWidget(0, 0, generalSettingsHTML);
 		flexTable.setWidget(1, 0, usersHtml);
 
 		mainLayPanel.add(flexTable);
-		mainLayPanel.add(helpHtml);
 		mainLayPanel.add(tabPanel);
 
 		saveAndCloseButton.setVisible(false);
@@ -93,7 +90,6 @@ public class UsersView extends BaseView<ClientUser> {
 		cancelButton.setVisible(false);
 
 		add(mainLayPanel);
-		// panel.add(mainLayPanel);
 	}
 
 	private VerticalPanel getRecentActivityPanel() {
@@ -114,13 +110,6 @@ public class UsersView extends BaseView<ClientUser> {
 		usersListGrid = new UsersListGrid(false);
 		usersListGrid.setUsersView(this);
 		usersListGrid.init();
-		// ClientIdentity clientIdentity = new ClientIdentity();
-		// Map<String, ClientUser> clientMap = clientIdentity.getClientUsers();
-		// List<ClientUser> clientList = new ArrayList<ClientUser>();
-		// for (int i = 0; i < clientMap.size(); i++) {
-		// clientList.add(clientMap.get(i));
-		// }
-		// usersListGrid.addRecords(clientList);
 		usersPanel.add(usersListGrid);
 
 		return usersPanel;

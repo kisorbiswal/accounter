@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
+import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 @SuppressWarnings("unchecked")
@@ -59,22 +60,21 @@ public class GeneralSettingsView extends AbstractBaseView {
 		invoiceBrandingPanel = new VerticalPanel();
 		userPanel = new VerticalPanel();
 
-		titleHtml = new HTML(
-				"<p><font size='5px', color='green'>General Settings</font></p>");
+		titleHtml = new HTML(FinanceApplication.getSettingsMessages()
+				.generalSettingsHeading());
 
-		conversionHTML = new HTML(
-				"<a><font size='3px', color='green'>Conversion Balances</font></a>");
-		conversationCommentHTML = new HTML(
-				"<p><font size='2px'>Update the balances from your previous accounting system. Be aware this  has an impact on transactions already entered, your conversion date, and  any reports that you may have run already.</font></p>");
-		invoiceBrandingHTML = new HTML(
-				"<a><font size='3px', color='green'>Invoice Branding</font></a>");
-		invoiceCommentHtml = new HTML(
-				"<p><font size='2px'>Customise the appearance of invoices, credit notes and statements. Add multiple themes with custom page titles, logos and payment advice. Also, control the automatic numbering of invoices.</font></p>");
+		conversionHTML = new HTML(FinanceApplication.getSettingsMessages()
+				.conversionHTML());
+		conversationCommentHTML = new HTML(FinanceApplication
+				.getSettingsMessages().conversionCommet());
+		invoiceBrandingHTML = new HTML(FinanceApplication.getSettingsMessages()
+				.invoiceBrandingHTML());
+		invoiceCommentHtml = new HTML(FinanceApplication.getSettingsMessages()
+				.invoiceComment());
 
-		userHtml = new HTML(
-				"<a><font size='3px', color='green'>Users</font></a>");
-		userCommentHtml = new HTML(
-				"<p><font size='2px'>Users are the people who can log in and view your organisation in Xero. You can add, edit and delete other users and determine the role they have.</font></p>");
+		userHtml = new HTML(FinanceApplication.getSettingsMessages().userHTML());
+		userCommentHtml = new HTML(FinanceApplication.getSettingsMessages()
+				.usersComment());
 		titlePanel.add(titleHtml);
 		LabelItem item = new LabelItem();
 		conversationPanel.add(conversionHTML);

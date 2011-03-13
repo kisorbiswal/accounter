@@ -57,7 +57,7 @@ public class ConversionDateView extends AbstractBaseView {
 		bodyHeaderHtml = new HTML(
 				"<p><font size='2px'>Conversion Date</font></p>");
 		bodyHtml = new HTML(
-				"<p><font size='2px'>Enter the date that you began processing all your transactions in Accounter. It's easiest when you set your conversion date to be the start of a Sales Tax period. <a href=''><font color='green'>Tips for Choosing a Conversion Date</font></a>.</font></p>");
+				"<p><font size='2px'>Enter the date that you began processing all your transactions in Accounter. It's easiest when you set your conversion date to be the start of a Sales Tax period.</font> <a><font color='green' size='2px'>Tips for Choosing a Conversion Date</font></a></p>");
 
 		bodycommentHtml = new HTML(
 				"<p><font color='990000',size='2px'><b>WARNING:</b> If you change your conversion date you will need to confirm your balances and any related invoices.</font></p>");

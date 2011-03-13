@@ -50,7 +50,6 @@ public class ConversionBalancesAction extends Action {
 			public void onCreated() {
 
 				try {
-					// if (accountType == 0)
 					view = new ConversionBalancesView(endingDate, year);
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, ConversionBalancesAction.this);

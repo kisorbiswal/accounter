@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.data.ClientUser;
+import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -48,8 +49,11 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 	@Override
 	protected String[] getColumns() {
 
-		return new String[] { "Name", "Permissions", "Status", "Last Login",
-				"Logins this week" };
+		return new String[] { FinanceApplication.getSettingsMessages().name(),
+				FinanceApplication.getSettingsMessages().permissions(),
+				FinanceApplication.getSettingsMessages().status(),
+				FinanceApplication.getSettingsMessages().lastLogin(),
+				FinanceApplication.getSettingsMessages().LoginsThisWeek() };
 	}
 
 	public void setUsersView(UsersView usersView) {

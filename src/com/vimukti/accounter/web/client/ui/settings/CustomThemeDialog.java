@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
 public class CustomThemeDialog extends BaseDialog {
@@ -31,14 +32,14 @@ public class CustomThemeDialog extends BaseDialog {
 
 	private void createControls() {
 		subTable = new FlexTable();
-		titleHTML = new HTML(
-				"<p><font size='0px' face='Arial'><b>Your title for the new Branding Theme</b></font></p>");
+		titleHTML = new HTML(FinanceApplication.getSettingsMessages()
+				.yourTitle());
 		titleBox = new TextBox();
 		subTable.setWidget(0, 0, titleHTML);
 		subTable.setWidget(1, 0, titleBox);
 
 		buttonPanel = new HorizontalPanel();
-		okButton = new Button("OK");
+		okButton = new Button(FinanceApplication.getSettingsMessages().ok());
 		okButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -46,7 +47,8 @@ public class CustomThemeDialog extends BaseDialog {
 				okClicked();
 			}
 		});
-		cancelButton = new Button("Cancel");
+		cancelButton = new Button(FinanceApplication.getSettingsMessages()
+				.cancelButton());
 		cancelButton.addClickHandler(new ClickHandler() {
 
 			@Override
