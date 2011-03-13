@@ -9,11 +9,13 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 
 	private Invoice invoice;
 	private int maxDecimalPoints;
+	private BrandingTheme brandingTheme;
 
-	public InvoiceTemplete(Invoice invoice, String footerImageUrl,
-			String stylefile) {
+	public InvoiceTemplete(Invoice invoice, BrandingTheme brandingTheme,
+			String footerImageUrl, String stylefile) {
 		this.invoice = invoice;
 		this.maxDecimalPoints = getMaxDecimals(invoice);
+		this.brandingTheme = brandingTheme;
 		imgUrl = footerImageUrl;
 		style1 = stylefile;
 		init();
@@ -29,7 +31,9 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 		for (Address cmpTrad : company.getAddresses()) {
 			if (cmpTrad.getType() == Address.TYPE_COMPANY_REGISTRATION) {
 				if (cmpTrad != null)
-					cmpAdd = ("<br><font style=\"font-family:sans-serif; color:#504040;\">&nbsp;"
+					cmpAdd = ("<br><font style=\"font-family:"
+							+ brandingTheme.getFont()
+							+ "; color:#504040;\">&nbsp;"
 							+ forUnusedAddress(cmpTrad.getAddress1(), false)
 							+ forUnusedAddress(cmpTrad.getStreet(), false)
 							+ forUnusedAddress(cmpTrad.getCity(), false)
@@ -42,13 +46,18 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 			}
 		}
 
-		cmpAdd = ("<p><font style=\"font-family:sans-serif;\" size=\"6px\"><strong> "
+		cmpAdd = ("<p><font style=\"font-family:" + brandingTheme.getFont()
+				+ ";\" size=\"6px\"><strong> "
 				+ forNullValue(TemplateBuilder.getCmpName())
 				+ "</strong></font>" + cmpAdd + "</p>");
 
 		headerHtml = ("<table style=\"width: 100%; height: 100%;\" cellspacing=\"10\" ><tr><td style=\"vertical-align: top;\" align=\"left\"><div class=\"gwt-HTML\" style=\" margin-left: 43px;\">"
 				+ cmpAdd
-				+ "</div></td><td style=\"vertical-align: top;\" align=\"right\"><div class=\"gwt-HTML\" style=\" margin-right: 43px;\"><p ><font color=\"black\" style=\"font-family:sans-serif;\" size=\"6px\"><strong>Invoice</strong></font></p><div><table style=\"width:300px;font-size: 13px; border-collapse: collapse; table-layout: fixed; font-family: sans-serif;\"><colgroup><col></colgroup><tr><td style=\"border: 1px ridge grey; padding: 6px; background: #f2f2f2; font-weight: bold; \"> Invoice Number</td><td align=\"right\" width=\"57%\" style=\"border: 1px ridge grey; padding: 6px;\">"
+				+ "</div></td><td style=\"vertical-align: top;\" align=\"right\"><div class=\"gwt-HTML\" style=\" margin-right: 43px;\"><p ><font color=\"black\" style=\"font-family:"
+				+ brandingTheme.getFont()
+				+ ";\" size=\"6px\"><strong>Invoice</strong></font></p><div><table style=\"width:300px;font-size: 13px; border-collapse: collapse; table-layout: fixed; font-family: "
+				+ brandingTheme.getFont()
+				+ ";\"><colgroup><col></colgroup><tr><td style=\"border: 1px ridge grey; padding: 6px; background: #f2f2f2; font-weight: bold; \"> Invoice Number</td><td align=\"right\" width=\"57%\" style=\"border: 1px ridge grey; padding: 6px;\">"
 				+ forNullValue(invoice.getNumber())
 				+ "</td></tr><tr><td style=\"border: 1px ridge grey; padding: 6px; background: #f2f2f2; font-weight: bold; \">Invoice Date</td><td align=\"right\" width=\"57%\" style=\"border: 1px ridge grey; padding: 6px;\">"
 				+ invoice.getDate()
@@ -192,7 +201,9 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 				+ company.getRegistrationNumber()
 				: ""));
 
-		footerHtml = ("<table style=\"width: 100%; height: 100%; table-layout:fixed;\" border=\"0\" ><tr><td><table style=\"width: 100%; height: 100%; font-family:sans-serif; color:#505050;\" ><tr><td style=\"vertical-align: top;\" align=\"left\" colspan=\"2\"><table style=\"font-size:13px; width: 105%; height: 100%; margin-left:56px;  border-color: #E1E1E1; border-collapse:collapse;\" border=\"1\"><colgroup><col></colgroup><tr><td><center>VAT No : "
+		footerHtml = ("<table style=\"width: 100%; height: 100%; table-layout:fixed;\" border=\"0\" ><tr><td><table style=\"width: 100%; height: 100%; font-family:"
+				+ brandingTheme.getFont()
+				+ "; color:#505050;\" ><tr><td style=\"vertical-align: top;\" align=\"left\" colspan=\"2\"><table style=\"font-size:13px; width: 105%; height: 100%; margin-left:56px;  border-color: #E1E1E1; border-collapse:collapse;\" border=\"1\"><colgroup><col></colgroup><tr><td><center>VAT No : "
 				+ forNullValue(company.getPreferences()
 						.getVATregistrationNumber())
 				+ "</center></td><td><center>Sort Code : "
