@@ -123,7 +123,6 @@ public class UIUtils {
 		return (address != null && address.trim() != "");
 	}
 
-	@SuppressWarnings("deprecation")
 	public static boolean isdateEqual(ClientFinanceDate compareDate1,
 			ClientFinanceDate compareDate2) {
 		if (compareDate1.getYear() + 1900 == compareDate2.getYear() + 1900
@@ -1581,7 +1580,24 @@ public class UIUtils {
 	/**
 	 * This method is used for the pdf generation.The Require parameters are
 	 * object StringId and Type
+	 * 
+	 * @param brandingTheme
 	 */
+	public native static void downloadAttachment(String objectID, int type,
+			String brandingThemeId)/*-{
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/generatePDFServlet?objectId=" + objectID
+							+ "&type=" + type + "&brandingThemeId="
+							+ brandingThemeId);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
+
 	public native static void downloadAttachment(String objectID, int type)/*-{
 		try {
 			var frame = document.createElement("IFRAME");

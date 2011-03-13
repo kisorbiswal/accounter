@@ -198,7 +198,9 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		subLayPanel.add(headingsHtml);
 		subLayPanel.add(paypalEmailHtml);
 		subLayPanel.add(termsHtml);
-
+		subLayPanel.setWidth("650px");
+		contactDetailsPanel.setWidth("200px");
+		uploadPanel.setWidth("150px");
 		allPanel = new HorizontalPanel();
 		allPanel.add(subLayPanel);
 		allPanel.add(contactDetailsPanel);
