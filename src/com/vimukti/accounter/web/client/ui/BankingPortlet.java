@@ -15,6 +15,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.visualization.client.VisualizationUtils;
+import com.google.gwt.visualization.client.visualizations.LineChart;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
@@ -74,10 +76,20 @@ public class BankingPortlet extends DashBoardPortlet {
 			});
 
 			body.add(addAccount);
-			GraphChart chart = new GraphChart(
-					GraphChart.BANK_ACCOUNT_CHART_TYPE);
-			body.add(chart);
-			chart.update();
+			Runnable runnable = new Runnable() {
+
+				@Override
+				public void run() {
+					GraphChart chart = new GraphChart();
+					body.add(chart.createLineChart(null));
+				}
+			};
+			VisualizationUtils
+					.loadVisualizationApi(runnable, LineChart.PACKAGE);
+			// GraphChart chart = new GraphChart(
+			// GraphChart.BANK_ACCOUNT_CHART_TYPE);
+			// body.add(chart);
+			// chart.update();
 			// }
 		} else {
 			for (final ClientAccount account : bankAccounts) {
@@ -126,12 +138,22 @@ public class BankingPortlet extends DashBoardPortlet {
 					}
 
 					@Override
-					public void onSuccess(List<Double> result) {
-						GraphChart chart = new GraphChart(
-								GraphChart.BANK_ACCOUNT_CHART_TYPE, UIUtils
-										.getMaxValue(result), 400, 150, result);
-						body.add(chart);
-						chart.update();
+					public void onSuccess(final List<Double> result) {
+						Runnable runnable = new Runnable() {
+
+							@Override
+							public void run() {
+								GraphChart chart = new GraphChart();
+								body.add(chart.createLineChart(result));
+							}
+						};
+						VisualizationUtils.loadVisualizationApi(runnable,
+								LineChart.PACKAGE);
+						// GraphChart chart = new GraphChart(
+						// GraphChart.BANK_ACCOUNT_CHART_TYPE, UIUtils
+						// .getMaxValue(result), 400, 150, result);
+						// body.add(chart);
+						// chart.update();
 					}
 				};
 				FinanceApplication.createHomeService()

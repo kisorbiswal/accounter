@@ -17,6 +17,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.visualization.client.VisualizationUtils;
+import com.google.gwt.visualization.client.visualizations.ColumnChart;
+import com.google.gwt.visualization.client.visualizations.LineChart;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
@@ -112,19 +115,35 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 			}
 
 			@Override
-			public void onSuccess(List<Double> result) {
-				overDueInvoiceAmount = result.get(result.size() - 1);
-				result.remove(result.size() - 1);
-				draftInvoiceAmount = result.get(result.size() - 1);
-				result.remove(result.size() - 1);
-				draftAmtLabel.setText(String.valueOf(draftInvoiceAmount));
-				overDueAmtLabel.setText(String.valueOf(overDueInvoiceAmount));
+			public void onSuccess(final List<Double> result) {
+				if (result != null && result.size() > 0) {
+					overDueInvoiceAmount = result.get(result.size() - 1);
+					result.remove(result.size() - 1);
+					overDueAmtLabel.setText(String
+							.valueOf(overDueInvoiceAmount));
+				}
+				if (result != null && result.size() > 0) {
+					draftInvoiceAmount = result.get(result.size() - 1);
+					result.remove(result.size() - 1);
+					draftAmtLabel.setText(String.valueOf(draftInvoiceAmount));
+				}
 
-				GraphChart chart = new GraphChart(
-						GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE, UIUtils
-								.getMaxValue(result), 400, 150, result);
-				body.add(chart);
-				chart.update();
+				Runnable runnable = new Runnable() {
+
+					@Override
+					public void run() {
+						GraphChart chart = new GraphChart();
+						body.add(chart.createColumnChart(result));
+					}
+				};
+				VisualizationUtils.loadVisualizationApi(runnable,
+						ColumnChart.PACKAGE);
+
+				// GraphChart chart = new GraphChart(
+				// GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE, UIUtils
+				// .getMaxValue(result), 400, 150, result);
+				// body.add(chart);
+				// chart.update();
 			}
 		};
 		FinanceApplication.createHomeService().getGraphPointsforAccount(
