@@ -858,35 +858,57 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .invoice-total
+
  
+
 tr
+
+
 :nth-child
+
  
+
 (3){
 border-bottom
+
+
 :
+
  
+
 1
 px
- 
-solid
- 
-#aaa
-;
 
-	
+ 
+
+solid
+
+ 
+
+#aaa
+
+
+;
 border-top
+
+
 :
+
  
+
 1
 px
+
  
+
 solid
+
  
+
 #aaa
+
+
 ;
-
-
 }
 .noScroll input[type="text"] {
 	width: 150px !important;
@@ -925,17 +947,21 @@ solid
 .logoLink {
 	margin-top: 20px;
 }
-.standard-options{
-   width:95%;
+
+.standard-options {
+	width: 95%;
 }
+
 .standard-options td:FIRST-CHILD {
-	float:left;
+	float: left;
 }
-.standard-options td:nth-child(2){
-	float:right;
+
+.standard-options td:nth-child (2){
+	float: right;
 }
+
 .terms-payment-area {
-	width: 450ex;
+	width: 450px;
 	height: 75px;
 }
 
