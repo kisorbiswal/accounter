@@ -286,4 +286,51 @@ public interface SettingsMessages extends FinanceMessages {
 	String contactDetailsHtml();
 
 	String termsLabel();
+
+	String january();
+
+	String february();
+
+	String march();
+
+	String may();
+
+	String june();
+
+	String july();
+
+	String august();
+
+	String september();
+
+	String october();
+
+	String november();
+
+	String december();
+
+	String april();
+
+	String year2011();
+
+	String year2012();
+
+	String month();
+
+	String year();
+
+	String date31();
+
+	String date30();
+
+	String date29();
+
+	String date28();
+
+	String conversionDateTitle();
+
+	String conversionBalanceTitle();
+
+	String conversionBodyComment();
+
 }
