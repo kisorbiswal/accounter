@@ -1284,7 +1284,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (isNewBankAccount()) {
 			if (number < 1100 || number > 1179) {
 				Accounter
-						.showError("The Finance Category Number chosen is incorrect. Please choose a Number between 1100 and 1179");
+						.showError("The Account Number chosen is incorrect. Please choose a Number between 1100 and 1179");
 				accNoText.setNumber(null);
 				return false;
 			}
@@ -1301,7 +1301,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 			if (number < nominalCodeRange[0] || number > nominalCodeRange[1]) {
 				Accounter
-						.showError("The Finance Category Number chosen is incorrect. Please choose a Number between"
+						.showError("The Account Number chosen is incorrect. Please choose a Number between"
 								+ "  "
 								+ nominalCodeRange[0]
 								+ " and "
