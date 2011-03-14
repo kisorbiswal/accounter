@@ -11234,11 +11234,11 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 			if (chartType == 1) {
 
-				Calendar dateCal[] = new Calendar[3];
-				if (dateCal[2] == null)
-					dateCal[2] = new GregorianCalendar();
+				Calendar dateCal[] = new Calendar[4];
+				if (dateCal[3] == null)
+					dateCal[3] = new GregorianCalendar();
 
-				dateCal[2].setTime(currentDate.getAsDateObject());
+				dateCal[3].setTime(currentDate.getAsDateObject());
 
 				for (int i = 2; i >= 0; i--) {
 					if (dateCal[i] == null)
