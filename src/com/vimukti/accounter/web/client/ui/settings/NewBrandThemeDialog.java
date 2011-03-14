@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -40,17 +41,49 @@ public class NewBrandThemeDialog extends BaseDialog {
 			paypalTextBox;
 	private String[] fontNameArray, fontSizeArray;
 	private ListBox fontNameBox, fontSizeBox;
-	private HTML paypalEmailHtml, contactDetailHtml, measureHtml;
+	private HTML paypalEmailHtml, contactDetailHtml;
 	private TextArea contactDetailsArea, termsPaymentArea;
-	// private DynamicForm titlesForm, subMarginForm, name_sizeForm,
-	// measureForm,
-	// radioForm;
 	private Label measureLabel;
 	private FlexTable textBoxTable;
 
 	public NewBrandThemeDialog(String title, String desc) {
 		super(title, desc);
 		createControls();
+	}
+
+	public NewBrandThemeDialog(String title, String desc,
+			ClientBrandingTheme brandingTheme) {
+		super(title, desc);
+		createControls();
+		setBrandingTheme(brandingTheme);
+	}
+
+	private void setBrandingTheme(ClientBrandingTheme brandingTheme) {
+		nameBox.setValue(brandingTheme.getThemeName());
+		// pageSizeLabel
+		topMarginBox.setValue(String.valueOf(brandingTheme.getTopMargin()));
+		bottomMarginBox.setValue(String
+				.valueOf(brandingTheme.getBottomMargin()));
+		addressPadBox.setValue(String
+				.valueOf(brandingTheme.getAddressPadding()));
+		// fontNameBox.setSelectedIndex()
+		// brandingTheme.setFontSize(getFontSize(fontSizeBox.getSelectedIndex()));
+		creditNoteBox.setValue(brandingTheme.getCreditMemoTitle());
+		overdueBox.setValue(brandingTheme.getOverDueInvoiceTitle());
+		statementBox.setValue(brandingTheme.getStatementTitle());
+		taxNumItem.setValue(brandingTheme.isShowTaxNumber());
+		headingItem.setValue(brandingTheme.isShowColumnHeadings());
+		paymentItem.setValue(brandingTheme.isShowPaymentAdviceCut_Away());
+		unitPriceItem.setValue(brandingTheme.isShowUnitPrice_And_Quantity());
+		columnItem.setValue(brandingTheme.isShowTaxColumn());
+		addressItem.setValue(brandingTheme.isShowRegisteredAddress());
+		logoItem.setValue(brandingTheme.isShowLogo());
+		paypalTextBox.setValue(brandingTheme.getPayPalEmailID());
+		termsPaymentArea.setValue(brandingTheme.getTerms_And_Payment_Advice());
+		contactDetailsArea.setValue(brandingTheme.getContactDetails());
+
+		// brandingTheme.setLogoAlignmentType(getLogoType());
+		// brandingTheme.setShowTaxesAsType(getTaxType());
 	}
 
 	@Override
@@ -68,22 +101,24 @@ public class NewBrandThemeDialog extends BaseDialog {
 		check_radioPanel.add(addRadioBoxTableControls());
 
 		check_radio_textAreaPanel.add(check_radioPanel);
-		termsLabel = new Label("Terms & Payment Advice");
+		termsLabel = new Label(FinanceApplication.getSettingsMessages()
+				.termsLabel());
 		termsPaymentArea = new TextArea();
-		termsPaymentArea.setWidth("450px");
-		termsPaymentArea.setHeight("75px");
+		termsPaymentArea.setStyleName("terms-payment-area");
 		check_radio_textAreaPanel.add(termsLabel);
 		check_radio_textAreaPanel.add(termsPaymentArea);
 
 		buttonPanel = new HorizontalPanel();
-		saveButton = new Button("Save");
+		saveButton = new Button(FinanceApplication.getSettingsMessages()
+				.saveButton());
 		saveButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				okClicked();
 			}
 		});
-		cancelButton = new Button("Cancel");
+		cancelButton = new Button(FinanceApplication.getSettingsMessages()
+				.cancelButton());
 		cancelButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -129,24 +164,25 @@ public class NewBrandThemeDialog extends BaseDialog {
 			private String getFont(int index) {
 				switch (index) {
 				case 0:
-					return "Arial";
+					return FinanceApplication.getSettingsMessages().arial();
 				case 1:
-					return "Calibri";
+					return FinanceApplication.getSettingsMessages().calibri();
 				case 2:
-					return "Cambria";
+					return FinanceApplication.getSettingsMessages().cambria();
 				case 3:
-					return "Georgia";
+					return FinanceApplication.getSettingsMessages().georgia();
 				case 4:
-					return "Myriad";
+					return FinanceApplication.getSettingsMessages().myriad();
 				case 5:
-					return "Tahoma";
+					return FinanceApplication.getSettingsMessages().tahoma();
 				case 6:
-					return "Times New Roman";
+					return FinanceApplication.getSettingsMessages()
+							.timesNewRoman();
 				case 7:
-					return "Trebuchet";
+					return FinanceApplication.getSettingsMessages().trebuchet();
 
 				default:
-					return "Arial";
+					return FinanceApplication.getSettingsMessages().arial();
 				}
 
 			}
@@ -155,24 +191,24 @@ public class NewBrandThemeDialog extends BaseDialog {
 
 				switch (size) {
 				case 0:
-					return "8pt";
+					return FinanceApplication.getSettingsMessages().point8();
 				case 1:
-					return "9pt";
+					return FinanceApplication.getSettingsMessages().point9();
 				case 2:
-					return "10pt";
+					return FinanceApplication.getSettingsMessages().point10();
 				case 3:
-					return "11pt";
+					return FinanceApplication.getSettingsMessages().point11();
 				case 4:
-					return "12pt";
+					return FinanceApplication.getSettingsMessages().point12();
 				case 5:
-					return "13pt";
+					return FinanceApplication.getSettingsMessages().point13();
 				case 6:
-					return "14pt";
+					return FinanceApplication.getSettingsMessages().point14();
 				case 7:
-					return "15pt";
+					return FinanceApplication.getSettingsMessages().point15();
 
 				default:
-					return "8pt";
+					return FinanceApplication.getSettingsMessages().point8();
 				}
 
 			}
@@ -189,7 +225,6 @@ public class NewBrandThemeDialog extends BaseDialog {
 				brandingTheme.setFont(getFont(fontNameBox.getSelectedIndex()));
 				brandingTheme.setFontSize(getFontSize(fontSizeBox
 						.getSelectedIndex()));
-				;
 
 				brandingTheme.setCreditMemoTitle(String.valueOf(creditNoteBox
 						.getValue()));
@@ -239,21 +274,33 @@ public class NewBrandThemeDialog extends BaseDialog {
 	private VerticalPanel addRadioBoxTableControls() {
 		radioButtonPanel = new VerticalPanel();
 
-		measureLabel = new Label("Measure in");
-		logoLabel = new Label("Logo alignment");
-		leftRadioButton = new RadioButton("group2", "Left");
-		rightRadioButton = new RadioButton("group2", "Right");
+		measureLabel = new Label(FinanceApplication.getSettingsMessages()
+				.measure());
+		logoLabel = new Label(FinanceApplication.getSettingsMessages()
+				.logoAlignment());
+		leftRadioButton = new RadioButton(FinanceApplication
+				.getSettingsMessages().logoType(), FinanceApplication
+				.getSettingsMessages().left());
+		rightRadioButton = new RadioButton(FinanceApplication
+				.getSettingsMessages().logoType(), FinanceApplication
+				.getSettingsMessages().right());
 		leftRadioButton.setChecked(true);
-		taxesLabel = new Label("Show taxes as");
-		exclusiveButton = new RadioButton("group3", "Exclusive");
-		inclusiveButton = new RadioButton("group3", "Inclusive");
+		taxesLabel = new Label(FinanceApplication.getSettingsMessages()
+				.showTaxesAs());
+		exclusiveButton = new RadioButton(FinanceApplication
+				.getSettingsMessages().taxType(), FinanceApplication
+				.getSettingsMessages().exclusive());
+		inclusiveButton = new RadioButton(FinanceApplication
+				.getSettingsMessages().taxType(), FinanceApplication
+				.getSettingsMessages().inclusive());
 		inclusiveButton.setChecked(true);
 
-		contactDetailHtml = new HTML(
-				"<p>Enter your contact details as they should<br>appear at the top of all PDFs you print or<br>send</p>");
+		contactDetailHtml = new HTML(FinanceApplication.getSettingsMessages()
+				.contactDetailsHtml());
 		contactDetailsArea = new TextArea();
-		contactDetailsArea
-				.setText("Vimukti Technologies Private Limited,2nd floor, LIG-B 11&26, Beside TMC,Dr. A.S. Rao Nagar,ECIL Post, Kapra,Hyderabad, Andhra Pradesh,India, PIN: 500062");
+		contactDetailsArea.setStyleName("contact-deatils-area");
+		contactDetailsArea.setText(FinanceApplication.getSettingsMessages()
+				.contactAddressValue());
 
 		radioButtonPanel.add(logoLabel);
 		radioButtonPanel.add(leftRadioButton);
@@ -269,24 +316,30 @@ public class NewBrandThemeDialog extends BaseDialog {
 
 	private VerticalPanel addCheckBoxTableControls() {
 
-		taxNumItem = new CheckBox("Show tax Number");
+		taxNumItem = new CheckBox(FinanceApplication.getSettingsMessages()
+				.showTaxNumber());
 		taxNumItem.setChecked(true);
-		headingItem = new CheckBox("Show column headings");
+		headingItem = new CheckBox(FinanceApplication.getSettingsMessages()
+				.showColumnHeadings());
 		headingItem.setChecked(true);
-		unitPriceItem = new CheckBox("Show unit price & quantity");
+		unitPriceItem = new CheckBox(FinanceApplication.getSettingsMessages()
+				.showUnitPrice());
 		unitPriceItem.setChecked(true);
-		paymentItem = new CheckBox("Show payment advice cut-away");
+		paymentItem = new CheckBox(FinanceApplication.getSettingsMessages()
+				.showPaymentAdvice());
 		paymentItem.setChecked(true);
-		columnItem = new CheckBox("Show tax column");
+		columnItem = new CheckBox(FinanceApplication.getSettingsMessages()
+				.showTaxColumn());
 		columnItem.setChecked(true);
-		addressItem = new CheckBox("Show registered address");
+		addressItem = new CheckBox(FinanceApplication.getSettingsMessages()
+				.showRegisteredAddress());
 		addressItem.setChecked(true);
-		logoItem = new CheckBox("Show logo");
+		logoItem = new CheckBox(FinanceApplication.getSettingsMessages()
+				.showLogo());
 		logoItem.setChecked(true);
-		paypalEmailHtml = new HTML(
-				"<p>Enter your <b>PayPal</b> email to have<br>payment links automatically appear<br>on all your invoices</p>");
+		paypalEmailHtml = new HTML(FinanceApplication.getSettingsMessages()
+				.paypalEmailHtml());
 		paypalTextBox = new TextBox();
-		paypalTextBox.setWidth("150px");
 
 		checkBoxPanel = new VerticalPanel();
 		checkBoxPanel.add(taxNumItem);
@@ -304,68 +357,92 @@ public class NewBrandThemeDialog extends BaseDialog {
 	}
 
 	private FlexTable addTextBoxTableControl() {
-		measureHtml = new HTML("<p><b>Measure in</b></p>");
-		nameLabel = new Label("Name");
-		pageSizeLabel = new Label("Page size");
-		topMarginLabel = new Label("Top margin");
-		bottomMarginLabel = new Label("Bottom margin");
-		addressPadLabel = new Label("Address padding");
-		fontLabel = new Label("Font");
-		fontSizeLabel = new Label("Font size");
-		draftLabel = new Label("Draft Invoice title");
-		approvedLabel = new Label("Approved Invoice title");
-		overdueLabel = new Label("Overdue Invoice title");
-		creditNoteLabel = new Label("Credit Note title");
-		statementLabel = new Label("Statement title");
+		nameLabel = new Label(FinanceApplication.getSettingsMessages().name());
+		pageSizeLabel = new Label(FinanceApplication.getSettingsMessages()
+				.pageSize());
+		topMarginLabel = new Label(FinanceApplication.getSettingsMessages()
+				.topMargin());
+		bottomMarginLabel = new Label(FinanceApplication.getSettingsMessages()
+				.bottomMargin());
+		addressPadLabel = new Label(FinanceApplication.getSettingsMessages()
+				.addressPadding());
+		fontLabel = new Label(FinanceApplication.getSettingsMessages().font());
+		fontSizeLabel = new Label(FinanceApplication.getSettingsMessages()
+				.fontSize());
+		draftLabel = new Label(FinanceApplication.getSettingsMessages()
+				.draftInvoiceTitle());
+		approvedLabel = new Label(FinanceApplication.getSettingsMessages()
+				.approvedInvoiceTitle());
+		overdueLabel = new Label(FinanceApplication.getSettingsMessages()
+				.overdueInvoiceTitle());
+		creditNoteLabel = new Label(FinanceApplication.getSettingsMessages()
+				.creditNoteTitle());
+		statementLabel = new Label(FinanceApplication.getSettingsMessages()
+				.statementTitle());
 
 		nameBox = new TextBox();
-		nameBox.setWidth("100px");
 		topMarginBox = new TextBox();
-		topMarginBox.setWidth("100px");
-		topMarginBox.setText("1.35");
+		topMarginBox.setText(FinanceApplication.getSettingsMessages()
+				.topMarginValue());
 		bottomMarginBox = new TextBox();
-		bottomMarginBox.setWidth("100px");
-		bottomMarginBox.setText("1.0");
+		bottomMarginBox.setText(FinanceApplication.getSettingsMessages()
+				.bottomMarginValue());
 		addressPadBox = new TextBox();
-		addressPadBox.setWidth("100px");
-		addressPadBox.setText("1.0");
+		addressPadBox.setText(FinanceApplication.getSettingsMessages()
+				.addressPaddingValue());
 		draftBox = new TextBox();
-		draftBox.setWidth("100px");
-		draftBox.setText("DRAFT INVOICE");
+		draftBox.setText(FinanceApplication.getSettingsMessages()
+				.draftBoxValue());
 		approvedBox = new TextBox();
-		approvedBox.setWidth("100px");
-		approvedBox.setText("INVOICE");
+		approvedBox.setText(FinanceApplication.getSettingsMessages()
+				.approvedValue());
 		overdueBox = new TextBox();
-		overdueBox.setWidth("100px");
-		overdueBox.setText("INVOICE");
+		overdueBox.setText(FinanceApplication.getSettingsMessages()
+				.overdueValue());
 		creditNoteBox = new TextBox();
-		creditNoteBox.setWidth("100px");
-		creditNoteBox.setText("CREDIT");
+		creditNoteBox.setText(FinanceApplication.getSettingsMessages()
+				.creditNoteValue());
 		statementBox = new TextBox();
-		statementBox.setWidth("100px");
-		statementBox.setText("STATEMENT");
+		statementBox.setText(FinanceApplication.getSettingsMessages()
+				.statement());
 
-		a4Button = new RadioButton("group1", "A4");
-		usLetterButton = new RadioButton("group1", "US Letter");
+		a4Button = new RadioButton(FinanceApplication.getSettingsMessages()
+				.pageType(), FinanceApplication.getSettingsMessages().a4());
+		usLetterButton = new RadioButton(FinanceApplication
+				.getSettingsMessages().pageType(), FinanceApplication
+				.getSettingsMessages().usLetter());
 		a4Button.setChecked(true);
 
-		cmButton = new RadioButton("group4", "cm");
-		inchButton = new RadioButton("group4", "inch");
+		cmButton = new RadioButton(FinanceApplication.getSettingsMessages()
+				.measureType(), FinanceApplication.getSettingsMessages().cm());
+		inchButton = new RadioButton(FinanceApplication.getSettingsMessages()
+				.measureType(), FinanceApplication.getSettingsMessages().inch());
 		cmButton.setChecked(true);
 
-		fontNameArray = new String[] { "Arial", "Calibri", "Cambria",
-				"Georgia", "Myriad", "Tahoma", "Times New Roman", "Trebuchet" };
-		fontSizeArray = new String[] { "8pt", "9pt", "10pt", "11pt", "12pt",
-				"13pt", "14pt", "15pt" };
+		fontNameArray = new String[] {
+				FinanceApplication.getSettingsMessages().arial(),
+				FinanceApplication.getSettingsMessages().calibri(),
+				FinanceApplication.getSettingsMessages().cambria(),
+				FinanceApplication.getSettingsMessages().georgia(),
+				FinanceApplication.getSettingsMessages().myriad(),
+				FinanceApplication.getSettingsMessages().tahoma(),
+				FinanceApplication.getSettingsMessages().timesNewRoman(),
+				FinanceApplication.getSettingsMessages().trebuchet() };
+		fontSizeArray = new String[] {
+				FinanceApplication.getSettingsMessages().point8(),
+				FinanceApplication.getSettingsMessages().point9(),
+				FinanceApplication.getSettingsMessages().point10(),
+				FinanceApplication.getSettingsMessages().point11(),
+				FinanceApplication.getSettingsMessages().point13(),
+				FinanceApplication.getSettingsMessages().point14(),
+				FinanceApplication.getSettingsMessages().point15() };
 
 		fontNameBox = new ListBox();
-		fontNameBox.setWidth("100px");
 		for (int i = 0; i < fontNameArray.length; i++) {
 			fontNameBox.addItem(fontNameArray[i]);
 		}
 		fontNameBox.setSelectedIndex(0);
 		fontSizeBox = new ListBox();
-		fontSizeBox.setWidth("100px");
 		for (int i = 0; i < fontSizeArray.length; i++) {
 			fontSizeBox.addItem(fontSizeArray[i]);
 		}

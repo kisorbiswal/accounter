@@ -8,9 +8,10 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -23,11 +24,11 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 	private ClientBrandingTheme theme;
 	private HTML generalSettingsHTML, invoiceBrandingHtml, allLabelsHtml,
 			ShowHtml, checkBoxHtml, headingsHtml, paypalEmailHtml, termsHtml,
-			radioButtonHtml, contactDetailsHtml, uploadPictureHtml;
+			radioButtonHtml, contactDetailsHtml, uploadPictureHtml, titleHtml;
 	private VerticalPanel mainPanel, titlePanel, subLayPanel, uploadPanel,
-			contactDetailsPanel;
+			contactDetailsPanel, vPanel;
 	private Button newBrandButton, automaticButton;
-	private HorizontalPanel buttonPanel, showPanel, allPanel;
+	private HorizontalPanel buttonPanel, showPanel, allPanel, nameAndMenuPanel;
 
 	@Override
 	public void setData(ClientBrandingTheme data) {
@@ -40,10 +41,10 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 	private void createControls() {
 		mainPanel = new VerticalPanel();
 		titlePanel = new VerticalPanel();
-		generalSettingsHTML = new HTML(
-				"<a><font size='1px', color='green'>General Settings</font></a> >");
-		invoiceBrandingHtml = new HTML(
-				"<p><font size='4px'>Invoice Branding<font></p>");
+		generalSettingsHTML = new HTML(FinanceApplication.getSettingsMessages()
+				.generalSettingsLabel());
+		invoiceBrandingHtml = new HTML(FinanceApplication.getSettingsMessages()
+				.invoiceBrandingLabel());
 		generalSettingsHTML.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -56,7 +57,8 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		titlePanel.add(invoiceBrandingHtml);
 
 		buttonPanel = new HorizontalPanel();
-		newBrandButton = new Button("New Branding Theme");
+		newBrandButton = new Button(FinanceApplication.getSettingsMessages()
+				.newBrandingThemeButton());
 		newBrandButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -68,16 +70,17 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				DialogBox dialogBox = new DialogBox();
-				dialogBox.add(getNewBrandMenu());
-				dialogBox.setPopupPosition(newBrandButton.getAbsoluteLeft(),
-						newBrandButton.getAbsoluteTop()
-								+ newBrandButton.getOffsetHeight());
-				dialogBox.show();
-				dialogBox.setAutoHideEnabled(true);
+				PopupPanel newBrandMenuPanel = new PopupPanel();
+				newBrandMenuPanel.add(getNewBrandMenu());
+				newBrandMenuPanel.setPopupPosition(newBrandButton
+						.getAbsoluteLeft(), newBrandButton.getAbsoluteTop()
+						+ newBrandButton.getOffsetHeight());
+				newBrandMenuPanel.show();
+				newBrandMenuPanel.setAutoHideEnabled(true);
 			}
 		});
-		automaticButton = new Button("Automatic Sequencing");
+		automaticButton = new Button(FinanceApplication.getSettingsMessages()
+				.automaticSequencing());
 		automaticButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -104,9 +107,9 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 	private String getPageType(int type) {
 		String pageType = null;
 		if (type == ClientBrandingTheme.PAGE_SIZE_A4) {
-			pageType = "A4";
+			pageType = FinanceApplication.getSettingsMessages().a4();
 		} else {
-			pageType = "US Letter";
+			pageType = FinanceApplication.getSettingsMessages().usLetter();
 		}
 
 		return pageType;
@@ -116,9 +119,9 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 	private String getLogoType(int type) {
 		String logoType = null;
 		if (type == ClientBrandingTheme.LOGO_ALIGNMENT_LEFT) {
-			logoType = "Left";
+			logoType = FinanceApplication.getSettingsMessages().left();
 		} else {
-			logoType = "Right";
+			logoType = FinanceApplication.getSettingsMessages().right();
 		}
 		return logoType;
 
@@ -127,70 +130,103 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 	private String getTaxesType(int type) {
 		String taxType = null;
 		if (type == ClientBrandingTheme.SHOW_TAXES_AS_EXCLUSIVE) {
-			taxType = "Tax exclusive";
+			taxType = FinanceApplication.getSettingsMessages().taxExclusive();
 		} else {
-			taxType = "Tax inclucive";
+			taxType = FinanceApplication.getSettingsMessages().taxInclucive();
 		}
 		return taxType;
 
 	}
 
-	private HorizontalPanel addingDefaultTheme(ClientBrandingTheme theme) {
-		subLayPanel = new VerticalPanel();
+	private VerticalPanel addingDefaultTheme(ClientBrandingTheme theme) {
+		final Button optionsButton;
+		titleHtml = new HTML("<b>" + theme.getThemeName() + "</b>");
+		vPanel = new VerticalPanel();
 
-		allLabelsHtml = new HTML("<p>Page :<b>"
-				+ getPageType(theme.getPageSizeType()) + "</b>Margin Top :<b>"
-				+ theme.getTopMargin() + "</b>Bottom :<b>"
-				+ theme.getBottomMargin() + "</b>Address padding :<b>"
-				+ theme.getAddressPadding() + "</b>Font :<b>" + theme.getFont()
-				+ "</b>,<b>" + theme.getFontSize() + "</b></p>");
+		subLayPanel = new VerticalPanel();
+		optionsButton = new Button(FinanceApplication.getSettingsMessages()
+				.options());
+		allLabelsHtml = new HTML("<p>"
+				+ FinanceApplication.getSettingsMessages().pageLabel()
+				+ " :<b>" + getPageType(theme.getPageSizeType()) + " :</b>"
+				+ FinanceApplication.getSettingsMessages().marginTop() + "<b>"
+				+ theme.getTopMargin() + " :</b>"
+				+ FinanceApplication.getSettingsMessages().bottom() + " :<b>"
+				+ theme.getBottomMargin() + " :</b>"
+				+ FinanceApplication.getSettingsMessages().addressPadding()
+				+ " :<b>" + theme.getAddressPadding() + "</b>"
+				+ FinanceApplication.getSettingsMessages().font() + " :<b>"
+				+ theme.getFont() + "</b>,<b>" + theme.getFontSize()
+				+ "</b></p>");
 		boolean[] showArray = new boolean[] { theme.isShowTaxNumber(),
 				theme.isShowTaxColumn(), theme.isShowColumnHeadings(),
 				theme.isShowUnitPrice_And_Quantity(),
 				theme.isShowPaymentAdviceCut_Away(),
 				theme.isShowRegisteredAddress(), theme.isShowLogo() };
-		String[] showDataArray = new String[] { " Tax number",
-				"  Column headings ", " Unit price and quantity ",
-				" Payment advice cut-away ", " Tax column ",
-				" Registered address ", " Logo" };
+		String[] showDataArray = new String[] {
+				FinanceApplication.getSettingsMessages().taxNumber(),
+				FinanceApplication.getSettingsMessages().columnHeadings(),
+				FinanceApplication.getSettingsMessages().unitPriceAndQuantity(),
+				FinanceApplication.getSettingsMessages().paymentAdviceCutAway(),
+				FinanceApplication.getSettingsMessages().taxColumn(),
+				FinanceApplication.getSettingsMessages().registeredAddress(),
+				FinanceApplication.getSettingsMessages().logo() };
 		String showItem = new String();
 		for (int i = 0; i < showArray.length; i++) {
 			if (showArray[i]) {
 				showItem += "<li>" + showDataArray[i];
 			}
 		}
-		ShowHtml = new HTML("<p>Show: </p>");
+		ShowHtml = new HTML("<p>"
+				+ FinanceApplication.getSettingsMessages().show() + " :</p>");
 		checkBoxHtml = new HTML("<ui>" + showItem + "</ui>");
 		radioButtonHtml = new HTML("<ui><li>"
 				+ getTaxesType(theme.getShowTaxesAsType()) + "<li>"
 				+ getLogoType(theme.getLogoAlignmentType()) + "<ui>");
 
-		headingsHtml = new HTML("<p>Headings:" + theme.getOpenInvoiceTitle()
-				+ "," + theme.getOverDueInvoiceTitle() + ","
+		headingsHtml = new HTML("<p>"
+				+ FinanceApplication.getSettingsMessages().headings() + " :"
+				+ theme.getOpenInvoiceTitle() + ","
+				+ theme.getOverDueInvoiceTitle() + ","
 				+ theme.getCreditMemoTitle() + "," + theme.getStatementTitle()
 				+ "</p>");
-		paypalEmailHtml = new HTML("<p>Paypal Email:"
+		paypalEmailHtml = new HTML("<p>"
+				+ FinanceApplication.getSettingsMessages().paypalEmail() + " :"
 				+ theme.getPayPalEmailID() + "</p>");
 		// adding terms.....
 		String terms;
 		if (theme.getTerms_And_Payment_Advice() == null) {
-			terms = "(not added)";
+			terms = FinanceApplication.getSettingsMessages().notAdded();
 		} else {
 			terms = theme.getTerms_And_Payment_Advice();
 		}
-		termsHtml = new HTML("<p>Terms:" + terms + "</p>");
+		termsHtml = new HTML("<p> "
+				+ FinanceApplication.getSettingsMessages().terms() + " :"
+				+ terms + "</p>");
 		showPanel = new HorizontalPanel();
 		showPanel.add(checkBoxHtml);
 		showPanel.add(radioButtonHtml);
 
-		contactDetailsHtml = new HTML("<p><b>Contact Details </b><br>"
+		optionsButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				optionsMenu(optionsButton);
+			}
+		});
+
+		contactDetailsHtml = new HTML("<p><b>"
+				+ FinanceApplication.getSettingsMessages()
+						.contactDetailsLabel() + "</b><br>"
 				+ theme.getContactDetails() + "</p>");
 		contactDetailsPanel = new VerticalPanel();
 		contactDetailsPanel.add(contactDetailsHtml);
 
-		uploadPictureHtml = new HTML("<a>Upload logo</a>");
+		uploadPictureHtml = new HTML(FinanceApplication.getSettingsMessages()
+				.uploadLogoHtml());
 		uploadPanel = new VerticalPanel();
 		uploadPanel.add(uploadPictureHtml);
+		uploadPanel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
 
 		subLayPanel.add(allLabelsHtml);
 		subLayPanel.add(ShowHtml);
@@ -198,7 +234,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		subLayPanel.add(headingsHtml);
 		subLayPanel.add(paypalEmailHtml);
 		subLayPanel.add(termsHtml);
-		subLayPanel.setWidth("650px");
+		subLayPanel.setWidth("600px");
 		contactDetailsPanel.setWidth("200px");
 		uploadPanel.setWidth("150px");
 		allPanel = new HorizontalPanel();
@@ -206,14 +242,66 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		allPanel.add(contactDetailsPanel);
 		allPanel.add(uploadPanel);
 
-		return allPanel;
+		nameAndMenuPanel = new HorizontalPanel();
+		nameAndMenuPanel.add(titleHtml);
+		nameAndMenuPanel.setStyleName("standard-options");
+		titleHtml.getElement().getAbsoluteLeft();
+		nameAndMenuPanel.add(optionsButton);
+		optionsButton.getElement().getAbsoluteRight();
 
+		vPanel.add(nameAndMenuPanel);
+		vPanel.add(allPanel);
+
+		return vPanel;
+
+	}
+
+	protected void optionsMenu(Button button) {
+		PopupPanel optionsPanel = new PopupPanel();
+		optionsPanel.add(getOptionsMenu());
+		optionsPanel.setPopupPosition(button.getAbsoluteLeft(), button
+				.getAbsoluteTop()
+				+ button.getOffsetHeight());
+		optionsPanel.show();
+		optionsPanel.setAutoHideEnabled(true);
+	}
+
+	private CustomMenuBar getOptionsMenu() {
+		CustomMenuBar bar = new CustomMenuBar();
+		bar.addItem(FinanceApplication.getSettingsMessages().edit(),
+				getOptionsCommand(1));
+		bar.addItem(FinanceApplication.getSettingsMessages().copy(),
+				getOptionsCommand(2));
+		bar.addItem(FinanceApplication.getSettingsMessages().changeLogo(),
+				getOptionsCommand(3));
+		bar.addItem(FinanceApplication.getSettingsMessages().delete(),
+				getOptionsCommand(4));
+		bar.addItem(FinanceApplication.getSettingsMessages().removeLogo(),
+				getOptionsCommand(5));
+		return bar;
+	}
+
+	private Command getOptionsCommand(final int type) {
+		final Command command = new Command() {
+
+			@Override
+			public void execute() {
+				switch (type) {
+				case 1:
+					break;
+				default:
+				}
+			}
+		};
+		return command;
 	}
 
 	private CustomMenuBar getNewBrandMenu() {
 		CustomMenuBar menuBar = new CustomMenuBar();
-		menuBar.addItem("Standard Theme", getNewBrandCommand(1));
-		menuBar.addItem("Custom .docx Theme", getNewBrandCommand(2));
+		menuBar.addItem(FinanceApplication.getSettingsMessages()
+				.standardTheme(), getNewBrandCommand(1));
+		menuBar.addItem(FinanceApplication.getSettingsMessages()
+				.customdocxTheme(), getNewBrandCommand(2));
 		return menuBar;
 
 	}
