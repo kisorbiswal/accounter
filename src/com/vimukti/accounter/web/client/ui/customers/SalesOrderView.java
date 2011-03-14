@@ -94,7 +94,7 @@ public class SalesOrderView extends
 				.lableTitle());
 		lab1.setHeight("50px");
 		statusSelect = new SelectCombo(FinanceApplication
-				.getCustomersMessages().status());
+				.getCustomersMessages().statuS());
 
 		selectComboList = new ArrayList<String>();
 		selectComboList.add(OPEN);
