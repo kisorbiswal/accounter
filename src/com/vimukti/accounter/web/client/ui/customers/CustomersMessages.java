@@ -635,5 +635,11 @@ public interface CustomersMessages extends FinanceMessages {
 
 	public String producTName();
 
+	public String statuS();
+
 	public String customeR();
+
+	public String remove();
+
+	public String currentRate();
 }
