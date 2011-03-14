@@ -33,37 +33,39 @@ public class GraphChart {
 	public void initializeGraphValues() {
 		if (this.graph_Values == null)
 			graph_Values = new ArrayList<Double>();
-		graph_Values.add(0, 200.10);
-		graph_Values.add(1, 500.08);
-		graph_Values.add(2, 1000.37);
-		graph_Values.add(3, 400.);
-		graph_Values.add(4, 800.);
-		graph_Values.add(5, 400.);
-		graph_Values.add(6, 200.00);
-		graph_Values.add(7, 300.00);
-		graph_Values.add(8, 100.00);
-		graph_Values.add(9, 500.);
-		graph_Values.add(10, 800.);
-		graph_Values.add(11, 400.);
-		graph_Values.add(12, 100.00);
-		graph_Values.add(13, 500.);
-		graph_Values.add(14, 800.);
-		graph_Values.add(15, 400.);
-		graph_Values.add(16, 200.00);
-		graph_Values.add(17, 300.00);
-		graph_Values.add(18, 100.00);
-		graph_Values.add(19, 500.);
-		graph_Values.add(20, 800.);
-		graph_Values.add(21, 300.00);
-		graph_Values.add(22, 100.00);
-		graph_Values.add(23, 500.);
-		graph_Values.add(24, 800.);
-		graph_Values.add(25, 400.);
-		graph_Values.add(26, 200.00);
-		graph_Values.add(27, 300.00);
-		graph_Values.add(28, 100.00);
-		graph_Values.add(29, 500.);
-		graph_Values.add(30, 800.);
+		for (int i = 0; i <= 30; i++)
+			graph_Values.add(i, 0.0);
+
+		// graph_Values.add(1, 500.08);
+		// graph_Values.add(2, 1000.37);
+		// graph_Values.add(3, 400.);
+		// graph_Values.add(4, 800.);
+		// graph_Values.add(5, 400.);
+		// graph_Values.add(6, 200.00);
+		// graph_Values.add(7, 300.00);
+		// graph_Values.add(8, 100.00);
+		// graph_Values.add(9, 500.);
+		// graph_Values.add(10, 800.);
+		// graph_Values.add(11, 400.);
+		// graph_Values.add(12, 100.00);
+		// graph_Values.add(13, 500.);
+		// graph_Values.add(14, 800.);
+		// graph_Values.add(15, 400.);
+		// graph_Values.add(16, 200.00);
+		// graph_Values.add(17, 300.00);
+		// graph_Values.add(18, 100.00);
+		// graph_Values.add(19, 500.);
+		// graph_Values.add(20, 800.);
+		// graph_Values.add(21, 300.00);
+		// graph_Values.add(22, 100.00);
+		// graph_Values.add(23, 500.);
+		// graph_Values.add(24, 800.);
+		// graph_Values.add(25, 400.);
+		// graph_Values.add(26, 200.00);
+		// graph_Values.add(27, 300.00);
+		// graph_Values.add(28, 100.00);
+		// graph_Values.add(29, 500.);
+		// graph_Values.add(30, 800.);
 
 	}
 
@@ -122,7 +124,7 @@ public class GraphChart {
 		options.setWidth(457);
 		options.setHeight(225);
 		options.setLegend(LegendPosition.NONE);
-		options.setSmoothLine(true);
+		// options.setSmoothLine(true);
 
 		return options;
 	}
@@ -144,13 +146,14 @@ public class GraphChart {
 	private AbstractDataTable createTable(int chartType) {
 		DataTable data = DataTable.create();
 
-		if (chartType == 3)
+		if (chartType == 3) {
 			data.addColumn(ColumnType.DATE, "Date");
-		else
+			data.addColumn(ColumnType.NUMBER, "Expenses");
+		} else {
 			data.addColumn(ColumnType.STRING, "Date");
-
-		data.addColumn(ColumnType.NUMBER, "Revenue");
-
+			
+			data.addColumn(ColumnType.NUMBER, "Revenue");
+		}
 		if (chartType == 1) {
 			data.addRows(4);
 			data = addGraphPoints(chartType, data, 4);
@@ -174,9 +177,10 @@ public class GraphChart {
 
 			if (chartType == 3)
 				data.setValue(i, 0, new ClientFinanceDate(
-						((ClientFinanceDate) x_Axis_Labels.get(i)).getYear(), 
-						((ClientFinanceDate) x_Axis_Labels.get(i)).getMonth(), 
-						((ClientFinanceDate) x_Axis_Labels.get(i)).getDate()).getDateAsObject());
+						((ClientFinanceDate) x_Axis_Labels.get(i)).getYear(),
+						((ClientFinanceDate) x_Axis_Labels.get(i)).getMonth(),
+						((ClientFinanceDate) x_Axis_Labels.get(i)).getDate())
+						.getDateAsObject());
 			else
 				data.setValue(i, 0, (String) x_Axis_Labels.get(i));
 
@@ -289,8 +293,8 @@ public class GraphChart {
 				}
 
 				// creating x-axis labels. Ex: 1-Jan, 3-Jan, 5-Jan, ...
-				x_Axis_Labels.add(i,
-						new ClientFinanceDate(date.getYear(), labelMonthVal, labelDateVal));
+				x_Axis_Labels.add(i, new ClientFinanceDate(date.getYear(),
+						labelMonthVal, labelDateVal));
 
 				labelDateVal = labelDateVal + 1;
 			}

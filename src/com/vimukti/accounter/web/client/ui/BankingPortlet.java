@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -124,8 +125,9 @@ public class BankingPortlet extends DashBoardPortlet {
 				});
 				Label amountLabel = new Label(String.valueOf(account
 						.getTotalBalance()));
-				amountLabel.setStyleName("tool-box");
+				// amountLabel.setStyleName("tool-box");
 				amountLabel.addStyleName("label-banking");
+				amountLabel.getElement().getStyle().setMarginLeft(295, Unit.PX);
 				hPanel.add(accountLabel);
 				hPanel.add(amountLabel);
 				body.add(hPanel);

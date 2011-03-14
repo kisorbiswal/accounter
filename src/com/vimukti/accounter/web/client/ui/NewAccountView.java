@@ -682,7 +682,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		if (isNewBankAccount) {
 			accTypeSelect
-					.setSelected(Utility.getAccountTypeString(accountType));
+					.setComboItem(Utility.getAccountTypeString(accountType));
 			accTypeSelect.setDisabled(true);
 		} else {
 
@@ -731,8 +731,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			for (int type : UIUtils.accountTypes) {
 				if (FinanceApplication.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK)
 					list.add(Utility.getAccountTypeString(type));
-				else if (type != ClientAccount.TYPE_BANK
-						&& type != ClientAccount.TYPE_CASH
+				else if (type != ClientAccount.TYPE_CASH
 						&& type != ClientAccount.TYPE_OTHER_INCOME
 						&& type != ClientAccount.TYPE_INVENTORY_ASSET
 						&& type != ClientAccount.TYPE_CREDIT_CARD
@@ -1199,7 +1198,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	public void setNewBankAccount(boolean isNewBankAccount) {
 
 		this.isNewBankAccount = isNewBankAccount;
-		setAccountType(ClientAccount.TYPE_OTHER_CURRENT_ASSET);
+		setAccountType(ClientAccount.TYPE_BANK);
 
 	}
 
