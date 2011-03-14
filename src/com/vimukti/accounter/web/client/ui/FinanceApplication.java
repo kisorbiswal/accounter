@@ -229,6 +229,7 @@ public class FinanceApplication extends VerticalPanel {
 		};
 		getService.getCompany(getCompanyCallback);
 		// this.hide();
+		if(!GWT.isScript())
 		loadingDialog = UIUtils.getLoadingDialog(FinanceApplication
 				.getFinanceUIConstants().loadingFinancePleaseWait());
 
