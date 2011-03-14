@@ -44,16 +44,16 @@ public class AccountRegisterAction extends Action {
 
 				try {
 					account = (ClientAccount) data;
-					if (account.getType() == ClientAccount.TYPE_CREDIT_CARD
-							|| account.getType() == ClientAccount.TYPE_BANK) {
-						MainFinanceWindow.getViewManager().showView(
-								new AccountRegisterView(account), data,
-								isEditable, AccountRegisterAction.this);
-					} else {
-						MainFinanceWindow.getViewManager().showView(
-								new AccountRegisterOthersView(account), data,
-								isEditable, AccountRegisterAction.this);
-					}
+					// if (account.getType() == ClientAccount.TYPE_CREDIT_CARD
+					// || account.getType() == ClientAccount.TYPE_BANK) {
+					// MainFinanceWindow.getViewManager().showView(
+					// new AccountRegisterView(account), data,
+					// isEditable, AccountRegisterAction.this);
+					// } else {
+					MainFinanceWindow.getViewManager().showView(
+							new AccountRegisterOthersView(account), data,
+							isEditable, AccountRegisterAction.this);
+					// }
 
 				} catch (Throwable e) {
 					onCreateFailed(e);
