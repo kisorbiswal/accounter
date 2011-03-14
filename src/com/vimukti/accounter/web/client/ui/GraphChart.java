@@ -10,6 +10,7 @@ import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
 import com.google.gwt.visualization.client.visualizations.ColumnChart;
 import com.google.gwt.visualization.client.visualizations.LineChart;
+import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine.WindowMode;
 import com.google.gwt.visualization.client.visualizations.LineChart.Options;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
@@ -139,6 +140,7 @@ public class GraphChart {
 		options.setDisplayZoomButtons(false);
 		options.setDisplayExactValues(true);
 		options.setAllowHtml(true);
+		options.setWindowMode(WindowMode.OPAQUE);
 
 		return options;
 	}
