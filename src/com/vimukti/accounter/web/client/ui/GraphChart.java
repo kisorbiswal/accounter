@@ -115,6 +115,7 @@ public class GraphChart {
 		options.setWidth(457);
 		options.setHeight(225);
 		options.setLegend(LegendPosition.NONE);
+		options.setMin(100);
 		// options.set3D(true);
 
 		return options;
@@ -125,6 +126,7 @@ public class GraphChart {
 		options.setWidth(457);
 		options.setHeight(225);
 		options.setLegend(LegendPosition.NONE);
+		options.setMin(100);
 		// options.setSmoothLine(true);
 
 		return options;
