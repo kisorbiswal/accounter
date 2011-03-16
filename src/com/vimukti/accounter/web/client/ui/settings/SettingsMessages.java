@@ -333,4 +333,12 @@ public interface SettingsMessages extends FinanceMessages {
 
 	String conversionBodyComment();
 
+	String fileUpload();
+
+	String copyThemeAction();
+
+	String copyTitle();
+
+	String uploadComment();
+
 }
