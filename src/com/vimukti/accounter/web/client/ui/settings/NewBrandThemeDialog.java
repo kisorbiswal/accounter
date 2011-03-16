@@ -60,14 +60,17 @@ public class NewBrandThemeDialog extends BaseDialog {
 
 	private void setBrandingTheme(ClientBrandingTheme brandingTheme) {
 		nameBox.setValue(brandingTheme.getThemeName());
-		// pageSizeLabel
 		topMarginBox.setValue(String.valueOf(brandingTheme.getTopMargin()));
 		bottomMarginBox.setValue(String
 				.valueOf(brandingTheme.getBottomMargin()));
 		addressPadBox.setValue(String
 				.valueOf(brandingTheme.getAddressPadding()));
-		// fontNameBox.setSelectedIndex()
-		// brandingTheme.setFontSize(getFontSize(fontSizeBox.getSelectedIndex()));
+		setPazeSize(brandingTheme.getPageSizeType());
+		setFont(brandingTheme.getFont());
+		setFontSize(brandingTheme.getFontSize());
+		setLogoType(brandingTheme.getLogoAlignmentType());
+		setTaxType(brandingTheme.getShowTaxesAsType());
+		setMeasurementType(brandingTheme.getMarginsMeasurementType());
 		creditNoteBox.setValue(brandingTheme.getCreditMemoTitle());
 		overdueBox.setValue(brandingTheme.getOverDueInvoiceTitle());
 		statementBox.setValue(brandingTheme.getStatementTitle());
@@ -82,8 +85,6 @@ public class NewBrandThemeDialog extends BaseDialog {
 		termsPaymentArea.setValue(brandingTheme.getTerms_And_Payment_Advice());
 		contactDetailsArea.setValue(brandingTheme.getContactDetails());
 
-		// brandingTheme.setLogoAlignmentType(getLogoType());
-		// brandingTheme.setShowTaxesAsType(getTaxType());
 	}
 
 	@Override
@@ -137,124 +138,11 @@ public class NewBrandThemeDialog extends BaseDialog {
 				return true;
 			}
 
-			private int getPageSize() {
-				if (a4Button.isEnabled()) {
-					return 1;
-				} else {
-					return 2;
-				}
-			}
-
-			private int getLogoType() {
-				if (leftRadioButton.isEnabled()) {
-					return 1;
-				} else {
-					return 2;
-				}
-			}
-
-			private int getTaxType() {
-				if (exclusiveButton.isEnabled()) {
-					return 1;
-				} else {
-					return 2;
-				}
-			}
-
-			private String getFont(int index) {
-				switch (index) {
-				case 0:
-					return FinanceApplication.getSettingsMessages().arial();
-				case 1:
-					return FinanceApplication.getSettingsMessages().calibri();
-				case 2:
-					return FinanceApplication.getSettingsMessages().cambria();
-				case 3:
-					return FinanceApplication.getSettingsMessages().georgia();
-				case 4:
-					return FinanceApplication.getSettingsMessages().myriad();
-				case 5:
-					return FinanceApplication.getSettingsMessages().tahoma();
-				case 6:
-					return FinanceApplication.getSettingsMessages()
-							.timesNewRoman();
-				case 7:
-					return FinanceApplication.getSettingsMessages().trebuchet();
-
-				default:
-					return FinanceApplication.getSettingsMessages().arial();
-				}
-
-			}
-
-			private String getFontSize(int size) {
-
-				switch (size) {
-				case 0:
-					return FinanceApplication.getSettingsMessages().point8();
-				case 1:
-					return FinanceApplication.getSettingsMessages().point9();
-				case 2:
-					return FinanceApplication.getSettingsMessages().point10();
-				case 3:
-					return FinanceApplication.getSettingsMessages().point11();
-				case 4:
-					return FinanceApplication.getSettingsMessages().point12();
-				case 5:
-					return FinanceApplication.getSettingsMessages().point13();
-				case 6:
-					return FinanceApplication.getSettingsMessages().point14();
-				case 7:
-					return FinanceApplication.getSettingsMessages().point15();
-
-				default:
-					return FinanceApplication.getSettingsMessages().point8();
-				}
-
-			}
-
-			private void saveValues(ClientBrandingTheme brandingTheme) {
-				brandingTheme.setThemeName(String.valueOf(nameBox.getValue()));
-				brandingTheme.setPageSizeType(getPageSize());
-				brandingTheme.setTopMargin(Double.parseDouble(String
-						.valueOf(topMarginBox.getValue())));
-				brandingTheme.setBottomMargin(Double.parseDouble(String
-						.valueOf(bottomMarginBox.getValue())));
-				brandingTheme.setAddressPadding(Double.parseDouble(String
-						.valueOf(addressPadBox.getValue())));
-				brandingTheme.setFont(getFont(fontNameBox.getSelectedIndex()));
-				brandingTheme.setFontSize(getFontSize(fontSizeBox
-						.getSelectedIndex()));
-
-				brandingTheme.setCreditMemoTitle(String.valueOf(creditNoteBox
-						.getValue()));
-				brandingTheme.setOverDueInvoiceTitle(String.valueOf(overdueBox
-						.getValue()));
-				brandingTheme.setStatementTitle(String.valueOf(statementBox
-						.getValue()));
-				brandingTheme.setShowTaxNumber(taxNumItem.isEnabled());
-				brandingTheme.setShowColumnHeadings(headingItem.isEnabled());
-				brandingTheme.setShowPaymentAdviceCut_Away(paymentItem
-						.isEnabled());
-				brandingTheme.setShowUnitPrice_And_Quantity(unitPriceItem
-						.isEnabled());
-				brandingTheme.setShowTaxColumn(columnItem.isEnabled());
-				brandingTheme.setShowRegisteredAddress(addressItem.isEnabled());
-				brandingTheme.setShowLogo(logoItem.isEnabled());
-				brandingTheme.setPayPalEmailID(String.valueOf(paypalTextBox
-						.getValue()));
-				brandingTheme.setTerms_And_Payment_Advice(String
-						.valueOf(termsPaymentArea.getValue()));
-				brandingTheme.setContactDetails(String
-						.valueOf(contactDetailsArea.getValue()));
-				brandingTheme.setLogoAlignmentType(getLogoType());
-				brandingTheme.setShowTaxesAsType(getTaxType());
-			}
-
 			@Override
 			public void onCancelClick() {
 				hide();
 			}
+
 		});
 		buttonPanel.add(saveButton);
 		buttonPanel.add(cancelButton);
@@ -269,6 +157,209 @@ public class NewBrandThemeDialog extends BaseDialog {
 		cancelBtn.setVisible(false);
 		mainPanel.add(button_textBoxPanel);
 
+	}
+
+	private int getPageSize() {
+		if (a4Button.isChecked()) {
+			return 1;
+		} else {
+			return 2;
+		}
+	}
+
+	private void setMeasurementType(int i) {
+		if (i == 1) {
+			cmButton.setChecked(true);
+		} else {
+			inchButton.setChecked(true);
+		}
+	}
+
+	private void setPazeSize(int i) {
+		if (i == 1) {
+			a4Button.setChecked(true);
+		} else {
+			usLetterButton.setChecked(true);
+		}
+	}
+
+	private void saveValues(ClientBrandingTheme brandingTheme) {
+		brandingTheme.setThemeName(String.valueOf(nameBox.getValue()));
+		brandingTheme.setPageSizeType(getPageSize());
+		brandingTheme.setTopMargin(Double.parseDouble(String
+				.valueOf(topMarginBox.getValue())));
+		brandingTheme.setBottomMargin(Double.parseDouble(String
+				.valueOf(bottomMarginBox.getValue())));
+		brandingTheme.setAddressPadding(Double.parseDouble(String
+				.valueOf(addressPadBox.getValue())));
+		brandingTheme.setFont(getFont(fontNameBox.getSelectedIndex()));
+		brandingTheme.setFontSize(getFontSize(fontSizeBox.getSelectedIndex()));
+
+		brandingTheme.setCreditMemoTitle(String.valueOf(creditNoteBox
+				.getValue()));
+		brandingTheme.setOverDueInvoiceTitle(String.valueOf(overdueBox
+				.getValue()));
+		brandingTheme
+				.setStatementTitle(String.valueOf(statementBox.getValue()));
+		brandingTheme.setShowTaxNumber(taxNumItem.isChecked());
+		brandingTheme.setShowColumnHeadings(headingItem.isChecked());
+		brandingTheme.setShowPaymentAdviceCut_Away(paymentItem.isChecked());
+		brandingTheme.setShowUnitPrice_And_Quantity(unitPriceItem.isChecked());
+		brandingTheme.setShowTaxColumn(columnItem.isChecked());
+		brandingTheme.setShowRegisteredAddress(addressItem.isChecked());
+		brandingTheme.setShowLogo(logoItem.isChecked());
+		brandingTheme
+				.setPayPalEmailID(String.valueOf(paypalTextBox.getValue()));
+		brandingTheme.setTerms_And_Payment_Advice(String
+				.valueOf(termsPaymentArea.getValue()));
+		brandingTheme.setContactDetails(String.valueOf(contactDetailsArea
+				.getValue()));
+		brandingTheme.setLogoAlignmentType(getLogoType());
+		brandingTheme.setShowTaxesAsType(getTaxType());
+	}
+
+	private int getLogoType() {
+		if (leftRadioButton.isChecked()) {
+			return 1;
+		} else {
+			return 2;
+		}
+	}
+
+	private void setLogoType(int i) {
+		if (i == 1) {
+			leftRadioButton.setChecked(true);
+		} else {
+			rightRadioButton.setChecked(true);
+		}
+	}
+
+	private int getTaxType() {
+		if (exclusiveButton.isChecked()) {
+			return 1;
+		} else {
+			return 2;
+		}
+	}
+
+	private void setTaxType(int i) {
+		if (i == 1) {
+			exclusiveButton.setChecked(true);
+		} else {
+			inclusiveButton.setChecked(true);
+		}
+	}
+
+	private String getFont(int index) {
+		switch (index) {
+		case 0:
+			return FinanceApplication.getSettingsMessages().arial();
+		case 1:
+			return FinanceApplication.getSettingsMessages().calibri();
+		case 2:
+			return FinanceApplication.getSettingsMessages().cambria();
+		case 3:
+			return FinanceApplication.getSettingsMessages().georgia();
+		case 4:
+			return FinanceApplication.getSettingsMessages().myriad();
+		case 5:
+			return FinanceApplication.getSettingsMessages().tahoma();
+		case 6:
+			return FinanceApplication.getSettingsMessages().timesNewRoman();
+		case 7:
+			return FinanceApplication.getSettingsMessages().trebuchet();
+
+		default:
+			return FinanceApplication.getSettingsMessages().arial();
+		}
+
+	}
+
+	private int setFont(String font) {
+		int i = 0;
+		if (font.equals(FinanceApplication.getSettingsMessages().arial())) {
+			i = 0;
+		} else if (font.equals(FinanceApplication.getSettingsMessages()
+				.calibri())) {
+			i = 1;
+		} else if (font.equals(FinanceApplication.getSettingsMessages()
+				.cambria())) {
+			i = 2;
+		} else if (font.equals(FinanceApplication.getSettingsMessages()
+				.georgia())) {
+			i = 3;
+		} else if (font.equals(FinanceApplication.getSettingsMessages()
+				.tahoma())) {
+			i = 4;
+		} else if (font.equals(FinanceApplication.getSettingsMessages()
+				.timesNewRoman())) {
+			i = 5;
+		} else if (font.equals(FinanceApplication.getSettingsMessages()
+				.trebuchet())) {
+			i = 6;
+		} else if (font.equals(FinanceApplication.getSettingsMessages()
+				.trebuchet())) {
+			i = 7;
+		}
+		return i;
+	}
+
+	private String getFontSize(int size) {
+
+		switch (size) {
+		case 0:
+			return FinanceApplication.getSettingsMessages().point8();
+		case 1:
+			return FinanceApplication.getSettingsMessages().point9();
+		case 2:
+			return FinanceApplication.getSettingsMessages().point10();
+		case 3:
+			return FinanceApplication.getSettingsMessages().point11();
+		case 4:
+			return FinanceApplication.getSettingsMessages().point12();
+		case 5:
+			return FinanceApplication.getSettingsMessages().point13();
+		case 6:
+			return FinanceApplication.getSettingsMessages().point14();
+		case 7:
+			return FinanceApplication.getSettingsMessages().point15();
+
+		default:
+			return FinanceApplication.getSettingsMessages().point8();
+		}
+
+	}
+
+	private int setFontSize(String size) {
+		int i = 0;
+		if (size.equals(FinanceApplication.getSettingsMessages().point8())) {
+			i = 0;
+		} else if (size.equals(FinanceApplication.getSettingsMessages()
+				.point8())) {
+			i = 1;
+		} else if (size.equals(FinanceApplication.getSettingsMessages()
+				.point9())) {
+			i = 2;
+		} else if (size.equals(FinanceApplication.getSettingsMessages()
+				.point10())) {
+			i = 3;
+		} else if (size.equals(FinanceApplication.getSettingsMessages()
+				.point11())) {
+			i = 4;
+		} else if (size.equals(FinanceApplication.getSettingsMessages()
+				.point12())) {
+			i = 5;
+		} else if (size.equals(FinanceApplication.getSettingsMessages()
+				.point13())) {
+			i = 6;
+		} else if (size.equals(FinanceApplication.getSettingsMessages()
+				.point14())) {
+			i = 7;
+		} else if (size.equals(FinanceApplication.getSettingsMessages()
+				.point15())) {
+			i = 8;
+		}
+		return i;
 	}
 
 	private VerticalPanel addRadioBoxTableControls() {
@@ -381,6 +472,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 				.statementTitle());
 
 		nameBox = new TextBox();
+
 		topMarginBox = new TextBox();
 		topMarginBox.setText(FinanceApplication.getSettingsMessages()
 				.topMarginValue());
