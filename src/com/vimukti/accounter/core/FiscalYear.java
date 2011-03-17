@@ -213,7 +213,7 @@ public class FiscalYear implements IAccounterServerCore, Lifecycle,
 	}
 
 	@Override
-	public boolean onSave(Session s) throws CallbackException {
+	public boolean onSave(Session session) throws CallbackException {
 
 		this.stringID = this.stringID == null || this.stringID != null
 				&& this.stringID.isEmpty() ? SecureUtils.createID()
@@ -227,6 +227,7 @@ public class FiscalYear implements IAccounterServerCore, Lifecycle,
 		this.isOnSaveProccessed = true;
 		// this.setPreviousStartDate(this.getStartDate());
 		this.setStatus(FiscalYear.STATUS_OPEN);
+		onUpdate(session);
 		ChangeTracker.put(this);
 		return false;
 	}
@@ -321,9 +322,9 @@ public class FiscalYear implements IAccounterServerCore, Lifecycle,
 				}
 
 			}
-		} else if (this.getStartDate().equals(this.getPreviousStartDate())) {
+		} else if (this.getPreviousStartDate() != null && this.getStartDate().equals(this.getPreviousStartDate())) {
 			session.saveOrUpdate(this);
-		} else if (!this.getStartDate().equals(this.getPreviousStartDate())) {
+		} else if (this.getPreviousStartDate() != null && !this.getStartDate().equals(this.getPreviousStartDate())) {
 			Company company = Company.getCompany();
 			company.getPreferences().setStartDate(this.startDate);
 			company.getPreferences()
