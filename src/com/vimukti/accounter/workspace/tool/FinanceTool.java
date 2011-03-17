@@ -183,6 +183,7 @@ import com.vimukti.accounter.web.client.core.reports.VATDetailReport;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
+import com.vimukti.accounter.web.client.ui.GraphChart;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.CompanyPreferencesView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -11232,7 +11233,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 			FinanceDate currentDate = new FinanceDate();
 
-			if (chartType == 1) {
+			if (chartType == GraphChart.BANK_ACCOUNT_CHART_TYPE) {
 
 				Calendar dateCal[] = new Calendar[4];
 				if (dateCal[3] == null)
@@ -11272,7 +11273,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 			}
 
-			if (chartType == 2) {
+			if (chartType == GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE) {
 
 				Calendar currentMonthStartDateCal = new GregorianCalendar();
 				currentMonthStartDateCal.setTime(currentDate.getAsDateObject());
@@ -11407,7 +11408,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 			}
 
-			if (chartType == 3) {
+			if (chartType == GraphChart.ACCOUNTS_PAYABLE_CHART_TYPE) {
 
 				Calendar[] dateCal = new GregorianCalendar[30];
 				if (dateCal[0] == null)
@@ -11523,7 +11524,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 			}
 
-			if (chartType == 4)
+			if (chartType == GraphChart.EXPENSE_CHART_TYPE)
 				query = session.getNamedQuery("getExpenseTotalAmounts");
 
 			List list = query.list();
@@ -11540,11 +11541,11 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 					gPoints.add(object[4] == null ? 0 : (Double) object[4]);
 					gPoints.add(object[5] == null ? 0 : (Double) object[5]);
 
-					if (chartType == 2 || chartType == 3) {
+					if (chartType == GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE || chartType == GraphChart.ACCOUNTS_PAYABLE_CHART_TYPE) {
 
 						gPoints.add(object[6] == null ? 0 : (Double) object[6]);
 						gPoints.add(object[7] == null ? 0 : (Double) object[7]);
-						if (chartType == 2) {
+						if (chartType == GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE) {
 							Object res = session.getNamedQuery(
 									"getDraftInvoicesTotal").setParameter(
 									"isInvoices", true).uniqueResult();
@@ -11562,7 +11563,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 						}
 					}
 
-					if (chartType == 3) {
+					if (chartType == GraphChart.ACCOUNTS_PAYABLE_CHART_TYPE) {
 
 						gPoints.add(object[8] == null ? 0 : (Double) object[8]);
 						gPoints.add(object[9] == null ? 0 : (Double) object[9]);
@@ -11629,23 +11630,22 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 					}
 
-					double maxValue, minValue;
-					minValue = (object[2] == null) ? 0 : (Double) object[2];
-					maxValue = minValue;
-
-					for (int i = 2; i < object.length; i++) {
-
-						if (object[i] != null) {
-							if (maxValue < (Double) object[i])
-								maxValue = (Double) object[i];
-
-							if (minValue > (Double) object[i])
-								minValue = (Double) object[i];
-						}
-					}
-
-					// gPoints.setMaxPoint(maxValue);
-					// gPoints.setMinPoint(minValue);
+//					double maxValue, minValue;
+//					minValue = (object[2] == null) ? 0 : (Double) object[2];
+//					maxValue = minValue;
+//
+//					for (int i = 2; i < object.length; i++) {
+//
+//						if (object[i] != null) {
+//							if (maxValue < (Double) object[i])
+//								maxValue = (Double) object[i];
+//
+//							if (minValue > (Double) object[i])
+//								minValue = (Double) object[i];
+//						}
+//					}
+//					 gPoints.setMaxPoint(maxValue);
+//					 gPoints.setMinPoint(minValue);
 
 				}
 				return gPoints;
