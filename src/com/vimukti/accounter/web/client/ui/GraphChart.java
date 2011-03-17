@@ -150,25 +150,26 @@ public class GraphChart {
 	private AbstractDataTable createTable(int chartType) {
 		DataTable data = DataTable.create();
 
-		if (chartType == 3) {
+		if (chartType == ACCOUNTS_PAYABLE_CHART_TYPE) {
 			data.addColumn(ColumnType.DATE, "Date");
 			data.addColumn(ColumnType.NUMBER, "Expenses");
-		} else {
-			data.addColumn(ColumnType.STRING, "Date");
 			
+		} else {
+			data.addColumn(ColumnType.STRING, "Date");			
 			data.addColumn(ColumnType.NUMBER, "Revenue");
 		}
-		if (chartType == 1) {
+		
+		if (chartType == BANK_ACCOUNT_CHART_TYPE) {
 			data.addRows(4);
 			data = addGraphPoints(chartType, data, 4);
 		}
 
-		if (chartType == 2) {
+		if (chartType == ACCOUNTS_RECEIVABLE_CHART_TYPE) {
 			data.addRows(6);
 			data = addGraphPoints(chartType, data, 6);
 		}
 
-		if (chartType == 3) {
+		if (chartType == ACCOUNTS_PAYABLE_CHART_TYPE) {
 			data.addRows(30);
 			data = addGraphPoints(chartType, data, 30);
 		}
@@ -179,7 +180,7 @@ public class GraphChart {
 	private DataTable addGraphPoints(int chartType, DataTable data, int size) {
 		for (int i = 0; i < size; i++) {
 
-			if (chartType == 3)
+			if (chartType == ACCOUNTS_PAYABLE_CHART_TYPE)
 				data.setValue(i, 0, new ClientFinanceDate(
 						((ClientFinanceDate) x_Axis_Labels.get(i)).getYear(),
 						((ClientFinanceDate) x_Axis_Labels.get(i)).getMonth(),
