@@ -16,7 +16,12 @@ public class TextItem extends FormItem {
 	// TextBoxItem textBoxItem;
 	public TextItem() {
 
-		textBox = new TextBoxItem();
+		textBox = new TextBoxItem() {
+			protected void onAttach() {
+				super.onAttach();
+				TextItem.this.onAttach();
+			};
+		};
 		// textBoxItem= new TextBoxItem();
 		// @Override
 		// public void sinkEvents(int eventBitsToAdd) {
@@ -50,6 +55,10 @@ public class TextItem extends FormItem {
 		// }
 		// else{
 
+	}
+
+	protected void onAttach() {
+		
 	}
 
 	public TextItem(String title) {
@@ -124,7 +133,7 @@ public class TextItem extends FormItem {
 	}
 
 	// void helpimformationsetposition(){
-	//		
+	//
 	// }
 
 	public void setHint(String string) {

@@ -39,6 +39,7 @@ public abstract class FormItem {
 	private boolean isHighlighted = false;
 	private String titleStyleName;
 	private boolean ishelp = false;
+	
 
 	public Object getValue() {
 		return this.value;
@@ -197,13 +198,13 @@ public abstract class FormItem {
 		hPanel.setCellHorizontalAlignment(helpImg,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		parent.add(hPanel, columnSpan);
-//		Image helpImg = new Image("/images/icons/help.png");
-//		parent.add(helpImg,0);
-		
+		// Image helpImg = new Image("/images/icons/help.png");
+		// parent.add(helpImg,0);
+
 	}
 
 	public void setHelpInformation(Boolean isHelp) {
-		this.ishelp = isHelp;
+		this.ishelp = false;
 	}
 
 	public abstract Widget getMainWidget();
@@ -340,12 +341,13 @@ public abstract class FormItem {
 
 	}
 
-	private HTML helpContent(){
+	private HTML helpContent() {
 		HTML content;
-		content= 	new HTML("<b>" + " About This Field :" + "</b><br><br>"+"<h3>"
-				+ helpMessage+"</h3>");
+		content = new HTML("<b>" + " About This Field :" + "</b><br><br>"
+				+ "<h3>" + helpMessage + "</h3>");
 		return content;
 	}
+
 	public void setHelpMessage(String hm) {
 		this.helpMessage = hm;
 	}
