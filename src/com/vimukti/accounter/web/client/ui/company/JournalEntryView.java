@@ -14,6 +14,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -28,6 +30,7 @@ import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
@@ -326,6 +329,21 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		gridPanel.add(grid);
 
 		gridPanel.add(addButton);
+		
+        addButton.getElement().getParentElement().addClassName("add-button");
+		
+		Element addseparator=DOM.createSpan();
+		addseparator.addClassName("add-separator");
+		DOM.appendChild(addButton.getElement(),addseparator);
+		
+		Element addimage=DOM.createSpan();
+		addimage.addClassName("add-image");
+		DOM.appendChild(addButton.getElement(),addimage);
+		
+		ThemesUtil.addDivToButton(addButton,FinanceApplication.getThemeImages().button_right_blue_image(),"blue-right-image");
+		
+		
+		
 		// gridPanel.add(labelPanel);
 
 		if (takenJournalEntry != null) {
