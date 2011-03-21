@@ -2,6 +2,7 @@
 	/** Example rules used by the template application (remove for your app) */
 .widget { /**background:url(images/icons/startBar.png) repeat-x;*/
 	background:url("images/pannig bar.png") repeat-x scroll 0 0 transparent;
+	width:103% !important;
 	/*display: none;*/
 }
 
@@ -359,6 +360,7 @@ table tr.ReportGridRow:HOVER {
 	padding: 3px;
 	margin: 2px;
 	background-position: 0 1px;
+	cursor:pointer;
 }
 
 .statusLabelParent {
@@ -534,7 +536,7 @@ td.gridDecimalCell {
 }
 
 .custom-combo {
-	background:url("images/Text Feild_enabled_180x22.png") no-repeat scroll 0 0 #FFFFFF;
+	background:url("images/Text Feild_enabled_180x22.png") no-repeat scroll 0 0 #fff;
 	border:0 none;
 	height:22px !important;
 	overflow:hidden;
@@ -722,8 +724,9 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .gwt-Button[disabled] {
-	cursor: none !important;
+	cursor: pointer !important;
 	color: none !important;
+	background:url("images/Disable_button_mid_1x27.png") repeat-x scroll 0 0 transparent !important;
 }
 
 .gwt-Button[disabled]:hover {
@@ -737,7 +740,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 
 .gwt-MenuBar-horizontal .gwt-MenuItem { /*praveena*/
 	/*background:url(/images/arrow_down.gif) no-repeat scroll 0 0 #6DAF7C; */
-	background: url("images/Menu bar_1x33.png") repeat-x scroll 0 0 #FFFFFF !important;
+	background:url("images/Menu bar_1x34.png") repeat-x scroll 0 0 #FFFFFF !important;
 	color: #ffffff !important;
 	font-weight: bold;
 	padding: 6px 17px 8px !important;
@@ -983,6 +986,7 @@ solid
 }
 .menubar-devider{
 	background:url("images/Menu bar_1x33.png") repeat-x scroll 0 0 #FFFFFF !important;
+	padding:0px;
 }
 .bottom-view table tr td{
 	background:url("images/Button_left_1x27.png") no-repeat scroll 0 0 #FFFFFF;
@@ -995,13 +999,13 @@ solid
 	width:1px;
 }
 .gwt-TextBox{
-	background:url("images/Text Feild_enabled_180x22.png") no-repeat scroll 0 0 #ffffff !important;
+	background:url("images/Text Feild_enabled_180x22.png") no-repeat scroll 0 0 #fff !important;
 	border:0 none !important;
     height:22px;
 }
 
 .gwt-TextArea{
-	background:url("images/Text Feild_big_enabled_180x64.png") no-repeat scroll 0 0 #ffffff !important;
+	background:url("images/Text Feild_big_enabled_180x64.png") no-repeat scroll 0 0 #fff !important;
 	border:0 none !important;
 	height:65px;
 	width:180px !important;
@@ -1016,7 +1020,7 @@ solid
 	z-index:1;
 	margin-top:1px;
 */
-    background:url("images/downarrow.png") no-repeat scroll 0 0 transparent !important;
+    background:url("images/Drop-down-button_20x22.png") no-repeat scroll 0 0 transparent !important;
 	float:left;
 	height:20px;
 	margin-left:-20px;
@@ -1024,7 +1028,6 @@ solid
 	position:relative;
 	width:20px;
 	z-index:1;
-	padding:1px 0px;
 }
 .gwt-MenuBar-vertical .gwt-MenuItemSeparator .menuSeparatorInner{
 	background:url("images/Menu list seperator.png") repeat scroll 0 0 transparent !important;
@@ -1105,7 +1108,7 @@ solid
 	background:url("images/Divider.png") no-repeat scroll 0 0 transparent !important;
 }
 .close-separator{
-	background:url("images/gray_Divider.png") no-repeat scroll 0 0 transparent !important;
+	background:url("images/Divider.png") no-repeat scroll 0 0 transparent !important;
 }
 .add-separator{
 	background:url("images/blue_Divider.png") no-repeat scroll 0 0 transparent !important;
@@ -1134,11 +1137,8 @@ solid
 .close-image{
 	background:url("images/cross.png") no-repeat scroll 0 0 transparent !important;
 }
-.cancel-button{
-	background:url("images/gray_Button_left_1x27.png") no-repeat scroll 0 0 transparent !important;
-}
 .cancel-button button{
-	background:url("images/gray_mid_Button.png") repeat-x scroll 0 0 transparent !important;
+	background:url("/images/Button_1x27.png") repeat-x scroll 0 0 transparent !important;
 }
 .add-button{
 	background:url("images/blue_Left_side.png") no-repeat scroll 0 0 transparent !important;
@@ -1149,8 +1149,11 @@ solid
 	float:left;
     padding:0 25px 0 0 !important;
 }
-.blue-right-image{
+.add-right-image{
 	height:26px;
 	width:1px;
 	float:left;
+}
+.subMenuIcon img{
+	background:url("images/Sub_menu_indicator_side.png") repeat-x scroll 0 0 transparent !important;
 }
