@@ -325,8 +325,8 @@ public class SalesOrderView extends
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		balanceDueNonEditableText = new AmountLabel(customerConstants
-				.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(
+				customerConstants.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -347,8 +347,9 @@ public class SalesOrderView extends
 		customerTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
-		prodAndServiceForm2.setWidth("50%");
+		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
+		prodAndServiceForm2.setStyleName("invoice-total");
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			TextItem dummyItem = new TextItem("");
@@ -790,10 +791,10 @@ public class SalesOrderView extends
 	protected void priceLevelSelected(ClientPriceLevel priceLevel) {
 		// this.priceLevel = priceLevel;
 		// if (priceLevel != null && priceLevelSelect != null) {
-		//	
+		//
 		// priceLevelSelect.setComboItem(FinanceApplication.getCompany()
 		// .getPriceLevel(priceLevel.getStringID()));
-		//	
+		//
 		// }
 		// if (transactionObject == null && customerTransactionGrid != null) {
 		// customerTransactionGrid.priceLevelSelected(priceLevel);
@@ -839,7 +840,8 @@ public class SalesOrderView extends
 				return;
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(), taxableLineTotal,
+					transactionDateItem.getEnteredDate(),
+					taxableLineTotal,
 					FinanceApplication.getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
