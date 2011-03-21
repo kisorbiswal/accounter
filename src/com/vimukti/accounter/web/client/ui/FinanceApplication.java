@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.externalization.FinanceConstants;
 import com.vimukti.accounter.web.client.externalization.FinanceMessages;
 import com.vimukti.accounter.web.client.images.FinanceImages;
 import com.vimukti.accounter.web.client.images.FinanceMenuImages;
+import com.vimukti.accounter.web.client.theme.ThemeImages;
 import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
 import com.vimukti.accounter.web.client.ui.combo.AccounterComboConstants;
 import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
@@ -81,6 +82,7 @@ public class FinanceApplication extends VerticalPanel {
 	private static boolean isSales;
 	private static boolean isPurchases;
 	public static ClientIdentity clientIdentity;
+	private static ThemeImages themeImages;
 
 	public FinanceApplication(String email,
 			ValueCallBack<FinanceApplication> callback) {
@@ -229,9 +231,9 @@ public class FinanceApplication extends VerticalPanel {
 		};
 		getService.getCompany(getCompanyCallback);
 		// this.hide();
-		if(!GWT.isScript())
-		loadingDialog = UIUtils.getLoadingDialog(FinanceApplication
-				.getFinanceUIConstants().loadingFinancePleaseWait());
+		if (!GWT.isScript())
+			loadingDialog = UIUtils.getLoadingDialog(FinanceApplication
+					.getFinanceUIConstants().loadingFinancePleaseWait());
 
 	}
 
@@ -447,6 +449,13 @@ public class FinanceApplication extends VerticalPanel {
 					.create(FinanceMenuImages.class);
 		}
 		return financeMenuImages;
+	}
+
+	public static ThemeImages getThemeImages() {
+		if (themeImages == null) {
+			themeImages = (ThemeImages) GWT.create(ThemeImages.class);
+		}
+		return themeImages;
 	}
 
 	public static BankingMessages getBankingsMessages() {
