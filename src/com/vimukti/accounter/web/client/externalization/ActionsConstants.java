@@ -471,4 +471,6 @@ public interface ActionsConstants extends FinanceConstants {
 	String newTaxItem();
 
 	String tax();
+
+	String brandingThemeCombo();
 }

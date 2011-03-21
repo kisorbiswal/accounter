@@ -38,10 +38,14 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 		}
 		return null;
 	}
+	@Override
+	public void setDefaultValue(String value) {
+		super.setDefaultValue(value);
+	}
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return "New Branding Theme";
+		return FinanceApplication.getSettingsMessages().newBrandThemeLabel();
 	}
 
 	@Override

@@ -221,5 +221,10 @@ public class CustomersActionFactory extends AbstractActionFactory {
 				actionsConstants.customerPrePayment(),
 				"/images/icons/vendors/vendor_payments.png");
 	}
+	
+	public static BrandingThemeComboAction getBrandingThemeComboAction() {
+		return new BrandingThemeComboAction(
+				actionsConstants.brandingThemeCombo());
+	}
 
 }

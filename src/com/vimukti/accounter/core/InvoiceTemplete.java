@@ -58,16 +58,6 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 		return logoAlignment;
 	}
 
-	private String getTaxType() {
-		String taxType = null;
-		if (brandingTheme.getPageSizeType() == 1) {
-			taxType = "Exclusive";
-		} else {
-			taxType = "Inclusive";
-		}
-		return taxType;
-	}
-
 	/**
 	 * HEADER
 	 */
@@ -80,7 +70,7 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 				if (cmpTrad != null)
 					cmpAdd = ("<br><font style=\"font-family:"
 							+ brandingTheme.getFont()
-							+ "; color:#504040;\">&nbsp;"
+							+ "; color:#504040;\">"
 							+ forUnusedAddress(cmpTrad.getAddress1(), false)
 							+ forUnusedAddress(cmpTrad.getStreet(), false)
 							+ forUnusedAddress(cmpTrad.getCity(), false)
@@ -93,22 +83,34 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 			}
 		}
 
-		cmpAdd = ("<p style=\"font-family:" + brandingTheme.getFont()
-				+ "; font-size:" + getFontSize(6) + "pt;\"><strong> "
-				+ forNullValue(TemplateBuilder.getCmpName())
-				+ "</strong></font>" + cmpAdd + "</p>");
+		if (cmpAdd.equals("<br/><br/><br/><br/><br/>")) {
+			cmpAdd = ("<p style=\"font-family:"
+					+ brandingTheme.getFont()
+					+ "; font-size:"
+					+ getFontSize(6)
+					+ "pt;\"><strong> "
+					+ forNullValue(TemplateBuilder.getCmpName())
+					+ "</strong></font>"
+					+ "<table><tr><td>"
+					+ brandingTheme.getContactDetails().replace(",",
+							",</td></tr><tr><td>") + "</td></tr></table> </p>");
+		} else {
+			cmpAdd = ("<p style=\"font-family:" + brandingTheme.getFont()
+					+ "; font-size:" + getFontSize(6) + "pt;\"><strong> "
+					+ forNullValue(TemplateBuilder.getCmpName())
+					+ "</strong></font>" + cmpAdd + "</p>");
+		}
 
 		headerHtml = ("<table style=\"width: 100%; height: 100%;\" cellspacing=\"10\"><tr><td style=\"height:"
-
 				+ getUnits()
-				+ "\"><p><br></p></td></tr><tr><td style=\"vertical-align: top;\" align=\"left\"><div class=\"gwt-HTML\" style=\" margin-left: 43px;\">"
-				+ cmpAdd
-				+ "</div></td><td style=\"vertical-align: top;\" align=\"right\"><div class=\"gwt-HTML\" style=\" margin-right: 43px;\"><p style=\"font-family:"
+				+ "\"><p><br></p></td></tr><tr style=\"width:100%\"><td></td><td align=\"center;\" style=\"width:40%\"><div class=\"gwt-HTML\" style=\" margin-right: 43px;\"><p align=\"center\" style=\"font-family:"
 				+ brandingTheme.getFont()
 				+ "; font-size:"
-				+ getFontSize(6)
-				+ "pt;\"><font color=\"black\"><strong>Invoice</strong></font></p><div><table style=\"width:400px;font-size: "
-				+ getFontSize(4)
+				+ getFontSize(9)
+				+ "pt;\"><font color=\"black\"><strong>Invoice</strong></font></p><div></td><td></td></tr><tr><td style=\"vertical-align: top;\" align=\"left\"><div class=\"gwt-HTML\" style=\" margin-left: 43px;\">"
+				+ cmpAdd
+				+ "</div></td><td></td><td style=\"vertical-align: top; width:30%\" align=\"right\"><table style=\"width:100%; font-size: "
+				+ getFontSize(0)
 				+ "pt; border-collapse: collapse; table-layout: fixed; font-family: "
 				+ brandingTheme.getFont()
 				+ ";\"><colgroup><col></colgroup><tr><td style=\"border: 1px ridge grey; padding: 6px; background: #f2f2f2; font-weight: bold; \"> Invoice Number</td><td align=\"right\" width=\"30%\" style=\"border: 1px ridge grey; padding: 6px;\">"
@@ -221,24 +223,36 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 		columnHeading = "<tr><th><p class=\"fontSetting\">Description</p></th><th><p class=\"fontSetting\">Qty</p></th><th><p class=\"fontSetting\">Unit Price</p></th><th><p class=\"fontSetting\">Total Price</p></th>";
 		if (brandingTheme.isShowTaxColumn()) {
 			columnHeading = columnHeading + vatColumnHeading + "</tr>";
+			subTotalHtml = (recordsHtml
+					+ "<tr><td class=\"blank\" > </td><td class=\"blank\" > </td><td class=\"blank\" > </td><td class=\"blank\" style=\"padding: 5px;\"><p class=\"fontSetting\">"
+					+ forNullValue(invoice.getMemo())
+					+ "</p></td><td class=\"total-line, item-column\" ><p class=\"fontSetting\">&nbsp;&nbsp;Sub Total</p></td><td class=\"total-value, item-column\"><div id=\"subtotal\"><p class=\"fontSetting\" style=\"padding: 6px;\" align=\"right\">"
+					+ largeAmountConversation(invoice.getNetAmount()) + "</p></div></td></tr>");
+			totalHtml = "<tr><td class=\"blank\" > </td><td class=\"blank\" > </td><td class=\"blank\" > </td><td class=\"blank\" > </td><td class=\"total-line balance, item-column\"><p class=\"fontSetting\">&nbsp;&nbsp;TOTAL</p></td><td class=\"total-value, item-column\" style=\"padding: 6px;\" align=\"right\"><div class=\"total\"><p class=\"fontSetting\">"
+					+ largeAmountConversation(invoice.getTotal())
+					+ "</p></div></td></tr></table>";
+
+			vatTotalHtml = "<tr><td class=\"blank\" ></td><td class=\"blank\" > </td><td class=\"blank\" > </td><td class=\"blank\" > </td> <td class=\"total-line, item-column\" ><p class=\"fontSetting\">&nbsp;&nbsp;VAT Total</p></td><td class=\"total-value, item-column\" style=\"padding: 6px;\" align=\"right\"><div id=\"total\"><p class=\"fontSetting\">"
+					+ largeAmountConversation((invoice.getTotal() - invoice
+							.getNetAmount())) + "</p></div></td></tr>";
+
 		} else {
 			columnHeading = columnHeading + "</tr>";
+			subTotalHtml = (recordsHtml
+					+ "<tr><td class=\"blank\" > </td><td class=\"blank\" style=\"padding: 5px;\"><p class=\"fontSetting\">"
+					+ forNullValue(invoice.getMemo())
+					+ "</p></td><td class=\"total-line, item-column\" ><p class=\"fontSetting\">&nbsp;&nbsp;Sub Total</p></td><td class=\"total-value, item-column\"><div id=\"subtotal\"><p class=\"fontSetting\" style=\"padding: 6px;\" align=\"right\">"
+					+ largeAmountConversation(invoice.getNetAmount()) + "</p></div></td></tr>");
+
+			totalHtml = "<tr><td class=\"blank\" > </td><td class=\"blank\" > </td><td class=\"total-line balance, item-column\"><p class=\"fontSetting\">&nbsp;&nbsp;TOTAL</p></td><td class=\"total-value, item-column\" style=\"padding: 6px;\" align=\"right\"><div class=\"total\"><p class=\"fontSetting\">"
+					+ largeAmountConversation(invoice.getTotal())
+					+ "</p></div></td></tr></table>";
+
+			vatTotalHtml = "<tr><td class=\"blank\" > </td><td class=\"blank\" > </td> <td class=\"total-line, item-column\" ><p class=\"fontSetting\">&nbsp;&nbsp;VAT Total</p></td><td class=\"total-value, item-column\" style=\"padding: 6px;\" align=\"right\"><div id=\"total\"><p class=\"fontSetting\">"
+					+ largeAmountConversation((invoice.getTotal() - invoice
+							.getNetAmount())) + "</p></div></td></tr>";
 		}
 		itemsHtml = ("<table id=\"items\">");
-
-		subTotalHtml = (recordsHtml
-				+ "</table><table id=\"totals\"><tr><td class=\"blank\" style=\"padding: 5px;\"><p class=\"fontSetting\">"
-				+ forNullValue(invoice.getMemo())
-				+ "</p></td><td class=\"total-line\" ><p class=\"fontSetting\">&nbsp;&nbsp;Sub Total</p></td><td class=\"total-value\"><div id=\"subtotal\"><p class=\"fontSetting\">"
-				+ largeAmountConversation(invoice.getNetAmount()) + "&nbsp;&nbsp;</p></div></td></tr>");
-
-		totalHtml = "<tr><td class=\"blank\" > </td><td class=\"total-line balance\"><p class=\"fontSetting\">&nbsp;&nbsp;TOTAL</p></td><td class=\"total-value balance\"><div id=\"due\"><p class=\"fontSetting\">"
-				+ largeAmountConversation(invoice.getTotal())
-				+ "&nbsp;&nbsp;</p></div></td></tr></table>";
-
-		vatTotalHtml = "<tr><td class=\"blank\" ></td> <td class=\"total-line\" ><p class=\"fontSetting\">&nbsp;&nbsp;VAT Total</p></td><td class=\"total-value\"><div id=\"total\"><p class=\"fontSetting\">"
-				+ largeAmountConversation((invoice.getTotal() - invoice
-						.getNetAmount())) + "&nbsp;&nbsp;</p></div></td></tr>";
 
 		if (brandingTheme.isShowTaxColumn()) {
 			columnDataHtml = subTotalHtml + vatTotalHtml + totalHtml;
@@ -252,7 +266,19 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 			itemsHtml = itemsHtml + columnDataHtml;
 		}
 
-		bodyHtml = addressHtml + detailsHtml + itemsHtml;
+		String paymentTermHtml = "<table><tr><td style=\"height:85px\"></td></tr><tr style=\"align:left; left-margin:20px; font-family:"
+				+ brandingTheme.getFont()
+				+ "; font-size:"
+				+ getFontSize(2)
+				+ "pt;\"><td><strong>Due Date:</strong><td></tr><tr style=\"align:left; font-family:"
+				+ brandingTheme.getFont()
+				+ "; font-size:"
+				+ getFontSize(0)
+				+ "pt><td>"
+				+ brandingTheme.getTerms_And_Payment_Advice()
+				+ "</td></tr></table>";
+
+		bodyHtml = addressHtml + detailsHtml + itemsHtml + paymentTermHtml;
 
 	}
 
@@ -294,16 +320,21 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 		sortCodeHtml = "<td><center>Sort Code : "
 				+ forNullValue(company.getSortCode()) + "</center></td>";
 		bankAccountNumberHtml = "<td><center>Bank Account No :"
-				+ forNullValue(company.getBankAccountNo()) + "</center></td>";
-		footerEndingHtml = "</tr></table></td></tr><tr><td style=\"vertical-align: top;\" align=\"center\"><table  style=\"width: 100%; height: 100%; padding:3.5px\" ><tr><td align=\"right\" style=\"vertical-align: top;\"<table style=\"margin-left:60px;font-size:"
+				+ forNullValue(company.getBankAccountNo())
+				+ "</center></td></tr></table></td></tr>";
+		regAdd = "<tr><td style=\"vertical-align: top;\" align=\"center\"><table  style=\"width: 100%; height: 100%; padding:3.5px\" ><tr><td align=\"right\" style=\"vertical-align: top;\"<table style=\"margin-left:60px;font-size:"
 				+ getFontSize(4)
 				+ "pt;width: 95%; height: 37px;  border : 1px solid #E1E1E1;\"><colgroup><col></colgroup><tr><td><center>"
-				+ regAdd
-				+ "</center></td></tr></table></td></tr></table></td></tr></table></td><td width=\"10%\" style=\"vertical-align: bottom;\"><div align=\"right\" style=\"margin-bottom:14px;\"><img src=\"footerimage\" width=\"67.5px\" height=\"25px\"></div></td></tr><tr><td style=\"height:"
+				+ regAdd + "</center></td></tr></table></td></tr>";
+
+		footerEndingHtml = "</table></td></tr></table></td><td width=\"10%\" style=\"vertical-align: bottom;\"><div align=\"right\" style=\"margin-bottom:14px;\"><img src=\"footerimage\" width=\"67.5px\" height=\"25px\"></div></td></tr><tr><td style=\"height:"
 				+ brandingTheme.getBottomMargin()
 				+ getUnits()
 				+ "\"><p><br></p></td></tr></table>";
 
+		if (brandingTheme.isShowRegisteredAddress) {
+			footerEndingHtml = regAdd + footerEndingHtml;
+		}
 		if (brandingTheme.isShowTaxNumber()) {
 			footerHtml = initFooterTableHtml + vatRegNumberHtml + sortCodeHtml
 					+ bankAccountNumberHtml + footerEndingHtml;
@@ -414,10 +445,10 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 	public String forUnusedAddress(String add, boolean isFooter) {
 		if (isFooter) {
 			if (add != null && !add.equals(""))
-				return add + ",&nbsp;";
+				return add + ",";
 		} else {
 			if (add != null && !add.equals(""))
-				return add + "<br/>&nbsp;";
+				return add + "<br/>";
 		}
 		return "";
 	}

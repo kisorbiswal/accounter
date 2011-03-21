@@ -123,7 +123,7 @@ public interface SettingsMessages extends FinanceMessages {
 
 	SafeHtml uploadLogoHtml();
 
-	SafeHtml standardTheme();
+	String standardTheme();
 
 	SafeHtml customdocxTheme();
 
@@ -340,5 +340,11 @@ public interface SettingsMessages extends FinanceMessages {
 	String copyTitle();
 
 	String uploadComment();
+
+	String brandingTheme();
+
+	String selectTheme();
+
+	String selectThemes();
 
 }
