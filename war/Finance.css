@@ -1,7 +1,7 @@
 /** Add css rules here for your application. */
 	/** Example rules used by the template application (remove for your app) */
 .widget { /**background:url(images/icons/startBar.png) repeat-x;*/
-	background: url(images/top-hadder.png) scroll repeat-x;
+	background:url("images/pannig bar.png") repeat-x scroll 0 0 transparent;
 	/*display: none;*/
 }
 
@@ -10,7 +10,6 @@ body {
 	margin: 0px auto !important;
 	border: 0px;
 	padding: 0px;
-	background: #fff;
 	direction: ltr;
 	width: 960px !important;
 	overflow: auto !important;
@@ -23,6 +22,7 @@ html,body {
 .widget img {
 	margin-top: 3px;
 	cursor: pointer;
+	padding:0 5px;
 }
 
 h1 {
@@ -108,9 +108,9 @@ h1 {
 }
 
 .financeBackground {
-	background: #FFFFFF none repeat scroll 0 0;
+	background: none repeat scroll 0 0 #F7F7F7 !important;
 	/*border: 2px solid #CCCCCC;   praveena */
-	padding: 6px;
+	padding: 11px;
 	margin-left: 3px;
 	/* margin-top:-2px; praveena*/
 }
@@ -177,11 +177,11 @@ h1 {
 }
 
 .financeWindow { /* padding: 3px; praveena */ /*margin: 0 auto;*/
-	
+     background:none repeat scroll 0 0 #F7F7F7 !important;	
 }
 
 .noScroll {
-	background: none repeat scroll 0 0 white !important;
+	background: none repeat scroll 0 0 #F7F7F7 !important;
 	height: 100% !important;
 	overflow: hidden !important;
 }
@@ -263,6 +263,7 @@ table tr.ReportGridRow:HOVER {
 .lable-title {
 	font-weight: bold;
 	font-size: 12pt;
+	padding:5px;
 }
 
 .blue-date-picker {
@@ -342,16 +343,16 @@ table tr.ReportGridRow:HOVER {
 }
 
 .previousButton {
-	background: url(images/previous_new.png) no-repeat;
+	background: url(images/navigate_left.png) no-repeat;
 	padding-top: 5px;
 }
 
 .nextButton {
-	background: url(images/next_new.png) no-repeat;
+	background: url(images/navigate_right.png) no-repeat;
 }
 
 .discardButton {
-	background: url(images/close-icon.png) no-repeat;
+	background: url(images/cross.png) no-repeat;
 }
 
 .previousButton,.nextButton,.discardButton {
@@ -478,8 +479,8 @@ div.link:hover {
 }
 
 .bottom-view {
-	border-top: 1px solid #AAAAAA;
-	/*height: 28.4%;*/
+	/*border-top: 1px solid #AAAAAA;*/
+	background:none repeat scroll 0 0 #DFDFDF;
 }
 
 .nav-content {
@@ -533,11 +534,13 @@ td.gridDecimalCell {
 }
 
 .custom-combo {
-	border: 1px solid #aaa;
-	background: #FFF;
-	height: 19px !important;
-	position: relative;
-	overflow: hidden;
+	background:url("images/Text Feild_enabled_180x22.png") no-repeat scroll 0 0 #FFFFFF;
+	border:0 none;
+	height:22px !important;
+	overflow:hidden;
+	position:relative;
+	width:180px !important;
+	float:left
 }
 
 .dropdownTable {
@@ -553,7 +556,9 @@ td.gridDecimalCell {
 	border-spacing: 0;
 	border-collapse: collapse;
 }
-
+.gwt-DecoratedTabBar .tabTopLeftInner, .gwt-DecoratedTabBar .tabTopRightInner {
+	width:4px !important;
+}
 table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	background: #83BF91 !important;
 }
@@ -567,12 +572,16 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	width: 15px !important;
 }*/
 .dropdown-button {
-	background: url("images/drop.png") no-repeat scroll 100% 0 #FFFFFF;
+	/*background: url("images/drop.png") no-repeat scroll 100% 0 #FFFFFF;*/
 	padding-right: 15px;
 }
 
 .listgrid .custom-combo {
-	min-width: 50px !important;
+	background:url("images/Text box_1.png") repeat-x scroll 0 0 white !important;
+	border-left:1px solid #CCCCCC;
+	height:15px !important;
+	min-width:50px !important;
+	width:100% !important;
 }
 
 .dropdown-disabled {
@@ -580,8 +589,11 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .financeWindow select {
-	border: 1px solid #AAAAAA;
-	width: 150px !important; /* praveena */
+	border: 0 none !important;
+	width: 180px !important; /* praveena */
+	background:url("images/Text Feild_enabled_180x22.png") no-repeat scroll 0 0 #FFFFFF;
+	padding:2px;
+	height:23px;
 }
 
 .gridAscend {
@@ -605,16 +617,16 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	
 }
 
-.gwt-MenuBar .gwt-MenuItem-selected {
-	background-color: #508F5F !important;
+.gwt-MenuBar .gwt-MenuItem-selected,.gwt-MenuBar-vertical .subMenuIcon-selected {
+	background:#218bb5 !important;
 }
 
 .gwt-MenuBar-vertical .subMenuIcon-selected {
-	background-color: #508F5F !important;
+	/*background-color: #508F5F !important;*/
 }
 
 .gwt-MenuBar-vertical {
-	border: 1px solid #aaa !important;
+	background: none repeat scroll 0 0 #2AA9DC !important;
 }
 
 .tablelayout {
@@ -702,7 +714,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 /**End --- Styles for Finance **/ /* this changes by praveena */
 	/* this changes by praveena */
 .gwt-Button:active {
-	border: 0 !important;
+	border:medium none !important;
 }
 
 .gwt-Button:hover {
@@ -725,18 +737,15 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 
 .gwt-MenuBar-horizontal .gwt-MenuItem { /*praveena*/
 	/*background:url(/images/arrow_down.gif) no-repeat scroll 0 0 #6DAF7C; */
-	background: none no-repeat scroll 0 0 #6DAF7C !important;
-	border-color: #639F71 !important;
-	border-style: none solid none none !important;
-	border-width: 1px !important;
+	background: url("images/Menu bar_1x33.png") repeat-x scroll 0 0 #FFFFFF !important;
 	color: #ffffff !important;
 	font-weight: bold;
-	padding: 10px 15px 12px !important;
+	padding: 6px 17px 8px !important;
 	vertical-align: bottom;
 }
 
 .gwt-MenuBar-vertical .subMenuIcon-selected {
-	background: #508F5F !important;
+	background: none repeat scroll 0 0 #218BB5 !important;
 	/*background:url("/images/header-c1.jpg")repeat-x scroll 0 0 transparent ;  praveena*/
 }
 
@@ -791,20 +800,17 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .gwt-Button {
-	background: url("/images/header-c3.jpg") repeat-x scroll 0 0 transparent
-		!important;
-	border: 0 none !important;
-	color: white !important;
-	cursor: pointer;
-	font-size: small;
-	font-weight: bold;
-	height: 22px !important;
-	margin: 3px !important;
-	padding: 0px 5px 2px !important;
-	text-decoration: none;
-	-moz-border-radius: 10px;
+	background:url("/images/Button_1x27.png") repeat-x scroll 0 0 transparent !important;
+	color:white !important;
+	cursor:pointer;
+	font-weight:bold;
+	height:26px !important;
+	padding:0 5px 2px !important;
+	border:0px none !important;
 }
-
+.gwt-Button button:after{
+	background:url("images/Button_left_1x27.png") no-repeat scroll 0 0 #FFFFFF !important;
+}
 /* Wrote by praveena*/
 .gwt-MenuBarPopup table tr {
 	margin-top: -3px;
@@ -831,13 +837,14 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .header {
-	background: none repeat scroll 0 0 #83BF91;
+	background: none repeat scroll 0 0 #e8e8e8;
 	/*margin-left:3px; praveena*/
 }
 
 .label2-style {
-	color: white;
+	color: #00a3d3 !important;
 	font-size: 18px;
+	padding:13px 10px;
 }
 
 /*.blue-week-line tr td{
@@ -855,6 +862,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 .invoice-total {
 	border-collapse: collapse;
 	margin: 10px 0;
+	width:100% !important;
 }
 
 .invoice-total
@@ -911,11 +919,11 @@ solid
 ;
 }
 .noScroll input[type="text"] {
-	width: 150px !important;
+	/*width: 150px !important;*/
 }
 
 .gwt-MenuBar-horizontal .gwt-MenuItem {
-	color: #fff !important;
+	color: #f3f3f3 !important;
 	cursor: pointer !important;
 }
 
@@ -932,12 +940,13 @@ solid
 }
 
 .gridBody input[type="text"] {
-	width: 100% !important;
+	/*width: 100% !important;*/
 }
 
 .userName-style {
 	text-align: right;
 	margin-right: 15px;
+	display:none;
 }
 
 .brandingView {
@@ -967,4 +976,181 @@ solid
 .contact-deatils-area {
 	width: 200px;
 	height: 75px;
+}
+
+.gwt-MenuBar table tr td:nth-of-type(even){
+	/*background:url("images/Menu bar_1x33.png") repeat-x scroll 0 0 #FFFFFF !important;*/
+}
+.menubar-devider{
+	background:url("images/Menu bar_1x33.png") repeat-x scroll 0 0 #FFFFFF !important;
+}
+.bottom-view table tr td{
+	background:url("images/Button_left_1x27.png") no-repeat scroll 0 0 #FFFFFF;
+    padding:0 0 0 1px;
+}
+
+.button-right-image{
+	float:right;
+	height:26px;
+	width:1px;
+}
+.gwt-TextBox{
+	background:url("images/Text Feild_enabled_180x22.png") no-repeat scroll 0 0 #ffffff !important;
+	border:0 none !important;
+    height:22px;
+}
+
+.gwt-TextArea{
+	background:url("images/Text Feild_big_enabled_180x64.png") no-repeat scroll 0 0 #ffffff !important;
+	border:0 none !important;
+	height:65px;
+	width:180px !important;
+}
+.downarrow-button{
+	/*background:url("images/downarrow.png") no-repeat scroll 0 0 transparent !important;
+	float:right;
+	height:22px;
+	margin-left:-20px;
+	position:relative;
+	width:20px;
+	z-index:1;
+	margin-top:1px;
+*/
+    background:url("images/downarrow.png") no-repeat scroll 0 0 transparent !important;
+	float:left;
+	height:20px;
+	margin-left:-20px;
+	margin-top:1px;
+	position:relative;
+	width:20px;
+	z-index:1;
+	padding:1px 0px;
+}
+.gwt-MenuBar-vertical .gwt-MenuItemSeparator .menuSeparatorInner{
+	background:url("images/Menu list seperator.png") repeat scroll 0 0 transparent !important;
+	border:0 none !important;
+	height:2px !important;
+}
+.gwt-MenuBar table tr td{
+	color:#F3F3F3 !important;
+	font-weight:bold;
+}
+.gwt-TabPanelBottom{
+	border-color:#DDDDDD !important;
+	border-width:1px 1px 0 !important;
+}
+.gwt-TabPanelBottom{
+	background:none repeat scroll 0 0 #F0F0F0 !important;
+}
+.help-logout-sep td:nth-child(2),.help-logout-sep td:nth-child(3){
+	float:right;
+	padding:5px;
+}
+.help-content{
+	background:url("images/Menubar_Divider_2x30.jpg") no-repeat scroll 0 0 transparent;
+	float:right;
+	height:18px;
+	margin-left:9px;
+	width:2px;
+	color:#00A3D3 !important;
+}
+.logout-html a,.help-style span{
+	color:#00A3D3 !important;
+}
+.gwt-MenuBar-vertical .gwt-MenuItem {
+	padding:4px 14px 4px 10px !important;
+}
+.editButton{
+	background:url("images/page_edit.png") no-repeat scroll 0 0 transparent;
+}
+.editButton{
+	background:url("images/Seperator1.png") no-repeat scroll 0 0 transparent;
+	height:23px !important;
+	width:10px !important;
+}
+.abstract_base_view{
+	background:none repeat scroll 0 0 #F0F0F0 !important;
+	border:1px solid #DDDDDD;
+}
+.gridTextBoxCell input[type="text"]{
+	background:url("images/Text box_1.png") repeat-x scroll 0 0 white !important;
+	border-left:1px solid #CCCCCC !important;
+	border-right:1px solid #CCCCCC !important;
+	width:100% !important;
+	height:15px !important;
+}
+.bottom-view table tr td button{
+	background:url("/images/Button_1x27.png") repeat-x scroll 0 0 transparent;
+	padding-right:25px !important;
+}
+.gridSelectBoxCell .downarrow-button{
+	background:url("images/Drop down list button_square shape.png") no-repeat scroll 0 0 transparent !important;
+	float:right;
+	height:15px;
+	margin-left:0;
+	margin-top:-15px;
+	position:relative;
+	width:15px;
+	z-index:1;
+	padding:0px;
+}
+.invoice-total tr:nth-child(3){
+	border-bottom:1px solid #aaa;
+	border-top:1px solid #aaa;
+}
+.save-new-separator{
+	background:url("images/Divider.png") no-repeat scroll 0 0 transparent !important;
+}
+.save-close-separator{
+	background:url("images/Divider.png") no-repeat scroll 0 0 transparent !important;
+}
+.close-separator{
+	background:url("images/gray_Divider.png") no-repeat scroll 0 0 transparent !important;
+}
+.add-separator{
+	background:url("images/blue_Divider.png") no-repeat scroll 0 0 transparent !important;
+}
+.save-new-separator,.save-close-separator,.close-separator,.add-separator{
+	height:19px;
+	margin-left:5px;
+	position:absolute;
+	width:2px;
+}
+.save-new-image{
+	background:url("images/page_edit.png") no-repeat scroll 0 0 transparent !important;
+}
+.save-close-image{
+	background:url("images/page_edit.png") no-repeat scroll 0 0 transparent !important;
+}
+.save-new-image,.save-close-image,.close-image,.add-image{
+	height:16px;
+	margin-left:10px;
+	position:absolute;
+	width:16px;
+}
+.add-image{
+	background:url("images/cross.png") no-repeat scroll 0 0 transparent !important;
+}
+.close-image{
+	background:url("images/cross.png") no-repeat scroll 0 0 transparent !important;
+}
+.cancel-button{
+	background:url("images/gray_Button_left_1x27.png") no-repeat scroll 0 0 transparent !important;
+}
+.cancel-button button{
+	background:url("images/gray_mid_Button.png") repeat-x scroll 0 0 transparent !important;
+}
+.add-button{
+	background:url("images/blue_Left_side.png") no-repeat scroll 0 0 transparent !important;
+	padding:0 1px;
+}
+.add-button button{
+	background:url("images/blue_Mid.png") repeat-x scroll 0 0 transparent !important;
+	float:left;
+    padding:0 25px 0 0 !important;
+}
+.blue-right-image{
+	height:26px;
+	width:1px;
+	float:left;
 }
