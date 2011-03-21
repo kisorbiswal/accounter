@@ -223,7 +223,7 @@ public class VendorCreditMemoView extends
 		// vatCheckform.setFields(vatinclusiveCheck);
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setNumCols(2);
-		totalForm.setWidth("41%");
+		totalForm.setWidth("100%");
         totalForm.setStyleName("invoice-total");
 		netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + 100)
 				+ "px");

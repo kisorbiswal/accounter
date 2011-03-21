@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabPanel;
@@ -35,6 +37,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -169,7 +172,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		listforms = new ArrayList<DynamicForm>();
 
 		// setTitle(UIUtils.title(vendorConstants.newVendor()));
-		tabSet = new TabPanel();
+		tabSet = new DecoratedTabPanel();
 		tabSet.setSize("100%", "100%");
 
 		tabSet.add(getGeneralTab(), vendorConstants.general());
@@ -360,6 +363,18 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		panel.add(gridView);
 		panel.add(addButton);
+		
+        addButton.getElement().getParentElement().addClassName("add-button");
+		
+		Element addseparator=DOM.createSpan();
+		addseparator.addClassName("add-separator");
+		DOM.appendChild(addButton.getElement(),addseparator);
+		
+		Element addimage=DOM.createSpan();
+		addimage.addClassName("add-image");
+		DOM.appendChild(addButton.getElement(),addimage);
+		
+		ThemesUtil.addDivToButton(addButton,FinanceApplication.getThemeImages().button_right_blue_image(),"blue-right-image");
 
 		memoArea = new TextAreaItem();
 		memoArea.setHelpInformation(true);
