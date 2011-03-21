@@ -1402,11 +1402,9 @@ public class Utility implements IsSerializable, Serializable {
 		List<ClientFiscalYear> clientFiscalYears = FinanceApplication
 				.getCompany().getFiscalYears();
 
-		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
-			if (clientFiscalYears.get(i).status == ClientFiscalYear.STATUS_OPEN) {
-				return clientFiscalYears.get(i).getEndDate();
-			}
-		}
+		if (!clientFiscalYears.isEmpty())
+			return clientFiscalYears.get((clientFiscalYears.size() - 1))
+					.getEndDate();
 
 		return null;
 	}
@@ -1414,42 +1412,62 @@ public class Utility implements IsSerializable, Serializable {
 	public static ClientFinanceDate getLastandOpenedFiscalYearStartDate() {
 		List<ClientFiscalYear> clientFiscalYears = FinanceApplication
 				.getCompany().getFiscalYears();
-
-		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
-			if (clientFiscalYears.get(i).status == ClientFiscalYear.STATUS_OPEN) {
-				return clientFiscalYears.get(i).getStartDate();
-			}
-		}
-
+		if (!clientFiscalYears.isEmpty())
+			return clientFiscalYears.get((clientFiscalYears.size() - 1))
+					.getStartDate();
 		return null;
 	}
 
 	public static ClientFinanceDate getCurrentFiscalYearStartDate() {
 		List<ClientFiscalYear> clientFiscalYears = FinanceApplication
 				.getCompany().getFiscalYears();
-
+		boolean isCurrentOne = false;
 		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
-			if (clientFiscalYears.get(i).status == ClientFiscalYear.STATUS_OPEN
-					&& clientFiscalYears.get(i).getIsCurrentFiscalYear()) {
+			isCurrentOne = new ClientFinanceDate().before(clientFiscalYears
+					.get(i).getEndDate())
+					&& new ClientFinanceDate().after(clientFiscalYears.get(i)
+							.getStartDate());
+			if (isCurrentOne)
 				return clientFiscalYears.get(i).getStartDate();
-			}
 		}
-
+		if (!isCurrentOne) {
+			return getLastandOpenedFiscalYearStartDate();
+		}
 		return null;
 	}
 
 	public static ClientFinanceDate getCurrentFiscalYearEndDate() {
 		List<ClientFiscalYear> clientFiscalYears = FinanceApplication
 				.getCompany().getFiscalYears();
-
+		boolean isCurrentOne = false;
 		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
-			if (clientFiscalYears.get(i).status == ClientFiscalYear.STATUS_OPEN
-					&& clientFiscalYears.get(i).getIsCurrentFiscalYear()) {
+			isCurrentOne = new ClientFinanceDate().before(clientFiscalYears
+					.get(i).getEndDate())
+					&& new ClientFinanceDate().after(clientFiscalYears.get(i)
+							.getStartDate());
+			if (isCurrentOne)
 				return clientFiscalYears.get(i).getEndDate();
-			}
 		}
-
+		if (!isCurrentOne) {
+			return getLastandOpenedFiscalYearEndDate();
+		}
 		return null;
+	}
+
+	public static boolean isCurrentInFiscalYear(long date) {
+		List<ClientFiscalYear> clientFiscalYears = FinanceApplication
+				.getCompany().getFiscalYears();
+		boolean isCurrentOne = false;
+		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
+			long startDate = Math.round(clientFiscalYears.get(i).getStartDate()
+					.getTime() / 100);
+			long endDate = Math.round(clientFiscalYears.get(i).getEndDate()
+					.getTime() / 100);
+			isCurrentOne = (date >= startDate) && (date <= endDate);
+			if (isCurrentOne)
+				return true;
+		}
+		return false;
 	}
 
 	public static String getDescription(int boxType) {

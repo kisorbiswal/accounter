@@ -36,7 +36,6 @@ import org.hibernate.classic.Lifecycle;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import com.vimukti.accounter.web.client.data.ISearchResultObject;
 import com.bizantra.server.core.IMember;
 import com.bizantra.server.core.IObjectPath;
 import com.bizantra.server.ext.AbstractSpaceObject;
@@ -100,6 +99,12 @@ import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.ShippingTerms;
 import com.vimukti.accounter.core.TAXAdjustment;
+import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.TAXGroup;
+import com.vimukti.accounter.core.TAXItem;
+import com.vimukti.accounter.core.TAXItemGroup;
+import com.vimukti.accounter.core.TAXRateCalculation;
 import com.vimukti.accounter.core.TaxRates;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
@@ -107,13 +112,6 @@ import com.vimukti.accounter.core.TransactionMakeDepositEntries;
 import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.Util;
 import com.vimukti.accounter.core.Utility;
-import com.vimukti.accounter.core.TAXAdjustment;
-import com.vimukti.accounter.core.TAXAgency;
-import com.vimukti.accounter.core.TAXCode;
-import com.vimukti.accounter.core.TAXGroup;
-import com.vimukti.accounter.core.TAXItem;
-import com.vimukti.accounter.core.TAXItemGroup;
-import com.vimukti.accounter.core.TAXRateCalculation;
 import com.vimukti.accounter.core.VATReturn;
 import com.vimukti.accounter.core.VATReturnBox;
 import com.vimukti.accounter.core.Vendor;
@@ -183,6 +181,7 @@ import com.vimukti.accounter.web.client.core.reports.VATDetailReport;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
+import com.vimukti.accounter.web.client.data.ISearchResultObject;
 import com.vimukti.accounter.web.client.ui.GraphChart;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.CompanyPreferencesView;
@@ -5127,6 +5126,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		}
 
 		// }
+		Utility.updateCurrentFiscalYear();
 
 	}
 
@@ -6880,9 +6880,8 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 
 		long startDate1 = ((FinanceDate) ((session
-				.createQuery("select f.startDate from com.vimukti.accounter.core.FiscalYear f where f.isCurrentFiscalYear=true")
-				).list().get(0)))
-				.getTime();
+				.createQuery("select f.startDate from com.vimukti.accounter.core.FiscalYear f where f.isCurrentFiscalYear=true"))
+				.list().get(0))).getTime();
 
 		/*
 		 * Here endDate1 is used to store the previous month of endDate value
@@ -7153,32 +7152,32 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 				.createQuery("from com.vimukti.accounter.core.FiscalYear fs ");
 		FinanceDate actualStartDate = new FinanceDate();
 		for (FiscalYear fs : fiscalYears) {
-//			if (fs.getStatus() == FiscalYear.STATUS_OPEN) {
-			if (fs.getIsCurrentFiscalYear() == Boolean.TRUE) {
+			if (fs.getIsCurrentFiscalYear()) {
+
 				actualStartDate = fs.getStartDate();
 				break;
 			}
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(actualStartDate.getAsDateObject());
+			// startDate = cal.get(Calendar.YEAR) + "-"
+			// + (cal.get(Calendar.MONTH) + 1) + "-"
+			// + cal.get(Calendar.DAY_OF_MONTH);
+			startDate = new FinanceDate(cal.getTime()).getTime();
+			Query query = session.getNamedQuery(
+					"get_BOX1_VATdueOnSalesAndOtherOutputs").setParameter(
+
+			"startDate", startDate).setParameter("endDate", endDate);
+
+			List l = query.list();
+
+			Map<String, Double> vatReturnBoxes = new HashMap<String, Double>();
+			if (l.size() > 0) {
+				vatReturnBoxes.put(AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES,
+						(Double) l.get(0));
+			}
 		}
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(actualStartDate.getAsDateObject());
-		// startDate = cal.get(Calendar.YEAR) + "-"
-		// + (cal.get(Calendar.MONTH) + 1) + "-"
-		// + cal.get(Calendar.DAY_OF_MONTH);
-		startDate = new FinanceDate(cal.getTime()).getTime();
-		Query query = session.getNamedQuery(
-				"get_BOX1_VATdueOnSalesAndOtherOutputs").setParameter(
-
-		"startDate", startDate).setParameter("endDate", endDate);
-
-		List l = query.list();
-
-		Map<String, Double> vatReturnBoxes = new HashMap<String, Double>();
-		if (l.size() > 0) {
-			vatReturnBoxes.put(AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES,
-					(Double) l.get(0));
-		}
-
 		return null;
+
 	}
 
 	@Override

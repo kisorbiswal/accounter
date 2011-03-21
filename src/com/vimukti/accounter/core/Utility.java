@@ -10,14 +10,15 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import com.bizantra.server.storage.HibernateUtil;
+import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
@@ -531,7 +532,7 @@ public class Utility {
 		double salesTaxAmount = 0D;
 		double calculatedTaxRate = 0D;
 
-		if (taxGroup == null )
+		if (taxGroup == null)
 			return salesTaxAmount;
 
 		Iterator taxItemIterator = taxGroup.getTAXItems().iterator();
@@ -1402,6 +1403,34 @@ public class Utility {
 			valueTobesend = valueTobesend + "  " + val;
 		}
 		return valueTobesend;
+	}
+
+	public static void updateCurrentFiscalYear() {
+		Session session = HibernateUtil.getCurrentSession();
+		Criteria criteria = session.createCriteria(FiscalYear.class);
+
+		List<FiscalYear> listofiscalyrs = criteria.list();
+
+		Iterator<FiscalYear> iterator = listofiscalyrs.iterator();
+
+		boolean isCurrentOne = false;
+
+		long date = new FinanceDate().getTime();
+
+		while (iterator.hasNext()) {
+			FiscalYear fiscalYear = iterator.next();
+			long startDate = fiscalYear.getStartDate().getTime();
+			long endDate = fiscalYear.getEndDate().getTime();
+
+			isCurrentOne = (date >= startDate) && (date <= endDate);
+			if (isCurrentOne) {
+				fiscalYear.setIsCurrentFiscalYear(true);
+			} else {
+				fiscalYear.setIsCurrentFiscalYear(false);
+			}
+			session.save(fiscalYear);
+			ChangeTracker.put(fiscalYear);
+		}
 	}
 
 }

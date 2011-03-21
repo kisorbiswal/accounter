@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ReportsActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.ProfitAndLossServerReport;
 
-@SuppressWarnings("unchecked")
 public class ProfitAndLossReport extends AbstractReportView<TrialBalance> {
 	// private ClientFinanceDate start, end;
 

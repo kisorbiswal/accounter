@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -63,9 +64,9 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 		if (amt == null) {
 			return UIUtils.getCurrencySymbol() + " 0.00";
 		} else {
-			if ((new ClientFinanceDate().getYear() + 1900) == (colsMap
-					.get(index) / 100))
+			if (Utility.isCurrentInFiscalYear(colsMap.get(index))) {
 				rowTotal += amt;
+			}
 		}
 		return DataUtils.getAmountAsString(amt);
 	}

@@ -59,7 +59,8 @@ public abstract class ReportToolbar extends HorizontalPanel {
 	}
 
 	public ClientFinanceDate getStartDate() {
-		return startDate.getTime() == 0 ? new ClientFinanceDate() : startDate;
+		return startDate != null && startDate.getTime() == 0 ? new ClientFinanceDate()
+				: startDate;
 	}
 
 	public void setStartDate(ClientFinanceDate startDate) {
@@ -67,7 +68,8 @@ public abstract class ReportToolbar extends HorizontalPanel {
 	}
 
 	public ClientFinanceDate getEndDate() {
-		return endDate.getTime() == 0 ? new ClientFinanceDate() : endDate;
+		return (endDate != null && endDate.getTime() == 0) ? new ClientFinanceDate()
+				: endDate;
 	}
 
 	public void setEndDate(ClientFinanceDate endDate) {

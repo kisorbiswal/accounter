@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.FocusImpl;
+import com.vimukti.accounter.web.client.commet.AccounterCometClient;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
@@ -170,14 +171,14 @@ public class MainFinanceWindow extends VerticalPanel {
 	private MenuBar getMenuBar() {
 		MenuBar menuBar = new MenuBar();
 		menuBar.addItem("DashBoard", getDashBoardCommand());
-		
+
 		MenuItem menuitem = menuBar.addItem(FinanceApplication
 				.getFinanceUIConstants().company(), getCompanyMenu());
 		Image child = new Image();
 		child.addStyleName("menu_arrow");
 		child.setUrl("images/arrow_down.gif");
 		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
-	
+
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			menuitem = menuBar.addItem(FinanceApplication
 					.getFinanceUIConstants().vat(), getVATMenu());
@@ -1116,6 +1117,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		// }
 		super.onLoad();
 		viewManager.fitToSize(this.getOffsetHeight(), 960);
+		// if (GWT.isScript())
+		AccounterCometClient.start();
 	}
 
 	@Override
@@ -1163,7 +1166,8 @@ public class MainFinanceWindow extends VerticalPanel {
 	@Override
 	protected void onUnload() {
 		super.onUnload();
-
+		AccounterCometClient.cometStop();
+		MainFinanceWindow.makeAllViewsStaticstoNull();
 	}
 
 	public static void makeAllStaticInstancesNull() {
@@ -1186,4 +1190,5 @@ public class MainFinanceWindow extends VerticalPanel {
 	public void cancelonMouseoverevent(boolean iscancelEvent) {
 		MainFinanceWindow.iscancelEvent = iscancelEvent;
 	}
+
 }

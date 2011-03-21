@@ -229,7 +229,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 			List<ClientFiscalYear> fiscalYears = FinanceApplication
 					.getCompany().getFiscalYears();
 			for (ClientFiscalYear fiscalYear : fiscalYears) {
-				if (fiscalYear.getStatus() == ClientFiscalYear.STATUS_OPEN) {
+				if (fiscalYear.getIsCurrentFiscalYear()) {
 					fromDate.setDatethanFireEvent(fiscalYear.getStartDate());
 					break;
 				}

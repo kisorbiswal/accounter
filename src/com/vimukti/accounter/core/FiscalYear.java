@@ -227,6 +227,7 @@ public class FiscalYear implements IAccounterServerCore, Lifecycle,
 		this.isOnSaveProccessed = true;
 		// this.setPreviousStartDate(this.getStartDate());
 		this.setStatus(FiscalYear.STATUS_OPEN);
+		Utility.updateCurrentFiscalYear();
 		onUpdate(session);
 		ChangeTracker.put(this);
 		return false;
@@ -431,6 +432,7 @@ public class FiscalYear implements IAccounterServerCore, Lifecycle,
 		// session.saveOrUpdate(company);
 		// }
 		// }
+		Utility.updateCurrentFiscalYear();
 		ChangeTracker.put(this);
 		return false;
 	}

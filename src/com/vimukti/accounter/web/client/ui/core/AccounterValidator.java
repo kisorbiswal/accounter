@@ -284,7 +284,7 @@ public class AccounterValidator {
 	public static boolean validateTransactionDate(
 			ClientFinanceDate transactionDate)
 			throws InvalidTransactionEntryException {
-		boolean validDate = true;
+		boolean validDate = false;
 		List<ClientFiscalYear> openFiscalYears = getOpenFiscalYears();
 		for (ClientFiscalYear openFiscalYear : openFiscalYears) {
 
