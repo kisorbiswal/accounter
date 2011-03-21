@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui;
 
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Command;
@@ -15,6 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.FocusImpl;
 import com.vimukti.accounter.web.client.commet.AccounterCometClient;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -171,7 +174,7 @@ public class MainFinanceWindow extends VerticalPanel {
 	private MenuBar getMenuBar() {
 		MenuBar menuBar = new MenuBar();
 		menuBar.addItem("DashBoard", getDashBoardCommand());
-
+		
 		MenuItem menuitem = menuBar.addItem(FinanceApplication
 				.getFinanceUIConstants().company(), getCompanyMenu());
 		Image child = new Image();
@@ -182,69 +185,42 @@ public class MainFinanceWindow extends VerticalPanel {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			menuitem = menuBar.addItem(FinanceApplication
 					.getFinanceUIConstants().vat(), getVATMenu());
-			child = new Image();
-			child.addStyleName("menu_arrow");
-			child.setUrl("images/arrow_down.gif");
-			DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
+			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 
 		menuitem = menuBar.addItem(FinanceApplication.getFinanceUIConstants()
 				.customer(), getCustomerMenu());
-		child = new Image();
-		child.addStyleName("menu_arrow");
-		child.setUrl("images/arrow_down.gif");
-		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
+		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		menuitem = menuBar.addItem(UIUtils.getVendorString(FinanceApplication
 				.getVendorsMessages().supplier(), FinanceApplication
 				.getVendorsMessages().vendor()), getVendorMenu());
-		child = new Image();
-		child.addStyleName("menu_arrow");
-		child.setUrl("images/arrow_down.gif");
-		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
+		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		menuitem = menuBar.addItem(FinanceApplication.getFinanceUIConstants()
 				.banking(), getBankingMenu());
-		child = new Image();
-		child.addStyleName("menu_arrow");
-		child.setUrl("images/arrow_down.gif");
-		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
+		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		menuitem = menuBar.addItem("Sales", getSalesSubMenu());
-		child = new Image();
-		child.addStyleName("menu_arrow");
-		child.setUrl("images/arrow_down.gif");
-		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
+		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		menuitem = menuBar.addItem("Purchases", getPurchaseSubMenu());
-		child = new Image();
-		child.addStyleName("menu_arrow");
-		child.setUrl("images/arrow_down.gif");
-		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
+		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		// menuBar.addItem(FinanceApplication.getFinanceUIConstants()
 		// .fixedAssets(), getFixedAssetsMenu());
 		menuitem = menuBar.addItem(FinanceApplication.getFinanceUIConstants()
 				.reports(), getReportMenu());
-		child = new Image();
-		child.addStyleName("menu_arrow");
-		child.setUrl("images/arrow_down.gif");
-		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
+		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		// menuBar.addItem(FinanceApplication.getFinanceUIConstants().help(),
 		// getHelpMenu());
 		menuitem = menuBar.addItem("Settings", getSettingsMenu());
-		child = new Image();
-		child.addStyleName("menu_arrow");
-		child.setUrl("images/arrow_down.gif");
-		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
+		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		if (!GWT.isScript()) {
 			menuitem = menuBar.addItem(FinanceApplication.getCompanyMessages()
 					.test(), getTestMenu());
-			child = new Image();
-			child.addStyleName("menu_arrow");
-			child.setUrl("images/arrow_down.gif");
-			DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
+			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 
 		menuBar.setAutoOpen(true);
