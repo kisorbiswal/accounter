@@ -32,7 +32,7 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 	 */
 	protected void init() {
 		// TODO Auto-generated method stub
-
+		super.init();
 	}
 
 	public abstract SelectItemType getSelectItemType();

@@ -10,7 +10,6 @@ import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Cursor;
-import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -28,12 +27,10 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientAccount; //<<<<<<< .working
-//import com.vimukti.accounter.web.client.core.ClientVATCode;
-//=======
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
-import com.vimukti.accounter.web.client.core.ClientVATCode; //>>>>>>> .merge-right.r20318
+import com.vimukti.accounter.web.client.core.ClientVATCode;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -200,8 +197,7 @@ public abstract class DropDownCombo<T> extends TextItem {
 			@Override
 			public void onPopupClosed(PopupPanel sender, boolean autoClosed) {
 				if ((selectedName == null || !selectedName.equals(getValue()
-						.toString()))
-						&& selectedIndex == -1)
+						.toString())) && selectedIndex == -1)
 					setRelatedComboItem(getValue().toString());
 			}
 		});
@@ -237,12 +233,15 @@ public abstract class DropDownCombo<T> extends TextItem {
 
 	}
 
-	@SuppressWarnings("unused")
 	private void addDiv() {
 		TextBox box = (TextBox) getMainWidget();
-		Element div = DOM.createButton();
-		div.setClassName("dropdown-button");
-		box.getElement().getParentElement().appendChild(div);
+		com.google.gwt.user.client.Element parent = (com.google.gwt.user.client.Element) box
+				.getElement().getParentElement();
+		if (DOM.getChildCount(parent) <= 1) {
+			Element div = DOM.createDiv();
+			div.setClassName("downarrow-button");
+			box.getElement().getParentElement().appendChild(div);
+		}
 	}
 
 	private void resetComboList() {
@@ -328,7 +327,6 @@ public abstract class DropDownCombo<T> extends TextItem {
 	 * are called from constructor.
 	 */
 	protected void init() {
-
 	}
 
 	public void setWidth(String width) {
@@ -769,8 +767,6 @@ public abstract class DropDownCombo<T> extends TextItem {
 		// this.panel.setWidth(width);
 	}
 
-	// <<<<<<< .working
-
 	protected void onKeyEnter(char key) {
 		filterValues(key);
 	}
@@ -778,8 +774,8 @@ public abstract class DropDownCombo<T> extends TextItem {
 	private void filterValues(char key) {
 
 		String val = getValue() != null ? getValue().toString()
-				+ String.valueOf(key).replace("/", "").trim() : String.valueOf(
-				key).replace("/", "").trim();
+				+ String.valueOf(key).replace("/", "").trim() : String
+				.valueOf(key).replace("/", "").trim();
 
 		resetComboList();
 		if (key == '/') {
@@ -869,8 +865,6 @@ public abstract class DropDownCombo<T> extends TextItem {
 		});
 	}
 
-	// =======
-	//
 	// protected void onKeyEnter(char key) {
 	// filterValues(key);
 	// }
@@ -985,5 +979,10 @@ public abstract class DropDownCombo<T> extends TextItem {
 		}
 		return displayName;
 	}
-	// >>>>>>> .merge-right.r20318
+
+	@Override
+	protected void onAttach() {
+		super.onAttach();
+		addDiv();
+	}
 }
