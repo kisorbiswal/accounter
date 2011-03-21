@@ -1826,12 +1826,16 @@ select[multiple] option {
 	cursor: pointer;
 }
 
-input[disabled],textarea[disabled],input[disabled='disabled'] {
-	background: #e6e0da none repeat scroll 0 0;
+input[disabled],input[disabled='disabled'] {
+	background: url("images/Text Feild_diabled.png") no-repeat scroll 0 0  #e6e0da !important;
 	color: #b1a7ad;
-	border: 1px solid #AAAAAA;
+	border: 0 none;
 }
-
+textarea[disabled]{
+	background: url("images/Text Feild_disabled_180x64.png") no-repeat scroll 0 0  #e6e0da !important;
+	color: #b1a7ad;
+	border: 0 none;
+}
 .requiredField {
 	font-weight: bold;
 }
