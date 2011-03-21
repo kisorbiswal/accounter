@@ -237,7 +237,7 @@ public class ViewManager extends DockPanel {
 
 		});
 
-		print1Button = new Image("/images/print.png");
+		print1Button = new Image("/images/printer.png");
 		print1Button
 				.setTitle(FinanceApplication.getCustomersMessages().print());
 		print1Button.addClickHandler(new ClickHandler() {
@@ -262,7 +262,7 @@ public class ViewManager extends DockPanel {
 		// }
 		// });
 
-		edit1Button = new Image("/images/edit1.png");
+		edit1Button = new Image("/images/page_edit.png");
 		edit1Button.setTitle(FinanceApplication.getCustomersMessages().edit());
 		edit1Button.addClickHandler(new ClickHandler() {
 
@@ -1620,8 +1620,8 @@ public class ViewManager extends DockPanel {
 		}
 
 		if (width - BORDER > 0) {
-			this.scrollPanel.setWidth(width - BORDER + "px");
-			this.setWidth(width - BORDER + "px");
+			this.scrollPanel.setWidth(width + BORDER + "px");
+			this.setWidth(width + BORDER + "px");
 			// this.rightCanvas.setWidth(width - BORDER + "px");
 		}
 

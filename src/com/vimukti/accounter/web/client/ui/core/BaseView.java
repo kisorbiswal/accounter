@@ -2,12 +2,16 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import java.util.List;
 
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -91,7 +95,6 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 		registerButton = new CustomButton(CustomButtonType.REGISTER, this);
 
 		cancelButton = new CustomButton(CustomButtonType.CANCEL, this);
-
 		/*
 		 * if the view is related to FixedAsset,then "SaveAndNew" is replaced
 		 * with "Register" button(it is similar to "saveAndClose" button but
@@ -116,13 +119,45 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 					&& !(this != null && this instanceof FileVATView))
 				buttonLayout.add(saveAndNewButton);
 		}
-
+					
 		buttonLayout.add(cancelButton);
 
 		setCellHorizontalAlignment(buttonLayout, ALIGN_RIGHT);
 		add(buttonLayout);
 		buttonLayout.getElement().getParentElement()
 				.setClassName("bottom-view");
+		
+		cancelButton.getElement().getParentElement()
+		.setClassName("cancel-button");
+		
+		Element spanEle=DOM.createSpan();
+		spanEle.addClassName("save-new-separator");
+		DOM.appendChild(saveAndNewButton.getElement(),spanEle);
+		
+		Element spanElement=DOM.createSpan();
+		spanElement.addClassName("save-new-image");
+		DOM.appendChild(saveAndNewButton.getElement(),spanElement);
+		
+		Element savecloseseparator=DOM.createSpan();
+		savecloseseparator.addClassName("save-close-separator");
+		DOM.appendChild(saveAndCloseButton.getElement(),savecloseseparator);
+		
+		Element savecloseimage=DOM.createSpan();
+		savecloseimage.addClassName("save-close-image");
+		DOM.appendChild(saveAndCloseButton.getElement(),savecloseimage);
+		
+		
+		Element closeseparator=DOM.createSpan();
+		closeseparator.addClassName("close-separator");
+		DOM.appendChild(cancelButton.getElement(),closeseparator);
+		
+		Element closeimage=DOM.createSpan();
+		closeimage.addClassName("close-image");
+		DOM.appendChild(cancelButton.getElement(),closeimage);
+		
+		ThemesUtil.addDivToButton(cancelButton,FinanceApplication.getThemeImages().button_right_gray_image(),"button-right-image");
+		ThemesUtil.addDivToButton(saveAndCloseButton,FinanceApplication.getThemeImages().button_right_green_image(),"button-right-image");
+		ThemesUtil.addDivToButton(saveAndNewButton,FinanceApplication.getThemeImages().button_right_green_image(),"button-right-image");
 	}
 
 	public Panel getCanvas() {

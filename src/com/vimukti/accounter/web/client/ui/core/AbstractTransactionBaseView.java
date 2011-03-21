@@ -14,6 +14,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -26,6 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -520,7 +522,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	public Button createAddNewButton() {
 		menuButton = new Button(FinanceApplication.getCompanyMessages()
 				.addNewItm());
-
+		
 		menuButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -533,6 +535,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 				}
 			}
 		});
+			
 		menuButton.setEnabled(!isEdit);
 		return menuButton;
 	}
@@ -837,5 +840,20 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 				}
 			}
 		}
+	}
+	@Override
+	protected void onAttach() {
+		super.onAttach();
+		menuButton.getElement().getParentElement().addClassName("add-button");
+		
+		Element addseparator=DOM.createSpan();
+		addseparator.addClassName("add-separator");
+		DOM.appendChild(menuButton.getElement(),addseparator);
+		
+		Element addimage=DOM.createSpan();
+		addimage.addClassName("add-image");
+		DOM.appendChild(menuButton.getElement(),addimage);
+		
+		ThemesUtil.addDivToButton(menuButton,FinanceApplication.getThemeImages().button_right_blue_image(),"blue-right-image");
 	}
 }
