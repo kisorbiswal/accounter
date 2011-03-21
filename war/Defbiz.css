@@ -1095,8 +1095,7 @@ h1 {
 }
 
 .shade-round-r {
-	background: transparent url(images/title-shade-r.png) no-repeat scroll 0
-		0;
+	background: transparent url(images/title-shade-r.png) no-repeat scroll 0 0;
 	height: 16px;
 	overflow: hidden;
 	position: absolute;
@@ -1120,8 +1119,7 @@ h1 {
 /* top shades for non title panels ---------- end ------------*/
 .gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox {
 	border: 1px solid #AAAAAA;
-	height: auto !important;
-	width:198px !important;  /*praveena*/
+	width:180px !important;  /*praveena*/
 }
 
 table tr.gridRow:HOVER {
@@ -1156,11 +1154,9 @@ table tr.parentRow:HOVER {
 
 .gridHeader {
 	border-collapse: collapse;
-	border: 1px solid #e6e6e6;
 	cursor: pointer;
-	/*height: 10px;*/
-	background: #83BF91; /*url('images/header.png') repeat-x scroll 0 0;*/
-	height: 22px;
+	background: url("images/Form_Title_bar_mid.png") repeat-x scroll 0 0 transparent; /*url('images/header.png') repeat-x scroll 0 0;*/
+	height: 21px;
 }
 
 .gridHeaderLastTd {
@@ -1168,7 +1164,7 @@ table tr.parentRow:HOVER {
 }
 
 .gridHeader td {
-	border-right: 1px solid #e6e6e6;
+	border-right: 1px solid #AAAAAA;
 	overflow-x: hidden;
 }
 
@@ -1199,19 +1195,19 @@ table tr.parentRow:HOVER {
 	table-layout: fixed;
 	white-space: nowrap;
 }
-
+.gridHeader tr td div{
+	width: 100%;
+}
 .gridBody tr td div,.gridHeader tr td div {
 	overflow: hidden;
 	height: 18px;
 	white-space: nowrap;
-	width: 100%;
 }
 
 .gridBody tr td {
-	border-right: 1px solid #e6e6e6;
+	border-right: 1px solid #AAAAAA;
 	padding-left: 5px;
 	overflow-x: hidden;
-	border-bottom: 1px solid #e6e6e6;
 }
 
 .grid-resizeable-proxy-column {
@@ -1248,10 +1244,10 @@ table tr.parentRow:HOVER {
 }
 
 .listgrid {
-	border: 1px solid #a7abb4;
-	overflow-x: hidden;
-	overflow-y: scroll;
-	background: #FFF;
+	background:none repeat scroll 0 0 white;
+	border-style:solid;
+	border-width:0 1px 1px;
+	overflow-y:scroll;
 }
 
 .gridBodyContainer {
@@ -1272,10 +1268,11 @@ input[type="checkbox"] {
 
 .gridEvenRow {
 	width: 100%;
+	background:none repeat scroll 0 0 #E8E8E8;
 }
 
 .gridOddRow {
-	
+	background:none repeat scroll 0 0 #F0F0F0;
 }
 
 .gridAscend div {
@@ -2076,27 +2073,23 @@ table tr.ReportGridRow:HOVER {
 .gwt-TabBar .gwt-TabBarItem-wrapper {
 	/*background: transparent url(images/tab-image-unselected-l.jpg) no-repeat
 		scroll 5px 0;*/
-	background: transparent url("images/tab-image-unselected-l-black.png") no-repeat
-		scroll 5px 0;
+	background: url("images/Tab_normal_left_4x30.png") no-repeat scroll 7px 0 transparent;
 	padding-left: 5px;
 }
 
 .gwt-TabBar .gwt-TabBarItem-wrapper .gwt-TabBarItem {
 	/*background: #D0E4F6 url(images/tab-image-unselected-r.jpg) no-repeat
 		scroll 100% 0;*/
-	background: #595A54 url("images/tab-image-unselected-r-black.png") no-repeat
-		scroll 100% 0;
+	background: url("images/Tab_normal_1x30.png") repeat-x scroll 0 0 transparent;
 	padding: 3px 6px 5px 0 !important;
 }
 
 .gwt-TabBar .gwt-TabBarItem-wrapper-selected {
-	background: transparent url(images/tab-image-selected-l-green.png)
-		no-repeat scroll 5px 0 !important;
+	background: url("images/Tab_selected_left_4x30.png") no-repeat scroll 7px 0 transparent !important;
 }
 
 .gwt-TabBar .gwt-TabBarItem-wrapper-selected .gwt-TabBarItem {
-	background: #86CAEF url(images/tab-image-selected-r.jpg) no-repeat
-		scroll 100% 0 !important;
+	background: url("images/Tab_selected_1x30.png") repeat-x scroll 0 0 transparent !important;
 }
 
 .selection-view {
@@ -4002,25 +3995,25 @@ td.menu-button-disable-parent {
 
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleLeft,.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleRight
 	{
-	background: transparent url("images/tab-image-selected-l-green.png")
-		no-repeat scroll 0 -4px !important;
+	background: url("images/Tab_selected_left_4x30.png") no-repeat scroll 0 -4px transparent !important;
 }
+
 
 .gwt-DecoratedTabBar .tabMiddleLeft,.gwt-DecoratedTabBar .tabMiddleRight
 	{
-	background: transparent url("images/tab-image-unselected-l-black.png")
+	background: transparent url("images/Tab_normal_Right_4x30.png")
 		no-repeat scroll 0 -4px !important;
 	padding: 0;
 	width: 6px;
 }
 
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleCenter {
-	background: #9FC24C none repeat scroll 0 0;
+	background: url("images/Tab_select-Imge.png") repeat-x scroll 0 0 transparent !important;
 	cursor: default;
 }
 
 .gwt-DecoratedTabBar .tabMiddleCenter {
-	background: none repeat scroll 0 0 #595A54;
+	background: url("images/Tab_normal-Imge.png") repeat-x scroll 0 0 transparent !important;
 	color: #FFFFFF;
 	cursor: pointer;
 	font-weight: bold;
@@ -4029,11 +4022,11 @@ td.menu-button-disable-parent {
 }
 
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopCenter {
-	background: #92C1F0 none repeat scroll 0 0;
+	background: url("images/Tab_selected_1x30.png") repeat-x scroll 0 0 transparent !important;
 }
 
 .gwt-DecoratedTabBar .tabTopCenter {
-	background: #595A54 none repeat scroll 0 0;
+	background: url("images/Tab_normal_1x30.png") repeat-x scroll 0 0 transparent !important;
 	padding: 0;
 }
 
@@ -4043,27 +4036,24 @@ td.menu-button-disable-parent {
 }
 
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopCenter {
-	background: #9FC24C none repeat scroll 0 0;
+	/*background: #9FC24C none repeat scroll 0 0;*/
 }
 
 .gwt-DecoratedTabBar .tabTopLeft {
-	background: transparent url("images/tab-image-unselected-l-black.png")
-		no-repeat scroll 0 0 !important;
+	background: url("images/Tab_normal_left_4x30.png") no-repeat scroll 0 0 transparent !important;
 }
 
 .gwt-DecoratedTabBar .tabTopRight {
-	background: transparent url("images/tab-image-unselected-r-black.png")
-		no-repeat scroll -1px 0 !important;
+	background: transparent url("images/Tab_normal_Right_4x30.png")
+		no-repeat scroll 0px 0 !important;
 }
 
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopLeft {
-	background: transparent url("images/tab-image-selected-l-green.png")
-		no-repeat scroll 0 0 !important;
+	background: url("images/Tab_selected_left_4x30.png") no-repeat scroll 0 0 transparent !important;
 }
 
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopRight {
-	background: transparent url("images/tab-image-selected-r-green.png")
-		no-repeat scroll -1px 0 !important;
+	background: url("images/Tab_selected_right_4x30.png") no-repeat scroll 0 0 transparent !important;
 }
 
 .datePickerMonthSelector {
@@ -4397,4 +4387,22 @@ td.imagelink-h-hover .imageLink-div {
 }
 
 
+.tabTopLeft,.tabMiddleLeft{
+	background:url("images/Tab_normal_left_4x30.png") no-repeat scroll 0 0 transparent !important;
+}
+.tabTopCenter{
+	/*background:url("images/Tab_selected_1x30.png") repeat-x scroll 0 0 transparent !important;*/
+}
+.tabTopRight,.tabMiddleRight{
+	background:url("images/Tab_selected_1x30.png") no-repeat scroll 0 0 transparent !important;
+}
+.tabMiddleCenter{
+	margin:0px;
+}
 /**End --- Styles for new UI **/
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleRight{
+	background:url("images/Tab_selected_right_4x30.png") no-repeat scroll 0 -4px transparent !important;
+}
+.gwt-DecoratedTabBar .tabMiddleLeft {
+	background:url("images/Tab_normal_left_4x30.png") no-repeat scroll 0 -4px transparent !important;
+}
