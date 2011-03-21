@@ -11,6 +11,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -25,6 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -583,6 +586,21 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		mainVlay.add(gridView);
 		mainVlay.add(addButton);
 		mainVlay.add(memoForm);
+		
+		
+		
+        addButton.getElement().getParentElement().addClassName("add-button");
+		
+		Element addseparator=DOM.createSpan();
+		addseparator.addClassName("add-separator");
+		DOM.appendChild(addButton.getElement(),addseparator);
+		
+		Element addimage=DOM.createSpan();
+		addimage.addClassName("add-image");
+		DOM.appendChild(addButton.getElement(),addimage);
+		
+		ThemesUtil.addDivToButton(addButton,FinanceApplication.getThemeImages().button_right_blue_image(),"blue-right-image");
+		
 
 		/* Adding dynamic forms in list */
 		listforms.add(taxAgencyForm);
