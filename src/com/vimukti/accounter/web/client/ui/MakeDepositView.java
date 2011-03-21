@@ -9,6 +9,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -26,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
 import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
@@ -59,7 +62,6 @@ public class MakeDepositView extends
 
 	AmountField cashBackAmountText;
 	AmountLabel totText;
-
 
 	TextItem cashBackMemoText, totAmtText;
 	DynamicForm memoForm, totForm;
@@ -507,8 +509,7 @@ public class MakeDepositView extends
 		// Setting Cash back account
 		makeDeposit
 				.setCashBackAccount(selectedCashBackAccount != null ? selectedCashBackAccount
-						.getStringID()
-						: null);
+						.getStringID() : null);
 		if (cashBackMemoText.getValue() != null)
 			makeDeposit.setCashBackMemo(cashBackMemoText.getValue().toString());
 
@@ -785,8 +786,8 @@ public class MakeDepositView extends
 		});
 		// date.setWidth(100);
 
-		depositInSelect = new MakeDepositAccountCombo(bankingConstants
-				.depositIn());
+		depositInSelect = new MakeDepositAccountCombo(
+				bankingConstants.depositIn());
 		depositInSelect.setHelpInformation(true);
 		depositInSelect.setRequired(true);
 		depositInSelect.setWidth(100);
@@ -861,16 +862,16 @@ public class MakeDepositView extends
 			public void onClick(ClickEvent event) {
 				ClientTransactionMakeDeposit deposit = new ClientTransactionMakeDeposit();
 				deposit.setIsNewEntry(true);
-				deposit
-						.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
+				deposit.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
 				// deposit.set
 				gridView.addData(deposit);
 				gridView.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 			}
 		});
 
-		cashBackAccountSelect = new CashBackAccountsCombo(bankingConstants
-				.cashBackAccount());
+		
+		cashBackAccountSelect = new CashBackAccountsCombo(
+				bankingConstants.cashBackAccount());
 		cashBackAccountSelect.setHelpInformation(true);
 		cashBackAccountSelect.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.CASH_BACK_ACCOUNTS_COMBO));
@@ -918,11 +919,27 @@ public class MakeDepositView extends
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
 		topHLay.add(depoForm);
-		
+
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.add(addButton);
 		vPanel.add(form1);
-				
+		
+		addButton.getElement().getParentElement().addClassName("add-button");
+
+		Element addseparator = DOM.createSpan();
+		addseparator.addClassName("add-separator");
+		DOM.appendChild(addButton.getElement(), addseparator);
+
+		Element addimage = DOM.createSpan();
+		addimage.addClassName("add-image");
+		DOM.appendChild(addButton.getElement(), addimage);
+
+		ThemesUtil
+				.addDivToButton(addButton, FinanceApplication.getThemeImages()
+						.button_right_blue_image(), "blue-right-image");
+
+		
+
 		HorizontalPanel botHLay = new HorizontalPanel();
 		botHLay.setWidth("100%");
 		botHLay.add(vPanel);
@@ -1043,8 +1060,8 @@ public class MakeDepositView extends
 			return AccounterValidator.validateForm(depoForm);
 		case 3:
 			return AccounterValidator.validate_MakeDeposit_CashBackAmount(
-					cashBackAmountText.getAmount().doubleValue(), totText
-							.getAmount());
+					cashBackAmountText.getAmount().doubleValue(),
+					totText.getAmount());
 		case 2:
 			return AccounterValidator.validateNagtiveAmount(cashBackAmountText
 					.getAmount());
