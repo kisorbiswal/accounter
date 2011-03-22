@@ -1157,3 +1157,11 @@ solid
 .subMenuIcon img{
 	background:url("images/Sub_menu_indicator_side.png") repeat-x scroll 0 0 transparent !important;
 }
+.addrsFormCellAlign{
+	vertical-align: top;
+	padding-top: 3px;
+}
+.memoFormAlign{
+	vertical-align: top;
+	width: 55px;
+}
