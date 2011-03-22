@@ -213,6 +213,8 @@ public class SalesOrderView extends
 		custForm.setWidth("100%");
 		custForm.setFields(customerCombo, quoteLabel, contactCombo, emptylabel,
 				phoneSelect, emptylabel, billToTextArea, emptylabel);
+		custForm.getCellFormatter().getElement(0, 1).setAttribute(
+				FinanceApplication.getCustomersMessages().width(), "185px");
 		forms.add(custForm);
 
 		customerOrderText = new TextItem(FinanceApplication
@@ -313,6 +315,8 @@ public class SalesOrderView extends
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.setNumCols(2);
 		prodAndServiceForm1.setFields(memoTextAreaItem);
+		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
+				"memoFormAlign");
 		forms.add(prodAndServiceForm1);
 
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
@@ -325,8 +329,8 @@ public class SalesOrderView extends
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		balanceDueNonEditableText = new AmountLabel(
-				customerConstants.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(customerConstants
+				.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -840,8 +844,7 @@ public class SalesOrderView extends
 				return;
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(),
-					taxableLineTotal,
+					transactionDateItem.getEnteredDate(), taxableLineTotal,
 					FinanceApplication.getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
