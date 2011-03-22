@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -390,18 +391,24 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				.cashBasisAccounting());
 		cashBasisForm.setFields(cashAccountCheck);
 		cashBasisForm.setWidth("100%");
+		cashBasisForm.getCellFormatter().getElement(0, 0).setAttribute(
+				FinanceApplication.getVendorsMessages().width(), "138");
 
 		commentsArea = new TextAreaItem();
 		commentsArea.setHelpInformation(true);
 		commentsArea.setTitle(FinanceApplication.getFinanceUIConstants()
 				.comments());
 		commentsArea.setWidth(100);
-		commentsArea.setShowTitle(false);
+		// commentsArea.setShowTitle(false);
 
 		commentsForm = UIUtils.form(FinanceApplication.getFinanceUIConstants()
 				.comments());
 		commentsForm.setWidth("50%");
 		commentsForm.setFields(commentsArea);
+		commentsForm.getCellFormatter().getElement(0, 0).getStyle()
+				.setVerticalAlign(VerticalAlign.TOP);
+		commentsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				FinanceApplication.getVendorsMessages().width(), "138");
 
 		if (takenAccount != null) {
 		}
@@ -681,8 +688,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private void initAccountTypeSelect() {
 
 		if (isNewBankAccount) {
-			accTypeSelect
-					.setComboItem(Utility.getAccountTypeString(accountType));
+			accTypeSelect.setComboItem(Utility
+					.getAccountTypeString(accountType));
 			accTypeSelect.setDisabled(true);
 		} else {
 

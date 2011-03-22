@@ -475,6 +475,7 @@ public class CreditCardChargeView extends
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
+		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 		forms.add(memoForm);
 
 		DynamicForm vatCheckform = new DynamicForm();
