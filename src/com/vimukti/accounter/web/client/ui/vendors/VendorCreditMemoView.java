@@ -219,6 +219,7 @@ public class VendorCreditMemoView extends
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
+		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 		DynamicForm vatCheckform = new DynamicForm();
 		// vatCheckform.setFields(vatinclusiveCheck);
 		DynamicForm totalForm = new DynamicForm();

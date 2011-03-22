@@ -267,6 +267,8 @@ public class PurchaseOrderView extends
 		termsForm.setWidth("100%");
 		termsForm.setFields(transactionNumber, purchaseOrderText,
 				payTermsSelect, shippingTermsCombo, shippingMethodsCombo);
+		dateform.getCellFormatter().getElement(0, 0).setAttribute(
+				FinanceApplication.getVendorsMessages().width(),"203");
 
 		forms.add(termsForm);
 		formItems.add(checkNo);
@@ -299,6 +301,7 @@ public class PurchaseOrderView extends
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("80%");
 		memoForm.setFields(memoTextAreaItem);
+		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 		forms.add(memoForm);
 		DynamicForm linksform = new DynamicForm();
 		linksform.setWidth("100%");

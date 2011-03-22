@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -63,7 +64,7 @@ public class CashPurchaseView extends
 				.cashPurchase());
 		titlelabel.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-       titlelabel.setHeight("50px");
+		titlelabel.setHeight("50px");
 		listforms = new ArrayList<DynamicForm>();
 
 		transactionDateItem = createTransactionDateItem();
@@ -94,7 +95,7 @@ public class CashPurchaseView extends
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 
 		labeldateNoLayout.setWidth("100%");
-//		labeldateNoLayout.add(titlelabel);
+		// labeldateNoLayout.add(titlelabel);
 		labeldateNoLayout.setHorizontalAlignment(ALIGN_RIGHT);
 		labeldateNoLayout.setCellHorizontalAlignment(datepanel, ALIGN_RIGHT);
 		labeldateNoLayout.add(datepanel);
@@ -200,13 +201,14 @@ public class CashPurchaseView extends
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
+		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 		forms.add(memoForm);
 		DynamicForm vatCheckform = new DynamicForm();
 		// vatCheckform.setFields(vatinclusiveCheck);
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setNumCols(2);
 		totalForm.setWidth("50%");
-        totalForm.setStyleName("invoice-total");
+		totalForm.setStyleName("invoice-total");
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
 
@@ -249,7 +251,7 @@ public class CashPurchaseView extends
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
-        mainVLay.add(titlelabel);
+		mainVLay.add(titlelabel);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		// mainVLay.add(lab2);

@@ -281,6 +281,7 @@ public class NewVendorPaymentView extends
 			payForm.setFields(vendorCombo, billToCombo, payFromCombo,
 					amountText, paymentMethodCombo, printCheck, checkNo,
 					memoTextAreaItem);
+		payForm.getCellFormatter().addStyleName(7, 0, "memoFormAlign");
 		// memo and Reference
 
 		payForm.setCellSpacing(5);

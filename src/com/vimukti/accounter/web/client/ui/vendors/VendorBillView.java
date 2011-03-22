@@ -419,7 +419,7 @@ public class VendorBillView extends
 		// termsForm.setFields(phoneSelect, paymentTermsCombo);
 
 		DynamicForm dateform = new DynamicForm();
-		dateform.setWidth("75%");
+		dateform.setWidth("100%");
 		dateform.setNumCols(2);
 		dateform.setItems(phoneSelect, paymentTermsCombo, dueDateItem,
 				deliveryDateItem);
@@ -467,6 +467,7 @@ public class VendorBillView extends
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
+		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		// memoForm.setWidget(3, 0, addLinksButton);
 		// memoForm.setWidget(3, 1, linksText.getMainWidget());
