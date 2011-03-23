@@ -180,7 +180,7 @@ public class SalesOrderView extends
 		billToTextArea.setTitle(FinanceApplication.getCustomersMessages()
 				.billTo());
 		billToTextArea.setDisabled(true);
-		
+
 		shipToCombo = createShipToComboItem();
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
@@ -216,7 +216,7 @@ public class SalesOrderView extends
 		custForm.setNumCols(3);
 		custForm.setWidth("50%");
 		custForm.setFields(customerCombo, quoteLabel, contactCombo, emptylabel,
-				phoneSelect, emptylabel, billToTextArea,emptylabel);
+				phoneSelect, emptylabel, billToTextArea, emptylabel);
 		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		custForm.getCellFormatter().getElement(0, 1).setAttribute(
 				FinanceApplication.getCustomersMessages().width(), "185px");
@@ -374,12 +374,22 @@ public class SalesOrderView extends
 
 		forms.add(prodAndServiceForm2);
 
+		HorizontalPanel panel = new HorizontalPanel();
+		panel.setHorizontalAlignment(ALIGN_RIGHT);
+		panel.add(createAddNewButton());
+
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
 		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
 				ALIGN_RIGHT);
+
+		VerticalPanel vpanel = new VerticalPanel();
+		vpanel.setWidth("100%");
+		vpanel.setHorizontalAlignment(ALIGN_RIGHT);
+		vpanel.add(panel);
+		vpanel.add(prodAndServiceHLay);
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setHorizontalAlignment(ALIGN_LEFT);
@@ -405,8 +415,8 @@ public class SalesOrderView extends
 		// mainVLay.add(lab2);
 
 		mainVLay.add(customerTransactionGrid);
-		mainVLay.add(createAddNewButton());
-		mainVLay.add(prodAndServiceHLay);
+//		mainVLay.add(createAddNewButton());
+		mainVLay.add(vpanel);
 
 		if (UIUtils.isMSIEBrowser()) {
 			resetFormView();
