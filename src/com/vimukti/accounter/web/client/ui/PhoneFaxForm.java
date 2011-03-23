@@ -91,8 +91,8 @@ public class PhoneFaxForm extends DynamicForm {
 			}
 		});
 		if (toBeShownPhone != null) {
-			businessPhoneSelect.setSelected(toBeShownPhone.getPhoneTypes().get(
-					toBeShownPhone.getType()));
+			businessPhoneSelect.setComboItem(UIUtils
+					.getPhoneTypes(toBeShownPhone.getType()));
 			businessPhoneText.setValue(toBeShownPhone.getNumber());
 		} else
 			businessPhoneSelect.setDefaultToFirstOption(true);
@@ -144,8 +144,8 @@ public class PhoneFaxForm extends DynamicForm {
 			}
 		});
 		if (toBeShownFax != null) {
-			businessFaxSelect.setValue(toBeShownFax.getFaxTypes().get(
-					toBeShownFax.getType()));
+			businessFaxSelect.setComboItem(UIUtils.getFaXTypes(toBeShownFax
+					.getType()));
 			businessFaxText.setValue(toBeShownFax.getNumber() + "");
 		} else
 			businessFaxSelect.setDefaultToFirstOption(true);

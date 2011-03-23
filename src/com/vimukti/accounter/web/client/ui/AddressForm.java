@@ -12,6 +12,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -82,9 +83,10 @@ public class AddressForm extends DynamicForm {
 			}
 		});
 		if (toBeShown != null) {
-			businessSelect.setSelected(toBeShown.getAddressTypes().get(
-					toBeShown.getType()));
-
+//			businessSelect.setSelected(toBeShown.getAddressTypes().get(
+//					toBeShown.getType()));
+			businessSelect.setComboItem(UIUtils.getAddressesTypes(toBeShown
+					.getType()));
 			String toToSet = new String();
 			if (toBeShown.getAddress1() != null
 					&& !toBeShown.getAddress1().isEmpty()) {

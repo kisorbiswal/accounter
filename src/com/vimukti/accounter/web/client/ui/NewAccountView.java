@@ -71,14 +71,14 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private TextAreaItem commentsArea;
 	private DynamicForm commentsForm;
 	private DynamicForm commonForm;
-	private SelectItem typeSelect;
+	private SelectCombo typeSelect;
 	private AmountField limitText;
 	private IntegerField accNoText, cardNumText;
 	private HorizontalPanel topHLay;
 	private HorizontalPanel leftLayout;
 	// private TextBox textbox;
 	protected boolean isClose;
-	private LinkedHashMap<String, String> typeMap;
+	private List<String> typeMap;
 	protected List<ClientBank> allBanks;
 	protected ClientBank selectedBank;
 
@@ -640,21 +640,28 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		if (bankForm == null) {
 
-			typeSelect = new SelectItem(FinanceApplication
+			typeSelect = new SelectCombo(FinanceApplication
 					.getFinanceUIConstants().bankAccountType());
 			typeSelect.setWidth(100);
 			// typeSelect.setWidth("*");
-			typeMap = new LinkedHashMap<String, String>();
+			typeMap = new ArrayList<String>();
 
-			typeMap.put(ClientAccount.BANK_ACCCOUNT_TYPE_CHECKING + "",
-					AccounterConstants.BANK_ACCCOUNT_TYPE_CHECKING);
-			typeMap.put(ClientAccount.BANK_ACCCOUNT_TYPE_MONEY_MARKET + "",
-					AccounterConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET);
-			typeMap.put(ClientAccount.BANK_ACCCOUNT_TYPE_SAVING + "",
-					AccounterConstants.BANK_ACCCOUNT_TYPE_SAVING);
-			typeSelect.setValueMap(typeMap);
+			typeMap.add(AccounterConstants.BANK_ACCCOUNT_TYPE_CHECKING);
+			typeMap.add(AccounterConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET);
+			typeMap.add(AccounterConstants.BANK_ACCCOUNT_TYPE_SAVING);
+			typeSelect.initCombo(typeMap);
+			typeSelect
+					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+						@Override
+						public void selectedComboBoxItem(String selectItem) {
+							if (selectItem != null)
+								typeSelect.setComboItem(selectItem);
+
+						}
+					});
 			typeSelect.setRequired(true);
-			typeSelect.setDefaultToFirstOption(Boolean.TRUE);
+			// typeSelect.setDefaultToFirstOption(Boolean.TRUE);
 
 			bankAccNumText = new TextItem(FinanceApplication
 					.getAccounterComboConstants().bankFinanceCategorynumber());
@@ -1002,15 +1009,15 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		switch (accountType) {
 		case ClientAccount.TYPE_BANK:
 			account.setBank(Utility.getId(selectedBank));
-			if (typeSelect.getValue() != null) {
+			if (typeSelect.getSelectedValue() != null) {
 				int type = 0;
-				if (typeSelect.getValue().toString().equals(
+				if (typeSelect.getSelectedValue().equals(
 						AccounterConstants.BANK_ACCCOUNT_TYPE_CHECKING))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_CHECKING;
-				else if (typeSelect.getValue().toString().equals(
+				else if (typeSelect.getSelectedValue().equals(
 						AccounterConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
-				else if (typeSelect.getValue().toString().equals(
+				else if (typeSelect.getSelectedValue().equals(
 						AccounterConstants.BANK_ACCCOUNT_TYPE_SAVING))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_SAVING;
 				account.setBankAccountType(type);

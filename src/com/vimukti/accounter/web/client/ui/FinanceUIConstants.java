@@ -701,6 +701,7 @@ public interface FinanceUIConstants extends FinanceConstants {
 
 	public String createStatement();
 
+	public String descriptioN();
 	// public String StatementPeriod();
 	//
 	// public String allOpenTransactions();

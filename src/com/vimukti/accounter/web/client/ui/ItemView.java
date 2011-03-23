@@ -208,7 +208,7 @@ public class ItemView extends BaseView<ClientItem> {
 			else
 				itemForm.setFields(nameText, skuText, weightText);
 		}
-		itemForm.getCellFormatter().setWidth(0, 0, "135");
+		itemForm.getCellFormatter().setWidth(0, 0, "106");
 		salesDescArea = new TextAreaItem();
 		salesDescArea.setHelpInformation(true);
 		salesDescArea.setWidth(100);
@@ -268,11 +268,11 @@ public class ItemView extends BaseView<ClientItem> {
 		// stdCostText.setValidators(floatRangeValidator);
 		// stdCostText.setValidateOnChange(true);
 
-		stdCostForm = UIUtils.form(FinanceApplication.getCustomersMessages()
-				.standardcost());
-		stdCostForm.setFields(stdCostText);
-		stdCostForm.setWidth("95%");
-		stdCostForm.getCellFormatter().setWidth(0, 0, "140");
+//		stdCostForm = UIUtils.form(FinanceApplication.getCustomersMessages()
+//				.standardcost());
+//		stdCostForm.setFields(stdCostText);
+//		stdCostForm.setWidth("95%");
+//		stdCostForm.getCellFormatter().setWidth(0, 0, "165");
 		// itemGroupCombo = new ItemGroupCombo(FinanceApplication
 		// .getFinanceUIConstants().itemGroup());
 		itemGroupCombo = new ItemGroupCombo(
@@ -412,19 +412,20 @@ public class ItemView extends BaseView<ClientItem> {
 
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			salesInfoForm.setFields(isellCheck, salesDescArea, salesPriceText,
-					accountCombo, comCheck);
+					accountCombo, comCheck,stdCostText);
 		else
 			salesInfoForm.setFields(isservice, isellCheck, salesDescArea,
-					salesPriceText, accountCombo, itemTaxCheck, comCheck);
+					salesPriceText, accountCombo, itemTaxCheck, comCheck,stdCostText);
 		salesInfoForm.setStyleName("align-form");
+		salesInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 		itemInfoForm = UIUtils.form(FinanceApplication.getFinanceUIConstants()
 				.itemInformation());
-		itemInfoForm.setWidth("94%");
+		itemInfoForm.setWidth("96%");
 		if (FinanceApplication.getCompany().getAccountingType() == 1)
 			itemInfoForm.setFields(itemGroupCombo, taxCode, activeCheck);
 		else
 			itemInfoForm.setFields(itemGroupCombo, activeCheck);
-		itemInfoForm.getCellFormatter().setWidth(0, 0, "145");
+		itemInfoForm.getCellFormatter().setWidth(0, 0, "124");
 		purchaseInfoForm = UIUtils.form(FinanceApplication
 				.getFinanceUIConstants().purchaseInformation());
 		purchaseInfoForm.setNumCols(2);
@@ -432,7 +433,7 @@ public class ItemView extends BaseView<ClientItem> {
 		purchaseInfoForm
 				.setFields(ibuyCheck, purchaseDescArea, purchasePriceTxt,
 						expAccCombo, prefVendorCombo, vendItemNumText);
-
+		purchaseInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 		VerticalPanel salesVPanel = new VerticalPanel();
 		salesVPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		salesVPanel.setWidth("100%");
@@ -445,7 +446,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// itemHPanel.add(itemForm);
 
 		salesVPanel.add(salesInfoForm);
-		salesVPanel.add(stdCostForm);
+//		salesVPanel.add(stdCostForm);
 
 		VerticalPanel purchzVPanel = new VerticalPanel();
 

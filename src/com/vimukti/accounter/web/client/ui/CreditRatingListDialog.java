@@ -104,13 +104,14 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 		creditRating = rec;
 		String creditRateString = FinanceApplication.getFinanceUIConstants()
 				.creditRating();
-		inputDlg = new InputDialog(creditRateString, "", creditRateString);
+		inputDlg = new InputDialog(FinanceApplication.getCustomersMessages()
+				.creditRating(), "", creditRateString);
 
 		if (creditRating != null) {
 			inputDlg.setTextItemValue(0, creditRating.getName());
 		}
-		InputDialogHandler dialogHandler = new InputDialogHandler() {
 
+		InputDialogHandler dialogHandler = new InputDialogHandler() {
 			public void onCancelClick() {
 
 			}

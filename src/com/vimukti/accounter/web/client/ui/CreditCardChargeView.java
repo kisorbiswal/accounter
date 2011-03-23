@@ -306,7 +306,7 @@ public class CreditCardChargeView extends
 				payFromAccount));
 		payFrmSelect.setDisabled(isEdit);
 		paymentMethodSelected(creditCardChargeTaken.getPaymentMethod());
-		payMethSelect.setSelected(paymentMethod);
+		payMethSelect.setComboItem(creditCardChargeTaken.getPaymentMethod());
 		vendorTransactionGrid.setCanEdit(false);
 		initMemoAndReference();
 		initTransactionViewData();
@@ -496,26 +496,46 @@ public class CreditCardChargeView extends
 		botPanel = new HorizontalPanel();
 		botPanel.setWidth("100%");
 
-		VerticalPanel vPanel = new VerticalPanel();
-		vPanel.add(addButton);
-		vPanel.add(memoForm);
-		vPanel.setWidth("100%");
+		VerticalPanel bottompanel = new VerticalPanel();
+		bottompanel.setWidth("100%");
+
+		HorizontalPanel panel = new HorizontalPanel();
+		panel.setHorizontalAlignment(ALIGN_RIGHT);
+		panel.add(createAddNewButton());
 
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
-			// botPanel.add(memoForm);
-			botPanel.add(vPanel);
-			botPanel.add(vatCheckform);
-			botPanel.setCellHorizontalAlignment(vatCheckform,
-					HasHorizontalAlignment.ALIGN_RIGHT);
+			VerticalPanel vPanel = new VerticalPanel();
+			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
+			vPanel.setWidth("100%");
+			vPanel.add(panel);
+			vPanel.add(totalForm);
+
+			botPanel.add(memoForm);
 			botPanel.add(totalForm);
-			botPanel.setCellHorizontalAlignment(totalForm,
-					HasHorizontalAlignment.ALIGN_RIGHT);
+
+			bottompanel.add(vPanel);
+			bottompanel.add(botPanel);
+
+			// totalForm.setFields(netAmount, vatTotalNonEditableText,
+			// transactionTotalNonEditableText);
+			// // botPanel.add(memoForm);
+			// botPanel.add(vPanel);
+			// botPanel.add(vatCheckform);
+			// botPanel.setCellHorizontalAlignment(vatCheckform,
+			// HasHorizontalAlignment.ALIGN_RIGHT);
+			// botPanel.add(totalForm);
+			// botPanel.setCellHorizontalAlignment(totalForm,
+			// HasHorizontalAlignment.ALIGN_RIGHT);
 		} else {
 			totForm.setFields(transactionTotalNonEditableText);
-			botPanel.add(vPanel);
-			botPanel.add(totForm);
+			VerticalPanel vpanel=new VerticalPanel();
+			vpanel.add(panel);
+			vpanel.add(memoForm);
+			vpanel.add(totForm);
+	
+			bottompanel.add(vpanel);
 		}
 
 		leftVLay = new VerticalPanel();
@@ -538,7 +558,7 @@ public class CreditCardChargeView extends
 		// vLay1.add(lab2);
 		// vLay1.add(addButton);
 		vLay1.add(vendorTransactionGrid);
-		vLay1.add(botPanel);
+		vLay1.add(bottompanel);
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
