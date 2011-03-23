@@ -7,7 +7,7 @@ public interface ThemeImages extends Resources {
 	@Source("menu_bar_left.png")
 	ImageResource menubar_left();
 
-	@Source("dropdown_indicator_5x3.png")
+	@Source("Sub_menu_indicator_down.png")
 	ImageResource drop_down_indicator();
     
 	@Source("Menubar_Divider_2x30.jpg")
