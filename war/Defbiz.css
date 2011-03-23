@@ -1837,7 +1837,7 @@ textarea[disabled]{
 	border: 0 none;
 }
 .requiredField {
-	font-weight: bold;
+	/*font-weight: bold;*/
 }
 
 .highlightedTextBox {
