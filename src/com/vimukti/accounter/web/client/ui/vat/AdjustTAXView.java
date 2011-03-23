@@ -219,7 +219,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		DynamicForm dateForm = new DynamicForm();
 		dateForm.setFields(adjustDate);
 		dateForm.setWidth("50%");
-		dateForm.getCellFormatter().setWidth(0, 0, "187");
+		dateForm.getCellFormatter().setWidth(0, 0, "189");
 		DynamicForm topform = new DynamicForm();
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			topform.setFields(entryNo, taxAgencyCombo);
