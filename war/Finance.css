@@ -344,16 +344,16 @@ table tr.ReportGridRow:HOVER {
 }
 
 .previousButton {
-	background: url(images/navigate_left.png) no-repeat;
+	background: url("images/Left_indicator.png") no-repeat scroll 0 0 transparent;
 	padding-top: 5px;
 }
 
 .nextButton {
-	background: url(images/navigate_right.png) no-repeat;
+	background:url("images/Right_indicator.png") no-repeat scroll 0 0 transparent;
 }
 
 .discardButton {
-	background: url(images/cross.png) no-repeat;
+	background: url("images/Close1.png") no-repeat scroll 0 0 transparent;
 }
 
 .previousButton,.nextButton,.discardButton {
@@ -745,6 +745,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	font-weight: bold;
 	padding: 6px 17px 8px !important;
 	vertical-align: bottom;
+	border:0 none !important;
 }
 
 .gwt-MenuBar-vertical .subMenuIcon-selected {
@@ -868,58 +869,9 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	width:100% !important;
 }
 
-.invoice-total
-
- 
-
-tr
-
-
-:nth-child
-
- 
-
-(3){
-border-bottom
-
-
-:
-
- 
-
-1
-px
-
- 
-
-solid
-
- 
-
-#aaa
-
-
-;
-border-top
-
-
-:
-
- 
-
-1
-px
-
- 
-
-solid
-
- 
-
-#aaa
-
-
-;
+.invoice-total tr:nth-child(3){
+	border-bottom:1px solid #aaa;
+	border-top:1px solid #aaa;
 }
 .noScroll input[type="text"] {
 	/*width: 150px !important;*/
@@ -949,7 +901,8 @@ solid
 .userName-style {
 	text-align: right;
 	margin-right: 15px;
-	display:none;
+	color:#00A3D3 !important;
+	padding:5px;
 }
 
 .brandingView {
@@ -994,7 +947,7 @@ solid
 }
 
 .button-right-image{
-	float:right;
+	float:left;
 	height:26px;
 	width:1px;
 }
@@ -1046,7 +999,6 @@ solid
 	background:none repeat scroll 0 0 #F0F0F0 !important;
 }
 .help-logout-sep td:nth-child(2),.help-logout-sep td:nth-child(3){
-	float:right;
 	padding:5px;
 }
 .help-content{
@@ -1085,6 +1037,7 @@ solid
 .bottom-view table tr td button{
 	background:url("/images/Button_1x27.png") repeat-x scroll 0 0 transparent;
 	padding-right:25px !important;
+	float:left;
 }
 .gridSelectBoxCell .downarrow-button{
 	background:url("images/Drop down list button_square shape.png") no-repeat scroll 0 0 transparent !important;
@@ -1164,4 +1117,36 @@ solid
 .memoFormAlign{
 	vertical-align: top;
 	width: 55px;
+}
+.gwt-DialogBox .dialogTopLeft{
+	background:url("images/top_left_1.png") no-repeat scroll 0 0 transparent !important;
+	width:6px;
+}
+.gwt-DialogBox .dialogTopRight{
+	background:url("images/top_right_1.png") no-repeat scroll 0 0 transparent !important;
+}
+.gwt-DialogBox .dialogMiddleLeft{
+	background:url("images/left_mid.png") repeat-y scroll 0 0 transparent !important;
+}
+.gwt-DialogBox .dialogMiddleRight{
+	background:url("images/Right_mid.png") repeat-y scroll 0 0 transparent !important;
+}
+.gwt-DialogBox .dialogBottomLeft{
+	background:url("images/Bottom_left_corner_1.png") no-repeat scroll 0 0 transparent !important;
+}
+.gwt-DialogBox .dialogBottomRight{
+	background:url("images/Bottom_right_corner.png") no-repeat scroll 0 0 transparent !important;
+}
+.gwt-DialogBox .dialogBottomCenter{
+	background:url("images/Bottom_mid.png") repeat-x scroll 0 0 transparent !important;
+}
+.calendar-picker{
+	margin-left:3px;
+	cursor:pointer;
+}
+.add-button button[disabled]:after{
+	background:url("images/gray_Button_left_1x27.png") no-repeat scroll 0 0 transparent !important;
+}
+.help-logout-sep td:nth-child(1){
+	width:90% !important;
 }
