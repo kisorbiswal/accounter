@@ -919,10 +919,10 @@ public class MakeDepositView extends
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
 		topHLay.add(depoForm);
- 
-		HorizontalPanel panel=new HorizontalPanel();
-		panel.setHorizontalAlignment(ALIGN_RIGHT);
-		panel.add(addButton);	
+
+		VerticalPanel vPanel = new VerticalPanel();
+		vPanel.add(addButton);
+		vPanel.add(form1);
 		
 		addButton.getElement().getParentElement().addClassName("add-button");
 
@@ -936,23 +936,15 @@ public class MakeDepositView extends
 
 		ThemesUtil
 				.addDivToButton(addButton, FinanceApplication.getThemeImages()
-						.button_right_blue_image(), "blue-right-image");
+						.button_right_blue_image(), "add-right-image");
 
 		
 
 		HorizontalPanel botHLay = new HorizontalPanel();
 		botHLay.setWidth("100%");
-		botHLay.add(form1);
+		botHLay.add(vPanel);
 		botHLay.setCellHorizontalAlignment(form1, ALIGN_LEFT);
 		botHLay.add(form2);
-		botHLay.setCellHorizontalAlignment(form2, ALIGN_RIGHT);
-		
-		VerticalPanel vPanel = new VerticalPanel();
-		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
-		vPanel.setWidth("100%");
-		vPanel.add(panel);
-		vPanel.add(botHLay);
-		
 
 		if (transactionObject != null) {
 			date.setValue(transactionObject.getDate());
@@ -1008,7 +1000,7 @@ public class MakeDepositView extends
 
 		mainVLay.add(gridView);
 
-		mainVLay.add(vPanel);
+		mainVLay.add(botHLay);
 
 		if (UIUtils.isMSIEBrowser()) {
 			resetFormView();
