@@ -38,8 +38,8 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 				FinanceApplication.getVendorsMessages().Date(),
 				FinanceApplication.getVendorsMessages().number(),
 				UIUtils.getVendorString(FinanceApplication.getVendorsMessages()
-						.supplierName(), FinanceApplication
-						.getVendorsMessages().vendorName()),
+						.supplieRName(), FinanceApplication
+						.getVendorsMessages().vendoRName()),
 				FinanceApplication.getVendorsMessages().purchasePrice() };
 	}
 

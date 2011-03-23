@@ -77,7 +77,7 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 	protected String[] getColumns() {
 		return new String[] { FinanceApplication.getCustomersMessages().date(),
 				FinanceApplication.getCustomersMessages().orderNumber(),
-				FinanceApplication.getCustomersMessages().customerName(),
+				FinanceApplication.getCustomersMessages().customeRName(),
 				FinanceApplication.getCustomersMessages().totalPrice() };
 	}
 
