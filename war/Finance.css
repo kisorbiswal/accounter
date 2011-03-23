@@ -1151,3 +1151,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	width:90% !important;
 	float:right;
 }
+.inviteUserLabel{
+	font-weight: bold;
+	margin-top: 10px;
+}
