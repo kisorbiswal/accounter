@@ -37,6 +37,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -862,16 +863,31 @@ public class UIUtils {
 	// // gridView.setEditEvent(ListGridEditEvent.NONE);
 	// }
 
-	public static SelectItem getPaymentMethodCombo() {
-		SelectItem selectItem = new SelectItem();
-		selectItem.setHelpInformation(true);
-		selectItem.setTitle("Payment Method");
-		selectItem.setValueMap("Cash", UIUtils
+	public static SelectCombo getPaymentMethodCombo() {
+		SelectCombo selectCombo = new SelectCombo(null);
+		selectCombo.setHelpInformation(true);
+		selectCombo.setTitle("Payment Method");
+		List<String> listOfPaymentMethods = new ArrayList<String>();
+		listOfPaymentMethods
+				.add(FinanceApplication.getVendorsMessages().cash());
+		listOfPaymentMethods.add(UIUtils
 				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
-						.getCustomersMessages().check()), "Credit Card",
-				"Direct Debit", "Master Card", "Online Banking",
-				"Standing Order", "Switch/Maestro", "Visa");
-		return selectItem;
+						.getCustomersMessages().check()));
+		listOfPaymentMethods.add(FinanceApplication.getVendorsMessages()
+				.creditCard());
+		listOfPaymentMethods.add(FinanceApplication.getVendorsMessages()
+				.directDebit());
+		listOfPaymentMethods.add(FinanceApplication.getVendorsMessages()
+				.masterCard());
+		listOfPaymentMethods.add(FinanceApplication.getVendorsMessages()
+				.onlineBanking());
+		listOfPaymentMethods.add(FinanceApplication.getVendorsMessages()
+				.standingOrder());
+		listOfPaymentMethods.add(FinanceApplication.getVendorsMessages()
+				.switchMaestro());
+		selectCombo.initCombo(listOfPaymentMethods);
+
+		return selectCombo;
 	}
 
 	public static PopupPanel getLoadingMessageDialog(String string) {
@@ -1008,6 +1024,59 @@ public class UIUtils {
 			return ClientAddress.TYPE_COMPANY_REGISTRATION;
 
 		return ClientAddress.TYPE_OTHER;
+	}
+
+	public static String getAddressesTypes(int type) {
+		switch (type) {
+		case ClientAddress.TYPE_BILL_TO:
+			return "Bill To";
+		case ClientAddress.TYPE_SHIP_TO:
+			return "Ship To";
+		case ClientAddress.TYPE_BUSINESS:
+			return "1";
+		case ClientAddress.TYPE_WAREHOUSE:
+			return "2";
+		case ClientAddress.TYPE_LEGAL:
+			return "3";
+		case ClientAddress.TYPE_POSTAL:
+			return "4";
+		case ClientAddress.TYPE_HOME:
+			return "5";
+		default:
+			return "Bill To";
+
+		}
+
+	}
+
+	public static String getPhoneTypes(int type) {
+		switch (type) {
+		case ClientPhone.BUSINESS_PHONE_NUMBER:
+			return "Company";
+		case ClientPhone.MOBILE_PHONE_NUMBER:
+			return "Mobile";
+		case ClientPhone.HOME_PHONE_NUMBER:
+			return "Home";
+		case ClientPhone.ASSISTANT_PHONE_NUMBER:
+			return "Assistant";
+		case ClientPhone.OTHER_PHONE_NUMBER:
+			return "Other";
+		default:
+			return "Company";
+		}
+	}
+
+	public static String getFaXTypes(int type) {
+		switch (type) {
+		case ClientFax.TYPE_BUSINESS:
+			return "Company";
+		case ClientFax.TYPE_HOME:
+			return "Home";
+		case ClientFax.TYPE_OTHER:
+			return "Other";
+		default:
+			return "Company";
+		}
 	}
 
 	public static int getPhoneType(String type) {
