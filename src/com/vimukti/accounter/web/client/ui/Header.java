@@ -36,8 +36,8 @@ public class Header extends HorizontalPanel {
 		hpanel1.add(l1);
 		hpanel2.setStyleName("help-logout-sep");
 		hpanel2.add(userName);
-		hpanel2.add(logout);
 		hpanel2.add(help);
+		hpanel2.add(logout);
 		vpanel = new VerticalPanel();
 		vpanel.setWidth("100%");
 		vpanel.add(hpanel2);
