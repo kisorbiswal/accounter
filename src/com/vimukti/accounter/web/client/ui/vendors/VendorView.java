@@ -46,6 +46,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorGroupCombo;
@@ -92,7 +93,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	OtherAccountsCombo expenseAccountsSelect;
 	TAXCodeCombo vendorTaxCode;
 	VendorGroupCombo vendorGroupSelect;
-	SelectItem preferredPaymentSelect;
+	SelectCombo preferredPaymentSelect;
 	CheckboxItem euVATexempVendor;
 	TabPanel tabSet;
 
@@ -341,11 +342,13 @@ public class VendorView extends BaseView<ClientVendor> {
 			@Override
 			public void onClick(ClickEvent event) {
 				ClientContact clientContact = new ClientContact();
+				gridView.setDisabled(false);
 				gridView.addData(clientContact);
 			}
 		});
 
 		gridView = new ContactGrid();
+		gridView.setDisabled(true);
 		gridView.setCanEdit(true);
 		gridView.setEditEventType(ListGrid.EDIT_EVENT_DBCLICK);
 		gridView.init();
@@ -354,7 +357,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			@Override
 			protected void onAttach() {
 
-//				gridView.setHeight("88px");
+				// gridView.setHeight("88px");
 
 				super.onAttach();
 			}
@@ -363,18 +366,20 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		panel.add(gridView);
 		panel.add(addButton);
-		
-        addButton.getElement().getParentElement().addClassName("add-button");
-		
-		Element addseparator=DOM.createSpan();
+
+		addButton.getElement().getParentElement().addClassName("add-button");
+
+		Element addseparator = DOM.createSpan();
 		addseparator.addClassName("add-separator");
-		DOM.appendChild(addButton.getElement(),addseparator);
-		
-		Element addimage=DOM.createSpan();
+		DOM.appendChild(addButton.getElement(), addseparator);
+
+		Element addimage = DOM.createSpan();
 		addimage.addClassName("add-image");
-		DOM.appendChild(addButton.getElement(),addimage);
-		
-		ThemesUtil.addDivToButton(addButton,FinanceApplication.getThemeImages().button_right_blue_image(),"blue-right-image");
+		DOM.appendChild(addButton.getElement(), addimage);
+
+		ThemesUtil
+				.addDivToButton(addButton, FinanceApplication.getThemeImages()
+						.button_right_blue_image(), "blue-right-image");
 
 		memoArea = new TextAreaItem();
 		memoArea.setHelpInformation(true);
@@ -552,14 +557,15 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		preferredPaymentSelect = UIUtils.getPaymentMethodCombo();
 		preferredPaymentSelect.setWidth(100);
-		preferredPaymentSelect.addChangedHandler(new ChangeHandler() {
+		preferredPaymentSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				selectPaymentMethodFromDetialsTab = preferredPaymentSelect
-						.getValue().toString();
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						selectPaymentMethodFromDetialsTab = preferredPaymentSelect
+								.getSelectedValue();
+					}
+				});
 
 		payTermsSelect = new PaymentTermsCombo(vendorConstants.paymentTerms());
 		payTermsSelect.setHelpInformation(true);
@@ -752,7 +758,8 @@ public class VendorView extends BaseView<ClientVendor> {
 				FinanceApplication.getVendorsMessages().width(),
 				listBoxWidth + "");
 
-		//vendorForm.getCellFormatter().getElement(0, 0).getStyle().setWidth( titlewidth + listBoxWidth, Unit.PX);
+		// vendorForm.getCellFormatter().getElement(0, 0).getStyle().setWidth(
+		// titlewidth + listBoxWidth, Unit.PX);
 		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
 				FinanceApplication.getVendorsMessages().width(),
 				titlewidth + titlewidth + "");
@@ -933,7 +940,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting Preferred Payment Method
 		vendor
 				.setPaymentMethod(selectPaymentMethodFromDetialsTab != null ? selectPaymentMethodFromDetialsTab
-						: preferredPaymentSelect.getValue().toString());
+						: preferredPaymentSelect.getSelectedValue());
 		// Setting Preferred Payment Terms
 		vendor.setPaymentTerms(Utility.getId(selectPaymentTermFromDetailsTab));
 
@@ -1025,7 +1032,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		if (takenVendor != null) {
 			if (takenVendor.getPaymentMethod() != null)
 				preferredPaymentSelect
-						.setDefaultValue(selectPaymentMethodFromDetialsTab);
+						.setComboItem(selectPaymentMethodFromDetialsTab);
 		}
 
 	}
