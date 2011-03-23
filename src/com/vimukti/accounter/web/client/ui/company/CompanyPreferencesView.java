@@ -354,7 +354,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		numbersIdsvForm.setItems(useAccountscheckbox, useCustomertID,
 				useVendorId, ageingFromTransactionDateORDueDate);
-
+		numbersIdsvForm.getCellFormatter()
+				.addStyleName(3, 0, "memoFormAlign");
 		// numbersIdsvForm.setCellSpacing(10);
 		numbersIdsvForm.setWidth("100%");
 		/**

@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -10,13 +13,14 @@ import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.core.IntegerRangeValidator;
 import com.vimukti.accounter.web.client.ui.core.PercentageField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 @SuppressWarnings("unchecked")
@@ -24,7 +28,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 
 	public TextItem payTermText;
 	public TextItem descText;
-	public SelectItem dueSelect;
+	public SelectCombo dueSelect;
 	public PercentageField discText;
 	public IntegerField discDayText;
 	private DynamicForm discForm;
@@ -35,7 +39,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 			FinanceApplication.getCompanyMessages().currentQuarter(),
 			FinanceApplication.getCompanyMessages().currentHalfYear(),
 			FinanceApplication.getCompanyMessages().currentYear() };
-
+	private List<String> listOfDueValues;
 	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
 	private Label dayLabel;
 	@SuppressWarnings("unused")
@@ -59,10 +63,24 @@ public class AddPaymentTermDialog extends BaseDialog {
 
 		descText = new TextItem(companyConstants.description());
 		descText.setHelpInformation(true);
-		dueSelect = new SelectItem(companyConstants.due());
+		dueSelect = new SelectCombo(companyConstants.due());
 		dueSelect.setHelpInformation(true);
 		dueSelect.setWidth(90);
-		dueSelect.setValueMap(dueValues);
+		listOfDueValues = new ArrayList<String>();
+		for (int i = 0; i < dueValues.length; i++) {
+			listOfDueValues.add(dueValues[i]);
+		}
+		dueSelect.initCombo(listOfDueValues);
+		dueSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						if (selectItem != null)
+							dueSelect.setComboItem(selectItem);
+
+					}
+				});
 
 		dayText = new IntegerField(FinanceApplication.getCompanyMessages()
 				.and());
