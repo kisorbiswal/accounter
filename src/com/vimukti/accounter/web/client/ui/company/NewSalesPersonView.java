@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.GridAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -49,7 +50,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	private TextAreaItem memoArea;
 
 	private DynamicForm salesPersonInfoForm, memoForm;
-	private SelectItem genderSelect;
+	private SelectCombo genderSelect;
 	protected ClientAccount selectedExpenseAccount;
 	private GridAccountsCombo expenseSelect;
 	private TextItem fileAsText, employeeNameText, jobTitleText;
@@ -61,7 +62,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	private AddressForm addrsForm;
 	private PhoneFaxForm fonFaxForm;
 	private EmailForm emailForm;
-	protected int gender;
+	protected String gender;
+	private List<String> listOfgenders;
 	private String[] genderTypes = {
 			FinanceApplication.getCompanyMessages().unspecified(),
 			FinanceApplication.getCompanyMessages().male(),
@@ -134,17 +136,21 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		salesPersonInfoForm.setWidth("100%");
 		statusCheck = new CheckboxItem(companyConstants.active());
 		statusCheck.setValue(true);
-		genderSelect = new SelectItem(companyConstants.gender());
+		genderSelect = new SelectCombo(companyConstants.gender());
 		genderSelect.setWidth(45);
+		listOfgenders = new ArrayList<String>();
+		for (int i = 0; i < genderTypes.length; i++) {
+			listOfgenders.add(genderTypes[i]);
+		}
+		genderSelect.initCombo(listOfgenders);
+		genderSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-		genderSelect.setValueMap(genderTypes);
-		genderSelect.addChangedHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				gender = ((ListBox) event.getSource()).getSelectedIndex();
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						gender = selectItem;
+					}
+				});
 
 		dateOfBirth = new DateField(companyConstants.dateofBirth());
 		dateOfBirth.setEndDate(new ClientFinanceDate(19910101));
@@ -194,8 +200,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 						.getAccount(takenSalesperson.getExpenseAccount());
 				expenseSelect.setComboItem(selectedExpenseAccount);
 			}
-			gender = takenSalesperson.getGender();
-			((ListBox) genderSelect.getMainWidget()).setSelectedIndex(gender);
+			genderSelect.setComboItem(takenSalesperson.getGender());
 			dateOfBirth.setValue(new ClientFinanceDate(takenSalesperson
 					.getDateOfBirth()));
 			dateOfHire.setValue(new ClientFinanceDate(takenSalesperson
@@ -220,7 +225,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			emailForm.getCellFormatter().setWidth(0, 0, "65");
 			emailForm.getCellFormatter().setWidth(0, 1, "125");
 			genderSelect.setDefaultToFirstOption(Boolean.TRUE);
-//			gender = ClientSalesPerson.GENDER_UNSPECIFIED;
+			// gender = ClientSalesPerson.GENDER_UNSPECIFIED;
 		}
 
 		VerticalPanel leftVLay = new VerticalPanel();
@@ -385,7 +390,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		salesPerson.setFirstName(employeeNameText.getValue().toString());
 		salesPerson.setAddress(addrsForm.getAddresss());
 		salesPerson.setPhoneNumbers(fonFaxForm.getAllPhones());
-		salesPerson.setGender(gender);
+		salesPerson.setGender(genderSelect.getSelectedValue());
 
 		salesPerson.setFaxNumbers(fonFaxForm.getAllFaxes());
 

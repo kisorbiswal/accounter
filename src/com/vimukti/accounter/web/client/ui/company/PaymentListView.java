@@ -114,7 +114,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 		if (UIUtils.isMSIEBrowser())
 			viewSelect.setWidth("150px");
 
-		viewSelect.setDefaultValue(NOT_ISSUED);
+		viewSelect.setComboItem(NOT_ISSUED);
 		viewSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
