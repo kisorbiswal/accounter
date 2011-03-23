@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.forms;
 import java.util.Date;
 
 import com.google.gwt.dom.client.Style.Cursor;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -36,7 +37,9 @@ public class DateItem extends FormItem {
 
 	public DateItem() {
 		Image dateImg = new Image("/images/calendarPicker.png");
-		dateImg.getElement().getStyle().setCursor(Cursor.POINTER);
+		dateImg.addStyleName("calendar-picker");
+		// dateImg.getElement().getStyle().setCursor(Cursor.POINTER);
+		// dateImg.getElement().getStyle().setMarginLeft(3, Unit.PX);
 		dateImg.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -60,7 +63,9 @@ public class DateItem extends FormItem {
 		setUseTextField(true);
 		setTitle(text);
 		Image dateImg = new Image("/images/calendarPicker.png");
-		dateImg.getElement().getStyle().setCursor(Cursor.POINTER);
+		dateImg.addStyleName("calendar-picker");
+		// dateImg.getElement().getStyle().setCursor(Cursor.POINTER);
+		// dateImg.getElement().getStyle().setMarginLeft(3, Unit.PX);
 		dateImg.addClickHandler(new ClickHandler() {
 
 			@Override
