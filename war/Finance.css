@@ -1149,4 +1149,5 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 .help-logout-sep td:nth-child(1){
 	width:90% !important;
+	float:right;
 }
