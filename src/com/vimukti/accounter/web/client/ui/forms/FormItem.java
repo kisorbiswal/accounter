@@ -11,6 +11,8 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -39,7 +41,6 @@ public abstract class FormItem {
 	private boolean isHighlighted = false;
 	private String titleStyleName;
 	private boolean ishelp = false;
-	
 
 	public Object getValue() {
 		return this.value;
@@ -217,6 +218,10 @@ public abstract class FormItem {
 				label.addStyleName(titleStyleName);
 			if (required) {
 				label.addStyleName("requiredField");
+				Element ele = DOM.createSpan();
+				ele.setInnerText("*");
+				ele.addClassName("star");
+				DOM.appendChild(label.getElement(), ele);
 			}
 			parent.add(label, 1);
 		}
