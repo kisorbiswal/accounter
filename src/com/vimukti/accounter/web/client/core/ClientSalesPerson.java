@@ -31,7 +31,7 @@ public class ClientSalesPerson extends ClientPayee {
 
 	String expenseAccount;
 
-	int gender;
+	String gender;
 	long dateOfBirth;
 	long dateOfHire;
 	long dateOfLastReview;
@@ -209,7 +209,7 @@ public class ClientSalesPerson extends ClientPayee {
 	/**
 	 * @return the gender
 	 */
-	public int getGender() {
+	public String getGender() {
 		return gender;
 	}
 
@@ -217,7 +217,7 @@ public class ClientSalesPerson extends ClientPayee {
 	 * @param gender
 	 *            the gender to set
 	 */
-	public void setGender(int gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 
