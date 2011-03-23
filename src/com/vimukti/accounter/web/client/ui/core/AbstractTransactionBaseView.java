@@ -391,10 +391,10 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	protected TextAreaItem createMemoTextAreaItem() {
 
-		TextAreaItem memoArea = new TextAreaItem();	
+		TextAreaItem memoArea = new TextAreaItem();
 		memoArea.setWidth("150px");
 		memoArea.setHelpInformation(true);
-		
+
 		memoArea.setTitle(FinanceApplication.getVendorsMessages().memo());
 		// memoArea.setRowSpan(2);
 		// memoArea.setColSpan(3);
@@ -522,7 +522,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	public Button createAddNewButton() {
 		menuButton = new Button(FinanceApplication.getCompanyMessages()
 				.addNewItm());
-		
+
 		menuButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -535,7 +535,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 				}
 			}
 		});
-			
+
 		menuButton.setEnabled(!isEdit);
 		return menuButton;
 	}
@@ -588,8 +588,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	public String getMemoTextAreaItem() {
 		return memoTextAreaItem != null
 				&& memoTextAreaItem.getValue().toString() != null ? memoTextAreaItem
-				.getValue().toString()
-				: "";
+				.getValue().toString() : "";
 	}
 
 	public void setMemoTextAreaItem(String memo) {
@@ -755,8 +754,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	private void createPopupMenu() {
 		if (popupPanel == null) {
 			popupPanel = new PopupPanel(true);
-			popupMenuBar = new CustomMenuBar(FinanceApplication
-					.getFinanceMenuImages());
+			popupMenuBar = new CustomMenuBar(
+					FinanceApplication.getFinanceMenuImages());
 			popupMenuBar.getElement().setAttribute("id", "addnewpopumenu");
 
 			popupPanel.setStyleName("popup");
@@ -841,19 +840,25 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 			}
 		}
 	}
+
 	@Override
 	protected void onAttach() {
 		super.onAttach();
-		menuButton.getElement().getParentElement().addClassName("add-button");
-		
-		Element addseparator=DOM.createSpan();
-		addseparator.addClassName("add-separator");
-		DOM.appendChild(menuButton.getElement(),addseparator);
-		
-		Element addimage=DOM.createSpan();
-		addimage.addClassName("add-image");
-		DOM.appendChild(menuButton.getElement(),addimage);
-		
-		ThemesUtil.addDivToButton(menuButton,FinanceApplication.getThemeImages().button_right_blue_image(),"blue-right-image");
+		if (menuButton != null) {
+			menuButton.getElement().getParentElement()
+					.addClassName("add-button");
+
+			Element addseparator = DOM.createSpan();
+			addseparator.addClassName("add-separator");
+			DOM.appendChild(menuButton.getElement(), addseparator);
+
+			Element addimage = DOM.createSpan();
+			addimage.addClassName("add-image");
+			DOM.appendChild(menuButton.getElement(), addimage);
+
+			ThemesUtil.addDivToButton(menuButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"add-right-image");
+		}
 	}
 }
