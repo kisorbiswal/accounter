@@ -283,6 +283,9 @@ public abstract class DropDownCombo<T> extends TextItem {
 						&& popup.isShowing()) {
 					dropDown.setKeyboardSelected(dropDown.getDisplayedItems()
 							.size() - 1, true, true);
+				} else if(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE
+						&& popup.isShowing()) {
+					popup.removeFromParent();
 				}
 			}
 
