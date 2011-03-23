@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -148,7 +146,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	public VendorView() {
 		super();
 		this.validationCount = 5;
-
+		this.removeStyleName("abstract_base_view");
 	}
 
 	private void getFiscalYear() {
@@ -289,7 +287,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorForm.setWidth("100%");
 		vendorForm.setStyleName(FinanceApplication.getVendorsMessages()
 				.venderForm());
-		vendorForm.getCellFormatter().setWidth(0, 0, "245px");
+		vendorForm.getCellFormatter().setWidth(0, 0, "246px");
 
 		accInfoForm = new DynamicForm();
 		accInfoForm.setIsGroup(true);
@@ -356,7 +354,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			@Override
 			protected void onAttach() {
 
-				// gridView.setHeight("88px");
+//				gridView.setHeight("88px");
 
 				super.onAttach();
 			}
@@ -365,20 +363,18 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		panel.add(gridView);
 		panel.add(addButton);
-
-		addButton.getElement().getParentElement().addClassName("add-button");
-
-		Element addseparator = DOM.createSpan();
+		
+        addButton.getElement().getParentElement().addClassName("add-button");
+		
+		Element addseparator=DOM.createSpan();
 		addseparator.addClassName("add-separator");
-		DOM.appendChild(addButton.getElement(), addseparator);
-
-		Element addimage = DOM.createSpan();
+		DOM.appendChild(addButton.getElement(),addseparator);
+		
+		Element addimage=DOM.createSpan();
 		addimage.addClassName("add-image");
-		DOM.appendChild(addButton.getElement(), addimage);
-
-		ThemesUtil
-				.addDivToButton(addButton, FinanceApplication.getThemeImages()
-						.button_right_blue_image(), "blue-right-image");
+		DOM.appendChild(addButton.getElement(),addimage);
+		
+		ThemesUtil.addDivToButton(addButton,FinanceApplication.getThemeImages().button_right_blue_image(),"blue-right-image");
 
 		memoArea = new TextAreaItem();
 		memoArea.setHelpInformation(true);
@@ -395,8 +391,8 @@ public class VendorView extends BaseView<ClientVendor> {
 			// Setting AddressForm
 			addrsForm = new AddressForm(takenVendor.getAddress());
 			addrsForm.setWidth("100%");
-			// addrsForm.setStyleName(FinanceApplication.getVendorsMessages()
-			// .venderForm());
+			addrsForm.setStyleName(FinanceApplication.getVendorsMessages()
+					.venderForm());
 			// Setting Phone Fax Form
 			fonFaxForm = new PhoneFaxForm(takenVendor.getPhoneNumbers(),
 					takenVendor.getFaxNumbers());
@@ -435,8 +431,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		} else { // For Creating Vendor
 			addrsForm = new AddressForm(null);
 			addrsForm.setWidth("100%");
-			// addrsForm.setStyleName(FinanceApplication.getVendorsMessages()
-			// .venderForm());
+			addrsForm.setStyleName(FinanceApplication.getVendorsMessages()
+					.venderForm());
 			fonFaxForm = new PhoneFaxForm(null, null);
 			fonFaxForm.setWidth("100%");
 			emailForm = new EmailForm(null, null);
@@ -446,45 +442,41 @@ public class VendorView extends BaseView<ClientVendor> {
 		memoForm.setStyleName("align-form");
 		memoForm.setWidth("100%");
 		memoForm.setItems(memoArea);
-		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		VerticalPanel bottomPanel = new VerticalPanel();
 		bottomPanel.setWidth("100%");
 		bottomPanel.add(memoForm);
 
-		// HorizontalPanel vendorHPanel = new HorizontalPanel();
-		// vendorHPanel.setWidth("100%");
-		// vendorHPanel.setCellHorizontalAlignment(vendorForm, ALIGN_RIGHT);
-		// vendorHPanel.add(vendorForm);
+		HorizontalPanel vendorHPanel = new HorizontalPanel();
+		vendorHPanel.setWidth("100%");
+		vendorHPanel.setCellHorizontalAlignment(vendorForm, ALIGN_RIGHT);
+		vendorHPanel.add(vendorForm);
 
-		// HorizontalPanel addressHPanel = new HorizontalPanel();
-		// addressHPanel.setWidth("100%");
-		// addressHPanel.add(addrsForm);
+		HorizontalPanel addressHPanel = new HorizontalPanel();
+		addressHPanel.setWidth("100%");
+		addressHPanel.add(addrsForm);
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		// leftVLay.setHorizontalAlignment(ALIGN_RIGHT);
 		leftVLay.setWidth("100%");
-		// leftVLay.setCellHorizontalAlignment(vendorHPanel, ALIGN_RIGHT);
-		addrsForm.getCellFormatter().addStyleName(0, 0, "addrsFormCellAlign");
-		addrsForm.getCellFormatter().addStyleName(0, 1, "addrsFormCellAlign");
-		leftVLay.add(vendorForm);
-		leftVLay.add(addrsForm);
+		leftVLay.setCellHorizontalAlignment(vendorHPanel, ALIGN_RIGHT);
+		leftVLay.add(vendorHPanel);
+		leftVLay.add(addressHPanel);
 		leftVLay.add(fonFaxForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 
-		// HorizontalPanel emailHPanel = new HorizontalPanel();
-		// emailHPanel.setCellHorizontalAlignment(emailForm, ALIGN_LEFT);
-		// emailHPanel.setWidth("90%");
-		// emailHPanel.add(emailForm);
+		HorizontalPanel emailHPanel = new HorizontalPanel();
+		emailHPanel.setCellHorizontalAlignment(emailForm, ALIGN_LEFT);
+		emailHPanel.setWidth("90%");
+		emailHPanel.add(emailForm);
 
 		VerticalPanel accInfoHPanel = new VerticalPanel();
 		accInfoHPanel.setWidth("90%");
 		accInfoHPanel.add(accInfoForm);
-		rightVLay.add(emailForm);
-		rightVLay.add(accInfoForm);
-		// rightVLay.setCellHorizontalAlignment(accInfoForm, ALIGN_RIGHT);
+		rightVLay.add(emailHPanel);
+		rightVLay.add(accInfoHPanel);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
@@ -630,14 +622,12 @@ public class VendorView extends BaseView<ClientVendor> {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			vendorGrpForm.setWidth("88%");
 		else
-			vendorGrpForm.setWidth("100%");
+			vendorGrpForm.setWidth("490");
 
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			vendorGrpForm.setFields(vendorGroupSelect, federalText);
 		else
 			vendorGrpForm.setFields(vendorGroupSelect);
-		
-		vendorGrpForm.getCellFormatter().getElement(0, 0).setAttribute(FinanceApplication.getVendorsMessages().width(), "147");
 
 		vatRegistrationNumber = new TextItem(vendorConstants
 				.vatRegistrationNumber());
@@ -662,7 +652,6 @@ public class VendorView extends BaseView<ClientVendor> {
 		vatform.setWidth("50%");
 		vatform.setGroupTitle(vendorConstants.vatDetails());
 		vatform.setFields(vatRegistrationNumber, vendorTaxCode);
-		
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setSize("100%", "100%");
 		leftVLay.setSpacing(10);
@@ -753,24 +742,26 @@ public class VendorView extends BaseView<ClientVendor> {
 				FinanceApplication.getVendorsMessages().width(),
 				titlewidth + "");
 		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
-				FinanceApplication.getVendorsMessages().width(), "185px");
+				FinanceApplication.getVendorsMessages().width(),
+				listBoxWidth + "");
 
 		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
 				FinanceApplication.getVendorsMessages().width(),
 				titlewidth + "");
 		fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
-				FinanceApplication.getVendorsMessages().width(), "185px");
+				FinanceApplication.getVendorsMessages().width(),
+				listBoxWidth + "");
 
-		// vendorForm.getCellFormatter().getElement(0, 0).getStyle().setWidth(
-		// titlewidth + listBoxWidth, Unit.PX);
+		//vendorForm.getCellFormatter().getElement(0, 0).getStyle().setWidth( titlewidth + listBoxWidth, Unit.PX);
 		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
 				FinanceApplication.getVendorsMessages().width(),
-				(3 * titlewidth) - 10 + "");
+				titlewidth + titlewidth + "");
 		emailForm.getCellFormatter().getElement(0, 1).setAttribute(
-				FinanceApplication.getVendorsMessages().width(), "");
+				FinanceApplication.getVendorsMessages().width(),
+				listBoxWidth + "");
 		accInfoForm.getCellFormatter().getElement(0, 0).setAttribute(
 				FinanceApplication.getVendorsMessages().width(),
-				(3 * titlewidth) - 10 + "");
+				listBoxWidth + "");
 
 	}
 
