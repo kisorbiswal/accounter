@@ -1096,10 +1096,11 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 .add-button{
 	background:url("images/blue_Left_side.png") no-repeat scroll 0 0 transparent !important;
 	padding:0 1px;
+	float:right;
 }
 .add-button button{
 	background:url("images/blue_Mid.png") repeat-x scroll 0 0 transparent !important;
-	float:left;
+	float:right;
     padding:0 25px 0 0 !important;
 }
 .add-right-image{
