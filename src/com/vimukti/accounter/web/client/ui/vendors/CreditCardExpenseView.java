@@ -268,13 +268,11 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 	@Override
 	protected void showMenu() {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(FinanceApplication.getVendorsMessages()
-					.nominalCodeItem(), FinanceApplication.getVendorsMessages()
-					.service());
+			setMenuItems(FinanceApplication.getVendorsMessages().accounts(),
+					FinanceApplication.getVendorsMessages().service());
 		else
-			setMenuItems(FinanceApplication.getVendorsMessages()
-					.nominalCodeItem(), FinanceApplication.getVendorsMessages()
-					.service());
+			setMenuItems(FinanceApplication.getVendorsMessages().accounts(),
+					FinanceApplication.getVendorsMessages().service());
 	}
 
 }

@@ -227,26 +227,47 @@ public class CashPurchaseView extends
 
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
+		
+		HorizontalPanel panel=new HorizontalPanel();
+		panel.setHorizontalAlignment(ALIGN_RIGHT);
+		panel.add(createAddNewButton());
+		
+		VerticalPanel  bottompanel=new VerticalPanel();
+		bottompanel.setWidth("100%");
+		
+		
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			VerticalPanel vPanel = new VerticalPanel();
-			vPanel.add(menuButton);
-			vPanel.add(memoForm);
-			vPanel.setWidth("100%");
-
-			bottomLayout.add(vPanel);
-			bottomLayout.add(vatCheckform);
-			bottomLayout.setCellHorizontalAlignment(vatCheckform,
-					HasHorizontalAlignment.ALIGN_RIGHT);
+			VerticalPanel vpanel=new VerticalPanel();
+			vpanel.setWidth("100%");
+			vpanel.setHorizontalAlignment(ALIGN_RIGHT);			
+			vpanel.add(panel);
+			vpanel.add(totalForm);
+			
+			bottomLayout.add(memoForm);
 			bottomLayout.add(totalForm);
-			bottomLayout.setCellHorizontalAlignment(totalForm,
-					HasHorizontalAlignment.ALIGN_RIGHT);
+			
+			bottompanel.add(vpanel);
+			bottompanel.add(bottomLayout);
+			
+//			VerticalPanel vPanel = new VerticalPanel();
+//			vPanel.add(menuButton);
+//			vPanel.add(memoForm);
+//			vPanel.setWidth("100%");
+//
+//			bottomLayout.add(vPanel);
+//			bottomLayout.add(vatCheckform);
+//			bottomLayout.setCellHorizontalAlignment(vatCheckform,
+//					HasHorizontalAlignment.ALIGN_RIGHT);
+//			bottomLayout.add(totalForm);
+//			bottomLayout.setCellHorizontalAlignment(totalForm,
+//					HasHorizontalAlignment.ALIGN_RIGHT);
 		} else {
 			memoForm.setStyleName("align-form");
 			VerticalPanel vPanel = new VerticalPanel();
-			vPanel.add(menuButton);
+			vPanel.add(panel);
 			vPanel.add(memoForm);
 
-			bottomLayout.add(vPanel);
+			bottompanel.add(vPanel);
 		}
 
 		VerticalPanel mainVLay = new VerticalPanel();
@@ -258,7 +279,7 @@ public class CashPurchaseView extends
 
 		mainVLay.add(vendorTransactionGrid);
 
-		mainVLay.add(bottomLayout);
+		mainVLay.add(bottompanel);
 
 		// setOverflow(Overflow.SCROLL);
 		canvas.add(mainVLay);

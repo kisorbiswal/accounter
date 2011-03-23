@@ -105,7 +105,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 		vendorGroup = rec;
 		inputDlg = new InputDialog(UIUtils.getVendorString(vendorConstants
 				.supplierGroup(), vendorConstants.vendorGroup()), "", UIUtils
-				.getVendorString(vendorConstants.supplierGroup(),
+				.getVendorString(vendorConstants.supplieRGroup(),
 						vendorConstants.vendorGroup()));
 
 		if (vendorGroup != null) {

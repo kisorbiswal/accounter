@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
@@ -160,16 +161,31 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 					if (purchaseOrder.getStatus() == ClientTransaction.STATUS_OPEN
 							|| purchaseOrder.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED)
 						grid.addData(purchaseOrder);
+					if (grid.getRecords().isEmpty()) {
+						purchaseDetailView.itemsGrid.clear();
+						purchaseDetailView.itemsGrid
+								.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+					}
 					continue;
 				}
 				if (text.equals(COMPLETED)) {
 					if (purchaseOrder.getStatus() == ClientTransaction.STATUS_COMPLETED)
 						grid.addData(purchaseOrder);
+					if (grid.getRecords().isEmpty()) {
+						purchaseDetailView.itemsGrid.clear();
+						purchaseDetailView.itemsGrid
+								.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+					}
 					continue;
 				}
 				if (text.equals(CANCELLED)) {
 					if (purchaseOrder.getStatus() == ClientTransaction.STATUS_CANCELLED)
 						grid.addData(purchaseOrder);
+					if (grid.getRecords().isEmpty()) {
+						purchaseDetailView.itemsGrid.clear();
+						purchaseDetailView.itemsGrid
+								.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+					}
 					continue;
 				}
 			}

@@ -149,6 +149,9 @@ public class PurchaseOrderView extends
 				FinanceApplication.getVendorsMessages().supplieR(),
 				FinanceApplication.getVendorsMessages().vendoR()), true);
 		vendorCombo.setRequired(true);
+		vendorCombo.setHelpInformation(true);
+		
+		
 		vendorCombo.setDisabled(isEdit);
 		// vendorCombo.setShowDisabled(false);
 		vendorCombo
@@ -761,6 +764,7 @@ public class PurchaseOrderView extends
 						.getEnteredDate().getTime()));
 
 			purchaseOrder.setMemo(getMemoTextAreaItem());
+			purchaseOrder.setNetAmount(vendorTransactionGrid.getGrandTotal());
 			purchaseOrder.setTotal(vendorTransactionGrid.getTotal());
 			// purchaseOrder.setReference(getRefText());
 

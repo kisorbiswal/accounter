@@ -335,7 +335,7 @@ public class VendorBillView extends
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
-//		labeldateNoLayout.add(lab1);
+		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 		forms.add(dateNoForm);
 
@@ -478,9 +478,9 @@ public class VendorBillView extends
 		// vatCheckform.setFields(vatinclusiveCheck);
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setWidth("41%");
-        totalForm.setStyleName("invoice-total");
-		netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + 102)
-				+ "px");
+		totalForm.setStyleName("invoice-total");
+//		netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + "102")
+//				+ "px");
 
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
@@ -505,27 +505,46 @@ public class VendorBillView extends
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
 
-		if (FinanceApplication.getCompany().getAccountingType() == 1) {
-			VerticalPanel vPanel = new VerticalPanel();
-			vPanel.add(menuButton);
-			vPanel.add(memoForm);
-			vPanel.setWidth("100%");
+		HorizontalPanel hpanel = new HorizontalPanel();
+		hpanel.setHorizontalAlignment(ALIGN_RIGHT);
+		hpanel.add(createAddNewButton());
 
-			bottomLayout.add(vPanel);
-			bottomLayout.add(vatCheckform);
-			// bottomLayout.setHorizontalAlignment(align)
-			bottomLayout.setCellHorizontalAlignment(vatCheckform,
-					HasHorizontalAlignment.ALIGN_RIGHT);
+		VerticalPanel bottompanel = new VerticalPanel();
+		bottompanel.setWidth("100%");
+
+		if (FinanceApplication.getCompany().getAccountingType() == 1) {
+			VerticalPanel vpanel = new VerticalPanel();
+			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
+			vpanel.setWidth("100%");
+			vpanel.add(hpanel);
+			vpanel.add(totalForm);
+
+			bottomLayout.add(memoForm);
 			bottomLayout.add(totalForm);
-			bottomLayout.setCellHorizontalAlignment(totalForm,
-					HasHorizontalAlignment.ALIGN_RIGHT);
+
+			bottompanel.add(vpanel);
+			bottompanel.add(bottomLayout);
+
+			// VerticalPanel vPanel = new VerticalPanel();
+			// vPanel.add(menuButton);
+			// vPanel.add(memoForm);
+			// vPanel.setWidth("100%");
+			//
+			// bottomLayout.add(vPanel);
+			// bottomLayout.add(vatCheckform);
+			// // bottomLayout.setHorizontalAlignment(align)
+			// bottomLayout.setCellHorizontalAlignment(vatCheckform,
+			// HasHorizontalAlignment.ALIGN_RIGHT);
+			// bottomLayout.add(totalForm);
+			// bottomLayout.setCellHorizontalAlignment(totalForm,
+			// HasHorizontalAlignment.ALIGN_RIGHT);
 		} else {
 			memoForm.setStyleName("align-form");
 			VerticalPanel vPanel = new VerticalPanel();
-			vPanel.add(menuButton);
+			vPanel.add(hpanel);
 			vPanel.add(memoForm);
 
-			bottomLayout.add(vPanel);
+			bottompanel.add(vPanel);
 		}
 
 		VerticalPanel mainVLay = new VerticalPanel();
@@ -536,7 +555,7 @@ public class VendorBillView extends
 		mainVLay.add(topHLay);
 		mainVLay.add(vendorTransactionGrid);
 
-		mainVLay.add(bottomLayout);
+		mainVLay.add(bottompanel);
 
 		if (UIUtils.isMSIEBrowser()) {
 			resetFormView();

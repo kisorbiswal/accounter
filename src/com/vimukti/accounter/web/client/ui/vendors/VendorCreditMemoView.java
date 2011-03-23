@@ -225,7 +225,7 @@ public class VendorCreditMemoView extends
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setNumCols(2);
 		totalForm.setWidth("100%");
-        totalForm.setStyleName("invoice-total");
+		totalForm.setStyleName("invoice-total");
 		netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + 100)
 				+ "px");
 
@@ -245,24 +245,47 @@ public class VendorCreditMemoView extends
 		HorizontalPanel bottomLayout1 = new HorizontalPanel();
 		bottomLayout1.setWidth("100%");
 
+		HorizontalPanel panel = new HorizontalPanel();
+		panel.setHorizontalAlignment(ALIGN_RIGHT);
+		panel.add(createAddNewButton());
+
+		VerticalPanel bottomPanel = new VerticalPanel();
+		bottomPanel.setWidth("100%");
+
 		int accountType = FinanceApplication.getCompany().getAccountingType();
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+
 			VerticalPanel vPanel = new VerticalPanel();
-
-			vPanel.add(menuButton);
-			vPanel.add(memoForm);
 			vPanel.setWidth("100%");
+			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
+			vPanel.add(panel);
+			vPanel.add(totalForm);
 
-			bottomLayout1.add(vPanel);
-			bottomLayout1.add(vatCheckform);
-			bottomLayout1.setCellHorizontalAlignment(vatCheckform,
-					HasHorizontalAlignment.ALIGN_RIGHT);
+			bottomLayout1.add(memoForm);
 			bottomLayout1.add(totalForm);
-			bottomLayout1.setCellHorizontalAlignment(totalForm,
-					HasHorizontalAlignment.ALIGN_RIGHT);
+
+			bottomPanel.add(vPanel);
+			bottomPanel.add(bottomLayout1);
+			//			
+			// VerticalPanel vPanel = new VerticalPanel();
+			//
+			// vPanel.add(menuButton);
+			// vPanel.add(memoForm);
+			// vPanel.setWidth("100%");
+			//
+			// bottomLayout1.add(vPanel);
+			// bottomLayout1.add(vatCheckform);
+			// bottomLayout1.setCellHorizontalAlignment(vatCheckform,
+			// HasHorizontalAlignment.ALIGN_RIGHT);
+			// bottomLayout1.add(totalForm);
+			// bottomLayout1.setCellHorizontalAlignment(totalForm,
+			// HasHorizontalAlignment.ALIGN_RIGHT);
 		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
 			memoForm.setStyleName("align-form");
-			bottomLayout1.add(memoForm);
+			VerticalPanel vPanel = new VerticalPanel();
+			vPanel.add(panel);
+			vPanel.add(memoForm);
+			bottomPanel.add(vPanel);
 		}
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
@@ -273,7 +296,7 @@ public class VendorCreditMemoView extends
 
 		mainVLay.add(vendorTransactionGrid);
 
-		mainVLay.add(bottomLayout1);
+		mainVLay.add(bottomPanel);
 
 		if (UIUtils.isMSIEBrowser())
 			resetFormView();

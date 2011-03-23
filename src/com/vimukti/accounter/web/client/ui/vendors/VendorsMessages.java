@@ -540,4 +540,6 @@ public interface VendorsMessages extends FinanceMessages {
 	String statuS();
 
 	String vendoRName();
+
+	String supplieRGroup();
 }

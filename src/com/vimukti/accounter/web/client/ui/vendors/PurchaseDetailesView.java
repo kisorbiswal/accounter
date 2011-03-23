@@ -36,7 +36,7 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 	private HTML customerNumberField;
 	private HTML dueDateField;
 	private HTML statusField;
-	private ItemsGrid itemsGrid;
+	public ItemsGrid itemsGrid;
 
 	public PurchaseDetailesView() {
 		super();
