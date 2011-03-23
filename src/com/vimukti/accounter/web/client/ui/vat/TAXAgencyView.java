@@ -337,7 +337,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		taxAgencyForm = UIUtils.form(companyConstants.taxAgency());
 		taxAgencyForm.setWidth("100%");
-		taxAgencyForm.getCellFormatter().setWidth(0, 0, "235");
+		taxAgencyForm.getCellFormatter().setWidth(0, 0, "232");
 		taxAgencyForm.setFields(taxAgencyText, fileAsText);
 
 		accInfoForm = new DynamicForm();
@@ -432,8 +432,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		memoArea.setTitle(FinanceApplication.getVATMessages().memo());
 		memoArea.setWidth("400px");
 		memoForm.setFields(memoArea);
-		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
-       
+		memoForm.setStyleName("align-form");
+
 		addButton = new Button(FinanceApplication.getVATMessages().add());
 		// addButton.setStyleName("addButton");
 		addButton.addClickHandler(new ClickHandler() {
@@ -441,7 +441,6 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			@Override
 			public void onClick(ClickEvent event) {
 				ClientContact clientContact = new ClientContact();
-				gridView.setDisabled(false);
 				// clientContact.setName("");
 				gridView.addData(clientContact);
 			}
@@ -464,6 +463,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			// Setting AddressForm
 			addrsForm = new AddressForm(takenVATAgency.getAddress());
 			addrsForm.setWidth("100%");
+
 			// Setting Phone Fax Form
 			phoneFaxForm = new PhoneFaxForm(takenVATAgency.getPhoneNumbers(),
 					takenVATAgency.getFaxNumbers());
@@ -546,27 +546,22 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		} else { // For Creating TaxAgency
 			addrsForm = new AddressForm(null);
 			addrsForm.setWidth("100%");
+			addrsForm.getCellFormatter().setWidth(0, 0, "50");
+			addrsForm.getCellFormatter().setWidth(0, 1, "125");
 			phoneFaxForm = new PhoneFaxForm(null, null);
 			phoneFaxForm.setWidth("100%");
+			phoneFaxForm.getCellFormatter().setWidth(0, 0, "75");
+			phoneFaxForm.getCellFormatter().setWidth(0, 1, "125");
 			emailForm = new EmailForm(null, null);
 			emailForm.setWidth("100%");
+			emailForm.getCellFormatter().setWidth(0, 0, "190");
+			emailForm.getCellFormatter().setWidth(0, 1, "125");
 		}
-		
-		phoneFaxForm.getCellFormatter().setWidth(0, 0, "50");
-		phoneFaxForm.getCellFormatter().setWidth(0, 1, "125");
-		
-		addrsForm.getCellFormatter().setWidth(0, 0, "50");
-		addrsForm.getCellFormatter().setWidth(0, 1, "125");
-		
-		emailForm.getCellFormatter().setWidth(0, 0, "212");
-		emailForm.getCellFormatter().setWidth(0, 1, "125");
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
 		leftVLay.add(taxAgencyForm);
 		leftVLay.add(addrsForm);
-		addrsForm.getCellFormatter().addStyleName(0, 0, "addrsFormCellAlign");
-		addrsForm.getCellFormatter().addStyleName(0, 1, "addrsFormCellAlign");
 		leftVLay.add(phoneFaxForm);
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
@@ -591,20 +586,21 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		mainVlay.add(gridView);
 		mainVlay.add(addButton);
 		mainVlay.add(memoForm);
-
-		addButton.getElement().getParentElement().addClassName("add-button");
-
-		Element addseparator = DOM.createSpan();
+		
+		
+		
+        addButton.getElement().getParentElement().addClassName("add-button");
+		
+		Element addseparator=DOM.createSpan();
 		addseparator.addClassName("add-separator");
-		DOM.appendChild(addButton.getElement(), addseparator);
-
-		Element addimage = DOM.createSpan();
+		DOM.appendChild(addButton.getElement(),addseparator);
+		
+		Element addimage=DOM.createSpan();
 		addimage.addClassName("add-image");
-		DOM.appendChild(addButton.getElement(), addimage);
-
-		ThemesUtil
-				.addDivToButton(addButton, FinanceApplication.getThemeImages()
-						.button_right_blue_image(), "blue-right-image");
+		DOM.appendChild(addButton.getElement(),addimage);
+		
+		ThemesUtil.addDivToButton(addButton,FinanceApplication.getThemeImages().button_right_blue_image(),"add-right-image");
+		
 
 		/* Adding dynamic forms in list */
 		listforms.add(taxAgencyForm);
@@ -621,7 +617,6 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	private void initListGrid() {
 		gridView = new ContactGrid();
-		gridView.setDisabled(true);
 		gridView.setCanEdit(true);
 		gridView.init();
 		gridView.setHeight("175px");
