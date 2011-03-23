@@ -271,7 +271,7 @@ public class PurchaseOrderView extends
 		termsForm.setFields(transactionNumber, purchaseOrderText,
 				payTermsSelect, shippingTermsCombo, shippingMethodsCombo);
 		dateform.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getVendorsMessages().width(),"203");
+				FinanceApplication.getVendorsMessages().width(), "198");
 
 		forms.add(termsForm);
 		formItems.add(checkNo);
@@ -332,9 +332,16 @@ public class PurchaseOrderView extends
 		topHLay.add(rightVLay);
 		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
+		HorizontalPanel panel = new HorizontalPanel();
+		panel.setHorizontalAlignment(ALIGN_RIGHT);
+		panel.add(menuButton);
+
 		VerticalPanel bottomLayout = new VerticalPanel();
-		bottomLayout.setWidth("80%");
+		bottomLayout.setWidth("100%");
+		bottomLayout.setHorizontalAlignment(ALIGN_RIGHT);
+		bottomLayout.add(panel);
 		bottomLayout.add(memoForm);
+		bottomLayout.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
 		// bottomLayout.add(linkspanel);
 
 		VerticalPanel mainVLay = new VerticalPanel();
@@ -345,7 +352,7 @@ public class PurchaseOrderView extends
 		// mainVLay.add(lab2);
 
 		mainVLay.add(vendorTransactionGrid);
-		mainVLay.add(menuButton);
+		// mainVLay.add(menuButton);
 		mainVLay.add(bottomLayout);
 
 		if (UIUtils.isMSIEBrowser()) {
