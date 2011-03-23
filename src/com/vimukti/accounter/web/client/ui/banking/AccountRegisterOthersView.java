@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -18,6 +19,8 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -30,7 +33,7 @@ public class AccountRegisterOthersView extends
 
 	private String selectedDateRange;
 	private String selectedOption;
-	private SelectItem showTransactionSelect;
+	private SelectCombo showTransactionSelect;
 
 	private ClientAccount takenaccount;
 	@SuppressWarnings("unused")
@@ -53,6 +56,7 @@ public class AccountRegisterOthersView extends
 			FinanceApplication.getBankingsMessages().today(),
 			FinanceApplication.getBankingsMessages().last30Days(),
 			FinanceApplication.getBankingsMessages().last45Days() };
+	private List<String> listOfDateRanges;
 
 	private ClientFinanceDate endDate;
 
@@ -66,23 +70,28 @@ public class AccountRegisterOthersView extends
 
 	protected void createControls() {
 
-		showTransactionSelect = new SelectItem(bankingConstants
+		showTransactionSelect = new SelectCombo(bankingConstants
 				.showTransactions());
-		showTransactionSelect.setValueMap(dateRangeArray);
+		listOfDateRanges = new ArrayList<String>();
+		for (int i = 0; i < dateRangeArray.length; i++) {
+			listOfDateRanges.add(dateRangeArray[i]);
+		}
 		if (UIUtils.isMSIEBrowser())
 			showTransactionSelect.setWidth("120px");
-		showTransactionSelect.addChangeHandler(new ChangeHandler() {
+		showTransactionSelect.initCombo(listOfDateRanges);
+		showTransactionSelect.setComboItem(dateRangeArray[0]);
+		showTransactionSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						if (!showTransactionSelect.getSelectedValue().equals(
+								FinanceApplication.getBankingsMessages()
+										.custom()))
+							dateRangeChanged();
 
-				if (!showTransactionSelect.getValue().toString().equals(
-						FinanceApplication.getBankingsMessages().custom()))
-					dateRangeChanged();
-			}
-
-		});
-
+					}
+				});
 		DynamicForm form = new DynamicForm();
 		form.setFields(showTransactionSelect);
 		hlayTop = new HorizontalPanel();
@@ -100,7 +109,7 @@ public class AccountRegisterOthersView extends
 		lableHpanel.add(hlayTop);
 
 		grid = new AccountRegisterOtherListGrid(false);
-//		grid.addStyleName("listgrid-tl");
+		// grid.addStyleName("listgrid-tl");
 		grid.init();
 		HorizontalPanel gridLayout = new HorizontalPanel() {
 			@Override
@@ -136,7 +145,7 @@ public class AccountRegisterOthersView extends
 	@SuppressWarnings("deprecation")
 	protected void dateRangeChanged() {
 		todaydate = new ClientFinanceDate();
-		selectedOption = showTransactionSelect.getValue().toString();
+		selectedOption = showTransactionSelect.getSelectedValue();
 		if (!selectedDateRange.equals(FinanceApplication.getBankingsMessages()
 				.all())
 				&& selectedOption.equals(FinanceApplication

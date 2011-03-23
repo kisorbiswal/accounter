@@ -134,15 +134,13 @@ public abstract class AbstractBankTransactionView<T> extends
 	@Override
 	protected void showMenu() {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(FinanceApplication.getVendorsMessages()
-					.nominalCodeItem(), FinanceApplication.getVendorsMessages()
-					.product(), FinanceApplication.getVendorsMessages()
-					.service());
+			setMenuItems(FinanceApplication.getVendorsMessages().accounts(),
+					FinanceApplication.getVendorsMessages().product(),
+					FinanceApplication.getVendorsMessages().service());
 		else
-			setMenuItems(FinanceApplication.getVendorsMessages()
-					.nominalCodeItem(), FinanceApplication.getVendorsMessages()
-					.product(), FinanceApplication.getVendorsMessages()
-					.service());
+			setMenuItems(FinanceApplication.getVendorsMessages().accounts(),
+					FinanceApplication.getVendorsMessages().product(),
+					FinanceApplication.getVendorsMessages().service());
 		// FinanceApplication.getVendorsMessages().comment());
 
 	}
@@ -172,6 +170,7 @@ public abstract class AbstractBankTransactionView<T> extends
 		return amountItem;
 
 	}
+
 	protected AmountLabel createVATTotalNonEditableLabel() {
 
 		AmountLabel amountItem = new AmountLabel(FinanceApplication
@@ -181,7 +180,6 @@ public abstract class AbstractBankTransactionView<T> extends
 		return amountItem;
 
 	}
-
 
 	public void initpayFromAccountCombo() {
 
@@ -320,7 +318,7 @@ public abstract class AbstractBankTransactionView<T> extends
 		return amountItem;
 
 	}
-	
+
 	protected AmountLabel createTransactionTotalNonEditableLabel() {
 
 		AmountLabel amountItem = new AmountLabel(FinanceApplication
@@ -330,7 +328,6 @@ public abstract class AbstractBankTransactionView<T> extends
 		return amountItem;
 
 	}
-
 
 	// protected void onAddNew(String menuItem) {
 	// ClientTransactionItem transactionItem = new ClientTransactionItem();
@@ -358,8 +355,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	protected void onAddNew(String menuItem) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
-		if (menuItem.equals(FinanceApplication.getVendorsMessages()
-				.nominalCodeItem())) {
+		if (menuItem.equals(FinanceApplication.getVendorsMessages().accounts())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 					&& !FinanceApplication.getCompany().getpreferences()
