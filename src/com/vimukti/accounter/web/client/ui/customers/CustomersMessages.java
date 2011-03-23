@@ -642,4 +642,6 @@ public interface CustomersMessages extends FinanceMessages {
 	public String remove();
 
 	public String currentRate();
+
+	public String customeRGroup();
 }

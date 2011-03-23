@@ -379,7 +379,7 @@ public class NewCustomerPaymentView extends
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
-//		labeldateNoLayout.add(lab1);
+		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 		labeldateNoLayout.setCellHorizontalAlignment(datepanel, ALIGN_RIGHT);
 		// customer and address
@@ -463,6 +463,7 @@ public class NewCustomerPaymentView extends
 		});
 
 		payForm = UIUtils.form(customerConstants.payment());
+		payForm.getCellFormatter().addStyleName(7, 0, "memoFormAlign");
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();

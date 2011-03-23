@@ -554,6 +554,7 @@ public class ReceivePaymentView extends
 		paymentMethodCombo.setWidth(100);
 
 		payForm = new DynamicForm();
+		payForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		payForm.setWidth("90%");
 		payForm.setIsGroup(true);
 		payForm.setGroupTitle(customerConstants.payment());

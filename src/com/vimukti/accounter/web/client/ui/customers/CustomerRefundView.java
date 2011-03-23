@@ -271,7 +271,6 @@ public class CustomerRefundView extends
 		});
 
 		memoTextAreaItem = createMemoTextAreaItem();
-
 		// refText = createRefereceText();
 		// refText.setWidth(100);
 
@@ -295,6 +294,7 @@ public class CustomerRefundView extends
 		// memoForm.setWidth("100%");
 		// memoForm.setFields(memoTextAreaItem, refText);
 		// memoForm.getCellFormatter().setWidth(0, 0, "150");
+		custForm.getCellFormatter().addStyleName(7, 0, "memoFormAlign");
 		custForm.setFields(customerCombo, billToCombo, payFromSelect, amtText,
 				paymentMethodCombo, printCheck, checkNoText, memoTextAreaItem);
 		custForm.setCellSpacing(5);

@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -61,7 +62,7 @@ public class CustomerCreditMemoView extends
 		Label lab1 = new Label(customerConstants.customerCreditNote());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-        lab1.setHeight("50px");
+		lab1.setHeight("50px");
 		listforms = new ArrayList<DynamicForm>();
 
 		transactionDateItem = createTransactionDateItem();
@@ -105,7 +106,7 @@ public class CustomerCreditMemoView extends
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
-//		labeldateNoLayout.add(lab1);
+		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
 		customerCombo = createCustomerComboItem(customerConstants
@@ -123,6 +124,7 @@ public class CustomerCreditMemoView extends
 
 		custForm = UIUtils.form(customerConstants.customer());
 		custForm.setFields(customerCombo, contactCombo, billToTextArea);
+		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 		custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
 		forms.add(custForm);
@@ -131,13 +133,14 @@ public class CustomerCreditMemoView extends
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isEdit);
-		phoneSelect.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-			
-			@Override
-			public void selectedComboBoxItem(String selectItem) {
-				phoneNo = phoneSelect.getSelectedValue();
-			}
-		});
+		phoneSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						phoneNo = phoneSelect.getSelectedValue();
+					}
+				});
 		formItems.add(phoneSelect);
 		salesPersonCombo = createSalesPersonComboItem();
 
@@ -162,6 +165,8 @@ public class CustomerCreditMemoView extends
 		// refText = createRefereceText();
 
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
+		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
+				"memoFormAlign");
 		prodAndServiceForm1.setNumCols(2);
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.setFields(memoTextAreaItem);
@@ -171,7 +176,7 @@ public class CustomerCreditMemoView extends
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
-		netAmountLabel =createNetAmountLabel();
+		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
 		customerTransactionGrid = getGrid();
@@ -189,10 +194,10 @@ public class CustomerCreditMemoView extends
 		prodAndServiceForm2.setNumCols(4);
 		if (FinanceApplication.getCompany().getAccountingType() == 1) {
 
-		prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
+			prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
 					disabletextbox, vatTotalNonEditableText, disabletextbox,
 					transactionTotalNonEditableText);
-		prodAndServiceForm2.addStyleName("invoice-total");
+			prodAndServiceForm2.addStyleName("invoice-total");
 		} else {
 			prodAndServiceForm2.setFields(taxCodeSelect,
 					salesTaxTextNonEditable, priceLevelSelect,
@@ -202,13 +207,24 @@ public class CustomerCreditMemoView extends
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
+
+		HorizontalPanel panel = new HorizontalPanel();
+		panel.setHorizontalAlignment(ALIGN_RIGHT);
+		panel.add(createAddNewButton());
+
 		VerticalPanel vpanel = new VerticalPanel();
-		vpanel.add(createAddNewButton());
-		vpanel.add(prodAndServiceForm1);
-		prodAndServiceHLay.add(vpanel);
+		vpanel.setHorizontalAlignment(ALIGN_RIGHT);
+		vpanel.setWidth("100%");
+		vpanel.add(panel);
+		vpanel.add(prodAndServiceForm2);
+
+		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
-		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
-				ALIGN_RIGHT);
+
+		VerticalPanel mainPanel = new VerticalPanel();
+		mainPanel.setWidth("100%");
+		mainPanel.add(vpanel);
+		mainPanel.add(prodAndServiceHLay);
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
@@ -228,11 +244,11 @@ public class CustomerCreditMemoView extends
 		topHLay.setCellWidth(rightVLay, "50%");
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
-        mainVLay.add(lab1);
+		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		mainVLay.add(customerTransactionGrid);
-		mainVLay.add(prodAndServiceHLay);
+		mainVLay.add(mainPanel);
 
 		if (UIUtils.isMSIEBrowser()) {
 			resetFormView();
@@ -469,7 +485,8 @@ public class CustomerCreditMemoView extends
 		} else {
 			if (customerTransactionGrid.getGrandTotal() != null
 					&& customerTransactionGrid.getTotalValue() != null) {
-				netAmountLabel.setAmount(customerTransactionGrid.getGrandTotal());
+				netAmountLabel.setAmount(customerTransactionGrid
+						.getGrandTotal());
 				vatTotalNonEditableText.setAmount(customerTransactionGrid
 						.getTotalValue()
 						- customerTransactionGrid.getGrandTotal());

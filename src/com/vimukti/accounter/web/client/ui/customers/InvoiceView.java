@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -74,6 +75,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	private TextAreaItem billToTextArea;
 	private ShipToForm shipToAddress;
 	private TextItem orderNumText;
+	HorizontalPanel hpanel;
+	DynamicForm amountsForm;
 
 	@SuppressWarnings("unused")
 	private ClientCompany company = FinanceApplication.getCompany();
@@ -246,10 +249,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				.billTo());
 		billToTextArea.setDisabled(true);
 		billToTextArea.setHelpInformation(true);
-
+		
 		shipToCombo = createShipToComboItem();
 		shipToCombo.setHelpInformation(true);
 		shipToAddress = new ShipToForm(null);
+		shipToAddress.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -283,6 +288,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		forms.add(custForm);
 		custForm.setFields(customerCombo, quoteLabel, contactCombo, emptylabel,
 				billToTextArea, emptylabel);
+		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 		custForm.setStyleName("align-form");
 
 		if (UIUtils.isMSIEBrowser()) {
@@ -347,16 +353,17 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		// });
 
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
+		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
+				"memoFormAlign");
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.setNumCols(2);
 		prodAndServiceForm1.setFields(memoTextAreaItem);
 		// memoTextAreaItem.getMainWidget().getParent().setWidth("70%");
 
-		VerticalPanel vPanel = new VerticalPanel();
-		vPanel.add(createAddNewButton());
-		vPanel.add(prodAndServiceForm1);
-		vPanel.setWidth("100%");
-		forms.add(prodAndServiceForm1);
+		// VerticalPanel vPanel = new VerticalPanel();
+		// vPanel.add(prodAndServiceForm1);
+		// vPanel.setWidth("100%");
+		// forms.add(prodAndServiceForm1);
 
 		priceLevelSelect = createPriceLevelSelectItem();
 		taxCodeSelect = createTaxCodeSelectItem();
@@ -393,7 +400,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		prodAndServiceForm2.setCellSpacing(5);
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
-		prodAndServiceHLay.add(vPanel);
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
@@ -407,7 +413,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			// priceLevelForm.setCellSpacing(4);
 			priceLevelForm.setWidth("70%");
 			priceLevelForm.setFields(priceLevelSelect);
-			DynamicForm amountsForm = new DynamicForm();
+			amountsForm = new DynamicForm();
 			amountsForm.setWidth("100%");
 			amountsForm.setFields(netAmountLabel, vatTotalNonEditableText,
 					transactionTotalNonEditableText, paymentsNonEditableText,
@@ -418,10 +424,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			// prodAndServiceHLay.add(priceLevelForm);
 			// prodAndServiceHLay.setCellHorizontalAlignment(priceLevelForm,
 			// ALIGN_RIGHT);
-			prodAndServiceHLay.add(amountsForm);
-
-			prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
-					ALIGN_RIGHT);
+			// prodAndServiceHLay.add(amountsForm);
+			// prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
+			// ALIGN_RIGHT);
 			// listforms.add(priceLevelForm);
 
 		} else {
@@ -438,6 +443,23 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
 					ALIGN_RIGHT);
 		}
+		hpanel = new HorizontalPanel();
+		hpanel.setHorizontalAlignment(ALIGN_RIGHT);
+		hpanel.add(createAddNewButton());
+
+		VerticalPanel panel = new VerticalPanel();
+		panel.setHorizontalAlignment(ALIGN_RIGHT);
+		panel.setWidth("100%");
+		panel.add(hpanel);
+		panel.add(amountsForm);
+
+		prodAndServiceHLay.add(prodAndServiceForm1);
+		prodAndServiceHLay.add(amountsForm);
+
+		VerticalPanel panel11 = new VerticalPanel();
+		panel11.setWidth("100%");
+		panel11.add(panel);
+		panel11.add(prodAndServiceHLay);
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setHorizontalAlignment(ALIGN_LEFT);
@@ -466,7 +488,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		mainVLay.add(customerTransactionGrid);
 
-		mainVLay.add(prodAndServiceHLay);
+		mainVLay.add(panel11);
 
 		if (UIUtils.isMSIEBrowser())
 			resetFromView();

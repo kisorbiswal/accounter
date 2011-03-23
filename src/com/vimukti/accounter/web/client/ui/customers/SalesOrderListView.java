@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
@@ -158,16 +159,31 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 					if (salesOrder.getStatus() == ClientTransaction.STATUS_OPEN
 							|| salesOrder.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED)
 						grid.addData(salesOrder);
+					if (grid.getRecords().isEmpty()) {
+						salesDetailView.itemsGrid.clear();
+						salesDetailView.itemsGrid
+								.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+					}
 					continue;
 				}
 				if (text.equals(COMPLETED)) {
 					if (salesOrder.getStatus() == ClientTransaction.STATUS_COMPLETED)
 						grid.addData(salesOrder);
+					if (grid.getRecords().isEmpty()) {
+						salesDetailView.itemsGrid.clear();
+						salesDetailView.itemsGrid
+								.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+					}
 					continue;
 				}
 				if (text.equals(CANCELLED)) {
 					if (salesOrder.getStatus() == ClientTransaction.STATUS_CANCELLED)
 						grid.addData(salesOrder);
+					if (grid.getRecords().isEmpty()) {
+						salesDetailView.itemsGrid.clear();
+						salesDetailView.itemsGrid
+								.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+					}
 					continue;
 				}
 			}

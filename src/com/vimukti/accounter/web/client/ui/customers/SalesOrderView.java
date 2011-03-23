@@ -154,6 +154,7 @@ public class SalesOrderView extends
 				});
 
 		customerCombo.setRequired(true);
+		customerCombo.setHelpInformation(true);
 		customerCombo.setDisabled(isEdit);
 		formItems.add(customerCombo);
 
@@ -179,8 +180,11 @@ public class SalesOrderView extends
 		billToTextArea.setTitle(FinanceApplication.getCustomersMessages()
 				.billTo());
 		billToTextArea.setDisabled(true);
+		
 		shipToCombo = createShipToComboItem();
 		shipToAddress = new ShipToForm(null);
+		shipToAddress.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -210,9 +214,10 @@ public class SalesOrderView extends
 
 		custForm = UIUtils.form(customerConstants.billingAddress());
 		custForm.setNumCols(3);
-		custForm.setWidth("100%");
+		custForm.setWidth("50%");
 		custForm.setFields(customerCombo, quoteLabel, contactCombo, emptylabel,
-				phoneSelect, emptylabel, billToTextArea, emptylabel);
+				phoneSelect, emptylabel, billToTextArea,emptylabel);
+		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		custForm.getCellFormatter().getElement(0, 1).setAttribute(
 				FinanceApplication.getCustomersMessages().width(), "185px");
 		forms.add(custForm);

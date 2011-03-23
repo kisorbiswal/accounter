@@ -61,7 +61,7 @@ public class SalesQuoteListDialog extends AbstractBaseDialog{
 
 		grid = new DialogGrid(false);
 		grid.addColumns(customerConstants.date(), customerConstants.no(),
-				customerConstants.type(), customerConstants.customerName(),
+				customerConstants.type(), customerConstants.customeRName(),
 				customerConstants.total());
 		// grid.setWidth("100%");
 		grid.setCellsWidth(70, 30, 60, -1, 60);

@@ -104,7 +104,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 	public void showAddEditGroupDialog(ClientCustomerGroup rec) {
 		customerGroup = rec;
 		inputDlg = new InputDialog(customerConstants.customerGroup(), "",
-				FinanceApplication.getCustomersMessages().customerGroup());
+				FinanceApplication.getCustomersMessages().customeRGroup());
 
 		if (customerGroup != null) {
 			inputDlg.setTextItemValue(0, customerGroup.getName());

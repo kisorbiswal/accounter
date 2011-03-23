@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -39,6 +40,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	protected DateField quoteExpiryDate;
 	private ClientEstimate estimate;
+	private HorizontalPanel panel;
 
 	private ArrayList<DynamicForm> listforms;
 
@@ -307,7 +309,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		disabletextbox.setVisible(false);
 
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
-		prodAndServiceForm1.setStyleName("align-form");
+		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
+				"memoFormAlign");
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.setFields(memoTextAreaItem);
 		forms.add(prodAndServiceForm1);
@@ -338,15 +341,23 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 
-		VerticalPanel vPanel = new VerticalPanel();
-		vPanel.add(menuButton);
-		vPanel.add(prodAndServiceForm1);
-		vPanel.setWidth("100%");
+		panel = new HorizontalPanel();
+		panel.setHorizontalAlignment(ALIGN_RIGHT);
+		panel.add(createAddNewButton());
 
-		prodAndServiceHLay.add(vPanel);
+		VerticalPanel vPanel = new VerticalPanel();
+		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
+		vPanel.setWidth("100%");
+		vPanel.add(panel);
+		vPanel.add(prodAndServiceForm2);
+
+		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
-		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
-				HasHorizontalAlignment.ALIGN_RIGHT);
+
+		VerticalPanel mainpanel = new VerticalPanel();
+		mainpanel.setWidth("100%");
+		mainpanel.add(vPanel);
+		mainpanel.add(prodAndServiceHLay);
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
@@ -375,7 +386,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		gridPanel.add(customerTransactionGrid);
 		mainVLay.add(gridPanel);
-		mainVLay.add(prodAndServiceHLay);
+		mainVLay.add(mainpanel);
 
 		if (UIUtils.isMSIEBrowser()) {
 			resetFormView();

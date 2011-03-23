@@ -105,7 +105,7 @@ public class CashSalesView extends
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
-//		labeldateNoLayout.add(lab1);
+		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
 		customerCombo = createCustomerComboItem(customerConstants
@@ -210,17 +210,21 @@ public class CashSalesView extends
 		forms.add(prodAndServiceForm2);
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
-		prodAndServiceHLay.setWidth("100%");
+		prodAndServiceHLay.setWidth("25%");
+		prodAndServiceHLay.setStyleName("bottomlayout-view");
+
+		HorizontalPanel panel = new HorizontalPanel();
+		panel.setHorizontalAlignment(ALIGN_RIGHT);
+		panel.add(createAddNewButton());
+		
+		prodAndServiceHLay.add(prodAndServiceForm2);
+		
 
 		VerticalPanel vPanel = new VerticalPanel();
-		vPanel.add(createAddNewButton());
-		vPanel.add(prodAndServiceForm1);
+		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		vPanel.setWidth("100%");
-		prodAndServiceHLay.add(vPanel);
-
-		prodAndServiceHLay.add(prodAndServiceForm2);
-		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
-				ALIGN_RIGHT);
+		vPanel.add(panel);
+		vPanel.add(prodAndServiceHLay);
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
@@ -242,11 +246,11 @@ public class CashSalesView extends
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
-        mainVLay.add(lab1);
+		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		mainVLay.add(customerTransactionGrid);
-		mainVLay.add(prodAndServiceHLay);
+		mainVLay.add(vPanel);
 
 		if (UIUtils.isMSIEBrowser())
 			resetFormView();
