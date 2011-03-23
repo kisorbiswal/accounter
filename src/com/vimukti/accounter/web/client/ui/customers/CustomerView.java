@@ -51,6 +51,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PriceLevelCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.TaxGroupCombo;
@@ -105,7 +106,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	SalesPersonCombo salesPersonSelect;
 
 	ContactGrid gridView;
-	SelectItem payMethSelect;
+	SelectCombo payMethSelect;
 
 	private ClientCustomer takenCustomer;
 
