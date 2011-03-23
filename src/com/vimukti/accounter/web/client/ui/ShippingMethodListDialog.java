@@ -106,8 +106,8 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 	public void showAddEditTermDialog(ClientShippingMethod rec) {
 		String arr[] = new String[2];
 		arr[0] = FinanceApplication.getFinanceUIConstants().shippingMethod();
-		arr[1] = FinanceApplication.getFinanceUIConstants().description();
-		inputDlg = new InputDialog(FinanceApplication.getFinanceUIConstants()
+		arr[1] = FinanceApplication.getFinanceUIConstants().descriptioN();
+		inputDlg = new InputDialog(FinanceApplication.getCustomersMessages()
 				.shippingMethod(), "", arr);
 		inputDlg.getTextItems().get(1).setRequired(false);
 		inputDlg.setWidth("320");
