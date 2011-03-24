@@ -360,13 +360,14 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 		
 	}
 	
-	public BrandingTheme(String themeName, double topMargin,
+	public BrandingTheme(String themeName, String stringId, double topMargin,
 			double bottomMargin, double addressPadding, String font,
 			String fontSize, String openInvoiceTitle,
 			String overDueInvoiceTitle, String creditMemoTitle,
 			String statementTitle, String payPalEmailID) {
 		
 		this.themeName = themeName;
+		this.stringId = stringId;
 		this.pageSizeType = PAGE_SIZE_US_LETTER;
 		this.topMargin = topMargin;
 		this.bottomMargin = bottomMargin;
