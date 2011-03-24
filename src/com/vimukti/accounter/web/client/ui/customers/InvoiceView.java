@@ -7,6 +7,7 @@ import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -15,6 +16,7 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -35,6 +37,7 @@ import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.BrandingThemeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
@@ -63,6 +66,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 	}
 
+	private BrandingThemeCombo brandingThemeTypeCombo;
+	private ClientBrandingTheme brandingTheme;
 	DateField dueDateItem;
 	private Double payments = 0.0;
 	private Double balanceDue = 0.0;
@@ -168,6 +173,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	@Override
 	protected void createControls() {
 		// setTitle(UIUtils.title(customerConstants.newInvoice()));
+		brandingTheme = new ClientBrandingTheme();
 		Label lab1;
 
 		if (transactionObject == null
@@ -199,6 +205,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		transactionNumber.setTitle(FinanceApplication.getCustomersMessages()
 				.invoiceNo());
 		listforms = new ArrayList<DynamicForm>();
+		brandingThemeTypeCombo = new BrandingThemeCombo("Branding Theme");
 
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(4);
@@ -249,7 +256,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				.billTo());
 		billToTextArea.setDisabled(true);
 		billToTextArea.setHelpInformation(true);
-		
+
 		shipToCombo = createShipToComboItem();
 		shipToCombo.setHelpInformation(true);
 		shipToAddress = new ShipToForm(null);
@@ -325,7 +332,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		termsForm.setIsGroup(true);
 		termsForm.setGroupTitle(customerConstants.terms());
 		termsForm.setNumCols(2);
-		termsForm.setFields(salesPersonCombo, payTermsSelect,
+		termsForm.setFields(brandingThemeTypeCombo,salesPersonCombo, payTermsSelect,
 				shippingTermsCombo, shippingMethodsCombo, dueDateItem,
 				deliveryDate, orderNumText);
 		termsForm.setStyleName("align-form");
@@ -336,21 +343,21 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth("400px");
 
-		// Button printButton = new Button();
-		//
-		// printButton.setText(FinanceApplication.getCustomersMessages().print());
-		// printButton.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// print();
-		// // InvoicePrintLayout printLt = new InvoicePrintLayout(
-		// // (ClientInvoice) getInvoiceObject());
-		// // printLt.setView(InvoiceView.this);
-		// // printLt.createTemplate();
-		// // printLt.print();
-		// }
-		// });
+		Button printButton = new Button();
+
+		printButton.setText(FinanceApplication.getCustomersMessages().print());
+		printButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				print();
+				// InvoicePrintLayout printLt = new InvoicePrintLayout(
+				// (ClientInvoice) getInvoiceObject());
+				// printLt.setView(InvoiceView.this);
+				// printLt.createTemplate();
+				// printLt.print();
+			}
+		});
 
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
 		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
@@ -406,6 +413,16 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		listforms.add(termsForm);
 		listforms.add(prodAndServiceForm1);
 		listforms.add(prodAndServiceForm2);
+
+		brandingThemeTypeCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientBrandingTheme>() {
+
+					@Override
+					public void selectedComboBoxItem(
+							ClientBrandingTheme selectItem) {
+						brandingTheme = selectItem;
+					}
+				});
 
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 
@@ -484,7 +501,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
-		// mainVLay.add(printButton);
+		mainVLay.add(printButton);
 
 		mainVLay.add(customerTransactionGrid);
 
