@@ -620,6 +620,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		customerForm.setWidth("100%");
 		customerForm.getCellFormatter().setWidth(0, 0, "205");
 
+		// Element ele = DOM.createSpan();
+		// ele.addClassName("star");
+		// DOM.appendChild(DOM.getChild(customerForm.getElement(), 0), ele);
+
 		accInfoForm = new DynamicForm();
 		accInfoForm.setIsGroup(true);
 		accInfoForm.setGroupTitle(customerConstants.accountInformation());
@@ -697,7 +701,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			@Override
 			protected void onAttach() {
 
-//				gridView.setHeight("88px");
+				// gridView.setHeight("88px");
 
 				super.onAttach();
 			}
@@ -705,18 +709,19 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		panel.add(l1);
 		panel.add(gridView);
 		panel.add(addButton);
-		
+
 		addButton.getElement().getParentElement().addClassName("add-button");
-		
-		Element addseparator=DOM.createSpan();
+
+		Element addseparator = DOM.createSpan();
 		addseparator.addClassName("add-separator");
-		DOM.appendChild(addButton.getElement(),addseparator);
-		
-		Element addimage=DOM.createSpan();
+		DOM.appendChild(addButton.getElement(), addseparator);
+
+		Element addimage = DOM.createSpan();
 		addimage.addClassName("add-image");
-		DOM.appendChild(addButton.getElement(),addimage);
-		
-		ThemesUtil.addDivToButton(addButton,FinanceApplication.getThemeImages().button_right_blue_image(),"add-right-image");
+		DOM.appendChild(addButton.getElement(), addimage);
+
+		ThemesUtil.addDivToButton(addButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(), "add-right-image");
 
 		memoArea = new TextAreaItem();
 		memoArea.setWidth("400px");
@@ -776,7 +781,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			balanceDate.setDisabled(true);
 			// Setting Contacts
 			gridView.initContacts(takenCustomer.getContacts());
-//			gridView.setHeight("88px");
+			// gridView.setHeight("88px");
 
 			// Setting Memo
 			memoArea.setValue(takenCustomer.getMemo().toString());
@@ -842,7 +847,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		emailForm.getCellFormatter().setWidth(0, 0, "190");
 		emailForm.getCellFormatter().setWidth(0, 1, "150");
 
-		 memoArea.getMainWidget().setWidth("250px");
+		memoArea.getMainWidget().setWidth("250px");
 
 	}
 
