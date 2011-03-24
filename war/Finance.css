@@ -999,7 +999,8 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	background:none repeat scroll 0 0 #F0F0F0 !important;
 }
 .help-logout-sep td:nth-child(2),.help-logout-sep td:nth-child(3){
-	padding:5px;
+	padding:5px !important;
+	width:5% !important;
 }
 .help-content{
 	background:url("images/Menubar_Divider_2x30.jpg") no-repeat scroll 0 0 transparent;
@@ -1148,11 +1149,13 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 .add-button button[disabled]:after{
 	background:url("images/gray_Button_left_1x27.png") no-repeat scroll 0 0 transparent !important;
 }
-.help-logout-sep td:nth-child(1){
-	width:90% !important;
-	float:right;
-}
 .inviteUserLabel{
 	font-weight: bold;
 	margin-top: 10px;
+}
+iframe{
+    display:none;	
+}
+.star {
+	color: red;
 }
