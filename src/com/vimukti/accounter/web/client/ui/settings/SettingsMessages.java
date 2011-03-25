@@ -73,7 +73,7 @@ public interface SettingsMessages extends FinanceMessages {
 
 	String newBrandThemeLabel();
 
-	SafeHtml yourTitle();
+	String yourTitle();
 
 	SafeHtml ok();
 
