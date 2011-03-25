@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 
 public class CustomThemeDialog extends BaseDialog {
 
@@ -54,6 +55,19 @@ public class CustomThemeDialog extends BaseDialog {
 			@Override
 			public void onClick(ClickEvent event) {
 				cancelClicked();
+			}
+		});
+		addInputDialogHandler(new InputDialogHandler() {
+
+			@Override
+			public boolean onOkClick() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public void onCancelClick() {
+				hide();
 
 			}
 		});

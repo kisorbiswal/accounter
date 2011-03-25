@@ -312,7 +312,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 	}
 
 	protected void deleteTheme(ClientBrandingTheme theme2) {
-		this.removeFromParent();
+		removeFromParent();
 		ViewManager.getInstance().deleteObject(theme,
 				AccounterCoreType.BRANDINGTHEME, InvoiceBrandingView.this);
 	}
@@ -328,10 +328,11 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 			@Override
 			public void onClick(ClickEvent event) {
 				ClientBrandingTheme brandingTheme = new ClientBrandingTheme();
-				brandingTheme = setValues(theme2);
+				brandingTheme = setValues();
 				brandingTheme.setThemeName(yourBox.getText());
 				ViewManager.getInstance().createObject(brandingTheme,
 						InvoiceBrandingView.this);
+				dialogBox.hide();
 			}
 		});
 		Button canButton = new Button("Cancel");
@@ -346,11 +347,29 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		copyPanel.add(yourBox);
 		copyPanel.add(okButton);
 		copyPanel.add(canButton);
+		dialogBox.add(copyPanel);
+		dialogBox.show();
+		dialogBox.center();
 	}
 
-	protected ClientBrandingTheme setValues(ClientBrandingTheme theme2) {
-
-		return theme2;
+	protected ClientBrandingTheme setValues() {
+		ClientBrandingTheme clientBrandingTheme = new ClientBrandingTheme();
+		clientBrandingTheme.setPageSizeType(theme.getPageSizeType());
+		clientBrandingTheme.setAddressPadding(theme.getAddressPadding());
+		clientBrandingTheme.setBottomMargin(theme.getBottomMargin());
+		clientBrandingTheme.setMarginsMeasurementType(theme
+				.getMarginsMeasurementType());
+		clientBrandingTheme.setFont(theme.getFont());
+		clientBrandingTheme.setFontSize(theme.getFontSize());
+		clientBrandingTheme.setOverDueInvoiceTitle(theme
+				.getOverDueInvoiceTitle());
+		clientBrandingTheme.setCreditMemoTitle(theme.getCreditMemoTitle());
+		clientBrandingTheme.setStatementTitle(theme.getStatementTitle());
+		clientBrandingTheme.setContactDetails(theme.getContactDetails());
+		clientBrandingTheme.setTerms_And_Payment_Advice(theme
+				.getTerms_And_Payment_Advice());
+		clientBrandingTheme.setPayPalEmailID(theme.getPayPalEmailID());
+		return clientBrandingTheme;
 	}
 
 	private CustomMenuBar getNewBrandMenu(PopupPanel panel) {
