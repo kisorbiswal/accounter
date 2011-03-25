@@ -395,6 +395,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 				isTransactionNumberExist((IAccounterCore) command.data);
 
 				session.save(serverObject);
+				ChangeTracker.put(serverObject);
 			}
 
 				break;
@@ -443,6 +444,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 					session.flush();
 					session.saveOrUpdate(serverObject);
+					ChangeTracker.put(serverObject);
 
 				}
 
@@ -480,10 +482,14 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 					if (serverObject != null)
 						if (serverObject instanceof FiscalYear) {
 							if (((FiscalYear) serverObject)
-									.canDelete((FiscalYear) serverObject))
+									.canDelete((FiscalYear) serverObject)) {
 								session.delete(serverObject);
-						} else
+								ChangeTracker.put(serverObject);
+							}
+						} else {
 							session.delete(serverObject);
+							ChangeTracker.put(serverObject);
+						}
 
 				}
 
@@ -7152,7 +7158,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 				.createQuery("from com.vimukti.accounter.core.FiscalYear fs ");
 		FinanceDate actualStartDate = new FinanceDate();
 		for (FiscalYear fs : fiscalYears) {
-			if (fs.getIsCurrentFiscalYear()) {
+			if (fs.getIsCurrentFiscalYear() == Boolean.TRUE) {
 
 				actualStartDate = fs.getStartDate();
 				break;
@@ -7567,7 +7573,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		} else {
 			query = session
 					.createQuery(
-							"from com.vimukti.accounter.core.TAXRateCalculation vr where "
+							".from com.vimukti.accounter.core.TAXRateCalculation vr where "
 									+ "vr.taxItem is not null and vr.transactionDate between :fromDate and :toDate group by vr.id,vr.transactionItem,vr.taxItem order by vr.transactionItem,vr.taxItem")
 					.setParameter("fromDate", startDate).setParameter("toDate",
 							endDate);
@@ -11540,7 +11546,8 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 					gPoints.add(object[4] == null ? 0 : (Double) object[4]);
 					gPoints.add(object[5] == null ? 0 : (Double) object[5]);
 
-					if (chartType == GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE || chartType == GraphChart.ACCOUNTS_PAYABLE_CHART_TYPE) {
+					if (chartType == GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE
+							|| chartType == GraphChart.ACCOUNTS_PAYABLE_CHART_TYPE) {
 
 						gPoints.add(object[6] == null ? 0 : (Double) object[6]);
 						gPoints.add(object[7] == null ? 0 : (Double) object[7]);
@@ -11629,22 +11636,22 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 					}
 
-//					double maxValue, minValue;
-//					minValue = (object[2] == null) ? 0 : (Double) object[2];
-//					maxValue = minValue;
-//
-//					for (int i = 2; i < object.length; i++) {
-//
-//						if (object[i] != null) {
-//							if (maxValue < (Double) object[i])
-//								maxValue = (Double) object[i];
-//
-//							if (minValue > (Double) object[i])
-//								minValue = (Double) object[i];
-//						}
-//					}
-//					 gPoints.setMaxPoint(maxValue);
-//					 gPoints.setMinPoint(minValue);
+					// double maxValue, minValue;
+					// minValue = (object[2] == null) ? 0 : (Double) object[2];
+					// maxValue = minValue;
+					//
+					// for (int i = 2; i < object.length; i++) {
+					//
+					// if (object[i] != null) {
+					// if (maxValue < (Double) object[i])
+					// maxValue = (Double) object[i];
+					//
+					// if (minValue > (Double) object[i])
+					// minValue = (Double) object[i];
+					// }
+					// }
+					// gPoints.setMaxPoint(maxValue);
+					// gPoints.setMinPoint(minValue);
 
 				}
 				return gPoints;

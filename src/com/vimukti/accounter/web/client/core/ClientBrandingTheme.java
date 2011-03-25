@@ -24,11 +24,11 @@ public class ClientBrandingTheme implements IAccounterCore {
 	public static final int LOGO_ALIGNMENT_LEFT = 1;
 	public static final int LOGO_ALIGNMENT_RIGHT = 2;
 
-	public static final int SHOW_TAXES_AS_EXCLUSIVE = 1;
-	public static final int SHOW_TAXES_AS_INCLUSIVE = 2;
+	// public static final int SHOW_TAXES_AS_EXCLUSIVE = 1;
+	// public static final int SHOW_TAXES_AS_INCLUSIVE = 2;
 
 	private long id;
-	private String stringId;
+	private String stringID;
 	private String themeName;
 	private int pageSizeType;
 	private double bottomMargin;
@@ -37,7 +37,7 @@ public class ClientBrandingTheme implements IAccounterCore {
 	private double addressPadding;
 	private String font;
 	private String fontSize;
-	private String openInvoiceTitle;
+	// private String openInvoiceTitle;
 	private String overDueInvoiceTitle;
 	private String creditMemoTitle;
 	private String statementTitle;
@@ -45,14 +45,14 @@ public class ClientBrandingTheme implements IAccounterCore {
 	private boolean isShowTaxNumber;
 	private boolean isShowColumnHeadings;
 	private boolean isShowUnitPrice_And_Quantity;
-	private boolean isShowPaymentAdviceCut_Away;
+	// private boolean isShowPaymentAdviceCut_Away;
 	private boolean isShowTaxColumn;
 	private boolean isShowRegisteredAddress;
 	private boolean isShowLogo;
 
 	private String payPalEmailID;
 	private int logoAlignmentType;
-	private int showTaxesAsType;
+	// private int showTaxesAsType;
 	private String contactDetails;
 	private String Terms_And_Payment_Advice;
 
@@ -88,12 +88,12 @@ public class ClientBrandingTheme implements IAccounterCore {
 
 	@Override
 	public String getStringID() {
-		return stringId;
+		return stringID;
 	}
 
 	@Override
 	public void setStringID(String stringID) {
-		this.stringId = stringID;
+		this.stringID = stringID;
 
 	}
 
@@ -169,13 +169,13 @@ public class ClientBrandingTheme implements IAccounterCore {
 		return fontSize;
 	}
 
-	public void setOpenInvoiceTitle(String openInvoiceTitle) {
-		this.openInvoiceTitle = openInvoiceTitle;
-	}
-
-	public String getOpenInvoiceTitle() {
-		return openInvoiceTitle;
-	}
+	// public void setOpenInvoiceTitle(String openInvoiceTitle) {
+	// this.openInvoiceTitle = openInvoiceTitle;
+	// }
+	//
+	// public String getOpenInvoiceTitle() {
+	// return openInvoiceTitle;
+	// }
 
 	public void setOverDueInvoiceTitle(String overDueInvoiceTitle) {
 		this.overDueInvoiceTitle = overDueInvoiceTitle;
@@ -226,13 +226,14 @@ public class ClientBrandingTheme implements IAccounterCore {
 		return isShowUnitPrice_And_Quantity;
 	}
 
-	public void setShowPaymentAdviceCut_Away(boolean isShowPaymentAdviceCut_Away) {
-		this.isShowPaymentAdviceCut_Away = isShowPaymentAdviceCut_Away;
-	}
-
-	public boolean isShowPaymentAdviceCut_Away() {
-		return isShowPaymentAdviceCut_Away;
-	}
+	// public void setShowPaymentAdviceCut_Away(boolean
+	// isShowPaymentAdviceCut_Away) {
+	// this.isShowPaymentAdviceCut_Away = isShowPaymentAdviceCut_Away;
+	// }
+	//
+	// public boolean isShowPaymentAdviceCut_Away() {
+	// return isShowPaymentAdviceCut_Away;
+	// }
 
 	public void setShowTaxColumn(boolean isShowTaxColumn) {
 		this.isShowTaxColumn = isShowTaxColumn;
@@ -274,13 +275,13 @@ public class ClientBrandingTheme implements IAccounterCore {
 		return logoAlignmentType;
 	}
 
-	public void setShowTaxesAsType(int showTaxesAsType) {
-		this.showTaxesAsType = showTaxesAsType;
-	}
-
-	public int getShowTaxesAsType() {
-		return showTaxesAsType;
-	}
+	// public void setShowTaxesAsType(int showTaxesAsType) {
+	// this.showTaxesAsType = showTaxesAsType;
+	// }
+	//
+	// public int getShowTaxesAsType() {
+	// return showTaxesAsType;
+	// }
 
 	public void setContactDetails(String contactDetails) {
 		this.contactDetails = contactDetails;

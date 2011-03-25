@@ -8,16 +8,21 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 
@@ -71,7 +76,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				PopupPanel newBrandMenuPanel = new PopupPanel();
-				newBrandMenuPanel.add(getNewBrandMenu());
+				newBrandMenuPanel.add(getNewBrandMenu(newBrandMenuPanel));
 				newBrandMenuPanel.setPopupPosition(newBrandButton
 						.getAbsoluteLeft(), newBrandButton.getAbsoluteTop()
 						+ newBrandButton.getOffsetHeight());
@@ -127,16 +132,16 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 
 	}
 
-	private String getTaxesType(int type) {
-		String taxType = null;
-		if (type == ClientBrandingTheme.SHOW_TAXES_AS_EXCLUSIVE) {
-			taxType = FinanceApplication.getSettingsMessages().taxExclusive();
-		} else {
-			taxType = FinanceApplication.getSettingsMessages().taxInclucive();
-		}
-		return taxType;
-
-	}
+	// private String getTaxesType(int type) {
+	// String taxType = null;
+	// if (type == ClientBrandingTheme.SHOW_TAXES_AS_EXCLUSIVE) {
+	// taxType = FinanceApplication.getSettingsMessages().taxExclusive();
+	// } else {
+	// taxType = FinanceApplication.getSettingsMessages().taxInclucive();
+	// }
+	// return taxType;
+	//
+	// }
 
 	private VerticalPanel addingDefaultTheme(ClientBrandingTheme theme) {
 		final Button optionsButton;
@@ -161,7 +166,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		boolean[] showArray = new boolean[] { theme.isShowTaxNumber(),
 				theme.isShowTaxColumn(), theme.isShowColumnHeadings(),
 				theme.isShowUnitPrice_And_Quantity(),
-				theme.isShowPaymentAdviceCut_Away(),
+				// theme.isShowPaymentAdviceCut_Away(),
 				theme.isShowRegisteredAddress(), theme.isShowLogo() };
 		String[] showDataArray = new String[] {
 				FinanceApplication.getSettingsMessages().taxNumber(),
@@ -181,13 +186,14 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 				+ FinanceApplication.getSettingsMessages().show() + " :</p>");
 		checkBoxHtml = new HTML("<ui>" + showItem + "</ui>");
 		radioButtonHtml = new HTML("<ui><li>"
-				+ getTaxesType(theme.getShowTaxesAsType()) + "<li>"
+		// + getTaxesType(theme.getShowTaxesAsType())
 				+ getLogoType(theme.getLogoAlignmentType()) + "<ui>");
 
 		headingsHtml = new HTML("<p>"
-				+ FinanceApplication.getSettingsMessages().headings() + " :"
-				+ theme.getOpenInvoiceTitle() + ","
-				+ theme.getOverDueInvoiceTitle() + ","
+				+ FinanceApplication.getSettingsMessages().headings()
+				+ " :"
+				// + theme.getOpenInvoiceTitle()
+				+ "," + theme.getOverDueInvoiceTitle() + ","
 				+ theme.getCreditMemoTitle() + "," + theme.getStatementTitle()
 				+ "</p>");
 		paypalEmailHtml = new HTML("<p>"
@@ -258,7 +264,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 
 	protected void optionsMenu(Button button) {
 		PopupPanel optionsPanel = new PopupPanel();
-		optionsPanel.add(getOptionsMenu());
+		optionsPanel.add(getOptionsMenu(optionsPanel));
 		optionsPanel.setPopupPosition(button.getAbsoluteLeft(), button
 				.getAbsoluteTop()
 				+ button.getOffsetHeight());
@@ -266,28 +272,37 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		optionsPanel.setAutoHideEnabled(true);
 	}
 
-	private CustomMenuBar getOptionsMenu() {
+	private CustomMenuBar getOptionsMenu(PopupPanel panel) {
 		CustomMenuBar bar = new CustomMenuBar();
 		bar.addItem(FinanceApplication.getSettingsMessages().edit(),
-				getOptionsCommand(1));
+				getOptionsCommand(1, panel));
 		bar.addItem(FinanceApplication.getSettingsMessages().copy(),
-				getOptionsCommand(2));
+				getOptionsCommand(2, panel));
 		bar.addItem(FinanceApplication.getSettingsMessages().changeLogo(),
-				getOptionsCommand(3));
+				getOptionsCommand(3, panel));
 		bar.addItem(FinanceApplication.getSettingsMessages().delete(),
-				getOptionsCommand(4));
+				getOptionsCommand(4, panel));
 		bar.addItem(FinanceApplication.getSettingsMessages().removeLogo(),
-				getOptionsCommand(5));
+				getOptionsCommand(5, panel));
 		return bar;
 	}
 
-	private Command getOptionsCommand(final int type) {
+	private Command getOptionsCommand(final int type, final PopupPanel panel) {
 		final Command command = new Command() {
 
 			@Override
 			public void execute() {
+				panel.hide();
 				switch (type) {
 				case 1:
+					SettingsActionFactory.getNewBrandThemeAction().run(theme,
+							false);
+					break;
+				case 2:
+					copyTheme(theme);
+					break;
+				case 4:
+					deleteTheme(theme);
 					break;
 				default:
 				}
@@ -296,20 +311,63 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		return command;
 	}
 
-	private CustomMenuBar getNewBrandMenu() {
+	protected void deleteTheme(ClientBrandingTheme theme2) {
+		this.removeFromParent();
+		ViewManager.getInstance().deleteObject(theme,
+				AccounterCoreType.BRANDINGTHEME, InvoiceBrandingView.this);
+	}
+
+	protected void copyTheme(final ClientBrandingTheme theme2) {
+		final DialogBox dialogBox = new DialogBox();
+		VerticalPanel copyPanel = new VerticalPanel();
+		Label yourLabel = new Label("Enter Your Theme Name :");
+		final TextBox yourBox = new TextBox();
+		Button okButton = new Button("ok");
+		okButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ClientBrandingTheme brandingTheme = new ClientBrandingTheme();
+				brandingTheme = setValues(theme2);
+				brandingTheme.setThemeName(yourBox.getText());
+				ViewManager.getInstance().createObject(brandingTheme,
+						InvoiceBrandingView.this);
+			}
+		});
+		Button canButton = new Button("Cancel");
+		canButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				dialogBox.hide();
+			}
+		});
+		copyPanel.add(yourLabel);
+		copyPanel.add(yourBox);
+		copyPanel.add(okButton);
+		copyPanel.add(canButton);
+	}
+
+	protected ClientBrandingTheme setValues(ClientBrandingTheme theme2) {
+
+		return theme2;
+	}
+
+	private CustomMenuBar getNewBrandMenu(PopupPanel panel) {
 		CustomMenuBar menuBar = new CustomMenuBar();
 		menuBar.addItem(FinanceApplication.getSettingsMessages()
-				.standardTheme(), getNewBrandCommand(1));
+				.standardTheme(), getNewBrandCommand(1, panel));
 		menuBar.addItem(FinanceApplication.getSettingsMessages()
-				.customdocxTheme(), getNewBrandCommand(2));
+				.customdocxTheme(), getNewBrandCommand(2, panel));
 		return menuBar;
 
 	}
 
-	private Command getNewBrandCommand(final int i) {
+	private Command getNewBrandCommand(final int i, final PopupPanel panel) {
 		Command command = new Command() {
 			@Override
 			public void execute() {
+				panel.hide();
 				switch (i) {
 				case 1:
 					SettingsActionFactory.getNewBrandThemeAction().run(null,
@@ -375,6 +433,16 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
 
+	}
+
+	@Override
+	public void saveSuccess(IAccounterCore object) {
+		if (object != null) {
+			super.saveSuccess(object);
+			SettingsActionFactory.getInvoiceBrandingAction().run(null, false);
+		} else
+			saveFailed(new Exception(FinanceApplication.getCompanyMessages()
+					.failed()));
 	}
 
 }

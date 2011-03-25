@@ -1169,6 +1169,10 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObject(this.fiscalYears, stringID);
 	}
 
+	public ClientBrandingTheme getBrandingTheme(String stringID) {
+		return Utility.getObject(this.brandingTheme, stringID);
+	}
+
 	public ClientTAXAgency getVatAgencyByName(String name) {
 		return Utility.getObjectByName(this.taxAgencies, name);
 	}
@@ -1267,6 +1271,10 @@ public class ClientCompany implements IAccounterCore {
 
 	public void deleteFixelYear(String fixelYearId) {
 		this.fiscalYears.remove(this.getFixelYear(fixelYearId));
+	}
+
+	public void deleteBrandingTheme(String themeId) {
+		this.brandingTheme.remove(this.getBrandingTheme(themeId));
 	}
 
 	/**
@@ -1663,7 +1671,7 @@ public class ClientCompany implements IAccounterCore {
 					this.getToClientCompany(cmp);
 					break;
 				case BRANDINGTHEME:
-					ClientBrandingTheme theme=(ClientBrandingTheme) accounterCoreObject;
+					ClientBrandingTheme theme = (ClientBrandingTheme) accounterCoreObject;
 					Utility.updateClientList(theme, brandingTheme);
 					break;
 				}
@@ -1841,6 +1849,8 @@ public class ClientCompany implements IAccounterCore {
 			break;
 		case FISCALYEAR:
 			deleteFixelYear(id);
+		case BRANDINGTHEME:
+			deleteBrandingTheme(id);
 		}
 		ViewManager.getInstance().deleteSuccess(accounterCoreObject);
 	}

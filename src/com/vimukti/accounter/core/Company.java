@@ -242,7 +242,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 	 * Filed
 	 */
 	Account VATFiledLiabilityAccount;
-	
+
 	List<BrandingTheme> brandingTheme = new ArrayList<BrandingTheme>();
 
 	// Set<PaySalesTaxEntries> paySalesTaxEntriesList = new
@@ -257,43 +257,42 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 	// this.paySalesTaxEntriesList = paySalesTaxEntriesList;
 	// }
 
-//<<<<<<< .working
-//	public void setVatItems(List<VATItem> vatItems) {
-//		this.vatItems = vatItems;
-//	}
+	// <<<<<<< .working
+	// public void setVatItems(List<VATItem> vatItems) {
+	// this.vatItems = vatItems;
+	// }
 
-//	public List<VATItem> getVatItems() {
-//		FinanceDate presentDate = new FinanceDate();
-//		if (vatItems != null) {
-//			if (presentDate.before(new FinanceDate(111, 0, 4))) {
-//				for (int i = 0; i < vatItems.size(); i++) {
-//					VATItem vatItem = vatItems.get(i);
-//					if (vatItem != null
-//							&& vatItem.getName().startsWith("New Standard")) {
-//						vatItems.remove(i);
-//						i--;
-//					}
-//				}
-//			} else {
-//				for (int i = 0; i < vatItems.size(); i++) {
-//					VATItem vatItem = vatItems.get(i);
-//					if (vatItem != null
-//							&& vatItem.getName().startsWith("Standard")) {
-//						vatItems.get(i).setName("Old " + vatItem.getName());
-//					} else if (vatItem != null
-//							&& vatItem.getName().equals(
-//									"New Standard Purchases")) {
-//						vatItems.get(i).setName("Standard Purchases");
-//					} else if (vatItem != null
-//							&& vatItem.getName().equals("New Standard Sales")) {
-//						vatItems.get(i).setName("Standard Sales");
-//					}
-//				}
-//			}
-//		}
-//		return vatItems;
-//	}
-
+	// public List<VATItem> getVatItems() {
+	// FinanceDate presentDate = new FinanceDate();
+	// if (vatItems != null) {
+	// if (presentDate.before(new FinanceDate(111, 0, 4))) {
+	// for (int i = 0; i < vatItems.size(); i++) {
+	// VATItem vatItem = vatItems.get(i);
+	// if (vatItem != null
+	// && vatItem.getName().startsWith("New Standard")) {
+	// vatItems.remove(i);
+	// i--;
+	// }
+	// }
+	// } else {
+	// for (int i = 0; i < vatItems.size(); i++) {
+	// VATItem vatItem = vatItems.get(i);
+	// if (vatItem != null
+	// && vatItem.getName().startsWith("Standard")) {
+	// vatItems.get(i).setName("Old " + vatItem.getName());
+	// } else if (vatItem != null
+	// && vatItem.getName().equals(
+	// "New Standard Purchases")) {
+	// vatItems.get(i).setName("Standard Purchases");
+	// } else if (vatItem != null
+	// && vatItem.getName().equals("New Standard Sales")) {
+	// vatItems.get(i).setName("Standard Sales");
+	// }
+	// }
+	// }
+	// }
+	// return vatItems;
+	// }
 
 	private Set<VATReturn> vatReturns = new HashSet<VATReturn>();
 
@@ -306,7 +305,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 	}
 
 	List<TAXGroup> taxGroups = new ArrayList<TAXGroup>();
-	
+
 	/**
 	 * @return the paymentTerms
 	 */
@@ -2675,13 +2674,13 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			defaultTaxAgency.setDefault(true);
 			session.save(defaultTaxAgency);
 
-//			Set<TaxRates> taxRates = new HashSet<TaxRates>();
-//
-//			TaxRates taxRate = new TaxRates();
-//			taxRate.setRate(0);
-//			taxRate.setAsOf(new FinanceDate());
-//			taxRate.setStringID(SecureUtils.createID());
-//			taxRates.add(taxRate);
+			// Set<TaxRates> taxRates = new HashSet<TaxRates>();
+			//
+			// TaxRates taxRate = new TaxRates();
+			// taxRate.setRate(0);
+			// taxRate.setAsOf(new FinanceDate());
+			// taxRate.setStringID(SecureUtils.createID());
+			// taxRates.add(taxRate);
 
 			TAXItem defaultTaxItem = new TAXItem();
 			defaultTaxItem.setActive(Boolean.TRUE);
@@ -2692,25 +2691,27 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			defaultTaxItem.setSalesType(Boolean.TRUE);
 			defaultTaxItem.setStringID(SecureUtils.createID());
 			defaultTaxItem.setDefault(true);
-			session.save(defaultTaxItem);			
-			TAXCode defaultTaxCodeforTaxItem = new TAXCode((TAXItemGroup) defaultTaxItem);
+			session.save(defaultTaxItem);
+			TAXCode defaultTaxCodeforTaxItem = new TAXCode(
+					(TAXItemGroup) defaultTaxItem);
 			session.save(defaultTaxCodeforTaxItem);
 
-//			TAXGroup defaultTaxGroup = new TAXGroup();
-//			defaultTaxGroup.setName("Tax Group");
-//			defaultTaxGroup.setStringID(SecureUtils.createID());
-//			defaultTaxGroup.setActive(Boolean.TRUE);
-//			defaultTaxGroup.setSalesType(true);
-//			
-//			List<TAXItem> taxItems = new ArrayList<TAXItem>();
-//			taxItems.add(defaultTaxItem);
-//			defaultTaxGroup.setTAXItems(taxItems);
-//			defaultTaxGroup.setGroupRate(0);
-//			defaultTaxGroup.setDefault(true);
-//			session.save(defaultTaxGroup);
-//			TAXCode defaultTaxCodeforTaxGroup = new TAXCode((TAXItemGroup) defaultTaxGroup);
-//			session.save(defaultTaxCodeforTaxGroup);
-			
+			// TAXGroup defaultTaxGroup = new TAXGroup();
+			// defaultTaxGroup.setName("Tax Group");
+			// defaultTaxGroup.setStringID(SecureUtils.createID());
+			// defaultTaxGroup.setActive(Boolean.TRUE);
+			// defaultTaxGroup.setSalesType(true);
+			//			
+			// List<TAXItem> taxItems = new ArrayList<TAXItem>();
+			// taxItems.add(defaultTaxItem);
+			// defaultTaxGroup.setTAXItems(taxItems);
+			// defaultTaxGroup.setGroupRate(0);
+			// defaultTaxGroup.setDefault(true);
+			// session.save(defaultTaxGroup);
+			// TAXCode defaultTaxCodeforTaxGroup = new TAXCode((TAXItemGroup)
+			// defaultTaxGroup);
+			// session.save(defaultTaxCodeforTaxGroup);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -3103,10 +3104,10 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItem17.setPercentage(true);
 			session.save(vatItem17);
 
-//			VATGroup vatGroup1 = new VATGroup();
-//=======
+			// VATGroup vatGroup1 = new VATGroup();
+			// =======
 			TAXGroup vatGroup1 = new TAXGroup();
-//>>>>>>> .merge-right.r20318
+			// >>>>>>> .merge-right.r20318
 			vatGroup1.setName("EC Purchases Goods 0% Group");
 			vatGroup1.setDescription("EC Purchases of Goods Zero-Rated Group");
 			vatGroup1.setActive(true);
@@ -3146,7 +3147,8 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatGroup3.setTAXItems(vatItms3);
 			vatGroup3.setStringID(SecureUtils.createID());
 			vatGroup3.setDefault(true);
-			vatGroup3.setPercentage((vatItem3.isPercentage() && vatItem4.isPercentage()) ? true : false);
+			vatGroup3.setPercentage((vatItem3.isPercentage() && vatItem4
+					.isPercentage()) ? true : false);
 			session.save(vatGroup3);
 
 			TAXGroup vatGroup4 = new TAXGroup();
@@ -3961,10 +3963,10 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 		Company company = HibernateUtil.getCurrentSession() != null ? (Company) HibernateUtil
 				.getCurrentSession().get(Company.class, 1L)
 				: (Company) Utility.getCurrentSession().get(Company.class, 1L);
-				
+
 		if (company == null)
 			return null;
-		
+
 		company.toCompany(company);
 		return company;
 	}
@@ -3993,174 +3995,176 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 	 * @param amount
 	 * @return
 	 */
-//	public static boolean setTaxRateCalculation(
-//			TransactionItem transactionItem, Session session, double amount) {
-//
-//		if (!transactionItem.isBecameVoid()) {
-//			if (transactionItem.getType() == TransactionItem.TYPE_ACCOUNT
-//					|| transactionItem.getType() == TransactionItem.TYPE_ITEM) {
-//				if (transactionItem.taxGroup != null) {
-//					for (TAXItem item : transactionItem.taxGroup.getTAXItems()) {
-//
-//						prepareTaxRateCalculation(session, transactionItem,
-//								item, amount);
-//					}
-//				} else if (transactionItem.taxItem != null) {
-//
-//					TAXItem item = transactionItem.taxItem;
-//					prepareTaxRateCalculation(session, transactionItem, item,
-//							amount);
-//				}
-//			} else {
-//				if (transactionItem.taxGroup != null) {
-//					for (TAXItem taxItem : transactionItem.taxGroup
-//							.getTAXItems()) {
-//
-//						TaxRateCalculation rc = new TaxRateCalculation(amount,
-//								taxItem.getTaxRate(), taxItem, transactionItem);
-//						transactionItem.taxRateCalculationEntriesList.add(rc);
-//
-//						TAXAgency taxAgency = taxItem.getTaxAgency();
-//						if (taxAgency != null) {
-//							taxAgency.updateBalance(session,
-//									transactionItem.transaction,
-//									rc.taxCollected);
-//
-//							session.saveOrUpdate(taxAgency);
-//						}
-//
-//						preparePaySalesTaxEntries(transactionItem, taxItem
-//								.getTaxRate(), taxItem);
-//					}
-//
-//				} else if (transactionItem.taxItem != null) {
-//
-//					TaxRateCalculation rc = new TaxRateCalculation(amount,
-//							transactionItem.taxItem.getTaxRate(),
-//							transactionItem.taxItem, transactionItem);
-//					transactionItem.taxRateCalculationEntriesList.add(rc);
-//
-//					TAXAgency taxAgency = transactionItem.taxItem
-//							.getTaxAgency();
-//					if (taxAgency != null) {
-//						taxAgency.updateBalance(session,
-//								transactionItem.transaction, rc.taxCollected);
-//
-//						session.saveOrUpdate(taxAgency);
-//					}
-//
-//					preparePaySalesTaxEntries(transactionItem,
-//							transactionItem.taxItem.getTaxRate(),
-//							transactionItem.taxItem);
-//				}
-//			}
-//		} else {
-//			if (transactionItem.getType() == TransactionItem.TYPE_ACCOUNT
-//					|| transactionItem.getType() == TransactionItem.TYPE_ITEM) {
-//				// for (TaxCode code : transactionItem.taxGroup.getTaxCodes()) {
-//				//
-//				// TaxRateCalculation rc = getTaxRateCalculation(
-//				// transactionItem, code);
-//				// if (rc != null) {
-//				// rc.getTaxAgency().updateBalance(session,
-//				// transactionItem.transaction, -rc.taxCollected,
-//				// rc);
-//				// session.update(rc.taxAgency);
-//				// }
-//				//
-//				// }
-//
-//				for (TaxRateCalculation rc : getTaxRateCalculation(transactionItem)) {
-//
-//					if (rc != null) {
-//						rc.getTaxAgency().updateBalance(session,
-//								transactionItem.transaction, -rc.taxCollected,
-//								rc);
-//						session.update(rc.taxAgency);
-//					}
-//
-//				}
-//
-//				preparePaySalesTaxEntries(transactionItem, 0,
-//						transactionItem.taxItem);
-//			} else {
-//
-//				TaxRateCalculation rc = getTaxRateCalculation(transactionItem,
-//						transactionItem.taxItem);
-//
-//				TAXAgency taxAgency = rc.getTaxAgency();
-//				if (taxAgency != null) {
-//					taxAgency.updateBalance(session,
-//							transactionItem.transaction, amount, rc);
-//
-//					session.saveOrUpdate(taxAgency);
-//				}
-//
-//				preparePaySalesTaxEntries(transactionItem, 0,
-//						transactionItem.taxItem);
-//			}
-//		}
-//
-//		return false;
-//	}
+	// public static boolean setTaxRateCalculation(
+	// TransactionItem transactionItem, Session session, double amount) {
+	//
+	// if (!transactionItem.isBecameVoid()) {
+	// if (transactionItem.getType() == TransactionItem.TYPE_ACCOUNT
+	// || transactionItem.getType() == TransactionItem.TYPE_ITEM) {
+	// if (transactionItem.taxGroup != null) {
+	// for (TAXItem item : transactionItem.taxGroup.getTAXItems()) {
+	//
+	// prepareTaxRateCalculation(session, transactionItem,
+	// item, amount);
+	// }
+	// } else if (transactionItem.taxItem != null) {
+	//
+	// TAXItem item = transactionItem.taxItem;
+	// prepareTaxRateCalculation(session, transactionItem, item,
+	// amount);
+	// }
+	// } else {
+	// if (transactionItem.taxGroup != null) {
+	// for (TAXItem taxItem : transactionItem.taxGroup
+	// .getTAXItems()) {
+	//
+	// TaxRateCalculation rc = new TaxRateCalculation(amount,
+	// taxItem.getTaxRate(), taxItem, transactionItem);
+	// transactionItem.taxRateCalculationEntriesList.add(rc);
+	//
+	// TAXAgency taxAgency = taxItem.getTaxAgency();
+	// if (taxAgency != null) {
+	// taxAgency.updateBalance(session,
+	// transactionItem.transaction,
+	// rc.taxCollected);
+	//
+	// session.saveOrUpdate(taxAgency);
+	// }
+	//
+	// preparePaySalesTaxEntries(transactionItem, taxItem
+	// .getTaxRate(), taxItem);
+	// }
+	//
+	// } else if (transactionItem.taxItem != null) {
+	//
+	// TaxRateCalculation rc = new TaxRateCalculation(amount,
+	// transactionItem.taxItem.getTaxRate(),
+	// transactionItem.taxItem, transactionItem);
+	// transactionItem.taxRateCalculationEntriesList.add(rc);
+	//
+	// TAXAgency taxAgency = transactionItem.taxItem
+	// .getTaxAgency();
+	// if (taxAgency != null) {
+	// taxAgency.updateBalance(session,
+	// transactionItem.transaction, rc.taxCollected);
+	//
+	// session.saveOrUpdate(taxAgency);
+	// }
+	//
+	// preparePaySalesTaxEntries(transactionItem,
+	// transactionItem.taxItem.getTaxRate(),
+	// transactionItem.taxItem);
+	// }
+	// }
+	// } else {
+	// if (transactionItem.getType() == TransactionItem.TYPE_ACCOUNT
+	// || transactionItem.getType() == TransactionItem.TYPE_ITEM) {
+	// // for (TaxCode code : transactionItem.taxGroup.getTaxCodes()) {
+	// //
+	// // TaxRateCalculation rc = getTaxRateCalculation(
+	// // transactionItem, code);
+	// // if (rc != null) {
+	// // rc.getTaxAgency().updateBalance(session,
+	// // transactionItem.transaction, -rc.taxCollected,
+	// // rc);
+	// // session.update(rc.taxAgency);
+	// // }
+	// //
+	// // }
+	//
+	// for (TaxRateCalculation rc : getTaxRateCalculation(transactionItem)) {
+	//
+	// if (rc != null) {
+	// rc.getTaxAgency().updateBalance(session,
+	// transactionItem.transaction, -rc.taxCollected,
+	// rc);
+	// session.update(rc.taxAgency);
+	// }
+	//
+	// }
+	//
+	// preparePaySalesTaxEntries(transactionItem, 0,
+	// transactionItem.taxItem);
+	// } else {
+	//
+	// TaxRateCalculation rc = getTaxRateCalculation(transactionItem,
+	// transactionItem.taxItem);
+	//
+	// TAXAgency taxAgency = rc.getTaxAgency();
+	// if (taxAgency != null) {
+	// taxAgency.updateBalance(session,
+	// transactionItem.transaction, amount, rc);
+	//
+	// session.saveOrUpdate(taxAgency);
+	// }
+	//
+	// preparePaySalesTaxEntries(transactionItem, 0,
+	// transactionItem.taxItem);
+	// }
+	// }
+	//
+	// return false;
+	// }
 
-//	private static List<TaxRateCalculation> getTaxRateCalculation(
-//			TransactionItem transactionItem) {
-//
-//		List<TaxRateCalculation> list = new ArrayList<TaxRateCalculation>();
-//
-//		for (TaxRateCalculation trc : transactionItem.taxRateCalculationEntriesList) {
-//
-//			if (trc.transactionItem == transactionItem) {
-//				list.add(trc);
-//			}
-//
-//		}
-//
-//		return list;
-//	}
+	// private static List<TaxRateCalculation> getTaxRateCalculation(
+	// TransactionItem transactionItem) {
+	//
+	// List<TaxRateCalculation> list = new ArrayList<TaxRateCalculation>();
+	//
+	// for (TaxRateCalculation trc :
+	// transactionItem.taxRateCalculationEntriesList) {
+	//
+	// if (trc.transactionItem == transactionItem) {
+	// list.add(trc);
+	// }
+	//
+	// }
+	//
+	// return list;
+	// }
 
-//	private static TaxRateCalculation getTaxRateCalculation(
-//			TransactionItem transactionItem, TAXItem item) {
-//
-//		TaxRateCalculation result = null;
-//
-//		for (TaxRateCalculation trc : transactionItem.taxRateCalculationEntriesList) {
-//
-//			if (trc.transactionItem == transactionItem && trc.taxItem == item) {
-//				result = trc;
-//				break;
-//			}
-//
-//		}
-//
-//		return result;
-//	}
+	// private static TaxRateCalculation getTaxRateCalculation(
+	// TransactionItem transactionItem, TAXItem item) {
+	//
+	// TaxRateCalculation result = null;
+	//
+	// for (TaxRateCalculation trc :
+	// transactionItem.taxRateCalculationEntriesList) {
+	//
+	// if (trc.transactionItem == transactionItem && trc.taxItem == item) {
+	// result = trc;
+	// break;
+	// }
+	//
+	// }
+	//
+	// return result;
+	// }
 
-//	private static void prepareTaxRateCalculation(Session session,
-//			TransactionItem transactionItem, TAXItem taxItem, double amount) {
-//
-//		double rate = taxItem.getTaxRate();
-//		TaxRateCalculation rc = new TaxRateCalculation(amount, rate, taxItem,
-//				transactionItem);
-//		transactionItem.taxRateCalculationEntriesList.add(rc);
-//
-//		double taxCollected = rc.taxCollected;
-//
-//		updateTaxAgency(session, transactionItem, taxItem, taxCollected);
-//
-//		preparePaySalesTaxEntries(transactionItem, rate, taxItem);
-//	}
+	// private static void prepareTaxRateCalculation(Session session,
+	// TransactionItem transactionItem, TAXItem taxItem, double amount) {
+	//
+	// double rate = taxItem.getTaxRate();
+	// TaxRateCalculation rc = new TaxRateCalculation(amount, rate, taxItem,
+	// transactionItem);
+	// transactionItem.taxRateCalculationEntriesList.add(rc);
+	//
+	// double taxCollected = rc.taxCollected;
+	//
+	// updateTaxAgency(session, transactionItem, taxItem, taxCollected);
+	//
+	// preparePaySalesTaxEntries(transactionItem, rate, taxItem);
+	// }
 
-//	private static void updateTaxAgency(Session session,
-//			TransactionItem transactionItem, TAXItem taxItem,
-//			Double taxCollected) {
-//
-//		taxItem.getTaxAgency().updateBalance(session,
-//				transactionItem.transaction, taxCollected);
-//
-//		session.saveOrUpdate(taxItem.getTaxAgency());
-//	}
+	// private static void updateTaxAgency(Session session,
+	// TransactionItem transactionItem, TAXItem taxItem,
+	// Double taxCollected) {
+	//
+	// taxItem.getTaxAgency().updateBalance(session,
+	// transactionItem.transaction, taxCollected);
+	//
+	// session.saveOrUpdate(taxItem.getTaxAgency());
+	// }
 
 	/**
 	 * For every entry in the TaxRateCalculation class we need to update the
@@ -4171,61 +4175,64 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 	 * @param rate
 	 * @param code
 	 */
-//	private static void preparePaySalesTaxEntries(
-//			TransactionItem transactionItem, double rate, TAXItem item) {
-//
-//		/**
-//		 * Here rate will be 100 for Transaction Item type SalesTax
-//		 */
-//
-//		Session session = HibernateUtil.getCurrentSession() != null ? HibernateUtil
-//				.getCurrentSession()
-//				: Utility.getCurrentSession();
-//		boolean flag = false;
-//		if (!transactionItem.isBecameVoid()) {
-//
-//			for (PaySalesTaxEntries paySalesTaxEntries : transactionItem.transaction.paySalesTaxEntriesList) {
-//
-//				if (item.name.equalsIgnoreCase(paySalesTaxEntries.taxItem.name)) {
-//					paySalesTaxEntries
-//							.updateAmountAndBalane(transactionItem.lineTotal);
-//
-//					session.saveOrUpdate(paySalesTaxEntries);
-//					flag = true;
-//					break;
-//
-//				}
-//
-//			}
-//			if (!flag) {
-//
-//				PaySalesTaxEntries paySalesTaxEntries = new PaySalesTaxEntries(
-//						transactionItem.transaction, transactionItem.lineTotal,
-//						rate, item);
-//				// transactionItem.transaction.paySalesTaxEntriesList
-//				// .add(paySalesTaxEntries);
-//
-//				session.save(paySalesTaxEntries);
-//
-//			}
-//
-//		} else {
-//			for (PaySalesTaxEntries paySalesTaxEntries : transactionItem.transaction.paySalesTaxEntriesList) {
-//
-//				if (transactionItem.taxItem.name
-//						.equalsIgnoreCase(paySalesTaxEntries.taxItem.name)) {
-//					paySalesTaxEntries.updateAmountAndBalane(-1
-//							* transactionItem.lineTotal);
-//					session.saveOrUpdate(paySalesTaxEntries);
-//					break;
-//
-//				}
-//
-//			}
-//
-//		}
-//
-//	}
+	// private static void preparePaySalesTaxEntries(
+	// TransactionItem transactionItem, double rate, TAXItem item) {
+	//
+	// /**
+	// * Here rate will be 100 for Transaction Item type SalesTax
+	// */
+	//
+	// Session session = HibernateUtil.getCurrentSession() != null ?
+	// HibernateUtil
+	// .getCurrentSession()
+	// : Utility.getCurrentSession();
+	// boolean flag = false;
+	// if (!transactionItem.isBecameVoid()) {
+	//
+	// for (PaySalesTaxEntries paySalesTaxEntries :
+	// transactionItem.transaction.paySalesTaxEntriesList) {
+	//
+	// if (item.name.equalsIgnoreCase(paySalesTaxEntries.taxItem.name)) {
+	// paySalesTaxEntries
+	// .updateAmountAndBalane(transactionItem.lineTotal);
+	//
+	// session.saveOrUpdate(paySalesTaxEntries);
+	// flag = true;
+	// break;
+	//
+	// }
+	//
+	// }
+	// if (!flag) {
+	//
+	// PaySalesTaxEntries paySalesTaxEntries = new PaySalesTaxEntries(
+	// transactionItem.transaction, transactionItem.lineTotal,
+	// rate, item);
+	// // transactionItem.transaction.paySalesTaxEntriesList
+	// // .add(paySalesTaxEntries);
+	//
+	// session.save(paySalesTaxEntries);
+	//
+	// }
+	//
+	// } else {
+	// for (PaySalesTaxEntries paySalesTaxEntries :
+	// transactionItem.transaction.paySalesTaxEntriesList) {
+	//
+	// if (transactionItem.taxItem.name
+	// .equalsIgnoreCase(paySalesTaxEntries.taxItem.name)) {
+	// paySalesTaxEntries.updateAmountAndBalane(-1
+	// * transactionItem.lineTotal);
+	// session.saveOrUpdate(paySalesTaxEntries);
+	// break;
+	//
+	// }
+	//
+	// }
+	//
+	// }
+	//
+	// }
 
 	/**
 	 * Creates an entry in the VATRateCalculation entry for a transactionItem in
@@ -4476,41 +4483,41 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 		return lastModifiedDate;
 	}
 
-//<<<<<<< .working
-//	public void setVatCodes(List<VATCode> vatCodes) {
-//		this.vatCodes = vatCodes;
-//	}
+	// <<<<<<< .working
+	// public void setVatCodes(List<VATCode> vatCodes) {
+	// this.vatCodes = vatCodes;
+	// }
 
-//	public List<VATCode> getVatCodes() {
-//		FinanceDate presentDate = new FinanceDate();
-//		if (vatCodes != null) {
-//			if (presentDate.before(new FinanceDate(111, 0, 4))) {
-//				for (int i = 0; i < vatCodes.size(); i++) {
-//					VATCode vatCode = vatCodes.get(i);
-//					if (vatCode != null && vatCode.getName().equals("New S")) {
-//						vatCodes.remove(i);
-//						i--;
-//						break;
-//					}
-//				}
-//			} else {
-//				for (int i = 0; i < vatCodes.size(); i++) {
-//					VATCode vatCode = vatCodes.get(i);
-//					if (vatCode != null && vatCode.getName().equals("S"))
-//						vatCodes.get(i).setName("Old S");
-//					else if (vatCode != null
-//							&& vatCode.getName().equals("New S"))
-//						vatCodes.get(i).setName("S");
-//				}
-//			}
-//		}
-//		return vatCodes;
-//	}
+	// public List<VATCode> getVatCodes() {
+	// FinanceDate presentDate = new FinanceDate();
+	// if (vatCodes != null) {
+	// if (presentDate.before(new FinanceDate(111, 0, 4))) {
+	// for (int i = 0; i < vatCodes.size(); i++) {
+	// VATCode vatCode = vatCodes.get(i);
+	// if (vatCode != null && vatCode.getName().equals("New S")) {
+	// vatCodes.remove(i);
+	// i--;
+	// break;
+	// }
+	// }
+	// } else {
+	// for (int i = 0; i < vatCodes.size(); i++) {
+	// VATCode vatCode = vatCodes.get(i);
+	// if (vatCode != null && vatCode.getName().equals("S"))
+	// vatCodes.get(i).setName("Old S");
+	// else if (vatCode != null
+	// && vatCode.getName().equals("New S"))
+	// vatCodes.get(i).setName("S");
+	// }
+	// }
+	// }
+	// return vatCodes;
+	// }
 
-//	public void setVatItemGroups(List<VATItemGroup> vatItemGroups) {
-//=======
+	// public void setVatItemGroups(List<VATItemGroup> vatItemGroups) {
+	// =======
 	public void setTaxItemGroups(List<TAXItemGroup> vatItemGroups) {
-//>>>>>>> .merge-right.r20318
+		// >>>>>>> .merge-right.r20318
 		if (vatItemGroups == null) {
 			return;
 		}
@@ -4640,7 +4647,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 		cmp.payees = this.getPayees();
 
 		cmp.nominalCodeRange = this.getNominalCodeRange();
-		
+
 		cmp.customers = this.getCustomers();
 
 		cmp.vendors = this.getVendors();
@@ -4682,7 +4689,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 		cmp.fixedAssets = this.getFixedAssets();
 
 		cmp.taxAdjustments = this.getTaxAdjustments();
-		
+
 		cmp.phone = this.getPhone();
 
 		cmp.fax = this.getFax();
@@ -4700,7 +4707,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 		cmp.bankAccountNo = this.getBankAccountNo();
 
 		cmp.sortCode = this.getSortCode();
-		
+
 		cmp.brandingTheme = this.getBrandingTheme();
 
 		return cmp;
@@ -4785,11 +4792,11 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 
 		return clientCompany;
 	}
-	
+
 	private void createDefaultBrandingTheme(Session session) {
 		BrandingTheme brandingTheme = new BrandingTheme("Standard", SecureUtils
 				.createID(), 1.35, 1.00, 1.00, "Times New Roman", "10pt",
-				"INVOICE", "INVOICE", "CREDIT", "STATEMENT", "democo@democo.co");
+				"INVOICE", "CREDIT", "STATEMENT", "democo@democo.co");
 		session.save(brandingTheme);
 	}
 
@@ -4800,6 +4807,5 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 	public void setBrandingTheme(List<BrandingTheme> brandingTheme) {
 		this.brandingTheme = brandingTheme;
 	}
-
 
 }
