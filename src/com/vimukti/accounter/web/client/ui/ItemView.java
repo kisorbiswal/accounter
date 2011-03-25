@@ -208,7 +208,7 @@ public class ItemView extends BaseView<ClientItem> {
 			else
 				itemForm.setFields(nameText, skuText, weightText);
 		}
-		itemForm.getCellFormatter().setWidth(0, 0, "106");
+		itemForm.getCellFormatter().setWidth(0, 0, "125");
 		salesDescArea = new TextAreaItem();
 		salesDescArea.setHelpInformation(true);
 		salesDescArea.setWidth(100);
@@ -417,15 +417,16 @@ public class ItemView extends BaseView<ClientItem> {
 			salesInfoForm.setFields(isservice, isellCheck, salesDescArea,
 					salesPriceText, accountCombo, itemTaxCheck, comCheck,stdCostText);
 		salesInfoForm.setStyleName("align-form");
+		salesInfoForm.getCellFormatter().setWidth(0, 0, "125");
 		salesInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 		itemInfoForm = UIUtils.form(FinanceApplication.getFinanceUIConstants()
 				.itemInformation());
-		itemInfoForm.setWidth("96%");
+		itemInfoForm.setWidth("97%");
 		if (FinanceApplication.getCompany().getAccountingType() == 1)
 			itemInfoForm.setFields(itemGroupCombo, taxCode, activeCheck);
 		else
 			itemInfoForm.setFields(itemGroupCombo, activeCheck);
-		itemInfoForm.getCellFormatter().setWidth(0, 0, "124");
+		itemInfoForm.getCellFormatter().setWidth(0, 0, "150");
 		purchaseInfoForm = UIUtils.form(FinanceApplication
 				.getFinanceUIConstants().purchaseInformation());
 		purchaseInfoForm.setNumCols(2);
@@ -433,6 +434,7 @@ public class ItemView extends BaseView<ClientItem> {
 		purchaseInfoForm
 				.setFields(ibuyCheck, purchaseDescArea, purchasePriceTxt,
 						expAccCombo, prefVendorCombo, vendItemNumText);
+		purchaseInfoForm.getCellFormatter().setWidth(0, 0, "150");
 		purchaseInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 		VerticalPanel salesVPanel = new VerticalPanel();
 		salesVPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
