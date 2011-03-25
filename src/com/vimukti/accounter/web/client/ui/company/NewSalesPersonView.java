@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -105,7 +106,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		salesPersonForm = UIUtils.form(companyConstants.salesPerson());
 		salesPersonForm.setWidth("90%");
 		salesPersonForm.setFields(employeeNameText, fileAsText, jobTitleText);
-		salesPersonForm.getCellFormatter().setWidth(0, 0, "205px");
+		salesPersonForm.getCellFormatter().setWidth(0, 0, "280px");
 
 		expenseAccountForm = UIUtils.form(companyConstants.expenseAccount());
 		expenseAccountForm.setWidth("90%");
@@ -120,7 +121,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 				});
 
-		expenseAccountForm.getCellFormatter().setWidth(0, 0, "200px");
+		expenseAccountForm.getCellFormatter().setWidth(0, 0, "250px");
 		expenseAccountForm.setFields(expenseSelect);
 
 		memoForm = new DynamicForm();
@@ -129,7 +130,11 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		memoArea.setWidth(100);
 		memoArea.setTitle(FinanceApplication.getCompanyMessages().memo());
 		memoForm.setFields(memoArea);
-		memoForm.getCellFormatter().setWidth(0, 0, "110");
+		memoForm.getCellFormatter().getElement(0, 0).getStyle()
+				.setVerticalAlign(VerticalAlign.TOP);
+		// memoForm.getCellFormatter().getElement(0, 1).getStyle().setWidth(239,
+		// Unit.PX);
+		memoForm.getCellFormatter().setWidth(0, 0, "232");
 		salesPersonInfoForm = UIUtils.form(companyConstants
 				.salesPersonInformation());
 		salesPersonInfoForm.setStyleName("align-form");
@@ -191,7 +196,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			emailForm = new EmailForm(takenSalesperson.getEmails(),
 					takenSalesperson.getWebPageAddress());
 			emailForm.setWidth("90%");
-			emailForm.getCellFormatter().setWidth(0, 0, "65");
+			emailForm.getCellFormatter().setWidth(0, 0, "189");
 			emailForm.getCellFormatter().setWidth(0, 1, "125");
 
 			statusCheck.setValue(takenSalesperson.isActive());
@@ -222,7 +227,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
 			emailForm = new EmailForm(null, null);
 			emailForm.setWidth("90%");
-			emailForm.getCellFormatter().setWidth(0, 0, "65");
+			emailForm.getCellFormatter().setWidth(0, 0, "189");
 			emailForm.getCellFormatter().setWidth(0, 1, "125");
 			genderSelect.setDefaultToFirstOption(Boolean.TRUE);
 			// gender = ClientSalesPerson.GENDER_UNSPECIFIED;
@@ -231,23 +236,25 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.add(salesPersonForm);
 		leftVLay.add(addrsForm);
+		addrsForm.getCellFormatter().addStyleName(0, 0, "addrsFormCellAlign");
+		addrsForm.getCellFormatter().addStyleName(0, 1, "addrsFormCellAlign");
 		leftVLay.add(fonFaxForm);
 		leftVLay.add(expenseAccountForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
-
+		rightVLay.getElement().getStyle().setMarginLeft(35, Unit.PX);
 		rightVLay.add(emailForm);
 		rightVLay.add(salesPersonInfoForm);
-
+		salesPersonInfoForm.getCellFormatter().setWidth(0, 0, "150");
 		HorizontalPanel topHLay = new HorizontalPanel();
-		topHLay.setSpacing(5);
+		// topHLay.setSpacing(5);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
+
 		VerticalPanel mainVlay = new VerticalPanel();
 		mainVlay.setWidth("100%");
 		mainVlay.add(topHLay);
 		mainVlay.add(memoForm);
-
 		if (UIUtils.isMSIEBrowser()) {
 			emailForm.getCellFormatter().setWidth(0, 2, "150px");
 			emailForm.getCellFormatter().setWidth(1, 0, "195px");
@@ -452,11 +459,9 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				FinanceApplication.getCompanyMessages().width(),
 				titlewidth + listBoxWidth + "");
 		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getCompanyMessages().width(),
-				titlewidth + titlewidth + "");
+				FinanceApplication.getCompanyMessages().width(), "");
 		emailForm.getCellFormatter().getElement(0, 1).setAttribute(
-				FinanceApplication.getCompanyMessages().width(),
-				listBoxWidth + "");
+				FinanceApplication.getCompanyMessages().width(), "");
 
 	}
 
