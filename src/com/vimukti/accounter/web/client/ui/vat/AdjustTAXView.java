@@ -188,7 +188,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		amount.setHelpInformation(true);
 		amount.setWidth(100);
 		typeRadio = new RadioGroupItem("");
-		typeRadio.setRequired(true);
+//		typeRadio.setRequired(true);
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			typeRadio.setValueMap(FinanceApplication.getVATMessages()
 					.increaseVATLine(), FinanceApplication.getVATMessages()
