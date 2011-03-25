@@ -228,8 +228,8 @@ public class VendorCreditMemoView extends
 		totalForm.setNumCols(2);
 		totalForm.setWidth("100%");
 		totalForm.setStyleName("invoice-total");
-		netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + 100)
-				+ "px");
+//		netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + 100)
+//				+ "px");
 
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
