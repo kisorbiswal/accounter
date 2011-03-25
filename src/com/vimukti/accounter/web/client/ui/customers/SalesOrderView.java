@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -92,7 +93,7 @@ public class SalesOrderView extends
 		lab1 = new Label(FinanceApplication.getCustomersMessages().salesOrder());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-		lab1.setHeight("50px");
+		lab1.setHeight("35px");
 		statusSelect = new SelectCombo(FinanceApplication
 				.getCustomersMessages().statuS());
 
@@ -183,7 +184,9 @@ public class SalesOrderView extends
 
 		shipToCombo = createShipToComboItem();
 		shipToAddress = new ShipToForm(null);
-		shipToAddress.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
+				.setVerticalAlign(VerticalAlign.TOP);
+		shipToAddress.getCellFormatter().setWidth(0, 0, "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect.addChangeHandler(new ChangeHandler() {
 
@@ -214,12 +217,12 @@ public class SalesOrderView extends
 
 		custForm = UIUtils.form(customerConstants.billingAddress());
 		custForm.setNumCols(3);
-		custForm.setWidth("50%");
+		// custForm.setWidth("50%");
 		custForm.setFields(customerCombo, quoteLabel, contactCombo, emptylabel,
 				phoneSelect, emptylabel, billToTextArea, emptylabel);
 		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
-		custForm.getCellFormatter().getElement(0, 1).setAttribute(
-				FinanceApplication.getCustomersMessages().width(), "185px");
+		custForm.getCellFormatter().setWidth(0, 1, "185px");
+		custForm.getCellFormatter().setWidth(0, 0, "225px");
 		forms.add(custForm);
 
 		customerOrderText = new TextItem(FinanceApplication
@@ -308,6 +311,7 @@ public class SalesOrderView extends
 		termsForm.setFields(transactionNumber, customerOrderText,
 				salesPersonCombo, payTermsSelect, shippingTermsCombo,
 				shippingMethodsCombo, dueDateItem);
+		termsForm.getCellFormatter().setWidth(0, 0, "230px");
 		forms.add(termsForm);
 
 		Label lab2 = new Label(customerConstants.productAndService());
@@ -393,19 +397,21 @@ public class SalesOrderView extends
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setHorizontalAlignment(ALIGN_LEFT);
-		leftVLay.setWidth("100%");
+		// leftVLay.setWidth("100%");
 		leftVLay.add(custForm);
 		leftVLay.add(shipToAddress);
 
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
-		rightVLay.setWidth("100%");
+		// rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
+		topHLay.setCellWidth(leftVLay, "50%");
+		topHLay.setCellWidth(rightVLay, "42%");
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
@@ -415,7 +421,7 @@ public class SalesOrderView extends
 		// mainVLay.add(lab2);
 
 		mainVLay.add(customerTransactionGrid);
-//		mainVLay.add(createAddNewButton());
+		// mainVLay.add(createAddNewButton());
 		mainVLay.add(vpanel);
 
 		if (UIUtils.isMSIEBrowser()) {

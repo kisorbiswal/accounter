@@ -13,6 +13,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -509,7 +510,8 @@ public class MakeDepositView extends
 		// Setting Cash back account
 		makeDeposit
 				.setCashBackAccount(selectedCashBackAccount != null ? selectedCashBackAccount
-						.getStringID() : null);
+						.getStringID()
+						: null);
 		if (cashBackMemoText.getValue() != null)
 			makeDeposit.setCashBackMemo(cashBackMemoText.getValue().toString());
 
@@ -786,8 +788,8 @@ public class MakeDepositView extends
 		});
 		// date.setWidth(100);
 
-		depositInSelect = new MakeDepositAccountCombo(
-				bankingConstants.depositIn());
+		depositInSelect = new MakeDepositAccountCombo(bankingConstants
+				.depositIn());
 		depositInSelect.setHelpInformation(true);
 		depositInSelect.setRequired(true);
 		depositInSelect.setWidth(100);
@@ -862,16 +864,16 @@ public class MakeDepositView extends
 			public void onClick(ClickEvent event) {
 				ClientTransactionMakeDeposit deposit = new ClientTransactionMakeDeposit();
 				deposit.setIsNewEntry(true);
-				deposit.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
+				deposit
+						.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
 				// deposit.set
 				gridView.addData(deposit);
 				gridView.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 			}
 		});
 
-		
-		cashBackAccountSelect = new CashBackAccountsCombo(
-				bankingConstants.cashBackAccount());
+		cashBackAccountSelect = new CashBackAccountsCombo(bankingConstants
+				.cashBackAccount());
 		cashBackAccountSelect.setHelpInformation(true);
 		cashBackAccountSelect.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.CASH_BACK_ACCOUNTS_COMBO));
@@ -891,6 +893,7 @@ public class MakeDepositView extends
 
 		form1 = new DynamicForm();
 		form1.setFields(cashBackMemoText, cashBackAccountSelect);
+		form1.getCellFormatter().setWidth(0, 0, "180px");
 		form1.setWidth("70%");
 
 		cashBackAmountText = new AmountField(bankingConstants.cashBackAmount());
@@ -908,9 +911,11 @@ public class MakeDepositView extends
 		});
 
 		totText = new AmountLabel(bankingConstants.total());
-		totText.setWidth(100);
+		totText.setWidth("180px");
 		totText.setDefaultValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		totText.setDisabled(true);
+		((Label) totText.getMainWidget())
+				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 
 		form2 = new DynamicForm();
 		form2.setFields(cashBackAmountText, totText);
@@ -919,11 +924,11 @@ public class MakeDepositView extends
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
 		topHLay.add(depoForm);
- 
-		HorizontalPanel panel=new HorizontalPanel();
+
+		HorizontalPanel panel = new HorizontalPanel();
 		panel.setHorizontalAlignment(ALIGN_RIGHT);
-		panel.add(addButton);	
-		
+		panel.add(addButton);
+
 		addButton.getElement().getParentElement().addClassName("add-button");
 
 		Element addseparator = DOM.createSpan();
@@ -934,11 +939,8 @@ public class MakeDepositView extends
 		addimage.addClassName("add-image");
 		DOM.appendChild(addButton.getElement(), addimage);
 
-		ThemesUtil
-				.addDivToButton(addButton, FinanceApplication.getThemeImages()
-						.button_right_blue_image(), "add-right-image");
-
-		
+		ThemesUtil.addDivToButton(addButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(), "add-right-image");
 
 		HorizontalPanel botHLay = new HorizontalPanel();
 		botHLay.setWidth("100%");
@@ -946,13 +948,12 @@ public class MakeDepositView extends
 		botHLay.setCellHorizontalAlignment(form1, ALIGN_LEFT);
 		botHLay.add(form2);
 		botHLay.setCellHorizontalAlignment(form2, ALIGN_RIGHT);
-		
+
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		vPanel.setWidth("100%");
 		vPanel.add(panel);
 		vPanel.add(botHLay);
-		
 
 		if (transactionObject != null) {
 			date.setValue(transactionObject.getDate());
@@ -1068,8 +1069,8 @@ public class MakeDepositView extends
 			return AccounterValidator.validateForm(depoForm);
 		case 3:
 			return AccounterValidator.validate_MakeDeposit_CashBackAmount(
-					cashBackAmountText.getAmount().doubleValue(),
-					totText.getAmount());
+					cashBackAmountText.getAmount().doubleValue(), totText
+							.getAmount());
 		case 2:
 			return AccounterValidator.validateNagtiveAmount(cashBackAmountText
 					.getAmount());

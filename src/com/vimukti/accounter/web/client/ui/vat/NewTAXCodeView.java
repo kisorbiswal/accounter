@@ -102,7 +102,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 				.newVATCode());
 		infoLabel.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-        infoLabel.setHeight("50px");
+        infoLabel.setHeight("35px");
 		listforms = new ArrayList<DynamicForm>();
 
 		vatCodeTxt = new TextItem(vatMessages.vatCode());

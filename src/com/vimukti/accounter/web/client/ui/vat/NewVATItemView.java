@@ -65,7 +65,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 			infoLabel = new Label(FinanceApplication.getVATMessages().VATItem());
 			infoLabel.setStyleName(FinanceApplication.getCustomersMessages()
 					.lableTitle());
-			infoLabel.setHeight("50px");
+			infoLabel.setHeight("35px");
 		}
 
 		else {

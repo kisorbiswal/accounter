@@ -316,7 +316,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			taxAgencyText.setHelpInformation(true);
 		}
 		lab.addStyleName(FinanceApplication.getVATMessages().lableTitle());
-		lab.setHeight("50px");
+		lab.setHeight("35px");
 		taxAgencyText.setWidth(100);
 		taxAgencyText.setRequired(true);
 

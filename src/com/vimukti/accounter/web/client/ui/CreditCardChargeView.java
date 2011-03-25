@@ -402,6 +402,7 @@ public class CreditCardChargeView extends
 		vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorNameSelect, contactNameSelect, phoneSelect,
 				billToCombo);
+		vendorForm.getCellFormatter().setWidth(0, 0, "180px");
 
 		forms.add(vendorForm);
 

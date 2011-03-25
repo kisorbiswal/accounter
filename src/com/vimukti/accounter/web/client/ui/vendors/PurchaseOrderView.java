@@ -96,7 +96,7 @@ public class PurchaseOrderView extends
 		lab1 = new HTML(FinanceApplication.getVendorsMessages().purchaseOrder());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-		lab1.setHeight("50px");
+		lab1.setHeight("35px");
 
 		statusSelect = new SelectCombo(FinanceApplication.getVendorsMessages()
 				.statuS());
@@ -133,7 +133,7 @@ public class PurchaseOrderView extends
 		forms.add(dateNoForm);
 
 		HorizontalPanel datepanel = new HorizontalPanel();
-		datepanel.setWidth("100%");
+		datepanel.setWidth("98%");
 		datepanel.add(dateNoForm);
 		datepanel.setCellHorizontalAlignment(dateNoForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
@@ -150,8 +150,7 @@ public class PurchaseOrderView extends
 				FinanceApplication.getVendorsMessages().vendoR()), true);
 		vendorCombo.setRequired(true);
 		vendorCombo.setHelpInformation(true);
-		
-		
+
 		vendorCombo.setDisabled(isEdit);
 		// vendorCombo.setShowDisabled(false);
 		vendorCombo
@@ -270,8 +269,8 @@ public class PurchaseOrderView extends
 		termsForm.setWidth("100%");
 		termsForm.setFields(transactionNumber, purchaseOrderText,
 				payTermsSelect, shippingTermsCombo, shippingMethodsCombo);
-		dateform.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getVendorsMessages().width(), "198");
+		termsForm.getCellFormatter().setWidth(0, 0, "230px");
+		dateform.getCellFormatter().setWidth(0, 0, "230px");
 
 		forms.add(termsForm);
 		formItems.add(checkNo);
@@ -319,18 +318,20 @@ public class PurchaseOrderView extends
 		leftVLay.add(vendorForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
-		rightVLay.setWidth("93%");
+		// rightVLay.setWidth("93%");
 		rightVLay.add(termsForm);
 		rightVLay.add(dateform);
-		rightVLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
-		rightVLay.setCellHorizontalAlignment(dateform, ALIGN_RIGHT);
+		// rightVLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
+		// rightVLay.setCellHorizontalAlignment(dateform, ALIGN_RIGHT);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		// topHLay.setStyleName("toplayout");
 		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
-		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
+		topHLay.setCellWidth(leftVLay, "52%");
+		topHLay.setCellWidth(rightVLay, "47%");
+		// topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.setHorizontalAlignment(ALIGN_RIGHT);
