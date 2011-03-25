@@ -162,7 +162,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		lab1 = new Label();
 		lab1.addStyleName(FinanceApplication.getFinanceUIConstants()
 				.lableTitle());
-		lab1.setHeight("50px");
+		lab1.setHeight("35px");
 		hierarchy = new String("");
 		accTypeSelect = new SelectCombo(FinanceApplication
 				.getFinanceUIConstants().accountType());
@@ -358,7 +358,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 			// statusBox, subAccSelect, hierText, cashFlowCatSelect,
 			// opBalText, asofDate, catSelect);
-
+			
 			accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 					statusBox, opBalText, asofDate);
 			leftLayout.add(accInfoForm);
@@ -380,7 +380,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 
 		}
-
+		accInfoForm.getCellFormatter().setWidth(0, 0, "200");
 		cashAccountCheck = new CheckboxItem(FinanceApplication
 				.getFinanceUIConstants().thisIsConsideredACashAccount());
 		cashAccountCheck.setWidth(100);
@@ -392,7 +392,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		cashBasisForm.setFields(cashAccountCheck);
 		cashBasisForm.setWidth("100%");
 		cashBasisForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getVendorsMessages().width(), "138");
+				FinanceApplication.getVendorsMessages().width(), "200");
 
 		commentsArea = new TextAreaItem();
 		commentsArea.setHelpInformation(true);
@@ -408,7 +408,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		commentsForm.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
 		commentsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getVendorsMessages().width(), "138");
+				FinanceApplication.getVendorsMessages().width(), "200");
 
 		if (takenAccount != null) {
 		}
@@ -519,6 +519,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// mainVLay.reflowNow();
 
 		}
+		accInfoForm.getCellFormatter().setWidth(0, 0, "200");
 		if (isNewBankAccount())
 			lab1.setText(" "
 					+ FinanceApplication.getAccounterComboConstants()
