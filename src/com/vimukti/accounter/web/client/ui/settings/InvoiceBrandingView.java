@@ -320,9 +320,11 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 	protected void copyTheme(final ClientBrandingTheme theme2) {
 		final DialogBox dialogBox = new DialogBox();
 		VerticalPanel copyPanel = new VerticalPanel();
-		Label yourLabel = new Label("Enter Your Theme Name :");
+		Label yourLabel = new Label(FinanceApplication.getSettingsMessages()
+				.yourTitle());
 		final TextBox yourBox = new TextBox();
-		Button okButton = new Button("ok");
+		Button okButton = new Button(FinanceApplication.getSettingsMessages()
+				.ok());
 		okButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -335,7 +337,8 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 				dialogBox.hide();
 			}
 		});
-		Button canButton = new Button("Cancel");
+		Button canButton = new Button(FinanceApplication.getSettingsMessages()
+				.cancelButton());
 		canButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -353,6 +356,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 	}
 
 	protected ClientBrandingTheme setValues() {
+
 		ClientBrandingTheme clientBrandingTheme = new ClientBrandingTheme();
 		clientBrandingTheme.setPageSizeType(theme.getPageSizeType());
 		clientBrandingTheme.setAddressPadding(theme.getAddressPadding());
@@ -369,6 +373,15 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		clientBrandingTheme.setTerms_And_Payment_Advice(theme
 				.getTerms_And_Payment_Advice());
 		clientBrandingTheme.setPayPalEmailID(theme.getPayPalEmailID());
+		clientBrandingTheme.setShowLogo(theme.isShowLogo());
+		clientBrandingTheme.setShowColumnHeadings(theme.isShowColumnHeadings());
+		clientBrandingTheme.setShowRegisteredAddress(theme
+				.isShowRegisteredAddress());
+		clientBrandingTheme.setShowTaxColumn(theme.isShowTaxColumn());
+		clientBrandingTheme.setShowTaxNumber(theme.isShowTaxNumber());
+		clientBrandingTheme.setShowUnitPrice_And_Quantity(theme
+				.isShowUnitPrice_And_Quantity());
+
 		return clientBrandingTheme;
 	}
 
