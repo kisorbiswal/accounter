@@ -324,6 +324,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		prodAndServiceForm2.setWidth("70%");
 		prodAndServiceForm2.setNumCols(4);
 		prodAndServiceForm2.setCellSpacing(5);
+		prodAndServiceForm2.addStyleName("invoice-total");
 
 		int accountType = FinanceApplication.getCompany().getAccountingType();
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
