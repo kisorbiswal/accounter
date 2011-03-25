@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -142,7 +143,7 @@ public class CustomerRefundView extends
 		Label lab1 = new Label(Utility.getTransactionName(transactionType));
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-		lab1.setHeight("50px");
+		lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
 
@@ -158,6 +159,7 @@ public class CustomerRefundView extends
 		labeldateNoLayout.add(dateNoForm);
 		labeldateNoLayout.setCellHorizontalAlignment(dateNoForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
+		labeldateNoLayout.getElement().getStyle().setPaddingRight(15, Unit.PX);
 
 		HorizontalPanel totalLabel = new HorizontalPanel();
 		totalLabel.setWidth("100%");
@@ -299,9 +301,11 @@ public class CustomerRefundView extends
 				paymentMethodCombo, printCheck, checkNoText, memoTextAreaItem);
 		custForm.setCellSpacing(5);
 		custForm.setWidth("100%");
+		custForm.getCellFormatter().setWidth(0, 0, "160px");
 
 		DynamicForm balForm = new DynamicForm();
 		balForm.setFields(endBalText, custBalText);
+		balForm.getCellFormatter().setWidth(0, 0, "205px");
 		forms.add(balForm);
 
 		VerticalPanel leftPanel = new VerticalPanel();
@@ -323,6 +327,8 @@ public class CustomerRefundView extends
 		hLay.add(leftPanel);
 		hLay.setCellHorizontalAlignment(totalLabel, ALIGN_CENTER);
 		hLay.add(rightPanel);
+		hLay.setCellWidth(leftPanel, "50%");
+		hLay.setCellWidth(rightPanel, "44%");
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setWidth("100%");

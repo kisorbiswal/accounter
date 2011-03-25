@@ -115,6 +115,8 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 		HorizontalPanel hPanel = (HorizontalPanel) termsForm.getParent();
 		termsForm.removeFromParent();
 		termsForm.setWidth("100%");
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				FinanceApplication.getCustomersMessages().width(), "203px");
 		hPanel.add(termsForm);
 
 		if (transactionObject != null) {
@@ -125,10 +127,11 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 		}
 		vendorForm
 				.setFields(Ccard, contactNameSelect, phoneSelect, billToCombo);
+		vendorForm.getCellFormatter().setWidth(0, 0, "180px");
 		VerticalPanel verticalPanel = (VerticalPanel) vendorForm.getParent();
 		vendorForm.removeFromParent();
 		verticalPanel.add(vendorForm);
-		verticalPanel.setSpacing(10);
+		// verticalPanel.setSpacing(10);
 
 	}
 

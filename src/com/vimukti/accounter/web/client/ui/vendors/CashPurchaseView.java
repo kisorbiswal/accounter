@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -91,6 +92,7 @@ public class CashPurchaseView extends
 		datepanel.add(dateNoForm);
 		datepanel.setCellHorizontalAlignment(dateNoForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
+		datepanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 
@@ -170,6 +172,8 @@ public class CashPurchaseView extends
 		termsForm.setWidth("100%");
 		termsForm.setFields(paymentMethodCombo, payFromCombo, checkNo,
 				deliveryDateItem);
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				FinanceApplication.getCustomersMessages().width(), "203px");
 
 		forms.add(termsForm);
 		formItems.add(checkNo);
@@ -225,42 +229,48 @@ public class CashPurchaseView extends
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 
+		if (this instanceof CashExpenseView) {
+			topHLay.setCellWidth(leftVLay, "0");
+			topHLay.setCellWidth(rightVLay, "100%");
+		} else {
+			topHLay.setCellWidth(leftVLay, "50%");
+			topHLay.setCellWidth(rightVLay, "41%");
+		}
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
-		
-		HorizontalPanel panel=new HorizontalPanel();
+
+		HorizontalPanel panel = new HorizontalPanel();
 		panel.setHorizontalAlignment(ALIGN_RIGHT);
 		panel.add(createAddNewButton());
-		
-		VerticalPanel  bottompanel=new VerticalPanel();
+
+		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
-		
-		
+
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			VerticalPanel vpanel=new VerticalPanel();
+			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setWidth("100%");
-			vpanel.setHorizontalAlignment(ALIGN_RIGHT);			
+			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vpanel.add(panel);
 			vpanel.add(totalForm);
-			
+
 			bottomLayout.add(memoForm);
 			bottomLayout.add(totalForm);
-			
+
 			bottompanel.add(vpanel);
 			bottompanel.add(bottomLayout);
-			
-//			VerticalPanel vPanel = new VerticalPanel();
-//			vPanel.add(menuButton);
-//			vPanel.add(memoForm);
-//			vPanel.setWidth("100%");
-//
-//			bottomLayout.add(vPanel);
-//			bottomLayout.add(vatCheckform);
-//			bottomLayout.setCellHorizontalAlignment(vatCheckform,
-//					HasHorizontalAlignment.ALIGN_RIGHT);
-//			bottomLayout.add(totalForm);
-//			bottomLayout.setCellHorizontalAlignment(totalForm,
-//					HasHorizontalAlignment.ALIGN_RIGHT);
+
+			// VerticalPanel vPanel = new VerticalPanel();
+			// vPanel.add(menuButton);
+			// vPanel.add(memoForm);
+			// vPanel.setWidth("100%");
+			//
+			// bottomLayout.add(vPanel);
+			// bottomLayout.add(vatCheckform);
+			// bottomLayout.setCellHorizontalAlignment(vatCheckform,
+			// HasHorizontalAlignment.ALIGN_RIGHT);
+			// bottomLayout.add(totalForm);
+			// bottomLayout.setCellHorizontalAlignment(totalForm,
+			// HasHorizontalAlignment.ALIGN_RIGHT);
 		} else {
 			memoForm.setStyleName("align-form");
 			VerticalPanel vPanel = new VerticalPanel();

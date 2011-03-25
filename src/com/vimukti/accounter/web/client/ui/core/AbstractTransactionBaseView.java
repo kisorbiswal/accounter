@@ -291,11 +291,11 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	protected DateField createTransactionDateItem() {
 
 		final DateField dateItem = new DateField(FinanceApplication
-				.getVendorsMessages().transactionDate());
+				.getVendorsMessages().date());
 		dateItem.setHelpInformation(true);
-		if (this instanceof VendorBillView)
-			dateItem.setShowTitle(true);
-		else
+		// if (this instanceof VendorBillView)
+		// dateItem.setShowTitle(true);
+		// else
 			dateItem.setShowTitle(false);
 
 		dateItem.setWidth(100);

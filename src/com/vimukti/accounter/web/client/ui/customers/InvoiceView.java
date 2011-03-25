@@ -189,7 +189,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-		lab1.setHeight("50px");
+		lab1.setHeight("35px");
 
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
@@ -260,7 +260,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		shipToCombo = createShipToComboItem();
 		shipToCombo.setHelpInformation(true);
 		shipToAddress = new ShipToForm(null);
-		shipToAddress.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
+				.setVerticalAlign(VerticalAlign.TOP);
+		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
+				FinanceApplication.getCustomersMessages().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -296,6 +299,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		custForm.setFields(customerCombo, quoteLabel, contactCombo, emptylabel,
 				billToTextArea, emptylabel);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
+		custForm.getCellFormatter().getElement(0, 0).setAttribute(
+				FinanceApplication.getCustomersMessages().width(), "226px");
 		custForm.setStyleName("align-form");
 
 		if (UIUtils.isMSIEBrowser()) {
@@ -332,10 +337,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		termsForm.setIsGroup(true);
 		termsForm.setGroupTitle(customerConstants.terms());
 		termsForm.setNumCols(2);
-		termsForm.setFields(brandingThemeTypeCombo,salesPersonCombo, payTermsSelect,
-				shippingTermsCombo, shippingMethodsCombo, dueDateItem,
-				deliveryDate, orderNumText);
+		termsForm.setFields(brandingThemeTypeCombo, salesPersonCombo,
+				payTermsSelect, shippingTermsCombo, shippingMethodsCombo,
+				dueDateItem, deliveryDate, orderNumText);
 		termsForm.setStyleName("align-form");
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				FinanceApplication.getCustomersMessages().width(), "200px");
 		forms.add(termsForm);
 
 		Label lab2 = new Label(customerConstants.productAndService());
@@ -495,7 +502,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		topHLay.add(rightVLay);
 		topHLay.setSpacing(10);
 		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellWidth(rightVLay, "44%");
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab1);

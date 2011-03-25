@@ -62,7 +62,7 @@ public class CustomerCreditMemoView extends
 		Label lab1 = new Label(customerConstants.customerCreditNote());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-		lab1.setHeight("50px");
+		lab1.setHeight("35px");
 		listforms = new ArrayList<DynamicForm>();
 
 		transactionDateItem = createTransactionDateItem();
@@ -125,6 +125,8 @@ public class CustomerCreditMemoView extends
 		custForm = UIUtils.form(customerConstants.customer());
 		custForm.setFields(customerCombo, contactCombo, billToTextArea);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
+		custForm.getCellFormatter().getElement(0, 0).setAttribute(
+				FinanceApplication.getCustomersMessages().width(), "190px");
 		custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
 		forms.add(custForm);

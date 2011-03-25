@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -77,7 +78,7 @@ public class CashSalesView extends
 				.newcashsale());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-		lab1.setHeight("50px");
+		lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
 				.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -102,6 +103,7 @@ public class CashSalesView extends
 		datepanel.add(dateNoForm);
 		datepanel.setCellHorizontalAlignment(dateNoForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
+		datepanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
@@ -153,6 +155,8 @@ public class CashSalesView extends
 				depositInCombo, shippingTermsCombo, shippingMethodsCombo,
 				deliveryDate);
 		termsForm.setStyleName("align-form");
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				FinanceApplication.getCustomersMessages().width(), "203px");
 		forms.add(termsForm);
 
 		memoTextAreaItem = createMemoTextAreaItem();
@@ -216,9 +220,8 @@ public class CashSalesView extends
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.setHorizontalAlignment(ALIGN_RIGHT);
 		panel.add(createAddNewButton());
-		
+
 		prodAndServiceHLay.add(prodAndServiceForm2);
-		
 
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
@@ -242,7 +245,7 @@ public class CashSalesView extends
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellWidth(rightVLay, "42%");
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");

@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -140,7 +141,7 @@ public class NewVendorPaymentView extends
 		);
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-          lab1.setHeight("50px");
+		lab1.setHeight("50px");
 		// transaction date and number
 
 		transactionDateItem = createTransactionDateItem();
@@ -154,15 +155,16 @@ public class NewVendorPaymentView extends
 
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
 		forms.add(dateNoForm);
-		HorizontalPanel datepanel = new HorizontalPanel();
+		VerticalPanel datepanel = new VerticalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
 		datepanel.setCellHorizontalAlignment(dateNoForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
+		datepanel.getElement().getStyle().setPaddingRight(15, Unit.PX);
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
-//		labeldateNoLayout.add(lab1);
+		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
 		// vendor and address
@@ -186,6 +188,7 @@ public class NewVendorPaymentView extends
 		DynamicForm balForm = new DynamicForm();
 		balForm.setWidth("100%");
 		balForm.setFields(endBalText, vendorBalText);
+		balForm.getCellFormatter().setWidth(0, 0, "205px");
 		forms.add(balForm);
 
 		// Payment
@@ -286,6 +289,7 @@ public class NewVendorPaymentView extends
 
 		payForm.setCellSpacing(5);
 		payForm.setWidth("100%");
+		payForm.getCellFormatter().setWidth(0, 0, "160px");
 
 		VerticalPanel leftPanel = new VerticalPanel();
 		leftPanel.setWidth("100%");
@@ -305,9 +309,11 @@ public class NewVendorPaymentView extends
 		hLay.setSpacing(10);
 		hLay.add(leftPanel);
 		hLay.add(rightPanel);
+		hLay.setCellWidth(leftPanel, "50%");
+		hLay.setCellWidth(rightPanel, "40%");
 
 		VerticalPanel mainVLay = new VerticalPanel();
-        mainVLay.add(lab1);
+		mainVLay.add(lab1);
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(hLay);

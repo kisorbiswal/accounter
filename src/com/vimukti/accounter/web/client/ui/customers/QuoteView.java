@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -198,6 +199,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// + "(" + getTransactionStatus() + ")");
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
+		lab1.setHeight("35px");
 
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
@@ -222,10 +224,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		datepanel.add(dateNoForm);
 		datepanel.setCellHorizontalAlignment(dateNoForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
+		datepanel.getElement().getStyle().setPaddingRight(15, Unit.PX);
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
-		labeldateNoLayout.add(lab1);
+		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
 		customerCombo = createCustomerComboItem(FinanceApplication
@@ -274,6 +277,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		phoneForm.setFields(salesPersonCombo, payTermsSelect, quoteExpiryDate,
 				deliveryDate);
 		phoneForm.setStyleName("align-form");
+		phoneForm.getCellFormatter().getElement(0, 0).setAttribute(
+				FinanceApplication.getCustomersMessages().width(), "203px");
 		forms.add(phoneForm);
 
 		Label lab2 = new Label(customerConstants.productAndService());
@@ -376,9 +381,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellWidth(rightVLay, "40%");
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
+		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		// mainVLay.add(buttLabHLay);

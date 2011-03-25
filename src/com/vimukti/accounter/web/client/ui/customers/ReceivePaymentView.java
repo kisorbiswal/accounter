@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -456,7 +457,7 @@ public class ReceivePaymentView extends
 		lab
 				.setStyleName(FinanceApplication.getCustomersMessages()
 						.lableTitle());
-		lab.setHeight("50px");
+		lab.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
 
@@ -473,6 +474,7 @@ public class ReceivePaymentView extends
 		datepanel.add(dateNoForm);
 		datepanel.setCellHorizontalAlignment(dateNoForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
+		datepanel.getElement().getStyle().setPaddingRight(15, Unit.PX);
 
 		final HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
@@ -566,6 +568,7 @@ public class ReceivePaymentView extends
 			payForm.setFields(customerCombo, amtText, paymentMethodCombo,
 					memoTextAreaItem);
 		payForm.setStyleName("align-form");
+		payForm.getCellFormatter().setWidth(0, 0, "180px");
 
 		forms.add(payForm);
 
@@ -579,10 +582,11 @@ public class ReceivePaymentView extends
 		depositInCombo.setPopupWidth("500px");
 
 		DynamicForm depoForm = new DynamicForm();
-		depoForm.setWidth("80%");
+		// depoForm.setWidth("80%");
 		depoForm.setIsGroup(true);
 		depoForm.setGroupTitle(customerConstants.deposit());
 		depoForm.setFields(customerNonEditablebalText, depositInCombo);
+		depoForm.getCellFormatter().setWidth(0, 0, "203px");
 		forms.add(depoForm);
 
 		Label lab1 = new Label(FinanceApplication.getCustomersMessages()
@@ -610,12 +614,14 @@ public class ReceivePaymentView extends
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 		rightVLay.add(depoForm);
-		rightVLay.setCellHorizontalAlignment(depoForm, ALIGN_RIGHT);
+		// rightVLay.setCellHorizontalAlignment(depoForm, ALIGN_RIGHT);
 
 		topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
+		topHLay.setCellWidth(leftVLay, "50%");
+		topHLay.setCellWidth(rightVLay, "39%");
 
 		@SuppressWarnings("unused")
 		VerticalPanel gridAndBalances = new VerticalPanel();

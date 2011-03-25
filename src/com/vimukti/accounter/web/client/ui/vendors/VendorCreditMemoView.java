@@ -201,6 +201,8 @@ public class VendorCreditMemoView extends
 		vendorForm = UIUtils.form(vendorConstants.supplier());
 		vendorForm.setWidth("50%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect);
+		vendorForm.getCellFormatter().getElement(0, 0).setAttribute(
+				FinanceApplication.getCustomersMessages().width(), "190px");
 
 		leftVLay.add(vendorForm);
 

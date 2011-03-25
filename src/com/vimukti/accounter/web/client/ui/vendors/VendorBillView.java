@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -332,6 +333,7 @@ public class VendorBillView extends
 		datepanel.add(dateNoForm);
 		datepanel.setCellHorizontalAlignment(dateNoForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
+		datepanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
@@ -423,6 +425,7 @@ public class VendorBillView extends
 		dateform.setNumCols(2);
 		dateform.setItems(phoneSelect, paymentTermsCombo, dueDateItem,
 				deliveryDateItem);
+		dateform.getCellFormatter().setWidth(0, 0, "200px");
 		forms.add(termsForm);
 		netAmount = new AmountLabel(FinanceApplication.getVendorsMessages()
 				.netAmount());
@@ -479,8 +482,9 @@ public class VendorBillView extends
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setWidth("41%");
 		totalForm.setStyleName("invoice-total");
-//		netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + "102")
-//				+ "px");
+		// netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() +
+		// "102")
+		// + "px");
 
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
@@ -501,6 +505,8 @@ public class VendorBillView extends
 		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
+		topHLay.setCellWidth(leftVLay, "50%");
+		topHLay.setCellWidth(rightVLay, "45%");
 
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");

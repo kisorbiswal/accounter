@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -337,7 +338,7 @@ public class CreditCardChargeView extends
 				.creditCardCharge());
 		titlelabel.addStyleName(FinanceApplication.getFinanceUIConstants()
 				.lableTitle());
-		titlelabel.setHeight("50px");
+		titlelabel.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
 
@@ -353,6 +354,7 @@ public class CreditCardChargeView extends
 		VerticalPanel regPanel = new VerticalPanel();
 		regPanel.setCellHorizontalAlignment(dateNoForm, ALIGN_RIGHT);
 		regPanel.add(dateNoForm);
+		regPanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
 
 		labeldateNoLayout.setWidth("100%");
 		// labeldateNoLayout.add(titlelabel);
@@ -437,6 +439,8 @@ public class CreditCardChargeView extends
 		termsForm = UIUtils.form(bankingConstants.terms());
 		termsForm.setWidth("100%");
 		termsForm.setFields(payMethSelect, payFrmSelect, cheqNoText, delivDate);
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				FinanceApplication.getCustomersMessages().width(), "203px");
 		forms.add(termsForm);
 
 		Label lab2 = new Label("Items and expenses");
@@ -530,20 +534,20 @@ public class CreditCardChargeView extends
 			// HasHorizontalAlignment.ALIGN_RIGHT);
 		} else {
 			totForm.setFields(transactionTotalNonEditableText);
-			VerticalPanel vpanel=new VerticalPanel();
+			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.add(panel);
 			vpanel.add(memoForm);
 			vpanel.add(totForm);
-	
+
 			bottompanel.add(vpanel);
 		}
 
 		leftVLay = new VerticalPanel();
-		leftVLay.setWidth("80%");
+		// leftVLay.setWidth("80%");
 		leftVLay.add(vendorForm);
 
 		HorizontalPanel rightHLay = new HorizontalPanel();
-		rightHLay.setWidth("80%");
+		// rightHLay.setWidth("80%");
 		rightHLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
 		rightHLay.add(termsForm);
 
@@ -553,6 +557,8 @@ public class CreditCardChargeView extends
 		topHLay.setSpacing(20);
 		topHLay.setCellHorizontalAlignment(rightHLay, ALIGN_RIGHT);
 		topHLay.add(rightHLay);
+		topHLay.setCellWidth(leftVLay, "50%");
+		topHLay.setCellWidth(rightHLay, "42%");
 
 		VerticalPanel vLay1 = new VerticalPanel();
 		// vLay1.add(lab2);

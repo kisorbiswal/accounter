@@ -39,6 +39,7 @@ public class CashExpenseView extends CashPurchaseView {
 		titlelabel.setText(FinanceApplication.getVendorsMessages()
 				.cashExpense());
 		vendorForm.clear();
+		vendorForm.removeFromParent();
 		termsForm.clear();
 		petycash = new AccountCombo(FinanceApplication.getVendorsMessages()
 				.cashExpense()) {
@@ -91,8 +92,8 @@ public class CashExpenseView extends CashPurchaseView {
 		termsForm.setFields(paymentMethodCombo, payFromCombo, checkNo);
 		VerticalPanel vPanel = (VerticalPanel) termsForm.getParent();
 		termsForm.removeFromParent();
-		termsForm.setWidth("50%");
 		vPanel.add(termsForm);
+		termsForm.getCellFormatter().setWidth(0, 0, "180px");
 
 		// vendorForm.setFields(petycash);
 		// VerticalPanel verticalPanel = (VerticalPanel) vendorForm.getParent();

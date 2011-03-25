@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -359,7 +360,7 @@ public class NewCustomerPaymentView extends
 				.customerPrePayment());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-		lab1.setHeight("50px");
+		lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 
 		transactionNumber = createTransactionNumberItem();
@@ -376,6 +377,7 @@ public class NewCustomerPaymentView extends
 		datepanel.add(dateNoForm);
 		datepanel.setCellHorizontalAlignment(dateNoForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
+		datepanel.getElement().getStyle().setPaddingRight(15, Unit.PX);
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
@@ -401,6 +403,7 @@ public class NewCustomerPaymentView extends
 
 		DynamicForm balForm = new DynamicForm();
 		balForm.setFields(endBalText, customerBalText);
+		balForm.getCellFormatter().setWidth(0, 0, "205px");
 		forms.add(balForm);
 
 		// payment
@@ -480,6 +483,7 @@ public class NewCustomerPaymentView extends
 
 		payForm.setCellSpacing(5);
 		payForm.setWidth("100%");
+		payForm.getCellFormatter().setWidth(0, 0, "160px");
 
 		VerticalPanel leftPanel = new VerticalPanel();
 		leftPanel.setWidth("100%");
@@ -499,6 +503,8 @@ public class NewCustomerPaymentView extends
 		hLay.setSpacing(10);
 		hLay.add(leftPanel);
 		hLay.add(rightPanel);
+		hLay.setCellWidth(leftPanel, "50%");
+		hLay.setCellWidth(rightPanel, "44%");
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
