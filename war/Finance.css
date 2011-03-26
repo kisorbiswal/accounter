@@ -357,10 +357,10 @@ table tr.ReportGridRow:HOVER {
 }
 
 .previousButton,.nextButton,.discardButton {
-	padding: 3px;
-	margin: 2px;
-	background-position: 0 1px;
-	cursor:pointer;
+	background-position: 0 5px;
+    cursor: pointer;
+    margin-left: 5px;
+    padding: 3px;
 }
 
 .statusLabelParent {
@@ -559,7 +559,7 @@ td.gridDecimalCell {
 	border-collapse: collapse;
 }
 .gwt-DecoratedTabBar .tabTopLeftInner, .gwt-DecoratedTabBar .tabTopRightInner {
-	width:4px !important;
+	width:3px !important;
 }
 table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	background: #83BF91 !important;
@@ -727,7 +727,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 .gwt-Button[disabled] {
 	cursor: pointer !important;
 	color: none !important;
-	background:url("images/Disable_button_mid_1x27.png") repeat-x scroll 0 0 transparent !important;
+	background:url("/images/Button_1x27.png") repeat-x scroll 0 0 transparent !important;
 }
 
 .gwt-Button[disabled]:hover {
@@ -744,9 +744,10 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	background:url("images/Menu bar_1x34.png") repeat-x scroll 0 0 #FFFFFF !important;
 	color: #ffffff !important;
 	font-weight: bold;
-	padding: 6px 17px 8px !important;
+	padding: 6px 17px 13px !important;
 	vertical-align: bottom;
 	border:0 none !important;
+	height:40px;
 }
 
 .gwt-MenuBar-vertical .subMenuIcon-selected {
@@ -810,8 +811,8 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	color:white !important;
 	cursor:pointer;
 	font-weight:bold;
-	height:26px !important;
-	padding:0 5px 2px !important;
+	height:29px !important;
+	padding:0 5px 5px !important;
 	border:0px none !important;
 }
 .gwt-Button button:after{
@@ -916,7 +917,12 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .standard-options {
-	width: 95%;
+	background: none repeat scroll 0 0 white;
+    border-bottom: 1px solid #EFEFEF;
+    border-top: 1px solid #DDDDDD;
+    margin-top: 5px;
+    padding: 5px;
+    width: 100%;
 }
 
 .standard-options td:FIRST-CHILD {
@@ -940,18 +946,18 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	/*background:url("images/Menu bar_1x33.png") repeat-x scroll 0 0 #FFFFFF !important;*/
 }
 .menubar-devider{
-	background:url("images/Menu bar_1x33.png") repeat-x scroll 0 0 #FFFFFF !important;
+	background:url("images/Menu bar_1x34.png") repeat-x scroll 0 0 #FFFFFF !important;
 	padding:0px;
 }
 .bottom-view table tr td{
 	background:url("images/Button_left_1x27.png") no-repeat scroll 0 0 transparent;
-    padding:0 0 0 1px;
+    padding:0 0 0 3px;
 }
 
 .button-right-image{
 	float:left;
-	height:26px;
-	width:1px;
+	height:29px;
+	width:3px;
 }
 .gwt-TextBox{
 	background:url("images/Text Feild_enabled_180x22.png") no-repeat scroll 0 0 #fff !important;
@@ -976,13 +982,12 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	margin-top:1px;
 */
     background:url("images/Drop-down-button_20x22.png") no-repeat scroll 0 0 transparent !important;
-	float:left;
-	height:20px;
-	margin-left:-20px;
-	margin-top:1px;
-	position:relative;
-	width:20px;
-	z-index:1;
+	float: left;
+    height: 22px;
+    margin-left: -22px;
+    position: relative;
+    width: 22px;
+    z-index: 1;
 }
 .gwt-MenuBar-vertical .gwt-MenuItemSeparator .menuSeparatorInner{
 	background:url("images/Menu list seperator.png") repeat scroll 0 0 transparent !important;
@@ -1066,22 +1071,23 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	background:url("images/Divider.png") no-repeat scroll 0 0 transparent !important;
 }
 .close-separator{
-	background:url("images/Divider.png") no-repeat scroll 0 0 transparent !important;
+	background:url("images/gray_Seperator1.png") no-repeat scroll 0 0 transparent !important;
 }
 .add-separator{
-	background:url("images/blue_Divider.png") no-repeat scroll 0 0 transparent !important;
+	background:url("images/Divider.png") no-repeat scroll 0 0 transparent !important;
 }
 .save-new-separator,.save-close-separator,.close-separator,.add-separator{
-	height:19px;
-	margin-left:5px;
-	position:absolute;
-	width:2px;
+	height: 25px;
+    margin-left: 5px;
+    margin-top: -4px;
+    position: absolute;
+    width: 2px;
 }
 .save-new-image{
-	background:url("images/page_edit.png") no-repeat scroll 0 0 transparent !important;
+	background:url("images/page_edit1.png") no-repeat scroll 0 0 transparent !important;
 }
 .save-close-image{
-	background:url("images/page_edit.png") no-repeat scroll 0 0 transparent !important;
+	background:url("images/page_edit1.png") no-repeat scroll 0 0 transparent !important;
 }
 .save-new-image,.save-close-image,.close-image,.add-image{
 	height:16px;
@@ -1096,7 +1102,10 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	background:url("images/cross.png") no-repeat scroll 0 0 transparent !important;
 }
 .cancel-button button{
-	background:url("/images/Button_1x27.png") repeat-x scroll 0 0 transparent !important;
+	background:url("/images/gray_Button_2_mid.png") repeat-x scroll 0 0 transparent !important;
+}
+.cancel-button{
+	background: url("../images/gray_Button_2_left.png") no-repeat scroll 0 0 transparent !important;
 }
 .add-button{
 	background:url("images/blue_Left_side.png") no-repeat scroll 0 0 transparent !important;
@@ -1104,16 +1113,15 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	float:right;
 }
 .add-button button{
-	background:url("images/blue_Mid.png") repeat-x scroll 0 0 transparent !important;
-	float:right;
-    padding:0 25px 0 0 !important;
+	background:url("/images/Button_1x27.png") repeat-x scroll 0 0 transparent !important;
+    padding:0 25px 4px 0 !important;
      border-radius: 0 0 0 0 !important;
       margin: 0 !important;
 }
 .add-right-image{
-	height:26px;
-	width:1px;
-	float:left;
+	height:29px;
+	width:3px;
+	float:right;
 }
 .subMenuIcon img{
 	background:url("images/Sub_menu_indicator_side.png") repeat-x scroll 0 0 transparent !important;
@@ -1128,10 +1136,11 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 .gwt-DialogBox .dialogTopLeft{
 	background:url("images/top_left_1.png") no-repeat scroll 0 0 transparent !important;
-	width:6px;
+	width:9px;
 }
 .gwt-DialogBox .dialogTopRight{
 	background:url("images/top_right_1.png") no-repeat scroll 0 0 transparent !important;
+	width:9px;
 }
 .gwt-DialogBox .dialogMiddleLeft{
 	background:url("images/left_mid.png") repeat-y scroll 0 0 transparent !important;
@@ -1147,6 +1156,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 .gwt-DialogBox .dialogBottomCenter{
 	background:url("images/Bottom_mid.png") repeat-x scroll 0 0 transparent !important;
+	height:9px;
 }
 .calendar-picker{
 	margin-left:3px;
@@ -1164,4 +1174,7 @@ iframe{
 }
 .star {
 	color: red;
+}
+.general-setting-invoice{
+   margin-left:10px;	
 }
