@@ -153,16 +153,16 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 				.options());
 		allLabelsHtml = new HTML("<p>"
 				+ FinanceApplication.getSettingsMessages().pageLabel()
-				+ " :<b>" + getPageType(theme.getPageSizeType()) + " :</b>"
+				+ " : <b>" + getPageType(theme.getPageSizeType()) + " : </b>"
 				+ FinanceApplication.getSettingsMessages().marginTop() + "<b>"
-				+ theme.getTopMargin() + " :</b>"
-				+ FinanceApplication.getSettingsMessages().bottom() + " :<b>"
-				+ theme.getBottomMargin() + " :</b>"
+				+ theme.getTopMargin() + " : </b>"
+				+ FinanceApplication.getSettingsMessages().bottom() + " : <b>"
+				+ theme.getBottomMargin() + " : </b>"
 				+ FinanceApplication.getSettingsMessages().addressPadding()
-				+ " :<b>" + theme.getAddressPadding() + "</b>"
-				+ FinanceApplication.getSettingsMessages().font() + " :<b>"
-				+ theme.getFont() + "</b>,<b>" + theme.getFontSize()
-				+ "</b></p>");
+				+ " : <b>" + theme.getAddressPadding() + "</b>"
+				+ FinanceApplication.getSettingsMessages().font() + " : <b>"
+				+ theme.getFont() + "</b> , <b>" + theme.getFontSize()
+				+ " </b></p>");
 		boolean[] showArray = new boolean[] { theme.isShowTaxNumber(),
 				theme.isShowTaxColumn(), theme.isShowColumnHeadings(),
 				theme.isShowUnitPrice_And_Quantity(),
@@ -183,7 +183,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 			}
 		}
 		ShowHtml = new HTML("<p>"
-				+ FinanceApplication.getSettingsMessages().show() + " :</p>");
+				+ FinanceApplication.getSettingsMessages().show() + " : </p>");
 		checkBoxHtml = new HTML("<ui>" + showItem + "</ui>");
 		radioButtonHtml = new HTML("<ui><li>"
 		// + getTaxesType(theme.getShowTaxesAsType())
@@ -191,13 +191,13 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 
 		headingsHtml = new HTML("<p>"
 				+ FinanceApplication.getSettingsMessages().headings()
-				+ " :"
+				+ " : "
 				// + theme.getOpenInvoiceTitle()
-				+ "," + theme.getOverDueInvoiceTitle() + ","
-				+ theme.getCreditMemoTitle() + "," + theme.getStatementTitle()
+				+ " , " + theme.getOverDueInvoiceTitle() + " , "
+				+ theme.getCreditMemoTitle() + " , " + theme.getStatementTitle()
 				+ "</p>");
 		paypalEmailHtml = new HTML("<p>"
-				+ FinanceApplication.getSettingsMessages().paypalEmail() + " :"
+				+ FinanceApplication.getSettingsMessages().paypalEmail() + " : "
 				+ theme.getPayPalEmailID() + "</p>");
 		// adding terms.....
 		String terms;
@@ -207,7 +207,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 			terms = theme.getTerms_And_Payment_Advice();
 		}
 		termsHtml = new HTML("<p> "
-				+ FinanceApplication.getSettingsMessages().terms() + " :"
+				+ FinanceApplication.getSettingsMessages().terms() + " : "
 				+ terms + "</p>");
 		showPanel = new HorizontalPanel();
 		showPanel.add(checkBoxHtml);
@@ -240,7 +240,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		subLayPanel.add(headingsHtml);
 		subLayPanel.add(paypalEmailHtml);
 		subLayPanel.add(termsHtml);
-		subLayPanel.setWidth("600px");
+		subLayPanel.setWidth("500px");
 		contactDetailsPanel.setWidth("200px");
 		uploadPanel.setWidth("150px");
 		allPanel = new HorizontalPanel();
