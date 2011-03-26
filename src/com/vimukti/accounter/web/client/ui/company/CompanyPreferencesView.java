@@ -218,7 +218,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		hlLayout.add(okCancelayout);
 		// hlLayout.setLayoutTopMargin(10);
 		// hlLayout.setLayoutBottomMargin(10);
-		saveAndNewButton.setVisible(false);
+		// saveAndNewButton.setVisible(false);
+		saveAndNewButton.removeFromParent();
 
 		VerticalPanel mainLayout = new VerticalPanel();
 		mainLayout.setSize("100%", "100%");
@@ -354,8 +355,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		numbersIdsvForm.setItems(useAccountscheckbox, useCustomertID,
 				useVendorId, ageingFromTransactionDateORDueDate);
-		numbersIdsvForm.getCellFormatter()
-				.addStyleName(3, 0, "memoFormAlign");
+		numbersIdsvForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		// numbersIdsvForm.setCellSpacing(10);
 		numbersIdsvForm.setWidth("100%");
 		/**
