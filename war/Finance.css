@@ -2,7 +2,7 @@
 	/** Example rules used by the template application (remove for your app) */
 .widget { /**background:url(images/icons/startBar.png) repeat-x;*/
 	background:url("images/pannig bar.png") repeat-x scroll 0 0 transparent;
-	width:103% !important;
+	width:100% !important;
 	/*display: none;*/
 }
 
@@ -111,8 +111,8 @@ h1 {
 .financeBackground {
 	background: none repeat scroll 0 0 #F7F7F7 !important;
 	/*border: 2px solid #CCCCCC;   praveena */
-	padding: 11px;
-	margin-left: 3px;
+	padding: 10px;
+	/*margin-left: 3px;*/
 	/* margin-top:-2px; praveena*/
 }
 
@@ -629,6 +629,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 
 .gwt-MenuBar-vertical {
 	background: none repeat scroll 0 0 #2AA9DC !important;
+	border:0px none !important;
 }
 
 .tablelayout {
@@ -750,6 +751,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 
 .gwt-MenuBar-vertical .subMenuIcon-selected {
 	background: none repeat scroll 0 0 #218BB5 !important;
+	border:0px none !important;
 	/*background:url("/images/header-c1.jpg")repeat-x scroll 0 0 transparent ;  praveena*/
 }
 
@@ -841,8 +843,8 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .header {
-	background: none repeat scroll 0 0 #e8e8e8;
-	/*margin-left:3px; praveena*/
+	   background: none repeat scroll 0 0 #E8E8E8 !important;
+       margin-left: 0 !important;
 }
 
 .label2-style {
@@ -942,7 +944,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	padding:0px;
 }
 .bottom-view table tr td{
-	background:url("images/Button_left_1x27.png") no-repeat scroll 0 0 #FFFFFF;
+	background:url("images/Button_left_1x27.png") no-repeat scroll 0 0 transparent;
     padding:0 0 0 1px;
 }
 
@@ -1037,8 +1039,10 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 .bottom-view table tr td button{
 	background:url("/images/Button_1x27.png") repeat-x scroll 0 0 transparent;
-	padding-right:25px !important;
-	float:left;
+	 float: left;
+     margin: 0 !important;
+    padding-right: 25px !important;
+      border-radius: 0 0 0 0 !important;
 }
 .gridSelectBoxCell .downarrow-button{
 	background:url("images/Drop down list button_square shape.png") no-repeat scroll 0 0 transparent !important;
@@ -1103,6 +1107,8 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	background:url("images/blue_Mid.png") repeat-x scroll 0 0 transparent !important;
 	float:right;
     padding:0 25px 0 0 !important;
+     border-radius: 0 0 0 0 !important;
+      margin: 0 !important;
 }
 .add-right-image{
 	height:26px;
