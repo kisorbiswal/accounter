@@ -296,7 +296,7 @@ public class ViewManager extends DockPanel {
 		buttonLayout.setCellHorizontalAlignment(editButton,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		buttonLayout.add(editButton);
+		// buttonLayout.add(editButton);
 		buttonLayout.add(edit1Button);
 		// buttonLayout.add(printButton);
 		buttonLayout.add(print1Button);
@@ -1572,18 +1572,18 @@ public class ViewManager extends DockPanel {
 
 			public void onSuccess(Boolean result) {
 
-				// if (!GWT.isScript()) {
-				// if (result != null && result) {
-				// AccounterCommand cmd = new AccounterCommand();
-				// cmd.setCommand(AccounterCommand.DELETION_SUCCESS);
-				// cmd.setData(core);
-				// cmd.setStringID(widget.getStringID());
-				// cmd.setObjectType(core.getObjectType());
-				// FinanceApplication.getCompany().processCommand(cmd);
-				// } else {
-				// onFailure(null);
-				// }
-				// }
+				if (!GWT.isScript()) {
+					if (result != null && result) {
+						AccounterCommand cmd = new AccounterCommand();
+						cmd.setCommand(AccounterCommand.DELETION_SUCCESS);
+						cmd.setData(core);
+						cmd.setStringID(widget.getStringID());
+						cmd.setObjectType(core.getObjectType());
+						FinanceApplication.getCompany().processCommand(cmd);
+					} else {
+						onFailure(null);
+					}
+				}
 			}
 
 		};
@@ -1599,8 +1599,8 @@ public class ViewManager extends DockPanel {
 			dashboard.refreshGrids(accounterCoreObject);
 		}
 	}
-	
-	public void updateDashBoardData(IAccounterCore accounterCoreObject){
+
+	public void updateDashBoardData(IAccounterCore accounterCoreObject) {
 		History history = this.historyList.get(0);
 		if (history.getView() instanceof DashBoard) {
 			DashBoard dashboard = (DashBoard) history.getView();
@@ -1615,7 +1615,7 @@ public class ViewManager extends DockPanel {
 		this.width = width;
 
 		if (height - TOP_MENUBAR > 0) {
-//			this.scrollPanel.setHeight(height - TOP_MENUBAR + 8 + "px");
+			// this.scrollPanel.setHeight(height - TOP_MENUBAR + 8 + "px");
 			// this.rightCanvas.setHeight(height - TOP_MENUBAR + "px");
 		}
 
@@ -1627,9 +1627,9 @@ public class ViewManager extends DockPanel {
 
 		if (currentCanvas != null && currentCanvas instanceof BaseView) {
 
-//			if (height - TOP_MENUBAR - 40 > 0)
-//				((BaseView) currentCanvas).setHeightForCanvas(height
-//						- TOP_MENUBAR - 40 + "");
+			// if (height - TOP_MENUBAR - 40 > 0)
+			// ((BaseView) currentCanvas).setHeightForCanvas(height
+			// - TOP_MENUBAR - 40 + "");
 			((BaseView) currentCanvas).getButtonPanel().setHeight("30px");
 		}
 
