@@ -155,9 +155,9 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 		closeimage.addClassName("close-image");
 		DOM.appendChild(cancelButton.getElement(),closeimage);
 		
-		ThemesUtil.addDivToButton(cancelButton,FinanceApplication.getThemeImages().button_right_green_image(),"button-right-image");
-		ThemesUtil.addDivToButton(saveAndCloseButton,FinanceApplication.getThemeImages().button_right_green_image(),"button-right-image");
-		ThemesUtil.addDivToButton(saveAndNewButton,FinanceApplication.getThemeImages().button_right_green_image(),"button-right-image");
+		ThemesUtil.addDivToButton(cancelButton,FinanceApplication.getThemeImages().button_right_gray_image(),"button-right-image");
+		ThemesUtil.addDivToButton(saveAndCloseButton,FinanceApplication.getThemeImages().button_right_blue_image(),"button-right-image");
+		ThemesUtil.addDivToButton(saveAndNewButton,FinanceApplication.getThemeImages().button_right_blue_image(),"button-right-image");
 	}
 
 	public Panel getCanvas() {
