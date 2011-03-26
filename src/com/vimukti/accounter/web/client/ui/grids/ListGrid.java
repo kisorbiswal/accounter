@@ -18,6 +18,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -65,7 +66,7 @@ public abstract class ListGrid<T> extends CustomTable {
 
 	protected boolean isAddRequired;
 
-	Map<Integer, Widget> widgetsMap = new HashMap<Integer, Widget>();
+	protected Map<Integer, Widget> widgetsMap = new HashMap<Integer, Widget>();
 	List<T> objects = new ArrayList<T>();
 	T selectedObject = null;
 
@@ -340,9 +341,9 @@ public abstract class ListGrid<T> extends CustomTable {
 		switch (type) {
 
 		case COLUMN_TYPE_DATE:
-			setText(currentRow, currentCol, data != null ? UIUtils
-					.stringToDate(new ClientFinanceDate(data.toString()))
-					: UIUtils.stringToDate(new ClientFinanceDate()));
+			// setText(currentRow, currentCol, data != null ? UIUtils
+			// .stringToDate(new ClientFinanceDate(data.toString()))
+			// : UIUtils.stringToDate(new ClientFinanceDate()));
 			setText(currentRow, currentCol, data != null ? data.toString()
 					: new ClientFinanceDate().toString());
 			addCellStyles("gridDateBoxCell");
@@ -603,7 +604,8 @@ public abstract class ListGrid<T> extends CustomTable {
 
 				}
 			});
-
+			datePicker.setFormat(new DateBox.DefaultFormat(DateTimeFormat
+					.getFormat("dd/MM/yyyy")));
 			datePicker.setValue(val.getDateAsObject());
 
 			widgetsMap.put(currentCol, datePicker);
@@ -612,7 +614,8 @@ public abstract class ListGrid<T> extends CustomTable {
 			datePicker.setFocus(true);
 		} else {
 			DateBox box = (DateBox) widgetsMap.get(currentCol);
-
+			box.setFormat(new DateBox.DefaultFormat(DateTimeFormat
+					.getFormat("dd/MM/yyyy")));
 			box.setValue(((ClientFinanceDate) value).getDateAsObject());
 			setWidget(currentRow, currentCol, box);
 			box.setFocus(true);
