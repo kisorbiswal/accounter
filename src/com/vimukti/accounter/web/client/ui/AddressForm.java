@@ -82,6 +82,7 @@ public class AddressForm extends DynamicForm {
 
 			}
 		});
+
 		if (toBeShown != null) {
 //			businessSelect.setSelected(toBeShown.getAddressTypes().get(
 //					toBeShown.getType()));
