@@ -7,19 +7,16 @@ public interface ThemeImages extends Resources {
 	@Source("menu_bar_left.png")
 	ImageResource menubar_left();
 
-	@Source("Sub_menu_indicator_down.png")
+	@Source("Drop-down-indicator_9x6.png")
 	ImageResource drop_down_indicator();
     
-	@Source("Menubar_Divider_2x30.jpg")
+	@Source("Seperator_2x20.png")
 	ImageResource menu_bar_devider();
 	
-	@Source("Button_left_1x27.png")
-	ImageResource button_right_green_image();
-	
-	@Source("gray_Button_left_1x27.png")
+	@Source("gray_Button_2_right.png")
 	ImageResource button_right_gray_image();
 	
-	@Source("blue_Left_side.png")
+	@Source("blue_Button_1_right.png")
 	ImageResource button_right_blue_image();
 	
 }
