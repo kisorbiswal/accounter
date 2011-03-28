@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.ui.banking.NewPayeeAction;
-import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
 public class PayeeCombo extends CustomCombo<ClientPayee> {

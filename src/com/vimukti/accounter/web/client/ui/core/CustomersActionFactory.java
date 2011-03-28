@@ -31,7 +31,6 @@ import com.vimukti.accounter.web.client.ui.customers.SalesOrderAction;
 import com.vimukti.accounter.web.client.ui.customers.SalesOrderListAction;
 import com.vimukti.accounter.web.client.ui.customers.SalesPersonAction;
 import com.vimukti.accounter.web.client.ui.customers.TaxDialogAction;
-import com.vimukti.accounter.web.client.ui.vendors.RecordExpensesAction;
 
 /**
  * CustomersActionFactory contains all static methods, each method returns

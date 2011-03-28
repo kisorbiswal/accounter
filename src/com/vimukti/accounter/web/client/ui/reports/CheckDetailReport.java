@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
-import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class CheckDetailReport extends BaseReport {

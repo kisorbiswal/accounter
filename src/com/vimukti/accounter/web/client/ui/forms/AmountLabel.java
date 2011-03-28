@@ -1,8 +1,8 @@
 package com.vimukti.accounter.web.client.ui.forms;
 
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 
 public class AmountLabel extends LabelItem {
 

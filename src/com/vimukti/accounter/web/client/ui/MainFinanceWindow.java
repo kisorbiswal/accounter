@@ -1,20 +1,19 @@
 package com.vimukti.accounter.web.client.ui;
 
-import java.util.List;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.FocusImpl;
+import com.vimukti.accounter.web.client.commet.AccounterCometClient;
+import com.vimukti.accounter.web.client.commet.ClientCometManager;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
@@ -182,42 +181,42 @@ public class MainFinanceWindow extends VerticalPanel {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			menuitem = menuBar.addItem(FinanceApplication
 					.getFinanceUIConstants().vat(), getVATMenu());
-			ThemesUtil.insertImageChildToMenuItem(menuBar,menuitem);
+			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 
 		menuitem = menuBar.addItem(FinanceApplication.getFinanceUIConstants()
 				.customer(), getCustomerMenu());
-		ThemesUtil.insertImageChildToMenuItem(menuBar,menuitem);
+		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		menuitem = menuBar.addItem(UIUtils.getVendorString(FinanceApplication
 				.getVendorsMessages().supplier(), FinanceApplication
 				.getVendorsMessages().vendor()), getVendorMenu());
-		ThemesUtil.insertImageChildToMenuItem(menuBar,menuitem);
+		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		menuitem = menuBar.addItem(FinanceApplication.getFinanceUIConstants()
 				.banking(), getBankingMenu());
-		ThemesUtil.insertImageChildToMenuItem(menuBar,menuitem);
+		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		menuitem = menuBar.addItem("Sales", getSalesSubMenu());
-		ThemesUtil.insertImageChildToMenuItem(menuBar,menuitem);
+		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		menuitem = menuBar.addItem("Purchases", getPurchaseSubMenu());
-		ThemesUtil.insertImageChildToMenuItem(menuBar,menuitem);
+		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		// menuBar.addItem(FinanceApplication.getFinanceUIConstants()
 		// .fixedAssets(), getFixedAssetsMenu());
 		menuitem = menuBar.addItem(FinanceApplication.getFinanceUIConstants()
 				.reports(), getReportMenu());
-		ThemesUtil.insertImageChildToMenuItem(menuBar,menuitem);
+		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		// menuBar.addItem(FinanceApplication.getFinanceUIConstants().help(),
 		// getHelpMenu());
 		menuitem = menuBar.addItem("Settings", getSettingsMenu());
-		ThemesUtil.insertImageChildToMenuItem(menuBar,menuitem);
+		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		if (!GWT.isScript()) {
 			menuitem = menuBar.addItem(FinanceApplication.getCompanyMessages()
 					.test(), getTestMenu());
-			ThemesUtil.insertImageChildToMenuItem(menuBar,menuitem);
+			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 
 		menuBar.setAutoOpen(true);
@@ -1077,6 +1076,7 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	@Override
 	public void onLoad() {
+		// ClientCometManager.getInstance().initComet();
 		// @SuppressWarnings("unused")
 		// BaseView<?> view = viewManager.getContentPanel();
 		// viewManager.fitToSize(height, width);
@@ -1090,6 +1090,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		// }
 		super.onLoad();
 		viewManager.fitToSize(this.getOffsetHeight(), 960);
+		// if (GWT.isScript())
+		AccounterCometClient.start();
 	}
 
 	@Override
@@ -1137,7 +1139,8 @@ public class MainFinanceWindow extends VerticalPanel {
 	@Override
 	protected void onUnload() {
 		super.onUnload();
-
+		AccounterCometClient.cometStop();
+		MainFinanceWindow.makeAllViewsStaticstoNull();
 	}
 
 	public static void makeAllStaticInstancesNull() {

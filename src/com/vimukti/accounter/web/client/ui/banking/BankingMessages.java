@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
 import com.vimukti.accounter.web.client.externalization.FinanceMessages;
-import com.vimukti.accounter.web.client.ui.core.Action;
 
 public interface BankingMessages extends FinanceMessages {
 

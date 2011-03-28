@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.ManageSalesTaxItemListGrid;
 import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
 

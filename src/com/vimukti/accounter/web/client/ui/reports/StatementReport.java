@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.reports;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -12,7 +10,6 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.reports.AbstractReportView;
 
 public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	private String sectionName = "";

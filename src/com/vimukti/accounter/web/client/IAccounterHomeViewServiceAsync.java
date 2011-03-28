@@ -6,7 +6,6 @@ package com.vimukti.accounter.web.client;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
@@ -39,7 +38,6 @@ import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsList;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetLinkedAccountMap;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReviewJournal;
-import com.vimukti.accounter.web.client.core.Lists.GraphPoints;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.core.Lists.OverDueInvoicesList;

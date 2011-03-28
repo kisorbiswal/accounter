@@ -2,8 +2,8 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
-import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
+import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class TransactionDetailByTaxItemServerReport extends
 		AbstractFinaneReport<TransactionDetailByTaxItem> {

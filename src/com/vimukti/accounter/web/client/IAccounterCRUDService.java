@@ -3,12 +3,12 @@
  */
 package com.vimukti.accounter.web.client;
 
-import com.vimukti.accounter.web.client.data.InvalidSessionException;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.data.InvalidSessionException;
 
 /**
  * @author Fernandez

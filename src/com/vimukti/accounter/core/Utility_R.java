@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -23,7 +22,6 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class Utility_R {
 

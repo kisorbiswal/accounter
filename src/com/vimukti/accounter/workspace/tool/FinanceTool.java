@@ -141,7 +141,6 @@ import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetLinkedAccountMap;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetList;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReviewJournal;
-import com.vimukti.accounter.web.client.core.Lists.GraphPoints;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.core.Lists.KeyFinancialIndicators;

@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.SalesTaxLiability;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
-//import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxcode;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByTaxItemServerReport;

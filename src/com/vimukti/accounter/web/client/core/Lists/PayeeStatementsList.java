@@ -1,13 +1,8 @@
 package com.vimukti.accounter.web.client.core.Lists;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.vimukti.accounter.core.PaymentTerms;
-import com.vimukti.accounter.core.SalesPerson;
-import com.vimukti.accounter.core.ShippingMethod;
-import com.vimukti.accounter.core.ShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 

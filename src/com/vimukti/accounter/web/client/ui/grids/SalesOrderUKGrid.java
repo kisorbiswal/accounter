@@ -7,11 +7,7 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
-import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
-import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
 
 public class SalesOrderUKGrid extends CustomerTransactionUKGrid {
 

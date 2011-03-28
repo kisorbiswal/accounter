@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
-import com.vimukti.accounter.web.client.core.ClientVATAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;

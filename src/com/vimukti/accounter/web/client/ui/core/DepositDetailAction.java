@@ -2,13 +2,10 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
-import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.reports.AbstractReportView;
 import com.vimukti.accounter.web.client.ui.reports.DepositDetailReport;
-import com.vimukti.accounter.web.client.ui.reports.TransactionDetailByAccountAction;
-import com.vimukti.accounter.web.client.ui.reports.TransactionDetailByAccountReport;
 
 public class DepositDetailAction extends Action {
 
