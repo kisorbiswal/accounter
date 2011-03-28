@@ -18,11 +18,11 @@
 		</servlet-class>
 		<init-param>
 			<param-name>proxyHost</param-name>
-			<param-value>192.168.0.61</param-value>
+			<param-value>192.168.0.58</param-value>
 		</init-param>
 		<init-param>
 			<param-name>proxyPort</param-name>
-			<param-value>8890</param-value>
+			<param-value>8891</param-value>
 		</init-param>
 		<init-param>
 			<param-name>proxyPath</param-name>
@@ -64,5 +64,28 @@
 		<url-pattern>/do/bizantra/identity</url-pattern>
 	</servlet-mapping>
 
-
+	<servlet>
+		<servlet-name>CometServlet</servlet-name>
+		<servlet-class>com.bizantra.server.util.ProxyServlet</servlet-class>
+		<init-param>
+			<param-name>proxyHost</param-name>
+			<param-value>192.168.0.58</param-value>
+		</init-param>
+		<init-param>
+			<param-name>proxyPort</param-name>
+			<param-value>8891</param-value>
+		</init-param>
+		<init-param>
+			<param-name>proxyPath</param-name>
+			<param-value>/do.comet/*</param-value>
+		</init-param>
+		<init-param>
+			<param-name>maxFileUploadSize</param-name>
+			<param-value></param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CometServlet</servlet-name>
+		<url-pattern>/do.comet/*</url-pattern>
+	</servlet-mapping>
 </web-app>
