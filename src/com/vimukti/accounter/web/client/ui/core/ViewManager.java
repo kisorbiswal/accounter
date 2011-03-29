@@ -1051,6 +1051,9 @@ public class ViewManager extends DockPanel {
 			if (view instanceof AbstractReportView) {
 				((AbstractReportView<?>) view).showRecords();
 			}
+			if (view instanceof DashBoard) {
+				((DashBoard) view).refreshWidgetData(null);
+			}
 			scrollPanel.add(view);
 			rightCanvas.add(scrollPanel);
 			currentCanvas = view;
