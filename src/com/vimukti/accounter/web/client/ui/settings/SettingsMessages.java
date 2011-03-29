@@ -61,8 +61,6 @@ public interface SettingsMessages extends FinanceMessages {
 
 	String LoginsThisWeek();
 
-	SafeHtml usersLabel();
-
 	String users();
 
 	String recentActivity();

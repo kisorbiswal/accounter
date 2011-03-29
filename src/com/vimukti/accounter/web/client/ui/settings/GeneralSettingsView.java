@@ -117,6 +117,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 		invoiceBrandingPanel.add(invoiceBrandingHTML);
 		invoiceBrandingPanel.add(invoiceCommentHtml);
 		invoiceImage = new Image("images/invoice-general.png");
+		invoiceImage.setStyleName("general-image");
 		invoiceBrandingHTML.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -149,6 +150,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 		userPanel.add(userHtml);
 		userPanel.add(userCommentHtml);
 		usersImage = new Image("images/users-general.png");
+		usersImage.setStyleName("general-image");
 		userHtml.addClickHandler(new ClickHandler() {
 
 			@Override
