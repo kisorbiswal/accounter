@@ -70,6 +70,8 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	String lastModifier;
 	FinanceDate createdDate;
 	FinanceDate lastModifiedDate;
+	
+	boolean isDefault;
 
 	/**
 	 * @return the themeName
@@ -441,7 +443,7 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 			String fontSize,
 			// String openInvoiceTitle,
 			String overDueInvoiceTitle, String creditMemoTitle,
-			String statementTitle, String payPalEmailID) {
+			String statementTitle, String payPalEmailID, boolean isDefault) {
 
 		this.themeName = themeName;
 		this.stringID = stringId;
@@ -466,6 +468,7 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 		this.payPalEmailID = payPalEmailID;
 		this.logoAlignmentType = LOGO_ALIGNMENT_RIGHT;
 		// this.showTaxesAsType = SHOW_TAXES_AS_EXCLUSIVE;
+		this.isDefault = isDefault;
 	}
 
 	@Override
@@ -589,6 +592,14 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	 */
 	public boolean isImported() {
 		return isImported;
+	}
+
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
 	}
 
 }
