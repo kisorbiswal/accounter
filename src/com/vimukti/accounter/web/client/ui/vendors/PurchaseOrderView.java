@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -335,6 +336,7 @@ public class PurchaseOrderView extends
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.setHorizontalAlignment(ALIGN_RIGHT);
 		panel.add(menuButton);
+		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
 		VerticalPanel bottomLayout = new VerticalPanel();
 		bottomLayout.setWidth("100%");

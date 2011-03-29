@@ -1169,6 +1169,7 @@ table tr.parentRow:HOVER {
 }
 
 .gridHeader td.gridHeaderCell {
+	font-weight: bold;
 	padding-left: 5px;
 }
 
@@ -1179,7 +1180,7 @@ table tr.parentRow:HOVER {
 }  praveena */
 
 .selected {
-	background: #6FDF89 !important;
+	background: #CCCCCC !important;
 }
 
 .selected td { /*border-bottom: 1px solid #C4DEFF !important;*/
@@ -3575,7 +3576,7 @@ div.edit:hover {
 
 .gridAscend,.gridDecend {
 	/*background: #d1e8a3 !important;*/
-	background:#6FDF89 !important;
+	background:#CCCCCC !important;
 }
 
 .portel-left {
