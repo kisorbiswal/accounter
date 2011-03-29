@@ -514,6 +514,7 @@ public class VendorBillView extends
 		HorizontalPanel hpanel = new HorizontalPanel();
 		hpanel.setHorizontalAlignment(ALIGN_RIGHT);
 		hpanel.add(createAddNewButton());
+		hpanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Float;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -365,7 +367,12 @@ public class VendorView extends BaseView<ClientVendor> {
 		panel.add(l1);
 
 		panel.add(gridView);
-		panel.add(addButton);
+		HorizontalPanel hPanel = new HorizontalPanel();
+		hPanel.setHorizontalAlignment(ALIGN_RIGHT);
+		hPanel.add(addButton);
+		hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
+		hPanel.getElement().getStyle().setFloat(Float.RIGHT);
+		panel.add(hPanel);
 
 		addButton.getElement().getParentElement().addClassName("add-button");
 

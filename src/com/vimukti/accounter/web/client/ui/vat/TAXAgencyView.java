@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Float;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -587,9 +589,15 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		mainVlay.add(lab);
 		mainVlay.add(topHLay);
 		mainVlay.add(contHLay);
+		
+		HorizontalPanel panel = new HorizontalPanel();
+		panel.setHorizontalAlignment(ALIGN_RIGHT);
+		panel.add(addButton);
+		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
+		panel.getElement().getStyle().setFloat(Float.RIGHT);
 
 		mainVlay.add(gridView);
-		mainVlay.add(addButton);
+		mainVlay.add(panel);
 		mainVlay.add(memoForm);
 
 		addButton.getElement().getParentElement().addClassName("add-button");
