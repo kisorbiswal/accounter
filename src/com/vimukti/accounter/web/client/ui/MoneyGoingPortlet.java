@@ -111,7 +111,7 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Accounter.showError("Failed to get Bank account chart values");
+				// Accounter.showError("Failed to get Bank account chart values");
 			}
 
 			@Override
