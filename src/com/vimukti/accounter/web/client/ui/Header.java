@@ -46,7 +46,7 @@ public class Header extends HorizontalPanel {
 		Label welcome = new Label("Welcome ");
 		userName = new Label();
 		userName.setText(FinanceApplication.getCompanyMessages().userName(
-				FinanceApplication.getClientIdentity().getDisplayName()));
+				FinanceApplication.clientIdentity.getDisplayName()));
 		userName.addStyleName("userName-style");
 		userName.addClickHandler(new ClickHandler() {
 
