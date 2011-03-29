@@ -507,6 +507,7 @@ public class CreditCardChargeView extends
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.setHorizontalAlignment(ALIGN_RIGHT);
 		panel.add(createAddNewButton());
+		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,

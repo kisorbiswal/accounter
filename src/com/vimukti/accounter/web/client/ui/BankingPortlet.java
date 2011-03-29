@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -14,6 +13,7 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
@@ -93,6 +93,8 @@ public class BankingPortlet extends DashBoardPortlet {
 			// chart.update();
 			// }
 		} else {
+			// final ScrollPanel panel = new ScrollPanel();
+			int i = 0;
 			for (final ClientAccount account : bankAccounts) {
 				HorizontalPanel hPanel = new HorizontalPanel();
 				final Label accountLabel = new Label(account.getName());
@@ -127,16 +129,20 @@ public class BankingPortlet extends DashBoardPortlet {
 						.getTotalBalance()));
 				// amountLabel.setStyleName("tool-box");
 				amountLabel.addStyleName("label-banking");
-				amountLabel.getElement().getStyle().setMarginLeft(295, Unit.PX);
+				// amountLabel.getElement().getStyle().setMarginLeft(295,
+				// Unit.PX);
 				hPanel.add(accountLabel);
 				hPanel.add(amountLabel);
+				hPanel.setCellHorizontalAlignment(amountLabel,
+						HasHorizontalAlignment.ALIGN_RIGHT);
+				hPanel.setWidth("100%");
 				body.add(hPanel);
 				AsyncCallback<List<Double>> callBack = new AsyncCallback<List<Double>>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Accounter
-								.showError("Failed to get Bank account chart values");
+						// Accounter
+						// .showError("Failed to get Bank account chart values");
 					}
 
 					@Override
@@ -145,8 +151,34 @@ public class BankingPortlet extends DashBoardPortlet {
 
 							@Override
 							public void run() {
-								GraphChart chart = new GraphChart();
-								body.add(chart.createLineChart(result));
+								// if (result.size() != 0) {
+								// ClientAccount account = FinanceApplication
+								// .getCompany().getAccountByNumber(
+								// result.get(
+								// result.size() - 1)
+								// .longValue());
+								// result
+								// .remove(result
+								// .get(result.size() - 1));
+								// }
+								for (int i = 0; i < body.getWidgetCount(); i++) {
+									if (body.getWidget(i) instanceof HorizontalPanel) {
+										HorizontalPanel hPanel = (HorizontalPanel) body
+												.getWidget(i);
+										if (hPanel.getWidget(0) instanceof Label) {
+											if (((Label) hPanel.getWidget(0))
+													.getText().equals(
+															account.getName())) {
+												GraphChart chart = new GraphChart();
+												body
+														.insert(
+																chart
+																		.createLineChart(result),
+																++i);
+											}
+										}
+									}
+								}
 							}
 						};
 						VisualizationUtils.loadVisualizationApi(runnable,
@@ -162,7 +194,9 @@ public class BankingPortlet extends DashBoardPortlet {
 						.getGraphPointsforAccount(
 								GraphChart.BANK_ACCOUNT_CHART_TYPE,
 								Long.valueOf(account.getNumber()), callBack);
+				i++;
 			}
+			// body.add(panel);
 		}
 	}
 
