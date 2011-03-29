@@ -1,15 +1,21 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
+import com.google.gwt.dom.client.Style.Cursor;
+import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
-import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 @SuppressWarnings("unchecked")
 public class GeneralSettingsView extends AbstractBaseView {
@@ -19,6 +25,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 	private HorizontalPanel titlePanel;
 	private HTML conversionHTML, conversationCommentHTML, invoiceBrandingHTML,
 			invoiceCommentHtml, titleHtml, userHtml, userCommentHtml;
+	private Image conversationImage, usersImage, invoiceImage;
 
 	@Override
 	public void fitToSize(int height, int width) {
@@ -76,10 +83,10 @@ public class GeneralSettingsView extends AbstractBaseView {
 		userCommentHtml = new HTML(FinanceApplication.getSettingsMessages()
 				.usersComment());
 		titlePanel.add(titleHtml);
-		LabelItem item = new LabelItem();
 		conversationPanel.add(conversionHTML);
 		conversationPanel.add(conversationCommentHTML);
-
+		conversationImage = new Image("images/conversion-Balances.png");
+		conversationImage.setStyleName("general-image");
 		conversionHTML.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -87,10 +94,29 @@ public class GeneralSettingsView extends AbstractBaseView {
 						false);
 			}
 		});
+		conversionHTML.addMouseOverHandler(new MouseOverHandler() {
+
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				conversionHTML.getElement().getStyle()
+						.setCursor(Cursor.POINTER);
+				conversionHTML.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
+			}
+		});
+		conversionHTML.addMouseOutHandler(new MouseOutHandler() {
+
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				conversionHTML.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
+
+			}
+		});
 
 		invoiceBrandingPanel.add(invoiceBrandingHTML);
 		invoiceBrandingPanel.add(invoiceCommentHtml);
-
+		invoiceImage = new Image("images/invoice-general.png");
 		invoiceBrandingHTML.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -100,9 +126,29 @@ public class GeneralSettingsView extends AbstractBaseView {
 			}
 		});
 
+		invoiceBrandingHTML.addMouseOverHandler(new MouseOverHandler() {
+
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				invoiceBrandingHTML.getElement().getStyle().setCursor(
+						Cursor.POINTER);
+				invoiceBrandingHTML.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
+			}
+		});
+		invoiceBrandingHTML.addMouseOutHandler(new MouseOutHandler() {
+
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				invoiceBrandingHTML.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
+
+			}
+		});
+
 		userPanel.add(userHtml);
 		userPanel.add(userCommentHtml);
-
+		usersImage = new Image("images/users-general.png");
 		userHtml.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -110,11 +156,32 @@ public class GeneralSettingsView extends AbstractBaseView {
 				SettingsActionFactory.getUsersAction().run(null, false);
 			}
 		});
+		userHtml.addMouseOverHandler(new MouseOverHandler() {
+
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				userHtml.getElement().getStyle().setCursor(Cursor.POINTER);
+				userHtml.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
+			}
+		});
+		userHtml.addMouseOutHandler(new MouseOutHandler() {
+
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				userHtml.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
+
+			}
+		});
 
 		titlePanel.add(titleHtml);
-		optionsTable.setWidget(0, 0, conversationPanel);
-		optionsTable.setWidget(0, 1, invoiceBrandingPanel);
-		optionsTable.setWidget(1, 0, userPanel);
+		optionsTable.setWidget(0, 0, conversationImage);
+		optionsTable.setWidget(0, 1, conversationPanel);
+		optionsTable.setWidget(1, 0, invoiceImage);
+		optionsTable.setWidget(1, 1, invoiceBrandingPanel);
+		optionsTable.setWidget(2, 0, usersImage);
+		optionsTable.setWidget(2, 1, userPanel);
 
 		mainPanel.add(titlePanel);
 		mainPanel.add(optionsTable);
