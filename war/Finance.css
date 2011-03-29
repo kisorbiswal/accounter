@@ -1086,10 +1086,10 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
     width: 2px;
 }
 .save-new-image{
-	background:url("images/page_edit1.png") no-repeat scroll 0 0 transparent !important;
+	background:url("images/Page_edit1.png") no-repeat scroll 0 0 transparent !important;
 }
 .save-close-image{
-	background:url("images/page_edit1.png") no-repeat scroll 0 0 transparent !important;
+	background:url("images/Page_edit1.png") no-repeat scroll 0 0 transparent !important;
 }
 .save-new-image,.save-close-image,.close-image,.add-image{
 	height:16px;
