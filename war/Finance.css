@@ -575,7 +575,8 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }*/
 .dropdown-button {
 	/*background: url("images/drop.png") no-repeat scroll 100% 0 #FFFFFF;*/
-	padding-right: 15px;
+	padding-right: 22px;
+	padding-left: 3px;
 }
 
 .listgrid .custom-combo {
@@ -906,6 +907,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	margin-right: 15px;
 	color:#00A3D3 !important;
 	padding:5px;
+	cursor: pointer;
 }
 
 .brandingView {
@@ -1170,10 +1172,24 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	margin-top: 10px;
 }
 iframe{
-    display:none;	
+    /*display:none;*/	
 }
 .star {
 	color: red;
+}
+.helpBar{
+	background: none !important;
+	font-weight: normal !important;
+	padding: 0 !important;
+	color: #00A3D3 !important;
+	margin: -3px !important;
+	cursor: pointer;
+}
+.companyName{
+	font-weight: bold;
+	font-size: medium;
+	padding: 5px 5px 5px 20px;
+	color: #00A3D3 !important;
 }
 .general-setting-invoice{
    margin-left:10px;	
