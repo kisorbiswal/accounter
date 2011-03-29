@@ -77,7 +77,7 @@ public interface SettingsMessages extends FinanceMessages {
 
 	SafeHtml ok();
 
-	String general();
+//	String general();
 
 	String inventoryItems();
 
@@ -117,11 +117,11 @@ public interface SettingsMessages extends FinanceMessages {
 
 	String right();
 
-	String taxExclusive();
+	// String taxExclusive();
 
-	String taxInclucive();
+	// String taxInclucive();
 
-	SafeHtml uploadLogoHtml();
+	SafeHtml uploadLogo();
 
 	String standardTheme();
 
@@ -153,7 +153,7 @@ public interface SettingsMessages extends FinanceMessages {
 
 	String taxColumn();
 
-	String paymentAdviceCutAway();
+	// String paymentAdviceCutAway();
 
 	String registeredAddress();
 
@@ -185,9 +185,9 @@ public interface SettingsMessages extends FinanceMessages {
 
 	String fontSize();
 
-	String draftInvoiceTitle();
+	// String draftInvoiceTitle();
 
-	String approvedInvoiceTitle();
+	// String approvedInvoiceTitle();
 
 	String overdueInvoiceTitle();
 
@@ -219,17 +219,17 @@ public interface SettingsMessages extends FinanceMessages {
 
 	String point11();
 
-	String point12();
+	// String point12();
 
-	String point13();
+	// String point13();
 
-	String point14();
+	// String point14();
 
-	String point15();
+	// String point15();
 
-	String exclusive();
+	// String exclusive();
 
-	String inclusive();
+	// String inclusive();
 
 	String showTaxNumber();
 
@@ -237,7 +237,7 @@ public interface SettingsMessages extends FinanceMessages {
 
 	String showUnitPrice();
 
-	String showPaymentAdvice();
+	// String showPaymentAdvice();
 
 	String showTaxColumn();
 
@@ -251,9 +251,9 @@ public interface SettingsMessages extends FinanceMessages {
 
 	String logoType();
 
-	String showTaxesAs();
+	// String showTaxesAs();
 
-	String taxType();
+	// String taxType();
 
 	String cm();
 
@@ -271,9 +271,9 @@ public interface SettingsMessages extends FinanceMessages {
 
 	String addressPaddingValue();
 
-	String draftBoxValue();
+	// String draftBoxValue();
 
-	String approvedValue();
+	// String approvedValue();
 
 	String overdueValue();
 
@@ -333,18 +333,20 @@ public interface SettingsMessages extends FinanceMessages {
 
 	String conversionBodyComment();
 
-	String fileUpload();
-
-	String copyThemeAction();
-
-	String copyTitle();
-
-	String uploadComment();
-
 	String brandingTheme();
 
 	String selectTheme();
 
 	String selectThemes();
+
+	String deleteThemeLabel();
+
+	SafeHtml deleteHtml();
+
+	SafeHtml undoneHtml();
+
+	String deleteButton();
+
+	String copyTheme();
 
 }

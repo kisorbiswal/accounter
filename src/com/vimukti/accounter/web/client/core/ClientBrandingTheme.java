@@ -49,6 +49,7 @@ public class ClientBrandingTheme implements IAccounterCore {
 	private boolean isShowTaxColumn;
 	private boolean isShowRegisteredAddress;
 	private boolean isShowLogo;
+	private boolean isDefault;
 
 	private String payPalEmailID;
 	private int logoAlignmentType;
@@ -313,6 +314,14 @@ public class ClientBrandingTheme implements IAccounterCore {
 
 	public boolean isOnSaveProccessed() {
 		return isOnSaveProccessed;
+	}
+
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
+	}
+
+	public boolean isDefault() {
+		return isDefault;
 	}
 
 }

@@ -6,9 +6,9 @@ import com.vimukti.accounter.web.client.ui.core.AbstractActionFactory;
 import com.vimukti.accounter.web.client.ui.core.InventoryItemsAction;
 
 public class SettingsActionFactory extends AbstractActionFactory {
+
 	public static GeneralSettingsAction getGeneralSettingsAction() {
-		return new GeneralSettingsAction(FinanceApplication
-				.getSettingsMessages().general());
+		return new GeneralSettingsAction("General");
 	}
 
 	public static InventoryItemsAction getInventoryItemsAction() {
@@ -56,5 +56,15 @@ public class SettingsActionFactory extends AbstractActionFactory {
 
 	public static UsersAction getUsersAction() {
 		return new UsersAction(FinanceApplication.getSettingsMessages().users());
+	}
+
+	public static DeleteThemeAction getDeleteThemeAction() {
+		return new DeleteThemeAction(FinanceApplication.getSettingsMessages()
+				.users());
+	}
+
+	public static CopyThemeAction getCopyThemeAction() {
+		return new CopyThemeAction(FinanceApplication.getSettingsMessages()
+				.copyTheme());
 	}
 }
