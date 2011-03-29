@@ -350,6 +350,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		panel = new HorizontalPanel();
 		panel.setHorizontalAlignment(ALIGN_RIGHT);
 		panel.add(createAddNewButton());
+		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.setHorizontalAlignment(ALIGN_RIGHT);

@@ -220,6 +220,7 @@ public class CashSalesView extends
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.setHorizontalAlignment(ALIGN_RIGHT);
 		panel.add(createAddNewButton());
+		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
 		prodAndServiceHLay.add(prodAndServiceForm2);
 

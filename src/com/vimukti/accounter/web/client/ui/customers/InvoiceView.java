@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -470,6 +471,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		hpanel = new HorizontalPanel();
 		hpanel.setHorizontalAlignment(ALIGN_RIGHT);
 		hpanel.add(createAddNewButton());
+		hpanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
 		VerticalPanel panel = new VerticalPanel();
 		panel.setHorizontalAlignment(ALIGN_RIGHT);
