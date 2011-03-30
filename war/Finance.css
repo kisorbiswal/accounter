@@ -742,13 +742,13 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 
 .gwt-MenuBar-horizontal .gwt-MenuItem { /*praveena*/
 	/*background:url(/images/arrow_down.gif) no-repeat scroll 0 0 #6DAF7C; */
-	background:url("images/Menu bar_1x34.png") repeat-x scroll 0 0 #FFFFFF !important;
+	background:url("images/Menu bar_1x33.png") repeat-x scroll 0 0 #FFFFFF !important;
 	color: #ffffff !important;
 	font-weight: bold;
-	padding: 6px 17px 13px !important;
+	/*padding: 6px 17px 13px !important;*/
 	vertical-align: bottom;
 	border:0 none !important;
-	height:40px;
+	height:33px;
 }
 
 .gwt-MenuBar-vertical .subMenuIcon-selected {
@@ -841,11 +841,11 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .main-color1 {
-	padding: 10px;
+	padding: 8px;
 }
 
 .header {
-	   background: none repeat scroll 0 0 #E8E8E8 !important;
+	   background: url("images/Header-BG_1x95.png") repeat-x scroll 0 0 transparent !important;
        margin-left: 0 !important;
 }
 
@@ -903,10 +903,8 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .userName-style {
-	text-align: right;
-	margin-right: 15px;
 	color:#00A3D3 !important;
-	padding:5px;
+	padding: 5px 5px 5px 0;
 	cursor: pointer;
 }
 
@@ -948,7 +946,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	/*background:url("images/Menu bar_1x33.png") repeat-x scroll 0 0 #FFFFFF !important;*/
 }
 .menubar-devider{
-	background:url("images/Menu bar_1x34.png") repeat-x scroll 0 0 #FFFFFF !important;
+	background:url("images/Menu bar_1x33.png") repeat-x scroll 0 0 #FFFFFF !important;
 	padding:0px;
 }
 .bottom-view table tr td{
