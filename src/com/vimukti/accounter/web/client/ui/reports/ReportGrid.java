@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
@@ -25,7 +26,7 @@ import com.vimukti.accounter.web.client.ui.grids.CustomTable;
  * @param <R>
  */
 public class ReportGrid<R> extends CustomTable {
-	
+
 	private String[] columns = {};
 	List<R> list = new ArrayList<R>();
 
@@ -181,6 +182,8 @@ public class ReportGrid<R> extends CustomTable {
 				this.header.getCellFormatter().setAlignment(rowCount, i,
 						HasHorizontalAlignment.ALIGN_LEFT,
 						HasVerticalAlignment.ALIGN_MIDDLE);
+				this.header.getCellFormatter().getElement(rowCount, i)
+						.getStyle().setFontWeight(FontWeight.BOLD);
 
 				addStyleNameByCol(0, columnTypes[i], i, this.header
 						.getCellFormatter());
