@@ -8,7 +8,6 @@ import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -351,7 +350,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth("400px");
 
-		Button printButton = new Button();
+		/*Button printButton = new Button();
 
 		printButton.setText(FinanceApplication.getCustomersMessages().print());
 		printButton.addClickHandler(new ClickHandler() {
@@ -366,7 +365,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				// printLt.print();
 			}
 		});
-
+*/
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
 		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
 				"memoFormAlign");
