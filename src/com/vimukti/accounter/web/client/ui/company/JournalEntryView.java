@@ -10,6 +10,8 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptException;
+import com.google.gwt.dom.client.Style.Float;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -19,6 +21,7 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.InvalidOperationException;
@@ -327,8 +330,13 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		});
 
 		gridPanel.add(grid);
+		
+		HorizontalPanel hPanel = new HorizontalPanel();
+		hPanel.add(addButton);
+		hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
+		hPanel.getElement().getStyle().setFloat(Float.RIGHT);
 
-		gridPanel.add(addButton);
+		gridPanel.add(hPanel);
 		
         addButton.getElement().getParentElement().addClassName("add-button");
 		
