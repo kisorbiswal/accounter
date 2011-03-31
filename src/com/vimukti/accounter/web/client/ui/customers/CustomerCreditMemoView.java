@@ -135,15 +135,6 @@ public class CustomerCreditMemoView extends
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isEdit);
-		phoneSelect
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						phoneNo = phoneSelect.getSelectedValue();
-					}
-				});
-		formItems.add(phoneSelect);
 		salesPersonCombo = createSalesPersonComboItem();
 
 		DynamicForm phoneForm = UIUtils.form(customerConstants.phoneNumber());
@@ -364,7 +355,7 @@ public class CustomerCreditMemoView extends
 		this.billingAddress = creditToBeEdited.getBillingAddress();
 		this.contact = creditToBeEdited.getContact();
 		this.phoneNo = creditToBeEdited.getPhone();
-		phoneSelect.setSelected(this.phoneNo);
+		phoneSelect.setValue(this.phoneNo);
 		this.salesPerson = FinanceApplication.getCompany().getSalesPerson(
 				creditToBeEdited.getSalesPerson());
 		this.priceLevel = FinanceApplication.getCompany().getPriceLevel(
@@ -528,7 +519,7 @@ public class CustomerCreditMemoView extends
 				this.customerTransactionGrid.removeAllRecords();
 		}
 		super.customerSelected(customer);
-		this.customer = customer;
+			this.customer = customer;
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
@@ -678,35 +669,6 @@ public class CustomerCreditMemoView extends
 		custForm.setWidth("75%");
 		// refText.setWidth("200px");
 		priceLevelSelect.setWidth("150px");
-	}
-
-	private String getValidAddress(ClientAddress address) {
-		String toToSet = new String();
-		if (address.getAddress1() != null && !address.getAddress1().isEmpty()) {
-			toToSet = address.getAddress1().toString() + "\n";
-		}
-
-		if (address.getStreet() != null && !address.getStreet().isEmpty()) {
-			toToSet += address.getStreet().toString() + "\n";
-		}
-
-		if (address.getCity() != null && !address.getCity().isEmpty()) {
-			toToSet += address.getCity().toString() + "\n";
-		}
-
-		if (address.getStateOrProvinence() != null
-				&& !address.getStateOrProvinence().isEmpty()) {
-			toToSet += address.getStateOrProvinence() + "\n";
-		}
-		if (address.getZipOrPostalCode() != null
-				&& !address.getZipOrPostalCode().isEmpty()) {
-			toToSet += address.getZipOrPostalCode() + "\n";
-		}
-		if (address.getCountryOrRegion() != null
-				&& !address.getCountryOrRegion().isEmpty()) {
-			toToSet += address.getCountryOrRegion();
-		}
-		return toToSet;
 	}
 
 	@Override
