@@ -23,7 +23,8 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  */
 public class PhoneFaxForm extends DynamicForm {
 	private SelectCombo businessPhoneSelect, businessFaxSelect;
-	private TextItem businessPhoneText, businessFaxText;
+	public TextItem businessPhoneText;
+	public TextItem businessFaxText;
 	private LinkedHashMap<Integer, ClientPhone> allPhones;
 	private LinkedHashMap<Integer, ClientFax> allFaxes;
 	private ClientPhone toBeShownPhone = null;
@@ -37,7 +38,7 @@ public class PhoneFaxForm extends DynamicForm {
 		setIsGroup(true);
 		setGroupTitle(FinanceApplication.getFinanceUIConstants()
 				.phoneAndFaxNumbers());
-		setNumCols(3);
+		setNumCols(2);
 		businessPhoneSelect = new SelectCombo("Phone");
 		businessPhoneSelect.setHelpInformation(true);
 		businessPhoneSelect.setWidth(85);
@@ -58,10 +59,9 @@ public class PhoneFaxForm extends DynamicForm {
 					}
 				});
 
-		businessPhoneText = new TextItem(FinanceApplication
-				.getFinanceUIConstants().phoneText());
+		businessPhoneText = new TextItem("Phone");
 		businessPhoneText.setHelpInformation(true);
-		businessPhoneText.setShowTitle(false);
+		// businessPhoneText.setShowTitle(false);
 		businessPhoneText.setWidth(100);
 		businessPhoneText.addChangeHandler(new ChangeHandler() {
 
@@ -115,11 +115,10 @@ public class PhoneFaxForm extends DynamicForm {
 							businessFaxText.setValue("");
 					}
 				});
-		businessFaxText = new TextItem(FinanceApplication
-				.getFinanceUIConstants().businessFax());
+		businessFaxText = new TextItem("Fax");
 		businessFaxText.setHelpInformation(true);
 		businessFaxText.setWidth(100);
-		businessFaxText.setShowTitle(false);
+		// businessFaxText.setShowTitle(false);
 
 		businessFaxText.addChangeHandler(new ChangeHandler() {
 
@@ -149,11 +148,10 @@ public class PhoneFaxForm extends DynamicForm {
 			businessFaxText.setValue(toBeShownFax.getNumber() + "");
 		} else
 			businessFaxSelect.setDefaultToFirstOption(true);
-		setFields(businessPhoneSelect, businessPhoneText, businessFaxSelect,
-				businessFaxText);
+		setFields(businessPhoneText, businessFaxText);
 
 		setWidth("100%");
-		setHeight("100px");
+		setHeight("50px");
 	}
 
 	private void setPhonesAndFaxes(Set<ClientPhone> phones, Set<ClientFax> faxes) {
