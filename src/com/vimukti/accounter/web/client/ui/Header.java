@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
+import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -9,6 +10,7 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -20,11 +22,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class Header extends HorizontalPanel {
 
-	private HorizontalPanel hpanel1;
-	private static HorizontalPanel hpanel2;
-	private Label l1, userName, companyName;
+	private Label userName, companyName;
 	private HTML logout, help;
-	private VerticalPanel vpanel;
+	private VerticalPanel panel1, panel2;
+	private static VerticalPanel panel3;
 	public static String gettingStartedStatus = "Hide Getting Started";
 	static MenuBar helpBar;
 
@@ -33,14 +34,7 @@ public class Header extends HorizontalPanel {
 	}
 
 	private void createControls() {
-		hpanel1 = new HorizontalPanel();
-		hpanel2 = new HorizontalPanel();
-		hpanel2.setWidth("100%");
-		hpanel1.addStyleName("main-color1");
-		hpanel1.setWidth("100%");
-		l1 = new Label();
-		l1.setText("Demo Company (Global)");
-		l1.addStyleName("label2-style");
+
 		companyName = new Label(FinanceApplication.getCompany().getName());
 		companyName.addStyleName("companyName");
 		Label welcome = new Label("Welcome ");
@@ -59,16 +53,16 @@ public class Header extends HorizontalPanel {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				userName.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				userName.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 			}
 		});
 		userName.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				userName.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				userName.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
 
@@ -79,23 +73,43 @@ public class Header extends HorizontalPanel {
 		helpBar.setStyleName("helpBar");
 		help = new HTML("<span>Help</span><div class='help-content'></div>");
 		help.addStyleName("help-style");
-		hpanel1.add(l1);
-		hpanel2.setStyleName("help-logout-sep");
-		// hpanel2.add(welcome);
-		hpanel2.add(userName);
-		hpanel2.add(helpBar);
-		hpanel2.add(logout);
-		HorizontalPanel hPanel3 = new HorizontalPanel();
-		hPanel3.add(companyName);
-		hPanel3.add(hpanel2);
-		hPanel3.setWidth("100%");
-		hPanel3.setCellHorizontalAlignment(hpanel2,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		vpanel = new VerticalPanel();
-		vpanel.setWidth("100%");
-		vpanel.add(hPanel3);
-		vpanel.add(hpanel1);
-		this.add(vpanel);
+
+		Image image = new Image();
+		image.setUrl("images/Logo.jpg");
+		image.setStyleName("logo");
+
+		panel1 = new VerticalPanel();
+		panel1.setWidth("100%");
+		panel1.add(image);
+		
+		panel2 = new VerticalPanel();
+		panel2.setWidth("85%");
+		panel2.add(companyName);
+
+		panel3 = new VerticalPanel();
+		panel3.setWidth("85%");
+		panel3.addStyleName("logout-help-welcome");
+		panel3.add(userName);
+		panel3.add(helpBar);
+		panel3.add(logout);
+		panel3.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
+
+		this.add(panel1);
+		this.setCellHorizontalAlignment(panel1, ALIGN_LEFT);
+		this.setCellWidth(panel1, "25%");
+		this.add(panel2);
+		this.setCellHorizontalAlignment(panel2, ALIGN_CENTER);
+		this.setCellWidth(panel2, "50%");
+		this.add(panel3);
+		this.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
+		this.setCellWidth(panel3, "25%");
+		
+		Element spanEle = DOM.createSpan();
+		spanEle.setInnerText("Vimukti Technologies Pvt Ltd");
+		spanEle.addClassName("vimutki-text");
+		DOM.appendChild(panel1.getElement(), spanEle);
+
+
 		this.setWidth("100%");
 
 	}
@@ -138,10 +152,10 @@ public class Header extends HorizontalPanel {
 
 	public static void changeHelpBarContent(String gettingStartedStatus) {
 		Header.gettingStartedStatus = gettingStartedStatus;
-		hpanel2.remove(helpBar);
+		panel3.remove(helpBar);
 		helpBar = new MenuBar();
 		initializeHelpBar();
 		helpBar.setStyleName("helpBar");
-		hpanel2.insert(helpBar, 1);
+		panel3.insert(helpBar, 1);
 	}
 }

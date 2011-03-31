@@ -507,4 +507,8 @@ public class FinanceApplication extends VerticalPanel {
 		reportsMessages = null;
 	}
 
+	public static ClientIdentity getClientIdentity() {
+		return clientIdentity;
+	}
+
 }
