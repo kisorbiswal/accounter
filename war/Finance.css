@@ -1,9 +1,8 @@
 /** Add css rules here for your application. */
 	/** Example rules used by the template application (remove for your app) */
 .widget { /**background:url(images/icons/startBar.png) repeat-x;*/
-	background: url("images/pannig bar.png") repeat-x scroll 0 0 transparent
-		;
-	width: 100% !important;
+	background:url("images/pannig bar.png") repeat-x scroll 0 0 transparent;
+	width:100% !important;
 	/*display: none;*/
 }
 
@@ -105,15 +104,16 @@ h1 {
 	cursor: default;
 }
 
-.requiredField { /*font-weight: bold;*/
-	
+.requiredField {
+	/*font-weight: bold;*/
 }
 
 .financeBackground {
-	background: none repeat scroll 0 0 #F7F7F7 !important;
+	background: url("images/Background.png") repeat scroll 0 0 transparent !important;
 	/*border: 2px solid #CCCCCC;   praveena */
 	padding: 10px;
-	/*margin-left: 3px;*/ /* margin-top:-2px; praveena*/
+	/*margin-left: 3px;*/
+	/* margin-top:-2px; praveena*/
 }
 
 .listgridViewBottom {
@@ -212,7 +212,7 @@ h1 {
 	cursor: pointer;
 	color: #0000AA;
 	white-space: nowrap;
-	width: 1px;
+	/*width: 1px;*/
 }
 
 .ReportGrid tr td.underline {
@@ -264,7 +264,7 @@ table tr.ReportGridRow:HOVER {
 .lable-title {
 	font-weight: bold;
 	font-size: 12pt;
-	padding: 5px;
+	padding:5px;
 }
 
 .blue-date-picker {
@@ -344,14 +344,12 @@ table tr.ReportGridRow:HOVER {
 }
 
 .previousButton {
-	background: url("images/Left_indicator.png") no-repeat scroll 0 0
-		transparent;
+	background: url("images/Left_indicator.png") no-repeat scroll 0 0 transparent;
 	padding-top: 5px;
 }
 
 .nextButton {
-	background: url("images/Right_indicator.png") no-repeat scroll 0 0
-		transparent;
+	background:url("images/Right_indicator.png") no-repeat scroll 0 0 transparent;
 }
 
 .discardButton {
@@ -360,9 +358,9 @@ table tr.ReportGridRow:HOVER {
 
 .previousButton,.nextButton,.discardButton {
 	background-position: 0 5px;
-	cursor: pointer;
-	margin-left: 5px;
-	padding: 3px;
+    cursor: pointer;
+    margin-left: 5px;
+    padding: 3px;
 }
 
 .statusLabelParent {
@@ -451,8 +449,8 @@ table tr.ReportGridRow:HOVER {
 }
 
 .refresh,.link,.loading {
-	width: 15px;
-	height: 15px;
+	width: 31px;
+	height: 20px;
 	cursor: pointer;
 }
 
@@ -482,8 +480,9 @@ div.link:hover {
 		-15px;
 }
 
-.bottom-view { /*border-top: 1px solid #AAAAAA;*/
-	background: none repeat scroll 0 0 #DFDFDF;
+.bottom-view {
+	/*border-top: 1px solid #AAAAAA;*/
+	background:none repeat scroll 0 0 #DFDFDF;
 }
 
 .nav-content {
@@ -537,14 +536,13 @@ td.gridDecimalCell {
 }
 
 .custom-combo {
-	background: url("images/Text Feild_enabled_180x22.png") no-repeat scroll
-		0 0 #fff;
-	border: 0 none;
-	height: 22px !important;
-	overflow: hidden;
-	position: relative;
-	width: 180px !important;
-	float: left
+	background:url("images/Text Feild_enabled_180x22.png") no-repeat scroll 0 0 #fff;
+	border:0 none;
+	height:22px !important;
+	overflow:hidden;
+	position:relative;
+	width:180px !important;
+	float:left
 }
 
 .dropdownTable {
@@ -560,12 +558,9 @@ td.gridDecimalCell {
 	border-spacing: 0;
 	border-collapse: collapse;
 }
-
-.gwt-DecoratedTabBar .tabTopLeftInner,.gwt-DecoratedTabBar .tabTopRightInner
-	{
-	width: 3px !important;
+.gwt-DecoratedTabBar .tabTopLeftInner, .gwt-DecoratedTabBar .tabTopRightInner {
+	width:3px !important;
 }
-
 table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	background: #83BF91 !important;
 }
@@ -585,12 +580,11 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .listgrid .custom-combo {
-	background: url("images/Text box_1.png") repeat-x scroll 0 0 white
-		!important;
-	border-left: 1px solid #CCCCCC;
-	height: 15px !important;
-	min-width: 50px !important;
-	width: 100% !important;
+	background:url("images/Text box_1.png") repeat-x scroll 0 0 white !important;
+	border-left:1px solid #CCCCCC;
+	height:15px !important;
+	min-width:50px !important;
+	width:100% !important;
 }
 
 .dropdown-disabled {
@@ -600,10 +594,9 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 .financeWindow select {
 	border: 0 none !important;
 	width: 180px !important; /* praveena */
-	background: url("images/Text Feild_enabled_180x22.png") no-repeat scroll
-		0 0 #FFFFFF;
-	padding: 2px;
-	height: 23px;
+	background:url("images/Text Feild_enabled_180x22.png") no-repeat scroll 0 0 #FFFFFF;
+	padding:2px;
+	height:23px;
 }
 
 .gridAscend {
@@ -627,19 +620,17 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	
 }
 
-.gwt-MenuBar .gwt-MenuItem-selected,.gwt-MenuBar-vertical .subMenuIcon-selected
-	{
-	background: #218bb5 !important;
+.gwt-MenuBar .gwt-MenuItem-selected,.gwt-MenuBar-vertical .subMenuIcon-selected {
+	background:#218bb5 !important;
 }
 
 .gwt-MenuBar-vertical .subMenuIcon-selected {
 	/*background-color: #508F5F !important;*/
-	
 }
 
 .gwt-MenuBar-vertical {
 	background: none repeat scroll 0 0 #2AA9DC !important;
-	border: 0px none !important;
+	border:0px none !important;
 }
 
 .tablelayout {
@@ -686,7 +677,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .helpAlign {
-	margin-top: 3px;
+	/*margin-bottom: 3px;*/
 }
 
 .falseHyperlink {
@@ -727,7 +718,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 /**End --- Styles for Finance **/ /* this changes by praveena */
 	/* this changes by praveena */
 .gwt-Button:active {
-	border: medium none !important;
+	border:medium none !important;
 }
 
 .gwt-Button:hover {
@@ -737,8 +728,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 .gwt-Button[disabled] {
 	cursor: pointer !important;
 	color: none !important;
-	background: url("/images/Button_1x27.png") repeat-x scroll 0 0
-		transparent !important;
+	background:url("/images/Button_1x27.png") repeat-x scroll 0 0 transparent !important;
 }
 
 .gwt-Button[disabled]:hover {
@@ -748,23 +738,24 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 .gwt-MenuBar-horizontal {
 	background: none !important;
 	border: 0 !important;
+	margin-top:3px;
 }
 
 .gwt-MenuBar-horizontal .gwt-MenuItem { /*praveena*/
 	/*background:url(/images/arrow_down.gif) no-repeat scroll 0 0 #6DAF7C; */
-	background: url("images/Menu bar_1x33.png") repeat-x scroll 0 0 #FFFFFF
-		!important;
+	background:url("images/Menu bar_1x33.png") repeat-x scroll 0 0 transparent !important;
 	color: #ffffff !important;
 	font-weight: bold;
 	/*padding: 6px 17px 13px !important;*/
 	vertical-align: bottom;
-	border: 0 none !important;
-	height: 33px;
+	border:0 none !important;
+	height: 31px;
+    padding: 5px 13px 8px !important;
 }
 
 .gwt-MenuBar-vertical .subMenuIcon-selected {
 	background: none repeat scroll 0 0 #218BB5 !important;
-	border: 0px none !important;
+	border:0px none !important;
 	/*background:url("/images/header-c1.jpg")repeat-x scroll 0 0 transparent ;  praveena*/
 }
 
@@ -819,21 +810,16 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .gwt-Button {
-	background: url("/images/Button_1x27.png") repeat-x scroll 0 0
-		transparent !important;
-	color: white !important;
-	cursor: pointer;
-	font-weight: bold;
-	height: 29px !important;
-	padding: 0 5px 5px !important;
-	border: 0px none !important;
+	background:url("/images/Button_1x27.png") repeat-x scroll 0 0 transparent !important;
+	color:white !important;
+	cursor:pointer;
+	height:29px !important;
+	padding:0 5px 5px !important;
+	border:0px none !important;
 }
-
-.gwt-Button button:after {
-	background: url("images/Button_left_1x27.png") no-repeat scroll 0 0
-		#FFFFFF !important;
+.gwt-Button button:after{
+	background:url("images/Button_left_1x27.png") no-repeat scroll 0 0 #FFFFFF !important;
 }
-
 /* Wrote by praveena*/
 .gwt-MenuBarPopup table tr {
 	margin-top: -3px;
@@ -860,15 +846,14 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .header {
-	background: url("images/Header-BG_1x95.png") repeat-x scroll 0 0
-		transparent !important;
-	margin-left: 0 !important;
+	   background: url("images/Header-BG_1x95.png") repeat-x scroll 0 0 transparent !important;
+       margin-left: 0 !important;
 }
 
 .label2-style {
 	color: #00a3d3 !important;
 	font-size: 18px;
-	padding: 13px 10px;
+	padding:13px 10px;
 }
 
 /*.blue-week-line tr td{
@@ -885,21 +870,19 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 
 .invoice-total {
 	border-collapse: collapse;
-	width: 100% !important;
+	margin: 10px 0;
+	width:100% !important;
 }
-
 .invoice-total tr td div {
 	font-weight: bold;
 	margin: 0 4px !important;
 }
-
 .invoice-total tr:nth-child(3){
-	border-bottom: 1px solid #aaa;
-	border-top: 1px solid #aaa;
+	border-bottom:1px solid #aaa;
+	border-top:1px solid #aaa;
 }
-
-.noScroll input[type="text"] { /*width: 150px !important;*/
-	
+.noScroll input[type="text"] {
+	/*width: 150px !important;*/
 }
 
 .gwt-MenuBar-horizontal .gwt-MenuItem {
@@ -919,14 +902,15 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	margin: 0 0 0 7px;
 }
 
-.gridBody input[type="text"] { /*width: 100% !important;*/
-	
+.gridBody input[type="text"] {
+	/*width: 100% !important;*/
 }
 
 .userName-style {
-	color: #00A3D3 !important;
-	padding: 5px 5px 5px 0;
-	cursor: pointer;
+	 background: url("images/User.png") no-repeat scroll 0 3px transparent;
+    color: #00A3D3 !important;
+    cursor: pointer;
+    padding: 5px 5px 5px 21px;
 }
 
 .brandingView {
@@ -939,19 +923,18 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 
 .standard-options {
 	background: none repeat scroll 0 0 white;
-	border-bottom: 1px solid #EFEFEF;
-	border-top: 1px solid #DDDDDD;
-	margin-top: 5px;
-	padding: 5px;
-	width: 100%;
+    border-bottom: 1px solid #EFEFEF;
+    border-top: 1px solid #DDDDDD;
+    margin-top: 5px;
+    padding: 5px;
+    width: 100%;
 }
 
 .standard-options td:FIRST-CHILD {
 	float: left;
 }
-
-.standard-options td:nth-child (2){
-	float: right;
+.standard-options td:nth-child(2){
+	float:right;
 }
 
 .terms-payment-area {
@@ -964,45 +947,37 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	height: 75px;
 }
 
-.gwt-MenuBar table tr td:nth-of-type(even) {
+.gwt-MenuBar table tr td:nth-of-type(even){
 	/*background:url("images/Menu bar_1x33.png") repeat-x scroll 0 0 #FFFFFF !important;*/
-	
+}
+.menubar-devider{
+	background:url("images/Menu bar_1x33.png") repeat-x scroll 0 0 transparent !important;
+	padding:0px;
+}
+.bottom-view table tr td{
+	background:url("images/Button_left_1x27.png") no-repeat scroll 0 0 transparent;
+    padding:0 0 0 3px;
 }
 
-.menubar-devider {
-	background: url("images/Menu bar_1x33.png") repeat-x scroll 0 0 #FFFFFF
-		!important;
-	padding: 0px;
+.button-right-image{
+	float:left;
+	height:29px;
+	width:3px;
+}
+.gwt-TextBox{
+	background:url("images/Text Feild_enabled_180x22.png") no-repeat scroll 0 0 #fff !important;
+	border:0 none !important;
+    height:22px;
 }
 
-.bottom-view table tr td {
-	background: url("images/Button_left_1x27.png") no-repeat scroll 0 0
-		transparent;
-	padding: 0 0 0 3px;
+.gwt-TextArea{
+	background:url("images/Text Feild_big_enabled_180x64.png") no-repeat scroll 0 0 #fff !important;
+	border:0 none !important;
+	height:65px;
+	width:180px !important;
+	resize:none
 }
-
-.button-right-image {
-	float: left;
-	height: 29px;
-	width: 3px;
-}
-
-.gwt-TextBox {
-	background: url("images/Text Feild_enabled_180x22.png") no-repeat scroll
-		0 0 #fff !important;
-	border: 0 none;
-	height: 22px;
-}
-
-.gwt-TextArea {
-	background: url("images/Text Feild_big_enabled_180x64.png") no-repeat
-		scroll 0 0 #fff !important;
-	border: 0 none !important;
-	height: 65px;
-	width: 180px !important;
-}
-
-.downarrow-button {
+.downarrow-button{
 	/*background:url("images/downarrow.png") no-repeat scroll 0 0 transparent !important;
 	float:right;
 	height:22px;
@@ -1010,310 +985,254 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	position:relative;
 	width:20px;
 	z-index:1;
-	margin-top:1px;
-*/
-	background: url("images/Drop-down-button_20x22.png") no-repeat scroll 0
-		0 transparent !important;
+	margin-top:1px;*/
+	
+    background:url("images/Drop-down-button_20x22.png") no-repeat scroll 0 0 transparent !important;
 	float: left;
-	height: 22px;
-	margin-left: -22px;
-	position: relative;
-	width: 22px;
-	z-index: 1;
+    height: 22px;
+    margin-left: -22px;
+    position: relative;
+    width: 22px;
+    z-index: 1;
 }
-
-.gwt-MenuBar-vertical .gwt-MenuItemSeparator .menuSeparatorInner {
-	background: url("images/Menu list seperator.png") repeat scroll 0 0
-		transparent !important;
-	border: 0 none !important;
-	height: 2px !important;
+.gwt-MenuBar-vertical .gwt-MenuItemSeparator .menuSeparatorInner{
+	background:url("images/Menu list seperator.png") repeat scroll 0 0 transparent !important;
+	border:0 none !important;
+	height:2px !important;
 }
-
-.gwt-MenuBar table tr td {
-	color: #F3F3F3 !important;
-	font-weight: bold;
+.gwt-MenuBar table tr td{
+	color:#F3F3F3 !important;
+	font-weight:bold;
 }
-
-.gwt-TabPanelBottom {
-	border-color: #DDDDDD !important;
-	border-width: 1px 1px 0 !important;
+.gwt-TabPanelBottom{
+	border-color:#DDDDDD !important;
+	border-width:1px 1px 0 !important;
 }
-
-.gwt-TabPanelBottom {
-	background: none repeat scroll 0 0 #F0F0F0 !important;
+.gwt-TabPanelBottom{
+	background:none repeat scroll 0 0 #F0F0F0 !important;
 }
-
-.help-logout-sep td:nth-child (2),.help-logout-sep td:nth-child (3){
-	padding: 5px !important;
-	width: 5% !important;
+.help-logout-sep td:nth-child(2),.help-logout-sep td:nth-child(3){
+	padding:5px !important;
+	width:5% !important;
 }
-
-.help-content {
-	background: url("images/Menubar_Divider_2x30.jpg") no-repeat scroll 0 0
-		transparent;
-	float: right;
-	height: 18px;
-	margin-left: 9px;
-	width: 2px;
-	color: #00A3D3 !important;
+.help-content{
+	background:url("images/Menubar_Divider_2x30.jpg") no-repeat scroll 0 0 transparent;
+	float:right;
+	height:18px;
+	margin-left:9px;
+	width:2px;
+	color:#00A3D3 !important;
 }
-
-.logout-html a,.help-style span {
-	color: #00A3D3 !important;
+.logout-html a,.help-style span{
+	color:#00A3D3 !important;
 }
-
 .gwt-MenuBar-vertical .gwt-MenuItem {
-	padding: 4px 14px 4px 10px !important;
+	padding:4px 14px 4px 10px !important;
 }
-
-.editButton {
-	background: url("images/page_edit.png") no-repeat scroll 0 0 transparent
-		;
+.editButton{
+	background:url("images/page_edit.png") no-repeat scroll 0 0 transparent;
 }
-
-.editButton {
-	background: url("images/Seperator1.png") no-repeat scroll 0 0
-		transparent;
-	height: 23px !important;
-	width: 10px !important;
+.editButton{
+	background:url("images/Seperator1.png") no-repeat scroll 0 0 transparent;
+	height:23px !important;
+	width:10px !important;
 }
-
-.abstract_base_view {
-	background: none repeat scroll 0 0 #F0F0F0 !important;
-	border: 1px solid #DDDDDD;
+.abstract_base_view{
+	background:none repeat scroll 0 0 #F0F0F0 !important;
+	border:1px solid #DDDDDD;
 }
-
-.gridTextBoxCell input[type="text"] {
-	background: url("images/Text box_1.png") repeat-x scroll 0 0 white
-		!important;
-	border-left: 1px solid #CCCCCC !important;
-	border-right: 1px solid #CCCCCC !important;
-	width: 100% !important;
-	height: 15px !important;
+.gridTextBoxCell input[type="text"]{
+	background:url("images/Text box_1.png") repeat-x scroll 0 0 white !important;
+	border-left:1px solid #CCCCCC !important;
+	border-right:1px solid #CCCCCC !important;
+	width:100% !important;
+	height:15px !important;
 }
-
-.bottom-view table tr td button {
-	background: url("/images/Button_1x27.png") repeat-x scroll 0 0
-		transparent;
-	float: left;
-	margin: 0 !important;
-	padding-right: 25px !important;
-	border-radius: 0 0 0 0 !important;
+.bottom-view table tr td button{
+	background:url("/images/Button_1x27.png") repeat-x scroll 0 0 transparent;
+	 float: left;
+     margin: 0 !important;
+    padding-right: 25px !important;
+      border-radius: 0 0 0 0 !important;
 }
-
-.gridSelectBoxCell .downarrow-button {
-	background: url("images/Drop down list button_square shape.png")
-		no-repeat scroll 0 0 transparent !important;
-	float: right;
-	height: 15px;
-	margin-left: 0;
-	margin-top: -15px;
-	position: relative;
-	width: 15px;
-	z-index: 1;
-	padding: 0px;
+.gridSelectBoxCell .downarrow-button{
+	background:url("images/Drop down list button_square shape.png") no-repeat scroll 0 0 transparent !important;
+	float:right;
+	height:15px;
+	margin-left:0;
+	margin-top:-15px;
+	position:relative;
+	width:15px;
+	z-index:1;
+	padding:0px;
 }
-
-.save-new-separator {
-	background: url("images/Divider.png") no-repeat scroll 0 0 transparent
-		!important;
+.invoice-total tr:nth-child(3){
+	border-bottom:1px solid #aaa;
+	border-top:1px solid #aaa;
 }
-
-.save-close-separator {
-	background: url("images/Divider.png") no-repeat scroll 0 0 transparent
-		!important;
+.save-new-separator{
+	background:url("images/Divider.png") no-repeat scroll 0 0 transparent !important;
 }
-
-.close-separator {
-	background: url("images/gray_Seperator1.png") no-repeat scroll 0 0
-		transparent !important;
+.save-close-separator{
+	background:url("images/Divider.png") no-repeat scroll 0 0 transparent !important;
 }
-
-.add-separator {
-	background: url("images/Divider.png") no-repeat scroll 0 0 transparent
-		!important;
+.close-separator{
+	background:url("images/gray_Seperator1.png") no-repeat scroll 0 0 transparent !important;
 }
-
-.save-new-separator,.save-close-separator,.close-separator,.add-separator
-	{
+.add-separator{
+	background:url("images/Divider.png") no-repeat scroll 0 0 transparent !important;
+}
+.save-new-separator,.save-close-separator,.close-separator,.add-separator{
 	height: 25px;
-	margin-left: 5px;
-	margin-top: -4px;
-	position: absolute;
-	width: 2px;
+    margin-left: 5px;
+    margin-top: -4px;
+    position: absolute;
+    width: 2px;
 }
-
-.save-new-image {
-	background: url("images/Page_edit1.png") no-repeat scroll 0 0
-		transparent !important;
+.save-new-image{
+	background:url("images/Page_edit1.png") no-repeat scroll 0 0 transparent !important;
 }
-
-.save-close-image {
-	background: url("images/Page_edit1.png") no-repeat scroll 0 0
-		transparent !important;
+.save-close-image{
+	background:url("images/Page_edit1.png") no-repeat scroll 0 0 transparent !important;
 }
-
-.save-new-image,.save-close-image,.close-image,.add-image {
-	height: 16px;
-	margin-left: 10px;
-	position: absolute;
-	width: 16px;
+.save-new-image,.save-close-image,.close-image,.add-image{
+	height:16px;
+	margin-left:10px;
+	position:absolute;
+	width:16px;
 }
-
-.add-image {
-	background: url("images/cross.png") no-repeat scroll 0 0 transparent
-		!important;
+.add-image{
+	background:url("images/cross.png") no-repeat scroll 0 0 transparent !important;
 }
-
-.close-image {
-	background: url("images/cross.png") no-repeat scroll 0 0 transparent
-		!important;
+.close-image{
+	background:url("images/cross.png") no-repeat scroll 0 0 transparent !important;
 }
-
-.cancel-button button {
-	background: url("/images/gray_Button_2_mid.png") repeat-x scroll 0 0
-		transparent !important;
+.cancel-button button{
+	background:url("/images/gray_Button_2_mid.png") repeat-x scroll 0 0 transparent !important;
+	color:#000 !important;
 }
-
-.cancel-button {
-	background: url("../images/gray_Button_2_left.png") no-repeat scroll 0 0
-		transparent !important;
+.cancel-button{
+	background: url("../images/gray_Button_2_left.png") no-repeat scroll 0 0 transparent !important;
 }
-
-.add-button {
-	background: url("images/blue_Left_side.png") no-repeat scroll 0 0
-		transparent !important;
-	padding: 0 1px;
-	float: right;
+.add-button{
+	background:url("images/blue_Left_side.png") no-repeat scroll 0 0 transparent !important;
+	padding:0 1px;
+	float:right;
 }
-
-.add-button button {
-	background: url("/images/Button_1x27.png") repeat-x scroll 0 0
-		transparent !important;
-	padding: 0 25px 4px 0 !important;
-	border-radius: 0 0 0 0 !important;
-	margin: 0 !important;
+.add-button button{
+	background:url("/images/Button_1x27.png") repeat-x scroll 0 0 transparent !important;
+    padding:0 25px 4px 0 !important;
+     border-radius: 0 0 0 0 !important;
+      margin: 0 !important;
 }
-
-.add-right-image {
-	height: 29px;
-	width: 3px;
-	float: right;
+.add-right-image{
+	height:29px;
+	width:3px;
+	float:right;
 }
-
-.subMenuIcon img {
-	background: url("images/Sub_menu_indicator_side.png") repeat-x scroll 0
-		0 transparent !important;
+.subMenuIcon img{
+	background:url("images/Sub_menu_indicator_side.png") repeat-x scroll 0 0 transparent !important;
 }
-
-.addrsFormCellAlign {
+.addrsFormCellAlign{
 	vertical-align: top;
 	padding-top: 3px;
 }
-
-.memoFormAlign {
+.memoFormAlign{
 	vertical-align: top;
 	width: 55px;
 }
-
-.gwt-DialogBox .dialogTopLeft {
-	background: url("images/top_left_1.png") no-repeat scroll 0 0
-		transparent !important;
-	width: 9px;
+.gwt-DialogBox .dialogTopLeft{
+	background:url("images/top_left_1.png") no-repeat scroll 0 0 transparent !important;
+	width:9px;
+	height:16px;
 }
-
-.gwt-DialogBox .dialogTopRight {
-	background: url("images/top_right_1.png") no-repeat scroll 0 0
-		transparent !important;
-	width: 9px;
+.gwt-DialogBox .dialogTopRight{
+	background:url("images/top_right_1.png") no-repeat scroll 0 0 transparent !important;
+	width:9px;
 }
-
-.gwt-DialogBox .dialogMiddleLeft {
-	background: url("images/left_mid.png") repeat-y scroll 0 0 transparent
-		!important;
+.gwt-DialogBox .dialogMiddleLeft{
+	background:url("images/left_mid.png") repeat-y scroll 0 0 transparent !important;
 }
-
-.gwt-DialogBox .dialogMiddleRight {
-	background: url("images/Right_mid.png") repeat-y scroll 0 0 transparent
-		!important;
+.gwt-DialogBox .dialogMiddleRight{
+	background:url("images/Right_mid.png") repeat-y scroll 0 0 transparent !important;
 }
-
-.gwt-DialogBox .dialogBottomLeft {
-	background: url("images/Bottom_left_corner_1.png") no-repeat scroll 0 0
-		transparent !important;
+.gwt-DialogBox .dialogBottomLeft{
+	background:url("images/Bottom_left_corner_1.png") no-repeat scroll 0 0 transparent !important;
 }
-
-.gwt-DialogBox .dialogBottomRight {
-	background: url("images/Bottom_right_corner.png") no-repeat scroll 0 0
-		transparent !important;
+.gwt-DialogBox .dialogBottomRight{
+	background:url("images/Bottom_right_corner.png") no-repeat scroll 0 0 transparent !important;
 }
-
-.gwt-DialogBox .dialogBottomCenter {
-	background: url("images/Bottom_mid.png") repeat-x scroll 0 0 transparent
-		!important;
-	height: 9px;
+.gwt-DialogBox .dialogBottomCenter{
+	background:url("images/Bottom_mid.png") repeat-x scroll 0 0 transparent !important;
+	height:9px;
 }
-
-.calendar-picker {
-	margin-left: 3px;
-	cursor: pointer;
+.calendar-picker{
+	margin-left:3px;
+	cursor:pointer;
 }
-
-.add-button button[disabled]:after {
-	background: url("images/gray_Button_left_1x27.png") no-repeat scroll 0 0
-		transparent !important;
+.add-button button[disabled]:after{
+	background:url("images/gray_Button_left_1x27.png") no-repeat scroll 0 0 transparent !important;
 }
-
-.inviteUserLabel {
+.inviteUserLabel{
 	font-weight: bold;
 	margin-top: 10px;
 }
-
-iframe { /*display:none;*/
-	
+iframe{
+    /*display:none;*/	
 }
-
 .star {
 	color: red;
 }
-
-.helpBar {
-	background: none !important;
-	font-weight: normal !important;
-	padding: 0 !important;
-	color: #00A3D3 !important;
-	margin: -3px !important;
-	cursor: pointer;
+.helpBar{
+	background: url("images/Help.png") no-repeat scroll 0 3px transparent !important;
+    color: #00A3D3 !important;
+    cursor: pointer;
+    font-weight: normal !important;
+    margin-top: 0 !important;
+    padding-left: 21px !important;
 }
-
-.companyName {
-	font-weight: bold;
-	font-size: medium;
-	padding: 5px 5px 5px 20px;
-	color: #00A3D3 !important;
+.companyName{
+	background: none repeat scroll 0 0 #B8BCC0;
+    color: #545454 !important;
+    font-size: 20px;
+    margin-left: 30px;
+    padding: 4px 5px 5px;
+    text-align: center;
+    margin-top:11px;
 }
-
-.general-setting-invoice {
-	margin-left: 10px;
+.general-setting-invoice{
+   margin-left:10px;	
 }
-
-.general-image {
-	margin-left: 30px;
-	margin-right: 20px;
+.general-image{
+	 margin-left: 30px;
+    margin-right: 20px;
 }
-
-.general-main-class p {
-	margin-bottom: 0px;
+.general-main-class p{
+	margin-bottom:0px;
 }
-
-.total-label1 {
-	text-align: right;
+.logo{
+	margin-top:20px;
 }
-
-.unused-payments td {
-	font-weight: bold;
+.logout-help-welcome{
+	background: url("images/Seperator_right.png") repeat-y scroll 0 0 transparent;
+    margin-top: 15px;
+    padding-left: 10px;
 }
-
-.button-layout {
-	margin-top: 15px;
+.logout-html{
+	background:url(images/logout.png) no-repeat scroll 0 1px transparent;
+	padding-left:22px;
+	margin-top:2px;
+}
+.vimutki-text{
+	color: #606060;
+    font-size: 14px;
+    margin: -35px 0 0 70px;
+    position: absolute;
+    z-index: 1;
+}
+.list-grid-body{
+	  background: url("images/Table-form-strip.png") repeat scroll 0 0 #EEEEEE;
+}
+.gwt-DialogBox .dialogTopLeftInner,.dialogMiddleRightInner{
+	width:9px !important;
 }
