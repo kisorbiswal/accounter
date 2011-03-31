@@ -65,16 +65,14 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 					return String.valueOf(customer.getName());
 				break;
 			case 3:
-				if (customer != null) {
-					Set<ClientPhone> phones = customer.getPhoneNumbers();
-					if (phones != null)
-						for (ClientPhone p : phones) {
-							if (p.getType() == ClientPhone.BUSINESS_PHONE_NUMBER) {
-								return String.valueOf(p.getNumber());
-							}
-						}
-				}
-				return null;
+//				if (customer != null) {
+//					Set<ClientPhone> phones = customer.getPhoneNumbers();
+//					if (phones != null)
+//						for (ClientPhone p : phones) {
+//								return String.valueOf(p.getNumber());
+//						}
+//				}
+				return estimate.getPhone();
 
 			case 4:
 				return String.valueOf(salesPerson);
