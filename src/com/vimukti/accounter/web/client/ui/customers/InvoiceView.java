@@ -8,6 +8,7 @@ import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -337,7 +338,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		termsForm.setIsGroup(true);
 		termsForm.setGroupTitle(customerConstants.terms());
 		termsForm.setNumCols(2);
-		termsForm.setFields(brandingThemeTypeCombo, salesPersonCombo,
+		termsForm.setFields(salesPersonCombo,
 				payTermsSelect, shippingTermsCombo, shippingMethodsCombo,
 				dueDateItem, deliveryDate, orderNumText);
 		termsForm.setStyleName("align-form");
@@ -350,7 +351,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth("400px");
 
-		/*Button printButton = new Button();
+		Button printButton = new Button();
 
 		printButton.setText(FinanceApplication.getCustomersMessages().print());
 		printButton.addClickHandler(new ClickHandler() {
@@ -365,7 +366,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				// printLt.print();
 			}
 		});
-*/
+
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
 		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
 				"memoFormAlign");
@@ -509,7 +510,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
-		mainVLay.add(printButton);
+//		mainVLay.add(printButton);
 
 		mainVLay.add(customerTransactionGrid);
 
@@ -1460,35 +1461,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	@Override
 	public void printPreview() {
 
-	}
-
-	private String getValidAddress(ClientAddress address) {
-		String toToSet = new String();
-		if (address.getAddress1() != null && !address.getAddress1().isEmpty()) {
-			toToSet = address.getAddress1().toString() + "\n";
-		}
-
-		if (address.getStreet() != null && !address.getStreet().isEmpty()) {
-			toToSet += address.getStreet().toString() + "\n";
-		}
-
-		if (address.getCity() != null && !address.getCity().isEmpty()) {
-			toToSet += address.getCity().toString() + "\n";
-		}
-
-		if (address.getStateOrProvinence() != null
-				&& !address.getStateOrProvinence().isEmpty()) {
-			toToSet += address.getStateOrProvinence() + "\n";
-		}
-		if (address.getZipOrPostalCode() != null
-				&& !address.getZipOrPostalCode().isEmpty()) {
-			toToSet += address.getZipOrPostalCode() + "\n";
-		}
-		if (address.getCountryOrRegion() != null
-				&& !address.getCountryOrRegion().isEmpty()) {
-			toToSet += address.getCountryOrRegion();
-		}
-		return toToSet;
 	}
 
 	@Override
