@@ -19,13 +19,13 @@ import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 public class VendorCreditMemoView extends
@@ -64,6 +64,10 @@ public class VendorCreditMemoView extends
 				this.vendorTransactionGrid.updateTotals();
 			}
 		}
+		if (vendor.getPhoneNo() != null)
+			phoneSelect.setValue(vendor.getPhoneNo());
+		else
+			phoneSelect.setValue("");
 		super.vendorSelected(vendor);
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
 			super.setVendorTaxcodeToAccount();
@@ -77,6 +81,7 @@ public class VendorCreditMemoView extends
 		vendorSelected(FinanceApplication.getCompany().getVendor(
 				vendorCreditMemo.getVendor()));
 		contactSelected(vendorCreditMemo.getContact());
+		phoneSelect.setValue(vendorCreditMemo.getPhone());
 		transactionNumber.setValue(vendorCreditMemo.getNumber());
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			netAmount.setAmount(vendorCreditMemo.getNetAmount());
@@ -165,10 +170,9 @@ public class VendorCreditMemoView extends
 
 			forms.add(vendorForm);
 
-		phoneSelect = new SelectCombo(vendorConstants.phone());
+		phoneSelect = new TextItem(vendorConstants.phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
-		formItems.add(phoneSelect);
 
 		DynamicForm phoneForm = UIUtils.form(vendorConstants.phonenumber());
 		phoneForm.setFields(phoneSelect);
@@ -195,6 +199,7 @@ public class VendorCreditMemoView extends
 		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 		vendorTransactionGrid.init();
 		vendorTransactionGrid.setDisabled(isEdit);
+		vendorTransactionGrid.getElement().getStyle().setMarginTop(10, Unit.PX);
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
@@ -229,8 +234,8 @@ public class VendorCreditMemoView extends
 		totalForm.setNumCols(2);
 		totalForm.setWidth("100%");
 		totalForm.setStyleName("invoice-total");
-//		netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + 100)
-//				+ "px");
+		// netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + 100)
+		// + "px");
 
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
@@ -354,8 +359,8 @@ public class VendorCreditMemoView extends
 			vendorCreditMemo.setContact(contact);
 
 		// Setting Phone
-		if (phoneNo != null)
-			vendorCreditMemo.setPhone(phoneNo);
+		if (phoneSelect.getValue() != null)
+			vendorCreditMemo.setPhone(phoneSelect.getValue().toString());
 
 		// Setting Total
 		vendorCreditMemo.setTotal(vendorTransactionGrid.getTotal());
