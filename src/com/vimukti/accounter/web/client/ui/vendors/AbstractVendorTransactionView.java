@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
@@ -81,7 +82,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 	// payFromCombo;
 
-	protected SelectCombo phoneSelect;
+	protected TextItem phoneSelect;
 	protected String[] phoneList;
 	protected String phoneNo;
 
@@ -424,6 +425,46 @@ public abstract class AbstractVendorTransactionView<T> extends
 		if (account == null)
 			return;
 		this.payFromAccount = account;
+	}
+	public ClientAddress getAddress(int type) {
+		for (ClientAddress address : addressListOfVendor) {
+
+			if (address.getType() == type) {
+				return address;
+			}
+
+		}
+		return null;
+	}
+
+
+	protected String getValidAddress(ClientAddress address) {
+		String toToSet = new String();
+		if (address.getAddress1() != null && !address.getAddress1().isEmpty()) {
+			toToSet = address.getAddress1().toString() + "\n";
+		}
+
+		if (address.getStreet() != null && !address.getStreet().isEmpty()) {
+			toToSet += address.getStreet().toString() + "\n";
+		}
+
+		if (address.getCity() != null && !address.getCity().isEmpty()) {
+			toToSet += address.getCity().toString() + "\n";
+		}
+
+		if (address.getStateOrProvinence() != null
+				&& !address.getStateOrProvinence().isEmpty()) {
+			toToSet += address.getStateOrProvinence() + "\n";
+		}
+		if (address.getZipOrPostalCode() != null
+				&& !address.getZipOrPostalCode().isEmpty()) {
+			toToSet += address.getZipOrPostalCode() + "\n";
+		}
+		if (address.getCountryOrRegion() != null
+				&& !address.getCountryOrRegion().isEmpty()) {
+			toToSet += address.getCountryOrRegion();
+		}
+		return toToSet;
 	}
 
 	protected void initBillToCombo() {
