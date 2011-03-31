@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.TransactionPayVATGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -65,6 +66,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	private ArrayList<ClientPayVATEntries> tempList;
 	private ClientFinanceDate dueDateOnOrBefore;
 	private DynamicForm fileterForm;
+	private TextItem transNumber;
 
 	public PayVATView() {
 		super(ClientTransaction.TYPE_PAY_SALES_TAX, PAYVAT_TRANSACTION_GRID);
@@ -82,11 +84,10 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 				.payVAT());
 		lab.setStyleName(FinanceApplication.getVendorsMessages().lableTitle());
 		lab.setHeight("35px");
-		date = new DateField(companyConstants.date());
-		date.setHelpInformation(true);
-		date.setTitle(companyConstants.date());
-		date.setEnteredDate(new ClientFinanceDate());
-		date.setDisabled(isEdit);
+		transactionDateItem = createTransactionDateItem();
+
+		transNumber = createTransactionNumberItem();
+		transNumber.setTitle(FinanceApplication.getCustomersMessages().no());
 
 		payFromAccCombo = new PayFromAccountsCombo(companyConstants.payFrom());
 		payFromAccCombo.setHelpInformation(true);
@@ -151,10 +152,19 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		//
 		// });
 
+		DynamicForm dateForm = new DynamicForm();
+		dateForm.setNumCols(4);
+		dateForm.setFields(transactionDateItem, transNumber);
+
+		HorizontalPanel datepanel = new HorizontalPanel();
+		datepanel.setWidth("100%");
+		datepanel.add(dateForm);
+		datepanel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
+
 		mainform = new DynamicForm();
 		// filterForm.setWidth("100%");
 		mainform = UIUtils.form(companyConstants.filter());
-		mainform.setFields(date, payFromAccCombo, paymentMethodCombo, billsDue);
+		mainform.setFields(payFromAccCombo, paymentMethodCombo, billsDue);
 		mainform.setWidth("80%");
 
 		// fileterForm = new DynamicForm();
@@ -174,17 +184,23 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		balForm = new DynamicForm();
 		balForm = UIUtils.form(companyConstants.balances());
 		balForm.setFields(amountText, endingBalanceText);
+		balForm.getCellFormatter().setWidth(0, 0, "197px");
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
 		leftVLay.add(mainform);
 		// leftVLay.add(fileterForm);
 
+		VerticalPanel rightVlay = new VerticalPanel();
+		rightVlay.add(balForm);
+
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
 		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
-		topHLay.add(balForm);
+		topHLay.add(rightVlay);
+		topHLay.setCellWidth(leftVLay, "50%");
+		topHLay.setCellWidth(rightVlay, "36%");
 
 		Label lab1 = new Label("" + companyConstants.billsToPay() + "");
 
@@ -193,6 +209,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab);
+		mainVLay.add(datepanel);
 		mainVLay.add(topHLay);
 		mainVLay.add(lab1);
 		mainVLay.add(gridLayout);
@@ -299,8 +316,9 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 		billsDue.setEnteredDate(new ClientFinanceDate(payVAT
 				.getReturnsDueOnOrBefore()));
-		date.setEnteredDate(payVAT.getDate());
-
+		transactionDateItem.setEnteredDate(payVAT.getDate());
+		transNumber.setValue(payVAT.getNumber());
+       
 		endingBalanceText.setAmount(payVAT.getEndingBalance());
 		paymentMethodCombo.setValue(payVAT.getPaymentMethod());
 		amountText.setValue(payVAT.getTotal());
@@ -456,8 +474,8 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		payVAT.setNumber(transactionNumber);
 		payVAT.setType(ClientTransaction.TYPE_PAY_VAT);
 
-		if (date.getEnteredDate() != null)
-			payVAT.setDate(date.getEnteredDate().getTime());
+		if (transactionDateItem.getEnteredDate() != null)
+			payVAT.setDate(transactionDateItem.getEnteredDate().getTime());
 
 		payVAT.setPayFrom(selectedPayFromAccount.getStringID());
 		payVAT.setPaymentMethod(paymentMethod);

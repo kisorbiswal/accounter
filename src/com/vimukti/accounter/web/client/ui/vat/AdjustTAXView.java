@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
@@ -33,6 +35,7 @@ import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
+import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
@@ -44,7 +47,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 	private OtherAccountsCombo adjustAccountCombo;
 	private RadioGroupItem typeRadio;
 	private AmountField amount;
-	private TextItem memo;
+	private TextAreaItem memo;
 	private DynamicForm vatform;
 
 	private ClientTAXItem clientVATItem;
@@ -89,15 +92,14 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 		infoLabel.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-        infoLabel.setHeight("35px");
-		adjustDate = new DateItem(FinanceApplication.getVATMessages()
-				.adjustmentDate());
+		infoLabel.setHeight("35px");
+		adjustDate = new DateItem(null);
 		adjustDate.setHelpInformation(true);
 		adjustDate.setDatethanFireEvent(new ClientFinanceDate());
 		// adjustDate.setWidth(100);
 
-		entryNo = new IntegerField(FinanceApplication.getVATMessages()
-				.entryNo());
+		entryNo = new IntegerField(FinanceApplication.getCustomersMessages()
+				.no());
 		entryNo.setHelpInformation(true);
 		entryNo.setWidth(100);
 
@@ -188,7 +190,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		amount.setHelpInformation(true);
 		amount.setWidth(100);
 		typeRadio = new RadioGroupItem("");
-//		typeRadio.setRequired(true);
+		// typeRadio.setRequired(true);
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			typeRadio.setValueMap(FinanceApplication.getVATMessages()
 					.increaseVATLine(), FinanceApplication.getVATMessages()
@@ -204,7 +206,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 		}
 
-		memo = new TextItem(FinanceApplication.getVATMessages().memo());
+		memo = new TextAreaItem(FinanceApplication.getVATMessages().memo());
 		memo.setHelpInformation(true);
 		memo.setWidth(100);
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
@@ -217,14 +219,20 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 					.taxAccount());
 		}
 		DynamicForm dateForm = new DynamicForm();
-		dateForm.setFields(adjustDate);
-		dateForm.setWidth("50%");
-		dateForm.getCellFormatter().setWidth(0, 0, "189");
+		dateForm.setNumCols(4);
+		dateForm.setFields(adjustDate, entryNo);
+		// dateForm.getCellFormatter().setWidth(0, 0, "189");
+		HorizontalPanel datepanel = new HorizontalPanel();
+		datepanel.setWidth("100%");
+		datepanel.add(dateForm);
+		datepanel.setCellHorizontalAlignment(dateForm,
+				HasHorizontalAlignment.ALIGN_RIGHT);
+
 		DynamicForm topform = new DynamicForm();
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			topform.setFields(entryNo, taxAgencyCombo);
+			topform.setFields(taxAgencyCombo);
 		else
-			topform.setFields(entryNo, taxAgencyCombo, vatItemCombo);
+			topform.setFields(taxAgencyCombo, vatItemCombo);
 
 		topform.setWidth("50%");
 		topform.getCellFormatter().setWidth(0, 0, "190");
@@ -232,12 +240,13 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("50%");
 		memoForm.setFields(adjustAccountCombo, amount, typeRadio, memo);
+		memoForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		memoForm.getCellFormatter().setWidth(0, 0, "190");
 
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
 		mainPanel.add(infoLabel);
-		mainPanel.add(dateForm);
+		mainPanel.add(datepanel);
 		mainPanel.add(topform);
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			mainPanel.add(vatform);

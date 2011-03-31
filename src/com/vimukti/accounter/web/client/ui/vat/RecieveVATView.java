@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -36,6 +37,7 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.TransactionReceiveVATGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -73,6 +75,7 @@ public class RecieveVATView extends
 	private ClientFinanceDate dueDateOnOrBefore;
 	@SuppressWarnings("unused")
 	private DynamicForm fileterForm;
+	private TextItem transNumber;
 
 	public RecieveVATView() {
 		super(ClientTransaction.TYPE_PAY_SALES_TAX, RECEIVEVAT_TRANSACTION_GRID);
@@ -89,11 +92,15 @@ public class RecieveVATView extends
 				.receiveVAT());
 		lab.setStyleName(FinanceApplication.getVendorsMessages().lableTitle());
 		lab.setHeight("35px");
-		date = new DateField(companyConstants.date());
-		date.setHelpInformation(true);
-		date.setTitle(companyConstants.date());
-		date.setEnteredDate(new ClientFinanceDate());
-		date.setDisabled(isEdit);
+		// date = new DateField(companyConstants.date());
+		// date.setHelpInformation(true);
+		// date.setTitle(companyConstants.date());
+		// date.setEnteredDate(new ClientFinanceDate());
+		// date.setDisabled(isEdit);
+		transactionDateItem = createTransactionDateItem();
+
+		transNumber = createTransactionNumberItem();
+		transNumber.setTitle(FinanceApplication.getCompanyMessages().no());
 
 		depositInAccCombo = new DepositInAccountCombo(companyConstants
 				.depositIn());
@@ -158,12 +165,20 @@ public class RecieveVATView extends
 		// }
 		//
 		// });
+		DynamicForm dateForm = new DynamicForm();
+		dateForm.setNumCols(4);
+		dateForm.setFields(transactionDateItem, transNumber);
+
+		HorizontalPanel datepanel = new HorizontalPanel();
+		datepanel.setWidth("100%");
+		datepanel.add(dateForm);
+		datepanel.setCellHorizontalAlignment(dateForm,
+				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		mainform = new DynamicForm();
 		// filterForm.setWidth("100%");
 		mainform = UIUtils.form(companyConstants.filter());
-		mainform.setFields(date, depositInAccCombo, paymentMethodCombo,
-				billsDue);
+		mainform.setFields(depositInAccCombo, paymentMethodCombo, billsDue);
 		mainform.setWidth("80%");
 
 		// fileterForm = new DynamicForm();
@@ -183,17 +198,23 @@ public class RecieveVATView extends
 		balForm = new DynamicForm();
 		balForm = UIUtils.form(companyConstants.balances());
 		balForm.setFields(amountText, endingBalanceText);
+		balForm.getCellFormatter().setWidth(0, 0, "197px");
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
 		leftVLay.add(mainform);
 		// leftVLay.add(fileterForm);
 
+		VerticalPanel rightVLay = new VerticalPanel();
+		rightVLay.add(balForm);
+
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
 		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
-		topHLay.add(balForm);
+		topHLay.add(rightVLay);
+		topHLay.setCellWidth(leftVLay, "50%");
+		topHLay.setCellWidth(rightVLay, "36%");
 
 		Label lab1 = new Label("" + companyConstants.billsToReceive() + "");
 
@@ -202,6 +223,7 @@ public class RecieveVATView extends
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab);
+		mainVLay.add(datepanel);
 		mainVLay.add(topHLay);
 		mainVLay.add(lab1);
 		mainVLay.add(gridLayout);
@@ -314,8 +336,8 @@ public class RecieveVATView extends
 
 		billsDue.setEnteredDate(new ClientFinanceDate(receiveVAT
 				.getReturnsDueOnOrBefore()));
-		date.setEnteredDate(receiveVAT.getDate());
-
+		transactionDateItem.setEnteredDate(receiveVAT.getDate());
+        transNumber.setValue(receiveVAT.getNumber());
 		endingBalanceText.setAmount(receiveVAT.getEndingBalance());
 		paymentMethodCombo.setValue(paymentMethod);
 		amountText.setValue(receiveVAT.getTotal());
@@ -468,8 +490,8 @@ public class RecieveVATView extends
 		receiveVAT.setNumber(transactionNumber);
 		receiveVAT.setType(ClientTransaction.TYPE_RECEIVE_VAT);
 
-		if (date.getEnteredDate() != null)
-			receiveVAT.setDate(date.getEnteredDate().getTime());
+		if (transactionDateItem.getEnteredDate() != null)
+			receiveVAT.setDate(transactionDateItem.getEnteredDate().getTime());
 
 		receiveVAT.setDepositIn(selectedDepositInAccount.getStringID());
 		receiveVAT.setPaymentMethod(paymentMethod);
