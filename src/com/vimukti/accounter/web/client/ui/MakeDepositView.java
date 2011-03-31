@@ -50,6 +50,7 @@ import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.MakeDepositTransactionGrid;
@@ -60,7 +61,7 @@ public class MakeDepositView extends
 	DateItem date;
 
 	DynamicForm depoForm;
-	TextItem memoText;
+	TextAreaItem memoText;
 
 	AmountField cashBackAmountText;
 	AmountLabel totText;
@@ -138,6 +139,7 @@ public class MakeDepositView extends
 	private ClientMakeDeposit makeDepositEdited;
 
 	private Button addButton;
+	private TextItem transNumber;
 
 	// private VerticalPanel botRightPanel;
 
@@ -399,6 +401,7 @@ public class MakeDepositView extends
 		gridView.init();
 		gridView.setHeight("250");
 		gridView.setDisabled(isEdit);
+		gridView.getElement().getStyle().setMarginTop(10, Unit.PX);
 	}
 
 	protected void setEditorTypeForAccountFiled(int selectedType) {
@@ -788,6 +791,15 @@ public class MakeDepositView extends
 			}
 		});
 		// date.setWidth(100);
+		transNumber = createTransactionNumberItem();
+		DynamicForm dateForm = new DynamicForm();
+		dateForm.setNumCols(4);
+		dateForm.setFields(date, transNumber);
+
+		HorizontalPanel datepanel = new HorizontalPanel();
+		datepanel.setWidth("100%");
+		datepanel.add(dateForm);
+		datepanel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
 
 		depositInSelect = new MakeDepositAccountCombo(bankingConstants
 				.depositIn());
@@ -844,14 +856,19 @@ public class MakeDepositView extends
 
 				});
 
-		memoText = new TextItem(bankingConstants.memo());
+		memoText = new TextAreaItem(bankingConstants.memo());
 		memoText.setHelpInformation(true);
 		memoText.setWidth(100);
+
+		memoForm = new DynamicForm();
+		memoForm.setWidth("100%");
+		memoForm.setFields(memoText);
+		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		depoForm = new DynamicForm();
 		depoForm.setIsGroup(true);
 		depoForm.setGroupTitle(bankingConstants.deposit());
-		depoForm.setFields(date, depositInSelect, memoText);
+		depoForm.setFields(depositInSelect);
 		depoForm.setWidth("40%");
 
 		// Label lab1 = new Label(FinanceApplication.getFinanceUIConstants()
@@ -912,15 +929,17 @@ public class MakeDepositView extends
 		});
 
 		totText = new AmountLabel(bankingConstants.total());
-		totText.setWidth("180px");
+		totText.setWidth("100px");
 		totText.setDefaultValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		totText.setDisabled(true);
 		((Label) totText.getMainWidget())
 				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 
 		form2 = new DynamicForm();
-		form2.setFields(cashBackAmountText, totText);
-		form2.setWidth("100%");
+		form2.setFields(totText);
+		form2.addStyleName("unused-payments");
+		form2.setWidth("50%");
+		form2.getElement().getStyle().setMarginTop(10, Unit.PX);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
@@ -946,8 +965,8 @@ public class MakeDepositView extends
 
 		HorizontalPanel botHLay = new HorizontalPanel();
 		botHLay.setWidth("100%");
-		botHLay.add(form1);
-		botHLay.setCellHorizontalAlignment(form1, ALIGN_LEFT);
+		botHLay.add(memoForm);
+		botHLay.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
 		botHLay.add(form2);
 		botHLay.setCellHorizontalAlignment(form2, ALIGN_RIGHT);
 
@@ -1005,6 +1024,7 @@ public class MakeDepositView extends
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab);
+		mainVLay.add(datepanel);
 		mainVLay.add(topHLay);
 		// mainVLay.add(lab1);
 		// mainVLay.add(addButton);
