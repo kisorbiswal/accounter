@@ -42,6 +42,7 @@ import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.TransactionReceivePaymentGrid;
@@ -54,8 +55,9 @@ import com.vimukti.accounter.web.client.ui.grids.TransactionReceivePaymentGrid;
 public class ReceivePaymentView extends
 		AbstractCustomerTransactionView<ClientReceivePayment> {
 
-	public AmountField customerNonEditablebalText, unUsedCreditsText,
-			unUsedPaymentsText;
+	public AmountField customerNonEditablebalText;
+	public AmountLabel unUsedCreditsText;
+	private AmountLabel unUsedPaymentsText;
 
 	public AmountField amtText;
 	private DynamicForm payForm;
@@ -556,17 +558,14 @@ public class ReceivePaymentView extends
 		paymentMethodCombo.setWidth(100);
 
 		payForm = new DynamicForm();
-		payForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		payForm.setWidth("90%");
 		payForm.setIsGroup(true);
 		payForm.setGroupTitle(customerConstants.payment());
 
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			payForm.setFields(customerCombo, amtText, paymentMethodCombo,
-					memoTextAreaItem);
+			payForm.setFields(customerCombo, amtText, paymentMethodCombo);
 		} else
-			payForm.setFields(customerCombo, amtText, paymentMethodCombo,
-					memoTextAreaItem);
+			payForm.setFields(customerCombo, amtText, paymentMethodCombo);
 		payForm.setStyleName("align-form");
 		payForm.getCellFormatter().setWidth(0, 0, "180px");
 
@@ -594,18 +593,33 @@ public class ReceivePaymentView extends
 
 		initListGrid();
 
-		unUsedCreditsText = new AmountField(customerConstants.unusedCredits());
+		unUsedCreditsText = new AmountLabel(customerConstants.unusedCredits());
 		unUsedCreditsText.setHelpInformation(true);
 		unUsedCreditsText.setDisabled(true);
 
-		unUsedPaymentsText = new AmountField(customerConstants.unusedPayments());
+		unUsedPaymentsText = new AmountLabel(customerConstants.unusedPayments());
 		unUsedPaymentsText.setHelpInformation(true);
 		unUsedPaymentsText.setDisabled(true);
 
 		DynamicForm textForm = new DynamicForm();
-		textForm.setNumCols(4);
+		textForm.setWidth("70%");
 		textForm.setFields(unUsedCreditsText, unUsedPaymentsText);
+		textForm.addStyleName("unused-payments");
 		forms.add(textForm);
+
+		DynamicForm memoForm = new DynamicForm();
+		memoForm.setWidth("100%");
+		memoForm.setFields(memoTextAreaItem);
+		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+
+		HorizontalPanel bottompanel = new HorizontalPanel();
+		bottompanel.setWidth("100%");
+		bottompanel.add(memoForm);
+		bottompanel.setCellHorizontalAlignment(memoForm,
+				HasHorizontalAlignment.ALIGN_LEFT);
+		bottompanel.add(textForm);
+		bottompanel.setCellHorizontalAlignment(textForm,
+				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
@@ -618,6 +632,7 @@ public class ReceivePaymentView extends
 
 		topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
+		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 		topHLay.setCellWidth(leftVLay, "50%");
@@ -626,11 +641,11 @@ public class ReceivePaymentView extends
 		@SuppressWarnings("unused")
 		VerticalPanel gridAndBalances = new VerticalPanel();
 
-		HorizontalPanel hLay2 = new HorizontalPanel();
-		hLay2.setWidth("100%");
-		hLay2.setHorizontalAlignment(ALIGN_RIGHT);
-
-		hLay2.add(textForm);
+//		HorizontalPanel hLay2 = new HorizontalPanel();
+//		hLay2.setWidth("100%");
+//		hLay2.setHorizontalAlignment(ALIGN_RIGHT);
+//
+//		hLay2.add(textForm);
 
 		HorizontalPanel bottomAmtsLayout = new HorizontalPanel();
 
@@ -642,7 +657,7 @@ public class ReceivePaymentView extends
 		gridLayout.add(lab1);
 		gridLayout.add(gridView);
 		gridLayout.add(bottomAmtsLayout);
-		gridLayout.add(hLay2);
+		gridLayout.add(bottompanel);
 
 		mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
