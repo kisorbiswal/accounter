@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -14,6 +15,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -24,10 +26,12 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
@@ -35,13 +39,17 @@ import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
+import com.vimukti.accounter.web.client.ui.core.EmailField;
+import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
+import com.vimukti.accounter.web.client.ui.forms.LinkItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
+import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
@@ -78,6 +86,29 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	private boolean isCancel = false;
 	public static final int TYPE_AGEING_FROM_DUEDATE = 2;
 	public static final int TYPE_AGEING_FROM_TRANSACTIONDATE = 1;
+	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
+
+	TextItem websiteText, taxIDText, companyNameText, trandigNameText,
+			registrationNumberText, bankAccountText, sortCodeText;
+	EmailField emailText;
+	IntegerField phoneText, faxText;
+
+	DynamicForm companyDetailsForm, phoneAndFaxForm, taxIDForm,
+			RegistrationNumberForm;
+
+	@SuppressWarnings("unused")
+	private TextAreaItem address;
+	@SuppressWarnings("unused")
+	private LinkedHashMap<String, ClientAddress> addresses = new LinkedHashMap<String, ClientAddress>();
+
+	protected String str;
+
+	@SuppressWarnings("unused")
+	private String string;
+
+	private TextAreaItem textareaItem, textareaItem2;
+
+	private LinkedHashMap<Integer, ClientAddress> allAddresses;
 
 	public CompanyPreferencesView() {
 		this.company = FinanceApplication.getCompany();
@@ -122,6 +153,70 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 						.getIsAccuralBasis());
 
 		}
+		this.company = FinanceApplication.getCompany();
+		if (this.company != null) {
+			companyNameText.setValue(company.getName());
+			trandigNameText.setValue(company.getTradingName());
+			this.taxIDText.setValue(company.getTaxId());
+			this.faxText.setValue(company.getFax());
+			this.phoneText.setValue(company.getPhone());
+			this.websiteText.setValue(company.getWebSite());
+			this.emailText.setValue(company.getCompanyEmail());
+			this.bankAccountText.setValue(company.getBankAccountNo());
+			this.sortCodeText.setValue(company.getSortCode());
+			List<ClientAddress> companyAddress = company.getAddresses();
+			for (ClientAddress address : companyAddress) {
+				if (address.getType() == ClientAddress.TYPE_COMPANY) {
+					setAddressToTextItem(textareaItem, address);
+					allAddresses
+							.put(UIUtils.getAddressType("company"), address);
+				}
+				if (address.getType() == ClientAddress.TYPE_COMPANY_REGISTRATION) {
+					setAddressToTextItem(textareaItem2, address);
+					allAddresses.put(UIUtils
+							.getAddressType("companyregistration"), address);
+				}
+			}
+			registrationNumberText.setValue(company.getRegistrationNumber());
+
+			doupaySalesChecBox.setValue(FinanceApplication.getCompany()
+					.getPreferences().getDoYouPaySalesTax());
+
+			if (doupaySalesChecBox.getValue() == Boolean.FALSE) {
+				vatRegNumber.setDisabled(true);
+			}
+		}
+	}
+
+	public void setAddressToTextItem(TextAreaItem textItem,
+			ClientAddress address) {
+		String toToSet = new String();
+		if (address.getAddress1() != null && !address.getAddress1().isEmpty()) {
+			toToSet = address.getAddress1().toString() + "\n";
+		}
+
+		if (address.getStreet() != null && !address.getStreet().isEmpty()) {
+			toToSet += address.getStreet().toString() + "\n";
+		}
+
+		if (address.getCity() != null && !address.getCity().isEmpty()) {
+			toToSet += address.getCity().toString() + "\n";
+		}
+
+		if (address.getStateOrProvinence() != null
+				&& !address.getStateOrProvinence().isEmpty()) {
+			toToSet += address.getStateOrProvinence() + "\n";
+		}
+		if (address.getZipOrPostalCode() != null
+				&& !address.getZipOrPostalCode().isEmpty()) {
+			toToSet += address.getZipOrPostalCode() + "\n";
+		}
+		if (address.getCountryOrRegion() != null
+				&& !address.getCountryOrRegion().isEmpty()) {
+			toToSet += address.getCountryOrRegion();
+		}
+		textItem.setValue(toToSet);
+
 	}
 
 	@Override
@@ -149,7 +244,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		@SuppressWarnings("unused")
 		DeckPanel deckPanel = tabSet.getDeckPanel();
 		// deckPanel.setSize("450px", "400px");
-		tabSet.add(getCompanyTab(), companyMessges.company());
+		tabSet.add(getCompanyInfo(), "Company Info");
+		tabSet.add(getCompanyTab(), "Preferences");
 		// tabSet.add(getSystemAccountsTab(), companyMessges.systemAccounts());
 		// tabSet.add(getGerneralTab(), companyMessges.general());
 		tabSet.selectTab(0);
@@ -229,9 +325,246 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		canvas.add(mainLayout);
 	}
 
+	private HorizontalPanel getCompanyInfo() {
+		VerticalPanel mainVLay = new VerticalPanel();
+		// setTitle(companyConstants.companyInformation());
+		LinkItem emptylabel = new LinkItem();
+		emptylabel.setLinkTitle("");
+		emptylabel.setShowTitle(false);
+
+		companyNameText = new TextItem(companyConstants.registeredName());
+		companyNameText.setHelpInformation(true);
+		companyNameText.setRequired(true);
+		companyNameText.setWidth(100);
+		string = "[a-zA-Z0-9 /s]";
+
+		textareaItem = new TextAreaItem(companyConstants.registeredAddress());
+		textareaItem.setHelpInformation(true);
+		textareaItem.setRequired(false);
+		textareaItem.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				new AddressDialog("title", "description", textareaItem,
+						"company", allAddresses);
+			}
+		});
+
+		trandigNameText = new TextItem(companyConstants.tradingName());
+		trandigNameText.setHelpInformation(true);
+		trandigNameText.setRequired(true);
+		trandigNameText.setWidth(100);
+
+		textareaItem2 = new TextAreaItem(companyConstants.tradingAddress());
+		textareaItem2.setHelpInformation(true);
+
+		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
+		textareaItem2.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				new AddressDialog("title", "description", textareaItem2,
+						"companyregistration", allAddresses);
+			}
+		});
+		textareaItem2.setRequired(false);
+
+		TextItem emptyText = new TextItem();
+		emptyText.setVisible(false);
+
+		companyDetailsForm = UIUtils.form(companyConstants.companyDetails());
+
+		VerticalPanel mainVLay2 = new VerticalPanel();
+
+		phoneText = new IntegerField(companyConstants.businessPhone());
+		phoneText.setHelpInformation(true);
+
+		faxText = new IntegerField(companyConstants.businessFax());
+		faxText.setHelpInformation(true);
+
+		emailText = new EmailField(FinanceApplication.getCompanyMessages()
+				.email());
+		emailText.setHelpInformation(true);
+
+		websiteText = new TextItem(companyConstants.webPageAddress());
+		websiteText.setHelpInformation(true);
+
+		registrationNumberText = new TextItem(companyConstants
+				.companyRegistrationNumber());
+		registrationNumberText.setHelpInformation(true);
+
+		taxIDText = new TextItem(companyConstants.federalTaxId());
+		taxIDText.setHelpInformation(true);
+
+		bankAccountText = new TextItem();
+		bankAccountText.setTitle(FinanceApplication.getCompanyMessages()
+				.bankAccountNo());
+		bankAccountText.setHelpInformation(true);
+
+		sortCodeText = new TextItem();
+		sortCodeText.setTitle(FinanceApplication.getCompanyMessages()
+				.sortCode());
+		sortCodeText.setHelpInformation(true);
+
+		phoneAndFaxForm = UIUtils.form(companyConstants.phoneAndFaxNumbers());
+
+		phoneAndFaxForm.setFields(phoneText, faxText, websiteText, emailText,
+				registrationNumberText, taxIDText, bankAccountText,
+				sortCodeText);
+		phoneAndFaxForm.setNumCols(8);
+		phoneAndFaxForm.getCellFormatter().setWidth(0, 0, "250px");
+
+		DynamicForm taxesForm = new DynamicForm();
+		// taxesForm.setWidth100();
+		// taxesForm.setHeight("*");
+		taxesForm.setIsGroup(true);
+		taxesForm.setGroupTitle(companyMessges.taxes());
+		// taxesForm.setTitleOrientation(TitleOrientation.TOP);
+		// taxesForm.setPadding(10);
+
+		doupaySalesChecBox = new CheckboxItem();
+		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			doupaySalesChecBox.setTitle(companyMessges.doYoupaySalesTaxes());
+
+		} else
+			doupaySalesChecBox
+					.setTitle(companyMessges.areYouRegisteredForVAT());
+		vatRegNumber = new TextItem(UIUtils.getVendorString(companyMessges
+				.vatRegNo(), companyMessges.taxRegNo()));
+		vatRegNumber.setHelpInformation(true);
+		vatRegNumber.setWidth(100);
+		vatRegNumber.setDisabled(false);
+
+		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			doupaySalesChecBox.addChangeHandler(new ChangeHandler() {
+
+				private FocusWidget taxgroupBtn;
+
+				public void onChange(ChangeEvent event) {
+					if ((Boolean) ((CheckboxItem) event.getSource()).getValue())
+						taxgroupBtn.setEnabled(false);
+					else
+						taxgroupBtn.setEnabled(true);
+				}
+			});
+			doupaySalesChecBox
+					.addChangeHandler(new ValueChangeHandler<Boolean>() {
+						@Override
+						public void onValueChange(
+								ValueChangeEvent<Boolean> event) {
+							vatRegNumber.setDisabled(!event.getValue());
+							vatRegNumber.setValue(FinanceApplication
+									.getCompany().getpreferences()
+									.getVATregistrationNumber());
+						}
+					});
+		} else {
+
+			doupaySalesChecBox
+					.addChangeHandler(new ValueChangeHandler<Boolean>() {
+
+						@Override
+						public void onValueChange(
+								ValueChangeEvent<Boolean> event) {
+							vatRegNumber.setDisabled(!event.getValue());
+							vatRegNumber.setValue(FinanceApplication
+									.getCompany().getpreferences()
+									.getVATregistrationNumber());
+						}
+					});
+		}
+		vatRegNumber.setValue(FinanceApplication.getCompany().getpreferences()
+				.getVATregistrationNumber());
+		taxgroupBtn = new Button(companyMessges.taxgroups());
+		// taxgroupBtn.setColSpan("*");
+		taxgroupBtn.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				// preferencesView.taxGroupButtonClick();
+			}
+		});
+		paysalesTaxgroupItem = new RadioGroupItem();
+		paysalesTaxgroupItem.setTitle(companyMessges
+				.onWhatbasisdoUpaySalesTaxes());
+		// paysalesTaxgroupItem.setColSpan("*");
+		// paysalesTaxgroupItem.setVertical(false);
+		// paysalesTaxgroupItem
+		// .setValue(company.getPreferences() != null ? company
+		// .getPreferences().getIsAccuralBasis() ? "1" : "2" : "1");
+
+		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+		map.put("1", companyMessges.accrualBasis());
+		map.put("2", companyMessges.cashBasis());
+		paysalesTaxgroupItem.setValueMap(map);
+
+		// if(!FinanceApplication.getCompany().getpreferences().getDoYouPaySalesTax())
+		// vatRegNumber.setDisabled(true);
+
+		companyDetailsForm.setFields(companyNameText, textareaItem,
+				trandigNameText, textareaItem2, doupaySalesChecBox,
+				vatRegNumber);
+		companyDetailsForm.getCellFormatter().addStyleName(1, 0,
+				"memoFormAlign");
+		companyDetailsForm.getCellFormatter().addStyleName(3, 0,
+				"memoFormAlign");
+		companyDetailsForm.setNumCols(7);
+		companyDetailsForm.setCellSpacing(5);
+		mainVLay.add(companyDetailsForm);
+
+		// if (FinanceApplication.getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US)
+		// mainVLay.add(taxgroupBtn);
+
+		mainVLay2.add(phoneAndFaxForm);
+		mainVLay2.setWidth("100%");
+		mainVLay2.getElement().getStyle().setMarginLeft(100, Unit.PX);
+		
+		HorizontalPanel mainHLay = new HorizontalPanel();
+		mainHLay.setWidth("100%");
+		mainHLay.setSpacing(10);
+		mainHLay.add(mainVLay);
+		mainHLay.add(mainVLay2);
+		mainHLay.setCellWidth(mainVLay, "50%");
+		mainHLay.setCellWidth(mainVLay2, "50%");
+		mainHLay.setCellHorizontalAlignment(mainVLay, ALIGN_LEFT);
+		mainHLay.setCellHorizontalAlignment(mainVLay2, ALIGN_RIGHT);
+		
+		
+//		addInputDialogHandler(new InputDialogHandler() {
+//		
+//		 public void onCancelClick() {
+//		
+//		 }
+//		
+//		 public boolean onOkClick() {
+//		
+//		 try {
+//		 if (CompanyInfoDialog.this.validate())
+//		 updatedCompany();
+//		 return true;
+//		 } catch (InvalidTransactionEntryException e) {
+//		 e.printStackTrace();
+//		 } catch (InvalidEntryException e) {
+//		 Accounter.showError(e.getMessage());
+//		 }
+//		 return false;
+//		 }
+//
+//		 });
+
+		// okbtn.setText(FinanceApplication.getCompanyMessages().update());
+
+		mainHLay.setWidth("600");
+		mainHLay.setHeight("250");
+
+		return mainHLay;
+
+		// setBodyLayout(mainHLay);
+
+	}
+
 	@Override
 	public void saveAndUpdateView() throws Exception {
 		savePreference();
+		updatedCompany();
 	}
 
 	protected void savePreference() {
@@ -282,6 +615,50 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		saveAndClose = true;
 		ViewManager.getInstance().updateCompanyPreferences(companyPreferences,
 				this);
+	}
+	protected void updatedCompany() {
+
+		/*
+		 * Here we are creating a new ClientCompany Object, to avoid sending all
+		 * the lists to server. Only the necessary fields which are required to
+		 * be updated are only sent to server.
+		 */
+		ClientCompany clientCompany = new ClientCompany();
+		clientCompany.stringID = company.stringID;
+		clientCompany.setName(getStringValue(companyNameText));
+		clientCompany.setTradingName(getStringValue(this.trandigNameText));
+		clientCompany.setPhone(getStringValue(phoneText));
+		clientCompany.setCompanyEmail(getStringValue(emailText));
+		clientCompany.setTaxId(getStringValue(taxIDText));
+		clientCompany.setFax(getStringValue(faxText));
+		clientCompany.setWebSite(getStringValue(websiteText));
+		clientCompany.setBankAccountNo(getStringValue(bankAccountText));
+		clientCompany.setSortCode(getStringValue(sortCodeText));
+
+		ClientCompanyPreferences companyPreferences = company.getPreferences();
+		if (companyPreferences == null) {
+			companyPreferences = new ClientCompanyPreferences();
+		}
+		companyPreferences
+				.setDoYouPaySalesTax(getBooleanValue(doupaySalesChecBox));
+		companyPreferences.setVATregistrationNumber(vatRegNumber.getValue()
+				.toString());
+
+		clientCompany.setpreferences(companyPreferences);
+
+		List<ClientAddress> list2 = new ArrayList<ClientAddress>(allAddresses
+				.values());
+		if (!list2.isEmpty())
+			clientCompany.setAddresses(list2);
+		else
+			clientCompany.setAddresses(FinanceApplication.getCompany()
+					.getAddresses());
+
+		clientCompany
+				.setRegistrationNumber(getStringValue(registrationNumberText));
+
+		ViewManager.getInstance().updateCompany(clientCompany, this);
+
 	}
 
 	@Override
@@ -355,6 +732,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		numbersIdsvForm.setItems(useAccountscheckbox, useCustomertID,
 				useVendorId, ageingFromTransactionDateORDueDate);
+		numbersIdsvForm.getCellFormatter().setWidth(0, 0, "225px");
 		numbersIdsvForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		// numbersIdsvForm.setCellSpacing(10);
 		numbersIdsvForm.setWidth("100%");
@@ -370,6 +748,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// dateItem.setUseTextField(true);
 
 		fiscalYrForm.setItems(dateItem);
+		fiscalYrForm.getCellFormatter().setWidth(0, 0, "225px");
 
 		/**
 		 * Account Transfer Group
@@ -490,6 +869,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// companyLayOut.add(taxgroupBtn);
 
 		VerticalPanel tab = new VerticalPanel();
+		tab.setWidth("100%");
 		tab.add(companyLayOut);
 		return tab;
 	}
