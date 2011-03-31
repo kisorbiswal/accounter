@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -33,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
@@ -88,6 +90,18 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				this.customerTransactionGrid.removeAllRecords();
 		}
 		super.customerSelected(customer);
+		if(customer.getPhoneNo()!=null)
+		phoneSelect.setValue(customer.getPhoneNo());
+		else 
+			phoneSelect.setValue("");
+		billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
+		if (billingAddress != null) {
+
+			billToTextArea.setValue(getValidAddress(billingAddress));
+
+		} else
+			billToTextArea.setValue("");
+
 		this.customer = customer;
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
@@ -146,8 +160,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				quote.setCustomer(customer);
 			if (contact != null)
 				quote.setContact(contact);
-			if (phoneNo != null)
-				quote.setPhone(phoneNo);
+			 if (phoneSelect.getValue() != null)
+			quote.setPhone(phoneSelect.getValue().toString());
 
 			if (deliveryDate.getEnteredDate() != null)
 				quote.setDeliveryDate(deliveryDate.getEnteredDate().getTime());
@@ -234,26 +248,25 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		customerCombo = createCustomerComboItem(FinanceApplication
 				.getCustomersMessages().customerName());
 		contactCombo = createContactComboItem();
-		billToCombo = createBillToComboItem();
-		phoneSelect = new SelectCombo(customerConstants.phone());
+		billToTextArea = new TextAreaItem();
+		billToTextArea.setWidth(100);
+		billToTextArea.setTitle(FinanceApplication.getCustomersMessages()
+				.billTo());
+		billToTextArea.setDisabled(true);
+
+		phoneSelect = new TextItem(customerConstants.phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isEdit);
-		phoneSelect
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						phoneNo = phoneSelect.getSelectedValue();
-					}
-				});
 
 		custForm = UIUtils.form(customerConstants.customer());
 		custForm.setCellSpacing(5);
 		custForm.setWidth("100%");
 
 		custForm.setFields(customerCombo, contactCombo, phoneSelect,
-				billToCombo);
+				billToTextArea);
+		custForm.getCellFormatter().setWidth(0, 0, "150");
+		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		custForm.setStyleName("align-form");
 		forms.add(custForm);
 
@@ -321,7 +334,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		forms.add(prodAndServiceForm1);
 
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
-		prodAndServiceForm2.setWidth("70%");
+		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
 		prodAndServiceForm2.setCellSpacing(5);
 		prodAndServiceForm2.addStyleName("invoice-total");
@@ -488,7 +501,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		this.contact = estimate.getContact();
 
 		this.phoneNo = estimate.getPhone();
-		phoneSelect.setSelected(this.phoneNo);
+		phoneSelect.setValue(this.phoneNo);
 		this.billingAddress = estimate.getAddress();
 		this.paymentTerm = company.getPaymentTerms(estimate.getPaymentTerm());
 		this.priceLevel = company.getPriceLevel(estimate.getPriceLevel());
@@ -497,7 +510,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
-		billToaddressSelected(this.billingAddress);
+		// billToaddressSelected(this.billingAddress);
+		if (billingAddress != null) {
+
+			billToTextArea.setValue(getValidAddress(billingAddress));
+
+		} else
+			billToTextArea.setValue("");
 		contactSelected(this.contact);
 		paymentTermsSelected(this.paymentTerm);
 		priceLevelSelected(this.priceLevel);
