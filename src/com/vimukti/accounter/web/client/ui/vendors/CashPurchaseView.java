@@ -1,7 +1,9 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
@@ -16,6 +18,7 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -31,6 +34,8 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
+import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -46,6 +51,7 @@ public class CashPurchaseView extends
 	public List<String> selectedComboList;
 	private ArrayList<DynamicForm> listforms;
 	protected Label titlelabel;
+	private TextAreaItem billToAreaItem;
 
 	protected CashPurchaseView() {
 		super(ClientTransaction.TYPE_CASH_PURCHASE, VENDOR_TRANSACTION_GRID);
@@ -118,16 +124,16 @@ public class CashPurchaseView extends
 		contactCombo = createContactComboItem();
 		contactCombo.setHelpInformation(true);
 		contactCombo.setWidth(100);
-		billToCombo = createBillToComboItem();
-		billToCombo.setHelpInformation(true);
-		billToCombo.setWidth(100);
-		phoneSelect = new SelectCombo(vendorConstants.phone());
+		billToAreaItem = new TextAreaItem(FinanceApplication
+				.getVendorsMessages().billTo());
+		billToAreaItem.setHelpInformation(true);
+		billToAreaItem.setWidth(100);
+		billToAreaItem.setDisabled(true);
+		phoneSelect = new TextItem(vendorConstants.phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		if (transactionObject != null)
 			phoneSelect.setDisabled(true);
-
-		formItems.add(phoneSelect);
 
 		vendorForm = UIUtils.form(UIUtils.getVendorString(FinanceApplication
 				.getVendorsMessages().supplier(), FinanceApplication
@@ -135,8 +141,9 @@ public class CashPurchaseView extends
 
 		vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect,
-				billToCombo);
-
+				billToAreaItem);
+		vendorForm.getCellFormatter().setWidth(0, 0, "160px");
+		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		forms.add(vendorForm);
 		formItems.add(contactCombo);
 		formItems.add(billToCombo);
@@ -211,7 +218,7 @@ public class CashPurchaseView extends
 		// vatCheckform.setFields(vatinclusiveCheck);
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setNumCols(2);
-		totalForm.setWidth("50%");
+		totalForm.setWidth("100%");
 		totalForm.setStyleName("invoice-total");
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
@@ -226,6 +233,7 @@ public class CashPurchaseView extends
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
+		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 
@@ -374,6 +382,14 @@ public class CashPurchaseView extends
 		contactSelected(cashPurchaseToBeEdited.getContact());
 		vendorSelected(FinanceApplication.getCompany().getVendor(
 				cashPurchaseToBeEdited.getVendor()));
+		phoneSelect.setValue(cashPurchaseToBeEdited.getPhone());
+		this.billingAddress = cashPurchaseToBeEdited.getVendorAddress();
+		if (billingAddress != null) {
+
+			billToAreaItem.setValue(getValidAddress(billingAddress));
+
+		} else
+			billToAreaItem.setValue("");
 		paymentMethodSelected(cashPurchaseToBeEdited.getPaymentMethod() != null ? cashPurchaseToBeEdited
 				.getPaymentMethod()
 				: "");
@@ -414,7 +430,16 @@ public class CashPurchaseView extends
 				this.vendorTransactionGrid.updateTotals();
 			}
 		}
+		if(vendor.getPhoneNo()!=null)
+			phoneSelect.setValue(vendor.getPhoneNo());
+		else
+			phoneSelect.setValue("");
 		super.vendorSelected(vendor);
+		billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
+		if (billingAddress != null) {
+			billToAreaItem.setValue(getValidAddress(billingAddress));
+		} else
+			billToAreaItem.setValue("");
 		if (vendor == null)
 			return;
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
@@ -424,9 +449,9 @@ public class CashPurchaseView extends
 
 	@Override
 	protected void paymentMethodSelected(String paymentMethod) {
-		super.paymentMethodSelected(paymentMethod);
-		setDisableStateForCheckNo(paymentMethod);
-		paymentMethodCombo.setValue(paymentMethod);
+		// super.paymentMethodSelected(paymentMethod);
+		// setDisableStateForCheckNo(paymentMethod);
+		// paymentMethodCombo.setValue(paymentMethod);
 	}
 
 	private void setDisableStateForCheckNo(String paymentMethod) {
@@ -492,8 +517,8 @@ public class CashPurchaseView extends
 			cashPurchase.setVendorAddress((billingAddress));
 
 		// Setting Phone
-		if (phoneNo != null)
-			cashPurchase.setPhone(phoneNo);
+		// if (phoneNo != null)
+		cashPurchase.setPhone(phoneSelect.getValue().toString());
 
 		// Setting Payment Methods
 		cashPurchase.setPaymentMethod(paymentMethod);
