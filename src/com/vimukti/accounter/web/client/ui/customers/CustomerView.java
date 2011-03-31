@@ -449,10 +449,12 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		customer.setAddress(addrsForm.getAddresss());
 
 		// Setting Phone
-		customer.setPhoneNumbers(fonFaxForm.getAllPhones());
+		// customer.setPhoneNumbers(fonFaxForm.getAllPhones());
+		customer.setPhoneNo(fonFaxForm.businessPhoneText.getValue().toString());
 
 		// Setting Fax
-		customer.setFaxNumbers(fonFaxForm.getAllFaxes());
+		// customer.setFaxNumbers(fonFaxForm.getAllFaxes());
+		customer.setFaxNo(fonFaxForm.businessFaxText.getValue().toString());
 
 		// Setting Email and Internet
 		customer.setEmails(emailForm.getAllEmails());
@@ -760,8 +762,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			addrsForm = new AddressForm(takenCustomer.getAddress());
 			addrsForm.setWidth("100%");
 			// Setting Phone Fax Form
-			fonFaxForm = new PhoneFaxForm(takenCustomer.getPhoneNumbers(),
-					takenCustomer.getFaxNumbers());
+			fonFaxForm = new PhoneFaxForm(null, null);
+			fonFaxForm.businessPhoneText.setValue(takenCustomer.getPhoneNo());
+			fonFaxForm.businessFaxText.setValue(takenCustomer.getFaxNo());
 			fonFaxForm.setWidth("100%");
 			// Setting Email Form
 			emailForm = new EmailForm(takenCustomer.getEmails(), takenCustomer
@@ -812,21 +815,22 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
 		leftVLay.add(customerForm);
-		leftVLay.add(addrsForm);
-		leftVLay.add(fonFaxForm);
+		leftVLay.add(accInfoForm);
+		// leftVLay.add(fonFaxForm);
+		// leftVLay.add(emailForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
+		rightVLay.add(addrsForm);
+		rightVLay.add(fonFaxForm);
 		rightVLay.add(emailForm);
-		rightVLay.add(accInfoForm);
-		rightVLay.setCellHorizontalAlignment(accInfoForm,
-				HasHorizontalAlignment.ALIGN_CENTER);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setSpacing(5);
 		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
+		topHLay.setCellWidth(rightVLay, "50%");
 
 		HorizontalPanel contHLay = new HorizontalPanel();
 
@@ -835,8 +839,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		mainVlay.add(topHLay);
 		mainVlay.add(contHLay);
 		mainVlay.add(panel);
-		mainVlay.add(memoForm);
-		mainVlay.add(bottomLayout);
+		// mainVlay.add(memoForm);
+		// mainVlay.add(bottomLayout);
 		mainVlay.setWidth("100%");
 
 		if (UIUtils.isMSIEBrowser())
@@ -869,17 +873,16 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				FinanceApplication.getCustomersMessages().width(), "185px");
 
 		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getCustomersMessages().width(),
-				titlewidth + "");
-		fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
-				FinanceApplication.getCustomersMessages().width(), "185px");
+				FinanceApplication.getCustomersMessages().width(), "240px");
+		// fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
+		// FinanceApplication.getCustomersMessages().width(), "185px");
 
 		customerForm.getCellFormatter().getElement(0, 0).getStyle().setWidth(
-				239, Unit.PX);
+				150, Unit.PX);
 		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getCustomersMessages().width(), "150px");
-		emailForm.getCellFormatter().getElement(0, 1).setAttribute(
-				FinanceApplication.getCustomersMessages().width(), "");
+				FinanceApplication.getCustomersMessages().width(), "240px");
+		// emailForm.getCellFormatter().getElement(0, 1).setAttribute(
+		// FinanceApplication.getCustomersMessages().width(), "");
 		accInfoForm.getCellFormatter().getElement(0, 0).setAttribute(
 				FinanceApplication.getCustomersMessages().width(), "150px");
 
@@ -1139,6 +1142,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		initShippingMethodList();
 		initCreditRatingList();
 		initPriceLevelList();
+		 if (takenCustomer != null && takenCustomer.getPhoneNo() != null)
+		 takenCustomer.setPhoneNo(takenCustomer.getPhoneNo());
+		 if (takenCustomer != null && takenCustomer.getFaxNo() != null)
+		 takenCustomer.setFaxNo(takenCustomer.getFaxNo());
 		if (company.getAccountingType() == 1)
 			initVatCodeList();
 		else
