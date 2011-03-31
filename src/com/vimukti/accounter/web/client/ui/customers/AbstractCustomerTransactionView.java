@@ -47,6 +47,8 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
+import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionUKGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionUSGrid;
@@ -127,7 +129,11 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	protected ShippingMethodsCombo shippingMethodsCombo;
 	protected DynamicForm custForm;
 
-	protected SelectCombo phoneSelect, statusSelect;
+	protected SelectCombo statusSelect;
+	
+	protected TextItem phoneSelect;
+	
+	protected TextAreaItem billToTextArea;
 
 	protected abstract void salesPersonSelected(ClientSalesPerson person);
 
@@ -423,16 +429,14 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	@Override
 	protected void showMenu() {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(FinanceApplication.getCustomersMessages()
-					.accounts(), FinanceApplication
-					.getCustomersMessages().service(), FinanceApplication
-					.getCustomersMessages().product());
+			setMenuItems(FinanceApplication.getCustomersMessages().accounts(),
+					FinanceApplication.getCustomersMessages().service(),
+					FinanceApplication.getCustomersMessages().product());
 		// FinanceApplication.getCustomersMessages().salesTax());
 		else
-			setMenuItems(FinanceApplication.getCustomersMessages()
-					.accounts(), FinanceApplication
-					.getCustomersMessages().service(), FinanceApplication
-					.getCustomersMessages().product());
+			setMenuItems(FinanceApplication.getCustomersMessages().accounts(),
+					FinanceApplication.getCustomersMessages().service(),
+					FinanceApplication.getCustomersMessages().product());
 		// FinanceApplication.getCustomersMessages().comment(),
 		// FinanceApplication.getCustomersMessages().VATItem());
 
@@ -1106,8 +1110,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	// }
 	protected void onAddNew(String item) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
-		if (item.equals(FinanceApplication.getCustomersMessages()
-				.accounts())) {
+		if (item.equals(FinanceApplication.getCustomersMessages().accounts())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			List<ClientTAXCode> taxCodes = FinanceApplication.getCompany()
 					.getActiveTaxCodes();
@@ -1200,6 +1203,35 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected void paymentTermsSelected(ClientPaymentTerms paymentTerm) {
 
+	}
+	
+	protected String getValidAddress(ClientAddress address) {
+		String toToSet = new String();
+		if (address.getAddress1() != null && !address.getAddress1().isEmpty()) {
+			toToSet = address.getAddress1().toString() + "\n";
+		}
+
+		if (address.getStreet() != null && !address.getStreet().isEmpty()) {
+			toToSet += address.getStreet().toString() + "\n";
+		}
+
+		if (address.getCity() != null && !address.getCity().isEmpty()) {
+			toToSet += address.getCity().toString() + "\n";
+		}
+
+		if (address.getStateOrProvinence() != null
+				&& !address.getStateOrProvinence().isEmpty()) {
+			toToSet += address.getStateOrProvinence() + "\n";
+		}
+		if (address.getZipOrPostalCode() != null
+				&& !address.getZipOrPostalCode().isEmpty()) {
+			toToSet += address.getZipOrPostalCode() + "\n";
+		}
+		if (address.getCountryOrRegion() != null
+				&& !address.getCountryOrRegion().isEmpty()) {
+			toToSet += address.getCountryOrRegion();
+		}
+		return toToSet;
 	}
 
 	protected void depositInAccountSelected(ClientAccount depositInAccount2) {
