@@ -1,7 +1,13 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
+import com.google.gwt.dom.client.Style.Cursor;
+import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -114,6 +120,23 @@ public class ConversionBalancesView extends AbstractBaseView {
 		// grid=new
 		superHeaderHtml = new HTML(FinanceApplication.getSettingsMessages()
 				.generalSettingsLabel());
+		superHeaderHtml.addMouseOverHandler(new MouseOverHandler() {
+
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				superHeaderHtml.getElement().getStyle().setCursor(Cursor.POINTER);
+				superHeaderHtml.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
+			}
+		});
+		superHeaderHtml.addMouseOutHandler(new MouseOutHandler() {
+
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				superHeaderHtml.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
+			}
+		});
 		headerHtml = new HTML(FinanceApplication.getSettingsMessages()
 				.conversionBalanaceHeader());
 

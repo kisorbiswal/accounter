@@ -347,4 +347,8 @@ public interface SettingsMessages extends FinanceMessages {
 
 	String copyTheme();
 
+	SafeHtml companySettingsTitle();
+
+	SafeHtml companyCommentHtml();
+
 }

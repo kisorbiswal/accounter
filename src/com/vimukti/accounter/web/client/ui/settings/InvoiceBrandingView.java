@@ -48,6 +48,23 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		titlePanel = new VerticalPanel();
 		generalSettingsHTML = new HTML(FinanceApplication.getSettingsMessages()
 				.generalSettingsLabel());
+		generalSettingsHTML.addMouseOverHandler(new MouseOverHandler() {
+
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				generalSettingsHTML.getElement().getStyle().setCursor(Cursor.POINTER);
+				generalSettingsHTML.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
+			}
+		});
+		generalSettingsHTML.addMouseOutHandler(new MouseOutHandler() {
+
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				generalSettingsHTML.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
+			}
+		});
 		invoiceBrandingHtml = new HTML(FinanceApplication.getSettingsMessages()
 				.invoiceBrandingLabel());
 		generalSettingsHTML.addClickHandler(new ClickHandler() {

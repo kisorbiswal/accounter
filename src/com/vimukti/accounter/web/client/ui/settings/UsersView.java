@@ -4,8 +4,14 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
+import com.google.gwt.dom.client.Style.Cursor;
+import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -63,6 +69,23 @@ public class UsersView extends BaseView<ClientUser> {
 		flexTable = new FlexTable();
 		generalSettingsHTML = new HTML(FinanceApplication.getSettingsMessages()
 				.generalSettingsLabel());
+		generalSettingsHTML.addMouseOverHandler(new MouseOverHandler() {
+
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				generalSettingsHTML.getElement().getStyle().setCursor(Cursor.POINTER);
+				generalSettingsHTML.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
+			}
+		});
+		generalSettingsHTML.addMouseOutHandler(new MouseOutHandler() {
+
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				generalSettingsHTML.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
+			}
+		});
 		generalSettingsHTML.addClickHandler(new ClickHandler() {
 
 			@Override

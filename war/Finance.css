@@ -1195,6 +1195,7 @@ iframe{
 .general-image{
 	 margin-left: 30px;
     margin-right: 20px;
+    cursor: pointer;
 }
 .general-main-class p{
 	margin-bottom:0px;

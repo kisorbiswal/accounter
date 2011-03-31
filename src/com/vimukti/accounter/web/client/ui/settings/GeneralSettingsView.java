@@ -16,16 +16,18 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
 @SuppressWarnings("unchecked")
 public class GeneralSettingsView extends AbstractBaseView {
 	private VerticalPanel mainPanel, conversationPanel, invoiceBrandingPanel,
-			userPanel;
+			userPanel, companyPanel;
 	private FlexTable optionsTable;
 	private HorizontalPanel titlePanel;
 	private HTML conversionHTML, conversationCommentHTML, invoiceBrandingHTML,
-			invoiceCommentHtml, titleHtml, userHtml, userCommentHtml;
-	private Image conversationImage, usersImage, invoiceImage;
+			invoiceCommentHtml, titleHtml, userHtml, userCommentHtml,
+			companySettingsHtml, companyCommentHtml;
+	private Image conversationImage, usersImage, invoiceImage, companyImage;
 
 	@Override
 	public void fitToSize(int height, int width) {
@@ -78,16 +80,28 @@ public class GeneralSettingsView extends AbstractBaseView {
 				.invoiceBrandingHTML());
 		invoiceCommentHtml = new HTML(FinanceApplication.getSettingsMessages()
 				.invoiceComment());
-
 		userHtml = new HTML(FinanceApplication.getSettingsMessages().userHTML());
 		userCommentHtml = new HTML(FinanceApplication.getSettingsMessages()
 				.usersComment());
+		companySettingsHtml = new HTML(FinanceApplication.getSettingsMessages()
+				.companySettingsTitle());
+		companyCommentHtml = new HTML(FinanceApplication.getSettingsMessages()
+				.companyCommentHtml());
+
 		titlePanel.add(titleHtml);
 		conversationPanel.add(conversionHTML);
 		conversationPanel.add(conversationCommentHTML);
 		// conversationPanel.setVisible(false);
 		conversationImage = new Image("images/conversion-Balances.png");
 		conversationImage.setStyleName("general-image");
+		conversationImage.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				SettingsActionFactory.getConversionBalancesAction().run(null,
+						false);
+			}
+		});
 		// conversationImage.setVisible(false);
 		conversionHTML.addClickHandler(new ClickHandler() {
 			@Override
@@ -120,6 +134,14 @@ public class GeneralSettingsView extends AbstractBaseView {
 		invoiceBrandingPanel.add(invoiceCommentHtml);
 		invoiceImage = new Image("images/invoice-general.png");
 		invoiceImage.setStyleName("general-image");
+		invoiceImage.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				SettingsActionFactory.getInvoiceBrandingAction().run(null,
+						false);
+			}
+		});
 		invoiceBrandingHTML.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -153,6 +175,13 @@ public class GeneralSettingsView extends AbstractBaseView {
 		userPanel.add(userCommentHtml);
 		usersImage = new Image("images/users-general.png");
 		usersImage.setStyleName("general-image");
+		usersImage.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				SettingsActionFactory.getUsersAction().run(null, false);
+			}
+		});
 		userHtml.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -179,14 +208,57 @@ public class GeneralSettingsView extends AbstractBaseView {
 			}
 		});
 
+		companyPanel = new VerticalPanel();
+		companyImage = new Image("images/companySettings.png");
+		companyImage.setStyleName("general-image");
+		companyImage.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				CompanyActionFactory.getPreferencesAction().run(null, false);
+
+			}
+		});
+		companySettingsHtml.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				CompanyActionFactory.getPreferencesAction().run(null, false);
+
+			}
+		});
+		companySettingsHtml.addMouseOverHandler(new MouseOverHandler() {
+
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				companySettingsHtml.getElement().getStyle().setCursor(
+						Cursor.POINTER);
+				companySettingsHtml.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
+			}
+		});
+		companySettingsHtml.addMouseOutHandler(new MouseOutHandler() {
+
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				companySettingsHtml.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
+
+			}
+		});
+		companyPanel.add(companySettingsHtml);
+		companyPanel.add(companyCommentHtml);
+
 		optionsTable.setStyleName("general-main-class");
 		titlePanel.add(titleHtml);
 		optionsTable.setWidget(0, 0, conversationImage);
 		optionsTable.setWidget(0, 1, conversationPanel);
-		optionsTable.setWidget(1, 0, invoiceImage);
-		optionsTable.setWidget(1, 1, invoiceBrandingPanel);
-		optionsTable.setWidget(2, 0, usersImage);
-		optionsTable.setWidget(2, 1, userPanel);
+		optionsTable.setWidget(1, 0, usersImage);
+		optionsTable.setWidget(1, 1, userPanel);
+		optionsTable.setWidget(2, 0, invoiceImage);
+		optionsTable.setWidget(2, 1, invoiceBrandingPanel);
+		optionsTable.setWidget(3, 0, companyImage);
+		optionsTable.setWidget(3, 1, companyPanel);
 
 		mainPanel.add(titlePanel);
 		mainPanel.add(optionsTable);
