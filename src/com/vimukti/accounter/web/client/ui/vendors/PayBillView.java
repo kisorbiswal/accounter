@@ -3,9 +3,11 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -38,6 +40,7 @@ import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
+import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.TransactionPayBillGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
@@ -55,7 +58,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	protected AmountField creditTextItem;
 	public AmountLabel unUsedCreditsText;
 	protected SelectCombo vendorPaymentMethodCombo;
-
+	protected TextAreaItem memoTextAreaItem;
 	protected List<PayBillTransactionList> paybillTransactionList;
 	protected List<PayBillTransactionList> filterList;
 	protected List<PayBillTransactionList> tempList;
@@ -371,6 +374,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 			}
 
 		});
+		transactionNumber = createTransactionNumberItem();
 
 		vendorCombo = createVendorComboItem(UIUtils.getVendorString(
 				FinanceApplication.getVendorsMessages().supplierName(),
@@ -438,11 +442,20 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		// filterForm.setGroupTitle(vendorConstants.Filter());
 		// filterForm.setFields(dueDate);
 
+		DynamicForm dateForm = new DynamicForm();
+		dateForm.setNumCols(4);
+		dateForm.setFields(date, transactionNumber);
+
+		HorizontalPanel datepanel = new HorizontalPanel();
+		datepanel.setWidth("100%");
+		datepanel.add(dateForm);
+		datepanel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
+
 		payForm = new DynamicForm();
 		payForm.setWidth("80%");
 		payForm.setIsGroup(true);
 		payForm.setGroupTitle(vendorConstants.Payment());
-		payForm.setFields(date, vendorCombo, payFromCombo, paymentMethodCombo,
+		payForm.setFields(vendorCombo, payFromCombo, paymentMethodCombo,
 				dueDate);
 		amtText = new AmountField(vendorConstants.Amount());
 		amtText.setHelpInformation(true);
@@ -469,13 +482,32 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 		initListGrid();
 
+		memoTextAreaItem = createMemoTextAreaItem();
+		memoTextAreaItem.setWidth("100%");
+
+		DynamicForm memoForm = new DynamicForm();
+		memoForm.setWidth("100%");
+		memoForm.setFields(memoTextAreaItem);
+		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+
 		unUsedCreditsText = new AmountLabel(vendorConstants.unusedCredits());
 		unUsedCreditsText.setDisabled(true);
 
 		DynamicForm textForm = new DynamicForm();
 		textForm.setNumCols(2);
+		textForm.setWidth("70%");
+		textForm.setStyleName("unused-payments");
 		textForm.setFields(unUsedCreditsText);
 		forms.add(textForm);
+
+		HorizontalPanel bottompanel = new HorizontalPanel();
+		bottompanel.setWidth("100%");
+		bottompanel.add(memoForm);
+		bottompanel.setCellHorizontalAlignment(memoForm,
+				HasHorizontalAlignment.ALIGN_LEFT);
+		bottompanel.add(textForm);
+		bottompanel.setCellHorizontalAlignment(textForm,
+				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
@@ -483,14 +515,15 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
+		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(balForm);
 
-		HorizontalPanel hLay2 = new HorizontalPanel();
-		hLay2.setWidth("100%");
-		hLay2.setHorizontalAlignment(ALIGN_RIGHT);
-
-		hLay2.add(textForm);
+		// HorizontalPanel hLay2 = new HorizontalPanel();
+		// hLay2.setWidth("100%");
+		// hLay2.setHorizontalAlignment(ALIGN_RIGHT);
+		//
+		// hLay2.add(textForm);
 		HorizontalPanel bottomAmtsLayout = new HorizontalPanel();
 
 		bottomAmtsLayout.setWidth("100%");
@@ -498,11 +531,12 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		gridLayout.add(lab1);
 		gridLayout.add(gridView);
 		gridLayout.add(bottomAmtsLayout);
-		gridLayout.add(hLay2);
+		gridLayout.add(bottompanel);
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab);
+		mainVLay.add(datepanel);
 		mainVLay.add(topHLay);
 		mainVLay.add(gridLayout);
 
