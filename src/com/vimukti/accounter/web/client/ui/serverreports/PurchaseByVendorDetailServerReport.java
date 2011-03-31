@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class PurchaseByVendorDetailServerReport extends
@@ -47,13 +48,13 @@ public class PurchaseByVendorDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getVendorString("Supplier", "Vendor"), "Date",
+		return new String[] { UIUtils.getVendorString("Supplier", "Vendor"), "Date",
 				"Type", "No.", "Amount" };
 	}
 
 	@Override
 	public String getTitle() {
-		return getVendorString("Purchase By Supplier Detail",
+		return UIUtils.getVendorString("Purchase By Supplier Detail",
 				"Purchase By Vendor Detail");
 	}
 
@@ -184,7 +185,7 @@ public class PurchaseByVendorDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getVendorString("Supplier", "Vendor"), "Date",
+		return new String[] { UIUtils.getVendorString("Supplier", "Vendor"), "Date",
 				"Type", "No.", "Amount" };
 	}
 
