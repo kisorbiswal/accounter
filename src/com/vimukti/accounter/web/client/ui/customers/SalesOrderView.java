@@ -203,18 +203,9 @@ public class SalesOrderView extends
 		if (transactionObject != null)
 			shipToAddress.businessSelect.setDisabled(true);
 
-		phoneSelect = new SelectCombo(customerConstants.phone());
+		phoneSelect = new TextItem(customerConstants.phone());
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isEdit);
-		phoneSelect
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						phoneNo = phoneSelect.getSelectedValue();
-
-					}
-				});
 
 		custForm = UIUtils.form(customerConstants.billingAddress());
 		custForm.setNumCols(3);
@@ -410,6 +401,7 @@ public class SalesOrderView extends
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
+		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 		topHLay.setCellWidth(leftVLay, "50%");
@@ -526,9 +518,6 @@ public class SalesOrderView extends
 		this.billingAddress = salesOrderToBeEdited.getBillingAddress();
 
 		this.contact = salesOrderToBeEdited.getContact();
-		if (salesOrderToBeEdited.getPhone() != null)
-			this.phoneNo = salesOrderToBeEdited.getPhone();
-
 		this.addressListOfCustomer = customer.getAddress();
 
 		if (billingAddress != null) {
@@ -582,8 +571,12 @@ public class SalesOrderView extends
 
 		initTransactionNumber();
 
+		if (salesOrderToBeEdited.getPhone() != null)
+			this.phoneNo = salesOrderToBeEdited.getPhone();
+		if (customer.getPhoneNo() == null &&customer.getPhoneNo().isEmpty())
+			phoneSelect.setValue(this.phoneNo);
+
 		contactSelected(this.contact);
-		phoneSelect.setSelected(this.phoneNo);
 
 		// billToaddressSelected(this.billingAddress);
 		// shipToAddressSelected(shippingAddress);
@@ -691,8 +684,8 @@ public class SalesOrderView extends
 				salesOrder.setCustomer(customer.getStringID());
 			if (contact != null)
 				salesOrder.setContact(contact);
-			if (phoneNo != null)
-				salesOrder.setPhone(phoneNo);
+			if (phoneSelect.getValue() != null)
+				salesOrder.setPhone(phoneSelect.getValue().toString());
 			if (billingAddress != null)
 				salesOrder.setBillingAddress(billingAddress);
 			if (shippingAddress != null)
@@ -763,6 +756,10 @@ public class SalesOrderView extends
 			customerCombo.setComboItem(customer);
 			// if (transactionObject == null)
 			// getEstimates();
+			if (customer.getPhoneNo() != null)
+				phoneSelect.setValue(customer.getPhoneNo());
+			else
+				phoneSelect.setValue("");
 			this.addressListOfCustomer = customer.getAddress();
 			billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
 			if (billingAddress != null) {
