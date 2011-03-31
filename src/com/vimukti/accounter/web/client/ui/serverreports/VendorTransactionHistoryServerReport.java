@@ -24,7 +24,8 @@ public class VendorTransactionHistoryServerReport extends
 		this.reportView = reportView;
 	}
 
-	public VendorTransactionHistoryServerReport(long startDate, long endDate,int generationType) {
+	public VendorTransactionHistoryServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -37,7 +38,7 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getVendorString("Supplier", "Vendor"), "Date",
+		return new String[] { UIUtils.getVendorString("Supplier", "Vendor"), "Date",
 				"Type", "No",
 				// FinanceApplication.getReportsMessages().reference(),
 				"Account", "Amount"
@@ -61,7 +62,7 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public String getTitle() {
-		return getVendorString("Supplier Transaction History",
+		return UIUtils. getVendorString("Supplier Transaction History",
 				"Vendor Transaction History");
 	}
 
@@ -102,7 +103,7 @@ public class VendorTransactionHistoryServerReport extends
 		case 0:
 			return "";
 		case 2:
-			return ReportUtility.getTransactionName(record.getType());
+			return ReportUtility.getTransactionName(getType(record));
 		case 1:
 			return getDateByCompanyType(record.getDate());
 		case 3:
@@ -227,7 +228,7 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getVendorString("Supplier", "Vendor"), "Date",
+		return new String[] { UIUtils.getVendorString("Supplier", "Vendor"), "Date",
 				"Type", "No", "Account", "Amount" };
 	}
 }
