@@ -972,8 +972,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		companyMenuBar.addItem(CompanyActionFactory.getNewJournalEntryAction());
 		companyMenuBar.addItem(CompanyActionFactory.getNewAccountAction());
 		companyMenuBar.addSeparator();
-		companyMenuBar.addItem(CompanyActionFactory
-				.getCompanyInformationAction());
+//		companyMenuBar.addItem(CompanyActionFactory
+//				.getCompanyInformationAction());
 		companyMenuBar.addItem(CompanyActionFactory.getPreferencesAction());
 		companyMenuBar.addSeparator();
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
