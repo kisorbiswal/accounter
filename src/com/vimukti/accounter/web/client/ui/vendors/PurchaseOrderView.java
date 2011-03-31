@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Style.VerticalAlign;
+
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -31,6 +33,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -44,6 +47,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -66,6 +70,8 @@ public class PurchaseOrderView extends
 	protected ClientPaymentTerms paymentTerms;
 	protected ClientShippingTerms shippingTerms;
 	protected ClientShippingMethod shippingMethod;
+	private TextAreaItem billtoAreaItem;
+	private ShipToForm shipToAddress;
 	private DateField dueDateItem;
 	@SuppressWarnings("unused")
 	private long dueDate;
@@ -168,21 +174,34 @@ public class PurchaseOrderView extends
 		contactCombo
 				.setTitle(FinanceApplication.getVendorsMessages().contact());
 		// contactCombo.setWidth(100);
-		billToCombo = createVendorAddressComboItem();
-		billToCombo.setTitle(FinanceApplication.getVendorsMessages().billTo());
-		shipToCombo = createShipToComboItem();
-
-		phoneSelect = new SelectCombo(vendorConstants.phone());
-		phoneSelect.setHelpInformation(true);
-		phoneSelect
+		// billToCombo = createVendorAddressComboItem();
+		// billToCombo.setTitle(FinanceApplication.getVendorsMessages().billTo());
+		billtoAreaItem = new TextAreaItem(FinanceApplication
+				.getVendorsMessages().billTo());
+		billtoAreaItem.setWidth("100%");
+		billtoAreaItem.setDisabled(true);
+		// shipToCombo = createShipToComboItem();
+		shipToAddress = new ShipToForm(null);
+		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
+				.setVerticalAlign(VerticalAlign.TOP);
+		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
+				FinanceApplication.getCustomersMessages().width(), "40px");
+		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
+		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						phoneNo = phoneSelect.getSelectedValue();
+						shippingAddress = shipToAddress.getAddress();
+						if (shippingAddress != null)
+							shipToAddress.setAddres(shippingAddress);
+						else
+							shipToAddress.addrArea.setValue("");
 					}
-
 				});
+
+		phoneSelect = new TextItem(vendorConstants.phone());
+		phoneSelect.setHelpInformation(true);
 		phoneSelect.setDisabled(false);
 
 		formItems.add(phoneSelect);
@@ -192,7 +211,9 @@ public class PurchaseOrderView extends
 				.getVendorsMessages().vendor()));
 		vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect,
-				billToCombo, shipToCombo);
+				billtoAreaItem);
+		vendorForm.getCellFormatter().setWidth(0, 0, "226px");
+		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 
 		forms.add(vendorForm);
 		formItems.add(contactCombo);
@@ -316,6 +337,7 @@ public class PurchaseOrderView extends
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
 		leftVLay.add(vendorForm);
+		leftVLay.add(shipToAddress);
 
 		VerticalPanel rightVLay = new VerticalPanel();
 		// rightVLay.setWidth("93%");
@@ -327,6 +349,7 @@ public class PurchaseOrderView extends
 		HorizontalPanel topHLay = new HorizontalPanel();
 		// topHLay.setStyleName("toplayout");
 		topHLay.setWidth("100%");
+		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 		topHLay.setCellWidth(leftVLay, "52%");
@@ -551,9 +574,28 @@ public class PurchaseOrderView extends
 		initTransactionNumber();
 		vendorSelected(company.getVendor(purchaseOrderToBeEdited.getVendor()));
 		contactSelected(purchaseOrderToBeEdited.getContact());
-		// phoneSelect.setValue(this.phoneNo);
-		vendoraddressSelected(purchaseOrderToBeEdited.getVendorAddress());
-		shipToAddressSelected(purchaseOrderToBeEdited.getShippingAddress());
+		phoneSelect.setValue(purchaseOrderToBeEdited.getPhone());
+		// vendoraddressSelected(purchaseOrderToBeEdited.getVendorAddress());
+		// shipToAddressSelected(purchaseOrderToBeEdited.getShippingAddress());
+
+		List<ClientAddress> addresses = new ArrayList<ClientAddress>();
+		if (vendor != null)
+			addresses.addAll(vendor.getAddress());
+		shipToAddress.setListOfCustomerAdress(addresses);
+		if (shippingAddress != null) {
+			shipToAddress.businessSelect.setValue(shippingAddress
+					.getAddressTypes().get(shippingAddress.getType()));
+			shipToAddress.setAddres(shippingAddress);
+		}
+
+		this.addressListOfVendor = vendor.getAddress();
+
+		if (billingAddress != null) {
+
+			billtoAreaItem.setValue(getValidAddress(billingAddress));
+
+		} else
+			billtoAreaItem.setValue("");
 
 		purchaseOrderText.setValue(purchaseOrderToBeEdited
 				.getPurchaseOrderNumber());
@@ -744,8 +786,8 @@ public class PurchaseOrderView extends
 
 			if (contact != null)
 				purchaseOrder.setContact(contact);
-			if (phoneNo != null)
-				purchaseOrder.setPhone(phoneNo);
+			if (phoneSelect.getValue() != null)
+				purchaseOrder.setPhone(phoneSelect.getValue().toString());
 			if (billingAddress != null)
 				purchaseOrder.setVendorAddress(billingAddress);
 			if (shippingAddress != null)
@@ -801,6 +843,15 @@ public class PurchaseOrderView extends
 			return;
 
 		super.vendorSelected(vendor);
+		if (vendor.getPhoneNo() != null)
+			phoneSelect.setValue(vendor.getPhoneNo());
+		else
+			phoneSelect.setValue("");
+		billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
+		if (billingAddress != null) {
+			billtoAreaItem.setValue(getValidAddress(billingAddress));
+		} else
+			billtoAreaItem.setValue("");
 
 		initVendorAddressCombo();
 		initShipToCombo();

@@ -451,6 +451,7 @@ public class VendorBillView extends
 		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 		vendorTransactionGrid.init();
 		vendorTransactionGrid.setDisabled(isEdit);
+		vendorTransactionGrid.getElement().getStyle().setMarginTop(10, Unit.PX);
 		memoTextAreaItem = createMemoTextAreaItem();
 		// memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
@@ -480,7 +481,7 @@ public class VendorBillView extends
 		DynamicForm vatCheckform = new DynamicForm();
 		// vatCheckform.setFields(vatinclusiveCheck);
 		DynamicForm totalForm = new DynamicForm();
-		totalForm.setWidth("41%");
+		totalForm.setWidth("100%");
 		totalForm.setStyleName("invoice-total");
 		// netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() +
 		// "102")
