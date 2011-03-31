@@ -41,6 +41,8 @@ public abstract class ClientPayee implements IAccounterCore {
 	boolean isActive = Boolean.TRUE;
 	String memo;
 	String paymentMethod;
+	private String phoneNo;
+	private String faxNo;
 
 	protected double openingBalance = 0D;
 
@@ -298,4 +300,21 @@ public abstract class ClientPayee implements IAccounterCore {
 		return this.stringID;
 	}
 
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+
+	public void setFaxNo(String faxNo) {
+		this.faxNo = faxNo;
+	}
+
+	public String getFaxNo() {
+		return faxNo;
+	}
+
+	
 }
