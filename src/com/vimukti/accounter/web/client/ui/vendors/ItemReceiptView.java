@@ -344,7 +344,7 @@ public class ItemReceiptView extends
 		this.contact = itemReceipt.getContact();
 		if (itemReceipt.getPhone() != null)
 			this.phoneNo = itemReceipt.getPhone();
-		phoneSelect.setSelected(this.phoneNo);
+		phoneSelect.setValue(this.phoneNo);
 		// this.ve = itemReceipt.getVendorAddress();
 		this.billingAddress = itemReceipt.getVendorAddress();
 		this.paymentTerm = company
