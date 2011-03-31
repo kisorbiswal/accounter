@@ -91,7 +91,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 		titlePanel.add(titleHtml);
 		conversationPanel.add(conversionHTML);
 		conversationPanel.add(conversationCommentHTML);
-		// conversationPanel.setVisible(false);
+		conversationPanel.setVisible(false);
 		conversationImage = new Image("images/conversion-Balances.png");
 		conversationImage.setStyleName("general-image");
 		conversationImage.addClickHandler(new ClickHandler() {
@@ -102,7 +102,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 						false);
 			}
 		});
-		// conversationImage.setVisible(false);
+		conversationImage.setVisible(false);
 		conversionHTML.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
