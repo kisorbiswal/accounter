@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -13,6 +14,7 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -26,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -33,6 +36,7 @@ import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
@@ -49,6 +53,7 @@ public class CashSalesView extends
 	// private CashSales cashSale;
 
 	private ArrayList<DynamicForm> listforms;
+	private ShipToForm shipToAddress;
 
 	public CashSalesView() {
 
@@ -115,23 +120,38 @@ public class CashSalesView extends
 
 		contactCombo = createContactComboItem();
 
-		billToCombo = createBillToComboItem();
-		phoneSelect = new SelectCombo(customerConstants.phone());
+		phoneSelect = new TextItem(customerConstants.phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isEdit);
-		phoneSelect
+
+		billToTextArea = new TextAreaItem(FinanceApplication
+				.getCustomersMessages().billTo());
+		billToTextArea.setDisabled(true);
+		shipToAddress = new ShipToForm(null);
+		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
+				.setVerticalAlign(VerticalAlign.TOP);
+		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
+				FinanceApplication.getCustomersMessages().width(), "40px");
+		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
+		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						phoneNo = phoneSelect.getSelectedValue();
+						shippingAddress = shipToAddress.getAddress();
+						if (shippingAddress != null)
+							shipToAddress.setAddres(shippingAddress);
+						else
+							shipToAddress.addrArea.setValue("");
 					}
 				});
-		shipToCombo = createShipToComboItem();
+
 		custForm = UIUtils.form(customerConstants.customer());
 		custForm.setFields(customerCombo, contactCombo, phoneSelect,
-				billToCombo, shipToCombo);
+				billToTextArea);
+		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
+		custForm.getCellFormatter().setWidth(0, 0, "226px");
 		custForm.setNumCols(2);
 		custForm.setStyleName("align-form");
 		custForm.setWidth("100%");
@@ -170,9 +190,11 @@ public class CashSalesView extends
 		// refText.setWidth(160);
 
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
-		prodAndServiceForm1.setNumCols(2);
+		// prodAndServiceForm1.setNumCols(2);
 		prodAndServiceForm1.setWidth("100%");
-		prodAndServiceForm1.setFields();
+		prodAndServiceForm1.setFields(memoTextAreaItem);
+		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
+				"memoFormAlign");
 		forms.add(prodAndServiceForm1);
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
@@ -192,7 +214,7 @@ public class CashSalesView extends
 		disabletextbox.setVisible(false);
 
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
-		prodAndServiceForm2.setWidth("70%");
+		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
 		prodAndServiceForm2.addStyleName("invoice-total");
 		if (FinanceApplication.getCompany().getAccountingType() == 1) {
@@ -214,14 +236,14 @@ public class CashSalesView extends
 		forms.add(prodAndServiceForm2);
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
-		prodAndServiceHLay.setWidth("25%");
-		prodAndServiceHLay.setStyleName("bottomlayout-view");
+		prodAndServiceHLay.setWidth("100%");
 
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.setHorizontalAlignment(ALIGN_RIGHT);
 		panel.add(createAddNewButton());
 		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
+		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
 
 		VerticalPanel vPanel = new VerticalPanel();
@@ -233,7 +255,7 @@ public class CashSalesView extends
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
 		leftVLay.add(custForm);
-
+		leftVLay.add(shipToAddress);
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setHorizontalAlignment(ALIGN_LEFT);
 		rightVLay.setWidth("100%");
@@ -295,6 +317,21 @@ public class CashSalesView extends
 				this.customerTransactionGrid.removeAllRecords();
 		}
 		super.customerSelected(customer);
+		if (customer.getPhoneNo() != null)
+			phoneSelect.setValue(customer.getPhoneNo());
+		else
+			phoneSelect.setValue("");
+		billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
+		if (billingAddress != null) {
+
+			billToTextArea.setValue(getValidAddress(billingAddress));
+
+		} else
+			billToTextArea.setValue("");
+
+		List<ClientAddress> addresses = new ArrayList<ClientAddress>();
+		addresses.addAll(customer.getAddress());
+		shipToAddress.setAddress(addresses);
 		this.customer = customer;
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
@@ -343,13 +380,13 @@ public class CashSalesView extends
 					: new ClientCashSales();
 
 			cashSale.setCustomer(customer.getStringID());
-			cashSale.setPaymentMethod(paymentMethod);
+			cashSale.setPaymentMethod(paymentMethodCombo.getSelectedValue());
 			if (depositInAccount != null)
 				cashSale.setDepositIn(depositInAccount.getStringID());
 			if (contact != null)
 				cashSale.setContact(contact);
-			if (phoneNo != null)
-				cashSale.setPhone(phoneNo);
+			// if (phoneNo != null)
+			cashSale.setPhone(phoneSelect.getValue().toString());
 			if (salesPerson != null) {
 				cashSale.setSalesPerson(salesPerson.getStringID());
 			}
@@ -451,7 +488,7 @@ public class CashSalesView extends
 		}
 		this.contact = cashSale.getContact();
 		this.phoneNo = cashSale.getPhone();
-		phoneSelect.setSelected(this.phoneNo);
+		phoneSelect.setValue(this.phoneNo);
 
 		this.billingAddress = cashSale.getBillingAddress();
 		this.shippingAddress = cashSale.getShippingAdress();
@@ -469,8 +506,21 @@ public class CashSalesView extends
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
-		billToaddressSelected(this.billingAddress);
-		shipToAddressSelected(shippingAddress);
+		List<ClientAddress> addresses = new ArrayList<ClientAddress>();
+		if (customer != null)
+			addresses.addAll(customer.getAddress());
+		shipToAddress.setListOfCustomerAdress(addresses);
+		if (shippingAddress != null) {
+			shipToAddress.businessSelect.setValue(shippingAddress
+					.getAddressTypes().get(shippingAddress.getType()));
+			shipToAddress.setAddres(shippingAddress);
+		}
+		if (billingAddress != null) {
+
+			billToTextArea.setValue(getValidAddress(billingAddress));
+
+		} else
+			billToTextArea.setValue("");
 		contactSelected(this.contact);
 		priceLevelSelected(this.priceLevel);
 		salesPersonSelected(this.salesPerson);
@@ -479,7 +529,7 @@ public class CashSalesView extends
 		depositInAccountSelected(this.depositInAccount);
 
 		this.transactionItems = cashSale.getTransactionItems();
-		paymentMethodCombo.setValue(cashSale.getPaymentMethod());
+		paymentMethodCombo.setComboItem(cashSale.getPaymentMethod());
 
 		if (cashSale.getDeliverydate() != 0)
 			this.deliveryDate.setEnteredDate(new ClientFinanceDate(cashSale
