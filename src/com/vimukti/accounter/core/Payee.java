@@ -57,6 +57,8 @@ public abstract class Payee implements IAccounterServerCore, ICreatableObject {
 	String memo;
 	String paymentMethod;
 	boolean isOpeningBalanceEditable = Boolean.TRUE;
+	private String phoneNo;
+	private String faxNo;
 
 	transient boolean isImported;
 
@@ -452,6 +454,22 @@ public abstract class Payee implements IAccounterServerCore, ICreatableObject {
 
 		if (payeeName != null && !this.getName().equals(payeeName))
 			Entry.updateEntryMemo(session, payeeName, this.getName());
+	}
+
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+
+	public void setFaxNo(String faxNo) {
+		this.faxNo = faxNo;
+	}
+
+	public String getFaxNo() {
+		return faxNo;
 	}
 
 }
