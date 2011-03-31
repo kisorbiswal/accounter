@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -427,14 +428,14 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	}
 
 	@Override
-	protected void showMenu() {
+	protected void showMenu(Button button) {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(FinanceApplication.getCustomersMessages().accounts(),
+			setMenuItems(button,FinanceApplication.getCustomersMessages().accounts(),
 					FinanceApplication.getCustomersMessages().service(),
 					FinanceApplication.getCustomersMessages().product());
 		// FinanceApplication.getCustomersMessages().salesTax());
 		else
-			setMenuItems(FinanceApplication.getCustomersMessages().accounts(),
+			setMenuItems(button,FinanceApplication.getCustomersMessages().accounts(),
 					FinanceApplication.getCustomersMessages().service(),
 					FinanceApplication.getCustomersMessages().product());
 		// FinanceApplication.getCustomersMessages().comment(),

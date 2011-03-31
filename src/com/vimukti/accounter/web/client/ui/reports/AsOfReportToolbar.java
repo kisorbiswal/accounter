@@ -88,35 +88,34 @@ public class AsOfReportToolbar extends ReportToolbar {
 		// // report basic is not yet implemented, so disable the feature.
 		// reportBasisItem.setDisabled(true);
 
-		 dateRangeCombo = new SelectCombo(FinanceApplication
-		 .getReportsMessages().dateRange());
-		 dateRangeCombo.setHelpInformation(true);
-		 dateRangeList = new ArrayList<String>();
-		 for (int i = 0; i < dateRangeArray.length; i++) {
-		 dateRangeList.add(dateRangeArray[i]);
-		 }
-		 dateRangeCombo.initCombo(dateRangeList);
-		 dateRangeCombo.setDefaultValue(dateRangeArray[0]);
-		 dateRangeCombo
-		 .addSelectionChangeHandler(new
-		 IAccounterComboSelectionChangeHandler<String>() {
-		
-		 @Override
-		 public void selectedComboBoxItem(String selectItem) {
-		
-		
-				// if (!dateRangeItem.getValue().toString().equals(
-				// FinanceApplication.getReportsMessages().custom())) {
-				dateRangeChanged(dateRangeCombo.getSelectedValue());
-				// customDate.setDisabled(true);
-				// updateButton.setEnabled(false);
-				// } else {
-				// customDate.setDisabled(false);
-				// updateButton.setEnabled(true);
-				// }
+		dateRangeCombo = new SelectCombo(FinanceApplication
+				.getReportsMessages().dateRange());
+		dateRangeCombo.setHelpInformation(true);
+		dateRangeList = new ArrayList<String>();
+		for (int i = 0; i < dateRangeArray.length; i++) {
+			dateRangeList.add(dateRangeArray[i]);
+		}
+		dateRangeCombo.initCombo(dateRangeList);
+		dateRangeCombo.setDefaultValue(dateRangeArray[0]);
+		dateRangeCombo.setValue(FinanceApplication.getReportsMessages().all());
+		dateRangeCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+
+						// if (!dateRangeItem.getValue().toString().equals(
+						// FinanceApplication.getReportsMessages().custom())) {
+						dateRangeChanged(dateRangeCombo.getSelectedValue());
+						// customDate.setDisabled(true);
+						// updateButton.setEnabled(false);
+						// } else {
+						// customDate.setDisabled(false);
+						// updateButton.setEnabled(true);
+						// }
+
+					}
+				});
 		customDate = new DateItem();
 		customDate.setHelpInformation(true);
 		// customDate.setUseTextField(true);

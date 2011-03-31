@@ -25,7 +25,6 @@ public class DateField extends DateItem {
 	private ValueChangeHandler<String> getValueChangedHandler() {
 		ValueChangeHandler<String> vHandler = new ValueChangeHandler<String>() {
 
-			@SuppressWarnings("deprecation")
 			@Override
 			public void onValueChange(ValueChangeEvent<String> event) {
 				// String date = event.getValue().toString();

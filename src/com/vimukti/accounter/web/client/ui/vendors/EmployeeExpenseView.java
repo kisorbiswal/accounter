@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.InvalidOperationException;
@@ -217,12 +218,12 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	}
 
 	@Override
-	protected void showMenu() {
+	protected void showMenu(Button button) {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(FinanceApplication.getVendorsMessages().accounts(),
+			setMenuItems(button,FinanceApplication.getVendorsMessages().accounts(),
 					FinanceApplication.getVendorsMessages().service());
 		else
-			setMenuItems(FinanceApplication.getVendorsMessages().accounts(),
+			setMenuItems(button,FinanceApplication.getVendorsMessages().accounts(),
 					FinanceApplication.getVendorsMessages().service());
 	}
 }

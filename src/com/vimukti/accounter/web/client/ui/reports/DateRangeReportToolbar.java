@@ -99,6 +99,8 @@ public class DateRangeReportToolbar extends ReportToolbar {
 			dateRangeItemList.add(dateRangeArray[i]);
 		}
 		dateRangeItemCombo.initCombo(dateRangeItemList);
+		dateRangeItemCombo.setValue(FinanceApplication.getReportsMessages()
+				.all());
 		// dateRangeItem.setDefaultValue(dateRangeArray[0]);
 		// dateRangeItem.addChangedHandler(new ChangeHandler() {
 		//

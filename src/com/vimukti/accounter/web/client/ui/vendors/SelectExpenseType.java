@@ -21,8 +21,8 @@ public class SelectExpenseType extends BaseDialog {
 	private final String CREDIT_CARD = FinanceApplication.getVendorsMessages()
 			.creditCard();
 	private final String CASH = FinanceApplication.getVendorsMessages().cash();
-	private final String EMPLOYEE = FinanceApplication.getVendorsMessages()
-			.employee();
+	// private final String EMPLOYEE = FinanceApplication.getVendorsMessages()
+	// .employee();
 	// private ViewConfiguration configuration;
 	private VendorsMessages vendorsConstants = GWT
 			.create(VendorsMessages.class);
@@ -47,7 +47,7 @@ public class SelectExpenseType extends BaseDialog {
 		setTitle(vendorsConstants.selectExpenseType());
 		typeRadio = new RadioGroupItem();
 		typeRadio.setShowTitle(false);
-			typeRadio.setValue(CREDIT_CARD, CASH, EMPLOYEE);
+		typeRadio.setValue(CREDIT_CARD, CASH);
 		DynamicForm typeForm = new DynamicForm();
 		typeForm.setWidth("100%");
 		typeForm.setIsGroup(true);
@@ -97,17 +97,14 @@ public class SelectExpenseType extends BaseDialog {
 									.failedToLoadCashPurchase());
 							e.printStackTrace();
 						}
-					} else if (radio.equals(EMPLOYEE)) {
-						try {
-							VendorsActionFactory.EmployeeExpenseAction().run(
-									null, false);
-						} catch (Throwable e) {
-							Accounter.showError(FinanceApplication
-									.getVendorsMessages()
-									.failedToLoadCashPurchase());
-							e.printStackTrace();
-						}
-					} else {
+					} /*
+					 * else if (radio.equals(EMPLOYEE)) { try {
+					 * VendorsActionFactory.EmployeeExpenseAction().run( null,
+					 * false); } catch (Throwable e) {
+					 * Accounter.showError(FinanceApplication
+					 * .getVendorsMessages() .failedToLoadCashPurchase());
+					 * e.printStackTrace(); } }
+					 */else {
 						Accounter
 								.showError(FinanceApplication
 										.getVendorsMessages()

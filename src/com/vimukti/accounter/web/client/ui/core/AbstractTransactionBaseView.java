@@ -296,7 +296,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		// if (this instanceof VendorBillView)
 		// dateItem.setShowTitle(true);
 		// else
-			dateItem.setShowTitle(false);
+		dateItem.setShowTitle(false);
 
 		dateItem.setWidth(100);
 		dateItem.setColSpan(2);
@@ -528,7 +528,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (isMenuRequired()) {
-					showMenu();
+					showMenu(menuButton);
 					showMenu((Event) event.getNativeEvent());
 				} else {
 					onAddNew();
@@ -545,7 +545,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	}
 
-	protected void showMenu() {
+	protected void showMenu(Button addMenuButton) {
 
 	}
 
@@ -588,7 +588,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	public String getMemoTextAreaItem() {
 		return memoTextAreaItem != null
 				&& memoTextAreaItem.getValue().toString() != null ? memoTextAreaItem
-				.getValue().toString() : "";
+				.getValue().toString()
+				: "";
 	}
 
 	public void setMemoTextAreaItem(String memo) {
@@ -697,8 +698,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		return isVATInclusive;
 	}
 
-	public void setMenuItems(Map<String, ImageResource> items) {
-		createPopupMenu();
+	public void setMenuItems(Button button, Map<String, ImageResource> items) {
+		createPopupMenu(button);
 		popupMenuBar.clearItems();
 		for (final String itm : items.keySet()) {
 			ImageResource imgSrc = items.get(itm);
@@ -717,8 +718,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		}
 	}
 
-	public void setMenuItems(String... items) {
-		createPopupMenu();
+	public void setMenuItems(Button button, String... items) {
+		createPopupMenu(button);
 		popupMenuBar.clearItems();
 		for (final String itm : items) {
 			Command cmd = new Command() {
@@ -751,17 +752,20 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		}
 	}
 
-	private void createPopupMenu() {
+	private void createPopupMenu(Button button) {
 		if (popupPanel == null) {
 			popupPanel = new PopupPanel(true);
-			popupMenuBar = new CustomMenuBar(
-					FinanceApplication.getFinanceMenuImages());
+			popupMenuBar = new CustomMenuBar(FinanceApplication
+					.getFinanceMenuImages());
 			popupMenuBar.getElement().setAttribute("id", "addnewpopumenu");
 
 			popupPanel.setStyleName("popup");
 			popupPanel.getElement().setAttribute("id", "addnewpopuppanel");
 			popupMenuBar.setVisible(true);
 			popupPanel.add(popupMenuBar);
+			popupPanel.setPopupPosition(button.getAbsoluteLeft(), button
+					.getAbsoluteTop()
+					- popupPanel.getOffsetHeight());
 		}
 	}
 
@@ -778,9 +782,9 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	}
 
 	public void showMenu(Event event) {
-		int x = DOM.eventGetClientX(event);
-		int y = DOM.eventGetClientY(event);
-		popupPanel.setPopupPosition(x, y);
+		// int x = DOM.eventGetClientX(event);
+		// int y = DOM.eventGetClientY(event);
+		// popupPanel.setPopupPosition(x, y);
 		popupPanel.show();
 	}
 
@@ -845,8 +849,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	protected void onAttach() {
 		super.onAttach();
 		if (menuButton != null) {
-			menuButton.getElement().getParentElement()
-					.addClassName("add-button");
+			menuButton.getElement().getParentElement().addClassName(
+					"add-button");
 
 			Element addseparator = DOM.createSpan();
 			addseparator.addClassName("add-separator");

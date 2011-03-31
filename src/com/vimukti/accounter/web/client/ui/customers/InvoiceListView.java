@@ -29,6 +29,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 
 	private List<InvoicesList> listOfInvoices;
 
+	private List<String> dateRangeList;
+
 	private static String OPEN = FinanceApplication.getCustomersMessages()
 			.open();
 	private static String OVER_DUE = FinanceApplication.getCustomersMessages()
@@ -149,7 +151,11 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 	protected SelectCombo getDateRangeSelectItem() {
 		dateRangeSelector = new SelectCombo(FinanceApplication
 				.getCustomersMessages().date());
-		dateRangeSelector.setValueMap(dateRangeArray);
+		dateRangeList = new ArrayList<String>();
+		for (int i = 0; i < dateRangeArray.length; i++) {
+			dateRangeList.add(dateRangeArray[i]);
+		}
+		dateRangeSelector.initCombo(dateRangeList);
 		dateRangeSelector.setDefaultValue(ALL);
 
 		if (UIUtils.isMSIEBrowser())

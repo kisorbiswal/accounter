@@ -8,6 +8,7 @@ import java.util.Set;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -1175,14 +1176,14 @@ public class WriteChequeView extends
 	// }
 
 	@Override
-	protected void showMenu() {
+	protected void showMenu(Button button) {
 		if (payee != null) {
 			switch (payee.getType()) {
 			case ClientWriteCheck.TYPE_CUSTOMER:
 			case ClientWriteCheck.TYPE_VENDOR:
 			case ClientWriteCheck.TYPE_TAX_AGENCY:
 				if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-					setMenuItems(FinanceApplication.getCustomersMessages()
+					setMenuItems(button,FinanceApplication.getCustomersMessages()
 							.accounts(), FinanceApplication
 							.getCustomersMessages().product()
 					// FinanceApplication.getCustomersMessages().comment(),
@@ -1190,7 +1191,7 @@ public class WriteChequeView extends
 					// .salesTax()
 					);
 				else
-					setMenuItems(FinanceApplication.getCustomersMessages()
+					setMenuItems(button,FinanceApplication.getCustomersMessages()
 							.accounts(), FinanceApplication
 							.getCustomersMessages().product(),
 					// FinanceApplication.getCustomersMessages().comment(),
@@ -1227,7 +1228,7 @@ public class WriteChequeView extends
 				// FinanceApplication.getVendorsMessages().comment());
 			}
 		} else
-			setMenuItems(FinanceApplication.getCustomersMessages().accounts(),
+			setMenuItems(button,FinanceApplication.getCustomersMessages().accounts(),
 					FinanceApplication.getCustomersMessages().product()
 			// FinanceApplication.getFinanceUIConstants().comment(),
 			// FinanceApplication.getFinanceUIConstants().salesTax()

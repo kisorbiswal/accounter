@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
@@ -144,14 +145,14 @@ public abstract class AbstractVendorTransactionView<T> extends
 	}
 
 	@Override
-	protected void showMenu() {
+	protected void showMenu(Button button) {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(FinanceApplication.getVendorsMessages()
+			setMenuItems(button,FinanceApplication.getVendorsMessages()
 					.nominalCodeItem(), FinanceApplication.getVendorsMessages()
 					.service(), FinanceApplication.getVendorsMessages()
 					.product());
 		else
-			setMenuItems(FinanceApplication.getVendorsMessages()
+			setMenuItems(button,FinanceApplication.getVendorsMessages()
 					.accounts(), FinanceApplication.getVendorsMessages()
 					.service(), FinanceApplication.getVendorsMessages()
 					.product());

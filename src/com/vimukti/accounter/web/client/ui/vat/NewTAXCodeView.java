@@ -230,6 +230,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 					vatItemComboForSales.setRequired(true);
 				} else {
 					isComboDisabled = true;
+					vatItemComboForSales.setValue("");
+					vatItemComboForPurchases.setValue("");
 					vatItemComboForPurchases.setRequired(false);
 					vatItemComboForSales.setRequired(false);
 					vatItemComboForSales.setDisabled(true);

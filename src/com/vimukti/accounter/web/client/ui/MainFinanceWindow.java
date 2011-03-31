@@ -226,8 +226,8 @@ public class MainFinanceWindow extends VerticalPanel {
 	private CustomMenuBar getSettingsMenu() {
 		CustomMenuBar settingsMenuBar = new CustomMenuBar();
 		settingsMenuBar.addItem("General Settings", getSettingsCommand(1));
-		settingsMenuBar.addItem("Inventory Items", getSettingsCommand(2));
-		settingsMenuBar.addItem("Chart of Accounts", getSettingsCommand(3));
+		// settingsMenuBar.addItem("Inventory Items", getSettingsCommand(2));
+		// settingsMenuBar.addItem("Chart of Accounts", getSettingsCommand(3));
 		return settingsMenuBar;
 	}
 
