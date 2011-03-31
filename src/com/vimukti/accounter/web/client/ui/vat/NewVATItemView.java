@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.PercentageField;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 /**
@@ -38,7 +39,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 	private TextItem vatItemNameText;
-	private TextItem descriptionText;
+	private TextAreaItem descriptionText;
 	private AmountField vatRateText;
 	private PercentageField vatRateTextPerT;
 	private TAXAgencyCombo vatAgencyCombo;
@@ -85,7 +86,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		vatItemNameText.setWidth(80);
 		vatItemNameText.setRequired(true);
 
-		descriptionText = new TextItem(FinanceApplication.getVATMessages()
+		descriptionText = new TextAreaItem(FinanceApplication.getVATMessages()
 				.description());
 		descriptionText.setHelpInformation(true);
 		descriptionText.setWidth(80);
@@ -201,6 +202,9 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 						}
 					}
 				});
+		
+        form1.getCellFormatter().setWidth(0, 0, "250px");
+		form1.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 
 		if (takenVATItem != null) {
 			vatItemNameText
