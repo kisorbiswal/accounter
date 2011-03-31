@@ -529,7 +529,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					+ Utility.getAccountTypeString(this.accountType)
 					+ " "
 					+ FinanceApplication.getAccounterComboConstants()
-							.category());
+							.financeCategory());
 
 	}
 
@@ -727,7 +727,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					+ Utility.getAccountTypeString(accountType)
 					+ " "
 					+ FinanceApplication.getAccounterComboConstants()
-							.category());
+							.financeCategory());
 
 	}
 
