@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -332,7 +332,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		});
 
 		accInfoForm.setStyleName("vender-form");
-		accInfoForm.setFields(statusCheck, vendorSinceDate, accountText,
+		accInfoForm.setFields(statusCheck, accountText, vendorSinceDate,
 				balanceText, balanceDate);
 
 		Label l1 = new Label(FinanceApplication.getVendorsMessages().contacts());
@@ -406,8 +406,9 @@ public class VendorView extends BaseView<ClientVendor> {
 			// addrsForm.setStyleName(FinanceApplication.getVendorsMessages()
 			// .venderForm());
 			// Setting Phone Fax Form
-			fonFaxForm = new PhoneFaxForm(takenVendor.getPhoneNumbers(),
-					takenVendor.getFaxNumbers());
+			fonFaxForm = new PhoneFaxForm(null, null);
+			fonFaxForm.businessPhoneText.setValue(takenVendor.getPhoneNo());
+			fonFaxForm.businessFaxText.setValue(takenVendor.getFaxNo());
 			fonFaxForm.setWidth("100%");
 			// Setting Email Form
 			emailForm = new EmailForm(takenVendor.getEmails(), takenVendor
@@ -473,14 +474,17 @@ public class VendorView extends BaseView<ClientVendor> {
 		// leftVLay.setHorizontalAlignment(ALIGN_RIGHT);
 		leftVLay.setWidth("100%");
 		// leftVLay.setCellHorizontalAlignment(vendorHPanel, ALIGN_RIGHT);
-		addrsForm.getCellFormatter().addStyleName(0, 0, "addrsFormCellAlign");
-		addrsForm.getCellFormatter().addStyleName(0, 1, "addrsFormCellAlign");
 		leftVLay.add(vendorForm);
-		leftVLay.add(addrsForm);
-		leftVLay.add(fonFaxForm);
+		leftVLay.add(accInfoForm);
+		// leftVLay.add(fonFaxForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
+		rightVLay.add(addrsForm);
+		rightVLay.add(fonFaxForm);
+		rightVLay.add(emailForm);
+		addrsForm.getCellFormatter().addStyleName(0, 0, "addrsFormCellAlign");
+		addrsForm.getCellFormatter().addStyleName(0, 1, "addrsFormCellAlign");
 
 		// HorizontalPanel emailHPanel = new HorizontalPanel();
 		// emailHPanel.setCellHorizontalAlignment(emailForm, ALIGN_LEFT);
@@ -488,16 +492,15 @@ public class VendorView extends BaseView<ClientVendor> {
 		// emailHPanel.add(emailForm);
 
 		VerticalPanel accInfoHPanel = new VerticalPanel();
-		accInfoHPanel.setWidth("90%");
-		accInfoHPanel.add(accInfoForm);
-		rightVLay.add(emailForm);
-		rightVLay.add(accInfoForm);
+		accInfoHPanel.setWidth("100%");
+
 		// rightVLay.setCellHorizontalAlignment(accInfoForm, ALIGN_RIGHT);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
+		topHLay.setCellWidth(rightVLay, "50Osave%");
 
 		HorizontalPanel contHLay = new HorizontalPanel();
 
@@ -505,7 +508,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		mainVlay.add(topHLay);
 		mainVlay.add(contHLay);
 		mainVlay.add(panel);
-		mainVlay.add(bottomPanel);
+		// mainVlay.add(bottomPanel);
 
 		/* Adding dynamic forms in list */
 		listforms.add(vendorForm);
@@ -645,8 +648,9 @@ public class VendorView extends BaseView<ClientVendor> {
 			vendorGrpForm.setFields(vendorGroupSelect, federalText);
 		else
 			vendorGrpForm.setFields(vendorGroupSelect);
-		
-		vendorGrpForm.getCellFormatter().getElement(0, 0).setAttribute(FinanceApplication.getVendorsMessages().width(), "147");
+
+		vendorGrpForm.getCellFormatter().getElement(0, 0).setAttribute(
+				FinanceApplication.getVendorsMessages().width(), "147");
 
 		vatRegistrationNumber = new TextItem(vendorConstants
 				.vatRegistrationNumber());
@@ -758,27 +762,23 @@ public class VendorView extends BaseView<ClientVendor> {
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 
 		addrsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getVendorsMessages().width(),
-				titlewidth + "");
+				FinanceApplication.getVendorsMessages().width(), "25px");
 		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
-				FinanceApplication.getVendorsMessages().width(), "185px");
+				FinanceApplication.getVendorsMessages().width(), "186px");
 
 		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getVendorsMessages().width(),
-				titlewidth + "");
-		fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
-				FinanceApplication.getVendorsMessages().width(), "185px");
+				FinanceApplication.getVendorsMessages().width(), "240px");
+		// fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
+		// FinanceApplication.getVendorsMessages().width(), "185px");
 
-		// vendorForm.getCellFormatter().getElement(0, 0).getStyle().setWidth(
-		// titlewidth + listBoxWidth, Unit.PX);
+		vendorForm.getCellFormatter().getElement(0, 0).getStyle().setWidth(150,
+				Unit.PX);
 		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getVendorsMessages().width(),
-				(3 * titlewidth) - 10 + "");
-		emailForm.getCellFormatter().getElement(0, 1).setAttribute(
-				FinanceApplication.getVendorsMessages().width(), "");
+				FinanceApplication.getVendorsMessages().width(), "240px");
+		// emailForm.getCellFormatter().getElement(0, 1).setAttribute(
+		// FinanceApplication.getVendorsMessages().width(), "");
 		accInfoForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getVendorsMessages().width(),
-				(3 * titlewidth) - 10 + "");
+				FinanceApplication.getVendorsMessages().width(), "150px");
 
 	}
 
@@ -866,10 +866,12 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendor.setAddress(addrsForm.getAddresss());
 
 		// Setting Phone
-		vendor.setPhoneNumbers(fonFaxForm.getAllPhones());
+		// vendor.setPhoneNumbers(fonFaxForm.getAllPhones());
+		vendor.setPhoneNo(fonFaxForm.businessPhoneText.getValue().toString());
 
 		// Setting Fax
-		vendor.setFaxNumbers(fonFaxForm.getAllFaxes());
+		// vendor.setFaxNumbers(fonFaxForm.getAllFaxes());
+		vendor.setFaxNo(fonFaxForm.businessFaxText.getValue().toString());
 
 		// Setting Email and Internet
 		vendor.setEmails(emailForm.getAllEmails());
@@ -1087,6 +1089,10 @@ public class VendorView extends BaseView<ClientVendor> {
 		addShippingMethodList();
 		addPaymentMethodList();
 		addPaymentTermsList();
+		if (takenVendor != null && takenVendor.getPhoneNo() != null)
+			takenVendor.setPhoneNo(takenVendor.getPhoneNo());
+		if (takenVendor != null && takenVendor.getFaxNo() != null)
+			takenVendor.setFaxNo(takenVendor.getFaxNo());
 
 	}
 
