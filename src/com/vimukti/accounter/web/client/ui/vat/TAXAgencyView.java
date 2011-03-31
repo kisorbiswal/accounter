@@ -30,6 +30,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
+import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -71,7 +72,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	TextItem taxAgencyText, fileAsText;
 
 	private TextItem linksText;
-	private TextAreaItem memoArea;
+	private TextAreaItem memoArea, billToTextAreaItem;
 	private CheckboxItem statusCheck;
 	private DynamicForm memoForm, accInfoForm, taxAgencyForm;
 
@@ -339,8 +340,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		taxAgencyForm = UIUtils.form(companyConstants.taxAgency());
 		taxAgencyForm.setWidth("100%");
-		taxAgencyForm.getCellFormatter().setWidth(0, 0, "232");
-		taxAgencyForm.setFields(taxAgencyText, fileAsText);
+		taxAgencyForm.getCellFormatter().setWidth(0, 0, "210");
+		taxAgencyForm.setFields(taxAgencyText);
 
 		accInfoForm = new DynamicForm();
 		accInfoForm = UIUtils.form(companyConstants.accountInformation());
@@ -424,7 +425,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			accInfoForm.setFields(statusCheck, paymentTermsCombo,
 					liabilitySalesAccountCombo);
 
-		accInfoForm.setWidth("97%");
+		accInfoForm.setWidth("94%");
 		accInfoForm.setStyleName("align-form");
 
 		memoForm = new DynamicForm();
@@ -435,7 +436,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		memoArea.setWidth("400px");
 		memoForm.setFields(memoArea);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
-       
+
 		addButton = new Button(FinanceApplication.getVATMessages().add());
 		// addButton.setStyleName("addButton");
 		addButton.addClickHandler(new ClickHandler() {
@@ -552,34 +553,37 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			phoneFaxForm.setWidth("100%");
 			emailForm = new EmailForm(null, null);
 			emailForm.setWidth("100%");
-		}
+		}	
 		
-		phoneFaxForm.getCellFormatter().setWidth(0, 0, "50");
-		phoneFaxForm.getCellFormatter().setWidth(0, 1, "125");
-		
+		phoneFaxForm.getCellFormatter().setWidth(0, 0, "235");
+		phoneFaxForm.getCellFormatter().setWidth(0, 1, "");
+
 		addrsForm.getCellFormatter().setWidth(0, 0, "50");
 		addrsForm.getCellFormatter().setWidth(0, 1, "125");
-		
-		emailForm.getCellFormatter().setWidth(0, 0, "212");
-		emailForm.getCellFormatter().setWidth(0, 1, "125");
+
+		emailForm.getCellFormatter().setWidth(0, 0, "235");
+		emailForm.getCellFormatter().setWidth(0, 1, "");
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
 		leftVLay.add(taxAgencyForm);
-		leftVLay.add(addrsForm);
-		addrsForm.getCellFormatter().addStyleName(0, 0, "addrsFormCellAlign");
-		addrsForm.getCellFormatter().addStyleName(0, 1, "addrsFormCellAlign");
-		leftVLay.add(phoneFaxForm);
+		leftVLay.add(accInfoForm);
+
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
+		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
+		 rightVLay.add(addrsForm);
+		rightVLay.add(phoneFaxForm);
 		rightVLay.add(emailForm);
-		rightVLay.add(accInfoForm);
+		addrsForm.getCellFormatter().addStyleName(0, 0, "addrsFormCellAlign");
+		addrsForm.getCellFormatter().addStyleName(0, 1, "addrsFormCellAlign");
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
 		topHLay.setSpacing(5);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
+		topHLay.setCellWidth(rightVLay, "50%");
 
 		HorizontalPanel contHLay = new HorizontalPanel();
 		contHLay.setSpacing(5);
@@ -589,7 +593,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		mainVlay.add(lab);
 		mainVlay.add(topHLay);
 		mainVlay.add(contHLay);
-		
+
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.setHorizontalAlignment(ALIGN_RIGHT);
 		panel.add(addButton);
@@ -598,7 +602,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		mainVlay.add(gridView);
 		mainVlay.add(panel);
-		mainVlay.add(memoForm);
+		// mainVlay.add(memoForm);
 
 		addButton.getElement().getParentElement().addClassName("add-button");
 
