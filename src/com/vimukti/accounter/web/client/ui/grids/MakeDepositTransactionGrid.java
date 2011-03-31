@@ -40,7 +40,7 @@ public class MakeDepositTransactionGrid extends
 	private SelectItem typeCombo;
 
 	public MakeDepositTransactionGrid() {
-		super(true, true);
+		super(false, true);
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class MakeDepositTransactionGrid extends
 	}
 
 	public void updateTotals() {
-		List<ClientTransactionMakeDeposit> records = getSelectedRecords();
+		List<ClientTransactionMakeDeposit> records = getRecords();
 		totallinetotal = 0.0;
 		for (ClientTransactionMakeDeposit rec : records)
 			totallinetotal += rec.getAmount();
@@ -251,7 +251,7 @@ public class MakeDepositTransactionGrid extends
 
 	@Override
 	public boolean validateGrid() throws InvalidTransactionEntryException {
-		for (ClientTransactionMakeDeposit record : getSelectedRecords()) {
+		for (ClientTransactionMakeDeposit record : getRecords()) {
 			if (((record.getType() == ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT && record
 					.getAccount() == null)
 					|| (record.getType() == ClientTransactionMakeDeposit.TYPE_VENDOR && record
