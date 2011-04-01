@@ -48,6 +48,7 @@ import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.customers.SalesOrderListAction;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.reports.AbstractReportView;
+import com.vimukti.accounter.web.client.ui.settings.UsersView;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListAction;
 
 /**
@@ -1633,7 +1634,8 @@ public class ViewManager extends DockPanel {
 			// if (height - TOP_MENUBAR - 40 > 0)
 			// ((BaseView) currentCanvas).setHeightForCanvas(height
 			// - TOP_MENUBAR - 40 + "");
-			((BaseView) currentCanvas).getButtonPanel().setHeight("30px");
+			if (!(currentCanvas instanceof UsersView))
+				((BaseView) currentCanvas).getButtonPanel().setHeight("30px");
 		}
 
 		if (currentCanvas != null)
