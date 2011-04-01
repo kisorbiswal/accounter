@@ -29,7 +29,7 @@ public class PurchaseOrderUKGrid extends VendorTransactionUKGrid {
 				"",
 				FinanceApplication.getVendorsMessages().name(),
 				FinanceApplication.getCustomersMessages().description(),
-				FinanceApplication.getVendorsMessages().qty(),
+				FinanceApplication.getCustomersMessages().quantity(),
 				FinanceApplication.getVendorsMessages().unitPrice(),
 				// "On Hand",
 				FinanceApplication.getVendorsMessages().total(),
