@@ -52,6 +52,7 @@ public class InvalidOperationException extends Exception implements
 			break;
 		case DELETE_FAILED:
 			this.detailedMessage ="Delete Failed";
+			break;
 		default:
 			this.detailedMessage = "Failed";
 			break;
