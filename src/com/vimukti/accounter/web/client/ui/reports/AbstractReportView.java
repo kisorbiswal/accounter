@@ -39,7 +39,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 	public static final int TOOLBAR_TYPE_SALES_PURCAHASE = 5;
 	public static final int TOOLBAR_TYPE_EXPENSE = 6;
 	public static final int TOOLBAR_TYPE_CHECKDETAIl = 7;
-	public static final int TOOLBAR_TYPE_CUSTOMER=8;
+	public static final int TOOLBAR_TYPE_CUSTOMER = 8;
 	public static final int TOP_MARGIN = 305;
 
 	protected ReportToolbar toolbar;
@@ -281,7 +281,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 			@Override
 			protected void onLoad() {
 				super.onLoad();
-//				grid.setHeight("450px");
+				// grid.setHeight("450px");
 			}
 		};
 		this.tableLayout.addStyleName("tableLayout");
@@ -416,9 +416,9 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 					if (UIUtils.isMSIEBrowser())
 						grid.setHeight(tableLayout.getOffsetHeight() + "px");
 					else
-//						grid.setHeight(tableLayout.getOffsetHeight() - 20
-//								+ "px");
-					super.onLoad();
+						// grid.setHeight(tableLayout.getOffsetHeight() - 20
+						// + "px");
+						super.onLoad();
 				}
 			};
 			this.grid.setReportView(this);
@@ -625,15 +625,16 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 	@Override
 	public void fitToSize(int height, int width) {
 
-		if (UIUtils.isMSIEBrowser()) {
-			if (height == 0) {
-				return;
-			}
-			fitHeight = height;
-			height = height - ViewManager.TOP_MENUBAR;
-			this.setHeight(height + "px");
-			mainLayout.setHeight(height - 5 + "px");
+		// if (UIUtils.isMSIEBrowser()) {
+		if (height == 0) {
+			return;
 		}
+		fitHeight = height;
+		height = height - ViewManager.TOP_MENUBAR;
+		this.setHeight(height + "px");
+		grid.setHeight(height + "px");
+		mainLayout.setHeight(height - 5 + "px");
+		// }
 	}
 
 	public void refresh() {
