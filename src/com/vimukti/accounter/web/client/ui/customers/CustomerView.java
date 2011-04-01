@@ -457,7 +457,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		customer.setFaxNo(fonFaxForm.businessFaxText.getValue().toString());
 
 		// Setting Email and Internet
-		customer.setEmails(emailForm.getAllEmails());
+		customer.setEmail(emailForm.businesEmailText.getValue().toString());
 
 		// Setting web page Address
 		customer.setWebPageAddress(emailForm.getWebTextValue());
@@ -767,8 +767,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			fonFaxForm.businessFaxText.setValue(takenCustomer.getFaxNo());
 			fonFaxForm.setWidth("100%");
 			// Setting Email Form
-			emailForm = new EmailForm(takenCustomer.getEmails(), takenCustomer
+			emailForm = new EmailForm(null, takenCustomer
 					.getWebPageAddress());
+			emailForm.businesEmailText.setValue(takenCustomer.getEmail());
 			emailForm.setWidth("100%");
 			// Setting Status Check
 			statusCheck.setValue(takenCustomer.isActive());
@@ -1043,7 +1044,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		termsForm.setWidth("100%");
 
 		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setWidth("100%");
+		leftVLay.setSize("100%","100%");
+		leftVLay.setHeight("450px");
+		leftVLay.getElement().getStyle().setBorderColor("none repeat scroll 0 0 #eee !important");
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 
