@@ -657,7 +657,7 @@ public class MakeDepositView extends
 	private List<ClientTransactionMakeDeposit> getAllSelectedRecords(
 			ClientMakeDeposit makeDeposit) {
 		List<ClientTransactionMakeDeposit> selectedRecords = gridView
-				.getSelectedRecords();
+				.getRecords();
 
 		for (ClientTransactionMakeDeposit rec : selectedRecords) {
 			rec.setStringID("");
@@ -1082,11 +1082,11 @@ public class MakeDepositView extends
 			InvalidEntryException {
 		switch (this.validationCount) {
 		case 7:
-			return gridView.validateGrid();
+//			return gridView.validateGrid();
 		case 6:
 			return AccounterValidator.validateTransactionDate(transactionDate);
 		case 5:
-			return AccounterValidator.validateGrid(gridView);
+//			return AccounterValidator.validateGrid(gridView);
 		case 4:
 			return AccounterValidator.validateForm(depoForm);
 		case 3:
