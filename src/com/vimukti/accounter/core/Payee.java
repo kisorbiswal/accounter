@@ -71,7 +71,7 @@ public abstract class Payee implements IAccounterServerCore, ICreatableObject {
 	// boolean isEUVATExemptPayee;
 	String VATRegistrationNumber;
 	TAXCode TAXCode;
-
+	private String email;
 	boolean isDefault;
 
 	public transient boolean isOnSaveProccessed;
@@ -470,6 +470,14 @@ public abstract class Payee implements IAccounterServerCore, ICreatableObject {
 
 	public String getFaxNo() {
 		return faxNo;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getEmail() {
+		return email;
 	}
 
 }
