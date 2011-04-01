@@ -135,8 +135,12 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 						EditShippingTerms();
 					else
 						createShippingTerms();
-				} else
+				} else {
+					Accounter.showError(FinanceApplication
+							.getCustomersMessages()
+							.detailsHighlightedInRedMustBeEntered());
 					return false;
+				}
 				return true;
 			}
 

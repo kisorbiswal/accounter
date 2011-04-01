@@ -68,7 +68,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	}
 
 	private BrandingThemeCombo brandingThemeTypeCombo;
-	private ClientBrandingTheme brandingTheme;
 	DateField dueDateItem;
 	private Double payments = 0.0;
 	private Double balanceDue = 0.0;
@@ -173,8 +172,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 	@Override
 	protected void createControls() {
-		// setTitle(UIUtils.title(customerConstants.newInvoice()));
-		brandingTheme = new ClientBrandingTheme();
+		new ClientBrandingTheme();
 		Label lab1;
 
 		if (transactionObject == null
@@ -346,8 +344,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				FinanceApplication.getCustomersMessages().width(), "200px");
 		forms.add(termsForm);
 
-		Label lab2 = new Label(customerConstants.productAndService());
-
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth("400px");
 
@@ -428,7 +424,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 					@Override
 					public void selectedComboBoxItem(
 							ClientBrandingTheme selectItem) {
-						brandingTheme = selectItem;
 					}
 				});
 

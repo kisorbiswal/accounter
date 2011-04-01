@@ -129,7 +129,9 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 					} else
 						createPaymentTerms();
 				} else {
-
+					Accounter.showError(FinanceApplication
+							.getCustomersMessages()
+							.detailsHighlightedInRedMustBeEntered());
 					return false;
 				}
 				return true;

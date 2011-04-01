@@ -124,7 +124,9 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 					} else
 						createVendorGroups();
 				} else {
-
+					Accounter.showError(FinanceApplication
+							.getCustomersMessages()
+							.detailsHighlightedInRedMustBeEntered());
 					return false;
 				}
 				return true;

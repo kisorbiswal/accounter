@@ -129,8 +129,11 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 						createShippingMethod();
 					else
 						editShippingMethod();
-				} else
+				} else{
+					Accounter.showError(FinanceApplication
+							.getCustomersMessages().detailsHighlightedInRedMustBeEntered());
 					return false;
+				}
 
 				return true;
 			}

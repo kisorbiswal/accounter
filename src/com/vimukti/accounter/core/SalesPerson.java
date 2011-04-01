@@ -79,7 +79,7 @@ public class SalesPerson extends Payee implements Lifecycle {
 	 * 2 = Male, <br>
 	 * 3 = Female
 	 */
-	int gender;
+	String gender;
 
 	/**
 	 * Date of Birth of the Sales Person
@@ -209,7 +209,7 @@ public class SalesPerson extends Payee implements Lifecycle {
 	/**
 	 * @return the gender
 	 */
-	public int getGender() {
+	public String getGender() {
 		return gender;
 	}
 

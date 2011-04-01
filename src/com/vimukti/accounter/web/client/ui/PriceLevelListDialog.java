@@ -120,7 +120,9 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 					} else
 						createPriceLevels();
 				} else {
-
+					Accounter.showError(FinanceApplication
+							.getCustomersMessages()
+							.detailsHighlightedInRedMustBeEntered());
 					return false;
 				}
 				return true;

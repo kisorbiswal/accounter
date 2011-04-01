@@ -123,6 +123,9 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 					} else
 						createCreditRatings();
 				} else {
+					Accounter.showError(FinanceApplication
+							.getCustomersMessages()
+							.detailsHighlightedInRedMustBeEntered());
 					return false;
 				}
 				return true;

@@ -290,7 +290,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		lab1 = new Label(FinanceApplication.getCompanyMessages()
 				.journalEntryNew());
 		lab1.addStyleName(FinanceApplication.getCompanyMessages().lableTitle());
-        lab1.setHeight("35px");
+		lab1.setHeight("35px");
 		jourNoText = new TextItem(companyConstants.journalNumber());
 		jourNoText.setHelpInformation(true);
 		jourNoText.setRequired(true);
@@ -330,28 +330,28 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		});
 
 		gridPanel.add(grid);
-		
+
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(addButton);
 		hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 		hPanel.getElement().getStyle().setFloat(Float.RIGHT);
 
 		gridPanel.add(hPanel);
-		
-        addButton.getElement().getParentElement().addClassName("add-button");
-		
-		Element addseparator=DOM.createSpan();
-		addseparator.addClassName("add-separator");
-		DOM.appendChild(addButton.getElement(),addseparator);
-		
-		Element addimage=DOM.createSpan();
-		addimage.addClassName("add-image");
-		DOM.appendChild(addButton.getElement(),addimage);
-		
-		ThemesUtil.addDivToButton(addButton,FinanceApplication.getThemeImages().button_right_blue_image(),"blue-right-image");
-		
-		
-		
+
+		addButton.getElement().getParentElement().addClassName("add-button");
+
+		// Element addseparator=DOM.createSpan();
+		// addseparator.addClassName("add-separator");
+		// DOM.appendChild(addButton.getElement(),addseparator);
+		//		
+		// Element addimage=DOM.createSpan();
+		// addimage.addClassName("add-image");
+		// DOM.appendChild(addButton.getElement(),addimage);
+
+		ThemesUtil
+				.addDivToButton(addButton, FinanceApplication.getThemeImages()
+						.button_right_blue_image(), "blue-right-image");
+
 		// gridPanel.add(labelPanel);
 
 		if (takenJournalEntry != null) {

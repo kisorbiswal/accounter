@@ -45,7 +45,6 @@ import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionUKGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionUSGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorTransactionUKGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorTransactionUSGrid;
-import com.vimukti.accounter.web.client.ui.vendors.VendorBillView;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -765,7 +764,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 			popupPanel.add(popupMenuBar);
 			popupPanel.setPopupPosition(button.getAbsoluteLeft(), button
 					.getAbsoluteTop()
-					- popupPanel.getOffsetHeight());
+					+ button.getOffsetHeight());
 		}
 	}
 

@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
@@ -112,8 +113,14 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 			if (isActive) {
 				if (account.getIsActive() == true)
 					grid.addData(account);
+				if (grid.getRecords().isEmpty()) {
+					grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+				}
 			} else if (account.getIsActive() == false) {
 				grid.addData(account);
+				if (grid.getRecords().isEmpty()) {
+					grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+				}
 			}
 
 		}

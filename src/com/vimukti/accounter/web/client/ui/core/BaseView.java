@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import java.util.List;
 
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.rpc.AsyncCallback;

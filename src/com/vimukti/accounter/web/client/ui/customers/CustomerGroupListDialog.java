@@ -119,9 +119,12 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 				if (inputDlg.getForm().validate()) {
 					if (customerGroup != null) {
 						editCustomerGroups();
-					} else
+					} else {
 						createCustomerGroups();
+					}
 				} else {
+					Accounter.showError(FinanceApplication
+							.getCustomersMessages().detailsHighlightedInRedMustBeEntered());
 					return false;
 				}
 				return true;

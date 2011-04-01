@@ -186,7 +186,15 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 					}
 					continue;
 				}
+
 			}
+		}
+		if (grid.getRecords().isEmpty()) {
+			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+		}
+		if (salesDetailView.itemsGrid.getRecords().isEmpty()) {
+			salesDetailView.itemsGrid
+					.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 		}
 	}
 

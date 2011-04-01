@@ -190,6 +190,13 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 				}
 			}
 		}
+		if (grid.getRecords().isEmpty()) {
+			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+		}
+		if (purchaseDetailView.itemsGrid.getRecords().isEmpty()) {
+			purchaseDetailView.itemsGrid
+					.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+		}
 	}
 
 	@Override
