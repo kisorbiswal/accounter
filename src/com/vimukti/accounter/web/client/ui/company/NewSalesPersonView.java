@@ -190,7 +190,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			fonFaxForm = new PhoneFaxForm(takenSalesperson.getPhoneNumbers(),
 					takenSalesperson.getFaxNumbers());
 			fonFaxForm.setWidth("90%");
-			fonFaxForm.getCellFormatter().setWidth(0, 0, "65");
+			fonFaxForm.getCellFormatter().setWidth(0, 0, "");
 			fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
 
 			emailForm = new EmailForm(takenSalesperson.getEmails(),
@@ -223,7 +223,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			addrsForm.getCellFormatter().setWidth(0, 1, "125");
 			fonFaxForm = new PhoneFaxForm(null, null);
 			fonFaxForm.setWidth("90%");
-			fonFaxForm.getCellFormatter().setWidth(0, 0, "65");
+			fonFaxForm.getCellFormatter().setWidth(0, 0, "");
 			fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
 			emailForm = new EmailForm(null, null);
 			emailForm.setWidth("90%");
