@@ -411,8 +411,9 @@ public class VendorView extends BaseView<ClientVendor> {
 			fonFaxForm.businessFaxText.setValue(takenVendor.getFaxNo());
 			fonFaxForm.setWidth("100%");
 			// Setting Email Form
-			emailForm = new EmailForm(takenVendor.getEmails(), takenVendor
+			emailForm = new EmailForm(null, takenVendor
 					.getWebPageAddress());
+			emailForm.businesEmailText.setValue(takenVendor.getEmail());
 			emailForm.setWidth("100%");
 			// Setting Status Check
 			statusCheck.setValue(takenVendor.isActive());
@@ -677,11 +678,14 @@ public class VendorView extends BaseView<ClientVendor> {
 		vatform.setFields(vatRegistrationNumber, vendorTaxCode);
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setSize("100%", "100%");
+		leftVLay.setHeight("450px");
+		leftVLay.getElement().getStyle().setBorderColor(
+				"none repeat scroll 0 0 #eee !important");
 		leftVLay.setSpacing(10);
 		leftVLay.add(financeDetailsForm);
 
 		VerticalPanel rVLayout = new VerticalPanel();
-		rVLayout.setSize("100%", "100%");
+		rVLayout.setWidth("100%");
 		rVLayout.setSpacing(10);
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			rVLayout.add(vendorGrpForm);
@@ -874,7 +878,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendor.setFaxNo(fonFaxForm.businessFaxText.getValue().toString());
 
 		// Setting Email and Internet
-		vendor.setEmails(emailForm.getAllEmails());
+		vendor.setEmail(emailForm.businesEmailText.getValue().toString());
 
 		// Setting web page Address
 		vendor.setWebPageAddress(emailForm.getWebTextValue());
