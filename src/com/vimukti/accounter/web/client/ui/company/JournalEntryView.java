@@ -42,7 +42,9 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.TransactionJournalEntryGrid;
@@ -52,13 +54,14 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	private TransactionJournalEntryGrid grid;
 	double debit, credit;
 
-	DynamicForm jourForm;
 	Label lab1;
-
-	TextItem memoText, jourNoText;
+	DynamicForm memoForm, totalForm, dateForm;
+	TextItem jourNoText;
+	TextAreaItem memoText;
 	protected boolean isClose;
 	private String vouchNo = "1";
 	boolean voucharNocame = false;
+	AmountLabel creditTotalText, deditTotalText;
 
 	private ClientJournalEntry takenJournalEntry;
 	private CompanyMessages companyConstants = GWT
@@ -92,7 +95,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 			InvalidTransactionEntryException {
 		switch (this.validationCount) {
 		case 6:
-			return AccounterValidator.validateForm(jourForm);
+			return AccounterValidator.validateForm(dateForm);
 		case 5:
 			return AccounterValidator.isBlankTransaction(grid);
 		case 4:
@@ -114,7 +117,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 	protected boolean validateForm() {
 
-		return jourForm.validate();
+		return dateForm.validate();
 	}
 
 	public void initListGrid() {
@@ -124,6 +127,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		grid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 		grid.init();
 		grid.setDisabled(isEdit);
+		grid.getElement().getStyle().setMarginTop(10, Unit.PX);
 	}
 
 	@Override
@@ -256,6 +260,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 			journalEntry = new ClientJournalEntry();
 
 		journalEntry.setNumber(jourNoText.getValue().toString());
+		journalEntry.setDate(transactionDateItem.getEnteredDate().getTime());
 		journalEntry.setMemo(memoText.getValue().toString() != null ? memoText
 				.getValue().toString() : "");
 		journalEntry.setDate(new ClientFinanceDate().getTime());
@@ -291,7 +296,8 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 				.journalEntryNew());
 		lab1.addStyleName(FinanceApplication.getCompanyMessages().lableTitle());
 		lab1.setHeight("35px");
-		jourNoText = new TextItem(companyConstants.journalNumber());
+		transactionDateItem = createTransactionDateItem();
+		jourNoText = new TextItem(companyConstants.no());
 		jourNoText.setHelpInformation(true);
 		jourNoText.setRequired(true);
 		jourNoText.addChangeHandler(new ChangeHandler() {
@@ -307,14 +313,8 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 			}
 		});
 
-		memoText = new TextItem(companyConstants.memo());
+		memoText = new TextAreaItem(companyConstants.memo());
 		memoText.setHelpInformation(true);
-		jourForm = new DynamicForm();
-		jourForm.setIsGroup(true);
-		jourForm.setGroupTitle(companyConstants.journal());
-		jourForm.setWidth("50%");
-		jourForm.setHeight("50%");
-		jourForm.setFields(jourNoText, memoText);
 
 		initListGrid();
 		grid.initTransactionData();
@@ -329,14 +329,52 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 			}
 		});
 
-		gridPanel.add(grid);
-
-		HorizontalPanel hPanel = new HorizontalPanel();
+		gridPanel.add(grid);		
+		
+			HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(addButton);
 		hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 		hPanel.getElement().getStyle().setFloat(Float.RIGHT);
 
-		gridPanel.add(hPanel);
+	gridPanel.add(hPanel);
+
+		dateForm = new DynamicForm();
+		dateForm.setNumCols(4);
+		dateForm.setFields(transactionDateItem, jourNoText);
+
+		HorizontalPanel datepannel = new HorizontalPanel();
+		datepannel.setWidth("100%");
+		datepannel.add(dateForm);
+		datepannel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
+
+		memoForm = new DynamicForm();
+		memoForm.setWidth("100%");
+		memoForm.setFields(memoText);
+		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+
+		deditTotalText = new AmountLabel("DebitTotal");
+		deditTotalText.setWidth("180px");
+		deditTotalText.setDefaultValue("" + UIUtils.getCurrencySymbol()
+				+ "0.00");
+		deditTotalText.setDisabled(true);
+
+		creditTotalText = new AmountLabel("CreditTotal");
+		creditTotalText.setWidth("180px");
+		creditTotalText.setDefaultValue("" + UIUtils.getCurrencySymbol()
+				+ "0.00");
+		creditTotalText.setDisabled(true);
+
+		totalForm = new DynamicForm();
+		totalForm.setWidth("50%");
+		totalForm.addStyleName("unused-payments");
+		totalForm.setFields(deditTotalText, creditTotalText);
+
+		HorizontalPanel bottomPanel = new HorizontalPanel();
+		bottomPanel.setWidth("100%");
+		bottomPanel.add(memoForm);
+		bottomPanel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
+		bottomPanel.add(totalForm);
+		bottomPanel.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
 
 		addButton.getElement().getParentElement().addClassName("add-button");
 
@@ -367,15 +405,19 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab1);
-		mainVLay.add(jourForm);
+		mainVLay.add(datepannel);
 		mainVLay.add(gridPanel);
+		mainVLay.add(bottomPanel);
 		// mainVLay.add(labelPane);
 
 		canvas.add(mainVLay);
 		setSize("100%", "100%");
 
+		listforms.add(dateForm);
+		listforms.add(memoForm);
+		listforms.add(totalForm);
+
 		/* Adding dynamic forms in list */
-		listforms.add(jourForm);
 
 	}
 
@@ -383,6 +425,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 		takenJournalEntry = (ClientJournalEntry) transactionObject;
 		jourNoText.setValue(takenJournalEntry.getNumber());
+		transactionDateItem.setEnteredDate(takenJournalEntry.getDate());
 		grid.setVoucherNumber(takenJournalEntry.getNumber());
 
 		List<ClientEntry> entries = takenJournalEntry.getEntry();
@@ -523,6 +566,10 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 	@Override
 	public void updateNonEditableItems() {
+		if (grid == null)
+			return;
+		deditTotalText.setAmount(grid.getTotalDebittotal());
+		creditTotalText.setAmount(grid.getTotalCredittotal());
 
 	}
 
