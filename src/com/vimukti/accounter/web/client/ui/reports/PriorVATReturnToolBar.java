@@ -157,12 +157,14 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 			vatAgencyCombo.setWidth("200px");
 			endingDateCombo.setWidth("150px");
 		}
-		addItems(dateRangeCombo, vatAgencyCombo, endingDateCombo);
+
 	}
 
 	public void setDateRangeHide(boolean hide) {
 		if (hide) {
-			dateRangeCombo.hide();
+			addItems(vatAgencyCombo, endingDateCombo);
+		} else {
+			addItems(dateRangeCombo, vatAgencyCombo, endingDateCombo);
 		}
 	}
 
