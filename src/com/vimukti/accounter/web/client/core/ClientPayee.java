@@ -51,7 +51,7 @@ public abstract class ClientPayee implements IAccounterCore {
 	String VATRegistrationNumber;
 	String TAXCode;
 	boolean isOpeningBalanceEditable = Boolean.TRUE;
-
+	private String email;
 	boolean isDefault;
 
 	public boolean isOpeningBalanceEditable() {
@@ -316,5 +316,12 @@ public abstract class ClientPayee implements IAccounterCore {
 		return faxNo;
 	}
 
-	
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
 }
