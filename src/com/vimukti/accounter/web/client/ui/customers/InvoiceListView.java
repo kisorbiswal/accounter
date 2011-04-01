@@ -130,7 +130,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 		else
 			viewSelect.setComboItem(OPEN);
 		if (UIUtils.isMSIEBrowser())
-			viewSelect.setWidth("150px");
+			viewSelect.setWidth("105px");
 		viewSelect.setComboItem(OPEN);
 		viewSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -144,6 +144,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 
 					}
 				});
+		viewSelect.addStyleName("invoiceListCombo");
 
 		return viewSelect;
 	}
@@ -159,7 +160,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 		dateRangeSelector.setDefaultValue(ALL);
 
 		if (UIUtils.isMSIEBrowser())
-			dateRangeSelector.setWidth("150px");
+			dateRangeSelector.setWidth("105px");
 
 		if (dateRangeSelector.getValue() != null
 				&& dateRangeSelector.getValue().equals(
@@ -180,6 +181,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 
 			}
 		});
+		dateRangeSelector.addStyleName("invoiceListCombo");
 
 		return dateRangeSelector;
 	}
