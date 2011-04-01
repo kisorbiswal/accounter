@@ -100,9 +100,9 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 		fTable.setWidget(0, 1, cashExpLabel);
 		fTable.setWidget(1, 0, allExpAmtLabel);
 		fTable.setWidget(1, 1, cashExpAmtLabel);
-		fTable.setWidget(2, 0, empExpLabel);
+		// fTable.setWidget(2, 0, empExpLabel);
 		fTable.setWidget(2, 1, ccExpLabel);
-		fTable.setWidget(3, 0, empExpAmtLabel);
+		// fTable.setWidget(3, 0, empExpAmtLabel);
 		fTable.setWidget(3, 1, ccExpAmtLabel);
 
 		vPanel.add(addExpenseBtn);
