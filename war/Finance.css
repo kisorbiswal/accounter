@@ -1237,3 +1237,6 @@ iframe{
 .gwt-DialogBox .dialogTopLeftInner,.dialogMiddleRightInner{
 	width:9px !important;
 }
+.invoiceListCombo{
+	width: 105px !important;
+}
