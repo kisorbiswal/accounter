@@ -158,7 +158,7 @@ public class NewCustomerPaymentView extends
 			if (!DecimalUtil.isEquals(enteredBalance, 0.00))
 				customerPrePayment.setTotal(enteredBalance);
 			if (paymentMethod != null)
-				customerPrePayment.setPaymentMethod(paymentMethod);
+				customerPrePayment.setPaymentMethod(paymentMethodCombo.getSelectedValue());
 
 			if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
 				String value;
@@ -418,9 +418,10 @@ public class NewCustomerPaymentView extends
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setWidth(100);
-		paymentMethodCombo.setDefaultValue(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
-						.getCustomersMessages().check()));
+//		paymentMethodCombo.setDefaultValue(UIUtils
+//				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
+//						.getCustomersMessages().check()));
+		paymentMethodCombo.setComboItem(FinanceApplication.getCustomersMessages().cheque());
 		printCheck = new CheckboxItem(customerConstants.toBePrinted());
 		printCheck.setValue(true);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
