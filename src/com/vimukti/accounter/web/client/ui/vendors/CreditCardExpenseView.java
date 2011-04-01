@@ -126,9 +126,10 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 					creditCardCharge.getVendor()));
 			Ccard.setDisabled(true);
 		}
-		vendorForm
-				.setFields(Ccard, contactNameSelect, phoneSelect, billToCombo);
+		vendorForm.setFields(Ccard, contactNameSelect, phoneSelect,
+				billToAreaItem);
 		vendorForm.getCellFormatter().setWidth(0, 0, "180px");
+		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		VerticalPanel verticalPanel = (VerticalPanel) vendorForm.getParent();
 		vendorForm.removeFromParent();
 		verticalPanel.add(vendorForm);
@@ -272,11 +273,13 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 	@Override
 	protected void showMenu(Button button) {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button,FinanceApplication.getVendorsMessages().accounts(),
-					FinanceApplication.getVendorsMessages().service());
+			setMenuItems(button, FinanceApplication.getVendorsMessages()
+					.accounts(), FinanceApplication.getVendorsMessages()
+					.service());
 		else
-			setMenuItems(button,FinanceApplication.getVendorsMessages().accounts(),
-					FinanceApplication.getVendorsMessages().service());
+			setMenuItems(button, FinanceApplication.getVendorsMessages()
+					.accounts(), FinanceApplication.getVendorsMessages()
+					.service());
 	}
 
 }
