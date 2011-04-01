@@ -784,6 +784,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		// int x = DOM.eventGetClientX(event);
 		// int y = DOM.eventGetClientY(event);
 		// popupPanel.setPopupPosition(x, y);
+		popupPanel.setPopupPosition(menuButton.getAbsoluteLeft(), menuButton
+				.getAbsoluteTop() - 100);
 		popupPanel.show();
 	}
 
