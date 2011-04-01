@@ -476,8 +476,8 @@ div.refresh:hover {
 }
 
 div.link:hover {
-	background: transparent url(images/settings.png) no-repeat scroll 0
-		-15px;
+	background: transparent url(images/help-icon.png) no-repeat scroll 0
+		1px;
 }
 
 .bottom-view {
