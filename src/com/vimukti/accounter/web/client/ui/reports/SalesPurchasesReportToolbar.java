@@ -67,7 +67,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 			statusList.add(statusArray[i]);
 		}
 		statusCombo.initCombo(statusList);
-		statusCombo.setDefaultValue(statusArray[0]);
+		statusCombo.setComboItem(statusArray[0]);
 		statusCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
