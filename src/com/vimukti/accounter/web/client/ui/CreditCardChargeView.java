@@ -49,7 +49,8 @@ public class CreditCardChargeView extends
 	AmountField totText;
 
 	protected DynamicForm vendorForm, addrForm, phoneForm, termsForm, memoForm;
-	protected SelectCombo contactNameSelect, phoneSelect, payMethSelect;
+	protected SelectCombo contactNameSelect, payMethSelect;
+	protected TextItem phoneSelect;
 
 	VendorCombo vendorNameSelect;
 	@SuppressWarnings("unused")
@@ -71,6 +72,7 @@ public class CreditCardChargeView extends
 	private ArrayList<DynamicForm> listforms;
 	protected ClientContact contact;
 	protected Label titlelabel;
+	protected TextAreaItem billToAreaItem;
 
 	protected CreditCardChargeView() {
 
@@ -117,11 +119,11 @@ public class CreditCardChargeView extends
 		// Set<Address> allAddress = selectedVendor.getAddress();
 		addressList = selectedVendor.getAddress();
 		initBillToCombo();
-		billToCombo.setDisabled(isEdit);
+//		billToCombo.setDisabled(isEdit);
 		Set<ClientContact> allContacts;
 		allContacts = selectedVendor.getContacts();
 		Iterator<ClientContact> it = allContacts.iterator();
-		List<String> phones = new ArrayList<String>();
+//		List<String> phones = new ArrayList<String>();
 		ClientContact primaryContact = null;
 		List<String> idNamesForContacts = new ArrayList<String>();
 		int i = 0;
@@ -130,12 +132,12 @@ public class CreditCardChargeView extends
 			if (contact.isPrimary())
 				primaryContact = contact;
 			idNamesForContacts.add(contact.getName());
-			phones.add(contact.getBusinessPhone());
+//			phones.add(contact.getBusinessPhone());
 			i++;
 		}
 
 		contactNameSelect.initCombo(idNamesForContacts);
-		phoneSelect.initCombo(phones);
+		// phoneSelect.initCombo(phones);
 
 		if (creditCardChargeTaken != null) {
 			// ClientVendor cv = FinanceApplication.getCompany().getVendor(
@@ -145,7 +147,7 @@ public class CreditCardChargeView extends
 						.getContact().getStringID());
 			if (creditCardChargeTaken.getPhone() != null)
 				// FIXME check and fix the below code
-				phoneSelect.setSelected(creditCardChargeTaken.getPhone());
+				phoneSelect.setValue(creditCardChargeTaken.getPhone());
 
 			contactNameSelect.setDisabled(isEdit);
 			phoneSelect.setDisabled(isEdit);
@@ -153,13 +155,13 @@ public class CreditCardChargeView extends
 		}
 		if (primaryContact == null) {
 			contactNameSelect.setSelected("");
-			phoneSelect.setSelected("");
+			phoneSelect.setValue("");
 			return;
 		}
 
 		contactNameSelect.setSelected(String.valueOf(primaryContact
 				.getStringID()));
-		phoneSelect.setSelected(primaryContact.getBusinessPhone());
+		phoneSelect.setValue(primaryContact.getBusinessPhone());
 
 		// for (Address toBeShown : allAddress) {
 		// if (toBeShown.getType() == Address.TYPE_BILL_TO) {
@@ -288,7 +290,7 @@ public class CreditCardChargeView extends
 		delivDate.setValue(new ClientFinanceDate(creditCardChargeTaken
 				.getDeliveryDate()));
 		delivDate.setDisabled(isEdit);
-
+        phoneSelect.setValue(creditCardChargeTaken.getPhone());
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			netAmount.setAmount(creditCardChargeTaken.getNetAmount());
 			vatTotalNonEditableText.setAmount(creditCardChargeTaken.getTotal()
@@ -319,12 +321,12 @@ public class CreditCardChargeView extends
 		creditCardChargeTaken = null;
 		billingAddress = null;
 		addressList = null;
-		billToCombo.setDisabled(isEdit);
+//		billToCombo.setDisabled(isEdit);
 		paymentMethod = UIUtils
 				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
 						.getCustomersMessages().check());
 		payFromAccount = "";
-		phoneSelect.setValueMap("");
+//		phoneSelect.setValueMap("");
 		setMemoTextAreaItem("");
 		// refText.setValue("");
 		cheqNoText.setValue("");
@@ -390,9 +392,13 @@ public class CreditCardChargeView extends
 		contactNameSelect.setHelpInformation(true);
 		contactNameSelect.setWidth(100);
 		formItems.add(contactNameSelect);
-		billToCombo = createBillToComboItem();
+		// billToCombo = createBillToComboItem();
+		billToAreaItem = new TextAreaItem(FinanceApplication
+				.getVendorsMessages().billTo());
+		billToAreaItem.setWidth(100);
+		billToAreaItem.setDisabled(true);
 		formItems.add(billToCombo);
-		phoneSelect = new SelectCombo(bankingConstants.phone());
+		phoneSelect = new TextItem(bankingConstants.phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		forms.add(phoneForm);
@@ -401,7 +407,8 @@ public class CreditCardChargeView extends
 		vendorForm = UIUtils.form(bankingConstants.Vendor());
 		vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorNameSelect, contactNameSelect, phoneSelect,
-				billToCombo);
+				billToAreaItem);
+		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		vendorForm.getCellFormatter().setWidth(0, 0, "180px");
 
 		forms.add(vendorForm);
@@ -488,7 +495,7 @@ public class CreditCardChargeView extends
 
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setNumCols(2);
-		totalForm.setWidth("50%");
+		totalForm.setWidth("100%");
 		totalForm.setStyleName("invoice-total");
 		// totText = new AmountField(FinanceApplication.getFinanceUIConstants()
 		// .total());
@@ -661,8 +668,8 @@ public class CreditCardChargeView extends
 			creditCardCharge.setVendorAddress(billingAddress);
 
 		// setting phone
-		if (phoneSelect.getSelectedValue() != null)
-			creditCardCharge.setPhone(phoneSelect.getSelectedValue());
+		if (phoneSelect.getValue() != null)
+			creditCardCharge.setPhone(phoneSelect.getValue().toString());
 
 		// Setting payment method
 
