@@ -354,7 +354,6 @@ public abstract class DropDownCombo<T> extends TextItem {
 		setRowsData(comboItems);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void setRowsData(List<T> cmbItems) {
 		this.dropDown.setRowCount(cmbItems.size()
 				+ dropDown.getDummyRecords().size());
