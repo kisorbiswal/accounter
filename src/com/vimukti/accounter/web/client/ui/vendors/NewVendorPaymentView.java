@@ -219,9 +219,10 @@ public class NewVendorPaymentView extends
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setWidth(100);
-		paymentMethodCombo.setDefaultValue(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
-						.getCustomersMessages().check()));
+//		paymentMethodCombo.setDefaultValue(UIUtils
+//				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
+//						.getCustomersMessages().check()));
+		paymentMethodCombo.setComboItem(FinanceApplication.getCustomersMessages().cheque());
 
 		printCheck = new CheckboxItem(vendorConstants.Tobeprinted());
 		printCheck.setValue(true);
@@ -354,7 +355,7 @@ public class NewVendorPaymentView extends
 		// adjustBalance();
 		payBill.setTotal(enteredBalance);
 
-		payBill.setPaymentMethod(paymentMethod);
+		payBill.setPaymentMethod(paymentMethodCombo.getSelectedValue());
 
 		if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
 			String value;
