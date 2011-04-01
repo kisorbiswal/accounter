@@ -26,7 +26,7 @@ public class EmailForm extends DynamicForm {
 	private SelectCombo businesEmailSelect;
 	private LinkedHashMap<Integer, ClientEmail> allEmails;
 	private ClientEmail toBeShownEmail = null;
-	private EmailField businesEmailText;
+	public EmailField businesEmailText;
 	public TextItem webText;
 
 	public EmailForm(Set<ClientEmail> emails, String webTextValue) {
