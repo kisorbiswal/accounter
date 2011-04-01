@@ -259,7 +259,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		vatAgency.setFaxNumbers(phoneFaxForm.getAllFaxes());
 
 		// Setting Email and Internet
-		vatAgency.setEmails(emailForm.getAllEmails());
+		vatAgency.setEmail(emailForm.businesEmailText.getValue().toString());
 
 		// Setting web page Address
 		vatAgency.setWebPageAddress(emailForm.getWebTextValue());
@@ -473,8 +473,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			phoneFaxForm.setWidth("100%");
 
 			// Setting Email Form
-			emailForm = new EmailForm(takenVATAgency.getEmails(),
+			emailForm = new EmailForm(null,
 					takenVATAgency.getWebPageAddress());
+			emailForm.businesEmailText.setValue(takenVATAgency.getEmail());
 			emailForm.setWidth("100%");
 
 			// Setting Status Check
