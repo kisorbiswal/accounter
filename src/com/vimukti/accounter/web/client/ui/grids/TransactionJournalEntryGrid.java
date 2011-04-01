@@ -722,6 +722,7 @@ public class TransactionJournalEntryGrid extends
 		// updateFooterValues(DataUtils.getAmountAsString(creditTotal), 5);
 		setCreditTotal(creditTotal);
 		setDebitTotal(debitTotal);
+		transactionView.updateNonEditableItems();
 	}
 
 	@Override
