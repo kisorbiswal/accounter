@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.ui.combo.VATItemCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
@@ -868,7 +869,10 @@ public class VendorTransactionUSGrid extends
 							item.setLineTotal(0.0D);
 							item.setUnitPrice(0.0D);
 							item.setQuantity(isItem ? 1D : 0);
-							Accounter.showError(e.getMessage());
+							// Accounter.showError(e.getMessage());
+							BaseView.errordata.setHTML("<li> " + e.getMessage()
+									+ ".");
+							BaseView.commentPanel.setVisible(true);
 						}
 					}
 				}

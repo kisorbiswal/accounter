@@ -42,7 +42,7 @@ public abstract class CustomTable extends VerticalPanel {
 
 	protected int nofCols;
 	protected int currentRow;
-	int currentCol = 0;
+	protected int currentCol = 0;
 
 	protected boolean isDecending;
 
