@@ -923,15 +923,17 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 
 .standard-options {
 	background: none repeat scroll 0 0 white;
-    border-bottom: 1px solid #EFEFEF;
+	width: 100%;
+   /* border-bottom: 1px solid #EFEFEF;
     border-top: 1px solid #DDDDDD;
     margin-top: 5px;
-    padding: 5px;
-    width: 100%;
+    padding: 5px;*/
+  
 }
 
 .standard-options td:FIRST-CHILD {
 	float: left;
+	margin:5px 0 0 5px;
 }
 .standard-options td:nth-child(2){
 	float:right;
@@ -1247,4 +1249,11 @@ iframe{
 }
 .invoiceListCombo{
 	width: 105px !important;
+}
+.general-standard{
+	width:100%;
+	border: 1px solid gray;
+    border-collapse: collapse;
+    margin-top: 10px;
+    width: 100%;
 }
