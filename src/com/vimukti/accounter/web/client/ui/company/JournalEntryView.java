@@ -383,17 +383,10 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 		addButton.getElement().getParentElement().addClassName("add-button");
 
-		// Element addseparator=DOM.createSpan();
-		// addseparator.addClassName("add-separator");
-		// DOM.appendChild(addButton.getElement(),addseparator);
-		//		
-		// Element addimage=DOM.createSpan();
-		// addimage.addClassName("add-image");
-		// DOM.appendChild(addButton.getElement(),addimage);
 
-		ThemesUtil
-				.addDivToButton(addButton, FinanceApplication.getThemeImages()
-						.button_right_blue_image(), "blue-right-image");
+//		ThemesUtil
+//				.addDivToButton(addButton, FinanceApplication.getThemeImages()
+//						.button_right_blue_image(), "blue-right-image");
 
 		// gridPanel.add(labelPanel);
 
@@ -654,6 +647,22 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 	}
 
+	@Override
+	protected void onLoad() {
+		super.onLoad();
+		
+		Element addseparator=DOM.createSpan();
+		 addseparator.addClassName("add-separator");
+		 DOM.appendChild(addButton.getElement(),addseparator);
+				
+		 Element addimage=DOM.createSpan();
+		 addimage.addClassName("add-image");
+		 DOM.appendChild(addButton.getElement(),addimage);
+		 
+		ThemesUtil.addDivToButton(addButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"add-right-image");
+	}
 	@Override
 	public void print() {
 		// TODO Auto-generated method stub

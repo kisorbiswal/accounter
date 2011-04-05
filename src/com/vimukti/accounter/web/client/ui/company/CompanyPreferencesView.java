@@ -870,6 +870,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		VerticalPanel tab = new VerticalPanel();
 		tab.setWidth("100%");
+		tab.setHeight("280px");
 		tab.add(companyLayOut);
 		return tab;
 	}

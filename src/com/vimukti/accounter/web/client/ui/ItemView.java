@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -191,18 +192,14 @@ public class ItemView extends BaseView<ClientItem> {
 		if (isEdit)
 			this.type = takenItem.getType();
 		if (type == TYPE_SERVICE) {
-			lab1
-					.setText(FinanceApplication.getCustomersMessages()
-							.newService());
+			lab1.setText(FinanceApplication.getCustomersMessages().newService());
 			if (FinanceApplication.getCompany().getAccountingType() == 1)
 				itemForm.setFields(nameText, isservice);
 			else
 
 				itemForm.setFields(nameText, isservice, skuText);
 		} else {
-			lab1
-					.setText(FinanceApplication.getCustomersMessages()
-							.newProduct());
+			lab1.setText(FinanceApplication.getCustomersMessages().newProduct());
 			if (FinanceApplication.getCompany().getAccountingType() == 1)
 				itemForm.setFields(nameText, weightText);
 			else
@@ -268,11 +265,11 @@ public class ItemView extends BaseView<ClientItem> {
 		// stdCostText.setValidators(floatRangeValidator);
 		// stdCostText.setValidateOnChange(true);
 
-//		stdCostForm = UIUtils.form(FinanceApplication.getCustomersMessages()
-//				.standardcost());
-//		stdCostForm.setFields(stdCostText);
-//		stdCostForm.setWidth("95%");
-//		stdCostForm.getCellFormatter().setWidth(0, 0, "165");
+		// stdCostForm = UIUtils.form(FinanceApplication.getCustomersMessages()
+		// .standardcost());
+		// stdCostForm.setFields(stdCostText);
+		// stdCostForm.setWidth("95%");
+		// stdCostForm.getCellFormatter().setWidth(0, 0, "165");
 		// itemGroupCombo = new ItemGroupCombo(FinanceApplication
 		// .getFinanceUIConstants().itemGroup());
 		itemGroupCombo = new ItemGroupCombo(
@@ -297,12 +294,11 @@ public class ItemView extends BaseView<ClientItem> {
 		// vatCode.setDisabled(true);
 		// }
 
-		taxCode
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
-					public void selectedComboBoxItem(ClientTAXCode selectItem) {
-						selectTaxCode = selectItem;
-					}
-				});
+		taxCode.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
+			public void selectedComboBoxItem(ClientTAXCode selectItem) {
+				selectTaxCode = selectItem;
+			}
+		});
 		taxCode.setDefaultValue("Z-0.0%");
 		activeCheck = new CheckboxItem(FinanceApplication
 				.getFinanceUIConstants().active());
@@ -355,13 +351,15 @@ public class ItemView extends BaseView<ClientItem> {
 						selectVendor = selectItem;
 					}
 				});
-		vendItemNumText = new IntegerField(this.type != TYPE_SERVICE ? UIUtils
-				.getVendorString(FinanceApplication.getCustomersMessages()
-						.supplierProductNo(), FinanceApplication
-						.getCustomersMessages().vendorProductNo()) : UIUtils
-				.getVendorString(FinanceApplication.getCustomersMessages()
-						.supplierServiceNo(), FinanceApplication
-						.getCustomersMessages().vendorServiceNo()));
+		vendItemNumText = new IntegerField(
+				this.type != TYPE_SERVICE ? UIUtils.getVendorString(
+						FinanceApplication.getCustomersMessages()
+								.supplierProductNo(), FinanceApplication
+								.getCustomersMessages().vendorProductNo())
+						: UIUtils.getVendorString(FinanceApplication
+								.getCustomersMessages().supplierServiceNo(),
+								FinanceApplication.getCustomersMessages()
+										.vendorServiceNo()));
 		vendItemNumText.setHelpInformation(true);
 		vendItemNumText.setWidth(100);
 
@@ -412,10 +410,11 @@ public class ItemView extends BaseView<ClientItem> {
 
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			salesInfoForm.setFields(isellCheck, salesDescArea, salesPriceText,
-					accountCombo, comCheck,stdCostText);
+					accountCombo, comCheck, stdCostText);
 		else
 			salesInfoForm.setFields(isservice, isellCheck, salesDescArea,
-					salesPriceText, accountCombo, itemTaxCheck, comCheck,stdCostText);
+					salesPriceText, accountCombo, itemTaxCheck, comCheck,
+					stdCostText);
 		salesInfoForm.setStyleName("align-form");
 		salesInfoForm.getCellFormatter().setWidth(0, 0, "125");
 		salesInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
@@ -448,7 +447,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// itemHPanel.add(itemForm);
 
 		salesVPanel.add(salesInfoForm);
-//		salesVPanel.add(stdCostForm);
+		// salesVPanel.add(stdCostForm);
 
 		VerticalPanel purchzVPanel = new VerticalPanel();
 
@@ -493,6 +492,7 @@ public class ItemView extends BaseView<ClientItem> {
 		VerticalPanel mainVLay = new VerticalPanel();
 
 		mainVLay.setSize("100%", "100%");
+		mainVLay.getElement().getStyle().setMarginBottom(15, Unit.PX);
 		mainVLay.add(hPanel);
 		mainVLay.add(topHLay);
 

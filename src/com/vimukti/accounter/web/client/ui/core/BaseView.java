@@ -89,7 +89,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 		if (this != null && this instanceof FileVATView) {
 			saveAndCloseButton.setText("File VAT Return");
 
-			saveAndCloseButton.setWidth("200px");
+			//saveAndCloseButton.setWidth("200px");
 		}
 		registerButton = new CustomButton(CustomButtonType.REGISTER, this);
 
@@ -156,7 +156,9 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 		
 		ThemesUtil.addDivToButton(cancelButton,FinanceApplication.getThemeImages().button_right_gray_image(),"button-right-image");
 		ThemesUtil.addDivToButton(saveAndCloseButton,FinanceApplication.getThemeImages().button_right_blue_image(),"button-right-image");
+		if(!(this != null && this instanceof FileVATView)){
 		ThemesUtil.addDivToButton(saveAndNewButton,FinanceApplication.getThemeImages().button_right_blue_image(),"button-right-image");
+		}
 	}
 
 	public Panel getCanvas() {

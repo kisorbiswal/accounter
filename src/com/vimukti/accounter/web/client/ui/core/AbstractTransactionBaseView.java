@@ -45,6 +45,8 @@ import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionUKGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionUSGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorTransactionUKGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorTransactionUSGrid;
+import com.vimukti.accounter.web.client.ui.vendors.CashExpenseView;
+import com.vimukti.accounter.web.client.ui.vendors.CreditCardExpenseView;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -587,8 +589,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	public String getMemoTextAreaItem() {
 		return memoTextAreaItem != null
 				&& memoTextAreaItem.getValue().toString() != null ? memoTextAreaItem
-				.getValue().toString()
-				: "";
+				.getValue().toString() : "";
 	}
 
 	public void setMemoTextAreaItem(String memo) {
@@ -754,17 +755,16 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	private void createPopupMenu(Button button) {
 		if (popupPanel == null) {
 			popupPanel = new PopupPanel(true);
-			popupMenuBar = new CustomMenuBar(FinanceApplication
-					.getFinanceMenuImages());
+			popupMenuBar = new CustomMenuBar(
+					FinanceApplication.getFinanceMenuImages());
 			popupMenuBar.getElement().setAttribute("id", "addnewpopumenu");
 
 			popupPanel.setStyleName("popup");
 			popupPanel.getElement().setAttribute("id", "addnewpopuppanel");
 			popupMenuBar.setVisible(true);
 			popupPanel.add(popupMenuBar);
-			popupPanel.setPopupPosition(button.getAbsoluteLeft(), button
-					.getAbsoluteTop()
-					+ button.getOffsetHeight());
+			popupPanel.setPopupPosition(button.getAbsoluteLeft(),
+					button.getAbsoluteTop() + button.getOffsetHeight());
 		}
 	}
 
@@ -784,8 +784,13 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		// int x = DOM.eventGetClientX(event);
 		// int y = DOM.eventGetClientY(event);
 		// popupPanel.setPopupPosition(x, y);
-		popupPanel.setPopupPosition(menuButton.getAbsoluteLeft(), menuButton
-				.getAbsoluteTop() - 100);
+		popupPanel.setPopupPosition(menuButton.getAbsoluteLeft(),
+				menuButton.getAbsoluteTop() - 100);
+		if (this instanceof CreditCardExpenseView
+				|| this instanceof CashExpenseView)
+			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft(),
+					menuButton.getAbsoluteTop() - 70);
+
 		popupPanel.show();
 	}
 
@@ -850,8 +855,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	protected void onAttach() {
 		super.onAttach();
 		if (menuButton != null) {
-			menuButton.getElement().getParentElement().addClassName(
-					"add-button");
+			menuButton.getElement().getParentElement()
+					.addClassName("add-button");
 
 			// Element addseparator = DOM.createSpan();
 			// addseparator.addClassName("add-separator");

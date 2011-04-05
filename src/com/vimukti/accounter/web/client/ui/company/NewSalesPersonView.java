@@ -253,6 +253,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		VerticalPanel mainVlay = new VerticalPanel();
 		mainVlay.setWidth("100%");
+		mainVlay.setSpacing(10);
 		mainVlay.add(topHLay);
 		mainVlay.add(memoForm);
 		if (UIUtils.isMSIEBrowser()) {
