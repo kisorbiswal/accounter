@@ -49,10 +49,11 @@ public class HelpItem extends HorizontalPanel {
 
 				CustomDialog dialog = new CustomDialog(false, true);
 				HTML data = new HTML("<p>" + helpLink.getMessage() + "</p");
+				data.setStyleName("help-data");
 				dialog.add(data);
 				dialog.setSize("350px", "350px");
 				dialog.setPopupPosition(hyperlink.getAbsoluteLeft(), hyperlink
-						.getAbsoluteTop() - 350);
+						.getAbsoluteTop() - 360);
 				dialog.show();
 
 			}
