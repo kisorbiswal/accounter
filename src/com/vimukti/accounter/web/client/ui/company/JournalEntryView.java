@@ -21,6 +21,7 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -352,14 +353,18 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		memoForm.setFields(memoText);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		deditTotalText = new AmountLabel("DebitTotal");
+		deditTotalText = new AmountLabel("DebitTotal :");
 		deditTotalText.setWidth("180px");
+		((Label) deditTotalText.getMainWidget())
+				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		deditTotalText.setDefaultValue("" + UIUtils.getCurrencySymbol()
 				+ "0.00");
 		deditTotalText.setDisabled(true);
 
-		creditTotalText = new AmountLabel("CreditTotal");
+		creditTotalText = new AmountLabel("CreditTotal :");
 		creditTotalText.setWidth("180px");
+		((Label) creditTotalText.getMainWidget())
+				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		creditTotalText.setDefaultValue("" + UIUtils.getCurrencySymbol()
 				+ "0.00");
 		creditTotalText.setDisabled(true);
