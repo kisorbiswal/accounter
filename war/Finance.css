@@ -111,7 +111,7 @@ h1 {
 .financeBackground {
 	/*background: url("images/Background.png") repeat scroll 0 0 transparent !important;*/
 	/*border: 2px solid #CCCCCC;   praveena */
-	padding: 10px;
+	/*padding: 10px;*/
 	/*margin-left: 3px;*/
 	/* margin-top:-2px; praveena*/
 }
@@ -182,7 +182,7 @@ h1 {
 }
 
 .noScroll {
-	background: url("images/Background.png") repeat scroll 0 0 transparent !important;
+	background: none repeat scroll 0 0 #F0F0F0 !important;
 	height: 100% !important;
 	overflow: hidden !important;
 }
@@ -360,7 +360,7 @@ table tr.ReportGridRow:HOVER {
 	background-position: 0 5px;
     cursor: pointer;
     margin-left: 5px;
-    padding: 3px;
+    padding: 5px 3px;
 }
 
 .statusLabelParent {
@@ -486,8 +486,9 @@ div.link:hover {
 }
 
 .nav-content {
-	margin-top: 3px;
-	height: 15px;
+	color: #00A3D3 !important;
+    height: 15px;
+    margin-top: 3px;
 }
 
 .loading {
@@ -506,6 +507,7 @@ div.link:hover {
 .scroll-panel {
 	overflow-x: hidden;
 	overflow-y: auto;
+	width:1002px !important;
 }
 
 .report-toolbar {
@@ -1041,7 +1043,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 .abstract_base_view{
 	background:none repeat scroll 0 0 #F0F0F0 !important;
-	border:1px solid #DDDDDD;
+	/*border:1px solid #DDDDDD;*/
 }
 .gridTextBoxCell input[type="text"]{
 	background:url("images/Text box_1.png") repeat-x scroll 0 0 white !important;
@@ -1054,7 +1056,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	background:url("/images/Button_1x27.png") repeat-x scroll 0 0 transparent;
 	 float: left;
      margin: 0 !important;
-    padding-right: 25px !important;
+    padding-right: 30px !important;
       border-radius: 0 0 0 0 !important;
 }
 .gridSelectBoxCell .downarrow-button{
@@ -1092,19 +1094,25 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
     width: 2px;
 }
 .save-new-image{
-	background:url("images/Page_edit1.png") no-repeat scroll 0 0 transparent !important;
+	background:url("images/Save-&-New.png") no-repeat scroll 0 0 transparent !important;
 }
 .save-close-image{
-	background:url("images/Page_edit1.png") no-repeat scroll 0 0 transparent !important;
+	background:url("images/Save-&-close.png") no-repeat scroll 0 0 transparent !important;
 }
-.save-new-image,.save-close-image,.close-image,.add-image{
+.save-new-image,.save-close-image{
+	width:20px;
+	height:20px;
+	margin-left:10px;
+	position:absolute;
+}
+.close-image,.add-image{
 	height:16px;
 	margin-left:10px;
 	position:absolute;
 	width:16px;
 }
 .add-image{
-	background:url("images/cross.png") no-repeat scroll 0 0 transparent !important;
+	background:url("images/Add_item.png") no-repeat scroll 0 0 transparent !important;
 }
 .close-image{
 	background:url("images/cross.png") no-repeat scroll 0 0 transparent !important;

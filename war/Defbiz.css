@@ -1676,8 +1676,9 @@ table td,select,.gwt-Button {
 }
 
 .Caption img,.gwt-TreeItem img {
-	vertical-align: top;
-	padding-right: 3px;
+	padding-left: 8px;
+    padding-top: 2px;
+    vertical-align: top;
 }
 
 .slideshow {
