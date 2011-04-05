@@ -834,8 +834,12 @@ public class ItemView extends BaseView<ClientItem> {
 			String name = nameText.getValue().toString();
 			if (takenItem == null) {
 				if (Utility.isObjectExist(company.getItems(), name)) {
-					Accounter
-							.showError("An Item already exists with this name");
+					BaseView.errordata.setHTML(BaseView.errordata.getHTML()
+							+ "<li> An Item already exists with this name.");
+					BaseView.commentPanel.setVisible(true);
+					AbstractBaseView.errorOccured = true;
+					// Accounter
+					// .showError("An Item already exists with this name");
 					return false;
 				} else
 					return true;

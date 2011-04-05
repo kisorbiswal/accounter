@@ -179,8 +179,12 @@ public class AddressDialog extends BaseDialog {
 					allAddresses
 							.put(UIUtils.getAddressType(addressType), value);
 					return true;
-				} else
-					Accounter.showError(AccounterErrorType.SHOULD_NOT_EMPTY);
+				} else {
+					BaseDialog.errordata.setHTML("<li> "
+							+ AccounterErrorType.SHOULD_NOT_EMPTY + ".");
+					BaseDialog.commentPanel.setVisible(true);
+					// Accounter.showError(AccounterErrorType.SHOULD_NOT_EMPTY);
+				}
 				return false;
 			}
 

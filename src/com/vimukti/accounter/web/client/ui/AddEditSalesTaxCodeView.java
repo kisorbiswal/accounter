@@ -38,13 +38,13 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	TextItem taxCodeText;
 	TextItem descriptionText;
 	// TaxAgencyCombo taxAgencyCombo;
-//	TaxAgencyCombo taxAgencyCombo;
+	// TaxAgencyCombo taxAgencyCombo;
 	// TaxCode takenTaxCode;
 
 	CheckboxItem statusCheck;
 	DynamicForm taxCodeForm;
 	SaleTaxCodeGrid gridView;
-//	private ClientTaxAgency selectedTaxAgency;
+	// private ClientTaxAgency selectedTaxAgency;
 	private ClientTAXCode selectedTaxCode;
 	protected ClientCompany company;
 	private ClientTAXCode takenTaxCode;
@@ -99,10 +99,10 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	}
 
 	private void initTaxAgencyCombo() {
-//		List<ClientTaxAgency> list = FinanceApplication.getCompany()
-//				.getActiveTaxAgencies();
-//		if (taxAgencyCombo != null)
-//			taxAgencyCombo.initCombo(list);
+		// List<ClientTaxAgency> list = FinanceApplication.getCompany()
+		// .getActiveTaxAgencies();
+		// if (taxAgencyCombo != null)
+		// taxAgencyCombo.initCombo(list);
 	}
 
 	private void createControls() {
@@ -116,20 +116,21 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 		descriptionText.setWidth(100);
 		descriptionText.setTitle(FinanceApplication.getFinanceUIConstants()
 				.description());
-//		taxAgencyCombo = new TaxAgencyCombo(FinanceApplication
-//				.getFinanceUIConstants().taxAgency());
-//		taxAgencyCombo.setWidth(100);
-//		taxAgencyCombo.setRequired(true);
+		// taxAgencyCombo = new TaxAgencyCombo(FinanceApplication
+		// .getFinanceUIConstants().taxAgency());
+		// taxAgencyCombo.setWidth(100);
+		// taxAgencyCombo.setRequired(true);
 
-//		taxAgencyCombo
-//				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTaxAgency>() {
-//
-//					public void selectedComboBoxItem(ClientTaxAgency selectItem) {
-//
-//						selectedTaxAgency = selectItem;
-//
-//					}
-//				});
+		// taxAgencyCombo
+		// .addSelectionChangeHandler(new
+		// IAccounterComboSelectionChangeHandler<ClientTaxAgency>() {
+		//
+		// public void selectedComboBoxItem(ClientTaxAgency selectItem) {
+		//
+		// selectedTaxAgency = selectItem;
+		//
+		// }
+		// });
 		typeRadio = new RadioGroupItem();
 		typeRadio.setShowTitle(false);
 		typeRadio.setRequired(true);
@@ -324,7 +325,9 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	public boolean validForm() throws InvalidEntryException {
 
 		if (!taxCodeForm.validate())
-			throw new InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
+			// throw new
+			// InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
+			return false;
 
 		if ((takenTaxCode == null
 				&& Utility.isObjectExist(company.getTaxCodes(), UIUtils
@@ -347,9 +350,9 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 	}
 
-//	public ClientTaxAgency getSelectedTaxAgency() {
-//		return selectedTaxAgency;
-//	}
+	// public ClientTaxAgency getSelectedTaxAgency() {
+	// return selectedTaxAgency;
+	// }
 
 	@Override
 	public void init() {
@@ -367,8 +370,8 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 			taxCodeText.setValue(takenTaxCode.getName());
 			if (takenTaxCode.getDescription() != null)
 				descriptionText.setValue(takenTaxCode.getDescription());
-//			selectedTaxAgency = FinanceApplication.getCompany().getTaxAgency(
-//					takenTaxCode.getTaxAgency());
+			// selectedTaxAgency = FinanceApplication.getCompany().getTaxAgency(
+			// takenTaxCode.getTaxAgency());
 			// taxAgencyCombo.setComboItem(selectedTaxAgency);
 			statusCheck.setValue(takenTaxCode.isActive());
 			typeRadio.setValue(takenTaxCode.isTaxable() ? FinanceApplication
@@ -542,10 +545,10 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-//		if (core.getStringID().equals(
-//				this.taxAgencyCombo.getSelectedValue().getStringID())) {
-//			this.taxAgencyCombo.addItemThenfireEvent((ClientTaxAgency) core);
-//		}
+		// if (core.getStringID().equals(
+		// this.taxAgencyCombo.getSelectedValue().getStringID())) {
+		// this.taxAgencyCombo.addItemThenfireEvent((ClientTaxAgency) core);
+		// }
 	}
 
 	@Override

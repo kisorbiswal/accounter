@@ -358,7 +358,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 			// statusBox, subAccSelect, hierText, cashFlowCatSelect,
 			// opBalText, asofDate, catSelect);
-			
+
 			accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 					statusBox, opBalText, asofDate);
 			leftLayout.add(accInfoForm);
@@ -1285,23 +1285,37 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	private boolean validateAccountNumber(Long number) {
 
+		if (number == null)
+			return true;
+
 		List<ClientAccount> accounts = FinanceApplication.getCompany()
 				.getAccounts();
 		if (takenAccount == null) {
 			for (ClientAccount account : accounts) {
 				if (number.toString().equals(account.getNumber())) {
-					Accounter.showError(FinanceApplication.getCompanyMessages()
-							.alreadyAccountExist());
+					BaseView.errordata.setHTML("<li> "
+							+ FinanceApplication.getCompanyMessages()
+									.alreadyAccountExist() + ".");
+					BaseView.commentPanel.setVisible(true);
+					AbstractBaseView.errorOccured = true;
+					// Accounter.showError(FinanceApplication.getCompanyMessages()
+					// .alreadyAccountExist());
 					return false;
 				}
 			}
 		}
 		if (isNewBankAccount()) {
 			if (number < 1100 || number > 1179) {
-				Accounter
-						.showError("The Account Number chosen is incorrect. Please choose a Number between 1100 and 1179");
+				BaseView.errordata
+						.setHTML("<li> The Account Number chosen is incorrect. Please choose a Number between 1100 and 1179.");
+				BaseView.commentPanel.setVisible(true);
+				// Accounter
+				// .showError("The Account Number chosen is incorrect. Please choose a Number between 1100 and 1179");
 				accNoText.setNumber(null);
 				return false;
+			} else {
+				BaseView.errordata.setHTML("");
+				BaseView.commentPanel.setVisible(false);
 			}
 		} else {
 			accountSubBaseType = UIUtils.getAccountSubBaseType(accountType);
@@ -1315,14 +1329,24 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 
 			if (number < nominalCodeRange[0] || number > nominalCodeRange[1]) {
-				Accounter
-						.showError("The Account Number chosen is incorrect. Please choose a Number between"
+				BaseView.errordata
+						.setHTML("<li> The Account Number chosen is incorrect. Please choose a Number between"
 								+ "  "
 								+ nominalCodeRange[0]
 								+ " and "
-								+ nominalCodeRange[1]);
+								+ nominalCodeRange[1] + ".");
+				BaseView.commentPanel.setVisible(true);
+				// Accounter
+				// .showError("The Account Number chosen is incorrect. Please choose a Number between"
+				// + "  "
+				// + nominalCodeRange[0]
+				// + " and "
+				// + nominalCodeRange[1]);
 				accNoText.setNumber(null);
 				return false;
+			} else {
+				BaseView.errordata.setHTML("");
+				BaseView.commentPanel.setVisible(false);
 			}
 		}
 		accNoText.setValue(number);

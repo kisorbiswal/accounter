@@ -1082,11 +1082,13 @@ public class MakeDepositView extends
 			InvalidEntryException {
 		switch (this.validationCount) {
 		case 7:
-//			return gridView.validateGrid();
+			// return gridView.validateGrid();
+			return true;
 		case 6:
 			return AccounterValidator.validateTransactionDate(transactionDate);
 		case 5:
-//			return AccounterValidator.validateGrid(gridView);
+			// return AccounterValidator.validateGrid(gridView);
+			return true;
 		case 4:
 			return AccounterValidator.validateForm(depoForm);
 		case 3:

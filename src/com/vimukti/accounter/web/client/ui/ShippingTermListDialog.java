@@ -111,8 +111,8 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 
 	public void showAddEditTermDialog(ClientShippingTerms rec) {
 		String arr[] = new String[2];
-		arr[0] = "Shipping Term*";
-		arr[1] = "Description*";
+		arr[0] = "Shipping Term";
+		arr[1] = "Description";
 		inputDlg = new InputDialog(FinanceApplication.getCompanyMessages()
 				.shippingTerm(), "", arr);
 		inputDlg.getTextItems().get(1).setRequired(false);
@@ -136,9 +136,9 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 					else
 						createShippingTerms();
 				} else {
-					Accounter.showError(FinanceApplication
-							.getCustomersMessages()
-							.detailsHighlightedInRedMustBeEntered());
+					// Accounter.showError(FinanceApplication
+					// .getCustomersMessages()
+					// .detailsHighlightedInRedMustBeEntered());
 					return false;
 				}
 				return true;

@@ -329,12 +329,14 @@ public class VATPaymentView extends
 	@Override
 	public boolean validate() throws InvalidTransactionEntryException {
 
-		if (!accountInformationForm.validate())
-			throw new InvalidTransactionEntryException(FinanceApplication
-					.getFinanceUIConstants().boldFieldsShouldFill());
-		if (!paymentMethodForm.validate())
-			throw new InvalidTransactionEntryException(FinanceApplication
-					.getFinanceUIConstants().blankTransIsNotAllowed());
+		if (!accountInformationForm.validate()) {
+			// throw new InvalidTransactionEntryException(FinanceApplication
+			// .getFinanceUIConstants().boldFieldsShouldFill());
+		}
+		if (!paymentMethodForm.validate()) {
+			// throw new InvalidTransactionEntryException(FinanceApplication
+			// .getFinanceUIConstants().blankTransIsNotAllowed());
+		}
 
 		return true;
 	}

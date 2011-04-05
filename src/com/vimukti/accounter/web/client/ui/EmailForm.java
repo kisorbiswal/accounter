@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
+import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
@@ -71,9 +72,14 @@ public class EmailForm extends DynamicForm {
 				if (event != null) {
 					String em = businesEmailText.getValue().toString();
 					if (!UIUtils.isValidEmail(em)) {
-						Accounter.showError(AccounterErrorType.INVALID_EMAIL);
+						BaseView.errordata.setHTML("<li> "
+								+ AccounterErrorType.INVALID_EMAIL + ".");
+						BaseView.commentPanel.setVisible(true);
+						// Accounter.showError(AccounterErrorType.INVALID_EMAIL);
 						businesEmailText.setText("");
 					} else {
+						BaseView.errordata.setHTML("");
+						BaseView.commentPanel.setVisible(false);
 						ClientEmail email = new ClientEmail();
 						email.setType(UIUtils.getEmailType(businesEmailSelect
 								.getSelectedValue()));
@@ -102,8 +108,9 @@ public class EmailForm extends DynamicForm {
 
 		setFields(businesEmailText, emptyItem, webText);
 		setWidth("100%");
-//		this.getCellFormatter().getElement(1, 0).setAttribute("colspan", "2");
-//		this.setCellPadding(5);
+		// this.getCellFormatter().getElement(1, 0).setAttribute("colspan",
+		// "2");
+		// this.setCellPadding(5);
 		// setHeight("100px");
 	}
 

@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
+import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -70,10 +71,16 @@ public class PhoneFaxForm extends DynamicForm {
 					try {
 						String ph = businessPhoneText.getValue().toString();
 						if (!ph.equals("") && !UIUtils.isValidPhone(ph)) {
-							Accounter
-									.showError(AccounterErrorType.INCORRECTINFORMATION);
+							BaseView.errordata.setHTML("<li> "
+									+ AccounterErrorType.INCORRECTINFORMATION
+									+ ".");
+							BaseView.commentPanel.setVisible(true);
+							// Accounter
+							// .showError(AccounterErrorType.INCORRECTINFORMATION);
 							businessPhoneText.setValue("");
 						} else {
+							BaseView.errordata.setHTML("");
+							BaseView.commentPanel.setVisible(false);
 							ClientPhone phone = new ClientPhone();
 							phone.setType(UIUtils
 									.getPhoneType(businessPhoneSelect
@@ -126,10 +133,17 @@ public class PhoneFaxForm extends DynamicForm {
 				if (event != null) {
 					String fx = businessFaxText.getValue().toString();
 					if (!fx.equals("") && !UIUtils.isValidFax(fx)) {
-						Accounter
-								.showError(AccounterErrorType.INCORRECTINFORMATION);
+						BaseView.errordata
+								.setHTML("<li> "
+										+ AccounterErrorType.INCORRECTINFORMATION
+										+ ".");
+						BaseView.commentPanel.setVisible(true);
+						// Accounter
+						// .showError(AccounterErrorType.INCORRECTINFORMATION);
 						businessFaxText.setValue("");
 					} else {
+						BaseView.errordata.setHTML("");
+						BaseView.commentPanel.setVisible(false);
 						ClientFax fax = new ClientFax();
 						fax.setType(UIUtils.getFaxType(businessFaxSelect
 								.getDisplayValue().toString()));

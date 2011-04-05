@@ -63,8 +63,8 @@ public class SelectItemTypeDialog extends BaseDialog {
 
 			public boolean onOkClick() {
 				if (!typeForm.validate()) {
-					Accounter.showError(FinanceApplication
-							.getFinanceUIConstants().pleaseSelectItemType());
+					// Accounter.showError(FinanceApplication
+					// .getFinanceUIConstants().pleaseSelectItemType());
 					return false;
 				}
 				@SuppressWarnings("unused")

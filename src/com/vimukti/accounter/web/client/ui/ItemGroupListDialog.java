@@ -115,9 +115,9 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 					} else
 						createItemSGroups();
 				} else {
-					Accounter.showError(FinanceApplication
-							.getCustomersMessages()
-							.detailsHighlightedInRedMustBeEntered());
+					// Accounter.showError(FinanceApplication
+					// .getCustomersMessages()
+					// .detailsHighlightedInRedMustBeEntered());
 					return false;
 				}
 				return true;
