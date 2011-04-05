@@ -329,12 +329,14 @@ public class CompanyInfoDialog extends BaseDialog {
 
 		// if(!FinanceApplication.getCompany().getpreferences().getDoYouPaySalesTax())
 		// vatRegNumber.setDisabled(true);
-		
+
 		companyDetailsForm.setFields(companyNameText, textareaItem,
 				trandigNameText, textareaItem2, doupaySalesChecBox,
 				vatRegNumber);
-		companyDetailsForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
-		companyDetailsForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
+		companyDetailsForm.getCellFormatter().addStyleName(1, 0,
+				"memoFormAlign");
+		companyDetailsForm.getCellFormatter().addStyleName(3, 0,
+				"memoFormAlign");
 		companyDetailsForm.setNumCols(7);
 		companyDetailsForm.setCellSpacing(5);
 		mainVLay.add(companyDetailsForm);
@@ -481,7 +483,8 @@ public class CompanyInfoDialog extends BaseDialog {
 	private boolean validateCompanyDetailsForm(DynamicForm companyDetailsForm)
 			throws InvalidEntryException {
 		if (!companyDetailsForm.validate()) {
-			throw new InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
+			// throw new
+			// InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
 		}
 		return true;
 	}

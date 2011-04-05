@@ -58,8 +58,8 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 		okButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if (!bankForm.validate()) {
-					Accounter.showError(FinanceApplication.getCompanyMessages()
-							.youMustEnterBankName());
+					// Accounter.showError(FinanceApplication.getCompanyMessages()
+					// .youMustEnterBankName());
 					return;
 				}
 				createBank();
