@@ -326,7 +326,9 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		vPanel.add(nameAndMenuPanel);
 		vPanel.add(allPanel);
 
+		vPanel.addStyleName("general-standard");
 		return vPanel;
+		
 
 	}
 
