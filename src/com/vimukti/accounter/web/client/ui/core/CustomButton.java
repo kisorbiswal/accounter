@@ -92,6 +92,9 @@ public class CustomButton extends Button {
 	@SuppressWarnings("unchecked")
 	protected void validateAndSave(final AbstractBaseView view)
 			throws Exception {
+		view.errorOccured = false;
+		BaseView.errordata.setHTML("");
+		BaseView.commentPanel.setVisible(false);
 		AccounterExecute execute = new AccounterExecute(view, this);
 		execute.run();
 		Accounter.setTimer(execute);
