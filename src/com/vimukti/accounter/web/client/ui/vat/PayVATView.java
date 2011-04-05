@@ -320,7 +320,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		transNumber.setValue(payVAT.getNumber());
        
 		endingBalanceText.setAmount(payVAT.getEndingBalance());
-		paymentMethodCombo.setValue(payVAT.getPaymentMethod());
+		paymentMethodCombo.setComboItem(payVAT.getPaymentMethod());
 		amountText.setValue(payVAT.getTotal());
 		List<ClientTransactionPayVAT> list = payVAT
 				.getClientTransactionPayVAT();

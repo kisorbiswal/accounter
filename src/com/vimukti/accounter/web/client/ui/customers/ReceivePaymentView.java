@@ -139,7 +139,7 @@ public class ReceivePaymentView extends
 		}
 
 		// if(selectedCustomer.getPaymentMethod())
-		paymentMethodCombo.setValue(selectedCustomer.getPaymentMethod());
+		paymentMethodCombo.setComboItem(selectedCustomer.getPaymentMethod());
 
 		this.paymentMethod = selectedCustomer.getPaymentMethod();
 
@@ -864,7 +864,7 @@ public class ReceivePaymentView extends
 		if (paymentToBeEdited.getMemo() != null)
 			memoTextAreaItem.setValue(paymentToBeEdited.getMemo());
 		if (paymentToBeEdited.getPaymentMethod() != null)
-			paymentMethodCombo.setValue(paymentToBeEdited.getPaymentMethod());
+			paymentMethodCombo.setComboItem(paymentToBeEdited.getPaymentMethod());
 		// if (paymentToBeEdited.getReference() != null)
 		// refText.setValue(paymentToBeEdited.getReference());
 		setAmountRecieved(paymentToBeEdited.getAmount());

@@ -59,7 +59,6 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 		return salesPersonConstants.salesPersonList();
 	}
 
-	@SuppressWarnings("unchecked")
 	// @Override
 	// protected HorizontalPanel getTotalLayout(BaseListGrid grid) {
 	// grid.addFooterValue(FinanceApplication.getCustomersMessages().total(),

@@ -115,7 +115,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeList.add(dateRangeArray[i]);
 		}
-		dateRangeItem.setValue(FinanceApplication.getReportsMessages().all());
+		dateRangeItem.setComboItem(FinanceApplication.getReportsMessages().all());
 		dateRangeItem
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 

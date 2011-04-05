@@ -94,7 +94,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		}
 		dateRangeCombo.initCombo(dateRangeList);
 		dateRangeCombo.setDefaultValue(dateRangeArray[0]);
-		dateRangeCombo.setValue(FinanceApplication.getReportsMessages().all());
+		dateRangeCombo.setComboItem(FinanceApplication.getReportsMessages().all());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 

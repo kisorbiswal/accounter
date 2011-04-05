@@ -84,6 +84,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 	public void onSuccess(List<PaymentsList> result) {
 		super.onSuccess(result);
 		grid.setViewType(FinanceApplication.getVendorsMessages().all());
+		filterList(FinanceApplication.getVendorsMessages().all());
 	}
 
 	@Override
@@ -115,6 +116,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 		return currentView;
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void filterList(String text) {
 		grid.removeAllRecords();
 		if (currentView.getSelectedValue().equalsIgnoreCase("Not Issued")) {
@@ -164,6 +166,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 		if (currentView.getSelectedValue().equalsIgnoreCase("All")) {
 			grid.setRecords(initialRecords);
 		}
+
 		if (grid.getRecords().isEmpty())
 			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 

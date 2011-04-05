@@ -1125,7 +1125,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			if (takenAccount.getBankAccountType() != 0) {
 				String type = getBankAccountType(takenAccount
 						.getBankAccountType());
-				typeSelect.setValue(type);
+				typeSelect.setComboItem(type);
 				bankAccNumText.setValue(takenAccount.getBankAccountNumber());
 			}
 

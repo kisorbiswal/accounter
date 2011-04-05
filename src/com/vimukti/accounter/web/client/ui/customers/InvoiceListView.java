@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -132,6 +130,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 		if (UIUtils.isMSIEBrowser())
 			viewSelect.setWidth("105px");
 		viewSelect.setComboItem(OPEN);
+		viewSelect.setSelected(ALL);
 		viewSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -159,6 +158,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 		dateRangeSelector.initCombo(dateRangeList);
 		dateRangeSelector.setDefaultValue(ALL);
 
+		dateRangeSelector.setComboItem(ALL);
 		if (UIUtils.isMSIEBrowser())
 			dateRangeSelector.setWidth("105px");
 
@@ -167,20 +167,22 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 						FinanceApplication.getCustomersMessages().all()))
 			getMinimumAndMaximumDates();
 
-		dateRangeSelector.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				if (dateRangeSelector.getValue() != null
-						&& !dateRangeSelector.getValue().equals(
-								FinanceApplication.getCustomersMessages()
-										.custom())) {
-					dateRangeChanged(dateRangeSelector.getValue().toString());
-					grid.setViewType(dateRangeSelector.getValue().toString());
-				}
-
-			}
-		});
+		dateRangeSelector
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						if (dateRangeSelector.getValue() != null
+								&& !dateRangeSelector.getValue().equals(
+										FinanceApplication
+												.getCustomersMessages()
+												.custom())) {
+							dateRangeChanged(dateRangeSelector
+									.getSelectedValue());
+							grid.setViewType(dateRangeSelector
+									.getSelectedValue());
+						}
+					}
+				});
 		dateRangeSelector.addStyleName("invoiceListCombo");
 
 		return dateRangeSelector;

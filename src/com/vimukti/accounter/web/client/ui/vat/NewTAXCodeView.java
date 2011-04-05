@@ -91,6 +91,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 				vatItemComboForSales.setSelected("");
 
 			if (!vat.isTaxable()) {
+				vatItemComboForPurchases.setValue("");
+				vatItemComboForSales.setValue("");
 				vatItemComboForPurchases.setDisabled(true);
 				vatItemComboForSales.setDisabled(true);
 			}
@@ -102,7 +104,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 				.newVATCode());
 		infoLabel.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-        infoLabel.setHeight("35px");
+		infoLabel.setHeight("35px");
 		listforms = new ArrayList<DynamicForm>();
 
 		vatCodeTxt = new TextItem(vatMessages.vatCode());
@@ -160,7 +162,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 				});
 		vatNameForm = new DynamicForm();
 		vatNameForm.setWidth("80%");
-		vatNameForm.getCellFormatter().setWidth(0,0, "225px");
+		vatNameForm.getCellFormatter().setWidth(0, 0, "225px");
 		vatNameForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 		vatNameForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 		vatNameForm.setFields(vatCodeTxt, description, taxableGroupRadio,

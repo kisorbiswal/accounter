@@ -722,13 +722,13 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		addButton.getElement().getParentElement().addClassName("add-button");
 
-		Element addseparator = DOM.createSpan();
-		addseparator.addClassName("add-separator");
-		DOM.appendChild(addButton.getElement(), addseparator);
-
-		Element addimage = DOM.createSpan();
-		addimage.addClassName("add-image");
-		DOM.appendChild(addButton.getElement(), addimage);
+		// Element addseparator = DOM.createSpan();
+		// addseparator.addClassName("add-separator");
+		// DOM.appendChild(addButton.getElement(), addseparator);
+		//
+		// Element addimage = DOM.createSpan();
+		// addimage.addClassName("add-image");
+		// DOM.appendChild(addButton.getElement(), addimage);
 
 		ThemesUtil.addDivToButton(addButton, FinanceApplication
 				.getThemeImages().button_right_blue_image(), "add-right-image");
@@ -1083,7 +1083,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			// Setting Payment Method
 			// selectPaymentMethodFromDetialsTab = takenCustomer
 			// .getPaymentMethod();
-			payMethSelect.setValue(takenCustomer.getPaymentMethod());
+			payMethSelect.setComboItem(takenCustomer.getPaymentMethod());
 			// Setting payemnt term
 			selectPayTermFromDetailsTab = FinanceApplication.getCompany()
 					.getPaymentTerms(takenCustomer.getPaymentTerm());

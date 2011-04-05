@@ -75,4 +75,10 @@ public class SelectCombo extends CustomCombo<String> {
 		return null;
 	}
 
+	@Override
+	public void setValue(Object value) {
+		// TODO Auto-generated method stub
+		super.setValue(value);
+	}
+
 }

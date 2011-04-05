@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -148,21 +149,6 @@ public class CashPurchaseView extends
 		formItems.add(contactCombo);
 		formItems.add(billToCombo);
 
-		paymentMethodCombo = createPaymentMethodSelectItem();
-		paymentMethodCombo.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				paymentMethodSelected(paymentMethodCombo.getValue().toString());
-				if (paymentMethod.equals(FinanceApplication
-						.getVendorsMessages().check())
-						&& transactionObject != null && payFromAccount != null) {
-					ClientCashPurchase cashPurchase = (ClientCashPurchase) transactionObject;
-					checkNo.setValue(cashPurchase.getCheckNumber());
-				}
-			}
-		});
-		paymentMethodCombo.setWidth(100);
 		payFromCombo = createPayFromCombo(vendorConstants.Payfrom());
 		payFromCombo.setWidth(100);
 		payFromCombo.setPopupWidth("500px");
@@ -174,6 +160,36 @@ public class CashPurchaseView extends
 		checkNo.setWidth(100);
 		deliveryDateItem = createTransactionDeliveryDateItem();
 		// deliveryDateItem.setWidth(100);
+
+		paymentMethodCombo = createPaymentMethodSelectItem();
+		paymentMethodCombo.setWidth(100);
+		paymentMethodCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						paymentMethodSelected(paymentMethodCombo.getSelectedValue());
+						if (paymentMethodCombo.getSelectedValue()
+								.equals(
+										FinanceApplication.getVendorsMessages()
+												.check())
+								|| paymentMethodCombo.getSelectedValue()
+										.equals(
+												FinanceApplication
+														.getVendorsMessages()
+														.cheque())) {
+							checkNo.setDisabled(false);
+						}
+
+						if (paymentMethod.equals(FinanceApplication
+								.getVendorsMessages().check())
+								&& transactionObject != null
+								&& payFromAccount != null) {
+							ClientCashPurchase cashPurchase = (ClientCashPurchase) transactionObject;
+							checkNo.setValue(cashPurchase.getCheckNumber());
+						}
+					}
+				});
 
 		termsForm = new DynamicForm();
 		termsForm.setWidth("100%");
@@ -430,7 +446,7 @@ public class CashPurchaseView extends
 				this.vendorTransactionGrid.updateTotals();
 			}
 		}
-		if(vendor.getPhoneNo()!=null)
+		if (vendor.getPhoneNo() != null)
 			phoneSelect.setValue(vendor.getPhoneNo());
 		else
 			phoneSelect.setValue("");

@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.grids.ManageTAXCodeListGrid;
@@ -56,7 +57,9 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 			} else if (taxCode.isActive() == false) {
 				grid.addData(taxCode);
 			}
-
+			if (grid.getRecords().isEmpty()) {
+				grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			}
 		}
 
 	}

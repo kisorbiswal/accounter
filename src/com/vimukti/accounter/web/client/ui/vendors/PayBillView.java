@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -152,7 +151,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		payBill.setPayFrom(payFromAccount);
 
 		// Setting payment method
-		payBill.setPaymentMethod(paymentMethodCombo.getValue().toString());
+		payBill.setPaymentMethod(paymentMethodCombo.getSelectedValue());
 
 		// Setting Bill due or before
 		if (dueDate.getEnteredDate() != null)
@@ -426,7 +425,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 			@Override
 			public void onChange(ChangeEvent event) {
-				if (vendorPaymentMethodCombo.getValue() != null)
+				if (vendorPaymentMethodCombo.getSelectedValue()!= null)
 					vendorPaymentMethod = ((SelectItem) event.getSource())
 							.getValue().toString();
 				if (paybillTransactionList != null) {
@@ -645,7 +644,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 		billToBeEdited = (ClientPayBill) transactionObject;
 
-		paymentMethodCombo.setValue(billToBeEdited.getPaymentMethod());
+		paymentMethodCombo.setComboItem(billToBeEdited.getPaymentMethod());
 
 		this.transactionItems = billToBeEdited.getTransactionItems();
 

@@ -853,13 +853,13 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 			menuButton.getElement().getParentElement().addClassName(
 					"add-button");
 
-			Element addseparator = DOM.createSpan();
-			addseparator.addClassName("add-separator");
-			DOM.appendChild(menuButton.getElement(), addseparator);
-
-			Element addimage = DOM.createSpan();
-			addimage.addClassName("add-image");
-			DOM.appendChild(menuButton.getElement(), addimage);
+			// Element addseparator = DOM.createSpan();
+			// addseparator.addClassName("add-separator");
+			// DOM.appendChild(menuButton.getElement(), addseparator);
+			//
+			// Element addimage = DOM.createSpan();
+			// addimage.addClassName("add-image");
+			// DOM.appendChild(menuButton.getElement(), addimage);
 
 			ThemesUtil.addDivToButton(menuButton, FinanceApplication
 					.getThemeImages().button_right_blue_image(),

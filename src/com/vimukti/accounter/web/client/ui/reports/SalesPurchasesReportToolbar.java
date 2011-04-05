@@ -104,7 +104,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 			dateRangeList.add(statusArray[i]);
 		}
 		dateRangeCombo.initCombo(dateRangeList);
-		dateRangeCombo.setValue(FinanceApplication.getReportsMessages().all());
+		dateRangeCombo.setComboItem(FinanceApplication.getReportsMessages().all());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 

@@ -482,7 +482,7 @@ public class PaySalesTaxView extends
 				.getBillsDueOnOrBefore()));
 		date.setEnteredDate(paySalesTax.getDate());
 		endingBalanceText.setAmount(paySalesTax.getEndingBalance());
-		paymentMethodCombo.setValue(paymentMethod);
+		paymentMethodCombo.setComboItem(paymentMethod);
 		amountText.setValue(paySalesTax.getTotal());
 		List<ClientTransactionPaySalesTax> list = paySalesTax
 				.getTransactionPaySalesTax();

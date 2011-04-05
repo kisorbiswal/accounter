@@ -16,19 +16,18 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 
 public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 	public double allExpensesAmount = 0.0;
 	public double cashExpenseAmount = 0.0;
-	public double employeeExpenseAmount = 0.0;
+	// public double employeeExpenseAmount = 0.0;
 	public double ccExpenseAmount = 0.0;
 
 	public Label allExpAmtLabel;
 	public Label cashExpAmtLabel;
-	public Label empExpAmtLabel;
+	// public Label empExpAmtLabel;
 	public Label ccExpAmtLabel;
 
 	public ExpenseClaimPortlet(String title) {
@@ -81,8 +80,8 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 		Label cashExpLabel = getLabel(FinanceApplication.getCompanyMessages()
 				.cashExpenses());
 		cashExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		Label empExpLabel = getLabel(FinanceApplication.getCompanyMessages()
-				.employeeExpenses());
+		// Label empExpLabel = getLabel(FinanceApplication.getCompanyMessages()
+		// .employeeExpenses());
 		Label ccExpLabel = getLabel(FinanceApplication.getCompanyMessages()
 				.creditCardExpenses());
 		ccExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
@@ -92,7 +91,8 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 		allExpAmtLabel = getAmountLabel(String.valueOf(allExpensesAmount));
 		cashExpAmtLabel = getAmountLabel(String.valueOf(cashExpenseAmount));
 		cashExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		empExpAmtLabel = getAmountLabel(String.valueOf(employeeExpenseAmount));
+		// empExpAmtLabel =
+		// getAmountLabel(String.valueOf(employeeExpenseAmount));
 		ccExpAmtLabel = getAmountLabel(String.valueOf(ccExpenseAmount));
 		ccExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 
@@ -124,7 +124,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 				if (result != null && result.size() != 0) {
 					cashExpenseAmount = result.get(0);
 					ccExpenseAmount = result.get(1);
-					employeeExpenseAmount = result.get(2);
+					// employeeExpenseAmount = result.get(2);
 					allExpensesAmount = result.get(3);
 					updateAmountLabels();
 				}
@@ -205,7 +205,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 	public void updateAmountLabels() {
 		cashExpAmtLabel.setText(String.valueOf(cashExpenseAmount));
 		ccExpAmtLabel.setText(String.valueOf(ccExpenseAmount));
-		empExpAmtLabel.setText(String.valueOf(employeeExpenseAmount));
+		// empExpAmtLabel.setText(String.valueOf(employeeExpenseAmount));
 		allExpAmtLabel.setText(String.valueOf(allExpensesAmount));
 	}
 }

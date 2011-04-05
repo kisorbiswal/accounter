@@ -607,13 +607,15 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		addButton.getElement().getParentElement().addClassName("add-button");
 
-		Element addseparator = DOM.createSpan();
-		addseparator.addClassName("add-separator");
-		DOM.appendChild(addButton.getElement(), addseparator);
-
-		Element addimage = DOM.createSpan();
-		addimage.addClassName("add-image");
-		DOM.appendChild(addButton.getElement(), addimage);
+		/*
+		 * Element addseparator = DOM.createSpan();
+		 * addseparator.addClassName("add-separator");
+		 * DOM.appendChild(addButton.getElement(), addseparator);
+		 * 
+		 * Element addimage = DOM.createSpan();
+		 * addimage.addClassName("add-image");
+		 * DOM.appendChild(addButton.getElement(), addimage);
+		 */
 
 		ThemesUtil
 				.addDivToButton(addButton, FinanceApplication.getThemeImages()

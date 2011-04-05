@@ -100,7 +100,7 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 			dateRangeList.add(dateRangeArray[i]);
 		}
 		dateRangeCombo.initCombo(dateRangeList);
-		dateRangeCombo.setValue(FinanceApplication.getReportsMessages().all());
+		dateRangeCombo.setComboItem(FinanceApplication.getReportsMessages().all());
 		dateRangeCombo.setName(FinanceApplication.getReportsMessages()
 				.dateRange());
 		dateRangeCombo

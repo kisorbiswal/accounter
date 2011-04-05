@@ -50,8 +50,7 @@ public class PhoneFaxForm extends DynamicForm {
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						ClientPhone p = allPhones.get(UIUtils
-								.getPhoneType(businessPhoneSelect.getValue()
-										.toString()));
+								.getPhoneType(businessPhoneSelect.getSelectedValue()));
 						if (p != null)
 							businessPhoneText.setValue(p.getNumber());
 						else

@@ -112,7 +112,7 @@ public class NewVendorPaymentView extends
 			printCheck.setDisabled(true);
 			checkNo.setDisabled(true);
 			ClientPayBill clientPayBill = (ClientPayBill) transactionObject;
-			paymentMethodCombo.setValue(clientPayBill.getPaymentMethod());
+			paymentMethodCombo.setComboItem(clientPayBill.getPaymentMethod());
 		}
 
 		if (payBillToBeEdited.getCheckNumber() != null) {
@@ -696,7 +696,7 @@ public class NewVendorPaymentView extends
 		checkNo.setDisabled(isEdit);
 		amountText.setDisabled(isEdit);
 		paymentMethodCombo.setDisabled(isEdit);
-		paymentMethodSelected(paymentMethodCombo.getValue().toString());
+		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNo.setValue(FinanceApplication.getVendorsMessages()
 					.Tobeprinted());

@@ -103,9 +103,10 @@ public class BillListView extends BaseListView<BillsList> {
 
 		if (this.viewType != null && !viewType.equals(""))
 			currentView.setComboItem(viewType);
-		else
+		else {
 			currentView.setComboItem(FinanceApplication.getCustomersMessages()
 					.all());
+		}
 		currentView
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 

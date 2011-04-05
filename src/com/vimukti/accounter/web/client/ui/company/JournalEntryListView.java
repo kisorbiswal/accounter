@@ -66,6 +66,7 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 	public void onSuccess(List<ClientJournalEntry> result) {
 		super.onSuccess(result);
 		grid.setViewType(FinanceApplication.getVendorsMessages().all());
+		filterList(FinanceApplication.getVendorsMessages().all());
 	}
 
 	@Override
@@ -87,7 +88,7 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 		listOfTypes.add(FinanceApplication.getVendorsMessages().all());
 		currentView.initCombo(listOfTypes);
 		// currentView.setComboItem(FinanceApplication.getVendorsMessages().all());
-		currentView.setValue(FinanceApplication.getCustomersMessages().all());
+		currentView.setComboItem(FinanceApplication.getCustomersMessages().all());
 		currentView
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 

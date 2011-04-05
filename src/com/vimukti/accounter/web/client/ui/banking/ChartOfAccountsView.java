@@ -124,6 +124,9 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 			}
 
 		}
+		if (grid.getRecords().isEmpty()) {
+			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+		}
 
 	}
 

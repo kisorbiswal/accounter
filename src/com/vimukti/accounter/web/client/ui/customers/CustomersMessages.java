@@ -633,7 +633,7 @@ public interface CustomersMessages extends FinanceMessages {
 
 	public String customeRName();
 
-	public String producTName();
+	public String itemName();
 
 	public String statuS();
 

@@ -91,16 +91,16 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	protected void filterList(boolean isActive) {
 		grid.removeAllRecords();
 		grid.setTotal();
-			for (PayeeList customer : listOfCustomers) {
-				if (isActive) {
-					if (customer.isActive() == true)
-						grid.addData(customer);
-				} else if (customer.isActive() == false) {
+		for (PayeeList customer : listOfCustomers) {
+			if (isActive) {
+				if (customer.isActive() == true)
 					grid.addData(customer);
-				}
+			} else if (customer.isActive() == false) {
+				grid.addData(customer);
 			}
-			if(grid.getRecords().isEmpty())
-				grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+		}
+		if (grid.getRecords().isEmpty())
+			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 
 		getTotalLayout(grid);
 	}

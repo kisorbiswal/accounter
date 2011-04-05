@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.LineChart;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
@@ -59,14 +58,16 @@ public class BankingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void createBody() {
-		if (FinanceApplication.getCompany() != null)
+		if (FinanceApplication.getCompany() != null) {
 			bankAccounts = FinanceApplication.getCompany().getAccounts(
 					ClientAccount.TYPE_BANK);
+		}
+		Button addAccount = new Button(FinanceApplication.getCompanyMessages()
+				.addBankAccount());
+		addAccount.addStyleName("addAccountPortlet");
+		body.add(addAccount);
 		if (bankAccounts == null || bankAccounts.size() == 0) {
 			// for (int i = 0; i < 4; i++) {
-			Button addAccount = new Button(FinanceApplication
-					.getCompanyMessages().addBankAccount());
-			addAccount.addStyleName("addAccountPortlet");
 			addAccount.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -75,8 +76,6 @@ public class BankingPortlet extends DashBoardPortlet {
 							true);
 				}
 			});
-
-			body.add(addAccount);
 			Runnable runnable = new Runnable() {
 
 				@Override
@@ -197,6 +196,14 @@ public class BankingPortlet extends DashBoardPortlet {
 				i++;
 			}
 			// body.add(panel);
+			addAccount.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					BankingActionFactory.getNewBankAccountAction().run(null,
+							true);
+				}
+			});
 		}
 	}
 

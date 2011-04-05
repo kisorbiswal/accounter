@@ -738,7 +738,7 @@ public class NewCustomerPaymentView extends
 		printCheck.setDisabled(isEdit);
 		amountText.setDisabled(isEdit);
 		paymentMethodCombo.setDisabled(isEdit);
-		paymentMethodSelected(paymentMethodCombo.getValue().toString());
+		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNo.setValue(FinanceApplication.getCustomersMessages()
 					.toBePrinted());

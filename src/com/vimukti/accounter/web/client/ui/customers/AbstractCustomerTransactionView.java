@@ -415,7 +415,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 			priceLevelSelect.setComboItem(this.priceLevel);
 
 		if (this.paymentMethod != null && paymentMethodCombo != null)
-			paymentMethodCombo.setValue(customer.getPaymentMethod());
+			paymentMethodCombo.setComboItem(customer.getPaymentMethod());
 		// if (transactionObject == null)
 		initAddressAndContacts();
 	}
