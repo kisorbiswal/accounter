@@ -970,7 +970,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 .gwt-TextBox{
 	background:url("images/Text Feild_enabled_180x22.png") no-repeat scroll 0 0 #fff !important;
-	border:0 none !important;
+	border:0 none;
     height:22px;
 }
 
@@ -1257,6 +1257,34 @@ iframe{
 }
 .invoiceListCombo{
 	width: 105px !important;
+}
+.commentPanel{
+	border: 1px solid red;
+	background-color: #EEEEEE;
+	width: 100%;
+}
+.error-data{
+	padding: 10px;
+	font-weight: bold;
+	color: red;
+}
+.down-panel {
+ border: 1px solid #AAAAAA !important;
+ color: gray;
+ font-weight: bold;
+ padding: 10px;
+ text-align: center !important;
+ margin-top: 25px !important;
+}
+
+.help-links {
+ border: 1px solid #AAAAAA !important;
+}
+
+.help-links1 {
+ border: 1px solid #AAAAAA !important;
+ color: gray;
+ font-weight: bold;
 }
 .general-standard{
 	width:100%;
