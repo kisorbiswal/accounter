@@ -253,12 +253,12 @@ public class GeneralSettingsView extends AbstractBaseView {
 		titlePanel.add(titleHtml);
 		optionsTable.setWidget(0, 0, conversationImage);
 		optionsTable.setWidget(0, 1, conversationPanel);
-		optionsTable.setWidget(1, 0, usersImage);
-		optionsTable.setWidget(1, 1, userPanel);
-		optionsTable.setWidget(2, 0, invoiceImage);
-		optionsTable.setWidget(2, 1, invoiceBrandingPanel);
-		optionsTable.setWidget(3, 0, companyImage);
-		optionsTable.setWidget(3, 1, companyPanel);
+		optionsTable.setWidget(1, 0, companyImage);
+		optionsTable.setWidget(1, 1, companyPanel);
+		optionsTable.setWidget(2, 0, usersImage);
+		optionsTable.setWidget(2, 1, userPanel);
+		optionsTable.setWidget(3, 0, invoiceImage);
+		optionsTable.setWidget(3, 1, invoiceBrandingPanel);
 
 		mainPanel.add(titlePanel);
 		mainPanel.add(optionsTable);
