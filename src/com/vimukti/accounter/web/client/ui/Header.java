@@ -53,16 +53,16 @@ public class Header extends HorizontalPanel {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				userName.getElement().getStyle()
-						.setTextDecoration(TextDecoration.UNDERLINE);
+				userName.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
 			}
 		});
 		userName.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				userName.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
+				userName.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
 			}
 		});
 
@@ -81,7 +81,7 @@ public class Header extends HorizontalPanel {
 		panel1 = new VerticalPanel();
 		panel1.setWidth("100%");
 		panel1.add(image);
-		
+
 		panel2 = new VerticalPanel();
 		panel2.setWidth("85%");
 		panel2.add(companyName);
@@ -103,12 +103,11 @@ public class Header extends HorizontalPanel {
 		this.add(panel3);
 		this.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
 		this.setCellWidth(panel3, "25%");
-		
+
 		Element spanEle = DOM.createSpan();
 		spanEle.setInnerText("Vimukti Technologies Pvt Ltd");
 		spanEle.addClassName("vimutki-text");
 		DOM.appendChild(panel1.getElement(), spanEle);
-
 
 		this.setWidth("100%");
 
@@ -126,13 +125,14 @@ public class Header extends HorizontalPanel {
 
 	private static CustomMenuBar getHelpMenuBar() {
 		CustomMenuBar helpMenu = new CustomMenuBar();
-		helpMenu.addItem("Help Centre", new Command() {
+		helpMenu.addItem("<a href='http://help.accounter.com'>Help Centre</a>",
+				true, new Command() {
 
-			@Override
-			public void execute() {
+					@Override
+					public void execute() {
 
-			}
-		});
+					}
+				});
 
 		helpMenu.addItem(gettingStartedStatus, new Command() {
 
