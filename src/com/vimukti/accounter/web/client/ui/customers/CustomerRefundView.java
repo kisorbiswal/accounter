@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
+import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
@@ -217,8 +218,12 @@ public class CustomerRefundView extends
 							.getValue().toString()));
 					Double givenAmount = amtText.getAmount();
 					if (DecimalUtil.isLessThan(givenAmount, 0)) {
-						Accounter.showError(FinanceApplication
-								.getCustomersMessages().noNegativeAmounts());
+						BaseView.errordata.setHTML("<li> "
+								+ FinanceApplication.getCustomersMessages()
+										.noNegativeAmounts() + ".");
+						BaseView.commentPanel.setVisible(true);
+						// Accounter.showError(FinanceApplication
+						// .getCustomersMessages().noNegativeAmounts());
 						setRefundAmount(0.00D);
 
 					}
@@ -226,6 +231,8 @@ public class CustomerRefundView extends
 					else if (!DecimalUtil.isLessThan(givenAmount, 0)) {
 						if (!AccounterValidator.isAmountTooLarge(givenAmount))
 							refundAmountChanged(givenAmount);
+						BaseView.errordata.setHTML("");
+						BaseView.commentPanel.setVisible(false);
 						setRefundAmount(givenAmount);
 
 					}
@@ -403,9 +410,9 @@ public class CustomerRefundView extends
 				alterObject((ClientCustomerRefund) transactionObject);
 
 		} catch (Exception e) {
-			Accounter.showError(FinanceApplication.getCustomersMessages()
-					.error()
-					+ e.getMessage());
+			// Accounter.showError(FinanceApplication.getCustomersMessages()
+			// .error()
+			// + e.getMessage());
 			throw e;
 		}
 
@@ -560,11 +567,11 @@ public class CustomerRefundView extends
 	public boolean validate() throws InvalidTransactionEntryException,
 			InvalidEntryException {
 
-		if (custForm != null)
-			AccounterValidator.validateForm(custForm);
-		if (DecimalUtil.isEquals(amtText.getAmount(), 0))
-			throw new InvalidTransactionEntryException(
-					AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
+		// if (custForm != null)
+		// AccounterValidator.validateForm(custForm);
+		// if (DecimalUtil.isEquals(amtText.getAmount(), 0))
+		// throw new InvalidTransactionEntryException(
+		// AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
 		return super.validate();
 	}
 

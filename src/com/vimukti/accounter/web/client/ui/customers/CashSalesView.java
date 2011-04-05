@@ -612,12 +612,12 @@ public class CashSalesView extends
 	@Override
 	public boolean validate() throws InvalidTransactionEntryException,
 			InvalidEntryException {
-		List<DynamicForm> forms = this.getForms();
-		for (DynamicForm form : forms) {
-			if (form != null) {
-				form.validate();
-			}
-		}
+		// List<DynamicForm> forms = this.getForms();
+		// for (DynamicForm form : forms) {
+		// if (form != null) {
+		// form.validate();
+		// }
+		// }
 		return super.validate();
 
 	}

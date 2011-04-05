@@ -422,7 +422,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		if (!customerForm.validate()) {
 			if (tabSet.getTabBar().isTabEnabled(1))
 				tabSet.selectTab(0);
-			throw new InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
+			// throw new
+			// InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
 		}
 		return true;
 	}
@@ -767,8 +768,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			fonFaxForm.businessFaxText.setValue(takenCustomer.getFaxNo());
 			fonFaxForm.setWidth("100%");
 			// Setting Email Form
-			emailForm = new EmailForm(null, takenCustomer
-					.getWebPageAddress());
+			emailForm = new EmailForm(null, takenCustomer.getWebPageAddress());
 			emailForm.businesEmailText.setValue(takenCustomer.getEmail());
 			emailForm.setWidth("100%");
 			// Setting Status Check
@@ -1044,9 +1044,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		termsForm.setWidth("100%");
 
 		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setSize("100%","100%");
+		leftVLay.setSize("100%", "100%");
 		leftVLay.setHeight("350px");
-		leftVLay.getElement().getStyle().setBorderColor("none repeat scroll 0 0 #eee !important");
+		leftVLay.getElement().getStyle().setBorderColor(
+				"none repeat scroll 0 0 #eee !important");
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 
@@ -1145,10 +1146,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		initShippingMethodList();
 		initCreditRatingList();
 		initPriceLevelList();
-		 if (takenCustomer != null && takenCustomer.getPhoneNo() != null)
-		 takenCustomer.setPhoneNo(takenCustomer.getPhoneNo());
-		 if (takenCustomer != null && takenCustomer.getFaxNo() != null)
-		 takenCustomer.setFaxNo(takenCustomer.getFaxNo());
+		if (takenCustomer != null && takenCustomer.getPhoneNo() != null)
+			takenCustomer.setPhoneNo(takenCustomer.getPhoneNo());
+		if (takenCustomer != null && takenCustomer.getFaxNo() != null)
+			takenCustomer.setFaxNo(takenCustomer.getFaxNo());
 		if (company.getAccountingType() == 1)
 			initVatCodeList();
 		else

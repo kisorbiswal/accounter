@@ -123,8 +123,8 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 						createCustomerGroups();
 					}
 				} else {
-					Accounter.showError(FinanceApplication
-							.getCustomersMessages().detailsHighlightedInRedMustBeEntered());
+					// Accounter.showError(FinanceApplication
+					// .getCustomersMessages().detailsHighlightedInRedMustBeEntered());
 					return false;
 				}
 				return true;

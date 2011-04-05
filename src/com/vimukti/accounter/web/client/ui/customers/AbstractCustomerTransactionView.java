@@ -991,8 +991,10 @@ public abstract class AbstractCustomerTransactionView<T> extends
 			else if (this instanceof CustomerRefundView) {
 				CustomerRefundView view = (CustomerRefundView) this;
 				if (!isEdit) {
-					return (AccounterValidator.validateForm(view.custForm)
-							&& AccounterValidator
+					return (
+					// AccounterValidator.validateForm(view.custForm)
+					// && 
+							AccounterValidator
 									.validate_TaxAgency_FinanceAcount(view.selectedAccount)
 							&& AccounterValidator.validateAmount(
 									((CustomerRefundView) this).amtText
