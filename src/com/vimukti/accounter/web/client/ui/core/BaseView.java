@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -21,8 +22,10 @@ import com.vimukti.accounter.web.client.ui.vat.FileVATView;
 
 public abstract class BaseView<T> extends AbstractBaseView<T> {
 
-	protected VerticalPanel commentPanel, mainPanel;
-
+	protected VerticalPanel mainPanel;
+	public static HTML errordata;
+	public static VerticalPanel commentPanel;
+	
 	protected ScrollPanel canvas;
 	protected HorizontalPanel buttonLayout;
 
@@ -72,6 +75,12 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 		setWidth("100%");
 		setHeight("100%");
 		commentPanel = new VerticalPanel();
+		commentPanel.setWidth("100%");
+		commentPanel.setVisible(false);
+		commentPanel.addStyleName("commentPanel");
+		errordata = new HTML();
+		errordata.addStyleName("error-data");
+		commentPanel.add(errordata);
 		mainPanel = new VerticalPanel();
 		mainPanel.setSize("100%", "100%");
 		canvas = new ScrollPanel();
