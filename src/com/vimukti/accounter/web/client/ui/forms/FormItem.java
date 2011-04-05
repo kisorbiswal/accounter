@@ -22,7 +22,10 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.BaseView;
 
 public abstract class FormItem {
 
@@ -284,6 +287,17 @@ public abstract class FormItem {
 
 			} else
 				highlight();
+			if (BaseView.errordata != null && BaseView.commentPanel != null) {
+				BaseView.errordata.setHTML(BaseView.errordata.getHTML()
+						+ "<li> Please enter " + this.getTitle() + ".");
+				BaseView.commentPanel.setVisible(true);
+				AbstractBaseView.errorOccured = true;
+			} else if (BaseDialog.errordata != null
+					&& BaseDialog.commentPanel != null) {
+				BaseDialog.errordata.setHTML(BaseDialog.errordata.getHTML()
+						+ "<li> Please enter " + this.getTitle() + ".");
+				BaseDialog.commentPanel.setVisible(true);
+			}
 			return false;
 
 		}
