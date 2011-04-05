@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -48,7 +49,9 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 	protected IAccounterCRUDServiceAsync rpcDoSerivce;
 	protected IAccounterHomeViewServiceAsync rpcUtilService;
 	protected ClientCompany company;
-	protected VerticalPanel mainPanel, mainVLayPanel, commentPanel;
+	protected VerticalPanel mainPanel, mainVLayPanel;
+	public static HTML errordata;
+	public static VerticalPanel commentPanel;
 
 	public BaseDialog(String title, String desc) {
 
@@ -157,6 +160,11 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 
 		mainPanel = new VerticalPanel();
 		commentPanel = new VerticalPanel();
+		commentPanel.setVisible(false);
+		commentPanel.addStyleName("commentPanel");
+		errordata = new HTML();
+		errordata.addStyleName("error-data");
+		commentPanel.add(errordata);
 		mainPanel.setSize("100%", "100%");
 		// mainPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
 		mainPanel.add(commentPanel);
