@@ -10,10 +10,12 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.HelpLink;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.company.HelpItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.vat.FileVATView;
 
@@ -27,6 +29,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 	private String height;
 	protected boolean isFixedAssetView;
 	protected int accountType;
+	public int type;
 
 	public BaseView() {
 
@@ -118,47 +121,82 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 					&& !(this != null && this instanceof FileVATView))
 				buttonLayout.add(saveAndNewButton);
 		}
-					
+
 		buttonLayout.add(cancelButton);
 
 		setCellHorizontalAlignment(buttonLayout, ALIGN_RIGHT);
 		add(buttonLayout);
 		buttonLayout.getElement().getParentElement()
 				.setClassName("bottom-view");
-		
-		cancelButton.getElement().getParentElement()
-		.setClassName("cancel-button");
-		
-		Element spanEle=DOM.createSpan();
+
+		cancelButton.getElement().getParentElement().setClassName(
+				"cancel-button");
+
+		HorizontalPanel downpanel = new HorizontalPanel();
+		downpanel.setWidth("100%");
+		com.google.gwt.user.client.ui.Label l1 = new com.google.gwt.user.client.ui.Label(
+				"Copyright  Online accounting All rights reserved. Support Feedback ");
+		l1.addStyleName("down-panel");
+		downpanel.add(l1);
+
+		initHelpPanel();
+
+		add(downpanel);
+
+		Element spanEle = DOM.createSpan();
 		spanEle.addClassName("save-new-separator");
-		DOM.appendChild(saveAndNewButton.getElement(),spanEle);
-		
-		Element spanElement=DOM.createSpan();
+		DOM.appendChild(saveAndNewButton.getElement(), spanEle);
+
+		Element spanElement = DOM.createSpan();
 		spanElement.addClassName("save-new-image");
-		DOM.appendChild(saveAndNewButton.getElement(),spanElement);
-		
-		Element savecloseseparator=DOM.createSpan();
+		DOM.appendChild(saveAndNewButton.getElement(), spanElement);
+
+		Element savecloseseparator = DOM.createSpan();
 		savecloseseparator.addClassName("save-close-separator");
-		DOM.appendChild(saveAndCloseButton.getElement(),savecloseseparator);
-		
-		Element savecloseimage=DOM.createSpan();
+		DOM.appendChild(saveAndCloseButton.getElement(), savecloseseparator);
+
+		Element savecloseimage = DOM.createSpan();
 		savecloseimage.addClassName("save-close-image");
-		DOM.appendChild(saveAndCloseButton.getElement(),savecloseimage);
-		
-		
-		Element closeseparator=DOM.createSpan();
+		DOM.appendChild(saveAndCloseButton.getElement(), savecloseimage);
+
+		Element closeseparator = DOM.createSpan();
 		closeseparator.addClassName("close-separator");
-		DOM.appendChild(cancelButton.getElement(),closeseparator);
-		
-		Element closeimage=DOM.createSpan();
+		DOM.appendChild(cancelButton.getElement(), closeseparator);
+
+		Element closeimage = DOM.createSpan();
 		closeimage.addClassName("close-image");
-		DOM.appendChild(cancelButton.getElement(),closeimage);
-		
-		ThemesUtil.addDivToButton(cancelButton,FinanceApplication.getThemeImages().button_right_gray_image(),"button-right-image");
-		ThemesUtil.addDivToButton(saveAndCloseButton,FinanceApplication.getThemeImages().button_right_blue_image(),"button-right-image");
-		if(!(this != null && this instanceof FileVATView)){
-		ThemesUtil.addDivToButton(saveAndNewButton,FinanceApplication.getThemeImages().button_right_blue_image(),"button-right-image");
+		DOM.appendChild(cancelButton.getElement(), closeimage);
+
+		ThemesUtil.addDivToButton(cancelButton, FinanceApplication
+				.getThemeImages().button_right_gray_image(),
+				"button-right-image");
+		ThemesUtil.addDivToButton(saveAndCloseButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"button-right-image");
+		if (!(this != null && this instanceof FileVATView)) {
+			ThemesUtil.addDivToButton(saveAndNewButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"button-right-image");
 		}
+	}
+
+	private void initHelpPanel() {
+		final HelpItem item = new HelpItem();
+		FinanceApplication.createGETService().getHelpLinks(type,
+				new AsyncCallback<List<HelpLink>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Accounter.showError("unable to add links");
+					}
+
+					@Override
+					public void onSuccess(List<HelpLink> result) {
+						item.addLinks(result);
+
+					}
+				});
+		add(item);
 	}
 
 	public Panel getCanvas() {
