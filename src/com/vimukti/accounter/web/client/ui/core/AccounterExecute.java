@@ -37,12 +37,18 @@ public class AccounterExecute extends Timer {
 						view.validationCount--;
 						validationCount--;
 					}
-				} else
-					validationCount--;
+				} else {
+					if (view.validationCount != 0) {
+						view.validationCount--;
+						validationCount--;
+					}
+				}
 
-				if (view.validationCount == 0) {
+				if (!view.errorOccured && view.validationCount == 0) {
 					view.saveAndUpdateView();
 					view.validationCount--;
+				} else if (view.errorOccured && view.validationCount == 0) {
+					stop();
 				}
 
 			} catch (Exception e) {
@@ -50,10 +56,21 @@ public class AccounterExecute extends Timer {
 					JavaScriptException scriptEx = (JavaScriptException) e;
 					Accounter.showError(scriptEx.getDescription() == null ? e
 							.toString() : scriptEx.getDescription());
-				} else
-					Accounter.showError(e.getMessage() == null ? e.toString()
-							: e.getMessage());
-				stop();
+				} else {
+					view.validationCount--;
+					validationCount--;
+					BaseView.errordata.setHTML(BaseView.errordata.getHTML()
+							+ "<li> "
+							+ (e.getMessage() == null ? e.toString() : e
+									.getMessage()) + ".");
+					BaseView.commentPanel.setVisible(true);
+					view.errorOccured = true;
+					if (view.validationCount <= 0)
+						stop();
+					// Accounter.showError(e.getMessage() == null ? e.toString()
+					// : e.getMessage());
+				}
+				// stop();
 			}
 
 		}

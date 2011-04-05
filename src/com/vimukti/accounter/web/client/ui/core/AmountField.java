@@ -67,7 +67,9 @@ public class AmountField extends TextItem {
 					}
 				} catch (Exception e) {
 					if (e instanceof InvalidEntryException) {
-						Accounter.showError(e.getMessage());
+						BaseView.errordata.setHTML("<li>" + e.getMessage());
+						BaseView.commentPanel.setVisible(true);
+						// Accounter.showError(e.getMessage());
 					}
 
 					// else if (value.toString().length() != 0) {

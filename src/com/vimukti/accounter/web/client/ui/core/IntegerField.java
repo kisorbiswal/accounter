@@ -4,6 +4,7 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
+import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class IntegerField extends TextItem {
@@ -48,8 +49,14 @@ public class IntegerField extends TextItem {
 							setNumber(enteredNumber);
 						}
 					} catch (Exception e) {
-						if (value.toString().length() != 0)
-							Accounter.showError(AccounterErrorType.INCORRECTINFORMATION);
+						if (value.toString().length() != 0) {
+							BaseView.errordata.setHTML("<li> "
+									+ AccounterErrorType.INCORRECTINFORMATION
+									+ ".");
+							BaseView.commentPanel.setVisible(true);
+						}
+						// Accounter
+						// .showError(AccounterErrorType.INCORRECTINFORMATION);
 
 					}
 				} catch (Exception e) {
@@ -63,7 +70,10 @@ public class IntegerField extends TextItem {
 
 	public void setNumber(Long enteredNumber) {
 		this.number = enteredNumber;
-		setValue(enteredNumber);
+		if (enteredNumber != null)
+			setValue(enteredNumber);
+		else
+			setValue("");
 
 	}
 

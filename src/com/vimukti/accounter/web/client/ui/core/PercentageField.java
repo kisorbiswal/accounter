@@ -74,20 +74,29 @@ public class PercentageField extends TextItem {
 						if (enteredPercentageValue != null) {
 							if (DecimalUtil.isLessThan(enteredPercentageValue,
 									0)) {
-								Accounter
-										.showError("You cannot enter a negative Percentage");
+								BaseView.errordata
+										.setHTML("<li> You cannot enter a negative Percentage.");
+								BaseView.commentPanel.setVisible(true);
+								// Accounter
+								// .showError("You cannot enter a negative Percentage");
 								setPercentage(0.0);
 							} else if (DecimalUtil.isGreaterThan(
 									enteredPercentageValue, 100)) {
-								Accounter
-										.showError("You cannot enter a percentage more than 100");
+								BaseView.errordata
+										.setHTML("<li> You cannot enter a percentage more than 100.");
+								BaseView.commentPanel.setVisible(true);
+								// Accounter
+								// .showError("You cannot enter a percentage more than 100");
 								setPercentage(0.0);
 							} else
 								setPercentage(enteredPercentageValue);
 						}
 					}
 				} catch (Exception e) {
-					Accounter.showError(AccounterErrorType.INVALIDENTRY);
+					BaseView.errordata.setHTML("<li> "
+							+ AccounterErrorType.INVALIDENTRY + ".");
+					BaseView.commentPanel.setVisible(true);
+					// Accounter.showError(AccounterErrorType.INVALIDENTRY);
 					setPercentage(0.0);
 				}
 

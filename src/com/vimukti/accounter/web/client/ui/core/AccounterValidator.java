@@ -52,16 +52,25 @@ public class AccounterValidator {
 		if (canAllowNegativeAmount) {
 			if (DecimalUtil.isLessThan(amount, -1000000000000.00)
 					|| DecimalUtil.isGreaterThan(amount, 1000000000000.00)) {
-				Accounter.showError(AccounterErrorType.AMOUNTEXCEEDS);
-				Accounter.stopExecution();
+				// Accounter.showError(AccounterErrorType.AMOUNTEXCEEDS);
+				BaseView.errordata.setHTML(BaseView.errordata.getHTML()
+						+ "<li> " + AccounterErrorType.AMOUNTEXCEEDS + ".");
+				BaseView.commentPanel.setVisible(true);
+				AbstractBaseView.errorOccured = true;
+				// Accounter.stopExecution();
 				return false;
 			}
 
 		} else {
 			if (DecimalUtil.isLessThan(amount, 0.00)
 					|| DecimalUtil.isGreaterThan(amount, 1000000000000.00)) {
-				Accounter.showError(AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
-				Accounter.stopExecution();
+				// Accounter.showError(AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
+				BaseView.errordata.setHTML(BaseView.errordata.getHTML()
+						+ "<li> " + AccounterErrorType.INVALID_NEGATIVE_AMOUNT
+						+ ".");
+				BaseView.commentPanel.setVisible(true);
+				AbstractBaseView.errorOccured = true;
+				// Accounter.stopExecution();
 				return false;
 			}
 
@@ -74,7 +83,8 @@ public class AccounterValidator {
 			throws InvalidEntryException {
 
 		if (!form.validate()) {
-			throw new InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
+			// throw new
+			// InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
 		}
 		return true;
 	}
@@ -84,7 +94,7 @@ public class AccounterValidator {
 	}
 
 	public static boolean validateAmount(Double amt) {
-		if (!DecimalUtil.isGreaterThan(amt, 0.00)) {
+		if (DecimalUtil.isLessThan(amt, 0.00)) {
 			Accounter.showError(AccounterErrorType.amount);
 			Accounter.stopExecution();
 			return false;
@@ -1333,9 +1343,15 @@ public class AccounterValidator {
 	public static boolean validateGridUnitPrice(Double unitPrice)
 			throws InvalidTransactionEntryException {
 		if (DecimalUtil.isLessThan(unitPrice, 0.00)) {
-			Accounter.showError(AccounterErrorType.unitPrice);
-			Accounter.stopExecution();
+			BaseView.errordata.setHTML("<li> " + AccounterErrorType.unitPrice
+					+ ".");
+			BaseView.commentPanel.setVisible(true);
+			// Accounter.showError(AccounterErrorType.unitPrice);
+			// Accounter.stopExecution();
 			return true;
+		} else {
+			BaseView.errordata.setHTML("");
+			BaseView.commentPanel.setVisible(false);
 		}
 		return false;
 
@@ -1344,9 +1360,15 @@ public class AccounterValidator {
 	public static boolean validateGridQuantity(Double quantity)
 			throws InvalidTransactionEntryException {
 		if (DecimalUtil.isLessThan(quantity, 0.00)) {
-			Accounter.showError(AccounterErrorType.quantity);
-			Accounter.stopExecution();
+			BaseView.errordata.setHTML("<li> " + AccounterErrorType.quantity
+					+ ".");
+			BaseView.commentPanel.setVisible(true);
+			// Accounter.showError(AccounterErrorType.quantity);
+			// Accounter.stopExecution();
 			return true;
+		} else {
+			BaseView.errordata.setHTML("");
+			BaseView.commentPanel.setVisible(false);
 		}
 		return false;
 
@@ -1394,8 +1416,8 @@ public class AccounterValidator {
 	public static boolean validateFormItem(FormItem item)
 			throws InvalidTransactionEntryException {
 		if (!item.validate()) {
-			throw new InvalidTransactionEntryException(
-					"Required fields are shown in bold.Those fields should be filled!!");
+			// throw new InvalidTransactionEntryException(
+			// "Required fields are shown in bold.Those fields should be filled!!");
 
 		}
 
@@ -1405,9 +1427,10 @@ public class AccounterValidator {
 	public static boolean validateFormItem(FormItem... items)
 			throws InvalidTransactionEntryException {
 		for (FormItem item : items)
-			if (!item.validate())
-				throw new InvalidTransactionEntryException(
-						AccounterErrorType.REQUIRED_FIELDS);
+			if (!item.validate()) {
+				// throw new InvalidTransactionEntryException(
+				// AccounterErrorType.REQUIRED_FIELDS);
+			}
 		return true;
 
 	}
@@ -1507,8 +1530,8 @@ public class AccounterValidator {
 	public static boolean validateGridItem(Object value, String itemName)
 			throws InvalidTransactionEntryException {
 		if (value == null || value == "") {
-			throw new InvalidTransactionEntryException("Please Select a "
-					+ itemName + "  for each added line item");
+			throw new InvalidTransactionEntryException(
+					"Please enter the details for each added line item");
 		}
 		return true;
 	}
@@ -1605,14 +1628,14 @@ public class AccounterValidator {
 
 	@SuppressWarnings("unchecked")
 	public static boolean isPriorAsOfDate(ClientFinanceDate asOfDate,
-			final AbstractBaseView view) {
+			final AbstractBaseView view) throws InvalidEntryException {
 
 		ClientFinanceDate companyStartDate = new ClientFinanceDate(
 				FinanceApplication.getCompany().getpreferences()
 						.getPreventPostingBeforeDate());
 		if (asOfDate.before(companyStartDate)) {
-			Accounter.showError(AccounterErrorType.prior_asOfDate);
-			return false;
+			throw new InvalidEntryException(AccounterErrorType.prior_asOfDate);
+			// return false;
 		}
 		return true;
 
