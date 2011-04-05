@@ -320,8 +320,8 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 				if (form != null) {
 					if (!form.validate()) {
 						validate = false;
-						throw new InvalidEntryException(
-								AccounterErrorType.REQUIRED_FIELDS);
+						// throw new InvalidEntryException(
+						// AccounterErrorType.REQUIRED_FIELDS);
 					}
 
 				}
@@ -360,20 +360,20 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 			return true;
 
 		case 3:
-			if (!vatAgencyCombo.validate()) {
-				throw new InvalidEntryException(
-						AccounterErrorType.REQUIRED_FIELDS);
-			}
+			// if (!vatAgencyCombo.validate()) {
+			// throw new InvalidEntryException(
+			// AccounterErrorType.REQUIRED_FIELDS);
+			// }
 			return true;
 
 		case 2:
 			if (accountType == 0)
 				return true;
 			else {
-				if (!vatReturnBoxCombo.validate()) {
-					throw new InvalidEntryException(
-							AccounterErrorType.REQUIRED_FIELDS);
-				}
+				// if (!vatReturnBoxCombo.validate()) {
+				// throw new InvalidEntryException(
+				// AccounterErrorType.REQUIRED_FIELDS);
+				// }
 				return true;
 			}
 		case 1:

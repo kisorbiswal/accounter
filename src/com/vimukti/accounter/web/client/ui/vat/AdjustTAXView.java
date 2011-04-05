@@ -370,27 +370,27 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 			}
 			return true;
 		case 3:
-			if (!taxAgencyCombo.validate()) {
-				throw new InvalidEntryException(
-						AccounterErrorType.REQUIRED_FIELDS);
-			}
+			// if (!taxAgencyCombo.validate()) {
+			// throw new InvalidEntryException(
+			// AccounterErrorType.REQUIRED_FIELDS);
+			// }
 			return true;
 
 		case 2:
-			if (!adjustAccountCombo.validate()) {
-				throw new InvalidEntryException(
-						AccounterErrorType.REQUIRED_FIELDS);
-			}
+			// if (!adjustAccountCombo.validate()) {
+			// throw new InvalidEntryException(
+			// AccounterErrorType.REQUIRED_FIELDS);
+			// }
 			return true;
 
 		case 1:
 			if (accountType == 0)
 				return true;
 			else {
-				if (!vatItemCombo.validate()) {
-					throw new InvalidEntryException(
-							AccounterErrorType.REQUIRED_FIELDS);
-				}
+				// if (!vatItemCombo.validate()) {
+				// throw new InvalidEntryException(
+				// AccounterErrorType.REQUIRED_FIELDS);
+				// }
 				return true;
 			}
 

@@ -323,9 +323,9 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		case 3:
 			String name = vatCodeTxt.getValue() != null ? vatCodeTxt.getValue()
 					.toString() : "";
-			if (name == null || name.equals(""))
-				throw new InvalidEntryException(
-						AccounterErrorType.REQUIRED_FIELDS);
+			// if (name == null || name.equals(""))
+			// throw new InvalidEntryException(
+			// AccounterErrorType.REQUIRED_FIELDS);
 			if (((editableTAXCode == null && Utility.isObjectExist(
 					FinanceApplication.getCompany().getTaxCodes(), name)) ? false
 					: true)
@@ -338,25 +338,25 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 			} else
 				throw new InvalidEntryException(AccounterErrorType.ALREADYEXIST);
 		case 2:
-			if (!isComboDisabled && !vatItemComboForPurchases.validate()) {
-				if (!vatItemComboForSales.validate()) {
-					throw new InvalidEntryException(
-							AccounterErrorType.REQUIRED_FIELDS
-					// + " AnyOne Of This Sales Or Purchase"
-					);
-				}
-			}
+			// if (!isComboDisabled && !vatItemComboForPurchases.validate()) {
+			// if (!vatItemComboForSales.validate()) {
+			// throw new InvalidEntryException(
+			// AccounterErrorType.REQUIRED_FIELDS
+			// // + " AnyOne Of This Sales Or Purchase"
+			// );
+			// }
+			// }
 			return true;
 
 		case 1:
-			if (!isComboDisabled && !vatItemComboForSales.validate()) {
-				if (!vatItemComboForPurchases.validate()) {
-					throw new InvalidEntryException(
-							AccounterErrorType.REQUIRED_FIELDS
-					// + " AnyOne Of This Sales Or Purchase"
-					);
-				}
-			}
+			// if (!isComboDisabled && !vatItemComboForSales.validate()) {
+			// if (!vatItemComboForPurchases.validate()) {
+			// throw new InvalidEntryException(
+			// AccounterErrorType.REQUIRED_FIELDS
+			// // + " AnyOne Of This Sales Or Purchase"
+			// );
+			// }
+			// }
 			return true;
 
 		default:

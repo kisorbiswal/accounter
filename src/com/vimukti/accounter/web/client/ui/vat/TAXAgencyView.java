@@ -194,8 +194,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 				if (form != null) {
 					if (!form.validate()) {
 						validate = false;
-						throw new InvalidEntryException(
-								AccounterErrorType.REQUIRED_FIELDS);
+						// throw new InvalidEntryException(
+						// AccounterErrorType.REQUIRED_FIELDS);
 					}
 
 				}
@@ -216,7 +216,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			} else
 				throw new InvalidEntryException(AccounterErrorType.ALREADYEXIST);
 		case 2:
-			return AccounterValidator.validateForm(accInfoForm);
+			// return AccounterValidator.validateForm(accInfoForm);
+			return true;
 		case 1:
 			return gridView.validateGrid();
 		default:
@@ -473,8 +474,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			phoneFaxForm.setWidth("100%");
 
 			// Setting Email Form
-			emailForm = new EmailForm(null,
-					takenVATAgency.getWebPageAddress());
+			emailForm = new EmailForm(null, takenVATAgency.getWebPageAddress());
 			emailForm.businesEmailText.setValue(takenVATAgency.getEmail());
 			emailForm.setWidth("100%");
 
@@ -554,8 +554,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			phoneFaxForm.setWidth("100%");
 			emailForm = new EmailForm(null, null);
 			emailForm.setWidth("100%");
-		}	
-		
+		}
+
 		phoneFaxForm.getCellFormatter().setWidth(0, 0, "235");
 		phoneFaxForm.getCellFormatter().setWidth(0, 1, "");
 
@@ -573,7 +573,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
-		 rightVLay.add(addrsForm);
+		rightVLay.add(addrsForm);
 		rightVLay.add(phoneFaxForm);
 		rightVLay.add(emailForm);
 		addrsForm.getCellFormatter().addStyleName(0, 0, "addrsFormCellAlign");
