@@ -167,8 +167,8 @@ public class EmployeeExpenseView extends CashPurchaseView {
 				throw new InvalidTransactionEntryException(
 						"Please Select An Employee.The Employee must be in  Accounter HR.");
 			if (!vendorForm.validate())
-				throw new InvalidTransactionEntryException(
-						AccounterErrorType.REQUIRED_FIELDS);
+				// throw new InvalidTransactionEntryException(
+				// AccounterErrorType.REQUIRED_FIELDS);
 			return true;
 		case 5:
 			return AccounterValidator.validateTransactionDate(transactionDate);

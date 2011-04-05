@@ -703,6 +703,7 @@ public class VendorBillView extends
 					.getEnteredDate(), this.transactionDate, FinanceApplication
 					.getVendorsMessages().dueDate());
 		case 3:
+			return true;
 			// return AccounterValidator.validate_dueOrDelivaryDates(
 			// deliveryDateItem.getEnteredDate(), this.transactionDate,
 			// FinanceApplication.getVendorsMessages().deliverydate());
