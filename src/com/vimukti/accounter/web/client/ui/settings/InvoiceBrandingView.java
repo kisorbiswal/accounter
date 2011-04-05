@@ -25,7 +25,7 @@ import com.vimukti.accounter.web.client.ui.FinanceApplication;
 
 public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 
-	private ClientBrandingTheme theme;
+	private ClientBrandingTheme brandingTheme;
 	private HTML generalSettingsHTML, invoiceBrandingHtml, allLabelsHtml,
 			ShowHtml, checkBoxHtml, headingsHtml, paypalEmailHtml, termsHtml,
 			radioButtonHtml, contactDetailsHtml, uploadPictureHtml, titleHtml,
@@ -39,7 +39,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 	public void setData(ClientBrandingTheme data) {
 		super.setData(data);
 		if (data != null) {
-			theme = data;
+			brandingTheme = data;
 		}
 	}
 
@@ -52,7 +52,8 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				generalSettingsHTML.getElement().getStyle().setCursor(Cursor.POINTER);
+				generalSettingsHTML.getElement().getStyle().setCursor(
+						Cursor.POINTER);
 				generalSettingsHTML.getElement().getStyle().setTextDecoration(
 						TextDecoration.UNDERLINE);
 			}
@@ -147,8 +148,8 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		List<ClientBrandingTheme> brandingThemes = FinanceApplication
 				.getCompany().getBrandingTheme();
 		for (int i = 0; i < brandingThemes.size(); i++) {
-			theme = brandingThemes.get(i);
-			mainPanel.add(addingDefaultTheme(theme));
+			brandingTheme = brandingThemes.get(i);
+			mainPanel.add(addingDefaultTheme(brandingTheme));
 		}
 		add(mainPanel);
 
@@ -188,7 +189,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 	//
 	// }
 
-	private VerticalPanel addingDefaultTheme(ClientBrandingTheme theme) {
+	private VerticalPanel addingDefaultTheme(final ClientBrandingTheme theme) {
 		final Button optionsButton;
 		titleHtml = new HTML("<b>" + theme.getThemeName() + "</b>");
 		vPanel = new VerticalPanel();
@@ -263,7 +264,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				optionsMenu(optionsButton);
+				optionsMenu(optionsButton, theme);
 			}
 		});
 
@@ -326,15 +327,13 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		vPanel.add(nameAndMenuPanel);
 		vPanel.add(allPanel);
 
-		vPanel.addStyleName("general-standard");
 		return vPanel;
-		
 
 	}
 
-	protected void optionsMenu(Button button) {
+	protected void optionsMenu(Button button, ClientBrandingTheme theme) {
 		PopupPanel optionsPanel = new PopupPanel();
-		optionsPanel.add(getOptionsMenu(optionsPanel));
+		optionsPanel.add(getOptionsMenu(optionsPanel, theme));
 		optionsPanel.setPopupPosition(button.getAbsoluteLeft(), button
 				.getAbsoluteTop()
 				+ button.getOffsetHeight());
@@ -342,22 +341,24 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		optionsPanel.setAutoHideEnabled(true);
 	}
 
-	private CustomMenuBar getOptionsMenu(PopupPanel panel) {
+	private CustomMenuBar getOptionsMenu(PopupPanel panel,
+			ClientBrandingTheme theme) {
 		CustomMenuBar bar = new CustomMenuBar();
 		bar.addItem(FinanceApplication.getSettingsMessages().edit(),
-				getOptionsCommand(1, panel));
+				getOptionsCommand(1, panel, theme));
 		bar.addItem(FinanceApplication.getSettingsMessages().copy(),
-				getOptionsCommand(2, panel));
+				getOptionsCommand(2, panel, theme));
 		bar.addItem(FinanceApplication.getSettingsMessages().changeLogo(),
-				getOptionsCommand(3, panel));
+				getOptionsCommand(3, panel, theme));
 		bar.addItem(FinanceApplication.getSettingsMessages().delete(),
-				getOptionsCommand(4, panel));
+				getOptionsCommand(4, panel, theme));
 		bar.addItem(FinanceApplication.getSettingsMessages().removeLogo(),
-				getOptionsCommand(5, panel));
+				getOptionsCommand(5, panel, theme));
 		return bar;
 	}
 
-	private Command getOptionsCommand(final int type, final PopupPanel panel) {
+	private Command getOptionsCommand(final int type, final PopupPanel panel,
+			final ClientBrandingTheme theme) {
 		final Command command = new Command() {
 
 			@Override

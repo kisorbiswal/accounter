@@ -219,10 +219,11 @@ public class NewVendorPaymentView extends
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setWidth(100);
-//		paymentMethodCombo.setDefaultValue(UIUtils
-//				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
-//						.getCustomersMessages().check()));
-		paymentMethodCombo.setComboItem(FinanceApplication.getCustomersMessages().cheque());
+		// paymentMethodCombo.setDefaultValue(UIUtils
+		// .getpaymentMethodCheckBy_CompanyType(FinanceApplication
+		// .getCustomersMessages().check()));
+		paymentMethodCombo.setComboItem(FinanceApplication.getVendorsMessages()
+				.cash());
 
 		printCheck = new CheckboxItem(vendorConstants.Tobeprinted());
 		printCheck.setValue(true);
