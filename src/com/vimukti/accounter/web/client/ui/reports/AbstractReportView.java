@@ -424,7 +424,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 			this.grid.setReportView(this);
 			this.grid.setColumnTypes(getColumnTypes());
 			this.grid.init();
-//			grid.setHeight("450px");
+			// grid.setHeight("450px");
 			// this.grid.setHeight((Window.getClientHeight() - TOP_MARGIN) +
 			// "px");
 
@@ -489,8 +489,8 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 		resetVariables();
 
 		grid.addLoadingImagePanel();
-		if (UIUtils.isMSIEBrowser())
-			fitToSize(fitHeight, 0);
+		// if (UIUtils.isMSIEBrowser())
+		fitToSize(fitHeight, 0);
 		this.serverReport.setStartAndEndDates(toolbar.getStartDate().getTime(),
 				toolbar.getEndDate().getTime());
 		setHeaderTitle();
