@@ -54,6 +54,7 @@ public class HelpItem extends HorizontalPanel {
 				dialog.setSize("350px", "350px");
 				dialog.setPopupPosition(hyperlink.getAbsoluteLeft(), hyperlink
 						.getAbsoluteTop() - 360);
+				dialog.setAutoHideEnabled(true);
 				dialog.show();
 
 			}
