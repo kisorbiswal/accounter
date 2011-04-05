@@ -42,6 +42,7 @@ import com.vimukti.accounter.web.client.ui.combo.MakeDepositAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -1082,13 +1083,14 @@ public class MakeDepositView extends
 			InvalidEntryException {
 		switch (this.validationCount) {
 		case 7:
-			// return gridView.validateGrid();
-			return true;
+			if (gridView != null && gridView.getRecords().isEmpty()){
+				throw new InvalidTransactionEntryException(
+						AccounterErrorType.blankTransaction);}
+
 		case 6:
 			return AccounterValidator.validateTransactionDate(transactionDate);
 		case 5:
-			// return AccounterValidator.validateGrid(gridView);
-			return true;
+			return gridView.validateGrid();
 		case 4:
 			return AccounterValidator.validateForm(depoForm);
 		case 3:
