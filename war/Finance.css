@@ -109,7 +109,7 @@ h1 {
 }
 
 .financeBackground {
-	background: url("images/Background.png") repeat scroll 0 0 transparent !important;
+	/*background: url("images/Background.png") repeat scroll 0 0 transparent !important;*/
 	/*border: 2px solid #CCCCCC;   praveena */
 	padding: 10px;
 	/*margin-left: 3px;*/
@@ -178,11 +178,11 @@ h1 {
 }
 
 .financeWindow { /* padding: 3px; praveena */ /*margin: 0 auto;*/
-	background: none repeat scroll 0 0 #F7F7F7 !important;
+	/*background: none repeat scroll 0 0 #F7F7F7 !important;*/
 }
 
 .noScroll {
-	background: none repeat scroll 0 0 #F7F7F7 !important;
+	background: url("images/Background.png") repeat scroll 0 0 transparent !important;
 	height: 100% !important;
 	overflow: hidden !important;
 }
@@ -449,8 +449,8 @@ table tr.ReportGridRow:HOVER {
 }
 
 .refresh,.link,.loading {
-	width: 31px;
-	height: 20px;
+	width: 16px;
+	height: 16px;
 	cursor: pointer;
 }
 
@@ -750,7 +750,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	vertical-align: bottom;
 	border:0 none !important;
 	height: 31px;
-    padding: 5px 13px 8px !important;
+    padding: 5px 16px 8px !important;
 }
 
 .gwt-MenuBar-vertical .subMenuIcon-selected {
@@ -966,7 +966,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 .gwt-TextBox{
 	background:url("images/Text Feild_enabled_180x22.png") no-repeat scroll 0 0 #fff !important;
-	border:0 none;
+	border:0 none !important;
     height:22px;
 }
 
@@ -1110,6 +1110,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 .cancel-button button{
 	background:url("/images/gray_Button_2_mid.png") repeat-x scroll 0 0 transparent !important;
 	color:#000 !important;
+	padding-top:2px !important;
 }
 .cancel-button{
 	background: url("../images/gray_Button_2_left.png") no-repeat scroll 0 0 transparent !important;
@@ -1121,7 +1122,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 .add-button button{
 	background:url("/images/Button_1x27.png") repeat-x scroll 0 0 transparent !important;
-    padding:0 4px 4px 0 !important;
+    padding:0 24px 4px 0 !important;
      border-radius: 0 0 0 0 !important;
       margin: 0 !important;
 }
@@ -1205,8 +1206,8 @@ iframe{
 }
 .general-image{
 	 margin-left: 30px;
-    margin-right: 20px;
-    cursor: pointer;
+     margin-right: 20px;
+     cursor: pointer;
 }
 .general-main-class p{
 	margin-bottom:0px;
@@ -1236,6 +1237,13 @@ iframe{
 }
 .gwt-DialogBox .dialogTopLeftInner,.dialogMiddleRightInner{
 	width:9px !important;
+}
+.unused-payments td {
+     font-weight: bold !important;
+}
+.report-toolbar input[type="text"]{
+	background:url("images/Text-Field_2.png") no-repeat scroll 0 0 #FFFFFF !important;
+	width:140px !important;
 }
 .invoiceListCombo{
 	width: 105px !important;
