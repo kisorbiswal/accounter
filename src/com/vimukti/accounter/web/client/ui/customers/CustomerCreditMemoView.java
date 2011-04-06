@@ -62,7 +62,7 @@ public class CustomerCreditMemoView extends
 		Label lab1 = new Label(customerConstants.customerCreditNote());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-		lab1.setHeight("35px");
+//		lab1.setHeight("35px");
 		listforms = new ArrayList<DynamicForm>();
 
 		transactionDateItem = createTransactionDateItem();
