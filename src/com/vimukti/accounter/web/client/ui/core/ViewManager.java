@@ -1650,6 +1650,10 @@ public class ViewManager extends DockPanel {
 		this.currentDialog = currentDialog;
 	}
 
+	public BaseDialog<?> getCurrentDialog() {
+		return this.currentDialog;
+	}
+
 	public static void makeAllStaticInstancesNull() {
 		viewManagerInstance = null;
 	}
