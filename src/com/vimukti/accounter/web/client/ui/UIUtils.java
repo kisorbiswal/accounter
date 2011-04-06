@@ -867,6 +867,8 @@ public class UIUtils {
 		SelectCombo selectCombo = new SelectCombo(null);
 		selectCombo.setHelpInformation(true);
 		selectCombo.setTitle("Payment Method");
+		selectCombo
+				.setComboItem(FinanceApplication.getVendorsMessages().cash());
 		List<String> listOfPaymentMethods = new ArrayList<String>();
 		listOfPaymentMethods
 				.add(FinanceApplication.getVendorsMessages().cash());
