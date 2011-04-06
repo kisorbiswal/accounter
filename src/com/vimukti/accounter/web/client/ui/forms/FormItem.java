@@ -292,7 +292,8 @@ public abstract class FormItem {
 						+ "<li> Please enter " + this.getTitle() + ".");
 				BaseView.commentPanel.setVisible(true);
 				AbstractBaseView.errorOccured = true;
-			} else if (BaseDialog.errordata != null
+			}
+			if (BaseDialog.errordata != null
 					&& BaseDialog.commentPanel != null) {
 				BaseDialog.errordata.setHTML(BaseDialog.errordata.getHTML()
 						+ "<li> Please enter " + this.getTitle() + ".");
