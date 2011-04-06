@@ -66,7 +66,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 			infoLabel = new Label(FinanceApplication.getVATMessages().VATItem());
 			infoLabel.setStyleName(FinanceApplication.getCustomersMessages()
 					.lableTitle());
-			infoLabel.setHeight("35px");
+//			infoLabel.setHeight("35px");
 		}
 
 		else {
@@ -75,7 +75,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 			infolabel1.setStyleName(FinanceApplication.getCustomersMessages()
 					.lableTitle());
-			infolabel1.setHeight("50px");
+//			infolabel1.setHeight("50px");
 		}
 
 		listforms = new ArrayList<DynamicForm>();
