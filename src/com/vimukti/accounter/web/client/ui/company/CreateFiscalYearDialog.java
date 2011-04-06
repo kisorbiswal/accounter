@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -102,10 +101,12 @@ public class CreateFiscalYearDialog extends BaseDialog {
 				.enterAppropriateFiscalYear());
 		startOfFiscalYear = new DateItem();
 		startOfFiscalYear.setHelpInformation(true);
+		startOfFiscalYear.setRequired(true);
 		// startOfFiscalYear.setDisabled(true);
 		startOfFiscalYear.setTitle(FinanceApplication.getCompanyMessages()
 				.startOfFiscalYear());
 		endOfFiscalYear = new DateItem();
+		endOfFiscalYear.setRequired(true);
 		endOfFiscalYear.setHelpInformation(true);
 		endOfFiscalYear.setTitle(FinanceApplication.getCompanyMessages()
 				.endOfFiscalYear());
@@ -121,11 +122,22 @@ public class CreateFiscalYearDialog extends BaseDialog {
 
 			@Override
 			public boolean onOkClick() {
-
-				if (endOfFiscalYear.getDate().before(
+				if (startOfFiscalYear.getDateBox().getValue().isEmpty()) {
+					BaseDialog.errordata
+							.setHTML("<li> Please enter Start Of Fiscalyear ");
+					BaseDialog.commentPanel.setVisible(true);
+					return false;
+				} else if (endOfFiscalYear.getDateBox().getValue().isEmpty()) {
+					BaseDialog.errordata
+							.setHTML("<li> Please enter End Of FiscalYear ");
+					BaseDialog.commentPanel.setVisible(true);
+					return false;
+				} else if (endOfFiscalYear.getDate().before(
 						startOfFiscalYear.getDate())) {
-					Accounter
-							.showError("End of Fiscal year is before Start of Fiscal Year");
+					BaseDialog.errordata
+							.setHTML("<li>End of Fiscal year is before Start of Fiscal Year");
+					BaseDialog.commentPanel.setVisible(true);
+
 					return false;
 				}
 				if (title.equalsIgnoreCase(FinanceApplication
