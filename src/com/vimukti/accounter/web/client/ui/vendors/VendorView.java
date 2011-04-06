@@ -411,8 +411,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			fonFaxForm.businessFaxText.setValue(takenVendor.getFaxNo());
 			fonFaxForm.setWidth("100%");
 			// Setting Email Form
-			emailForm = new EmailForm(null, takenVendor
-					.getWebPageAddress());
+			emailForm = new EmailForm(null, takenVendor.getWebPageAddress());
 			emailForm.businesEmailText.setValue(takenVendor.getEmail());
 			emailForm.setWidth("100%");
 			// Setting Status Check
@@ -965,34 +964,32 @@ public class VendorView extends BaseView<ClientVendor> {
 		if (FinanceApplication.getCompany().getAccountingType() == 0)
 			if (federalText.getValue() != null) {
 				vendor.setFederalTaxId(federalText.getValue().toString());
-
-				// Setting Account Payable
-				vendor.setAccountsPayable(FinanceApplication.getCompany()
-						.getAccountsPayableAccount());
-				// Seting opening balance accounts
-				vendor.setOpeningBalanceAccount(FinanceApplication.getCompany()
-						.getOpeningBalancesAccount());
-				vendor.setAccountsPayable(FinanceApplication.getCompany()
-						.getAccountsPayableAccount());
-
-				// Setting opening balance accounts
-
-				if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-					if (vatRegistrationNumber != null) {
-
-						String vatReg = vatRegistrationNumber.getValue() != null ? vatRegistrationNumber
-								.getValue().toString()
-								: "";
-						vendor
-								.setVATRegistrationNumber(vatReg.length() != 0 ? vatReg
-										: null);
-
-					}
-					if (vendorTaxCode != null)
-						vendor.setTAXCode(Utility
-								.getId(selectTaxCodeFromDetailsTab));
-				}
 			}
+
+		// Setting Account Payable
+		vendor.setAccountsPayable(FinanceApplication.getCompany()
+				.getAccountsPayableAccount());
+		// Seting opening balance accounts
+		vendor.setOpeningBalanceAccount(FinanceApplication.getCompany()
+				.getOpeningBalancesAccount());
+		vendor.setAccountsPayable(FinanceApplication.getCompany()
+				.getAccountsPayableAccount());
+
+		// Setting opening balance accounts
+
+		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (vatRegistrationNumber != null) {
+
+				String vatReg = vatRegistrationNumber.getValue() != null ? vatRegistrationNumber
+						.getValue().toString()
+						: "";
+				vendor.setVATRegistrationNumber(vatReg.length() != 0 ? vatReg
+						: null);
+
+			}
+			if (vendorTaxCode != null)
+				vendor.setTAXCode(Utility.getId(selectTaxCodeFromDetailsTab));
+		}
 		return vendor;
 
 	}
