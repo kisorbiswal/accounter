@@ -777,7 +777,7 @@ public class MakeDepositView extends
 		Label lab = new Label(FinanceApplication.getFinanceUIConstants()
 				.makeDeposit());
 		lab.addStyleName("lable-title");
-		lab.setHeight("50px");
+//		lab.setHeight("50px");
 		date = UIUtils.date(bankingConstants.date());
 
 		// set the transactionDate while creation
