@@ -144,7 +144,7 @@ public class CustomerRefundView extends
 		Label lab1 = new Label(Utility.getTransactionName(transactionType));
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-		lab1.setHeight("35px");
+//		lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
 
