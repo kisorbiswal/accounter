@@ -301,7 +301,7 @@ public class VendorBillView extends
 		// lab1 = new Label("Enter Bill(" + getTransactionStatus() + ")");
 
 		lab1.setStyleName(FinanceApplication.getVendorsMessages().lableTitle());
-		lab1.setHeight("50px");
+//		lab1.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem.setTitle(FinanceApplication.getVendorsMessages()
 				.billDate());
