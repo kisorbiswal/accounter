@@ -212,6 +212,8 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 	 * Called when Ok button clicked
 	 */
 	protected void okClicked() {
+		BaseDialog.errordata.setHTML("");
+		BaseDialog.commentPanel.setVisible(false);
 		okbtn.setFocus(true);
 		if (dialogHandler != null)
 			if (dialogHandler.onOkClick()) {
