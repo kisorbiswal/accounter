@@ -36,11 +36,14 @@ import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
+import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
+import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
@@ -236,6 +239,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	private void createControls() {
 		companyMessges = (CompanyMessages) GWT.create(CompanyMessages.class);
 		setTitle(companyMessges.companyPrefeTitle());
@@ -412,11 +416,11 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		phoneAndFaxForm.setNumCols(8);
 		phoneAndFaxForm.getCellFormatter().setWidth(0, 0, "250px");
 
-		DynamicForm taxesForm = new DynamicForm();
-		// taxesForm.setWidth100();
-		// taxesForm.setHeight("*");
-		taxesForm.setIsGroup(true);
-		taxesForm.setGroupTitle(companyMessges.taxes());
+		// DynamicForm taxesForm = new DynamicForm();
+		// // taxesForm.setWidth100();
+		// // taxesForm.setHeight("*");
+		// taxesForm.setIsGroup(true);
+		// taxesForm.setGroupTitle(companyMessges.taxes());
 		// taxesForm.setTitleOrientation(TitleOrientation.TOP);
 		// taxesForm.setPadding(10);
 
@@ -424,9 +428,10 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			doupaySalesChecBox.setTitle(companyMessges.doYoupaySalesTaxes());
 
-		} else
+		} else {
 			doupaySalesChecBox
 					.setTitle(companyMessges.areYouRegisteredForVAT());
+		}
 		vatRegNumber = new TextItem(UIUtils.getVendorString(companyMessges
 				.vatRegNo(), companyMessges.taxRegNo()));
 		vatRegNumber.setHelpInformation(true);
@@ -516,7 +521,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		mainVLay2.add(phoneAndFaxForm);
 		mainVLay2.setWidth("100%");
 		mainVLay2.getElement().getStyle().setMarginLeft(100, Unit.PX);
-		
+
 		HorizontalPanel mainHLay = new HorizontalPanel();
 		mainHLay.setWidth("100%");
 		mainHLay.setSpacing(10);
@@ -526,29 +531,28 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		mainHLay.setCellWidth(mainVLay2, "50%");
 		mainHLay.setCellHorizontalAlignment(mainVLay, ALIGN_LEFT);
 		mainHLay.setCellHorizontalAlignment(mainVLay2, ALIGN_RIGHT);
-		
-		
-//		addInputDialogHandler(new InputDialogHandler() {
-//		
-//		 public void onCancelClick() {
-//		
-//		 }
-//		
-//		 public boolean onOkClick() {
-//		
-//		 try {
-//		 if (CompanyInfoDialog.this.validate())
-//		 updatedCompany();
-//		 return true;
-//		 } catch (InvalidTransactionEntryException e) {
-//		 e.printStackTrace();
-//		 } catch (InvalidEntryException e) {
-//		 Accounter.showError(e.getMessage());
-//		 }
-//		 return false;
-//		 }
-//
-//		 });
+
+		// addInputDialogHandler(new InputDialogHandler() {
+		//		
+		// public void onCancelClick() {
+		//		
+		// }
+		//		
+		// public boolean onOkClick() {
+		//		
+		// try {
+		// if (CompanyInfoDialog.this.validate())
+		// updatedCompany();
+		// return true;
+		// } catch (InvalidTransactionEntryException e) {
+		// e.printStackTrace();
+		// } catch (InvalidEntryException e) {
+		// Accounter.showError(e.getMessage());
+		// }
+		// return false;
+		// }
+		//
+		// });
 
 		// okbtn.setText(FinanceApplication.getCompanyMessages().update());
 
@@ -565,6 +569,21 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	public void saveAndUpdateView() throws Exception {
 		savePreference();
 		updatedCompany();
+	}
+
+	@Override
+	public boolean validate() throws InvalidTransactionEntryException,
+			InvalidEntryException {
+		return validateCompanyDetailsForm(companyDetailsForm);
+
+	}
+
+	private boolean validateCompanyDetailsForm(DynamicForm companyDetailsForm)
+			throws InvalidEntryException {
+		if (!companyDetailsForm.validate()) {
+			throw new InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
+		}
+		return true;
 	}
 
 	protected void savePreference() {
@@ -616,6 +635,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		ViewManager.getInstance().updateCompanyPreferences(companyPreferences,
 				this);
 	}
+
 	protected void updatedCompany() {
 
 		/*

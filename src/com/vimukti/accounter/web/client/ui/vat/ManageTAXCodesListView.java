@@ -57,11 +57,10 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 			} else if (taxCode.isActive() == false) {
 				grid.addData(taxCode);
 			}
-			if (grid.getRecords().isEmpty()) {
-				grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
-			}
 		}
-
+		if (grid.getRecords().isEmpty()) {
+			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+		}
 	}
 
 	@Override
