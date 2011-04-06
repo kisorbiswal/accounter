@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public abstract class FormItem {
 
@@ -287,18 +288,21 @@ public abstract class FormItem {
 
 			} else
 				highlight();
-			if (BaseView.errordata != null && BaseView.commentPanel != null) {
+			if (ViewManager.getInstance().getCurrentDialog() != null
+					&& BaseDialog.errordata != null
+					&& BaseDialog.commentPanel != null) {
+				BaseDialog.errordata.setHTML(BaseDialog.errordata.getHTML()
+						+ "<li> Please enter " + this.getTitle() + ".");
+				BaseDialog.commentPanel.setVisible(true);
+			} else if (ViewManager.getInstance().getCurrentView() != null
+					&& BaseView.errordata != null
+					&& BaseView.commentPanel != null) {
 				BaseView.errordata.setHTML(BaseView.errordata.getHTML()
 						+ "<li> Please enter " + this.getTitle() + ".");
 				BaseView.commentPanel.setVisible(true);
 				AbstractBaseView.errorOccured = true;
 			}
-			if (BaseDialog.errordata != null
-					&& BaseDialog.commentPanel != null) {
-				BaseDialog.errordata.setHTML(BaseDialog.errordata.getHTML()
-						+ "<li> Please enter " + this.getTitle() + ".");
-				BaseDialog.commentPanel.setVisible(true);
-			}
+
 			return false;
 
 		}
