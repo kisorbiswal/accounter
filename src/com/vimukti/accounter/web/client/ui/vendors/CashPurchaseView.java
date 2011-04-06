@@ -72,7 +72,7 @@ public class CashPurchaseView extends
 				.cashPurchase());
 		titlelabel.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-		titlelabel.setHeight("50px");
+		// titlelabel.setHeight("50px");
 		listforms = new ArrayList<DynamicForm>();
 
 		transactionDateItem = createTransactionDateItem();
@@ -168,7 +168,8 @@ public class CashPurchaseView extends
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						paymentMethodSelected(paymentMethodCombo.getSelectedValue());
+						paymentMethodSelected(paymentMethodCombo
+								.getSelectedValue());
 						if (paymentMethodCombo.getSelectedValue()
 								.equals(
 										FinanceApplication.getVendorsMessages()
@@ -446,11 +447,13 @@ public class CashPurchaseView extends
 				this.vendorTransactionGrid.updateTotals();
 			}
 		}
-		if (vendor.getPhoneNo() != null)
-			phoneSelect.setValue(vendor.getPhoneNo());
-		else
-			phoneSelect.setValue("");
 		super.vendorSelected(vendor);
+		if (!(this instanceof CashExpenseView)) {
+			if (vendor.getPhoneNo() != null)
+				phoneSelect.setValue(vendor.getPhoneNo());
+			else
+				phoneSelect.setValue("");
+		}
 		billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
 		if (billingAddress != null) {
 			billToAreaItem.setValue(getValidAddress(billingAddress));
