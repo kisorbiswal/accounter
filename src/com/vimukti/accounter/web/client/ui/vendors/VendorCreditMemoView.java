@@ -132,7 +132,7 @@ public class VendorCreditMemoView extends
 
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-		lab1.setHeight("50px");
+//		lab1.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
 
 		transactionNumber = createTransactionNumberItem();
