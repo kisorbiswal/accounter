@@ -141,7 +141,7 @@ public class NewVendorPaymentView extends
 		);
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-		lab1.setHeight("50px");
+//		lab1.setHeight("50px");
 		// transaction date and number
 
 		transactionDateItem = createTransactionDateItem();
