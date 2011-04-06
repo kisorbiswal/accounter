@@ -188,7 +188,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-		lab1.setHeight("35px");
+//		lab1.setHeight("35px");
 
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
@@ -336,9 +336,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		termsForm.setIsGroup(true);
 		termsForm.setGroupTitle(customerConstants.terms());
 		termsForm.setNumCols(2);
-		termsForm.setFields(salesPersonCombo,
-				payTermsSelect, shippingTermsCombo, shippingMethodsCombo,
-				dueDateItem, deliveryDate, orderNumText);
+		termsForm.setFields(salesPersonCombo, payTermsSelect,
+				shippingTermsCombo, shippingMethodsCombo, dueDateItem,
+				deliveryDate, orderNumText);
 		termsForm.setStyleName("align-form");
 		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
 				FinanceApplication.getCustomersMessages().width(), "200px");
@@ -505,7 +505,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
-//		mainVLay.add(printButton);
+		// mainVLay.add(printButton);
 
 		mainVLay.add(customerTransactionGrid);
 
