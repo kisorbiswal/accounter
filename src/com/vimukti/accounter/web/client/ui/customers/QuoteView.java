@@ -213,7 +213,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// + "(" + getTransactionStatus() + ")");
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-		lab1.setHeight("35px");
+//		lab1.setHeight("35px");
 
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
