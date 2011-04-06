@@ -102,7 +102,7 @@ public class PurchaseOrderView extends
 		lab1 = new HTML(FinanceApplication.getVendorsMessages().purchaseOrder());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-		lab1.setHeight("35px");
+//		lab1.setHeight("35px");
 
 		statusSelect = new SelectCombo(FinanceApplication.getVendorsMessages()
 				.statuS());
@@ -1043,7 +1043,7 @@ public class PurchaseOrderView extends
 		statusSelect.setDisabled(isEdit);
 		transactionDateItem.setDisabled(isEdit);
 		transactionNumber.setDisabled(isEdit);
-		shipToCombo.setDisabled(isEdit);
+//		shipToCombo.setDisabled(isEdit);
 		ClientTransactionItem item = new ClientTransactionItem();
 		if (!DecimalUtil.isEquals(item.getInvoiced(), 0)) {
 			vendorCombo.setDisabled(isEdit);
@@ -1051,7 +1051,7 @@ public class PurchaseOrderView extends
 			vendorCombo.setDisabled(true);
 		}
 
-		billToCombo.setDisabled(isEdit);
+//		billToCombo.setDisabled(isEdit);
 		purchaseOrderText.setDisabled(isEdit);
 		deliveryDateItem.setDisabled(isEdit);
 		payTermsSelect.setDisabled(isEdit);
