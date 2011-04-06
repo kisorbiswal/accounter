@@ -94,7 +94,7 @@ public class SalesOrderView extends
 		lab1 = new Label(FinanceApplication.getCustomersMessages().salesOrder());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-		lab1.setHeight("35px");
+//		lab1.setHeight("35px");
 		statusSelect = new SelectCombo(FinanceApplication
 				.getCustomersMessages().statuS());
 
