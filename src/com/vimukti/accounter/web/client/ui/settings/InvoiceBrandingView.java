@@ -151,6 +151,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 			brandingTheme = brandingThemes.get(i);
 			mainPanel.add(addingDefaultTheme(brandingTheme));
 		}
+		mainPanel.setWidth("100%");
 		add(mainPanel);
 
 	}
