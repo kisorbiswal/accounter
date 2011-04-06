@@ -147,12 +147,12 @@ public abstract class AbstractVendorTransactionView<T> extends
 	@Override
 	protected void showMenu(Button button) {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button,FinanceApplication.getVendorsMessages()
+			setMenuItems(button, FinanceApplication.getVendorsMessages()
 					.nominalCodeItem(), FinanceApplication.getVendorsMessages()
 					.service(), FinanceApplication.getVendorsMessages()
 					.product());
 		else
-			setMenuItems(button,FinanceApplication.getVendorsMessages()
+			setMenuItems(button, FinanceApplication.getVendorsMessages()
 					.accounts(), FinanceApplication.getVendorsMessages()
 					.service(), FinanceApplication.getVendorsMessages()
 					.product());
@@ -186,7 +186,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 			return;
 		this.vendor = vendor;
 		initContacts(vendor);
-		initPhones(vendor);
+//		initPhones(vendor);
 		paymentMethodSelected(vendor.getPaymentMethod());
 		addressListOfVendor = vendor.getAddress();
 		initBillToCombo();
@@ -427,17 +427,19 @@ public abstract class AbstractVendorTransactionView<T> extends
 			return;
 		this.payFromAccount = account;
 	}
+
 	public ClientAddress getAddress(int type) {
-		for (ClientAddress address : addressListOfVendor) {
+		if (addressListOfVendor != null) {
+			for (ClientAddress address : addressListOfVendor) {
 
-			if (address.getType() == type) {
-				return address;
+				if (address.getType() == type) {
+					return address;
+				}
+
 			}
-
 		}
 		return null;
 	}
-
 
 	protected String getValidAddress(ClientAddress address) {
 		String toToSet = new String();
@@ -593,8 +595,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 	// }
 	protected void onAddNew(String menuItem) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
-		if (menuItem.equals(FinanceApplication.getVendorsMessages()
-				.accounts())) {
+		if (menuItem.equals(FinanceApplication.getVendorsMessages().accounts())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 					&& !FinanceApplication.getCompany().getpreferences()
