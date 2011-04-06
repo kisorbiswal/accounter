@@ -360,7 +360,7 @@ public class NewCustomerPaymentView extends
 				.customerPrePayment());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-		lab1.setHeight("35px");
+//		lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 
 		transactionNumber = createTransactionNumberItem();
