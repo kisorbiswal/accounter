@@ -91,7 +91,7 @@ public class RecieveVATView extends
 		Label lab = new Label(FinanceApplication.getFinanceUIConstants()
 				.receiveVAT());
 		lab.setStyleName(FinanceApplication.getVendorsMessages().lableTitle());
-		lab.setHeight("35px");
+//		lab.setHeight("35px");
 		// date = new DateField(companyConstants.date());
 		// date.setHelpInformation(true);
 		// date.setTitle(companyConstants.date());
@@ -337,9 +337,9 @@ public class RecieveVATView extends
 		billsDue.setEnteredDate(new ClientFinanceDate(receiveVAT
 				.getReturnsDueOnOrBefore()));
 		transactionDateItem.setEnteredDate(receiveVAT.getDate());
-        transNumber.setValue(receiveVAT.getNumber());
+		transNumber.setValue(receiveVAT.getNumber());
 		endingBalanceText.setAmount(receiveVAT.getEndingBalance());
-		paymentMethodCombo.setValue(paymentMethod);
+		paymentMethodCombo.setComboItem(receiveVAT.getPaymentMethod());
 		amountText.setValue(receiveVAT.getTotal());
 		List<ClientTransactionReceiveVAT> list = receiveVAT
 				.getClientTransactionReceiveVAT();

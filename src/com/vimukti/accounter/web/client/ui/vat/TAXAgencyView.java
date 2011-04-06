@@ -341,7 +341,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		taxAgencyForm = UIUtils.form(companyConstants.taxAgency());
 		taxAgencyForm.setWidth("100%");
-		taxAgencyForm.getCellFormatter().setWidth(0, 0, "210");
+		taxAgencyForm.getCellFormatter().setWidth(0, 0, "215px");
 		taxAgencyForm.setFields(taxAgencyText);
 
 		accInfoForm = new DynamicForm();
@@ -607,15 +607,13 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		addButton.getElement().getParentElement().addClassName("add-button");
 
-		/*
-		 * Element addseparator = DOM.createSpan();
-		 * addseparator.addClassName("add-separator");
-		 * DOM.appendChild(addButton.getElement(), addseparator);
-		 * 
-		 * Element addimage = DOM.createSpan();
-		 * addimage.addClassName("add-image");
-		 * DOM.appendChild(addButton.getElement(), addimage);
-		 */
+		Element addseparator = DOM.createSpan();
+		addseparator.addClassName("add-separator");
+		DOM.appendChild(addButton.getElement(), addseparator);
+
+		Element addimage = DOM.createSpan();
+		addimage.addClassName("add-image");
+		DOM.appendChild(addButton.getElement(), addimage);
 
 		ThemesUtil
 				.addDivToButton(addButton, FinanceApplication.getThemeImages()

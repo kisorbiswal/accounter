@@ -92,7 +92,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 		infoLabel.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-		infoLabel.setHeight("35px");
+//		infoLabel.setHeight("35px");
 		adjustDate = new DateItem(null);
 		adjustDate.setHelpInformation(true);
 		adjustDate.setDatethanFireEvent(new ClientFinanceDate());
