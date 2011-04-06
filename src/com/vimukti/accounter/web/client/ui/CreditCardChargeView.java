@@ -340,7 +340,7 @@ public class CreditCardChargeView extends
 				.creditCardCharge());
 		titlelabel.addStyleName(FinanceApplication.getFinanceUIConstants()
 				.lableTitle());
-		titlelabel.setHeight("35px");
+//		titlelabel.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
 
