@@ -162,7 +162,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		lab1 = new Label();
 		lab1.addStyleName(FinanceApplication.getFinanceUIConstants()
 				.lableTitle());
-		lab1.setHeight("35px");
+		// lab1.setHeight("35px");
 		hierarchy = new String("");
 		accTypeSelect = new SelectCombo(FinanceApplication
 				.getFinanceUIConstants().accountType());
@@ -708,7 +708,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 			} else if (takenAccount != null) {
 
-				accTypeSelect.setSelected(Utility
+				accTypeSelect.setComboItem(Utility
 						.getAccountTypeString(takenAccount.getType()));
 				accTypeSelect.setDisabled(true);
 				setAccountType(takenAccount.getType());
@@ -1084,7 +1084,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	private void initView() {
 
-		// accTypeSelect.setValue(accTypeName);
+		accTypeSelect.setComboItem(Utility
+				.getAccountTypeString(takenAccount.getType()));
 		accNoText.setValue(takenAccount.getNumber() != null ? takenAccount
 				.getNumber() : 0);
 
