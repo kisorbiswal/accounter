@@ -1132,7 +1132,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 .add-button button{
 	background:url("/images/Button_1x27.png") repeat-x scroll 0 0 transparent !important;
-    padding:0 4px 4px 0 !important;
+    padding:0 25px 4px 0 !important;
      border-radius: 0 0 0 0 !important;
       margin: 0 !important;
 }
