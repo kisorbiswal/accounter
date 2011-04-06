@@ -459,7 +459,7 @@ public class ReceivePaymentView extends
 		lab
 				.setStyleName(FinanceApplication.getCustomersMessages()
 						.lableTitle());
-		lab.setHeight("35px");
+//		lab.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
 
