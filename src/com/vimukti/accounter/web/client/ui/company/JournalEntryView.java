@@ -296,7 +296,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		lab1 = new Label(FinanceApplication.getCompanyMessages()
 				.journalEntryNew());
 		lab1.addStyleName(FinanceApplication.getCompanyMessages().lableTitle());
-		lab1.setHeight("35px");
+//		lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		jourNoText = new TextItem(companyConstants.no());
 		jourNoText.setHelpInformation(true);
