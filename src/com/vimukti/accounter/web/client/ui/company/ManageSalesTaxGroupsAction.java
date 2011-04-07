@@ -2,14 +2,16 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
-import com.vimukti.accounter.web.client.ui.SalesTaxGroupListDialog;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.SalesTaxGroupListView;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class ManageSalesTaxGroupsAction extends Action {
+
+	SalesTaxGroupListView view;
 
 	public ManageSalesTaxGroupsAction(String text) {
 		super(text);
@@ -34,7 +36,7 @@ public class ManageSalesTaxGroupsAction extends Action {
 
 	}
 
-	private void runAsync(Object data, Boolean isDependent) {
+	private void runAsync(final Object data, final Boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallBack() {
 
 			public void onCreateFailed(Throwable t) {
@@ -46,14 +48,18 @@ public class ManageSalesTaxGroupsAction extends Action {
 			public void onCreated() {
 				try {
 
-					SalesTaxGroupListDialog dialog = new SalesTaxGroupListDialog(
-							FinanceApplication.getCompanyMessages()
-									.manageSalesTaxGroup(), FinanceApplication
-									.getCompanyMessages().toAddTaxGroup());
-					ViewManager viewManager = ViewManager.getInstance();
-					viewManager.setCurrentDialog(dialog);
+//					 SalesTaxGroupListDialog dialog = new
+//					 SalesTaxGroupListDialog(
+//					 FinanceApplication.getCompanyMessages()
+//					 .manageSalesTaxGroup(), FinanceApplication
+//					 .getCompanyMessages().toAddTaxGroup());
+//					 ViewManager viewManager = ViewManager.getInstance();
+//					 viewManager.setCurrentDialog(dialog);
+					view = new SalesTaxGroupListView();
+					MainFinanceWindow.getViewManager().showView(view, data,
+							isDependent, ManageSalesTaxGroupsAction.this);
 					// dialog.addCallBack(getViewConfiguration().getCallback());
-					dialog.show();
+//					 dialog.show();
 
 				} catch (Throwable e) {
 					onCreateFailed(e);
@@ -72,6 +78,7 @@ public class ManageSalesTaxGroupsAction extends Action {
 	public ImageResource getSmallImage() {
 		return FinanceApplication.getFinanceMenuImages().manageSalesTaxGroup();
 	}
+
 	@Override
 	public String getImageUrl() {
 		// TODO Auto-generated method stub
