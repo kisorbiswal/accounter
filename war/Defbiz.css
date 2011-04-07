@@ -7,15 +7,25 @@
 body {
 	font-family: Arial Unicode MS, Arial, sans-serif;
 	overflow: hidden;
-	background-image:
+	/*background-image:
 		url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAABMCAIAAAAjsUpsAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAEVJREFUeNqMTlsKACAMku5/Z9sL1lpUH6JMJ4LkAGBQTdVxIwUQXVizNK+zd1Tecjfv1RHbnE/bcmPrKL8/XYufG6cAAwBFymotT/a6tQAAAABJRU5ErkJggg==)
 		;
 	background-repeat: repeat-x;
 	background-position: 0 0;
 	background-color: #D8DCE0 !important;
-	font-family: Arial Unicode MS, Arial, sans-serif;
+	*/font-family: Arial Unicode MS, Arial, sans-serif;
 	font-size: 10pt;
 	font-weight: normal;
+	
+		/* For WebKit (Safari, Google Chrome etc) */
+		background: -webkit-gradient(linear, left top, left bottom, from(#fff), to( #f0f1f0));
+		/* For Mozilla/Gecko (Firefox etc) */
+		background: -moz-linear-gradient(top, #ffffff,  #f0f1f0);
+		/* For Internet Explorer 5.5 - 7 */
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#fff, endColorstr= #f0f1f0);
+		/* For Internet Explorer 8 */
+		-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff, endColorstr= #f0f1f0)";
+		filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr='#ffffff',EndColorStr='#f0f1f0');
 }
 
 textarea,.rich-text-area-body {
