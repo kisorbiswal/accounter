@@ -71,7 +71,6 @@ import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.core.Lists.OverDueInvoicesList;
 import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
-import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
@@ -1532,30 +1531,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
-	@Override
-	public List<PayeeStatementsList> getStatements(String id, long transactionDate,
-			long fromDate, long toDate, int noOfDays,
-			boolean isEnabledOfZeroBalBox,
-			boolean isEnabledOfLessthanZeroBalBox,
-			double lessThanZeroBalanceValue,
-			boolean isEnabledOfNoAccountActivity,
-			boolean isEnabledOfInactiveCustomer) {
-		
-		List<PayeeStatementsList> resultList = null;
-		try {
-
-			resultList = getFinanceTool().getPayeeStatementsList(id,
-					transactionDate, fromDate, toDate, noOfDays,
-					isEnabledOfZeroBalBox, isEnabledOfLessthanZeroBalBox,
-					lessThanZeroBalanceValue, isEnabledOfNoAccountActivity,
-					isEnabledOfInactiveCustomer);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return resultList;
-	}
+	
 	
 	@Override
 	public List<Double> getGraphPointsforAccount(int chartType, long accountNo) {
