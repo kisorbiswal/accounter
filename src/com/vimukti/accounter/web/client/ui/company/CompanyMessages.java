@@ -903,5 +903,11 @@ public interface CompanyMessages extends FinanceMessages {
 	String expenseClaims();
 
 	public String userName(String loginUserName);
-
+	
+	String accountReceivable();
+	
+	String accountPayable();
+	
+	String bankingTransactions();
+	
 }
