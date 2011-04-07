@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -25,7 +26,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 	protected VerticalPanel mainPanel;
 	public static HTML errordata;
 	public static VerticalPanel commentPanel;
-	
+
 	protected ScrollPanel canvas;
 	protected HorizontalPanel buttonLayout;
 
@@ -33,6 +34,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 	protected boolean isFixedAssetView;
 	protected int accountType;
 	public int type;
+	private HelpItem item;
 
 	public BaseView() {
 
@@ -101,7 +103,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 		if (this != null && this instanceof FileVATView) {
 			saveAndCloseButton.setText("File VAT Return");
 
-			//saveAndCloseButton.setWidth("200px");
+			// saveAndCloseButton.setWidth("200px");
 		}
 		registerButton = new CustomButton(CustomButtonType.REGISTER, this);
 
@@ -141,16 +143,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 		cancelButton.getElement().getParentElement().setClassName(
 				"cancel-button");
 
-		HorizontalPanel downpanel = new HorizontalPanel();
-		downpanel.setWidth("100%");
-		com.google.gwt.user.client.ui.Label l1 = new com.google.gwt.user.client.ui.Label(
-				"Copyright  Online accounting All rights reserved. Support Feedback ");
-		l1.addStyleName("down-panel");
-		downpanel.add(l1);
-
-		initHelpPanel();
-
-		add(downpanel);
+		inithelpPanel();
 
 		Element spanEle = DOM.createSpan();
 		spanEle.addClassName("save-new-separator");
@@ -189,8 +182,17 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 		}
 	}
 
-	private void initHelpPanel() {
-		final HelpItem item = new HelpItem();
+	public Panel getCanvas() {
+		return canvas;
+	}
+
+	public Panel getButtonPanel() {
+		return this.buttonLayout;
+	}
+
+	public void inithelpPanel() {
+		item = MainFinanceWindow.getInstance().getHelpItem();
+		item.removeLinks();
 		FinanceApplication.createGETService().getHelpLinks(type,
 				new AsyncCallback<List<HelpLink>>() {
 
@@ -201,19 +203,11 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 
 					@Override
 					public void onSuccess(List<HelpLink> result) {
-						item.addLinks(result);
+						item.setLinks(result);
 
 					}
 				});
-		add(item);
-	}
 
-	public Panel getCanvas() {
-		return canvas;
-	}
-
-	public Panel getButtonPanel() {
-		return this.buttonLayout;
 	}
 
 	@Override
