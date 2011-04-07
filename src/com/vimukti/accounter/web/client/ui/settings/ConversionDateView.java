@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -187,6 +188,16 @@ public class ConversionDateView extends AbstractBaseView {
 
 		buttonPanel.add(saveButton);
 		buttonPanel.add(cancelButton);
+
+		saveButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(saveButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
+		cancelButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(cancelButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 
 		bodyPanel.add(bodyHtml);
 		bodyPanel.add(comboForm);

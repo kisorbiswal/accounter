@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
@@ -73,6 +74,13 @@ public class CustomThemeDialog extends BaseDialog {
 		});
 		buttonPanel.add(okButton);
 		buttonPanel.add(cancelButton);
+		okButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(okButton, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+		cancelButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(cancelButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 
 		flexTable = new FlexTable();
 		flexTable.setWidget(0, 0, subTable);

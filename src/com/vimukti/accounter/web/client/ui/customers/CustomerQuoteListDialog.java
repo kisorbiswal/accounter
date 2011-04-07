@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.externalization.FinanceConstants;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -105,6 +106,10 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 
 		});
 		helpButtonLayout.add(helpButton);
+		helpButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(helpButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 
 		HorizontalPanel okButtonLayout = new HorizontalPanel();
 		okButtonLayout.setSpacing(3);
@@ -123,7 +128,9 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 
 		});
 		okButtonLayout.add(okButton);
-
+		okButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(okButton, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 		Button cancelButton = new Button(financeConstants.cancel());
 		cancelButton.setWidth("100px");
 		cancelButton.addClickHandler(new ClickHandler() {
@@ -134,7 +141,10 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 
 		});
 		okButtonLayout.add(cancelButton);
-
+		cancelButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(cancelButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 		HorizontalPanel buttonLayout = new HorizontalPanel();
 		buttonLayout.setWidth("100%");
 

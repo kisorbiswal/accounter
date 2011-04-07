@@ -97,6 +97,10 @@ public class AccounterDialog extends CustomDialog {
 
 			// buttonLayout.setAlign(Alignment.RIGHT);
 			buttonLayout.add(okButton);
+			okButton.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(okButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
 			okButton.addClickHandler(new ClickHandler() {
 
 				@Override

@@ -70,9 +70,16 @@ public class ItemTaxCodeDialog extends DialogBox {
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		// helpHLay.setAlign(Alignment.LEFT);
 		helpHLay.add(helpButt);
+		helpButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(helpButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 		HorizontalPanel closeHLay = new HorizontalPanel();
 		// closeHLay.setAlign(Alignment.RIGHT);
 		closeHLay.add(closeButt);
+		closeButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(closeButt, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 		HorizontalPanel buttHLay = new HorizontalPanel();
 		buttHLay.setSize("100%", "10%");
 		buttHLay.add(helpHLay);
@@ -135,8 +142,12 @@ public class ItemTaxCodeDialog extends DialogBox {
 		Button canButt = new Button(FinanceApplication.getFinanceUIConstants()
 				.cancel());// canButt.setAutoFit(true);
 		HorizontalPanel helpHLay = new HorizontalPanel();
+
 		helpHLay.setWidth("50%");
 		helpHLay.add(helpButt);
+		helpButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(helpButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 		HorizontalPanel buttHLay = new HorizontalPanel();
 		buttHLay.setWidth("100%");
 		// buttHLay.setMembersMargin(5);
@@ -144,7 +155,12 @@ public class ItemTaxCodeDialog extends DialogBox {
 		buttHLay.add(helpHLay);
 		buttHLay.add(okButt);
 		buttHLay.add(canButt);
-
+		okButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(okButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+		canButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(canButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		// mainVLay.setTop(30);

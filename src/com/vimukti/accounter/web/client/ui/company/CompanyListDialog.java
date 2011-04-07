@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -107,6 +108,10 @@ public class CompanyListDialog extends AbstractBaseDialog<ClientCompany> {
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.add(companyGrid);
 		mainVLay.add(closeButt);
+		closeButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(closeButt, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 
 		add(mainVLay);
 		setSize("400", "400");

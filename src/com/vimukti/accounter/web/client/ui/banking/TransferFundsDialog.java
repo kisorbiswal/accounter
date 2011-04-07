@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -274,6 +275,12 @@ public class TransferFundsDialog extends BaseDialog {
 		footerLayout.setCellWidth(okbtn, "85%");
 
 		footerLayout.insert(editButton, getAbsoluteLeft());
+
+		editButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(editButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
 		mainVLay.add(transferForm);
 		mainVLay.add(hlay);
 		mainVLay.add(footerLayout);

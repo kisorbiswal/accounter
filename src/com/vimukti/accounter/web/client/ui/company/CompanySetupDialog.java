@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -522,6 +523,12 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		businessTypeHLay.add(typeGrid);
 		businessTypeHLay.add(addBusinessTypeButt);
 
+		addBusinessTypeButt.getElement().getParentElement().setClassName(
+				"ibutton");
+		ThemesUtil.addDivToButton(addBusinessTypeButt, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setSize("80%", "100%");
 		rightVLay.add(typeLabel);
@@ -536,6 +543,9 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		// helpHLay.setSize("50%", "*");
 		helpHLay.add(helpButt);
+		helpButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(helpButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 
 		HorizontalPanel buttHLay2 = new HorizontalPanel();
 		// buttHLay2.setMembersMargin(10);
@@ -545,6 +555,18 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		buttHLay2.add(finButt);
 		buttHLay2.add(canButt);
 
+		backButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(backButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+		nextButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(nextButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+		finButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(finButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+		canButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(canButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 		HorizontalPanel buttHLay1 = new HorizontalPanel();
 		// buttHLay1.setSize("100%", "*");
 		// buttHLay1.setAlign(Alignment.RIGHT);
@@ -687,6 +709,9 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		// helpHLay.setSize("50%", "*");
 		helpHLay.add(helpButt);
+		helpButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(helpButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 
 		HorizontalPanel buttHLay2 = new HorizontalPanel();
 		// buttHLay2.setMembersMargin(10);
@@ -695,6 +720,19 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		buttHLay2.add(nextButt);
 		buttHLay2.add(finButt);
 		buttHLay2.add(canButt);
+
+		backButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(backButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+		nextButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(nextButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+		finButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(finButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+		canButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(canButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 
 		HorizontalPanel buttHLay1 = new HorizontalPanel();
 		// buttHLay1.setSize("100%", "*");

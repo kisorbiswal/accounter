@@ -107,6 +107,10 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 
 		});
 		helpButtonLayout.add(helpButton);
+		helpButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(helpButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 
 		HorizontalPanel okButtonLayout = new HorizontalPanel();
 		okButtonLayout.setSpacing(3);
@@ -125,6 +129,9 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 
 		});
 		okButtonLayout.add(okButton);
+		okButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(okButton, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 
 		Button cancelButton = new Button(financeConstants.cancel());
 		cancelButton.setWidth("100px");

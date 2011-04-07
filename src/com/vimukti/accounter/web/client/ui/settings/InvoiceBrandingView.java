@@ -127,11 +127,13 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 				"ibutton-right-image");
 
 		buttonPanel.add(automaticButton);
-		automaticButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(automaticButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-
+		if (automaticButton.isVisible()) {
+			automaticButton.getElement().getParentElement().setClassName(
+					"ibutton");
+			ThemesUtil.addDivToButton(automaticButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		mainPanel.add(titlePanel);
 		mainPanel.add(buttonPanel);
 		List<ClientBrandingTheme> brandingThemes = FinanceApplication
@@ -345,7 +347,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		nameAndMenuPanel.add(titleHtml);
 		nameAndMenuPanel.setStyleName("standard-options");
 		titleHtml.getElement().getAbsoluteLeft();
-		optionsButton.setStyleName("ibutton-right-align");
+		// optionsButton.setStyleName("ibutton-right-align") ;
 		nameAndMenuPanel.add(optionsButton);
 		optionsButton.getElement().getAbsoluteRight();
 		optionsButton.getElement().getParentElement().setClassName("ibutton");

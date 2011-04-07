@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -65,6 +66,16 @@ public class CopyThemeDialog extends BaseDialog {
 		copyPanel.add(yourBox);
 		copyPanel.add(okButton);
 		copyPanel.add(canButton);
+
+		okButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(okButton, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+
+		canButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(canButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
 		okbtn.setVisible(false);
 		cancelBtn.setVisible(false);
 		mainPanel.add(copyPanel);

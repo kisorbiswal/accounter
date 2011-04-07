@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.BrandingThemeCombo;
@@ -61,10 +62,8 @@ public class BrandingThemeComboDialog extends BaseDialog {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (brandingThemeTypeCombo.getSelectedValue().equals(null)) {
-					brandingThemeTypeCombo
-							.setSelected(FinanceApplication
-									.getSettingsMessages()
-									.standardTheme());
+					brandingThemeTypeCombo.setSelected(FinanceApplication
+							.getSettingsMessages().standardTheme());
 				}
 				print();
 				hide();
@@ -88,6 +87,14 @@ public class BrandingThemeComboDialog extends BaseDialog {
 
 		buttonPanel.add(okButton);
 		buttonPanel.add(cancelButton);
+
+		okButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(okButton, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+		cancelButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(cancelButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 
 		comboPanel.add(dynamicForm);
 		comboPanel.add(buttonPanel);

@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.data.ClientUser;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -120,8 +121,14 @@ public class UsersView extends BaseView<ClientUser> {
 		flexTable.setWidget(1, 0, usersHtml);
 
 		mainLayPanel.add(flexTable);
-		if (FinanceApplication.getUser().isCanDoUserManagement())
+		if (FinanceApplication.getUser().isCanDoUserManagement()) {
 			mainLayPanel.add(inviteUserButton);
+			inviteUserButton.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(inviteUserButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+
 		mainLayPanel.add(getUsersPanel());
 
 		// saveAndCloseButton.setVisible(false);

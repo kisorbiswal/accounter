@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
@@ -91,6 +92,16 @@ public class AutomaticSequenceDialog extends BaseDialog {
 		});
 		buttonPanel.add(saveButton);
 		buttonPanel.add(cancelBtn);
+
+		saveButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(saveButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
+		cancelButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(cancelButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 
 		subLayoutPanel.add(paraHTML);
 		subLayoutPanel.add(optionsTable);

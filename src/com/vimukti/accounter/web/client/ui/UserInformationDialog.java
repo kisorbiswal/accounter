@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
@@ -263,7 +264,13 @@ public class UserInformationDialog extends AbstractBaseDialog {
 		// buttHLay.setMembersMargin(290);
 		// buttHLay.setSize("50%", "*");
 		buttHLay.add(createUser);
+		createUser.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(createUser, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 		buttHLay.add(getUser);
+		getUser.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(getUser, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 		// buttHLay.setMargin(60);
 		// buttHLay.setAlign(Alignment.CENTER);
 

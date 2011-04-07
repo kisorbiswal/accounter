@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
 @SuppressWarnings("deprecation")
@@ -136,6 +137,16 @@ public class FileUploadDilaog extends CustomDialog {
 
 		buttonHlay.add(uploadSubmitButton);
 		buttonHlay.add(closeButton);
+		uploadSubmitButton.getElement().getParentElement().setClassName(
+				"ibutton");
+		ThemesUtil.addDivToButton(uploadSubmitButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+		closeButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(closeButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
 		vpaPanel.add(buttonHlay);
 		/* Make align three Element on there position */
 		buttonHlay.setCellWidth(uploadSubmitButton, "100%");
@@ -200,6 +211,7 @@ public class FileUploadDilaog extends CustomDialog {
 		add(mainLayout);
 		show();
 	}
+
 	protected void getFileInfo() {
 		getFileInfo(parentID, new AsyncCallback<ClientBrandingTheme>() {
 			@Override

@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -211,6 +212,9 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 		addItems(vatAgencyCombo, dateRangeItem, fromItem, toItem);
 		add(updateButton);
+		updateButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(updateButton, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 	}

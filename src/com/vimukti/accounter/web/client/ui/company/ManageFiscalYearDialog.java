@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -180,6 +181,35 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		buttonVlayout.add(editFiscalYear);
 		buttonVlayout.add(deleteFiscalYear);
 		buttonVlayout.add(changeStartDate);
+
+		newFiscalYearButton.getElement().getParentElement().setClassName(
+				"ibutton");
+		ThemesUtil.addDivToButton(newFiscalYearButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+		closeFiscalYearButton.getElement().getParentElement().setClassName(
+				"ibutton");
+		ThemesUtil.addDivToButton(closeFiscalYearButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+		openFiscalYearButoon.getElement().getParentElement().setClassName(
+				"ibutton");
+		ThemesUtil.addDivToButton(openFiscalYearButoon, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+		editFiscalYear.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(editFiscalYear, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+		deleteFiscalYear.getElement().getParentElement()
+				.setClassName("ibutton");
+		ThemesUtil.addDivToButton(deleteFiscalYear, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+		changeStartDate.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(changeStartDate, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 		return buttonVlayout;
 
 	}

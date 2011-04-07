@@ -92,7 +92,6 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 		getGrid().setType(AccounterCoreType.CREDIT_RATING);
 		closeButton = new Button();
 		openButton = new Button();
-		;
 		changeButton = new Button();
 		closeButton.setTitle(companyConstants.closeFiscalYear());
 		addButton(closeButton);

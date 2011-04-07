@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsEntry;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsList;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetLinkedAccountMap;
 import com.vimukti.accounter.web.client.core.Lists.LinkAccount;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
@@ -110,7 +111,16 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setSpacing(10);
 		buttonPanel.add(startDateButton);
+		startDateButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(startDateButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 		buttonPanel.add(rollBackDepreciation);
+		rollBackDepreciation.getElement().getParentElement().setClassName(
+				"ibutton");
+		ThemesUtil.addDivToButton(rollBackDepreciation, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 		mainPanel.add(buttonPanel);
 
 		fromLabel = new Label(FinanceApplication.getCompanyMessages()
@@ -343,8 +353,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 			createObject(depreciation);
 			FinanceApplication.createHomeService().runDepreciation(
-					depreciationStartDate.getTime(), depreciationEndDate.getTime(), map,
-					new AsyncCallback() {
+					depreciationStartDate.getTime(),
+					depreciationEndDate.getTime(), map, new AsyncCallback() {
 
 						@Override
 						public void onFailure(Throwable caught) {
@@ -367,8 +377,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	@Override
 	public boolean validate() throws Exception {
 		if (!(assets.size() > 0)) {
-			Accounter
-					.showError("Please select a Fixed Asset");
+			Accounter.showError("Please select a Fixed Asset");
 			return false;
 		}
 		return super.validate();
@@ -420,7 +429,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 				grid.removeAllRows();
 			grid.addLoadingImagePanel();
 			FinanceApplication.createHomeService().getDepreciableFixedAssets(
-					depreciationStartDate.getTime(), depreciationEndDate.getTime(), callBack);
+					depreciationStartDate.getTime(),
+					depreciationEndDate.getTime(), callBack);
 		}
 	}
 

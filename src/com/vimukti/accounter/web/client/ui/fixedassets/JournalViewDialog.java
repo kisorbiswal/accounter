@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReviewJournal;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
@@ -106,6 +107,13 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 		footerLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		footerLayout.add(okbtn);
 		footerLayout.add(cancelBtn);
+		okbtn.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(okbtn, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+		cancelBtn.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(cancelBtn, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 		footerLayout.setCellWidth(okbtn, "100%");
 		footerLayout.setCellHorizontalAlignment(okbtn,
 				HasHorizontalAlignment.ALIGN_RIGHT);
@@ -177,7 +185,8 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 				value = disposalJOurnal.get(keyValue);
 				if (DecimalUtil.isLessThan(value, 0)) {
 					debitvalue = value * (-1);
-					disposalJournalForm.setText(row, col++, DataUtils.getAmountAsString(debitvalue));
+					disposalJournalForm.setText(row, col++, DataUtils
+							.getAmountAsString(debitvalue));
 					disposalJournalForm.setText(row, col++, "" + " ");
 					disposalJournalForm.getCellFormatter().setStyleName(row,
 							col - 1, "column-seperater");
@@ -189,7 +198,8 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 					disposalJournalForm.setText(row, col++, "" + " ");
 					disposalJournalForm.getCellFormatter().setStyleName(row,
 							col - 1, "column-seperater");
-					disposalJournalForm.setText(row, col++, DataUtils.getAmountAsString(value));
+					disposalJournalForm.setText(row, col++, DataUtils
+							.getAmountAsString(value));
 
 					setCreditTotal(value);
 				}
@@ -233,9 +243,11 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 	private void setTotalLabelForm(DynamicForm form, int row) {
 		HTML totalLabel = new HTML();
 		totalLabel.setHTML(FinanceApplication.getFixedAssetConstants().total());
-		String debittotal = "<strong>" + DataUtils.getAmountAsString(this.debitTotal) + "</strong>";
+		String debittotal = "<strong>"
+				+ DataUtils.getAmountAsString(this.debitTotal) + "</strong>";
 		HTML debitValueLabel = new HTML(debittotal);
-		String credittotal = "<strong>" + DataUtils.getAmountAsString(this.creditTotal) + "</strong>";
+		String credittotal = "<strong>"
+				+ DataUtils.getAmountAsString(this.creditTotal) + "</strong>";
 		HTML creditValueLabel = new HTML(credittotal);
 		form.setWidget(row, 0, totalLabel);
 		form.setWidget(row, 1, debitValueLabel);

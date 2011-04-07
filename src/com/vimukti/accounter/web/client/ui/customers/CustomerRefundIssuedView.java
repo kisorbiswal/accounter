@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -122,6 +123,16 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		buttHLay.add(saveCloseButt);
 		buttHLay.add(saveNewButt);
 
+		saveCloseButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(saveCloseButt, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
+		saveNewButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(saveNewButt, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		// mainVLay.setTop(10);
@@ -184,19 +195,19 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 	@Override
 	public void onEdit() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void print() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void printPreview() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

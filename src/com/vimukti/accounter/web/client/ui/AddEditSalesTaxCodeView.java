@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTaxRates;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -205,6 +206,18 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 		buttonsLayout.add(button1);
 		buttonsLayout.add(button2);
 		buttonsLayout.add(button3);
+
+		button1.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(button1, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+
+		button2.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(button2, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+
+		button3.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(button3, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 
 		VerticalPanel bodyLayout = new VerticalPanel();
 		bodyLayout.setSize("100%", "100%");

@@ -255,6 +255,9 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 	public void addButton(Button button) {
 		buttonsLayout.add(button);
+		button.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(button, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 	}
 
 	public DialogGrid getGrid() {

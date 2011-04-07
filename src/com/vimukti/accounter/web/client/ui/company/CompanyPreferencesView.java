@@ -31,6 +31,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -145,8 +146,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			allowDocumentNos.setValue(companyPreferences
 					.getAllowDuplicateDocumentNumbers());
 
-//			doupaySalesChecBox.setValue(companyPreferences
-//					.getDoYouPaySalesTax());
+			// doupaySalesChecBox.setValue(companyPreferences
+			// .getDoYouPaySalesTax());
 
 			// if ((Double) companyPreferences.getLogSpaceUsed() != null)
 			// logspaceTxt.setValue(companyPreferences.getLogSpaceUsed());
@@ -280,6 +281,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		HorizontalPanel helpLayout = new HorizontalPanel();
 		helpLayout.setWidth("50%");
 		helpLayout.add(helpButt);
+		helpButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(helpButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 
 		HorizontalPanel okCancelayout = new HorizontalPanel();
 		okCancelayout.setWidth("70%");
@@ -309,10 +313,16 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			}
 		});
 		okCancelayout.add(ok);
+		ok.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(ok, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 		okCancelayout.setCellWidth(ok, "70%");
 		okCancelayout.setCellHorizontalAlignment(ok,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		okCancelayout.add(cancel);
+		cancel.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(cancel, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 		hlLayout.add(helpLayout);
 		hlLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		hlLayout.add(okCancelayout);
@@ -808,72 +818,75 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// taxesForm.setTitleOrientation(TitleOrientation.TOP);
 		// taxesForm.setPadding(10);
 
-//		doupaySalesChecBox = new CheckboxItem();
-//		// doupaySalesChecBox.setColSpan("2");
-//		doupaySalesChecBox.setAttribute(FinanceApplication.getCompanyMessages()
-//				.vertical(), false);
-//		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-//			doupaySalesChecBox.setTitle(companyMessges.doYoupaySalesTaxes());
-//		} else
-//			doupaySalesChecBox
-//					.setTitle(companyMessges.areYouRegisteredForVAT());
-//
-//		vatRegNumber = new TextItem(companyMessges.vatRegNo());
-//		vatRegNumber.setHelpInformation(true);
-//		vatRegNumber.setDisabled(false);
-//
-//		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-//			doupaySalesChecBox.addChangeHandler(new ChangeHandler() {
-//
-//				public void onChange(ChangeEvent event) {
-//					if ((Boolean) ((CheckboxItem) event.getSource()).getValue())
-//						taxgroupBtn.setEnabled(false);
-//					else
-//						taxgroupBtn.setEnabled(true);
-//				}
-//			});
-//		} else {
-//
-//			doupaySalesChecBox
-//					.addChangeHandler(new ValueChangeHandler<Boolean>() {
-//
-//						@Override
-//						public void onValueChange(
-//								ValueChangeEvent<Boolean> event) {
-//							vatRegNumber.setDisabled(!event.getValue());
-//							vatRegNumber.setValue(FinanceApplication
-//									.getCompany().getpreferences()
-//									.getVATregistrationNumber());
-//						}
-//					});
-//		}
-//		vatRegNumber.setValue(FinanceApplication.getCompany().getpreferences()
-//				.getVATregistrationNumber());
-//		taxgroupBtn = new Button(companyMessges.taxgroups());
-//		// taxgroupBtn.setColSpan("*");
-//		taxgroupBtn.addClickHandler(new ClickHandler() {
-//
-//			public void onClick(ClickEvent event) {
-//				taxGroupButtonClick();
-//			}
-//		});
-//		paysalesTaxgroupItem = new RadioGroupItem();
-//		paysalesTaxgroupItem.setTitle(companyMessges
-//				.onWhatbasisdoUpaySalesTaxes());
-//		// paysalesTaxgroupItem.setColSpan("*");
-//		// paysalesTaxgroupItem.setVertical(false);
-//		// paysalesTaxgroupItem
-//		// .setValue(company.getPreferences() != null ? company
-//		// .getPreferences().getIsAccuralBasis() ? "1" : "2" : "1");
-//
-//		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-//		map.put("1", companyMessges.accrualBasis());
-//		map.put("2", companyMessges.cashBasis());
-//		paysalesTaxgroupItem.setValueMap(map);
-//
-//		taxesForm.setItems(doupaySalesChecBox, vatRegNumber,
-//				paysalesTaxgroupItem);
-//		taxesForm.setWidth("100%");
+		// doupaySalesChecBox = new CheckboxItem();
+		// // doupaySalesChecBox.setColSpan("2");
+		// doupaySalesChecBox.setAttribute(FinanceApplication.getCompanyMessages()
+		// .vertical(), false);
+		// if (FinanceApplication.getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US) {
+		// doupaySalesChecBox.setTitle(companyMessges.doYoupaySalesTaxes());
+		// } else
+		// doupaySalesChecBox
+		// .setTitle(companyMessges.areYouRegisteredForVAT());
+		//
+		// vatRegNumber = new TextItem(companyMessges.vatRegNo());
+		// vatRegNumber.setHelpInformation(true);
+		// vatRegNumber.setDisabled(false);
+		//
+		// if (FinanceApplication.getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US) {
+		// doupaySalesChecBox.addChangeHandler(new ChangeHandler() {
+		//
+		// public void onChange(ChangeEvent event) {
+		// if ((Boolean) ((CheckboxItem) event.getSource()).getValue())
+		// taxgroupBtn.setEnabled(false);
+		// else
+		// taxgroupBtn.setEnabled(true);
+		// }
+		// });
+		// } else {
+		//
+		// doupaySalesChecBox
+		// .addChangeHandler(new ValueChangeHandler<Boolean>() {
+		//
+		// @Override
+		// public void onValueChange(
+		// ValueChangeEvent<Boolean> event) {
+		// vatRegNumber.setDisabled(!event.getValue());
+		// vatRegNumber.setValue(FinanceApplication
+		// .getCompany().getpreferences()
+		// .getVATregistrationNumber());
+		// }
+		// });
+		// }
+		// vatRegNumber.setValue(FinanceApplication.getCompany().getpreferences()
+		// .getVATregistrationNumber());
+		// taxgroupBtn = new Button(companyMessges.taxgroups());
+		// // taxgroupBtn.setColSpan("*");
+		// taxgroupBtn.addClickHandler(new ClickHandler() {
+		//
+		// public void onClick(ClickEvent event) {
+		// taxGroupButtonClick();
+		// }
+		// });
+		// paysalesTaxgroupItem = new RadioGroupItem();
+		// paysalesTaxgroupItem.setTitle(companyMessges
+		// .onWhatbasisdoUpaySalesTaxes());
+		// // paysalesTaxgroupItem.setColSpan("*");
+		// // paysalesTaxgroupItem.setVertical(false);
+		// // paysalesTaxgroupItem
+		// // .setValue(company.getPreferences() != null ? company
+		// // .getPreferences().getIsAccuralBasis() ? "1" : "2" : "1");
+		//
+		// LinkedHashMap<String, String> map = new LinkedHashMap<String,
+		// String>();
+		// map.put("1", companyMessges.accrualBasis());
+		// map.put("2", companyMessges.cashBasis());
+		// paysalesTaxgroupItem.setValueMap(map);
+		//
+		// taxesForm.setItems(doupaySalesChecBox, vatRegNumber,
+		// paysalesTaxgroupItem);
+		// taxesForm.setWidth("100%");
 		// if(!FinanceApplication.getCompany().getpreferences().getDoYouPaySalesTax())
 		// vatRegNumber.setDisabled(true);
 
@@ -1139,6 +1152,10 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		suportLogPanel.add(supportLogging);
 		// FIXME
 		suportLogPanel.add(clearlogBtn);
+		clearlogBtn.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(clearlogBtn, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 
 		generalLayOut = new VerticalPanel();
 		// generalLayOut.setSize("100%", "100%");
@@ -1149,6 +1166,11 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		generalLayOut.add(filingRecordNameForm);
 		generalLayOut.add(serviceMapForm);
 		generalLayOut.add(mangeServiceMappingsBtn);
+		mangeServiceMappingsBtn.getElement().getParentElement().setClassName(
+				"ibutton");
+		ThemesUtil.addDivToButton(mangeServiceMappingsBtn, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 		generalLayOut.add(supportLogging);
 		// generalLayOut.add(10);
 

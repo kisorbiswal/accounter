@@ -89,6 +89,10 @@ public class CountryRegionListDialog extends DialogBox {
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		// helpHLay.setAlign(Alignment.LEFT);
 		helpHLay.add(helpButt);
+		helpButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(helpButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+
 		HorizontalPanel closeHLay = new HorizontalPanel();
 		// closeHLay.setAlign(Alignment.RIGHT);
 		closeHLay.add(closeButt);
