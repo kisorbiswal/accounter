@@ -350,7 +350,8 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		// optionsButton.setStyleName("ibutton-right-align") ;
 		nameAndMenuPanel.add(optionsButton);
 		optionsButton.getElement().getAbsoluteRight();
-		optionsButton.getElement().getParentElement().setClassName("ibutton");
+		optionsButton.getElement().getParentElement().setClassName(
+				"ibutton-right-align");
 		ThemesUtil.addDivToButton(optionsButton, FinanceApplication
 				.getThemeImages().button_right_blue_image(),
 				"ibutton-right-image");

@@ -16,7 +16,7 @@ public interface ThemeImages extends Resources {
 	@Source("gray_Button_2_right.png")
 	ImageResource button_right_gray_image();
 	
-	@Source("blue_Button_1_right.png")
+	@Source("blue_Button_1_rightNew.png")
 	ImageResource button_right_blue_image();
 	
 }
