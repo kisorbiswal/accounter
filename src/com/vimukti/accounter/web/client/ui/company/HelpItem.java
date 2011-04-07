@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -21,9 +20,8 @@ public class HelpItem extends HorizontalPanel {
 	}
 
 	private void createControls() {
-		CaptionPanel panel = new CaptionPanel();
-		panel.setCaptionText("Help Links");
-		panel.setStyleName("help-links1");
+		HorizontalPanel panel = new HorizontalPanel();
+		panel.setWidth("100%");
 		table = new FlexTable();
 		panel.add(table);
 		add(panel);
@@ -33,6 +31,18 @@ public class HelpItem extends HorizontalPanel {
 	}
 
 	public void addLinks(List<HelpLink> helplinks) {
+		for (HelpLink helpLink : helplinks) {
+			addLink(helpLink);
+		}
+	}
+
+	public void removeLinks() {
+		table.clear();
+	}
+
+	public void setLinks(List<HelpLink> helplinks) {
+		currentcolumn = 0;
+		currentrow = 0;
 		for (HelpLink helpLink : helplinks) {
 			addLink(helpLink);
 		}
@@ -60,7 +70,7 @@ public class HelpItem extends HorizontalPanel {
 			}
 		});
 		table.setWidget(currentrow, currentcolumn, hyperlink);
-		table.setWidth("100%");
+		table.setWidth("70%");
 		currentcolumn++;
 		if (currentcolumn > 1) {
 			currentrow++;
