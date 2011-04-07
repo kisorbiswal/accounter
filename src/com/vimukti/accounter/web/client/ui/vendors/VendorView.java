@@ -187,6 +187,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(tabSet);
 		canvas.add(mainVLay);
+		canvas.getParent().removeStyleName("main-class-pannel");
 
 	}
 
