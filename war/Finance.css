@@ -189,10 +189,11 @@ h1 {
 }
 
 .noScroll {
-	background: none repeat scroll 0 0 #F0F0F0 !important;
-	height: 100% !important;
-	overflow: hidden !important;
-	margin-top: -13px;
+	background: url("../images/body-shadow-left.png") repeat-y scroll 0 0 #F0F0F0 !important;
+    height: 100% !important;
+    margin-top: -13px;
+    overflow: hidden !important;
+    padding-left: 9px;
 }
 
 .actionOver {
@@ -471,8 +472,7 @@ table tr.ReportGridRow:HOVER {
 }
 
 .link {
-	background: transparent url(images/help-icon.png) no-repeat scroll 0 1px
-		;
+	background: transparent url(images/help-icon.png) no-repeat scroll 0 1px;
 	margin-right: 5px;
 }
 
