@@ -1,7 +1,8 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
-import com.vimukti.accounter.web.client.ui.SalesTaxGroupListDialog;
+import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
 public class TaxGroupCombo extends CustomCombo<ClientTAXItemGroup> {
 
@@ -26,11 +27,9 @@ public class TaxGroupCombo extends CustomCombo<ClientTAXItemGroup> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onAddNew() {
-		SalesTaxGroupListDialog taxGroupDialog = new SalesTaxGroupListDialog(
-				"", "");
-		taxGroupDialog.addCallBack(createAddNewCallBack());
-		taxGroupDialog.hide();
-		taxGroupDialog.showAddEditTaxGroup(null);
+		Action action = CompanyActionFactory.getManageSalesTaxGroupsAction();
+		action.setActionSource(this);
+		action.run(null, true);
 	}
 
 	@Override
