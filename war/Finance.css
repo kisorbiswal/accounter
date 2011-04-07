@@ -492,7 +492,10 @@ div.link:hover {
 }
 
 .bottom-view { /*border-top: 1px solid #AAAAAA;*/
-	background: none repeat scroll 0 0 #DFDFDF;
+	background:url("../images/widget-shadow-image.png") repeat-x scroll center bottom #DFDFDF;
+    border-color: #989898;
+    border-style: solid;
+    border-width: 0 1px;
 }
 
 .nav-content {
@@ -1329,7 +1332,7 @@ right
 }
 
 .gwt-TabPanelBottom {
-	border-color: #DDDDDD !important;
+	border-color: #989898 !important;
 	border-width: 1px 1px 0 !important;
 }
 
@@ -2068,4 +2071,21 @@ iframe { /*display:none;*/
 
 .help-data {
 	margin-bottom: 280px !important;
+}
+.main-class-pannel{
+	border-color: #989898;
+    border-style: solid;
+    border-width: 1px 1px 0px;
+    padding:10px;
+}
+.down-panel {
+font-weight: bold !important;
+color: white !important;
+}
+
+.down-panel1 {
+color: white !important;
+font-weight: bold !important;
+margin-right: 10px;
+text-align: right !important;
 }
