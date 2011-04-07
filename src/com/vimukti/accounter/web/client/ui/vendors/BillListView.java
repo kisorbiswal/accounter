@@ -54,12 +54,18 @@ public class BillListView extends BaseListView<BillsList> {
 
 	@Override
 	protected Action getAddNewAction() {
-		return VendorsActionFactory.getEnterBillsAction();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return VendorsActionFactory.getEnterBillsAction();
+		else
+			return null;
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		return vendorsConstants.addaNewBill();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return vendorsConstants.addaNewBill();
+		else
+			return "";
 	}
 
 	@Override

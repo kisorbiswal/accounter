@@ -40,7 +40,10 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
 	@Override
 	protected Action getAddNewAction() {
-		return VendorsActionFactory.getPurchaseOrderAction();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return VendorsActionFactory.getPurchaseOrderAction();
+		else
+			return null;
 	}
 
 	@Override
