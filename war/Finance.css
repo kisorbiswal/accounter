@@ -1,8 +1,7 @@
 /** Add css rules here for your application. */
-	/** Example rules used by the template application (remove for your app) */
+/** Example rules used by the template application (remove for your app) */
 .widget { /**background:url(images/icons/startBar.png) repeat-x;*/
-	background: url("images/pannig bar.png") repeat-x scroll 0 0 transparent
-		;
+	background: url("images/pannig bar.png") repeat-x scroll 0 0 transparent;
 	width: 100% !important;
 	/*display: none;*/
 }
@@ -24,7 +23,8 @@ body {
 }
 
 html,body {
-	height: 100% !important;
+	background:-moz-linear-gradient(center top , #FFFFFF, #F0F1F0) repeat-x scroll 0 0 transparent !important;
+	width:100%;
 }
 
 .widget img {
@@ -119,6 +119,8 @@ h1 {
 	/*background: url("images/Background.png") repeat scroll 0 0 transparent !important;*/
 	/*border: 2px solid #CCCCCC;   praveena */ /*	padding: 10px;*/
 	/*margin-left: 3px;*/ /* margin-top:-2px; praveena*/
+	background: url("../images/body-shadow-right.png") repeat-y scroll right top #F0F0F0 !important;
+    padding-right: 9px;
 	
 }
 
@@ -471,8 +473,7 @@ table tr.ReportGridRow:HOVER {
 }
 
 .link {
-	background: transparent url(images/help-icon.png) no-repeat scroll 0 1px
-		;
+	background: transparent url(images/help-icon.png) no-repeat scroll 0 1px;
 	margin-right: 5px;
 }
 
@@ -487,8 +488,7 @@ div.refresh:hover {
 }
 
 div.link:hover {
-	background: transparent url(images/help-icon.png) no-repeat scroll 0 1px
-		;
+	background: transparent url(images/help-icon.png) no-repeat scroll 0 1px;
 }
 
 .bottom-view { /*border-top: 1px solid #AAAAAA;*/
@@ -738,7 +738,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 /**End --- Styles for Finance **/ /* this changes by praveena */
-	/* this changes by praveena */
+/* this changes by praveena */
 .gwt-Button:active {
 	border: medium none !important;
 }
@@ -937,21 +937,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 
 
 
-
-
-
-
-
-
-
  
-
-
-
-
-
-
-
 
 
 
@@ -974,20 +960,6 @@ tr
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 :nth-child
 
 
@@ -996,21 +968,7 @@ tr
 
 
 
-
-
-
-
-
-
-
  
-
-
-
-
-
-
-
 
 
 
@@ -1034,20 +992,6 @@ border-bottom
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 :
 
 
@@ -1056,21 +1000,7 @@ border-bottom
 
 
 
-
-
-
-
-
-
-
  
-
-
-
-
-
-
-
 
 
 
@@ -1087,21 +1017,7 @@ px
 
 
 
-
-
-
-
-
-
-
  
-
-
-
-
-
-
-
 
 
 
@@ -1117,13 +1033,6 @@ solid
 
 
 
-
-
-
-
-
-
-
  
 
 
@@ -1132,28 +1041,7 @@ solid
 
 
 
-
-
-
-
-
-
-
 #aaa
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1184,20 +1072,6 @@ border-top
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 :
 
 
@@ -1206,21 +1080,7 @@ border-top
 
 
 
-
-
-
-
-
-
-
  
-
-
-
-
-
-
-
 
 
 
@@ -1237,21 +1097,7 @@ px
 
 
 
-
-
-
-
-
-
-
  
-
-
-
-
-
-
-
 
 
 
@@ -1267,13 +1113,6 @@ solid
 
 
 
-
-
-
-
-
-
-
  
 
 
@@ -1282,28 +1121,7 @@ solid
 
 
 
-
-
-
-
-
-
-
 #aaa
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1382,21 +1200,7 @@ solid
 
 
 
-
-
-
-
-
-
-
  
-
-
-
-
-
-
-
 
 
 
@@ -1419,20 +1223,6 @@ td
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 :nth-child
 
 
@@ -1441,21 +1231,7 @@ td
 
 
 
-
-
-
-
-
-
-
  
-
-
-
-
-
-
-
 
 
 
@@ -1478,6 +1254,7 @@ float
 
 
 
+
 :
 
 
@@ -1486,21 +1263,7 @@ float
 
 
 
-
-
-
-
-
-
-
  
-
-
-
-
-
-
-
 
 
 
@@ -1549,7 +1312,7 @@ right
 .bottom-view table tr td {
 	background: url("images/Button_left_1x27.png") no-repeat scroll 0 0
 		transparent;
-	padding: 0 0 0 3px;
+	padding: 0 0 4px 3px;
 }
 
 .button-right-image {
@@ -1621,6 +1384,7 @@ right
 
 
 
+
  
 
 
@@ -1643,6 +1407,7 @@ td
 
 
 
+
 :nth-child
 
 
@@ -1651,21 +1416,7 @@ td
 
 
 
-
-
-
-
-
-
-
  
-
-
-
-
-
-
-
 
 
 
@@ -1682,21 +1433,7 @@ td
 
 
 
-
-
-
-
-
-
-
  
-
-
-
-
-
-
-
 
 
 
@@ -1719,20 +1456,6 @@ td
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 :nth-child
 
 
@@ -1741,21 +1464,7 @@ td
 
 
 
-
-
-
-
-
-
-
  
-
-
-
-
-
-
-
 
 
 
@@ -1779,20 +1488,6 @@ padding
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 :
 
 
@@ -1801,21 +1496,7 @@ padding
 
 
 
-
-
-
-
-
-
-
  
-
-
-
-
-
-
-
 
 
 
@@ -1832,21 +1513,7 @@ px
 
 
 
-
-
-
-
-
-
-
  
-
-
-
-
-
-
-
 
 
 
@@ -1869,8 +1536,11 @@ important
 
 
 
+
 ;
 width
+
+
 
 
 
@@ -1914,6 +1584,8 @@ important
 
 
 
+
+
 ;
 }
 .help-content {
@@ -1935,8 +1607,7 @@ important
 }
 
 .editButton {
-	background: url("images/page_edit.png") no-repeat scroll 0 0 transparent
-		;
+	background: url("images/page_edit.png") no-repeat scroll 0 0 transparent;
 }
 
 .editButton {
@@ -1990,7 +1661,9 @@ important
 
 
 
+
  
+
 
 
 
@@ -2010,7 +1683,10 @@ tr
 
 
 
+
+
 :nth-child
+
 
 
 
@@ -2057,13 +1733,6 @@ border-bottom
 
 
 
-
-
-
-
-
-
-
 1
 px
 
@@ -2098,20 +1767,6 @@ solid
 
 
 #aaa
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2142,20 +1797,6 @@ border-top
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 :
 
 
@@ -2164,21 +1805,7 @@ border-top
 
 
 
-
-
-
-
-
-
-
  
-
-
-
-
-
-
-
 
 
 
@@ -2195,20 +1822,7 @@ px
 
 
 
-
-
-
-
-
-
-
  
-
-
-
-
-
-
 
 
 
@@ -2224,12 +1838,6 @@ solid
 
 
 
-
-
-
-
-
-
  
 
 
@@ -2238,25 +1846,7 @@ solid
 
 
 
-
-
-
-
-
-
 #aaa
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2353,31 +1943,6 @@ solid
 		transparent !important;
 	padding: 0 1px;
 	float: right;
-}
-
-.ibutton {
-	background: url("images/blue_Left_side.png") no-repeat scroll 0 0
-		transparent !important;
-	float: left;
-	padding: 0 1px;
-}
-
-.ibutton-right-image {
-	float: right;
-	height: 29px;
-	width: 3px;
-}
-
-.ibutton-right-align {
-	float: left;
-}
-
-.portlet-body {
-	background-color: white;
-	height: 100%;
-	padding-left: 10px;
-	padding-top: 10px;
-	width: 99%;
 }
 
 .add-button button {
@@ -2531,8 +2096,7 @@ iframe { /*display:none;*/
 }
 
 .list-grid-body {
-	background: url("images/Table-form-strip.png") repeat scroll 0 0 #EEEEEE
-		;
+	background: url("images/Table-form-strip.png") repeat scroll 0 0 #EEEEEE;
 }
 
 .gwt-DialogBox .dialogTopLeftInner,.dialogMiddleRightInner {
@@ -2576,7 +2140,6 @@ iframe { /*display:none;*/
 .help-data {
 	margin-bottom: 280px !important;
 }
-}
 
 .main-class-pannel {
 	border-color: #989898;
@@ -2587,13 +2150,27 @@ iframe { /*display:none;*/
 
 .down-panel {
 	font-weight: bold !important;
-	color: white !important;
+	color: #464545 !important;
 	margin-top: 15px !important;
 }
 
 .down-panel1 {
-	color: white !important;
+	color: #737272 !important;
 	font-weight: bold !important;
-	margin-right: 10px;
+	margin-right: 30px;
 	text-align: right !important;
+}
+.help-panel{
+	background-color: #F0F0F0;
+    border: 1px solid #C7C6C6;
+}
+.help-panel a{
+	text-decoration: none;
+	color:#737272 !important;
+}
+.help-panel a:hover{
+	text-decoration: underline;
+}
+.bottom-view table tr{
+	margin-bottom:5px;
 }
