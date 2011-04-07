@@ -124,8 +124,8 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 	public void onSuccess(List<PurchaseOrdersList> result) {
 		super.onSuccess(result);
 		listOfPurchaseOrders = result;
-		filterList(OPEN);
-		grid.setViewType(OPEN);
+		filterList(viewSelect.getValue().toString());
+		grid.setViewType(viewSelect.getValue().toString());
 	}
 
 	protected SelectCombo getSelectItem() {
