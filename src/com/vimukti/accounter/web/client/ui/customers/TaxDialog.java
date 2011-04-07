@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.ui.SalesTaxGroupListDialog;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -76,11 +77,10 @@ public class TaxDialog extends BaseDialog {
 					String radio = typeRadio.getValue().toString();
 					if (radio.equals(TAXGROUP)) {
 						try {
-							SalesTaxGroupListDialog taxGroupDialog = new SalesTaxGroupListDialog(
-									"", "");
-							taxGroupDialog.addCallBack(callBack);
-							taxGroupDialog.hide();
-							taxGroupDialog.showAddEditTaxGroup(null);
+							Action action = CompanyActionFactory
+									.getManageSalesTaxGroupsAction();
+							action.setActionSource(actionSource);
+							action.run(null, true);
 						} catch (Throwable e) {
 							Accounter.showError(FinanceApplication
 									.getCustomersMessages()
