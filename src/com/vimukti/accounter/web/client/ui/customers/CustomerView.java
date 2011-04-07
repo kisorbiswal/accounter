@@ -267,6 +267,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		mainVLay.add(tabSet);
 
 		canvas.add(mainVLay);
+		canvas.getParent().removeStyleName("main-class-pannel");
 		setSize("100%", "100%");
 	}
 
