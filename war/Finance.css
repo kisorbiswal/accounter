@@ -119,8 +119,6 @@ h1 {
 	/*background: url("images/Background.png") repeat scroll 0 0 transparent !important;*/
 	/*border: 2px solid #CCCCCC;   praveena */ /*	padding: 10px;*/
 	/*margin-left: 3px;*/ /* margin-top:-2px; praveena*/
-	background: url("../images/body-shadow-right.png") repeat-y scroll right top #F0F0F0 !important;
-    padding-right: 9px;
 	
 }
 
@@ -191,10 +189,11 @@ h1 {
 }
 
 .noScroll {
-	background: none repeat scroll 0 0 #F0F0F0 !important;
-	height: 100% !important;
-	overflow: hidden !important;
-	margin-top: -13px;
+	background: url("../images/body-shadow-left.png") repeat-y scroll 0 0 #F0F0F0 !important;
+    height: 100% !important;
+    margin-top: -13px;
+    overflow: hidden !important;
+    padding-left: 9px;
 }
 
 .actionOver {
@@ -2072,6 +2071,7 @@ iframe { /*display:none;*/
 
 .logo {
 	margin-top: 20px;
+	margin-left:25px;
 }
 
 .logout-help-welcome {
@@ -2090,7 +2090,7 @@ iframe { /*display:none;*/
 .vimutki-text {
 	color: #606060;
 	font-size: 14px;
-	margin: -35px 0 0 70px;
+	margin: -35px 0 0 97px;
 	position: absolute;
 	z-index: 1;
 }
@@ -2163,6 +2163,7 @@ iframe { /*display:none;*/
 .help-panel{
 	background-color: #F0F0F0;
     border: 1px solid #C7C6C6;
+    margin-left:10px;
 }
 .help-panel a{
 	text-decoration: none;
@@ -2171,6 +2172,7 @@ iframe { /*display:none;*/
 .help-panel a:hover{
 	text-decoration: underline;
 }
-.bottom-view table tr{
-	margin-bottom:5px;
+.test-case{
+	background: url("../images/body-shadow-right.png") repeat-y scroll right top #F0F0F0 !important;
+    padding-right: 9px;
 }
