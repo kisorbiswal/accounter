@@ -578,7 +578,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 	@Override
 	public void saveAndUpdateView() throws Exception {
-		savePreference();
+//		savePreference();
 		updatedCompany();
 	}
 
@@ -648,6 +648,53 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	protected void updatedCompany() {
+		ClientCompanyPreferences companyPreferences = company.getPreferences();
+		if (companyPreferences == null) {
+			companyPreferences = new ClientCompanyPreferences();
+		}
+		companyPreferences
+				.setAllowDuplicateDocumentNumbers(getBooleanValue(allowDocumentNos));
+
+		// companyPreferences
+		// .setDoYouPaySalesTax(getBooleanValue(doupaySalesChecBox));
+		// //
+		// companyPreferences.setLegalName(legalCompanyName.getValue().toString());
+		// companyPreferences.setVATregistrationNumber(vatRegNumber.getValue()
+		// .toString());
+
+		// FIXME
+		// companyPreferences.setIsAccuralBasis(paysalesTaxgroupItem.getValue()
+		// .equals("2"));
+		// System.out.println("radio value:" +
+		// whowillrunAccTransfer.getValue());
+
+		companyPreferences
+				.setUseAccountNumbers(getBooleanValue(useAccountscheckbox));
+		companyPreferences.setUseCustomerId(getBooleanValue(useCustomertID));
+		companyPreferences.setUseVendorId(getBooleanValue(useVendorId));
+		companyPreferences
+				.setAgeingFromTransactionDateORDueDate(ageingFromTransactionDateORDueDate
+						.getValue().toString().equalsIgnoreCase(
+								FinanceApplication.getCompanyMessages()
+										.ageingforduedate()) ? CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE
+						: CompanyPreferencesView.TYPE_AGEING_FROM_TRANSACTIONDATE);
+		if (dateItem.getValue() != null) {
+			companyPreferences.setPreventPostingBeforeDate(dateItem.getValue()
+					.getTime());
+			// companyPreferences
+			// .setEndOfFiscalYear(dateItem.getValue().getTime());
+		}
+
+		// FIXME
+		// companyPreferences
+		// .setIsMyAccountantWillrunPayroll(whowillrunAccTransfer
+		// .getValue().equals("2"));
+		// companyPreferences.setLogSpaceUsed(getDoubleValue(logspaceTxt));
+		// company.setpreferences(companyPreferences);
+
+		saveAndClose = true;
+//		ViewManager.getInstance().updateCompanyPreferences(companyPreferences,
+//				this);
 
 		/*
 		 * Here we are creating a new ClientCompany Object, to avoid sending all
@@ -666,10 +713,6 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		clientCompany.setBankAccountNo(getStringValue(bankAccountText));
 		clientCompany.setSortCode(getStringValue(sortCodeText));
 
-		ClientCompanyPreferences companyPreferences = company.getPreferences();
-		if (companyPreferences == null) {
-			companyPreferences = new ClientCompanyPreferences();
-		}
 		companyPreferences
 				.setDoYouPaySalesTax(getBooleanValue(doupaySalesChecBox));
 		companyPreferences.setVATregistrationNumber(vatRegNumber.getValue()
