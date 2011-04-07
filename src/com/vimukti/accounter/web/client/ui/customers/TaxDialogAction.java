@@ -22,9 +22,9 @@ public class TaxDialogAction extends Action {
 		return null;
 	}
 
-	public <T> void run(AsyncCallback<T> callBack,FormItem actionSource, Object data,
-			Boolean isDependent) {
-		new TaxDialog(callBack,actionSource).show();
+	public <T> void run(AsyncCallback<T> callBack, FormItem actionSource,
+			Object data, Boolean isDependent) {
+		new TaxDialog(callBack, actionSource).show();
 	}
 
 	@Override
