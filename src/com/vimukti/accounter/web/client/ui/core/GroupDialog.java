@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 
@@ -73,11 +74,11 @@ public abstract class GroupDialog<T> extends BaseDialog {
 		 * buttons Layout
 		 */
 		buttonsLayout = new VerticalPanel();
-		buttonsLayout.setWidth("80");
+		buttonsLayout.setWidth("100");
 		buttonsLayout.setSpacing(5);
 
 		button1 = new Button(constants.add());
-		button1.setWidth("100%");
+		button1.setWidth("80");
 
 		button1.addClickHandler(new ClickHandler() {
 
@@ -90,7 +91,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 		button2 = new Button(constants.edit());
 		button2.setEnabled(false);
-		button2.setWidth("100%");
+		button2.setWidth("80");
 		button2.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -101,7 +102,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 		button3 = new Button(this.constants.remove());
 		button3.setEnabled(false);
-		button3.setWidth("100%");
+		button3.setWidth("80");
 		button3.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -115,6 +116,18 @@ public abstract class GroupDialog<T> extends BaseDialog {
 		buttonsLayout.add(button1);
 		buttonsLayout.add(button2);
 		buttonsLayout.add(button3);
+
+		button1.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(button1, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+
+		button2.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(button2, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+
+		button3.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(button3, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 
 		button1.setFocus(true);
 		bodyLayout.add(listGridView);

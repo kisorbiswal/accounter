@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.externalization.FinanceConstants;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
@@ -149,6 +150,16 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 		footerLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		footerLayout.add(okbtn);
 		footerLayout.add(cancelBtn);
+
+		okbtn.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(okbtn, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+
+		cancelBtn.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(cancelBtn, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
 		footerLayout.setCellHorizontalAlignment(okbtn,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		footerLayout.setCellHorizontalAlignment(cancelBtn,

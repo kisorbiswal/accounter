@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -81,6 +82,16 @@ public class ItemTaxCodeDialog extends DialogBox {
 		buttVLay.add(addButt);
 		buttVLay.add(editButt);
 		buttVLay.add(remButt);
+
+		addButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(addButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+		editButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(editButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+		remButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(remButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 
 		HorizontalPanel groupEditHLay = new HorizontalPanel();
 		// groupEditHLay.setSize("100%", "*");

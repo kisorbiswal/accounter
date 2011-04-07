@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -71,7 +72,14 @@ public class DeleteThemeDialog extends BaseDialog {
 		});
 		buttonPanel.add(deleteButton);
 		buttonPanel.add(cancelButton);
-
+		deleteButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(deleteButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+		cancelButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(cancelButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 		deletePanel.add(deleteHtml);
 		deletePanel.add(undoneHtml);
 		deletePanel.add(buttonPanel);

@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
@@ -266,6 +267,14 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		buttonsLayout.add(addButton);
 		buttonsLayout.add(removeButton);
 
+		addButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(addButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+		removeButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(removeButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 		// Selected Tax Codes Layout
 		// DynamicForm selectForm = new DynamicForm();
 

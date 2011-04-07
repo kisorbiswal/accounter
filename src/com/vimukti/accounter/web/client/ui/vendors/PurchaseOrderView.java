@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -102,7 +103,7 @@ public class PurchaseOrderView extends
 		lab1 = new HTML(FinanceApplication.getVendorsMessages().purchaseOrder());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-//		lab1.setHeight("35px");
+		// lab1.setHeight("35px");
 
 		statusSelect = new SelectCombo(FinanceApplication.getVendorsMessages()
 				.statuS());
@@ -332,6 +333,12 @@ public class PurchaseOrderView extends
 		HorizontalPanel linkspanel = new HorizontalPanel();
 		linkspanel.setWidth("70%");
 		linkspanel.add(addLinksButton);
+
+		addLinksButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(addLinksButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
 		linkspanel.add(linksform);
 
 		VerticalPanel leftVLay = new VerticalPanel();
@@ -1043,7 +1050,7 @@ public class PurchaseOrderView extends
 		statusSelect.setDisabled(isEdit);
 		transactionDateItem.setDisabled(isEdit);
 		transactionNumber.setDisabled(isEdit);
-//		shipToCombo.setDisabled(isEdit);
+		// shipToCombo.setDisabled(isEdit);
 		ClientTransactionItem item = new ClientTransactionItem();
 		if (!DecimalUtil.isEquals(item.getInvoiced(), 0)) {
 			vendorCombo.setDisabled(isEdit);
@@ -1051,7 +1058,7 @@ public class PurchaseOrderView extends
 			vendorCombo.setDisabled(true);
 		}
 
-//		billToCombo.setDisabled(isEdit);
+		// billToCombo.setDisabled(isEdit);
 		purchaseOrderText.setDisabled(isEdit);
 		deliveryDateItem.setDisabled(isEdit);
 		payTermsSelect.setDisabled(isEdit);

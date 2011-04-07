@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
@@ -117,8 +118,20 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 			}
 		});
 		automaticButton.setVisible(false);
+
 		buttonPanel.add(newBrandButton);
+
+		newBrandButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(newBrandButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
 		buttonPanel.add(automaticButton);
+		automaticButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(automaticButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
 		mainPanel.add(titlePanel);
 		mainPanel.add(buttonPanel);
 		List<ClientBrandingTheme> brandingThemes = FinanceApplication
@@ -332,8 +345,13 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		nameAndMenuPanel.add(titleHtml);
 		nameAndMenuPanel.setStyleName("standard-options");
 		titleHtml.getElement().getAbsoluteLeft();
+		optionsButton.setStyleName("ibutton-right-align");
 		nameAndMenuPanel.add(optionsButton);
 		optionsButton.getElement().getAbsoluteRight();
+		optionsButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(optionsButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 
 		vPanel.add(nameAndMenuPanel);
 		vPanel.add(allPanel);

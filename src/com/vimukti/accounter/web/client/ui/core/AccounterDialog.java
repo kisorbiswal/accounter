@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
@@ -112,9 +113,9 @@ public class AccounterDialog extends CustomDialog {
 			setText("WARNING");
 			yesButton = new Button(FinanceApplication.getCompanyMessages()
 					.yes());
-			yesButton.setWidth("100%");
+			yesButton.setWidth("60");
 			noButton = new Button(FinanceApplication.getCompanyMessages().no());
-			noButton.setWidth("100%");
+			noButton.setWidth("60");
 			yesButton.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -145,6 +146,22 @@ public class AccounterDialog extends CustomDialog {
 				buttonLayout.add(yesButton);
 				buttonLayout.add(noButton);
 				buttonLayout.add(cancelButton);
+				yesButton.getElement().getParentElement().setClassName(
+						"ibutton");
+				ThemesUtil.addDivToButton(yesButton, FinanceApplication
+						.getThemeImages().button_right_blue_image(),
+						"ibutton-right-image");
+				noButton.getElement().getParentElement()
+						.setClassName("ibutton");
+				ThemesUtil.addDivToButton(noButton, FinanceApplication
+						.getThemeImages().button_right_blue_image(),
+						"ibutton-right-image");
+				cancelButton.getElement().getParentElement().setClassName(
+						"ibutton");
+				ThemesUtil.addDivToButton(cancelButton, FinanceApplication
+						.getThemeImages().button_right_blue_image(),
+						"ibutton-right-image");
+
 				cancelButton.addClickHandler(new ClickHandler() {
 
 					@Override
@@ -156,6 +173,18 @@ public class AccounterDialog extends CustomDialog {
 			} else {
 				buttonLayout.add(yesButton);
 				buttonLayout.add(noButton);
+
+				yesButton.getElement().getParentElement().setClassName(
+						"ibutton");
+				ThemesUtil.addDivToButton(yesButton, FinanceApplication
+						.getThemeImages().button_right_blue_image(),
+						"ibutton-right-image");
+
+				noButton.getElement().getParentElement()
+						.setClassName("ibutton");
+				ThemesUtil.addDivToButton(noButton, FinanceApplication
+						.getThemeImages().button_right_blue_image(),
+						"ibutton-right-image");
 
 			}
 

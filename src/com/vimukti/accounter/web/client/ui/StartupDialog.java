@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.data.ClientIdentity;
 import com.vimukti.accounter.web.client.services.IdentityService;
 import com.vimukti.accounter.web.client.services.IdentityServiceAsync;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.company.CompanySetupDialog;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
@@ -97,6 +98,16 @@ public class StartupDialog extends DialogBox {
 		buttHLay.add(loginButt);
 		buttHLay.add(createButt);
 
+		loginButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(loginButt, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
+		createButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(createButt, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
 		createButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				// if (form.validate()) {
@@ -161,6 +172,12 @@ public class StartupDialog extends DialogBox {
 		mainVLay.add(form);
 		mainVLay.add(buttHLay);
 		mainVLay.add(createCompButt);
+
+		createCompButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(createCompButt, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
 		mainVLay.add(companyGrid);
 
 		setSize("450", "450");
@@ -232,8 +249,8 @@ public class StartupDialog extends DialogBox {
 
 			public void onSuccess(ClientIdentity result) {
 				if (result != null) {
-					FinanceApplication application = new FinanceApplication("",result,
-							new ValueCallBack<FinanceApplication>() {
+					FinanceApplication application = new FinanceApplication("",
+							result, new ValueCallBack<FinanceApplication>() {
 
 								@Override
 								public void execute(FinanceApplication value) {
@@ -242,8 +259,7 @@ public class StartupDialog extends DialogBox {
 								}
 							});
 				} else {
-					
-					
+
 					UIUtils.say("Login failed!");
 				}
 			}
@@ -252,12 +268,10 @@ public class StartupDialog extends DialogBox {
 		IdentityServiceAsync service = GWT.create(IdentityService.class);
 		((ServiceDefTarget) service)
 				.setServiceEntryPoint("/do/bizantra/identity");
-		
+
 		service.getUserIdentity(userEmailText.getValue().toString(),
 				userPassText.getValue().toString(), false, 11,
 				checkLoginCallback);
-		
-
 
 	}
 

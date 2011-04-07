@@ -4,6 +4,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -119,6 +120,15 @@ public class CreditCardAccountView extends AbstractBaseView {
 		buttHLay.add(saveCloseButt);
 		buttHLay.add(saveNewButt);
 
+		saveCloseButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(saveCloseButt, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+		saveNewButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(saveNewButt, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
 		VerticalPanel mainVLay = new VerticalPanel();
 		// mainVLay.setMargin(20);
 		mainVLay.setSize("100%", "100%");
@@ -177,19 +187,19 @@ public class CreditCardAccountView extends AbstractBaseView {
 	@Override
 	public void onEdit() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void print() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void printPreview() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.LineChart;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
@@ -65,8 +66,15 @@ public class BankingPortlet extends DashBoardPortlet {
 		Button addAccount = new Button(FinanceApplication.getCompanyMessages()
 				.addBankAccount());
 		addAccount.addStyleName("addAccountPortlet");
-		if (FinanceApplication.getUser().canDoBanking())
+if (FinanceApplication.getUser().canDoBanking())
 			body.add(addAccount);
+
+		addAccount.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(addAccount, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
+		
 		if (bankAccounts == null || bankAccounts.size() == 0) {
 			// for (int i = 0; i < 4; i++) {
 			addAccount.addClickHandler(new ClickHandler() {

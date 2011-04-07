@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.banking.BankingSectionHomeView;
 import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
 import com.vimukti.accounter.web.client.ui.customers.CustomerSectionHomeView;
@@ -779,6 +780,12 @@ public class AddWidgetDialog extends AbstractBaseDialog {
 
 			layout2.add(infoLabel);
 			layout2.add(addButton);
+
+			addButton.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(addButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+
 			layout.add(layout2);
 
 			add(layout);

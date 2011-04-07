@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
@@ -91,6 +92,10 @@ public class CountryRegionListDialog extends DialogBox {
 		HorizontalPanel closeHLay = new HorizontalPanel();
 		// closeHLay.setAlign(Alignment.RIGHT);
 		closeHLay.add(closeButt);
+		closeButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(closeButt, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 		HorizontalPanel buttHLay = new HorizontalPanel();
 		buttHLay.setSize("100%", "10%");
 		buttHLay.add(helpHLay);
@@ -101,6 +106,19 @@ public class CountryRegionListDialog extends DialogBox {
 		buttVLay.add(addGroupButt);
 		buttVLay.add(editGroupButt);
 		buttVLay.add(remGroupButt);
+
+		addGroupButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(addGroupButt, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+		editGroupButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(editGroupButt, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+		remGroupButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(remGroupButt, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 
 		HorizontalPanel groupEditHLay = new HorizontalPanel();
 		// groupEditHLay.setSize("100%", "*");

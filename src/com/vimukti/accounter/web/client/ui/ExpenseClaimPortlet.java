@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 
 public class ExpenseClaimPortlet extends DashBoardPortlet {
@@ -105,8 +106,12 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 		// fTable.setWidget(3, 0, empExpAmtLabel);
 		fTable.setWidget(3, 1, ccExpAmtLabel);
 
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
-			vPanel.add(addExpenseBtn);
+		vPanel.add(addExpenseBtn);
+
+		addExpenseBtn.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(addExpenseBtn, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 		vPanel.add(fTable);
 
 		body.add(vPanel);

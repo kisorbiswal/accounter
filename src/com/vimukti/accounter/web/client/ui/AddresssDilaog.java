@@ -5,6 +5,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -56,6 +57,9 @@ public class AddresssDilaog extends AbstractBaseDialog {
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		helpHLay.setWidth("50%");
 		helpHLay.add(helpButt);
+		helpButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(helpButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 
 		Button okButt = new Button(FinanceApplication.getFinanceUIConstants()
 				.ok());
@@ -71,6 +75,12 @@ public class AddresssDilaog extends AbstractBaseDialog {
 		// buttHLay.setAlign(Alignment.RIGHT);
 		buttHLay.add(okButt);
 		buttHLay.add(canButt);
+		okButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(okButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+		canButt.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(canButt, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.add(form);
@@ -87,8 +97,8 @@ public class AddresssDilaog extends AbstractBaseDialog {
 		address.setCity(UIUtils.toStr(cityText.getValue()));
 		address.setCountryOrRegion(UIUtils.toStr(countryText.getValue()));
 		address.setStateOrProvinence(UIUtils.toStr(stateText.getValue()));
-//		address.setStreet(UIUtils.toStr(streetText1.getValue()) + " "
-//				+ UIUtils.toStr(streetText2.getValue()));
+		// address.setStreet(UIUtils.toStr(streetText1.getValue()) + " "
+		// + UIUtils.toStr(streetText2.getValue()));
 		address.setType(addrType);
 
 		return address;

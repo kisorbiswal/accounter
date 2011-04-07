@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.ColumnChart;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 
@@ -100,8 +100,14 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 		fTable.setWidget(1, 1, overDueAmtLabel);
 		fTable.addStyleName("fTablePortlet");
 
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
-			hPanel.add(addReceivableInvoiceBtn);
+		hPanel.add(addReceivableInvoiceBtn);
+
+		addReceivableInvoiceBtn.getElement().getParentElement().setClassName(
+				"ibutton");
+		ThemesUtil.addDivToButton(addReceivableInvoiceBtn, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
 		hPanel.add(fTable);
 
 		body.add(hPanel);

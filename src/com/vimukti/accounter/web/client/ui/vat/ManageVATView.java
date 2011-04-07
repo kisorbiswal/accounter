@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 
@@ -96,12 +97,27 @@ public class ManageVATView extends AbstractBaseView {
 		payVatPanel.add(vatLabel, 30, 10);
 		payVatPanel.add(vatButton, 30, 50);
 		capPayVatPanel.add(payVatPanel);
+		vatButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(vatButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
 
 		taskPanel.add(viewLink, 50, 10);
 		taskPanel.add(openLink, 50, 30);
 		taskPanel.add(adjLink, 50, 50);
 		taskPanel.add(closeButton, 80, 100);
 		taskPanel.add(helpButton, 180, 100);
+
+		closeButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(closeButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
+		helpButton.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(helpButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
 		capTaskPanel.add(taskPanel);
 
 		vPanel.add(stLabel);
@@ -147,19 +163,19 @@ public class ManageVATView extends AbstractBaseView {
 	@Override
 	public void onEdit() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void print() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void printPreview() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

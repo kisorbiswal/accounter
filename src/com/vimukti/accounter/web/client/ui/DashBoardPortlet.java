@@ -35,7 +35,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		// createHandlerForTitle();
 		panel = new ScrollPanel();
 		body = new VerticalPanel();
-		body.setSize("99%", "100%");
+		body.setStyleName("portlet-body");
 		this.setSize("100%", "100%");
 		// this.setHeight("124");
 
@@ -43,13 +43,13 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 
 		createHeaderControls();
 		createBody();
-		body.getElement().getStyle().setBackgroundColor("white");
+		
 		// panel.add(body);
 		// panel.setHeight("100%");
 		// panel.getElement().getStyle().setPadding(0, Unit.PX);
 		// panel.setSize("98.9%", "100%");
 		panel.add(body);
-		if (!(this instanceof GettingStartedPortlet))
+		if (!(this instanceof ExpenseClaimPortlet || this instanceof GettingStartedPortlet))
 			panel.setHeight("295px");
 		super.add(panel);
 
