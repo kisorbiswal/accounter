@@ -36,16 +36,26 @@ import org.hibernate.classic.Lifecycle;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
+import com.vimukti.accounter.web.client.data.BizantraConstants;
+import com.vimukti.accounter.web.client.data.ISearchResultObject;
 import com.bizantra.server.core.IMember;
 import com.bizantra.server.core.IObjectPath;
 import com.bizantra.server.ext.AbstractSpaceObject;
 import com.bizantra.server.ext.Command;
+import com.bizantra.server.internal.core.BizantraCompany;
+import com.bizantra.server.internal.core.CollaberIdentity;
+import com.bizantra.server.main.Server;
+import com.bizantra.server.main.ServerConfiguration;
 import com.bizantra.server.storage.HibernateUtil;
+import com.bizantra.server.users.events.IntializeIdentityEvent;
+import com.bizantra.server.utils.HexUtil;
 import com.bizantra.server.utils.SecureUtils;
+import com.bizantra.server.utils.Security;
 import com.bizantra.server.workspace.IToolMetaData;
 import com.bizantra.server.workspace.IWorkSpace;
 import com.bizantra.server.workspace.ext.AbstractTool;
 import com.bizantra.server.workspace.internal.WorkSpace;
+import com.bizantra.server.workspace.users.internal.UsersMailSendar;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterConstants;
 import com.vimukti.accounter.core.Address;
@@ -110,6 +120,7 @@ import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.core.TransactionMakeDepositEntries;
 import com.vimukti.accounter.core.TransferFund;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Util;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.VATReturn;
@@ -131,6 +142,7 @@ import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
@@ -180,7 +192,6 @@ import com.vimukti.accounter.web.client.core.reports.VATDetailReport;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
-import com.vimukti.accounter.web.client.data.ISearchResultObject;
 import com.vimukti.accounter.web.client.ui.GraphChart;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.CompanyPreferencesView;
@@ -196,6 +207,12 @@ import com.vimukti.comet.server.CometStream;
 public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 	Company company;
+
+	public static CollaberIdentity identity;
+
+	public static User user;
+
+	private BizantraCompany bizantraCompany;
 
 	Logger log = Logger.getLogger(FinanceTool.class);
 
@@ -394,6 +411,9 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 				isTransactionNumberExist((IAccounterCore) command.data);
 
 				session.save(serverObject);
+				if (serverObject instanceof User) {
+					createIdentity((User) serverObject, null, member.getID());
+				}
 				ChangeTracker.put(serverObject);
 			}
 
@@ -443,6 +463,9 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 					session.flush();
 					session.saveOrUpdate(serverObject);
+					if (serverObject instanceof User) {
+						updateIdentity((User) serverObject, member.getID());
+					}
 					ChangeTracker.put(serverObject);
 
 				}
@@ -487,6 +510,9 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 							}
 						} else {
 							session.delete(serverObject);
+							if (serverObject instanceof User)
+								deleteIdentity((User) serverObject, member
+										.getID());
 							ChangeTracker.put(serverObject);
 						}
 
@@ -626,6 +652,120 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		return false;
 	}
 
+	public void createIdentity(User user, String spaceId, String createdBy) {
+
+		Session session = HibernateUtil.getCurrentSession();
+		CollaberIdentity myIdentity = Server.getInstance().loadIdentity(
+				session, createdBy);
+		CollaberIdentity identity = new CollaberIdentity(user.getUserRole(),
+				user.getStringID(), myIdentity.getCompanyDBName());
+		identity.setId(user.getStringID());
+		identity
+				.setEncryptedID(Security.getBytes(Security.createSpaceEncKey()));
+		identity.setEmailID(user.getEmailId());
+		// identity.intializaIdentityOnCreation();
+		String passwd = HexUtil.getRandomString();
+		// String passwd = "***REMOVED***";
+		identity.setPassword(passwd);
+		System.err.println(identity.getEmailAddress() + " : " + passwd);
+		((WorkSpace) myIdentity.getFinanceWorkspace()).createMember(identity);
+		session.saveOrUpdate((WorkSpace) myIdentity.getFinanceWorkspace());
+
+		identity.getSpaces().add((WorkSpace) myIdentity.getFinanceWorkspace());
+
+		((WorkSpace) myIdentity.getSalesWorkspace()).createMember(identity);
+		session.saveOrUpdate(myIdentity.getSalesWorkspace());
+		identity.getSpaces().add(myIdentity.getSalesWorkspace());
+
+		((WorkSpace) myIdentity.getPurchasesWorkspace()).createMember(identity);
+		session.saveOrUpdate(myIdentity.getPurchasesWorkspace());
+		identity.getSpaces().add(myIdentity.getPurchasesWorkspace());
+		// identity.getSpaces().add(myIdentity.getBizantraWorkSpace());
+		// identity.getSpaces().add((WorkSpace)
+		// myIdentity.getFinanceWorkspace());
+		session.saveOrUpdate(identity);
+		session.saveOrUpdate(myIdentity);
+
+		IntializeIdentityEvent identityEvent = new IntializeIdentityEvent(
+				createdBy, identity.getID(), this.getSpace().getIdentity()
+						.getCompanyDBName(), user.getUserRole(), myIdentity
+						.getSpaceByName(BizantraConstants.FINANCE_CATEGORYNAME)
+						.getSpaceID());
+		Server.getInstance()
+				.process(getIdentityMember().getID(), identityEvent);
+
+		StringBuilder loginURL = new StringBuilder();
+		if (ServerConfiguration.isLiveServer) {
+			loginURL.append("https://");
+			loginURL.append(getCompany().getName());
+			loginURL.append(".");
+			loginURL.append(ServerConfiguration.getLink());
+		} else {
+			loginURL.append("https://");
+			loginURL.append(ServerConfiguration.getServerURL());
+		}
+		
+		UsersMailSendar.sendMailToInvitedUser(identity, passwd, loginURL.toString(), identity.getCompanyDBName());
+
+	}
+
+	public void updateIdentity(User user, String modifiedBy) {
+		Session session = HibernateUtil.getCurrentSession();
+		CollaberIdentity myIdentity = Server.getInstance().loadIdentity(
+				session, modifiedBy);
+		CollaberIdentity identity = (CollaberIdentity) session.getNamedQuery(
+				"getidentity.from.StringID").setParameter("stringID",
+				user.getStringID()).uniqueResult();
+		identity.setRole(user.getUserRole());
+		identity.setEmailID(user.getEmailId());
+		((WorkSpace) myIdentity.getFinanceWorkspace()).updateMember(identity);
+		session.saveOrUpdate((WorkSpace) myIdentity.getFinanceWorkspace());
+		identity.getSpaces().add((WorkSpace) myIdentity.getFinanceWorkspace());
+
+		((WorkSpace) myIdentity.getSalesWorkspace()).updateMember(identity);
+		session.saveOrUpdate(myIdentity.getSalesWorkspace());
+		identity.getSpaces().add(myIdentity.getSalesWorkspace());
+
+		((WorkSpace) myIdentity.getPurchasesWorkspace()).updateMember(identity);
+		session.saveOrUpdate(myIdentity.getPurchasesWorkspace());
+		identity.getSpaces().add(myIdentity.getPurchasesWorkspace());
+
+		session.saveOrUpdate(identity);
+		session.saveOrUpdate(myIdentity);
+	}
+
+	public void deleteIdentity(User user, String deletedBy) {
+		Session session = HibernateUtil.getCurrentSession();
+		CollaberIdentity myIdentity = Server.getInstance().loadIdentity(
+				session, deletedBy);
+		CollaberIdentity identity = (CollaberIdentity) session.getNamedQuery(
+				"getidentity.from.StringID").setParameter("stringID",
+				user.getStringID()).uniqueResult();
+
+		((WorkSpace) myIdentity.getFinanceWorkspace()).deleteMember(identity);
+		session.saveOrUpdate((WorkSpace) myIdentity.getFinanceWorkspace());
+
+		((WorkSpace) myIdentity.getSalesWorkspace()).deleteMember(identity);
+		session.saveOrUpdate(myIdentity.getSalesWorkspace());
+
+		((WorkSpace) myIdentity.getPurchasesWorkspace()).deleteMember(identity);
+		session.saveOrUpdate(myIdentity.getPurchasesWorkspace());
+
+		session.delete(identity);
+	}
+
+	// private Member createMember(CollaberIdentity identity,
+	// IWorkSpace workspace, String systemRole) {
+	// Member member = new Member(identity.getID(), workspace, systemRole);
+	// member.emailID = identity.getEmailAddress();
+	// member.fullname = identity.getFullname();
+	// member.companyDisplayName = identity.getCompanyName();
+	// member.companyName = identity.getCompanyDBName();
+	// Session session = HibernateUtil.getCurrentSession();
+	// session.save(member);
+	// return member;
+	// }
+
 	public static boolean canEdit(IAccounterServerCore clonedObject,
 			IAccounterCore clientObject) throws InvalidOperationException {
 
@@ -719,7 +859,11 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		if (object == null || object.getStringID() == null)
 			return null;
 
-		Command cmd = new Command(CREATE_NEW_ACTION, object.getStringID(), null);
+		Command cmd;
+		// if (object instanceof ClientUser)
+		// cmd = new Command(ADD_USER, object.getStringID(), null);
+		// else
+		cmd = new Command(CREATE_NEW_ACTION, object.getStringID(), null);
 
 		// FIXME** need to talk with uma */
 		// log.info("Command : CREATE_NEW_ACTION With Data"
@@ -741,8 +885,11 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			return null;
 
 		String stringID = String.valueOf(object.getStringID());
-
-		Command cmd = new Command(UPDATE_ACTION, stringID, null);
+		Command cmd;
+		// if (object instanceof ClientUser)
+		// cmd = new Command(UPDATE_USER, stringID, null);
+		// else
+		cmd = new Command(UPDATE_ACTION, stringID, null);
 		// {
 		//
 		// /**
@@ -778,15 +925,20 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 		try {
 			if (!canDelete(t, stringID)) {
-				sendExecptionToIdeneity(DELETE_ACTION, stringID, null);
+				if (!t.getServerClassSimpleName().equals("User"))
+					sendExecptionToIdeneity(DELETE_ACTION, stringID, null);
 				return false;
 			}
 		} catch (DAOException e) {
 			e.printStackTrace();
 			return false;
 		}
-
-		Command command = new Command(DELETE_ACTION, stringID, t
+		Command command;
+		// if (t.getClientClassSimpleName().equals("ClientUser"))
+		// command = new Command(DELETE_USER, stringID, t
+		// .getClientClassSimpleName());
+		// else
+		command = new Command(DELETE_ACTION, stringID, t
 				.getClientClassSimpleName());
 		// FIXME talk to uma
 		// /**
@@ -1050,6 +1202,9 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		if (clazz.getServerClassSimpleName().equals("User")) {
+			return checkCanDeleteUser(session, clazz, stringID);
+		}
 
 		deleteTaxCodeOfTaxItemGroupIfUSversion(session, clazz, stringID);
 
@@ -1059,6 +1214,32 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		Query query = session.getNamedQuery(queryName).setParameter("inputId",
 				inputId);
 		return executeQuery(query);
+	}
+
+	private boolean checkCanDeleteUser(Session session,
+			AccounterCoreType clazz, String stringID) {
+		if (identity != null && identity.getID().equals(stringID)) {
+			sendExecptionToIdeneity(DELETE_ACTION, stringID,
+					new InvalidOperationException(
+							"You can't delete your own user"));
+			return false;
+		} else {
+			Query query = session
+					.createQuery(
+							"from com.vimukti.accounter.core.User u where u.stringID =:stringId")
+					.setParameter("stringId", stringID);
+
+			User user = (User) query.uniqueResult();
+			if (user.isAdmin()) {
+				sendExecptionToIdeneity(
+						DELETE_ACTION,
+						stringID,
+						new InvalidOperationException(
+								"You can't delete Administrator of this organization"));
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private Boolean executeQuery(Query query) {
@@ -7572,7 +7753,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		} else {
 			query = session
 					.createQuery(
-							".from com.vimukti.accounter.core.TAXRateCalculation vr where "
+							"from com.vimukti.accounter.core.TAXRateCalculation vr where "
 									+ "vr.taxItem is not null and vr.transactionDate between :fromDate and :toDate group by vr.id,vr.transactionItem,vr.taxItem order by vr.transactionItem,vr.taxItem")
 					.setParameter("fromDate", startDate).setParameter("toDate",
 							endDate);
@@ -10214,7 +10395,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		}
 	}
 
-	public ClientCompany getClientCompany() {
+	public ClientCompany getClientCompany(String identityID) {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -10309,8 +10490,20 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		company.setBrandingTheme(new ArrayList<BrandingTheme>(session
 				.getNamedQuery("list.BrandingTheme").list()));
 
+		company.setUsersList(new ArrayList<User>(session.getNamedQuery(
+				"list.User").list()));
+
 		company = company.toCompany(company);
+
 		setCompany(company);
+
+		if (identityID != null) {
+			CollaberIdentity identity = (CollaberIdentity) session
+					.getNamedQuery("getidentity.from.StringID").setParameter(
+							"stringID", identityID).uniqueResult();
+			FinanceTool.identity = identity;
+			FinanceTool.user = company.getUserByUserId(identityID);
+		}
 
 		return new ClientConvertUtil().toClientObject(company,
 				ClientCompany.class);
@@ -11118,10 +11311,10 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		return depositDetails;
 	}
 
-	public static void deleteTaxCodeOfTaxItemGroupIfUSversion(Session session,
+	public void deleteTaxCodeOfTaxItemGroupIfUSversion(Session session,
 			AccounterCoreType clazz, String stringID) {
 
-		if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US
+		if (this.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US
 				&& (clazz.getServerClassSimpleName().equals("TAXItem") || clazz
 						.getServerClassSimpleName().equals("TAXGroup"))) {
 
@@ -11630,6 +11823,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 								.uniqueResult();
 						amount = res == null ? 0 : (Double) res;
 						gPoints.add(amount);
+						
 						// gPoints.add(object[32] == null ? null
 						// : (Double) object[32]);
 
@@ -11651,6 +11845,8 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 					// }
 					// gPoints.setMaxPoint(maxValue);
 					// gPoints.setMinPoint(minValue);
+					// if (accountNo != 0)
+					// gPoints.add(Double.valueOf(accountNo));
 
 				}
 				return gPoints;
@@ -11662,6 +11858,21 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		}
 	}
 
+	public void createAdminUser(ClientUser user) {
+		Session session = HibernateUtil.getCurrentSession();
+		User admin = new User(user);
+		session.save(admin);
+		this.getCompany().getUsersList().add(admin);
+		session.saveOrUpdate(this);
+	}
+
+	public void setBizantraCompany(BizantraCompany bizantraCompany) {
+		this.bizantraCompany = bizantraCompany;
+	}
+
+	public BizantraCompany getBizantraCompany() {
+		return bizantraCompany;
+	}
 }
 
 // throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
