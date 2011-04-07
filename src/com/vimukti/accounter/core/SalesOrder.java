@@ -380,7 +380,7 @@ public class SalesOrder extends Transaction implements Lifecycle {
 		 * To update the Status of the Estimate (if any) Involved in this Sales
 		 * Order. If any Estimate is involved then we should mark it as PAID
 		 */
-		modifyEstimate(this);
+		modifyEstimate(this, true);
 		// if (this.estimate != null) {
 		// // To Mark the Estimate as Invoiced.
 		// this.estimate.setTurnedToInvoiceOrSalesOrder(Boolean.TRUE);
@@ -391,7 +391,7 @@ public class SalesOrder extends Transaction implements Lifecycle {
 		return false;
 	}
 
-	private void modifyEstimate(SalesOrder salesorder) {
+	private void modifyEstimate(SalesOrder salesorder, boolean isAddition) {
 		if (salesorder.estimate == null)
 			return;
 		Session session = HibernateUtil.getCurrentSession();
@@ -421,20 +421,36 @@ public class SalesOrder extends Transaction implements Lifecycle {
 										transactionItem.referringTransactionItem
 												.getId());
 						double amount = 0d;
+						if (!isAddition)
+							if (transactionItem.type == TransactionItem.TYPE_ITEM
+									|| transactionItem.type == TransactionItem.TYPE_SERVICE) {
+								if (DecimalUtil
+										.isLessThan(
+												transactionItem.lineTotal,
+												transactionItem.quantity
+														* referringTransactionItem.unitPrice))
+									referringTransactionItem.usedamt -= transactionItem.lineTotal;
+								else
+									referringTransactionItem.usedamt -= transactionItem.quantity
+											* referringTransactionItem.unitPrice;
+							} else
+								referringTransactionItem.usedamt -= transactionItem.lineTotal;
 
-						if (transactionItem.type == TransactionItem.TYPE_ITEM
-								|| transactionItem.type == TransactionItem.TYPE_SERVICE) {
-							if (DecimalUtil
-									.isLessThan(
-											transactionItem.lineTotal,
-											transactionItem.quantity
-													* referringTransactionItem.unitPrice))
+						else {
+							if (transactionItem.type == TransactionItem.TYPE_ITEM
+									|| transactionItem.type == TransactionItem.TYPE_SERVICE) {
+								if (DecimalUtil
+										.isLessThan(
+												transactionItem.lineTotal,
+												transactionItem.quantity
+														* referringTransactionItem.unitPrice))
+									referringTransactionItem.usedamt += transactionItem.lineTotal;
+								else
+									referringTransactionItem.usedamt += transactionItem.quantity
+											* referringTransactionItem.unitPrice;
+							} else
 								referringTransactionItem.usedamt += transactionItem.lineTotal;
-							else
-								referringTransactionItem.usedamt += transactionItem.quantity
-										* referringTransactionItem.unitPrice;
-						} else
-							referringTransactionItem.usedamt += transactionItem.lineTotal;
+						}
 
 						amount = referringTransactionItem.usedamt;
 						/**
@@ -449,8 +465,9 @@ public class SalesOrder extends Transaction implements Lifecycle {
 										.isLessThan(
 												transactionItem.quantity,
 												referringTransactionItem.quantity))))) {
-							if (DecimalUtil.isLessThan(amount,
-									referringTransactionItem.lineTotal)) {
+							if (isAddition ? DecimalUtil.isLessThan(amount,
+									referringTransactionItem.lineTotal)
+									: DecimalUtil.isGreaterThan(amount, 0)) {
 								isPartiallyInvoiced = true;
 								flag = false;
 							}
@@ -480,7 +497,8 @@ public class SalesOrder extends Transaction implements Lifecycle {
 			if (isPartiallyInvoiced) {
 				estimate.status = Estimate.STATUS_OPEN;
 			} else {
-				estimate.status = Estimate.STATUS_ACCECPTED;
+				estimate.status = isAddition ? Estimate.STATUS_ACCECPTED
+						: Estimate.STATUS_OPEN;
 			}
 			session.saveOrUpdate(estimate);
 
@@ -643,7 +661,6 @@ public class SalesOrder extends Transaction implements Lifecycle {
 		// && (this.status != STATUS_CANCELLED || this.status !=
 		// STATUS_COMPLETED)) {
 		if (this.status != STATUS_DELETED && this.status == STATUS_OPEN) {
-
 			for (TransactionItem item : salesOrder.transactionItems) {
 				if (DecimalUtil.isLessThan(item.lineTotal, item.usedamt)
 						|| DecimalUtil.isEquals(item.lineTotal, item.usedamt)) {
@@ -652,7 +669,29 @@ public class SalesOrder extends Transaction implements Lifecycle {
 					this.status = STATUS_OPEN;
 				}
 			}
+			if (this.estimate != null || salesOrder.estimate != null)
+				if (this.estimate == null && salesOrder.estimate != null) {
+					modifyEstimate(salesOrder, false);
+				} else if (this.estimate != null && salesOrder.estimate == null) {
+					modifyEstimate(this, true);
+				} else if (!this.estimate.equals(salesOrder.estimate)) {
+					modifyEstimate(salesOrder, false);
+					modifyEstimate(this, true);
+				} else {
+					for (TransactionItem transactionItem : salesOrder.transactionItems) {
+						if (transactionItem.referringTransactionItem != null
+								&& DecimalUtil
+										.isGreaterThan(
+												transactionItem.referringTransactionItem.usedamt,
+												0)) {
+							transactionItem.referringTransactionItem.usedamt -= transactionItem.lineTotal;
+						}
+					}
+					modifyEstimate(this, true);
+
+				}
 		}
+
 		super.onEdit(clonedObject);
 	}
 
