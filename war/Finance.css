@@ -492,10 +492,11 @@ div.link:hover {
 }
 
 .bottom-view { /*border-top: 1px solid #AAAAAA;*/
-	background:url("../images/widget-shadow-image.png") repeat-x scroll center bottom #DFDFDF;
-    border-color: #989898;
-    border-style: solid;
-    border-width: 0 1px;
+	background: url("../images/widget-shadow-image.png") repeat-x scroll
+		center bottom #DFDFDF;
+	border-color: #989898;
+	border-style: solid;
+	border-width: 0 1px;
 }
 
 .nav-content {
@@ -937,7 +938,9 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 
 
 
+
  
+
 
 
 
@@ -957,6 +960,8 @@ tr
 
 
 
+
+
 :nth-child
 
 
@@ -964,7 +969,9 @@ tr
 
 
 
+
  
+
 
 
 
@@ -985,6 +992,8 @@ border-bottom
 
 
 
+
+
 :
 
 
@@ -992,7 +1001,9 @@ border-bottom
 
 
 
+
  
+
 
 
 
@@ -1007,7 +1018,9 @@ px
 
 
 
+
  
+
 
 
 
@@ -1021,6 +1034,7 @@ solid
 
 
 
+
  
 
 
@@ -1028,7 +1042,10 @@ solid
 
 
 
+
 #aaa
+
+
 
 
 
@@ -1055,6 +1072,8 @@ border-top
 
 
 
+
+
 :
 
 
@@ -1062,7 +1081,9 @@ border-top
 
 
 
+
  
+
 
 
 
@@ -1077,7 +1098,9 @@ px
 
 
 
+
  
+
 
 
 
@@ -1091,6 +1114,7 @@ solid
 
 
 
+
  
 
 
@@ -1098,7 +1122,10 @@ solid
 
 
 
+
 #aaa
+
+
 
 
 
@@ -1174,7 +1201,9 @@ solid
 
 
 
+
  
+
 
 
 
@@ -1194,6 +1223,8 @@ td
 
 
 
+
+
 :nth-child
 
 
@@ -1201,7 +1232,9 @@ td
 
 
 
+
  
+
 
 
 
@@ -1222,7 +1255,10 @@ float
 
 
 
+
+
 :
+
 
 
 
@@ -1236,7 +1272,10 @@ float
 
 
 
+
 right
+
+
 
 
 
@@ -1347,7 +1386,9 @@ right
 
 
 
+
  
+
 
 
 
@@ -1367,6 +1408,8 @@ td
 
 
 
+
+
 :nth-child
 
 
@@ -1374,7 +1417,9 @@ td
 
 
 
+
  
+
 
 
 
@@ -1389,7 +1434,9 @@ td
 
 
 
+
  
+
 
 
 
@@ -1409,6 +1456,8 @@ td
 
 
 
+
+
 :nth-child
 
 
@@ -1416,7 +1465,9 @@ td
 
 
 
+
  
+
 
 
 
@@ -1437,6 +1488,8 @@ padding
 
 
 
+
+
 :
 
 
@@ -1444,7 +1497,9 @@ padding
 
 
 
+
  
+
 
 
 
@@ -1459,7 +1514,9 @@ px
 
 
 
+
  
+
 
 
 
@@ -1468,6 +1525,8 @@ px
 
 !
 important
+
+
 
 
 
@@ -1494,6 +1553,8 @@ width
 
 
 
+
+
 :
 
 
@@ -1501,7 +1562,9 @@ width
 
 
 
+
  
+
 
 
 
@@ -1633,8 +1696,11 @@ tr
 
 
 
+
 (3){
 border-bottom
+
+
 
 
 
@@ -1654,7 +1720,9 @@ border-bottom
 
 
 
+
  
+
 
 
 
@@ -1669,7 +1737,9 @@ px
 
 
 
+
  
+
 
 
 
@@ -1683,6 +1753,7 @@ solid
 
 
 
+
  
 
 
@@ -1690,7 +1761,10 @@ solid
 
 
 
+
 #aaa
+
+
 
 
 
@@ -1717,6 +1791,8 @@ border-top
 
 
 
+
+
 :
 
 
@@ -1724,7 +1800,9 @@ border-top
 
 
 
+
  
+
 
 
 
@@ -1739,7 +1817,9 @@ px
 
 
 
+
  
+
 
 
 
@@ -1753,6 +1833,7 @@ solid
 
 
 
+
  
 
 
@@ -1760,7 +1841,10 @@ solid
 
 
 
+
 #aaa
+
+
 
 
 
@@ -2042,25 +2126,6 @@ iframe { /*display:none;*/
 	color: red;
 }
 
-.down-panel {
-	border: 1px solid #AAAAAA !important;
-	color: gray;
-	font-weight: bold;
-	padding: 10px;
-	text-align: center !important;
-	margin-top: 25px !important;
-}
-
-.help-links {
-	border: 1px solid #AAAAAA !important;
-}
-
-.help-links1 {
-	border: 1px solid #AAAAAA !important;
-	color: gray;
-	font-weight: bold;
-}
-
 .general-standard {
 	width: 100%;
 	border: 1px solid gray;
@@ -2072,20 +2137,23 @@ iframe { /*display:none;*/
 .help-data {
 	margin-bottom: 280px !important;
 }
-.main-class-pannel{
+
+.main-class-pannel {
 	border-color: #989898;
-    border-style: solid;
-    border-width: 1px 1px 0px;
-    padding:10px;
+	border-style: solid;
+	border-width: 1px 1px 0px;
+	padding: 10px;
 }
+
 .down-panel {
-font-weight: bold !important;
-color: white !important;
+	font-weight: bold !important;
+	color: white !important;
+	margin-top: 15px !important;
 }
 
 .down-panel1 {
-color: white !important;
-font-weight: bold !important;
-margin-right: 10px;
-text-align: right !important;
+	color: white !important;
+	font-weight: bold !important;
+	margin-right: 10px;
+	text-align: right !important;
 }
