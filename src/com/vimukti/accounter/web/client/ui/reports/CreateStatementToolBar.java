@@ -74,7 +74,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 			customerCombo.setWidth("200px");
 		}
 		// customerCombo.setSelectedItem(1);
-		selectedCusotmer = customerCombo.getComboItems().get(0);
+		selectedCusotmer = customerCombo.getSelectedValue();
 		customerCombo.setComboItem(selectedCusotmer);
 		dateRangeItemCombo = new SelectCombo(FinanceApplication
 				.getReportsMessages().dateRange());
@@ -157,7 +157,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 		
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
-		// reportRequest();
+//		 reportRequest();
 	}
 
 	/*
@@ -170,8 +170,11 @@ public class CreateStatementToolBar extends ReportToolbar {
 			ClientFinanceDate endDate) {
 		fromItem.setValue(startDate);
 		toItem.setValue(endDate);
+		if(selectedCusotmer!=null)
 		reportview.makeReportRequest(selectedCusotmer.getStringID(), startDate,
 				endDate);
+		else
+			reportview.addEmptyMessage("No records to show");
 	}
 
 	@Override
