@@ -26,7 +26,8 @@ public class CustomButton extends Button {
 
 		super(type.getValue());
 		// setAutoFit(true);
-
+		this.removeStyleName("gwt-button");
+		this.addStyleName("custom-button");
 		if (canvas == null) {
 			Accounter.showError("Could Not Create Button... ");
 			// setDisabled(true);

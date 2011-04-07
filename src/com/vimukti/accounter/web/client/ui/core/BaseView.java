@@ -172,14 +172,14 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 
 		ThemesUtil.addDivToButton(cancelButton, FinanceApplication
 				.getThemeImages().button_right_gray_image(),
-				"button-right-image");
+				"custom-button-right-image");
 		ThemesUtil.addDivToButton(saveAndCloseButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"button-right-image");
+				.getThemeImages().custom_button_right_blue_image(),
+				"custom-button-right-image");
 		if (!(this != null && this instanceof FileVATView)) {
 			ThemesUtil.addDivToButton(saveAndNewButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"button-right-image");
+					.getThemeImages().custom_button_right_blue_image(),
+					"custom-button-right-image");
 		}
 	}
 
