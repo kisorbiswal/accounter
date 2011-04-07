@@ -98,10 +98,14 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 	@Override
 	public void onDoubleClick(InvoicesList obj) {
-		ReportsRPC.openTransactionView(obj.getType(), obj.getTransactionId());
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			ReportsRPC.openTransactionView(obj.getType(), obj
+					.getTransactionId());
 	}
 
 	protected void onClick(InvoicesList obj, int row, int col) {
+		if (!FinanceApplication.getUser().canDoInvoiceTransactions())
+			return;
 		if (col == 8 && !obj.isVoided()) {
 			showWarningDialog(obj, col);
 		}

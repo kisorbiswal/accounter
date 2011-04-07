@@ -83,8 +83,9 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	public void onDoubleClick(BillsList bills) {
-		ReportsRPC.openTransactionView(bills.getType(), bills
-				.getTransactionId());
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			ReportsRPC.openTransactionView(bills.getType(), bills
+					.getTransactionId());
 
 	}
 
@@ -105,6 +106,8 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected void onClick(BillsList obj, int row, int col) {
+		if (!FinanceApplication.getUser().canDoInvoiceTransactions())
+			return;
 		if (col == 6 && !obj.isVoided()) {
 			showWarningDialog(obj, this.getAccounterCoreType(obj), this
 					.getTransactionID(obj), col);
@@ -175,9 +178,11 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 			break;
 
 		case 2:
-			int num1 = UIUtils.isInteger(obj1.getNumber())?Integer.parseInt(obj1.getNumber()):0;
-			int num2 = UIUtils.isInteger(obj2.getNumber())?Integer.parseInt(obj2.getNumber()):0;
-			if (num1!=0 && num2!=0)
+			int num1 = UIUtils.isInteger(obj1.getNumber()) ? Integer
+					.parseInt(obj1.getNumber()) : 0;
+			int num2 = UIUtils.isInteger(obj2.getNumber()) ? Integer
+					.parseInt(obj2.getNumber()) : 0;
+			if (num1 != 0 && num2 != 0)
 				return UIUtils.compareInt(num1, num2);
 			else
 				return obj1.getNumber().compareTo(obj2.getNumber());

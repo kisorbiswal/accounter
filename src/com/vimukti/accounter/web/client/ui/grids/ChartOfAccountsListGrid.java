@@ -63,6 +63,11 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	@Override
 	protected void onClick(ClientAccount obj, int row, int col) {
+		if (!FinanceApplication.getUser().canDoBanking()
+				&& obj.getType() == ClientAccount.TYPE_BANK)
+			return;
+		else if (!FinanceApplication.getUser().canDoInvoiceTransactions())
+			return;
 		if (col == getColumns().length - 1)
 			showWarnDialog(obj);
 		if (col == 5) {
@@ -72,6 +77,11 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	@Override
 	public void onDoubleClick(ClientAccount account) {
+		if (!FinanceApplication.getUser().canDoBanking()
+				&& account.getType() == ClientAccount.TYPE_BANK)
+			return;
+		else if (!FinanceApplication.getUser().canDoInvoiceTransactions())
+			return;
 		CompanyActionFactory.getNewAccountAction().run(account, true);
 
 	}

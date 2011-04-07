@@ -48,12 +48,16 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 
 	@Override
 	public void onDoubleClick(SalesOrdersList obj) {
-		ReportsRPC.openTransactionView(obj.getType(), obj.getTransactionId());
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			ReportsRPC.openTransactionView(obj.getType(), obj
+					.getTransactionId());
 	}
 
 	@Override
 	protected void onClick(SalesOrdersList obj, int row, int col) {
 		// TODO Auto-generated method stub
+		if (!FinanceApplication.getUser().canDoInvoiceTransactions())
+			return;
 		view.onClick(obj);
 		super.onClick(obj, row, col);
 	}

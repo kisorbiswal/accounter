@@ -65,13 +65,13 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 					return String.valueOf(customer.getName());
 				break;
 			case 3:
-//				if (customer != null) {
-//					Set<ClientPhone> phones = customer.getPhoneNumbers();
-//					if (phones != null)
-//						for (ClientPhone p : phones) {
-//								return String.valueOf(p.getNumber());
-//						}
-//				}
+				// if (customer != null) {
+				// Set<ClientPhone> phones = customer.getPhoneNumbers();
+				// if (phones != null)
+				// for (ClientPhone p : phones) {
+				// return String.valueOf(p.getNumber());
+				// }
+				// }
 				return estimate.getPhone();
 
 			case 4:
@@ -136,10 +136,13 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
 	@Override
 	public void onDoubleClick(ClientEstimate obj) {
-		CustomersActionFactory.getNewQuoteAction().run(obj, true);
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			CustomersActionFactory.getNewQuoteAction().run(obj, true);
 	}
 
 	protected void onClick(ClientEstimate obj, int row, int col) {
+		if (!FinanceApplication.getUser().canDoInvoiceTransactions())
+			return;
 		if (col == 8 && obj.getStatus() == ClientEstimate.STATUS_OPEN) {
 			showWarningDialog(obj, col);
 		}

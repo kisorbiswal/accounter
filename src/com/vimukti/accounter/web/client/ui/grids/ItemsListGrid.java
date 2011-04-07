@@ -88,7 +88,8 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
 	@Override
 	public void onDoubleClick(ClientItem obj) {
-		CompanyActionFactory.getNewItemAction().run(obj, true);
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			CompanyActionFactory.getNewItemAction().run(obj, true);
 	}
 
 	@Override
@@ -97,6 +98,8 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	}
 
 	protected void onClick(ClientItem item, int row, int col) {
+		if (!FinanceApplication.getUser().canDoInvoiceTransactions())
+			return;
 		if (col == 5) {
 			if (item != null)
 				showWarnDialog(item);

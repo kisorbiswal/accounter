@@ -63,7 +63,9 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 
 	@Override
 	public void onDoubleClick(PurchaseOrdersList obj) {
-		ReportsRPC.openTransactionView(obj.getType(), obj.getTransactionId());
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			ReportsRPC.openTransactionView(obj.getType(), obj
+					.getTransactionId());
 
 	}
 
@@ -78,6 +80,8 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 
 	@Override
 	protected void onClick(PurchaseOrdersList obj, int row, int col) {
+		if (!FinanceApplication.getUser().canDoInvoiceTransactions())
+			return;
 		view.onClick(obj);
 		super.onClick(obj, row, col);
 	}
