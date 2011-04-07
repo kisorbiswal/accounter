@@ -37,10 +37,11 @@ public class BankingSectionHomeView extends BaseHomeView {
 
 	public BankingSectionHomeView() {
 		bankingSectionView = this;
-		bankingSectionPreference = FinanceApplication.getUser() != null ? FinanceApplication
-				.getUser().getUserPreferences()
-				.getBankingSectionViewPreferences()
-				: "";
+		// bankingSectionPreference = FinanceApplication.getUser() != null ?
+		// FinanceApplication
+		// .getUser().getUserPreferences()
+		// .getBankingSectionViewPreferences()
+		// : "";
 	}
 
 	@Override

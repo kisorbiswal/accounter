@@ -67,13 +67,19 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	protected Action getAddNewAction() {
-		return CompanyActionFactory.getNewAccountAction();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return CompanyActionFactory.getNewAccountAction();
+		else
+			return null;
 
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		return bankingConstants.addNewCategory();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return bankingConstants.addNewCategory();
+		else
+			return "";
 	}
 
 	@Override
