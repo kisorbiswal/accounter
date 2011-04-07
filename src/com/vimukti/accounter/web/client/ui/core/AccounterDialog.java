@@ -93,7 +93,7 @@ public class AccounterDialog extends CustomDialog {
 			}
 
 			okButton = new Button(FinanceApplication.getCompanyMessages().ok());
-			okButton.setWidth("100%");
+			okButton.setWidth("80px");
 
 			// buttonLayout.setAlign(Alignment.RIGHT);
 			buttonLayout.add(okButton);
