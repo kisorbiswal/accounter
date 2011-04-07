@@ -40,7 +40,6 @@ import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.core.Lists.OverDueInvoicesList;
 import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
-import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
@@ -279,14 +278,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public List<ClientFinanceDate> getMinimumAndMaximumTransactionDate();
 
 	public String getCustomerNumber();
-
-	public List<PayeeStatementsList> getStatements(String id, long transactionDate,
-			long fromDate, long toDate, int noOfDays,
-			boolean isEnabledOfZeroBalBox,
-			boolean isEnabledOfLessThanZeroBalBox,
-			double lessThanZeroBalanceValue,
-			boolean isEnabledOfNoAccountActivity,
-			boolean isEnabledOfInactiveCustomer);
 
 	public List<Double> getGraphPointsforAccount(int chartType, long accountNo);
 }

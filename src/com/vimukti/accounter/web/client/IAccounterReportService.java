@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
+import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
@@ -212,4 +213,11 @@ public interface IAccounterReportService extends RemoteService {
 
 	public List<CheckDetailReport> getCheckDetailReport(String paymentmethod,
 			long startDate, long endDate);
+	public List<PayeeStatementsList> getStatements(String id, long transactionDate,
+			long fromDate, long toDate, int noOfDays,
+			boolean isEnabledOfZeroBalBox,
+			boolean isEnabledOfLessThanZeroBalBox,
+			double lessThanZeroBalanceValue,
+			boolean isEnabledOfNoAccountActivity,
+			boolean isEnabledOfInactiveCustomer);
 }

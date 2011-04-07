@@ -43,7 +43,6 @@ import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.core.Lists.OverDueInvoicesList;
 import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
-import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
@@ -313,14 +312,6 @@ public interface IAccounterHomeViewServiceAsync {
 	void getReceiveVATEntries(
 			AsyncCallback<List<ClientReceiveVATEntries>> callback);
 
-	public void getStatements(String id, long transactionDate, long fromDate,
-			long toDate, int noOfDays, boolean isEnabledOfZeroBalBox,
-			boolean isEnabledOfLessThanZeroBalBox,
-			double lessThanZeroBalanceValue,
-			boolean isEnabledOfNoAccountActivity,
-			boolean isEnabledOfInactiveCustomer,
-			AsyncCallback<List<PayeeStatementsList>> callBack);
-	
 	public void getGraphPointsforAccount(int chartType, long accountNo,
 			AsyncCallback<List<Double>> callBack);
 }

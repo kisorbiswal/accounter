@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
+import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
@@ -48,8 +49,7 @@ public interface IAccounterReportServiceAsync {
 	public void getAgedCreditors(long startDate, long endDate,
 			AsyncCallback<List<AgedDebtors>> callBackResult);
 
-	public void getSalesByCustomerDetailReport(long startDate,
-			long endDate,
+	public void getSalesByCustomerDetailReport(long startDate, long endDate,
 			AsyncCallback<List<SalesByCustomerDetail>> callBackResult);
 
 	public void getSalesByItemDetail(long startDate, long endDate,
@@ -92,8 +92,8 @@ public interface IAccounterReportServiceAsync {
 			String accountId,
 			AsyncCallback<List<AccountRegister>> callBackResult);
 
-	public void getTransactionHistoryCustomers(long startDate,
-			long endDate, AsyncCallback<List<ClientCustomer>> callBackResult);
+	public void getTransactionHistoryCustomers(long startDate, long endDate,
+			AsyncCallback<List<ClientCustomer>> callBackResult);
 
 	public void getTransactionHistoryVendors(long startDate, long endDate,
 			AsyncCallback<List<ClientVendor>> callBackResult);
@@ -109,8 +109,7 @@ public interface IAccounterReportServiceAsync {
 			AsyncCallback<List<TransactionDetailByAccount>> callBackResult);
 
 	public void getSalesTaxLiabilityReport(final long startDate,
-			final long endDate,
-			AsyncCallback<List<SalesTaxLiability>> callBack);
+			final long endDate, AsyncCallback<List<SalesTaxLiability>> callBack);
 
 	public void getSalesByCustomerDetailReport(String customerName,
 			long startDate, long endDate,
@@ -148,14 +147,14 @@ public interface IAccounterReportServiceAsync {
 	public void getPurchaseOpenOrderReport(long startDate, long endDate,
 			AsyncCallback<List<OpenAndClosedOrders>> callBack);
 
-	public void getPurchaseCompletedOrderReport(long startDate,
-			long endDate, AsyncCallback<List<OpenAndClosedOrders>> callBack);
+	public void getPurchaseCompletedOrderReport(long startDate, long endDate,
+			AsyncCallback<List<OpenAndClosedOrders>> callBack);
 
-	public void getPurchaseCancelledOrderReport(long startDate,
-			long endDate, AsyncCallback<List<OpenAndClosedOrders>> callBack);
-	
-	public void getPurchaseOrderReport(long startDate,
-			long endDate, AsyncCallback<List<OpenAndClosedOrders>> callBack);
+	public void getPurchaseCancelledOrderReport(long startDate, long endDate,
+			AsyncCallback<List<OpenAndClosedOrders>> callBack);
+
+	public void getPurchaseOrderReport(long startDate, long endDate,
+			AsyncCallback<List<OpenAndClosedOrders>> callBack);
 
 	public void getPurchaseClosedOrderReport(long startDate, long endDate,
 			AsyncCallback<List<OpenAndClosedOrders>> callBack);
@@ -165,7 +164,7 @@ public interface IAccounterReportServiceAsync {
 
 	public void getSalesCompletedOrderReport(long startDate, long endDate,
 			AsyncCallback<List<OpenAndClosedOrders>> callBack);
-	
+
 	public void getSalesOrderReport(long startDate, long endDate,
 			AsyncCallback<List<OpenAndClosedOrders>> callBack);
 
@@ -184,8 +183,8 @@ public interface IAccounterReportServiceAsync {
 	public void getPriorReturnVATSummary(String vatAgency, long endDate,
 			AsyncCallback<List<VATSummary>> callback);
 
-	public void getVAT100Report(String vatAgncy, long fromDate,
-			long toDate, AsyncCallback<List<VATSummary>> callback);
+	public void getVAT100Report(String vatAgncy, long fromDate, long toDate,
+			AsyncCallback<List<VATSummary>> callback);
 
 	public void getUncategorisedAmountsReport(long fromDate, long toDate,
 			AsyncCallback<List<UncategorisedAmountsReport>> callback);
@@ -193,15 +192,14 @@ public interface IAccounterReportServiceAsync {
 	public void getECSalesListReport(long fromDate, long toDate,
 			AsyncCallback<List<ECSalesList>> callback);
 
-	public void getECSalesListDetailReport(String payeeName, long fromDate, long toDate,
-			AsyncCallback<List<ECSalesListDetail>> callback);
+	public void getECSalesListDetailReport(String payeeName, long fromDate,
+			long toDate, AsyncCallback<List<ECSalesListDetail>> callback);
 
 	public void getReverseChargeListDetailReport(String payeeName,
 			long fromDate, long toDate,
 			AsyncCallback<List<ReverseChargeListDetail>> callback);
 
-	public void getReverseChargeListReport(long fromDate,
-			long toDate,
+	public void getReverseChargeListReport(long fromDate, long toDate,
 			AsyncCallback<List<ReverseChargeList>> callback);
 
 	public void getDebitors(long startDate, long endDate,
@@ -225,11 +223,18 @@ public interface IAccounterReportServiceAsync {
 	public void getExpenseReportByType(int status, long startDate,
 			long endDate, AsyncCallback<List<ExpenseList>> callback);
 
-	public void getDepositDetail(final long startDate,
-			final long endDate,
+	public void getDepositDetail(final long startDate, final long endDate,
 			AsyncCallback<List<DepositDetail>> callBackResult);
 
 	public void getCheckDetailReport(String paymentmethod,
 			final long startDate, final long endDate,
 			AsyncCallback<List<CheckDetailReport>> callBackResult);
+
+	public void getStatements(String id, long transactionDate, long fromDate,
+			long toDate, int noOfDays, boolean isEnabledOfZeroBalBox,
+			boolean isEnabledOfLessThanZeroBalBox,
+			double lessThanZeroBalanceValue,
+			boolean isEnabledOfNoAccountActivity,
+			boolean isEnabledOfInactiveCustomer,
+			AsyncCallback<List<PayeeStatementsList>> callBack);
 }
