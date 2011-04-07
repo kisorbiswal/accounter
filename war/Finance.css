@@ -710,8 +710,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	text-decoration: underline;
 }
 
-.addAccountPortlet {
-	margin: 10px !important;
+.addAccountPortlet { /*margin: 10px !important;*/
 	width: 150px;
 	height: 35px;
 }
@@ -722,9 +721,8 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	margin: 6px;
 }
 
-.addButtonPortlet {
-	margin-left: 10px !important;
-	margin-top: 10px !important;
+.addButtonPortlet { /*margin-left: 10px !important;
+	margin-top: 10px !important;*/
 	width: 190px;
 	height: 35px;
 }
@@ -939,7 +937,21 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 
 
 
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
 
 
 
@@ -962,6 +974,20 @@ tr
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :nth-child
 
 
@@ -970,7 +996,21 @@ tr
 
 
 
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
 
 
 
@@ -994,6 +1034,20 @@ border-bottom
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
 
 
@@ -1002,7 +1056,21 @@ border-bottom
 
 
 
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
 
 
 
@@ -1019,7 +1087,21 @@ px
 
 
 
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
 
 
 
@@ -1035,6 +1117,13 @@ solid
 
 
 
+
+
+
+
+
+
+
  
 
 
@@ -1043,7 +1132,28 @@ solid
 
 
 
+
+
+
+
+
+
+
 #aaa
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1074,6 +1184,20 @@ border-top
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
 
 
@@ -1082,7 +1206,21 @@ border-top
 
 
 
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
 
 
 
@@ -1099,7 +1237,21 @@ px
 
 
 
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
 
 
 
@@ -1115,6 +1267,13 @@ solid
 
 
 
+
+
+
+
+
+
+
  
 
 
@@ -1123,7 +1282,28 @@ solid
 
 
 
+
+
+
+
+
+
+
 #aaa
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1202,7 +1382,21 @@ solid
 
 
 
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
 
 
 
@@ -1225,6 +1419,20 @@ td
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :nth-child
 
 
@@ -1233,7 +1441,21 @@ td
 
 
 
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
 
 
 
@@ -1256,7 +1478,6 @@ float
 
 
 
-
 :
 
 
@@ -1265,7 +1486,21 @@ float
 
 
 
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
 
 
 
@@ -1386,7 +1621,6 @@ right
 
 
 
-
  
 
 
@@ -1409,7 +1643,6 @@ td
 
 
 
-
 :nth-child
 
 
@@ -1418,7 +1651,21 @@ td
 
 
 
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
 
 
 
@@ -1435,7 +1682,21 @@ td
 
 
 
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
 
 
 
@@ -1458,6 +1719,20 @@ td
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :nth-child
 
 
@@ -1466,7 +1741,21 @@ td
 
 
 
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
 
 
 
@@ -1490,6 +1779,20 @@ padding
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
 
 
@@ -1498,7 +1801,21 @@ padding
 
 
 
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
 
 
 
@@ -1515,7 +1832,21 @@ px
 
 
 
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
 
 
 
@@ -1538,11 +1869,8 @@ important
 
 
 
-
 ;
 width
-
-
 
 
 
@@ -1729,6 +2057,13 @@ border-bottom
 
 
 
+
+
+
+
+
+
+
 1
 px
 
@@ -1763,6 +2098,20 @@ solid
 
 
 #aaa
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1793,6 +2142,20 @@ border-top
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
 
 
@@ -1801,7 +2164,21 @@ border-top
 
 
 
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
 
 
 
@@ -1818,7 +2195,20 @@ px
 
 
 
+
+
+
+
+
+
+
  
+
+
+
+
+
+
 
 
 
@@ -1834,6 +2224,12 @@ solid
 
 
 
+
+
+
+
+
+
  
 
 
@@ -1842,7 +2238,25 @@ solid
 
 
 
+
+
+
+
+
+
 #aaa
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1939,6 +2353,31 @@ solid
 		transparent !important;
 	padding: 0 1px;
 	float: right;
+}
+
+.ibutton {
+	background: url("images/blue_Left_side.png") no-repeat scroll 0 0
+		transparent !important;
+	float: left;
+	padding: 0 1px;
+}
+
+.ibutton-right-image {
+	float: right;
+	height: 29px;
+	width: 3px;
+}
+
+.ibutton-right-align {
+	float: left;
+}
+
+.portlet-body {
+	background-color: white;
+	height: 100%;
+	padding-left: 10px;
+	padding-top: 10px;
+	width: 99%;
 }
 
 .add-button button {
@@ -2136,6 +2575,7 @@ iframe { /*display:none;*/
 
 .help-data {
 	margin-bottom: 280px !important;
+}
 }
 
 .main-class-pannel {
