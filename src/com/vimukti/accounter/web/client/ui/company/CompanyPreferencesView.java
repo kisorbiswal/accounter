@@ -337,6 +337,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// mainLayout.add(hlLayout);
 
 		canvas.add(mainLayout);
+		canvas.getParent().removeStyleName("main-class-pannel");
 	}
 
 	private HorizontalPanel getCompanyInfo() {
