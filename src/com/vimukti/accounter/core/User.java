@@ -1,6 +1,8 @@
 package com.vimukti.accounter.core;
 
 import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 
 public class User implements IAccounterServerCore {
 
@@ -8,6 +10,28 @@ public class User implements IAccounterServerCore {
 	 * 
 	 */
 	private static final long serialVersionUID = -8262438863405809492L;
+
+	String firstName;
+
+	String lastName;
+
+	String emailId;
+
+	String userRole;
+
+	private boolean isActive;
+
+	private UserPermissions permissions;
+
+	private boolean canDoUserManagement;
+
+	private String company;
+
+	private String displayName;
+
+	private boolean isAdmin;
+	
+	private int loginCount;
 
 	int version;
 
@@ -31,7 +55,7 @@ public class User implements IAccounterServerCore {
 	String domainURL;
 	String stringID;
 
-	FinanceDate lastLogin;
+	private long lastLogin;
 	FinanceDate createdDate;
 	/**
 	 * This User object is referenced to the Administer of this User. If the
@@ -70,6 +94,33 @@ public class User implements IAccounterServerCore {
 
 		this.setUserPreferences(userPreferences);
 
+	}
+
+	public User(ClientUser clientUser) {
+		// User user = new User();
+		this.setStringID(clientUser.getStringID());
+		this.setFirstName(clientUser.getFirstName());
+		this.setLastName(clientUser.getLastName());
+		this.setFullName(clientUser.getFullName());
+		this.setEmailId(clientUser.getEmailId());
+		this.setActive(clientUser.isActive());
+		this.setCanDoUserManagement(clientUser.isCanDoUserManagement());
+		this.setUserRole(clientUser.getUserRole());
+		this.setAdmin(clientUser.isAdmin());
+		UserPermissions userPermissions = new UserPermissions();
+		userPermissions.setTypeOfBankReconcilation(clientUser.getPermissions()
+				.getTypeOfBankReconcilation());
+		userPermissions.setTypeOfInvoicesAndExpenses(clientUser
+				.getPermissions().getTypeOfInvoicesAndExpenses());
+		userPermissions.setTypeOfSystemSettings(clientUser.getPermissions()
+				.getTypeOfSystemSettings());
+		userPermissions.setTypeOfViewReports(clientUser.getPermissions()
+				.getTypeOfViewReports());
+		userPermissions.setTypeOfPublishReports(clientUser.getPermissions()
+				.getTypeOfPublishReports());
+		userPermissions.setTypeOfLockDates(clientUser.getPermissions()
+				.getTypeOfLockDates());
+		this.setPermissions(userPermissions);
 	}
 
 	public String getUserName() {
@@ -142,7 +193,7 @@ public class User implements IAccounterServerCore {
 	/**
 	 * @return the lastLogin
 	 */
-	public FinanceDate getLastLogin() {
+	public long getLastLogin() {
 		return lastLogin;
 	}
 
@@ -234,4 +285,130 @@ public class User implements IAccounterServerCore {
 		return true;
 	}
 
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+	public String getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(String userRole) {
+		this.userRole = userRole;
+	}
+
+	public boolean isCanDoUserManagement() {
+		return canDoUserManagement;
+	}
+
+	public void setCanDoUserManagement(boolean canDoUserManagement) {
+		this.canDoUserManagement = canDoUserManagement;
+	}
+
+	public void setPermissions(UserPermissions permissions) {
+		this.permissions = permissions;
+	}
+
+	public UserPermissions getPermissions() {
+		return permissions;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public String getName() {
+		if (getFirstName() == null && getLastName() == null)
+			return "";
+		else if (getFirstName() == null)
+			return getLastName();
+		else if (getLastName() == null)
+			return getFirstName();
+		return getFirstName() + " " + getLastName();
+
+	}
+
+	public ClientUser getClientUser() {
+		ClientUser user = new ClientUser();
+		user.setFirstName(this.getFirstName());
+		user.setLastName(this.getLastName());
+		user.setEmailId(this.getEmailId());
+		user.setCanDoUserManagement(this.isCanDoUserManagement());
+		user.setUserRole(this.getUserRole());
+		ClientUserPermissions userPermissions = new ClientUserPermissions();
+		userPermissions.setTypeOfBankReconcilation(this.getPermissions()
+				.getTypeOfBankReconcilation());
+		userPermissions.setTypeOfInvoicesAndExpenses(this.getPermissions()
+				.getTypeOfInvoicesAndExpenses());
+		userPermissions.setTypeOfSystemSettings(this.getPermissions()
+				.getTypeOfSystemSettings());
+		userPermissions.setTypeOfViewReports(this.getPermissions()
+				.getTypeOfViewReports());
+		userPermissions.setTypeOfPublishReports(this.getPermissions()
+				.getTypeOfPublishReports());
+		userPermissions.setTypeOfLockDates(this.getPermissions()
+				.getTypeOfLockDates());
+		user.setPermissions(userPermissions);
+		return user;
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
+	}
+
+	public String getCompany() {
+		return company;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setLastLogin(long lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setLoginCount(int loginCount) {
+		this.loginCount = loginCount;
+	}
+
+	public int getLoginCount() {
+		return loginCount;
+	}
 }

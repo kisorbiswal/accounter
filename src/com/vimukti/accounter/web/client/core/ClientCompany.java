@@ -199,6 +199,8 @@ public class ClientCompany implements IAccounterCore {
 
 	private List<ClientBrandingTheme> brandingTheme;
 
+	private List<ClientUser> usersList;
+
 	// private List<ClientTAXItemGroup> vatItemGroups;
 
 	Set<ClientNominalCodeRange> nominalCodeRange = new HashSet<ClientNominalCodeRange>();
@@ -1169,6 +1171,10 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObject(this.fiscalYears, stringID);
 	}
 
+	public ClientUser getUser(String stringID) {
+		return Utility.getObject(this.usersList, stringID);
+	}
+
 	public ClientBrandingTheme getBrandingTheme(String stringID) {
 		return Utility.getObject(this.brandingTheme, stringID);
 	}
@@ -1271,6 +1277,10 @@ public class ClientCompany implements IAccounterCore {
 
 	public void deleteFixelYear(String fixelYearId) {
 		this.fiscalYears.remove(this.getFixelYear(fixelYearId));
+	}
+
+	public void deleteUser(String userId) {
+		this.usersList.remove(this.getUser(userId));
 	}
 
 	public void deleteBrandingTheme(String themeId) {
@@ -1674,6 +1684,10 @@ public class ClientCompany implements IAccounterCore {
 					ClientBrandingTheme theme = (ClientBrandingTheme) accounterCoreObject;
 					Utility.updateClientList(theme, brandingTheme);
 					break;
+				case USER:
+					ClientUser user = (ClientUser) accounterCoreObject;
+					Utility.updateClientList(user, usersList);
+					break;
 				}
 			ViewManager.getInstance().operationSuccessFull(cmd);
 			if (accounterCoreObject instanceof ClientTransaction)
@@ -1849,8 +1863,13 @@ public class ClientCompany implements IAccounterCore {
 			break;
 		case FISCALYEAR:
 			deleteFixelYear(id);
+			break;
+		case USER:
+			deleteUser(id);
+			break;
 		case BRANDINGTHEME:
 			deleteBrandingTheme(id);
+			break;
 		}
 		ViewManager.getInstance().deleteSuccess(accounterCoreObject);
 	}
@@ -2068,5 +2087,23 @@ public class ClientCompany implements IAccounterCore {
 
 	public List<ClientBrandingTheme> getBrandingTheme() {
 		return Utility.getArrayList(brandingTheme);
+	}
+
+	public void setUsersList(List<ClientUser> users) {
+		this.usersList = users;
+	}
+
+	public List<ClientUser> getUsersList() {
+		return usersList;
+	}
+
+	public ClientAccount getAccountByNumber(long accountNo) {
+		for (ClientAccount account : getAccounts()) {
+			if (account.getNumber().equals(String.valueOf(accountNo)))
+				return account;
+		}
+
+		return null;
+
 	}
 }

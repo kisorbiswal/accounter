@@ -1,8 +1,38 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 @SuppressWarnings("serial")
 public class ClientUser implements IAccounterCore {
+
+	public static final String AVAILABLE = "Available";
+	public static final String OFFLINE = "Offline";
+
+	String firstName;
+
+	String lastName;
+
+	String emailId;
+
+	String userRole;
+
+	private boolean isActive;
+
+	private ClientUserPermissions permissions;
+
+	private boolean canDoUserManagement;
+
+	private String company;
+
+	private String displayName;
+
+	public boolean isExternalCompany;
+
+	private String status;
+
+	private boolean isAdmin;
+	
+	private int loginCount;
 
 	int version;
 	String stringID;
@@ -17,9 +47,9 @@ public class ClientUser implements IAccounterCore {
 
 	int maxUserCount;
 
-	ClientCompany company;
+	ClientCompany clientCompany;
 
-	ClientUserPreferences userPreferences = new ClientUserPreferences();
+	// ClientUserPreferences userPreferences = new ClientUserPreferences();
 	// long userPreferencesId;
 
 	ClientAddress address = new ClientAddress();
@@ -27,18 +57,50 @@ public class ClientUser implements IAccounterCore {
 	ClientContact contact = new ClientContact();
 
 	public ClientUser() {
-		ClientUserPreferences userPreferences = new ClientUserPreferences();
+		// ClientUserPreferences userPreferences = new ClientUserPreferences();
 
-		this.setUserPreferences(userPreferences);
+		// this.setUserPreferences(userPreferences);
 
 	}
 
-	public ClientCompany getCompany() {
-		return company;
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+	public String getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(String userRole) {
+		this.userRole = userRole;
+	}
+
+	public ClientCompany getClientCompany() {
+		return clientCompany;
 	}
 
 	public void setCompany(ClientCompany company) {
-		this.company = company;
+		this.clientCompany = company;
 	}
 
 	/**
@@ -113,8 +175,12 @@ public class ClientUser implements IAccounterCore {
 	/**
 	 * @return the lastLogin
 	 */
-	public ClientFinanceDate getLastLogin() {
-		return new ClientFinanceDate(lastLogin);
+	public long getLastLogin() {
+		// if (lastLogin != 0)
+		// return new ClientFinanceDate(lastLogin);
+		// else
+		// return null;
+		return this.lastLogin;
 	}
 
 	/**
@@ -181,24 +247,32 @@ public class ClientUser implements IAccounterCore {
 	// public long getUserPreferencesId() {
 	// return userPreferencesId;
 	// }
-	public ClientUserPreferences getUserPreferences() {
-		return userPreferences;
-	}
-
-	public void setUserPreferences(ClientUserPreferences clientUserPreferencesId) {
-		this.userPreferences = clientUserPreferencesId;
-	}
+	// public ClientUserPreferences getUserPreferences() {
+	// return userPreferences;
+	// }
+	//
+	// public void setUserPreferences(ClientUserPreferences
+	// clientUserPreferencesId) {
+	// this.userPreferences = clientUserPreferencesId;
+	// }
 
 	@Override
 	public String getDisplayName() {
 		// TODO Auto-generated method stub
-		return null;
+		return displayName;
 	}
 
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return null;
+		if (getFirstName() == null && getLastName() == null)
+			return "";
+		else if (getFirstName() == null)
+			return getLastName();
+		else if (getLastName() == null)
+			return getFirstName();
+		return getFirstName() + " " + getLastName();
+
 	}
 
 	public ClientAddress getAddress() {
@@ -228,7 +302,7 @@ public class ClientUser implements IAccounterCore {
 	@Override
 	public AccounterCoreType getObjectType() {
 		// TODO Auto-generated method stub
-		return null;
+		return AccounterCoreType.USER;
 	}
 
 	@Override
@@ -248,4 +322,113 @@ public class ClientUser implements IAccounterCore {
 		return "ClientUser";
 	}
 
+	public void setCanDoUserManagement(boolean canDoUserManagement) {
+		this.canDoUserManagement = canDoUserManagement;
+	}
+
+	public boolean isCanDoUserManagement() {
+		return canDoUserManagement;
+	}
+
+	public void setPermissions(ClientUserPermissions permissions) {
+		this.permissions = permissions;
+	}
+
+	public ClientUserPermissions getPermissions() {
+		return permissions;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
+	}
+
+	public String getCompany() {
+		return company;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public boolean canDoInvoiceTransactions() {
+		if (this.getPermissions().typeOfInvoicesAndExpenses == RolePermissions.TYPE_YES)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean canChangeSettings() {
+		if (this.getPermissions().typeOfSystemSettings == RolePermissions.TYPE_YES)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean canViewReports() {
+		if (this.getPermissions().typeOfViewReports == RolePermissions.TYPE_YES
+				|| this.getPermissions().typeOfViewReports == RolePermissions.TYPE_READ_ONLY)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean canDoBanking() {
+		if (this.getPermissions().typeOfBankReconcilation == RolePermissions.TYPE_YES)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean canManageFiscalYears() {
+		if (this.getPermissions().typeOfLockDates == RolePermissions.TYPE_YES)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean canSeeInvoiceTransactions() {
+		if (this.getPermissions().typeOfInvoicesAndExpenses != RolePermissions.TYPE_NO)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean canSeeBanking() {
+		if (this.getPermissions().typeOfBankReconcilation != RolePermissions.TYPE_NO)
+			return true;
+		else
+			return false;
+	}
+
+	public void setLoginCount(int loginCount) {
+		this.loginCount = loginCount;
+	}
+
+	public int getLoginCount() {
+		return loginCount;
+	}
 }

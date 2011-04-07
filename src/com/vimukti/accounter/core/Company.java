@@ -245,6 +245,8 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 
 	List<BrandingTheme> brandingTheme = new ArrayList<BrandingTheme>();
 
+	private List<User> usersList = new ArrayList<User>();
+
 	// Set<PaySalesTaxEntries> paySalesTaxEntriesList = new
 	// HashSet<PaySalesTaxEntries>();
 	//
@@ -4710,6 +4712,8 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 
 		cmp.brandingTheme = this.getBrandingTheme();
 
+		cmp.usersList = this.getUsersList();
+		
 		return cmp;
 	}
 
@@ -4806,6 +4810,21 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 
 	public void setBrandingTheme(List<BrandingTheme> brandingTheme) {
 		this.brandingTheme = brandingTheme;
+	}
+
+	public void setUsersList(List<User> usersList) {
+		this.usersList = usersList;
+	}
+
+	public List<User> getUsersList() {
+		return usersList;
+	}
+
+	public User getUserByUserId(String userID) {
+		Session session = HibernateUtil.getCurrentSession();
+		User user = (User) session.getNamedQuery("unique.id.User")
+				.setParameter(0, userID).uniqueResult();
+		return user;
 	}
 
 }
