@@ -350,5 +350,9 @@ public interface SettingsMessages extends FinanceMessages {
 	SafeHtml companySettingsTitle();
 
 	SafeHtml companyCommentHtml();
+	
+	String loginCount();
+	
+	String settings();
 
 }

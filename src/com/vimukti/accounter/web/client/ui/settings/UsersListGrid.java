@@ -1,11 +1,18 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
+import java.util.Date;
 import java.util.List;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.data.ClientUser;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -19,8 +26,10 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 	@Override
 	protected int getColumnType(int index) {
 		switch (index) {
-		case 3:
+		case 2:
 			return ListGrid.COLUMN_TYPE_DATE;
+		case 4:
+			return ListGrid.COLUMN_TYPE_IMAGE;
 		default:
 			return ListGrid.COLUMN_TYPE_TEXT;
 		}
@@ -43,7 +52,16 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		return -1;
+		switch (index) {
+		// case 5:
+		// return 25;
+		// case 2:
+		// return 100;
+		case 4:
+			return 25;
+		default:
+			return -1;
+		}
 	}
 
 	@Override
@@ -51,9 +69,9 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 
 		return new String[] { FinanceApplication.getSettingsMessages().name(),
 				FinanceApplication.getSettingsMessages().permissions(),
-				FinanceApplication.getSettingsMessages().status(),
+				// FinanceApplication.getSettingsMessages().status(),
 				FinanceApplication.getSettingsMessages().lastLogin(),
-				FinanceApplication.getSettingsMessages().LoginsThisWeek() };
+				FinanceApplication.getSettingsMessages().loginCount(), "" };
 	}
 
 	public void setUsersView(UsersView usersView) {
@@ -64,15 +82,26 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 	protected Object getColumnValue(ClientUser obj, int index) {
 		switch (index) {
 		case 0:
-			return obj.getFullName();
+			return obj.getName();
 		case 1:
-			return obj.getRole();
+			if (obj.isCanDoUserManagement())
+				return obj.getUserRole() + " + Manage Users";
+			else
+				return obj.getUserRole();
+			// case 2:
+			// // return obj.getStatus();
+			// if (obj.isActive())
+			// return "Active";
+			// else
+			// return "Pending";
 		case 2:
-			return obj.getStatus();
+			return obj.getLastLogin() != 0 ? DateTimeFormat.getFormat(
+					"dd MMM yyyy, hh:mm a")
+					.format(new Date(obj.getLastLogin())) : "";
 		case 3:
-			return obj.getLastLogin().getDate();
+			return String.valueOf(obj.getLoginCount());
 		case 4:
-			return "";
+			return FinanceApplication.getFinanceImages().delete();
 		default:
 			return "";
 		}
@@ -92,14 +121,17 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 
 	@Override
 	protected void onClick(ClientUser obj, int row, int index) {
-		// TODO Auto-generated method stub
-
+		if (!FinanceApplication.getUser().isCanDoUserManagement())
+			return;
+		if (index == 4) {
+			showWarnDialog(obj);
+		}
 	}
 
 	@Override
 	public void onDoubleClick(ClientUser obj) {
-		// TODO Auto-generated method stub
-
+		if (FinanceApplication.getUser().isCanDoUserManagement())
+			SettingsActionFactory.getInviteUserAction().run(obj, true);
 	}
 
 	@Override
@@ -116,8 +148,8 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 
 	@Override
 	protected void executeDelete(ClientUser object) {
-		// TODO Auto-generated method stub
-
+		ViewManager.getInstance().deleteObject(object, AccounterCoreType.USER,
+				this);
 	}
 
 	@Override
@@ -129,6 +161,16 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
 
+	}
+
+	@Override
+	public void deleteFailed(Throwable caught) {
+		if (caught instanceof InvalidOperationException)
+			Accounter.showError(((InvalidOperationException) caught)
+					.getDetailedMessage());
+		else
+			Accounter.showError("You can't delete this user");
+		caught.fillInStackTrace();
 	}
 
 }

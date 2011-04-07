@@ -6,8 +6,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
@@ -15,6 +17,7 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.data.ClientUser;
@@ -30,6 +33,7 @@ public class UsersView extends BaseView<ClientUser> {
 	private FlexTable flexTable;
 	private UsersListGrid usersListGrid;
 	private RecentActivityListGrid activityListGrid;
+	Button inviteUserButton;
 
 	@Override
 	public List<DynamicForm> getForms() {
@@ -45,7 +49,7 @@ public class UsersView extends BaseView<ClientUser> {
 
 	@Override
 	public void init() {
-		super.init();
+		// super.init();
 		createControls();
 	}
 
@@ -73,7 +77,8 @@ public class UsersView extends BaseView<ClientUser> {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				generalSettingsHTML.getElement().getStyle().setCursor(Cursor.POINTER);
+				generalSettingsHTML.getElement().getStyle().setCursor(
+						Cursor.POINTER);
 				generalSettingsHTML.getElement().getStyle().setTextDecoration(
 						TextDecoration.UNDERLINE);
 			}
@@ -94,7 +99,16 @@ public class UsersView extends BaseView<ClientUser> {
 						false);
 			}
 		});
-		usersHtml = new HTML(FinanceApplication.getSettingsMessages().usersTitle());
+		usersHtml = new HTML(FinanceApplication.getSettingsMessages()
+				.usersTitle());
+		inviteUserButton = new Button("Invite a User");
+		inviteUserButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				SettingsActionFactory.getInviteUserAction().run(null, true);
+			}
+		});
 		tabPanel = new DecoratedTabPanel();
 		tabPanel.add(getUsersPanel(), FinanceApplication.getSettingsMessages()
 				.users());
@@ -102,15 +116,17 @@ public class UsersView extends BaseView<ClientUser> {
 				.getSettingsMessages().recentActivity());
 		tabPanel.selectTab(0);
 
-		flexTable.setWidget(0, 0, generalSettingsHTML);
+		// flexTable.setWidget(0, 0, generalSettingsHTML);
 		flexTable.setWidget(1, 0, usersHtml);
 
 		mainLayPanel.add(flexTable);
-		mainLayPanel.add(tabPanel);
+		if (FinanceApplication.getUser().isCanDoUserManagement())
+			mainLayPanel.add(inviteUserButton);
+		mainLayPanel.add(getUsersPanel());
 
-		saveAndCloseButton.setVisible(false);
-		saveAndNewButton.setVisible(false);
-		cancelButton.setVisible(false);
+		// saveAndCloseButton.setVisible(false);
+		// saveAndNewButton.setVisible(false);
+		// cancelButton.setVisible(false);
 
 		add(mainLayPanel);
 	}
@@ -123,6 +139,10 @@ public class UsersView extends BaseView<ClientUser> {
 		activityListGrid.init();
 
 		recentActivityPanel.add(activityListGrid);
+		recentActivityPanel.setCellHorizontalAlignment(activityListGrid,
+				HasHorizontalAlignment.ALIGN_CENTER);
+		activityListGrid.setWidth("90%");
+		activityListGrid.getElement().getStyle().setMarginTop(20, Unit.PX);
 
 		return recentActivityPanel;
 	}
@@ -133,7 +153,13 @@ public class UsersView extends BaseView<ClientUser> {
 		usersListGrid = new UsersListGrid(false);
 		usersListGrid.setUsersView(this);
 		usersListGrid.init();
+		usersListGrid
+				.setRecords(FinanceApplication.getCompany().getUsersList());
 		usersPanel.add(usersListGrid);
+		usersPanel.setCellHorizontalAlignment(usersListGrid,
+				HasHorizontalAlignment.ALIGN_CENTER);
+		usersListGrid.setWidth("90%");
+		usersListGrid.getElement().getStyle().setMarginTop(20, Unit.PX);
 
 		return usersPanel;
 	}
@@ -166,6 +192,13 @@ public class UsersView extends BaseView<ClientUser> {
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void fitToSize(int height, int width) {
+		this.setHeight(height + "");
+		usersListGrid.setHeight(height + "");
+		activityListGrid.setHeight(height + "");
 	}
 
 }

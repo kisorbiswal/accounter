@@ -13,8 +13,7 @@ public class GeneralSettingsAction extends Action {
 
 	public GeneralSettingsAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getSettingsMessages()
-				.gettingStarted();
+		this.catagory = FinanceApplication.getSettingsMessages().settings();
 	}
 
 	@Override
