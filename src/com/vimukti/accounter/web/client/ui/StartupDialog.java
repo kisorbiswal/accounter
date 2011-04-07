@@ -254,8 +254,9 @@ public class StartupDialog extends DialogBox {
 
 								@Override
 								public void execute(FinanceApplication value) {
-									RootPanel.get().add(value);
 									StartupDialog.this.removeFromParent();
+									RootPanel.get().add(value);
+								
 								}
 							});
 				} else {
