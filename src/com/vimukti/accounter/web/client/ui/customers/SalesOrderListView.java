@@ -121,8 +121,8 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 	public void onSuccess(List<SalesOrdersList> result) {
 		super.onSuccess(result);
 		listOfSalesOrder = result;
-		filterList(OPEN);
-		grid.setViewType(OPEN);
+		filterList(viewSelect.getValue().toString());
+		grid.setViewType(viewSelect.getValue().toString());
 	}
 
 	protected SelectCombo getSelectItem() {
