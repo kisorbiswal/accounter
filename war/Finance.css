@@ -692,8 +692,8 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .finance-portlet td.td10 {
-	background: transparent url(images/panel-right-img.png) repeat-y scroll
-		0 0 !important;
+	/*background: transparent url(images/panel-right-img.png) repeat-y scroll
+		0 0 !important;*/
 }
 
 .finance-portlet .gridBody tr td div {
@@ -3503,13 +3503,29 @@ iframe { /*display:none;*/
 
 .down-panel {
 	font-weight: bold !important;
-	color: white !important;
+	color: #464545 !important;
 	margin-top: 15px !important;
 }
 
 .down-panel1 {
-	color: white !important;
+	color: #737272 !important;
 	font-weight: bold !important;
-	margin-right: 10px;
+	margin-right: 30px;
 	text-align: right !important;
+}
+.help-panel{
+	background-color: #F0F0F0;
+    border: 1px solid #C7C6C6;
+    margin-left:10px;
+}
+.help-panel a{
+	text-decoration: none;
+	color:#737272 !important;
+}
+.help-panel a:hover{
+	text-decoration: underline;
+}
+.main-finance-window{
+	background: url("../images/body-shadow-right.png") repeat-y scroll right top #F0F0F0 !important;
+    padding-right: 9px;
 }
