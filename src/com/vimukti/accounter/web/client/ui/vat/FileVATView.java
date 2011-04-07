@@ -502,5 +502,4 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		}
 		return true;
 	}
-
 }

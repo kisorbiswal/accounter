@@ -146,7 +146,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	public CustomerView() {
 		super();
 		this.validationCount = 7;
-		this.removeStyleName("abstract_base_view");
+//		this.removeStyleName("abstract_base_view");
 	}
 
 	private void initFiscalYear() {

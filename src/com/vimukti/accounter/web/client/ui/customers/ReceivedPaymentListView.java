@@ -45,8 +45,7 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 	@Override
 	protected Action getAddNewAction() {
-		return CustomersActionFactory.getReceivePaymentAction();
-
+		return CustomersActionFactory.getPaymentDialogAction();
 	}
 
 	@Override

@@ -2729,22 +2729,6 @@ td.td11,td.td10 {
 	height: 100%;
 }
 
-.decor00,.no-title .biz-decor-panel div.decor00 {
-	background: transparent url(images/header-l.png) no-repeat scroll -2px 0
-		;
-}
-
-td.td01,.no-title .biz-decor-panel td.td01 {
-	background: transparent url(images/header-c.png) repeat-x scroll 0 0;
-	color: #FFFFFF;
-	vertical-align: top;
-}
-
-.decor02,.no-title .biz-decor-panel div.decor02 {
-	background: transparent url(images/header-r.png) no-repeat scroll -8px 0
-		;
-}
-
 /*If no title First row images*/
 .no-title .decor00 {
 	background: transparent url(images/title-shade-l.png) no-repeat scroll
@@ -2874,11 +2858,6 @@ td.sidebar {
 	margin-top: 10px;
 	position: relative;
 	text-transform: uppercase;
-}
-
-.portlet .panel-title { /*float: left;*/
-	left: 0;
-	position: absolute;
 }
 
 .bizantralogo {

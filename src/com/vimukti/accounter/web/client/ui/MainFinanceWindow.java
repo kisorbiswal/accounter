@@ -211,12 +211,12 @@ public class MainFinanceWindow extends VerticalPanel {
 		// getHelpMenu());
 		menuitem = menuBar.addItem("Settings", getSettingsMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
-
-		if (!GWT.isScript()) {
-			menuitem = menuBar.addItem(FinanceApplication.getCompanyMessages()
-					.test(), getTestMenu());
-			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
-		}
+		//
+		// if (!GWT.isScript()) {
+		// menuitem = menuBar.addItem(FinanceApplication.getCompanyMessages()
+		// .test(), getTestMenu());
+		// ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
+		// }
 
 		menuBar.setAutoOpen(true);
 		menuBar.setAnimationEnabled(true);

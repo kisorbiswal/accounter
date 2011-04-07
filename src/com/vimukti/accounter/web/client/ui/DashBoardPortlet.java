@@ -78,6 +78,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		windowControlLayout.setStyleName("tool-box");
 
 		gotoText = new Label(getGoToText());
+		gotoText.setStyleName("portletLabel");
 		gotoText.getElement().getStyle().setTextDecoration(
 				TextDecoration.UNDERLINE);
 		gotoText.addMouseOverHandler(new MouseOverHandler() {
@@ -129,6 +130,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 	public void setTitle(String title) {
 		super.setTitle(title);
 		this.title.setHTML(title);
+		this.title.setStyleName("portletLabel");
 	}
 
 	public void setName(String name) {

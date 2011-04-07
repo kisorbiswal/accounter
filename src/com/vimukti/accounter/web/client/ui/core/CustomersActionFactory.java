@@ -220,10 +220,15 @@ public class CustomersActionFactory extends AbstractActionFactory {
 				actionsConstants.customerPrePayment(),
 				"/images/icons/vendors/vendor_payments.png");
 	}
-	
+
 	public static BrandingThemeComboAction getBrandingThemeComboAction() {
-		return new BrandingThemeComboAction(
-				actionsConstants.brandingThemeCombo());
+		return new BrandingThemeComboAction(actionsConstants
+				.brandingThemeCombo());
+	}
+
+	public static PaymentDialogAction getPaymentDialogAction() {
+		// TODO Auto-generated method stub
+		return new PaymentDialogAction(actionsConstants.payments());
 	}
 
 }

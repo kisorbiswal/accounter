@@ -149,7 +149,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	public VendorView() {
 		super();
 		this.validationCount = 5;
-		this.removeStyleName("abstract_base_view");
+		// this.removeStyleName("abstract_base_view");
 	}
 
 	private void getFiscalYear() {

@@ -646,4 +646,10 @@ public interface CustomersMessages extends FinanceMessages {
 	public String customeRGroup();
 
 	public String detailsHighlightedInRedMustBeEntered();
+
+	public String selectPaymentType();
+
+	public String setPaymentType();
+
+	public String receivePayment();
 }
