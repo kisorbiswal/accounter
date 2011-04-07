@@ -5,7 +5,9 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -15,6 +17,7 @@ import com.google.gwt.user.client.ui.impl.FocusImpl;
 import com.vimukti.accounter.web.client.commet.AccounterCometClient;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
+import com.vimukti.accounter.web.client.ui.company.HelpItem;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -46,6 +49,8 @@ public class MainFinanceWindow extends VerticalPanel {
 	private int height;
 	private int width;
 	public static boolean iscancelEvent;
+	private HelpItem item;
+	private HorizontalPanel downpanel;
 
 	public MainFinanceWindow(BaseFinanceWindow parent) {
 		createControls();
@@ -150,6 +155,33 @@ public class MainFinanceWindow extends VerticalPanel {
 		vpanel.add(hpanel2);
 		add(vpanel);
 		add(viewManager);
+		Label help = new Label("Help Links");
+		help.addStyleName("down-panel");
+		if (item == null) {
+			item = new HelpItem();
+		}
+		if (downpanel == null) {
+			downpanel = new HorizontalPanel();
+			downpanel.setWidth("100%");
+			downpanel.getElement().getStyle().setMarginTop(25, Unit.PX);
+			Label l1 = new Label(
+					"Copyright Vimukti Technologies.All rights are reserved ");
+			l1.addStyleName("down-panel1");
+			Anchor support = new Anchor("Support");
+			Anchor feedback = new Anchor("Feedback");
+			downpanel.add(l1);
+			downpanel.add(support);
+			downpanel.add(feedback);
+			downpanel.setCellWidth(feedback, "31%");
+		}
+		VerticalPanel helppanel = new VerticalPanel();
+		helppanel.setWidth("100%");
+		helppanel.getElement().getStyle().setBackgroundColor("gray");
+		helppanel.add(help);
+		helppanel.add(item);
+		helppanel.setSpacing(10);
+		helppanel.add(downpanel);
+		add(helppanel);
 
 		// setSize("100%", "100%");
 		addStyleName(FinanceApplication.getFinanceUIConstants().financeWindow());
@@ -164,6 +196,10 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	}
 
+	public HelpItem getHelpItem() {
+		return item;
+
+	}
 	public static MainFinanceWindow getInstance() {
 		return financeWindow;
 	}
