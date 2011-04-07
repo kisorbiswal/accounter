@@ -175,8 +175,8 @@ public class MainFinanceWindow extends VerticalPanel {
 			downpanel.setCellWidth(feedback, "31%");
 		}
 		VerticalPanel helppanel = new VerticalPanel();
-		helppanel.setWidth("100%");
-		helppanel.getElement().getStyle().setBackgroundColor("gray");
+		helppanel.setWidth("98%");
+		helppanel.setStyleName("help-panel");
 		helppanel.add(help);
 		helppanel.add(item);
 		helppanel.setSpacing(10);
@@ -200,6 +200,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		return item;
 
 	}
+
 	public static MainFinanceWindow getInstance() {
 		return financeWindow;
 	}
@@ -1188,6 +1189,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		viewManager.fitToSize(this.getOffsetHeight(), 960);
 		if (GWT.isScript())
 			AccounterCometClient.start();
+		this.getElement().getParentElement().addClassName("main-finance-window");
 	}
 
 	@Override
