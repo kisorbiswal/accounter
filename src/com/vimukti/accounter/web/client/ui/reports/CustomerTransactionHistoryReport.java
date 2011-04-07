@@ -29,8 +29,9 @@ public final class CustomerTransactionHistoryReport extends
 
 	@Override
 	public void OnRecordClick(TransactionHistory record) {
-		ReportsRPC.openTransactionView(record.getType(), record
-				.getTransactionId());
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			ReportsRPC.openTransactionView(record.getType(), record
+					.getTransactionId());
 	}
 
 	@Override

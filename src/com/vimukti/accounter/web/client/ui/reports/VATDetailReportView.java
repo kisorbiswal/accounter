@@ -27,8 +27,9 @@ public class VATDetailReportView extends AbstractReportView<VATDetail> {
 
 	@Override
 	public void OnRecordClick(VATDetail record) {
-		ReportsRPC.openTransactionView(record.getTransactionType(), record
-				.getTransactionId());
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			ReportsRPC.openTransactionView(record.getTransactionType(), record
+					.getTransactionId());
 	}
 
 	@Override

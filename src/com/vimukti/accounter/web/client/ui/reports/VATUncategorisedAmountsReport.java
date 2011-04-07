@@ -24,9 +24,10 @@ public class VATUncategorisedAmountsReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		ReportsRPC.openTransactionView(record.getTransactionType(), record
-				.getStringId()
-				+ "");
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			ReportsRPC.openTransactionView(record.getTransactionType(), record
+					.getStringId()
+					+ "");
 	}
 
 	@Override

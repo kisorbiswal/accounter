@@ -20,9 +20,10 @@ public class ECSalesListDetailReport extends
 
 	@Override
 	public void OnRecordClick(ECSalesListDetail record) {
-		ReportsRPC.openTransactionView(record.getTransactionType(), record
-				.getTransactionStringId()
-				+ "");
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			ReportsRPC.openTransactionView(record.getTransactionType(), record
+					.getTransactionStringId()
+					+ "");
 	}
 
 	@Override

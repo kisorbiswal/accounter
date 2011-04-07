@@ -22,8 +22,9 @@ public class PurchaseByVendorDetailReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		ReportsRPC.openTransactionView(record.getType(), record
-				.getTransactionId());
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			ReportsRPC.openTransactionView(record.getType(), record
+					.getTransactionId());
 	}
 
 	@Override

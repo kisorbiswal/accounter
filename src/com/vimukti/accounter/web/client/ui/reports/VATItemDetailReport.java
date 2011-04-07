@@ -21,9 +21,10 @@ public class VATItemDetailReport extends AbstractReportView<VATItemDetail> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		ReportsRPC.openTransactionView(record.getTransactionType(), record
-				.getTransactionId()
-				+ "");
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			ReportsRPC.openTransactionView(record.getTransactionType(), record
+					.getTransactionId()
+					+ "");
 	}
 
 	@Override

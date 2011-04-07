@@ -23,8 +23,9 @@ public class TransactionDetailByAccountReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		ReportsRPC.openTransactionView(getType(record), record
-				.getTransactionId());
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			ReportsRPC.openTransactionView(getType(record), record
+					.getTransactionId());
 	}
 
 	int getType(TransactionDetailByAccount record) {
