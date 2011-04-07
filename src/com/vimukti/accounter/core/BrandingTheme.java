@@ -70,7 +70,9 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	String lastModifier;
 	FinanceDate createdDate;
 	FinanceDate lastModifiedDate;
-	
+
+	private String fileName;
+
 	boolean isDefault;
 
 	/**
@@ -600,6 +602,14 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 
 	public void setDefault(boolean isDefault) {
 		this.isDefault = isDefault;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFileName() {
+		return fileName;
 	}
 
 }

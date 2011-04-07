@@ -17,19 +17,22 @@ import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
+import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 
 	private ClientBrandingTheme brandingTheme;
 	private HTML generalSettingsHTML, invoiceBrandingHtml, allLabelsHtml,
 			ShowHtml, checkBoxHtml, headingsHtml, paypalEmailHtml, termsHtml,
-			radioButtonHtml, contactDetailsHtml, uploadPictureHtml, titleHtml,
-			helpHtml;
+			radioButtonHtml, contactDetailsHtml, uploadPictureHtml, titleHtml;
+	// helpHtml;
 	private VerticalPanel mainPanel, titlePanel, subLayPanel, uploadPanel,
 			contactDetailsPanel, vPanel;
 	private Button newBrandButton, automaticButton;
@@ -79,32 +82,6 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		titlePanel.add(generalSettingsHTML);
 		titlePanel.add(invoiceBrandingHtml);
 
-		helpHtml = new HTML("<p>What's this?</p>");
-		helpHtml.addMouseOverHandler(new MouseOverHandler() {
-
-			@Override
-			public void onMouseOver(MouseOverEvent event) {
-				helpHtml.getElement().getStyle().setCursor(Cursor.POINTER);
-				helpHtml.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
-			}
-		});
-		helpHtml.addMouseOutHandler(new MouseOutHandler() {
-
-			@Override
-			public void onMouseOut(MouseOutEvent event) {
-				helpHtml.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
-			}
-		});
-		helpHtml.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// SettingsActionFactory.getInvoiceBrandingHelpAction().run(null,
-				// false);
-			}
-		});
 		buttonPanel = new HorizontalPanel();
 		newBrandButton = new Button(FinanceApplication.getSettingsMessages()
 				.newBrandingThemeButton());
@@ -143,7 +120,6 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		buttonPanel.add(newBrandButton);
 		buttonPanel.add(automaticButton);
 		mainPanel.add(titlePanel);
-		mainPanel.add(helpHtml);
 		mainPanel.add(buttonPanel);
 		List<ClientBrandingTheme> brandingThemes = FinanceApplication
 				.getCompany().getBrandingTheme();
@@ -277,9 +253,22 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		contactDetailsPanel.add(contactDetailsHtml);
 		contactDetailsPanel.setStyleName("contact-deatails-panel");
 
-		uploadPictureHtml = new HTML(FinanceApplication.getSettingsMessages()
-				.uploadLogo());
+		if ((theme.getFileName() == null)) {
+			uploadPictureHtml = new HTML(FinanceApplication
+					.getSettingsMessages().uploadLogo());
+			uploadPictureHtml.setVisible(true);
 
+		} else {
+			StringBuffer original = new StringBuffer();
+			String imagesDomain = "/do/downloadFileFromFile?";
+			original.append("<img src='");
+			original.append(imagesDomain);
+			original.append("fileName=");
+			original.append(theme.getFileName());
+			original.append("' ");
+			original.append("/>");
+			uploadPictureHtml = new HTML("" + original);
+		}
 		uploadPictureHtml.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
@@ -298,6 +287,26 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 						TextDecoration.NONE);
 			}
 		});
+		uploadPictureHtml.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ValueCallBack<ClientBrandingTheme> callback = new ValueCallBack<ClientBrandingTheme>() {
+
+					@Override
+					public void execute(ClientBrandingTheme value) {
+						ViewManager.getInstance().alterObject(value,
+								InvoiceBrandingView.this);
+
+					}
+				};
+
+				FileUploadDilaog dilaog = new FileUploadDilaog("upload file",
+						"uday", callback, true, null, brandingTheme);
+
+			}
+		});
+
 		uploadPanel = new VerticalPanel();
 		uploadPanel.setStyleName("upload-logo");
 		uploadPanel.add(uploadPictureHtml);
@@ -374,6 +383,23 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 				case 2:
 					SettingsActionFactory.getCopyThemeAction()
 							.run(theme, false);
+					break;
+				case 3:
+
+					ValueCallBack<ClientBrandingTheme> callback = new ValueCallBack<ClientBrandingTheme>() {
+
+						@Override
+						public void execute(ClientBrandingTheme value) {
+							ViewManager.getInstance().alterObject(value,
+									InvoiceBrandingView.this);
+
+						}
+					};
+
+					FileUploadDilaog dilaog = new FileUploadDilaog(
+							"upload file", "uday", callback, true, null,
+							brandingTheme);
+
 					break;
 				case 4:
 					SettingsActionFactory.getDeleteThemeAction().run(theme,

@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.core;
 
-public class ClientBrandingTheme implements IAccounterCore {
+import com.google.gwt.safehtml.shared.SafeHtml;
+
+public class ClientBrandingTheme<T> implements IAccounterCore {
 
 	/**
 	 * 
@@ -56,6 +58,7 @@ public class ClientBrandingTheme implements IAccounterCore {
 	// private int showTaxesAsType;
 	private String contactDetails;
 	private String Terms_And_Payment_Advice;
+	private String fileName;
 
 	private transient boolean isImported;
 	private transient boolean isOnSaveProccessed;
@@ -322,6 +325,14 @@ public class ClientBrandingTheme implements IAccounterCore {
 
 	public boolean isDefault() {
 		return isDefault;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFileName() {
+		return fileName;
 	}
 
 }
