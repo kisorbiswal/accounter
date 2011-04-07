@@ -454,6 +454,9 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 			case TOOLBAR_TYPE_EXPENSE:
 				toolbar = new ExpenseReportToolbar();
 				break;
+			case TOOLBAR_TYPE_CUSTOMER:
+				toolbar = new CreateStatementToolBar(this);
+				break;
 			default:
 				toolbar = new AsOfReportToolbar();
 
