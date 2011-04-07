@@ -49,7 +49,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		// panel.getElement().getStyle().setPadding(0, Unit.PX);
 		// panel.setSize("98.9%", "100%");
 		panel.add(body);
-		if (!(this instanceof ExpenseClaimPortlet || this instanceof GettingStartedPortlet))
+		if (!(this instanceof GettingStartedPortlet))
 			panel.setHeight("295px");
 		super.add(panel);
 
@@ -105,7 +105,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 				helpClicked();
 			}
 		});
-		windowControlLayout.add(help);
+		// windowControlLayout.add(help);
 		windowControlLayout.add(gotoText);
 		// hPanel.add(help);
 		// hPanel.add(windowControlLayout);

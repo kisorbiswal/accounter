@@ -106,7 +106,7 @@ public class DashBoard extends BaseHomeView {
 		// VerticalPanel leftLayout = new VerticalPanel();
 		mainLayOut.setSize("100%", "100%");
 
-		mainLayOut.add(gettingStartedPortlet);
+		// mainLayOut.add(gettingStartedPortlet);
 		mainLayOut.add(fTable);
 		if (Header.gettingStartedStatus.equals("Show Getting Started"))
 			gettingStartedPortlet.setVisible(false);

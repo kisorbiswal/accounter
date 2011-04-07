@@ -205,7 +205,7 @@ public class StartupDialog extends DialogBox {
 			}
 
 		};
-		getService.getCompany(getCompanyCallback);
+		getService.getCompany(null, getCompanyCallback);
 
 		this.hide();
 		// loadingDialog = UIUtils
@@ -277,7 +277,7 @@ public class StartupDialog extends DialogBox {
 					FinanceApplication.setUser(user);
 					// getCompanyList();
 
-					FinanceApplication.setCompany(user.getCompany());
+					FinanceApplication.setCompany(user.getClientCompany());
 					// Close the startup dialog...
 					StartupDialog.this.removeFromParent();
 					// loadingDialog.destroy();

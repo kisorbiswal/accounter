@@ -71,8 +71,9 @@ public class Header extends HorizontalPanel {
 		helpBar = new MenuBar();
 		initializeHelpBar();
 		helpBar.setStyleName("helpBar");
-		help = new HTML("<span>Help</span><div class='help-content'></div>");
+		help = new HTML("<a href='http://help.accounter.com'><font color='#00A3D3'>Help</font></a><div class='help-content'></div>");
 		help.addStyleName("help-style");
+		help.addStyleName("helpBar");
 
 		Image image = new Image();
 		image.setUrl("images/Logo.jpg");
@@ -90,7 +91,7 @@ public class Header extends HorizontalPanel {
 		panel3.setWidth("85%");
 		panel3.addStyleName("logout-help-welcome");
 		panel3.add(userName);
-		panel3.add(helpBar);
+		panel3.add(help);
 		panel3.add(logout);
 		panel3.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
 

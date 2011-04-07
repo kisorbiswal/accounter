@@ -152,7 +152,7 @@ public class GraphChart {
 
 		if (chartType == ACCOUNTS_PAYABLE_CHART_TYPE) {
 			data.addColumn(ColumnType.DATE, "Date");
-			data.addColumn(ColumnType.NUMBER, "Expenses");
+			data.addColumn(ColumnType.NUMBER);
 			
 		} else {
 			data.addColumn(ColumnType.STRING, "Date");			

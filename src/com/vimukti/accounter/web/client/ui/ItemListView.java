@@ -77,29 +77,36 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 	@Override
 	protected Action getAddNewAction() {
-		NewItemAction action;
-		if (this.catageory.equals(FinanceApplication.getCustomersMessages()
-				.customer())) {
+		if (!FinanceApplication.getUser().canDoInvoiceTransactions())
+			return null;
+		else {
+			NewItemAction action;
+			if (this.catageory.equals(FinanceApplication.getCustomersMessages()
+					.customer())) {
+				action = CustomersActionFactory.getNewItemAction();
+				action.setType(3);
+				return action;
+			} else if (this.catageory.equals(FinanceApplication
+					.getVendorsMessages().supplier())
+					|| this.catageory.equals(FinanceApplication
+							.getVendorsMessages().vendor())) {
+				action = VendorsActionFactory.getNewItemAction();
+				action.setType(3);
+				return action;
+			}
+
 			action = CustomersActionFactory.getNewItemAction();
 			action.setType(3);
 			return action;
-		} else if (this.catageory.equals(FinanceApplication
-				.getVendorsMessages().supplier())
-				|| this.catageory.equals(FinanceApplication
-						.getVendorsMessages().vendor())) {
-			action = VendorsActionFactory.getNewItemAction();
-			action.setType(3);
-			return action;
 		}
-
-		action = CustomersActionFactory.getNewItemAction();
-		action.setType(3);
-		return action;
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		return messages.addNewItem();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return messages.addNewItem();
+		else
+			return "";
 	}
 
 	@Override

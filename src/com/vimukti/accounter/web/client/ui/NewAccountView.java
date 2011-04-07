@@ -751,6 +751,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 						&& type != ClientAccount.TYPE_INVENTORY_ASSET
 						&& type != ClientAccount.TYPE_CREDIT_CARD
 						&& type != ClientAccount.TYPE_PAYROLL_LIABILITY) {
+					if (!FinanceApplication.getUser().canDoBanking()
+							&& type == ClientAccount.TYPE_BANK)
+						continue;
 					list.add(Utility.getAccountTypeString(type));
 				}
 			}

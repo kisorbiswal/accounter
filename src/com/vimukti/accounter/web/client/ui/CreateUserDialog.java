@@ -58,7 +58,8 @@ public class CreateUserDialog extends AbstractBaseDialog {
 					// DateItem createDate = new DateItem();
 					createDate.setValue(d);
 
-					ClientFinanceDate d1 = user.getLastLogin();
+					// ClientFinanceDate d1 = user.getLastLogin();
+					ClientFinanceDate d1 = new ClientFinanceDate();
 					// DateItem lastLogin = new DateItem();
 					lastLogin.setValue(d1);
 					legalName.setValue(user.getDefaultCompany()

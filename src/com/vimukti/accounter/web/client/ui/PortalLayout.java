@@ -185,17 +185,17 @@ public class PortalLayout extends VerticalPanel {
 
 	public void setPreference() {
 		if (dashboardParent != null) {
-			user.getUserPreferences().setDashBoardPreferences(
-					getWidgetsString());
+			// user.getUserPreferences().setDashBoardPreferences(
+			// getWidgetsString());
 		} else if (customerParent != null) {
-			user.getUserPreferences().setCustomerSectionViewPreferences(
-					getWidgetsString());
+			// user.getUserPreferences().setCustomerSectionViewPreferences(
+			// getWidgetsString());
 		} else if (vendorParent != null) {
-			user.getUserPreferences().setVendorSectionViewPreferences(
-					getWidgetsString());
+			// user.getUserPreferences().setVendorSectionViewPreferences(
+			// getWidgetsString());
 		} else {
-			user.getUserPreferences().setBankingSectionViewPreferences(
-					getWidgetsString());
+			// user.getUserPreferences().setBankingSectionViewPreferences(
+			// getWidgetsString());
 		}
 		savePreferences();
 	}
