@@ -109,7 +109,12 @@ public class CustomerRefundView extends
 		addressListOfCustomer = customer.getAddress();
 		super.initBillToCombo();
 		setCustomerBalance(customer.getBalance());
-		paymentMethodSelected(customer.getPaymentMethod());
+		if (customer.getPaymentMethod() != null)
+			paymentMethodCombo.setComboItem(customer.getPaymentMethod());
+		else
+			paymentMethodCombo.setComboItem(FinanceApplication
+					.getVendorsMessages().cash());
+		// paymentMethodSelected(customer.getPaymentMethod());
 
 	}
 
@@ -144,7 +149,7 @@ public class CustomerRefundView extends
 		Label lab1 = new Label(Utility.getTransactionName(transactionType));
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-//		lab1.setHeight("35px");
+		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
 
