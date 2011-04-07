@@ -12,7 +12,8 @@ body {
 		;
 	background-repeat: repeat-x;
 	background-position: 0 0;
-	background-color: #D8DCE0 !important;
+	/*background-color: #D8DCE0 !important;*/
+	background-color: #fff !important;
 	font-family: Arial Unicode MS, Arial, sans-serif;
 	font-size: 10pt;
 	font-weight: normal;/*
