@@ -441,7 +441,7 @@ public class RecieveVATView extends
 	protected void initTransactionNumber() {
 
 		rpcUtilService.getNextTransactionNumber(
-				ClientTransaction.TYPE_PAY_SALES_TAX,
+				ClientTransaction.TYPE_RECEIVE_VAT,
 				new AsyncCallback<String>() {
 
 					public void onFailure(Throwable caught) {
@@ -455,6 +455,7 @@ public class RecieveVATView extends
 						if (result == null)
 							onFailure(null);
 						transactionNumber = result;
+						transNumber.setValue(result);
 					}
 
 				});
