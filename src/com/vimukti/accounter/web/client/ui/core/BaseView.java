@@ -90,6 +90,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 		mainPanel.add(commentPanel);
 		mainPanel.add(canvas);
 		add(mainPanel);
+		mainPanel.setStyleName("main-class-pannel");
 
 		buttonLayout = new HorizontalPanel();
 		buttonLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
