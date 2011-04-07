@@ -42,10 +42,11 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 	public CustomerSectionHomeView() {
 		customerHomeView = this;
-		customerSectionPreference = FinanceApplication.getUser() != null ? FinanceApplication
-				.getUser().getUserPreferences()
-				.getCustomerSectionViewPreferences()
-				: "";
+		// customerSectionPreference = FinanceApplication.getUser() != null ?
+		// FinanceApplication
+		// .getUser().getUserPreferences()
+		// .getCustomerSectionViewPreferences()
+		// : "";
 	}
 
 	@Override

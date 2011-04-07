@@ -61,12 +61,18 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 
 	@Override
 	protected Action getAddNewAction() {
-		return CustomersActionFactory.getNewInvoiceAction();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return CustomersActionFactory.getNewInvoiceAction();
+		else
+			return null;
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		return customerConstants.addaNewInvoice();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return customerConstants.addaNewInvoice();
+		else
+			return "";
 	}
 
 	@Override

@@ -46,7 +46,10 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
 	@Override
 	protected Action getAddNewAction() {
-		return CustomersActionFactory.getSalesOrderAction();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return CustomersActionFactory.getSalesOrderAction();
+		else
+			return null;
 	}
 
 	@Override

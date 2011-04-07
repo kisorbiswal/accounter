@@ -51,12 +51,18 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	@Override
 	protected Action getAddNewAction() {
-		return CustomersActionFactory.getNewQuoteAction();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return CustomersActionFactory.getNewQuoteAction();
+		else
+			return null;
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		return customerConstants.addaNewQuote();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return customerConstants.addaNewQuote();
+		else
+			return "";
 	}
 
 	@Override
