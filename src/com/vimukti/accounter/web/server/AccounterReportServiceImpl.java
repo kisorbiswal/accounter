@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
+import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
@@ -1242,8 +1243,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		List<OpenAndClosedOrders> salesOrders = null;
 		getMinimumAndMaximumDates(startDate, endDate);
 		try {
-			salesOrders = getFinanceTool().getCompletedSalesOrders(transtartDate,
-					tranendDate);
+			salesOrders = getFinanceTool().getCompletedSalesOrders(
+					transtartDate, tranendDate);
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (salesOrders != null)
 				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj));
@@ -1259,7 +1260,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		List<OpenAndClosedOrders> salesOrders = null;
 		getMinimumAndMaximumDates(startDate, endDate);
 		try {
-			salesOrders = getFinanceTool().getSalesOrders(transtartDate, tranendDate);
+			salesOrders = getFinanceTool().getSalesOrders(transtartDate,
+					tranendDate);
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (salesOrders != null)
 				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj));
@@ -1275,8 +1277,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		List<OpenAndClosedOrders> salesOrders = null;
 		getMinimumAndMaximumDates(startDate, endDate);
 		try {
-			salesOrders = getFinanceTool().getCanceledSalesOrders(transtartDate,
-					tranendDate);
+			salesOrders = getFinanceTool().getCanceledSalesOrders(
+					transtartDate, tranendDate);
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (salesOrders != null)
 				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj));
@@ -1821,8 +1823,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			transDetailByAccountList = getFinanceTool()
-					.getDepositDetail(transtartDate, tranendDate);
+			transDetailByAccountList = getFinanceTool().getDepositDetail(
+					transtartDate, tranendDate);
 
 			DepositDetail obj = new DepositDetail();
 			if (transDetailByAccountList != null)
@@ -1850,8 +1852,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			checkDetailReports = getFinanceTool().getCheckDetailReport(paymentmethod,
-					transtartDate, tranendDate);
+			checkDetailReports = getFinanceTool().getCheckDetailReport(
+					paymentmethod, transtartDate, tranendDate);
 
 			CheckDetailReport obj = new CheckDetailReport();
 			if (checkDetailReports != null)
@@ -1867,6 +1869,42 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		}
 
 		return checkDetailReports;
+	}
+
+	@Override
+	public List<PayeeStatementsList> getStatements(String id,
+			long transactionDate, long fromDate, long toDate, int noOfDays,
+			boolean isEnabledOfZeroBalBox,
+			boolean isEnabledOfLessthanZeroBalBox,
+			double lessThanZeroBalanceValue,
+			boolean isEnabledOfNoAccountActivity,
+			boolean isEnabledOfInactiveCustomer) {
+
+		List<PayeeStatementsList> resultList = null;
+		getMinimumAndMaximumDates(fromDate, toDate);
+		try {
+
+			resultList= getFinanceTool()
+					.getPayeeStatementsList(id, transactionDate, transtartDate,
+							tranendDate, noOfDays, isEnabledOfZeroBalBox,
+							isEnabledOfLessthanZeroBalBox,
+							lessThanZeroBalanceValue,
+							isEnabledOfNoAccountActivity,
+							isEnabledOfInactiveCustomer);
+			
+			PayeeStatementsList obj=new PayeeStatementsList();
+			if(resultList!=null)
+				resultList.add((PayeeStatementsList)setStartEndDates(obj));
+//			for (PayeeStatementsList obj : list) {
+//
+//				resultList.add((PayeeStatementsList) setStartEndDates(obj));
+//			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return resultList;
 	}
 
 }
