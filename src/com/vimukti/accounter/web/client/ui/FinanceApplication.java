@@ -94,7 +94,7 @@ public class FinanceApplication extends VerticalPanel {
 
 	public FinanceApplication(String email, ClientIdentity identity,
 			ValueCallBack<FinanceApplication> callback) {
-		this.clientIdentity = identity;
+		setClientIdentity(identity);
 		this.callback = callback;
 		MainFinanceWindow.makeAllViewsStaticstoNull();
 
@@ -136,7 +136,7 @@ public class FinanceApplication extends VerticalPanel {
 			}
 
 		};
-		getService.getCompany(getCompanyCallback);
+		getService.getCompany(getClientIdentity().getId(), getCompanyCallback);
 		// this.hide();
 		if (isSales)
 			loadingDialog = UIUtils.getLoadingDialog(FinanceApplication
@@ -193,6 +193,9 @@ public class FinanceApplication extends VerticalPanel {
 					// We got the company, set it for all further references.
 					// company.setAccountingType(ClientCompany.ACCOUNTING_TYPE_US);
 					FinanceApplication.setCompany(company);
+					FinanceApplication.setUser(company
+							.getUser(FinanceApplication.getClientIdentity()
+									.getId()));
 					// Close the startup dialog...
 
 					// and, now we are ready to start the application.
@@ -229,7 +232,7 @@ public class FinanceApplication extends VerticalPanel {
 			}
 
 		};
-		getService.getCompany(getCompanyCallback);
+		getService.getCompany(getClientIdentity().getId(), getCompanyCallback);
 		// this.hide();
 		if (!GWT.isScript())
 			loadingDialog = UIUtils.getLoadingDialog(FinanceApplication
@@ -507,8 +510,11 @@ public class FinanceApplication extends VerticalPanel {
 		reportsMessages = null;
 	}
 
+	public static void setClientIdentity(ClientIdentity clientIdentity) {
+		FinanceApplication.clientIdentity = clientIdentity;
+	}
+
 	public static ClientIdentity getClientIdentity() {
 		return clientIdentity;
 	}
-
 }
