@@ -260,6 +260,8 @@ public class DashBoard extends BaseHomeView {
 				|| transactionType == ClientTransaction.TYPE_VENDOR_PAYMENT
 				|| transactionType == ClientTransaction.TYPE_WRITE_CHECK) {
 			moneyGoingPortlet.refreshWidget();
+			bankingPortlet.refreshWidget();
+			moneyComingPortlet.refreshWidget();
 		}
 	}
 
