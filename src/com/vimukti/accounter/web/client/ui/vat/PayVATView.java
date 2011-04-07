@@ -83,7 +83,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		Label lab = new Label(FinanceApplication.getFinanceUIConstants()
 				.payVAT());
 		lab.setStyleName(FinanceApplication.getVendorsMessages().lableTitle());
-//		lab.setHeight("35px");
+		// lab.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 
 		transNumber = createTransactionNumberItem();
@@ -318,7 +318,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 				.getReturnsDueOnOrBefore()));
 		transactionDateItem.setEnteredDate(payVAT.getDate());
 		transNumber.setValue(payVAT.getNumber());
-       
+
 		endingBalanceText.setAmount(payVAT.getEndingBalance());
 		paymentMethodCombo.setComboItem(payVAT.getPaymentMethod());
 		amountText.setValue(payVAT.getTotal());
@@ -422,8 +422,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 	protected void initTransactionNumber() {
 
-		rpcUtilService.getNextTransactionNumber(
-				ClientTransaction.TYPE_PAY_SALES_TAX,
+		rpcUtilService.getNextTransactionNumber(ClientTransaction.TYPE_PAY_VAT,
 				new AsyncCallback<String>() {
 
 					public void onFailure(Throwable caught) {
@@ -437,6 +436,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 						if (result == null)
 							onFailure(null);
 						transactionNumber = result;
+						transNumber.setValue(result);
 					}
 
 				});
