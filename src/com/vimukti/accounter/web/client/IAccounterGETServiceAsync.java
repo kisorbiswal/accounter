@@ -353,7 +353,7 @@ public interface IAccounterGETServiceAsync {
 	public <T extends IAccounterCore> void getObjects(AccounterCoreType type,
 			AsyncCallback<List<T>> callback);
 
-	void getCompany(AsyncCallback<ClientCompany> callback);
+	void getCompany(String identityID, AsyncCallback<ClientCompany> callback);
 
 	void getStringID(AsyncCallback<String> callback);
 

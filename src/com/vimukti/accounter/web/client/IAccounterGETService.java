@@ -269,7 +269,7 @@ public interface IAccounterGETService extends RemoteService {
 
 	public <T extends IAccounterCore> List<T> getObjects(AccounterCoreType type);
 
-	public ClientCompany getCompany() throws InvalidSessionException;
+	public ClientCompany getCompany(String identityID) throws InvalidSessionException;
 
 	String getStringID();
 
