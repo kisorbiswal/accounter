@@ -145,8 +145,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			allowDocumentNos.setValue(companyPreferences
 					.getAllowDuplicateDocumentNumbers());
 
-			doupaySalesChecBox.setValue(companyPreferences
-					.getDoYouPaySalesTax());
+//			doupaySalesChecBox.setValue(companyPreferences
+//					.getDoYouPaySalesTax());
 
 			// if ((Double) companyPreferences.getLogSpaceUsed() != null)
 			// logspaceTxt.setValue(companyPreferences.getLogSpaceUsed());
@@ -808,72 +808,72 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// taxesForm.setTitleOrientation(TitleOrientation.TOP);
 		// taxesForm.setPadding(10);
 
-		doupaySalesChecBox = new CheckboxItem();
-		// doupaySalesChecBox.setColSpan("2");
-		doupaySalesChecBox.setAttribute(FinanceApplication.getCompanyMessages()
-				.vertical(), false);
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			doupaySalesChecBox.setTitle(companyMessges.doYoupaySalesTaxes());
-		} else
-			doupaySalesChecBox
-					.setTitle(companyMessges.areYouRegisteredForVAT());
-
-		vatRegNumber = new TextItem(companyMessges.vatRegNo());
-		vatRegNumber.setHelpInformation(true);
-		vatRegNumber.setDisabled(false);
-
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			doupaySalesChecBox.addChangeHandler(new ChangeHandler() {
-
-				public void onChange(ChangeEvent event) {
-					if ((Boolean) ((CheckboxItem) event.getSource()).getValue())
-						taxgroupBtn.setEnabled(false);
-					else
-						taxgroupBtn.setEnabled(true);
-				}
-			});
-		} else {
-
-			doupaySalesChecBox
-					.addChangeHandler(new ValueChangeHandler<Boolean>() {
-
-						@Override
-						public void onValueChange(
-								ValueChangeEvent<Boolean> event) {
-							vatRegNumber.setDisabled(!event.getValue());
-							vatRegNumber.setValue(FinanceApplication
-									.getCompany().getpreferences()
-									.getVATregistrationNumber());
-						}
-					});
-		}
-		vatRegNumber.setValue(FinanceApplication.getCompany().getpreferences()
-				.getVATregistrationNumber());
-		taxgroupBtn = new Button(companyMessges.taxgroups());
-		// taxgroupBtn.setColSpan("*");
-		taxgroupBtn.addClickHandler(new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-				taxGroupButtonClick();
-			}
-		});
-		paysalesTaxgroupItem = new RadioGroupItem();
-		paysalesTaxgroupItem.setTitle(companyMessges
-				.onWhatbasisdoUpaySalesTaxes());
-		// paysalesTaxgroupItem.setColSpan("*");
-		// paysalesTaxgroupItem.setVertical(false);
-		// paysalesTaxgroupItem
-		// .setValue(company.getPreferences() != null ? company
-		// .getPreferences().getIsAccuralBasis() ? "1" : "2" : "1");
-
-		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-		map.put("1", companyMessges.accrualBasis());
-		map.put("2", companyMessges.cashBasis());
-		paysalesTaxgroupItem.setValueMap(map);
-
-		taxesForm.setItems(doupaySalesChecBox, vatRegNumber,
-				paysalesTaxgroupItem);
-		taxesForm.setWidth("100%");
+//		doupaySalesChecBox = new CheckboxItem();
+//		// doupaySalesChecBox.setColSpan("2");
+//		doupaySalesChecBox.setAttribute(FinanceApplication.getCompanyMessages()
+//				.vertical(), false);
+//		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+//			doupaySalesChecBox.setTitle(companyMessges.doYoupaySalesTaxes());
+//		} else
+//			doupaySalesChecBox
+//					.setTitle(companyMessges.areYouRegisteredForVAT());
+//
+//		vatRegNumber = new TextItem(companyMessges.vatRegNo());
+//		vatRegNumber.setHelpInformation(true);
+//		vatRegNumber.setDisabled(false);
+//
+//		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+//			doupaySalesChecBox.addChangeHandler(new ChangeHandler() {
+//
+//				public void onChange(ChangeEvent event) {
+//					if ((Boolean) ((CheckboxItem) event.getSource()).getValue())
+//						taxgroupBtn.setEnabled(false);
+//					else
+//						taxgroupBtn.setEnabled(true);
+//				}
+//			});
+//		} else {
+//
+//			doupaySalesChecBox
+//					.addChangeHandler(new ValueChangeHandler<Boolean>() {
+//
+//						@Override
+//						public void onValueChange(
+//								ValueChangeEvent<Boolean> event) {
+//							vatRegNumber.setDisabled(!event.getValue());
+//							vatRegNumber.setValue(FinanceApplication
+//									.getCompany().getpreferences()
+//									.getVATregistrationNumber());
+//						}
+//					});
+//		}
+//		vatRegNumber.setValue(FinanceApplication.getCompany().getpreferences()
+//				.getVATregistrationNumber());
+//		taxgroupBtn = new Button(companyMessges.taxgroups());
+//		// taxgroupBtn.setColSpan("*");
+//		taxgroupBtn.addClickHandler(new ClickHandler() {
+//
+//			public void onClick(ClickEvent event) {
+//				taxGroupButtonClick();
+//			}
+//		});
+//		paysalesTaxgroupItem = new RadioGroupItem();
+//		paysalesTaxgroupItem.setTitle(companyMessges
+//				.onWhatbasisdoUpaySalesTaxes());
+//		// paysalesTaxgroupItem.setColSpan("*");
+//		// paysalesTaxgroupItem.setVertical(false);
+//		// paysalesTaxgroupItem
+//		// .setValue(company.getPreferences() != null ? company
+//		// .getPreferences().getIsAccuralBasis() ? "1" : "2" : "1");
+//
+//		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+//		map.put("1", companyMessges.accrualBasis());
+//		map.put("2", companyMessges.cashBasis());
+//		paysalesTaxgroupItem.setValueMap(map);
+//
+//		taxesForm.setItems(doupaySalesChecBox, vatRegNumber,
+//				paysalesTaxgroupItem);
+//		taxesForm.setWidth("100%");
 		// if(!FinanceApplication.getCompany().getpreferences().getDoYouPaySalesTax())
 		// vatRegNumber.setDisabled(true);
 
