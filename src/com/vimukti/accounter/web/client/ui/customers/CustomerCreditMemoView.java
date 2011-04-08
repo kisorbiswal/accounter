@@ -62,7 +62,7 @@ public class CustomerCreditMemoView extends
 		Label lab1 = new Label(customerConstants.customerCreditNote());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-//		lab1.setHeight("35px");
+		// lab1.setHeight("35px");
 		listforms = new ArrayList<DynamicForm>();
 
 		transactionDateItem = createTransactionDateItem();
@@ -214,6 +214,7 @@ public class CustomerCreditMemoView extends
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
+		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
 
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
@@ -519,7 +520,7 @@ public class CustomerCreditMemoView extends
 				this.customerTransactionGrid.removeAllRecords();
 		}
 		super.customerSelected(customer);
-			this.customer = customer;
+		this.customer = customer;
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
