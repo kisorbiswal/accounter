@@ -630,8 +630,8 @@ public class PayBill extends Transaction {
 
 	private void doVoidEffect(Session session, PayBill payBill) {
 
-		if (payBill.status != Transaction.STATUS_DELETED)
-			payBill.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+//		if (payBill.status != Transaction.STATUS_DELETED)
+//			payBill.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 
 		if (payBill.getPayBillType() == PayBill.TYPE_VENDOR_PAYMENT
 				&& DecimalUtil.isGreaterThan(payBill.getUnusedAmount(), 0.0)) {
