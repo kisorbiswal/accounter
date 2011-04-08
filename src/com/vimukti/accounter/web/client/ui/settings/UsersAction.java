@@ -35,7 +35,7 @@ public class UsersAction extends Action {
 	public void run(Object data, Boolean isDependent) {
 		try {
 			view = new UsersView();
-			MainFinanceWindow.getViewManager().showPresentView(view, data,
+			MainFinanceWindow.getViewManager().showView(view, data,
 					isDependent, UsersAction.this);
 		} catch (Exception e) {
 			e.printStackTrace();

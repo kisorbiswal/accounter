@@ -112,9 +112,9 @@ public class InviteUserView extends BaseView<ClientUser> {
 			// firstNametext.setDisabled(true);
 			// lastNametext.setDisabled(true);
 			// emailField.setDisabled(true);
-			// if (takenUser.isAdmin()) {
-			// userManagementBox.setEnabled(false);
-			// }
+			if (takenUser.isAdmin()) {
+				userManagementBox.setEnabled(false);
+			}
 			// }
 		}
 	}
