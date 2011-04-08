@@ -78,13 +78,16 @@ public class GeneralSettingsView extends AbstractBaseView {
 				.getSettingsMessages().conversionCommet());
 		invoiceBrandingHTML = new HTML(FinanceApplication.getSettingsMessages()
 				.invoiceBrandingHTML());
+		invoiceBrandingHTML.setWidth("145px");
 		invoiceCommentHtml = new HTML(FinanceApplication.getSettingsMessages()
 				.invoiceComment());
 		userHtml = new HTML(FinanceApplication.getSettingsMessages().userHTML());
+		userHtml.setWidth("50px");
 		userCommentHtml = new HTML(FinanceApplication.getSettingsMessages()
 				.usersComment());
 		companySettingsHtml = new HTML(FinanceApplication.getSettingsMessages()
 				.companySettingsTitle());
+		companySettingsHtml.setWidth("150px");
 		companyCommentHtml = new HTML(FinanceApplication.getSettingsMessages()
 				.companyCommentHtml());
 
