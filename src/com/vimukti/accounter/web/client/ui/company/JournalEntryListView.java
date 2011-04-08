@@ -65,8 +65,10 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 	@Override
 	public void onSuccess(List<ClientJournalEntry> result) {
 		super.onSuccess(result);
-		grid.setViewType(FinanceApplication.getVendorsMessages().all());
-		filterList(FinanceApplication.getVendorsMessages().all());
+		if (grid.getRecords().isEmpty())
+			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+		// grid.setViewType(FinanceApplication.getVendorsMessages().all());
+		// filterList(FinanceApplication.getVendorsMessages().all());
 	}
 
 	@Override
