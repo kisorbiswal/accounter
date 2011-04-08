@@ -33,7 +33,7 @@ public interface AccounterErrorType {
 	public static final String cannotUseSalesItem = "Cannot purchase a Product that does not have a purchase financial Account.";
 	public static final String unitPrice = "You cannot enter a negative Unit Price";
 	public static final String discountAmount = "Discount Amount cannot be negative";
-	public static final String amount = "Amount Cannot be negative";
+	public static final String amount = "Amount should not be zero or less than zero";
 	public static final String lineTotal = "You cannot enter a negative Total Amount ";
 	public static final String quantity = "You cannot enter a negative Quantity ";
 	public static final String lineTotalAmount = "The Value for Line Total Field must be positive.";
