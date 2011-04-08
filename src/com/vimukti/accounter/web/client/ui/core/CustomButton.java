@@ -26,7 +26,7 @@ public class CustomButton extends Button {
 
 		super(type.getValue());
 		// setAutoFit(true);
-		this.removeStyleName("gwt-button");
+		this.removeStyleName("gwt-Button");
 		this.addStyleName("custom-button");
 		if (canvas == null) {
 			Accounter.showError("Could Not Create Button... ");
@@ -94,7 +94,6 @@ public class CustomButton extends Button {
 	protected void validateAndSave(final AbstractBaseView view)
 			throws Exception {
 		view.errorOccured = false;
-		view.warnOccured = false;
 		BaseView.errordata.setHTML("");
 		BaseView.commentPanel.setVisible(false);
 		AccounterExecute execute = new AccounterExecute(view, this);

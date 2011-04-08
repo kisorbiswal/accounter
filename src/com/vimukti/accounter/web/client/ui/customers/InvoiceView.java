@@ -188,7 +188,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-//		lab1.setHeight("35px");
+		// lab1.setHeight("35px");
 
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
@@ -237,14 +237,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		emptylabel.setWidth("100%");
 		emptylabel.setShowTitle(false);
 
-		quoteLabel.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				getEstimatesAndSalesOrder();
-			}
-		});
-
+		quoteLabelListener();
 		contactCombo = createContactComboItem();
 		contactCombo.setHelpInformation(true);
 		// billToCombo = createBillToComboItem();
@@ -515,6 +508,19 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			resetFromView();
 
 		canvas.add(mainVLay);
+
+	}
+
+	private void quoteLabelListener() {
+		if (!isEdit) {
+			quoteLabel.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					getEstimatesAndSalesOrder();
+				}
+			});
+		}
 
 	}
 
@@ -1337,7 +1343,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		customerCombo.setDisabled(isEdit);
 		quoteLabel.setDisabled(isEdit);
-
+		quoteLabelListener();
+		
 		shipToAddress.businessSelect.setDisabled(isEdit);
 
 		salesPersonCombo.setDisabled(isEdit);

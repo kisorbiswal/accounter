@@ -94,7 +94,7 @@ public class SalesOrderView extends
 		lab1 = new Label(FinanceApplication.getCustomersMessages().salesOrder());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-//		lab1.setHeight("35px");
+		// lab1.setHeight("35px");
 		statusSelect = new SelectCombo(FinanceApplication
 				.getCustomersMessages().statuS());
 
@@ -167,13 +167,7 @@ public class SalesOrderView extends
 		quoteLabel.addStyleName("falseHyperlink");
 		quoteLabel.setShowTitle(false);
 		quoteLabel.setDisabled(isEdit);
-		quoteLabel.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				getEstimates();
-			}
-		});
+		quoteLabelListener();
 		contactCombo = createContactComboItem();
 		contactCombo.setWidth(100);
 
@@ -433,6 +427,18 @@ public class SalesOrderView extends
 
 	}
 
+	private void quoteLabelListener() {
+		if (!isEdit) {
+			quoteLabel.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					getEstimates();
+				}
+			});
+		}
+	}
+
 	public void resetFormView() {
 		custForm.getCellFormatter().setWidth(0, 1, "200px");
 		custForm.setWidth("94%");
@@ -573,7 +579,7 @@ public class SalesOrderView extends
 
 		if (salesOrderToBeEdited.getPhone() != null)
 			this.phoneNo = salesOrderToBeEdited.getPhone();
-		if (customer.getPhoneNo() == null &&customer.getPhoneNo().isEmpty())
+		if (customer.getPhoneNo() == null && customer.getPhoneNo().isEmpty())
 			phoneSelect.setValue(this.phoneNo);
 
 		contactSelected(this.contact);
@@ -1126,6 +1132,9 @@ public class SalesOrderView extends
 		customerOrderText.setDisabled(isEdit);
 		customerTransactionGrid.setDisabled(false);
 		quoteLabel.setDisabled(isEdit);
+
+		quoteLabelListener();
+		
 		salesPersonCombo.setDisabled(isEdit);
 		shippingTermsCombo.setDisabled(isEdit);
 		payTermsSelect.setDisabled(isEdit);
