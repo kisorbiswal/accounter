@@ -49,6 +49,7 @@ import com.vimukti.accounter.web.client.ui.vat.VATMessages;
 public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 	
 	public static boolean errorOccured = false;
+	public static boolean warnOccured = false;
 
 	public AbstractBaseView() {
 

@@ -94,6 +94,7 @@ public class CustomButton extends Button {
 	protected void validateAndSave(final AbstractBaseView view)
 			throws Exception {
 		view.errorOccured = false;
+		view.warnOccured = false;
 		BaseView.errordata.setHTML("");
 		BaseView.commentPanel.setVisible(false);
 		AccounterExecute execute = new AccounterExecute(view, this);

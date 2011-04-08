@@ -166,6 +166,7 @@ public class AccounterValidator {
 						return true;
 					}
 				});
+		AbstractBaseView.warnOccured = true;
 		return false;
 	}
 
@@ -280,6 +281,7 @@ public class AccounterValidator {
 					}
 
 				});
+		AbstractBaseView.warnOccured = true;
 		return false;
 	}
 
@@ -671,6 +673,7 @@ public class AccounterValidator {
 						}
 
 					});
+			AbstractBaseView.warnOccured = true;
 		} else
 			view.validationCount--;
 		return false;
@@ -705,6 +708,7 @@ public class AccounterValidator {
 						}
 
 					});
+			AbstractBaseView.warnOccured = true;
 		} else
 			view.validationCount--;
 		return false;
@@ -1020,6 +1024,7 @@ public class AccounterValidator {
 					}
 
 				});
+		AbstractBaseView.warnOccured = true;
 		return false;
 
 	}
@@ -1044,7 +1049,7 @@ public class AccounterValidator {
 			double bankBalance, double amount, boolean isIncrease,
 			final AbstractBaseView view) {
 		if (isIncrease == false
-				&& DecimalUtil.isLessThan((bankBalance - amount), 0.00)) {
+				&& DecimalUtil.isLessThan((bankBalance - amount), 0.00) && !AbstractBaseView.errorOccured) {
 			Accounter.showWarning(
 					AccounterWarningType.total_Exceeds_BankBalance,
 					AccounterType.WARNING, new ErrorDialogHandler() {
@@ -1070,6 +1075,7 @@ public class AccounterValidator {
 						}
 
 					});
+			AbstractBaseView.warnOccured = true;
 			return false;
 		}
 		return true;
@@ -1381,7 +1387,7 @@ public class AccounterValidator {
 
 		if (!payFromAccount.isIncrease()
 				&& (DecimalUtil.isLessThan(
-						(payFromAccount.getTotalBalance() - amount), 0.0))) {
+						(payFromAccount.getTotalBalance() - amount), 0.0)) && !AbstractBaseView.errorOccured) {
 			Accounter.showWarning(
 					AccounterWarningType.INVALID_CUSTOMERREFUND_AMOUNT,
 					AccounterType.WARNING, new ErrorDialogHandler() {
@@ -1406,6 +1412,7 @@ public class AccounterValidator {
 						}
 
 					});
+			AbstractBaseView.warnOccured = true;
 
 			return false;
 		}
@@ -1662,6 +1669,7 @@ public class AccounterValidator {
 						return false;
 					}
 				});
+		AbstractBaseView.warnOccured = true;
 		return false;
 	}
 

@@ -39,7 +39,8 @@ public class AccounterExecute extends Timer {
 					}
 				} else {
 					if (view.validationCount != 0) {
-						view.validationCount--;
+						if (!view.warnOccured)
+							view.validationCount--;
 						validationCount--;
 					}
 				}
