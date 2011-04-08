@@ -267,6 +267,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 		mainPanel.add(optionsTable);
 
 		add(mainPanel);
+		mainPanel.setStyleName("setting-class-panel");
 	}
 
 	@Override

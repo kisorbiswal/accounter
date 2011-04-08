@@ -151,14 +151,19 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 		footerLayout.add(okbtn);
 		footerLayout.add(cancelBtn);
 
-		okbtn.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(okbtn, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
+		if (okbtn.isVisible()) {
+			okbtn.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(okbtn, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 
-		cancelBtn.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(cancelBtn, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+		if (cancelBtn.isVisible()) {
+			cancelBtn.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(cancelBtn, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 
 		footerLayout.setCellHorizontalAlignment(okbtn,
 				HasHorizontalAlignment.ALIGN_RIGHT);

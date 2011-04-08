@@ -7,6 +7,14 @@
 	/*display: none;*/
 }
 
+.GL0PBETBEC {
+	background: none repeat scroll 0 0 #F3F4F4 !important;
+}
+
+.GL0PBETBED {
+	background: none repeat scroll 0 0 #E8E8E8 !important;
+}
+
 body {
 	color: black;
 	margin: 0px auto !important;
@@ -498,7 +506,7 @@ div.link:hover {
 		center bottom #DFDFDF;
 	border-color: #989898;
 	border-style: solid;
-	border-width: 0 1px;
+	border-width: 0 1px 1px;
 	padding-bottom: 4px;
 }
 
@@ -585,7 +593,7 @@ td.gridDecimalCell {
 }
 
 table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
-	background: #83BF91 !important;
+	background: #CCCCCC !important;
 }
 
 /*.dropdown-button {
@@ -946,9 +954,136 @@ important;
 	margin: 0 4px !important;
 }
 
-.invoice-total tr:nth-child(3){
-  order-bottom: 1px solid #aaa;
-  border-top:1px solid #aaa;
+.invoice-total
+
+
+
+
+ 
+
+
+
+
+tr
+
+
+
+
+
+
+
+
+:nth-child
+
+
+
+
+ 
+
+
+
+
+(3){
+order-bottom
+
+
+
+
+
+
+
+
+:
+
+
+
+
+ 
+
+
+
+
+1
+px
+
+
+
+
+ 
+
+
+
+
+solid
+
+
+
+
+ 
+
+
+
+
+#aaa
+
+
+
+
+
+
+
+
+;
+border-top
+
+
+
+
+
+
+
+
+:
+
+
+
+
+ 
+
+
+
+
+1
+px
+
+
+
+
+ 
+
+
+
+
+solid
+
+
+
+
+ 
+
+
+
+
+#aaa
+
+
+
+
+
+
+
+
+;
 }
 .noScroll input[type="text"] { /*width: 150px !important;*/
 	
@@ -1004,10 +1139,67 @@ important;
 	margin: 5px 0 0 5px;
 }
 
-.standard-options td :nth-child(2){
-	float: right;
-}
+.standard-options
 
+
+
+
+ 
+
+
+
+
+td
+
+
+
+
+ 
+
+
+
+
+:nth-child
+
+
+
+
+ 
+
+
+
+
+(2){
+float
+
+
+
+
+
+
+
+
+:
+
+
+
+
+ 
+
+
+
+
+right
+
+
+
+
+
+
+
+
+;
+}
 .terms-payment-area {
 	width: 450px;
 	height: 75px;
@@ -1097,11 +1289,110 @@ important;
 	background: none repeat scroll 0 0 #F0F0F0 !important;
 }
 
-.help-logout-sep td :nth-child(2),.help-logout-sep td :nth-child(3){
-	padding: 5px !important;
+.help-logout-sep
+
+
+
+
+ 
+
+
+
+
+td
+
+
+
+
+ 
+
+
+
+
+:nth-child
+
+
+
+
+ 
+
+
+
+
+(2),
+.help-logout-sep
+
+
+
+
+ 
+
+
+
+
+td
+
+
+
+
+ 
+
+
+
+
+:nth-child
+
+
+
+
+ 
+
+
+
+
+(3){
+padding
+
+
+
+
+
+
+
+
+:
+
+
+
+
+ 
+
+
+
+
+5
+px
+
+
+
+
+ 
+
+
+
+
+!
+important
+
+
+
+
+
+
+
+
+;
 }
-
-
 .help-content {
 	background: url("images/Menubar_Divider_2x30.jpg") no-repeat scroll 0 0
 		transparent;
@@ -1168,7 +1459,6 @@ important;
 	z-index: 1;
 	padding: 0px;
 }
-
 
 .save-new-separator {
 	background: url("images/Divider.png") no-repeat scroll 0 0 transparent
@@ -1516,8 +1806,25 @@ iframe { /*display:none;*/
 .help-panel a:hover {
 	text-decoration: underline;
 }
+
 .main-finance-window {
 	background: url("../images/body-shadow-right.png") repeat-y scroll right
 		top #F0F0F0 !important;
 	padding-right: 9px;
+}
+
+.setting-class-panel {
+	border-color: #989898;
+	border-style: solid;
+	border-width: 1px 1px 1px;
+	margin: 7px 7px 5px -2px !important;
+	padding: 10px 8px 10px 11px !important;
+}
+
+.brandingTheme-class-panel {
+	border-color: #989898;
+	border-style: solid;
+	border-width: 1px 1px 1px;
+	margin: 7px 7px 5px -2px !important;
+	padding: 3px 10px 7px 7px !important;
 }

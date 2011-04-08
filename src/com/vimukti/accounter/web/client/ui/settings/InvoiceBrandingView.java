@@ -81,7 +81,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 						false);
 			}
 		});
-		titlePanel.add(generalSettingsHTML);
+		// titlePanel.add(generalSettingsHTML);
 		titlePanel.add(invoiceBrandingHtml);
 
 		buttonPanel = new HorizontalPanel();
@@ -362,7 +362,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		vPanel.add(nameAndMenuPanel);
 		vPanel.add(allPanel);
 		vPanel.setWidth("100%");
-		vPanel.setSpacing(15);
+		vPanel.setStyleName("setting-class-panel");
 		return vPanel;
 
 	}
