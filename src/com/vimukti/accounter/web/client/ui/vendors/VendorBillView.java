@@ -301,7 +301,7 @@ public class VendorBillView extends
 		// lab1 = new Label("Enter Bill(" + getTransactionStatus() + ")");
 
 		lab1.setStyleName(FinanceApplication.getVendorsMessages().lableTitle());
-//		lab1.setHeight("50px");
+		// lab1.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem.setTitle(FinanceApplication.getVendorsMessages()
 				.billDate());
@@ -529,6 +529,7 @@ public class VendorBillView extends
 
 			bottomLayout.add(memoForm);
 			bottomLayout.add(totalForm);
+			bottomLayout.setCellWidth(totalForm, "30%");
 
 			bottompanel.add(vpanel);
 			bottompanel.add(bottomLayout);
