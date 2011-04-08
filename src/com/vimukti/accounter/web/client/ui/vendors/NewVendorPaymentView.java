@@ -223,7 +223,7 @@ public class NewVendorPaymentView extends
 		// .getpaymentMethodCheckBy_CompanyType(FinanceApplication
 		// .getCustomersMessages().check()));
 		paymentMethodCombo.setComboItem(FinanceApplication.getVendorsMessages()
-				.cash());
+				.cheque());
 
 		printCheck = new CheckboxItem(vendorConstants.Tobeprinted());
 		printCheck.setValue(true);
