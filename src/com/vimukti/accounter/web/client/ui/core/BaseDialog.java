@@ -125,7 +125,7 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 		// footerLayout.addStyleName("dialogfooter");
 
 		okbtn = new Button(constants.ok());
-		okbtn.setWidth("100px");
+		okbtn.setWidth("80px");
 		this.okbtn.setFocus(true);
 
 		okbtn.addClickHandler(new ClickHandler() {
@@ -138,7 +138,7 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 		okbtn.setFocus(true);
 
 		cancelBtn = new Button(constants.cancel());
-		cancelBtn.setWidth("100px");
+		cancelBtn.setWidth("80px");
 		cancelBtn.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
