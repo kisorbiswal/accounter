@@ -17,7 +17,7 @@ public class AmountLabel extends LabelItem {
 		setAmount(0.00D);
 		// setWidth("0px");
 		((Label) getMainWidget())
-				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 	}
 
 	public void setAmount(Double amount) {
