@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.forms;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -130,6 +131,20 @@ public abstract class FormItem {
 			this.getValidator().add(new RequiredFieldValidator());
 		} else {
 			this.getValidator().clear();
+			removeLabelStar();
+		}
+	}
+
+	private void removeLabelStar() {
+		if (label == null)
+			return;
+		else {
+			Node parentNode = null;
+			if (label.getElement().hasChildNodes())
+				parentNode = label.getElement().getFirstChild().getParentNode();
+			if (parentNode != null) {
+				parentNode.removeChild(label.getElement().getChild(1));
+			}
 		}
 	}
 

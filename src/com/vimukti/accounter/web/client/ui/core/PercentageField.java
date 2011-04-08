@@ -91,7 +91,10 @@ public class PercentageField extends TextItem {
 							} else
 								setPercentage(enteredPercentageValue);
 						}
+					} else {
+						setPercentage(0.0);
 					}
+						
 				} catch (Exception e) {
 					BaseView.errordata.setHTML("<li> "
 							+ AccounterErrorType.INVALIDENTRY + ".");

@@ -66,7 +66,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 			infoLabel = new Label(FinanceApplication.getVATMessages().VATItem());
 			infoLabel.setStyleName(FinanceApplication.getCustomersMessages()
 					.lableTitle());
-//			infoLabel.setHeight("35px");
+			// infoLabel.setHeight("35px");
 		}
 
 		else {
@@ -75,7 +75,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 			infolabel1.setStyleName(FinanceApplication.getCustomersMessages()
 					.lableTitle());
-//			infolabel1.setHeight("50px");
+			// infolabel1.setHeight("50px");
 		}
 
 		listforms = new ArrayList<DynamicForm>();
@@ -202,8 +202,8 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 						}
 					}
 				});
-		
-        form1.getCellFormatter().setWidth(0, 0, "250px");
+
+		form1.getCellFormatter().setWidth(0, 0, "250px");
 		form1.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 
 		if (takenVATItem != null) {
@@ -343,20 +343,20 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 			} else
 				throw new InvalidEntryException(AccounterErrorType.ALREADYEXIST);
 		case 5:
-			if ((Boolean) isPercentatateAmtCheck.getValue() == false) {
-				if (!vatRateText.validate()) {
-					throw new InvalidEntryException(
-							AccounterErrorType.REQUIRED_FIELDS);
-				}
-			}
+			// if ((Boolean) isPercentatateAmtCheck.getValue() == false) {
+			// if (!vatRateText.validate()) {
+			// throw new InvalidEntryException(
+			// AccounterErrorType.REQUIRED_FIELDS);
+			// }
+			// }
 			return true;
 		case 4:
-			if ((Boolean) isPercentatateAmtCheck.getValue() == true) {
-				if (!vatRateTextPerT.validate()) {
-					throw new InvalidEntryException(
-							AccounterErrorType.REQUIRED_FIELDS);
-				}
-			}
+			// if ((Boolean) isPercentatateAmtCheck.getValue() == true) {
+			// if (!vatRateTextPerT.validate()) {
+			// throw new InvalidEntryException(
+			// AccounterErrorType.REQUIRED_FIELDS);
+			// }
+			// }
 			return true;
 
 		case 3:
