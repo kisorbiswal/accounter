@@ -129,11 +129,11 @@ public class FileUploadDilaog extends CustomDialog {
 
 		// Add a 'submit' button.
 		Button uploadSubmitButton = new Button("Add");
-		uploadSubmitButton.setWidth("50px");
+		uploadSubmitButton.setWidth("60px");
 		// vpaPanel.add(uploadSubmitButton);
 
 		Button closeButton = new Button("Close");
-		closeButton.setWidth("50px");
+		closeButton.setWidth("60px");
 
 		buttonHlay.add(uploadSubmitButton);
 		buttonHlay.add(closeButton);
@@ -149,7 +149,7 @@ public class FileUploadDilaog extends CustomDialog {
 
 		vpaPanel.add(buttonHlay);
 		/* Make align three Element on there position */
-		buttonHlay.setCellWidth(uploadSubmitButton, "100%");
+		// buttonHlay.setCellWidth(uploadSubmitButton);
 
 		buttonHlay.setCellHorizontalAlignment(closeButton,
 				HasHorizontalAlignment.ALIGN_RIGHT);

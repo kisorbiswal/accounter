@@ -98,7 +98,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 				.fiscalYearButtons());
 		buttonVlayout.setSpacing(5);
 		newFiscalYearButton = new Button();
-		newFiscalYearButton.setWidth("150px");
+		newFiscalYearButton.setWidth("140px");
 		newFiscalYearButton.setText(FinanceApplication.getCompanyMessages()
 				.newFiscalYear());
 		newFiscalYearButton.addClickHandler(new ClickHandler() {
@@ -111,7 +111,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			}
 		});
 		closeFiscalYearButton = new Button();
-		closeFiscalYearButton.setWidth("150px");
+		closeFiscalYearButton.setWidth("140px");
 		closeFiscalYearButton.setEnabled(false);
 		closeFiscalYearButton.setText(FinanceApplication.getCompanyMessages()
 				.closeFiscalYear());
@@ -123,7 +123,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			}
 		});
 		openFiscalYearButoon = new Button();
-		openFiscalYearButoon.setWidth("150px");
+		openFiscalYearButoon.setWidth("140px");
 		openFiscalYearButoon.setEnabled(false);
 		openFiscalYearButoon.setText(FinanceApplication.getCompanyMessages()
 				.openFiscalYear());
@@ -139,7 +139,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			}
 		});
 		editFiscalYear = new Button();
-		editFiscalYear.setWidth("150px");
+		editFiscalYear.setWidth("140px");
 		editFiscalYear.setText(FinanceApplication.getCompanyMessages()
 				.editFiscalYear());
 		editFiscalYear.addClickHandler(new ClickHandler() {
@@ -150,10 +150,10 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			}
 		});
 		deleteFiscalYear = new Button();
-		deleteFiscalYear.setWidth("150px");
+		deleteFiscalYear.setWidth("140px");
 		deleteFiscalYear.setText(FinanceApplication.getCompanyMessages()
 				.deleteFiscalYear());
-		deleteFiscalYear.setWidth("150px");
+		deleteFiscalYear.setWidth("140px");
 		// deleteFiscalYear.setEnabled(false);
 		deleteFiscalYear.addClickHandler(new ClickHandler() {
 
@@ -163,7 +163,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			}
 		});
 		changeStartDate = new Button();
-		changeStartDate.setWidth("150px");
+		changeStartDate.setWidth("140px");
 		changeStartDate.setText(FinanceApplication.getCompanyMessages()
 				.changeStartDate());
 		changeStartDate.addClickHandler(new ClickHandler() {
@@ -175,6 +175,8 @@ public class ManageFiscalYearDialog extends BaseDialog {
 						listOfperiods);
 			}
 		});
+		
+		buttonVlayout.setWidth("155px");
 		buttonVlayout.add(newFiscalYearButton);
 		buttonVlayout.add(closeFiscalYearButton);
 		buttonVlayout.add(openFiscalYearButoon);

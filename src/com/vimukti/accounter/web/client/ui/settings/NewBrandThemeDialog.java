@@ -599,8 +599,12 @@ public class NewBrandThemeDialog extends BaseDialog {
 				});
 
 		DynamicForm fontNameForm = new DynamicForm();
+		fontNameForm.setCellSpacing(0);
+		fontNameForm.setNumCols(1);
 		fontNameForm.setFields(fontNameBox);
 		DynamicForm fontSizeForm = new DynamicForm();
+		fontSizeForm.setCellSpacing(0);
+		fontSizeForm.setNumCols(1);
 		fontSizeForm.setFields(fontSizeBox);
 		HorizontalPanel measurePanel = new HorizontalPanel();
 		measurePanel.add(topMarginBox);
