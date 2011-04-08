@@ -119,11 +119,11 @@ public class CreditCardChargeView extends
 		// Set<Address> allAddress = selectedVendor.getAddress();
 		addressList = selectedVendor.getAddress();
 		initBillToCombo();
-//		billToCombo.setDisabled(isEdit);
+		// billToCombo.setDisabled(isEdit);
 		Set<ClientContact> allContacts;
 		allContacts = selectedVendor.getContacts();
 		Iterator<ClientContact> it = allContacts.iterator();
-//		List<String> phones = new ArrayList<String>();
+		// List<String> phones = new ArrayList<String>();
 		ClientContact primaryContact = null;
 		List<String> idNamesForContacts = new ArrayList<String>();
 		int i = 0;
@@ -132,7 +132,7 @@ public class CreditCardChargeView extends
 			if (contact.isPrimary())
 				primaryContact = contact;
 			idNamesForContacts.add(contact.getName());
-//			phones.add(contact.getBusinessPhone());
+			// phones.add(contact.getBusinessPhone());
 			i++;
 		}
 
@@ -290,7 +290,7 @@ public class CreditCardChargeView extends
 		delivDate.setValue(new ClientFinanceDate(creditCardChargeTaken
 				.getDeliveryDate()));
 		delivDate.setDisabled(isEdit);
-        phoneSelect.setValue(creditCardChargeTaken.getPhone());
+		phoneSelect.setValue(creditCardChargeTaken.getPhone());
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			netAmount.setAmount(creditCardChargeTaken.getNetAmount());
 			vatTotalNonEditableText.setAmount(creditCardChargeTaken.getTotal()
@@ -321,12 +321,12 @@ public class CreditCardChargeView extends
 		creditCardChargeTaken = null;
 		billingAddress = null;
 		addressList = null;
-//		billToCombo.setDisabled(isEdit);
+		// billToCombo.setDisabled(isEdit);
 		paymentMethod = UIUtils
 				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
 						.getCustomersMessages().check());
 		payFromAccount = "";
-//		phoneSelect.setValueMap("");
+		// phoneSelect.setValueMap("");
 		setMemoTextAreaItem("");
 		// refText.setValue("");
 		cheqNoText.setValue("");
@@ -340,7 +340,7 @@ public class CreditCardChargeView extends
 				.creditCardCharge());
 		titlelabel.addStyleName(FinanceApplication.getFinanceUIConstants()
 				.lableTitle());
-//		titlelabel.setHeight("35px");
+		// titlelabel.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
 
@@ -527,6 +527,7 @@ public class CreditCardChargeView extends
 
 			botPanel.add(memoForm);
 			botPanel.add(totalForm);
+			botPanel.setCellWidth(totalForm, "30%");
 
 			bottompanel.add(vPanel);
 			bottompanel.add(botPanel);
