@@ -68,6 +68,7 @@ public class NewItemAction extends Action {
 
 					} else {
 						if (data == null) {
+							item = null;
 							if (getActionSource() != null) {
 								if (getActionSource() instanceof ServiceCombo)
 									type = TYPE_SERVICE;
