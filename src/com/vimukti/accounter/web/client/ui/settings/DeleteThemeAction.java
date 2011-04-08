@@ -25,12 +25,14 @@ public class DeleteThemeAction extends Action {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		try {

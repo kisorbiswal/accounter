@@ -2,14 +2,12 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.BrandingThemeCombo;
@@ -22,7 +20,6 @@ public class BrandingThemeComboDialog extends BaseDialog {
 	private BrandingThemeCombo brandingThemeTypeCombo;
 	private ClientTransaction clientTransaction;
 	private ClientBrandingTheme brandingTheme;
-	private Button okButton, cancelButton;
 
 	public BrandingThemeComboDialog(String title, String desc,
 			ClientTransaction clientTransaction) {
@@ -44,9 +41,6 @@ public class BrandingThemeComboDialog extends BaseDialog {
 		brandingThemeTypeCombo = new BrandingThemeCombo(FinanceApplication
 				.getSettingsMessages().selectTheme());
 		brandingTheme = new ClientBrandingTheme();
-		okButton = new Button(FinanceApplication.getSettingsMessages().ok());
-		cancelButton = new Button(FinanceApplication.getSettingsMessages()
-				.cancelButton());
 		brandingThemeTypeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientBrandingTheme>() {
 
@@ -57,7 +51,7 @@ public class BrandingThemeComboDialog extends BaseDialog {
 					}
 				});
 
-		okButton.addClickHandler(new ClickHandler() {
+		okbtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -69,15 +63,13 @@ public class BrandingThemeComboDialog extends BaseDialog {
 				hide();
 			}
 		});
-		cancelButton.addClickHandler(new ClickHandler() {
+		cancelBtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				hide();
 			}
 		});
-		okbtn.setVisible(false);
-		cancelBtn.setVisible(false);
 
 		DynamicForm dynamicForm = new DynamicForm();
 		VerticalPanel comboPanel = new VerticalPanel();
@@ -85,21 +77,10 @@ public class BrandingThemeComboDialog extends BaseDialog {
 
 		dynamicForm.setFields(brandingThemeTypeCombo);
 
-		buttonPanel.add(okButton);
-		buttonPanel.add(cancelButton);
-
-		okButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(okButton, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		cancelButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(cancelButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-
 		comboPanel.add(dynamicForm);
 		comboPanel.add(buttonPanel);
 
-		mainPanel.add(comboPanel);
+		setBodyLayout(comboPanel);
 	}
 
 	private void print() {

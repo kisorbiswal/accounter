@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -17,7 +16,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -26,7 +24,7 @@ import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "deprecation", "unchecked" })
 public class NewBrandThemeDialog extends BaseDialog {
 
 	private Label nameLabel, pageSizeLabel, topMarginLabel, bottomMarginLabel,
@@ -41,8 +39,8 @@ public class NewBrandThemeDialog extends BaseDialog {
 			cmButton, inchButton;
 	private VerticalPanel checkBoxPanel, radioButtonPanel,
 			check_radio_textAreaPanel, button_textBoxPanel;
-	private HorizontalPanel mainLayoutPanel, check_radioPanel, buttonPanel;
-	private Button saveButton, cancelButton;
+	private HorizontalPanel mainLayoutPanel, check_radioPanel;
+	// private Button saveButton, cancelButton;
 	private CheckBox taxNumItem, headingItem, unitPriceItem,// paymentItem,
 			columnItem, addressItem, logoItem;
 	private TextBox nameBox, topMarginBox, bottomMarginBox, addressPadBox,
@@ -98,6 +96,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 		paypalTextBox.setValue(brandingTheme.getPayPalEmailID());
 		termsPaymentArea.setValue(brandingTheme.getTerms_And_Payment_Advice());
 		contactDetailsArea.setValue(brandingTheme.getContactDetails());
+
 	}
 
 	@Override
@@ -122,18 +121,17 @@ public class NewBrandThemeDialog extends BaseDialog {
 		check_radio_textAreaPanel.add(termsLabel);
 		check_radio_textAreaPanel.add(termsPaymentArea);
 
-		buttonPanel = new HorizontalPanel();
-		saveButton = new Button(FinanceApplication.getSettingsMessages()
-				.saveButton());
-		saveButton.addClickHandler(new ClickHandler() {
+		okbtn.setText(FinanceApplication.getSettingsMessages().saveButton());
+		// okbtn = new Button();
+		okbtn.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				okClicked();
 			}
 		});
-		cancelButton = new Button(FinanceApplication.getSettingsMessages()
+		cancelBtn.setText(FinanceApplication.getSettingsMessages()
 				.cancelButton());
-		cancelButton.addClickHandler(new ClickHandler() {
+		cancelBtn.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				cancelClicked();
@@ -146,10 +144,10 @@ public class NewBrandThemeDialog extends BaseDialog {
 			public boolean onOkClick() {
 				ClientBrandingTheme brandingTheme = saveValues();
 
-				if (brandingTheme.getStringID() != null) {
+				if (brandingTheme.getStringID() != null)
 					ViewManager.getInstance().alterObject(brandingTheme,
 							NewBrandThemeDialog.this);
-				} else
+				else
 					ViewManager.getInstance().createObject(brandingTheme,
 							NewBrandThemeDialog.this);
 				return true;
@@ -161,32 +159,28 @@ public class NewBrandThemeDialog extends BaseDialog {
 			}
 
 		});
-		buttonPanel.add(saveButton);
-		buttonPanel.add(cancelButton);
+		// buttonPanel.add(saveButton);
+		// buttonPanel.add(cancelButton);
 
-		saveButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(saveButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-
-		cancelButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(cancelButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+		// saveButton.getElement().getParentElement().setClassName("ibutton");
+		// ThemesUtil.addDivToButton(saveButton, FinanceApplication
+		// .getThemeImages().button_right_blue_image(),
+		// "ibutton-right-image");
+		//
+		// cancelButton.getElement().getParentElement().setClassName("ibutton");
+		// ThemesUtil.addDivToButton(cancelButton, FinanceApplication
+		// .getThemeImages().button_right_blue_image(),
+		// "ibutton-right-image");
 
 		mainLayoutPanel.add(addTextBoxTableControl());
 		mainLayoutPanel.add(check_radio_textAreaPanel);
 
 		button_textBoxPanel.add(mainLayoutPanel);
-		button_textBoxPanel.add(buttonPanel);
 
-		okbtn.setVisible(false);
-		cancelBtn.setVisible(false);
-		mainPanel.add(button_textBoxPanel);
+		setBodyLayout(button_textBoxPanel);
 
 	}
 
-	@SuppressWarnings("deprecation")
 	private int getPageSize() {
 		if (a4Button.isChecked()) {
 			return 1;
@@ -195,7 +189,6 @@ public class NewBrandThemeDialog extends BaseDialog {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	private void setMeasurementType(int i) {
 		if (i == 1) {
 			cmButton.setChecked(true);
@@ -204,7 +197,6 @@ public class NewBrandThemeDialog extends BaseDialog {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	private void setPazeSize(int i) {
 		if (i == 1) {
 			a4Button.setChecked(true);
@@ -213,9 +205,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	private ClientBrandingTheme saveValues() {
-
 		ClientBrandingTheme brandingTheme = takenTheme != null ? takenTheme
 				: new ClientBrandingTheme();
 		brandingTheme.setThemeName(String.valueOf(nameBox.getValue()));
@@ -250,12 +240,9 @@ public class NewBrandThemeDialog extends BaseDialog {
 				.getValue()));
 		brandingTheme.setLogoAlignmentType(getLogoType());
 		// brandingTheme.setShowTaxesAsType(getTaxType());
-
 		return brandingTheme;
-
 	}
 
-	@SuppressWarnings("deprecation")
 	private int getLogoType() {
 		if (leftRadioButton.isChecked()) {
 			return 1;
@@ -264,7 +251,6 @@ public class NewBrandThemeDialog extends BaseDialog {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	private void setLogoType(int i) {
 		if (i == 1) {
 			leftRadioButton.setChecked(true);
@@ -401,7 +387,6 @@ public class NewBrandThemeDialog extends BaseDialog {
 	// return i;
 	// }
 
-	@SuppressWarnings("deprecation")
 	private VerticalPanel addRadioBoxTableControls() {
 		radioButtonPanel = new VerticalPanel();
 
@@ -445,7 +430,6 @@ public class NewBrandThemeDialog extends BaseDialog {
 		return radioButtonPanel;
 	}
 
-	@SuppressWarnings("deprecation")
 	private VerticalPanel addCheckBoxTableControls() {
 
 		taxNumItem = new CheckBox(FinanceApplication.getSettingsMessages()
@@ -488,7 +472,6 @@ public class NewBrandThemeDialog extends BaseDialog {
 
 	}
 
-	@SuppressWarnings("deprecation")
 	private FlexTable addTextBoxTableControl() {
 		nameLabel = new Label(FinanceApplication.getSettingsMessages().name());
 		pageSizeLabel = new Label(FinanceApplication.getSettingsMessages()

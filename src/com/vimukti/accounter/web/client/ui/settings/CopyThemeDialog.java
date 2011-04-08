@@ -2,21 +2,19 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
+@SuppressWarnings("unchecked")
 public class CopyThemeDialog extends BaseDialog {
 
 	private ClientBrandingTheme theme;
-	private CopyThemeDialog dialog;
 
 	public CopyThemeDialog(String title, String desc,
 			ClientBrandingTheme brandingTheme) {
@@ -37,9 +35,7 @@ public class CopyThemeDialog extends BaseDialog {
 		Label yourLabel = new Label(FinanceApplication.getSettingsMessages()
 				.yourTitle());
 		final TextBox yourBox = new TextBox();
-		Button okButton = new Button(FinanceApplication.getSettingsMessages()
-				.ok());
-		okButton.addClickHandler(new ClickHandler() {
+		okbtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -52,9 +48,7 @@ public class CopyThemeDialog extends BaseDialog {
 
 			}
 		});
-		Button canButton = new Button(FinanceApplication.getSettingsMessages()
-				.cancelButton());
-		canButton.addClickHandler(new ClickHandler() {
+		cancelBtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -64,21 +58,8 @@ public class CopyThemeDialog extends BaseDialog {
 		});
 		copyPanel.add(yourLabel);
 		copyPanel.add(yourBox);
-		copyPanel.add(okButton);
-		copyPanel.add(canButton);
 
-		okButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(okButton, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-
-		canButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(canButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-
-		okbtn.setVisible(false);
-		cancelBtn.setVisible(false);
-		mainPanel.add(copyPanel);
+		setBodyLayout(copyPanel);
 
 	}
 

@@ -2,27 +2,22 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
+@SuppressWarnings("unchecked")
 public class DeleteThemeDialog extends BaseDialog {
 
 	private HTML deleteHtml, undoneHtml;
-	private Button deleteButton, cancelButton;
-	@SuppressWarnings("unchecked")
+	// private Button deleteButton, cancelButton;
 	private ClientBrandingTheme brandingTheme;
-
-	@SuppressWarnings("unchecked")
 	public DeleteThemeDialog(String title, String desc,
 			ClientBrandingTheme theme) {
 		super(title, desc);
@@ -44,10 +39,8 @@ public class DeleteThemeDialog extends BaseDialog {
 		undoneHtml = new HTML(FinanceApplication.getSettingsMessages()
 				.undoneHtml());
 
-		HorizontalPanel buttonPanel = new HorizontalPanel();
-		deleteButton = new Button(FinanceApplication.getSettingsMessages()
-				.deleteButton());
-		deleteButton.addClickHandler(new ClickHandler() {
+		okbtn.setText(FinanceApplication.getSettingsMessages().deleteButton());
+		okbtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -62,31 +55,18 @@ public class DeleteThemeDialog extends BaseDialog {
 
 			}
 		});
-		cancelButton = new Button(FinanceApplication.getSettingsMessages()
-				.cancelButton());
-		cancelButton.addClickHandler(new ClickHandler() {
+
+		cancelBtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				removeFromParent();
 			}
 		});
-		buttonPanel.add(deleteButton);
-		buttonPanel.add(cancelButton);
-		deleteButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(deleteButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-		cancelButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(cancelButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+
 		deletePanel.add(deleteHtml);
 		deletePanel.add(undoneHtml);
-		deletePanel.add(buttonPanel);
 
-		okbtn.setVisible(false);
-		cancelBtn.setVisible(false);
-		mainPanel.add(deletePanel);
+		setBodyLayout(deletePanel);
 	}
 }

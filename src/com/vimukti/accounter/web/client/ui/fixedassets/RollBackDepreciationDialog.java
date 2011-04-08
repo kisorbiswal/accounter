@@ -115,7 +115,6 @@ public class RollBackDepreciationDialog extends BaseDialog {
 	 * depreciation last date
 	 */
 
-	@SuppressWarnings("deprecation")
 	private void getAllDepreciationDates() {
 
 		ClientFinanceDate depreciationStartDate = new ClientFinanceDate(

@@ -2,18 +2,16 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
+@SuppressWarnings("unchecked")
 public class AutomaticSequenceDialog extends BaseDialog {
 
 	private HTML paraHTML;
@@ -21,8 +19,6 @@ public class AutomaticSequenceDialog extends BaseDialog {
 	private Label invoicePrefixlabel, creditNoteLabel, nextNumberLabel;
 	private TextBox invoiceBox, creditBox, nextBox;
 	private VerticalPanel subLayoutPanel, invoicePanel, creditPanel, nextPanel;
-	private Button saveButton, cancelButton;
-	private HorizontalPanel buttonPanel;
 
 	public AutomaticSequenceDialog(String title, String desc) {
 		super(title, desc);
@@ -71,43 +67,24 @@ public class AutomaticSequenceDialog extends BaseDialog {
 		optionsTable.setWidget(0, 1, creditPanel);
 		optionsTable.setWidget(0, 2, nextPanel);
 
-		buttonPanel = new HorizontalPanel();
-		saveButton = new Button(FinanceApplication.getSettingsMessages()
-				.saveButton());
-		saveButton.addClickHandler(new ClickHandler() {
+		okbtn.setText(FinanceApplication.getSettingsMessages().saveButton());
+		okbtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				okClicked();
 			}
 		});
-		cancelButton = new Button(FinanceApplication.getSettingsMessages()
-				.cancelButton());
-		cancelButton.addClickHandler(new ClickHandler() {
+		cancelBtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				cancelClicked();
 			}
 		});
-		buttonPanel.add(saveButton);
-		buttonPanel.add(cancelBtn);
-
-		saveButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(saveButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-
-		cancelButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(cancelButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
 
 		subLayoutPanel.add(paraHTML);
 		subLayoutPanel.add(optionsTable);
-		subLayoutPanel.add(buttonPanel);
-		okbtn.setVisible(false);
-		cancelBtn.setVisible(false);
 		mainPanel.add(subLayoutPanel);
 	}
 }

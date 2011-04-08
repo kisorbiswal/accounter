@@ -114,7 +114,7 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 		ThemesUtil.addDivToButton(cancelBtn, FinanceApplication
 				.getThemeImages().button_right_blue_image(),
 				"ibutton-right-image");
-		footerLayout.setCellWidth(okbtn, "100%");
+		// footerLayout.setCellWidth(okbtn, "100%");
 		footerLayout.setCellHorizontalAlignment(okbtn,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 

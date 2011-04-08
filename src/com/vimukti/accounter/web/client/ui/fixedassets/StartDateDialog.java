@@ -79,7 +79,7 @@ public class StartDateDialog extends BaseDialog {
 
 		okbtn.setWidth("50px");
 		cancelBtn.setWidth("80px");
-		footerLayout.setCellWidth(okbtn, "80%");
+		// footerLayout.setCellWidth(okbtn, "80%");
 
 		VerticalPanel contentPanel = new VerticalPanel();
 		contentPanel.setSpacing(3);

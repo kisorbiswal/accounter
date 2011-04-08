@@ -292,7 +292,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		setBodyLayout(mainVLay);
 		headerLayout.setWidth("800");
 		headerLayout.setHeight("15%");
-		footerLayout.setCellWidth(okbtn, "85%");
+		// footerLayout.setCellWidth(okbtn, "85%");
 		footerLayout.removeStyleName("dialogfooter");
 
 	}

@@ -238,7 +238,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		setBodyLayout(mainVLay);
 		headerLayout.setWidth("800");
 		headerLayout.setHeight("15%");
-		footerLayout.setCellWidth(okbtn, "74%");
+//		footerLayout.setCellWidth(okbtn, "74%");
 
 	}
 

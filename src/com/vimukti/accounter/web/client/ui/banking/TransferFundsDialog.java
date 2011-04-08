@@ -272,7 +272,7 @@ public class TransferFundsDialog extends BaseDialog {
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 
-		footerLayout.setCellWidth(okbtn, "85%");
+		// footerLayout.setCellWidth(okbtn, "85%");
 
 		footerLayout.insert(editButton, getAbsoluteLeft());
 
