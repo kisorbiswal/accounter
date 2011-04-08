@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.company.JournalEntryListView;
 import com.vimukti.accounter.web.client.ui.customers.CustomerListView;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
@@ -223,7 +224,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 					HasHorizontalAlignment.ALIGN_RIGHT);
 
 		} else {
-			form.setFields(viewSelect);
+			if (!(this instanceof JournalEntryListView))
+				form.setFields(viewSelect);
 			hlay.add(form);
 			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 		}
