@@ -192,7 +192,7 @@ h1 {
 	background: url("../images/body-shadow-left.png") repeat-y scroll 0 0
 		#F0F0F0 !important;
 	height: 100% !important;
-	margin-top: -13px;
+	margin-top: -16px;
 	overflow: hidden !important;
 	padding-left: 9px;
 }
@@ -1169,6 +1169,7 @@ important;
 	padding: 0px;
 }
 
+
 .save-new-separator {
 	background: url("images/Divider.png") no-repeat scroll 0 0 transparent
 		!important;
@@ -1454,8 +1455,8 @@ iframe { /*display:none;*/
 }
 
 .commentPanel {
-	border: 1px solid red;
-	background-color: #EEEEEE;
+	border: 1px solid gray;
+	background-color: #FFFFFF;
 	width: 100%;
 }
 
@@ -1507,12 +1508,14 @@ iframe { /*display:none;*/
 .help-panel a {
 	text-decoration: none;
 	color: #737272 !important;
+	font-weight: bold !important;
+	margin-right: 30px;
+	text-align: right !important
 }
 
 .help-panel a:hover {
 	text-decoration: underline;
 }
-
 .main-finance-window {
 	background: url("../images/body-shadow-right.png") repeat-y scroll right
 		top #F0F0F0 !important;
