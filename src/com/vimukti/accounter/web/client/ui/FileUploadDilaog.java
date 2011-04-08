@@ -29,10 +29,12 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
+import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings( { "deprecation", "unchecked" })
 public class FileUploadDilaog extends CustomDialog {
 
 	private final String parentID;
@@ -48,9 +50,11 @@ public class FileUploadDilaog extends CustomDialog {
 	private HorizontalPanel buttonHlay;
 	private boolean closeAfterUploaded;
 	private static ClientBrandingTheme brandingTheme;
+	@SuppressWarnings("unused")
 	private String title;
 	private HTML detailsHtml, helpHtml, chooseHtml;
 
+	@SuppressWarnings("static-access")
 	public FileUploadDilaog(String title, String parentID,
 			ValueCallBack<ClientBrandingTheme> callback, String[] fileTypes,
 			ClientBrandingTheme theme) {
@@ -115,7 +119,6 @@ public class FileUploadDilaog extends CustomDialog {
 				.chooseLogo());
 		final FileUpload upload = new FileUpload();
 		/* Default height of upload text box 26 */
-		upload.setHeight("28");
 		upload.getElement().setAttribute("size", "33");
 		upload.setName(fileID);
 		uploadItems.add(upload);
@@ -127,16 +130,17 @@ public class FileUploadDilaog extends CustomDialog {
 
 		// Add a 'submit' button.
 		Button uploadSubmitButton = new Button("Upload");
-		uploadSubmitButton.setStyleName("upload-submit");
 		uploadSubmitButton.setWidth("80px");
 		// vpaPanel.add(uploadSubmitButton);
 
-		Button closeButton = new Button("Close");
-		closeButton.setStyleName("close-button");
+		Button closeButton = new Button(FinanceApplication
+				.getCustomersMessages().close());
 		closeButton.setWidth("80px");
 		buttonHlay = new HorizontalPanel();
 		buttonHlay.add(uploadSubmitButton);
 		buttonHlay.add(closeButton);
+		buttonHlay.setStyleName("panel-right-align");
+
 		uploadSubmitButton.getElement().getParentElement().setClassName(
 				"ibutton");
 		ThemesUtil.addDivToButton(uploadSubmitButton, FinanceApplication

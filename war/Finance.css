@@ -954,10 +954,11 @@ important;
 	margin: 0 4px !important;
 }
 
-.invoice-total tr:nth-child(3){
+.invoice-total tr:nth-child (3){
 	order-bottom: 1px solid #aaa;
 	border-top: 1px solid #aaa;
 }
+
 .noScroll input[type="text"] { /*width: 150px !important;*/
 	
 }
@@ -1012,10 +1013,11 @@ important;
 	margin: 5px 0 0 15px;
 }
 
-.standard-options td:nth-child(2){
-	float:right;
+.standard-options td:nth-child (2){
+	float: right;
 	margin-right: 40px;
 }
+
 .terms-payment-area {
 	width: 450px;
 	height: 75px;
@@ -1105,9 +1107,10 @@ important;
 	background: none repeat scroll 0 0 #F0F0F0 !important;
 }
 
-.help-logout-sep td:nth-child(2),.help-logout-sep td:nth-child(3){
+.help-logout-sep td:nth-child (2),.help-logout-sep td:nth-child (3){
 	padding: 5px !important;
 }
+
 .help-content {
 	background: url("images/Menubar_Divider_2x30.jpg") no-repeat scroll 0 0
 		transparent;
@@ -1268,6 +1271,10 @@ important;
 	float: right;
 	height: 25px;
 	width: 3px;
+}
+
+.panel-right-align {
+	float: right;
 }
 
 .ibutton-right-align {
@@ -1527,6 +1534,7 @@ iframe { /*display:none;*/
 		top #F0F0F0 !important;
 	padding-right: 9px;
 }
+
 .setting-class-panel {
 	border-color: #989898;
 	border-style: solid;
@@ -1542,9 +1550,11 @@ iframe { /*display:none;*/
 	margin: 7px 7px 5px -2px !important;
 	padding: 3px 10px 7px 7px !important;
 }
-.upload-submit{
+
+.upload-submit {
 	margin-left: 40px;
 }
-.close-button{
+
+.close-button {
 	margin-left: 20px;
 }
