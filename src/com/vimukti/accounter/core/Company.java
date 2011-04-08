@@ -4713,7 +4713,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 		cmp.brandingTheme = this.getBrandingTheme();
 
 		cmp.usersList = this.getUsersList();
-		
+
 		return cmp;
 	}
 
@@ -4798,9 +4798,21 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 	}
 
 	private void createDefaultBrandingTheme(Session session) {
-		BrandingTheme brandingTheme = new BrandingTheme("Standard", SecureUtils
-				.createID(), 1.35, 1.00, 1.00, "Times New Roman", "10pt",
-				"INVOICE", "CREDIT", "STATEMENT", "democo@democo.co", true);
+		BrandingTheme brandingTheme = new BrandingTheme(
+				"Standard",
+				SecureUtils.createID(),
+				1.35,
+				1.00,
+				1.00,
+				"Times New Roman",
+				"10pt",
+				"INVOICE",
+				"CREDIT",
+				"STATEMENT",
+				"democo@democo.co",
+				true,
+				"Vimukti Technologies ,</br> Dr. A.S.Rao Nagar ,</br> Ecil - 500062 ,</br>Hyderabad.",
+				"(None Added)");
 		session.save(brandingTheme);
 	}
 

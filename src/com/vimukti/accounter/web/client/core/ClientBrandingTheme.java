@@ -52,6 +52,7 @@ public class ClientBrandingTheme<T> implements IAccounterCore {
 	private boolean isShowRegisteredAddress;
 	private boolean isShowLogo;
 	private boolean isDefault;
+	private boolean isLogoAdded;
 
 	private String payPalEmailID;
 	private int logoAlignmentType;
@@ -333,6 +334,14 @@ public class ClientBrandingTheme<T> implements IAccounterCore {
 
 	public String getFileName() {
 		return fileName;
+	}
+
+	public void setLogoAdded(boolean isLogoAdded) {
+		this.isLogoAdded = isLogoAdded;
+	}
+
+	public boolean isLogoAdded() {
+		return isLogoAdded;
 	}
 
 }

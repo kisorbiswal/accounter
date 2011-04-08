@@ -56,6 +56,7 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	boolean isShowTaxColumn;
 	boolean isShowRegisteredAddress;
 	boolean isShowLogo;
+	boolean isLogoAdded;
 
 	String payPalEmailID;
 	int logoAlignmentType;
@@ -71,7 +72,7 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	FinanceDate createdDate;
 	FinanceDate lastModifiedDate;
 
-	private String fileName;
+	String fileName;
 
 	boolean isDefault;
 
@@ -441,11 +442,13 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	}
 
 	public BrandingTheme(String themeName, String stringId, double topMargin,
-			double bottomMargin, double addressPadding, String font,
+			double bottomMargin, double addressPadding,
+			String font,
 			String fontSize,
 			// String openInvoiceTitle,
 			String overDueInvoiceTitle, String creditMemoTitle,
-			String statementTitle, String payPalEmailID, boolean isDefault) {
+			String statementTitle, String payPalEmailID, boolean isDefault,
+			String contactDetails, String Terms_And_Payment_Advice) {
 
 		this.themeName = themeName;
 		this.stringID = stringId;
@@ -471,6 +474,8 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 		this.logoAlignmentType = LOGO_ALIGNMENT_RIGHT;
 		// this.showTaxesAsType = SHOW_TAXES_AS_EXCLUSIVE;
 		this.isDefault = isDefault;
+		this.contactDetails = contactDetails;
+		this.Terms_And_Payment_Advice = Terms_And_Payment_Advice;
 	}
 
 	@Override
@@ -541,6 +546,8 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
 		// TODO Auto-generated method stub
+		if (isLogoAdded() == false)
+			this.setFileName(null);
 		return false;
 	}
 
@@ -610,6 +617,14 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 
 	public String getFileName() {
 		return fileName;
+	}
+
+	public void setLogoAdded(boolean isLogoAdded) {
+		this.isLogoAdded = isLogoAdded;
+	}
+
+	public boolean isLogoAdded() {
+		return isLogoAdded;
 	}
 
 }

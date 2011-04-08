@@ -33,7 +33,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 	private ClientBrandingTheme brandingTheme;
 	private HTML generalSettingsHTML, invoiceBrandingHtml, allLabelsHtml,
 			ShowHtml, checkBoxHtml, headingsHtml, paypalEmailHtml, termsHtml,
-			radioButtonHtml, contactDetailsHtml, uploadPictureHtml, titleHtml;
+			radioButtonHtml, contactDetailsHtml, titleHtml;
 	// helpHtml;
 	private VerticalPanel mainPanel, titlePanel, subLayPanel, uploadPanel,
 			contactDetailsPanel, vPanel;
@@ -183,8 +183,9 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 	// }
 
 	private VerticalPanel addingDefaultTheme(final ClientBrandingTheme theme) {
+		final HTML uploadPictureHtml;
 		final Button optionsButton;
-		titleHtml = new HTML("<b>" + theme.getThemeName() + "</b>");
+		titleHtml = new HTML("<strong>" + theme.getThemeName() + "</strong>");
 		vPanel = new VerticalPanel();
 
 		subLayPanel = new VerticalPanel();
@@ -308,23 +309,10 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ValueCallBack<ClientBrandingTheme> callback = new ValueCallBack<ClientBrandingTheme>() {
-
-					@Override
-					public void execute(ClientBrandingTheme value) {
-						ViewManager.getInstance().alterObject(value,
-								InvoiceBrandingView.this);
-
-					}
-				};
-
-				FileUploadDilaog dilaog = new FileUploadDilaog("upload file",
-						"uday", callback, true, null, brandingTheme);
-				dilaog.center();
-
+				changeLogo(theme);
 			}
 		});
-
+		uploadPictureHtml.setStyleName("picture-link");
 		uploadPanel = new VerticalPanel();
 		uploadPanel.setStyleName("upload-logo");
 		uploadPanel.add(uploadPictureHtml);
@@ -369,15 +357,47 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 
 	protected void optionsMenu(Button button, ClientBrandingTheme theme) {
 		PopupPanel optionsPanel = new PopupPanel();
-		optionsPanel.add(getOptionsMenu(optionsPanel, theme));
-		optionsPanel.setPopupPosition(button.getAbsoluteLeft(), button
-				.getAbsoluteTop()
-				+ button.getOffsetHeight());
-		optionsPanel.show();
-		optionsPanel.setAutoHideEnabled(true);
+		if (theme.getThemeName().equals("Standard")) {
+			if (theme.getFileName() == null) {
+				optionsPanel.add(getOptionsMenuDefaultThemeNoLogo(optionsPanel,
+						theme));
+				optionsPanel.setPopupPosition(button.getAbsoluteLeft(), button
+						.getAbsoluteTop()
+						+ button.getOffsetHeight());
+				optionsPanel.show();
+				optionsPanel.setAutoHideEnabled(true);
+			} else {
+				optionsPanel
+						.add(getOptionsMenuDefaultTheme(optionsPanel, theme));
+				optionsPanel.setPopupPosition(button.getAbsoluteLeft(), button
+						.getAbsoluteTop()
+						+ button.getOffsetHeight());
+				optionsPanel.show();
+				optionsPanel.setAutoHideEnabled(true);
+			}
+
+		} else {
+			if (theme.getFileName() == null) {
+				optionsPanel.add(getOptionsMenuNoLogo(optionsPanel, theme));
+				optionsPanel.setPopupPosition(button.getAbsoluteLeft(), button
+						.getAbsoluteTop()
+						+ button.getOffsetHeight());
+				optionsPanel.show();
+				optionsPanel.setAutoHideEnabled(true);
+			} else {
+				optionsPanel.add(getOptionsMenuWithLogo(optionsPanel, theme));
+				optionsPanel.setPopupPosition(button.getAbsoluteLeft(), button
+						.getAbsoluteTop()
+						+ button.getOffsetHeight());
+				optionsPanel.show();
+				optionsPanel.setAutoHideEnabled(true);
+			}
+
+		}
+
 	}
 
-	private CustomMenuBar getOptionsMenu(PopupPanel panel,
+	private CustomMenuBar getOptionsMenuWithLogo(PopupPanel panel,
 			ClientBrandingTheme theme) {
 		CustomMenuBar bar = new CustomMenuBar();
 		bar.addItem(FinanceApplication.getSettingsMessages().edit(),
@@ -390,6 +410,47 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 				getOptionsCommand(4, panel, theme));
 		bar.addItem(FinanceApplication.getSettingsMessages().removeLogo(),
 				getOptionsCommand(5, panel, theme));
+		return bar;
+	}
+
+	private CustomMenuBar getOptionsMenuNoLogo(PopupPanel panel,
+			ClientBrandingTheme theme) {
+		CustomMenuBar bar = new CustomMenuBar();
+		bar.addItem(FinanceApplication.getSettingsMessages().edit(),
+				getOptionsCommand(1, panel, theme));
+		bar.addItem(FinanceApplication.getSettingsMessages().copy(),
+				getOptionsCommand(2, panel, theme));
+		bar.addItem(FinanceApplication.getSettingsMessages().addLogo(),
+				getOptionsCommand(6, panel, theme));
+		bar.addItem(FinanceApplication.getSettingsMessages().delete(),
+				getOptionsCommand(4, panel, theme));
+		return bar;
+	}
+
+	private CustomMenuBar getOptionsMenuDefaultTheme(PopupPanel panel,
+			ClientBrandingTheme theme) {
+		CustomMenuBar bar = new CustomMenuBar();
+		bar.addItem(FinanceApplication.getSettingsMessages().edit(),
+				getOptionsCommand(1, panel, theme));
+		bar.addItem(FinanceApplication.getSettingsMessages().copy(),
+				getOptionsCommand(2, panel, theme));
+		bar.addItem(FinanceApplication.getSettingsMessages().changeLogo(),
+				getOptionsCommand(3, panel, theme));
+		bar.addItem(FinanceApplication.getSettingsMessages().removeLogo(),
+				getOptionsCommand(5, panel, theme));
+
+		return bar;
+	}
+
+	private CustomMenuBar getOptionsMenuDefaultThemeNoLogo(PopupPanel panel,
+			ClientBrandingTheme theme) {
+		CustomMenuBar bar = new CustomMenuBar();
+		bar.addItem(FinanceApplication.getSettingsMessages().edit(),
+				getOptionsCommand(1, panel, theme));
+		bar.addItem(FinanceApplication.getSettingsMessages().copy(),
+				getOptionsCommand(2, panel, theme));
+		bar.addItem(FinanceApplication.getSettingsMessages().addLogo(),
+				getOptionsCommand(6, panel, theme));
 		return bar;
 	}
 
@@ -410,26 +471,17 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 							.run(theme, false);
 					break;
 				case 3:
-
-					ValueCallBack<ClientBrandingTheme> callback = new ValueCallBack<ClientBrandingTheme>() {
-
-						@Override
-						public void execute(ClientBrandingTheme value) {
-							ViewManager.getInstance().alterObject(value,
-									InvoiceBrandingView.this);
-
-						}
-					};
-
-					FileUploadDilaog dilaog = new FileUploadDilaog(
-							"upload file", "uday", callback, true, null,
-							brandingTheme);
-					dilaog.center();
-
+					changeLogo(theme);
 					break;
 				case 4:
 					SettingsActionFactory.getDeleteThemeAction().run(theme,
 							false);
+					break;
+				case 5:
+					removeLogo(theme);
+					break;
+				case 6:
+					changeLogo(theme);
 					break;
 				default:
 				}
@@ -438,37 +490,59 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		return command;
 	}
 
-	@SuppressWarnings("unused")
-	private CustomMenuBar getNewBrandMenu(PopupPanel panel) {
-		CustomMenuBar menuBar = new CustomMenuBar();
-		menuBar.addItem(FinanceApplication.getSettingsMessages()
-				.standardTheme(), getNewBrandCommand(1, panel));
-		menuBar.addItem(FinanceApplication.getSettingsMessages()
-				.customdocxTheme(), getNewBrandCommand(2, panel));
-		return menuBar;
+	protected void removeLogo(ClientBrandingTheme theme) {
+
+		theme.setLogoAdded(false);
+		theme.setFileName(null);
+		ViewManager.getInstance().alterObject(theme, InvoiceBrandingView.this);
 
 	}
 
-	private Command getNewBrandCommand(final int i, final PopupPanel panel) {
-		Command command = new Command() {
+	protected void changeLogo(ClientBrandingTheme theme) {
+
+		ValueCallBack<ClientBrandingTheme> callback = new ValueCallBack<ClientBrandingTheme>() {
 			@Override
-			public void execute() {
-				panel.hide();
-				switch (i) {
-				case 1:
-					SettingsActionFactory.getNewBrandThemeAction().run(null,
-							false);
-					break;
-				case 2:
-					SettingsActionFactory.getCustomThemeAction().run(null,
-							false);
-					break;
-				}
+			public void execute(ClientBrandingTheme value) {
+				ViewManager.getInstance().alterObject(value,
+						InvoiceBrandingView.this);
 			}
 		};
-		return command;
+		FileUploadDilaog dilaog = new FileUploadDilaog("Upload file", "uday",
+				callback, null, brandingTheme);
+		dilaog.center();
 
 	}
+
+	// private CustomMenuBar getNewBrandMenu(PopupPanel panel) {
+	// CustomMenuBar menuBar = new CustomMenuBar();
+	// menuBar.addItem(FinanceApplication.getSettingsMessages()
+	// .standardTheme(), getNewBrandCommand(1, panel));
+	// menuBar.addItem(FinanceApplication.getSettingsMessages()
+	// .customdocxTheme(), getNewBrandCommand(2, panel));
+	// return menuBar;
+	//
+	// }
+	//
+	// private Command getNewBrandCommand(final int i, final PopupPanel panel) {
+	// Command command = new Command() {
+	// @Override
+	// public void execute() {
+	// panel.hide();
+	// switch (i) {
+	// case 1:
+	// SettingsActionFactory.getNewBrandThemeAction().run(null,
+	// false);
+	// break;
+	// case 2:
+	// SettingsActionFactory.getCustomThemeAction().run(null,
+	// false);
+	// break;
+	// }
+	// }
+	// };
+	// return command;
+	//
+	// }
 
 	@Override
 	public void fitToSize(int height, int width) {

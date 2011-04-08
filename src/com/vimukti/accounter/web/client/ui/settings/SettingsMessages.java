@@ -355,4 +355,12 @@ public interface SettingsMessages extends FinanceMessages {
 	
 	String settings();
 
+	String addLogo();
+
+	SafeHtml logoComment();
+
+	SafeHtml helpContent();
+
+	SafeHtml chooseLogo();
+
 }

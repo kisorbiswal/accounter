@@ -2,15 +2,20 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
 
+import com.google.gwt.dom.client.Style.Cursor;
+import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormHandler;
@@ -29,15 +34,12 @@ import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
 @SuppressWarnings("deprecation")
 public class FileUploadDilaog extends CustomDialog {
-	private static final String ATTACH_ANOTHER = "Add another file";
-	private final String parentID;
 
+	private final String parentID;
 	private FormPanel uploadForm;
-	// private boolean canRelplaceFile;
 	private final ValueCallBack<ClientBrandingTheme> callback;
 	private HorizontalPanel loadingLayout;
 	private VerticalPanel mainLayout;
-	private final boolean shouldUploadMulti;
 	private VerticalPanel panel;
 	private final ArrayList<FileUpload> uploadItems = new ArrayList<FileUpload>();
 	private int count = 1;
@@ -46,16 +48,17 @@ public class FileUploadDilaog extends CustomDialog {
 	private HorizontalPanel buttonHlay;
 	private boolean closeAfterUploaded;
 	private static ClientBrandingTheme brandingTheme;
+	private String title;
+	private HTML detailsHtml, helpHtml, chooseHtml;
 
 	public FileUploadDilaog(String title, String parentID,
-			ValueCallBack<ClientBrandingTheme> callback,
-			boolean shouldUploadMulti, String[] fileTypes,
+			ValueCallBack<ClientBrandingTheme> callback, String[] fileTypes,
 			ClientBrandingTheme theme) {
 		super(false, true);
+		this.title = title;
 		setHTML(title);
 		this.parentID = parentID;
 		this.callback = callback;
-		this.shouldUploadMulti = shouldUploadMulti;
 		this.fileTypes = fileTypes;
 		this.brandingTheme = theme;
 		closeAfterUploaded = true;
@@ -64,11 +67,9 @@ public class FileUploadDilaog extends CustomDialog {
 	}
 
 	public FileUploadDilaog(String title, String parentID,
-			ValueCallBack<ClientBrandingTheme> callback,
-			boolean shouldUploadMulti, String[] fileTypes,
+			ValueCallBack<ClientBrandingTheme> callback, String[] fileTypes,
 			boolean closeAfterUploaded) {
-		this(title, parentID, callback, shouldUploadMulti, fileTypes,
-				brandingTheme);
+		this(title, parentID, callback, fileTypes, brandingTheme);
 		this.closeAfterUploaded = closeAfterUploaded;
 	}
 
@@ -78,9 +79,6 @@ public class FileUploadDilaog extends CustomDialog {
 		uploadForm.setStyleName("fileuploaddialog-uploadform");
 		final String fileID = createID();
 
-		// Because we're going to add a FileUpload widget, we'll need to set the
-
-		// form to use the POST method, and multipart MIME encoding.
 		uploadForm.setEncoding(FormPanel.ENCODING_MULTIPART);
 		uploadForm.setMethod(FormPanel.METHOD_POST);
 
@@ -92,49 +90,51 @@ public class FileUploadDilaog extends CustomDialog {
 		panel.setSpacing(2);
 		panel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		// Create a FileUpload widget.
+		detailsHtml = new HTML(FinanceApplication.getSettingsMessages()
+				.logoComment());
+		helpHtml = new HTML(FinanceApplication.getSettingsMessages()
+				.helpContent());
+		helpHtml.addMouseOverHandler(new MouseOverHandler() {
+
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				helpHtml.getElement().getStyle().setCursor(Cursor.POINTER);
+				helpHtml.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
+			}
+		});
+		helpHtml.addMouseOutHandler(new MouseOutHandler() {
+
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				helpHtml.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
+			}
+		});
+		chooseHtml = new HTML(FinanceApplication.getSettingsMessages()
+				.chooseLogo());
 		final FileUpload upload = new FileUpload();
 		/* Default height of upload text box 26 */
-		upload.setHeight("26");
-		upload.getElement().setAttribute("size", "50");
+		upload.setHeight("28");
+		upload.getElement().setAttribute("size", "33");
 		upload.setName(fileID);
 		uploadItems.add(upload);
+		panel.add(detailsHtml);
+		panel.add(helpHtml);
+		panel.add(chooseHtml);
 		panel.add(upload);
 		vpaPanel.add(panel);
 
-		buttonHlay = new HorizontalPanel();
-		buttonHlay.setSpacing(2);
-		buttonHlay.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-
-		if (shouldUploadMulti) {
-			Anchor label = new Anchor(ATTACH_ANOTHER);
-			label.addStyleName("NoWrapping");
-			label.addClickHandler(new ClickHandler() {
-
-				public void onClick(ClickEvent event) {
-					if (count == 5) {
-						return;
-					}
-					panel.add(getFileItem());
-					count++;
-					StringBuilder stringBuilder = new StringBuilder();
-					stringBuilder.append(uploadFormLayout.getOffsetHeight());
-					uploadFormLayout.setHeight(stringBuilder.toString());
-
-				}
-			});
-			buttonHlay.add(label);
-			buttonHlay.setCellHorizontalAlignment(label,
-					HasHorizontalAlignment.ALIGN_LEFT);
-		}
-
 		// Add a 'submit' button.
-		Button uploadSubmitButton = new Button("Add");
-		uploadSubmitButton.setWidth("60px");
+		Button uploadSubmitButton = new Button("Upload");
+		uploadSubmitButton.setStyleName("upload-submit");
+		uploadSubmitButton.setWidth("80px");
 		// vpaPanel.add(uploadSubmitButton);
 
 		Button closeButton = new Button("Close");
-		closeButton.setWidth("60px");
-
+		closeButton.setStyleName("close-button");
+		closeButton.setWidth("80px");
+		buttonHlay = new HorizontalPanel();
 		buttonHlay.add(uploadSubmitButton);
 		buttonHlay.add(closeButton);
 		uploadSubmitButton.getElement().getParentElement().setClassName(
@@ -155,10 +155,6 @@ public class FileUploadDilaog extends CustomDialog {
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		buttonHlay.setCellHorizontalAlignment(uploadSubmitButton,
 				HasHorizontalAlignment.ALIGN_RIGHT);
-
-		// if(!shouldUploadMulti){
-		// horizontalPanel.setCellWidth(uploadSubmitButton, "80%");
-		// }
 
 		uploadSubmitButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -183,6 +179,7 @@ public class FileUploadDilaog extends CustomDialog {
 
 				String value = event.getResults();
 				brandingTheme.setFileName(value);
+				brandingTheme.setLogoAdded(true);
 				if (value == null) {
 					getFileInfo();
 				} else {
@@ -197,17 +194,9 @@ public class FileUploadDilaog extends CustomDialog {
 
 		});
 		uploadFormLayout = new VerticalPanel();
-		// if (shouldUploadMulti)
-		// // uploadFormLayout.setSize("100%", "150");
-		// else
-		// uploadFormLayout.setSize("78%", "100%");
 		uploadFormLayout.add(uploadForm);
 		mainLayout = new VerticalPanel();
 		mainLayout.add(uploadFormLayout);
-		// mainLayout.add(message);
-		// createLoadingLayout();
-		// setWidth("350px");
-		// setSize("500", "200");
 		add(mainLayout);
 		show();
 	}

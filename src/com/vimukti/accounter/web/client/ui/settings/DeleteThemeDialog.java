@@ -19,9 +19,10 @@ public class DeleteThemeDialog extends BaseDialog {
 
 	private HTML deleteHtml, undoneHtml;
 	private Button deleteButton, cancelButton;
+	@SuppressWarnings("unchecked")
 	private ClientBrandingTheme brandingTheme;
-	private DeleteThemeDialog deleteThemeDialog;
 
+	@SuppressWarnings("unchecked")
 	public DeleteThemeDialog(String title, String desc,
 			ClientBrandingTheme theme) {
 		super(title, desc);

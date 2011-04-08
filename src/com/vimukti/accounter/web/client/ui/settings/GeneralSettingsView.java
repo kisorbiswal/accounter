@@ -71,7 +71,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 		titleHtml = new HTML(FinanceApplication.getSettingsMessages()
 				.generalSettingsHeading());
-
+		titleHtml.setVisible(false);
 		conversionHTML = new HTML(FinanceApplication.getSettingsMessages()
 				.conversionHTML());
 		conversationCommentHTML = new HTML(FinanceApplication
