@@ -373,6 +373,7 @@ public class SalesOrderView extends
 		prodAndServiceHLay.setWidth("100%");
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
+		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
 		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
 				ALIGN_RIGHT);
 
