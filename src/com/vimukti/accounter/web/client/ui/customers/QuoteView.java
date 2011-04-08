@@ -90,9 +90,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				this.customerTransactionGrid.removeAllRecords();
 		}
 		super.customerSelected(customer);
-		if(customer.getPhoneNo()!=null)
-		phoneSelect.setValue(customer.getPhoneNo());
-		else 
+		if (customer.getPhoneNo() != null)
+			phoneSelect.setValue(customer.getPhoneNo());
+		else
 			phoneSelect.setValue("");
 		billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
 		if (billingAddress != null) {
@@ -160,8 +160,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				quote.setCustomer(customer);
 			if (contact != null)
 				quote.setContact(contact);
-			 if (phoneSelect.getValue() != null)
-			quote.setPhone(phoneSelect.getValue().toString());
+			if (phoneSelect.getValue() != null)
+				quote.setPhone(phoneSelect.getValue().toString());
 
 			if (deliveryDate.getEnteredDate() != null)
 				quote.setDeliveryDate(deliveryDate.getEnteredDate().getTime());
@@ -213,7 +213,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// + "(" + getTransactionStatus() + ")");
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-//		lab1.setHeight("35px");
+		// lab1.setHeight("35px");
 
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
@@ -373,6 +373,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
+		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
 
 		VerticalPanel mainpanel = new VerticalPanel();
 		mainpanel.setWidth("100%");
