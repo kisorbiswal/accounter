@@ -469,6 +469,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(amountsForm);
+		prodAndServiceHLay.setCellWidth(amountsForm, "30%");
 
 		VerticalPanel panel11 = new VerticalPanel();
 		panel11.setWidth("100%");
