@@ -281,6 +281,7 @@ public class CashPurchaseView extends
 
 			bottomLayout.add(memoForm);
 			bottomLayout.add(totalForm);
+			bottomLayout.setCellWidth(totalForm, "30%");
 
 			bottompanel.add(vpanel);
 			bottompanel.add(bottomLayout);
