@@ -497,6 +497,7 @@ div.link:hover {
 	border-color: #989898;
 	border-style: solid;
 	border-width: 0 1px;
+	padding-bottom:4px;
 }
 
 .nav-content {
@@ -3404,7 +3405,7 @@ iframe { /*display:none;*/
 	margin-left: 30px;
 	padding: 4px 5px 5px;
 	text-align: center;
-	margin-top: 11px;
+	margin-top: 20px;
 }
 
 .general-setting-invoice {
@@ -3423,12 +3424,13 @@ iframe { /*display:none;*/
 
 .logo {
 	margin-top: 20px;
+	margin-left:25px;
 }
 
 .logout-help-welcome {
 	background: url("images/Seperator_right.png") repeat-y scroll 0 0
 		transparent;
-	margin-top: 15px;
+	margin-top: 20px;
 	padding-left: 10px;
 }
 
@@ -3441,7 +3443,7 @@ iframe { /*display:none;*/
 .vimutki-text {
 	color: #606060;
 	font-size: 14px;
-	margin: -35px 0 0 70px;
+	margin: -35px 0 0 97px;
 	position: absolute;
 	z-index: 1;
 }
@@ -3494,7 +3496,7 @@ iframe { /*display:none;*/
 }
 
 }
-.main-class-pannel {
+.main-class-pannel{
 	border-color: #989898;
 	border-style: solid;
 	border-width: 1px 1px 0px;
