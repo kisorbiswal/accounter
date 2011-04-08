@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
+@SuppressWarnings("unchecked")
 public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 
 	private ClientBrandingTheme brandingTheme;
@@ -302,6 +303,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 						TextDecoration.NONE);
 			}
 		});
+
 		uploadPictureHtml.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -318,6 +320,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 
 				FileUploadDilaog dilaog = new FileUploadDilaog("upload file",
 						"uday", callback, true, null, brandingTheme);
+				dilaog.center();
 
 			}
 		});
@@ -359,6 +362,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		vPanel.add(nameAndMenuPanel);
 		vPanel.add(allPanel);
 		vPanel.setWidth("100%");
+		vPanel.setSpacing(15);
 		return vPanel;
 
 	}
@@ -420,6 +424,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 					FileUploadDilaog dilaog = new FileUploadDilaog(
 							"upload file", "uday", callback, true, null,
 							brandingTheme);
+					dilaog.center();
 
 					break;
 				case 4:
@@ -433,6 +438,7 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		return command;
 	}
 
+	@SuppressWarnings("unused")
 	private CustomMenuBar getNewBrandMenu(PopupPanel panel) {
 		CustomMenuBar menuBar = new CustomMenuBar();
 		menuBar.addItem(FinanceApplication.getSettingsMessages()
