@@ -7,6 +7,10 @@
 	/*display: none;*/
 }
 
+.copy-img {
+	float: right;
+}
+
 .GL0PBETBEC {
 	background: none repeat scroll 0 0 #F3F4F4 !important;
 }
@@ -367,7 +371,18 @@ table tr.ReportGridRow:HOVER {
 	padding-top: 5px;
 }
 
+.previousButton:hover {
+	background: url("images/Left_indicator.png") no-repeat scroll 0 0
+		transparent;
+	padding-top: 5px;
+}
+
 .nextButton {
+	background: url("images/Right_indicator.png") no-repeat scroll 0 0
+		transparent;
+}
+
+.nextButton:hover {
 	background: url("images/Right_indicator.png") no-repeat scroll 0 0
 		transparent;
 }
@@ -610,15 +625,14 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	padding-left: 3px;
 }
 
-.listgrid .custom-combo {
+/*.listgrid .custom-combo {
 	background: url("images/Text box_1.png") repeat-x scroll 0 0 white
 		!important;
 	border-left: 1px solid #CCCCCC;
 	height: 15px !important;
 	min-width: 50px !important;
 	width: 100% !important;
-}
-
+}*/
 .dropdown-disabled {
 	background: #E6E0DA;
 }
@@ -954,11 +968,241 @@ important;
 	margin: 0 4px !important;
 }
 
-.invoice-total tr:nth-child (3){
-	order-bottom: 1px solid #aaa;
-	border-top: 1px solid #aaa;
-}
+.invoice-total
 
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+tr
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:nth-child
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+(3){
+order-bottom
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+1
+px
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+solid
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+#aaa
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+border-top
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+1
+px
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+solid
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+#aaa
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+}
 .noScroll input[type="text"] { /*width: 150px !important;*/
 	
 }
@@ -1013,11 +1257,168 @@ important;
 	margin: 5px 0 0 15px;
 }
 
-.standard-options td:nth-child (2){
-	float: right;
-	margin-right: 40px;
-}
+.standard-options
 
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+td
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:nth-child
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+(2){
+float
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+right
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+margin-right
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+40
+px
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+}
 .terms-payment-area {
 	width: 450px;
 	height: 75px;
@@ -1067,6 +1468,15 @@ important;
 	resize: none
 }
 
+.memoTextArea {
+	background: url("images/Text-area-img.png") no-repeat scroll 0 0 #fff
+		!important;
+	border: 0 none !important;
+	height: 65px;
+	width: 359px !important;
+	resize: none
+}
+
 .downarrow-button {
 	/*background:url("images/downarrow.png") no-repeat scroll 0 0 transparent !important;
 	float:right;
@@ -1079,7 +1489,7 @@ important;
 	background: url("images/Drop-down-button_20x22.png") no-repeat scroll 0
 		0 transparent !important;
 	float: left;
-	height: 22px;
+	height: 22px !important;
 	margin-left: -22px;
 	position: relative;
 	width: 22px;
@@ -1107,10 +1517,188 @@ important;
 	background: none repeat scroll 0 0 #F0F0F0 !important;
 }
 
-.help-logout-sep td:nth-child (2),.help-logout-sep td:nth-child (3){
-	padding: 5px !important;
-}
+.help-logout-sep
 
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+td
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:nth-child
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+(2),
+.help-logout-sep
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+td
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:nth-child
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+(3){
+padding
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+5
+px
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+!
+important
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+}
 .help-content {
 	background: url("images/Menubar_Divider_2x30.jpg") no-repeat scroll 0 0
 		transparent;
@@ -1147,15 +1735,14 @@ important;
 	/*border:1px solid #DDDDDD;*/
 }
 
-.gridTextBoxCell input[type="text"] {
+/*.gridTextBoxCell input[type="text"] {
 	background: url("images/Text box_1.png") repeat-x scroll 0 0 white
 		!important;
 	border-left: 1px solid #CCCCCC !important;
 	border-right: 1px solid #CCCCCC !important;
 	width: 100% !important;
 	height: 15px !important;
-}
-
+}*/
 .bottom-view table tr td button {
 	background: url("/images/Button_1x25New.png") repeat-x scroll 0 0
 		transparent;
@@ -1165,7 +1752,7 @@ important;
 	border-radius: 0 0 0 0 !important;
 }
 
-.gridSelectBoxCell .downarrow-button {
+/*.gridSelectBoxCell .downarrow-button {
 	background: url("images/Drop down list button_square shape.png")
 		no-repeat scroll 0 0 transparent !important;
 	float: right;
@@ -1176,8 +1763,7 @@ important;
 	width: 15px;
 	z-index: 1;
 	padding: 0px;
-}
-
+}*/
 .save-new-separator {
 	background: url("images/Divider.png") no-repeat scroll 0 0 transparent
 		!important;
@@ -1490,7 +2076,6 @@ iframe { /*display:none;*/
 	margin-bottom: 280px !important;
 }
 
-}
 .main-class-pannel {
 	border-color: #989898;
 	border-style: solid;
@@ -1514,7 +2099,6 @@ iframe { /*display:none;*/
 .help-panel {
 	background-color: #F0F0F0;
 	border: 1px solid #C7C6C6;
-	margin-left: 10px;
 }
 
 .help-panel a {

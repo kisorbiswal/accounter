@@ -7,6 +7,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -164,25 +165,34 @@ public class MainFinanceWindow extends VerticalPanel {
 			downpanel = new HorizontalPanel();
 			downpanel.setWidth("100%");
 			downpanel.getElement().getStyle().setMarginTop(25, Unit.PX);
+			Image image = new Image("images/Copyright_synbol.png");
+			image.setStyleName("copy-img");
 			Label l1 = new Label(
 					"Copyright Vimukti Technologies.All rights are reserved ");
 			l1.addStyleName("down-panel1");
 			Anchor support = new Anchor("Support");
 			Anchor feedback = new Anchor("Feedback");
+
+			downpanel.add(image);
 			downpanel.add(l1);
 			downpanel.add(support);
 			downpanel.add(feedback);
-			downpanel.setCellWidth(feedback, "31%");
+			downpanel.setCellWidth(image, "1.5%");
+			downpanel.setCellWidth(l1, "34%");
+			downpanel.setCellWidth(support, "2%");
+			downpanel.setCellWidth(feedback, "13%");
+			downpanel.setWidth("643px");
 		}
 		VerticalPanel helppanel = new VerticalPanel();
-		helppanel.setWidth("98%");
+		helppanel.setWidth("97%");
 		helppanel.setStyleName("help-panel");
 		helppanel.add(help);
 		helppanel.add(item);
 		helppanel.setSpacing(10);
 		helppanel.add(downpanel);
+		helppanel.setCellHorizontalAlignment(downpanel, ALIGN_CENTER);
 		add(helppanel);
-
+		setCellHorizontalAlignment(helppanel, ALIGN_CENTER);
 		// setSize("100%", "100%");
 		addStyleName(FinanceApplication.getFinanceUIConstants().financeWindow());
 
@@ -1189,7 +1199,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		viewManager.fitToSize(this.getOffsetHeight(), 960);
 		if (GWT.isScript())
 			AccounterCometClient.start();
-		this.getElement().getParentElement().addClassName("main-finance-window");
+		this.getElement().getParentElement()
+				.addClassName("main-finance-window");
 	}
 
 	@Override

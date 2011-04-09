@@ -11,12 +11,10 @@ public class TextAreaItem extends FormItem {
 	public TextAreaItem(String title) {
 		setTitle(title);
 		textArea = new TextArea();
-		// textArea.setWidth("50%");
 	}
 
 	public TextAreaItem() {
 		textArea = new TextArea();
-		// textArea.setWidth("50%");
 	}
 
 	// public TextAreaItem(String title){
@@ -24,6 +22,12 @@ public class TextAreaItem extends FormItem {
 	// textArea.setWidth("100%");
 	// textArea.setText(title);
 	// }
+	public void setMemo(boolean isMemo) {
+		if (isMemo) {
+			textArea.removeStyleName("gwt-TextArea");
+			textArea.addStyleName("memoTextArea");
+		}
+	}
 
 	public Object getValue() {
 		return textArea.getText();

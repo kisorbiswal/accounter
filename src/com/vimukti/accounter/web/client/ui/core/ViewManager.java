@@ -7,6 +7,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Element;
@@ -56,6 +58,7 @@ import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListAction;
  * @modified by Raj Vimal
  * 
  */
+@SuppressWarnings("deprecation")
 public class ViewManager extends DockPanel {
 
 	private int index;
@@ -80,7 +83,6 @@ public class ViewManager extends DockPanel {
 	private Label closeButton;
 	private Image print1Button;
 
-	private Image printButton;
 	private Image edit1Button;
 	// private Image editButton;
 	private Label editButton;
@@ -129,6 +131,7 @@ public class ViewManager extends DockPanel {
 
 	private Action presentAction;
 
+	@SuppressWarnings("serial")
 	private ViewManager() {
 		index = -1;
 		historyList = new ArrayList<History>() {
@@ -190,6 +193,15 @@ public class ViewManager extends DockPanel {
 			}
 
 		});
+
+		previousButton.addMouseOverHandler(new MouseOverHandler() {
+
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				setStyleName("previousButton:hover");
+			}
+		});
+
 		buttonLayout1.add(previousButton);
 
 		nextButton = new Label();
@@ -207,6 +219,14 @@ public class ViewManager extends DockPanel {
 				getNextView();
 			}
 
+		});
+
+		nextButton.addMouseOverHandler(new MouseOverHandler() {
+
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				nextButton.setStyleName("nextButton:hover");
+			}
 		});
 		buttonLayout1.add(nextButton);
 		hlay.add(buttonLayout1);
@@ -229,7 +249,6 @@ public class ViewManager extends DockPanel {
 		closeButton.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		closeButton.addClickHandler(new ClickHandler() {
 
-			@SuppressWarnings("unchecked")
 			public void onClick(ClickEvent event) {
 
 				closeCurrentView();
@@ -336,6 +355,7 @@ public class ViewManager extends DockPanel {
 		rightCanvas.setSize("100%", "100%");
 
 		scrollPanel = new ScrollPanel() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void add(Widget w) {
 				ParentCanvas canvas = (ParentCanvas) w;
