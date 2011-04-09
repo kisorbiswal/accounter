@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -260,7 +261,9 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 
 		@SuppressWarnings("unused")
 		HTML companyLabel = new HTML("<strong>" + cmpyname + "</strong");
-
+		HTML title = new HTML("<strong>" + "<h3>" + this.getAction().getText()
+				+ "</h3>" + "</strong");
+		title.getElement().getStyle().setMarginLeft(10, Unit.PX);
 		// topLayout.add(companyLabel);
 		reportTypeTitle = new HTML();
 		topLayout.add(reportTypeTitle);
@@ -276,7 +279,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 		printableLayout = new VerticalPanel();
 		printableLayout.setSize("100%", "100%");
 		printableLayout.add(topLayout);
-
+		printableLayout.add(title);
 		this.tableLayout = new ScrollPanel() {
 			@Override
 			protected void onLoad() {
