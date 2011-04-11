@@ -8,7 +8,8 @@
 }
 
 .copy-img {
-	float: right;
+	float: left;
+	margin-top: 6px;
 }
 
 .GL0PBETBEC {
@@ -626,13 +627,14 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .listgrid .custom-combo {
-	background: url("images/Text-Feild_enabled_1x22_mid.png") repeat-x scroll 0 0 white
-		!important;
+	background: url("images/Text-Feild_enabled_1x22_mid.png") repeat-x
+		scroll 0 0 white !important;
 	border-left: 1px solid #CCCCCC;
 	height: 22px !important;
 	min-width: 50px !important;
 	width: 100% !important;
 }
+
 .dropdown-disabled {
 	background: #E6E0DA;
 }
@@ -1031,7 +1033,6 @@ important;
 	float: right;
 	margin-right: 40px;
 }
-
 .terms-payment-area {
 	width: 450px;
 	height: 75px;
@@ -1171,8 +1172,8 @@ important;
 }
 
 .gridTextBoxCell input[type="text"] {
-	background: url("images/Text-Feild_enabled_1x22_mid.png") repeat-x scroll 0 0 white
-		!important;
+	background: url("images/Text-Feild_enabled_1x22_mid.png") repeat-x
+		scroll 0 0 white !important;
 	border-left: 1px solid #CCCCCC !important;
 	border-right: 1px solid #CCCCCC !important;
 	width: 100% !important;
@@ -1189,8 +1190,8 @@ important;
 }
 
 .gridSelectBoxCell .downarrow-button {
-	background: url("images/Drop-down-button_20x22.png")
-		no-repeat scroll 0 0 transparent !important;
+	background: url("images/Drop-down-button_20x22.png") no-repeat scroll 0
+		0 transparent !important;
 	float: right;
 	height: 22px;
 	margin-left: 0;
@@ -1200,6 +1201,7 @@ important;
 	z-index: 1;
 	padding: 0px;
 }
+
 .save-new-separator {
 	background: url("images/Divider.png") no-repeat scroll 0 0 transparent
 		!important;
@@ -1528,7 +1530,7 @@ iframe { /*display:none;*/
 .down-panel1 {
 	color: #737272 !important;
 	font-weight: bold !important;
-	margin-right: 30px;
+	margin-left: 7px !important;
 	text-align: right !important;
 }
 
@@ -1541,7 +1543,7 @@ iframe { /*display:none;*/
 	text-decoration: none;
 	color: #737272 !important;
 	font-weight: bold !important;
-	margin-right: 30px;
+	margin: 0 9px !important;
 	text-align: right !important
 }
 
@@ -1579,7 +1581,7 @@ iframe { /*display:none;*/
 	margin-left: 20px;
 }
 
-.date-number td :nth-child (2){
+.date-number td :nth-child(2){
 	padding-right: 15px !important;
 }
 
