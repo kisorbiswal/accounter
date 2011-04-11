@@ -968,11 +968,11 @@ important;
 	margin: 0 4px !important;
 }
 
-.invoice-total tr:nth-child(3){
-	border-bottom : 1px solid #aaa;
-	border-top : 1px solid #aaa;
-
+.invoice-total tr:nth-child (3){
+	border-bottom: 1px solid #aaa;
+	border-top: 1px solid #aaa;
 }
+
 .noScroll input[type="text"] { /*width: 150px !important;*/
 	
 }
@@ -1027,10 +1027,11 @@ important;
 	margin: 5px 0 0 15px;
 }
 
-.standard-options td:nth-child(2){
-	float : right;
-	margin-right : 40px;
+.standard-options td:nth-child (2){
+	float: right;
+	margin-right: 40px;
 }
+
 .terms-payment-area {
 	width: 450px;
 	height: 75px;
@@ -1129,9 +1130,10 @@ important;
 	background: none repeat scroll 0 0 #F0F0F0 !important;
 }
 
-.help-logout-sep td:nth-child(2),.help-logout-sep td:nth-child(3){
-	padding : 5px!important;
+.help-logout-sep td:nth-child (2),.help-logout-sep td:nth-child (3){
+	padding: 5px !important;
 }
+
 .help-content {
 	background: url("images/Menubar_Divider_2x30.jpg") no-repeat scroll 0 0
 		transparent;
@@ -1168,14 +1170,15 @@ important;
 	/*border:1px solid #DDDDDD;*/
 }
 
-/*.gridTextBoxCell input[type="text"] {
+.gridTextBoxCell input[type="text"] {
 	background: url("images/Text box_1.png") repeat-x scroll 0 0 white
 		!important;
 	border-left: 1px solid #CCCCCC !important;
 	border-right: 1px solid #CCCCCC !important;
 	width: 100% !important;
 	height: 15px !important;
-}*/
+}
+
 .bottom-view table tr td button {
 	background: url("/images/Button_1x25New.png") repeat-x scroll 0 0
 		transparent;
@@ -1575,10 +1578,11 @@ iframe { /*display:none;*/
 .close-button {
 	margin-left: 20px;
 }
-.date-number td :nth-child(2){ 
-  padding-right: 15px !important; 
+
+.date-number td :nth-child (2){
+	padding-right: 15px !important;
 }
 
 .datenumber-panel table {
- padding-right: 15px !important;
+	padding-right: 15px !important;
 }

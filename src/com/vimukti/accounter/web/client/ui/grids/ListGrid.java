@@ -466,6 +466,7 @@ public abstract class ListGrid<T> extends CustomTable {
 	protected void addOrEditTextBox(final T obj, final Object value) {
 		if (widgetsMap.get(currentCol) == null) {
 			final TextBox textBox = new TextBox();
+			textBox.removeStyleName("gwt-TextBox");
 			textBox.setWidth("100%");
 			if (getColumnType(currentCol) == COLUMN_TYPE_DECIMAL_TEXTBOX)
 				textBox.setTextAlignment(TextBoxBase.ALIGN_RIGHT);
