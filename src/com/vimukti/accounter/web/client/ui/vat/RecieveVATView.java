@@ -167,6 +167,7 @@ public class RecieveVATView extends
 		// });
 		DynamicForm dateForm = new DynamicForm();
 		dateForm.setNumCols(4);
+		dateForm.setStyleName("datenumber-panel");
 		dateForm.setFields(transactionDateItem, transNumber);
 
 		HorizontalPanel datepanel = new HorizontalPanel();

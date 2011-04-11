@@ -220,6 +220,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		}
 		DynamicForm dateForm = new DynamicForm();
 		dateForm.setNumCols(4);
+		dateForm.setStyleName("datenumber-panel");
 		dateForm.setFields(adjustDate, entryNo);
 		// dateForm.getCellFormatter().setWidth(0, 0, "189");
 		HorizontalPanel datepanel = new HorizontalPanel();
