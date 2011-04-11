@@ -167,21 +167,34 @@ public class MainFinanceWindow extends VerticalPanel {
 			downpanel.getElement().getStyle().setMarginTop(25, Unit.PX);
 			Image image = new Image("images/Copyright_synbol.png");
 			image.setStyleName("copy-img");
-			Label l1 = new Label(
-					"Copyright Vimukti Technologies.All rights are reserved ");
-			l1.addStyleName("down-panel1");
+			Label copyrightLabel = new Label("Copyright");
+			Label companyNameLabel = new Label(" Vimukti Technologies.");
+			Label allrightsLabel = new Label("All rights are reserved");
+			copyrightLabel.setStyleName("down-panel1");
+			allrightsLabel.setStyleName("down-panel1");
+			companyNameLabel.addStyleName("down-panel1");
 			Anchor support = new Anchor("Support");
 			Anchor feedback = new Anchor("Feedback");
 
+			downpanel.add(copyrightLabel);
 			downpanel.add(image);
-			downpanel.add(l1);
+			downpanel.add(companyNameLabel);
+			downpanel.add(allrightsLabel);
 			downpanel.add(support);
 			downpanel.add(feedback);
-			downpanel.setCellWidth(image, "1.5%");
-			downpanel.setCellWidth(l1, "34%");
-			downpanel.setCellWidth(support, "2%");
-			downpanel.setCellWidth(feedback, "13%");
-			downpanel.setWidth("643px");
+
+			// downpanel.setCellWidth(copyrightLabel, "1%");
+			// downpanel.setCellWidth(image, "1%");
+			// downpanel.setCellWidth(companyNameLabel, "13%");
+			downpanel
+					.setCellHorizontalAlignment(companyNameLabel, ALIGN_CENTER);
+			// downpanel.setCellWidth(allrightsLabel, "10%");
+			downpanel.setCellHorizontalAlignment(allrightsLabel, ALIGN_CENTER);
+			// downpanel.setCellWidth(support, "1%");
+			downpanel.setCellHorizontalAlignment(support, ALIGN_CENTER);
+			// downpanel.setCellWidth(feedback, "8%");
+			downpanel.setCellHorizontalAlignment(feedback, ALIGN_CENTER);
+			downpanel.setWidth("520px");
 		}
 		VerticalPanel helppanel = new VerticalPanel();
 		helppanel.setWidth("97%");

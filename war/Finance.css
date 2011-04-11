@@ -254,7 +254,7 @@ h1 {
 }
 
 table tr.ReportGridRow:HOVER {
-	background: #9fd8ef url('images/corser.png') repeat-x;
+	background: none repeat scroll 0 0 #CCCCCC !important;
 }
 
 .reportGridContainer {
@@ -685,9 +685,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .tablelayout {
-	padding-left: 4% !important;
-	padding-right: 4% !important;
-	width: 92% !important
+	width: 100% !important
 }
 
 .tablelayout1 {
