@@ -208,7 +208,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(4);
-		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		dateNoForm.setStyleName("datenumber-panel");
+	    dateNoForm.setFields(transactionDateItem,transactionNumber);
 		forms.add(dateNoForm);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
@@ -1345,7 +1346,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		customerCombo.setDisabled(isEdit);
 		quoteLabel.setDisabled(isEdit);
 		quoteLabelListener();
-		
+
 		shipToAddress.businessSelect.setDisabled(isEdit);
 
 		salesPersonCombo.setDisabled(isEdit);

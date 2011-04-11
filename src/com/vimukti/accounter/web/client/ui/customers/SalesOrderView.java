@@ -128,11 +128,12 @@ public class SalesOrderView extends
 
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(6);
+		dateNoForm.addStyleName("date-number");
 		dateNoForm.setFields(statusSelect, transactionDateItem);
 		forms.add(dateNoForm);
 
 		HorizontalPanel datepanel = new HorizontalPanel();
-		datepanel.setWidth("100%");
+		datepanel.setWidth("99%");
 		datepanel.add(dateNoForm);
 		datepanel.setCellHorizontalAlignment(dateNoForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);

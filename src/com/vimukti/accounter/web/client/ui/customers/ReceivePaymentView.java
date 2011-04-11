@@ -467,6 +467,7 @@ public class ReceivePaymentView extends
 
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(4);
+		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
 
 		forms.add(dateNoForm);

@@ -96,6 +96,7 @@ public class CustomerCreditMemoView extends
 
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(4);
+		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
 		forms.add(dateNoForm);
 		HorizontalPanel datepanel = new HorizontalPanel();
