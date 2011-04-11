@@ -793,6 +793,7 @@ public class MakeDepositView extends
 		transNumber = createTransactionNumberItem();
 		DynamicForm dateForm = new DynamicForm();
 		dateForm.setNumCols(4);
+		dateForm.setStyleName("datenumber-panel");
 		dateForm.setFields(date, transNumber);
 
 		HorizontalPanel datepanel = new HorizontalPanel();
