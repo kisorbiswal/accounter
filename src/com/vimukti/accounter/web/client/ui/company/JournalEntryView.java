@@ -341,6 +341,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 		dateForm = new DynamicForm();
 		dateForm.setNumCols(4);
+		dateForm.setStyleName("datenumber-panel");
 		dateForm.setFields(transactionDateItem, jourNoText);
 
 		HorizontalPanel datepannel = new HorizontalPanel();
