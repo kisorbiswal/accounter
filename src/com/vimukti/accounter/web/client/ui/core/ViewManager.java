@@ -7,6 +7,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -198,7 +200,15 @@ public class ViewManager extends DockPanel {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				setStyleName("previousButton:hover");
+				previousButton.setStyleName("previousButton_mouseOver");
+			}
+		});
+
+		previousButton.addMouseOutHandler(new MouseOutHandler() {
+
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				previousButton.setStyleName("previousButton");
 			}
 		});
 
@@ -225,9 +235,18 @@ public class ViewManager extends DockPanel {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				nextButton.setStyleName("nextButton:hover");
+				nextButton.setStyleName("nextButton_mouseOver");
 			}
 		});
+
+		nextButton.addMouseOutHandler(new MouseOutHandler() {
+
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				nextButton.setStyleName("nextButton");
+			}
+		});
+
 		buttonLayout1.add(nextButton);
 		hlay.add(buttonLayout1);
 		statusLabel = new Label();

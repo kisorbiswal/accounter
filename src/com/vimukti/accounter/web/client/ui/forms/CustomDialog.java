@@ -1,6 +1,10 @@
 package com.vimukti.accounter.web.client.ui.forms;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Anchor;
@@ -47,9 +51,11 @@ public class CustomDialog extends DialogBox {
 	public void showHeader() {
 
 		cross = new Image("/images/dialog-close.png");
-//		help = new Image("/images/help-icon.png");
-		help = new Anchor("<img class='helpAlign' border=0 src='/images/help-icon.png'/>",true,"http://help.Accounter.com/","_blank");
-//		help.setStyleName("helpAlign");
+		// help = new Image("/images/help-icon.png");
+		help = new Anchor(
+				"<img class='helpAlign' border=0 src='/images/help-icon.png'/>",
+				true, "http://help.Accounter.com/", "_blank");
+		// help.setStyleName("helpAlign");
 		caption = new HTML();
 
 		captionPanel = new HorizontalPanel();
@@ -57,7 +63,7 @@ public class CustomDialog extends DialogBox {
 		captionPanel.add(caption);
 
 		imageHorizontalPanel = new HorizontalPanel();
-//		imageHorizontalPanel.setSpacing(3);
+		// imageHorizontalPanel.setSpacing(3);
 
 		if (isShowHelpBtn)
 			imageHorizontalPanel.add(help);
@@ -68,7 +74,7 @@ public class CustomDialog extends DialogBox {
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		imageHorizontalPanel.setCellHorizontalAlignment(cross,
 				HasHorizontalAlignment.ALIGN_RIGHT);
-		
+
 		captionPanel.add(imageHorizontalPanel);
 		captionPanel.setStyleName("caption");
 		captionPanel.setCellHorizontalAlignment(imageHorizontalPanel,
@@ -100,6 +106,7 @@ public class CustomDialog extends DialogBox {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onBrowserEvent(Event event) {
+
 		switch (DOM.eventGetType(event)) {
 		case Event.ONCLICK:
 			Element element = event.getTarget();
@@ -110,7 +117,16 @@ public class CustomDialog extends DialogBox {
 				onHelpClick();
 			}
 			break;
+		case Event.ONMOUSEOVER:
+			Element element1 = event.getTarget();
+			if (cross.getElement().equals(element1)) {
+				cross.setUrl("/images/X-1.png");
 
+			} else if (help.getElement().equals(element1)) {
+				help
+						.setText("<img class='helpAlign' border=0 src='/images/Help-1.png'/>");
+			}
+			break;
 		default:
 			break;
 		}

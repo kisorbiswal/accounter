@@ -8,12 +8,12 @@ public class SalesOrderActionFactory extends AbstractActionFactory {
 
 	public static SalesOrderAction getSalesOrderAction() {
 		return new SalesOrderAction("Sales Order",
-				"");
+				"/images/Sales-order.png");
 	}
 
 	public static SalesOrderListAction getSalesOrderListAction() {
 		return new SalesOrderListAction("SalesOrder List",
-				"");
+				"/images/Sales-order-list.png");
 	}
 
 	public static SalesOpenOrderAction getSalesOpenOrderAction() {

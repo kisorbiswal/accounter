@@ -63,16 +63,15 @@ public class PurchaseOrderListAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
-		return null;
+		return FinanceApplication.getFinanceMenuImages().purchaseOrderList();
 	}
 
 	public ImageResource getSmallImage() {
-		return null;
+		return FinanceApplication.getFinanceMenuImages().purchaseOrderList();
 	}
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
-		return "";
+		return "/images/Purchase-order.png";
 	}
 }

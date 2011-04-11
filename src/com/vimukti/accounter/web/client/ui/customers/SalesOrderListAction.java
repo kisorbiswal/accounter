@@ -67,7 +67,12 @@ public class SalesOrderListAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return null;
+		return FinanceApplication.getFinanceMenuImages().salesOrderList();
+	}
+
+	@Override
+	public String getImageUrl() {
+		return "/images/Sales-order-list.png";
 	}
 
 }

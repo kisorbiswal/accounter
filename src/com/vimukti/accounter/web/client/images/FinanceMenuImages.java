@@ -235,19 +235,19 @@ public interface FinanceMenuImages extends Resources {
 	@Source("find.png")
 	ImageResource accounterRegisterIcon();
 
-	@Source("purchaseOrderList.png")
+	@Source("Purchase-order-list.png")
 	ImageResource purchaseOrderList();
 
-	@Source("purchaseOrder.png")
+	@Source("Purchase-order.png")
 	ImageResource purchaseOrder();
 
 	@Source("purchaseOrderReport.png")
 	ImageResource purchaseOrderReport();
 
-	@Source("salesOrderList.png")
+	@Source("Sales-order-list.png")
 	ImageResource salesOrderList();
 
-	@Source("salesOrder.png")
+	@Source("Sales-order.png")
 	ImageResource salesOrder();
 
 	@Source("salesOrderReport.png")
