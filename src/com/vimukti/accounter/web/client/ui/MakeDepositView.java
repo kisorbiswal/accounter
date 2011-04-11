@@ -857,6 +857,7 @@ public class MakeDepositView extends
 				});
 
 		memoText = new TextAreaItem(bankingConstants.memo());
+		memoText.setMemo(true);
 		memoText.setHelpInformation(true);
 		memoText.setWidth(100);
 

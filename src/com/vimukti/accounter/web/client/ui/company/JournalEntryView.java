@@ -315,6 +315,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		});
 
 		memoText = new TextAreaItem(companyConstants.memo());
+		memoText.setMemo(true);
 		memoText.setHelpInformation(true);
 
 		initListGrid();

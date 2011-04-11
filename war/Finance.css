@@ -625,14 +625,14 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	padding-left: 3px;
 }
 
-/*.listgrid .custom-combo {
-	background: url("images/Text box_1.png") repeat-x scroll 0 0 white
+.listgrid .custom-combo {
+	background: url("images/Text-Feild_enabled_1x22_mid.png") repeat-x scroll 0 0 white
 		!important;
 	border-left: 1px solid #CCCCCC;
-	height: 15px !important;
+	height: 22px !important;
 	min-width: 50px !important;
 	width: 100% !important;
-}*/
+}
 .dropdown-disabled {
 	background: #E6E0DA;
 }
@@ -1171,12 +1171,12 @@ important;
 }
 
 .gridTextBoxCell input[type="text"] {
-	background: url("images/Text box_1.png") repeat-x scroll 0 0 white
+	background: url("images/Text-Feild_enabled_1x22_mid.png") repeat-x scroll 0 0 white
 		!important;
 	border-left: 1px solid #CCCCCC !important;
 	border-right: 1px solid #CCCCCC !important;
 	width: 100% !important;
-	height: 15px !important;
+	height: 22px !important;
 }
 
 .bottom-view table tr td button {
@@ -1188,18 +1188,18 @@ important;
 	border-radius: 0 0 0 0 !important;
 }
 
-/*.gridSelectBoxCell .downarrow-button {
-	background: url("images/Drop down list button_square shape.png")
+.gridSelectBoxCell .downarrow-button {
+	background: url("images/Drop-down-button_20x22.png")
 		no-repeat scroll 0 0 transparent !important;
 	float: right;
-	height: 15px;
+	height: 22px;
 	margin-left: 0;
-	margin-top: -15px;
+	margin-top: -22px;
 	position: relative;
-	width: 15px;
+	width: 22px;
 	z-index: 1;
 	padding: 0px;
-}*/
+}
 .save-new-separator {
 	background: url("images/Divider.png") no-repeat scroll 0 0 transparent
 		!important;
