@@ -325,7 +325,8 @@ public class VendorBillView extends
 		listforms = new ArrayList<DynamicForm>();
 
 		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(5);
+		dateNoForm.setNumCols(4);
+		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
 		forms.add(dateNoForm);
 		HorizontalPanel datepanel = new HorizontalPanel();

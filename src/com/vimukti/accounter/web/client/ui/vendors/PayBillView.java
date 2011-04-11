@@ -443,6 +443,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 		DynamicForm dateForm = new DynamicForm();
 		dateForm.setNumCols(4);
+		dateForm.setStyleName("datenumber-panel");
 		dateForm.setFields(date, transactionNumber);
 
 		HorizontalPanel datepanel = new HorizontalPanel();

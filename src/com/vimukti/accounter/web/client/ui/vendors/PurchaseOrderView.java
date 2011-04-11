@@ -136,6 +136,7 @@ public class PurchaseOrderView extends
 
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(6);
+		dateNoForm.addStyleName("date-number");
 		dateNoForm.setFields(statusSelect, transactionDateItem);
 		forms.add(dateNoForm);
 
