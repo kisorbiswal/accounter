@@ -27,7 +27,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 	public static VerticalPanel commentPanel;
 
 	protected ScrollPanel canvas;
-	protected HorizontalPanel buttonLayout;
+	protected HorizontalPanel buttonLayout, bottomShadow;
 
 	private String height;
 	protected boolean isFixedAssetView;
@@ -95,6 +95,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 		buttonLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		buttonLayout.setSpacing(10);
 		buttonLayout.setHeight("30px");
+		bottomShadow = new HorizontalPanel();
 
 		saveAndCloseButton = new CustomButton(CustomButtonType.SAVE_AND_CLOSE,
 				this);
@@ -137,8 +138,11 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 
 		setCellHorizontalAlignment(buttonLayout, ALIGN_RIGHT);
 		add(buttonLayout);
+		add(bottomShadow);
 		buttonLayout.getElement().getParentElement()
 				.setClassName("bottom-view");
+		bottomShadow.getElement().getParentElement().setClassName(
+				"bottom-shadow");
 
 		cancelButton.getElement().getParentElement().setClassName(
 				"cancel-button");
