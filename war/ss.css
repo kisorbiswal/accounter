@@ -3,7 +3,7 @@ body{
   padding:0px;
   text-align:center;
   }
- body,ul,li,ol,p{
+  body,ul,li,ol,p{
      margin:0px;
 	 padding:0px;
  }
@@ -84,10 +84,19 @@ margin-left:120px;
 clear:both;
 background-color:#f4f4f4;
     float: left;
-    height: 385px;
+    height: 450px;
     margin-left: 257px;
     margin-top: 40px;
     width: 455px;
+}
+#mid-2{
+clear:both;
+background-color:#f4f4f4;
+height:550px!important;
+width: 830px!important;
+float:left;
+margin-top:40px;
+margin-left:60px;
 }
 #down{
 clear:both;
@@ -191,6 +200,7 @@ li
 	height: 105px;
     width: 550px;
 	margin-left:30px;
+	color:#A0A0A0;
 }
 .features-list,.support-lists,.useful-list,.product-list{
 	float:left;
@@ -280,6 +290,7 @@ margin-left:20px;
     background: url("/images/text-box-normal-mid.png") repeat-x scroll left top transparent;
     border: medium none;
     height: 24px;
+	height:27px\0;
     margin-bottom: 8px;
     margin-left: -4px;
     width: 200px;
@@ -338,12 +349,25 @@ color:#00a3dc;
 	margin-left: 35px;
 	margin-top: 27px;
 }
+#checkbox1{
+margin-left: 35px;
+	margin-top: 27px;
+	}
 .button-signup-page {
     background: url("/images/subscription.png") no-repeat scroll 0 0 transparent;
     height: 25px;
     margin: 20px 0 0 165px;
     text-align: center;
-    width: 100px;}
+    width: 100px;
+}
+.button-signup-page1{
+    background: url("subscription.png") no-repeat scroll 0 0 transparent;
+    height: 25px;
+    margin: 20px 0 0 136px;
+    text-align: center;
+    width: 100px;
+	color:white;
+}
 .first-name,.last-name,.email-address,.Phone-No,.current-system-drop-box,{
 padding:13px;
 }
@@ -367,6 +391,10 @@ margin-left: 19px;
 color:#00a3dc;
 margin-left:1px;
 }
+#forget-link1{
+color:#00a3dc;
+margin-left:65px;
+}
 .email,.password,.company-name{
 color:#A0A0A0;
 text-align:center;
@@ -377,4 +405,44 @@ text-align:center;
 .sign-up-divider{
      border-bottom:1px solid #ccc;
 	 margin: 0 22px 15px 5px;
+}
+.mid-login-box table tr td:first-child{
+color:#A0A0A0;
+}
+.mid-login-box{
+ margin-left: 44px;
+    margin-top: 40px;
+ }
+ .text-style{
+	color:#A0A0A0;
+ }
+ .link-color{
+ color:#00A3DC;
+ }
+ .link-color1{
+ color:#00A3DC;
+ margin-left:95px;
+ }
+ .size-width{
+ margin-left:20px;
+ }
+ .header1 p{
+ margin-left:80px;
+ margin-right:50px;
+ }
+ .header1 h2{
+  margin-left: 20px;
+    margin-top: 24px;
+ }
+ .monthly-box,.30days-trial-box{
+	float:left;
+ }
+ .30days-trial-box ul{
+ 
+list-style-image:url('sqpurple.gif');
+list-style-position:inside;
+}
+.price-boxes{
+margin-left:20px;
+margin-top:30px;
 }
