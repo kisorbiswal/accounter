@@ -1,0 +1,380 @@
+body{
+  margin:0px;
+  padding:0px;
+  text-align:center;
+  }
+ body,ul,li,ol,p{
+     margin:0px;
+	 padding:0px;
+ }
+ .header,.middle-part,.footer{
+     text-align:left;
+ }
+ .body-container{
+    width:960px !important;
+	margin:0px auto;
+	text-align:center;
+}
+.remaining-header-part-login{
+   clear:both;
+   float:right;
+   font-size: 23px; 
+   margin-top:-35px; 
+   margin-right: 60px;
+}
+.logo-image{
+    background: url("/images/footer-line.png") repeat-y scroll right center transparent;
+    float: left;
+    margin-left: 10px;
+    margin-top: 20px;
+    padding-left: 5px;
+    width: 280px;
+}
+.online-accounting,.bank-reconciliation,.invoicing,.find-an-acciuntant{
+	 float: left;
+    margin-left: 20px;
+    width: 190px;
+}
+#but-mid{
+	background:url("/images/green-big-mid.png") repeat-x scroll 0 0 transparent;
+	color: white;
+    float: left;
+    font-size: 29px;
+    margin-left: 7px;
+    padding: 20px;
+    width: 154px;
+}
+#but-g{
+	float:left;
+	background:url("/images/green-big-left.png") no-repeat scroll 0 0 transparent;
+	 margin-top: 28px;
+	  margin-left: 90px;
+}
+
+
+.right-big{
+margin-left:-7px;
+}
+
+a:link {text-decoration:none;}    /* unvisited link */
+a:visited {text-decoration:none;color:white} /* visited link */
+a:hover {text-decoration:underline;}   /* mouse over link */
+a:active {text-decoration:underline;}  /* selected link */
+
+#top {
+clear:both;
+height: 100px!important;
+background-color:#a3a3a3;
+}
+#cen {
+clear:both;
+height:330px!important;
+background-color:#01a3d2;
+}
+#mid{
+clear:both;
+background-color:#f4f4f4;
+height:550px!important;
+width: 735px!important;
+float:left;
+margin-top:40px;
+margin-left:120px;
+}
+#mid-1{
+clear:both;
+background-color:#f4f4f4;
+    float: left;
+    height: 385px;
+    margin-left: 257px;
+    margin-top: 40px;
+    width: 455px;
+}
+#down{
+clear:both;
+height:50px;
+}
+#bot {
+clear:both;
+height: 150px!important;
+background-color:#313131 !important;
+}
+
+li
+{
+	display:inline-block;
+	list-style-type:none;
+}
+.menu-bar {
+    float: left;
+    height: 20px;
+    margin-left: 50px;
+    margin-top: 73px;
+	}
+	
+#menu-bg{
+	float:left;
+	background:url("/images/normal-mid.png") repeat-x scroll 0 0 transparent;
+	 margin-left: 13px;
+    padding: 2px;
+    width: 50px;
+	}
+#one-g {
+	float:left;
+	background:url("/images/normal-left.png") no-repeat scroll 0 0 transparent;
+	margin-right: -22px;
+    padding: 1px 6px;
+   
+}
+
+#abt-bg{
+	float:left;
+	background:url("/images/normal-mid.png") repeat-x scroll 0 0 transparent;
+	 margin-left: 13px;
+    padding: 2px;
+    width: 50px;
+	
+	}
+#two-g{
+	float:left;
+	background:url("/images/normal-left.png") no-repeat scroll 0 0 transparent;
+	 padding: 1px 6px;   
+	  margin-right: -16px;
+}
+#pri-bg{
+	float:left;
+	background:url("/images/normal-mid.png") repeat-x scroll 0 0 transparent;
+	 margin-left: 13px;
+    padding: 2px;
+    width: 50px;
+	
+	}
+#three-g{
+	float:left;
+	background:url("/images/normal-left.png") no-repeat scroll 0 0 transparent;
+	 margin-right: -19px;
+    padding: 1px 6px;
+    
+}
+#sup-bg{
+	float:left;
+	background:url("/images/normal-mid.png") repeat-x scroll 0 0 transparent;
+	 margin-left: 13px;
+    padding: 2px;
+    width: 50px;
+	}
+#four-g{
+	float:left;
+	background:url("/images/normal-left.png") no-repeat scroll 0 0 transparent;
+	 padding: 1px 6px;   
+}
+
+.find-an-acciuntant,.try-free,.Benifits,.Pricing-Plans,.features-tree{
+   float:left;
+}
+.image-text-button{
+	float:left;
+	 margin-left: 30px;
+    margin-top: 45px;
+}
+.left-middle{
+   margin-left:20px;
+     width:500px;
+}
+.left-middle,.demo-buttons-image{
+	float:left;
+    margin-top: 15px;
+    width: 500px;
+}
+
+.fields-table{
+	float:left;
+	height: 105px;
+    width: 550px;
+	margin-left:30px;
+}
+.features-list,.support-lists,.useful-list,.product-list{
+	float:left;
+	width:146px;
+	margin-top:10px;
+}
+.fea a,.supp a,.use a,.pro a{
+   color:white;
+}
+a:visited {color: #FFFFFF; text-decoration: underline; }
+.online-accounting a,.bank-reconciliation a,.invoicing a,.find-an-acciuntant a{
+color:#079dd2;
+}
+.fea-list a,.supp-list a,.use-lists a,.pro-list a{
+color:#A0A0A0;
+}
+.image-text-button p{
+    font-size: 28px;
+	font-family:Vijaya;
+	color:white;
+}
+.image-text-button input[type="button"]{
+height: 45px;
+ width: 200px;
+ margin-left:80px;
+}
+.vertical-divider{
+    background:url("/images/dot-image.png") repeat-y scroll 0 0 transparent;
+    float: left;
+    height: 95px;
+    margin: 10px 0 0 0;
+    padding: 0 10px;
+    width: 20px;
+}
+.lower-part{
+   margin-top:15px;
+}
+.pro,.fea,.use,.supp{
+    background: url("/images/footer-line.png") repeat-x scroll left bottom transparent;
+    padding:5px 5px 10px 30px;
+}
+.footer-options{
+    width:600px;
+	margin:0 auto;
+}
+.pro-list,.fea-list,.supp-list,.use-lists{
+    margin:10px 0 0 30px;
+}
+#one-g input[type="image"],#two-g input[type="image"],#three-g input[type="image"],#four-g input[type="image"]{
+   position:relative;
+   
+}
+.right-button,.left-button{
+   margin-left:20px;
+}
+  
+.demo-buttons-image{
+  text-align:center;
+}
+.screen-dot{
+  margin-left:20px;
+  margin-bottom:6px;
+}
+.middle-signup-box {
+float:left;
+}
+.middle-signup-box h2{
+	margin-left:20px;
+	margin-top:20px;
+	color:#00a3dc;
+}
+
+#left-box{
+	  margin-bottom: -6px;
+      margin-left: 39px;
+}
+#left-box-l{
+margin-left: 87px;
+}
+#pwd-box{
+margin-left:60px;
+}
+#cmp-box{
+margin-left:20px;
+}
+#mid-box{
+    background: url("/images/text-box-normal-mid.png") repeat-x scroll left top transparent;
+    border: medium none;
+    height: 24px;
+    margin-bottom: 8px;
+    margin-left: -4px;
+    width: 200px;
+}
+#drop-down{
+    height: 22px;
+    margin-bottom: -6px;
+    margin-left: -5px;
+    padding: 1px;
+}
+
+.vertical-line{
+float:left;
+height: 415px;    
+padding:15px;
+margin-top:-15px;
+ background: url("/images/signup-page-vertical-line.png") repeat-y scroll 0 0 transparent;
+}
+.right-side-options{
+	float:left;
+	margin-top:-35px;
+}
+.left-side-box{
+    float: left;
+    margin-left: 40px;
+    margin-top: 20px;
+    width: 430px;
+}
+.try,.ben,.price,.left-side-box a{
+color:#00a3dc;
+}
+.try-list,.ben-list,.price-list,.first-name,.last-name,.email-address,.Phone-No,.current-system-drop-box,.left-side-box h5{
+	color:#A0A0A0;
+}
+.button-signup-page a{
+    color:white;
+}
+.first-name{
+}
+.signup-box-left-top{
+	float:left;
+	background: url("/images/signup-box-left-top.png") no-repeat scroll 0 0 transparent;
+    margin-left: -8px;
+    margin-top: -8px;
+    padding: 17px;
+}
+.signup-box-left-bot{
+	float:left;
+	background: url("/images/signup-box-left-bottom.png") no-repeat scroll 0 0 transparent;
+}
+#right-box{
+    margin-bottom: -6px;
+    margin-left: -5px;
+}
+#checkbox{
+	margin-left: 35px;
+	margin-top: 27px;
+}
+.button-signup-page {
+    background: url("/images/subscription.png") no-repeat scroll 0 0 transparent;
+    height: 25px;
+    margin: 20px 0 0 165px;
+    text-align: center;
+    width: 100px;}
+.first-name,.last-name,.email-address,.Phone-No,.current-system-drop-box,{
+padding:13px;
+}
+#common{
+margin-left:20px;
+}
+#last{
+margin-left:40px;
+}
+.email-address h6{
+margin: -8px 88px 6px;
+}
+.left-side-box h5{
+font-size: 18px;
+    margin: 9px 86px;
+}
+#current{
+margin-left: 19px;
+}
+#forget-link{
+color:#00a3dc;
+margin-left:1px;
+}
+.email,.password,.company-name{
+color:#A0A0A0;
+text-align:center;
+}
+.left-side-box table tr td:first-child{
+    color:#A0A0A0;
+}
+.sign-up-divider{
+     border-bottom:1px solid #ccc;
+	 margin: 0 22px 15px 5px;
+}
