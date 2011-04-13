@@ -93,6 +93,7 @@ public class ProfitAndLossServerReport extends
 		return new String[] {
 				"Category Number",
 				"",
+				// FIXME for reports these are NULL...
 				"" + getDateByCompanyType(getStartDate()) + " - "
 						+ getDateByCompanyType(getEndDate()),
 				"",
@@ -460,7 +461,7 @@ public class ProfitAndLossServerReport extends
 	@Override
 	public int getColumnWidth(int index) {
 
-		switch (index) {
+	switch (index) {
 		case 0:
 			return 110;
 		case 2:

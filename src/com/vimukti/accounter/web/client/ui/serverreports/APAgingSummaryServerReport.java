@@ -69,14 +69,14 @@ public class APAgingSummaryServerReport extends
 		// AccounterReportServiceImpl() {
 		// @Override
 		// protected IFinanceTool getFinanceTool()
-		// throws InvalidSessionException {
+		// throws InvaliedSessionException {
 		// return this.financeTool;
 		// }
 		// };
 		// initValues();
 		// try {
 		// onSuccess(reportsSerive.getCreditors(start, end));
-		// } catch (InvalidSessionException e) {
+		// } catch (InvaliedSessionException e) {
 		// e.printStackTrace();
 		// }
 		//

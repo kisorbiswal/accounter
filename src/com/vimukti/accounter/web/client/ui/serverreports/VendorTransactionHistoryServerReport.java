@@ -38,8 +38,8 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { UIUtils.getVendorString("Supplier", "Vendor"), "Date",
-				"Type", "No",
+		return new String[] { UIUtils.getVendorString("Supplier", "Vendor"),
+				"Date", "Type", "No",
 				// FinanceApplication.getReportsMessages().reference(),
 				"Account", "Amount"
 		// FinanceApplication.getReportsMessages().transactionAmount(),
@@ -62,7 +62,7 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public String getTitle() {
-		return UIUtils. getVendorString("Supplier Transaction History",
+		return UIUtils.getVendorString("Supplier Transaction History",
 				"Vendor Transaction History");
 	}
 
@@ -228,7 +228,7 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { UIUtils.getVendorString("Supplier", "Vendor"), "Date",
-				"Type", "No", "Account", "Amount" };
+		return new String[] { UIUtils.getVendorString("Supplier", "Vendor"),
+				"Date", "Type", "No", "Account", "Amount" };
 	}
 }

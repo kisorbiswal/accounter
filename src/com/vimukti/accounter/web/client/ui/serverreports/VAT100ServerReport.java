@@ -144,7 +144,7 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 		// AccounterReportServiceImpl() {
 		// @Override
 		// protected IFinanceTool getFinanceTool()
-		// throws InvalidSessionException {
+		// throws InvaliedSessionException {
 		// return this.financeTool;
 		// }
 		// };

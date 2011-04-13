@@ -17,8 +17,7 @@ public class CustomerTransactionHistoryServerReport1 extends
 		this.reportView = reportView;
 	}
 
-	public CustomerTransactionHistoryServerReport1(long startDate,
-			long endDate, int generationType) {
+	public CustomerTransactionHistoryServerReport1(long startDate, long endDate,int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -45,7 +44,10 @@ public class CustomerTransactionHistoryServerReport1 extends
 
 	@Override
 	public void makeReportRequest(long start, long end) {
+		// FIXME
 
+		// FinanceApplication.createReportService().getCustomerTransactionHistory(
+		// start.getTime(), end.getTime(), this);
 	}
 
 	@Override

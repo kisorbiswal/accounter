@@ -63,8 +63,7 @@ public class CustomerTransactionHistoryServerReport extends
 		else if (index == 5)
 			return 135;
 		else
-			return 125;
-	}
+			return 125;	}
 
 	@Override
 	public void makeReportRequest(long start, long end) {
