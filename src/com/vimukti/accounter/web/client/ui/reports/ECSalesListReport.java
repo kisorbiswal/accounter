@@ -54,10 +54,6 @@ public class ECSalesListReport extends AbstractReportView<ECSalesList> {
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 142, "", "");
 
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 142, "", "");
-
 	}
 
 	@Override
@@ -75,5 +71,11 @@ public class ECSalesListReport extends AbstractReportView<ECSalesList> {
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		}
 		return 0;
+	}
+
+	public void exportToCsv() {
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 142, "", "");
 	}
 }

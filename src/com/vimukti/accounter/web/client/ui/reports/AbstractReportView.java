@@ -778,6 +778,9 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 
 	}
 
+	public void exportToCsv() {
+	}
+
 	@Override
 	public void removeAllRows() {
 		this.grid.removeAllRows();

@@ -61,9 +61,7 @@ public class ECSalesListDetailReport extends
 		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 143, "", "", vatAgency);
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 143, "", "", vatAgency);
+
 	}
 
 	@Override
@@ -101,5 +99,11 @@ public class ECSalesListDetailReport extends
 					.getSalesPrice());
 		}
 		return 0;
+	}
+
+	public void exportToCsv() {
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 143, "", "", vatAgency);
 	}
 }

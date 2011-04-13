@@ -51,10 +51,6 @@ public class APAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 127, "", "");
 
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 127, "", "");
-
 	}
 
 	@Override
@@ -118,6 +114,12 @@ public class APAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 	@Override
 	public DummyDebitor getObject(DummyDebitor parent, DummyDebitor child) {
 		return null;
+	}
+
+	public void exportToCsv() {
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 127, "", "");
 	}
 
 }

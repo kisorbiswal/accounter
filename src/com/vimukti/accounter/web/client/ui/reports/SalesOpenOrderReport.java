@@ -98,10 +98,6 @@ public class SalesOpenOrderReport extends
 		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 125, "", "");
-
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 125, "", "");
 	}
 
 	@Override
@@ -143,5 +139,11 @@ public class SalesOpenOrderReport extends
 
 		}
 		return 0;
+	}
+
+	public void exportToCsv() {
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 125, "", "");
 	}
 }

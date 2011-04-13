@@ -51,11 +51,6 @@ public class ARAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 117, "", "");
-
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 117, "", "");
-
 	}
 
 	@Override
@@ -99,6 +94,12 @@ public class ARAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 					.getDebitdays_incurrent()));
 		}
 		return 0;
+	}
+
+	public void exportToCsv() {
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 118, "", "");
 	}
 
 }

@@ -113,10 +113,6 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 137, "", "", vatAgency);
-
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 137, "", "", vatAgency);
 	}
 
 	@Override
@@ -135,6 +131,13 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 		// return UIUtils.compareDouble(obj1.getValue(), obj2.getValue());
 		// }
 		return 0;
+	}
+
+	public void exportToCsv() {
+
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 137, "", "", vatAgency);
 	}
 
 }

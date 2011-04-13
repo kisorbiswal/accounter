@@ -18,7 +18,7 @@ public class ReportTemplate extends TemplateBuilder implements ITemplate {
 			this.dateRangeHtml = params[5];
 		init();
 	}
-	
+
 	public ReportTemplate(int reportType, String[] params) {
 
 		imgUrl = params[1];
@@ -97,7 +97,7 @@ public class ReportTemplate extends TemplateBuilder implements ITemplate {
 
 	@Override
 	public String getFileName() {
-		return this.reportTitle.replaceAll("/", "_").replaceAll(" ", "");
+		return ReportsGenerator.getReportNameByType(this.reportType);
 	}
 
 	public String forNullValue(String value) {

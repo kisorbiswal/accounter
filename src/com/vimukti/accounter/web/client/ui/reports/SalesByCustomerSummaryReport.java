@@ -54,9 +54,6 @@ public class SalesByCustomerSummaryReport extends
 		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 121, "", "");
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 121, "", "");
 
 	}
 
@@ -80,5 +77,11 @@ public class SalesByCustomerSummaryReport extends
 
 		}
 		return 0;
+	}
+
+	public void exportToCsv() {
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 121, "", "");
 	}
 }

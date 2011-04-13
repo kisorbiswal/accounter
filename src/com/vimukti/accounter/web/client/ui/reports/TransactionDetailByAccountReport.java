@@ -76,9 +76,6 @@ public class TransactionDetailByAccountReport extends
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 115, "", "");
 
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 115, "", "");
 	}
 
 	@Override
@@ -131,6 +128,12 @@ public class TransactionDetailByAccountReport extends
 			}
 		}
 		return 0;
+	}
+
+	public void exportToCsv() {
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 115, "", "");
 	}
 
 	// private void printDataForIEBrowser() {

@@ -62,9 +62,6 @@ public class ReverseChargeListDetailReport extends
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 145, "", "", vatAgency);
 
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 145, "", "", vatAgency);
 	}
 
 	@Override
@@ -102,6 +99,13 @@ public class ReverseChargeListDetailReport extends
 					.getSalesPrice());
 		}
 		return 0;
+	}
+
+	public void exportToCsv() {
+
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 145, "", "", vatAgency);
 	}
 
 }

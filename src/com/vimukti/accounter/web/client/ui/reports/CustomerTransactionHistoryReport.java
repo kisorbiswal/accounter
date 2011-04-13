@@ -51,10 +51,6 @@ public final class CustomerTransactionHistoryReport extends
 		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 119, "", "");
-
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 119, "", "");
 	}
 
 	@Override
@@ -91,6 +87,12 @@ public final class CustomerTransactionHistoryReport extends
 						.getInvoicedAmount());
 		}
 		return 0;
+	}
+
+	public void exportToCsv() {
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 118, "", "");
 	}
 
 	/*

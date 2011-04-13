@@ -44,10 +44,6 @@ public class AmountsDueToVendorReport extends
 		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 149, "", "");
-
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 149, "", "");
 	}
 
 	@Override
@@ -59,5 +55,12 @@ public class AmountsDueToVendorReport extends
 	public int getToolbarType() {
 		return 0;
 	}
+
+	public void exportToCsv() {
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 149, "", "");
+	}
+
 
 }

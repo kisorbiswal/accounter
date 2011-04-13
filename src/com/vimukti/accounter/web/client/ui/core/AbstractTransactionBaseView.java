@@ -817,7 +817,6 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	@Override
 	public void fitToSize(int height, int width) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

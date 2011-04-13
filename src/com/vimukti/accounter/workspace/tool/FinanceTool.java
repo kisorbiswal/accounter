@@ -506,14 +506,14 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 							if (((FiscalYear) serverObject)
 									.canDelete((FiscalYear) serverObject)) {
 								session.delete(serverObject);
-								ChangeTracker.put(serverObject);
+								// ChangeTracker.put(serverObject);
 							}
 						} else {
 							session.delete(serverObject);
 							if (serverObject instanceof User)
 								deleteIdentity((User) serverObject, member
 										.getID());
-							ChangeTracker.put(serverObject);
+							// ChangeTracker.put(serverObject);
 						}
 
 				}
@@ -569,6 +569,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 				Company cmp = Company.getCompany();
 				cmp.toCompany((ClientCompany) command.data);
+
 				ChangeTracker.put(cmp.toClientCompany());
 				serverObject = cmp;
 				HibernateUtil.getCurrentSession().update(serverObject);
@@ -704,8 +705,9 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			loginURL.append("https://");
 			loginURL.append(ServerConfiguration.getServerURL());
 		}
-		
-		UsersMailSendar.sendMailToInvitedUser(identity, passwd, loginURL.toString(), identity.getCompanyDBName());
+
+		UsersMailSendar.sendMailToInvitedUser(identity, passwd, loginURL
+				.toString(), identity.getCompanyDBName());
 
 	}
 
@@ -11823,7 +11825,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 								.uniqueResult();
 						amount = res == null ? 0 : (Double) res;
 						gPoints.add(amount);
-						
+
 						// gPoints.add(object[32] == null ? null
 						// : (Double) object[32]);
 

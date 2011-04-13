@@ -27,7 +27,7 @@ public abstract class ParentCanvas<T> extends VerticalPanel implements
 	protected boolean isInitialized;
 
 	public boolean showSaveAndNewButton;
-	
+
 	public boolean isSaveAndNew;
 
 	/**
@@ -167,5 +167,8 @@ public abstract class ParentCanvas<T> extends VerticalPanel implements
 	public abstract void printPreview();
 
 	public abstract void print();
+
+	public void exportToCsv() {
+	}
 
 }

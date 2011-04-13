@@ -63,16 +63,8 @@ public class APAgingDetailReport extends AbstractReportView<AgedDebtors> {
 			UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
 					.getTime())), Integer.parseInt(String.valueOf(endDate
 					.getTime())), 128, "", "");
-
-			UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-					.getTime())), Integer.parseInt(String.valueOf(endDate
-					.getTime())), 128, "", "");
 		} else {
 			UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-					.getTime())), Integer.parseInt(String.valueOf(endDate
-					.getTime())), 128, "", "", byCustomerDetail);
-
-			UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
 					.getTime())), Integer.parseInt(String.valueOf(endDate
 					.getTime())), 128, "", "", byCustomerDetail);
 		}
@@ -113,6 +105,18 @@ public class APAgingDetailReport extends AbstractReportView<AgedDebtors> {
 	@Override
 	public int getToolbarType() {
 		return TOOLBAR_TYPE_AS_OF;
+	}
+
+	public void exportToCsv() {
+		if (byCustomerDetail == null) {
+			UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+					.getTime())), Integer.parseInt(String.valueOf(endDate
+					.getTime())), 128, "", "");
+		} else {
+			UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+					.getTime())), Integer.parseInt(String.valueOf(endDate
+					.getTime())), 128, "", "", byCustomerDetail);
+		}
 	}
 
 }

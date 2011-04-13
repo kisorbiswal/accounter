@@ -56,7 +56,7 @@ public class ReportsRPC {
 	}
 
 	public static void getTaxAgency(String name) {
-		UIUtils.runAction(FinanceApplication.getCompany().getTaxAgency(name),
+			UIUtils.runAction(FinanceApplication.getCompany().getTaxAgency(name),
 				CompanyActionFactory.getNewTAXAgencyAction());
 
 	}

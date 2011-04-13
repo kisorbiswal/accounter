@@ -61,15 +61,9 @@ public class PurchaseByVendorDetailReport extends
 
 	@Override
 	public void print() {
-
 		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 131, "", "");
-
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 131, "", "");
-
 	}
 
 	@Override
@@ -103,6 +97,13 @@ public class PurchaseByVendorDetailReport extends
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		}
 		return 0;
+	}
+
+	public void exportToCsv() {
+
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 131, "", "");
 	}
 
 }

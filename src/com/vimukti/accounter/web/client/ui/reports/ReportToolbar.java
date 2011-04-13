@@ -68,7 +68,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 	}
 
 	public ClientFinanceDate getEndDate() {
-		return (endDate != null && endDate.getTime() == 0) ? new ClientFinanceDate()
+return (endDate != null && endDate.getTime() == 0) ? new ClientFinanceDate()
 				: endDate;
 	}
 

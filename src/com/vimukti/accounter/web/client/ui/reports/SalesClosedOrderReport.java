@@ -63,9 +63,6 @@ public class SalesClosedOrderReport extends
 		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 126, "", "");
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 126, "", "");
 
 	}
 
@@ -73,6 +70,12 @@ public class SalesClosedOrderReport extends
 	public void printPreview() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void exportToCsv() {
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 126, "", "");
 	}
 
 }

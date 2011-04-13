@@ -58,10 +58,6 @@ public class VATItemDetailReport extends AbstractReportView<VATItemDetail> {
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 139, "", "");
 
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 139, "", "");
-
 	}
 
 	@Override
@@ -102,6 +98,12 @@ public class VATItemDetailReport extends AbstractReportView<VATItemDetail> {
 					.getSalesPrice());
 		}
 		return 0;
+	}
+
+	public void exportToCsv() {
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 139, "", "");
 	}
 
 }

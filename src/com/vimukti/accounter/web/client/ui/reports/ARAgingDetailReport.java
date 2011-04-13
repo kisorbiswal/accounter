@@ -75,10 +75,6 @@ public class ARAgingDetailReport extends AbstractReportView<AgedDebtors> {
 		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 118, "", "");
-
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 118, "", "");
 	}
 
 	@Override
@@ -123,6 +119,12 @@ public class ARAgingDetailReport extends AbstractReportView<AgedDebtors> {
 			return UIUtils.compareDouble(obj1.getTotal(), obj2.getTotal());
 		}
 		return 0;
+	}
+
+	public void exportToCsv() {
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 118, "", "");
 	}
 
 }

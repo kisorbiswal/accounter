@@ -370,6 +370,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
 		if (core.getObjectType() == listGridView.getType()) {
+			
 			IAccounterCore obj = (IAccounterCore) Utility.getObjectFromList(
 					listGridView.getRecords(), core.getStringID());
 			switch (command) {

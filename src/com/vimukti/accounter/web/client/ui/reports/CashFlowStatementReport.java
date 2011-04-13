@@ -54,16 +54,18 @@ public class CashFlowStatementReport extends AbstractReportView<TrialBalance> {
 		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 148, "", "");
-
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 148, "", "");
 	}
 
 	@Override
 	public void printPreview() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void exportToCsv() {
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 118, "", "");
 	}
 
 	/*

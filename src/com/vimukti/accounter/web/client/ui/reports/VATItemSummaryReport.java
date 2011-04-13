@@ -60,9 +60,7 @@ public class VATItemSummaryReport extends AbstractReportView<VATItemSummary> {
 		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 141, "", "");
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 141, "", "");
+
 	}
 
 	@Override
@@ -87,6 +85,12 @@ public class VATItemSummaryReport extends AbstractReportView<VATItemSummary> {
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		}
 		return 0;
+	}
+
+	public void exportToCsv() {
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 141, "", "");
 	}
 
 }

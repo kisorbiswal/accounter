@@ -55,11 +55,6 @@ public class MostProfitableCustomerReport extends
 		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 147, "", "");
-
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 147, "", "");
-
 	}
 
 	@Override
@@ -86,6 +81,12 @@ public class MostProfitableCustomerReport extends
 					.getMarginPercentage());
 		}
 		return 0;
+	}
+
+	public void exportToCsv() {
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 147, "", "");
 	}
 
 }

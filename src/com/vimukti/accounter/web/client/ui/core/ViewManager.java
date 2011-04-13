@@ -133,6 +133,8 @@ public class ViewManager extends DockPanel {
 
 	private Action presentAction;
 
+	private Image exportButton;
+
 	@SuppressWarnings("serial")
 	private ViewManager() {
 		index = -1;
@@ -289,6 +291,17 @@ public class ViewManager extends DockPanel {
 			}
 		});
 
+		exportButton = new Image("/images/export-icon.png");
+		exportButton.setTitle("Export to CSV ");
+		exportButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (currentCanvas != null)
+					currentCanvas.exportToCsv();
+			}
+		});
+
 		// printButton = new Image(FinanceApplication.getFinanceImages()
 		// .printicon());
 		// printButton.addClickHandler(new ClickHandler() {
@@ -337,7 +350,7 @@ public class ViewManager extends DockPanel {
 
 		// buttonLayout.add(editButton);
 		buttonLayout.add(edit1Button);
-		// buttonLayout.add(printButton);
+		buttonLayout.add(exportButton);
 		buttonLayout.add(print1Button);
 		buttonLayout.add(closeButton);
 
@@ -497,6 +510,8 @@ public class ViewManager extends DockPanel {
 						FinanceApplication.getReportsMessages().report());
 
 		print1Button.setVisible(enablePrint);
+		exportButton.setVisible(action.getCatagory().equals(
+				FinanceApplication.getReportsMessages().report()));
 
 		boolean enableClose = !(action instanceof CompanyHomeAction)
 				&& !(action instanceof PurchaseOrderListAction)
@@ -1331,13 +1346,16 @@ public class ViewManager extends DockPanel {
 				currentCanvas.processupdateView(accounterCoreObject,
 						AccounterCommand.DELETION_SUCCESS);
 			} else if (currentDialog instanceof GroupDialog<?>) {
+
 				if (currentDialog != null)
 					currentDialog.processupdateView(accounterCoreObject,
 							AccounterCommand.DELETION_SUCCESS);
+
 			}
 			if (currentrequestedWidget != null
 					&& currentrequestedWidget.getStringID().equals(
 							accounterCoreObject.getStringID())) {
+
 				currentrequestedWidget.deleteSuccess(true);
 				currentrequestedWidget = null;
 			}
@@ -1598,7 +1616,8 @@ public class ViewManager extends DockPanel {
 				.getCustomersMessages().processingRequest());
 
 		dialog.center();
-		currentrequestedWidget = widget;
+		if (!(widget instanceof BaseDialog<?>))
+			currentrequestedWidget = widget;
 
 		AsyncCallback<Boolean> transactionCallBack = new AsyncCallback<Boolean>() {
 
@@ -1614,19 +1633,19 @@ public class ViewManager extends DockPanel {
 			}
 
 			public void onSuccess(Boolean result) {
-
-				if (!GWT.isScript()) {
-					if (result != null && result) {
-						AccounterCommand cmd = new AccounterCommand();
-						cmd.setCommand(AccounterCommand.DELETION_SUCCESS);
-						cmd.setData(core);
-						cmd.setStringID(widget.getStringID());
-						cmd.setObjectType(core.getObjectType());
-						FinanceApplication.getCompany().processCommand(cmd);
-					} else {
-						onFailure(null);
-					}
-				}
+				//
+				// if (!GWT.isScript()) {
+				// if (result != null && result) {
+				// AccounterCommand cmd = new AccounterCommand();
+				// cmd.setCommand(AccounterCommand.DELETION_SUCCESS);
+				// cmd.setData(core);
+				// cmd.setStringID(widget.getStringID());
+				// cmd.setObjectType(core.getObjectType());
+				// FinanceApplication.getCompany().processCommand(cmd);
+				// } else {
+				// onFailure(null);
+				// }
+				// }
 			}
 
 		};

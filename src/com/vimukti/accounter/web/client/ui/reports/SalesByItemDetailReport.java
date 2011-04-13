@@ -65,15 +65,8 @@ public class SalesByItemDetailReport extends
 			UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
 					.getTime())), Integer.parseInt(String.valueOf(endDate
 					.getTime())), 124, "", "");
-			UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-					.getTime())), Integer.parseInt(String.valueOf(endDate
-					.getTime())), 124, "", "");
 		} else {
 			UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-					.getTime())), Integer.parseInt(String.valueOf(endDate
-					.getTime())), 124, "", "", bycustomerDetail);
-
-			UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
 					.getTime())), Integer.parseInt(String.valueOf(endDate
 					.getTime())), 124, "", "", bycustomerDetail);
 		}
@@ -129,5 +122,17 @@ public class SalesByItemDetailReport extends
 
 		}
 		return 0;
+	}
+
+	public void exportToCsv() {
+		if (bycustomerDetail == null) {
+			UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+					.getTime())), Integer.parseInt(String.valueOf(endDate
+					.getTime())), 124, "", "");
+		} else {
+			UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+					.getTime())), Integer.parseInt(String.valueOf(endDate
+					.getTime())), 124, "", "", bycustomerDetail);
+		}
 	}
 }

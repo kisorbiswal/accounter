@@ -64,11 +64,6 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 				.valueOf(endDate.getTime())), 116, "", "", String
 				.valueOf(status));
 
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 116, "", "", String
-				.valueOf(status));
-
 	}
 
 	@Override
@@ -97,6 +92,14 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 			}
 		}
 		return 0;
+	}
+
+	public void exportToCsv() {
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 116, "", "", String
+				.valueOf(status));
+
 	}
 
 	/*

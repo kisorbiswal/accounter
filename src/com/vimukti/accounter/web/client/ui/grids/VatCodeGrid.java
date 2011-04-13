@@ -17,7 +17,6 @@ public class VatCodeGrid extends ListGrid<ClientTaxRates> {
 
 	@Override
 	protected int getColumnType(int col) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

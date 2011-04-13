@@ -55,9 +55,6 @@ public class SalesByItemSummaryReport extends
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 123, "", "");
 
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 123, "", "");
 	}
 
 	@Override
@@ -83,5 +80,11 @@ public class SalesByItemSummaryReport extends
 
 		}
 		return 0;
+	}
+
+	public void exportToCsv() {
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 123, "", "");
 	}
 }

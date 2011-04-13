@@ -57,9 +57,6 @@ public class ReverseChargeListReport extends
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 145, "", "");
 
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 145, "", "");
 	}
 
 	@Override
@@ -77,6 +74,12 @@ public class ReverseChargeListReport extends
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		}
 		return 0;
+	}
+
+	public void exportToCsv() {
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 145, "", "");
 	}
 
 }

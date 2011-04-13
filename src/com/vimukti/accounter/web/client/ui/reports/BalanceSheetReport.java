@@ -62,6 +62,9 @@ public class BalanceSheetReport extends AbstractReportView<TrialBalance> {
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 112, "", "");
 
+	}
+
+	public void exportToCsv() {
 		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 112, "", "");

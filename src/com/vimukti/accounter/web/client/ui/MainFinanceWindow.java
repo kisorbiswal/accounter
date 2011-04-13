@@ -1210,8 +1210,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		// }
 		super.onLoad();
 		viewManager.fitToSize(this.getOffsetHeight(), 960);
-		if (GWT.isScript())
-			AccounterCometClient.start();
+		// if (GWT.isScript())
+		AccounterCometClient.start();
 		this.getElement().getParentElement()
 				.addClassName("main-finance-window");
 	}

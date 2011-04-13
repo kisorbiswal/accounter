@@ -53,11 +53,6 @@ public class TrialBalanceReport extends AbstractReportView<TrialBalance> {
 		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
 				.getTime())), Integer.parseInt(String
 				.valueOf(endDate.getTime())), 113, "", "");
-
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 113, "", "");
-
 	}
 
 	@Override
@@ -82,6 +77,13 @@ public class TrialBalanceReport extends AbstractReportView<TrialBalance> {
 					.getCreditAmount());
 		}
 		return 0;
+	}
+
+	public void exportToCsv() {
+
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 113, "", "");
 	}
 
 }
