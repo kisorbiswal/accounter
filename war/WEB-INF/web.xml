@@ -89,18 +89,25 @@
 		<servlet-name>CometServlet</servlet-name>
 		<url-pattern>/do.comet/*</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>ProxyServlet</servlet-name>
 		<url-pattern>/do/uploadfile</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>ProxyServlet</servlet-name>
 		<url-pattern>/do/downloadFileFromFile</url-pattern>
 	</servlet-mapping>
-	
 
+	<servlet-mapping>
+		<servlet-name>ProxyServlet</servlet-name>
+		<url-pattern>/do/finance/ExportReportServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ProxyServlet</servlet-name>
+		<url-pattern>/do/finance/generatePDFServlet</url-pattern>
+	</servlet-mapping>
 
 
 </web-app>
