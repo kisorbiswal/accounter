@@ -169,13 +169,13 @@ public class MainFinanceWindow extends VerticalPanel {
 			image.setStyleName("copy-img");
 			Label copyrightLabel = new Label("Copyright");
 			Label companyNameLabel = new Label(" Vimukti Technologies.");
-			Label allrightsLabel = new Label("All rights are reserved");
+			Label allrightsLabel = new Label("All rights are reserved.");
 			copyrightLabel.setStyleName("down-panel1");
 			allrightsLabel.setStyleName("down-panel1");
 			companyNameLabel.addStyleName("down-panel1");
 			Anchor support = new Anchor("Support");
 			Anchor feedback = new Anchor("Feedback");
-
+			support.getElement().getStyle().setMarginLeft(6, Unit.PX);
 			downpanel.add(copyrightLabel);
 			downpanel.add(image);
 			downpanel.add(companyNameLabel);
@@ -194,7 +194,7 @@ public class MainFinanceWindow extends VerticalPanel {
 			downpanel.setCellHorizontalAlignment(support, ALIGN_CENTER);
 			// downpanel.setCellWidth(feedback, "8%");
 			downpanel.setCellHorizontalAlignment(feedback, ALIGN_CENTER);
-			downpanel.setWidth("520px");
+			downpanel.setWidth("535px");
 		}
 		VerticalPanel helppanel = new VerticalPanel();
 		helppanel.setWidth("97%");
