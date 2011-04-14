@@ -168,7 +168,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 
 		nextButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				if (companyForm.validate())
+				if (companyForm.validate(true))
 					createNextStepCanvas();
 			}
 		});
@@ -190,7 +190,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 	}
 
 	protected boolean validateForm() {
-		return companyForm.validate();
+		return companyForm.validate(true);
 	}
 
 	private void createCompany() {

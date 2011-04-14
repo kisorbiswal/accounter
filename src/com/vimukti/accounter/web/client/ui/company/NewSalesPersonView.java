@@ -277,7 +277,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		switch (this.validationCount) {
 		case 2:
-			return AccounterValidator.validateForm(salesPersonForm);
+			return AccounterValidator.validateForm(salesPersonForm, false);
 		case 1:
 			String name = employeeNameText.getValue().toString();
 			if (((takenSalesperson == null && Utility.isObjectExist(

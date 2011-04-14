@@ -96,7 +96,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 			InvalidTransactionEntryException {
 		switch (this.validationCount) {
 		case 6:
-			return AccounterValidator.validateForm(dateForm);
+			return AccounterValidator.validateForm(dateForm, false);
 		case 5:
 			return AccounterValidator.isBlankTransaction(grid);
 		case 4:
@@ -118,7 +118,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 	protected boolean validateForm() {
 
-		return dateForm.validate();
+		return dateForm.validate(false);
 	}
 
 	public void initListGrid() {

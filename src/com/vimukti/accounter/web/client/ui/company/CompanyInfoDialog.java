@@ -481,7 +481,7 @@ public class CompanyInfoDialog extends BaseDialog {
 
 	private boolean validateCompanyDetailsForm(DynamicForm companyDetailsForm)
 			throws InvalidEntryException {
-		if (!companyDetailsForm.validate()) {
+		if (!companyDetailsForm.validate(true)) {
 			// throw new
 			// InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
 		}

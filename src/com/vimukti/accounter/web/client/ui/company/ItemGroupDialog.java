@@ -135,6 +135,6 @@ public class ItemGroupDialog extends BaseDialog {
 	}
 
 	public boolean validate() {
-		return this.dform.validate();
+		return this.dform.validate(true);
 	}
 }
