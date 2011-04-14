@@ -67,7 +67,7 @@ public class CheckboxItem extends FormItem {
 	}
 
 	@Override
-	public boolean validate() {
+	public boolean validate(boolean isDialog) {
 		return true;
 
 	}

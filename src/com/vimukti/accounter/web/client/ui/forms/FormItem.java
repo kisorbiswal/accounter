@@ -288,7 +288,7 @@ public abstract class FormItem {
 		return defaultValue;
 	}
 
-	public boolean validate() {
+	public boolean validate(boolean isDialog) {
 		if (this.getValidator() != null) {
 			int matchingStatus = 0;
 			for (Validator validator : this.getValidator()) {
@@ -303,13 +303,14 @@ public abstract class FormItem {
 
 			} else
 				highlight();
-			if (ViewManager.getInstance().getCurrentDialog() != null
+			if ((ViewManager.getInstance().getCurrentDialog() != null || isDialog)
 					&& BaseDialog.errordata != null
 					&& BaseDialog.commentPanel != null) {
 				BaseDialog.errordata.setHTML(BaseDialog.errordata.getHTML()
 						+ "<li> Please enter " + this.getTitle() + ".");
 				BaseDialog.commentPanel.setVisible(true);
-			} else if (ViewManager.getInstance().getCurrentView() != null
+			} else if (!isDialog
+					&& ViewManager.getInstance().getCurrentView() != null
 					&& BaseView.errordata != null
 					&& BaseView.commentPanel != null) {
 				BaseView.errordata.setHTML(BaseView.errordata.getHTML()

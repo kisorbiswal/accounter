@@ -82,8 +82,8 @@ public class ComboBoxItem extends FormItem {
 	}
 
 	@Override
-	public boolean validate() {
-		return super.validate();
+	public boolean validate(boolean isDialog) {
+		return super.validate(isDialog);
 
 	}
 

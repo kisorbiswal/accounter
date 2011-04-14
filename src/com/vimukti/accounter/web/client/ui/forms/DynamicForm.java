@@ -17,10 +17,10 @@ public class DynamicForm extends FlexTable {
 	private int noSpan;
 	private boolean isGroup;
 
-	public boolean validate() {
+	public boolean validate(boolean isDialog) {
 		boolean validate = true;
 		for (FormItem item : this.formItems) {
-			if (!item.validate()) {
+			if (!item.validate(isDialog)) {
 				validate = false;
 				item.highlight();
 			} else {
