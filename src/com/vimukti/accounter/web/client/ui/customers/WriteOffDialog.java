@@ -157,7 +157,7 @@ public class WriteOffDialog extends BaseDialog {
 
 	public boolean validate() throws InvalidEntryException {
 		if (getSelectedWriteOffAccount() == null) {
-			AccounterValidator.validateForm(form);
+			AccounterValidator.validateForm(form, true);
 		}
 		return true;
 	}

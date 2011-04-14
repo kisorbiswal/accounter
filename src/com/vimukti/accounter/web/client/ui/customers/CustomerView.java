@@ -394,7 +394,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			return validateCustomerForm(customerForm);
 		case 5:
 			if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-				return AccounterValidator.validateFormItem(custTaxCode);
+				return AccounterValidator.validateFormItem(custTaxCode, false);
 			return true;
 		case 4:
 			// Date customerSince = customerSinceDate.getEnteredDate();
@@ -420,7 +420,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private boolean validateCustomerForm(DynamicForm customerForm)
 			throws InvalidEntryException {
-		if (!customerForm.validate()) {
+		if (!customerForm.validate(false)) {
 			if (tabSet.getTabBar().isTabEnabled(1))
 				tabSet.selectTab(0);
 			// throw new

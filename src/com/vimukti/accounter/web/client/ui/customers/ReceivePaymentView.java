@@ -1157,7 +1157,7 @@ public class ReceivePaymentView extends
 			return AccounterValidator
 					.validateTransactionDate(this.transactionDate);
 		case 5:
-			return AccounterValidator.validateFormItem(customerCombo,
+			return AccounterValidator.validateFormItem(false, customerCombo,
 					paymentMethodCombo, depositInCombo);
 
 		case 4:

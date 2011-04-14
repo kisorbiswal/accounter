@@ -98,7 +98,7 @@ public class NewCustomerPaymentView extends
 			return AccounterValidator
 					.validateTransactionDate(this.transactionDate);
 		case 3:
-			return AccounterValidator.validateForm(payForm);
+			return AccounterValidator.validateForm(payForm, false);
 		case 2:
 			if (DecimalUtil.isEquals(amountText.getAmount(), 0))
 				throw new InvalidTransactionEntryException(

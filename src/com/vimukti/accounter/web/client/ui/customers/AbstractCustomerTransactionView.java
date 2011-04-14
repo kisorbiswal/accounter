@@ -961,7 +961,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 					.validateTransactionDate(this.transactionDate);
 
 		case 8:
-			return AccounterValidator.validateForm(custForm);
+			return AccounterValidator.validateForm(custForm, false);
 
 		case 7:
 			if (this.transactionType == ClientTransaction.TYPE_ESTIMATE) {
@@ -984,7 +984,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 			// CustomerRefunds.
 			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				if (!(this.transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS))
-					return AccounterValidator.validateFormItem(taxCodeSelect);
+					return AccounterValidator.validateFormItem(taxCodeSelect, false);
 
 			}
 			// this is for CustomerRefunds only.
@@ -1010,7 +1010,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 			if (this.transactionType == ClientTransaction.TYPE_CASH_SALES) {
 				CashSalesView = (CashSalesView) this;
-				return (AccounterValidator.validateFormItem(
+				return (AccounterValidator.validateFormItem(false, 
 						CashSalesView.paymentMethodCombo,
 						CashSalesView.depositInCombo) && AccounterValidator
 						.validate_TaxAgency_FinanceAcount(depositInAccount));

@@ -116,7 +116,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 			}
 
 			public boolean onOkClick() {
-				if (inputDlg.getForm().validate()) {
+				if (inputDlg.getForm().validate(true)) {
 					if (customerGroup != null) {
 						editCustomerGroups();
 					} else {
