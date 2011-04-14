@@ -699,7 +699,7 @@ public class VendorBillView extends
 		case 6:
 			return AccounterValidator.validateTransactionDate(transactionDate);
 		case 5:
-			return AccounterValidator.validateForm(vendorForm);
+			return AccounterValidator.validateForm(vendorForm, false);
 		case 4:
 			return AccounterValidator.validate_dueOrDelivaryDates(dueDateItem
 					.getEnteredDate(), this.transactionDate, FinanceApplication

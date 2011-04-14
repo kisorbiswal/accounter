@@ -584,7 +584,7 @@ public class ItemReceiptView extends
 		case 1:
 			return AccounterValidator.validateTransactionDate(transactionDate);
 		case 2:
-			return AccounterValidator.validateForm(vendorForm);
+			return AccounterValidator.validateForm(vendorForm, false);
 		case 3:
 			return AccounterValidator.validate_dueOrDelivaryDates(
 					deliveryDateItem.getEnteredDate(), this.transactionDate,

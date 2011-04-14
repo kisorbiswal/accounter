@@ -605,9 +605,9 @@ public class CashPurchaseView extends
 		case 6:
 			return AccounterValidator.validateTransactionDate(transactionDate);
 		case 5:
-			return AccounterValidator.validateFormItem(payFromCombo);
+			return AccounterValidator.validateFormItem(payFromCombo, false);
 		case 4:
-			return AccounterValidator.validateForm(vendorForm);
+			return AccounterValidator.validateForm(vendorForm, false);
 		case 3:
 			return AccounterValidator.validate_dueOrDelivaryDates(
 					deliveryDateItem.getEnteredDate(), this.transactionDate,

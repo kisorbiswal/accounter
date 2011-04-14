@@ -710,11 +710,11 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 					.validateTransactionDate(this.transactionDate);
 		case 4:
 			if (payForm != null)
-				return AccounterValidator.validateForm(payForm);
+				return AccounterValidator.validateForm(payForm, false);
 
 		case 3:
 			if (filterForm != null)
-				return AccounterValidator.validateForm(filterForm);
+				return AccounterValidator.validateForm(filterForm, false);
 			return true;
 		case 2:
 			return AccounterValidator.validateReceivePaymentGrid(gridView);

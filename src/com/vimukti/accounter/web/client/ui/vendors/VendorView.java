@@ -239,7 +239,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			 */
 
 		case 4:
-			return AccounterValidator.validateForm(vendorForm);
+			return AccounterValidator.validateForm(vendorForm, false);
 
 		case 3:
 			// Date vendorSince = vendorSinceDate.getEnteredDate();

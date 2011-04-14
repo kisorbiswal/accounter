@@ -170,7 +170,7 @@ public class CashExpenseView extends CashPurchaseView {
 		case 5:
 			return AccounterValidator.validateTransactionDate(transactionDate);
 		case 4:
-			return AccounterValidator.validateFormItem(payFromCombo);
+			return AccounterValidator.validateFormItem(payFromCombo, false);
 		case 3:
 			return AccounterValidator.validate_dueOrDelivaryDates(
 					deliveryDateItem.getEnteredDate(), this.transactionDate,

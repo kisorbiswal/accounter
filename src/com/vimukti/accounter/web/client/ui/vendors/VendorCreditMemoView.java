@@ -398,7 +398,7 @@ public class VendorCreditMemoView extends
 		case 4:
 			return AccounterValidator.validateTransactionDate(transactionDate);
 		case 3:
-			return AccounterValidator.validateForm(vendorForm);
+			return AccounterValidator.validateForm(vendorForm, false);
 		case 2:
 			return AccounterValidator.isBlankTransaction(vendorTransactionGrid);
 		case 1:

@@ -118,7 +118,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 			}
 
 			public boolean onOkClick() {
-				if (inputDlg.getForm().validate()) {
+				if (inputDlg.getForm().validate(true)) {
 					if (vendorGroup != null) {
 						editVendorGroups();
 					} else
