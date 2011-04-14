@@ -35,6 +35,8 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.customers.CustomerRefundView;
+import com.vimukti.accounter.web.client.ui.customers.NewCustomerPaymentView;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -47,6 +49,7 @@ import com.vimukti.accounter.web.client.ui.grids.VendorTransactionUKGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorTransactionUSGrid;
 import com.vimukti.accounter.web.client.ui.vendors.CashExpenseView;
 import com.vimukti.accounter.web.client.ui.vendors.CreditCardExpenseView;
+import com.vimukti.accounter.web.client.ui.vendors.NewVendorPaymentView;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -393,7 +396,9 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	protected TextAreaItem createMemoTextAreaItem() {
 
 		TextAreaItem memoArea = new TextAreaItem();
-		memoArea.setMemo(true);
+		if (!(this instanceof NewCustomerPaymentView
+				|| this instanceof NewVendorPaymentView || this instanceof CustomerRefundView))
+			memoArea.setMemo(true);
 		memoArea.setHelpInformation(true);
 
 		memoArea.setTitle(FinanceApplication.getVendorsMessages().memo());
