@@ -98,6 +98,23 @@ float:left;
 margin-top:40px;
 margin-left:60px;
 }
+#mid-left{
+clear:both;
+float:left;
+background-color:#d9d9d9;
+height:550px;
+width:260px;
+margin-top:40px;
+margin-left:60px;
+}
+#mid-right{
+clear:both;
+background-color:#f4f4f4;
+height:550px;
+width:600px;
+margin-left:260px;
+float:left;
+}
 #down{
 clear:both;
 height:50px;
@@ -275,6 +292,7 @@ float:left;
 
 #left-box{
 	  margin-bottom: -6px;
+	  margin-bottom: -9px\0;
       margin-left: 39px;
 }
 #left-box-l{
@@ -298,6 +316,7 @@ margin-left:20px;
 #drop-down{
     height: 22px;
     margin-bottom: -6px;
+	margin-bottom: -9px\0;
     margin-left: -5px;
     padding: 1px;
 }
@@ -317,7 +336,7 @@ margin-top:-15px;
     float: left;
     margin-left: 40px;
     margin-top: 20px;
-    width: 430px;
+    width: 410px;
 }
 .try,.ben,.price,.left-side-box a{
 color:#00a3dc;
@@ -343,6 +362,7 @@ color:#00a3dc;
 }
 #right-box{
     margin-bottom: -6px;
+	 margin-bottom: -9px\0;
     margin-left: -5px;
 }
 #checkbox{
@@ -361,7 +381,7 @@ margin-left: 35px;
     width: 100px;
 }
 .button-signup-page1{
-    background: url("subscription.png") no-repeat scroll 0 0 transparent;
+    background: url("/images/subscription.png") no-repeat scroll 0 0 transparent;
     height: 25px;
     margin: 20px 0 0 136px;
     text-align: center;
@@ -382,7 +402,7 @@ margin: -8px 88px 6px;
 }
 .left-side-box h5{
 font-size: 18px;
-    margin: 9px 86px;
+    margin: 9px 75px;
 }
 #current{
 margin-left: 19px;
@@ -439,10 +459,56 @@ color:#A0A0A0;
  }
  .30days-trial-box ul{
  
-list-style-image:url('sqpurple.gif');
+list-style-image:url('/images/sqpurple.gif');
 list-style-position:inside;
 }
 .price-boxes{
 margin-left:20px;
 margin-top:30px;
+}
+#banner-left{
+background:url("/images/pricing-banner-left.png") no-repeat scroll 0 0 transparent;
+}
+#banner-mid{
+background:url("/images/pricing-banner-mid.png") repeat-x scroll 0 0 transparent;
+ color: white;
+    float: left;
+    font-size: 30px;
+    margin-left: 14px;
+    margin-right: 7px;
+    padding: 19px;
+    width: 157px;
+}
+#banner-left-tab{
+background:url("/images/pricing-banner-tab-left.png") no-repeat scroll 0 0 transparent;
+}
+#banner-mid-tab{
+background:url("/images/pricing-banner-tab-mid.png") repeat-x scroll 0 0 transparent;
+color:white;
+}
+#banner-mid1{
+background:url("/images/pricing-banner-mid.png") repeat-x scroll 0 0 transparent;
+ color: white;
+    float: left;
+    font-size: 30px;
+    margin-left: 14px;
+    margin-right: 7px;
+    padding: 19px;
+    width: 157px;
+}
+#banner-mid2{
+background:url("/images/pricing-banner-mid.png") repeat-x scroll 0 0 transparent;
+ color: white;
+    float: left;
+    font-size: 30px;
+    margin-left: 14px;
+    margin-right: 7px;
+    padding: 19px;
+    width: 157px;
+}
+.banner-tab{
+
+}
+.price-boxes{
+
 }
