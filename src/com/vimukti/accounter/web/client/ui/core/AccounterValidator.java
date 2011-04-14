@@ -79,10 +79,10 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean validateForm(DynamicForm form)
+	public static boolean validateForm(DynamicForm form, boolean isDialog)
 			throws InvalidEntryException {
 
-		if (!form.validate()) {
+		if (!form.validate(isDialog)) {
 			// throw new
 			// InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
 		}
@@ -1049,7 +1049,8 @@ public class AccounterValidator {
 			double bankBalance, double amount, boolean isIncrease,
 			final AbstractBaseView view) {
 		if (isIncrease == false
-				&& DecimalUtil.isLessThan((bankBalance - amount), 0.00) && !AbstractBaseView.errorOccured) {
+				&& DecimalUtil.isLessThan((bankBalance - amount), 0.00)
+				&& !AbstractBaseView.errorOccured) {
 			Accounter.showWarning(
 					AccounterWarningType.total_Exceeds_BankBalance,
 					AccounterType.WARNING, new ErrorDialogHandler() {
@@ -1387,7 +1388,8 @@ public class AccounterValidator {
 
 		if (!payFromAccount.isIncrease()
 				&& (DecimalUtil.isLessThan(
-						(payFromAccount.getTotalBalance() - amount), 0.0)) && !AbstractBaseView.errorOccured) {
+						(payFromAccount.getTotalBalance() - amount), 0.0))
+				&& !AbstractBaseView.errorOccured) {
 			Accounter.showWarning(
 					AccounterWarningType.INVALID_CUSTOMERREFUND_AMOUNT,
 					AccounterType.WARNING, new ErrorDialogHandler() {
@@ -1420,9 +1422,9 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean validateFormItem(FormItem item)
+	public static boolean validateFormItem(FormItem item, boolean isDialog)
 			throws InvalidTransactionEntryException {
-		if (!item.validate()) {
+		if (!item.validate(isDialog)) {
 			// throw new InvalidTransactionEntryException(
 			// "Required fields are shown in bold.Those fields should be filled!!");
 
@@ -1431,10 +1433,10 @@ public class AccounterValidator {
 		return true;
 	}
 
-	public static boolean validateFormItem(FormItem... items)
+	public static boolean validateFormItem(boolean isDialog, FormItem... items)
 			throws InvalidTransactionEntryException {
 		for (FormItem item : items)
-			if (!item.validate()) {
+			if (!item.validate(isDialog)) {
 				// throw new InvalidTransactionEntryException(
 				// AccounterErrorType.REQUIRED_FIELDS);
 			}
@@ -1649,27 +1651,31 @@ public class AccounterValidator {
 	}
 
 	public static boolean validate_FileVat(final AbstractBaseView view) {
-		Accounter.showWarning("Are you sure you want to save File VAT?",
-				AccounterType.WARNING, new ErrorDialogHandler() {
+		if (!AbstractBaseView.errorOccured) {
+			Accounter.showWarning("Are you sure you want to save File VAT?",
+					AccounterType.WARNING, new ErrorDialogHandler() {
 
-					@Override
-					public boolean onYesClick() throws InvalidEntryException {
-						view.validationCount--;
-						return true;
-					}
+						@Override
+						public boolean onYesClick()
+								throws InvalidEntryException {
+							view.validationCount--;
+							return true;
+						}
 
-					@Override
-					public boolean onNoClick() throws InvalidEntryException {
-						Accounter.stopExecution();
-						return true;
-					}
+						@Override
+						public boolean onNoClick() throws InvalidEntryException {
+							Accounter.stopExecution();
+							return true;
+						}
 
-					@Override
-					public boolean onCancelClick() throws InvalidEntryException {
-						return false;
-					}
-				});
-		AbstractBaseView.warnOccured = true;
+						@Override
+						public boolean onCancelClick()
+								throws InvalidEntryException {
+							return false;
+						}
+					});
+			AbstractBaseView.warnOccured = true;
+		}
 		return false;
 	}
 
