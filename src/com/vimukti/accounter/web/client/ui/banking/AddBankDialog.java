@@ -68,7 +68,7 @@ public class AddBankDialog extends AbstractBaseDialog {
 				.button_right_blue_image(), "ibutton-right-image");
 		okButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				if (bankForm.validate()) {
+				if (bankForm.validate(true)) {
 
 				}
 			}

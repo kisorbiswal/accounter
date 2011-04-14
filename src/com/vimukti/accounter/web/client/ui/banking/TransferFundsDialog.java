@@ -292,8 +292,8 @@ public class TransferFundsDialog extends BaseDialog {
 
 	protected boolean validateTransaction() throws InvalidEntryException {
 
-		if (AccounterValidator.validateForm(transferFromForm)
-				&& AccounterValidator.validateForm(transferToForm)) {
+		if (AccounterValidator.validateForm(transferFromForm, true)
+				&& AccounterValidator.validateForm(transferToForm, true)) {
 			if (!AccounterValidator.validate_TransferFunds(accountFrom,
 					accountTo)) {
 				return false;
