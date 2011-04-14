@@ -69,7 +69,7 @@ public class Header extends HorizontalPanel {
 		helpBar = new MenuBar();
 		initializeHelpBar();
 		helpBar.setStyleName("helpBar");
-		help = new HTML("<a href='http://help.accounter.com'><font color='#00A3D3'>Help</font></a><div class='help-content'></div>");
+		help = new HTML("<a href='http://help.accounter.com'><font color='#00A3D3'>Help</font></a>");
 		help.addStyleName("help-style");
 		help.addStyleName("helpBar");
 

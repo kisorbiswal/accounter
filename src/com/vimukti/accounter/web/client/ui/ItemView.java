@@ -852,20 +852,20 @@ public class ItemView extends BaseView<ClientItem> {
 			 */
 
 		case 8:
-			return AccounterValidator.validateForm(itemForm);
+			return AccounterValidator.validateForm(itemForm, false);
 		case 7:
 			return AccounterValidator.isSellorBuyCheck(isellCheck, ibuyCheck);
 		case 6:
 			if (AccounterValidator.isChecked(isellCheck))
-				return AccounterValidator.validateForm(salesInfoForm);
+				return AccounterValidator.validateForm(salesInfoForm, false);
 			return true;
 		case 5:
 			boolean result = true;
 			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				result = AccounterValidator.validateForm(itemInfoForm);
+				result = AccounterValidator.validateForm(itemInfoForm, false);
 			}
 			if (AccounterValidator.isChecked(ibuyCheck))
-				result = AccounterValidator.validateForm(purchaseInfoForm);
+				result = AccounterValidator.validateForm(purchaseInfoForm, false);
 			return result;
 
 		case 4:

@@ -117,7 +117,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 			}
 
 			public boolean onOkClick() {
-				if (inputDlg.getForm().validate()) {
+				if (inputDlg.getForm().validate(true)) {
 					if (creditRating != null) {
 						EditCreditRatings();
 					} else

@@ -130,7 +130,7 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 			}
 
 			public boolean onOkClick() {
-				if (inputDlg.getForm().validate()) {
+				if (inputDlg.getForm().validate(true)) {
 					if (shippingTerm != null)
 						EditShippingTerms();
 					else

@@ -271,7 +271,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 
 	protected boolean validate() throws InvalidEntryException,
 			InvalidTransactionEntryException {
-		if (AccounterValidator.validateForm(payForm) && grid.validateGrid())
+		if (AccounterValidator.validateForm(payForm, true) && grid.validateGrid())
 			return true;
 		else
 			return false;

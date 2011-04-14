@@ -122,7 +122,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 			public boolean onOkClick() {
 
-				if (dialog.nameDescForm.validate()) {
+				if (dialog.nameDescForm.validate(true)) {
 
 					if (paymentTerm != null) {
 						editPaymentTerms();

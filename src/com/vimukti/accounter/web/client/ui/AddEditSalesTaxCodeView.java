@@ -337,7 +337,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 	public boolean validForm() throws InvalidEntryException {
 
-		if (!taxCodeForm.validate())
+		if (!taxCodeForm.validate(false))
 			// throw new
 			// InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
 			return false;

@@ -516,7 +516,7 @@ public class PaySalesTaxView extends
 			InvalidTransactionEntryException {
 		switch (this.validationCount) {
 		case 3:
-			return AccounterValidator.validateForm(filterForm);
+			return AccounterValidator.validateForm(filterForm, false);
 		case 2:
 			return AccounterValidator.validateGrid(grid);
 		case 1:

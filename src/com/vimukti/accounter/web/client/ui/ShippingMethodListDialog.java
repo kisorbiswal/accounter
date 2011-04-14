@@ -124,7 +124,7 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 			}
 
 			public boolean onOkClick() {
-				if (inputDlg.getForm().validate()) {
+				if (inputDlg.getForm().validate(true)) {
 					if (shippingMethod == null)
 						createShippingMethod();
 					else

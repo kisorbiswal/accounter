@@ -149,7 +149,7 @@ public class CashDiscountDialog extends BaseDialog {
 
 	public boolean validate() throws InvalidEntryException {
 		if (getSelectedDiscountAccount() == null) {
-			AccounterValidator.validateForm(form);
+			AccounterValidator.validateForm(form, true);
 		}
 		return true;
 	}

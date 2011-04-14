@@ -63,8 +63,7 @@ public class StartupDialog extends DialogBox {
 				.getFinanceUIConstants().email());
 		userEmailText.setRequired(true);
 		// userEmailText.setWidth("*");
-		userEmailText.setValue(FinanceApplication.getCompanyMessages()
-				.admindefbizcom());
+		userEmailText.setValue("admin@accounter.com");
 
 		userPassText = new TextItem(FinanceApplication.getFinanceUIConstants()
 				.password());
@@ -231,7 +230,7 @@ public class StartupDialog extends DialogBox {
 	}
 
 	private boolean validateForm() {
-		if (!form.validate())
+		if (!form.validate(true))
 			return false;
 		if (!UIUtils.isValidEmail(userEmailText.getValue().toString())) {
 			UIUtils.say("Invalid email!");

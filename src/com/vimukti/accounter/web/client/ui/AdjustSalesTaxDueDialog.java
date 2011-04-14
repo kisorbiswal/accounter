@@ -80,7 +80,7 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 			}
 
 			public boolean onOkClick() {
-				return taxForm.validate();
+				return taxForm.validate(true);
 			}
 
 		});

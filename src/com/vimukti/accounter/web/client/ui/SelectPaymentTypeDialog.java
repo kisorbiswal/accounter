@@ -62,7 +62,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 			}
 
 			public boolean onOkClick() {
-				if (!typeForm.validate()) {
+				if (!typeForm.validate(true)) {
 					// Accounter.showError(FinanceApplication
 					// .getFinanceUIConstants().pleaseSelecPaymentType());
 					return false;

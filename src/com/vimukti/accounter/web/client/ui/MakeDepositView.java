@@ -356,7 +356,7 @@ public class MakeDepositView extends
 		}
 
 		return checkTotalAmount() && checkLastRecord() && flag
-				&& depoForm.validate();
+				&& depoForm.validate(false);
 	}
 
 	private boolean checkTotalAmount() {
@@ -1092,7 +1092,7 @@ public class MakeDepositView extends
 		case 5:
 			return gridView.validateGrid();
 		case 4:
-			return AccounterValidator.validateForm(depoForm);
+			return AccounterValidator.validateForm(depoForm, false);
 		case 3:
 			return AccounterValidator.validate_MakeDeposit_CashBackAmount(
 					cashBackAmountText.getAmount().doubleValue(), totText

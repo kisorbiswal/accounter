@@ -114,7 +114,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 			}
 
 			public boolean onOkClick() {
-				if (dialog.nameDescForm.validate()) {
+				if (dialog.nameDescForm.validate(true)) {
 					if (priceLevel != null) {
 						editPriceLevels();
 					} else

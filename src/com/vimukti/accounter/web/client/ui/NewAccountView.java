@@ -903,7 +903,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					throw new InvalidEntryException(
 							AccounterErrorType.ALREADYEXIST);
 			case 4:
-				return AccounterValidator.validateForm(accInfoForm);
+				return AccounterValidator.validateForm(accInfoForm, false);
 			case 3:
 				if (takenAccount != null
 						&& takenAccount.getName().equalsIgnoreCase(
@@ -935,7 +935,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					throw new InvalidEntryException(
 							AccounterErrorType.ALREADYEXIST);
 			case 3:
-				return AccounterValidator.validateForm(accInfoForm);
+				return AccounterValidator.validateForm(accInfoForm, false);
 			case 2:
 				return validateAccountNumber(accNoText.getNumber());
 			case 1:
@@ -976,10 +976,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	protected boolean validateForm() {
 		if (accountType != ClientAccount.TYPE_BANK
 				&& accountType != ClientAccount.TYPE_CREDIT_CARD) {
-			return accInfoForm.validate();
+			return accInfoForm.validate(false);
 
 		} else
-			return accInfoForm.validate() && commonForm.validate();
+			return accInfoForm.validate(false) && commonForm.validate(false);
 	}
 
 	// protected SimplePanel getWidget() {
