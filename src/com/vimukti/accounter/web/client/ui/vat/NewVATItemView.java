@@ -318,7 +318,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 			boolean validate = true;
 			for (DynamicForm form : forms) {
 				if (form != null) {
-					if (!form.validate()) {
+					if (!form.validate(false)) {
 						validate = false;
 						// throw new InvalidEntryException(
 						// AccounterErrorType.REQUIRED_FIELDS);

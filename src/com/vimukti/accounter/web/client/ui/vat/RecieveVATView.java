@@ -468,7 +468,7 @@ public class RecieveVATView extends
 			InvalidTransactionEntryException {
 		switch (this.validationCount) {
 		case 3:
-			return AccounterValidator.validateForm(mainform);
+			return AccounterValidator.validateForm(mainform, false);
 		case 2:
 			return AccounterValidator.validateGrid(grid);
 		case 1:

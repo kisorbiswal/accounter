@@ -243,7 +243,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 			} else
 				throw new InvalidEntryException(AccounterErrorType.ALREADYEXIST);
 		case 3:
-			AccounterValidator.validateForm(form);
+			AccounterValidator.validateForm(form, false);
 			break;
 		case 2:
 			if (gridView != null && gridView.getRecords().isEmpty()) {
