@@ -337,7 +337,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 
 	@Override
 	public boolean validate() throws Exception {
-		return AccounterValidator.validateFormItem(firstNametext, lastNametext,
+		return AccounterValidator.validateFormItem(false, firstNametext, lastNametext,
 				emailField);
 		// return super.validate();
 	}
