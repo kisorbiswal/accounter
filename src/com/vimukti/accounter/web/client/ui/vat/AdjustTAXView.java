@@ -207,7 +207,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		}
 
 		memo = new TextAreaItem(FinanceApplication.getVATMessages().memo());
-		memo.setMemo(true);
+		memo.setMemo(false);
 		memo.setHelpInformation(true);
 		memo.setWidth(100);
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
