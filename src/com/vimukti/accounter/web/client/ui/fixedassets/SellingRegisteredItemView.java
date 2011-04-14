@@ -406,7 +406,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			InvalidTransactionEntryException {
 		switch (this.validationCount) {
 		case 5:
-			return AccounterValidator.validateForm(detailsForm);
+			return AccounterValidator.validateForm(detailsForm, false);
 		case 4:
 			return AccounterValidator.validate_ZeroAmount(salepriceText
 					.getAmount());

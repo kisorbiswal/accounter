@@ -325,7 +325,7 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 
 	public boolean validate() throws InvalidEntryException {
 		for (DynamicForm form : this.forms)
-			return AccounterValidator.validateForm(form);
+			return AccounterValidator.validateForm(form, true);
 		return true;
 	}
 

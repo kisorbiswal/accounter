@@ -1020,15 +1020,15 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				accumulatedDepreciationAccount.setRequired(true);
 			}
 
-			if (AccounterValidator.validateForm(itmNameForm)
-					&& AccounterValidator.validateForm(itemInfoForm)
-					&& AccounterValidator.validateForm(purchaseInfoForm)
-					&& AccounterValidator.validateForm(assetTypeForm)
-					&& AccounterValidator.validateForm(depreciationForm)
+			if (AccounterValidator.validateForm(itmNameForm, false)
+					&& AccounterValidator.validateForm(itemInfoForm, false)
+					&& AccounterValidator.validateForm(purchaseInfoForm, false)
+					&& AccounterValidator.validateForm(assetTypeForm, false)
+					&& AccounterValidator.validateForm(depreciationForm, false)
 					&& (isAssetAccumulated ? AccounterValidator
-							.validateForm(acumulatedDeprcForm) : true)
+							.validateForm(acumulatedDeprcForm, false) : true)
 					&& (isAccumltd ? AccounterValidator
-							.validateForm(accumulatedDepreciationAccountForm)
+							.validateForm(accumulatedDepreciationAccountForm, false)
 							: true)) {
 				double price = purchasePriceTxt.getAmount();
 				if (DecimalUtil.isEquals(price, 0.0)) {
@@ -1054,7 +1054,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		} else {
 			switch (validationCount) {
 			case 4:
-				return AccounterValidator.validateForm(itmNameForm);
+				return AccounterValidator.validateForm(itmNameForm, false);
 			case 3:
 				if (assetNumberTxt.getValue().toString().length() != 0)
 					return AccounterValidator.isNull(assetNumberTxt.getValue());
