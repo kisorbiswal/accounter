@@ -11567,7 +11567,8 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 								.getActualMaximum(Calendar.DAY_OF_MONTH));
 
 				query = session.getNamedQuery("getGraphPointsForDebtors")
-						.setParameter(
+						.setParameter("debtorAccountID",
+								company.getAccountsReceivableAccount().getId()).setParameter(
 								"previousFifthMonthStartDateCal",
 								new FinanceDate(previousFifthMonthStartDateCal
 										.getTime()).getTime()).setParameter(
@@ -11635,6 +11636,8 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 				query = session
 						.getNamedQuery("getGraphPointsForCreditors")
+						.setParameter("creditorsAccountID", 
+								company.getAccountsPayableAccount().getId())
 						.setParameter("currentDate",
 								new FinanceDate(dateCal[0].getTime()).getTime())
 						.setParameter("oneDayAfterToCurrentDate",
