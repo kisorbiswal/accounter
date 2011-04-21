@@ -14,16 +14,14 @@ public class ContactCombo extends CustomCombo<ClientContact> {
 	}
 
 	@Override
-	protected String getDisplayName(ClientContact object) {
-		if (object != null)
-			return object.getName() != null ? object.getName() : "";
-		else
-			return "";
-	}
-
-	@Override
 	public void onAddNew() {
 
+	}
+
+	public void setDefaultToFirstOption(boolean b) {
+		if (b) {
+			this.setComboItem(comboItems.get(0));
+		}
 	}
 
 	@Override
@@ -32,10 +30,24 @@ public class ContactCombo extends CustomCombo<ClientContact> {
 	}
 
 	@Override
+	public void setValue(Object value) {
+		super.setValue(value);
+	}
+
+	@Override
+	protected String getDisplayName(ClientContact object) {
+		if (object != null)
+			return object.getName().toString() != null ? object.getName()
+					.toString() : "";
+		else
+			return "";
+	}
+
+	@Override
 	protected String getColumnData(ClientContact object, int row, int col) {
 		switch (col) {
 		case 0:
-			return object.getName();
+			return object.getName().toString();
 		}
 		return null;
 	}

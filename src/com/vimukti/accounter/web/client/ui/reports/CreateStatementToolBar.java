@@ -84,6 +84,8 @@ public class CreateStatementToolBar extends ReportToolbar {
 			dateRangeItemList.add(dateRangeArray[i]);
 		}
 		dateRangeItemCombo.initCombo(dateRangeItemList);
+		dateRangeItemCombo.setComboItem(FinanceApplication.getReportsMessages()
+				.all());
 		dateRangeItemCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -152,12 +154,13 @@ public class CreateStatementToolBar extends ReportToolbar {
 		addItems(customerCombo, dateRangeItemCombo, fromItem, toItem);
 		add(updateButton);
 		updateButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(updateButton, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		
+		ThemesUtil.addDivToButton(updateButton, FinanceApplication
+				.getThemeImages().button_right_blue_image(),
+				"ibutton-right-image");
+
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
-//		 reportRequest();
+		// reportRequest();
 	}
 
 	/*
@@ -170,9 +173,9 @@ public class CreateStatementToolBar extends ReportToolbar {
 			ClientFinanceDate endDate) {
 		fromItem.setValue(startDate);
 		toItem.setValue(endDate);
-		if(selectedCusotmer!=null)
-		reportview.makeReportRequest(selectedCusotmer.getStringID(), startDate,
-				endDate);
+		if (selectedCusotmer != null)
+			reportview.makeReportRequest(selectedCusotmer.getStringID(),
+					startDate, endDate);
 		else
 			reportview.addEmptyMessage("No records to show");
 	}

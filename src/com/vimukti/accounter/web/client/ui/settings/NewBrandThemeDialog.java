@@ -24,27 +24,21 @@ import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
-@SuppressWarnings({ "deprecation", "unchecked" })
+@SuppressWarnings( { "deprecation", "unchecked" })
 public class NewBrandThemeDialog extends BaseDialog {
 
 	private Label nameLabel, pageSizeLabel, topMarginLabel, bottomMarginLabel,
-			addressPadLabel, fontLabel, fontSizeLabel,
-			// draftLabel,approvedLabel,taxesLabel,
-			overdueLabel, creditNoteLabel, statementLabel, logoLabel,
-			termsLabel;
+			addressPadLabel, fontLabel, fontSizeLabel, overdueLabel,
+			creditNoteLabel, statementLabel, logoLabel, termsLabel;
 
 	private RadioButton a4Button, usLetterButton, leftRadioButton,
-			rightRadioButton,
-			// exclusiveButton, inclusiveButton,
-			cmButton, inchButton;
+			rightRadioButton, cmButton, inchButton;
 	private VerticalPanel checkBoxPanel, radioButtonPanel,
 			check_radio_textAreaPanel, button_textBoxPanel;
 	private HorizontalPanel mainLayoutPanel, check_radioPanel;
-	// private Button saveButton, cancelButton;
 	private CheckBox taxNumItem, headingItem, unitPriceItem,// paymentItem,
 			columnItem, addressItem, logoItem;
 	private TextBox nameBox, topMarginBox, bottomMarginBox, addressPadBox,
-	// draftBox, approvedBox,
 			overdueBox, creditNoteBox, statementBox, paypalTextBox;
 	private String[] fontNameArray, fontSizeArray;
 	private SelectCombo fontNameBox, fontSizeBox;
@@ -78,17 +72,13 @@ public class NewBrandThemeDialog extends BaseDialog {
 		setPazeSize(brandingTheme.getPageSizeType());
 		fontNameBox.setComboItem(brandingTheme.getFont());
 		fontSizeBox.setComboItem(brandingTheme.getFontSize());
-		// setFont(brandingTheme.getFont());
-		// setFontSize(brandingTheme.getFontSize());
 		setLogoType(brandingTheme.getLogoAlignmentType());
-		// setTaxType(brandingTheme.getShowTaxesAsType());
 		setMeasurementType(brandingTheme.getMarginsMeasurementType());
 		creditNoteBox.setValue(brandingTheme.getCreditMemoTitle());
 		overdueBox.setValue(brandingTheme.getOverDueInvoiceTitle());
 		statementBox.setValue(brandingTheme.getStatementTitle());
 		taxNumItem.setValue(brandingTheme.isShowTaxNumber());
 		headingItem.setValue(brandingTheme.isShowColumnHeadings());
-		// paymentItem.setValue(brandingTheme.isShowPaymentAdviceCut_Away());
 		unitPriceItem.setValue(brandingTheme.isShowUnitPrice_And_Quantity());
 		columnItem.setValue(brandingTheme.isShowTaxColumn());
 		addressItem.setValue(brandingTheme.isShowRegisteredAddress());
@@ -111,9 +101,11 @@ public class NewBrandThemeDialog extends BaseDialog {
 		button_textBoxPanel = new VerticalPanel();
 
 		check_radioPanel.add(addCheckBoxTableControls());
+
 		check_radioPanel.add(addRadioBoxTableControls());
 
 		check_radio_textAreaPanel.add(check_radioPanel);
+		check_radioPanel.setSpacing(10);
 		termsLabel = new Label(FinanceApplication.getSettingsMessages()
 				.termsLabel());
 		termsPaymentArea = new TextArea();
@@ -122,7 +114,6 @@ public class NewBrandThemeDialog extends BaseDialog {
 		check_radio_textAreaPanel.add(termsPaymentArea);
 
 		okbtn.setText(FinanceApplication.getSettingsMessages().saveButton());
-		// okbtn = new Button();
 		okbtn.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -159,18 +150,8 @@ public class NewBrandThemeDialog extends BaseDialog {
 			}
 
 		});
-		// buttonPanel.add(saveButton);
-		// buttonPanel.add(cancelButton);
 
-		// saveButton.getElement().getParentElement().setClassName("ibutton");
-		// ThemesUtil.addDivToButton(saveButton, FinanceApplication
-		// .getThemeImages().button_right_blue_image(),
-		// "ibutton-right-image");
-		//
-		// cancelButton.getElement().getParentElement().setClassName("ibutton");
-		// ThemesUtil.addDivToButton(cancelButton, FinanceApplication
-		// .getThemeImages().button_right_blue_image(),
-		// "ibutton-right-image");
+		check_radio_textAreaPanel.setSpacing(10);
 
 		mainLayoutPanel.add(addTextBoxTableControl());
 		mainLayoutPanel.add(check_radio_textAreaPanel);
@@ -227,7 +208,6 @@ public class NewBrandThemeDialog extends BaseDialog {
 				.setStatementTitle(String.valueOf(statementBox.getValue()));
 		brandingTheme.setShowTaxNumber(taxNumItem.isChecked());
 		brandingTheme.setShowColumnHeadings(headingItem.isChecked());
-		// brandingTheme.setShowPaymentAdviceCut_Away(paymentItem.isChecked());
 		brandingTheme.setShowUnitPrice_And_Quantity(unitPriceItem.isChecked());
 		brandingTheme.setShowTaxColumn(columnItem.isChecked());
 		brandingTheme.setShowRegisteredAddress(addressItem.isChecked());
@@ -239,7 +219,6 @@ public class NewBrandThemeDialog extends BaseDialog {
 		brandingTheme.setContactDetails(String.valueOf(contactDetailsArea
 				.getValue()));
 		brandingTheme.setLogoAlignmentType(getLogoType());
-		// brandingTheme.setShowTaxesAsType(getTaxType());
 		return brandingTheme;
 	}
 
@@ -426,6 +405,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 		// radioButtonPanel.add(inclusiveButton);
 		radioButtonPanel.add(contactDetailHtml);
 		radioButtonPanel.add(contactDetailsArea);
+		radioButtonPanel.setSpacing(5);
 
 		return radioButtonPanel;
 	}
@@ -468,11 +448,13 @@ public class NewBrandThemeDialog extends BaseDialog {
 		checkBoxPanel.add(paypalEmailHtml);
 		checkBoxPanel.add(paypalTextBox);
 
+		checkBoxPanel.setStyleName("rightBorder");
+		checkBoxPanel.setSpacing(5);
 		return checkBoxPanel;
 
 	}
 
-	private FlexTable addTextBoxTableControl() {
+	private HorizontalPanel addTextBoxTableControl() {
 		nameLabel = new Label(FinanceApplication.getSettingsMessages().name());
 		pageSizeLabel = new Label(FinanceApplication.getSettingsMessages()
 				.pageSize());
@@ -600,14 +582,17 @@ public class NewBrandThemeDialog extends BaseDialog {
 		fontSizeForm.setCellSpacing(0);
 		fontSizeForm.setNumCols(1);
 		fontSizeForm.setFields(fontSizeBox);
-		HorizontalPanel measurePanel = new HorizontalPanel();
-		measurePanel.add(topMarginBox);
-		measurePanel.add(measureLabel);
 
 		HorizontalPanel unitsPanel = new HorizontalPanel();
-		unitsPanel.add(bottomMarginBox);
 		unitsPanel.add(cmButton);
 		unitsPanel.add(inchButton);
+
+		VerticalPanel measurePanel = new VerticalPanel();
+		measurePanel.add(measureLabel);
+		// measurePanel.setCellHorizontalAlignment(measureLabel,
+		// HasAlignment.ALIGN_CENTER);
+		measurePanel.add(unitsPanel);
+		measurePanel.setStyleName("measurePanel");
 
 		textBoxTable = new FlexTable();
 		textBoxTable.setWidget(0, 0, nameLabel);
@@ -616,9 +601,9 @@ public class NewBrandThemeDialog extends BaseDialog {
 		textBoxTable.setWidget(1, 1, a4Button);
 		textBoxTable.setWidget(2, 1, usLetterButton);
 		textBoxTable.setWidget(3, 0, topMarginLabel);
-		textBoxTable.setWidget(3, 1, measurePanel);
+		textBoxTable.setWidget(3, 1, topMarginBox);
 		textBoxTable.setWidget(4, 0, bottomMarginLabel);
-		textBoxTable.setWidget(4, 1, unitsPanel);
+		textBoxTable.setWidget(4, 1, bottomMarginBox);
 		textBoxTable.setWidget(5, 0, addressPadLabel);
 		textBoxTable.setWidget(5, 1, addressPadBox);
 		textBoxTable.setWidget(6, 0, fontLabel);
@@ -636,6 +621,13 @@ public class NewBrandThemeDialog extends BaseDialog {
 		textBoxTable.setWidget(10, 0, statementLabel);
 		textBoxTable.setWidget(10, 1, statementBox);
 
-		return textBoxTable;
+		HorizontalPanel textBoxHorizontalPanel = new HorizontalPanel();
+
+		textBoxHorizontalPanel.add(textBoxTable);
+		textBoxHorizontalPanel.add(measurePanel);
+		textBoxHorizontalPanel.setSpacing(10);
+		textBoxHorizontalPanel.setStyleName("rightBorder");
+
+		return textBoxHorizontalPanel;
 	}
 }

@@ -100,7 +100,8 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 					+ forNullValue(TemplateBuilder.getCmpName())
 					+ "</strong></font>" + cmpAdd + "</p>");
 		}
-
+		
+		
 		headerHtml = ("<table style=\"width: 100%; height: 100%;\" cellspacing=\"10\"><tr><td style=\"height:"
 				+ getUnits()
 				+ "\"><p><br></p></td></tr><tr style=\"width:100%\"><td></td><td align=\"center;\" style=\"width:40%\"><div class=\"gwt-HTML\" style=\" margin-right: 43px;\"><p align=\"center\" style=\"font-family:"

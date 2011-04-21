@@ -1,13 +1,9 @@
 package com.vimukti.accounter.web.client.ui.forms;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -18,8 +14,7 @@ public class CustomDialog extends DialogBox {
 
 	private HorizontalPanel captionPanel;
 	private HTML caption;
-	private Image cross;
-	private Anchor help;
+	private Image cross, help;
 
 	private boolean isShowHelpBtn;
 	private boolean isShowCloseBtn;
@@ -52,9 +47,7 @@ public class CustomDialog extends DialogBox {
 
 		cross = new Image("/images/dialog-close.png");
 		// help = new Image("/images/help-icon.png");
-		help = new Anchor(
-				"<img class='helpAlign' border=0 src='/images/help-icon.png'/>",
-				true, "http://help.Accounter.com/", "_blank");
+		help = new Image("/images/help-icon.png");
 		// help.setStyleName("helpAlign");
 		caption = new HTML();
 
@@ -114,6 +107,7 @@ public class CustomDialog extends DialogBox {
 				if (onCloseClick())
 					CustomDialog.this.removeFromParent();
 			} else if (help.getElement().equals(element)) {
+				Window.open("http://help.Accounter.com/", "_blank", "");
 				onHelpClick();
 			}
 			break;
@@ -123,8 +117,16 @@ public class CustomDialog extends DialogBox {
 				cross.setUrl("/images/X-1.png");
 
 			} else if (help.getElement().equals(element1)) {
-				help
-						.setText("<img class='helpAlign' border=0 src='/images/Help-1.png'/>");
+				help.setUrl("/images/Help-1.png");
+			}
+			break;
+		case Event.ONMOUSEOUT:
+			Element element2 = event.getTarget();
+			if (cross.getElement().equals(element2)) {
+				cross.setUrl("/images/dialog-close.png");
+
+			} else if (help.getElement().equals(element2)) {
+				help.setUrl("/images/help-icon.png");
 			}
 			break;
 		default:

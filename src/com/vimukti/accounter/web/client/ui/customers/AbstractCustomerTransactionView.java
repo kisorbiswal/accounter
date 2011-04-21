@@ -547,6 +547,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 		ContactCombo contactCombo = new ContactCombo(FinanceApplication
 				.getCustomersMessages().contact());
+		contactCombo.setDefaultToFirstOption(false);
 		contactCombo.setHelpInformation(true);
 		contactCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientContact>() {

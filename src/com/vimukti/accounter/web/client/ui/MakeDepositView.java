@@ -10,6 +10,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -82,7 +84,6 @@ public class MakeDepositView extends
 	private CashBackAccountsCombo cashBackAccountSelect;
 	private OtherAccountsCombo financeAccountSelect;
 	private CustomerCombo customerSelect;
-	@SuppressWarnings("unchecked")
 	private CustomCombo<ClientVendor> vendorSelect;
 
 	private ClientAccount selectedDepositInAccount;
@@ -101,8 +102,6 @@ public class MakeDepositView extends
 	private List<ClientVendor> allVendors;
 	@SuppressWarnings("unused")
 	private List<String> paymentMethods;
-	private List<ClientTransactionMakeDeposit> oldEntriesList;
-
 	// protected Double totallinetotal;
 	private String selectedItemId;
 
@@ -295,7 +294,6 @@ public class MakeDepositView extends
 
 				if (result.size() != 0) {
 					gridView.removeAllRecords();
-					oldEntriesList = result;
 					gridView.setRecords(result);
 
 				} else if (!isEdit) {
@@ -953,13 +951,13 @@ public class MakeDepositView extends
 
 		addButton.getElement().getParentElement().addClassName("add-button");
 
-		// Element addseparator = DOM.createSpan();
-		// addseparator.addClassName("add-separator");
-		// DOM.appendChild(addButton.getElement(), addseparator);
-		//
-		// Element addimage = DOM.createSpan();
-		// addimage.addClassName("add-image");
-		// DOM.appendChild(addButton.getElement(), addimage);
+		Element addseparator = DOM.createSpan();
+		addseparator.addClassName("add-separator");
+		DOM.appendChild(addButton.getElement(), addseparator);
+
+		Element addimage = DOM.createSpan();
+		addimage.addClassName("add-image");
+		DOM.appendChild(addButton.getElement(), addimage);
 
 		ThemesUtil.addDivToButton(addButton, FinanceApplication
 				.getThemeImages().button_right_blue_image(), "add-right-image");

@@ -693,9 +693,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .tablelayout1 {
-	padding-left: 12% !important;
-	padding-right: 12% !important;
-	width: 75% !important
+	width: 100% !important
 }
 
 .ReportGrid tr td {
@@ -975,89 +973,6 @@ important;
 .invoice-total tr:nth-child (3){
 	border-bottom: 1px solid #aaa;
 	border-top: 1px solid #aaa;
-}
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#aaa
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-;
 }
 .noScroll input[type="text"] { /*width: 150px !important;*/
 	
@@ -1547,7 +1462,7 @@ iframe { /*display:none;*/
 .vimutki-text {
 	color: #606060;
 	font-size: 14px;
-	margin: -35px 0 0 70px;
+	margin: -35px 0 0 97px;
 	position: absolute;
 	z-index: 1;
 }
@@ -1672,4 +1587,15 @@ iframe { /*display:none;*/
 
 .datenumber-panel table {
 	padding-right: 15px !important;
+}
+
+.measurePanel {
+	margin-top: 80px;
+	border: #989898 solid 1px;
+	background-color: #FFFFFF;
+	padding: 2px;
+}
+
+.rightBorder {
+	border-right: #CCCCCC solid 1px;
 }
