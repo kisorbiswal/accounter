@@ -1616,8 +1616,7 @@ public class ViewManager extends DockPanel {
 				.getCustomersMessages().processingRequest());
 
 		dialog.center();
-		if (!(widget instanceof BaseDialog<?>))
-			currentrequestedWidget = widget;
+     	currentrequestedWidget = widget;
 
 		AsyncCallback<Boolean> transactionCallBack = new AsyncCallback<Boolean>() {
 
@@ -1633,19 +1632,19 @@ public class ViewManager extends DockPanel {
 			}
 
 			public void onSuccess(Boolean result) {
-				//
-				// if (!GWT.isScript()) {
-				// if (result != null && result) {
-				// AccounterCommand cmd = new AccounterCommand();
-				// cmd.setCommand(AccounterCommand.DELETION_SUCCESS);
-				// cmd.setData(core);
-				// cmd.setStringID(widget.getStringID());
-				// cmd.setObjectType(core.getObjectType());
-				// FinanceApplication.getCompany().processCommand(cmd);
-				// } else {
-				// onFailure(null);
-				// }
-				// }
+				
+//				 if (!GWT.isScript()) {
+//				 if (result != null && result) {
+//				 AccounterCommand cmd = new AccounterCommand();
+//				 cmd.setCommand(AccounterCommand.DELETION_SUCCESS);
+//				 cmd.setData(core);
+//				 cmd.setStringID(widget.getStringID());
+//				 cmd.setObjectType(core.getObjectType());
+//				 FinanceApplication.getCompany().processCommand(cmd);
+//				 } else {
+//				 onFailure(null);
+//				 }
+//				 }
 			}
 
 		};
