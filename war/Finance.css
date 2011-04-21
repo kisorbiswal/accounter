@@ -1528,6 +1528,7 @@ iframe { /*display:none;*/
 .logo {
 	margin-top: 20px;
 	margin-left: 25px;
+	cursor: pointer;
 }
 
 .logout-help-welcome {
@@ -1546,7 +1547,7 @@ iframe { /*display:none;*/
 .vimutki-text {
 	color: #606060;
 	font-size: 14px;
-	margin: -35px 0 0 97px;
+	margin: -35px 0 0 70px;
 	position: absolute;
 	z-index: 1;
 }
