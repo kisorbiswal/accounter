@@ -17,11 +17,12 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
 public class Header extends HorizontalPanel {
 
 	private Label userName, companyName;
-	private HTML logout, help;
+	private HTML logout, help, logo;
 	private VerticalPanel panel1, panel2;
 	private static VerticalPanel panel3;
 	public static String gettingStartedStatus = "Hide Getting Started";
@@ -69,17 +70,27 @@ public class Header extends HorizontalPanel {
 		helpBar = new MenuBar();
 		initializeHelpBar();
 		helpBar.setStyleName("helpBar");
-		help = new HTML("<a href='http://help.accounter.com'><font color='#00A3D3'>Help</font></a>");
+		help = new HTML(
+				"<a href='http://help.accounter.com'><font color='#00A3D3'>Help</font></a>");
 		help.addStyleName("help-style");
 		help.addStyleName("helpBar");
 
+		logo = new HTML(
+				"<div class='logo'><img src='/images/Logo.jpg'><div class='vimutki-text' >Vimukti Technologies Pvt Ltd</div></div>");
+		logo.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				CompanyActionFactory.getCompanyHomeAction().run(null, false);
+			}
+		});
 		Image image = new Image();
 		image.setUrl("images/Logo.jpg");
 		image.setStyleName("logo");
 
 		panel1 = new VerticalPanel();
 		panel1.setWidth("100%");
-		panel1.add(image);
+		panel1.add(logo);
 
 		panel2 = new VerticalPanel();
 		panel2.setWidth("85%");
@@ -103,10 +114,10 @@ public class Header extends HorizontalPanel {
 		this.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
 		this.setCellWidth(panel3, "25%");
 
-		Element spanEle = DOM.createSpan();
-		spanEle.setInnerText("Vimukti Technologies Pvt Ltd");
-		spanEle.addClassName("vimutki-text");
-		DOM.appendChild(panel1.getElement(), spanEle);
+		// Element spanEle = DOM.createSpan();
+		// spanEle.setInnerText("Vimukti Technologies Pvt Ltd");
+		// spanEle.addClassName("vimutki-text");
+		// DOM.appendChild(panel1.getElement(), spanEle);
 
 		this.setWidth("100%");
 
