@@ -4770,6 +4770,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 	public ClientCompany toClientCompany() {
 		ClientCompany clientCompany = new ClientCompany();
 		clientCompany.setName(this.name);
+		clientCompany.setStringID(this.getStringID());
 		List<ClientAddress> list = clientCompany.getAddresses();
 
 		if (list != null) {
