@@ -5,7 +5,7 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 public class ContactCombo extends CustomCombo<ClientContact> {
 
 	public ContactCombo(String title) {
-		super(title);
+		super(title,false,1);
 	}
 
 	@Override
