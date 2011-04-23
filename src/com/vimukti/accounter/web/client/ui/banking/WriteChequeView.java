@@ -1305,7 +1305,7 @@ public class WriteChequeView extends
 					.salesTax())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_SALESTAX);
 			}
-			transactionVendorGrid.addData(transactionItem);
+			transactionCustomerGrid.addData(transactionItem);
 		}
 	}
 
