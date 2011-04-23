@@ -33,6 +33,7 @@ import com.vimukti.accounter.web.client.ui.CustomMenuItem;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.banking.WriteChequeView;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundView;
@@ -794,7 +795,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		popupPanel.setPopupPosition(menuButton.getAbsoluteLeft(), menuButton
 				.getAbsoluteTop() - 100);
 		if (this instanceof CreditCardExpenseView
-				|| this instanceof CashExpenseView)
+				|| this instanceof CashExpenseView || this instanceof WriteChequeView)
 			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft(),
 					menuButton.getAbsoluteTop() - 70);
 

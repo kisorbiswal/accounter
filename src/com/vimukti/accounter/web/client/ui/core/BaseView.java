@@ -16,6 +16,8 @@ import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.SalesTaxGroupListView;
+import com.vimukti.accounter.web.client.ui.SalesTaxItemsView;
 import com.vimukti.accounter.web.client.ui.company.HelpItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.vat.FileVATView;
@@ -133,12 +135,15 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 					&& !(this != null && this instanceof FileVATView))
 				buttonLayout.add(saveAndNewButton);
 		}
+		
 
 		buttonLayout.add(cancelButton);
 
 		setCellHorizontalAlignment(buttonLayout, ALIGN_RIGHT);
 		add(buttonLayout);
 		add(bottomShadow);
+		if(this instanceof SalesTaxGroupListView)
+			buttonLayout.setVisible(false);
 		buttonLayout.getElement().getParentElement()
 				.setClassName("bottom-view");
 		bottomShadow.getElement().getParentElement().setClassName(
