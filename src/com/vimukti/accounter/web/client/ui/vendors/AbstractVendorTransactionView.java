@@ -148,7 +148,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 	protected void showMenu(Button button) {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, FinanceApplication.getVendorsMessages()
-					.nominalCodeItem(), FinanceApplication.getVendorsMessages()
+					.accounts(), FinanceApplication.getVendorsMessages()
 					.service(), FinanceApplication.getVendorsMessages()
 					.product());
 		else

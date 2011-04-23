@@ -551,7 +551,9 @@ public class VendorBillView extends
 		} else {
 			memoForm.setStyleName("align-form");
 			VerticalPanel vPanel = new VerticalPanel();
+			vPanel.setWidth("100%");
 			vPanel.add(hpanel);
+			vPanel.setCellHorizontalAlignment(hpanel, ALIGN_RIGHT);
 			vPanel.add(memoForm);
 
 			bottompanel.add(vPanel);

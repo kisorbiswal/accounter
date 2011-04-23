@@ -294,7 +294,9 @@ public class VendorCreditMemoView extends
 		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
 			memoForm.setStyleName("align-form");
 			VerticalPanel vPanel = new VerticalPanel();
+			vPanel.setWidth("100%");
 			vPanel.add(panel);
+			vPanel.setCellHorizontalAlignment(panel, ALIGN_RIGHT);
 			vPanel.add(memoForm);
 			bottomPanel.add(vPanel);
 		}

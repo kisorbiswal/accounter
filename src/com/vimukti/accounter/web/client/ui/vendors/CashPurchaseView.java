@@ -302,7 +302,9 @@ public class CashPurchaseView extends
 		} else {
 			memoForm.setStyleName("align-form");
 			VerticalPanel vPanel = new VerticalPanel();
+			vPanel.setWidth("100%");
 			vPanel.add(panel);
+			vPanel.setCellHorizontalAlignment(panel, ALIGN_RIGHT);
 			vPanel.add(memoForm);
 
 			bottompanel.add(vPanel);
