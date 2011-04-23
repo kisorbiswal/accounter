@@ -19,7 +19,7 @@ public class PurchaseOrderUSGrid extends VendorTransactionUSGrid {
 		return new String[] { "",
 				FinanceApplication.getVendorsMessages().name(),
 				FinanceApplication.getCustomersMessages().description(),
-				FinanceApplication.getVendorsMessages().qty(),
+				FinanceApplication.getCustomersMessages().quantity(),
 				FinanceApplication.getVendorsMessages().unitPrice(),
 				FinanceApplication.getVendorsMessages().onHand(),
 				FinanceApplication.getVendorsMessages().total(),
