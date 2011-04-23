@@ -888,6 +888,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 important;
 	border-radius: 0 0 0 0 !
 important;
+	font-weight: normal;
 }
 
 .custom-button {
@@ -1598,4 +1599,13 @@ iframe { /*display:none;*/
 
 .rightBorder {
 	border-right: #CCCCCC solid 1px;
+}
+.tax-form tr td{
+font-weight: bold;
+}
+.tax-form td:nth-child(1){
+font-weight: normal;
+}
+.itemGrid{
+padding-top: 25px;
 }
