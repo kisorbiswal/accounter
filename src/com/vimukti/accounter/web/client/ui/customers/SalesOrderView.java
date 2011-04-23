@@ -349,18 +349,19 @@ public class SalesOrderView extends
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
-		prodAndServiceForm2.setStyleName("invoice-total");
-
+		
+		
+		TextItem dummyItem = new TextItem("");
+		dummyItem.setVisible(false);
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			TextItem dummyItem = new TextItem("");
-			dummyItem.setVisible(false);
 			prodAndServiceForm2.setFields(dummyItem, netAmountLabel, dummyItem,
 					vatTotalNonEditableText, dummyItem,
 					transactionTotalNonEditableText);
+			prodAndServiceForm2.setStyleName("invoice-total");
 		} else {
-			prodAndServiceForm2.setFields(salesTaxTextNonEditable,
-					transactionTotalNonEditableText, taxCodeSelect);
-
+			prodAndServiceForm2.setFields(taxCodeSelect,salesTaxTextNonEditable,dummyItem,
+					transactionTotalNonEditableText);
+			prodAndServiceForm2.setStyleName("tax-form");
 		}
 
 		forms.add(prodAndServiceForm2);
@@ -374,7 +375,11 @@ public class SalesOrderView extends
 		prodAndServiceHLay.setWidth("100%");
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
+		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
+		}
+		else
+		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
 		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
 				ALIGN_RIGHT);
 

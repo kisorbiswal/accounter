@@ -84,7 +84,8 @@ public class CustomerSectionHomeView extends BaseHomeView {
 		// portalLayout.setWidth100();
 		// portalLayout.setHeight100();
 
-		String[] portletArray = {""};
+
+	String[] portletArray = {""};
 //		customerSectionPreference.split(",")
 		if (portletArray.length > 2) {
 			widgetOnSectionPage = portletArray;

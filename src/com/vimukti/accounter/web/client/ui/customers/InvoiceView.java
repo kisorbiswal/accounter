@@ -209,7 +209,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(4);
 		dateNoForm.setStyleName("datenumber-panel");
-	    dateNoForm.setFields(transactionDateItem,transactionNumber);
+		dateNoForm.setFields(transactionDateItem, transactionNumber);
 		forms.add(dateNoForm);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
@@ -412,6 +412,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		listforms.add(prodAndServiceForm1);
 		listforms.add(prodAndServiceForm2);
 
+		final TextItem disabletextbox = new TextItem();
+		disabletextbox.setVisible(false);
+
 		brandingThemeTypeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientBrandingTheme>() {
 
@@ -420,15 +423,14 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 							ClientBrandingTheme selectItem) {
 					}
 				});
-
+		amountsForm = new DynamicForm();
+		amountsForm.setWidth("100%");
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 
 			DynamicForm priceLevelForm = new DynamicForm();
 			// priceLevelForm.setCellSpacing(4);
 			priceLevelForm.setWidth("70%");
 			priceLevelForm.setFields(priceLevelSelect);
-			amountsForm = new DynamicForm();
-			amountsForm.setWidth("100%");
 			amountsForm.setFields(netAmountLabel, vatTotalNonEditableText,
 					transactionTotalNonEditableText, paymentsNonEditableText,
 					balanceDueNonEditableText);
@@ -448,13 +450,16 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			// prodAndServiceForm2.setFields(salesTaxTextNonEditable,
 			// transactionTotalNonEditableText, paymentsNonEditableText,
 			// balanceDueNonEditableText, taxCodeSelect, priceLevelSelect);
-			prodAndServiceForm2.setFields(salesTaxTextNonEditable,
-					transactionTotalNonEditableText, paymentsNonEditableText,
-					balanceDueNonEditableText, taxCodeSelect);
+			amountsForm.setNumCols(4);
+			amountsForm.addStyleName("tax-form");
+			amountsForm.setFields(taxCodeSelect, salesTaxTextNonEditable,
+					disabletextbox, transactionTotalNonEditableText,
+					disabletextbox, paymentsNonEditableText, disabletextbox,
+					balanceDueNonEditableText);
 			forms.add(prodAndServiceForm2);
 
-			prodAndServiceHLay.add(prodAndServiceForm2);
-			prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
+			prodAndServiceHLay.add(amountsForm);
+			prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
 					ALIGN_RIGHT);
 		}
 		hpanel = new HorizontalPanel();
@@ -470,8 +475,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(amountsForm);
-		prodAndServiceHLay.setCellWidth(amountsForm, "30%");
-
+		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			prodAndServiceHLay.setCellWidth(amountsForm, "30%");
+		} else
+			prodAndServiceHLay.setCellWidth(amountsForm, "50%");
 		VerticalPanel panel11 = new VerticalPanel();
 		panel11.setWidth("100%");
 		panel11.add(panel);

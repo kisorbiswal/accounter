@@ -217,7 +217,6 @@ public class CashSalesView extends
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
-		prodAndServiceForm2.addStyleName("invoice-total");
 		if (FinanceApplication.getCompany().getAccountingType() == 1) {
 
 			// prodAndServiceForm2.setFields(priceLevelSelect, netAmountLabel,
@@ -226,6 +225,7 @@ public class CashSalesView extends
 			prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
 					disabletextbox, vatTotalNonEditableText, disabletextbox,
 					transactionTotalNonEditableText);
+			prodAndServiceForm2.addStyleName("invoice-total");
 		} else {
 			// prodAndServiceForm2.setFields(taxCodeSelect,
 			// salesTaxTextNonEditable, priceLevelSelect,
@@ -233,6 +233,7 @@ public class CashSalesView extends
 			prodAndServiceForm2.setFields(taxCodeSelect,
 					salesTaxTextNonEditable, disabletextbox,
 					transactionTotalNonEditableText);
+			prodAndServiceForm2.addStyleName("tax-form");
 		}
 		forms.add(prodAndServiceForm2);
 
@@ -246,7 +247,11 @@ public class CashSalesView extends
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
+		if (FinanceApplication.getCompany().getAccountingType() == 1) {
 		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
+		}
+		else
+			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
 
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.setHorizontalAlignment(ALIGN_RIGHT);

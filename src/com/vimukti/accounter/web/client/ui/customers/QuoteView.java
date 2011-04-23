@@ -338,7 +338,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
 		prodAndServiceForm2.setCellSpacing(5);
-		prodAndServiceForm2.addStyleName("invoice-total");
+	
 
 		int accountType = FinanceApplication.getCompany().getAccountingType();
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -348,13 +348,15 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
 					disabletextbox, vatTotalNonEditableText, disabletextbox,
 					transactionTotalNonEditableText);
+			prodAndServiceForm2.addStyleName("invoice-total");
 		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
 			// prodAndServiceForm2.setFields(taxCodeSelect,
 			// salesTaxTextNonEditable, priceLevelSelect,
-			// transactionTotalNonEditableText);
+			// transactionTotalNonEditableText);		
 			prodAndServiceForm2.setFields(taxCodeSelect,
 					salesTaxTextNonEditable, disabletextbox,
 					transactionTotalNonEditableText);
+			prodAndServiceForm2.addStyleName("tax-form");
 		}
 		forms.add(prodAndServiceForm2);
 
@@ -374,8 +376,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
+		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
-
+		}
+		else
+		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
+		
 		VerticalPanel mainpanel = new VerticalPanel();
 		mainpanel.setWidth("100%");
 		mainpanel.add(vPanel);
