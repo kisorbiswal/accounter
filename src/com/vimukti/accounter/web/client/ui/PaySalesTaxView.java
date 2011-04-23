@@ -38,6 +38,7 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.TransactionPaySalesTaxGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -77,6 +78,7 @@ public class PaySalesTaxView extends
 	private CompanyMessages companyConstants = GWT
 			.create(CompanyMessages.class);
 	private ClientPaySalesTax paySalesTax;
+	private TextItem transNumber;
 
 	public PaySalesTaxView() {
 
@@ -306,8 +308,8 @@ public class PaySalesTaxView extends
 				.setStyleName(FinanceApplication.getCustomersMessages()
 						.lableTitle());
 
-		date = new DateField(companyConstants.date());
-		date.setTitle(companyConstants.date());
+		date = new DateField(null);
+//		date.setTitle(companyConstants.date());
 		date.setEnteredDate(new ClientFinanceDate());
 		date.setDisabled(isEdit);
 		date.addValueChangeHandler(new ValueChangeHandler<String>() {
@@ -319,6 +321,12 @@ public class PaySalesTaxView extends
 				// fillGrid();
 			}
 		});
+		transNumber=createTransactionNumberItem();
+		
+		DynamicForm dateForm=new DynamicForm();
+		dateForm.setNumCols(4);
+		dateForm.setStyleName("datenumber-panel");
+		dateForm.setFields(date,transNumber);
 
 		payFromAccCombo = new PayFromAccountsCombo(companyConstants.payFrom());
 		payFromAccCombo.setAccountTypes(UIUtils
@@ -378,8 +386,9 @@ public class PaySalesTaxView extends
 		filterForm = new DynamicForm();
 		// filterForm.setWidth("100%");
 		filterForm = UIUtils.form(companyConstants.filter());
-		filterForm.setFields(date, payFromAccCombo, paymentMethodCombo,
+		filterForm.setFields(payFromAccCombo, paymentMethodCombo,
 				billsDue, taxAgencyCombo);
+		filterForm.getCellFormatter().setWidth(0, 0, "210px");
 
 		amountText = new AmountField(companyConstants.amount());
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
@@ -392,6 +401,7 @@ public class PaySalesTaxView extends
 		balForm = new DynamicForm();
 		balForm = UIUtils.form(companyConstants.balances());
 		balForm.setFields(amountText, endingBalanceText);
+		balForm.getCellFormatter().setWidth(0, 0, "222px");
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
@@ -403,6 +413,7 @@ public class PaySalesTaxView extends
 		topHLay.add(filterForm);
 		topHLay.add(leftVLay);
 		topHLay.add(balForm);
+		topHLay.setCellHorizontalAlignment(balForm, ALIGN_RIGHT);
 
 		Label lab1 = new Label("" + companyConstants.billsToPay() + "");
 
@@ -411,6 +422,8 @@ public class PaySalesTaxView extends
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab);
+		mainVLay.add(dateForm);
+		mainVLay.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
 		mainVLay.add(topHLay);
 		mainVLay.add(lab1);
 		mainVLay.add(gridLayout);

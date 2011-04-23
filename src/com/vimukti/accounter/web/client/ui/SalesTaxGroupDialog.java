@@ -216,7 +216,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		// buttonsLayout.setMembersMargin(10);
 		// buttonsLayout.setLayoutMargin(10);
 		Button addButton = new Button(FinanceApplication.getVATMessages().Add());
-		addButton.setWidth("100%");
+		addButton.setWidth("80px");
 		addButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 
@@ -242,7 +242,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 		Button removeButton = new Button(FinanceApplication
 				.getFinanceUIConstants().remove());
-		removeButton.setWidth("100%");
+		removeButton.setWidth("80px");
 		removeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if (selectTaxItemsGrid.getSelection() != null) {

@@ -504,7 +504,8 @@ public class CreditCardChargeView extends
 
 		totForm = new DynamicForm();
 		totForm.setWidth("100%");
-		totForm.setWidth("auto");
+		totForm.addStyleName("unused-payments");
+		totForm.getElement().getStyle().setMarginTop(10, Unit.PX);
 
 		botPanel = new HorizontalPanel();
 		botPanel.setWidth("100%");
@@ -545,11 +546,20 @@ public class CreditCardChargeView extends
 			// HasHorizontalAlignment.ALIGN_RIGHT);
 		} else {
 			totForm.setFields(transactionTotalNonEditableText);
+			
+			HorizontalPanel hPanel=new HorizontalPanel();
+			hPanel.setWidth("100%");
+			hPanel.add(memoForm);
+			hPanel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
+			hPanel.add(totForm);
+			hPanel.setCellHorizontalAlignment(totForm, ALIGN_RIGHT);
+            
 			VerticalPanel vpanel = new VerticalPanel();
+			vpanel.setWidth("100%");
 			vpanel.add(panel);
-			vpanel.add(memoForm);
-			vpanel.add(totForm);
-
+			vpanel.setCellHorizontalAlignment(panel,ALIGN_RIGHT);
+			vpanel.add(hPanel);
+			
 			bottompanel.add(vpanel);
 		}
 

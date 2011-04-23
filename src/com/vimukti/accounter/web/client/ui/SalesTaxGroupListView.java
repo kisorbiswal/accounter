@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -110,11 +111,11 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		 * buttons Layout
 		 */
 		buttonsLayout = new VerticalPanel();
-		buttonsLayout.setWidth("80");
+		buttonsLayout.setWidth("100");
 		buttonsLayout.setSpacing(5);
 
 		button1 = new Button(customersMessages.add());
-		button1.setWidth("100%");
+		button1.setWidth("80");
 
 		button1.addClickHandler(new ClickHandler() {
 
@@ -127,7 +128,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 		button2 = new Button(customersMessages.edit());
 		button2.setEnabled(false);
-		button2.setWidth("100%");
+		button2.setWidth("80");
 		button2.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -138,7 +139,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 		button3 = new Button(customersMessages.remove());
 		button3.setEnabled(false);
-		button3.setWidth("100%");
+		button3.setWidth("80");
 		button3.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -156,7 +157,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		itemsGrid = new SalesTaxItemsGrid(false);
 		itemsGrid.setStyleName("itemGrid");
 		itemsGrid.init();
-		itemsGrid.setSize("100%", "100%");
+		itemsGrid.setSize("100%", "250px");
 
 		button1.setFocus(true);
 		bodyLayout.add(grid);
@@ -213,9 +214,18 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 			}
 		};
 		addGroupButtonsHandler(groupDialogButtonHandler);
-		saveAndCloseButton.setVisible(false);
-		saveAndNewButton.setVisible(false);
-		cancelButton.setVisible(false);
+		
+		button1.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(button1, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+
+		button2.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(button2, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+
+		button3.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(button3, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 
 	}
 
