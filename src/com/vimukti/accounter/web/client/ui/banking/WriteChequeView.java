@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -110,6 +111,8 @@ public class WriteChequeView extends
 	private ArrayList<DynamicForm> listforms;
 
 	private HorizontalPanel vatPanel;
+	
+	private VerticalPanel vPanel;
 
 	private WriteChequeView() {
 		super(ClientTransaction.TYPE_WRITE_CHECK, 0);
@@ -231,6 +234,7 @@ public class WriteChequeView extends
 		if (transactionCustomerGrid != null)
 			mainVLay.remove(transactionCustomerGrid);
 		mainVLay.add(gridView);
+		mainVLay.add(vPanel);
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			// It should be like thid only,becoz vatPanel is getting add befor
 			// the gird.So,we need to remove n add after grid
@@ -719,10 +723,11 @@ public class WriteChequeView extends
 		date.setShowTitle(false);
 		date.setColSpan(2);
 		date.setDisabled(isEdit);
-
+		
 		numForm = new DynamicForm();
 		numForm.setNumCols(4);
-		numForm.setFields(transactionNumber, date);
+		numForm.addStyleName("datenumber-panel");
+		numForm.setFields(date,transactionNumber);
 		nHPanel = new VerticalPanel();
 		nHPanel.setCellHorizontalAlignment(numForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
@@ -763,7 +768,7 @@ public class WriteChequeView extends
 
 		bankAccForm = new DynamicForm();
 		bankAccForm.setFields(bankAccSelect, balText);
-
+		bankAccForm.getCellFormatter().setWidth(0, 0, "232px");
 		forms.add(bankAccForm);
 
 		paytoSelect = new PayeeCombo(bankingConstants.payTo());
@@ -812,7 +817,7 @@ public class WriteChequeView extends
 		billToCombo.setWidth(100);
 
 		amtText = new AmountLabel(bankingConstants.amount());
-		amtText.setWidth(36);
+		amtText.setWidth(60);
 		amtText.setAmount(0.00);
 		amtText.setDisabled(isEdit);
 
@@ -832,6 +837,11 @@ public class WriteChequeView extends
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
 		memoTextAreaItem.setDisabled(false);
+
+		DynamicForm memoForm = new DynamicForm();
+		memoForm.setWidth("100%");
+		memoForm.setFields(memoTextAreaItem);
+		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		toprintCheck = new CheckboxItem(bankingConstants.toBePrinted());
 		toprintCheck.setDisabled(false);
@@ -857,16 +867,18 @@ public class WriteChequeView extends
 		payForm = new DynamicForm();
 		payForm.setWidth("100%");
 		payForm.setFields(paytoSelect, billToCombo);
+		payForm.getCellFormatter().setWidth(0, 0, "170px");
 		forms.add(payForm);
 
 		amtForm = new DynamicForm();
-		amtForm.setWidth("100%");
-//		amtForm.setFields(amtText, text, memoTextAreaItem, toprintCheck);
-		amtForm.setFields(amtText, text, memoTextAreaItem);
-		amtForm.getCellFormatter().setWidth(0, 0, "105");
+		amtForm.setWidth("50%");
+		// amtForm.setFields(amtText, text, memoTextAreaItem, toprintCheck);
+		amtForm.setFields(amtText, text);
+		amtForm.getCellFormatter().setWidth(0, 0, "100");
+		amtForm.getCellFormatter().setWidth(1, 0, "173px");
 
 		HorizontalPanel amtPanel = new HorizontalPanel();
-		amtPanel.setWidth("100%");
+		amtPanel.setWidth("50%");
 		amtPanel.add(amtForm);
 
 		HorizontalPanel accPanel = new HorizontalPanel();
@@ -874,7 +886,7 @@ public class WriteChequeView extends
 		accPanel.add(payForm);
 		accPanel.add(bankAccForm);
 		accPanel.setCellHorizontalAlignment(bankAccForm,
-				HasHorizontalAlignment.ALIGN_CENTER);
+				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		VerticalPanel topHLay = new VerticalPanel();
 		topHLay.setWidth("100%");
@@ -971,8 +983,8 @@ public class WriteChequeView extends
 				transactionCustomerGrid.setWidth("100%");
 				mainVLay.add(topHLay);
 				setMenuRequired(true);
-				mainVLay.add(createAddNewButton());
 				mainVLay.add(transactionCustomerGrid);
+				mainVLay.add(createAddNewButton());
 				break;
 			case ClientWriteCheck.TYPE_VENDOR:
 			case ClientWriteCheck.TYPE_TAX_AGENCY:
@@ -987,7 +999,6 @@ public class WriteChequeView extends
 				transactionVendorGrid.setWidth("100%");
 				mainVLay.add(topHLay);
 				setMenuRequired(true);
-				mainVLay.add(createAddNewButton());
 				mainVLay.add(transactionVendorGrid);
 				break;
 
@@ -999,8 +1010,7 @@ public class WriteChequeView extends
 			transactionCustomerGrid = getGrid();
 			transactionCustomerGrid.setTransactionView(this);
 			transactionCustomerGrid.setCanEdit(true);
-			transactionCustomerGrid
-					.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
+			transactionCustomerGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 			transactionCustomerGrid.init();
 			transactionCustomerGrid.setWidth("100%");
 			setGridType(VENDOR_TRANSACTION_GRID);
@@ -1024,13 +1034,21 @@ public class WriteChequeView extends
 			// HorizontalPanel panel = new HorizontalPanel();
 			mainVLay.add(topHLay);
 			setMenuRequired(true);
-			mainVLay.add(createAddNewButton());
-			mainVLay.add(transactionCustomerGrid);
 
+			mainVLay.add(transactionCustomerGrid);
 		}
 
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			mainVLay.add(vatPanel);
+		
+	    vPanel = new VerticalPanel();
+		vPanel.setWidth("100%");
+		vPanel.add(createAddNewButton());
+		vPanel.add(memoForm);
+		vPanel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
+		vPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
+
+		mainVLay.add(vPanel);
 
 		canvas.setWidth("100%");
 		canvas.add(mainVLay);
@@ -1183,18 +1201,20 @@ public class WriteChequeView extends
 			case ClientWriteCheck.TYPE_VENDOR:
 			case ClientWriteCheck.TYPE_TAX_AGENCY:
 				if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-					setMenuItems(button,FinanceApplication.getCustomersMessages()
-							.accounts(), FinanceApplication
-							.getCustomersMessages().product()
+					setMenuItems(button, FinanceApplication
+							.getCustomersMessages().accounts(),
+							FinanceApplication.getCustomersMessages().product()
 					// FinanceApplication.getCustomersMessages().comment(),
 					// FinanceApplication.getCustomersMessages()
 					// .salesTax()
 					);
 				else
-					setMenuItems(button,FinanceApplication.getCustomersMessages()
-							.accounts(), FinanceApplication
-							.getCustomersMessages().product(),
-					// FinanceApplication.getCustomersMessages().comment(),
+					setMenuItems(
+							button,
+							FinanceApplication.getCustomersMessages()
+									.accounts(),
+							FinanceApplication.getCustomersMessages().product(),
+							// FinanceApplication.getCustomersMessages().comment(),
 							FinanceApplication.getCustomersMessages().VATItem());
 				// break;
 				// case ClientWriteCheck.TYPE_VENDOR:
@@ -1228,8 +1248,9 @@ public class WriteChequeView extends
 				// FinanceApplication.getVendorsMessages().comment());
 			}
 		} else
-			setMenuItems(button,FinanceApplication.getCustomersMessages().accounts(),
-					FinanceApplication.getCustomersMessages().product()
+			setMenuItems(button, FinanceApplication.getCustomersMessages()
+					.accounts(), FinanceApplication.getCustomersMessages()
+					.product()
 			// FinanceApplication.getFinanceUIConstants().comment(),
 			// FinanceApplication.getFinanceUIConstants().salesTax()
 			);

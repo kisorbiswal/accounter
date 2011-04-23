@@ -119,9 +119,9 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 			if (isActive) {
 				if (account.getIsActive() == true)
 					grid.addData(account);
-				if (grid.getRecords().isEmpty()) {
-					grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
-				}
+//				if (grid.getRecords().isEmpty()) {
+//					grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+//				}
 			} else if (account.getIsActive() == false) {
 				grid.addData(account);
 				if (grid.getRecords().isEmpty()) {
