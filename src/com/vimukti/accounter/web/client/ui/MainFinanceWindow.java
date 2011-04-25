@@ -709,10 +709,11 @@ public class MainFinanceWindow extends VerticalPanel {
 				getVendorAndPayablesMenu());
 		reportMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
 				.purchase(), getPurchaseMenu());
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			reportMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
-					.banking(), getBankingSubMenu());
-		}
+		// if (FinanceApplication.getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US) {
+		// reportMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
+		// .banking(), getBankingSubMenu());
+		// }
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			reportMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
 					.vat(), getVATReportMenu());
@@ -722,12 +723,12 @@ public class MainFinanceWindow extends VerticalPanel {
 		return reportMenuBar;
 	}
 
-	private CustomMenuBar getBankingSubMenu() {
-		CustomMenuBar SubMenuBar = getSubMenu();
-		SubMenuBar.addItem(ReportsActionFactory.getDetailReportAction());
-		SubMenuBar.addItem(ReportsActionFactory.getCheckDetailReport());
-		return SubMenuBar;
-	}
+	// private CustomMenuBar getBankingSubMenu() {
+	// CustomMenuBar SubMenuBar = getSubMenu();
+	// SubMenuBar.addItem(ReportsActionFactory.getDetailReportAction());
+	// SubMenuBar.addItem(ReportsActionFactory.getCheckDetailReport());
+	// return SubMenuBar;
+	// }
 
 	// private CustomMenuBar getSalesAndPurchaseMenu() {
 	// CustomMenuBar salesAndPurchaseMenuBar = new CustomMenuBar();

@@ -20,6 +20,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupListener;
@@ -153,6 +154,22 @@ public abstract class DropDownCombo<T> extends TextItem {
 			@Override
 			protected void onLoad() {
 				super.onLoad();
+			}
+			
+			@SuppressWarnings("deprecation")
+			@Override
+			public void onBrowserEvent(Event event) {
+				switch (DOM.eventGetType(event)) {
+				case Event.ONMOUSEOUT:
+					Element element = event.getTarget();
+					if (this.getElement().equals(element)) {
+					this.hide();
+					}
+					break;
+				default:
+					break;
+				}
+				super.onBrowserEvent(event);
 			}
 		};
 

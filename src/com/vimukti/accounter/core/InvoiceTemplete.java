@@ -31,6 +31,18 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 	// return font;
 	//
 	// }
+	private StringBuffer getImage() {
+		StringBuffer original = new StringBuffer();
+		String imagesDomain = "/do/downloadFileFromFile?";
+		original.append("<img src='");
+		original.append(imagesDomain);
+		original.append("fileName=");
+		original.append(brandingTheme.getFileName());
+		original.append("' ");
+		original.append("/>");
+		return original;
+	}
+
 	private int getFontSize(int i) {
 		int size = Integer.valueOf(brandingTheme.getFontSize()
 				.replace("pt", ""))
@@ -100,9 +112,12 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 					+ forNullValue(TemplateBuilder.getCmpName())
 					+ "</strong></font>" + cmpAdd + "</p>");
 		}
-		
-		
-		headerHtml = ("<table style=\"width: 100%; height: 100%;\" cellspacing=\"10\"><tr><td style=\"height:"
+
+		headerHtml = ("<table style=\"width: 100%; height: 100%;\" cellspacing=\"10\"><tr align=\""
+				+ getLogoAlignment()
+				+ "\"><td>"
+				+ getImage()
+				+ "</td></tr><tr><td style=\"height:"
 				+ getUnits()
 				+ "\"><p><br></p></td></tr><tr style=\"width:100%\"><td></td><td align=\"center;\" style=\"width:40%\"><div class=\"gwt-HTML\" style=\" margin-right: 43px;\"><p align=\"center\" style=\"font-family:"
 				+ brandingTheme.getFont()

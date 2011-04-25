@@ -1091,6 +1091,11 @@ important;
 	resize: none
 }
 
+.memoTextArea[disabled]{
+	background: url("images/Text-area-img.png") no-repeat scroll 0 0  #e6e0da !important;
+	color: #b1a7ad;
+	border: 0 none;
+}
 .downarrow-button {
 	/*background:url("images/downarrow.png") no-repeat scroll 0 0 transparent !important;
 	float:right;
@@ -1131,7 +1136,7 @@ important;
 	background: none repeat scroll 0 0 #F0F0F0 !important;
 }
 
-.help-logout-sep td:nth-child (2),.help-logout-sep td:nth-child (3){
+.help-logout-sep td:nth-child(2),.help-logout-sep td:nth-child(3){
 	padding: 5px !important;
 }
 

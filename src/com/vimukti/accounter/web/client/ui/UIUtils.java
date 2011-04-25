@@ -1407,8 +1407,8 @@ public class UIUtils {
 	}
 
 	public static String getVendorString(String forUk, String forUs) {
-		return FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? forUk
-				: forUs;
+		return FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US ? forUs
+				: forUk;
 	}
 
 	public static long getDays_between(Date created, Date presentDate) {

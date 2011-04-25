@@ -116,6 +116,7 @@ public class GraphChart {
 		options.setHeight(225);
 		options.setLegend(LegendPosition.NONE);
 		options.setMin(100);
+		options.setColors("#6CA92F");
 		// options.set3D(true);
 
 		return options;
@@ -127,6 +128,7 @@ public class GraphChart {
 		options.setHeight(225);
 		options.setLegend(LegendPosition.NONE);
 		options.setMin(100);
+		options.setColors("#6CA92F");
 		// options.setSmoothLine(true);
 
 		return options;
@@ -143,6 +145,7 @@ public class GraphChart {
 		options.setDisplayExactValues(true);
 		options.setAllowHtml(true);
 		options.setWindowMode(WindowMode.OPAQUE);
+		options.setColors("#6CA92F");
 
 		return options;
 	}
@@ -153,12 +156,12 @@ public class GraphChart {
 		if (chartType == ACCOUNTS_PAYABLE_CHART_TYPE) {
 			data.addColumn(ColumnType.DATE, "Date");
 			data.addColumn(ColumnType.NUMBER);
-			
+
 		} else {
-			data.addColumn(ColumnType.STRING, "Date");			
+			data.addColumn(ColumnType.STRING, "Date");
 			data.addColumn(ColumnType.NUMBER, "Revenue");
 		}
-		
+
 		if (chartType == BANK_ACCOUNT_CHART_TYPE) {
 			data.addRows(4);
 			data = addGraphPoints(chartType, data, 4);

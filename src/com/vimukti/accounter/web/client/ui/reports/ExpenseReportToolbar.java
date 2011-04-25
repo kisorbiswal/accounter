@@ -37,7 +37,6 @@ public class ExpenseReportToolbar extends ReportToolbar {
 
 	private void createControls() {
 		String[] statusArray = {
-				FinanceApplication.getReportsMessages().employee(),
 				FinanceApplication.getReportsMessages().cash(),
 				FinanceApplication.getReportsMessages().creditCard() };
 

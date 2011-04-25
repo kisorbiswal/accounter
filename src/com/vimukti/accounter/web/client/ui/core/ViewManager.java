@@ -103,6 +103,7 @@ public class ViewManager extends DockPanel {
 	public final static int CMD_UPDATEFAILED = 3;
 	public final static int CMD_DELETEFAILED = 3;
 
+	private boolean isPreviousFocus, isNextFocus;
 	/**
 	 * This variable hold reference of Dialog or View which sent Crud service
 	 * request to server .
@@ -197,23 +198,25 @@ public class ViewManager extends DockPanel {
 			}
 
 		});
+		if (!isNextFocus) {
+			previousButton.addMouseOverHandler(new MouseOverHandler() {
 
-		previousButton.addMouseOverHandler(new MouseOverHandler() {
+				@Override
+				public void onMouseOver(MouseOverEvent event) {
+					previousButton.setStyleName("previousButton_mouseOver");
+					isPreviousFocus = true;
+				}
+			});
+			 } else if (isPreviousFocus) {
+			previousButton.addMouseOutHandler(new MouseOutHandler() {
 
-			@Override
-			public void onMouseOver(MouseOverEvent event) {
-				previousButton.setStyleName("previousButton_mouseOver");
-			}
-		});
-
-		previousButton.addMouseOutHandler(new MouseOutHandler() {
-
-			@Override
-			public void onMouseOut(MouseOutEvent event) {
-				previousButton.setStyleName("previousButton");
-			}
-		});
-
+				@Override
+				public void onMouseOut(MouseOutEvent event) {
+					previousButton.setStyleName("previousButton");
+					isPreviousFocus = false;
+				}
+			});
+		}
 		buttonLayout1.add(previousButton);
 
 		nextButton = new Label();
@@ -233,21 +236,26 @@ public class ViewManager extends DockPanel {
 
 		});
 
-		nextButton.addMouseOverHandler(new MouseOverHandler() {
+		if (!isPreviousFocus) {
+			nextButton.addMouseOverHandler(new MouseOverHandler() {
 
-			@Override
-			public void onMouseOver(MouseOverEvent event) {
-				nextButton.setStyleName("nextButton_mouseOver");
-			}
-		});
+				@Override
+				public void onMouseOver(MouseOverEvent event) {
+					nextButton.setStyleName("nextButton_mouseOver");
+					isNextFocus = true;
+				}
+			});
+			 } else if (isNextFocus) {
+				
+			nextButton.addMouseOutHandler(new MouseOutHandler() {
 
-		nextButton.addMouseOutHandler(new MouseOutHandler() {
-
-			@Override
-			public void onMouseOut(MouseOutEvent event) {
-				nextButton.setStyleName("nextButton");
-			}
-		});
+				@Override
+				public void onMouseOut(MouseOutEvent event) {
+					nextButton.setStyleName("nextButton");
+					isNextFocus = false;
+				}
+			});
+		}
 
 		buttonLayout1.add(nextButton);
 		hlay.add(buttonLayout1);
@@ -1616,7 +1624,7 @@ public class ViewManager extends DockPanel {
 				.getCustomersMessages().processingRequest());
 
 		dialog.center();
-     	currentrequestedWidget = widget;
+		currentrequestedWidget = widget;
 
 		AsyncCallback<Boolean> transactionCallBack = new AsyncCallback<Boolean>() {
 
@@ -1632,19 +1640,19 @@ public class ViewManager extends DockPanel {
 			}
 
 			public void onSuccess(Boolean result) {
-				
-//				 if (!GWT.isScript()) {
-//				 if (result != null && result) {
-//				 AccounterCommand cmd = new AccounterCommand();
-//				 cmd.setCommand(AccounterCommand.DELETION_SUCCESS);
-//				 cmd.setData(core);
-//				 cmd.setStringID(widget.getStringID());
-//				 cmd.setObjectType(core.getObjectType());
-//				 FinanceApplication.getCompany().processCommand(cmd);
-//				 } else {
-//				 onFailure(null);
-//				 }
-//				 }
+
+				// if (!GWT.isScript()) {
+				// if (result != null && result) {
+				// AccounterCommand cmd = new AccounterCommand();
+				// cmd.setCommand(AccounterCommand.DELETION_SUCCESS);
+				// cmd.setData(core);
+				// cmd.setStringID(widget.getStringID());
+				// cmd.setObjectType(core.getObjectType());
+				// FinanceApplication.getCompany().processCommand(cmd);
+				// } else {
+				// onFailure(null);
+				// }
+				// }
 			}
 
 		};
