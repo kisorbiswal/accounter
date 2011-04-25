@@ -180,9 +180,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			// quote.setReference(this.refText.getValue() != null ? this.refText
 			// .getValue().toString() : "");
 			quote.setPaymentTerm(Utility.getId(paymentTerm));
-
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-				quote.setNetAmount(netAmountLabel.getAmount());
+			quote.setNetAmount(netAmountLabel.getAmount());
+			
+			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {				
 				quote.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 						.getValue());
 			} else
@@ -597,6 +597,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 			setTransactionTotal(customerTransactionGrid.getTotal()
 					+ this.salesTax);
+			netAmountLabel.setAmount(customerTransactionGrid.getGrandTotal());
+			
 		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			netAmountLabel.setAmount(customerTransactionGrid.getGrandTotal());
 			vatTotalNonEditableText.setAmount(customerTransactionGrid
