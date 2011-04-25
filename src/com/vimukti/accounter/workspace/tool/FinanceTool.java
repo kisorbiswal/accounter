@@ -11349,7 +11349,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			Query query = session.getNamedQuery(
 					"getCreatableStatementForCustomer").setParameter(
 					"startDate", fromDate).setParameter("endDate", toDate)
-					.setParameter("customerId", id).setParameter("dueDays", id)
+					.setParameter("customerId", id).setParameter("dueDays", noOfDays)
 					.setParameter("dontShowZero", isEnabledOfZeroBalBox)
 					.setParameter("lessBalance", lessThanZeroBalanceValue)
 					.setParameter("isActivePayee", isEnabledOfInactiveCustomer);
