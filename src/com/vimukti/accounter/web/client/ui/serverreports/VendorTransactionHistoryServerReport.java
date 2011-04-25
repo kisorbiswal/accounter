@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
-import com.vimukti.accounter.core.Utility_R;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
@@ -39,8 +38,8 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { UIUtils.getVendorString("Supplier", "Vendor"),
-				"Date", "Type", "No",
+		return new String[] { getVendorString("Supplier", "Vendor"), "Date",
+				"Type", "No",
 				// FinanceApplication.getReportsMessages().reference(),
 				"Account", "Amount"
 		// FinanceApplication.getReportsMessages().transactionAmount(),
@@ -229,7 +228,7 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { UIUtils.getVendorString("Supplier", "Vendor"),
+		return new String[] { getVendorString("Supplier", "Vendor"),
 				"Date", "Type", "No", "Account", "Amount" };
 	}
 }

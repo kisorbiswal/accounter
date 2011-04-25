@@ -337,6 +337,10 @@ public abstract class ListGrid<T> extends CustomTable {
 		currentCol = col;
 		type = getColumnType(col);
 
+		if (col == getColumnsCount() - 1) {
+			addCellStyles("removeRightBorder");
+		}
+
 		Object data = getColumnValue(obj, col);
 		switch (type) {
 
@@ -459,6 +463,11 @@ public abstract class ListGrid<T> extends CustomTable {
 			if (getColumnType(isMultiSelectionEnable ? (x - 1) : x) == COLUMN_TYPE_DECIMAL_TEXT)
 				this.header.getCellFormatter().addStyleName(0, x,
 						"gridDecimalCell");
+			if (x == nofCols - 1) {
+				this.header.getCellFormatter().addStyleName(0, x,
+						"removeRightBorder");
+			}
+
 		}
 
 	}

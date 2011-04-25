@@ -34,12 +34,12 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 	private StringBuffer getImage() {
 		StringBuffer original = new StringBuffer();
 		String imagesDomain = "/do/downloadFileFromFile?";
-		original.append("<img src='");
+		original.append("<img src=\"");
 		original.append(imagesDomain);
 		original.append("fileName=");
 		original.append(brandingTheme.getFileName());
-		original.append("' ");
-		original.append("/>");
+		original.append("\"");
+		original.append(">");
 		return original;
 	}
 

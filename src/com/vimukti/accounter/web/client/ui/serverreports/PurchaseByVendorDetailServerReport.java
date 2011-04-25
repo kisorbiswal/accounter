@@ -48,13 +48,13 @@ public class PurchaseByVendorDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { UIUtils.getVendorString("Supplier", "Vendor"), "Date",
+		return new String[] { getVendorString("Supplier", "Vendor"), "Date",
 				"Type", "No.", "Amount" };
 	}
 
 	@Override
 	public String getTitle() {
-		return UIUtils.getVendorString("Purchase By Supplier Detail",
+		return getVendorString("Purchase By Supplier Detail",
 				"Purchase By Vendor Detail");
 	}
 
@@ -185,7 +185,7 @@ public class PurchaseByVendorDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { UIUtils.getVendorString("Supplier", "Vendor"), "Date",
+		return new String[] { getVendorString("Supplier", "Vendor"), "Date",
 				"Type", "No.", "Amount" };
 	}
 
