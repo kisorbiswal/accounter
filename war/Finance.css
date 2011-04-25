@@ -20,6 +20,9 @@
 	background: none repeat scroll 0 0 #E8E8E8 !important;
 }
 
+.removeRightBorder{
+	border-right: 0px !important;
+}
 body {
 	color: black;
 	margin: 0px auto !important;
@@ -971,9 +974,9 @@ important;
 	margin: 0 4px !important;
 }
 
-.invoice-total tr:nth-child (3){
-	border-bottom: 1px solid #aaa;
-	border-top: 1px solid #aaa;
+.invoice-total tr:nth-child(3){
+	border-bottom:1px solid #aaa;
+	border-top:1px solid #aaa;
 }
 .noScroll input[type="text"] { /*width: 150px !important;*/
 	
@@ -1029,9 +1032,9 @@ important;
 	margin: 5px 0 0 15px;
 }
 
-.standard-options td:nth-child (2){
-	float: right;
-	margin-right: 40px;
+.standard-options td:nth-child(2){
+	float:right;
+	margin-right:40px;
 }
 .terms-payment-area {
 	width: 450px;
@@ -1091,11 +1094,13 @@ important;
 	resize: none
 }
 
-.memoTextArea[disabled]{
-	background: url("images/Text-area-img.png") no-repeat scroll 0 0  #e6e0da !important;
+.memoTextArea[disabled] {
+	background: url("images/Text-area-img.png") no-repeat scroll 0 0 #e6e0da
+		!important;
 	color: #b1a7ad;
 	border: 0 none;
 }
+
 .downarrow-button {
 	/*background:url("images/downarrow.png") no-repeat scroll 0 0 transparent !important;
 	float:right;
@@ -1136,7 +1141,7 @@ important;
 	background: none repeat scroll 0 0 #F0F0F0 !important;
 }
 
-.help-logout-sep td:nth-child(2),.help-logout-sep td:nth-child(3){
+.help-logout-sep td:nth-child (2),.help-logout-sep td:nth-child (3){
 	padding: 5px !important;
 }
 
@@ -1605,12 +1610,15 @@ iframe { /*display:none;*/
 .rightBorder {
 	border-right: #CCCCCC solid 1px;
 }
-.tax-form tr td{
-font-weight: bold;
+
+.tax-form tr td {
+	font-weight: bold;
 }
+
 .tax-form td:nth-child(1){
-font-weight: normal;
+	font-weight: normal;
 }
-.itemGrid{
-padding-top: 25px;
+
+.itemGrid {
+	padding-top: 25px;
 }
