@@ -514,6 +514,8 @@ public interface ReportsMessages extends FinanceMessages {
 	public String creditCard();
 
 	public String expenseReport();
+	
+	public String allExpenses();
 
 	public String totalBalance();
 

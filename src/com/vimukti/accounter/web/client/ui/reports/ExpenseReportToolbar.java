@@ -37,6 +37,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 
 	private void createControls() {
 		String[] statusArray = {
+				FinanceApplication.getReportsMessages().allExpenses(),
 				FinanceApplication.getReportsMessages().cash(),
 				FinanceApplication.getReportsMessages().creditCard() };
 
@@ -70,8 +71,12 @@ public class ExpenseReportToolbar extends ReportToolbar {
 
 						if (expenseCombo.getSelectedValue().equals(
 								FinanceApplication.getReportsMessages()
-										.employee())) {
-							status = ClientTransaction.TYPE_EMPLOYEE_EXPENSE;
+										.allExpenses())) {
+							status = 0;
+							/*
+							 * status 0 used to get all expenses like Cash,
+							 * Credit Card
+							 */
 						} else if (expenseCombo.getSelectedValue().equals(
 								FinanceApplication.getReportsMessages().cash())) {
 							status = ClientTransaction.TYPE_CASH_EXPENSE;
