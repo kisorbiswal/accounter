@@ -37,6 +37,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.SalesByItemSummaryServe
 import com.vimukti.accounter.web.client.ui.serverreports.SalesClosedOrderServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesOpenOrderServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesTaxLiabilityServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.StatementServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByAccountServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByTaxItemServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TrialBalanceServerReport;
@@ -56,7 +57,7 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_BALANCESHEET = 112;
 	public final static int REPORT_TYPE_TRIALBALANCE = 113;
 	public final static int REPORT_TYPE_TRANSACTIONDETAILBYTAXITEM = 114;
-//	public final static int REPORT_TYPE_TRANSACTIONDETAILBYTAXCODE = 114;
+	// public final static int REPORT_TYPE_TRANSACTIONDETAILBYTAXCODE = 114;
 	public final static int REPORT_TYPE_TRANSACTIONDETAILBYACCOUNT = 115;
 	public final static int REPORT_TYPE_EXPENSE = 116;
 	public final static int REPORT_TYPE_AR_AGEINGSUMMARY = 117;
@@ -92,6 +93,7 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_MOSTPROFITABLECUSTOMER = 147;
 	public final static int REPORT_TYPE_CASHFLOWSTATEMENT = 148;
 	public final static int REPORT_TYPE_AMOUNTSDUETOVENDOR = 149;
+	public final static int REPORT_TYPE_CUSTOMERSTATEMENT = 150;
 
 	private static int companyType;
 
@@ -904,6 +906,26 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return amountsDueToVendorServerReport.getGridTemplate();
+		case REPORT_TYPE_CUSTOMERSTATEMENT:
+			StatementServerReport statementReport = new StatementServerReport(
+					this.startDate, this.endDate, generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					ReportsGenerator.companyType = this.getCompanyType();
+					return ReportsGenerator.getDateByCompanyType(date);
+				}
+			};
+			updateReport(statementReport, finaTool);
+			statementReport.resetVariables();
+			try {
+				statementReport.onSuccess(finaTool.getPayeeStatementsList(
+						status, new ClientFinanceDate().getTime(), startDate,
+						endDate, 0, false, false, 0.00, false, false));
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return statementReport.getGridTemplate();
 		default:
 			break;
 		}
@@ -1008,6 +1030,8 @@ public class ReportsGenerator {
 			return "Cash Flow Statement Report";
 		case REPORT_TYPE_AMOUNTSDUETOVENDOR:
 			return "Amount Due To Vendor Report";
+		case REPORT_TYPE_CUSTOMERSTATEMENT:
+			return "Customer Statement";
 		default:
 			break;
 		}
