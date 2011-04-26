@@ -706,6 +706,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		super.setData(data);
 		if (data != null)
 			takenVATAgency = data;
+		else
+			takenVATAgency=null;
 	}
 
 	// protected void adjustFormWidths(int titlewidth, int listBoxWidth) {

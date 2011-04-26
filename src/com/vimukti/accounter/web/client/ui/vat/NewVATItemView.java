@@ -405,6 +405,8 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		super.setData(data);
 		if (data != null)
 			takenVATItem = (ClientTAXItem) data;
+		else 
+			takenVATItem=null;
 	}
 
 	@Override

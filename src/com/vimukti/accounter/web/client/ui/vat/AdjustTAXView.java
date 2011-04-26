@@ -414,6 +414,8 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		super.setData(data);
 		if (data != null)
 			taxAdjustment = (ClientTAXAdjustment) data;
+		else
+			taxAdjustment=null;
 	}
 
 	private ClientTAXAdjustment getObject() {

@@ -162,6 +162,8 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 		super.setData(data);
 		if (data != null)
 			takenVatGroup = (ClientTAXGroup) data;
+		else
+			takenVatGroup=null;
 	}
 
 	private void initView() {
