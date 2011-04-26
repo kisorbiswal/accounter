@@ -4,7 +4,6 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class IntegerField extends TextItem {

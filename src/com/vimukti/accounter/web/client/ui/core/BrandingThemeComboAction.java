@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.externalization.ActionsConstants;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.customers.BrandingThemeComboDialog;
 

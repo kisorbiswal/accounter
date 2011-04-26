@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.SalesTaxGroupListView;
-import com.vimukti.accounter.web.client.ui.SalesTaxItemsView;
 import com.vimukti.accounter.web.client.ui.company.HelpItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.vat.FileVATView;
