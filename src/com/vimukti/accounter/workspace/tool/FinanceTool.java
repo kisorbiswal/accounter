@@ -36,8 +36,6 @@ import org.hibernate.classic.Lifecycle;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import com.vimukti.accounter.web.client.data.BizantraConstants;
-import com.vimukti.accounter.web.client.data.ISearchResultObject;
 import com.bizantra.server.core.IMember;
 import com.bizantra.server.core.IObjectPath;
 import com.bizantra.server.ext.AbstractSpaceObject;
@@ -192,6 +190,8 @@ import com.vimukti.accounter.web.client.core.reports.VATDetailReport;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
+import com.vimukti.accounter.web.client.data.BizantraConstants;
+import com.vimukti.accounter.web.client.data.ISearchResultObject;
 import com.vimukti.accounter.web.client.ui.GraphChart;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.CompanyPreferencesView;
