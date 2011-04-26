@@ -717,7 +717,9 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 				return AccounterValidator.validateForm(filterForm, false);
 			return true;
 		case 2:
-			return AccounterValidator.validateReceivePaymentGrid(gridView);
+			if (!isEdit)
+				return AccounterValidator.validateReceivePaymentGrid(gridView);
+			
 		case 1:
 			// FIXME--need to implement this feature
 			// return AccounterValidator.validate_Total_Exceeds_BankBalance(

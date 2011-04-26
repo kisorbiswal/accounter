@@ -819,7 +819,9 @@ public class VendorView extends BaseView<ClientVendor> {
 		} else
 			msg = FinanceApplication.getVendorsMessages()
 					.duplicationOfVendorNameAreNotAllowed();
-		Accounter.showError(msg);
+		BaseView.errordata.setHTML(msg);
+		BaseView.commentPanel.setVisible(true);
+		this.errorOccured = true;
 	}
 
 	@Override
