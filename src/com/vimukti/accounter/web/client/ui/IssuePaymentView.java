@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
@@ -492,7 +493,8 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 
 	@Override
 	public void saveFailed(Throwable exception) {
-		Accounter.showError(AccounterErrorType.FAILEDREQUEST);
+		BaseDialog.errordata.setHTML(AccounterErrorType.FAILEDREQUEST);
+		BaseDialog.commentPanel.setVisible(true);
 	}
 
 	@Override

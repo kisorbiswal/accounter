@@ -461,7 +461,10 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		Accounter.showError("Duplication of TaxCode is not allowed");
+		BaseView.errordata.setHTML("Duplication of TaxCode is not allowed");
+		BaseView.commentPanel.setVisible(true);
+		this.errorOccured = true;
+		
 	}
 
 	private ClientTAXCode getTaxCode() {

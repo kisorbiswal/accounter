@@ -642,9 +642,10 @@ public class ItemView extends BaseView<ClientItem> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		Accounter
-				.showError(this.type != TYPE_SERVICE ? "Duplication of Product name are not allowed..."
+		BaseView.errordata.setHTML(this.type != TYPE_SERVICE ? "Duplication of Product name are not allowed..."
 						: "Duplication of Service name are not allowed...");
+		BaseView.commentPanel.setVisible(true);
+		this.errorOccured = true;
 	}
 
 	@Override
