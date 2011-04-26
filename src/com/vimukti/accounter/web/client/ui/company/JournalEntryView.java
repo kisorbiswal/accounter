@@ -96,7 +96,8 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 			InvalidTransactionEntryException {
 		switch (this.validationCount) {
 		case 7:
-			return AccounterValidator.validateTransactionDate(getTransactionDate());
+			return AccounterValidator
+					.validateTransactionDate(getTransactionDate());
 		case 6:
 			return AccounterValidator.validateForm(dateForm, false);
 		case 5:
@@ -298,7 +299,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		lab1 = new Label(FinanceApplication.getCompanyMessages()
 				.journalEntryNew());
 		lab1.addStyleName(FinanceApplication.getCompanyMessages().lableTitle());
-//		lab1.setHeight("35px");
+		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		jourNoText = new TextItem(companyConstants.no());
 		jourNoText.setHelpInformation(true);
@@ -333,14 +334,14 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 			}
 		});
 
-		gridPanel.add(grid);		
-		
-			HorizontalPanel hPanel = new HorizontalPanel();
+		gridPanel.add(grid);
+
+		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(addButton);
 		hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 		hPanel.getElement().getStyle().setFloat(Float.RIGHT);
 
-	gridPanel.add(hPanel);
+		gridPanel.add(hPanel);
 
 		dateForm = new DynamicForm();
 		dateForm.setNumCols(4);
@@ -387,10 +388,9 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 		addButton.getElement().getParentElement().addClassName("add-button");
 
-
-//		ThemesUtil
-//				.addDivToButton(addButton, FinanceApplication.getThemeImages()
-//						.button_right_blue_image(), "blue-right-image");
+		// ThemesUtil
+		// .addDivToButton(addButton, FinanceApplication.getThemeImages()
+		// .button_right_blue_image(), "blue-right-image");
 
 		// gridPanel.add(labelPanel);
 
@@ -654,19 +654,19 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		
-		Element addseparator=DOM.createSpan();
-		 addseparator.addClassName("add-separator");
-		 DOM.appendChild(addButton.getElement(),addseparator);
-				
-		 Element addimage=DOM.createSpan();
-		 addimage.addClassName("add-image");
-		 DOM.appendChild(addButton.getElement(),addimage);
-		 
+
+		Element addseparator = DOM.createSpan();
+		addseparator.addClassName("add-separator");
+		DOM.appendChild(addButton.getElement(), addseparator);
+
+		Element addimage = DOM.createSpan();
+		addimage.addClassName("add-image");
+		DOM.appendChild(addButton.getElement(), addimage);
+
 		ThemesUtil.addDivToButton(addButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"add-right-image");
+				.getThemeImages().button_right_blue_image(), "add-right-image");
 	}
+
 	@Override
 	public void print() {
 		// TODO Auto-generated method stub
