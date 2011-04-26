@@ -432,7 +432,9 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		Accounter.showError(exception.getMessage());
+		BaseView.errordata.setHTML(exception.getMessage());
+		BaseView.commentPanel.setVisible(true);
+		this.errorOccured = true;
 
 	}
 

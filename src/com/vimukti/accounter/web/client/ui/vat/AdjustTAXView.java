@@ -90,7 +90,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 		infoLabel.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-//		infoLabel.setHeight("35px");
+		// infoLabel.setHeight("35px");
 		adjustDate = new DateItem(null);
 		adjustDate.setHelpInformation(true);
 		adjustDate.setDatethanFireEvent(new ClientFinanceDate());
@@ -340,7 +340,10 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		UIUtils.err(FinanceApplication.getVATMessages().failedToApplyChanges());
+		BaseView.errordata.setHTML(FinanceApplication.getVATMessages()
+				.failedToApplyChanges());
+		BaseView.commentPanel.setVisible(true);
+		this.errorOccured = true;
 
 	}
 
@@ -413,7 +416,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		if (data != null)
 			taxAdjustment = (ClientTAXAdjustment) data;
 		else
-			taxAdjustment=null;
+			taxAdjustment = null;
 	}
 
 	private ClientTAXAdjustment getObject() {

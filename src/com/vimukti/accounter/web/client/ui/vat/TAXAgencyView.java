@@ -157,11 +157,13 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
 		if (takenVATAgency == null)
-			Accounter.showError(FinanceApplication.getVATMessages()
+			BaseView.errordata.setHTML(FinanceApplication.getVATMessages()
 					.duplicationOfTaxAgencyNameAreNotAllowed());
 		else
-			Accounter.showError(FinanceApplication.getVATMessages()
+			BaseView.errordata.setHTML(FinanceApplication.getVATMessages()
 					.failedToUpdate());
+		BaseView.commentPanel.setVisible(true);
+		this.errorOccured = true;
 	}
 
 	@Override

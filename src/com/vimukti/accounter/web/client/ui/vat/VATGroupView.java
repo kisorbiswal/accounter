@@ -205,8 +205,10 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		Accounter.showError(FinanceApplication.getVATMessages()
+		BaseView.errordata.setHTML(FinanceApplication.getVATMessages()
 				.duplicationOfVATGroupIsNotAllowed());
+		BaseView.commentPanel.setVisible(true);
+		this.errorOccured = true;
 	}
 
 	@Override
