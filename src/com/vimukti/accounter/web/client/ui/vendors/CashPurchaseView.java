@@ -411,9 +411,12 @@ public class CashPurchaseView extends
 
 		} else
 			billToAreaItem.setValue("");
-		paymentMethodSelected(cashPurchaseToBeEdited.getPaymentMethod() != null ? cashPurchaseToBeEdited
-				.getPaymentMethod()
-				: "");
+		// paymentMethodSelected(cashPurchaseToBeEdited.getPaymentMethod() !=
+		// null ? cashPurchaseToBeEdited
+		// .getPaymentMethod()
+		// : "");
+		paymentMethodCombo.setComboItem(cashPurchaseToBeEdited
+				.getPaymentMethod());
 		accountSelected(FinanceApplication.getCompany().getAccount(
 				cashPurchaseToBeEdited.getPayFrom()));
 		// transactionDateItem.setEnteredDate(cashPurchaseToBeEdited.get)
@@ -544,7 +547,7 @@ public class CashPurchaseView extends
 		cashPurchase.setPhone(phoneSelect.getValue().toString());
 
 		// Setting Payment Methods
-		cashPurchase.setPaymentMethod(paymentMethod);
+		cashPurchase.setPaymentMethod(paymentMethodCombo.getValue().toString());
 
 		// Setting Pay From Account
 		cashPurchase.setPayFrom(payFromAccount.getStringID());
@@ -584,6 +587,7 @@ public class CashPurchaseView extends
 
 	@Override
 	protected void initMemoAndReference() {
+		memoTextAreaItem.setDisabled(true);
 		setMemoTextAreaItem(((ClientCashPurchase) transactionObject).getMemo());
 		// setRefText(((ClientCashPurchase) transactionObject).getReference());
 	}
@@ -732,7 +736,7 @@ public class CashPurchaseView extends
 		deliveryDateItem.setDisabled(isEdit);
 		vendorTransactionGrid.setDisabled(isEdit);
 		vendorTransactionGrid.setCanEdit(true);
-
+		memoTextAreaItem.setDisabled(isEdit);
 		super.onEdit();
 	}
 

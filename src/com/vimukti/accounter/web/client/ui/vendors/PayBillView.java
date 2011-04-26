@@ -669,7 +669,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		endBalText.setAmount(billToBeEdited.getEndingBalance());
 		initListGridData(this.transactionObject.getTransactionPayBill());
 		initTransactionTotalNonEditableItem();
-
+		memoTextAreaItem.setDisabled(true);
 		initTransactionViewData();
 	}
 
@@ -952,7 +952,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		initListGrid();
 		gridLayout.insert(gridView, 2);
 		getTransactionPayBills(this.vendor);
-
+     memoTextAreaItem.setDisabled(isEdit);
 		transactionObject = null;
 
 	}

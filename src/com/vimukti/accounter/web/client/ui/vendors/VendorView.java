@@ -40,6 +40,7 @@ import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
+import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -65,6 +66,7 @@ import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -237,7 +239,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			 * InvalidEntryException( AccounterErrorType.ALREADYEXIST); else
 			 * return true; }
 			 */
-
+        return false;
 		case 4:
 			return AccounterValidator.validateForm(vendorForm, false);
 
@@ -1115,6 +1117,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		super.setData(data);
 		if (data != null)
 			takenVendor = (ClientVendor) data;
+		else
+			takenVendor=null;
 	}
 
 	public List<DynamicForm> getForms() {

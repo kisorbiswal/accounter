@@ -511,7 +511,7 @@ public class NewVendorPaymentView extends
 			ClientPayBill payBill = (ClientPayBill) transactionObject;
 
 			if (payBill != null) {
-
+				memoTextAreaItem.setDisabled(true);
 				setMemoTextAreaItem(payBill.getMemo());
 				// setRefText(payBill.getReference());
 
@@ -703,6 +703,7 @@ public class NewVendorPaymentView extends
 					.Tobeprinted());
 			checkNo.setDisabled(true);
 		}
+		memoTextAreaItem.setDisabled(false);
 		super.onEdit();
 
 	}

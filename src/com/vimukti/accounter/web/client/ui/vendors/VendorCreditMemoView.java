@@ -338,7 +338,7 @@ public class VendorCreditMemoView extends
 			ClientVendorCreditMemo vendorCreditMemo = (ClientVendorCreditMemo) transactionObject;
 
 			if (vendorCreditMemo != null) {
-
+               memoTextAreaItem.setDisabled(true);
 				setMemoTextAreaItem(vendorCreditMemo.getMemo());
 				// setRefText(vendorCreditMemo.getReference());
 
@@ -521,7 +521,7 @@ public class VendorCreditMemoView extends
 		isEdit = false;
 		vendorCombo.setDisabled(isEdit);
 		transactionDateItem.setDisabled(isEdit);
-
+          memoTextAreaItem.setDisabled(isEdit);
 		transactionNumber.setDisabled(isEdit);
 		vendorTransactionGrid.setDisabled(isEdit);
 		vendorTransactionGrid.setCanEdit(true);

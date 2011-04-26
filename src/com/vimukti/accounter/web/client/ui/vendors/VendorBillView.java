@@ -688,7 +688,7 @@ public class VendorBillView extends
 
 	@Override
 	protected void initMemoAndReference() {
-
+           memoTextAreaItem.setDisabled(true);
 		setMemoTextAreaItem(((ClientEnterBill) transactionObject).getMemo());
 		// setRefText(((ClientEnterBill) transactionObject).getReference());
 
@@ -994,6 +994,7 @@ public class VendorBillView extends
 		vendorTransactionGrid.setDisabled(isEdit);
 		vendorTransactionGrid.setCanEdit(true);
 		balanceDueNonEditableText.setDisabled(true);
+		memoTextAreaItem.setDisabled(isEdit);
 
 		super.onEdit();
 	}
