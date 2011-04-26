@@ -4812,7 +4812,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 				"STATEMENT",
 				"democo@democo.co",
 				true,
-				"Vimukti Technologies ,</br> Dr. A.S.Rao Nagar ,</br> Ecil - 500062 ,</br>Hyderabad.",
+				"Not added",
 				"(None Added)");
 		session.save(brandingTheme);
 	}

@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-import com.google.gwt.safehtml.shared.SafeHtml;
 
 public class ClientBrandingTheme<T> implements IAccounterCore {
 

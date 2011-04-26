@@ -8,7 +8,6 @@ import java.util.Set;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -436,7 +435,7 @@ public class CreditCardChargeView extends
 		cheqNoText = new TextItem(
 				FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? bankingConstants
 						.chequeNo()
-						: bankingConstants.chequeNo());
+						: bankingConstants.checkNo());
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setWidth(100);
 		cheqNoText.setDisabled(isEdit);
