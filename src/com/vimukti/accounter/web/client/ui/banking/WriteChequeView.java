@@ -500,7 +500,7 @@ public class WriteChequeView extends
 			case 4:
 				return AccounterValidator.validateForm(bankAccForm, false);
 			case 3:
-				if (transactionObject == null) {
+				if (transactionObject == null && payee!=null) {
 					switch (payee.getType()) {
 					case ClientPayee.TYPE_CUSTOMER:
 						return AccounterValidator
@@ -518,7 +518,7 @@ public class WriteChequeView extends
 				}
 				break;
 			case 2:
-				if (transactionObject == null)
+				if (transactionObject == null && selectBankAcc!=null)
 					return AccounterValidator
 							.validate_Total_Exceeds_BankBalance(balText
 									.getAmount(), amtText.getAmount(),
@@ -984,7 +984,6 @@ public class WriteChequeView extends
 				mainVLay.add(topHLay);
 				setMenuRequired(true);
 				mainVLay.add(transactionCustomerGrid);
-				mainVLay.add(createAddNewButton());
 				break;
 			case ClientWriteCheck.TYPE_VENDOR:
 			case ClientWriteCheck.TYPE_TAX_AGENCY:
@@ -1102,6 +1101,7 @@ public class WriteChequeView extends
 
 	@Override
 	protected void initMemoAndReference() {
+		memoTextAreaItem.setDisabled(true);
 		setMemoTextAreaItem(transactionObject.getMemo());
 
 	}
@@ -1400,6 +1400,7 @@ public class WriteChequeView extends
 		amtText.setDisabled(isEdit);
 		toprintCheck.setDisabled(isEdit);
 		bankAccSelect.setDisabled(isEdit);
+		memoTextAreaItem.setDisabled(false);
 		// if (taxAgencyGrid != null) {
 		// taxAgencyGrid.setDisabled(isEdit);
 		// }

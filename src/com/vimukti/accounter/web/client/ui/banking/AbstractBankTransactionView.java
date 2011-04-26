@@ -135,13 +135,15 @@ public abstract class AbstractBankTransactionView<T> extends
 	@Override
 	protected void showMenu(Button button) {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button,FinanceApplication.getVendorsMessages().accounts(),
-					FinanceApplication.getVendorsMessages().product(),
-					FinanceApplication.getVendorsMessages().service());
+			setMenuItems(button, FinanceApplication.getVendorsMessages()
+					.accounts(), FinanceApplication.getVendorsMessages()
+					.service(), FinanceApplication.getVendorsMessages()
+					.product());
 		else
-			setMenuItems(button,FinanceApplication.getVendorsMessages().accounts(),
-					FinanceApplication.getVendorsMessages().product(),
-					FinanceApplication.getVendorsMessages().service());
+			setMenuItems(button, FinanceApplication.getVendorsMessages()
+					.accounts(), FinanceApplication.getVendorsMessages()
+					.service(), FinanceApplication.getVendorsMessages()
+					.product());
 		// FinanceApplication.getVendorsMessages().comment());
 
 	}
