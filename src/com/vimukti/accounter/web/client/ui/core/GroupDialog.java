@@ -358,7 +358,8 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 	@Override
 	public void saveFailed(Throwable exception) {
-		Accounter.showError("Creation Or Updation failed!");
+		BaseDialog.errordata.setHTML("Creation Or Updation failed!");
+		BaseDialog.commentPanel.setVisible(true);
 	}
 
 	@Override
