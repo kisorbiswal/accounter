@@ -602,6 +602,7 @@ public class AccounterValidator {
 						}
 
 					});
+			AbstractBaseView.warnOccured = true;
 		} else
 			view.validationCount--;
 
@@ -638,6 +639,7 @@ public class AccounterValidator {
 						}
 
 					});
+			AbstractBaseView.warnOccured = true;
 		} else
 			view.validationCount--;
 		return false;
@@ -1585,8 +1587,8 @@ public class AccounterValidator {
 	 * @return
 	 */
 	public static boolean validateWriteCheckAmount(double amount, double total) {
-		if (!DecimalUtil.isEquals(total, amount)) {
-			Accounter.showError(AccounterErrorType.writeCheck_TotalAmount);
+		if (DecimalUtil.isEquals(total, 0.00)) {
+			Accounter.showError("Total can't be zero Or Not less than");
 			Accounter.stopExecution();
 			return false;
 		}
