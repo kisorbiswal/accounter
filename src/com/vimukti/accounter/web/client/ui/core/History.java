@@ -115,12 +115,12 @@ public class History {
 	 * @param input
 	 */
 	public void updateHistory(Object input) {
-		if (input != null) {
-			// if (input instanceof IAccounterCore) {
-			// setData(input);
-			// } else {
-			setData(input);
-			// }
-		}
+		// if (input != null) {
+		// if (input instanceof IAccounterCore) {
+		// setData(input);
+		// } else {
+		setData(input);
+		// }
+		// }
 	}
 }
