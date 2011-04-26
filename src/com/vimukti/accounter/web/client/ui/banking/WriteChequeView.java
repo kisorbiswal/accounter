@@ -538,7 +538,7 @@ public class WriteChequeView extends
 		return true;
 	}
 
-	private boolean validateAmount() {
+	private boolean validateAmount() throws InvalidEntryException {
 		if (payee != null) {
 			double total = 0.0;
 
@@ -554,8 +554,7 @@ public class WriteChequeView extends
 				// total = transactionVendorGrid.getTotal();
 
 			}
-			return AccounterValidator.validateWriteCheckAmount(amtText
-					.getAmount(), total);
+			return AccounterValidator.validate_ZeroAmount(amtText.getAmount());
 		}
 		return false;
 	}
