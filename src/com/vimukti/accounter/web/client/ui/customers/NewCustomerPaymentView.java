@@ -421,7 +421,9 @@ public class NewCustomerPaymentView extends
 //		paymentMethodCombo.setDefaultValue(UIUtils
 //				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
 //						.getCustomersMessages().check()));
-		paymentMethodCombo.setComboItem(FinanceApplication.getCustomersMessages().cheque());
+		paymentMethodCombo.setComboItem(UIUtils
+				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
+				.getCustomersMessages().check()));
 		printCheck = new CheckboxItem(customerConstants.toBePrinted());
 		printCheck.setValue(true);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
