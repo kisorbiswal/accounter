@@ -545,13 +545,14 @@ public class CustomerRefundView extends
 		this.billingAddress = customerRefundTobeEdited.getAddress();
 		if (billingAddress != null)
 			billToaddressSelected(billingAddress);
-
+ 
 		endBalText
 				.setValue(DataUtils.getAmountAsString(customerRefundTobeEdited
 						.getEndingBalance()));
 		custBalText.setValue(DataUtils
 				.getAmountAsString(customerRefundTobeEdited
 						.getCustomerBalance()));
+		memoTextAreaItem.setDisabled(true);
 		memoTextAreaItem.setValue(customerRefundTobeEdited.getMemo());
 		// refText.setValue(customerRefundTobeEdited.getReference());
 		initTransactionNumber();
@@ -692,7 +693,7 @@ public class CustomerRefundView extends
 
 		payFromSelect.setDisabled(isEdit);
 		amtText.setDisabled(isEdit);
-
+        memoTextAreaItem.setDisabled(isEdit);
 		paymentMethodCombo.setDisabled(isEdit);
 		paymentMethodSelected(paymentMethodCombo.getValue().toString());
 		checkNoText.setValue(((ClientCustomerRefund) transactionObject)

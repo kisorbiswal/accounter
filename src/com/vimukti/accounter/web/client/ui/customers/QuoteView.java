@@ -554,6 +554,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			vatTotalNonEditableText.setValue(estimate.getTotal()
 					- estimate.getNetAmount());
 		}
+		memoTextAreaItem.setDisabled(true);
 		transactionTotalNonEditableText.setAmount(estimate.getTotal());
 		customerTransactionGrid.setCanEdit(false);
 	}
@@ -742,7 +743,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		deliveryDate.setDisabled(isEdit);
 		quoteExpiryDate.setDisabled(isEdit);
 		taxCodeSelect.setDisabled(isEdit);
-
+        memoTextAreaItem.setDisabled(isEdit);
 		priceLevelSelect.setDisabled(isEdit);
 		customerTransactionGrid.setCanEdit(true);
 		customerTransactionGrid.setDisabled(isEdit);

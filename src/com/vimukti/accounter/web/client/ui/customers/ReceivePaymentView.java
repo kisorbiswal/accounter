@@ -459,7 +459,7 @@ public class ReceivePaymentView extends
 		lab
 				.setStyleName(FinanceApplication.getCustomersMessages()
 						.lableTitle());
-//		lab.setHeight("35px");
+		// lab.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
 
@@ -642,11 +642,11 @@ public class ReceivePaymentView extends
 		@SuppressWarnings("unused")
 		VerticalPanel gridAndBalances = new VerticalPanel();
 
-//		HorizontalPanel hLay2 = new HorizontalPanel();
-//		hLay2.setWidth("100%");
-//		hLay2.setHorizontalAlignment(ALIGN_RIGHT);
-//
-//		hLay2.add(textForm);
+		// HorizontalPanel hLay2 = new HorizontalPanel();
+		// hLay2.setWidth("100%");
+		// hLay2.setHorizontalAlignment(ALIGN_RIGHT);
+		//
+		// hLay2.add(textForm);
 
 		HorizontalPanel bottomAmtsLayout = new HorizontalPanel();
 
@@ -862,10 +862,12 @@ public class ReceivePaymentView extends
 				paymentToBeEdited.getDepositIn()));
 
 		this.transactionItems = paymentToBeEdited.getTransactionItems();
+		memoTextAreaItem.setDisabled(true);
 		if (paymentToBeEdited.getMemo() != null)
 			memoTextAreaItem.setValue(paymentToBeEdited.getMemo());
 		if (paymentToBeEdited.getPaymentMethod() != null)
-			paymentMethodCombo.setComboItem(paymentToBeEdited.getPaymentMethod());
+			paymentMethodCombo.setComboItem(paymentToBeEdited
+					.getPaymentMethod());
 		// if (paymentToBeEdited.getReference() != null)
 		// refText.setValue(paymentToBeEdited.getReference());
 		setAmountRecieved(paymentToBeEdited.getAmount());
@@ -1360,7 +1362,7 @@ public class ReceivePaymentView extends
 		gridLayout.insert(gridView, 2);
 
 		getTransactionReceivePayments(this.customer);
-
+		memoTextAreaItem.setDisabled(isEdit);
 		transactionObject = null;
 
 		// this.rpcUtilService.getTransactionReceivePayments(customer

@@ -80,7 +80,7 @@ public class NewCustomerPaymentView extends
 			ClientCustomerPrePayment customerPrePayment = (ClientCustomerPrePayment) transactionObject;
 
 			if (customerPrePayment != null) {
-
+				memoTextAreaItem.setDisabled(true);
 				setMemoTextAreaItem(customerPrePayment.getMemo());
 				// setRefText(customerPrePayment.getReference());
 
@@ -104,8 +104,8 @@ public class NewCustomerPaymentView extends
 				throw new InvalidTransactionEntryException(
 						AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
 		case 1:
-			return AccounterValidator.isNull(depositInAccount, paymentMethod);
-
+//			return AccounterValidator.isNull(depositInAccount, paymentMethod);
+            return false;
 		default:
 			return true;
 		}
@@ -744,6 +744,7 @@ public class NewCustomerPaymentView extends
 					.toBePrinted());
 			checkNo.setDisabled(true);
 		}
+		memoTextAreaItem.setDisabled(false);
 		super.onEdit();
 	}
 

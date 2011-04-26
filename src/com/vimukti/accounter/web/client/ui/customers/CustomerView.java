@@ -146,7 +146,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	public CustomerView() {
 		super();
 		this.validationCount = 7;
-//		this.removeStyleName("abstract_base_view");
+		// this.removeStyleName("abstract_base_view");
 	}
 
 	private void initFiscalYear() {
@@ -389,9 +389,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			 * InvalidEntryException( AccounterErrorType.ALREADYEXIST); else
 			 * return true; }
 			 */
-
+			return false;
 		case 6:
-			return validateCustomerForm(customerForm);
+			if (custNameText.isHighLighted() == false)
+				return validateCustomerForm(customerForm);
 		case 5:
 			if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 				return AccounterValidator.validateFormItem(custTaxCode, false);
@@ -1165,6 +1166,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		super.setData(data);
 		if (data != null)
 			takenCustomer = (ClientCustomer) data;
+		else
+			takenCustomer=null;
 	}
 
 	@Override

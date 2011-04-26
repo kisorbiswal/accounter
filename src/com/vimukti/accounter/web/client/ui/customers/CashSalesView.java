@@ -559,6 +559,7 @@ public class CashSalesView extends
 			}
 			this.salesTaxTextNonEditable.setValue(cashSale.getSalesTax());
 		}
+		memoTextAreaItem.setDisabled(true);
 		transactionTotalNonEditableText.setAmount(cashSale.getTotal());
 		customerTransactionGrid.setCanEdit(false);
 	}
@@ -772,7 +773,7 @@ public class CashSalesView extends
 		shippingMethodsCombo.setDisabled(isEdit);
 
 		deliveryDate.setDisabled(isEdit);
-
+         memoTextAreaItem.setDisabled(isEdit);
 		priceLevelSelect.setDisabled(isEdit);
 		customerTransactionGrid.setDisabled(isEdit);
 		customerTransactionGrid.setCanEdit(true);

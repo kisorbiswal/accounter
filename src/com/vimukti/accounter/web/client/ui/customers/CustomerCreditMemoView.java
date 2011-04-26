@@ -397,6 +397,7 @@ public class CustomerCreditMemoView extends
 			salesTaxTextNonEditable.setAmount(creditToBeEdited.getSalesTax());
 		}
 		transactionTotalNonEditableText.setAmount(creditToBeEdited.getTotal());
+		memoTextAreaItem.setDisabled(true);
 		customerTransactionGrid.setCanEdit(false);
 	}
 
@@ -649,6 +650,7 @@ public class CustomerCreditMemoView extends
 		salesPersonCombo.setDisabled(isEdit);
 		priceLevelSelect.setDisabled(isEdit);
 		taxCodeSelect.setDisabled(isEdit);
+		memoTextAreaItem.setDisabled(isEdit);
 		customerTransactionGrid.setDisabled(isEdit);
 		customerTransactionGrid.setCanEdit(true);
 		super.onEdit();
