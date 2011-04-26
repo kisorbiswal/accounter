@@ -7,8 +7,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class StatementServerReport extends
@@ -33,7 +31,7 @@ public class StatementServerReport extends
 	public Object getColumnData(PayeeStatementsList record, int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return UIUtils.getDateByCompanyType(record.getTransactionDate());
+			return getDateByCompanyType(record.getTransactionDate());
 		case 1:
 			return Utility.getTransactionName(record.getTransactiontype());
 		case 2:
@@ -54,11 +52,7 @@ public class StatementServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { FinanceApplication.getReportsMessages().date(),
-				FinanceApplication.getReportsMessages().type(),
-				FinanceApplication.getReportsMessages().num(),
-				FinanceApplication.getReportsMessages().ageing(),
-				FinanceApplication.getReportsMessages().amount()
+		return new String[] { "Date", "Type", "No.", "Ageing", "Amount"
 
 		};
 	}
@@ -106,7 +100,7 @@ public class StatementServerReport extends
 
 	@Override
 	public String getTitle() {
-		return FinanceApplication.getReportsMessages().customerStatement();
+		return "Customer Statement";
 	}
 
 	@Override
@@ -149,18 +143,16 @@ public class StatementServerReport extends
 	}
 
 	private boolean addOneTothirty(PayeeStatementsList record) {
-		if (!sectiontypes.contains(FinanceApplication.getReportsMessages()
-				.days30())) {
-			addTypeSection(FinanceApplication.getReportsMessages().days30(), "");
+		if (!sectiontypes.contains("0-30 Days")) {
+			addTypeSection("0-30 Days", "");
 			return false;
 		}
 		return true;
 	}
 
 	private boolean addThirtyToSixty(PayeeStatementsList record) {
-		if (!sectiontypes.contains(FinanceApplication.getReportsMessages()
-				.days60())) {
-			addTypeSection(FinanceApplication.getReportsMessages().days60(), "");
+		if (!sectiontypes.contains("0-60 Days")) {
+			addTypeSection("0-60 Days", "");
 			return false;
 		}
 		return true;
@@ -168,9 +160,8 @@ public class StatementServerReport extends
 	}
 
 	private boolean addSixtyTo90(PayeeStatementsList record) {
-		if (!sectiontypes.contains(FinanceApplication.getReportsMessages()
-				.days90())) {
-			addTypeSection(FinanceApplication.getReportsMessages().days90(), "");
+		if (!sectiontypes.contains("0-90 Days")) {
+			addTypeSection("0-90 Days", "");
 			return false;
 		}
 		return true;
@@ -178,9 +169,8 @@ public class StatementServerReport extends
 	}
 
 	private boolean addGreaterThan90(PayeeStatementsList record) {
-		if (!sectiontypes.contains(FinanceApplication.getReportsMessages()
-				.older())) {
-			addTypeSection(FinanceApplication.getReportsMessages().older(), "");
+		if (!sectiontypes.contains("Older")) {
+			addTypeSection("Older", "");
 			return false;
 		}
 		return true;
@@ -188,10 +178,8 @@ public class StatementServerReport extends
 	}
 
 	private boolean addTotalBalance(PayeeStatementsList record) {
-		if (!sectiontypes.contains(FinanceApplication.getReportsMessages()
-				.totalBalance())) {
-			addTypeSection(FinanceApplication.getReportsMessages()
-					.totalBalance(), "");
+		if (!sectiontypes.contains("Total Balance")) {
+			addTypeSection("Total Balance", "");
 			return false;
 		}
 		return true;
@@ -205,7 +193,7 @@ public class StatementServerReport extends
 	public void addTypeSection(String title, String bottomTitle) {
 		if (!sectiontypes.contains(title)) {
 			addSection(new String[] { title }, new String[] { "", "", "",
-					FinanceApplication.getReportsMessages().total() },
+					"Total" },
 					new int[] { 4 });
 			types.add(title);
 			sectiontypes.add(title);
@@ -263,12 +251,7 @@ public class StatementServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { FinanceApplication.getReportsMessages().date(),
-				FinanceApplication.getReportsMessages().type(),
-				FinanceApplication.getReportsMessages().num(),
-				FinanceApplication.getReportsMessages().ageing(),
-				FinanceApplication.getReportsMessages().amount()
-
+		return new String[] { "Date", "Type", "No.", "Ageing", "Amount"
 		};
 	}
 

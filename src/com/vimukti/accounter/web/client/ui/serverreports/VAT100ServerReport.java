@@ -69,7 +69,7 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return "Last VAT Quarter";
+		return "All";
 	}
 
 	@Override

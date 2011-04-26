@@ -296,7 +296,7 @@ public abstract class AbstractFinaneReport<R> implements IFinanceReport<R> {
 	}
 
 	public String getDefaultDateRange() {
-		return "Financial Year To Date";
+		return "All";
 	}
 
 	public int getColumnWidth(int index) {

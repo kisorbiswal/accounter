@@ -44,7 +44,7 @@ public class BalanceSheetServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return "Financial Year To Date";
+		return "All";
 	}
 
 	@Override

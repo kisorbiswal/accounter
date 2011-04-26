@@ -78,7 +78,7 @@ public class ProfitAndLossServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return "This Month";
+		return "All";
 	}
 
 	@Override

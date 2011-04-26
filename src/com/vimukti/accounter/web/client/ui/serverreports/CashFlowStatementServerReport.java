@@ -29,7 +29,7 @@ public class CashFlowStatementServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return "Financial Year To Date";
+		return "All";
 	}
 
 	@Override
