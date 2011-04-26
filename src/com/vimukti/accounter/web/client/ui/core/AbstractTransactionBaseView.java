@@ -679,9 +679,10 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	@Override
 	public void setData(T data) {
 		super.setData(data);
-
 		if (data != null)
 			transactionObject = (ClientTransaction) data;
+		else
+			transactionObject=null;
 
 	}
 
