@@ -251,6 +251,8 @@ public class InviteUserView extends BaseView<ClientUser> {
 		super.setData(data);
 		if (data != null)
 			takenUser = data;
+		else
+			takenUser=null;
 	}
 
 	public List<RolePermissions> getDefaultRolesAndPermissions() {

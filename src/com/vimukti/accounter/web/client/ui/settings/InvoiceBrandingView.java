@@ -46,6 +46,8 @@ public class InvoiceBrandingView extends AbstractBaseView<ClientBrandingTheme> {
 		if (data != null) {
 			brandingTheme = data;
 		}
+		else
+			brandingTheme=null;
 	}
 
 	private void createControls() {
