@@ -29,9 +29,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
-import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
 @SuppressWarnings( { "deprecation", "unchecked" })
@@ -68,13 +67,6 @@ public class FileUploadDilaog extends CustomDialog {
 		closeAfterUploaded = true;
 		doCreateContents();
 		center();
-	}
-
-	public FileUploadDilaog(String title, String parentID,
-			ValueCallBack<ClientBrandingTheme> callback, String[] fileTypes,
-			boolean closeAfterUploaded) {
-		this(title, parentID, callback, fileTypes, brandingTheme);
-		this.closeAfterUploaded = closeAfterUploaded;
 	}
 
 	protected void doCreateContents() {
@@ -276,8 +268,10 @@ public class FileUploadDilaog extends CustomDialog {
 	}
 
 	protected void processOnUpload() {
-		if (!validateFileItems())
+		if (!validateFileItems()) {
+			Accounter.showInformation("No Image is selected.");
 			return;
+		}
 
 		if (fileTypes != null) {
 			for (FileUpload fileUpload : uploadItems) {
@@ -287,7 +281,6 @@ public class FileUploadDilaog extends CustomDialog {
 			}
 
 		}
-		// loadingLayout.setVisible(true);
 		uploadForm.submit();
 
 	}
@@ -301,16 +294,6 @@ public class FileUploadDilaog extends CustomDialog {
 			if (filename != null && filename.length() > 0) {
 				fileSelected = true;
 			}
-			// for (FileUpload fileUpload : fileids) {
-			// if (filename.equals(fileUpload.getFilename())) {
-			// SC.say(messages.filesDuplicationError());
-			// return false
-			// }
-			// }
-			/*
-			 * if(ids.length()==0) ids=upload.getName(); else
-			 * ids=ids+","+upload.getName();
-			 */
 		}
 
 		if (fileSelected) {
@@ -372,25 +355,6 @@ public class FileUploadDilaog extends CustomDialog {
 				}, parentID);
 	}
 
-	// public static JsArray<IAttachment> getUploadedAttachments() {
-	// return uploadedAttachments;
-	// }
-
-	// private void createLoadingLayout() {
-	//
-	// Image loadingImage = new Image(images.loaderImage());
-	// Label loadingLabel = new Label(CollaberCoreUtils
-	// .getStringWithSpaces(messages.pleaseWait()));
-	// loadingLayout = new HorizontalPanel();
-	// loadingLayout.add(loadingImage);
-	// loadingLayout.add(loadingLabel);
-	// loadingLayout
-	// .setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-	// mainLayout.add(loadingLayout);
-	// loadingLayout.setVisible(false);
-	//
-	// }
-
 	public static <E, T> Object post(String url,
 			final AsyncCallback<ClientBrandingTheme> callback, String parentId) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
@@ -417,33 +381,4 @@ public class FileUploadDilaog extends CustomDialog {
 		}
 		return null;
 	}
-
-	// public static ClientBrandingTheme parseStringAttachment(String text) {
-	// String[] attachments = text.split(":");
-	// // ClientBrandingTheme[] brandingThemes = new
-	// ClientBrandingTheme[attachments.length];
-	// for (int i = 0; i < attachments.length; i++) {
-	// String[] values = getValues(attachments[i]);
-	// ClientBrandingTheme attachment = new ClientBrandingTheme();
-	// brandingTheme = attachment;
-	// }
-	// return brandingTheme;
-	// }
-
-	// private static String[] getValues(String string) {
-	// String[] temp1 = string.split(",");
-	// if(temp1.length>3){
-	// for(int i = temp1.length-2; i > 1; i--){
-	// temp1[i-1]=temp1[i-1]+temp1[i];
-	// temp1[i] = temp1 [i+1];
-	// }
-	// String[] temp2 = new String[3];
-	// temp2[0] = temp1[0];
-	// temp2[1] = temp1[1];
-	// temp2[2] = temp1[2];
-	// return temp2;
-	// }
-	// return temp1;
-	// }
-
 }
