@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
+import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
@@ -214,7 +215,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 			}
 		};
 		addGroupButtonsHandler(groupDialogButtonHandler);
-		
+
 		button1.getElement().getParentElement().setClassName("ibutton");
 		ThemesUtil.addDivToButton(button1, FinanceApplication.getThemeImages()
 				.button_right_blue_image(), "ibutton-right-image");
@@ -286,22 +287,26 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 			public boolean onOkClick() {
 
-				if (taxGroup != null) {
+				errorOccured = false;
+				if (taxGroup != null ) {
 					editTaxGroup(taxGroup);
-
-					return true;
+					return !errorOccured;
 				} else {
-					if (salesTaxGroupDialog.taxGroupText.getValue() != null) {
+					if(salesTaxGroupDialog.form1.validate(true)){
+					if (salesTaxGroupDialog.taxGroupText.getValue() != null
+							&& !salesTaxGroupDialog.taxGroupText.getValue()
+									.toString().isEmpty()) {
 						newTaxGroup();
-						return true;
-					} else {
-						Accounter.showError(FinanceApplication
-								.getFinanceUIConstants()
-								.pleaseEnterTaxGroupName());
+						return !errorOccured;
+					}
+					}else {
+//						Accounter.showError(FinanceApplication
+//								.getFinanceUIConstants()
+//								.pleaseEnterTaxGroupName());
 						return false;
 					}
 				}
-
+             return true;
 			}// onOkClick
 		});// InputDialogHandler;
 		salesTaxGroupDialog.show();
@@ -316,6 +321,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 						.toStr(salesTaxGroupDialog.taxGroupText.getValue())) ? false
 						: true))) {
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
+			errorOccured = true;
 		} else {
 			taxGroup.setName(UIUtils.toStr(salesTaxGroupDialog.taxGroupText
 					.getValue()));
@@ -369,6 +375,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 						.getTaxGroups(), taxGroup.getName())) {
 
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
+			errorOccured = true;
 		} else
 			createObject(taxGroup);
 

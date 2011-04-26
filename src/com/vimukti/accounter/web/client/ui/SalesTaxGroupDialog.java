@@ -41,6 +41,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 	private ArrayList<ClientTAXItem> tempAvailTaxItemList;
 	private ArrayList<ClientTAXItem> tempSelectedTaxItemList;
 	public TextItem taxGroupText;
+	public DynamicForm form1 ;
 	private static boolean flag = false;
 
 	public SalesTaxGroupDialog(String title, String desc,
@@ -170,7 +171,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		// setPageTop(10);
 		VerticalPanel bodyLayout = new VerticalPanel();
 
-		DynamicForm form1 = new DynamicForm();
+	     form1 = new DynamicForm();
 		// form1.setHeight("100px");
 		taxGroupText = new TextItem();
 		taxGroupText.setTitle(FinanceApplication.getFinanceUIConstants()

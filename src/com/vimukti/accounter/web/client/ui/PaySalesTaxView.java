@@ -214,7 +214,7 @@ public class PaySalesTaxView extends
 		grid.init();
 		grid.setDisabled(isEdit);
 		grid.setHeight("200px");
-		if (!isEdit)
+//		if (!isEdit)
 			// grid.updateFooterValues(FinanceApplication.getVendorsMessages()
 			// .total()
 			// + DataUtils.getAmountAsString(totalAmount), 3);

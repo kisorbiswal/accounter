@@ -935,7 +935,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					throw new InvalidEntryException(
 							AccounterErrorType.ALREADYEXIST);
 			case 3:
-				return AccounterValidator.validateForm(accInfoForm, false);
+				if (accountType == ClientAccount.TYPE_BANK)
+					return AccounterValidator.validateForm(accInfoForm, false)
+							&& AccounterValidator.validateForm(bankForm, false);
+				else
+					return AccounterValidator.validateForm(accInfoForm, false);
 			case 2:
 				return validateAccountNumber(accNoText.getNumber());
 			case 1:
@@ -1204,6 +1208,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			takenAccount = (ClientAccount) data;
 			setAccountType(takenAccount.getType());
 		}
+		else
+			takenAccount=null;
 	}
 
 	public void setAccountTypes(List<Integer> accountTypes) {

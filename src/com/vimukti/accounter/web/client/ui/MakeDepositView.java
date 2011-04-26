@@ -981,6 +981,7 @@ public class MakeDepositView extends
 					.getAccount(
 							((ClientMakeDeposit) transactionObject)
 									.getDepositIn()));
+			memoText.setDisabled(true);
 			if (((ClientMakeDeposit) transactionObject).getMemo() != null)
 				memoText.setValue(((ClientMakeDeposit) transactionObject)
 						.getMemo());
@@ -1278,6 +1279,7 @@ public class MakeDepositView extends
 		cashBackMemoText.setDisabled(isEdit);
 		cashBackAmountText.setDisabled(isEdit);
 		cashBackAccountSelect.setDisabled(isEdit);
+		memoText.setDisabled(isEdit);
 		// For deleting the transctionItems after we edit
 		for (ClientTransactionMakeDeposit ctmd : transactionObject
 				.getTransactionMakeDeposit())

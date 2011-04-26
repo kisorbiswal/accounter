@@ -229,9 +229,11 @@ public class CreditCardChargeView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		if (transactionObject != null)
+		if (transactionObject != null) {
+			memoTextAreaItem.setDisabled(true);
 			setMemoTextAreaItem(((ClientCreditCardCharge) transactionObject)
 					.getMemo());
+		}
 		// refText.setValue(creditCardChargeTaken.getReference());
 
 	}
@@ -418,8 +420,9 @@ public class CreditCardChargeView extends
 		payMethSelect.setTitle(FinanceApplication.getFinanceUIConstants()
 				.paymentMethod());
 		payMethSelect.setWidth(100);
-		payMethSelect.setDefaultValue(FinanceApplication.getVendorsMessages()
-				.cheque());
+		payMethSelect.setComboItem(UIUtils
+				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
+						.getCustomersMessages().check()));
 
 		payFrmSelect = createPayFromselectItem();
 		payFrmSelect.setWidth(100);
@@ -546,20 +549,20 @@ public class CreditCardChargeView extends
 			// HasHorizontalAlignment.ALIGN_RIGHT);
 		} else {
 			totForm.setFields(transactionTotalNonEditableText);
-			
-			HorizontalPanel hPanel=new HorizontalPanel();
+
+			HorizontalPanel hPanel = new HorizontalPanel();
 			hPanel.setWidth("100%");
 			hPanel.add(memoForm);
 			hPanel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
 			hPanel.add(totForm);
 			hPanel.setCellHorizontalAlignment(totForm, ALIGN_RIGHT);
-            
+
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setWidth("100%");
 			vpanel.add(panel);
-			vpanel.setCellHorizontalAlignment(panel,ALIGN_RIGHT);
+			vpanel.setCellHorizontalAlignment(panel, ALIGN_RIGHT);
 			vpanel.add(hPanel);
-			
+
 			bottompanel.add(vpanel);
 		}
 
@@ -865,7 +868,7 @@ public class CreditCardChargeView extends
 		phoneSelect.setDisabled(isEdit);
 		payFrmSelect.setDisabled(isEdit);
 		vendorTransactionGrid.setCanEdit(true);
-
+		memoTextAreaItem.setDisabled(isEdit);
 		vendorTransactionGrid.setDisabled(isEdit);
 		super.onEdit();
 

@@ -816,6 +816,8 @@ public class ItemView extends BaseView<ClientItem> {
 		super.setData(data);
 		if (data != null)
 			takenItem = (ClientItem) data;
+		else
+			takenItem=null;
 	}
 
 	public void onDraw() {
@@ -883,14 +885,17 @@ public class ItemView extends BaseView<ClientItem> {
 				return true;
 
 		case 2:
-			if (selectAccount != null)
+			if (selectAccount != null){
 				if (AccounterValidator.isChecked(isellCheck))
 					return AccounterValidator.validate_IncomeAccount(this,
 							selectAccount);
+				AbstractBaseView.warnOccured = false;
+			}
 				else
 					return true;
 
 		case 1:
+			if(selectExpAccount!=null)
 			if (AccounterValidator.isChecked(ibuyCheck))
 				return AccounterValidator.validate_ExpenseAccount(this,
 						selectExpAccount);
