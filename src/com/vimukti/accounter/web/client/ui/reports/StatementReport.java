@@ -58,67 +58,73 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	@Override
 	public void print() {
 
-		if (UIUtils.isMSIEBrowser()) {
-			printDataForIEBrowser();
-		} else
-			printDataForOtherBrowser();
+		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 150, "", "", customerId);
 	}
 
-	private void printDataForOtherBrowser() {
-		String gridhtml = grid.toString();
-		String headerhtml = grid.getHeader();
-
-		gridhtml = gridhtml.replaceAll(headerhtml, "");
-		gridhtml = gridhtml.replaceAll(grid.getFooter(), "");
-
-		headerhtml = headerhtml.replaceAll("td", "th");
-		headerhtml = headerhtml.substring(headerhtml.indexOf("<tr "),
-				headerhtml.indexOf("</tbody>"));
-
-		String firsRow = "<tr class=\"ReportGridRow\">"
-				+ grid.rowFormatter.getElement(0).getInnerHTML() + "</tr>";
-		headerhtml = headerhtml + firsRow;
-
-		gridhtml = gridhtml.replace(firsRow, headerhtml);
-		gridhtml = gridhtml.replaceAll("<tbody>", "");
-		gridhtml = gridhtml.replaceAll("</tbody>", "");
-
-		String dateRangeHtml = null;
-
-		UIUtils.generateStatementPDF(this.getTitle(), gridhtml, dateRangeHtml,
-				customerId);
+	public void exportToCsv() {
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getTime())), Integer.parseInt(String
+				.valueOf(endDate.getTime())), 150, "", "", customerId);
 	}
 
-	private void printDataForIEBrowser() {
-		String gridhtml = grid.toString();
-		String headerhtml = grid.getHeader();
-		String footerHtml = grid.getFooter();
-
-		gridhtml = gridhtml.replaceAll("\r\n", "");
-		headerhtml = headerhtml.replaceAll("\r\n", "");
-		footerHtml = footerHtml.replaceAll("\r\n", "");
-
-		gridhtml = gridhtml.replaceAll(headerhtml, "");
-		gridhtml = gridhtml.replaceAll(footerHtml, "");
-
-		headerhtml = headerhtml.replaceAll("TD", "TH");
-		headerhtml = headerhtml.substring(headerhtml.indexOf("<TR "),
-				headerhtml.indexOf("</TBODY>"));
-
-		String firsRow = "<TR class=ReportGridRow>"
-				+ grid.rowFormatter.getElement(0).getInnerHTML() + "</TR>";
-		firsRow = firsRow.replaceAll("\r\n", "");
-		headerhtml = headerhtml + firsRow;
-
-		gridhtml = gridhtml.replace(firsRow, headerhtml);
-		gridhtml = gridhtml.replaceAll("<TBODY>", "");
-		gridhtml = gridhtml.replaceAll("</TBODY>", "");
-
-		String dateRangeHtml = null;
-
-		UIUtils.generateStatementPDF(this.getTitle(), gridhtml, dateRangeHtml,
-				customerId);
-	}
+	//
+	// private void printDataForOtherBrowser() {
+	// String gridhtml = grid.toString();
+	// String headerhtml = grid.getHeader();
+	//
+	// gridhtml = gridhtml.replaceAll(headerhtml, "");
+	// gridhtml = gridhtml.replaceAll(grid.getFooter(), "");
+	//
+	// headerhtml = headerhtml.replaceAll("td", "th");
+	// headerhtml = headerhtml.substring(headerhtml.indexOf("<tr "),
+	// headerhtml.indexOf("</tbody>"));
+	//
+	// String firsRow = "<tr class=\"ReportGridRow\">"
+	// + grid.rowFormatter.getElement(0).getInnerHTML() + "</tr>";
+	// headerhtml = headerhtml + firsRow;
+	//
+	// gridhtml = gridhtml.replace(firsRow, headerhtml);
+	// gridhtml = gridhtml.replaceAll("<tbody>", "");
+	// gridhtml = gridhtml.replaceAll("</tbody>", "");
+	//
+	// String dateRangeHtml = null;
+	//
+	// UIUtils.generateStatementPDF(this.getTitle(), gridhtml, dateRangeHtml,
+	// customerId);
+	// }
+	//
+	// private void printDataForIEBrowser() {
+	// String gridhtml = grid.toString();
+	// String headerhtml = grid.getHeader();
+	// String footerHtml = grid.getFooter();
+	//
+	// gridhtml = gridhtml.replaceAll("\r\n", "");
+	// headerhtml = headerhtml.replaceAll("\r\n", "");
+	// footerHtml = footerHtml.replaceAll("\r\n", "");
+	//
+	// gridhtml = gridhtml.replaceAll(headerhtml, "");
+	// gridhtml = gridhtml.replaceAll(footerHtml, "");
+	//
+	// headerhtml = headerhtml.replaceAll("TD", "TH");
+	// headerhtml = headerhtml.substring(headerhtml.indexOf("<TR "),
+	// headerhtml.indexOf("</TBODY>"));
+	//
+	// String firsRow = "<TR class=ReportGridRow>"
+	// + grid.rowFormatter.getElement(0).getInnerHTML() + "</TR>";
+	// firsRow = firsRow.replaceAll("\r\n", "");
+	// headerhtml = headerhtml + firsRow;
+	//
+	// gridhtml = gridhtml.replace(firsRow, headerhtml);
+	// gridhtml = gridhtml.replaceAll("<TBODY>", "");
+	// gridhtml = gridhtml.replaceAll("</TBODY>", "");
+	//
+	// String dateRangeHtml = null;
+	//
+	// UIUtils.generateStatementPDF(this.getTitle(), gridhtml, dateRangeHtml,
+	// customerId);
+	// }
 
 	@Override
 	public void printPreview() {
