@@ -397,7 +397,9 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		Accounter.showError("Can not able to apply Deprecition");
+		BaseView.errordata.setHTML("Can not able to apply Deprecition");
+		BaseView.commentPanel.setVisible(true);
+		this.errorOccured = true;
 	}
 
 	protected void getDepreciableFixedAssets() {

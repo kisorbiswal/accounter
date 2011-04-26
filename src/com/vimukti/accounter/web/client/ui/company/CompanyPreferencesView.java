@@ -761,8 +761,10 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		Accounter.showError(FinanceApplication.getCompanyMessages()
+		BaseView.errordata.setHTML(FinanceApplication.getCompanyMessages()
 				.failedToUpdate());
+		BaseView.commentPanel.setVisible(true);
+		this.errorOccured = true;
 	}
 
 	private Double getDoubleValue(FormItem item) {

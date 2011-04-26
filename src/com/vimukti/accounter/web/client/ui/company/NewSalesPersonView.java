@@ -319,11 +319,13 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
 		if (takenSalesperson == null)
-			Accounter.showError(FinanceApplication.getCompanyMessages()
+			BaseView.errordata.setHTML(FinanceApplication.getCompanyMessages()
 					.DuplicationOfSalesPesonNotAllowed());
 		else
-			Accounter.showError(FinanceApplication.getCompanyMessages()
+			BaseView.errordata.setHTML(FinanceApplication.getCompanyMessages()
 					.salesPersonUpdationFailed());
+		BaseView.commentPanel.setVisible(true);
+		this.errorOccured = true;
 	}
 
 	@Override
@@ -436,7 +438,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		if (data != null)
 			takenSalesperson = (ClientSalesPerson) data;
 		else
-			takenSalesperson=null;
+			takenSalesperson = null;
 	}
 
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
