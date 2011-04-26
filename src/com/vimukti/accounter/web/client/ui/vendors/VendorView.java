@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.Float;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -40,7 +40,6 @@ import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
-import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -66,8 +65,6 @@ import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.FormItem;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ContactGrid;
@@ -239,7 +236,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			 * InvalidEntryException( AccounterErrorType.ALREADYEXIST); else
 			 * return true; }
 			 */
-        return false;
+			return false;
 		case 4:
 			return AccounterValidator.validateForm(vendorForm, false);
 
@@ -1118,7 +1115,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		if (data != null)
 			takenVendor = (ClientVendor) data;
 		else
-			takenVendor=null;
+			takenVendor = null;
 	}
 
 	public List<DynamicForm> getForms() {
