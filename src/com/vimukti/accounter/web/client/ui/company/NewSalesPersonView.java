@@ -187,18 +187,20 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			addrsForm.setWidth("90%");
 			addrsForm.getCellFormatter().setWidth(0, 0, "65");
 			addrsForm.getCellFormatter().setWidth(0, 1, "125");
-			fonFaxForm = new PhoneFaxForm(takenSalesperson.getPhoneNumbers(),
-					takenSalesperson.getFaxNumbers());
+			fonFaxForm = new PhoneFaxForm(null, null);
 			fonFaxForm.setWidth("90%");
 			fonFaxForm.getCellFormatter().setWidth(0, 0, "");
 			fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
-
-			emailForm = new EmailForm(takenSalesperson.getEmails(),
-					takenSalesperson.getWebPageAddress());
+			fonFaxForm.businessPhoneText
+					.setValue(takenSalesperson.getPhoneNo());
+			fonFaxForm.businessFaxText.setValue(takenSalesperson.getFaxNo());
+			emailForm = new EmailForm(null, takenSalesperson
+					.getWebPageAddress());
 			emailForm.setWidth("90%");
 			emailForm.getCellFormatter().setWidth(0, 0, "189");
 			emailForm.getCellFormatter().setWidth(0, 1, "125");
-
+			emailForm.businesEmailText.setValue(takenSalesperson.getEmail());
+			emailForm.webText.setValue(takenSalesperson.getWebPageAddress());
 			statusCheck.setValue(takenSalesperson.isActive());
 			if (takenSalesperson.getExpenseAccount() != null) {
 				selectedExpenseAccount = FinanceApplication.getCompany()
@@ -397,12 +399,13 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		salesPerson.setFirstName(employeeNameText.getValue().toString());
 		salesPerson.setAddress(addrsForm.getAddresss());
-		salesPerson.setPhoneNumbers(fonFaxForm.getAllPhones());
+		salesPerson.setPhoneNo(fonFaxForm.businessPhoneText.getValue()
+				.toString());
 		salesPerson.setGender(genderSelect.getSelectedValue());
 
-		salesPerson.setFaxNumbers(fonFaxForm.getAllFaxes());
+		salesPerson.setFaxNo(fonFaxForm.businessFaxText.getValue().toString());
 
-		salesPerson.setEmails(emailForm.getAllEmails());
+		salesPerson.setEmail(emailForm.businesEmailText.getValue().toString());
 		salesPerson.setWebPageAddress(emailForm.getWebTextValue());
 		salesPerson.setType(ClientPayee.TYPE_EMPLOYEE);
 
@@ -434,6 +437,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		super.setData(data);
 		if (data != null)
 			takenSalesperson = (ClientSalesPerson) data;
+		else
+			takenSalesperson=null;
 	}
 
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {

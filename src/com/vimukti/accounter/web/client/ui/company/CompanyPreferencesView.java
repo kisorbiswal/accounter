@@ -592,7 +592,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	private boolean validateCompanyDetailsForm(DynamicForm companyDetailsForm)
 			throws InvalidEntryException {
 		if (!companyDetailsForm.validate(false)) {
-			throw new InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
+//			throw new InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
 		}
 		return true;
 	}

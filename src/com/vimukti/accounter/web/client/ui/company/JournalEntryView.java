@@ -76,7 +76,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	public JournalEntryView() {
 		super(ClientTransaction.TYPE_JOURNAL_ENTRY,
 				JOURNALENTRY_TRANSACTION_GRID);
-		this.validationCount = 6;
+		this.validationCount = 7;
 	}
 
 	@Override
@@ -95,6 +95,8 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	public boolean validate() throws InvalidEntryException,
 			InvalidTransactionEntryException {
 		switch (this.validationCount) {
+		case 7:
+			return AccounterValidator.validateTransactionDate(getTransactionDate());
 		case 6:
 			return AccounterValidator.validateForm(dateForm, false);
 		case 5:

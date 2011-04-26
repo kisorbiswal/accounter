@@ -46,23 +46,25 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 					SalesPerson).getZipOrPostalCode() : "";
 
 		case 6:
-			Set<ClientPhone> phones = SalesPerson.getPhoneNumbers();
-			for (ClientPhone p : phones) {
-				if (p.getType() == ClientPhone.BUSINESS_PHONE_NUMBER) {
-					return p.getNumber();
-				}
-			}
-			break;
+			return SalesPerson.getPhoneNo();
+			// Set<ClientPhone> phones = SalesPerson.getPhoneNumbers();
+			// for (ClientPhone p : phones) {
+			// if (p.getType() == ClientPhone.BUSINESS_PHONE_NUMBER) {
+			// return p.getNumber();
+			// }
+			// }
+			// break;
 		case 7:
-			Set<ClientFax> faxes = SalesPerson.getFaxNumbers();
-			for (ClientFax f : faxes) {
-				if (f.getType() == ClientFax.TYPE_BUSINESS) {
-					return f.getNumber();
-				}
-			}
-			break;
-		// case 8:
-		// return DataUtils.getAmountAsString(SalesPerson.getBalance());
+			return SalesPerson.getFaxNo();
+			// Set<ClientFax> faxes = SalesPerson.getFaxNumbers();
+			// for (ClientFax f : faxes) {
+			// if (f.getType() == ClientFax.TYPE_BUSINESS) {
+			// return f.getNumber();
+			// }
+			// }
+			// break;
+			// case 8:
+			// return DataUtils.getAmountAsString(SalesPerson.getBalance());
 		case 8:
 			// updateTotal(SalesPerson, true);
 			return FinanceApplication.getFinanceMenuImages().delete();
@@ -271,7 +273,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 		super.addData(obj);
 		((CheckBox) this.getWidget(currentRow, 0)).setEnabled(false);
 	}
-	
+
 	@Override
 	public void headerCellClicked(int colIndex) {
 		super.headerCellClicked(colIndex);
