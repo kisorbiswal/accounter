@@ -1384,6 +1384,15 @@ public class ClientCompany implements IAccounterCore {
 		return accounts;
 	}
 
+	public List<ClientAccount> getActiveBankAccounts(int accountType) {
+		List<ClientAccount> activeAccounts = new ArrayList<ClientAccount>();
+		for (ClientAccount account : getAccounts()) {
+			if (account.getIsActive() && account.type == accountType)
+				activeAccounts.add(account);
+		}
+		return activeAccounts;
+	}
+
 	public void processUpdateOrCreateObject(AccounterCommand cmd) {
 
 		try {
