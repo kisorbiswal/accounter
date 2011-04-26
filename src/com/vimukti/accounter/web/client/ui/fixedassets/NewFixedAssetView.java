@@ -537,7 +537,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				}
 			} else
 				depreciationAccount.setSelected("");
-			if (!DecimalUtil.isEquals(fixedAsset.getAccumulatedDepreciationAmount(), 0)) {
+			if (!DecimalUtil.isEquals(fixedAsset
+					.getAccumulatedDepreciationAmount(), 0)) {
 				showAccumultdDepAmountForm(new ClientFinanceDate(fixedAsset
 						.getPurchaseDate()));
 			}
@@ -814,7 +815,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				 * Make an rpc call to get the calculatedDepreciation amount if
 				 * the following condtions are satisfy
 				 */
-				if (depMethod != 0 && !DecimalUtil.isEquals(depRate, 0) && !DecimalUtil.isEquals(purchasePrice, 0)
+				if (depMethod != 0 && !DecimalUtil.isEquals(depRate, 0)
+						&& !DecimalUtil.isEquals(purchasePrice, 0)
 						&& purchaseDate.before(depStartDate)) {
 					FinanceApplication.createHomeService()
 							.getAccumulatedDepreciationAmount(depMethod,
@@ -896,11 +898,13 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
 		if (fixedAsset == null)
-			Accounter.showError(FinanceApplication.getFinanceUIConstants()
-					.duplicationOfAssets());
+			BaseView.errordata.setHTML(FinanceApplication
+					.getFinanceUIConstants().duplicationOfAssets());
 		else
-			Accounter.showError(FinanceApplication.getFinanceUIConstants()
-					.assetApdationFailed());
+			BaseView.errordata.setHTML(FinanceApplication
+					.getFinanceUIConstants().assetApdationFailed());
+		BaseView.commentPanel.setVisible(true);
+		this.errorOccured = true;
 	}
 
 	private ClientFixedAsset getAssetObject() {
@@ -1025,11 +1029,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 					&& AccounterValidator.validateForm(purchaseInfoForm, false)
 					&& AccounterValidator.validateForm(assetTypeForm, false)
 					&& AccounterValidator.validateForm(depreciationForm, false)
-					&& (isAssetAccumulated ? AccounterValidator
-							.validateForm(acumulatedDeprcForm, false) : true)
-					&& (isAccumltd ? AccounterValidator
-							.validateForm(accumulatedDepreciationAccountForm, false)
-							: true)) {
+					&& (isAssetAccumulated ? AccounterValidator.validateForm(
+							acumulatedDeprcForm, false) : true)
+					&& (isAccumltd ? AccounterValidator.validateForm(
+							accumulatedDepreciationAccountForm, false) : true)) {
 				double price = purchasePriceTxt.getAmount();
 				if (DecimalUtil.isEquals(price, 0.0)) {
 					throw new InvalidEntryException(FinanceApplication
@@ -1106,7 +1109,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		if (data != null)
 			fixedAsset = data;
 		else
-			fixedAsset=null;
+			fixedAsset = null;
 	}
 
 	public List<DynamicForm> getForms() {
