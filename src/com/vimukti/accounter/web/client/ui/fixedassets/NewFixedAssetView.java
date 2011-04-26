@@ -1105,6 +1105,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		super.setData(data);
 		if (data != null)
 			fixedAsset = data;
+		else
+			fixedAsset=null;
 	}
 
 	public List<DynamicForm> getForms() {
