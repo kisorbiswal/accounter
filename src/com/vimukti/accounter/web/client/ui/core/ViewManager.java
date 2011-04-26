@@ -198,25 +198,6 @@ public class ViewManager extends DockPanel {
 			}
 
 		});
-		if (!isNextFocus) {
-			previousButton.addMouseOverHandler(new MouseOverHandler() {
-
-				@Override
-				public void onMouseOver(MouseOverEvent event) {
-					previousButton.setStyleName("previousButton_mouseOver");
-					isPreviousFocus = true;
-				}
-			});
-			 } else if (isPreviousFocus) {
-			previousButton.addMouseOutHandler(new MouseOutHandler() {
-
-				@Override
-				public void onMouseOut(MouseOutEvent event) {
-					previousButton.setStyleName("previousButton");
-					isPreviousFocus = false;
-				}
-			});
-		}
 		buttonLayout1.add(previousButton);
 
 		nextButton = new Label();
@@ -235,27 +216,6 @@ public class ViewManager extends DockPanel {
 			}
 
 		});
-
-		if (!isPreviousFocus) {
-			nextButton.addMouseOverHandler(new MouseOverHandler() {
-
-				@Override
-				public void onMouseOver(MouseOverEvent event) {
-					nextButton.setStyleName("nextButton_mouseOver");
-					isNextFocus = true;
-				}
-			});
-			 } else if (isNextFocus) {
-				
-			nextButton.addMouseOutHandler(new MouseOutHandler() {
-
-				@Override
-				public void onMouseOut(MouseOutEvent event) {
-					nextButton.setStyleName("nextButton");
-					isNextFocus = false;
-				}
-			});
-		}
 
 		buttonLayout1.add(nextButton);
 		hlay.add(buttonLayout1);
@@ -285,6 +245,49 @@ public class ViewManager extends DockPanel {
 			}
 
 		});
+
+		if (!isPreviousFocus && isNextFocus) {
+			previousButton.addMouseOverHandler(new MouseOverHandler() {
+
+				@Override
+				public void onMouseOver(MouseOverEvent event) {
+					previousButton.setStyleName("previousButton_mouseOver");
+					isPreviousFocus = true;
+					isNextFocus = false;
+				}
+			});
+
+			nextButton.addMouseOutHandler(new MouseOutHandler() {
+
+				@Override
+				public void onMouseOut(MouseOutEvent event) {
+					nextButton.setStyleName("nextButton");
+					isNextFocus = false;
+					isPreviousFocus = true;
+				}
+			});
+
+		} else if (isPreviousFocus && !isNextFocus) {
+			previousButton.addMouseOutHandler(new MouseOutHandler() {
+
+				@Override
+				public void onMouseOut(MouseOutEvent event) {
+					previousButton.setStyleName("previousButton");
+					isPreviousFocus = false;
+					isNextFocus = true;
+				}
+			});
+
+			nextButton.addMouseOverHandler(new MouseOverHandler() {
+
+				@Override
+				public void onMouseOver(MouseOverEvent event) {
+					nextButton.setStyleName("nextButton_mouseOver");
+					isNextFocus = true;
+					isPreviousFocus = false;
+				}
+			});
+		}
 
 		print1Button = new Image("/images/Print1.png");
 		print1Button

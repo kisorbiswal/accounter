@@ -1,5 +1,8 @@
 package com.vimukti.accounter.core;
 
+import com.vimukti.accounter.web.client.core.ClientCompany;
+
+
 /**
  * 
  * @author Narendra nnvd
@@ -235,7 +238,7 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 				}
 			}
 		}
-		vatColumnHeading = "<th><p class=\"fontSetting\">VAT Rate</p></th><th><p class=\"fontSetting\">VAT Amount</p></th>";
+		vatColumnHeading = "<th><p class=\"fontSetting\">"+getVendorString("VAT Rate", "Tax Rate")+"</p></th><th><p class=\"fontSetting\">"+getVendorString("VAT Amount", "Tax Amount")+"</p></th>";
 		columnHeading = "<tr><th><p class=\"fontSetting\">Description</p></th><th><p class=\"fontSetting\">Qty</p></th><th><p class=\"fontSetting\">Unit Price</p></th><th><p class=\"fontSetting\">Total Price</p></th>";
 		if (brandingTheme.isShowTaxColumn()) {
 			columnHeading = columnHeading + vatColumnHeading + "</tr>";
@@ -248,7 +251,7 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 					+ largeAmountConversation(invoice.getTotal())
 					+ "</p></div></td></tr></table>";
 
-			vatTotalHtml = "<tr><td class=\"blank\" ></td><td class=\"blank\" > </td><td class=\"blank\" > </td><td class=\"blank\" > </td> <td class=\"total-line, item-column\" ><p class=\"fontSetting\">&nbsp;&nbsp;VAT Total</p></td><td class=\"total-value, item-column\" style=\"padding: 6px;\" align=\"right\"><div id=\"total\"><p class=\"fontSetting\">"
+			vatTotalHtml = "<tr><td class=\"blank\" ></td><td class=\"blank\" > </td><td class=\"blank\" > </td><td class=\"blank\" > </td> <td class=\"total-line, item-column\" ><p class=\"fontSetting\">&nbsp;&nbsp;"+getVendorString("VAT Total", "Tax Total")+"</p></td><td class=\"total-value, item-column\" style=\"padding: 6px;\" align=\"right\"><div id=\"total\"><p class=\"fontSetting\">"
 					+ largeAmountConversation((invoice.getTotal() - invoice
 							.getNetAmount())) + "</p></div></td></tr>";
 
@@ -298,6 +301,12 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 
 	}
 
+	@SuppressWarnings("static-access")
+	private String getVendorString(String forUk, String forUs) {
+		return company.getAccountingType() == company.ACCOUNTING_TYPE_US ? forUs
+				: forUk;
+	}
+
 	/**
 	 * FOOTER
 	 */
@@ -330,7 +339,7 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 				+ "; color:#505050;\" ><tr><td style=\"vertical-align: top;\" align=\"left\" colspan=\"2\"><table style=\"font-size:"
 				+ getFontSize(4)
 				+ "pt; width: 105%; height: 100%; margin-left:56px;  border-color: #E1E1E1; border-collapse:collapse;\" border=\"1\"><colgroup><col></colgroup><tr>";
-		vatRegNumberHtml = "<td><center>VAT No : "
+		vatRegNumberHtml = "<td><center>"+getVendorString("VAT No :", "Tax No :")
 				+ forNullValue(company.getPreferences()
 						.getVATregistrationNumber()) + "</center></td>";
 		sortCodeHtml = "<td><center>Sort Code : "

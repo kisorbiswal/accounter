@@ -172,7 +172,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 	@Override
 	protected void createControls() {
-		new ClientBrandingTheme();
 		Label lab1;
 
 		if (transactionObject == null
@@ -911,7 +910,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		balanceDueNonEditableText.setAmount(invoiceToBeEdited.getBalanceDue());
 		quoteLabel.setDisabled(true);
 		customerTransactionGrid.setCanEdit(false);
-
+		memoTextAreaItem.setDisabled(true);
 	}
 
 	protected void shipToAddressSelected(ClientAddress selectItem) {
@@ -1366,6 +1365,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		taxCodeSelect.setDisabled(isEdit);
 
 		orderNumText.setDisabled(isEdit);
+		memoTextAreaItem.setDisabled(isEdit);
 
 		customerTransactionGrid.setDisabled(isEdit);
 		customerTransactionGrid.setCanEdit(true);

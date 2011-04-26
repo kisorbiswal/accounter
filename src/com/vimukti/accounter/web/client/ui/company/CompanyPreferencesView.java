@@ -38,6 +38,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
+import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
@@ -115,6 +116,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	private LinkedHashMap<Integer, ClientAddress> allAddresses;
 
 	public CompanyPreferencesView() {
+		this.validationCount = 2;
 		this.company = FinanceApplication.getCompany();
 		this.getService = FinanceApplication.createGETService();
 		this.crudService = FinanceApplication.createCRUDService();
@@ -421,9 +423,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		phoneAndFaxForm = UIUtils.form(companyConstants.phoneAndFaxNumbers());
 
+		emailText.setRequired(true);
+
 		phoneAndFaxForm.setFields(phoneText, faxText, websiteText, emailText,
 				registrationNumberText, taxIDText, bankAccountText,
 				sortCodeText);
+
 		phoneAndFaxForm.setNumCols(8);
 		phoneAndFaxForm.getCellFormatter().setWidth(0, 0, "250px");
 
@@ -578,14 +583,21 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 	@Override
 	public void saveAndUpdateView() throws Exception {
-//		savePreference();
+		// savePreference();
 		updatedCompany();
 	}
 
 	@Override
 	public boolean validate() throws InvalidTransactionEntryException,
 			InvalidEntryException {
-		return validateCompanyDetailsForm(companyDetailsForm);
+		switch (this.validationCount) {
+		case 2:
+			return AccounterValidator.validateFormItem(false, emailText);
+		case 1:
+			return validateCompanyDetailsForm(companyDetailsForm);
+		default:
+			return true;
+		}
 
 	}
 
@@ -693,8 +705,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// company.setpreferences(companyPreferences);
 
 		saveAndClose = true;
-//		ViewManager.getInstance().updateCompanyPreferences(companyPreferences,
-//				this);
+		// ViewManager.getInstance().updateCompanyPreferences(companyPreferences,
+		// this);
 
 		/*
 		 * Here we are creating a new ClientCompany Object, to avoid sending all

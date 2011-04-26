@@ -192,14 +192,18 @@ public class ItemView extends BaseView<ClientItem> {
 		if (isEdit)
 			this.type = takenItem.getType();
 		if (type == TYPE_SERVICE) {
-			lab1.setText(FinanceApplication.getCustomersMessages().newService());
+			lab1
+					.setText(FinanceApplication.getCustomersMessages()
+							.newService());
 			if (FinanceApplication.getCompany().getAccountingType() == 1)
 				itemForm.setFields(nameText, isservice);
 			else
 
 				itemForm.setFields(nameText, isservice, skuText);
 		} else {
-			lab1.setText(FinanceApplication.getCustomersMessages().newProduct());
+			lab1
+					.setText(FinanceApplication.getCustomersMessages()
+							.newProduct());
 			if (FinanceApplication.getCompany().getAccountingType() == 1)
 				itemForm.setFields(nameText, weightText);
 			else
@@ -294,11 +298,12 @@ public class ItemView extends BaseView<ClientItem> {
 		// vatCode.setDisabled(true);
 		// }
 
-		taxCode.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
-			public void selectedComboBoxItem(ClientTAXCode selectItem) {
-				selectTaxCode = selectItem;
-			}
-		});
+		taxCode
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
+					public void selectedComboBoxItem(ClientTAXCode selectItem) {
+						selectTaxCode = selectItem;
+					}
+				});
 		taxCode.setDefaultValue("Z-0.0%");
 		activeCheck = new CheckboxItem(FinanceApplication
 				.getFinanceUIConstants().active());
@@ -351,15 +356,13 @@ public class ItemView extends BaseView<ClientItem> {
 						selectVendor = selectItem;
 					}
 				});
-		vendItemNumText = new IntegerField(
-				this.type != TYPE_SERVICE ? UIUtils.getVendorString(
-						FinanceApplication.getCustomersMessages()
-								.supplierProductNo(), FinanceApplication
-								.getCustomersMessages().vendorProductNo())
-						: UIUtils.getVendorString(FinanceApplication
-								.getCustomersMessages().supplierServiceNo(),
-								FinanceApplication.getCustomersMessages()
-										.vendorServiceNo()));
+		vendItemNumText = new IntegerField(this.type != TYPE_SERVICE ? UIUtils
+				.getVendorString(FinanceApplication.getCustomersMessages()
+						.supplierProductNo(), FinanceApplication
+						.getCustomersMessages().vendorProductNo()) : UIUtils
+				.getVendorString(FinanceApplication.getCustomersMessages()
+						.supplierServiceNo(), FinanceApplication
+						.getCustomersMessages().vendorServiceNo()));
 		vendItemNumText.setHelpInformation(true);
 		vendItemNumText.setWidth(100);
 
@@ -889,18 +892,17 @@ public class ItemView extends BaseView<ClientItem> {
 				if (AccounterValidator.isChecked(isellCheck))
 					return AccounterValidator.validate_IncomeAccount(this,
 							selectAccount);
-				AbstractBaseView.warnOccured = false;
-			}
 				else
 					return true;
-
+			}
 		case 1:
-			if(selectExpAccount!=null)
-			if (AccounterValidator.isChecked(ibuyCheck))
-				return AccounterValidator.validate_ExpenseAccount(this,
-						selectExpAccount);
-			else
-				return true;
+			if (selectExpAccount != null) {
+				if (AccounterValidator.isChecked(ibuyCheck))
+					return AccounterValidator.validate_ExpenseAccount(this,
+							selectExpAccount);
+				else
+					return true;
+			}
 		default:
 			return false;
 		}

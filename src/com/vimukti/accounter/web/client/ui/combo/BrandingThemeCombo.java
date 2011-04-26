@@ -45,7 +45,7 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return FinanceApplication.getSettingsMessages().newBrandThemeLabel();
+		return FinanceApplication.getAccounterComboConstants().addNewBrandingTheme();
 	}
 
 	@Override

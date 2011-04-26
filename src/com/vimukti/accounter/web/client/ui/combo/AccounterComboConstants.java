@@ -94,5 +94,7 @@ public interface AccounterComboConstants extends FinanceConstants {
 	String openingBalances();
 
 	String addNewItem();
+	
+	String addNewBrandingTheme();
 
 }

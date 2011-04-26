@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+
 public abstract class TemplateBuilder {
 	protected String headerHtml;
 	protected String footerHtml;
