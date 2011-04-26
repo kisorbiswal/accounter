@@ -792,6 +792,7 @@ public class ViewManager extends DockPanel {
 			return;
 
 		history.updateHistory(getCurrentView().getData());
+		history.setView(getCurrentView());
 
 		if (historyList.size() != 0) {
 			removeCurrentView();
