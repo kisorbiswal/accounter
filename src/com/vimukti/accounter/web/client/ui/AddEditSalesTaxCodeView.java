@@ -206,19 +206,21 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 		buttonsLayout.add(button1);
 		buttonsLayout.add(button2);
 		buttonsLayout.add(button3);
-
+		if (button1.isEnabled()) {
 		button1.getElement().getParentElement().setClassName("ibutton");
 		ThemesUtil.addDivToButton(button1, FinanceApplication.getThemeImages()
 				.button_right_blue_image(), "ibutton-right-image");
-
+		}if (button2.isEnabled()) {
 		button2.getElement().getParentElement().setClassName("ibutton");
 		ThemesUtil.addDivToButton(button2, FinanceApplication.getThemeImages()
 				.button_right_blue_image(), "ibutton-right-image");
-
-		button3.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(button3, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-
+		}
+		if (button3.isEnabled()) {
+			button3.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(button3, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		VerticalPanel bodyLayout = new VerticalPanel();
 		bodyLayout.setSize("100%", "100%");
 		bodyLayout.add(infolabel);

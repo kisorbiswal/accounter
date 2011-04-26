@@ -50,20 +50,29 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		helpHLay.setWidth("50%");
 		helpHLay.add(helpButt);
-		helpButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(helpButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
+		if (helpButt.isEnabled()) {
+			helpButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(helpButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		HorizontalPanel buttHLay = new HorizontalPanel();
 		buttHLay.setSpacing(3);
 		// buttHLay.add(helpHLay);
 		buttHLay.add(okButt);
 		buttHLay.add(canButt);
-		okButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(okButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		canButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(canButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
+		if (okButt.isEnabled()) {
+			okButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(okButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (canButt.isEnabled()) {
+			canButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(canButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		okButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if (!bankForm.validate(true)) {

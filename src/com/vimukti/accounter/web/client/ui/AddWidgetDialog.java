@@ -780,12 +780,13 @@ public class AddWidgetDialog extends AbstractBaseDialog {
 
 			layout2.add(infoLabel);
 			layout2.add(addButton);
-
-			addButton.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(addButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-
+			if (addButton.isEnabled()) {
+				addButton.getElement().getParentElement().setClassName(
+						"ibutton");
+				ThemesUtil.addDivToButton(addButton, FinanceApplication
+						.getThemeImages().button_right_blue_image(),
+						"ibutton-right-image");
+			}
 			layout.add(layout2);
 
 			add(layout);

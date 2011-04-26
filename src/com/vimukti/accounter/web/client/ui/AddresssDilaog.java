@@ -57,10 +57,12 @@ public class AddresssDilaog extends AbstractBaseDialog {
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		helpHLay.setWidth("50%");
 		helpHLay.add(helpButt);
-		helpButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(helpButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-
+		if (helpButt.isEnabled()) {
+			helpButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(helpButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		Button okButt = new Button(FinanceApplication.getFinanceUIConstants()
 				.ok());
 		// okButt.setLayoutAlign(Alignment.RIGHT);
@@ -75,13 +77,18 @@ public class AddresssDilaog extends AbstractBaseDialog {
 		// buttHLay.setAlign(Alignment.RIGHT);
 		buttHLay.add(okButt);
 		buttHLay.add(canButt);
-		okButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(okButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		canButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(canButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-
+		if (okButt.isEnabled()) {
+			okButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(okButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (canButt.isEnabled()) {
+			canButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(canButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.add(form);
 		mainVLay.add(buttHLay);

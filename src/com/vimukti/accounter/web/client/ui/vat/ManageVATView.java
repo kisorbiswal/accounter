@@ -97,27 +97,30 @@ public class ManageVATView extends AbstractBaseView {
 		payVatPanel.add(vatLabel, 30, 10);
 		payVatPanel.add(vatButton, 30, 50);
 		capPayVatPanel.add(payVatPanel);
+		
+		if (vatButton.isEnabled()) {
 		vatButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(vatButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+			ThemesUtil.addDivToButton(vatButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 
 		taskPanel.add(viewLink, 50, 10);
 		taskPanel.add(openLink, 50, 30);
 		taskPanel.add(adjLink, 50, 50);
 		taskPanel.add(closeButton, 80, 100);
 		taskPanel.add(helpButton, 180, 100);
-
+		if (closeButton.isEnabled()) {
 		closeButton.getElement().getParentElement().setClassName("ibutton");
 		ThemesUtil.addDivToButton(closeButton, FinanceApplication
 				.getThemeImages().button_right_blue_image(),
 				"ibutton-right-image");
-
+		}	if (helpButton.isEnabled()) {
 		helpButton.getElement().getParentElement().setClassName("ibutton");
 		ThemesUtil.addDivToButton(helpButton, FinanceApplication
 				.getThemeImages().button_right_blue_image(),
 				"ibutton-right-image");
-
+		}
 		capTaskPanel.add(taskPanel);
 
 		vPanel.add(stLabel);

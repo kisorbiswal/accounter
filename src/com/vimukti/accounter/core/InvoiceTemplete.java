@@ -271,7 +271,7 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 					+ largeAmountConversation((invoice.getTotal() - invoice
 							.getNetAmount())) + "</p></div></td></tr>";
 		}
-		itemsHtml = ("<table id=\"items\">");
+		itemsHtml = ("<table class=\"removeHeadBorder\" id=\"items\">");
 
 		if (brandingTheme.isShowTaxColumn()) {
 			columnDataHtml = subTotalHtml + vatTotalHtml + totalHtml;

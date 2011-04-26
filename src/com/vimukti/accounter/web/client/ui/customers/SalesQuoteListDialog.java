@@ -114,10 +114,13 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 
 		});
 		helpButtonLayout.add(helpButton);
-		helpButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(helpButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+
+		if (helpButton.isEnabled()) {
+			helpButton.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(helpButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 
 		HorizontalPanel okButtonLayout = new HorizontalPanel();
 		okButtonLayout.setSpacing(3);
@@ -143,9 +146,13 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 
 		});
 		okButtonLayout.add(okButton);
-		okButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(okButton, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
+
+		if (okButton.isEnabled()) {
+			okButton.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(okButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		Button cancelButton = new Button(financeConstants.cancel());
 		cancelButton.setWidth("100px");
 		cancelButton.addClickHandler(new ClickHandler() {
@@ -156,10 +163,14 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 
 		});
 		okButtonLayout.add(cancelButton);
-		cancelButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(cancelButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+		if (cancelButton.isEnabled()) {
+			cancelButton.getElement().getParentElement()
+					.setClassName("ibutton");
+			ThemesUtil.addDivToButton(cancelButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+
+		}
 		HorizontalPanel buttonLayout = new HorizontalPanel();
 		buttonLayout.setWidth("100%");
 		// buttonLayout.add(helpButtonLayout);

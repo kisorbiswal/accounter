@@ -20,6 +20,10 @@
 	background: none repeat scroll 0 0 #E8E8E8 !important;
 }
 
+.removeHeadBorder{
+	border-top: 0px !important;
+}
+
 .removeRightBorder{
 	border-right: 0px !important;
 }
@@ -781,8 +785,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 .gwt-Button[disabled] {
 	cursor: pointer !important;
 	color: none !important;
-	background: url("/images/Button_1x25New.png") repeat-x scroll 0 0
-		transparent !important;
+	background: none repeat scroll 0 0 gray !important;;
 }
 
 .gwt-Button[disabled]:hover {
@@ -1141,7 +1144,7 @@ important;
 	background: none repeat scroll 0 0 #F0F0F0 !important;
 }
 
-.help-logout-sep td:nth-child (2),.help-logout-sep td:nth-child (3){
+.help-logout-sep td:nth-child(2),.help-logout-sep td:nth-child(3){
 	padding: 5px !important;
 }
 
@@ -1283,7 +1286,7 @@ important;
 }
 
 .cancel-button {
-	background: url("../images/gray_Button_2_left.png") no-repeat scroll 0 0
+	background: url("/images/gray_Button_2_left.png") no-repeat scroll 0 0
 		transparent !important;
 }
 

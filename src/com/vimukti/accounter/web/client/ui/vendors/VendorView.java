@@ -374,20 +374,22 @@ public class VendorView extends BaseView<ClientVendor> {
 		hPanel.getElement().getStyle().setFloat(Float.RIGHT);
 		panel.add(hPanel);
 
-		addButton.getElement().getParentElement().addClassName("add-button");
+		if (addButton.isEnabled()) {
+			addButton.getElement().getParentElement()
+					.addClassName("add-button");
 
-		Element addseparator = DOM.createSpan();
-		addseparator.addClassName("add-separator");
-		DOM.appendChild(addButton.getElement(), addseparator);
+			Element addseparator = DOM.createSpan();
+			addseparator.addClassName("add-separator");
+			DOM.appendChild(addButton.getElement(), addseparator);
 
-		Element addimage = DOM.createSpan();
-		addimage.addClassName("add-image");
-		DOM.appendChild(addButton.getElement(), addimage);
+			Element addimage = DOM.createSpan();
+			addimage.addClassName("add-image");
+			DOM.appendChild(addButton.getElement(), addimage);
 
-		ThemesUtil
-				.addDivToButton(addButton, FinanceApplication.getThemeImages()
-						.button_right_blue_image(), "blue-right-image");
-
+			ThemesUtil.addDivToButton(addButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"blue-right-image");
+		}
 		memoArea = new TextAreaItem();
 		memoArea.setHelpInformation(true);
 		memoArea.setWidth("400px");

@@ -264,13 +264,20 @@ public class UserInformationDialog extends AbstractBaseDialog {
 		// buttHLay.setMembersMargin(290);
 		// buttHLay.setSize("50%", "*");
 		buttHLay.add(createUser);
-		createUser.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(createUser, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		buttHLay.add(getUser);
-		getUser.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(getUser, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
+
+		if (createUser.isEnabled()) {
+			createUser.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(createUser, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (getUser.isEnabled()) {
+			buttHLay.add(getUser);
+			getUser.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(getUser, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		// buttHLay.setMargin(60);
 		// buttHLay.setAlign(Alignment.CENTER);
 

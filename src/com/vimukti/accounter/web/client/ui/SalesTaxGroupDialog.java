@@ -267,15 +267,16 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 		buttonsLayout.add(addButton);
 		buttonsLayout.add(removeButton);
-
+		if (addButton.isEnabled()) {
 		addButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(addButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+			ThemesUtil.addDivToButton(addButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}if (removeButton.isEnabled()) {
 		removeButton.getElement().getParentElement().setClassName("ibutton");
 		ThemesUtil.addDivToButton(removeButton, FinanceApplication
 				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+				"ibutton-right-image");}
 		// Selected Tax Codes Layout
 		// DynamicForm selectForm = new DynamicForm();
 

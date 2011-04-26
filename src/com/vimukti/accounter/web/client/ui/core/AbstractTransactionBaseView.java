@@ -682,7 +682,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		if (data != null)
 			transactionObject = (ClientTransaction) data;
 		else
-			transactionObject=null;
+			transactionObject = null;
 
 	}
 
@@ -796,7 +796,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		popupPanel.setPopupPosition(menuButton.getAbsoluteLeft(), menuButton
 				.getAbsoluteTop() - 100);
 		if (this instanceof CreditCardExpenseView
-				|| this instanceof CashExpenseView || this instanceof WriteChequeView)
+				|| this instanceof CashExpenseView
+				|| this instanceof WriteChequeView)
 			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft(),
 					menuButton.getAbsoluteTop() - 70);
 
@@ -865,18 +866,19 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		if (menuButton != null) {
 			menuButton.getElement().getParentElement().addClassName(
 					"add-button");
+			if (menuButton.isEnabled()) {
+				Element addseparator = DOM.createSpan();
+				addseparator.addClassName("add-separator");
+				DOM.appendChild(menuButton.getElement(), addseparator);
 
-			Element addseparator = DOM.createSpan();
-			addseparator.addClassName("add-separator");
-			DOM.appendChild(menuButton.getElement(), addseparator);
+				Element addimage = DOM.createSpan();
+				addimage.addClassName("add-image");
+				DOM.appendChild(menuButton.getElement(), addimage);
 
-			Element addimage = DOM.createSpan();
-			addimage.addClassName("add-image");
-			DOM.appendChild(menuButton.getElement(), addimage);
-
-			ThemesUtil.addDivToButton(menuButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"add-right-image");
+				ThemesUtil.addDivToButton(menuButton, FinanceApplication
+						.getThemeImages().button_right_blue_image(),
+						"add-right-image");
+			}
 		}
 	}
 }

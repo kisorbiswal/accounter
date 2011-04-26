@@ -102,12 +102,13 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 		hPanel.add(addReceivableInvoiceBtn);
 
-		addReceivableInvoiceBtn.getElement().getParentElement().setClassName(
-				"ibutton");
-		ThemesUtil.addDivToButton(addReceivableInvoiceBtn, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-
+		if (addReceivableInvoiceBtn.isEnabled()) {
+			addReceivableInvoiceBtn.getElement().getParentElement()
+					.setClassName("ibutton");
+			ThemesUtil.addDivToButton(addReceivableInvoiceBtn,
+					FinanceApplication.getThemeImages()
+							.button_right_blue_image(), "ibutton-right-image");
+		}
 		hPanel.add(fTable);
 
 		body.add(hPanel);

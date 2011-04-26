@@ -610,19 +610,19 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		// mainVlay.add(memoForm);
 
 		addButton.getElement().getParentElement().addClassName("add-button");
+		if (addButton.isEnabled()) {
+			Element addseparator = DOM.createSpan();
+			addseparator.addClassName("add-separator");
+			DOM.appendChild(addButton.getElement(), addseparator);
 
-		Element addseparator = DOM.createSpan();
-		addseparator.addClassName("add-separator");
-		DOM.appendChild(addButton.getElement(), addseparator);
+			Element addimage = DOM.createSpan();
+			addimage.addClassName("add-image");
+			DOM.appendChild(addButton.getElement(), addimage);
 
-		Element addimage = DOM.createSpan();
-		addimage.addClassName("add-image");
-		DOM.appendChild(addButton.getElement(), addimage);
-
-		ThemesUtil
-				.addDivToButton(addButton, FinanceApplication.getThemeImages()
-						.button_right_blue_image(), "blue-right-image");
-
+			ThemesUtil.addDivToButton(addButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"blue-right-image");
+		}
 		/* Adding dynamic forms in list */
 		listforms.add(taxAgencyForm);
 		listforms.add(accInfoForm);
@@ -707,7 +707,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		if (data != null)
 			takenVATAgency = data;
 		else
-			takenVATAgency=null;
+			takenVATAgency = null;
 	}
 
 	// protected void adjustFormWidths(int titlewidth, int listBoxWidth) {

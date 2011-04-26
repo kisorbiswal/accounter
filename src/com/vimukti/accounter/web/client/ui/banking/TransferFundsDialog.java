@@ -275,12 +275,12 @@ public class TransferFundsDialog extends BaseDialog {
 		// footerLayout.setCellWidth(okbtn, "85%");
 
 		footerLayout.insert(editButton, getAbsoluteLeft());
-
+		if (editButton.isEnabled()) {
 		editButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(editButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-
+			ThemesUtil.addDivToButton(editButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		mainVLay.add(transferForm);
 		mainVLay.add(hlay);
 		mainVLay.add(footerLayout);

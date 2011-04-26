@@ -949,6 +949,7 @@ public class MakeDepositView extends
 		panel.add(addButton);
 		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
+		if (addButton.isEnabled()) {
 		addButton.getElement().getParentElement().addClassName("add-button");
 
 		Element addseparator = DOM.createSpan();
@@ -959,9 +960,10 @@ public class MakeDepositView extends
 		addimage.addClassName("add-image");
 		DOM.appendChild(addButton.getElement(), addimage);
 
-		ThemesUtil.addDivToButton(addButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(), "add-right-image");
-
+			ThemesUtil.addDivToButton(addButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"add-right-image");
+		}
 		HorizontalPanel botHLay = new HorizontalPanel();
 		botHLay.setWidth("100%");
 		botHLay.add(memoForm);

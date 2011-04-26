@@ -107,13 +107,18 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 		footerLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		footerLayout.add(okbtn);
 		footerLayout.add(cancelBtn);
-		okbtn.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(okbtn, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		cancelBtn.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(cancelBtn, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+		if (okbtn.isEnabled()) {
+			okbtn.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(okbtn, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (cancelBtn.isEnabled()) {
+			cancelBtn.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(cancelBtn, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		// footerLayout.setCellWidth(okbtn, "100%");
 		footerLayout.setCellHorizontalAlignment(okbtn,
 				HasHorizontalAlignment.ALIGN_RIGHT);

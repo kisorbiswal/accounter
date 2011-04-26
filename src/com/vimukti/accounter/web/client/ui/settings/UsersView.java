@@ -123,10 +123,13 @@ public class UsersView extends BaseView<ClientUser> {
 		mainLayPanel.add(flexTable);
 		if (FinanceApplication.getUser().isCanDoUserManagement()) {
 			mainLayPanel.add(inviteUserButton);
-			inviteUserButton.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(inviteUserButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
+			if (inviteUserButton.isEnabled()) {
+				inviteUserButton.getElement().getParentElement().setClassName(
+						"ibutton");
+				ThemesUtil.addDivToButton(inviteUserButton, FinanceApplication
+						.getThemeImages().button_right_blue_image(),
+						"ibutton-right-image");
+			}
 		}
 
 		mainLayPanel.add(getUsersPanel());

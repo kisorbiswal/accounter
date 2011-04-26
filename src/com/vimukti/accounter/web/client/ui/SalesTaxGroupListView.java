@@ -19,7 +19,6 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
-import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
@@ -215,19 +214,24 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 			}
 		};
 		addGroupButtonsHandler(groupDialogButtonHandler);
-
-		button1.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(button1, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-
-		button2.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(button2, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-
-		button3.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(button3, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-
+		if (button1.isEnabled()) {
+			button1.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(button1, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (button2.isEnabled()) {
+			button2.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(button2, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (button3.isEnabled()) {
+			button3.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(button3, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 	}
 
 	public void addGroupButtonsHandler(
@@ -288,25 +292,25 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 			public boolean onOkClick() {
 
 				errorOccured = false;
-				if (taxGroup != null ) {
+				if (taxGroup != null) {
 					editTaxGroup(taxGroup);
 					return !errorOccured;
 				} else {
-					if(salesTaxGroupDialog.form1.validate(true)){
-					if (salesTaxGroupDialog.taxGroupText.getValue() != null
-							&& !salesTaxGroupDialog.taxGroupText.getValue()
-									.toString().isEmpty()) {
-						newTaxGroup();
-						return !errorOccured;
-					}
-					}else {
-//						Accounter.showError(FinanceApplication
-//								.getFinanceUIConstants()
-//								.pleaseEnterTaxGroupName());
+					if (salesTaxGroupDialog.form1.validate(true)) {
+						if (salesTaxGroupDialog.taxGroupText.getValue() != null
+								&& !salesTaxGroupDialog.taxGroupText.getValue()
+										.toString().isEmpty()) {
+							newTaxGroup();
+							return !errorOccured;
+						}
+					} else {
+						// Accounter.showError(FinanceApplication
+						// .getFinanceUIConstants()
+						// .pleaseEnterTaxGroupName());
 						return false;
 					}
 				}
-             return true;
+				return true;
 			}// onOkClick
 		});// InputDialogHandler;
 		salesTaxGroupDialog.show();

@@ -175,7 +175,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 						listOfperiods);
 			}
 		});
-		
+
 		buttonVlayout.setWidth("155px");
 		buttonVlayout.add(newFiscalYearButton);
 		buttonVlayout.add(closeFiscalYearButton);
@@ -184,34 +184,81 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		buttonVlayout.add(deleteFiscalYear);
 		buttonVlayout.add(changeStartDate);
 
-		newFiscalYearButton.getElement().getParentElement().setClassName(
-				"ibutton");
-		ThemesUtil.addDivToButton(newFiscalYearButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-		closeFiscalYearButton.getElement().getParentElement().setClassName(
-				"ibutton");
-		ThemesUtil.addDivToButton(closeFiscalYearButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-		openFiscalYearButoon.getElement().getParentElement().setClassName(
-				"ibutton");
-		ThemesUtil.addDivToButton(openFiscalYearButoon, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-		editFiscalYear.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(editFiscalYear, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-		deleteFiscalYear.getElement().getParentElement()
-				.setClassName("ibutton");
-		ThemesUtil.addDivToButton(deleteFiscalYear, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-		changeStartDate.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(changeStartDate, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+		if (newFiscalYearButton.isEnabled()) {
+			newFiscalYearButton.getElement().getParentElement().setClassName(
+					"ibutton");
+			ThemesUtil.addDivToButton(newFiscalYearButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		} /*
+		 * else {
+		 * newFiscalYearButton.getElement().getParentElement().setClassName(
+		 * "cancel-button"); ThemesUtil.addDivToButton(newFiscalYearButton,
+		 * FinanceApplication .getThemeImages().button_right_gray_image(),
+		 * "ibutton-right-image"); }
+		 */
+		if (closeFiscalYearButton.isEnabled()) {
+			closeFiscalYearButton.getElement().getParentElement().setClassName(
+					"ibutton");
+			ThemesUtil.addDivToButton(closeFiscalYearButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		} /*
+		 * else {
+		 * closeFiscalYearButton.getElement().getParentElement().setClassName(
+		 * "cancel-button"); ThemesUtil.addDivToButton(closeFiscalYearButton,
+		 * FinanceApplication .getThemeImages().button_right_gray_image(),
+		 * "ibutton-right-image"); }
+		 */
+		if (openFiscalYearButoon.isEnabled()) {
+			openFiscalYearButoon.getElement().getParentElement().setClassName(
+					"ibutton");
+			ThemesUtil.addDivToButton(openFiscalYearButoon, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		} /*
+		 * else {
+		 * openFiscalYearButoon.getElement().getParentElement().setClassName(
+		 * "cancel-button"); ThemesUtil.addDivToButton(openFiscalYearButoon,
+		 * FinanceApplication .getThemeImages().button_right_gray_image(),
+		 * "ibutton-right-image"); }
+		 */
+		if (editFiscalYear.isEnabled()) {
+			editFiscalYear.getElement().getParentElement().setClassName(
+					"ibutton");
+			ThemesUtil.addDivToButton(editFiscalYear, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		} /*
+		 * else { editFiscalYear.getElement().getParentElement().setClassName(
+		 * "cancel-button"); ThemesUtil.addDivToButton(editFiscalYear,
+		 * FinanceApplication .getThemeImages().button_right_gray_image(),
+		 * "ibutton-right-image"); }
+		 */
+		if (deleteFiscalYear.isEnabled()) {
+			deleteFiscalYear.getElement().getParentElement().setClassName(
+					"ibutton");
+			ThemesUtil.addDivToButton(deleteFiscalYear, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		} /*
+		 * else { deleteFiscalYear.getElement().getParentElement().setClassName(
+		 * "cancel-button"); ThemesUtil.addDivToButton(deleteFiscalYear,
+		 * FinanceApplication .getThemeImages().button_right_gray_image(),
+		 * "ibutton-right-image"); }
+		 */
+		if (changeStartDate.isEnabled()) {
+			changeStartDate.getElement().getParentElement().setClassName(
+					"ibutton");
+			ThemesUtil.addDivToButton(changeStartDate, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		} /*
+		 * else { changeStartDate.getElement().getParentElement().setClassName(
+		 * "cancel-button"); ThemesUtil.addDivToButton(changeStartDate,
+		 * FinanceApplication .getThemeImages().button_right_gray_image(),
+		 * "ibutton-right-image"); }
+		 */
 		return buttonVlayout;
 
 	}

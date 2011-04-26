@@ -101,11 +101,14 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 		fTable.addStyleName("fTablePortlet");
 
 		hPanel.add(addPayableInvoiceBtn);
-		addPayableInvoiceBtn.getElement().getParentElement().setClassName(
-				"ibutton");
-		ThemesUtil.addDivToButton(addPayableInvoiceBtn, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+
+		if (addPayableInvoiceBtn.isEnabled()) {
+			addPayableInvoiceBtn.getElement().getParentElement().setClassName(
+					"ibutton");
+			ThemesUtil.addDivToButton(addPayableInvoiceBtn, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		hPanel.add(fTable);
 
 		body.add(hPanel);
