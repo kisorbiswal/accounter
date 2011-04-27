@@ -44,13 +44,19 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 	@Override
 	protected Action getAddNewAction() {
 
-		return CustomersActionFactory.getNewSalesperSonAction();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return CustomersActionFactory.getNewSalesperSonAction();
+		else
+			return null;
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
 
-		return salesPersonConstants.addaNewsalesPerson();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return salesPersonConstants.addaNewsalesPerson();
+		else
+			return "";
 	}
 
 	@Override
@@ -88,16 +94,16 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 	protected void filterList(boolean isActive) {
 		grid.removeAllRecords();
 		grid.setTotal();
-			for (ClientSalesPerson salesPerson : listOfsalesPerson) {
-				if (isActive) {
-					if (salesPerson.isActive() == true)
-						grid.addData(salesPerson);
-				} else if (salesPerson.isActive() == false) {
+		for (ClientSalesPerson salesPerson : listOfsalesPerson) {
+			if (isActive) {
+				if (salesPerson.isActive() == true)
 					grid.addData(salesPerson);
-				}
+			} else if (salesPerson.isActive() == false) {
+				grid.addData(salesPerson);
 			}
-			if(grid.getRecords().isEmpty())
-				grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+		}
+		if (grid.getRecords().isEmpty())
+			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 
 	}
 
@@ -119,8 +125,8 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 			}
 		});
 		this.grid.removeAllRecords();
-		if(salesPersons!=null)
-		this.grid.setRecords(salesPersons);
+		if (salesPersons != null)
+			this.grid.setRecords(salesPersons);
 		else
 			this.grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 
