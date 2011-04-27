@@ -114,20 +114,8 @@ public class NewBrandThemeDialog extends BaseDialog {
 		check_radio_textAreaPanel.add(termsPaymentArea);
 
 		okbtn.setText(FinanceApplication.getSettingsMessages().saveButton());
-		okbtn.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				okClicked();
-			}
-		});
 		cancelBtn.setText(FinanceApplication.getSettingsMessages()
 				.cancelButton());
-		cancelBtn.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				cancelClicked();
-			}
-		});
 
 		addInputDialogHandler(new InputDialogHandler() {
 
@@ -629,5 +617,11 @@ public class NewBrandThemeDialog extends BaseDialog {
 		textBoxHorizontalPanel.setStyleName("rightBorder");
 
 		return textBoxHorizontalPanel;
+	}
+	
+	@Override
+	public void saveSuccess(IAccounterCore object) {
+		super.saveSuccess(object);
+		SettingsActionFactory.getInvoiceBrandingAction().run(null, true);
 	}
 }
