@@ -114,7 +114,7 @@ public class CustomDialog extends DialogBox {
 		case Event.ONMOUSEOVER:
 			Element element1 = event.getTarget();
 			if (cross.getElement().equals(element1)) {
-				cross.setUrl("/images/X-1.png");
+				// cross.setUrl("/images/X-1.png");
 
 			} else if (help.getElement().equals(element1)) {
 				help.setUrl("/images/Help-1.png");
