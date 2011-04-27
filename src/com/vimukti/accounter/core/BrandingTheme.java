@@ -9,7 +9,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
+import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.core.AccounterCommand;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 
 @SuppressWarnings("serial")
 public class BrandingTheme implements IAccounterServerCore, Lifecycle {
@@ -520,7 +523,11 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		// TODO Auto-generated method stub
+		AccounterCommand accounterCore = new AccounterCommand();
+		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
+		accounterCore.setStringID(this.stringID);
+		accounterCore.setObjectType(AccounterCoreType.BRANDINGTHEME);
+		ChangeTracker.put(accounterCore);
 		return false;
 	}
 
