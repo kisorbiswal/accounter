@@ -644,6 +644,9 @@ public class ViewManager extends DockPanel {
 					@Override
 					public boolean onYesClick() throws InvalidEntryException {
 
+						((AbstractBaseView) currentCanvas).errorOccured = false;
+						BaseView.errordata.setHTML("");
+						BaseView.commentPanel.setVisible(false);
 						AccounterExecute execute = new AccounterExecute(
 								(AbstractBaseView) currentCanvas,
 								((AbstractBaseView) currentCanvas)
@@ -688,7 +691,10 @@ public class ViewManager extends DockPanel {
 		if (history == null)
 			return;
 
-		if (!(history.getView().isAListView())) {
+		if (history.getView() instanceof UsersView) {
+			currentCanvas = history.getView();
+			history.getAction().run(null, true);
+		} else if (!(history.getView().isAListView())) {
 			currentCanvas = history.getView();
 			if (history.getAction().getActionSource() != null) {
 				item = history.getAction().getActionSource();
@@ -702,6 +708,9 @@ public class ViewManager extends DockPanel {
 			}
 			if (item != null)
 				history.getAction().setActionSource(item);
+			if(currentCanvas instanceof DashBoard)
+				((DashBoard) currentCanvas).refreshWidgetData(null);
+			
 			currentCanvas.setWidth("100%");
 			scrollPanel.add(currentCanvas);
 			rightCanvas.add(scrollPanel);
@@ -1207,6 +1216,9 @@ public class ViewManager extends DockPanel {
 					@Override
 					public boolean onYesClick() throws InvalidEntryException {
 
+						((AbstractBaseView) view).errorOccured = false;
+						BaseView.errordata.setHTML("");
+						BaseView.commentPanel.setVisible(false);
 						AccounterExecute execute = new AccounterExecute(
 								(AbstractBaseView) view,
 								((AbstractBaseView) view)
