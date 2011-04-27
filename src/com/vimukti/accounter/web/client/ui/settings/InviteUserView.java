@@ -107,14 +107,14 @@ public class InviteUserView extends BaseView<ClientUser> {
 			emailField.setValue(takenUser.getEmailId());
 			userManagementBox.setValue(takenUser.isCanDoUserManagement());
 			grid.setRecords(getRolePermissionsForUser(takenUser));
-			// if (takenUser.isActive()) {
-			// firstNametext.setDisabled(true);
-			// lastNametext.setDisabled(true);
-			// emailField.setDisabled(true);
-			if (takenUser.isAdmin()) {
-				userManagementBox.setEnabled(false);
+			if (takenUser.isActive()) {
+				firstNametext.setDisabled(true);
+				lastNametext.setDisabled(true);
+				emailField.setDisabled(true);
+				if (takenUser.isAdmin()) {
+					userManagementBox.setEnabled(false);
+				}
 			}
-			// }
 		}
 	}
 
@@ -251,7 +251,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 		if (data != null)
 			takenUser = data;
 		else
-			takenUser=null;
+			takenUser = null;
 	}
 
 	public List<RolePermissions> getDefaultRolesAndPermissions() {
@@ -338,8 +338,8 @@ public class InviteUserView extends BaseView<ClientUser> {
 
 	@Override
 	public boolean validate() throws Exception {
-		return AccounterValidator.validateFormItem(false, firstNametext, lastNametext,
-				emailField);
+		return AccounterValidator.validateFormItem(false, firstNametext,
+				lastNametext, emailField);
 		// return super.validate();
 	}
 
