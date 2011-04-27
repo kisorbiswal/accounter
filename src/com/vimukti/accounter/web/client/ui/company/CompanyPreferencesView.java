@@ -34,10 +34,10 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Header;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
-import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -283,10 +283,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		HorizontalPanel helpLayout = new HorizontalPanel();
 		helpLayout.setWidth("50%");
 		helpLayout.add(helpButt);
-		helpButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(helpButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-
+		if (helpButt.isEnabled()) {
+			helpButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(helpButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		HorizontalPanel okCancelayout = new HorizontalPanel();
 		okCancelayout.setWidth("70%");
 		// okCancelayout.setMembersMargin(10);
@@ -315,16 +317,21 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			}
 		});
 		okCancelayout.add(ok);
-		ok.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(ok, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		okCancelayout.setCellWidth(ok, "70%");
+		if (ok.isEnabled()) {
+			ok.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(ok, FinanceApplication.getThemeImages()
+					.button_right_blue_image(), "ibutton-right-image");
+			okCancelayout.setCellWidth(ok, "70%");
+		}
 		okCancelayout.setCellHorizontalAlignment(ok,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		okCancelayout.add(cancel);
-		cancel.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(cancel, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
+		if (cancel.isEnabled()) {
+			cancel.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(cancel, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		hlLayout.add(helpLayout);
 		hlLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		hlLayout.add(okCancelayout);
@@ -604,7 +611,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	private boolean validateCompanyDetailsForm(DynamicForm companyDetailsForm)
 			throws InvalidEntryException {
 		if (!companyDetailsForm.validate(false)) {
-//			throw new InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
+			// throw new
+			// InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
 		}
 		return true;
 	}
@@ -751,7 +759,10 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	public void saveSuccess(IAccounterCore result) {
 		if (result != null || isCancel == true) {
 			super.saveSuccess(result);
+			Header.companyName.setText(this.companyNameText.getValue()
+					.toString());
 			CompanyActionFactory.getCompanyHomeAction().run(null, false);
+			
 		} else
 			saveFailed(new Exception(FinanceApplication.getCompanyMessages()
 					.failed()));
@@ -1210,11 +1221,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		suportLogPanel.add(supportLogging);
 		// FIXME
 		suportLogPanel.add(clearlogBtn);
-		clearlogBtn.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(clearlogBtn, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-
+		if (clearlogBtn.isEnabled()) {
+			clearlogBtn.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(clearlogBtn, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		generalLayOut = new VerticalPanel();
 		// generalLayOut.setSize("100%", "100%");
 		generalLayOut.setWidth("100%");
@@ -1224,11 +1236,13 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		generalLayOut.add(filingRecordNameForm);
 		generalLayOut.add(serviceMapForm);
 		generalLayOut.add(mangeServiceMappingsBtn);
-		mangeServiceMappingsBtn.getElement().getParentElement().setClassName(
-				"ibutton");
-		ThemesUtil.addDivToButton(mangeServiceMappingsBtn, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+		if (mangeServiceMappingsBtn.isEnabled()) {
+			mangeServiceMappingsBtn.getElement().getParentElement()
+					.setClassName("ibutton");
+			ThemesUtil.addDivToButton(mangeServiceMappingsBtn,
+					FinanceApplication.getThemeImages()
+							.button_right_blue_image(), "ibutton-right-image");
+		}
 		generalLayOut.add(supportLogging);
 		// generalLayOut.add(10);
 

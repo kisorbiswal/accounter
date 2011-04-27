@@ -89,17 +89,21 @@ public class CountryRegionListDialog extends DialogBox {
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		// helpHLay.setAlign(Alignment.LEFT);
 		helpHLay.add(helpButt);
-		helpButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(helpButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-
+		if (helpButt.isEnabled()) {
+			helpButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(helpButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		HorizontalPanel closeHLay = new HorizontalPanel();
 		// closeHLay.setAlign(Alignment.RIGHT);
 		closeHLay.add(closeButt);
-		closeButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(closeButt, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+		if (closeButt.isEnabled()) {
+			closeButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(closeButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		HorizontalPanel buttHLay = new HorizontalPanel();
 		buttHLay.setSize("100%", "10%");
 		buttHLay.add(helpHLay);
@@ -110,19 +114,27 @@ public class CountryRegionListDialog extends DialogBox {
 		buttVLay.add(addGroupButt);
 		buttVLay.add(editGroupButt);
 		buttVLay.add(remGroupButt);
-
-		addGroupButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(addGroupButt, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-		editGroupButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(editGroupButt, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-		remGroupButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(remGroupButt, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+		if (addGroupButt.isEnabled()) {
+			addGroupButt.getElement().getParentElement()
+					.setClassName("ibutton");
+			ThemesUtil.addDivToButton(addGroupButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (editGroupButt.isEnabled()) {
+			editGroupButt.getElement().getParentElement().setClassName(
+					"ibutton");
+			ThemesUtil.addDivToButton(editGroupButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (remGroupButt.isEnabled()) {
+			remGroupButt.getElement().getParentElement()
+					.setClassName("ibutton");
+			ThemesUtil.addDivToButton(remGroupButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 
 		HorizontalPanel groupEditHLay = new HorizontalPanel();
 		// groupEditHLay.setSize("100%", "*");

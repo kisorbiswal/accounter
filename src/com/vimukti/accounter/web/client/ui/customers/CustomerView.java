@@ -720,20 +720,22 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 		hPanel.getElement().getStyle().setFloat(Float.RIGHT);
 		panel.add(hPanel);
+		if (addButton.isEnabled()) {
+			addButton.getElement().getParentElement()
+					.addClassName("add-button");
 
-		addButton.getElement().getParentElement().addClassName("add-button");
+			Element addseparator = DOM.createSpan();
+			addseparator.addClassName("add-separator");
+			DOM.appendChild(addButton.getElement(), addseparator);
 
-		Element addseparator = DOM.createSpan();
-		addseparator.addClassName("add-separator");
-		DOM.appendChild(addButton.getElement(), addseparator);
+			Element addimage = DOM.createSpan();
+			addimage.addClassName("add-image");
+			DOM.appendChild(addButton.getElement(), addimage);
 
-		Element addimage = DOM.createSpan();
-		addimage.addClassName("add-image");
-		DOM.appendChild(addButton.getElement(), addimage);
-
-		ThemesUtil.addDivToButton(addButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(), "add-right-image");
-
+			ThemesUtil.addDivToButton(addButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"add-right-image");
+		}
 		memoArea = new TextAreaItem();
 		memoArea.setWidth("400px");
 		memoArea.setTitle(customerConstants.memo());

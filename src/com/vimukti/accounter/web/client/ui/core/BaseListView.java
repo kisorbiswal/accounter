@@ -212,13 +212,13 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			form.setItems(viewSelect, dateRangeSelector, fromItem, toItem);
 			hlay.add(form);
 			hlay.add(updateButton);
-
-			updateButton.getElement().getParentElement()
-					.setClassName("ibutton");
-			ThemesUtil.addDivToButton(updateButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-
+			if (updateButton.isEnabled()) {
+				updateButton.getElement().getParentElement().setClassName(
+						"ibutton");
+				ThemesUtil.addDivToButton(updateButton, FinanceApplication
+						.getThemeImages().button_right_blue_image(),
+						"ibutton-right-image");
+			}
 			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 			hlay.setCellHorizontalAlignment(updateButton,
 					HasHorizontalAlignment.ALIGN_RIGHT);

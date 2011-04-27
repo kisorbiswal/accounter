@@ -176,10 +176,12 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		}
 		addItems(expenseCombo, dateRangeCombo, fromItem, toItem);
 		add(updateButton);
+		if (updateButton.isEnabled()) {
 		updateButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(updateButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+			ThemesUtil.addDivToButton(updateButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 	}

@@ -125,7 +125,8 @@ public class ConversionBalancesView extends AbstractBaseView {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				superHeaderHtml.getElement().getStyle().setCursor(Cursor.POINTER);
+				superHeaderHtml.getElement().getStyle().setCursor(
+						Cursor.POINTER);
 				superHeaderHtml.getElement().getStyle().setTextDecoration(
 						TextDecoration.UNDERLINE);
 			}
@@ -148,12 +149,20 @@ public class ConversionBalancesView extends AbstractBaseView {
 
 		headerButtonPanel.add(addComparativeBalancesButton);
 		headerButtonPanel.add(conversionDateButton);
-		addComparativeBalancesButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(addComparativeBalancesButton, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		conversionDateButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(conversionDateButton, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
+		if (addComparativeBalancesButton.isEnabled()) {
+			addComparativeBalancesButton.getElement().getParentElement()
+					.setClassName("ibutton");
+			ThemesUtil.addDivToButton(addComparativeBalancesButton,
+					FinanceApplication.getThemeImages()
+							.button_right_blue_image(), "ibutton-right-image");
+		}
+		if (conversionDateButton.isEnabled()) {
+			conversionDateButton.getElement().getParentElement().setClassName(
+					"ibutton");
+			ThemesUtil.addDivToButton(conversionDateButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		headerPanel.add(superHeaderHtml);
 		headerPanel.add(headerHtml);
 
@@ -209,9 +218,13 @@ public class ConversionBalancesView extends AbstractBaseView {
 		labelsForm.setCellSpacing(6);
 		labelsForm.setFields(removeZeroBalance, showAllAccounts);
 		addNewButtonPanel.add(addNewButton);
-		addNewButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(addNewButton, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
+		if (addNewButton.isEnabled()) {
+			addNewButton.getElement().getParentElement()
+					.setClassName("ibutton");
+			ThemesUtil.addDivToButton(addNewButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		addNewButtonPanel.add(labelsForm);
 
 		debit_creditForm.setNumCols(4);
@@ -227,15 +240,20 @@ public class ConversionBalancesView extends AbstractBaseView {
 
 		footerButtonPanel.add(saveButton);
 		footerButtonPanel.add(cancelButton);
+		if (saveButton.isEnabled()) {
+			saveButton.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(saveButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (cancelButton.isEnabled()) {
+			cancelButton.getElement().getParentElement()
+					.setClassName("ibutton");
+			ThemesUtil.addDivToButton(cancelButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 
-		saveButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(saveButton, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		cancelButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(cancelButton, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		
-		
 		footerPanel.add(addNewButtonPanel);
 		footerPanel.add(debit_creditForm);
 		footerPanel.add(adjustmentsForm);

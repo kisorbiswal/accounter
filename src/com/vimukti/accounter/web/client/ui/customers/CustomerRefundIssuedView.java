@@ -122,17 +122,17 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		// buttHLay.setAutoHeight();
 		buttHLay.add(saveCloseButt);
 		buttHLay.add(saveNewButt);
-
+		if (saveCloseButt.isEnabled()) {
 		saveCloseButt.getElement().getParentElement().setClassName("ibutton");
 		ThemesUtil.addDivToButton(saveCloseButt, FinanceApplication
 				.getThemeImages().button_right_blue_image(),
 				"ibutton-right-image");
-
+		}	if (saveNewButt.isEnabled()) {
 		saveNewButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(saveNewButt, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-
+			ThemesUtil.addDivToButton(saveNewButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		// mainVLay.setTop(10);

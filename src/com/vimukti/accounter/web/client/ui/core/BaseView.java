@@ -134,14 +134,13 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 					&& !(this != null && this instanceof FileVATView))
 				buttonLayout.add(saveAndNewButton);
 		}
-		
 
 		buttonLayout.add(cancelButton);
 
 		setCellHorizontalAlignment(buttonLayout, ALIGN_RIGHT);
 		add(buttonLayout);
 		add(bottomShadow);
-		if(this instanceof SalesTaxGroupListView)
+		if (this instanceof SalesTaxGroupListView)
 			buttonLayout.setVisible(false);
 		buttonLayout.getElement().getParentElement()
 				.setClassName("bottom-view");
@@ -152,41 +151,50 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 				"cancel-button");
 
 		inithelpPanel();
+		if (saveAndNewButton.isEnabled()) {
+			Element spanEle = DOM.createSpan();
+			spanEle.addClassName("save-new-separator");
+			DOM.appendChild(saveAndNewButton.getElement(), spanEle);
 
-		Element spanEle = DOM.createSpan();
-		spanEle.addClassName("save-new-separator");
-		DOM.appendChild(saveAndNewButton.getElement(), spanEle);
+			Element spanElement = DOM.createSpan();
+			spanElement.addClassName("save-new-image");
+			DOM.appendChild(saveAndNewButton.getElement(), spanElement);
 
-		Element spanElement = DOM.createSpan();
-		spanElement.addClassName("save-new-image");
-		DOM.appendChild(saveAndNewButton.getElement(), spanElement);
+			if (!(this != null && this instanceof FileVATView)) {
+				ThemesUtil.addDivToButton(saveAndNewButton, FinanceApplication
+						.getThemeImages().custom_button_right_blue_image(),
+						"custom-button-right-image");
+			}
+		}
+		if (saveAndCloseButton.isEnabled()) {
 
-		Element savecloseseparator = DOM.createSpan();
-		savecloseseparator.addClassName("save-close-separator");
-		DOM.appendChild(saveAndCloseButton.getElement(), savecloseseparator);
+			Element savecloseseparator = DOM.createSpan();
+			savecloseseparator.addClassName("save-close-separator");
+			DOM
+					.appendChild(saveAndCloseButton.getElement(),
+							savecloseseparator);
 
-		Element savecloseimage = DOM.createSpan();
-		savecloseimage.addClassName("save-close-image");
-		DOM.appendChild(saveAndCloseButton.getElement(), savecloseimage);
+			Element savecloseimage = DOM.createSpan();
+			savecloseimage.addClassName("save-close-image");
+			DOM.appendChild(saveAndCloseButton.getElement(), savecloseimage);
 
-		Element closeseparator = DOM.createSpan();
-		closeseparator.addClassName("close-separator");
-		DOM.appendChild(cancelButton.getElement(), closeseparator);
-
-		Element closeimage = DOM.createSpan();
-		closeimage.addClassName("close-image");
-		DOM.appendChild(cancelButton.getElement(), closeimage);
-
-		ThemesUtil.addDivToButton(cancelButton, FinanceApplication
-				.getThemeImages().button_right_gray_image(),
-				"custom-button-right-image");
-		ThemesUtil.addDivToButton(saveAndCloseButton, FinanceApplication
-				.getThemeImages().custom_button_right_blue_image(),
-				"custom-button-right-image");
-		if (!(this != null && this instanceof FileVATView)) {
-			ThemesUtil.addDivToButton(saveAndNewButton, FinanceApplication
+			ThemesUtil.addDivToButton(saveAndCloseButton, FinanceApplication
 					.getThemeImages().custom_button_right_blue_image(),
 					"custom-button-right-image");
+		}
+		if (cancelButton.isEnabled()) {
+			Element closeseparator = DOM.createSpan();
+			closeseparator.addClassName("close-separator");
+			DOM.appendChild(cancelButton.getElement(), closeseparator);
+
+			Element closeimage = DOM.createSpan();
+			closeimage.addClassName("close-image");
+			DOM.appendChild(cancelButton.getElement(), closeimage);
+
+			ThemesUtil.addDivToButton(cancelButton, FinanceApplication
+					.getThemeImages().button_right_gray_image(),
+					"custom-button-right-image");
+
 		}
 	}
 

@@ -116,7 +116,8 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeList.add(dateRangeArray[i]);
 		}
-		dateRangeItem.setComboItem(FinanceApplication.getReportsMessages().all());
+		dateRangeItem.setComboItem(FinanceApplication.getReportsMessages()
+				.all());
 		dateRangeItem
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -212,9 +213,13 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 		addItems(vatAgencyCombo, dateRangeItem, fromItem, toItem);
 		add(updateButton);
-		updateButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(updateButton, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
+		if (updateButton.isEnabled()) {
+			updateButton.getElement().getParentElement()
+					.setClassName("ibutton");
+			ThemesUtil.addDivToButton(updateButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 	}

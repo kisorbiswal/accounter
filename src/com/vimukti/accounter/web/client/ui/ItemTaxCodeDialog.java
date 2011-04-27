@@ -70,16 +70,21 @@ public class ItemTaxCodeDialog extends DialogBox {
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		// helpHLay.setAlign(Alignment.LEFT);
 		helpHLay.add(helpButt);
-		helpButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(helpButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
+		if (helpButt.isEnabled()) {
+			helpButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(helpButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		HorizontalPanel closeHLay = new HorizontalPanel();
 		// closeHLay.setAlign(Alignment.RIGHT);
 		closeHLay.add(closeButt);
-		closeButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(closeButt, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+		if (closeButt.isEnabled()) {
+			closeButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(closeButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		HorizontalPanel buttHLay = new HorizontalPanel();
 		buttHLay.setSize("100%", "10%");
 		buttHLay.add(helpHLay);
@@ -89,17 +94,24 @@ public class ItemTaxCodeDialog extends DialogBox {
 		buttVLay.add(addButt);
 		buttVLay.add(editButt);
 		buttVLay.add(remButt);
-
-		addButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(addButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		editButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(editButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		remButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(remButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-
+		if (addButt.isEnabled()) {
+			addButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(addButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (editButt.isEnabled()) {
+			editButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(editButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (remButt.isEnabled()) {
+			remButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(remButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		HorizontalPanel groupEditHLay = new HorizontalPanel();
 		// groupEditHLay.setSize("100%", "*");
 		groupEditHLay.add(grid);
@@ -145,9 +157,12 @@ public class ItemTaxCodeDialog extends DialogBox {
 
 		helpHLay.setWidth("50%");
 		helpHLay.add(helpButt);
-		helpButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(helpButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
+		if (helpButt.isEnabled()) {
+			helpButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(helpButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		HorizontalPanel buttHLay = new HorizontalPanel();
 		buttHLay.setWidth("100%");
 		// buttHLay.setMembersMargin(5);
@@ -155,12 +170,18 @@ public class ItemTaxCodeDialog extends DialogBox {
 		buttHLay.add(helpHLay);
 		buttHLay.add(okButt);
 		buttHLay.add(canButt);
-		okButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(okButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		canButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(canButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
+		if (okButt.isEnabled()) {
+			okButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(okButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (canButt.isEnabled()) {
+			canButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(canButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		// mainVLay.setTop(30);

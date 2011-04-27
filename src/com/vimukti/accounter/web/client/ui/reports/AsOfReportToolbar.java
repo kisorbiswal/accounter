@@ -180,11 +180,13 @@ public class AsOfReportToolbar extends ReportToolbar {
 		}
 		addItems(report, dateRangeCombo, customDate);
 		add(updateButton);
-		updateButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(updateButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-
+		if (updateButton.isEnabled()) {
+			updateButton.getElement().getParentElement()
+					.setClassName("ibutton");
+			ThemesUtil.addDivToButton(updateButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 	}

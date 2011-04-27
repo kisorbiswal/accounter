@@ -156,10 +156,13 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 			}
 		});
 		datePanel.add(getLogByDateBtn);
-		getLogByDateBtn.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(getLogByDateBtn, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+		if (getLogByDateBtn.isEnabled()) {
+			getLogByDateBtn.getElement().getParentElement().setClassName(
+					"ibutton");
+			ThemesUtil.addDivToButton(getLogByDateBtn, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		datePanel.setCellHorizontalAlignment(dateForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 

@@ -188,17 +188,19 @@ public class ConversionDateView extends AbstractBaseView {
 
 		buttonPanel.add(saveButton);
 		buttonPanel.add(cancelButton);
-
-		saveButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(saveButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-
-		cancelButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(cancelButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-
+		if (saveButton.isEnabled()) {
+			saveButton.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(saveButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (cancelButton.isEnabled()) {
+			cancelButton.getElement().getParentElement()
+					.setClassName("ibutton");
+			ThemesUtil.addDivToButton(cancelButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		bodyPanel.add(bodyHtml);
 		bodyPanel.add(comboForm);
 		bodyPanel.add(bodyFooterHtml);

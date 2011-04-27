@@ -137,11 +137,12 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		adjustForm.setSpacing(3);
 		// adjustForm.add(adjustLabel);
 		adjustForm.add(adjustButton);
+		if (adjustButton.isEnabled()) {
 		adjustButton.getElement().getParentElement().setClassName("ibutton");
 		ThemesUtil.addDivToButton(adjustButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		HTML printLabel = new HTML("<strong>"
 				+ FinanceApplication.getVATMessages()
 						.doYouWantPrintYourVATReturn() + "</strong><br>"
@@ -169,20 +170,21 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		printForm.setSpacing(3);
 		printForm.add(printLabel);
 		printForm.add(printButton);
+		if (printButton.isEnabled()) {
 		printButton.getElement().getParentElement().setClassName("ibutton");
 		ThemesUtil.addDivToButton(printButton, FinanceApplication
 				.getThemeImages().button_right_blue_image(),
 				"ibutton-right-image");
-
+		}
 		topLayout = new HorizontalPanel();
 		topLayout.add(topForm);
 		topLayout.add(updateButton);
-
+		if (updateButton.isEnabled()) {
 		updateButton.getElement().getParentElement().setClassName("ibutton");
 		ThemesUtil.addDivToButton(updateButton, FinanceApplication
 				.getThemeImages().button_right_blue_image(),
 				"ibutton-right-image");
-
+		}
 		mainLayout = new VerticalPanel();
 		mainLayout.setHeight("100%");
 		mainLayout.add(infolabel);

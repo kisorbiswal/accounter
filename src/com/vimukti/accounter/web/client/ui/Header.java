@@ -21,7 +21,9 @@ import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
 public class Header extends HorizontalPanel {
 
-	private Label userName, companyName;
+	private Label userName;
+	public static Label companyName;
+	
 	private HTML logout, help, logo;
 	private VerticalPanel panel1, panel2;
 	private static VerticalPanel panel3;

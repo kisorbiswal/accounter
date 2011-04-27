@@ -108,11 +108,13 @@ public class CompanyListDialog extends AbstractBaseDialog<ClientCompany> {
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.add(companyGrid);
 		mainVLay.add(closeButt);
-		closeButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(closeButt, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
 
+		if (closeButt.isEnabled()) {
+			closeButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(closeButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		add(mainVLay);
 		setSize("400", "400");
 

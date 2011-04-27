@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import com.vimukti.accounter.web.client.core.ClientCompany;
 
 
 /**
@@ -41,8 +40,7 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 		original.append(imagesDomain);
 		original.append("fileName=");
 		original.append(brandingTheme.getFileName());
-		original.append("\"");
-		original.append(">");
+		original.append("\">");
 		return original;
 	}
 

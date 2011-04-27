@@ -108,12 +108,13 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
 			vPanel.add(addExpenseBtn);
-
-			addExpenseBtn.getElement().getParentElement().setClassName(
-					"ibutton");
-			ThemesUtil.addDivToButton(addExpenseBtn, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
+			if (addExpenseBtn.isEnabled()) {
+				addExpenseBtn.getElement().getParentElement().setClassName(
+						"ibutton");
+				ThemesUtil.addDivToButton(addExpenseBtn, FinanceApplication
+						.getThemeImages().button_right_blue_image(),
+						"ibutton-right-image");
+			}
 		}
 		vPanel.add(fTable);
 

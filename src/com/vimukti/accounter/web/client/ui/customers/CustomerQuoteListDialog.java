@@ -106,11 +106,12 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 
 		});
 		helpButtonLayout.add(helpButton);
+		if (helpButton.isEnabled()) {
 		helpButton.getElement().getParentElement().setClassName("ibutton");
 		ThemesUtil.addDivToButton(helpButton, FinanceApplication
 				.getThemeImages().button_right_blue_image(),
 				"ibutton-right-image");
-
+		}
 		HorizontalPanel okButtonLayout = new HorizontalPanel();
 		okButtonLayout.setSpacing(3);
 
@@ -128,9 +129,11 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 
 		});
 		okButtonLayout.add(okButton);
+		if (okButton.isEnabled()) {
 		okButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(okButton, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
+			ThemesUtil.addDivToButton(okButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");}
 		Button cancelButton = new Button(financeConstants.cancel());
 		cancelButton.setWidth("100px");
 		cancelButton.addClickHandler(new ClickHandler() {
@@ -141,10 +144,11 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 
 		});
 		okButtonLayout.add(cancelButton);
+		if (cancelButton.isEnabled()) {
 		cancelButton.getElement().getParentElement().setClassName("ibutton");
 		ThemesUtil.addDivToButton(cancelButton, FinanceApplication
 				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+				"ibutton-right-image");}
 		HorizontalPanel buttonLayout = new HorizontalPanel();
 		buttonLayout.setWidth("100%");
 

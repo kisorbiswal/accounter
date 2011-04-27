@@ -13,8 +13,11 @@ public class CustomButton1 extends Button {
 	protected void onAttach() {
 		if (this != null) {
 			super.onAttach();
-			ThemesUtil.addDivToButton(this, FinanceApplication.getThemeImages()
-					.button_right_blue_image(), "add-right-image");
+			if (this.isEnabled()) {
+				ThemesUtil.addDivToButton(this, FinanceApplication
+						.getThemeImages().button_right_blue_image(),
+						"add-right-image");
+			}
 		}
 	}
 }

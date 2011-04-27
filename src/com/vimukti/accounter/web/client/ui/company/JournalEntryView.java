@@ -657,17 +657,19 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	@Override
 	protected void onLoad() {
 		super.onLoad();
+		if (addButton.isEnabled()) {
+			Element addseparator = DOM.createSpan();
+			addseparator.addClassName("add-separator");
+			DOM.appendChild(addButton.getElement(), addseparator);
 
-		Element addseparator = DOM.createSpan();
-		addseparator.addClassName("add-separator");
-		DOM.appendChild(addButton.getElement(), addseparator);
+			Element addimage = DOM.createSpan();
+			addimage.addClassName("add-image");
+			DOM.appendChild(addButton.getElement(), addimage);
 
-		Element addimage = DOM.createSpan();
-		addimage.addClassName("add-image");
-		DOM.appendChild(addButton.getElement(), addimage);
-
-		ThemesUtil.addDivToButton(addButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(), "add-right-image");
+			ThemesUtil.addDivToButton(addButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"add-right-image");
+		}
 	}
 
 	@Override

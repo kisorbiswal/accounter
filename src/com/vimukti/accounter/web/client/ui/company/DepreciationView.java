@@ -111,16 +111,19 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setSpacing(10);
 		buttonPanel.add(startDateButton);
+		if (startDateButton.isEnabled()) {
 		startDateButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(startDateButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+			ThemesUtil.addDivToButton(startDateButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		buttonPanel.add(rollBackDepreciation);
+		if (rollBackDepreciation.isEnabled()) {
 		rollBackDepreciation.getElement().getParentElement().setClassName(
 				"ibutton");
 		ThemesUtil.addDivToButton(rollBackDepreciation, FinanceApplication
 				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+				"ibutton-right-image");}
 		mainPanel.add(buttonPanel);
 
 		fromLabel = new Label(FinanceApplication.getCompanyMessages()

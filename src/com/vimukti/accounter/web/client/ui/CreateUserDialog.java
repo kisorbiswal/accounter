@@ -301,15 +301,16 @@ public class CreateUserDialog extends AbstractBaseDialog {
 		// buttHLay.setSize("50%", "*");
 		buttHLay.add(canButt);
 		buttHLay.add(createUser);
-
+		if (canButt.isEnabled()) {
 		canButt.getElement().getParentElement().setClassName("ibutton");
 		ThemesUtil.addDivToButton(canButt, FinanceApplication.getThemeImages()
 				.button_right_blue_image(), "ibutton-right-image");
+		}	if (createUser.isEnabled()) {
 		createUser.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(createUser, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-
+			ThemesUtil.addDivToButton(createUser, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		// buttHLay.setLayoutTopMargin(30);
 		// buttHLay.setAutoHeight();
 		// buttHLay.setAlign(Alignment.CENTER);

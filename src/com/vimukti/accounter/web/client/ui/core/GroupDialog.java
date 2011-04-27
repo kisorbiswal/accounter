@@ -116,19 +116,24 @@ public abstract class GroupDialog<T> extends BaseDialog {
 		buttonsLayout.add(button1);
 		buttonsLayout.add(button2);
 		buttonsLayout.add(button3);
-
-		button1.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(button1, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-
-		button2.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(button2, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-
-		button3.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(button3, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-
+		if (button1.isEnabled()) {
+			button1.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(button1, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (button2.isEnabled()) {
+			button2.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(button2, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (button3.isEnabled()) {
+			button3.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(button3, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		button1.setFocus(true);
 		bodyLayout.add(listGridView);
 		if (FinanceApplication.getUser().canDoInvoiceTransactions())
@@ -256,9 +261,12 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 	public void addButton(Button button) {
 		buttonsLayout.add(button);
-		button.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(button, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
+		if (button.isEnabled()) {
+			button.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(button, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 	}
 
 	public DialogGrid getGrid() {

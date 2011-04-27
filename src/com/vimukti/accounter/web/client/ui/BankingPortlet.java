@@ -69,13 +69,12 @@ public class BankingPortlet extends DashBoardPortlet {
 		addAccount.addStyleName("addAccountPortlet");
 		if (FinanceApplication.getUser().canDoBanking()) {
 			body.add(addAccount);
+		if (addAccount.isEnabled()) {
 			addAccount.getElement().getParentElement().setClassName("ibutton");
 			ThemesUtil.addDivToButton(addAccount, FinanceApplication
 					.getThemeImages().button_right_blue_image(),
 					"ibutton-right-image");
 		}
-
-
 		if (bankAccounts == null || bankAccounts.size() == 0) {
 			// for (int i = 0; i < 4; i++) {
 			addAccount.addClickHandler(new ClickHandler() {

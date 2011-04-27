@@ -522,13 +522,13 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		// businessTypeHLay.setMembersMargin(10);
 		businessTypeHLay.add(typeGrid);
 		businessTypeHLay.add(addBusinessTypeButt);
-
-		addBusinessTypeButt.getElement().getParentElement().setClassName(
-				"ibutton");
-		ThemesUtil.addDivToButton(addBusinessTypeButt, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-
+		if (addBusinessTypeButt.isEnabled()) {
+			addBusinessTypeButt.getElement().getParentElement().setClassName(
+					"ibutton");
+			ThemesUtil.addDivToButton(addBusinessTypeButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setSize("80%", "100%");
 		rightVLay.add(typeLabel);
@@ -543,10 +543,12 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		// helpHLay.setSize("50%", "*");
 		helpHLay.add(helpButt);
-		helpButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(helpButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-
+		if (helpButt.isEnabled()) {
+			helpButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(helpButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		HorizontalPanel buttHLay2 = new HorizontalPanel();
 		// buttHLay2.setMembersMargin(10);
 		// buttHLay2.setSize("50%", "*");
@@ -554,19 +556,30 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		buttHLay2.add(nextButt);
 		buttHLay2.add(finButt);
 		buttHLay2.add(canButt);
-
-		backButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(backButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		nextButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(nextButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		finButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(finButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		canButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(canButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
+		if (backButt.isEnabled()) {
+			backButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(backButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (nextButt.isEnabled()) {
+			nextButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(nextButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (finButt.isEnabled()) {
+			finButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(finButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (canButt.isEnabled()) {
+			canButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(canButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		HorizontalPanel buttHLay1 = new HorizontalPanel();
 		// buttHLay1.setSize("100%", "*");
 		// buttHLay1.setAlign(Alignment.RIGHT);
@@ -709,10 +722,12 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		// helpHLay.setSize("50%", "*");
 		helpHLay.add(helpButt);
-		helpButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(helpButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-
+		if (helpButt.isEnabled()) {
+			helpButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(helpButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		HorizontalPanel buttHLay2 = new HorizontalPanel();
 		// buttHLay2.setMembersMargin(10);
 		// buttHLay2.setSize("50%", "*");
@@ -720,19 +735,30 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		buttHLay2.add(nextButt);
 		buttHLay2.add(finButt);
 		buttHLay2.add(canButt);
-
-		backButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(backButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		nextButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(nextButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		finButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(finButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		canButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(canButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
+		if (backButt.isEnabled()) {
+			backButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(backButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (nextButt.isEnabled()) {
+			nextButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(nextButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (finButt.isEnabled()) {
+			finButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(finButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (canButt.isEnabled()) {
+			canButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(canButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 
 		HorizontalPanel buttHLay1 = new HorizontalPanel();
 		// buttHLay1.setSize("100%", "*");

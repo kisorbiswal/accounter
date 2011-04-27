@@ -132,17 +132,19 @@ public class FileUploadDilaog extends CustomDialog {
 		buttonHlay.add(uploadSubmitButton);
 		buttonHlay.add(closeButton);
 		buttonHlay.setStyleName("panel-right-align");
-
-		uploadSubmitButton.getElement().getParentElement().setClassName(
-				"ibutton");
-		ThemesUtil.addDivToButton(uploadSubmitButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-		closeButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(closeButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-
+		if (uploadSubmitButton.isEnabled()) {
+			uploadSubmitButton.getElement().getParentElement().setClassName(
+					"ibutton");
+			ThemesUtil.addDivToButton(uploadSubmitButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (closeButton.isEnabled()) {
+			closeButton.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(closeButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		vpaPanel.add(buttonHlay);
 		/* Make align three Element on there position */
 		// buttonHlay.setCellWidth(uploadSubmitButton);
