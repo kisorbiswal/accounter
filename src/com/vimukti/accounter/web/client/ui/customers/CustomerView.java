@@ -390,8 +390,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			 */
 			return false;
 		case 6:
-			if (custNameText.isHighLighted() == false)
-				return validateCustomerForm(customerForm);
+			return validateCustomerForm(customerForm);
 		case 5:
 			if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 				return AccounterValidator.validateFormItem(custTaxCode, false);
@@ -1166,7 +1165,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		if (data != null)
 			takenCustomer = (ClientCustomer) data;
 		else
-			takenCustomer=null;
+			takenCustomer = null;
 	}
 
 	@Override
