@@ -131,7 +131,8 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 		button1.setFocus(true);
 		bodyLayout.add(listGridView);
-		bodyLayout.add(buttonsLayout);
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			bodyLayout.add(buttonsLayout);
 		setBodyLayout(bodyLayout);
 		cancelBtn.setTitle(this.constants.close());
 		dialogHandler = new InputDialogHandler() {
@@ -371,7 +372,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
 		if (core.getObjectType() == listGridView.getType()) {
-			
+
 			IAccounterCore obj = (IAccounterCore) Utility.getObjectFromList(
 					listGridView.getRecords(), core.getStringID());
 			switch (command) {
