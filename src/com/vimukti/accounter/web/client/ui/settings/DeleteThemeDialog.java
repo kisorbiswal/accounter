@@ -69,4 +69,10 @@ public class DeleteThemeDialog extends BaseDialog {
 
 		setBodyLayout(deletePanel);
 	}
+	
+	@Override
+	public void deleteSuccess(Boolean result) {
+		super.deleteSuccess(result);
+		SettingsActionFactory.getInvoiceBrandingAction().run(null, true);
+	}
 }
