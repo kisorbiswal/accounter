@@ -588,7 +588,7 @@ public class ClientCompany implements IAccounterCore {
 	public List<ClientItem> getActiveItems() {
 		List<ClientItem> activeItems = new ArrayList<ClientItem>();
 		for (ClientItem item : items) {
-//			if (item.isActive())
+			if (item.isActive())
 				activeItems.add(item);
 		}
 		return Utility.getArrayList(activeItems);
