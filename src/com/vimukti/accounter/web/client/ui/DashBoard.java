@@ -233,6 +233,7 @@ public class DashBoard extends BaseHomeView {
 		bankingPortlet.refreshWidget();
 		moneyComingPortlet.refreshWidget();
 		moneyGoingPortlet.refreshWidget();
+		expenseClaimsPortlet.refreshWidget();
 		// }
 
 		// if (accounterCoreObject instanceof ClientTransaction)
