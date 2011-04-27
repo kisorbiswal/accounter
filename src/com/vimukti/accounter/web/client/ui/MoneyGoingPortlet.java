@@ -100,9 +100,8 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 		fTable.setWidget(1, 1, overDueAmtLabel);
 		fTable.addStyleName("fTablePortlet");
 
-		hPanel.add(addPayableInvoiceBtn);
-
-		if (addPayableInvoiceBtn.isEnabled()) {
+		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
+			hPanel.add(addPayableInvoiceBtn);
 			addPayableInvoiceBtn.getElement().getParentElement().setClassName(
 					"ibutton");
 			ThemesUtil.addDivToButton(addPayableInvoiceBtn, FinanceApplication
