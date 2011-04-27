@@ -593,8 +593,8 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 				company.setPreferences(serverCompanyPreferences);
 
 				serverCompanyPreferences.setStartDate(modifiedStartDate);
-				// serverCompanyPreferences
-				// .setPreventPostingBeforeDate(modifiedStartDate);
+				serverCompanyPreferences
+						.setPreventPostingBeforeDate(modifiedStartDate);
 				serverCompanyPreferences
 						.setStartOfFiscalYear(modifiedStartDate);
 				serverObject = serverCompanyPreferences;
