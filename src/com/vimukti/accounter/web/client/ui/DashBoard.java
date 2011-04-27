@@ -228,41 +228,43 @@ public class DashBoard extends BaseHomeView {
 	}
 
 	public void refreshWidgetData(IAccounterCore accounterCoreObject) {
-		int transactionType = 0;
-		if (accounterCoreObject == null) {
-			bankingPortlet.refreshWidget();
-			moneyComingPortlet.refreshWidget();
-		}
+		// int transactionType = 0;
+		// if (accounterCoreObject == null) {
+		bankingPortlet.refreshWidget();
+		moneyComingPortlet.refreshWidget();
+		moneyGoingPortlet.refreshWidget();
+		// }
 
-		if (accounterCoreObject instanceof ClientTransaction)
-			transactionType = ((ClientTransaction) accounterCoreObject)
-					.getType();
-		else if (accounterCoreObject instanceof ClientAccount
-				&& ((ClientAccount) accounterCoreObject).getType() == ClientAccount.TYPE_BANK)
-			bankingPortlet.refreshWidget();
-
-		if (transactionType == ClientTransaction.TYPE_CASH_EXPENSE
-				|| transactionType == ClientTransaction.TYPE_EMPLOYEE_EXPENSE
-				|| transactionType == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE) {
-			expenseClaimsPortlet.refreshWidget();
-		}
-		if (transactionType == ClientTransaction.TYPE_INVOICE
-				|| transactionType == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO
-				|| transactionType == ClientTransaction.TYPE_CUSTOMER_PREPAYMENT
-				|| transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS
-				|| transactionType == ClientTransaction.TYPE_RECEIVE_PAYMENT) {
-			moneyComingPortlet.refreshWidget();
-		}
-		if (transactionType == ClientTransaction.TYPE_CREDIT_CARD_CHARGE
-				|| transactionType == ClientTransaction.TYPE_ENTER_BILL
-				|| transactionType == ClientTransaction.TYPE_PAY_BILL
-				|| transactionType == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO
-				|| transactionType == ClientTransaction.TYPE_VENDOR_PAYMENT
-				|| transactionType == ClientTransaction.TYPE_WRITE_CHECK) {
-			moneyGoingPortlet.refreshWidget();
-			bankingPortlet.refreshWidget();
-			moneyComingPortlet.refreshWidget();
-		}
+		// if (accounterCoreObject instanceof ClientTransaction)
+		// transactionType = ((ClientTransaction) accounterCoreObject)
+		// .getType();
+		// else if (accounterCoreObject instanceof ClientAccount
+		// && ((ClientAccount) accounterCoreObject).getType() ==
+		// ClientAccount.TYPE_BANK)
+		// bankingPortlet.refreshWidget();
+		//
+		// if (transactionType == ClientTransaction.TYPE_CASH_EXPENSE
+		// || transactionType == ClientTransaction.TYPE_EMPLOYEE_EXPENSE
+		// || transactionType == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE) {
+		// expenseClaimsPortlet.refreshWidget();
+		// }
+		// if (transactionType == ClientTransaction.TYPE_INVOICE
+		// || transactionType == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO
+		// || transactionType == ClientTransaction.TYPE_CUSTOMER_PREPAYMENT
+		// || transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS
+		// || transactionType == ClientTransaction.TYPE_RECEIVE_PAYMENT) {
+		// moneyComingPortlet.refreshWidget();
+		// }
+		// if (transactionType == ClientTransaction.TYPE_CREDIT_CARD_CHARGE
+		// || transactionType == ClientTransaction.TYPE_ENTER_BILL
+		// || transactionType == ClientTransaction.TYPE_PAY_BILL
+		// || transactionType == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO
+		// || transactionType == ClientTransaction.TYPE_VENDOR_PAYMENT
+		// || transactionType == ClientTransaction.TYPE_WRITE_CHECK) {
+		// moneyGoingPortlet.refreshWidget();
+		// bankingPortlet.refreshWidget();
+		// moneyComingPortlet.refreshWidget();
+		// }
 	}
 
 	public static void showGettingStarted() {
