@@ -2,9 +2,14 @@ package com.vimukti.accounter.web.client.ui;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
+import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -59,6 +64,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		sinkEvents(Event.ONMOUSEOVER);
 		if (GWT.isScript())
 			removeLoadingImage();
+		handleBackSpaceEvent();
 	}
 
 	public MainFinanceWindow(boolean isSales) {
@@ -903,9 +909,11 @@ public class MainFinanceWindow extends VerticalPanel {
 	private CustomMenuBar getVendorMenu() {
 		CustomMenuBar vendorMenuBar = getSubMenu();
 		vendorMenuBar.addItem(VendorsActionFactory.getVendorsHomeAction());
-		vendorMenuBar.addSeparator();
-		vendorMenuBar.addItem(FinanceApplication.getFinanceUIConstants().New(),
-				getNewVendorMenu());
+		if (getNewVendorMenu().menuItems.size() > 0) {
+			vendorMenuBar.addSeparator();
+			vendorMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
+					.New(), getNewVendorMenu());
+		}
 		vendorMenuBar.addSeparator();
 		if (FinanceApplication.getUser().canDoInvoiceTransactions())
 			vendorMenuBar.addItem(VendorsActionFactory.getEnterBillsAction());
@@ -944,9 +952,10 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	private CustomMenuBar getNewVendorMenu() {
 		CustomMenuBar newVendorMenuBar = getSubMenu();
-		newVendorMenuBar.addItem(VendorsActionFactory.getNewVendorAction());
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
+			newVendorMenuBar.addItem(VendorsActionFactory.getNewVendorAction());
 			newVendorMenuBar.addItem(CompanyActionFactory.getNewItemAction());
+		}
 		if (FinanceApplication.getUser().canDoBanking())
 			newVendorMenuBar.addItem(VendorsActionFactory
 					.getNewCashPurchaseAction());
@@ -954,7 +963,9 @@ public class MainFinanceWindow extends VerticalPanel {
 			newVendorMenuBar.addItem(VendorsActionFactory
 					.getNewCreditMemoAction());
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			newVendorMenuBar.addItem(VendorsActionFactory.getNewCheckAction());
+			if (FinanceApplication.getUser().canDoInvoiceTransactions())
+				newVendorMenuBar.addItem(VendorsActionFactory
+						.getNewCheckAction());
 
 		return newVendorMenuBar;
 	}
@@ -963,9 +974,11 @@ public class MainFinanceWindow extends VerticalPanel {
 		CustomMenuBar customerMenuBar = getSubMenu();
 		customerMenuBar
 				.addItem(CustomersActionFactory.getCustomersHomeAction());
-		customerMenuBar.addSeparator();
-		customerMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
-				.New(), getNewCustomerMenu());
+		if (getNewCustomerMenu().menuItems.size() > 0) {
+			customerMenuBar.addSeparator();
+			customerMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
+					.New(), getNewCustomerMenu());
+		}
 		customerMenuBar.addSeparator();
 		if (FinanceApplication.getUser().canDoBanking()) {
 			customerMenuBar.addItem(CustomersActionFactory
@@ -1005,9 +1018,9 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	private CustomMenuBar getNewCustomerMenu() {
 		CustomMenuBar newCustomerMenuBar = getSubMenu();
-		newCustomerMenuBar.addItem(CustomersActionFactory
-				.getNewCustomerAction());
 		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
+			newCustomerMenuBar.addItem(CustomersActionFactory
+					.getNewCustomerAction());
 			newCustomerMenuBar.addItem(CustomersActionFactory
 					.getNewItemAction());
 			newCustomerMenuBar.addItem(CustomersActionFactory
@@ -1285,5 +1298,28 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	public void cancelonMouseoverevent(boolean iscancelEvent) {
 		MainFinanceWindow.iscancelEvent = iscancelEvent;
+	}
+
+	private void handleBackSpaceEvent() {
+		Event.addNativePreviewHandler(new NativePreviewHandler() {
+			@Override
+			public void onPreviewNativeEvent(final NativePreviewEvent event) {
+				Event e = Event.as(event.getNativeEvent());
+
+				if (e.getKeyCode() == KeyCodes.KEY_BACKSPACE) {
+					if (!defaultPresumtion(e.getEventTarget().toString())) {
+						e.preventDefault();
+						// viewManager.closeCurrentView();
+					}
+					return;
+				}
+			}
+		});
+	}
+
+	protected boolean defaultPresumtion(String eventTarget) {
+		return eventTarget.contains("HTMLInputElement")
+				|| eventTarget.contains("HTMLSelectElement")
+				|| eventTarget.contains("HTMLTextAreaElement");
 	}
 }
