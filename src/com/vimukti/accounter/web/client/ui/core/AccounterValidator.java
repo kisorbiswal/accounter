@@ -576,7 +576,8 @@ public class AccounterValidator {
 	@SuppressWarnings("unchecked")
 	public static boolean validate_IncomeAccount(final AbstractBaseView view,
 			ClientAccount income_account) {
-		if (income_account.getType() != ClientAccount.TYPE_INCOME) {
+		if (!AbstractBaseView.errorOccured
+				&& income_account.getType() != ClientAccount.TYPE_INCOME) {
 			Accounter.showWarning(
 					AccounterWarningType.different_IncomeAccountType,
 					AccounterType.WARNING, new ErrorDialogHandler() {
@@ -612,7 +613,8 @@ public class AccounterValidator {
 	@SuppressWarnings("unchecked")
 	public static boolean validate_ExpenseAccount(final AbstractBaseView view,
 			ClientAccount expense_account) {
-		if (expense_account.getType() != ClientAccount.TYPE_EXPENSE
+		if (!AbstractBaseView.errorOccured
+				&& expense_account.getType() != ClientAccount.TYPE_EXPENSE
 				&& expense_account.getType() != ClientAccount.TYPE_COST_OF_GOODS_SOLD) {
 			Accounter.showWarning(
 					AccounterWarningType.different_ExpenseAccountType,
