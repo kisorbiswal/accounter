@@ -567,7 +567,7 @@ public class ClientCompany implements IAccounterCore {
 
 	public List<ClientItem> getPurchaseItems() {
 		List<ClientItem> purchaseitems = new ArrayList<ClientItem>();
-		for (ClientItem item : getActiveItems()) {
+		for (ClientItem item : getAllItems()) {
 			if (item.isIBuyThisItem)
 				purchaseitems.add(item);
 
@@ -577,7 +577,7 @@ public class ClientCompany implements IAccounterCore {
 
 	public List<ClientItem> getSalesItems() {
 		List<ClientItem> salesitems = new ArrayList<ClientItem>();
-		for (ClientItem item : getActiveItems()) {
+		for (ClientItem item : getAllItems()) {
 			if (item.isISellThisItem)
 				salesitems.add(item);
 
@@ -590,6 +590,15 @@ public class ClientCompany implements IAccounterCore {
 		for (ClientItem item : items) {
 			if (item.isActive())
 				activeItems.add(item);
+		}
+		return Utility.getArrayList(activeItems);
+	}
+
+	public List<ClientItem> getAllItems() {
+		List<ClientItem> activeItems = new ArrayList<ClientItem>();
+		for (ClientItem item : items) {
+			// if (item.isActive())
+			activeItems.add(item);
 		}
 		return Utility.getArrayList(activeItems);
 	}
