@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.settings;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -19,15 +17,19 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
+import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
+import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 @SuppressWarnings( { "deprecation", "unchecked" })
 public class NewBrandThemeDialog extends BaseDialog {
 
-	private Label nameLabel, pageSizeLabel, topMarginLabel, bottomMarginLabel,
+	private Label pageSizeLabel, topMarginLabel, bottomMarginLabel,
 			addressPadLabel, fontLabel, fontSizeLabel, overdueLabel,
 			creditNoteLabel, statementLabel, logoLabel, termsLabel;
 
@@ -38,8 +40,10 @@ public class NewBrandThemeDialog extends BaseDialog {
 	private HorizontalPanel mainLayoutPanel, check_radioPanel;
 	private CheckBox taxNumItem, headingItem, unitPriceItem,// paymentItem,
 			columnItem, addressItem, logoItem;
-	private TextBox nameBox, topMarginBox, bottomMarginBox, addressPadBox,
-			overdueBox, creditNoteBox, statementBox, paypalTextBox;
+	private TextBox topMarginBox, bottomMarginBox, addressPadBox, overdueBox,
+			creditNoteBox, statementBox, paypalTextBox;
+
+	private TextItem nameItem;
 	private String[] fontNameArray, fontSizeArray;
 	private SelectCombo fontNameBox, fontSizeBox;
 	private HTML paypalEmailHtml, contactDetailHtml;
@@ -48,6 +52,8 @@ public class NewBrandThemeDialog extends BaseDialog {
 	private FlexTable textBoxTable;
 	private List<String> listOfFontNames, listOfFontSizes;
 	ClientBrandingTheme takenTheme;
+
+	private DynamicForm nameForm;
 
 	public NewBrandThemeDialog(String title, String desc) {
 		super(title, desc);
@@ -63,7 +69,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 
 	private void setBrandingTheme(ClientBrandingTheme brandingTheme) {
 		takenTheme = brandingTheme;
-		nameBox.setValue(brandingTheme.getThemeName());
+		nameItem.setValue(brandingTheme.getThemeName());
 		topMarginBox.setValue(String.valueOf(brandingTheme.getTopMargin()));
 		bottomMarginBox.setValue(String
 				.valueOf(brandingTheme.getBottomMargin()));
@@ -121,15 +127,23 @@ public class NewBrandThemeDialog extends BaseDialog {
 
 			@Override
 			public boolean onOkClick() {
-				ClientBrandingTheme brandingTheme = saveValues();
+				try {
+					if (NewBrandThemeDialog.this.validate()) {
+						ClientBrandingTheme brandingTheme = saveValues();
 
-				if (brandingTheme.getStringID() != null)
-					ViewManager.getInstance().alterObject(brandingTheme,
-							NewBrandThemeDialog.this);
-				else
-					ViewManager.getInstance().createObject(brandingTheme,
-							NewBrandThemeDialog.this);
-				return true;
+						if (brandingTheme.getStringID() != null) {
+							ViewManager.getInstance().alterObject(
+									brandingTheme, NewBrandThemeDialog.this);
+						} else {
+							ViewManager.getInstance().createObject(
+									brandingTheme, NewBrandThemeDialog.this);
+						}
+						return true;
+					}
+				} catch (InvalidTransactionEntryException e) {
+				} catch (InvalidEntryException e) {
+				}
+				return false;
 			}
 
 			@Override
@@ -177,7 +191,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 	private ClientBrandingTheme saveValues() {
 		ClientBrandingTheme brandingTheme = takenTheme != null ? takenTheme
 				: new ClientBrandingTheme();
-		brandingTheme.setThemeName(String.valueOf(nameBox.getValue()));
+		brandingTheme.setThemeName(String.valueOf(nameItem.getValue()));
 		brandingTheme.setPageSizeType(getPageSize());
 		brandingTheme.setTopMargin(Double.parseDouble(String
 				.valueOf(topMarginBox.getValue())));
@@ -443,7 +457,6 @@ public class NewBrandThemeDialog extends BaseDialog {
 	}
 
 	private HorizontalPanel addTextBoxTableControl() {
-		nameLabel = new Label(FinanceApplication.getSettingsMessages().name());
 		pageSizeLabel = new Label(FinanceApplication.getSettingsMessages()
 				.pageSize());
 		topMarginLabel = new Label(FinanceApplication.getSettingsMessages()
@@ -466,7 +479,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 		statementLabel = new Label(FinanceApplication.getSettingsMessages()
 				.statementTitle());
 
-		nameBox = new TextBox();
+		nameItem = new TextItem("Name");
 
 		topMarginBox = new TextBox();
 		topMarginBox.setText(FinanceApplication.getSettingsMessages()
@@ -582,43 +595,56 @@ public class NewBrandThemeDialog extends BaseDialog {
 		measurePanel.add(unitsPanel);
 		measurePanel.setStyleName("measurePanel");
 
+		nameForm = new DynamicForm();
+		// nameForm.setCellSpacing(0);
+		nameForm.setNumCols(2);
+		nameItem.setRequired(true);
+		nameForm.setFields(nameItem);
+		nameForm.setWidth("110px");
+
 		textBoxTable = new FlexTable();
-		textBoxTable.setWidget(0, 0, nameLabel);
-		textBoxTable.setWidget(0, 1, nameBox);
-		textBoxTable.setWidget(1, 0, pageSizeLabel);
-		textBoxTable.setWidget(1, 1, a4Button);
-		textBoxTable.setWidget(2, 1, usLetterButton);
-		textBoxTable.setWidget(3, 0, topMarginLabel);
-		textBoxTable.setWidget(3, 1, topMarginBox);
-		textBoxTable.setWidget(4, 0, bottomMarginLabel);
-		textBoxTable.setWidget(4, 1, bottomMarginBox);
-		textBoxTable.setWidget(5, 0, addressPadLabel);
-		textBoxTable.setWidget(5, 1, addressPadBox);
-		textBoxTable.setWidget(6, 0, fontLabel);
-		textBoxTable.setWidget(6, 1, fontNameForm);
-		textBoxTable.setWidget(7, 0, fontSizeLabel);
-		textBoxTable.setWidget(7, 1, fontSizeForm);
+		textBoxTable.setWidget(0, 0, pageSizeLabel);
+		textBoxTable.setWidget(0, 1, a4Button);
+		textBoxTable.setWidget(1, 1, usLetterButton);
+		textBoxTable.setWidget(2, 0, topMarginLabel);
+		textBoxTable.setWidget(2, 1, topMarginBox);
+		textBoxTable.setWidget(3, 0, bottomMarginLabel);
+		textBoxTable.setWidget(3, 1, bottomMarginBox);
+		textBoxTable.setWidget(4, 0, addressPadLabel);
+		textBoxTable.setWidget(4, 1, addressPadBox);
+		textBoxTable.setWidget(5, 0, fontLabel);
+		textBoxTable.setWidget(5, 1, fontNameForm);
+		textBoxTable.setWidget(6, 0, fontSizeLabel);
+		textBoxTable.setWidget(6, 1, fontSizeForm);
 		// textBoxTable.setWidget(8, 0, draftLabel);
 		// textBoxTable.setWidget(8, 1, draftBox);
 		// textBoxTable.setWidget(9, 0, approvedLabel);
 		// textBoxTable.setWidget(9, 1, approvedBox);
-		textBoxTable.setWidget(8, 0, overdueLabel);
-		textBoxTable.setWidget(8, 1, overdueBox);
-		textBoxTable.setWidget(9, 0, creditNoteLabel);
-		textBoxTable.setWidget(9, 1, creditNoteBox);
-		textBoxTable.setWidget(10, 0, statementLabel);
-		textBoxTable.setWidget(10, 1, statementBox);
+		textBoxTable.setWidget(7, 0, overdueLabel);
+		textBoxTable.setWidget(7, 1, overdueBox);
+		textBoxTable.setWidget(8, 0, creditNoteLabel);
+		textBoxTable.setWidget(8, 1, creditNoteBox);
+		textBoxTable.setWidget(9, 0, statementLabel);
+		textBoxTable.setWidget(9, 1, statementBox);
 
 		HorizontalPanel textBoxHorizontalPanel = new HorizontalPanel();
 
-		textBoxHorizontalPanel.add(textBoxTable);
+		VerticalPanel textBoxPanel = new VerticalPanel();
+		textBoxPanel.add(nameForm);
+		textBoxPanel.add(textBoxTable);
+		textBoxHorizontalPanel.add(textBoxPanel);
 		textBoxHorizontalPanel.add(measurePanel);
 		textBoxHorizontalPanel.setSpacing(10);
 		textBoxHorizontalPanel.setStyleName("rightBorder");
 
 		return textBoxHorizontalPanel;
 	}
-	
+
+	public boolean validate() throws InvalidTransactionEntryException,
+			InvalidEntryException {
+		return AccounterValidator.validateForm(nameForm, true);
+	}
+
 	@Override
 	public void saveSuccess(IAccounterCore object) {
 		super.saveSuccess(object);

@@ -1,7 +1,5 @@
 package com.vimukti.accounter.core;
 
-
-
 /**
  * 
  * @author Narendra nnvd
@@ -236,7 +234,10 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 				}
 			}
 		}
-		vatColumnHeading = "<th><p class=\"fontSetting\">"+getVendorString("VAT Rate", "Tax Rate")+"</p></th><th><p class=\"fontSetting\">"+getVendorString("VAT Amount", "Tax Amount")+"</p></th>";
+		vatColumnHeading = "<th><p class=\"fontSetting\">"
+				+ getVendorString("VAT Rate", "Tax Rate")
+				+ "</p></th><th><p class=\"fontSetting\">"
+				+ getVendorString("VAT Amount", "Tax Amount") + "</p></th>";
 		columnHeading = "<tr><th><p class=\"fontSetting\">Description</p></th><th><p class=\"fontSetting\">Qty</p></th><th><p class=\"fontSetting\">Unit Price</p></th><th><p class=\"fontSetting\">Total Price</p></th>";
 		if (brandingTheme.isShowTaxColumn()) {
 			columnHeading = columnHeading + vatColumnHeading + "</tr>";
@@ -249,7 +250,9 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 					+ largeAmountConversation(invoice.getTotal())
 					+ "</p></div></td></tr></table>";
 
-			vatTotalHtml = "<tr><td class=\"blank\" ></td><td class=\"blank\" > </td><td class=\"blank\" > </td><td class=\"blank\" > </td> <td class=\"total-line, item-column\" ><p class=\"fontSetting\">&nbsp;&nbsp;"+getVendorString("VAT Total", "Tax Total")+"</p></td><td class=\"total-value, item-column\" style=\"padding: 6px;\" align=\"right\"><div id=\"total\"><p class=\"fontSetting\">"
+			vatTotalHtml = "<tr><td class=\"blank\" ></td><td class=\"blank\" > </td><td class=\"blank\" > </td><td class=\"blank\" > </td> <td class=\"total-line, item-column\" ><p class=\"fontSetting\">&nbsp;&nbsp;"
+					+ getVendorString("VAT Total", "Tax Total")
+					+ "</p></td><td class=\"total-value, item-column\" style=\"padding: 6px;\" align=\"right\"><div id=\"total\"><p class=\"fontSetting\">"
 					+ largeAmountConversation((invoice.getTotal() - invoice
 							.getNetAmount())) + "</p></div></td></tr>";
 
@@ -316,13 +319,13 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 		for (Address reg : company.getAddresses()) {
 			if (reg.getType() == Address.TYPE_COMPANY) {
 				if (reg != null)
-					regAdd = (",&nbsp;Register Address: "
-							+ forUnusedAddress(reg.getAddress1(), true)
+					regAdd = ("&nbsp;Registered Address: "
+							+ reg.getAddress1()
 							+ forUnusedAddress(reg.getStreet(), true)
 							+ forUnusedAddress(reg.getCity(), true)
 							+ forUnusedAddress(reg.getStateOrProvinence(), true)
 							+ forUnusedAddress(reg.getZipOrPostalCode(), true)
-							+ reg.getCountryOrRegion() + ".");
+							+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
 			}
 		}
 
@@ -337,12 +340,13 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 				+ "; color:#505050;\" ><tr><td style=\"vertical-align: top;\" align=\"left\" colspan=\"2\"><table style=\"font-size:"
 				+ getFontSize(4)
 				+ "pt; width: 105%; height: 100%; margin-left:56px;  border-color: #E1E1E1; border-collapse:collapse;\" border=\"1\"><colgroup><col></colgroup><tr>";
-		vatRegNumberHtml = "<td><center>"+getVendorString("VAT No :", "Tax No :")
+		vatRegNumberHtml = "<td><center>"
+				+ getVendorString("VAT No: ", "Tax No: ")
 				+ forNullValue(company.getPreferences()
 						.getVATregistrationNumber()) + "</center></td>";
-		sortCodeHtml = "<td><center>Sort Code : "
+		sortCodeHtml = "<td><center>Sort Code: "
 				+ forNullValue(company.getSortCode()) + "</center></td>";
-		bankAccountNumberHtml = "<td><center>Bank Account No :"
+		bankAccountNumberHtml = "<td><center>Bank Account No: "
 				+ forNullValue(company.getBankAccountNo())
 				+ "</center></td></tr></table></td></tr>";
 		regAdd = "<tr><td style=\"vertical-align: top;\" align=\"center\"><table  style=\"width: 100%; height: 100%; padding:3.5px\" ><tr><td align=\"right\" style=\"vertical-align: top;\"<table style=\"margin-left:60px;font-size:"
@@ -468,7 +472,7 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 	public String forUnusedAddress(String add, boolean isFooter) {
 		if (isFooter) {
 			if (add != null && !add.equals(""))
-				return add + ",";
+				return ", " + add;
 		} else {
 			if (add != null && !add.equals(""))
 				return add + "<br/>";

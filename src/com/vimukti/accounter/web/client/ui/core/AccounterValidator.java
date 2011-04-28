@@ -82,11 +82,11 @@ public class AccounterValidator {
 	public static boolean validateForm(DynamicForm form, boolean isDialog)
 			throws InvalidEntryException {
 
-		if (!form.validate(isDialog)) {
-			// throw new
-			// InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
-		}
-		return true;
+		// if (!form.validate(isDialog)) {
+		// // throw new
+		// // InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
+		// }
+		return form.validate(isDialog);
 	}
 
 	public static boolean isChecked(CheckboxItem item) {
