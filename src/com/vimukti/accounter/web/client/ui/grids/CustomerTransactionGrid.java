@@ -322,19 +322,18 @@ public abstract class CustomerTransactionGrid extends
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			createVATItemAndTaxCodeCombo();
 
-		if (!isBankingTransaction && !isSalesOrderTransaction){
-//			this.addFooterValues(new String[] { "", "", "", "", "",
-//					FinanceApplication.getCustomersMessages().total(),
-//					DataUtils.getAmountAsString(0.00), });
-		}
-		else if (isSalesOrderTransaction) {
+		if (!isBankingTransaction && !isSalesOrderTransaction) {
+			// this.addFooterValues(new String[] { "", "", "", "", "",
+			// FinanceApplication.getCustomersMessages().total(),
+			// DataUtils.getAmountAsString(0.00), });
+		} else if (isSalesOrderTransaction) {
 
-//			this.addFooterValues(new String[] { "", "", "", "", "", "",
-//					DataUtils.getAmountAsString(0.00), "" });
-		
+			// this.addFooterValues(new String[] { "", "", "", "", "", "",
+			// DataUtils.getAmountAsString(0.00), "" });
+
 		} else {
-//			this.addFooterValues(new String[] { "", "", "",
-//					DataUtils.getAmountAsString(0.00), "" });
+			// this.addFooterValues(new String[] { "", "", "",
+			// DataUtils.getAmountAsString(0.00), "" });
 		}
 		if (FinanceApplication.getCompany().getAccountingType() == 1) {
 			if (!isBankingTransaction)
@@ -937,19 +936,18 @@ public abstract class CustomerTransactionGrid extends
 				// } catch (Exception e) {
 				// Accounter.showError(AccounterErrorType.INVALIDENTRY);
 				// }
-				Double quantity = Double.parseDouble(DataUtils
-						.getReformatedAmount(qty)
-						+ "");
+				double total = DataUtils.getReformatedAmount(qty);
+				Integer quantity = (int) total;
 				if (quantity == 0) {
-					quantity = 1D;
+					quantity = 1;
 					qty = "1";
 				}
 				try {
 					if (!AccounterValidator.validateGridQuantity(quantity)) {
-						item.setQuantity(Double.parseDouble(qty));
+						item.setQuantity(Integer.parseInt(qty));
 						update_quantity_inAllRecords(item.getQuantity());
 					} else
-						item.setQuantity(isItem ? 1D : 0);
+						item.setQuantity(isItem ? 1 : 0);
 				} catch (InvalidTransactionEntryException e) {
 					e.printStackTrace();
 				}
@@ -1022,14 +1020,14 @@ public abstract class CustomerTransactionGrid extends
 										.isAmountTooLarge(lineTotal))) {
 							item.setLineTotal(lineTotal);
 							item.setUnitPrice(isItem ? lineTotal : 0.0D);
-							item.setQuantity(isItem ? 1D : 0.0D);
+							item.setQuantity(isItem ? 1 : 0);
 						}
 					} catch (Exception e) {
 
 						if (e instanceof InvalidEntryException) {
 							item.setLineTotal(0.0D);
 							item.setUnitPrice(0.0D);
-							item.setQuantity(isItem ? 1D : 0.0D);
+							item.setQuantity(isItem ? 1 : 0);
 							Accounter.showError(e.getMessage());
 
 						}
@@ -1251,8 +1249,8 @@ public abstract class CustomerTransactionGrid extends
 		return true;
 	}
 
-	private void update_quantity_inAllRecords(double quantity) {
-		int decimalpoints_count = getMaxDecimals(quantity);
+	private void update_quantity_inAllRecords(int quantity) {
+		int decimalpoints_count = getMaxDecimals((int) quantity);
 		if (maxDecimalPoint < decimalpoints_count) {
 			maxDecimalPoint = decimalpoints_count;
 			for (ClientTransactionItem item : this.getRecords()) {
@@ -1261,7 +1259,7 @@ public abstract class CustomerTransactionGrid extends
 		}
 	}
 
-	public int getMaxDecimals(double quantity) {
+	public int getMaxDecimals(int quantity) {
 		String qty = String.valueOf(quantity);
 		String max = qty.substring(qty.indexOf(".") + 1);
 		return max.length();

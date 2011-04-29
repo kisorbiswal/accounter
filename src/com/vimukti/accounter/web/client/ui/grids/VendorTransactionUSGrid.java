@@ -785,19 +785,18 @@ public class VendorTransactionUSGrid extends
 				// } catch (Exception e) {
 				// Accounter.showError(AccounterErrorType.INVALIDENTRY);
 				// }
-				Double quantity = Double.parseDouble(DataUtils
-						.getReformatedAmount(qty)
-						+ "");
+				double total = DataUtils.getReformatedAmount(qty);
+				Integer quantity = (int) total;
 				if (quantity == 0) {
-					quantity = 1D;
+					quantity = 1;
 					qty = "1";
 				}
 				try {
 					if (!AccounterValidator.validateGridQuantity(quantity)) {
-						item.setQuantity(Double.parseDouble(qty));
+						item.setQuantity(Integer.parseInt(qty));
 						update_quantity_inAllRecords(item.getQuantity());
 					} else
-						item.setQuantity(isItem ? 1D : 0);
+						item.setQuantity(isItem ? 1 : 0);
 				} catch (InvalidTransactionEntryException e) {
 					e.printStackTrace();
 				}
@@ -861,14 +860,14 @@ public class VendorTransactionUSGrid extends
 										.isAmountTooLarge(lineTotal))) {
 							item.setLineTotal(lineTotal);
 							item.setUnitPrice(isItem ? lineTotal : 0);
-							item.setQuantity(isItem ? 1D : 0);
+							item.setQuantity(isItem ? 1 : 0);
 						}
 
 					} catch (Exception e) {
 						if (e instanceof InvalidEntryException) {
 							item.setLineTotal(0.0D);
 							item.setUnitPrice(0.0D);
-							item.setQuantity(isItem ? 1D : 0);
+							item.setQuantity(isItem ? 1 : 0);
 							// Accounter.showError(e.getMessage());
 							BaseView.errordata.setHTML("<li> " + e.getMessage()
 									+ ".");

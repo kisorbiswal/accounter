@@ -171,13 +171,13 @@ public class PurchaseOrderUKGrid extends VendorTransactionUKGrid {
 							&& !AccounterValidator.isAmountTooLarge(lineTotal)) {
 						item.setLineTotal(lineTotal);
 						item.setUnitPrice(0.0D);
-						item.setQuantity(0.0D);
+						item.setQuantity(0);
 					}
 				} catch (Exception e) {
 					if (e instanceof InvalidEntryException) {
 						item.setLineTotal(0.0D);
 						item.setUnitPrice(0.0D);
-						item.setQuantity(0.0D);
+						item.setQuantity(0);
 						Accounter.showError(e.getMessage());
 
 					}

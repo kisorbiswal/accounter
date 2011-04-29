@@ -155,7 +155,7 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 		}
 	}
 
-	private String getDecimalsUsingMaxDecimals(double quantity,
+	private String getDecimalsUsingMaxDecimals(int quantity,
 			int maxDecimalPoint) {
 		String qty = String.valueOf(quantity);
 		// if (maxDecimalPoint != 0) {
@@ -273,7 +273,7 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 		return true;
 	}
 
-	public String getTaxCode(ClientTransactionItem item){
+	public String getTaxCode(ClientTransactionItem item) {
 		return item.getTaxCode();
 	}
 }
