@@ -4799,21 +4799,10 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 	}
 
 	private void createDefaultBrandingTheme(Session session) {
-		BrandingTheme brandingTheme = new BrandingTheme(
-				"Standard",
-				SecureUtils.createID(),
-				1.35,
-				1.00,
-				1.00,
-				"Times New Roman",
-				"10pt",
-				"INVOICE",
-				"CREDIT",
-				"STATEMENT",
-				"democo@democo.co",
-				true,
-				"Not added",
-				"(None Added)");
+		BrandingTheme brandingTheme = new BrandingTheme("Standard", SecureUtils
+				.createID(), 1.35, 1.00, 1.00, "Times New Roman", "10pt",
+				"INVOICE", "CREDIT", "STATEMENT", "democo@democo.co", true,
+				this.getName(), "(None Added)");
 		session.save(brandingTheme);
 	}
 

@@ -92,7 +92,7 @@ public class TransactionItem
 	/**
 	 * The quantity of TransactionItem to be used.
 	 */
-	double quantity;
+	int quantity;
 
 	/**
 	 * The unit price which is given to be multiplied with quantity and reduced
@@ -306,7 +306,7 @@ public class TransactionItem
 	/**
 	 * @return the quantity
 	 */
-	public double getQuantity() {
+	public int getQuantity() {
 		return quantity;
 	}
 
@@ -779,7 +779,7 @@ public class TransactionItem
 
 	}
 
-	public void setQuantity(double quality) {
+	public void setQuantity(int quality) {
 		this.quantity = quality;
 	}
 
