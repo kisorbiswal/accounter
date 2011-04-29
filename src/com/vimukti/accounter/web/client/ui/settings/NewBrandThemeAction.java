@@ -38,7 +38,7 @@ public class NewBrandThemeAction extends Action {
 			if (data != null) {
 				newBrandThemeDialog = new NewBrandThemeDialog(
 						FinanceApplication.getSettingsMessages()
-								.newBrandThemeLabel(), "",
+								.editBrandThemeLabel(), "",
 						(ClientBrandingTheme) data);
 				newBrandThemeDialog.show();
 				newBrandThemeDialog.center();
