@@ -214,10 +214,10 @@ public class PaySalesTaxView extends
 		grid.init();
 		grid.setDisabled(isEdit);
 		grid.setHeight("200px");
-//		if (!isEdit)
-			// grid.updateFooterValues(FinanceApplication.getVendorsMessages()
-			// .total()
-			// + DataUtils.getAmountAsString(totalAmount), 3);
+		// if (!isEdit)
+		// grid.updateFooterValues(FinanceApplication.getVendorsMessages()
+		// .total()
+		// + DataUtils.getAmountAsString(totalAmount), 3);
 
 		gridLayout.add(grid);
 
@@ -236,10 +236,10 @@ public class PaySalesTaxView extends
 	}
 
 	private void updateAmountAndEndingBalanceItems() {
-
-		this.amountText.setAmount(totalAmount);
-		this.endingBalanceText.setAmount(endingBalance);
-
+		if (!isEdit) {
+			this.amountText.setAmount(totalAmount);
+			this.endingBalanceText.setAmount(endingBalance);
+		}
 	}
 
 	@Override
@@ -296,7 +296,6 @@ public class PaySalesTaxView extends
 
 	@Override
 	protected void createControls() {
-
 		listforms = new ArrayList<DynamicForm>();
 
 		setTitle(UIUtils.title(FinanceApplication.getFinanceUIConstants()
@@ -309,7 +308,7 @@ public class PaySalesTaxView extends
 						.lableTitle());
 
 		date = new DateField(null);
-//		date.setTitle(companyConstants.date());
+		// date.setTitle(companyConstants.date());
 		date.setEnteredDate(new ClientFinanceDate());
 		date.setDisabled(isEdit);
 		date.addValueChangeHandler(new ValueChangeHandler<String>() {
@@ -321,12 +320,12 @@ public class PaySalesTaxView extends
 				// fillGrid();
 			}
 		});
-		transNumber=createTransactionNumberItem();
-		
-		DynamicForm dateForm=new DynamicForm();
+		transNumber = createTransactionNumberItem();
+
+		DynamicForm dateForm = new DynamicForm();
 		dateForm.setNumCols(4);
 		dateForm.setStyleName("datenumber-panel");
-		dateForm.setFields(date,transNumber);
+		dateForm.setFields(date, transNumber);
 
 		payFromAccCombo = new PayFromAccountsCombo(companyConstants.payFrom());
 		payFromAccCombo.setAccountTypes(UIUtils
@@ -386,8 +385,8 @@ public class PaySalesTaxView extends
 		filterForm = new DynamicForm();
 		// filterForm.setWidth("100%");
 		filterForm = UIUtils.form(companyConstants.filter());
-		filterForm.setFields(payFromAccCombo, paymentMethodCombo,
-				billsDue, taxAgencyCombo);
+		filterForm.setFields(payFromAccCombo, paymentMethodCombo, billsDue,
+				taxAgencyCombo);
 		filterForm.getCellFormatter().setWidth(0, 0, "210px");
 
 		amountText = new AmountField(companyConstants.amount());
@@ -482,6 +481,7 @@ public class PaySalesTaxView extends
 
 	@Override
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
+		isEdit = true;
 		paySalesTax = (ClientPaySalesTax) transactionObject;
 
 		selectedPayFromAccount = FinanceApplication.getCompany().getAccount(
@@ -496,7 +496,7 @@ public class PaySalesTaxView extends
 		date.setEnteredDate(paySalesTax.getDate());
 		endingBalanceText.setAmount(paySalesTax.getEndingBalance());
 		paymentMethodCombo.setComboItem(paymentMethod);
-		amountText.setValue(paySalesTax.getTotal());
+		amountText.setAmount(paySalesTax.getTotal());
 		List<ClientTransactionPaySalesTax> list = paySalesTax
 				.getTransactionPaySalesTax();
 		int count = 0;
@@ -508,8 +508,8 @@ public class PaySalesTaxView extends
 				count++;
 			}
 		}
-//		grid.updateFooterValues(FinanceApplication.getVendorsMessages().total()
-//				+ DataUtils.getAmountAsString(paySalesTax.getTotal()), 2);
+		// grid.updateFooterValues(FinanceApplication.getVendorsMessages().total()
+		// + DataUtils.getAmountAsString(paySalesTax.getTotal()), 2);
 
 	}
 
