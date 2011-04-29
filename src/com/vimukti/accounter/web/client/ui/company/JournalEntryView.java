@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
+import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
@@ -77,7 +78,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	public JournalEntryView() {
 		super(ClientTransaction.TYPE_JOURNAL_ENTRY,
 				JOURNALENTRY_TRANSACTION_GRID);
-		this.validationCount = 7;
+		this.validationCount = 8;
 	}
 
 	@Override
@@ -96,6 +97,16 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	public boolean validate() throws InvalidEntryException,
 			InvalidTransactionEntryException {
 		switch (this.validationCount) {
+		case 8:
+			if (memoText.getValue().toString() != null
+					&& memoText.getValue().toString().length() >= 256) {
+				BaseView.errordata
+						.setHTML("Memo Cannot Exceeds more than 255 Characters.");
+				BaseView.commentPanel.setVisible(true);
+				AbstractBaseView.errorOccured = true;
+
+			}
+			return false;
 		case 7:
 			return AccounterValidator
 					.validateTransactionDate(getTransactionDate());
@@ -270,6 +281,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		journalEntry.setDate(transactionDateItem.getEnteredDate().getTime());
 		journalEntry.setMemo(memoText.getValue().toString() != null ? memoText
 				.getValue().toString() : "");
+		// initMemo(journalEntry);
 		journalEntry.setDate(new ClientFinanceDate().getTime());
 		if (DecimalUtil.isEquals(grid.getTotalDebittotal(), grid
 				.getTotalCredittotal())) {
@@ -285,6 +297,19 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		journalEntry.setEntry(allGivenRecords);
 		transactionObject = journalEntry;
 		return journalEntry;
+	}
+
+	private void initMemo(ClientJournalEntry journalEntry) {
+		if (memoText.getValue().toString() != null
+				&& memoText.getValue().toString().length() >= 255) {
+			BaseView.errordata.setHTML("i am here");
+			BaseView.commentPanel.setVisible(true);
+			AbstractBaseView.errorOccured = true;
+
+		} else
+			journalEntry.setMemo(memoText.getValue() != null ? memoText
+					.getValue().toString() : "");
+
 	}
 
 	protected void clearFields() {
