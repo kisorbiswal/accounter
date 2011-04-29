@@ -342,7 +342,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		taxAgencyForm = UIUtils.form(companyConstants.taxAgency());
 		taxAgencyForm.setWidth("100%");
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-		taxAgencyForm.getCellFormatter().setWidth(0, 0, "215px");
+		taxAgencyForm.getCellFormatter().setWidth(0, 0, "204px");
 		}
 		else
 			taxAgencyForm.getCellFormatter().setWidth(0, 0, "190px");
