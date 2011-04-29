@@ -38,14 +38,11 @@ public class UsersView extends BaseView<ClientUser> {
 
 	@Override
 	public List<DynamicForm> getForms() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -56,10 +53,10 @@ public class UsersView extends BaseView<ClientUser> {
 
 	@Override
 	public void initData() {
-		// TODO Auto-generated method stub
 		super.initData();
 	}
 
+	@SuppressWarnings("deprecation")
 	private void createControls() {
 
 		GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
@@ -176,32 +173,22 @@ public class UsersView extends BaseView<ClientUser> {
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -40,6 +41,7 @@ public class ConversionBalancesView extends AbstractBaseView {
 	// private ListGrid grid;
 	private Label account, debit, credit;
 	private FlexTable tabFlexTable;
+	private SettingsMessages messages = GWT.create(SettingsMessages.class);
 
 	public ConversionBalancesView(String endingDate, String year) {
 		if (endingDate != null && year != null) {
@@ -62,9 +64,8 @@ public class ConversionBalancesView extends AbstractBaseView {
 	@SuppressWarnings("deprecation")
 	public void addNewTab(String endingDate, String year) {
 		createControls();
-		tabPanel.add(getBodyControls(), FinanceApplication
-				.getSettingsMessages().january01()
-				+ year + " _ " + endingDate);
+		tabPanel.add(getBodyControls(), messages.january01() + year + " _ "
+				+ endingDate);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -119,8 +120,7 @@ public class ConversionBalancesView extends AbstractBaseView {
 
 		headerButtonPanel = new HorizontalPanel();
 		// grid=new
-		superHeaderHtml = new HTML(FinanceApplication.getSettingsMessages()
-				.generalSettingsLabel());
+		superHeaderHtml = new HTML(messages.generalSettingsLabel());
 		superHeaderHtml.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
@@ -139,13 +139,11 @@ public class ConversionBalancesView extends AbstractBaseView {
 						TextDecoration.NONE);
 			}
 		});
-		headerHtml = new HTML(FinanceApplication.getSettingsMessages()
-				.conversionBalanaceHeader());
+		headerHtml = new HTML(messages.conversionBalanaceHeader());
 
-		addComparativeBalancesButton = new Button(FinanceApplication
-				.getSettingsMessages().addComparativeButton());
-		conversionDateButton = new Button(FinanceApplication
-				.getSettingsMessages().conversionDateButton());
+		addComparativeBalancesButton = new Button(messages
+				.addComparativeButton());
+		conversionDateButton = new Button(messages.conversionDateButton());
 
 		headerButtonPanel.add(addComparativeBalancesButton);
 		headerButtonPanel.add(conversionDateButton);
@@ -172,25 +170,18 @@ public class ConversionBalancesView extends AbstractBaseView {
 		tabBodyPanel = new VerticalPanel();
 		addNewButtonPanel = new HorizontalPanel();
 		footerButtonPanel = new HorizontalPanel();
-		addNewButton = new Button(FinanceApplication.getSettingsMessages()
-				.addNewLine());
-		saveButton = new Button(FinanceApplication.getSettingsMessages()
-				.saveButton());
-		cancelButton = new Button(FinanceApplication.getSettingsMessages()
-				.cancelButton());
+		addNewButton = new Button(messages.addNewLine());
+		saveButton = new Button(messages.saveButton());
+		cancelButton = new Button(messages.cancelButton());
 		footerPanel = new VerticalPanel();
 		debit_creditForm = new DynamicForm();
-		debitLabel = new AmountLabel(FinanceApplication.getSettingsMessages()
-				.totalDebits());
-		creditLabel = new AmountLabel(FinanceApplication.getSettingsMessages()
-				.totalCredits());
-		adjustmentLabel = new AmountLabel(FinanceApplication
-				.getSettingsMessages().adjustments());
+		debitLabel = new AmountLabel(messages.totalDebits());
+		creditLabel = new AmountLabel(messages.totalCredits());
+		adjustmentLabel = new AmountLabel(messages.adjustments());
 		tabFlexTable = new FlexTable();
-		account = new Label(FinanceApplication.getSettingsMessages()
-				.conversionAccount());
-		credit = new Label(FinanceApplication.getSettingsMessages().credit());
-		debit = new Label(FinanceApplication.getSettingsMessages().debit());
+		account = new Label(messages.conversionAccount());
+		credit = new Label(messages.credit());
+		debit = new Label(messages.debit());
 
 		tabFlexTable.setWidget(0, 0, account);
 		tabFlexTable.setWidget(0, 1, credit);
@@ -199,19 +190,16 @@ public class ConversionBalancesView extends AbstractBaseView {
 		adjustmentLabel.setAmount(debitLabel.getAmount()
 				- creditLabel.getAmount());
 		removeZeroBalance = new LabelItem();
-		removeZeroBalance.setValue(FinanceApplication.getSettingsMessages()
-				.removeZeroBalances());
+		removeZeroBalance.setValue(messages.removeZeroBalances());
 		removeZeroBalance.addStyleName("falseHyperlink");
 		removeZeroBalance.setShowTitle(false);
 		removeZeroBalance.setDisabled(isEdit);
 		showAllAccounts = new LabelItem();
-		showAllAccounts.setValue(FinanceApplication.getSettingsMessages()
-				.showAllAccounts());
+		showAllAccounts.setValue(messages.showAllAccounts());
 		showAllAccounts.addStyleName("falseHyperlink");
 		showAllAccounts.setShowTitle(false);
 		showAllAccounts.setDisabled(isEdit);
-		footerCommentHtml = new HTML(FinanceApplication.getSettingsMessages()
-				.footerComment());
+		footerCommentHtml = new HTML(messages.footerComment());
 
 		labelsForm = new DynamicForm();
 		labelsForm.setNumCols(4);

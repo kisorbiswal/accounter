@@ -108,13 +108,11 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 
 	@Override
 	protected String[] getSelectValues(ClientUser obj, int index) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected boolean isEditable(ClientUser obj, int row, int index) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -135,13 +133,11 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 
 	@Override
 	protected void onValueChange(ClientUser obj, int index, Object value) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected int sort(ClientUser obj1, ClientUser obj2, int index) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -153,7 +149,6 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 
 	@Override
 	protected int[] setColTypes() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -8,7 +9,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
 @SuppressWarnings("unchecked")
@@ -19,6 +19,7 @@ public class AutomaticSequenceDialog extends BaseDialog {
 	private Label invoicePrefixlabel, creditNoteLabel, nextNumberLabel;
 	private TextBox invoiceBox, creditBox, nextBox;
 	private VerticalPanel subLayoutPanel, invoicePanel, creditPanel, nextPanel;
+	private SettingsMessages messages = GWT.create(SettingsMessages.class);
 
 	public AutomaticSequenceDialog(String title, String desc) {
 		super(title, desc);
@@ -32,33 +33,26 @@ public class AutomaticSequenceDialog extends BaseDialog {
 
 	private void createControls() {
 		subLayoutPanel = new VerticalPanel();
-		paraHTML = new HTML(FinanceApplication.getSettingsMessages()
-				.automaticSequencingData());
+		paraHTML = new HTML(messages.automaticSequencingData());
 
 		invoicePanel = new VerticalPanel();
-		invoicePrefixlabel = new Label(FinanceApplication.getSettingsMessages()
-				.invoicePrefix());
+		invoicePrefixlabel = new Label(messages.invoicePrefix());
 		invoiceBox = new TextBox();
-		invoiceBox.setText(FinanceApplication.getSettingsMessages()
-				.invoicePrefixValue());
+		invoiceBox.setText(messages.invoicePrefixValue());
 		invoicePanel.add(invoicePrefixlabel);
 		invoicePanel.add(invoiceBox);
 
 		creditPanel = new VerticalPanel();
-		creditNoteLabel = new Label(FinanceApplication.getSettingsMessages()
-				.creditNotePrefix());
+		creditNoteLabel = new Label(messages.creditNotePrefix());
 		creditBox = new TextBox();
-		creditBox.setText(FinanceApplication.getSettingsMessages()
-				.creditNotePrefixValue());
+		creditBox.setText(messages.creditNotePrefixValue());
 		creditPanel.add(creditNoteLabel);
 		creditPanel.add(creditBox);
 
 		nextPanel = new VerticalPanel();
-		nextNumberLabel = new Label(FinanceApplication.getSettingsMessages()
-				.nextNumber());
+		nextNumberLabel = new Label(messages.nextNumber());
 		nextBox = new TextBox();
-		nextBox.setText(FinanceApplication.getSettingsMessages()
-				.nextNumberValue());
+		nextBox.setText(messages.nextNumberValue());
 		nextPanel.add(nextNumberLabel);
 		nextPanel.add(nextBox);
 
@@ -67,7 +61,7 @@ public class AutomaticSequenceDialog extends BaseDialog {
 		optionsTable.setWidget(0, 1, creditPanel);
 		optionsTable.setWidget(0, 2, nextPanel);
 
-		okbtn.setText(FinanceApplication.getSettingsMessages().saveButton());
+		okbtn.setText(messages.saveButton());
 		okbtn.addClickHandler(new ClickHandler() {
 
 			@Override

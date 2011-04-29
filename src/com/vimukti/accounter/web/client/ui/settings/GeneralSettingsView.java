@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -15,7 +16,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
 @SuppressWarnings("unchecked")
@@ -28,6 +28,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 			invoiceCommentHtml, titleHtml, userHtml, userCommentHtml,
 			companySettingsHtml, companyCommentHtml;
 	private Image conversationImage, usersImage, invoiceImage, companyImage;
+	private SettingsMessages messages = GWT.create(SettingsMessages.class);
 
 	@Override
 	public void fitToSize(int height, int width) {
@@ -69,27 +70,19 @@ public class GeneralSettingsView extends AbstractBaseView {
 		invoiceBrandingPanel = new VerticalPanel();
 		userPanel = new VerticalPanel();
 
-		titleHtml = new HTML(FinanceApplication.getSettingsMessages()
-				.generalSettingsHeading());
+		titleHtml = new HTML(messages.generalSettingsHeading());
 		titleHtml.setVisible(false);
-		conversionHTML = new HTML(FinanceApplication.getSettingsMessages()
-				.conversionHTML());
-		conversationCommentHTML = new HTML(FinanceApplication
-				.getSettingsMessages().conversionCommet());
-		invoiceBrandingHTML = new HTML(FinanceApplication.getSettingsMessages()
-				.invoiceBrandingHTML());
+		conversionHTML = new HTML(messages.conversionHTML());
+		conversationCommentHTML = new HTML(messages.conversionCommet());
+		invoiceBrandingHTML = new HTML(messages.invoiceBrandingHTML());
 		invoiceBrandingHTML.setWidth("145px");
-		invoiceCommentHtml = new HTML(FinanceApplication.getSettingsMessages()
-				.invoiceComment());
-		userHtml = new HTML(FinanceApplication.getSettingsMessages().userHTML());
+		invoiceCommentHtml = new HTML(messages.invoiceComment());
+		userHtml = new HTML(messages.userHTML());
 		userHtml.setWidth("50px");
-		userCommentHtml = new HTML(FinanceApplication.getSettingsMessages()
-				.usersComment());
-		companySettingsHtml = new HTML(FinanceApplication.getSettingsMessages()
-				.companySettingsTitle());
+		userCommentHtml = new HTML(messages.usersComment());
+		companySettingsHtml = new HTML(messages.companySettingsTitle());
 		companySettingsHtml.setWidth("150px");
-		companyCommentHtml = new HTML(FinanceApplication.getSettingsMessages()
-				.companyCommentHtml());
+		companyCommentHtml = new HTML(messages.companyCommentHtml());
 
 		titlePanel.add(titleHtml);
 		conversationPanel.add(conversionHTML);

@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.settings;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -31,6 +32,7 @@ public class ConversionDateView extends AbstractBaseView {
 	private List<String> monthList;
 	private List<String> yearList;
 	private Button saveButton, cancelButton;
+	private SettingsMessages messages = GWT.create(SettingsMessages.class);
 
 	@Override
 	public void fitToSize(int height, int width) {
@@ -51,16 +53,13 @@ public class ConversionDateView extends AbstractBaseView {
 	}
 
 	private void createControls() {
-		titleHtml = new HTML(FinanceApplication.getSettingsMessages()
-				.conversionDateTitle());
-		superTitleHtml = new HTML(FinanceApplication.getSettingsMessages()
-				.conversionBalanceTitle());
+		titleHtml = new HTML(messages.conversionDateTitle());
+		superTitleHtml = new HTML(messages.conversionBalanceTitle());
 
 		bodyHtml = new HTML(
 				"<p><font size='2px'>Enter the date that you began processing all your transactions in Accounter. It's easiest when you set your conversion date to be the start of a Sales Tax period.</font> <a><font color='green' size='2px'>Tips for Choosing a Conversion Date</font></a></p>");
 
-		bodycommentHtml = new HTML(FinanceApplication.getSettingsMessages()
-				.conversionBodyComment());
+		bodycommentHtml = new HTML(messages.conversionBodyComment());
 		bodycommentHtml.setVisible(false);
 
 		mainPanel = new VerticalPanel();
@@ -68,29 +67,16 @@ public class ConversionDateView extends AbstractBaseView {
 		bodyPanel = new VerticalPanel();
 		comboForm = new DynamicForm();
 		buttonPanel = new HorizontalPanel();
-		saveButton = new Button(FinanceApplication.getSettingsMessages()
-				.saveButton());
-		cancelButton = new Button(FinanceApplication.getSettingsMessages()
-				.cancelButton());
+		saveButton = new Button(messages.saveButton());
+		cancelButton = new Button(messages.cancelButton());
 
-		monthArray = new String[] {
-				FinanceApplication.getSettingsMessages().january(),
-				FinanceApplication.getSettingsMessages().february(),
-				FinanceApplication.getSettingsMessages().march(),
-				FinanceApplication.getSettingsMessages().april(),
-				FinanceApplication.getSettingsMessages().may(),
-				FinanceApplication.getSettingsMessages().june(),
-				FinanceApplication.getSettingsMessages().july(),
-				FinanceApplication.getSettingsMessages().august(),
-				FinanceApplication.getSettingsMessages().september(),
-				FinanceApplication.getSettingsMessages().october(),
-				FinanceApplication.getSettingsMessages().november(),
-				FinanceApplication.getSettingsMessages().december() };
-		yearArray = new String[] {
-				FinanceApplication.getSettingsMessages().year2011(),
-				FinanceApplication.getSettingsMessages().year2012() };
-		monthCombo = new SelectCombo(FinanceApplication.getSettingsMessages()
-				.month());
+		monthArray = new String[] { messages.january(), messages.february(),
+				messages.march(), messages.april(), messages.may(),
+				messages.june(), messages.july(), messages.august(),
+				messages.september(), messages.october(), messages.november(),
+				messages.december() };
+		yearArray = new String[] { messages.year2011(), messages.year2012() };
+		monthCombo = new SelectCombo(messages.month());
 		monthCombo.setHelpInformation(true);
 		monthList = new ArrayList<String>();
 		for (int i = 0; i < monthArray.length; i++) {
@@ -117,8 +103,7 @@ public class ConversionDateView extends AbstractBaseView {
 					}
 				});
 
-		yearCombo = new SelectCombo(FinanceApplication.getSettingsMessages()
-				.year());
+		yearCombo = new SelectCombo(messages.year());
 		yearCombo.setHelpInformation(true);
 		yearList = new ArrayList<String>();
 		for (int i = 0; i < yearArray.length; i++) {
@@ -217,8 +202,7 @@ public class ConversionDateView extends AbstractBaseView {
 		String returnValue = null;
 		if (month == null || year == null) {
 			returnValue = "";
-		} else if (month.equals(FinanceApplication.getSettingsMessages()
-				.january())) {
+		} else if (month.equals(messages.january())) {
 			returnValue = String.valueOf(Integer.parseInt(year) - 1);
 		} else {
 			returnValue = year;
@@ -230,62 +214,35 @@ public class ConversionDateView extends AbstractBaseView {
 		String returnValue = null;
 		if (month == null || year == null) {
 			returnValue = "";
-		} else if (month.equals(FinanceApplication.getSettingsMessages()
-				.january())) {
-			returnValue = FinanceApplication.getSettingsMessages().date31()
-					+ " " + FinanceApplication.getSettingsMessages().december();
-		} else if (month.equals(FinanceApplication.getSettingsMessages()
-				.february())) {
-			returnValue = FinanceApplication.getSettingsMessages().date31()
-					+ " " + FinanceApplication.getSettingsMessages().january();
-		} else if (month.equals(FinanceApplication.getSettingsMessages()
-				.march())) {
+		} else if (month.equals(messages.january())) {
+			returnValue = messages.date31() + " " + messages.december();
+		} else if (month.equals(messages.february())) {
+			returnValue = messages.date31() + " " + messages.january();
+		} else if (month.equals(messages.march())) {
 			if (Integer.parseInt(year) % 4 == 0) {
-				returnValue = FinanceApplication.getSettingsMessages().date29()
-						+ " "
-						+ FinanceApplication.getSettingsMessages().february();
+				returnValue = messages.date29() + " " + messages.february();
 			} else {
-				returnValue = FinanceApplication.getSettingsMessages().date28()
-						+ " "
-						+ FinanceApplication.getSettingsMessages().february();
+				returnValue = messages.date28() + " " + messages.february();
 			}
 
-		} else if (month.equals(FinanceApplication.getSettingsMessages()
-				.april())) {
-			returnValue = FinanceApplication.getSettingsMessages().date31()
-					+ " " + FinanceApplication.getSettingsMessages().march();
-		} else if (month.equals(FinanceApplication.getSettingsMessages().may())) {
-			returnValue = FinanceApplication.getSettingsMessages().date30()
-					+ " " + FinanceApplication.getSettingsMessages().april();
-		} else if (month
-				.equals(FinanceApplication.getSettingsMessages().june())) {
-			returnValue = FinanceApplication.getSettingsMessages().april()
-					+ " " + FinanceApplication.getSettingsMessages().may();
-		} else if (month
-				.equals(FinanceApplication.getSettingsMessages().july())) {
-			returnValue = FinanceApplication.getSettingsMessages().date30()
-					+ " " + FinanceApplication.getSettingsMessages().june();
-		} else if (month.equals(FinanceApplication.getSettingsMessages()
-				.august())) {
-			returnValue = FinanceApplication.getSettingsMessages().date31()
-					+ " " + FinanceApplication.getSettingsMessages().july();
-		} else if (month.equals(FinanceApplication.getSettingsMessages()
-				.september())) {
-			returnValue = FinanceApplication.getSettingsMessages().date31()
-					+ " " + FinanceApplication.getSettingsMessages().august();
-		} else if (month.equals(FinanceApplication.getSettingsMessages()
-				.october())) {
-			returnValue = FinanceApplication.getSettingsMessages().date30()
-					+ " "
-					+ FinanceApplication.getSettingsMessages().september();
-		} else if (month.equals(FinanceApplication.getSettingsMessages()
-				.november())) {
-			returnValue = FinanceApplication.getSettingsMessages().date31()
-					+ " " + FinanceApplication.getSettingsMessages().october();
-		} else if (month.equals(FinanceApplication.getSettingsMessages()
-				.december())) {
-			returnValue = FinanceApplication.getSettingsMessages().date31()
-					+ " " + FinanceApplication.getSettingsMessages().november();
+		} else if (month.equals(messages.april())) {
+			returnValue = messages.date31() + " " + messages.march();
+		} else if (month.equals(messages.may())) {
+			returnValue = messages.date30() + " " + messages.april();
+		} else if (month.equals(messages.june())) {
+			returnValue = messages.april() + " " + messages.may();
+		} else if (month.equals(messages.july())) {
+			returnValue = messages.date30() + " " + messages.june();
+		} else if (month.equals(messages.august())) {
+			returnValue = messages.date31() + " " + messages.july();
+		} else if (month.equals(messages.september())) {
+			returnValue = messages.date31() + " " + messages.august();
+		} else if (month.equals(messages.october())) {
+			returnValue = messages.date30() + " " + messages.september();
+		} else if (month.equals(messages.november())) {
+			returnValue = messages.date31() + " " + messages.october();
+		} else if (month.equals(messages.december())) {
+			returnValue = messages.date31() + " " + messages.november();
 		}
 
 		return returnValue;

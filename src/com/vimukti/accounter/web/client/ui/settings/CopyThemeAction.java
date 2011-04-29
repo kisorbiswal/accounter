@@ -31,6 +31,7 @@ public class CopyThemeAction extends Action {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		try {

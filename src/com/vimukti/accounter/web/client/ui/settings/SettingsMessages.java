@@ -75,7 +75,7 @@ public interface SettingsMessages extends FinanceMessages {
 
 	SafeHtml ok();
 
-//	String general();
+	// String general();
 
 	String inventoryItems();
 
@@ -350,9 +350,9 @@ public interface SettingsMessages extends FinanceMessages {
 	SafeHtml companySettingsTitle();
 
 	SafeHtml companyCommentHtml();
-	
+
 	String loginCount();
-	
+
 	String settings();
 
 	String addLogo();
@@ -362,5 +362,15 @@ public interface SettingsMessages extends FinanceMessages {
 	SafeHtml helpContent();
 
 	SafeHtml chooseLogo();
+
+	String standard();
+
+	String none();
+
+	String editBrandThemeLabel();
+	
+	String inviteUser();
+
+	String labelTitle();
 
 }

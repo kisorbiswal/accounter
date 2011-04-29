@@ -1,14 +1,17 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
+import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
 import com.vimukti.accounter.web.client.ui.core.AbstractActionFactory;
 import com.vimukti.accounter.web.client.ui.core.InventoryItemsAction;
 
 public class SettingsActionFactory extends AbstractActionFactory {
+	private static SettingsMessages messages = GWT
+			.create(SettingsMessages.class);
 
 	public static GeneralSettingsAction getGeneralSettingsAction() {
-		return new GeneralSettingsAction("General Settings");
+		return new GeneralSettingsAction(messages.labelTitle());
 	}
 
 	public static InventoryItemsAction getInventoryItemsAction() {
@@ -34,8 +37,7 @@ public class SettingsActionFactory extends AbstractActionFactory {
 	}
 
 	public static NewBrandThemeAction getNewBrandThemeAction() {
-		return new NewBrandThemeAction(FinanceApplication.getSettingsMessages()
-				.newBrandThemeLabel());
+		return new NewBrandThemeAction(messages.newBrandThemeLabel());
 
 	}
 
@@ -50,25 +52,22 @@ public class SettingsActionFactory extends AbstractActionFactory {
 	}
 
 	public static CustomThemeAction getCustomThemeAction() {
-		return new CustomThemeAction(FinanceApplication.getSettingsMessages()
-				.newBrandThemeLabel());
+		return new CustomThemeAction(messages.newBrandThemeLabel());
 	}
 
 	public static UsersAction getUsersAction() {
-		return new UsersAction(FinanceApplication.getSettingsMessages().users());
+		return new UsersAction(messages.users());
 	}
 
 	public static InviteUserAction getInviteUserAction() {
-		return new InviteUserAction("Invite a User");
+		return new InviteUserAction(messages.inviteUser());
 	}
 
 	public static DeleteThemeAction getDeleteThemeAction() {
-		return new DeleteThemeAction(FinanceApplication.getSettingsMessages()
-				.users());
+		return new DeleteThemeAction(messages.users());
 	}
 
 	public static CopyThemeAction getCopyThemeAction() {
-		return new CopyThemeAction(FinanceApplication.getSettingsMessages()
-				.copyTheme());
+		return new CopyThemeAction(messages.copyTheme());
 	}
 }
