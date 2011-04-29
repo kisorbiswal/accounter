@@ -45,7 +45,7 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	String description;
 
-	double quantity = 1;
+	int quantity = 1;
 
 	double unitPrice;
 
@@ -204,7 +204,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	/**
 	 * @return the quantity
 	 */
-	public double getQuantity() {
+	public int getQuantity() {
 		return quantity;
 	}
 
@@ -305,7 +305,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	 * @param quantity
 	 *            the quantity to set
 	 */
-	public void setQuantity(double quantity) {
+	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 
