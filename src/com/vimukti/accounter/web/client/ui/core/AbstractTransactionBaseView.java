@@ -848,7 +848,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 					ClientTAXCode code = FinanceApplication.getCompany()
 							.getTAXCode(selectItem.getTaxCode());
 
-					if (code.getName().equalsIgnoreCase("S")
+					if (code.getName().equalsIgnoreCase("New S")
 							&& getTransactionDate().before(
 									new ClientFinanceDate(2011 - 1900, 01 - 1,
 											04))) {

@@ -93,11 +93,11 @@ public class AccounterValidator {
 		return item.getValue() != null ? (Boolean) item.getValue() : false;
 	}
 
-	public static boolean validateAmount(Double amt) {
-		if (DecimalUtil.isLessThan(amt, 0.00)) {
-			Accounter.showError(AccounterErrorType.amount);
-			Accounter.stopExecution();
-			return false;
+	public static boolean validateAmount(Double amt)
+			throws InvalidEntryException {
+		if (DecimalUtil.isLessThan(amt, 0.00)
+				|| DecimalUtil.isEquals(amt, 0.00)) {
+			throw new InvalidEntryException(AccounterErrorType.amount);
 		}
 		return true;
 	}
@@ -1368,7 +1368,7 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean validateGridQuantity(Double quantity)
+	public static boolean validateGridQuantity(int quantity)
 			throws InvalidTransactionEntryException {
 		if (DecimalUtil.isLessThan(quantity, 0.00)) {
 			BaseView.errordata.setHTML("<li> " + AccounterErrorType.quantity
@@ -1589,8 +1589,8 @@ public class AccounterValidator {
 	 * @return
 	 */
 	public static boolean validateWriteCheckAmount(double amount, double total) {
-		if (DecimalUtil.isEquals(total, 0.00)) {
-			Accounter.showError("Total can't be zero Or Not less than");
+		if (!DecimalUtil.isEquals(total, amount)) {
+			Accounter.showError(AccounterErrorType.writeCheck_TotalAmount);
 			Accounter.stopExecution();
 			return false;
 		}
