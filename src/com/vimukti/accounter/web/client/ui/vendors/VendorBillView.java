@@ -41,6 +41,7 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
+import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -228,6 +229,11 @@ public class VendorBillView extends
 			getPurchaseOrdersAndItemReceipt();
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
 			super.setVendorTaxcodeToAccount();
+		if (vendor.getPhoneNo() != null) {
+			phoneSelect.setValue(vendor.getPhoneNo());
+		} else {
+			phoneSelect.setValue("");
+		}
 	}
 
 	private void updatePurchaseOrderOrItemReceipt(ClientVendor vendor) {
@@ -383,7 +389,7 @@ public class VendorBillView extends
 		formItems.add(contactCombo);
 		formItems.add(billToCombo);
 
-		phoneSelect = new SelectCombo(vendorConstants.phone());
+		phoneSelect = new TextItem(vendorConstants.phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(80);
 		phoneSelect.setDisabled(false);
@@ -688,7 +694,7 @@ public class VendorBillView extends
 
 	@Override
 	protected void initMemoAndReference() {
-           memoTextAreaItem.setDisabled(true);
+		memoTextAreaItem.setDisabled(true);
 		setMemoTextAreaItem(((ClientEnterBill) transactionObject).getMemo());
 		// setRefText(((ClientEnterBill) transactionObject).getReference());
 
