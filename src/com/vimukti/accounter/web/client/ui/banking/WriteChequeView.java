@@ -111,7 +111,7 @@ public class WriteChequeView extends
 	private ArrayList<DynamicForm> listforms;
 
 	private HorizontalPanel vatPanel;
-	
+
 	private VerticalPanel vPanel;
 
 	private WriteChequeView() {
@@ -500,7 +500,7 @@ public class WriteChequeView extends
 			case 4:
 				return AccounterValidator.validateForm(bankAccForm, false);
 			case 3:
-				if (transactionObject == null && payee!=null) {
+				if (transactionObject == null && payee != null) {
 					switch (payee.getType()) {
 					case ClientPayee.TYPE_CUSTOMER:
 						return AccounterValidator
@@ -518,12 +518,13 @@ public class WriteChequeView extends
 				}
 				break;
 			case 2:
-				if (transactionObject == null && selectBankAcc!=null)
-					return AccounterValidator
-							.validate_Total_Exceeds_BankBalance(balText
-									.getAmount(), amtText.getAmount(),
-									selectBankAcc.isIncrease(), this);
-				break;
+				// if (transactionObject == null && selectBankAcc != null)
+				// return AccounterValidator
+				// .validate_Total_Exceeds_BankBalance(balText
+				// .getAmount(), amtText.getAmount(),
+				// selectBankAcc.isIncrease(), this);
+				// break;
+				return false;
 
 			case 1:
 				if (transactionObject == null)
@@ -554,7 +555,7 @@ public class WriteChequeView extends
 				// total = transactionVendorGrid.getTotal();
 
 			}
-			return AccounterValidator.validate_ZeroAmount(amtText.getAmount());
+			return AccounterValidator.validateAmount(total);
 		}
 		return false;
 	}
@@ -722,11 +723,11 @@ public class WriteChequeView extends
 		date.setShowTitle(false);
 		date.setColSpan(2);
 		date.setDisabled(isEdit);
-		
+
 		numForm = new DynamicForm();
 		numForm.setNumCols(4);
 		numForm.addStyleName("datenumber-panel");
-		numForm.setFields(date,transactionNumber);
+		numForm.setFields(date, transactionNumber);
 		nHPanel = new VerticalPanel();
 		nHPanel.setCellHorizontalAlignment(numForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
@@ -1038,8 +1039,8 @@ public class WriteChequeView extends
 
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			mainVLay.add(vatPanel);
-		
-	    vPanel = new VerticalPanel();
+
+		vPanel = new VerticalPanel();
 		vPanel.setWidth("100%");
 		vPanel.add(createAddNewButton());
 		vPanel.add(memoForm);
