@@ -894,6 +894,7 @@ public class ItemView extends BaseView<ClientItem> {
 				else
 					return true;
 			}
+			return true;
 		case 1:
 			if (selectExpAccount != null) {
 				if (AccounterValidator.isChecked(ibuyCheck))
