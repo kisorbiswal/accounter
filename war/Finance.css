@@ -242,6 +242,7 @@ h1 {
 	cursor: pointer;
 	color: #0000AA;
 	white-space: nowrap;
+	margin-bottom: 10px;
 	/*width: 1px;*/
 }
 
@@ -1625,4 +1626,13 @@ iframe { /*display:none;*/
 
 .itemGrid {
 	padding-top: 25px;
+}
+.upload-logo{
+	border: 1px solid #DDDDDD;
+    height: 150px;
+    margin: 2px;
+    width: 164px;
+}
+.picture-link{
+	padding: 40px;
 }

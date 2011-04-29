@@ -1225,7 +1225,7 @@ table tr.parentRow:HOVER {
 }
 
 .gridBody tr td {
-	border-right: 1px solid #AAAAAA;
+	/*border-right: 1px solid #AAAAAA;*/
 	padding-left: 5px;
 	overflow-x: hidden;
 }
