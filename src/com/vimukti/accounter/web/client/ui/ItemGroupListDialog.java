@@ -83,7 +83,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 		if (Utility.isObjectExist(FinanceApplication.getCompany()
 				.getItemGroups(), itemGroupDg.getItemGroupName())) {
 			Accounter
-					.showError("A ProductGroup  Already Exists with this name");
+					.showError("A Item Group  Already Exists with this name");
 		} else {
 			createObject(itemGroupDg.createOrEditItemGroup());
 		}
@@ -99,8 +99,8 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 
 	public void showAddEditGroupDialog(ClientItemGroup rec) {
 		itemGroup = rec;
-		itemGroupDg = new ItemGroupDialog(FinanceApplication
-				.getCustomersMessages().productGroup(), "", itemGroup);
+		itemGroupDg = new ItemGroupDialog(FinanceApplication.getFinanceUIConstants()
+				.itemGroup(), "", itemGroup);
 
 		InputDialogHandler dialogHandler = new InputDialogHandler() {
 

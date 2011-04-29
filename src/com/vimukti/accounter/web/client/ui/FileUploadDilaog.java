@@ -107,6 +107,7 @@ public class FileUploadDilaog extends CustomDialog {
 						TextDecoration.NONE);
 			}
 		});
+		helpHtml.setVisible(false);
 		chooseHtml = new HTML(FinanceApplication.getSettingsMessages()
 				.chooseLogo());
 		final FileUpload upload = new FileUpload();

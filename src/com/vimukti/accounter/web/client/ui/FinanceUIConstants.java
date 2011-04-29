@@ -262,6 +262,8 @@ public interface FinanceUIConstants extends FinanceConstants {
 	public String totalAmount();
 
 	public String startingCheckNo();
+	
+	public String startingChequeNo();
 
 	public String itemDeletedSuccessfully();
 

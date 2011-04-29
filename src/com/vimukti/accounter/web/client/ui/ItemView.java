@@ -30,7 +30,6 @@ import com.vimukti.accounter.web.client.ui.combo.SalesItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -276,11 +275,8 @@ public class ItemView extends BaseView<ClientItem> {
 		// stdCostForm.getCellFormatter().setWidth(0, 0, "165");
 		// itemGroupCombo = new ItemGroupCombo(FinanceApplication
 		// .getFinanceUIConstants().itemGroup());
-		itemGroupCombo = new ItemGroupCombo(
-				this.type == TYPE_SERVICE ? FinanceApplication
-						.getCustomersMessages().serviceGroup()
-						: FinanceApplication.getCustomersMessages()
-								.productGroup());
+		itemGroupCombo = new ItemGroupCombo(FinanceApplication
+				.getFinanceUIConstants().itemGroup());
 		itemGroupCombo.setHelpInformation(true);
 		itemGroupCombo.setWidth(100);
 		itemGroupCombo
@@ -642,7 +638,8 @@ public class ItemView extends BaseView<ClientItem> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		BaseView.errordata.setHTML(this.type != TYPE_SERVICE ? "Duplication of Product name are not allowed..."
+		BaseView.errordata
+				.setHTML(this.type != TYPE_SERVICE ? "Duplication of Product name are not allowed..."
 						: "Duplication of Service name are not allowed...");
 		BaseView.commentPanel.setVisible(true);
 		this.errorOccured = true;
@@ -821,7 +818,7 @@ public class ItemView extends BaseView<ClientItem> {
 		if (data != null)
 			takenItem = (ClientItem) data;
 		else
-			takenItem=null;
+			takenItem = null;
 	}
 
 	public void onDraw() {
@@ -871,7 +868,8 @@ public class ItemView extends BaseView<ClientItem> {
 				result = AccounterValidator.validateForm(itemInfoForm, false);
 			}
 			if (AccounterValidator.isChecked(ibuyCheck))
-				result = AccounterValidator.validateForm(purchaseInfoForm, false);
+				result = AccounterValidator.validateForm(purchaseInfoForm,
+						false);
 			return result;
 
 		case 4:
@@ -889,7 +887,7 @@ public class ItemView extends BaseView<ClientItem> {
 				return true;
 
 		case 2:
-			if (selectAccount != null){
+			if (selectAccount != null) {
 				if (AccounterValidator.isChecked(isellCheck))
 					return AccounterValidator.validate_IncomeAccount(this,
 							selectAccount);

@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -239,7 +240,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		setBodyLayout(mainVLay);
 		headerLayout.setWidth("800");
 		headerLayout.setHeight("15%");
-//		footerLayout.setCellWidth(okbtn, "74%");
+		// footerLayout.setCellWidth(okbtn, "74%");
 
 	}
 
@@ -272,7 +273,8 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 
 	protected boolean validate() throws InvalidEntryException,
 			InvalidTransactionEntryException {
-		if (AccounterValidator.validateForm(payForm, true) && grid.validateGrid())
+		if (AccounterValidator.validateForm(payForm, true)
+				&& grid.validateGrid())
 			return true;
 		else
 			return false;
@@ -399,8 +401,11 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 	private void paymentMethodSelected(String selectedpaymentMethod1) {
 		selectedpaymentMethod = selectedpaymentMethod1;
 		if (!selectedpaymentMethod.isEmpty()) {
-			checkNoText = new TextItem(FinanceApplication
-					.getFinanceUIConstants().startingCheckNo());
+			checkNoText = new TextItem(
+					FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? FinanceApplication
+							.getFinanceUIConstants().startingCheckNo()
+							: FinanceApplication.getFinanceUIConstants()
+									.startingChequeNo());
 			checkNoText.setWidth(100);
 			checkNoText.setRequired(true);
 			if (selectedPayFromAccount != null)
