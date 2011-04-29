@@ -238,7 +238,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			 */
 			return false;
 		case 4:
-			return AccounterValidator.validateForm(vendorForm, false);
+			return validateVendorForm(vendorForm);
 
 		case 3:
 			// Date vendorSince = vendorSinceDate.getEnteredDate();
@@ -258,6 +258,16 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		}
 
+	}
+
+	private boolean validateVendorForm(DynamicForm vendorForm) {
+		if (!vendorForm.validate(false)) {
+			if (tabSet.getTabBar().isTabEnabled(1))
+				tabSet.selectTab(0);
+			// throw new
+			// InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
+		}
+		return true;
 	}
 
 	@SuppressWarnings("deprecation")
