@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -35,6 +36,7 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
  * @modified by Ravi Kiran.G
@@ -156,9 +158,22 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				});
 
 		dateOfBirth = new DateField(companyConstants.dateofBirth());
-		dateOfBirth.setEndDate(new ClientFinanceDate(19910101));
-		dateOfBirth.setStartDate(new ClientFinanceDate(18910101));
-		// dateOfBirth.setUseTextField(true);
+		// dateOfBirth.setEndDate(new ClientFinanceDate(19910101));
+		// dateOfBirth.setStartDate(new ClientFinanceDate(18910101));
+		dateOfBirth.addDateValueChangeHandler(new DateValueChangeHandler() {
+
+			@Override
+			public void onDateValueChange(ClientFinanceDate date) {
+				long mustdate = new ClientFinanceDate().getTime() - 180000;
+				if (new ClientFinanceDate(mustdate).before(dateOfBirth
+						.getEnteredDate())) {
+					BaseView.errordata
+							.setHTML("Date of Birth should show more than 18 years");
+					BaseView.commentPanel.setVisible(true);
+					AbstractBaseView.errorOccured = true;
+				}
+			}
+		});
 
 		dateOfHire = new DateField(companyConstants.dateofHire());
 		// dateOfHire.setUseTextField(true);
