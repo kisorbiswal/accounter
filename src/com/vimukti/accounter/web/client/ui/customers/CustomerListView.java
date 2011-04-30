@@ -42,13 +42,19 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	protected Action getAddNewAction() {
 
-		return CustomersActionFactory.getNewCustomerAction();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return CustomersActionFactory.getNewCustomerAction();
+		else
+			return null;
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
 
-		return customerConstants.addaNewCustomer();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return customerConstants.addaNewCustomer();
+		else
+			return "";
 	}
 
 	@Override
