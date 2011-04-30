@@ -695,19 +695,19 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		Server.getInstance()
 				.process(getIdentityMember().getID(), identityEvent);
 
-		StringBuilder loginURL = new StringBuilder();
-		if (ServerConfiguration.isLiveServer) {
-			loginURL.append("https://");
-			loginURL.append(getCompany().getName());
-			loginURL.append(".");
-			loginURL.append(ServerConfiguration.getLink());
-		} else {
-			loginURL.append("https://");
-			loginURL.append(ServerConfiguration.getServerURL());
-		}
+		// StringBuilder loginURL = new StringBuilder();
+		// if (ServerConfiguration.isLiveServer) {
+		// loginURL.append("https://");
+		// loginURL.append(getCompany().getName());
+		// loginURL.append(".");
+		// loginURL.append(ServerConfiguration.getLink());
+		// } else {
+		// loginURL.append("https://");
+		// loginURL.append(ServerConfiguration.getServerURL());
+		// }
 
-		UsersMailSendar.sendMailToInvitedUser(identity, passwd, loginURL
-				.toString(), identity.getCompanyDBName());
+		UsersMailSendar.sendMailToInvitedUser(identity, passwd, identity
+				.getCompanyDBName());
 
 	}
 
@@ -11349,10 +11349,11 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			Query query = session.getNamedQuery(
 					"getCreatableStatementForCustomer").setParameter(
 					"startDate", fromDate).setParameter("endDate", toDate)
-					.setParameter("customerId", id).setParameter("dueDays", noOfDays)
-					.setParameter("dontShowZero", isEnabledOfZeroBalBox)
-					.setParameter("lessBalance", lessThanZeroBalanceValue)
-					.setParameter("isActivePayee", isEnabledOfInactiveCustomer);
+					.setParameter("customerId", id).setParameter("dueDays",
+							noOfDays).setParameter("dontShowZero",
+							isEnabledOfZeroBalBox).setParameter("lessBalance",
+							lessThanZeroBalanceValue).setParameter(
+							"isActivePayee", isEnabledOfInactiveCustomer);
 
 			List list = query.list();
 			if (list != null) {
@@ -11568,7 +11569,8 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 				query = session.getNamedQuery("getGraphPointsForDebtors")
 						.setParameter("debtorAccountID",
-								company.getAccountsReceivableAccount().getId()).setParameter(
+								company.getAccountsReceivableAccount().getId())
+						.setParameter(
 								"previousFifthMonthStartDateCal",
 								new FinanceDate(previousFifthMonthStartDateCal
 										.getTime()).getTime()).setParameter(
@@ -11636,7 +11638,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 				query = session
 						.getNamedQuery("getGraphPointsForCreditors")
-						.setParameter("creditorsAccountID", 
+						.setParameter("creditorsAccountID",
 								company.getAccountsPayableAccount().getId())
 						.setParameter("currentDate",
 								new FinanceDate(dateCal[0].getTime()).getTime())
