@@ -773,7 +773,7 @@ public class MakeDepositView extends
 		Label lab = new Label(FinanceApplication.getFinanceUIConstants()
 				.makeDeposit());
 		lab.addStyleName("lable-title");
-//		lab.setHeight("50px");
+		// lab.setHeight("50px");
 		date = UIUtils.date(bankingConstants.date());
 
 		// set the transactionDate while creation
@@ -1084,10 +1084,11 @@ public class MakeDepositView extends
 			InvalidEntryException {
 		switch (this.validationCount) {
 		case 7:
-			if (gridView != null && gridView.getRecords().isEmpty()){
+			if (gridView != null && gridView.getRecords().isEmpty()) {
 				throw new InvalidTransactionEntryException(
-						AccounterErrorType.blankTransaction);}
-
+						AccounterErrorType.blankTransaction);
+			}
+			return true;
 		case 6:
 			return AccounterValidator.validateTransactionDate(transactionDate);
 		case 5:
