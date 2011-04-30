@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
@@ -108,36 +109,33 @@ public class CustomerRefundView extends
 		addressListOfCustomer = customer.getAddress();
 		super.initBillToCombo();
 		setCustomerBalance(customer.getBalance());
-		if (customer.getPaymentMethod() != null)
-			paymentMethodCombo.setComboItem(customer.getPaymentMethod());
-		else
-			paymentMethodCombo.setComboItem(FinanceApplication
-					.getVendorsMessages().cash());
 		// paymentMethodSelected(customer.getPaymentMethod());
 
 	}
 
 	@Override
-	protected void paymentMethodSelected(String paymentMethod2) {
-		super.paymentMethodSelected(paymentMethod2);
-		paymentMethodCombo.setValue(paymentMethod2);
-
-		if (paymentMethod2 == null)
+	protected void paymentMethodSelected(String paymentMethod) {
+		if (paymentMethod == null)
 			return;
 
-		if (paymentMethod2.equals(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
-						.getCustomersMessages().check()))) {
-			printCheck.setDisabled(false);
-			checkNoText.setDisabled(false);
+		if (paymentMethod != null) {
+			this.paymentMethod = paymentMethod;
+			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
+					.equalsIgnoreCase(FinanceApplication.getVendorsMessages()
+							.cheque())
+					: paymentMethod.equalsIgnoreCase(FinanceApplication
+							.getVendorsMessages().check())) {
 
-		} else {
-			printCheck.setDisabled(true);
-			checkNoText.setDisabled(true);
+				printCheck.setDisabled(false);
+				checkNoText.setDisabled(false);
+
+			} else {
+				// paymentMethodCombo.setComboItem(paymentMethod);
+				printCheck.setDisabled(true);
+				checkNoText.setDisabled(true);
+			}
 		}
-		printCheck.setValue(false);
-		checkNoText.setValue("");
-		isChecked = false;
+
 	}
 
 	@Override
@@ -255,32 +253,55 @@ public class CustomerRefundView extends
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setWidth(100);
+		paymentMethodCombo.setComboItem(UIUtils
+				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
+						.getCustomersMessages().check()));
+
+		printCheck = new CheckboxItem(customerConstants.toBePrinted());
+		printCheck.setValue(true);
+		printCheck.setWidth(100);
+		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
+
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				isChecked = (Boolean) event.getValue();
+				if (isChecked) {
+					if (printCheck.getValue().toString().equalsIgnoreCase(
+							"true")) {
+						checkNoText.setValue(FinanceApplication
+								.getCustomersMessages().toBePrinted());
+						checkNoText.setDisabled(true);
+					} else {
+						if (payFromSelect.getValue() == null)
+							checkNoText.setValueField(FinanceApplication
+									.getVendorsMessages().Tobeprinted());
+						else if (transactionObject != null) {
+							checkNoText
+									.setValue(((ClientCustomerPrePayment) transactionObject)
+											.getCheckNumber());
+						}
+					}
+				} else
+					// setCheckNumber();
+					checkNoText.setValue("");
+				checkNoText.setDisabled(false);
+
+			}
+		});
 
 		checkNoText = new TextItem(
 				FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? customerConstants
 						.chequeNo()
 						: customerConstants.checkNo());
+		checkNoText.setValue(FinanceApplication.getCustomersMessages()
+				.toBePrinted());
 		checkNoText.setHelpInformation(true);
 		checkNoText.setWidth(100);
 		checkNoText.setDisabled(true);
-
-		printCheck = new CheckboxItem(customerConstants.toBePrinted());
-		printCheck.setDisabled(true);
-		printCheck.setWidth(100);
-		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
+		checkNoText.addChangeHandler(new ChangeHandler() {
 
 			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				isChecked = (Boolean) event.getValue();
-
-				if (isChecked) {
-					checkNoText.setValue(FinanceApplication
-							.getCustomersMessages().toBePrinted());
-					checkNoText.setDisabled(true);
-				} else {
-					checkNoText.setValue("");
-					checkNoText.setDisabled(false);
-				}
+			public void onChange(ChangeEvent event) {
+				checkNumber = checkNoText.getValue().toString();
 			}
 		});
 
@@ -530,21 +551,35 @@ public class CustomerRefundView extends
 				customerRefundTobeEdited.getPayTo()));
 
 		amtText.setAmount(customerRefundTobeEdited.getTotal());
-		this.checkNumber = customerRefundTobeEdited.getCheckNumber();
-		if (this.checkNumber != null)
-			checkNoText.setValue(getCheckValue());
-		printCheck.setValue(customerRefundTobeEdited.getIsToBePrinted());
+		paymentMethodSelected(customerRefundTobeEdited.getPaymentMethod());
+		if (transactionObject != null) {
+			printCheck.setDisabled(true);
 
+			checkNoText.setDisabled(true);
+			ClientCustomerRefund clientCustomerRefund = (ClientCustomerRefund) transactionObject;
+			paymentMethodCombo
+					.setValue(clientCustomerRefund.getPaymentMethod());
+		}
+
+		if (customerRefundTobeEdited.getCheckNumber() != null) {
+			if (customerRefundTobeEdited.getCheckNumber().equals(
+					FinanceApplication.getCustomersMessages().toBePrinted())) {
+				checkNoText.setValue(FinanceApplication.getCustomersMessages()
+						.toBePrinted());
+				printCheck.setValue(true);
+			} else {
+				checkNoText.setValue(customerRefundTobeEdited.getCheckNumber());
+				printCheck.setValue(false);
+			}
+		}
 		this.selectedAccount = FinanceApplication.getCompany().getAccount(
 				customerRefundTobeEdited.getPayFrom());
 		if (selectedAccount != null)
 			payFromSelect.setComboItem(selectedAccount);
-		paymentMethodCombo
-				.setValue(customerRefundTobeEdited.getPaymentMethod());
 		this.billingAddress = customerRefundTobeEdited.getAddress();
 		if (billingAddress != null)
 			billToaddressSelected(billingAddress);
- 
+
 		endBalText
 				.setValue(DataUtils.getAmountAsString(customerRefundTobeEdited
 						.getEndingBalance()));
@@ -692,22 +727,28 @@ public class CustomerRefundView extends
 
 		payFromSelect.setDisabled(isEdit);
 		amtText.setDisabled(isEdit);
-        memoTextAreaItem.setDisabled(isEdit);
+		memoTextAreaItem.setDisabled(isEdit);
 		paymentMethodCombo.setDisabled(isEdit);
-		paymentMethodSelected(paymentMethodCombo.getValue().toString());
-		checkNoText.setValue(((ClientCustomerRefund) transactionObject)
-				.getCheckNumber());
-		printCheck.setValue(((ClientCustomerRefund) transactionObject)
-				.getIsToBePrinted());
-		if (((ClientCustomerRefund) transactionObject).getIsToBePrinted()) {
+		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
+		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
+			checkNoText.setValue(FinanceApplication.getCustomersMessages()
+					.toBePrinted());
 			checkNoText.setDisabled(true);
 		}
-		if (((ClientCustomerRefund) transactionObject).getIsToBePrinted()) {
-			checkNoText.setDisabled(true);
-		}
-		if (((ClientCustomerRefund) transactionObject).getIsToBePrinted()) {
-			checkNoText.setDisabled(true);
-		}
+		// paymentMethodSelected(paymentMethodCombo.getValue().toString());
+		// checkNoText.setValue(((ClientCustomerRefund) transactionObject)
+		// .getCheckNumber());
+		// printCheck.setValue(((ClientCustomerRefund) transactionObject)
+		// .getIsToBePrinted());
+		// if (((ClientCustomerRefund) transactionObject).getIsToBePrinted()) {
+		// checkNoText.setDisabled(true);
+		// }
+		// if (((ClientCustomerRefund) transactionObject).getIsToBePrinted()) {
+		// checkNoText.setDisabled(true);
+		// }
+		// if (((ClientCustomerRefund) transactionObject).getIsToBePrinted()) {
+		// checkNoText.setDisabled(true);
+		// }
 		super.onEdit();
 	}
 
