@@ -592,20 +592,24 @@ public class AccounterValidator {
 						@Override
 						public boolean onNoClick() throws InvalidEntryException {
 							Accounter.stopExecution();
+							AbstractBaseView.warnOccured = false;
 							return true;
 						}
 
 						@Override
 						public boolean onYesClick()
 								throws InvalidEntryException {
+							AbstractBaseView.warnOccured = false;
 							view.validationCount--;
 							return true;
 						}
 
 					});
 			AbstractBaseView.warnOccured = true;
-		} else
-			view.validationCount--;
+		} 
+
+		// else
+		//	view.validationCount--;
 
 		return false;
 	}
@@ -630,20 +634,23 @@ public class AccounterValidator {
 						@Override
 						public boolean onNoClick() throws InvalidEntryException {
 							Accounter.stopExecution();
+							AbstractBaseView.warnOccured = false;
 							return true;
 						}
 
 						@Override
 						public boolean onYesClick()
 								throws InvalidEntryException {
+							AbstractBaseView.warnOccured = false;
 							view.validationCount--;
 							return true;
 						}
 
 					});
 			AbstractBaseView.warnOccured = true;
-		} else
-			view.validationCount--;
+		}
+		// else
+		//	view.validationCount--;
 		return false;
 
 	}
