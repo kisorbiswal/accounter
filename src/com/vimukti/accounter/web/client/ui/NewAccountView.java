@@ -103,7 +103,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	private Label lab1;
 
-	private int totalValidations = 3;
+	private int totalValidations = 4;
 
 	VerticalPanel mainVLay;
 
@@ -457,7 +457,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (accountType == ClientAccount.TYPE_CREDIT_CARD)
 			validationCount = 5;
 		else
-			validationCount = 4;
+			validationCount = 5;
 		totalValidations = validationCount;
 		reset(cashBasisForm);
 		reset(commentsForm);
@@ -924,7 +924,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 		} else {
 			switch (validationCount) {
-			case 4:
+			case 5:
 				String name = accNameText.getValue().toString() != null ? accNameText
 						.getValue().toString()
 						: "";
@@ -936,12 +936,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				} else
 					throw new InvalidEntryException(
 							AccounterErrorType.ALREADYEXIST);
+			case 4:
+				return AccounterValidator.validateForm(accInfoForm, false);
 			case 3:
 				if (accountType == ClientAccount.TYPE_BANK)
-					return AccounterValidator.validateForm(accInfoForm, false)
-							&& AccounterValidator.validateForm(bankForm, false);
-				else
-					return AccounterValidator.validateForm(accInfoForm, false);
+					return AccounterValidator.validateForm(bankForm, false);
 			case 2:
 				return validateAccountNumber(accNoText.getNumber());
 			case 1:
@@ -1093,8 +1092,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	private void initView() {
 
-		accTypeSelect.setComboItem(Utility
-				.getAccountTypeString(takenAccount.getType()));
+		accTypeSelect.setComboItem(Utility.getAccountTypeString(takenAccount
+				.getType()));
 		accNoText.setValue(takenAccount.getNumber() != null ? takenAccount
 				.getNumber() : 0);
 
@@ -1209,9 +1208,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (data != null) {
 			takenAccount = (ClientAccount) data;
 			setAccountType(takenAccount.getType());
-		}
-		else
-			takenAccount=null;
+		} else
+			takenAccount = null;
 	}
 
 	public void setAccountTypes(List<Integer> accountTypes) {
