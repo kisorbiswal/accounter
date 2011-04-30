@@ -137,10 +137,11 @@ public class TransactionPayVATGrid extends
 			if (!isSelected(obj)) {
 				((CheckBox) this.body.getWidget(indexOf(obj), 0))
 						.setValue(true);
-				totalAmount += obj.getAmountToPay();
+
 				// selectedValues.add(indexOf(obj));
 				// updateValue(obj);
 			}
+			totalAmount += obj.getAmountToPay();
 		}
 		payVATView.adjustAmountAndEndingBalance(totalAmount);
 		// updateFooterValues(DataUtils.getAmountAsString(totalAmount), 2);
