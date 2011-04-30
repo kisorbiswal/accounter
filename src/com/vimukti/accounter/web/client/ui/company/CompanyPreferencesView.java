@@ -701,6 +701,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		if (dateItem.getValue() != null) {
 			companyPreferences.setPreventPostingBeforeDate(dateItem.getValue()
 					.getTime());
+			companyPreferences.setStartOfFiscalYear(dateItem.getValue()
+					.getTime());
 			// companyPreferences
 			// .setEndOfFiscalYear(dateItem.getValue().getTime());
 		}
