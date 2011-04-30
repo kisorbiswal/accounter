@@ -42,12 +42,18 @@ public class ExpensesListView extends BaseListView<BillsList> {
 
 	@Override
 	protected Action getAddNewAction() {
-		return VendorsActionFactory.getRecordExpensesAction();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return VendorsActionFactory.getRecordExpensesAction();
+		else
+			return null;
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		return FinanceApplication.getVendorsMessages().addNewExpense();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return FinanceApplication.getVendorsMessages().addNewExpense();
+		else
+			return "";
 	}
 
 	@Override
