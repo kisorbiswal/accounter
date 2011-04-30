@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.VATItemCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
@@ -186,6 +187,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		adjustAccountCombo.setRequired(true);
 		amount = new AmountField(FinanceApplication.getVATMessages().amount());
 		amount.setHelpInformation(true);
+		amount.setRequired(true);
 		amount.setWidth(100);
 		typeRadio = new RadioGroupItem("");
 		// typeRadio.setRequired(true);
@@ -373,11 +375,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 			}
 			return true;
 		case 3:
-			// if (!taxAgencyCombo.validate()) {
-			// throw new InvalidEntryException(
-			// AccounterErrorType.REQUIRED_FIELDS);
-			// }
-			return true;
+			return AccounterValidator.validateAmount(amount.getAmount());
 
 		case 2:
 			// if (!adjustAccountCombo.validate()) {
