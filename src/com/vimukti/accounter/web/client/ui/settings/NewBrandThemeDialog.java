@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -642,7 +641,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 
 	public boolean validate() throws InvalidTransactionEntryException,
 			InvalidEntryException {
-		return AccounterValidator.validateForm(nameForm, true);
+		return nameForm.validate(true);
 	}
 
 	@Override

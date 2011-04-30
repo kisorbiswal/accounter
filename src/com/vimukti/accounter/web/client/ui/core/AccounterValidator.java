@@ -82,11 +82,11 @@ public class AccounterValidator {
 	public static boolean validateForm(DynamicForm form, boolean isDialog)
 			throws InvalidEntryException {
 
-		// if (!form.validate(isDialog)) {
-		// // throw new
-		// // InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
-		// }
-		return form.validate(isDialog);
+		if (!form.validate(isDialog)) {
+			// // throw new
+			// // InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
+		}
+		return true;
 	}
 
 	public static boolean isChecked(CheckboxItem item) {
@@ -592,24 +592,20 @@ public class AccounterValidator {
 						@Override
 						public boolean onNoClick() throws InvalidEntryException {
 							Accounter.stopExecution();
-							AbstractBaseView.warnOccured = false;
 							return true;
 						}
 
 						@Override
 						public boolean onYesClick()
 								throws InvalidEntryException {
-							AbstractBaseView.warnOccured = false;
 							view.validationCount--;
 							return true;
 						}
 
 					});
 			AbstractBaseView.warnOccured = true;
-		} 
-
-		// else
-		//	view.validationCount--;
+		} else
+			view.validationCount--;
 
 		return false;
 	}
@@ -634,23 +630,20 @@ public class AccounterValidator {
 						@Override
 						public boolean onNoClick() throws InvalidEntryException {
 							Accounter.stopExecution();
-							AbstractBaseView.warnOccured = false;
 							return true;
 						}
 
 						@Override
 						public boolean onYesClick()
 								throws InvalidEntryException {
-							AbstractBaseView.warnOccured = false;
 							view.validationCount--;
 							return true;
 						}
 
 					});
 			AbstractBaseView.warnOccured = true;
-		}
-		// else
-		//	view.validationCount--;
+		} else
+			view.validationCount--;
 		return false;
 
 	}
