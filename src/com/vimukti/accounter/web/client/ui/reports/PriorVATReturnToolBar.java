@@ -100,7 +100,8 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 			dateRangeList.add(dateRangeArray[i]);
 		}
 		dateRangeCombo.initCombo(dateRangeList);
-		dateRangeCombo.setComboItem(FinanceApplication.getReportsMessages().all());
+		dateRangeCombo.setComboItem(FinanceApplication.getReportsMessages()
+				.all());
 		dateRangeCombo.setName(FinanceApplication.getReportsMessages()
 				.dateRange());
 		dateRangeCombo
@@ -213,8 +214,8 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 
 	public void reportRequest() {
 		if (!endingDateCombo.getSelectedValue().isEmpty())
-			selectedEndDate = UIUtils.stringToDate(endingDateCombo.getValue()
-					.toString());
+			selectedEndDate = UIUtils.stringToDate(endingDateCombo
+					.getSelectedValue());
 		if (selectedEndDate == null) {
 			getView().showRecords();
 			return;

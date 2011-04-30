@@ -62,7 +62,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 			statusList.add(statusArray[i]);
 		}
 		expenseCombo.initCombo(statusList);
-		expenseCombo.setDefaultValue(statusArray[0]);
+		expenseCombo.setComboItem(statusArray[0]);
 		expenseCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
