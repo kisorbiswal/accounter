@@ -44,15 +44,21 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	public Action getAddNewAction() {
 
-		return VendorsActionFactory.getNewVendorAction();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return VendorsActionFactory.getNewVendorAction();
+		else
+			return null;
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
 
-		return UIUtils.getVendorString(FinanceApplication.getVendorsMessages()
-				.addaNewSupplier(), FinanceApplication.getVendorsMessages()
-				.addANewVendor());
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return UIUtils.getVendorString(FinanceApplication
+					.getVendorsMessages().addaNewSupplier(), FinanceApplication
+					.getVendorsMessages().addANewVendor());
+		else
+			return "";
 	}
 
 	@Override
