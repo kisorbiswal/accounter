@@ -871,6 +871,10 @@ public abstract class ListGrid<T> extends CustomTable {
 
 	private void recreateData() {
 		int rowCount = 0;
+		if (this instanceof AccountRegisterOtherListGrid) {
+			((AccountRegisterOtherListGrid) this).balance = 0;
+			((AccountRegisterOtherListGrid) this).totalBalance = 0;
+		}
 		for (T obj : this.objects) {
 			for (int x = isMultiSelectionEnable ? 1 : 0; x < nofCols; x++) {
 				addColumnData(obj, rowCount, isMultiSelectionEnable ? x - 1 : x);
