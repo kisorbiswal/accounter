@@ -21,8 +21,8 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 
 	@Override
 	protected void executeDelete(ClientTAXItem object) {
-		ViewManager.getInstance().deleteObject(object, AccounterCoreType.TAXITEM,
-				this);
+		ViewManager.getInstance().deleteObject(object,
+				AccounterCoreType.TAXITEM, this);
 	}
 
 	@Override
@@ -52,7 +52,8 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 
 	@Override
 	public void onDoubleClick(ClientTAXItem obj) {
-		VatActionFactory.getNewVatItemAction().run(obj, true);
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			VatActionFactory.getNewVatItemAction().run(obj, true);
 
 	}
 
@@ -96,15 +97,18 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 		}
 		return -1;
 	}
+
 	public AccounterCoreType getType() {
 		return AccounterCoreType.TAXITEM;
 	}
+
 	@Override
 	protected void onClick(ClientTAXItem obj, int row, int col) {
 		List<ClientTAXItem> records = getRecords();
 		if (col == 4)
 			showWarnDialog(records.get(row));
 	}
+
 	private String getTaxAgencyID(ClientTAXItem obj) {
 
 		ClientTAXAgency agency = null;
@@ -117,6 +121,7 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 		return agency != null ? agency.getName() : "";
 
 	}
+
 	@Override
 	protected int sort(ClientTAXItem obj1, ClientTAXItem obj2, int index) {
 		switch (index) {
@@ -124,12 +129,13 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 			return obj1.getName().toLowerCase().compareTo(
 					obj2.getName().toLowerCase());
 
-		case 2:String desc1 = obj1.getDescription() != null ? obj1
-				.getDescription() : "";
-				String desc2 = obj2.getDescription() != null ? obj2
-						.getDescription() : "";
-				;
-				return desc1.toLowerCase().compareTo(desc2.toLowerCase());
+		case 2:
+			String desc1 = obj1.getDescription() != null ? obj1
+					.getDescription() : "";
+			String desc2 = obj2.getDescription() != null ? obj2
+					.getDescription() : "";
+			;
+			return desc1.toLowerCase().compareTo(desc2.toLowerCase());
 		case 3:
 			Double rate1 = obj1.getTaxRate();
 			Double rate2 = obj2.getTaxRate();
@@ -143,8 +149,8 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 			// agency2 = getTaxAgency(obj2);
 			// }
 			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-//				agency1 = getTaxAgencyID(obj1);
-//				agency2 = getTaxAgencyID(obj2);
+				// agency1 = getTaxAgencyID(obj1);
+				// agency2 = getTaxAgencyID(obj2);
 			}
 			return agency1.toLowerCase().compareTo(agency2.toLowerCase());
 
