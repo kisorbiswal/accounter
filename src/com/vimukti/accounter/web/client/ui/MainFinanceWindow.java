@@ -1174,13 +1174,17 @@ public class MainFinanceWindow extends VerticalPanel {
 		// .getManageSalesTaxCodesAction());
 		salesTaxMenuBar.addItem(CompanyActionFactory
 				.getManageSalesTaxItemsAction());
-		salesTaxMenuBar.addItem(CompanyActionFactory.getPaySalesTaxAction());
-		salesTaxMenuBar.addItem(CompanyActionFactory.getAdjustTaxAction());
+		if (FinanceApplication.getUser().canDoBanking())
+			salesTaxMenuBar
+					.addItem(CompanyActionFactory.getPaySalesTaxAction());
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			salesTaxMenuBar.addItem(CompanyActionFactory.getAdjustTaxAction());
 		// salesTaxMenuBar.addItem(CompanyActionFactory
 		// .getViewSalesTaxLiabilityAction());
 		// salesTaxMenuBar.addItem(CompanyActionFactory.getTaxItemAction());
-
-		salesTaxMenuBar.addItem(CompanyActionFactory.getNewTAXAgencyAction());
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			salesTaxMenuBar.addItem(CompanyActionFactory
+					.getNewTAXAgencyAction());
 		return salesTaxMenuBar;
 	}
 
