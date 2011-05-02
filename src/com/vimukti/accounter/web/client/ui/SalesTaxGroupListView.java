@@ -155,7 +155,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		buttonsLayout.add(button3);
 
 		itemsGrid = new SalesTaxItemsGrid(false);
-		itemsGrid.setStyleName("itemGrid");
+		itemsGrid.addStyleName("itemGrid");
 		itemsGrid.init();
 		itemsGrid.setSize("100%", "250px");
 
