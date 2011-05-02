@@ -15,13 +15,18 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	@Override
 	protected Action getAddNewAction() {
 
-		return VatActionFactory.getNewVatItemAction();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return VatActionFactory.getNewVatItemAction();
+		else
+			return null;
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-
-		return FinanceApplication.getVATMessages().addaNewTaxItem();
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return FinanceApplication.getVATMessages().addaNewTaxItem();
+		else
+			return "";
 	}
 
 	@Override

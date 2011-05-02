@@ -161,7 +161,8 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 		button1.setFocus(true);
 		bodyLayout.add(grid);
-		bodyLayout.add(buttonsLayout);
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			bodyLayout.add(buttonsLayout);
 		VerticalPanel mainVlay = new VerticalPanel();
 		mainVlay.add(lab);
 		mainVlay.add(bodyLayout);
