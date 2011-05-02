@@ -128,8 +128,12 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	}
 
 	public static ManageSalesTaxGroupsAction getManageSalesTaxGroupsAction() {
-		return new ManageSalesTaxGroupsAction(actionsConstants
-				.manageSalesGroups());
+		String text;
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			text = actionsConstants.manageSalesGroups();
+		else
+			text = actionsConstants.salesTaxGroups();
+		return new ManageSalesTaxGroupsAction(text);
 	}
 
 	// public static ManageSalesTaxCodesAction getManageSalesTaxCodesAction() {
@@ -207,14 +211,14 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	}
 
 	public static ChartOfAccountsAction getChartOfAccountsAction() {
-		return new ChartOfAccountsAction(
-				actionsConstants.accounterCategoryList(),
+		return new ChartOfAccountsAction(actionsConstants
+				.accounterCategoryList(),
 				"/images/icons/banking/chart_of_accounts.png");
 	}
 
 	public static ChartOfAccountsAction getChartOfAccountsAction(int accountType) {
-		return new ChartOfAccountsAction(
-				actionsConstants.accounterCategoryList(),
+		return new ChartOfAccountsAction(actionsConstants
+				.accounterCategoryList(),
 				"/images/icons/banking/chart_of_accounts.png", accountType);
 	}
 
@@ -279,7 +283,11 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	}
 
 	public static ManageSalesTaxItemsAction getManageSalesTaxItemsAction() {
-		String constant = actionsConstants.manageSalesItems();
+		String constant;
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			constant = actionsConstants.manageSalesItems();
+		else
+			constant = actionsConstants.salesTaxItems();
 		return new ManageSalesTaxItemsAction(constant);
 	}
 
