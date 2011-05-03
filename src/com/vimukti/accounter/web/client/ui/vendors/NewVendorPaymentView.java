@@ -541,7 +541,8 @@ public class NewVendorPaymentView extends
 				throw new InvalidTransactionEntryException(
 						AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
 		case 1:
-			return AccounterValidator.isNull(payFromAccount, paymentMethod);
+			// return AccounterValidator.isNull(payFromAccount, paymentMethod);
+			return true;
 
 		default:
 			return true;
