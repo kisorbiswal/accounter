@@ -325,7 +325,9 @@ public class FiscalYear implements IAccounterServerCore, Lifecycle,
 			}
 		} else if (this.getPreviousStartDate() != null && this.getStartDate().equals(this.getPreviousStartDate())) {
 			session.saveOrUpdate(this);
-		} else if (this.getPreviousStartDate() != null && !this.getStartDate().equals(this.getPreviousStartDate())) {
+		} else if ((this.getPreviousStartDate() != null && !this.getStartDate()
+				.equals(this.getPreviousStartDate()))
+				|| this.getPreviousStartDate() == null) {
 			Company company = Company.getCompany();
 			company.getPreferences().setStartDate(this.startDate);
 			company.getPreferences()
