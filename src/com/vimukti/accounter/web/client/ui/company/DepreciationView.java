@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.core.Lists.FixedAssetLinkedAccountMap;
 import com.vimukti.accounter.web.client.core.Lists.LinkAccount;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -403,9 +404,11 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		BaseView.errordata.setHTML("Can not able to apply Deprecition");
-		BaseView.commentPanel.setVisible(true);
-		this.errorOccured = true;
+		// BaseView.errordata.setHTML("Can not able to apply Deprecition");
+		// BaseView.commentPanel.setVisible(true);
+		// this.errorOccured = true;
+		MainFinanceWindow.getViewManager().showError(
+				"Can not able to apply Deprecition");
 	}
 
 	protected void getDepreciableFixedAssets() {

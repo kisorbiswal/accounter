@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.Header;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
@@ -764,7 +765,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			Header.companyName.setText(this.companyNameText.getValue()
 					.toString());
 			CompanyActionFactory.getCompanyHomeAction().run(null, false);
-			
+
 		} else
 			saveFailed(new Exception(FinanceApplication.getCompanyMessages()
 					.failed()));
@@ -774,10 +775,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		BaseView.errordata.setHTML(FinanceApplication.getCompanyMessages()
-				.failedToUpdate());
-		BaseView.commentPanel.setVisible(true);
-		this.errorOccured = true;
+		// BaseView.errordata.setHTML(FinanceApplication.getCompanyMessages()
+		// .failedToUpdate());
+		// BaseView.commentPanel.setVisible(true);
+		// this.errorOccured = true;
+		MainFinanceWindow.getViewManager().showError(
+				FinanceApplication.getCompanyMessages().failedToUpdate());
 	}
 
 	private Double getDoubleValue(FormItem item) {

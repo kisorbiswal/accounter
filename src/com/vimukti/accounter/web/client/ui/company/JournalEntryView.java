@@ -37,6 +37,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
@@ -100,10 +101,12 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		case 8:
 			if (memoText.getValue().toString() != null
 					&& memoText.getValue().toString().length() >= 256) {
-				BaseView.errordata
-						.setHTML("Memo Cannot Exceeds more than 255 Characters.");
-				BaseView.commentPanel.setVisible(true);
-				AbstractBaseView.errorOccured = true;
+				// BaseView.errordata
+				// .setHTML("Memo Cannot Exceeds more than 255 Characters.");
+				// BaseView.commentPanel.setVisible(true);
+				// AbstractBaseView.errorOccured = true;
+				MainFinanceWindow.getViewManager().appendError(
+						"Memo Cannot Exceeds more than 255 Characters");
 
 			}
 			return false;
@@ -149,10 +152,13 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		BaseView.errordata.setHTML(FinanceApplication.getCompanyMessages()
-				.duplicationOfJournalEntriesNotAllowed());
-		BaseView.commentPanel.setVisible(true);
-		this.errorOccured = true;
+		// BaseView.errordata.setHTML(FinanceApplication.getCompanyMessages()
+		// .duplicationOfJournalEntriesNotAllowed());
+		// BaseView.commentPanel.setVisible(true);
+		// this.errorOccured = true;
+		MainFinanceWindow.getViewManager().showError(
+				FinanceApplication.getCompanyMessages()
+						.duplicationOfJournalEntriesNotAllowed());
 	}
 
 	@Override
@@ -302,9 +308,10 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	private void initMemo(ClientJournalEntry journalEntry) {
 		if (memoText.getValue().toString() != null
 				&& memoText.getValue().toString().length() >= 255) {
-			BaseView.errordata.setHTML("i am here");
-			BaseView.commentPanel.setVisible(true);
-			AbstractBaseView.errorOccured = true;
+			// BaseView.errordata.setHTML("i am here");
+			// BaseView.commentPanel.setVisible(true);
+			// AbstractBaseView.errorOccured = true;
+			MainFinanceWindow.getViewManager().showError("i am here");
 
 		} else
 			journalEntry.setMemo(memoText.getValue() != null ? memoText
