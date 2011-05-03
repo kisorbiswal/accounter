@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientVATReturnBox;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
@@ -405,8 +406,8 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		super.setData(data);
 		if (data != null)
 			takenVATItem = (ClientTAXItem) data;
-		else 
-			takenVATItem=null;
+		else
+			takenVATItem = null;
 	}
 
 	@Override
@@ -432,9 +433,10 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		BaseView.errordata.setHTML(exception.getMessage());
-		BaseView.commentPanel.setVisible(true);
-		this.errorOccured = true;
+		// BaseView.errordata.setHTML(exception.getMessage());
+		// BaseView.commentPanel.setVisible(true);
+		// this.errorOccured = true;
+		MainFinanceWindow.getViewManager().showError(exception.getMessage());
 
 	}
 
