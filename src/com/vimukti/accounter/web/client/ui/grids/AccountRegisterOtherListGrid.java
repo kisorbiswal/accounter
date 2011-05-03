@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -17,6 +20,7 @@ import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
 
 public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> {
 
+	public List<String> accountIDs = new ArrayList<String>();
 	public double balance = 0.0;
 	public double totalBalance = 0.0;
 
@@ -69,15 +73,20 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	 */
 	private double getBalanceValue(AccountRegister accountRegister) {
 		/* Here 'd' value might be "positive" or "negative" */
-		double d = accountRegister.getAmount();
+		accountIDs.add(accountRegister.getTransactionId());
+		for (int i = 0; i < accountIDs.size() - 1; i++) {
+			if (!accountRegister.getTransactionId().equals(accountIDs.get(i))) {
+				double d = accountRegister.getAmount();
 
-		if (DecimalUtil.isLessThan(d, 0.0)) {
-			d = -1 * d;
-			balance = balance - d;
-		} else {
-			balance = balance + d;
+				if (DecimalUtil.isLessThan(d, 0.0)) {
+					d = -1 * d;
+					balance = balance - d;
+				} else {
+					balance = balance + d;
+				}
+				totalBalance += balance;
+			}
 		}
-		totalBalance += balance;
 		return balance;
 	}
 
@@ -158,55 +167,60 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 
 	@Override
 	protected int sort(AccountRegister obj1, AccountRegister obj2, int index) {
-		switch (index) {
-		case 0:
-			ClientFinanceDate date1 = obj1.getDate();
-			ClientFinanceDate date2 = obj2.getDate();
-			if (date1 != null && date2 != null)
-				return date1.compareTo(date2);
-			break;
-		case 1:
-			String type1 = Utility.getTransactionName((obj1.getType()));
-			String type2 = Utility.getTransactionName((obj2.getType()));
-			return type1.toLowerCase().compareTo(type2.toLowerCase());
+		if (!(Utility.getTransactionName(obj1.getType()).equalsIgnoreCase(
+				"Opening Balance") || Utility
+				.getTransactionName(obj2.getType()).equalsIgnoreCase(
+						"Opening Balance"))) {
+			switch (index) {
+			case 0:
+				ClientFinanceDate date1 = obj1.getDate();
+				ClientFinanceDate date2 = obj2.getDate();
+				if (date1 != null && date2 != null)
+					return date1.compareTo(date2);
+				break;
+			case 1:
+				String type1 = Utility.getTransactionName(obj1.getType());
+				String type2 = Utility.getTransactionName(obj2.getType());
+				return type1.toLowerCase().compareTo(type2.toLowerCase());
 
-		case 2:
-			if (obj1.getNumber() != null && obj2.getNumber() != null) {
-				return obj1.getNumber().compareTo(obj2.getNumber());
+			case 2:
+				if (obj1.getNumber() != null && obj2.getNumber() != null) {
+					return obj1.getNumber().compareTo(obj2.getNumber());
+				}
+
+			case 3:
+				Double amt1 = obj1.getAmount();
+				Double amt2 = obj2.getAmount();
+				return amt1.compareTo(amt2);
+
+			case 4:
+				Double amt11 = obj1.getAmount();
+				Double amt21 = obj2.getAmount();
+				return amt11.compareTo(amt21);
+
+			case 5:
+				String netPrice1 = obj1.getAccount();
+				String netPrice2 = obj2.getAccount();
+				return netPrice1.compareTo(netPrice2);
+
+			case 6:
+				if (obj1.getMemo() != null && obj2.getMemo() != null)
+					return obj1.getMemo().toLowerCase().compareTo(
+							obj2.getMemo().toLowerCase());
+				break;
+			case 7:
+				Double bal1 = getBalanceValue(obj1);
+				Double bal2 = getBalanceValue(obj2);
+				return bal1.compareTo(bal2);
+
+			default:
+				break;
 			}
-
-		case 3:
-			Double amt1 = obj1.getAmount();
-			Double amt2 = obj2.getAmount();
-			return amt1.compareTo(amt2);
-
-		case 4:
-			Double amt11 = obj1.getAmount();
-			Double amt21 = obj2.getAmount();
-			return amt11.compareTo(amt21);
-
-		case 5:
-			String netPrice1 = obj1.getAccount();
-			String netPrice2 = obj2.getAccount();
-			return netPrice1.compareTo(netPrice2);
-
-		case 6:
-			if (obj1.getMemo() != null && obj2.getMemo() != null)
-				return obj1.getMemo().toLowerCase().compareTo(
-						obj2.getMemo().toLowerCase());
-			break;
-		case 7:
-			Double bal1 = getBalanceValue(obj1);
-			Double bal2 = getBalanceValue(obj2);
-			return bal1.compareTo(bal2);
-
-		default:
-			break;
 		}
-
 		return 0;
 	}
 
+	@SuppressWarnings("unused")
 	private void showWarningDialog(final AccountRegister obj) {
 		Accounter.showWarning("Do you want to Void the Transaction",
 				AccounterType.WARNING, new ErrorDialogHandler() {
