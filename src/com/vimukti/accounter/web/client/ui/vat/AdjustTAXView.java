@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVATReturnBox;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
@@ -342,10 +343,12 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		BaseView.errordata.setHTML(FinanceApplication.getVATMessages()
+		// BaseView.errordata.setHTML(FinanceApplication.getVATMessages()
+		// .failedToApplyChanges());
+		// BaseView.commentPanel.setVisible(true);
+		// this.errorOccured = true;
+		MainFinanceWindow.getViewManager().showError(FinanceApplication.getVATMessages()
 				.failedToApplyChanges());
-		BaseView.commentPanel.setVisible(true);
-		this.errorOccured = true;
 
 	}
 
