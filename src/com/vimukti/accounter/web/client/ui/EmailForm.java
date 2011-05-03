@@ -71,14 +71,17 @@ public class EmailForm extends DynamicForm {
 				if (event != null) {
 					String em = businesEmailText.getValue().toString();
 					if (!UIUtils.isValidEmail(em)) {
-						BaseView.errordata.setHTML("<li> "
-								+ AccounterErrorType.INVALID_EMAIL + ".");
-						BaseView.commentPanel.setVisible(true);
+						// BaseView.errordata.setHTML("<li> "
+						// + AccounterErrorType.INVALID_EMAIL + ".");
+						// BaseView.commentPanel.setVisible(true);
+						MainFinanceWindow.getViewManager().showError(
+								AccounterErrorType.INVALID_EMAIL);
 						// Accounter.showError(AccounterErrorType.INVALID_EMAIL);
 						businesEmailText.setText("");
 					} else {
-						BaseView.errordata.setHTML("");
-						BaseView.commentPanel.setVisible(false);
+						// BaseView.errordata.setHTML("");
+						// BaseView.commentPanel.setVisible(false);
+						MainFinanceWindow.getViewManager().restoreErrorBox();
 						ClientEmail email = new ClientEmail();
 						email.setType(UIUtils.getEmailType(businesEmailSelect
 								.getSelectedValue()));
