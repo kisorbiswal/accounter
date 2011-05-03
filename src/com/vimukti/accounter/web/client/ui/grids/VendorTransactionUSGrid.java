@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -870,9 +871,12 @@ public class VendorTransactionUSGrid extends
 							item.setUnitPrice(0.0D);
 							item.setQuantity(isItem ? 1 : 0);
 							// Accounter.showError(e.getMessage());
-							BaseView.errordata.setHTML("<li> " + e.getMessage()
-									+ ".");
-							BaseView.commentPanel.setVisible(true);
+							// BaseView.errordata.setHTML("<li> " +
+							// e.getMessage()
+							// + ".");
+							// BaseView.commentPanel.setVisible(true);
+							MainFinanceWindow.getViewManager().showError(
+									e.getMessage());
 						}
 					}
 				}
