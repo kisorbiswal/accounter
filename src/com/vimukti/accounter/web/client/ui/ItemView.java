@@ -638,11 +638,17 @@ public class ItemView extends BaseView<ClientItem> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		BaseView.errordata
-				.setHTML(this.type != TYPE_SERVICE ? "Duplication of Product name are not allowed..."
-						: "Duplication of Service name are not allowed...");
-		BaseView.commentPanel.setVisible(true);
-		this.errorOccured = true;
+		// BaseView.errordata
+		// .setHTML(this.type != TYPE_SERVICE ?
+		// "Duplication of Product name are not allowed..."
+		// : "Duplication of Service name are not allowed...");
+		// BaseView.commentPanel.setVisible(true);
+		// this.errorOccured = true;
+		MainFinanceWindow
+				.getViewManager()
+				.showError(
+						this.type != TYPE_SERVICE ? "Duplication of Product name are not allowed..."
+								: "Duplication of Service name are not allowed...");
 	}
 
 	@Override
@@ -837,10 +843,12 @@ public class ItemView extends BaseView<ClientItem> {
 			String name = nameText.getValue().toString();
 			if (takenItem == null) {
 				if (Utility.isObjectExist(company.getItems(), name)) {
-					BaseView.errordata.setHTML(BaseView.errordata.getHTML()
-							+ "<li> An Item already exists with this name.");
-					BaseView.commentPanel.setVisible(true);
-					AbstractBaseView.errorOccured = true;
+					// BaseView.errordata.setHTML(BaseView.errordata.getHTML()
+					// + "<li> An Item already exists with this name.");
+					// BaseView.commentPanel.setVisible(true);
+					// AbstractBaseView.errorOccured = true;
+					MainFinanceWindow.getViewManager().appendError(
+							"An Item already exists with this name");
 					// Accounter
 					// .showError("An Item already exists with this name");
 					return false;
