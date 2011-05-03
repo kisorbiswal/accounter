@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.DepreciationAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.DepreciationMethodCombo;
@@ -898,13 +899,19 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
 		if (fixedAsset == null)
-			BaseView.errordata.setHTML(FinanceApplication
-					.getFinanceUIConstants().duplicationOfAssets());
+			// BaseView.errordata.setHTML(FinanceApplication
+			// .getFinanceUIConstants().duplicationOfAssets());
+			MainFinanceWindow.getViewManager().showError(
+					FinanceApplication.getFinanceUIConstants()
+							.duplicationOfAssets());
+		// BaseView.errordata.setHTML(FinanceApplication
 		else
-			BaseView.errordata.setHTML(FinanceApplication
-					.getFinanceUIConstants().assetApdationFailed());
-		BaseView.commentPanel.setVisible(true);
-		this.errorOccured = true;
+			// .getFinanceUIConstants().assetApdationFailed());
+			MainFinanceWindow.getViewManager().showError(
+					FinanceApplication.getFinanceUIConstants()
+							.assetApdationFailed());
+		// BaseView.commentPanel.setVisible(true);
+		// this.errorOccured = true;
 	}
 
 	private ClientFixedAsset getAssetObject() {
