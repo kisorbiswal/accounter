@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
@@ -221,10 +222,13 @@ public class CustomerRefundView extends
 							.getValue().toString()));
 					Double givenAmount = amtText.getAmount();
 					if (DecimalUtil.isLessThan(givenAmount, 0)) {
-						BaseView.errordata.setHTML("<li> "
-								+ FinanceApplication.getCustomersMessages()
-										.noNegativeAmounts() + ".");
-						BaseView.commentPanel.setVisible(true);
+						// BaseView.errordata.setHTML("<li> "
+						// + FinanceApplication.getCustomersMessages()
+						// .noNegativeAmounts() + ".");
+						// BaseView.commentPanel.setVisible(true);
+						MainFinanceWindow.getViewManager().showError(
+								FinanceApplication.getCustomersMessages()
+										.noNegativeAmounts());
 						// Accounter.showError(FinanceApplication
 						// .getCustomersMessages().noNegativeAmounts());
 						setRefundAmount(0.00D);
@@ -234,8 +238,9 @@ public class CustomerRefundView extends
 					else if (!DecimalUtil.isLessThan(givenAmount, 0)) {
 						if (!AccounterValidator.isAmountTooLarge(givenAmount))
 							refundAmountChanged(givenAmount);
-						BaseView.errordata.setHTML("");
-						BaseView.commentPanel.setVisible(false);
+						// BaseView.errordata.setHTML("");
+						// BaseView.commentPanel.setVisible(false);
+						MainFinanceWindow.getViewManager().restoreErrorBox();
 						setRefundAmount(givenAmount);
 
 					}
