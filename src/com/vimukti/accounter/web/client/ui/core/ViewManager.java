@@ -17,6 +17,7 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -135,6 +136,9 @@ public class ViewManager extends DockPanel {
 	private Action presentAction;
 
 	private Image exportButton;
+
+	public HTML errordata;
+	public VerticalPanel commentPanel;
 
 	@SuppressWarnings("serial")
 	private ViewManager() {
@@ -396,6 +400,15 @@ public class ViewManager extends DockPanel {
 		};
 		rightCanvas.setStyleName("financeBackground");
 		rightCanvas.setSize("100%", "100%");
+		commentPanel = new VerticalPanel();
+		commentPanel.setWidth("97%");
+		commentPanel.setVisible(false);
+		commentPanel.addStyleName("commentPanel");
+		errordata = new HTML();
+		errordata.addStyleName("error-data");
+		commentPanel.add(errordata);
+
+		rightCanvas.add(commentPanel);
 
 		scrollPanel = new ScrollPanel() {
 			@SuppressWarnings("unchecked")
@@ -573,6 +586,7 @@ public class ViewManager extends DockPanel {
 			boolean dependent, Action action) throws Exception {
 		// Checking for any duplication of Company Home Page. due to should save
 		// in history This are just stacking up. so need to remove.
+		restoreErrorBox();
 		if (currentCanvas != null && getNextHistory() != null) {
 			removeAllSubsequentHistory();
 		}
@@ -645,8 +659,9 @@ public class ViewManager extends DockPanel {
 					public boolean onYesClick() throws InvalidEntryException {
 
 						((AbstractBaseView) currentCanvas).errorOccured = false;
-						BaseView.errordata.setHTML("");
-						BaseView.commentPanel.setVisible(false);
+						// BaseView.errordata.setHTML("");
+						// BaseView.commentPanel.setVisible(false);
+						restoreErrorBox();
 						AccounterExecute execute = new AccounterExecute(
 								(AbstractBaseView) currentCanvas,
 								((AbstractBaseView) currentCanvas)
@@ -708,9 +723,9 @@ public class ViewManager extends DockPanel {
 			}
 			if (item != null)
 				history.getAction().setActionSource(item);
-			if(currentCanvas instanceof DashBoard)
+			if (currentCanvas instanceof DashBoard)
 				((DashBoard) currentCanvas).refreshWidgetData(null);
-			
+
 			currentCanvas.setWidth("100%");
 			scrollPanel.add(currentCanvas);
 			rightCanvas.add(scrollPanel);
@@ -1217,8 +1232,9 @@ public class ViewManager extends DockPanel {
 					public boolean onYesClick() throws InvalidEntryException {
 
 						((AbstractBaseView) view).errorOccured = false;
-						BaseView.errordata.setHTML("");
-						BaseView.commentPanel.setVisible(false);
+						// BaseView.errordata.setHTML("");
+						// BaseView.commentPanel.setVisible(false);
+						restoreErrorBox();
 						AccounterExecute execute = new AccounterExecute(
 								(AbstractBaseView) view,
 								((AbstractBaseView) view)
@@ -1737,6 +1753,23 @@ public class ViewManager extends DockPanel {
 
 	public static void makeAllStaticInstancesNull() {
 		viewManagerInstance = null;
+	}
+
+	public void showError(String message) {
+		errordata.setHTML("<li> " + message + ".");
+		commentPanel.setVisible(true);
+		AbstractBaseView.errorOccured = true;
+	}
+
+	public void appendError(String message) {
+		errordata.setHTML(errordata.getHTML() + "<li> " + message + ".");
+		commentPanel.setVisible(true);
+		AbstractBaseView.errorOccured = true;
+	}
+
+	public void restoreErrorBox() {
+		errordata.setHTML("");
+		commentPanel.setVisible(false);
 	}
 
 }
