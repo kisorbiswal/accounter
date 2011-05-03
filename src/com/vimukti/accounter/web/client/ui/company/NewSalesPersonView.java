@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.GridAccountsCombo;
@@ -167,10 +168,12 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				long mustdate = new ClientFinanceDate().getTime() - 180000;
 				if (new ClientFinanceDate(mustdate).before(dateOfBirth
 						.getEnteredDate())) {
-					BaseView.errordata
-							.setHTML("Date of Birth should show more than 18 years");
-					BaseView.commentPanel.setVisible(true);
-					AbstractBaseView.errorOccured = true;
+					// BaseView.errordata
+					// .setHTML("Date of Birth should show more than 18 years");
+					// BaseView.commentPanel.setVisible(true);
+					// AbstractBaseView.errorOccured = true;
+					MainFinanceWindow.getViewManager().showError(
+							"Date of Birth should show more than 18 years");
 				}
 			}
 		});
@@ -334,13 +337,19 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
 		if (takenSalesperson == null)
-			BaseView.errordata.setHTML(FinanceApplication.getCompanyMessages()
-					.DuplicationOfSalesPesonNotAllowed());
+			// BaseView.errordata.setHTML(FinanceApplication.getCompanyMessages()
+			// .DuplicationOfSalesPesonNotAllowed());
+			MainFinanceWindow.getViewManager().showError(
+					FinanceApplication.getCompanyMessages()
+							.DuplicationOfSalesPesonNotAllowed());
 		else
-			BaseView.errordata.setHTML(FinanceApplication.getCompanyMessages()
-					.salesPersonUpdationFailed());
-		BaseView.commentPanel.setVisible(true);
-		this.errorOccured = true;
+			// BaseView.errordata.setHTML(FinanceApplication.getCompanyMessages()
+			// .salesPersonUpdationFailed());
+			MainFinanceWindow.getViewManager().showError(
+					FinanceApplication.getCompanyMessages()
+							.salesPersonUpdationFailed());
+		// BaseView.commentPanel.setVisible(true);
+		// this.errorOccured = true;
 	}
 
 	@Override
