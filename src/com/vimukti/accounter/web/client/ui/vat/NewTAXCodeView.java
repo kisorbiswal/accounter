@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.VATItemCombo;
@@ -261,9 +262,10 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		BaseView.errordata.setHTML(exception.getMessage());
-		BaseView.commentPanel.setVisible(true);
-		this.errorOccured = true;
+		// BaseView.errordata.setHTML(exception.getMessage());
+		// BaseView.commentPanel.setVisible(true);
+		// this.errorOccured = true;
+		MainFinanceWindow.getViewManager().showError(exception.getMessage());
 	}
 
 	@Override
