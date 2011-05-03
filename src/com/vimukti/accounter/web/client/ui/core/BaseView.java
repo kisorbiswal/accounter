@@ -24,8 +24,8 @@ import com.vimukti.accounter.web.client.ui.vat.FileVATView;
 public abstract class BaseView<T> extends AbstractBaseView<T> {
 
 	protected VerticalPanel mainPanel;
-	public static HTML errordata;
-	public static VerticalPanel commentPanel;
+	// public static HTML errordata;
+	// public static VerticalPanel commentPanel;
 
 	protected ScrollPanel canvas;
 	protected HorizontalPanel buttonLayout, bottomShadow;
@@ -76,18 +76,18 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 		setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		setWidth("100%");
 		setHeight("100%");
-		commentPanel = new VerticalPanel();
-		commentPanel.setWidth("100%");
-		commentPanel.setVisible(false);
-		commentPanel.addStyleName("commentPanel");
-		errordata = new HTML();
-		errordata.addStyleName("error-data");
-		commentPanel.add(errordata);
+		// commentPanel = new VerticalPanel();
+		// commentPanel.setWidth("100%");
+		// commentPanel.setVisible(false);
+		// commentPanel.addStyleName("commentPanel");
+		// errordata = new HTML();
+		// errordata.addStyleName("error-data");
+		// commentPanel.add(errordata);
 		mainPanel = new VerticalPanel();
 		mainPanel.setSize("100%", "100%");
 		canvas = new ScrollPanel();
 		canvas.setWidth("100%");
-		mainPanel.add(commentPanel);
+		// mainPanel.add(commentPanel);
 		mainPanel.add(canvas);
 		add(mainPanel);
 		mainPanel.setStyleName("main-class-pannel");
