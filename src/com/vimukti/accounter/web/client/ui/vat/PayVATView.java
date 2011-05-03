@@ -290,6 +290,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		gridLayout = new VerticalPanel();
 		grid = new TransactionPayVATGrid(!isEdit, true);
 		grid.setCanEdit(!isEdit);
+		grid.isEnable = false;
 		grid.init();
 		grid.setPayVATView(this);
 		grid.setDisabled(isEdit);

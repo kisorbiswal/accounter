@@ -53,6 +53,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
 		grid = new FinanceLogginGrid(false);
+		grid.isEnable = false;
 		grid.init();
 		grid.setWidth("100%");
 		grid.setHeight("280px");

@@ -311,6 +311,7 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 					adjPayText, totAmtUseText);
 
 		grid = new CreditsandPaymentsGrid(true, this, this.record);
+		grid.isEnable = false;
 		grid.init();
 		grid.setWidth("100%");
 		grid.setHeight("200px");
@@ -438,7 +439,8 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 					// crdPayment.setBalance(crdPayment.getActualAmt());
 					ClientTransactionCreditsAndPayments creditsAndPayments = new ClientTransactionCreditsAndPayments();
 					try {
-						creditsAndPayments.setAmountToUse(crdPayment.getAmtTouse());
+						creditsAndPayments.setAmountToUse(crdPayment
+								.getAmtTouse());
 					} catch (Exception e) {
 					}
 					creditsAndPayments.setDate(crdPayment.getTransaction()

@@ -54,6 +54,7 @@ public abstract class CustomTable extends VerticalPanel {
 
 	protected FlexTable footer;
 	protected boolean isShowFooter;
+	public boolean isEnable = true;
 
 	protected Event event;
 
@@ -147,34 +148,34 @@ public abstract class CustomTable extends VerticalPanel {
 			this.header.setWidget(0, 0, headerChkbox);
 			headerCellFormater.getElement(0, 0).setAttribute("width", "15");
 		}
+		if (isEnable) {
+			this.header.addClickHandler(new ClickHandler() {
 
-		this.header.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					if (disable)
+						return;
 
-			@Override
-			public void onClick(ClickEvent event) {
-				if (disable)
-					return;
-
-				Cell cell = header.getCellForEvent(event);
-				CustomTable.this.cell = null;
-				if (cell == null) {
-					return;
-				} else {
-					if (isDecending) {
-						changeHeaderCellStyles("gridDecend", "gridAscend");
-						header.getCellFormatter().addStyleName(0,
-								cell.getCellIndex(), "gridDecend");
-
+					Cell cell = header.getCellForEvent(event);
+					CustomTable.this.cell = null;
+					if (cell == null) {
+						return;
 					} else {
-						changeHeaderCellStyles("gridAscend", "gridDecend");
-						header.getCellFormatter().addStyleName(0,
-								cell.getCellIndex(), "gridAscend");
-					}
-					headerCellClicked(cell.getCellIndex());
-				}
-			}
-		});
+						if (isDecending) {
+							changeHeaderCellStyles("gridDecend", "gridAscend");
+							header.getCellFormatter().addStyleName(0,
+									cell.getCellIndex(), "gridDecend");
 
+						} else {
+							changeHeaderCellStyles("gridAscend", "gridDecend");
+							header.getCellFormatter().addStyleName(0,
+									cell.getCellIndex(), "gridAscend");
+						}
+						headerCellClicked(cell.getCellIndex());
+					}
+				}
+			});
+		}
 		initHeader();
 		this.header.getRowFormatter().addStyleName(0, "gridHeaderRow");
 		this.header.setStyleName("gridHeader");

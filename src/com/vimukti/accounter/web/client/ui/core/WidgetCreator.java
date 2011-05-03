@@ -213,6 +213,7 @@ public class WidgetCreator {
 
 		// bankingSummaryPortlet.setName("BANKING_SUMMARY");
 		customerWidgetGrid = new CustomerWidgetGrid();
+		customerWidgetGrid.isEnable = false;
 		customerWidgetGrid.init();
 		// grid.addLoadingImagePanel();
 		customerWidgetGrid.setHeight("250px");

@@ -701,6 +701,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		gridView.setDisabled(true);
 		gridView.setCanEdit(true);
 		gridView.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
+		gridView.isEnable = false;
 		gridView.init();
 
 		VerticalPanel panel = new VerticalPanel() {

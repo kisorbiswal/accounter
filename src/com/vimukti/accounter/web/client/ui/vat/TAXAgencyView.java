@@ -342,9 +342,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		taxAgencyForm = UIUtils.form(companyConstants.taxAgency());
 		taxAgencyForm.setWidth("100%");
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-		taxAgencyForm.getCellFormatter().setWidth(0, 0, "204px");
-		}
-		else
+			taxAgencyForm.getCellFormatter().setWidth(0, 0, "204px");
+		} else
 			taxAgencyForm.getCellFormatter().setWidth(0, 0, "190px");
 		taxAgencyForm.setFields(taxAgencyText);
 
@@ -640,6 +639,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		gridView = new ContactGrid();
 		gridView.setDisabled(true);
 		gridView.setCanEdit(true);
+		gridView.isEnable = false;
 		gridView.init();
 		gridView.setHeight("175px");
 

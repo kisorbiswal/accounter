@@ -138,8 +138,9 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		// adjustForm.add(adjustLabel);
 		adjustForm.add(adjustButton);
 		if (adjustButton.isEnabled()) {
-		adjustButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(adjustButton, FinanceApplication
+			adjustButton.getElement().getParentElement()
+					.setClassName("ibutton");
+			ThemesUtil.addDivToButton(adjustButton, FinanceApplication
 					.getThemeImages().button_right_blue_image(),
 					"ibutton-right-image");
 		}
@@ -171,19 +172,20 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		printForm.add(printLabel);
 		printForm.add(printButton);
 		if (printButton.isEnabled()) {
-		printButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(printButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+			printButton.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(printButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
 		}
 		topLayout = new HorizontalPanel();
 		topLayout.add(topForm);
 		topLayout.add(updateButton);
 		if (updateButton.isEnabled()) {
-		updateButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(updateButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+			updateButton.getElement().getParentElement()
+					.setClassName("ibutton");
+			ThemesUtil.addDivToButton(updateButton, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
 		}
 		mainLayout = new VerticalPanel();
 		mainLayout.setHeight("100%");
@@ -353,6 +355,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		// gridView.setCurrentView(this);
 		// gridView.setCanEdit(true);
 		// gridView.setEditEventType(ListGrid.EDIT_EVENT_DBCLICK);
+		gridView.isEnable = false;
 		gridView.init();
 		gridView.setHeight("250");
 		gridView.addEmptyMessage(AccounterErrorType.SELECT_VATAGENCY);

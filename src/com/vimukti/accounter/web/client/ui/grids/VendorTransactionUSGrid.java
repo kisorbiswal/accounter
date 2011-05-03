@@ -68,6 +68,7 @@ public class VendorTransactionUSGrid extends
 
 	@Override
 	public void init() {
+		super.isEnable = false;
 		super.init();
 		if (FinanceApplication.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
 			createControls();

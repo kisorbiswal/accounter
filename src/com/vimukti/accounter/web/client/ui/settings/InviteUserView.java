@@ -120,6 +120,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 
 	private void initGrid() {
 		grid = new UserRoleGrid(false);
+		grid.isEnable = false;
 		grid.init();
 		grid.setView(this);
 		grid.setRecords(getDefaultRolesAndPermissions());

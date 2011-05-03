@@ -205,6 +205,7 @@ public class CashSalesView extends
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
 		customerTransactionGrid = getGrid();
 		customerTransactionGrid.setTransactionView(this);
+		customerTransactionGrid.isEnable = false;
 		customerTransactionGrid.init();
 		customerTransactionGrid.setCanEdit(true);
 		customerTransactionGrid.setDisabled(isEdit);
@@ -247,9 +248,8 @@ public class CashSalesView extends
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
 		if (FinanceApplication.getCompany().getAccountingType() == 1) {
-		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
-		}
-		else
+			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
+		} else
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
 
 		VerticalPanel vPanel = new VerticalPanel();
@@ -772,7 +772,7 @@ public class CashSalesView extends
 		shippingMethodsCombo.setDisabled(isEdit);
 
 		deliveryDate.setDisabled(isEdit);
-         memoTextAreaItem.setDisabled(isEdit);
+		memoTextAreaItem.setDisabled(isEdit);
 		priceLevelSelect.setDisabled(isEdit);
 		customerTransactionGrid.setDisabled(isEdit);
 		customerTransactionGrid.setCanEdit(true);

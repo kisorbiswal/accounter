@@ -112,18 +112,20 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		buttonPanel.setSpacing(10);
 		buttonPanel.add(startDateButton);
 		if (startDateButton.isEnabled()) {
-		startDateButton.getElement().getParentElement().setClassName("ibutton");
+			startDateButton.getElement().getParentElement().setClassName(
+					"ibutton");
 			ThemesUtil.addDivToButton(startDateButton, FinanceApplication
 					.getThemeImages().button_right_blue_image(),
 					"ibutton-right-image");
 		}
 		buttonPanel.add(rollBackDepreciation);
 		if (rollBackDepreciation.isEnabled()) {
-		rollBackDepreciation.getElement().getParentElement().setClassName(
-				"ibutton");
-		ThemesUtil.addDivToButton(rollBackDepreciation, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");}
+			rollBackDepreciation.getElement().getParentElement().setClassName(
+					"ibutton");
+			ThemesUtil.addDivToButton(rollBackDepreciation, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
 		mainPanel.add(buttonPanel);
 
 		fromLabel = new Label(FinanceApplication.getCompanyMessages()
@@ -166,6 +168,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		VerticalPanel gridPanel = new VerticalPanel();
 
 		grid = new DepreciationTreeGrid("");
+		grid.isEnable = false;
 		grid.init();
 		grid.setHeight("300px");
 		grid.initParentAndChildIcons(FinanceApplication.getFinanceMenuImages()

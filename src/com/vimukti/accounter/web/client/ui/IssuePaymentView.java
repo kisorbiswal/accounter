@@ -373,6 +373,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		gridLayout.setWidth("100%");
 		gridLayout.setHeight("100");
 		grid = new TransactionIssuePaymentGrid();
+		grid.isEnable = false;
 		grid.init();
 		grid.setHeight("200px");
 		// grid.setIssuePaymentView(this);

@@ -40,6 +40,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 
 	@Override
 	public void init() {
+		super.isEnable = false;
 		super.init();
 		createControls();
 		super.initTransactionData();

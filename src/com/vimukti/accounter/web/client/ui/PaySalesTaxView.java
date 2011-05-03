@@ -210,7 +210,7 @@ public class PaySalesTaxView extends
 		grid = new TransactionPaySalesTaxGrid(!isEdit, true);
 		grid.setCurrentView(this);
 		grid.setCanEdit(true);
-
+		grid.isEnable = false;
 		grid.init();
 		grid.setDisabled(isEdit);
 		grid.setHeight("200px");

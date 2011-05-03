@@ -91,7 +91,7 @@ public class RecieveVATView extends
 		Label lab = new Label(FinanceApplication.getFinanceUIConstants()
 				.receiveVAT());
 		lab.setStyleName(FinanceApplication.getVendorsMessages().lableTitle());
-//		lab.setHeight("35px");
+		// lab.setHeight("35px");
 		// date = new DateField(companyConstants.date());
 		// date.setHelpInformation(true);
 		// date.setTitle(companyConstants.date());
@@ -310,6 +310,7 @@ public class RecieveVATView extends
 			}
 		};
 		grid.setCanEdit(!isEdit);
+		grid.isEnable = false;
 		grid.init();
 		grid.setRecieveVATView(this);
 		grid.setDisabled(isEdit);

@@ -363,6 +363,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		gridView.setDisabled(true);
 		gridView.setCanEdit(true);
 		gridView.setEditEventType(ListGrid.EDIT_EVENT_DBCLICK);
+		gridView.isEnable = false;
 		gridView.init();
 
 		VerticalPanel panel = new VerticalPanel() {

@@ -393,6 +393,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		customerTransactionGrid = getGrid();
 		customerTransactionGrid.setTransactionView(this);
+		
+		customerTransactionGrid.isEnable=false;
+		
 		customerTransactionGrid.init();
 		customerTransactionGrid.setCanEdit(true);
 		customerTransactionGrid.setDisabled(isEdit);

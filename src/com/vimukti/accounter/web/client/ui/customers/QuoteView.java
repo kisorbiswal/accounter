@@ -178,8 +178,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			// .getValue().toString() : "");
 			quote.setPaymentTerm(Utility.getId(paymentTerm));
 			quote.setNetAmount(netAmountLabel.getAmount());
-			
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {				
+
+			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 				quote.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 						.getValue());
 			} else
@@ -316,6 +316,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		customerTransactionGrid = getGrid();
 		customerTransactionGrid.setTransactionView(this);
+		customerTransactionGrid.isEnable = false;
 		customerTransactionGrid.init();
 		customerTransactionGrid.setCanEdit(true);
 		customerTransactionGrid.setDisabled(isEdit);
@@ -335,7 +336,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
 		prodAndServiceForm2.setCellSpacing(5);
-	
 
 		int accountType = FinanceApplication.getCompany().getAccountingType();
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -349,7 +349,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
 			// prodAndServiceForm2.setFields(taxCodeSelect,
 			// salesTaxTextNonEditable, priceLevelSelect,
-			// transactionTotalNonEditableText);		
+			// transactionTotalNonEditableText);
 			prodAndServiceForm2.setFields(taxCodeSelect,
 					salesTaxTextNonEditable, disabletextbox,
 					transactionTotalNonEditableText);
@@ -374,11 +374,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
-		}
-		else
-		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
-		
+			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
+		} else
+			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
+
 		VerticalPanel mainpanel = new VerticalPanel();
 		mainpanel.setWidth("100%");
 		mainpanel.add(vPanel);
@@ -596,7 +595,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			setTransactionTotal(customerTransactionGrid.getTotal()
 					+ this.salesTax);
 			netAmountLabel.setAmount(customerTransactionGrid.getGrandTotal());
-			
+
 		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			netAmountLabel.setAmount(customerTransactionGrid.getGrandTotal());
 			vatTotalNonEditableText.setAmount(customerTransactionGrid
@@ -740,7 +739,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		deliveryDate.setDisabled(isEdit);
 		quoteExpiryDate.setDisabled(isEdit);
 		taxCodeSelect.setDisabled(isEdit);
-        memoTextAreaItem.setDisabled(isEdit);
+		memoTextAreaItem.setDisabled(isEdit);
 		priceLevelSelect.setDisabled(isEdit);
 		customerTransactionGrid.setCanEdit(true);
 		customerTransactionGrid.setDisabled(isEdit);

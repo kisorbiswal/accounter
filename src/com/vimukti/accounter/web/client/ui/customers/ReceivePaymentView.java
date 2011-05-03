@@ -319,6 +319,7 @@ public class ReceivePaymentView extends
 		gridView.setPaymentView(this);
 		gridView.setCustomer(this.customer);
 		gridView.setCanEdit(!isEdit);
+		gridView.isEnable=false;
 		gridView.init();
 		gridView.setDisabled(isEdit);
 		gridView.setEditEventType(ListGrid.EDIT_EVENT_CLICK);

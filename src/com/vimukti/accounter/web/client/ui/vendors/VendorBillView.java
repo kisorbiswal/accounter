@@ -456,6 +456,7 @@ public class VendorBillView extends
 		vendorTransactionGrid.setTransactionView(this);
 		vendorTransactionGrid.setCanEdit(true);
 		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
+		vendorTransactionGrid.isEnable = false;
 		vendorTransactionGrid.init();
 		vendorTransactionGrid.setDisabled(isEdit);
 		vendorTransactionGrid.getElement().getStyle().setMarginTop(10, Unit.PX);

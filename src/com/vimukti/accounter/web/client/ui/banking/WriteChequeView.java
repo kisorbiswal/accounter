@@ -994,6 +994,7 @@ public class WriteChequeView extends
 				transactionVendorGrid.setCanEdit(true);
 				transactionVendorGrid
 						.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
+				transactionVendorGrid.isEnable = false;
 				transactionVendorGrid.init();
 				transactionVendorGrid.setWidth("100%");
 				mainVLay.add(topHLay);

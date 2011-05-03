@@ -339,6 +339,7 @@ public class SalesOrderView extends
 
 		customerTransactionGrid = getGrid();
 		customerTransactionGrid.setTransactionView(this);
+		customerTransactionGrid.isEnable = false;
 		customerTransactionGrid.init();
 		customerTransactionGrid.setCanEdit(true);
 		customerTransactionGrid.setDisabled(isEdit);
@@ -349,8 +350,7 @@ public class SalesOrderView extends
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
-		
-		
+
 		TextItem dummyItem = new TextItem("");
 		dummyItem.setVisible(false);
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -359,7 +359,8 @@ public class SalesOrderView extends
 					transactionTotalNonEditableText);
 			prodAndServiceForm2.setStyleName("invoice-total");
 		} else {
-			prodAndServiceForm2.setFields(taxCodeSelect,salesTaxTextNonEditable,dummyItem,
+			prodAndServiceForm2.setFields(taxCodeSelect,
+					salesTaxTextNonEditable, dummyItem,
 					transactionTotalNonEditableText);
 			prodAndServiceForm2.setStyleName("tax-form");
 		}
@@ -376,10 +377,9 @@ public class SalesOrderView extends
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
-		}
-		else
-		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
+			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
+		} else
+			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
 		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
 				ALIGN_RIGHT);
 
@@ -1141,7 +1141,7 @@ public class SalesOrderView extends
 		quoteLabel.setDisabled(isEdit);
 
 		quoteLabelListener();
-		
+
 		salesPersonCombo.setDisabled(isEdit);
 		shippingTermsCombo.setDisabled(isEdit);
 		payTermsSelect.setDisabled(isEdit);

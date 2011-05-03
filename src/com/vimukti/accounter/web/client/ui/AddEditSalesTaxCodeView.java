@@ -207,13 +207,16 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 		buttonsLayout.add(button2);
 		buttonsLayout.add(button3);
 		if (button1.isEnabled()) {
-		button1.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(button1, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		}if (button2.isEnabled()) {
-		button2.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(button2, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
+			button1.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(button1, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (button2.isEnabled()) {
+			button2.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(button2, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
 		}
 		if (button3.isEnabled()) {
 			button3.getElement().getParentElement().setClassName("ibutton");
@@ -257,6 +260,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 		gridView.setCurrentView(this);
 		gridView.setCanEdit(true);
 		gridView.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
+		gridView.isEnable = false;
 		gridView.init();
 		gridView.setHeight("200px");
 		gridView.setWidth("100%");
@@ -466,7 +470,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 		BaseView.errordata.setHTML("Duplication of TaxCode is not allowed");
 		BaseView.commentPanel.setVisible(true);
 		this.errorOccured = true;
-		
+
 	}
 
 	private ClientTAXCode getTaxCode() {

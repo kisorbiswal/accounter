@@ -198,6 +198,7 @@ public class VendorCreditMemoView extends
 		vendorTransactionGrid.setTransactionView(this);
 		vendorTransactionGrid.setCanEdit(true);
 		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
+		vendorTransactionGrid.isEnable = false;
 		vendorTransactionGrid.init();
 		vendorTransactionGrid.setDisabled(isEdit);
 		vendorTransactionGrid.getElement().getStyle().setMarginTop(10, Unit.PX);
@@ -338,7 +339,7 @@ public class VendorCreditMemoView extends
 			ClientVendorCreditMemo vendorCreditMemo = (ClientVendorCreditMemo) transactionObject;
 
 			if (vendorCreditMemo != null) {
-               memoTextAreaItem.setDisabled(true);
+				memoTextAreaItem.setDisabled(true);
 				setMemoTextAreaItem(vendorCreditMemo.getMemo());
 				// setRefText(vendorCreditMemo.getReference());
 
@@ -521,7 +522,7 @@ public class VendorCreditMemoView extends
 		isEdit = false;
 		vendorCombo.setDisabled(isEdit);
 		transactionDateItem.setDisabled(isEdit);
-          memoTextAreaItem.setDisabled(isEdit);
+		memoTextAreaItem.setDisabled(isEdit);
 		transactionNumber.setDisabled(isEdit);
 		vendorTransactionGrid.setDisabled(isEdit);
 		vendorTransactionGrid.setCanEdit(true);

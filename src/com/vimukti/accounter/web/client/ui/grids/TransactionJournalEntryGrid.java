@@ -61,6 +61,7 @@ public class TransactionJournalEntryGrid extends
 
 	@Override
 	public void init() {
+		isEnable = false;
 		super.init();
 		createControls();
 		initTransactionData();
@@ -735,7 +736,7 @@ public class TransactionJournalEntryGrid extends
 	@Override
 	public void setTaxCode(String taxCode) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/*
