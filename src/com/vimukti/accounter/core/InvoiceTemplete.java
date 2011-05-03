@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import com.bizantra.server.main.ServerConfiguration;
+
 /**
  * 
  * @author Narendra nnvd
@@ -34,11 +36,10 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 	private StringBuffer getImage() {
 		StringBuffer original = new StringBuffer();
 		String imagesDomain = "/do/downloadFileFromFile?";
-		original.append("<img src=\"");
-		original.append(imagesDomain);
-		original.append("fileName=");
-		original.append(brandingTheme.getFileName());
-		original.append("\">");
+		original.append("<img src='file:///");
+		original.append(ServerConfiguration.getAttachmentsDir() + "/"
+				+ this.company.getName() + "/" + brandingTheme.getFileName());
+		original.append("'/>");
 		return original;
 	}
 
@@ -112,11 +113,16 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 					+ "</strong></font>" + cmpAdd + "</p>");
 		}
 
-		headerHtml = ("<table style=\"width: 100%; height: 100%;\" cellspacing=\"10\"><tr align=\""
-				+ getLogoAlignment()
-				+ "\"><td>"
-				+ getImage()
-				+ "</td></tr><tr><td style=\"height:"
+		String header1 = "";
+		String imgCode = "<table width=\"100%\" cellpadding=\"25px\"><tr><td align=\""
+				+ getLogoAlignment() + "\">" + getImage()
+				+ "</td></tr></table>";
+		if (brandingTheme.isShowLogo) {
+			header1 = header1 + imgCode;
+		}
+
+		headerHtml = (header1
+				+ "<table style=\"width: 100%; height: 100%;\" cellspacing=\"10\"><tr><td style=\"height:"
 				+ getUnits()
 				+ "\"><p><br></p></td></tr><tr style=\"width:100%\"><td></td><td align=\"center;\" style=\"width:40%\"><div class=\"gwt-HTML\" style=\" margin-right: 43px;\"><p align=\"center\" style=\"font-family:"
 				+ brandingTheme.getFont()
