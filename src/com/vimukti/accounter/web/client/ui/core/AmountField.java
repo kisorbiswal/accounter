@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class AmountField extends TextItem {
@@ -67,8 +68,10 @@ public class AmountField extends TextItem {
 					}
 				} catch (Exception e) {
 					if (e instanceof InvalidEntryException) {
-						BaseView.errordata.setHTML("<li>" + e.getMessage());
-						BaseView.commentPanel.setVisible(true);
+						// BaseView.errordata.setHTML("<li>" + e.getMessage());
+						// BaseView.commentPanel.setVisible(true);
+						MainFinanceWindow.getViewManager().showError(
+								e.getMessage());
 						// Accounter.showError(e.getMessage());
 					}
 

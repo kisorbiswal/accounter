@@ -177,7 +177,7 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 		mainPanel = new VerticalPanel();
 		commentPanel = new VerticalPanel();
 		commentPanel.setVisible(false);
-		commentPanel.addStyleName("commentPanel");
+		commentPanel.addStyleName("dialog_commentPanel");
 		errordata = new HTML();
 		errordata.addStyleName("error-data");
 		commentPanel.add(errordata);

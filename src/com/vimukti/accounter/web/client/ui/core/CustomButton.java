@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 
 /**
  * @author Fernandez
@@ -69,7 +70,8 @@ public class CustomButton extends Button {
 
 				try {
 					// CustomButton.this.getParent().setVisible(false);
-
+					MainFinanceWindow.getViewManager().restoreErrorBox();
+					canvas.errorOccured = false;
 					if (type == CustomButtonType.CANCEL) {
 						ViewManager.getInstance().closeCurrentView();
 						return;
@@ -93,9 +95,9 @@ public class CustomButton extends Button {
 	@SuppressWarnings("unchecked")
 	protected void validateAndSave(final AbstractBaseView view)
 			throws Exception {
-		view.errorOccured = false;
-		BaseView.errordata.setHTML("");
-		BaseView.commentPanel.setVisible(false);
+		// view.errorOccured = false;
+		// BaseView.errordata.setHTML("");
+		// BaseView.commentPanel.setVisible(false);
 		AccounterExecute execute = new AccounterExecute(view, this);
 		execute.run();
 		Accounter.setTimer(execute);

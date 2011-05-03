@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.TransferFundsDialog;
 import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
@@ -53,10 +54,12 @@ public class AccounterValidator {
 			if (DecimalUtil.isLessThan(amount, -1000000000000.00)
 					|| DecimalUtil.isGreaterThan(amount, 1000000000000.00)) {
 				// Accounter.showError(AccounterErrorType.AMOUNTEXCEEDS);
-				BaseView.errordata.setHTML(BaseView.errordata.getHTML()
-						+ "<li> " + AccounterErrorType.AMOUNTEXCEEDS + ".");
-				BaseView.commentPanel.setVisible(true);
-				AbstractBaseView.errorOccured = true;
+				// BaseView.errordata.setHTML(BaseView.errordata.getHTML()
+				// + "<li> " + AccounterErrorType.AMOUNTEXCEEDS + ".");
+				// BaseView.commentPanel.setVisible(true);
+				// AbstractBaseView.errorOccured = true;
+				MainFinanceWindow.getViewManager().appendError(
+						AccounterErrorType.AMOUNTEXCEEDS);
 				// Accounter.stopExecution();
 				return false;
 			}
@@ -65,11 +68,13 @@ public class AccounterValidator {
 			if (DecimalUtil.isLessThan(amount, 0.00)
 					|| DecimalUtil.isGreaterThan(amount, 1000000000000.00)) {
 				// Accounter.showError(AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
-				BaseView.errordata.setHTML(BaseView.errordata.getHTML()
-						+ "<li> " + AccounterErrorType.INVALID_NEGATIVE_AMOUNT
-						+ ".");
-				BaseView.commentPanel.setVisible(true);
-				AbstractBaseView.errorOccured = true;
+				// BaseView.errordata.setHTML(BaseView.errordata.getHTML()
+				// + "<li> " + AccounterErrorType.INVALID_NEGATIVE_AMOUNT
+				// + ".");
+				// BaseView.commentPanel.setVisible(true);
+				// AbstractBaseView.errorOccured = true;
+				MainFinanceWindow.getViewManager().appendError(
+						AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
 				// Accounter.stopExecution();
 				return false;
 			}
@@ -1354,15 +1359,18 @@ public class AccounterValidator {
 	public static boolean validateGridUnitPrice(Double unitPrice)
 			throws InvalidTransactionEntryException {
 		if (DecimalUtil.isLessThan(unitPrice, 0.00)) {
-			BaseView.errordata.setHTML("<li> " + AccounterErrorType.unitPrice
-					+ ".");
-			BaseView.commentPanel.setVisible(true);
+			// BaseView.errordata.setHTML("<li> " + AccounterErrorType.unitPrice
+			// + ".");
+			// BaseView.commentPanel.setVisible(true);
+			MainFinanceWindow.getViewManager().appendError(
+					AccounterErrorType.unitPrice);
 			// Accounter.showError(AccounterErrorType.unitPrice);
 			// Accounter.stopExecution();
 			return true;
 		} else {
-			BaseView.errordata.setHTML("");
-			BaseView.commentPanel.setVisible(false);
+			// BaseView.errordata.setHTML("");
+			// BaseView.commentPanel.setVisible(false);
+			MainFinanceWindow.getViewManager().restoreErrorBox();
 		}
 		return false;
 
@@ -1371,15 +1379,18 @@ public class AccounterValidator {
 	public static boolean validateGridQuantity(int quantity)
 			throws InvalidTransactionEntryException {
 		if (DecimalUtil.isLessThan(quantity, 0.00)) {
-			BaseView.errordata.setHTML("<li> " + AccounterErrorType.quantity
-					+ ".");
-			BaseView.commentPanel.setVisible(true);
+			// BaseView.errordata.setHTML("<li> " + AccounterErrorType.quantity
+			// + ".");
+			// BaseView.commentPanel.setVisible(true);
+			MainFinanceWindow.getViewManager().appendError(
+					AccounterErrorType.quantity);
 			// Accounter.showError(AccounterErrorType.quantity);
 			// Accounter.stopExecution();
 			return true;
 		} else {
-			BaseView.errordata.setHTML("");
-			BaseView.commentPanel.setVisible(false);
+			// BaseView.errordata.setHTML("");
+			// BaseView.commentPanel.setVisible(false);
+			MainFinanceWindow.getViewManager().restoreErrorBox();
 		}
 		return false;
 

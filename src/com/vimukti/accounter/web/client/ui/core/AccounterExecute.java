@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.core;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.user.client.Timer;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 
 /**
  * AccounterExecute is sub class of Timer, which is used to execute view after
@@ -60,12 +61,15 @@ public class AccounterExecute extends Timer {
 				} else {
 					view.validationCount--;
 					validationCount--;
-					BaseView.errordata.setHTML(BaseView.errordata.getHTML()
-							+ "<li> "
-							+ (e.getMessage() == null ? e.toString() : e
-									.getMessage()) + ".");
-					BaseView.commentPanel.setVisible(true);
-					view.errorOccured = true;
+					// BaseView.errordata.setHTML(BaseView.errordata.getHTML()
+					// + "<li> "
+					// + (e.getMessage() == null ? e.toString() : e
+					// .getMessage()) + ".");
+					// BaseView.commentPanel.setVisible(true);
+					// view.errorOccured = true;
+					MainFinanceWindow.getViewManager().appendError(
+							e.getMessage() == null ? e.toString() : e
+									.getMessage());
 					if (view.validationCount <= 0)
 						stop();
 					// Accounter.showError(e.getMessage() == null ? e.toString()

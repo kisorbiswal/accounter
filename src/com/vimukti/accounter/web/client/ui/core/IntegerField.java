@@ -4,6 +4,7 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class IntegerField extends TextItem {
@@ -49,10 +50,12 @@ public class IntegerField extends TextItem {
 						}
 					} catch (Exception e) {
 						if (value.toString().length() != 0) {
-							BaseView.errordata.setHTML("<li> "
-									+ AccounterErrorType.INCORRECTINFORMATION
-									+ ".");
-							BaseView.commentPanel.setVisible(true);
+							// BaseView.errordata.setHTML("<li> "
+							// + AccounterErrorType.INCORRECTINFORMATION
+							// + ".");
+							// BaseView.commentPanel.setVisible(true);
+							MainFinanceWindow.getViewManager().showError(
+									AccounterErrorType.INCORRECTINFORMATION);
 						}
 						// Accounter
 						// .showError(AccounterErrorType.INCORRECTINFORMATION);

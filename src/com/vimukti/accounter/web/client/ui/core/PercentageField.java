@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class PercentageField extends TextItem {
@@ -74,17 +75,25 @@ public class PercentageField extends TextItem {
 						if (enteredPercentageValue != null) {
 							if (DecimalUtil.isLessThan(enteredPercentageValue,
 									0)) {
-								BaseView.errordata
-										.setHTML("<li> You cannot enter a negative Percentage.");
-								BaseView.commentPanel.setVisible(true);
+								// BaseView.errordata
+								// .setHTML("<li> You cannot enter a negative Percentage.");
+								// BaseView.commentPanel.setVisible(true);
+								MainFinanceWindow
+										.getViewManager()
+										.showError(
+												"You cannot enter a negative Percentage");
 								// Accounter
 								// .showError("You cannot enter a negative Percentage");
 								setPercentage(0.0);
 							} else if (DecimalUtil.isGreaterThan(
 									enteredPercentageValue, 100)) {
-								BaseView.errordata
-										.setHTML("<li> You cannot enter a percentage more than 100.");
-								BaseView.commentPanel.setVisible(true);
+								// BaseView.errordata
+								// .setHTML("<li> You cannot enter a percentage more than 100.");
+								// BaseView.commentPanel.setVisible(true);
+								MainFinanceWindow
+										.getViewManager()
+										.showError(
+												"You cannot enter a percentage more than 100");
 								// Accounter
 								// .showError("You cannot enter a percentage more than 100");
 								setPercentage(0.0);
@@ -94,11 +103,13 @@ public class PercentageField extends TextItem {
 					} else {
 						setPercentage(0.0);
 					}
-						
+
 				} catch (Exception e) {
-					BaseView.errordata.setHTML("<li> "
-							+ AccounterErrorType.INVALIDENTRY + ".");
-					BaseView.commentPanel.setVisible(true);
+					// BaseView.errordata.setHTML("<li> "
+					// + AccounterErrorType.INVALIDENTRY + ".");
+					// BaseView.commentPanel.setVisible(true);
+					MainFinanceWindow.getViewManager().showError(
+							AccounterErrorType.INVALIDENTRY);
 					// Accounter.showError(AccounterErrorType.INVALIDENTRY);
 					setPercentage(0.0);
 				}
