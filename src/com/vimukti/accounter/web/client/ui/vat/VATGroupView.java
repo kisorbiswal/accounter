@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
@@ -163,7 +164,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 		if (data != null)
 			takenVatGroup = (ClientTAXGroup) data;
 		else
-			takenVatGroup=null;
+			takenVatGroup = null;
 	}
 
 	private void initView() {
@@ -205,10 +206,13 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		BaseView.errordata.setHTML(FinanceApplication.getVATMessages()
-				.duplicationOfVATGroupIsNotAllowed());
-		BaseView.commentPanel.setVisible(true);
-		this.errorOccured = true;
+		// BaseView.errordata.setHTML(FinanceApplication.getVATMessages()
+		// .duplicationOfVATGroupIsNotAllowed());
+		// BaseView.commentPanel.setVisible(true);
+		// this.errorOccured = true;
+		MainFinanceWindow.getViewManager().showError(
+				FinanceApplication.getVATMessages()
+						.duplicationOfVATGroupIsNotAllowed());
 	}
 
 	@Override
@@ -251,8 +255,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 			break;
 		case 2:
 			if (gridView != null && gridView.getRecords().isEmpty()) {
-				Accounter
-						.showError("Please enter a Transaction.");
+				Accounter.showError("Please enter a Transaction.");
 				return false;
 			}
 		case 1:
