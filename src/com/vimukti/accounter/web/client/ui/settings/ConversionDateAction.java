@@ -32,7 +32,7 @@ public class ConversionDateAction extends Action {
 	public void run(Object data, Boolean isDependent) {
 		try {
 			view = new ConversionDateView();
-			MainFinanceWindow.getViewManager().showPresentView(view, data,
+			MainFinanceWindow.getViewManager().showView(view, data,
 					isDependent, ConversionDateAction.this);
 		} catch (Exception e) {
 			e.printStackTrace();
