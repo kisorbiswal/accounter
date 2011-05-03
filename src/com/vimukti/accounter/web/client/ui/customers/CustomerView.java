@@ -43,6 +43,7 @@ import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CreditRatingCombo;
@@ -322,9 +323,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		BaseView.errordata.setHTML(exception.getMessage());
-		BaseView.commentPanel.setVisible(true);
-		this.errorOccured = true;
+		// BaseView.errordata.setHTML(exception.getMessage());
+		// BaseView.commentPanel.setVisible(true);
+		// this.errorOccured = true;
+		MainFinanceWindow.getViewManager().showError(exception.getMessage());
 	}
 
 	@Override
