@@ -50,7 +50,8 @@ public class PhoneFaxForm extends DynamicForm {
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						ClientPhone p = allPhones.get(UIUtils
-								.getPhoneType(businessPhoneSelect.getSelectedValue()));
+								.getPhoneType(businessPhoneSelect
+										.getSelectedValue()));
 						if (p != null)
 							businessPhoneText.setValue(p.getNumber());
 						else
@@ -70,16 +71,20 @@ public class PhoneFaxForm extends DynamicForm {
 					try {
 						String ph = businessPhoneText.getValue().toString();
 						if (!ph.equals("") && !UIUtils.isValidPhone(ph)) {
-							BaseView.errordata.setHTML("<li> "
-									+ AccounterErrorType.INCORRECTINFORMATION
-									+ ".");
-							BaseView.commentPanel.setVisible(true);
+							// BaseView.errordata.setHTML("<li> "
+							// + AccounterErrorType.INCORRECTINFORMATION
+							// + ".");
+							// BaseView.commentPanel.setVisible(true);
+							MainFinanceWindow.getViewManager().showError(
+									AccounterErrorType.INCORRECTINFORMATION);
 							// Accounter
 							// .showError(AccounterErrorType.INCORRECTINFORMATION);
 							businessPhoneText.setValue("");
 						} else {
-							BaseView.errordata.setHTML("");
-							BaseView.commentPanel.setVisible(false);
+							// BaseView.errordata.setHTML("");
+							// BaseView.commentPanel.setVisible(false);
+							MainFinanceWindow.getViewManager()
+									.restoreErrorBox();
 							ClientPhone phone = new ClientPhone();
 							phone.setType(UIUtils
 									.getPhoneType(businessPhoneSelect
@@ -132,17 +137,20 @@ public class PhoneFaxForm extends DynamicForm {
 				if (event != null) {
 					String fx = businessFaxText.getValue().toString();
 					if (!fx.equals("") && !UIUtils.isValidFax(fx)) {
-						BaseView.errordata
-								.setHTML("<li> "
-										+ AccounterErrorType.INCORRECTINFORMATION
-										+ ".");
-						BaseView.commentPanel.setVisible(true);
+						// BaseView.errordata
+						// .setHTML("<li> "
+						// + AccounterErrorType.INCORRECTINFORMATION
+						// + ".");
+						// BaseView.commentPanel.setVisible(true);
+						MainFinanceWindow.getViewManager().showError(
+								AccounterErrorType.INCORRECTINFORMATION);
 						// Accounter
 						// .showError(AccounterErrorType.INCORRECTINFORMATION);
 						businessFaxText.setValue("");
 					} else {
-						BaseView.errordata.setHTML("");
-						BaseView.commentPanel.setVisible(false);
+						// BaseView.errordata.setHTML("");
+						// BaseView.commentPanel.setVisible(false);
+						MainFinanceWindow.getViewManager().restoreErrorBox();
 						ClientFax fax = new ClientFax();
 						fax.setType(UIUtils.getFaxType(businessFaxSelect
 								.getDisplayValue().toString()));
