@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
@@ -497,12 +498,15 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		switch (validationCount) {
 		case 1:
 			if (this.selectedVatAgency == null && this.vatReturn == null) {
-				BaseView.errordata.setHTML(BaseView.errordata.getHTML()
-						+ "<li> "
-						+ FinanceApplication.getVATMessages()
-								.pleaseSelectValidVATAgency() + ".");
-				BaseView.commentPanel.setVisible(true);
-				AbstractBaseView.errorOccured = true;
+				// BaseView.errordata.setHTML(BaseView.errordata.getHTML()
+				// + "<li> "
+				// + FinanceApplication.getVATMessages()
+				// .pleaseSelectValidVATAgency() + ".");
+				// BaseView.commentPanel.setVisible(true);
+				// AbstractBaseView.errorOccured = true;
+				MainFinanceWindow.getViewManager().appendError(
+						FinanceApplication.getVATMessages()
+								.pleaseSelectValidVATAgency());
 				// UIUtils.err(FinanceApplication.getVATMessages()
 				// .pleaseSelectValidVATAgency());
 				return false;
@@ -510,10 +514,12 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 				return AccounterValidator.validate_FileVat(this);
 		case 2:
 			if (!canSaveFileVat) {
-				BaseView.errordata.setHTML(BaseView.errordata.getHTML()
-						+ "<li> File VAT cant save with empty values.");
-				BaseView.commentPanel.setVisible(true);
-				AbstractBaseView.errorOccured = true;
+				// BaseView.errordata.setHTML(BaseView.errordata.getHTML()
+				// + "<li> File VAT cant save with empty values.");
+				// BaseView.commentPanel.setVisible(true);
+				// AbstractBaseView.errorOccured = true;
+				MainFinanceWindow.getViewManager().appendError(
+						"File VAT cant save with empty values");
 				// UIUtils.err("File VAT cant save with empty values");
 				return false;
 			}
