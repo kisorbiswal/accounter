@@ -1,6 +1,10 @@
 package com.vimukti.accounter.core;
 
+import org.hibernate.Session;
+
+import com.bizantra.server.internal.core.BizantraCompany;
 import com.bizantra.server.main.ServerConfiguration;
+import com.bizantra.server.storage.HibernateUtil;
 
 /**
  * 
@@ -35,10 +39,12 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 	// }
 	private StringBuffer getImage() {
 		StringBuffer original = new StringBuffer();
-		String imagesDomain = "/do/downloadFileFromFile?";
+//		String imagesDomain = "/do/downloadFileFromFile?";
+		Session session = HibernateUtil.getCurrentSession();
+		BizantraCompany bizantraCompany = (BizantraCompany) session.get(BizantraCompany.class, 1L);
 		original.append("<img src='file:///");
 		original.append(ServerConfiguration.getAttachmentsDir() + "/"
-				+ this.company.getName() + "/" + brandingTheme.getFileName());
+				+ bizantraCompany.getCompanyDisplayName() + "/" + brandingTheme.getFileName());
 		original.append("'/>");
 		return original;
 	}
@@ -96,6 +102,7 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 		}
 
 		if (cmpAdd.equals("<br/><br/><br/><br/><br/>")) {
+			String contactDetails = brandingTheme.getContactDetails() != null ? brandingTheme.getContactDetails() : this.company.getName();
 			cmpAdd = ("<p style=\"font-family:"
 					+ brandingTheme.getFont()
 					+ "; font-size:"
@@ -104,7 +111,7 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 					+ forNullValue(TemplateBuilder.getCmpName())
 					+ "</strong></font>"
 					+ "<table><tr><td>"
-					+ brandingTheme.getContactDetails().replace(",",
+					+ contactDetails.replace(",",
 							",</td></tr><tr><td>") + "</td></tr></table> </p>");
 		} else {
 			cmpAdd = ("<p style=\"font-family:" + brandingTheme.getFont()
