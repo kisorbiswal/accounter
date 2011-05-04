@@ -329,14 +329,18 @@ public class FiscalYear implements IAccounterServerCore, Lifecycle,
 				.equals(this.getPreviousStartDate()))
 				|| this.getPreviousStartDate() == null) {
 			Company company = Company.getCompany();
-			company.getPreferences().setStartDate(this.startDate);
-			company.getPreferences()
-					.setPreventPostingBeforeDate(this.startDate);
-			session.saveOrUpdate(company);
-			this.setEndDate(getEndDateForStartDate(this.startDate.getTime()));
-			checkIsCurrentFY(this);
-			session.saveOrUpdate(this);
-			addOrUpdateFiscalYears(this);
+			if (company != null) {
+				company.getPreferences().setStartDate(this.startDate);
+				company.getPreferences().setPreventPostingBeforeDate(
+						this.startDate);
+				session.saveOrUpdate(company);
+				this
+						.setEndDate(getEndDateForStartDate(this.startDate
+								.getTime()));
+				checkIsCurrentFY(this);
+				session.saveOrUpdate(this);
+				addOrUpdateFiscalYears(this);
+			}
 		}
 		// else if (!this.getStartDate().equals(this.getPreviousStartDate())) {
 		//
