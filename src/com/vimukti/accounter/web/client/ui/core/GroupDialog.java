@@ -270,6 +270,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 	}
 
 	public DialogGrid getGrid() {
+		listGridView.isEnable = false;
 		return this.listGridView;
 	}
 

@@ -244,6 +244,4 @@ public interface BankingMessages extends FinanceMessages {
 
 	public String accounts();
 
-	public String Banking();
-
 }
