@@ -452,6 +452,7 @@ public class ViewManager extends DockPanel {
 				&& ((AbstractBaseView<?>) currentCanvas).isViewModfied()) {
 			showWarning(currentCanvas);
 		} else {
+			restoreErrorBox();
 			getPreviousView(null);
 		}
 	}
@@ -1224,6 +1225,7 @@ public class ViewManager extends DockPanel {
 
 					@Override
 					public boolean onNoClick() throws InvalidEntryException {
+						restoreErrorBox();
 						getPreviousView(null);
 						return true;
 					}
