@@ -70,8 +70,6 @@ public class CustomButton extends Button {
 
 				try {
 					// CustomButton.this.getParent().setVisible(false);
-					MainFinanceWindow.getViewManager().restoreErrorBox();
-					canvas.errorOccured = false;
 					if (type == CustomButtonType.CANCEL) {
 						ViewManager.getInstance().closeCurrentView();
 						return;
@@ -98,6 +96,8 @@ public class CustomButton extends Button {
 		// view.errorOccured = false;
 		// BaseView.errordata.setHTML("");
 		// BaseView.commentPanel.setVisible(false);
+		MainFinanceWindow.getViewManager().restoreErrorBox();
+		view.errorOccured = false;
 		AccounterExecute execute = new AccounterExecute(view, this);
 		execute.run();
 		Accounter.setTimer(execute);
