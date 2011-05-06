@@ -83,6 +83,7 @@ public class ItemView extends BaseView<ClientItem> {
 	private ClientCompany company;
 	private boolean isGeneratedFromCustomer;
 	private ArrayList<DynamicForm> listforms;
+	String name;
 
 	public ItemView(ClientItem item, int type, boolean isGeneratedFromCustomer) {
 
@@ -499,6 +500,8 @@ public class ItemView extends BaseView<ClientItem> {
 
 		if (takenItem != null) {
 			nameText.setValue(takenItem.getName());
+			name = takenItem.getName();
+			System.out.println(name + "before saving");
 			stdCostText.setAmount(takenItem.getStandardCost());
 			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 				skuText.setValue(takenItem.getUPCorSKU() != null ? takenItem
@@ -638,6 +641,10 @@ public class ItemView extends BaseView<ClientItem> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
+
+		String exceptionMessage = exception.getMessage();
+		// MainFinanceWindow.getViewManager().showError(exceptionMessage);
+
 		// BaseView.errordata
 		// .setHTML(this.type != TYPE_SERVICE ?
 		// "Duplication of Product name are not allowed..."
@@ -649,6 +656,13 @@ public class ItemView extends BaseView<ClientItem> {
 				.showError(
 						this.type != TYPE_SERVICE ? "Duplication of Product name are not allowed..."
 								: "Duplication of Service name are not allowed...");
+
+		ClientItem item = getItem(false);
+		if (exceptionMessage.contains("Failed")) {
+			item.setName(name);
+			System.out.println(name + "After saving");
+		}
+
 	}
 
 	@Override

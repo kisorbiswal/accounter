@@ -88,8 +88,7 @@ public class AccounterValidator {
 			throws InvalidEntryException {
 
 		if (!form.validate(isDialog)) {
-			// // throw new
-			// // InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
+//			throw new InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
 		}
 		return true;
 	}

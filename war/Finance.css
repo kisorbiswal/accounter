@@ -1634,5 +1634,8 @@ iframe { /*display:none;*/
     width: 164px;
 }
 .picture-link{
-	padding: 40px;
+	padding: 56px;
+}
+.name-item{
+	margin-left: 85px;
 }

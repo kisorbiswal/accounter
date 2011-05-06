@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-import com.google.gwt.safehtml.shared.SafeHtml;
 import com.vimukti.accounter.web.client.externalization.FinanceMessages;
 
 public interface CompanyMessages extends FinanceMessages {

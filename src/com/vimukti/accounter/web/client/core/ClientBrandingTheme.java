@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
 
-public class ClientBrandingTheme<T> implements IAccounterCore {
+public class ClientBrandingTheme implements IAccounterCore {
 
 	/**
 	 * 

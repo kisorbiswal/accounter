@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -26,7 +25,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.GridAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -73,6 +71,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	private List<ClientAccount> listOfAccounts;
 
 	private ArrayList<DynamicForm> listforms;
+	private String salesPersonName;
 
 	public NewSalesPersonView() {
 		super();
@@ -193,6 +192,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		if (takenSalesperson != null) {
 
 			employeeNameText.setValue(takenSalesperson.getFirstName());
+			salesPersonName = takenSalesperson.getFirstName();
 			jobTitleText
 					.setValue(takenSalesperson.getJobTitle() != null ? takenSalesperson
 							.getJobTitle()
@@ -298,14 +298,10 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			return AccounterValidator.validateForm(salesPersonForm, false);
 		case 1:
 			String name = employeeNameText.getValue().toString();
-			if (((takenSalesperson == null && Utility.isObjectExist(
-					FinanceApplication.getCompany().getSalesPersons(), name)) ? false
-					: true)
-					|| (takenSalesperson != null ? (takenSalesperson.getName()
-							.equalsIgnoreCase(name) ? true : (Utility
-							.isObjectExist(FinanceApplication.getCompany()
-									.getSalesPersons(), name) ? false : true))
-							: true)) {
+			if ((takenSalesperson != null ? (takenSalesperson.getName()
+					.equalsIgnoreCase(name) ? true
+					: (Utility.isObjectExist(FinanceApplication.getCompany()
+							.getSalesPersons(), name) ? false : true)) : true)) {
 				return true;
 			} else
 				throw new InvalidEntryException(AccounterErrorType.ALREADYEXIST);

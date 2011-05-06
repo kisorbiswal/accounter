@@ -20,7 +20,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.VatReturnBoxCombo;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -50,6 +49,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	protected ClientVATReturnBox selectedBox;
 	protected ClientTAXAgency selectedVATAgency;
 	private CheckboxItem isPercentatateAmtCheck;
+	private String vatName;
 
 	private ArrayList<DynamicForm> listforms;
 
@@ -211,6 +211,8 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 			vatItemNameText
 					.setValue(takenVATItem.getName() != null ? takenVATItem
 							.getName() : "");
+			vatName = takenVATItem.getName() != null ? takenVATItem.getName()
+					: "";
 			descriptionText
 					.setValue(takenVATItem.getDescription() != null ? takenVATItem
 							.getDescription()
@@ -433,10 +435,18 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
+		String exceptionMessage = exception.getMessage();
+		// MainFinanceWindow.getViewManager().showError(
+		// "A Vat Name already exists with this name");
 		// BaseView.errordata.setHTML(exception.getMessage());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		MainFinanceWindow.getViewManager().showError(exception.getMessage());
+		ClientTAXItem clientTAXItem = getObject();
+		if (exceptionMessage.contains("name")) {
+			clientTAXItem.setName(vatName);
+			System.out.println(vatName + "After saving");
+		}
 
 	}
 

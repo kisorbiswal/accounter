@@ -36,16 +36,16 @@ import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 @SuppressWarnings( { "deprecation", "unchecked" })
 public class FileUploadDilaog extends CustomDialog {
 
-	private final String parentID;
+	private String parentID;
 	private FormPanel uploadForm;
-	private final ValueCallBack<ClientBrandingTheme> callback;
+	private ValueCallBack<ClientBrandingTheme> callback;
 	private HorizontalPanel loadingLayout;
 	private VerticalPanel mainLayout;
 	private VerticalPanel panel;
-	private final ArrayList<FileUpload> uploadItems = new ArrayList<FileUpload>();
+	private ArrayList<FileUpload> uploadItems = new ArrayList<FileUpload>();
 	private int count = 1;
 	private VerticalPanel uploadFormLayout;
-	private final String[] fileTypes;
+	private String[] fileTypes;
 	private HorizontalPanel buttonHlay;
 	private boolean closeAfterUploaded;
 	private static ClientBrandingTheme brandingTheme;
@@ -172,13 +172,21 @@ public class FileUploadDilaog extends CustomDialog {
 
 		uploadForm.addFormHandler(new FormHandler() {
 			public void onSubmit(FormSubmitEvent event) {
+
 			}
 
 			public void onSubmitComplete(FormSubmitCompleteEvent event) {
 
 				String value = event.getResults();
-				brandingTheme.setFileName(value);
-				brandingTheme.setLogoAdded(true);
+				if (brandingTheme != null) {
+					brandingTheme.setFileName(value);
+					brandingTheme.setLogoAdded(true);
+				} else {
+					brandingTheme = new ClientBrandingTheme();
+					brandingTheme.setFileName(value);
+					brandingTheme.setLogoAdded(true);
+				}
+
 				if (value == null) {
 					getFileInfo();
 				} else {

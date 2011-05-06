@@ -606,7 +606,7 @@ public class CashPurchaseView extends
 		case 6:
 			return AccounterValidator.validateTransactionDate(transactionDate);
 		case 5:
-			return AccounterValidator.validateFormItem(payFromCombo, false);
+			return AccounterValidator.validateForm(termsForm, false);
 		case 4:
 			return AccounterValidator.validateForm(vendorForm, false);
 		case 3:

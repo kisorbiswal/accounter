@@ -43,7 +43,6 @@ import com.bizantra.server.ext.Command;
 import com.bizantra.server.internal.core.BizantraCompany;
 import com.bizantra.server.internal.core.CollaberIdentity;
 import com.bizantra.server.main.Server;
-import com.bizantra.server.main.ServerConfiguration;
 import com.bizantra.server.storage.HibernateUtil;
 import com.bizantra.server.users.events.IntializeIdentityEvent;
 import com.bizantra.server.utils.HexUtil;

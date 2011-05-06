@@ -214,12 +214,12 @@ public class InvoiceBrandingView<T> extends
 			addressPadding = 0.0;
 		}
 		allLabelsHtml = new HTML("<p>" + messages.pageLabel() + " : <b>"
-				+ getPageType(theme.getPageSizeType()) + " : </b>"
-				+ messages.marginTop() + "<b>" + topMargin + " : </b>"
-				+ messages.bottom() + " : <b>" + bottomMargin + " : </b>"
+				+ getPageType(theme.getPageSizeType()) + "</b> ; "
+				+ messages.marginTop() + " : <b>" + topMargin + "</b> ; "
+				+ messages.bottom() + " : <b>" + bottomMargin + "</b> ; "
 				+ messages.addressPadding() + " : <b>" + addressPadding
-				+ " </b>" + messages.font() + " : <b>" + theme.getFont()
-				+ "</b> , <b>" + theme.getFontSize() + " </b></p>");
+				+ "</b> ; " + messages.font() + "   : <b>" + theme.getFont()
+				+ "</b> , <b>" + theme.getFontSize() + " </b>.</p>");
 
 		boolean[] showArray = new boolean[] { theme.isShowTaxNumber(),
 				theme.isShowTaxColumn(), theme.isShowColumnHeadings(),

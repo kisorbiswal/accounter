@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.VATItemCombo;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -45,6 +44,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	public String selectedVATSAlesAcc = "";
 	private ClientTAXCode editableTAXCode;
 	protected boolean isComboDisabled = false;
+	private String vatCode;
 
 	private ArrayList<DynamicForm> listforms;
 
@@ -67,6 +67,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		ClientTAXCode vat = (ClientTAXCode) getData();
 		if (vat != null) {
 			vatCodeTxt.setValue(vat.getName() != null ? vat.getName() : "");
+			vatCode = vat.getName() != null ? vat.getName() : "";
 			description.setValue(vat.getDescription() != null ? vat
 					.getDescription() : "");
 			isActive.setValue(vat.isActive());
@@ -262,10 +263,13 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		// BaseView.errordata.setHTML(exception.getMessage());
-		// BaseView.commentPanel.setVisible(true);
-		// this.errorOccured = true;
+		String exceptionMessage = exception.getMessage();
 		MainFinanceWindow.getViewManager().showError(exception.getMessage());
+		ClientTAXCode clientTAXCode = getVATCode();
+		if (exceptionMessage.contains("name")) {
+			clientTAXCode.setName(vatCode);
+
+		}
 	}
 
 	@Override
