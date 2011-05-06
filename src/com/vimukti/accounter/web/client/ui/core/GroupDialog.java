@@ -66,6 +66,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 		listGridView.setView(this);
 		listGridView.addColumns(setColumns());
 		listGridView.setColumnTypes(getColunmTypes());
+		listGridView.isEnable=false;
 		listGridView.init();
 		listGridView.setWidth("100%");
 		initGrid(getRecords());
@@ -270,7 +271,6 @@ public abstract class GroupDialog<T> extends BaseDialog {
 	}
 
 	public DialogGrid getGrid() {
-		listGridView.isEnable = false;
 		return this.listGridView;
 	}
 
