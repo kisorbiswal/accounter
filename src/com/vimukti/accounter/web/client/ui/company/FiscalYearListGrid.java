@@ -13,6 +13,7 @@ public class FiscalYearListGrid extends ListGrid<ClientFiscalYear> {
 			boolean isMultiSelectionEnable) {
 		super(false);
 		this.manageFiscalYear = manageFiscalYear;
+		this.isEnable = false;
 		init();
 	}
 
