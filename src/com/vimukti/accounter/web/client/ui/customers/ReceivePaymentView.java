@@ -557,7 +557,7 @@ public class ReceivePaymentView extends
 		// refText = createRefereceText();
 		// refText.setWidth(100);
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		paymentMethodCombo.setWidth(100);
+		// paymentMethodCombo.setWidth(100);
 
 		payForm = new DynamicForm();
 		payForm.setWidth("90%");

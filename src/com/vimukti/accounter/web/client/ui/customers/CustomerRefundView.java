@@ -172,7 +172,7 @@ public class CustomerRefundView extends
 		totalLabel.setCellHorizontalAlignment(labeldateNoLayout, ALIGN_RIGHT);
 
 		customerCombo = createCustomerComboItem(customerConstants.payTo());
-		customerCombo.setWidth(100);
+		// customerCombo.setWidth(100);
 		billToCombo = createBillToComboItem();
 		billToCombo.setTitle(customerConstants.address());
 
@@ -190,7 +190,7 @@ public class CustomerRefundView extends
 		payFromSelect.setHelpInformation(true);
 		payFromSelect.setRequired(true);
 		payFromSelect.setDisabled(isEdit);
-		payFromSelect.setWidth("100%");
+		// payFromSelect.setWidth("100%");
 		payFromSelect.setPopupWidth("500px");
 		payFromSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -256,7 +256,7 @@ public class CustomerRefundView extends
 		setRefundAmount(null);
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		paymentMethodCombo.setWidth(100);
+		// paymentMethodCombo.setWidth(100);
 		paymentMethodCombo.setComboItem(UIUtils
 				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
 						.getCustomersMessages().check()));

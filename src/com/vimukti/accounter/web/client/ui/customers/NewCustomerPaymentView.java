@@ -158,7 +158,8 @@ public class NewCustomerPaymentView extends
 			if (!DecimalUtil.isEquals(enteredBalance, 0.00))
 				customerPrePayment.setTotal(enteredBalance);
 			if (paymentMethod != null)
-				customerPrePayment.setPaymentMethod(paymentMethodCombo.getSelectedValue());
+				customerPrePayment.setPaymentMethod(paymentMethodCombo
+						.getSelectedValue());
 
 			if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
 				String value;
@@ -360,7 +361,7 @@ public class NewCustomerPaymentView extends
 				.customerPrePayment());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
-//		lab1.setHeight("35px");
+		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 
 		transactionNumber = createTransactionNumberItem();
@@ -417,13 +418,12 @@ public class NewCustomerPaymentView extends
 		amountText.addBlurHandler(getBlurHandler());
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		paymentMethodCombo.setWidth(100);
-//		paymentMethodCombo.setDefaultValue(UIUtils
-//				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
-//						.getCustomersMessages().check()));
-		paymentMethodCombo.setComboItem(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
-				.getCustomersMessages().check()));
+		// paymentMethodCombo.setWidth(100);
+		// paymentMethodCombo.setDefaultValue(UIUtils
+		// .getpaymentMethodCheckBy_CompanyType(FinanceApplication
+		// .getCustomersMessages().check()));
+		paymentMethodCombo.setComboItem(FinanceApplication
+				.getCustomersMessages().cheque());
 		printCheck = new CheckboxItem(customerConstants.toBePrinted());
 		printCheck.setValue(true);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {

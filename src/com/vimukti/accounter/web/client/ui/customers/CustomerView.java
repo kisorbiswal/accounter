@@ -965,7 +965,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		payMethSelect = UIUtils.getPaymentMethodCombo();
 		payMethSelect.setHelpInformation(true);
-		payMethSelect.setWidth(100);
+		// payMethSelect.setWidth(100);
 
 		payMethSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {

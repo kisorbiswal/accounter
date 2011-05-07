@@ -131,7 +131,7 @@ public class CustomerCreditMemoView extends
 		custForm.setStyleName("align-form");
 		forms.add(custForm);
 
-		phoneSelect = new SelectCombo(customerConstants.phone());
+		phoneSelect = new TextItem(customerConstants.phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isEdit);
