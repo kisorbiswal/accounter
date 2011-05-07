@@ -743,7 +743,7 @@ public class WriteChequeView extends
 		formItems.add(date);
 
 		bankAccSelect = new PayFromAccountsCombo(bankingConstants.bankAccount());
-		bankAccSelect.setWidth(100);
+		// bankAccSelect.setWidth(100);
 		bankAccSelect.setRequired(true);
 		bankAccSelect.setDisabled(isEdit);
 		bankAccSelect
@@ -772,7 +772,7 @@ public class WriteChequeView extends
 		forms.add(bankAccForm);
 
 		paytoSelect = new PayeeCombo(bankingConstants.payTo());
-		paytoSelect.setWidth(100);
+		// paytoSelect.setWidth(100);
 		paytoSelect.setRequired(true);
 		paytoSelect.setDisabled(isEdit);
 		paytoSelect
@@ -814,7 +814,7 @@ public class WriteChequeView extends
 		formItems.add(paytoSelect);
 
 		billToCombo = createBillToComboItem();
-		billToCombo.setWidth(100);
+		// billToCombo.setWidth(100);
 
 		amtText = new AmountLabel(bankingConstants.amount());
 		amtText.setWidth(60);
