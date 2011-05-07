@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.forms;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -19,11 +20,13 @@ import com.vimukti.accounter.web.client.ui.forms.TextBoxItem.KeyPressListener;
 public class CustomComboItem extends FormItem {
 
 	public TextBoxItem textBox;
+	public SimplePanel downarrowpanel;
 	private CustomFocusWidget customFocusWidget;
 	public ClickHandler clickHandler;
 	public KeyPressHandler keyPressHandler;
 	public KeyDownHandler keyDownHandler;
-	public BlurHandler blurHandler;
+
+	// public BlurHandler blurHandler;
 
 	// TextBoxItem textBoxItem;
 	public CustomComboItem() {
@@ -38,9 +41,11 @@ public class CustomComboItem extends FormItem {
 		};
 
 		horizontalPanel.add(textBox);
-		SimplePanel downarrowpanel = new SimplePanel();
+		downarrowpanel = new SimplePanel();
 		downarrowpanel.addStyleName("downarrow-button");
 		horizontalPanel.add(downarrowpanel);
+		horizontalPanel.getWidget(0).getElement().getParentElement().getStyle()
+				.setPaddingLeft(0, Unit.PX);
 		// textBoxItem= new TextBoxItem();
 		// @Override
 		// public void sinkEvents(int eventBitsToAdd) {
@@ -98,16 +103,16 @@ public class CustomComboItem extends FormItem {
 
 		customFocusWidget.addKeyDownHandler(keyDownHandler);
 
-		BlurHandler blurHandler = new BlurHandler() {
+		// BlurHandler blurHandler = new BlurHandler() {
+		//
+		// @Override
+		// public void onBlur(BlurEvent event) {
+		// textBox.setFocus(true);
+		// }
+		// };
+		//
+		// customFocusWidget.addBlurHandler(blurHandler);
 
-			@Override
-			public void onBlur(BlurEvent event) {
-				if (CustomComboItem.this.blurHandler != null)
-					CustomComboItem.this.blurHandler.onBlur(event);
-			}
-		};
-
-		customFocusWidget.addBlurHandler(blurHandler);
 		// if(!validate()){
 		// parent.setNumCols(3);
 		// addLabelWidget(parent);
@@ -158,7 +163,7 @@ public class CustomComboItem extends FormItem {
 	@Override
 	public void addBlurHandler(BlurHandler blurHandler) {
 		textBox.addBlurHandler(blurHandler);
-		this.blurHandler = blurHandler;
+		// this.blurHandler = blurHandler;
 	}
 
 	public void setKeyBoardHandler(KeyPressHandler keyPressHandler) {
@@ -226,13 +231,19 @@ public class CustomComboItem extends FormItem {
 		textBox.removeStyleName(style);
 	}
 
-	class CustomFocusWidget extends FocusWidget {
+	public class CustomFocusWidget extends FocusWidget {
 		public CustomFocusWidget() {
 			super();
 		}
 
 		public CustomFocusWidget(Element element) {
 			super(element);
+		}
+
+		@Override
+		protected void onAttach() {
+			super.onAttach();
+			textBox.setFocus(true);
 		}
 	}
 
