@@ -350,7 +350,7 @@ public class VendorBillView extends
 		vendorCombo = createVendorComboItem(UIUtils.getVendorString(
 				FinanceApplication.getVendorsMessages().supplierName(),
 				FinanceApplication.getVendorsMessages().vendorName()));
-		vendorCombo.setWidth(100);
+		// vendorCombo.setWidth(100);
 		// purchaseLabel = new LinkItem();
 		// purchaseLabel.setLinkTitle(FinanceApplication.getVendorsMessages()
 		// .purchaseAndItemReceipt());
@@ -368,7 +368,7 @@ public class VendorBillView extends
 		emptylabel.setShowTitle(false);
 
 		contactCombo = createContactComboItem();
-		contactCombo.setWidth(100);
+		// contactCombo.setWidth(100);
 		billToCombo = createBillToComboItem();
 		billToCombo.setWidth(100);
 		if (this.transactionObject != null)
@@ -397,7 +397,7 @@ public class VendorBillView extends
 		paymentTermsCombo = new PaymentTermsCombo(vendorConstants
 				.paymentTerms());
 		paymentTermsCombo.setHelpInformation(true);
-		paymentTermsCombo.setWidth(80);
+		// paymentTermsCombo.setWidth(80);
 		paymentTermsCombo.setDisabled(isEdit);
 		paymentTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {

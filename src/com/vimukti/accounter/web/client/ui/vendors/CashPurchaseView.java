@@ -116,10 +116,10 @@ public class CashPurchaseView extends
 				FinanceApplication.getVendorsMessages().supplierName(),
 				FinanceApplication.getVendorsMessages().vendorName()));
 		vendorCombo.setHelpInformation(true);
-		vendorCombo.setWidth(100);
+		// vendorCombo.setWidth(100);
 		contactCombo = createContactComboItem();
 		contactCombo.setHelpInformation(true);
-		contactCombo.setWidth(100);
+		// contactCombo.setWidth(100);
 		billToAreaItem = new TextAreaItem(FinanceApplication
 				.getVendorsMessages().billTo());
 		billToAreaItem.setHelpInformation(true);
@@ -145,7 +145,7 @@ public class CashPurchaseView extends
 		formItems.add(billToCombo);
 
 		payFromCombo = createPayFromCombo(vendorConstants.Payfrom());
-		payFromCombo.setWidth(100);
+		// payFromCombo.setWidth(100);
 		payFromCombo.setPopupWidth("500px");
 		checkNo = createCheckNumberItem(FinanceApplication.getCompany()
 				.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? vendorConstants
@@ -157,7 +157,7 @@ public class CashPurchaseView extends
 		// deliveryDateItem.setWidth(100);
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		paymentMethodCombo.setWidth(100);
+		// paymentMethodCombo.setWidth(100);
 		paymentMethodCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 

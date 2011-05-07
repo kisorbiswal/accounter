@@ -218,7 +218,7 @@ public class NewVendorPaymentView extends
 		// });
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		paymentMethodCombo.setWidth(100);
+		// paymentMethodCombo.setWidth(100);
 		// paymentMethodCombo.setDefaultValue(UIUtils
 		// .getpaymentMethodCheckBy_CompanyType(FinanceApplication
 		// .getCustomersMessages().check()));

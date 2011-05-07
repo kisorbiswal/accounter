@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
+import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 public class ItemReceiptView extends
@@ -123,7 +124,7 @@ public class ItemReceiptView extends
 		contactCombo.setWidth(100);
 		billToCombo = createBillToComboItem();
 		billToCombo.setWidth(100);
-		phoneSelect = new SelectCombo(vendorConstants.phone());
+		phoneSelect = new TextItem(vendorConstants.phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(false);

@@ -346,7 +346,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		setTitle(vendorConstants.payBills());
 		Label lab = new Label(FinanceApplication.getVendorsMessages().PayBill());
 		lab.addStyleName(FinanceApplication.getVendorsMessages().lableTitle());
-//		lab.setHeight("50px");
+		// lab.setHeight("50px");
 		date = new DateField(vendorConstants.Date());
 		date.setHelpInformation(true);
 		// date.setUseTextField(true);
@@ -392,7 +392,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		payFromCombo = createPayFromCombo(vendorConstants.Payfrom());
 		payFromCombo.setPopupWidth("500px");
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		paymentMethodCombo.setWidth(100);
+		// paymentMethodCombo.setWidth(100);
 		paymentMethodCombo.setDefaultValue(FinanceApplication
 				.getVendorsMessages().onlineBanking());
 
@@ -425,7 +425,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 			@Override
 			public void onChange(ChangeEvent event) {
-				if (vendorPaymentMethodCombo.getSelectedValue()!= null)
+				if (vendorPaymentMethodCombo.getSelectedValue() != null)
 					vendorPaymentMethod = ((SelectItem) event.getSource())
 							.getValue().toString();
 				if (paybillTransactionList != null) {

@@ -583,7 +583,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				});
 
 		preferredPaymentSelect = UIUtils.getPaymentMethodCombo();
-		preferredPaymentSelect.setWidth(100);
+		// preferredPaymentSelect.setWidth(100);
 		preferredPaymentSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -617,7 +617,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				FinanceApplication.getVendorsMessages().supplierGroup(),
 				FinanceApplication.getVendorsMessages().vendorGroup()));
 		vendorGroupSelect.setHelpInformation(true);
-		vendorGroupSelect.setWidth(100);
+		// vendorGroupSelect.setWidth(100);
 		vendorGroupSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendorGroup>() {
 					public void selectedComboBoxItem(
