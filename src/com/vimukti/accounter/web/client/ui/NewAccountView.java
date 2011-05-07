@@ -170,7 +170,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		accTypeSelect = new SelectCombo(FinanceApplication
 				.getFinanceUIConstants().accountType());
 		accTypeSelect.setHelpInformation(true);
-		accTypeSelect.setWidth(100);
+		// accTypeSelect.setWidth(100);
 		accTypeSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -542,7 +542,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 			bankNameSelect = new BankNameCombo(FinanceApplication
 					.getFinanceUIConstants().bankName());
-			bankNameSelect.setWidth(100);
+			// bankNameSelect.setWidth(100);
 			bankNameSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientBank>() {
 
@@ -646,7 +646,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 			typeSelect = new SelectCombo(FinanceApplication
 					.getFinanceUIConstants().bankAccountType());
-			typeSelect.setWidth(100);
+			// typeSelect.setWidth(100);
 			// typeSelect.setWidth("*");
 			typeMap = new ArrayList<String>();
 

@@ -40,7 +40,7 @@ public class PhoneFaxForm extends DynamicForm {
 		setNumCols(2);
 		businessPhoneSelect = new SelectCombo("Phone");
 		businessPhoneSelect.setHelpInformation(true);
-		businessPhoneSelect.setWidth(85);
+		// businessPhoneSelect.setWidth(85);
 		businessPhoneSelect.getMainWidget().removeStyleName("gwt-ListBox");
 		businessPhoneSelect.initCombo(new ClientPhone().getPhoneTypes());
 		businessPhoneSelect

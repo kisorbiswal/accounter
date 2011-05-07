@@ -803,7 +803,7 @@ public class MakeDepositView extends
 				.depositIn());
 		depositInSelect.setHelpInformation(true);
 		depositInSelect.setRequired(true);
-		depositInSelect.setWidth(100);
+		// depositInSelect.setWidth(100);
 		depositInSelect.setPopupWidth("450px");
 		depositInSelect.setDisabled(isEdit);
 		depositInSelect
@@ -950,15 +950,16 @@ public class MakeDepositView extends
 		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
 		if (addButton.isEnabled()) {
-		addButton.getElement().getParentElement().addClassName("add-button");
+			addButton.getElement().getParentElement()
+					.addClassName("add-button");
 
-		Element addseparator = DOM.createSpan();
-		addseparator.addClassName("add-separator");
-		DOM.appendChild(addButton.getElement(), addseparator);
+			Element addseparator = DOM.createSpan();
+			addseparator.addClassName("add-separator");
+			DOM.appendChild(addButton.getElement(), addseparator);
 
-		Element addimage = DOM.createSpan();
-		addimage.addClassName("add-image");
-		DOM.appendChild(addButton.getElement(), addimage);
+			Element addimage = DOM.createSpan();
+			addimage.addClassName("add-image");
+			DOM.appendChild(addButton.getElement(), addimage);
 
 			ThemesUtil.addDivToButton(addButton, FinanceApplication
 					.getThemeImages().button_right_blue_image(),

@@ -37,7 +37,7 @@ public class ShipToForm extends DynamicForm {
 		businessSelect = new SelectCombo(FinanceApplication
 				.getFinanceUIConstants().shipTo());
 		businessSelect.setHelpInformation(true);
-		businessSelect.setWidth(85);
+		// businessSelect.setWidth(85);
 		businessSelect.getMainWidget().removeStyleName(
 				FinanceApplication.getFinanceUIConstants().gwtListBox());
 		List<String> addressTypes = new ArrayList<String>();

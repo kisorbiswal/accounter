@@ -43,7 +43,7 @@ public class AddressForm extends DynamicForm {
 		businessSelect = new SelectCombo(FinanceApplication
 				.getFinanceUIConstants().address());
 		businessSelect.setHelpInformation(true);
-		businessSelect.setWidth(85);
+		// businessSelect.setWidth(85);
 		businessSelect.getMainWidget().removeStyleName(
 				FinanceApplication.getFinanceUIConstants().gwtListBox());
 		businessSelect.initCombo(new ClientAddress().getAddressTypes());
@@ -83,8 +83,8 @@ public class AddressForm extends DynamicForm {
 		});
 
 		if (toBeShown != null) {
-//			businessSelect.setSelected(toBeShown.getAddressTypes().get(
-//					toBeShown.getType()));
+			// businessSelect.setSelected(toBeShown.getAddressTypes().get(
+			// toBeShown.getType()));
 			businessSelect.setComboItem(UIUtils.getAddressesTypes(toBeShown
 					.getType()));
 			String toToSet = new String();

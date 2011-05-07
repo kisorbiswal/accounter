@@ -97,15 +97,16 @@ public class StartupDialog extends DialogBox {
 		buttHLay.add(loginButt);
 		buttHLay.add(createButt);
 		if (loginButt.isEnabled()) {
-		loginButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(loginButt, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-		}if (createButt.isEnabled()) {
-		createButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(createButt, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+			loginButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(loginButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
+		}
+		if (createButt.isEnabled()) {
+			createButt.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(createButt, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
+					"ibutton-right-image");
 		}
 		createButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -172,7 +173,8 @@ public class StartupDialog extends DialogBox {
 		mainVLay.add(buttHLay);
 		mainVLay.add(createCompButt);
 		if (createCompButt.isEnabled()) {
-		createCompButt.getElement().getParentElement().setClassName("ibutton");
+			createCompButt.getElement().getParentElement().setClassName(
+					"ibutton");
 			ThemesUtil.addDivToButton(createCompButt, FinanceApplication
 					.getThemeImages().button_right_blue_image(),
 					"ibutton-right-image");
@@ -255,7 +257,7 @@ public class StartupDialog extends DialogBox {
 								public void execute(FinanceApplication value) {
 									StartupDialog.this.removeFromParent();
 									RootPanel.get().add(value);
-								
+
 								}
 							});
 				} else {

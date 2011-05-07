@@ -227,7 +227,7 @@ public class ItemView extends BaseView<ClientItem> {
 		accountCombo = new SalesItemCombo(FinanceApplication
 				.getFinanceUIConstants().incomeAccount());
 		accountCombo.setHelpInformation(true);
-		accountCombo.setWidth(100);
+		// accountCombo.setWidth(100);
 		accountCombo.setPopupWidth("500px");
 		accountCombo.setRequired(true);
 		accountCombo
@@ -279,7 +279,7 @@ public class ItemView extends BaseView<ClientItem> {
 		itemGroupCombo = new ItemGroupCombo(FinanceApplication
 				.getFinanceUIConstants().itemGroup());
 		itemGroupCombo.setHelpInformation(true);
-		itemGroupCombo.setWidth(100);
+		// itemGroupCombo.setWidth(100);
 		itemGroupCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientItemGroup>() {
 					public void selectedComboBoxItem(ClientItemGroup selectItem) {

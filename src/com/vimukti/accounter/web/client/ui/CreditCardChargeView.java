@@ -392,7 +392,7 @@ public class CreditCardChargeView extends
 
 		contactNameSelect = new SelectCombo(bankingConstants.contactName());
 		contactNameSelect.setHelpInformation(true);
-		contactNameSelect.setWidth(100);
+		// contactNameSelect.setWidth(100);
 		formItems.add(contactNameSelect);
 		// billToCombo = createBillToComboItem();
 		billToAreaItem = new TextAreaItem(FinanceApplication

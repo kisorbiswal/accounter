@@ -39,7 +39,7 @@ public class EmailForm extends DynamicForm {
 		businesEmailSelect = new SelectCombo(FinanceApplication
 				.getFinanceUIConstants().email());
 		businesEmailSelect.setHelpInformation(true);
-		businesEmailSelect.setWidth(85);
+		// businesEmailSelect.setWidth(85);
 		businesEmailSelect.getMainWidget().removeStyleName("gwt-ListBox");
 		businesEmailSelect.initCombo(new ClientEmail().getEmailTypes());
 
