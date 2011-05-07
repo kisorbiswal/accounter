@@ -65,7 +65,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 		descText.setHelpInformation(true);
 		dueSelect = new SelectCombo(companyConstants.due());
 		dueSelect.setHelpInformation(true);
-		dueSelect.setWidth(90);
+		// dueSelect.setWidth(90);
 		listOfDueValues = new ArrayList<String>();
 		for (int i = 0; i < dueValues.length; i++) {
 			listOfDueValues.add(dueValues[i]);

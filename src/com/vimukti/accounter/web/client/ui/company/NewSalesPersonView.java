@@ -142,7 +142,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		statusCheck = new CheckboxItem(companyConstants.active());
 		statusCheck.setValue(true);
 		genderSelect = new SelectCombo(companyConstants.gender());
-		genderSelect.setWidth(45);
+		// genderSelect.setWidth(45);
 		listOfgenders = new ArrayList<String>();
 		for (int i = 0; i < genderTypes.length; i++) {
 			listOfgenders.add(genderTypes[i]);
