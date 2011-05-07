@@ -277,7 +277,10 @@ public class TransactionPayBillGrid extends
 
 	@Override
 	protected int getCellWidth(int index) {
-		return -1;
+		if (index == 0 || index == 1)
+			return 108;
+		else
+			return 109;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -727,10 +730,10 @@ public class TransactionPayBillGrid extends
 				paybillView.transactionTotal += rec.getPayment();
 				paybillView.totalCashDiscount += rec.getCashDiscount();
 			}
-//			this.updateFooterValues(DataUtils
-//					.getAmountAsString(paybillView.transactionTotal), 7);
-//			this.updateFooterValues(DataUtils
-//					.getAmountAsString(paybillView.totalCashDiscount), 5);
+			// this.updateFooterValues(DataUtils
+			// .getAmountAsString(paybillView.transactionTotal), 7);
+			// this.updateFooterValues(DataUtils
+			// .getAmountAsString(paybillView.totalCashDiscount), 5);
 		} else {
 			paybillView.transactionTotal = 0.0;
 			paybillView.totalCashDiscount = 0.0;
@@ -952,6 +955,6 @@ public class TransactionPayBillGrid extends
 	@Override
 	public void setTaxCode(String taxCode) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

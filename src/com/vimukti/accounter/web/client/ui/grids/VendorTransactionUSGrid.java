@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -991,28 +992,55 @@ public class VendorTransactionUSGrid extends
 	@Override
 	public <E> CustomCombo<E> getCustomCombo(ClientTransactionItem obj,
 			int colIndex) {
+		CustomCombo<E> combo = null;
 		switch (colIndex) {
 		case 1:
 			if (obj.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
-				return (CustomCombo<E>) accountsCombo;
+				combo = (CustomCombo<E>) accountsCombo;
 			} else if (obj.getType() == ClientTransactionItem.TYPE_ITEM)
-				return (CustomCombo<E>) productItemCombo;
+				combo = (CustomCombo<E>) productItemCombo;
 			else if (obj.getType() == ClientTransactionItem.TYPE_SERVICE) {
-				return (CustomCombo<E>) serviceItemCombo;
+				combo = (CustomCombo<E>) serviceItemCombo;
 			} else if (obj.getType() == ClientTransactionItem.TYPE_SALESTAX) {
-				return (CustomCombo<E>) vatItemCombo;
+				combo = (CustomCombo<E>) vatItemCombo;
+			}
+
+			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				combo.downarrowpanel.getElement().getStyle().setMarginLeft(-10,
+						Unit.PX);
+			} else {
+				if (this instanceof PurchaseOrderUSGrid)
+					combo.downarrowpanel.getElement().getStyle().setMarginLeft(
+							-8, Unit.PX);
+				else
+					combo.downarrowpanel.getElement().getStyle().setMarginLeft(
+							-15, Unit.PX);
 			}
 			break;
 		case 6:
 			// for UK
-			return (CustomCombo<E>) taxCodeCombo;
+			combo = (CustomCombo<E>) taxCodeCombo;
+			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				combo.downarrowpanel.getElement().getStyle().setMarginLeft(-7,
+						Unit.PX);
+			} else {
+
+			}
+			break;
 		case 7:
 			// for purchase Order
-			return (CustomCombo<E>) taxCodeCombo;
+			combo = (CustomCombo<E>) taxCodeCombo;
+			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				combo.downarrowpanel.getElement().getStyle().setMarginLeft(-7,
+						Unit.PX);
+			} else {
+
+			}
+			break;
 		default:
 			break;
 		}
-		return null;
+		return combo;
 	}
 
 	protected String getImageByType(int type) {

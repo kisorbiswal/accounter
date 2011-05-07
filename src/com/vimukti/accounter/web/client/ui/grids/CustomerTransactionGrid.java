@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -1185,29 +1186,50 @@ public abstract class CustomerTransactionGrid extends
 	@Override
 	public <E> CustomCombo<E> getCustomCombo(ClientTransactionItem obj,
 			int colIndex) {
+		CustomCombo<E> combo = null;
 		switch (colIndex) {
 		case 1:
 			if (obj.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
-				return (CustomCombo<E>) accountsCombo;
+				combo = (CustomCombo<E>) accountsCombo;
 
 			} else if (obj.getType() == ClientTransactionItem.TYPE_ITEM) {
-				return (CustomCombo<E>) productItemCombo;
+				combo = (CustomCombo<E>) productItemCombo;
 			} else if (obj.getType() == ClientTransactionItem.TYPE_SERVICE) {
-				return (CustomCombo<E>) serviceItemCombo;
+				combo = (CustomCombo<E>) serviceItemCombo;
 			} else if (obj.getType() == ClientTransactionItem.TYPE_SALESTAX) {
 				if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 					// return (CustomCombo<E>) salesTaxCombo;
 				} else
-					return (CustomCombo<E>) vatItemCombo;
+					combo = (CustomCombo<E>) vatItemCombo;
 			}
+
+			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				combo.downarrowpanel.getElement().getStyle().setMarginLeft(-7,
+						Unit.PX);
+			} else {
+				if (this instanceof SalesOrderUSGrid)
+					combo.downarrowpanel.getElement().getStyle().setMarginLeft(
+							-7, Unit.PX);
+				else
+					combo.downarrowpanel.getElement().getStyle().setMarginLeft(
+							-13, Unit.PX);
+			}
+
 			break;
 		case 7:
-			return (CustomCombo<E>) taxCodeCombo;
+			combo = (CustomCombo<E>) taxCodeCombo;
+			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				combo.downarrowpanel.getElement().getStyle().setMarginLeft(-7,
+						Unit.PX);
+			} else {
+
+			}
+			break;
 		default:
 			break;
 		}
 
-		return null;
+		return combo;
 	}
 
 	public void setTotalValue(Double totalValue) {

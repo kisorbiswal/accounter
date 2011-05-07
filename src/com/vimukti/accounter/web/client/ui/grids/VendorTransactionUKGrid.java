@@ -100,7 +100,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 							if (selectedObject.getType() == TYPE_SERVICE
 									|| selectedObject.getType() == TYPE_ACCOUNT)
 								editComplete(selectedObject, selectedObject
-										.getLineTotal(), 5);
+										.getLineTotal(), 4);
 							else
 								editComplete(selectedObject, selectedObject
 										.getUnitPrice(), 4);

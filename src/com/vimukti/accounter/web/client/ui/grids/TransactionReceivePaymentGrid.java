@@ -244,6 +244,23 @@ public class TransactionReceivePaymentGrid extends
 
 	@Override
 	protected int getCellWidth(int index) {
+		switch (index) {
+		case 0:
+		case 1:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+			return 95;
+		case 2:
+		case 3:
+			return 99;
+			
+
+		default:
+			break;
+		}
 		return -1;
 	}
 
@@ -569,7 +586,7 @@ public class TransactionReceivePaymentGrid extends
 						paymentView.recalculateGridAmounts();
 						updateRecord(selectedObject, currentRow, 4);
 						updatePayment(selectedObject);
-//						paymentView.updateFooterValues();
+						// paymentView.updateFooterValues();
 						paymentView.recalculateGridAmounts();
 						paymentView.unUsedCreditsText
 								.setAmount(creditsAndPaymentsDialiog.totalBalances);
@@ -683,7 +700,7 @@ public class TransactionReceivePaymentGrid extends
 							}
 							updateData(selectedObject);
 							paymentView.recalculateGridAmounts();
-//							paymentView.updateFooterValues();
+							// paymentView.updateFooterValues();
 
 						} else
 							return false;
@@ -753,9 +770,9 @@ public class TransactionReceivePaymentGrid extends
 
 	public void updateTotalPayment(Double payment) {
 		paymentView.transactionTotal += payment;
-//		this.updateFooterValues(DataUtils
-//				.getAmountAsString(paymentView.transactionTotal), canEdit ? 8
-//				: 6);
+		// this.updateFooterValues(DataUtils
+		// .getAmountAsString(paymentView.transactionTotal), canEdit ? 8
+		// : 6);
 	}
 
 	public void deleteTotalPayment(Double payment) {

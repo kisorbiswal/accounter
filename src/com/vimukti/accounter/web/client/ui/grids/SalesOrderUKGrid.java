@@ -2,6 +2,8 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import java.util.Arrays;
 
+import com.google.gwt.dom.client.Style.Unit;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -221,17 +223,24 @@ public class SalesOrderUKGrid extends CustomerTransactionUKGrid {
 	@Override
 	public <E> CustomCombo<E> getCustomCombo(ClientTransactionItem obj,
 			int colIndex) {
+		CustomCombo<E> combo = null;
 		switch (colIndex) {
 		case 1:
 			return super.getCustomCombo(obj, colIndex);
 		case 7:
-			return (CustomCombo<E>) taxCodeCombo;
-
+			combo = (CustomCombo<E>) taxCodeCombo;
+			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				combo.downarrowpanel.getElement().getStyle().setMarginLeft(-7,
+						Unit.PX);
+			} else {
+				
+			}
+			break;
 		default:
 			break;
 		}
 
-		return null;
+		return combo;
 
 	}
 

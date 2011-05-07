@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -94,8 +95,8 @@ public class MakeDepositTransactionGrid extends
 		for (ClientTransactionMakeDeposit obj : this.getRecords()) {
 			selectedValues.remove((Integer) indexOf(obj));
 			totallinetotal = 0.0;
-//			super.updateFooterValues(DataUtils
-//					.getAmountAsString(totallinetotal), 3);
+			// super.updateFooterValues(DataUtils
+			// .getAmountAsString(totallinetotal), 3);
 			transactionView.updateNonEditableItems();
 		}
 	}
@@ -233,11 +234,11 @@ public class MakeDepositTransactionGrid extends
 		});
 	}
 
-//	@Override
-//	public void updateFooterValues(String value, int index) {
-//		// TODO Auto-generated method stub
-//		super.updateFooterValues(value, index);
-//	}
+	// @Override
+	// public void updateFooterValues(String value, int index) {
+	// // TODO Auto-generated method stub
+	// super.updateFooterValues(value, index);
+	// }
 
 	@Override
 	public void updateData(ClientTransactionMakeDeposit obj) {
@@ -516,21 +517,25 @@ public class MakeDepositTransactionGrid extends
 	@Override
 	public <E> CustomCombo<E> getCustomCombo(ClientTransactionMakeDeposit obj,
 			int colIndex) {
+		CustomCombo<E> combo = null;
 		switch (colIndex) {
 		case 1:
 
 			if (obj.getType() == ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT) {
-				return (CustomCombo<E>) accountCombo;
+				combo = (CustomCombo<E>) accountCombo;
 			} else if (obj.getType() == ClientTransactionMakeDeposit.TYPE_VENDOR) {
-				return (CustomCombo<E>) vendorsCombo;
+				combo = (CustomCombo<E>) vendorsCombo;
 			} else if (obj.getType() == ClientTransactionMakeDeposit.TYPE_CUSTOMER) {
-				return (CustomCombo<E>) customersCombo;
+				combo = (CustomCombo<E>) customersCombo;
 			}
+
+			combo.downarrowpanel.getElement().getStyle().setMarginLeft(-20,
+					Unit.PX);
 		default:
 			break;
 		}
 
-		return null;
+		return combo;
 	}
 
 	// @Override
