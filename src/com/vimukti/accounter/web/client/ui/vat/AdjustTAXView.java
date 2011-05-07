@@ -105,14 +105,14 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		taxAgencyCombo = new TAXAgencyCombo(FinanceApplication.getVATMessages()
 				.VATAgency());
 		taxAgencyCombo.setHelpInformation(true);
-		taxAgencyCombo.setWidth(100);
+		// taxAgencyCombo.setWidth(100);
 		taxAgencyCombo.setComboItem(taxAgency);
 
 		vatItemCombo = new VATItemCombo(FinanceApplication.getVATMessages()
 				.VATItem(), taxAgency);
 		vatItemCombo.setHelpInformation(true);
 		vatItemCombo.initCombo(vatItemCombo.getVATItmesByVATAgncy(taxAgency));
-		vatItemCombo.setWidth(100);
+		// vatItemCombo.setWidth(100);
 
 		if (taxAgency == null) {
 			vatItemCombo.setDisabled(true);
@@ -182,7 +182,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		adjustAccountCombo = new OtherAccountsCombo(FinanceApplication
 				.getVATMessages().adjustmentAccount());
 		adjustAccountCombo.setHelpInformation(true);
-		adjustAccountCombo.setWidth(100);
+		// adjustAccountCombo.setWidth(100);
 		adjustAccountCombo.setPopupWidth("600px");
 		adjustAccountCombo.setRequired(true);
 		amount = new AmountField(FinanceApplication.getVATMessages().amount());
@@ -346,8 +346,8 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		// .failedToApplyChanges());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		MainFinanceWindow.getViewManager().showError(FinanceApplication.getVATMessages()
-				.failedToApplyChanges());
+		MainFinanceWindow.getViewManager().showError(
+				FinanceApplication.getVATMessages().failedToApplyChanges());
 
 	}
 

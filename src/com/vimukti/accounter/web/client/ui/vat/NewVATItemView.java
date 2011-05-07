@@ -117,7 +117,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 					}
 
 				});
-		vatAgencyCombo.setWidth(80);
+		// vatAgencyCombo.setWidth(80);
 		vatAgencyCombo.setRequired(true);
 
 		// Label label = new Label(
@@ -137,7 +137,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 					}
 
 				});
-		vatReturnBoxCombo.setWidth(80);
+		// vatReturnBoxCombo.setWidth(80);
 
 		statusCheck = new CheckboxItem(FinanceApplication.getVATMessages()
 				.itemIsActive());

@@ -139,7 +139,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		vatItemComboForPurchases.initCombo(vatItemComboForPurchases
 				.getPurchaseWithPrcntVATItems());
 		vatItemComboForPurchases.setRequired(true);
-		vatItemComboForPurchases.setWidth(100);
+		// vatItemComboForPurchases.setWidth(100);
 		vatItemComboForPurchases
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
 					@Override

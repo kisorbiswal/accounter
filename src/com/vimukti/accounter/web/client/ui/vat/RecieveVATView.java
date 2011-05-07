@@ -132,7 +132,7 @@ public class RecieveVATView extends
 		depositInAccCombo.setPopupWidth("500px");
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setRequired(true);
-		paymentMethodCombo.setWidth(100);
+		// paymentMethodCombo.setWidth(100);
 
 		billsDue = new DateField(companyConstants.returnsDueOnOrBefore());
 		billsDue.setHelpInformation(true);
