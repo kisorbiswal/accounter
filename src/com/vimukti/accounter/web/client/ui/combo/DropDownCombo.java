@@ -36,10 +36,10 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.forms.CustomComboItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-public abstract class DropDownCombo<T> extends TextItem {
+public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	protected IAccounterComboSelectionChangeHandler<T> handler;
 
@@ -214,7 +214,8 @@ public abstract class DropDownCombo<T> extends TextItem {
 			@Override
 			public void onPopupClosed(PopupPanel sender, boolean autoClosed) {
 				if ((selectedName == null || !selectedName.equals(getValue()
-						.toString())) && selectedIndex == -1)
+						.toString()))
+						&& selectedIndex == -1)
 					setRelatedComboItem(getValue().toString());
 			}
 		});
@@ -300,43 +301,50 @@ public abstract class DropDownCombo<T> extends TextItem {
 						&& popup.isShowing()) {
 					dropDown.setKeyboardSelected(dropDown.getDisplayedItems()
 							.size() - 1, true, true);
-				} else if(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE
-						&& popup.isShowing()) {
-					popup.removeFromParent();
 				}
+				// else if (event.getNativeEvent().getKeyCode() ==
+				// KeyCodes.KEY_ESCAPE
+				// && popup.isShowing()) {
+				// popup.hide();
+				// }
 			}
 
 		});
 
-		if (UIUtils.isMSIEBrowser()) {
-			setKeyDownHandler(new KeyDownHandler() {
+		// if (UIUtils.isMSIEBrowser()) {
+		setKeyDownHandler(new KeyDownHandler() {
 
-				@Override
-				public void onKeyDown(KeyDownEvent event) {
-					if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_BACKSPACE
-							|| event.getNativeEvent().getKeyCode() == KeyCodes.KEY_DELETE) {
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_BACKSPACE
+						|| event.getNativeEvent().getKeyCode() == KeyCodes.KEY_DELETE) {
 
-						Timer timer = new Timer() {
+					Timer timer = new Timer() {
 
-							@Override
-							public void run() {
-								onKeyEnter('/');
-							}
-						};
-						timer.schedule(200);
-						// key codes 38 for up key 40 for down key
-					} else if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_DOWN
-							&& popup.isShowing()) {
-						dropDown.setKeyboardSelected(0, true, true);
+						@Override
+						public void run() {
+							onKeyEnter('/');
+						}
+					};
+					timer.schedule(200);
+					// key codes 38 for up key 40 for down key
+				} else if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_DOWN
+						&& popup.isShowing()) {
+					dropDown.setKeyboardSelected(0, true, true);
 
-					} else if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_UP
-							&& popup.isShowing()) {
-						dropDown.setKeyboardSelected(dropDown
-								.getDisplayedItems().size() - 1, true, true);
-					}
+				} else if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_UP
+						&& popup.isShowing()) {
+					dropDown.setKeyboardSelected(dropDown.getDisplayedItems()
+							.size() - 1, true, true);
 				}
-			});
-		}
+				// else if (event.getNativeEvent().getKeyCode() ==
+				// KeyCodes.KEY_ESCAPE
+				// && popup.isShowing()) {
+				// popup.hide();
+				// }
+			}
+		});
+		// }
 
 	}
 
@@ -793,8 +801,8 @@ public abstract class DropDownCombo<T> extends TextItem {
 	private void filterValues(char key) {
 
 		String val = getValue() != null ? getValue().toString()
-				+ String.valueOf(key).replace("/", "").trim() : String
-				.valueOf(key).replace("/", "").trim();
+				+ String.valueOf(key).replace("/", "").trim() : String.valueOf(
+				key).replace("/", "").trim();
 
 		resetComboList();
 		if (key == '/') {
@@ -1002,6 +1010,6 @@ public abstract class DropDownCombo<T> extends TextItem {
 	@Override
 	protected void onAttach() {
 		super.onAttach();
-		addDiv();
+		// addDiv();
 	}
 }
