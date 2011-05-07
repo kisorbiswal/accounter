@@ -105,7 +105,7 @@ public interface SettingsMessages extends FinanceMessages {
 
 	SafeHtml invoiceBrandingLabel();
 
-	SafeHtml newBrandingThemeButton();
+	String newBrandingThemeButton();
 
 	String a4();
 
@@ -167,7 +167,7 @@ public interface SettingsMessages extends FinanceMessages {
 
 	String removeLogo();
 
-	SafeHtml options();
+	String options();
 
 	String name();
 

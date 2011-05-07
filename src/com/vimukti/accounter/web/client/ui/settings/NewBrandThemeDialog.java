@@ -509,7 +509,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 		};
 
 		fontNameBox = new SelectCombo(null);
-		fontNameBox.setWidth(100);
+		// fontNameBox.setWidth(100);
 		listOfFontNames = new ArrayList<String>();
 		for (int i = 0; i < fontNameArray.length; i++) {
 			listOfFontNames.add(fontNameArray[i]);
