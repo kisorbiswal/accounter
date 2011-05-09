@@ -335,7 +335,7 @@ public abstract class CustomTable extends VerticalPanel {
 	public void setHeight(String height) {
 
 		if (height.contains("%")) {
-			this.panel.setHeight(height);
+			// this.panel.setHeight(height);
 			super.setHeight(height);
 			return;
 		}
