@@ -1038,10 +1038,12 @@ public abstract class CustomerTransactionGrid extends
 
 				break;
 			case 7:
-				if (value.equals("Taxable")) {
-					item.setTaxable(true);
-				} else
-					item.setTaxable(false);
+				if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+					if (value.equals("Taxable")) {
+						item.setTaxable(true);
+					} else
+						item.setTaxable(false);
+				}
 				break;
 			case 8:
 
@@ -1075,7 +1077,7 @@ public abstract class CustomerTransactionGrid extends
 
 			}
 		}
-		if (item.getType() != TYPE_SALESTAX && col != 6) {
+		if (item.getType() != TYPE_SALESTAX && col != 6 && col != 7) {
 			double lt = item.getQuantity() * item.getUnitPrice();
 			double disc = item.getDiscount();
 			item.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
@@ -1083,11 +1085,10 @@ public abstract class CustomerTransactionGrid extends
 		}
 		updateTotals();
 		updateData(item);
-		// if (FinanceApplication.getCompany().getAccountingType() ==
-		// ClientCompany.ACCOUNTING_TYPE_UK) {
-		if (Arrays.asList(3, 4, 5, 6).contains(col))
-			refreshVatValue(item);
-		// }
+		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (Arrays.asList(3, 4, 5, 6, 7).contains(col))
+				refreshVatValue(item);
+		}
 	}
 
 	@Override
@@ -1331,7 +1332,7 @@ public abstract class CustomerTransactionGrid extends
 							selectedObject.setTaxCode(selectItem.getStringID());
 							if (selectedObject.getType() == TYPE_ACCOUNT)
 								editComplete(selectedObject, selectedObject
-										.getLineTotal(), 6);
+										.getLineTotal(), 7);
 							else
 
 								editComplete(selectedObject, selectedObject

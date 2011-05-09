@@ -100,7 +100,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 							if (selectedObject.getType() == TYPE_SERVICE
 									|| selectedObject.getType() == TYPE_ACCOUNT)
 								editComplete(selectedObject, selectedObject
-										.getLineTotal(), 4);
+										.getLineTotal(), 6);
 							else
 								editComplete(selectedObject, selectedObject
 										.getUnitPrice(), 4);
@@ -284,10 +284,18 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 		case 2:
 			return item.getDescription();
 		case 3:
-			return getDecimalsUsingMaxDecimals(item.getQuantity(),
-					maxDecimalPoint);
+			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
+				return item.getQuantity();
+			else {
+				return (item.getQuantity() != 0 || item.getLineTotal() == 0) ? item.getQuantity() : "";
+			}
 		case 4:
-			return DataUtils.getAmountAsString(item.getUnitPrice());
+			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
+				return DataUtils.getAmountAsString(item.getUnitPrice());
+			else {
+				return (item.getUnitPrice() != 0 || item.getLineTotal() == 0) ? DataUtils
+						.getAmountAsString(item.getUnitPrice()) : "";
+			}
 		case 5:
 			return DataUtils.getAmountAsString(item.getLineTotal());
 		case 6:

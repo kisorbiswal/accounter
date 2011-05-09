@@ -81,9 +81,18 @@ public class PurchaseOrderUSGrid extends VendorTransactionUSGrid {
 		case 2:
 			return item.getDescription();
 		case 3:
-			return item.getQuantity();
+			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
+				return item.getQuantity();
+			else {
+				return (item.getQuantity() != 0 || item.getLineTotal() == 0) ? item.getQuantity() : "";
+			}
 		case 4:
-			return DataUtils.getAmountAsString(item.getUnitPrice());
+			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
+				return DataUtils.getAmountAsString(item.getUnitPrice());
+			else {
+				return (item.getUnitPrice() != 0 || item.getLineTotal() == 0) ? DataUtils
+						.getAmountAsString(item.getUnitPrice()) : "";
+			}
 		case 5:
 			return item.getBackOrder() + "";
 		case 6:
