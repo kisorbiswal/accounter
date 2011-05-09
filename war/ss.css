@@ -103,13 +103,14 @@ clear:both;
 float:left;
 background-color:#d9d9d9;
 height:550px;
-width:260px;
+width:200px !important;
 margin-top:40px;
 margin-left:60px;
 }
 #mid-right{
 clear:both;
 background-color:#f4f4f4;
+font-family:
 height:550px;
 width:600px;
 margin-left:260px;

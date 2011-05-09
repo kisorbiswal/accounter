@@ -1080,7 +1080,12 @@ important;
 	border: 0 none;
 	height: 22px;
 }
-
+.gwt-PasswordTextBox{
+	background: url("images/Text Feild_enabled_180x22.png") no-repeat scroll
+		0 0 #fff !important;
+	border: 0 none;
+	height: 22px;
+	}
 .gwt-TextArea {
 	background: url("images/Text Feild_big_enabled_180x64.png") no-repeat
 		scroll 0 0 #fff !important;
@@ -1541,6 +1546,13 @@ iframe { /*display:none;*/
 	border-color: #989898;
 	border-style: solid;
 	border-width: 1px 1px 0px;
+	padding: 10px;
+}
+
+.change_password_view{
+	border-color: #989898;
+	border-style: solid;
+	border-width: 1px 1px;
 	padding: 10px;
 }
 
