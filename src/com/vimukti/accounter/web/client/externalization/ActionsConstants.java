@@ -477,4 +477,8 @@ public interface ActionsConstants extends FinanceConstants {
 	String salesTaxGroups();
 	
 	String salesTaxItems();
+
+	String changePassword();
+
+	String forgetPassword();
 }

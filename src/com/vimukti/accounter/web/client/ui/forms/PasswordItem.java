@@ -1,47 +1,175 @@
 package com.vimukti.accounter.web.client.ui.forms;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.forms.TextBoxItem.KeyPressListener;
 
 public class PasswordItem extends FormItem {
 
-	PasswordTextBox passwordTextBox;
+	public PasswordTextBox passwordBox;
 
-	public PasswordItem(String string) {
-		this.passwordTextBox.setValue(string);
+	// TextBoxItem textBoxItem;
+	public PasswordItem() {
+
+		passwordBox = new PasswordTextBox() {
+			protected void onAttach() {
+				super.onAttach();
+				PasswordItem.this.onAttach();
+			};
+		};
+		// textBoxItem= new TextBoxItem();
+		// @Override
+		// public void sinkEvents(int eventBitsToAdd) {
+		// super.sinkEvents(Event.ONFOCUS);
+		// }
+		//
+		// @Override
+		// public void onBrowserEvent(Event event) {
+		// TextItem.this.showValidated();
+		// super.onBrowserEvent(event);
+		// }
+		// };
+
+		this.passwordBox.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+
+				PasswordItem.this.showValidated();
+
+			}
+		});
+
+		// if(!validate()){
+		// parent.setNumCols(3);
+		// addLabelWidget(parent);
+		// parent.add(getMainWidget(), columnSpan);
+		// Label label = new Label("Error");
+		// label.setStyleName("ErrorLabel");
+		// parent.add(label,1);
+		// }
+		// else{
+
 	}
 
-	public PasswordItem() {
-		passwordTextBox = new PasswordTextBox();
+	protected void onAttach() {
+
+	}
+
+	public PasswordItem(String title) {
+		passwordBox = new PasswordTextBox();
+		// @Override
+		// public void sinkEvents(int eventBitsToAdd) {
+		// super.sinkEvents(Event.ONFOCUS);
+		// }
+		//
+		// @Override
+		// public void onBrowserEvent(Event event) {
+		// TextItem.this.showValidated();
+		// super.onBrowserEvent(event);
+		// }
+		// };
+		setTitle(title);
 	}
 
 	@Override
 	public Object getValue() {
-		return passwordTextBox.getValue();
+		if (passwordBox.getText() == null)
+			return "";
+		return passwordBox.getText();
 	}
 
 	@Override
 	public String getDisplayValue() {
-		return passwordTextBox.getText();
+		if (passwordBox.getText() == null)
+			return "";
+		return passwordBox.getText();
 
 	}
 
 	@Override
 	public void setValue(Object value) {
-		this.passwordTextBox.setValue(value.toString());
+		if (value != null)
+			this.passwordBox.setValue(value.toString());
+
+	}
+
+	public void setKeyPressHandler(KeyPressListener keyPressListener) {
+		this.passwordBox.addKeyPressHandler((KeyPressHandler) keyPressListener);
+	}
+
+	@Override
+	public void addBlurHandler(BlurHandler blurHandler) {
+		passwordBox.addBlurHandler(blurHandler);
+
+	}
+
+	public void setKeyBoardHandler(KeyPressHandler keyPressHandler) {
+		passwordBox.addKeyPressHandler(keyPressHandler);
+	}
+
+	public void setKeyDownHandler(KeyDownHandler keyDownHandler) {
+		passwordBox.addKeyDownHandler(keyDownHandler);
+	}
+
+	@Override
+	public void addChangeHandler(ChangeHandler changeHandler) {
+		passwordBox.addChangeHandler(changeHandler);
+	}
+
+	@Override
+	public void addClickHandler(ClickHandler handler) {
+		passwordBox.addClickHandler(handler);
+	}
+
+	public void setDefaultValue(int i) {
+		// TODO Auto-generated method stub
+
+	}
+
+	// void helpimformationsetposition(){
+	//
+	// }
+
+	public void setHint(String string) {
+
+	}
+
+	public void focusInItem() {
+		this.passwordBox.setFocus(true);
+
+	}
+
+	@SuppressWarnings("unused")
+	private void setBorder() {
+
 	}
 
 	@Override
 	public Widget getMainWidget() {
-		return this.passwordTextBox;
+		return passwordBox;
 	}
-	
+
 	@Override
 	public void setDisabled(boolean b) {
-		// this.getMainWidget().setEnabled(!b);
-		this.setDisabled(b);
-		this.passwordTextBox.setEnabled(!b);
+		if (b)
+			this.passwordBox.addStyleName("disable-TextField");
+		this.passwordBox.setEnabled(!b);
 
+	}
+
+	public void addStyleName(String style) {
+		passwordBox.addStyleName(style);
+	}
+
+	public void removeStyleName(String style) {
+		passwordBox.removeStyleName(style);
 	}
 
 }

@@ -27,6 +27,8 @@ import com.vimukti.accounter.web.client.externalization.FinanceConstants;
 import com.vimukti.accounter.web.client.externalization.FinanceMessages;
 import com.vimukti.accounter.web.client.images.FinanceImages;
 import com.vimukti.accounter.web.client.images.FinanceMenuImages;
+import com.vimukti.accounter.web.client.services.UserManagmentService;
+import com.vimukti.accounter.web.client.services.UserManagmentServiceAsync;
 import com.vimukti.accounter.web.client.theme.ThemeImages;
 import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
 import com.vimukti.accounter.web.client.ui.combo.AccounterComboConstants;
@@ -58,11 +60,13 @@ public class FinanceApplication extends VerticalPanel {
 	public final static String GET_SERVICE_ENTRY_POINT = "/do/accounter/get/rpc/service";
 	public final static String HOME_SERVICE_ENTRY_POINT = "/do/accounter/home/rpc/service";
 	public final static String REPORT_SERVICE_ENTRY_POINT = "/do/accounter/report/rpc/service";
+	public final static String USER_MANAGEMENT_ENTRY_POINT = "/do/accounter/user/rpc/service";
 
 	private static IAccounterCRUDServiceAsync crudService;
 	private static IAccounterGETServiceAsync getService;
 	private static IAccounterHomeViewServiceAsync homeViewService;
 	private static IAccounterReportServiceAsync reportService;
+	private static UserManagmentServiceAsync userService;
 	private static CompanyMessages companyMessages;
 	private static FinanceMessages financeMessages;
 	private static VendorsMessages vendorsMessages;
@@ -298,6 +302,18 @@ public class FinanceApplication extends VerticalPanel {
 		}
 
 		return crudService;
+
+	}
+
+	public static UserManagmentServiceAsync creatUserService() {
+		if (userService == null) {
+			userService = (UserManagmentServiceAsync) GWT
+					.create(UserManagmentService.class);
+			((ServiceDefTarget) userService)
+					.setServiceEntryPoint(FinanceApplication.USER_MANAGEMENT_ENTRY_POINT);
+		}
+
+		return userService;
 
 	}
 

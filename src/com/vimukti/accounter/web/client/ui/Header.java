@@ -1,12 +1,7 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HTML;
@@ -22,7 +17,7 @@ public class Header extends HorizontalPanel {
 
 	private Label userName;
 	public static Label companyName;
-	
+
 	private HTML logout, help, logo;
 	private VerticalPanel panel1, panel2;
 	private static VerticalPanel panel3;
@@ -46,26 +41,21 @@ public class Header extends HorizontalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-
+				CompanyActionFactory.getChangePasswordAction().run(null, false);
 			}
 		});
-		userName.addMouseOverHandler(new MouseOverHandler() {
-
-			@Override
-			public void onMouseOver(MouseOverEvent event) {
-				userName.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
-			}
-		});
-		userName.addMouseOutHandler(new MouseOutHandler() {
-
-			@Override
-			public void onMouseOut(MouseOutEvent event) {
-				userName.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
-			}
-		});
-
+		/*
+		 * userName.addMouseOverHandler(new MouseOverHandler() {
+		 * 
+		 * @Override public void onMouseOver(MouseOverEvent event) {
+		 * userName.getElement().getStyle().setTextDecoration(
+		 * TextDecoration.UNDERLINE); } }); userName.addMouseOutHandler(new
+		 * MouseOutHandler() {
+		 * 
+		 * @Override public void onMouseOut(MouseOutEvent event) {
+		 * userName.getElement().getStyle().setTextDecoration(
+		 * TextDecoration.NONE); } });
+		 */
 		logout = new HTML("<a href='/do/logout'>Logout</a>");
 		logout.addStyleName("logout-html");
 		helpBar = new MenuBar();
@@ -79,7 +69,7 @@ public class Header extends HorizontalPanel {
 		logo = new HTML(
 				"<div class='logo'><img src='/images/Logo.jpg'><div class='vimutki-text' >Vimukti Technologies Pvt Ltd</div></div>");
 		logo.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
 				CompanyActionFactory.getCompanyHomeAction().run(null, false);

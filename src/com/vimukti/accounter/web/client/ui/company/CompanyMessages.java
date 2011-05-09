@@ -909,5 +909,13 @@ public interface CompanyMessages extends FinanceMessages {
 	String accountPayable();
 	
 	String bankingTransactions();
+
+	String oldPassword();
+
+	String newPassword();
+
+	String confirmNewPassword();
+
+	String enterYourEmail();
 	
 }

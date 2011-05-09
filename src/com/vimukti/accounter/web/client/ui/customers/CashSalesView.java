@@ -159,7 +159,7 @@ public class CashSalesView extends
 
 		salesPersonCombo = createSalesPersonComboItem();
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		paymentMethodCombo.setWidth(100);
+		paymentMethodCombo.setWidth("92%");
 		depositInCombo = createDepositInComboItem();
 		depositInCombo.setPopupWidth("500px");
 		shippingTermsCombo = createShippingTermsCombo();
