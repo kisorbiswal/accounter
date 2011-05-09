@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.NewPayeeAction;
+import com.vimukti.accounter.web.client.ui.company.ChangePasswordAction;
 import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
 import com.vimukti.accounter.web.client.ui.company.CompanyHomeAction;
 import com.vimukti.accounter.web.client.ui.company.CompanyInfoAction;
@@ -299,4 +300,15 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	public static AdjustTAXAction getAdjustTaxAction() {
 		return new AdjustTAXAction(actionsConstants.taxAdjustment());
 	}
+
+	public static ChangePasswordAction getChangePasswordAction() {
+		return new ChangePasswordAction(actionsConstants.changePassword());
+
+	}
+
+	// public static ForgetPasswordAction getForgetPasswordAction(){
+	// return new ForgetPasswordAction(actionsConstants.forgetPassword());
+	//		
+	// }
+
 }
