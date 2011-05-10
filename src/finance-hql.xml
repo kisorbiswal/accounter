@@ -396,5 +396,6 @@
 	<query name="unique.name.VATReturnBox">from com.vimukti.accounter.core.VATReturnBox v
 		where
 		v.name=?</query>
-	
+	<query name="unique.emailId.User">from com.vimukti.accounter.core.User u where u.emailId=?</query>
+	<query name="gettoken.by.id">from com.vimukti.accounter.core.ResetPasswordToken r where r.token=?</query>
 </hibernate-mapping>

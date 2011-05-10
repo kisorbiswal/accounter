@@ -1244,6 +1244,14 @@
 		<property name="createdBy" column="CREATED_BY"></property>
 	</class>
 
+	<class name="ResetPasswordToken" table="RESET_PASSWORD_TOKEN">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="token" column="TOKEN" />
+		<property name="userId" column="USER_ID" />
+	</class>
+
 	<!--
 		<class name="TaxItemGroup" table="TAX_ITEM_GROUPS"> <id name="id"
 		column="ID"> <generator class="native"></generator> </id> <property
