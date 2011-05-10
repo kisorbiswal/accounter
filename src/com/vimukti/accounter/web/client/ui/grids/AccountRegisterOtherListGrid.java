@@ -73,20 +73,15 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	 */
 	private double getBalanceValue(AccountRegister accountRegister) {
 		/* Here 'd' value might be "positive" or "negative" */
-		accountIDs.add(accountRegister.getTransactionId());
-		for (int i = 0; i < accountIDs.size() - 1; i++) {
-			if (!accountRegister.getTransactionId().equals(accountIDs.get(i))) {
-				double d = accountRegister.getAmount();
+		double d = accountRegister.getAmount();
 
-				if (DecimalUtil.isLessThan(d, 0.0)) {
-					d = -1 * d;
-					balance = balance - d;
-				} else {
-					balance = balance + d;
-				}
-				totalBalance += balance;
-			}
+		if (DecimalUtil.isLessThan(d, 0.0)) {
+			d = -1 * d;
+			balance = balance - d;
+		} else {
+			balance = balance + d;
 		}
+		totalBalance += balance;
 		return balance;
 	}
 
