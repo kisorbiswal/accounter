@@ -43,6 +43,7 @@ import com.vimukti.accounter.web.client.ui.company.PriceLevelListAction;
 import com.vimukti.accounter.web.client.ui.company.SalesPersonListsAction;
 import com.vimukti.accounter.web.client.ui.company.ShippingMethodListAction;
 import com.vimukti.accounter.web.client.ui.company.ShippingTermListAction;
+import com.vimukti.accounter.web.client.ui.company.UserDetailsAction;
 import com.vimukti.accounter.web.client.ui.company.VendorGroupListAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesTaxLiabilityAction;
 import com.vimukti.accounter.web.client.ui.vat.AdjustTAXAction;
@@ -304,6 +305,10 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	public static ChangePasswordAction getChangePasswordAction() {
 		return new ChangePasswordAction(actionsConstants.changePassword());
 
+	}
+
+	public static UserDetailsAction getUserDetailsAction() {
+		return new UserDetailsAction("User Details");
 	}
 
 	// public static ForgetPasswordAction getForgetPasswordAction(){
