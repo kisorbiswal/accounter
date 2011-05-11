@@ -1,44 +1,44 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.core.AbstractActionFactory;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
-public class ChangePasswordAction extends Action {
-	private ChangePasswordDialog view;
+public class UserDetailsAction extends Action {
 
-	public ChangePasswordAction(String text) {
+	private UserDetailsView view;
+
+	public UserDetailsAction(String text) {
 		super(text);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public ImageResource getBigImage() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ImageResource getSmallImage() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ParentCanvas getView() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		runAsync(data, isDependent);
-	}
-
-	private void runAsync(Object data, Boolean isDependent) {
-		view = new ChangePasswordDialog(AbstractActionFactory.actionsConstants
-				.changePassword(), null);
+		view = new UserDetailsView();
 		try {
-			view.show();
-			view.center();
+			MainFinanceWindow.getViewManager().showView(view, data, isDependent,
+					this);
 		} catch (Exception e) {
 		}
 	}

@@ -4,19 +4,26 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
-import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.PasswordItem;
 
 @SuppressWarnings("unchecked")
-public class ChangePasswordView extends AbstractBaseView {
+public class ChangePasswordDialog extends BaseDialog {
+
+	public ChangePasswordDialog(String title, String desc) {
+		super(title, desc);
+		createControls();
+	}
 
 	private PasswordItem oldPasswordTextItem, newPasswordTextItem,
 			confirmNewPasswordTextItem;
@@ -27,13 +34,6 @@ public class ChangePasswordView extends AbstractBaseView {
 	private String oldPassword, newPassword, confirmNewPassword;
 	private boolean isMatch;
 
-	@Override
-	public void init() {
-		this.validationCount = 1;
-		super.init();
-		createControls();
-
-	}
 
 	private void createControls() {
 		oldPasswordTextItem = new PasswordItem(FinanceApplication
@@ -80,12 +80,15 @@ public class ChangePasswordView extends AbstractBaseView {
 
 		mainPanel.add(textItemsForm);
 		mainPanel.add(buttonPanel);
-		mainPanel.setCellHorizontalAlignment(buttonPanel, ALIGN_RIGHT);
+		mainPanel.setCellHorizontalAlignment(buttonPanel,
+				HasAlignment.ALIGN_RIGHT);
 
 		mainPanel.setWidth("100%");
 		mainPanel.setStyleName("change_password_view");
-		add(mainPanel);
 
+		setBodyLayout(mainPanel);
+		okbtn.setVisible(false);
+		cancelBtn.setVisible(false);
 		saveButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -105,6 +108,7 @@ public class ChangePasswordView extends AbstractBaseView {
 			public void onClick(ClickEvent event) {
 
 				MainFinanceWindow.getViewManager().closeCurrentView();
+				removeFromParent();
 			}
 		});
 
@@ -148,21 +152,6 @@ public class ChangePasswordView extends AbstractBaseView {
 	}
 
 	@Override
-	public void onEdit() {
-
-	}
-
-	@Override
-	public void print() {
-
-	}
-
-	@Override
-	public void printPreview() {
-
-	}
-
-	@Override
 	public void deleteFailed(Throwable caught) {
 
 	}
@@ -180,19 +169,17 @@ public class ChangePasswordView extends AbstractBaseView {
 	}
 
 	@Override
-	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean validate() throws Exception {
-		switch (this.validationCount) {
-		case 1:
-			return AccounterValidator.validateForm(textItemsForm, false);
-		default:
-			return true;
+	public boolean validate() {
+		// switch (this.validationCount) {
+		// case 1:
+		try {
+			return AccounterValidator.validateForm(textItemsForm, true);
+		} catch (InvalidEntryException e) {
+			e.printStackTrace();
 		}
+		// default:
+		return true;
+		// }
 	}
 
 }
