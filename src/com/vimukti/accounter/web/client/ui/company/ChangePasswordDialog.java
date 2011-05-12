@@ -3,12 +3,8 @@ package com.vimukti.accounter.web.client.ui.company;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -28,12 +24,9 @@ public class ChangePasswordDialog extends BaseDialog {
 	private PasswordItem oldPasswordTextItem, newPasswordTextItem,
 			confirmNewPasswordTextItem;
 	private DynamicForm textItemsForm;
-	private Button saveButton, closeButton;
-	private HorizontalPanel buttonPanel;
 	private VerticalPanel mainPanel;
 	private String oldPassword, newPassword, confirmNewPassword;
 	private boolean isMatch;
-
 
 	private void createControls() {
 		oldPasswordTextItem = new PasswordItem(FinanceApplication
@@ -47,14 +40,8 @@ public class ChangePasswordDialog extends BaseDialog {
 		newPasswordTextItem.setRequired(true);
 		confirmNewPasswordTextItem.setRequired(true);
 
-		saveButton = new Button(FinanceApplication.getSettingsMessages()
-				.saveButton());
-		closeButton = new Button(FinanceApplication.getCustomersMessages()
-				.close());
-
 		textItemsForm = new DynamicForm();
 
-		buttonPanel = new HorizontalPanel();
 		mainPanel = new VerticalPanel();
 
 		textItemsForm.setNumCols(2);
@@ -62,34 +49,12 @@ public class ChangePasswordDialog extends BaseDialog {
 		textItemsForm.setFields(oldPasswordTextItem, newPasswordTextItem,
 				confirmNewPasswordTextItem);
 
-		buttonPanel.add(saveButton);
-		buttonPanel.add(closeButton);
-
-		if (saveButton.isEnabled()) {
-			saveButton.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(saveButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (closeButton.isEnabled()) {
-			closeButton.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(closeButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-
 		mainPanel.add(textItemsForm);
-		mainPanel.add(buttonPanel);
-		mainPanel.setCellHorizontalAlignment(buttonPanel,
-				HasAlignment.ALIGN_RIGHT);
-
-		mainPanel.setWidth("100%");
-		mainPanel.setStyleName("change_password_view");
+		okbtn.setText(FinanceApplication.getSettingsMessages().saveButton());
 
 		setBodyLayout(mainPanel);
-		okbtn.setVisible(false);
-		cancelBtn.setVisible(false);
-		saveButton.addClickHandler(new ClickHandler() {
+
+		okbtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -102,7 +67,7 @@ public class ChangePasswordDialog extends BaseDialog {
 			}
 		});
 
-		closeButton.addClickHandler(new ClickHandler() {
+		cancelBtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
