@@ -850,9 +850,10 @@ public class MainFinanceWindow extends VerticalPanel {
 				.getProfitAndLossAction());
 		companyAndFinancialMenuBar.addItem(ReportsActionFactory
 				.getBalanceSheetAction());
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			companyAndFinancialMenuBar.addItem(ReportsActionFactory
-					.getCashFlowStatementAction());
+		// if (FinanceApplication.getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US)
+		companyAndFinancialMenuBar.addItem(ReportsActionFactory
+				.getCashFlowStatementAction());
 		companyAndFinancialMenuBar.addItem(ReportsActionFactory
 				.getTrialBalanceAction());
 		companyAndFinancialMenuBar.addItem(ReportsActionFactory
