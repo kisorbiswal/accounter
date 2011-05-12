@@ -21,10 +21,10 @@ import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 
 public class ExpenseClaimPortlet extends DashBoardPortlet {
 
-	public double allExpensesAmount = 0.0;
-	public double cashExpenseAmount = 0.0;
+	public double allExpensesAmount = 0.00;
+	public double cashExpenseAmount = 0.00;
 	// public double employeeExpenseAmount = 0.0;
-	public double ccExpenseAmount = 0.0;
+	public double ccExpenseAmount = 0.00;
 
 	public Label allExpAmtLabel;
 	public Label cashExpAmtLabel;
@@ -89,12 +89,15 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 		updateAmounts();
 
-		allExpAmtLabel = getAmountLabel(String.valueOf(allExpensesAmount));
-		cashExpAmtLabel = getAmountLabel(String.valueOf(cashExpenseAmount));
+		allExpAmtLabel = getAmountLabel(DataUtils
+				.getAmountAsString(allExpensesAmount));
+		cashExpAmtLabel = getAmountLabel(DataUtils
+				.getAmountAsString(cashExpenseAmount));
 		cashExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 		// empExpAmtLabel =
 		// getAmountLabel(String.valueOf(employeeExpenseAmount));
-		ccExpAmtLabel = getAmountLabel(String.valueOf(ccExpenseAmount));
+		ccExpAmtLabel = getAmountLabel(DataUtils
+				.getAmountAsString(ccExpenseAmount));
 		ccExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 
 		fTable.setWidget(0, 0, allExpLabel);
@@ -213,9 +216,11 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 	}
 
 	public void updateAmountLabels() {
-		cashExpAmtLabel.setText(String.valueOf(cashExpenseAmount));
-		ccExpAmtLabel.setText(String.valueOf(ccExpenseAmount));
+		cashExpAmtLabel.setText(DataUtils.getAmountAsString(cashExpenseAmount));
+		ccExpAmtLabel.setText(DataUtils.getAmountAsString(ccExpenseAmount));
 		// empExpAmtLabel.setText(String.valueOf(employeeExpenseAmount));
-		allExpAmtLabel.setText(String.valueOf(allExpensesAmount));
+
+		allExpAmtLabel.setText(DataUtils.getAmountAsString(allExpensesAmount));
 	}
+
 }

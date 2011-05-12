@@ -43,7 +43,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 
 		createHeaderControls();
 		createBody();
-		
+
 		// panel.add(body);
 		// panel.setHeight("100%");
 		// panel.getElement().getStyle().setPadding(0, Unit.PX);

@@ -26,8 +26,8 @@ import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 
 public class MoneyComingPortlet extends DashBoardPortlet {
 
-	public double draftInvoiceAmount = 0.0;
-	public double overDueInvoiceAmount = 0.0;
+	public double draftInvoiceAmount = 0.00;
+	public double overDueInvoiceAmount = 0.00;
 	public ClientAccount debitors;
 
 	public Label draftLabel;
@@ -127,13 +127,14 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 				if (result != null && result.size() > 0) {
 					overDueInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);
-					overDueAmtLabel.setText(String
-							.valueOf(overDueInvoiceAmount));
+					overDueAmtLabel.setText(DataUtils
+							.getAmountAsString(overDueInvoiceAmount));
 				}
 				if (result != null && result.size() > 0) {
 					draftInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);
-					draftAmtLabel.setText(String.valueOf(draftInvoiceAmount));
+					draftAmtLabel.setText(DataUtils
+							.getAmountAsString(draftInvoiceAmount));
 				}
 
 				Runnable runnable = new Runnable() {
