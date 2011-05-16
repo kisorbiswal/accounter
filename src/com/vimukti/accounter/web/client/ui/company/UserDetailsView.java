@@ -24,12 +24,14 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 	}
 
 	private void createControls() {
+		
 		mainPanel = new VerticalPanel();
-		userNameLabel = new Label("Name:"
-				+ FinanceApplication.clientIdentity.getFullname());
-		mailIdLabel = new Label("Mail ID:"
-				+ FinanceApplication.clientIdentity.getEmailAddress());
-		changePasswordHtml = new HTML("<a>change password </a>");
+		userNameLabel = new Label("Name : " + FinanceApplication.clientIdentity.getFullname());
+		userNameLabel.setStyleName("user-name");
+		mailIdLabel = new Label("Mail ID : " + FinanceApplication.clientIdentity.getEmailAddress());
+		mailIdLabel.setStyleName("user-name");
+		changePasswordHtml = new HTML("<a> Change Password </a>");
+		changePasswordHtml.setStyleName("change-password");
 		changePasswordHtml.addClickHandler(new ClickHandler() {
 
 			@Override
