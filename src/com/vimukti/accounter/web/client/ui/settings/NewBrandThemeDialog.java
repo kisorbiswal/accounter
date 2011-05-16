@@ -45,7 +45,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 	private CheckBox taxNumItem, headingItem, unitPriceItem,// paymentItem,
 			columnItem, addressItem, logoItem;
 	private TextBox topMarginBox, bottomMarginBox, addressPadBox, overdueBox,
-			creditNoteBox, statementBox, paypalTextBox;
+			creditNoteBox, statementBox, paypalTextBox,logoNameBox;
 
 	private TextItem nameItem;
 	private String[] fontNameArray, fontSizeArray;
@@ -60,7 +60,6 @@ public class NewBrandThemeDialog extends BaseDialog {
 	private Label addLogoLabel;
 	private ValueCallBack<ClientBrandingTheme> callback;
 	private String[] fileTypes;
-	private TextBox box;
 	private String filename;
 
 	private DynamicForm nameForm;
@@ -102,6 +101,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 		paypalTextBox.setValue(brandingTheme.getPayPalEmailID());
 		termsPaymentArea.setValue(brandingTheme.getTerms_And_Payment_Advice());
 		contactDetailsArea.setValue(brandingTheme.getContactDetails());
+		logoNameBox.setValue(brandingTheme.getFileName());
 
 	}
 
@@ -230,8 +230,15 @@ public class NewBrandThemeDialog extends BaseDialog {
 		brandingTheme.setContactDetails(String.valueOf(contactDetailsArea
 				.getValue()));
 		brandingTheme.setLogoAlignmentType(getLogoType());
-		brandingTheme.setFileName(String.valueOf(box.getText().toString()));
-		brandingTheme.setLogoAdded(true);
+		
+		if (logoNameBox.getValue().toString().isEmpty()) {
+			brandingTheme.setFileName(null);
+			brandingTheme.setLogoAdded(false);
+		} else {
+			brandingTheme.setFileName(String.valueOf(logoNameBox.getText().toString()));
+			brandingTheme.setLogoAdded(true);
+		}
+
 		return brandingTheme;
 	}
 
@@ -573,15 +580,15 @@ public class NewBrandThemeDialog extends BaseDialog {
 		nameForm.setWidth("110px");
 
 		addLogoLabel = new Label("Add Logo");
-		box = new TextBox();
-		box.addClickHandler(new ClickHandler() {
+		logoNameBox = new TextBox();
+		logoNameBox.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				ValueCallBack<ClientBrandingTheme> callback = new ValueCallBack<ClientBrandingTheme>() {
 					@Override
 					public void execute(ClientBrandingTheme value) {
-						box.setText(value.getFileName());
+						logoNameBox.setText(value.getFileName());
 					}
 				};
 				FileUploadDilaog dilaog = new FileUploadDilaog("Upload Logo",
@@ -615,7 +622,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 		textBoxTable.setWidget(9, 0, statementLabel);
 		textBoxTable.setWidget(9, 1, statementBox);
 		textBoxTable.setWidget(10, 0, addLogoLabel);
-		textBoxTable.setWidget(10, 1, box);
+		textBoxTable.setWidget(10, 1, logoNameBox);
 
 		HorizontalPanel textBoxHorizontalPanel = new HorizontalPanel();
 
