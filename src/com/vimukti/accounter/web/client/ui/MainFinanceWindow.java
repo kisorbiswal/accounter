@@ -177,7 +177,8 @@ public class MainFinanceWindow extends VerticalPanel {
 			copyrightLabel.setStyleName("down-panel1");
 			allrightsLabel.setStyleName("down-panel1");
 			companyNameLabel.addStyleName("down-panel1");
-			Anchor support = new Anchor("Support");
+			Anchor support = new Anchor("Support", true, "/site/support",
+					"_blank");
 			Anchor feedback = new Anchor("Feedback");
 			support.getElement().getStyle().setMarginLeft(6, Unit.PX);
 			downpanel.add(copyrightLabel);
