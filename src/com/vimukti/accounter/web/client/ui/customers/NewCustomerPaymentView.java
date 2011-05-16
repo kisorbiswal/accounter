@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -227,8 +228,7 @@ public class NewCustomerPaymentView extends
 		// .getDepositIn()));
 		amountText.setDisabled(true);
 		amountText.setAmount(customerPrePaymentToBeEdited.getTotal());
-		customerBalText.setAmount(customerPrePaymentToBeEdited
-				.getCustomerBalance());
+		customerBalText.setAmount(customer.getBalance());
 		endBalText.setAmount(customerPrePaymentToBeEdited.getEndingBalance());
 		paymentMethodSelected(customerPrePaymentToBeEdited.getPaymentMethod());
 		this.depositInAccount = comapny.getAccount(customerPrePaymentToBeEdited
@@ -485,6 +485,8 @@ public class NewCustomerPaymentView extends
 					amountText, paymentMethodCombo, printCheck, checkNo,
 					memoTextAreaItem);
 		// memo and Reference
+		endBalText.setAmount(depositInCombo.getSelectedValue()
+				.getCurrentBalance());
 
 		payForm.setCellSpacing(5);
 		payForm.setWidth("100%");

@@ -13,6 +13,7 @@ public class SalesOpenOrderReport extends
 
 	@SuppressWarnings("unused")
 	private boolean isSales;
+	private String status;
 
 	public SalesOpenOrderReport() {
 		this.serverReport = new SalesOpenOrderServerReport(this);
@@ -78,6 +79,7 @@ public class SalesOpenOrderReport extends
 			FinanceApplication.createReportService().getSalesOrderReport(
 					start.getTime(), end.getTime(), this);
 
+		this.status = String.valueOf(status);
 	}
 
 	@Override
@@ -97,7 +99,7 @@ public class SalesOpenOrderReport extends
 
 		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
 				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 125, "", "");
+				.valueOf(endDate.getTime())), 125, "", "", status);
 	}
 
 	@Override
@@ -144,6 +146,6 @@ public class SalesOpenOrderReport extends
 	public void exportToCsv() {
 		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
 				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 125, "", "");
+				.valueOf(endDate.getTime())), 125, "", "", status);
 	}
 }

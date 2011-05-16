@@ -116,7 +116,7 @@ public class NewVendorPaymentView extends
 		}
 
 		endBalText.setAmount(payBillToBeEdited.getEndingBalance());
-		vendorBalText.setAmount(payBillToBeEdited.getVendorBalance());
+		vendorBalText.setAmount(vendor.getBalance());
 
 		if (payBillToBeEdited.getCheckNumber() != null) {
 			if (payBillToBeEdited.getCheckNumber().equals(
@@ -292,6 +292,9 @@ public class NewVendorPaymentView extends
 					memoTextAreaItem);
 		payForm.getCellFormatter().addStyleName(7, 0, "memoFormAlign");
 		// memo and Reference
+
+		endBalText.setAmount(payFromCombo.getSelectedValue()
+				.getCurrentBalance());
 
 		payForm.setCellSpacing(5);
 		payForm.setWidth("100%");

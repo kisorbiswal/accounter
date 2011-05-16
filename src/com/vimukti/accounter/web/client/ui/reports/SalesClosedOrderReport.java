@@ -41,7 +41,7 @@ public class SalesClosedOrderReport extends
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		FinanceApplication.createReportService().getSalesOpenOrderReport(
+		FinanceApplication.createReportService().getSalesClosedOrderReport(
 				start.getTime(), end.getTime(), this);
 	}
 
