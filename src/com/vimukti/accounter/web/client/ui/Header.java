@@ -41,7 +41,7 @@ public class Header extends HorizontalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				CompanyActionFactory.getChangePasswordAction().run(null, false);
+				CompanyActionFactory.getUserDetailsAction().run(null, false);
 			}
 		});
 		/*
