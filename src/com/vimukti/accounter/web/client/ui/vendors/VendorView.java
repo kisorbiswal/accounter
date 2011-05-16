@@ -205,6 +205,12 @@ public class VendorView extends BaseView<ClientVendor> {
 							throw new InvalidEntryException("Vendor"
 									+ AccounterErrorType.ALREADYEXIST);
 						}
+					} else if (Utility.isNumberCorrect(vendor)) {
+						if (tabSet.getTabBar().isTabEnabled(1)) {
+							tabSet.selectTab(0);
+							throw new InvalidEntryException(
+									AccounterErrorType.INVALIDACCOUNTNUMBER);
+						}
 					} else
 						createObject(vendor);
 				} else

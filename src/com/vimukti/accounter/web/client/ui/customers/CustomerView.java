@@ -314,6 +314,12 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				}
 				throw new InvalidEntryException(
 						"A Customer already exists with this number");
+			} else if (Integer.parseInt(customer.getNumber().toString()) < 1) {
+				throw new InvalidEntryException(
+						"A Customer number shouble be positive");
+			} else if (checkIfNotNumber(customer.getNumber())) {
+				throw new InvalidEntryException(
+						"A Customer number shouble be a number");
 			}
 
 		}
