@@ -115,6 +115,9 @@ public class NewVendorPaymentView extends
 			paymentMethodCombo.setComboItem(clientPayBill.getPaymentMethod());
 		}
 
+		endBalText.setAmount(payBillToBeEdited.getEndingBalance());
+		vendorBalText.setAmount(payBillToBeEdited.getVendorBalance());
+
 		if (payBillToBeEdited.getCheckNumber() != null) {
 			if (payBillToBeEdited.getCheckNumber().equals(
 					FinanceApplication.getCustomersMessages().toBePrinted())) {

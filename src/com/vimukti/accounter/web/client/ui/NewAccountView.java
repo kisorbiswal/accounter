@@ -830,6 +830,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 						.getAccounts(), account.getName())) {
 					throw new InvalidEntryException(
 							AccounterErrorType.ALREADYEXIST);
+				}else if (Utility.isNumberCorrect(account)) {
+					throw new InvalidEntryException(
+							AccounterErrorType.INVALIDNUMBER);
 				}
 				createObject(account);
 			} else

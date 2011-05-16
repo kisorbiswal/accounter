@@ -2,115 +2,114 @@ package com.vimukti.accounter.web.client.core;
 
 public class ClientCustomerPrePayment extends ClientTransaction {
 
- String customer;
+	String customer;
 
- String depositIn;
+	String depositIn;
 
- ClientAddress address;
+	ClientAddress address;
 
- double balanceDue = 0d;
+	double balanceDue = 0d;
 
- private double customerBalance = 0D;
+	private double customerBalance = 0D;
 
- private double endingBalance;
- 
- private boolean isToBePrinted;
- 
- private String checkNumber;
+	private double endingBalance;
 
- @Override
- public String getDisplayName() {
-  return this.getName();
- }
+	private boolean isToBePrinted;
 
- public double getCustomerBalance() {
-  return customerBalance;
- }
+	private String checkNumber;
 
- public void setCustomerBalance(double customerBalance) {
-  this.customerBalance = customerBalance;
- }
+	@Override
+	public String getDisplayName() {
+		return this.getName();
+	}
 
- @Override
- public String getName() {
-  return Utility.getTransactionName(getType());
- }
+	public double getCustomerBalance() {
+		return customerBalance;
+	}
 
- @Override
- public String getClientClassSimpleName() {
-  return "ClientCustomerPrePayment";
- }
+	public void setCustomerBalance(double customerBalance) {
+		this.customerBalance = customerBalance;
+	}
 
- @Override
- public AccounterCoreType getObjectType() {
-  return AccounterCoreType.CUSTOMERPREPAYMENT;
- }
+	@Override
+	public String getName() {
+		return Utility.getTransactionName(getType());
+	}
 
- @Override
- public String getStringID() {
-  return this.stringID;
- }
+	@Override
+	public String getClientClassSimpleName() {
+		return "ClientCustomerPrePayment";
+	}
 
- @Override
- public void setStringID(String stringID) {
-  this.stringID = stringID;
- }
+	@Override
+	public AccounterCoreType getObjectType() {
+		return AccounterCoreType.CUSTOMERPREPAYMENT;
+	}
 
- public String getCustomer() {
-  return customer;
- }
+	@Override
+	public String getStringID() {
+		return this.stringID;
+	}
 
- public void setCustomer(String customer) {
-  this.customer = customer;
- }
+	@Override
+	public void setStringID(String stringID) {
+		this.stringID = stringID;
+	}
 
- public String getDepositIn() {
-  return depositIn;
- }
+	public String getCustomer() {
+		return customer;
+	}
 
- public void setDepositIn(String depositIn) {
-  this.depositIn = depositIn;
- }
+	public void setCustomer(String customer) {
+		this.customer = customer;
+	}
 
- public ClientAddress getAddress() {
-  return address;
- }
+	public String getDepositIn() {
+		return depositIn;
+	}
 
- public void setAddress(ClientAddress address) {
-  this.address = address;
- }
+	public void setDepositIn(String depositIn) {
+		this.depositIn = depositIn;
+	}
 
- public double getBalanceDue() {
-  return balanceDue;
- }
+	public ClientAddress getAddress() {
+		return address;
+	}
 
- public void setBalanceDue(double balanceDue) {
-  this.balanceDue = balanceDue;
- }
+	public void setAddress(ClientAddress address) {
+		this.address = address;
+	}
 
-public void setEndingBalance(double endingBalance) {
-	this.endingBalance = endingBalance;
+	public double getBalanceDue() {
+		return balanceDue;
+	}
+
+	public void setBalanceDue(double balanceDue) {
+		this.balanceDue = balanceDue;
+	}
+
+	public void setEndingBalance(double endingBalance) {
+		this.endingBalance = endingBalance;
+	}
+
+	public double getEndingBalance() {
+		return endingBalance;
+	}
+
+	public void setToBePrinted(boolean isToBePrinted) {
+		this.isToBePrinted = isToBePrinted;
+	}
+
+	public boolean isToBePrinted() {
+		return isToBePrinted;
+	}
+
+	public void setCheckNumber(String checkNumber) {
+		this.checkNumber = checkNumber;
+	}
+
+	public String getCheckNumber() {
+		return checkNumber;
+	}
+
 }
-
-public double getEndingBalance() {
-	return endingBalance;
-}
-
-public void setToBePrinted(boolean isToBePrinted) {
-	this.isToBePrinted = isToBePrinted;
-}
-
-public boolean isToBePrinted() {
-	return isToBePrinted;
-}
-
-public void setCheckNumber(String checkNumber) {
-	this.checkNumber = checkNumber;
-}
-
-public String getCheckNumber() {
-	return checkNumber;
-}
-
-}
-                                

@@ -104,8 +104,9 @@ public class NewCustomerPaymentView extends
 				throw new InvalidTransactionEntryException(
 						AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
 		case 1:
-//			return AccounterValidator.isNull(depositInAccount, paymentMethod);
-            return false;
+			// return AccounterValidator.isNull(depositInAccount,
+			// paymentMethod);
+			return false;
 		default:
 			return true;
 		}
@@ -226,8 +227,9 @@ public class NewCustomerPaymentView extends
 		// .getDepositIn()));
 		amountText.setDisabled(true);
 		amountText.setAmount(customerPrePaymentToBeEdited.getTotal());
-		customerBalText.setAmount(toBeSetCustomerBalance);
-		endBalText.setAmount(toBeSetEndingBalance);
+		customerBalText.setAmount(customerPrePaymentToBeEdited
+				.getCustomerBalance());
+		endBalText.setAmount(customerPrePaymentToBeEdited.getEndingBalance());
 		paymentMethodSelected(customerPrePaymentToBeEdited.getPaymentMethod());
 		this.depositInAccount = comapny.getAccount(customerPrePaymentToBeEdited
 				.getDepositIn());
@@ -753,11 +755,13 @@ public class NewCustomerPaymentView extends
 	public void setTransactionDate(ClientFinanceDate transactionDate) {
 		super.setTransactionDate(transactionDate);
 		if (this.transactionDateItem != null
-				&& this.transactionDateItem.getValue() != null)
+				&& this.transactionDateItem.getValue() != null) {
 			updateNonEditableItems();
+		}
 	}
 
-	public void updateNonEditaleItems() {
+	@Override
+	public void updateNonEditableItems() {
 		if (endBalText != null)
 			this.endBalText.setAmount(toBeSetEndingBalance);
 		if (customerBalText != null)

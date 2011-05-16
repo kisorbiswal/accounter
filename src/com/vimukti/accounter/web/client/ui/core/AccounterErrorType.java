@@ -12,7 +12,7 @@ public interface AccounterErrorType {
 	// error messages for Transactions
 	public static final String InvalidTransactionDate = "The transaction date must be within an open Fiscal Year. "
 			+ "To create a new Fiscal Year or edit an existing one click Manage Fiscal Year in the Company drop down menu";
-	public static final String InvalidDate="You must enter a date that falls after the Prevent Posting Before date";
+	public static final String InvalidDate = "You must enter a date that falls after the Prevent Posting Before date";
 	public static final String blankTransaction = "Please enter a Transaction Item";
 	public static final String customer_payment_or_bill_payment_blankTransaction = "Please select a Transaction";
 	public static final String fiscal_Year_Closed = "The Fiscal Year for your company has been closed. You can enter only opening balances"
@@ -88,5 +88,9 @@ public interface AccounterErrorType {
 	public static final String prior_asOfDate = "Balance as of date is prior to the company start date";
 	public static final String SELECT_VATAGENCY = "Please select VAT Agency and Dates to File VAT";
 	public static final String selectTransaction = "Please select a Transaction Item";
+	public static final String INVALIDNUMBER = "Invalid Account Number. Please enter valid number";
+	public static final String INVALIDACCOUNTNUMBER = UIUtils.getVendorString(
+			"supplier", "vendor")
+			+ " Account Number is Invalid. Please enter valid Account Number";
 
 }

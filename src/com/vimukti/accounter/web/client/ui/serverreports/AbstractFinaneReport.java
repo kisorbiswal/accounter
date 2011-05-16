@@ -147,6 +147,7 @@ public abstract class AbstractFinaneReport<R> implements IFinanceReport<R> {
 			}
 			this.records = result;
 		} catch (Exception e) {
+			System.err.println(e);
 		}
 
 	}

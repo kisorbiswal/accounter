@@ -150,6 +150,11 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 					}
 				});
 
+		// if (taxAgencyCombo.getSelectedValue().equals("")) {
+		// clientT = taxAgencyCombo.ge;
+		// } else {
+		clientTAXAgency = taxAgencyCombo.getSelectedValue();
+		// }
 		taxAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
 

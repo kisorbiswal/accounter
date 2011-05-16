@@ -2,6 +2,8 @@ package com.vimukti.accounter.web.client.ui;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HTML;
@@ -10,7 +12,9 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.ui.core.AbstractActionFactory;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
 public class Header extends HorizontalPanel {
@@ -37,25 +41,46 @@ public class Header extends HorizontalPanel {
 		userName.setText(FinanceApplication.getCompanyMessages().userName(
 				FinanceApplication.clientIdentity.getDisplayName()));
 		userName.addStyleName("userName-style");
-		userName.addClickHandler(new ClickHandler() {
+		final PopupPanel panel = new PopupPanel();
+		Label changePasswordLabel = new Label(
+				AbstractActionFactory.actionsConstants.changePassword());
+		panel.add(changePasswordLabel);
+		panel.removeStyleName("gwt-PopupPanel");
+		panel.addStyleName("change-PopupPanel");
+		changePasswordLabel.addStyleName("changeLabel");
+		 userName.addClickHandler(new ClickHandler() {
+		
+		 @Override
+		 public void onClick(ClickEvent event) {
+			 CompanyActionFactory.getUserDetailsAction().run(null, false);		 }
+		 });
+//		userName.addMouseOverHandler(new MouseOverHandler() {
+//
+//			@Override
+//			public void onMouseOver(MouseOverEvent event) {
+//				panel.setPopupPosition(userName.getAbsoluteLeft() + 24,
+//						userName.getOffsetHeight() + userName.getAbsoluteTop()
+//								- 6);
+//				panel.show();
+//			}
+//		});
+//		changePasswordLabel.addClickHandler(new ClickHandler() {
+//
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				CompanyActionFactory.getChangePasswordAction().run(null, false);
+//				panel.hide();
+//			}
+//		});
+
+		changePasswordLabel.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
-				CompanyActionFactory.getUserDetailsAction().run(null, false);
+			public void onMouseOut(MouseOutEvent event) {
+				panel.hide();
 			}
 		});
-		/*
-		 * userName.addMouseOverHandler(new MouseOverHandler() {
-		 * 
-		 * @Override public void onMouseOver(MouseOverEvent event) {
-		 * userName.getElement().getStyle().setTextDecoration(
-		 * TextDecoration.UNDERLINE); } }); userName.addMouseOutHandler(new
-		 * MouseOutHandler() {
-		 * 
-		 * @Override public void onMouseOut(MouseOutEvent event) {
-		 * userName.getElement().getStyle().setTextDecoration(
-		 * TextDecoration.NONE); } });
-		 */
+
 		logout = new HTML("<a href='/do/logout'>Logout</a>");
 		logout.addStyleName("logout-html");
 		helpBar = new MenuBar();

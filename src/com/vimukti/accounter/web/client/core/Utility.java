@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 
 @SuppressWarnings("serial")
 public class Utility implements IsSerializable, Serializable {
@@ -1286,6 +1287,48 @@ public class Utility implements IsSerializable, Serializable {
 		return null;
 	}
 
+	public static <S extends IAccounterCore> boolean isNumberCorrect(
+			IAccounterCore iAccounterCore) {
+		if (iAccounterCore instanceof ClientAccount) {
+			if (Integer.parseInt(((ClientAccount) iAccounterCore).getNumber()) < 1) {
+				try {
+					throw new InvalidEntryException(
+							"A Account Number shouble be positive");
+				} catch (InvalidEntryException e) {
+					e.printStackTrace();
+				}
+			} else if (checkIfNotNumber(((ClientAccount) iAccounterCore)
+					.getNumber())) {
+				try {
+					throw new InvalidEntryException(
+							"A Account Number shouble be a number");
+				} catch (InvalidEntryException e) {
+					e.printStackTrace();
+				}
+
+			}
+		} else if (iAccounterCore instanceof ClientVendor) {
+			if (Integer.parseInt(((ClientVendor) iAccounterCore)
+					.getAccountNumber().toString()) < 1) {
+				try {
+					throw new InvalidEntryException(
+							"A Supplier Account Number shouble be positive");
+				} catch (InvalidEntryException e) {
+					e.printStackTrace();
+				}
+			} else if (checkIfNotNumber(((ClientVendor) iAccounterCore)
+					.getAccountNumber())) {
+				try {
+					throw new InvalidEntryException(
+							"A Supplier Account Number shouble be a number");
+				} catch (InvalidEntryException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
+
 	public static <S extends IAccounterCore> boolean isObjectExist(
 			List<S> list, String name) {
 		if (list == null || list.isEmpty())
@@ -1295,6 +1338,17 @@ public class Utility implements IsSerializable, Serializable {
 					&& s.getName().toLowerCase().equals(name.toLowerCase())) {
 				return true;
 			}
+
+		}
+		return false;
+	}
+
+	public static boolean checkIfNotNumber(String in) {
+		try {
+			Integer.parseInt(in);
+
+		} catch (NumberFormatException ex) {
+			return true;
 		}
 		return false;
 	}

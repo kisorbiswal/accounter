@@ -65,7 +65,7 @@ public class CashFlowStatementReport extends AbstractReportView<TrialBalance> {
 	public void exportToCsv() {
 		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
 				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 118, "", "");
+				.valueOf(endDate.getTime())), 148, "", "");
 	}
 
 	/*

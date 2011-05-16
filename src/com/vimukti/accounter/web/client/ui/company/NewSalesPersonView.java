@@ -75,7 +75,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	public NewSalesPersonView() {
 		super();
-		this.validationCount = 2;
+		this.validationCount = 3;
 
 	}
 
@@ -111,7 +111,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		expenseAccountForm = UIUtils.form(companyConstants.expenseAccount());
 		expenseAccountForm.setWidth("90%");
 		expenseSelect = new GridAccountsCombo(companyConstants.expenseAccount());
-		expenseSelect.setWidth("205px");
+		expenseSelect.setWidth("180px");
 		expenseSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 					public void selectedComboBoxItem(ClientAccount selectItem) {
@@ -167,10 +167,6 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				long mustdate = new ClientFinanceDate().getTime() - 180000;
 				if (new ClientFinanceDate(mustdate).before(dateOfBirth
 						.getEnteredDate())) {
-					// BaseView.errordata
-					// .setHTML("Date of Birth should show more than 18 years");
-					// BaseView.commentPanel.setVisible(true);
-					// AbstractBaseView.errorOccured = true;
 					MainFinanceWindow.getViewManager().showError(
 							"Date of Birth should show more than 18 years");
 				}
@@ -294,6 +290,10 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	public boolean validate() throws InvalidEntryException {
 
 		switch (this.validationCount) {
+		case 3:
+			long mustdate = new ClientFinanceDate().getTime() - 180000;
+			return !(new ClientFinanceDate(mustdate).before(dateOfBirth
+					.getEnteredDate()));
 		case 2:
 			return AccounterValidator.validateForm(salesPersonForm, false);
 		case 1:
@@ -317,10 +317,16 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	public void saveAndUpdateView() throws Exception {
 		ClientSalesPerson salesPerson = getSalesPersonObject();
 		try {
-			if (takenSalesperson == null)
-
-				this.createObject(salesPerson);
-			else
+			if (takenSalesperson == null) {
+				long mustdate = new ClientFinanceDate().getTime() - 180000;
+				if (new ClientFinanceDate(mustdate).before(dateOfBirth
+						.getEnteredDate())) {
+					MainFinanceWindow.getViewManager().showError(
+							"Date of Birth should show more than 18 years");
+				} else {
+					this.createObject(salesPerson);
+				}
+			} else
 				this.alterObject(salesPerson);
 
 		} catch (Exception e) {

@@ -110,6 +110,10 @@ public class CustomerPrePayment extends Transaction implements Lifecycle {
 		this.balanceDue = balanceDue;
 	}
 
+	public void setCustomerBalance(double customerBalance) {
+		this.customerBalance = customerBalance;
+	}
+
 	public void setCheckNumber(String checkNumber) {
 		this.checkNumber = checkNumber;
 	}
@@ -273,7 +277,8 @@ public class CustomerPrePayment extends Transaction implements Lifecycle {
 				voidCreditsAndPayments(customerPrePayment);
 
 				if (creditsAndPayments != null
-						&& DecimalUtil.isEquals(creditsAndPayments.creditAmount, 0.0d)) {
+						&& DecimalUtil.isEquals(
+								creditsAndPayments.creditAmount, 0.0d)) {
 					creditsAndPayments = new CreditsAndPayments(this,
 							creditsAndPayments.getStringID());
 				} else {
@@ -283,7 +288,8 @@ public class CustomerPrePayment extends Transaction implements Lifecycle {
 
 				session.save(creditsAndPayments);
 
-			} else if (!DecimalUtil.isEquals(customerPrePayment.total, this.total)) {
+			} else if (!DecimalUtil.isEquals(customerPrePayment.total,
+					this.total)) {
 
 				this.customer.updateBalance(session, customerPrePayment,
 						this.total - customerPrePayment.total);
