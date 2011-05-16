@@ -20,13 +20,14 @@
 	background: none repeat scroll 0 0 #E8E8E8 !important;
 }
 
-.removeHeadBorder{
+.removeHeadBorder {
 	border-top: 0px !important;
 }
 
-.removeRightBorder{
+.removeRightBorder {
 	border-right: 0px !important;
 }
+
 body {
 	color: black;
 	margin: 0px auto !important;
@@ -532,10 +533,11 @@ div.link:hover {
 	border-width: 0 1px 1px;
 	padding-bottom: 4px;
 }
-.bottom-shadow{
-	background: url("../images/widget-shadow-image.png") repeat-x scroll
-		0 0 transparent;
-		height:5px;
+
+.bottom-shadow {
+	background: url("../images/widget-shadow-image.png") repeat-x scroll 0 0
+		transparent;
+	height: 5px;
 }
 
 .nav-content {
@@ -979,9 +981,58 @@ important;
 	margin: 0 4px !important;
 }
 
-.invoice-total tr:nth-child(3){
-	border-bottom:1px solid #aaa;
-	border-top:1px solid #aaa;
+.invoice-total
+
+ 
+
+tr
+
+
+:nth-child
+
+ 
+
+(3){
+border-bottom
+
+
+:
+
+ 
+
+1
+px
+
+ 
+
+solid
+
+ 
+
+#aaa
+
+
+;
+border-top
+
+
+:
+
+ 
+
+1
+px
+
+ 
+
+solid
+
+ 
+
+#aaa
+
+
+;
 }
 .noScroll input[type="text"] { /*width: 150px !important;*/
 	
@@ -1037,9 +1088,41 @@ important;
 	margin: 5px 0 0 15px;
 }
 
-.standard-options td:nth-child(2){
-	float:right;
-	margin-right:40px;
+.standard-options
+
+ 
+
+td
+
+
+:nth-child
+
+ 
+
+(2){
+float
+
+
+:
+
+ 
+
+right
+
+
+;
+margin-right
+
+
+:
+
+ 
+
+40
+px
+
+
+;
 }
 .terms-payment-area {
 	width: 450px;
@@ -1080,12 +1163,14 @@ important;
 	border: 0 none;
 	height: 22px;
 }
-.gwt-PasswordTextBox{
+
+.gwt-PasswordTextBox {
 	background: url("images/Text Feild_enabled_180x22.png") no-repeat scroll
 		0 0 #fff !important;
 	border: 0 none;
 	height: 22px;
-	}
+}
+
 .gwt-TextArea {
 	background: url("images/Text Feild_big_enabled_180x64.png") no-repeat
 		scroll 0 0 #fff !important;
@@ -1151,10 +1236,48 @@ important;
 	background: none repeat scroll 0 0 #F0F0F0 !important;
 }
 
-.help-logout-sep td:nth-child(2),.help-logout-sep td:nth-child(3){
-	padding: 5px !important;
-}
+.help-logout-sep
 
+ 
+
+td
+
+
+:nth-child
+
+ 
+
+(2),
+.help-logout-sep
+
+ 
+
+td
+
+
+:nth-child
+
+ 
+
+(3){
+padding
+
+
+:
+
+ 
+
+5
+px
+
+ 
+
+!
+important
+
+
+;
+}
 .help-content {
 	background: url("images/Menubar_Divider_2x30.jpg") no-repeat scroll 0 0
 		transparent;
@@ -1542,14 +1665,14 @@ iframe { /*display:none;*/
 	margin-bottom: 280px !important;
 }
 
-.main-class-pannel{
+.main-class-pannel {
 	border-color: #989898;
 	border-style: solid;
 	border-width: 1px 1px 0px;
 	padding: 10px;
 }
 
-.change_password_view{
+.change_password_view {
 	border-color: #989898;
 	border-style: solid;
 	border-width: 1px 1px;
@@ -1616,10 +1739,37 @@ iframe { /*display:none;*/
 	margin-left: 20px;
 }
 
-.date-number td :nth-child(2){
-	padding-right: 15px !important;
-}
+.date-number
 
+ 
+
+td
+
+ 
+
+:nth-child
+
+ 
+
+(2){
+padding-right
+
+
+:
+
+ 
+
+15
+px
+
+ 
+
+!
+important
+
+
+;
+}
 .datenumber-panel table {
 	padding-right: 15px !important;
 }
@@ -1639,22 +1789,54 @@ iframe { /*display:none;*/
 	font-weight: bold;
 }
 
-.tax-form td:nth-child(1){
-	font-weight: normal;
-}
+.tax-form
 
+ 
+
+td
+
+
+:nth-child
+
+ 
+
+(1){
+font-weight
+
+
+:
+
+ 
+
+normal
+
+
+;
+}
 .itemGrid {
 	margin-top: 25px;
 }
-.upload-logo{
+
+.upload-logo {
 	border: 1px solid #DDDDDD;
-    height: 150px;
-    margin: 2px;
-    width: 164px;
+	height: 150px;
+	margin: 2px;
+	width: 164px;
 }
-.picture-link{
+
+.picture-link {
 	padding: 56px;
 }
-.name-item{
+
+.name-item {
 	margin-left: 85px;
+}
+
+.user-name {
+	margin-left: 20px;
+	margin-top: 10px;
+}
+
+.change-password {
+	margin: 10 0 0 20px;
 }
