@@ -5,6 +5,7 @@ package com.vimukti.accounter.workspace.tool;
 
 import java.io.NotSerializableException;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -8916,7 +8917,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 					((BigInteger) object[2]).longValue()));
 			openAndClosedOrder.setVendorOrCustomerName((String) object[3]);
 			openAndClosedOrder
-					.setQuantity(object[4] != null ? (Double) object[4] : 0.0);
+					.setQuantity(object[4] != null ? ((BigDecimal) object[4]).intValue() : 0);
 			openAndClosedOrder.setAmount(object[5] != null ? (Double) object[5]
 					: 0.0);
 			queryResult.add(openAndClosedOrder);
