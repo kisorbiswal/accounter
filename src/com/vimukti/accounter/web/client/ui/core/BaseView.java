@@ -10,13 +10,11 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.HelpLink;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.SalesTaxGroupListView;
-import com.vimukti.accounter.web.client.ui.company.HelpItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.vat.FileVATView;
 
@@ -32,8 +30,6 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 	private String height;
 	protected boolean isFixedAssetView;
 	protected int accountType;
-	public int type;
-	private HelpItem item;
 
 	public BaseView() {
 
@@ -68,6 +64,16 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 			}
 		});
 
+	}
+
+	public static boolean checkIfNotNumber(String in) {
+		try {
+			Integer.parseInt(in);
+
+		} catch (NumberFormatException ex) {
+			return true;
+		}
+		return false;
 	}
 
 	private void createView() {
@@ -149,7 +155,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 		cancelButton.getElement().getParentElement().setClassName(
 				"cancel-button");
 
-		inithelpPanel();
+		// inithelpPansel();
 		if (saveAndNewButton.isEnabled()) {
 			Element spanEle = DOM.createSpan();
 			spanEle.addClassName("save-new-separator");
@@ -203,26 +209,6 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 
 	public Panel getButtonPanel() {
 		return this.buttonLayout;
-	}
-
-	public void inithelpPanel() {
-		item = MainFinanceWindow.getInstance().getHelpItem();
-		item.removeLinks();
-		FinanceApplication.createGETService().getHelpLinks(type,
-				new AsyncCallback<List<HelpLink>>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						Accounter.showError("unable to add links");
-					}
-
-					@Override
-					public void onSuccess(List<HelpLink> result) {
-						item.setLinks(result);
-
-					}
-				});
-
 	}
 
 	@Override
