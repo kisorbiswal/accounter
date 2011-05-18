@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.externalization;
 
+
 public interface ActionsConstants extends FinanceConstants {
 
 	String home();
@@ -481,4 +482,83 @@ public interface ActionsConstants extends FinanceConstants {
 	String changePassword();
 
 	String forgetPassword();
+
+	String permanent();
+
+	String temporary();
+
+	String placement();
+
+	String other();
+
+	String pastEmployee();
+
+	String futureEmployee();
+
+	String currentEmployee();
+
+	String fullTime();
+
+	String partTime();
+
+	String employeeDetails();
+
+	String contactDetails();
+
+	String save();
+
+	String employee();
+
+	String employeeStartDateShouldBeBeforeTheEmployeeLeaveDate();
+
+	String homeAddress();
+
+	String homeAddress1();
+
+	String address1();
+
+	String address2();
+
+	String city();
+
+	String zipcode();
+
+	String provience();
+
+	String country();
+
+	String homePhone();
+
+	String mobilePhone();
+
+	String homeEmail();
+
+	String contact();
+
+	String fullTimePartTime();
+
+	String employeeName();
+
+	String employeeNumber();
+
+	String employeeStartDate();
+
+	String jobTitle();
+
+	String lastName();
+
+	String firstName();
+
+	String employeeStatus();
+
+	String select();
+
+	String employeeType();
+
+	String title();
+
+	String managerName();
+
+	String employeeLeaveDate();
+
 }

@@ -172,7 +172,8 @@ public class MainFinanceWindow extends VerticalPanel {
 			Image image = new Image("images/Copyright_synbol.png");
 			image.setStyleName("copy-img");
 			Label copyrightLabel = new Label("Copyright");
-			Label companyNameLabel = new Label(" Vimukti Technologies Pvt. Ltd.");
+			Label companyNameLabel = new Label(
+					" Vimukti Technologies Pvt. Ltd.");
 			Label allrightsLabel = new Label("All rights are reserved.");
 			copyrightLabel.setStyleName("down-panel1");
 			allrightsLabel.setStyleName("down-panel1");
@@ -1134,7 +1135,8 @@ public class MainFinanceWindow extends VerticalPanel {
 					.addItem(CompanyActionFactory.getPaymentsAction());
 		companyListMenuBar.addItem(CustomersActionFactory
 				.getSalesPersonAction());
-
+		companyListMenuBar
+				.addItem(CompanyActionFactory.getEmployeeListAction());
 		return companyListMenuBar;
 	}
 

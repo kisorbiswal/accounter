@@ -441,8 +441,19 @@ public class ReportsGenerator {
 			updateReport(salesOpenOrderServerReport, finaTool);
 			salesOpenOrderServerReport.resetVariables();
 			try {
-				salesOpenOrderServerReport.onSuccess(finaTool
-						.getOpenSalesOrders(startDate, endDate));
+				if (Integer.parseInt(status) == 1) {
+					salesOpenOrderServerReport.onSuccess(reportsSerivce
+							.getSalesOpenOrderReport(startDate, endDate));
+				} else if (Integer.parseInt(status) == 2) {
+					salesOpenOrderServerReport.onSuccess(reportsSerivce
+							.getSalesCompletedOrderReport(startDate, endDate));
+				} else if (Integer.parseInt(status) == 3) {
+					salesOpenOrderServerReport.onSuccess(reportsSerivce
+							.getSalesCancelledOrderReport(startDate, endDate));
+				} else {
+					salesOpenOrderServerReport.onSuccess(reportsSerivce
+							.getSalesOrderReport(startDate, endDate));
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -634,9 +645,23 @@ public class ReportsGenerator {
 			updateReport(purchaseOpenOrderServerReport, finaTool);
 			purchaseOpenOrderServerReport.resetVariables();
 			try {
-
-				purchaseOpenOrderServerReport.onSuccess(finaTool
-						.getOpenPurchaseOrders(startDate, endDate));
+				if (Integer.parseInt(status) == 1) {
+					purchaseOpenOrderServerReport.onSuccess(reportsSerivce
+							.getPurchaseOpenOrderReport(startDate, endDate));
+				} else if (Integer.parseInt(status) == 2) {
+					purchaseOpenOrderServerReport
+							.onSuccess(reportsSerivce
+									.getPurchaseCompletedOrderReport(startDate,
+											endDate));
+				} else if (Integer.parseInt(status) == 3) {
+					purchaseOpenOrderServerReport
+							.onSuccess(reportsSerivce
+									.getPurchaseCancelledOrderReport(startDate,
+											endDate));
+				} else {
+					purchaseOpenOrderServerReport.onSuccess(reportsSerivce
+							.getPurchaseOrderReport(startDate, endDate));
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
