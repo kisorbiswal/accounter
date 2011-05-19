@@ -25,28 +25,28 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 	}
 
 	@Override
-	protected Object getColumnValue(ClientSalesPerson SalesPerson, int col) {
+	protected Object getColumnValue(ClientSalesPerson salesPerson, int col) {
 		switch (col) {
 		case 0:
-			return SalesPerson.isActive();
+			return salesPerson.isActive();
 		case 1:
-			return SalesPerson.getName();
+			return salesPerson.getName();
 		case 2:
-			return getBillToAddress(SalesPerson) != null ? getBillToAddress(
-					SalesPerson).getAddress1() : "";
+			return getBillToAddress(salesPerson) != null ? getBillToAddress(
+					salesPerson).getAddress1() : "";
 		case 3:
-			return getBillToAddress(SalesPerson) != null ? getBillToAddress(
-					SalesPerson).getCity() : "";
+			return getBillToAddress(salesPerson) != null ? getBillToAddress(
+					salesPerson).getCity() : "";
 		case 4:
-			return getBillToAddress(SalesPerson) != null ? getBillToAddress(
-					SalesPerson).getStateOrProvinence() : "";
+			return getBillToAddress(salesPerson) != null ? getBillToAddress(
+					salesPerson).getStateOrProvinence() : "";
 
 		case 5:
-			return getBillToAddress(SalesPerson) != null ? getBillToAddress(
-					SalesPerson).getZipOrPostalCode() : "";
+			return getBillToAddress(salesPerson) != null ? getBillToAddress(
+					salesPerson).getZipOrPostalCode() : "";
 
 		case 6:
-			return SalesPerson.getPhoneNo();
+			return salesPerson.getPhoneNo();
 			// Set<ClientPhone> phones = SalesPerson.getPhoneNumbers();
 			// for (ClientPhone p : phones) {
 			// if (p.getType() == ClientPhone.BUSINESS_PHONE_NUMBER) {
@@ -55,7 +55,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 			// }
 			// break;
 		case 7:
-			return SalesPerson.getFaxNo();
+			return salesPerson.getFaxNo();
 			// Set<ClientFax> faxes = SalesPerson.getFaxNumbers();
 			// for (ClientFax f : faxes) {
 			// if (f.getType() == ClientFax.TYPE_BUSINESS) {

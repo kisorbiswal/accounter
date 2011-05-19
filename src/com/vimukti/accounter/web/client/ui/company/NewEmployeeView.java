@@ -674,6 +674,11 @@ public class NewEmployeeView extends BaseView<ClientEmployeeDetails> {
 		 */
 	}
 
+	@Override
+	public void saveAndUpdateView() throws Exception {
+		super.saveAndUpdateView();
+	}
+
 	/**
 	 * Add blur handler to given control
 	 * 

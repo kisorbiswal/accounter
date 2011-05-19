@@ -19,7 +19,7 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 		this.reportView = reportView;
 	}
 
-	public ExpenseServerReport(long startDate, long endDate,int generationType) {
+	public ExpenseServerReport(long startDate, long endDate, int generationType) {
 		super(startDate, endDate, generationType);
 	}
 

@@ -1670,3 +1670,7 @@ iframe { /*display:none;*/
 .name-item{
 	margin-left: 85px;
 }
+.journal arrow{
+	width: 22px;
+	padding: 0px;
+}

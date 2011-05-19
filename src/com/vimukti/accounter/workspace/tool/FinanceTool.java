@@ -10697,20 +10697,19 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		SQLQuery query = session
 				.createSQLQuery(
-						"SELECT empd.EMPLOYEE_NAME as name ,empd.EMPLOYEE_NUMBER as number  FROM EMPLOYEE_DETAIL empd")
-				.addScalar("name", Hibernate.STRING).addScalar("number",
-						Hibernate.STRING);
+						"SELECT empd.FULL_NAME as name FROM USERS empd")
+				.addScalar("name", Hibernate.STRING);
 		List list = query.list();
 
-		Object[] object = null;
+//		Object[] object = null;
 		Iterator iterator = list.iterator();
 		List<HrEmployee> hrEmployees = new ArrayList<HrEmployee>();
 		while ((iterator).hasNext()) {
 
 			HrEmployee hrEmployee = new HrEmployee();
-			object = (Object[]) iterator.next();
-			hrEmployee.setEmployeeName((String) object[0]);
-			hrEmployee.setEmployeeNum((String) object[1]);
+//			object = (Object[]) iterator.next();
+			hrEmployee.setEmployeeName((String) iterator.next());
+//			hrEmployee.setEmployeeNum((String) object[1]);
 
 			hrEmployees.add(hrEmployee);
 		}

@@ -84,22 +84,22 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 	@Override
 	protected void initViewType() {
-		titlelabel.setText(FinanceApplication.getVendorsMessages()
-				.employeeExpense());
+
 		vendorForm.clear();
 		termsForm.clear();
+
 		final MultiWordSuggestOracle employe = new MultiWordSuggestOracle();
 
+		titlelabel.setText(FinanceApplication.getVendorsMessages()
+				.employeeExpense());
 		FinanceApplication.createGETService().getHREmployees(
 				new AsyncCallback<List<HrEmployee>>() {
 
 					@Override
 					public void onSuccess(List<HrEmployee> result) {
 						for (HrEmployee emp : result) {
-							employe.add(emp.getEmployeeName() + "  -  "
-									+ emp.getEmployeeNum());
-							hrEmployees.add(emp.getEmployeeName() + "  -  "
-									+ emp.getEmployeeNum());
+							employe.add(emp.getEmployeeName());
+							hrEmployees.add(emp.getEmployeeName());
 						}
 					}
 
@@ -112,8 +112,13 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		employee = new SuggestionItem(employe, FinanceApplication
 				.getVendorsMessages().employEe());
+		employee.getMainWidget();
 		employee.setHelpInformation(true);
 		employee.setRequired(true);
+		if (!FinanceApplication.getUser().isAdmin()) {
+			employee.setValue(FinanceApplication.getUser().getName());
+			employee.setDisabledForSuggBox(true);
+		}
 
 		String listString[] = new String[] {
 				FinanceApplication.getVendorsMessages().cash(),
@@ -162,13 +167,15 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		switch (this.validationCount) {
 		case 6:
-			if (!hrEmployees.contains(employee.getValue()))
-				throw new InvalidTransactionEntryException(
-						"Please Select An Employee.The Employee must be in  Accounter HR.");
-			if (!vendorForm.validate(false))
-				// throw new InvalidTransactionEntryException(
-				// AccounterErrorType.REQUIRED_FIELDS);
-			return true;
+			if (FinanceApplication.getUser().isAdmin()) {
+				if (!hrEmployees.contains(employee.getValue()))
+					throw new InvalidTransactionEntryException(
+							"Please Select An Employee.The Employee must be in  Accounter HR.");
+				if (!vendorForm.validate(false))
+					// throw new InvalidTransactionEntryException(
+					// AccounterErrorType.REQUIRED_FIELDS);
+					return true;
+			}
 		case 5:
 			return AccounterValidator.validateTransactionDate(transactionDate);
 		case 4:
@@ -219,10 +226,12 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	@Override
 	protected void showMenu(Button button) {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button,FinanceApplication.getVendorsMessages().accounts(),
-					FinanceApplication.getVendorsMessages().service());
+			setMenuItems(button, FinanceApplication.getVendorsMessages()
+					.accounts(), FinanceApplication.getVendorsMessages()
+					.service());
 		else
-			setMenuItems(button,FinanceApplication.getVendorsMessages().accounts(),
-					FinanceApplication.getVendorsMessages().service());
+			setMenuItems(button, FinanceApplication.getVendorsMessages()
+					.accounts(), FinanceApplication.getVendorsMessages()
+					.service());
 	}
 }

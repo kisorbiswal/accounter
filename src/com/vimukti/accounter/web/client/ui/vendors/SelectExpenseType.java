@@ -20,9 +20,10 @@ public class SelectExpenseType extends BaseDialog {
 			.check();
 	private final String CREDIT_CARD = FinanceApplication.getVendorsMessages()
 			.creditCard();
+
 	private final String CASH = FinanceApplication.getVendorsMessages().cash();
-	// private final String EMPLOYEE = FinanceApplication.getVendorsMessages()
-	// .employee();
+	private final String EMPLOYEE = FinanceApplication.getVendorsMessages()
+			.employee();
 	// private ViewConfiguration configuration;
 	private VendorsMessages vendorsConstants = GWT
 			.create(VendorsMessages.class);
@@ -47,7 +48,7 @@ public class SelectExpenseType extends BaseDialog {
 		setTitle(vendorsConstants.selectExpenseType());
 		typeRadio = new RadioGroupItem();
 		typeRadio.setShowTitle(false);
-		typeRadio.setValue(CREDIT_CARD, CASH);
+		typeRadio.setValue(EMPLOYEE, CREDIT_CARD, CASH);
 		DynamicForm typeForm = new DynamicForm();
 		typeForm.setWidth("100%");
 		typeForm.setIsGroup(true);
@@ -61,7 +62,10 @@ public class SelectExpenseType extends BaseDialog {
 			public boolean onOkClick() {
 				if (typeRadio.getValue() != null) {
 					String radio = typeRadio.getValue().toString();
-					if (radio.equals(CHECK)) {
+					if (radio.equals(EMPLOYEE)) {
+						VendorsActionFactory.EmployeeExpenseAction().run(null,
+								false);
+					} else if (radio.equals(CHECK)) {
 						try {
 							BankingActionFactory.getWriteChecksAction().run(
 									null, false);

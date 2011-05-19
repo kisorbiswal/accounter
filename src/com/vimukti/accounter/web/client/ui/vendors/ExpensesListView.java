@@ -78,7 +78,7 @@ public class ExpensesListView extends BaseListView<BillsList> {
 		// listOfTypes.add(FinanceApplication.getVendorsMessages().overDue());
 		listOfTypes.add(FinanceApplication.getVendorsMessages().cash());
 		listOfTypes.add(FinanceApplication.getVendorsMessages().creditCard());
-		// listOfTypes.add(FinanceApplication.getVendorsMessages().employee());
+		listOfTypes.add(FinanceApplication.getVendorsMessages().employee());
 		listOfTypes.add(FinanceApplication.getVendorsMessages().Voided());
 		listOfTypes.add(FinanceApplication.getVendorsMessages().all());
 		currentView.initCombo(listOfTypes);
@@ -107,7 +107,15 @@ public class ExpensesListView extends BaseListView<BillsList> {
 	protected void filterList(String text) {
 		grid.removeAllRecords();
 		if (text.equalsIgnoreCase(FinanceApplication.getVendorsMessages()
-				.cash())) {
+				.employee())) {
+			List<BillsList> records = new ArrayList<BillsList>();
+			for (BillsList record : initialRecords) {
+				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
+					records.add(record);
+			}
+			grid.setRecords(records);
+		} else if (text.equalsIgnoreCase(FinanceApplication
+				.getVendorsMessages().cash())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_CASH_EXPENSE)
@@ -122,13 +130,15 @@ public class ExpensesListView extends BaseListView<BillsList> {
 					records.add(record);
 			}
 			grid.setRecords(records);
-		}/*
-		 * else if (text.equalsIgnoreCase(FinanceApplication
-		 * .getVendorsMessages().employee())) { List<BillsList> records = new
-		 * ArrayList<BillsList>(); for (BillsList record : initialRecords) { if
-		 * (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
-		 * records.add(record); } grid.setRecords(records); }
-		 */else if (text.equalsIgnoreCase("Voided")) {
+		} else if (text.equalsIgnoreCase(FinanceApplication
+				.getVendorsMessages().employee())) {
+			List<BillsList> records = new ArrayList<BillsList>();
+			for (BillsList record : initialRecords) {
+				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
+					records.add(record);
+			}
+			grid.setRecords(records);
+		} else if (text.equalsIgnoreCase("Voided")) {
 			List<BillsList> voidedRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {

@@ -450,6 +450,9 @@ public class CashPurchaseView extends
 			}
 		}
 		super.vendorSelected(vendor);
+		if (vendor == null) {
+			return;
+		}
 		if (!(this instanceof CashExpenseView)) {
 			if (vendor.getPhoneNo() != null)
 				phoneSelect.setValue(vendor.getPhoneNo());

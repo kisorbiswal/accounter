@@ -38,6 +38,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 	private void createControls() {
 		String[] statusArray = {
 				FinanceApplication.getReportsMessages().allExpenses(),
+				FinanceApplication.getReportsMessages().employee(),
 				FinanceApplication.getReportsMessages().cash(),
 				FinanceApplication.getReportsMessages().creditCard() };
 
@@ -68,8 +69,11 @@ public class ExpenseReportToolbar extends ReportToolbar {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-
-						if (expenseCombo.getSelectedValue().equals(
+						if (expenseCombo.getValue().toString().equals(
+								FinanceApplication.getReportsMessages()
+										.employee())) {
+							status = ClientTransaction.TYPE_EMPLOYEE_EXPENSE;
+						} else if (expenseCombo.getSelectedValue().equals(
 								FinanceApplication.getReportsMessages()
 										.allExpenses())) {
 							status = 0;
@@ -177,7 +181,8 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		addItems(expenseCombo, dateRangeCombo, fromItem, toItem);
 		add(updateButton);
 		if (updateButton.isEnabled()) {
-		updateButton.getElement().getParentElement().setClassName("ibutton");
+			updateButton.getElement().getParentElement()
+					.setClassName("ibutton");
 			ThemesUtil.addDivToButton(updateButton, FinanceApplication
 					.getThemeImages().button_right_blue_image(),
 					"ibutton-right-image");

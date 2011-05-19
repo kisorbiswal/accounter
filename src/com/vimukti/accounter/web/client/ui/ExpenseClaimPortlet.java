@@ -23,12 +23,12 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 	public double allExpensesAmount = 0.00;
 	public double cashExpenseAmount = 0.00;
-	// public double employeeExpenseAmount = 0.0;
+	public double employeeExpenseAmount = 0.0;
 	public double ccExpenseAmount = 0.00;
 
 	public Label allExpAmtLabel;
 	public Label cashExpAmtLabel;
-	// public Label empExpAmtLabel;
+	public Label empExpAmtLabel;
 	public Label ccExpAmtLabel;
 
 	public ExpenseClaimPortlet(String title) {
@@ -81,8 +81,8 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 		Label cashExpLabel = getLabel(FinanceApplication.getCompanyMessages()
 				.cashExpenses());
 		cashExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		// Label empExpLabel = getLabel(FinanceApplication.getCompanyMessages()
-		// .employeeExpenses());
+		Label empExpLabel = getLabel(FinanceApplication.getCompanyMessages()
+				.employeeExpenses());
 		Label ccExpLabel = getLabel(FinanceApplication.getCompanyMessages()
 				.creditCardExpenses());
 		ccExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
@@ -94,8 +94,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 		cashExpAmtLabel = getAmountLabel(DataUtils
 				.getAmountAsString(cashExpenseAmount));
 		cashExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		// empExpAmtLabel =
-		// getAmountLabel(String.valueOf(employeeExpenseAmount));
+		empExpAmtLabel = getAmountLabel(DataUtils.getAmountAsString(employeeExpenseAmount));
 		ccExpAmtLabel = getAmountLabel(DataUtils
 				.getAmountAsString(ccExpenseAmount));
 		ccExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
@@ -104,9 +103,9 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 		fTable.setWidget(0, 1, cashExpLabel);
 		fTable.setWidget(1, 0, allExpAmtLabel);
 		fTable.setWidget(1, 1, cashExpAmtLabel);
-		// fTable.setWidget(2, 0, empExpLabel);
+		fTable.setWidget(2, 0, empExpLabel);
 		fTable.setWidget(2, 1, ccExpLabel);
-		// fTable.setWidget(3, 0, empExpAmtLabel);
+		fTable.setWidget(3, 0, empExpAmtLabel);
 		fTable.setWidget(3, 1, ccExpAmtLabel);
 
 		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
@@ -137,7 +136,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 				if (result != null && result.size() != 0) {
 					cashExpenseAmount = result.get(0);
 					ccExpenseAmount = result.get(1);
-					// employeeExpenseAmount = result.get(2);
+					 employeeExpenseAmount = result.get(2);
 					allExpensesAmount = result.get(3);
 					updateAmountLabels();
 				}
@@ -218,7 +217,8 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 	public void updateAmountLabels() {
 		cashExpAmtLabel.setText(DataUtils.getAmountAsString(cashExpenseAmount));
 		ccExpAmtLabel.setText(DataUtils.getAmountAsString(ccExpenseAmount));
-		// empExpAmtLabel.setText(String.valueOf(employeeExpenseAmount));
+		empExpAmtLabel.setText(DataUtils
+				.getAmountAsString(employeeExpenseAmount));
 
 		allExpAmtLabel.setText(DataUtils.getAmountAsString(allExpensesAmount));
 	}
