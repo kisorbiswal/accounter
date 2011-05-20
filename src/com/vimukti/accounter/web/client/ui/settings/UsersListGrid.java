@@ -83,10 +83,10 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 		case 0:
 			return obj.getName();
 		case 1:
-			if (obj.isCanDoUserManagement())
-				return obj.getUserRole() + " + Manage Users";
-			else
-				return obj.getUserRole();
+			// if (obj.isCanDoUserManagement())
+			// return obj.getUserRole() + " + Manage Users";
+			// else
+			return obj.getUserRole();
 			// case 2:
 			// // return obj.getStatus();
 			// if (obj.isActive())

@@ -93,8 +93,8 @@ public class InviteUserView extends BaseView<ClientUser> {
 		vPanel.add(setPerLabel);
 		vPanel.add(chooseLabel);
 		vPanel.add(grid);
-		vPanel.add(manageLabel);
-		vPanel.add(userManagementBox);
+		// vPanel.add(manageLabel);
+		// vPanel.add(userManagementBox);
 		canvas.add(vPanel);
 	}
 
@@ -105,16 +105,19 @@ public class InviteUserView extends BaseView<ClientUser> {
 			firstNametext.setValue(takenUser.getFirstName());
 			lastNametext.setValue(takenUser.getLastName());
 			emailField.setValue(takenUser.getEmailId());
-			userManagementBox.setValue(takenUser.isCanDoUserManagement());
+			// userManagementBox.setValue(takenUser.isCanDoUserManagement());
 			grid.setRecords(getRolePermissionsForUser(takenUser));
 			if (takenUser.isActive()) {
 				firstNametext.setDisabled(true);
 				lastNametext.setDisabled(true);
 				emailField.setDisabled(true);
-				if (takenUser.isAdmin()) {
-					userManagementBox.setEnabled(false);
-				}
+				// if (takenUser.isAdmin()) {
+				// userManagementBox.setEnabled(false);
+				// }
 			}
+			// if(takenUser.isAdmin()) {
+			// grid.setDisabled(true);
+			// }
 		}
 	}
 
@@ -183,7 +186,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 	}
 
 	public boolean canDoUserManagement(RolePermissions role) {
-		if (role.getRoleName().equals(RolePermissions.STANDARD)
+		if (role.getRoleName().equals(RolePermissions.BASIC_EMPLOYEE)
 				|| role.getRoleName().equals(RolePermissions.FINANCIAL_ADVISER))
 			return true;
 
@@ -198,7 +201,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 		user.setLastName(lastNametext.getValue().toString());
 		user.setFullName(user.getName());
 		user.setEmailId(emailField.getValue().toString());
-		user.setCanDoUserManagement(userManagementBox.getValue());
+		// user.setCanDoUserManagement(userManagementBox.getValue());
 
 		RolePermissions selectedRole = getSelectedRolePermission();
 		if (selectedRole != null) {
@@ -207,8 +210,8 @@ public class InviteUserView extends BaseView<ClientUser> {
 			ClientUserPermissions permissions = new ClientUserPermissions();
 			permissions.setTypeOfBankReconcilation(selectedRole
 					.getTypeOfBankReconcilation());
-			permissions.setTypeOfInvoicesAndExpenses(selectedRole
-					.getTypeOfInvoicesAndExpenses());
+			permissions.setTypeOfInvoices(selectedRole.getTypeOfInvoices());
+			permissions.setTypeOfExpences(selectedRole.getTypeOfExpences());
 			permissions.setTypeOfSystemSettings(selectedRole
 					.getTypeOfSystemSettings());
 			permissions.setTypeOfViewReports(selectedRole
@@ -218,6 +221,8 @@ public class InviteUserView extends BaseView<ClientUser> {
 			permissions.setTypeOfLockDates(selectedRole.getTypeOfLockDates());
 
 			user.setPermissions(permissions);
+
+			user.setCanDoUserManagement(selectedRole.isCanDoUserManagement());
 		}
 
 		if (user.getStringID() != null)
@@ -261,42 +266,74 @@ public class InviteUserView extends BaseView<ClientUser> {
 		RolePermissions readOnly = new RolePermissions();
 		readOnly.setRoleName(RolePermissions.READ_ONLY);
 		readOnly.setTypeOfBankReconcilation(RolePermissions.TYPE_NO);
-		readOnly.setTypeOfInvoicesAndExpenses(RolePermissions.TYPE_READ_ONLY);
+		readOnly.setTypeOfInvoices(RolePermissions.TYPE_READ_ONLY);
+		readOnly.setTypeOfExpences(RolePermissions.TYPE_NO);
 		readOnly.setTypeOfSystemSettings(RolePermissions.TYPE_NO);
 		readOnly.setTypeOfViewReports(RolePermissions.TYPE_READ_ONLY);
 		readOnly.setTypeOfPublishReports(RolePermissions.TYPE_NO);
 		readOnly.setTypeOfLockDates(RolePermissions.TYPE_NO);
+		readOnly.setCanDoUserManagement(false);
 		list.add(readOnly);
 
-		RolePermissions employee = new RolePermissions();
-		employee.setRoleName(RolePermissions.INVOICE_ONLY);
-		employee.setTypeOfBankReconcilation(RolePermissions.TYPE_NO);
-		employee.setTypeOfInvoicesAndExpenses(RolePermissions.TYPE_YES);
-		employee.setTypeOfSystemSettings(RolePermissions.TYPE_NO);
-		employee.setTypeOfViewReports(RolePermissions.TYPE_NO);
-		employee.setTypeOfPublishReports(RolePermissions.TYPE_NO);
-		employee.setTypeOfLockDates(RolePermissions.TYPE_NO);
-		list.add(employee);
+		RolePermissions invoiceOnly = new RolePermissions();
+		invoiceOnly.setRoleName(RolePermissions.INVOICE_ONLY);
+		invoiceOnly.setTypeOfBankReconcilation(RolePermissions.TYPE_NO);
+		invoiceOnly.setTypeOfInvoices(RolePermissions.TYPE_YES);
+		invoiceOnly.setTypeOfExpences(RolePermissions.TYPE_NO);
+		invoiceOnly.setTypeOfSystemSettings(RolePermissions.TYPE_NO);
+		invoiceOnly.setTypeOfViewReports(RolePermissions.TYPE_NO);
+		invoiceOnly.setTypeOfPublishReports(RolePermissions.TYPE_NO);
+		invoiceOnly.setTypeOfLockDates(RolePermissions.TYPE_NO);
+		invoiceOnly.setCanDoUserManagement(false);
+		list.add(invoiceOnly);
 
-		RolePermissions standard = new RolePermissions();
-		standard.setRoleName(RolePermissions.STANDARD);
-		standard.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
-		standard.setTypeOfInvoicesAndExpenses(RolePermissions.TYPE_YES);
-		standard.setTypeOfSystemSettings(RolePermissions.TYPE_YES);
-		standard.setTypeOfViewReports(RolePermissions.TYPE_YES);
-		standard.setTypeOfPublishReports(RolePermissions.TYPE_NO);
-		standard.setTypeOfLockDates(RolePermissions.TYPE_NO);
-		list.add(standard);
+		RolePermissions basicEmployee = new RolePermissions();
+		basicEmployee.setRoleName(RolePermissions.BASIC_EMPLOYEE);
+		basicEmployee.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
+		basicEmployee.setTypeOfInvoices(RolePermissions.TYPE_YES);
+		basicEmployee.setTypeOfExpences(RolePermissions.TYPE_DRAFT_ONLY);
+		basicEmployee.setTypeOfSystemSettings(RolePermissions.TYPE_YES);
+		basicEmployee.setTypeOfViewReports(RolePermissions.TYPE_YES);
+		basicEmployee.setTypeOfPublishReports(RolePermissions.TYPE_NO);
+		basicEmployee.setTypeOfLockDates(RolePermissions.TYPE_NO);
+		basicEmployee.setCanDoUserManagement(false);
+		list.add(basicEmployee);
 
 		RolePermissions financialAdviser = new RolePermissions();
 		financialAdviser.setRoleName(RolePermissions.FINANCIAL_ADVISER);
 		financialAdviser.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
-		financialAdviser.setTypeOfInvoicesAndExpenses(RolePermissions.TYPE_YES);
+		financialAdviser.setTypeOfInvoices(RolePermissions.TYPE_YES);
+		financialAdviser.setTypeOfExpences(RolePermissions.TYPE_APPROVE);
 		financialAdviser.setTypeOfSystemSettings(RolePermissions.TYPE_YES);
 		financialAdviser.setTypeOfViewReports(RolePermissions.TYPE_YES);
 		financialAdviser.setTypeOfPublishReports(RolePermissions.TYPE_YES);
 		financialAdviser.setTypeOfLockDates(RolePermissions.TYPE_YES);
+		financialAdviser.setCanDoUserManagement(false);
 		list.add(financialAdviser);
+
+		RolePermissions financeAdmin = new RolePermissions();
+		financeAdmin.setRoleName(RolePermissions.FINANCE_ADMIN);
+		financeAdmin.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
+		financeAdmin.setTypeOfInvoices(RolePermissions.TYPE_YES);
+		financeAdmin.setTypeOfExpences(RolePermissions.TYPE_APPROVE);
+		financeAdmin.setTypeOfSystemSettings(RolePermissions.TYPE_YES);
+		financeAdmin.setTypeOfViewReports(RolePermissions.TYPE_YES);
+		financeAdmin.setTypeOfPublishReports(RolePermissions.TYPE_YES);
+		financeAdmin.setTypeOfLockDates(RolePermissions.TYPE_YES);
+		financeAdmin.setCanDoUserManagement(false);
+		list.add(financeAdmin);
+
+		RolePermissions admin = new RolePermissions();
+		admin.setRoleName(RolePermissions.ADMIN);
+		admin.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
+		admin.setTypeOfInvoices(RolePermissions.TYPE_YES);
+		admin.setTypeOfExpences(RolePermissions.TYPE_APPROVE);
+		admin.setTypeOfSystemSettings(RolePermissions.TYPE_YES);
+		admin.setTypeOfViewReports(RolePermissions.TYPE_YES);
+		admin.setTypeOfPublishReports(RolePermissions.TYPE_YES);
+		admin.setTypeOfLockDates(RolePermissions.TYPE_YES);
+		admin.setCanDoUserManagement(true);
+		list.add(admin);
 
 		return list;
 	}
@@ -304,13 +341,13 @@ public class InviteUserView extends BaseView<ClientUser> {
 	public List<RolePermissions> getRolePermissionsForUser(ClientUser user) {
 		List<RolePermissions> defaultRoles = getDefaultRolesAndPermissions();
 		List<RolePermissions> roles = new ArrayList<RolePermissions>();
-		for (RolePermissions role : defaultRoles) {
-			if (user.isAdmin()
-					&& (!role.getRoleName().equals(RolePermissions.READ_ONLY) && !role
-							.getRoleName().equals(RolePermissions.INVOICE_ONLY))) {
-				roles.add(role);
-			}
-		}
+		// for (RolePermissions role : defaultRoles) {
+		// if (user.isAdmin()
+		// && (!role.getRoleName().equals(RolePermissions.READ_ONLY) && !role
+		// .getRoleName().equals(RolePermissions.INVOICE_ONLY))) {
+		// roles.add(role);
+		// }
+		// }
 		roles = roles.isEmpty() ? defaultRoles : roles;
 		for (RolePermissions role : roles) {
 			if (role.getRoleName().equals(user.getUserRole())) {
@@ -320,8 +357,10 @@ public class InviteUserView extends BaseView<ClientUser> {
 				toBeAdded.setRoleName(user.getUserRole());
 				toBeAdded.setTypeOfBankReconcilation(user.getPermissions()
 						.getTypeOfBankReconcilation());
-				toBeAdded.setTypeOfInvoicesAndExpenses(user.getPermissions()
-						.getTypeOfInvoicesAndExpenses());
+				toBeAdded.setTypeOfInvoices(user.getPermissions()
+						.getTypeOfInvoices());
+				toBeAdded.setTypeOfExpences(user.getPermissions()
+						.getTypeOfExpences());
 				toBeAdded.setTypeOfSystemSettings(user.getPermissions()
 						.getTypeOfSystemSettings());
 				toBeAdded.setTypeOfViewReports(user.getPermissions()
@@ -330,6 +369,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 						.getTypeOfPublishReports());
 				toBeAdded.setTypeOfLockDates(user.getPermissions()
 						.getTypeOfLockDates());
+				toBeAdded.setCanDoUserManagement(user.isCanDoUserManagement());
 				roles.add(index, toBeAdded);
 				break;
 			}

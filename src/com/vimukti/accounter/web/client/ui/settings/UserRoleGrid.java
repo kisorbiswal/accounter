@@ -27,13 +27,13 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 		case 0:
 			if (view.isEditMode()) {
 				if (obj.getRoleName().equals(view.takenUser.getUserRole())) {
-					if (!view.canDoUserManagement(obj))
-						view.userManagementBox.setEnabled(false);
+					// if (!view.canDoUserManagement(obj))
+					// view.userManagementBox.setEnabled(false);
 					return true;
 				} else
 					return false;
 			} else {
-				if (obj.getRoleName().equals(RolePermissions.STANDARD))
+				if (obj.getRoleName().equals(RolePermissions.BASIC_EMPLOYEE))
 					return true;
 				else
 					return false;
@@ -43,15 +43,22 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 		case 2:
 			return getPermissionType(obj.getTypeOfBankReconcilation());
 		case 3:
-			return getPermissionType(obj.getTypeOfInvoicesAndExpenses());
+			return getPermissionType(obj.getTypeOfInvoices());
 		case 4:
-			return getPermissionType(obj.getTypeOfSystemSettings());
+			return getPermissionTypeForExpences(obj.getTypeOfExpences());
 		case 5:
-			return getPermissionType(obj.getTypeOfViewReports());
+			return getPermissionType(obj.getTypeOfSystemSettings());
 		case 6:
-			return getPermissionType(obj.getTypeOfPublishReports());
+			return getPermissionType(obj.getTypeOfViewReports());
 		case 7:
 			return getPermissionType(obj.getTypeOfLockDates());
+			// return getPermissionType(obj.getTypeOfPublishReports());
+		case 8:
+			if (obj.isCanDoUserManagement())
+				return "Yes";
+			else
+				return "No";
+			// return getPermissionType(obj.getTypeOfLockDates());
 		}
 		return null;
 	}
@@ -72,7 +79,8 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 	protected void onClick(RolePermissions obj, int row, int index) {
 		((CheckBox) this.getWidget(row, 0)).setValue(true);
 		disableOtherCheckBoxes();
-		view.checkBoxClicked(obj);
+		// view.checkBoxClicked(obj);
+
 		// if (index == 0) {
 		// boolean isSelected = ((CheckBox) this.getWidget(row, index))
 		// .getValue();
@@ -131,10 +139,10 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] { "", "", RolePermissions.BANK_RECONCILATION,
-				RolePermissions.INVOICES_AND_EXPENSES,
+				RolePermissions.INVOICES, RolePermissions.EMPLOYEE_EXPENCES,
 				RolePermissions.EDIT_SYSTEM_SETTINGS,
-				RolePermissions.VIEW_REPORTS, RolePermissions.PUBLISH_REPORTS,
-				RolePermissions.LOCK_DATES };
+				RolePermissions.VIEW_REPORTS, RolePermissions.LOCK_DATES,
+				RolePermissions.MANAGE_USERS };
 	}
 
 	public void setView(InviteUserView view) {
@@ -153,6 +161,19 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 			return "No";
 		case 2:
 			return "Read Only";
+		default:
+			return "";
+		}
+	}
+
+	public String getPermissionTypeForExpences(int type) {
+		switch (type) {
+		case 4:
+			return "Draft Only";
+		case 3:
+			return "No";
+		case 5:
+			return "Approve";
 		default:
 			return "";
 		}
