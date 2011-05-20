@@ -30,7 +30,7 @@ public class User implements IAccounterServerCore {
 	private String displayName;
 
 	private boolean isAdmin;
-	
+
 	private int loginCount;
 
 	int version;
@@ -110,8 +110,10 @@ public class User implements IAccounterServerCore {
 		UserPermissions userPermissions = new UserPermissions();
 		userPermissions.setTypeOfBankReconcilation(clientUser.getPermissions()
 				.getTypeOfBankReconcilation());
-		userPermissions.setTypeOfInvoicesAndExpenses(clientUser
-				.getPermissions().getTypeOfInvoicesAndExpenses());
+		userPermissions.setTypeOfInvoices(clientUser.getPermissions()
+				.getTypeOfInvoices());
+		userPermissions.setTypeOfExpences(clientUser.getPermissions()
+				.getTypeOfExpences());
 		userPermissions.setTypeOfSystemSettings(clientUser.getPermissions()
 				.getTypeOfSystemSettings());
 		userPermissions.setTypeOfViewReports(clientUser.getPermissions()
@@ -362,8 +364,8 @@ public class User implements IAccounterServerCore {
 		ClientUserPermissions userPermissions = new ClientUserPermissions();
 		userPermissions.setTypeOfBankReconcilation(this.getPermissions()
 				.getTypeOfBankReconcilation());
-		userPermissions.setTypeOfInvoicesAndExpenses(this.getPermissions()
-				.getTypeOfInvoicesAndExpenses());
+		userPermissions.setTypeOfInvoices(this.getPermissions()
+				.getTypeOfInvoices());
 		userPermissions.setTypeOfSystemSettings(this.getPermissions()
 				.getTypeOfSystemSettings());
 		userPermissions.setTypeOfViewReports(this.getPermissions()
