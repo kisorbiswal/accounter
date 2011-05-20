@@ -20,7 +20,9 @@ public class ClientUserPermissions implements IAccounterCore {
 
 	int typeOfBankReconcilation;
 
-	int typeOfInvoicesAndExpenses;
+	int typeOfInvoices;
+
+	int typeOfExpences;
 
 	int typeOfSystemSettings;
 
@@ -40,12 +42,20 @@ public class ClientUserPermissions implements IAccounterCore {
 		this.typeOfBankReconcilation = typeOfBankReconcilation;
 	}
 
-	public int getTypeOfInvoicesAndExpenses() {
-		return typeOfInvoicesAndExpenses;
+	public int getTypeOfInvoices() {
+		return typeOfInvoices;
 	}
 
-	public void setTypeOfInvoicesAndExpenses(int typeOfInvoicesAndExpenses) {
-		this.typeOfInvoicesAndExpenses = typeOfInvoicesAndExpenses;
+	public void setTypeOfInvoices(int typeOfInvoices) {
+		this.typeOfInvoices = typeOfInvoices;
+	}
+
+	public int getTypeOfExpences() {
+		return typeOfExpences;
+	}
+
+	public void setTypeOfExpences(int typeOfExpences) {
+		this.typeOfExpences = typeOfExpences;
 	}
 
 	public int getTypeOfSystemSettings() {

@@ -375,7 +375,7 @@ public class ClientUser implements IAccounterCore {
 	}
 
 	public boolean canDoInvoiceTransactions() {
-		if (this.getPermissions().typeOfInvoicesAndExpenses == RolePermissions.TYPE_YES)
+		if (this.getPermissions().typeOfInvoices == RolePermissions.TYPE_YES)
 			return true;
 		else
 			return false;
@@ -411,7 +411,7 @@ public class ClientUser implements IAccounterCore {
 	}
 
 	public boolean canSeeInvoiceTransactions() {
-		if (this.getPermissions().typeOfInvoicesAndExpenses != RolePermissions.TYPE_NO)
+		if (this.getPermissions().typeOfInvoices != RolePermissions.TYPE_NO)
 			return true;
 		else
 			return false;
