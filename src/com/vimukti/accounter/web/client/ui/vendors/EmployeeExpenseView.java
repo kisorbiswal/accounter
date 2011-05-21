@@ -26,6 +26,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 	private SuggestionItem employee;
 	private List<String> hrEmployees = new ArrayList<String>();
+	public int status;
 
 	public EmployeeExpenseView() {
 		super(ClientTransaction.TYPE_EMPLOYEE_EXPENSE);
@@ -36,6 +37,11 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	protected ClientCashPurchase prepareObject() {
 		ClientCashPurchase cashPurchase = transactionObject != null ? (ClientCashPurchase) transactionObject
 				: new ClientCashPurchase();
+		
+		if(status == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
+			cashPurchase.setExpenseStatus(status);
+		else
+			cashPurchase.setExpenseStatus(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SAVE);
 
 		// Setting Type
 		cashPurchase.setType(ClientTransaction.TYPE_EMPLOYEE_EXPENSE);
