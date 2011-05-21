@@ -10315,7 +10315,6 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			prepareObjects(AccounterCoreType.TRANSACTION_RECEIVEPAYMENT, data);
 			prepareObjects(AccounterCoreType.TRANSACTION_PAYBILL, data);
 			prepareObjects(AccounterCoreType.BRANDINGTHEME, data);
-//			prepareObjects(AccounterCoreType.EMPLOYEE, data);
 		}
 		return data;
 	}
@@ -10493,9 +10492,6 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 		company.setBrandingTheme(new ArrayList<BrandingTheme>(session
 				.getNamedQuery("list.BrandingTheme").list()));
-
-		// company.setEmployeeDetails(new ArrayList<EmployeeDetail>(session
-		// .getNamedQuery("list.EmployeeDetail").list()));
 
 		company.setUsersList(new ArrayList<User>(session.getNamedQuery(
 				"list.User").list()));
@@ -10700,20 +10696,22 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 	public List<HrEmployee> getHREmployees() {
 		Session session = HibernateUtil.getCurrentSession();
-		SQLQuery query = session.createSQLQuery(
-				"SELECT empd.FULL_NAME as name FROM USERS empd").addScalar(
-				"name", Hibernate.STRING);
+		SQLQuery query = session
+				.createSQLQuery(
+						"SELECT empd.EMPLOYEE_NAME as name ,empd.EMPLOYEE_NUMBER as number  FROM EMPLOYEE_DETAIL empd")
+				.addScalar("name", Hibernate.STRING).addScalar("number",
+						Hibernate.STRING);
 		List list = query.list();
 
-		// Object[] object = null;
+		Object[] object = null;
 		Iterator iterator = list.iterator();
 		List<HrEmployee> hrEmployees = new ArrayList<HrEmployee>();
 		while ((iterator).hasNext()) {
 
 			HrEmployee hrEmployee = new HrEmployee();
-			// object = (Object[]) iterator.next();
-			hrEmployee.setEmployeeName((String) iterator.next());
-			// hrEmployee.setEmployeeNum((String) object[1]);
+			object = (Object[]) iterator.next();
+			hrEmployee.setEmployeeName((String) object[0]);
+			hrEmployee.setEmployeeNum((String) object[1]);
 
 			hrEmployees.add(hrEmployee);
 		}
@@ -11899,6 +11897,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			bills.setOriginalAmount(cp.getTotal());
 			bills.setVendorName(cp.getEmployee());
 			bills.setDate(new ClientFinanceDate(cp.getDate().getTime()));
+			bills.setStatus(status);
 			billsList.add(bills);
 		}
 		return billsList;
