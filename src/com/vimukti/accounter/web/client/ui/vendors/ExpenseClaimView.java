@@ -10,6 +10,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -21,6 +23,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 
 	ExpenseClaimGrid grid;
 	List<String> expenseLists = new ArrayList<String>();
+	public boolean isProcessingAdded;
 
 	@Override
 	public void init() {
@@ -46,8 +49,25 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 		buttonPanel.setStyleName("button-expense");
 		buttonPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		Button submitApproval = new Button("Submit For Approval");
+		submitApproval.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				isProcessingAdded = false;
+				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL);
+			}
+		});
 
 		Button deleteButton = new Button("Delete");
+		deleteButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				isProcessingAdded = false;
+				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
+			}
+		});
+
 		buttonPanel.add(submitApproval);
 		buttonPanel.add(deleteButton);
 		panel.add(addNew);
@@ -57,8 +77,31 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 		mainPanel.add(panel);
 	}
 
+	protected void updateSelectedRecords(final int expenceStatus) {
+		List<BillsList> selectedRecords = grid.getSelectedRecords();
+
+		for (BillsList record : selectedRecords) {
+			FinanceApplication.createGETService().getObjectById(
+					AccounterCoreType.CASHPURCHASE, record.getTransactionId(),
+
+					new AsyncCallback<ClientCashPurchase>() {
+
+						@Override
+						public void onFailure(Throwable caught) {
+
+						}
+
+						@Override
+						public void onSuccess(ClientCashPurchase result) {
+							result.setExpenseStatus(expenceStatus);
+							alterObject(result);
+						}
+					});
+		}
+	}
+
 	private void initGrid() {
-		grid = new ExpenseClaimGrid(false);
+		grid = new ExpenseClaimGrid(true);
 		grid.isEnable = false;
 		grid.init();
 		grid.setView(this);
