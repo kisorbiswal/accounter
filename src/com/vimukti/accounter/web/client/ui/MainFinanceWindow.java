@@ -925,6 +925,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
 			vendorMenuBar.addItem(VendorsActionFactory
 					.getRecordExpensesAction());
+			vendorMenuBar.addItem(VendorsActionFactory.getExpenseClaimListAction());
 			// vendorMenuBar.addItem(VendorsActionFactory.getItemReceiptAction());
 			vendorMenuBar.addSeparator();
 		}
