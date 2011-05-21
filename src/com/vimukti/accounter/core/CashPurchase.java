@@ -39,6 +39,12 @@ public class CashPurchase extends Transaction implements Lifecycle {
 	 * 
 	 */
 	private static final long serialVersionUID = -304718612318704134L;
+	
+	public static final int EMPLOYEE_EXPENSE_STATUS_SAVE = 0;
+	public static final int EMPLOYEE_EXPENSE_STATUS_DELETE = 1;
+	public static final int EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL = 2;
+	public static final int EMPLOYEE_EXPENSE_STATUS_APPROVED = 3;
+	public static final int EMPLOYEE_EXPENSE_STATUS_DECLINED = 4;
 
 	/**
 	 * The payee from whom we are making the cash purchase.
@@ -87,9 +93,12 @@ public class CashPurchase extends Transaction implements Lifecycle {
 	 */
 	FinanceDate deliveryDate;
 
-	// transient boolean isImported;
-	
+	/*
+	 * It specifies the employee expense status
+	 */
 	int expenseStatus;
+	
+	// transient boolean isImported;
 
 	/**
 	 * @return the cashExpenseAccount
@@ -310,6 +319,10 @@ public class CashPurchase extends Transaction implements Lifecycle {
 			return true;
 		isOnSaveProccessed = true;
 
+		if (this.type == Transaction.TYPE_EMPLOYEE_EXPENSE			
+				&& this.expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
+			return false;
+		
 		super.onSave(session);
 		/**
 		 * update status if payment method is check, it will used to get list of
@@ -460,6 +473,20 @@ public class CashPurchase extends Transaction implements Lifecycle {
 			throws InvalidOperationException {
 
 		return super.canEdit(clientObject);
+	}
+
+	/**
+	 * @return the expenseStatus
+	 */
+	public int getExpenseStatus() {
+		return expenseStatus;
+	}
+
+	/**
+	 * @param expenseStatus the expenseStatus to set
+	 */
+	public void setExpenseStatus(int expenseStatus) {
+		this.expenseStatus = expenseStatus;
 	}
 
 }
