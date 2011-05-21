@@ -8917,7 +8917,8 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 					((BigInteger) object[2]).longValue()));
 			openAndClosedOrder.setVendorOrCustomerName((String) object[3]);
 			openAndClosedOrder
-					.setQuantity(object[4] != null ? ((BigDecimal) object[4]).intValue() : 0);
+					.setQuantity(object[4] != null ? ((BigDecimal) object[4])
+							.intValue() : 0);
 			openAndClosedOrder.setAmount(object[5] != null ? (Double) object[5]
 					: 0.0);
 			queryResult.add(openAndClosedOrder);
@@ -10314,6 +10315,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			prepareObjects(AccounterCoreType.TRANSACTION_RECEIVEPAYMENT, data);
 			prepareObjects(AccounterCoreType.TRANSACTION_PAYBILL, data);
 			prepareObjects(AccounterCoreType.BRANDINGTHEME, data);
+//			prepareObjects(AccounterCoreType.EMPLOYEE, data);
 		}
 		return data;
 	}
@@ -10491,6 +10493,9 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 		company.setBrandingTheme(new ArrayList<BrandingTheme>(session
 				.getNamedQuery("list.BrandingTheme").list()));
+
+		// company.setEmployeeDetails(new ArrayList<EmployeeDetail>(session
+		// .getNamedQuery("list.EmployeeDetail").list()));
 
 		company.setUsersList(new ArrayList<User>(session.getNamedQuery(
 				"list.User").list()));
@@ -10695,21 +10700,20 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 	public List<HrEmployee> getHREmployees() {
 		Session session = HibernateUtil.getCurrentSession();
-		SQLQuery query = session
-				.createSQLQuery(
-						"SELECT empd.FULL_NAME as name FROM USERS empd")
-				.addScalar("name", Hibernate.STRING);
+		SQLQuery query = session.createSQLQuery(
+				"SELECT empd.FULL_NAME as name FROM USERS empd").addScalar(
+				"name", Hibernate.STRING);
 		List list = query.list();
 
-//		Object[] object = null;
+		// Object[] object = null;
 		Iterator iterator = list.iterator();
 		List<HrEmployee> hrEmployees = new ArrayList<HrEmployee>();
 		while ((iterator).hasNext()) {
 
 			HrEmployee hrEmployee = new HrEmployee();
-//			object = (Object[]) iterator.next();
+			// object = (Object[]) iterator.next();
 			hrEmployee.setEmployeeName((String) iterator.next());
-//			hrEmployee.setEmployeeNum((String) object[1]);
+			// hrEmployee.setEmployeeNum((String) object[1]);
 
 			hrEmployees.add(hrEmployee);
 		}
@@ -11878,6 +11882,26 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 	public BizantraCompany getBizantraCompany() {
 		return bizantraCompany;
+	}
+
+	public List<BillsList> getEmployeeExpensesByStatus(int status)
+			throws DAOException {
+		List<BillsList> billsList = new ArrayList<BillsList>();
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session
+				.createQuery(
+						"from com.vimukti.accounter.core.CashPurchase cp where cp.expenseStatus=:expenseStatus")
+				.setParameter("expenseStatus", status);
+		List<CashPurchase> cashpurchase = query.list();
+		for (CashPurchase cp : cashpurchase) {
+			BillsList bills = new BillsList();
+			bills.setTransactionId(cp.getStringID());
+			bills.setOriginalAmount(cp.getTotal());
+			bills.setVendorName(cp.getEmployee());
+			bills.setDate(new ClientFinanceDate(cp.getDate().getTime()));
+			billsList.add(bills);
+		}
+		return billsList;
 	}
 }
 

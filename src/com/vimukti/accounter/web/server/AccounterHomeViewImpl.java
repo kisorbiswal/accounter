@@ -1547,4 +1547,14 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		
 		return resultList;
 	}
+	
+	public List<BillsList> getEmployeeExpensesByStatus(int status) {
+		List<BillsList> resultList = null;
+		try {
+			resultList = getFinanceTool().getEmployeeExpensesByStatus(0);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return resultList;
+	}
 }
