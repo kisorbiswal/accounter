@@ -45,7 +45,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 	private CheckBox taxNumItem, headingItem, unitPriceItem,// paymentItem,
 			columnItem, addressItem, logoItem;
 	private TextBox topMarginBox, bottomMarginBox, addressPadBox, overdueBox,
-			creditNoteBox, statementBox, paypalTextBox,logoNameBox;
+			creditNoteBox, statementBox, paypalTextBox, logoNameBox;
 
 	private TextItem nameItem;
 	private String[] fontNameArray, fontSizeArray;
@@ -56,7 +56,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 	private FlexTable textBoxTable;
 	private List<String> listOfFontNames, listOfFontSizes;
 	private ClientBrandingTheme takenTheme;
-	private SettingsMessages messages = GWT.create(SettingsMessages.class);
+	private SettingsMessages messages;
 	private Label addLogoLabel;
 	private ValueCallBack<ClientBrandingTheme> callback;
 	private String[] fileTypes;
@@ -67,6 +67,11 @@ public class NewBrandThemeDialog extends BaseDialog {
 	public NewBrandThemeDialog(String title, String desc) {
 		super(title, desc);
 		createControls();
+	}
+
+	@Override
+	protected void initConstants() {
+		messages = GWT.create(SettingsMessages.class);
 	}
 
 	public NewBrandThemeDialog(String title, String desc,
@@ -230,12 +235,13 @@ public class NewBrandThemeDialog extends BaseDialog {
 		brandingTheme.setContactDetails(String.valueOf(contactDetailsArea
 				.getValue()));
 		brandingTheme.setLogoAlignmentType(getLogoType());
-		
+
 		if (logoNameBox.getValue().toString().isEmpty()) {
 			brandingTheme.setFileName(null);
 			brandingTheme.setLogoAdded(false);
 		} else {
-			brandingTheme.setFileName(String.valueOf(logoNameBox.getText().toString()));
+			brandingTheme.setFileName(String.valueOf(logoNameBox.getText()
+					.toString()));
 			brandingTheme.setLogoAdded(true);
 		}
 
