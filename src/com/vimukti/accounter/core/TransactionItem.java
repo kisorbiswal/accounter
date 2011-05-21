@@ -451,6 +451,11 @@ public class TransactionItem
 
 		if (this.isOnSaveProccessed)
 			return true;
+		
+		if (this.type == Transaction.TYPE_EMPLOYEE_EXPENSE
+				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
+			return false;
+		
 		this.isOnSaveProccessed = true;
 		this.stringID = this.stringID == null || this.stringID != null
 				&& this.stringID.isEmpty() ? SecureUtils.createID()
