@@ -101,14 +101,17 @@ public class SelectExpenseType extends BaseDialog {
 									.failedToLoadCashPurchase());
 							e.printStackTrace();
 						}
-					} /*
-					 * else if (radio.equals(EMPLOYEE)) { try {
-					 * VendorsActionFactory.EmployeeExpenseAction().run( null,
-					 * false); } catch (Throwable e) {
-					 * Accounter.showError(FinanceApplication
-					 * .getVendorsMessages() .failedToLoadCashPurchase());
-					 * e.printStackTrace(); } }
-					 */else {
+					} else if (radio.equals(EMPLOYEE)) {
+						try {
+							VendorsActionFactory.EmployeeExpenseAction().run(
+									null, false);
+						} catch (Throwable e) {
+							Accounter.showError(FinanceApplication
+									.getVendorsMessages()
+									.failedToLoadCashPurchase());
+							e.printStackTrace();
+						}
+					} else {
 						Accounter
 								.showError(FinanceApplication
 										.getVendorsMessages()
