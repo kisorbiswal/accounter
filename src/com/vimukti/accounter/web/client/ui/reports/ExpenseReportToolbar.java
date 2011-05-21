@@ -28,7 +28,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 	public static int EMPLOYEE = 1;
 	public static int CASH = 2;
 	public static int CREDITCARD = 3;
-	private int status = ClientTransaction.TYPE_EMPLOYEE_EXPENSE;
+	private int status ;
 
 	public ExpenseReportToolbar() {
 		createControls();
@@ -38,9 +38,9 @@ public class ExpenseReportToolbar extends ReportToolbar {
 	private void createControls() {
 		String[] statusArray = {
 				FinanceApplication.getReportsMessages().allExpenses(),
-				FinanceApplication.getReportsMessages().employee(),
 				FinanceApplication.getReportsMessages().cash(),
-				FinanceApplication.getReportsMessages().creditCard() };
+				FinanceApplication.getReportsMessages().creditCard(),
+				FinanceApplication.getReportsMessages().employee() };
 
 		String[] dateRangeArray = {
 				FinanceApplication.getReportsMessages().all(),
@@ -69,23 +69,28 @@ public class ExpenseReportToolbar extends ReportToolbar {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						if (expenseCombo.getValue().toString().equals(
-								FinanceApplication.getReportsMessages()
-										.employee())) {
-							status = ClientTransaction.TYPE_EMPLOYEE_EXPENSE;
-						} else if (expenseCombo.getSelectedValue().equals(
+						if (selectItem.toString().equals(
 								FinanceApplication.getReportsMessages()
 										.allExpenses())) {
-							status = 0;
 							/*
 							 * status 0 used to get all expenses like Cash,
 							 * Credit Card
 							 */
-						} else if (expenseCombo.getSelectedValue().equals(
+
+							status = 0;
+						} else if (selectItem.toString().equals(
 								FinanceApplication.getReportsMessages().cash())) {
 							status = ClientTransaction.TYPE_CASH_EXPENSE;
-						} else
+						} else if (selectItem.toString().equals(
+								FinanceApplication.getReportsMessages()
+										.creditCard())) {
 							status = ClientTransaction.TYPE_CREDIT_CARD_EXPENSE;
+						} else if (selectItem.toString().equals(
+								FinanceApplication.getReportsMessages()
+										.employee())) {
+							status = ClientTransaction.TYPE_EMPLOYEE_EXPENSE;
+						}
+
 						ClientFinanceDate startDate = fromItem.getDate();
 						ClientFinanceDate endDate = toItem.getDate();
 						reportview
