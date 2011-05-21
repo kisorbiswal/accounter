@@ -918,4 +918,6 @@ public interface CompanyMessages extends FinanceMessages {
 
 	String enterYourEmail();
 	
+	String approve();
+	
 }
