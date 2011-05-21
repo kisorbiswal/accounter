@@ -88,6 +88,8 @@ public class CashPurchase extends Transaction implements Lifecycle {
 	FinanceDate deliveryDate;
 
 	// transient boolean isImported;
+	
+	int expenseStatus;
 
 	/**
 	 * @return the cashExpenseAccount
