@@ -314,4 +314,7 @@ public interface IAccounterHomeViewServiceAsync {
 
 	public void getGraphPointsforAccount(int chartType, long accountNo,
 			AsyncCallback<List<Double>> callBack);
+	
+	public void getEmployeeExpensesByStatus(int status,
+			AsyncCallback<List<BillsList>> callBack);
 }
