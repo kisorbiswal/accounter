@@ -635,4 +635,6 @@ public interface IFinanceDAOService {
 			boolean isEnabledOfInactiveCustomer) throws DAOException;
 	
 	public List<Double> getGraphPointsforAccount(int chartType, long accountNo) throws DAOException;
+	
+	public List<BillsList> getEmployeeExpensesByStatus(int status)  throws DAOException;
 }
