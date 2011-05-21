@@ -50,6 +50,7 @@ import com.vimukti.accounter.web.client.ui.grids.VendorTransactionUKGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorTransactionUSGrid;
 import com.vimukti.accounter.web.client.ui.vendors.CashExpenseView;
 import com.vimukti.accounter.web.client.ui.vendors.CreditCardExpenseView;
+import com.vimukti.accounter.web.client.ui.vendors.EmployeeExpenseView;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorPaymentView;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -797,7 +798,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 				.getAbsoluteTop() - 100);
 		if (this instanceof CreditCardExpenseView
 				|| this instanceof CashExpenseView
-				|| this instanceof WriteChequeView)
+				|| this instanceof WriteChequeView
+				|| this instanceof EmployeeExpenseView)
 			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft(),
 					menuButton.getAbsoluteTop() - 70);
 

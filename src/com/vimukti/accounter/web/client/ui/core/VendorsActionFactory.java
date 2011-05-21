@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.ui.vendors.CashExpenseAction;
 import com.vimukti.accounter.web.client.ui.vendors.CreditCardExpenseAction;
 import com.vimukti.accounter.web.client.ui.vendors.EmployeeExpenseAction;
 import com.vimukti.accounter.web.client.ui.vendors.EnterBillsAction;
+import com.vimukti.accounter.web.client.ui.vendors.ExpenseClaimListAction;
 import com.vimukti.accounter.web.client.ui.vendors.ExpensesAction;
 import com.vimukti.accounter.web.client.ui.vendors.IssuePaymentsAction;
 import com.vimukti.accounter.web.client.ui.vendors.NewCashPurchaseAction;
@@ -214,6 +215,11 @@ public class VendorsActionFactory extends AbstractActionFactory {
 		return new CreditCardExpenseAction(FinanceApplication
 				.getVendorsMessages().CreditCard(),
 				"/images/icons/vendors/new_cash_purchase.png");
+	}
+
+	public static ExpenseClaimListAction getExpenseClaimListAction() {
+		return new ExpenseClaimListAction(FinanceApplication.getVendorsMessages()
+				.expenseClaims());
 	}
 
 }
