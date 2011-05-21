@@ -430,14 +430,16 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	@Override
 	protected void showMenu(Button button) {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button,FinanceApplication.getCustomersMessages().accounts(),
-					FinanceApplication.getCustomersMessages().service(),
-					FinanceApplication.getCustomersMessages().product());
+			setMenuItems(button, FinanceApplication.getCustomersMessages()
+					.accounts(), FinanceApplication.getCustomersMessages()
+					.service(), FinanceApplication.getCustomersMessages()
+					.product());
 		// FinanceApplication.getCustomersMessages().salesTax());
 		else
-			setMenuItems(button,FinanceApplication.getCustomersMessages().accounts(),
-					FinanceApplication.getCustomersMessages().service(),
-					FinanceApplication.getCustomersMessages().product());
+			setMenuItems(button, FinanceApplication.getCustomersMessages()
+					.accounts(), FinanceApplication.getCustomersMessages()
+					.service(), FinanceApplication.getCustomersMessages()
+					.product());
 		// FinanceApplication.getCustomersMessages().comment(),
 		// FinanceApplication.getCustomersMessages().VATItem());
 
@@ -985,7 +987,8 @@ public abstract class AbstractCustomerTransactionView<T> extends
 			// CustomerRefunds.
 			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				if (!(this.transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS))
-					return AccounterValidator.validateFormItem(taxCodeSelect, false);
+					return AccounterValidator.validateFormItem(taxCodeSelect,
+							false);
 
 			}
 			// this is for CustomerRefunds only.
@@ -994,9 +997,9 @@ public abstract class AbstractCustomerTransactionView<T> extends
 				if (!isEdit) {
 					return (
 					// AccounterValidator.validateForm(view.custForm)
-					// && 
-							AccounterValidator
-									.validate_TaxAgency_FinanceAcount(view.selectedAccount)
+					// &&
+					AccounterValidator
+							.validate_TaxAgency_FinanceAcount(view.selectedAccount)
 							&& AccounterValidator.validateAmount(
 									((CustomerRefundView) this).amtText
 											.getAmount(), false) && AccounterValidator
@@ -1011,7 +1014,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 			if (this.transactionType == ClientTransaction.TYPE_CASH_SALES) {
 				CashSalesView = (CashSalesView) this;
-				return (AccounterValidator.validateFormItem(false, 
+				return (AccounterValidator.validateFormItem(false,
 						CashSalesView.paymentMethodCombo,
 						CashSalesView.depositInCombo) && AccounterValidator
 						.validate_TaxAgency_FinanceAcount(depositInAccount));
@@ -1208,7 +1211,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	protected void paymentTermsSelected(ClientPaymentTerms paymentTerm) {
 
 	}
-	
+
 	protected String getValidAddress(ClientAddress address) {
 		String toToSet = new String();
 		if (address.getAddress1() != null && !address.getAddress1().isEmpty()) {
