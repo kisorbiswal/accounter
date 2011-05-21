@@ -150,6 +150,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 	protected CustomButton registerButton;
 	protected CustomButton cancelButton;
 	protected CustomButton printButton;
+	protected CustomButton approveButton;
 	/**
 	 * Number of validations in view
 	 */
