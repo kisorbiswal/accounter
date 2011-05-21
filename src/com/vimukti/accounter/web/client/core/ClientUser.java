@@ -31,7 +31,7 @@ public class ClientUser implements IAccounterCore {
 	private String status;
 
 	private boolean isAdmin;
-	
+
 	private int loginCount;
 
 	int version;
@@ -430,5 +430,19 @@ public class ClientUser implements IAccounterCore {
 
 	public int getLoginCount() {
 		return loginCount;
+	}
+
+	public boolean canApproveExpences() {
+		if (this.getPermissions().typeOfExpences == RolePermissions.TYPE_APPROVE)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean canSaveExpences() {
+		if (this.getPermissions().typeOfExpences != RolePermissions.TYPE_NO)
+			return true;
+		else
+			return false;
 	}
 }
