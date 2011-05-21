@@ -6,8 +6,10 @@ package com.vimukti.accounter.web.client.ui.core;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.vendors.EmployeeExpenseView;
 
 /**
  * @author Fernandez
@@ -75,10 +77,14 @@ public class CustomButton extends Button {
 						return;
 					}
 					CustomButton.this.setEnabled(false);
-					canvas.saveAndClose = (type == CustomButtonType.SAVE_AND_CLOSE || type == CustomButtonType.REGISTER);
+					canvas.saveAndClose = (type == CustomButtonType.SAVE_AND_CLOSE
+							|| type == CustomButtonType.REGISTER || type == CustomButtonType.APPROVE);
 					if (!canvas.saveAndClose)
 						canvas.isSaveAndNew = true;
 					canvas.isRegister = type == CustomButtonType.REGISTER;
+					if(canvas instanceof EmployeeExpenseView && type == CustomButtonType.APPROVE) {
+						((EmployeeExpenseView) canvas).status = ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED;
+					}
 					CustomButton.this.validateAndSave(canvas);
 				} catch (Exception e) {
 					if (execute != null)

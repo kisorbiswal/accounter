@@ -25,7 +25,9 @@ public enum CustomButtonType {
 
 	REVIEW_JOURNAL(FinanceApplication.getCustomersMessages().reviewJournal()),
 
-	CANCEL(FinanceApplication.getCompanyMessages().cancel());
+	CANCEL(FinanceApplication.getCompanyMessages().cancel()),
+
+	APPROVE(FinanceApplication.getCompanyMessages().approve());
 
 	private String title;
 

@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.SalesTaxGroupListView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.vat.FileVATView;
+import com.vimukti.accounter.web.client.ui.vendors.EmployeeExpenseView;
 
 public abstract class BaseView<T> extends AbstractBaseView<T> {
 
@@ -115,6 +116,11 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 		registerButton = new CustomButton(CustomButtonType.REGISTER, this);
 
 		cancelButton = new CustomButton(CustomButtonType.CANCEL, this);
+		if (this instanceof EmployeeExpenseView
+				&& FinanceApplication.getUser().canApproveExpences()) {
+			approveButton = new CustomButton(CustomButtonType.APPROVE, this);
+			buttonLayout.add(approveButton);
+		}
 		/*
 		 * if the view is related to FixedAsset,then "SaveAndNew" is replaced
 		 * with "Register" button(it is similar to "saveAndClose" button but
@@ -184,6 +190,20 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 			DOM.appendChild(saveAndCloseButton.getElement(), savecloseimage);
 
 			ThemesUtil.addDivToButton(saveAndCloseButton, FinanceApplication
+					.getThemeImages().custom_button_right_blue_image(),
+					"custom-button-right-image");
+		}
+		if (approveButton != null && approveButton.isEnabled()) {
+
+			Element savecloseseparator = DOM.createSpan();
+			savecloseseparator.addClassName("save-close-separator");
+			DOM.appendChild(approveButton.getElement(), savecloseseparator);
+
+			Element savecloseimage = DOM.createSpan();
+			savecloseimage.addClassName("save-close-image");
+			DOM.appendChild(approveButton.getElement(), savecloseimage);
+
+			ThemesUtil.addDivToButton(approveButton, FinanceApplication
 					.getThemeImages().custom_button_right_blue_image(),
 					"custom-button-right-image");
 		}
