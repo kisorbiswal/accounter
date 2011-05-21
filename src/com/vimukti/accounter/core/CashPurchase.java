@@ -418,6 +418,11 @@ public class CashPurchase extends Transaction implements Lifecycle {
 
 		CashPurchase cashPurchase = (CashPurchase) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
+		
+		if (this.type == Transaction.TYPE_EMPLOYEE_EXPENSE			
+				&& this.expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
+			return;
+		
 		/**
 		 * 
 		 *if present transaction is deleted or voided & the previous

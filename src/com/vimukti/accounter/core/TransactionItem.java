@@ -391,6 +391,11 @@ public class TransactionItem
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
+		
+		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
+				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
+			return false;
+		
 		if (!Arrays.asList(Transaction.TYPE_ESTIMATE,
 				Transaction.TYPE_SALES_ORDER, Transaction.TYPE_PURCHASE_ORDER)
 				.contains(this.transaction.getType())) {
@@ -452,7 +457,7 @@ public class TransactionItem
 		if (this.isOnSaveProccessed)
 			return true;
 		
-		if (this.type == Transaction.TYPE_EMPLOYEE_EXPENSE
+		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
 				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
 			return false;
 		
@@ -551,6 +556,10 @@ public class TransactionItem
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		
+		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
+				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
+			return false;
 
 		if (this.isBecameVoid()) {
 
