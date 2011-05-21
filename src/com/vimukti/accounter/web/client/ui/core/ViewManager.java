@@ -54,6 +54,7 @@ import com.vimukti.accounter.web.client.ui.customers.SalesOrderListAction;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.reports.AbstractReportView;
 import com.vimukti.accounter.web.client.ui.settings.UsersView;
+import com.vimukti.accounter.web.client.ui.vendors.ExpenseClaimView;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListAction;
 
 /**
@@ -449,6 +450,7 @@ public class ViewManager extends DockPanel {
 		// if yes validating object & saving it other wise getting last
 		// view from history & showing it
 		if (currentCanvas instanceof BaseView
+				&& !(currentCanvas instanceof ExpenseClaimView)
 				&& ((AbstractBaseView<?>) currentCanvas).isViewModfied()) {
 			showWarning(currentCanvas);
 		} else {
@@ -566,6 +568,7 @@ public class ViewManager extends DockPanel {
 		if (!dependent) {
 			if (currentCanvas != null && currentCanvas instanceof BaseView
 					&& !currentCanvas.isSaveAndNew
+					&& !(currentCanvas instanceof ExpenseClaimView)
 					&& ((AbstractBaseView<?>) currentCanvas).isViewModfied()) {
 				isShowWarningDialog = true;
 				showWarningDialog(view, input, dependent, action);
@@ -1470,10 +1473,20 @@ public class ViewManager extends DockPanel {
 	public <T extends IAccounterCore, P extends IAccounterCore> void alterObject(
 			final P core, final IAccounterWidget widget) {
 
-		dialog = UIUtils.getLoadingMessageDialog(FinanceApplication
-				.getCustomersMessages().processingRequest());
+		if (!(widget instanceof ExpenseClaimView)) {
+			dialog = UIUtils.getLoadingMessageDialog(FinanceApplication
+					.getCustomersMessages().processingRequest());
 
-		dialog.center();
+			dialog.center();
+		} else {
+			if (!((ExpenseClaimView) widget).isProcessingAdded) {
+				dialog = UIUtils.getLoadingMessageDialog(FinanceApplication
+						.getCustomersMessages().processingRequest());
+
+				dialog.center();
+				((ExpenseClaimView) widget).isProcessingAdded = true;
+			}
+		}
 		currentrequestedWidget = widget;
 		AsyncCallback<Boolean> transactionCallBack = new AsyncCallback<Boolean>() {
 
