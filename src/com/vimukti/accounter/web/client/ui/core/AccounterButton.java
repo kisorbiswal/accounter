@@ -53,8 +53,10 @@ public class AccounterButton extends Button {
 		super.setEnabled(enabled);
 		if (enabled) {
 			if (type == ADD_BUTTON) {
+				disabledAddButton();
 				enabledAddButton();
 			} else {
+				disabledButton();
 				enabledButton();
 			}
 
