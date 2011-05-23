@@ -13,7 +13,6 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -21,8 +20,8 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.data.ClientUser;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -34,7 +33,7 @@ public class UsersView extends BaseView<ClientUser> {
 	private FlexTable flexTable;
 	private UsersListGrid usersListGrid;
 	private RecentActivityListGrid activityListGrid;
-	Button inviteUserButton;
+	AccounterButton inviteUserButton;
 
 	@Override
 	public List<DynamicForm> getForms() {
@@ -99,7 +98,7 @@ public class UsersView extends BaseView<ClientUser> {
 		});
 		usersHtml = new HTML(FinanceApplication.getSettingsMessages()
 				.usersTitle());
-		inviteUserButton = new Button("Invite a User");
+		inviteUserButton = new AccounterButton("Invite a User");
 		inviteUserButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -120,13 +119,7 @@ public class UsersView extends BaseView<ClientUser> {
 		mainLayPanel.add(flexTable);
 		if (FinanceApplication.getUser().isCanDoUserManagement()) {
 			mainLayPanel.add(inviteUserButton);
-			if (inviteUserButton.isEnabled()) {
-				inviteUserButton.getElement().getParentElement().setClassName(
-						"ibutton");
-				ThemesUtil.addDivToButton(inviteUserButton, FinanceApplication
-						.getThemeImages().button_right_blue_image(),
-						"ibutton-right-image");
-			}
+			inviteUserButton.enabledButton();
 		}
 
 		mainLayPanel.add(getUsersPanel());

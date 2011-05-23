@@ -13,9 +13,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -39,7 +36,6 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -53,6 +49,7 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorGroupCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -354,8 +351,8 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		Label l1 = new Label(FinanceApplication.getVendorsMessages().contacts());
 
-		Button addButton = new Button(FinanceApplication.getVendorsMessages()
-				.add());
+		AccounterButton addButton = new AccounterButton(FinanceApplication
+				.getVendorsMessages().add());
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -392,22 +389,9 @@ public class VendorView extends BaseView<ClientVendor> {
 		hPanel.getElement().getStyle().setFloat(Float.RIGHT);
 		panel.add(hPanel);
 
-		if (addButton.isEnabled()) {
-			addButton.getElement().getParentElement()
-					.addClassName("add-button");
+		addButton.setType(AccounterButton.ADD_BUTTON);
+		addButton.enabledAddButton();
 
-			Element addseparator = DOM.createSpan();
-			addseparator.addClassName("add-separator");
-			DOM.appendChild(addButton.getElement(), addseparator);
-
-			Element addimage = DOM.createSpan();
-			addimage.addClassName("add-image");
-			DOM.appendChild(addButton.getElement(), addimage);
-
-			ThemesUtil.addDivToButton(addButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"blue-right-image");
-		}
 		memoArea = new TextAreaItem();
 		memoArea.setHelpInformation(true);
 		memoArea.setWidth("400px");

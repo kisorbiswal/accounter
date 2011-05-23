@@ -7,7 +7,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -20,12 +19,12 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -45,13 +44,13 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	private HorizontalPanel topLayout;
 	private VerticalPanel mainLayout;
 	private VATBoxGrid gridView;
-	private Button adjustButton;
-	private Button printButton;
+	private AccounterButton adjustButton;
+	private AccounterButton printButton;
 	protected ClientVATReturn vatReturn;
 	private ClientTAXAgency selectedVatAgency;
 	private ArrayList<DynamicForm> listforms;
 	private double amt;
-	private Button updateButton;
+	private AccounterButton updateButton;
 
 	boolean canSaveFileVat = false;
 
@@ -92,7 +91,8 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		toDate.setWidth(100);
 		listforms = new ArrayList<DynamicForm>();
 
-		updateButton = new Button(FinanceApplication.getVATMessages().update());
+		updateButton = new AccounterButton(FinanceApplication.getVATMessages()
+				.update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -120,7 +120,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 						.doYouNeedToMakeAnAdjustment() + " </strong><br>"
 				+ FinanceApplication.getVATMessages().useAdjustButton());
 
-		adjustButton = new Button(FinanceApplication.getVATMessages()
+		adjustButton = new AccounterButton(FinanceApplication.getVATMessages()
 				.adjustVATReturn());
 		adjustButton.addClickHandler(new ClickHandler() {
 
@@ -137,19 +137,20 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		adjustForm.setSpacing(3);
 		// adjustForm.add(adjustLabel);
 		adjustForm.add(adjustButton);
-		if (adjustButton.isEnabled()) {
-			adjustButton.getElement().getParentElement()
-					.setClassName("ibutton");
-			ThemesUtil.addDivToButton(adjustButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		// adjustButton.enabledButton();
+		// if (adjustButton.isEnabled()) {
+		// adjustButton.getElement().getParentElement()
+		// .setClassName("ibutton");
+		// ThemesUtil.addDivToButton(adjustButton, FinanceApplication
+		// .getThemeImages().button_right_blue_image(),
+		// "ibutton-right-image");
+		// }
 		HTML printLabel = new HTML("<strong>"
 				+ FinanceApplication.getVATMessages()
 						.doYouWantPrintYourVATReturn() + "</strong><br>"
 				+ FinanceApplication.getVATMessages().youCanPrintVATReturn());
 
-		printButton = new Button(FinanceApplication.getVATMessages()
+		printButton = new AccounterButton(FinanceApplication.getVATMessages()
 				.printVATReturn());
 		printButton.addClickHandler(new ClickHandler() {
 
@@ -171,22 +172,25 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		printForm.setSpacing(3);
 		printForm.add(printLabel);
 		printForm.add(printButton);
-		if (printButton.isEnabled()) {
-			printButton.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(printButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		// printButton.enabledButton();
+		// if (printButton.isEnabled()) {
+		// printButton.getElement().getParentElement().setClassName("ibutton");
+		// ThemesUtil.addDivToButton(printButton, FinanceApplication
+		// .getThemeImages().button_right_blue_image(),
+		// "ibutton-right-image");
+		// }
 		topLayout = new HorizontalPanel();
 		topLayout.add(topForm);
 		topLayout.add(updateButton);
-		if (updateButton.isEnabled()) {
-			updateButton.getElement().getParentElement()
-					.setClassName("ibutton");
-			ThemesUtil.addDivToButton(updateButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		updateButton.enabledButton();
+
+		// if (updateButton.isEnabled()) {
+		// updateButton.getElement().getParentElement()
+		// .setClassName("ibutton");
+		// ThemesUtil.addDivToButton(updateButton, FinanceApplication
+		// .getThemeImages().button_right_blue_image(),
+		// "ibutton-right-image");
+		// }
 		mainLayout = new VerticalPanel();
 		mainLayout.setHeight("100%");
 		mainLayout.add(infolabel);
@@ -223,7 +227,6 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 
 	}
 
-	@SuppressWarnings("deprecation")
 	private void getVATReturnEndDate(ClientTAXAgency selectItem) {
 		List<ClientVATReturn> vatReturns = FinanceApplication.getCompany()
 				.getVatReturns();

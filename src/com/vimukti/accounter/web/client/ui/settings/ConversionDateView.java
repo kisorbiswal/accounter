@@ -6,17 +6,15 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 @SuppressWarnings("unchecked")
@@ -31,7 +29,7 @@ public class ConversionDateView extends AbstractBaseView {
 	private DynamicForm comboForm;
 	private List<String> monthList;
 	private List<String> yearList;
-	private Button saveButton, cancelButton;
+	private AccounterButton saveButton, cancelButton;
 	private SettingsMessages messages = GWT.create(SettingsMessages.class);
 
 	@Override
@@ -67,8 +65,8 @@ public class ConversionDateView extends AbstractBaseView {
 		bodyPanel = new VerticalPanel();
 		comboForm = new DynamicForm();
 		buttonPanel = new HorizontalPanel();
-		saveButton = new Button(messages.saveButton());
-		cancelButton = new Button(messages.cancelButton());
+		saveButton = new AccounterButton(messages.saveButton());
+		cancelButton = new AccounterButton(messages.cancelButton());
 
 		monthArray = new String[] { messages.january(), messages.february(),
 				messages.march(), messages.april(), messages.may(),
@@ -173,19 +171,8 @@ public class ConversionDateView extends AbstractBaseView {
 
 		buttonPanel.add(saveButton);
 		buttonPanel.add(cancelButton);
-		if (saveButton.isEnabled()) {
-			saveButton.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(saveButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (cancelButton.isEnabled()) {
-			cancelButton.getElement().getParentElement()
-					.setClassName("ibutton");
-			ThemesUtil.addDivToButton(cancelButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		saveButton.enabledButton();
+		cancelButton.enabledButton();
 		bodyPanel.add(bodyHtml);
 		bodyPanel.add(comboForm);
 		bodyPanel.add(bodyFooterHtml);

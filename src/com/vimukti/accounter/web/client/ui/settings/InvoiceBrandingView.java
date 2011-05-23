@@ -12,7 +12,6 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -21,14 +20,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
-@SuppressWarnings("unchecked")
 public class InvoiceBrandingView<T> extends
 		AbstractBaseView<ClientBrandingTheme> {
 
@@ -39,7 +37,7 @@ public class InvoiceBrandingView<T> extends
 	// helpHtml;
 	private VerticalPanel mainPanel, titlePanel, subLayPanel, uploadPanel,
 			contactDetailsPanel, vPanel;
-	private Button newBrandButton, automaticButton;
+	private AccounterButton newBrandButton, automaticButton;
 	private HorizontalPanel buttonPanel, showPanel, allPanel, nameAndMenuPanel;
 	private SettingsMessages messages = GWT.create(SettingsMessages.class);
 
@@ -88,7 +86,7 @@ public class InvoiceBrandingView<T> extends
 		titlePanel.add(invoiceBrandingHtml);
 
 		buttonPanel = new HorizontalPanel();
-		newBrandButton = new Button(messages.newBrandingThemeButton());
+		newBrandButton = new AccounterButton(messages.newBrandingThemeButton());
 		newBrandButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -109,7 +107,7 @@ public class InvoiceBrandingView<T> extends
 		// newBrandMenuPanel.setAutoHideEnabled(true);
 		// }
 		// });
-		automaticButton = new Button(messages.automaticSequencing());
+		automaticButton = new AccounterButton(messages.automaticSequencing());
 		automaticButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -122,21 +120,9 @@ public class InvoiceBrandingView<T> extends
 		automaticButton.setVisible(false);
 
 		buttonPanel.add(newBrandButton);
-		if (newBrandButton.isEnabled()) {
-			newBrandButton.getElement().getParentElement().setClassName(
-					"ibutton");
-			ThemesUtil.addDivToButton(newBrandButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		newBrandButton.enabledButton();
 		buttonPanel.add(automaticButton);
-		if (automaticButton.isVisible()) {
-			automaticButton.getElement().getParentElement().setClassName(
-					"ibutton");
-			ThemesUtil.addDivToButton(automaticButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		automaticButton.enabledButton();
 		mainPanel.add(titlePanel);
 		mainPanel.add(buttonPanel);
 		List<ClientBrandingTheme> brandingThemes = FinanceApplication
@@ -186,12 +172,12 @@ public class InvoiceBrandingView<T> extends
 
 	private VerticalPanel addingThemeToView(final ClientBrandingTheme theme) {
 		final HTML uploadPictureHtml;
-		final Button optionsButton;
+		final AccounterButton optionsButton;
 		titleHtml = new HTML("<strong>" + theme.getThemeName() + "</strong>");
 		vPanel = new VerticalPanel();
 
 		subLayPanel = new VerticalPanel();
-		optionsButton = new Button(messages.options());
+		optionsButton = new AccounterButton(messages.options());
 
 		double topMargin;
 		if (theme.getTopMargin() != 0) {
@@ -364,14 +350,8 @@ public class InvoiceBrandingView<T> extends
 		// optionsButton.setStyleName("ibutton-right-align") ;
 		nameAndMenuPanel.add(optionsButton);
 
-		if (optionsButton.isEnabled()) {
-			optionsButton.getElement().getAbsoluteRight();
-			optionsButton.getElement().getParentElement().setClassName(
-					"ibutton-right-align");
-			ThemesUtil.addDivToButton(optionsButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		optionsButton.getElement().getAbsoluteRight();
+		optionsButton.enabledButton();
 		vPanel.add(nameAndMenuPanel);
 		vPanel.add(allPanel);
 		vPanel.setWidth("100%");
@@ -380,7 +360,7 @@ public class InvoiceBrandingView<T> extends
 
 	}
 
-	protected void optionsMenu(Button button, ClientBrandingTheme theme) {
+	protected void optionsMenu(AccounterButton button, ClientBrandingTheme theme) {
 		PopupPanel optionsPanel = new PopupPanel();
 		if (theme.getThemeName().equals(messages.standard())) {
 			if (theme.getFileName() == null) {

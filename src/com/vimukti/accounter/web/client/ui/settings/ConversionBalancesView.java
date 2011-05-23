@@ -9,7 +9,6 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -18,9 +17,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
@@ -32,7 +30,7 @@ public class ConversionBalancesView extends AbstractBaseView {
 			footerPanel;
 	private HorizontalPanel headerButtonPanel, footerButtonPanel,
 			addNewButtonPanel;
-	private Button addComparativeBalancesButton, conversionDateButton,
+	private AccounterButton addComparativeBalancesButton, conversionDateButton,
 			saveButton, cancelButton, addNewButton;
 	private LabelItem removeZeroBalance, showAllAccounts;
 	private DynamicForm debit_creditForm, labelsForm, adjustmentsForm;
@@ -141,26 +139,15 @@ public class ConversionBalancesView extends AbstractBaseView {
 		});
 		headerHtml = new HTML(messages.conversionBalanaceHeader());
 
-		addComparativeBalancesButton = new Button(messages
+		addComparativeBalancesButton = new AccounterButton(messages
 				.addComparativeButton());
-		conversionDateButton = new Button(messages.conversionDateButton());
+		conversionDateButton = new AccounterButton(messages
+				.conversionDateButton());
 
 		headerButtonPanel.add(addComparativeBalancesButton);
 		headerButtonPanel.add(conversionDateButton);
-		if (addComparativeBalancesButton.isEnabled()) {
-			addComparativeBalancesButton.getElement().getParentElement()
-					.setClassName("ibutton");
-			ThemesUtil.addDivToButton(addComparativeBalancesButton,
-					FinanceApplication.getThemeImages()
-							.button_right_blue_image(), "ibutton-right-image");
-		}
-		if (conversionDateButton.isEnabled()) {
-			conversionDateButton.getElement().getParentElement().setClassName(
-					"ibutton");
-			ThemesUtil.addDivToButton(conversionDateButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		addComparativeBalancesButton.enabledButton();
+		conversionDateButton.enabledButton();
 		headerPanel.add(superHeaderHtml);
 		headerPanel.add(headerHtml);
 
@@ -170,9 +157,9 @@ public class ConversionBalancesView extends AbstractBaseView {
 		tabBodyPanel = new VerticalPanel();
 		addNewButtonPanel = new HorizontalPanel();
 		footerButtonPanel = new HorizontalPanel();
-		addNewButton = new Button(messages.addNewLine());
-		saveButton = new Button(messages.saveButton());
-		cancelButton = new Button(messages.cancelButton());
+		addNewButton = new AccounterButton(messages.addNewLine());
+		saveButton = new AccounterButton(messages.saveButton());
+		cancelButton = new AccounterButton(messages.cancelButton());
 		footerPanel = new VerticalPanel();
 		debit_creditForm = new DynamicForm();
 		debitLabel = new AmountLabel(messages.totalDebits());
@@ -206,13 +193,7 @@ public class ConversionBalancesView extends AbstractBaseView {
 		labelsForm.setCellSpacing(6);
 		labelsForm.setFields(removeZeroBalance, showAllAccounts);
 		addNewButtonPanel.add(addNewButton);
-		if (addNewButton.isEnabled()) {
-			addNewButton.getElement().getParentElement()
-					.setClassName("ibutton");
-			ThemesUtil.addDivToButton(addNewButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		addNewButton.enabledButton();
 		addNewButtonPanel.add(labelsForm);
 
 		debit_creditForm.setNumCols(4);
@@ -228,19 +209,8 @@ public class ConversionBalancesView extends AbstractBaseView {
 
 		footerButtonPanel.add(saveButton);
 		footerButtonPanel.add(cancelButton);
-		if (saveButton.isEnabled()) {
-			saveButton.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(saveButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (cancelButton.isEnabled()) {
-			cancelButton.getElement().getParentElement()
-					.setClassName("ibutton");
-			ThemesUtil.addDivToButton(cancelButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		saveButton.enabledButton();
+		cancelButton.enabledButton();
 
 		footerPanel.add(addNewButtonPanel);
 		footerPanel.add(debit_creditForm);

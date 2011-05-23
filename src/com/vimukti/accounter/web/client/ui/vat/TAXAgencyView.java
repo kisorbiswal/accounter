@@ -14,8 +14,6 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -29,7 +27,6 @@ import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -41,6 +38,7 @@ import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VATAgencyAccountCombo;
 import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -89,7 +87,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	private ClientPaymentTerms selectedPaymentTerm;
 	private ClientAccount selectedSalesAccount, selectedPurchaseAccount;
 
-	private Button addButton;
+	private AccounterButton addButton;
 
 	private List<String> vatReturnList;
 
@@ -446,7 +444,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		memoForm.setFields(memoArea);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		addButton = new Button(FinanceApplication.getVATMessages().add());
+		addButton = new AccounterButton(FinanceApplication.getVATMessages()
+				.add());
 		// addButton.setStyleName("addButton");
 		addButton.addClickHandler(new ClickHandler() {
 
@@ -613,20 +612,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		mainVlay.add(panel);
 		// mainVlay.add(memoForm);
 
-		addButton.getElement().getParentElement().addClassName("add-button");
-		if (addButton.isEnabled()) {
-			Element addseparator = DOM.createSpan();
-			addseparator.addClassName("add-separator");
-			DOM.appendChild(addButton.getElement(), addseparator);
+		addButton.setType(AccounterButton.ADD_BUTTON);
+		addButton.enabledAddButton();
 
-			Element addimage = DOM.createSpan();
-			addimage.addClassName("add-image");
-			DOM.appendChild(addButton.getElement(), addimage);
-
-			ThemesUtil.addDivToButton(addButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"blue-right-image");
-		}
 		/* Adding dynamic forms in list */
 		listforms.add(taxAgencyForm);
 		listforms.add(accInfoForm);

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
@@ -32,6 +31,7 @@ import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -144,7 +144,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 	}
 
 	@Override
-	protected void showMenu(Button button) {
+	protected void showMenu(AccounterButton button) {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, FinanceApplication.getVendorsMessages()
 					.accounts(), FinanceApplication.getVendorsMessages()
@@ -155,8 +155,6 @@ public abstract class AbstractVendorTransactionView<T> extends
 					.accounts(), FinanceApplication.getVendorsMessages()
 					.service(), FinanceApplication.getVendorsMessages()
 					.product());
-		// FinanceApplication.getVendorsMessages().comment());
-
 	}
 
 	protected void initVendors() {
@@ -185,7 +183,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 			return;
 		this.vendor = vendor;
 		initContacts(vendor);
-//		initPhones(vendor);
+		// initPhones(vendor);
 		paymentMethodSelected(vendor.getPaymentMethod());
 		addressListOfVendor = vendor.getAddress();
 		initBillToCombo();

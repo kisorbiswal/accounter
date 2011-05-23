@@ -7,7 +7,6 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -18,6 +17,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -113,7 +113,8 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 
 		HTML label = new HTML(FinanceApplication.getVATMessages()
 				.enterEachIndividualVAT());
-		Button addButton = new Button(FinanceApplication.getVATMessages().add());
+		AccounterButton addButton = new AccounterButton(FinanceApplication
+				.getVATMessages().add());
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override

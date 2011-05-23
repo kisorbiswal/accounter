@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 
 public class ThemesUtil {
 
@@ -42,11 +43,23 @@ public class ThemesUtil {
 		Element btnEle = button.getElement();
 
 		Element divEle = DOM.createDiv();
+		divEle.setId(button.getText());
 		divEle.addClassName(styleName);
-		divEle.getStyle().setBackgroundImage("url("+imgResource.getURL()+")");
+		divEle.getStyle().setBackgroundImage(
+				"url(" + imgResource.getURL() + ")");
 
 		btnEle.getParentElement().insertAfter(divEle, btnEle);
 
+	}
+
+	public static void removeDivToButton(Button button) {
+		try {
+			Element parent = (Element) DOM.getElementById(button.getText())
+					.getParentElement();
+			parent.removeChild(DOM.getElementById(button.getText()));
+		} catch (Exception e) {
+			System.err.println(e);
+		}
 	}
 
 }

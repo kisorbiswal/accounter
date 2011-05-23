@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.InvalidOperationException;
@@ -17,6 +16,7 @@ import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
@@ -230,7 +230,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	}
 
 	@Override
-	protected void showMenu(Button button) {
+	protected void showMenu(AccounterButton button) {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, FinanceApplication.getVendorsMessages()
 					.accounts(), FinanceApplication.getVendorsMessages()

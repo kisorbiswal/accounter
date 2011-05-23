@@ -31,6 +31,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -523,6 +524,8 @@ public class VendorBillView extends
 		hpanel.setHorizontalAlignment(ALIGN_RIGHT);
 		hpanel.add(createAddNewButton());
 		hpanel.getElement().getStyle().setMarginTop(8, Unit.PX);
+
+		menuButton.setType(AccounterButton.ADD_BUTTON);
 
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");

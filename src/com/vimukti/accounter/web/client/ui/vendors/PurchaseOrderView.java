@@ -10,7 +10,6 @@ import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -31,7 +30,6 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -43,6 +41,7 @@ import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -61,7 +60,7 @@ public class PurchaseOrderView extends
 	private ShippingTermsCombo shippingTermsCombo;
 	private ShippingMethodsCombo shippingMethodsCombo;
 	private AddressCombo shipToCombo;
-	private Button addLinksButton;
+	private AccounterButton addLinksButton;
 	private TextItem linksText;
 	private DynamicForm vendorForm;
 	private DynamicForm termsForm;
@@ -301,7 +300,6 @@ public class PurchaseOrderView extends
 		formItems.add(deliveryDateItem);
 
 		// Label lab2 = new Label(vendorConstants.itemsAndExpenses());
-		menuButton = createAddNewButton();
 		vendorTransactionGrid = getGrid();
 		vendorTransactionGrid.setTransactionView(this);
 		vendorTransactionGrid.setCanEdit(true);
@@ -313,10 +311,10 @@ public class PurchaseOrderView extends
 		memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
 		// refText.setWidth(100);
-		addLinksButton = new Button(vendorConstants.addLinks());
+		addLinksButton = new AccounterButton(vendorConstants.addLinks());
 		// FIXME--need to disable basing on the mode of the view being opened
-		addLinksButton.setEnabled(isEdit);
-		addLinksButton.setEnabled(true);
+
+		// addLinksButton.setEnabled(true);
 		linksText = new TextItem();
 		linksText.setWidth(100);
 		linksText.setShowTitle(false);
@@ -334,13 +332,7 @@ public class PurchaseOrderView extends
 		HorizontalPanel linkspanel = new HorizontalPanel();
 		linkspanel.setWidth("70%");
 		linkspanel.add(addLinksButton);
-		if (addLinksButton.isEnabled()) {
-			addLinksButton.getElement().getParentElement().setClassName(
-					"ibutton");
-			ThemesUtil.addDivToButton(addLinksButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		addLinksButton.setEnabled(isEdit);
 		linkspanel.add(linksform);
 
 		VerticalPanel leftVLay = new VerticalPanel();
@@ -366,14 +358,18 @@ public class PurchaseOrderView extends
 		// topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		HorizontalPanel panel = new HorizontalPanel();
+		panel.add(createAddNewButton());
+
 		panel.setHorizontalAlignment(ALIGN_RIGHT);
-		panel.add(menuButton);
 		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
 		VerticalPanel bottomLayout = new VerticalPanel();
 		bottomLayout.setWidth("100%");
 		bottomLayout.setHorizontalAlignment(ALIGN_RIGHT);
 		bottomLayout.add(panel);
+
+		menuButton.setType(AccounterButton.ADD_BUTTON);
+
 		bottomLayout.add(memoForm);
 		bottomLayout.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
 		// bottomLayout.add(linkspanel);
