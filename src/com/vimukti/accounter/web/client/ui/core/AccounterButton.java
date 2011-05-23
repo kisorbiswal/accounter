@@ -68,6 +68,27 @@ public class AccounterButton extends Button {
 			}
 		}
 	}
+	
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		if (visible) {
+			if (type == ADD_BUTTON) {
+				disabledAddButton();
+				enabledAddButton();
+			} else {
+				disabledButton();
+				enabledButton();
+			}
+
+		} else {
+			if (type == ADD_BUTTON) {
+				disabledAddButton();
+			} else {
+				disabledButton();
+			}
+		}
+	}
 
 	public void enabledAddButton() {
 		this.getElement().getParentElement().setClassName("add-button");
