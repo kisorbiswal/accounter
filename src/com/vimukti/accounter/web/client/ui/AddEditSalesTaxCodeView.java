@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -16,8 +15,8 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTaxRates;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -164,7 +163,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 		HorizontalPanel buttonsLayout = new HorizontalPanel();
 		buttonsLayout.setWidth("50%");
 
-		Button button1 = new Button();
+		AccounterButton button1 = new AccounterButton();
 		button1.setWidth("80%");
 		button1.setText(FinanceApplication.getFinanceUIConstants().ok());
 
@@ -178,7 +177,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 			}
 		});
 
-		Button button2 = new Button();
+		AccounterButton button2 = new AccounterButton();
 		button2.setWidth("80%");
 		button2.setTitle(FinanceApplication.getFinanceUIConstants().cancel());
 		button2.setText(FinanceApplication.getFinanceUIConstants().cancel());
@@ -191,7 +190,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 			}
 		});
 
-		Button button3 = new Button();
+		AccounterButton button3 = new AccounterButton();
 		button3.setWidth("80%");
 		button3.setTitle(FinanceApplication.getFinanceUIConstants().help());
 		button3.setText(FinanceApplication.getFinanceUIConstants().help());
@@ -206,24 +205,9 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 		buttonsLayout.add(button1);
 		buttonsLayout.add(button2);
 		buttonsLayout.add(button3);
-		if (button1.isEnabled()) {
-			button1.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(button1, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (button2.isEnabled()) {
-			button2.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(button2, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (button3.isEnabled()) {
-			button3.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(button3, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		button1.enabledButton();
+		button2.enabledButton();
+		button3.enabledButton();
 		VerticalPanel bodyLayout = new VerticalPanel();
 		bodyLayout.setSize("100%", "100%");
 		bodyLayout.add(infolabel);
@@ -232,7 +216,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 		bodyLayout.add(taxCodeForm);
 		// bodyLayout.add(taxRates);
-		Button addButton = new Button(FinanceApplication
+		AccounterButton addButton = new AccounterButton(FinanceApplication
 				.getFinanceUIConstants().addNew());
 		addButton.addClickHandler(new ClickHandler() {
 

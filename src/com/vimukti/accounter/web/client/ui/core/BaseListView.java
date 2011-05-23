@@ -9,7 +9,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -19,7 +18,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -73,7 +71,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	protected int cmd;
 	public DateItem fromItem;
 	public DateItem toItem;
-	public Button updateButton;
+	public AccounterButton updateButton;
 
 	@Override
 	public void init() {
@@ -190,8 +188,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 				.setDatethanFireEvent(Utility
 						.getLastandOpenedFiscalYearEndDate());
 
-		updateButton = new Button(FinanceApplication.getCustomersMessages()
-				.update());
+		updateButton = new AccounterButton(FinanceApplication
+				.getCustomersMessages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -212,13 +210,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			form.setItems(viewSelect, dateRangeSelector, fromItem, toItem);
 			hlay.add(form);
 			hlay.add(updateButton);
-			if (updateButton.isEnabled()) {
-				updateButton.getElement().getParentElement().setClassName(
-						"ibutton");
-				ThemesUtil.addDivToButton(updateButton, FinanceApplication
-						.getThemeImages().button_right_blue_image(),
-						"ibutton-right-image");
-			}
+			updateButton.enabledButton();
 			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 			hlay.setCellHorizontalAlignment(updateButton,
 					HasHorizontalAlignment.ALIGN_RIGHT);

@@ -16,11 +16,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -34,12 +31,12 @@ import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -72,7 +69,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	private VerticalPanel gridPanel;
 
 	private ArrayList<DynamicForm> listforms;
-	private Button addButton;
+	private com.vimukti.accounter.web.client.ui.core.AccounterButton addButton;
 
 	public JournalEntryView() {
 		super(ClientTransaction.TYPE_JOURNAL_ENTRY,
@@ -357,8 +354,8 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		initListGrid();
 		grid.initTransactionData();
 		gridPanel = new VerticalPanel();
-		addButton = new Button(FinanceApplication.getCompanyMessages().add());
-		addButton.setEnabled(!isEdit);
+		addButton = new AccounterButton(FinanceApplication.getCompanyMessages()
+				.add());
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -376,6 +373,8 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 		gridPanel.add(hPanel);
 
+		addButton.setType(AccounterButton.ADD_BUTTON);
+		addButton.setEnabled(!isEdit);
 		dateForm = new DynamicForm();
 		dateForm.setNumCols(4);
 		dateForm.setStyleName("datenumber-panel");
@@ -419,7 +418,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		bottomPanel.add(totalForm);
 		bottomPanel.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
 
-		addButton.getElement().getParentElement().addClassName("add-button");
+		// addButton.getElement().getParentElement().addClassName("add-button");
 
 		// ThemesUtil
 		// .addDivToButton(addButton, FinanceApplication.getThemeImages()
@@ -687,19 +686,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		if (addButton.isEnabled()) {
-			Element addseparator = DOM.createSpan();
-			addseparator.addClassName("add-separator");
-			DOM.appendChild(addButton.getElement(), addseparator);
-
-			Element addimage = DOM.createSpan();
-			addimage.addClassName("add-image");
-			DOM.appendChild(addButton.getElement(), addimage);
-
-			ThemesUtil.addDivToButton(addButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"add-right-image");
-		}
+		// addButton.setType(AccounterButton.ADD_BUTTON);
 	}
 
 	@Override

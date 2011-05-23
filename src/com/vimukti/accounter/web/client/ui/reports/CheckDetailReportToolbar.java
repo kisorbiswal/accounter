@@ -6,13 +6,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 
@@ -21,7 +20,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 	private DateItem toItem;
 	protected ComboBoxItem checkDetailCombo;
 	private ComboBoxItem dateRangeItem;
-	private Button updateButton;
+	private AccounterButton updateButton;
 
 	public CheckDetailReportToolbar() {
 		createControls();
@@ -106,8 +105,8 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 				endDate = (ClientFinanceDate) toItem.getValue();
 			}
 		});
-		updateButton = new Button(FinanceApplication.getReportsMessages()
-				.update());
+		updateButton = new AccounterButton(FinanceApplication
+				.getReportsMessages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -129,8 +128,8 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 		// toItem.setDisabled(true);
 		// updateButton.setEnabled(false);
 
-		Button printButton = new Button(FinanceApplication.getReportsMessages()
-				.print());
+		AccounterButton printButton = new AccounterButton(FinanceApplication
+				.getReportsMessages().print());
 		// printButton.setTop(2);
 		// printButton.setWidth(40);
 		printButton.addClickHandler(new ClickHandler() {
@@ -147,13 +146,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 		}
 		addItems(checkDetailCombo, dateRangeItem, fromItem, toItem);
 		add(updateButton);
-		if (updateButton.isEnabled()) {
-			updateButton.getElement().getParentElement()
-					.setClassName("ibutton");
-			ThemesUtil.addDivToButton(updateButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		updateButton.enabledButton();
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 	}

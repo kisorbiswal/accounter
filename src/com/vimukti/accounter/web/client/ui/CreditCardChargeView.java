@@ -7,7 +7,6 @@ import java.util.Set;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -26,6 +25,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -456,7 +456,8 @@ public class CreditCardChargeView extends
 
 		Label lab2 = new Label("Items and expenses");
 
-		Button addButton = createAddNewButton();// new Button(FinanceApplication
+		AccounterButton addButton = createAddNewButton();// new
+															// Button(FinanceApplication
 
 		netAmount = new AmountLabel(FinanceApplication.getBankingsMessages()
 				.netAmount());
@@ -565,6 +566,8 @@ public class CreditCardChargeView extends
 
 			bottompanel.add(vpanel);
 		}
+
+		menuButton.setType(AccounterButton.ADD_BUTTON);
 
 		leftVLay = new VerticalPanel();
 		// leftVLay.setWidth("80%");

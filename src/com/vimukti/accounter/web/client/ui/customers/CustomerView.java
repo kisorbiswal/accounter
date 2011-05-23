@@ -12,11 +12,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -39,7 +36,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.externalization.ActionsConstants;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -56,6 +52,7 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.TaxGroupCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -693,8 +690,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		Label l1 = new Label(FinanceApplication.getCustomersMessages()
 				.contacts());
-		Button addButton = new Button(FinanceApplication.getCustomersMessages()
-				.add());
+		AccounterButton addButton = new AccounterButton(FinanceApplication
+				.getCustomersMessages().add());
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -728,27 +725,13 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 		hPanel.getElement().getStyle().setFloat(Float.RIGHT);
 		panel.add(hPanel);
-		if (addButton.isEnabled()) {
-			addButton.getElement().getParentElement()
-					.addClassName("add-button");
-
-			Element addseparator = DOM.createSpan();
-			addseparator.addClassName("add-separator");
-			DOM.appendChild(addButton.getElement(), addseparator);
-
-			Element addimage = DOM.createSpan();
-			addimage.addClassName("add-image");
-			DOM.appendChild(addButton.getElement(), addimage);
-
-			ThemesUtil.addDivToButton(addButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"add-right-image");
-		}
+		addButton.setType(AccounterButton.ADD_BUTTON);
+		addButton.enabledAddButton();
 		memoArea = new TextAreaItem();
 		memoArea.setWidth("400px");
 		memoArea.setTitle(customerConstants.memo());
 
-		// Button addLinksButt = new Button("AddLinks");
+		// AccounterButton addLinksButt = new AccounterButton("AddLinks");
 		// linksText = new TextItem("");
 		// linksText.setWidth(100);
 		DynamicForm memoForm = new DynamicForm();

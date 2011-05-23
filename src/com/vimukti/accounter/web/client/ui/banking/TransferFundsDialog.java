@@ -9,7 +9,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.InvalidOperationException;
@@ -26,6 +25,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.IncomeAndExpensesAccountCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -38,7 +38,6 @@ import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-
 /**
  * 
  * @author Mandeep Singh
@@ -61,7 +60,7 @@ public class TransferFundsDialog extends BaseDialog {
 	ClientTransferFund transferFund;
 
 	private Double transferAmount = 0D;
-	private Button editButton;
+	private AccounterButton editButton;
 
 	public TransferFundsDialog(Object data) {
 		super(FinanceApplication.getBankingsMessages().transferFunds(),
@@ -237,7 +236,7 @@ public class TransferFundsDialog extends BaseDialog {
 		// hlay.setMembersMargin(10);
 		hlay.add(transferFromForm);
 		hlay.add(transferToForm);
-		editButton = new Button();
+		editButton = new AccounterButton();
 		editButton.setText("Edit");
 		editButton.setVisible(false);
 
@@ -275,12 +274,7 @@ public class TransferFundsDialog extends BaseDialog {
 		// footerLayout.setCellWidth(okbtn, "85%");
 
 		footerLayout.insert(editButton, getAbsoluteLeft());
-		if (editButton.isEnabled()) {
-		editButton.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(editButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		editButton.enabledButton();
 		mainVLay.add(transferForm);
 		mainVLay.add(hlay);
 		mainVLay.add(footerLayout);

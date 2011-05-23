@@ -12,7 +12,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
@@ -31,7 +30,6 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.Header;
@@ -39,6 +37,7 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -65,9 +64,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	private ClientCompany company;
 	private List<ClientAccount> accounts = new ArrayList<ClientAccount>();
 	private HorizontalPanel hlLayout;
-	private Button helpButt;
-	private Button ok;
-	private Button cancel;
+	private AccounterButton helpButt;
+	private AccounterButton ok;
+	private AccounterButton cancel;
 	@SuppressWarnings("unused")
 	private IAccounterGETServiceAsync getService;
 	@SuppressWarnings("unused")
@@ -78,7 +77,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	private TextItem vatRegNumber;
 	private RadioGroupItem ageingFromTransactionDateORDueDate;
 	private RadioGroupItem whowillrunAccTransfer, paysalesTaxgroupItem;
-	private Button buttonItem, taxgroupBtn, clearlogBtn,
+	private AccounterButton buttonItem, taxgroupBtn, clearlogBtn,
 			mangeServiceMappingsBtn;
 	private OtherAccountsCombo openinBalcombo, accountsreceivablecombo,
 			accountsPayablecombo, salesTaxPayablecombo, cashDiscountGivencombo,
@@ -268,7 +267,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// hlLayout.setLayoutLeftMargin(5);
 		// hlLayout.setLayoutRightMargin(5);
 
-		helpButt = new Button(companyMessges.help());
+		helpButt = new AccounterButton(companyMessges.help());
 		// helpButt.setHeight("30");
 		// helpButt.setAutoFit(true);
 		helpButt.addClickHandler(new ClickHandler() {
@@ -284,18 +283,13 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		HorizontalPanel helpLayout = new HorizontalPanel();
 		helpLayout.setWidth("50%");
 		helpLayout.add(helpButt);
-		if (helpButt.isEnabled()) {
-			helpButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(helpButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		helpButt.enabledButton();
 		HorizontalPanel okCancelayout = new HorizontalPanel();
 		okCancelayout.setWidth("70%");
 		// okCancelayout.setMembersMargin(10);
 		// okCancelayout.setAlign(Alignment.RIGHT);
 
-		ok = new Button(companyMessges.ok());
+		ok = new AccounterButton(companyMessges.ok());
 		// ok.setAutoFit(true);
 		ok.addClickHandler(new ClickHandler() {
 
@@ -306,7 +300,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			}
 		});
 
-		cancel = new Button(companyMessges.cancel());
+		cancel = new AccounterButton(companyMessges.cancel());
 		// cancel.setAutoFit(true);
 		cancel.addClickHandler(new ClickHandler() {
 
@@ -318,21 +312,11 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			}
 		});
 		okCancelayout.add(ok);
-		if (ok.isEnabled()) {
-			ok.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(ok, FinanceApplication.getThemeImages()
-					.button_right_blue_image(), "ibutton-right-image");
-			okCancelayout.setCellWidth(ok, "70%");
-		}
+		ok.enabledButton();
 		okCancelayout.setCellHorizontalAlignment(ok,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		okCancelayout.add(cancel);
-		if (cancel.isEnabled()) {
-			cancel.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(cancel, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		cancel.enabledButton();
 		hlLayout.add(helpLayout);
 		hlLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		hlLayout.add(okCancelayout);
@@ -502,7 +486,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		}
 		vatRegNumber.setValue(FinanceApplication.getCompany().getpreferences()
 				.getVATregistrationNumber());
-		taxgroupBtn = new Button(companyMessges.taxgroups());
+		taxgroupBtn = new AccounterButton(companyMessges.taxgroups());
 		// taxgroupBtn.setColSpan("*");
 		taxgroupBtn.addClickHandler(new ClickHandler() {
 
@@ -935,7 +919,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// }
 		// vatRegNumber.setValue(FinanceApplication.getCompany().getpreferences()
 		// .getVATregistrationNumber());
-		// taxgroupBtn = new Button(companyMessges.taxgroups());
+		// taxgroupBtn = new AccounterButton(companyMessges.taxgroups());
 		// // taxgroupBtn.setColSpan("*");
 		// taxgroupBtn.addClickHandler(new ClickHandler() {
 		//
@@ -1124,7 +1108,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// playsounds.setTitleOrientation(TitleOrientation.TOP);
 		playsounds.setTitle(companyMessges.playsoundswithActions());
 
-		buttonItem = new Button(companyMessges.restoreDefault());
+		buttonItem = new AccounterButton(companyMessges.restoreDefault());
 		// buttonItem.setAutoFit(true);
 		buttonItem.addClickHandler(new ClickHandler() {
 
@@ -1180,7 +1164,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// serviceMapForm.setPadding(10);
 
 		// FIXME--Previusly 'mangeServiceMappingsBtn' is ButtonItem
-		mangeServiceMappingsBtn = new Button(companyMessges
+		mangeServiceMappingsBtn = new AccounterButton(companyMessges
 				.manageServiceMappings());
 		mangeServiceMappingsBtn.setHeight("30");
 
@@ -1207,7 +1191,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		};
 		logspaceTxt.setTitle(companyMessges.logSpace());
 
-		clearlogBtn = new Button();
+		clearlogBtn = new AccounterButton();
 		clearlogBtn.setTitle(companyMessges.clearLog());
 
 		logContentSelect = new SelectItem();
@@ -1226,12 +1210,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		suportLogPanel.add(supportLogging);
 		// FIXME
 		suportLogPanel.add(clearlogBtn);
-		if (clearlogBtn.isEnabled()) {
-			clearlogBtn.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(clearlogBtn, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		clearlogBtn.enabledButton();
 		generalLayOut = new VerticalPanel();
 		// generalLayOut.setSize("100%", "100%");
 		generalLayOut.setWidth("100%");
@@ -1241,13 +1220,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		generalLayOut.add(filingRecordNameForm);
 		generalLayOut.add(serviceMapForm);
 		generalLayOut.add(mangeServiceMappingsBtn);
-		if (mangeServiceMappingsBtn.isEnabled()) {
-			mangeServiceMappingsBtn.getElement().getParentElement()
-					.setClassName("ibutton");
-			ThemesUtil.addDivToButton(mangeServiceMappingsBtn,
-					FinanceApplication.getThemeImages()
-							.button_right_blue_image(), "ibutton-right-image");
-		}
+		mangeServiceMappingsBtn.enabledButton();
 		generalLayOut.add(supportLogging);
 		// generalLayOut.add(10);
 

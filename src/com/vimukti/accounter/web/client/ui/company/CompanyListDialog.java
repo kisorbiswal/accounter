@@ -9,18 +9,17 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.IAccounterGETService;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
@@ -48,7 +47,8 @@ public class CompanyListDialog extends AbstractBaseDialog<ClientCompany> {
 		companyGrid.addColumn(ListGrid.COLUMN_TYPE_TEXTBOX, companyConstants
 				.legalName());
 
-		Button closeButt = new Button(companyConstants.close());
+		AccounterButton closeButt = new AccounterButton(companyConstants
+				.close());
 		// closeButt.setLayoutAlign(Alignment.RIGHT);
 
 		closeButt.addClickHandler(new ClickHandler() {
@@ -109,12 +109,8 @@ public class CompanyListDialog extends AbstractBaseDialog<ClientCompany> {
 		mainVLay.add(companyGrid);
 		mainVLay.add(closeButt);
 
-		if (closeButt.isEnabled()) {
-			closeButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(closeButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		closeButt.enabledButton();
+
 		add(mainVLay);
 		setSize("400", "400");
 

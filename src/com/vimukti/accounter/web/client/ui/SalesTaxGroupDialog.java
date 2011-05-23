@@ -6,15 +6,14 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -36,12 +35,12 @@ public class SalesTaxGroupDialog extends BaseDialog {
 	protected InputDialogHandler addInputDialogHandler;
 	protected DialogGrid availTaxItemsGrid;
 	protected DialogGrid selectTaxItemsGrid;
-	protected Button addButton, removeButton;
+	protected AccounterButton addButton, removeButton;
 
 	private ArrayList<ClientTAXItem> tempAvailTaxItemList;
 	private ArrayList<ClientTAXItem> tempSelectedTaxItemList;
 	public TextItem taxGroupText;
-	public DynamicForm form1 ;
+	public DynamicForm form1;
 	private static boolean flag = false;
 
 	public SalesTaxGroupDialog(String title, String desc,
@@ -171,7 +170,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		// setPageTop(10);
 		VerticalPanel bodyLayout = new VerticalPanel();
 
-	     form1 = new DynamicForm();
+		form1 = new DynamicForm();
 		// form1.setHeight("100px");
 		taxGroupText = new TextItem();
 		taxGroupText.setTitle(FinanceApplication.getFinanceUIConstants()
@@ -216,7 +215,8 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		buttonsLayout.setSpacing(3);
 		// buttonsLayout.setMembersMargin(10);
 		// buttonsLayout.setLayoutMargin(10);
-		Button addButton = new Button(FinanceApplication.getVATMessages().Add());
+		AccounterButton addButton = new AccounterButton(FinanceApplication
+				.getVATMessages().Add());
 		addButton.setWidth("80px");
 		addButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -241,7 +241,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 			}
 		});
 
-		Button removeButton = new Button(FinanceApplication
+		AccounterButton removeButton = new AccounterButton(FinanceApplication
 				.getFinanceUIConstants().remove());
 		removeButton.setWidth("80px");
 		removeButton.addClickHandler(new ClickHandler() {
@@ -267,16 +267,8 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 		buttonsLayout.add(addButton);
 		buttonsLayout.add(removeButton);
-		if (addButton.isEnabled()) {
-		addButton.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(addButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}if (removeButton.isEnabled()) {
-		removeButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(removeButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");}
+		addButton.enabledButton();
+		removeButton.enabledButton();
 		// Selected Tax Codes Layout
 		// DynamicForm selectForm = new DynamicForm();
 

@@ -12,14 +12,13 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.LineChart;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
@@ -63,18 +62,12 @@ public class BankingPortlet extends DashBoardPortlet {
 			bankAccounts = FinanceApplication.getCompany()
 					.getActiveBankAccounts(ClientAccount.TYPE_BANK);
 		}
-		Button addAccount = new Button(FinanceApplication.getCompanyMessages()
-				.addBankAccount());
+		AccounterButton addAccount = new AccounterButton(FinanceApplication
+				.getCompanyMessages().addBankAccount());
 		addAccount.addStyleName("addAccountPortlet");
 		if (FinanceApplication.getUser().canDoBanking()) {
 			body.add(addAccount);
-			if (addAccount.isEnabled()) {
-				addAccount.getElement().getParentElement().setClassName(
-						"ibutton");
-				ThemesUtil.addDivToButton(addAccount, FinanceApplication
-						.getThemeImages().button_right_blue_image(),
-						"ibutton-right-image");
-			}
+			addAccount.enabledButton();
 		}
 
 		if (bankAccounts == null || bankAccounts.size() == 0) {

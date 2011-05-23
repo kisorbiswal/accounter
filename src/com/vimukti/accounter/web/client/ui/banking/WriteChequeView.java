@@ -9,7 +9,6 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -38,6 +37,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PayeeCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
@@ -1049,6 +1049,7 @@ public class WriteChequeView extends
 		vPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
 		mainVLay.add(vPanel);
+		menuButton.setType(AccounterButton.ADD_BUTTON);
 
 		canvas.setWidth("100%");
 		canvas.add(mainVLay);
@@ -1195,7 +1196,7 @@ public class WriteChequeView extends
 	// }
 
 	@Override
-	protected void showMenu(Button button) {
+	protected void showMenu(AccounterButton button) {
 		if (payee != null) {
 			switch (payee.getType()) {
 			case ClientWriteCheck.TYPE_CUSTOMER:

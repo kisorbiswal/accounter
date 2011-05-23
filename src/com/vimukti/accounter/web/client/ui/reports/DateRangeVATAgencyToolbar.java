@@ -7,17 +7,16 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 
 public class DateRangeVATAgencyToolbar extends ReportToolbar {
@@ -29,7 +28,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 	private TAXAgencyCombo vatAgencyCombo;
 	protected String selectedEndDate;
 	protected String selectedStartDate;
-	private Button updateButton;
+	private AccounterButton updateButton;
 	private List<String> dateRangeList;
 
 	public DateRangeVATAgencyToolbar() {
@@ -162,8 +161,8 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 			}
 		});
 
-		updateButton = new Button(FinanceApplication.getReportsMessages()
-				.update());
+		updateButton = new AccounterButton(FinanceApplication
+				.getReportsMessages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -196,8 +195,8 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 		// set the Date Range to End this Calendar quarter to date
 		// setDefaultDateRange(dateRangeArray);
 
-		Button printButton = new Button(FinanceApplication.getReportsMessages()
-				.print());
+		AccounterButton printButton = new AccounterButton(FinanceApplication
+				.getReportsMessages().print());
 		printButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -213,13 +212,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 		addItems(vatAgencyCombo, dateRangeItem, fromItem, toItem);
 		add(updateButton);
-		if (updateButton.isEnabled()) {
-			updateButton.getElement().getParentElement()
-					.setClassName("ibutton");
-			ThemesUtil.addDivToButton(updateButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		updateButton.enabledButton();
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 	}

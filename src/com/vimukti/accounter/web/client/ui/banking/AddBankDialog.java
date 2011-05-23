@@ -3,15 +3,13 @@ package com.vimukti.accounter.web.client.ui.banking;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.FinanceConstants;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -39,22 +37,17 @@ public class AddBankDialog extends AbstractBaseDialog {
 		// bankForm.setMargin(20);
 		bankForm.setFields(bankText);
 
-		Button helpButt = new Button(financeConstants.help());
+		AccounterButton helpButt = new AccounterButton(financeConstants.help());
 		// helpButt.setAutoFit(true);
-		Button okButt = new Button(financeConstants.ok());
+		AccounterButton okButt = new AccounterButton(financeConstants.ok());
 		// okButt.setAutoFit(true);
-		Button canButt = new Button(financeConstants.cancel());
+		AccounterButton canButt = new AccounterButton(financeConstants.cancel());
 		// canButt.setAutoFit(true);
 
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		helpHLay.setWidth("50%");
 		helpHLay.add(helpButt);
-		if (helpButt.isEnabled()) {
-			helpButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(helpButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		helpButt.enabledButton();
 		HorizontalPanel buttHLay = new HorizontalPanel();
 		buttHLay.setWidth("100%");
 		// buttHLay.setMargin(20);
@@ -63,18 +56,8 @@ public class AddBankDialog extends AbstractBaseDialog {
 		buttHLay.add(helpHLay);
 		buttHLay.add(okButt);
 		buttHLay.add(canButt);
-		if (okButt.isEnabled()) {
-			okButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(okButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (canButt.isEnabled()) {
-			canButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(canButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		okButt.enabledButton();
+		canButt.enabledButton();
 		okButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if (bankForm.validate(true)) {

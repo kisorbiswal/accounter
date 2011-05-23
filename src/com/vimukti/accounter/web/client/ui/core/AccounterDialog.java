@@ -5,14 +5,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
@@ -22,8 +20,8 @@ public class AccounterDialog extends CustomDialog {
 	public AccounterType type;
 	public String message;
 	private boolean isError;
-	private Button okButton;
-	private Button cancelButton;
+	private AccounterButton okButton;
+	private AccounterButton cancelButton;
 
 	public AccounterDialog(String mesg, AccounterType type) {
 
@@ -72,8 +70,8 @@ public class AccounterDialog extends CustomDialog {
 		// buttonLayout.setAutoHeight();
 		// buttonLayout.setHeight("20%");
 
-		Button yesButton;
-		Button noButton;
+		AccounterButton yesButton;
+		AccounterButton noButton;
 
 		String imageUrl;
 
@@ -92,18 +90,13 @@ public class AccounterDialog extends CustomDialog {
 				setText("INFORMATION");
 			}
 
-			okButton = new Button(FinanceApplication.getCompanyMessages().ok());
+			okButton = new AccounterButton(FinanceApplication
+					.getCompanyMessages().ok());
 			okButton.setWidth("80px");
 
 			// buttonLayout.setAlign(Alignment.RIGHT);
 			buttonLayout.add(okButton);
-			if (okButton.isEnabled()) {
-				okButton.getElement().getParentElement()
-						.setClassName("ibutton");
-				ThemesUtil.addDivToButton(okButton, FinanceApplication
-						.getThemeImages().button_right_blue_image(),
-						"ibutton-right-image");
-			}
+			okButton.enabledButton();
 			okButton.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -118,10 +111,11 @@ public class AccounterDialog extends CustomDialog {
 
 			imageUrl = "/images/warn-icon.png";
 			setText("WARNING");
-			yesButton = new Button(FinanceApplication.getCompanyMessages()
-					.yes());
+			yesButton = new AccounterButton(FinanceApplication
+					.getCompanyMessages().yes());
 			yesButton.setWidth("60");
-			noButton = new Button(FinanceApplication.getCompanyMessages().no());
+			noButton = new AccounterButton(FinanceApplication
+					.getCompanyMessages().no());
 			noButton.setWidth("60");
 			yesButton.addClickHandler(new ClickHandler() {
 
@@ -148,32 +142,14 @@ public class AccounterDialog extends CustomDialog {
 			});
 			// buttonLayout.setAlign(Alignment.RIGHT);
 			if (this.type.equals(AccounterType.WARNINGWITHCANCEL)) {
-				cancelButton = new Button(FinanceApplication
+				cancelButton = new AccounterButton(FinanceApplication
 						.getCompanyMessages().cancel());
 				buttonLayout.add(yesButton);
 				buttonLayout.add(noButton);
 				buttonLayout.add(cancelButton);
-				if (yesButton.isEnabled()) {
-					yesButton.getElement().getParentElement().setClassName(
-							"ibutton");
-					ThemesUtil.addDivToButton(yesButton, FinanceApplication
-							.getThemeImages().button_right_blue_image(),
-							"ibutton-right-image");
-				}
-				if (noButton.isEnabled()) {
-					noButton.getElement().getParentElement().setClassName(
-							"ibutton");
-					ThemesUtil.addDivToButton(noButton, FinanceApplication
-							.getThemeImages().button_right_blue_image(),
-							"ibutton-right-image");
-				}
-				if (cancelButton.isEnabled()) {
-					cancelButton.getElement().getParentElement().setClassName(
-							"ibutton");
-					ThemesUtil.addDivToButton(cancelButton, FinanceApplication
-							.getThemeImages().button_right_blue_image(),
-							"ibutton-right-image");
-				}
+				yesButton.enabledButton();
+				noButton.enabledButton();
+				cancelButton.enabledButton();
 				cancelButton.addClickHandler(new ClickHandler() {
 
 					@Override
@@ -185,20 +161,8 @@ public class AccounterDialog extends CustomDialog {
 			} else {
 				buttonLayout.add(yesButton);
 				buttonLayout.add(noButton);
-				if (yesButton.isEnabled()) {
-					yesButton.getElement().getParentElement().setClassName(
-							"ibutton");
-					ThemesUtil.addDivToButton(yesButton, FinanceApplication
-							.getThemeImages().button_right_blue_image(),
-							"ibutton-right-image");
-				}
-				if (noButton.isEnabled()) {
-					noButton.getElement().getParentElement().setClassName(
-							"ibutton");
-					ThemesUtil.addDivToButton(noButton, FinanceApplication
-							.getThemeImages().button_right_blue_image(),
-							"ibutton-right-image");
-				}
+				yesButton.enabledButton();
+				noButton.enabledButton();
 			}
 
 		}

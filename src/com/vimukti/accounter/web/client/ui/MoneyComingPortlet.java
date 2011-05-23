@@ -13,14 +13,13 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.ColumnChart;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 
@@ -71,8 +70,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 		HorizontalPanel hPanel = new HorizontalPanel();
 		FlexTable fTable = new FlexTable();
 
-		Button addReceivableInvoiceBtn = new Button(FinanceApplication
-				.getCompanyMessages().addReceivableInvoice());
+		AccounterButton addReceivableInvoiceBtn = new AccounterButton(
+				FinanceApplication.getCompanyMessages().addReceivableInvoice());
 		addReceivableInvoiceBtn.addStyleName("addButtonPortlet");
 		addReceivableInvoiceBtn.addClickHandler(new ClickHandler() {
 
@@ -103,11 +102,7 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
 			hPanel.add(addReceivableInvoiceBtn);
 
-			addReceivableInvoiceBtn.getElement().getParentElement()
-					.setClassName("ibutton");
-			ThemesUtil.addDivToButton(addReceivableInvoiceBtn,
-					FinanceApplication.getThemeImages()
-							.button_right_blue_image(), "ibutton-right-image");
+			addReceivableInvoiceBtn.enabledButton();
 		}
 
 		hPanel.add(fTable);

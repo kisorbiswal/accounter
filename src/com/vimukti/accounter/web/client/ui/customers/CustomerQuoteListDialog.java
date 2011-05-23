@@ -7,7 +7,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -20,12 +19,12 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.externalization.FinanceConstants;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
@@ -95,7 +94,8 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 
 		HorizontalPanel helpButtonLayout = new HorizontalPanel();
 
-		Button helpButton = new Button(financeConstants.help());
+		AccounterButton helpButton = new AccounterButton(financeConstants
+				.help());
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -106,16 +106,11 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 
 		});
 		helpButtonLayout.add(helpButton);
-		if (helpButton.isEnabled()) {
-		helpButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(helpButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-		}
+		helpButton.enabledButton();
 		HorizontalPanel okButtonLayout = new HorizontalPanel();
 		okButtonLayout.setSpacing(3);
 
-		Button okButton = new Button(financeConstants.ok());
+		AccounterButton okButton = new AccounterButton(financeConstants.ok());
 		okButton.setWidth("100px");
 		okButton.addClickHandler(new ClickHandler() {
 
@@ -129,12 +124,9 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 
 		});
 		okButtonLayout.add(okButton);
-		if (okButton.isEnabled()) {
-		okButton.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(okButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");}
-		Button cancelButton = new Button(financeConstants.cancel());
+		okButton.enabledButton();
+		AccounterButton cancelButton = new AccounterButton(financeConstants
+				.cancel());
 		cancelButton.setWidth("100px");
 		cancelButton.addClickHandler(new ClickHandler() {
 
@@ -144,11 +136,7 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 
 		});
 		okButtonLayout.add(cancelButton);
-		if (cancelButton.isEnabled()) {
-		cancelButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(cancelButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");}
+		cancelButton.enabledButton();
 		HorizontalPanel buttonLayout = new HorizontalPanel();
 		buttonLayout.setWidth("100%");
 

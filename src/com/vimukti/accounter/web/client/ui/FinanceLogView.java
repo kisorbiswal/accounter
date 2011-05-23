@@ -11,7 +11,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -19,7 +18,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientFinanceLogger;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.FinanceLogginGrid;
@@ -142,7 +141,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 		datePanel.setCellHorizontalAlignment(dateForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		Button getLogByDateBtn = new Button();
+		AccounterButton getLogByDateBtn = new AccounterButton();
 		getLogByDateBtn.setText(FinanceApplication.getCompanyMessages().get());
 		getLogByDateBtn.addClickHandler(new ClickHandler() {
 
@@ -157,13 +156,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 			}
 		});
 		datePanel.add(getLogByDateBtn);
-		if (getLogByDateBtn.isEnabled()) {
-			getLogByDateBtn.getElement().getParentElement().setClassName(
-					"ibutton");
-			ThemesUtil.addDivToButton(getLogByDateBtn, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		getLogByDateBtn.enabledButton();
 		datePanel.setCellHorizontalAlignment(dateForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 

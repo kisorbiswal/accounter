@@ -3,7 +3,10 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.vimukti.accounter.web.client.images.FinanceMenuImages;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -58,5 +61,21 @@ public class CustomMenuBar extends MenuBar {
 	// }
 	// return null;
 	// }
+	@Override
+	public void onBrowserEvent(Event event) {
+		switch (DOM.eventGetType(event)) {
+		case Event.ONMOUSEOUT:
+			Element element = event.getTarget();
+			if (CustomMenuBar.this.getElement().equals(element)) {
+				CustomMenuBar.this.removeFromParent();
+			}
+			break;
+		default:
+			break;
+		}
+		super.onBrowserEvent(event);
+	}
+	
+	
 
 }

@@ -1,11 +1,10 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -51,24 +50,19 @@ public class AddresssDilaog extends AbstractBaseDialog {
 		form.setFields(streetText1, streetText2, cityText, stateText, zipText,
 				countryText);
 
-		Button helpButt = new Button(FinanceApplication.getFinanceUIConstants()
-				.help());
+		AccounterButton helpButt = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().help());
 		// helpButt.setLayoutAlign(Alignment.LEFT);
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		helpHLay.setWidth("50%");
 		helpHLay.add(helpButt);
-		if (helpButt.isEnabled()) {
-			helpButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(helpButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		Button okButt = new Button(FinanceApplication.getFinanceUIConstants()
-				.ok());
+		helpButt.enabledButton();
+		AccounterButton okButt = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().ok());
 		// okButt.setLayoutAlign(Alignment.RIGHT);
 
-		Button canButt = new Button(FinanceApplication.getFinanceUIConstants()
-				.cancel());
+		AccounterButton canButt = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().cancel());
 		// canButt.setLayoutAlign(Alignment.RIGHT);
 
 		HorizontalPanel buttHLay = new HorizontalPanel();
@@ -77,18 +71,8 @@ public class AddresssDilaog extends AbstractBaseDialog {
 		// buttHLay.setAlign(Alignment.RIGHT);
 		buttHLay.add(okButt);
 		buttHLay.add(canButt);
-		if (okButt.isEnabled()) {
-			okButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(okButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (canButt.isEnabled()) {
-			canButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(canButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		okButt.enabledButton();
+		canButt.enabledButton();
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.add(form);
 		mainVLay.add(buttHLay);

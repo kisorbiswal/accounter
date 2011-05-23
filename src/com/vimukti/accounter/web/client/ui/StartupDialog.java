@@ -9,7 +9,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -22,9 +21,9 @@ import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.data.ClientIdentity;
 import com.vimukti.accounter.web.client.services.IdentityService;
 import com.vimukti.accounter.web.client.services.IdentityServiceAsync;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.company.CompanySetupDialog;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -75,16 +74,16 @@ public class StartupDialog extends DialogBox {
 		form = new DynamicForm();
 		form.setFields(userEmailText, userPassText);
 
-		Button createButt = UIUtils.Button(FinanceApplication
+		AccounterButton createButt = UIUtils.AccounterButton(FinanceApplication
 				.getCompanyMessages().createUser(), "U");
 		// createButt.setAutoFit(true);
 
-		Button loginButt = UIUtils.Button(FinanceApplication
+		AccounterButton loginButt = UIUtils.AccounterButton(FinanceApplication
 				.getCompanyMessages().login(), "L");
 		// loginButt.setAutoFit(true);
 
-		Button createCompButt = UIUtils.Button(FinanceApplication
-				.getCompanyMessages().createCompany(), "C");
+		AccounterButton createCompButt = UIUtils.AccounterButton(
+				FinanceApplication.getCompanyMessages().createCompany(), "C");
 		// createCompButt.setWidth("*");
 		// createCompButt.setAutoFit(true);
 		// createCompButt.setAlign(Alignment.CENTER);
@@ -96,18 +95,8 @@ public class StartupDialog extends DialogBox {
 		// buttHLay.setMembersMargin(20);
 		buttHLay.add(loginButt);
 		buttHLay.add(createButt);
-		if (loginButt.isEnabled()) {
-			loginButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(loginButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (createButt.isEnabled()) {
-			createButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(createButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		loginButt.enabledButton();
+		createButt.enabledButton();
 		createButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				// if (form.validate()) {
@@ -142,7 +131,7 @@ public class StartupDialog extends DialogBox {
 				FinanceApplication.getCustomersMessages().name(),
 				FinanceApplication.getCustomersMessages().legalName() });
 
-		Button closeButt = new Button(FinanceApplication.getCustomersMessages()
+		AccounterButton closeButt = new AccounterButton(FinanceApplication.getCustomersMessages()
 				.close());
 		// closeButt.setLayoutAlign(Alignment.RIGHT);
 
@@ -172,13 +161,7 @@ public class StartupDialog extends DialogBox {
 		mainVLay.add(form);
 		mainVLay.add(buttHLay);
 		mainVLay.add(createCompButt);
-		if (createCompButt.isEnabled()) {
-			createCompButt.getElement().getParentElement().setClassName(
-					"ibutton");
-			ThemesUtil.addDivToButton(createCompButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		createCompButt.enabledButton();
 		mainVLay.add(companyGrid);
 
 		setSize("450", "450");

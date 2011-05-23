@@ -5,7 +5,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -17,12 +16,12 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -43,7 +42,8 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 			websiteText, taxIDText;
 	SelectItem countrySelect, accountType;
 	DialogGrid typeGrid;
-	Button helpButt, backButt, nextButt, finButt, canButt, addBusinessTypeButt;
+	AccounterButton helpButt, backButt, nextButt, finButt, canButt,
+			addBusinessTypeButt;
 	DynamicForm companyForm;
 
 	VerticalPanel step1Canvas = null, step2Canvas = null, step3Canvas = null;
@@ -377,15 +377,15 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 				countrySelect, phoneText, faxText, emailText, websiteText,
 				taxIDText);
 
-		helpButt = new Button(companyConstants.help());
+		helpButt = new AccounterButton(companyConstants.help());
 		helpButt.setAccessKey('H');
-		backButt = new Button(companyConstants.back());
+		backButt = new AccounterButton(companyConstants.back());
 		backButt.setAccessKey('B');
-		nextButt = new Button(companyConstants.next());
+		nextButt = new AccounterButton(companyConstants.next());
 		nextButt.setAccessKey('N');
-		finButt = new Button(companyConstants.finish());
+		finButt = new AccounterButton(companyConstants.finish());
 		finButt.setAccessKey('F');
-		canButt = new Button(companyConstants.cancel());
+		canButt = new AccounterButton(companyConstants.cancel());
 		canButt.setAccessKey('C');
 
 		backButt.setEnabled(true);
@@ -495,20 +495,20 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		// typeGrid.setDisabled(true);
 		typeGrid.selectRecord(0);
 
-		addBusinessTypeButt = new Button(companyConstants.add());
+		addBusinessTypeButt = new AccounterButton(companyConstants.add());
 		addBusinessTypeButt.addClickHandler(UIUtils.todoClick());
 
-		helpButt = new Button(companyConstants.help());
+		helpButt = new AccounterButton(companyConstants.help());
 		helpButt.setAccessKey('H');
-		backButt = new Button(companyConstants.back());
+		backButt = new AccounterButton(companyConstants.back());
 		backButt.setAccessKey('B');
 		backButt.setEnabled(false);
-		nextButt = new Button(companyConstants.next());
+		nextButt = new AccounterButton(companyConstants.next());
 		nextButt.setAccessKey('N');
 		nextButt.setEnabled(true);
-		finButt = new Button(companyConstants.finish());
+		finButt = new AccounterButton(companyConstants.finish());
 		finButt.setAccessKey('F');
-		canButt = new Button(companyConstants.cancel());
+		canButt = new AccounterButton(companyConstants.cancel());
 		canButt.setAccessKey('C');
 
 		VerticalPanel leftVLay = new VerticalPanel();
@@ -522,13 +522,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		// businessTypeHLay.setMembersMargin(10);
 		businessTypeHLay.add(typeGrid);
 		businessTypeHLay.add(addBusinessTypeButt);
-		if (addBusinessTypeButt.isEnabled()) {
-			addBusinessTypeButt.getElement().getParentElement().setClassName(
-					"ibutton");
-			ThemesUtil.addDivToButton(addBusinessTypeButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		addBusinessTypeButt.enabledButton();
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setSize("80%", "100%");
 		rightVLay.add(typeLabel);
@@ -543,12 +537,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		// helpHLay.setSize("50%", "*");
 		helpHLay.add(helpButt);
-		if (helpButt.isEnabled()) {
-			helpButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(helpButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		helpButt.enabledButton();
 		HorizontalPanel buttHLay2 = new HorizontalPanel();
 		// buttHLay2.setMembersMargin(10);
 		// buttHLay2.setSize("50%", "*");
@@ -556,30 +545,10 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		buttHLay2.add(nextButt);
 		buttHLay2.add(finButt);
 		buttHLay2.add(canButt);
-		if (backButt.isEnabled()) {
-			backButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(backButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (nextButt.isEnabled()) {
-			nextButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(nextButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (finButt.isEnabled()) {
-			finButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(finButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (canButt.isEnabled()) {
-			canButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(canButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		backButt.enabledButton();
+		nextButt.enabledButton();
+		finButt.enabledButton();
+		canButt.enabledButton();
 		HorizontalPanel buttHLay1 = new HorizontalPanel();
 		// buttHLay1.setSize("100%", "*");
 		// buttHLay1.setAlign(Alignment.RIGHT);
@@ -694,13 +663,13 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 				street2Text, cityText, stateText, zipText, countrySelect,
 				phoneText, faxText, emailText, websiteText, taxIDText);
 
-		helpButt = new Button(companyConstants.help());
-		backButt = new Button(companyConstants.back());
+		helpButt = new AccounterButton(companyConstants.help());
+		backButt = new AccounterButton(companyConstants.back());
 		backButt.setEnabled(false);
-		nextButt = new Button(companyConstants.next());
+		nextButt = new AccounterButton(companyConstants.next());
 		nextButt.setEnabled(true);
-		finButt = new Button(companyConstants.finish());
-		canButt = new Button(companyConstants.cancel());
+		finButt = new AccounterButton(companyConstants.finish());
+		canButt = new AccounterButton(companyConstants.cancel());
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		// leftVLay.setSize("20%", "*");
@@ -722,12 +691,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		// helpHLay.setSize("50%", "*");
 		helpHLay.add(helpButt);
-		if (helpButt.isEnabled()) {
-			helpButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(helpButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		helpButt.enabledButton();
 		HorizontalPanel buttHLay2 = new HorizontalPanel();
 		// buttHLay2.setMembersMargin(10);
 		// buttHLay2.setSize("50%", "*");
@@ -735,30 +699,10 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		buttHLay2.add(nextButt);
 		buttHLay2.add(finButt);
 		buttHLay2.add(canButt);
-		if (backButt.isEnabled()) {
-			backButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(backButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (nextButt.isEnabled()) {
-			nextButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(nextButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (finButt.isEnabled()) {
-			finButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(finButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (canButt.isEnabled()) {
-			canButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(canButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		backButt.enabledButton();
+		nextButt.enabledButton();
+		finButt.enabledButton();
+		canButt.enabledButton();
 
 		HorizontalPanel buttHLay1 = new HorizontalPanel();
 		// buttHLay1.setSize("100%", "*");

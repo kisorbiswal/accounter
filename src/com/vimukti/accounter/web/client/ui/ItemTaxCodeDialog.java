@@ -2,12 +2,11 @@ package com.vimukti.accounter.web.client.ui;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -51,40 +50,30 @@ public class ItemTaxCodeDialog extends DialogBox {
 		// grid.setCanResizeFields(true);
 		// grid.setData(createListGridRecords(typeRecords));
 
-		Button addButt = new Button("Add...");
+		AccounterButton addButt = new AccounterButton("Add...");
 		addButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				showAddEditDialog();
 			}
 		});
-		Button editButt = new Button(FinanceApplication.getFinanceUIConstants()
-				.edit());
-		Button remButt = new Button(FinanceApplication.getFinanceUIConstants()
-				.remove());
+		AccounterButton editButt = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().edit());
+		AccounterButton remButt = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().remove());
 
-		Button helpButt = new Button(FinanceApplication.getFinanceUIConstants()
-				.help());
-		Button closeButt = new Button(FinanceApplication
+		AccounterButton helpButt = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().help());
+		AccounterButton closeButt = new AccounterButton(FinanceApplication
 				.getFinanceUIConstants().close());
 
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		// helpHLay.setAlign(Alignment.LEFT);
 		helpHLay.add(helpButt);
-		if (helpButt.isEnabled()) {
-			helpButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(helpButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		helpButt.enabledButton();
 		HorizontalPanel closeHLay = new HorizontalPanel();
 		// closeHLay.setAlign(Alignment.RIGHT);
 		closeHLay.add(closeButt);
-		if (closeButt.isEnabled()) {
-			closeButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(closeButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		closeButt.enabledButton();
 		HorizontalPanel buttHLay = new HorizontalPanel();
 		buttHLay.setSize("100%", "10%");
 		buttHLay.add(helpHLay);
@@ -94,24 +83,9 @@ public class ItemTaxCodeDialog extends DialogBox {
 		buttVLay.add(addButt);
 		buttVLay.add(editButt);
 		buttVLay.add(remButt);
-		if (addButt.isEnabled()) {
-			addButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(addButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (editButt.isEnabled()) {
-			editButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(editButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (remButt.isEnabled()) {
-			remButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(remButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		addButt.enabledButton();
+		editButt.enabledButton();
+		remButt.enabledButton();
 		HorizontalPanel groupEditHLay = new HorizontalPanel();
 		// groupEditHLay.setSize("100%", "*");
 		groupEditHLay.add(grid);
@@ -146,23 +120,18 @@ public class ItemTaxCodeDialog extends DialogBox {
 		form.setNumCols(4);
 		form.setFields(taxText, taxableRadio);
 
-		Button helpButt = new Button(FinanceApplication.getFinanceUIConstants()
-				.help());
+		AccounterButton helpButt = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().help());
 		// helpButt.setAutoFit(true);
-		Button okButt = new Button(FinanceApplication.getFinanceUIConstants()
-				.ok());// okButt.setAutoFit(true);
-		Button canButt = new Button(FinanceApplication.getFinanceUIConstants()
-				.cancel());// canButt.setAutoFit(true);
+		AccounterButton okButt = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().ok());// okButt.setAutoFit(true);
+		AccounterButton canButt = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().cancel());// canButt.setAutoFit(true);
 		HorizontalPanel helpHLay = new HorizontalPanel();
 
 		helpHLay.setWidth("50%");
 		helpHLay.add(helpButt);
-		if (helpButt.isEnabled()) {
-			helpButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(helpButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		helpButt.enabledButton();
 		HorizontalPanel buttHLay = new HorizontalPanel();
 		buttHLay.setWidth("100%");
 		// buttHLay.setMembersMargin(5);
@@ -170,18 +139,8 @@ public class ItemTaxCodeDialog extends DialogBox {
 		buttHLay.add(helpHLay);
 		buttHLay.add(okButt);
 		buttHLay.add(canButt);
-		if (okButt.isEnabled()) {
-			okButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(okButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (canButt.isEnabled()) {
-			canButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(canButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		okButt.enabledButton();
+		canButt.enabledButton();
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		// mainVLay.setTop(30);

@@ -40,6 +40,7 @@ import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -387,6 +388,9 @@ public class SalesOrderView extends
 		vpanel.setWidth("100%");
 		vpanel.setHorizontalAlignment(ALIGN_RIGHT);
 		vpanel.add(panel);
+		
+		menuButton.setType(AccounterButton.ADD_BUTTON);
+		
 		vpanel.add(prodAndServiceHLay);
 
 		VerticalPanel leftVLay = new VerticalPanel();

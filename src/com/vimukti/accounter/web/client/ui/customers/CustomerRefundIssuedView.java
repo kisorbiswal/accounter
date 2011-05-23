@@ -1,14 +1,13 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -108,11 +107,13 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		topHLay.add(leftVLay);
 		topHLay.add(balForm);
 
-		Button saveCloseButt = new Button(customerConstants.saveAndClose());
+		AccounterButton saveCloseButt = new AccounterButton(customerConstants
+				.saveAndClose());
 		// saveCloseButt.setAutoFit(true);
 		// saveCloseButt.setLayoutAlign(Alignment.LEFT);
 
-		Button saveNewButt = new Button(customerConstants.saveAndNew());
+		AccounterButton saveNewButt = new AccounterButton(customerConstants
+				.saveAndNew());
 		// saveNewButt.setAutoFit(true);
 		// saveNewButt.setLayoutAlign(Alignment.RIGHT);
 
@@ -122,17 +123,8 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		// buttHLay.setAutoHeight();
 		buttHLay.add(saveCloseButt);
 		buttHLay.add(saveNewButt);
-		if (saveCloseButt.isEnabled()) {
-		saveCloseButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(saveCloseButt, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-		}	if (saveNewButt.isEnabled()) {
-		saveNewButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(saveNewButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		saveCloseButt.enabledButton();
+		saveNewButt.enabledButton();
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		// mainVLay.setTop(10);

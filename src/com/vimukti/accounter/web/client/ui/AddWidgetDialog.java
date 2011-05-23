@@ -2,13 +2,12 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.banking.BankingSectionHomeView;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
 import com.vimukti.accounter.web.client.ui.customers.CustomerSectionHomeView;
 import com.vimukti.accounter.web.client.ui.vendors.VendorSectionHomeView;
@@ -755,7 +754,7 @@ public class AddWidgetDialog extends AbstractBaseDialog {
 	private class WidgetRow extends HorizontalPanel {
 
 		private Label imageLabel;
-		private Button addButton;
+		private AccounterButton addButton;
 		private Label infoLabel;
 
 		public WidgetRow() {
@@ -776,17 +775,11 @@ public class AddWidgetDialog extends AbstractBaseDialog {
 
 			VerticalPanel layout2 = new VerticalPanel();
 			infoLabel = new Label();
-			addButton = new Button("Add");
+			addButton = new AccounterButton("Add");
 
 			layout2.add(infoLabel);
 			layout2.add(addButton);
-			if (addButton.isEnabled()) {
-				addButton.getElement().getParentElement().setClassName(
-						"ibutton");
-				ThemesUtil.addDivToButton(addButton, FinanceApplication
-						.getThemeImages().button_right_blue_image(),
-						"ibutton-right-image");
-			}
+			addButton.enabledButton();
 			layout.add(layout2);
 
 			add(layout);
@@ -800,11 +793,11 @@ public class AddWidgetDialog extends AbstractBaseDialog {
 			this.imageLabel = imageLabel;
 		}
 
-		public Button getAddButton() {
+		public AccounterButton getAddButton() {
 			return addButton;
 		}
 
-		public void setAddButton(Button addButton) {
+		public void setAddButton(AccounterButton addButton) {
 			this.addButton = addButton;
 		}
 

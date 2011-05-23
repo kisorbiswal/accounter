@@ -6,13 +6,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.reports.ReportToolbar;
@@ -27,7 +26,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 	private DateItem toItem;
 	protected ComboBoxItem statusCombo;
 	private ComboBoxItem dateRangeItem;
-	private Button updateButton;
+	private AccounterButton updateButton;
 	public static int OPEN = 1;
 	public static int COMPLETED = 2;
 	public static int CANCELLED = 3;
@@ -108,7 +107,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 				endDate = toItem.getValue();
 			}
 		});
-		updateButton = new Button("Update");
+		updateButton = new AccounterButton("Update");
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -128,7 +127,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		// toItem.setDisabled(true);
 		// updateButton.setEnabled(false);
 
-		Button printButton = new Button("Print");
+		AccounterButton printButton = new AccounterButton("Print");
 		// printButton.setTop(2);
 		// printButton.setWidth(40);
 		printButton.addClickHandler(new ClickHandler() {
@@ -146,13 +145,8 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		addItems(statusCombo, dateRangeItem, fromItem, toItem);
 		add(updateButton);
 
-		if (updateButton.isEnabled()) {
-			updateButton.getElement().getParentElement()
-					.setClassName("ibutton");
-			ThemesUtil.addDivToButton(updateButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		updateButton.enabledButton();
+
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 	}

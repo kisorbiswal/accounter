@@ -7,11 +7,11 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.ui.AddEditFiscalYearDialog;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 
@@ -21,7 +21,7 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 	protected GroupDialogButtonsHandler groupDialogButtonHandler;
 	protected List<ClientFiscalYear> savedFiscalYear;
 	private AddEditFiscalYearDialog addEditFiscalYear;
-	private Button closeButton, openButton, changeButton;
+	private AccounterButton closeButton, openButton, changeButton;
 
 	public FiscalYearListDialog(String title, String descript) {
 		super(title, descript);
@@ -90,9 +90,9 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 		// status.setWidth(130);
 		// addField(status);
 		getGrid().setType(AccounterCoreType.CREDIT_RATING);
-		closeButton = new Button();
-		openButton = new Button();
-		changeButton = new Button();
+		closeButton = new AccounterButton();
+		openButton = new AccounterButton();
+		changeButton = new AccounterButton();
 		closeButton.setTitle(companyConstants.closeFiscalYear());
 		addButton(closeButton);
 		closeButton.addClickHandler(new ClickHandler() {

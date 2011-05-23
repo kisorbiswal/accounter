@@ -12,11 +12,10 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 
 public class ExpenseClaimPortlet extends DashBoardPortlet {
@@ -65,7 +64,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 		VerticalPanel vPanel = new VerticalPanel();
 		FlexTable fTable = new FlexTable();
 
-		Button addExpenseBtn = new Button(FinanceApplication
+		AccounterButton addExpenseBtn = new AccounterButton(FinanceApplication
 				.getCompanyMessages().addExpenses());
 		addExpenseBtn.addStyleName("addAccountPortlet");
 		addExpenseBtn.addClickHandler(new ClickHandler() {
@@ -94,7 +93,8 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 		cashExpAmtLabel = getAmountLabel(DataUtils
 				.getAmountAsString(cashExpenseAmount));
 		cashExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		empExpAmtLabel = getAmountLabel(DataUtils.getAmountAsString(employeeExpenseAmount));
+		empExpAmtLabel = getAmountLabel(DataUtils
+				.getAmountAsString(employeeExpenseAmount));
 		ccExpAmtLabel = getAmountLabel(DataUtils
 				.getAmountAsString(ccExpenseAmount));
 		ccExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
@@ -110,13 +110,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
 			vPanel.add(addExpenseBtn);
-			if (addExpenseBtn.isEnabled()) {
-				addExpenseBtn.getElement().getParentElement().setClassName(
-						"ibutton");
-				ThemesUtil.addDivToButton(addExpenseBtn, FinanceApplication
-						.getThemeImages().button_right_blue_image(),
-						"ibutton-right-image");
-			}
+			addExpenseBtn.enabledButton();
 		}
 		vPanel.add(fTable);
 
@@ -136,7 +130,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 				if (result != null && result.size() != 0) {
 					cashExpenseAmount = result.get(0);
 					ccExpenseAmount = result.get(1);
-					 employeeExpenseAmount = result.get(2);
+					employeeExpenseAmount = result.get(2);
 					allExpensesAmount = result.get(3);
 					updateAmountLabels();
 				}

@@ -3,12 +3,11 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
@@ -21,8 +20,8 @@ import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 
 public class CountryRegionListDialog extends DialogBox {
 	private DialogGrid grid;
-	private Button addGroupButt, editGroupButt, remGroupButt;
-	private Button helpButt, closeButt;
+	private AccounterButton addGroupButt, editGroupButt, remGroupButt;
+	private AccounterButton helpButt, closeButt;
 	private String[] typeRecords = {
 			FinanceApplication.getFinanceUIConstants().us(),
 			FinanceApplication.getFinanceUIConstants().india() };
@@ -70,40 +69,31 @@ public class CountryRegionListDialog extends DialogBox {
 		// grid.setCanResizeFields(true);
 		createListGridRecords(typeRecords);
 
-		addGroupButt = new Button(FinanceApplication.getFinanceUIConstants()
-				.add());
+		addGroupButt = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().add());
 		addGroupButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				showAddEditGroupDialog();
 			}
 		});
-		editGroupButt = new Button(FinanceApplication.getFinanceUIConstants()
-				.edit());
-		remGroupButt = new Button(FinanceApplication.getFinanceUIConstants()
-				.remove());
+		editGroupButt = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().edit());
+		remGroupButt = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().remove());
 
-		helpButt = new Button(FinanceApplication.getFinanceUIConstants().help());
-		closeButt = new Button(FinanceApplication.getFinanceUIConstants()
-				.close());
+		helpButt = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().help());
+		closeButt = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().close());
 
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		// helpHLay.setAlign(Alignment.LEFT);
 		helpHLay.add(helpButt);
-		if (helpButt.isEnabled()) {
-			helpButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(helpButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		helpButt.enabledButton();
 		HorizontalPanel closeHLay = new HorizontalPanel();
 		// closeHLay.setAlign(Alignment.RIGHT);
 		closeHLay.add(closeButt);
-		if (closeButt.isEnabled()) {
-			closeButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(closeButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		closeButt.enabledButton();
 		HorizontalPanel buttHLay = new HorizontalPanel();
 		buttHLay.setSize("100%", "10%");
 		buttHLay.add(helpHLay);
@@ -114,27 +104,9 @@ public class CountryRegionListDialog extends DialogBox {
 		buttVLay.add(addGroupButt);
 		buttVLay.add(editGroupButt);
 		buttVLay.add(remGroupButt);
-		if (addGroupButt.isEnabled()) {
-			addGroupButt.getElement().getParentElement()
-					.setClassName("ibutton");
-			ThemesUtil.addDivToButton(addGroupButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (editGroupButt.isEnabled()) {
-			editGroupButt.getElement().getParentElement().setClassName(
-					"ibutton");
-			ThemesUtil.addDivToButton(editGroupButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (remGroupButt.isEnabled()) {
-			remGroupButt.getElement().getParentElement()
-					.setClassName("ibutton");
-			ThemesUtil.addDivToButton(remGroupButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		addGroupButt.enabledButton();
+		editGroupButt.enabledButton();
+		remGroupButt.enabledButton();
 
 		HorizontalPanel groupEditHLay = new HorizontalPanel();
 		// groupEditHLay.setSize("100%", "*");
@@ -196,17 +168,17 @@ public class CountryRegionListDialog extends DialogBox {
 		codeForm.setNumCols(4);
 		codeForm.setFields(a3Text, a2Text, isoText);
 
-		Button helpButt = new Button(FinanceApplication.getFinanceUIConstants()
-				.help());
+		AccounterButton helpButt = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().help());
 		// helpButt.setAutoFit(true);
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		helpHLay.add(helpButt);
 		helpHLay.setWidth("50%");
-		Button okButt = new Button(FinanceApplication.getFinanceUIConstants()
-				.ok());
+		AccounterButton okButt = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().ok());
 		// okButt.setAutoFit(true);
-		Button canButt = new Button(FinanceApplication.getFinanceUIConstants()
-				.cancel());
+		AccounterButton canButt = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().cancel());
 		// canButt.setAutoFit(true);
 
 		HorizontalPanel buttHLay = new HorizontalPanel();

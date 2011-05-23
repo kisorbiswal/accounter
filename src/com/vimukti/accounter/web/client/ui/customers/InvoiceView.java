@@ -8,7 +8,6 @@ import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -41,6 +40,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.BrandingThemeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -340,7 +340,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth("400px");
 
-		Button printButton = new Button();
+		AccounterButton printButton = new AccounterButton();
 
 		printButton.setText(FinanceApplication.getCustomersMessages().print());
 		printButton.addClickHandler(new ClickHandler() {
@@ -393,9 +393,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		customerTransactionGrid = getGrid();
 		customerTransactionGrid.setTransactionView(this);
-		
-		customerTransactionGrid.isEnable=false;
-		
+
+		customerTransactionGrid.isEnable = false;
+
 		customerTransactionGrid.init();
 		customerTransactionGrid.setCanEdit(true);
 		customerTransactionGrid.setDisabled(isEdit);
@@ -467,12 +467,14 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		hpanel = new HorizontalPanel();
 		hpanel.setHorizontalAlignment(ALIGN_RIGHT);
 		hpanel.add(createAddNewButton());
+
 		hpanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
 		VerticalPanel panel = new VerticalPanel();
 		panel.setHorizontalAlignment(ALIGN_RIGHT);
 		panel.setWidth("100%");
 		panel.add(hpanel);
+		menuButton.setType(AccounterButton.ADD_BUTTON);
 		panel.add(amountsForm);
 
 		prodAndServiceHLay.add(prodAndServiceForm1);

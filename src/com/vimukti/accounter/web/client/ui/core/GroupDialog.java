@@ -6,14 +6,12 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 
@@ -30,9 +28,9 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 	private VerticalPanel buttonsLayout;
 	private HorizontalPanel bodyLayout;
-	protected Button button1;
-	private Button button2;
-	private Button button3;
+	protected AccounterButton button1;
+	private AccounterButton button2;
+	private AccounterButton button3;
 	protected DialogGrid listGridView;
 	private GroupDialogButtonsHandler dialogButtonsHandler;
 	private InputDialogHandler dialogHandler;
@@ -66,7 +64,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 		listGridView.setView(this);
 		listGridView.addColumns(setColumns());
 		listGridView.setColumnTypes(getColunmTypes());
-		listGridView.isEnable=false;
+		listGridView.isEnable = false;
 		listGridView.init();
 		listGridView.setWidth("100%");
 		initGrid(getRecords());
@@ -78,7 +76,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 		buttonsLayout.setWidth("100");
 		buttonsLayout.setSpacing(5);
 
-		button1 = new Button(constants.add());
+		button1 = new AccounterButton(constants.add());
 		button1.setWidth("80");
 
 		button1.addClickHandler(new ClickHandler() {
@@ -90,7 +88,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 			}
 		});
 
-		button2 = new Button(constants.edit());
+		button2 = new AccounterButton(constants.edit());
 		button2.setEnabled(false);
 		button2.setWidth("80");
 		button2.addClickHandler(new ClickHandler() {
@@ -101,7 +99,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 			}
 		});
 
-		button3 = new Button(this.constants.remove());
+		button3 = new AccounterButton(this.constants.remove());
 		button3.setEnabled(false);
 		button3.setWidth("80");
 		button3.addClickHandler(new ClickHandler() {
@@ -117,24 +115,9 @@ public abstract class GroupDialog<T> extends BaseDialog {
 		buttonsLayout.add(button1);
 		buttonsLayout.add(button2);
 		buttonsLayout.add(button3);
-		if (button1.isEnabled()) {
-			button1.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(button1, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (button2.isEnabled()) {
-			button2.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(button2, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (button3.isEnabled()) {
-			button3.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(button3, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		button1.enabledButton();
+		button2.enabledButton();
+		button3.enabledButton();
 		button1.setFocus(true);
 		bodyLayout.add(listGridView);
 		if (FinanceApplication.getUser().canDoInvoiceTransactions())
@@ -260,14 +243,9 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 	}
 
-	public void addButton(Button button) {
+	public void addButton(AccounterButton button) {
 		buttonsLayout.add(button);
-		if (button.isEnabled()) {
-			button.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(button, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		button.enabledButton();
 	}
 
 	public DialogGrid getGrid() {

@@ -6,7 +6,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -19,7 +18,6 @@ import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.externalization.FinanceConstants;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
@@ -43,8 +41,8 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 	protected FinanceConstants constants;
 	protected VATMessages vatMessages;
 
-	protected Button cancelBtn;
-	protected Button okbtn;
+	protected AccounterButton cancelBtn;
+	protected AccounterButton okbtn;
 	private InputDialogHandler dialogHandler;
 	protected IAccounterGETServiceAsync rpcGetService;
 	protected IAccounterCRUDServiceAsync rpcDoSerivce;
@@ -124,7 +122,7 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 		footerLayout.setSpacing(3);
 		// footerLayout.addStyleName("dialogfooter");
 
-		okbtn = new Button(constants.ok());
+		okbtn = new AccounterButton(constants.ok());
 		okbtn.setWidth("80px");
 		this.okbtn.setFocus(true);
 
@@ -137,7 +135,7 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 		});
 		okbtn.setFocus(true);
 
-		cancelBtn = new Button(constants.cancel());
+		cancelBtn = new AccounterButton(constants.cancel());
 		cancelBtn.setWidth("80px");
 		cancelBtn.addClickHandler(new ClickHandler() {
 
@@ -151,19 +149,9 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 		footerLayout.add(okbtn);
 		footerLayout.add(cancelBtn);
 
-		if (okbtn.isVisible()) {
-			okbtn.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(okbtn, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		okbtn.enabledButton();
 
-		if (cancelBtn.isVisible()) {
-			cancelBtn.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(cancelBtn, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		cancelBtn.enabledButton();
 
 		footerLayout.setCellHorizontalAlignment(okbtn,
 				HasHorizontalAlignment.ALIGN_RIGHT);

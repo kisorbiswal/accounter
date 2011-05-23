@@ -13,11 +13,8 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -27,7 +24,6 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -80,7 +76,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	protected DateField transactionDateItem;
 	protected TextAreaItem memoTextAreaItem;
 	// protected TextItem refText;
-	protected Button menuButton;
+	protected AccounterButton menuButton;
 	private PopupPanel popupPanel;
 	private CustomMenuBar popupMenuBar;
 	@SuppressWarnings("unused")
@@ -527,12 +523,10 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 						"Transaction item total cannot be 0 or less than 0");
 	}
 
-	public Button createAddNewButton() {
-		menuButton = new Button(FinanceApplication.getCompanyMessages()
-				.addNewItm());
-
+	public AccounterButton createAddNewButton() {
+		menuButton = new AccounterButton(FinanceApplication
+				.getCompanyMessages().addNewItm());
 		menuButton.addClickHandler(new ClickHandler() {
-
 			@Override
 			public void onClick(ClickEvent event) {
 				if (isMenuRequired()) {
@@ -544,16 +538,11 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 			}
 		});
 
-		menuButton.setEnabled(!isEdit);
 		return menuButton;
 	}
 
 	protected void onAddNew() {
 		// TODO Auto-generated method stub
-
-	}
-
-	protected void showMenu(Button addMenuButton) {
 
 	}
 
@@ -707,7 +696,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		return isVATInclusive;
 	}
 
-	public void setMenuItems(Button button, Map<String, ImageResource> items) {
+	public void setMenuItems(AccounterButton button,
+			Map<String, ImageResource> items) {
 		createPopupMenu(button);
 		popupMenuBar.clearItems();
 		for (final String itm : items.keySet()) {
@@ -727,7 +717,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		}
 	}
 
-	public void setMenuItems(Button button, String... items) {
+	public void setMenuItems(AccounterButton button, String... items) {
 		createPopupMenu(button);
 		popupMenuBar.clearItems();
 		for (final String itm : items) {
@@ -761,7 +751,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		}
 	}
 
-	private void createPopupMenu(Button button) {
+	private void createPopupMenu(AccounterButton button) {
 		if (popupPanel == null) {
 			popupPanel = new PopupPanel(true);
 			popupMenuBar = new CustomMenuBar(FinanceApplication
@@ -866,21 +856,13 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	protected void onAttach() {
 		super.onAttach();
 		if (menuButton != null) {
-			menuButton.getElement().getParentElement().addClassName(
-					"add-button");
-			if (menuButton.isEnabled()) {
-				Element addseparator = DOM.createSpan();
-				addseparator.addClassName("add-separator");
-				DOM.appendChild(menuButton.getElement(), addseparator);
-
-				Element addimage = DOM.createSpan();
-				addimage.addClassName("add-image");
-				DOM.appendChild(menuButton.getElement(), addimage);
-
-				ThemesUtil.addDivToButton(menuButton, FinanceApplication
-						.getThemeImages().button_right_blue_image(),
-						"add-right-image");
-			}
+			menuButton.setType(AccounterButton.ADD_BUTTON);
+			menuButton.setEnabled(!isEdit);
 		}
 	}
+
+	protected void showMenu(AccounterButton button) {
+
+	}
+
 }

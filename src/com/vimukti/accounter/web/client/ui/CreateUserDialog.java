@@ -6,7 +6,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.IAccounterCRUDService;
@@ -16,7 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
@@ -267,16 +266,16 @@ public class CreateUserDialog extends AbstractBaseDialog {
 				street2Text, cityText, stateText, zipText, phoneText, faxText,
 				websiteText);
 
-		Button createUser = new Button(FinanceApplication
+		AccounterButton createUser = new AccounterButton(FinanceApplication
 				.getFinanceUIConstants().createUser());
 		// createUser.setLayoutAlign(Alignment.LEFT);
-		Button getUser = new Button(FinanceApplication.getFinanceUIConstants()
-				.getUser());
+		AccounterButton getUser = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().getUser());
 		// getUser.setLayoutAlign(Alignment.RIGHT);
 		// createUser.setAlign(Alignment.LEFT);
 
-		Button canButt = new Button(FinanceApplication.getFinanceUIConstants()
-				.cancel());
+		AccounterButton canButt = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().cancel());
 		// canButt.setAlign(Alignment.RIGHT);
 
 		createUser.addClickHandler(new ClickHandler() {
@@ -301,16 +300,8 @@ public class CreateUserDialog extends AbstractBaseDialog {
 		// buttHLay.setSize("50%", "*");
 		buttHLay.add(canButt);
 		buttHLay.add(createUser);
-		if (canButt.isEnabled()) {
-		canButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(canButt, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
-		}	if (createUser.isEnabled()) {
-		createUser.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(createUser, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		canButt.enabledButton();
+		createUser.enabledButton();
 		// buttHLay.setLayoutTopMargin(30);
 		// buttHLay.setAutoHeight();
 		// buttHLay.setAlign(Alignment.CENTER);

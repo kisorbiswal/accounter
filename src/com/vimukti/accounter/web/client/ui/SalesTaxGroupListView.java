@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -16,8 +15,8 @@ import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
@@ -38,9 +37,9 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	protected SalesTaxItemsGrid itemsGrid;
 	private VerticalPanel buttonsLayout;
 	private HorizontalPanel bodyLayout;
-	protected Button button1;
-	private Button button2;
-	private Button button3;
+	protected AccounterButton button1;
+	private AccounterButton button2;
+	private AccounterButton button3;
 	private GroupDialogButtonsHandler dialogButtonsHandler;
 	private InputDialogHandler dialogHandler;
 	CustomersMessages customersMessages = GWT.create(CustomersMessages.class);
@@ -114,7 +113,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		buttonsLayout.setWidth("100");
 		buttonsLayout.setSpacing(5);
 
-		button1 = new Button(customersMessages.add());
+		button1 = new AccounterButton(customersMessages.add());
 		button1.setWidth("80");
 
 		button1.addClickHandler(new ClickHandler() {
@@ -126,7 +125,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 			}
 		});
 
-		button2 = new Button(customersMessages.edit());
+		button2 = new AccounterButton(customersMessages.edit());
 		button2.setEnabled(false);
 		button2.setWidth("80");
 		button2.addClickHandler(new ClickHandler() {
@@ -137,7 +136,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 			}
 		});
 
-		button3 = new Button(customersMessages.remove());
+		button3 = new AccounterButton(customersMessages.remove());
 		button3.setEnabled(false);
 		button3.setWidth("80");
 		button3.addClickHandler(new ClickHandler() {
@@ -215,24 +214,9 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 			}
 		};
 		addGroupButtonsHandler(groupDialogButtonHandler);
-		if (button1.isEnabled()) {
-			button1.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(button1, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (button2.isEnabled()) {
-			button2.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(button2, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (button3.isEnabled()) {
-			button3.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(button3, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		button1.enabledButton();
+		button2.enabledButton();
+		button3.enabledButton();
 	}
 
 	public void addGroupButtonsHandler(

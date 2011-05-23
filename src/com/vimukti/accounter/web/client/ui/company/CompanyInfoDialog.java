@@ -12,7 +12,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -24,6 +23,7 @@ import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
@@ -76,7 +76,7 @@ public class CompanyInfoDialog extends BaseDialog {
 
 	private TextItem vatRegNumber;
 
-	private Button taxgroupBtn;
+	private AccounterButton taxgroupBtn;
 
 	private RadioGroupItem paysalesTaxgroupItem;
 
@@ -304,7 +304,7 @@ public class CompanyInfoDialog extends BaseDialog {
 		}
 		vatRegNumber.setValue(FinanceApplication.getCompany().getpreferences()
 				.getVATregistrationNumber());
-		taxgroupBtn = new Button(companyMessges.taxgroups());
+		taxgroupBtn = new AccounterButton(companyMessges.taxgroups());
 		// taxgroupBtn.setColSpan("*");
 		taxgroupBtn.addClickHandler(new ClickHandler() {
 

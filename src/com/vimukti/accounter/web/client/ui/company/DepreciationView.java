@@ -10,7 +10,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -27,11 +26,11 @@ import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsEntry;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsList;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetLinkedAccountMap;
 import com.vimukti.accounter.web.client.core.Lists.LinkAccount;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
@@ -52,7 +51,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	protected ListBox depreciatedToCombo;
 	private ArrayList<DynamicForm> listforms;
 	protected ClientFinanceDate depreciationEndDate;
-	private Button startDateButton;
+	private AccounterButton startDateButton;
 	protected ClientAccount account;
 	private List<String> assetStringIdList;
 	private List<ClientFiscalYear> openFiscalYears;
@@ -88,8 +87,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 				.lableTitle());
 		mainPanel.add(titleLabel);
 
-		startDateButton = new Button(FinanceApplication.getCompanyMessages()
-				.startDate());
+		startDateButton = new AccounterButton(FinanceApplication
+				.getCompanyMessages().startDate());
 		startDateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -99,8 +98,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			}
 		});
 
-		Button rollBackDepreciation = new Button(FinanceApplication
-				.getCompanyMessages().rollbackDepreciation());
+		AccounterButton rollBackDepreciation = new AccounterButton(
+				FinanceApplication.getCompanyMessages().rollbackDepreciation());
 		rollBackDepreciation.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -112,21 +111,9 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setSpacing(10);
 		buttonPanel.add(startDateButton);
-		if (startDateButton.isEnabled()) {
-			startDateButton.getElement().getParentElement().setClassName(
-					"ibutton");
-			ThemesUtil.addDivToButton(startDateButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		startDateButton.enabledButton();
 		buttonPanel.add(rollBackDepreciation);
-		if (rollBackDepreciation.isEnabled()) {
-			rollBackDepreciation.getElement().getParentElement().setClassName(
-					"ibutton");
-			ThemesUtil.addDivToButton(rollBackDepreciation, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		rollBackDepreciation.enabledButton();
 		mainPanel.add(buttonPanel);
 
 		fromLabel = new Label(FinanceApplication.getCompanyMessages()
@@ -147,7 +134,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			}
 		});
 
-		Button updateButton = new Button(FinanceApplication
+		AccounterButton updateButton = new AccounterButton(FinanceApplication
 				.getCompanyMessages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 

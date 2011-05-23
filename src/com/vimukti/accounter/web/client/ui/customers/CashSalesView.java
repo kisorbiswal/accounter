@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -256,6 +257,9 @@ public class CashSalesView extends
 		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		vPanel.setWidth("100%");
 		vPanel.add(panel);
+
+		menuButton.setType(AccounterButton.ADD_BUTTON);
+
 		vPanel.add(prodAndServiceHLay);
 
 		VerticalPanel leftVLay = new VerticalPanel();

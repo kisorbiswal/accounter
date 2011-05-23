@@ -10,10 +10,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -30,7 +27,6 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
 import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
@@ -42,6 +38,7 @@ import com.vimukti.accounter.web.client.ui.combo.MakeDepositAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -136,7 +133,7 @@ public class MakeDepositView extends
 
 	private ClientMakeDeposit makeDepositEdited;
 
-	private Button addButton;
+	private AccounterButton addButton;
 	private TextItem transNumber;
 
 	// private VerticalPanel botRightPanel;
@@ -873,7 +870,8 @@ public class MakeDepositView extends
 		// Label lab1 = new Label(FinanceApplication.getFinanceUIConstants()
 		// .paymentsReceived());
 
-		addButton = new Button(FinanceApplication.getFinanceUIConstants().add());
+		addButton = new AccounterButton(FinanceApplication
+				.getFinanceUIConstants().add());
 		addButton.setEnabled(!isEdit);
 		addButton.addClickHandler(new ClickHandler() {
 
@@ -949,22 +947,7 @@ public class MakeDepositView extends
 		panel.add(addButton);
 		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
-		if (addButton.isEnabled()) {
-			addButton.getElement().getParentElement()
-					.addClassName("add-button");
-
-			Element addseparator = DOM.createSpan();
-			addseparator.addClassName("add-separator");
-			DOM.appendChild(addButton.getElement(), addseparator);
-
-			Element addimage = DOM.createSpan();
-			addimage.addClassName("add-image");
-			DOM.appendChild(addButton.getElement(), addimage);
-
-			ThemesUtil.addDivToButton(addButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"add-right-image");
-		}
+		addButton.setType(AccounterButton.ADD_BUTTON);
 		HorizontalPanel botHLay = new HorizontalPanel();
 		botHLay.setWidth("100%");
 		botHLay.add(memoForm);

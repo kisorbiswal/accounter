@@ -16,7 +16,6 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormHandler;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -29,11 +28,11 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
-@SuppressWarnings( { "deprecation", "unchecked" })
+@SuppressWarnings( { "deprecation" })
 public class FileUploadDilaog extends CustomDialog {
 
 	private String parentID;
@@ -122,30 +121,19 @@ public class FileUploadDilaog extends CustomDialog {
 		vpaPanel.add(panel);
 
 		// Add a 'submit' button.
-		Button uploadSubmitButton = new Button("Upload");
+		AccounterButton uploadSubmitButton = new AccounterButton("Upload");
 		uploadSubmitButton.setWidth("80px");
 		// vpaPanel.add(uploadSubmitButton);
 
-		Button closeButton = new Button(FinanceApplication
+		AccounterButton closeButton = new AccounterButton(FinanceApplication
 				.getCustomersMessages().close());
 		closeButton.setWidth("80px");
 		buttonHlay = new HorizontalPanel();
 		buttonHlay.add(uploadSubmitButton);
 		buttonHlay.add(closeButton);
 		buttonHlay.setStyleName("panel-right-align");
-		if (uploadSubmitButton.isEnabled()) {
-			uploadSubmitButton.getElement().getParentElement().setClassName(
-					"ibutton");
-			ThemesUtil.addDivToButton(uploadSubmitButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (closeButton.isEnabled()) {
-			closeButton.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(closeButton, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		uploadSubmitButton.enabledButton();
+		closeButton.enabledButton();
 		vpaPanel.add(buttonHlay);
 		/* Make align three Element on there position */
 		// buttonHlay.setCellWidth(uploadSubmitButton);

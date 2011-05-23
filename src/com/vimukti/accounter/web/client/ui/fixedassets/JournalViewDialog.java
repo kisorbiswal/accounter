@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
@@ -22,6 +21,7 @@ import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.RevenueAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.RevenueAndExpenseAccountCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -93,7 +93,8 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 
 		disposalJournalForm.setWidth("100%");
 
-		okbtn = new Button(FinanceApplication.getFixedAssetConstants().post());
+		okbtn = new AccounterButton(FinanceApplication.getFixedAssetConstants()
+				.post());
 		okbtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -107,18 +108,8 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 		footerLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		footerLayout.add(okbtn);
 		footerLayout.add(cancelBtn);
-		if (okbtn.isEnabled()) {
-			okbtn.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(okbtn, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
-		if (cancelBtn.isEnabled()) {
-			cancelBtn.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(cancelBtn, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");
-		}
+		okbtn.enabledButton();
+		cancelBtn.enabledButton();
 		// footerLayout.setCellWidth(okbtn, "100%");
 		footerLayout.setCellHorizontalAlignment(okbtn,
 				HasHorizontalAlignment.ALIGN_RIGHT);

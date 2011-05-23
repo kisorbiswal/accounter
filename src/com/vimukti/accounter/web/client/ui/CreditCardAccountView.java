@@ -1,10 +1,9 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -101,12 +100,12 @@ public class CreditCardAccountView extends AbstractBaseView {
 		topHLay.add(leftVLay);
 		topHLay.add(creditForm);
 
-		Button saveCloseButt = new Button(FinanceApplication
+		AccounterButton saveCloseButt = new AccounterButton(FinanceApplication
 				.getFinanceUIConstants().saveAndClose());
 		// saveCloseButt.setAutoFit(true);
 		// saveCloseButt.setLayoutAlign(Alignment.LEFT);
 
-		Button saveNewButt = new Button(FinanceApplication
+		AccounterButton saveNewButt = new AccounterButton(FinanceApplication
 				.getFinanceUIConstants().saveAndNew());
 		// saveNewButt.setAutoFit(true);
 		// saveNewButt.setLayoutAlign(Alignment.RIGHT);
@@ -119,16 +118,8 @@ public class CreditCardAccountView extends AbstractBaseView {
 		// buttHLay.setMembersMargin(20);
 		buttHLay.add(saveCloseButt);
 		buttHLay.add(saveNewButt);
-		if (saveCloseButt.isEnabled()) {
-		saveCloseButt.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(saveCloseButt, FinanceApplication
-					.getThemeImages().button_right_blue_image(),
-					"ibutton-right-image");}	if (saveNewButt.isEnabled()) {
-		saveNewButt.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(saveNewButt, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-				}
+		saveCloseButt.enabledButton();
+		saveNewButt.enabledButton();
 		VerticalPanel mainVLay = new VerticalPanel();
 		// mainVLay.setMargin(20);
 		mainVLay.setSize("100%", "100%");
