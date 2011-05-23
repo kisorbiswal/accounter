@@ -11880,13 +11880,16 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		return bizantraCompany;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<BillsList> getEmployeeExpensesByStatus(int status)
 			throws DAOException {
+
 		List<BillsList> billsList = new ArrayList<BillsList>();
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session
 				.createQuery(
-						"from com.vimukti.accounter.core.CashPurchase cp where cp.expenseStatus=:expenseStatus")
+						"from com.vimukti.accounter.core.CashPurchase cp where cp.expenseStatus=:expenseStatus and cp.isVoid=false")
 				.setParameter("expenseStatus", status);
 		List<CashPurchase> cashpurchase = query.list();
 		for (CashPurchase cp : cashpurchase) {
@@ -11896,10 +11899,14 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			bills.setVendorName(cp.getEmployee());
 			bills.setDate(new ClientFinanceDate(cp.getDate().getTime()));
 			bills.setStatus(status);
+			bills.setType(Transaction.TYPE_EMPLOYEE_EXPENSE);
+			
+			/* Here, to set transaction created date temporarly using setDueDate method*/
+			bills.setDueDate(new ClientFinanceDate(cp.getCreatedDate().getTime()));
 			billsList.add(bills);
 		}
 		return billsList;
-	}
+	}	
 }
 
 // throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
