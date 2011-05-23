@@ -547,4 +547,6 @@ public interface VendorsMessages extends FinanceMessages {
 
 	String addnewExpense();
 
+	String awaitingAuthorisation();
+
 }

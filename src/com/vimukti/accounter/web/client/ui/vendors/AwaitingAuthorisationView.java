@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -18,16 +17,13 @@ import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
-public class ExpenseClaimView extends BaseView<BillsList> {
-
-	ExpenseClaimGrid grid;
-	List<String> expenseLists = new ArrayList<String>();
+public class AwaitingAuthorisationView extends BaseView<BillsList> {
+	AwaitingAuthorisationgrid grid;
 	public boolean isProcessingAdded;
 
-	public ExpenseClaimView() {
+	public AwaitingAuthorisationView() {
 		init();
 	}
 
@@ -38,32 +34,32 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 	}
 
 	private void createControls() {
-
 		VerticalPanel panel = new VerticalPanel();
-		HTML addNew = new HTML("<a>Add Employee Expense</a>");
-		addNew.getElement().getStyle().setMarginBottom(10, Unit.PX);
-		addNew.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				VendorsActionFactory.EmployeeExpenseAction().run(null, false);
-			}
-		});
+		panel.setSize("100%", "100%");
 		initGrid();
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
-		Button submitApproval = new Button("Submit For Approval");
-		submitApproval.addClickHandler(new ClickHandler() {
+		buttonPanel.getElement().getStyle().setMarginTop(15, Unit.PX);
+		Button approve = new Button("Approve");
+		approve.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				isProcessingAdded = false;
-				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL);
+				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED);
 			}
 		});
+		Button decline = new Button("Decline");
+		decline.addClickHandler(new ClickHandler() {
 
-		Button deleteButton = new Button("Delete");
-		deleteButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				isProcessingAdded = false;
+				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED);
+			}
+		});
+		Button delete = new Button("Delete");
+		delete.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -71,23 +67,26 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
 			}
 		});
-		buttonPanel.add(submitApproval);
-		buttonPanel.add(deleteButton);
-		panel.add(addNew);
+		buttonPanel.add(approve);
+		buttonPanel.add(decline);
+		buttonPanel.add(delete);
+		approve.getElement().getStyle().setMarginLeft(25, Unit.PX);
+		approve.getElement().getParentElement().setClassName("ibutton1");
+		ThemesUtil.addDivToButton(approve, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+
+		decline.getElement().getParentElement().setClassName("ibutton1");
+		ThemesUtil.addDivToButton(decline, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
+
+		delete.getElement().getParentElement().setClassName("ibutton");
+		ThemesUtil.addDivToButton(delete, FinanceApplication.getThemeImages()
+				.button_right_blue_image(), "ibutton-right-image");
 		buttonLayout.setVisible(false);
 		panel.add(grid);
 		panel.add(buttonPanel);
 		panel.setCellHorizontalAlignment(buttonPanel, ALIGN_RIGHT);
 		mainPanel.add(panel);
-		submitApproval.getElement().getParentElement().setClassName("ibutton1");
-		ThemesUtil.addDivToButton(submitApproval, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
-
-		deleteButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(deleteButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
 		mainPanel.removeStyleName("main-class-pannel");
 		buttonLayout.getElement().getParentElement().removeClassName(
 				"bottom-view");
@@ -97,10 +96,8 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 	}
 
 	private void initGrid() {
-		grid = new ExpenseClaimGrid(true);
-		grid.isEnable = false;
+		grid = new AwaitingAuthorisationgrid(true);
 		grid.init();
-		grid.setView(this);
 		grid.setSize("100%", "100%");
 	}
 
@@ -130,20 +127,23 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 	@Override
 	protected void initRPCService() {
 		super.initRPCService();
-		FinanceApplication.createHomeService().getEmployeeExpensesByStatus(0,
-				new AsyncCallback<List<BillsList>>() {
+		FinanceApplication
+				.createHomeService()
+				.getEmployeeExpensesByStatus(
+						ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL,
+						new AsyncCallback<List<BillsList>>() {
 
-					@Override
-					public void onSuccess(List<BillsList> result) {
-						for (BillsList list : result)
-							grid.addData(list);
-					}
+							@Override
+							public void onSuccess(List<BillsList> result) {
+								for (BillsList list : result)
+									grid.addData(list);
+							}
 
-					@Override
-					public void onFailure(Throwable caught) {
+							@Override
+							public void onFailure(Throwable caught) {
 
-					}
-				});
+							}
+						});
 	}
 
 	@Override
@@ -187,4 +187,5 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 		// TODO Auto-generated method stub
 
 	}
+
 }
