@@ -10,12 +10,14 @@ import com.vimukti.accounter.web.client.ui.banking.BuyChecksAndFormsAction;
 import com.vimukti.accounter.web.client.ui.banking.ServicesOverviewAction;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.company.PurchaseItemsAction;
+import com.vimukti.accounter.web.client.ui.vendors.AwaitingAuthorisationAction;
 import com.vimukti.accounter.web.client.ui.vendors.BillsAction;
 import com.vimukti.accounter.web.client.ui.vendors.CashExpenseAction;
 import com.vimukti.accounter.web.client.ui.vendors.CreditCardExpenseAction;
 import com.vimukti.accounter.web.client.ui.vendors.EmployeeExpenseAction;
 import com.vimukti.accounter.web.client.ui.vendors.EnterBillsAction;
 import com.vimukti.accounter.web.client.ui.vendors.ExpenseClaimListAction;
+import com.vimukti.accounter.web.client.ui.vendors.ExpenseClaimsAction;
 import com.vimukti.accounter.web.client.ui.vendors.ExpensesAction;
 import com.vimukti.accounter.web.client.ui.vendors.IssuePaymentsAction;
 import com.vimukti.accounter.web.client.ui.vendors.NewCashPurchaseAction;
@@ -218,8 +220,18 @@ public class VendorsActionFactory extends AbstractActionFactory {
 	}
 
 	public static ExpenseClaimListAction getExpenseClaimListAction() {
-		return new ExpenseClaimListAction(FinanceApplication.getVendorsMessages()
-				.expenseClaims());
+		return new ExpenseClaimListAction(FinanceApplication
+				.getVendorsMessages().expenseClaims());
 	}
 
+	public static AwaitingAuthorisationAction getAwaitingAuthorisationAction() {
+		return new AwaitingAuthorisationAction(FinanceApplication
+				.getVendorsMessages().awaitingAuthorisation());
+
+	}
+
+	public static ExpenseClaimsAction getExpenseClaimsAction() {
+		return new ExpenseClaimsAction(FinanceApplication.getVendorsMessages()
+				.expenseClaims());
+	}
 }
