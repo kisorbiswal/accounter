@@ -17,6 +17,7 @@ body,ul,li,ol,p,table,tr,td {
 	width: 960px !important;
 	margin: 0px auto;
 	text-align: center;
+	font-family: arial;
 }
 
 .remaining-header-part-login {
@@ -104,9 +105,10 @@ a:link {
 	clear: both;
 	float: left;
 	height: auto !important;
-	margin-left: 65px;
+	margin-left: 60px;
 	margin-top: 35px;
-	width: 820px !important;
+	width: 845px !important;
+	font-family: arial;
 }
 
 #mid-1 {
@@ -316,10 +318,6 @@ li {
 	font-family: arial;
 }
 
-a:link {
-	text-decoration: none;
-}  /* unvisited link */
-
 #home-bg {
 	float: left;
 	background: url("/images/normal-mid.png") repeat-x scroll 0 0
@@ -331,7 +329,29 @@ a:link {
 	color: #A3A3A3;
 }
 
+#fea-bg {
+	float: left;
+	background: url("/images/normal-mid.png") repeat-x scroll 0 0
+		transparent;
+	margin-left: 13px;
+	padding: 4px;
+	padding: 5.5px\0;
+	width: 60px;
+	color: #A3A3A3;
+}
+
 .home-jbg {
+	float: left;
+	background: url("/images/focus-mid.png") repeat-x scroll 0 0 transparent
+		!important;
+	margin-left: 13px;
+	padding: 3px;
+	padding: 5.5px\0;
+	width: 50px;
+	color: #A3A3A3;
+}
+
+.fea-jbg {
 	float: left;
 	background: url("/images/focus-mid.png") repeat-x scroll 0 0 transparent
 		!important;
@@ -350,7 +370,23 @@ a:link {
 	padding: 1px 6px;
 }
 
-.home {
+#features-normal {
+	float: left;
+	background: url("/images/normal-left.png") no-repeat scroll 0 0
+		transparent;
+	margin-right: -22px;
+	padding: 1px 6px;
+}
+
+.features {
+	margin-right: -22px;
+	padding: 1px 6px;
+	float: left;
+	background: url("/images/focus-left.png") no-repeat scroll 0 0
+		transparent !important;
+}
+
+.home-page {
 	margin-right: -22px;
 	padding: 1px 6px;
 	float: left;
@@ -441,7 +477,7 @@ a:link {
 	margin-left: 13px;
 	padding: 3px;
 	padding: 5.5px\0;
-	width: 50px;
+	width: 55px;
 	color: #A3A3A3;
 }
 
@@ -499,13 +535,13 @@ a:link {
 	width: 360px;
 }
 
-.features-list,.support-lists,.useful-list,.product-list {
+.features-list,.support-lists,.useful-list,.product-list,.home-list {
 	float: left;
 	width: 160px;
 	margin-top: 10px;
 }
 
-.fea a,.supp a,.use a,.pro a {
+.fea a,.supp a,.use a,.pro a,.home a {
 	color: white;
 }
 
@@ -519,7 +555,7 @@ a:visited {
 	color: #079dd2;
 }
 
-.fea-list a,.supp-list a,.use-lists a,.pro-list a {
+.fea-list a,.supp-list a,.use-lists a,.pro-list a,.home-list a {
 	color: #A0A0A0 !important;
 }
 
@@ -557,9 +593,10 @@ a:visited {
 .lower-part {
 	margin-top: 15px;
 	margin-left: 135px;
+	font-family: arial;
 }
 
-.pro,.fea,.use,.supp {
+.pro,.fea,.use,.supp,.home {
 	background: url("/images/footer-line.png") repeat-x scroll left bottom
 		transparent;
 	padding: 5px 5px 10px 30px;
@@ -568,18 +605,20 @@ a:visited {
 .footer-options {
 	width: 500px;
 	margin: 0 auto;
+	font-family: arial;
+	font-size: 15px;
 }
 
 .pro-list,.fea-list,.supp-list,.use-lists {
 	margin: 10px 0 0 30px;
 }
 
-#features-normal input[type="image"],#about-normal input[type="image"],#pricing-normal input[type="image"],#support-normal input[type="image"]
+#features-normal input[type="image"],#home-normal input[type="image"],#about-normal input[type="image"],#pricing-normal input[type="image"],#support-normal input[type="image"]
 	{
 	position: relative;
 }
 
-.features input[type="image"],.about-page input[type="image"],.pricing-page input[type="image"],.support-page input[type="image"]
+.features input[type="image"],.home input[type="image"],.about-page input[type="image"],.pricing-page input[type="image"],.support-page input[type="image"]
 	{
 	position: relative;
 }
@@ -768,7 +807,7 @@ a:visited {
 
 #forget-link1 {
 	color: #00a3dc;
-	margin-left: 120px;
+	margin-left: 60px;
 }
 
 .email,.password,.company-name {
@@ -1087,7 +1126,7 @@ ul li {
 	height: 6px;
 	margin: 0 143px 0 65px;
 	height: 6px;
-	margin: 0 73px 0 65px;
+	margin: 0 53px 0 60px;
 }
 
 .login-box-shadow {
@@ -1286,8 +1325,9 @@ ul li {
 	color: white;
 	font-size: 17px;
 	height: 27px;
-	margin: -36px 99px !important;
+	margin: 20px 0 0 100px;
 	width: 95px;
+	float:right;
 }
 
 .forget-but {
@@ -1296,7 +1336,7 @@ ul li {
 	color: white;
 	font-size: 17px;
 	height: 27px;
-	margin: 6px 35px !important;
+	margin: 6px 0px !important;
 	width: 96px;
 }
 
@@ -1326,6 +1366,7 @@ ul li {
 .terms-error label {
 	float: right;
 	margin-right: 184px;
+	font-size:14px;
 }
 
 .stepcarousel {
@@ -1362,11 +1403,12 @@ ul li {
 #contact_content {
 	color: #333333;
 	font-size: 15px;
-	margin-top: 25px;
+	margin-top: 30px;
 }
 
 .error {
-	margin-left: 3px;
+	font-size: 12px;
+    padding-left: 5px;
 }
 
 #label_holder {
