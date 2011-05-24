@@ -398,6 +398,8 @@ public class CashPurchase extends Transaction implements Lifecycle {
 				&& ((!DecimalUtil.isEquals(this.total, 0.0) && !DecimalUtil.isEquals(obj.total, 0.0))
 						? DecimalUtil.isEquals(this.total, obj.total)
 						: true)
+						
+				&& (this.type == Transaction.TYPE_EMPLOYEE_EXPENSE && this.expenseStatus == obj.expenseStatus)		
 
 				&& this.transactionItems.size() == obj.transactionItems.size()) {
 
@@ -450,18 +452,22 @@ public class CashPurchase extends Transaction implements Lifecycle {
 			/**
 			 * To get the payFrom Account of clonedObject cashPurchase
 			 */
-			Account payFromAccount = (Account) session.get(Account.class,
-					cashPurchase.payFrom.id);
+			if (this.type != Transaction.TYPE_EMPLOYEE_EXPENSE
+					|| (this.type == Transaction.TYPE_EMPLOYEE_EXPENSE
+					&& this.expenseStatus == cashPurchase.expenseStatus)) {
 
-			/**
-			 * Updating the balance values of present and previous accounts of
-			 * vendors
-			 */
-			payFromAccount.updateCurrentBalance(cashPurchase,
-					isDebitTransaction()
-							? -cashPurchase.total
-							: cashPurchase.total);
-			payFromAccount.onUpdate(session);
+				Account payFromAccount = (Account) session.get(Account.class,
+						cashPurchase.payFrom.id);
+
+				/**
+				 * Updating the balance values of present and previous accounts
+				 * of vendors
+				 */
+				payFromAccount.updateCurrentBalance(cashPurchase,
+						isDebitTransaction() ? -cashPurchase.total
+								: cashPurchase.total);
+				payFromAccount.onUpdate(session);
+			}
 
 			this.payFrom.updateCurrentBalance(this, isDebitTransaction()
 					? this.total

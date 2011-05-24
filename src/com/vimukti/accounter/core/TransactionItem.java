@@ -456,17 +456,17 @@ public class TransactionItem
 
 		if (this.isOnSaveProccessed)
 			return true;
-		
-		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
-				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
-			return false;
-		
+				
 		this.isOnSaveProccessed = true;
 		this.stringID = this.stringID == null || this.stringID != null
 				&& this.stringID.isEmpty() ? SecureUtils.createID()
 				: this.stringID;
 
 		initVRCStringIds();
+		
+		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
+				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
+			return false;
 
 		doCreateEffect(session);
 		return false;
@@ -557,6 +557,8 @@ public class TransactionItem
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		
+		initVRCStringIds();
+		
 		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
 				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
 			return false;
@@ -578,8 +580,6 @@ public class TransactionItem
 	 * @param session
 	 */
 	public void doReverseEffect(Session session) {
-
-		initVRCStringIds();
 
 		double amount = (isPositiveTransaction() ? -1d : 1d)
 				* (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
