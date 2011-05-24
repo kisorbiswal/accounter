@@ -203,7 +203,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		dropDown.getRowElement(0).getStyle().setHeight(15, Unit.PX);
 		int x = getMainWidget().getAbsoluteLeft();
 		int y = getMainWidget().getAbsoluteTop() + 22;
-		dropDown.setWidth(getMainWidget().getOffsetWidth() + "px");
+		dropDown.setWidth(getMainWidget().getOffsetWidth()-2 + "px");
 		// dropDown.setHeight(getMainWidget().getOffsetHeight() + "px");
 		//
 		popup.setPopupPosition(x + 1, y);
