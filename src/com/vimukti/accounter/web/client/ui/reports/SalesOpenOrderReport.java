@@ -45,9 +45,11 @@ public class SalesOpenOrderReport extends
 
 	@Override
 	public void OnRecordClick(OpenAndClosedOrders record) {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
 			ReportsRPC.openTransactionView(record.getTransactionType(), record
 					.getTransactionID());
+			resetReport(toolbar.getStartDate(), toolbar.getEndDate());
+		}
 	}
 
 	@Override

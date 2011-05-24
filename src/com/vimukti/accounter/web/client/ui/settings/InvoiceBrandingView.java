@@ -122,7 +122,7 @@ public class InvoiceBrandingView<T> extends
 		buttonPanel.add(newBrandButton);
 		newBrandButton.enabledButton();
 		buttonPanel.add(automaticButton);
-		automaticButton.enabledButton();
+		
 		mainPanel.add(titlePanel);
 		mainPanel.add(buttonPanel);
 		List<ClientBrandingTheme> brandingThemes = FinanceApplication

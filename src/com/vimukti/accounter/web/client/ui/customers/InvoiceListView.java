@@ -29,13 +29,13 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 
 	private List<String> dateRangeList;
 
-	private static String OPEN = FinanceApplication.getCustomersMessages()
+	public static String OPEN = FinanceApplication.getCustomersMessages()
 			.open();
-	private static String OVER_DUE = FinanceApplication.getCustomersMessages()
+	public static String OVER_DUE = FinanceApplication.getCustomersMessages()
 			.overDue();
-	private static String VOID = FinanceApplication.getVendorsMessages()
+	public static String VOID = FinanceApplication.getVendorsMessages()
 			.Voided();
-	private static String ALL = FinanceApplication.getVendorsMessages().all();
+	public static String ALL = FinanceApplication.getVendorsMessages().all();
 	// private static String DELETE = "Deleted";
 	protected ClientFinanceDate startDate;
 	protected ClientFinanceDate endDate;
@@ -129,14 +129,15 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 		listOfTypes.add(VOID);
 		listOfTypes.add(ALL);
 		viewSelect.initCombo(listOfTypes);
+
 		if (viewType != null && !viewType.equals(""))
 			viewSelect.setComboItem(viewType);
 		else
 			viewSelect.setComboItem(OPEN);
+
 		if (UIUtils.isMSIEBrowser())
 			viewSelect.setWidth("105px");
-		viewSelect.setComboItem(OPEN);
-		viewSelect.setSelected(ALL);
+
 		viewSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
