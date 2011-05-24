@@ -872,7 +872,7 @@ public class MakeDepositView extends
 
 		addButton = new AccounterButton(FinanceApplication
 				.getFinanceUIConstants().add());
-		addButton.setEnabled(!isEdit);
+
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -948,6 +948,8 @@ public class MakeDepositView extends
 		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
 		addButton.setType(AccounterButton.ADD_BUTTON);
+		addButton.setEnabled(!isEdit);
+
 		HorizontalPanel botHLay = new HorizontalPanel();
 		botHLay.setWidth("100%");
 		botHLay.add(memoForm);

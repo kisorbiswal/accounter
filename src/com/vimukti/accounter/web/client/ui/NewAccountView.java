@@ -111,7 +111,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	protected Long nextAccountNumber;
 	private int accountSubBaseType;
 	private Integer[] nominalCodeRange;
-	
+
 	String accountName;
 	String accountNo;
 
@@ -828,11 +828,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			if (takenAccount == null) {
 				if (Utility.isObjectExist(FinanceApplication.getCompany()
 						.getAccounts(), account.getName())) {
+					if (Utility.isNumberCorrect(account)) {
+						throw new InvalidEntryException(
+								AccounterErrorType.INVALIDNUMBER);
+					}
 					throw new InvalidEntryException(
 							AccounterErrorType.ALREADYEXIST);
-				}else if (Utility.isNumberCorrect(account)) {
-					throw new InvalidEntryException(
-							AccounterErrorType.INVALIDNUMBER);
 				}
 				createObject(account);
 			} else
@@ -852,7 +853,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// this.errorOccured = true;
 		String exceptionMessage = exception.getMessage();
 		MainFinanceWindow.getViewManager().showError(exceptionMessage);
-		
+
 		ClientAccount account = getAccountObject();
 		if (exceptionMessage.contains("number"))
 			account.setNumber(accountNo);
@@ -1111,9 +1112,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				.getType()));
 		accNoText.setValue(takenAccount.getNumber() != null ? takenAccount
 				.getNumber() : 0);
-		accountNo =  takenAccount.getNumber() != null ? takenAccount
-				.getNumber() : "0"; 
-		
+		accountNo = takenAccount.getNumber() != null ? takenAccount.getNumber()
+				: "0";
+
 		if (takenAccount.getName().equalsIgnoreCase("Opening Balances"))
 			accNoText.setDisabled(true);
 
@@ -1345,7 +1346,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 								"The Account Number chosen is incorrect. Please choose a Number between 1100 and 1179");
 				// Accounter
 				// .showError("The Account Number chosen is incorrect. Please choose a Number between 1100 and 1179");
-				accNoText.setNumber(null);
+				// accNoText.setNumber(null);
 				return false;
 			} else {
 				// BaseView.errordata.setHTML("");
@@ -1381,7 +1382,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				// + nominalCodeRange[0]
 				// + " and "
 				// + nominalCodeRange[1]);
-				accNoText.setNumber(null);
+				// accNoText.setNumber(null);
 				return false;
 			} else {
 				// BaseView.errordata.setHTML("");

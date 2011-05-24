@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
+import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 
 public class MoneyComingPortlet extends DashBoardPortlet {
 
@@ -198,12 +199,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 						.draftInvoices()))
 					CustomersActionFactory.getInvoicesAction().run(null, true);
 				else {
-					CustomersActionFactory.getInvoicesAction()
-							.run(
-									null,
-									true,
-									FinanceApplication.getCustomersMessages()
-											.overDue());
+					CustomersActionFactory.getInvoicesAction().run(null, true,
+							InvoiceListView.OVER_DUE);
 				}
 
 			}
