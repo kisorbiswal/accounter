@@ -1185,6 +1185,7 @@ table tr.parentRow:HOVER {
 .gridHeader td.gridHeaderCell {
 	font-weight: bold;
 	padding-left: 5px;
+	font-size:12px;
 }
 
 /* for finance*/
@@ -1204,10 +1205,6 @@ table tr.parentRow:HOVER {
 	padding-left: 4px;
 }
 
-.gridbody tr:last td {
-	border-right: 0px;
-}
-
 .gridBody,.gridHeader {
 	border-collapse: collapse;
 	table-layout: fixed;
@@ -1224,8 +1221,7 @@ table tr.parentRow:HOVER {
 	white-space: nowrap;
 }
 
-.gridBody tr td {
-	/*border-right: 1px solid #AAAAAA;*/
+.gridBody tr td { /*border-right: 1px solid #AAAAAA;*/
 	padding-left: 5px;
 	overflow-x: hidden;
 }
@@ -4259,12 +4255,12 @@ td.menu-button-disable-parent {
 
 .workspace-panel .listgrid tr.selected td {
 	background: #917fab !important;
-	color: #FFF !     mportant;
+	color: #FFF !       mportant;
 }
 
 .user-panel .listgrid tr.selected td {
 	background: #037F8C !important;
-	color: #FFF !     mportant;
+	color: #FFF !       mportant;
 }
 
 .log-out {
