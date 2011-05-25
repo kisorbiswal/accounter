@@ -94,7 +94,7 @@ a:link {
 }
 
 #cen {
-	clear: both;
+	/*clear: both;*/
 	height: 335px !important;
 	background-color: #01a3d2;
 }
@@ -557,6 +557,7 @@ a:visited {
 .online-accounting a,.bank-reconciliation a,.invoicing a,.find-an-acciuntant a
 	{
 	color: #079dd2;
+	font-size:17px;
 }
 
 .fea-list a,.supp-list a,.use-lists a,.pro-list a,.home-list a {
@@ -813,6 +814,7 @@ a:visited {
 #forget-link1 {
 	color: #00a3dc;
 	margin-left: 60px;
+	font-size:15px;
 }
 
 .email,.password,.company-name {
@@ -1490,4 +1492,7 @@ ul li {
 /* These styles for opera*/
 noindex:-o-prefocus, .right-side-options{
    margin-top:-5px !important;
+}
+.mid-login-box1 td{
+   font-size:13px;
 }
