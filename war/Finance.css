@@ -910,6 +910,8 @@ color: white;
 	font-weight: normal;
 	margin: 0px !important;
 	font-size:12px !important;
+	float:left !important;
+	display:inline;
 }
 
 .custom-button {
@@ -980,6 +982,8 @@ color: white;
 
 .portletLabel {
 	color: white !important;
+	font-size: 15px;
+    margin-top: -2px;
 }
 
 .invoice-total {
@@ -1327,9 +1331,11 @@ color: white;
 }
 
 .ibutton-right-image {
-	float: right;
+	/*float: right;
 	height: 25px;
-	width: 3px;
+	width: 3px;*/
+	display:inline;
+	padding:0px 1px 9px 2px;
 }
 
 .panel-right-align {
@@ -1681,9 +1687,17 @@ iframe { /*display:none;*/
     font-size:12px;
 }
 
-/* Only for chrome*/
+/* Only for chrome */
 @media screen and (-webkit-min-device-pixel-ratio:0){
 	.gwt-Button{
 	    padding:0 5px 1px !important;
 	}
 }
+
+/* Opera only*/
+noindex:-o-prefocus, .ibutton-right-image{
+	display: inline;
+	padding:0px 1px 25px 2px;
+	position: absolute;
+}
+
