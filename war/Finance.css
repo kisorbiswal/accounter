@@ -1700,4 +1700,6 @@ noindex:-o-prefocus, .ibutton-right-image{
 	padding:0px 1px 25px 2px;
 	position: absolute;
 }
-
+.file-vat .gridRow{
+    cursor: default !important;
+}
