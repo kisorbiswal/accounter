@@ -495,9 +495,8 @@ table tr.ReportGridRow:HOVER {
 	background: #EDF2F8 none repeat scroll 0 0;
 }
 
-.refresh,.link,.loading {
-	width: 16px;
-	height: 16px;
+.refresh,.link,.loading { /*	width: 16px;
+	height: 16px;*/
 	cursor: pointer;
 }
 
