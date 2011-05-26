@@ -68,7 +68,7 @@ public class AccounterButton extends Button {
 			}
 		}
 	}
-	
+
 	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
@@ -91,45 +91,60 @@ public class AccounterButton extends Button {
 	}
 
 	public void enabledAddButton() {
-		this.getElement().getParentElement().setClassName("add-button");
+		try {
+			this.getElement().getParentElement().setClassName("add-button");
 
-		Element addseparator = DOM.createSpan();
-		addseparator.addClassName("add-separator");
-		DOM.appendChild(this.getElement(), addseparator);
+			Element addseparator = DOM.createSpan();
+			addseparator.addClassName("add-separator");
+			DOM.appendChild(this.getElement(), addseparator);
 
-		Element addimage = DOM.createSpan();
-		addimage.addClassName("add-image");
-		DOM.appendChild(this.getElement(), addimage);
+			Element addimage = DOM.createSpan();
+			addimage.addClassName("add-image");
+			DOM.appendChild(this.getElement(), addimage);
 
-		ThemesUtil.addDivToButton(this, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "add-right-image");
+			ThemesUtil.addDivToButton(this, FinanceApplication.getThemeImages()
+					.button_right_blue_image(), "add-right-image");
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+
 	}
 
 	public void enabledButton() {
-		this.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(this, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
+		try {
+			this.getElement().getParentElement().setClassName("ibutton");
+			ThemesUtil.addDivToButton(this, FinanceApplication.getThemeImages()
+					.button_right_blue_image(), "ibutton-right-image");
+		} catch (Exception e) {
+			System.err.println(e);
+		}
 	}
 
 	public void disabledAddButton() {
-		if (this.getElement().getParentElement().getClassName() != null) {
-			this.getElement().getParentElement().removeClassName("add-button");
-			if (this.getText() != null) {
-				ThemesUtil.removeDivToButton(this);
+		try {
+			if (this.getElement().getParentElement().getClassName() != null) {
+				this.getElement().getParentElement().removeClassName(
+						"add-button");
+				if (this.getText() != null) {
+					ThemesUtil.removeDivToButton(this);
+				}
 			}
-
+		} catch (Exception e) {
+			System.err.println(e);
 		}
 	}
 
 	public void disabledButton() {
-		if (this.getElement().getParentElement().getClassName() != null) {
-			this.getElement().getParentElement().removeClassName("ibutton");
-			if (this.getText() != null) {
-				ThemesUtil.removeDivToButton(this);
+		try {
+			if (this.getElement().getParentElement().getClassName() != null) {
+				this.getElement().getParentElement().removeClassName("ibutton");
+				if (this.getText() != null) {
+					ThemesUtil.removeDivToButton(this);
+				}
 			}
-
+		} catch (Exception e) {
+			System.err.println();
 		}
-
 	}
 
 }

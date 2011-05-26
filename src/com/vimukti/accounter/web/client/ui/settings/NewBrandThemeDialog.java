@@ -71,6 +71,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 
 	@Override
 	protected void initConstants() {
+		super.initConstants();
 		messages = GWT.create(SettingsMessages.class);
 	}
 
@@ -134,7 +135,6 @@ public class NewBrandThemeDialog extends BaseDialog {
 		check_radio_textAreaPanel.add(termsPaymentArea);
 
 		okbtn.setText(messages.saveButton());
-		cancelBtn.setText(messages.cancelButton());
 
 		addInputDialogHandler(new InputDialogHandler() {
 

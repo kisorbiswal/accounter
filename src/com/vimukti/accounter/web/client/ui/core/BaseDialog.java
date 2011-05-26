@@ -122,7 +122,7 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 		footerLayout.setSpacing(3);
 		// footerLayout.addStyleName("dialogfooter");
 
-		okbtn = new AccounterButton(constants.ok());
+		this.okbtn = new AccounterButton(constants.ok());
 		okbtn.setWidth("80px");
 		this.okbtn.setFocus(true);
 

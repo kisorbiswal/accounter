@@ -193,11 +193,17 @@ public class BankingPortlet extends DashBoardPortlet {
 						// chart.update();
 					}
 				};
-				FinanceApplication.createHomeService()
-						.getGraphPointsforAccount(
-								GraphChart.BANK_ACCOUNT_CHART_TYPE,
-								Long.valueOf(account.getNumber()), callBack);
-				i++;
+				try {
+					FinanceApplication
+							.createHomeService()
+							.getGraphPointsforAccount(
+									GraphChart.BANK_ACCOUNT_CHART_TYPE,
+									Long.valueOf(account.getNumber()), callBack);
+					i++;
+				} catch (Exception e) {
+					System.err.println(e);
+				}
+
 			}
 			// body.add(panel);
 			addAccount.addClickHandler(new ClickHandler() {
