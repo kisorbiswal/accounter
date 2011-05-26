@@ -75,7 +75,8 @@ public class CustomComboItem extends FormItem {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				CustomComboItem.this.clickHandler.onClick(event);
+				if (textBox.isEnabled())
+					CustomComboItem.this.clickHandler.onClick(event);
 			}
 		};
 
@@ -220,6 +221,7 @@ public class CustomComboItem extends FormItem {
 		if (b)
 			this.textBox.addStyleName("disable-TextField");
 		this.textBox.setEnabled(!b);
+		this.downarrowpanel.getElement().getStyle().setOpacity(b ? 0.6 : 1);
 
 	}
 
