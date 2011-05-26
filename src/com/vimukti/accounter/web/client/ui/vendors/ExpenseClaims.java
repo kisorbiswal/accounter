@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
-import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
@@ -13,9 +11,19 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class ExpenseClaims extends BaseView<BillsList> {
 	DecoratedTabPanel tabset;
+	public int selectTab;
+
+	public ExpenseClaims(int selectTab) {
+		this.selectTab = selectTab;
+	}
+
+	public ExpenseClaims() {
+
+	}
 
 	@Override
 	public void init() {
+		this.clear();
 		super.init();
 		createControls();
 	}
@@ -25,12 +33,12 @@ public class ExpenseClaims extends BaseView<BillsList> {
 		AwaitingAuthorisationView awaitingview = new AwaitingAuthorisationView();
 		ExpenseClaimView expenseview = new ExpenseClaimView();
 		tabset.add(expenseview, "Expense Claims");
-		if(FinanceApplication.getUser().canApproveExpences())
-		tabset.add(awaitingview, "Awaiting Authorisation");
+		if (FinanceApplication.getUser().canApproveExpences())
+			tabset.add(awaitingview, "Awaiting Authorisation");
 		setSize("100%", "100%");
 		mainPanel.add(tabset);
 		mainPanel.removeStyleName("main-class-pannel");
-		tabset.selectTab(0);
+		tabset.selectTab(selectTab);
 		buttonLayout.setVisible(false);
 	}
 

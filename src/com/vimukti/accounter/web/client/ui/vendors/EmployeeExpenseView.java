@@ -37,11 +37,12 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	protected ClientCashPurchase prepareObject() {
 		ClientCashPurchase cashPurchase = transactionObject != null ? (ClientCashPurchase) transactionObject
 				: new ClientCashPurchase();
-		
-		if(status == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
+
+		if (status == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
 			cashPurchase.setExpenseStatus(status);
 		else
-			cashPurchase.setExpenseStatus(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SAVE);
+			cashPurchase
+					.setExpenseStatus(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SAVE);
 
 		// Setting Type
 		cashPurchase.setType(ClientTransaction.TYPE_EMPLOYEE_EXPENSE);
@@ -211,8 +212,13 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 			@Override
 			public void onSuccess(Boolean result) {
-				if (result)
-					enableFormItems();
+				if (result) {
+					ClientCashPurchase purchase = (ClientCashPurchase) transactionObject;
+					if (purchase.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED) {
+						Accounter.showError("Expense is Approved");
+					} else
+						enableFormItems();
+				}
 			}
 
 		};

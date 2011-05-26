@@ -13,10 +13,12 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -58,6 +60,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 			@Override
 			public void onClick(ClickEvent event) {
 				isProcessingAdded = false;
+				setAction(VendorsActionFactory.getExpenseClaimListAction());
 				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL);
 			}
 		});
@@ -68,6 +71,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 			@Override
 			public void onClick(ClickEvent event) {
 				isProcessingAdded = false;
+				setAction(VendorsActionFactory.getExpenseClaimListAction());
 				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
 			}
 		});
@@ -121,9 +125,18 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 						@Override
 						public void onSuccess(ClientCashPurchase result) {
 							result.setExpenseStatus(expenceStatus);
+							updateTransactionItems(result);
+							setAction(VendorsActionFactory
+									.getExpenseClaimsAction());
 							alterObject(result);
 						}
 					});
+		}
+	}
+
+	void updateTransactionItems(ClientCashPurchase result) {
+		for (ClientTransactionItem item : result.getTransactionItems()) {
+			item.setStringID("");
 		}
 	}
 
@@ -144,6 +157,12 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 
 					}
 				});
+	}
+
+	@Override
+	public void setAction(Action action) {
+		// action = VendorsActionFactory.getExpenseClaimListAction();
+		super.setAction(action);
 	}
 
 	@Override

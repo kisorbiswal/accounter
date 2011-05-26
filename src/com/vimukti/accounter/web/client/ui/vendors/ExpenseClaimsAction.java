@@ -42,4 +42,14 @@ public class ExpenseClaimsAction extends Action {
 		}
 
 	}
+	
+	public void run(Object data, Boolean isDependent, int selectTab) {
+		view = new ExpenseClaims(selectTab);
+		try {
+			MainFinanceWindow.getViewManager().showView(view, data,
+					isDependent, this);
+		} catch (Exception e) {
+		}
+
+	}
 }

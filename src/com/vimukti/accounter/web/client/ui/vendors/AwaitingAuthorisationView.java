@@ -1,8 +1,8 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -12,11 +12,16 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class AwaitingAuthorisationView extends BaseView<BillsList> {
@@ -36,6 +41,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 	private void createControls() {
 		VerticalPanel panel = new VerticalPanel();
 		panel.setSize("100%", "100%");
+
 		initGrid();
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
@@ -46,6 +52,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 			@Override
 			public void onClick(ClickEvent event) {
 				isProcessingAdded = false;
+				setAction(VendorsActionFactory.getAwaitingAuthorisationAction());
 				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED);
 			}
 		});
@@ -55,6 +62,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 			@Override
 			public void onClick(ClickEvent event) {
 				isProcessingAdded = false;
+				setAction(VendorsActionFactory.getAwaitingAuthorisationAction());
 				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED);
 			}
 		});
@@ -64,6 +72,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 			@Override
 			public void onClick(ClickEvent event) {
 				isProcessingAdded = false;
+				setAction(VendorsActionFactory.getAwaitingAuthorisationAction());
 				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
 			}
 		});
@@ -118,9 +127,18 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 						@Override
 						public void onSuccess(ClientCashPurchase result) {
 							result.setExpenseStatus(expenceStatus);
+							setAction(VendorsActionFactory
+									.getExpenseClaimsAction());
+							updateTransactionItems(result);
 							alterObject(result);
 						}
 					});
+		}
+	}
+
+	void updateTransactionItems(ClientCashPurchase result) {
+		for (ClientTransactionItem item : result.getTransactionItems()) {
+			item.setStringID("");
 		}
 	}
 
@@ -144,6 +162,33 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 
 							}
 						});
+	}
+
+	@Override
+	public void setAction(Action action) {
+		super.setAction(action);
+	}
+
+	@Override
+	public void saveSuccess(IAccounterCore object) {
+		try {
+			if (this.callback != null) {
+				this.callback.onSuccess(object);
+			}
+			if (saveAndClose)
+				MainFinanceWindow.getViewManager().closeView(this.getAction(),
+						object);
+			else {
+				if (getAction() instanceof ExpenseClaimsAction)
+					((ExpenseClaimsAction) getAction()).run(null, true, 1);
+				else
+					getAction().run(null, true);
+			}
+		} catch (Exception e) {
+			Accounter.showInformation(((JavaScriptException) e)
+					.getDescription());
+		}
+
 	}
 
 	@Override

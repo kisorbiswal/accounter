@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
+import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
@@ -78,6 +79,24 @@ public class ExpenseClaimGrid extends BaseListGrid<BillsList> {
 			return obj.getOriginalAmount();
 		}
 		return null;
+	}
+
+	private String getstatus(int status) {
+		switch (status) {
+		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SAVE:
+			return "Draft";
+		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE:
+			return "Delete";
+		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL:
+			return "Submit for Approval";
+		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED:
+			return "Approved";
+		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED:
+			return "Decline";
+		default:
+			break;
+		}
+		return "Draft";
 	}
 
 	@Override
