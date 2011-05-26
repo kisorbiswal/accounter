@@ -233,8 +233,11 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	private MenuBar getMenuBar() {
 		MenuBar menuBar = new MenuBar();
-		menuBar.addItem("DashBoard", getDashBoardCommand());
+		MenuItem dashBoardMenuitem = menuBar.addItem("DashBoard",
+				getDashBoardCommand());
 		ThemesUtil.insertEmptyChildToMenuBar(menuBar);
+		dashBoardMenuitem.getElement().setTitle(
+				"Click here to download this plugin");
 
 		MenuItem menuitem = menuBar.addItem(FinanceApplication
 				.getFinanceUIConstants().company(), getCompanyMenu());
@@ -1227,7 +1230,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		// }
 		super.onLoad();
 		viewManager.fitToSize(this.getOffsetHeight(), 960);
-		// if (GWT.isScript())
+//		 if (GWT.isScript())
 		AccounterCometClient.start();
 		this.getElement().getParentElement()
 				.addClassName("main-finance-window");

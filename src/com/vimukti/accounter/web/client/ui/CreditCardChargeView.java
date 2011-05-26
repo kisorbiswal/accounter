@@ -865,7 +865,7 @@ public class CreditCardChargeView extends
 			cheqNoText.setDisabled(!isEdit);
 		}
 		delivDate.setDisabled(isEdit);
-		billToCombo.setDisabled(isEdit);
+//		billToCombo.setDisabled(isEdit);
 		vendorNameSelect.setDisabled(isEdit);
 		contactNameSelect.setDisabled(isEdit);
 		phoneSelect.setDisabled(isEdit);

@@ -893,7 +893,7 @@ public class UIUtils {
 
 	public static PopupPanel getLoadingMessageDialog(String string) {
 
-		Image image = new Image("/images/icons/loader.gif");
+		Image image = new Image("/images/loader.gif");
 		HorizontalPanel imageLayout = new HorizontalPanel();
 
 		final Label pleaseWaitLabel = new Label(string);
