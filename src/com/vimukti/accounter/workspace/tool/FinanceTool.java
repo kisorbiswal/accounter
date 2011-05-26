@@ -5491,7 +5491,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			salesByCustomerDetail.setPaymentTermName((String) object[6]);
 			salesByCustomerDetail.setItemName((String) object[7]);
 			salesByCustomerDetail.setQuantity(object[8] == null ? 0
-					: ((Double) object[8]).doubleValue());
+					: ((BigInteger) object[8]).intValue());
 			salesByCustomerDetail.setUnitPrice(object[9] == null ? 0
 					: ((Double) object[9]).doubleValue());
 			salesByCustomerDetail.setAmount(object[10] == null ? 0
@@ -5744,7 +5744,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 			salesByCustomerDetail.setName((String) object[5]);
 			salesByCustomerDetail.setQuantity(object[6] == null ? 0
-					: ((Double) object[6]).doubleValue());
+					: ((BigInteger) object[6]).intValue());
 			salesByCustomerDetail.setUnitPrice(object[7] == null ? 0
 					: ((Double) object[7]).doubleValue());
 			salesByCustomerDetail.setDiscount(object[8] == null ? 0
@@ -5813,7 +5813,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			salesByCustomerDetail.setItemName((String) object[1]);
 			salesByCustomerDetail.setItemGroup((String) object[2]);
 			salesByCustomerDetail.setQuantity(object[3] == null ? 0
-					: ((Double) object[3]).doubleValue());
+					: ((BigDecimal) object[3]).intValue());
 			salesByCustomerDetail.setAmount(object[4] == null ? 0
 					: ((Double) object[4]).doubleValue());
 
@@ -5992,7 +5992,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			salesByCustomerDetail.setItemName((String) object[6]);
 			salesByCustomerDetail.setDescription((String) object[7]);
 			salesByCustomerDetail.setQuantity(object[8] == null ? 0
-					: ((Double) object[8]).doubleValue());
+					: ((BigInteger) object[8]).intValue());
 			salesByCustomerDetail.setUnitPrice(object[9] == null ? 0
 					: ((Double) object[9]).doubleValue());
 			salesByCustomerDetail.setAmount(object[10] == null ? 0
@@ -6076,7 +6076,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 					: new ClientFinanceDate(((BigInteger) object[6])
 							.longValue()));
 			salesByCustomerDetail.setQuantity(object[7] == null ? 0
-					: ((Double) object[7]).doubleValue());
+					: ((BigInteger) object[7]).intValue());
 			salesByCustomerDetail.setUnitPrice(object[8] == null ? 0
 					: ((Double) object[8]).doubleValue());
 			salesByCustomerDetail.setAmount(object[9] == null ? 0
@@ -6116,7 +6116,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			salesByCustomerDetail.setItemName((String) object[1]);
 			salesByCustomerDetail.setItemGroup((String) object[2]);
 			salesByCustomerDetail.setQuantity(object[3] == null ? 0
-					: ((Double) object[3]).doubleValue());
+					: ((BigDecimal) object[3]).intValue());
 			salesByCustomerDetail.setAmount(object[4] == null ? 0
 					: ((Double) object[4]).doubleValue());
 

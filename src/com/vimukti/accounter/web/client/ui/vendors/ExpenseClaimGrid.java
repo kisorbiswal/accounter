@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
@@ -69,11 +70,11 @@ public class ExpenseClaimGrid extends BaseListGrid<BillsList> {
 		case 0:
 			return obj.getVendorName();
 		case 1:
-			return obj.getDate().getTime();
+			return new ClientFinanceDate(obj.getDate().getTime());
 		case 2:
-			return obj.getDate().getTime();
+			return new ClientFinanceDate(obj.getDueDate().getTime());
 		case 3:
-			return obj.getStatus();
+			return getstatus(obj.getExpenseStatus());
 
 		case 4:
 			return obj.getOriginalAmount();

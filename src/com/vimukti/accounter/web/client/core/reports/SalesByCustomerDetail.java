@@ -31,7 +31,7 @@ public class SalesByCustomerDetail extends BaseReport implements
 
 	String itemName;
 
-	double quantity = 0D;
+	int quantity = 0;
 
 	double unitPrice = 0D;
 
@@ -147,11 +147,11 @@ public class SalesByCustomerDetail extends BaseReport implements
 		this.itemName = itemName;
 	}
 
-	public double getQuantity() {
+	public int getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(double quantity) {
+	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 

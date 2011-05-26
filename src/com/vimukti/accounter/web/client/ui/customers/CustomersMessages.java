@@ -652,4 +652,6 @@ public interface CustomersMessages extends FinanceMessages {
 	public String setPaymentType();
 
 	public String receivePayment();
+
+	public String youCantVoidThisOne();
 }

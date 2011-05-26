@@ -12,7 +12,6 @@ import com.vimukti.accounter.web.client.ui.company.CountryRegionListAction;
 import com.vimukti.accounter.web.client.ui.company.CreditRatingListAction;
 import com.vimukti.accounter.web.client.ui.company.CustomerGroupListAction;
 import com.vimukti.accounter.web.client.ui.company.DepreciationAction;
-import com.vimukti.accounter.web.client.ui.company.EmployeeListAction;
 import com.vimukti.accounter.web.client.ui.company.FinanceLogAction;
 import com.vimukti.accounter.web.client.ui.company.FormLayoutsListAction;
 import com.vimukti.accounter.web.client.ui.company.IntegrateWithBusinessContactManagerAction;
@@ -30,7 +29,6 @@ import com.vimukti.accounter.web.client.ui.company.MergeVendorsAction;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.company.NewCashBasisJournalEntryAction;
 import com.vimukti.accounter.web.client.ui.company.NewCompanyAction;
-import com.vimukti.accounter.web.client.ui.company.NewEmployeeAction;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.company.NewJournalEntryAction;
 import com.vimukti.accounter.web.client.ui.company.NewSalesperSonAction;
@@ -313,13 +311,6 @@ public class CompanyActionFactory extends AbstractActionFactory {
 		return new UserDetailsAction("User Details");
 	}
 
-	public static NewEmployeeAction getEmployeeAction() {
-		return new NewEmployeeAction("Employee");
-	}
-
-	public static EmployeeListAction getEmployeeListAction() {
-		return new EmployeeListAction("Employees");
-	}
 	// public static ForgetPasswordAction getForgetPasswordAction(){
 	// return new ForgetPasswordAction(actionsConstants.forgetPassword());
 	//		

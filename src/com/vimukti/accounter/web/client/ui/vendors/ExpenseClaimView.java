@@ -42,7 +42,8 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 	private void createControls() {
 
 		VerticalPanel panel = new VerticalPanel();
-		HTML addNew = new HTML("<a>Add Employee Expense</a>");
+		HTML addNew = new HTML("<a>Add New Employee Expense</a>");
+		addNew.setStyleName("add-new-expense");
 		addNew.getElement().getStyle().setMarginBottom(10, Unit.PX);
 		addNew.addClickHandler(new ClickHandler() {
 
@@ -54,6 +55,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 		initGrid();
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
+		buttonPanel.setStyleName("button-expense");
 		Button submitApproval = new Button("Submit For Approval");
 		submitApproval.addClickHandler(new ClickHandler() {
 
@@ -143,7 +145,8 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 	@Override
 	protected void initRPCService() {
 		super.initRPCService();
-		FinanceApplication.createHomeService().getEmployeeExpensesByStatus(0,
+		FinanceApplication.createHomeService().getEmployeeExpensesByStatus(
+				ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SAVE,
 				new AsyncCallback<List<BillsList>>() {
 
 					@Override

@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
-public class ClientEmployeeDetails implements IAccounterCore {
+public class ClientEmployeeDetail implements IAccounterCore {
 
 	/**
 	 * EMPLOYEE DETAILS VARIABLES
@@ -22,8 +22,8 @@ public class ClientEmployeeDetails implements IAccounterCore {
 	private String jobTitle;
 	private String managerName;
 	private String employeeType;
-	private ClientFinanceDate startDate;
-	private ClientFinanceDate endDate;
+	private long startDate;
+	private long endDate;
 	private String employeeStatus;
 	public String natureOfJob; // (ex: full time)
 
@@ -201,14 +201,14 @@ public class ClientEmployeeDetails implements IAccounterCore {
 	 * @param startDate
 	 *            the startDate to set
 	 */
-	public void setStartDate(ClientFinanceDate startDate) {
+	public void setStartDate(long startDate) {
 		this.startDate = startDate;
 	}
 
 	/**
 	 * @return the startDate
 	 */
-	public ClientFinanceDate getStartDate() {
+	public long getStartDate() {
 		return startDate;
 	}
 
@@ -216,14 +216,14 @@ public class ClientEmployeeDetails implements IAccounterCore {
 	 * @param endDate
 	 *            the endDate to set
 	 */
-	public void setEndDate(ClientFinanceDate endDate) {
+	public void setEndDate(long endDate) {
 		this.endDate = endDate;
 	}
 
 	/**
 	 * @return the endDate
 	 */
-	public ClientFinanceDate getEndDate() {
+	public long getEndDate() {
 		return endDate;
 	}
 
