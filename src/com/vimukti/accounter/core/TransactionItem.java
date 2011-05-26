@@ -392,8 +392,7 @@ public class TransactionItem
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		
-		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
-				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
+		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE)				
 			return false;
 		
 		if (!Arrays.asList(Transaction.TYPE_ESTIMATE,
