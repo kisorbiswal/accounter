@@ -54,6 +54,7 @@ import com.vimukti.accounter.web.client.ui.customers.SalesOrderListAction;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.reports.AbstractReportView;
 import com.vimukti.accounter.web.client.ui.settings.UsersView;
+import com.vimukti.accounter.web.client.ui.vendors.AwaitingAuthorisationView;
 import com.vimukti.accounter.web.client.ui.vendors.ExpenseClaimView;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListAction;
 
@@ -1473,18 +1474,17 @@ public class ViewManager extends DockPanel {
 	public <T extends IAccounterCore, P extends IAccounterCore> void alterObject(
 			final P core, final IAccounterWidget widget) {
 
-		if (!(widget instanceof ExpenseClaimView)) {
+		if (!((widget instanceof ExpenseClaimView) || (widget instanceof AwaitingAuthorisationView))) {
 			dialog = UIUtils.getLoadingMessageDialog(FinanceApplication
 					.getCustomersMessages().processingRequest());
 
 			dialog.center();
 		} else {
-			if (!((ExpenseClaimView) widget).isProcessingAdded) {
+			if (!isprocessingRequestAdd(widget)) {
 				dialog = UIUtils.getLoadingMessageDialog(FinanceApplication
 						.getCustomersMessages().processingRequest());
 
 				dialog.center();
-				((ExpenseClaimView) widget).isProcessingAdded = true;
 			}
 		}
 		currentrequestedWidget = widget;
@@ -1522,6 +1522,26 @@ public class ViewManager extends DockPanel {
 
 		FinanceApplication.createCRUDService().update(((IAccounterCore) core),
 				transactionCallBack);
+	}
+
+	private boolean isprocessingRequestAdd(final IAccounterWidget widget) {
+		if (widget instanceof ExpenseClaimView) {
+			if (((ExpenseClaimView) widget).isProcessingAdded) {
+				return true;
+			} else {
+				((ExpenseClaimView) widget).isProcessingAdded = true;
+				return false;
+			}
+		}
+		if (widget instanceof AwaitingAuthorisationView) {
+			if (((AwaitingAuthorisationView) widget).isProcessingAdded) {
+				return true;
+			} else {
+				((AwaitingAuthorisationView) widget).isProcessingAdded = true;
+				return false;
+			}
+		}
+		return false;
 	}
 
 	public <T extends IAccounterCore, P extends IAccounterCore> void voidTransaction(
