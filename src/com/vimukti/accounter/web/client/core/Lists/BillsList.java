@@ -36,6 +36,8 @@ public class BillsList implements IsSerializable, Serializable {
 	boolean isVoided;
 
 	int status;
+	
+	private int expenseStatus;
 
 	/**
 	 * @return the transactionId
@@ -183,6 +185,14 @@ public class BillsList implements IsSerializable, Serializable {
 	 */
 	public void setDate(ClientFinanceDate transactionDate) {
 		this.transactionDate = transactionDate;
+	}
+
+	public void setExpenseStatus(int expenseStatus) {
+		this.expenseStatus = expenseStatus;
+	}
+
+	public int getExpenseStatus() {
+		return expenseStatus;
 	}
 
 }
