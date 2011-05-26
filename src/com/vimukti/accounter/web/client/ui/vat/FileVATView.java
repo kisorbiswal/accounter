@@ -361,6 +361,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		gridView.isEnable = false;
 		gridView.init();
 		gridView.setHeight("250");
+     	gridView.addStyleName("file-vat");		
 		gridView.addEmptyMessage(AccounterErrorType.SELECT_VATAGENCY);
 
 	}
