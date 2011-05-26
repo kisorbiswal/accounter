@@ -1456,6 +1456,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 					billsList.setVoided((Boolean) object[7]);
 					billsList.setStatus((Integer) object[8]);
 					billsList.setDate(new ClientFinanceDate((Long) object[9]));
+					billsList.setExpenseStatus((Integer) object[10]);
 
 					if (object[4] != null) {
 						if (isExpensesList) {
@@ -11889,8 +11890,9 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session
 				.createQuery(
-						"from com.vimukti.accounter.core.CashPurchase cp where cp.expenseStatus=:expenseStatus and cp.isVoid=false")
-				.setParameter("expenseStatus", status);
+						"from com.vimukti.accounter.core.CashPurchase cp where cp.expenseStatus=:expenseStatus and cp.type=:type and cp.isVoid=false")
+				.setParameter("expenseStatus", status).setParameter("type",
+						Transaction.TYPE_EMPLOYEE_EXPENSE);
 		List<CashPurchase> cashpurchase = query.list();
 		for (CashPurchase cp : cashpurchase) {
 			BillsList bills = new BillsList();
@@ -11900,13 +11902,17 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			bills.setDate(new ClientFinanceDate(cp.getDate().getTime()));
 			bills.setStatus(status);
 			bills.setType(Transaction.TYPE_EMPLOYEE_EXPENSE);
-			
-			/* Here, to set transaction created date temporarly using setDueDate method*/
-			bills.setDueDate(new ClientFinanceDate(cp.getCreatedDate().getTime()));
+
+			/*
+			 * Here, to set transaction created date temporarly using setDueDate
+			 * method
+			 */
+			bills.setDueDate(new ClientFinanceDate(cp.getCreatedDate()
+					.getTime()));
 			billsList.add(bills);
 		}
 		return billsList;
-	}	
+	}
 }
 
 // throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
