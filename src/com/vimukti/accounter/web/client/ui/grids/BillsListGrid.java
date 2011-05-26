@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -11,6 +12,7 @@ import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 import com.vimukti.accounter.web.client.ui.vendors.VendorsMessages;
 
@@ -109,8 +111,14 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 		if (!FinanceApplication.getUser().canDoInvoiceTransactions())
 			return;
 		if (col == 6 && !obj.isVoided()) {
-			showWarningDialog(obj, this.getAccounterCoreType(obj), this
-					.getTransactionID(obj), col);
+			
+			if (obj.getType()!=ClientTransaction.TYPE_EMPLOYEE_EXPENSE || 
+					(obj.getType()==ClientTransaction.TYPE_EMPLOYEE_EXPENSE && obj.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)) {
+				showWarningDialog(obj, this.getAccounterCoreType(obj), this
+						.getTransactionID(obj), col);
+			} else {
+				Accounter.showError("This Expense can't be void, because it is not Approved");
+			}
 		}
 		// else if (col == 7) {
 		// if (!isDeleted)
