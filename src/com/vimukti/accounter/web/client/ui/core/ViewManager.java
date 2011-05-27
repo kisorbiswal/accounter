@@ -1051,6 +1051,7 @@ public class ViewManager extends DockPanel {
 		if (scrollPanel != null) {
 			rightCanvas.remove(scrollPanel);
 		}
+		restoreErrorBox();
 
 	}
 
