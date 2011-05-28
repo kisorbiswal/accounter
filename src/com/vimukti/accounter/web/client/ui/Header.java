@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
+import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -38,16 +39,20 @@ public class Header extends HorizontalPanel {
 		userName.setText(FinanceApplication.getCompanyMessages().userName(
 				FinanceApplication.clientIdentity.getDisplayName()));
 		userName.addStyleName("userName-style");
-		userName.getElement().getStyle().setTextDecoration(
-				TextDecoration.UNDERLINE);
+		if (!FinanceApplication.clientIdentity.isLoggedInFromDomain()) {
+			userName.getElement().getStyle().setTextDecoration(
+					TextDecoration.UNDERLINE);
+			userName.getElement().getStyle().setCursor(Cursor.POINTER);
 
-		userName.addClickHandler(new ClickHandler() {
+			userName.addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
-				CompanyActionFactory.getUserDetailsAction().run(null, false);
-			}
-		});
+				@Override
+				public void onClick(ClickEvent event) {
+					CompanyActionFactory.getUserDetailsAction()
+							.run(null, false);
+				}
+			});
+		}
 
 		logout = new HTML("<a href='/do/logout'>Logout</a>");
 		logout.addStyleName("logout-html");
