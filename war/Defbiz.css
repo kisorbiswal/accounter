@@ -1133,6 +1133,7 @@ h1 {
 .gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox {
 	border: 1px solid #AAAAAA;
 	width: 180px !important; /*praveena*/
+	height: 22px !important;
 }
 
 table tr.gridRow:HOVER {
