@@ -1144,7 +1144,7 @@ public class ViewManager extends DockPanel {
 		}
 
 		if (view != null) {
-			view.initData();
+			// view.initData();
 			if (view instanceof AbstractReportView) {
 				((AbstractReportView<?>) view).showRecords();
 			}
@@ -1806,6 +1806,13 @@ public class ViewManager extends DockPanel {
 	public void restoreErrorBox() {
 		errordata.setHTML("");
 		commentPanel.setVisible(false);
+	}
+
+	public void showErrorInCurrectDialog(String message) {
+		if (BaseDialog.errordata != null && BaseDialog.commentPanel != null) {
+			BaseDialog.errordata.setHTML("<li> " + message + ".");
+			BaseDialog.commentPanel.setVisible(true);
+		}
 	}
 
 }
