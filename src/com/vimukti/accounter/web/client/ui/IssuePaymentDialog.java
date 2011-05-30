@@ -25,7 +25,6 @@ import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
-import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -63,7 +62,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 	public IssuePaymentDialog(String text, String description) {
 		super(text, description);
-		this.validationCount = 1;
+		this.validationCount = 3;
 		createControls();
 		getPayFromAccounts();
 		setTransactionNumber();
@@ -331,11 +330,10 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 	protected boolean validate() throws InvalidEntryException,
 			InvalidTransactionEntryException {
-		if (AccounterValidator.validateForm(payForm, true)
-				&& grid.validateGrid())
-			return true;
-		else
-			return false;
+
+		return (payMethodSelect.validate(true) && accountCombo.validate(true) && grid
+				.validateGrid());
+
 	}
 
 	@SuppressWarnings("unused")
@@ -473,7 +471,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		gridLayout.setWidth("100%");
 		gridLayout.setHeight("100");
 		grid = new TransactionIssuePaymentGrid();
-		grid.isEnable=false;
+		grid.isEnable = false;
 		grid.init();
 		grid.setHeight("200px");
 		grid.setIssuePaymentView(this);
@@ -510,7 +508,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 									.startingChequeNo());
 			checkNoText.setHelpInformation(true);
 			checkNoText.setWidth(100);
-			checkNoText.setRequired(true);
+			// checkNoText.setRequired(true);
 			// if (selectedPayFromAccount != null)
 			// setStartingCheckNumber(selectedPayFromAccount);
 			payForm.removeAllRows();

@@ -309,6 +309,7 @@ public class CreditCardChargeView extends
 		payFrmSelect.setComboItem(FinanceApplication.getCompany().getAccount(
 				payFromAccount));
 		payFrmSelect.setDisabled(isEdit);
+		cheqNoText.setDisabled(true);
 		paymentMethodSelected(creditCardChargeTaken.getPaymentMethod());
 		payMethSelect.setComboItem(creditCardChargeTaken.getPaymentMethod());
 		vendorTransactionGrid.setCanEdit(false);
@@ -437,8 +438,8 @@ public class CreditCardChargeView extends
 						.chequeNo()
 						: bankingConstants.checkNo());
 		cheqNoText.setHelpInformation(true);
-		cheqNoText.setWidth(100);
 		cheqNoText.setDisabled(isEdit);
+		cheqNoText.setWidth(100);
 		formItems.add(cheqNoText);
 
 		delivDate = new DateField(bankingConstants.deliveryDate());
@@ -457,7 +458,7 @@ public class CreditCardChargeView extends
 		Label lab2 = new Label("Items and expenses");
 
 		AccounterButton addButton = createAddNewButton();// new
-															// Button(FinanceApplication
+		// Button(FinanceApplication
 
 		netAmount = new AmountLabel(FinanceApplication.getBankingsMessages()
 				.netAmount());
@@ -865,7 +866,7 @@ public class CreditCardChargeView extends
 			cheqNoText.setDisabled(!isEdit);
 		}
 		delivDate.setDisabled(isEdit);
-//		billToCombo.setDisabled(isEdit);
+		// billToCombo.setDisabled(isEdit);
 		vendorNameSelect.setDisabled(isEdit);
 		contactNameSelect.setDisabled(isEdit);
 		phoneSelect.setDisabled(isEdit);
