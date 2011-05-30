@@ -40,7 +40,7 @@ public class PurchaseOpenOrderReport extends
 		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
 			ReportsRPC.openTransactionView(record.getTransactionType(), record
 					.getTransactionID());
-			resetReport(toolbar.getStartDate(), toolbar.getEndDate());
+			// resetReport(toolbar.getStartDate(), toolbar.getEndDate());
 		}
 	}
 
