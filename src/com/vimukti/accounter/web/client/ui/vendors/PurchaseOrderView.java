@@ -592,6 +592,7 @@ public class PurchaseOrderView extends
 					.getAddressTypes().get(shippingAddress.getType()));
 			shipToAddress.setAddres(shippingAddress);
 		}
+		shipToAddress.businessSelect.setDisabled(true);
 
 		this.addressListOfVendor = vendor.getAddress();
 
@@ -1048,6 +1049,7 @@ public class PurchaseOrderView extends
 		statusSelect.setDisabled(isEdit);
 		transactionDateItem.setDisabled(isEdit);
 		transactionNumber.setDisabled(isEdit);
+		shipToAddress.businessSelect.setDisabled(isEdit);
 		// shipToCombo.setDisabled(isEdit);
 		ClientTransactionItem item = new ClientTransactionItem();
 		if (!DecimalUtil.isEquals(item.getInvoiced(), 0)) {

@@ -369,6 +369,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 		AddressCombo addressCombo = new AddressCombo(FinanceApplication
 				.getVendorsMessages().billTo());
+		addressCombo.setDefaultToFirstOption(false);
 		addressCombo.setHelpInformation(true);
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -477,10 +478,11 @@ public abstract class AbstractVendorTransactionView<T> extends
 		for (ClientAddress address : addressListOfVendor) {
 
 			if (address.getType() == ClientAddress.TYPE_BILL_TO) {
-
-				tempSet.add(address);
-				clientAddress = address;
-				break;
+				if (address != null) {
+					tempSet.add(address);
+					clientAddress = address;
+					break;
+				}
 			}
 
 		}
@@ -488,7 +490,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 		adressList.addAll(tempSet);
 		billToCombo.initCombo(adressList);
 		billToCombo.setDisabled(isEdit);
-		// billToCombo.setShowDisabled(false);
+		billToCombo.setDefaultToFirstOption(false);
 
 		if (isEdit && billingAddress != null) {
 			billToCombo.setComboItem(billingAddress);
@@ -509,7 +511,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 		if (this.billingAddress != null && billToCombo != null)
 			billToCombo.setComboItem(this.billingAddress);
 		else
-			billToCombo.setValue(null);
+			billToCombo.setComboItem(null);
 	}
 
 	protected TextItem createCheckNumberItem(String title) {

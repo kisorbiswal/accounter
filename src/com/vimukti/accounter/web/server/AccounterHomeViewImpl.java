@@ -1531,28 +1531,27 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
-	
-	
 	@Override
 	public List<Double> getGraphPointsforAccount(int chartType, long accountNo) {
-		
+
 		List<Double> resultList = null;
 		try {
-			
-			resultList = getFinanceTool().getGraphPointsforAccount(chartType, accountNo);
-			
+
+			resultList = getFinanceTool().getGraphPointsforAccount(chartType,
+					accountNo);
+
 		} catch (Exception e) {
-			 e.printStackTrace();
+			e.printStackTrace();
 		}
-		
+
 		return resultList;
 	}
-	
+
 	public List<BillsList> getEmployeeExpensesByStatus(int status) {
 		List<BillsList> resultList = null;
 		try {
-			resultList = getFinanceTool().getEmployeeExpensesByStatus(0);
-		} catch(Exception e) {
+			resultList = getFinanceTool().getEmployeeExpensesByStatus(status);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return resultList;

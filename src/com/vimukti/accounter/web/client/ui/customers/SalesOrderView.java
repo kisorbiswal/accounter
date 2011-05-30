@@ -388,9 +388,9 @@ public class SalesOrderView extends
 		vpanel.setWidth("100%");
 		vpanel.setHorizontalAlignment(ALIGN_RIGHT);
 		vpanel.add(panel);
-		
+
 		menuButton.setType(AccounterButton.ADD_BUTTON);
-		
+
 		vpanel.add(prodAndServiceHLay);
 
 		VerticalPanel leftVLay = new VerticalPanel();
@@ -559,8 +559,6 @@ public class SalesOrderView extends
 
 		// this.priceLevel = company.getPriceLevel(salesOrderToBeEdited
 		// .getPriceLevel());
-		this.salesPerson = company.getSalesPerson(salesOrderToBeEdited
-				.getSalesPerson());
 		shippingMethodSelected(company.getShippingMethod(salesOrderToBeEdited
 				.getShippingMethod()));
 		this.paymentTerm = company.getPaymentTerms(salesOrderToBeEdited
@@ -589,9 +587,9 @@ public class SalesOrderView extends
 		initTransactionNumber();
 
 		if (salesOrderToBeEdited.getPhone() != null)
-			this.phoneNo = salesOrderToBeEdited.getPhone();
-		if (customer.getPhoneNo() == null && customer.getPhoneNo().isEmpty())
-			phoneSelect.setValue(this.phoneNo);
+			phoneNo = salesOrderToBeEdited.getPhone();
+		if (customer.getPhoneNo().isEmpty())
+			phoneSelect.setValue(phoneNo);
 
 		contactSelected(this.contact);
 
@@ -602,7 +600,8 @@ public class SalesOrderView extends
 				.getCustomerOrderNumber());
 		paymentTermsSelected(this.paymentTerm);
 		// priceLevelSelected(this.priceLevel);
-		salesPersonSelected(this.salesPerson);
+		salesPersonSelected(company.getSalesPerson(salesOrderToBeEdited
+				.getSalesPerson()));
 		shippingMethodSelected(this.shippingMethod);
 		shippingTermSelected(this.shippingTerm);
 		taxCodeSelected(this.taxCode);
@@ -797,7 +796,7 @@ public class SalesOrderView extends
 
 	@Override
 	protected void salesPersonSelected(ClientSalesPerson person) {
-		this.salesPerson = person;
+		salesPerson = person;
 		if (salesPerson != null) {
 
 			salesPersonCombo.setComboItem(FinanceApplication.getCompany()

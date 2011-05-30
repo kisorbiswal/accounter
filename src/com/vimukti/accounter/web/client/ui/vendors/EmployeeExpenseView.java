@@ -161,7 +161,9 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		if (transactionObject != null) {
 			ClientCashPurchase cashPurchase = (ClientCashPurchase) transactionObject;
 			employee.setValue(cashPurchase.getEmployee());
-			employee.setDisabledForSuggBox(true);
+			if (FinanceApplication.getUser().isAdmin()) {
+				employee.setDisabledForSuggBox(true);
+			}
 			deliveryDateItem.setValue(new ClientFinanceDate(cashPurchase
 					.getDeliveryDate()));
 		}
@@ -232,7 +234,9 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	@Override
 	protected void enableFormItems() {
 		super.enableFormItems();
-		employee.setDisabledForSuggBox(false);
+		if (FinanceApplication.getUser().isAdmin()) {
+			employee.setDisabledForSuggBox(false);
+		}
 	}
 
 	@Override

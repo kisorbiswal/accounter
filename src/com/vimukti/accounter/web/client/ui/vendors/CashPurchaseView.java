@@ -176,6 +176,8 @@ public class CashPurchaseView extends
 														.getVendorsMessages()
 														.cheque())) {
 							checkNo.setDisabled(false);
+						}else{
+							checkNo.setDisabled(true);
 						}
 
 						if (paymentMethod.equals(FinanceApplication
