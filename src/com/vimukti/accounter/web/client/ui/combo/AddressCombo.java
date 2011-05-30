@@ -27,6 +27,12 @@ public class AddressCombo extends CustomCombo<ClientAddress> {
 		// TODO Auto-generated method stub
 
 	}
+	
+	public void setDefaultToFirstOption(boolean b) {
+		if (b) {
+			this.setComboItem(comboItems.get(0));
+		}
+	}
 
 	@Override
 	public SelectItemType getSelectItemType() {
