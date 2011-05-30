@@ -714,7 +714,8 @@ public class ViewManager extends DockPanel {
 		if (history.getView() instanceof UsersView) {
 			currentCanvas = history.getView();
 			history.getAction().run(null, true);
-		} else if (!(history.getView().isAListView())) {
+		} else if (!(history.getView().isAListView())
+				&& !history.getView().isReportView()) {
 			currentCanvas = history.getView();
 			if (history.getAction().getActionSource() != null) {
 				item = history.getAction().getActionSource();
