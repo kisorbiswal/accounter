@@ -312,6 +312,7 @@ public class CreditCardChargeView extends
 		cheqNoText.setDisabled(true);
 		paymentMethodSelected(creditCardChargeTaken.getPaymentMethod());
 		payMethSelect.setComboItem(creditCardChargeTaken.getPaymentMethod());
+		cheqNoText.setDisabled(true);
 		vendorTransactionGrid.setCanEdit(false);
 		initMemoAndReference();
 		initTransactionViewData();
