@@ -291,7 +291,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			return false;
 		for (S s : list) {
 			ClientCustomer old = (ClientCustomer) s;
-			if (customer.getName().equals(old.getName())) {
+			if (customer.getName().equalsIgnoreCase(old.getName())) {
 				for (S s2 : list) {
 					ClientCustomer old2 = (ClientCustomer) s2;
 					if (customer.getNumber().equals(old2.getNumber())) {
@@ -304,7 +304,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			} else if (customer.getNumber().equals(old.getNumber())) {
 				for (S s2 : list) {
 					ClientCustomer old2 = (ClientCustomer) s2;
-					if (customer.getName().equals(old2.getName())) {
+					if (customer.getName().equalsIgnoreCase(old2.getName())) {
 						throw new InvalidEntryException(
 								"A Customer already exists with this name and number");
 					}

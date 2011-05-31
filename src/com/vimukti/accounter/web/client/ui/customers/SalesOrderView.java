@@ -585,6 +585,7 @@ public class SalesOrderView extends
 		}
 
 		initTransactionNumber();
+		initSalesPersons();
 
 		if (salesOrderToBeEdited.getPhone() != null)
 			phoneNo = salesOrderToBeEdited.getPhone();

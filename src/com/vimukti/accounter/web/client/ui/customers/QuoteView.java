@@ -139,7 +139,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			salesPersonCombo.setComboItem(FinanceApplication.getCompany()
 					.getSalesPerson(salesPerson.getStringID()));
 
-		}
+		} else
+			salesPersonCombo.setValue("");
+
 		salesPersonCombo.setDisabled(isEdit);
 
 	}
@@ -370,9 +372,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		vPanel.setWidth("100%");
 		vPanel.add(panel);
-		
+
 		menuButton.setType(AccounterButton.ADD_BUTTON);
-		
+
 		vPanel.add(prodAndServiceForm2);
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
