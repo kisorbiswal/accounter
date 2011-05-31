@@ -18,8 +18,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -30,6 +32,11 @@ import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
+/**
+ * 
+ * @author Uday Kumar
+ * 
+ */
 @SuppressWarnings( { "deprecation", "unchecked" })
 public class NewBrandThemeDialog extends BaseDialog {
 
@@ -144,14 +151,26 @@ public class NewBrandThemeDialog extends BaseDialog {
 					if (NewBrandThemeDialog.this.validate()) {
 						ClientBrandingTheme brandingTheme = saveValues();
 
-						if (brandingTheme.getStringID() != null) {
-							ViewManager.getInstance().alterObject(
-									brandingTheme, NewBrandThemeDialog.this);
+						if (Utility.isObjectExist(FinanceApplication
+								.getCompany().getBrandingTheme(), brandingTheme
+								.getThemeName())) {
+							MainFinanceWindow.getViewManager()
+									.showErrorInCurrectDialog(
+											"Theme Name already exists");
 						} else {
-							ViewManager.getInstance().createObject(
-									brandingTheme, NewBrandThemeDialog.this);
+							if (brandingTheme.getStringID() != null) {
+								ViewManager.getInstance()
+										.alterObject(brandingTheme,
+												NewBrandThemeDialog.this);
+							} else {
+								ViewManager.getInstance()
+										.createObject(brandingTheme,
+												NewBrandThemeDialog.this);
+							}
+							return true;
+
 						}
-						return true;
+
 					}
 				} catch (InvalidTransactionEntryException e) {
 				} catch (InvalidEntryException e) {
