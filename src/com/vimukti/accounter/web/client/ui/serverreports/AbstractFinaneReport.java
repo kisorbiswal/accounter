@@ -343,7 +343,7 @@ public abstract class AbstractFinaneReport<R> implements IFinanceReport<R> {
 
 	@Override
 	public ISectionHandler<R> getSectionHanlder() {
-		return null;
+		return this.handler;
 	}
 
 	@Override

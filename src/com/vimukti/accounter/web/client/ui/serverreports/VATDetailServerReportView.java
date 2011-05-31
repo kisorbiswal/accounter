@@ -12,6 +12,8 @@ import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 public class VATDetailServerReportView extends AbstractFinaneReport<VATDetail> {
 
 	String sectionTitle = "";
+	double accountbalance = 0D;
+	private String currentsectionName = "";
 
 	public VATDetailServerReportView(IFinanceReport<VATDetail> reportView) {
 		isVATDetailReport = true;
@@ -97,15 +99,18 @@ public class VATDetailServerReportView extends AbstractFinaneReport<VATDetail> {
 		case 2:
 			return record.getTransactionNumber();
 		case 3:
-			return record.getPayeeName() != null ? record.getPayeeName() : "";
-		case 4:
 			return record.isPercentage() ? record.getVatRate() + "%" : record
 					.getVatRate();
-		case 5:
+		case 4:
 			return record.getNetAmount();
-		case 6:
+		case 5:
 			return record.getTotal();
-		case 7:
+		case 6:
+			if (!currentsectionName.equals(record.getBoxName())) {
+				currentsectionName = record.getBoxName();
+				accountbalance = 0.0D;
+			}
+			return accountbalance += record.getTotal();
 		}
 		return null;
 	}
@@ -152,11 +157,11 @@ public class VATDetailServerReportView extends AbstractFinaneReport<VATDetail> {
 	public void processRecord(VATDetail record) {
 		if (sectionDepth == 0) {
 			sectionTitle = record.getBoxName();
-			addSection(sectionTitle, sectionTitle, new int[] { 6 });
+			addSection(sectionTitle, sectionTitle, new int[] { 5 });
 		} else if (!sectionTitle.equals(record.getBoxName())) {
 			endSection();
 			sectionTitle = record.getBoxName();
-			addSection(sectionTitle, sectionTitle, new int[] { 6 });
+			addSection(sectionTitle, sectionTitle, new int[] { 5 });
 		} else {
 			return;
 		}
