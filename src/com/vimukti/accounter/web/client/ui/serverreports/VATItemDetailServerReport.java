@@ -50,7 +50,7 @@ public class VATItemDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "Type", "Client Finance Date", "Number", "Name",
+		return new String[] { "Type", "Date", "Number", "Name",
 				"Memo", "Amount", "Sales Price" };
 	}
 
