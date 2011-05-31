@@ -1138,6 +1138,7 @@ public class ViewManager extends DockPanel {
 
 		ParentCanvas view = history.getView();
 		view.setData(history.getData());
+		view.isEdit = false;
 
 		// Setting CallBack Data if Not null
 		if (viewOutPutData != null) {
