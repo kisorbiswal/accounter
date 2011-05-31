@@ -147,4 +147,14 @@ public class AccounterButton extends Button {
 		}
 	}
 
+	public void enabledButton(String string) {
+		try {
+			this.getElement().getParentElement().setClassName(string);
+			ThemesUtil.addDivToButton(this, FinanceApplication.getThemeImages()
+					.button_right_blue_image(), "ibutton-right-image");
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+	}
+
 }
