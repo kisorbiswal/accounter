@@ -1556,4 +1556,18 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		}
 		return resultList;
 	}
+
+	@Override
+	public boolean changePassWord(String emailID, String oldPassword,
+			String newPassword) {
+		boolean changePassword = false;
+		try {
+			changePassword = getFinanceTool().changeMyPassword(emailID,
+					oldPassword, newPassword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return changePassword;
+	}
+
 }

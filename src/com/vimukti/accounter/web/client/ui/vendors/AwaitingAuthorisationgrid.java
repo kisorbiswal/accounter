@@ -36,7 +36,7 @@ public class AwaitingAuthorisationgrid extends BaseListGrid<BillsList> {
 		switch (index) {
 
 		case 0:
-			return obj.getStatus();
+			return obj.getExpenseStatus();
 		case 1:
 			return obj.getVendorName();
 		case 2:
