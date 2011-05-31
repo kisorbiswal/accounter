@@ -13,6 +13,10 @@ public class OtherAccountsCombo extends AccountCombo {
 	public OtherAccountsCombo(String title) {
 		super(title);
 	}
+	
+	public OtherAccountsCombo(String title, boolean isAddNewRequired) {
+		super(title, isAddNewRequired);
+	}
 
 	@Override
 	public List<ClientAccount> getAccounts() {
