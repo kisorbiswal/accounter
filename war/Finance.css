@@ -1000,11 +1000,10 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	margin: 0 4px !important;
 }
 
-.invoice-total tr:nth-child (3){
-	border-bottom: 1px solid #aaa;
-	border-top: 1px solid #aaa;
+.invoice-total tr:nth-child(3){
+	border-bottom:1px solid #aaa;
+	border-top:1px solid #aaa;
 }
-
 .noScroll input[type="text"] { /*width: 150px !important;*/
 	
 }
@@ -1058,11 +1057,10 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	margin: 5px 0 0 15px;
 }
 
-.standard-options td:nth-child (2){
+.standard-options td:nth-child(2){
 	float: right;
-	margin-right: 40px;
+	margin-right:40px;
 }
-
 .terms-payment-area {
 	width: 450px;
 	height: 75px;
@@ -1176,10 +1174,68 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	background: none repeat scroll 0 0 #F0F0F0 !important;
 }
 
-.help-logout-sep td:nth-child (2),.help-logout-sep td:nth-child (3){
-	padding: 5px !important;
-}
+.help-logout-sep
 
+
+ 
+
+
+td
+
+
+
+
+:nth-child
+
+
+ 
+
+
+(2),
+.help-logout-sep
+
+
+ 
+
+
+td
+
+
+
+
+:nth-child
+
+
+ 
+
+
+(3){
+padding
+
+
+
+
+:
+
+
+ 
+
+
+5
+px
+
+
+ 
+
+
+!
+important
+
+
+
+
+;
+}
 .help-content {
 	background: url("images/Menubar_Divider_2x30.jpg") no-repeat scroll 0 0
 		transparent;
@@ -1340,7 +1396,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	height: 25px;
 	width: 3px;*/
 	display: inline;
-	padding: 0px 1px 9px 2px;
+	padding: 0px 1px 7px 2px;
 }
 
 .panel-right-align {
@@ -1642,10 +1698,51 @@ iframe { /*display:none;*/
 	margin-left: 20px;
 }
 
-.date-number td :nth-child (2){
-	padding-right: 15px !important;
-}
+.date-number
 
+
+ 
+
+
+td
+
+
+ 
+
+
+:nth-child
+
+
+ 
+
+
+(2){
+padding-right
+
+
+
+
+:
+
+
+ 
+
+
+15
+px
+
+
+ 
+
+
+!
+important
+
+
+
+
+;
+}
 .datenumber-panel table {
 	padding-right: 15px !important;
 }
@@ -1665,10 +1762,42 @@ iframe { /*display:none;*/
 	font-weight: bold;
 }
 
-.tax-form td:nth-child (1){
-	font-weight: normal;
-}
+.tax-form
 
+
+ 
+
+
+td
+
+
+
+
+:nth-child
+
+
+ 
+
+
+(1){
+font-weight
+
+
+
+
+:
+
+
+ 
+
+
+normal
+
+
+
+
+;
+}
 .itemGrid {
 	margin-top: 25px;
 }
@@ -1685,7 +1814,7 @@ iframe { /*display:none;*/
 }
 
 .name-item {
-	margin-left: 85px;
+	margin-left: 75px;
 }
 
 .journal arrow {
