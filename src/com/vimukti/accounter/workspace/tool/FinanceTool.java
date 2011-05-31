@@ -7685,6 +7685,17 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			b8.setBoxNumber(8);
 			b9.setBoxNumber(9);
 			b10.setBoxNumber(10);
+			
+			b1.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
+			b2.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
+			b3.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
+			b4.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
+			b5.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
+			b6.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
+			b7.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
+			b8.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
+			b9.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
+			b10.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
 
 			boxes.add(b1);
 			boxes.add(b2);
@@ -8958,7 +8969,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			u.setStringId((String) object[3]);
 			u.setSourceName((String) object[4]);
 			u.setMemo((String) object[5]);
-			u.setAmount((Double) object[6]);
+			u.setAmount(object[6] == null ? 0 : (Double) object[6]);
 
 			uncategorisedAmounts.add(u);
 		}
