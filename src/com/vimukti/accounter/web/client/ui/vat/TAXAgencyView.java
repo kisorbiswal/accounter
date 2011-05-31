@@ -257,10 +257,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		vatAgency.setAddress(addrsForm.getAddresss());
 
 		// Setting Phone
-		vatAgency.setPhoneNumbers(phoneFaxForm.getAllPhones());
+		vatAgency.setPhoneNo(phoneFaxForm.businessPhoneText.getValue()
+				.toString());
 
 		// Setting Fax
-		vatAgency.setFaxNumbers(phoneFaxForm.getAllFaxes());
+		vatAgency.setFaxNo(phoneFaxForm.businessFaxText.getValue().toString());
 
 		// Setting Email and Internet
 		vatAgency.setEmail(emailForm.businesEmailText.getValue().toString());
@@ -345,7 +346,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		taxAgencyForm = UIUtils.form(companyConstants.taxAgency());
 		taxAgencyForm.setWidth("100%");
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			taxAgencyForm.getCellFormatter().setWidth(0, 0, "204px");
+			taxAgencyForm.getCellFormatter().setWidth(0, 0, "195px");
 		} else
 			taxAgencyForm.getCellFormatter().setWidth(0, 0, "190px");
 		taxAgencyForm.setFields(taxAgencyText);
@@ -476,9 +477,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			addrsForm = new AddressForm(takenVATAgency.getAddress());
 			addrsForm.setWidth("100%");
 			// Setting Phone Fax Form
-			phoneFaxForm = new PhoneFaxForm(takenVATAgency.getPhoneNumbers(),
-					takenVATAgency.getFaxNumbers());
+			phoneFaxForm = new PhoneFaxForm(null, null);
 			phoneFaxForm.setWidth("100%");
+			phoneFaxForm.businessPhoneText
+					.setValue(takenVATAgency.getPhoneNo());
+			phoneFaxForm.businessFaxText.setValue(takenVATAgency.getFaxNo());
 
 			// Setting Email Form
 			emailForm = new EmailForm(null, takenVATAgency.getWebPageAddress());
@@ -525,12 +528,12 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			}
 
 			if (takenVATAgency.getVATReturn() == ClientTAXAgency.RETURN_TYPE_NONE)
-				vatReturnCombo.setSelected("");
+				vatReturnCombo.setComboItem("");
 			else if (takenVATAgency.getVATReturn() == ClientTAXAgency.RETURN_TYPE_UK_VAT)
-				vatReturnCombo.setSelected(FinanceApplication.getVATMessages()
+				vatReturnCombo.setComboItem(FinanceApplication.getVATMessages()
 						.uKVAT());
 			else
-				vatReturnCombo.setSelected(FinanceApplication.getVATMessages()
+				vatReturnCombo.setComboItem(FinanceApplication.getVATMessages()
 						.vAT3Ireland());
 
 			if (takenVATAgency.getSalesLiabilityAccount() != null) {
