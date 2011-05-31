@@ -27,6 +27,11 @@ import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
+/**
+*
+* @author Uday Kumar
+* 
+*/
 public class InvoiceBrandingView<T> extends
 		AbstractBaseView<ClientBrandingTheme> {
 
@@ -497,7 +502,7 @@ public class InvoiceBrandingView<T> extends
 			}
 		};
 		FileUploadDilaog dilaog = new FileUploadDilaog("Upload file", "uday",
-				callback, null, brandingTheme);
+				callback, null, theme);
 		dilaog.center();
 
 	}
@@ -554,7 +559,7 @@ public class InvoiceBrandingView<T> extends
 		try {
 			createControls();
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 
 	}

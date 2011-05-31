@@ -5,6 +5,11 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
+/**
+*
+* @author Uday Kumar
+* 
+*/
 public class InvoiceBrandingAction extends Action {
 
 	private InvoiceBrandingView view;
