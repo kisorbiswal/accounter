@@ -427,10 +427,9 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 					nextVoucherNumber, JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY);
 			session.save(journalEntry);
 		}
-		
-		/* 		 
-		 * Is to update Memo in Entry if and only if customer Name 
-		 * was altered
+
+		/*
+		 * Is to update Memo in Entry if and only if customer Name was altered
 		 */
 		this.updateEntryMemo(session);
 
@@ -645,7 +644,7 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 		while (it.hasNext()) {
 			Object[] object = (Object[]) it.next();
 
-			if (this.name.equals((String) object[0])) {
+			if (this.name.equalsIgnoreCase((String) object[0])) {
 				Iterator it2 = list.iterator();
 				while (it2.hasNext()) {
 					Object[] object2 = (Object[]) it2.next();
@@ -660,7 +659,7 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 				Iterator it2 = list.iterator();
 				while (it2.hasNext()) {
 					Object[] object2 = (Object[]) it2.next();
-					if (this.name.equals((String) object2[0])) {
+					if (this.name.equalsIgnoreCase((String) object2[0])) {
 						throw new InvalidOperationException(
 								"A Customer already exists with this name and number");
 					}
