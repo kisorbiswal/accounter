@@ -256,7 +256,6 @@ public class TransactionReceivePaymentGrid extends
 		case 2:
 		case 3:
 			return 99;
-			
 
 		default:
 			break;
@@ -412,7 +411,7 @@ public class TransactionReceivePaymentGrid extends
 							return false;
 
 					} catch (Exception e) {
-						Accounter.showError(e.getMessage());
+						// Accounter.showError(e.getMessage());
 						return false;
 					}
 					paymentView.recalculateGridAmounts();
@@ -705,7 +704,7 @@ public class TransactionReceivePaymentGrid extends
 						} else
 							return false;
 					} catch (Exception e) {
-						Accounter.showError(e.getMessage());
+						// Accounter.showError(e.getMessage());
 						return false;
 					}
 				}

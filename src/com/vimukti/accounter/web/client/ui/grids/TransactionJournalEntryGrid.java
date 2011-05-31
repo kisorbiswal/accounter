@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.ui.grids;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.datepicker.client.DateBox;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEntry;
@@ -627,6 +629,24 @@ public class TransactionJournalEntryGrid extends
 		}
 		super.editComplete(editingRecord, value, col);
 		updateFooterValues();
+	}
+
+	public void onWidgetValueChanged(Widget widget, Object value) {
+		if (widget instanceof DateBox) {
+			this.remove(widget);
+
+			// setText(currentRow, currentCol, value.toString());
+
+			editComplete(selectedObject, value, 1);
+		} else {
+			this.remove(widget);
+
+			setText(currentRow, currentCol, value.toString());
+
+			editComplete(selectedObject, value, currentCol);
+			currentCol = 0;
+			currentRow = 0;
+		}
 	}
 
 	@Override
