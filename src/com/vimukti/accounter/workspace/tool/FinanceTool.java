@@ -7887,7 +7887,9 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 					// (v
 					// .getLineTotal() - v.getVatAmount())
 					// : 0;
-					vd1.setTotal(totalAmount);
+					
+					vd1.setNetAmount(totalAmount);
+//					vd1.setTotal(totalAmount);
 				}
 				// vd1.setNetAmount();
 				// vd1.setTotal(v.getVatAmount());
@@ -7896,7 +7898,9 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 					// double totalAmount = (!v.getTransactionItem().isVoid()) ?
 					// v
 					// .getLineTotal() : 0;
-					vd1.setTotal(totalAmount);
+					
+					vd1.setNetAmount(totalAmount);
+//					vd1.setTotal(totalAmount);
 				}
 				if (v.getTransactionItem().getTransaction().getInvolvedPayee() != null)
 					vd1.setPayeeName(v.getTransactionItem().getTransaction()
@@ -7909,7 +7913,8 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 						.getTransaction().getNumber());
 				vd1.setTransactionType(v.getTransactionItem().getTransaction()
 						.getType());
-				vd1.setVatRate(v.getTransactionItem().getLineTotal());
+				vd1.setVatRate(v.getTaxItem().getTaxRate());
+//				vd1.setVatRate(v.getTransactionItem().getLineTotal());
 				vd1.setTransactionId(v.getTransactionItem().getTransaction()
 						.getStringID());
 
@@ -11912,6 +11917,34 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			billsList.add(bills);
 		}
 		return billsList;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean changeMyPassword(String emailId, String oldPassword,
+			String newPassword) throws DAOException {
+
+			oldPassword = HexUtil.bytesToHex(Security.makeHash(emailId
+					+ oldPassword));
+			newPassword = HexUtil.bytesToHex(Security.makeHash(emailId
+					+ newPassword));
+
+			Session session = HibernateUtil.getCurrentSession();
+			Query query = session
+					.createSQLQuery(
+							"SELECT EMAILID  FROM COLLABERIDENTITY C WHERE C.EMAILID=:emailId AND C.PASSWORD=:password")
+					.setParameter("emailId", emailId).setParameter("password",
+							oldPassword);
+			String emailID = (String) query.uniqueResult();
+			
+			if (emailID == null)
+				return false;
+
+			query = session
+					.createSQLQuery("UPDATE COLLABERIDENTITY SET PASSWORD='"
+							+ newPassword + "' WHERE EMAILID='" + emailId + "'");
+			query.executeUpdate();	
+			return true;
 	}
 }
 
