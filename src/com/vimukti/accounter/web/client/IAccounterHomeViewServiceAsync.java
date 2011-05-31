@@ -317,4 +317,7 @@ public interface IAccounterHomeViewServiceAsync {
 	
 	public void getEmployeeExpensesByStatus(int status,
 			AsyncCallback<List<BillsList>> callBack);
+	
+	public void changePassWord(String emailID, String oldPassword, String newPassword,
+			AsyncCallback<Boolean> callback);
 }

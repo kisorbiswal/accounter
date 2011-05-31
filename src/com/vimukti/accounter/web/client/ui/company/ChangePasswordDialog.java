@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -16,17 +17,16 @@ import com.vimukti.accounter.web.client.ui.forms.PasswordItem;
 @SuppressWarnings("unchecked")
 public class ChangePasswordDialog extends BaseDialog {
 
-	public ChangePasswordDialog(String title, String desc) {
-		super(title, desc);
-		createControls();
-	}
-
 	private PasswordItem oldPasswordTextItem, newPasswordTextItem,
 			confirmNewPasswordTextItem;
 	private DynamicForm textItemsForm;
 	private VerticalPanel mainPanel;
 	private String oldPassword, newPassword, confirmNewPassword;
-	private boolean isMatch;
+
+	public ChangePasswordDialog(String title, String desc) {
+		super(title, desc);
+		createControls();
+	}
 
 	private void createControls() {
 		oldPasswordTextItem = new PasswordItem(FinanceApplication
@@ -83,36 +83,41 @@ public class ChangePasswordDialog extends BaseDialog {
 		oldPassword = oldPasswordTextItem.getValue().toString();
 		newPassword = newPasswordTextItem.getValue().toString();
 		confirmNewPassword = confirmNewPasswordTextItem.getValue().toString();
+		String emailID = FinanceApplication.clientIdentity.getEmailAddress();
 
-		if (newPassword.equals(confirmNewPassword)) {
-			isMatch = true;
-		} else {
-			isMatch = false;
-		}
+		if (!(newPassword.toString().length() < 6)) {
+			if (newPassword.equals(confirmNewPassword)) {
+				FinanceApplication.createHomeService().changePassWord(emailID,
+						oldPassword, newPassword, new AsyncCallback<Boolean>() {
 
-		FinanceApplication.creatUserService().changePassWord(oldPassword,
-				newPassword, isMatch, confirmNewPassword,
-				new AsyncCallback<Boolean>() {
+							@Override
+							public void onFailure(Throwable caught) {
 
-					@Override
-					public void onFailure(Throwable caught) {
-
-					}
-
-					@Override
-					public void onSuccess(Boolean result) {
-						if (result) {
-							if (isMatch) {
-								// TODO Display Password Updated Successfully
-								// Message
-							} else {
-								// TODO Display New Password and Confirm New
-								// Password should be same message
 							}
-						}
-					}
 
-				});
+							@Override
+							public void onSuccess(Boolean result) {
+								if (result) {
+									removeFromParent();
+									Accounter
+											.showInformation("Password Updated Sucessfully");
+								} else {
+									MainFinanceWindow
+											.getViewManager()
+											.showErrorInCurrectDialog(
+													"You Entered Worng Present Password");
+								}
+							}
+
+						});
+			} else {
+				MainFinanceWindow.getViewManager().showErrorInCurrectDialog(
+						"Passwords not matched");
+			}
+		} else {
+			MainFinanceWindow.getViewManager().showErrorInCurrectDialog(
+					"Password should contain minimum 6 characters");
+		}
 
 	}
 

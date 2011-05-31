@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +15,11 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 
+/**
+*
+* @author Uday Kumar
+* 
+*/
 @SuppressWarnings("serial")
 public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 

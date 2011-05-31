@@ -1,6 +1,10 @@
 package com.vimukti.accounter.web.client.core;
 
-
+/**
+ * 
+ * @author Uday Kumar
+ *
+ */
 public class ClientBrandingTheme implements IAccounterCore {
 
 	/**
@@ -82,7 +86,7 @@ public class ClientBrandingTheme implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		return "";
+		return themeName;
 	}
 
 	@Override
