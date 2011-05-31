@@ -92,7 +92,7 @@ public class CashDiscountDialog extends BaseDialog {
 
 		mainPanel.setSpacing(5);
 		discAccSelect = new OtherAccountsCombo(FinanceApplication
-				.getCustomersMessages().discountaccount());
+				.getCustomersMessages().discountaccount(), false);
 
 		discAccSelect.setComboItem(selectedDiscountAccount);
 
