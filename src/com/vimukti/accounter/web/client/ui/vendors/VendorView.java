@@ -654,7 +654,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			vendorGrpForm.setFields(vendorGroupSelect);
 
 		vendorGrpForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getVendorsMessages().width(), "147");
+				FinanceApplication.getVendorsMessages().width(), "136px");
 
 		vatRegistrationNumber = new TextItem(vendorConstants
 				.vatRegistrationNumber());

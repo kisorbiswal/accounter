@@ -859,6 +859,10 @@ public class PurchaseOrderView extends
 		} else
 			billtoAreaItem.setValue("");
 
+		List<ClientAddress> addresses = new ArrayList<ClientAddress>();
+		addresses.addAll(vendor.getAddress());
+		shipToAddress.setAddress(addresses);
+
 		initVendorAddressCombo();
 		initShipToCombo();
 

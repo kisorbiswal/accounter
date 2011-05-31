@@ -122,7 +122,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		employee.getMainWidget();
 		employee.setHelpInformation(true);
 		employee.setRequired(true);
-		if (!FinanceApplication.getUser().isAdmin()) {
+		if (!FinanceApplication.getUser().isAdminUser()) {
 			employee.setValue(FinanceApplication.getUser().getName());
 			employee.setDisabledForSuggBox(true);
 		}

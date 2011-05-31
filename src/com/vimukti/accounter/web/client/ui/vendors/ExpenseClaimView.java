@@ -7,7 +7,6 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -16,8 +15,8 @@ import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
@@ -56,7 +55,8 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setStyleName("button-expense");
-		Button submitApproval = new Button("Submit For Approval");
+		AccounterButton submitApproval = new AccounterButton(
+				"Submit For Approval");
 		submitApproval.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -67,7 +67,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 			}
 		});
 
-		Button deleteButton = new Button("Delete");
+		AccounterButton deleteButton = new AccounterButton("Delete");
 		deleteButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -85,15 +85,9 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 		panel.add(buttonPanel);
 		panel.setCellHorizontalAlignment(buttonPanel, ALIGN_RIGHT);
 		mainPanel.add(panel);
-		submitApproval.getElement().getParentElement().setClassName("ibutton1");
-		ThemesUtil.addDivToButton(submitApproval, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+		submitApproval.enabledButton("ibutton1");
 
-		deleteButton.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(deleteButton, FinanceApplication
-				.getThemeImages().button_right_blue_image(),
-				"ibutton-right-image");
+		deleteButton.enabledButton();
 		mainPanel.removeStyleName("main-class-pannel");
 		buttonLayout.getElement().getParentElement().removeClassName(
 				"bottom-view");

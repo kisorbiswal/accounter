@@ -7,7 +7,6 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -15,10 +14,10 @@ import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
@@ -46,7 +45,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.getElement().getStyle().setMarginTop(15, Unit.PX);
-		Button approve = new Button("Approve");
+		AccounterButton approve = new AccounterButton("Approve");
 		approve.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -56,7 +55,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED);
 			}
 		});
-		Button decline = new Button("Decline");
+		AccounterButton decline = new AccounterButton("Decline");
 		decline.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -66,7 +65,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED);
 			}
 		});
-		Button delete = new Button("Delete");
+		AccounterButton delete = new AccounterButton("Delete");
 		delete.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -80,17 +79,11 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 		buttonPanel.add(decline);
 		buttonPanel.add(delete);
 		approve.getElement().getStyle().setMarginLeft(25, Unit.PX);
-		approve.getElement().getParentElement().setClassName("ibutton1");
-		ThemesUtil.addDivToButton(approve, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
 
-		decline.getElement().getParentElement().setClassName("ibutton1");
-		ThemesUtil.addDivToButton(decline, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
+		approve.enabledButton("ibutton1");
+		decline.enabledButton("ibutton1");
+		delete.enabledButton();
 
-		delete.getElement().getParentElement().setClassName("ibutton");
-		ThemesUtil.addDivToButton(delete, FinanceApplication.getThemeImages()
-				.button_right_blue_image(), "ibutton-right-image");
 		buttonLayout.setVisible(false);
 		panel.add(grid);
 		panel.add(buttonPanel);

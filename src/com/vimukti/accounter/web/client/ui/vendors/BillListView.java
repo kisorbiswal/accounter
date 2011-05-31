@@ -89,7 +89,14 @@ public class BillListView extends BaseListView<BillsList> {
 	protected void initGrid() {
 		grid = new BillsListGrid(false);
 		grid.init();
-		grid.setViewType(FinanceApplication.getVendorsMessages().all());
+	}
+
+	@Override
+	public void onSuccess(List<BillsList> result) {
+		super.onSuccess(result);
+		allEnterBills = result;
+		filterList(currentView.getValue().toString());
+		grid.setViewType(currentView.getValue().toString());
 	}
 
 	@Override
