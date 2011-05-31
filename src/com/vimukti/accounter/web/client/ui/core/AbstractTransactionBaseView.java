@@ -632,8 +632,6 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 					}
 				});
 		paymentMethodSelect.setDisabled(isEdit);
-		// paymentMethodSelect.setShowDisabled(false);
-
 		formItems.add(paymentMethodSelect);
 
 		return paymentMethodSelect;

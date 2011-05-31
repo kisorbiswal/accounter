@@ -88,7 +88,8 @@ public class AccounterValidator {
 			throws InvalidEntryException {
 
 		if (!form.validate(isDialog)) {
-//			throw new InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
+			// throw new
+			// InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
 		}
 		return true;
 	}
@@ -902,8 +903,9 @@ public class AccounterValidator {
 
 		if (dueorDelivaryDate.before(transactionDate)) {
 			if (!UIUtils.isdateEqual(dueorDelivaryDate, transactionDate)) {
-				Accounter.showError("The" + " " + dateConstant + " "
-						+ " cannot be earlier than transaction date");
+				MainFinanceWindow.getViewManager().appendError(
+						"The" + " " + dateConstant + " "
+								+ " cannot be earlier than transaction date");
 				Accounter.stopExecution();
 			}
 
@@ -1553,8 +1555,8 @@ public class AccounterValidator {
 	public static boolean validateGridItem(Object value, String itemName)
 			throws InvalidTransactionEntryException {
 		if (value == null || value == "") {
-			throw new InvalidTransactionEntryException(
-					"Please enter the details for each added line item");
+			throw new InvalidTransactionEntryException("Please enter "
+					+ itemName);
 		}
 		return true;
 	}
