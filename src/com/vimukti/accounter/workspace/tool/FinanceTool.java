@@ -11924,27 +11924,36 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 	public boolean changeMyPassword(String emailId, String oldPassword,
 			String newPassword) throws DAOException {
 
+		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction tx = session.beginTransaction();
+
+		try {
 			oldPassword = HexUtil.bytesToHex(Security.makeHash(emailId
 					+ oldPassword));
 			newPassword = HexUtil.bytesToHex(Security.makeHash(emailId
 					+ newPassword));
 
-			Session session = HibernateUtil.getCurrentSession();
 			Query query = session
 					.createSQLQuery(
 							"SELECT EMAILID  FROM COLLABERIDENTITY C WHERE C.EMAILID=:emailId AND C.PASSWORD=:password")
 					.setParameter("emailId", emailId).setParameter("password",
 							oldPassword);
 			String emailID = (String) query.uniqueResult();
-			
+
 			if (emailID == null)
 				return false;
 
 			query = session
 					.createSQLQuery("UPDATE COLLABERIDENTITY SET PASSWORD='"
 							+ newPassword + "' WHERE EMAILID='" + emailId + "'");
-			query.executeUpdate();	
-			return true;
+			query.executeUpdate();
+			tx.commit();
+
+		} catch (Exception e) {
+			tx.rollback();
+			e.printStackTrace();
+		}
+		return true;
 	}
 }
 
