@@ -445,4 +445,11 @@ public class ClientUser implements IAccounterCore {
 		else
 			return false;
 	}
+
+	public boolean isAdminUser() {
+		if (this.getUserRole().equals(RolePermissions.ADMIN))
+			return true;
+		else
+			return false;
+	}
 }
