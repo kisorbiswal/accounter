@@ -93,8 +93,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 				vatItemComboForSales.setSelected("");
 
 			if (!vat.isTaxable()) {
-				vatItemComboForPurchases.setValue("");
-				vatItemComboForSales.setValue("");
+				// vatItemComboForPurchases.setValue("");
+				// vatItemComboForSales.setValue("");
 				vatItemComboForPurchases.setDisabled(true);
 				vatItemComboForSales.setDisabled(true);
 				vatItemComboForSales.setRequired(false);
@@ -227,6 +227,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 				vatItemComboForSales.getMainWidget().removeStyleName(
 						"highlightedFormItem");
 				String taxbl = taxableGroupRadio.getValue().toString();
+				taxableGroupRadio.setValue(taxbl);
 				if (taxbl.equalsIgnoreCase(FinanceApplication.getVATMessages()
 						.taxable())) {
 					isComboDisabled = false;
@@ -236,8 +237,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 					vatItemComboForSales.setRequired(true);
 				} else {
 					isComboDisabled = true;
-					vatItemComboForSales.setValue("");
-					vatItemComboForPurchases.setValue("");
+					// vatItemComboForSales.setValue("");
+					// vatItemComboForPurchases.setValue("");
 					vatItemComboForPurchases.setRequired(false);
 					vatItemComboForSales.setRequired(false);
 					vatItemComboForSales.setDisabled(true);
