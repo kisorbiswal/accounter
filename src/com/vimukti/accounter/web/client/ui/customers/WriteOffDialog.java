@@ -83,7 +83,7 @@ public class WriteOffDialog extends BaseDialog {
 	private void createControls() {
 
 		discAccSelect = new OtherAccountsCombo(customerConstants
-				.writeOffAccount());
+				.writeOffAccount(), false);
 		discAccSelect.initCombo(allAccounts);
 		discAccSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
