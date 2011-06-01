@@ -235,12 +235,12 @@ public class CustomerRefund extends Transaction implements
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-		super.onUpdate(session);
-
-		if (isBecameVoid()) {
-
-			this.doVoidEffect(session);
-		}
+//		super.onUpdate(session);
+//
+//		if (isBecameVoid()) {
+//
+//			this.doVoidEffect(session);
+//		}
 		return false;
 	}
 
