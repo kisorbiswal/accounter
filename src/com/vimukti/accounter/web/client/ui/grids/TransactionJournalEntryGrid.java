@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -118,6 +119,8 @@ public class TransactionJournalEntryGrid extends
 		accountsCombo = new OtherAccountsCombo("");
 		accountsCombo.setGrid(this);
 		accountsCombo.setRequired(true);
+		accountsCombo.downarrowpanel.getElement().getStyle().setMarginLeft(-13,
+				Unit.PX);
 		// accountsCombo.setWidth("600");
 		accountsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
