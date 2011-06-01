@@ -1477,6 +1477,7 @@ public class UIUtils {
 		ClientAccount account = null;
 		int index;
 		boolean type = false;
+		boolean isAccountAdded = false;
 		String toBeAddedNumber = toBeAddedAccount.getNumber();
 		if (!DecimalUtil.isEquals(toBeAddedAccount.getOpeningBalance(), 0))
 			toBeAddedAccount.setOpeningBalanceEditable(false);
@@ -1493,6 +1494,7 @@ public class UIUtils {
 				if (account.getNumber().equals("1180")) {
 					accountsList.add(accountsList.indexOf(account) - 1,
 							toBeAddedAccount);
+					isAccountAdded = true;
 				}
 			} else {
 				nextNumber = account.getNumber();
@@ -1502,6 +1504,7 @@ public class UIUtils {
 							&& nextNumber.compareTo(toBeAddedNumber) > 0) {
 						index = accountsList.indexOf(account);
 						accountsList.add(index, toBeAddedAccount);
+						isAccountAdded = true;
 						break;
 					}
 
@@ -1512,6 +1515,7 @@ public class UIUtils {
 					if (type) {
 						index = accountsList.indexOf(account);
 						accountsList.add(index--, toBeAddedAccount);
+						isAccountAdded = true;
 						break;
 					}
 				}
@@ -1533,12 +1537,18 @@ public class UIUtils {
 							&& tobeAddedAccountTypeIndex < nextIndex) {
 						index = accountsList.indexOf(account2);
 						accountsList.add(index, toBeAddedAccount);
+						isAccountAdded = true;
 						break;
 					}
 
 			}
-			if (!accountsList.contains(toBeAddedAccount))
+			if (!accountsList.contains(toBeAddedAccount)) {
 				accountsList.add(toBeAddedAccount);
+				isAccountAdded = true;
+			}
+		}
+		if(!isAccountAdded) {
+			accountsList.add(toBeAddedAccount);
 		}
 	}
 
