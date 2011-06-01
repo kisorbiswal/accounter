@@ -29,6 +29,7 @@ public class ChangePasswordDialog extends BaseDialog {
 	}
 
 	private void createControls() {
+		
 		oldPasswordTextItem = new PasswordItem(FinanceApplication
 				.getCompanyMessages().oldPassword());
 		newPasswordTextItem = new PasswordItem(FinanceApplication
@@ -80,6 +81,7 @@ public class ChangePasswordDialog extends BaseDialog {
 	}
 
 	protected void savePassword() {
+		
 		oldPassword = oldPasswordTextItem.getValue().toString();
 		newPassword = newPasswordTextItem.getValue().toString();
 		confirmNewPassword = confirmNewPasswordTextItem.getValue().toString();
@@ -100,12 +102,12 @@ public class ChangePasswordDialog extends BaseDialog {
 								if (result) {
 									removeFromParent();
 									Accounter
-											.showInformation("Password Updated Sucessfully");
+											.showInformation("Password Changed Sucessfully");
 								} else {
 									MainFinanceWindow
 											.getViewManager()
 											.showErrorInCurrectDialog(
-													"You Entered Worng Present Password");
+													"Your Present Password is Wrong");
 								}
 							}
 
