@@ -715,7 +715,7 @@ public class ViewManager extends DockPanel {
 			currentCanvas = history.getView();
 			history.getAction().run(null, true);
 		} else if (!(history.getView().isAListView())
-				&& !history.getView().isReportView()) {
+				&& !(history.getView() instanceof AbstractReportView)) {
 			currentCanvas = history.getView();
 			if (history.getAction().getActionSource() != null) {
 				item = history.getAction().getActionSource();
