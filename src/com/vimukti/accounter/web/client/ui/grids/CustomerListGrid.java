@@ -173,7 +173,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 		default:
 			break;
 		}
-		super.onClick(obj, row, col);
+		// super.onClick(obj, row, col);
 	}
 
 	@Override
