@@ -309,12 +309,12 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 		@SuppressWarnings("unused")
 		String str = "";
-		if (this.taxAgency != null) {
+		if (this.clientTAXAgency != null) {
 
 			if (selectItem.isSalesType()) {
 
 				ClientAccount salesAccount = FinanceApplication.getCompany()
-						.getAccount(this.taxAgency.getSalesLiabilityAccount());
+						.getAccount(this.clientTAXAgency.getSalesLiabilityAccount());
 
 				vatAccountLabel.setValue(salesAccount != null ? salesAccount
 						.getName() : "");
@@ -323,7 +323,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 				ClientAccount purchaseAccount = FinanceApplication.getCompany()
 						.getAccount(
-								this.taxAgency.getPurchaseLiabilityAccount());
+								this.clientTAXAgency.getPurchaseLiabilityAccount());
 
 				vatAccountLabel
 						.setValue(purchaseAccount != null ? purchaseAccount
