@@ -7899,8 +7899,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 					// .getLineTotal() - v.getVatAmount())
 					// : 0;
 					
-					vd1.setNetAmount(totalAmount);
-//					vd1.setTotal(totalAmount);
+					vd1.setTotal(totalAmount);
 				}
 				// vd1.setNetAmount();
 				// vd1.setTotal(v.getVatAmount());
@@ -7910,8 +7909,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 					// v
 					// .getLineTotal() : 0;
 					
-					vd1.setNetAmount(totalAmount);
-//					vd1.setTotal(totalAmount);
+					vd1.setTotal(totalAmount);
 				}
 				if (v.getTransactionItem().getTransaction().getInvolvedPayee() != null)
 					vd1.setPayeeName(v.getTransactionItem().getTransaction()
@@ -7924,7 +7922,6 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 						.getTransaction().getNumber());
 				vd1.setTransactionType(v.getTransactionItem().getTransaction()
 						.getType());
-				vd1.setVatRate(v.getTaxItem().getTaxRate());
 //				vd1.setVatRate(v.getTransactionItem().getLineTotal());
 				vd1.setTransactionId(v.getTransactionItem().getTransaction()
 						.getStringID());
