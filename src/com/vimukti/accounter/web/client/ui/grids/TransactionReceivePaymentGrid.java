@@ -389,21 +389,25 @@ public class TransactionReceivePaymentGrid extends
 				if (canEdit) {
 					try {
 						if (cashDiscountDialog.validate()) {
-							selectedObject.setCashDiscount(cashDiscountDialog
-									.getCashDiscount());
-							selectedObject
-									.setDiscountAccount(cashDiscountDialog
-											.getSelectedDiscountAccount()
-											.getStringID());
-							if (validatePaymentValue()) {
-								updatePayment(selectedObject);
-							} else {
-								selectedObject.setCashDiscount(0.0D);
-								updatePayment(selectedObject);
-							}
+							if (cashDiscountDialog.getSelectedDiscountAccount() != null) {
+								selectedObject
+										.setCashDiscount(cashDiscountDialog
+												.getCashDiscount());
+								selectedObject
+										.setDiscountAccount(cashDiscountDialog
+												.getSelectedDiscountAccount()
+												.getStringID());
+								if (validatePaymentValue()) {
+									updatePayment(selectedObject);
+								} else {
+									selectedObject.setCashDiscount(0.0D);
+									updatePayment(selectedObject);
+								}
 
-							updateData(selectedObject);
-							paymentView.recalculateGridAmounts();
+								updateData(selectedObject);
+								paymentView.recalculateGridAmounts();
+							} else
+								return false;
 							// paymentView.updateFooterValues();
 						}
 
@@ -685,21 +689,24 @@ public class TransactionReceivePaymentGrid extends
 				if (canEdit) {
 					try {
 						if (writeOffDialog.validate()) {
-							selectedObject.setWriteOff(writeOffDialog
-									.getCashDiscountValue());
-							selectedObject
-									.setWriteOffAccount(writeOffDialog
-											.getSelectedWriteOffAccount()
-											.getStringID());
-							if (validatePaymentValue()) {
-								updatePayment(selectedObject);
-							} else {
-								selectedObject.setWriteOff(0.0D);
-								updatePayment(selectedObject);
-							}
-							updateData(selectedObject);
-							paymentView.recalculateGridAmounts();
-							// paymentView.updateFooterValues();
+							if (writeOffDialog.getSelectedWriteOffAccount() != null) {
+								selectedObject.setWriteOff(writeOffDialog
+										.getCashDiscountValue());
+								selectedObject
+										.setWriteOffAccount(writeOffDialog
+												.getSelectedWriteOffAccount()
+												.getStringID());
+								if (validatePaymentValue()) {
+									updatePayment(selectedObject);
+								} else {
+									selectedObject.setWriteOff(0.0D);
+									updatePayment(selectedObject);
+								}
+								updateData(selectedObject);
+								paymentView.recalculateGridAmounts();
+								// paymentView.updateFooterValues();
+							} else
+								return false;
 
 						} else
 							return false;
