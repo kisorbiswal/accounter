@@ -1,10 +1,19 @@
 package com.vimukti.accounter.core;
 
+import java.io.Serializable;
+
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
+import org.hibernate.classic.Lifecycle;
+
+import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.core.AccounterCommand;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 
-public class User implements IAccounterServerCore {
+public class User implements IAccounterServerCore, Lifecycle {
 
 	/**
 	 * 
@@ -412,5 +421,36 @@ public class User implements IAccounterServerCore {
 
 	public int getLoginCount() {
 		return loginCount;
+	}
+
+	@Override
+	public boolean onDelete(Session arg0) throws CallbackException {
+		FinanceLogger
+				.log("User with Name {0} has been deleted", this.getName());
+
+		AccounterCommand accounterCore = new AccounterCommand();
+		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
+		accounterCore.setStringID(this.stringID);
+		accounterCore.setObjectType(AccounterCoreType.USER);
+		ChangeTracker.put(accounterCore);
+		return false;
+	}
+
+	@Override
+	public void onLoad(Session arg0, Serializable arg1) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean onSave(Session arg0) throws CallbackException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean onUpdate(Session arg0) throws CallbackException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
