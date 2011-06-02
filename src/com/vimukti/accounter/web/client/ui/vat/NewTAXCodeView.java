@@ -239,10 +239,10 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 					isComboDisabled = true;
 					// vatItemComboForSales.setValue("");
 					// vatItemComboForPurchases.setValue("");
-					vatItemComboForPurchases.setRequired(false);
-					vatItemComboForSales.setRequired(false);
 					vatItemComboForSales.setDisabled(true);
 					vatItemComboForPurchases.setDisabled(true);
+					vatItemComboForPurchases.setRequired(false);
+					vatItemComboForSales.setRequired(false);
 				}
 			}
 		};
