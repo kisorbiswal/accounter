@@ -5,6 +5,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.serverreports.AbstractFinaneReport;
 import com.vimukti.accounter.web.client.ui.serverreports.PriorVATReturnsServerReport;
 
 @SuppressWarnings("unchecked")
@@ -40,6 +41,8 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 	@Override
 	public void makeReportRequest(String vatAgency, ClientFinanceDate end) {
 		this.row = -1;
+		if (this.serverReport instanceof PriorVATReturnsServerReport)
+			((PriorVATReturnsServerReport) this.serverReport).row = -1;
 		FinanceApplication.createReportService().getPriorReturnVATSummary(
 				vatAgency, end.getTime(), this);
 		this.vatAgency = vatAgency;
