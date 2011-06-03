@@ -8,6 +8,7 @@ public class ClientCashPurchase extends ClientTransaction {
 	public static final int EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL = 2;
 	public static final int EMPLOYEE_EXPENSE_STATUS_APPROVED = 3;
 	public static final int EMPLOYEE_EXPENSE_STATUS_DECLINED = 4;
+	public static final int EMPLOYEE_EXPENSE_STATUS_NOT_TO_SHOW = 5;
 
 	String vendor;
 
@@ -26,7 +27,7 @@ public class ClientCashPurchase extends ClientTransaction {
 	ClientAccount cashExpenseAccount;
 
 	long deliveryDate;
-	
+
 	int expenseStatus;
 
 	public String getVendor() {

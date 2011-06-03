@@ -12,44 +12,53 @@ import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 /**
  * 
  * @author Uday Kumar
- *
+ * 
  */
-public class AwaitingAuthorisationgrid extends BaseListGrid<BillsList> {
-	AwaitingAuthorisationView view;
+public class PreviousClaimGrid extends BaseListGrid<BillsList> {
 
-	public AwaitingAuthorisationgrid(boolean isMultiSelectionEnable) {
+	PreviousClaimsView view;
+
+	public PreviousClaimGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
-		// TODO Auto-generated constructor stub
+	}
+
+	public void setView(PreviousClaimsView view) {
+		this.view = view;
 	}
 
 	@Override
-	protected void executeDelete(BillsList object) {
-		// TODO Auto-generated method stub
-
+	protected int getColumnType(int col) {
+		return ListGrid.COLUMN_TYPE_TEXT;
 	}
 
-	public void setView(AwaitingAuthorisationView view) {
-		this.view = view;
+	@Override
+	protected void executeDelete(BillsList billsList) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DATE,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT };
+				ListGrid.COLUMN_TYPE_DATE, ListGrid.COLUMN_TYPE_DATE,
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT };
 	}
 
 	@Override
 	protected Object getColumnValue(BillsList billsList, int index) {
 		switch (index) {
-
+		// case 0:
+		// return false;
 		case 0:
-			return getstatus(billsList.getExpenseStatus());
-		case 1:
 			return billsList.getVendorName();
-		case 2:
+		case 1:
 			return new ClientFinanceDate(billsList.getDate().getTime());
+		case 2:
+			return new ClientFinanceDate(billsList.getDueDate().getTime());
 		case 3:
+			return getstatus(billsList.getExpenseStatus());
+
+		case 4:
 			return billsList.getOriginalAmount();
 		}
 		return null;
@@ -75,8 +84,8 @@ public class AwaitingAuthorisationgrid extends BaseListGrid<BillsList> {
 
 	@Override
 	public void onDoubleClick(BillsList billsList) {
-		ReportsRPC.openTransactionView(billsList.getType(), billsList.getTransactionId());
-
+		ReportsRPC.openTransactionView(billsList.getType(), billsList
+				.getTransactionId());
 	}
 
 	@Override
@@ -87,7 +96,8 @@ public class AwaitingAuthorisationgrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { "Status", "Paid To", " Receipt Date", "Total" };
+		return new String[] { "Receipt From", "Recepit Date", "Date Enterred",
+				"Status", "Amount" };
 	}
 
 	@Override

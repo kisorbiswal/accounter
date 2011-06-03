@@ -142,6 +142,9 @@ public class EmployeeExpenseView extends CashPurchaseView {
 			selectedComboList.add(listString[i]);
 		}
 
+		if (!(FinanceApplication.getUser().canApproveExpences())) {
+			termsForm.setVisible(false);
+		}
 		paymentMethodCombo.initCombo(selectedComboList);
 
 		vendorForm.setFields(employee);
@@ -243,11 +246,9 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	protected void showMenu(AccounterButton button) {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, FinanceApplication.getVendorsMessages()
-					.accounts(), FinanceApplication.getVendorsMessages()
 					.service());
 		else
 			setMenuItems(button, FinanceApplication.getVendorsMessages()
-					.accounts(), FinanceApplication.getVendorsMessages()
 					.service());
 	}
 }

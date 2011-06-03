@@ -920,4 +920,6 @@ public interface CompanyMessages extends FinanceMessages {
 	
 	String approve();
 	
+	String submit();
+	
 }

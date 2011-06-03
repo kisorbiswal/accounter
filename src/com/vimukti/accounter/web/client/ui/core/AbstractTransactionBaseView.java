@@ -786,11 +786,12 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 				.getAbsoluteTop() - 100);
 		if (this instanceof CreditCardExpenseView
 				|| this instanceof CashExpenseView
-				|| this instanceof WriteChequeView
-				|| this instanceof EmployeeExpenseView)
+				|| this instanceof WriteChequeView)
 			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft(),
 					menuButton.getAbsoluteTop() - 70);
-
+		if (this instanceof EmployeeExpenseView) {
+			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft(), menuButton.getAbsoluteTop()-40);
+		}
 		popupPanel.show();
 	}
 

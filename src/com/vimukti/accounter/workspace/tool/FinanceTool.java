@@ -11913,7 +11913,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			bills.setOriginalAmount(cp.getTotal());
 			bills.setVendorName(cp.getEmployee());
 			bills.setDate(new ClientFinanceDate(cp.getDate().getTime()));
-			bills.setStatus(status);
+			bills.setExpenseStatus(status);
 			bills.setType(Transaction.TYPE_EMPLOYEE_EXPENSE);
 
 			/*

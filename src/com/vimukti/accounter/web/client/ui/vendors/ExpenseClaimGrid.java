@@ -7,14 +7,19 @@ import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
+/**
+ * 
+ * @author Uday Kumar
+ * 
+ */
 public class ExpenseClaimGrid extends BaseListGrid<BillsList> {
 
 	ExpenseClaimView view;
 
 	public ExpenseClaimGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -45,7 +50,6 @@ public class ExpenseClaimGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected String[] getColumns() {
-		// TODO Auto-generated method stub
 		return new String[] { "Receipt From", "Recepit Date", "Date Enterred",
 				"Status", "Amount" };
 	}
@@ -57,27 +61,27 @@ public class ExpenseClaimGrid extends BaseListGrid<BillsList> {
 	}
 
 	@Override
-	protected void executeDelete(BillsList object) {
+	protected void executeDelete(BillsList bills) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	protected Object getColumnValue(BillsList obj, int index) {
+	protected Object getColumnValue(BillsList billsList, int index) {
 		switch (index) {
 		// case 0:
 		// return false;
 		case 0:
-			return obj.getVendorName();
+			return billsList.getVendorName();
 		case 1:
-			return new ClientFinanceDate(obj.getDate().getTime());
+			return new ClientFinanceDate(billsList.getDate().getTime());
 		case 2:
-			return new ClientFinanceDate(obj.getDueDate().getTime());
+			return new ClientFinanceDate(billsList.getDueDate().getTime());
 		case 3:
-			return getstatus(obj.getExpenseStatus());
+			return getstatus(billsList.getExpenseStatus());
 
 		case 4:
-			return obj.getOriginalAmount();
+			return billsList.getOriginalAmount();
 		}
 		return null;
 	}
@@ -101,9 +105,9 @@ public class ExpenseClaimGrid extends BaseListGrid<BillsList> {
 	}
 
 	@Override
-	public void onDoubleClick(BillsList obj) {
-		// TODO Auto-generated method stub
-
+	public void onDoubleClick(BillsList billsList) {
+		ReportsRPC.openTransactionView(billsList.getType(), billsList
+				.getTransactionId());
 	}
 
 }

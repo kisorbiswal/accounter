@@ -116,10 +116,16 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 		registerButton = new CustomButton(CustomButtonType.REGISTER, this);
 
 		cancelButton = new CustomButton(CustomButtonType.CANCEL, this);
-		if (this instanceof EmployeeExpenseView
-				&& FinanceApplication.getUser().canApproveExpences()) {
-			approveButton = new CustomButton(CustomButtonType.APPROVE, this);
-			buttonLayout.add(approveButton);
+		if (this instanceof EmployeeExpenseView) {
+			if (FinanceApplication.getUser().canApproveExpences()) {
+				approveButton = new CustomButton(CustomButtonType.APPROVE, this);
+				buttonLayout.add(approveButton);
+			} else {
+				submitForApprove = new CustomButton(CustomButtonType.SUBMIT,
+						this);
+				buttonLayout.add(submitForApprove);
+			}
+
 		}
 		/*
 		 * if the view is related to FixedAsset,then "SaveAndNew" is replaced

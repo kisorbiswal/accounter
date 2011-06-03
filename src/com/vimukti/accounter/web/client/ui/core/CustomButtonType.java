@@ -27,7 +27,9 @@ public enum CustomButtonType {
 
 	CANCEL(FinanceApplication.getCompanyMessages().cancel()),
 
-	APPROVE(FinanceApplication.getCompanyMessages().approve());
+	APPROVE(FinanceApplication.getCompanyMessages().approve()),
+
+	SUBMIT(FinanceApplication.getCompanyMessages().submit());
 
 	private String title;
 

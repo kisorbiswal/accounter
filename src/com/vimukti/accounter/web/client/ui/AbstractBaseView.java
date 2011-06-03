@@ -47,7 +47,7 @@ import com.vimukti.accounter.web.client.ui.vat.VATMessages;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
-	
+
 	public static boolean errorOccured = false;
 	public static boolean warnOccured = false;
 
@@ -120,7 +120,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 	public ClientVendor vendor;
 
-//	public ClientTaxAgency taxAgency;
+	// public ClientTaxAgency taxAgency;
 
 	public ClientSalesPerson salesPerson;
 
@@ -151,6 +151,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 	protected CustomButton cancelButton;
 	protected CustomButton printButton;
 	protected CustomButton approveButton;
+	protected CustomButton submitForApprove;
 	/**
 	 * Number of validations in view
 	 */

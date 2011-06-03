@@ -9,6 +9,11 @@ import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
+/**
+ * 
+ * @author Uday kumar
+ *
+ */
 public class ExpenseClaims extends BaseView<BillsList> {
 	DecoratedTabPanel tabset;
 	public int selectTab;
@@ -32,7 +37,10 @@ public class ExpenseClaims extends BaseView<BillsList> {
 		tabset = new DecoratedTabPanel();
 		AwaitingAuthorisationView awaitingview = new AwaitingAuthorisationView();
 		ExpenseClaimView expenseview = new ExpenseClaimView();
-		tabset.add(expenseview, "Expense Claims");
+		PreviousClaimsView claimsView = new PreviousClaimsView();
+
+		tabset.add(expenseview, "Present Claims");
+		tabset.add(claimsView, "Previous Claims");
 		if (FinanceApplication.getUser().canApproveExpences())
 			tabset.add(awaitingview, "Awaiting Authorisation");
 		setSize("100%", "100%");

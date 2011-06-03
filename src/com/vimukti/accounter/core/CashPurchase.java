@@ -39,12 +39,13 @@ public class CashPurchase extends Transaction implements Lifecycle {
 	 * 
 	 */
 	private static final long serialVersionUID = -304718612318704134L;
-	
+
 	public static final int EMPLOYEE_EXPENSE_STATUS_SAVE = 0;
 	public static final int EMPLOYEE_EXPENSE_STATUS_DELETE = 1;
 	public static final int EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL = 2;
 	public static final int EMPLOYEE_EXPENSE_STATUS_APPROVED = 3;
 	public static final int EMPLOYEE_EXPENSE_STATUS_DECLINED = 4;
+	public static final int EMPLOYEE_EXPENSE_STATUS_NOT_TO_SHOW = 5;
 
 	/**
 	 * The payee from whom we are making the cash purchase.
@@ -97,7 +98,7 @@ public class CashPurchase extends Transaction implements Lifecycle {
 	 * It specifies the employee expense status
 	 */
 	int expenseStatus;
-	
+
 	// transient boolean isImported;
 
 	/**
@@ -319,10 +320,10 @@ public class CashPurchase extends Transaction implements Lifecycle {
 			return true;
 		isOnSaveProccessed = true;
 
-		if (this.type == Transaction.TYPE_EMPLOYEE_EXPENSE			
+		if (this.type == Transaction.TYPE_EMPLOYEE_EXPENSE
 				&& this.expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
 			return false;
-		
+
 		super.onSave(session);
 		/**
 		 * update status if payment method is check, it will used to get list of
@@ -379,27 +380,25 @@ public class CashPurchase extends Transaction implements Lifecycle {
 
 	// @Override
 	public boolean equals(CashPurchase obj) {
-		if (((this.vendor != null && obj.vendor != null)
-				? (this.vendor.id == obj.vendor.id)
+		if (((this.vendor != null && obj.vendor != null) ? (this.vendor.id == obj.vendor.id)
 				: true)
-				&& ((this.cashExpenseAccount != null && obj.cashExpenseAccount != null)
-						? (this.cashExpenseAccount.id == obj.cashExpenseAccount.id)
+				&& ((this.cashExpenseAccount != null && obj.cashExpenseAccount != null) ? (this.cashExpenseAccount.id == obj.cashExpenseAccount.id)
 						: true)
-				&& ((this.employeeName != null && obj.employeeName != null)
-						? (this.employeeName.equals(obj.employeeName))
+				&& ((this.employeeName != null && obj.employeeName != null) ? (this.employeeName
+						.equals(obj.employeeName))
 						: true)
 
-				&& ((this.payFrom != null && obj.payFrom != null)
-						? (this.payFrom.equals(obj.payFrom))
+				&& ((this.payFrom != null && obj.payFrom != null) ? (this.payFrom
+						.equals(obj.payFrom))
 						: true)
-				&& ((this.paymentMethod != null && obj.paymentMethod != null)
-						? (this.paymentMethod.equals(obj.paymentMethod))
+				&& ((this.paymentMethod != null && obj.paymentMethod != null) ? (this.paymentMethod
+						.equals(obj.paymentMethod))
 						: true)
-				&& ((!DecimalUtil.isEquals(this.total, 0.0) && !DecimalUtil.isEquals(obj.total, 0.0))
-						? DecimalUtil.isEquals(this.total, obj.total)
-						: true)
-						
-				&& (this.type == Transaction.TYPE_EMPLOYEE_EXPENSE && this.expenseStatus == obj.expenseStatus)		
+				&& ((!DecimalUtil.isEquals(this.total, 0.0) && !DecimalUtil
+						.isEquals(obj.total, 0.0)) ? DecimalUtil.isEquals(
+						this.total, obj.total) : true)
+
+				&& (this.type == Transaction.TYPE_EMPLOYEE_EXPENSE && this.expenseStatus == obj.expenseStatus)
 
 				&& this.transactionItems.size() == obj.transactionItems.size()) {
 
@@ -420,11 +419,11 @@ public class CashPurchase extends Transaction implements Lifecycle {
 
 		CashPurchase cashPurchase = (CashPurchase) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
-		
-		if (this.type == Transaction.TYPE_EMPLOYEE_EXPENSE			
+
+		if (this.type == Transaction.TYPE_EMPLOYEE_EXPENSE
 				&& this.expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
 			return;
-		
+
 		/**
 		 * 
 		 *if present transaction is deleted or voided & the previous
@@ -453,8 +452,7 @@ public class CashPurchase extends Transaction implements Lifecycle {
 			 * To get the payFrom Account of clonedObject cashPurchase
 			 */
 			if (this.type != Transaction.TYPE_EMPLOYEE_EXPENSE
-					|| (this.type == Transaction.TYPE_EMPLOYEE_EXPENSE
-					&& this.expenseStatus == cashPurchase.expenseStatus)) {
+					|| (this.type == Transaction.TYPE_EMPLOYEE_EXPENSE && this.expenseStatus == cashPurchase.expenseStatus)) {
 
 				Account payFromAccount = (Account) session.get(Account.class,
 						cashPurchase.payFrom.id);
@@ -469,9 +467,8 @@ public class CashPurchase extends Transaction implements Lifecycle {
 				payFromAccount.onUpdate(session);
 			}
 
-			this.payFrom.updateCurrentBalance(this, isDebitTransaction()
-					? this.total
-					: -this.total);
+			this.payFrom.updateCurrentBalance(this,
+					isDebitTransaction() ? this.total : -this.total);
 			this.payFrom.onUpdate(session);
 
 		}
@@ -494,7 +491,8 @@ public class CashPurchase extends Transaction implements Lifecycle {
 	}
 
 	/**
-	 * @param expenseStatus the expenseStatus to set
+	 * @param expenseStatus
+	 *            the expenseStatus to set
 	 */
 	public void setExpenseStatus(int expenseStatus) {
 		this.expenseStatus = expenseStatus;
