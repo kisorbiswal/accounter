@@ -10,7 +10,7 @@ public class PriorVATReturnsServerReport extends
 		AbstractFinaneReport<VATSummary> {
 
 	private String sectionName = "";
-	private int row = -1;
+	public int row = -1;
 	protected Double box3amount = 0.0D;
 	protected Double box4amount = 0.0D;
 
