@@ -38,6 +38,8 @@ public class BillsList implements IsSerializable, Serializable {
 	int status;
 	
 	private int expenseStatus;
+	
+	private String payFrom;
 
 	/**
 	 * @return the transactionId
@@ -193,6 +195,14 @@ public class BillsList implements IsSerializable, Serializable {
 
 	public int getExpenseStatus() {
 		return expenseStatus;
+	}
+
+	public void setPayFrom(String payFrom) {
+		this.payFrom = payFrom;
+	}
+
+	public String getPayFrom() {
+		return payFrom;
 	}
 
 }
