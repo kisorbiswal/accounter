@@ -65,7 +65,8 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		cashPurchase.setPaymentMethod(paymentMethod);
 
 		// Setting Pay From Account
-		cashPurchase.setPayFrom(payFromAccount.getStringID());
+		if (FinanceApplication.getUser().canApproveExpences())
+			cashPurchase.setPayFrom(payFromAccount.getStringID());
 
 		// Setting Check number
 		cashPurchase.setCheckNumber(checkNo.getValue().toString());
@@ -191,7 +192,10 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		case 5:
 			return AccounterValidator.validateTransactionDate(transactionDate);
 		case 4:
-			return AccounterValidator.validateFormItem(payFromCombo, false);
+			if (FinanceApplication.getUser().canApproveExpences())
+				return AccounterValidator.validateFormItem(payFromCombo, false);
+			else
+				return true;
 		case 3:
 			return AccounterValidator.validate_dueOrDelivaryDates(
 					deliveryDateItem.getEnteredDate(), this.transactionDate,

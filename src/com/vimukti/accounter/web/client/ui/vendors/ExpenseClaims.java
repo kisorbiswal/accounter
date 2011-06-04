@@ -3,9 +3,12 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
+import com.google.gwt.user.client.ui.SourcesTabEvents;
+import com.google.gwt.user.client.ui.TabListener;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -47,6 +50,18 @@ public class ExpenseClaims extends BaseView<BillsList> {
 		mainPanel.add(tabset);
 		mainPanel.removeStyleName("main-class-pannel");
 		tabset.selectTab(selectTab);
+		tabset.addTabListener(new TabListener() {
+			
+			@Override
+			public void onTabSelected(SourcesTabEvents sender, int tabIndex) {
+				MainFinanceWindow.getViewManager().restoreErrorBox();
+			}
+			
+			@Override
+			public boolean onBeforeTabSelected(SourcesTabEvents sender, int tabIndex) {
+				return true;
+			}
+		});
 		buttonLayout.setVisible(false);
 	}
 
