@@ -50,9 +50,17 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				MainFinanceWindow.getViewManager().restoreErrorBox();
 				isProcessingAdded = false;
 				setAction(VendorsActionFactory.getAwaitingAuthorisationAction());
-				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED);
+				boolean isErrorOccured = checkPayFromAccount();
+				if (!isErrorOccured)
+					updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED);
+				else
+					MainFinanceWindow
+							.getViewManager()
+							.showError(
+									"Please Select Pay From Account for the records showm in red.");
 			}
 		});
 		AccounterButton decline = new AccounterButton("Decline");
@@ -60,6 +68,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				MainFinanceWindow.getViewManager().restoreErrorBox();
 				isProcessingAdded = false;
 				setAction(VendorsActionFactory.getAwaitingAuthorisationAction());
 				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED);
@@ -70,6 +79,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				MainFinanceWindow.getViewManager().restoreErrorBox();
 				isProcessingAdded = false;
 				setAction(VendorsActionFactory.getAwaitingAuthorisationAction());
 				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
@@ -95,6 +105,17 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 		bottomShadow.getElement().getParentElement().removeClassName(
 				"bottom-shadow");
 
+	}
+
+	protected boolean checkPayFromAccount() {
+		boolean isErrorOccured = false;
+		List<BillsList> selectedRecords = grid.getSelectedRecords();
+		for (BillsList record : selectedRecords) {
+			if (record.getPayFrom() == null) {
+				isErrorOccured = true;
+			}
+		}
+		return isErrorOccured;
 	}
 
 	private void initGrid() {
@@ -173,7 +194,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 						object);
 			else {
 				if (getAction() instanceof ExpenseClaimsAction)
-					((ExpenseClaimsAction) getAction()).run(null, true, 1);
+					((ExpenseClaimsAction) getAction()).run(null, true, 2);
 				else
 					getAction().run(null, true);
 			}
