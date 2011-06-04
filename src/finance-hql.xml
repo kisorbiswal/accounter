@@ -399,4 +399,5 @@
 	<query name="unique.emailId.User">from com.vimukti.accounter.core.User u where u.emailId=?</query>
 	<query name="gettoken.by.id">from com.vimukti.accounter.core.ResetPasswordToken r where r.token=?</query>
 	<query name="gettokens.by.userid">from com.vimukti.accounter.core.ResetPasswordToken r where r.userId=?</query>
+	<query name="unique.id.Expense">from com.vimukti.accounter.core.Transaction t where t.stringID=?</query>>
 </hibernate-mapping>
