@@ -344,8 +344,10 @@ public class CashPurchaseView extends
 	@Override
 	protected void accountSelected(ClientAccount account) {
 
-		if (account == null)
+		if (account == null) {
+			payFromCombo.setValue("");
 			return;
+		}
 		this.payFromAccount = account;
 		payFromCombo.setComboItem(payFromAccount);
 		if (account != null
