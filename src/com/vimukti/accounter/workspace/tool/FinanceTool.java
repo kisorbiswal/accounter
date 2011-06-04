@@ -7685,7 +7685,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			b8.setBoxNumber(8);
 			b9.setBoxNumber(9);
 			b10.setBoxNumber(10);
-			
+
 			b1.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
 			b2.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
 			b3.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
@@ -7898,7 +7898,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 					// (v
 					// .getLineTotal() - v.getVatAmount())
 					// : 0;
-					
+
 					vd1.setTotal(totalAmount);
 				}
 				// vd1.setNetAmount();
@@ -7908,7 +7908,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 					// double totalAmount = (!v.getTransactionItem().isVoid()) ?
 					// v
 					// .getLineTotal() : 0;
-					
+
 					vd1.setTotal(totalAmount);
 				}
 				if (v.getTransactionItem().getTransaction().getInvolvedPayee() != null)
@@ -7922,7 +7922,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 						.getTransaction().getNumber());
 				vd1.setTransactionType(v.getTransactionItem().getTransaction()
 						.getType());
-//				vd1.setVatRate(v.getTransactionItem().getLineTotal());
+				// vd1.setVatRate(v.getTransactionItem().getLineTotal());
 				vd1.setTransactionId(v.getTransactionItem().getTransaction()
 						.getStringID());
 
@@ -11915,6 +11915,8 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			bills.setDate(new ClientFinanceDate(cp.getDate().getTime()));
 			bills.setExpenseStatus(status);
 			bills.setType(Transaction.TYPE_EMPLOYEE_EXPENSE);
+			bills.setPayFrom(cp.getPayFrom() != null ? cp.getPayFrom()
+					.getStringID() : null);
 
 			/*
 			 * Here, to set transaction created date temporarly using setDueDate
@@ -11926,7 +11928,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		}
 		return billsList;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean changeMyPassword(String emailId, String oldPassword,
