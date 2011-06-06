@@ -351,7 +351,7 @@ public class PaySalesTaxView extends
 		payFromAccCombo.setDisabled(isEdit);
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setRequired(true);
-		paymentMethodCombo.setWidth(100);
+		// paymentMethodCombo.setWidth(100);
 		billsDue = new DateField(companyConstants.billsDueOnOrBefore());
 		billsDue.setTitle(companyConstants.billsDueOnOrBefore());
 		// billsDue.setEnteredDate(new ClientFinanceDate());
