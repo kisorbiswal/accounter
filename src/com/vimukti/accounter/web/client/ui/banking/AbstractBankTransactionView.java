@@ -238,7 +238,7 @@ public abstract class AbstractBankTransactionView<T> extends
 	public AddressCombo createBillToComboItem() {
 
 		AddressCombo addressCombo = new AddressCombo(FinanceApplication
-				.getFinanceUIConstants().billTo());
+				.getFinanceUIConstants().billTo(), false);
 
 		addressCombo.setHelpInformation(true);
 
