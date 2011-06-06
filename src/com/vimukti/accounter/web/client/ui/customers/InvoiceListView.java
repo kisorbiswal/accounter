@@ -215,6 +215,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 			if (text.equals(OVER_DUE)) {
 				if (invoice.getBalance() != null
 						&& DecimalUtil.isGreaterThan(invoice.getBalance(), 0)
+						&& invoice.getDueDate() != null
 						&& (invoice.getDueDate().compareTo(
 								new ClientFinanceDate()) < 0)
 						&& !invoice.isVoided())
