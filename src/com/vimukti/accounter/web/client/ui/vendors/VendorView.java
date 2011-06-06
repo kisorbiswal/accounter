@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ClientEmail;
 import com.vimukti.accounter.web.client.core.ClientFax;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPhone;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
@@ -871,6 +872,8 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		// Setting File As
 		vendor.setFileAs(fileAsText.getValue().toString());
+		
+		vendor.setType(ClientPayee.TYPE_VENDOR);
 
 		// Setting Addresses
 		vendor.setAddress(addrsForm.getAddresss());

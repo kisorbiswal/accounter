@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
@@ -446,6 +447,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		customer.setName(custNameText.getValue().toString());
 		// setting customer number
 		customer.setNumber(custNoText.getValue().toString());
+		
+		customer.setType(ClientPayee.TYPE_CUSTOMER);
 		// Setting File As
 		// customer.setFileAs(UIUtils.toStr(fileAsText.getValue()));
 

@@ -742,6 +742,10 @@ public class WriteChequeView extends
 		forms.add(numForm);
 		formItems.add(date);
 
+		balText = new AmountField(bankingConstants.balance());
+		balText.setWidth(100);
+		balText.setDisabled(true);
+		
 		bankAccSelect = new PayFromAccountsCombo(bankingConstants.bankAccount());
 		// bankAccSelect.setWidth(100);
 		bankAccSelect.setRequired(true);
@@ -761,10 +765,7 @@ public class WriteChequeView extends
 					}
 
 				});
-
-		balText = new AmountField(bankingConstants.balance());
-		balText.setWidth(100);
-		balText.setDisabled(true);
+		bankAccSelect.setDefaultPayFromAccount();
 
 		bankAccForm = new DynamicForm();
 		bankAccForm.setFields(bankAccSelect, balText);

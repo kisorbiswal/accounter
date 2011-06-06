@@ -74,7 +74,7 @@ public class PayFromAccountsCombo extends AccountCombo {
 		this.initCombo(payFromAccounts);
 	}
 
-	private void setDefaultPayFromAccount() {
+	public void setDefaultPayFromAccount() {
 		/* Default deposit in account is set to Bank Current Account */
 		List<ClientAccount> accounts = FinanceApplication.getCompany()
 				.getAccounts();

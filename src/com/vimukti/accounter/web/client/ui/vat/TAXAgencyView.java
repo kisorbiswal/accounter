@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -252,6 +253,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			vatAgency.setVATReturn(0);
 		// Setting File As
 		vatAgency.setFileAs(fileAsText.getValue().toString());
+		
+		vatAgency.setType(ClientPayee.TYPE_TAX_AGENCY);
 
 		// Setting Addresses
 		vatAgency.setAddress(addrsForm.getAddresss());
