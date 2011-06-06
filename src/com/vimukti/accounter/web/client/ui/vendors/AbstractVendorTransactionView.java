@@ -368,7 +368,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 	public AddressCombo createBillToComboItem() {
 
 		AddressCombo addressCombo = new AddressCombo(FinanceApplication
-				.getVendorsMessages().billTo());
+				.getVendorsMessages().billTo(), false);
 		addressCombo.setDefaultToFirstOption(false);
 		addressCombo.setHelpInformation(true);
 		addressCombo
