@@ -572,7 +572,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	public AddressCombo createBillToComboItem() {
 
 		AddressCombo addressCombo = new AddressCombo(FinanceApplication
-				.getCustomersMessages().billTo());
+				.getCustomersMessages().billTo(), false);
 		addressCombo.setHelpInformation(true);
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {

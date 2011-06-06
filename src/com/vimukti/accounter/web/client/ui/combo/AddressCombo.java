@@ -7,6 +7,10 @@ public class AddressCombo extends CustomCombo<ClientAddress> {
 	public AddressCombo(String title) {
 		super(title);
 	}
+	
+	public AddressCombo(String title, boolean isAddNewRequired) {
+		super(title, isAddNewRequired, 1);
+	}
 
 	// AddressCombo dont have "AddNew" option
 	@Override

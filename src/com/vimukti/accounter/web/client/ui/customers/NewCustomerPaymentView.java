@@ -537,7 +537,7 @@ public class NewCustomerPaymentView extends
 
 	private AddressCombo createBillToComboItem(String address) {
 		AddressCombo addressCombo = new AddressCombo(FinanceApplication
-				.getCustomersMessages().address());
+				.getCustomersMessages().address(), false);
 		addressCombo.setHelpInformation(true);
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
