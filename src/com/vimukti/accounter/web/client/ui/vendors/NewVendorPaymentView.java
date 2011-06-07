@@ -293,8 +293,10 @@ public class NewVendorPaymentView extends
 		payForm.getCellFormatter().addStyleName(7, 0, "memoFormAlign");
 		// memo and Reference
 
-		endBalText.setAmount(payFromCombo.getSelectedValue()
-				.getCurrentBalance());
+		endBalText
+				.setAmount(payFromCombo.getSelectedValue() != null ? payFromCombo
+						.getSelectedValue().getCurrentBalance()
+						: 0.00);
 
 		payForm.setCellSpacing(5);
 		payForm.setWidth("100%");
