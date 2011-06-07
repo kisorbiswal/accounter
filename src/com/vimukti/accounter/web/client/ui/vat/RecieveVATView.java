@@ -79,7 +79,7 @@ public class RecieveVATView extends
 
 	public RecieveVATView() {
 		super(ClientTransaction.TYPE_PAY_SALES_TAX, RECEIVEVAT_TRANSACTION_GRID);
-		this.validationCount = 3;
+		this.validationCount = 4;
 	}
 
 	protected void createControls() {
@@ -468,12 +468,22 @@ public class RecieveVATView extends
 	public boolean validate() throws InvalidEntryException,
 			InvalidTransactionEntryException {
 		switch (this.validationCount) {
-		case 3:
+		case 4:
 			return AccounterValidator.validateForm(mainform, false);
+		case 3:
+			if (isEdit) {
+				return AccounterValidator.isBlankTransactionGrid(grid);
+			} else {
+				return true;
+			}
 		case 2:
-			return AccounterValidator.validateGrid(grid);
+			return AccounterValidator.validateReceivePaymentGrid(grid);
 		case 1:
-			return AccounterValidator.validateAmount(totalAmount);
+			if (isEdit) {
+				return AccounterValidator.validateAmount(totalAmount);
+			} else {
+				return true;
+			}
 		default:
 			return false;
 		}
