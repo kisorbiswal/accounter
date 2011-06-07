@@ -194,6 +194,7 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 		List<T> combo = comboItems;
 		for (T item : combo) {
 			if (getDisplayName(item).equals(itemName)) {
+				this.selectedObject = item;
 				this.setSelectedItem(comboItems.indexOf(item));
 			}
 		}
