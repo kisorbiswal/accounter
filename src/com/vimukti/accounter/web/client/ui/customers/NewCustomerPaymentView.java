@@ -484,8 +484,10 @@ public class NewCustomerPaymentView extends
 					amountText, paymentMethodCombo, printCheck, checkNo,
 					memoTextAreaItem);
 		// memo and Reference
-		endBalText.setAmount(depositInCombo.getSelectedValue()
-				.getCurrentBalance());
+		endBalText
+				.setAmount(depositInCombo.getSelectedValue() != null ? depositInCombo
+						.getSelectedValue().getCurrentBalance()
+						: 0.00);
 
 		payForm.setCellSpacing(5);
 		payForm.setWidth("100%");
