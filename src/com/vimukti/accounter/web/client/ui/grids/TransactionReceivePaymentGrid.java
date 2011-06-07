@@ -390,6 +390,7 @@ public class TransactionReceivePaymentGrid extends
 					try {
 						if (cashDiscountDialog.validate()) {
 							if (cashDiscountDialog.getSelectedDiscountAccount() != null) {
+								selectedObject.setPayment(0.0);
 								selectedObject
 										.setCashDiscount(cashDiscountDialog
 												.getCashDiscount());
@@ -690,6 +691,7 @@ public class TransactionReceivePaymentGrid extends
 					try {
 						if (writeOffDialog.validate()) {
 							if (writeOffDialog.getSelectedWriteOffAccount() != null) {
+								selectedObject.setPayment(0.0);
 								selectedObject.setWriteOff(writeOffDialog
 										.getCashDiscountValue());
 								selectedObject
@@ -765,7 +767,7 @@ public class TransactionReceivePaymentGrid extends
 			break;
 		case ClientCompany.ACCOUNTING_TYPE_US:
 			cashDiscountAccount = FinanceApplication.getCompany()
-					.getAccountByName(AccounterConstants.CASH_DISCOUNT_GIVEN);
+					.getAccountByName(AccounterConstants.CASH_DISCOUNT_TAKEN);
 			writeOffAccount = FinanceApplication.getCompany().getAccountByName(
 					AccounterConstants.WRITE_OFF);
 			obj.setDiscountAccount(cashDiscountAccount.getStringID());
