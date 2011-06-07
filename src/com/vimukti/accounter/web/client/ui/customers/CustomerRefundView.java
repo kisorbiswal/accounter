@@ -300,7 +300,10 @@ public class CustomerRefundView extends
 				.toBePrinted());
 		checkNoText.setHelpInformation(true);
 		checkNoText.setWidth(100);
-		checkNoText.setDisabled(true);
+		if (!paymentMethodCombo.getSelectedValue().equals(
+				UIUtils.getpaymentMethodCheckBy_CompanyType(FinanceApplication
+						.getCustomersMessages().check())))
+			checkNoText.setDisabled(true);
 		checkNoText.addChangeHandler(new ChangeHandler() {
 
 			@Override
