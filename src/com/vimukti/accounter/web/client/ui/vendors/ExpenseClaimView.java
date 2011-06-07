@@ -139,8 +139,14 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 	@Override
 	protected void initRPCService() {
 		super.initRPCService();
+		String userName = null;
+		if (!FinanceApplication.getUser().isAdminUser()) {
+			userName = FinanceApplication.getUser().getName();
+		} else {
+			userName = null;
+		}
 		FinanceApplication.createHomeService().getEmployeeExpensesByStatus(
-				ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SAVE,
+				userName, ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SAVE,
 				new AsyncCallback<List<BillsList>>() {
 
 					@Override

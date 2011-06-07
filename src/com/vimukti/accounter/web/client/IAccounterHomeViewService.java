@@ -281,8 +281,9 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public List<Double> getGraphPointsforAccount(int chartType, long accountNo);
 
-	public List<BillsList> getEmployeeExpensesByStatus(int status);
-
 	boolean changePassWord(String emailID, String oldPassword,
 			String newPassword);
+
+	public List<BillsList> getEmployeeExpensesByStatus(String userName,
+			int status);
 }

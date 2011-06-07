@@ -87,9 +87,16 @@ public class DepositInAccountCombo extends AccountCombo {
 		List<ClientAccount> accounts = FinanceApplication.getCompany()
 				.getAccounts();
 		for (ClientAccount account : accounts) {
-			if (account.getNumber().equals("1100")) {
-				this.addItemThenfireEvent(account);
-				break;
+			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				if (account.getNumber().equals("1100")) {
+					this.addItemThenfireEvent(account);
+					break;
+				}
+			} else {
+				if (account.getNumber().equals("1001")) {
+					this.addItemThenfireEvent(account);
+					break;
+				}
 			}
 		}
 

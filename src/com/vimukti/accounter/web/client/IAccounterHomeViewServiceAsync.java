@@ -315,7 +315,7 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getGraphPointsforAccount(int chartType, long accountNo,
 			AsyncCallback<List<Double>> callBack);
 	
-	public void getEmployeeExpensesByStatus(int status,
+	public void getEmployeeExpensesByStatus(String userName,int status,
 			AsyncCallback<List<BillsList>> callBack);
 	
 	public void changePassWord(String emailID, String oldPassword, String newPassword,

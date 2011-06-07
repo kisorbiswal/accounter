@@ -82,6 +82,11 @@ public class PayFromAccountsCombo extends AccountCombo {
 			if (account.getNumber().equals("1100")) {
 				this.addItemThenfireEvent(account);
 				break;
+			} else {
+				if (account.getNumber().equals("1001")) {
+					this.addItemThenfireEvent(account);
+					break;
+				}
 			}
 		}
 

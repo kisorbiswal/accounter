@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -150,32 +151,28 @@ public class NewBrandThemeDialog extends BaseDialog {
 				try {
 					if (NewBrandThemeDialog.this.validate()) {
 						ClientBrandingTheme brandingTheme = saveValues();
-
-						if (Utility.isObjectExist(FinanceApplication
-								.getCompany().getBrandingTheme(), brandingTheme
-								.getThemeName())) {
-							MainFinanceWindow.getViewManager()
-									.showErrorInCurrectDialog(
-											"Theme Name already exists");
-						} else {
-							if (brandingTheme.getStringID() != null) {
-								ViewManager.getInstance()
-										.alterObject(brandingTheme,
-												NewBrandThemeDialog.this);
-							} else {
+						if (takenTheme == null) {
+							if (!Utility.isObjectExist(FinanceApplication
+									.getCompany().getBrandingTheme(),
+									brandingTheme.getThemeName())) {
 								ViewManager.getInstance()
 										.createObject(brandingTheme,
 												NewBrandThemeDialog.this);
+							} else {
+								MainFinanceWindow.getViewManager()
+										.showErrorInCurrectDialog(
+												"Theme Name already exists");
 							}
-							return true;
-
-						}
-
+						} else
+							ViewManager.getInstance().alterObject(
+									brandingTheme, NewBrandThemeDialog.this);
 					}
-				} catch (InvalidTransactionEntryException e) {
-				} catch (InvalidEntryException e) {
+
+				} catch (Exception e) {
+					System.err.println(e.toString());
 				}
 				return false;
+
 			}
 
 			@Override
@@ -664,11 +661,12 @@ public class NewBrandThemeDialog extends BaseDialog {
 
 	public boolean validate() throws InvalidTransactionEntryException,
 			InvalidEntryException {
-		return nameForm.validate(true);
+		return AccounterValidator.validateForm(nameForm, true);
 	}
 
 	@Override
 	public void saveSuccess(IAccounterCore object) {
+		NewBrandThemeDialog.this.removeFromParent();
 		super.saveSuccess(object);
 		SettingsActionFactory.getInvoiceBrandingAction().run(null, true);
 	}

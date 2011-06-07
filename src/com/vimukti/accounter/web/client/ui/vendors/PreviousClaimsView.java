@@ -22,7 +22,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 /**
  * 
  * @author Uday Kumar
- *
+ * 
  */
 public class PreviousClaimsView extends BaseView<BillsList> {
 
@@ -73,14 +73,14 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 	}
 
 	private void initGrid() {
-		
+
 		grid = new PreviousClaimGrid(true);
 		grid.isEnable = false;
 		grid.init();
 		grid.setView(this);
 		grid.setHeight("600px");
 		grid.setSize("100%", "100%");
-		
+
 	}
 
 	protected void updateSelectedRecords(final int expenceStatus) {
@@ -118,9 +118,14 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 	@Override
 	protected void initRPCService() {
 		super.initRPCService();
-
+		String userName = null;
+		if (!FinanceApplication.getUser().isAdminUser()) {
+			userName = FinanceApplication.getUser().getName();
+		} else {
+			userName = null;
+		}
 		FinanceApplication.createHomeService().getEmployeeExpensesByStatus(
-				ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED,
+				userName, ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED,
 				new AsyncCallback<List<BillsList>>() {
 
 					@Override
@@ -136,7 +141,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 				});
 
 		FinanceApplication.createHomeService().getEmployeeExpensesByStatus(
-				ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED,
+				userName, ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED,
 				new AsyncCallback<List<BillsList>>() {
 
 					@Override
@@ -154,6 +159,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 		FinanceApplication
 				.createHomeService()
 				.getEmployeeExpensesByStatus(
+						userName,
 						ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL,
 						new AsyncCallback<List<BillsList>>() {
 

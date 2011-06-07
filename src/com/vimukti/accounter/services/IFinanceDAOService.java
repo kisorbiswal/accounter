@@ -636,7 +636,7 @@ public interface IFinanceDAOService {
 	
 	public List<Double> getGraphPointsforAccount(int chartType, long accountNo) throws DAOException;
 	
-	public List<BillsList> getEmployeeExpensesByStatus(int status)  throws DAOException;
+	public List<BillsList> getEmployeeExpensesByStatus(String userName, int status)  throws DAOException;
 	
 	public boolean changeMyPassword(String emailId, String oldPassword, String newPassword)  throws DAOException;
 }

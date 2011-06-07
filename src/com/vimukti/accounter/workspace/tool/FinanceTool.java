@@ -11896,7 +11896,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<BillsList> getEmployeeExpensesByStatus(int status)
+	public List<BillsList> getEmployeeExpensesByStatus(String userName,int status)
 			throws DAOException {
 
 		List<BillsList> billsList = new ArrayList<BillsList>();
