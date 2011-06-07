@@ -159,9 +159,17 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 	@Override
 	protected void initRPCService() {
 		super.initRPCService();
+		String userName = null;
+		if (!FinanceApplication.getUser().isAdminUser()) {
+			userName = FinanceApplication.getUser().getName();
+		} else {
+			userName = null;
+		}
+
 		FinanceApplication
 				.createHomeService()
 				.getEmployeeExpensesByStatus(
+						userName,
 						ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL,
 						new AsyncCallback<List<BillsList>>() {
 
