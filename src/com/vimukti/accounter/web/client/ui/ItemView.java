@@ -783,10 +783,8 @@ public class ItemView extends BaseView<ClientItem> {
 							.getUkServiceItemDefaultExpenseAccount());
 
 				} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
-					defaultIncomeAccount = getDefaultAccount(company
-							.getServiceItemDefaultIncomeAccount());
-					defaultExpAccount = getDefaultAccount(company
-							.getServiceItemDefaultExpenseAccount());
+					defaultIncomeAccount = getDefaultAccount("Income and Distribution");
+					defaultExpAccount = getDefaultAccount("Cash Discount taken");
 
 				}
 				selectAccount = defaultIncomeAccount;
@@ -801,10 +799,8 @@ public class ItemView extends BaseView<ClientItem> {
 					defaultExpAccount = getDefaultAccount(company
 							.getUkNonInventoryItemDefaultExpenseAccount());
 				} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
-					defaultIncomeAccount = getDefaultAccount(company
-							.getNonInventoryItemDefaultIncomeAccount());
-					defaultExpAccount = getDefaultAccount(company
-							.getNonInventoryItemDefaultExpenseAccount());
+					defaultIncomeAccount = getDefaultAccount("Income and Distribution");
+					defaultExpAccount = getDefaultAccount("Cash Discount taken");
 
 				}
 				selectAccount = defaultIncomeAccount;
