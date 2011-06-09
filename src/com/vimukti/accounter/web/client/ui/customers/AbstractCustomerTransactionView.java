@@ -207,13 +207,20 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	public AbstractCustomerTransactionView(int transactionType, int gridType) {
 		super(transactionType, gridType);
 		validationCount = 9;
+		if (transactionType == ClientTransaction.TYPE_SALES_ORDER
+				&& gridType == CUSTOMER_TRANSACTION_GRID) {
+			validationCount = 10;
+		}
 	}
 
 	public AbstractCustomerTransactionView(int transactionType,
 			ClientCustomer customer, int gridType) {
 		super(transactionType, gridType);
 		validationCount = 9;
-
+		if (transactionType == ClientTransaction.TYPE_SALES_ORDER
+				&& gridType == CUSTOMER_TRANSACTION_GRID) {
+			validationCount = 10;
+		}
 	}
 
 	@Override

@@ -194,6 +194,13 @@ public class VendorView extends BaseView<ClientVendor> {
 			try {
 				ClientVendor vendor = getVendorObject();
 				if (takenVendor == null) {
+					if (Utility.isNumberCorrect(vendor)) {
+						if (tabSet.getTabBar().isTabEnabled(1)) {
+							tabSet.selectTab(0);
+							throw new InvalidEntryException(
+									AccounterErrorType.INVALIDACCOUNTNUMBER);
+						}
+					}
 					if (Utility
 							.isObjectExist(FinanceApplication.getCompany()
 									.getVendors(), vendorNameText.getValue()
@@ -203,13 +210,7 @@ public class VendorView extends BaseView<ClientVendor> {
 							throw new InvalidEntryException("Vendor"
 									+ AccounterErrorType.ALREADYEXIST);
 						}
-						if (Utility.isNumberCorrect(vendor)) {
-							if (tabSet.getTabBar().isTabEnabled(1)) {
-								tabSet.selectTab(0);
-								throw new InvalidEntryException(
-										AccounterErrorType.INVALIDACCOUNTNUMBER);
-							}
-						}
+
 					} else
 						createObject(vendor);
 				} else
@@ -872,7 +873,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		// Setting File As
 		vendor.setFileAs(fileAsText.getValue().toString());
-		
+
 		vendor.setType(ClientPayee.TYPE_VENDOR);
 
 		// Setting Addresses

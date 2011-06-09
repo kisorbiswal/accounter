@@ -661,7 +661,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 
 	public boolean validate() throws InvalidTransactionEntryException,
 			InvalidEntryException {
-		return AccounterValidator.validateForm(nameForm, true);
+		return nameForm.validate(true);
 	}
 
 	@Override

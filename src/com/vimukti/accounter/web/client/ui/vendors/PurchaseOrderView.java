@@ -91,7 +91,7 @@ public class PurchaseOrderView extends
 
 	public PurchaseOrderView() {
 		super(ClientTransaction.TYPE_PURCHASE_ORDER, VENDOR_TRANSACTION_GRID);
-		validationCount = 4;
+		validationCount = 5;
 	}
 
 	@Override
@@ -1006,6 +1006,8 @@ public class PurchaseOrderView extends
 
 	public boolean validate() throws Exception {
 		switch (validationCount) {
+		case 5:
+			return AccounterValidator.validateFormItem(false, statusSelect);
 		case 4:
 			return AccounterValidator.validate_dueOrDelivaryDates(dueDateItem
 					.getDate(), transactionDateItem.getDate(), vendorConstants

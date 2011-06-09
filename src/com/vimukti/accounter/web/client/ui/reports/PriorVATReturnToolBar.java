@@ -173,7 +173,6 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 		List<ClientVATReturn> vatReturns = FinanceApplication.getCompany()
 				.getVatReturns();
 		List<String> endDates = new ArrayList<String>();
-		endDates.add("");
 		for (ClientVATReturn vatReturn : vatReturns) {
 			if (vatReturn.getTAXAgency().equalsIgnoreCase(
 					selectItem.getStringID())) {

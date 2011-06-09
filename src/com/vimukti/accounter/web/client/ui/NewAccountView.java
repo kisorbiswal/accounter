@@ -826,16 +826,16 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			ClientAccount account = getAccountObject();
 
 			if (takenAccount == null) {
-				if (Utility.isObjectExist(FinanceApplication.getCompany()
-						.getAccounts(), account.getName())) {
-					if (Utility.isNumberCorrect(account)) {
-						throw new InvalidEntryException(
-								AccounterErrorType.INVALIDNUMBER);
-					}
+				if (Utility.isNumberCorrect(account)) {
+					throw new InvalidEntryException(
+							AccounterErrorType.INVALIDNUMBER);
+				} else if (Utility.isObjectExist(FinanceApplication
+						.getCompany().getAccounts(), account.getName())) {
 					throw new InvalidEntryException(
 							AccounterErrorType.ALREADYEXIST);
+				} else {
+					createObject(account);
 				}
-				createObject(account);
 			} else
 				alterObject(account);
 		} catch (Exception e) {

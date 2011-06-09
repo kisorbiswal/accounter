@@ -440,10 +440,13 @@ public class NewVendorPaymentView extends
 		if (vendor == null)
 			return;
 		this.vendor = vendor;
+		if (vendor != null && vendorCombo != null) {
+			vendorCombo.setComboItem(FinanceApplication.getCompany().getVendor(
+					vendor.getStringID()));
+		}
 		this.addressListOfVendor = vendor.getAddress();
 		initBillToCombo();
 		adjustBalance();
-
 	}
 
 	@Override

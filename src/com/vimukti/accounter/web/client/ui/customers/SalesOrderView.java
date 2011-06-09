@@ -41,6 +41,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -907,9 +908,12 @@ public class SalesOrderView extends
 	@Override
 	public boolean validate() throws InvalidTransactionEntryException,
 			InvalidEntryException {
-
-		return super.validate();
-
+		switch (validationCount) {
+		case 10:
+			return AccounterValidator.validateFormItem(false, statusSelect);
+		default:
+			return super.validate();
+		}
 	}
 
 	private void getEstimates() {

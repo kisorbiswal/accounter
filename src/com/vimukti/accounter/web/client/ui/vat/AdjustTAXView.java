@@ -172,6 +172,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 							vatItemCombo.setDisabled(false);
 							vatItemCombo.initCombo(FinanceApplication
 									.getCompany().getTaxItems(selectItem));
+							vatItemCombo.setValue("");
 						}
 
 					}
@@ -313,8 +314,10 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 			if (selectItem.isSalesType()) {
 
-				ClientAccount salesAccount = FinanceApplication.getCompany()
-						.getAccount(this.clientTAXAgency.getSalesLiabilityAccount());
+				ClientAccount salesAccount = FinanceApplication
+						.getCompany()
+						.getAccount(
+								this.clientTAXAgency.getSalesLiabilityAccount());
 
 				vatAccountLabel.setValue(salesAccount != null ? salesAccount
 						.getName() : "");
@@ -323,7 +326,8 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 				ClientAccount purchaseAccount = FinanceApplication.getCompany()
 						.getAccount(
-								this.clientTAXAgency.getPurchaseLiabilityAccount());
+								this.clientTAXAgency
+										.getPurchaseLiabilityAccount());
 
 				vatAccountLabel
 						.setValue(purchaseAccount != null ? purchaseAccount

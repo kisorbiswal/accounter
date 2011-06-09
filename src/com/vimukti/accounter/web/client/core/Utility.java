@@ -1289,44 +1289,34 @@ public class Utility implements IsSerializable, Serializable {
 
 	public static <S extends IAccounterCore> boolean isNumberCorrect(
 			IAccounterCore iAccounterCore) {
-		if (iAccounterCore instanceof ClientAccount) {
-			if (Integer.parseInt(((ClientAccount) iAccounterCore).getNumber()) < 1) {
-				try {
-					throw new InvalidEntryException(
-							"A Account Number shouble be positive");
-				} catch (InvalidEntryException e) {
-					e.printStackTrace();
-				}
-			} else if (checkIfNotNumber(((ClientAccount) iAccounterCore)
-					.getNumber())) {
-				try {
+		try {
+			if (iAccounterCore instanceof ClientAccount) {
+				if (checkIfNotNumber(((ClientAccount) iAccounterCore)
+						.getNumber())) {
 					throw new InvalidEntryException(
 							"A Account Number shouble be a number");
-				} catch (InvalidEntryException e) {
-					e.printStackTrace();
 				}
+				if (Integer.parseInt(((ClientAccount) iAccounterCore)
+						.getNumber()) < 1) {
+					throw new InvalidEntryException(
+							"A Account Number shouble be positive");
 
-			}
-		} else if (iAccounterCore instanceof ClientVendor) {
-			if (Integer.parseInt(((ClientVendor) iAccounterCore)
-					.getAccountNumber().toString()) < 1) {
-				try {
+				}
+			} else if (iAccounterCore instanceof ClientVendor) {
+				if (Integer.parseInt(((ClientVendor) iAccounterCore)
+						.getAccountNumber().toString()) < 1) {
 					throw new InvalidEntryException(
 							"A Supplier Account Number shouble be positive");
-				} catch (InvalidEntryException e) {
-					e.printStackTrace();
-				}
-			} else if (checkIfNotNumber(((ClientVendor) iAccounterCore)
-					.getAccountNumber())) {
-				try {
+				} else if (checkIfNotNumber(((ClientVendor) iAccounterCore)
+						.getAccountNumber())) {
 					throw new InvalidEntryException(
 							"A Supplier Account Number shouble be a number");
-				} catch (InvalidEntryException e) {
-					e.printStackTrace();
 				}
 			}
+		} catch (InvalidEntryException e) {
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	public static <S extends IAccounterCore> boolean isObjectExist(
