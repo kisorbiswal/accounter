@@ -159,8 +159,7 @@ public class ShipToForm extends DynamicForm {
 
 					addrArea.setValue(getValidAddress(address));
 
-					businessSelect.setSelected(address.getAddressTypes().get(
-							address.getType()));
+					businessSelect.setSelected("Ship To");
 				}
 
 			}
