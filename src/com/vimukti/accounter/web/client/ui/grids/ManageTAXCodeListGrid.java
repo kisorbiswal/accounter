@@ -5,6 +5,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import java.util.List;
 
+import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -152,5 +153,19 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.TAX_CODE;
+	}
+
+	@Override
+	public void addData(ClientTAXCode obj) {
+		super.addData(obj);
+		((CheckBox) this.getWidget(currentRow, 0)).setEnabled(false);
+	}
+
+	@Override
+	public void headerCellClicked(int colIndex) {
+		super.headerCellClicked(colIndex);
+		for (int i = 0; i < this.getRowCount(); i++) {
+			((CheckBox) this.getWidget(i, 0)).setEnabled(false);
+		}
 	}
 }

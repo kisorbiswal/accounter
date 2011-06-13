@@ -5,6 +5,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import java.util.List;
 
+import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -187,7 +188,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 
 		ClientTAXAgency agency = null;
 		if (obj.getTaxAgency() != null) {
-		
+
 			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				agency = FinanceApplication.getCompany().getTaxAgency(
 						obj.getTaxAgency());
@@ -206,6 +207,20 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.TAXITEM;
+	}
+
+	@Override
+	public void addData(ClientTAXItem obj) {
+		super.addData(obj);
+		((CheckBox) this.getWidget(currentRow, 0)).setEnabled(false);
+	}
+
+	@Override
+	public void headerCellClicked(int colIndex) {
+		super.headerCellClicked(colIndex);
+		for (int i = 0; i < this.getRowCount(); i++) {
+			((CheckBox) this.getWidget(i, 0)).setEnabled(false);
+		}
 	}
 
 }
