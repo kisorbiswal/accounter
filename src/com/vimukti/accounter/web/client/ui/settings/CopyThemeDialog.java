@@ -8,13 +8,17 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
+import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 @SuppressWarnings("unchecked")
 public class CopyThemeDialog extends BaseDialog {
 
 	private ClientBrandingTheme theme;
+	TextBox nameBox;
 
 	public CopyThemeDialog(String title, String desc,
 			ClientBrandingTheme brandingTheme) {
@@ -34,17 +38,25 @@ public class CopyThemeDialog extends BaseDialog {
 		VerticalPanel copyPanel = new VerticalPanel();
 		Label yourLabel = new Label(FinanceApplication.getSettingsMessages()
 				.yourTitle());
-		final TextBox yourBox = new TextBox();
+		nameBox = new TextBox();
 		okbtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ClientBrandingTheme brandingTheme = new ClientBrandingTheme();
-				brandingTheme = setValues();
-				brandingTheme.setThemeName(yourBox.getText());
-				ViewManager.getInstance().createObject(brandingTheme,
-						CopyThemeDialog.this);
-				removeFromParent();
+				try {
+					if (validate()) {
+						ClientBrandingTheme brandingTheme = new ClientBrandingTheme();
+						brandingTheme = setValues();
+						brandingTheme.setThemeName(nameBox.getText());
+						ViewManager.getInstance().createObject(brandingTheme,
+								CopyThemeDialog.this);
+						// removeFromParent();
+					}
+				} catch (InvalidTransactionEntryException e) {
+					e.printStackTrace();
+				} catch (InvalidEntryException e) {
+					e.printStackTrace();
+				}
 
 			}
 		});
@@ -57,10 +69,22 @@ public class CopyThemeDialog extends BaseDialog {
 			}
 		});
 		copyPanel.add(yourLabel);
-		copyPanel.add(yourBox);
+		copyPanel.add(nameBox);
 
 		setBodyLayout(copyPanel);
 
+	}
+
+	@Override
+	protected boolean validate() throws InvalidTransactionEntryException,
+			InvalidEntryException {
+		String name = nameBox.getValue();
+		if (name == null || name.isEmpty()) {
+			MainFinanceWindow.getViewManager().showErrorInCurrectDialog(
+					"Please enter Theme name.");
+			return false;
+		} else
+			return true;
 	}
 
 	protected ClientBrandingTheme setValues() {
@@ -91,5 +115,12 @@ public class CopyThemeDialog extends BaseDialog {
 				.isShowUnitPrice_And_Quantity());
 
 		return clientBrandingTheme;
+	}
+
+	@Override
+	public void saveSuccess(IAccounterCore object) {
+		removeFromParent();
+		super.saveSuccess(object);
+		SettingsActionFactory.getInvoiceBrandingAction().run(null, true);
 	}
 }
