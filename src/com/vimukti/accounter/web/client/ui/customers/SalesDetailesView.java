@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 /**
@@ -227,8 +228,9 @@ public class SalesDetailesView extends ParentCanvas<VerticalPanel> {
 	/**
 	 * this method will invoke while changing the selction of object
 	 */
-	private void refreshView() {
+	public void refreshView() {
 		itemsGrid.clear();
+		itemsGrid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 		orderNumberField.setText("");
 		customerNumberField.setText("");
 		dueDateField.setText("");

@@ -145,6 +145,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 						if (viewSelect.getSelectedValue() != null) {
 							grid.setViewType(viewSelect.getSelectedValue());
 							filterList(viewSelect.getSelectedValue());
+							salesDetailView.refreshView();
 						}
 
 					}
