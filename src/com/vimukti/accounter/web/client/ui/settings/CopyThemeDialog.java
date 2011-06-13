@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -45,11 +46,19 @@ public class CopyThemeDialog extends BaseDialog {
 			public void onClick(ClickEvent event) {
 				try {
 					if (validate()) {
-						ClientBrandingTheme brandingTheme = new ClientBrandingTheme();
-						brandingTheme = setValues();
-						brandingTheme.setThemeName(nameBox.getText());
-						ViewManager.getInstance().createObject(brandingTheme,
-								CopyThemeDialog.this);
+						if (!Utility.isObjectExist(FinanceApplication
+								.getCompany().getBrandingTheme(), nameBox
+								.getText())) {
+							ClientBrandingTheme brandingTheme = new ClientBrandingTheme();
+							brandingTheme = setValues();
+							brandingTheme.setThemeName(nameBox.getText());
+							ViewManager.getInstance().createObject(
+									brandingTheme, CopyThemeDialog.this);
+						} else {
+							MainFinanceWindow.getViewManager()
+									.showErrorInCurrectDialog(
+											"Theme name is already exist.");
+						}
 						// removeFromParent();
 					}
 				} catch (InvalidTransactionEntryException e) {
