@@ -420,13 +420,13 @@ public class CreditCardChargeView extends
 		payMethSelect = createPaymentMethodSelectItem();
 		payMethSelect.setTitle(FinanceApplication.getFinanceUIConstants()
 				.paymentMethod());
-		payMethSelect.setWidth(100);
+		payMethSelect.setWidth(90);
 		payMethSelect.setComboItem(UIUtils
 				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
 						.getCustomersMessages().check()));
 
 		payFrmSelect = createPayFromselectItem();
-		payFrmSelect.setWidth(100);
+		payFrmSelect.setWidth(90);
 		payFrmSelect.setPopupWidth("510px");
 		payFrmSelect.setTitle(FinanceApplication.getFinanceUIConstants()
 				.payFrom());

@@ -1307,7 +1307,8 @@ public class Utility implements IsSerializable, Serializable {
 						.getAccountNumber().toString()) < 1) {
 					throw new InvalidEntryException(
 							"A Supplier Account Number shouble be positive");
-				} else if (checkIfNotNumber(((ClientVendor) iAccounterCore)
+				}
+				if (checkIfNotNumber(((ClientVendor) iAccounterCore)
 						.getAccountNumber())) {
 					throw new InvalidEntryException(
 							"A Supplier Account Number shouble be a number");
