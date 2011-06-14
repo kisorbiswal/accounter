@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.data.ClientUser;
@@ -27,7 +28,8 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class UsersView extends BaseView<ClientUser> {
 
-	private HTML generalSettingsHTML, usersHtml;
+	private HTML generalSettingsHTML;
+	private Label titleLabel;
 	private VerticalPanel mainLayPanel, usersPanel, recentActivityPanel;
 	private DecoratedTabPanel tabPanel;
 	private FlexTable flexTable;
@@ -96,8 +98,12 @@ public class UsersView extends BaseView<ClientUser> {
 						false);
 			}
 		});
-		usersHtml = new HTML(FinanceApplication.getSettingsMessages()
+		titleLabel = new Label(FinanceApplication.getSettingsMessages()
 				.usersTitle());
+		
+		titleLabel.removeStyleName("gwt-Label");
+		titleLabel.setStyleName(FinanceApplication.getVendorsMessages().lableTitle());
+		
 		inviteUserButton = new AccounterButton("Invite a User");
 		inviteUserButton.addClickHandler(new ClickHandler() {
 
@@ -114,7 +120,7 @@ public class UsersView extends BaseView<ClientUser> {
 		tabPanel.selectTab(0);
 
 		// flexTable.setWidget(0, 0, generalSettingsHTML);
-		flexTable.setWidget(1, 0, usersHtml);
+		flexTable.setWidget(1, 0, titleLabel);
 
 		mainLayPanel.add(flexTable);
 		if (FinanceApplication.getUser().isCanDoUserManagement()) {

@@ -345,6 +345,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 		setTitle(vendorConstants.payBills());
 		Label lab = new Label(FinanceApplication.getVendorsMessages().PayBill());
+		lab.removeStyleName("gwt-Label");
 		lab.addStyleName(FinanceApplication.getVendorsMessages().lableTitle());
 		// lab.setHeight("50px");
 		date = new DateField(vendorConstants.Date());

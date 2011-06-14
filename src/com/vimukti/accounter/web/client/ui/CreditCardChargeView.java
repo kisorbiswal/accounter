@@ -341,6 +341,7 @@ public class CreditCardChargeView extends
 		setTitle(bankingConstants.creditCardCharge());
 		titlelabel = new Label(FinanceApplication.getFinanceUIConstants()
 				.creditCardCharge());
+		titlelabel.removeStyleName("gwt-Label");
 		titlelabel.addStyleName(FinanceApplication.getFinanceUIConstants()
 				.lableTitle());
 		// titlelabel.setHeight("35px");

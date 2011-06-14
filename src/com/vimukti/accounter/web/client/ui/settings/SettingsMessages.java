@@ -65,7 +65,7 @@ public interface SettingsMessages extends FinanceMessages {
 
 	String recentActivity();
 
-	SafeHtml usersTitle();
+	String usersTitle();
 
 	String loginDate();
 
@@ -103,7 +103,7 @@ public interface SettingsMessages extends FinanceMessages {
 
 	String gettingStarted();
 
-	SafeHtml invoiceBrandingLabel();
+	String invoiceBrandingLabel();
 
 	String newBrandingThemeButton();
 

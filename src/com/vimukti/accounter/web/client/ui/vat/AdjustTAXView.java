@@ -88,6 +88,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		else
 			infoLabel = new Label(FinanceApplication.getVATMessages()
 					.VATAdjustment());
+		infoLabel.removeStyleName("gwt-Label");
 
 		infoLabel.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());

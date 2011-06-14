@@ -1303,8 +1303,13 @@ public class Utility implements IsSerializable, Serializable {
 
 				}
 			} else if (iAccounterCore instanceof ClientVendor) {
+				if (((ClientVendor) iAccounterCore).getAccountNumber().equals(
+						"")) {
+					((ClientVendor) iAccounterCore).setAccountNumber(String
+							.valueOf(0));
+				}
 				if (Integer.parseInt(((ClientVendor) iAccounterCore)
-						.getAccountNumber().toString()) < 1) {
+						.getAccountNumber()) < 1) {
 					throw new InvalidEntryException(
 							"A Supplier Account Number shouble be positive");
 				}

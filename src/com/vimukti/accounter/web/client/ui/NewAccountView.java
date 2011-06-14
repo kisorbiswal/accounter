@@ -163,6 +163,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// setTitle(UIUtils.title(FinanceApplication.getFinanceUIConstants()
 		// .createNewAccount()));
 		lab1 = new Label();
+		lab1.removeStyleName("gwt-Label");
 		lab1.addStyleName(FinanceApplication.getFinanceUIConstants()
 				.lableTitle());
 		// lab1.setHeight("35px");

@@ -769,6 +769,7 @@ public class MakeDepositView extends
 		setTitle(bankingConstants.makeDeposit());
 		Label lab = new Label(FinanceApplication.getFinanceUIConstants()
 				.makeDeposit());
+		lab.removeStyleName("gwt-Label");
 		lab.addStyleName("lable-title");
 		// lab.setHeight("50px");
 		date = UIUtils.date(bankingConstants.date());

@@ -194,11 +194,14 @@ public class VendorView extends BaseView<ClientVendor> {
 			try {
 				ClientVendor vendor = getVendorObject();
 				if (takenVendor == null) {
-					if (Utility.isNumberCorrect(vendor)) {
-						if (tabSet.getTabBar().isTabEnabled(1)) {
-							tabSet.selectTab(0);
-							throw new InvalidEntryException(
-									AccounterErrorType.INVALIDACCOUNTNUMBER);
+					if (!vendor.getAccountNumber().equals("")
+							&& !vendor.getAccountNumber().equals(null)) {
+						if (Utility.isNumberCorrect(vendor)) {
+							if (tabSet.getTabBar().isTabEnabled(1)) {
+								tabSet.selectTab(0);
+								throw new InvalidEntryException(
+										AccounterErrorType.INVALIDACCOUNTNUMBER);
+							}
 						}
 					}
 					if (Utility

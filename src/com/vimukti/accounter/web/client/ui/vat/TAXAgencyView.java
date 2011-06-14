@@ -253,7 +253,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			vatAgency.setVATReturn(0);
 		// Setting File As
 		vatAgency.setFileAs(fileAsText.getValue().toString());
-		
+
 		vatAgency.setType(ClientPayee.TYPE_TAX_AGENCY);
 
 		// Setting Addresses
@@ -326,6 +326,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 					.getCompanyMessages().taxAgency());
 			taxAgencyText.setHelpInformation(true);
 		}
+		lab.removeStyleName("gwt-Label");
 		lab.addStyleName(FinanceApplication.getVATMessages().lableTitle());
 		lab.setHeight("35px");
 		taxAgencyText.setWidth(100);
@@ -351,7 +352,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			taxAgencyForm.getCellFormatter().setWidth(0, 0, "195px");
 		} else
-			taxAgencyForm.getCellFormatter().setWidth(0, 0, "190px");
+			taxAgencyForm.getCellFormatter().setWidth(0, 0, "181px");
 		taxAgencyForm.setFields(taxAgencyText);
 
 		accInfoForm = new DynamicForm();

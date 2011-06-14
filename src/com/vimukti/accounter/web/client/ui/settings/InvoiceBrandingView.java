@@ -15,6 +15,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
@@ -28,17 +29,18 @@ import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 /**
-*
-* @author Uday Kumar
-* 
-*/
+ * 
+ * @author Uday Kumar
+ * 
+ */
 public class InvoiceBrandingView<T> extends
 		AbstractBaseView<ClientBrandingTheme> {
 
 	private ClientBrandingTheme brandingTheme;
-	private HTML generalSettingsHTML, invoiceBrandingHtml, allLabelsHtml,
-			ShowHtml, checkBoxHtml, headingsHtml, paypalEmailHtml, termsHtml,
-			radioButtonHtml, contactDetailsHtml, titleHtml;
+	private HTML generalSettingsHTML, allLabelsHtml, ShowHtml, checkBoxHtml,
+			headingsHtml, paypalEmailHtml, termsHtml, radioButtonHtml,
+			contactDetailsHtml, titleHtml;
+	private Label titleLabel;
 	// helpHtml;
 	private VerticalPanel mainPanel, titlePanel, subLayPanel, uploadPanel,
 			contactDetailsPanel, vPanel;
@@ -77,7 +79,10 @@ public class InvoiceBrandingView<T> extends
 						TextDecoration.NONE);
 			}
 		});
-		invoiceBrandingHtml = new HTML(messages.invoiceBrandingLabel());
+		titleLabel = new Label(messages.invoiceBrandingLabel());
+		titleLabel.removeStyleName("gwt-Label");
+		titleLabel.setStyleName(FinanceApplication
+				.getVendorsMessages().lableTitle());
 		generalSettingsHTML.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -88,7 +93,7 @@ public class InvoiceBrandingView<T> extends
 		});
 		generalSettingsHTML.setVisible(false);
 		titlePanel.add(generalSettingsHTML);
-		titlePanel.add(invoiceBrandingHtml);
+		titlePanel.add(titleLabel);
 
 		buttonPanel = new HorizontalPanel();
 		newBrandButton = new AccounterButton(messages.newBrandingThemeButton());
@@ -127,7 +132,7 @@ public class InvoiceBrandingView<T> extends
 		buttonPanel.add(newBrandButton);
 		newBrandButton.enabledButton();
 		buttonPanel.add(automaticButton);
-		
+
 		mainPanel.add(titlePanel);
 		mainPanel.add(buttonPanel);
 		List<ClientBrandingTheme> brandingThemes = FinanceApplication

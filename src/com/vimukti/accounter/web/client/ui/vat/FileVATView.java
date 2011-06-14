@@ -9,6 +9,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -66,8 +67,11 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	}
 
 	private void createControls() {
-		HTML infolabel = new HTML("<strong>"
-				+ FinanceApplication.getVATMessages().fileVAT());
+		Label infolabel = new Label(FinanceApplication.getVATMessages()
+				.fileVAT());
+		infolabel.removeStyleName("gwt-Label");
+		infolabel.addStyleName(FinanceApplication.getVendorsMessages()
+				.lableTitle());
 		taxAgencyCombo = new TAXAgencyCombo(FinanceApplication.getVATMessages()
 				.VATAgency());
 		taxAgencyCombo.setHelpInformation(true);
@@ -361,7 +365,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		gridView.isEnable = false;
 		gridView.init();
 		gridView.setHeight("250");
-     	gridView.addStyleName("file-vat");		
+		gridView.addStyleName("file-vat");
 		gridView.addEmptyMessage(AccounterErrorType.SELECT_VATAGENCY);
 
 	}
