@@ -102,7 +102,7 @@ public class ChangePasswordDialog extends BaseDialog {
 								if (result) {
 									removeFromParent();
 									Accounter
-											.showInformation("Password Changed Sucessfully");
+											.showInformation("Password Successfully Changed");
 								} else {
 									MainFinanceWindow
 											.getViewManager()
