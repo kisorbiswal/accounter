@@ -5,11 +5,16 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
+/**
+ * 
+ * @author Uday Kumar
+ * 
+ */
 public class ExpenseClaimsAction extends Action {
 
 	ExpenseClaims view;
 
-	public ExpenseClaimsAction(String text) {
+	public ExpenseClaimsAction(String text, String iconString) {
 		super(text);
 		// TODO Auto-generated constructor stub
 	}
@@ -42,7 +47,7 @@ public class ExpenseClaimsAction extends Action {
 		}
 
 	}
-	
+
 	public void run(Object data, Boolean isDependent, int selectTab) {
 		view = new ExpenseClaims(selectTab);
 		try {

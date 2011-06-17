@@ -5,12 +5,13 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
-public class ExpenseClaimListAction extends Action {
+public class PreviousClaimAction extends Action {
 
-	ExpenseClaimView view;
+	PreviousClaimsView view;
 
-	public ExpenseClaimListAction(String text) {
+	public PreviousClaimAction(String text) {
 		super(text);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -33,12 +34,14 @@ public class ExpenseClaimListAction extends Action {
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		view = new ExpenseClaimView();
+
+		view = new PreviousClaimsView();
 		try {
 			MainFinanceWindow.getViewManager().showView(view, data,
 					isDependent, this);
 		} catch (Exception e) {
 		}
+
 	}
 
 }

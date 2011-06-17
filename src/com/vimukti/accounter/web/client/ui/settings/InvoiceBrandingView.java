@@ -316,7 +316,10 @@ public class InvoiceBrandingView<T> extends
 
 				@Override
 				public void onClick(ClickEvent event) {
+					uploadPictureHtml.getElement().getStyle()
+							.setTextDecoration(TextDecoration.NONE);
 					changeLogo(theme);
+
 				}
 			});
 		} else {

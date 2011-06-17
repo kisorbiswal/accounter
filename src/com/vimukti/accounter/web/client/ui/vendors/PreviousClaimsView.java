@@ -50,13 +50,13 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setStyleName("button-expense");
 		AccounterButton notShowInList = new AccounterButton(
-				"Don't Show on List");
+				"Don't Show in List");
 		notShowInList.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				isProcessingAdded = false;
-				setAction(VendorsActionFactory.getExpenseClaimListAction());
+				setAction(VendorsActionFactory.getPreviousClaimAction());
 				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_NOT_TO_SHOW);
 			}
 		});

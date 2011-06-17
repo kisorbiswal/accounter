@@ -45,6 +45,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.getElement().getStyle().setMarginTop(15, Unit.PX);
+		
 		AccounterButton approve = new AccounterButton("Approve");
 		approve.addClickHandler(new ClickHandler() {
 
@@ -63,6 +64,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 									"Please Select Pay From Account for the records showm in red.");
 			}
 		});
+		
 		AccounterButton decline = new AccounterButton("Decline");
 		decline.addClickHandler(new ClickHandler() {
 
@@ -74,6 +76,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED);
 			}
 		});
+		
 		AccounterButton delete = new AccounterButton("Delete");
 		delete.addClickHandler(new ClickHandler() {
 
@@ -85,13 +88,17 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
 			}
 		});
+		
 		buttonPanel.add(approve);
 		buttonPanel.add(decline);
 		buttonPanel.add(delete);
 		approve.getElement().getStyle().setMarginLeft(25, Unit.PX);
-
-		approve.enabledButton("ibutton1");
-		decline.enabledButton("ibutton1");
+		approve.enabledButton();
+		decline.enabledButton();
+//		approve.enabledButton(AccounterButton.APPROVE_BUTTON,
+//				"approve-image", "ibutton1");
+//		decline.enabledButton(AccounterButton.DECLINE_BUTTON,
+//				"decline-image", "ibutton1");
 		delete.enabledButton();
 
 		buttonLayout.setVisible(false);

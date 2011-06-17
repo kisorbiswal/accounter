@@ -201,16 +201,37 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 		}
 		if (approveButton != null && approveButton.isEnabled()) {
 
-			Element savecloseseparator = DOM.createSpan();
-			savecloseseparator.addClassName("save-close-separator");
-			DOM.appendChild(approveButton.getElement(), savecloseseparator);
+			// approveButton.enabledButton(AccounterButton.APPROVE_BUTTON,
+			// "approve-image", "ibutton1");
 
-			Element savecloseimage = DOM.createSpan();
-			savecloseimage.addClassName("save-close-image");
-			DOM.appendChild(approveButton.getElement(), savecloseimage);
+			Element addseparator = DOM.createSpan();
+			addseparator.addClassName("save-close-separator");
+			DOM.appendChild(approveButton.getElement(), addseparator);
+
+			Element addimage = DOM.createSpan();
+			addimage.addClassName("approve-image");
+			DOM.appendChild(approveButton.getElement(), addimage);
 
 			ThemesUtil.addDivToButton(approveButton, FinanceApplication
-					.getThemeImages().custom_button_right_blue_image(),
+					.getThemeImages().button_right_blue_image(),
+					"custom-button-right-image");
+		}
+
+		if (submitForApprove != null && submitForApprove.isEnabled()) {
+
+			// submitForApprove.enabledButton(AccounterButton.SUBMIT_BUTTON,
+			// "submit-approve-image", "ibutton1");
+
+			Element addseparator = DOM.createSpan();
+			addseparator.addClassName("save-close-separator");
+			DOM.appendChild(submitForApprove.getElement(), addseparator);
+
+			Element addimage = DOM.createSpan();
+			addimage.addClassName("submit-approve-image");
+			DOM.appendChild(submitForApprove.getElement(), addimage);
+
+			ThemesUtil.addDivToButton(submitForApprove, FinanceApplication
+					.getThemeImages().button_right_blue_image(),
 					"custom-button-right-image");
 		}
 		if (cancelButton.isEnabled()) {
@@ -227,6 +248,22 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 					"custom-button-right-image");
 
 		}
+
+		// if (submitForApprove.isEnabled()) {
+		//
+		// Element closeseparator = DOM.createSpan();
+		// closeseparator.addClassName("close-separator");
+		// DOM.appendChild(cancelButton.getElement(), closeseparator);
+		//
+		// Element closeimage = DOM.createSpan();
+		// closeimage.addClassName("close-image");
+		// DOM.appendChild(cancelButton.getElement(), closeimage);
+		//
+		// ThemesUtil.addDivToButton(cancelButton, FinanceApplication
+		// .getThemeImages().button_right_gray_image(),
+		// "custom-button-right-image");
+		//
+		// }
 	}
 
 	public Panel getCanvas() {

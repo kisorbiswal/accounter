@@ -22,6 +22,11 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
+/**
+ * 
+ * @author Uday Kumar
+ * 
+ */
 public class ExpenseClaimView extends BaseView<BillsList> {
 
 	ExpenseClaimGrid grid;
@@ -62,7 +67,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 			@Override
 			public void onClick(ClickEvent event) {
 				isProcessingAdded = false;
-				setAction(VendorsActionFactory.getExpenseClaimListAction());
+				setAction(VendorsActionFactory.getExpenseClaimsAction());
 				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL);
 			}
 		});
@@ -73,7 +78,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 			@Override
 			public void onClick(ClickEvent event) {
 				isProcessingAdded = false;
-				setAction(VendorsActionFactory.getExpenseClaimListAction());
+				setAction(VendorsActionFactory.getExpenseClaimsAction());
 				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
 			}
 		});
@@ -85,7 +90,9 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 		panel.add(buttonPanel);
 		panel.setCellHorizontalAlignment(buttonPanel, ALIGN_RIGHT);
 		mainPanel.add(panel);
-		submitApproval.enabledButton("ibutton1");
+		submitApproval.enabledButton();
+//		submitApproval.enabledButton(AccounterButton.SUBMIT_BUTTON, "approve-image",
+//				"ibutton1");
 
 		deleteButton.enabledButton();
 		mainPanel.removeStyleName("main-class-pannel");

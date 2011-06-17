@@ -11,6 +11,10 @@ import com.vimukti.accounter.web.client.ui.FinanceApplication;
 public class AccounterButton extends Button {
 
 	public static final int ADD_BUTTON = 1;
+	public static final int APPROVE_BUTTON = 2;
+	public static final int DECLINE_BUTTON = 3;
+	public static final int SUBMIT_BUTTON = 4;
+	public static final int DELETE_BUTTON = 5;
 	private int type;
 
 	public AccounterButton() {
@@ -152,6 +156,26 @@ public class AccounterButton extends Button {
 			this.getElement().getParentElement().setClassName(string);
 			ThemesUtil.addDivToButton(this, FinanceApplication.getThemeImages()
 					.button_right_blue_image(), "ibutton-right-image");
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+	}
+
+	public void enabledButton(int type, String image, String string) {
+		try {
+			this.getElement().getParentElement().setClassName(string);
+
+			Element addseparator = DOM.createSpan();
+			addseparator.addClassName("add-separator");
+			DOM.appendChild(this.getElement(), addseparator);
+
+			Element addimage = DOM.createSpan();
+			addimage.addClassName(image);
+			DOM.appendChild(this.getElement(), addimage);
+
+			ThemesUtil.addDivToButton(this, FinanceApplication.getThemeImages()
+					.button_right_blue_image(), "add-right-image");
+
 		} catch (Exception e) {
 			System.err.println(e);
 		}

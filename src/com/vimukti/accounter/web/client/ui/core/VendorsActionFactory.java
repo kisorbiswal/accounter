@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.ui.vendors.CashExpenseAction;
 import com.vimukti.accounter.web.client.ui.vendors.CreditCardExpenseAction;
 import com.vimukti.accounter.web.client.ui.vendors.EmployeeExpenseAction;
 import com.vimukti.accounter.web.client.ui.vendors.EnterBillsAction;
-import com.vimukti.accounter.web.client.ui.vendors.ExpenseClaimListAction;
 import com.vimukti.accounter.web.client.ui.vendors.ExpenseClaimsAction;
 import com.vimukti.accounter.web.client.ui.vendors.ExpensesAction;
 import com.vimukti.accounter.web.client.ui.vendors.IssuePaymentsAction;
@@ -26,6 +25,7 @@ import com.vimukti.accounter.web.client.ui.vendors.NewCreditMemoAction;
 import com.vimukti.accounter.web.client.ui.vendors.NewItemReceiptAction;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 import com.vimukti.accounter.web.client.ui.vendors.PayBillsAction;
+import com.vimukti.accounter.web.client.ui.vendors.PreviousClaimAction;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderAction;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListAction;
 import com.vimukti.accounter.web.client.ui.vendors.RecordExpensesAction;
@@ -219,19 +219,20 @@ public class VendorsActionFactory extends AbstractActionFactory {
 				"/images/icons/vendors/new_cash_purchase.png");
 	}
 
-	public static ExpenseClaimListAction getExpenseClaimListAction() {
-		return new ExpenseClaimListAction(FinanceApplication
-				.getVendorsMessages().expenseClaims());
-	}
-
 	public static AwaitingAuthorisationAction getAwaitingAuthorisationAction() {
 		return new AwaitingAuthorisationAction(FinanceApplication
 				.getVendorsMessages().awaitingAuthorisation());
 
 	}
 
+	public static PreviousClaimAction getPreviousClaimAction() {
+		return new PreviousClaimAction(FinanceApplication.getVendorsMessages()
+				.previousClaim());
+
+	}
+
 	public static ExpenseClaimsAction getExpenseClaimsAction() {
 		return new ExpenseClaimsAction(FinanceApplication.getVendorsMessages()
-				.expenseClaims());
+				.expenseClaims(), "/images/icons/vendors/record_expense.png");
 	}
 }

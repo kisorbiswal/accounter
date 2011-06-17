@@ -170,6 +170,14 @@ public class EmployeeExpenseView extends CashPurchaseView {
 			}
 			deliveryDateItem.setValue(new ClientFinanceDate(cashPurchase
 					.getDeliveryDate()));
+
+			if (cashPurchase.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED) {
+				if (FinanceApplication.getUser().canApproveExpences())
+					approveButton.setEnabled(false);
+				else
+					submitForApprove.setEnabled(false);
+			}
+
 		}
 
 	}

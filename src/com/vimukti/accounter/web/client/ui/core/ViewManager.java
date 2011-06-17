@@ -56,6 +56,7 @@ import com.vimukti.accounter.web.client.ui.reports.AbstractReportView;
 import com.vimukti.accounter.web.client.ui.settings.UsersView;
 import com.vimukti.accounter.web.client.ui.vendors.AwaitingAuthorisationView;
 import com.vimukti.accounter.web.client.ui.vendors.ExpenseClaimView;
+import com.vimukti.accounter.web.client.ui.vendors.ExpenseClaims;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListAction;
 
 /**
@@ -711,7 +712,8 @@ public class ViewManager extends DockPanel {
 		if (history == null)
 			return;
 
-		if (history.getView() instanceof UsersView) {
+		if (history.getView() instanceof UsersView
+				|| history.getView() instanceof ExpenseClaims) {
 			currentCanvas = history.getView();
 			history.getAction().run(null, true);
 		} else if (!(history.getView().isAListView())
