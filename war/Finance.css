@@ -1342,6 +1342,19 @@ important
 		transparent !important;
 }
 
+.approve-image {
+	background: url("images/approve.png") no-repeat scroll 0 0
+		transparent !important;
+}
+.submit-approve-image {
+	background: url("images/submit_for_approval.png") no-repeat scroll 0 0
+		transparent !important;
+}
+.decline-image {
+	background: url("images/decline.png") no-repeat scroll 0 0
+		transparent !important;
+}
+
 .save-new-image,.save-close-image {
 	width: 20px;
 	height: 20px;
@@ -1349,7 +1362,7 @@ important
 	position: absolute;
 }
 
-.close-image,.add-image {
+.close-image,.add-image,.approve-image,.submit-approve-image,.decline-image {
 	height: 16px;
 	margin-left: 10px;
 	position: absolute;
