@@ -75,13 +75,16 @@ public class GeneralSettingsView extends AbstractBaseView {
 		conversionHTML = new HTML(messages.conversionHTML());
 		conversationCommentHTML = new HTML(messages.conversionCommet());
 		invoiceBrandingHTML = new HTML(messages.invoiceBrandingHTML());
-		invoiceBrandingHTML.setWidth("145px");
+		//invoiceBrandingHTML.setWidth("145px");
+		invoiceBrandingHTML.setStyleName("invoice-branding-html");
 		invoiceCommentHtml = new HTML(messages.invoiceComment());
 		userHtml = new HTML(messages.userHTML());
-		userHtml.setWidth("50px");
+		//userHtml.setWidth("50px");
+		userHtml.setStyleName("user-html");
 		userCommentHtml = new HTML(messages.usersComment());
 		companySettingsHtml = new HTML(messages.companySettingsTitle());
-		companySettingsHtml.setWidth("150px");
+		companySettingsHtml.setStyleName("company-settings-html");
+		//companySettingsHtml.setWidth("150px");
 		companyCommentHtml = new HTML(messages.companyCommentHtml());
 
 		titlePanel.add(titleHtml);
