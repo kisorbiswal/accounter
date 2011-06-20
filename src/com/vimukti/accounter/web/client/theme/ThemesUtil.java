@@ -9,7 +9,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 
 public class ThemesUtil {
 
