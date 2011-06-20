@@ -851,11 +851,13 @@ a:visited {
 
 .link-color {
 	color: #00A3DC !important;
+	font-size:15px;
 }
 
 .link-color1 {
 	color: #00A3DC !important;
-	margin-left: 130px;
+	margin-left: 105px;
+	font-size:15px;
 }
 
 .size-width {
@@ -1401,16 +1403,15 @@ ul li {
 }
 
 #contact_form_cont,#services_form_cont {
-	margin-left: 390px;
-	margin-top: -169px;
-	position: absolute;
-	width: 395px;
+	float:right;
+	margin:15px 25px 0 0;
 }
 
 #contact_content {
 	color: #333333;
 	font-size: 15px;
 	margin-top: 30px;
+	float:left;
 }
 
 .error {
@@ -1441,12 +1442,6 @@ ul li {
 	text-decoration: underline !important;
 }
 
-#contact_form_cont,#services_form_cont {
-	margin-left: 370px;
-	margin-top: -155px;
-	position: absolute;
-	width: 395px;
-}
 
 #label_holder {
 	color: #666666;
