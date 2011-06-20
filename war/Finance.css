@@ -600,7 +600,8 @@ td.gridDecimalCell {
 	overflow: hidden;
 	position: relative;
 	width: 180px !important;
-	float: left
+	float: left;
+	padding:0px\0 !important;
 }
 
 .dropdownTable {
@@ -799,6 +800,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	background: none !important;
 	border: 0 !important;
 	margin-top: 3px;
+	margin-top: 0px\0  !important;
 }
 
 .gwt-MenuBar-horizontal .gwt-MenuItem { /*praveena*/
@@ -813,6 +815,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	height: 31px;
 	padding: 5px 18px 8px !important;
 	font-size: 12px;
+	height: 20px\0  !important;
 }
 
 .gwt-MenuBar-vertical .subMenuIcon-selected {
@@ -1000,9 +1003,36 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	margin: 0 4px !important;
 }
 
-.invoice-total tr:nth-child(3){
-	border-bottom:1px solid #aaa;
-	border-top:1px solid #aaa;
+.invoice-total
+ 
+tr
+:nth-child
+ 
+(3){
+border-bottom
+:
+ 
+1
+px
+ 
+solid
+ 
+#aaa
+;
+
+	
+border-top
+:
+ 
+1
+px
+ 
+solid
+ 
+#aaa
+;
+
+
 }
 .noScroll input[type="text"] { /*width: 150px !important;*/
 	
@@ -1099,6 +1129,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 		0 0 #fff !important;
 	border: 0 none;
 	height: 22px;
+	padding:0px\0 !important;
 }
 
 .gwt-PasswordTextBox {
@@ -1147,6 +1178,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	float: left;
 	height: 22px !important;
 	margin-left: -22px;
+	margin-left:-23px\0 !important;
 	position: relative;
 	width: 22px;
 	z-index: 1;
@@ -1174,67 +1206,8 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	background: none repeat scroll 0 0 #F0F0F0 !important;
 }
 
-.help-logout-sep
-
-
- 
-
-
-td
-
-
-
-
-:nth-child
-
-
- 
-
-
-(2),
-.help-logout-sep
-
-
- 
-
-
-td
-
-
-
-
-:nth-child
-
-
- 
-
-
-(3){
-padding
-
-
-
-
-:
-
-
- 
-
-
-5
-px
-
-
- 
-
-
-!
-important
-
-
-
-
-;
+.help-logout-sep td:nth-child(2),.help-logout-sep td:nth-child(3){
+	padding:5px !important;
 }
 .help-content {
 	background: url("images/Menubar_Divider_2x30.jpg") no-repeat scroll 0 0
@@ -1410,6 +1383,7 @@ important
 	width: 3px;*/
 	display: inline;
 	padding: 0px 1px 7px 2px;
+	padding-bottom:9px\0 !important;
 }
 
 .panel-right-align {
@@ -1429,6 +1403,7 @@ important
 	padding-left: 10px;
 	padding-top: 10px;
 	width: 99%;
+	margin-top: 10px\0  !important;
 }
 
 .add-button button {
@@ -1711,50 +1686,8 @@ iframe { /*display:none;*/
 	margin-left: 20px;
 }
 
-.date-number
-
-
- 
-
-
-td
-
-
- 
-
-
-:nth-child
-
-
- 
-
-
-(2){
-padding-right
-
-
-
-
-:
-
-
- 
-
-
-15
-px
-
-
- 
-
-
-!
-important
-
-
-
-
-;
+.date-number td:nth-child(2){
+	padding-right:15px !important;
 }
 .datenumber-panel table {
 	padding-right: 15px !important;
@@ -1775,41 +1708,8 @@ important
 	font-weight: bold;
 }
 
-.tax-form
-
-
- 
-
-
-td
-
-
-
-
-:nth-child
-
-
- 
-
-
-(1){
-font-weight
-
-
-
-
-:
-
-
- 
-
-
-normal
-
-
-
-
-;
+.tax-form td:nth-child(1){
+	font-weight:normal;
 }
 .itemGrid {
 	margin-top: 25px;
@@ -1843,6 +1743,9 @@ normal
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.gwt-Button {
 		padding: 0 5px 1px !important;
+	}
+	.add-button button {
+		padding: 5px 28px 5px 5px !important;
 	}
 }
 
