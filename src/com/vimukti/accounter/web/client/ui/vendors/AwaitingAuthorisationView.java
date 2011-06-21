@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.JavaScriptException;
@@ -45,7 +46,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.getElement().getStyle().setMarginTop(15, Unit.PX);
-		
+
 		AccounterButton approve = new AccounterButton("Approve");
 		approve.addClickHandler(new ClickHandler() {
 
@@ -54,17 +55,18 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 				MainFinanceWindow.getViewManager().restoreErrorBox();
 				isProcessingAdded = false;
 				setAction(VendorsActionFactory.getAwaitingAuthorisationAction());
-				boolean isErrorOccured = checkPayFromAccount();
-				if (!isErrorOccured)
-					updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED);
-				else
-					MainFinanceWindow
-							.getViewManager()
-							.showError(
-									"Please Select Pay From Account for the records showm in red.");
+				// boolean isErrorOccured = checkPayFromAccount();
+				List<BillsList> records = getRecordsToApprove();
+				// if (!isErrorOccured)
+				updateRecords(records,
+						ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED);
+				// else
+				if (records.size() != grid.getSelectedRecords().size())
+					Accounter
+							.showError("Please Select Pay From Account for pending records. To update please double click on each record.");
 			}
 		});
-		
+
 		AccounterButton decline = new AccounterButton("Decline");
 		decline.addClickHandler(new ClickHandler() {
 
@@ -73,10 +75,11 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 				MainFinanceWindow.getViewManager().restoreErrorBox();
 				isProcessingAdded = false;
 				setAction(VendorsActionFactory.getAwaitingAuthorisationAction());
-				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED);
+				updateRecords(grid.getSelectedRecords(),
+						ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED);
 			}
 		});
-		
+
 		AccounterButton delete = new AccounterButton("Delete");
 		delete.addClickHandler(new ClickHandler() {
 
@@ -85,20 +88,21 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 				MainFinanceWindow.getViewManager().restoreErrorBox();
 				isProcessingAdded = false;
 				setAction(VendorsActionFactory.getAwaitingAuthorisationAction());
-				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
+				updateRecords(grid.getSelectedRecords(),
+						ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
 			}
 		});
-		
+
 		buttonPanel.add(approve);
 		buttonPanel.add(decline);
 		buttonPanel.add(delete);
 		approve.getElement().getStyle().setMarginLeft(25, Unit.PX);
 		approve.enabledButton();
 		decline.enabledButton();
-//		approve.enabledButton(AccounterButton.APPROVE_BUTTON,
-//				"approve-image", "ibutton1");
-//		decline.enabledButton(AccounterButton.DECLINE_BUTTON,
-//				"decline-image", "ibutton1");
+		// approve.enabledButton(AccounterButton.APPROVE_BUTTON,
+		// "approve-image", "ibutton1");
+		// decline.enabledButton(AccounterButton.DECLINE_BUTTON,
+		// "decline-image", "ibutton1");
 		delete.enabledButton();
 
 		buttonLayout.setVisible(false);
@@ -112,6 +116,15 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 		bottomShadow.getElement().getParentElement().removeClassName(
 				"bottom-shadow");
 
+	}
+
+	protected List<BillsList> getRecordsToApprove() {
+		List<BillsList> records = new ArrayList<BillsList>();
+		for (BillsList r : grid.getSelectedRecords()) {
+			if (r.getPayFrom() != null)
+				records.add(r);
+		}
+		return records;
 	}
 
 	protected boolean checkPayFromAccount() {
@@ -131,10 +144,10 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 		grid.setSize("100%", "100%");
 	}
 
-	protected void updateSelectedRecords(final int expenceStatus) {
-		List<BillsList> selectedRecords = grid.getSelectedRecords();
+	protected void updateRecords(List<BillsList> records,
+			final int expenceStatus) {
 
-		for (BillsList record : selectedRecords) {
+		for (BillsList record : records) {
 			FinanceApplication.createGETService().getObjectById(
 					AccounterCoreType.CASHPURCHASE, record.getTransactionId(),
 
