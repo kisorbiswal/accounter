@@ -1491,3 +1491,10 @@ noindex:-o-prefocus, .right-side-options{
 .mid-login-box1 td{
    font-size:13px;
 }
+
+/* Only for chrome */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.left-side-box{
+	   margin-top:10px;
+	}
+}

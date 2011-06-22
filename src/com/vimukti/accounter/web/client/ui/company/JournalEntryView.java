@@ -366,6 +366,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		});
 
 		gridPanel.add(grid);
+		gridPanel.setWidth("100%");
 
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(addButton);

@@ -75,6 +75,8 @@ public abstract class GroupDialog<T> extends BaseDialog {
 		buttonsLayout = new VerticalPanel();
 		buttonsLayout.setWidth("100");
 		buttonsLayout.setSpacing(5);
+		
+		
 
 		button1 = new AccounterButton(constants.add());
 		button1.setWidth("80");
@@ -122,6 +124,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 		bodyLayout.add(listGridView);
 		if (FinanceApplication.getUser().canDoInvoiceTransactions())
 			bodyLayout.add(buttonsLayout);
+		buttonsLayout.getElement().getParentElement().setAttribute("width", "25%");
 		setBodyLayout(bodyLayout);
 		cancelBtn.setTitle(this.constants.close());
 		dialogHandler = new InputDialogHandler() {
