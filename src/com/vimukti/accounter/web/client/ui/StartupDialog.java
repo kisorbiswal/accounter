@@ -62,7 +62,7 @@ public class StartupDialog extends DialogBox {
 				.getFinanceUIConstants().email());
 		userEmailText.setRequired(true);
 		// userEmailText.setWidth("*");
-		userEmailText.setValue("praveena.a@vimukti.com");
+		userEmailText.setValue("admin@accounter.com");
 
 		userPassText = new TextItem(FinanceApplication.getFinanceUIConstants()
 				.password());
