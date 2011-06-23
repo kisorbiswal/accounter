@@ -722,7 +722,8 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .main-w-finance {
-	padding-left: 2px !important
+	padding-left: 2px !important;
+	overflow:hidden !important;
 }
 
 .finance-portlet .decor00 {

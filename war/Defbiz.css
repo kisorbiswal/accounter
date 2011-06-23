@@ -4436,3 +4436,6 @@ td.imagelink-h-hover .imageLink-div {
 	background: url("images/Tab_normal_left_4x30.png") no-repeat scroll 0
 		-4px transparent !important;
 }
+.gridTextBoxCell{
+   font-size:12px;
+}
