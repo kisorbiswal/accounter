@@ -1225,6 +1225,7 @@ table tr.parentRow:HOVER {
 .gridBody tr td { /*border-right: 1px solid #AAAAAA;*/
 	padding-left: 5px;
 	overflow-x: hidden;
+	font-size:13px;
 }
 
 .grid-resizeable-proxy-column {
@@ -1846,9 +1847,14 @@ select[multiple] option {
 	cursor: pointer;
 }
 
+noindex:-o-prefocus, input[disabled],input[disabled='disabled']{
+	background-image:none !important;
+	background-color:inherit !important;
+}
+
 input[disabled],input[disabled='disabled'] {
 	background: url("images/Text Feild_diabled.png") no-repeat scroll 0 0
-		#e6e0da !important;
+		#e6e0da;
 	color: #b1a7ad;
 	border: 0 none;
 }

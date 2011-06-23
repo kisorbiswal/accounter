@@ -576,7 +576,7 @@ div.link:hover {
 }
 
 .financeWindow input[disabled] {
-	color: #000;
+	/*color: #000;*/
 }
 
 tr.net-profit td {
@@ -1768,6 +1768,10 @@ noindex:-o-prefocus,.ibutton-right-image {
 	padding: 0px 1px 25px 2px;
 	position: absolute;
 }
+noindex:-o-prefocus, .ibutton{
+	margin-right:5px !important;
+}
+
 
 .file-vat .gridRow {
 	cursor: default !important;
