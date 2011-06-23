@@ -277,7 +277,8 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 		topLayout.add(currentDate);
 
 		printableLayout = new VerticalPanel();
-		printableLayout.setSize("100%", "100%");
+		//printableLayout.setSize("100%", "100%");
+		printableLayout.setWidth("100%");
 		printableLayout.add(topLayout);
 		printableLayout.add(title);
 		this.tableLayout = new ScrollPanel() {
