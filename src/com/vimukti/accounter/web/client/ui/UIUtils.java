@@ -1796,7 +1796,8 @@ public class UIUtils {
 	}
 
 	public static Double getRoundValue(Double value) {
-		value = Math.floor(value * 100) / 100;
+//		value = Math.floor(value * 100) / 100;
+		value = (double) Math.round(value * 100) / 100;
 		return value;
 	}
 
