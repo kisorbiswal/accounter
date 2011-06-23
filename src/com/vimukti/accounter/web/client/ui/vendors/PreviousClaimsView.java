@@ -66,6 +66,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 		panel.add(previous);
 		panel.add(grid);
 		panel.add(buttonPanel);
+		panel.setWidth("100%");
 		panel.setCellHorizontalAlignment(buttonPanel, ALIGN_RIGHT);
 		mainPanel.add(panel);
 		notShowInList.enabledButton("ibutton1");
