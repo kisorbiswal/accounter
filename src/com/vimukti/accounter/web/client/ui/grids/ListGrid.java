@@ -358,7 +358,7 @@ public abstract class ListGrid<T> extends CustomTable {
 			break;
 		case COLUMN_TYPE_IMAGE:
 			addImage(obj, data);
-			addCellStyles("gridImageCell");
+			addCellStyles("gridImageCell delete-table-image");
 			break;
 		case COLUMN_TYPE_SELECT:
 			setText(currentRow, currentCol, (String) data);
