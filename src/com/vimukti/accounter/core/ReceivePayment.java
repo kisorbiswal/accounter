@@ -567,6 +567,9 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 					lifeCycle.onUpdate(session);
 				}
 			}
+			
+			if (this.status != Transaction.STATUS_DELETED)
+				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
 	}
 
