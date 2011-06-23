@@ -75,7 +75,6 @@ public class AccounterButton extends Button {
 
 	@Override
 	public void setVisible(boolean visible) {
-		super.setVisible(visible);
 		if (visible) {
 			if (type == ADD_BUTTON) {
 				disabledAddButton();
@@ -92,6 +91,7 @@ public class AccounterButton extends Button {
 				disabledButton();
 			}
 		}
+		super.setVisible(visible);
 	}
 
 	public void enabledAddButton() {
@@ -106,8 +106,9 @@ public class AccounterButton extends Button {
 			addimage.addClassName("add-image");
 			DOM.appendChild(this.getElement(), addimage);
 
-			ThemesUtil.addDivToButton(this, FinanceApplication.getThemeImages()
-					.button_right_blue_image(), "add-right-image");
+			// ThemesUtil.addDivToButton(this,
+			// FinanceApplication.getThemeImages()
+			// .button_right_blue_image(), "add-right-image");
 		} catch (Exception e) {
 			System.err.println(e);
 		}
@@ -129,9 +130,9 @@ public class AccounterButton extends Button {
 			if (this.getElement().getParentElement().getClassName() != null) {
 				this.getElement().getParentElement().removeClassName(
 						"add-button");
-				if (this.getText() != null) {
-					ThemesUtil.removeDivToButton(this);
-				}
+			}
+			if (this.getText() != null) {
+				ThemesUtil.removeDivToButton(this);
 			}
 		} catch (Exception e) {
 			System.err.println(e);
@@ -140,7 +141,8 @@ public class AccounterButton extends Button {
 
 	public void disabledButton() {
 		try {
-			if (this.getElement().getParentElement().getClassName() != null) {
+			if (!this.isEnabled()
+					&& this.getElement().getParentElement().getClassName() != null) {
 				this.getElement().getParentElement().removeClassName("ibutton");
 				if (this.getText() != null) {
 					ThemesUtil.removeDivToButton(this);
@@ -165,20 +167,24 @@ public class AccounterButton extends Button {
 		try {
 			this.getElement().getParentElement().setClassName(string);
 
-			Element addseparator = DOM.createSpan();
-			addseparator.addClassName("add-separator");
-			DOM.appendChild(this.getElement(), addseparator);
+			Element accounterSeperator = DOM.createSpan();
+			accounterSeperator.addClassName("accounter-button-seperater");
+			DOM.appendChild(this.getElement(), accounterSeperator);
 
-			Element addimage = DOM.createSpan();
-			addimage.addClassName(image);
-			DOM.appendChild(this.getElement(), addimage);
+			Element accounterImage = DOM.createSpan();
+			accounterImage.addClassName(image);
+			DOM.appendChild(this.getElement(), accounterImage);
 
 			ThemesUtil.addDivToButton(this, FinanceApplication.getThemeImages()
-					.button_right_blue_image(), "add-right-image");
+					.button_right_blue_image(), "ibutton-right-image");
 
 		} catch (Exception e) {
 			System.err.println(e);
 		}
+	}
+
+	public void setWidth(String width) {
+		super.setWidth(width);
 	}
 
 }

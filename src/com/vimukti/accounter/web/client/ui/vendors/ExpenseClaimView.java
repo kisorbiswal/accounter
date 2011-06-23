@@ -89,13 +89,14 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 		panel.add(grid);
 		panel.add(buttonPanel);
 		panel.setCellHorizontalAlignment(buttonPanel, ALIGN_RIGHT);
-		mainPanel.add(panel);
 		panel.setWidth("100%");
-		submitApproval.enabledButton();
-//		submitApproval.enabledButton(AccounterButton.SUBMIT_BUTTON, "approve-image",
-//				"ibutton1");
-
-		deleteButton.enabledButton();
+		mainPanel.add(panel);
+		submitApproval.setWidth("160px");
+		submitApproval.enabledButton(AccounterButton.SUBMIT_BUTTON,
+				"submit-approve-image", "ibutton1");
+		deleteButton.setWidth("90px");
+		deleteButton.enabledButton(AccounterButton.DELETE_BUTTON,
+				"close-image", "ibutton1");
 		mainPanel.removeStyleName("main-class-pannel");
 		buttonLayout.getElement().getParentElement().removeClassName(
 				"bottom-view");

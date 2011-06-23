@@ -118,8 +118,8 @@ public abstract class GroupDialog<T> extends BaseDialog {
 		buttonsLayout.add(button2);
 		buttonsLayout.add(button3);
 		button1.enabledButton();
-		button2.enabledButton();
-		button3.enabledButton();
+		// button2.enabledButton();
+		// button3.enabledButton();
 		button1.setFocus(true);
 		bodyLayout.add(listGridView);
 		if (FinanceApplication.getUser().canDoInvoiceTransactions())

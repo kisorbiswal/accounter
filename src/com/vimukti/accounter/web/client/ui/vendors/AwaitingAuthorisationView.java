@@ -97,13 +97,14 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 		buttonPanel.add(decline);
 		buttonPanel.add(delete);
 		approve.getElement().getStyle().setMarginLeft(25, Unit.PX);
-		approve.enabledButton();
-		decline.enabledButton();
-		// approve.enabledButton(AccounterButton.APPROVE_BUTTON,
-		// "approve-image", "ibutton1");
-		// decline.enabledButton(AccounterButton.DECLINE_BUTTON,
-		// "decline-image", "ibutton1");
-		delete.enabledButton();
+		approve.setWidth("95px");
+		approve.enabledButton(AccounterButton.APPROVE_BUTTON, "approve-image",
+				"ibutton1");
+		decline.setWidth("95px");
+		decline.enabledButton(AccounterButton.DECLINE_BUTTON, "decline-image",
+				"ibutton1");
+		delete.setWidth("90px");
+		delete.enabledButton(AccounterButton.DELETE_BUTTON,"close-image","ibutton1");
 
 		buttonLayout.setVisible(false);
 		panel.add(grid);
