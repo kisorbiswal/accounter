@@ -141,7 +141,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		adjustForm.setSpacing(3);
 		// adjustForm.add(adjustLabel);
 		adjustForm.add(adjustButton);
-		adjustButton.enabledButton();
+		// adjustButton.enabledButton();
 		// if (adjustButton.isEnabled()) {
 		// adjustButton.getElement().getParentElement()
 		// .setClassName("ibutton");
@@ -176,7 +176,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		printForm.setSpacing(3);
 		printForm.add(printLabel);
 		printForm.add(printButton);
-		printButton.enabledButton();
+		// printButton.enabledButton();
 		// if (printButton.isEnabled()) {
 		// printButton.getElement().getParentElement().setClassName("ibutton");
 		// ThemesUtil.addDivToButton(printButton, FinanceApplication

@@ -106,9 +106,8 @@ public class AccounterButton extends Button {
 			addimage.addClassName("add-image");
 			DOM.appendChild(this.getElement(), addimage);
 
-			// ThemesUtil.addDivToButton(this,
-			// FinanceApplication.getThemeImages()
-			// .button_right_blue_image(), "add-right-image");
+			ThemesUtil.addDivToButton(this, FinanceApplication.getThemeImages()
+					.button_right_blue_image(), "add-right-image");
 		} catch (Exception e) {
 			System.err.println(e);
 		}
