@@ -594,6 +594,7 @@ public class CreditCardChargeView extends
 		// vLay1.add(lab2);
 		// vLay1.add(addButton);
 		vLay1.add(vendorTransactionGrid);
+		vLay1.setWidth("100%");
 		vLay1.add(bottompanel);
 
 		VerticalPanel mainVLay = new VerticalPanel();
