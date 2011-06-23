@@ -615,6 +615,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		panel.getElement().getStyle().setFloat(Float.RIGHT);
 
 		mainVlay.add(gridView);
+		mainVlay.setWidth("100%");
 		mainVlay.add(panel);
 		// mainVlay.add(memoForm);
 

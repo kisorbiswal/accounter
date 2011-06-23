@@ -200,6 +200,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		mainLayout.add(infolabel);
 		mainLayout.add(topLayout);
 		mainLayout.add(gridView);
+		mainLayout.setWidth("100%");
 		// mainLayout.add(beforeLabel);
 		mainLayout.add(adjustForm);
 		mainLayout.add(printForm);
