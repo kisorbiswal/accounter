@@ -289,6 +289,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	private void initListGrid() {
 
 		gridLayout = new VerticalPanel();
+		gridLayout.setWidth("100%");
 		grid = new TransactionPayVATGrid(!isEdit, true);
 		grid.setCanEdit(!isEdit);
 		grid.isEnable = false;
