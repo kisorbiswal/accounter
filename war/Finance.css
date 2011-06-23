@@ -1752,13 +1752,17 @@ iframe { /*display:none;*/
 /* Only for chrome */
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.gwt-Button {
-		padding: 0 5px 1px !important;
+		/*padding: 0 5px 1px !important;*/
+		float:inherit !important;
 	}
 	.add-button button {
 		padding: 5px 28px 5px 5px !important;
 	}
 	.standard-options td:first-child{
 	    width:93.8%;
+	}
+	.delete-table-image{
+	    width:21px !important;
 	}
 }
 
