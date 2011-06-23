@@ -385,7 +385,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			}
 		};
 		panel.add(l1);
-
+        panel.setWidth("100%");
 		panel.add(gridView);
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.setHorizontalAlignment(ALIGN_RIGHT);

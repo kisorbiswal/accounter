@@ -90,6 +90,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 		panel.add(buttonPanel);
 		panel.setCellHorizontalAlignment(buttonPanel, ALIGN_RIGHT);
 		mainPanel.add(panel);
+		panel.setWidth("100%");
 		submitApproval.enabledButton();
 //		submitApproval.enabledButton(AccounterButton.SUBMIT_BUTTON, "approve-image",
 //				"ibutton1");
