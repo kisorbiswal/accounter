@@ -11896,16 +11896,26 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<BillsList> getEmployeeExpensesByStatus(String userName,int status)
+	public List<BillsList> getEmployeeExpensesByStatus(String employeeName, int status)
 			throws DAOException {
 
 		List<BillsList> billsList = new ArrayList<BillsList>();
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.CashPurchase cp where cp.expenseStatus=:expenseStatus and cp.type=:type and cp.isVoid=false")
-				.setParameter("expenseStatus", status).setParameter("type",
-						Transaction.TYPE_EMPLOYEE_EXPENSE);
+		Query query = null;
+		if (employeeName != null)
+			query = session
+					.createQuery(
+							"from com.vimukti.accounter.core.CashPurchase cp where cp.employeeName=:employeeName and cp.expenseStatus=:expenseStatus and cp.type=:type and cp.isVoid=false")
+					.setParameter("employeeName", employeeName).setParameter(
+							"expenseStatus", status).setParameter("type",
+							Transaction.TYPE_EMPLOYEE_EXPENSE);
+		else
+			query = session
+					.createQuery(
+							"from com.vimukti.accounter.core.CashPurchase cp where cp.expenseStatus=:expenseStatus and cp.type=:type and cp.isVoid=false")
+					.setParameter("expenseStatus", status).setParameter("type",
+							Transaction.TYPE_EMPLOYEE_EXPENSE);
+		
 		List<CashPurchase> cashpurchase = query.list();
 		for (CashPurchase cp : cashpurchase) {
 			BillsList bills = new BillsList();
