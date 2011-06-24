@@ -322,6 +322,7 @@ public class RecieveVATView extends
 		// .getAmountAsString(totalAmount), 2);
 		// }
 		gridLayout.add(grid);
+		gridLayout.setWidth("100%");
 
 	}
 
