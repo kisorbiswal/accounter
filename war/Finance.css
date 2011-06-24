@@ -1801,3 +1801,9 @@ noindex:-o-prefocus, .ibutton{
 .invoice-branding-html p font,.user-html p font,.company-settings-html p font{
     font-size:20px;
 }
+.finance-portlet table:FIRST-CHILD{
+    width:100% !important;
+}
+.gridBody .gridCheckBoxCell{
+    overflow:hidden !important;
+}
