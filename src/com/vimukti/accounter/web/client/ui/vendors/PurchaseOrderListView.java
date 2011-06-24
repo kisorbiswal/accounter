@@ -61,7 +61,6 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 	protected void initGrid() {
 		grid = new PurchaseOrderListGrid(this);
 		grid.init();
-
 	}
 
 	@Override
