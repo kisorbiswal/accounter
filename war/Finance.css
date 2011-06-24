@@ -1763,7 +1763,13 @@ iframe { /*display:none;*/
 	}
 	.delete-table-image{
 	    width:21px !important;
+	    overflow:hidden !important;
 	}
+	.gridBody .gridCheckBoxCell,.gridHeaderRow td:FIRST-CHILD{
+        overflow:hidden !important;
+    }
+    .listgrid .gridHeaderRow td.gridHeaderCell:FIRST-CHILD{
+    }
 }
 
 /* Opera only*/
@@ -1803,7 +1809,4 @@ noindex:-o-prefocus, .ibutton{
 }
 .finance-portlet table:FIRST-CHILD{
     width:100% !important;
-}
-.gridBody .gridCheckBoxCell{
-    overflow:hidden !important;
 }
