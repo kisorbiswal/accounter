@@ -107,6 +107,7 @@ public class DashBoard extends BaseHomeView {
 
 		// mainLayOut.add(gettingStartedPortlet);
 		mainLayOut.add(fTable);
+		fTable.setWidth("100%");
 		if (Header.gettingStartedStatus.equals("Show Getting Started"))
 			gettingStartedPortlet.setVisible(false);
 		else
