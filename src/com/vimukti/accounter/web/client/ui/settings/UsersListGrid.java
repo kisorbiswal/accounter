@@ -118,11 +118,19 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 
 	@Override
 	protected void onClick(ClientUser obj, int row, int index) {
-		if (!FinanceApplication.getUser().isCanDoUserManagement())
-			return;
+
 		if (index == 4) {
-			showWarnDialog(obj);
+			if (FinanceApplication.getUser().isCanDoUserManagement()) {
+				showWarnDialog(obj);
+			} else {
+				Accounter
+						.showInformation("you dont have permissions to delete user");
+			}
 		}
+		/*
+		 * if (!FinanceApplication.getUser().isCanDoUserManagement()) return; if
+		 * (index == 4) { showWarnDialog(obj); }
+		 */
 	}
 
 	@Override
