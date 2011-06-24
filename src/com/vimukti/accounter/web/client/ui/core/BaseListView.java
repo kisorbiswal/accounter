@@ -249,7 +249,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		gridLayout.setHeight("100%");
 		grid.setView(this);
 		gridLayout.add(grid);
-
+		
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setHeight("100%");
 		mainVLay.setWidth("100%");
