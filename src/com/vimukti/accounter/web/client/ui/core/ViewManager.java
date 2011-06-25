@@ -402,7 +402,7 @@ public class ViewManager extends DockPanel {
 			// }
 		};
 		rightCanvas.setStyleName("financeBackground");
-		rightCanvas.setSize("100%", "100%");
+		rightCanvas.setWidth("100%");
 		commentPanel = new VerticalPanel();
 		commentPanel.setWidth("97%");
 		commentPanel.setVisible(false);
@@ -439,7 +439,9 @@ public class ViewManager extends DockPanel {
 				"right");
 		// "closeBtnParent");
 
-		setSize("100%", "100%");
+		//setSize("100%", "100%");
+		setWidth("100%");
+		
 	}
 
 	@SuppressWarnings("unchecked")
