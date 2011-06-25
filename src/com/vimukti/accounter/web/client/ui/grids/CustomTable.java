@@ -146,7 +146,8 @@ public abstract class CustomTable extends VerticalPanel {
 				}
 			});
 			this.header.setWidget(0, 0, headerChkbox);
-			headerCellFormater.getElement(0, 0).setAttribute("width", "15");
+			headerCellFormater.getElement(0, 0)
+					.setClassName("header_check_box");
 		}
 		if (isEnable) {
 			this.header.addClickHandler(new ClickHandler() {
