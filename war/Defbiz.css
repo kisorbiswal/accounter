@@ -1624,6 +1624,7 @@ div.leftArrow:hover,div.upArrow:hover,div.downArrow:hover,div.rightArrow:hover
 
 .NoWrapping {
 	white-space: nowrap;
+	text-align:left;
 }
 
 .selectedview_textareadata_contact {
@@ -1847,14 +1848,13 @@ select[multiple] option {
 	cursor: pointer;
 }
 
-noindex:-o-prefocus, input[disabled],input[disabled='disabled']{
+/*noindex:-o-prefocus, input[disabled],input[disabled='disabled']{
 	background-image:none !important;
 	background-color:inherit !important;
-}
-
+}*/
 input[disabled],input[disabled='disabled'] {
 	background: url("images/Text Feild_diabled.png") no-repeat scroll 0 0
-		#e6e0da;
+		#e6e0da !important;
 	color: #b1a7ad;
 	border: 0 none;
 }
@@ -2821,7 +2821,7 @@ td.td12 {
 
 td.td10 {
 	background: transparent url(images/panel-right-img.png) repeat-y scroll
-		100% 0;
+		101% 0;
 }
 
 .decor20 {
