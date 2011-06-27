@@ -41,6 +41,7 @@ import com.vimukti.accounter.web.client.ui.combo.BrandingThemeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -1068,6 +1069,16 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				transactionObject = invoice;
 
 			super.saveAndUpdateView();
+
+			if (!orderNumText.getValue().equals("")) {
+				if (isNumberCorrect((String) orderNumText.getValue()) == 1) {
+					throw new InvalidEntryException(
+							AccounterErrorType.SALESORDERNUMBER);
+				} else if (isNumberCorrect((String) orderNumText.getValue()) == 2) {
+					throw new InvalidEntryException(
+							AccounterErrorType.SALESORDERNUMBERPOSITIVE);
+				}
+			}
 			if (transactionObject.getStringID() != null) {
 				alterObject(invoice);
 
@@ -1168,10 +1179,31 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	public boolean validate() throws InvalidTransactionEntryException,
 			InvalidEntryException {
 		ClientCustomer previousCustomer = customer;
-		if (customer != null && customer != previousCustomer)
+		if (customer != null && customer != previousCustomer) {
 			getEstimatesAndSalesOrder();
+		}
 		return super.validate();
 
+	}
+
+	private int isNumberCorrect(String value) {
+		try {
+			if (checkIfNotNumber(value)) {
+				throw new NumberFormatException(
+						AccounterErrorType.SALESORDERNUMBER);
+			}
+		} catch (Exception e) {
+			return 1;
+		}
+		try {
+			if (Integer.parseInt(value) < 1) {
+				throw new InvalidEntryException(
+						AccounterErrorType.SALESORDERNUMBERPOSITIVE);
+			}
+		} catch (Exception e) {
+			return 2;
+		}
+		return 0;
 	}
 
 	public void setPayments(Double payments) {

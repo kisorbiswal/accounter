@@ -89,8 +89,11 @@ public interface AccounterErrorType {
 	public static final String SELECT_VATAGENCY = "Please select VAT Agency and Dates to File VAT";
 	public static final String selectTransaction = "Please select a Transaction Item";
 	public static final String INVALIDNUMBER = "Invalid Account Number. Please enter valid number";
+	public static final String INVALIDSALESORDERNUMBER = "Invalid Sales Order Number. Please enter valid number";
 	public static final String INVALIDACCOUNTNUMBER = UIUtils.getVendorString(
 			"supplier", "vendor")
 			+ " Account Number is Invalid. Please enter valid Account Number";
+	public static final String SALESORDERNUMBERPOSITIVE = "A Sales Order Number shouble be positive";
+	public static final String SALESORDERNUMBER = "A Sales Order Number shouble be a number";
 
 }

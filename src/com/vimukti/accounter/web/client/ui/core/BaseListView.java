@@ -228,6 +228,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		HorizontalPanel hlayTop = new HorizontalPanel();
 		hlayTop.setWidth("100%");
 		hlayTop.add(addNewLabel);
+		hlayTop.setCellWidth(addNewLabel, getAddNewLabelString().length()
+				+ "px");
 		if (isViewSelectRequired)
 			hlayTop.add(hlay);
 
