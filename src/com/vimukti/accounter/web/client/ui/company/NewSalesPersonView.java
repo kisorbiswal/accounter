@@ -253,6 +253,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		addrsForm.getCellFormatter().addStyleName(0, 0, "addrsFormCellAlign");
 		addrsForm.getCellFormatter().addStyleName(0, 1, "addrsFormCellAlign");
 		leftVLay.add(fonFaxForm);
+		fonFaxForm.setStyleName("phone-fax-formatter");
 		leftVLay.add(expenseAccountForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
