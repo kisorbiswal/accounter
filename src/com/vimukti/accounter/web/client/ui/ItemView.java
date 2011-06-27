@@ -186,6 +186,7 @@ public class ItemView extends BaseView<ClientItem> {
 		commodityCode.setHelpInformation(true);
 		itemForm = new DynamicForm();
 		itemForm.setWidth("98%");
+		itemForm.setStyleName("item-form-view");
 		itemForm.setIsGroup(true);
 		itemForm.setGroupTitle(FinanceApplication.getFinanceUIConstants()
 				.item());
@@ -209,7 +210,7 @@ public class ItemView extends BaseView<ClientItem> {
 			else
 				itemForm.setFields(nameText, skuText, weightText);
 		}
-		itemForm.getCellFormatter().setWidth(0, 0, "25%");
+		itemForm.getCellFormatter().setWidth(0, 0, "30%");
 		salesDescArea = new TextAreaItem();
 		salesDescArea.setHelpInformation(true);
 		salesDescArea.setWidth(100);
@@ -415,7 +416,9 @@ public class ItemView extends BaseView<ClientItem> {
 			salesInfoForm.setFields(isservice, isellCheck, salesDescArea,
 					salesPriceText, accountCombo, itemTaxCheck, comCheck,
 					stdCostText);
+		
 		salesInfoForm.setStyleName("align-form");
+		salesInfoForm.setStyleName("new_service_table");
 		salesInfoForm.getCellFormatter().setWidth(0, 0, "25%");
 		salesInfoForm.getCellFormatter().setWidth(3, 0, "25%");
 		salesInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
@@ -430,7 +433,8 @@ public class ItemView extends BaseView<ClientItem> {
 		purchaseInfoForm = UIUtils.form(FinanceApplication
 				.getFinanceUIConstants().purchaseInformation());
 		purchaseInfoForm.setNumCols(2);
-		purchaseInfoForm.setWidth("92%");
+		purchaseInfoForm.setStyleName("purchase_info_form");
+		purchaseInfoForm.setWidth("97%");
 		purchaseInfoForm
 				.setFields(ibuyCheck, purchaseDescArea, purchasePriceTxt,
 						expAccCombo, prefVendorCombo, vendItemNumText);
@@ -467,6 +471,7 @@ public class ItemView extends BaseView<ClientItem> {
 		topPanel1.setHorizontalAlignment(ALIGN_RIGHT);
 		topPanel1.setWidth("100%");
 		topPanel1.add(itemForm);
+		topPanel1.setStyleName("service-item-group");
 		topPanel1.setCellHorizontalAlignment(itemInfoPanel, ALIGN_RIGHT);
 		topPanel1.add(itemInfoForm);
 		topPanel1.setCellWidth(itemForm, "50%");
@@ -485,11 +490,12 @@ public class ItemView extends BaseView<ClientItem> {
 		// topPanel2.add(emptyPanel);
 		topPanel2.setCellHorizontalAlignment(purchzVPanel, ALIGN_RIGHT);
 		topPanel2.add(purchzVPanel);
-
+		topPanel2.setCellWidth(salesVPanel, "50%");
+		topPanel2.setCellWidth(purchzVPanel, "50%");
 		topHLay.add(topPanel1);
 		topHLay.add(topPanel2);
-		topHLay.setCellWidth(topPanel1, "50%");
-		topHLay.setCellWidth(topPanel2, "50%");
+		//topHLay.setCellWidth(topPanel1, "50%");
+		//topHLay.setCellWidth(topPanel2, "50%");
 		VerticalPanel mainVLay = new VerticalPanel();
 
 		mainVLay.setSize("100%", "100%");
