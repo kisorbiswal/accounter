@@ -89,6 +89,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 	protected void onAttach() {
 		purchaseDetailView = new PurchaseDetailesView();
 		gridLayout.add(purchaseDetailView);
+		gridLayout.setCellWidth(purchaseDetailView, "30%");
 		super.onAttach();
 	}
 

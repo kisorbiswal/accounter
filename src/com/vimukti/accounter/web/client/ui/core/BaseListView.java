@@ -29,6 +29,8 @@ import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
+import com.vimukti.accounter.web.client.ui.grids.PurchaseOrderListGrid;
+import com.vimukti.accounter.web.client.ui.grids.SalesOrderListGrid;
 import com.vimukti.accounter.web.client.ui.vendors.VendorListView;
 
 /**
@@ -249,7 +251,12 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		gridLayout.setHeight("100%");
 		grid.setView(this);
 		gridLayout.add(grid);
-		
+		if (grid instanceof PurchaseOrderListGrid
+				|| grid instanceof SalesOrderListGrid) {
+			gridLayout.setCellWidth(grid, "70%");
+			gridLayout.setCellHeight(grid, "100%");
+		}
+
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setHeight("100%");
 		mainVLay.setWidth("100%");
