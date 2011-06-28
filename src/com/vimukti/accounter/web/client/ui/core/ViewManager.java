@@ -1763,8 +1763,8 @@ public class ViewManager extends DockPanel {
 		}
 
 		if (width - BORDER > 0) {
-			this.scrollPanel.setWidth(width + BORDER + "px");
-			this.setWidth(width + BORDER + "px");
+			//this.scrollPanel.setWidth(width + BORDER + "px");
+			//this.setWidth(width + BORDER + "px");
 			// this.rightCanvas.setWidth(width - BORDER + "px");
 		}
 
