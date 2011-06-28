@@ -80,7 +80,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		// setTitle(FinanceApplication.getFinanceUIConstants().bizantraPurchases());
 
 		VerticalPanel vlay = new VerticalPanel();
-		vlay.setSize("100%", "100%");
+		//vlay.setSize("100%", "100%");
+		vlay.setWidth("100%");
 
 		viewManager = ViewManager.getInstance(true);
 
