@@ -97,7 +97,6 @@ a:link {
 #cen {
 	/*clear: both;*/
 	height: 335px !important;
-	/*background-color: #01a3d2;*/
 	background-color: #0C4B52;
 }
 
@@ -117,12 +116,10 @@ a:link {
 	background-color: #f4f4f4;
 	border: 1px solid #CCCCCC;
 	clear: both;
-	float: left;
 	height: auto;
 	height: auto\0;
-	margin-left: 210px;
-	margin-top: 40px;
 	width: 523px;
+	margin:0 auto;
 	font-family: arial;
 	font-size: 15px;
 }
@@ -216,8 +213,7 @@ a:link {
 	border: 1px solid #CCCCCC;
 	clear: both;
 	float: left;
-	height: 690px !important;
-	margin-left: 60px;
+	height: 700px !important;
 	margin-top: 40px;
 	text-align: justify;
 	width: 840px !important;
@@ -231,7 +227,6 @@ a:link {
 	clear: both;
 	float: left;
 	height: 500px !important;
-	margin-left: 60px;
 	margin-top: 40px;
 	font-family: arial !important;
 	font-size: 15px;
@@ -271,7 +266,6 @@ a:link {
 	height: 831px;
 	width: 204px !important;
 	margin-top: 40px;
-	margin-left: 50px;
 	border: 1px solid #ccc;
 }
 
@@ -298,7 +292,6 @@ a:link {
 		transparent;
 	clear: both;
 	height: 6px;
-	margin: 0 43px 0 50px;
 }
 
 #bot {
@@ -523,14 +516,15 @@ li {
 }
 
 .left-middle {
-	margin-left: 20px;
-	width: 500px;
+	/*margin-left: 20px;*/
+	margin:0 auto;
+	width:960px !important;
 }
 
 .left-middle,.demo-buttons-image {
-	float: left;
+	/*float: left;
 	margin-top: 15px;
-	width: 500px;
+	width: 500px;*/
 }
 
 .fields-table {
@@ -598,9 +592,12 @@ a:visited {
 }
 
 .lower-part {
-	margin-top: 15px;
-	margin-left: 135px;
+	/*margin-left: 135px;*/
 	font-family: arial;
+	clear:both;
+	overflow:hidden;
+	width:780px;
+	margin:0 auto;
 }
 
 .pro,.fea,.use,.supp,.home {
@@ -644,7 +641,7 @@ a:visited {
 }
 
 .middle-signup-box {
-	float: left;
+	/*float: left;*/
 }
 
 .middle-signup-box h2 {
@@ -1152,7 +1149,8 @@ ul li {
 		transparent;
 	clear: both;
 	height: 6px;
-	margin: 0 225px 0 210px;
+	margin: 0 auto;
+	width:523px;
 }
 
 .pricing-box-shadow {
@@ -1395,7 +1393,6 @@ ul li {
 	overflow: scroll; /*leave this value alone*/
 	width: 502px; /*Width of Carousel Viewer itself*/
 	height: 280px; /*Height should enough to fit largest content's height*/
-	margin-bottom: 10px
 }
 
 .stepcarousel .belt {
@@ -1486,6 +1483,7 @@ ul li {
 .adjust-padding {
 	padding-left: 45px;
 	padding-right: 35px;
+	font-size:15px;
 }
 #accounterForm fieldset td{
    font-size:13px;
@@ -1520,4 +1518,27 @@ noindex:-o-prefocus, .terms-error #checkbox{
 	.vimutki-text{
 	   margin-top:-35px !important;
 	}
+}
+.image_indicators{
+    width:500px;
+    text-align:center;
+    margin-bottom:20px;
+}
+.right_indicator,.left_indicator{
+    margin-bottom:-16px;
+}
+.left_display_part{
+    float:left;
+    margin:20px 0 0 20px;
+}
+#header{
+    
+}
+.features_container{
+    margin:0 auto;
+    width:870px;
+}
+.about_accouter_info,.support_info_view{
+    margin: 0 auto;
+    width: 840px;
 }

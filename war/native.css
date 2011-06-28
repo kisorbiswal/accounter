@@ -1,0 +1,15 @@
+body{
+   width: 100% !important;
+   margin:0px 5px !important;
+}
+.header,.help-panel{
+   display: none !important;
+}
+.noScroll,.main-finance-window{
+   background:none !important;
+   padding:0px !important;
+   width:100%;
+}
+.scroll-panel{
+   width:100% !important;	
+}
