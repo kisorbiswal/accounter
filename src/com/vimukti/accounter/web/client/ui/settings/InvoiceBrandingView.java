@@ -346,7 +346,7 @@ public class InvoiceBrandingView<T> extends
 		subLayPanel.add(headingsHtml);
 		subLayPanel.add(paypalEmailHtml);
 		subLayPanel.add(termsHtml);
-		subLayPanel.setWidth("560px");
+		//subLayPanel.setWidth("560px");
 
 		subLayPanel.setStyleName("general-setting-invoice");
 		contactDetailsPanel.setWidth("165px");
@@ -355,6 +355,7 @@ public class InvoiceBrandingView<T> extends
 		allPanel.add(subLayPanel);
 		allPanel.add(contactDetailsPanel);
 		allPanel.add(uploadPanel);
+		allPanel.setWidth("100%");
 
 		nameAndMenuPanel = new HorizontalPanel();
 		nameAndMenuPanel.add(titleHtml);
