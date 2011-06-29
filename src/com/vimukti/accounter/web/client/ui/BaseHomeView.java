@@ -32,10 +32,10 @@ public class BaseHomeView extends AbstractBaseView {
 
 		// HorizontalPanel firstImagePanel = getFirstImagePanel();
 		// HorizontalPanel secondImagePanel = getSecondImagePanel();
-//		firstImagePanel.setStyleName(FinanceApplication.getFinanceUIConstants()
-//				.imageAction());
-//		secondImagePanel.setStyleName(FinanceApplication
-//				.getFinanceUIConstants().imageAction());
+		// firstImagePanel.setStyleName(FinanceApplication.getFinanceUIConstants()
+		// .imageAction());
+		// secondImagePanel.setStyleName(FinanceApplication
+		// .getFinanceUIConstants().imageAction());
 		VerticalPanel imagePanel = new VerticalPanel();
 		imagePanel.setStyleName(FinanceApplication.getFinanceUIConstants()
 				.imageActionContainer());
@@ -484,5 +484,10 @@ public class BaseHomeView extends AbstractBaseView {
 	public void printPreview() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return null;
 	}
 }

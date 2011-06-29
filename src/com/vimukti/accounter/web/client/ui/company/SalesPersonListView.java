@@ -157,4 +157,9 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().SalesPersons();
+	}
+
 }

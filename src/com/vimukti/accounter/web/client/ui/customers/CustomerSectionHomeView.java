@@ -84,9 +84,8 @@ public class CustomerSectionHomeView extends BaseHomeView {
 		// portalLayout.setWidth100();
 		// portalLayout.setHeight100();
 
-
-	String[] portletArray = {""};
-//		customerSectionPreference.split(",")
+		String[] portletArray = { "" };
+		// customerSectionPreference.split(",")
 		if (portletArray.length > 2) {
 			widgetOnSectionPage = portletArray;
 			portlet = new Portlet[portletArray.length];
@@ -284,4 +283,8 @@ public class CustomerSectionHomeView extends BaseHomeView {
 				});
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().customersHome();
+	}
 }

@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
+import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -264,6 +265,11 @@ public class ConversionBalancesView extends AbstractBaseView {
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getSettingsMessages().conversionBalance();
 	}
 
 }

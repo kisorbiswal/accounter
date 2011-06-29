@@ -528,4 +528,9 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getVendorsMessages().depreciation();
+	}
+
 }

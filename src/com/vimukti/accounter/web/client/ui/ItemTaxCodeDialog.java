@@ -23,7 +23,6 @@ public class ItemTaxCodeDialog extends DialogBox {
 	}
 
 	private void createControls() {
-		setTitle(FinanceApplication.getFinanceUIConstants().manageItemTaxCode());
 
 		Label lab1 = new Label(FinanceApplication.getFinanceUIConstants()
 				.itemTaxCode());
@@ -153,4 +152,5 @@ public class ItemTaxCodeDialog extends DialogBox {
 		dlg.setSize("320", "150");
 		dlg.show();
 	}
+	// setTitle(FinanceApplication.getFinanceUIConstants().manageItemTaxCode());
 }

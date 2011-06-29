@@ -551,4 +551,6 @@ public interface VendorsMessages extends FinanceMessages {
 
 	String previousClaim();
 
+	String depreciation();
+
 }

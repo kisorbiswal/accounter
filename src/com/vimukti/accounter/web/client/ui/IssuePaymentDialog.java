@@ -632,4 +632,9 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		}
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getVendorsMessages().selectPaymentsToIssue();
+	}
+
 }

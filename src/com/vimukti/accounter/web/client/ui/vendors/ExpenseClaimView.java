@@ -218,4 +218,9 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getVendorsMessages().expenseClaims();
+	}
 }

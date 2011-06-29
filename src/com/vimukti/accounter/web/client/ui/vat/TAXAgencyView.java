@@ -871,4 +871,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return UIUtils.getVendorString(FinanceApplication.getActionsConstants()
+				.vatAgency(), FinanceApplication.getActionsConstants()
+				.taxAgency());
+	}
+
 }

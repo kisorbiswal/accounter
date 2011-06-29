@@ -534,4 +534,9 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		}
 		return true;
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().fileVat();
+	}
 }

@@ -315,4 +315,9 @@ public class AccountRegisterOthersView extends
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().accountRegister();
+	}
+
 }

@@ -1525,4 +1525,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCustomersMessages().invoice();
+	}
+
 }

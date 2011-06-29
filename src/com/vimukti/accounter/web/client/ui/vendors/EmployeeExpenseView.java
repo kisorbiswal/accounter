@@ -263,4 +263,9 @@ public class EmployeeExpenseView extends CashPurchaseView {
 			setMenuItems(button, FinanceApplication.getVendorsMessages()
 					.service());
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getVendorsMessages().employeeExpense();
+	}
 }

@@ -176,7 +176,7 @@ public class CashPurchaseView extends
 														.getVendorsMessages()
 														.cheque())) {
 							checkNo.setDisabled(false);
-						}else{
+						} else {
 							checkNo.setDisabled(true);
 						}
 
@@ -771,5 +771,10 @@ public class CashPurchaseView extends
 		vendorForm.setWidth("75%");
 		// refText.setWidth("200px");
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getVendorsMessages().cashPurchases();
 	}
 }

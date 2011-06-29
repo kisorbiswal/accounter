@@ -140,8 +140,7 @@ public class AccounterButton extends Button {
 
 	public void disabledButton() {
 		try {
-			if (!this.isEnabled()
-					&& this.getElement().getParentElement().getClassName() != null) {
+			if (this.getElement().getParentElement().getClassName() != null) {
 				this.getElement().getParentElement().removeClassName("ibutton");
 				if (this.getText() != null) {
 					ThemesUtil.removeDivToButton(this);

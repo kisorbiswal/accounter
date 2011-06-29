@@ -263,4 +263,9 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 		super.onLoad();
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().salesOrders();
+	}
+
 }

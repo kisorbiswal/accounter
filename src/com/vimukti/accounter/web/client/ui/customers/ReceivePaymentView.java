@@ -319,7 +319,7 @@ public class ReceivePaymentView extends
 		gridView.setPaymentView(this);
 		gridView.setCustomer(this.customer);
 		gridView.setCanEdit(!isEdit);
-		gridView.isEnable=false;
+		gridView.isEnable = false;
 		gridView.init();
 		gridView.setDisabled(isEdit);
 		gridView.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
@@ -1426,6 +1426,11 @@ public class ReceivePaymentView extends
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCustomersMessages().receivePayment();
 	}
 
 }

@@ -682,4 +682,9 @@ public class ItemReceiptView extends
 		return this.transactionTotalItem.getAmount();
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCustomersMessages().itemReciepts();
+	}
+
 }

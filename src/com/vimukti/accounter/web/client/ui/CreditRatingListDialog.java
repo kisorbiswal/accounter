@@ -105,7 +105,12 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 		String creditRateString = FinanceApplication.getFinanceUIConstants()
 				.creditRating();
 		inputDlg = new InputDialog(FinanceApplication.getCustomersMessages()
-				.creditRating(), "", creditRateString);
+				.creditRating(), "", creditRateString) {
+			@Override
+			protected String getViewTitle() {
+				return FinanceApplication.getCustomersMessages().creditRating();
+			}
+		};
 
 		if (creditRating != null) {
 			inputDlg.setTextItemValue(0, creditRating.getName());
@@ -171,6 +176,11 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 	protected List<ClientCreditRating> getRecords() {
 		return (List<ClientCreditRating>) FinanceApplication.getCompany()
 				.getCreditRatings();
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().creditRatingList();
 	}
 
 }

@@ -81,8 +81,8 @@ public class InvoiceBrandingView<T> extends
 		});
 		titleLabel = new Label(messages.invoiceBrandingLabel());
 		titleLabel.removeStyleName("gwt-Label");
-		titleLabel.setStyleName(FinanceApplication
-				.getVendorsMessages().lableTitle());
+		titleLabel.setStyleName(FinanceApplication.getVendorsMessages()
+				.lableTitle());
 		generalSettingsHTML.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -606,6 +606,11 @@ public class InvoiceBrandingView<T> extends
 		} else
 			saveFailed(new Exception(FinanceApplication.getCompanyMessages()
 					.failed()));
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getSettingsMessages().invoiceBranding();
 	}
 
 }

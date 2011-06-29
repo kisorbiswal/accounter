@@ -447,7 +447,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		customer.setName(custNameText.getValue().toString());
 		// setting customer number
 		customer.setNumber(custNoText.getValue().toString());
-		
+
 		customer.setType(ClientPayee.TYPE_CUSTOMER);
 		// Setting File As
 		// customer.setFileAs(UIUtils.toStr(fileAsText.getValue()));
@@ -1344,5 +1344,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	public void printPreview() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCustomersMessages().customer();
 	}
 }

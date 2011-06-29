@@ -260,4 +260,9 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 		}
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCompanyMessages().changeStartDate();
+	}
+
 }

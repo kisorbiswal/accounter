@@ -23,7 +23,6 @@ public class CreditCardAccountView extends AbstractBaseView {
 	}
 
 	private void createControls() {
-		setTitle(FinanceApplication.getFinanceUIConstants().titleToGoHere());
 
 		accTypeText = new TextItem(FinanceApplication.getFinanceUIConstants()
 				.accountType());
@@ -191,6 +190,11 @@ public class CreditCardAccountView extends AbstractBaseView {
 	public void printPreview() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getFinanceUIConstants().titleToGoHere();
 	}
 
 }

@@ -88,8 +88,12 @@ public class ManageVATGroupListView extends BaseListView<ClientTAXGroup> {
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return "Manage Vat Group";
 	}
 
 }

@@ -68,6 +68,7 @@ public class VatActionFactory extends AbstractActionFactory {
 	}
 
 	public static Action getreceiveVATAction() {
-		return new ReceiveVATAction("Receive VAT");
+		return new ReceiveVATAction(FinanceApplication.getVATMessages()
+				.recieveVat());
 	}
 }

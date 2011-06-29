@@ -143,4 +143,9 @@ public class SelectItemTypeDialog extends BaseDialog {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getFinanceUIConstants().selectItemType();
+	}
 }

@@ -692,4 +692,9 @@ public class RecieveVATView extends
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getVATMessages().recieveVat();
+	}
+
 }

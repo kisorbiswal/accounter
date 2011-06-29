@@ -57,7 +57,6 @@ public class TaxDialog extends BaseDialog {
 
 	private void createControls() {
 		mainPanel.setSpacing(3);
-		setTitle(FinanceApplication.getCustomersMessages().tax());
 		typeRadio = new RadioGroupItem();
 		typeRadio.setShowTitle(false);
 		typeRadio.setValue(TAXGROUP, TAXITEM);
@@ -161,4 +160,10 @@ public class TaxDialog extends BaseDialog {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCustomersMessages().tax();
+	}
+
 }

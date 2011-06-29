@@ -543,4 +543,9 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().taxAdjustment();
+	}
+
 }

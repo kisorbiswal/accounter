@@ -226,4 +226,9 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 	protected List<ClientTAXGroup> getRecords() {
 		return FinanceApplication.getCompany().getTaxGroups();
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().salesTaxGroups();
+	}
 }

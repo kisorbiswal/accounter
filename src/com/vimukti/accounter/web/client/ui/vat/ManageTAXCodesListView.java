@@ -97,4 +97,9 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().vatCodeList();
+	}
+
 }

@@ -365,4 +365,9 @@ public class ReportSectionView extends BaseHomeView {
 		return mainLayout;
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().reportsHome();
+	}
 }

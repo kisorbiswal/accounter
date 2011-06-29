@@ -380,4 +380,9 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().vatgroupList();
+	}
+
 }

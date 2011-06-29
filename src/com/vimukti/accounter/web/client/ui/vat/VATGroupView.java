@@ -318,4 +318,9 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().newvatGroup();
+	}
 }

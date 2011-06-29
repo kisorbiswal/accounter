@@ -34,7 +34,6 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 
 	private void createControls() {
 
-		setTitle(companyConstants.addBank());
 		setText(companyConstants.addBank());
 
 		bankNameText = new TextItem(companyConstants.bankName());
@@ -120,5 +119,7 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 		// TODO Auto-generated method stub
 
 	}
+
+	// companyConstants.addBank()
 
 }

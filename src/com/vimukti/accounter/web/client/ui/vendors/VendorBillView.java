@@ -1032,4 +1032,9 @@ public class VendorBillView extends
 		phoneSelect.setWidth("210px");
 		paymentTermsCombo.setWidth("210px");
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().enterBills();
+	}
 }

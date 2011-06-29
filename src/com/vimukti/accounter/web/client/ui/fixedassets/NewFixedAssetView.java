@@ -1197,4 +1197,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().newFixedAsset();
+	}
 }

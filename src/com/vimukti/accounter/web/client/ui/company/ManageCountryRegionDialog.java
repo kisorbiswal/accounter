@@ -88,4 +88,9 @@ public class ManageCountryRegionDialog extends GroupDialog {
 	public void editCallBack() {
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCompanyMessages().countryRegion();
+	}
+
 }// end of ManageCountryRegionDialog

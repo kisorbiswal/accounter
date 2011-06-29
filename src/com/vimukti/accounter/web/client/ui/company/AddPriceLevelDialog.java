@@ -103,4 +103,9 @@ public class AddPriceLevelDialog extends BaseDialog {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().priceLevel();
+	}
+
 }

@@ -226,4 +226,9 @@ public class BillListView extends BaseListView<BillsList> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().billsAndItemReceipts();
+	}
 }

@@ -100,10 +100,11 @@ public class UsersView extends BaseView<ClientUser> {
 		});
 		titleLabel = new Label(FinanceApplication.getSettingsMessages()
 				.usersTitle());
-		
+
 		titleLabel.removeStyleName("gwt-Label");
-		titleLabel.setStyleName(FinanceApplication.getVendorsMessages().lableTitle());
-		
+		titleLabel.setStyleName(FinanceApplication.getVendorsMessages()
+				.lableTitle());
+
 		inviteUserButton = new AccounterButton("Invite a User");
 		inviteUserButton.addClickHandler(new ClickHandler() {
 
@@ -195,6 +196,11 @@ public class UsersView extends BaseView<ClientUser> {
 		this.setHeight(height + "");
 		usersListGrid.setHeight(height + "");
 		activityListGrid.setHeight(height + "");
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getSettingsMessages().users();
 	}
 
 }

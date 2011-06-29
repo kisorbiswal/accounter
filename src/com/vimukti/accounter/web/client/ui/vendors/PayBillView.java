@@ -343,7 +343,6 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		setTitle(vendorConstants.payBills());
 		Label lab = new Label(FinanceApplication.getVendorsMessages().PayBill());
 		lab.removeStyleName("gwt-Label");
 		lab.addStyleName(FinanceApplication.getVendorsMessages().lableTitle());
@@ -720,7 +719,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		case 2:
 			if (!isEdit)
 				return AccounterValidator.validateReceivePaymentGrid(gridView);
-			
+
 		case 1:
 			// FIXME--need to implement this feature
 			// return AccounterValidator.validate_Total_Exceeds_BankBalance(
@@ -955,7 +954,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		initListGrid();
 		gridLayout.insert(gridView, 2);
 		getTransactionPayBills(this.vendor);
-     memoTextAreaItem.setDisabled(isEdit);
+		memoTextAreaItem.setDisabled(isEdit);
 		transactionObject = null;
 
 	}
@@ -975,5 +974,10 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	@Override
 	protected Double getTransactionTotal() {
 		return this.amtText.getAmount();
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return vendorConstants.payBills();
 	}
 }

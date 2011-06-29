@@ -209,4 +209,10 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 	protected List<ClientPriceLevel> getRecords() {
 		return FinanceApplication.getCompany().getPriceLevels();
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCompanyMessages()
+				.managePriceLevelListGroup();
+	}
 }

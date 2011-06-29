@@ -583,4 +583,14 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		String constant;
+		if (FinanceApplication.getCompany().getAccountingType() == 1)
+			constant = FinanceApplication.getActionsConstants().newVatCode();
+		else
+			constant = FinanceApplication.getActionsConstants().newTaxCode();
+		return constant;
+	}
+
 }

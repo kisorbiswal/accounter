@@ -325,7 +325,6 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 
-		setTitle(companyConstants.journalEntry());
 		lab1 = new Label(FinanceApplication.getCompanyMessages()
 				.journalEntryNew());
 		lab1.removeStyleName("gwt-Label");
@@ -701,5 +700,10 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	public void printPreview() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCompanyMessages().journalEntry();
 	}
 }

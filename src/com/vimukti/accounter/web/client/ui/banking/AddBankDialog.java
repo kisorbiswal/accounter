@@ -28,7 +28,6 @@ public class AddBankDialog extends AbstractBaseDialog {
 
 		bankingConstants = GWT.create(BankingMessages.class);
 		financeConstants = GWT.create(FinanceConstants.class);
-		setTitle(bankingConstants.addBank());
 
 		final TextItem bankText = new TextItem(bankingConstants.bankName());
 		bankText.setRequired(true);
@@ -88,4 +87,5 @@ public class AddBankDialog extends AbstractBaseDialog {
 		// TODO Auto-generated method stub
 
 	}
+	// bankingConstants.addBank()
 }

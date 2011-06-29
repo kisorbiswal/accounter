@@ -90,7 +90,8 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 		listOfTypes.add(FinanceApplication.getVendorsMessages().all());
 		currentView.initCombo(listOfTypes);
 		// currentView.setComboItem(FinanceApplication.getVendorsMessages().all());
-		currentView.setComboItem(FinanceApplication.getCustomersMessages().all());
+		currentView.setComboItem(FinanceApplication.getCustomersMessages()
+				.all());
 		currentView
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -186,6 +187,11 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 	public void printPreview() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().journalEntries();
 	}
 
 }

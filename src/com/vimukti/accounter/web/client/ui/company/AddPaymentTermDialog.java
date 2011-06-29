@@ -233,4 +233,9 @@ public class AddPaymentTermDialog extends BaseDialog {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCompanyMessages().paymentTerm();
+	}
+
 }

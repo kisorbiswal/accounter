@@ -278,4 +278,10 @@ public class VendorSectionHomeView extends BaseHomeView {
 				});
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return UIUtils.getVendorString(FinanceApplication.getVendorsMessages()
+				.supplierhome(), FinanceApplication.getVendorsMessages()
+				.vendorHome());
+	}
 }

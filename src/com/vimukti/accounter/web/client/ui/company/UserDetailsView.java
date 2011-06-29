@@ -24,11 +24,13 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 	}
 
 	private void createControls() {
-		
+
 		mainPanel = new VerticalPanel();
-		userNameLabel = new Label("Name : " + FinanceApplication.clientIdentity.getFullname());
+		userNameLabel = new Label("Name : "
+				+ FinanceApplication.clientIdentity.getFullname());
 		userNameLabel.setStyleName("user-name");
-		mailIdLabel = new Label("Mail ID : " + FinanceApplication.clientIdentity.getEmailAddress());
+		mailIdLabel = new Label("Mail ID : "
+				+ FinanceApplication.clientIdentity.getEmailAddress());
 		mailIdLabel.setStyleName("user-name");
 		changePasswordHtml = new HTML("<a> Change Password </a>");
 		changePasswordHtml.setStyleName("change-password");
@@ -97,6 +99,11 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().userDetails();
 	}
 
 }

@@ -339,4 +339,9 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().accountRegister();
+	}
 }

@@ -664,4 +664,9 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getVATMessages().payVAT();
+	}
+
 }

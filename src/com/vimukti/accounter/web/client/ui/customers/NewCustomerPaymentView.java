@@ -357,7 +357,6 @@ public class NewCustomerPaymentView extends
 
 	@Override
 	protected void createControls() {
-		setTitle(customerConstants.customerPayment());
 		Label lab1 = new Label(FinanceApplication.getCustomersMessages()
 				.customerPrePayment());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
@@ -817,5 +816,10 @@ public class NewCustomerPaymentView extends
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCustomersMessages().customerPayment();
 	}
 }

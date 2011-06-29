@@ -45,7 +45,6 @@ public class SelectExpenseType extends BaseDialog {
 
 	private void createControls() {
 		mainPanel.setSpacing(3);
-		setTitle(vendorsConstants.selectExpenseType());
 		typeRadio = new RadioGroupItem();
 		typeRadio.setShowTitle(false);
 		typeRadio.setValue(EMPLOYEE, CREDIT_CARD, CASH);
@@ -169,4 +168,11 @@ public class SelectExpenseType extends BaseDialog {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getVendorsMessages().recordExpenses();
+	}
+
+	// setTitle(vendorsConstants.selectExpenseType());
 }

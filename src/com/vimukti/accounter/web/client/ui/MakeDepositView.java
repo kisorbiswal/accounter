@@ -766,7 +766,6 @@ public class MakeDepositView extends
 	@Override
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
-		setTitle(bankingConstants.makeDeposit());
 		Label lab = new Label(FinanceApplication.getFinanceUIConstants()
 				.makeDeposit());
 		lab.removeStyleName("gwt-Label");
@@ -1302,5 +1301,10 @@ public class MakeDepositView extends
 		form1.getCellFormatter().setWidth(0, 1, "200px");
 		form2.getCellFormatter().setWidth(0, 1, "200px");
 		form2.getCellFormatter().setWidth(0, 1, "200px");
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return bankingConstants.makeDeposit();
 	}
 }

@@ -188,4 +188,9 @@ public class ExpensesListView extends BaseListView<BillsList> {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getVendorsMessages().expensesList();
+	}
+
 }

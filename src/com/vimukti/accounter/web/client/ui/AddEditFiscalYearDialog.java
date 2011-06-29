@@ -74,4 +74,9 @@ public class AddEditFiscalYearDialog extends BaseDialog {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCompanyMessages().fiscalYear();
+	}
 }

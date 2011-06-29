@@ -265,4 +265,9 @@ public class BankingSectionHomeView extends BaseHomeView {
 		this.accounts.setHeight((height - 130) + "px");
 
 	}
+	
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().bankingHome();
+	}
 }

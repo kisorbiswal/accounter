@@ -43,7 +43,6 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 		super(view);
 		itemReceiptView = view;
 		this.purchaseOrderList = purchaseOrderList;
-		setTitle(FinanceApplication.getVendorsMessages().purchaseOrderList());
 		setText(FinanceApplication.getVendorsMessages().purchaseOrderList());
 		createControls();
 		setPurchaseOrderList(purchaseOrderList);
@@ -223,5 +222,9 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 		// TODO Auto-generated method stub
 
 	}
+
+	// protected String getViewTitle() {
+	// return FinanceApplication.getVendorsMessages().purchaseOrderList();
+	// }
 
 }

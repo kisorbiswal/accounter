@@ -298,9 +298,6 @@ public class PaySalesTaxView extends
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 
-		setTitle(UIUtils.title(FinanceApplication.getFinanceUIConstants()
-				.paySalesTax()));
-
 		Label lab = new Label(FinanceApplication.getFinanceUIConstants()
 				.paySalesTax());
 		lab
@@ -690,5 +687,11 @@ public class PaySalesTaxView extends
 	public void printPreview() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return UIUtils.title(FinanceApplication.getFinanceUIConstants()
+				.paySalesTax());
 	}
 }

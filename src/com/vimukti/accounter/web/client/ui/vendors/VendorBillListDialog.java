@@ -47,7 +47,7 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 		super(view);
 		this.view = view;
 		this.list = list;
-		setTitle("");
+		// setTitle("");
 		setText(FinanceApplication.getVendorsMessages().purchaseOrderList());
 		createControls();
 		setWidth("600");

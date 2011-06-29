@@ -81,8 +81,6 @@ public class VATPaymentView extends
 	}
 
 	protected void createControls() {
-		setTitle(UIUtils.title(FinanceApplication.getFinanceUIConstants()
-				.VATPayment()));
 		Label lab = new Label(FinanceApplication.getFinanceUIConstants()
 				.VATPayment());
 		// lab.setAutoHeight();
@@ -401,6 +399,12 @@ public class VATPaymentView extends
 	public void printPreview() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return UIUtils.title(FinanceApplication.getFinanceUIConstants()
+				.VATPayment());
 	}
 
 }

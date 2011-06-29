@@ -398,4 +398,9 @@ public class InviteUserView extends BaseView<ClientUser> {
 		return false;
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getSettingsMessages().inviteUser();
+	}
+
 }

@@ -276,4 +276,9 @@ public class DashBoard extends BaseHomeView {
 	public static void hideGettingStarted() {
 		gettingStartedPortlet.setVisible(false);
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().home();
+	}
 }

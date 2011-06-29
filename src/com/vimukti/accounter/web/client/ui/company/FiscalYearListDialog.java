@@ -186,4 +186,9 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 	public void editCallBack() {
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCompanyMessages().fiscalYear();
+	}
+
 }

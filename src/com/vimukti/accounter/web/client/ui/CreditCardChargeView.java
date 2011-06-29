@@ -338,7 +338,6 @@ public class CreditCardChargeView extends
 
 	@Override
 	protected void createControls() {
-		setTitle(bankingConstants.creditCardCharge());
 		titlelabel = new Label(FinanceApplication.getFinanceUIConstants()
 				.creditCardCharge());
 		titlelabel.removeStyleName("gwt-Label");
@@ -906,5 +905,10 @@ public class CreditCardChargeView extends
 	private void resetFormView() {
 		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
 		// refText.setWidth("200px");
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return bankingConstants.creditCardCharge();
 	}
 }

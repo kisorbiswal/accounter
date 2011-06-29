@@ -200,4 +200,9 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().quotes();
+	}
 }

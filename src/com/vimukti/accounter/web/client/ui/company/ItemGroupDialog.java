@@ -137,4 +137,9 @@ public class ItemGroupDialog extends BaseDialog {
 	public boolean validate() {
 		return this.dform.validate(true);
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getFinanceUIConstants().itemGroup();
+	}
 }

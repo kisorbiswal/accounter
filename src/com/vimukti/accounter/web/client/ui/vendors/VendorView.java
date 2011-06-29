@@ -385,7 +385,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			}
 		};
 		panel.add(l1);
-        panel.setWidth("100%");
+		panel.setWidth("100%");
 		panel.add(gridView);
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.setHorizontalAlignment(ALIGN_RIGHT);
@@ -1248,5 +1248,12 @@ public class VendorView extends BaseView<ClientVendor> {
 	public void printPreview() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return UIUtils.getVendorString(FinanceApplication.getVendorsMessages()
+				.newSupplier(), FinanceApplication.getVendorsMessages()
+				.newVendor());
 	}
 }

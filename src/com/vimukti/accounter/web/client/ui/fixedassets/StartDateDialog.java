@@ -199,4 +199,9 @@ public class StartDateDialog extends BaseDialog {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getFixedAssetConstants().startDate();
+	}
+
 }

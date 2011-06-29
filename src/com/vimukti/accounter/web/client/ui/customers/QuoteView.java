@@ -788,4 +788,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// updateNonEditableItems();
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCustomersMessages().quote();
+	}
+
 }

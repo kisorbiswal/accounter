@@ -52,13 +52,15 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 	public static boolean warnOccured = false;
 
 	public AbstractBaseView() {
-
+		setTitle(getViewTitle());
 		sinkEvents(Event.ONCHANGE | Event.KEYEVENTS);
 
 		initRPCService();
 		initConstants();
 		this.addStyleName("abstract_base_view");
 	}
+
+	protected abstract String getViewTitle();
 
 	@SuppressWarnings("unchecked")
 	private Map<SelectItemType, List<CustomCombo>> comboMap = new HashMap<SelectItemType, List<CustomCombo>>();

@@ -245,7 +245,6 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	@SuppressWarnings("deprecation")
 	private void createControls() {
 		companyMessges = (CompanyMessages) GWT.create(CompanyMessages.class);
-		setTitle(companyMessges.companyPrefeTitle());
 		tabSet = new DecoratedTabPanel();
 		tabSet.setWidth("100%");
 		@SuppressWarnings("unused")
@@ -1508,6 +1507,11 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	public void printPreview() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCompanyMessages().companyPrefeTitle();
 	}
 
 }

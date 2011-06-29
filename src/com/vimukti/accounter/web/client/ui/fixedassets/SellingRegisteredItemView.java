@@ -668,4 +668,9 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().sellingRegisteredItem();
+	}
 }

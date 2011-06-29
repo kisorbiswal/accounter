@@ -777,4 +777,9 @@ public class CustomerRefundView extends
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().customerRefund();
+	}
+
 }

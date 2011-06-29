@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 /**
  * 
  * @author Uday kumar
- *
+ * 
  */
 @SuppressWarnings("deprecation")
 public class ExpenseClaims extends BaseView<BillsList> {
@@ -52,14 +52,15 @@ public class ExpenseClaims extends BaseView<BillsList> {
 		mainPanel.removeStyleName("main-class-pannel");
 		tabset.selectTab(selectTab);
 		tabset.addTabListener(new TabListener() {
-			
+
 			@Override
 			public void onTabSelected(SourcesTabEvents sender, int tabIndex) {
 				MainFinanceWindow.getViewManager().restoreErrorBox();
 			}
-			
+
 			@Override
-			public boolean onBeforeTabSelected(SourcesTabEvents sender, int tabIndex) {
+			public boolean onBeforeTabSelected(SourcesTabEvents sender,
+					int tabIndex) {
 				return true;
 			}
 		});
@@ -106,6 +107,11 @@ public class ExpenseClaims extends BaseView<BillsList> {
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getVendorsMessages().expenseClaims();
 	}
 
 }

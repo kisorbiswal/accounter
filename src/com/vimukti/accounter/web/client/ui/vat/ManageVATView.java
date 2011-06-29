@@ -166,4 +166,9 @@ public class ManageVATView extends AbstractBaseView {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().manageVatCodes();
+	}
+
 }

@@ -146,4 +146,9 @@ public class CustomerListView extends BaseListView<PayeeList> {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().customers();
+	}
+
 }

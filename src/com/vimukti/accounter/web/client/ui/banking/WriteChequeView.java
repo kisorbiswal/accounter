@@ -681,7 +681,7 @@ public class WriteChequeView extends
 
 		listforms = new ArrayList<DynamicForm>();
 
-		setTitle(bankingConstants.writeCheck());
+		// setTitle(bankingConstants.writeCheck());
 		Label lab1 = new Label(bankingConstants.writeCheck() + "("
 				+ getTransactionStatus() + ")");
 		lab1
@@ -745,7 +745,7 @@ public class WriteChequeView extends
 		balText = new AmountField(bankingConstants.balance());
 		balText.setWidth(100);
 		balText.setDisabled(true);
-		
+
 		bankAccSelect = new PayFromAccountsCombo(bankingConstants.bankAccount());
 		// bankAccSelect.setWidth(100);
 		bankAccSelect.setRequired(true);
@@ -1453,5 +1453,10 @@ public class WriteChequeView extends
 
 		}
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return bankingConstants.writeCheck();
 	}
 }

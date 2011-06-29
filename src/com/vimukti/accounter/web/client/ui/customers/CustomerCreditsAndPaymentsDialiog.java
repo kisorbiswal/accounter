@@ -510,4 +510,10 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCustomersMessages()
+				.applyCreditsAndPaymentsFor();
+	}
+
 }

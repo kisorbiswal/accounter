@@ -195,4 +195,11 @@ public class VendorListView extends BaseListView<PayeeList> {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return UIUtils
+				.getVendorString(FinanceApplication.getVendorsMessages()
+						.suppliers(), FinanceApplication.getVendorsMessages()
+						.vendors());
+	}
 }

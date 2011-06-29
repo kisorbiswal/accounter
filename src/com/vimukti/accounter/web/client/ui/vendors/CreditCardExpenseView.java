@@ -282,4 +282,8 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 					.service());
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getVendorsMessages().creditCardExpense();
+	}
 }

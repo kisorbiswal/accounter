@@ -96,4 +96,15 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 		filterList(true);
 	}
 
+	@Override
+	protected String getViewTitle() {
+		String constant;
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			constant = FinanceApplication.getActionsConstants()
+					.manageSalesItems();
+		else
+			constant = FinanceApplication.getActionsConstants().salesTaxItems();
+		return constant;
+	}
+
 }

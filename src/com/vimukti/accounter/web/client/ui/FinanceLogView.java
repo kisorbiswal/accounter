@@ -339,4 +339,9 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCompanyMessages().showLog();
+	}
 }

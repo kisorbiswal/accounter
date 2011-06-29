@@ -816,4 +816,9 @@ public class CashSalesView extends
 		// updateNonEditableItems();
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().cashSales();
+	}
 }

@@ -25,7 +25,6 @@ public class AddresssDilaog extends AbstractBaseDialog {
 	}
 
 	private void createControls() {
-		setTitle(FinanceApplication.getFinanceUIConstants().address());
 		setModal(true);
 
 		streetText1 = new TextItem();
@@ -100,4 +99,5 @@ public class AddresssDilaog extends AbstractBaseDialog {
 		// TODO Auto-generated method stub
 
 	}
+	// FinanceApplication.getFinanceUIConstants().address();
 }

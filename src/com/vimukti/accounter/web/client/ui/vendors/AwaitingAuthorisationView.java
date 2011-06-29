@@ -104,7 +104,8 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 		decline.enabledButton(AccounterButton.DECLINE_BUTTON, "decline-image",
 				"ibutton1");
 		delete.setWidth("90px");
-		delete.enabledButton(AccounterButton.DELETE_BUTTON,"close-image","ibutton1");
+		delete.enabledButton(AccounterButton.DELETE_BUTTON, "close-image",
+				"ibutton1");
 
 		buttonLayout.setVisible(false);
 		panel.add(grid);
@@ -274,6 +275,11 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getVendorsMessages().awaitingAuthorisation();
 	}
 
 }

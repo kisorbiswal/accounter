@@ -561,4 +561,16 @@ public interface ActionsConstants extends FinanceConstants {
 
 	String employeeLeaveDate();
 
+	String userDetails();
+
+	String salesOrders();
+
+	String vatAgency();
+
+	String taxAgency();
+
+	String cashSales();
+
+	String salesTaxGroup();
+
 }

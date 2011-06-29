@@ -267,4 +267,9 @@ public class AddressDialog extends BaseDialog {
 		return list;
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCompanyMessages().address();
+	}
+
 }

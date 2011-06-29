@@ -256,4 +256,9 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 		}
 		super.onLoad();
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getVendorsMessages().purchaseOrders();
+	}
 }

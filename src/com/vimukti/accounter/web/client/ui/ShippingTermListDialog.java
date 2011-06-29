@@ -114,7 +114,12 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 		arr[0] = "Shipping Term";
 		arr[1] = "Description";
 		inputDlg = new InputDialog(FinanceApplication.getCompanyMessages()
-				.shippingTerm(), "", arr);
+				.shippingTerm(), "", arr) {
+			@Override
+			protected String getViewTitle() {
+				return FinanceApplication.getCompanyMessages().shippingTerm();
+			}
+		};
 		inputDlg.getTextItems().get(1).setRequired(false);
 
 		shippingTerm = rec;
@@ -174,6 +179,11 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 	@Override
 	protected List getRecords() {
 		return FinanceApplication.getCompany().getShippingTerms();
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCompanyMessages().manageShippingTermList();
 	}
 
 }

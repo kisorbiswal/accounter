@@ -104,7 +104,13 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 	public void showAddEditGroupDialog(ClientCustomerGroup rec) {
 		customerGroup = rec;
 		inputDlg = new InputDialog(customerConstants.customerGroup(), "",
-				FinanceApplication.getCustomersMessages().customeRGroup());
+				FinanceApplication.getCustomersMessages().customerGroup()) {
+			@Override
+			protected String getViewTitle() {
+				return FinanceApplication.getCustomersMessages()
+						.customerGroup();
+			}
+		};
 
 		if (customerGroup != null) {
 			inputDlg.setTextItemValue(0, customerGroup.getName());
@@ -178,6 +184,11 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 			deleteObject(custGrp);
 		}
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCustomersMessages().customerGroups();
 	}
 
 }

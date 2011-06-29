@@ -308,7 +308,7 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	}
 
 	public static UserDetailsAction getUserDetailsAction() {
-		return new UserDetailsAction("User Details");
+		return new UserDetailsAction(actionsConstants.userDetails());
 	}
 
 	// public static ForgetPasswordAction getForgetPasswordAction(){

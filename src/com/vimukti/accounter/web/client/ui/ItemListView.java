@@ -188,4 +188,9 @@ public class ItemListView extends BaseListView<ClientItem> {
 		filterList(true);
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCustomersMessages().items();
+	}
+
 }

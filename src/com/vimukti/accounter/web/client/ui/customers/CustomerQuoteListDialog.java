@@ -46,7 +46,6 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 		super(parentView);
 		invoiceView = parentView;
 		this.estimatesAndSalesOrder = estimatesAndSalesOrder;
-		setTitle(customerConstants.createForm());
 		setText(FinanceApplication.getCustomersMessages()
 				.quoteAndSalesOrderList());
 		createControl();
@@ -253,5 +252,5 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 		// TODO Auto-generated method stub
 
 	}
-
+	// setTitle(customerConstants.createForm());
 }

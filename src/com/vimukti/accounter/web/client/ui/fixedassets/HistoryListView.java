@@ -107,4 +107,9 @@ public class HistoryListView extends BaseListView<ClientFixedAssetHistory> {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().historyList();
+	}
+
 }

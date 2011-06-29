@@ -154,4 +154,9 @@ public class SelectAccountTypeDialog extends BaseDialog {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return "Select Account Type";
+	}
 }

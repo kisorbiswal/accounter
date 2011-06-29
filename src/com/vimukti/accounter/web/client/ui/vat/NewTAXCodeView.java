@@ -462,4 +462,10 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return UIUtils.getVendorString(vatMessages.vatCode(), vatMessages
+				.taxCode());
+	}
 }

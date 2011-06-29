@@ -206,4 +206,9 @@ public class WriteOffDialog extends BaseDialog {
 			this.discAccSelect.addItemThenfireEvent((ClientAccount) core);
 		}
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCustomersMessages().writeOff();
+	}
 }

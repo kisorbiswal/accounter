@@ -106,7 +106,13 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 		inputDlg = new InputDialog(UIUtils.getVendorString(vendorConstants
 				.supplierGroup(), vendorConstants.vendorGroup()), "", UIUtils
 				.getVendorString(vendorConstants.supplieRGroup(),
-						vendorConstants.vendorGroup()));
+						vendorConstants.vendorGroup())) {
+			@Override
+			protected String getViewTitle() {
+				return UIUtils.getVendorString(vendorConstants.supplierGroup(),
+						vendorConstants.vendorGroup());
+			}
+		};
 
 		if (vendorGroup != null) {
 			inputDlg.setTextItemValue(0, vendorGroup.getName());
@@ -171,5 +177,12 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	@Override
 	protected List<ClientVendorGroup> getRecords() {
 		return FinanceApplication.getCompany().getVendorGroups();
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return UIUtils.getVendorString(FinanceApplication.getCompanyMessages()
+				.manageSupplierGroup(), FinanceApplication.getCompanyMessages()
+				.manageVendorGroup());
 	}
 }

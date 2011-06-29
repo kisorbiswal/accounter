@@ -1187,4 +1187,9 @@ public class SalesOrderView extends
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCustomersMessages().salesOrder();
+	}
+
 }

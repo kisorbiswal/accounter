@@ -273,8 +273,6 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 	}
 
 	private void createStep1Canvas() {
-		setTitle(companyConstants.companySetup());
-
 		companyPrefLabel = new Label();
 		// companyPrefLabel.setAutoFit(true);
 		// companyPrefLabel.setIcon("");
@@ -446,8 +444,6 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 	}
 
 	private void createStep2Canvas() {
-		setTitle(companyConstants.companySetup());
-
 		companyPrefLabel = new Label();
 		// companyPrefLabel.setAutoFit(true);
 		// companyPrefLabel.setIcon("");
@@ -749,5 +745,5 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 	// }
 	// return result;
 	// }
-
+//	companyConstants.companySetup()
 }

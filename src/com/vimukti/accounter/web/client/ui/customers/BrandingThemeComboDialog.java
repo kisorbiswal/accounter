@@ -88,4 +88,9 @@ public class BrandingThemeComboDialog extends BaseDialog {
 				.getStringID(), ClientTransaction.TYPE_INVOICE, brandingTheme
 				.getStringID());
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getSettingsMessages().selectThemes();
+	}
 }

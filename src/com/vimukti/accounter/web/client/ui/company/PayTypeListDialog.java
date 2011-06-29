@@ -93,4 +93,9 @@ public class PayTypeListDialog extends GroupDialog {
 	public void editCallBack() {
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCompanyMessages().addOrEditPayType();
+	}
+
 }

@@ -136,7 +136,6 @@ public class NewVendorPaymentView extends
 
 	@Override
 	protected void createControls() {
-		setTitle(vendorConstants.vendorPayment());
 		Label lab1 = new Label(UIUtils.getVendorString(FinanceApplication
 				.getVendorsMessages().supplierPrePayment(), FinanceApplication
 				.getVendorsMessages().vendorPrePayment())
@@ -736,5 +735,12 @@ public class NewVendorPaymentView extends
 	@Override
 	protected Double getTransactionTotal() {
 		return this.amountText.getAmount();
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return UIUtils.getVendorString(FinanceApplication.getVendorsMessages()
+				.supplierPayments(), FinanceApplication.getVendorsMessages()
+				.vendorPayments());
 	}
 }

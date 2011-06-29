@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
 @SuppressWarnings("unchecked")
@@ -80,5 +81,10 @@ public class AutomaticSequenceDialog extends BaseDialog {
 		subLayoutPanel.add(paraHTML);
 		subLayoutPanel.add(optionsTable);
 		mainPanel.add(subLayoutPanel);
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getSettingsMessages().automaticSequencing();
 	}
 }

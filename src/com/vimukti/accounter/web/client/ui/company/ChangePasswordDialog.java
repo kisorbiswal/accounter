@@ -29,7 +29,7 @@ public class ChangePasswordDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		
+
 		oldPasswordTextItem = new PasswordItem(FinanceApplication
 				.getCompanyMessages().oldPassword());
 		newPasswordTextItem = new PasswordItem(FinanceApplication
@@ -81,7 +81,7 @@ public class ChangePasswordDialog extends BaseDialog {
 	}
 
 	protected void savePassword() {
-		
+
 		oldPassword = oldPasswordTextItem.getValue().toString();
 		newPassword = newPasswordTextItem.getValue().toString();
 		confirmNewPassword = confirmNewPasswordTextItem.getValue().toString();
@@ -152,6 +152,11 @@ public class ChangePasswordDialog extends BaseDialog {
 		// default:
 		return true;
 		// }
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().changePassword();
 	}
 
 }

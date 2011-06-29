@@ -302,9 +302,9 @@ public class VendorCreditMemoView extends
 			vPanel.add(memoForm);
 			bottomPanel.add(vPanel);
 		}
-		
+
 		menuButton.setType(AccounterButton.ADD_BUTTON);
-		
+
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab1);
@@ -554,5 +554,12 @@ public class VendorCreditMemoView extends
 	private void resetFormView() {
 		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
 		vendorForm.setWidth("40%");
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return UIUtils.getVendorString(FinanceApplication.getVendorsMessages()
+				.supplierCredit(), FinanceApplication.getVendorsMessages()
+				.vendorCredit());
 	}
 }

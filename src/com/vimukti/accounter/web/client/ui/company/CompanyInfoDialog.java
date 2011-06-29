@@ -488,4 +488,9 @@ public class CompanyInfoDialog extends BaseDialog {
 		return true;
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCompanyMessages().companyInformation();
+	}
+
 }

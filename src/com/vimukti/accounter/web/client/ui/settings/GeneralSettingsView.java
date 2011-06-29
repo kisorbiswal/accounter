@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
+import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
 @SuppressWarnings("unchecked")
@@ -75,16 +76,16 @@ public class GeneralSettingsView extends AbstractBaseView {
 		conversionHTML = new HTML(messages.conversionHTML());
 		conversationCommentHTML = new HTML(messages.conversionCommet());
 		invoiceBrandingHTML = new HTML(messages.invoiceBrandingHTML());
-		//invoiceBrandingHTML.setWidth("145px");
+		invoiceBrandingHTML.setWidth("145px");
 		invoiceBrandingHTML.setStyleName("invoice-branding-html");
 		invoiceCommentHtml = new HTML(messages.invoiceComment());
 		userHtml = new HTML(messages.userHTML());
-		//userHtml.setWidth("50px");
+		userHtml.setWidth("50px");
 		userHtml.setStyleName("user-html");
 		userCommentHtml = new HTML(messages.usersComment());
 		companySettingsHtml = new HTML(messages.companySettingsTitle());
 		companySettingsHtml.setStyleName("company-settings-html");
-		//companySettingsHtml.setWidth("150px");
+		companySettingsHtml.setWidth("161px");
 		companyCommentHtml = new HTML(messages.companyCommentHtml());
 
 		titlePanel.add(titleHtml);
@@ -279,6 +280,11 @@ public class GeneralSettingsView extends AbstractBaseView {
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getSettingsMessages().generalSettingsLabel();
 	}
 
 }

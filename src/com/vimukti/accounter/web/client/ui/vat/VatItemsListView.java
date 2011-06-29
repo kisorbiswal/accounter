@@ -89,4 +89,9 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().vatitemList();
+	}
+
 }

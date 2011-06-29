@@ -17,6 +17,7 @@ public class NewCustomerAction extends Action {
 	public NewCustomerAction(String text, String icon) {
 		super(text, icon);
 		this.catagory = FinanceApplication.getCustomersMessages().customer();
+		super.setToolTip(FinanceApplication.getCustomersMessages().customer());
 	}
 
 	public NewCustomerAction(String text, String icon, ClientCustomer customer,
@@ -68,9 +69,10 @@ public class NewCustomerAction extends Action {
 	public ImageResource getSmallImage() {
 		return FinanceApplication.getFinanceMenuImages().newCustomer();
 	}
+
 	@Override
 	public String getImageUrl() {
-		
+
 		return "/images/new_customer.png";
 	}
 }

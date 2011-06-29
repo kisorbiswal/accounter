@@ -191,4 +191,9 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCustomersMessages().customerRefunds();
+	}
 }

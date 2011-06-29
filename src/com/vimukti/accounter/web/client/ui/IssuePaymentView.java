@@ -527,4 +527,9 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		}
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getVendorsMessages().issuePayments();
+	}
+
 }

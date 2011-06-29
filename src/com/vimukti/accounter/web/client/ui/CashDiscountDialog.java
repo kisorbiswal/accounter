@@ -186,4 +186,9 @@ public class CashDiscountDialog extends BaseDialog {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCompanyMessages().cashDiscount();
+	}
+
 }

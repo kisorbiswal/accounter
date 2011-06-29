@@ -39,9 +39,6 @@ public class CountryRegionListDialog extends DialogBox {
 	}
 
 	private void createControls() {
-		setTitle(FinanceApplication.getFinanceUIConstants()
-				.manageCountryRegionList());
-
 		Label lab1 = new Label(FinanceApplication.getFinanceUIConstants()
 				.countryListLabel());
 		// lab1.setAutoFit(true);
@@ -205,4 +202,7 @@ public class CountryRegionListDialog extends DialogBox {
 		dlg.setSize("450", "300");
 		dlg.show();
 	}
+	// FinanceApplication.getFinanceUIConstants()
+	// .manageCountryRegionList()
+
 }

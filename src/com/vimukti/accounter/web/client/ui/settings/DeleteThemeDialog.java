@@ -18,6 +18,7 @@ public class DeleteThemeDialog extends BaseDialog {
 	private HTML deleteHtml, undoneHtml;
 	// private Button deleteButton, cancelButton;
 	private ClientBrandingTheme brandingTheme;
+
 	public DeleteThemeDialog(String title, String desc,
 			ClientBrandingTheme theme) {
 		super(title, desc);
@@ -69,10 +70,15 @@ public class DeleteThemeDialog extends BaseDialog {
 
 		setBodyLayout(deletePanel);
 	}
-	
+
 	@Override
 	public void deleteSuccess(Boolean result) {
 		super.deleteSuccess(result);
 		SettingsActionFactory.getInvoiceBrandingAction().run(null, true);
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getSettingsMessages().deleteThemeLabel();
 	}
 }

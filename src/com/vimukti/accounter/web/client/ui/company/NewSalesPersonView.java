@@ -584,4 +584,9 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().newSalesperson();
+	}
 }

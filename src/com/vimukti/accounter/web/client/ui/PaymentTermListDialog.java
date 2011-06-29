@@ -243,4 +243,9 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		return (List<ClientPaymentTerms>) FinanceApplication.getCompany()
 				.getPaymentsTerms();
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getFinanceUIConstants().managePaymentTerm();
+	}
 }

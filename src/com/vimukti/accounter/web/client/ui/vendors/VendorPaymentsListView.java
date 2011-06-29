@@ -206,4 +206,11 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return UIUtils.getVendorString(FinanceApplication.getVendorsMessages()
+				.supplierPayments(), FinanceApplication.getVendorsMessages()
+				.vendorPayments());
+	}
 }

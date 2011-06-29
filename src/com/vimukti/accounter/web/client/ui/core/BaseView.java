@@ -33,8 +33,9 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 	protected int accountType;
 
 	public BaseView() {
-
 	}
+
+	protected abstract String getViewTitle();
 
 	public BaseView(boolean isFixedAssetView) {
 		this.isFixedAssetView = isFixedAssetView;

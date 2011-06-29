@@ -189,4 +189,9 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCustomersMessages().recievePayments();
+	}
+
 }

@@ -55,6 +55,7 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 	public BaseDialog(String title, String desc) {
 
 		super(title);
+		setText(getViewTitle());
 		setText(title);
 		setModal(true);
 		this.description = desc;
@@ -67,6 +68,8 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 		sinkEvents(Event.ONKEYPRESS);
 		sinkEvents(Event.ONMOUSEOVER);
 	}
+
+	protected abstract String getViewTitle();
 
 	protected void initConstants() {
 		try {

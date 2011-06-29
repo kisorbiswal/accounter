@@ -270,4 +270,6 @@ public interface VATMessages extends FinanceMessages {
 
 	String VatAgency();
 
+	String recieveVat();
+
 }

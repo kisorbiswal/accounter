@@ -643,7 +643,7 @@ public interface CustomersMessages extends FinanceMessages {
 
 	public String currentRate();
 
-	public String customeRGroup();
+	public String customerGroups();
 
 	public String detailsHighlightedInRedMustBeEntered();
 

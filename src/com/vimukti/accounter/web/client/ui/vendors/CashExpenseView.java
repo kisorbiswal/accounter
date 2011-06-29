@@ -226,4 +226,9 @@ public class CashExpenseView extends CashPurchaseView {
 					.accounts(), FinanceApplication.getVendorsMessages()
 					.service());
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getVendorsMessages().cashExpense();
+	}
 }

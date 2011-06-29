@@ -28,8 +28,6 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		setTitle(FinanceApplication.getFinanceUIConstants().adjustSalesTax());
-
 		Label lab1 = new Label(FinanceApplication.getFinanceUIConstants()
 				.adjustSalesTax());
 		// lab1.setWrap(false);
@@ -127,5 +125,10 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getFinanceUIConstants().adjustSalesTax();
 	}
 }

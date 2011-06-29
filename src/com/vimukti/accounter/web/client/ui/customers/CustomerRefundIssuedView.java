@@ -23,7 +23,6 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 	}
 
 	private void createControls() {
-		setTitle(FinanceApplication.getCustomersMessages().title());
 		// setCanDragReposition(true);
 		// setShowCloseButton(true);
 
@@ -200,6 +199,13 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 	public void printPreview() {
 		// TODO Auto-generated method stub
 
+	}
+
+	// setTitle(FinanceApplication.getCustomersMessages().title());
+
+	@Override
+	protected String getViewTitle() {
+		return customerConstants.customerRefundIssued();
 	}
 
 }

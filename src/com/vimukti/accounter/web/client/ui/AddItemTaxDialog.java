@@ -78,4 +78,10 @@ public class AddItemTaxDialog extends BaseDialog {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return UIUtils.getVendorString(FinanceApplication.getVATMessages()
+				.VATItem(), FinanceApplication.getCompanyMessages().taxItem());
+	}
+
 }

@@ -534,4 +534,9 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCustomersMessages().invoices();
+	}
 }

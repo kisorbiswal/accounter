@@ -413,4 +413,9 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 			this.gainOnDisposal.addItemThenfireEvent((ClientAccount) core);
 		}
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getFixedAssetConstants().journalView();
+	}
 }

@@ -669,4 +669,9 @@ public class NewBrandThemeDialog extends BaseDialog {
 		super.saveSuccess(object);
 		SettingsActionFactory.getInvoiceBrandingAction().run(null, true);
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getSettingsMessages().editBrandThemeLabel();
+	}
 }

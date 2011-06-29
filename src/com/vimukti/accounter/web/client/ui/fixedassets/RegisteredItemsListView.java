@@ -97,19 +97,24 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 	@Override
 	public void onEdit() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void print() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void printPreview() {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().registeredItemsList();
 	}
 
 }

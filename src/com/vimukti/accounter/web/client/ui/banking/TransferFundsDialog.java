@@ -37,6 +37,7 @@ import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+
 /**
  * 
  * @author Mandeep Singh
@@ -109,7 +110,6 @@ public class TransferFundsDialog extends BaseDialog {
 
 	private void createControls() {
 		mainPanel.setSpacing(3);
-		setTitle(bankingConstants.transferFunds());
 
 		// Transfer
 		transferDate = new DateField(bankingConstants.date());
@@ -427,6 +427,11 @@ public class TransferFundsDialog extends BaseDialog {
 		memoText.setDisabled(false);
 		;
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getBankingsMessages().transferFunds();
 	}
 
 }

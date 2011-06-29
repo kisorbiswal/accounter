@@ -356,6 +356,11 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getActionsConstants().salesTaxGroup();
+	}
+
 	// @Override
 	// public Object getGridColumnValue(IsSerializable obj, int index) {
 	// // TODO Auto-generated method stub

@@ -52,6 +52,11 @@ public class WriteChecksAction extends Action {
 		});
 	}
 
+	@Override
+	public void setToolTip(String toolTip) {
+		super.setToolTip(toolTip);
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
@@ -66,9 +71,10 @@ public class WriteChecksAction extends Action {
 	public ImageResource getSmallImage() {
 		return FinanceApplication.getFinanceMenuImages().newCheck();
 	}
+
 	@Override
 	public String getImageUrl() {
-		
+
 		return "/images/new_check.png";
 	}
 }

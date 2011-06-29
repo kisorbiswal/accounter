@@ -1478,4 +1478,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCompanyMessages().account();
+	}
 }

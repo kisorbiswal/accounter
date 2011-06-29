@@ -1099,4 +1099,9 @@ public class PurchaseOrderView extends
 	protected Double getTransactionTotal() {
 		return null;
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getVendorsMessages().purchaseOrder();
+	}
 }

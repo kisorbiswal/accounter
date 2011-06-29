@@ -44,8 +44,6 @@ public class RollBackDepreciationDialog extends BaseDialog {
 	}
 
 	private void createControl() {
-		setTitle(FinanceApplication.getFixedAssetConstants()
-				.rollBackDepreciation());
 
 		HorizontalPanel typeForm = new HorizontalPanel();
 		typeForm.setWidth("100%");
@@ -212,4 +210,12 @@ public class RollBackDepreciationDialog extends BaseDialog {
 
 	}
 
+	// FinanceApplication.getFixedAssetConstants()
+	// .rollBackDepreciation()
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getFixedAssetConstants()
+				.rollBackDepreciation();
+	}
 }

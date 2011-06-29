@@ -91,8 +91,6 @@ public class ApplyCreditDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		setTitle("");
-
 		Label lab1 = new Label(FinanceApplication.getFinanceUIConstants()
 				.applyCreditAndPayments());
 		lab1.setWidth("100%");
@@ -382,6 +380,11 @@ public class ApplyCreditDialog extends BaseDialog {
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getSettingsMessages().applyCreditsandPayments();
 	}
 
 }

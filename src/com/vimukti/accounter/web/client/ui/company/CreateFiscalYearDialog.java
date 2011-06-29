@@ -215,4 +215,9 @@ public class CreateFiscalYearDialog extends BaseDialog {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCompanyMessages().fiscalYear();
+	}
+
 }

@@ -57,7 +57,7 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	protected void createControls() {
-		setTitle(customerConstants.customerCreditNote());
+
 		Label lab1 = new Label(customerConstants.customerCreditNote());
 		lab1.setStyleName(FinanceApplication.getCustomersMessages()
 				.lableTitle());
@@ -212,9 +212,9 @@ public class CustomerCreditMemoView extends
 		vpanel.setHorizontalAlignment(ALIGN_RIGHT);
 		vpanel.setWidth("100%");
 		vpanel.add(panel);
-		
+
 		menuButton.setType(AccounterButton.ADD_BUTTON);
-		
+
 		vpanel.add(prodAndServiceForm2);
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
@@ -694,5 +694,10 @@ public class CustomerCreditMemoView extends
 			taxCodeSelect.setValue("");
 		// updateNonEditableItems();
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCustomersMessages().customerCreditNote();
 	}
 }

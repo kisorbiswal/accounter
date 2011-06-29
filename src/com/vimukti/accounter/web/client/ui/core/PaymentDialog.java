@@ -39,7 +39,6 @@ public class PaymentDialog extends BaseDialog {
 
 	public void createControls() {
 		mainPanel.setSpacing(3);
-		setTitle(customerConstants.selectPaymentType());
 		typeRadio = new RadioGroupItem();
 		typeRadio.setShowTitle(false);
 		typeRadio.setValue(RECEIVE_PAYMENT, CUSTOMER_PREPAYMENT);
@@ -58,9 +57,8 @@ public class PaymentDialog extends BaseDialog {
 					String radio = typeRadio.getValue().toString();
 					if (radio.equals(RECEIVE_PAYMENT)) {
 						try {
-							CustomersActionFactory
-									.getReceivePaymentAction().run(null,
-											false);
+							CustomersActionFactory.getReceivePaymentAction()
+									.run(null, false);
 						} catch (Throwable e) {
 							Accounter.showError(FinanceApplication
 									.getVendorsMessages()
@@ -128,4 +126,10 @@ public class PaymentDialog extends BaseDialog {
 
 	}
 
+	// setTitle(customerConstants.selectPaymentType());
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCustomersMessages().payments();
+	}
 }

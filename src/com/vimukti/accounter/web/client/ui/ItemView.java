@@ -1033,4 +1033,9 @@ public class ItemView extends BaseView<ClientItem> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCustomersMessages().item();
+	}
 }

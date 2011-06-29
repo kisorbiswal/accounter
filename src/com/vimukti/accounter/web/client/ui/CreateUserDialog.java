@@ -198,7 +198,6 @@ public class CreateUserDialog extends AbstractBaseDialog {
 	}
 
 	private void createControls() {
-		setTitle(FinanceApplication.getFinanceUIConstants().createNewUser());
 
 		fullName = new TextItem(FinanceApplication.getFinanceUIConstants()
 				.fullName());
@@ -351,5 +350,7 @@ public class CreateUserDialog extends AbstractBaseDialog {
 		// TODO Auto-generated method stub
 
 	}
+
+	// FinanceApplication.getFinanceUIConstants().createNewUser()
 
 }

@@ -219,4 +219,9 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getVendorsMessages().previousClaim();
+	}
+
 }

@@ -108,7 +108,13 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 		arr[0] = FinanceApplication.getFinanceUIConstants().shippingMethod();
 		arr[1] = FinanceApplication.getFinanceUIConstants().descriptioN();
 		inputDlg = new InputDialog(FinanceApplication.getCustomersMessages()
-				.shippingMethod(), "", arr);
+				.shippingMethod(), "", arr) {
+			@Override
+			protected String getViewTitle() {
+				return FinanceApplication.getCustomersMessages()
+						.shippingMethod();
+			}
+		};
 		inputDlg.getTextItems().get(1).setRequired(false);
 		inputDlg.setWidth("320");
 		shippingMethod = rec;
@@ -129,7 +135,7 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 						createShippingMethod();
 					else
 						editShippingMethod();
-				} else{
+				} else {
 					// Accounter.showError(FinanceApplication
 					// .getCustomersMessages().detailsHighlightedInRedMustBeEntered());
 					return false;
@@ -188,5 +194,11 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 	public String toString() {
 		return FinanceApplication.getFinanceUIConstants()
 				.shippingMethodListDialog();
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getCompanyMessages()
+				.manageShippingMethodList();
 	}
 }

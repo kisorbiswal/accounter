@@ -200,4 +200,9 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getVendorsMessages().payments();
+	}
+
 }

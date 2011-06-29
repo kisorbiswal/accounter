@@ -137,4 +137,9 @@ public class InputDialog extends BaseDialog {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return "";
+	}
 }

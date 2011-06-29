@@ -63,4 +63,9 @@ public class NoteDialog extends BaseDialog {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getFixedAssetConstants().addNote();
+	}
+
 }

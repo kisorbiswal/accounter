@@ -73,4 +73,9 @@ public class CustomThemeDialog extends BaseDialog {
 		flexTable.setWidget(1, 0, buttonPanel);
 		setBodyLayout(flexTable);
 	}
+
+	@Override
+	protected String getViewTitle() {
+		return FinanceApplication.getSettingsMessages().newBrandThemeLabel();
+	}
 }
