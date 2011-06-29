@@ -72,7 +72,6 @@ p {
 	color: #ffffff;
 	font-size: 17px;
 	margin-top: 10px !important;
-	font-weight:bold;
 }
 
 .account-sys-label {
@@ -378,27 +377,25 @@ li {
 	float: left;
 }
 
-#home-bg {
+#home-bg,#fea-bg,#abt-bg,#sup-bg {
 	float: left;
 	margin-left: 13px;
 	padding: 4px;
 	padding: 5.5px\0;
-	/*width: 50px;*/
-	color: #FFFFFF;
-	font-size: 17px;
-	font-weight: bold;
+	color: #ffffff;
+	font-size: 16px;
 }
 
-#fea-bg {
+/*#fea-bg {
 	float: left;
 	margin-left: 13px;
 	padding: 4px;
 	padding: 5.5px\0;
-	/*width: 50px;*/
+	width: 50px;
 	color: #FFFFFF;
 	font-size: 17px;
 	font-weight:bold;
-}
+}*/
 
 .home-jbg {
 	float: left;
@@ -450,16 +447,16 @@ li {
 		transparent !important;
 }
 
-#abt-bg {
+/*#abt-bg {
 	float: left;
 	margin-left: 13px;
 	padding: 4px;
 	padding: 5.5px\0;
-	/*width: 50px;*/
+	width: 50px;
 	color: #FFFFFF;
 	font-size: 17px;
 	font-weight:bold;
-}
+}*/
 
 #about-normal {
 	float: left;
@@ -521,16 +518,16 @@ li {
 	padding: 1px 6px;
 }
 
-#sup-bg {
+/*#sup-bg {
 	float: left;
 	margin-left: 13px;
 	padding: 4px;
 	padding: 5.5px\0;
-	/*width: 50px;*/
+	width: 50px;
 	color: #FFFFFF;
 	font-size: 17px;
 	font-weight:bold;
-}
+}*/
 
 #support-normal {
 	float: left;
