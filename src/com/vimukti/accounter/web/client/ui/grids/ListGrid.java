@@ -354,7 +354,7 @@ public abstract class ListGrid<T> extends CustomTable {
 			break;
 		case COLUMN_TYPE_CHECK:
 			addCheckBox(obj, (Boolean) data);
-			addCellStyles("gridCheckBoxCell");
+			addCellStyles("gridCheckBoxCell table-checkbox-cell");
 			break;
 		case COLUMN_TYPE_IMAGE:
 			addImage(obj, data);
