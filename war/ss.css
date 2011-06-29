@@ -2,9 +2,13 @@ body {
 	margin: 0px;
 	padding: 0px;
 	text-align: center;
+	font-family: Georgia;
 }
-
-.icon1,.icon2,.icon3,.icon4,.icon5,.icon6 {
+@font-face {
+    font-family: "ColabThi";
+    src: url("../images/ColabThi.otf") format("truetype");
+}
+.icon1,.icon2,.icon3,.icon4,.icon5,.icon6,.icon1 {
 	background: url("../images/zb-online-books-icon.png") no-repeat scroll 0
 		0 transparent;
 	float: left;
@@ -23,8 +27,8 @@ body,ul,li,ol,p,table,tr,td {
 }
 
 ol li {
-	padding: 0 3% 25px 0;
-	width: 288px;
+	padding: 0 10px 25px;
+	width: 290px;
 }
 
 div ul li {
@@ -65,9 +69,10 @@ p {
 }
 
 #login-id { /*color: #008dc5;*/
-	color: #c5c5c5;
+	color: #ffffff;
 	font-size: 17px;
 	margin-top: 10px !important;
+	font-weight:bold;
 }
 
 .account-sys-label {
@@ -349,7 +354,7 @@ a:link {
 
 #bot {
 	clear: both;
-	height: 30px !important;
+	height: 75px !important;
 	background-color: #072027 !important;
 }
 
@@ -361,7 +366,7 @@ li {
 .menu-bar-login {
 	height: 47px;
 	background-color: #072027;
-	font-family: arial;
+	font-family: Georgia;
 	width: 100%;
 }
 
@@ -378,9 +383,10 @@ li {
 	margin-left: 13px;
 	padding: 4px;
 	padding: 5.5px\0;
-	width: 50px;
-	color: #c5c5c5;
+	/*width: 50px;*/
+	color: #FFFFFF;
 	font-size: 17px;
+	font-weight: bold;
 }
 
 #fea-bg {
@@ -388,9 +394,10 @@ li {
 	margin-left: 13px;
 	padding: 4px;
 	padding: 5.5px\0;
-	width: 50px;
-	color: #c5c5c5;
+	/*width: 50px;*/
+	color: #FFFFFF;
 	font-size: 17px;
+	font-weight:bold;
 }
 
 .home-jbg {
@@ -448,9 +455,10 @@ li {
 	margin-left: 13px;
 	padding: 4px;
 	padding: 5.5px\0;
-	width: 50px;
-	color: #c5c5c5;
+	/*width: 50px;*/
+	color: #FFFFFF;
 	font-size: 17px;
+	font-weight:bold;
 }
 
 #about-normal {
@@ -518,9 +526,10 @@ li {
 	margin-left: 13px;
 	padding: 4px;
 	padding: 5.5px\0;
-	width: 50px;
-	color: #c5c5c5;
+	/*width: 50px;*/
+	color: #FFFFFF;
 	font-size: 17px;
+	font-weight:bold;
 }
 
 #support-normal {
@@ -643,11 +652,14 @@ a:visited {
 	color: #3299a4 !important;
 	font-size: 35px;
 	vertical-align: bottom;
+	line-height: 1.8;
+	margin-left:20px;
 }
 
 .lower-part {
-	margin-top: 50px;
-	font-family: arial;
+	/*margin-top: 50px;
+	font-family: arial;*/
+	margin:20px 0px 0px 20px;
 }
 
 .pro,.fea,.use,.supp,.home {
@@ -657,19 +669,20 @@ a:visited {
 }
 
 .footer-options {
-	width: 400px;
-	font-family: arial;
 	float: right;
 	font-size: 17px;
-	margin-top: 7px;
+	padding: 7px;
+	line-height:3.5
 }
-
+.footer-options a{
+    color:#fff;	
+}
 .footer-options a:HOVER {
 	color: #3299a4 !important;
 }
 
 ul li a {
-	color: #c5c5c5 !important;
+	color: #3299A4;
 }
 
 ul li a:HOVER {
@@ -710,7 +723,7 @@ ul li a:HOVER {
 .middle-signup-box h2 {
 	margin-left: 20px;
 	margin-top: 20px;
-	color: #00a3dc;
+	color: #3299A4;
 }
 
 #left-box {
@@ -874,7 +887,7 @@ ul li a:HOVER {
 }
 
 #forget-link1 {
-	color: #00a3dc;
+	color: #3299A4;
 	margin-left: 60px;
 	font-size: 15px;
 }
@@ -912,12 +925,12 @@ ul li a:HOVER {
 }
 
 .link-color {
-	color: #00A3DC !important;
+	color: #3299A4 !important;
 	font-size: 15px;
 }
 
 .link-color1 {
-	color: #00A3DC !important;
+	color: #3299A4 !important;
 	margin-left: 105px;
 	font-size: 15px;
 }
@@ -1009,7 +1022,7 @@ ul li {
 }
 
 .left-side-table a {
-	color: #8c8c8c;
+	color: #3299A4;
 }
 
 .monthly-box ul li,.Annaul-box ul li,.days-trial-box ul li {
@@ -1567,4 +1580,9 @@ noindex:-o-prefocus,.right-side-options {
 	.left-side-box {
 		margin-top: 10px;
 	}
+}
+#contact-layout div,#support-width div,
+#privacy-layout div,#mid-2 div{
+   background:#F4F4F4;
+   height:65px;
 }
