@@ -15,7 +15,8 @@ body {
 	/*background-color: #D8DCE0 !important;*/
 	background-color: #ffffff !important;
 	font-family: Arial Unicode MS, Arial, sans-serif;
-	font-size: 10pt;
+	/*font-size: 10pt;*/
+	font-size:medium !important;
 	font-weight: normal; /*
 	
 		 For WebKit (Safari, Google Chrome etc) 
@@ -1221,7 +1222,9 @@ table tr.parentRow:HOVER {
 	height: 18px;
 	white-space: nowrap;
 }
-
+noindex:-o-prefocus, .gridBody tr td{
+	overflow: hidden;
+}
 .gridBody tr td { /*border-right: 1px solid #AAAAAA;*/
 	padding-left: 5px;
 	overflow-x: hidden;
@@ -1847,7 +1850,10 @@ select[multiple] {
 select[multiple] option {
 	cursor: pointer;
 }
-
+noindex:-o-prefocus, .table-checkbox-cell span input[type="checkbox"]{
+	background-image:none !important;
+	background-color:inherit !important;
+}
 /*noindex:-o-prefocus, input[disabled],input[disabled='disabled']{
 	background-image:none !important;
 	background-color:inherit !important;
@@ -1859,7 +1865,7 @@ input[disabled],input[disabled='disabled'] {
 	border: 0 none;
 }
 
-textarea[disabled] {
+textarea[disabled]{
 	background: url("images/Text Feild_disabled_180x64.png") no-repeat
 		scroll 0 0 #e6e0da !important;
 	color: #b1a7ad;
