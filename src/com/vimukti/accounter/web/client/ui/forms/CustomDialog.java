@@ -111,24 +111,24 @@ public class CustomDialog extends DialogBox {
 				onHelpClick();
 			}
 			break;
-		case Event.ONMOUSEOVER:
-			Element element1 = event.getTarget();
-			if (cross.getElement().equals(element1)) {
-				// cross.setUrl("/images/X-1.png");
-
-			} else if (help.getElement().equals(element1)) {
-				help.setUrl("/images/Help-1.png");
-			}
-			break;
-		case Event.ONMOUSEOUT:
-			Element element2 = event.getTarget();
-			if (cross.getElement().equals(element2)) {
-				cross.setUrl("/images/dialog-close.png");
-
-			} else if (help.getElement().equals(element2)) {
-				help.setUrl("/images/help-icon.png");
-			}
-			break;
+		// case Event.ONMOUSEOVER:
+		// Element element1 = event.getTarget();
+		// if (cross.getElement().equals(element1)) {
+		// // cross.setUrl("/images/X-1.png");
+		//
+		// } else if (help.getElement().equals(element1)) {
+		// help.setUrl("/images/Help-1.png");
+		// }
+		// break;
+		// case Event.ONMOUSEOUT:
+		// Element element2 = event.getTarget();
+		// if (cross.getElement().equals(element2)) {
+		// cross.setUrl("/images/dialog-close.png");
+		//
+		// } else if (help.getElement().equals(element2)) {
+		// help.setUrl("/images/help-icon.png");
+		// }
+		// break;
 		default:
 			break;
 		}

@@ -60,12 +60,12 @@ public class Header extends HorizontalPanel {
 		initializeHelpBar();
 		helpBar.setStyleName("helpBar");
 		help = new HTML(
-				"<a href='http://help.accounter.com'><font color='#00A3D3'>Help</font></a>");
+				"<a href='http://help.accounter.com'><font color='#3299A4'>Help</font></a>");
 		help.addStyleName("help-style");
 		help.addStyleName("helpBar");
 
 		logo = new HTML(
-				"<div class='logo'><img src='/images/Logo.jpg'><div class='vimutki-text' >Vimukti Technologies Pvt Ltd</div></div>");
+				"<div class='logo'><img src='/images/Logo.jpg'></div>");
 		logo.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -114,7 +114,7 @@ public class Header extends HorizontalPanel {
 
 	public static void initializeHelpBar() {
 		MenuItem menuItem = helpBar.addItem("Help", getHelpMenuBar());
-		menuItem.getElement().getStyle().setColor("#00A3D3");
+		menuItem.getElement().getStyle().setColor("#072027");
 		Image child = new Image();
 		child.addStyleName("menu_arrow");
 		child.setUrl(FinanceApplication.getThemeImages().drop_down_indicator()

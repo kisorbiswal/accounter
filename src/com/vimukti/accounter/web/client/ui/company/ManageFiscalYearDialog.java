@@ -184,8 +184,8 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		buttonVlayout.add(changeStartDate);
 
 		newFiscalYearButton.enabledButton();
-		closeFiscalYearButton.enabledButton();
-		openFiscalYearButoon.enabledButton();
+		// closeFiscalYearButton.enabledButton();
+		// openFiscalYearButoon.enabledButton();
 		editFiscalYear.enabledButton();
 		deleteFiscalYear.enabledButton();
 		changeStartDate.enabledButton();

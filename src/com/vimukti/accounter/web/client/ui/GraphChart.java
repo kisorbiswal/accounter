@@ -104,7 +104,7 @@ public class GraphChart {
 		createLabels(ACCOUNTS_PAYABLE_CHART_TYPE);
 		AnnotatedTimeLine chart = new AnnotatedTimeLine(
 				createTable(ACCOUNTS_PAYABLE_CHART_TYPE),
-				createOptionsToTimeLineChart(), "457px", "225px");
+				createOptionsToTimeLineChart(), "444px", "225px");
 		return chart;
 	}
 
@@ -112,7 +112,7 @@ public class GraphChart {
 
 		com.google.gwt.visualization.client.visualizations.ColumnChart.Options options = com.google.gwt.visualization.client.visualizations.ColumnChart.Options
 				.create();
-		options.setWidth(457);
+		options.setWidth(444);
 		options.setHeight(225);
 		options.setLegend(LegendPosition.NONE);
 		options.setMin(100);
@@ -124,7 +124,7 @@ public class GraphChart {
 
 	private Options createOptionsToLineChart() {
 		Options options = Options.create();
-		options.setWidth(457);
+		options.setWidth(444);
 		options.setHeight(225);
 		options.setLegend(LegendPosition.NONE);
 		options.setMin(100);
