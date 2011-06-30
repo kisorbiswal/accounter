@@ -144,7 +144,7 @@ a:link {
 }
 
 #cen { /*clear: both;*/
-	height: 335px !important;
+	height: 330px !important;
 	background: url("/sites/Image-display_BG.png") repeat-x scroll 0 0
 		transparent;
 	width: 956px !important;
@@ -1613,7 +1613,7 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right{
     float: right;
     font-size: 15px;
     height: 29px;
-    margin: 0 -5px;
+    margin: 0 -6px;
 }
 .signup-submit-button{
    float:right;
