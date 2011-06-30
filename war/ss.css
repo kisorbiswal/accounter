@@ -26,15 +26,16 @@ body,ul,li,ol,p,table,tr,td {
 	text-align: left;
 }
 
-ol li {
+.lower-part ol{
 	padding: 0 10px 25px;
-	width: 290px;
 }
-
+.lower-part ol li{
+	width: 290px;
+	vertical-align: top;
+}
 div ul li {
-	color: #c5c5c5;
-	font-size: 15px;
-	margin-right: 17px;
+	color: #000;
+	font-size: 13px;
 }
 
 div ul li hover {
@@ -53,14 +54,13 @@ div ul li hover {
 	margin: 0px auto;
 	text-align: center;
 	font-family: arial;
+	background:none repeat scroll 0 0 #28757D;
 }
 
 .remaining-header-part-login {
-	clear: both;
 	float: right;
 	font-size: 23px;
-	margin-top: -30px;
-	margin-right: 60px;
+	margin-right:15px;
 }
 
 p {
@@ -69,9 +69,10 @@ p {
 }
 
 #login-id { /*color: #008dc5;*/
-	color: #ffffff;
+	color: #ffffff !important;
 	font-size: 17px;
-	margin-top: 10px !important;
+	margin-left: 16px;
+	line-height: 2;
 }
 
 .account-sys-label {
@@ -116,16 +117,14 @@ p {
 }
 
 #but-g {
-    background: url("/sites/Sign-Up-For-Free.png") no-repeat scroll 0 0 transparent;
-    color: red;
-    float: left;
-    font-size: 26px;
-    height: 44px;
-    margin-left: 93px;
-    margin-top: 28px;
-    padding: 12px 0 0;
-    text-align: center;
-    width: 216px;
+   float: left;
+	/*background: url("/sites/Sign-Up-For-Free.png") no-repeat scroll 0 0
+		transparent;*/
+	color: red;
+	float: left;
+	font-size: 26px;
+	line-height:1.9;
+	margin:0px -5px;
 }
 
 #but-g hover {
@@ -319,7 +318,7 @@ a:link {
 	float: left;
 	background-color: #d9d9d9;
 	height: 831px;
-	width: 204px !important;
+	width: 215px !important;
 	margin-top: 40px;
 	margin-left: 50px;
 	border: 1px solid #ccc;
@@ -353,7 +352,7 @@ a:link {
 
 #bot {
 	clear: both;
-	height: 75px !important;
+	height: 55px !important;
 	background-color: #072027 !important;
 }
 
@@ -380,7 +379,7 @@ li {
 #home-bg,#fea-bg,#abt-bg,#sup-bg {
 	float: left;
 	margin-left: 13px;
-	padding: 4px;
+	padding:8px 4px 0px;
 	padding: 5.5px\0;
 	color: #ffffff;
 	font-size: 16px;
@@ -406,14 +405,14 @@ li {
 	color: #3299a4 !important;
 }
 
-.fea-jbg {
+/*.fea-jbg {
 	float: left;
 	margin-left: 13px;
 	padding: 3px;
 	padding: 5.5px\0;
 	width: 50px;
 	color: #3299a4 !important;
-}
+}*/
 
 #home-normal {
 	float: left;
@@ -466,13 +465,14 @@ li {
 	margin-right: -21px;
 }
 
-.abt-jbg {
-	float: left;
+.abt-jbg,.home-jbg,.sup-jbg,.fea-jbg{
+	color: #3299a4 !important;
+	/*float: left;
 	margin-left: 13px;
 	padding: 3px;
 	padding: 5.5px\0;
 	width: 50px;
-	color: #3299a4 !important;
+	*/
 }
 
 .about-page {
@@ -501,7 +501,7 @@ li {
 	padding: 1px 6px;
 }
 
-.pri-jbg {
+/*.pri-jbg {
 	float: left;
 	margin-left: 13px;
 	padding: 3px;
@@ -509,7 +509,7 @@ li {
 	width: 50px;
 	color: #3299a4 !important;
 }
-
+*/
 .pricing-page {
 	float: left;
 	background: url("/images/focus-left.png") no-repeat scroll 0 0
@@ -536,7 +536,7 @@ li {
 	padding: 1px 6px;
 }
 
-.sup-jbg {
+/*.sup-jbg {
 	float: left;
 	margin-left: 13px;
 	padding: 3px;
@@ -544,7 +544,7 @@ li {
 	width: 50px;
 	color: #3299a4 !important;
 }
-
+*/
 .support-page {
 	float: left;
 	background: url("/images/focus-left.png") no-repeat scroll 0 0
@@ -583,7 +583,6 @@ li {
 }
 
 .fields-table {
-	color: #A0A0A0;
 	float: left;
 	height: 105px;
 	margin-left: 25px;
@@ -656,7 +655,8 @@ a:visited {
 .lower-part {
 	/*margin-top: 50px;
 	font-family: arial;*/
-	margin:20px 0px 0px 20px;
+	padding:20px 0px 0px 20px;
+	background:white;
 }
 
 .pro,.fea,.use,.supp,.home {
@@ -669,10 +669,11 @@ a:visited {
 	float: right;
 	font-size: 17px;
 	padding: 7px;
-	line-height:3.5
+	line-height:2.3;
 }
 .footer-options a{
-    color:#fff;	
+    color:#fff !important;	
+    margin-right:20px;
 }
 .footer-options a:HOVER {
 	color: #3299a4 !important;
@@ -787,8 +788,8 @@ ul li a:HOVER {
 	margin-bottom: 65px;
 	margin-bottom: 25px\0;
 	margin-left: -64px;
-	margin-top: 99px;
-	width: 430px;
+	margin-top: 25px;
+	width: 550px;
 }
 
 .try,.ben,.price,.left-side-box a {
@@ -829,6 +830,7 @@ ul li a:HOVER {
 #checkbox { /*margin-left: 35px;
 	margin-top: 27px;*/
 	float: left;
+	margin-right:-8px;
 }
 
 .left-side-box {
@@ -894,12 +896,10 @@ ul li a:HOVER {
 	text-align: center;
 }
 
-.left-side-box table tr td:first-child {
-	color: #A0A0A0;
-}
 
-.contact_form_cont table tr td:first-child {
-	color: #A0A0A0;
+
+.contact_form_cont table tr td:first-child,.left-side-box table tr td:first-child {
+	color: #000;
 }
 
 .sign-up-divider {
@@ -907,9 +907,7 @@ ul li a:HOVER {
 	margin: 25px 40px 20px 23px;
 }
 
-.mid-login-box1 table tr td:first-child {
-	color: #A0A0A0;
-}
+
 
 .mid-login-box1 {
 	margin-left: 0;
@@ -917,9 +915,6 @@ ul li a:HOVER {
 	margin-right: 20px;
 }
 
-.text-style {
-	color: #A0A0A0 !important;
-}
 
 .link-color {
 	color: #3299A4 !important;
@@ -1399,25 +1394,12 @@ ul li {
 	margin-left: 36px;
 	margin-top: -63px;
 }
-
-.signup-but {
-	background: url("/images/button-image.png") no-repeat scroll 0 0
-		transparent;
-	color: white;
-	font-size: 15px;
-	padding: 3px;
-	margin: 20px 0 0 0px;
-	width: 95px;
-	float: right;
-}
-
 .forget-but {
-	background: url("/images/button-image.png") no-repeat scroll 0 0
-		transparent;
+	/*background: url("/images/button-image.png") no-repeat scroll 0 0
+		transparent;*/
 	color: white;
 	font-size: 17px;
 	height: 27px;
-	margin: 6px 0px !important;
 	width: 96px;
 }
 
@@ -1563,6 +1545,9 @@ ul li {
 noindex:-o-prefocus,.right-side-options {
 	margin-top: -5px !important;
 }
+noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right{
+    margin-bottom:-18px;	
+}
 
 .mid-login-box1 td {
 	font-size: 13px;
@@ -1582,4 +1567,80 @@ noindex:-o-prefocus,.right-side-options {
 #privacy-layout div,#mid-2 div{
    background:#F4F4F4;
    height:65px;
+}
+.remaining-header-part-login ul li{
+   background:url("../images/Login_button.png") no-repeat scroll 0 0 transparent;
+   width:76px;
+   height:36px;
+}
+.sign-up-left{
+   background: url("../images/Siginup_left.png") no-repeat scroll 0 0 transparent;
+    display: inline-block;
+    height: 52px;
+    width: 8px;
+}
+.sign-up-right{
+   background:url("../images/Siginup_right.png")no-repeat scroll 0 0 transparent;
+   width:8px;
+   height:52px;
+   display: inline-block;
+}
+.sign-up-middle{
+   background:url("../images/Siginup_mid.png")repeat-x scroll 0 0 transparent;
+   height:52px;
+}
+.signup-for-free-button ul li,.signup-submit-button ul li{
+  display:inline;
+}
+.signup-for-free-button{
+  margin:20px 0 0 65px;
+}
+.signup-submit-left,.signup-submit-right{
+   width:5px;
+   height:29px;
+   display: inline-block;
+}
+.signup-submit-left{
+   background:url("../images/submitt_left_butt.png")no-repeat scroll 0 0 transparent;
+}
+.signup-submit-right{
+   background:url("../images/submitt_right_butt.png")no-repeat scroll 0 0 transparent;
+}
+.signup-submit-mid{
+	background: url("/images/submitt_mid_butt.png") repeat-x scroll 0 0 transparent;
+    border: 0 none;
+    color: white;
+    float: right;
+    font-size: 15px;
+    height: 29px;
+    margin: 0 -5px;
+}
+.signup-submit-button{
+   float:right;
+   margin-top:15px;
+}
+.support_textarea{
+   width:223px;
+   height:125px;
+}
+.signup-for-free-button a:hover{
+   color:red !important;
+}
+.login-submit-button{
+   float:right;
+   margin:20px 48px 0 0;
+}
+.getstarted-submit-button{
+   float:right;
+   margin: 0 25px 0 0;
+}
+.forgot-cancel-button,.forgot-ok-button{
+  float:right;
+  margin:5px;
+}
+.login_logo_image{
+  background:white;
+}
+.login_logo_image img{
+  margin-top:10px;
 }
