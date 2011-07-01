@@ -16,7 +16,7 @@ body {
 	background-color: #ffffff !important;
 	font-family: Arial Unicode MS, Arial, sans-serif;
 	/*font-size: 10pt;*/
-	font-size:medium !important;
+	font-size: medium !important;
 	font-weight: normal; /*
 	
 		 For WebKit (Safari, Google Chrome etc) 
@@ -1173,6 +1173,7 @@ table tr.parentRow:HOVER {
 	background: url("images/Form_Title_bar_mid.png") repeat-x scroll 0 0
 		transparent; /*url('images/header.png') repeat-x scroll 0 0;*/
 	height: 21px;
+	width: 100%;
 }
 
 .gridHeaderLastTd {
@@ -1187,7 +1188,7 @@ table tr.parentRow:HOVER {
 .gridHeader td.gridHeaderCell {
 	font-weight: bold;
 	padding-left: 5px;
-	font-size:12px;
+	font-size: 12px;
 }
 
 /* for finance*/
@@ -1222,13 +1223,15 @@ table tr.parentRow:HOVER {
 	height: 18px;
 	white-space: nowrap;
 }
-noindex:-o-prefocus, .gridBody tr td{
+
+noindex:-o-prefocus,.gridBody tr td {
 	overflow: hidden;
 }
+
 .gridBody tr td { /*border-right: 1px solid #AAAAAA;*/
 	padding-left: 5px;
 	overflow-x: hidden;
-	font-size:13px;
+	font-size: 13px;
 }
 
 .grid-resizeable-proxy-column {
@@ -1269,8 +1272,8 @@ noindex:-o-prefocus, .gridBody tr td{
 	border-style: solid !important;
 	border-width: 0 1px 1px !important;
 	/*overflow-y: scroll;*/
-	border-color:#AAAAAA !important;
-	overflow-y:visible !important;
+	border-color: #AAAAAA !important;
+	overflow-y: visible !important;
 }
 
 .gridBodyContainer {
@@ -1627,7 +1630,7 @@ div.leftArrow:hover,div.upArrow:hover,div.downArrow:hover,div.rightArrow:hover
 
 .NoWrapping {
 	white-space: nowrap;
-	text-align:left;
+	text-align: left;
 }
 
 .selectedview_textareadata_contact {
@@ -1850,10 +1853,12 @@ select[multiple] {
 select[multiple] option {
 	cursor: pointer;
 }
-noindex:-o-prefocus, .table-checkbox-cell span input[type="checkbox"]{
-	background-image:none !important;
-	background-color:inherit !important;
+
+noindex:-o-prefocus,.table-checkbox-cell span input[type="checkbox"] {
+	background-image: none !important;
+	background-color: inherit !important;
 }
+
 /*noindex:-o-prefocus, input[disabled],input[disabled='disabled']{
 	background-image:none !important;
 	background-color:inherit !important;
@@ -1865,7 +1870,7 @@ input[disabled],input[disabled='disabled'] {
 	border: 0 none;
 }
 
-textarea[disabled]{
+textarea[disabled] {
 	background: url("images/Text Feild_disabled_180x64.png") no-repeat
 		scroll 0 0 #e6e0da !important;
 	color: #b1a7ad;
@@ -2832,20 +2837,20 @@ td.td10 {
 
 .decor20 {
 	background: transparent url("images/p-lb.png")
-		/*url(images/panel-left-bottom-img.png)*/                         
-		     no-repeat scroll -1px 0;
+		/*url(images/panel-left-bottom-img.png)*/                          
+		      no-repeat scroll -1px 0;
 }
 
 .decor21 {
 	background: transparent url("images/p-b.png")
-		/*url(images/panel-bottom-img.png)*/                            
-		  repeat-x scroll 0 0;
+		/*url(images/panel-bottom-img.png)*/                             
+		   repeat-x scroll 0 0;
 }
 
 .decor22 {
 	background: transparent url("images/p-rb.png")
-		/*url(images/panel-right-bottom-img.png)*/                         
-		     no-repeat scroll -1px 0;
+		/*url(images/panel-right-bottom-img.png)*/                          
+		      no-repeat scroll -1px 0;
 }
 
 .decor11 {
@@ -4270,12 +4275,12 @@ td.menu-button-disable-parent {
 
 .workspace-panel .listgrid tr.selected td {
 	background: #917fab !important;
-	color: #FFF !       mportant;
+	color: #FFF !         mportant;
 }
 
 .user-panel .listgrid tr.selected td {
 	background: #037F8C !important;
-	color: #FFF !       mportant;
+	color: #FFF !         mportant;
 }
 
 .log-out {
@@ -4448,6 +4453,7 @@ td.imagelink-h-hover .imageLink-div {
 	background: url("images/Tab_normal_left_4x30.png") no-repeat scroll 0
 		-4px transparent !important;
 }
-.gridTextBoxCell{
-   font-size:12px;
+
+.gridTextBoxCell {
+	font-size: 12px;
 }

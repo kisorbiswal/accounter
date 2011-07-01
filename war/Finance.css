@@ -1646,10 +1646,10 @@ iframe { /*display:none;*/
 .help-panel a {
 	text-decoration: none;
 	color: #737272 !important;
+	margin-left: -39px;
 	font-weight: bold !important;
 	margin: 0 9px !important;
 	text-align: right !important;
-	margin-left: -39px;
 }
 
 .help-panel a:hover {
