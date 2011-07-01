@@ -90,10 +90,8 @@ p {
 
 .logo-image {
 	float: left;
-	margin-left: 10px;
+	margin-left: 15px;
 	margin-top: 18px;
-	padding-left: 5px;
-	width: 280px;
 }
 
 .online-accounting,.bank-reconciliation,.invoicing,.find-an-acciuntant {
@@ -147,7 +145,6 @@ a:link {
 	height: 330px !important;
 	background: url("/sites/Image-display_BG.png") repeat-x scroll 0 0
 		transparent;
-	width: 956px !important;
 }
 
 #mid {
@@ -1423,7 +1420,7 @@ ul li {
 }
 
 .successDiv { /*display: none;*/ /*background-color: white;*/
-	margin: 180px 45px 100px 0px;
+	margin: 122px 45px 120px 0;
 }
 
 .terms-error label {
