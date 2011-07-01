@@ -803,7 +803,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 .gwt-MenuBar-horizontal {
 	background: none !important;
 	border: 0 !important;
-	margin-top: 3px;
+	/*margin-top: 3px;*/
 	margin-top: 0px\0  !important;
 }
 
@@ -1876,4 +1876,9 @@ noindex:-o-prefocus,.ibutton {
 .new_service_table td input[type="checkbox"],.new_service_table td .gwt-TextArea,.new_service_table td .gwt-TextBox,.new_service_table td .custom-combo,.new_service_table td label,.purchase_info_form td input[type="checkbox"],.purchase_info_form td .gwt-TextArea,.purchase_info_form td .gwt-TextBox,.purchase_info_form td .custom-combo,.purchase_info_form td label,.service-item-group td input[type="checkbox"],.service-item-group td .gwt-TextBox,.service-item-group td .custom-combo,.service-item-group td label
 	{
 	float: left\0;
+}
+.MENU_BAR_BG{
+     background: url("images/Menu bar_1x33.png") repeat-x scroll 0 0 transparent !important;
+     margin-top: 18px;
+    width: 100%;
 }

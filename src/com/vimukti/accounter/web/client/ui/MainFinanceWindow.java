@@ -157,6 +157,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		vpanel.setSize("100%", "100%");
 		HorizontalPanel hpanel2 = new HorizontalPanel();
 		hpanel2.add(menuBar);
+		hpanel2.setStyleName("MENU_BAR_BG");
 		vpanel.add(header);
 		vpanel.add(hpanel2);
 		add(vpanel);
