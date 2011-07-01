@@ -34,7 +34,7 @@ import com.vimukti.accounter.web.client.ui.core.History;
  */
 public class HistoryTokenUtils {
 
-	public static Object getObject(String string) {
+	public static List<Object> getObject(String string) {
 		int split1 = string.lastIndexOf('?');
 		int split2 = string.lastIndexOf(':');
 		List<Object> list = new ArrayList<Object>();
