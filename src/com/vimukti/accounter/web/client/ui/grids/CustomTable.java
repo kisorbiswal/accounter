@@ -131,7 +131,7 @@ public abstract class CustomTable extends VerticalPanel {
 		});
 
 		this.header = new FlexTable();
-		this.header.setWidth("100%");
+		//this.header.setWidth("100%");
 		CellFormatter headerCellFormater = this.header.getCellFormatter();
 
 		// add checkbox if the multiSection is True
