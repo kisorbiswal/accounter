@@ -1010,58 +1010,9 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	margin: 0 4px !important;
 }
 
-.invoice-total
-
- 
-
-tr
-
-
-:nth-child
-
- 
-
-(3){
-border-bottom
-
-
-:
-
- 
-
-1
-px
-
- 
-
-solid
-
- 
-
-#aaa
-
-
-;
-border-top
-
-
-:
-
- 
-
-1
-px
-
- 
-
-solid
-
- 
-
-#aaa
-
-
-;
+.invoice-total tr :nth-child (3){
+border-bottom:1px solid #aaa;
+border-top:1px solid #aaa;
 }
 .noScroll input[type="text"] { /*width: 150px !important;*/
 	
@@ -1116,9 +1067,9 @@ solid
 	margin: 5px 0 0 15px;
 }
 
-.standard-options td:nth-child (2){
-	float: right;
-	/*margin-right:40px;*/
+.standard-options td :nth-child(2){
+float:right;
+/*margin-right:40px;*/
 }
 
 .terms-payment-area {
@@ -1697,7 +1648,8 @@ iframe { /*display:none;*/
 	color: #737272 !important;
 	font-weight: bold !important;
 	margin: 0 9px !important;
-	text-align: right !important
+	text-align: right !important;
+	margin-left: -39px;
 }
 
 .help-panel a:hover {
@@ -1882,9 +1834,11 @@ noindex:-o-prefocus,.ibutton {
      background: url("images/Menu bar_1x33.png") repeat-x scroll 0 0 transparent !important;
     width: 100%;
 }
-.HEADER_GRID{
-    width:auto !important;
+
+.HEADER_GRID {
+	width: auto !important;
 }
-.export_icon,.edit_button_icon,.print_button_icon{
-   padding-top:3px;
+
+.export_icon,.edit_button_icon,.print_button_icon {
+	padding-top: 3px;
 }
