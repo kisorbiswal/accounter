@@ -21,6 +21,9 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
+import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
+import com.vimukti.accounter.web.client.ui.core.History;
 
 /**
  * @author K.Sandeep Sagar
@@ -91,7 +94,7 @@ public class HistoryTokenUtils {
 		return null;
 	}
 
-	public static String getString(Object object) {
+	public static String getObjectNameWithID(Object object) {
 		StringBuilder temp = new StringBuilder();// object.getClass().getName().replaceFirst("Client",
 		// "");
 		if (object instanceof ClientCustomer) {
@@ -183,8 +186,30 @@ public class HistoryTokenUtils {
 			temp.append("vendorcreditmemo");
 			temp.append(":");
 			temp.append(((ClientVendorCreditMemo) object).getStringID());
-
 		}
 		return temp.toString();
+	}
+
+	public static void setPreviousToken() {
+		History history = MainFinanceWindow.getViewManager().getTempHistory();
+		if (history != null) {
+			setPresentToken(history.getAction(), null);
+		} else {
+			setPresentToken(CompanyActionFactory.getCompanyHomeAction(), null);
+		}
+	}
+
+	public static String getTokenWithID(String historyToken, Object object) {
+		String token = historyToken;
+		if (object != null) {
+			token = token + "?" + getObjectNameWithID(object);
+		}
+		return token;
+	}
+
+	public static void setPresentToken(Action action, Object obj) {
+		MainFinanceWindow.shouldExecuteRun = false;
+		com.google.gwt.user.client.History.newItem(getTokenWithID(action
+				.getHistoryToken(), obj));
 	}
 }
