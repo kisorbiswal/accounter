@@ -80,7 +80,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		// setTitle(FinanceApplication.getFinanceUIConstants().bizantraPurchases());
 
 		VerticalPanel vlay = new VerticalPanel();
-		//vlay.setSize("100%", "100%");
+		// vlay.setSize("100%", "100%");
 		vlay.setWidth("100%");
 
 		viewManager = ViewManager.getInstance(true);
@@ -173,27 +173,26 @@ public class MainFinanceWindow extends VerticalPanel {
 			downpanel.getElement().getStyle().setMarginTop(25, Unit.PX);
 			Image image = new Image("images/Copyright_synbol.png");
 			image.setStyleName("copy-img");
-			//Label copyrightLabel = new Label("Copyright");
-			Label companyNameLabel = new Label(
-					" Vimukti Technologies Pvt. Ltd.");
+			// Label copyrightLabel = new Label("Copyright");
+			Anchor companyName = new Anchor(" Vimukti Technologies Pvt. Ltd.",
+					true, "www.vimukti.com");
 			Label allrightsLabel = new Label("All rights are reserved.");
-			//copyrightLabel.setStyleName("down-panel1");
+			// copyrightLabel.setStyleName("down-panel1");
 			allrightsLabel.setStyleName("down-panel1");
-			companyNameLabel.addStyleName("down-panel1");
+			companyName.addStyleName("down-panel1");
 			Anchor support = new Anchor("Support", true, "/site/support",
 					"_blank");
 			support.getElement().getStyle().setMarginLeft(6, Unit.PX);
-			//downpanel.add(copyrightLabel);
+			// downpanel.add(copyrightLabel);
 			downpanel.add(image);
-			downpanel.add(companyNameLabel);
+			downpanel.add(companyName);
 			downpanel.add(allrightsLabel);
 			downpanel.add(support);
 
 			// downpanel.setCellWidth(copyrightLabel, "1%");
 			// downpanel.setCellWidth(image, "1%");
 			// downpanel.setCellWidth(companyNameLabel, "13%");
-			downpanel
-					.setCellHorizontalAlignment(companyNameLabel, ALIGN_CENTER);
+			downpanel.setCellHorizontalAlignment(companyName, ALIGN_CENTER);
 			// downpanel.setCellWidth(allrightsLabel, "10%");
 			downpanel.setCellHorizontalAlignment(allrightsLabel, ALIGN_CENTER);
 			// downpanel.setCellWidth(support, "1%");
@@ -204,8 +203,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		VerticalPanel helppanel = new VerticalPanel();
 		helppanel.setWidth("97%");
 		helppanel.setStyleName("help-panel");
-		helppanel.add(help);
-		helppanel.add(item);
+		// helppanel.add(help);
+		// helppanel.add(item);
 		helppanel.setSpacing(10);
 		helppanel.add(downpanel);
 		helppanel.setCellHorizontalAlignment(downpanel, ALIGN_CENTER);
@@ -1232,7 +1231,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		// }
 		super.onLoad();
 		viewManager.fitToSize(this.getOffsetHeight(), 960);
-//		 if (GWT.isScript())
+		// if (GWT.isScript())
 		AccounterCometClient.start();
 		this.getElement().getParentElement()
 				.addClassName("main-finance-window");
