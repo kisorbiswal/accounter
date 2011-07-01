@@ -1646,9 +1646,7 @@ iframe { /*display:none;*/
 .help-panel a {
 	text-decoration: none;
 	color: #737272 !important;
-	margin-left: -39px;
 	font-weight: bold !important;
-	margin: 0 9px !important;
 	text-align: right !important;
 }
 
@@ -1841,4 +1839,7 @@ noindex:-o-prefocus,.ibutton {
 
 .export_icon,.edit_button_icon,.print_button_icon {
 	padding-top: 3px;
+}
+.help-panel tr td table td{
+   text-align:left;
 }
