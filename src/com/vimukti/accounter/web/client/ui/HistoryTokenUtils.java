@@ -92,80 +92,99 @@ public class HistoryTokenUtils {
 	}
 
 	public static String getString(Object object) {
-		String temp = object.getClass().getName().replaceFirst("Client", "");
+		StringBuilder temp = new StringBuilder();// object.getClass().getName().replaceFirst("Client",
+		// "");
 		if (object instanceof ClientCustomer) {
-
-			temp += ":" + ((ClientCustomer) object).getStringID();
+			temp.append("customer");
+			temp.append(":");
+			temp.append(((ClientCustomer) object).getStringID());
 
 		} else if (object instanceof ClientVendor) {
-
-			temp += ":" + ((ClientVendor) object).getStringID();
+			temp.append("vendor");
+			temp.append(":");
+			temp.append(((ClientVendor) object).getStringID());
 
 		} else if (object instanceof ClientItem) {
-
-			temp += ":" + ((ClientItem) object).getStringID();
+			temp.append("item");
+			temp.append(":");
+			temp.append(((ClientItem) object).getStringID());
 
 		} else if (object instanceof ClientAccount) {
-
-			temp += ":" + ((ClientAccount) object).getStringID();
+			temp.append("account");
+			temp.append(":");
+			temp.append(((ClientAccount) object).getStringID());
 
 		} else if (object instanceof ClientJournalEntry) {
-
-			temp += ":" + ((ClientJournalEntry) object).getStringID();
+			temp.append("journalentry");
+			temp.append(":");
+			temp.append(((ClientJournalEntry) object).getStringID());
 
 		} else if (object instanceof ClientTAXItem) {
-
-			temp += ":" + ((ClientTAXItem) object).getStringID();
+			temp.append("taxitem");
+			temp.append(":");
+			temp.append(((ClientTAXItem) object).getStringID());
 
 		} else if (object instanceof ClientTAXCode) {
-
-			temp += ":" + ((ClientTAXCode) object).getStringID();
+			temp.append("taxcode");
+			temp.append(":");
+			temp.append(((ClientTAXCode) object).getStringID());
 
 		} else if (object instanceof ClientInvoice) {
-
-			temp += ":" + ((ClientInvoice) object).getStringID();
+			temp.append("invoice");
+			temp.append(":");
+			temp.append(((ClientInvoice) object).getStringID());
 
 		} else if (object instanceof ClientCashSales) {
-
-			temp += ":" + ((ClientCashSales) object).getStringID();
+			temp.append("cashsales");
+			temp.append(":");
+			temp.append(((ClientCashSales) object).getStringID());
 
 		} else if (object instanceof ClientEstimate) {
-
-			temp += ":" + ((ClientEstimate) object).getStringID();
+			temp.append("estimate");
+			temp.append(":");
+			temp.append(((ClientEstimate) object).getStringID());
 
 		} else if (object instanceof ClientCustomerCreditMemo) {
-
-			temp += ":" + ((ClientCustomerCreditMemo) object).getStringID();
+			temp.append("customercreditmemo");
+			temp.append(":");
+			temp.append(((ClientCustomerCreditMemo) object).getStringID());
 
 		} else if (object instanceof ClientReceivePayment) {
-
-			temp += ":" + ((ClientReceivePayment) object).getStringID();
+			temp.append("receivepayment");
+			temp.append(":");
+			temp.append(((ClientReceivePayment) object).getStringID());
 
 		} else if (object instanceof ClientCustomerRefund) {
-
-			temp += ":" + ((ClientCustomerRefund) object).getStringID();
+			temp.append("customerrefund");
+			temp.append(":");
+			temp.append(((ClientCustomerRefund) object).getStringID());
 
 		} else if (object instanceof ClientCustomerPrePayment) {
-
-			temp += ":" + ((ClientCustomerPrePayment) object).getStringID();
+			temp.append("customerprepayment");
+			temp.append(":");
+			temp.append(((ClientCustomerPrePayment) object).getStringID());
 
 		} else if (object instanceof ClientEnterBill) {
-
-			temp += ":" + ((ClientEnterBill) object).getStringID();
+			temp.append("enterbill");
+			temp.append(":");
+			temp.append(((ClientEnterBill) object).getStringID());
 
 		} else if (object instanceof ClientPayBill) {
-
-			temp += ":" + ((ClientPayBill) object).getStringID();
+			temp.append("paybill");
+			temp.append(":");
+			temp.append(((ClientPayBill) object).getStringID());
 
 		} else if (object instanceof ClientCashPurchase) {
-
-			temp += ":" + ((ClientCashPurchase) object).getStringID();
+			temp.append("cashpurchase");
+			temp.append(":");
+			temp.append(((ClientCashPurchase) object).getStringID());
 
 		} else if (object instanceof ClientVendorCreditMemo) {
-
-			temp += ":" + ((ClientVendorCreditMemo) object).getStringID();
+			temp.append("vendorcreditmemo");
+			temp.append(":");
+			temp.append(((ClientVendorCreditMemo) object).getStringID());
 
 		}
-		return temp;
+		return temp.toString();
 	}
 }
