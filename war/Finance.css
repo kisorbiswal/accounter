@@ -211,6 +211,7 @@ h1 {
 
 .financeWindow { /* padding: 3px; praveena */ /*margin: 0 auto;*/
 	/*background: none repeat scroll 0 0 #F7F7F7 !important;*/
+	width:100%;
 	
 }
 
@@ -220,6 +221,8 @@ h1 {
 	height: 100% !important;
 	overflow: hidden !important;
 	padding-left: 9px;
+	width:100%;
+	margin-top:2px;
 }
 
 .actionOver {
@@ -725,7 +728,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .main-w-finance {
-	padding-left: 2px !important;
+	/*padding-left: 2px !important;*/
 	overflow: hidden !important;
 }
 
@@ -992,7 +995,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 
 .portletLabel {
 	color: white !important;
-	font-size: 15px;
+	font-size: 13px;
 	margin-top: -2px;
 }
 
@@ -1443,7 +1446,6 @@ solid
 .portlet-body {
 	background-color: white;
 	height: 100%;
-	padding-left: 10px;
 	padding-top: 10px;
 	width: 99%;
 	width: 98% \0;
@@ -1854,7 +1856,6 @@ noindex:-o-prefocus,.ibutton {
 }
 
 .finance-portlet table:FIRST-CHILD { /*width:100% !important;*/
-	
 }
 
 .gwt-Image {
@@ -1866,7 +1867,7 @@ noindex:-o-prefocus,.ibutton {
 }
 
 .standard-options .ibutton {
-	float: right\0  !important;
+	float: right  !important;
 }
 
 .new_service_table td:FIRST-CHILD,.purchase_info_form td:FIRST-CHILD {
@@ -1879,7 +1880,6 @@ noindex:-o-prefocus,.ibutton {
 }
 .MENU_BAR_BG{
      background: url("images/Menu bar_1x33.png") repeat-x scroll 0 0 transparent !important;
-     margin-top: 18px;
     width: 100%;
 }
 .HEADER_GRID{
