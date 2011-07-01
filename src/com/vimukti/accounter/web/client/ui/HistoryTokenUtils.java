@@ -3,6 +3,9 @@
  */
 package com.vimukti.accounter.web.client.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
@@ -32,66 +35,68 @@ import com.vimukti.accounter.web.client.ui.core.History;
 public class HistoryTokenUtils {
 
 	public static Object getObject(String string) {
-		String[] strings = string.split(":");
-		if (strings.length > 1) {
-			String temp = strings[0];
-			if (temp.equalsIgnoreCase("customer")) {
-				ClientCustomer clientCustomer = new ClientCustomer();
-				return clientCustomer.getObjectType();
-			} else if (temp.equalsIgnoreCase("vendor")) {
-				ClientVendor clientVendor = new ClientVendor();
-				return clientVendor.getObjectType();
-			} else if (temp.equalsIgnoreCase("item")) {
-				ClientItem clientItem = new ClientItem();
-				return clientItem.getObjectType();
-			} else if (temp.equalsIgnoreCase("account")) {
-				ClientAccount clientAccount = new ClientAccount();
-				return clientAccount.getObjectType();
-			} else if (temp.equalsIgnoreCase("journelentry")) {
-				ClientJournalEntry clientJournalEntry = new ClientJournalEntry();
-				return clientJournalEntry.getObjectType();
-			} else if (temp.equalsIgnoreCase("taxitem")) {
-				ClientTAXItem clientTAXItem = new ClientTAXItem();
-				return clientTAXItem.getObjectType();
-			} else if (temp.equalsIgnoreCase("taxcode")) {
-				ClientTAXCode clientTAXCode = new ClientTAXCode();
-				return clientTAXCode.getObjectType();
-			} else if (temp.equalsIgnoreCase("invoice")) {
-				ClientInvoice clientInvoice = new ClientInvoice();
-				return clientInvoice.getObjectType();
-			} else if (temp.equalsIgnoreCase("cashsale")) {
-				ClientCashSales clientCashSales = new ClientCashSales();
-				return clientCashSales.getObjectType();
-			} else if (temp.equalsIgnoreCase("estimate")) {
-				ClientEstimate clientEstimate = new ClientEstimate();
-				return clientEstimate.getObjectType();
-			} else if (temp.equalsIgnoreCase("customercreditmemo")) {
-				ClientCustomerCreditMemo clientCustomerCreditMemo = new ClientCustomerCreditMemo();
-				return clientCustomerCreditMemo.getObjectType();
-			} else if (temp.equalsIgnoreCase("receivepayment")) {
-				ClientReceivePayment clientReceivePayment = new ClientReceivePayment();
-				return clientReceivePayment.getObjectType();
-			} else if (temp.equalsIgnoreCase("customerrefund")) {
-				ClientCustomerRefund clientCustomerRefund = new ClientCustomerRefund();
-				return clientCustomerRefund.getObjectType();
-			} else if (temp.equalsIgnoreCase("customerprepayment")) {
-				ClientCustomerPrePayment clientCustomerPrePayment = new ClientCustomerPrePayment();
-				return clientCustomerPrePayment.getObjectType();
-			} else if (temp.equalsIgnoreCase("enterbill")) {
-				ClientEnterBill clientEnterBill = new ClientEnterBill();
-				return clientEnterBill.getObjectType();
-			} else if (temp.equalsIgnoreCase("paybill")) {
-				ClientPayBill clientPayBill = new ClientPayBill();
-				return clientPayBill.getObjectType();
-			} else if (temp.equalsIgnoreCase("cashpurchase")) {
-				ClientCashPurchase clientCashPurchase = new ClientCashPurchase();
-				return clientCashPurchase.getObjectType();
-			} else if (temp.equalsIgnoreCase("vendorcreditmemo")) {
-				ClientVendorCreditMemo clientVendorCreditMemo = new ClientVendorCreditMemo();
-				return clientVendorCreditMemo.getObjectType();
-			}
+		int split1 = string.lastIndexOf('?');
+		int split2 = string.lastIndexOf(':');
+		List<Object> list = new ArrayList<Object>();
+		list.add(string.substring(0, split1 - 1));
+		String temp = string.substring(split1 + 1, split2 - 1);
+		if (temp.equalsIgnoreCase("customer")) {
+			ClientCustomer clientCustomer = new ClientCustomer();
+			list.add(clientCustomer.getObjectType());
+		} else if (temp.equalsIgnoreCase("vendor")) {
+			ClientVendor clientVendor = new ClientVendor();
+			list.add(clientVendor.getObjectType());
+		} else if (temp.equalsIgnoreCase("item")) {
+			ClientItem clientItem = new ClientItem();
+			list.add(clientItem.getObjectType());
+		} else if (temp.equalsIgnoreCase("account")) {
+			ClientAccount clientAccount = new ClientAccount();
+			list.add(clientAccount.getObjectType());
+		} else if (temp.equalsIgnoreCase("journelentry")) {
+			ClientJournalEntry clientJournalEntry = new ClientJournalEntry();
+			list.add(clientJournalEntry.getObjectType());
+		} else if (temp.equalsIgnoreCase("taxitem")) {
+			ClientTAXItem clientTAXItem = new ClientTAXItem();
+			list.add(clientTAXItem.getObjectType());
+		} else if (temp.equalsIgnoreCase("taxcode")) {
+			ClientTAXCode clientTAXCode = new ClientTAXCode();
+			list.add(clientTAXCode.getObjectType());
+		} else if (temp.equalsIgnoreCase("invoice")) {
+			ClientInvoice clientInvoice = new ClientInvoice();
+			list.add(clientInvoice.getObjectType());
+		} else if (temp.equalsIgnoreCase("cashsale")) {
+			ClientCashSales clientCashSales = new ClientCashSales();
+			list.add(clientCashSales.getObjectType());
+		} else if (temp.equalsIgnoreCase("estimate")) {
+			ClientEstimate clientEstimate = new ClientEstimate();
+			list.add(clientEstimate.getObjectType());
+		} else if (temp.equalsIgnoreCase("customercreditmemo")) {
+			ClientCustomerCreditMemo clientCustomerCreditMemo = new ClientCustomerCreditMemo();
+			list.add(clientCustomerCreditMemo.getObjectType());
+		} else if (temp.equalsIgnoreCase("receivepayment")) {
+			ClientReceivePayment clientReceivePayment = new ClientReceivePayment();
+			list.add(clientReceivePayment.getObjectType());
+		} else if (temp.equalsIgnoreCase("customerrefund")) {
+			ClientCustomerRefund clientCustomerRefund = new ClientCustomerRefund();
+			list.add(clientCustomerRefund.getObjectType());
+		} else if (temp.equalsIgnoreCase("customerprepayment")) {
+			ClientCustomerPrePayment clientCustomerPrePayment = new ClientCustomerPrePayment();
+			list.add(clientCustomerPrePayment.getObjectType());
+		} else if (temp.equalsIgnoreCase("enterbill")) {
+			ClientEnterBill clientEnterBill = new ClientEnterBill();
+			list.add(clientEnterBill.getObjectType());
+		} else if (temp.equalsIgnoreCase("paybill")) {
+			ClientPayBill clientPayBill = new ClientPayBill();
+			list.add(clientPayBill.getObjectType());
+		} else if (temp.equalsIgnoreCase("cashpurchase")) {
+			ClientCashPurchase clientCashPurchase = new ClientCashPurchase();
+			list.add(clientCashPurchase.getObjectType());
+		} else if (temp.equalsIgnoreCase("vendorcreditmemo")) {
+			ClientVendorCreditMemo clientVendorCreditMemo = new ClientVendorCreditMemo();
+			list.add(clientVendorCreditMemo.getObjectType());
 		}
-		return null;
+		list.add(string.substring(split1 - 1, string.length() - 1));
+		return list;
 	}
 
 	public static String getObjectNameWithID(Object object) {
