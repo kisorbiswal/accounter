@@ -1882,3 +1882,6 @@ noindex:-o-prefocus,.ibutton {
      margin-top: 18px;
     width: 100%;
 }
+.HEADER_GRID{
+    width:auto !important;
+}

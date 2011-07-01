@@ -70,6 +70,7 @@ public class TransactionPayBillGrid extends
 	@Override
 	public void init() {
 		super.init();
+		this.header.setStyleName("gridHeader HEADER_GRID");
 		// this.addFooterValue(FinanceApplication.getVendorsMessages().subTotal(),
 		// canEdit ? 1 : 0);
 		// // OriginalAmount total

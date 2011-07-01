@@ -69,6 +69,7 @@ public class TransactionReceivePaymentGrid extends
 	@Override
 	public void init() {
 		super.init();
+		this.header.setStyleName("gridHeader HEADER_GRID");
 		// this.addFooterValue(FinanceApplication.getVendorsMessages().subTotal(),
 		// 1);
 		// this.addFooterValue("" + UIUtils.getCurrencySymbol() + "0.0", 2);
