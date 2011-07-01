@@ -301,6 +301,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 	@Override
 	public void fitToSize(int height, int width) {
 		// canvas.setHeight(height - 125 + "px");
-		canvas.setWidth(width - 15 + "px");
+        //canvas.setWidth(width - 15 + "px");
+		canvas.setWidth("auto");
 	}
 }
