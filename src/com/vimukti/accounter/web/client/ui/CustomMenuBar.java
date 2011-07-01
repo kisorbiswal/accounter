@@ -44,7 +44,7 @@ public class CustomMenuBar extends MenuBar {
 		CustomMenuItem menuItem = new CustomMenuItem(action.getText(), cmd);
 		this.menuItems.add(menuItem);
 		super.addItem(menuItem);
-		menuItem.setIcon(action.getSmallImage());
+		// menuItem.setIcon(action.getSmallImage());
 		// url("images/previous.png") no-repeat scroll 0 0 transparent
 		// menuItem.getElement().getStyle().setProperty(
 		// "background",
@@ -75,7 +75,5 @@ public class CustomMenuBar extends MenuBar {
 		}
 		super.onBrowserEvent(event);
 	}
-	
-	
 
 }

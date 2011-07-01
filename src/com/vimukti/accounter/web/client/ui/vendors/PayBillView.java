@@ -978,6 +978,6 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 	@Override
 	protected String getViewTitle() {
-		return vendorConstants.payBills();
+		return FinanceApplication.getVendorsMessages().payBills();
 	}
 }

@@ -1305,6 +1305,6 @@ public class MakeDepositView extends
 
 	@Override
 	protected String getViewTitle() {
-		return bankingConstants.makeDeposit();
+		return FinanceApplication.getBankingsMessages().makeDeposit();
 	}
 }

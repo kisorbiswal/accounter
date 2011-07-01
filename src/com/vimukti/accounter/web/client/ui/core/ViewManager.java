@@ -439,9 +439,9 @@ public class ViewManager extends DockPanel {
 				"right");
 		// "closeBtnParent");
 
-		//setSize("100%", "100%");
+		// setSize("100%", "100%");
 		setWidth("100%");
-		
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -1756,15 +1756,15 @@ public class ViewManager extends DockPanel {
 
 		this.height = height;
 		this.width = width;
-
+		System.err.println("View Manager"+height);
 		if (height - TOP_MENUBAR > 0) {
 			// this.scrollPanel.setHeight(height - TOP_MENUBAR + 8 + "px");
 			// this.rightCanvas.setHeight(height - TOP_MENUBAR + "px");
 		}
 
 		if (width - BORDER > 0) {
-			//this.scrollPanel.setWidth(width + BORDER + "px");
-			//this.setWidth(width + BORDER + "px");
+			// this.scrollPanel.setWidth(width + BORDER + "px");
+			// this.setWidth(width + BORDER + "px");
 			// this.rightCanvas.setWidth(width - BORDER + "px");
 		}
 

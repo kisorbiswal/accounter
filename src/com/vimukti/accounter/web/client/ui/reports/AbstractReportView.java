@@ -277,7 +277,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 		topLayout.add(currentDate);
 
 		printableLayout = new VerticalPanel();
-		//printableLayout.setSize("100%", "100%");
+		// printableLayout.setSize("100%", "100%");
 		printableLayout.setWidth("100%");
 		printableLayout.add(topLayout);
 		printableLayout.add(title);
@@ -636,10 +636,13 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 		if (height == 0) {
 			return;
 		}
+		height = 500;
 		fitHeight = height;
+		System.err.println("Height_1: " + height);
 		height = height - ViewManager.TOP_MENUBAR;
 		this.setHeight(height + "px");
 		grid.setHeight(height + "px");
+		System.err.println("Height_2: " + height);
 		mainLayout.setHeight(height - 5 + "px");
 		// }
 	}
