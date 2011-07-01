@@ -527,7 +527,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		mainVLay2.add(phoneAndFaxForm);
 		mainVLay2.setWidth("100%");
-		mainVLay2.getElement().getStyle().setMarginLeft(100, Unit.PX);
+		// mainVLay2.getElement().getStyle().setMarginLeft(100, Unit.PX);
 
 		HorizontalPanel mainHLay = new HorizontalPanel();
 		mainHLay.setWidth("100%");
@@ -563,7 +563,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		// okbtn.setText(FinanceApplication.getCompanyMessages().update());
 
-		mainHLay.setWidth("600");
+		mainHLay.setWidth("100%");
 		mainHLay.setHeight("250");
 
 		return mainHLay;

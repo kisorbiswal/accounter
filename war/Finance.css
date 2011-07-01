@@ -1885,3 +1885,6 @@ noindex:-o-prefocus,.ibutton {
 .HEADER_GRID{
     width:auto !important;
 }
+.export_icon,.edit_button_icon,.print_button_icon{
+   padding-top:3px;
+}

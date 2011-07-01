@@ -297,6 +297,7 @@ public class ViewManager extends DockPanel {
 		}
 
 		print1Button = new Image("/images/Print1.png");
+		print1Button.setStyleName("print_button_icon");
 		print1Button
 				.setTitle(FinanceApplication.getCustomersMessages().print());
 		print1Button.addClickHandler(new ClickHandler() {
@@ -310,6 +311,7 @@ public class ViewManager extends DockPanel {
 		});
 
 		exportButton = new Image("/images/export-icon.png");
+		exportButton.setStyleName("export_icon");
 		exportButton.setTitle("Export to CSV ");
 		exportButton.addClickHandler(new ClickHandler() {
 
@@ -333,6 +335,7 @@ public class ViewManager extends DockPanel {
 		// });
 
 		edit1Button = new Image("/images/Page_edit1.png");
+		edit1Button.setStyleName("edit_button_icon");
 		edit1Button.setTitle(FinanceApplication.getCustomersMessages().edit());
 		edit1Button.addClickHandler(new ClickHandler() {
 
