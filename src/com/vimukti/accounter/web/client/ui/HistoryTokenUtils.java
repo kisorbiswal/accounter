@@ -92,43 +92,80 @@ public class HistoryTokenUtils {
 	}
 
 	public static String getString(Object object) {
+		String temp = object.getClass().getName().replaceFirst("Client", "");
 		if (object instanceof ClientCustomer) {
-			return "customer";
+
+			temp += ":" + ((ClientCustomer) object).getStringID();
+
 		} else if (object instanceof ClientVendor) {
-			return "vendor";
+
+			temp += ":" + ((ClientVendor) object).getStringID();
+
 		} else if (object instanceof ClientItem) {
-			return "item";
+
+			temp += ":" + ((ClientItem) object).getStringID();
+
 		} else if (object instanceof ClientAccount) {
-			return "account";
+
+			temp += ":" + ((ClientAccount) object).getStringID();
+
 		} else if (object instanceof ClientJournalEntry) {
-			return "journalentry";
+
+			temp += ":" + ((ClientJournalEntry) object).getStringID();
+
 		} else if (object instanceof ClientTAXItem) {
-			return "taxitem";
+
+			temp += ":" + ((ClientTAXItem) object).getStringID();
+
 		} else if (object instanceof ClientTAXCode) {
-			return "taxcode";
+
+			temp += ":" + ((ClientTAXCode) object).getStringID();
+
 		} else if (object instanceof ClientInvoice) {
-			return "invoice";
+
+			temp += ":" + ((ClientInvoice) object).getStringID();
+
 		} else if (object instanceof ClientCashSales) {
-			return "cashsale";
+
+			temp += ":" + ((ClientCashSales) object).getStringID();
+
 		} else if (object instanceof ClientEstimate) {
-			return "estimate";
+
+			temp += ":" + ((ClientEstimate) object).getStringID();
+
 		} else if (object instanceof ClientCustomerCreditMemo) {
-			return "customercreditmemo";
+
+			temp += ":" + ((ClientCustomerCreditMemo) object).getStringID();
+
 		} else if (object instanceof ClientReceivePayment) {
-			return "receivepayment";
+
+			temp += ":" + ((ClientReceivePayment) object).getStringID();
+
 		} else if (object instanceof ClientCustomerRefund) {
-			return "customerrefund";
+
+			temp += ":" + ((ClientCustomerRefund) object).getStringID();
+
 		} else if (object instanceof ClientCustomerPrePayment) {
-			return "customerprepayment";
+
+			temp += ":" + ((ClientCustomerPrePayment) object).getStringID();
+
 		} else if (object instanceof ClientEnterBill) {
-			return "enterbill";
+
+			temp += ":" + ((ClientEnterBill) object).getStringID();
+
 		} else if (object instanceof ClientPayBill) {
-			return "paybill";
+
+			temp += ":" + ((ClientPayBill) object).getStringID();
+
 		} else if (object instanceof ClientCashPurchase) {
-			return "cashpurchase";
+
+			temp += ":" + ((ClientCashPurchase) object).getStringID();
+
 		} else if (object instanceof ClientVendorCreditMemo) {
-			return "vendorcreditmemo";
+
+			temp += ":" + ((ClientVendorCreditMemo) object).getStringID();
+
 		}
-		return null;
+		return temp;
 	}
 }
