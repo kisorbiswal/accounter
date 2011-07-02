@@ -1,10 +1,14 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import com.google.gwt.user.client.History;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
+import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 
 public class ServiceCombo extends CustomCombo<ClientItem> {
 	// Type For Checking Request is from Customer View Or Vendor View
@@ -44,10 +48,11 @@ public class ServiceCombo extends CustomCombo<ClientItem> {
 		if (type == 1) {
 			action = CustomersActionFactory.getNewItemAction();
 		} else {
-			action = CompanyActionFactory.getNewItemAction();
+			action = VendorsActionFactory.getNewItemAction();
 		}
 		action.setActionSource(this);
 		action.setType(1);
+		HistoryTokenUtils.setPresentToken(action, null);
 		action.run(null, true);
 	}
 

@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.gwt.user.client.History;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
@@ -66,6 +69,7 @@ public class PurchaseAccountsCombo extends GridAccountsCombo {
 				ClientAccount.TYPE_COST_OF_GOODS_SOLD,
 				ClientAccount.TYPE_OTHER_EXPENSE,
 				ClientAccount.TYPE_FIXED_ASSET, ClientAccount.TYPE_EXPENSE));
+		HistoryTokenUtils.setPresentToken(action, null);
 		action.run(null, true);
 
 	}

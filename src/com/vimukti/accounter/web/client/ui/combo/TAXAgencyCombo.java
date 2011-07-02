@@ -1,7 +1,10 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import com.google.gwt.user.client.History;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
@@ -30,6 +33,7 @@ public class TAXAgencyCombo extends CustomCombo<ClientTAXAgency> {
 	public void onAddNew() {
 		Action action = CompanyActionFactory.getNewTAXAgencyAction();
 		action.setActionSource(this);
+		HistoryTokenUtils.setPresentToken(action, null);
 		action.run(null, true);
 	}
 

@@ -6,8 +6,11 @@ package com.vimukti.accounter.web.client.ui.combo;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.History;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
@@ -50,6 +53,7 @@ public class FixedAssetAccountCombo extends AccountCombo {
 		action.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.FIXEDASSET_COMBO));
 		action.setActionSource(this);
+		HistoryTokenUtils.setPresentToken(action, null);
 		action.run(null, true);
 
 	}

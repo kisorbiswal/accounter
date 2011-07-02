@@ -1,6 +1,9 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import com.google.gwt.user.client.History;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
@@ -31,6 +34,7 @@ public class SalesPersonCombo extends CustomCombo<ClientSalesPerson> {
 	public void onAddNew() {
 		Action action = CompanyActionFactory.getNewSalesperSonAction();
 		action.setActionSource(this);
+		HistoryTokenUtils.setPresentToken(action, null);
 		action.run(null, true);
 	}
 

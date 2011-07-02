@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.gwt.user.client.History;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
@@ -98,6 +101,7 @@ public class PayFromAccountsCombo extends AccountCombo {
 				// ClientAccount.TYPE_CASH,
 				// ClientAccount.TYPE_CREDIT_CARD,
 				ClientAccount.TYPE_OTHER_CURRENT_ASSET));
+		HistoryTokenUtils.setPresentToken(action, null);
 		action.run(null, true);
 
 	}
