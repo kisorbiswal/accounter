@@ -44,4 +44,10 @@ public class CreateTaxesAction extends Action {
 		return "/images/Creating_taxes.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

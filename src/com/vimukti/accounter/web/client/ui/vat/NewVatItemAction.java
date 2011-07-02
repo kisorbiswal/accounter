@@ -17,10 +17,10 @@ public class NewVatItemAction extends Action {
 		super(text);
 		String flag;
 		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			flag=FinanceApplication.getCompanyMessages().company();
+			flag = FinanceApplication.getCompanyMessages().company();
 		else
-			flag=FinanceApplication.getVATMessages().VAT();
-		this.catagory =flag;
+			flag = FinanceApplication.getVATMessages().VAT();
+		this.catagory = flag;
 	}
 
 	@Override
@@ -67,10 +67,19 @@ public class NewVatItemAction extends Action {
 		});
 
 	}
-	
+
 	@Override
 	public String getImageUrl() {
 		// TODO Auto-generated method stub
 		return "/images/Vat_item.png";
+	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+			return "newVatItem";
+		else
+			return "newTaxItem";
 	}
 }

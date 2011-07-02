@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
@@ -130,9 +131,12 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (selectedVatAgency != null)
+				if (selectedVatAgency != null) {
+					HistoryTokenUtils.setPresentToken(VatActionFactory
+							.getVatAdjustmentAction(), selectedVatAgency);
 					VatActionFactory.getVatAdjustmentAction().run(
 							selectedVatAgency, true);
+				}
 
 			}
 		});

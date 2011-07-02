@@ -79,4 +79,10 @@ public class ReceiveVATAction extends Action {
 		return "";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "receiveVat";
+	}
+
 }

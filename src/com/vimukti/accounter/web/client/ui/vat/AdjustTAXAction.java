@@ -77,4 +77,13 @@ public class AdjustTAXAction extends Action {
 		return "/images/Vat_adjustment.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+			return "vatAdjustment";
+		else
+			return "taxAdjustment";
+	}
+
 }

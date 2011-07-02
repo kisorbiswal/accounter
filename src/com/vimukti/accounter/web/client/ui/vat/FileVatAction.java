@@ -70,4 +70,10 @@ public class FileVatAction extends Action {
 		return "/images/File_vat.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "fileVAT";
+	}
+
 }

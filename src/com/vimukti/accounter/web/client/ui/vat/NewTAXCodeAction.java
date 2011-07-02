@@ -67,4 +67,10 @@ public class NewTAXCodeAction extends Action {
 		return "/images/Sales_Tax.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "newVatCode";
+	}
+
 }

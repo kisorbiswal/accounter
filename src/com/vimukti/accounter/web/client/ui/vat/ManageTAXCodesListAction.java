@@ -96,4 +96,10 @@ public class ManageTAXCodesListAction extends Action {
 		// TODO Auto-generated method stub
 		return "/images/Manage_Sales_Tax_Group.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "vatCodes";
+	}
 }

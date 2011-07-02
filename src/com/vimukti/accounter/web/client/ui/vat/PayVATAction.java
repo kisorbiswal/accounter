@@ -72,4 +72,10 @@ public class PayVATAction extends Action {
 		return "";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "payVat";
+	}
+
 }

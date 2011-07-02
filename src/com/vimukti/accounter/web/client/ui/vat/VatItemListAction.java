@@ -63,4 +63,10 @@ public class VatItemListAction extends Action {
 		return "/images/Vat_item.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "vatItems";
+	}
+
 }

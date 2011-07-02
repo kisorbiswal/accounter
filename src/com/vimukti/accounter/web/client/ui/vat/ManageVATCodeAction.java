@@ -62,4 +62,10 @@ public class ManageVATCodeAction extends Action {
 		// TODO Auto-generated method stub
 		return "";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

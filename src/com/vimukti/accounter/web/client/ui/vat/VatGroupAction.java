@@ -67,4 +67,10 @@ public class VatGroupAction extends Action {
 		return "/images/Vat_group.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
