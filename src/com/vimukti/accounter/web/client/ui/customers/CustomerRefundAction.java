@@ -77,4 +77,10 @@ public class CustomerRefundAction extends Action {
 		
 		return "/images/customer_refunds.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "customerRefund";
+	}
 }

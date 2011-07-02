@@ -75,4 +75,10 @@ public class SalesOrderListAction extends Action {
 		return "/images/Sales-order-list.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "salesOrderList";
+	}
+
 }

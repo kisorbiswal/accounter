@@ -80,4 +80,10 @@ public class NewCreditsAndRefundsAction extends Action {
 		
 		return "/images/new_credit_and_refunds.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "newCredit";
+	}
 }

@@ -80,4 +80,10 @@ public class ReceivePaymentAction extends Action {
 		
 		return "/images/recive_payments.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "receivePayment";
+	}
 }

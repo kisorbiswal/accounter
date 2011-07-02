@@ -23,9 +23,10 @@ public class InvoicesAction extends Action {
 		this.catagory = FinanceApplication.getCustomersMessages().customer();
 	}
 
-	public InvoicesAction(String text, String iconString) {
+	public InvoicesAction(String text, String iconString, String viewType) {
 		super(text, iconString);
 		this.catagory = FinanceApplication.getCustomersMessages().customer();
+		this.viewType = viewType;
 	}
 
 	@Override
@@ -87,5 +88,11 @@ public class InvoicesAction extends Action {
 	public String getImageUrl() {
 
 		return "/images/invoices.png";
+	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "invoices";
 	}
 }

@@ -80,4 +80,10 @@ public class NewQuoteAction extends Action {
 		
 		return "/images/new_quote.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "newQuote";
+	}
 }

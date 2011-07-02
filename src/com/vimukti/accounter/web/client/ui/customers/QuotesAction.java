@@ -76,4 +76,10 @@ public class QuotesAction extends Action {
 		
 		return "/images/quotes.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "quotes";
+	}
 }

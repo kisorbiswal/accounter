@@ -75,4 +75,10 @@ public class ReceivedPaymentsAction extends Action {
 		
 		return "/images/recived_payment_list.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "receivePayments";
+	}
 }

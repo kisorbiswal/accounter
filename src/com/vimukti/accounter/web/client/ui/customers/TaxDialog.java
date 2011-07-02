@@ -1,10 +1,13 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -78,6 +81,7 @@ public class TaxDialog extends BaseDialog {
 							Action action = CompanyActionFactory
 									.getManageSalesTaxGroupsAction();
 							action.setActionSource(actionSource);
+							HistoryTokenUtils.setPresentToken(action, null);
 							action.run(null, true);
 						} catch (Throwable e) {
 							Accounter.showError(FinanceApplication
@@ -93,6 +97,7 @@ public class TaxDialog extends BaseDialog {
 							Action action = VatActionFactory
 									.getNewVatItemAction();
 							action.setActionSource(actionSource);
+							HistoryTokenUtils.setPresentToken(action, null);
 							action.run(null, true);
 							// VatActionFactory.getNewVatItemAction().run(null,
 							// true);

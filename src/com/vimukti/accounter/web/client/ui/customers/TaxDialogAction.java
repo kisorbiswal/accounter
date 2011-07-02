@@ -46,4 +46,10 @@ public class TaxDialogAction extends Action {
 		// TODO Auto-generated method stub
 		return "/images/record_expenses.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

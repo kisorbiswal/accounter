@@ -75,4 +75,10 @@ public class NewCustomerAction extends Action {
 
 		return "/images/new_customer.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "newCustomer";
+	}
 }

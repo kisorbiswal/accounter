@@ -43,4 +43,10 @@ public class NewTimeEntryAction extends Action {
 		return null;
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

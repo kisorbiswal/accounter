@@ -76,4 +76,10 @@ public class SalesOrderAction extends Action {
 	public String getImageUrl() {
 		return "/images/Sales-order.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "salesOrder";
+	}
 }

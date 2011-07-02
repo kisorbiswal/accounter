@@ -76,4 +76,10 @@ public class NewInvoiceAction extends Action {
 		
 		return "/images/new_invoice.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "newInvoice";
+	}
 }
