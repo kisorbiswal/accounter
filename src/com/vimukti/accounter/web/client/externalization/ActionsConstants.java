@@ -91,7 +91,7 @@ public interface ActionsConstants extends FinanceConstants {
 
 	String payTypeList();
 
-	String preferences();
+	String companyPreferences();
 
 	String print();
 
