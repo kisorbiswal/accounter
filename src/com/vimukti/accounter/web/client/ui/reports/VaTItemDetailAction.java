@@ -69,4 +69,10 @@ public class VaTItemDetailAction extends Action {
 	public String getImageUrl() {
 		return "/images/reports.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "vatItemDetail";
+	}
 }

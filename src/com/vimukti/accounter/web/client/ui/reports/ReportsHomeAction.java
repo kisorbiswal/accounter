@@ -55,4 +55,10 @@ public class ReportsHomeAction extends Action {
 		return "/images/report_home.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "reportHome";
+	}
+
 }

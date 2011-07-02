@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
@@ -46,6 +47,7 @@ public class ReportsRPC {
 
 			public void onSuccess(T result) {
 				if (result != null) {
+					HistoryTokenUtils.setPresentToken(a, result);
 					UIUtils.runAction(result, a);
 				}
 			}

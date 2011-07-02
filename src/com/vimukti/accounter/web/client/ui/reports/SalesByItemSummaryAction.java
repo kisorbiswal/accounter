@@ -74,4 +74,10 @@ public class SalesByItemSummaryAction extends Action {
 		return "/images/reports.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "salesByItemSummary";
+	}
+
 }
