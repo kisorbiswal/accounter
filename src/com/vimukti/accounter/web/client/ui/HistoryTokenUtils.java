@@ -38,64 +38,67 @@ public class HistoryTokenUtils {
 		int split1 = string.lastIndexOf('?');
 		int split2 = string.lastIndexOf(':');
 		List<Object> list = new ArrayList<Object>();
-		list.add(string.substring(0, split1 - 1));
-		String temp = string.substring(split1 + 1, split2 - 1);
-		if (temp.equalsIgnoreCase("customer")) {
-			ClientCustomer clientCustomer = new ClientCustomer();
-			list.add(clientCustomer.getObjectType());
-		} else if (temp.equalsIgnoreCase("vendor")) {
-			ClientVendor clientVendor = new ClientVendor();
-			list.add(clientVendor.getObjectType());
-		} else if (temp.equalsIgnoreCase("item")) {
-			ClientItem clientItem = new ClientItem();
-			list.add(clientItem.getObjectType());
-		} else if (temp.equalsIgnoreCase("account")) {
-			ClientAccount clientAccount = new ClientAccount();
-			list.add(clientAccount.getObjectType());
-		} else if (temp.equalsIgnoreCase("journelentry")) {
-			ClientJournalEntry clientJournalEntry = new ClientJournalEntry();
-			list.add(clientJournalEntry.getObjectType());
-		} else if (temp.equalsIgnoreCase("taxitem")) {
-			ClientTAXItem clientTAXItem = new ClientTAXItem();
-			list.add(clientTAXItem.getObjectType());
-		} else if (temp.equalsIgnoreCase("taxcode")) {
-			ClientTAXCode clientTAXCode = new ClientTAXCode();
-			list.add(clientTAXCode.getObjectType());
-		} else if (temp.equalsIgnoreCase("invoice")) {
-			ClientInvoice clientInvoice = new ClientInvoice();
-			list.add(clientInvoice.getObjectType());
-		} else if (temp.equalsIgnoreCase("cashsale")) {
-			ClientCashSales clientCashSales = new ClientCashSales();
-			list.add(clientCashSales.getObjectType());
-		} else if (temp.equalsIgnoreCase("estimate")) {
-			ClientEstimate clientEstimate = new ClientEstimate();
-			list.add(clientEstimate.getObjectType());
-		} else if (temp.equalsIgnoreCase("customercreditmemo")) {
-			ClientCustomerCreditMemo clientCustomerCreditMemo = new ClientCustomerCreditMemo();
-			list.add(clientCustomerCreditMemo.getObjectType());
-		} else if (temp.equalsIgnoreCase("receivepayment")) {
-			ClientReceivePayment clientReceivePayment = new ClientReceivePayment();
-			list.add(clientReceivePayment.getObjectType());
-		} else if (temp.equalsIgnoreCase("customerrefund")) {
-			ClientCustomerRefund clientCustomerRefund = new ClientCustomerRefund();
-			list.add(clientCustomerRefund.getObjectType());
-		} else if (temp.equalsIgnoreCase("customerprepayment")) {
-			ClientCustomerPrePayment clientCustomerPrePayment = new ClientCustomerPrePayment();
-			list.add(clientCustomerPrePayment.getObjectType());
-		} else if (temp.equalsIgnoreCase("enterbill")) {
-			ClientEnterBill clientEnterBill = new ClientEnterBill();
-			list.add(clientEnterBill.getObjectType());
-		} else if (temp.equalsIgnoreCase("paybill")) {
-			ClientPayBill clientPayBill = new ClientPayBill();
-			list.add(clientPayBill.getObjectType());
-		} else if (temp.equalsIgnoreCase("cashpurchase")) {
-			ClientCashPurchase clientCashPurchase = new ClientCashPurchase();
-			list.add(clientCashPurchase.getObjectType());
-		} else if (temp.equalsIgnoreCase("vendorcreditmemo")) {
-			ClientVendorCreditMemo clientVendorCreditMemo = new ClientVendorCreditMemo();
-			list.add(clientVendorCreditMemo.getObjectType());
-		}
-		list.add(string.substring(split1 - 1, string.length() - 1));
+		if (!(split1 <= 0) && !(split2 <= 0)) {
+ 			list.add(string.substring(0, split1));
+			String temp = string.substring(split1 + 1, split2);
+			if (temp.equalsIgnoreCase("customer")) {
+				ClientCustomer clientCustomer = new ClientCustomer();
+				list.add(clientCustomer.getObjectType());
+			} else if (temp.equalsIgnoreCase("vendor")) {
+				ClientVendor clientVendor = new ClientVendor();
+				list.add(clientVendor.getObjectType());
+			} else if (temp.equalsIgnoreCase("item")) {
+				ClientItem clientItem = new ClientItem();
+				list.add(clientItem.getObjectType());
+			} else if (temp.equalsIgnoreCase("account")) {
+				ClientAccount clientAccount = new ClientAccount();
+				list.add(clientAccount.getObjectType());
+			} else if (temp.equalsIgnoreCase("journelentry")) {
+				ClientJournalEntry clientJournalEntry = new ClientJournalEntry();
+				list.add(clientJournalEntry.getObjectType());
+			} else if (temp.equalsIgnoreCase("taxitem")) {
+				ClientTAXItem clientTAXItem = new ClientTAXItem();
+				list.add(clientTAXItem.getObjectType());
+			} else if (temp.equalsIgnoreCase("taxcode")) {
+				ClientTAXCode clientTAXCode = new ClientTAXCode();
+				list.add(clientTAXCode.getObjectType());
+			} else if (temp.equalsIgnoreCase("invoice")) {
+				ClientInvoice clientInvoice = new ClientInvoice();
+				list.add(clientInvoice.getObjectType());
+			} else if (temp.equalsIgnoreCase("cashsale")) {
+				ClientCashSales clientCashSales = new ClientCashSales();
+				list.add(clientCashSales.getObjectType());
+			} else if (temp.equalsIgnoreCase("estimate")) {
+				ClientEstimate clientEstimate = new ClientEstimate();
+				list.add(clientEstimate.getObjectType());
+			} else if (temp.equalsIgnoreCase("customercreditmemo")) {
+				ClientCustomerCreditMemo clientCustomerCreditMemo = new ClientCustomerCreditMemo();
+				list.add(clientCustomerCreditMemo.getObjectType());
+			} else if (temp.equalsIgnoreCase("receivepayment")) {
+				ClientReceivePayment clientReceivePayment = new ClientReceivePayment();
+				list.add(clientReceivePayment.getObjectType());
+			} else if (temp.equalsIgnoreCase("customerrefund")) {
+				ClientCustomerRefund clientCustomerRefund = new ClientCustomerRefund();
+				list.add(clientCustomerRefund.getObjectType());
+			} else if (temp.equalsIgnoreCase("customerprepayment")) {
+				ClientCustomerPrePayment clientCustomerPrePayment = new ClientCustomerPrePayment();
+				list.add(clientCustomerPrePayment.getObjectType());
+			} else if (temp.equalsIgnoreCase("enterbill")) {
+				ClientEnterBill clientEnterBill = new ClientEnterBill();
+				list.add(clientEnterBill.getObjectType());
+			} else if (temp.equalsIgnoreCase("paybill")) {
+				ClientPayBill clientPayBill = new ClientPayBill();
+				list.add(clientPayBill.getObjectType());
+			} else if (temp.equalsIgnoreCase("cashpurchase")) {
+				ClientCashPurchase clientCashPurchase = new ClientCashPurchase();
+				list.add(clientCashPurchase.getObjectType());
+			} else if (temp.equalsIgnoreCase("vendorcreditmemo")) {
+				ClientVendorCreditMemo clientVendorCreditMemo = new ClientVendorCreditMemo();
+				list.add(clientVendorCreditMemo.getObjectType());
+			}
+			list.add(string.substring(split2 + 1));
+		} else
+			list.add(string);
 		return list;
 	}
 
@@ -195,26 +198,27 @@ public class HistoryTokenUtils {
 		return temp.toString();
 	}
 
-	// public static void setPreviousToken() {
-	// History history = MainFinanceWindow.getViewManager().getTempHistory();
-	// if (history != null) {
-	// setPresentToken(history.getAction(), null);
-	// } else {
-	// setPresentToken(CompanyActionFactory.getCompanyHomeAction(), null);
-	// }
-	// }
-	//
-	// public static String getTokenWithID(String historyToken, Object object) {
-	// String token = historyToken;
-	// if (object != null) {
-	// token = token + "?" + getObjectNameWithID(object);
-	// }
-	// return token;
-	// }
-	//
-	// public static void setPresentToken(Action action, Object obj) {
-	// MainFinanceWindow.shouldExecuteRun = false;
-	// com.google.gwt.user.client.History.newItem(getTokenWithID(action
-	// .getHistoryToken(), obj));
-	// }
+	public static void setPreviousToken() {
+		History history = MainFinanceWindow.getViewManager().getTempHistory();
+		if (history != null) {
+			setPresentToken(history.getAction(), null);
+		} else {
+			setPresentToken(CompanyActionFactory.getCompanyHomeAction(), null);
+		}
+	}
+
+	public static String getTokenWithID(String historyToken, Object object) {
+		String token = historyToken;
+		if (object != null) {
+			token = token + "?" + getObjectNameWithID(object);
+		}
+		return token;
+	}
+
+	public static void setPresentToken(Action action, Object obj) {
+		MainFinanceWindow.shouldExecuteRun = false;
+		MainFinanceWindow.oldToken = com.google.gwt.user.client.History.getToken();
+		com.google.gwt.user.client.History.newItem(getTokenWithID(action
+				.getHistoryToken(), obj));
+	}
 }

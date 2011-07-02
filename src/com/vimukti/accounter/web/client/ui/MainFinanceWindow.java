@@ -1,13 +1,21 @@
 package com.vimukti.accounter.web.client.ui;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -19,10 +27,15 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.FocusImpl;
 import com.vimukti.accounter.web.client.commet.AccounterCometClient;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.company.HelpItem;
+import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
+import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
@@ -33,6 +46,7 @@ import com.vimukti.accounter.web.client.ui.core.ReportsActionFactory;
 import com.vimukti.accounter.web.client.ui.core.SalesOrderActionFactory;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
+import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 import com.vimukti.accounter.web.client.ui.settings.SettingsActionFactory;
 import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
 
@@ -55,13 +69,30 @@ public class MainFinanceWindow extends VerticalPanel {
 	public static boolean iscancelEvent;
 	private HelpItem item;
 	private HorizontalPanel downpanel;
+	public Map<String, Action> actions;
+	public static String oldToken;
+	public static boolean shouldExecuteRun = true;
 
 	public MainFinanceWindow(BaseFinanceWindow parent) {
+		initializeActionsWithTokens();
 		createControls();
 		financeWindow = this;
 		sinkEvents(Event.ONMOUSEOVER);
 		if (GWT.isScript())
 			removeLoadingImage();
+
+		History.addValueChangeHandler(new ValueChangeHandler<String>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<String> event) {
+				// TODO Auto-generated method stub
+				if (shouldExecuteRun)
+					historyChanged(event.getValue());
+			}
+		});
+		oldToken = CompanyActionFactory.getCompanyHomeAction()
+				.getHistoryToken();
+		History.newItem(oldToken);
 		handleBackSpaceEvent();
 	}
 
@@ -299,42 +330,50 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	private CustomMenuBar getSettingsMenu() {
 		CustomMenuBar settingsMenuBar = new CustomMenuBar();
-		settingsMenuBar.addItem("General Settings", getSettingsCommand(1));
-		// settingsMenuBar.addItem("Inventory Items", getSettingsCommand(2));
-		// settingsMenuBar.addItem("Chart of Accounts", getSettingsCommand(3));
+		settingsMenuBar.addItem(SettingsActionFactory
+				.getGeneralSettingsAction());
+		// settingsMenuBar.addItem(SettingsActionFactory.getInventoryItemsAction());
+		// settingsMenuBar.addItem(SettingsActionFactory.getChartOfAccountsAction());
 		return settingsMenuBar;
 	}
 
-	private Command getSettingsCommand(final int i) {
-		Command settingsCommand = new Command() {
-
-			@Override
-			public void execute() {
-				switch (i) {
-				case 1:
-					SettingsActionFactory.getGeneralSettingsAction().run(null,
-							false);
-					break;
-				case 2:
-					SettingsActionFactory.getInventoryItemsAction().run(null,
-							false);
-					break;
-				case 3:
-					SettingsActionFactory.getChartOfAccountsAction().run(null,
-							false);
-					break;
-				}
-			}
-		};
-		return settingsCommand;
-	}
+	// private Command getSettingsCommand(final int i) {
+	// Command settingsCommand = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// switch (i) {
+	// case 1:
+	// SettingsActionFactory.getGeneralSettingsAction().run(null,
+	// false);
+	// break;
+	// case 2:
+	// SettingsActionFactory.getInventoryItemsAction().run(null,
+	// false);
+	// break;
+	// case 3:
+	// SettingsActionFactory.getChartOfAccountsAction().run(null,
+	// false);
+	// break;
+	// }
+	// }
+	// };
+	// return settingsCommand;
+	// }
 
 	private Command getDashBoardCommand() {
 		Command dashBoardcmd = new Command() {
 
 			@Override
 			public void execute() {
-				CompanyActionFactory.getCompanyHomeAction().run(null, false);
+				String historyToken = CompanyActionFactory
+						.getCompanyHomeAction().getHistoryToken();
+				if (!History.getToken().equals(historyToken)) {
+					oldToken = History.getToken();
+					History.newItem(historyToken);
+				} else
+					CompanyActionFactory.getCompanyHomeAction()
+							.run(null, false);
 			}
 		};
 		return dashBoardcmd;
@@ -929,8 +968,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
 			vendorMenuBar.addItem(VendorsActionFactory
 					.getRecordExpensesAction());
-			vendorMenuBar
-					.addItem(VendorsActionFactory.getExpenseClaimsAction());
+			vendorMenuBar.addItem(VendorsActionFactory
+					.getExpenseClaimsAction(0));
 			// vendorMenuBar.addItem(VendorsActionFactory.getItemReceiptAction());
 			vendorMenuBar.addSeparator();
 		}
@@ -958,7 +997,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		CustomMenuBar newVendorMenuBar = getSubMenu();
 		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
 			newVendorMenuBar.addItem(VendorsActionFactory.getNewVendorAction());
-			newVendorMenuBar.addItem(CompanyActionFactory.getNewItemAction());
+			newVendorMenuBar.addItem(VendorsActionFactory.getNewItemAction());
 		}
 		if (FinanceApplication.getUser().canDoBanking())
 			newVendorMenuBar.addItem(VendorsActionFactory
@@ -1008,7 +1047,7 @@ public class MainFinanceWindow extends VerticalPanel {
 			customerListMenuBar.addItem(CustomersActionFactory
 					.getQuotesAction());
 			customerListMenuBar.addItem(CustomersActionFactory
-					.getInvoicesAction());
+					.getInvoicesAction(null));
 		}
 		if (FinanceApplication.getUser().canSeeBanking()) {
 			customerListMenuBar.addItem(CustomersActionFactory
@@ -1328,5 +1367,402 @@ public class MainFinanceWindow extends VerticalPanel {
 		return eventTarget.contains("HTMLInputElement")
 				|| eventTarget.contains("HTMLSelectElement")
 				|| eventTarget.contains("HTMLTextAreaElement");
+	}
+
+	public <T extends IAccounterCore> void historyChanged(String value) {
+		if (actions == null || value == null)
+			return;
+
+		String historyToken = null, stringID = null;
+		AccounterCoreType type = null;
+
+		List<Object> list = HistoryTokenUtils.getObject(value);
+		historyToken = (String) list.get(0);
+		if (list.size() == 3) {
+			type = (AccounterCoreType) list.get(1);
+			stringID = (String) list.get(2);
+			// historyToken = value.substring(0, value.indexOf("?"));
+			// stringID = value.substring(value.indexOf("?") + 1);
+		}
+
+		final Action action = actions.get(historyToken);
+		if (action != null) {
+			if (type != null && stringID != null) {
+				AsyncCallback<T> callback = new AsyncCallback<T>() {
+
+					public void onFailure(Throwable caught) {
+						Accounter.showError("Unable To show the view");
+					}
+
+					public void onSuccess(T result) {
+						if (result != null) {
+							action.run(result, false);
+						}
+					}
+
+				};
+				FinanceApplication.createGETService().getObjectById(type,
+						stringID, callback);
+
+			} else {
+				action.run(null, false);
+			}
+		}
+	}
+
+	private void initializeActionsWithTokens() {
+		actions = new HashMap<String, Action>();
+		actions
+				.put(CompanyActionFactory.getCompanyHomeAction()
+						.getHistoryToken(), CompanyActionFactory
+						.getCompanyHomeAction());
+		actions.put(CompanyActionFactory.getNewJournalEntryAction()
+				.getHistoryToken(), CompanyActionFactory
+				.getNewJournalEntryAction());
+		actions.put(CompanyActionFactory.getNewAccountAction()
+				.getHistoryToken(), CompanyActionFactory.getNewAccountAction());
+		actions
+				.put(CompanyActionFactory.getPreferencesAction()
+						.getHistoryToken(), CompanyActionFactory
+						.getPreferencesAction());
+		actions.put(CompanyActionFactory.getManageSalesTaxGroupsAction()
+				.getHistoryToken(), CompanyActionFactory
+				.getManageSalesTaxGroupsAction());
+		actions.put(CompanyActionFactory.getManageSalesTaxItemsAction()
+				.getHistoryToken(), CompanyActionFactory
+				.getManageSalesTaxItemsAction());
+		actions
+				.put(CompanyActionFactory.getPaySalesTaxAction()
+						.getHistoryToken(), CompanyActionFactory
+						.getPaySalesTaxAction());
+		actions.put(
+				CompanyActionFactory.getAdjustTaxAction().getHistoryToken(),
+				CompanyActionFactory.getAdjustTaxAction());
+		actions.put(CompanyActionFactory.getNewTAXAgencyAction()
+				.getHistoryToken(), CompanyActionFactory
+				.getNewTAXAgencyAction());
+		actions.put(CompanyActionFactory.getCustomerGroupListAction()
+				.getHistoryToken(), CompanyActionFactory
+				.getCustomerGroupListAction());
+		actions.put(CompanyActionFactory.getVendorGroupListAction()
+				.getHistoryToken(), CompanyActionFactory
+				.getVendorGroupListAction());
+		actions.put(CompanyActionFactory.getPaymentTermListAction()
+				.getHistoryToken(), CompanyActionFactory
+				.getPaymentTermListAction());
+		actions.put(CompanyActionFactory.getShippingMethodListAction()
+				.getHistoryToken(), CompanyActionFactory
+				.getShippingMethodListAction());
+		actions.put(CompanyActionFactory.getShippingTermListAction()
+				.getHistoryToken(), CompanyActionFactory
+				.getShippingTermListAction());
+		actions.put(CompanyActionFactory.getPriceLevelListAction()
+				.getHistoryToken(), CompanyActionFactory
+				.getPriceLevelListAction());
+		actions.put(CompanyActionFactory.getItemGroupListAction()
+				.getHistoryToken(), CompanyActionFactory
+				.getItemGroupListAction());
+		actions.put(CompanyActionFactory.getCreditRatingListAction()
+				.getHistoryToken(), CompanyActionFactory
+				.getCreditRatingListAction());
+		actions.put(CompanyActionFactory.getManageFiscalYearAction()
+				.getHistoryToken(), CompanyActionFactory
+				.getManageFiscalYearAction());
+		actions.put(CompanyActionFactory.getChartOfAccountsAction()
+				.getHistoryToken(), CompanyActionFactory
+				.getChartOfAccountsAction());
+		actions.put(CompanyActionFactory.getJournalEntriesAction()
+				.getHistoryToken(), CompanyActionFactory
+				.getJournalEntriesAction());
+
+		actions.put(CustomersActionFactory.getItemsAction().getHistoryToken(),
+				CustomersActionFactory.getItemsAction());
+		actions
+				.put(CustomersActionFactory.getCustomersAction()
+						.getHistoryToken(), CustomersActionFactory
+						.getCustomersAction());
+		actions.put(VendorsActionFactory.getVendorsAction().getHistoryToken(),
+				VendorsActionFactory.getVendorsAction());
+		actions.put(CompanyActionFactory.getPaymentsAction().getHistoryToken(),
+				CompanyActionFactory.getPaymentsAction());
+
+		actions.put(CustomersActionFactory.getSalesPersonAction()
+				.getHistoryToken(), CustomersActionFactory
+				.getSalesPersonAction());
+		actions.put(VatActionFactory.getNewVatItemAction().getHistoryToken(),
+				VatActionFactory.getNewVatItemAction());
+		actions.put(VatActionFactory.getNewTAXCodeAction().getHistoryToken(),
+				VatActionFactory.getNewTAXCodeAction());
+		actions.put(VatActionFactory.getNewTAXAgencyAction().getHistoryToken(),
+				VatActionFactory.getNewTAXAgencyAction());
+		actions.put(VatActionFactory.getAdjustTaxAction().getHistoryToken(),
+				VatActionFactory.getAdjustTaxAction());
+		actions.put(VatActionFactory.getFileVatAction().getHistoryToken(),
+				VatActionFactory.getFileVatAction());
+		actions.put(VatActionFactory.getpayVATAction().getHistoryToken(),
+				VatActionFactory.getpayVATAction());
+		actions.put(VatActionFactory.getreceiveVATAction().getHistoryToken(),
+				VatActionFactory.getreceiveVATAction());
+		actions.put(VatActionFactory.getVatItemListAction().getHistoryToken(),
+				VatActionFactory.getVatItemListAction());
+
+		actions.put(VatActionFactory.getTAXCodeListAction().getHistoryToken(),
+				VatActionFactory.getTAXCodeListAction());
+
+		actions.put(CustomersActionFactory.getCustomersHomeAction()
+				.getHistoryToken(), CustomersActionFactory
+				.getCustomersHomeAction());
+		actions.put(CustomersActionFactory.getNewCustomerAction()
+				.getHistoryToken(), CustomersActionFactory
+				.getNewCustomerAction());
+		actions.put(
+				CustomersActionFactory.getNewItemAction().getHistoryToken(),
+				CustomersActionFactory.getNewItemAction());
+		actions.put(CustomersActionFactory.getNewQuoteAction()
+				.getHistoryToken(), CustomersActionFactory.getNewQuoteAction());
+		actions.put(CustomersActionFactory.getNewInvoiceAction()
+				.getHistoryToken(), CustomersActionFactory
+				.getNewInvoiceAction());
+
+		actions.put(CustomersActionFactory.getNewCashSaleAction()
+				.getHistoryToken(), CustomersActionFactory
+				.getNewCashSaleAction());
+		actions.put(CustomersActionFactory.getNewCreditsAndRefundsAction()
+				.getHistoryToken(), CustomersActionFactory
+				.getNewCreditsAndRefundsAction());
+		actions.put(CustomersActionFactory.getNewCustomerPaymentAction()
+				.getHistoryToken(), CustomersActionFactory
+				.getNewCustomerPaymentAction());
+		actions.put(CustomersActionFactory.getReceivePaymentAction()
+				.getHistoryToken(), CustomersActionFactory
+				.getReceivePaymentAction());
+		actions.put(CustomersActionFactory.getCustomerRefundAction()
+				.getHistoryToken(), CustomersActionFactory
+				.getCustomerRefundAction());
+		actions
+				.put(CustomersActionFactory.getCustomersAction()
+						.getHistoryToken(), CustomersActionFactory
+						.getCustomersAction());
+		actions.put(CustomersActionFactory.getItemsAction().getHistoryToken(),
+				CustomersActionFactory.getItemsAction());
+		actions.put(CustomersActionFactory.getQuotesAction().getHistoryToken(),
+				CustomersActionFactory.getQuotesAction());
+		actions.put(CustomersActionFactory.getInvoicesAction(null)
+				.getHistoryToken(), CustomersActionFactory
+				.getInvoicesAction(null));
+		actions.put(CustomersActionFactory.getReceivedPaymentsAction()
+				.getHistoryToken(), CustomersActionFactory
+				.getReceivedPaymentsAction());
+		actions.put(CustomersActionFactory.getCustomerRefundsAction()
+				.getHistoryToken(), CustomersActionFactory
+				.getCustomerRefundsAction());
+
+		actions
+				.put(VendorsActionFactory.getVendorsHomeAction()
+						.getHistoryToken(), VendorsActionFactory
+						.getVendorsHomeAction());
+		actions.put(
+				VendorsActionFactory.getNewVendorAction().getHistoryToken(),
+				VendorsActionFactory.getNewVendorAction());
+		actions.put(VendorsActionFactory.getNewItemAction().getHistoryToken(),
+				VendorsActionFactory.getNewItemAction());
+		actions.put(VendorsActionFactory.getNewCashPurchaseAction()
+				.getHistoryToken(), VendorsActionFactory
+				.getNewCashPurchaseAction());
+		actions.put(VendorsActionFactory.getNewCreditMemoAction()
+				.getHistoryToken(), VendorsActionFactory
+				.getNewCreditMemoAction());
+		actions.put(VendorsActionFactory.getNewCheckAction().getHistoryToken(),
+				VendorsActionFactory.getNewCheckAction());
+		actions.put(VendorsActionFactory.getEnterBillsAction()
+				.getHistoryToken(), VendorsActionFactory.getEnterBillsAction());
+		actions.put(VendorsActionFactory.getPayBillsAction().getHistoryToken(),
+				VendorsActionFactory.getPayBillsAction());
+		actions.put(VendorsActionFactory.getIssuePaymentsAction()
+				.getHistoryToken(), VendorsActionFactory
+				.getIssuePaymentsAction());
+		actions.put(VendorsActionFactory.getNewVendorPaymentAction()
+				.getHistoryToken(), VendorsActionFactory
+				.getNewVendorPaymentAction());
+		actions.put(VendorsActionFactory.getRecordExpensesAction()
+				.getHistoryToken(), VendorsActionFactory
+				.getRecordExpensesAction());
+		actions.put(VendorsActionFactory.getExpenseClaimsAction(0)
+				.getHistoryToken(), VendorsActionFactory
+				.getExpenseClaimsAction(0));
+
+		actions.put(VendorsActionFactory.getVendorsAction().getHistoryToken(),
+				VendorsActionFactory.getVendorsAction());
+		actions.put(VendorsActionFactory.getItemsAction().getHistoryToken(),
+				VendorsActionFactory.getItemsAction());
+		actions.put(VendorsActionFactory.getBillsAction().getHistoryToken(),
+				VendorsActionFactory.getBillsAction());
+		actions.put(VendorsActionFactory.getVendorPaymentsAction()
+				.getHistoryToken(), VendorsActionFactory
+				.getVendorPaymentsAction());
+
+		actions.put(BankingActionFactory.getNewBankAccountAction()
+				.getHistoryToken(), BankingActionFactory
+				.getNewBankAccountAction());
+		actions
+				.put(BankingActionFactory.getWriteChecksAction()
+						.getHistoryToken(), BankingActionFactory
+						.getWriteChecksAction());
+		actions
+				.put(BankingActionFactory.getMakeDepositAction()
+						.getHistoryToken(), BankingActionFactory
+						.getMakeDepositAction());
+		actions.put(VendorsActionFactory.getPayBillsAction().getHistoryToken(),
+				VendorsActionFactory.getPayBillsAction());
+		actions.put(BankingActionFactory.getCreditCardChargeAction()
+				.getHistoryToken(), BankingActionFactory
+				.getCreditCardChargeAction());
+		actions.put(BankingActionFactory.getPaymentsAction().getHistoryToken(),
+				BankingActionFactory.getPaymentsAction());
+
+		actions.put(SalesOrderActionFactory.getSalesOrderAction()
+				.getHistoryToken(), SalesOrderActionFactory
+				.getSalesOrderAction());
+		actions.put(SalesOrderActionFactory.getSalesOrderListAction()
+				.getHistoryToken(), SalesOrderActionFactory
+				.getSalesOrderListAction());
+		actions.put(SalesOrderActionFactory.getSalesOpenOrderAction()
+				.getHistoryToken(), SalesOrderActionFactory
+				.getSalesOpenOrderAction());
+
+		actions.put(PurchaseOrderActionFactory.getPurchaseOrderAction()
+				.getHistoryToken(), PurchaseOrderActionFactory
+				.getPurchaseOrderAction());
+		actions.put(PurchaseOrderActionFactory.getPurchaseOrderListAction()
+				.getHistoryToken(), PurchaseOrderActionFactory
+				.getPurchaseOrderListAction());
+		actions.put(PurchaseOrderActionFactory.getPurchaseOpenOrderListAction()
+				.getHistoryToken(), PurchaseOrderActionFactory
+				.getPurchaseOpenOrderListAction());
+
+		actions.put(ReportsActionFactory.getProfitAndLossAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getProfitAndLossAction());
+		actions.put(ReportsActionFactory.getBalanceSheetAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getBalanceSheetAction());
+		actions.put(ReportsActionFactory.getCashFlowStatementAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getCashFlowStatementAction());
+		actions.put(ReportsActionFactory.getTrialBalanceAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getTrialBalanceAction());
+
+		actions.put(ReportsActionFactory.getTransactionDetailByAccountAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getTransactionDetailByAccountAction());
+		actions.put(ReportsActionFactory.getGlReportAction().getHistoryToken(),
+				ReportsActionFactory.getGlReportAction());
+		actions.put(ReportsActionFactory.getExpenseReportAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getExpenseReportAction());
+
+		actions.put(ReportsActionFactory.getSalesTaxLiabilityAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getSalesTaxLiabilityAction());
+		actions.put(ReportsActionFactory.getTransactionDetailByTaxItemAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getTransactionDetailByTaxItemAction());
+		actions.put(ReportsActionFactory.getArAgingSummaryReportAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getArAgingSummaryReportAction());
+		actions.put(ReportsActionFactory.getArAgingDetailAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getArAgingDetailAction());
+		actions.put(
+				ReportsActionFactory.getStatementReport().getHistoryToken(),
+				ReportsActionFactory.getStatementReport());
+		actions.put(ReportsActionFactory.getCustomerTransactionHistoryAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getCustomerTransactionHistoryAction());
+		actions.put(ReportsActionFactory.getSalesByCustomerSummaryAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getSalesByCustomerSummaryAction());
+		actions.put(ReportsActionFactory.getSalesByCustomerDetailAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getSalesByCustomerDetailAction());
+		actions.put(ReportsActionFactory.getSalesByItemSummaryAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getSalesByItemSummaryAction());
+		actions.put(ReportsActionFactory.getSalesByItemDetailAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getSalesByItemDetailAction());
+		actions.put(ReportsActionFactory.getSalesOpenOrderAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getSalesOpenOrderAction());
+
+		actions.put(ReportsActionFactory.getAorpAgingSummaryReportAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getAorpAgingSummaryReportAction());
+		actions.put(ReportsActionFactory.getAorpAgingDetailAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getAorpAgingDetailAction());
+		actions.put(ReportsActionFactory.getVendorTransactionHistoryAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getVendorTransactionHistoryAction());
+
+		actions.put(ReportsActionFactory.getPurchaseByVendorSummaryAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getPurchaseByVendorSummaryAction());
+		actions.put(ReportsActionFactory.getPurchaseByVendorDetailAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getPurchaseByVendorDetailAction());
+		actions.put(ReportsActionFactory.getPurchaseByItemSummaryAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getPurchaseByItemSummaryAction());
+		actions.put(ReportsActionFactory.getPurchaseByItemAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getPurchaseByItemAction());
+		actions.put(ReportsActionFactory.getPurchaseOpenOrderAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getPurchaseOpenOrderAction());
+
+		actions.put(ReportsActionFactory.getVATSummaryReportAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getVATSummaryReportAction());
+		actions.put(ReportsActionFactory.getVATDetailsReportAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getVATDetailsReportAction());
+		actions.put(ReportsActionFactory.getVAT100ReportAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getVAT100ReportAction());
+
+		actions.put(ReportsActionFactory
+				.getVATUncategorisedAmountsReportAction().getHistoryToken(),
+				ReportsActionFactory.getVATUncategorisedAmountsReportAction());
+		actions.put(ReportsActionFactory.getVATItemSummaryReportAction()
+				.getHistoryToken(), ReportsActionFactory
+				.getVATItemSummaryReportAction());
+		actions
+				.put(ReportsActionFactory.getECSalesListAction()
+						.getHistoryToken(), ReportsActionFactory
+						.getECSalesListAction());
+
+		actions.put(SettingsActionFactory.getGeneralSettingsAction()
+				.getHistoryToken(), SettingsActionFactory
+				.getGeneralSettingsAction());
+
+		actions.put("bankAccounts", CompanyActionFactory
+				.getChartOfAccountsAction(ClientAccount.TYPE_BANK));
+		actions.put("cashExpenses", VendorsActionFactory
+				.getExpensesAction(FinanceApplication.getVendorsMessages()
+						.cash()));
+		actions.put("creditCardExpenses", VendorsActionFactory
+				.getExpensesAction(FinanceApplication.getVendorsMessages()
+						.creditCard()));
+		actions.put("employeeExpenses", VendorsActionFactory
+				.getExpensesAction(FinanceApplication.getVendorsMessages()
+						.employee()));
+		actions.put(BankingActionFactory.getAccountRegisterAction()
+				.getHistoryToken(), BankingActionFactory
+				.getAccountRegisterAction());
+		actions.put("overDueInvoices", CustomersActionFactory
+				.getInvoicesAction(InvoiceListView.OVER_DUE));
+
 	}
 }
