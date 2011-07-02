@@ -195,26 +195,26 @@ public class HistoryTokenUtils {
 		return temp.toString();
 	}
 
-	public static void setPreviousToken() {
-		History history = MainFinanceWindow.getViewManager().getTempHistory();
-		if (history != null) {
-			setPresentToken(history.getAction(), null);
-		} else {
-			setPresentToken(CompanyActionFactory.getCompanyHomeAction(), null);
-		}
-	}
-
-	public static String getTokenWithID(String historyToken, Object object) {
-		String token = historyToken;
-		if (object != null) {
-			token = token + "?" + getObjectNameWithID(object);
-		}
-		return token;
-	}
-
-	public static void setPresentToken(Action action, Object obj) {
-		MainFinanceWindow.shouldExecuteRun = false;
-		com.google.gwt.user.client.History.newItem(getTokenWithID(action
-				.getHistoryToken(), obj));
-	}
+	// public static void setPreviousToken() {
+	// History history = MainFinanceWindow.getViewManager().getTempHistory();
+	// if (history != null) {
+	// setPresentToken(history.getAction(), null);
+	// } else {
+	// setPresentToken(CompanyActionFactory.getCompanyHomeAction(), null);
+	// }
+	// }
+	//
+	// public static String getTokenWithID(String historyToken, Object object) {
+	// String token = historyToken;
+	// if (object != null) {
+	// token = token + "?" + getObjectNameWithID(object);
+	// }
+	// return token;
+	// }
+	//
+	// public static void setPresentToken(Action action, Object obj) {
+	// MainFinanceWindow.shouldExecuteRun = false;
+	// com.google.gwt.user.client.History.newItem(getTokenWithID(action
+	// .getHistoryToken(), obj));
+	// }
 }
