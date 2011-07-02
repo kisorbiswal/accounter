@@ -45,4 +45,10 @@ public class ServicesOverviewAction extends Action {
 		return null;
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

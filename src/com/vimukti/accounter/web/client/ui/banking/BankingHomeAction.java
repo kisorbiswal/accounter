@@ -57,4 +57,10 @@ public class BankingHomeAction extends Action {
 		
 		return "/images/banking_home.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "bankingHome";
+	}
 }

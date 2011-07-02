@@ -80,4 +80,10 @@ public class CreditCardChargeAction extends Action {
 		
 		return "/images/credit_card_charge.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "creditCardCharge";
+	}
 }

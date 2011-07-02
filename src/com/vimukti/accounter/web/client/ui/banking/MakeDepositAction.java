@@ -75,4 +75,10 @@ public class MakeDepositAction extends Action {
 		
 		return "/images/make_deposit.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "depositTransferFunds";
+	}
 }

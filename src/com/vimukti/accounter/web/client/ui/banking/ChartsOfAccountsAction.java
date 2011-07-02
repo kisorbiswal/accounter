@@ -70,4 +70,10 @@ public class ChartsOfAccountsAction extends Action {
 		
 		return "/images/chart_of_accounts.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

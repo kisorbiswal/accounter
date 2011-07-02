@@ -77,4 +77,10 @@ public class WriteChecksAction extends Action {
 
 		return "/images/new_check.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "writeCheck";
+	}
 }

@@ -2,11 +2,14 @@ package com.vimukti.accounter.web.client.ui.banking;
 
 import java.util.LinkedHashMap;
 
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -99,7 +102,9 @@ public class SelectPayeeDialog extends BaseDialog {
 							Action action = VendorsActionFactory
 									.getNewVendorAction();
 							action.setActionSource(actionSource);
+							HistoryTokenUtils.setPresentToken(action, null);
 							action.run(null, true);
+							
 						} catch (Throwable e) {
 							// //UIUtils.logError("Failed to Load Vendor View",
 							// e);
@@ -111,8 +116,9 @@ public class SelectPayeeDialog extends BaseDialog {
 							Action action = CustomersActionFactory
 									.getNewCustomerAction();
 							action.setActionSource(actionSource);
+							HistoryTokenUtils.setPresentToken(action, null);
 							action.run(null, true);
-
+							
 							hide();
 
 						} catch (Throwable e) {

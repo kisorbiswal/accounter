@@ -66,4 +66,10 @@ public class TransferFundsAction extends Action {
 		
 		return "/images/transfer_funds.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "transferFunds";
+	}
 }

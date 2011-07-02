@@ -80,4 +80,10 @@ public class NewBankAccountAction extends Action {
 		
 		return "/images/new_bank_account.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "newBankAccount";
+	}
 }

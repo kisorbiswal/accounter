@@ -79,4 +79,10 @@ public class NewPayeeAction extends Action {
 		return null;
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "newPayee";
+	}
+
 }

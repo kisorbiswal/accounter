@@ -88,4 +88,10 @@ public class AccountRegisterAction extends Action {
 		return null;
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "accountRegister";
+	}
+
 }
