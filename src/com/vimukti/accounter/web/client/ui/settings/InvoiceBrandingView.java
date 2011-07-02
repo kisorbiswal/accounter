@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
@@ -101,6 +102,8 @@ public class InvoiceBrandingView<T> extends
 
 			@Override
 			public void onClick(ClickEvent event) {
+				HistoryTokenUtils.setPresentToken(SettingsActionFactory
+						.getNewBrandThemeAction(), null);
 				SettingsActionFactory.getNewBrandThemeAction().run(null, false);
 			}
 		});
@@ -346,7 +349,7 @@ public class InvoiceBrandingView<T> extends
 		subLayPanel.add(headingsHtml);
 		subLayPanel.add(paypalEmailHtml);
 		subLayPanel.add(termsHtml);
-		//subLayPanel.setWidth("560px");
+		// subLayPanel.setWidth("560px");
 
 		subLayPanel.setStyleName("general-setting-invoice");
 		contactDetailsPanel.setWidth("165px");
@@ -466,6 +469,8 @@ public class InvoiceBrandingView<T> extends
 				panel.hide();
 				switch (type) {
 				case 1:
+					HistoryTokenUtils.setPresentToken(SettingsActionFactory
+							.getNewBrandThemeAction(), theme);
 					SettingsActionFactory.getNewBrandThemeAction().run(theme,
 							false);
 					break;
@@ -602,6 +607,8 @@ public class InvoiceBrandingView<T> extends
 	public void saveSuccess(IAccounterCore object) {
 		if (object != null) {
 			super.saveSuccess(object);
+			HistoryTokenUtils.setPresentToken(SettingsActionFactory
+					.getInvoiceBrandingAction(), null);
 			SettingsActionFactory.getInvoiceBrandingAction().run(null, false);
 		} else
 			saveFailed(new Exception(FinanceApplication.getCompanyMessages()

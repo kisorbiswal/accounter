@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.data.ClientUser;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -110,6 +111,8 @@ public class UsersView extends BaseView<ClientUser> {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				HistoryTokenUtils.setPresentToken(SettingsActionFactory
+						.getInviteUserAction(), null);
 				SettingsActionFactory.getInviteUserAction().run(null, true);
 			}
 		});

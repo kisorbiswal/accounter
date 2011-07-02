@@ -60,4 +60,10 @@ public class NewBrandThemeAction extends Action {
 		}
 
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "newBrandingTheme";
+	}
 }

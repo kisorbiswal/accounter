@@ -43,4 +43,10 @@ public class InviteUserAction extends Action {
 		}
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "inviteUser";
+	}
+
 }

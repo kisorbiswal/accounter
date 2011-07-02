@@ -44,4 +44,10 @@ public class DeleteThemeAction extends Action {
 		} catch (Exception e) {
 System.out.println(e.toString());		}
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

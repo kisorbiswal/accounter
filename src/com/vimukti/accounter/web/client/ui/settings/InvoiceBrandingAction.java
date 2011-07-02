@@ -6,10 +6,10 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 /**
-*
-* @author Uday Kumar
-* 
-*/
+ * 
+ * @author Uday Kumar
+ * 
+ */
 public class InvoiceBrandingAction extends Action {
 
 	private InvoiceBrandingView view;
@@ -50,6 +50,12 @@ public class InvoiceBrandingAction extends Action {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "invoiceBranding";
 	}
 
 }

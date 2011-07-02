@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
 @SuppressWarnings("unchecked")
@@ -138,6 +139,8 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				HistoryTokenUtils.setPresentToken(SettingsActionFactory
+						.getInvoiceBrandingAction(), null);
 				SettingsActionFactory.getInvoiceBrandingAction().run(null,
 						false);
 			}
@@ -146,6 +149,8 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				HistoryTokenUtils.setPresentToken(SettingsActionFactory
+						.getInvoiceBrandingAction(), null);
 				SettingsActionFactory.getInvoiceBrandingAction().run(null,
 						false);
 			}
@@ -179,6 +184,8 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				HistoryTokenUtils.setPresentToken(SettingsActionFactory
+						.getUsersAction(), null);
 				SettingsActionFactory.getUsersAction().run(null, false);
 			}
 		});
@@ -186,6 +193,8 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				HistoryTokenUtils.setPresentToken(SettingsActionFactory
+						.getUsersAction(), null);
 				SettingsActionFactory.getUsersAction().run(null, false);
 			}
 		});
@@ -215,6 +224,8 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				HistoryTokenUtils.setPresentToken(CompanyActionFactory
+						.getPreferencesAction(), null);
 				CompanyActionFactory.getPreferencesAction().run(null, false);
 
 			}

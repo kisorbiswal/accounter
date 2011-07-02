@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -667,6 +668,8 @@ public class NewBrandThemeDialog extends BaseDialog {
 	public void saveSuccess(IAccounterCore object) {
 		NewBrandThemeDialog.this.removeFromParent();
 		super.saveSuccess(object);
+		HistoryTokenUtils.setPresentToken(SettingsActionFactory
+				.getInvoiceBrandingAction(), null);
 		SettingsActionFactory.getInvoiceBrandingAction().run(null, true);
 	}
 

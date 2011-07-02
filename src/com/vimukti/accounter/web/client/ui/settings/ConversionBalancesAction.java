@@ -66,4 +66,10 @@ public class ConversionBalancesAction extends Action {
 		});
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
