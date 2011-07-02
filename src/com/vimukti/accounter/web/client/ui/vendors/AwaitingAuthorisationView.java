@@ -164,7 +164,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 						public void onSuccess(ClientCashPurchase result) {
 							result.setExpenseStatus(expenceStatus);
 							setAction(VendorsActionFactory
-									.getExpenseClaimsAction());
+									.getExpenseClaimsAction(2));
 							updateTransactionItems(result);
 							alterObject(result);
 						}
@@ -224,7 +224,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 						object);
 			else {
 				if (getAction() instanceof ExpenseClaimsAction)
-					((ExpenseClaimsAction) getAction()).run(null, true, 2);
+					((ExpenseClaimsAction) getAction()).run(null, true);
 				else
 					getAction().run(null, true);
 			}

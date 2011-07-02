@@ -91,4 +91,10 @@ public class BillsAction extends Action {
 		return "images/bills.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "billsAndExpenses";
+	}
+
 }

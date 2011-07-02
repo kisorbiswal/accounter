@@ -86,4 +86,10 @@ public class PayBillsAction extends Action {
 		return "/images/pay_bills.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "payBill";
+	}
+
 }

@@ -87,4 +87,10 @@ public class NewItemReceiptAction extends Action {
 		return "/images/item_Recpit.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "newItemReceipt";
+	}
+
 }

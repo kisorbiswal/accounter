@@ -103,7 +103,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 							result.setExpenseStatus(expenceStatus);
 							updateTransactionItems(result);
 							setAction(VendorsActionFactory
-									.getExpenseClaimsAction());
+									.getExpenseClaimsAction(1));
 							alterObject(result);
 						}
 					});

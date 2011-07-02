@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -53,6 +54,8 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				HistoryTokenUtils.setPresentToken(VendorsActionFactory
+						.EmployeeExpenseAction(), null);
 				VendorsActionFactory.EmployeeExpenseAction().run(null, false);
 			}
 		});
@@ -67,7 +70,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 			@Override
 			public void onClick(ClickEvent event) {
 				isProcessingAdded = false;
-				setAction(VendorsActionFactory.getExpenseClaimsAction());
+				setAction(VendorsActionFactory.getExpenseClaimsAction(0));
 				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL);
 			}
 		});
@@ -78,7 +81,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 			@Override
 			public void onClick(ClickEvent event) {
 				isProcessingAdded = false;
-				setAction(VendorsActionFactory.getExpenseClaimsAction());
+				setAction(VendorsActionFactory.getExpenseClaimsAction(0));
 				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
 			}
 		});
@@ -132,7 +135,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 							result.setExpenseStatus(expenceStatus);
 							updateTransactionItems(result);
 							setAction(VendorsActionFactory
-									.getExpenseClaimsAction());
+									.getExpenseClaimsAction(0));
 							alterObject(result);
 						}
 					});

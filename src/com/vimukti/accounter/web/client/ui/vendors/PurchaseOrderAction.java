@@ -75,4 +75,10 @@ public class PurchaseOrderAction extends Action {
 		return "/images/Purchase-order.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "purchaseOrder";
+	}
+
 }

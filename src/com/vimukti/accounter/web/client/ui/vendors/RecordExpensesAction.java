@@ -40,11 +40,17 @@ public class RecordExpensesAction extends Action {
 	public ImageResource getSmallImage() {
 		return FinanceApplication.getFinanceMenuImages().recordExpenses();
 	}
-	
+
 	@Override
 	public String getImageUrl() {
 		// TODO Auto-generated method stub
 		return "/images/record_expenses.png";
+	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "recordExpenses";
 	}
 
 }

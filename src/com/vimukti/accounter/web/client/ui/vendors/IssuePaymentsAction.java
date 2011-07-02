@@ -52,4 +52,10 @@ public class IssuePaymentsAction extends Action {
 		return "/images/issue_payment.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "issuePayments";
+	}
+
 }

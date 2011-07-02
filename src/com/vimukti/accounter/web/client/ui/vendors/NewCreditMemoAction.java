@@ -102,4 +102,10 @@ public class NewCreditMemoAction extends Action {
 		return "/images/new_credit_memo.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return UIUtils.getVendorString("supplierCredit", "vendorCredit");
+	}
+
 }

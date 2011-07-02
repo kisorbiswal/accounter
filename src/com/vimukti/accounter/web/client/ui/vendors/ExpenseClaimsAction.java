@@ -13,9 +13,11 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 public class ExpenseClaimsAction extends Action {
 
 	ExpenseClaims view;
+	int selectedTab;
 
-	public ExpenseClaimsAction(String text, String iconString) {
+	public ExpenseClaimsAction(String text, String iconString, int selectedTab) {
 		super(text);
+		this.selectedTab = selectedTab;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -39,7 +41,7 @@ public class ExpenseClaimsAction extends Action {
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		view = new ExpenseClaims();
+		view = new ExpenseClaims(selectedTab);
 		try {
 			MainFinanceWindow.getViewManager().showView(view, data,
 					isDependent, this);
@@ -48,13 +50,9 @@ public class ExpenseClaimsAction extends Action {
 
 	}
 
-	public void run(Object data, Boolean isDependent, int selectTab) {
-		view = new ExpenseClaims(selectTab);
-		try {
-			MainFinanceWindow.getViewManager().showView(view, data,
-					isDependent, this);
-		} catch (Exception e) {
-		}
-
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "expenseClaims";
 	}
 }

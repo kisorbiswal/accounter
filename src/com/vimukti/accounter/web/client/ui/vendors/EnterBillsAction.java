@@ -92,4 +92,10 @@ public class EnterBillsAction extends Action {
 		return "/images/enter_bills.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "enterBill";
+	}
+
 }

@@ -86,4 +86,11 @@ public class VendorPaymentsAction extends Action {
 		return "/images/vendor_payments.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return UIUtils
+				.getVendorString("supplierPrePayment", "vendorPrePayment");
+	}
+
 }

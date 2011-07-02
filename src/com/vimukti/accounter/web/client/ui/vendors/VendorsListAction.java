@@ -77,4 +77,10 @@ public class VendorsListAction extends Action {
 		return "/images/vendors.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return UIUtils.getVendorString("supplierList", "VendorList");
+	}
+
 }

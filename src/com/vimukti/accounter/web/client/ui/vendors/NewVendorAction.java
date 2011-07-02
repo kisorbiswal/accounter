@@ -106,4 +106,10 @@ public class NewVendorAction extends Action {
 		// TODO Auto-generated method stub
 		return "/images/new_vendor.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return UIUtils.getVendorString("newSupplier", "newVendor");
+	}
 }

@@ -5,6 +5,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -62,10 +63,15 @@ public class SelectExpenseType extends BaseDialog {
 				if (typeRadio.getValue() != null) {
 					String radio = typeRadio.getValue().toString();
 					if (radio.equals(EMPLOYEE)) {
+						HistoryTokenUtils.setPresentToken(VendorsActionFactory
+								.EmployeeExpenseAction(), null);
 						VendorsActionFactory.EmployeeExpenseAction().run(null,
 								false);
 					} else if (radio.equals(CHECK)) {
 						try {
+							HistoryTokenUtils
+									.setPresentToken(BankingActionFactory
+											.getWriteChecksAction(), null);
 							BankingActionFactory.getWriteChecksAction().run(
 									null, false);
 						} catch (Throwable e) {
@@ -79,7 +85,9 @@ public class SelectExpenseType extends BaseDialog {
 
 					} else if (radio.equals(CREDIT_CARD)) {
 						try {
-
+							HistoryTokenUtils.setPresentToken(
+									VendorsActionFactory
+											.CreditCardExpenseAction(), null);
 							VendorsActionFactory.CreditCardExpenseAction().run(
 									null, false);
 						} catch (Throwable e) {
@@ -92,6 +100,9 @@ public class SelectExpenseType extends BaseDialog {
 
 					} else if (radio.equals(CASH)) {
 						try {
+							HistoryTokenUtils.setPresentToken(
+									VendorsActionFactory.CashExpenseAction(),
+									null);
 							VendorsActionFactory.CashExpenseAction().run(null,
 									false);
 						} catch (Throwable e) {
@@ -102,6 +113,9 @@ public class SelectExpenseType extends BaseDialog {
 						}
 					} else if (radio.equals(EMPLOYEE)) {
 						try {
+							HistoryTokenUtils.setPresentToken(
+									VendorsActionFactory
+											.EmployeeExpenseAction(), null);
 							VendorsActionFactory.EmployeeExpenseAction().run(
 									null, false);
 						} catch (Throwable e) {

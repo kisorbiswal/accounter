@@ -65,4 +65,10 @@ public class VendorsHomeAction extends Action {
 		// TODO Auto-generated method stub
 		return "/images/vendor_home.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return UIUtils.getVendorString("supplierHome", "vendorHome");
+	}
 }

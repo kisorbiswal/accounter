@@ -21,11 +21,12 @@ public class ExpensesAction extends Action {
 				.getVendorsMessages().vendor());
 	}
 
-	public ExpensesAction(String text, String iconString) {
+	public ExpensesAction(String text, String iconString, String viewType) {
 		super(text, iconString);
 		this.catagory = UIUtils.getVendorString(FinanceApplication
 				.getVendorsMessages().supplier(), FinanceApplication
 				.getVendorsMessages().vendor());
+		this.viewType = viewType;
 	}
 
 	@Override
@@ -78,9 +79,15 @@ public class ExpensesAction extends Action {
 		});
 	}
 
-	public void run(Object data, Boolean isDependent, String viewType) {
-		this.viewType = viewType;
-		run(data, isDependent);
+	// public void run(Object data, Boolean isDependent, String viewType) {
+	// this.viewType = viewType;
+	// run(data, isDependent);
+	// }
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "expenses";
 	}
 
 }

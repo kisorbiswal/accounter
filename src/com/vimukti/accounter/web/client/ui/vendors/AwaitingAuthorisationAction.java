@@ -41,4 +41,10 @@ public class AwaitingAuthorisationAction extends Action {
 		} catch (Exception e) {
 		}
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

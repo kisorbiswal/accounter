@@ -82,4 +82,10 @@ public class CashExpenseAction extends Action {
 		// TODO Auto-generated method stub
 		return "/images/new_cash_purchase.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "cashExpense";
+	}
 }

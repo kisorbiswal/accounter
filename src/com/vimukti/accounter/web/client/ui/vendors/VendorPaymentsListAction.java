@@ -19,12 +19,12 @@ public class VendorPaymentsListAction extends Action {
 
 	public VendorPaymentsListAction(String text) {
 		super(text);
-		this.catagory =  UIUtils.getVendorString("Supplier", "Vendor");
+		this.catagory = UIUtils.getVendorString("Supplier", "Vendor");
 	}
 
 	public VendorPaymentsListAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory =  UIUtils.getVendorString("Supplier", "Vendor");
+		this.catagory = UIUtils.getVendorString("Supplier", "Vendor");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -79,5 +79,11 @@ public class VendorPaymentsListAction extends Action {
 	public String getImageUrl() {
 		// TODO Auto-generated method stub
 		return "/images/vendor_payments.png";
+	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return UIUtils.getVendorString("supplierPayments", "vendorPayments");
 	}
 }

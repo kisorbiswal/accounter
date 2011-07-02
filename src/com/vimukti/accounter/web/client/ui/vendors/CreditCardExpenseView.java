@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.ui.CreditCardChargeView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
@@ -78,6 +79,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 				action.setActionSource(this);
 				action.setOpenedFrom(viewFrom);
+				HistoryTokenUtils.setPresentToken(action, null);
 				action.run(null, true);
 
 			}
