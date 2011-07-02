@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -333,8 +334,10 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			@Override
 			public void onClick(ClickEvent event) {
 				Action action = getAddNewAction();
-				if (action != null)
+				if (action != null) {
+					HistoryTokenUtils.setPresentToken(action, null);
 					UIUtils.runAction((IsSerializable) null, action);
+				}
 			}
 
 		});

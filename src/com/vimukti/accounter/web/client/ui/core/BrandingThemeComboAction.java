@@ -40,4 +40,10 @@ public class BrandingThemeComboAction extends Action {
 		comboDialog.center();
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

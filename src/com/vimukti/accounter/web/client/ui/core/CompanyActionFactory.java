@@ -83,7 +83,7 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	}
 
 	public static PreferencesAction getPreferencesAction() {
-		return new PreferencesAction(actionsConstants.preferences(),
+		return new PreferencesAction(actionsConstants.companyPreferences(),
 				"/images/icons/company/preferences.png");
 	}
 
@@ -248,7 +248,7 @@ public class CompanyActionFactory extends AbstractActionFactory {
 
 	public static NewItemAction getNewItemAction() {
 		return new NewItemAction(actionsConstants.newItem(),
-				"/images/icons/vendors/new_item.png", false);
+				"/images/icons/vendors/new_item.png");
 	}
 
 	// public static NewItemAction getNewItemAction(ClientItem item,

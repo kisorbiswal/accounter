@@ -14,6 +14,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.vimukti.accounter.web.client.InvalidOperationException;
@@ -27,6 +28,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.WriteChequeView;
@@ -431,9 +433,14 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 			if (!saveAndClose) {
 				// resetForms();
 				// reload();
+				if (!History.getToken().equals(getAction().getHistoryToken())) {
+					MainFinanceWindow.oldToken = History.getToken();
+					HistoryTokenUtils.setPresentToken(getAction(), null);
+				}
 				getAction().run(null, true);
 
 			} else {
+				HistoryTokenUtils.setPreviousToken();
 				MainFinanceWindow.getViewManager().closeView(this.getAction(),
 						result);
 			}
@@ -790,7 +797,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft(),
 					menuButton.getAbsoluteTop() - 70);
 		if (this instanceof EmployeeExpenseView) {
-			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft(), menuButton.getAbsoluteTop()-40);
+			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft(),
+					menuButton.getAbsoluteTop() - 40);
 		}
 		popupPanel.show();
 	}

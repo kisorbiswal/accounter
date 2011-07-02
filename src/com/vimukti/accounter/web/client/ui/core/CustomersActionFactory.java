@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.ui.customers.InvoicesAction;
 import com.vimukti.accounter.web.client.ui.customers.NewCashSaleAction;
 import com.vimukti.accounter.web.client.ui.customers.NewCreditsAndRefundsAction;
 import com.vimukti.accounter.web.client.ui.customers.NewCustomerAction;
+import com.vimukti.accounter.web.client.ui.customers.NewCustomerItemAction;
 import com.vimukti.accounter.web.client.ui.customers.NewInvoiceAction;
 import com.vimukti.accounter.web.client.ui.customers.NewQuoteAction;
 import com.vimukti.accounter.web.client.ui.customers.QuotesAction;
@@ -79,8 +80,8 @@ public class CustomersActionFactory extends AbstractActionFactory {
 	}
 
 	public static NewItemAction getNewItemAction() {
-		return new NewItemAction(actionsConstants.newItem(),
-				"/images/icons/customers/new_item.png", true);
+		return new NewCustomerItemAction(actionsConstants.newItem(),
+				"/images/icons/customers/new_item.png");
 	}
 
 	// public static NewItemAction getNewItemAction(ClientItem item,
@@ -185,9 +186,9 @@ public class CustomersActionFactory extends AbstractActionFactory {
 				"/images/icons/customers/recived_payment_list.png");
 	}
 
-	public static InvoicesAction getInvoicesAction() {
+	public static InvoicesAction getInvoicesAction(String viewType) {
 		return new InvoicesAction(actionsConstants.invoices(),
-				"/images/icons/customers/invoices.png");
+				"/images/icons/customers/invoices.png", viewType);
 	}
 
 	public static CustomerRefundsAction getCustomerRefundsAction() {

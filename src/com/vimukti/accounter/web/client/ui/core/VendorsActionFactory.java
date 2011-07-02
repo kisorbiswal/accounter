@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.ui.vendors.NewCheckAction;
 import com.vimukti.accounter.web.client.ui.vendors.NewCreditMemoAction;
 import com.vimukti.accounter.web.client.ui.vendors.NewItemReceiptAction;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
+import com.vimukti.accounter.web.client.ui.vendors.NewVendorItemAction;
 import com.vimukti.accounter.web.client.ui.vendors.PayBillsAction;
 import com.vimukti.accounter.web.client.ui.vendors.PreviousClaimAction;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderAction;
@@ -104,8 +105,8 @@ public class VendorsActionFactory extends AbstractActionFactory {
 	}
 
 	public static NewItemAction getNewItemAction() {
-		return new NewItemAction(actionsConstants.newItem(),
-				"/images/icons/customers/new_item.png", false);
+		return new NewVendorItemAction(actionsConstants.newItem(),
+				"/images/icons/customers/new_item.png");
 	}
 
 	public static NewCreditMemoAction getNewCreditMemoAction(
@@ -173,9 +174,9 @@ public class VendorsActionFactory extends AbstractActionFactory {
 				"/images/icons/vendors/bills.png");
 	}
 
-	public static ExpensesAction getExpensesAction() {
+	public static ExpensesAction getExpensesAction(String viewType) {
 		return new ExpensesAction(actionsConstants.recordExpenses(),
-				"/images/icons/vendors/record_expenses.png");
+				"/images/icons/vendors/record_expenses.png", viewType);
 	}
 
 	public static VendorPaymentsListAction getVendorPaymentsAction() {
@@ -231,8 +232,8 @@ public class VendorsActionFactory extends AbstractActionFactory {
 
 	}
 
-	public static ExpenseClaimsAction getExpenseClaimsAction() {
+	public static ExpenseClaimsAction getExpenseClaimsAction(int selectedTab) {
 		return new ExpenseClaimsAction(FinanceApplication.getVendorsMessages()
-				.expenseClaims(), "/images/icons/vendors/record_expense.png");
+				.expenseClaims(), "/images/icons/vendors/record_expense.png", selectedTab);
 	}
 }

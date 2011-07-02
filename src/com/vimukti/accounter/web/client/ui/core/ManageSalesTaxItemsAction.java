@@ -56,4 +56,14 @@ public class ManageSalesTaxItemsAction extends Action {
 
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+			return "manageSalesTaxItems";
+		else
+			return "salesTaxItems";
+
+	}
+
 }

@@ -34,4 +34,10 @@ public class PaymentDialogAction extends Action {
 		diaog.show();
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

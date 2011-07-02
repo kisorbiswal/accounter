@@ -180,5 +180,7 @@ public abstract class Action {
 	public String getImageUrl() {
 		return "";
 	}
+	
+	public abstract String getHistoryToken();
 
 }

@@ -598,6 +598,7 @@ public class ViewManager extends DockPanel {
 		// Checking for any duplication of Company Home Page. due to should save
 		// in history This are just stacking up. so need to remove.
 		restoreErrorBox();
+		MainFinanceWindow.shouldExecuteRun = true;
 		if (currentCanvas != null && getNextHistory() != null) {
 			removeAllSubsequentHistory();
 		}
@@ -695,6 +696,7 @@ public class ViewManager extends DockPanel {
 
 		// Here this Method will be Called when, we are done with the View, and
 		// View, no longer needs a History
+		MainFinanceWindow.shouldExecuteRun = true;
 		if (isShowWarningDialog) {
 			try {
 				isShowWarningDialog = false;
@@ -873,6 +875,38 @@ public class ViewManager extends DockPanel {
 
 					history = historyList.get(index - 1);
 					index--;
+				}
+			}
+
+		} catch (Exception e) {
+			// SC
+			// .logWarn("ViewManager Error While Calling getPreviousHistory Called...");
+			history = null;
+			e.printStackTrace();
+		}
+		return history;
+	}
+
+	public History getTempHistory() {
+
+		// SC.logWarn("ViewManager getPreviousHistory Called...With HistoryList "
+		// + historyList.size() + "index@" + index);
+		History history = new History();
+
+		try {
+			if (historyList != null) {
+				if (index <= 0) {
+					history = null;
+				} else {
+					if (FinanceApplication.isSales()
+							|| FinanceApplication.isPurchases()) {
+						if (historyList.size() == 1) {
+							return historyList.get(0);
+						}
+					}
+
+					history = historyList.get(index - 1);
+					// index--;
 				}
 			}
 
@@ -1126,6 +1160,7 @@ public class ViewManager extends DockPanel {
 			History previousHistory = getPreviousHistory();
 
 			displayView(previousHistory, viewOutPutData);
+			MainFinanceWindow.shouldExecuteRun = true;
 		}
 	}
 
