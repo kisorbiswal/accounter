@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -83,6 +84,9 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 
 					if (radio.equals(paymentType)) {
 						try {
+							HistoryTokenUtils.setPresentToken(
+									VendorsActionFactory
+											.getNewVendorPaymentAction(), null);
 							VendorsActionFactory.getNewVendorPaymentAction()
 									.run(null, false);
 							;
@@ -94,6 +98,9 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 							.getFinanceUIConstants().customerRefund())) {
 
 						try {
+							HistoryTokenUtils.setPresentToken(
+									CustomersActionFactory
+											.getCustomerRefundAction(), null);
 							CustomersActionFactory.getCustomerRefundAction()
 									.run(null, false);
 							;

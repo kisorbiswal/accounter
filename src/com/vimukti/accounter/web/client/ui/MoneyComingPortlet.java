@@ -12,6 +12,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -51,6 +52,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void goToClicked() {
+		HistoryTokenUtils.setPresentToken(BankingActionFactory
+				.getAccountRegisterAction(), debitors);
 		BankingActionFactory.getAccountRegisterAction().run(debitors, true);
 	}
 
@@ -78,6 +81,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				HistoryTokenUtils.setPresentToken(CustomersActionFactory
+						.getNewInvoiceAction(), null);
 				CustomersActionFactory.getNewInvoiceAction().run(null, true);
 			}
 		});
@@ -196,11 +201,16 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 				label.getElement().getStyle().setTextDecoration(
 						TextDecoration.NONE);
 				if (title.equals(FinanceApplication.getCompanyMessages()
-						.draftInvoices()))
-					CustomersActionFactory.getInvoicesAction().run(null, true);
-				else {
-					CustomersActionFactory.getInvoicesAction().run(null, true,
-							InvoiceListView.OVER_DUE);
+						.draftInvoices())) {
+					HistoryTokenUtils.setPresentToken(CustomersActionFactory
+							.getInvoicesAction(null), null);
+					CustomersActionFactory.getInvoicesAction(null).run(null,
+							true);
+				} else {
+					History.newItem("overDueInvoices");
+					// CustomersActionFactory.getInvoicesAction().run(null,
+					// true,
+					// InvoiceListView.OVER_DUE);
 				}
 
 			}
@@ -220,6 +230,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void titleClicked() {
+		HistoryTokenUtils.setPresentToken(BankingActionFactory
+				.getAccountRegisterAction(), debitors);
 		BankingActionFactory.getAccountRegisterAction().run(debitors, true);
 	}
 

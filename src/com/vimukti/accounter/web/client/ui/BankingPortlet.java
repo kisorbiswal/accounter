@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -37,8 +38,9 @@ public class BankingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void goToClicked() {
-		CompanyActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK)
-				.run(null, true);
+		History.newItem("bankAccounts");
+		// CompanyActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK)
+		// .run(null, true);
 	}
 
 	@Override
@@ -76,6 +78,8 @@ public class BankingPortlet extends DashBoardPortlet {
 
 				@Override
 				public void onClick(ClickEvent event) {
+					HistoryTokenUtils.setPresentToken(BankingActionFactory
+							.getNewBankAccountAction(), null);
 					BankingActionFactory.getNewBankAccountAction().run(null,
 							true);
 				}
@@ -124,6 +128,8 @@ public class BankingPortlet extends DashBoardPortlet {
 
 					@Override
 					public void onClick(ClickEvent event) {
+						HistoryTokenUtils.setPresentToken(BankingActionFactory
+								.getAccountRegisterAction(), account);
 						BankingActionFactory.getAccountRegisterAction().run(
 								account, true);
 					}
@@ -210,6 +216,8 @@ public class BankingPortlet extends DashBoardPortlet {
 
 				@Override
 				public void onClick(ClickEvent event) {
+					HistoryTokenUtils.setPresentToken(BankingActionFactory
+							.getNewBankAccountAction(), null);
 					BankingActionFactory.getNewBankAccountAction().run(null,
 							true);
 				}
@@ -219,8 +227,9 @@ public class BankingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void titleClicked() {
-		CompanyActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK)
-				.run(null, true);
+		History.newItem("bankAccounts");
+		// CompanyActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK)
+		// .run(null, true);
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
@@ -46,7 +47,9 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 	@Override
 	public void goToClicked() {
-		VendorsActionFactory.getExpensesAction().run(null, true);
+		HistoryTokenUtils.setPresentToken(VendorsActionFactory
+				.getExpensesAction(null), null);
+		VendorsActionFactory.getExpensesAction(null).run(null, true);
 	}
 
 	@Override
@@ -71,6 +74,8 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				HistoryTokenUtils.setPresentToken(VendorsActionFactory
+						.getRecordExpensesAction(), null);
 				VendorsActionFactory.getRecordExpensesAction().run(null, true);
 			}
 		});
@@ -167,22 +172,28 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 						TextDecoration.NONE);
 				if (title.equals(FinanceApplication.getCompanyMessages()
 						.cashExpenses()))
-					VendorsActionFactory.getExpensesAction().run(null, true,
-							FinanceApplication.getVendorsMessages().cash());
+					History.newItem("cashExpenses");
+				// VendorsActionFactory.getExpensesAction(
+				// FinanceApplication.getVendorsMessages().cash())
+				// .run(null, true);
 				else if (title.equals(FinanceApplication.getCompanyMessages()
 						.creditCardExpenses()))
-					VendorsActionFactory.getExpensesAction().run(
-							null,
-							true,
-							FinanceApplication.getVendorsMessages()
-									.creditCard());
+					History.newItem("creditCardExpenses");
+				// VendorsActionFactory.getExpensesAction(
+				// FinanceApplication.getVendorsMessages()
+				// .creditCard()).run(null, true);
 				else if (title.equals(FinanceApplication.getCompanyMessages()
 						.employeeExpenses()))
-					VendorsActionFactory.getExpensesAction().run(null, true,
-							FinanceApplication.getVendorsMessages().employee());
+					History.newItem("employeeExpenses");
+				// VendorsActionFactory.getExpensesAction(
+				// FinanceApplication.getVendorsMessages().employee())
+				// .run(null, true);
 				else if (title.equals(FinanceApplication.getCompanyMessages()
 						.allExpenses()))
-					VendorsActionFactory.getExpensesAction().run(null, true);
+					History.newItem(VendorsActionFactory
+							.getExpensesAction(null).getHistoryToken());
+				// VendorsActionFactory.getExpensesAction(null)
+				// .run(null, true);
 			}
 		});
 		label.getElement().getStyle().setMarginLeft(10, Unit.PX);
@@ -199,7 +210,9 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 	@Override
 	public void titleClicked() {
-		VendorsActionFactory.getExpensesAction().run(null, true);
+		HistoryTokenUtils.setPresentToken(VendorsActionFactory
+				.getExpensesAction(null), null);
+		VendorsActionFactory.getExpensesAction(null).run(null, true);
 	}
 
 	@Override

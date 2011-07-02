@@ -1302,6 +1302,11 @@ public class MakeDepositView extends
 		form2.getCellFormatter().setWidth(0, 1, "200px");
 		form2.getCellFormatter().setWidth(0, 1, "200px");
 	}
+	
+	@Override
+	protected final void initConstants() {
+		bankingConstants = GWT.create(BankingMessages.class);
+	}
 
 	@Override
 	protected String getViewTitle() {

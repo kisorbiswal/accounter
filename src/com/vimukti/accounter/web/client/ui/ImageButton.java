@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -25,7 +26,7 @@ public class ImageButton {
 	public ImageButton(String title, String url) {
 		this.title = title;
 		this.url = url;
-		
+
 		createControls();
 		addClickHandler();
 	}
@@ -76,6 +77,10 @@ public class ImageButton {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				if (!History.getToken().equals(getAction().getHistoryToken())) {
+					MainFinanceWindow.oldToken = History.getToken();
+					HistoryTokenUtils.setPresentToken(getAction(), null);
+				}
 				getAction().run(null, false);
 			}
 		});
@@ -83,6 +88,10 @@ public class ImageButton {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				if (!History.getToken().equals(getAction().getHistoryToken())) {
+					MainFinanceWindow.oldToken = History.getToken();
+					HistoryTokenUtils.setPresentToken(getAction(), null);
+				}
 				getAction().run(null, false);
 			}
 		});

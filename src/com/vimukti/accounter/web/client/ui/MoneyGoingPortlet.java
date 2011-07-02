@@ -12,6 +12,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -50,6 +51,8 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void goToClicked() {
+		HistoryTokenUtils.setPresentToken(BankingActionFactory
+				.getAccountRegisterAction(), creditors);
 		BankingActionFactory.getAccountRegisterAction().run(creditors, true);
 	}
 
@@ -77,6 +80,8 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				HistoryTokenUtils.setPresentToken(VendorsActionFactory
+						.getEnterBillsAction(), null);
 				VendorsActionFactory.getEnterBillsAction().run(null, true);
 			}
 		});
@@ -221,6 +226,8 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void titleClicked() {
+		HistoryTokenUtils.setPresentToken(BankingActionFactory
+				.getAccountRegisterAction(), creditors);
 		BankingActionFactory.getAccountRegisterAction().run(creditors, true);
 	}
 

@@ -211,7 +211,7 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 				else if (title.equals(FinanceApplication.getCompanyMessages()
 						.expenseClaims())) {
 					if (FinanceApplication.getUser().canDoInvoiceTransactions())
-						VendorsActionFactory.getExpensesAction()
+						VendorsActionFactory.getExpensesAction(null)
 								.run(null, true);
 				} else if (title.equals("customers"))
 					CustomersActionFactory.getNewCustomerAction().run(null,

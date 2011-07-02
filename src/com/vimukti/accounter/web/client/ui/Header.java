@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -48,8 +49,14 @@ public class Header extends HorizontalPanel {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					CompanyActionFactory.getUserDetailsAction()
-							.run(null, false);
+					String historyToken = CompanyActionFactory
+							.getUserDetailsAction().getHistoryToken();
+					if (!History.getToken().equals(historyToken)) {
+						MainFinanceWindow.oldToken = History.getToken();
+						History.newItem(historyToken);
+					} else
+						CompanyActionFactory.getUserDetailsAction().run(null,
+								false);
 				}
 			});
 		}
@@ -70,7 +77,14 @@ public class Header extends HorizontalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				CompanyActionFactory.getCompanyHomeAction().run(null, false);
+				String historyToken = CompanyActionFactory
+						.getCompanyHomeAction().getHistoryToken();
+				if (!History.getToken().equals(historyToken)) {
+					MainFinanceWindow.oldToken = History.getToken();
+					History.newItem(historyToken);
+				} else
+					CompanyActionFactory.getCompanyHomeAction()
+							.run(null, false);
 			}
 		});
 		Image image = new Image();

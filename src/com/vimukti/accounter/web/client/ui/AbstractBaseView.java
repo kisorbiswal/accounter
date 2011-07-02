@@ -14,6 +14,7 @@ import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
@@ -52,11 +53,11 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 	public static boolean warnOccured = false;
 
 	public AbstractBaseView() {
-		setTitle(getViewTitle());
 		sinkEvents(Event.ONCHANGE | Event.KEYEVENTS);
 
 		initRPCService();
 		initConstants();
+		setTitle(getViewTitle());
 		this.addStyleName("abstract_base_view");
 	}
 
@@ -228,11 +229,17 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 			if (this.callback != null) {
 				this.callback.onSuccess(object);
 			}
-			if (saveAndClose)
+			if (saveAndClose) {
+				HistoryTokenUtils.setPreviousToken();
 				MainFinanceWindow.getViewManager().closeView(this.getAction(),
 						object);
-			else {
+			} else {
+				if (!History.getToken().equals(getAction().getHistoryToken())) {
+					MainFinanceWindow.oldToken = History.getToken();
+					HistoryTokenUtils.setPresentToken(getAction(), null);
+				}
 				getAction().run(null, true);
+
 			}
 		} catch (Exception e) {
 			Accounter.showInformation(((JavaScriptException) e)
