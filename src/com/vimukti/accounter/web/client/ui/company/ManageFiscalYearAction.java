@@ -35,9 +35,16 @@ public class ManageFiscalYearAction extends Action {
 	public ImageResource getSmallImage() {
 		return FinanceApplication.getFinanceMenuImages().manageFiscalYear();
 	}
-@Override
-public String getImageUrl() {
-	// TODO Auto-generated method stub
-	return "/images/manage_fiscal_year.png";
-}
+
+	@Override
+	public String getImageUrl() {
+		// TODO Auto-generated method stub
+		return "/images/manage_fiscal_year.png";
+	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "manageFiscalYear";
+	}
 }

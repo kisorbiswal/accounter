@@ -12,6 +12,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
@@ -33,6 +34,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.Header;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
@@ -747,6 +749,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			super.saveSuccess(result);
 			Header.companyName.setText(this.companyNameText.getValue()
 					.toString());
+			HistoryTokenUtils.setPresentToken(CompanyActionFactory
+					.getCompanyHomeAction(), null);
 			CompanyActionFactory.getCompanyHomeAction().run(null, false);
 
 		} else
@@ -988,6 +992,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	protected void taxGroupButtonClick() {
+		HistoryTokenUtils.setPresentToken(CompanyActionFactory
+				.getManageSalesTaxGroupsAction(), null);
 		new ManageSalesTaxGroupsAction("").run(null, false);
 
 	}

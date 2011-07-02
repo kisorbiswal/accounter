@@ -69,4 +69,10 @@ public class ManageItemTaxAction extends Action {
 	public ImageResource getSmallImage() {
 		return null;
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

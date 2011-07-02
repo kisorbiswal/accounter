@@ -65,10 +65,17 @@ public class JournalEntriesAction extends Action {
 	public ImageResource getSmallImage() {
 		return FinanceApplication.getFinanceMenuImages().journalEntriesList();
 	}
+
 	@Override
 	public String getImageUrl() {
 		// TODO Auto-generated method stub
 		return "/images/Jonoul_entries.png";
+	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "journalEntries";
 	}
 
 }

@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -11,6 +12,7 @@ import com.vimukti.accounter.web.client.core.ClientPhone;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -119,6 +121,8 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 
 	@Override
 	public void onDoubleClick(ClientSalesPerson obj) {
+		HistoryTokenUtils.setPresentToken(CustomersActionFactory
+				.getNewSalesperSonAction(), obj);
 		CustomersActionFactory.getNewSalesperSonAction().run(obj, true);
 	}
 

@@ -40,4 +40,10 @@ public class CompanyInfoAction extends Action {
 public String getImageUrl() {
 	return "/images/information-icon-new.png";
 }
+
+@Override
+public String getHistoryToken() {
+	// TODO Auto-generated method stub
+	return null;
+}
 }

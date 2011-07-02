@@ -63,9 +63,16 @@ public class PaymentTermListAction extends Action {
 	public ImageResource getSmallImage() {
 		return FinanceApplication.getFinanceMenuImages().paymentTermsList();
 	}
-@Override
-public String getImageUrl() {
-	// TODO Auto-generated method stub
-	return "/images/Payment_term.png";
-}
+
+	@Override
+	public String getImageUrl() {
+		// TODO Auto-generated method stub
+		return "/images/Payment_term.png";
+	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "paymentTerms";
+	}
 }

@@ -66,9 +66,16 @@ public class NewJournalEntryAction extends Action {
 	public ImageResource getSmallImage() {
 		return FinanceApplication.getFinanceMenuImages().newJournalEntry();
 	}
-@Override
-public String getImageUrl() {
-	// TODO Auto-generated method stub
-	return "/images/new_journal_entry.png";
-}
+
+	@Override
+	public String getImageUrl() {
+		// TODO Auto-generated method stub
+		return "/images/new_journal_entry.png";
+	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "newJournalEntry";
+	}
 }

@@ -66,4 +66,10 @@ public class CustomerGroupListAction extends Action {
 public String getImageUrl() {
 	return "/images/customers.png";
 }
+
+@Override
+public String getHistoryToken() {
+	// TODO Auto-generated method stub
+	return "customerGroupList";
+}
 }

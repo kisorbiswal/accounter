@@ -47,4 +47,10 @@ public class PreferencesAction extends Action {
 		return "/images/preferences.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "companyPreferences";
+	}
+
 }

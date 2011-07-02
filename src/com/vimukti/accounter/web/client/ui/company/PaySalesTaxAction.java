@@ -71,10 +71,17 @@ public class PaySalesTaxAction extends Action {
 	public ImageResource getSmallImage() {
 		return FinanceApplication.getFinanceMenuImages().paySalesTax();
 	}
+
 	@Override
 	public String getImageUrl() {
 		// TODO Auto-generated method stub
 		return "/images/Pay_Sales_Tax.png";
+	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "paySalesTax";
 	}
 
 }

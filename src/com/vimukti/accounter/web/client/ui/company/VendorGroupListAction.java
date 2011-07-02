@@ -78,9 +78,16 @@ public class VendorGroupListAction extends Action {
 	public ImageResource getSmallImage() {
 		return FinanceApplication.getFinanceMenuImages().vendors();
 	}
-@Override
-public String getImageUrl() {
-	// TODO Auto-generated method stub
-	return "/images/vendors.png";
-}
+
+	@Override
+	public String getImageUrl() {
+		// TODO Auto-generated method stub
+		return "/images/vendors.png";
+	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return UIUtils.getVendorString("supplierGroupList", "vendorGroupList");
+	}
 }

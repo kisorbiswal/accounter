@@ -72,9 +72,16 @@ public class ShippingMethodListAction extends Action {
 	public ImageResource getSmallImage() {
 		return FinanceApplication.getFinanceMenuImages().shippingMethodsList();
 	}
-@Override
-public String getImageUrl() {
-	// TODO Auto-generated method stub
-	return "/images/Shipping-Method.png";
-}
+
+	@Override
+	public String getImageUrl() {
+		// TODO Auto-generated method stub
+		return "/images/Shipping-Method.png";
+	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "shippingMethodsList";
+	}
 }

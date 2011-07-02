@@ -76,4 +76,10 @@ public class PriceLevelListAction extends Action {
 		// TODO Auto-generated method stub
 		return "/images/Price_Level_list.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "priceLevels";
+	}
 }

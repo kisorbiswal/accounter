@@ -85,4 +85,13 @@ public class NewTAXAgencyAction extends Action {
 		// TODO Auto-generated method stub
 		return "/images/New_Tax_Agency.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+			return "newVatAgency";
+		else
+			return "newTaxAgency";
+	}
 }

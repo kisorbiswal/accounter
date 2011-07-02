@@ -79,4 +79,10 @@ public class ShippingTermListAction extends Action {
 		// TODO Auto-generated method stub
 		return "/images/Shipping_term_icon.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "shippingTermsList";
+	}
 }

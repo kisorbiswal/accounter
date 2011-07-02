@@ -69,9 +69,16 @@ public class PaymentsAction extends Action {
 	public ImageResource getSmallImage() {
 		return FinanceApplication.getFinanceMenuImages().payments();
 	}
+
 	@Override
 	public String getImageUrl() {
 		// TODO Auto-generated method stub
 		return "/images/payments.png";
+	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "payments";
 	}
 }

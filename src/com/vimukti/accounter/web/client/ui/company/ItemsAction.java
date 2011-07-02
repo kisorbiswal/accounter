@@ -78,4 +78,10 @@ public class ItemsAction extends Action {
 		return "/images/items.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "items";
+	}
+
 }

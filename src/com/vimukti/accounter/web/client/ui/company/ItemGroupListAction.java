@@ -81,4 +81,10 @@ public class ItemGroupListAction extends Action {
 		return "/images/items.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "itemGroupList";
+	}
+
 }

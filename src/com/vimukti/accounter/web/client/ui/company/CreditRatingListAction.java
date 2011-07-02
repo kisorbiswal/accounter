@@ -74,4 +74,10 @@ public class CreditRatingListAction extends Action {
 		return "/images/Creadit_rating_List.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "creditRatingList";
+	}
+
 }

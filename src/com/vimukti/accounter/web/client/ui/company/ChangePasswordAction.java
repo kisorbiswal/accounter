@@ -42,4 +42,10 @@ public class ChangePasswordAction extends Action {
 		}
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "changePassword";
+	}
+
 }

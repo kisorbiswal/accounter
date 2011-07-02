@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -9,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
 public class UserDetailsView extends AbstractBaseView<ClientUser> {
@@ -38,6 +40,8 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				HistoryTokenUtils.setPresentToken(CompanyActionFactory
+						.getChangePasswordAction(), null);
 				CompanyActionFactory.getChangePasswordAction().run(null, false);
 			}
 		});

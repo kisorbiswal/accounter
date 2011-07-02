@@ -84,4 +84,10 @@ public class ChartOfAccountsAction extends Action {
 	public String getImageUrl() {
 		return "/images/chart_of_accounts.png";
 	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "accountsList";
+	}
 }

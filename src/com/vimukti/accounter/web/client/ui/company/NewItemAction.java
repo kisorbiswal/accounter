@@ -28,6 +28,11 @@ public class NewItemAction extends Action {
 	public static final int TYPE_SERVICE = 1;
 	public static final int NON_INVENTORY_PART = 3;
 
+	public NewItemAction(String text, String iconString) {
+		super(text, iconString);
+		this.catagory = FinanceApplication.getCompanyMessages().company();
+	}
+	
 	public NewItemAction(String text, String iconString,
 			boolean isGeneratedFromCustomer) {
 		super(text, iconString);
@@ -124,5 +129,11 @@ public class NewItemAction extends Action {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "newItem";
 	}
 }
