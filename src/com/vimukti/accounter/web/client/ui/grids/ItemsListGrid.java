@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
@@ -88,8 +89,11 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
 	@Override
 	public void onDoubleClick(ClientItem obj) {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
+			HistoryTokenUtils.setPresentToken(CompanyActionFactory
+					.getNewItemAction(), obj);
 			CompanyActionFactory.getNewItemAction().run(obj, true);
+		}
 	}
 
 	@Override

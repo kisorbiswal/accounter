@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -201,6 +202,8 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 
 			public void onSuccess(ClientCustomer result) {
 				if (result != null) {
+					HistoryTokenUtils.setPresentToken(CustomersActionFactory
+							.getNewCustomerAction(), result);
 					UIUtils.runAction(result, CustomersActionFactory
 							.getNewCustomerAction());
 				}

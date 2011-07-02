@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.FixedAssetsActionFactory;
@@ -107,6 +108,8 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	 */
 	@Override
 	public void onDoubleClick(ClientFixedAsset obj) {
+		HistoryTokenUtils.setPresentToken(FixedAssetsActionFactory
+				.getNewFixedAssetAction(), obj);
 		FixedAssetsActionFactory.getNewFixedAssetAction().run(obj, true);
 	}
 
@@ -130,6 +133,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		Action action = FixedAssetsActionFactory.getHistoryListAction();
 		action.catagory = FinanceApplication.getFixedAssetConstants()
 				.fixedAssetsPendingItemsList();
+		HistoryTokenUtils.setPresentToken(action, obj);
 		action.run(obj, true);
 	}
 

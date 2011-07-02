@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
@@ -207,12 +208,16 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 			public void onSuccess(ClientPayee result) {
 				if (result != null) {
 					if (result instanceof ClientVendor) {
+						HistoryTokenUtils.setPresentToken(VendorsActionFactory
+								.getNewVendorAction(), result);
 						UIUtils.runAction(result, VendorsActionFactory
 								.getNewVendorAction());
-//					} else if (result instanceof ClientTaxAgency) {
-//						UIUtils.runAction(result, CompanyActionFactory
-//								.getNewTaxAgencyAction());
+						// } else if (result instanceof ClientTaxAgency) {
+						// UIUtils.runAction(result, CompanyActionFactory
+						// .getNewTaxAgencyAction());
 					} else if (result instanceof ClientTAXAgency) {
+						HistoryTokenUtils.setPresentToken(CompanyActionFactory
+								.getNewTAXAgencyAction(), result);
 						UIUtils.runAction(result, CompanyActionFactory
 								.getNewTAXAgencyAction());
 					}
@@ -269,10 +274,10 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 					if (result instanceof ClientVendor) {
 						ViewManager.getInstance().deleteObject(result,
 								AccounterCoreType.VENDOR, VendorListGrid.this);
-//					} else if (result instanceof ClientTaxAgency) {
-//						ViewManager.getInstance().deleteObject(result,
-//								AccounterCoreType.TAXAGENCY,
-//								VendorListGrid.this);
+						// } else if (result instanceof ClientTaxAgency) {
+						// ViewManager.getInstance().deleteObject(result,
+						// AccounterCoreType.TAXAGENCY,
+						// VendorListGrid.this);
 					} else if (result instanceof ClientTAXAgency) {
 						ViewManager.getInstance().deleteObject(result,
 								AccounterCoreType.TAXAGENCY,

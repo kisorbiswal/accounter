@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -8,6 +9,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
@@ -71,6 +73,8 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 		if (col == getColumns().length - 1)
 			showWarnDialog(obj);
 		if (col == 5) {
+			HistoryTokenUtils.setPresentToken(BankingActionFactory
+					.getAccountRegisterAction(), obj);
 			BankingActionFactory.getAccountRegisterAction().run(obj, true);
 		}
 	}
@@ -82,6 +86,8 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			return;
 		else if (!FinanceApplication.getUser().canDoInvoiceTransactions())
 			return;
+		HistoryTokenUtils.setPresentToken(CompanyActionFactory
+				.getNewAccountAction(), account);
 		CompanyActionFactory.getNewAccountAction().run(account, true);
 
 	}
