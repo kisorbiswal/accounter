@@ -89,4 +89,10 @@ public class SoldDisposedFixedAssetsListAction extends Action {
 		return "/images/Sold_Disposed_Items_List.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

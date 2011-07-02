@@ -71,4 +71,10 @@ public class PendingItemsListAction extends Action {
 		return "/images/pending_items_list.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "pendingItems";
+	}
+
 }

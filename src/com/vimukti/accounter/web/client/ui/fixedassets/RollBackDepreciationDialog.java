@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
@@ -171,7 +172,9 @@ public class RollBackDepreciationDialog extends BaseDialog {
 
 			@Override
 			public void onSuccess(Object result) {
-				CompanyActionFactory.getDepriciationAction().run(null, true);
+				History.newItem(CompanyActionFactory.getDepriciationAction()
+						.getHistoryToken());
+				// CompanyActionFactory.getDepriciationAction().run(null, true);
 			}
 
 		};

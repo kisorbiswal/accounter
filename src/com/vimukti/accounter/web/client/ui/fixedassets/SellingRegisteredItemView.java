@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -536,8 +537,10 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			// .getFixedAssetConstants().fixedAssetItemHasBeenSold());
 			saveAndClose = true;
 			super.saveSuccess(result);
-			FixedAssetsActionFactory.getSoldDisposedListAction().run(null,
-					false);
+			History.newItem(FixedAssetsActionFactory
+					.getSoldDisposedListAction().getHistoryToken());
+			// FixedAssetsActionFactory.getSoldDisposedListAction().run(null,
+			// false);
 		} else
 			saveFailed(new Exception(FinanceApplication.getFinanceUIConstants()
 					.failed()));

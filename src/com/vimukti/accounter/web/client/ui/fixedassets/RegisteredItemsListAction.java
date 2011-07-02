@@ -87,4 +87,10 @@ public class RegisteredItemsListAction extends Action {
 		return "/images/Registered_Items_List.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "registeredItems";
+	}
+
 }

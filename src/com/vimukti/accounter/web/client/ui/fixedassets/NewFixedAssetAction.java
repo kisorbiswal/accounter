@@ -70,4 +70,10 @@ public class NewFixedAssetAction extends Action {
 		return "/images/New Fixed Asset.png";
 	}
 
+	@Override
+	public String getHistoryToken() {
+		// TODO Auto-generated method stub
+		return "newFixedAsset";
+	}
+
 }

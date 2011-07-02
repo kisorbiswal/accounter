@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -25,6 +26,7 @@ import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.DepreciationAccountCombo;
@@ -453,6 +455,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						action.catagory = FinanceApplication
 								.getFixedAssetConstants()
 								.fixedAssetsNewFixedAsset();
+						HistoryTokenUtils.setPresentToken(action, fixedAsset);
 						action.run(fixedAsset, true);
 					} else if (selectedOption
 							.equalsIgnoreCase(FinanceApplication
@@ -462,6 +465,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						action.catagory = FinanceApplication
 								.getFixedAssetConstants()
 								.fixedAssetsNewFixedAsset();
+						HistoryTokenUtils.setPresentToken(action, fixedAsset);
 						action.run(fixedAsset, true);
 					} else if (selectedOption
 							.equalsIgnoreCase(FinanceApplication
@@ -471,6 +475,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						action.catagory = FinanceApplication
 								.getFixedAssetConstants()
 								.fixedAssetsNewFixedAsset();
+						HistoryTokenUtils.setPresentToken(action, fixedAsset);
 						action.run(fixedAsset, true);
 					} else if (selectedOption
 							.equalsIgnoreCase(FinanceApplication
