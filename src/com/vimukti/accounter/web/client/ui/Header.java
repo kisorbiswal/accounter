@@ -72,7 +72,7 @@ public class Header extends HorizontalPanel {
 		help.addStyleName("helpBar");
 
 		logo = new HTML(
-				"<div class='logo'><img src='/images/Logo.jpg'></div>");
+				"<div class='logo'><img src='/images/Accounter_logo_title.png'></div>");
 		logo.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -88,7 +88,7 @@ public class Header extends HorizontalPanel {
 			}
 		});
 		Image image = new Image();
-		image.setUrl("images/Logo.jpg");
+		image.setUrl("images/Accounter_logo_title.png");
 		image.setStyleName("logo");
 
 		panel1 = new VerticalPanel();
