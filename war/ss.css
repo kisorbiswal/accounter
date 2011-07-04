@@ -50,7 +50,6 @@ div ul li hover {
 }
 
 .main_body-container{
-	width: 960px !important;
 	margin: 0px auto;
 	font-family: arial;
 	background:none repeat scroll 0 0 #28757D;
@@ -756,7 +755,7 @@ ul li a:HOVER {
 	border: medium none;
 	height: 24px;
 	/*margin-bottom: 8px;*/
-	margin-top: 10px;
+	margin: 5px 0;
 	/*margin-left: 10px;*/
 	width: 223px;
 }
@@ -1651,4 +1650,7 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right{
 }
 #mid-box7{
    width:223px;
+}
+.login-table span{
+   padding-top:5px;
 }

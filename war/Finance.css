@@ -302,7 +302,6 @@ table tr.ReportGridRow:HOVER {
 .lable-title {
 	font-weight: bold;
 	font-size: 12pt;
-	padding: 10px;
 }
 
 .blue-date-picker {
@@ -1250,7 +1249,7 @@ border-top:1px solid #aaa;
 	height: 22px;
 	margin-left: 0px;
 	float: none\0;
-	margin-left: -5px !important;
+	margin-left: -5px;
 	/*margin-top: -22px;*/
 	position: relative;
 	width: 22px;
@@ -1841,4 +1840,13 @@ noindex:-o-prefocus,.ibutton {
 }
 .help-panel tr td table td{
    text-align:left;
+}
+.due_form_table td:FIRST-CHILD {
+	width:10.5%;
+}
+.datenumber-panel{
+    margin-right:25px;
+}
+.report-toolbar .ibutton{
+    float:right;
 }
