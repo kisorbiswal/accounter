@@ -27,7 +27,7 @@ body,ul,li,ol,p,table,tr,td {
 }
 
 .lower-part ol{
-	padding: 0 10px 25px;
+	padding: 0 15px 25px;
 }
 .lower-part ol li{
 	width: 290px;
@@ -384,6 +384,7 @@ li {
 	padding: 5.5px\0;
 	color: #ffffff;
 	font-size: 16px;
+	outline:0 none;
 }
 
 /*#fea-bg {
@@ -560,13 +561,13 @@ li {
 .image-text-button {
 	float: left;
 	margin-left: 30px;
-	margin-top: 45px;
+	margin-top: 30px;
 }
 
 .left-middle {
 	margin-left: 11px;
 	float: left;
-	margin-top: 15px;
+	margin-top: 10px;
 	width: 398px;
 }
 
@@ -770,7 +771,7 @@ ul li a:HOVER {
 
 .vertical-line {
 	float: left;
-	height: 605px;
+	height: 700px;
 	margin-left: 20px;
 	margin-top: -15px;
 	padding: 9px;
@@ -830,10 +831,11 @@ ul li a:HOVER {
 
 #checkbox { /*margin-left: 35px;
 	margin-top: 27px;*/
-	float: left;
-	margin-right:-8px;
 }
-
+.terms-error input[type="checkbox"]{
+    float:left;
+    margin-right:-8px;              
+}
 .left-side-box {
 	color: #A0A0A0;
 }
@@ -1615,6 +1617,8 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right{
     font-size: 15px;
     height: 29px;
     margin: 0 -6px;
+    line-height:1.5;
+    cursor:pointer;
 }
 .signup-submit-button{
    float:right;
@@ -1644,4 +1648,7 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right{
 }
 .login_logo_image img{
   margin-top:10px;
+}
+#mid-box7{
+   width:223px;
 }
