@@ -168,8 +168,8 @@ public class UsersView extends BaseView<ClientUser> {
 		usersPanel.add(usersListGrid);
 		usersPanel.setCellHorizontalAlignment(usersListGrid,
 				HasHorizontalAlignment.ALIGN_CENTER);
-		usersListGrid.setWidth("90%");
-		usersListGrid.getElement().getStyle().setMarginTop(20, Unit.PX);
+		usersListGrid.setWidth("100%");
+		usersListGrid.getElement().getStyle().setMarginTop(10, Unit.PX);
 
 		return usersPanel;
 	}

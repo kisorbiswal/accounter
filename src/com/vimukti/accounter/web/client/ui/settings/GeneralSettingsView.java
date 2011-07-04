@@ -295,7 +295,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getSettingsMessages().generalSettingsLabel();
+		return FinanceApplication.getSettingsMessages().generalSettings();
 	}
 
 }

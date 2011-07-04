@@ -28,6 +28,8 @@ public interface SettingsMessages extends FinanceMessages {
 	String january01();
 
 	String generalSettingsLabel();
+	
+	String generalSettings();
 
 	SafeHtml conversionBalanaceHeader();
 
