@@ -111,6 +111,8 @@ public class AddPaymentTermDialog extends BaseDialog {
 		// dueForm.setWidth("100%");
 		dueForm.setNumCols(4);
 		dueForm.setFields(dueSelect, dayText);
+		dueForm.setWidth("100%");
+		dueForm.setStyleName("due_form_table");
 
 		dayLabel = new Label();
 		dayLabel.setText(FinanceApplication.getCompanyMessages().days());
@@ -119,6 +121,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 		// duePanel.setSize("100%", "100%");
 		duePanel.add(dueForm);
 		duePanel.add(dayLabel);
+		duePanel.setWidth("100%");
 		duePanel.setCellVerticalAlignment(dayLabel,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 

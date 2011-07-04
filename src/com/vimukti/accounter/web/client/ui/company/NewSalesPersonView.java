@@ -210,8 +210,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			fonFaxForm.businessFaxText.setValue(takenSalesperson.getFaxNo());
 			emailForm = new EmailForm(null, takenSalesperson
 					.getWebPageAddress());
-			emailForm.setWidth("90%");
-			emailForm.getCellFormatter().setWidth(0, 0, "189");
+			emailForm.setWidth("100%");
+			emailForm.getCellFormatter().setWidth(0, 0, "159");
 			emailForm.getCellFormatter().setWidth(0, 1, "125");
 			emailForm.businesEmailText.setValue(takenSalesperson.getEmail());
 			emailForm.webText.setValue(takenSalesperson.getWebPageAddress());
@@ -242,8 +242,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			fonFaxForm.getCellFormatter().setWidth(0, 0, "");
 			fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
 			emailForm = new EmailForm(null, null);
-			emailForm.setWidth("90%");
-			emailForm.getCellFormatter().setWidth(0, 0, "189");
+			emailForm.setWidth("100%");
+			emailForm.getCellFormatter().setWidth(0, 0, "150");
 			emailForm.getCellFormatter().setWidth(0, 1, "125");
 			genderSelect.setDefaultToFirstOption(Boolean.TRUE);
 			// gender = ClientSalesPerson.GENDER_UNSPECIFIED;
