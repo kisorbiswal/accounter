@@ -265,11 +265,11 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	private MenuBar getMenuBar() {
 		MenuBar menuBar = new MenuBar();
-		MenuItem dashBoardMenuitem = menuBar.addItem("DashBoard",
-				getDashBoardCommand());
-		ThemesUtil.insertEmptyChildToMenuBar(menuBar);
-		dashBoardMenuitem.getElement().setTitle(
-				"Click here to download this plugin");
+		// MenuItem dashBoardMenuitem = menuBar.addItem("DashBoard",
+		// getDashBoardCommand());
+		// ThemesUtil.insertEmptyChildToMenuBar(menuBar);
+		// dashBoardMenuitem.getElement().setTitle(
+		// "Click here to download this plugin");
 
 		MenuItem menuitem = menuBar.addItem(FinanceApplication
 				.getFinanceUIConstants().company(), getCompanyMenu());
@@ -370,10 +370,10 @@ public class MainFinanceWindow extends VerticalPanel {
 						.getCompanyHomeAction().getHistoryToken();
 				if (!History.getToken().equals(historyToken)) {
 					oldToken = History.getToken();
-					History.newItem(historyToken);
-				} else
-					CompanyActionFactory.getCompanyHomeAction()
-							.run(null, false);
+					HistoryTokenUtils.setPresentToken(CompanyActionFactory
+							.getCompanyHomeAction(), null);
+				}
+				CompanyActionFactory.getCompanyHomeAction().run(null, false);
 			}
 		};
 		return dashBoardcmd;
@@ -1134,6 +1134,9 @@ public class MainFinanceWindow extends VerticalPanel {
 	private CustomMenuBar getCompanyMenu() {
 
 		CustomMenuBar companyMenuBar = getSubMenu();
+
+		companyMenuBar.addItem("DashBoard", getDashBoardCommand());
+		companyMenuBar.addSeparator();
 
 		if (FinanceApplication.getUser().canDoBanking())
 			companyMenuBar.addItem(CompanyActionFactory
