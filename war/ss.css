@@ -833,7 +833,9 @@ ul li a:HOVER {
 }
 .terms-error input[type="checkbox"]{
     float:left;
-    margin-right:-8px;              
+    margin-right:-8px;      
+    margin-right:0px\0;  
+    outline:0 none;       
 }
 .left-side-box {
 	color: #A0A0A0;
@@ -1547,6 +1549,15 @@ ul li {
 noindex:-o-prefocus,.right-side-options {
 	margin-top: -5px !important;
 }
+noindex:-o-prefocus,.signup-submit-mid{
+	padding-bottom:0px;
+}
+noindex:-o-prefocus,.terms-error input[type="checkbox"]{
+    margin-top:-14px;
+}
+noindex:-o-prefocus,.terms-error span{
+    margin-left:20px !important;	
+}
 noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right{
     margin-bottom:-18px;	
 }
@@ -1563,6 +1574,9 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right{
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.left-side-box {
 		margin-top: 10px;
+	}
+	.signup-submit-mid{
+	    padding-bottom:0px;
 	}
 }
 #contact-layout div,#support-width div,
@@ -1618,6 +1632,7 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right{
     margin: 0 -6px;
     line-height:1.5;
     cursor:pointer;
+    padding-bottom:5px;
 }
 .signup-submit-button{
    float:right;
@@ -1653,4 +1668,18 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right{
 }
 .login-table span{
    padding-top:5px;
+}
+.terms-error span{
+   width:160px\0;
+   display:inline-block\0;
+   margin-left:0px\0 !important;
+}
+.company-full-name label,.company-id-class label{
+   margin-top:-5px;
+   margin-bottom:5px;
+   padding-top:-5px;
+   padding-bottom:5px;
+}
+.support_textarea{
+   overflow:hidden\0;
 }

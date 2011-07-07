@@ -1765,7 +1765,12 @@ noindex:-o-prefocus,.ibutton-right-image {
 	padding: 0px 1px 25px 2px;
 	position: absolute;
 }
-
+noindex:-o-prefocus, .gwt-CheckBox input[type="checkbox"]{
+    margin-bottom:4px;	
+}
+noindex:-o-prefocus, .gwt-CheckBox label{
+    font-size:13px;	
+}
 noindex:-o-prefocus,.phone-fax-formatter td .gwt-TextBox {
 	float: right;
 }
