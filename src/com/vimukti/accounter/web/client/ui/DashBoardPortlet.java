@@ -50,7 +50,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		// panel.setSize("98.9%", "100%");
 		panel.add(body);
 		if (!(this instanceof ExpenseClaimPortlet || this instanceof GettingStartedPortlet))
-			panel.setHeight("295px");
+			panel.setHeight("297px");
 		super.add(panel);
 
 	}

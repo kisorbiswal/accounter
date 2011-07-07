@@ -143,7 +143,7 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 					@Override
 					public void run() {
 						GraphChart chart = new GraphChart();
-						body.add(chart.createColumnChart(result));
+						body.add(chart.createAccountReceivableChart(result));
 					}
 				};
 				VisualizationUtils.loadVisualizationApi(runnable,

@@ -89,7 +89,7 @@ public class BankingPortlet extends DashBoardPortlet {
 				@Override
 				public void run() {
 					GraphChart chart = new GraphChart();
-					body.add(chart.createLineChart(null));
+					body.add(chart.createBankingChart(null));
 				}
 			};
 			VisualizationUtils
@@ -182,7 +182,7 @@ public class BankingPortlet extends DashBoardPortlet {
 												body
 														.insert(
 																chart
-																		.createLineChart(result),
+																		.createBankingChart(result),
 																++i);
 											}
 										}

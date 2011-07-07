@@ -70,7 +70,7 @@ public class GraphChart {
 
 	}
 
-	public LineChart createLineChart(List<Double> graph_Values) {
+	public LineChart createBankingChart(List<Double> graph_Values) {
 
 		this.graph_Values = (ArrayList<Double>) graph_Values;
 		if (this.graph_Values == null || this.graph_Values.size() == 0)
@@ -78,11 +78,11 @@ public class GraphChart {
 
 		createLabels(BANK_ACCOUNT_CHART_TYPE);
 		LineChart chart = new LineChart(createTable(BANK_ACCOUNT_CHART_TYPE),
-				createOptionsToLineChart());
+				createOptionsToBankingChart());
 		return chart;
 	}
 
-	public ColumnChart createColumnChart(List<Double> graph_Values) {
+	public ColumnChart createAccountReceivableChart(List<Double> graph_Values) {
 
 		this.graph_Values = (ArrayList<Double>) graph_Values;
 		if (this.graph_Values == null || this.graph_Values.size() == 0)
@@ -91,24 +91,24 @@ public class GraphChart {
 		createLabels(ACCOUNTS_RECEIVABLE_CHART_TYPE);
 		ColumnChart chart = new ColumnChart(
 				createTable(ACCOUNTS_RECEIVABLE_CHART_TYPE),
-				createOptionsToColumnChart());
+				createOptionsToAccountReceivableChart());
 		return chart;
 	}
 
-	public AnnotatedTimeLine createAnnotatedLineChart(List<Double> graph_Values) {
+	public LineChart createAccountPayableChart(List<Double> graph_Values) {
 
 		this.graph_Values = (ArrayList<Double>) graph_Values;
 		if (this.graph_Values == null || this.graph_Values.size() == 0)
 			initializeGraphValues();
 
 		createLabels(ACCOUNTS_PAYABLE_CHART_TYPE);
-		AnnotatedTimeLine chart = new AnnotatedTimeLine(
+		LineChart chart = new LineChart(
 				createTable(ACCOUNTS_PAYABLE_CHART_TYPE),
-				createOptionsToTimeLineChart(), "444px", "225px");
+				createOptionsToAccountPayableChart());
 		return chart;
 	}
 
-	private com.google.gwt.visualization.client.visualizations.ColumnChart.Options createOptionsToColumnChart() {
+	private com.google.gwt.visualization.client.visualizations.ColumnChart.Options createOptionsToAccountReceivableChart() {
 
 		com.google.gwt.visualization.client.visualizations.ColumnChart.Options options = com.google.gwt.visualization.client.visualizations.ColumnChart.Options
 				.create();
@@ -122,9 +122,9 @@ public class GraphChart {
 		return options;
 	}
 
-	private Options createOptionsToLineChart() {
+	private Options createOptionsToBankingChart() {
 		Options options = Options.create();
-		options.setWidth(444);
+		options.setWidth(430);
 		options.setHeight(225);
 		options.setLegend(LegendPosition.NONE);
 		options.setMin(100);
@@ -134,17 +134,21 @@ public class GraphChart {
 		return options;
 	}
 
-	private com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine.Options createOptionsToTimeLineChart() {
+	private com.google.gwt.visualization.client.visualizations.LineChart.Options createOptionsToAccountPayableChart() {
 
-		com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine.Options options = com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine.Options
+		com.google.gwt.visualization.client.visualizations.LineChart.Options options = com.google.gwt.visualization.client.visualizations.LineChart.Options
 				.create();
 
-		options.setDisplayAnnotations(true);
-		options.setDisplayLegendValues(false);
-		options.setDisplayZoomButtons(false);
-		options.setDisplayExactValues(true);
-		options.setAllowHtml(true);
-		options.setWindowMode(WindowMode.OPAQUE);
+		// options.setDisplayAnnotations(true);
+		// options.setDisplayLegendValues(false);
+		// options.setDisplayZoomButtons(false);
+		// options.setDisplayExactValues(true);
+		// options.setAllowHtml(true);
+		// options.setWindowMode(WindowMode.OPAQUE);
+		options.setWidth(950);
+		options.setHeight(225);
+		options.setLegend(LegendPosition.NONE);
+		options.setMin(100);
 		options.setColors("#6CA92F");
 
 		return options;
@@ -154,7 +158,7 @@ public class GraphChart {
 		DataTable data = DataTable.create();
 
 		if (chartType == ACCOUNTS_PAYABLE_CHART_TYPE) {
-			data.addColumn(ColumnType.DATE, "Date");
+			data.addColumn(ColumnType.STRING, "Date");
 			data.addColumn(ColumnType.NUMBER);
 
 		} else {
@@ -183,14 +187,10 @@ public class GraphChart {
 	private DataTable addGraphPoints(int chartType, DataTable data, int size) {
 		for (int i = 0; i < size; i++) {
 
-			if (chartType == ACCOUNTS_PAYABLE_CHART_TYPE)
-				data.setValue(i, 0, new ClientFinanceDate(
-						((ClientFinanceDate) x_Axis_Labels.get(i)).getYear(),
-						((ClientFinanceDate) x_Axis_Labels.get(i)).getMonth(),
-						((ClientFinanceDate) x_Axis_Labels.get(i)).getDate())
-						.getDateAsObject());
-			else
-				data.setValue(i, 0, (String) x_Axis_Labels.get(i));
+			// if (chartType == ACCOUNTS_PAYABLE_CHART_TYPE)
+			// data.setValue(i, 0, (String) x_Axis_Labels.get(i));
+			// else
+			data.setValue(i, 0, (String) x_Axis_Labels.get(i));
 
 			data.setValue(i, 1, graph_Values.get(i));
 		}
@@ -301,8 +301,8 @@ public class GraphChart {
 				}
 
 				// creating x-axis labels. Ex: 1-Jan, 3-Jan, 5-Jan, ...
-				x_Axis_Labels.add(i, new ClientFinanceDate(date.getYear(),
-						labelMonthVal, labelDateVal));
+				x_Axis_Labels.add(i, getMonthAsString(labelMonthVal) + " "
+						+ labelDateVal);
 
 				labelDateVal = labelDateVal + 1;
 			}

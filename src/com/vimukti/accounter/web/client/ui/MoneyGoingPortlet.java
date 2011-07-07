@@ -139,7 +139,7 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 					@Override
 					public void run() {
 						GraphChart chart = new GraphChart();
-						body.add(chart.createAnnotatedLineChart(result));
+						body.add(chart.createAccountPayableChart(result));
 					}
 				};
 				VisualizationUtils.loadVisualizationApi(runnable,
@@ -159,7 +159,6 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 		};
 		FinanceApplication.createHomeService().getGraphPointsforAccount(
 				GraphChart.ACCOUNTS_PAYABLE_CHART_TYPE, 0, callBack);
-
 	}
 
 	private void updateCreditorsAccount() {
