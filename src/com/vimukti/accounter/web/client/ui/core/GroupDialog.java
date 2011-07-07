@@ -13,6 +13,8 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 
 /**
@@ -132,9 +134,17 @@ public abstract class GroupDialog<T> extends BaseDialog {
 			public void onCancelClick() {
 				closeWindow();
 				ViewManager.getInstance().setCurrentDialog(null);
+				HistoryTokenUtils.setPresentToken(MainFinanceWindow
+						.getViewManager().getCurrentView().getAction(),
+						MainFinanceWindow.getViewManager().getCurrentView()
+								.getData());
 			}
 
 			public boolean onOkClick() {
+				HistoryTokenUtils.setPresentToken(MainFinanceWindow
+						.getViewManager().getCurrentView().getAction(),
+						MainFinanceWindow.getViewManager().getCurrentView()
+								.getData());
 				return true;
 			}
 		};

@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
@@ -98,6 +99,10 @@ public class PaymentDialog extends BaseDialog {
 			@Override
 			public void onCancelClick() {
 				removeFromParent();
+				HistoryTokenUtils.setPresentToken(MainFinanceWindow
+						.getViewManager().getCurrentView().getAction(),
+						MainFinanceWindow.getViewManager().getCurrentView()
+								.getData());
 			}
 		});
 

@@ -44,6 +44,7 @@ import com.vimukti.accounter.web.client.ui.BaseHomeView;
 import com.vimukti.accounter.web.client.ui.DashBoard;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.FinanceDashboard;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
@@ -982,13 +983,13 @@ public class ViewManager extends DockPanel {
 		for (History history : historyList) {
 			ParentCanvas canvas = history.getView();
 			if (!canvas.shouldSaveInHistory()) {
-				temp.add(history);
+				// temp.add(history);
 				// index--;
 			}
 		}
 		historyList.removeAll(temp);
 
-		index = 0;
+		// index = 0;
 
 		removeCurrentView();
 	}
@@ -1159,6 +1160,7 @@ public class ViewManager extends DockPanel {
 			saveAndCloseCurrentView();
 			History previousHistory = getPreviousHistory();
 
+			HistoryTokenUtils.setPresentToken(previousHistory.getAction(), viewOutPutData);
 			displayView(previousHistory, viewOutPutData);
 			MainFinanceWindow.shouldExecuteRun = true;
 		}
@@ -1168,7 +1170,9 @@ public class ViewManager extends DockPanel {
 		if (index < historyList.size() - 1) {
 			saveAndCloseCurrentView();
 			History nextHistory = getNextHistory();
+			HistoryTokenUtils.setPresentToken(nextHistory.getAction(), null);
 			displayView(nextHistory, null);
+			MainFinanceWindow.shouldExecuteRun = true;
 		}
 	}
 
@@ -1794,7 +1798,7 @@ public class ViewManager extends DockPanel {
 
 		this.height = height;
 		this.width = width;
-		System.err.println("View Manager"+height);
+		System.err.println("View Manager" + height);
 		if (height - TOP_MENUBAR > 0) {
 			// this.scrollPanel.setHeight(height - TOP_MENUBAR + 8 + "px");
 			// this.rightCanvas.setHeight(height - TOP_MENUBAR + "px");

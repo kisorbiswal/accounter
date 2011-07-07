@@ -122,6 +122,10 @@ public class TaxDialog extends BaseDialog {
 			@Override
 			public void onCancelClick() {
 				removeFromParent();
+				HistoryTokenUtils.setPresentToken(MainFinanceWindow
+						.getViewManager().getCurrentView().getAction(),
+						MainFinanceWindow.getViewManager().getCurrentView()
+								.getData());
 			}
 		});
 

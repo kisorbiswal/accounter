@@ -87,6 +87,10 @@ public class SelectPayeeDialog extends BaseDialog {
 
 			public void onCancelClick() {
 				removeFromParent();
+				HistoryTokenUtils.setPresentToken(MainFinanceWindow
+						.getViewManager().getCurrentView().getAction(),
+						MainFinanceWindow.getViewManager().getCurrentView()
+								.getData());
 			}
 
 			public boolean onOkClick() {

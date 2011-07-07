@@ -158,6 +158,10 @@ public class NewBrandThemeDialog extends BaseDialog {
 								ViewManager.getInstance()
 										.createObject(brandingTheme,
 												NewBrandThemeDialog.this);
+								HistoryTokenUtils.setPresentToken(MainFinanceWindow
+										.getViewManager().getCurrentView().getAction(),
+										MainFinanceWindow.getViewManager().getCurrentView()
+												.getData());
 							} else {
 								MainFinanceWindow.getViewManager()
 										.showErrorInCurrectDialog(
@@ -178,6 +182,10 @@ public class NewBrandThemeDialog extends BaseDialog {
 			@Override
 			public void onCancelClick() {
 				removeFromParent();
+				HistoryTokenUtils.setPresentToken(MainFinanceWindow
+						.getViewManager().getCurrentView().getAction(),
+						MainFinanceWindow.getViewManager().getCurrentView()
+								.getData());
 			}
 
 		});
