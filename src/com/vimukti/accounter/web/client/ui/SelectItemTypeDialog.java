@@ -57,7 +57,10 @@ public class SelectItemTypeDialog extends BaseDialog {
 		addInputDialogHandler(new InputDialogHandler() {
 
 			public void onCancelClick() {
-
+				HistoryTokenUtils.setPresentToken(MainFinanceWindow
+						.getViewManager().getCurrentView().getAction(),
+						MainFinanceWindow.getViewManager().getCurrentView()
+								.getData());
 			}
 
 			public boolean onOkClick() {

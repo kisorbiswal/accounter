@@ -261,7 +261,10 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		addInputDialogHandler(new InputDialogHandler() {
 
 			public void onCancelClick() {
-
+				HistoryTokenUtils.setPresentToken(MainFinanceWindow
+						.getViewManager().getCurrentView().getAction(),
+						MainFinanceWindow.getViewManager().getCurrentView()
+								.getData());
 			}
 
 			public boolean onOkClick() {
@@ -270,7 +273,6 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 					if (validate()) {
 						createIssuePayment();
 						// return true;
-
 					}
 				} catch (Exception e) {
 					Accounter.showError(e.getMessage() == null ? e.toString()
@@ -383,6 +385,10 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		// .createdSuccessfully());
 		IssuePaymentDialog.this.removeFromParent();
 		super.saveSuccess(object);
+		HistoryTokenUtils.setPresentToken(MainFinanceWindow
+				.getViewManager().getCurrentView().getAction(),
+				MainFinanceWindow.getViewManager().getCurrentView()
+						.getData());
 	}
 
 	@Override
