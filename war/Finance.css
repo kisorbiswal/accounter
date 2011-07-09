@@ -1,5 +1,9 @@
 /** Add css rules here for your application. */
 	/** Example rules used by the template application (remove for your app) */
+@font-face {
+    font-family: "ColabThi";
+    src: url("Fonts/ColabThi.otf") format("truetype");
+}
 .widget { /**background:url(images/icons/startBar.png) repeat-x;*/
 	background: url("images/pannig bar.png") repeat-x scroll 0 0 transparent
 		;
@@ -1740,6 +1744,14 @@ iframe { /*display:none;*/
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.gwt-Button { /*padding: 0 5px 1px !important;*/
 		float: inherit !important;
+		line-height:2;
+	}
+	.ok-cancel-button{
+	    padding:0 5px 0 1px !important;
+	    margin-left:0px;
+	}
+	.ibutton-right-image{
+	    padding:3px 1px 6px 2px;
 	}
 	.add-button button {
 		padding: 5px 28px 5px 5px !important;
@@ -1764,6 +1776,9 @@ noindex:-o-prefocus,.ibutton-right-image {
 	display: inline;
 	padding: 0px 1px 25px 2px;
 	position: absolute;
+}
+noindex:-o-prefocus,.ok-cancel-button{
+    margin:0 5px;	
 }
 noindex:-o-prefocus, .gwt-CheckBox input[type="checkbox"]{
     margin-bottom:4px;	
@@ -1854,4 +1869,10 @@ noindex:-o-prefocus,.ibutton {
 }
 .report-toolbar .ibutton{
     float:right;
+}
+.ok-cancel-button{
+    background: url("images/blue_Left_sideNew.png") no-repeat scroll 0 0 transparent !important;
+    float: left;
+    padding: 0 1px;
+    margin:0 4px;
 }

@@ -1,12 +1,6 @@
-body {
-	margin: 0px;
-	padding: 0px;
-	text-align: center;
-	font-family: Georgia;
-}
 @font-face {
     font-family: "ColabThi";
-    src: url("../images/ColabThi.otf") format("truetype");
+    src: url("Fonts/ColabThi.otf") format("truetype");
 }
 .icon1,.icon2,.icon3,.icon4,.icon5,.icon6,.icon1 {
 	background: url("../images/zb-online-books-icon.png") no-repeat scroll 0
@@ -16,8 +10,16 @@ body {
 	margin-right: 10px;
 	width: 50px;
 }
-
-body,ul,li,ol,p,table,tr,td {
+body {
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+	font-family: Georgia;
+}
+table{
+    border-collapse:collapse;	
+}
+body,ul,li,ol,p,table,tr,td,table,html{
 	margin: 0px;
 	padding: 0px;
 }
@@ -94,7 +96,7 @@ p {
 }
 
 .logo-image {
-	margin:18px 0 5px 15px;
+	padding:15px 0 15px 15px;
 }
 
 .online-accounting,.bank-reconciliation,.invoicing,.find-an-acciuntant {
@@ -155,11 +157,10 @@ a:link {
 	border: 1px solid #CCCCCC;
 	clear: both;
 	float: left;
-	height: auto !important;
-	margin-left: 60px;
-	margin-top: 35px;
 	width: 845px !important;
 	font-family: arial;
+	margin:56px 56px 0 56px;
+	height:auto;
 }
 
 #mid-1 {
@@ -279,7 +280,7 @@ a:link {
 	border: 1px solid #CCCCCC;
 	clear: both;
 	float: left;
-	height: 500px !important;
+	height: 470px !important;
 	margin-left: 60px;
 	margin-top: 40px;
 	font-family: arial !important;
@@ -347,7 +348,7 @@ a:link {
 		transparent;
 	clear: both;
 	height: 6px;
-	margin: 0 43px 0 50px;
+	margin: 0 32px 0 50px;
 }
 
 #bot {
@@ -716,13 +717,14 @@ ul li a:HOVER {
 }
 
 .middle-signup-box {
-	float: left;
+	/*float: left;*/
 }
 
 .middle-signup-box h2 {
 	margin-left: 20px;
 	margin-top: 20px;
 	color: #3299A4;
+	margin-bottom:0px;
 }
 
 #left-box {
@@ -786,10 +788,10 @@ ul li a:HOVER {
 
 .left-side-box {
 	float: left;
-	margin-bottom: 65px;
+	/*margin-bottom: 65px;
 	margin-bottom: 25px\0;
 	margin-left: -64px;
-	margin-top: 25px;
+	margin-top: 25px;*/
 	width: 550px;
 }
 
@@ -807,19 +809,19 @@ ul li a:HOVER {
 }
 
 .signup-box-left-top {
-	float: left;
+	/*float: left;
 	background: url("/images/signup-box-left-top.png") no-repeat scroll 0 0
 		transparent;
 	margin-left: -8px;
 	margin-top: -8px;
-	padding: 17px;
+	padding: 17px;*/
 }
 
 .signup-box,.signup-fields-box {
-	float: left;
+	/*float: left;
 	margin-left: 26px;
 	margin-top: -68px;
-	margin-bottom: 10px;
+	margin-bottom: 10px;*/
 }
 
 .signup-box-left-bot {
@@ -1204,9 +1206,7 @@ ul li {
 		transparent;
 	clear: both;
 	height: 6px;
-	margin: 0 143px 0 65px;
-	height: 6px;
-	margin: 0 53px 0 60px;
+	margin: 0 56px;
 }
 
 .login-box-shadow {
@@ -1240,10 +1240,11 @@ ul li {
 .signup-box-bottom-middle {
 	background: url("/images/pricing-box-mid-bottom.png") repeat-x scroll 0
 		0 transparent;
-	height: 12px;
-	margin-left: -57px;
+	height: 17px;
+	margin-left:-2px;
+	/*margin-left: -57px;
 	margin-right: 1px;
-	margin-top: -1px;
+	margin-top: -1px;*/
 }
 
 .signup-box-right-middle {
@@ -1255,44 +1256,47 @@ ul li {
 .signup-box-top-middle {
 	background: url("/images/pricing-box-mid-top.png") repeat-x scroll 0 0
 		transparent;
-	height: 10px;
-	margin: 26px 1px -42px -56px;
+	height: 15px;
+	/*margin: 26px 1px -42px -56px;*/
 }
 
 .signup-box-left-top {
 	background: url("/images/pricing-box-left-top.png") no-repeat scroll 0 0
 		transparent;
-	height: 31px;
-	margin-bottom: -56px;
+	height: 15px;
+	width: 12px;
+	/*margin-bottom: -56px;
 	margin-left: 0;
-	margin-top: 61px;
-	width: 31px;
+	margin-top: 61px;*/
+	
 }
 
 .signup-box-right-top {
 	background: url("/images/pricing-box-right-top.png") no-repeat scroll 0
 		0 transparent;
-	height: 18px;
-	margin-bottom: -10px;
+	height: 15px;
+	width: 13px;
+	margin-left:-3px;
+	/*margin-bottom: -10px;
 	margin-left: -3px;
-	margin-top: 60px;
-	width: 7px;
+	margin-top: 60px;*/
 }
 
 .signup-box-left-bottom {
 	background: url("/images/pricing-box-left-bottom.png") no-repeat scroll
 		0 0 transparent;
-	height: 17px;
-	margin-top: -2px;
-	width: 10px;
+	height: 24px;
+	width: 12px;
+	/*margin-top: -2px;*/
 }
 
 .signup-box-right-bottom {
 	background: url("/images/pricing-box-right-bottom.png") no-repeat scroll
 		0 0 transparent;
-	height: 17px;
+	height: 24px;
+	width:13px;
 	margin-left: -3px;
-	margin-top: -2px;
+	/*margin-top: -2px;*/
 }
 
 .vimutki-text {
@@ -1431,12 +1435,10 @@ ul li {
 }
 
 .terms-error label {
-	float: right;
-	/*margin-right: 184px;
-	font-size:14px;*/
+	/*float: right;
 	margin-right: 230px;
 	font-size: 12px;
-	margin-right: 250px\0  !important;
+	margin-right: 250px\0  !important;*/
 }
 
 .stepcarousel {
@@ -1573,10 +1575,15 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right{
 /* Only for chrome */
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.left-side-box {
-		margin-top: 10px;
+		/*margin-top: 10px;*/
 	}
 	.signup-submit-mid{
-	    padding-bottom:0px;
+	}
+	.terms-error input[type="checkbox"]{
+	    margin-right:0px !important;
+	}
+	.terms-error span{
+	    margin-left:0px;
 	}
 }
 #contact-layout div,#support-width div,
@@ -1630,9 +1637,9 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right{
     font-size: 15px;
     height: 29px;
     margin: 0 -6px;
-    line-height:1.5;
     cursor:pointer;
-    padding-bottom:5px;
+    padding-bottom:3px;
+    outline:none;
 }
 .signup-submit-button{
    float:right;
@@ -1651,7 +1658,7 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right{
 }
 .getstarted-submit-button{
    float:right;
-   margin: 0 25px 0 0;
+   margin: 0 8px 0 0;
 }
 .forgot-cancel-button,.forgot-ok-button{
   float:right;
@@ -1670,16 +1677,29 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right{
    padding-top:5px;
 }
 .terms-error span{
-   width:160px\0;
+   width:170px\0;
    display:inline-block\0;
    margin-left:0px\0 !important;
 }
-.company-full-name label,.company-id-class label{
-   margin-top:-5px;
-   margin-bottom:5px;
-   padding-top:-5px;
-   padding-bottom:5px;
-}
 .support_textarea{
    overflow:hidden\0;
+}
+input[type="submit"]:FOCUS {
+	outline:none;
+}
+#signup-fields{
+    width:520px;
+}
+.signup-box table{
+    margin:0px 12px 12px 40px;
+}
+#accounterForm .error{
+   display:block;
+}
+.remaining-header-part-login a:FOCUS{
+   opacity:0.5;
+   outline:none;
+}
+.signup-submit-mid:FOCUS{
+   color:#3299A4 !important;
 }

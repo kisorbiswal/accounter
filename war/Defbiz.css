@@ -126,7 +126,7 @@ a {
 	position: absolute;
 	left: 45%;
 	top: 40%;
-	padding: 2px;
+	padding: 0px !important;
 	z-index: 20001;
 	height: auto;
 }
@@ -1298,7 +1298,7 @@ input[type="checkbox"] {
 }
 
 .gridOddRow { /*background:none repeat scroll 0 0 #F0F0F0;*/
-	
+	width:100%;
 }
 
 .gridAscend div {

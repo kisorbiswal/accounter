@@ -1,6 +1,13 @@
+/** Add css rules here for your application. */
+	/** This css file only for MAC application of accounter  */
+	/*
+ *	@author A.Praveena
+ *
+ */
+
 body{
    width: 100% !important;
-   margin:0px 5px !important;
+   margin:0px!important;
 }
 .header,.help-panel{
    display: none !important;
@@ -10,6 +17,6 @@ body{
    padding:0px !important;
    width:100%;
 }
-.scroll-panel{
+.scroll-panel,.abstract_base_view,.financeWindow,.general-setting-invoice{
    width:100% !important;	
 }
