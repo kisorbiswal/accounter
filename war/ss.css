@@ -1431,7 +1431,7 @@ ul li {
 }
 
 .successDiv { /*display: none;*/ /*background-color: white;*/
-	margin: 122px 45px 120px 0;
+	 margin: 117px 0 120px 80px;
 }
 
 .terms-error label {
@@ -1703,4 +1703,10 @@ input[type="submit"]:FOCUS {
 .signup-submit-mid:FOCUS,input[type="submit"]:FOCUS{
    color:#3299A4 !important;
    outline:none;
+}
+.success-box{
+    float:left;
+}
+.success_login{
+    display:none;
 }

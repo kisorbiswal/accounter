@@ -17,3 +17,9 @@
 #mid-1{
     margin-top:120px !important;
 }
+.success-box{
+    float:left;
+}
+.success_login{
+    display:block !important;
+}
