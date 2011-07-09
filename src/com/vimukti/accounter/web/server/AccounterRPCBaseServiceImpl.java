@@ -70,8 +70,11 @@ public class AccounterRPCBaseServiceImpl extends BizantraService {
 
 				if (ChangeTracker.getChanges().length > 1) {
 					if (getIdentity() == null) {
+						String companyName = BizantraService.getCompanyFromRequest(request);
+						if (companyName == null)
+							return;
 						CollaberIdentity identity = (CollaberIdentity) HibernateUtil
-								.openSession(getCompanyFromRequest(request))
+								.openSession(companyName)
 								.load(
 										CollaberIdentity.class,
 										(Serializable) request.getSession()
