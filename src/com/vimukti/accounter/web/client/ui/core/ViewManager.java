@@ -1160,7 +1160,8 @@ public class ViewManager extends DockPanel {
 			saveAndCloseCurrentView();
 			History previousHistory = getPreviousHistory();
 
-			HistoryTokenUtils.setPresentToken(previousHistory.getAction(), viewOutPutData);
+			HistoryTokenUtils.setPresentToken(previousHistory.getAction(),
+					viewOutPutData);
 			displayView(previousHistory, viewOutPutData);
 			MainFinanceWindow.shouldExecuteRun = true;
 		}
@@ -1796,7 +1797,7 @@ public class ViewManager extends DockPanel {
 	@SuppressWarnings("unchecked")
 	public void fitToSize(int height, int width) {
 
-		this.height = height;
+		this.height = 500;
 		this.width = width;
 		System.err.println("View Manager" + height);
 		if (height - TOP_MENUBAR > 0) {
