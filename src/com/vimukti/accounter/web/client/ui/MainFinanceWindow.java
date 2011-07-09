@@ -17,6 +17,7 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -205,8 +206,11 @@ public class MainFinanceWindow extends VerticalPanel {
 			Image image = new Image("images/Copyright_synbol.png");
 			image.setStyleName("copy-img");
 			// Label copyrightLabel = new Label("Copyright");
-			Anchor companyName = new Anchor(" Vimukti Technologies Pvt. Ltd.",
-					true, "www.vimukti.com");
+			HTML companyName = new HTML(
+					"<a href='http://www.vimukti.com' target='_new'>Vimukti Technologies Pvt. Ltd.</font></a>");
+			// Anchor companyName = new
+			// Anchor(" Vimukti Technologies Pvt. Ltd.",
+			// true, "www.vimukti.com");
 			Label allrightsLabel = new Label("All rights are reserved.");
 			// copyrightLabel.setStyleName("down-panel1");
 			allrightsLabel.setStyleName("down-panel1");
