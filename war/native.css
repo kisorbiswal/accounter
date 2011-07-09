@@ -17,6 +17,6 @@ body{
    padding:0px !important;
    width:100%;
 }
-.scroll-panel,.abstract_base_view,.financeWindow,.general-setting-invoice{
+.scroll-panel,.abstract_base_view,.financeWindow,.general-setting-invoice,.setting-class-panel{
    width:100% !important;	
 }

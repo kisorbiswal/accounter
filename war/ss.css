@@ -1702,4 +1702,5 @@ input[type="submit"]:FOCUS {
 }
 .signup-submit-mid:FOCUS{
    color:#3299A4 !important;
+   outline:none;
 }
