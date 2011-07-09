@@ -1700,7 +1700,7 @@ input[type="submit"]:FOCUS {
    opacity:0.5;
    outline:none;
 }
-.signup-submit-mid:FOCUS{
+.signup-submit-mid:FOCUS,input[type="submit"]:FOCUS{
    color:#3299A4 !important;
    outline:none;
 }
