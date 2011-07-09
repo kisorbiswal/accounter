@@ -226,11 +226,17 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		}
 		// hlay.add(form);
 		// hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
+		VerticalPanel vlayTop = new VerticalPanel();
 		HorizontalPanel hlayTop = new HorizontalPanel();
 		hlayTop.setWidth("100%");
-		hlayTop.add(addNewLabel);
-		hlayTop.setCellWidth(addNewLabel, getAddNewLabelString().length()
-				+ "px");
+		if (this instanceof InvoiceListView) {
+			vlayTop.add(addNewLabel);
+			vlayTop.add(hlayTop);
+		} else {
+			hlayTop.add(addNewLabel);
+			hlayTop.setCellWidth(addNewLabel, getAddNewLabelString().length()
+					+ "px");
+		}
 		if (isViewSelectRequired)
 			hlayTop.add(hlay);
 
@@ -265,16 +271,25 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		mainVLay.setWidth("100%");
 
 		if (totalLayout != null) {
-
-			mainVLay.add(hlayTop);
-			AccounterDOM.setParentElementHeight(hlayTop.getElement(), 5);
+			if (this instanceof InvoiceListView) {
+				mainVLay.add(vlayTop);
+				AccounterDOM.setParentElementHeight(vlayTop.getElement(), 10);
+			} else {
+				mainVLay.add(hlayTop);
+				AccounterDOM.setParentElementHeight(hlayTop.getElement(), 5);
+			}
 			mainVLay.add(lab1);
 			mainVLay.add(gridLayout);
 			mainVLay.add(totalLayout);
 
 		} else {
-			mainVLay.add(hlayTop);
-			AccounterDOM.setParentElementHeight(hlayTop.getElement(), 5);
+			if (this instanceof InvoiceListView) {
+				mainVLay.add(vlayTop);
+				AccounterDOM.setParentElementHeight(vlayTop.getElement(), 10);
+			} else {
+				mainVLay.add(hlayTop);
+				AccounterDOM.setParentElementHeight(hlayTop.getElement(), 5);
+			}
 			mainVLay.add(lab1);
 			AccounterDOM.setParentElementHeight(lab1.getElement(), 5);
 			mainVLay.add(gridLayout);
