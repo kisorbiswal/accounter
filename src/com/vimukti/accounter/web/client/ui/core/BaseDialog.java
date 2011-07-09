@@ -152,9 +152,9 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 		footerLayout.add(okbtn);
 		footerLayout.add(cancelBtn);
 
-		okbtn.enabledButton();
+		okbtn.enabledButton("ok-cancel-button");
 
-		cancelBtn.enabledButton();
+		cancelBtn.enabledButton("ok-cancel-button");
 
 		footerLayout.setCellHorizontalAlignment(okbtn,
 				HasHorizontalAlignment.ALIGN_RIGHT);
