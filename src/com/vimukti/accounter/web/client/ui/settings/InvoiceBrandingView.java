@@ -283,9 +283,8 @@ public class InvoiceBrandingView<T> extends
 		});
 
 		// adding contact details.....
-		String contactDetails = theme.getContactDetails() == null ? FinanceApplication
-				.getCompany().getDisplayName()
-				: theme.getContactDetails();
+		String contactDetails = theme.getContactDetails() == null ? messages
+				.notAdded() : theme.getContactDetails();
 
 		contactDetailsHtml = new HTML("<p><b>" + messages.contactDetailsLabel()
 				+ "</b><br>" + contactDetails + "</p>");
