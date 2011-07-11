@@ -1205,23 +1205,19 @@ public abstract class CustomerTransactionGrid extends
 			}
 
 			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				combo.downarrowpanel.getElement().getStyle().setMarginLeft(-7,
-						Unit.PX);
+				combo.downarrowpanel.getElement().getStyle().setMarginLeft(-7,Unit.PX);
 			} else {
 				if (this instanceof SalesOrderUSGrid)
-					combo.downarrowpanel.getElement().getStyle().setMarginLeft(
-							-7, Unit.PX);
+					combo.downarrowpanel.getElement().getStyle().setMarginLeft(-7, Unit.PX);
 				else
-					combo.downarrowpanel.getElement().getStyle().setMarginLeft(
-							-13, Unit.PX);
+					combo.downarrowpanel.getElement().getStyle().setMarginLeft(-13, Unit.PX);
 			}
 
 			break;
 		case 7:
 			combo = (CustomCombo<E>) taxCodeCombo;
 			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				combo.downarrowpanel.getElement().getStyle().setMarginLeft(-7,
-						Unit.PX);
+				combo.downarrowpanel.getElement().getStyle().setMarginLeft(-7,Unit.PX);
 			} else {
 
 			}

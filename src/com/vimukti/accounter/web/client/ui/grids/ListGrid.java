@@ -307,8 +307,8 @@ public abstract class ListGrid<T> extends CustomTable {
 		rowFormatter.addStyleName(rowCount, "gridRow");
 
 		// to fix columns aligment problem of ,
-		if (rowCount == 0)
-			this.adjustCellsWidth(rowCount, body);
+		// if (rowCount == 0)
+		this.adjustCellsWidth(rowCount, body);
 
 		super.fixHeader();
 

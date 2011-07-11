@@ -119,8 +119,7 @@ public class TransactionJournalEntryGrid extends
 		accountsCombo = new OtherAccountsCombo("");
 		accountsCombo.setGrid(this);
 		accountsCombo.setRequired(true);
-		accountsCombo.downarrowpanel.getElement().getStyle().setMarginLeft(-13,
-				Unit.PX);
+		accountsCombo.downarrowpanel.getElement().getStyle().setMarginLeft(-13,Unit.PX);
 		// accountsCombo.setWidth("600");
 		accountsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
