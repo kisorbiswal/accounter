@@ -1213,7 +1213,6 @@ table tr.parentRow:HOVER {
 	table-layout: fixed;
 	white-space: nowrap;
 }
-
 .gridHeader tr td div {
 	width: 100%;
 }
@@ -4275,12 +4274,12 @@ td.menu-button-disable-parent {
 
 .workspace-panel .listgrid tr.selected td {
 	background: #917fab !important;
-	color: #FFF !         mportant;
+	color: #FFF !important;
 }
 
 .user-panel .listgrid tr.selected td {
 	background: #037F8C !important;
-	color: #FFF !         mportant;
+	color: #FFF !important;
 }
 
 .log-out {

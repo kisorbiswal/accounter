@@ -1225,6 +1225,7 @@ border-top:1px solid #aaa;
 .abstract_base_view {
 	background: none repeat scroll 0 0 #F0F0F0 !important;
 	padding: 15px;
+	width:100%;
 	/*border:1px solid #DDDDDD;*/
 }
 
@@ -1255,7 +1256,7 @@ border-top:1px solid #aaa;
 	float: none\0;
 	margin-left: -5px;
 	/*margin-top: -22px;*/
-	position: relative;
+	position: absolute;
 	width: 22px;
 	z-index: 1;
 	padding: 0px;
@@ -1746,6 +1747,9 @@ iframe { /*display:none;*/
 		float: inherit !important;
 		line-height:2;
 	}
+	.add-button button{
+	    line-height:inherit;
+	}
 	.ok-cancel-button{
 	    padding:0 5px 0 1px !important;
 	    margin-left:0px;
@@ -1876,4 +1880,10 @@ noindex:-o-prefocus,.ibutton {
     float: left;
     padding: 0 1px;
     margin:0 4px;
+}
+input[type="text"],textarea{
+    padding-left:5px;
+} 
+.gwt-RadioButton label{
+   font-size:13px;
 }
