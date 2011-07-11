@@ -133,6 +133,7 @@ public class UsersView extends BaseView<ClientUser> {
 		}
 
 		mainLayPanel.add(getUsersPanel());
+		mainLayPanel.setWidth("100%");
 
 		// saveAndCloseButton.setVisible(false);
 		// saveAndNewButton.setVisible(false);
@@ -170,6 +171,7 @@ public class UsersView extends BaseView<ClientUser> {
 				HasHorizontalAlignment.ALIGN_CENTER);
 		usersListGrid.setWidth("100%");
 		usersListGrid.getElement().getStyle().setMarginTop(10, Unit.PX);
+		usersPanel.setWidth("100%");
 
 		return usersPanel;
 	}
