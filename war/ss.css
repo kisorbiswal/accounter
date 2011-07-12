@@ -2,14 +2,14 @@
     font-family: "ColabThi";
     src: url("Fonts/ColabThi.otf") format("truetype");
 }
-.icon1,.icon2,.icon3,.icon4,.icon5,.icon6,.icon1 {
+/*.icon1,.icon2,.icon3,.icon4,.icon5,.icon6,.icon1 {
 	background: url("../images/zb-online-books-icon.png") no-repeat scroll 0
 		0 transparent;
 	float: left;
 	height: 54px;
 	margin-right: 10px;
 	width: 50px;
-}
+}*/
 body {
 	margin: 0px;
 	padding: 0px;
@@ -1700,11 +1700,16 @@ input[type="submit"]:FOCUS {
 #accounterForm .error{
    display:block;
 }
-.remaining-header-part-login a:FOCUS{
+.remaining-header-part-login a:FOCUS,.login-hover{
    opacity:0.5;
    outline:none;
+   
+   -moz-opacity: 0.5 !important;
+   -webkit-opacity: 0.5!important; 
+   -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0.5)" !important; 
+   filter: alpha(opacity=0.5) !important; 
 }
-.signup-submit-mid:FOCUS,input[type="submit"]:FOCUS{
+.signup-submit-mid:FOCUS,input[type="submit"]:FOCUS,.login-focus{
    color:#3299A4 !important;
    outline:none;
 }

@@ -919,12 +919,12 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	color: white !important;
 	cursor: pointer;
 	height: 25px !important;
-	padding: 0 5px 7px !important;
+	padding: 0 5px 5px !important;
 	border: 0px none !important;
 	border-radius: 0 0 0 0 !important;
 	font-weight: normal;
 	margin: 0px !important;
-	font-size: 12px !important;
+	font-size: 13px !important;
 	float: left !important;
 	display: inline;
 }
@@ -938,6 +938,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	padding: 0 5px 5px !important;
 	border: 0px none !important;
 	border-radius: 0 0 0 0 !important;
+	font-size:13px !important;
 }
 
 .gwt-Button button:after {
@@ -1236,6 +1237,7 @@ border-top:1px solid #aaa;
 	border-right: 1px solid #CCCCCC !important;
 	width: 100% !important;
 	height: 22px !important;
+	padding:0 0 0 5px;
 }
 
 .bottom-view table tr td button {
@@ -1286,7 +1288,7 @@ border-top:1px solid #aaa;
 	{
 	height: 23px;
 	margin-left: 5px;
-	margin-top: -4px;
+	margin-top: -3px;
 	position: absolute;
 	width: 2px;
 }
@@ -1357,6 +1359,7 @@ border-top:1px solid #aaa;
 		transparent !important;
 	color: #000 !important;
 	padding-top: 2px !important;
+	font-size:13px !important;
 }
 
 .cancel-button {
@@ -1367,7 +1370,7 @@ border-top:1px solid #aaa;
 .add-button {
 	background: url("images/blue_Left_sideNew.png") no-repeat scroll 0 0
 		transparent !important;
-	padding: 0 1px;
+	padding: 0 3px;
 	float: right;
 }
 
@@ -1375,7 +1378,7 @@ border-top:1px solid #aaa;
 	background: url("images/blue_Left_sideNew.png") no-repeat scroll 0 0
 		transparent !important;
 	float: left;
-	padding: 0 1px;
+	padding: 0 3px;
 }
 
 .ibutton-right-image { /*float: right;
@@ -1408,7 +1411,7 @@ border-top:1px solid #aaa;
 .add-button button {
 	background: url("/images/Button_1x25New.png") repeat-x scroll 0 0
 		transparent !important;
-	padding: 1px 25px 4px 0 !important;
+	padding: 1px 25px 6px 0 !important;
 	border-radius: 0 0 0 0 !important;
 	margin: 0 !important;
 }
@@ -1497,13 +1500,14 @@ iframe { /*display:none;*/
 }
 
 .helpBar {
-	background: url("images/Help.png") no-repeat scroll 0 3px transparent
+	background: url("images/Help.png") no-repeat scroll 0 0 transparent
 		!important;
 	color: #3299A4 !important;
 	cursor: pointer;
 	font-weight: normal !important;
-	margin-top: 0 !important;
+	margin-top: -2px !important;
 	padding-left: 21px !important;
+	height:14px;
 }
 
 .companyName {
@@ -1547,7 +1551,8 @@ iframe { /*display:none;*/
 .logout-html {
 	background: url(images/logout.png) no-repeat scroll 0 1px transparent;
 	padding-left: 22px;
-	margin-top: 2px;
+	margin-top: 3px;
+	height:16px;
 }
 
 .vimutki-text {
@@ -1745,7 +1750,7 @@ iframe { /*display:none;*/
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.gwt-Button { /*padding: 0 5px 1px !important;*/
 		float: inherit !important;
-		line-height:2;
+		/*line-height:2;*/
 	}
 	.add-button button{
 	    line-height:inherit;
@@ -1755,7 +1760,7 @@ iframe { /*display:none;*/
 	    margin-left:0px;
 	}
 	.ibutton-right-image{
-	    padding:3px 1px 6px 2px;
+	    padding:2px 1px 7px 2px;
 	}
 	.add-button button {
 		padding: 5px 28px 5px 5px !important;
@@ -1870,7 +1875,8 @@ noindex:-o-prefocus,.ibutton {
 	width:10.5%;
 }
 .datenumber-panel{
-    margin-right:25px;
+    /*margin-right:25px;*/
+    margin-right:7px;
 }
 .report-toolbar .ibutton{
     float:right;
@@ -1882,8 +1888,14 @@ noindex:-o-prefocus,.ibutton {
     margin:0 4px;
 }
 input[type="text"],textarea{
-    padding-left:5px;
+    padding:5px 2px 5px 5px;
 } 
 .gwt-RadioButton label{
    font-size:13px;
+}
+.portlet-body .ibutton{
+   margin-left:10px;
+}
+.cancel-button .custom-button-right-image{
+  width:3px !important;
 }

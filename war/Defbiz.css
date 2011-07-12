@@ -1293,11 +1293,13 @@ input[type="checkbox"] {
 
 .gridEvenRow {
 	width: 100%;
+	height:20px;
 	/*background:none repeat scroll 0 0 #E8E8E8;*/
 }
 
 .gridOddRow { /*background:none repeat scroll 0 0 #F0F0F0;*/
 	width:100%;
+	height:20px;
 }
 
 .gridAscend div {
@@ -2761,7 +2763,8 @@ table.date-select-form table.dateSelectItem,.workVisaTypeList {
 
 /*Third column width*/
 .td02,.decor02,.td12,.decor12,.td22,.decor22 {
-	width: 13px;
+	/*width: 13px;*/
+	width:8px;
 }
 
 td.td11,td.td10 {
@@ -2810,7 +2813,7 @@ td.td11,td.td10 {
 }
 
 .finance-portlet .portlet .decor10 { /*border-left: 1px solid #DDD;*/
-	padding: 0 !important;
+	/*padding: 0 !important;*/
 	width: 99.3%;
 }
 
@@ -2831,13 +2834,13 @@ td.td12 {
 
 td.td10 {
 	background: transparent url(images/panel-right-img.png) repeat-y scroll
-		101% 0;
+		102% 0;
 }
 
 .decor20 {
 	background: transparent url("images/p-lb.png")
 		/*url(images/panel-left-bottom-img.png)*/                          
-		      no-repeat scroll -1px 0;
+		      no-repeat scroll 0px 0;
 }
 
 .decor21 {
@@ -3612,7 +3615,7 @@ div.edit:hover {
 	background-image: url("images/p-l.png");
 	background-position: 0 0;
 	background-repeat: repeat-y;
-	padding-left: 3px;
+	padding-left: 4px;
 }
 
 .ws-tools .plain00 {
@@ -4455,4 +4458,9 @@ td.imagelink-h-hover .imageLink-div {
 
 .gridTextBoxCell {
 	font-size: 12px;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.decor10 .decor-left{
+	    padding-left:7px;
+	}
 }
