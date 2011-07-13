@@ -1,10 +1,8 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
-import com.google.gwt.user.client.History;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.settings.SettingsActionFactory;
 

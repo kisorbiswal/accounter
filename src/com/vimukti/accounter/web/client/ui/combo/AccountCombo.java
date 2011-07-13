@@ -2,11 +2,9 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import java.util.List;
 
-import com.google.gwt.user.client.History;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
