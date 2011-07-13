@@ -1702,7 +1702,7 @@ input[type="submit"]:FOCUS {
 }
 .remaining-header-part-login a:FOCUS,.login-hover{
    opacity:0.5;
-   outline:none;
+   outline:0px none;
    
    -moz-opacity: 0.5 !important;
    -webkit-opacity: 0.5!important; 
