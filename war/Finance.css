@@ -254,6 +254,7 @@ h1 {
 	color: #0000AA;
 	white-space: nowrap;
 	margin-bottom: 10px;
+	font-size:15px;
 	/*width: 1px;*/
 }
 
@@ -1898,4 +1899,7 @@ input[type="text"],textarea{
 }
 .cancel-button .custom-button-right-image{
   width:3px !important;
+}
+.banking-portlet{
+   width:50%;
 }
