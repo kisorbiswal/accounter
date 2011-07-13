@@ -99,6 +99,14 @@ public class DashBoard extends BaseHomeView {
 		fTable.setWidget(0, 1, moneyComingPortlet);
 		fTable.setWidget(1, 1, moneyGoingPortlet);
 		fTable.setWidget(1, 0, expenseClaimsPortlet);
+
+		try {
+			bankingPortlet.getElement().getParentElement().setClassName(
+					"banking-portlet");
+		} catch (Exception e) {
+			System.err.println("Exception :" + e);
+		}
+
 		fTable.getCellFormatter().setVerticalAlignment(1, 0,
 				HasVerticalAlignment.ALIGN_TOP);
 
