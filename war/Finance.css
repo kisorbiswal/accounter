@@ -238,6 +238,11 @@ h1 {
 	text-decoration: none;
 }
 
+.expiredButton {
+	margin-left: 250px !important;
+}
+
+
 .newquote {
 	background: url(images/icons/newquote.png) repeat-x;
 }
