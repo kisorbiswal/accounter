@@ -181,7 +181,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			}
 		});
 
-		buttonVlayout.setWidth("155px");
+		buttonVlayout.setWidth("160px");
 		buttonVlayout.add(newFiscalYearButton);
 		buttonVlayout.add(closeFiscalYearButton);
 		buttonVlayout.add(openFiscalYearButoon);
