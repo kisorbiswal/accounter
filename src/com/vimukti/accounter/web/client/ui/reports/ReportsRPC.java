@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
@@ -29,6 +30,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
@@ -43,6 +45,10 @@ public class ReportsRPC {
 		AsyncCallback<T> callback = new AsyncCallback<T>() {
 
 			public void onFailure(Throwable caught) {
+				if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage("Your session expired, Please login again to continue");
+				}
 			}
 
 			public void onSuccess(T result) {
@@ -58,7 +64,7 @@ public class ReportsRPC {
 	}
 
 	public static void getTaxAgency(String name) {
-			UIUtils.runAction(FinanceApplication.getCompany().getTaxAgency(name),
+		UIUtils.runAction(FinanceApplication.getCompany().getTaxAgency(name),
 				CompanyActionFactory.getNewTAXAgencyAction());
 
 	}

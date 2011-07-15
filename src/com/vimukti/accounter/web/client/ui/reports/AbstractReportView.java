@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -93,6 +94,10 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 	 * for the report view.
 	 */
 	public void onFailure(Throwable caught) {
+		if (caught instanceof InvocationException) {
+			Accounter
+					.showMessage("Your session expired, Please login again to continue");
+		}
 		ReportsActionFactory.getReportsHomeAction();
 		grid.removeLoadingImage();
 	}

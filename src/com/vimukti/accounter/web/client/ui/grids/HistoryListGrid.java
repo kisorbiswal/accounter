@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetHistory;
@@ -84,8 +85,13 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 
 						@Override
 						public void onFailure(Throwable caught) {
-							Accounter
-									.showError(AccounterErrorType.FAILED_GET_JOURNALENTRIES);
+							if (caught instanceof InvocationException) {
+								Accounter
+										.showMessage("Your session expired, Please login again to continue");
+							} else {
+								Accounter
+										.showError(AccounterErrorType.FAILED_GET_JOURNALENTRIES);
+							}
 						}
 
 						@Override
