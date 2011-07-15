@@ -39,6 +39,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
@@ -639,4 +640,6 @@ public interface IFinanceDAOService {
 	public List<BillsList> getEmployeeExpensesByStatus(String userName, int status)  throws DAOException;
 	
 	public boolean changeMyPassword(String emailId, String oldPassword, String newPassword)  throws DAOException;
+	
+	public List<ClientUser> getAllUsers();
 }
