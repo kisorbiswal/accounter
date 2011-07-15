@@ -2048,3 +2048,6 @@ input[type="text"],textarea {
    color:#a53b01;
    text-decoration: underline;
 }
+.popupContent img{
+   padding:5px 0 5px 10px;
+}
