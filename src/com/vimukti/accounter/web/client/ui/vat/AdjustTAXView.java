@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -273,8 +274,13 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		AsyncCallback<String> transactionNumberCallback = new AsyncCallback<String>() {
 
 			public void onFailure(Throwable caught) {
-				Accounter.showError(FinanceApplication.getVATMessages()
-						.FailedToGetTransactionNumber());
+				if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage("Your session expired, Please login again to continue");
+				} else {
+					Accounter.showError(FinanceApplication.getVATMessages()
+							.FailedToGetTransactionNumber());
+				}
 			}
 
 			public void onSuccess(String result) {

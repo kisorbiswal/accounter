@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -367,10 +368,15 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Accounter
-								.showError("Failed to get the Transaction PayVAT List");
-						grid.addEmptyMessage(FinanceApplication
-								.getVendorsMessages().norecordstoshow());
+						if (caught instanceof InvocationException) {
+							Accounter
+									.showMessage("Your session expired, Please login again to continue");
+						} else {
+							Accounter
+									.showError("Failed to get the Transaction PayVAT List");
+							grid.addEmptyMessage(FinanceApplication
+									.getVendorsMessages().norecordstoshow());
+						}
 						return;
 
 					}
@@ -430,9 +436,13 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 				new AsyncCallback<String>() {
 
 					public void onFailure(Throwable caught) {
-
-						Accounter
-								.showError("Failed to get the transaction number");
+						if (caught instanceof InvocationException) {
+							Accounter
+									.showMessage("Your session expired, Please login again to continue");
+						} else {
+							Accounter
+									.showError("Failed to get the transaction number");
+						}
 						return;
 					}
 
