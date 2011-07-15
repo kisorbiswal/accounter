@@ -296,6 +296,8 @@ public class MakeDepositTransactionGrid extends
 				return 15;
 		if (index == 0 || index == 2 || index == 3)
 			return 150;
+		if (index == 1 )
+			return 450;
 		return -1;
 	}
 
