@@ -141,6 +141,7 @@ public class FinanceApplication extends VerticalPanel {
 					add(mainPanel);
 					add(bottomCorners());
 					add(helpPanel());
+					setWidth("100%");
 
 					// add(FinanceApplication.this);
 					if (callback != null) {
@@ -206,6 +207,7 @@ public class FinanceApplication extends VerticalPanel {
 		add(mainPanel);
 		add(bottomCorners());
 		add(helpPanel());
+		setWidth("100%");
 	}
 
 	@SuppressWarnings("unused")
@@ -276,6 +278,7 @@ public class FinanceApplication extends VerticalPanel {
 							add(mainPanel);
 							add(bottomCorners());
 							add(helpPanel());
+							setWidth("100%");
 							if (callback != null) {
 								callback.execute(FinanceApplication.this);
 							}
