@@ -236,7 +236,7 @@ public class MainFinanceWindow extends VerticalPanel {
 			downpanel.setWidth("535px");
 		}
 		VerticalPanel helppanel = new VerticalPanel();
-		helppanel.setWidth("97%");
+		helppanel.setWidth("100%");
 		helppanel.setStyleName("help-panel");
 		// helppanel.add(help);
 		// helppanel.add(item);
