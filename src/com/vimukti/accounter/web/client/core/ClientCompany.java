@@ -1321,8 +1321,13 @@ public class ClientCompany implements IAccounterCore {
 			}
 
 		} else if (accounterCoreObject.getObjectType() == AccounterCoreType.ERROR) {
-			MainFinanceWindow.getViewManager().operationFailed(
-					(InvalidOperationException) accounterCoreObject);
+			InvalidOperationException e = (InvalidOperationException) accounterCoreObject;
+			if (e.status != 819) {
+				MainFinanceWindow.getViewManager().operationFailed(
+						(InvalidOperationException) accounterCoreObject);
+			} else {
+				processRequest(e);
+			}
 			return;
 
 		}
@@ -2123,5 +2128,11 @@ public class ClientCompany implements IAccounterCore {
 
 		return null;
 
+	}
+
+	public void processRequest(Object obj) {
+		// Accounter.showError("Session expired message");
+		InvalidOperationException e = (InvalidOperationException) obj;
+		Accounter.showMessage(e.getMessage());
 	}
 }
