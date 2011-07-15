@@ -18,6 +18,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -530,9 +531,14 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 						@Override
 						public void onFailure(Throwable caught) {
-							Accounter.showError(FinanceApplication
-									.getCompanyMessages()
-									.failedToGetTransactionNumber());
+							if (caught instanceof InvocationException) {
+								Accounter
+										.showMessage("Your session expired, Please login again to continue");
+							} else {
+								Accounter.showError(FinanceApplication
+										.getCompanyMessages()
+										.failedToGetTransactionNumber());
+							}
 						}
 
 						@Override
@@ -560,8 +566,13 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Accounter.showError(FinanceApplication.getCompanyMessages()
-						.failedToGetVocherNumber());
+				if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage("Your session expired, Please login again to continue");
+				} else {
+					Accounter.showError(FinanceApplication.getCompanyMessages()
+							.failedToGetVocherNumber());
+				}
 
 			}
 		});
@@ -655,8 +666,13 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Accounter.showError(((InvalidOperationException) (caught))
-						.getDetailedMessage());
+				if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage("Your session expired, Please login again to continue");
+				} else {
+					Accounter.showError(((InvalidOperationException) (caught))
+							.getDetailedMessage());
+				}
 			}
 
 			@Override

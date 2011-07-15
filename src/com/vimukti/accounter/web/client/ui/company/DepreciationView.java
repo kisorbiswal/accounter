@@ -10,6 +10,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -352,7 +353,12 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 						@Override
 						public void onFailure(Throwable caught) {
-							Accounter.showError("Depreciation failed!");
+							if (caught instanceof InvocationException) {
+								Accounter
+										.showMessage("Your session expired, Please login again to continue");
+							} else {
+								Accounter.showError("Depreciation failed!");
+							}
 
 						}
 

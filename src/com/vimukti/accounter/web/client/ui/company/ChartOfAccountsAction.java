@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.banking.ChartOfAccountsView;
@@ -88,6 +89,10 @@ public class ChartOfAccountsAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		// TODO Auto-generated method stub
-		return "accountsList";
+		if (accountType == ClientAccount.TYPE_BANK) {
+			return "bankAccounts";
+		} else {
+			return "accountsList";
+		}
 	}
 }
