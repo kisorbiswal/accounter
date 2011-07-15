@@ -57,6 +57,7 @@ import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
@@ -1571,6 +1572,15 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 		return changePassword;
+	}
+
+	public List<ClientUser> getAllUsers() throws InvalidSessionException {
+		IFinanceTool tool = getFinanceTool();
+		if (tool != null) {
+			List<ClientUser> allUsers = tool.getAllUsers();
+			return allUsers;
+		}
+		return null;
 	}
 
 }
