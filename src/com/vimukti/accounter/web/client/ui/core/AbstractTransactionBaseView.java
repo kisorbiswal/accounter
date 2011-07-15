@@ -16,6 +16,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -258,7 +259,13 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		AsyncCallback<String> transactionNumberCallback = new AsyncCallback<String>() {
 
 			public void onFailure(Throwable caught) {
-				Accounter.showError("Failed to Get the Transaction Number..");
+				if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage("Your session expired, Please login again to continue");
+				} else {
+					Accounter
+							.showError("Failed to Get the Transaction Number..");
+				}
 
 			}
 

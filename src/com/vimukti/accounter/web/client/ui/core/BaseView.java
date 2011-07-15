@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -60,9 +61,15 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Accounter
-						.showError("Could Not Initialize View.... \nID Could Not Be Initialized");
-				MainFinanceWindow.getViewManager().closeView(getAction(), null);
+				if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage("Your session expired, Please login again to continue");
+				} else {
+					Accounter
+							.showError("Could Not Initialize View.... \nID Could Not Be Initialized");
+					MainFinanceWindow.getViewManager().closeView(getAction(),
+							null);
+				}
 			}
 		});
 
@@ -301,7 +308,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 	@Override
 	public void fitToSize(int height, int width) {
 		// canvas.setHeight(height - 125 + "px");
-        //canvas.setWidth(width - 15 + "px");
+		// canvas.setWidth(width - 15 + "px");
 		canvas.setWidth("auto");
 	}
 }
