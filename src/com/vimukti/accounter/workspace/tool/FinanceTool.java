@@ -826,30 +826,26 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		try {
 			IAccounterCore[] changes = ChangeTracker.getChanges();
 			if (changes != null && changes.length > 0) {
-
+				log.info("Sending Changes From ChangeTracker:"+ changes.length);
 				for (IMember member : space.getMembers()) {
 					try {
 
 						CometStream stream = CometManager.getStream(member
 								.getID(), "accounter");
+						if (stream == null){
+							continue;
+						}
 						for (IAccounterCore obj : changes) {
-							if (stream == null || obj == null) {
-								// this member doesn't regiset stream so
-								// continue
-								continue;
-							}
 							stream.put(obj);
 						}
-
+						log.info("Sent "+ changes.length +" change to "+member.getEmailId());
 					} catch (NotSerializableException e) {
 						e.printStackTrace();
 						log.error("Failed to Process Request", e);
 
 					}
-
 				}
 				ChangeTracker.clearChanges();
-
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
