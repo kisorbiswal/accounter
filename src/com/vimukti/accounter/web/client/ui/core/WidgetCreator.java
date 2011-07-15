@@ -148,7 +148,7 @@ public class WidgetCreator {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Accounter.showInformation("Request Failed");
+						// Accounter.showInformation("Request Failed");
 					}
 				});
 	}
