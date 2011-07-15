@@ -1,9 +1,10 @@
 /** Add css rules here for your application. */
 	/** Example rules used by the template application (remove for your app) */
 @font-face {
-    font-family: "ColabThi";
-    src: url("Fonts/ColabThi.otf") format("truetype");
+	font-family: "ColabThi";
+	src: url("Fonts/ColabThi.otf") format("truetype");
 }
+
 .widget { /**background:url(images/icons/startBar.png) repeat-x;*/
 	background: url("images/pannig bar.png") repeat-x scroll 0 0 transparent
 		;
@@ -215,8 +216,9 @@ h1 {
 
 .financeWindow { /* padding: 3px; praveena */ /*margin: 0 auto;*/
 	/*background: none repeat scroll 0 0 #F7F7F7 !important;*/
-	width:100%;
-	
+	width: 100%;
+	background: url("images/body-shadow-mid.png") repeat-x left bottom
+		transparent;
 }
 
 .noScroll {
@@ -224,8 +226,8 @@ h1 {
 		#F0F0F0;
 	height: 100% !important;
 	overflow: hidden !important;
-	padding-left: 9px;
-	width:100%;
+	padding-left: 15px;
+	width: 100%;
 }
 
 .actionOver {
@@ -254,7 +256,7 @@ h1 {
 	color: #0000AA;
 	white-space: nowrap;
 	margin-bottom: 10px;
-	font-size:15px;
+	font-size: 15px;
 	/*width: 1px;*/
 }
 
@@ -730,9 +732,9 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	padding-right: 100pX !important;
 }
 
-.main-w-finance {
-	/*padding-left: 2px !important;*/
+.main-w-finance { /*padding-left: 2px !important;*/
 	/*overflow: hidden !important;*/
+	
 }
 
 .finance-portlet .decor00 {
@@ -939,7 +941,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	padding: 0 5px 5px !important;
 	border: 0px none !important;
 	border-radius: 0 0 0 0 !important;
-	font-size:13px !important;
+	font-size: 13px !important;
 }
 
 .gwt-Button button:after {
@@ -1014,9 +1016,33 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	margin: 0 4px !important;
 }
 
-.invoice-total tr :nth-child (3){
-border-bottom:1px solid #aaa;
-border-top:1px solid #aaa;
+.invoice-total
+ 
+tr
+ 
+:nth-child
+ 
+(3){
+border-bottom
+:
+1px
+ 
+solid
+ 
+#aaa
+;
+
+
+border-top
+:
+1px
+ 
+solid
+ 
+#aaa
+;
+
+
 }
 .noScroll input[type="text"] { /*width: 150px !important;*/
 	
@@ -1071,8 +1097,8 @@ border-top:1px solid #aaa;
 	margin: 5px 0 0 15px;
 }
 
-.standard-options td :nth-child(2){
-/*margin-right:40px;*/
+.standard-options td :nth-child (2){ /*margin-right:40px;*/
+	
 }
 
 .terms-payment-area {
@@ -1190,10 +1216,30 @@ border-top:1px solid #aaa;
 	background: none repeat scroll 0 0 #F0F0F0 !important;
 }
 
-.help-logout-sep td:nth-child (2),.help-logout-sep td:nth-child (3){
-	padding: 5px !important;
-}
+.help-logout-sep
+ 
+td
+:nth-child
+ 
+(2),
+.help-logout-sep
+ 
+td
+:nth-child
+ 
+(3){
+padding
+:
+ 
+5
+px
+ 
+!
+important
+;
 
+
+}
 .help-content {
 	background: url("images/Menubar_Divider_2x30.jpg") no-repeat scroll 0 0
 		transparent;
@@ -1227,7 +1273,7 @@ border-top:1px solid #aaa;
 .abstract_base_view {
 	background: none repeat scroll 0 0 #F0F0F0 !important;
 	padding: 15px;
-	width:100%;
+	width: 100%;
 	/*border:1px solid #DDDDDD;*/
 }
 
@@ -1238,7 +1284,7 @@ border-top:1px solid #aaa;
 	border-right: 1px solid #CCCCCC !important;
 	width: 100% !important;
 	height: 22px !important;
-	padding:0 0 0 5px;
+	padding: 0 0 0 5px;
 }
 
 .bottom-view table tr td button {
@@ -1360,7 +1406,7 @@ border-top:1px solid #aaa;
 		transparent !important;
 	color: #000 !important;
 	padding-top: 2px !important;
-	font-size:13px !important;
+	font-size: 13px !important;
 }
 
 .cancel-button {
@@ -1508,7 +1554,7 @@ iframe { /*display:none;*/
 	font-weight: normal !important;
 	margin-top: -2px !important;
 	padding-left: 21px !important;
-	height:14px;
+	height: 14px;
 }
 
 .companyName {
@@ -1553,7 +1599,7 @@ iframe { /*display:none;*/
 	background: url(images/logout.png) no-repeat scroll 0 1px transparent;
 	padding-left: 22px;
 	margin-top: 3px;
-	height:16px;
+	height: 16px;
 }
 
 .vimutki-text {
@@ -1646,9 +1692,11 @@ iframe { /*display:none;*/
 	font-size: 12px;
 }
 
-.help-panel {
-	background-color: #F0F0F0;
-	border: 1px solid #C7C6C6;
+.help-panel { /*background-color: #F0F0F0;*/
+	background: url("images/body-shadow-leftlower-corner.png") no-repeat scroll left bottom transparent;
+    border: 1px solid #C7C6C6;
+    margin: 0 0 1px -26px;
+    display:none;
 }
 
 .help-panel a {
@@ -1665,7 +1713,7 @@ iframe { /*display:none;*/
 .main-finance-window {
 	background: url("../images/body-shadow-right.png") repeat-y scroll right
 		top #F0F0F0;
-	padding-right: 9px;
+	padding-right: 15px;
 }
 
 .setting-class-panel {
@@ -1692,10 +1740,24 @@ iframe { /*display:none;*/
 	margin-left: 20px;
 }
 
-.date-number td:nth-child (2){
-	padding-right: 15px !important;
-}
+.date-number
+ 
+td
+:nth-child
+ 
+(2){
+padding-right
+:
+ 
+15
+px
+ 
+!
+important
+;
 
+
+}
 .datenumber-panel table {
 	padding-right: 15px !important;
 }
@@ -1715,10 +1777,20 @@ iframe { /*display:none;*/
 	font-weight: bold;
 }
 
-.tax-form td:nth-child (1){
-	font-weight: normal;
-}
+.tax-form
+ 
+td
+:nth-child
+ 
+(1){
+font-weight
+:
+ 
+normal
+;
 
+
+}
 .itemGrid {
 	margin-top: 25px;
 }
@@ -1753,21 +1825,21 @@ iframe { /*display:none;*/
 		float: inherit !important;
 		/*line-height:2;*/
 	}
-	.add-button button{
-	    line-height:inherit;
+	.add-button button {
+		line-height: inherit;
 	}
-	.ok-cancel-button{
-	    padding:0 5px 0 1px !important;
-	    margin-left:0px;
+	.ok-cancel-button {
+		padding: 0 5px 0 1px !important;
+		margin-left: 0px;
 	}
-	.ibutton-right-image{
-	    padding:2px 1px 7px 2px;
+	.ibutton-right-image {
+		padding: 2px 1px 7px 2px;
 	}
 	.add-button button {
 		padding: 5px 28px 5px 5px !important;
 	}
 	.standard-options td:first-child {
-		width: 93.8%;
+		width: 92.8%;
 	}
 	.delete-table-image {
 		width: 21px !important;
@@ -1787,15 +1859,19 @@ noindex:-o-prefocus,.ibutton-right-image {
 	padding: 0px 1px 25px 2px;
 	position: absolute;
 }
-noindex:-o-prefocus,.ok-cancel-button{
-    margin:0 5px;	
+
+noindex:-o-prefocus,.ok-cancel-button {
+	margin: 0 5px;
 }
-noindex:-o-prefocus, .gwt-CheckBox input[type="checkbox"]{
-    margin-bottom:4px;	
+
+noindex:-o-prefocus,.gwt-CheckBox input[type="checkbox"] {
+	margin-bottom: 4px;
 }
-noindex:-o-prefocus, .gwt-CheckBox label{
-    font-size:13px;	
+
+noindex:-o-prefocus,.gwt-CheckBox label {
+	font-size: 13px;
 }
+
 noindex:-o-prefocus,.phone-fax-formatter td .gwt-TextBox {
 	float: right;
 }
@@ -1833,6 +1909,7 @@ noindex:-o-prefocus,.ibutton {
 }
 
 .finance-portlet table:FIRST-CHILD { /*width:100% !important;*/
+	
 }
 
 .gwt-Image {
@@ -1844,7 +1921,7 @@ noindex:-o-prefocus,.ibutton {
 }
 
 .standard-options .ibutton {
-	float: right  !important;
+	float: right !important;
 }
 
 .new_service_table td:FIRST-CHILD,.purchase_info_form td:FIRST-CHILD {
@@ -1855,51 +1932,118 @@ noindex:-o-prefocus,.ibutton {
 	{
 	float: left\0;
 }
-.MENU_BAR_BG{
-     background: url("images/Menu bar_1x33.png") repeat-x scroll 0 0 transparent !important;
-    width: 100%;
-    margin-top:18px;
+
+.MENU_BAR_BG {
+	background: url("images/Menu bar_1x33.png") repeat-x scroll 0 0
+		transparent !important;
+	width: 100%;
+	margin-top: 18px;
 }
 
-.HEADER_GRID {
-	/*width: auto !important;*/
-	width:100%;
+.HEADER_GRID { /*width: auto !important;*/
+	width: 100%;
 }
 
 .export_icon,.edit_button_icon,.print_button_icon {
 	padding-top: 3px;
 }
-.help-panel tr td table td{
-   text-align:left;
+
+.help-panel tr td table td {
+	text-align: left;
 }
+
 .due_form_table td:FIRST-CHILD {
-	width:10.5%;
+	width: 10.5%;
 }
-.datenumber-panel{
-    /*margin-right:25px;*/
-    margin-right:7px;
+
+.datenumber-panel { /*margin-right:25px;*/
+	margin-right: 7px;
 }
-.report-toolbar .ibutton{
-    float:right;
+
+.report-toolbar .ibutton {
+	float: right;
 }
-.ok-cancel-button{
-    background: url("images/blue_Left_sideNew.png") no-repeat scroll 0 0 transparent !important;
-    float: left;
-    padding: 0 1px;
-    margin:0 4px;
+
+.ok-cancel-button {
+	background: url("images/blue_Left_sideNew.png") no-repeat scroll 0 0
+		transparent !important;
+	float: left;
+	padding: 0 1px;
+	margin: 0 4px;
 }
-input[type="text"],textarea{
-    padding:5px 2px 5px 5px;
-} 
-.gwt-RadioButton label{
-   font-size:13px;
+
+input[type="text"],textarea {
+	padding: 5px 2px 5px 5px;
 }
-.portlet-body .ibutton{
-   margin-left:10px;
+
+.gwt-RadioButton label {
+	font-size: 13px;
 }
-.cancel-button .custom-button-right-image{
-  width:3px !important;
+
+.portlet-body .ibutton {
+	margin-left: 10px;
 }
-.banking-portlet{
-   width:50%;
+
+.cancel-button .custom-button-right-image {
+	width: 3px !important;
+}
+
+.banking-portlet {
+	width: 50%;
+}
+.bottom-corners{
+   width:100%;	
+}
+.left-corner{
+   background: url("images/body-shadow-leftlower-corner.png") no-repeat scroll 0 0 transparent;
+   width:22px;
+   height:22px;
+   margin-left:2px;
+}
+.mid-repeat{
+   background: url("images/body-shadow-mid.png") repeat-x scroll 0 0 transparent;
+   height:22px;
+}
+.right-corner{
+  background: url("images/body-shadow-rightlower-corner.png") no-repeat scroll 0 0 transparent;
+  width:22px;
+  height:22px;
+  margin-right:2px;
+}
+.vimukti-name{
+   float:left;
+   margin:10px 0 0 5px;
+   color:#A4CCD1 !important;	
+}
+.XTRA_HELP_PANEL{
+   margin:10px 15px 0;
+   width:97%;	
+}
+.feedback-name{
+   float:right;	
+   margin:10px 5px 0 0;
+   color:#A4CCD1 !important;
+}
+.footer-left{
+   background:url("images/Footer_left.png")no-repeat scroll 0 0 transparent;
+   height:35px;
+   width:5px;
+}
+.feedback-option{
+   background:url("images/Footer_mid.png") repeat-x scroll 0 0 transparent;
+   height:35px;
+}
+.footer-right{
+   background:url("images/Footer_right.png")no-repeat scroll 0 0 transparent;
+   height:35px;
+   width:5px;
+}
+.feedback-name a{
+   text-decoration: none;
+   color:#a53b01;
+   font-style:italic;
+}
+.feedback-name a:hover{
+   color:#a53b01;
+   text-decoration: underline;
 }

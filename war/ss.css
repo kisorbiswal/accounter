@@ -1402,8 +1402,7 @@ ul li {
 }
 
 .login-fields-box {
-	margin-left: 36px;
-	margin-top: -63px;
+	margin:-63px 0 20px 36px;
 }
 .forget-but {
 	/*background: url("/images/button-image.png") no-repeat scroll 0 0
@@ -1569,6 +1568,7 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right{
 
 .mid-login-box1 td {
 	font-size: 13px;
+	padding-right:5px;
 }
 
 .logo-image img {
