@@ -9,6 +9,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -707,8 +708,13 @@ public class CustomerRefundView extends
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Accounter.showError(((InvalidOperationException) (caught))
-						.getDetailedMessage());
+				if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage("Your session expired, Please login again to continue");
+				} else {
+					Accounter.showError(((InvalidOperationException) (caught))
+							.getDetailedMessage());
+				}
 			}
 
 			@Override

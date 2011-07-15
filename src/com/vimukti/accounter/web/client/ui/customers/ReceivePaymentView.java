@@ -9,6 +9,7 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -160,12 +161,17 @@ public class ReceivePaymentView extends
 				new AsyncCallback<List<ReceivePaymentTransactionList>>() {
 
 					public void onFailure(Throwable caught) {
-						Accounter.showError(FinanceApplication
-								.getCustomersMessages()
-								.failedToGetRecievePayments()
-								+ selectedCustomer.getName());
-						gridView.addEmptyMessage(FinanceApplication
-								.getCustomersMessages().norecordstoshow());
+						if (caught instanceof InvocationException) {
+							Accounter
+									.showMessage("Your session expired, Please login again to continue");
+						} else {
+							Accounter.showError(FinanceApplication
+									.getCustomersMessages()
+									.failedToGetRecievePayments()
+									+ selectedCustomer.getName());
+							gridView.addEmptyMessage(FinanceApplication
+									.getCustomersMessages().norecordstoshow());
+						}
 					}
 
 					public void onSuccess(
@@ -1325,7 +1331,12 @@ public class ReceivePaymentView extends
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Accounter.showError("Failed to void Receive Payment");
+				if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage("Your session expired, Please login again to continue");
+				} else {
+					Accounter.showError("Failed to void Receive Payment");
+				}
 			}
 
 			@Override

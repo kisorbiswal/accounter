@@ -93,6 +93,11 @@ public class InvoicesAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		// TODO Auto-generated method stub
-		return "invoices";
+		if (viewType == null) {
+			return "invoices";
+		} else if (viewType.equals(InvoiceListView.OVER_DUE)) {
+			return "overDueInvoices";
+		}
+		return "";
 	}
 }

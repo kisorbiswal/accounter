@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -717,8 +718,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Accounter.showError(((InvalidOperationException) (caught))
-						.getDetailedMessage());
+				if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage("Your session expired, Please login again to continue");
+				} else {
+					Accounter.showError(((InvalidOperationException) (caught))
+							.getDetailedMessage());
+				}
 			}
 
 			@Override
