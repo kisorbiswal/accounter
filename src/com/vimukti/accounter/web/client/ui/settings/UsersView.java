@@ -13,16 +13,19 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.data.ClientUser;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
+import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -56,6 +59,24 @@ public class UsersView extends BaseView<ClientUser> {
 	@Override
 	public void initData() {
 		super.initData();
+		FinanceApplication.creatUserService().getAllUsers(
+				new AsyncCallback<List<ClientUser>>() {
+
+					@Override
+					public void onSuccess(List<ClientUser> result) {
+						usersListGrid.removeAllRecords();
+						usersListGrid.setRecords(result);
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						if (caught instanceof InvocationException) {
+
+						} else {
+							Accounter.showError("Failed to load users list");
+						}
+					}
+				});
 	}
 
 	@SuppressWarnings("deprecation")
@@ -164,8 +185,8 @@ public class UsersView extends BaseView<ClientUser> {
 		usersListGrid = new UsersListGrid(false);
 		usersListGrid.setUsersView(this);
 		usersListGrid.init();
-		usersListGrid
-				.setRecords(FinanceApplication.getCompany().getUsersList());
+		// usersListGrid
+		// .setRecords(FinanceApplication.getCompany().getUsersList());
 		usersPanel.add(usersListGrid);
 		usersPanel.setCellHorizontalAlignment(usersListGrid,
 				HasHorizontalAlignment.ALIGN_CENTER);
