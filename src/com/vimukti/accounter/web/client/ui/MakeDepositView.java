@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -277,9 +278,15 @@ public class MakeDepositView extends
 		AsyncCallback<List<ClientTransactionMakeDeposit>> callback = new AsyncCallback<List<ClientTransactionMakeDeposit>>() {
 
 			public void onFailure(Throwable caught) {
-				Accounter.showError(FinanceApplication.getFinanceUIConstants()
-						.makeDepostTransationsListFailed());
-				gridView.removeAllRecords();
+				if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage("Your session expired, Please login again to continue");
+				} else {
+					Accounter.showError(FinanceApplication
+							.getFinanceUIConstants()
+							.makeDepostTransationsListFailed());
+					gridView.removeAllRecords();
+				}
 				// gridView.addEmptyMessage("No records to show");
 			}
 
@@ -1240,8 +1247,13 @@ public class MakeDepositView extends
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Accounter.showError(((InvalidOperationException) (caught))
-						.getDetailedMessage());
+				if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage("Your session expired, Please login again to continue");
+				} else {
+					Accounter.showError(((InvalidOperationException) (caught))
+							.getDetailedMessage());
+				}
 			}
 
 			@Override
@@ -1302,7 +1314,7 @@ public class MakeDepositView extends
 		form2.getCellFormatter().setWidth(0, 1, "200px");
 		form2.getCellFormatter().setWidth(0, 1, "200px");
 	}
-	
+
 	@Override
 	protected final void initConstants() {
 		bankingConstants = GWT.create(BankingMessages.class);

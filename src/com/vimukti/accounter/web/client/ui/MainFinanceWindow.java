@@ -16,6 +16,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -93,7 +94,9 @@ public class MainFinanceWindow extends VerticalPanel {
 		});
 		oldToken = CompanyActionFactory.getCompanyHomeAction()
 				.getHistoryToken();
-		History.newItem(oldToken);
+		HistoryTokenUtils.setPresentToken(CompanyActionFactory
+				.getCompanyHomeAction(), null);
+		shouldExecuteRun = true;
 		handleBackSpaceEvent();
 	}
 
@@ -1398,7 +1401,12 @@ public class MainFinanceWindow extends VerticalPanel {
 				AsyncCallback<T> callback = new AsyncCallback<T>() {
 
 					public void onFailure(Throwable caught) {
-						Accounter.showError("Unable To show the view");
+						if (caught instanceof InvocationException) {
+							Accounter
+									.showMessage("Your session expired, Please login again to continue");
+						} else {
+							Accounter.showError("Unable To show the view");
+						}
 					}
 
 					public void onSuccess(T result) {
@@ -1770,6 +1778,10 @@ public class MainFinanceWindow extends VerticalPanel {
 				.getAccountRegisterAction());
 		actions.put("overDueInvoices", CustomersActionFactory
 				.getInvoicesAction(InvoiceListView.OVER_DUE));
+		actions
+				.put(CompanyActionFactory.getUserDetailsAction()
+						.getHistoryToken(), CompanyActionFactory
+						.getUserDetailsAction());
 
 	}
 }

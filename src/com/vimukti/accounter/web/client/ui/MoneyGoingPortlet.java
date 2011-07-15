@@ -13,12 +13,14 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
@@ -115,7 +117,13 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// Accounter.showError("Failed to get Bank account chart values");
+				if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage("Your session expired, Please login again to continue");
+				} else {
+					Accounter
+							.showError("Failed to get money going portlet values");
+				}
 			}
 
 			@Override

@@ -82,10 +82,10 @@ public class Header extends HorizontalPanel {
 						.getCompanyHomeAction().getHistoryToken();
 				if (!History.getToken().equals(historyToken)) {
 					MainFinanceWindow.oldToken = History.getToken();
-					History.newItem(historyToken);
-				} else
-					CompanyActionFactory.getCompanyHomeAction()
-							.run(null, false);
+					HistoryTokenUtils.setPresentToken(CompanyActionFactory
+							.getCompanyHomeAction(), null);
+				}
+				CompanyActionFactory.getCompanyHomeAction().run(null, false);
 			}
 		});
 		Image image = new Image();

@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -11,16 +10,18 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.LineChart;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
+import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
 public class BankingPortlet extends DashBoardPortlet {
 
@@ -37,9 +38,10 @@ public class BankingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void goToClicked() {
-		History.newItem("bankAccounts");
-		// CompanyActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK)
-		// .run(null, true);
+		HistoryTokenUtils.setPresentToken(CompanyActionFactory
+				.getChartOfAccountsAction(ClientAccount.TYPE_BANK), null);
+		CompanyActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK)
+				.run(null, true);
 	}
 
 	@Override
@@ -149,8 +151,13 @@ public class BankingPortlet extends DashBoardPortlet {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						// Accounter
-						// .showError("Failed to get Bank account chart values");
+						if (caught instanceof InvocationException) {
+							Accounter
+									.showMessage("Your session expired, Please login again to continue");
+						} else {
+							Accounter
+									.showError("Failed to get Bank account chart values");
+						}
 					}
 
 					@Override
@@ -226,9 +233,10 @@ public class BankingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void titleClicked() {
-		History.newItem("bankAccounts");
-		// CompanyActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK)
-		// .run(null, true);
+		HistoryTokenUtils.setPresentToken(CompanyActionFactory
+				.getChartOfAccountsAction(ClientAccount.TYPE_BANK), null);
+		CompanyActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK)
+				.run(null, true);
 	}
 
 	@Override

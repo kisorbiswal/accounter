@@ -14,15 +14,18 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.ColumnChart;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
+import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 
 public class MoneyComingPortlet extends DashBoardPortlet {
 
@@ -118,8 +121,13 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// Accounter
-				// .showError("Failed to get Account Receivable chart values");
+				if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage("Your session expired, Please login again to continue");
+				} else {
+					Accounter
+							.showError("Failed to get Account Receivable chart values");
+				}
 			}
 
 			@Override
@@ -206,10 +214,10 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 					CustomersActionFactory.getInvoicesAction(null).run(null,
 							true);
 				} else {
-					History.newItem("overDueInvoices");
-					// CustomersActionFactory.getInvoicesAction().run(null,
-					// true,
-					// InvoiceListView.OVER_DUE);
+					HistoryTokenUtils.setPresentToken(CustomersActionFactory
+							.getInvoicesAction(InvoiceListView.OVER_DUE), null);
+					CustomersActionFactory.getInvoicesAction(
+							InvoiceListView.OVER_DUE).run(null, true);
 				}
 
 			}

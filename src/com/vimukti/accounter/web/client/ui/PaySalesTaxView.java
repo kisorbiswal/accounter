@@ -7,6 +7,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -106,9 +107,13 @@ public class PaySalesTaxView extends
 				new AsyncCallback<String>() {
 
 					public void onFailure(Throwable caught) {
-
-						Accounter
-								.showError("Failed to get the transaction number");
+						if (caught instanceof InvocationException) {
+							Accounter
+									.showMessage("Your session expired, Please login again to continue");
+						} else {
+							Accounter
+									.showError("Failed to get the transaction number");
+						}
 						return;
 					}
 
@@ -131,11 +136,15 @@ public class PaySalesTaxView extends
 				new AsyncCallback<List<ClientPaySalesTaxEntries>>() {
 
 					public void onFailure(Throwable caught) {
-
-						Accounter
-								.showError("Failed to get the TransactionPaySalesTaxList");
-						grid.addEmptyMessage(FinanceApplication
-								.getCustomersMessages().norecordstoshow());
+						if (caught instanceof InvocationException) {
+							Accounter
+									.showMessage("Your session expired, Please login again to continue");
+						} else {
+							Accounter
+									.showError("Failed to get the TransactionPaySalesTaxList");
+							grid.addEmptyMessage(FinanceApplication
+									.getCustomersMessages().norecordstoshow());
+						}
 
 						return;
 
@@ -619,8 +628,13 @@ public class PaySalesTaxView extends
 
 								@Override
 								public void onFailure(Throwable caught) {
-									Accounter
-											.showError("Failed to void Pay Sales Tax");
+									if (caught instanceof InvocationException) {
+										Accounter
+												.showMessage("Your session expired, Please login again to continue");
+									} else {
+										Accounter
+												.showError("Failed to void Pay Sales Tax");
+									}
 
 								}
 

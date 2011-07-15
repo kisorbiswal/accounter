@@ -13,9 +13,11 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 
@@ -127,7 +129,12 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// Accounter.showError("Failed to get Expense totals");
+				if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage("Your session expired, Please login again to continue");
+				} else {
+					Accounter.showError("Failed to get Expense totals");
+				}
 			}
 
 			@Override
@@ -171,29 +178,36 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 				label.getElement().getStyle().setTextDecoration(
 						TextDecoration.NONE);
 				if (title.equals(FinanceApplication.getCompanyMessages()
-						.cashExpenses()))
-					History.newItem("cashExpenses");
-				// VendorsActionFactory.getExpensesAction(
-				// FinanceApplication.getVendorsMessages().cash())
-				// .run(null, true);
-				else if (title.equals(FinanceApplication.getCompanyMessages()
-						.creditCardExpenses()))
-					History.newItem("creditCardExpenses");
-				// VendorsActionFactory.getExpensesAction(
-				// FinanceApplication.getVendorsMessages()
-				// .creditCard()).run(null, true);
-				else if (title.equals(FinanceApplication.getCompanyMessages()
-						.employeeExpenses()))
-					History.newItem("employeeExpenses");
-				// VendorsActionFactory.getExpensesAction(
-				// FinanceApplication.getVendorsMessages().employee())
-				// .run(null, true);
-				else if (title.equals(FinanceApplication.getCompanyMessages()
-						.allExpenses()))
-					History.newItem(VendorsActionFactory
-							.getExpensesAction(null).getHistoryToken());
-				// VendorsActionFactory.getExpensesAction(null)
-				// .run(null, true);
+						.cashExpenses())) {
+					HistoryTokenUtils.setPresentToken(VendorsActionFactory
+							.getExpensesAction(FinanceApplication
+									.getVendorsMessages().cash()), null);
+					VendorsActionFactory.getExpensesAction(
+							FinanceApplication.getVendorsMessages().cash())
+							.run(null, true);
+				} else if (title.equals(FinanceApplication.getCompanyMessages()
+						.creditCardExpenses())) {
+					HistoryTokenUtils.setPresentToken(VendorsActionFactory
+							.getExpensesAction(FinanceApplication
+									.getVendorsMessages().creditCard()), null);
+					VendorsActionFactory.getExpensesAction(
+							FinanceApplication.getVendorsMessages()
+									.creditCard()).run(null, true);
+				} else if (title.equals(FinanceApplication.getCompanyMessages()
+						.employeeExpenses())) {
+					HistoryTokenUtils.setPresentToken(VendorsActionFactory
+							.getExpensesAction(FinanceApplication
+									.getVendorsMessages().employee()), null);
+					VendorsActionFactory.getExpensesAction(
+							FinanceApplication.getVendorsMessages().employee())
+							.run(null, true);
+				} else if (title.equals(FinanceApplication.getCompanyMessages()
+						.allExpenses())) {
+					HistoryTokenUtils.setPresentToken(VendorsActionFactory
+							.getExpensesAction(null), null);
+					VendorsActionFactory.getExpensesAction(null)
+							.run(null, true);
+				}
 			}
 		});
 		label.getElement().getStyle().setMarginLeft(10, Unit.PX);

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -242,9 +243,15 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 				.getStringID(), new AsyncCallback<List<AccountRegister>>() {
 
 			public void onFailure(Throwable caught) {
-				Accounter.showError(FinanceApplication.getFinanceUIConstants()
-						.failedtoGetListofAccounts()
-						+ takenaccount.getName());
+				if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage("Your session expired, Please login again to continue");
+				} else {
+					Accounter.showError(FinanceApplication
+							.getFinanceUIConstants()
+							.failedtoGetListofAccounts()
+							+ takenaccount.getName());
+				}
 
 			}
 
