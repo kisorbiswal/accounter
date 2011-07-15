@@ -73,7 +73,8 @@ public class UsersView extends BaseView<ClientUser> {
 					public void onFailure(Throwable caught) {
 						usersListGrid.removeLoadingImage();
 						if (caught instanceof InvocationException) {
-
+							Accounter
+									.showMessage("Your session expired, Please login again to continue");
 						} else {
 							Accounter.showError("Failed to load users list");
 						}
