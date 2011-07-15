@@ -1726,3 +1726,7 @@ input[type="submit"]:FOCUS {
 .login-table td{
     width:25%;
 }
+
+.menu-bar li .active{
+    color:#3299A4 !important;
+}
