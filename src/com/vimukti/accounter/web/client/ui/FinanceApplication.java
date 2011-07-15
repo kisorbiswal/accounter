@@ -6,6 +6,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.IAccounterCRUDService;
@@ -53,6 +56,10 @@ public class FinanceApplication extends VerticalPanel {
 	private static ClientFinanceDate endDate;
 	protected Widget loadingDialog;
 	protected ValueCallBack<FinanceApplication> callback;
+	private VerticalPanel mainPanel;
+	private HorizontalPanel helpPanel, corners;
+	private HTML vimukti, feedback, leftcorner, midrepeat, rightcorner,
+			footerleft, footerright;
 
 	private static ClientUser user = null;
 	private static ClientCompany company = null;
@@ -128,7 +135,13 @@ public class FinanceApplication extends VerticalPanel {
 					loadingDialog.removeFromParent();
 					// and, now we are ready to start the application.
 					initGUI();
-					add(mainWindow = new MainFinanceWindow(isSales));
+					mainPanel = new VerticalPanel();
+
+					mainPanel.add(mainWindow = new MainFinanceWindow(isSales));
+					add(mainPanel);
+					add(bottomCorners());
+					add(helpPanel());
+
 					// add(FinanceApplication.this);
 					if (callback != null) {
 						callback.execute(FinanceApplication.this);
@@ -152,10 +165,47 @@ public class FinanceApplication extends VerticalPanel {
 
 	}
 
+	public HorizontalPanel helpPanel(){
+		helpPanel = new HorizontalPanel();
+		helpPanel.setStyleName("XTRA_HELP_PANEL");
+		
+		footerleft = new HTML();
+		footerleft.addStyleName("footer-left");
+		feedback = new HTML("<div class='vimukti-name'>Vimukti Technologies Pvt Ltd. All rights reserved</div><div class='feedback-name'>Send your feedback to: <a href=''>support@accounterlive.com</a></div>");
+		feedback.addStyleName("feedback-option");
+		footerright = new HTML();
+		footerright.addStyleName("footer-right");
+		helpPanel.add(footerleft);
+		helpPanel.add(feedback);
+        helpPanel.setCellWidth(feedback,"99%");
+		helpPanel.add(footerright);
+		return helpPanel;
+	}
+
+	public HorizontalPanel bottomCorners() {
+		corners = new HorizontalPanel();
+		corners.setStyleName("bottom-corners");
+		leftcorner = new HTML();
+		leftcorner.addStyleName("left-corner");
+		midrepeat = new HTML();
+		midrepeat.addStyleName("mid-repeat");
+		rightcorner = new HTML();
+		rightcorner.addStyleName("right-corner");
+		corners.add(leftcorner);
+		corners.add(midrepeat);
+		corners.setCellWidth(midrepeat, "98%");
+		corners.add(rightcorner);
+		return corners;
+	}
+
 	public FinanceApplication() {
 		MainFinanceWindow.makeAllViewsStaticstoNull();
 		initGUI();
-		add(mainWindow = new MainFinanceWindow(null));
+		mainPanel = new VerticalPanel();
+		mainPanel.add(mainWindow = new MainFinanceWindow(null));
+		add(mainPanel);
+		add(bottomCorners());
+		add(helpPanel());
 	}
 
 	@SuppressWarnings("unused")
@@ -215,12 +265,17 @@ public class FinanceApplication extends VerticalPanel {
 					Timer timer = new Timer() {
 						@Override
 						public void run() {
-							add(mainWindow = new MainFinanceWindow(null) {
+							mainPanel = new VerticalPanel();
+							mainPanel.add(mainWindow = new MainFinanceWindow(
+									null) {
 								public void onLoad() {
 									super.onLoad();
 									loadingDialog.removeFromParent();
 								};
 							});
+							add(mainPanel);
+							add(bottomCorners());
+							add(helpPanel());
 							if (callback != null) {
 								callback.execute(FinanceApplication.this);
 							}
