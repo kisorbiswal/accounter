@@ -59,17 +59,19 @@ public class UsersView extends BaseView<ClientUser> {
 	@Override
 	public void initData() {
 		super.initData();
-		FinanceApplication.creatUserService().getAllUsers(
+		FinanceApplication.createHomeService().getAllUsers(
 				new AsyncCallback<List<ClientUser>>() {
 
 					@Override
 					public void onSuccess(List<ClientUser> result) {
+						usersListGrid.removeLoadingImage();
 						usersListGrid.removeAllRecords();
 						usersListGrid.setRecords(result);
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
+						usersListGrid.removeLoadingImage();
 						if (caught instanceof InvocationException) {
 
 						} else {
@@ -185,6 +187,7 @@ public class UsersView extends BaseView<ClientUser> {
 		usersListGrid = new UsersListGrid(false);
 		usersListGrid.setUsersView(this);
 		usersListGrid.init();
+		usersListGrid.addLoadingImagePanel();
 		// usersListGrid
 		// .setRecords(FinanceApplication.getCompany().getUsersList());
 		usersPanel.add(usersListGrid);
