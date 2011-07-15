@@ -45,7 +45,7 @@ public class FinanceDashboard extends BaseHomeView {
 	@Override
 	public void init() {
 		getLeftLayout().add(createControl());
-		setSize("99.9%", "100%");
+		setSize("100%", "100%");
 
 	}
 
