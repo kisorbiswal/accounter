@@ -87,7 +87,19 @@ public class ExpensesAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		// TODO Auto-generated method stub
-		return "expenses";
+		if (viewType == null) {
+			return "expenses";
+		} else if (viewType.equals(FinanceApplication.getVendorsMessages()
+				.cash())) {
+			return "cashExpenses";
+		} else if (viewType.equals(FinanceApplication.getVendorsMessages()
+				.creditCard())) {
+			return "creditCardExpenses";
+		} else if (viewType.equals(FinanceApplication.getVendorsMessages()
+				.employee())) {
+			return "employeeExpenses";
+		}
+		return "";
 	}
 
 }
