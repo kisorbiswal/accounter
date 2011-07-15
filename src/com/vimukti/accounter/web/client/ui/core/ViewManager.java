@@ -16,6 +16,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -720,6 +721,8 @@ public class ViewManager extends DockPanel {
 		if (history == null)
 			return;
 
+		HistoryTokenUtils.setPresentToken(history.getAction(), history
+				.getData());
 		if (history.getView() instanceof UsersView
 				|| history.getView() instanceof ExpenseClaims) {
 			currentCanvas = history.getView();
@@ -834,6 +837,8 @@ public class ViewManager extends DockPanel {
 		if (history == null)
 			return;
 
+		historyList.remove(history);
+		historyList.add(history);
 		history.updateHistory(getCurrentView().getData());
 		history.setView(getCurrentView());
 
@@ -873,7 +878,10 @@ public class ViewManager extends DockPanel {
 							return historyList.get(0);
 						}
 					}
-
+					if (index > historyList.size()) {
+						index = historyList.size() > 1 ? historyList.size() - 1
+								: 1;
+					}
 					history = historyList.get(index - 1);
 					index--;
 				}
@@ -906,7 +914,13 @@ public class ViewManager extends DockPanel {
 						}
 					}
 
-					history = historyList.get(index - 1);
+					if (index > historyList.size()) {
+						history = historyList
+								.get(historyList.size() > 1 ? historyList
+										.size() - 2 : 0);
+						// index = historyList.size() -1;
+					} else
+						history = historyList.get(index - 1);
 					// index--;
 				}
 			}
@@ -1512,8 +1526,13 @@ public class ViewManager extends DockPanel {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Accounter
-								.showError("Could Not Initialize the StringID.....");
+						if (caught instanceof InvocationException) {
+							Accounter
+									.showMessage("Your session expired, Please login again to continue");
+						} else {
+							Accounter
+									.showError("Could Not Initialize the StringID.....");
+						}
 						dialog.removeFromParent();
 						currentrequestedWidget = null;
 					}
@@ -1541,13 +1560,19 @@ public class ViewManager extends DockPanel {
 		AsyncCallback<Boolean> transactionCallBack = new AsyncCallback<Boolean>() {
 
 			public void onFailure(Throwable caught) {
-
-				if (!GWT.isScript()) {
-					InvalidOperationException exception = new InvalidOperationException();
-					exception
-							.setStatus(InvalidOperationException.UPDATE_FAILED);
-					exception.setStringID(currentrequestedWidget.getStringID());
-					FinanceApplication.getCompany().processCommand(exception);
+				if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage("Your session expired, Please login again to continue");
+				} else {
+					if (!GWT.isScript()) {
+						InvalidOperationException exception = new InvalidOperationException();
+						exception
+								.setStatus(InvalidOperationException.UPDATE_FAILED);
+						exception.setStringID(currentrequestedWidget
+								.getStringID());
+						FinanceApplication.getCompany().processCommand(
+								exception);
+					}
 				}
 			}
 
@@ -1746,13 +1771,19 @@ public class ViewManager extends DockPanel {
 		AsyncCallback<Boolean> transactionCallBack = new AsyncCallback<Boolean>() {
 
 			public void onFailure(Throwable caught) {
-
-				if (!GWT.isScript()) {
-					InvalidOperationException exception = new InvalidOperationException();
-					exception
-							.setStatus(InvalidOperationException.DELETE_FAILED);
-					exception.setStringID(currentrequestedWidget.getStringID());
-					FinanceApplication.getCompany().processCommand(exception);
+				if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage("Your session expired, Please login again to continue");
+				} else {
+					if (!GWT.isScript()) {
+						InvalidOperationException exception = new InvalidOperationException();
+						exception
+								.setStatus(InvalidOperationException.DELETE_FAILED);
+						exception.setStringID(currentrequestedWidget
+								.getStringID());
+						FinanceApplication.getCompany().processCommand(
+								exception);
+					}
 				}
 			}
 
