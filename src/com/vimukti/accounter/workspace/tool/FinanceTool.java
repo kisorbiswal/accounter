@@ -11896,8 +11896,8 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<BillsList> getEmployeeExpensesByStatus(String employeeName, int status)
-			throws DAOException {
+	public List<BillsList> getEmployeeExpensesByStatus(String employeeName,
+			int status) throws DAOException {
 
 		List<BillsList> billsList = new ArrayList<BillsList>();
 		Session session = HibernateUtil.getCurrentSession();
@@ -11915,7 +11915,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 							"from com.vimukti.accounter.core.CashPurchase cp where cp.expenseStatus=:expenseStatus and cp.type=:type and cp.isVoid=false")
 					.setParameter("expenseStatus", status).setParameter("type",
 							Transaction.TYPE_EMPLOYEE_EXPENSE);
-		
+
 		List<CashPurchase> cashpurchase = query.list();
 		for (CashPurchase cp : cashpurchase) {
 			BillsList bills = new BillsList();
@@ -11974,6 +11974,17 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 			e.printStackTrace();
 		}
 		return true;
+	}
+
+	public List<ClientUser> getAllUsers() {
+		Session session = HibernateUtil.getCurrentSession();
+		List<User> financeUsers = session.getNamedQuery("list.User").list();
+		List<ClientUser> clientUsers = new ArrayList<ClientUser>();
+		for (User user : financeUsers) {
+			clientUsers.add(new ClientConvertUtil().toClientObject(user,
+					ClientUser.class));
+		}
+		return clientUsers;
 	}
 }
 
