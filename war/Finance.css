@@ -616,7 +616,8 @@ td.gridDecimalCell {
 }
 
 .dropdownTable {
-	overflow-x: hidden;
+	/*overflow-x: hidden;*/
+	  overflow:auto;
 }
 
 .dropdownFlex td {
@@ -2040,7 +2041,7 @@ input[type="text"],textarea {
 }
 .feedback-name a{
    text-decoration: none;
-   color:#a53b01;
+   color:#a53b01 !important;
    font-style:italic;
 }
 .feedback-name a:hover{
