@@ -1308,16 +1308,17 @@ public class Utility implements IsSerializable, Serializable {
 					((ClientVendor) iAccounterCore).setAccountNumber(String
 							.valueOf(0));
 				}
-				if (Integer.parseInt(((ClientVendor) iAccounterCore)
-						.getAccountNumber()) < 1) {
-					throw new InvalidEntryException(
-							"A Supplier Account Number shouble be positive");
-				}
 				if (checkIfNotNumber(((ClientVendor) iAccounterCore)
 						.getAccountNumber())) {
 					throw new InvalidEntryException(
 							"A Supplier Account Number shouble be a number");
 				}
+				if (Integer.parseInt(((ClientVendor) iAccounterCore)
+						.getAccountNumber()) < 1) {
+					throw new InvalidEntryException(
+							"A Supplier Account Number shouble be positive");
+				}
+				
 			}
 		} catch (InvalidEntryException e) {
 			return true;
