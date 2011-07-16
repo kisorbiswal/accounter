@@ -201,14 +201,14 @@ public class InvoiceBrandingView<T> extends
 
 		double bottomMargin;
 		if (theme.getBottomMargin() != 0) {
-			bottomMargin = theme.getTopMargin();
+			bottomMargin = theme.getBottomMargin();
 		} else {
 			bottomMargin = 0.0;
 		}
 
 		double addressPadding;
 		if (theme.getAddressPadding() != 0) {
-			addressPadding = theme.getTopMargin();
+			addressPadding = theme.getAddressPadding();
 		} else {
 			addressPadding = 0.0;
 		}
