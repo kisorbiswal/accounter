@@ -141,6 +141,8 @@ public abstract class GroupDialog<T> extends BaseDialog {
 			}
 
 			public boolean onOkClick() {
+				
+				ViewManager.getInstance().setCurrentDialog(null);  //after clicked ok button anywhere ,save and close button not working properly_suresh
 				HistoryTokenUtils.setPresentToken(MainFinanceWindow
 						.getViewManager().getCurrentView().getAction(),
 						MainFinanceWindow.getViewManager().getCurrentView()
