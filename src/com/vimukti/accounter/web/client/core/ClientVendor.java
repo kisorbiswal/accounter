@@ -6,7 +6,7 @@ import java.util.Set;
 @SuppressWarnings("serial")
 public class ClientVendor extends ClientPayee {
 
-	String accountNumber;
+	String accountno;
 
 	String selectedAdress;
 
@@ -23,7 +23,9 @@ public class ClientVendor extends ClientPayee {
 	String vendorGroup;
 
 	String federalTaxId;
-
+	
+	//there  three bank details for  newsupplier details 
+	
 	// Balance due fields
 
 	double current;
@@ -49,7 +51,7 @@ public class ClientVendor extends ClientPayee {
 	 * @return the accountNumber
 	 */
 	public String getAccountNumber() {
-		return accountNumber;
+		return accountno;
 	}
 
 	/**
@@ -57,7 +59,15 @@ public class ClientVendor extends ClientPayee {
 	 *            the accountNumber to set
 	 */
 	public void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
+		this.accountno = accountNumber;
+	}
+
+	public String getBankBranch() {
+		return bankBranch;
+	}
+
+	public void setBankBranch(String bankBranch) {
+		this.bankBranch = bankBranch;
 	}
 
 	/**
