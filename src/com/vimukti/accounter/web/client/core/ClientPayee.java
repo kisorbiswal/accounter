@@ -30,7 +30,11 @@ public abstract class ClientPayee implements IAccounterCore {
 
 	long date;
 
-	double balance;
+	double balance; 
+	
+	String bankAccountNo;
+	String bankName;
+	String bankBranch;
 
 	Set<ClientAddress> address = new HashSet<ClientAddress>();
 	Set<ClientPhone> phoneNumbers = new HashSet<ClientPhone>();
@@ -323,5 +327,27 @@ public abstract class ClientPayee implements IAccounterCore {
 	public String getEmail() {
 		return email;
 	}
+	public String getBankAccountNo() {
+		return bankAccountNo;
+	}
 
+	public void setBankAccountNo(String bankAccountNo) {
+		this.bankAccountNo = bankAccountNo;
+	}
+
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	public String getBankBranch() {
+		return bankBranch;
+	}
+
+	public void setBankBranch(String bankBranch) {
+		this.bankBranch = bankBranch;
+	}
 }
