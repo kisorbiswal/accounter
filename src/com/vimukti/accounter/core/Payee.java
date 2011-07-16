@@ -73,6 +73,10 @@ public abstract class Payee implements IAccounterServerCore, ICreatableObject {
 	TAXCode TAXCode;
 	private String email;
 	boolean isDefault;
+	
+	String bankAccountNo;
+	String bankName;
+	String bankBranch;
 
 	public transient boolean isOnSaveProccessed;
 
@@ -478,6 +482,30 @@ public abstract class Payee implements IAccounterServerCore, ICreatableObject {
 
 	public String getEmail() {
 		return email;
+	}
+
+	public String getBankAccountNo() {
+		return bankAccountNo;
+	}
+
+	public void setBankAccountNo(String bankAccountNo) {
+		this.bankAccountNo = bankAccountNo;
+	}
+
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	public String getBankBranch() {
+		return bankBranch;
+	}
+
+	public void setBankBranch(String bankBranch) {
+		this.bankBranch = bankBranch;
 	}
 
 }
