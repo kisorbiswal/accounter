@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditRating;
@@ -43,6 +44,8 @@ import com.vimukti.accounter.web.client.ui.FinanceApplication;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.BankAccountCombo;
+import com.vimukti.accounter.web.client.ui.combo.BankNameCombo;
 import com.vimukti.accounter.web.client.ui.combo.CreditRatingCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomerGroupCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -95,6 +98,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	PriceLevelCombo priceLevelSelect;
 	CreditRatingCombo creditRatingSelect;
+	
+	TextItem bankAccountSelect;
+	TextItem bankNameSelect;
+	TextItem bankBranchSelect;
+	
 	ShippingMethodsCombo shipMethSelect;
 	PaymentTermsCombo payTermsSelect;
 	CustomerGroupCombo custGroupSelect;
@@ -472,6 +480,16 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		// Setting Active
 		customer.setActive((Boolean) statusCheck.getValue());
+        
+		//Setting accout number 
+		customer.setBankAccountNo(bankAccountSelect.getValue().toString());
+		
+		//Setting Bank name
+		customer.setBankName(bankNameSelect.getValue().toString());
+		
+		//Setting Branch name
+		customer.setBankBranch(bankBranchSelect.getValue().toString());
+
 
 		// Setting customer Since
 		if (customerSinceDate != null
@@ -770,6 +788,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			emailForm.setWidth("100%");
 			// Setting Status Check
 			statusCheck.setValue(takenCustomer.isActive());
+			
+			
 
 			// Setting Customer Since
 			customerSinceDate.setEnteredDate(new ClientFinanceDate(
@@ -934,12 +954,19 @@ public class CustomerView extends BaseView<ClientCustomer> {
 					}
 
 				});
-
+		bankAccountSelect =new  TextItem(customerConstants.bankAccountNo());
+		bankAccountSelect.setHelpInformation(true);
+		bankNameSelect =new  TextItem(customerConstants.bankName());
+		bankNameSelect.setHelpInformation(true);
+		bankBranchSelect =new  TextItem(customerConstants.bankBranch());
+		bankBranchSelect.setHelpInformation(true);
+		
+		
 		DynamicForm financeDitailsForm = UIUtils.form(customerConstants
 				.financialDetails());
 
 		financeDitailsForm.setFields(salesPersonSelect, priceLevelSelect,
-				creditRatingSelect);
+				creditRatingSelect,bankNameSelect,bankAccountSelect,bankBranchSelect);
 		financeDitailsForm.setWidth("100%");
 
 		shipMethSelect = new ShippingMethodsCombo(customerConstants
@@ -1064,6 +1091,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			// Setting salesPerson
 			selectSalesPersonFromDetailsTab = FinanceApplication.getCompany()
 					.getSalesPerson(takenCustomer.getSalesPerson());
+			
+			bankAccountSelect.setValue(takenCustomer.getBankAccountNo());
+			bankNameSelect.setValue(takenCustomer.getBankName());
+			bankBranchSelect.setValue(takenCustomer.getBankBranch());
+			
 			// Setting Credit Limit Text
 			if (!DecimalUtil.isEquals(takenCustomer.getCreditLimit(), 0))
 				creditLimitText.setAmount(takenCustomer.getCreditLimit());
