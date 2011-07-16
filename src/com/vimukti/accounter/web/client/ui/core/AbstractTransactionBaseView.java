@@ -399,7 +399,21 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		netAmountLabel.setDefaultValue("£0.00");
 		return netAmountLabel;
 	}
+	protected AmountLabel createTransactionTotalNonEditableLabelforPurchase() {
 
+		AmountLabel amountLabel = new AmountLabel(FinanceApplication
+				.getCustomersMessages().total());
+
+		return amountLabel;
+
+	}
+	
+	protected AmountLabel createVATTotalNonEditableLabelforPurchase() {
+		AmountLabel amountLabel = new AmountLabel(FinanceApplication
+				.getCustomersMessages().vat());
+
+		return amountLabel;
+	}
 	protected TextAreaItem createMemoTextAreaItem() {
 
 		TextAreaItem memoArea = new TextAreaItem();
