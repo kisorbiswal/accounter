@@ -46,6 +46,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -78,6 +79,7 @@ public class PurchaseOrderView extends
 	private long despatchDate;
 	@SuppressWarnings("unused")
 	private long deliveryDate;
+	DynamicForm amountsForm;
 
 	private ArrayList<DynamicForm> listforms;
 	private TextItem purchaseOrderText;
@@ -94,7 +96,7 @@ public class PurchaseOrderView extends
 		super(ClientTransaction.TYPE_PURCHASE_ORDER, VENDOR_TRANSACTION_GRID);
 		validationCount = 5;
 	}
-
+	
 	@Override
 	protected void createControls() {
 		// setTitle(UIUtils.title(FinanceApplication.getVendorsMessages()
@@ -149,9 +151,64 @@ public class PurchaseOrderView extends
 		labeldateNoLayout.setWidth("100%");
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
+		final TextItem disabletextbox = new TextItem();
+		disabletextbox.setVisible(false);
+		amountsForm = new DynamicForm();
+		amountsForm.setWidth("100%");
+		
+		netAmount = createNetAmountLabel();
+
+		transactionTotalNonEditableText = createTransactionTotalNonEditableLabelforPurchase();
+
+		vatTotalNonEditableText = createVATTotalNonEditableLabelforPurchase();
 
 		// vendorCombo = createVendorComboItem(vendorConstants.vendorName());
+		
+	 
+		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
+		prodAndServiceHLay.setWidth("100%");
+		prodAndServiceHLay.add(amountsForm);
+		prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
+				ALIGN_RIGHT);
 
+	
+		
+		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+
+			DynamicForm priceLevelForm = new DynamicForm();
+			// priceLevelForm.setCellSpacing(4);
+			//priceLevelForm.setWidth("70%");
+			//priceLevelForm.setFields(priceLevelSelect);
+			amountsForm.setFields(netAmount, vatTotalNonEditableText,
+					transactionTotalNonEditableText);
+			amountsForm.setStyleName("invoice-total");
+			// forms.add(priceLevelForm);
+			forms.add(amountsForm);
+			// prodAndServiceHLay.add(priceLevelForm);
+			// prodAndServiceHLay.setCellHorizontalAlignment(priceLevelForm,
+			// ALIGN_RIGHT);
+			// prodAndServiceHLay.add(amountsForm);
+			// prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
+			// ALIGN_RIGHT);
+			// listforms.add(priceLevelForm);
+
+		} else {
+
+			// prodAndServiceForm2.setFields(salesTaxTextNonEditable,
+			// transactionTotalNonEditableText, paymentsNonEditableText,
+			// balanceDueNonEditableText, taxCodeSelect, priceLevelSelect);
+			amountsForm.setNumCols(4);
+			amountsForm.addStyleName("tax-form");
+			amountsForm.setFields(taxCodeSelect, salesTaxTextNonEditable,
+					disabletextbox, transactionTotalNonEditableText,
+					disabletextbox, paymentsNonEditableText, disabletextbox,
+					balanceDueNonEditableText);
+
+			prodAndServiceHLay.add(amountsForm);
+			prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
+					ALIGN_RIGHT);
+		}
+		
 		vendorCombo = new VendorCombo(UIUtils.getVendorString(
 				FinanceApplication.getVendorsMessages().supplieR(),
 				FinanceApplication.getVendorsMessages().vendoR()), true);
@@ -357,21 +414,23 @@ public class PurchaseOrderView extends
 		topHLay.setCellWidth(leftVLay, "52%");
 		topHLay.setCellWidth(rightVLay, "47%");
 		// topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
-
-		HorizontalPanel panel = new HorizontalPanel();
+		
+		VerticalPanel panel = new VerticalPanel();
 		panel.add(createAddNewButton());
+		panel.add(amountsForm);
 
 		panel.setHorizontalAlignment(ALIGN_RIGHT);
 		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
-		VerticalPanel bottomLayout = new VerticalPanel();
+		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
 		bottomLayout.setHorizontalAlignment(ALIGN_RIGHT);
-		bottomLayout.add(panel);
+		
 
 		menuButton.setType(AccounterButton.ADD_BUTTON);
 
 		bottomLayout.add(memoForm);
+		bottomLayout.add(panel);
 		bottomLayout.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
 		// bottomLayout.add(linkspanel);
 
@@ -773,7 +832,15 @@ public class PurchaseOrderView extends
 
 	@Override
 	public void updateNonEditableItems() {
-		// TODO Auto-generated method stub
+		transactionTotalNonEditableText.setAmount(vendorTransactionGrid
+				.getTotal());
+		netAmount.setAmount(vendorTransactionGrid.getGrandTotal());
+		//vatTotalNonEditableText.setValue(vendorTransactionGrid.getVatTotal());
+		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			vatTotalNonEditableText.setAmount(vendorTransactionGrid.getTotal()
+					- vendorTransactionGrid.getGrandTotal());
+		}
+	
 
 	}
 
@@ -835,6 +902,14 @@ public class PurchaseOrderView extends
 			} else {
 				createObject((ClientPurchaseOrder) transactionObject);
 			}
+			
+			if (accountType == ClientCompany.ACCOUNTING_TYPE_US || accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+				netAmount.setAmount(purchaseOrder.getNetAmount());
+				vatTotalNonEditableText.setAmount(purchaseOrder.getTotal()
+						- purchaseOrder.getNetAmount());
+				transactionTotalNonEditableText.setAmount(purchaseOrder.getTotal());
+			} 
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1003,6 +1078,7 @@ public class PurchaseOrderView extends
 		case AccounterCommand.UPDATION_SUCCESS:
 			break;
 		}
+		
 	}
 
 	public boolean validate() throws Exception {
