@@ -184,7 +184,7 @@ public class PurchaseByVendorDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getVendorString("Supplier", "Vendor"), "Date",
+		return new String[] { getVendorString("Supplier", "Supplier Name"), "Date",
 				"Type", "No.", "Amount" };
 	}
 
