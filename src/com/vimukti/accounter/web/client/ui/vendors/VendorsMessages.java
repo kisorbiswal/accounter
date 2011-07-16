@@ -28,6 +28,10 @@ public interface VendorsMessages extends FinanceMessages {
 	String vendorSince();
 
 	String accountno();
+	
+	String bankname();
+	
+	String bankBranch();
 
 	String balance();
 
