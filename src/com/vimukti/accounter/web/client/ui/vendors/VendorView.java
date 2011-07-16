@@ -79,7 +79,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	DynamicForm vendorForm, accInfoForm;
 
-	TextItem vendorNameText, fileAsText, accountText, webText, linksText,
+	TextItem vendorNameText, fileAsText, accountText,bankNameText,bankBranchText, webText, linksText,
 			expenseAccountsText, federalText;
 	TextAreaItem memoArea;
 	DateField balanceDate, vendorSinceDate;
@@ -95,7 +95,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	SelectCombo preferredPaymentSelect;
 	CheckboxItem euVATexempVendor;
 	TabPanel tabSet;
-
+	
 	LinkedHashMap<String, ClientAddress> allAddresses;
 	LinkedHashMap<String, ClientPhone> allPhones;
 	LinkedHashMap<String, ClientFax> allFaxes;
@@ -194,16 +194,16 @@ public class VendorView extends BaseView<ClientVendor> {
 			try {
 				ClientVendor vendor = getVendorObject();
 				if (takenVendor == null) {
-					if (!vendor.getAccountNumber().equals("")
-							&& !vendor.getAccountNumber().equals(null)) {
-						if (Utility.isNumberCorrect(vendor)) {
-							if (tabSet.getTabBar().isTabEnabled(1)) {
-								tabSet.selectTab(0);
-								throw new InvalidEntryException(
-										AccounterErrorType.INVALIDACCOUNTNUMBER);
-							}
-						}
-					}
+//					if (!vendor.getAccountNumber().equals("")
+//							&& !vendor.getAccountNumber().equals(null)) {
+//						if (Utility.isNumberCorrect(vendor)) {
+//							if (tabSet.getTabBar().isTabEnabled(1)) {
+//								tabSet.selectTab(0);
+//								throw new InvalidEntryException(
+//										AccounterErrorType.INVALIDACCOUNTNUMBER);
+//							}
+//						}
+//					}
 					if (Utility
 							.isObjectExist(FinanceApplication.getCompany()
 									.getVendors(), vendorNameText.getValue()
@@ -325,8 +325,6 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorSinceDate.setHelpInformation(true);
 		vendorSinceDate.setEnteredDate(new ClientFinanceDate());
 
-		accountText = new TextItem(vendorConstants.accountno());
-		accountText.setHelpInformation(true);
 		balanceText = new AmountField(vendorConstants.balance());
 		balanceText.setHelpInformation(true);
 		balanceDate = new DateField(vendorConstants.balanceasof());
@@ -351,7 +349,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		});
 
 		accInfoForm.setStyleName("vender-form");
-		accInfoForm.setFields(statusCheck, accountText, vendorSinceDate,
+		accInfoForm.setFields(statusCheck, vendorSinceDate,
 				balanceText, balanceDate);
 
 		Label l1 = new Label(FinanceApplication.getVendorsMessages().contacts());
@@ -430,7 +428,7 @@ public class VendorView extends BaseView<ClientVendor> {
 					.getPayeeSince()));
 
 			// Setting Account No
-			accountText.setValue(takenVendor.getAccountNumber());
+			//accountText.setValue(takenVendor.getBankAccountNo());
 			// Setting Balance
 			if (!DecimalUtil.isEquals(takenVendor.getBalance(), 0)) {
 				balanceText.setAmount(takenVendor.getBalance());
@@ -449,7 +447,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 			// Setting Memo
 			memoArea.setValue(takenVendor.getMemo());
-
+		
 		} else { // For Creating Vendor
 			addrsForm = new AddressForm(null);
 			addrsForm.setWidth("100%");
@@ -599,6 +597,14 @@ public class VendorView extends BaseView<ClientVendor> {
 						selectPaymentTermFromDetailsTab = selectItem;
 					}
 				});
+		accountText = new TextItem(vendorConstants.accountno());
+		accountText.setHelpInformation(true);
+		
+      bankNameText = new TextItem(vendorConstants.bankname());
+      bankNameText.setHelpInformation(true);
+       bankBranchText =new TextItem(vendorConstants.bankBranch());
+       bankBranchText.setHelpInformation(true);
+       
 
 		DynamicForm financeDetailsForm = new DynamicForm();
 		financeDetailsForm.setIsGroup(true);
@@ -607,7 +613,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		financeDetailsForm
 				.setFields(expenseAccountsSelect, creditLimitText,
 						preferredShippingSelect, preferredPaymentSelect,
-						payTermsSelect);
+						payTermsSelect ,accountText , bankNameText ,bankBranchText);
 
 		vendorGroupSelect = new VendorGroupCombo(UIUtils.getVendorString(
 				FinanceApplication.getVendorsMessages().supplierGroup(),
@@ -717,6 +723,12 @@ public class VendorView extends BaseView<ClientVendor> {
 			// Setting Account
 			selectAccountFromDetailsTab = FinanceApplication.getCompany()
 					.getAccount(takenVendor.getExpenseAccount());
+			
+			 accountText.setValue(takenVendor.getBankAccountNo().toString());
+			 bankNameText.setValue(takenVendor.getBankName().toString());
+			 bankBranchText.setValue(takenVendor.getBankBranch().toString());
+			 
+			
 			// Setting Credit Limit Text
 			if (!DecimalUtil.isEquals(takenVendor.getCreditLimit(), 0))
 				creditLimitText.setAmount(takenVendor.getCreditLimit());
@@ -902,8 +914,6 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting Vendor Since
 		vendor.setPayeeSince(vendorSinceDate.getEnteredDate().getTime());
 
-		// Setting Account Number
-		vendor.setAccountNumber(accountText.getValue().toString());
 
 		// Setting Balance
 		if (takenVendor == null) {
@@ -979,6 +989,11 @@ public class VendorView extends BaseView<ClientVendor> {
 			if (federalText.getValue() != null) {
 				vendor.setFederalTaxId(federalText.getValue().toString());
 			}
+		
+		// Setting Account Number
+		vendor.setBankAccountNo(accountText.getValue().toString());
+		vendor.setBankName(bankNameText.getValue().toString());
+		vendor.setBankBranch(bankBranchText.getValue().toString());
 
 		// Setting Account Payable
 		vendor.setAccountsPayable(FinanceApplication.getCompany()
