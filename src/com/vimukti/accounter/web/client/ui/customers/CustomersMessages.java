@@ -4,7 +4,10 @@ import com.vimukti.accounter.web.client.externalization.FinanceMessages;
 
 public interface CustomersMessages extends FinanceMessages {
 	public String customer();
-
+ 
+	public String bankAccountNo();
+	public String bankName();
+	public String bankBranch();
 	public String billingAddress();
 
 	public String shippingAddress();
