@@ -211,7 +211,7 @@ public class SalesOrderView extends
 		custForm.setFields(customerCombo, quoteLabel, contactCombo, emptylabel,
 				phoneSelect, emptylabel, billToTextArea, emptylabel);
 		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
-		custForm.getCellFormatter().setWidth(0, 1, "185px");
+		custForm.getCellFormatter().setWidth(0, 1, "180px");
 		custForm.getCellFormatter().setWidth(0, 0, "225px");
 		forms.add(custForm);
 
