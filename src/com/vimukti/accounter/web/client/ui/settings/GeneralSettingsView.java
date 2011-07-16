@@ -153,9 +153,11 @@ public class GeneralSettingsView extends AbstractBaseView {
 						.getInvoiceBrandingAction(), null);
 				SettingsActionFactory.getInvoiceBrandingAction().run(null,
 						false);
+				invoiceBrandingHTML.getElement().getStyle().setTextDecoration(TextDecoration.NONE);
+				
 			}
 		});
-
+		
 		invoiceBrandingHTML.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
@@ -196,6 +198,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 				HistoryTokenUtils.setPresentToken(SettingsActionFactory
 						.getUsersAction(), null);
 				SettingsActionFactory.getUsersAction().run(null, false);
+				userHtml.getElement().getStyle().setTextDecoration(TextDecoration.NONE);
 			}
 		});
 		userHtml.addMouseOverHandler(new MouseOverHandler() {
@@ -235,6 +238,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				CompanyActionFactory.getPreferencesAction().run(null, false);
+				companySettingsHtml.getElement().getStyle().setTextDecoration(TextDecoration.NONE);
 
 			}
 		});
