@@ -93,7 +93,7 @@ public interface AccounterErrorType {
 	public static final String INVALIDACCOUNTNUMBER = UIUtils.getVendorString(
 			"supplier", "vendor")
 			+ " Account Number is Invalid. Please enter valid Account Number";
-	public static final String SALESORDERNUMBERPOSITIVE = "A Sales Order Number shouble be positive";
-	public static final String SALESORDERNUMBER = "A Sales Order Number shouble be a number";
+	public static final String SALESORDERNUMBERPOSITIVE = "A Sales Order Number should  be positive";
+	public static final String SALESORDERNUMBER = "A Sales Order Number should be a number";
 
 }
