@@ -8,7 +8,7 @@ import java.util.Map;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import com.bizantra.server.storage.HibernateUtil;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 public class Util {

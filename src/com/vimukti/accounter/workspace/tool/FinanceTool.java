@@ -37,23 +37,13 @@ import org.hibernate.classic.Lifecycle;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import com.bizantra.server.core.IMember;
-import com.bizantra.server.core.IObjectPath;
-import com.bizantra.server.ext.AbstractSpaceObject;
 import com.bizantra.server.ext.Command;
 import com.bizantra.server.internal.core.BizantraCompany;
-import com.bizantra.server.internal.core.CollaberIdentity;
 import com.bizantra.server.main.Server;
 import com.bizantra.server.storage.HibernateUtil;
-import com.bizantra.server.users.events.IntializeIdentityEvent;
 import com.bizantra.server.utils.HexUtil;
 import com.bizantra.server.utils.SecureUtils;
 import com.bizantra.server.utils.Security;
-import com.bizantra.server.workspace.IToolMetaData;
-import com.bizantra.server.workspace.IWorkSpace;
-import com.bizantra.server.workspace.ext.AbstractTool;
-import com.bizantra.server.workspace.internal.WorkSpace;
-import com.bizantra.server.workspace.users.internal.UsersMailSendar;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterConstants;
 import com.vimukti.accounter.core.Address;
@@ -128,6 +118,7 @@ import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.services.IFinanceDAOService;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -191,7 +182,6 @@ import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.data.BizantraConstants;
-import com.vimukti.accounter.web.client.data.ISearchResultObject;
 import com.vimukti.accounter.web.client.ui.GraphChart;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.CompanyPreferencesView;
@@ -204,11 +194,9 @@ import com.vimukti.comet.server.CometStream;
  * @author Fernandez
  * 
  */
-public class FinanceTool extends AbstractTool implements IFinanceTool {
+public class FinanceTool  implements IFinanceDAOService {
 
 	Company company;
-
-	public static CollaberIdentity identity;
 
 	public static User user;
 
@@ -283,81 +271,6 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		this.company
 				.setTradingName(getSpace().getIdentity().getCompanyDBName());
 
-	}
-
-	// public static Company getThreadLocalCompany() {
-	// return threadLocalCompany.get();
-	// }
-
-	@Override
-	protected void fillCommandData(Command command, AbstractSpaceObject sender) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public ISearchResultObject getSearchableObject(IObjectPath path) {
-		// TODO
-		return null;
-	}
-
-	@Override
-	public boolean getCommandData(Command cmd) {
-
-		String stringID = cmd.arg1;
-
-		String clientClassName = cmd.arg2;
-
-		if (cmd.command == DELETE_ACTION || clientClassName == null) {
-			return false;
-		}
-
-		try {
-			Class<?> clientClass = null;
-
-			try {
-				clientClass = Class
-						.forName("com.vimukti.accounter.web.client.core."
-								+ clientClassName);
-			} catch (Exception e) {
-				clientClass = null;
-			}
-
-			Class<?> serverClass = null;
-
-			if (clientClass != null) {
-				serverClass = Util.getServerEqivalentClass(clientClass);
-			} else {
-				serverClass = Class.forName("com.vimukti.accounter.core."
-						+ clientClassName);
-			}
-			if (serverClass == null)
-				return false;
-
-			Session session = HibernateUtil.getCurrentSession();
-
-			String query = "from " + serverClass.getName()
-					+ " a where a.stringID =:stringId";
-
-			Query hibernateQuery = session.createQuery(query).setParameter(
-					"stringId", stringID);
-
-			List objects = hibernateQuery.list();
-
-			if (objects != null && objects.get(0) != null) {
-
-				cmd.data = (Serializable) new ClientConvertUtil()
-						.toClientObject(objects.get(0), Util
-								.getClientEqualentClass(serverClass));
-
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-
-		return false;
 	}
 
 	@Override
@@ -674,13 +587,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 		identity.getSpaces().add((WorkSpace) myIdentity.getFinanceWorkspace());
 
-		((WorkSpace) myIdentity.getSalesWorkspace()).createMember(identity);
-		session.saveOrUpdate(myIdentity.getSalesWorkspace());
-		identity.getSpaces().add(myIdentity.getSalesWorkspace());
 
-		((WorkSpace) myIdentity.getPurchasesWorkspace()).createMember(identity);
-		session.saveOrUpdate(myIdentity.getPurchasesWorkspace());
-		identity.getSpaces().add(myIdentity.getPurchasesWorkspace());
 		// identity.getSpaces().add(myIdentity.getBizantraWorkSpace());
 		// identity.getSpaces().add((WorkSpace)
 		// myIdentity.getFinanceWorkspace());
@@ -695,78 +602,12 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		Server.getInstance()
 				.process(getIdentityMember().getID(), identityEvent);
 
-		// StringBuilder loginURL = new StringBuilder();
-		// if (ServerConfiguration.isLiveServer) {
-		// loginURL.append("https://");
-		// loginURL.append(getCompany().getName());
-		// loginURL.append(".");
-		// loginURL.append(ServerConfiguration.getLink());
-		// } else {
-		// loginURL.append("https://");
-		// loginURL.append(ServerConfiguration.getServerURL());
-		// }
-
 		UsersMailSendar.sendMailToInvitedUser(identity, passwd, identity
 				.getCompanyDBName());
 
 	}
 
-	public void updateIdentity(User user, String modifiedBy) {
-		Session session = HibernateUtil.getCurrentSession();
-		CollaberIdentity myIdentity = Server.getInstance().loadIdentity(
-				session, modifiedBy);
-		CollaberIdentity identity = (CollaberIdentity) session.getNamedQuery(
-				"getidentity.from.StringID").setParameter("stringID",
-				user.getStringID()).uniqueResult();
-		identity.setRole(user.getUserRole());
-		identity.setEmailID(user.getEmailId());
-		((WorkSpace) myIdentity.getFinanceWorkspace()).updateMember(identity);
-		session.saveOrUpdate((WorkSpace) myIdentity.getFinanceWorkspace());
-		identity.getSpaces().add((WorkSpace) myIdentity.getFinanceWorkspace());
 
-		((WorkSpace) myIdentity.getSalesWorkspace()).updateMember(identity);
-		session.saveOrUpdate(myIdentity.getSalesWorkspace());
-		identity.getSpaces().add(myIdentity.getSalesWorkspace());
-
-		((WorkSpace) myIdentity.getPurchasesWorkspace()).updateMember(identity);
-		session.saveOrUpdate(myIdentity.getPurchasesWorkspace());
-		identity.getSpaces().add(myIdentity.getPurchasesWorkspace());
-
-		session.saveOrUpdate(identity);
-		session.saveOrUpdate(myIdentity);
-	}
-
-	public void deleteIdentity(User user, String deletedBy) {
-		Session session = HibernateUtil.getCurrentSession();
-		CollaberIdentity myIdentity = Server.getInstance().loadIdentity(
-				session, deletedBy);
-		CollaberIdentity identity = (CollaberIdentity) session.getNamedQuery(
-				"getidentity.from.StringID").setParameter("stringID",
-				user.getStringID()).uniqueResult();
-
-		((WorkSpace) myIdentity.getFinanceWorkspace()).deleteMember(identity);
-		session.saveOrUpdate((WorkSpace) myIdentity.getFinanceWorkspace());
-
-		((WorkSpace) myIdentity.getSalesWorkspace()).deleteMember(identity);
-		session.saveOrUpdate(myIdentity.getSalesWorkspace());
-
-		((WorkSpace) myIdentity.getPurchasesWorkspace()).deleteMember(identity);
-		session.saveOrUpdate(myIdentity.getPurchasesWorkspace());
-
-		session.delete(identity);
-	}
-
-	// private Member createMember(CollaberIdentity identity,
-	// IWorkSpace workspace, String systemRole) {
-	// Member member = new Member(identity.getID(), workspace, systemRole);
-	// member.emailID = identity.getEmailAddress();
-	// member.fullname = identity.getFullname();
-	// member.companyDisplayName = identity.getCompanyName();
-	// member.companyName = identity.getCompanyDBName();
-	// Session session = HibernateUtil.getCurrentSession();
-	// session.save(member);
-	// return member;
-	// }
 
 	public static boolean canEdit(IAccounterServerCore clonedObject,
 			IAccounterCore clientObject) throws InvalidOperationException {
@@ -884,27 +725,7 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 		String stringID = String.valueOf(object.getStringID());
 		Command cmd;
-		// if (object instanceof ClientUser)
-		// cmd = new Command(UPDATE_USER, stringID, null);
-		// else
 		cmd = new Command(UPDATE_ACTION, stringID, null);
-		// {
-		//
-		// /**
-		// *
-		// */
-		// private static final long serialVersionUID = 1L;
-		//
-		// @Override
-		// public String toString() {
-		//
-		// log.info("Command : UPDATE_ACTION for Data "
-		// + String.valueOf(data));
-		//
-		// return super.toString();
-		// }
-		//
-		// };
 		cmd.data = object;
 
 		cmd.arg1 = stringID;
@@ -10238,96 +10059,6 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 		return null;
 	}
 
-	public IToolMetaData getMetaData(boolean withData) {
-		FinanceData data = new FinanceData(this, withData);
-		if (withData) {
-			convertUtil = new ClientConvertUtil();
-			/**
-			 * Here the order of preparing the following objects should be in
-			 * the following order only.
-			 */
-			prepareObjects(AccounterCoreType.USER, data);
-			prepareObjects(AccounterCoreType.FISCALYEAR, data);
-			prepareObjects(AccounterCoreType.BANK, data);
-			prepareObjects(AccounterCoreType.CURRENCY, data);
-			prepareObjects(AccounterCoreType.COMMODITYCODE, data);
-			prepareObjects(AccounterCoreType.ACCOUNT, data);
-
-			Company company = Company.getCompany();
-			Hibernate.initialize(company);
-			company = company.toCompany(company);
-			data.objects.add(new ClientConvertUtil().toClientObject(company,
-					ClientCompany.class));
-			prepareObjects(AccounterCoreType.CREDIT_RATING, data);
-			prepareObjects(AccounterCoreType.ITEM_GROUP, data);
-			prepareObjects(AccounterCoreType.CUSTOMER_GROUP, data);
-			prepareObjects(AccounterCoreType.VENDOR_GROUP, data);
-			prepareObjects(AccounterCoreType.SHIPPING_METHOD, data);
-			prepareObjects(AccounterCoreType.SHIPPING_TERM, data);
-			prepareObjects(AccounterCoreType.PAYMENT_TERM, data);
-			prepareObjects(AccounterCoreType.PRICE_LEVEL, data);
-			prepareObjects(AccounterCoreType.UNIT_OF_MEASURE, data);
-			prepareObjects(AccounterCoreType.ITEM, data);
-			prepareObjects(AccounterCoreType.SALES_PERSON, data);
-			prepareObjects(AccounterCoreType.CUSTOMER, data);
-			prepareObjects(AccounterCoreType.VENDOR, data);
-			prepareObjects(AccounterCoreType.TAXAGENCY, data);
-
-			prepareObjects(AccounterCoreType.VATRETURNBOX, data);
-			prepareObjects(AccounterCoreType.TAX_ITEM_GROUP, data);
-			prepareObjects(AccounterCoreType.TAXITEM, data);
-			prepareObjects(AccounterCoreType.TAX_GROUP, data);
-			prepareObjects(AccounterCoreType.TAX_CODE, data);
-
-			prepareObjects(AccounterCoreType.BUDGET, data);
-			prepareObjects(AccounterCoreType.FIXEDASSETHISTORY, data);
-			prepareObjects(AccounterCoreType.FIXEDASSETNOTE, data);
-			prepareObjects(AccounterCoreType.FIXEDASSET, data);
-			prepareObjects(AccounterCoreType.DEPRECIATION, data);
-			prepareObjects(AccounterCoreType.JOURNALENTRY, data);
-			prepareObjects(AccounterCoreType.CREDITS_AND_PAYMENTS, data);
-			prepareObjects(AccounterCoreType.ESTIMATE, data);
-			prepareObjects(AccounterCoreType.SALESORDER, data);
-			prepareObjects(AccounterCoreType.INVOICE, data);
-			prepareObjects(AccounterCoreType.CUSTOMERREFUND, data);
-			prepareObjects(AccounterCoreType.CASHSALES, data);
-			prepareObjects(AccounterCoreType.CUSTOMERCREDITMEMO, data);
-			prepareObjects(AccounterCoreType.RECEIVEPAYMENT, data);
-
-			prepareObjects(AccounterCoreType.PURCHASEORDER, data);
-			prepareObjects(AccounterCoreType.ITEMRECEIPT, data);
-			prepareObjects(AccounterCoreType.ENTERBILL, data);
-			prepareObjects(AccounterCoreType.CASHPURCHASE, data);
-			prepareObjects(AccounterCoreType.VENDORCREDITMEMO, data);
-			prepareObjects(AccounterCoreType.PAYBILL, data);
-
-			prepareObjects(AccounterCoreType.CREDITCARDCHARGE, data);
-			prepareObjects(AccounterCoreType.WRITECHECK, data);
-			prepareObjects(AccounterCoreType.TRANSFERFUND, data);
-			prepareObjects(AccounterCoreType.EXPENSE, data);
-			prepareObjects(AccounterCoreType.PAYEXPENSE, data);
-			prepareObjects(AccounterCoreType.PAYSALESTAX_ENTRIES, data);
-			prepareObjects(AccounterCoreType.PAYSALESTAX, data);
-			prepareObjects(AccounterCoreType.TRANSACTIONMAKEDEPOSITENTRIES,
-					data);
-			prepareObjects(AccounterCoreType.MAKEDEPOSIT, data);
-			prepareObjects(AccounterCoreType.ISSUEPAYMENT, data);
-			prepareObjects(AccounterCoreType.TRANSACTION, data);
-			prepareObjects(AccounterCoreType.VATBOX, data);
-			prepareObjects(AccounterCoreType.VATRETURN, data);
-			prepareObjects(AccounterCoreType.PAYVAT, data);
-
-			prepareObjects(AccounterCoreType.ACCOUNTTRANSACTION, data);
-			prepareObjects(AccounterCoreType.TAXRATECALCULATION, data);
-
-			prepareObjects(AccounterCoreType.TRANSACTION_CREDITS_AND_PAYMENTS,
-					data);
-			prepareObjects(AccounterCoreType.TRANSACTION_RECEIVEPAYMENT, data);
-			prepareObjects(AccounterCoreType.TRANSACTION_PAYBILL, data);
-			prepareObjects(AccounterCoreType.BRANDINGTHEME, data);
-		}
-		return data;
-	}
 
 	@Override
 	public Boolean updateCompanyPreferences(ClientCompanyPreferences preferences)
@@ -10340,21 +10071,6 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 		Command cmd = new Command(UPDATE_PREFERENCES, "", null);
 
-		// /**
-		// *
-		// */
-		// private static final long serialVersionUID = 1L;
-		//
-		// @Override
-		// public String toString() {
-		//
-		// log.info("Command : UPDATE_ACTION for Data "
-		// + String.valueOf(data));
-		//
-		// return super.toString();
-		// }
-		//
-		// };
 
 		cmd.data = preferences;
 
@@ -10391,22 +10107,6 @@ public class FinanceTool extends AbstractTool implements IFinanceTool {
 
 	}
 
-	private <S extends IAccounterServerCore, C extends IAccounterCore> void prepareObjects(
-			AccounterCoreType serverObjectType, FinanceData data) {
-
-		Session session = HibernateUtil.getCurrentSession();
-		String queryString = new StringBuilder().append("from ").append(
-				serverObjectType.getServerClassFullyQualifiedName()).append(
-				" entity order by entity.id").toString();
-		Query query = session.createQuery(queryString);
-		List<S> serverObjectsList = query.list();
-
-		for (S servObj : serverObjectsList) {
-			data.objects.add((IAccounterCore) this.convertUtil.toClientObject(
-					servObj, this.convertUtil.getClientEqualentClass(servObj
-							.getClass())));
-		}
-	}
 
 	public ClientCompany getClientCompany(String identityID) {
 

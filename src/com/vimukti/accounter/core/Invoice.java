@@ -9,7 +9,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
-import com.bizantra.server.storage.HibernateUtil;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;

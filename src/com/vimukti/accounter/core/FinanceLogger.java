@@ -2,7 +2,7 @@ package com.vimukti.accounter.core;
 
 import org.apache.log4j.Logger;
 
-import com.bizantra.server.storage.HibernateUtil;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;

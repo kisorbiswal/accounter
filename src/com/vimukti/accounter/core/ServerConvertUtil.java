@@ -11,8 +11,8 @@ import java.util.Set;
 
 import org.hibernate.Session;
 
-import com.bizantra.server.storage.HibernateUtil;
-import com.bizantra.server.utils.SecureUtils;
+import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 

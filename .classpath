@@ -25,19 +25,20 @@
 	<classpathentry kind="lib" path="libs/commons-logging.jar"/>
 	<classpathentry kind="lib" path="libs/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="libs/h2-1.1.115.jar"/>
-	<classpathentry kind="lib" path="libs/hibernate-util-1.2.3.823.jar"/>
 	<classpathentry kind="lib" path="libs/hibernate3.jar"/>
 	<classpathentry kind="lib" path="libs/jta.jar"/>
 	<classpathentry kind="lib" path="libs/junit-4.4.jar"/>
 	<classpathentry kind="lib" path="libs/junit.jar"/>
 	<classpathentry kind="lib" path="libs/log4j-1.2.11.jar"/>
 	<classpathentry kind="lib" path="libs/mysql-connector-java-5.1.5-bin.jar"/>
-	<classpathentry kind="lib" path="libs/postgresql-8.3-605.jdbc2ee.jar"/>
 	<classpathentry kind="lib" path="libs/servlet-api.jar"/>
 	<classpathentry kind="lib" path="libs/spring-test.jar"/>
 	<classpathentry kind="lib" path="libs/spring.jar"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/gwt-2.1.0"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/BizantraServer"/>
 	<classpathentry kind="lib" path="libs/gwt-visualization.jar"/>
+	<classpathentry kind="lib" path="libs/openid4java.jar"/>
+	<classpathentry kind="lib" path="libs/ss_css2.jar"/>
+	<classpathentry kind="lib" path="libs/jetty-6.1.0.jar"/>
+	<classpathentry kind="lib" path="libs/jetty-util-6.1.0.jar"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

@@ -27,7 +27,7 @@ public class User implements IAccounterServerCore, Lifecycle {
 	String emailId;
 
 	String userRole;
-
+	
 	private boolean isActive;
 
 	private UserPermissions permissions;

@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -490,7 +491,7 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		Session session = com.bizantra.server.storage.HibernateUtil
+		Session session = HibernateUtil
 				.getCurrentSession();
 		Query query = session.getNamedQuery("getBrandingTheme").setParameter(
 				"themeName", this.themeName).setParameter("id", this.id);

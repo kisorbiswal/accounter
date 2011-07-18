@@ -18,7 +18,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.data.InvalidSessionException;
-import com.vimukti.accounter.workspace.tool.IFinanceTool;
+import com.vimukti.accounter.workspace.tool.FinanceTool;
 
 /**
  * 
@@ -53,15 +53,9 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 
 	{
 
-		IFinanceTool tool = getFinanceTool();
+		FinanceTool tool = getFinanceTool();
 
-		try {
-			return tool.createObject(coreObject);
-		} catch (DAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+		return tool.createObject(coreObject);
 	}
 
 	@Override
@@ -69,16 +63,9 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 			throws InvalidOperationException, InvalidSessionException
 
 	{
-		IFinanceTool tool = getFinanceTool();
+		FinanceTool tool = getFinanceTool();
 
-		try {
-			return tool.updateObject(coreObject);
-		} catch (DAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return null;
+		return tool.updateObject(coreObject);
 	}
 
 	@Override
@@ -89,7 +76,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			IFinanceTool tool = getFinanceTool();
+			FinanceTool tool = getFinanceTool();
 
 			return tool.deleteObject(type, stringID);
 
@@ -105,7 +92,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			IFinanceTool tool = getFinanceTool();
+			FinanceTool tool = getFinanceTool();
 
 			return tool.updateCompanyPreferences(preferences);
 
@@ -121,7 +108,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			IFinanceTool tool = getFinanceTool();
+			FinanceTool tool = getFinanceTool();
 
 			return tool.updateCompany(clientCompany);
 

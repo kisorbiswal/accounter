@@ -11,9 +11,9 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
-import com.bizantra.server.storage.HibernateUtil;
-import com.bizantra.server.utils.SecureUtils;
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 
 /**

@@ -2,8 +2,8 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 
-import com.bizantra.server.utils.SecureUtils;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 

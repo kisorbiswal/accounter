@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.KeyFinancialIndicators;
 import com.vimukti.accounter.web.client.data.InvalidSessionException;
 import com.vimukti.accounter.workspace.tool.FinanceTool;
-import com.vimukti.accounter.workspace.tool.IFinanceTool;
+import com.vimukti.accounter.workspace.tool.FinanceTool;
 
 /**
  * @author Fernandez
@@ -38,7 +38,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
 			String stringID) throws InvalidSessionException {
 
-		IFinanceTool tool = getFinanceTool();
+		FinanceTool tool = getFinanceTool();
 
 		try {
 			return tool.getObjectById(type, stringID);
@@ -54,7 +54,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	public <T extends IAccounterCore> T getObjectByName(AccounterCoreType type,
 			String name) throws InvalidSessionException {
 
-		IFinanceTool tool = getFinanceTool();
+		FinanceTool tool = getFinanceTool();
 
 		try {
 			return tool.getObjectByName(type, name);

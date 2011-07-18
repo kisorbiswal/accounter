@@ -3,7 +3,6 @@ package com.vimukti.accounter.core;
 import java.text.SimpleDateFormat;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.data.InvalidSessionException;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingSummaryServerReport;
@@ -49,7 +48,6 @@ import com.vimukti.accounter.web.client.ui.serverreports.VATUncategorisedAmounts
 import com.vimukti.accounter.web.client.ui.serverreports.VendorTransactionHistoryServerReport;
 import com.vimukti.accounter.web.server.AccounterReportServiceImpl;
 import com.vimukti.accounter.workspace.tool.FinanceTool;
-import com.vimukti.accounter.workspace.tool.IFinanceTool;
 
 public class ReportsGenerator {
 
@@ -136,7 +134,7 @@ public class ReportsGenerator {
 
 		AccounterReportServiceImpl reportsSerivce = new AccounterReportServiceImpl() {
 			@Override
-			protected IFinanceTool getFinanceTool()
+			protected FinanceTool getFinanceTool()
 					throws InvalidSessionException {
 				return finaTool;
 			}

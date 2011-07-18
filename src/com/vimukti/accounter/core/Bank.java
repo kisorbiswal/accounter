@@ -5,7 +5,7 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import com.bizantra.server.storage.HibernateUtil;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 
 public class Bank implements IAccounterServerCore {

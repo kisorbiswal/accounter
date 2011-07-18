@@ -2,9 +2,7 @@ package com.vimukti.accounter.core;
 
 import org.hibernate.Session;
 
-import com.bizantra.server.internal.core.BizantraCompany;
-import com.bizantra.server.main.ServerConfiguration;
-import com.bizantra.server.storage.HibernateUtil;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 /**
  * 

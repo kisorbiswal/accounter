@@ -1,0 +1,109 @@
+package com.vimukti.accounter.servlets;
+
+import java.io.IOException;
+import java.util.Date;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.bizantra.server.internal.core.CollaberIdentity;
+import com.bizantra.server.main.LiveServer;
+import com.bizantra.server.storage.HibernateUtil;
+import com.bizantra.server.utils.HexUtil;
+import com.bizantra.server.utils.Security;
+
+public class SubscriptionAuthenticationServlet extends HttpServlet {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String AUTHENTICATION_SUCCEEDED = "101";
+	private String AUTHENTICATION_FAILED = "102";
+	private String COMPANY_EXPIRED = "103";
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+
+		String emailId = null;
+		String password = null;
+		String domainName = null;
+		try {
+			JSONObject jsonObject = new JSONObject(req
+					.getParameter("jsonObject"));
+			emailId = jsonObject.getString("emailId");
+			password = jsonObject.getString("password");
+			domainName = jsonObject.getString("domainName");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession(domainName);
+			CollaberIdentity identity = doLogin(req, resp, emailId, password,
+					domainName, session);
+			if (identity == null) {
+				dispatchView(req, resp, AUTHENTICATION_FAILED);
+			} else if (identity.getClientIdentity().getCompany().deletionDate
+					.before(new Date())) {
+				dispatchView(req, resp, COMPANY_EXPIRED);
+				// TODO Karthik
+			} else {
+				dispatchView(req, resp, AUTHENTICATION_SUCCEEDED + ":"
+						+ identity.getID());
+			}
+		} finally {
+			session.close();
+		}
+	}
+
+	public void dispatchView(HttpServletRequest request,
+			HttpServletResponse response, String view) {
+		try {
+			response.getWriter().write(view);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private CollaberIdentity doLogin(HttpServletRequest request,
+			HttpServletResponse response, String emailId, String password,
+			String domainName, Session session) {
+
+		if (emailId != null && password != null) {
+			password = HexUtil
+					.bytesToHex(Security.makeHash(emailId + password));
+			CollaberIdentity identity = getIdentity(emailId, password,
+					domainName, session);
+			return identity;
+		}
+		return null;
+	}
+
+	private CollaberIdentity getIdentity(String emailId, String password,
+			String domainName, Session session) {
+
+		if (domainName == null) {
+			return null;
+		}
+		if (!LiveServer.getInstance().isCompanyExists(domainName)) {
+			return null;
+		}
+
+		CollaberIdentity identity = null;
+		Query query = session
+				.getNamedQuery("getidentity.from.emailid.and.password");
+		query.setParameter("emailid", emailId);
+		query.setParameter("password", password);
+		identity = (CollaberIdentity) query.uniqueResult();
+		return identity;
+	}
+}

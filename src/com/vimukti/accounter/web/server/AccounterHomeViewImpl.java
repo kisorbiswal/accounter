@@ -81,7 +81,7 @@ import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.data.InvalidSessionException;
 import com.vimukti.accounter.workspace.tool.FinanceTool;
-import com.vimukti.accounter.workspace.tool.IFinanceTool;
+import com.vimukti.accounter.workspace.tool.FinanceTool;
 
 /**
  * @author Fernandez
@@ -1096,7 +1096,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public List<PurchaseOrdersList> getPurchaseOrders()
 			throws InvalidSessionException {
 
-		IFinanceTool tool = getFinanceTool();
+		FinanceTool tool = getFinanceTool();
 
 		try {
 			return tool != null ? tool.getPurchaseOrdersList() : null;
@@ -1111,7 +1111,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public List<SalesOrdersList> getPurchaseOrdersForVendor(String vendorID)
 			throws InvalidSessionException {
 
-		IFinanceTool tool = getFinanceTool();
+		FinanceTool tool = getFinanceTool();
 
 		return tool != null ? tool.getPurchaseOrdersForVendor(vendorID) : null;
 	}
@@ -1120,7 +1120,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public List<SalesOrdersList> getSalesOrders()
 			throws InvalidSessionException {
 
-		IFinanceTool tool = getFinanceTool();
+		FinanceTool tool = getFinanceTool();
 
 		try {
 			return tool != null ? tool.getSalesOrdersList() : null;
@@ -1135,7 +1135,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public List<SalesOrdersList> getSalesOrdersForCustomer(String customerID)
 			throws InvalidSessionException {
 
-		IFinanceTool tool = getFinanceTool();
+		FinanceTool tool = getFinanceTool();
 
 		return tool != null ? tool.getSalesOrdersForCustomer(customerID) : null;
 
@@ -1145,7 +1145,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public List<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
 			String vendorID) throws InvalidSessionException {
 
-		IFinanceTool tool = getFinanceTool();
+		FinanceTool tool = getFinanceTool();
 
 		try {
 			return tool != null ? tool
@@ -1166,7 +1166,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public List<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
 			String vendorId) throws InvalidSessionException {
 		try {
-			IFinanceTool tool = getFinanceTool();
+			FinanceTool tool = getFinanceTool();
 			return tool != null ? tool
 					.getPurchasesAndItemReceiptsList(vendorId) : null;
 		} catch (DAOException e) {
@@ -1181,7 +1181,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			String customerId) throws InvalidSessionException {
 
 		try {
-			IFinanceTool tool = getFinanceTool();
+			FinanceTool tool = getFinanceTool();
 			return tool != null ? tool
 					.getEstimatesAndSalesOrdersList(customerId) : null;
 		} catch (DAOException e) {
@@ -1196,7 +1196,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	// public List<ClientDepreciationFixedAsset> getDepreciationFixedAssets(
 	// Date startDate, Date toDate) {
 	// try {
-	// IFinanceTool tool = getFinanceTool();
+	// FinanceTool tool = getFinanceTool();
 	// return tool != null ? tool.getDepreciationFixedAssets(startDate,
 	// toDate) : null;
 	// } catch (DAOException e) {
@@ -1212,7 +1212,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			InvalidSessionException {
 
 		try {
-			IFinanceTool tool = getFinanceTool();
+			FinanceTool tool = getFinanceTool();
 
 			TAXAgency serverVatAgency = new ServerConvertUtil().toServerObject(
 					new TAXAgency(), taxAgency, getSession());
@@ -1244,7 +1244,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			long depreciationFrom, long depreciationTo)
 			throws InvalidSessionException {
 		try {
-			IFinanceTool tool = getFinanceTool();
+			FinanceTool tool = getFinanceTool();
 			return tool != null ? tool.getDepreciableFixedAssets(
 					depreciationFrom, depreciationTo) : null;
 		} catch (DAOException e) {
@@ -1257,7 +1257,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public List<ClientFinanceDate> getAllDepreciationFromDates()
 			throws InvalidSessionException {
 		try {
-			IFinanceTool tool = getFinanceTool();
+			FinanceTool tool = getFinanceTool();
 			return tool != null ? tool.getAllDepreciationFromDates() : null;
 		} catch (DAOException e) {
 			e.printStackTrace();
@@ -1269,7 +1269,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public ClientFinanceDate getDepreciationLastDate()
 			throws InvalidSessionException {
 		try {
-			IFinanceTool tool = getFinanceTool();
+			FinanceTool tool = getFinanceTool();
 			return tool != null ? tool.getDepreciationLastDate() : null;
 		} catch (DAOException e) {
 			e.printStackTrace();
@@ -1281,7 +1281,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public List<ClientFinanceDate> getFinancialYearStartDates()
 			throws InvalidSessionException {
 		try {
-			IFinanceTool tool = getFinanceTool();
+			FinanceTool tool = getFinanceTool();
 			return tool != null ? tool.getFinancialYearStartDates() : null;
 		} catch (DAOException e) {
 			e.printStackTrace();
@@ -1293,7 +1293,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public void rollBackDepreciation(long rollBackDepreciationTo)
 			throws InvalidSessionException {
 		try {
-			IFinanceTool tool = getFinanceTool();
+			FinanceTool tool = getFinanceTool();
 			tool.rollBackDepreciation(rollBackDepreciationTo);
 		} catch (DAOException e) {
 			e.printStackTrace();
@@ -1305,7 +1305,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public void changeDepreciationStartDateTo(long newStartDate)
 			throws InvalidSessionException {
 		try {
-			IFinanceTool tool = getFinanceTool();
+			FinanceTool tool = getFinanceTool();
 			tool.changeDepreciationStartDateTo(newStartDate);
 		} catch (DAOException e) {
 			e.printStackTrace();
@@ -1318,7 +1318,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			long depreciationfromDate, long depreciationtoDate)
 			throws InvalidSessionException {
 		try {
-			IFinanceTool tool = getFinanceTool();
+			FinanceTool tool = getFinanceTool();
 			return tool.getCalculatedDepreciatedAmount(depreciationMethod,
 					depreciationRate, purchasePrice, depreciationfromDate,
 					depreciationtoDate);
@@ -1395,7 +1395,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		List<ClientPayVATEntries> clientEntries = new ArrayList<ClientPayVATEntries>();
 
-		IFinanceTool tool = getFinanceTool();
+		FinanceTool tool = getFinanceTool();
 		if (tool == null)
 			return clientEntries;
 		List<PayVATEntries> entries = tool.getPayVATEntries();
@@ -1480,7 +1480,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<PayeeList> payeeList = null;
 
 		try {
-			IFinanceTool tool = getFinanceTool();
+			FinanceTool tool = getFinanceTool();
 			return tool != null ? tool.getPayeeList(transactionCategory) : null;
 
 		} catch (Exception e) {
@@ -1511,7 +1511,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		List<ClientReceiveVATEntries> clientEntries = new ArrayList<ClientReceiveVATEntries>();
 
-		IFinanceTool tool = getFinanceTool();
+		FinanceTool tool = getFinanceTool();
 		if (tool == null)
 			return clientEntries;
 		List<ReceiveVATEntries> entries = tool.getReceiveVATEntries();
@@ -1575,7 +1575,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	public List<ClientUser> getAllUsers() throws InvalidSessionException {
-		IFinanceTool tool = getFinanceTool();
+		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 			List<ClientUser> allUsers = tool.getAllUsers();
 			return allUsers;
