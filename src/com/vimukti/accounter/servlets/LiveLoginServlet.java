@@ -15,11 +15,11 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import com.bizantra.server.main.Server;
-import com.bizantra.server.storage.HibernateUtil;
-import com.bizantra.server.utils.HexUtil;
-import com.bizantra.server.utils.Security;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.main.Server;
+import com.vimukti.accounter.utils.HexUtil;
+import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.utils.Security;
 
 public class LiveLoginServlet extends BaseServlet {
 

@@ -2,6 +2,7 @@ package com.vimukti.accounter.servlets;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.Security;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,26 +18,15 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import com.bizantra.server.internal.core.BizantraCompany;
-import com.bizantra.server.internal.core.BizantraUserPreferences;
-import com.bizantra.server.internal.core.CollaberIdentity;
-import com.bizantra.server.main.LiveServer;
-import com.bizantra.server.main.Server;
-import com.bizantra.server.main.ServerConfiguration;
-import com.bizantra.server.services.BizantraService;
-import com.bizantra.server.storage.HibernateUtil;
-import com.bizantra.server.utils.HexUtil;
-import com.bizantra.server.utils.SecureUtils;
-import com.bizantra.server.utils.Security;
-import com.bizantra.server.workspace.internal.Member;
-import com.bizantra.server.workspace.internal.WorkSpace;
-import com.bizantra.server.workspace.users.internal.UsersTool;
-import com.vimukti.accounter.web.client.data.BizantraConstants;
-import com.vimukti.accounter.web.client.data.ClientUser;
-import com.vimukti.accounter.web.client.data.ClientWorkspace;
+import com.google.gwt.json.client.JSONException;
+import com.google.gwt.json.client.JSONObject;
+import com.vimukti.accounter.main.LiveServer;
+import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.utils.HexUtil;
+import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.utils.SecureUtils;
+import com.vimukti.accounter.web.client.core.ClientUser;
 
 public class SubscriptionCreateCompanyServlet extends HttpServlet {
 

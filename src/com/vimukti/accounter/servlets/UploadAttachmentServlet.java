@@ -15,13 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
 
-import com.bizantra.server.internal.core.CollaberIdentity;
-import com.bizantra.server.main.Server;
-import com.bizantra.server.main.ServerConfiguration;
-import com.bizantra.server.services.BizantraService;
-import com.bizantra.server.storage.HibernateUtil;
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 public class UploadAttachmentServlet extends HttpServlet {
 	/**

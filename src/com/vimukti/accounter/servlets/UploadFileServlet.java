@@ -9,10 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bizantra.server.main.ServerConfiguration;
-import com.bizantra.server.utils.SecureUtils;
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.utils.SecureUtils;
 
 public class UploadFileServlet extends HttpServlet {
 

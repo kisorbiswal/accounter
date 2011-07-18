@@ -2,6 +2,7 @@ package com.vimukti.accounter.servlets;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.Security;
 import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
@@ -14,18 +15,12 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.bizantra.server.core.UserInfo;
-import com.bizantra.server.internal.core.BizantraCompany;
-import com.bizantra.server.internal.core.BizantraUserPreferences;
-import com.bizantra.server.main.Server;
-import com.bizantra.server.main.ServerConfiguration;
-import com.bizantra.server.storage.HibernateUtil;
-import com.bizantra.server.utils.HexUtil;
-import com.bizantra.server.utils.SecureUtils;
-import com.bizantra.server.utils.Security;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.UserPermissions;
-import com.vimukti.accounter.web.client.data.BizantraConstants;
+import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.utils.HexUtil;
+import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class AccounterLoginServlet extends BaseServlet {

@@ -10,9 +10,9 @@ import org.hibernate.classic.Lifecycle;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import com.bizantra.server.utils.SecureUtils;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Utility;
+import com.vimukti.accounter.utils.SecureUtils;
 
 /**
  * 

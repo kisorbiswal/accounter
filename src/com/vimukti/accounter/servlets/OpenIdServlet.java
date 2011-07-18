@@ -32,15 +32,6 @@ import org.openid4java.discovery.DiscoveryInformation;
 import org.openid4java.message.AuthRequest;
 import org.openid4java.message.ParameterList;
 
-import com.bizantra.server.core.ConsumerFactory;
-import com.bizantra.server.core.UserInfo;
-import com.google.step2.AuthRequestHelper;
-import com.google.step2.AuthResponseHelper;
-import com.google.step2.ConsumerHelper;
-import com.google.step2.Step2;
-import com.google.step2.discovery.IdpIdentifier;
-import com.google.step2.openid.ui.UiMessageRequest;
-
 /**
  * Servlet for handling OpenID logins. Uses the Step2 library from
  * code.google.com and the underlying OpenID4Java library.

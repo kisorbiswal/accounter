@@ -10,14 +10,12 @@ import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Util;
-import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.IAccounterCRUDService;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.data.InvalidSessionException;
 import com.vimukti.accounter.workspace.tool.FinanceTool;
 
 /**

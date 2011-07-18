@@ -10,7 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bizantra.server.main.ServerConfiguration;
+import com.vimukti.accounter.main.ServerConfiguration;
 
 public class DownloadFileServlet extends BaseServlet {
 

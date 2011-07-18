@@ -9,14 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import com.bizantra.server.main.Server;
-import com.bizantra.server.storage.HibernateUtil;
-import com.bizantra.server.users.events.ResetIdentityPasswordEvent;
-import com.bizantra.server.utils.HexUtil;
-import com.bizantra.server.workspace.users.internal.User;
+import com.google.gwt.json.client.JSONException;
+import com.google.gwt.json.client.JSONObject;
+import com.vimukti.accounter.utils.HexUtil;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 /**
  * @author Sai Karthik K

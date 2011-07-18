@@ -12,7 +12,6 @@ import com.vimukti.accounter.core.Util;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.workspace.tool.IFinanceTool;
 
 public class ChangeTracker {
 	static Logger log = Logger.getLogger(Account.class);

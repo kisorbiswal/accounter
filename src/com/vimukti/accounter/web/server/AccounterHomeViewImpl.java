@@ -79,8 +79,6 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
-import com.vimukti.accounter.web.client.data.InvalidSessionException;
-import com.vimukti.accounter.workspace.tool.FinanceTool;
 import com.vimukti.accounter.workspace.tool.FinanceTool;
 
 /**

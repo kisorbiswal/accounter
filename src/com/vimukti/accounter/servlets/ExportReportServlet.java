@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
 
-import com.bizantra.server.storage.HibernateUtil;
 import com.vimukti.accounter.core.CSVReportTemplate;
 import com.vimukti.accounter.core.ITemplate;
 import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.core.TemplateBuilder;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.workspace.tool.FinanceTool;
 
 @SuppressWarnings("serial")

@@ -13,10 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 
-import com.bizantra.server.internal.core.BizantraCompany;
-import com.bizantra.server.internal.core.CollaberIdentity;
-import com.bizantra.server.main.Server;
-import com.bizantra.server.storage.HibernateUtil;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 public class TemplateResetServlet extends HttpServlet {
 

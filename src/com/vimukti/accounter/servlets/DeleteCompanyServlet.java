@@ -5,17 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.bizantra.server.events.CometServerManager;
-import com.bizantra.server.main.Server;
-import com.bizantra.server.storage.HibernateUtil;
-import com.vimukti.accounter.web.client.data.ClientCometData;
+import com.vimukti.accounter.utils.HibernateUtil;
+
 
 /**
  * 
@@ -26,7 +23,7 @@ import com.vimukti.accounter.web.client.data.ClientCometData;
  * 
  */
 
-public class DeleteCompanyServlet extends HttpServlet {
+public class DeleteCompanyServlet extends BaseServlet {
 
 	/**
 	 * 
@@ -59,7 +56,7 @@ public class DeleteCompanyServlet extends HttpServlet {
 	private void deleteCompany(String domainName) {
 		deleteAttachments(domainName);
 		try {
-			Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+			Session session = HibernateUtil.openSession(LOCAL_DATABASE);
 			Transaction tx = session.beginTransaction();
 			session.createSQLQuery("drop schema " + domainName).executeUpdate();
 			session.createSQLQuery(
@@ -89,11 +86,6 @@ public class DeleteCompanyServlet extends HttpServlet {
 					.setString("companyName", domainName).list();
 			for (Object userId : list) {
 				String collaberId = (String) userId;
-				ClientCometData cometData = new ClientCometData(
-						ClientCometData.IDENTITY,
-						ClientCometData.DELETE_ACTION, null, null, collaberId);
-				CometServerManager
-						.putIdentityDataToQuees(collaberId, cometData);
 				Server.getInstance().invalidateAllSessionIds(collaberId);
 			}
 			tx.commit();

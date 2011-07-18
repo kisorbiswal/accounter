@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 /**

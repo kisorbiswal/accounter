@@ -10,12 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import com.bizantra.server.internal.core.BizantraCompany;
-import com.bizantra.server.main.Server;
-import com.bizantra.server.storage.HibernateUtil;
+import com.google.gwt.json.client.JSONException;
+import com.google.gwt.json.client.JSONObject;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 /**
  * 

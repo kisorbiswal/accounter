@@ -3,17 +3,18 @@
  */
 package com.vimukti.accounter.web.client;
 
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
 
 /**
  * @author vimukti5
  * 
  */
-@SuppressWarnings("serial")
-public class InvalidOperationException extends Exception implements
-		IAccounterCore {
+public class InvalidOperationException extends Exception  {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public InvalidOperationException(String mesge) {
 		this.detailedMessage = mesge;
@@ -98,49 +99,4 @@ public class InvalidOperationException extends Exception implements
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public void printStackTrace() {
-
-		System.out.print(String.valueOf(detailedMessage));
-	}
-
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "AccounterCRUDServiceFailedException";
-	}
-
-	@Override
-	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getName() {
-
-		return FinanceApplication.getFinanceMessages().exception();
-	}
-
-	@Override
-	public String getStringID() {
-
-		return this.stringID;
-	}
-
-	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
-	}
-
-	@Override
-	public AccounterCoreType getObjectType() {
-
-		return AccounterCoreType.ERROR;
-	}
-
-	@Override
-	public String getMessage() {
-		return this.detailedMessage;
-	}
 }

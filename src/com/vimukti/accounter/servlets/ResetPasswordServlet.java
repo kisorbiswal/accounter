@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
 
-import com.bizantra.server.storage.HibernateUtil;
 import com.vimukti.accounter.core.ResetPasswordToken;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 public class ResetPasswordServlet extends HttpServlet {
 
