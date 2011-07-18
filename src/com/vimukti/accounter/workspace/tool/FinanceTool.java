@@ -37,13 +37,7 @@ import org.hibernate.classic.Lifecycle;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import com.bizantra.server.ext.Command;
-import com.bizantra.server.internal.core.BizantraCompany;
-import com.bizantra.server.main.Server;
-import com.bizantra.server.storage.HibernateUtil;
-import com.bizantra.server.utils.HexUtil;
-import com.bizantra.server.utils.SecureUtils;
-import com.bizantra.server.utils.Security;
+
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterConstants;
 import com.vimukti.accounter.core.Address;
@@ -119,6 +113,8 @@ import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.services.IFinanceDAOService;
+import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;

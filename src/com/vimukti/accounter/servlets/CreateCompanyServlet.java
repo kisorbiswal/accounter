@@ -15,27 +15,14 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.bizantra.server.internal.core.BizantraCompany;
-import com.bizantra.server.internal.core.BizantraUserPreferences;
-import com.bizantra.server.internal.core.CollaberIdentity;
-import com.bizantra.server.main.LiveServer;
-import com.bizantra.server.main.Server;
-import com.bizantra.server.main.ServerConfiguration;
-import com.bizantra.server.services.BizantraService;
-import com.bizantra.server.storage.HibernateUtil;
-import com.bizantra.server.utils.SecureUtils;
-import com.bizantra.server.utils.Security;
-import com.bizantra.server.workspace.internal.Member;
-import com.bizantra.server.workspace.internal.WorkSpace;
-import com.bizantra.server.workspace.users.internal.UsersMailSendar;
+import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
-import com.vimukti.accounter.web.client.data.BizantraConstants;
-import com.vimukti.accounter.web.client.data.ClientWorkspace;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.workspace.tool.FinanceTool;
 
-public class CreateCompanyServlet extends HttpServlet {
+public class CreateCompanyServlet extends BaseServlet {
 
 	/**
 	 * 
@@ -46,7 +33,7 @@ public class CreateCompanyServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		BizantraCompany company = doCreateCompany(request);
+		Company company = doCreateCompany(request);
 		if (company != null) {
 			initSessionFactory(company, request);
 			request.setAttribute("successmessage",
@@ -57,7 +44,7 @@ public class CreateCompanyServlet extends HttpServlet {
 		}
 	}
 
-	private void initSessionFactory(BizantraCompany company,
+	private void initSessionFactory(Company company,
 			HttpServletRequest request) {
 		try {
 			init(company, request);
@@ -67,7 +54,7 @@ public class CreateCompanyServlet extends HttpServlet {
 
 	}
 
-	private void init(BizantraCompany company, HttpServletRequest request) {
+	private void init(Company company, HttpServletRequest request) {
 		// HibernateUtil.rebuildSessionFactory();
 		Session session = HibernateUtil.openSession(
 				company.getCompanyDomainName(), true);
@@ -139,8 +126,8 @@ public class CreateCompanyServlet extends HttpServlet {
 	}
 
 	private void deleteCompany(String companyDomainName) {
-		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
-		BizantraCompany companyByDomainName = getCompanyByDomainName(companyDomainName);
+		Session session = HibernateUtil.openSession(LOCAL_DATABASE);
+		Company companyByDomainName = getCompanyByDomainName(companyDomainName);
 		session.delete(companyByDomainName);
 		// Delete the schema
 		Query query = session
@@ -149,10 +136,10 @@ public class CreateCompanyServlet extends HttpServlet {
 
 	}
 
-	private BizantraCompany getCompanyByDomainName(String domainName) {
+	private Company getCompanyByDomainName(String domainName) {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("get.company.from.bizantra");
-		BizantraCompany company = (BizantraCompany) query.uniqueResult();
+		Company company = (Company) query.uniqueResult();
 		return company;
 
 	}
@@ -191,41 +178,10 @@ public class CreateCompanyServlet extends HttpServlet {
 		return admin;
 	}
 
-	private WorkSpace createFinanceSpace(CollaberIdentity identity,
-			Session session, HttpServletRequest request, BizantraCompany company) {
-		ClientWorkspace wsi = new ClientWorkspace();
+	
 
-		wsi.name = CollaberIdentity.FINANCE_WORKSPACE;
-		wsi.description = "Finance Workspace description";
-		wsi.spaceId = SecureUtils.createID();
-
-		wsi.createdDate = new Date();
-		WorkSpace space = new WorkSpace(identity, wsi, true);
-		// space.setAccountingType(Integer.valueOf(request
-		// .getParameter("companyType")));
-		int financeCompanyAccountingType = Integer.valueOf(request
-				.getParameter("companyType"));
-
-		FinanceTool tool = space.createFinanceTool(
-				financeCompanyAccountingType, company);
-		ClientUser defaultUser = this.createDefaultUser(request,
-				identity.getID());
-		tool.createAdminUser(defaultUser);
-		// Save it
-		Member member = space.getMember(identity.getID());
-		member.fullname = defaultUser.getFullName();
-		session.saveOrUpdate(member);
-		session.save(space);
-
-		// Add to the list of spaces
-		identity.getSpaces().add(space);
-		space.setIdentity(identity);
-		LiveServer.getInstance().addCompany(company.getCompanyDomainName());
-		return space;
-	}
-
-	private BizantraCompany doCreateCompany(HttpServletRequest request) {
-		BizantraCompany company = getCompany(request);
+	private Company doCreateCompany(HttpServletRequest request) {
+		Company company = getCompany(request);
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
 
 		Transaction tx = session.beginTransaction();
@@ -257,7 +213,7 @@ public class CreateCompanyServlet extends HttpServlet {
 		return null;
 	}
 
-	private BizantraCompany getCompany(HttpServletRequest request) {
+	private Company getCompany(HttpServletRequest request) {
 		String companyName = request.getParameter("companyName");
 		// String noOfUsers = request.getParameter("nooofusers");
 		// String noOfLiteUsers = request.getParameter("noofliteusers");
@@ -268,7 +224,7 @@ public class CreateCompanyServlet extends HttpServlet {
 		String province = request.getParameter("provence");
 		Date expirationDate = new Date();
 		expirationDate.setYear(expirationDate.getYear() + 10);
-		BizantraCompany company = new BizantraCompany(companyName, companyName,
+		Company company = new Company(companyName, companyName,
 				expirationDate);
 		// company.setTotalNoOfUsers(Integer.parseInt(noOfUsers));
 		// company.setTotalNoOfLiteUsers(Integer.parseInt(noOfLiteUsers));

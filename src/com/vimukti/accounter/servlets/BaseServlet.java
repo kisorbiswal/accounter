@@ -5,9 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.Session;
 
-import com.bizantra.server.internal.core.BizantraCompany;
-import com.bizantra.server.main.Server;
-import com.bizantra.server.storage.HibernateUtil;
+import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.workspace.tool.FinanceTool;
 
 public class BaseServlet extends HttpServlet {
@@ -19,6 +18,7 @@ public class BaseServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	protected static final String LOCAL_DATABASE = "accounter";
 
 	protected String getCompanyName(HttpServletRequest req) {
 		return null;
@@ -29,9 +29,9 @@ public class BaseServlet extends HttpServlet {
 		if (companyName == null) {
 			return false;
 		}
-		Session openSession = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Session openSession = HibernateUtil.openSession(LOCAL_DATABASE);
 		try {
-			BizantraCompany uniqueResult = (BizantraCompany) openSession
+			Company uniqueResult = (Company) openSession
 					.getNamedQuery("getCompanyName.is.unique")
 					.setParameter("companyName", companyName).uniqueResult();
 			return uniqueResult == null ? false : true;
