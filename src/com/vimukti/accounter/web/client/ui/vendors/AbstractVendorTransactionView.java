@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -65,7 +66,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 	protected SelectCombo statusSelect;
 
 	// protected TextAreaItem addrTextAreaItem;
-
+	protected TAXCodeCombo taxCodeSelect;
 	protected Set<ClientContact> contacts;
 	protected ClientContact contact;
 	protected VendorCombo vendorCombo;
@@ -73,7 +74,8 @@ public abstract class AbstractVendorTransactionView<T> extends
 	protected AddressCombo billToCombo;
 	protected PayFromAccountsCombo payFromCombo;
 	protected AmountLabel netAmount, transactionTotalNonEditableText,
-			vatTotalNonEditableText;
+			vatTotalNonEditableText, paymentsNonEditableText,
+			salesTaxTextNonEditable;
 
 	protected AmountField balanceDueNonEditableText;// protected
 	// AbstractAccounterCombo
