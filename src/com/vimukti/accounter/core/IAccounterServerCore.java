@@ -16,8 +16,6 @@ public interface IAccounterServerCore extends Serializable, Cloneable {
 
 	long getID();
 
-	void setImported(boolean isImported);
-
 	boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException;
 
