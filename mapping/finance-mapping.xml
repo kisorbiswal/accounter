@@ -992,6 +992,7 @@
 		<property name="fullName" column="FULL_NAME"></property>
 		<property name="emailId" column="EMAIL_ID"></property>
 		<property name="userRole" column="USER_ROLE"></property>
+		<property name="passwordSha1Hash" column="PASSWORD"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<property name="canDoUserManagement" column="CAN_DO_USER_MANAGEMENT"></property>
 		<property name="lastLogin" column="LAST_LOGIN"></property>
