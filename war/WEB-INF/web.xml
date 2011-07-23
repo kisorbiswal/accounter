@@ -18,7 +18,7 @@
 		</servlet-class>
 		<init-param>
 			<param-name>proxyHost</param-name>
-			<param-value>192.168.0.58</param-value>
+			<param-value>localhost</param-value>
 		</init-param>
 		<init-param>
 			<param-name>proxyPort</param-name>
@@ -70,7 +70,7 @@
 		</servlet-class>
 		<init-param>
 			<param-name>proxyHost</param-name>
-			<param-value>192.168.0.58</param-value>
+			<param-value>localhost</param-value>
 		</init-param>
 		<init-param>
 			<param-name>proxyPort</param-name>
