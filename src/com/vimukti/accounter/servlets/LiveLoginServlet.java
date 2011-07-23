@@ -49,7 +49,7 @@ public class LiveLoginServlet extends BaseServlet {
 			} else {
 
 				// && !identity.getUser(identity.getID()).isLocked()) {
-				logger.info("User Logged in : " + user.getEmail());
+				logger.info("User Logged in : " + user.getEmailId());
 
 				intializeUser(request, user);
 				response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
@@ -183,7 +183,7 @@ public class LiveLoginServlet extends BaseServlet {
 
 	private void setCookies(HttpServletResponse response, User user) {
 		Cookie cookie = new Cookie("_accounter_01_infinity_2711",
-				new StringBuffer(user.getEmail()).append(",")
+				new StringBuffer(user.getEmailId()).append(",")
 						.append(user.getPasswordSha1Hash()).append(",")
 						.append(user.getCompany()).toString());
 		cookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
