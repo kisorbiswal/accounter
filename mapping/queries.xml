@@ -1,264 +1,260 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping default-access="field">
-    
-    
-    
-    <query name="getidentity.from.emailid.and.password">
-        <query-param name="emailid" type="string"/>
-        <query-param name="password" type="string"/>
-        from CollaberIdentity identity where identity.emailID=:emailid and
-        identity.password =:password and identity.id in (select user.stringID
-        from com.vimukti.accounter.core.User user)
-    </query>
-    <query name="getidentity.from.stringID.and.password">
-        <query-param name="stringID" type="string"/>
-        <query-param name="password" type="string"/>
-        from CollaberIdentity identity where identity.id=:stringID and
-        identity.password =:password and identity.id in (select user.stringID
-        from com.vimukti.accounter.core.User user)
-    </query>
-    <query name="getidentity.from.StringID">
-    	<query-param name="stringID" type="string"/>
-    	from CollaberIdentity identity where identity.id=:stringID
-    </query>
-    <query name="getidentity.from.emailid">
-        <query-param name="emailid" type="string"/>
-        from CollaberIdentity identity where identity.emailID=:emailid
-    </query>
-    
-    <query name="getspace.from.name">
-    	<query-param name="name" type="string"/>
-    	from WorkSpace space where space.name=:name
-    </query>
-    
-    <sql-query name="getIdentitySpaceMembers">
-        <return class="com.bizantra.server.workspace.internal.Member"/>
-        <query-param name="IDENTITY_ID" type="string"/>
-        SELECT * FROM MEMBER M INNER JOIN IDENTITY_SPACES S ON
-        M.SPACE_ID=S.SPACE_ID where S.IDENTITY_ID=:IDENTITY_ID group by
-        M.USER_ID,M.ID
-    </sql-query>
-    
-    <sql-query name="get.Identity.Space.Member">
-        <return class="com.bizantra.server.workspace.internal.Member"/>
-        <query-param name="IDENTITY_ID" type="string"/>
-        <query-param name="MEMBER_ID" type="string"/>
-        SELECT * FROM MEMBER M INNER JOIN IDENTITY_SPACES S ON
-        M.SPACE_ID=S.SPACE_ID where S.IDENTITY_ID=:IDENTITY_ID AND
-        M.USER_ID=:MEMBER_ID group by
-        M.USER_ID,M.ID
-    </sql-query>
-    
-    <sql-query name="get.external.spaceids.of.user">
-        <query-param name="MEMBER_ID" type="string"/>
-        SELECT M.SPACE_ID FROM MEMBER M join WORKSPACE W ON M.SPACE_ID
-        =W.SPACE_ID WHERE
-        W.IS_SYSTEM_SPACE =false and W.IS_PERSONAL_SPACE
-        =false and M.USER_ID=:MEMBER_ID and
-        M.IS_DELETED=false
-    </sql-query>
-    
-    
-    
-    <sql-query name="getExternalIdentityRemoteId">
-        <query-param name="identityId" type="string"/>
-        SELECT EI.REMOTE_ID,EI.COMPANYNAME FROM EXTERNAL_IDENTITYIES EI WHERE
-        EI.IDENTITY_ID IN (SELECT M.USER_ID FROM WORKSPACE W INNER JOIN
-        IDENTITY_SPACES S ON
-        W.SPACE_ID=S.SPACE_ID JOIN MEMBER M ON
-        M.SPACE_ID=W.SPACE_ID where
-        S.IDENTITY_ID=:identityId AND
-        W.IS_SYSTEM_SPACE =false and
-        W.IS_PERSONAL_SPACE=false)
-    </sql-query>
-    <query name="getCompanyName.is.unique">
-        <query-param name="companyName" type="string"/>
-        from BizantraCompany company where
-        company.companyDomainName=:companyName
-    </query>
-    
-    <query name="getCompanyName.using.domainName">
-    	<query-param name="domainName" type="string"/>
-    	from BizantraCompany company where company.userDomain=:domainName
-    </query>
-    
-    <query name="getHRTool">
-        <query-param name="toolName" type="string"/>
-        from AbstractTool a where a.name =:toolName
-    </query>
-    
-    <!--
-    <sql-query name="getDataSize"> SELECT
-    SUM(CI.IDENTITYDATASIZE)+SUM(WS.DATA_SIZE) AS TOTAL_DATA_SIZE FROM
-    COLLABERIDENTITY CI LEFT OUTER JOIN IDENTITY_SPACES IDS ON
-    CI.ID=IDS.IDENTITY_ID LEFT OUTER JOIN WORKSPACE WS ON
-    WS.SPACE_ID=IDS.SPACE_ID </sql-query>
-    -->
-    
-    <query name="get.all.companies">
-        from BizantraCompany
-    </query>
-    
-    <query name="get.super.users">
-        from CollaberIdentity identity where
-        identity.systemRole='Super User'
-    </query>
-    
-    <sql-query name="get.external.member.by.id">
-        <query-param name="memberID" type="string"/>
-        SELECT M.EMAILID, M.COMPANYNAME, M.NAME FROM MEMBER M WHERE
-        M.USER_ID=:memberID
-    </sql-query>
-    <sql-query name="userId.by.CompanyName">
-        select c.id,c.emailId from CollaberIdentity C
-    </sql-query>
-    <sql-query name="notificationtime.by.userid">
-        <query-param name="userId" type="string"/>
-        SELECT
-        u.notification_time1,u.notification_time2,u.notification_time3,u.notification_time4,u.timezones
-        FROM user u where u.user_id=:userId
-    </sql-query>
-    
-    <sql-query name="sharedSpace.changes.count">
-        <query-param name="userId" type="string"/>
-        SELECT count(id) FROM unreadobject u where category NOT
-        IN('Tasknotes','Calendar') and memberid=:userId
-    </sql-query>
-    <sql-query name="message.changes.count">
-        <query-param name="userId" type="string"/>
-        SELECT count(c.id) FROM collabermessage c where c.state='7' and
-        c.identity_id=:userId
-    </sql-query>
-    
-    
-    <sql-query name="contactmanagement.changes.count">
-        <query-param name="userId" type="string"/>
-        SELECT count(T.ID) FROM TASKNOTE T
-        LEFT OUTER JOIN ABSTRACTTOOL A
-        ON
-        T.TOOL_ID = A.ID
-        LEFT OUTER JOIN WORKSPACE W
-        ON A.SPACE_ID = W.SPACE_ID
-        WHERE
-        W.IS_PERSONAL_SPACE=true AND
-        W.CREATOR = T.CREATED_BY AND
-        T.completed = false AND T.CATEGORY='Contact Management' AND
-        T.CREATED_BY =:userId
-        
-    </sql-query>
-    <sql-query name="task.changes.count">
-        <query-param name="userId" type="string"/>
-        SELECT count(T.ID) FROM TASKNOTE T
-        LEFT OUTER JOIN ABSTRACTTOOL A
-        ON
-        T.TOOL_ID = A.ID
-        LEFT OUTER JOIN WORKSPACE W
-        ON A.SPACE_ID = W.SPACE_ID
-        WHERE
-        W.IS_PERSONAL_SPACE=true AND
-        W.CREATOR = T.CREATED_BY AND
-        T.completed = false AND T.CATEGORY!='Contact Management' AND
-        T.CREATED_BY =:userId
-        
-    </sql-query>
-    
-    <sql-query name="event.changes.count">
-        <query-param name="userId" type="string"/>
-        <query-param name="date" type="string"/>
-        SELECT count(c.id) FROM CALENDAREVENT C
-        LEFT OUTER JOIN ABSTRACTTOOL A
-        ON
-        C.TOOL_ID = A.ID
-        LEFT OUTER JOIN WORKSPACE W
-        ON A.SPACE_ID =
-        W.SPACE_ID
-        WHERE
-        W.IS_PERSONAL_SPACE=true AND
-        W.CREATOR = C.CREATED_BY AND
-        C.EDATE >=:date AND C.CREATED_BY=:userId
-    </sql-query>
-    
-    <sql-query name="workspace.event.changes.count">
-        <query-param name="userId" type="string"/>
-        <query-param name="date" type="string"/>
-        SELECT count(C.ID) FROM CALENDAREVENT C
-        LEFT OUTER JOIN ABSTRACTTOOL A
-        ON
-        C.TOOL_ID = A.ID
-        LEFT OUTER JOIN WORKSPACE W
-        ON A.SPACE_ID =
-        W.SPACE_ID
-        LEFT OUTER JOIN identity_spaces i on i.space_id = w.space_id
-        WHERE
-        W.IS_PERSONAL_SPACE=false AND
-        C.EDATE >=:date AND
-        i.identity_id=:userId
-    </sql-query>
-    <sql-query name="workspace.task.changes.count">
-        <query-param name="userId" type="string"/>
-        SELECT count(T.ID) FROM TASKNOTE T
-        LEFT OUTER JOIN ABSTRACTTOOL A
-        ON
-        T.TOOL_ID =
-        A.ID
-        LEFT OUTER JOIN WORKSPACE W
-        ON A.SPACE_ID = W.SPACE_ID
-        LEFT OUTER JOIN identity_spaces i on i.space_id = w.space_id
-        WHERE
-        W.IS_PERSONAL_SPACE=false AND
-        T.completed =
-        false
-        AND
-        i.identity_id=:userId
-    </sql-query>
-    
-    <sql-query name="add.member.task.changes.count">
-        <query-param name="spaceId" type="string"/>
-        SELECT count(t.id) FROM tasknote t left outer join abstracttool a on
-        t.TOOL_ID=a.id left outer join workspace w on w.space_id=a.space_id
-        where a.space_id=:spaceId and
-        w.is_personal_space=false and
-        t.completed=false
-    </sql-query>
-    <sql-query name="add.member.event.changes.count">
-        <query-param name="spaceId" type="string"/>
-        <query-param name="date" type="string"/>
-        SELECT count(c.id) FROM calendarevent c left outer join abstracttool a
-        on c.TOOL_ID=a.id left outer join workspace w on w.space_id=a.space_id
-        where a.space_id=:spaceId and
-        w.is_personal_space=false and
-        c.edate>=:date
-    </sql-query>
-    
-    <sql-query name="get.total.files.count">
-    	<return-scalar column="ID" type="integer"/>
-        select COUNT(ID) as ID from COLLABERFILE cf
-    </sql-query>
-    
-    <sql-query name="get.total.discussions.count">
-    	<return-scalar column="ID" type="integer"/>
-        select COUNT(ID) as ID from DISCUSSIONTOPIC
-    </sql-query>
-    
-    <sql-query name="get.total.workspaces.count">
-    	<return-scalar column="SPACE_ID" type="integer"/>
-        select COUNT(SPACE_ID) as SPACE_ID from WORKSPACE
-    </sql-query>
-    
-    <sql-query name="get.total.commands.count">
-    	<return-scalar column="ID" type="integer"/>
-        select COUNT(ID) as ID from COMMAND
-    </sql-query>
-	
-	 <sql-query name="get.total.login.count">
-    	<return-scalar column="LOGINCOUNT" type="integer"/>
-        select LOGINCOUNT as LOGINCOUNT from COLLABERIDENTITY
-    </sql-query>
-	
+
+
+
+	<query name="getidentity.from.emailid.and.password">
+		<query-param name="emailid" type="string" />
+		<query-param name="password" type="string" />
+		from User user where user.emailID=:emailid and
+		user.password =:password
+	</query>
+	<query name="getidentity.from.stringID.and.password">
+		<query-param name="stringID" type="string" />
+		<query-param name="password" type="string" />
+		from CollaberIdentity identity where identity.id=:stringID and
+		identity.password =:password and identity.id in (select user.stringID
+		from com.vimukti.accounter.core.User user)
+	</query>
+	<query name="getidentity.from.StringID">
+		<query-param name="stringID" type="string" />
+		from CollaberIdentity identity where identity.id=:stringID
+	</query>
+	<query name="getidentity.from.emailid">
+		<query-param name="emailid" type="string" />
+		from CollaberIdentity identity where identity.emailID=:emailid
+	</query>
+
+	<query name="getspace.from.name">
+		<query-param name="name" type="string" />
+		from WorkSpace space where space.name=:name
+	</query>
+
+	<sql-query name="getIdentitySpaceMembers">
+		<return class="com.bizantra.server.workspace.internal.Member" />
+		<query-param name="IDENTITY_ID" type="string" />
+		SELECT * FROM MEMBER M INNER JOIN IDENTITY_SPACES S ON
+		M.SPACE_ID=S.SPACE_ID where S.IDENTITY_ID=:IDENTITY_ID group by
+		M.USER_ID,M.ID
+	</sql-query>
+
+	<sql-query name="get.Identity.Space.Member">
+		<return class="com.bizantra.server.workspace.internal.Member" />
+		<query-param name="IDENTITY_ID" type="string" />
+		<query-param name="MEMBER_ID" type="string" />
+		SELECT * FROM MEMBER M INNER JOIN IDENTITY_SPACES S ON
+		M.SPACE_ID=S.SPACE_ID where S.IDENTITY_ID=:IDENTITY_ID AND
+		M.USER_ID=:MEMBER_ID group by
+		M.USER_ID,M.ID
+	</sql-query>
+
+	<sql-query name="get.external.spaceids.of.user">
+		<query-param name="MEMBER_ID" type="string" />
+		SELECT M.SPACE_ID FROM MEMBER M join WORKSPACE W ON M.SPACE_ID
+		=W.SPACE_ID WHERE
+		W.IS_SYSTEM_SPACE =false and W.IS_PERSONAL_SPACE
+		=false and M.USER_ID=:MEMBER_ID and
+		M.IS_DELETED=false
+	</sql-query>
+
+
+
+	<sql-query name="getExternalIdentityRemoteId">
+		<query-param name="identityId" type="string" />
+		SELECT EI.REMOTE_ID,EI.COMPANYNAME FROM EXTERNAL_IDENTITYIES EI WHERE
+		EI.IDENTITY_ID IN (SELECT M.USER_ID FROM WORKSPACE W INNER JOIN
+		IDENTITY_SPACES S ON
+		W.SPACE_ID=S.SPACE_ID JOIN MEMBER M ON
+		M.SPACE_ID=W.SPACE_ID where
+		S.IDENTITY_ID=:identityId AND
+		W.IS_SYSTEM_SPACE =false and
+		W.IS_PERSONAL_SPACE=false)
+	</sql-query>
+	<query name="getCompanyName.is.unique">
+		<query-param name="companyName" type="string" />
+		from BizantraCompany company where
+		company.companyDomainName=:companyName
+	</query>
+
+	<query name="getCompanyName.using.domainName">
+		<query-param name="domainName" type="string" />
+		from BizantraCompany company where company.userDomain=:domainName
+	</query>
+
+	<query name="getHRTool">
+		<query-param name="toolName" type="string" />
+		from AbstractTool a where a.name =:toolName
+	</query>
+
+	<!-- <sql-query name="getDataSize"> SELECT SUM(CI.IDENTITYDATASIZE)+SUM(WS.DATA_SIZE) 
+		AS TOTAL_DATA_SIZE FROM COLLABERIDENTITY CI LEFT OUTER JOIN IDENTITY_SPACES 
+		IDS ON CI.ID=IDS.IDENTITY_ID LEFT OUTER JOIN WORKSPACE WS ON WS.SPACE_ID=IDS.SPACE_ID 
+		</sql-query> -->
+
+	<query name="get.all.companies">
+		from BizantraCompany
+	</query>
+
+	<query name="get.super.users">
+		from CollaberIdentity identity where
+		identity.systemRole='Super User'
+	</query>
+
+	<sql-query name="get.external.member.by.id">
+		<query-param name="memberID" type="string" />
+		SELECT M.EMAILID, M.COMPANYNAME, M.NAME FROM MEMBER M WHERE
+		M.USER_ID=:memberID
+	</sql-query>
+	<sql-query name="userId.by.CompanyName">
+		select c.id,c.emailId from CollaberIdentity C
+	</sql-query>
+	<sql-query name="notificationtime.by.userid">
+		<query-param name="userId" type="string" />
+		SELECT
+		u.notification_time1,u.notification_time2,u.notification_time3,u.notification_time4,u.timezones
+		FROM user u where u.user_id=:userId
+	</sql-query>
+
+	<sql-query name="sharedSpace.changes.count">
+		<query-param name="userId" type="string" />
+		SELECT count(id) FROM unreadobject u where category NOT
+		IN('Tasknotes','Calendar') and memberid=:userId
+	</sql-query>
+	<sql-query name="message.changes.count">
+		<query-param name="userId" type="string" />
+		SELECT count(c.id) FROM collabermessage c where c.state='7' and
+		c.identity_id=:userId
+	</sql-query>
+
+
+	<sql-query name="contactmanagement.changes.count">
+		<query-param name="userId" type="string" />
+		SELECT count(T.ID) FROM TASKNOTE T
+		LEFT OUTER JOIN ABSTRACTTOOL A
+		ON
+		T.TOOL_ID = A.ID
+		LEFT OUTER JOIN WORKSPACE W
+		ON A.SPACE_ID = W.SPACE_ID
+		WHERE
+		W.IS_PERSONAL_SPACE=true AND
+		W.CREATOR = T.CREATED_BY AND
+		T.completed = false AND T.CATEGORY='Contact Management' AND
+		T.CREATED_BY =:userId
+
+	</sql-query>
+	<sql-query name="task.changes.count">
+		<query-param name="userId" type="string" />
+		SELECT count(T.ID) FROM TASKNOTE T
+		LEFT OUTER JOIN ABSTRACTTOOL A
+		ON
+		T.TOOL_ID = A.ID
+		LEFT OUTER JOIN WORKSPACE W
+		ON A.SPACE_ID = W.SPACE_ID
+		WHERE
+		W.IS_PERSONAL_SPACE=true AND
+		W.CREATOR = T.CREATED_BY AND
+		T.completed = false AND T.CATEGORY!='Contact Management' AND
+		T.CREATED_BY =:userId
+
+	</sql-query>
+
+	<sql-query name="event.changes.count">
+		<query-param name="userId" type="string" />
+		<query-param name="date" type="string" />
+		SELECT count(c.id) FROM CALENDAREVENT C
+		LEFT OUTER JOIN ABSTRACTTOOL A
+		ON
+		C.TOOL_ID = A.ID
+		LEFT OUTER JOIN WORKSPACE W
+		ON A.SPACE_ID =
+		W.SPACE_ID
+		WHERE
+		W.IS_PERSONAL_SPACE=true AND
+		W.CREATOR = C.CREATED_BY AND
+		C.EDATE >=:date AND C.CREATED_BY=:userId
+	</sql-query>
+
+	<sql-query name="workspace.event.changes.count">
+		<query-param name="userId" type="string" />
+		<query-param name="date" type="string" />
+		SELECT count(C.ID) FROM CALENDAREVENT C
+		LEFT OUTER JOIN ABSTRACTTOOL A
+		ON
+		C.TOOL_ID = A.ID
+		LEFT OUTER JOIN WORKSPACE W
+		ON A.SPACE_ID =
+		W.SPACE_ID
+		LEFT OUTER JOIN identity_spaces i on i.space_id = w.space_id
+		WHERE
+		W.IS_PERSONAL_SPACE=false AND
+		C.EDATE >=:date AND
+		i.identity_id=:userId
+	</sql-query>
+	<sql-query name="workspace.task.changes.count">
+		<query-param name="userId" type="string" />
+		SELECT count(T.ID) FROM TASKNOTE T
+		LEFT OUTER JOIN ABSTRACTTOOL A
+		ON
+		T.TOOL_ID =
+		A.ID
+		LEFT OUTER JOIN WORKSPACE W
+		ON A.SPACE_ID = W.SPACE_ID
+		LEFT OUTER JOIN identity_spaces i on i.space_id = w.space_id
+		WHERE
+		W.IS_PERSONAL_SPACE=false AND
+		T.completed =
+		false
+		AND
+		i.identity_id=:userId
+	</sql-query>
+
+	<sql-query name="add.member.task.changes.count">
+		<query-param name="spaceId" type="string" />
+		SELECT count(t.id) FROM tasknote t left outer join abstracttool a on
+		t.TOOL_ID=a.id left outer join workspace w on w.space_id=a.space_id
+		where a.space_id=:spaceId and
+		w.is_personal_space=false and
+		t.completed=false
+	</sql-query>
+	<sql-query name="add.member.event.changes.count">
+		<query-param name="spaceId" type="string" />
+		<query-param name="date" type="string" />
+		SELECT count(c.id) FROM calendarevent c left outer join abstracttool a
+		on c.TOOL_ID=a.id left outer join workspace w on w.space_id=a.space_id
+		where a.space_id=:spaceId and
+		w.is_personal_space=false and
+		c.edate>=:date
+	</sql-query>
+
+	<sql-query name="get.total.files.count">
+		<return-scalar column="ID" type="integer" />
+		select COUNT(ID) as ID from COLLABERFILE cf
+	</sql-query>
+
+	<sql-query name="get.total.discussions.count">
+		<return-scalar column="ID" type="integer" />
+		select COUNT(ID) as ID from DISCUSSIONTOPIC
+	</sql-query>
+
+	<sql-query name="get.total.workspaces.count">
+		<return-scalar column="SPACE_ID" type="integer" />
+		select COUNT(SPACE_ID) as SPACE_ID from WORKSPACE
+	</sql-query>
+
+	<sql-query name="get.total.commands.count">
+		<return-scalar column="ID" type="integer" />
+		select COUNT(ID) as ID from COMMAND
+	</sql-query>
+
+	<sql-query name="get.total.login.count">
+		<return-scalar column="LOGINCOUNT" type="integer" />
+		select LOGINCOUNT as LOGINCOUNT from COLLABERIDENTITY
+	</sql-query>
+
 	<sql-query name="get.last.login.date">
-    	<return-scalar column="lastConnected" type="timestamp"/>
-        select LASTCONNECTED as lastConnected from COLLABERIDENTITY
-    </sql-query>
-    
+		<return-scalar column="lastConnected" type="timestamp" />
+		select LASTCONNECTED as lastConnected from COLLABERIDENTITY
+	</sql-query>
+
 </hibernate-mapping>
