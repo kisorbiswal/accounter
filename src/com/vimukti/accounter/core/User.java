@@ -386,4 +386,12 @@ public class User implements IAccounterServerCore, Lifecycle {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	public boolean isMacApp() {
+		return isMacApp;
+	}
+
+	public void setMacApp(boolean isMacApp) {
+		this.isMacApp = isMacApp;
+	}
 }
