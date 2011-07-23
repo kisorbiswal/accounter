@@ -11,39 +11,39 @@ public abstract class CreatableObject {
 	protected Timestamp createdDate;
 	protected Timestamp lastModifiedDate;
 
-	void setCreatedBy(User createdBy) {
+	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
 
-	User getCreatedBy() {
+	public User getCreatedBy() {
 		return this.createdBy;
 	}
 
-	void setLastModifier(User lastModifier) {
+	public void setLastModifier(User lastModifier) {
 		this.lastModifier = lastModifier;
 	}
 
-	User getLastModifier() {
+	public User getLastModifier() {
 		return this.lastModifier;
 	}
 
-	void setCreatedDate(Timestamp createdDate) {
+	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
 	}
 
-	Timestamp getCreatedDate() {
+	public Timestamp getCreatedDate() {
 		return this.createdDate;
 	}
 
-	void setLastModifiedDate(Timestamp lastModifiedDate) {
+	public void setLastModifiedDate(Timestamp lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 
-	Timestamp getLastModifiedDate() {
+	public Timestamp getLastModifiedDate() {
 		return this.lastModifiedDate;
 	}
 
-	long getID() {
+	public long getID() {
 		return id;
 	}
 }
