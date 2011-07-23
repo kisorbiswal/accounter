@@ -17,7 +17,7 @@ import com.vimukti.accounter.core.change.ChangeTracker;
  * @author Chandan
  * 
  */
-public abstract class Payee implements IAccounterServerCore, ICreatableObject {
+public abstract class Payee extends CreatableObject implements IAccounterServerCore{
 
 	/**
 	 * 
@@ -60,12 +60,6 @@ public abstract class Payee implements IAccounterServerCore, ICreatableObject {
 	private String phoneNo;
 	private String faxNo;
 
-	transient boolean isImported;
-
-	long createdBy;
-	long lastModifier;
-	Timestamp createdDate;
-	Timestamp lastModifiedDate;
 
 	// UKvariables
 	// boolean isEUVATExemptPayee;
@@ -404,38 +398,6 @@ public abstract class Payee implements IAccounterServerCore, ICreatableObject {
 	}
 
 	public abstract Account getAccount();
-
-	public void setCreatedBy(long createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public long getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setLastModifier(long lastModifier) {
-		this.lastModifier = lastModifier;
-	}
-
-	public long getLastModifier() {
-		return lastModifier;
-	}
-
-	public void setCreatedDate(Timestamp createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public Timestamp getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setLastModifiedDate(Timestamp lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public Timestamp getLastModifiedDate() {
-		return lastModifiedDate;
-	}
 	
 	 /*
 	 * Is to update Memo in Entry if and only if payee Name
