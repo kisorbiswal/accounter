@@ -6,24 +6,24 @@ public abstract class CreatableObject {
 
 	protected long id;
 
-	protected long createdBy;
-	protected long lastModifier;
+	protected User createdBy;
+	protected User lastModifier;
 	protected Timestamp createdDate;
 	protected Timestamp lastModifiedDate;
 
-	void setCreatedBy(long createdBy) {
+	void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
 
-	long getCreatedBy() {
+	User getCreatedBy() {
 		return this.createdBy;
 	}
 
-	void setLastModifier(long lastModifier) {
+	void setLastModifier(User lastModifier) {
 		this.lastModifier = lastModifier;
 	}
 
-	long getLastModifier() {
+	User getLastModifier() {
 		return this.lastModifier;
 	}
 
