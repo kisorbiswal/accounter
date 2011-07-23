@@ -9,7 +9,6 @@ public class AccountTransactionItem {
 	Transaction transaction;
 	Account account;
 	double amount;
-	public long id;
 	
 	transient boolean isImported;
 

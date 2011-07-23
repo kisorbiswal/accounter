@@ -16,7 +16,6 @@ public class Box implements IAccounterServerCore {
 	 */
 	private static final long serialVersionUID = 3730671126732195673L;
 	long id;
-	long id;
 
 	int boxNumber;
 
@@ -32,13 +31,6 @@ public class Box implements IAccounterServerCore {
 		return id;
 	}
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id){
-		this.id = id;
-	}
 
 	/**
 	 * @return the vatRateCalculations
@@ -107,10 +99,6 @@ public class Box implements IAccounterServerCore {
 		return id;
 	}
 
-	@Override
-	public void setID(long id){
-		this.id=id;
-	}
 
 	@Override
 	public void setImported(boolean isImported) {

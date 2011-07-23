@@ -48,7 +48,6 @@ public class AccountTransaction implements IAccounterServerCore,
 	 * entries and Cashbasis journal entries.
 	 */
 	boolean cashBasisEntry = false;
-	public long id;
 
 	transient boolean isImported;
 	String createdBy;
@@ -58,14 +57,12 @@ public class AccountTransaction implements IAccounterServerCore,
 	FinanceDate tempTransactionDate;
 
 	public AccountTransaction() {
-		this.id = SecureUtils.createID();
 	}
 
 	@SuppressWarnings("deprecation")
 	public AccountTransaction(Account account, Transaction transaction,
 			double amount, boolean closingFYEntry, boolean cashBasisEntry) {
 
-		this.id = SecureUtils.createID();
 		this.account = account;
 		this.transaction = transaction;
 		this.amount = amount;
@@ -211,10 +208,6 @@ public class AccountTransaction implements IAccounterServerCore,
 
 	}
 
-	@Override
-	public void setID(long id){
-		this.id=id;
-	}
 
 	/**
 	 * @param amount

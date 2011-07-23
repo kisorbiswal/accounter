@@ -21,7 +21,6 @@ public class Bank implements IAccounterServerCore {
 
 	int version;
 
-	public long id;
 
 	transient boolean isImported;
 
@@ -84,11 +83,6 @@ public class Bank implements IAccounterServerCore {
 		return this.id;
 	}
 
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
 
 	@Override
 	public void setImported(boolean isImported) {

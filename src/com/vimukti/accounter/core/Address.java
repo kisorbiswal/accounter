@@ -207,12 +207,6 @@ public class Address implements IAccounterServerCore {
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
 	public void setImported(boolean isImported) {
 		this.isImported = isImported;
 

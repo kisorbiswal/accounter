@@ -461,7 +461,6 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 			String contactDetails, String Terms_And_Payment_Advice) {
 
 		this.themeName = themeName;
-		this.id=id;
 		this.pageSizeType = PAGE_SIZE_US_LETTER;
 		this.topMargin = topMargin;
 		this.bottomMargin = bottomMargin;
@@ -512,10 +511,6 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 		return true;
 	}
 
-	@Override
-	public long getID(){
-		return this.id;
-	}
 
 	@Override
 	public void setImported(boolean isImported) {
@@ -523,16 +518,12 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 
 	}
 
-	@Override
-	public void setID(long id){
-		this.id=id;
-	}
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setid(this.id);
+		accounterCore.setID(this.id);
 		accounterCore.setObjectType(AccounterCoreType.BRANDINGTHEME);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -572,13 +563,6 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 		return id;
 	}
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id){
-		this.id = id;
-	}
 
 	/**
 	 * @return the id
@@ -587,13 +571,6 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 		return id;
 	}
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id){
-		this.id=id;
-	}
 
 	/**
 	 * @return the isOnSaveProccessed
