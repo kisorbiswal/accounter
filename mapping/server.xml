@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping default-access="field">
 
-	<class name="com.bizantra.server.main.LiveServer" table="SERVERS">
+	<class name="com.vimukti.accounter.main.LiveServer" table="SERVERS">
 		<id name="serverID" column="SERVERID" length="40"></id>
 		<!-- <property name="keyStoreData" access="property" length="4096" column="KEYSTOREDATA"></property>
 		<property name="serverKeyStoreData" access="property" length="4096" column="SERVERKEYSTOREDATA"></property>
