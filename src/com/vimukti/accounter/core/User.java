@@ -20,13 +20,13 @@ public class User implements IAccounterServerCore, Lifecycle {
 	 */
 	private static final long serialVersionUID = -8262438863405809492L;
 
-	String firstName;
+	private String firstName;
 
-	String lastName;
+	private String lastName;
 
-	String emailId;
+	private String emailId;
 
-	String userRole;
+	private String userRole;
 
 	private boolean isActive;
 
