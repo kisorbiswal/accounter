@@ -9,7 +9,6 @@ public class UnitOfMeasure implements IAccounterServerCore {
 	 */
 	private static final long serialVersionUID = -952703729336678057L;
 	int version;
-	long id;
 	/**
 	 * Type of the UnitOfMeasure
 	 */
@@ -20,9 +19,7 @@ public class UnitOfMeasure implements IAccounterServerCore {
 	 */
 	String name;
 	String abbreviation;
-	public long id;
-
-	transient boolean isImported;
+	private long id;
 
 	/**
 	 * @return the version
@@ -64,20 +61,9 @@ public class UnitOfMeasure implements IAccounterServerCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		// TODO Auto-generated method stub
 		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
 	}
 
 	@Override

@@ -106,15 +106,6 @@ public class Vendor extends Payee implements Lifecycle {
 	}
 
 	/**
-	 * @param id
-	 *            the id to set
-	 */
-	@Override
-	public void setID(long id){
-		this.id = id;
-	}
-
-	/**
 	 * @return the address
 	 */
 	@Override
@@ -347,12 +338,12 @@ public class Vendor extends Payee implements Lifecycle {
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
 		FinanceLogger.log(
-				"Vendor with Name {0} and Balance {1} has been deleted", this
-						.getName(), String.valueOf(this.getBalance()));
+				"Vendor with Name {0} and Balance {1} has been deleted",
+				this.getName(), String.valueOf(this.getBalance()));
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setid(this.id);
+		accounterCore.setID(this.id);
 		accounterCore.setObjectType(AccounterCoreType.VENDOR);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -399,10 +390,9 @@ public class Vendor extends Payee implements Lifecycle {
 					nextVoucherNumber, JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY);
 			session.save(journalEntry);
 		}
-		
+
 		/*
-		 * Is to update Memo in Entry if and only if vendor Name 
-		 * was altered 
+		 * Is to update Memo in Entry if and only if vendor Name was altered
 		 */
 		this.updateEntryMemo(session);
 
@@ -437,20 +427,9 @@ public class Vendor extends Payee implements Lifecycle {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		// TODO Auto-generated method stub
 		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
 	}
 
 	public boolean equals(Vendor vendor) {

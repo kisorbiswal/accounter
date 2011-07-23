@@ -14,8 +14,8 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 
-public class ShippingTerms implements IAccounterServerCore, Lifecycle,
-		ICreatableObject {
+public class ShippingTerms extends CreatableObject implements
+		IAccounterServerCore, Lifecycle {
 
 	/**
 	 * 
@@ -24,17 +24,8 @@ public class ShippingTerms implements IAccounterServerCore, Lifecycle,
 
 	int version;
 
-	long id;
-	public long id;
-
 	String name;
 	String description;
-
-	transient boolean isImported;
-	String createdBy;
-	String lastModifier;
-	FinanceDate createdDate;
-	FinanceDate lastModifiedDate;
 
 	boolean isDefault;
 
@@ -90,7 +81,7 @@ public class ShippingTerms implements IAccounterServerCore, Lifecycle,
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setid(this.id);
+		accounterCore.setID(this.id);
 		accounterCore.setObjectType(AccounterCoreType.SHIPPING_TERM);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -118,55 +109,6 @@ public class ShippingTerms implements IAccounterServerCore, Lifecycle,
 	public boolean onUpdate(Session arg0) throws CallbackException {
 		ChangeTracker.put(this);
 		return false;
-	}
-
-	@Override
-	public long getID(){
-		// TODO Auto-generated method stub
-		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setLastModifier(String lastModifier) {
-		this.lastModifier = lastModifier;
-	}
-
-	public String getLastModifier() {
-		return lastModifier;
-	}
-
-	public void setCreatedDate(FinanceDate createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public FinanceDate getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setLastModifiedDate(FinanceDate lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public FinanceDate getLastModifiedDate() {
-		return lastModifiedDate;
 	}
 
 	@Override

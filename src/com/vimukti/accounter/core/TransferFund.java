@@ -79,15 +79,6 @@ public class TransferFund extends Transaction implements Lifecycle {
 	}
 
 	/**
-	 * @param id
-	 *            the id to set
-	 */
-	@Override
-	public void setID(long id){
-		this.id = id;
-	}
-
-	/**
 	 * @return the transferFrom
 	 */
 	public Account getTransferFrom() {
@@ -205,11 +196,6 @@ public class TransferFund extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-	}
-
-	@Override
 	public Payee getInvolvedPayee() {
 
 		return this.getPayee();
@@ -237,7 +223,7 @@ public class TransferFund extends Transaction implements Lifecycle {
 		TransferFund transferFund = (TransferFund) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
 		/**
-		 *if present transaction is deleted or voided & previous transaction is
+		 * if present transaction is deleted or voided & previous transaction is
 		 * not voided then only it will enter the loop
 		 */
 
@@ -255,9 +241,7 @@ public class TransferFund extends Transaction implements Lifecycle {
 
 				transferFund.total -= this.total;
 
-				this
-						.effectAccount(session, this.transferTo,
-								transferFund.total);
+				this.effectAccount(session, this.transferTo, transferFund.total);
 
 				this.effectAccount(session, this.transferFrom,
 						-transferFund.total);

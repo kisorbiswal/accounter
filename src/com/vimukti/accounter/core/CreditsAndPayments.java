@@ -81,7 +81,6 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 	}
 
-
 	public int getVersion() {
 		return version;
 	}
@@ -212,7 +211,8 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 		if (transaction.getType() == Transaction.TYPE_CUSTOMER_CREDIT_MEMO
 				|| transaction.getType() == Transaction.TYPE_VENDOR_CREDIT_MEMO
 				|| transaction.getType() == Transaction.TYPE_CUSTOMER_PRE_PAYMENT) {
-			if (DecimalUtil.isGreaterThan(this.balance, 0) && DecimalUtil.isLessThan(this.balance, this.creditAmount)) {
+			if (DecimalUtil.isGreaterThan(this.balance, 0)
+					&& DecimalUtil.isLessThan(this.balance, this.creditAmount)) {
 				transaction.status = Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED;
 			} else if (DecimalUtil.isEquals(this.balance, 0.0)) {
 				transaction.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
@@ -233,7 +233,8 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	public boolean onDelete(Session session) throws CallbackException {
 		for (TransactionCreditsAndPayments transactionCreditsAndPayments : this.transactionCreditsAndPayments) {
 
-			if (DecimalUtil.isGreaterThan(transactionCreditsAndPayments.amountToUse, 0.0)) {
+			if (DecimalUtil.isGreaterThan(
+					transactionCreditsAndPayments.amountToUse, 0.0)) {
 				transactionCreditsAndPayments.updateAmountToUse();
 			}
 			session.saveOrUpdate(transactionCreditsAndPayments);
@@ -250,7 +251,6 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-
 
 		if (this.isOnSaveProccessed)
 			return true;
@@ -285,7 +285,8 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	public boolean onUpdate(Session session) throws CallbackException {
 		for (TransactionCreditsAndPayments transactionCreditsAndPayments : this.transactionCreditsAndPayments) {
 
-			if (DecimalUtil.isGreaterThan(transactionCreditsAndPayments.amountToUse, 0.0)) {
+			if (DecimalUtil.isGreaterThan(
+					transactionCreditsAndPayments.amountToUse, 0.0)) {
 				transactionCreditsAndPayments.updateAmountToUse();
 			}
 		}
@@ -328,20 +329,9 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		// TODO Auto-generated method stub
 		return this.id;
-	}
-
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		if (this.transactionCreditsAndPayments != null) {
-			for (TransactionCreditsAndPayments ti : this.transactionCreditsAndPayments) {
-				ti.setImported(true);
-			}
-		}
 	}
 
 	public void updateCreditPayments(Double presentCreditAmount) {
@@ -369,7 +359,8 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 			for (TransactionCreditsAndPayments tcp : this.transactionCreditsAndPayments) {
 
-				if (DecimalUtil.isLessThan(presentCreditAmount, tcp.amountToUse)) {
+				if (DecimalUtil
+						.isLessThan(presentCreditAmount, tcp.amountToUse)) {
 
 					if (tcp.transactionPayBill != null)
 						tcp.transactionPayBill

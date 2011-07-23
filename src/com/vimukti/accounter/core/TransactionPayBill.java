@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
@@ -29,7 +28,6 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 	 */
 	private static final long serialVersionUID = -4955126209995058112L;
 	long id;
-	public long id;
 	int version;
 
 	/**
@@ -318,9 +316,6 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		this.id = this.id == null || this.id != null
-				&& this.id.isEmpty() ? SecureUtils.createID()
-				: this.id;
 		if (this.id == 0l) {
 
 			// this.enterBill.getVendor().updateBalance(session, this.payBill,
@@ -361,8 +356,9 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 
 				if (DecimalUtil.isGreaterThan(this.enterBill.getBalanceDue(),
 						0D)
-						&& DecimalUtil.isLessThan(this.enterBill
-								.getBalanceDue(), this.enterBill.getTotal())) {
+						&& DecimalUtil.isLessThan(
+								this.enterBill.getBalanceDue(),
+								this.enterBill.getTotal())) {
 					this.enterBill.status = Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED;
 				} else if (DecimalUtil.isEquals(this.enterBill.getBalanceDue(),
 						0D)) {
@@ -378,13 +374,11 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 								+ amount);
 				this.transactionMakeDeposit
 						.setBalanceDue(this.transactionMakeDeposit
-								.getBalanceDue()
-								- amount);
+								.getBalanceDue() - amount);
 
 			} else if (this.journalEntry != null) {
 				this.journalEntry.setBalanceDue(this.journalEntry
-						.getBalanceDue()
-						- amount);
+						.getBalanceDue() - amount);
 			}
 
 		}
@@ -526,25 +520,9 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		// TODO Auto-generated method stub
 		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		if (this.transactionCreditsAndPayments != null) {
-			for (TransactionCreditsAndPayments ti : this.transactionCreditsAndPayments) {
-				ti.setImported(true);
-			}
-		}
 	}
 
 	public boolean equals(TransactionPayBill obj) {
@@ -588,8 +566,8 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 		if (DecimalUtil.isGreaterThan(amtdue, 0)) {
 			if (DecimalUtil.isGreaterThan(this.getPayment(), amtdue)) {
 
-				if (DecimalUtil.isLessThan(this.getAmountDue(), this
-						.getPayment()))
+				if (DecimalUtil.isLessThan(this.getAmountDue(),
+						this.getPayment()))
 					previousUnusedAmount = this.getPayment()
 							- this.getAmountDue();
 
@@ -621,8 +599,8 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 
 			if (DecimalUtil.isGreaterThan(this.payment, amtdue)) {
 
-				if (DecimalUtil.isLessThan(this.getAmountDue(), this
-						.getPayment()))
+				if (DecimalUtil.isLessThan(this.getAmountDue(),
+						this.getPayment()))
 					previousUnusedAmount = this.getPayment()
 							- this.getAmountDue();
 

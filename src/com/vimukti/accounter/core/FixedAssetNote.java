@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
  * 
  */
 @SuppressWarnings("serial")
-public class FixedAssetNote implements IAccounterServerCore, ICreatableObject,
+public class FixedAssetNote implements IAccounterServerCore, CreatableObject,
 		Lifecycle {
 
 	private String note;

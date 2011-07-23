@@ -22,9 +22,6 @@ public class VATReturnBox implements IAccounterServerCore, Lifecycle {
 	 * 
 	 */
 	private static final long serialVersionUID = -8208080531370075833L;
-	long id;
-	long id;
-
 	String name;
 	String vatBox;
 	String totalBox;
@@ -56,14 +53,6 @@ public class VATReturnBox implements IAccounterServerCore, Lifecycle {
 	 */
 	public long getId() {
 		return id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id){
-		this.id = id;
 	}
 
 	/**
@@ -122,18 +111,8 @@ public class VATReturnBox implements IAccounterServerCore, Lifecycle {
 	transient private boolean isOnSaveProccessed;
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
 	}
 
 	@Override

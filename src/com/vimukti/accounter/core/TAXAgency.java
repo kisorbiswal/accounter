@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
  * It contains two separate accounts; one for purchase transactions and the
  * other for sales.
  * 
- * @author Chandan 
+ * @author Chandan
  * 
  */
 public class TAXAgency extends Payee implements Lifecycle {
@@ -162,18 +162,18 @@ public class TAXAgency extends Payee implements Lifecycle {
 		account.onUpdate(session);
 
 		FinanceLogger.log(
-				"VATAgency account has been updated with amount: {0}", String
-						.valueOf(amount));
+				"VATAgency account has been updated with amount: {0}",
+				String.valueOf(amount));
 
 	}
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		FinanceLogger.log("VAT Agency with name: {0} has been deleted ", this
-				.getName());
+		FinanceLogger.log("VAT Agency with name: {0} has been deleted ",
+				this.getName());
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setid(this.id);
+		accounterCore.setID(this.id);
 		accounterCore.setObjectType(AccounterCoreType.TAXAGENCY);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -205,20 +205,9 @@ public class TAXAgency extends Payee implements Lifecycle {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 
 		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
 	}
 
 	@Override

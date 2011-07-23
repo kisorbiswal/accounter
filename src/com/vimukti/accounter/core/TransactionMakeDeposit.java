@@ -7,7 +7,6 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
-import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.SpecialReference;
@@ -24,7 +23,6 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 
 	int version;
 	long id;
-	public long id;
 	/**
 	 * The date at which this TransactionMakeDeposit is created.
 	 */
@@ -297,10 +295,6 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 			return true;
 		this.isOnSaveProccessed = true;
 
-		this.id = this.id == null || this.id != null
-				&& this.id.isEmpty() ? SecureUtils.createID()
-				: this.id;
-
 		if (!this.isNewEntry) {
 			// Update the Undeposited Funds Account of the Entry
 			this.cashAccount
@@ -512,20 +506,9 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		// TODO Auto-generated method stub
 		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
 	}
 
 	public boolean equals(TransactionMakeDeposit obj) {

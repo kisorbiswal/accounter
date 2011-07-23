@@ -214,15 +214,6 @@ public class VendorCreditMemo extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		for (TransactionItem ti : this.transactionItems) {
-			ti.setImported(true);
-		}
-
-	}
-
-	@Override
 	public Payee getInvolvedPayee() {
 
 		return this.vendor;

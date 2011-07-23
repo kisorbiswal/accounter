@@ -41,12 +41,6 @@ public class VATReturn extends Transaction implements Lifecycle {
 	 */
 	TAXAgency taxAgency;
 	// transient boolean isImported;
-	String createdBy;
-	String lastModifier;
-	String createdDate;
-	String lastModifiedDate;
-
-	long id;
 
 	List<Box> boxes = new ArrayList<Box>();
 
@@ -61,16 +55,8 @@ public class VATReturn extends Transaction implements Lifecycle {
 	/**
 	 * @return the id
 	 */
-	public long getID(){
+	public long getID() {
 		return id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id){
-		this.id=id;
 	}
 
 	/**
@@ -78,14 +64,6 @@ public class VATReturn extends Transaction implements Lifecycle {
 	 */
 	public long getId() {
 		return id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id){
-		this.id = id;
 	}
 
 	/**
@@ -208,15 +186,15 @@ public class VATReturn extends Transaction implements Lifecycle {
 
 			this.taxAgency.updateBalance(session, this, this.total);
 
-//			this.taxAgency.salesLiabilityAccount.updateCurrentBalance(this,
-//					-this.boxes.get(2).getAmount());
-//			session.update(this.taxAgency.salesLiabilityAccount);
-//			this.taxAgency.salesLiabilityAccount.onUpdate(session);
-//
-//			this.taxAgency.purchaseLiabilityAccount.updateCurrentBalance(this,
-//					this.boxes.get(3).getAmount());
-//			session.update(this.taxAgency.purchaseLiabilityAccount);
-//			this.taxAgency.purchaseLiabilityAccount.onUpdate(session);
+			// this.taxAgency.salesLiabilityAccount.updateCurrentBalance(this,
+			// -this.boxes.get(2).getAmount());
+			// session.update(this.taxAgency.salesLiabilityAccount);
+			// this.taxAgency.salesLiabilityAccount.onUpdate(session);
+			//
+			// this.taxAgency.purchaseLiabilityAccount.updateCurrentBalance(this,
+			// this.boxes.get(3).getAmount());
+			// session.update(this.taxAgency.purchaseLiabilityAccount);
+			// this.taxAgency.purchaseLiabilityAccount.onUpdate(session);
 
 			Query query = session
 					.createQuery(
@@ -266,8 +244,7 @@ public class VATReturn extends Transaction implements Lifecycle {
 		if (isBecameVoid()) {
 
 			FinanceLogger
-					.log(
-							"VatReturn with number: {0} going to RollBack All effects ",
+					.log("VatReturn with number: {0} going to RollBack All effects ",
 							String.valueOf(this.getNumber()));
 
 			this.taxAgency.updateBalance(session, this, -1 * this.total);
@@ -281,7 +258,7 @@ public class VATReturn extends Transaction implements Lifecycle {
 			// this,
 			// -(total + this.boxes.get(boxes.size() - 1)
 			// .getAmount()));
-			//			
+			//
 			Query query = session
 					.createQuery(
 							"from com.vimukti.accounter.core.TAXRateCalculation vr where vr.vatItem is not null and vr.vatItem.vatAgency.id=:vatAgency and vr.transactionDate > :toDate and vr.vatReturn is null")
@@ -335,11 +312,6 @@ public class VATReturn extends Transaction implements Lifecycle {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
 	}
 
 	@Override

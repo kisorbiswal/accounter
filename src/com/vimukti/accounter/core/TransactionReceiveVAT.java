@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 
 /**
  * 
- * For every ReceiveVAT entry there will be one or more TransactionReceiveVAT entries.
- * These are populated whenever any VATReturn is created. The VATAgency
+ * For every ReceiveVAT entry there will be one or more TransactionReceiveVAT
+ * entries. These are populated whenever any VATReturn is created. The VATAgency
  * reference indicates from which VATAgency we are receiving the VAT. And the
  * VATReturn reference indicates from which VATReturn this entry is made
  * 
@@ -20,17 +20,13 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
  */
 
 public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
-	
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -9134646130329872990L;
-	
 
 	long id;
-
-	public long id;
 
 	/**
 	 * The TaxAgency that we have selected for what we are making the
@@ -38,7 +34,7 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	 */
 	@ReffereredObject
 	TAXAgency taxAgency;
-	
+
 	/**
 	 * The amount of Tax which we still have to receive.
 	 */
@@ -51,7 +47,7 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 
 	@ReffereredObject
 	VATReturn vatReturn;
-	
+
 	@ReffereredObject
 	ReceiveVAT receiveVAT;
 
@@ -69,24 +65,18 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
-	public void setID(long id){
+	public void setID(long id) {
 		this.id = id;
 	}
 
 	/**
 	 * @return the id
 	 */
-	public long getID(){
+	public long getID() {
 		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setID(long id){
-		this.id=id;
 	}
 
 	/**
@@ -97,7 +87,8 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	}
 
 	/**
-	 * @param vatAgency the vatAgency to set
+	 * @param vatAgency
+	 *            the vatAgency to set
 	 */
 	public void setTaxAgency(TAXAgency taxAgency) {
 		this.taxAgency = taxAgency;
@@ -111,7 +102,8 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	}
 
 	/**
-	 * @param taxDue the taxDue to set
+	 * @param taxDue
+	 *            the taxDue to set
 	 */
 	public void setTaxDue(double taxDue) {
 		this.taxDue = taxDue;
@@ -125,7 +117,8 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	}
 
 	/**
-	 * @param amountToReceive the amountToReceive to set
+	 * @param amountToReceive
+	 *            the amountToReceive to set
 	 */
 	public void setAmountToReceive(double amountToReceive) {
 		this.amountToReceive = amountToReceive;
@@ -139,7 +132,8 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	}
 
 	/**
-	 * @param vatReturn the vatReturn to set
+	 * @param vatReturn
+	 *            the vatReturn to set
 	 */
 	public void setVatReturn(VATReturn vatReturn) {
 		this.vatReturn = vatReturn;
@@ -153,7 +147,8 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	}
 
 	/**
-	 * @param receiveVAT the receiveVAT to set
+	 * @param receiveVAT
+	 *            the receiveVAT to set
 	 */
 	public void setReceiveVAT(ReceiveVAT receiveVAT) {
 		this.receiveVAT = receiveVAT;
@@ -167,7 +162,8 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	}
 
 	/**
-	 * @param version the version to set
+	 * @param version
+	 *            the version to set
 	 */
 	public void setVersion(int version) {
 		this.version = version;
@@ -181,7 +177,8 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	}
 
 	/**
-	 * @param isImported the isImported to set
+	 * @param isImported
+	 *            the isImported to set
 	 */
 	public void setImported(boolean isImported) {
 		this.isImported = isImported;
@@ -195,7 +192,8 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	}
 
 	/**
-	 * @param isOnSaveProccessed the isOnSaveProccessed to set
+	 * @param isOnSaveProccessed
+	 *            the isOnSaveProccessed to set
 	 */
 	public void setOnSaveProccessed(boolean isOnSaveProccessed) {
 		this.isOnSaveProccessed = isOnSaveProccessed;
@@ -217,7 +215,7 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -230,9 +228,8 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 			return true;
 		this.isOnSaveProccessed = true;
 		if (this.id == 0l) {
-		
 
-			this.taxAgency.updateBalance(session, this.vatReturn, 
+			this.taxAgency.updateBalance(session, this.vatReturn,
 					this.amountToReceive);
 
 			FinanceLogger.log("VATReturn with Number:" + this.vatReturn.number
@@ -244,9 +241,11 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 
 			// The Accounts payable is also to be decreased as the amount to pay
 			// to VATAgency is decreased.
-			Account account = Company.getCompany().getVATFiledLiabilityAccount();
+			Account account = Company.getCompany()
+					.getVATFiledLiabilityAccount();
 			if (account != null) {
-				account.updateCurrentBalance(this.receiveVAT, this.amountToReceive);
+				account.updateCurrentBalance(this.receiveVAT,
+						this.amountToReceive);
 				session.update(account);
 				account.onUpdate(session);
 			}
@@ -264,20 +263,22 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 
 			// We need to update the corresponding VATAgency's balance with this
 			// amount to pay.
-			this.taxAgency.updateBalance(session, this.vatReturn,
-					-1 * this.amountToReceive);
+			this.taxAgency.updateBalance(session, this.vatReturn, -1
+					* this.amountToReceive);
 
 			FinanceLogger.log("Vatreturn with Number:" + this.vatReturn.number
-					+ " balance has been updated with amount: "
-					+ -1 * this.amountToReceive);
+					+ " balance has been updated with amount: " + -1
+					* this.amountToReceive);
 
 			// At the same time we need to update the vatReturn reference in it.
 			this.vatReturn.updateBalance(-1 * this.amountToReceive);
 
 			// The Accounts payable is also to be decreased as the amount to pay
 			// to VATAgency is decreased.
-			Account account = Company.getCompany().getVATFiledLiabilityAccount();
-			account.updateCurrentBalance(this.receiveVAT,-1 *  this.amountToReceive);
+			Account account = Company.getCompany()
+					.getVATFiledLiabilityAccount();
+			account.updateCurrentBalance(this.receiveVAT, -1
+					* this.amountToReceive);
 		}
 		return false;
 	}
@@ -285,7 +286,5 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	protected boolean isBecameVoid() {
 		return this.receiveVAT.isBecameVoid();
 	}
-	
-	
 
 }

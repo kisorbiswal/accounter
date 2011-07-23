@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
@@ -32,13 +31,12 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 
 	long id;
 
-	public long id;
-
 	int version;
 
 	/**
-	 * This FinanceDate is given when creating the invoice or customer refund. This is
-	 * displayed in the grid of Receive payment which is uneditable there.
+	 * This FinanceDate is given when creating the invoice or customer refund.
+	 * This is displayed in the grid of Receive payment which is uneditable
+	 * there.
 	 */
 	FinanceDate dueDate;
 
@@ -336,11 +334,9 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		this.id = this.id == null || this.id != null
-    && this.id.isEmpty() ? SecureUtils.createID()
-    : this.id;
 
-		if (this.discountAccount != null && DecimalUtil.isGreaterThan(this.cashDiscount,0D)) {
+		if (this.discountAccount != null
+				&& DecimalUtil.isGreaterThan(this.cashDiscount, 0D)) {
 
 			// update the corresponding payee with discount amount
 			this.receivePayment.getCustomer().updateBalance(session,
@@ -353,7 +349,8 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 			this.discountAccount.onUpdate(session);
 		}
 
-		if (this.writeOffAccount != null && DecimalUtil.isGreaterThan(this.writeOff, 0D)) {
+		if (this.writeOffAccount != null
+				&& DecimalUtil.isGreaterThan(this.writeOff, 0D)) {
 
 			// update the corresponding payee with write off amount
 			this.receivePayment.getCustomer().updateBalance(session,
@@ -367,8 +364,10 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 		}
 
 		// To make the Invoice as Un Void or Un Editable
-		if ((this.discountAccount != null && DecimalUtil.isGreaterThan(this.cashDiscount,0.0))
-				|| this.writeOffAccount != null && DecimalUtil.isGreaterThan(this.writeOff ,0.0)){
+		if ((this.discountAccount != null && DecimalUtil.isGreaterThan(
+				this.cashDiscount, 0.0))
+				|| this.writeOffAccount != null
+				&& DecimalUtil.isGreaterThan(this.writeOff, 0.0)) {
 			if (this.invoice != null) {
 				this.invoice.setCanVoidOrEdit(Boolean.FALSE);
 			} else if (customerRefund != null) {
@@ -389,10 +388,11 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 			// To Decide whether this Invoice is Not paid, Partially paid or
 			// Paid
 
-			if (DecimalUtil.isGreaterThan(this.invoice.getBalanceDue(),0D)
-					&& DecimalUtil.isLessThan(this.invoice.getBalanceDue(),this.invoice.getTotal())) {
+			if (DecimalUtil.isGreaterThan(this.invoice.getBalanceDue(), 0D)
+					&& DecimalUtil.isLessThan(this.invoice.getBalanceDue(),
+							this.invoice.getTotal())) {
 				this.invoice.status = Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED;
-			} else if (DecimalUtil.isEquals(this.invoice.getBalanceDue(),0D)) {
+			} else if (DecimalUtil.isEquals(this.invoice.getBalanceDue(), 0D)) {
 				this.invoice.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			}
 
@@ -402,8 +402,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 			this.customerRefund.setPayments(this.customerRefund.getPayments()
 					+ amount);
 			this.customerRefund.setBalanceDue(this.customerRefund
-					.getBalanceDue()
-					- amount);
+					.getBalanceDue() - amount);
 
 		} else if (this.journalEntry != null) {
 			// Update the Payments and the balance due of the corresponding
@@ -428,35 +427,40 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 			// this.receivePayment.taxRateCalculationEntriesList.clear();
 
 			if (this.getDiscountAccount() != null
-					&& DecimalUtil.isGreaterThan(this.getCashDiscount(),0.0)) {
+					&& DecimalUtil.isGreaterThan(this.getCashDiscount(), 0.0)) {
 
 				Account account = Company.getCompany()
 						.getAccountsReceivableAccount();
-				account.updateCurrentBalance(this.getReceivePayment(), -this
-						.getCashDiscount());
+				account.updateCurrentBalance(this.getReceivePayment(),
+						-this.getCashDiscount());
 				session.saveOrUpdate(account);
 				this.getDiscountAccount().updateCurrentBalance(
 						this.getReceivePayment(), -this.getCashDiscount());
 
 				session.saveOrUpdate(this.getDiscountAccount());
 
-				this.getReceivePayment().getCustomer().updateBalance(session,
-						this.getReceivePayment(), -this.getCashDiscount());
+				this.getReceivePayment()
+						.getCustomer()
+						.updateBalance(session, this.getReceivePayment(),
+								-this.getCashDiscount());
 
 			}
-			if (this.getWriteOffAccount() != null && DecimalUtil.isGreaterThan(this.getWriteOff(),0.0)) {
+			if (this.getWriteOffAccount() != null
+					&& DecimalUtil.isGreaterThan(this.getWriteOff(), 0.0)) {
 
 				Account account = Company.getCompany()
 						.getAccountsReceivableAccount();
-				account.updateCurrentBalance(this.getReceivePayment(), -this
-						.getWriteOff());
+				account.updateCurrentBalance(this.getReceivePayment(),
+						-this.getWriteOff());
 				session.saveOrUpdate(account);
 				this.getWriteOffAccount().updateCurrentBalance(
 						this.getReceivePayment(), -this.getWriteOff());
 
 				session.saveOrUpdate(getWriteOffAccount());
-				this.getReceivePayment().getCustomer().updateBalance(session,
-						this.getReceivePayment(), -this.getWriteOff());
+				this.getReceivePayment()
+						.getCustomer()
+						.updateBalance(session, this.getReceivePayment(),
+								-this.getWriteOff());
 
 			}
 			session.saveOrUpdate(this.getReceivePayment().getCustomer());
@@ -558,25 +562,9 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		// TODO Auto-generated method stub
 		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		if(this.transactionCreditsAndPayments!=null){
-		for (TransactionCreditsAndPayments ti : this.transactionCreditsAndPayments) {
-			ti.setImported(true);
-		}
-		}
 	}
 
 	// @Override
@@ -604,13 +592,13 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 
 	public double updatePayments(Double amtdue) {
 		if (DecimalUtil.isGreaterThan(amtdue, 0)) {
-			if (DecimalUtil.isGreaterThan(this.getPayment(),amtdue)) {
+			if (DecimalUtil.isGreaterThan(this.getPayment(), amtdue)) {
 				updateCredits(this.getPayment() - amtdue, 0.0);
 				this.setPayment(amtdue);
 				amtdue = 0.0;
 			} else {
 				amtdue -= this.getPayment();
-				if (DecimalUtil.isGreaterThan(this.appliedCredits,amtdue)) {
+				if (DecimalUtil.isGreaterThan(this.appliedCredits, amtdue)) {
 					updateCredits(this.appliedCredits - amtdue, amtdue);
 					this.appliedCredits = amtdue;
 				}

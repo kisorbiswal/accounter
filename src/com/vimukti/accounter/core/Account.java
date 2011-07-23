@@ -18,7 +18,6 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -44,8 +43,9 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  * 
  * 
  */
-@SuppressWarnings( { "serial", "unchecked" })
-public class Account extends CreatableObject implements IAccounterServerCore, Lifecycle {
+@SuppressWarnings({ "serial", "unchecked" })
+public class Account extends CreatableObject implements IAccounterServerCore,
+		Lifecycle {
 
 	Logger log = Logger.getLogger(Account.class);
 
@@ -111,7 +111,6 @@ public class Account extends CreatableObject implements IAccounterServerCore, Li
 	public static final int SUBBASETYPE_OTHER_EXPENSE = 10;
 
 	public static final int GROUPTYPE_CASH = 1;
-
 
 	/**
 	 * To decide about the type of the {@link Account}
@@ -235,7 +234,6 @@ public class Account extends CreatableObject implements IAccounterServerCore, Li
 	 * This is not Persistent variable, logically we have used in our code.
 	 */
 	transient Account oldParent;
-
 
 	/**
 	 * This will index all Accounts.
@@ -757,8 +755,8 @@ public class Account extends CreatableObject implements IAccounterServerCore, Li
 			return true;
 		this.isOnSaveProccessed = true;
 
-		FinanceLogger.log("{0} OnSave method execution...........", this
-				.getName());
+		FinanceLogger.log("{0} OnSave method execution...........",
+				this.getName());
 
 		try {
 			if (this.type == Account.TYPE_INCOME
@@ -778,8 +776,8 @@ public class Account extends CreatableObject implements IAccounterServerCore, Li
 			}
 
 			FinanceLogger.log("Account  {0}: {1} for the type: {2}", this.name,
-					(isIncrease ? " IsIncrease becomes true" : ""), String
-							.valueOf(this.type));
+					(isIncrease ? " IsIncrease becomes true" : ""),
+					String.valueOf(this.type));
 
 			switch (type) {
 
@@ -882,9 +880,10 @@ public class Account extends CreatableObject implements IAccounterServerCore, Li
 						this.flow = "1";
 					}
 				} else {
-					List l = session.createQuery(
-							"select count(*) from " + className
-									+ " a where a.parent=:parent")
+					List l = session
+							.createQuery(
+									"select count(*) from " + className
+											+ " a where a.parent=:parent")
 							.setParameter("parent", this.parent).list();
 					if (l != null) {
 						long count = (Long) l.get(0);
@@ -894,8 +893,8 @@ public class Account extends CreatableObject implements IAccounterServerCore, Li
 				}
 			}
 
-			FinanceLogger.log("Account {0}: Flow with {1} has been added", this
-					.getName(), this.flow);
+			FinanceLogger.log("Account {0}: Flow with {1} has been added",
+					this.getName(), this.flow);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -913,8 +912,8 @@ public class Account extends CreatableObject implements IAccounterServerCore, Li
 
 		this.totalBalance += amount;
 
-		FinanceLogger.log("{0} To {1}", tempStr, String
-				.valueOf(this.totalBalance));
+		FinanceLogger.log("{0} To {1}", tempStr,
+				String.valueOf(this.totalBalance));
 
 		if (this.parent != null) {
 			this.parent.updateTotalBalance(amount);
@@ -924,7 +923,7 @@ public class Account extends CreatableObject implements IAccounterServerCore, Li
 
 	public void updateCurrentBalance(Transaction transaction, double amount) {
 
-//		if (!this.getName().equals(AccounterConstants.SALES_TAX_VAT_UNFILED))
+		// if (!this.getName().equals(AccounterConstants.SALES_TAX_VAT_UNFILED))
 		amount = (isIncrease ? 1 : -1) * amount;
 
 		String tempStr = "Current Balance of  " + this.getName()
@@ -932,8 +931,8 @@ public class Account extends CreatableObject implements IAccounterServerCore, Li
 
 		this.currentBalance += amount;
 
-		FinanceLogger.log("{0} To {1}", tempStr, String
-				.valueOf(this.currentBalance));
+		FinanceLogger.log("{0} To {1}", tempStr,
+				String.valueOf(this.currentBalance));
 
 		if (!DecimalUtil.isEquals(this.currentBalance, 0.0)
 				&& isOpeningBalanceEditable) {
@@ -1019,18 +1018,18 @@ public class Account extends CreatableObject implements IAccounterServerCore, Li
 
 			if (this.oldParent != null && this.oldParent != this.parent) {
 
-				FinanceLogger.log("{0} parent changed from {1} to {2} ", this
-						.getName(), this.oldParent.getName(), this.parent
-						.getName());
+				FinanceLogger.log("{0} parent changed from {1} to {2} ",
+						this.getName(), this.oldParent.getName(),
+						this.parent.getName());
 
-				FinanceLogger.log("{0} flow changed from {1} to {2}", this
-						.getName(), oldFlow, this.flow);
+				FinanceLogger.log("{0} flow changed from {1} to {2}",
+						this.getName(), oldFlow, this.flow);
 
 				this.oldParent.updateTotalBalance(-1 * this.totalBalance);
 				session.update(this.oldParent);
 
-				int i = Integer.parseInt(oldFlow
-						.substring(oldFlow.length() - 1));
+				int i = Integer
+						.parseInt(oldFlow.substring(oldFlow.length() - 1));
 
 				// Query query1 =
 				// session.getNamedQuery("getAccountDetails").setParameter("parentId",
@@ -1039,8 +1038,8 @@ public class Account extends CreatableObject implements IAccounterServerCore, Li
 				Query query1 = session
 						.createQuery(
 								"from com.vimukti.accounter.core.Account a where a.parent=:parent and a.flow !=:flow order by a.id")
-						.setParameter("parent", this.oldParent).setParameter(
-								"flow", oldFlow);
+						.setParameter("parent", this.oldParent)
+						.setParameter("flow", oldFlow);
 				List<Account> l2 = query1.list();
 
 				// List<Account> l2 = session
@@ -1186,7 +1185,6 @@ public class Account extends CreatableObject implements IAccounterServerCore, Li
 
 	}
 
-
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
@@ -1204,9 +1202,10 @@ public class Account extends CreatableObject implements IAccounterServerCore, Li
 		// throw new InvalidOperationException(
 		// "Account Name already existed Enter Unique name for Account");
 
-		Query query = session.getNamedQuery("getAccounts").setParameter("name",
-				this.name).setParameter("number", this.number).setParameter(
-				"id", this.id);
+		Query query = session.getNamedQuery("getAccounts")
+				.setParameter("name", this.name)
+				.setParameter("number", this.number)
+				.setParameter("id", this.id);
 
 		List list = query.list();
 		Iterator it = list.iterator();

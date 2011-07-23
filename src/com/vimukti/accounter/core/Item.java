@@ -22,7 +22,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
  * 
  */
 
-public class Item implements IAccounterServerCore, Lifecycle, ICreatableObject {
+public class Item implements IAccounterServerCore, Lifecycle, CreatableObject {
 	/**
 	 * 
 	 */

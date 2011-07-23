@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
  * A VATGroup is a sub class of VATItemGroup. It consists of list of VATItems
  * and the groupRate to indicate the average of the vat rates of the list
  * 
- * @author Chandan 
+ * @author Chandan
  */
 public class TAXGroup extends TAXItemGroup {
 
@@ -41,7 +41,7 @@ public class TAXGroup extends TAXItemGroup {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setID(long id){
+	public void setID(long id) {
 		this.id = id;
 	}
 
@@ -121,56 +121,55 @@ public class TAXGroup extends TAXItemGroup {
 	}
 
 	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-	}
-	
-	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		
+
 		if (isImported) {
 			return false;
 		}
-		
+
 		if (Company.getCompany() != null
 				&& Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			TAXCode taxCode = new TAXCode((TAXItemGroup) this);
 			session.saveOrUpdate(taxCode);
 		}
-		
+
 		ChangeTracker.put(this);
 		return false;
 	}
-	
+
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-		
+
 		if (Company.getCompany() != null
 				&& Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-						
-			Query query = session.createQuery("from com.vimukti.accounter.core.TAXCode t where t.id =:id").setParameter("id", this.id);
+
+			Query query = session
+					.createQuery(
+							"from com.vimukti.accounter.core.TAXCode t where t.id =:id")
+					.setParameter("id", this.id);
 			TAXCode taxCode = (TAXCode) query.uniqueResult();
 			if (taxCode != null) {
-				
-				taxCode.setName(this.getName()) ;
+
+				taxCode.setName(this.getName());
 				taxCode.setDescription(this.getDescription());
-				taxCode.setActive(this.isActive());					
+				taxCode.setActive(this.isActive());
 				session.saveOrUpdate(taxCode);
 			}
 			this.isSalesType = true;
-		}	
-		
+		}
+
 		ChangeTracker.put(this);
 		return false;
 	}
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		FinanceLogger.log("Vat Group with name: {0} has been deleted", this.getName());
+		FinanceLogger.log("Vat Group with name: {0} has been deleted",
+				this.getName());
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setid(this.id);
+		accounterCore.setID(this.id);
 		accounterCore.setObjectType(AccounterCoreType.TAX_GROUP);
 		ChangeTracker.put(accounterCore);
 

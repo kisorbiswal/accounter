@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 public class TransactionPayExpense implements Lifecycle {
 
 	long id;
-	public long id;
 
 	/**
 	 * The Expense object which is the cause of PayExpense to be made.
@@ -62,7 +61,7 @@ public class TransactionPayExpense implements Lifecycle {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setID(long id){
+	public void setID(long id) {
 		this.id = id;
 	}
 
@@ -121,7 +120,7 @@ public class TransactionPayExpense implements Lifecycle {
 		this.expense.setPaidAmount(this.expense.getPaidAmount() + this.payment);
 		this.expense.setAmountDue(this.expense.getAmountDue() - this.payment);
 
-		if (DecimalUtil.isEquals(this.expense.getAmountDue(),0.0)) {
+		if (DecimalUtil.isEquals(this.expense.getAmountDue(), 0.0)) {
 
 			this.expense.setStatus(Expense.STATUS_PAID);
 

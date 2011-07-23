@@ -21,7 +21,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
  * calculates the VAT amount for that transaction and notes it into @link
  * VATRateCalculation}
  * 
- * @author Chandan 
+ * @author Chandan
  * 
  */
 public class TAXCode implements IAccounterServerCore, Lifecycle {
@@ -30,7 +30,6 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 	 * 
 	 */
 	private static final long serialVersionUID = -1014067769682467798L;
-	long id;
 	long id;
 	boolean isImported;
 
@@ -46,22 +45,22 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 	boolean isECSalesEntry;
 	boolean isDefault;
 	transient private boolean isOnSaveProccessed;
-		
+
 	public TAXCode() {
-		
+
 	}
-	
+
 	public TAXCode(TAXItemGroup taxItemGroup) {
 		this.name = taxItemGroup.name;
 		this.description = taxItemGroup.description;
 		this.isActive = taxItemGroup.isActive;
-		this.TAXItemGrpForSales = taxItemGroup;	
+		this.TAXItemGrpForSales = taxItemGroup;
 		this.isTaxable = true;
 		this.id = taxItemGroup.id;
 		this.isECSalesEntry = false;
-		this.TAXItemGrpForPurchases = null;		
+		this.TAXItemGrpForPurchases = null;
 	}
-	
+
 	/**
 	 * @return the isImported
 	 */
@@ -95,7 +94,7 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setID(long id){
+	public void setID(long id) {
 		this.id = id;
 	}
 
@@ -198,28 +197,18 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-	}
-
-	@Override
-	public void setid(java.lang.String id) {
-		this.id=id;
-	}
-
-	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		FinanceLogger.log("VAT Code with name: {0} has been deleted", this
-				.getName());
+		FinanceLogger.log("VAT Code with name: {0} has been deleted",
+				this.getName());
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setid(this.id);
+		accounterCore.setID(this.id);
 		accounterCore.setObjectType(AccounterCoreType.TAX_CODE);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -254,7 +243,7 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 	}
 
 	private void setIsECsalesEntry() {
-		
+
 		if (this.getTAXItemGrpForSales() instanceof TAXGroup
 				&& Company.getCompany() != null
 				&& Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
@@ -279,8 +268,8 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 		TAXCode taxCode = (TAXCode) clientObject;
 		// Query query = session.createQuery("from VATCode V where V.name=?")
 		// .setParameter(0, vatCode.name);
-		Query query = session.getNamedQuery("getTAXCodeWithSameName").setParameter("name", this.name)
-				.setParameter("id", this.id);
+		Query query = session.getNamedQuery("getTAXCodeWithSameName")
+				.setParameter("name", this.name).setParameter("id", this.id);
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			throw new InvalidOperationException(

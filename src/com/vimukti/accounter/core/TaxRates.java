@@ -19,8 +19,6 @@ public class TaxRates implements IAccounterServerCore, Lifecycle {
 
 	long id;
 
-	public long id;
-
 	/**
 	 * The amount of rate which should be imposed on any transaction at the
 	 * given asOf FinanceDate.
@@ -102,27 +100,21 @@ public class TaxRates implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public long getID(){
-		// TODO Auto-generated method stub
-		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-	}
-
-	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vimukti.accounter.core.IAccounterServerCore#getID()
+	 */
+	@Override
+	public long getID() {
+		// TODO Auto-generated method stub
+		return id;
 	}
 
 }

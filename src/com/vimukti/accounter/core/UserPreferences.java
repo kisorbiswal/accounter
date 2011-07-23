@@ -13,8 +13,6 @@ public class UserPreferences implements IAccounterServerCore {
 	String vendorSectionViewPreferences = "NEW_VENDOR,ITEM_PURCHASE,BILL_PAID,CASH_PURCHASE";
 	String bankingSectionViewPreferences = "BANKING_SUMMARY,CHECK_ISSUED,DEPOSITE,FUND_TRANSFERED,CREDIT_CARD_CHARGES";
 
-	transient boolean isImported;
-
 	public UserPreferences() {
 
 	}
@@ -40,20 +38,9 @@ public class UserPreferences implements IAccounterServerCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setID(long id){
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
+		return 0;
 	}
 
 	@Override

@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 
 @SuppressWarnings("serial")
 public class CreditRating implements IAccounterServerCore, Lifecycle,
-		ICreatableObject {
+		CreatableObject {
 
 	int version;
 

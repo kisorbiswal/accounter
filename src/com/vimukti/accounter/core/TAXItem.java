@@ -71,7 +71,7 @@ public class TAXItem extends TAXItemGroup {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setID(long id){
+	public void setID(long id) {
 		this.id = id;
 	}
 
@@ -158,7 +158,7 @@ public class TAXItem extends TAXItemGroup {
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setid(this.id);
+		accounterCore.setID(this.id);
 		accounterCore.setObjectType(AccounterCoreType.TAXITEM);
 		ChangeTracker.put(accounterCore);
 
@@ -177,7 +177,7 @@ public class TAXItem extends TAXItemGroup {
 		if (isImported) {
 			return false;
 		}
-	
+
 		if (this.vatReturnBox != null
 				&& (this.vatReturnBox.name
 						.equals(AccounterConstants.UK_DOMESTIC_SALES)
@@ -193,20 +193,19 @@ public class TAXItem extends TAXItemGroup {
 								.equals(AccounterConstants.IRELAND_EXEMPT_SALES)
 						|| this.vatReturnBox.name
 								.equals(AccounterConstants.IRELAND_NOT_REGISTERED_SALES) || this.vatReturnBox.name
-						.equals(AccounterConstants.IRELAND_EC_SALES_GOODS))) {
+							.equals(AccounterConstants.IRELAND_EC_SALES_GOODS))) {
 			this.isSalesType = true;
 
 		} else {
 			this.isSalesType = false;
 		}
-		
 
 		if (Company.getCompany() != null
 				&& Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			this.isSalesType = true;
 			TAXCode taxCode = new TAXCode((TAXItemGroup) this);
 			session.saveOrUpdate(taxCode);
-		}		
+		}
 
 		ChangeTracker.put(this);
 		return false;
@@ -230,35 +229,33 @@ public class TAXItem extends TAXItemGroup {
 								.equals(AccounterConstants.IRELAND_EXEMPT_SALES)
 						|| this.vatReturnBox.name
 								.equals(AccounterConstants.IRELAND_NOT_REGISTERED_SALES) || this.vatReturnBox.name
-						.equals(AccounterConstants.IRELAND_EC_SALES_GOODS))) {
+							.equals(AccounterConstants.IRELAND_EC_SALES_GOODS))) {
 			this.isSalesType = true;
 
 		} else {
 			this.isSalesType = false;
 		}
-		
+
 		if (Company.getCompany() != null
 				&& Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-						
-			Query query = session.createQuery("from com.vimukti.accounter.core.TAXCode t where t.id =:id").setParameter("id", this.id);
+
+			Query query = session
+					.createQuery(
+							"from com.vimukti.accounter.core.TAXCode t where t.id =:id")
+					.setParameter("id", this.id);
 			TAXCode taxCode = (TAXCode) query.uniqueResult();
 			if (taxCode != null) {
-				
-				taxCode.setName(this.getName()) ;
+
+				taxCode.setName(this.getName());
 				taxCode.setDescription(this.getDescription());
-				taxCode.setActive(this.isActive());					
+				taxCode.setActive(this.isActive());
 				session.saveOrUpdate(taxCode);
 			}
 			this.isSalesType = true;
-		}	
+		}
 
 		ChangeTracker.put(this);
 		return false;
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
 	}
 
 }

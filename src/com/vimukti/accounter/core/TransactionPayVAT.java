@@ -25,8 +25,6 @@ public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
 
 	long id;
 
-	public long id;
-
 	/**
 	 * The TaxAgency that we have selected for what we are making the
 	 * PaySalesTax.
@@ -64,26 +62,10 @@ public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
 	}
 
 	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id){
-		this.id = id;
-	}
-
-	/**
 	 * @return the id
 	 */
-	public long getID(){
+	public long getID() {
 		return id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id){
-		this.id=id;
 	}
 
 	/**
@@ -229,7 +211,8 @@ public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
 
 			// The Accounts payable is also to be decreased as the amount to pay
 			// to VATAgency is decreased.
-			Account account = Company.getCompany().getVATFiledLiabilityAccount();
+			Account account = Company.getCompany()
+					.getVATFiledLiabilityAccount();
 			if (account != null) {
 				account.updateCurrentBalance(this.payVAT, -(this.amountToPay));
 				session.update(account);

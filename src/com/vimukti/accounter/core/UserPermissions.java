@@ -31,10 +31,6 @@ public class UserPermissions implements IAccounterServerCore {
 		return id;
 	}
 
-	public void setID(long id){
-		this.id = id;
-	}
-
 	public int getTypeOfBankReconcilation() {
 		return typeOfBankReconcilation;
 	}
@@ -107,21 +103,9 @@ public class UserPermissions implements IAccounterServerCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setID(long id){
-		// TODO Auto-generated method stub
-
+		return 0;
 	}
 
 }

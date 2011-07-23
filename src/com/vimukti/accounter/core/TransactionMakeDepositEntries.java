@@ -25,8 +25,6 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 
 	long id;
 
-	public long id;
-
 	/**
 	 * In this variable we store the type of the entry that was being created
 	 * for this Class.
@@ -127,20 +125,9 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		// TODO Auto-generated method stub
 		return this.id;
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
 	}
 
 	/**
@@ -187,12 +174,10 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 				if (payee != null) {
 					if (payee.getType() == TYPE_CUSTOMER) {
 						clientTransactionMakeDeposit.setType(TYPE_CUSTOMER);
-						clientTransactionMakeDeposit.setCustomer(payee
-								.getID());
+						clientTransactionMakeDeposit.setCustomer(payee.getID());
 					} else if (payee.getType() == TYPE_VENDOR) {
 						clientTransactionMakeDeposit.setType(TYPE_VENDOR);
-						clientTransactionMakeDeposit.setVendor(payee
-								.getID());
+						clientTransactionMakeDeposit.setVendor(payee.getID());
 					}
 
 				} else {
@@ -230,9 +215,8 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		this.id = this.id == null || this.id != null
-    && this.id.isEmpty() ? SecureUtils.createID()
-    : this.id;
+		this.id = this.id == null || this.id != null && this.id.isEmpty() ? SecureUtils
+				.createID() : this.id;
 		return false;
 	}
 

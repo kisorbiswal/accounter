@@ -27,8 +27,6 @@ public class TransactionPaySalesTax implements IAccounterServerCore, Lifecycle {
 
 	long id;
 
-	public long id;
-
 	/**
 	 * The TaxItem that is assigned for the TaxAgency for what we are making the
 	 * PaysalesTax. There can be many TaxItems. So for every TaxItem a
@@ -205,20 +203,9 @@ public class TransactionPaySalesTax implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		// TODO Auto-generated method stub
 		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
 	}
 
 	@Override

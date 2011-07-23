@@ -19,8 +19,6 @@ public class TransactionExpense implements IAccounterServerCore, Lifecycle {
 
 	long id;
 
-	public long id;
-
 	int type;
 
 	/**
@@ -120,14 +118,6 @@ public class TransactionExpense implements IAccounterServerCore, Lifecycle {
 	 */
 	public Expense getExpense() {
 		return expense;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id){
-		this.id = id;
 	}
 
 	/**
@@ -251,20 +241,9 @@ public class TransactionExpense implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		// TODO Auto-generated method stub
 		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
 	}
 
 	@Override

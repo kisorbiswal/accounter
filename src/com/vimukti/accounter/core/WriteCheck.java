@@ -101,15 +101,6 @@ public class WriteCheck extends Transaction implements Lifecycle {
 	}
 
 	/**
-	 * @param id
-	 *            the id to set
-	 */
-	@Override
-	public void setID(long id){
-		this.id = id;
-	}
-
-	/**
 	 * @return the version
 	 */
 	@Override
@@ -298,14 +289,6 @@ public class WriteCheck extends Transaction implements Lifecycle {
 			return Transaction.CATEGORY_CUSTOMER;
 		else
 			return Transaction.CATEGORY_VENDOR;
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		for (TransactionItem ti : this.transactionItems) {
-			ti.setImported(true);
-		}
 	}
 
 	@Override

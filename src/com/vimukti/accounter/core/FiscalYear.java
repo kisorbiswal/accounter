@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 
 public class FiscalYear implements IAccounterServerCore, Lifecycle,
-		ICreatableObject {
+		CreatableObject {
 	/**
 	 * 
 	 */

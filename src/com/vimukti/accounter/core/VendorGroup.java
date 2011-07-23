@@ -22,16 +22,14 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
  * 
  */
 
-public class VendorGroup implements IAccounterServerCore, Lifecycle,
-		ICreatableObject {
+public class VendorGroup extends CreatableObject implements
+		IAccounterServerCore, Lifecycle {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6315811900319594794L;
 	int version;
-	long id;
-	public long id;
 	/**
 	 * VendorGroup Category Name
 	 */
@@ -39,10 +37,6 @@ public class VendorGroup implements IAccounterServerCore, Lifecycle,
 
 	transient boolean isImported;
 
-	String createdBy;
-	String lastModifier;
-	FinanceDate createdDate;
-	FinanceDate lastModifiedDate;
 	boolean isDefault;
 	transient private boolean isOnSaveProccessed;
 
@@ -94,7 +88,7 @@ public class VendorGroup implements IAccounterServerCore, Lifecycle,
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setid(this.id);
+		accounterCore.setID(this.id);
 		accounterCore.setObjectType(AccounterCoreType.VENDOR_GROUP);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -125,52 +119,9 @@ public class VendorGroup implements IAccounterServerCore, Lifecycle,
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		// TODO Auto-generated method stub
 		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setLastModifier(String lastModifier) {
-		this.lastModifier = lastModifier;
-	}
-
-	public String getLastModifier() {
-		return lastModifier;
-	}
-
-	public void setCreatedDate(FinanceDate createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public FinanceDate getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setLastModifiedDate(FinanceDate lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public FinanceDate getLastModifiedDate() {
-		return lastModifiedDate;
 	}
 
 	public boolean equals(VendorGroup obj) {

@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 
 public class PaymentTerms implements IAccounterServerCore, Lifecycle,
-		ICreatableObject {
+		CreatableObject {
 
 	/**
 	 * 

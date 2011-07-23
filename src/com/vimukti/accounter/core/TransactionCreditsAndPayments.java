@@ -6,7 +6,6 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
-import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.SpecialReference;
@@ -24,8 +23,6 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 	FinanceDate date;
 
 	String memo;
-
-	long id;
 
 	/**
 	 * The amount to be used when using this object.
@@ -86,7 +83,7 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 		return version;
 	}
 
-	public void setID(long id){
+	public void setID(long id) {
 		this.id = id;
 	}
 
@@ -164,9 +161,6 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		this.id = this.id == null || this.id != null
-				&& this.id.isEmpty() ? SecureUtils.createID()
-				: this.id;
 		if (this.id == 0l && this.creditsAndPayments != null) {
 
 			this.creditsAndPayments.updateBalance(this.getTransaction(),
@@ -175,7 +169,7 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 			// this.creditsAndPayments.setBalance(this.creditsAndPayments
 			// .getBalance()
 			// - this.amountToUse);
-			//			
+			//
 
 			int transactionType = this.creditsAndPayments.getTransaction()
 					.getType();
@@ -190,11 +184,11 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 					((CustomerCreditMemo) (this.creditsAndPayments
 							.getTransaction())).balanceDue -= this.amountToUse;
 
-				if (DecimalUtil.isGreaterThan(this.creditsAndPayments
-						.getBalance(), 0)
-						&& DecimalUtil.isLessThan(this.creditsAndPayments
-								.getBalance(), this.creditsAndPayments
-								.getCreditAmount())) {
+				if (DecimalUtil.isGreaterThan(
+						this.creditsAndPayments.getBalance(), 0)
+						&& DecimalUtil.isLessThan(
+								this.creditsAndPayments.getBalance(),
+								this.creditsAndPayments.getCreditAmount())) {
 
 					this.creditsAndPayments
 							.getTransaction()
@@ -202,8 +196,8 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 									Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED);
 
 				}
-			} else if (DecimalUtil.isEquals(this.creditsAndPayments
-					.getBalance(), 0.0)) {
+			} else if (DecimalUtil.isEquals(
+					this.creditsAndPayments.getBalance(), 0.0)) {
 				this.creditsAndPayments.getTransaction().setStatus(
 						Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED);
 			}
@@ -289,18 +283,8 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
 	}
 
 	public boolean equals(TransactionCreditsAndPayments obj) {
@@ -314,8 +298,7 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 										this.amountToUse, 0) && !DecimalUtil
 										.isEquals(obj.amountToUse, 0)) ? DecimalUtil
 										.isEquals(this.amountToUse,
-												obj.amountToUse)
-										: true) {
+												obj.amountToUse) : true) {
 			return true;
 		}
 		return false;

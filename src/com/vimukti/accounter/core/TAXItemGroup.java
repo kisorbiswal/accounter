@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
  * A Parent Class for VATGroup and VATItem. It contains all the information that
  * is common to these sub classes.
  * 
- * @author Chandan 
+ * @author Chandan
  */
 
 public class TAXItemGroup implements IAccounterServerCore, Lifecycle {
@@ -29,8 +29,6 @@ public class TAXItemGroup implements IAccounterServerCore, Lifecycle {
 	 * 
 	 */
 	private static final long serialVersionUID = -8121892431883668109L;
-
-	long id;
 
 	long id;
 
@@ -64,32 +62,9 @@ public class TAXItemGroup implements IAccounterServerCore, Lifecycle {
 	 * @see com.vimukti.accounter.core.IAccounterServerCore#getID()
 	 */
 	@Override
-	public long getID(){
+	public long getID() {
 		// TODO Auto-generated method stub
 		return this.id;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.vimukti.accounter.core.IAccounterServerCore#setImported(boolean)
-	 */
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
-
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.vimukti.accounter.core.IAccounterServerCore#setid(java.lang
-	 *      .String)
-	 */
-	@Override
-	public void setID(long id){
-		this.id=id;
-
 	}
 
 	/**
@@ -175,8 +150,8 @@ public class TAXItemGroup implements IAccounterServerCore, Lifecycle {
 		// Query query =
 		// session.createQuery("from VATItemGroup V where V.name =: name")
 		// .setParameter("name", vatItemGroup.name);
-		Query query = session.getNamedQuery("getTAXItemGroupWithSameName").setParameter("name", this.name)
-				.setParameter("id", this.id);
+		Query query = session.getNamedQuery("getTAXItemGroupWithSameName")
+				.setParameter("name", this.name).setParameter("id", this.id);
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			throw new InvalidOperationException(

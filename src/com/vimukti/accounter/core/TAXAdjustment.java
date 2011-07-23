@@ -194,11 +194,6 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore,
 	}
 
 	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-	}
-
-	@Override
 	public Payee getInvolvedPayee() {
 
 		return this.getPayee();

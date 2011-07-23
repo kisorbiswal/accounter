@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
-public class Company implements IAccounterServerCore, ICreatableObject {
+public class Company implements IAccounterServerCore, CreatableObject {
 
 	/**
 	 * 

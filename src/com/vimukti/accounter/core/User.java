@@ -43,7 +43,7 @@ public class User implements IAccounterServerCore, Lifecycle {
 	private int loginCount;
 
 	private long id;
-	
+
 	/**
 	 * The full name of the user.
 	 */
@@ -98,9 +98,9 @@ public class User implements IAccounterServerCore, Lifecycle {
 	public boolean isLoggedInFromDomain;
 
 	private boolean isMacApp;
-	
+
 	private String phoneNo;
-	
+
 	private String country;
 
 	public User() {
@@ -112,7 +112,7 @@ public class User implements IAccounterServerCore, Lifecycle {
 
 	public User(ClientUser clientUser) {
 		// User user = new User();
-		this.setid(clientUser.getID());
+		this.id = clientUser.getID();
 		this.setFirstName(clientUser.getFirstName());
 		this.setLastName(clientUser.getLastName());
 		this.setFullName(clientUser.getFullName());
@@ -144,14 +144,6 @@ public class User implements IAccounterServerCore, Lifecycle {
 	 */
 	public long getId() {
 		return id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id){
-		this.id = id;
 	}
 
 	/**
@@ -207,20 +199,9 @@ public class User implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		// TODO Auto-generated method stub
 		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
 	}
 
 	@Override
@@ -364,7 +345,7 @@ public class User implements IAccounterServerCore, Lifecycle {
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setid(this.id);
+		accounterCore.setID(this.id);
 		accounterCore.setObjectType(AccounterCoreType.USER);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -387,7 +368,7 @@ public class User implements IAccounterServerCore, Lifecycle {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	public boolean isMacApp() {
 		return isMacApp;
 	}

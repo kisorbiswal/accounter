@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 
 public class PriceLevel implements IAccounterServerCore, Lifecycle,
-		ICreatableObject {
+		CreatableObject {
 
 	/**
 	 * 

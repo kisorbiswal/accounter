@@ -11,7 +11,6 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
-import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 
 /**
@@ -22,11 +21,8 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
  * 
  */
 
-public class TransactionItem
-		implements
-			IAccounterServerCore,
-			Lifecycle,
-			ICreatableObject {
+public class TransactionItem extends CreatableObject implements
+		IAccounterServerCore, Lifecycle {
 
 	/**
   * 
@@ -51,13 +47,9 @@ public class TransactionItem
 	 * @param vatItem
 	 *            the vatItem to set
 	 */
-//	public void setVatItem(TAXItem vatItem) {
-//		this.vatItem = vatItem;
-//	}
-
-	long id;
-
-	public long id;
+	// public void setVatItem(TAXItem vatItem) {
+	// this.vatItem = vatItem;
+	// }
 
 	/**
 	 * The type field is used to differ the Item, comment, salestax, account
@@ -155,7 +147,7 @@ public class TransactionItem
 	 * Every TransactionItem consists of a set of {@link TaxRateCalculation} for
 	 * the purpose
 	 */
-	
+
 	@ReffereredObject
 	Set<ItemBackUp> itemBackUpList = new HashSet<ItemBackUp>();
 	/**
@@ -186,13 +178,8 @@ public class TransactionItem
 
 	transient boolean isImported;
 
-	String createdBy;
-	String lastModifier;
-	FinanceDate createdDate;
-	FinanceDate lastModifiedDate;
-
 	TAXCode taxCode;
-//	TAXItem vatItem;
+	// TAXItem vatItem;
 	private boolean isOnSaveProccessed;
 
 	transient public static List<String> vrcids = new ArrayList<String>();
@@ -285,9 +272,9 @@ public class TransactionItem
 	/**
 	 * @return the taxCode
 	 */
-//	public TAXItem getTaxItem() {
-//		return taxItem;
-//	}
+	// public TAXItem getTaxItem() {
+	// return taxItem;
+	// }
 
 	/**
 	 * @return the account
@@ -329,14 +316,6 @@ public class TransactionItem
 	 */
 	public double getLineTotal() {
 		return lineTotal;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id){
-		this.id = id;
 	}
 
 	/**
@@ -391,10 +370,10 @@ public class TransactionItem
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		
-		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE)				
+
+		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE)
 			return false;
-		
+
 		if (!Arrays.asList(Transaction.TYPE_ESTIMATE,
 				Transaction.TYPE_SALES_ORDER, Transaction.TYPE_PURCHASE_ORDER)
 				.contains(this.transaction.getType())) {
@@ -455,14 +434,11 @@ public class TransactionItem
 
 		if (this.isOnSaveProccessed)
 			return true;
-				
+
 		this.isOnSaveProccessed = true;
-		this.id = this.id == null || this.id != null
-				&& this.id.isEmpty() ? SecureUtils.createID()
-				: this.id;
 
 		initVRCids();
-		
+
 		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
 				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
 			return false;
@@ -481,9 +457,9 @@ public class TransactionItem
 		/*
 		 * In synchronization, we will get vatRateCalculationEntriesList from
 		 * desktop client which the transactionItem is null. Here we have to
-		 * take the id and remove that entry from
-		 * vatRateCalculationEntriesList, if and only if the transaction is
-		 * going to void otherwise we have to remove all entries from the list.
+		 * take the id and remove that entry from vatRateCalculationEntriesList,
+		 * if and only if the transaction is going to void otherwise we have to
+		 * remove all entries from the list.
 		 */
 		for (TAXRateCalculation vrc : this.taxRateCalculationEntriesList) {
 			if (this.isVoid && vrc.transactionItem == null) {
@@ -543,7 +519,7 @@ public class TransactionItem
 
 				} else if (this.type == TYPE_SALESTAX) {
 					if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-//						Company.setTaxRateCalculation(this, session, amount);
+						// Company.setTaxRateCalculation(this, session, amount);
 					} else if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
 						Company.setTAXRateCalculation(this, session);
 					}
@@ -555,9 +531,9 @@ public class TransactionItem
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-		
+
 		initVRCids();
-		
+
 		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
 				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
 			return false;
@@ -598,7 +574,7 @@ public class TransactionItem
 
 		} else if (this.type == TYPE_SALESTAX) {
 			if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-//				Company.setTaxRateCalculation(this, session, amount);
+				// Company.setTaxRateCalculation(this, session, amount);
 			} else if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
 				Company.setTAXRateCalculation(this, session);
 			}
@@ -626,8 +602,7 @@ public class TransactionItem
 	private ItemBackUp getItemBackUp(Set<ItemBackUp> itemBackUpList, Item item) {
 		ItemBackUp result = null;
 		for (ItemBackUp backUp : itemBackUpList) {
-			if (backUp.transactionItem == this
-					&& backUp.item.id == item.id) {
+			if (backUp.transactionItem == this && backUp.item.id == item.id) {
 				result = backUp;
 				break;
 			}
@@ -828,55 +803,6 @@ public class TransactionItem
 		this.item = item;
 	}
 
-	@Override
-	public long getID(){
-		// TODO Auto-generated method stub
-		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setLastModifier(String lastModifier) {
-		this.lastModifier = lastModifier;
-	}
-
-	public String getLastModifier() {
-		return lastModifier;
-	}
-
-	public void setCreatedDate(FinanceDate createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public FinanceDate getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setLastModifiedDate(FinanceDate lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public FinanceDate getLastModifiedDate() {
-		return lastModifiedDate;
-	}
-
 	public void deleteCreatedEntries(Session session) {
 
 		if (this.itemBackUpList != null) {
@@ -906,8 +832,7 @@ public class TransactionItem
 								: true && (transaction != null && obj.transaction != null) ? (transaction
 										.equals(obj.transaction))
 										: true && (taxGroup != null && obj.taxGroup != null) ? (taxGroup
-												.equals(obj.taxGroup))
-												: true) {
+												.equals(obj.taxGroup)) : true) {
 
 			return true;
 		}
