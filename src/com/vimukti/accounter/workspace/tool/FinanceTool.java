@@ -275,7 +275,7 @@ public class FinanceTool implements IFinanceDAOService {
 	 * 
 	 * @param createContext
 	 */
-	public boolean create(CreateOperationContext createContext)
+	public void create(CreateOperationContext createContext)
 			throws AccounterOperationException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -314,7 +314,12 @@ public class FinanceTool implements IFinanceDAOService {
 		ChangeTracker.put(serverObject);
 	}
 
-	public boolean update(UpdateOperationContext updateContext)
+	/**
+	 * This will Get Called when Update Operation is Invoked by the Client
+	 * 
+	 * @param createContext
+	 */
+	public void update(UpdateOperationContext updateContext)
 			throws AccounterOperationException {
 		Session session = HibernateUtil.getCurrentSession();
 		IAccounterCore data = updateContext.getData();
@@ -370,6 +375,11 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
+	/**
+	 * This will Get Called when Delete Operation is Invoked by the Client
+	 * 
+	 * @param createContext
+	 */
 	public void delete(DeleteOperationContext context)
 			throws AccounterOperationException {
 
@@ -378,13 +388,13 @@ public class FinanceTool implements IFinanceDAOService {
 		String arg1 = context.getArg1();
 		String arg2 = context.getArg2();
 
-		if (context.getArg1() == null || context.getArg2() == null) {
+		if (arg1 == null || arg2 == null) {
 			throw new AccounterOperationException(
 					"Delete Operation Cannot be Processed StringID or cmd.arg2 Found Null...."
 							+ context);
 		}
 
-		Class<?> clientClass = Util.getEqivalentClientClass(command.arg2);
+		Class<?> clientClass = Util.getEqivalentClientClass(arg2);
 
 		Class<?> serverClass = Util.getServerEqivalentClass(clientClass);
 
@@ -392,13 +402,14 @@ public class FinanceTool implements IFinanceDAOService {
 				+ " a where a.stringID =:id";
 
 		Query hibernateQuery = session.createQuery(query).setParameter("id",
-				command.arg1);
+				arg1);
 
 		List objects = hibernateQuery.list();
 
 		if (objects != null && objects.size() > 0) {
 
-			serverObject = (IAccounterServerCore) objects.get(0);
+			IAccounterServerCore serverObject = (IAccounterServerCore) objects
+					.get(0);
 
 			if (serverObject != null)
 				if (serverObject instanceof FiscalYear) {
@@ -410,7 +421,8 @@ public class FinanceTool implements IFinanceDAOService {
 				} else {
 					session.delete(serverObject);
 					if (serverObject instanceof User)
-						deleteIdentity((User) serverObject, member.getID());
+						deleteIdentity((User) serverObject, context.getUser()
+								.getId());
 					// ChangeTracker.put(serverObject);
 				}
 
