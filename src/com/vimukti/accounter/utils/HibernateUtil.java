@@ -91,7 +91,7 @@ public class HibernateUtil {
 	}
 
 	private static String getConnectionProvider() {
-		return "com.bizantra.server.storage.LiveConnectionProvider";
+		return "com.vimukti.accounter.utils.LiveConnectionProvider";
 	}
 
 	public static Session getCurrentSession() {
