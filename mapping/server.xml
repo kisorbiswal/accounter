@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-access="field">
+
+	<class name="com.bizantra.server.main.LiveServer" table="SERVERS">
+		<id name="serverID" column="SERVERID" length="40"></id>
+		<!-- <property name="keyStoreData" access="property" length="4096" column="KEYSTOREDATA"></property>
+		<property name="serverKeyStoreData" access="property" length="4096" column="SERVERKEYSTOREDATA"></property>
+		<property name="admin" type="string" column="ADMIN"></property>
+		<property name="passwd" type="string" column="PASSWD"></property>
+	--></class>
+	
+	<!-- Named SQL for Server.java -->
+	
+	<sql-query name="loadServers">
+	<query-param name="server" type="string" />
+		SELECT I.ID,I.SERVERID,I.SERVERADDR,MAX(IC.VERSION),MIN(IC.VERSION)-1 FROM COLLABERIDENTITY I,IDENTITYCOMMAND IC WHERE IC.IDENTITY_ID=I.ID AND I.SERVERID != :server GROUP BY I.ID
+	</sql-query>
+	
+	<sql-query name="loadServers2">
+	<query-param name="serverID" type="string" />
+		SELECT IDENTITYID,spaceID,invitedBy from SPACETODOWNLOAD where serverID=:serverID
+	</sql-query>
+
+</hibernate-mapping>

@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.bizantra.server.internal.core">
+	<class name="BizantraCompany" table="BIZANTRA_COMPANY">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="companyDomainName" column="NAME">
+		</property>
+		<property name="companyDisplayName" column="DISPLAY_NAME">
+		</property>
+		<property name="createdDate" column="CREATED_DATE">
+		</property>
+		<property name="expirationDate" column="EXPIRATION_DATE">
+		</property>
+		<property name="deletionDate" column="DELETION_DATE">
+		</property>
+		<property name="totalNoOfUsers" column="TOTAL_NO_OF_USERS">
+		</property>
+		<property name="totalSize" column="TOTAL_SIZE">
+		</property>
+		<property name="bizantraVersion" column="VERSION">
+		</property>
+		<property name="holidayStartDate" column="HOLIDAY_START_DATE">
+		</property>
+		<property name="address" column="ADDRESS">
+		</property>
+		<property name="city" column="CITY">
+		</property>
+		<property name="country" column="COUNTRY">
+		</property>
+		<property name="province" column="PROVINCE">
+		</property>
+		<property name="zip" column="ZIP">
+		</property>
+		<property name="onlySundaysWeekend" column="ONLY_SUNDAYS_WEEKEND">
+		</property>
+		<property name="countryCode" column="COUNTRY_DATE_CODE">
+		</property>
+		<property name="dateStyle" column="DATE_STYLE">
+		</property>
+		<property name="totalNoOfLiteUsers" column="TOTAL_NO_OF_LITE_USERS">
+		</property>
+		<property name="usedSize" column="USED_SIZE">
+		</property>
+		<property name="subsType" column="SUBS_TYPE">
+		</property>
+		<property name="subscriberEmail" column="SUBSCRIBER_EMAIL">
+		</property>
+		<property name="userDomain" column="USER_DOMAIN">
+		</property>
+		<!--
+			<many-to-one name="logoAttachment"
+			class="com.bizantra.server.internal.core.Attachment" unique="true"
+			column="ATTACHMENT_ID"> </many-to-one>
+		-->
+	</class>
+
+	<query name="get.company.by.name">
+		<query-param name="name" type="String" />
+		From BizantraCompany b where b.companyDomainName = :name
+	</query>
+
+	<query name="get.used.dataSize.from.company">
+		<query-param name="name" type="String" />
+		select usedSize from BizantraCompany b where b.companyDomainName =
+		:name
+	</query>
+
+	<!--	<query name="get.company.by.id">-->
+	<!--	<query-param name="id" type="String"/>-->
+	<!--	From BizantraCompany b where b.-->
+	<!--	</query>-->
+
+</hibernate-mapping>

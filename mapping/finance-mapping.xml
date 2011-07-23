@@ -1,0 +1,1380 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+                "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.vimukti.accounter.core"
+	default-access="field" auto-import="false">
+	<class name="Account" table="ACCOUNT">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="type" column="A_TYPE"></property>
+		<property name="baseType" column="BASE_TYPE"></property>
+		<property name="subBaseType" column="SUB_BASE_TYPE"></property>
+		<property name="groupType" column="GROUP_TYPE"></property>
+		<property name="number" unique="true" column="A_NUMBER"></property>
+		<property name="name" unique="true" column="NAME"></property>
+		<property name="isActive" column="IS_ACTIVE"></property>
+		<many-to-one name="parent" column="PARENT_ID" class="Account"
+			lazy="false" cascade="save-update">
+		</many-to-one>
+		<property name="cashFlowCategory" column="CASHFLOW_CATEGORY"></property>
+		<property name="openingBalance" column="OPENING_BALANCE"></property>
+		<property name="asOf" column="AS_OF"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="isConsiderAsCashAccount" column="IS_CASH_ACCOUNT"></property>
+		<property name="comment" column="COMMENT"></property>
+		<many-to-one name="bank" column="BANK_ID" class="Bank"
+			lazy="false">
+		</many-to-one>
+		<property name="bankAccountType" column="BANK_ACCOUNT_TYPE"></property>
+		<property name="bankAccountNumber" column="BANK_ACCOUNT_NUMBER"></property>
+		<property name="creditLimit" column="CREDIT_LIMIT"></property>
+		<property name="cardOrLoanNumber" column="CARD_NUMBER"></property>
+		<property name="isIncrease" column="IS_INCREASE"></property>
+		<property name="currentBalance" column="CURRENT_BALANCE"></property>
+		<property name="totalBalance" column="TOTAL_BALANCE"></property>
+		<property name="isOpeningBalanceEditable" column="IS_OPENING_BALANCE_EDITABLE"></property>
+		<property name="hierarchy" column="HIERARCHY"></property>
+		<property name="version" column="VERSION"></property>
+		<property name="stringID" column="STRING_ID"></property>
+		<set name="budget" inverse="true" lazy="false" cascade="save-update,delete">
+			<key column="ACCOUNT_ID"></key>
+			<one-to-many class="Budget" />
+		</set>
+		<property name="flow" column="FLOW"></property>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<many-to-one name="linkedAccumulatedDepreciationAccount"
+			column="LINKED_ID" class="Account" lazy="false" cascade="save-update,delete">
+		</many-to-one>
+		<property name="isDefault" column="IS_DEFAULT"></property>
+		<!--
+			<array name="monthViceAmounts" table="ACCOUNT_AMOUNTS" cascade="all">
+			<key column="ACCOUNT_ID"></key> <list-index column="IDX" /> <element
+			column="MONTH_VICE_AMOUNT" type="double"></element> </array>
+		-->
+		<map name="monthViceAmounts" lazy="false" table="ACCOUNT_AMOUNTS"
+			cascade="save-update,delete">
+			<key column="ACCOUNT_ID"></key>
+			<index column="month" type="int"></index>
+			<element column="amount" type="double"></element>
+		</map>
+	</class>
+	<class name="CommodityCode" table="COMMODITY_CODE">
+		<id name="id" column="ID">
+			<generator class="native"></generator>
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="name" unique="true" column="NAME"></property>
+	</class>
+	<class name="AccountTransaction" table="ACCOUNT_TRANSACTION">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<many-to-one name="transaction" class="Transaction" lazy="false"
+			column="TRANSACTION_ID">
+		</many-to-one>
+		<many-to-one name="account" class="Account" lazy="false"
+			column="ACCOUNT_ID">
+		</many-to-one>
+		<property name="amount" column="AMOUNT"></property>
+		<property name="closingFYEntry" column="IS_CLOSING_FISCALYEAR_ENTRY"></property>
+		<property name="cashBasisEntry" column="IS_CASH_BASIS_ENTRY"></property>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+	</class>
+	<!--
+		<class name="Address" table="ADDRESS"> <id name="id" column="ID">
+		<generator class="native" /> </id> <property name="type"
+		column="TYPE"></property> <property name="street"
+		column="STREET"></property> <property name="city"
+		column="CITY"></property> <property name="stateOrProvinence"
+		column="STATE"></property> <property name="zipOrPostalCode"
+		column="ZIP"></property> <property name="countryOrRegion"
+		column="COUNTRY"></property> <property name="isSelected"
+		column="IS_SELECTED"></property> <property name="version"
+		column="VERSION"></property> </class>
+	-->
+	<class name="FiscalYear" table="FISCAL_YEAR">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="startDate" column="START_DATE"
+			type="com.vimukti.accounter.core.LongUseType" unique="true"></property>
+		<property name="endDate" column="END_DATE"
+			type="com.vimukti.accounter.core.LongUseType" unique="true"></property>
+		<property name="status" column="STATUS"></property>
+		<property name="isCurrentFiscalYear" column="IS_CURRENT_FISCAL_YEAR"></property>
+		<property name="version" column="VERSION"></property>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="isDefault" column="IS_DEFAULT"></property>
+	</class>
+	<class name="Bank" table="BANK">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="name" unique="true" column="NAME"></property>
+		<property name="version" column="VERSION"></property>
+	</class>
+	<class name="Budget" table="BUDGET">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="month" column="MONTH"></property>
+		<property name="amount" column="AMOUNT"></property>
+		<many-to-one name="account" class="Account" lazy="false"
+			column="ACCOUNT_ID">
+		</many-to-one>
+	</class>
+	<class name="Company" table="COMPANY">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="accountingType" column="ACCOUNTING_TYPE"></property>
+		<property name="name" unique="true" column="NAME"></property>
+		<set name="users" lazy="false" cascade="save-update,delete">
+			<key column="COMPANY_ID"></key>
+			<one-to-many class="User" />
+		</set>
+		<!--		<set name="paySalesTaxEntriesList" inverse="true"-->
+		<!--			cascade="save-update" lazy="false">-->
+		<!--			<key column="COMPANY_ID"></key>-->
+		<!--			<one-to-many class="PaySalesTaxEntries" />-->
+		<!--		</set>-->
+		<set name="addresses" table="COMPANY_ADDRESS" lazy="false"
+			cascade="save-update">
+			<key column="COMPANY_ID" not-null="true" />
+			<composite-element class="Address">
+				<property name="type" column="TYPE" not-null="true"></property>
+				<property name="address1" column="ADDRESS1" not-null="true"
+					length="100"></property>
+				<property name="street" column="STREET" not-null="true"
+					length="100"></property>
+				<property name="city" column="CITY" not-null="true" length="100"></property>
+				<property name="stateOrProvinence" column="STATE" not-null="true"
+					length="100"></property>
+				<property name="zipOrPostalCode" column="ZIP" not-null="true"
+					length="100"></property>
+				<property name="countryOrRegion" column="COUNTRY" not-null="true"
+					length="100"></property>
+				<property name="isSelected" column="IS_SELECTED" not-null="true"></property>
+			</composite-element>
+		</set>
+		<set name="nominalCodeRange" table="COMPANY_NOMINAL_CODE_RANGE"
+			lazy="false" cascade="save-update">
+			<key column="COMPANY_ID" not-null="true" />
+			<composite-element class="NominalCodeRange">
+				<property name="stringID" column="STRING_ID" not-null="true"></property>
+				<property name="accountSubBaseType" column="ACCOUNT_SUB_BASE_TYPE"
+					not-null="true"></property>
+				<property name="minimum" column="MINIMUM" not-null="true"></property>
+				<property name="maximum" column="MAXIMUM" not-null="true"></property>
+			</composite-element>
+		</set>
+		<property name="companyEmail" column="COMPANY_EMAIL"></property>
+		<property name="companyEmailForCustomers" column="COMPANY_EMAIL_FOR_CUSTOMERS"></property>
+		<component name="contact" class="Contact" lazy="false">
+			<property name="isPrimary" column="COMPANY_CONTACT__IS_PRIMARY"
+				not-null="true"></property>
+			<property name="name" column="COMPANY_CONTACT__NAME"
+				not-null="true"></property>
+			<property name="title" column="COMPANY_CONTACT__TITLE"
+				not-null="true"></property>
+			<property name="businessPhone" column="COMPANY_CONTACT__BUSINESS_PHONE"
+				not-null="true"></property>
+			<property name="email" column="COMPANY_CONTACT_EMAIL"
+				not-null="true"></property>
+		</component>
+		<property name="ein" column="EIN"></property>
+		<property name="firstMonthOfFiscalYear" column="FIRSTMONTH_OF_FISCALYEAR"></property>
+		<property name="firstMonthOfIncomeTaxYear" column="FIRSTMONTH_OF_INCOMETAXYEAR"></property>
+		<property name="taxForm" column="TAX_FORM"></property>
+		<property name="booksClosingDate" column="BOOKS_COLSING_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="closingDateWarningType" column="CLOSING_DATE_WARNINGTYPE"></property>
+		<property name="enableAccountNumbers" column="ENABLE_ACCOUNT_NUMBERS"></property>
+		<property name="customerType" column="CUSTOMER_TYPE"></property>
+		<property name="enableAutoRecall" column="ENABLE_AUTORECALL"></property>
+		<property name="restartSetupInterviews" column="RESTART_SETUP_INTERVIEWS"></property>
+		<property name="fiscalYearStarting" column="FISCAL_YEAR_STARTING"></property>
+		<property name="industry" column="INDUSTRY"></property>
+		<property name="taxId" column="TAX_ID"></property>
+		<property name="legalName" column="LEGALNAME"></property>
+		<component name="preferences" class="CompanyPreferences"
+			lazy="false">
+
+			<!-- Company Preferences -->
+			<property name="useAccountNumbers" column="CP_USE_ACCOUNT_NUMBERS"
+				not-null="true"></property>
+			<property name="useClasses" column="CP_USE_CLASSES"
+				not-null="true"></property>
+			<property name="useJobs" column="CP_USE_JOBS" not-null="true"></property>
+			<property name="useChangeLog" column="CP_USE_CHANGE_LOG"
+				not-null="true"></property>
+			<property name="logSpaceUsed" column="CP_LOG_SPACE_USED"
+				not-null="true"></property>
+			<property name="allowDuplicateDocumentNumbers" column="CP_ALLOW_DUPLICATE_DOCUMENT_NUMBERS"
+				not-null="true"></property>
+			<property name="doYouPaySalesTax" column="CP_DO_YOU_PAY_SALES_TAX"
+				not-null="true"></property>
+			<property name="isAccuralBasis" column="CP_IS_ACCURAL_BASI"
+				not-null="true"></property>
+			<property name="startOfFiscalYear" column="CP_START_OF_FISCAL_YEAR"
+				type="com.vimukti.accounter.core.LongUseType" not-null="true"></property>
+			<property name="endOfFiscalYear" column="CP_END_OF_FISCAL_YEAR"
+				type="com.vimukti.accounter.core.LongUseType" not-null="true"></property>
+			<property name="useForeignCurrency" column="CP_USE_FOREIGN_CURRENCY"
+				not-null="true"></property>
+			<property name="isMyAccountantWillrunPayroll" column="CP_IS_MY_ACCOUNTANT_WILL_RUN_PAYROLL"
+				not-null="true"></property>
+			<property name="startDate" column="CP_FISCAL_YEAR_START_DATE"
+				not-null="true" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="depreciationStartDate" column="CP_DEPRECIATION_START_DATE"
+				not-null="true" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="preventPostingBeforeDate" column="CP_PREVENT_POSTING_DATE"
+				not-null="true" type="com.vimukti.accounter.core.LongUseType"></property>
+			<!--
+				<property name="legalName" column="CP_LEGAL_NAME"
+				not-null="true"></property>
+			-->
+
+			<!-- Customer Preferences -->
+			<property name="useCustomerId" column="CP_USE_CUSTOMER_ID"
+				not-null="true"></property>
+			<many-to-one name="defaultShippingTerm" class="ShippingTerms"
+				lazy="false" column="CP_DEFAULT_SHIPPING_TERM">
+			</many-to-one>
+			<property name="defaultAnnualInterestRate" column="CP_DEFAULT_ANNUAL_INTEREST_RATE"
+				not-null="true"></property>
+			<property name="defaultMinimumFinanceCharge" column="CP_DEFAULT_MINIMUM_FINANCE_CHARGE"
+				not-null="true"></property>
+			<property name="graceDays" column="CP_GRACE_DAYS" not-null="true"></property>
+			<property name="doesCalculateFinanceChargeFromInvoiceDate"
+				column="CP_CALCULATE_FINANCE_CHARGE_FROM_INVOICE_DATE" not-null="true"></property>
+
+			<!-- Vendor Preferences -->
+			<property name="useVendorId" column="CP_USE_VENDOR_ID"
+				not-null="true"></property>
+			<property name="useItemNumbers" column="CP_USE_ITEM_NUMBERS"
+				not-null="true"></property>
+			<property name="checkForItemQuantityOnHand" column="CP_CHECK_FOR_ITEM_QUANTITY_ON_HAND"
+				not-null="true"></property>
+			<property name="updateCostAutomatically" column="CP_UPDATE_COST_AUTOMATICALLY"
+				not-null="true"></property>
+
+			<!-- VAT Preferences -->
+			<property name="enterVATinformationNow" column="ENTER_VAT_INFORMATION_NOW"
+				not-null="true"></property>
+			<property name="VATregistrationNumber" column="VAT_REGISTRATION_NUMBER"
+				not-null="true"></property>
+			<property name="VATreportingPeriod" column="VAT_REPORTING_PERIOD"
+				not-null="true"></property>
+			<property name="endingPeriodForVATreporting" column="ENDING_PERIOD_FOR_VAT_REPORTING"
+				not-null="true"></property>
+			<property name="reportVATonAccuralBasis" column="REPORT_VAT_ON_ACCURAL_BASIS"
+				not-null="true"></property>
+			<property name="trackVAT" column="TRACK_VAT" not-null="true"></property>
+			<property name="VATtaxAgencyName" column="VAT_TAX_AGENCY_NAME"
+				not-null="true"></property>
+		</component>
+		<property name="phone" column="PHONE"></property>
+		<property name="fax" column="FAX"></property>
+		<property name="webSite" column="WEBSITE"></property>
+		<property name="bankAccountNo" column="BANK_ACCOUNT_NO"></property>
+		<property name="sortCode" column="SORT_CODE"></property>
+		<many-to-one name="accountsReceivableAccount" class="Account"
+			lazy="false" column="ACCOUNTS_RECEIVABLE_ID">
+		</many-to-one>
+		<many-to-one name="accountsPayableAccount" class="Account"
+			lazy="false" column="ACCOUNTS_PAYABLE_ID">
+		</many-to-one>
+		<many-to-one name="openingBalancesAccount" class="Account"
+			lazy="false" column="OPENING_BALANCES_ID">
+		</many-to-one>
+		<many-to-one name="retainedEarningsAccount" class="Account"
+			lazy="false" column="RETAINED_EARNINGS_ID">
+		</many-to-one>
+		<many-to-one name="otherCashIncomeAccount" class="Account"
+			lazy="false" column="OTHER_CASH_INCOME_ID">
+		</many-to-one>
+		<many-to-one name="otherCashExpenseAccount" class="Account"
+			lazy="false" column="OTHER_CASH_EXPENSE_ID">
+		</many-to-one>
+		<many-to-one name="VATliabilityAccount" class="Account"
+			lazy="false" column="VAT_LIABILITY_ACCOUNT_ID">
+		</many-to-one>
+		<many-to-one name="VATFiledLiabilityAccount" class="Account"
+			lazy="false" column="VAT_FILED_LIABILITY_ACCOUNT_ID">
+		</many-to-one>
+		<many-to-one name="pendingItemReceiptsAccount" class="Account"
+			lazy="false" column="PENDING_ITEM_RECEIPTS_ACCOUNT_ID">
+		</many-to-one>
+		<!--		<many-to-one name="prepaidVATaccount" class="Account"-->
+		<!--			lazy="false" column="PREPAID_VAT_ACCOUNT_ID">-->
+		<!--		</many-to-one>-->
+		<!--		<many-to-one name="ECAcquisitionVATaccount" class="Account"-->
+		<!--			lazy="false" column="EC_ACQUISITION_VAT_ID">-->
+		<!--		</many-to-one>-->
+		<property name="version" column="VERSION"></property>
+		<property name="serviceItemDefaultIncomeAccount" column="SERVICE_ITEM_DEFAULT_INCOME_ACCOUNT"></property>
+		<property name="serviceItemDefaultExpenseAccount" column="SERVICE_ITEM_DEFAULT_EXPENSE_ACCOUNT"></property>
+		<property name="nonInventoryItemDefaultIncomeAccount" column="NON_INVENTORY_ITEM_DEFAULT_INCOME_ACCOUNT"></property>
+		<property name="nonInventoryItemDefaultExpenseAccount"
+			column="NON_INVENTORY_ITEM_DEFAULT_EXPENSE_ACCOUNT"></property>
+		<property name="ukServiceItemDefaultIncomeAccount" column="UK_SERVICE_ITEM_DEFAULT_INCOME_ACCOUNT"></property>
+		<property name="ukServiceItemDefaultExpenseAccount" column="UK_SERVICE_ITEM_DEFAULT_EXPENSE_ACCOUNT"></property>
+		<property name="ukNonInventoryItemDefaultIncomeAccount"
+			column="UK_NON_INVENTORY_ITEM_DEFAULT_INCOME_ACCOUNT"></property>
+		<property name="ukNonInventoryItemDefaultExpenseAccount"
+			column="UK_NON_INVENTORY_ITEM_DEFAULT_EXPENSE_ACCOUNT"></property>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+
+
+
+
+		<property name="registrationNumber" column="REGISTRATION_NUMBER"></property>
+
+
+	</class>
+	<!--
+		<class name="CompanyPreferences" table="COMPANY_PREFERENCES"> <id
+		name="id" column="ID"> <generator class="native" /> </id> Company
+		Preferences <property name="useAccountNumbers"
+		column="USE_ACCOUNT_NUMBERS"></property> <property name="useClasses"
+		column="USE_CLASSES"></property> <property name="useJobs"
+		column="USE_JOBS"></property> <property name="useChangeLog"
+		column="USE_CHANGE_LOG"></property> <property name="logSpaceUsed"
+		column="LOG_SPACE_USED"></property> <property
+		name="allowDuplicateDocumentNumbers"
+		column="ALLOW_DUPLICATE_DOCUMENT_NUMBERS"></property> <property
+		name="doYouPaySalesTax" column="DO_YOU_PAY_SALES_TAX"></property>
+		<property name="isAccuralBasis" column="IS_ACCURAL_BASI"></property>
+		<property name="startOfFiscalYear" column="START_OF_FISCAL_YEAR"
+		type="date"></property> <property name="endOfFiscalYear"
+		column="END_OF_FISCAL_YEAR" type="date"></property> <property
+		name="useForeignCurrency" column="USE_FOREIGN_CURRENCY"></property>
+		<property name="isMyAccountantWillrunPayroll"
+		column="IS_MY_ACCOUNTANT_WILL_RUN_PAYROLL"></property> Customer
+		Preferences <property name="useCustomerId"
+		column="USE_CUSTOMER_ID"></property> <property
+		name="defaultShippingTerm" column="DEFAULT_SHIPPING_TERM"></property>
+		<property name="defaultAnnualInterestRate"
+		column="DEFAULT_ANNUAL_INTEREST_RATE"></property> <property
+		name="defaultMinimumFinanceCharge"
+		column="DEFAULT_MINIMUM_FINANCE_CHARGE"></property> <property
+		name="graceDays" column="GRACE_DAYS"></property> <property
+		name="doesCalculateFinanceChargeFromInvoiceDate"
+		column="DOES_CALCULATE_FINANCE_CHARGE_FROM_INVOICE_DATE"></property>
+		Customer Preferences <property name="useVendorId"
+		column="USE_VENDOR_ID"></property> <property name="useItemNumbers"
+		column="USE_ITEM_NUMBERS"></property> <property
+		name="checkForItemQuantityOnHand"
+		column="CHECK_FOR_ITEM_QUANTITY_ON_HAND"></property> <property
+		name="updateCostAutomatically"
+		column="UPDATE_COST_AUTOMATICALLY"></property> <property
+		name="version" column="VERSION"></property> </class>
+	-->
+	<!--
+		<class name="Contact" table="CONTACT"> <id name="id" column="ID">
+		<generator class="native" /> </id> <property name="isPrimary"
+		column="IS_PRIMARY"></property> <property name="name"
+		column="NAME"></property> <property name="title"
+		column="TITLE"></property> <property name="businessPhone"
+		column="BUSINESS_PHONE"></property> <property name="version"
+		column="VERSION"></property> <property name="email"
+		column="EMAIL"></property> </class>
+	-->
+	<class name="CreditRating" table="CREDITRATING">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="name" unique="true" column="NAME"></property>
+		<property name="version" column="VERSION"></property>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="isDefault" column="IS_DEFAULT"></property>
+	</class>
+	<class name="Currency" table="CURRENCY">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="name" unique="true" column="NAME"></property>
+		<property name="symbol" column="SYMBOL"></property>
+		<property name="formalName" column="FORMAL_NAME"></property>
+		<property name="version" column="VERSION"></property>
+	</class>
+	<class name="CustomerGroup" table="CUSTOMER_GROUP">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="name" unique="true" column="NAME"></property>
+		<property name="version" column="VERSION"></property>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="isDefault" column="IS_DEFAULT"></property>
+	</class>
+	<!--
+		<class name="Email" table="EMAIL"> <id name="id" column="ID">
+		<generator class="native" /> </id> <property name="type"
+		column="TYPE"></property> <property name="email"
+		column="EMAIL"></property> <property name="isSelected"
+		column="IS_SELECTED"></property> <property name="version"
+		column="VERSION"></property> </class> <class name="Fax" table="FAX">
+		<id name="id" column="ID"> <generator class="native" /> </id>
+		<property name="type" column="TYPE"></property> <property
+		name="number" column="NUMBER"></property> <property name="isSelected"
+		column="IS_SELECTED"></property> <property name="version"
+		column="VERSION"></property> </class>
+	-->
+	<class name="Item" table="ITEM">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<!--
+			<many-to-one name="VATCode" class="TaxCode" column="VAT_CODE_ID">
+		-->
+		<!--		</many-to-one>-->
+		<property name="type" column="TYPE"></property>
+		<property name="name" unique="true" column="NAME"></property>
+		<property name="UPCorSKU" column="UPC_OR_SKU"></property>
+		<property name="weight" column="WEIGHT"></property>
+		<many-to-one name="itemGroup" class="ItemGroup" column="ITEMGROUP_ID"
+			lazy="false">
+		</many-to-one>
+		<property name="isActive" column="IS_ACTIVE"></property>
+		<property name="isISellThisItem" column="IS_SELL_ITEM"></property>
+		<property name="salesDescription" column="SALES_DESCRIPTION"></property>
+		<property name="salesPrice" column="SALES_PRICE"></property>
+		<many-to-one name="incomeAccount" class="Account"
+			column="INCOME_ACCOUNT_ID" lazy="false">
+		</many-to-one>
+		<property name="isTaxable" column="IS_TAXABLE"></property>
+		<property name="isCommissionItem" column="IS_COMMISSION_ITME"></property>
+		<property name="isIBuyThisItem" column="IS_BUY_ITEM"></property>
+		<property name="purchaseDescription" column="PURCHASE_DESCRIPTION"></property>
+		<property name="purchasePrice" column="PURCHASE_PRISE"></property>
+		<many-to-one name="expenseAccount" class="Account"
+			column="EXPENSE_ACCOUNT_ID" lazy="false">
+		</many-to-one>
+		<many-to-one name="preferredVendor" class="Vendor"
+			column="PREFFERED_VENDOR" lazy="false">
+		</many-to-one>
+		<many-to-one name="taxCode" class="TAXCode" column="TAX_CODE"
+			lazy="false">
+		</many-to-one>
+		<property name="vendorItemNumber" column="VENDOR_ITEM_NUMBER"></property>
+		<property name="standardCost" column="SATNDARD_COST"></property>
+		<property name="version" column="VERSION"></property>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="isDefault" column="IS_DEFAULT"></property>
+	</class>
+	<class name="TAXItemGroup" table="TAX_ITEM_GROUPS">
+		<id name="id" column="ID">
+			<generator class="native"></generator>
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="name" unique="true" column="NAME"></property>
+		<property name="description" column="DESCRIPTION"></property>
+		<property name="isActive" column="IS_ACTIVE"></property>
+		<property name="isSalesType" column="IS_SALES_TYPE"></property>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="isPercentage" column="IS_PERCENTAGE"></property>
+		<property name="isDefault" column="IS_DEFAULT"></property>
+		<joined-subclass name="TAXItem" table="TAX_ITEM">
+			<key column="id" />
+			<many-to-one name="taxAgency" class="TAXAgency" column="TAX_AGENCY"
+				lazy="false">
+			</many-to-one>
+			<property name="taxRate" column="TAX_RATE"></property>
+			<many-to-one name="vatReturnBox" class="VATReturnBox"
+				cascade="save-update" column="VAT_RETURN_BOX" lazy="false">
+			</many-to-one>
+		</joined-subclass>
+		<joined-subclass name="TAXGroup" table="TAX_GROUP">
+			<key column="id" />
+			<list name="taxItems" table="TAX_GROUP_TAX_ITEM" lazy="false"
+				cascade="save-update">
+				<key column="TAX_GROUP_ID"></key>
+				<list-index column="VTX" />
+				<many-to-many column="TAX_ITEM_ID" class="TAXItem" />
+			</list>
+			<property name="groupRate" column="GROUP_RATE"></property>
+		</joined-subclass>
+	</class>
+	<class name="ItemGroup" table="ITEMGROUP">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="name" unique="true" column="NAME"></property>
+		<property name="version" column="VERSION"></property>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="isDefault" column="IS_DEFAULT"></property>
+		<!--
+			<list name="items" table="ITEM_ITEM_GROUP" lazy="false"
+			cascade="save-update">
+		-->
+		<!--			<key column="ITEM_GROUP_ID"></key>-->
+		<!--			<list-index column="IG_INDEX" />-->
+		<!--			<many-to-many column="ITEM_ID" class="Item" />-->
+		<!--		</list>-->
+	</class>
+	<class name="Payee" table="PAYEE">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="name" unique="true" column="NAME"></property>
+		<property name="payeeSince" column="PAYEE_SINCE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="fileAs" column="FILE_AS"></property>
+		<property name="version" column="VERSION"></property>
+		<property name="type" column="TYPE"></property>
+		<property name="date" column="P_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="balance" column="BALANCE"></property>
+		<property name="openingBalance" column="OPENING_BALANCE"></property>
+		<property name="paymentMethod" column="PAYMENT_METHOD"></property>
+		<set name="address" table="PAYEE_ADDRESS" lazy="false" cascade="save-update">
+			<key column="PAYEE_ID" not-null="true" />
+			<composite-element class="Address">
+				<property name="type" column="TYPE" not-null="true"></property>
+				<property name="address1" column="ADDRESS1" not-null="true"
+					length="100"></property>
+				<property name="street" column="STREET" not-null="true"
+					length="100"></property>
+				<property name="city" column="CITY" not-null="true" length="100"></property>
+				<property name="stateOrProvinence" column="STATE" not-null="true"
+					length="100"></property>
+				<property name="zipOrPostalCode" column="ZIP" not-null="true"
+					length="100"></property>
+				<property name="countryOrRegion" column="COUNTRY" not-null="true"
+					length="100"></property>
+				<property name="isSelected" column="IS_SELECTED" not-null="true"></property>
+			</composite-element>
+		</set>
+		<!--
+			<set name="phoneNumbers" table="PAYEE_PHONE" lazy="false"
+			cascade="save-update"> <key column="PAYEE_ID" not-null="true" />
+			<composite-element class="Phone"> <property name="type" column="TYPE"
+			not-null="true"></property> <property name="number" column="NUMBER"
+			not-null="true"></property> <property name="isSelected"
+			column="IS_SELECTED" not-null="true"></property> </composite-element>
+			</set>
+		-->
+		<!--
+			<set name="faxNumbers" table="PAYEE_FAX" lazy="false"
+			cascade="save-update"> <key column="PAYEE_ID" not-null="true" />
+			<composite-element class="Fax"> <property name="type" column="TYPE"
+			not-null="true"></property> <property name="number" column="NUMBER"
+			not-null="true"></property> <property name="isSelected"
+			column="IS_SELECTED" not-null="true"></property> </composite-element>
+			</set>
+		-->
+		<!--
+			<set name="emails" table="PAYEE_EMAIL" lazy="false"
+			cascade="save-update"> <key column="PAYEE_ID" not-null="true" />
+			<composite-element class="Email"> <property name="type" column="TYPE"
+			not-null="true"></property> <property name="email" column="EMAIL"
+			not-null="true"></property> <property name="isSelected"
+			column="IS_SELECTED" not-null="true"></property> </composite-element>
+			</set>
+		-->
+		<set name="contacts" table="PAYEE_CONTACT" lazy="false" cascade="save-update">
+			<key column="PAYEE_ID" not-null="true" />
+			<composite-element class="Contact">
+				<property name="isPrimary" column="IS_PRIMARY" not-null="true"></property>
+				<property name="name" column="NAME" not-null="true" length="100"></property>
+				<property name="title" column="TITLE" not-null="true"
+					length="100"></property>
+				<property name="businessPhone" column="BUSINESS_PHONE"
+					not-null="true" length="100"></property>
+				<property name="email" column="EMAIL" not-null="true"></property>
+			</composite-element>
+		</set>
+		<property name="phoneNo" column="PHONE_NUMBER"></property>
+		<property name="faxNo" column="FAX_NUMBER"></property>
+		<property name="email" column="EMAIL_ID"></property>
+		<property name="webPageAddress" column="WEB_PAGE_ADDRESS"></property>
+		<property name="isActive" column="IS_ACTIVE"></property>
+		<property name="memo" column="MEMO"></property>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<!--
+			<property name="isEUVATExemptPayee"
+			column="IS_EU_VAT_EXEMPT_PAYEE"></property>
+		-->
+		<property name="VATRegistrationNumber" column="VAT_REGISTRATION_NUMBER"
+			type="string"></property>
+		<many-to-one name="TAXCode" column="TAX_CODE_ID" class="TAXCode"
+			lazy="false">
+		</many-to-one>
+		<property name="isOpeningBalanceEditable" column="IS_OPENING_BALANCE_EDITABLE"></property>
+		<property name="isDefault" column="IS_DEFAULT"></property>
+		<joined-subclass name="Customer" table="CUSTOMER">
+			<key column="id" />
+			<property name="balanceAsOf" column="BALANCE_AS_OF"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="number" unique="true" column="NUMBER"></property>
+			<many-to-one name="salesPerson" class="SalesPerson"
+				column="SALES_PERSON_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<property name="creditLimit" column="CREDIT_LIMIT"></property>
+			<many-to-one name="priceLevel" class="PriceLevel" column="PRICE_LEVEL_ID"
+				cascade="save-update" lazy="false">
+			</many-to-one>
+			<many-to-one name="creditRating" class="CreditRating"
+				column="CREDIT_RATING_ID" cascade="save-update" lazy="false">
+			</many-to-one>
+			<many-to-one name="shippingMethod" class="ShippingMethod"
+				column="SHIPPING_METHOD_ID" cascade="save-update" lazy="false">
+			</many-to-one>
+			<many-to-one name="paymentTerm" class="PaymentTerms"
+				column="PAYMENT_TERM_ID" cascade="save-update" lazy="false">
+			</many-to-one>
+			<many-to-one name="customerGroup" class="CustomerGroup"
+				column="CUSTOMER_GROUP_ID" cascade="save-update" lazy="false">
+			</many-to-one>
+			<many-to-one name="taxGroup" class="TAXGroup" column="TAX_GROUP_ID"
+				cascade="save-update" lazy="false">
+			</many-to-one>
+			<property name="current" column="CURRET_DUE"></property>
+			<property name="overDueOneToThirtyDays" column="OVER_DUE_ONE_TO_THIRY_DAYS"></property>
+			<property name="overDueThirtyOneToSixtyDays" column="OVER_DUE_THIRTY_ONE_TO_SIXTY_DAYS"></property>
+			<property name="overDueSixtyOneToNintyDays" column="OVER_DUE_SIXTY_ONE_TO_NINTY_DAYS"></property>
+			<property name="overDueOverNintyDays" column="OVER_DUE_OVER_NINTY_DAYS"></property>
+			<property name="overDueTotalBalance" column="OVER_DUE_TOTAL_BALANCE"></property>
+			<property name="averageDaysToPay" column="AVERAGE_DAYS_TO_PAY"></property>
+			<property name="averageDaysToPayYTD" column="AVERAGE_DAYS_TO_PAY_YTD"></property>
+			<property name="monthToDate" column="MONTH_TO_DATE"></property>
+			<property name="yearToDate" column="YEAR_TO_DATE"></property>
+			<property name="lastYear" column="LAST_YEAR"></property>
+			<property name="lifeTimeSales" column="LIFE_TIME_SALES"></property>
+		</joined-subclass>
+		<joined-subclass name="Vendor" table="VENDOR">
+			<key column="id" />
+			<property name="accountNumber" column="ACCOUNT_NUMBER"></property>
+			<property name="balanceAsOf" column="BALANCE_AS_OF"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<many-to-one name="expenseAccount" class="Account"
+				column="EXPENSE_ACCOUNT_ID" cascade="save-update" lazy="false">
+			</many-to-one>
+			<property name="creditLimit" column="CREDIT_LIMIT"></property>
+			<many-to-one name="shippingMethod" class="ShippingMethod"
+				column="SHIPPING_METHOD_ID" cascade="save-update" lazy="false">
+			</many-to-one>
+			<many-to-one name="paymentTerms" class="PaymentTerms"
+				column="PAYMENT_TERMS_ID" cascade="save-update" lazy="false">
+			</many-to-one>
+			<many-to-one name="vendorGroup" class="VendorGroup"
+				column="VENDOR_GROUP_ID" cascade="save-update" lazy="false">
+			</many-to-one>
+			<property name="federalTaxId" column="FEDERAL_TAXID"></property>
+			<property name="current" column="CURRET_DUE"></property>
+			<property name="overDueOneToThirtyDays" column="OVER_DUE_ONE_TO_THIRY_DAYS"></property>
+			<property name="overDueThirtyOneToSixtyDays" column="OVER_DUE_THIRTY_ONE_TO_SIXTY_DAYS"></property>
+			<property name="overDueSixtyOneToNintyDays" column="OVER_DUE_SIXTY_ONE_TO_NINTY_DAYS"></property>
+			<property name="overDueOverNintyDays" column="OVER_DUE_OVER_NINTY_DAYS"></property>
+			<property name="overDueTotalBalance" column="OVER_DUE_TOTAL_BALANCE"></property>
+			<property name="monthToDate" column="MONTH_TO_DATE"></property>
+			<property name="yearToDate" column="YEAR_TO_DATE"></property>
+			<property name="lastYear" column="LAST_YEAR"></property>
+			<property name="lifeTimePurchases" column="LIFE_TIME_PURCHASES"></property>
+		</joined-subclass>
+		<joined-subclass name="SalesPerson" table="SALES_PERSON">
+			<key column="id" />
+			<property name="title" column="TITLE"></property>
+			<property name="firstName" column="FIRST_NAME"></property>
+			<property name="middleName1" column="MIDDLE_NAME1"></property>
+			<property name="middleName2" column="MIDDLE_NAME2"></property>
+			<property name="middleName3" column="MIDDLE_NAME3"></property>
+			<property name="lastName" column="LAST_NAME"></property>
+			<property name="suffix" column="SUFFIX"></property>
+			<property name="jobTitle" column="JOB_TITLE"></property>
+			<many-to-one name="expenseAccount" class="Account"
+				column="EXPENSE_ACCOUNT_ID" lazy="false">
+			</many-to-one>
+			<property name="gender" column="GENDER"></property>
+			<property name="dateOfBirth" column="DATE_OF_BIRTH"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="dateOfHire" column="DATE_OF_HIRE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="dateOfLastReview" column="DATE_OF_LASTREVIEW"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="dateOfRelease" column="DATE_OF_RELEASE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+		</joined-subclass>
+		<!--
+			<joined-subclass name="TaxAgency" table="TAXAGENCY"> <key column="id"
+			/> <many-to-one name="paymentTerm" class="PaymentTerms"
+			column="PAYMENT_TERM" cascade="save-update" lazy="false">
+			</many-to-one> <many-to-one name="liabilityAccount" class="Account"
+			column="ACCOUNT_ID" cascade="save-update" lazy="false">
+			</many-to-one> <many-to-one name="salesVATAccount" class="Account"
+			column="SALES_VAT_ACCOUNT_ID" cascade="save-update,delete"
+			lazy="false"> </many-to-one> <many-to-one name="purchasesVATAccount"
+			class="Account" column="PURCHASES_VAT_ACCOUNT_ID"
+			cascade="save-update,delete" lazy="false"> </many-to-one> <property
+			name="VATReturn" column="VAT_RETURN"></property> </joined-subclass>
+		-->
+		<joined-subclass name="TAXAgency" table="TAXAGENCY">
+			<key column="id" />
+			<many-to-one name="paymentTerm" class="PaymentTerms"
+				column="PAYMENT_TERM" cascade="save-update" lazy="false">
+			</many-to-one>
+			<many-to-one name="salesLiabilityAccount" class="Account"
+				column="SALES_ACCOUNT_ID" cascade="save-update" lazy="false">
+			</many-to-one>
+			<many-to-one name="purchaseLiabilityAccount" class="Account"
+				column="PURCHASE_ACCOUNT_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<property name="VATReturn" column="VAT_RETURN"></property>
+		</joined-subclass>
+	</class>
+	<class name="PaymentTerms" table="PAYMENTTERMS">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="name" unique="true" column="NAME"></property>
+		<property name="description" column="DESCRIPTION"></property>
+		<property name="due" column="DUE"></property>
+		<property name="dueDays" column="DUE_DAYS"></property>
+		<property name="discountPercent" column="DISCOUNT_PERCENT"></property>
+		<property name="ifPaidWithIn" column="IF_PAID_WITHIN"></property>
+		<property name="version" column="VERSION"></property>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="isDefault" column="IS_DEFAULT"></property>
+	</class>
+	<!--
+		<class name="Phone" table="PHONE"> <id name="id" column="ID">
+		<generator class="native" /> </id> <property name="type"
+		column="TYPE"></property> <property name="number"
+		column="NUMBER"></property> <property name="isSelected"
+		column="IS_SELECTED"></property> <property name="version"
+		column="VERSION"></property> </class>
+	-->
+	<class name="PriceLevel" table="PRICELEVEL">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="name" unique="true" column="NAME"></property>
+		<property name="percentage" column="PERCENTAGE"></property>
+		<property name="isPriceLevelDecreaseByThisPercentage" column="IS_P_DECREASE_BY_THIS_PERCENT"></property>
+		<property name="version" column="VERSION"></property>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="isDefault" column="IS_DEFAULT"></property>
+	</class>
+	<class name="ShippingMethod" table="SHIPPINGMETHOD">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="name" unique="true" column="NAME"></property>
+		<property name="description" column="DESCRIPTION"></property>
+		<property name="version" column="VERSION"></property>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="isDefault" column="IS_DEFAULT"></property>
+	</class>
+	<class name="ShippingTerms" table="SHIPPINGTERMS">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="name" unique="true" column="NAME"></property>
+		<property name="description" column="DESCRIPTION"></property>
+		<property name="version" column="VERSION"></property>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="isDefault" column="IS_DEFAULT"></property>
+	</class>
+	<!--
+		<class name="TaxCode" table="TAXCODE"> <id name="id" column="ID">
+		<generator class="native" /> </id> <property name="stringID"
+		column="STRING_ID"></property> <property name="name" unique="true"
+		column="NAME"></property> <property name="description"
+		column="DESCRIPTION"></property> <many-to-one name="taxAgency"
+		class="TaxAgency" column="TAXAGENCY_ID" lazy="false"> </many-to-one>
+		<many-to-one name="taxGroup" class="TaxGroup" column="TAXGROUP_ID"
+		lazy="false"> </many-to-one> <set name="taxRates" lazy="false"
+		cascade="save-update,delete" order-by="AS_OF desc"> <key
+		column="TAXCODE_ID"></key> <one-to-many class="TaxRates" /> </set>
+
+		<property name="isActive" column="IS_ACTIVE"></property> <property
+		name="isTaxable" column="IS_TAXABLE"></property> <property
+		name="version" column="VERSION"></property> <property name="createdBy"
+		column="CREATED_BY" type="string" /> <property name="lastModifier"
+		column="LAST_MODIFIER" type="string" /> <property name="createdDate"
+		column="CREATED_DATE" type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+		type="com.vimukti.accounter.core.LongUseType" /> <property
+		name="isDefault" column="IS_DEFAULT"></property> </class>
+	-->
+
+	<class name="TaxRates" table="TAXRATES">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="rate" column="RATE"></property>
+		<property name="asOf" column="AS_OF"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="version" column="VERSION"></property>
+	</class>
+	<!--
+		<class name="TaxRateCalculation" table="TAX_RATE_CALCULATION"> <id
+		name="id" column="ID"> <generator class="increment" /> </id> <property
+		name="stringID" column="STRING_ID"></property> <property name="rate"
+		column="RATE"></property> <many-to-one name="transactionItem"
+		class="TransactionItem" lazy="false" column="TRANSACTION_ITEM_ID">
+		</many-to-one> <many-to-one name="taxItem" class="TAXItem"
+		lazy="false" column="TAX_ITEM_ID"> </many-to-one> <many-to-one
+		name="taxAgency" class="TAXAgency" lazy="false" column="TAXAGENCY_ID">
+		</many-to-one> <many-to-one name="liabilityAccount" class="Account"
+		lazy="false" column="LIABILITY_ACCOUNT_ID"> </many-to-one> <property
+		name="taxableAmount" column="TAXABLE_AMOUNT"></property> <property
+		name="nonTaxableAmount" column="NON_TAXABLE_AMOUNT"></property>
+		<property name="taxCollected" column="TAX_COLLECTED"></property>
+		</class>
+	-->
+	<class name="TAXRateCalculation" table="TAX_RATE_CALCULATION">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="isVATGroupEntry" column="VAT_GROUP_ENTRY"></property>
+		<property name="vatAmount" column="VAT_AMOUNT"></property>
+		<property name="lineTotal" column="LINE_TOTAL"></property>
+		<property name="taxDue" column="TAX_DUE"></property>
+		<many-to-one name="transactionItem" class="TransactionItem"
+			lazy="false" column="TRANSACTION_ITEM_ID">
+		</many-to-one>
+		<many-to-one name="taxItem" class="TAXItem" lazy="false"
+			column="TAX_ITEM_ID">
+		</many-to-one>
+		<property name="transactionDate" column="TRANSACTION_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
+			column="TAX_AGENCY_ID">
+		</many-to-one>
+		<property name="rate" column="RATE"></property>
+		<many-to-one name="vatReturnBox" class="VATReturnBox"
+			lazy="false" column="VAT_RETURN_BOX_ID">
+		</many-to-one>
+		<many-to-one name="purchaseLiabilityAccount" class="Account"
+			lazy="false" column="PURCHASE_LIABILITY_ACCOUNT_ID">
+		</many-to-one>
+		<many-to-one name="salesLiabilityAccount" class="Account"
+			lazy="false" column="SALES_LIABILITY_ACCOUNT_ID">
+		</many-to-one>
+		<many-to-one name="vatReturn" class="VATReturn" lazy="false"
+			column="VAT_RETURN">
+		</many-to-one>
+	</class>
+	<class name="ItemBackUp" table="ITEM_BACK_UP">
+		<id name="id" column="ID">
+			<generator class="native"></generator>
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<many-to-one name="transactionItem" class="TransactionItem"
+			lazy="false" column="TRANSACTION_ITEM_ID"></many-to-one>
+		<many-to-one name="item" class="Item" lazy="false" column="ITEM_ID"></many-to-one>
+		<many-to-one name="incomeAccount" class="Account" lazy="false"
+			column="INCOME_ACCOUNT_ID"></many-to-one>
+		<many-to-one name="expenseAccount" class="Account" lazy="false"
+			column="EXPENSE_ACCOUNT_ID"></many-to-one>
+	</class>
+	<class name="UnitOfMeasure" table="UNIT_OF_MEASURE">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="type" column="TYPE"></property>
+		<property name="name" unique="true" column="NAME"></property>
+		<property name="abbreviation" column="ABBREVIATION"></property>
+		<property name="version" column="VERSION"></property>
+	</class>
+	<class name="UserPermissions" table="USER_PERMISSIONS">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="typeOfBankReconcilation" column="TYPE_OF_BANK_RECONCILATION"></property>
+		<property name="typeOfInvoices" column="TYPE_OF_INVOICES"></property>
+		<property name="typeOfExpences" column="TYPE_OF_EXPENCES"></property>
+		<property name="typeOfSystemSettings" column="TYPE_OF_SYSTEM_SETTINGS"></property>
+		<property name="typeOfViewReports" column="TYPE_OF_VIEW_REPORTS"></property>
+		<property name="typeOfPublishReports" column="TYPE_OF_PUBLISH_REPORTS"></property>
+		<property name="typeOfLockDates" column="TYPE_OF_LOCK_DATES"></property>
+	</class>
+	<class name="User" table="USERS">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<!--<property name="version" column="VERSION"></property>-->
+		<property name="firstName" column="FIRST_NAME"></property>
+		<property name="lastName" column="LAST_NAME"></property>
+		<property name="fullName" column="FULL_NAME"></property>
+		<property name="emailId" column="EMAIL_ID"></property>
+		<property name="userRole" column="USER_ROLE"></property>
+		<property name="isActive" column="IS_ACTIVE"></property>
+		<property name="canDoUserManagement" column="CAN_DO_USER_MANAGEMENT"></property>
+		<property name="lastLogin" column="LAST_LOGIN"></property>
+		<property name="isDeleted" column="IS_DELETED"></property>
+		<!--
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		-->
+		<property name="loginCount" column="LOGIN_COUNT"></property>
+		<property name="isAdmin" column="IS_ADMIN"></property>
+		<many-to-one name="permissions" class="UserPermissions"
+			lazy="false" cascade="save-update,delete" column="USER_PERMISSIONS_ID"></many-to-one>
+		<!--
+			<property name="lastLogin" column="LAST_LOGIN"
+			type="com.vimukti.accounter.core.LongUseType"></property> <property
+			name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+			<many-to-one name="admin" class="User" lazy="false"
+			column="ADMIN_ID"> </many-to-one> <property name="maxUserCount"
+			column="MAX_USER_COUNT"></property> <component name="userPreferences"
+			class="UserPreferences" lazy="false"> <property
+			name="dashBoardPreferences" column="USER_PREFERENCES_DASH_BOARD"
+			not-null="true"></property> <property
+			name="customerSectionViewPreferences"
+			column="USER_PREFERENCES_CUSTOMER_SELECTION_VIEW"
+			not-null="true"></property> <property
+			name="vendorSectionViewPreferences"
+			column="USER_PREFERENCES_VENDOR_SELECTION_VIEW"
+			not-null="true"></property> <property
+			name="bankingSectionViewPreferences"
+			column="USER_PREFERENCES_BANKING_SELECTION_VIEW"
+			not-null="true"></property> </component> <component name="address"
+			class="Address" lazy="false"> <property name="type"
+			column="USER_ADDRESS_TYPE" not-null="true"></property> <property
+			name="street" column="USER_ADDRESS_STREET"
+			not-null="true"></property> <property name="city"
+			column="USER_ADDRESS_CITY" not-null="true"></property> <property
+			name="stateOrProvinence" column="USER_ADDRESS_STATE"
+			not-null="true"></property> <property name="zipOrPostalCode"
+			column="USER_ADDRESS_ZIP" not-null="true"></property> <property
+			name="countryOrRegion" column="USER_ADDRESS_COUNTRY"
+
+			not-null="true"></property> <property name="isSelected"
+			column="USER_ADDRESS_IS_SELECTED" not-null="true"></property>
+			</component> <component name="contact" class="Contact" lazy="false">
+			<property name="isPrimary" column="USER_IS_PRIMARY"
+			not-null="true"></property> <property name="name" column="USER_NAME"
+			not-null="true"></property> <property name="title"
+			column="USER_TITLE" not-null="true"></property> <property
+			name="businessPhone" column="USER_BUSINESS_PHONE"
+			not-null="true"></property> <property name="email"
+			column="USER_EMAIL" not-null="true"></property> </component>
+		-->
+	</class>
+	<!--
+		<class name="UserPreferences" table="USER_PREFERENCES"> <id name="id"
+		column="ID"> <generator class="native" /> </id> <property
+		name="version" column="VERSION"></property> <property
+		name="dashBoardPreferences"
+		column="DASH_BOARD_PREFERENCES"></property> <property
+		name="customerSectionViewPreferences"
+		column="CUSTOMER_SELECTION_VIEW_PREFERENCES"></property> <property
+		name="vendorSectionViewPreferences"
+		column="VENDOR_SELECTION_VIEW_PREFERENCES"></property> <property
+		name="bankingSectionViewPreferences"
+		column="BANKING_SELECTION_VIEW_PREFERENCES"></property> </class>
+	-->
+	<class name="VendorGroup" table="VENDOR_GROUP">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="name" unique="true" column="NAME"></property>
+		<property name="version" column="VERSION"></property>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="isDefault" column="IS_DEFAULT"></property>
+	</class>
+	<class name="FixedAsset" table="FIXED_ASSET">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="name" unique="true" column="NAME"></property>
+		<property name="assetNumber" column="ASSET_NUMBER"></property>
+		<many-to-one name="assetAccount" class="Account" lazy="false"
+			column="ASSET_ACCOUNT_ID">
+		</many-to-one>
+		<property name="purchaseDate" column="PURCHASE_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="purchasePrice" column="PURCHASE_PRICE"></property>
+		<property name="description" column="DESCRIPTION"></property>
+		<property name="assetType" column="ASSET_TYPE"></property>
+		<property name="depreciationRate" column="DEPRECIATION_RATE"></property>
+		<property name="depreciationMethod" column="DEPRECIATION_METHOD"></property>
+		<many-to-one name="depreciationExpenseAccount" class="Account"
+			lazy="false" column="DEPRECIATION_EXPENSE_ACCOUNT_ID">
+		</many-to-one>
+		<!--
+			<many-to-one name="accumulatedDepreciationAccount" class="Account"
+			lazy="false" column="ACCUMULATED_DEPRECIATION_ACCOUNT_ID">
+			</many-to-one>
+		-->
+		<property name="accumulatedDepreciationAmount" column="ACCUMULATED_DEPRECIATION_AMOUNT"></property>
+		<property name="status" column="status"></property>
+		<property name="bookValue" column="BOOK_VALUE"></property>
+		<property name="openingBalanceForFiscalYear" column="OPENING_BALANCE_FOR_FISCALYEAR"></property>
+		<property name="isSoldOrDisposed" column="IS_SOLD_OR_DISPOSED"></property>
+		<!--
+			<many-to-one name="sellingOrDisposingFixedAsset"
+			class="SellingOrDisposingFixedAsset" lazy="false"
+			column="SELLING_OR_DISPOSING_FIXED_ASSET_ID" cascade="save-update">
+			</many-to-one>
+		-->
+		<property name="soldOrDisposedDate" column="SOLD_OR_DISPOSED_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<many-to-one name="accountForSale" class="Account" lazy="false"
+			column="SALE_ACCOUNT_ID">
+		</many-to-one>
+		<property name="salePrice" column="SALE_PRICE"></property>
+		<property name="noDepreciation" column="NO_DEPRECIATION"></property>
+		<property name="depreciationTillDate" column="DEPRECIATION_TILL_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="notes" column="NOTES"></property>
+		<many-to-one name="lossOrGainOnDisposalAccount" class="Account"
+			lazy="false" column="LOSS_OR_GAIN_DISPOSAL_ACCOUNT_ID">
+		</many-to-one>
+		<many-to-one name="totalCapitalGain" class="Account" lazy="false"
+			column="TOTAL_CAPITAL_GAIN_ACCOUNT_ID">
+		</many-to-one>
+		<property name="lossOrGain" column="LOSS_OR_GAIN"></property>
+		<list name="transactions" lazy="false" cascade="save-update,delete">
+			<key column="FIXED_ASSET_ID"></key>
+			<list-index column="IDX" />
+			<one-to-many class="Transaction" />
+		</list>
+		<list name="fixedAssetNotes" lazy="false" cascade="save-update,delete">
+			<key column="FIXED_ASSET_NOTE_ID"></key>
+			<list-index column="IDX" />
+			<one-to-many class="FixedAssetNote" />
+		</list>
+		<list name="fixedAssetsHistory" lazy="false" cascade="save-update,delete">
+			<key column="FIXED_ASSET_HISTORY_ID"></key>
+			<list-index column="IDX" />
+			<one-to-many class="FixedAssetHistory" />
+		</list>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="totalCapitalGainAmount" column="TOTAL_CAPITAL_GAIN_AMOUNT"></property>
+	</class>
+	<!--
+		<class name="SellingOrDisposingFixedAsset"
+		table="SELLING_OR_DISPOSING_FIXED_ASSET"> <id name="id" column="ID">
+		<generator class="native" /> </id> <property name="stringID"
+		column="STRING_ID"></property> <many-to-one name="fixedAsset"
+		class="FixedAsset" lazy="false" column="FIXED_ASSET_ID">
+		</many-to-one> <property name="soldOrDisposedDate"
+		column="SOLD_OR_DISPOSED_DATE" type="date"></property> <many-to-one
+		name="accountForSale" class="Account" lazy="false"
+		column="SALE_ACCOUNT_ID"> </many-to-one> <property name="salePrice"
+		column="SALE_PRICE"></property> <property name="noDepreciation"
+		column="NO_DEPRECIATION"></property> <property
+		name="depreciationTillDate" column="DEPRECIATION_TILL_DATE"
+		type="date"></property> <property name="notes"
+		column="NOTES"></property> <many-to-one
+		name="lossOrGainOnDisposalAccount" class="Account" lazy="false"
+		column="LOSS_OR_GAIN_DISPOSAL_ACCOUNT_ID"> </many-to-one> <many-to-one
+		name="totalCapitalGain" class="Account" lazy="false"
+		column="TOTAL_CAPITAL_GAIN_ACCOUNT_ID"> </many-to-one> <property
+		name="lossOrGain" column="LOSS_OR_GAIN"></property> </class>
+	-->
+	<class name="Depreciation" table="DEPRECIATION">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="status" column="STATUS"></property>
+		<property name="depreciateFrom" column="DEPRECIATE_FROM"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="depreciateTo" column="DEPRECIATE_TO"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<!--
+			<list name="fixedAssets" lazy="false" cascade="save-update,delete">
+			<key column="FIXED_ASSET_ID"></key> <list-index column="IDX" />
+			<one-to-many class="FixedAsset" /> </list>
+		-->
+		<many-to-one name="fixedAsset" class="FixedAsset" lazy="false"
+			cascade="save-update" column="FIXED_ASSET_ID">
+		</many-to-one>
+		<property name="depreciationFor" column="DEPRECIATION_FOR"></property>
+	</class>
+	<class name="FixedAssetHistory" table="FIXED_ASSET_HISTORY">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="actionDate" column="ACTION_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="actionType" column="ACTION_TYPE"></property>
+		<property name="user" column="USER"></property>
+		<property name="details" column="DETAILS"></property>
+		<many-to-one name="postedJournalEntry" class="JournalEntry"
+			lazy="false" column="JOURNAL_ENTRY_ID">
+		</many-to-one>
+	</class>
+	<class name="FixedAssetNote" table="FIXED_ASSET_NOTE">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="note" column="NOTE"></property>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+	</class>
+	<class name="VATReturnBox" table="VATRETURNBOX">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="name" unique="true" column="NAME"></property>
+		<property name="vatBox" column="VAT_BOX"></property>
+		<property name="totalBox" column="TOTAL_BOX"></property>
+		<property name="vatReturnType" column="VAT_RETURN_TYPE"></property>
+	</class>
+	<class name="Box" table="BOX">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="name" column="NAME"></property>
+		<property name="boxNumber" column="BOX_NUMBER"></property>
+		<property name="amount" column="AMOUNT"></property>
+		<list name="taxRateCalculations" lazy="false" cascade="save-update,delete">
+			<key column="TAX_RATE_CALCULATION_ID"></key>
+			<list-index column="VRC" />
+			<one-to-many class="TAXRateCalculation" />
+		</list>
+	</class>
+	<class name="TAXCode" table="TAX_CODE">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="name" unique="true" column="NAME"></property>
+		<property name="description" column="DESCRIPTION"></property>
+		<property name="isTaxable" column="ISTAXABLE"></property>
+		<property name="isActive" column="ISACTIVE"></property>
+		<property name="isECSalesEntry" column="IS_EC_SALES_ENTRY"></property>
+		<property name="isDefault" column="IS_DEFAULT"></property>
+		<many-to-one name="TAXItemGrpForPurchases" class="TAXItemGroup"
+			lazy="false" column="TAXITEMGROUP_PURCHASES">
+		</many-to-one>
+		<many-to-one name="TAXItemGrpForSales" class="TAXItemGroup"
+			lazy="false" column="TAXITEMGROUP_SALES">
+		</many-to-one>
+	</class>
+	<class name="FinanceLogger" table="FINANCE_LOG">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="logMessge" column="LOG_MESSAGE" type="text"></property>
+		<property name="description" column="DESCRIPTION"></property>
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="createdBy" column="CREATED_BY"></property>
+	</class>
+
+	<class name="BrandingTheme" table="BRANDING_THEME">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID">
+		</property>
+		<property name="themeName" column="THEME_NAME">
+		</property>
+		<property name="pageSizeType" column="PAGE_SIZE_TYPE">
+		</property>
+		<property name="topMargin" column="TOP_MARGIN">
+		</property>
+		<property name="bottomMargin" column="BOTTOM_MARGIN">
+		</property>
+		<property name="marginsMeasurementType" column="MARGIN_MEASUREMENT_TYPE">
+		</property>
+		<property name="addressPadding" column="ADDRESS_PADDING">
+		</property>
+		<property name="font" column="FONT">
+		</property>
+		<property name="fontSize" column="FONT_SIZE">
+		</property>
+		<!--
+			<property name="openInvoiceTitle" column="OPEN_INVOICE_TITLE">
+			</property>
+		-->
+		<property name="overDueInvoiceTitle" column="OVERDUE_INVOICE_TITLE">
+		</property>
+		<property name="creditMemoTitle" column="CREDIT_MEMO_TITLE">
+		</property>
+		<property name="statementTitle" column="STATEMENT_TITLE">
+		</property>
+		<property name="isShowTaxNumber" column="IS_SHOW_TAX_NUMBER">
+		</property>
+		<property name="isShowColumnHeadings" column="IS_SHOW_COLUMN_HEADING">
+		</property>
+		<property name="isShowUnitPrice_And_Quantity" column="IS_SHOW_PRICE_AND_QUANTITY">
+		</property>
+		<property name="fileName" column="FILE_NAME"></property>
+		<!--
+			<property name="isShowPaymentAdviceCut_Away"
+			column="IS_SHOW_PAYAMENT_ADVICECUT_AWAY"> </property>
+		-->
+		<property name="isShowTaxColumn" column="IS_SHOW_TAX_COLUMN">
+		</property>
+		<property name="isShowRegisteredAddress" column="IS_SHOW_REGISTERED_ADDRESS">
+		</property>
+		<property name="isShowLogo" column="IS_SHOW_LOGO">
+		</property>
+		<property name="isLogoAdded" column="IS_LOGO_ADDED">
+		</property>
+		<property name="payPalEmailID" column="PAYPAL_EMAIL_ID">
+		</property>
+		<property name="logoAlignmentType" column="LOGO_ALIGNMENT_TYPE">
+		</property>
+		<!--
+			<property name="showTaxesAsType" column="SHOW_TAXES_AS_TYPE">
+			</property>
+		-->
+		<property name="contactDetails" column="CONTACT_DETAILS">
+		</property>
+		<property name="Terms_And_Payment_Advice" column="TERMS_AND_PAYMENT_ADVICE">
+		</property>
+
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="isDefault" column="IS_DEFAULT" />
+	</class>
+
+	<class name="ResetPasswordToken" table="RESET_PASSWORD_TOKEN">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="token" column="TOKEN" />
+		<property name="userId" column="USER_ID" />
+	</class>
+
+	<!--
+		<class name="TaxItemGroup" table="TAX_ITEM_GROUPS"> <id name="id"
+		column="ID"> <generator class="native"></generator> </id> <property
+		name="stringID" column="STRING_ID"></property> <property name="name"
+		unique="true" column="NAME"></property> <property name="description"
+		column="DESCRIPTION"></property> <property name="isActive"
+		column="IS_ACTIVE"></property> <property name="createdBy"
+		column="CREATED_BY" type="string" /> <property name="lastModifier"
+		column="LAST_MODIFIER" type="string" /> <property name="createdDate"
+		column="CREATED_DATE" type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+		type="com.vimukti.accounter.core.LongUseType" /> <property
+		name="isPercentage" column="IS_PERCENTAGE"></property> <property
+		name="isDefault" column="IS_DEFAULT"></property> <joined-subclass
+		name="TaxItem" table="TAX_ITEM"> <key column="id" /> <many-to-one
+		name="taxAgency" class="TaxAgency" column="TAX_AGENCY" lazy="false">
+		</many-to-one> <property name="taxRate" column="TAX_RATE"></property>
+		</joined-subclass> <joined-subclass name="TaxGroup" table="TAX_GROUP">
+		<key column="id" /> <list name="taxItems" table="TAX_GROUP_TAX_ITEM"
+		lazy="false" cascade="save-update"> <key column="TAX_GROUP_ID"></key>
+		<list-index column="IDX" /> <many-to-many column="TAX_ITEM_ID"
+		class="TaxItem" /> </list> <property name="groupRate"
+		column="GROUP_RATE"></property> </joined-subclass> </class>
+	-->
+
+</hibernate-mapping>
+

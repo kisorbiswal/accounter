@@ -1,0 +1,628 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.bizantra.server.internal.core"
+	default-access="field">
+
+	<class name="com.bizantra.server.migrator.MigratorVersionModel"
+		table="VERSION_TABLE">
+		<id name="id" column="ID">
+			<generator class="native">
+			</generator>
+		</id>
+
+		<property name="installedVersion" not-null="true" type="string"
+			column="INSTALLED_VERSION">
+		</property>
+	</class>
+	<class name="IdentityCommand" table="IDENTITYCOMMAND">
+		<id name="id" column="ID">
+			<generator class="native">
+			</generator>
+		</id>
+		<property name="deviceId" type="int" not-null="true" column="DEVICEID"
+			unique-key="IDENTITYCOMMAND_VERSION">
+		</property>
+		<property name="version" type="long" not-null="true" column="VERSION"
+			unique-key="IDENTITYCOMMAND_VERSION">
+		</property>
+		<property name="type" type="short" not-null="true" column="TYPE">
+		</property>
+		<property name="identityID" type="string" length="40"
+			not-null="true" column="IDENTITY_ID" unique-key="IDENTITYCOMMAND_VERSION">
+		</property>
+		<property name="arg1" type="string" column="ARG1">
+		</property>
+		<property name="arg2" type="string" column="ARG2">
+		</property>
+	</class>
+
+	<class name="SpaceToDownload" table="SPACETODOWNLOAD">
+		<id name="id" column="ID">
+			<generator class="native">
+			</generator>
+		</id>
+		<property name="spaceID" column="SPACE_ID">
+		</property>
+		<property name="invitedBy" column="INVITED_BY">
+		</property>
+		<property name="serverID" column="SERVER_ID">
+		</property>
+	</class>
+
+	<class name="CollaberIdentity" table="COLLABERIDENTITY">
+		<id name="id" type="string" column="ID" length="40">
+		</id>
+		<set name="identityCommands" cascade="delete,delete-orphan" lazy="true"
+			inverse="true">
+			<key column="IDENTITY_ID" />
+			<one-to-many class="IdentityCommand" />
+		</set>
+		<set name="spacesToDownload" lazy="true" cascade="all,delete-orphan">
+			<key column="IDENTITYID" />
+			<one-to-many class="SpaceToDownload" />
+		</set>
+		<!--		<property name="displayName" column="DISPLAYNAME"></property>-->
+		<property name="totalDeviceCount" column="TOTALDEVICECOUNT">
+		</property>
+
+		<property name="identityVersion" type="long" column="IDENTITYVERSION">
+		</property>
+		<property name="deviceID" type="int" column="DEVICEID"
+			access="property">
+		</property>
+		<property name="companyName" type="string" column="COMPANY_NAME">
+		</property>
+		<property name="encryptedID" column="ENCRYPTED_ID" type="binary"
+			length="32">
+		</property>
+
+		<set name="spaces" order-by="SPACE_ID" table="IDENTITY_SPACES">
+			<key column="IDENTITY_ID" />
+			<many-to-many class="com.bizantra.server.workspace.internal.WorkSpace"
+				column="SPACE_ID" />
+		</set>
+
+		<set name="devices" table="IDENTITY_DEVICES" cascade="all,delete-orphan">
+			<key column="IDENTITY_ID" />
+			<one-to-many class="IdentityDevice" />
+		</set>
+
+		<!--
+			<list name="spaceGroups" cascade="all,delete-orphan" inverse="true">
+			<key column="IDENTITY_ID"> </key> <list-index column="GID">
+			</list-index> <one-to-many
+			class="com.bizantra.server.internal.core.SpaceGroup" /> </list>
+		-->
+
+		<property name="signingKeyPair" type="com.bizantra.server.utils.RSAKeyPairType">
+			<column name="SIGN_PUBLIC_KEY" length="3072">
+			</column>
+			<column name="SIGN_PRIVATE_KEY" length="3072">
+			</column>
+		</property>
+		<property name="isConnected" column="IS_CONNECTED">
+		</property>
+		<property name="loginCount" column="LOGINCOUNT">
+		</property>
+		<property name="isPasswordChanged" column="PASSWORDCHANGED">
+		</property>
+		<property name="lastConnected" column="LASTCONNECTED">
+		</property>
+		<property name="emailID" column="EMAILID">
+		</property>
+		<property name="systemRole" column="SYSTEMROLE">
+		</property>
+		<property name="password" column="PASSWORD">
+		</property>
+
+		<!--
+			<many-to-one name="spaceGroupManager" class="SpaceGroupManager"
+			column="SPACE_MANAGER_ID" cascade="all" access="property"
+			lazy="false" />Member
+		-->
+
+		<many-to-one name="userPreferences" class="BizantraUserPreferences"
+			cascade="all,delete" column="PREFERENCES_ID" unique="true" />
+	</class>
+
+
+
+	<class name="BizantraUserPreferences" table="BIZANTRAUSERPREFERENCES">
+		<id name="id" column="ID">
+			<generator class="native">
+			</generator>
+		</id>
+		<map name="portletState" table="PORTLET_STATUS" cascade="all,delete-orphan">
+			<key column="PREFERECE_ID" not-null="true" />
+			<index column="PORLET_NAME" type="string" />
+			<element column="VALUE" type="integer" />
+		</map>
+
+	</class>
+
+	<class name="com.bizantra.server.workspace.internal.Member"
+		table="MEMBER">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="userId" column="USER_ID">
+		</property>
+		<property name="fullname" column="NAME">
+		</property>
+		<property name="companyName" column="COMPANYNAME">
+		</property>
+		<property name="companyDisplayName" column="COMPANYDISPLAYNAME">
+		</property>
+		<property name="emailID" column="EMAILID">
+		</property>
+		<property name='deleted' column='IS_DELETED' access="property">
+		</property>
+
+
+		<many-to-one name="space"
+			class="com.bizantra.server.workspace.internal.WorkSpace" column="SPACE_ID"
+			cascade="none">
+		</many-to-one>
+
+		<property name="role">
+		</property>
+
+	</class>
+	<!--
+
+		protected Date createdDate; protected Strrty name="spaceID"
+		length="40" index="COMMAND_DATA_SPACE_INDEX" not-null="true"
+		column="SPACE_ID" unique-key="MEMBER_VERSIOing creator; protected Long
+		id; protected Date lastModifiedDate; protected String lastModifier;
+
+		protected int lastModifierDevice;
+	-->
+
+
+	<class name="com.bizantra.server.internal.core.SpaceVersion"
+		table="SPACEVERSION">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="member" index="SPACE_VERISON_MEMBER_INDEX"
+			column="MEMBER" />
+		<property name="version" index="SPACE_VERISON_VERSION_INDEX"
+			column="VERSION" />
+		<property name="spaceVersion" column="SPACEVERSION" />
+		<property name="spaceID" index="SPACE_VERISON_ID_INDEX"
+			column="SPACEID" />
+	</class>
+	<class name="com.bizantra.server.ext.WorkspaceCommand" table="WORKSPACECOMMAND">
+		<id name="id" access="property" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="member" index="COMMAND_DATA_MEMBER_INDEX"
+			not-null="true" column="MEMBER" unique-key="MEMBER_VERSION">
+		</property>
+		<property name="device" column="DEVICE" index="COMMAND_DATA_DEVICE_INDEX"
+			not-null="true" unique-key="MEMBER_VERSION" />
+		<property name="spaceID" length="40" index="COMMAND_DATA_SPACE_INDEX"
+			not-null="true" column="SPACE_ID" unique-key="MEMBER_VERSION">
+		</property>
+		<property name="version" index="COMMAND_DATA_VERISON_INDEX"
+			not-null="true" column="VERSION" unique-key="MEMBER_VERSION">
+		</property>
+		<many-to-one name="command" column="COMMAND"
+			class="com.bizantra.server.ext.Command" cascade="all,save-update,delete"
+			lazy="false">
+		</many-to-one>
+	</class>
+	<class name="com.bizantra.server.ext.Command" table="COMMAND">
+		<id name="id" access="property" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="command" column="COMMAND">
+		</property>
+		<property name="arg1" column="ARG1">
+		</property>
+		<property name="arg2" column="ARG2">
+		</property>
+		<property name="date" column="DATE">
+		</property>
+		<many-to-one name="next" class="com.bizantra.server.ext.Command"
+			cascade="save-update,delete,evict" lazy="false" column="NEXTCOMMAND">
+		</many-to-one>
+	</class>
+
+
+	<class name="IdentityDevice" table="IDENTITY_DEVICES">
+		<id name="id" column="ID">
+			<generator class="native">
+			</generator>
+		</id>
+		<property name="identity" type="string" column="IDENTITY_ID">
+		</property>
+		<property name="name" type="string" column="NAME">
+		</property>
+		<property name="status" type="string" column="status">
+		</property>
+		<property name="lastConnectedDate" column="LAST_CONNECTED_DATE">
+		</property>
+		<property name="loginDate" column="LOGINDATE">
+		</property>
+		<property name="deviceID" type="int" column="deviceID">
+		</property>
+		<property name="lastSynAchivedDate" column="LAST_SYNACHIVED_DATE">
+		</property>
+	</class>
+
+
+
+	<class name="com.bizantra.server.workspace.internal.WorkSpace"
+		table="WORKSPACE">
+		<id name="spaceId" column="SPACE_ID" length="40">
+		</id>
+		<property name="createdDate" column="CREATE_DATE">
+		</property>
+		<property name="creator" column="CREATOR">
+		</property>
+		<property name="name" column="NAME">
+		</property>
+
+		<property name="description" column="DESCRIPTION" type="text">
+		</property>
+
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE">
+		</property>
+
+		<property name="lastModifier" column="LAST_MODIFIER">
+		</property>
+
+		<property name="spaceStateHash" column="SPACESTATEHASH" type="binary"
+			length="32">
+		</property>
+
+
+		<property name="isSystemSpace" column="IS_SYSTEM_SPACE">
+		</property>
+		<property name="isPersonalSpace" column="IS_PERSONAL_SPACE">
+		</property>
+		<property name="isDeleted" column="ISDETELETE">
+		</property>
+
+		<property name="isStopped" column="ISSTOPPED">
+		</property>
+
+		<property name="isDownloaded" column="ISDOWNLOADED">
+		</property>
+
+		<property name="hiddenCountLocal" column="HIDDEN_COUNT_LOCAL">
+		</property>
+
+		<property name="isRead" column="ISREAD">
+		</property>
+		<property name="isExternalWorkspace" column="ISEXTERNALWORKSPACE">
+		</property>
+		<!--
+			<many-to-one name="spaceGroup"
+			class="com.bizantra.server.internal.core.SpaceGroup"
+			column="SPACE_GROUP_ID" cascade="none" not-null="false" lazy="false">
+			</many-to-one>
+		-->
+		<property name="encryptedID" column="ENCRYPTED_ID" type="binary"
+			length="32">
+		</property>
+
+		<set name="allMembers" cascade="all,delete-orphan">
+			<key column="SPACE_ID">
+			</key>
+			<one-to-many class="com.bizantra.server.workspace.internal.Member" />
+		</set>
+		<set name="members" cascade="all" table="SPACE_MEMBERS">
+			<key column="SPACE_ID">
+			</key>
+			<many-to-many class="com.bizantra.server.workspace.internal.Member"
+				column="MEMBER_ID" />
+		</set>
+		<set name="commandDatas" cascade="delete,delete-orphan" inverse="true"
+			lazy="true">
+			<key column="SPACE_ID" />
+			<one-to-many class="com.bizantra.server.ext.WorkspaceCommand" />
+		</set>
+		<set name="deletedMembers" table="SPACE_SUSPENDED_MEMBERS">
+			<key column="SPACE_ID">
+			</key>
+			<many-to-many class="com.bizantra.server.workspace.internal.Member"
+				column="MEMBER_ID" />
+		</set>
+
+		<set name="tools" cascade="all,delete-orphan" inverse="true"
+			order-by="ID">
+			<key column="SPACE_ID" />
+			<one-to-many class="com.bizantra.server.workspace.ext.AbstractTool" />
+		</set>
+
+
+
+	</class>
+
+
+	<class name="DeletedUser" table="DELETED_USER">
+		<id name="userId" column="USER_ID">
+			<generator class="assigned">
+			</generator>
+		</id>
+
+		<property name="name" column="NAME">
+		</property>
+		<property name="emailId" column="EMAIL_ID">
+		</property>
+		<property name="companyName" column="COMPANY_NAME">
+		</property>
+
+	</class>
+	<!--
+		<class name="com.bizantra.server.workspace.SharedServerDetails"
+		table="SHARED_SERVER_DETAILS"> <id name="companyName"
+		column="COMPANY_NAME"> <generator class="assigned"></generator> </id>
+
+
+		<property name="serverName" column="SERVER_NAME"></property> <set
+		name="sharedWorkspaces" cascade="all" lazy="false"> <key
+		column="COMPANY_NAME_ID" /> <one-to-many
+		class="com.bizantra.server.workspace.SharedWorkspaces" /> </set>
+
+		</class> <class name="com.bizantra.server.workspace.SharedWorkspaces"
+		table="SHARED_WORKSPACES"> <id name="id" column="ID"> <generator
+		class="native"></generator> </id> <many-to-one name="companyName"
+		class="com.bizantra.server.workspace.SharedServerDetails" lazy="false"
+		column="COMPANY_NAME_ID"></many-to-one> <property
+		name="sharedWorkspace" column="SHARED_WORKSPACE"></property> </class>
+	-->
+
+	<!--
+		<class name="com.bizantra.server.workspace.SharedServerDetails"
+		table="SHARED_SERVER_DETAILS"> <id name="id" unsaved-value="0">
+		<generator class="increment"/> </id> <set name="sharedWorkspaces"
+		cascade="all" inverse="true"> <key column="COMPANY_NAME_ID"/>
+		<one-to-many class="com.bizantra.server.workspace.SharedWorkspaces"/>
+		</set> <property name="serverName" column="SERVER_NAME"></property>
+		<property name="companyName" column="COMPANY_NAME"></property>
+		</class> <class name="com.bizantra.server.workspace.SharedWorkspaces"
+		table="SHARED_WORKSPACES"> <id name="id" unsaved-value="0"> <generator
+		class="increment"/> </id> <property name="sharedWorkspace"
+		column="SHARED_WORKSPACE"></property> <many-to-one name="companyName"
+		column="COMPANY_NAME_ID" not-null="true"/> </class>
+	-->
+
+
+
+
+
+	<!--	 Named SQL for class CollaberIdentity -->
+
+
+	<sql-query name="getsystemrole">
+		<query-param name="ID" type="string" />
+		SELECT SYSTEM_ROLE FROM COLLABERIDENTITY WHERE
+		ID=:ID
+	</sql-query>
+	<sql-query name="identityStateMap">
+		<query-param name="id" type="string" />
+		SELECT DISTINCT DEVICEID ,MAX(VERSION) FROM IDENTITYCOMMAND WHERE
+		IDENTITY_ID=:id GROUP BY DEVICEID ORDER BY DEVICEID
+	</sql-query>
+	<sql-query name="identityCommand">
+		<query-param name="identityID" type="string" />
+		<query-param name="deviceId" type="int" />
+		<query-param name="version" type="long" />
+		<return class="IdentityCommand" />
+		SELECT ic.* FROM IDENTITYCOMMAND ic WHERE ic.DEVICEID=:deviceId AND
+		ic.VERSION=:version AND ic.IDENTITY_ID=:identityID
+	</sql-query>
+
+
+
+	<sql-query name="spaceStateForServer">
+		<query-param name="serverID" type="string" />
+		SELECT w.SPACE_ID,w.SPACESTATEHASH FROM WORKSPACE w LEFT JOIN MEMBER m
+		ON
+		m.SPACE_ID=w.SPACE_ID LEFT JOIN COLLABERIDENTITY CI ON
+		CI.ID=m.USER_ID
+		WHERE
+		CI.SERVERID=:serverID
+	</sql-query>
+	<sql-query name="spaceStateForContact">
+		<query-param name="memId" type="string" />
+		SELECT w.SPACE_ID,w.SPACESTATEHASH FROM WORKSPACE w LEFT JOIN MEMBER m
+		ON
+		m.SPACE_ID=w.SPACE_ID WHERE m.USER_ID=:memId
+	</sql-query>
+
+
+
+	<sql-query name="getLastIdentityCommandVersion">
+		<query-param name="deviceId" type="int" />
+		<query-param name="identityID" type="string" />
+		SELECT MAX(ic.VERSION) FROM IDENTITYCOMMAND ic WHERE
+		ic.DEVICEID=:deviceId AND ic.IDENTITY_ID=:identityID
+	</sql-query>
+	<query name="get.identities.by.company">
+		<query-param name="companyName" type="string" />
+		select c.id from CollaberIdentity c where c.companyName = :companyName
+	</query>
+	<query name="getAdminEmailId.by.CompanyName">
+		<query-param name="companyName" type="string" />
+		<query-param name="systemRole" type="string" />
+		from CollaberIdentity c where c.companyName = :companyName and
+		c.systemRole = :systemRole
+	</query>
+
+	<!--		Named SQl for class S2SSyncWorkspacesEvent same query as-->
+	<!--		spaceStateForServer above-->
+
+
+
+	<!--	 Named SQL for class AbstractSpace -->
+	<sql-query name="getSpaceVersions">
+		<query-param name="id" type="string" />
+		SELECT DISTINCT MEMBER,DEVICE,MAX(VERSION) FROM WORKSPACECOMMAND WHERE
+		SPACE_ID=:id GROUP BY MEMBER,DEVICE ORDER BY MEMBER,DEVICE
+	</sql-query>
+
+	<sql-query name="getCommandData">
+		<query-param name="member" type="string" />
+		<query-param name="device" type="int" />
+		<query-param name="version" type="long" />
+		<query-param name="spaceID" type="string" />
+		<return class="com.bizantra.server.ext.WorkspaceCommand" />
+		select c.* from WORKSPACECOMMAND c where c.MEMBER=:member and
+		c.DEVICE=:device and c.VERSION=:version and c.SPACE_ID=:spaceID
+	</sql-query>
+	<sql-query name="getNextCount">
+		<query-param name="id" type="string" />
+		<query-param name="member" type="string" />
+		<query-param name="device" type="int" />
+		SELECT MAX(VERSION) FROM WORKSPACECOMMAND WHERE SPACE_ID=:id AND
+		MEMBER=:member AND DEVICE=:device
+	</sql-query>
+
+
+
+	<!--	 RestorePointEvent-->
+	<query name="workspacecommand.by.spaceid">
+		<query-param name="spaceID" type="string" />
+		from WorkspaceCommand wc where wc.spaceID=:spaceID order by wc.id
+	</query>
+	<!--
+		<query name="get.root.spaces"> <query-param name="collaberIdentity"
+		type="string" /> from WorkSpace ws1 where ws1.id not in (select ws.id
+		from SpaceGroup sg inner join sg.spaces ws where sg.id in ( select
+		sg1.id from CollaberIdentity ci inner join ci.spaceGroups sg1 where
+		ci.id=:collaberIdentity)) </query>
+	-->
+
+	<!--	 AbstractSpace -->
+	<query name="workspacecommand.by.spaceid.and.memberid">
+		<query-param name="memID" type="string" />
+		<query-param name="spaceID" type="string" />
+		from WorkspaceCommand wc where wc.member=:memID and
+		wc.spaceID=:spaceID
+	</query>
+
+
+	<query name="identitycommand.by.deviceid.and.version">
+		<query-param name="upto" type="long" />
+		<query-param name="device" type="int" />
+        <![CDATA[from IdentityCommand where deviceId=:device and version <=:upto]]>
+	</query>
+
+	<query name="workspace.by.spaceid">
+		<query-param name="spaceid" type="string" />
+		from WorkSpace a where a.spaceId=:spaceid
+	</query>
+	<query name="workspace.by.spaceid.identityID">
+		<query-param name="spaceID" type="string" />
+		<query-param name="collaberID" type="string" />
+		select sp from CollaberIdentity ci inner join ci.spaces sp where
+		ci.id=:collaberID and sp.spaceId=:spaceID
+	</query>
+
+	<query name="workspace.by.name">
+		<query-param name="name" type="string" />
+		from WorkSpace a where a.name=:name
+	</query>
+
+
+
+
+
+
+
+	
+	<sql-query name="create.history.object">
+		<query-param name="spaceID" type="string" />
+		<query-param name="objectID" type="string" />
+		<query-param name="memberID" type="string" />
+		<query-param name="name" type="string" />
+		<query-param name="category" type="string" />
+		<query-param name="createdDate" type="Date" />
+		<query-param name="spaceName" type="string" />
+		insert into HISTORY_OBJECT(SPACEID, OBJECTID,
+		MEMBERID,NAME,CATEGORY,CREATEDDATE,WORKSPACE_NAME) values(:spaceID,
+		:objectID, :memberID,:name,:category,:createdDate,:spaceName)
+	</sql-query>
+
+
+	<sql-query name="workspace.ecryptedkey">
+		<query-param name="spaceID" type="string" />
+		SELECT ENCRYPTED_ID FROM WORKSPACE a WHERE a.SPACE_ID=:spaceID
+	</sql-query>
+	<sql-query name="identity.ecryptedkey">
+		<query-param name="identityID" type="string" />
+		SELECT ENCRYPTED_ID FROM COLLABERIDENTITY a WHERE a.ID=:identityID
+	</sql-query>
+
+	<query name="get.by.spaceid">
+		<query-param name="spaceID" type="string" />
+		from WorkSpace where spaceId=:spaceID
+	</query>
+	<sql-query name="get.allcompany">
+		SELECT NAME FROM BIZANTRA_COMPANY
+    </sql-query>
+	<sql-query name="get.allworkspace">
+		SELECT SPACE_ID FROM WORKSPACE
+    </sql-query>
+	<!--
+		<query name="get.allServerDetails"> from SharedServerDetails </query>
+	-->
+	<query name="get.all.workspace.object">
+		from WorkSpace
+    </query>
+
+
+
+
+	<sql-query name="get.external.space.id.by.member">
+		<query-param name="contactID" type="string" />
+		<query-param name="companyName" type="string" />
+		select W.SPACE_ID FROM WORKSPACE W INNER JOIN MEMBER M ON
+		W.SPACE_ID=M.SPACE_ID WHERE W.ISEXTERNALWORKSPACE=true and
+		M.USER_ID=:contactID and M.COMPANYNAME=:companyName GROUP BY
+		W.SPACE_ID
+	</sql-query>
+
+
+
+	<query name="latestcommandsofallspaceswherecurrentuserismember">
+		<query-param name="userID" type="string" />
+
+		FROM WorkspaceCommand W WHERE W.spaceID in (select m.space from
+		Member
+		m where m.userId=:userID) order by W.command.date desc
+	</query>
+
+	<query name="latest.commands.of.given.space">
+		<query-param name="spaceId" type="string" />
+
+		FROM WorkspaceCommand W WHERE W.spaceID=:spaceId order by
+		W.command.date desc
+
+	</query>
+
+
+	<sql-query name="get.companyname.of.external.member">
+		<query-param name="memberID" type="string" />
+		SELECT COMPANYNAME FROM MEMBER WHERE USER_ID=:memberID
+	</sql-query>
+
+	<sql-query name="get.all.workspace.ids">
+		SELECT SPACE_ID FROM WORKSPACE
+    </sql-query>
+
+	<sql-query name="commit.disk.usage">
+		<query-param name=":size" type="long" />
+		UPDATE BIZANTRA_COMPANY SET USED_SIZE=:size
+	</sql-query>
+
+	<sql-query name="is.member.in.any.workspace">
+		<query-param name="id" type="string" />
+		SELECT COUNT(ID) FROM MEMBER WHERE USER_ID=:id
+	</sql-query>
+
+</hibernate-mapping>

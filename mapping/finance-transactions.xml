@@ -1,0 +1,1404 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+                "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.vimukti.accounter.core"
+	default-access="field" auto-import="false">
+	<class name="Transaction" table="TRANSACTION">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="version" column="VERSION"></property>
+		<!--		<property name="netAmount" column="NET_AMOUNT"></property>-->
+		<!--		<property name="totalVAT" column="TOTAL_VAT"></property>-->
+		<property name="transactionDate" column="T_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="type" column="T_TYPE"></property>
+		<property name="number" column="NUMBER"></property>
+		<property name="isVoid" column="IS_VOID"></property>
+		<property name="paymentMethod" column="PAYMENT_METHOD"></property>
+		<property name="memo" column="MEMO"></property>
+		<property name="reference" column="REFERENCE"></property>
+		<property name="subTotal" column="SUB_TOTAL"></property>
+		<property name="totalTaxableAmount" column="TOTAL_TAXABLE_AMOUNT"></property>
+		<property name="totalNonTaxableAmount" column="TOTAL_NON_TAXABLE_AMOUNT"></property>
+		<property name="amountsIncludeVAT" column="AMOUNTS_INCLUDE_VAT"></property>
+		<!--
+			<property name="EUVATExemptPayee"
+			column="EU_VAT_EXEMPT_PAYEE"></property>
+		-->
+		<!--
+			<property name="isVATreturned" column="IS_VAT_RETURNED"></property>
+		-->
+		<list name="transactionItems" cascade="save-update,delete-orphan"
+			lazy="false">
+			<key column="TRANSACTION_ID" />
+			<list-index column="IDX" />
+			<one-to-many class="TransactionItem" />
+		</list>
+		<property name="status" column="STATUS"></property>
+		<property name="canVoidOrEdit" column="CAN_VOID_OR_EDIT"></property>
+		<property name="isDeposited" column="IS_DEPOSITED"></property>
+		<property name="total" column="TOTAL"></property>
+		<property name="netAmount" column="NET_AMOUNT"></property>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE" type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<set name="accountTransactionEntriesList" inverse="true" cascade="save-update"
+			lazy="false">
+			<key column="TRANSACTION_ID"></key>
+			<one-to-many class="AccountTransaction" />
+		</set>
+		<set name="paySalesTaxEntriesList" inverse="true" cascade="save-update"
+			lazy="false">
+			<key column="TRANSACTION_ID"></key>
+			<one-to-many class="PaySalesTaxEntries" />
+		</set>
+		<set name="payVATEntriesList" inverse="true" cascade="save-update"
+			lazy="false">
+			<key column="TRANSACTION_ID"></key>
+			<one-to-many class="PayVATEntries" />
+		</set>
+		<many-to-one name="creditsAndPayments" class="CreditsAndPayments"
+			lazy="false" column="CREDITS_AND_PAYMENTS_ID">
+		</many-to-one>
+		<property name="isDefault" column="IS_DEFAULT"></property>
+		<many-to-one name="transactionMakeDepositEntries" class="TransactionMakeDepositEntries"
+			cascade="save-update" lazy="false" column="TRANSACTION_MAKE_DEPOSIT_ENTRY_ID">
+		</many-to-one>
+		<joined-subclass name="PaySalesTax" table="PAY_SALES_TAX">
+			<key column="id" />
+			<property name="billsDueOnOrBefore" column="BILLS_DUE_ON_OR_BEFORE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<many-to-one name="payFrom" class="Account" lazy="false"
+				cascade="save-update" column="PAYFROM_ACCOUNT_ID">
+			</many-to-one>
+			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
+				cascade="save-update" column="TAX_AGENCY_ID">
+			</many-to-one>
+			<property name="endingBalance" column="ENDING_BALANCE"></property>
+			<property name="isEdited" column="IS_EDITED"></property>
+			<list name="transactionPaySalesTax" cascade="save-update" lazy="false">
+				<key column="TRANSACTION_ID" />
+				<list-index column="IDX" />
+				<one-to-many class="TransactionPaySalesTax" />
+			</list>
+		</joined-subclass>
+		<joined-subclass name="PayVAT" table="PAY_VAT">
+			<key column="id" />
+			<property name="returnsDueOnOrBefore" column="RETURNS_DUE_ON_OR_BEFORE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<many-to-one name="payFrom" class="Account" lazy="false"
+				cascade="save-update" column="PAYFROM_ACCOUNT_ID">
+			</many-to-one>
+			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
+				cascade="save-update" column="TAX_AGENCY_ID">
+			</many-to-one>
+			<property name="endingBalance" column="ENDING_BALANCE"></property>
+			<property name="isEdited" column="IS_EDITED"></property>
+			<list name="transactionPayVAT" cascade="save-update" lazy="false">
+				<key column="PAY_VAT_ID" />
+				<list-index column="IDX" />
+				<one-to-many class="TransactionPayVAT" />
+			</list>
+		</joined-subclass>
+		<joined-subclass name="ReceiveVAT" table="RECEIVE_VAT">
+			<key column="id" />
+			<property name="returnsDueOnOrBefore" column="RETURNS_DUE_ON_OR_BEFORE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<many-to-one name="depositIn" class="Account" lazy="false"
+				cascade="save-update" column="DEPOSIT_IN_ACCOUNT_ID">
+			</many-to-one>
+			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
+				cascade="save-update" column="TAX_AGENCY_ID">
+			</many-to-one>
+			<property name="endingBalance" column="ENDING_BALANCE"></property>
+			<property name="isEdited" column="IS_EDITED"></property>
+			<list name="transactionReceiveVAT" cascade="save-update" lazy="false">
+				<key column="RECEIVE_VAT_ID" />
+				<list-index column="IDX" />
+				<one-to-many class="TransactionReceiveVAT" />
+			</list>
+		</joined-subclass>
+		<joined-subclass name="CashPurchase" table="CASH_PURCHASE">
+			<key column="id" />
+			<many-to-one name="vendor" class="Vendor" lazy="false"
+				cascade="save-update" column="VENDOR_ID">
+			</many-to-one>
+			<component name="contact" class="Contact" lazy="false">
+				<property name="isPrimary" column="CP_IS_PRIMARY"></property>
+				<property name="name" column="CP_NAME"></property>
+				<property name="title" column="CP_TITLE"></property>
+				<property name="businessPhone" column="CP_BUSINESS_PHONE"></property>
+				<property name="email" column="CP_EMAIL"></property>
+			</component>
+			<component name="vendorAddress" class="Address" lazy="false">
+				<property name="type" column="VENDOR_ADDRESS_TYPE"></property>
+				<property name="address1" column="VENDOR_ADDRESS_ADDRESS1"
+					length="100"></property>
+				<property name="street" column="VENDOR_ADDRESS_STREET"></property>
+				<property name="city" column="VENDOR_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="VENDOR_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="VENDOR_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="VENDOR_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="VENDOR_ADDRESS_IS_SELECTED"></property>
+			</component>
+			<property name="phone" column="PHONE"></property>
+			<many-to-one name="payFrom" class="Account" lazy="false"
+				cascade="save-update" column="PAYFROM_ACCOUNT_ID">
+			</many-to-one>
+			<many-to-one name="cashExpenseAccount" class="Account"
+				lazy="false" cascade="save-update" column="CASH_EXPENSE_ACCOUNT_ID">
+			</many-to-one>
+			<many-to-one name="employee" class="User" lazy="false"
+				cascade="save-update" column="EMPLOYEE">
+			</many-to-one>
+			<!-- <property name="employeeName" column="EMPLOYEE_NAME" type="string"></property> -->
+			<property name="checkNumber" column="CHECK_NUMBER"></property>
+			<property name="deliveryDate" column="DELIVERY_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="expenseStatus" column="EXPENSE_STATUS"></property>
+		</joined-subclass>
+		<joined-subclass name="CashSales" table="CASH_SALES">
+			<key column="id" />
+			<many-to-one name="customer" class="Customer" lazy="false"
+				cascade="save-update" column="CUSTOMER_ID">
+			</many-to-one>
+			<component name="contact" class="Contact" lazy="false">
+				<property name="isPrimary" column="CS_IS_PRIMARY"></property>
+				<property name="name" column="CS_NAME"></property>
+				<property name="title" column="CS_TITLE"></property>
+				<property name="businessPhone" column="CS_BUSINESS_PHONE"></property>
+				<property name="email" column="CS_EMAIL"></property>
+			</component>
+			<component name="billingAddress" class="Address" lazy="false">
+				<property name="type" column="BILLING_ADDRESS_TYPE"></property>
+				<property name="address1" column="BILLING_ADDRESS1" length="100"></property>
+				<property name="street" column="BILLING_ADDRESS_STREET"></property>
+				<property name="city" column="BILLING_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="BILLING_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="BILLING_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="BILLING_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="BILLING_ADDRESS_IS_SELECTED"></property>
+			</component>
+			<component name="shippingAdress" class="Address" lazy="false">
+				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
+				<property name="address1" column="SHIPPING_ADDRESS1"
+					length="100"></property>
+				<property name="street" column="SHIPPING_ADDRESS_STREET"></property>
+				<property name="city" column="SHIPPING_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="SHIPPING_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="SHIPPING_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="SHIPPING_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="SHIPPING_ADDRESS_IS_SELECTED"></property>
+			</component>
+			<property name="phone" column="PHONE"></property>
+			<many-to-one name="salesPerson" class="SalesPerson"
+				column="SALES_PERSON_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<many-to-one name="depositIn" class="Account" lazy="false"
+				cascade="save-update" column="DEPOSIT_IN_ACCOUNT_ID">
+			</many-to-one>
+			<many-to-one name="shippingTerm" class="ShippingTerms"
+				lazy="false" column="SHIPPING_TERMS_ID">
+			</many-to-one>
+			<many-to-one name="shippingMethod" class="ShippingMethod"
+				lazy="false" column="SHIPPING_METHOD_ID">
+			</many-to-one>
+			<property name="deliverydate" column="DELIVERY_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
+				column="PRICE_LEVEL_ID">
+			</many-to-one>
+			<property name="salesTax" column="SALES_TAX"></property>
+			<property name="discountTotal" column="DISCOUNT_TOTAL"></property>
+		</joined-subclass>
+		<joined-subclass name="CreditCardCharge" table="CREDIT_CARD_CHARGES">
+			<key column="id" />
+			<many-to-one name="vendor" class="Vendor" lazy="false"
+				cascade="save-update" column="VENDOR_ID">
+			</many-to-one>
+			<component name="contact" class="Contact" lazy="false">
+				<property name="isPrimary" column="CCC_IS_PRIMARY"></property>
+				<property name="name" column="CCC_NAME"></property>
+				<property name="title" column="CCC_TITLE"></property>
+				<property name="businessPhone" column="CCC_BUSINESS_PHONE"></property>
+				<property name="email" column="CCC_EMAIL"></property>
+			</component>
+			<component name="vendorAddress" class="Address" lazy="false">
+				<property name="type" column="VENDOR_ADDRESS_TYPE"></property>
+				<property name="street" column="VENDOR_ADDRESS_STREET"></property>
+				<property name="city" column="VENDOR_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="VENDOR_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="VENDOR_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="VENDOR_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="VENDOR_ADDRESS_IS_SELECTED"></property>
+			</component>
+			<property name="phone" column="PHONE"></property>
+			<many-to-one name="payFrom" class="Account" lazy="false"
+				cascade="save-update" column="PAYFROM_ACCOUNT_ID">
+			</many-to-one>
+			<property name="checkNumber" column="CHECK_NUMBER"></property>
+			<property name="deliveryDate" column="DELIVERY_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		</joined-subclass>
+		<joined-subclass name="CustomerCreditMemo" table="CUSTOMER_CREDIT_MEMO">
+			<key column="id" />
+			<many-to-one name="customer" class="Customer" lazy="false"
+				cascade="save-update" column="CUSTOMER_ID">
+			</many-to-one>
+			<component name="contact" class="Contact" lazy="false">
+				<property name="isPrimary" column="CCM_IS_PRIMARY"></property>
+				<property name="name" column="CCM_NAME"></property>
+				<property name="title" column="CCM_TITLE"></property>
+				<property name="businessPhone" column="CCM_BUSINESS_PHONE"></property>
+				<property name="email" column="CCM_EMAIL"></property>
+			</component>
+			<component name="billingAddress" class="Address" lazy="false">
+				<property name="type" column="BILLING_ADDRESS_TYPE"></property>
+				<property name="address1" column="BILLING_ADDRESS1" length="100"></property>
+				<property name="street" column="BILLING_ADDRESS_STREET"></property>
+				<property name="city" column="BILLING_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="BILLING_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="BILLING_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="BILLING_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="BILLING_ADDRESS_IS_SELECTED"></property>
+			</component>
+			<property name="phone" column="PHONE"></property>
+			<many-to-one name="salesPerson" class="SalesPerson"
+				column="SALES_PERSON_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<many-to-one name="account" class="Account" lazy="false"
+				cascade="save-update" column="ACCOUNT_ID">
+			</many-to-one>
+			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
+				column="PRICE_LEVEL_ID">
+			</many-to-one>
+			<property name="salesTax" column="SALES_TAX"></property>
+			<property name="discountTotal" column="DISCOUNT_TOTAL"></property>
+			<property name="balanceDue" column="BALANCE_DUE"></property>
+		</joined-subclass>
+
+		<joined-subclass name="CustomerPrePayment" table="CUSTOMER_PREPAYMENT">
+			<key column="id"></key>
+			<many-to-one name="depositIn" class="Account" lazy="false"
+				cascade="save-update" column="DEPOSITIN_ID"></many-to-one>
+			<many-to-one name="customer" class="Customer" lazy="false"
+				cascade="save-update" column="CUSTOMER_ID"></many-to-one>
+			<property name="endingBalance" column="ENDING_BALANCE"></property>
+			<property name="balanceDue" column="BALANCE_DUE"></property>
+			<property name="checkNumber" column="CHECK_NUMBER"></property>
+			<component name="address" class="Address" lazy="false">
+				<property name="type" column="CPP_ADDRESS_TYPE"></property>
+				<property name="address1" column="CPP_ADDRESS_ADDRESS1"
+					length="100"></property>
+				<property name="street" column="CPP_ADDRESS_STREET"></property>
+				<property name="city" column="CPP_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="CPP_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="CPP_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="CPP_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="CPP_ADDRESS_IS_SELECTED"></property>
+			</component>
+		</joined-subclass>
+
+		<joined-subclass name="CustomerRefund" table="CUSTOMER_REFUND">
+			<key column="id" />
+			<many-to-one name="payTo" class="Customer" lazy="false"
+				cascade="save-update" column="CUSTOMER_ID">
+			</many-to-one>
+			<component name="address" class="Address" lazy="false">
+				<property name="type" column="CR__ADDRESS_TYPE"></property>
+				<property name="address1" column="CR_ADDRESS_ADDRESS1"
+					length="100"></property>
+				<property name="street" column="CR__ADDRESS_STREET"></property>
+				<property name="city" column="CR__ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="CR__ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="CR__ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="CR__ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="CR__ADDRESS_IS_SELECTED"></property>
+			</component>
+			<many-to-one name="payFrom" class="Account" lazy="false"
+				cascade="save-update" column="PAYFROM_ACCOUNT_ID">
+			</many-to-one>
+			<property name="isToBePrinted" column="IS_TO_BE_PRINTED"></property>
+			<property name="endingBalance" column="ENDING_BALANCE"></property>
+			<property name="customerBalance" column="CUSTOMER_BALANCE"></property>
+			<property name="isPaid" column="IS_PAID"></property>
+			<property name="payments" column="PAYMENTS"></property>
+			<property name="balanceDue" column="BALANCE_DUE"></property>
+			<set name="transactionReceivePayments" inverse="true"
+				cascade="save-update,delete" lazy="false">
+				<key column="CUSTOMER_REFUND_ID"></key>
+				<one-to-many class="TransactionReceivePayment" />
+			</set>
+			<property name="checkNumber" column="CHECK_NUMBER"></property>
+		</joined-subclass>
+		<joined-subclass name="EnterBill" table="ENTER_BILL">
+			<key column="id" />
+			<many-to-one name="vendor" class="Vendor" lazy="false"
+				cascade="save-update" column="VENDOR_ID">
+			</many-to-one>
+			<component name="contact" class="Contact" lazy="false">
+				<property name="isPrimary" column="EB_IS_PRIMARY"></property>
+				<property name="name" column="EB_NAME"></property>
+				<property name="title" column="EB_TITLE"></property>
+				<property name="businessPhone" column="EB_BUSINESS_PHONE"></property>
+				<property name="email" column="EB_EMAIL"></property>
+			</component>
+			<component name="vendorAddress" class="Address" lazy="false">
+				<property name="type" column="VENDOR_ADDRESS_TYPE"></property>
+				<property name="address1" column="VENDOR_ADDRESS_ADDRESS1"
+					length="100"></property>
+				<property name="street" column="VENDOR_ADDRESS_STREET"></property>
+				<property name="city" column="VENDOR_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="VENDOR_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="VENDOR_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="VENDOR_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="VENDOR_ADDRESS_IS_SELECTED"></property>
+			</component>
+			<property name="phone" column="PHONE"></property>
+			<many-to-one name="paymentTerm" class="PaymentTerms"
+				lazy="false" column="PAYMENT_TERM_ID">
+			</many-to-one>
+			<property name="dueDate" column="DUE_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="deliveryDate" column="DELIVERY_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="isPaid" column="IS_PAID"></property>
+			<property name="payments" column="PAYMENTS"></property>
+			<property name="balanceDue" column="BALANCE_DUE"></property>
+			<property name="discountDate" column="DISCOUNT_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<set name="transactionPayBills" inverse="true" cascade="save-update,delete"
+				lazy="false">
+				<key column="ENTER_BILL_ID"></key>
+				<one-to-many class="TransactionPayBill" />
+			</set>
+			<many-to-one name="purchaseOrder" class="PurchaseOrder"
+				lazy="false" cascade="save-update" column="PURCHASE_ORDER_ID">
+			</many-to-one>
+			<many-to-one name="itemReceipt" class="ItemReceipt" lazy="false"
+				cascade="save-update" column="ITEM_RECEIPT_ID">
+			</many-to-one>
+		</joined-subclass>
+		<joined-subclass name="Estimate" table="ESTIMATE">
+			<key column="id" />
+			<many-to-one name="customer" class="Customer" lazy="false"
+				cascade="save-update" column="CUSTOMER_ID">
+			</many-to-one>
+			<component name="contact" class="Contact" lazy="false">
+				<property name="isPrimary" column="EST_IS_PRIMARY"></property>
+				<property name="name" column="EST_NAME"></property>
+				<property name="title" column="EST_TITLE"></property>
+				<property name="businessPhone" column="EST_BUSINESS_PHONE"></property>
+				<property name="email" column="EST_EMAIL"></property>
+			</component>
+			<component name="address" class="Address" lazy="false">
+				<property name="type" column="ESTIMATE_ADDRESS_TYPE"></property>
+				<property name="address1" column="ESTIMATE_ADDRESS_ADDRESS1"
+					length="100"></property>
+				<property name="street" column="ESTIMATE_ADDRESS_STREET"></property>
+				<property name="city" column="ESTIMATE_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="ESTIMATE_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="ESTIMATE_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="ESTIMATE_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="ESTIMATE_ADDRESS_IS_SELECTED"></property>
+			</component>
+			<property name="phone" column="PHONE"></property>
+			<many-to-one name="salesPerson" class="SalesPerson"
+				column="SALES_PERSON_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<many-to-one name="paymentTerm" class="PaymentTerms"
+				lazy="false" column="PAYMENT_TERMS_ID">
+			</many-to-one>
+			<property name="expirationDate" column="EXPIRATION_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="deliveryDate" column="DELIVERY_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
+				column="PRICE_LEVEL_ID">
+			</many-to-one>
+			<property name="salesTax" column="SALES_TAX"></property>
+			<property name="isTurnedToInvoiceOrSalesOrder" column="IS_TURNED_TO_INVOICE"></property>
+		</joined-subclass>
+		<joined-subclass name="Invoice" table="INVOICE">
+			<key column="id" />
+			<many-to-one name="customer" class="Customer" lazy="false"
+				cascade="save-update" column="CUSTOMER_ID">
+			</many-to-one>
+			<component name="contact" class="Contact" lazy="false">
+				<property name="isPrimary" column="INVOICE_IS_PRIMARY"></property>
+				<property name="name" column="INVOICE_NAME"></property>
+				<property name="title" column="INVOICE_TITLE"></property>
+				<property name="businessPhone" column="INVOICE_BUSINESS_PHONE"></property>
+				<property name="email" column="INVOICE_EMAIL"></property>
+			</component>
+			<component name="billingAddress" class="Address" lazy="false">
+				<property name="type" column="BILLING_ADDRESS_TYPE"></property>
+				<property name="address1" column="BILLING_ADDRESS1" length="100"></property>
+				<property name="street" column="BILLING_ADDRESS_STREET"></property>
+				<property name="city" column="BILLING_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="BILLING_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="BILLING_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="BILLING_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="BILLING_ADDRESS_IS_SELECTED"></property>
+			</component>
+			<component name="shippingAdress" class="Address" lazy="false">
+				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
+				<property name="address1" column="SHIPPING_ADDRESS1"
+					length="100"></property>
+				<property name="street" column="SHIPPING_ADDRESS_STREET"></property>
+				<property name="city" column="SHIPPING_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="SHIPPING_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="SHIPPING_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="SHIPPING_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="SHIPPING_ADDRESS_IS_SELECTED"></property>
+			</component>
+			<property name="phone" column="PHONE"></property>
+			<many-to-one name="salesPerson" class="SalesPerson"
+				column="SALES_PERSON_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<many-to-one name="paymentTerm" class="PaymentTerms"
+				lazy="false" column="PAYMENT_TERMS_ID">
+			</many-to-one>
+			<many-to-one name="shippingTerm" class="ShippingTerms"
+				lazy="false" column="SHIPPING_TERMS_ID">
+			</many-to-one>
+			<many-to-one name="shippingMethod" class="ShippingMethod"
+				lazy="false" column="SHIPPING_METHOD_ID">
+			</many-to-one>
+			<property name="dueDate" column="DUE_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="deliverydate" column="DELIVERY_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="orderNum" column="SALES_ORDER_NO"></property>
+			<property name="discountTotal" column="DISCOUNT_TOTAL"></property>
+			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
+				column="PRICE_LEVEL_ID">
+			</many-to-one>
+			<property name="salesTaxAmount" column="SALES_TAX_AMOUNT"></property>
+			<property name="payments" column="PAYMENTS"></property>
+			<property name="balanceDue" column="BALANCE_DUE"></property>
+			<property name="isPaid" column="IS_PAID"></property>
+			<property name="isEdited" column="IS_EDITED"></property>
+			<many-to-one name="estimate" class="Estimate" lazy="false"
+				cascade="save-update" column="ESTIMATE_ID">
+			</many-to-one>
+			<many-to-one name="salesOrder" class="SalesOrder" lazy="false"
+				cascade="save-update" column="SALES_ORDER_ID">
+			</many-to-one>
+			<property name="discountDate" column="DISCOUNT_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<set name="transactionReceivePayments" inverse="true" lazy="false"
+				cascade="save-update,delete">
+				<key column="INVOICE_ID"></key>
+				<one-to-many class="TransactionReceivePayment" />
+			</set>
+		</joined-subclass>
+		<joined-subclass name="MakeDeposit" table="MAKE_DEPOSIT">
+			<key column="id" />
+			<many-to-one name="depositIn" class="Account" lazy="false"
+				cascade="save-update" column="DEPOSIT_IN_ID">
+			</many-to-one>
+			<many-to-one name="cashBackAccount" class="Account" lazy="false"
+				cascade="save-update" column="CASH_BACK_ACCOUNT_ID">
+			</many-to-one>
+			<property name="cashBackMemo" column="CASH_BACK_MEMO"></property>
+			<property name="cashBackAmount" column="CASH_BACK_AMOUNT"></property>
+			<list name="transactionMakeDeposit" cascade="save-update,delete"
+				lazy="false">
+				<key column="TRANSACTION_ID" />
+				<list-index column="IDX" />
+				<one-to-many class="TransactionMakeDeposit" />
+			</list>
+		</joined-subclass>
+		<joined-subclass name="PayBill" table="PAY_BILL">
+			<key column="id" />
+			<many-to-one name="payFrom" class="Account" lazy="false"
+				cascade="save-update" column="PAYFROM_ID">
+			</many-to-one>
+			<property name="billDueOnOrBefore" column="BILL_DUE_ONORBEFORE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<many-to-one name="vendor" class="Vendor" lazy="false"
+				cascade="save-update" column="VENDOR_ID">
+			</many-to-one>
+			<property name="isToBePrinted" column="IS_TO_BE_PRINTED"></property>
+			<property name="endingBalance" column="ENDING_BALANCE"></property>
+			<property name="unusedAmount" column="UNUSED_AMOUNT"></property>
+			<property name="vendorBalance" column="VENDOR_BALANCE"></property>
+			<property name="payBillType" column="PAYBILL_TYPE"></property>
+			<component name="address" class="Address" lazy="false">
+				<property name="type" column="PAYBILL_ADDRESS_TYPE"></property>
+				<property name="address1" column="PAYBILL_ADDRESS_ADDRESS1"
+					length="100"></property>
+				<property name="street" column="PAYBILL_ADDRESS_STREET"></property>
+				<property name="city" column="PAYBILL_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="PAYBILL_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="PAYBILL_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="PAYBILL_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="PAYBILL_ADDRESS_IS_SELECTED"></property>
+			</component>
+			<!--
+				<many-to-one name="VATCode" column="VAT_CODE_ID" class="TaxCode"
+			-->
+			<!--				lazy="false">-->
+			<!--			</many-to-one>-->
+			<!--			<property name="VATFraction" column="VAT_FRACTION"></property>-->
+			<list name="transactionPayBill" cascade="save-update,delete"
+				lazy="false">
+				<key column="TRANSACTION_ID" />
+				<list-index column="IDX" />
+				<one-to-many class="TransactionPayBill" />
+			</list>
+			<property name="checkNumber" column="CHECK_NUMBER"></property>
+		</joined-subclass>
+		<joined-subclass name="PurchaseOrder" table="PURCHASE_ORDER">
+			<key column="id" />
+			<many-to-one name="vendor" class="Vendor" lazy="false"
+				cascade="save-update" column="VENDOR_ID">
+			</many-to-one>
+			<many-to-one name="shipTo" class="Account" lazy="false"
+				column="SHIP_TO_ID">
+			</many-to-one>
+			<property name="purchaseOrderDate" column="PURCHASE_ORDER_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="toBePrinted" column="TO_BE_PRINTED"></property>
+			<property name="toBeEmailed" column="TO_BE_EMAILED"></property>
+			<component name="contact" class="Contact" lazy="false">
+				<property name="isPrimary" column="EB_IS_PRIMARY"></property>
+				<property name="name" column="EB_NAME"></property>
+				<property name="title" column="EB_TITLE"></property>
+				<property name="businessPhone" column="EB_BUSINESS_PHONE"></property>
+				<property name="email" column="EB_EMAIL"></property>
+			</component>
+			<component name="vendorAddress" class="Address" lazy="false">
+				<property name="type" column="VENDOR_ADDRESS_TYPE"></property>
+				<property name="address1" column="VENDOR_ADDRESS_ADDRESS1"
+					length="100"></property>
+				<property name="street" column="VENDOR_ADDRESS_STREET"></property>
+				<property name="city" column="VENDOR_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="VENDOR_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="VENDOR_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="VENDOR_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="VENDOR_ADDRESS_IS_SELECTED"></property>
+			</component>
+			<property name="phone" column="PHONE"></property>
+			<many-to-one name="paymentTerm" class="PaymentTerms"
+				lazy="false" column="PAYMENT_TERM_ID">
+			</many-to-one>
+			<property name="dueDate" column="DUE_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="deliveryDate" column="DELIVERY_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="dispatchDate" column="DISPATCH_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<component name="shippingAddress" class="Address" lazy="false">
+				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
+				<property name="address1" column="SHIPPING_ADDRESS_ADDRESS1"
+					length="100"></property>
+				<property name="street" column="SHIPPING_ADDRESS_STREET"></property>
+				<property name="city" column="SHIPPING_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="SHIPPING_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="SHIPPING_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="SHIPPING_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="SHIPPING_ADDRESS_IS_SELECTED"></property>
+			</component>
+			<many-to-one name="shippingTerms" class="ShippingTerms"
+				lazy="false" cascade="save-update" column="SHIPPING_TERMS_ID">
+			</many-to-one>
+			<many-to-one name="shippingMethod" class="ShippingMethod"
+				lazy="false" cascade="save-update" column="SHIPPING_METHOD_ID">
+			</many-to-one>
+			<property name="purchaseOrderNumber" column="PURCHASE_ORDER_NUMBER"></property>
+			<!--
+				<list name="enterBills" cascade="save-update,delete" lazy="false">
+				<key column="TRANSACTION_ID" /> <list-index column="EBX" />
+				<one-to-many class="EnterBill" /> </list> <list name="itemReceipts"
+				cascade="save-update,delete" lazy="false"> <key
+				column="TRANSACTION_ID" /> <list-index column="IRX" /> <one-to-many
+				class="ItemReceipt" /> </list>
+			-->
+		</joined-subclass>
+		<joined-subclass name="ItemReceipt" table="ITEM_RECEIPT">
+			<key column="id" />
+			<many-to-one name="vendor" class="Vendor" lazy="false"
+				cascade="save-update" column="VENDOR_ID">
+			</many-to-one>
+			<many-to-one name="shipTo" class="Account" lazy="false"
+				column="SHIP_TO_ID">
+			</many-to-one>
+			<property name="purchaseOrderDate" column="PURCHASE_ORDER_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="toBePrinted" column="TO_BE_PRINTED"></property>
+			<property name="toBeEmailed" column="TO_BE_EMAILED"></property>
+			<component name="contact" class="Contact" lazy="false">
+				<property name="isPrimary" column="EB_IS_PRIMARY"></property>
+				<property name="name" column="EB_NAME"></property>
+				<property name="title" column="EB_TITLE"></property>
+				<property name="businessPhone" column="EB_BUSINESS_PHONE"></property>
+				<property name="email" column="EB_EMAIL"></property>
+			</component>
+			<component name="vendorAddress" class="Address" lazy="false">
+				<property name="type" column="VENDOR_ADDRESS_TYPE"></property>
+				<property name="address1" column="VENDOR_ADDRESS_ADDRESS1"
+					length="100"></property>
+				<property name="street" column="VENDOR_ADDRESS_STREET"></property>
+				<property name="city" column="VENDOR_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="VENDOR_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="VENDOR_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="VENDOR_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="VENDOR_ADDRESS_IS_SELECTED"></property>
+			</component>
+			<property name="phone" column="PHONE"></property>
+			<many-to-one name="paymentTerm" class="PaymentTerms"
+				lazy="false" column="PAYMENT_TERM_ID">
+			</many-to-one>
+			<property name="dueDate" column="DUE_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="deliveryDate" column="DELIVERY_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<component name="shippingAddress" class="Address" lazy="false">
+				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
+				<property name="address1" column="SHIPPING_ADDRESS_ADDRESS1"
+					length="100"></property>
+				<property name="street" column="SHIPPING_ADDRESS_STREET"></property>
+				<property name="city" column="SHIPPING_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="SHIPPING_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="SHIPPING_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="SHIPPING_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="SHIPPING_ADDRESS_IS_SELECTED"></property>
+			</component>
+			<many-to-one name="shippingTerms" class="ShippingTerms"
+				lazy="false" cascade="save-update" column="SHIPPING_TERMS_ID">
+			</many-to-one>
+			<many-to-one name="shippingMethod" class="ShippingMethod"
+				lazy="false" cascade="save-update" column="SHIPPING_METHOD_ID">
+			</many-to-one>
+			<!--
+				<list name="enterBills" cascade="save-update,delete" lazy="false">
+				<key column="TRANSACTION_ID" /> <list-index column="EBX" />
+				<one-to-many class="EnterBill" /> </list>
+			-->
+			<many-to-one name="purchaseOrder" class="PurchaseOrder"
+				lazy="false" cascade="save-update" column="PURCHASE_ORDER_ID">
+			</many-to-one>
+			<property name="isBilled" column="IS_BILLED"></property>
+			<property name="balanceDue" column="BALANCE_DUE"></property>
+		</joined-subclass>
+		<joined-subclass name="ReceivePayment" table="RECEIVE_PAYMENT">
+			<key column="id" />
+			<many-to-one name="customer" class="Customer" lazy="false"
+				cascade="save-update" column="CUSTOMER_ID">
+			</many-to-one>
+			<property name="amount" column="AMOUNT"></property>
+			<property name="customerBalance" column="CUSTOMER_BALANCE"></property>
+			<many-to-one name="depositIn" class="Account" lazy="false"
+				cascade="save-update" column="ACCOUNT_ID">
+			</many-to-one>
+			<property name="unUsedCredits" column="UNUSED_CREDITS"></property>
+			<property name="unUsedPayments" column="UNUSED_PAYMENTS"
+				lazy="true"></property>
+			<property name="totalCashDiscount" column="TOTAL_CASH_DISCOUNT"></property>
+			<property name="totalWriteOff" column="TOTAL_WRITE_OFF"></property>
+			<property name="totalAppliedCredits" column="TOTAL_APPLIED_CREDITS"></property>
+			<!--
+				<many-to-one name="VATCode" column="VAT_CODE_ID" class="TaxCode"
+			-->
+			<!--				lazy="false">-->
+			<!--			</many-to-one>-->
+			<!--			<property name="VATFraction" column="VAT_FRACTION"></property>-->
+			<many-to-one name="creditsAndPayments" class="CreditsAndPayments"
+				lazy="false" column="CREDITS_AND_PAYMENTS_ID">
+			</many-to-one>
+			<list name="transactionReceivePayment" cascade="save-update,delete"
+				lazy="false">
+				<key column="TRANSACTION_ID" />
+				<list-index column="IDX" />
+				<one-to-many class="TransactionReceivePayment" />
+			</list>
+		</joined-subclass>
+		<joined-subclass name="SalesOrder" table="SALES_ORDER">
+			<key column="id" />
+			<many-to-one name="customer" class="Customer" lazy="false"
+				cascade="save-update" column="CUSTOMER_ID">
+			</many-to-one>
+			<component name="contact" class="Contact" lazy="false">
+				<property name="isPrimary" column="INVOICE_IS_PRIMARY"></property>
+				<property name="name" column="INVOICE_NAME"></property>
+				<property name="title" column="INVOICE_TITLE"></property>
+				<property name="businessPhone" column="INVOICE_BUSINESS_PHONE"></property>
+				<property name="email" column="INVOICE_EMAIL"></property>
+			</component>
+			<component name="billingAddress" class="Address" lazy="false">
+				<property name="type" column="BILLING_ADDRESS_TYPE"></property>
+				<property name="address1" column="BILLING_ADDRESS1" length="100"></property>
+				<property name="street" column="BILLING_ADDRESS_STREET"></property>
+				<property name="city" column="BILLING_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="BILLING_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="BILLING_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="BILLING_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="BILLING_ADDRESS_IS_SELECTED"></property>
+			</component>
+			<component name="shippingAdress" class="Address" lazy="false">
+				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
+				<property name="address1" column="SHIPPING_ADDRESS1"
+					length="100"></property>
+				<property name="street" column="SHIPPING_ADDRESS_STREET"></property>
+				<property name="city" column="SHIPPING_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="SHIPPING_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="SHIPPING_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="SHIPPING_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="SHIPPING_ADDRESS_IS_SELECTED"></property>
+			</component>
+			<property name="phone" column="PHONE"></property>
+			<many-to-one name="salesPerson" class="SalesPerson"
+				column="SALES_PERSON_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<many-to-one name="paymentTerm" class="PaymentTerms"
+				lazy="false" column="PAYMENT_TERMS_ID">
+			</many-to-one>
+			<many-to-one name="shippingTerm" class="ShippingTerms"
+				lazy="false" column="SHIPPING_TERMS_ID">
+			</many-to-one>
+			<many-to-one name="shippingMethod" class="ShippingMethod"
+				lazy="false" column="SHIPPING_METHOD_ID">
+			</many-to-one>
+			<property name="dueDate" column="DUE_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="discountTotal" column="DISCOUNT_TOTAL"></property>
+			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
+				column="PRICE_LEVEL_ID">
+			</many-to-one>
+			<property name="salesTaxAmount" column="SALES_TAX_AMOUNT"></property>
+			<many-to-one name="salesTaxItem" class="Item" lazy="false"
+				column="ITEM_ID">
+			</many-to-one>
+			<many-to-one name="estimate" class="Estimate" lazy="false"
+				cascade="save-update" column="ESTIMATE_ID">
+			</many-to-one>
+			<property name="customerOrderNumber" column="CUSTOMER_ORDER_NUMBER"></property>
+			<!--
+				<list name="invoices" cascade="save-update,delete" lazy="false">
+				<key column="TRANSACTION_ID" /> <list-index column="IDX" />
+				<one-to-many class="Invoice" /> </list>
+			-->
+		</joined-subclass>
+		<joined-subclass name="Expense" table="EXPENSE">
+			<key column="id" />
+			<property name="billFrom" column="BILL_FROM"></property>
+			<property name="billDate" column="BILL_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="status" column="STATUS"></property>
+			<property name="submittedDate" column="SUBMITTED_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="paymentDueDate" column="PAYMENT_DUE_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="reportingDate" column="REPORTING_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="amountDue" column="AMOUNT_DUE"></property>
+			<property name="paidAmount" column="PAID_AMOUNT"></property>
+			<property name="category" column="CATEGORY"></property>
+			<property name="isAuthorised" column="IS_AUTHORISED"></property>
+			<list name="transactionExpenses" cascade="save-update,delete"
+				lazy="false">
+				<key column="EXPENSE_ID" />
+				<list-index column="IDX" />
+				<one-to-many class="TransactionExpense" />
+			</list>
+		</joined-subclass>
+		<joined-subclass name="VendorCreditMemo" table="VENDOR_CREDIT_MEMO">
+			<key column="id" />
+			<many-to-one name="vendor" class="Vendor" lazy="false"
+				cascade="save-update" column="VENDOR_ID">
+			</many-to-one>
+			<component name="contact" class="Contact" lazy="false">
+				<property name="isPrimary" column="VCM_IS_PRIMARY"></property>
+				<property name="name" column="VCM_NAME"></property>
+				<property name="title" column="VCM_TITLE"></property>
+				<property name="businessPhone" column="VCM_BUSINESS_PHONE"></property>
+				<property name="email" column="VCM_EMAIL"></property>
+			</component>
+			<property name="phone" column="PHONE"></property>
+			<property name="balanceDue" column="BALANCE_DUE"></property>
+		</joined-subclass>
+		<joined-subclass name="PayExpense" table="PAY_EXPENSE">
+			<key column="id" />
+			<many-to-one name="paidFrom" class="Account" lazy="false"
+				column="ACCOUNT_ID">
+			</many-to-one>
+			<property name="refernceOrChequeNumber" column="REFERENCE_OR_CHEQUE_NUMBER"></property>
+			<list name="transactionPayExpenses" cascade="save-update,delete"
+				lazy="false">
+				<key column="PAY_EXPENSE_ID" />
+				<list-index column="IDX" />
+				<one-to-many class="TransactionPayExpense" />
+			</list>
+		</joined-subclass>
+		<joined-subclass name="WriteCheck" table="WRITE_CHECKS">
+			<key column="id" />
+			<property name="payToType" column="PAY_TO_TYPE"></property>
+			<many-to-one name="bankAccount" class="Account" lazy="false"
+				cascade="save-update" column="ACCOUNT_ID">
+			</many-to-one>
+			<property name="balance" column="BALANCE"></property>
+			<many-to-one name="customer" class="Customer" lazy="false"
+				cascade="save-update" column="CUSTOMER_ID">
+			</many-to-one>
+			<many-to-one name="vendor" class="Vendor" lazy="false"
+				cascade="save-update" column="VENDOR_ID">
+			</many-to-one>
+			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
+				cascade="save-update" column="TAX_AGENCY_ID">
+			</many-to-one>
+			<component name="address" class="Address" lazy="false">
+				<property name="type" column="WRITECHECK_ADDRESS_TYPE"></property>
+				<property name="address1" column="WRITECHECK_ADDRESS_ADDRESS1"
+					length="100"></property>
+				<property name="street" column="WRITECHECK_ADDRESS_STREET"></property>
+				<property name="city" column="WCHECK_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" column="WCHECK_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" column="WCHECK_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" column="WCHECK_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="WCHECK_ADDRESS_IS_SELECTED"></property>
+			</component>
+			<property name="amount" column="AMOUNT"></property>
+			<property name="toBePrinted" column="TO_BE_PRINTED"></property>
+			<many-to-one name="salesPerson" class="SalesPerson"
+				column="SALES_PERSON_ID" cascade="save-update,delete" lazy="false">
+			</many-to-one>
+			<property name="inWords" column="IN_WORDS"></property>
+			<property name="checkNumber" column="CHECK_NUMBER"></property>
+		</joined-subclass>
+		<joined-subclass name="TransferFund" table="TRANSFER_FUND">
+			<key column="id" />
+			<many-to-one name="transferFrom" class="Account" lazy="false"
+				cascade="save-update" column="TRANSFER_FROM">
+			</many-to-one>
+			<many-to-one name="transferTo" class="Account" lazy="false"
+				cascade="save-update" column="TRANSFER_TO">
+			</many-to-one>
+		</joined-subclass>
+		<joined-subclass name="IssuePayment" table="ISSUEPAYMENT">
+			<key column="id" />
+			<many-to-one name="account" class="Account" lazy="false"
+				cascade="save-update" column="ACCOUNT_ID">
+			</many-to-one>
+			<property name="checkNumber" column="CHECK_NUMBER"></property>
+			<list name="transactionIssuePayment" cascade="save-update,delete"
+				lazy="false">
+				<key column="TRANSACTION_ID" />
+				<list-index column="IDX" />
+				<one-to-many class="TransactionIssuePayment" />
+			</list>
+		</joined-subclass>
+		<joined-subclass name="JournalEntry" table="JOURNAL_ENTRY">
+			<key column="id" />
+			<property name="debitTotal" column="DEBIT_TOTAL"></property>
+			<property name="creditTotal" column="CREDIT_TOTAL"></property>
+			<property name="journalEntryType" column="JOURNAL_ENTRY_TYPE"></property>
+			<property name="balanceDue" column="BALANCE_DUE"></property>
+			<list name="entry" cascade="save-update,delete" lazy="false">
+				<key column="TRANSACTION_ID" />
+				<list-index column="IDX" />
+				<one-to-many class="Entry" />
+			</list>
+			<many-to-one name="transaction" class="Transaction" lazy="false"
+				cascade="save-update" column="TRANSACTION_ID">
+			</many-to-one>
+			<set name="transactionReceivePayments" inverse="true" lazy="false"
+				cascade="save-update,delete">
+				<key column="JOURNAL_ENTRY_ID"></key>
+				<one-to-many class="TransactionReceivePayment" />
+			</set>
+			<set name="transactionPayBills" inverse="true" cascade="save-update,delete"
+				lazy="false">
+				<key column="JOURNAL_ENTRY_ID"></key>
+				<one-to-many class="TransactionPayBill" />
+			</set>
+		</joined-subclass>
+		<joined-subclass name="VATReturn" table="VAT_RETURN">
+			<key column="id" />
+			<property name="VATperiodStartDate" column="VAT_PERIOD_START_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="VATperiodEndDate" column="VAT_PERIOD_END_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
+				cascade="save-update" column="TAX_AGENCY">
+			</many-to-one>
+			<many-to-one name="journalEntry" class="JournalEntry"
+				lazy="false" cascade="save-update,delete" column="JOURNAL_ENTRY">
+			</many-to-one>
+			<list name="boxes" cascade="save-update" lazy="false">
+				<key column="BOX_ID" />
+				<list-index column="BX" />
+				<one-to-many class="Box" />
+			</list>
+			<property name="balance" column="BALANCE"></property>
+		</joined-subclass>
+		<joined-subclass name="TAXAdjustment" table="TAX_ADJUSTMENT">
+			<key column="id" />
+			<property name="increaseVATLine" column="INCREASE_VAT_LINE"></property>
+			<property name="isFiled" column="IS_FILED"></property>
+			<many-to-one name="adjustmentAccount" class="Account"
+				lazy="false" cascade="save-update" column="ADJUSTMENT_ACCOUNT">
+			</many-to-one>
+			<many-to-one name="taxItem" class="TAXItem" lazy="false"
+				cascade="save-update" column="TAX_ITEM">
+			</many-to-one>
+			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
+				cascade="save-update" column="TAX_AGENCY_ID">
+			</many-to-one>
+			<many-to-one name="journalEntry" class="JournalEntry"
+				lazy="false" cascade="save-update,delete" column="JOURNAL_ENTRY">
+			</many-to-one>
+		</joined-subclass>
+<!-- 		
+		<joined-subclass name="TAXAdjustment" table="TAX_ADJUSTMENT">
+			<key column="id" />
+			<property name="increaseTAXLine" column="INCREASE_TAX_LINE"></property>
+			<many-to-one name="adjustmentAccount" class="Account"
+				lazy="false" cascade="save-update" column="ADJUSTMENT_ACCOUNT_ID">
+			</many-to-one>
+			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
+				cascade="save-update" column="TAX_AGENCY_ID">
+			</many-to-one>
+			<many-to-one name="journalEntry" class="JournalEntry"
+				lazy="false" cascade="save-update,delete" column="JOURNAL_ENTRY_ID">
+			</many-to-one>
+		</joined-subclass>
+ -->		
+	</class>
+	<class name="Entry" table="ENTRY">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="version" column="VERSION"></property>
+		<property name="type" column="TYPE"></property>
+		<property name="journalEntryType" column="JOURNAL_ENTRY_TYPE"></property>
+		<many-to-one name="account" class="Account" column="ACCOUNT_ID"
+			lazy="false">
+		</many-to-one>
+		<many-to-one name="vendor" class="Vendor" column="VENDOR_ID"
+			lazy="false">
+		</many-to-one>
+		<many-to-one name="customer" class="Customer" column="CUSTOMER_ID"
+			lazy="false">
+		</many-to-one>
+		<many-to-one name="taxItem" class="TAXItem" column="TAXITEM_ID"
+			lazy="false">
+		</many-to-one>
+		<many-to-one name="taxCode" class="TAXCode" column="TAXCODE_ID"
+			lazy="false">
+		</many-to-one>
+		<!-- 
+		<many-to-one name="taxItem" class="TAXItem" column="TAXITEM_ID"
+			lazy="false">
+		</many-to-one>
+		 -->
+		<property name="memo" column="MEMO"></property>
+		<property name="debit" column="DEBIT"></property>
+		<property name="credit" column="CREDIT"></property>
+		<property name="total" column="TOTAL"></property>
+		<property name="voucherNumber" column="VOUCHER_NUMBER"></property>
+		<many-to-one name="journalEntry" class="JournalEntry"
+			lazy="false" column="TRANSACTION_ID">
+		</many-to-one>
+		<!--
+			<many-to-one name="VATAgency" class="TaxAgency"
+			column="VAT_AGENCY_ID"
+		-->
+		<!--			lazy="false">-->
+		<!--		</many-to-one>-->
+		<property name="entryDate" column="ENTRY_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+	</class>
+	<class name="TransactionItem" table="TRANSACTION_ITEM">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="version" column="VERSION"></property>
+		<property name="type" column="TYPE"></property>
+		<many-to-one name="item" class="Item" lazy="false" column="ITEM_ID">
+		</many-to-one>
+		<many-to-one name="taxItem" class="TAXItem" lazy="false"
+			column="TAXITEM_ID">
+		</many-to-one>
+		<many-to-one name="account" class="Account" lazy="false"
+			column="ACCOUNT_ID">
+		</many-to-one>
+		<many-to-one name="taxCode" class="TAXCode" lazy="false"
+			column="TAX_CODE">
+		</many-to-one>
+		<!-- 
+		<many-to-one name="vatItem" class="VATItem" lazy="false"
+			column="VAT_ITEM">
+		</many-to-one>
+		-->
+		<property name="description" column="DESCRIPTION"></property>
+		<property name="quantity" column="QUANTITY"></property>
+		<property name="unitPrice" column="UNIT_PRICE"></property>
+		<property name="discount" column="DISCOUNT"></property>
+		<property name="lineTotal" column="LINE_TOTAL"></property>
+		<property name="isTaxable" column="IS_TAXABLE"></property>
+		<many-to-one name="taxGroup" class="TAXGroup" lazy="false"
+			column="TAXGROUP_ID">
+		</many-to-one>
+		<many-to-one name="transaction" class="Transaction" lazy="false"
+			column="TRANSACTION_ID">
+		</many-to-one>
+		<set name="itemBackUpList" inverse="true" cascade="save-update,delete-orphan"
+			lazy="false">
+			<key column="TRANSACTION_ITEM_ID"></key>
+			<one-to-many class="ItemBackUp" />
+		</set>
+<!-- 		
+		<set name="taxRateCalculationEntriesList" inverse="true"
+			cascade="all-delete-orphan" lazy="false">
+			<key column="TRANSACTION_ITEM_ID"></key>
+			<one-to-many class="TaxRateCalculation" />
+		</set>
+-->		
+		<set name="taxRateCalculationEntriesList" inverse="true"
+			cascade="all-delete-orphan" lazy="false">
+			<key column="TRANSACTION_ITEM_ID"></key>
+			<one-to-many class="TAXRateCalculation" />
+		</set>
+		<property name="VATfraction" column="VAT_FRACTION"></property>
+		<property name="usedamt" column="INVOICED"></property>
+		<property name="backOrder" column="BACK_ORDER"></property>
+		<many-to-one name="referringTransactionItem" class="TransactionItem"
+			lazy="false" column="REFERRING_TRANSACTION_ITEM_ID">
+		</many-to-one>
+		<property name="isVoid" column="IS_VOID"></property>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE" type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+	</class>
+	<class name="CreditsAndPayments" table="CREDITS_AND_PAYMENTS">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="memo" column="MEMO"></property>
+		<property name="creditAmount" column="CREDIT_AMOUNT"></property>
+		<property name="balance" column="BALANCE"></property>
+		<many-to-one name="transaction" class="Transaction" lazy="false"
+			column="TRANSACTION_ID">
+		</many-to-one>
+		<many-to-one name="payee" class="Payee" column="PAYEE_ID"
+			lazy="false">
+		</many-to-one>
+		<set name="transactionCreditsAndPayments" lazy="false">
+			<key column="CREDITS_AND_PAYMENTS_ID"></key>
+			<one-to-many class="TransactionCreditsAndPayments" />
+		</set>
+		<property name="version" type="int">
+			<column name="VERSION" default="0"></column>
+		</property>
+	</class>
+	<class name="TransactionCreditsAndPayments" table="TRANSACTION_CREDITS_AND_PAYMENTS">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="date" column="DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="memo" column="MEMO"></property>
+		<property name="amountToUse" column="AMOUNT_TO_USE"></property>
+		<many-to-one name="transactionReceivePayment" class="TransactionReceivePayment"
+			lazy="false" cascade="save-update" column="TRANSACTION_RECEIVE_PAYMENT_ID">
+		</many-to-one>
+		<many-to-one name="transactionPayBill" class="TransactionPayBill"
+			lazy="false" cascade="save-update" column="TRANSACTION_PAYBILL_ID">
+		</many-to-one>
+		<many-to-one name="creditsAndPayments" class="CreditsAndPayments"
+			cascade="save-update" lazy="false" column="CREDITS_AND_PAYMENTS_ID">
+		</many-to-one>
+		<property name="isVoid" column="IS_VOID"></property>
+		<property name="version" type="int">
+			<column name="VERSION" default="0"></column>
+		</property>
+	</class>
+	<class name="TransactionMakeDeposit" table="TRANSACTION_MAKE_DEPOSIT">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="version" column="VERSION"></property>
+		<property name="date" column="DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="type" column="TYPE"></property>
+		<many-to-one name="account" class="Account" lazy="false"
+			cascade="save-update" column="ACCOUNT_ID">
+		</many-to-one>
+		<many-to-one name="vendor" class="Vendor" lazy="false"
+			cascade="save-update" column="VENDOR_ID">
+		</many-to-one>
+		<many-to-one name="customer" class="Customer" lazy="false"
+			cascade="save-update" column="CUSTOMER_ID">
+		</many-to-one>
+		<property name="reference" column="REFERENCE"></property>
+		<property name="amount" column="AMOUNT"></property>
+		<property name="isNewEntry" column="IS_NEW_ENTRY"></property>
+		<many-to-one name="cashAccount" class="Account" lazy="false"
+			cascade="save-update" column="CASH_ACCOUNT_ID">
+		</many-to-one>
+		<many-to-one name="makeDeposit" class="MakeDeposit" lazy="false"
+			column="MAKE_DEPOSIT_ID">
+		</many-to-one>
+		<property name="payments" column="PAYMENTS"></property>
+		<property name="balanceDue" column="BALANCE_DUE"></property>
+		<many-to-one name="depositedTransaction" class="Transaction"
+			lazy="false" column="DEPOSITED_TRANSACTION_ID">
+		</many-to-one>
+		<property name="number" column="NUMBER"></property>
+		<property name="isVoid" column="IS_VOID"></property>
+		<set name="transactionPayBills" inverse="true" lazy="false"
+			cascade="save-update,delete">
+			<key column="TRANSACTION_MAKE_DEPOSIT_ID"></key>
+			<one-to-many class="TransactionPayBill" />
+		</set>
+		<many-to-one name="creditsAndPayments" class="CreditsAndPayments"
+			column="CREDITS_AND_PAYMENTS_ID">
+		</many-to-one>
+	</class>
+	<class name="TransactionPayBill" table="TRANSACTION_PAYBILL">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="version" column="VERSION"></property>
+		<property name="dueDate" column="DUE_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<many-to-one name="enterBill" class="EnterBill" lazy="false"
+			cascade="save-update" column="ENTER_BILL_ID">
+		</many-to-one>
+		<property name="originalAmount" column="ORIGINAL_AMOUNT"></property>
+		<property name="amountDue" column="AMOUNT_DUE"></property>
+		<property name="discountDate" column="DISCOUNT_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<many-to-one name="discountAccount" class="Account" lazy="false"
+			column="DISCOUNT_ID">
+		</many-to-one>
+		<property name="cashDiscount" column="CASH_DISCOUNT"></property>
+		<property name="appliedCredits" column="APPLIED_CREDITS"></property>
+		<property name="payment" column="PAYMENT"></property>
+		<many-to-one name="payBill" class="PayBill" lazy="false"
+			column="PAYBILL_ID">
+		</many-to-one>
+		<list name="transactionCreditsAndPayments" cascade="save-update,delete"
+			lazy="false">
+			<key column="TRANSACTION_PAYBILL_ID" />
+			<list-index column="IDX" />
+			<one-to-many class="TransactionCreditsAndPayments" />
+		</list>
+		<property name="isVoid" column="IS_VOID"></property>
+		<many-to-one name="transactionMakeDeposit" class="TransactionMakeDeposit"
+			lazy="false" cascade="save-update" column="TRANSACTION_MAKE_DEPOSIT_ID">
+		</many-to-one>
+		<property name="billNumber" column="BILL_NUMBER"></property>
+		<many-to-one name="journalEntry" class="JournalEntry"
+			cascade="save-update" lazy="false" column="JOURNAL_ENTRY_ID">
+		</many-to-one>
+	</class>
+	<class name="TransactionReceivePayment" table="TRANSACTION_RECEIVE_PAYMENT">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="version" column="VERSION"></property>
+		<property name="dueDate" column="DUE_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<many-to-one name="invoice" class="Invoice" lazy="false"
+			cascade="save-update" column="INVOICE_ID">
+		</many-to-one>
+		<property name="invoiceAmount" column="INVOICE_AMOUNT"></property>
+		<property name="discountDate" column="DISCOUNT_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<many-to-one name="discountAccount" class="Account" lazy="false"
+			cascade="save-update" column="DISCOUNT_ID">
+		</many-to-one>
+		<property name="cashDiscount" column="CASH_DISCOUNT"></property>
+		<many-to-one name="writeOffAccount" class="Account" lazy="false"
+			cascade="save-update" column="WRITE_OFF_ID">
+		</many-to-one>
+		<property name="writeOff" column="WRITE_OFF"></property>
+		<property name="appliedCredits" column="APPLIED_CREDITS"></property>
+		<property name="payment" column="PAYMENT"></property>
+		<many-to-one name="receivePayment" class="ReceivePayment"
+			lazy="false" column="TRANSACTION_ID">
+		</many-to-one>
+		<list name="transactionCreditsAndPayments" cascade="save-update,delete"
+			lazy="false">
+			<key column="TRANSACTION_RECEIVE_PAYMENT_ID" />
+			<list-index column="IDX" />
+			<one-to-many class="TransactionCreditsAndPayments" />
+		</list>
+		<property name="isVoid" column="IS_VOID"></property>
+		<many-to-one name="customerRefund" class="CustomerRefund"
+			cascade="save-update" lazy="false" column="CUSTOMER_REFUND_ID">
+		</many-to-one>
+		<many-to-one name="journalEntry" class="JournalEntry"
+			cascade="save-update" lazy="false" column="JOURNAL_ENTRY_ID">
+		</many-to-one>
+		<property name="number" column="NUMBER"></property>
+	</class>
+	<class name="TransactionIssuePayment" table="TRANSACTION_ISSUE_PAYMENT">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="date" column="DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<many-to-one name="writeCheck" class="WriteCheck" lazy="false"
+			column="WRITE_CHECK_ID">
+		</many-to-one>
+		<many-to-one name="customerRefund" class="CustomerRefund"
+			lazy="false" column="CUSTOMER_REFUND_ID">
+		</many-to-one>
+		<many-to-one name="payBill" class="PayBill" lazy="false"
+			column="PAYBILL_ID">
+		</many-to-one>
+		<many-to-one name="creditCardCharge" class="CreditCardCharge"
+			lazy="false" column="CREDIT_CARD_CHARGE_ID">
+		</many-to-one>
+		<many-to-one name="cashPurchase" class="CashPurchase"
+			lazy="false" column="CASH_PURCHASE_ID">
+		</many-to-one>
+		<many-to-one name="paySalesTax" class="PaySalesTax" lazy="false"
+			column="PAY_SALES_TAX_ID">
+		</many-to-one>
+		<property name="number" column="NUMBER"></property>
+		<property name="name" column="NAME"></property>
+		<property name="memo" column="MEMO"></property>
+		<property name="amount" column="AMOUNT"></property>
+		<many-to-one name="transaction" class="Transaction" lazy="false"
+			column="TRANSACTION_ID">
+		</many-to-one>
+		<property name="version" column="VERSION"></property>
+	</class>
+	<class name="TransactionPaySalesTax" table="TRANSACTION_PAY_SALES_TAX">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
+			cascade="save-update" column="TAX_AGENCY_ID">
+		</many-to-one>
+		<many-to-one name="taxItem" class="TAXItem" lazy="false"
+			column="TAX_ITEM_ID">
+		</many-to-one>
+		<property name="amountToPay" column="AMOUNT_TO_PAY"></property>
+		<property name="taxDue" column="TAX_DUE"></property>
+		<many-to-one name="transaction" class="Transaction" lazy="false"
+			column="TRANSACTION_ID">
+		</many-to-one>
+		<property name="version" column="VERSION"></property>
+		<many-to-one name="paySalesTaxEntry" class="PaySalesTaxEntries"
+			cascade="save-update" lazy="false" column="TRANSACTION_PAYSALES_TAX_ID">
+		</many-to-one>
+		<many-to-one name="liabilityAccount" class="Account"
+			column="LIABILITY_ACCOUNT_ID" cascade="save-update" lazy="false">
+		</many-to-one>
+	</class>
+	<class name="TransactionPayVAT" table="TRANSACTION_PAY_VAT">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
+			cascade="save-update" column="TAX_AGENCY_ID">
+		</many-to-one>
+		<property name="amountToPay" column="AMOUNT_TO_PAY"></property>
+		<property name="taxDue" column="TAX_DUE"></property>
+		<many-to-one name="vatReturn" class="VATReturn" lazy="false"
+			column="VAT_RETURN_ID">
+		</many-to-one>
+		<many-to-one name="payVAT" class="PayVAT" lazy="false"
+			column="PAY_VAT_ID">
+		</many-to-one>
+		<property name="version" column="VERSION"></property>
+	</class>
+	<class name="TransactionReceiveVAT" table="TRANSACTION_RECEIVE_VAT">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
+			cascade="save-update" column="TAX_AGENCY_ID">
+		</many-to-one>
+		<property name="amountToReceive" column="AMOUNT_TO_RECEIVE"></property>
+		<property name="taxDue" column="TAX_DUE"></property>
+		<many-to-one name="vatReturn" class="VATReturn" lazy="false"
+			column="VAT_RETURN_ID">
+		</many-to-one>
+		<many-to-one name="receiveVAT" class="ReceiveVAT" lazy="false"
+			column="RECEIVE_VAT_ID">
+		</many-to-one>
+		<property name="version" column="VERSION"></property>
+	</class>
+	<class name="PaySalesTaxEntries" table="PAY_SALES_TAX_ENTRIES">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<many-to-one name="transaction" class="Transaction" lazy="false"
+			column="TRANSACTION_ID">
+		</many-to-one>
+		<many-to-one name="taxItem" class="TAXItem" lazy="false"
+			column="TAXITEM_ID">
+		</many-to-one>
+		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
+			column="TAXAGENCY_ID">
+		</many-to-one>
+		<property name="amount" column="AMOUNT"></property>
+		<property name="balance" column="BALANCE"></property>
+		<property name="version" column="VERSION"></property>
+		<property name="transactionDate" column="TRANSACTION_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+	</class>
+	<class name="PayVATEntries" table="PAY_VAT_ENTRIES">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<many-to-one name="transaction" class="Transaction" lazy="false"
+			column="TRANSACTION_ID">
+		</many-to-one>
+		<many-to-one name="taxCode" class="TAXCode" lazy="false"
+			column="TAXCODE_ID">
+		</many-to-one>
+		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
+			column="TAXAGENCY_ID">
+		</many-to-one>
+		<property name="amount" column="AMOUNT"></property>
+		<property name="balance" column="BALANCE"></property>
+		<property name="version" column="VERSION"></property>
+	</class>
+	<class name="TransactionMakeDepositEntries" table="TRANSACTION_MAKE_DEPOSIT_ENTRIES">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="type" column="TYPE"></property>
+		<many-to-one name="transaction" class="Transaction" lazy="false"
+			column="TRANSACTION_ID">
+		</many-to-one>
+		<many-to-one name="account" class="Account" lazy="false"
+			column="ACCOUNT_ID">
+		</many-to-one>
+		<property name="amount" column="AMOUNT"></property>
+		<property name="balance" column="BALANCE"></property>
+	</class>
+	<class name="TransactionExpense" table="TRANSACTION_EXPENSE">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<property name="type" column="TYPE"></property>
+		<many-to-one name="item" class="Item" lazy="false" column="ITEM_ID">
+		</many-to-one>
+		<many-to-one name="account" class="Account" lazy="false"
+			column="ACCOUNT_ID">
+		</many-to-one>
+		<property name="description" column="DESCRIPTION"></property>
+		<property name="quantity" column="QUANTITY"></property>
+		<property name="unitPrice" column="UNIT_PRICE"></property>
+		<property name="amount" column="AMOUNT"></property>
+		<many-to-one name="expense" class="Expense" lazy="false"
+			column="EXPENSE_ID">
+		</many-to-one>
+	</class>
+	<class name="TransactionPayExpense" table="TRANSACTION_PAY_EXPENSE">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID"></property>
+		<many-to-one name="expense" class="Expense" lazy="false"
+			cascade="save-update" column="EXPENSE_ID">
+		</many-to-one>
+		<property name="payment" column="PAYMENT"></property>
+		<many-to-one name="payExpense" class="PayExpense" lazy="false"
+			column="PAY_EXPENSE_ID">
+		</many-to-one>
+	</class>
+</hibernate-mapping>

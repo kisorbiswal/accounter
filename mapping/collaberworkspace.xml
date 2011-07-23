@@ -1,0 +1,53 @@
+<ACCOUNT_INI>
+<CREATE_WORKSPACE name="Collaber" description="Collaber Workspace" >
+	<role name="ISpace.Manager" displayName="Manager" description="Usually have all available permissions"/>
+	<role name="ISpace.Participant" displayName="Participant" description="Can usually invite new members and add new tools"/>
+	<role name="ISpace.Guest" displayName="Guest" description="Permissions usually restricted to read-only activities"/>
+	
+	
+	<permission name="PERMISSION_DELETE_SPACE_FROM_SYSTEM" displayName="Delete space from system" description="Delete space from system">
+		<role>ISpace.Participant</role>
+		<role>ISpace.Manager</role>
+		<role>ISpace.Guest</role>
+	</permission>
+	<permission name="PERMISSION_INVITE_MEMBER" displayName="Invite member" description="Invite member">
+		<role>ISpace.Participant</role>
+		<role>ISpace.Manager</role>
+	</permission>
+	<permission name="PERMISSION_DELETE_SPACE_FROM_NETWORK" displayName="Delete space from network" description="Delete space from network">
+		<role>ISpace.Manager</role>
+	</permission>
+	<permission name="PERMISSION_ADD_TOOL" displayName="Add tool" description="Add tool">
+		<role>ISpace.Participant</role>
+		<role>ISpace.Manager</role>
+	</permission>
+	<permission name="PERMISSION_DELETE_MEMBER" displayName="Delete member" description="Delete member">
+		<role>ISpace.Manager</role>
+	</permission>
+	<permission name="PERMISSION_CHANGE_SPACE" displayName="Change space" description="Change space">
+		<role>ISpace.Manager</role>
+	</permission>
+	<permission name="PERMISSION_DELETE_TOOL" displayName="Delete tool" description="Delete tool">
+		<role>ISpace.Manager</role>
+	</permission>
+	
+	
+	<tool name="Discussion" description="Select tool from the list"   templateID="DiscussionTool"   lastModifierDevice="0">
+	</tool>
+	
+	<tool name="Calendar" description="Mark important dates and build collaberative shedule with workspace members" templateID="CalendarTool"  lastModifierDevice="0">
+	</tool>
+	<tool name="Address" description="Save and share your friends contacts." templateID="AddressBookTool"  lastModifierDevice="0">
+	</tool>
+	<tool name="Notepad" description="Write or Edit Text in " templateID="NotepadTool"  lastModifierDevice="0">
+	</tool>
+	<tool name="Task" description="To create and maintain project tasks." templateID="TaskTool"  lastModifierDevice="0">
+	</tool>
+	<tool name="Applications" description="Applications" templateID="Applications"  lastModifierDevice="0">
+	</tool>
+	<tool name="Files" description="Store, organize and shared files." templateID="FileTool"  lastModifierDevice="0">
+	</tool>
+	
+</CREATE_WORKSPACE>
+<MESSAGE subject=""  state="7"></MESSAGE>
+</ACCOUNT_INI>

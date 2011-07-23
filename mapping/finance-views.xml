@@ -1,0 +1,303 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+                "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.vimukti.accounter.core"
+	default-access="field">
+	
+<!--  @author Devesh Satwani-->	
+	
+	<database-object>
+		<create> CREATE VIEW SALES_PURCHASES_VIEW AS select
+T.STRING_ID as TRANSACTION_ID,
+C.ID as CUSTOMER_ID,
+V.ID as VENDOR_ID,
+P.NAME as NAME,
+case 
+	when T.T_TYPE = 1 or T.T_TYPE = 4 or T.T_TYPE = 8 then CG.NAME
+	when T.T_TYPE = 2 or T.T_TYPE = 6 or T.T_TYPE = 14 then VG.NAME
+end as GROUP_NAME,
+	IT.TYPE as ITEM_TYPE, 
+	IG.NAME as ITEM_GROUP,
+T.T_TYPE as Type,
+
+        T.T_DATE as DATE,
+	T.NUMBER,
+T.MEMO as MEMO,
+case 
+	when T.T_TYPE=8 then I.DUE_DATE
+	when T.T_TYPE=6 then EB.DUE_DATE
+	else null
+end as DUE_DATE,
+	PT.NAME as PAYMENT_TERMS,
+case
+	when TI.ITEM_ID is not null then IT.NAME
+	when TI.ACCOUNT_ID is not null then A.NAME
+end as ITEM_NAME,
+case
+	when T.T_TYPE = 4 OR T.T_TYPE = 14 then -1*TI.QUANTITY
+	else TI.QUANTITY
+end as QUANTITY,
+
+	TI.UNIT_PRICE as UNIT_PRICE,
+	TI.DISCOUNT as DISCOUNT,
+	
+case
+	when T.T_TYPE = 4 OR T_TYPE = 14 then -1*LINE_TOTAL
+	else TI.LINE_TOTAL
+end as AMOUNT,
+case 
+	when T.T_TYPE = 8 then (select T.NUMBER from TRANSACTION T where T.ID = I.ESTIMATE_ID)
+end as SO_OR_QUOTE_NO,
+case
+	when T.T_TYPE = 1 then CS.DELIVERY_DATE 
+	When T.T_TYPE = 8 then I.DELIVERY_DATE 
+	when T.T_TYPE = 2 then CP.DELIVERY_DATE 
+	When T.T_TYPE = 6 then EB.DELIVERY_DATE 
+			  else null 
+end as SHIPMENT_OR_DELIVERY_DATE,
+	
+	IT.SALES_DESCRIPTION,
+	IT.PURCHASE_DESCRIPTION,
+	T.IS_VOID as VOID,
+T.REFERENCE as REFERENCE
+   from
+        TRANSACTION T
+    left outer join
+        CASH_SALES CS 
+            on T.ID=CS.ID 
+    left outer join
+        CUSTOMER_CREDIT_MEMO CCM 
+            on T.ID=CCM.ID 
+    left outer join
+        INVOICE I 
+            on T.ID=I.ID
+    left outer join
+        CASH_PURCHASE CP 
+            on T.ID=CP.ID 
+    left outer join
+        VENDOR_CREDIT_MEMO VCM 
+            on T.ID=VCM.ID 
+    left outer join
+        ENTER_BILL EB 
+            on T.ID=EB.ID
+    left outer join
+	TRANSACTION_ITEM TI
+	    on T.ID = TI.TRANSACTION_ID 
+    left outer join 
+	CUSTOMER C 
+	    on C.ID = CS.CUSTOMER_ID or C.ID = CCM.CUSTOMER_ID or C.ID = I.CUSTOMER_ID
+    left outer join 
+	VENDOR V 
+	    on V.ID = CP.VENDOR_ID or V.ID = VCM.VENDOR_ID or V.ID = EB.VENDOR_ID
+	left outer join 
+	PAYEE P 
+	    on P.ID = C.ID OR P.ID = V.ID
+    left outer join 
+	PAYMENTTERMS PT 
+	    on PT.ID = EB.PAYMENT_TERM_ID or  PT.ID = I.PAYMENT_TERMS_ID
+    left outer join
+	CUSTOMER_GROUP CG
+	    on CG.ID = C.CUSTOMER_GROUP_ID
+    left outer join
+	VENDOR_GROUP VG
+	    on VG.ID = V.VENDOR_GROUP_ID
+    left outer join
+	 ITEM IT 
+	    on IT.ID = TI.ITEM_ID
+    left outer join 
+	 ITEMGROUP IG 
+	    on IG.ID = IT.ITEMGROUP_ID
+    left outer join 
+	 ACCOUNT A 
+	    on A.ID = TI.ACCOUNT_ID
+    where T.STATUS != 3 AND (TI.ITEM_ID is not null or TI.ACCOUNT_ID is not null) 
+    order by T.ID
+     </create>
+		<drop> DROP VIEW SALES_PURCHASES_VIEW</drop>
+	</database-object>
+	<database-object>
+		<create> CREATE VIEW TRANSACTION_HISTORY_VIEW AS 
+select
+T.STRING_ID as TRANSACTION_ID,
+C.ID as CUSTOMER_ID,
+V.ID as VENDOR_ID,
+A.ID as ACCOUNT_ID,
+case 
+	when T.T_TYPE = 1 or T.T_TYPE = 4 or T.T_TYPE = 5 or T.T_TYPE = 8 or T.T_TYPE = 12 or (T.T_TYPE = 10 AND TMD.CUSTOMER_ID IS NOT NULL) or (T.T_TYPE = 15 AND WC.CUSTOMER_ID IS NOT NULL)  or (T.T_TYPE = 16 AND E.TYPE = 3)  or T.T_TYPE = 29 then P.NAME
+	when T.T_TYPE = 2 or T.T_TYPE = 6 or T.T_TYPE = 11 or T.T_TYPE = 14 or T.T_TYPE = 3 or (T.T_TYPE = 10 AND TMD.VENDOR_ID IS NOT NULL) or (T.T_TYPE = 15 AND WC.VENDOR_ID IS NOT NULL)  or (T.T_TYPE = 16 AND E.TYPE = 2) or T.T_TYPE = 27 or T.T_TYPE = 23 or 
+T.T_TYPE = 20 or T.T_TYPE = 25 then P.NAME
+	WHEN (T.T_TYPE = 16 AND T.ID=(SELECT VAAD.JOURNAL_ENTRY FROM `VAT_ADJUSTMENT` VAAD WHERE VAAD.JOURNAL_ENTRY=T.ID)) THEN (SELECT PP.NAME FROM `VAT_ADJUSTMENT` VAD LEFT OUTER JOIN `VAT_ITEM` VVI ON VVI.ID=VAD.VAT_ITEM LEFT OUTER JOIN `PAYEE` PP ON PP.ID=VVI.VAT_AGENCY WHERE VAD.JOURNAL_ENTRY=T.ID)
+	when T.T_TYPE = 26 then A.NAME
+	when T.T_TYPE = 28 then U.FULL_NAME
+end as NAME,
+
+T.T_TYPE as Type,
+
+ T.T_DATE as DATE,
+T.NUMBER,
+case
+	when T.T_TYPE = 1 or T.T_TYPE = 3 or T.T_TYPE = 8 or T.T_TYPE = 2 or T.T_TYPE = 6  or T.T_TYPE = 29 then T.TOTAL
+	when T.T_TYPE = 4 or T.T_TYPE = 14 then -1*T.TOTAL 
+	when T.T_TYPE = 10 then 
+		case 
+			when TMD.TYPE = 3 then -1*TMD.AMOUNT
+			when TMD.TYPE = 2 then TMD.AMOUNT
+			else 0.0
+		end
+	when T.T_TYPE = 15 then 
+		case 
+			when WC.PAY_TO_TYPE = 1 then -1*T.TOTAL
+			when WC.PAY_TO_TYPE = 2 then T.TOTAL
+			else 0.0
+		end
+	
+	when T.T_TYPE = 16 then
+
+		case
+			when E.TYPE = 2 then E.CREDIT
+			else E.DEBIT
+		end
+
+	else 0.0
+end as INVOICED_OR_TRANSASCTION_AMOUNT,
+case
+	when T.T_TYPE = 1 or T.T_TYPE = 3 or T.T_TYPE = 12 or T.T_TYPE = 2 or  T.T_TYPE = 11 then T.TOTAL
+	when T.T_TYPE = 5 or T.T_TYPE = 15 then -1*T.TOTAL
+	else 0.0
+end as PAID_AMOUNT,
+
+case
+	when T.T_TYPE = 1 or T.T_TYPE = 3 or T.T_TYPE = 5 or T.T_TYPE = 8 or T.T_TYPE = 2 or T.T_TYPE = 14 or T.T_TYPE = 15 then  T.TOTAL
+	when T.T_TYPE = 11 then 
+		case 
+			when PB.PAYBILL_TYPE = 1 then T.TOTAL + (select sum(TPB.CASH_DISCOUNT) from TRANSACTION_PAYBILL TPB where TPB.TRANSACTION_ID = T.ID and TPB.DISCOUNT_ID IS NOT NULL and TPB.CASH_DISCOUNT >0.0)
+			when PB.PAYBILL_TYPE = 2 then T.TOTAL
+		end
+	when T.T_TYPE = 16 then 
+
+		case
+			when E.TYPE = 3 then E.DEBIT
+			else 0.0
+		end
+	else 0.0
+end as DEBIT,
+case
+	when T.T_TYPE = 1 or T.T_TYPE = 3 or T.T_TYPE = 4 or  T.T_TYPE = 2 or  T.T_TYPE = 10 or T.T_TYPE = 6 or T.T_TYPE = 15 or T.T_TYPE = 29 then T.TOTAL
+	when T.T_TYPE = 12 then RP.AMOUNT + RP.TOTAL_CASH_DISCOUNT + RP.TOTAL_WRITE_OFF 
+	when T.T_TYPE = 16 then 
+		case
+			when E.TYPE = 2 then E.CREDIT
+			else 0.0
+		end
+	else 0.0
+end as CREDIT,
+case
+	when T.T_TYPE = 12 then RP.TOTAL_CASH_DISCOUNT 
+	when T.T_TYPE = 11 then (select sum(TPB.CASH_DISCOUNT) from TRANSACTION_PAYBILL TPB where TPB.TRANSACTION_ID = T.ID)
+	else 0.0
+end as DISCOUNT,
+
+	I.DUE_DATE as DUE_DATE,
+	PT.NAME as PAYMENT_TERMS,
+
+T.IS_VOID as VOID,
+T.REFERENCE as REFERENCE,
+T.MEMO as MEMO,
+case
+	when T.T_TYPE = 12 then RP.TOTAL_WRITE_OFF 
+	else 0.0
+end as WRITE_OFF,
+T.STATUS as PAYMENT_STATUS
+   from
+        TRANSACTION T
+    left outer join
+        CASH_SALES CS 
+            on T.ID=CS.ID 
+    left outer join
+        CREDIT_CARD_CHARGES CCC 
+            on T.ID=CCC.ID 
+    left outer join
+        CUSTOMER_CREDIT_MEMO CCM 
+            on T.ID=CCM.ID 
+    left outer join
+        INVOICE I 
+            on T.ID=I.ID
+    left outer join
+	CUSTOMER_REFUND CR
+	    on T.ID=CR.ID
+    left outer join 
+	RECEIVE_PAYMENT RP
+	    on T.ID=RP.ID
+    left outer join
+        CASH_PURCHASE CP 
+            on T.ID=CP.ID 
+    left outer join
+        VENDOR_CREDIT_MEMO VCM 
+            on T.ID=VCM.ID 
+    left outer join
+        ENTER_BILL EB 
+            on T.ID=EB.ID
+    left outer join 
+	PAY_BILL PB
+	    on T.ID=PB.ID
+    left outer join 
+	TRANSACTION_PAYBILL TPB
+	    on TPB.TRANSACTION_ID=PB.ID
+    left outer join 
+	MAKE_DEPOSIT MD
+	    on T.ID=MD.ID
+    left outer join 
+	TRANSACTION_MAKE_DEPOSIT TMD
+	    on TMD.TRANSACTION_ID=MD.ID and TMD.IS_NEW_ENTRY = 'TRUE'
+    left outer join
+        WRITE_CHECKS WC 
+            on T.ID=WC.ID
+    left outer join
+	ITEM_RECEIPT IR
+		on T.ID = IR.ID
+    left outer join
+        VAT_RETURN VR 
+            on T.ID=VR.ID
+   left outer join
+	ENTRY E
+	    on E.TRANSACTION_ID=T.ID AND ((E.TYPE = 2 AND E.VENDOR_ID IS NOT NULL) OR (E.TYPE = 3 AND E.CUSTOMER_ID IS NOT NULL))
+   left outer join
+	CUSTOMER_PREPAYMENT CPP
+	    on CPP.ID = T.ID	
+    left outer join 
+	CUSTOMER C 
+	    on C.ID = CS.CUSTOMER_ID or C.ID = CCM.CUSTOMER_ID or C.ID = I.CUSTOMER_ID or C.ID = CR.CUSTOMER_ID or C.ID = RP.CUSTOMER_ID or C.ID = TMD.CUSTOMER_ID or C.ID = WC.CUSTOMER_ID or C.ID = E.CUSTOMER_ID or C.ID = CPP.CUSTOMER_ID
+    left outer join
+	PAYMENTTERMS PT 
+	    on PT.ID = EB.PAYMENT_TERM_ID or  PT.ID = I.PAYMENT_TERMS_ID
+    
+    left outer join 
+	VENDOR V 
+	    on V.ID = CP.VENDOR_ID or V.ID = VCM.VENDOR_ID or V.ID = EB.VENDOR_ID or V.ID = PB.VENDOR_ID or V.ID = TMD.VENDOR_ID  or V.ID = CCC.VENDOR_ID or V.ID = WC.VENDOR_ID or V.ID = E.VENDOR_ID or V.ID = IR.VENDOR_ID
+
+    left outer join
+	VAT_ADJUSTMENT VAD
+		on T.ID=VAD.ID
+    left outer join
+	VAT_ITEM VITEM
+	    on VITEM.ID = VAD.VAT_ITEM
+    left outer join 
+	VATAGENCY VA 
+	     ON VA.ID = VR.VAT_AGENCY
+	     OR VA.ID = VITEM.VAT_AGENCY
+    left outer join 
+	PAYEE P 
+	    on P.ID = C.ID OR P.ID = V.ID OR P.ID=VA.ID
+    left outer join    
+	ACCOUNT A
+		on A.ID = CP.CASH_EXPENSE_ACCOUNT_ID    
+	left outer join
+	USERS U 
+		on U.ID = CP.EMPLOYEE
+	WHERE T.STATUS != 3 	
+    order by T.ID
+		</create>
+		<drop>DROP VIEW TRANSACTION_HISTORY_VIEW</drop>
+	</database-object>
+</hibernate-mapping>

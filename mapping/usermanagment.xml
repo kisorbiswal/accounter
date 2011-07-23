@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.bizantra.server.workspace.users.internal"
+	default-access="field">
+
+	<joined-subclass name="UsersTool"
+		extends="com.bizantra.server.workspace.ext.AbstractTool" table="USERSTOOL">
+		<key column="ID"></key>
+		<many-to-one name="company" class="com.bizantra.server.internal.core.BizantraCompany"
+			column="COMPANY" />
+
+		<bag name="users" cascade="all" lazy="false" order-by="FULLNAME">
+			<key column="TOOL_ID"></key>
+			<one-to-many class="User" />
+		</bag>
+
+	</joined-subclass>
+
+	<class name="User" table="USER">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="userid" column="USER_ID" />
+		<property name="fullName" column="FULLNAME" />
+		<property name="displayName" column="DISPALYNAME" />
+		<property name="emailID" column="EMAIL_ID" />
+		<property name="role" column="ROLE" />
+		<property name="company" column="COMPANY" />
+		<property name="address1" column="ADDRESS1" />
+		<property name="address2" column="ADDRESS2" />
+		<property name="city" column="CITY" />
+		<property name="province" column="PROVINCE" />
+		<property name="country" column="COUNTRY" />
+		<property name="zipCode" column="ZIPCODE" />
+		<property name="workphone" column="WORKPHONE" />
+		<property name="mobile" column="MOBILE" />
+		<property name="isLocked" column="ISLOCKED" />
+		<property name="isExternal" column="ISEXTERNAL" />
+		<property name="designation" column="DESIGNATION" />
+		<property name="title" column="TITLE" />
+		<!-- <property name="isItDeletedUser" column="IS_DELETED_USER" /> -->
+		<map name="acessInfo" cascade="all,delete-orphan" table="ACCESS_INFO">
+			<key column="USER_ID" not-null="true" />
+			<index column="CATEGORY_NAME" type="string" />
+			<element column="ACESS_VALUE" type="string" />
+		</map>
+
+	</class>
+
+	<sql-query name="getAllUsersIds">
+		SELECT U.USERID FROM `USER` U
+	</sql-query>
+	<sql-query name="getAllInternalUserIds">
+		SELECT U.USERID FROM `USER` U where U.isExternal=false 
+	</sql-query>
+
+	<query name="user.by.userId">
+		<query-param name="userid" type="string" />
+		from User u where u.userid =:userid
+	</query>
+	
+	<query name="user.by.emailid">
+		<query-param name="emailID" type="String" />
+		from User u where u.emailID =:emailID
+	</query>
+	
+	 <!-- full user count -->
+	<sql-query name="active_userscount">
+		SELECT count( * ) FROM `USER` WHERE ISEXTERNAL=FALSE;
+	</sql-query>
+	
+	<!-- lite user count -->
+	<sql-query name="lite_userscount">
+		SELECT count( * ) FROM `USER` WHERE ISEXTERNAL=TRUE;
+	</sql-query>
+</hibernate-mapping>
