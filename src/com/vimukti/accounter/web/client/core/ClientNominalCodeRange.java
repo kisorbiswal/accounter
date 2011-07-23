@@ -24,7 +24,7 @@ public class ClientNominalCodeRange implements IAccounterCore {
 	public static final int RANGE_OTHER_ASSET_MIN = 9500;
 	public static final int RANGE_OTHER_ASSET_MAX = 9999;
 
-	String stringID = "";
+	String id = "";
 
 	int accountSubBaseType;
 

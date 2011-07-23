@@ -112,7 +112,7 @@ public class User implements IAccounterServerCore, Lifecycle {
 
 	public User(ClientUser clientUser) {
 		// User user = new User();
-		this.setStringID(clientUser.getID());
+		this.setid(clientUser.getID());
 		this.setFirstName(clientUser.getFirstName());
 		this.setLastName(clientUser.getLastName());
 		this.setFullName(clientUser.getFullName());
@@ -364,7 +364,7 @@ public class User implements IAccounterServerCore, Lifecycle {
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setStringID(this.stringID);
+		accounterCore.setid(this.id);
 		accounterCore.setObjectType(AccounterCoreType.USER);
 		ChangeTracker.put(accounterCore);
 		return false;

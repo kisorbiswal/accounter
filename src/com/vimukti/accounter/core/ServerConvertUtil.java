@@ -35,7 +35,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 			if (isNotMappingEntity(class1)) {
 				result.add(toServerObjectInternal(null, (S) src, session));
 			} else {
-				D obj = (D) loadObjectByStringID(session, class1
+				D obj = (D) loadObjectByid(session, class1
 						.getSimpleName(), ((S) src).getID());
 				result.add(toServerObjectInternal(obj, (S) src, session));
 			}
@@ -59,7 +59,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 				if (isNotMappingEntity(class1)) {
 					result.add(toServerObjectInternal(null, (S) src, session));
 				} else {
-					D obj = (D) loadObjectByStringID(session, class1
+					D obj = (D) loadObjectByid(session, class1
 							.getSimpleName(), ((S) src).getID());
 					result.add(toServerObjectInternal(obj, (S) src, session));
 				}
@@ -207,7 +207,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 			Class<D> serverCoreClass = getServerEqivalentClass(src.getClass());
 			if (!isNotMappingEntity(serverCoreClass)) {
 				// dst = (D) session.get(serverCoreClass, src.getId());
-				dt = (D) loadObjectByStringID(session, serverCoreClass
+				dt = (D) loadObjectByid(session, serverCoreClass
 						.getSimpleName(), src.getID());
 			}
 			dst = dt == null ? dst == null ? serverCoreClass.newInstance()
@@ -245,8 +245,8 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 				if (dstField.getAnnotation(Exempted.class) != null) {
 					continue;
 				}
-				// create stringID to object...
-				if (dstFieldName.equals("stringID")) {
+				// create id to object...
+				if (dstFieldName.equals("id")) {
 					String val = (String) srcField.get(src);
 					if (val == null || val != null && val.isEmpty()) {
 						String id = SecureUtils.createID();
@@ -333,7 +333,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 								// Object t = session.get(dstfieldType,
 								// longValue);
 
-								dstField.set(dst, loadObjectByStringID(session,
+								dstField.set(dst, loadObjectByid(session,
 										dstfieldType.getSimpleName(),
 										(String) srcField.get(src)));
 							}

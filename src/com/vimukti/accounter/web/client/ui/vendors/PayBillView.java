@@ -923,7 +923,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 										.getAccounterCoreType(billToBeEdited
 												.getType());
 								rpcDoSerivce.voidTransaction(type,
-										billToBeEdited.stringID, callback);
+										billToBeEdited.id, callback);
 							}
 
 						}

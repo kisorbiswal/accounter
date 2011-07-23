@@ -398,7 +398,7 @@ public class Item implements IAccounterServerCore, Lifecycle, ICreatableObject {
 				: "Purchase Price"));
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setStringID(this.stringID);
+		accounterCore.setid(this.id);
 		accounterCore.setObjectType(AccounterCoreType.ITEM);
 		ChangeTracker.put(accounterCore);
 		return false;

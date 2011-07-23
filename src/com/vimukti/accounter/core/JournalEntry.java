@@ -69,7 +69,7 @@ public class JournalEntry extends Transaction {
 	}
 
 	public JournalEntry(int journalEntryType) {
-		this.stringID = SecureUtils.createID();
+		this.id = SecureUtils.createID();
 		this.journalEntryType = journalEntryType;
 	}
 
@@ -78,7 +78,7 @@ public class JournalEntry extends Transaction {
 		FinanceLogger.log("JournalEntry {0} For Customer {1}", String
 				.valueOf(number), customer.getName());
 
-		this.stringID = SecureUtils.createID();
+		this.id = SecureUtils.createID();
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.journalEntryType = journalEntryType;
 		this.number = number;
@@ -125,7 +125,7 @@ public class JournalEntry extends Transaction {
 	}
 
 	public JournalEntry(Vendor vendor, String number, int journalEntryType) {
-		this.stringID = SecureUtils.createID();
+		this.id = SecureUtils.createID();
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.journalEntryType = journalEntryType;
 		this.number = number;
@@ -164,7 +164,7 @@ public class JournalEntry extends Transaction {
 
 	public JournalEntry(Account account, String number, int journalEntryType) {
 
-		this.stringID = SecureUtils.createID();
+		this.id = SecureUtils.createID();
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.journalEntryType = journalEntryType;
 		this.number = number;
@@ -217,7 +217,7 @@ public class JournalEntry extends Transaction {
 			List<AccountTransactionByAccount> accountTransactionList,
 			String number, int journalEntryType) {
 
-		this.stringID = SecureUtils.createID();
+		this.id = SecureUtils.createID();
 
 		double debitTotal = 0D;
 		double creditTotal = 0D;
@@ -295,7 +295,7 @@ public class JournalEntry extends Transaction {
 	public JournalEntry(FiscalYear fiscalYear,
 			List<AccountTransactionByAccount> cashBasisAccountEntries,
 			String number, int journalEntryType) {
-		this.stringID = SecureUtils.createID();
+		this.id = SecureUtils.createID();
 		double debitTotal = 0D;
 		double creditTotal = 0D;
 
@@ -372,7 +372,7 @@ public class JournalEntry extends Transaction {
 
 	public JournalEntry(FixedAsset fixedAsset, FinanceDate date, String number,
 			double amount) {
-		this.stringID = SecureUtils.createID();
+		this.id = SecureUtils.createID();
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.number = number;
 		this.transactionDate = date;
@@ -414,7 +414,7 @@ public class JournalEntry extends Transaction {
 
 	public JournalEntry(FixedAsset fixedAsset, String number) {
 
-		this.stringID = SecureUtils.createID();
+		this.id = SecureUtils.createID();
 
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.number = number;
@@ -560,7 +560,7 @@ public class JournalEntry extends Transaction {
 	public JournalEntry(TAXAdjustment adjustment, String number,
 			int journalEntryType) {
 
-		this.stringID = SecureUtils.createID();
+		this.id = SecureUtils.createID();
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.journalEntryType = journalEntryType;
 		this.number = number;
@@ -649,7 +649,7 @@ public class JournalEntry extends Transaction {
 //	public JournalEntry(TAXAdjustment adjustment, String number,
 //			int journalEntryType) {
 //
-//		this.stringID = SecureUtils.createID();
+//		this.id = SecureUtils.createID();
 //		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 //		this.journalEntryType = journalEntryType;
 //		this.number = number;
@@ -708,9 +708,9 @@ public class JournalEntry extends Transaction {
 
 	public JournalEntry(VATReturn return1) {
 
-		this.stringID = this.stringID == null || this.stringID != null
-				&& this.stringID.isEmpty() ? SecureUtils.createID()
-				: this.stringID;
+		this.id = this.id == null || this.id != null
+				&& this.id.isEmpty() ? SecureUtils.createID()
+				: this.id;
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.journalEntryType = TYPE_NORMAL_JOURNAL_ENTRY;
 		this.number = NumberUtils

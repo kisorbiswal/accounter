@@ -1154,25 +1154,25 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObject(this.priceLevels, priceLevelId);
 	}
 
-	public ClientTAXItem getTAXItem(long stringID) {
-		return Utility.getObject(this.taxItems, stringID);
+	public ClientTAXItem getTAXItem(long id) {
+		return Utility.getObject(this.taxItems, id);
 	}
 
-	// public ClientTAXAgency getTaxAgency(long stringID) {
-	// return Utility.getObject(this.taxAgencies, stringID);
+	// public ClientTAXAgency getTaxAgency(long id) {
+	// return Utility.getObject(this.taxAgencies, id);
 	// }
 
-	public ClientVATReturnBox getVatReturnBox(long stringID) {
-		return Utility.getObject(this.vatReturnBoxes, stringID);
+	public ClientVATReturnBox getVatReturnBox(long id) {
+		return Utility.getObject(this.vatReturnBoxes, id);
 	}
 
-	public ClientFiscalYear getFixelYear(long stringID) {
-		return Utility.getObject(this.fiscalYears, stringID);
+	public ClientFiscalYear getFixelYear(long id) {
+		return Utility.getObject(this.fiscalYears, id);
 	}
 
 
-	public ClientBrandingTheme getBrandingTheme(long stringID) {
-		return Utility.getObject(this.brandingTheme, stringID);
+	public ClientBrandingTheme getBrandingTheme(long id) {
+		return Utility.getObject(this.brandingTheme, id);
 	}
 
 	public ClientTAXAgency getVatAgencyByName(String name) {

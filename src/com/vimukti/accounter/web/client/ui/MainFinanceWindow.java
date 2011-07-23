@@ -1384,21 +1384,21 @@ public class MainFinanceWindow extends VerticalPanel {
 		if (actions == null || value == null)
 			return;
 
-		String historyToken = null, stringID = null;
+		String historyToken = null, id = null;
 		AccounterCoreType type = null;
 
 		List<Object> list = HistoryTokenUtils.getObject(value);
 		historyToken = (String) list.get(0);
 		if (list.size() == 3) {
 			type = (AccounterCoreType) list.get(1);
-			stringID = (String) list.get(2);
+			id = (String) list.get(2);
 			// historyToken = value.substring(0, value.indexOf("?"));
-			// stringID = value.substring(value.indexOf("?") + 1);
+			// id = value.substring(value.indexOf("?") + 1);
 		}
 
 		final Action action = actions.get(historyToken);
 		if (action != null) {
-			if (type != null && stringID != null) {
+			if (type != null && id != null) {
 				AsyncCallback<T> callback = new AsyncCallback<T>() {
 
 					public void onFailure(Throwable caught) {
@@ -1418,7 +1418,7 @@ public class MainFinanceWindow extends VerticalPanel {
 
 				};
 				accounter.createGETService().getObjectById(type,
-						stringID, callback);
+						id, callback);
 
 			} else {
 				action.run(null, false);

@@ -22,7 +22,7 @@ public class ECSalesListDetailReport extends
 	public void OnRecordClick(ECSalesListDetail record) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
 			ReportsRPC.openTransactionView(record.getTransactionType(), record
-					.getTransactionStringId()
+					.getTransactionid()
 					+ "");
 	}
 

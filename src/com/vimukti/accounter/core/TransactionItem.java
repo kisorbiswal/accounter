@@ -195,7 +195,7 @@ public class TransactionItem
 //	TAXItem vatItem;
 	private boolean isOnSaveProccessed;
 
-	transient public static List<String> vrcStringIds = new ArrayList<String>();
+	transient public static List<String> vrcids = new ArrayList<String>();
 
 	public TransactionItem() {
 
@@ -457,11 +457,11 @@ public class TransactionItem
 			return true;
 				
 		this.isOnSaveProccessed = true;
-		this.stringID = this.stringID == null || this.stringID != null
-				&& this.stringID.isEmpty() ? SecureUtils.createID()
-				: this.stringID;
+		this.id = this.id == null || this.id != null
+				&& this.id.isEmpty() ? SecureUtils.createID()
+				: this.id;
 
-		initVRCStringIds();
+		initVRCids();
 		
 		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
 				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
@@ -471,7 +471,7 @@ public class TransactionItem
 		return false;
 	}
 
-	private void initVRCStringIds() {
+	private void initVRCids() {
 		if (this.taxRateCalculationEntriesList == null
 				|| this.taxRateCalculationEntriesList.isEmpty())
 			return;
@@ -481,13 +481,13 @@ public class TransactionItem
 		/*
 		 * In synchronization, we will get vatRateCalculationEntriesList from
 		 * desktop client which the transactionItem is null. Here we have to
-		 * take the stringId and remove that entry from
+		 * take the id and remove that entry from
 		 * vatRateCalculationEntriesList, if and only if the transaction is
 		 * going to void otherwise we have to remove all entries from the list.
 		 */
 		for (TAXRateCalculation vrc : this.taxRateCalculationEntriesList) {
 			if (this.isVoid && vrc.transactionItem == null) {
-				vrcStringIds.add(vrc.getID());
+				vrcids.add(vrc.getID());
 
 				if (vrc1 == null)
 					vrc1 = vrc;
@@ -495,7 +495,7 @@ public class TransactionItem
 					vrc2 = vrc;
 
 			} else if (!this.isVoid)
-				vrcStringIds.add(vrc.getID());
+				vrcids.add(vrc.getID());
 		}
 
 		if (vrc1 != null)
@@ -556,7 +556,7 @@ public class TransactionItem
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		
-		initVRCStringIds();
+		initVRCids();
 		
 		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
 				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
@@ -627,7 +627,7 @@ public class TransactionItem
 		ItemBackUp result = null;
 		for (ItemBackUp backUp : itemBackUpList) {
 			if (backUp.transactionItem == this
-					&& backUp.item.stringID == item.stringID) {
+					&& backUp.item.id == item.id) {
 				result = backUp;
 				break;
 			}
@@ -921,11 +921,11 @@ public class TransactionItem
 		return true;
 	}
 
-	public static String getPresentVRCStringID() {
-		if (vrcStringIds.isEmpty()) {
+	public static String getPresentVRCid() {
+		if (vrcids.isEmpty()) {
 			return null;
 		}
-		String sId = vrcStringIds.remove(0);
+		String sId = vrcids.remove(0);
 		return sId;
 	}
 }

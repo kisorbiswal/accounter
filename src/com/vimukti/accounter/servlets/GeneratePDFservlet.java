@@ -102,12 +102,12 @@ public class GeneratePDFservlet extends BaseServlet {
 
 				if (type == Transaction.TYPE_INVOICE) {
 					Invoice invoice = (Invoice) financetool
-							.getServerObjectForStringID(
+							.getServerObjectForid(
 									AccounterCoreType.INVOICE, objectId);
 					String brandingThemeId = request
 							.getParameter("brandingThemeId");
 					BrandingTheme brandingTheme = (BrandingTheme) financetool
-							.getServerObjectForStringID(
+							.getServerObjectForid(
 									AccounterCoreType.BRANDINGTHEME,
 									brandingThemeId);
 
@@ -120,7 +120,7 @@ public class GeneratePDFservlet extends BaseServlet {
 				if (type == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
 					result.converter = new Converter();
 					CustomerCreditMemo memo = (CustomerCreditMemo) financetool
-							.getServerObjectForStringID(
+							.getServerObjectForid(
 									AccounterCoreType.CUSTOMERCREDITMEMO,
 									objectId);
 					result.template = new CreditNoteTemplete(memo, footerImg,

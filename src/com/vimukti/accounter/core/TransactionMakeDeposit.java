@@ -297,9 +297,9 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 			return true;
 		this.isOnSaveProccessed = true;
 
-		this.stringID = this.stringID == null || this.stringID != null
-				&& this.stringID.isEmpty() ? SecureUtils.createID()
-				: this.stringID;
+		this.id = this.id == null || this.id != null
+				&& this.id.isEmpty() ? SecureUtils.createID()
+				: this.id;
 
 		if (!this.isNewEntry) {
 			// Update the Undeposited Funds Account of the Entry

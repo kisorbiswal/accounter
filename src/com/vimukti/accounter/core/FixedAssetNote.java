@@ -43,7 +43,7 @@ public class FixedAssetNote implements IAccounterServerCore, ICreatableObject,
 
 	/*
 	 * @see
-	 * com.vimukti.accounter.core.IAccounterServerCore#setStringID(java.lang
+	 * com.vimukti.accounter.core.IAccounterServerCore#setid(java.lang
 	 * .String)
 	 */
 	@Override
@@ -139,9 +139,9 @@ public class FixedAssetNote implements IAccounterServerCore, ICreatableObject,
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		this.stringID = this.stringID == null || this.stringID != null
-    && this.stringID.isEmpty() ? SecureUtils.createID()
-    : this.stringID;
+		this.id = this.id == null || this.id != null
+    && this.id.isEmpty() ? SecureUtils.createID()
+    : this.id;
 		return false;
 	}
 

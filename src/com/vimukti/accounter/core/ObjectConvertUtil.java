@@ -41,14 +41,14 @@ public class ObjectConvertUtil {
 		try {
 			if (obj == null)
 				return null;
-			Field idField = obj.getClass().getDeclaredField("stringID");
+			Field idField = obj.getClass().getDeclaredField("id");
 			idField.setAccessible(true);
 			return (String) idField.get(obj);
 		} catch (Exception e) {
 			Class<?> superclass = obj.getClass().getSuperclass();
 			while (superclass != null) {
 				try {
-					Field idField = superclass.getDeclaredField("stringID");
+					Field idField = superclass.getDeclaredField("id");
 					if (!idField.isAccessible()) {
 						idField.setAccessible(true);
 					}
@@ -374,28 +374,28 @@ public class ObjectConvertUtil {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Object loadObjectByStringID(Session session, String serverClassName,
-			String stringID) {
+	public Object loadObjectByid(Session session, String serverClassName,
+			String id) {
 
 		FlushMode flushMode = session.getFlushMode();
 		session.setFlushMode(FlushMode.COMMIT);
 
 		try {
 
-			if (stringID == null)
+			if (id == null)
 				return null;
-			if (stringID.isEmpty()) {
+			if (id.isEmpty()) {
 				return null;
 			}
 
 			List<Object> list = session.getNamedQuery(
-					"unique.id." + serverClassName).setString(0, stringID)
+					"unique.id." + serverClassName).setString(0, id)
 					.list();
 
-			// String hql = "from " + serverClassName + " where stringID = ?";
+			// String hql = "from " + serverClassName + " where id = ?";
 			//
 			// List list = session.createQuery(hql).setString(0,
-			// stringID).list();
+			// id).list();
 
 			if (list != null && list.size() > 0) {
 
@@ -412,11 +412,11 @@ public class ObjectConvertUtil {
 		return null;
 	}
 
-	public long getLongIdForGivenStringId(Class<?> cls, String account) {
+	public long getLongIdForGivenid(Class<?> cls, String account) {
 
 		Session session = HibernateUtil.getCurrentSession();
 		String hqlQuery = "select entity.id from " + cls.getName()
-				+ " entity where entity.stringID=?";
+				+ " entity where entity.id=?";
 		Query query = session.createQuery(hqlQuery).setString(0, account);
 		List<?> l = query.list();
 		if (l != null && !l.isEmpty() && l.get(0) != null) {

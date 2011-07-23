@@ -338,7 +338,7 @@ public class TransferFundsDialog extends BaseDialog {
 		if (transferFund == null) {
 			ViewManager.getInstance().createObject(transferFund1, this);
 		} else {
-			transferFund1.setStringID(transferFund.stringID);
+			transferFund1.setid(transferFund.id);
 			ViewManager.getInstance().alterObject(transferFund1, this);
 		}
 
@@ -421,7 +421,7 @@ public class TransferFundsDialog extends BaseDialog {
 
 		AccounterCoreType type = UIUtils.getAccounterCoreType(transferFund
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transferFund.stringID, editCallBack);
+		this.rpcDoSerivce.canEdit(type, transferFund.id, editCallBack);
 	}
 
 	protected void enableFormItems() {

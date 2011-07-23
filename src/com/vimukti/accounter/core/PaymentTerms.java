@@ -147,7 +147,7 @@ public class PaymentTerms implements IAccounterServerCore, Lifecycle,
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setStringID(this.stringID);
+		accounterCore.setID(this.id);
 		accounterCore.setObjectType(AccounterCoreType.PAYMENT_TERM);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -166,9 +166,6 @@ public class PaymentTerms implements IAccounterServerCore, Lifecycle,
 		}
 		if (this.isOnSaveProccessed)
 			return true;
-		this.stringID = this.stringID == null || this.stringID != null
-				&& this.stringID.isEmpty() ? SecureUtils.createID()
-				: this.stringID;
 
 		this.isOnSaveProccessed = true;
 		ChangeTracker.put(this);
@@ -183,15 +180,9 @@ public class PaymentTerms implements IAccounterServerCore, Lifecycle,
 
 	@Override
 	public long getID(){
-		// TODO Auto-generated method stub
 		return this.id;
 	}
 
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
 
 	@Override
 	public void setImported(boolean isImported) {

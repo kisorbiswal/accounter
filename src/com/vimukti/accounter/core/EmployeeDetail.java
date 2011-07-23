@@ -432,7 +432,7 @@ public class EmployeeDetail implements IAccounterServerCore, Lifecycle,
 
 	@Override
 	public long getID(){
-		return stringID;
+		return id;
 	}
 
 	@Override
@@ -454,7 +454,7 @@ public class EmployeeDetail implements IAccounterServerCore, Lifecycle,
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setStringID(this.stringID);
+		accounterCore.setid(this.id);
 		accounterCore.setObjectType(AccounterCoreType.EMPLOYEE);
 		ChangeTracker.put(accounterCore);
 		return false;

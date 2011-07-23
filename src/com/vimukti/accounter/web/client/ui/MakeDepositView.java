@@ -661,7 +661,7 @@ public class MakeDepositView extends
 				.getRecords();
 
 		for (ClientTransactionMakeDeposit rec : selectedRecords) {
-			rec.setStringID("");
+			rec.setid("");
 			rec.setMakeDeposit(makeDeposit);
 		}
 
@@ -1224,7 +1224,7 @@ public class MakeDepositView extends
 		// .getAccounterCoreType(makeDepositEdited
 		// .getType());
 		// rpcDoSerivce.voidTransaction(type,
-		// makeDepositEdited.stringID, callback);
+		// makeDepositEdited.id, callback);
 		// }
 		//
 		// }
@@ -1266,7 +1266,7 @@ public class MakeDepositView extends
 
 		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.stringID,
+		this.rpcDoSerivce.canEdit(type, transactionObject.id,
 				editCallBack);
 
 	}

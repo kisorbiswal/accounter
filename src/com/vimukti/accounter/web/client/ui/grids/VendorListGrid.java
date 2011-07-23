@@ -228,15 +228,15 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 		};
 		if (payee.getType() == ClientPayee.TYPE_VENDOR)
 			Accounter.createGETService().getObjectById(
-					AccounterCoreType.VENDOR, payee.stringID, callback);
+					AccounterCoreType.VENDOR, payee.id, callback);
 		else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
 				&& payee.getType() == ClientPayee.TYPE_TAX_AGENCY)
 			Accounter.createGETService().getObjectById(
-					AccounterCoreType.TAXAGENCY, payee.stringID, callback);
+					AccounterCoreType.TAXAGENCY, payee.id, callback);
 		else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 				&& payee.getType() == ClientPayee.TYPE_TAX_AGENCY)
 			Accounter.createGETService().getObjectById(
-					AccounterCoreType.TAXAGENCY, payee.stringID, callback);
+					AccounterCoreType.TAXAGENCY, payee.id, callback);
 	}
 
 	// public ClientAddress getBillToAddress(ClientPayee payee) {
@@ -290,17 +290,17 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 		};
 		if (recordToBeDeleted.getType() == ClientPayee.TYPE_VENDOR)
 			Accounter.createGETService().getObjectById(
-					AccounterCoreType.VENDOR, recordToBeDeleted.stringID,
+					AccounterCoreType.VENDOR, recordToBeDeleted.id,
 					callback);
 		else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
 				&& recordToBeDeleted.getType() == ClientPayee.TYPE_TAX_AGENCY)
 			Accounter.createGETService().getObjectById(
-					AccounterCoreType.TAXAGENCY, recordToBeDeleted.stringID,
+					AccounterCoreType.TAXAGENCY, recordToBeDeleted.id,
 					callback);
 		else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 				&& recordToBeDeleted.getType() == ClientPayee.TYPE_TAX_AGENCY)
 			Accounter.createGETService().getObjectById(
-					AccounterCoreType.TAXAGENCY, recordToBeDeleted.stringID,
+					AccounterCoreType.TAXAGENCY, recordToBeDeleted.id,
 					callback);
 
 		// rpcDoSerivce = FinanceApplication.createCRUDService();

@@ -41,7 +41,7 @@ import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
 public class ReportsRPC {
 
 	protected static <T extends IAccounterCore, A extends Action> void initCallBack(
-			T c, final A a, final String stringID) {
+			T c, final A a, final String id) {
 		AsyncCallback<T> callback = new AsyncCallback<T>() {
 
 			public void onFailure(Throwable caught) {
@@ -60,7 +60,7 @@ public class ReportsRPC {
 
 		};
 		Accounter.createGETService().getObjectById(c.getObjectType(),
-				stringID, callback);
+				id, callback);
 	}
 
 	public static void getTaxAgency(String name) {

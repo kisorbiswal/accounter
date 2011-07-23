@@ -31,7 +31,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T, R> R getClientwithStringIDAfterCheckingInCache(T obj, R destType) {
+	private <T, R> R getClientwithidAfterCheckingInCache(T obj, R destType) {
 		Map<Object, Object> localCache = getCache();
 
 		if (obj == null) {
@@ -39,7 +39,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		}
 		R ret = (R) localCache.get(obj);
 		if (ret == null) {
-			ret = toClientWithStringIdInternal(obj, destType);
+			ret = toClientWithidInternal(obj, destType);
 			localCache.put(obj, ret);
 		}
 		return ret;
@@ -104,7 +104,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 						if (dstFieldName.equals(srcField.getName())
 								&& isString(dstField.getType())) {
 							dstField.set(dst, getFieldInstanceID(dstFieldName
-									.equals("stringID") ? src : srcField
+									.equals("id") ? src : srcField
 									.get(src)));
 
 						}
@@ -210,13 +210,13 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		return ret;
 	}
 
-	public <S, D> D toClientWithStringId(S src, D dst) {
-		D ret = toClientWithStringIdInternal(src, dst);
+	public <S, D> D toClientWithid(S src, D dst) {
+		D ret = toClientWithidInternal(src, dst);
 		cache.set(null);
 		return ret;
 	}
 
-	private <S, D> D toClientWithStringIdInternal(S src, D dst) {
+	private <S, D> D toClientWithidInternal(S src, D dst) {
 		try {
 			if (src == null)
 				return null;
@@ -265,13 +265,13 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 							.get(src), dstCollection));
 
 				} else if (isPrimitive(dstFieldType)) {
-					if (dstFieldName.equals("stringID")) {
+					if (dstFieldName.equals("id")) {
 						dstField.set(dst, srcField.get(src));
 					}
 
 				} else {
 					dstField.set(dst,
-							getClientwithStringIDAfterCheckingInCache(srcField
+							getClientwithidAfterCheckingInCache(srcField
 									.get(src), dstField.get(dst)));
 				}
 			}
@@ -298,7 +298,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 			if (s instanceof Address) {
 				return dstCollection;
 			}
-			collection2.add(toClientWithStringIdInternal(s, getObject(
+			collection2.add(toClientWithidInternal(s, getObject(
 					dstCollection, s.getID())));
 		}
 		return collection2;

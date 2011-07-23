@@ -127,14 +127,6 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 		return id;
 	}
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	@Override
-	public void setID(long id){
-		this.id = id;
-	}
 
 	/**
 	 * @return the number
@@ -362,7 +354,7 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setStringID(this.stringID);
+		accounterCore.setID(this.id);
 		accounterCore.setObjectType(AccounterCoreType.CUSTOMER);
 		ChangeTracker.put(accounterCore);
 		return false;

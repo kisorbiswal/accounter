@@ -203,7 +203,7 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.vimukti.accounter.web.client.core.IAccounterCore#setStringID(java
+	 * com.vimukti.accounter.web.client.core.IAccounterCore#setid(java
 	 * .lang.String)
 	 */
 	@Override

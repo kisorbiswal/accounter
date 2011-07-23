@@ -659,7 +659,7 @@ public class RecieveVATView extends
 										.getAccounterCoreType(receiveVAT
 												.getType());
 								rpcDoSerivce.voidTransaction(type,
-										receiveVAT.stringID, callback);
+										receiveVAT.id, callback);
 							}
 
 						}

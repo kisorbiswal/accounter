@@ -61,15 +61,15 @@ public class PayeeList implements IAccounterCore {
 	}
 
 	/**
-	 * @return the stringID
+	 * @return the id
 	 */
 	public long getID(){
-		return stringID;
+		return id;
 	}
 
 	/**
-	 * @param stringID
-	 *            the stringID to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setID(long id){
 		this.id=id;

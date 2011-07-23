@@ -451,7 +451,7 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 
 	}
 
-	public BrandingTheme(String themeName, String stringId, double topMargin,
+	public BrandingTheme(String themeName, String id, double topMargin,
 			double bottomMargin, double addressPadding,
 			String font,
 			String fontSize,
@@ -532,7 +532,7 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setStringID(this.stringID);
+		accounterCore.setid(this.id);
 		accounterCore.setObjectType(AccounterCoreType.BRANDINGTHEME);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -581,15 +581,15 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	}
 
 	/**
-	 * @return the stringId
+	 * @return the id
 	 */
 	public long getID(){
-		return stringID;
+		return id;
 	}
 
 	/**
-	 * @param stringId
-	 *            the stringId to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setID(long id){
 		this.id=id;

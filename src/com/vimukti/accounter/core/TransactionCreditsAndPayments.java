@@ -164,9 +164,9 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		this.stringID = this.stringID == null || this.stringID != null
-				&& this.stringID.isEmpty() ? SecureUtils.createID()
-				: this.stringID;
+		this.id = this.id == null || this.id != null
+				&& this.id.isEmpty() ? SecureUtils.createID()
+				: this.id;
 		if (this.id == 0l && this.creditsAndPayments != null) {
 
 			this.creditsAndPayments.updateBalance(this.getTransaction(),

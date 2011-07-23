@@ -62,7 +62,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	}
 
 	public TAXRateCalculation(TAXItem taxItem, TransactionItem transactonItem,
-			String stringId) {
+			String id) {
 
 		this.transactionItem = transactonItem;
 		this.taxItem = taxItem;
@@ -142,15 +142,15 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	}
 
 	/**
-	 * @return the stringID
+	 * @return the id
 	 */
 	public long getID(){
-		return stringID;
+		return id;
 	}
 
 	/**
-	 * @param stringID
-	 *            the stringID to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setID(long id){
 		this.id=id;
@@ -366,10 +366,10 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 			return false;
 		}
 
-		this.stringID = this.stringID == null || this.stringID != null
-				&& this.stringID.isEmpty()
+		this.id = this.id == null || this.id != null
+				&& this.id.isEmpty()
 				? SecureUtils.createID()
-				: this.stringID;
+				: this.id;
 		return false;
 	}
 

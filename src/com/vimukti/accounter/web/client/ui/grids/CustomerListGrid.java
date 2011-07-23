@@ -211,7 +211,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 
 		};
 		Accounter.createGETService().getObjectById(
-				AccounterCoreType.CUSTOMER, obj.stringID, callback);
+				AccounterCoreType.CUSTOMER, obj.id, callback);
 	}
 
 	protected void executeDelete(final PayeeList recordToBeDeleted) {
@@ -230,7 +230,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 
 		};
 		Accounter.createGETService().getObjectById(
-				AccounterCoreType.CUSTOMER, recordToBeDeleted.stringID,
+				AccounterCoreType.CUSTOMER, recordToBeDeleted.id,
 				callback);
 
 	}

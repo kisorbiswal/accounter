@@ -351,7 +351,7 @@ public class PayBill extends Transaction {
 								creditsAndPayments.creditAmount, 0.0d)) {
 
 					creditsAndPayments = new CreditsAndPayments(this,
-							creditsAndPayments.stringID);
+							creditsAndPayments.id);
 					this.setCreditsAndPayments(creditsAndPayments);
 				} else {
 					creditsAndPayments = new CreditsAndPayments(this);
@@ -425,7 +425,7 @@ public class PayBill extends Transaction {
 					&& DecimalUtil.isEquals(creditsAndPayments.creditAmount,
 							0.0d)) {
 				creditsAndPayments = new CreditsAndPayments(this,
-						creditsAndPayments.stringID);
+						creditsAndPayments.id);
 				this.setCreditsAndPayments(creditsAndPayments);
 			} else {
 				creditsAndPayments = new CreditsAndPayments(this);
@@ -566,7 +566,7 @@ public class PayBill extends Transaction {
 							&& DecimalUtil.isEquals(
 									creditsAndPayments.creditAmount, 0.0d)) {
 						creditsAndPayments = new CreditsAndPayments(this,
-								creditsAndPayments.stringID);
+								creditsAndPayments.id);
 						this.setCreditsAndPayments(creditsAndPayments);
 					} else {
 						CreditsAndPayments creditsAndPayments = new CreditsAndPayments(

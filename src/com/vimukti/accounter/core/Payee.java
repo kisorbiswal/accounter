@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,7 +37,6 @@ public abstract class Payee implements IAccounterServerCore, ICreatableObject {
 	long id;
 	FinanceDate payeeSince;
 	int type;
-	public long id;
 
 	int version;
 
@@ -62,10 +62,10 @@ public abstract class Payee implements IAccounterServerCore, ICreatableObject {
 
 	transient boolean isImported;
 
-	String createdBy;
-	String lastModifier;
-	FinanceDate createdDate;
-	FinanceDate lastModifiedDate;
+	long createdBy;
+	long lastModifier;
+	Timestamp createdDate;
+	Timestamp lastModifiedDate;
 
 	// UKvariables
 	// boolean isEUVATExemptPayee;
@@ -120,19 +120,12 @@ public abstract class Payee implements IAccounterServerCore, ICreatableObject {
 	}
 
 	/**
-	 * @return the stringID
+	 * @return the id
 	 */
 	public long getID(){
-		return stringID;
+		return id;
 	}
 
-	/**
-	 * @param stringID
-	 *            the stringID to set
-	 */
-	public void setID(long id){
-		this.id=id;
-	}
 
 	/**
 	 * @return the vATRegistrationNumber
@@ -412,35 +405,35 @@ public abstract class Payee implements IAccounterServerCore, ICreatableObject {
 
 	public abstract Account getAccount();
 
-	public void setCreatedBy(String createdBy) {
+	public void setCreatedBy(long createdBy) {
 		this.createdBy = createdBy;
 	}
 
-	public String getCreatedBy() {
+	public long getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setLastModifier(String lastModifier) {
+	public void setLastModifier(long lastModifier) {
 		this.lastModifier = lastModifier;
 	}
 
-	public String getLastModifier() {
+	public long getLastModifier() {
 		return lastModifier;
 	}
 
-	public void setCreatedDate(FinanceDate createdDate) {
+	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
 	}
 
-	public FinanceDate getCreatedDate() {
+	public Timestamp getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setLastModifiedDate(FinanceDate lastModifiedDate) {
+	public void setLastModifiedDate(Timestamp lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 
-	public FinanceDate getLastModifiedDate() {
+	public Timestamp getLastModifiedDate() {
 		return lastModifiedDate;
 	}
 	
@@ -452,8 +445,8 @@ public abstract class Payee implements IAccounterServerCore, ICreatableObject {
 
 		Query query = session
 				.createQuery(
-						"select p.name from com.vimukti.accounter.core.Payee p where p.stringID=:stringId")
-				.setParameter("stringId", this.getID());
+						"select p.name from com.vimukti.accounter.core.Payee p where p.id=:id")
+				.setParameter("id", this.getID());
 		String payeeName = (String) query.uniqueResult();
 
 		if (payeeName != null && !this.getName().equals(payeeName))

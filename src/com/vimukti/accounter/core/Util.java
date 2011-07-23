@@ -37,14 +37,14 @@ public class Util {
 		try {
 			if (obj == null)
 				return null;
-			Field idField = obj.getClass().getDeclaredField("stringID");
+			Field idField = obj.getClass().getDeclaredField("id");
 			idField.setAccessible(true);
 			return (String) idField.get(obj);
 		} catch (Exception e) {
 			Class<?> superclass = obj.getClass().getSuperclass();
 			while (superclass != null) {
 				try {
-					Field idField = superclass.getDeclaredField("stringID");
+					Field idField = superclass.getDeclaredField("id");
 					if (!idField.isAccessible()) {
 						idField.setAccessible(true);
 					}
@@ -267,18 +267,18 @@ public class Util {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Object loadObjectByStringID(Session session,
-			String serverClassName, String stringID) {
+	public static Object loadObjectByid(Session session,
+			String serverClassName, String id) {
 		try {
 
 			List<Object> list = session.getNamedQuery(
-					"unique.id." + serverClassName).setString(0, stringID)
+					"unique.id." + serverClassName).setString(0, id)
 					.list();
 
-			// String hql = "from " + serverClassName + " where stringID = ?";
+			// String hql = "from " + serverClassName + " where id = ?";
 			//
 			// List list = session.createQuery(hql).setString(0,
-			// stringID).list();
+			// id).list();
 
 			if (list != null && list.size() > 0) {
 
@@ -292,11 +292,11 @@ public class Util {
 		return null;
 	}
 
-	public static long getLongIdForGivenStringId(Class<?> cls, String account) {
+	public static long getLongIdForGivenid(Class<?> cls, String account) {
 
 		Session session = HibernateUtil.getCurrentSession();
 		String hqlQuery = "select entity.id from " + cls.getName()
-				+ " entity where entity.stringID=?";
+				+ " entity where entity.id=?";
 		Query query = session.createQuery(hqlQuery).setString(0, account);
 		List<?> l = query.list();
 		if (l != null && !l.isEmpty() && l.get(0) != null) {

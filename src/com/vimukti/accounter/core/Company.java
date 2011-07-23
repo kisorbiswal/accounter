@@ -716,11 +716,11 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 	}
 
 	public Company() {
-		this.stringID = SecureUtils.createID();
+		this.id = SecureUtils.createID();
 	}
 
 	public Company(int accountingType) {
-		this.stringID = SecureUtils.createID();
+		this.id = SecureUtils.createID();
 		this.accountingType = accountingType;
 		Session session = HibernateUtil.getCurrentSession();
 		switch (accountingType) {
@@ -737,7 +737,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 
 	public Company(int accountingType, Session session) {
 
-		this.stringID = SecureUtils.createID();
+		this.id = SecureUtils.createID();
 		this.accountingType = accountingType;
 		switch (accountingType) {
 		case ACCOUNTING_TYPE_US:
@@ -2650,7 +2650,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 		VendorGroup creditCardCompanies = new VendorGroup();
 		creditCardCompanies.setName(AccounterConstants.CREDIT_CARD_COMPANIES);
 		creditCardCompanies.setDefault(true);
-		creditCardCompanies.setStringID(SecureUtils.createID());
+		creditCardCompanies.setid(SecureUtils.createID());
 		session.save(creditCardCompanies);
 
 	}
@@ -2672,7 +2672,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			defaultTaxAgency.setSalesLiabilityAccount((Account) session
 					.getNamedQuery("unique.name.Account").setString(0,
 							"Sales Tax Payable").list().get(0));
-			defaultTaxAgency.setStringID(SecureUtils.createID());
+			defaultTaxAgency.setid(SecureUtils.createID());
 			defaultTaxAgency.setDefault(true);
 			session.save(defaultTaxAgency);
 
@@ -2681,7 +2681,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			// TaxRates taxRate = new TaxRates();
 			// taxRate.setRate(0);
 			// taxRate.setAsOf(new FinanceDate());
-			// taxRate.setStringID(SecureUtils.createID());
+			// taxRate.setid(SecureUtils.createID());
 			// taxRates.add(taxRate);
 
 			TAXItem defaultTaxItem = new TAXItem();
@@ -2691,7 +2691,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			defaultTaxItem.setVatReturnBox(null);
 			defaultTaxItem.setTaxRate(0);
 			defaultTaxItem.setSalesType(Boolean.TRUE);
-			defaultTaxItem.setStringID(SecureUtils.createID());
+			defaultTaxItem.setid(SecureUtils.createID());
 			defaultTaxItem.setDefault(true);
 			session.save(defaultTaxItem);
 			TAXCode defaultTaxCodeforTaxItem = new TAXCode(
@@ -2700,7 +2700,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 
 			// TAXGroup defaultTaxGroup = new TAXGroup();
 			// defaultTaxGroup.setName("Tax Group");
-			// defaultTaxGroup.setStringID(SecureUtils.createID());
+			// defaultTaxGroup.setid(SecureUtils.createID());
 			// defaultTaxGroup.setActive(Boolean.TRUE);
 			// defaultTaxGroup.setSalesType(true);
 			//			
@@ -2727,7 +2727,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vt1.setName(AccounterConstants.UK_EC_PURCHASES_GOODS);
 			vt1.setVatBox(AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS);
 			vt1.setTotalBox(AccounterConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS);
-			vt1.setStringID(SecureUtils.createID());
+			vt1.setid(SecureUtils.createID());
 			vt1.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt1);
 
@@ -2735,7 +2735,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vt3.setName(AccounterConstants.UK_EC_SALES_GOODS);
 			vt3.setVatBox(AccounterConstants.BOX_NONE);
 			vt3.setTotalBox(AccounterConstants.UK_BOX8_TOTAL_NET_SUPPLIES);
-			vt3.setStringID(SecureUtils.createID());
+			vt3.setid(SecureUtils.createID());
 			vt3.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt3);
 
@@ -2743,7 +2743,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vt4.setName(AccounterConstants.UK_EC_SALES_SERVICES);
 			vt4.setVatBox(AccounterConstants.BOX_NONE);
 			vt4.setTotalBox(AccounterConstants.UK_BOX6_TOTAL_NET_SALES);
-			vt4.setStringID(SecureUtils.createID());
+			vt4.setid(SecureUtils.createID());
 			vt4.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt4);
 
@@ -2751,7 +2751,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vt5.setName(AccounterConstants.UK_DOMESTIC_PURCHASES);
 			vt5.setVatBox(AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES);
 			vt5.setTotalBox(AccounterConstants.UK_BOX7_TOTAL_NET_PURCHASES);
-			vt5.setStringID(SecureUtils.createID());
+			vt5.setid(SecureUtils.createID());
 			vt5.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt5);
 
@@ -2759,7 +2759,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vt6.setName(AccounterConstants.UK_DOMESTIC_SALES);
 			vt6.setVatBox(AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES);
 			vt6.setTotalBox(AccounterConstants.UK_BOX6_TOTAL_NET_SALES);
-			vt6.setStringID(SecureUtils.createID());
+			vt6.setid(SecureUtils.createID());
 			vt6.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt6);
 
@@ -2767,7 +2767,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vt7.setName(AccounterConstants.UK_NOT_REGISTERED_PURCHASES);
 			vt7.setVatBox(AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES);
 			vt7.setTotalBox(AccounterConstants.UK_BOX7_TOTAL_NET_PURCHASES);
-			vt7.setStringID(SecureUtils.createID());
+			vt7.setid(SecureUtils.createID());
 			vt7.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt7);
 
@@ -2775,7 +2775,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vt8.setName(AccounterConstants.UK_NOT_REGISTERED_SALES);
 			vt8.setVatBox(AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES);
 			vt8.setTotalBox(AccounterConstants.UK_BOX6_TOTAL_NET_SALES);
-			vt8.setStringID(SecureUtils.createID());
+			vt8.setid(SecureUtils.createID());
 			vt8.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt8);
 
@@ -2783,7 +2783,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vt11.setName(AccounterConstants.UK_REVERSE_CHARGE);
 			vt11.setVatBox(AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES);
 			vt11.setTotalBox(AccounterConstants.BOX_NONE);
-			vt11.setStringID(SecureUtils.createID());
+			vt11.setid(SecureUtils.createID());
 			vt11.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt11);
 
@@ -2794,7 +2794,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vt20
 					.setVatBox(AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
 			vt20.setTotalBox(AccounterConstants.IRELAND_BOX8_TOTAL_NET_SALES);
-			vt20.setStringID(SecureUtils.createID());
+			vt20.setid(SecureUtils.createID());
 			vt20.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt20);
 
@@ -2803,7 +2803,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vt21.setVatBox(AccounterConstants.IRELAND_BOX4_VAT_ON_PURCHASES);
 			vt21
 					.setTotalBox(AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
-			vt21.setStringID(SecureUtils.createID());
+			vt21.setid(SecureUtils.createID());
 			vt21.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt21);
 
@@ -2811,7 +2811,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vt22.setName(AccounterConstants.IRELAND_EC_SALES_GOODS);
 			vt22.setVatBox(AccounterConstants.BOX_NONE);
 			vt22.setTotalBox(AccounterConstants.IRELAND_BOX6_E1_GOODS_TO_EU);
-			vt22.setStringID(SecureUtils.createID());
+			vt22.setid(SecureUtils.createID());
 			vt22.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt22);
 
@@ -2820,7 +2820,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vt23
 					.setVatBox(AccounterConstants.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS);
 			vt23.setTotalBox(AccounterConstants.IRELAND_BOX7_E2_GOODS_FROM_EU);
-			vt23.setStringID(SecureUtils.createID());
+			vt23.setid(SecureUtils.createID());
 			vt23.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt23);
 
@@ -2829,7 +2829,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vt24
 					.setVatBox(AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
 			vt24.setTotalBox(AccounterConstants.IRELAND_BOX8_TOTAL_NET_SALES);
-			vt24.setStringID(SecureUtils.createID());
+			vt24.setid(SecureUtils.createID());
 			vt24.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt24);
 
@@ -2838,7 +2838,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vt25.setVatBox(AccounterConstants.IRELAND_BOX7_E2_GOODS_FROM_EU);
 			vt25
 					.setTotalBox(AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
-			vt25.setStringID(SecureUtils.createID());
+			vt25.setid(SecureUtils.createID());
 			vt25.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt25);
 
@@ -2847,7 +2847,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vt26
 					.setVatBox(AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
 			vt26.setTotalBox(AccounterConstants.IRELAND_BOX8_TOTAL_NET_SALES);
-			vt26.setStringID(SecureUtils.createID());
+			vt26.setid(SecureUtils.createID());
 			vt26.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt26);
 
@@ -2856,7 +2856,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vt27.setVatBox(AccounterConstants.IRELAND_BOX4_VAT_ON_PURCHASES);
 			vt27
 					.setTotalBox(AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
-			vt27.setStringID(SecureUtils.createID());
+			vt27.setid(SecureUtils.createID());
 			vt27.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt27);
 
@@ -2877,7 +2877,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 							AccounterConstants.SALES_TAX_VAT_UNFILED).list()
 					.get(0));
 
-			defaultVATAgency.setStringID(SecureUtils.createID());
+			defaultVATAgency.setid(SecureUtils.createID());
 			defaultVATAgency.setDefault(true);
 
 			session.save(defaultVATAgency);
@@ -2891,7 +2891,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItem1.setTaxAgency(defaultVATAgency);
 
 			vatItem1.setVatReturnBox(vt1);
-			vatItem1.setStringID(SecureUtils.createID());
+			vatItem1.setid(SecureUtils.createID());
 			vatItem1.setDefault(true);
 			vatItem1.setPercentage(true);
 			session.save(vatItem1);
@@ -2905,7 +2905,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItem2.setTaxAgency(defaultVATAgency);
 			vatItem2.setPercentage(true);
 			vatItem2.setVatReturnBox(vt1);
-			vatItem2.setStringID(SecureUtils.createID());
+			vatItem2.setid(SecureUtils.createID());
 			vatItem2.setDefault(true);
 			session.save(vatItem2);
 
@@ -2918,7 +2918,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItem3.setTaxAgency(defaultVATAgency);
 			vatItem3.setPercentage(true);
 			vatItem3.setVatReturnBox(vt3);
-			vatItem3.setStringID(SecureUtils.createID());
+			vatItem3.setid(SecureUtils.createID());
 			vatItem3.setDefault(true);
 			session.save(vatItem3);
 
@@ -2930,7 +2930,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItem4.setSalesType(true);
 			vatItem4.setTaxAgency(defaultVATAgency);
 			vatItem4.setVatReturnBox(vt4);
-			vatItem4.setStringID(SecureUtils.createID());
+			vatItem4.setid(SecureUtils.createID());
 			vatItem4.setDefault(true);
 			vatItem4.setPercentage(true);
 			session.save(vatItem4);
@@ -2943,7 +2943,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItem5.setSalesType(false);
 			vatItem5.setTaxAgency(defaultVATAgency);
 			vatItem5.setVatReturnBox(vt5);
-			vatItem5.setStringID(SecureUtils.createID());
+			vatItem5.setid(SecureUtils.createID());
 			vatItem5.setDefault(true);
 			vatItem5.setPercentage(true);
 			session.save(vatItem5);
@@ -2956,7 +2956,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItem6.setSalesType(true);
 			vatItem6.setTaxAgency(defaultVATAgency);
 			vatItem6.setVatReturnBox(vt6);
-			vatItem6.setStringID(SecureUtils.createID());
+			vatItem6.setid(SecureUtils.createID());
 			vatItem6.setDefault(true);
 			vatItem6.setPercentage(true);
 			session.save(vatItem6);
@@ -2971,7 +2971,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItem7.setPercentage(true);
 			// session.save(vt7);
 			vatItem7.setVatReturnBox(vt7);
-			vatItem7.setStringID(SecureUtils.createID());
+			vatItem7.setid(SecureUtils.createID());
 			vatItem7.setDefault(true);
 			session.save(vatItem7);
 
@@ -2985,7 +2985,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItem8.setPercentage(true);
 			// session.save(vt8);
 			vatItem8.setVatReturnBox(vt8);
-			vatItem8.setStringID(SecureUtils.createID());
+			vatItem8.setid(SecureUtils.createID());
 			vatItem8.setDefault(true);
 			session.save(vatItem8);
 
@@ -2997,7 +2997,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItem9.setTaxRate(5.0);
 			vatItem9.setTaxAgency(defaultVATAgency);
 			vatItem9.setVatReturnBox(vt5);
-			vatItem9.setStringID(SecureUtils.createID());
+			vatItem9.setid(SecureUtils.createID());
 			vatItem9.setDefault(true);
 			vatItem9.setPercentage(true);
 			session.save(vatItem9);
@@ -3010,7 +3010,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItem10.setSalesType(true);
 			vatItem10.setTaxAgency(defaultVATAgency);
 			vatItem10.setVatReturnBox(vt6);
-			vatItem10.setStringID(SecureUtils.createID());
+			vatItem10.setid(SecureUtils.createID());
 			vatItem10.setDefault(true);
 			vatItem10.setPercentage(true);
 			session.save(vatItem10);
@@ -3023,7 +3023,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItem11.setSalesType(false);
 			vatItem11.setTaxAgency(defaultVATAgency);
 			vatItem11.setVatReturnBox(vt11);
-			vatItem11.setStringID(SecureUtils.createID());
+			vatItem11.setid(SecureUtils.createID());
 			vatItem11.setPercentage(true);
 			vatItem11.setDefault(true);
 			session.save(vatItem11);
@@ -3036,7 +3036,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItem12.setSalesType(false);
 			vatItem12.setTaxAgency(defaultVATAgency);
 			vatItem12.setVatReturnBox(vt5);
-			vatItem12.setStringID(SecureUtils.createID());
+			vatItem12.setid(SecureUtils.createID());
 			vatItem12.setDefault(true);
 			vatItem12.setPercentage(true);
 			session.save(vatItem12);
@@ -3049,7 +3049,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItem13.setSalesType(true);
 			vatItem13.setTaxAgency(defaultVATAgency);
 			vatItem13.setVatReturnBox(vt6);
-			vatItem13.setStringID(SecureUtils.createID());
+			vatItem13.setid(SecureUtils.createID());
 			vatItem13.setDefault(true);
 			vatItem13.setPercentage(true);
 			session.save(vatItem13);
@@ -3062,7 +3062,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItem14.setTaxRate(0.0);
 			vatItem14.setTaxAgency(defaultVATAgency);
 			vatItem14.setVatReturnBox(vt5);
-			vatItem14.setStringID(SecureUtils.createID());
+			vatItem14.setid(SecureUtils.createID());
 			vatItem14.setDefault(true);
 			vatItem14.setPercentage(true);
 			session.save(vatItem14);
@@ -3075,7 +3075,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItem15.setSalesType(true);
 			vatItem15.setTaxAgency(defaultVATAgency);
 			vatItem15.setVatReturnBox(vt6);
-			vatItem15.setStringID(SecureUtils.createID());
+			vatItem15.setid(SecureUtils.createID());
 			vatItem15.setDefault(true);
 			vatItem15.setPercentage(true);
 			session.save(vatItem15);
@@ -3088,7 +3088,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItem16.setSalesType(false);
 			vatItem16.setTaxAgency(defaultVATAgency);
 			vatItem16.setVatReturnBox(vt5);
-			vatItem16.setStringID(SecureUtils.createID());
+			vatItem16.setid(SecureUtils.createID());
 			vatItem16.setDefault(true);
 			vatItem16.setPercentage(true);
 			session.save(vatItem16);
@@ -3101,7 +3101,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItem17.setSalesType(true);
 			vatItem17.setTaxAgency(defaultVATAgency);
 			vatItem17.setVatReturnBox(vt6);
-			vatItem17.setStringID(SecureUtils.createID());
+			vatItem17.setid(SecureUtils.createID());
 			vatItem17.setDefault(true);
 			vatItem17.setPercentage(true);
 			session.save(vatItem17);
@@ -3119,7 +3119,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItms1.add(vatItem2);
 			vatItms1.add(vatItem14);
 			vatGroup1.setTAXItems(vatItms1);
-			vatGroup1.setStringID(SecureUtils.createID());
+			vatGroup1.setid(SecureUtils.createID());
 			vatGroup1.setDefault(true);
 			session.save(vatGroup1);
 
@@ -3133,7 +3133,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItms2.add(vatItem12);
 			vatItms2.add(vatItem1);
 			vatGroup2.setTAXItems(vatItms2);
-			vatGroup2.setStringID(SecureUtils.createID());
+			vatGroup2.setid(SecureUtils.createID());
 			vatGroup2.setDefault(true);
 			session.save(vatGroup2);
 
@@ -3147,7 +3147,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItms3.add(vatItem4);
 			vatItms3.add(vatItem3);
 			vatGroup3.setTAXItems(vatItms3);
-			vatGroup3.setStringID(SecureUtils.createID());
+			vatGroup3.setid(SecureUtils.createID());
 			vatGroup3.setDefault(true);
 			vatGroup3.setPercentage((vatItem3.isPercentage() && vatItem4
 					.isPercentage()) ? true : false);
@@ -3163,7 +3163,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatItms4.add(vatItem12);
 			vatItms4.add(vatItem11);
 			vatGroup4.setTAXItems(vatItms4);
-			vatGroup4.setStringID(SecureUtils.createID());
+			vatGroup4.setid(SecureUtils.createID());
 			vatGroup4.setDefault(true);
 			session.save(vatGroup4);
 
@@ -3174,7 +3174,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatCode1.setActive(true);
 			vatCode1.setTAXItemGrpForPurchases(vatItem5);
 			vatCode1.setTAXItemGrpForSales(vatItem6);
-			vatCode1.setStringID(SecureUtils.createID());
+			vatCode1.setid(SecureUtils.createID());
 			vatCode1.setDefault(true);
 			session.save(vatCode1);
 
@@ -3185,7 +3185,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatCode2.setActive(true);
 			vatCode2.setTAXItemGrpForPurchases(vatGroup2);
 			vatCode2.setTAXItemGrpForSales(vatGroup3);
-			vatCode2.setStringID(SecureUtils.createID());
+			vatCode2.setid(SecureUtils.createID());
 			vatCode2.setDefault(true);
 			vatCode2.setECSalesEntry(true);
 			session.save(vatCode2);
@@ -3196,7 +3196,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatCode3.setTaxable(true);
 			vatCode3.setActive(true);
 			vatCode3.setTAXItemGrpForPurchases(vatGroup1);
-			vatCode3.setStringID(SecureUtils.createID());
+			vatCode3.setid(SecureUtils.createID());
 			vatCode3.setDefault(true);
 			vatCode3.setTAXItemGrpForSales(null);
 
@@ -3209,7 +3209,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatCode4.setActive(true);
 			vatCode4.setTAXItemGrpForPurchases(vatItem7);
 			vatCode4.setTAXItemGrpForSales(vatItem8);
-			vatCode4.setStringID(SecureUtils.createID());
+			vatCode4.setid(SecureUtils.createID());
 			vatCode4.setDefault(true);
 			session.save(vatCode4);
 
@@ -3220,7 +3220,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatCode5.setActive(true);
 			vatCode5.setTAXItemGrpForPurchases(vatItem9);
 			vatCode5.setTAXItemGrpForSales(vatItem10);
-			vatCode5.setStringID(SecureUtils.createID());
+			vatCode5.setid(SecureUtils.createID());
 			vatCode5.setDefault(true);
 			session.save(vatCode5);
 
@@ -3231,7 +3231,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatCode6.setActive(true);
 			vatCode6.setTAXItemGrpForPurchases(vatGroup4);
 			// vatCode6.setVATItemGrpForSales(vatItem4);
-			vatCode6.setStringID(SecureUtils.createID());
+			vatCode6.setid(SecureUtils.createID());
 			vatCode6.setDefault(true);
 			vatCode6.setECSalesEntry(true);
 			session.save(vatCode6);
@@ -3243,7 +3243,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatCode7.setActive(true);
 			vatCode7.setTAXItemGrpForPurchases(vatItem12);
 			vatCode7.setTAXItemGrpForSales(vatItem13);
-			vatCode7.setStringID(SecureUtils.createID());
+			vatCode7.setid(SecureUtils.createID());
 			vatCode7.setDefault(true);
 			session.save(vatCode7);
 
@@ -3254,7 +3254,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatCode8.setActive(true);
 			vatCode8.setTAXItemGrpForPurchases(vatItem14);
 			vatCode8.setTAXItemGrpForSales(vatItem15);
-			vatCode8.setStringID(SecureUtils.createID());
+			vatCode8.setid(SecureUtils.createID());
 			vatCode8.setDefault(true);
 			session.save(vatCode8);
 
@@ -3265,7 +3265,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatCode9.setActive(true);
 			vatCode9.setTAXItemGrpForPurchases(null);
 			vatCode9.setTAXItemGrpForSales(null);
-			vatCode9.setStringID(SecureUtils.createID());
+			vatCode9.setid(SecureUtils.createID());
 			vatCode9.setDefault(true);
 			session.save(vatCode9);
 
@@ -3276,7 +3276,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			vatCode10.setActive(true);
 			vatCode10.setTAXItemGrpForPurchases(vatItem16);
 			vatCode10.setTAXItemGrpForSales(vatItem17);
-			vatCode10.setStringID(SecureUtils.createID());
+			vatCode10.setid(SecureUtils.createID());
 			vatCode10.setDefault(true);
 			session.save(vatCode10);
 
@@ -3437,7 +3437,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 			preferences.setUseItemNumbers(false);
 			preferences.setCheckForItemQuantityOnHand(true);
 			preferences.setUpdateCostAutomatically(false);
-			preferences.setStringID(SecureUtils.createID());
+			preferences.setid(SecureUtils.createID());
 			preferences.setStartDate(fiscalYearStartDate);
 			preferences.setPreventPostingBeforeDate(fiscalYearStartDate);
 
@@ -3456,7 +3456,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 		VendorGroup creditCardCompanies = new VendorGroup();
 		creditCardCompanies.setName(AccounterConstants.CREDIT_CARD_COMPANIES);
 		creditCardCompanies.setDefault(true);
-		creditCardCompanies.setStringID(SecureUtils.createID());
+		creditCardCompanies.setid(SecureUtils.createID());
 		session.save(creditCardCompanies);
 
 	}
@@ -4351,7 +4351,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 
 		TAXRateCalculation vc = null;
 		vc = new TAXRateCalculation(vatItem, transactionItem, TransactionItem
-				.getPresentVRCStringID());
+				.getPresentVRCid());
 
 		vc.setVATGroupEntry(false);
 
@@ -4372,7 +4372,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 
 		TAXRateCalculation vc = null;
 		vc = new TAXRateCalculation(vatItem, transactionItem, TransactionItem
-				.getPresentVRCStringID());
+				.getPresentVRCid());
 
 		vc.setVATGroupEntry(true);
 
@@ -4629,7 +4629,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 		cmp.createdDate = this.getCreatedDate();
 		cmp.lastModifiedDate = this.getLastModifiedDate();
 		cmp.preferences = this.getPreferences();
-		cmp.stringID = this.getID();
+		cmp.id = this.getID();
 
 		cmp.accountsReceivableAccount = this.getAccountsReceivableAccount();
 		cmp.accountsPayableAccount = this.getAccountsPayableAccount();
@@ -4770,7 +4770,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 	public ClientCompany toClientCompany() {
 		ClientCompany clientCompany = new ClientCompany();
 		clientCompany.setName(this.name);
-		clientCompany.setStringID(this.getID());
+		clientCompany.setid(this.getID());
 		List<ClientAddress> list = clientCompany.getAddresses();
 
 		if (list != null) {

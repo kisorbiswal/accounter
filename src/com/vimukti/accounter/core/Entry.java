@@ -36,8 +36,6 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 
 	long id;
 
-	public long id;
-
 	/**
 	 * This will specify the type of Entry. If this Entry is Customer type then
 	 * we will set Customer, if this Entry is vendor type then we will set
@@ -277,7 +275,7 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
 		// AccounterCore accounterCore = new AccounterCore();
-		// accounterCore.setStringID(this.stringID);
+		// accounterCore.setid(this.id);
 		// accounterCore.setObjectType(AccounterCoreType.ACCOUNT);
 		// ChangeTracker.put(accounterCore);
 		return false;
@@ -299,10 +297,6 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		this.stringID = this.stringID == null || this.stringID != null
-				&& this.stringID.isEmpty()
-				? SecureUtils.createID()
-				: this.stringID;
 		SessionUtils.update(this, session);
 
 		// String tempNameForLog = "";
@@ -707,11 +701,6 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 		this.memo = memo;
 	}
 
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
 
 	/**
 	 * @param total
@@ -900,7 +889,7 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 					&& DecimalUtil.isEquals(this.journalEntry.creditsAndPayments.creditAmount, 0.0d)) {
 				this.journalEntry.creditsAndPayments = new CreditsAndPayments(
 						this.journalEntry,
-						this.journalEntry.creditsAndPayments.stringID);
+						this.journalEntry.creditsAndPayments.id);
 				session.save(this.journalEntry.creditsAndPayments);
 			} else if (this.journalEntry.creditsAndPayments != null && id != 0l) {
 
@@ -938,7 +927,7 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 					&& DecimalUtil.isEquals(this.journalEntry.creditsAndPayments.creditAmount, 0.0d)) {
 				this.journalEntry.creditsAndPayments = new CreditsAndPayments(
 						this.journalEntry,
-						this.journalEntry.creditsAndPayments.stringID);
+						this.journalEntry.creditsAndPayments.id);
 				session.save(this.journalEntry.creditsAndPayments);
 			} else if (this.journalEntry.creditsAndPayments != null && id != 0l) {
 

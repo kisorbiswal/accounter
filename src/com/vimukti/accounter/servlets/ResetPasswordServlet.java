@@ -63,8 +63,8 @@ public class ResetPasswordServlet extends HttpServlet {
 					.getNamedQuery("gettoken.by.id").setParameter(0, tokenId)
 					.uniqueResult();
 			User user = (User) session
-					.getNamedQuery("getidentity.from.StringID")
-					.setParameter("stringID", token.getUserId()).uniqueResult();
+					.getNamedQuery("getidentity.from.id")
+					.setParameter("id", token.getUserId()).uniqueResult();
 			String password = req.getParameter("newPassword");
 			user.setPasswordSha1Hash(password);
 			session.saveOrUpdate(user);

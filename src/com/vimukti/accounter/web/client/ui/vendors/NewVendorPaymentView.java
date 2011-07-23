@@ -701,7 +701,7 @@ public class NewVendorPaymentView extends
 
 		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.stringID,
+		this.rpcDoSerivce.canEdit(type, transactionObject.id,
 				editCallBack);
 
 	}

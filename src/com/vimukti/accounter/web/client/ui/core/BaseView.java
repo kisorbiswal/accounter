@@ -56,7 +56,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 
 			@Override
 			public void onSuccess(String result) {
-				BaseView.this.stringID = result;
+				BaseView.this.id = result;
 			}
 
 			@Override

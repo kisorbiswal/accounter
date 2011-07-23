@@ -27,15 +27,15 @@ public class UncategorisedAmountsReport extends BaseReport implements
 	}
 
 	/**
-	 * @return the stringId
+	 * @return the id
 	 */
 	public long getID(){
-		return stringId;
+		return id;
 	}
 
 	/**
-	 * @param stringId
-	 *            the stringId to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setID(long id){
 		this.id=id;

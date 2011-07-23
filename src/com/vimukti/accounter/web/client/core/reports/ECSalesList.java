@@ -11,7 +11,7 @@ public class ECSalesList extends BaseReport implements IsSerializable,
 
 	long transactionId;
 
-	String transactionStringId;
+	String transactionid;
 
 	long transactionNumber;
 
@@ -39,18 +39,18 @@ public class ECSalesList extends BaseReport implements IsSerializable,
 	}
 
 	/**
-	 * @return the transactionStringId
+	 * @return the transactionid
 	 */
-	public String getTransactionStringId() {
-		return transactionStringId;
+	public String getTransactionid() {
+		return transactionid;
 	}
 
 	/**
-	 * @param transactionStringId
-	 *            the transactionStringId to set
+	 * @param transactionid
+	 *            the transactionid to set
 	 */
-	public void setTransactionStringId(String transactionStringId) {
-		this.transactionStringId = transactionStringId;
+	public void setTransactionid(String transactionid) {
+		this.transactionid = transactionid;
 	}
 
 	/**

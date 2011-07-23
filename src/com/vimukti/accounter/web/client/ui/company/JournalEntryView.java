@@ -294,7 +294,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 		List<ClientEntry> allGivenRecords = grid.getRecords();
 		// for (ClientEntry entry : allGivenRecords) {
-		// entry.setStringID("");
+		// entry.setid("");
 		// }
 		journalEntry.setEntry(allGivenRecords);
 		transactionObject = journalEntry;
@@ -686,7 +686,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.stringID,
+		this.rpcDoSerivce.canEdit(type, transactionObject.id,
 				editCallBack);
 
 	}

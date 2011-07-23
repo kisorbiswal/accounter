@@ -130,7 +130,7 @@ public class ImportUtil extends ObjectConvertUtil {
 		}
 		for (S core : srcList) {
 			D dst = modifyObjectWithReferanceValues(
-					(D) getObjectFromCacheMapByStringID(core.getID()),
+					(D) getObjectFromCacheMapByid(core.getID()),
 					core);
 			if (dst != null)
 				serverList.add(dst);
@@ -157,7 +157,7 @@ public class ImportUtil extends ObjectConvertUtil {
 		importedObjects.put(core.getID(), dst);
 
 		dst = modifyObjectWithReferanceValues(
-				(D) getObjectFromCacheMapByStringID(core.getID()), core);
+				(D) getObjectFromCacheMapByid(core.getID()), core);
 		cache.set(null);
 		return dst;
 	}
@@ -176,7 +176,7 @@ public class ImportUtil extends ObjectConvertUtil {
 				if (!isNotMappingEntity(serverCoreClass)) {
 					// dst = (D) session.get(serverCoreClass, src.getId());
 					if (src.getID() != null)
-						dt = (D) getObjectFromCacheMapByStringID(src
+						dt = (D) getObjectFromCacheMapByid(src
 								.getID());
 				}
 				dst = dt == null ? dst == null ? serverCoreClass.newInstance()
@@ -290,7 +290,7 @@ public class ImportUtil extends ObjectConvertUtil {
 				if (!isNotMappingEntity(serverCoreClass)) {
 					// dst = (D) session.get(serverCoreClass, src.getId());
 					if (src.getID() != null)
-						dt = (D) getObjectFromCacheMapByStringID(src
+						dt = (D) getObjectFromCacheMapByid(src
 								.getID());
 				}
 				dst = dt == null ? dst == null ? serverCoreClass.newInstance()
@@ -366,7 +366,7 @@ public class ImportUtil extends ObjectConvertUtil {
 							dstField
 									.set(
 											dst,
-											getObjectFromCacheMapByStringID((String) srcField
+											getObjectFromCacheMapByid((String) srcField
 													.get(src)));
 						}
 
@@ -421,7 +421,7 @@ public class ImportUtil extends ObjectConvertUtil {
 	}
 
 	@SuppressWarnings("unchecked")
-	private <D extends IAccounterServerCore> D getObjectFromCacheMapByStringID(
+	private <D extends IAccounterServerCore> D getObjectFromCacheMapByid(
 			String Id) {
 
 		if (Id != null && Id.length() != 0) {
@@ -438,7 +438,7 @@ public class ImportUtil extends ObjectConvertUtil {
 		if (src == null) {
 			return null;
 		}
-		D ret = (D) localCache.get(src) == null ? (D) getObjectFromCacheMapByStringID(src
+		D ret = (D) localCache.get(src) == null ? (D) getObjectFromCacheMapByid(src
 				.getID())
 				: (D) localCache.get(src);
 		if (ret == null) {

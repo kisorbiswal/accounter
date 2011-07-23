@@ -51,7 +51,7 @@ public class VendorTransactionUSGrid extends
 	private boolean isBankingTransaction = false;
 	protected boolean isPurchseOrderTransaction;
 	private boolean isAddNewRequired = true;
-	private String ztaxCodeStringId = null;
+	private String ztaxCodeid = null;
 	protected int maxDecimalPoint;
 
 	public VendorTransactionUSGrid() {
@@ -366,7 +366,7 @@ public class VendorTransactionUSGrid extends
 				.getActiveTaxCodes();
 		for (ClientTAXCode taxCode : taxCodes) {
 			if (taxCode.getName().equals("S")) {
-				ztaxCodeStringId = taxCode.getID();
+				ztaxCodeid = taxCode.getID();
 			}
 		}
 		if (transactionView.getTransactionObject() == null
@@ -376,7 +376,7 @@ public class VendorTransactionUSGrid extends
 							.getTaxCode()
 							: transactionView.vendor.getTAXCode() != null ? transactionView.vendor
 									.getTAXCode()
-									: ztaxCodeStringId);
+									: ztaxCodeid);
 
 		updateTotals();
 		updateData(selectedObject);
@@ -481,7 +481,7 @@ public class VendorTransactionUSGrid extends
 		}
 		if (!(this instanceof PurchaseOrderUKGrid || this instanceof PurchaseOrderUSGrid)) {
 			for (ClientTransactionItem item : transactionItems) {
-				item.setStringID("");
+				item.setid("");
 			}
 		}
 		addRecords(transactionItems);
@@ -917,18 +917,18 @@ public class VendorTransactionUSGrid extends
 			if (item.getType() == TYPE_SERVICE
 					&& item.getType() == TYPE_ACCOUNT
 					|| item.getType() == TYPE_ITEM) {
-				if (ztaxCodeStringId != null)
-					item.setTaxCode(ztaxCodeStringId);
+				if (ztaxCodeid != null)
+					item.setTaxCode(ztaxCodeid);
 				else {
 					List<ClientTAXCode> taxCodes = Accounter
 							.getCompany().getActiveTaxCodes();
 					for (ClientTAXCode taxCode : taxCodes) {
 						if (taxCode.getName().equals("Z")) {
-							ztaxCodeStringId = taxCode.getID();
+							ztaxCodeid = taxCode.getID();
 						}
 					}
-					if (ztaxCodeStringId != null)
-						item.setTaxCode(ztaxCodeStringId);
+					if (ztaxCodeid != null)
+						item.setTaxCode(ztaxCodeid);
 				}
 			}
 

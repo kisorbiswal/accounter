@@ -24,7 +24,6 @@ public class Currency implements IAccounterServerCore {
 	 * Formal Name of the Currency.
 	 */
 	String formalName;
-	public long id;
 
 	transient boolean isImported;
 
@@ -73,11 +72,6 @@ public class Currency implements IAccounterServerCore {
 		return this.id;
 	}
 
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
 
 	@Override
 	public void setImported(boolean isImported) {

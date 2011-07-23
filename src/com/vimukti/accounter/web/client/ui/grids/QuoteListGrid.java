@@ -224,7 +224,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 			}
 		};
 		AccounterCoreType type = UIUtils.getAccounterCoreType(obj.getType());
-		rpcDoSerivce.deleteTransaction(type, obj.stringID, callback);
+		rpcDoSerivce.deleteTransaction(type, obj.id, callback);
 	}
 
 	@Override

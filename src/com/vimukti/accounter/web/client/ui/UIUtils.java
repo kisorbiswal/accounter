@@ -557,7 +557,7 @@ public class UIUtils {
 				}
 				Accounter.stopExecution();
 				T core = object;
-				core.setStringID(result);
+				core.setid(result);
 				view.saveSuccess(core);
 			}
 
@@ -611,7 +611,7 @@ public class UIUtils {
 				Accounter.stopExecution();
 				// view.updateCompany();
 				T core = object;
-				core.setStringID(result);
+				core.setid(result);
 				view.saveSuccess(object);
 			}
 
@@ -1659,7 +1659,7 @@ public class UIUtils {
 
 	/**
 	 * This method is used for the pdf generation.The Require parameters are
-	 * object StringId and Type
+	 * object id and Type
 	 * 
 	 * @param brandingTheme
 	 */

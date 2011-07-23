@@ -9,7 +9,6 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
@@ -34,8 +33,6 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 	long id;
-
-	public long id;
 
 	/**
 	 * This memo is the name of the {@link Transaction} through which this
@@ -84,10 +81,6 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 	}
 
-	public CreditsAndPayments(Transaction transaction, String stringID) {
-		this(transaction);
-		this.id=id;
-	}
 
 	public int getVersion() {
 		return version;
@@ -258,9 +251,6 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
 
-		this.stringID = this.stringID == null || this.stringID != null
-				&& this.stringID.isEmpty() ? SecureUtils.createID()
-				: this.stringID;
 
 		if (this.isOnSaveProccessed)
 			return true;
@@ -343,11 +333,6 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 		return this.id;
 	}
 
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
 
 	@Override
 	public void setImported(boolean isImported) {

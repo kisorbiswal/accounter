@@ -352,7 +352,7 @@ public class Vendor extends Payee implements Lifecycle {
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setStringID(this.stringID);
+		accounterCore.setid(this.id);
 		accounterCore.setObjectType(AccounterCoreType.VENDOR);
 		ChangeTracker.put(accounterCore);
 		return false;

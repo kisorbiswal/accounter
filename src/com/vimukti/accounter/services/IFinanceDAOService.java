@@ -100,11 +100,11 @@ public interface IFinanceDAOService {
 	public <T extends IAccounterCore> Boolean updateObject(T t)
 			throws DAOException;
 
-	public Boolean deleteObject(AccounterCoreType type, String stringID)
+	public Boolean deleteObject(AccounterCoreType type, String id)
 			throws DAOException;
 
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
-			String stringID) throws DAOException;
+			String id) throws DAOException;
 
 	public <T extends IAccounterCore> T getObjectByName(AccounterCoreType type,
 			String name) throws DAOException;
@@ -123,13 +123,13 @@ public interface IFinanceDAOService {
 	 * 
 	 * @param <T>
 	 * @param clazz
-	 * @param stringID
+	 * @param id
 	 * @return true if the object related to the given string is deletable,
 	 *         otherwise return false.
 	 * @throws DAOException
 	 */
 	public <T extends IAccounterServerCore> Boolean canDelete(
-			AccounterCoreType clazz, String stringID) throws DAOException;
+			AccounterCoreType clazz, String id) throws DAOException;
 
 	public void alterFiscalYear(final FiscalYear fiscalYear)
 			throws DAOException;

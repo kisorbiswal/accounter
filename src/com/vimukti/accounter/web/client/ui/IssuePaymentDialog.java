@@ -193,7 +193,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 		}
 
-		// record.setStringID(entry.getTransactionId());
+		// record.setid(entry.getTransactionId());
 
 	}
 

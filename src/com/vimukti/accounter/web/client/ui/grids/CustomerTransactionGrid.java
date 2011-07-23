@@ -64,7 +64,7 @@ public abstract class CustomerTransactionGrid extends
 	private Double totalValue;
 
 	private boolean isAddNewRequired = true;
-	private String ztaxCodeStringId = null;
+	private String ztaxCodeid = null;
 	protected int maxDecimalPoint;
 	protected String taxCode;
 
@@ -441,7 +441,7 @@ public abstract class CustomerTransactionGrid extends
 				.getActiveTaxCodes();
 		for (ClientTAXCode taxCode : taxCodes) {
 			if (taxCode.getName().equals("S")) {
-				ztaxCodeStringId = taxCode.getID();
+				ztaxCodeid = taxCode.getID();
 			}
 		}
 		if (transactionView.getTransactionObject() == null) {
@@ -451,7 +451,7 @@ public abstract class CustomerTransactionGrid extends
 								.getTaxCode()
 								: transactionView.vendor.getTAXCode() != null ? transactionView.vendor
 										.getTAXCode()
-										: ztaxCodeStringId);
+										: ztaxCodeid);
 		}
 		updateTotals();
 		updateData(selectedObject);
@@ -781,7 +781,7 @@ public abstract class CustomerTransactionGrid extends
 		}
 		if (!(this instanceof SalesOrderUKGrid || this instanceof SalesOrderUSGrid)) {
 			for (ClientTransactionItem item : transactionItems) {
-				item.setStringID("");
+				item.setid("");
 			}
 		}
 		addRecords(transactionItems);
@@ -1061,18 +1061,18 @@ public abstract class CustomerTransactionGrid extends
 			if (item.getType() == TYPE_SERVICE
 					|| item.getType() == TYPE_ACCOUNT
 					|| item.getType() == TYPE_ITEM) {
-				if (ztaxCodeStringId != null)
-					item.setTaxCode(ztaxCodeStringId);
+				if (ztaxCodeid != null)
+					item.setTaxCode(ztaxCodeid);
 				else {
 					List<ClientTAXCode> taxCodes = Accounter
 							.getCompany().getActiveTaxCodes();
 					for (ClientTAXCode taxCode : taxCodes) {
 						if (taxCode.getName().equals("Z")) {
-							ztaxCodeStringId = taxCode.getID();
+							ztaxCodeid = taxCode.getID();
 						}
 					}
-					if (ztaxCodeStringId != null)
-						item.setTaxCode(ztaxCodeStringId);
+					if (ztaxCodeid != null)
+						item.setTaxCode(ztaxCodeid);
 				}
 
 			}

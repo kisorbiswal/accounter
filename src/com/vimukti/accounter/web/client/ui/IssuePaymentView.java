@@ -152,7 +152,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 			record.setWriteCheck(entry.getTransactionId());
 		else if (record.getRecordType() == ClientTransaction.TYPE_CUSTOMER_REFUNDS)
 			record.setCustomerRefund(entry.getTransactionId());
-		record.setStringID(entry.getTransactionId());
+		record.setid(entry.getTransactionId());
 
 	}
 

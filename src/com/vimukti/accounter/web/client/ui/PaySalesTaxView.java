@@ -653,7 +653,7 @@ public class PaySalesTaxView extends
 										.getAccounterCoreType(paySalesTax
 												.getType());
 								rpcDoSerivce.voidTransaction(type,
-										paySalesTax.stringID, callback);
+										paySalesTax.id, callback);
 							}
 
 						}

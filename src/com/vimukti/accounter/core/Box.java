@@ -104,7 +104,7 @@ public class Box implements IAccounterServerCore {
 	@Override
 	public long getID(){
 		// TODO Auto-generated method stub
-		return stringID;
+		return id;
 	}
 
 	@Override

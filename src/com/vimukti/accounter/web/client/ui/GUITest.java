@@ -76,7 +76,7 @@ public class GUITest {
 
 					@Override
 					public void onSuccess(String result) {
-						core.setStringID(result);
+						core.setid(result);
 						Accounter.createCRUDService().create(
 								((IAccounterCore) core), callBack);
 					}
@@ -84,7 +84,7 @@ public class GUITest {
 					@Override
 					public void onFailure(Throwable caught) {
 						Accounter
-								.showError("Could Not Initialize the StringID....."
+								.showError("Could Not Initialize the id....."
 										+ core.getName());
 						// dialog.removeFromParent();
 					}
@@ -1718,7 +1718,7 @@ public class GUITest {
 							else if (record.getRecordType() == ClientTransaction.TYPE_CUSTOMER_REFUNDS)
 								record.setCustomerRefund(entry
 										.getTransactionId());
-							record.setStringID(entry.getTransactionId());
+							record.setid(entry.getTransactionId());
 							record.setTransaction(isuePaymnt);
 
 							transactionIssuePaymentsList.add(record);

@@ -148,7 +148,7 @@ public class TAXGroup extends TAXItemGroup {
 		if (Company.getCompany() != null
 				&& Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 						
-			Query query = session.createQuery("from com.vimukti.accounter.core.TAXCode t where t.stringID =:stringID").setParameter("stringID", this.stringID);
+			Query query = session.createQuery("from com.vimukti.accounter.core.TAXCode t where t.id =:id").setParameter("id", this.id);
 			TAXCode taxCode = (TAXCode) query.uniqueResult();
 			if (taxCode != null) {
 				
@@ -170,7 +170,7 @@ public class TAXGroup extends TAXItemGroup {
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setStringID(this.stringID);
+		accounterCore.setid(this.id);
 		accounterCore.setObjectType(AccounterCoreType.TAX_GROUP);
 		ChangeTracker.put(accounterCore);
 

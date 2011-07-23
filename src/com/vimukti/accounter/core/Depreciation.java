@@ -187,9 +187,9 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		this.stringID = this.stringID == null || this.stringID != null
-				&& this.stringID.isEmpty() ? SecureUtils.createID()
-				: this.stringID;
+		this.id = this.id == null || this.id != null
+				&& this.id.isEmpty() ? SecureUtils.createID()
+				: this.id;
 
 		if (isImported) {
 			return false;
@@ -208,7 +208,7 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 				// // Query query = session
 				// // .createQuery(
 				// //
-				// "from com.vimukti.accounter.core.Account a where a.stringID in (:accountsList)"
+				// "from com.vimukti.accounter.core.Account a where a.id in (:accountsList)"
 				// // )
 				// // .setParameterList("accountsList",
 				// // this.linkedAccounts.keySet());
@@ -222,7 +222,7 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 				// // Account changedLinkedAccount = (Account) session
 				// // .createQuery(
 				// //
-				// "from com.vimukti.accounter.core.Account a where a.stringID =?"
+				// "from com.vimukti.accounter.core.Account a where a.id =?"
 				// // )
 				// // .setParameter(0, changedLinkedAccountID)
 				// // .uniqueResult();
@@ -639,7 +639,7 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 		Query query = session
 				.createQuery(
-						"select d from com.vimukti.accounter.core.Depreciation d inner join d.fixedAsset where d.depreciateFrom >= ? and d.status=? and d.fixedAsset.stringID=?")
+						"select d from com.vimukti.accounter.core.Depreciation d inner join d.fixedAsset where d.depreciateFrom >= ? and d.status=? and d.fixedAsset.id=?")
 				.setParameter(0, rollBackDepreciationTo).setParameter(1,
 						Depreciation.APPROVE).setParameter(2, fixedAssetID);
 		List<Depreciation> list = query.list();

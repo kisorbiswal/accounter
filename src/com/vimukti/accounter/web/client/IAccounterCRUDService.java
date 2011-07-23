@@ -22,20 +22,20 @@ public interface IAccounterCRUDService extends RemoteService {
 	Boolean update(IAccounterCore coreObject) throws InvalidOperationException,
 			InvalidSessionException;
 
-	Boolean delete(AccounterCoreType type, String stringID)
+	Boolean delete(AccounterCoreType type, String id)
 			throws InvalidOperationException;
 
 	Boolean updateCompanyPreferences(ClientCompanyPreferences preferences)
 			throws InvalidOperationException;
 
-	Boolean voidTransaction(AccounterCoreType accounterCoreType, String stringID)
+	Boolean voidTransaction(AccounterCoreType accounterCoreType, String id)
 			throws InvalidOperationException, InvalidSessionException;
 
 	Boolean deleteTransaction(AccounterCoreType accounterCoreType,
-			String stringID) throws InvalidOperationException,
+			String id) throws InvalidOperationException,
 			InvalidSessionException;
 
-	Boolean canEdit(AccounterCoreType accounterCoreType, String stringID)
+	Boolean canEdit(AccounterCoreType accounterCoreType, String id)
 			throws InvalidOperationException;
 
 	Boolean updateCompany(ClientCompany clientCompany)

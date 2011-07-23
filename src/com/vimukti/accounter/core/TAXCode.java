@@ -57,7 +57,7 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 		this.isActive = taxItemGroup.isActive;
 		this.TAXItemGrpForSales = taxItemGroup;	
 		this.isTaxable = true;
-		this.stringID = taxItemGroup.stringID;
+		this.id = taxItemGroup.id;
 		this.isECSalesEntry = false;
 		this.TAXItemGrpForPurchases = null;		
 	}
@@ -208,7 +208,7 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public void setStringID(java.lang.String stringID) {
+	public void setid(java.lang.String id) {
 		this.id=id;
 	}
 
@@ -219,7 +219,7 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setStringID(this.stringID);
+		accounterCore.setid(this.id);
 		accounterCore.setObjectType(AccounterCoreType.TAX_CODE);
 		ChangeTracker.put(accounterCore);
 		return false;

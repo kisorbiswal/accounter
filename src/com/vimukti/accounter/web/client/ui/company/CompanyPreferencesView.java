@@ -708,7 +708,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		 * be updated are only sent to server.
 		 */
 		ClientCompany clientCompany = new ClientCompany();
-		clientCompany.stringID = company.stringID;
+		clientCompany.id = company.id;
 		clientCompany.setName(getStringValue(companyNameText));
 		clientCompany.setTradingName(getStringValue(this.trandigNameText));
 		clientCompany.setPhone(getStringValue(phoneText));

@@ -243,7 +243,7 @@ public class FixedAsset implements Lifecycle, IAccounterServerCore,
 	FinanceDate lastModifiedDate;
 
 	public long getID(){
-		return stringID;
+		return id;
 	}
 
 	public void setID(long id){
@@ -677,7 +677,7 @@ public class FixedAsset implements Lifecycle, IAccounterServerCore,
 		FinanceLogger.log("FixedAsset {0} has been deleted", this.getName());
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setStringID(stringID);
+		accounterCore.setid(id);
 		accounterCore.setObjectType(AccounterCoreType.FIXEDASSET);
 
 		ChangeTracker.put(accounterCore);
@@ -1599,7 +1599,7 @@ public class FixedAsset implements Lifecycle, IAccounterServerCore,
 
 		Query query = session
 				.createQuery(
-						"select d from com.vimukti.accounter.core.Depreciation d inner join d.fixedAsset where d.depreciateFrom >= ? and d.status=? and d.fixedAsset.stringID=? group by d.fixedAsset.stringID")
+						"select d from com.vimukti.accounter.core.Depreciation d inner join d.fixedAsset where d.depreciateFrom >= ? and d.status=? and d.fixedAsset.id=? group by d.fixedAsset.id")
 				.setParameter(0, rollBackDepreciationTo).setParameter(1,
 						Depreciation.APPROVE).setParameter(2, fixedAssetID);
 

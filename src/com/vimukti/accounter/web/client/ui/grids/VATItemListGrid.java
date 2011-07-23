@@ -67,7 +67,7 @@ public class VATItemListGrid extends ListGrid<ClientTAXItem> {
 						if (vitem != null) {
 							selectedObject.setDescription(vitem
 									.getDescription());
-							selectedObject.setStringID(vitem.getID());
+							selectedObject.setid(vitem.getID());
 							selectedObject.setName(vitem.getName());
 							selectedObject.setTaxAgency(vitem.getTaxAgency());
 							selectedObject.setTaxRate(vitem.getTaxRate());

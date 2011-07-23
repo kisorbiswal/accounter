@@ -14,9 +14,7 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 
 public interface IAccounterServerCore extends Serializable, Cloneable {
 
-	void setStringID(String stringID);
-
-	String getID();
+	long getID();
 
 	void setImported(boolean isImported);
 

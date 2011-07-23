@@ -252,8 +252,8 @@ public class VendorBillView extends
 				this.vendorTransactionGrid.removeAllRecords();
 				this.vendorTransactionGrid.updateTotals();
 
-				selectedPurchaseOrder = "nostringid";
-				selectedItemReceipt = "nostringid";
+				selectedPurchaseOrder = "noid";
+				selectedItemReceipt = "noid";
 			}
 		}
 
@@ -992,7 +992,7 @@ public class VendorBillView extends
 
 		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.stringID,
+		this.rpcDoSerivce.canEdit(type, transactionObject.id,
 				editCallBack);
 
 	}

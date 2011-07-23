@@ -860,7 +860,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// HibernateTemplate template = getHibernateTemplate();
 	//
-	// List list = template.find("from FiscalYear f where f.stringID= ? ",
+	// List list = template.find("from FiscalYear f where f.id= ? ",
 	// new Object[] { clientFiscalYear.getID() });
 	//
 	// final FiscalYear existingFiscalYear = (FiscalYear) list.get(0);
@@ -1118,7 +1118,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// HibernateTemplate template = getHibernateTemplate();
 	//
 	// List list = template.find(
-	// "from JournalEntry pt where pt.stringID= ?",
+	// "from JournalEntry pt where pt.id= ?",
 	// new Object[] { journalEntry.getID() });
 	//
 	// if (list.size() > 0) {

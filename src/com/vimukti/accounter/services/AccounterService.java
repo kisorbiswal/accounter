@@ -45,7 +45,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	public <T extends IAccounterServerCore> String createObject(T object)
 			throws DAOException {
 		if (object.getID() == null) {
-			object.setStringID(SecureUtils.createID());
+			object.setid(SecureUtils.createID());
 		}
 		Session session = Utility.getCurrentSession();
 		Transaction t = session.beginTransaction();
@@ -71,13 +71,13 @@ public class AccounterService extends HibernateDaoSupport implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends IAccounterServerCore> T getObjectById(Class clazz,
-			String stringID) throws DAOException {
+			String id) throws DAOException {
 		Session session = Utility.getCurrentSession();
 		Query query = session
 				.createQuery(
 						"from " + clazz.getName()
-								+ " entity where entity.stringID = ?")
-				.setParameter(0, stringID);
+								+ " entity where entity.id = ?")
+				.setParameter(0, id);
 		List l = query.list();
 		T entity = null;
 		if (l != null && l.size() > 0 && l.get(0) != null) {
@@ -138,12 +138,12 @@ public class AccounterService extends HibernateDaoSupport implements
 	}
 
 	@SuppressWarnings("unchecked")
-	private long getLongIdForGivenStringId(Class clazz, String stringID) {
+	private long getLongIdForGivenid(Class clazz, String id) {
 
 		Session session = Utility.getCurrentSession();
 		String hqlQuery = "select entity.id from " + clazz.getName()
-				+ " entity where entity.stringID=?";
-		Query query = session.createQuery(hqlQuery).setString(0, stringID);
+				+ " entity where entity.id=?";
+		Query query = session.createQuery(hqlQuery).setString(0, id);
 		List l = query.list();
 		if (l != null && l.get(0) != null) {
 			return (Long) l.get(0);
@@ -155,10 +155,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends IAccounterServerCore> Boolean canDelete(Class clazz,
-			String stringID) throws DAOException {
+			String id) throws DAOException {
 
 		Session session = Utility.getCurrentSession();
-		long inputId = getLongIdForGivenStringId(clazz, stringID);
+		long inputId = getLongIdForGivenid(clazz, id);
 		String queryName = new StringBuilder().append("canDelete").append(
 				clazz.getSimpleName()).toString();
 		Query query = session.getNamedQuery(queryName).setParameter("inputId",

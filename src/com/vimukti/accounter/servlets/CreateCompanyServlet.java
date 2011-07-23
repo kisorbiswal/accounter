@@ -148,7 +148,7 @@ public class CreateCompanyServlet extends BaseServlet {
 	private ClientUser createDefaultUser(HttpServletRequest request,
 			String identityID) {
 		ClientUser admin = new ClientUser();
-		admin.setStringID(identityID);
+		admin.setid(identityID);
 		admin.setFirstName(request.getParameter("firstName"));
 		admin.setLastName(request.getParameter("lastName"));
 		admin.setFullName(admin.getFirstName() + " " + admin.getLastName());

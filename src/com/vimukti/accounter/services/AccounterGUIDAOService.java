@@ -67,13 +67,13 @@ public class AccounterGUIDAOService extends HibernateDaoSupport implements
 		this.accounterDao = accounterDao;
 	}
 
-	private long getLongIdForGivenStringId(AccounterCoreType entity,
+	private long getLongIdForGivenid(AccounterCoreType entity,
 			String account) {
 
 		Session session = Utility.getCurrentSession();
 		String hqlQuery = "select entity.id from "
 				+ entity.getServerClassFullyQualifiedName()
-				+ " entity where entity.stringID=?";
+				+ " entity where entity.id=?";
 		Query query = session.createQuery(hqlQuery).setString(0, account);
 		List<?> l = query.list();
 		if (l != null && !l.isEmpty() && l.get(0) != null) {

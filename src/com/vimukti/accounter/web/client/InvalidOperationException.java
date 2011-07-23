@@ -80,7 +80,7 @@ public class InvalidOperationException extends Exception  {
 
 	}
 
-	public InvalidOperationException(int status, String stringID,
+	public InvalidOperationException(int status, String id,
 			IAccounterCore serverObject) {
 		super();
 

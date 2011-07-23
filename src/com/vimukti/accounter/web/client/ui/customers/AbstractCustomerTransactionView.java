@@ -1128,27 +1128,27 @@ public abstract class AbstractCustomerTransactionView<T> extends
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			List<ClientTAXCode> taxCodes = Accounter.getCompany()
 					.getActiveTaxCodes();
-			String ztaxCodeStringId = null;
+			String ztaxCodeid = null;
 			if (Accounter.getCompany().getpreferences()
 					.getDoYouPaySalesTax()) {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
-						ztaxCodeStringId = taxCode.getID();
+						ztaxCodeid = taxCode.getID();
 						break;
 					}
 				}
 			} else {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("Z")) {
-						ztaxCodeStringId = taxCode.getID();
+						ztaxCodeid = taxCode.getID();
 					}
 				}
 			}
 			transactionItem.setTaxCode(customer != null ? (customer
 					.getTAXCode() != null ? customer.getTAXCode()
-					: ztaxCodeStringId) : "");
-			// if (zvatCodeStringId != null)
-			// transactionItem.setVatCode(zvatCodeStringId);
+					: ztaxCodeid) : "");
+			// if (zvatCodeid != null)
+			// transactionItem.setVatCode(zvatCodeid);
 		} else if (item.equals(Accounter.getCustomersMessages()
 				.product())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
@@ -1156,41 +1156,41 @@ public abstract class AbstractCustomerTransactionView<T> extends
 					.getDoYouPaySalesTax()) {
 				List<ClientTAXCode> taxCodes = Accounter.getCompany()
 						.getActiveTaxCodes();
-				String staxCodeStringId = null;
+				String staxCodeid = null;
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
-						staxCodeStringId = taxCode.getID();
+						staxCodeid = taxCode.getID();
 					}
 				}
 				transactionItem.setTaxCode(customer != null ? (customer
 						.getTAXCode() != null ? customer.getTAXCode()
-						: staxCodeStringId) : "");
+						: staxCodeid) : "");
 			}
 		} else if (item.equals(Accounter.getCustomersMessages()
 				.service())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
 			List<ClientTAXCode> taxCodes = Accounter.getCompany()
 					.getActiveTaxCodes();
-			String ztaxCodeStringId = null;
+			String ztaxCodeid = null;
 			if (Accounter.getCompany().getpreferences()
 					.getDoYouPaySalesTax()) {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
-						ztaxCodeStringId = taxCode.getID();
+						ztaxCodeid = taxCode.getID();
 					}
 				}
 			} else {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("Z")) {
-						ztaxCodeStringId = taxCode.getID();
+						ztaxCodeid = taxCode.getID();
 					}
 				}
 			}
 			transactionItem.setTaxCode(customer != null ? (customer
 					.getTAXCode() != null ? customer.getTAXCode()
-					: ztaxCodeStringId) : "");
-			// if (zvatCodeStringId != null)
-			// transactionItem.setVatCode(zvatCodeStringId);
+					: ztaxCodeid) : "");
+			// if (zvatCodeid != null)
+			// transactionItem.setVatCode(zvatCodeid);
 		}
 		customerTransactionGrid.addData(transactionItem);
 

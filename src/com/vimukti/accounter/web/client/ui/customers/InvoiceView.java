@@ -675,8 +675,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			} else if (inv != null
 					&& !inv.getCustomer().equals(customer.getID())) {
 				this.customerTransactionGrid.removeAllRecords();
-				selectedSalesOrder = "nostringid";
-				selectedEstimateId = "nostringid";
+				selectedSalesOrder = "noid";
+				selectedEstimateId = "noid";
 			}
 		}
 
@@ -804,7 +804,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		ClientInvoice invoice = new ClientInvoice(selectedEstimate);
 		setShippingAdress(invoice);
 		for (ClientTransactionItem item : invoice.getTransactionItems()) {
-			item.setStringID("");
+			item.setid("");
 		}
 
 		return invoice;
@@ -1378,7 +1378,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.stringID,
+		this.rpcDoSerivce.canEdit(type, transactionObject.id,
 				editCallBack);
 
 	}

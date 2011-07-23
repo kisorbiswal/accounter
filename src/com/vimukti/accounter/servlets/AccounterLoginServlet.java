@@ -99,7 +99,7 @@ public class AccounterLoginServlet extends BaseServlet {
 
 		}
 		User financeUser = new User();
-		financeUser.setStringID(identity.getID());
+		financeUser.setid(identity.getID());
 		financeUser.setFirstName(user.getFirstName());
 		financeUser.setLastName(user.getLastName());
 		financeUser.setEmailId(user.getEmail());

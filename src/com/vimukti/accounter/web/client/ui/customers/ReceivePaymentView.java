@@ -1353,7 +1353,7 @@ public class ReceivePaymentView extends
 		if (paymentToBeEdited != null) {
 			AccounterCoreType type = UIUtils
 					.getAccounterCoreType(paymentToBeEdited.getType());
-			rpcDoSerivce.voidTransaction(type, paymentToBeEdited.stringID,
+			rpcDoSerivce.voidTransaction(type, paymentToBeEdited.id,
 					callback);
 		}
 	}

@@ -202,7 +202,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 
 			public void onSuccess(String result) {
 				if (result != null) {
-					company.setStringID(result);
+					company.setid(result);
 					Accounter.setCompany(company);
 					hide();
 				} else {

@@ -67,7 +67,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public Boolean delete(AccounterCoreType type, String stringID)
+	public Boolean delete(AccounterCoreType type, String id)
 			throws InvalidOperationException
 
 	{
@@ -76,7 +76,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 
 			FinanceTool tool = getFinanceTool();
 
-			return tool.deleteObject(type, stringID);
+			return tool.deleteObject(type, id);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -119,11 +119,11 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public Boolean voidTransaction(AccounterCoreType accounterCoreType,
-			String stringID) throws InvalidOperationException,
+			String id) throws InvalidOperationException,
 			InvalidSessionException {
 		IAccounterServerCore serverCore = (IAccounterServerCore) Util
-				.loadObjectByStringID(getSession(), accounterCoreType
-						.getServerClassSimpleName(), stringID);
+				.loadObjectByid(getSession(), accounterCoreType
+						.getServerClassSimpleName(), id);
 		if (serverCore instanceof Transaction) {
 			Transaction trans = (Transaction) serverCore;
 			trans.setVoid(true);
@@ -138,11 +138,11 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public Boolean deleteTransaction(AccounterCoreType accounterCoreType,
-			String stringID) throws InvalidOperationException,
+			String id) throws InvalidOperationException,
 			InvalidSessionException {
 		IAccounterServerCore serverCore = (IAccounterServerCore) Util
-				.loadObjectByStringID(getSession(), accounterCoreType
-						.getServerClassSimpleName(), stringID);
+				.loadObjectByid(getSession(), accounterCoreType
+						.getServerClassSimpleName(), id);
 		if (serverCore instanceof Transaction) {
 			Transaction trans = (Transaction) serverCore;
 			trans.setStatus(Transaction.STATUS_DELETED);
@@ -157,11 +157,11 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public Boolean canEdit(AccounterCoreType accounterCoreType, String stringID)
+	public Boolean canEdit(AccounterCoreType accounterCoreType, String id)
 			throws InvalidOperationException {
 		IAccounterServerCore serverCore = (IAccounterServerCore) Util
-				.loadObjectByStringID(getSession(), accounterCoreType
-						.getServerClassSimpleName(), stringID);
+				.loadObjectByid(getSession(), accounterCoreType
+						.getServerClassSimpleName(), id);
 		return serverCore.canEdit(serverCore);
 	}
 

@@ -199,7 +199,7 @@ public class FiscalYear implements IAccounterServerCore, Lifecycle,
 	public boolean onDelete(Session s) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setStringID(stringID);
+		accounterCore.setid(id);
 		accounterCore.setObjectType(AccounterCoreType.FISCALYEAR);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -215,9 +215,9 @@ public class FiscalYear implements IAccounterServerCore, Lifecycle,
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
-		this.stringID = this.stringID == null || this.stringID != null
-				&& this.stringID.isEmpty() ? SecureUtils.createID()
-				: this.stringID;
+		this.id = this.id == null || this.id != null
+				&& this.id.isEmpty() ? SecureUtils.createID()
+				: this.id;
 
 		if (isImported) {
 			return false;

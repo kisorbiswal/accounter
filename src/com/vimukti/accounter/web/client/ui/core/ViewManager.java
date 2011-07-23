@@ -1493,7 +1493,7 @@ public class ViewManager extends DockPanel {
 					InvalidOperationException exception = new InvalidOperationException();
 					exception
 							.setStatus(InvalidOperationException.CREATE_FAILED);
-					exception.setStringID(currentrequestedWidget.getID());
+					exception.setid(currentrequestedWidget.getID());
 					Accounter.getCompany().processCommand(exception);
 					exception.printStackTrace();
 					System.out.println(exception.getMessage());
@@ -1506,7 +1506,7 @@ public class ViewManager extends DockPanel {
 					AccounterCommand cmd = new AccounterCommand();
 					cmd.setCommand(AccounterCommand.CREATION_SUCCESS);
 					cmd.setData(core);
-					cmd.setStringID(core.getID());
+					cmd.setid(core.getID());
 					cmd.setObjectType(core.getObjectType());
 					Accounter.getCompany().processCommand(cmd);
 				}
@@ -1518,8 +1518,8 @@ public class ViewManager extends DockPanel {
 
 					@Override
 					public void onSuccess(String result) {
-						core.setStringID(result);
-						widget.setStringID(result);
+						core.setid(result);
+						widget.setid(result);
 						Accounter.createCRUDService().create(
 								((IAccounterCore) core), transactionCallBack);
 					}
@@ -1531,7 +1531,7 @@ public class ViewManager extends DockPanel {
 									.showMessage("Your session expired, Please login again to continue");
 						} else {
 							Accounter
-									.showError("Could Not Initialize the StringID.....");
+									.showError("Could Not Initialize the id.....");
 						}
 						dialog.removeFromParent();
 						currentrequestedWidget = null;
@@ -1568,7 +1568,7 @@ public class ViewManager extends DockPanel {
 						InvalidOperationException exception = new InvalidOperationException();
 						exception
 								.setStatus(InvalidOperationException.UPDATE_FAILED);
-						exception.setStringID(currentrequestedWidget
+						exception.setid(currentrequestedWidget
 								.getID());
 						Accounter.getCompany().processCommand(
 								exception);
@@ -1582,13 +1582,13 @@ public class ViewManager extends DockPanel {
 					AccounterCommand cmd = new AccounterCommand();
 					cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
 					cmd.setData(core);
-					cmd.setStringID(widget.getID());
+					cmd.setid(widget.getID());
 					cmd.setObjectType(core.getObjectType());
 					Accounter.getCompany().processCommand(cmd);
 				}
 			}
 		};
-		widget.setStringID(core.getID());
+		widget.setid(core.getID());
 		// when you edit transaction, previous transactionitems and related
 		// objects has to delete, below code is to clear lists that transaction
 		// item has, those no longer need after editing transactions
@@ -1632,7 +1632,7 @@ public class ViewManager extends DockPanel {
 					InvalidOperationException exception = new InvalidOperationException();
 					exception
 							.setStatus(InvalidOperationException.UPDATE_FAILED);
-					exception.setStringID(currentrequestedWidget.getID());
+					exception.setid(currentrequestedWidget.getID());
 					Accounter.getCompany().processCommand(exception);
 				}
 			}
@@ -1644,7 +1644,7 @@ public class ViewManager extends DockPanel {
 						AccounterCommand cmd = new AccounterCommand();
 						cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
 						cmd.setData(null);
-						cmd.setStringID(widget.getID());
+						cmd.setid(widget.getID());
 						cmd.setObjectType(type);
 						Accounter.getCompany().processCommand(cmd);
 					}
@@ -1652,7 +1652,7 @@ public class ViewManager extends DockPanel {
 
 			}
 		};
-		widget.setStringID(transactionID);
+		widget.setid(transactionID);
 		Accounter.createCRUDService().voidTransaction(type,
 				transactionID, callback);
 	}
@@ -1684,7 +1684,7 @@ public class ViewManager extends DockPanel {
 					InvalidOperationException exception = new InvalidOperationException();
 					exception
 							.setStatus(InvalidOperationException.DELETE_FAILED);
-					exception.setStringID(currentrequestedWidget.getID());
+					exception.setid(currentrequestedWidget.getID());
 					Accounter.getCompany().processCommand(exception);
 				}
 			}
@@ -1696,7 +1696,7 @@ public class ViewManager extends DockPanel {
 						AccounterCommand cmd = new AccounterCommand();
 						cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
 						cmd.setData(clientCompany);
-						cmd.setStringID(widget.getID());
+						cmd.setid(widget.getID());
 						cmd.setObjectType(clientCompany.getObjectType());
 						Accounter.getCompany().processCommand(cmd);
 					} else {
@@ -1706,7 +1706,7 @@ public class ViewManager extends DockPanel {
 			}
 
 		};
-		widget.setStringID(clientCompany.getID());
+		widget.setid(clientCompany.getID());
 		Accounter.createCRUDService().updateCompany(clientCompany,
 				transactionCallBack);
 
@@ -1729,7 +1729,7 @@ public class ViewManager extends DockPanel {
 					InvalidOperationException exception = new InvalidOperationException();
 					exception
 							.setStatus(InvalidOperationException.DELETE_FAILED);
-					exception.setStringID(currentrequestedWidget.getID());
+					exception.setid(currentrequestedWidget.getID());
 					Accounter.getCompany().processCommand(exception);
 				}
 			}
@@ -1742,7 +1742,7 @@ public class ViewManager extends DockPanel {
 						cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
 						cmd.setData(preferences);
 						cmd
-								.setStringID(Accounter.getCompany().stringID
+								.setid(Accounter.getCompany().id
 										+ "pre");
 						cmd.setObjectType(preferences.getObjectType());
 						Accounter.getCompany().processCommand(cmd);
@@ -1753,7 +1753,7 @@ public class ViewManager extends DockPanel {
 			}
 
 		};
-		widget.setStringID(Accounter.getCompany().stringID + "pre");
+		widget.setid(Accounter.getCompany().id + "pre");
 		Accounter.createCRUDService().updateCompanyPreferences(
 				preferences, transactionCallBack);
 
@@ -1779,7 +1779,7 @@ public class ViewManager extends DockPanel {
 						InvalidOperationException exception = new InvalidOperationException();
 						exception
 								.setStatus(InvalidOperationException.DELETE_FAILED);
-						exception.setStringID(currentrequestedWidget
+						exception.setid(currentrequestedWidget
 								.getID());
 						Accounter.getCompany().processCommand(
 								exception);
@@ -1794,7 +1794,7 @@ public class ViewManager extends DockPanel {
 				// AccounterCommand cmd = new AccounterCommand();
 				// cmd.setCommand(AccounterCommand.DELETION_SUCCESS);
 				// cmd.setData(core);
-				// cmd.setStringID(widget.getID());
+				// cmd.setid(widget.getID());
 				// cmd.setObjectType(core.getObjectType());
 				// FinanceApplication.getCompany().processCommand(cmd);
 				// } else {
@@ -1804,7 +1804,7 @@ public class ViewManager extends DockPanel {
 			}
 
 		};
-		widget.setStringID(core.getID());
+		widget.setid(core.getID());
 		Accounter.createCRUDService().delete(coreType,
 				core.getID(), transactionCallBack);
 	}

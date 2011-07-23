@@ -626,7 +626,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 								AccounterCoreType type = UIUtils
 										.getAccounterCoreType(payVAT.getType());
 								rpcDoSerivce.voidTransaction(type,
-										payVAT.stringID, callback);
+										payVAT.id, callback);
 							}
 
 						}

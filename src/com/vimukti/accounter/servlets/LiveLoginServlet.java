@@ -71,7 +71,7 @@ public class LiveLoginServlet extends BaseServlet {
 		if (params == null || params.length != 3) {
 			return null;
 		}
-		String stringID = params[0];
+		String id = params[0];
 		String password = params[1];
 		String companyName = params[2];
 		// Log.info("CheckCookiesLogin Method Called");
@@ -81,11 +81,11 @@ public class LiveLoginServlet extends BaseServlet {
 			session = HibernateUtil.openSession(companyName);
 		else
 			return null;
-		if (stringID != null && password != null) {
+		if (id != null && password != null) {
 
 			user = (User) session
-					.getNamedQuery("getidentity.from.stringID.and.password")
-					.setParameter("stringID", stringID)
+					.getNamedQuery("getidentity.from.id.and.password")
+					.setParameter("id", id)
 					.setParameter("password", password).uniqueResult();
 			if (user == null)
 				return null;

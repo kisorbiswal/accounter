@@ -58,14 +58,14 @@ public class AccountTransaction implements IAccounterServerCore,
 	FinanceDate tempTransactionDate;
 
 	public AccountTransaction() {
-		this.stringID = SecureUtils.createID();
+		this.id = SecureUtils.createID();
 	}
 
 	@SuppressWarnings("deprecation")
 	public AccountTransaction(Account account, Transaction transaction,
 			double amount, boolean closingFYEntry, boolean cashBasisEntry) {
 
-		this.stringID = SecureUtils.createID();
+		this.id = SecureUtils.createID();
 		this.account = account;
 		this.transaction = transaction;
 		this.amount = amount;

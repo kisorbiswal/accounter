@@ -21,7 +21,7 @@ public interface IAccounterService {
 	// /////
 	@SuppressWarnings("unchecked")
 	public <T extends IAccounterServerCore> T getObjectById(Class clazz, // /////
-			String stringID) throws DAOException; // /////
+			String id) throws DAOException; // /////
 
 	// /////
 	@SuppressWarnings("unchecked")
@@ -41,14 +41,14 @@ public interface IAccounterService {
 	 * @param <T>
 	 *            ///////
 	 * @param clazz
-	 * @param stringID
+	 * @param id
 	 * @return true if the object related to the given string is deletable,
 	 *         otherwise return false.
 	 * @throws DAOException
 	 */
 	@SuppressWarnings("unchecked")
 	public <T extends IAccounterServerCore> Boolean canDelete(Class clazz,
-			String stringID) throws DAOException;
+			String id) throws DAOException;
 	// /////
 	// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

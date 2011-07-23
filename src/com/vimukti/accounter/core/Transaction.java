@@ -1178,7 +1178,7 @@ public abstract class Transaction implements IAccounterServerCore, Lifecycle,
 					"This Transaction  is already voided or Deleted, can't Modify");
 		}
 
-		String query = " from com.vimukti.accounter.core.TAXRateCalculation vr where vr.transactionItem.transaction.stringID=? and vr.vatReturn is not null";
+		String query = " from com.vimukti.accounter.core.TAXRateCalculation vr where vr.transactionItem.transaction.id=? and vr.vatReturn is not null";
 		Session session = HibernateUtil.getCurrentSession();
 		Query query2 = session.createQuery(query);
 		query2.setParameter(0, this.getID());

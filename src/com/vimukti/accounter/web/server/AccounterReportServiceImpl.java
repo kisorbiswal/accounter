@@ -1355,7 +1355,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		tranendDate = endDate;
 
 		try {
-			TAXAgency vatAgncy = (TAXAgency) Util.loadObjectByStringID(
+			TAXAgency vatAgncy = (TAXAgency) Util.loadObjectByid(
 					HibernateUtil.getCurrentSession(), "TAXAgency", taxAgency);
 			;
 			vatDetailReport = getFinanceTool()
@@ -1379,7 +1379,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		tranendDate = endDate;
 
 		try {
-			TAXAgency vatAgency = (TAXAgency) Util.loadObjectByStringID(
+			TAXAgency vatAgency = (TAXAgency) Util.loadObjectByid(
 					HibernateUtil.getCurrentSession(), "TAXAgency", taxAgncy);
 			vatSummaryList = getFinanceTool().getPriorReturnVATSummary(
 					vatAgency, endDate);
@@ -1408,7 +1408,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		getMinimumAndMaximumDates(fromDate, toDate);
 
 		try {
-			TAXAgency vatAgency = (TAXAgency) Util.loadObjectByStringID(
+			TAXAgency vatAgency = (TAXAgency) Util.loadObjectByid(
 					HibernateUtil.getCurrentSession(), "TAXAgency", taxAgency);
 			vatSummaryList = getFinanceTool().getVAT100Report(vatAgency,
 					transtartDate, tranendDate);

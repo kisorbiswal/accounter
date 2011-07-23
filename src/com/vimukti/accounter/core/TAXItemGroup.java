@@ -83,7 +83,7 @@ public class TAXItemGroup implements IAccounterServerCore, Lifecycle {
 	/**
 	 * (non-Javadoc)
 	 * 
-	 * @see com.vimukti.accounter.core.IAccounterServerCore#setStringID(java.lang
+	 * @see com.vimukti.accounter.core.IAccounterServerCore#setid(java.lang
 	 *      .String)
 	 */
 	@Override

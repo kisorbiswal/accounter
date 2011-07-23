@@ -54,7 +54,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	protected ClientFinanceDate depreciationEndDate;
 	private AccounterButton startDateButton;
 	protected ClientAccount account;
-	private List<String> assetStringIdList;
+	private List<String> assetidList;
 	private List<ClientFiscalYear> openFiscalYears;
 	private Label fromLabel;
 	private DateTimeFormat format;
@@ -62,7 +62,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 	public DepreciationView() {
 		super();
-		assetStringIdList = new ArrayList<String>();
+		assetidList = new ArrayList<String>();
 		account = new ClientAccount();
 		getDepriciationLastDate();
 		validationCount = 1;
@@ -445,7 +445,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			// }
 			assets = assestsList.getAccountViceFixedAssets();
 			if (assets.size() > 0) {
-				assetStringIdList.addAll(assestsList.getFixedAssetStringIds());
+				assetidList.addAll(assestsList.getFixedAssetids());
 				for (String key : assets.keySet()) {
 					ClientAccount account = Accounter.getCompany()
 							.getAccount(key);
@@ -486,9 +486,9 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 	private List<ClientFixedAsset> getAssetsList() {
 		List<ClientFixedAsset> fixedAssetList = new ArrayList<ClientFixedAsset>();
-		for (String stringId : assetStringIdList) {
+		for (String id : assetidList) {
 			fixedAssetList.add(Accounter.getCompany().getFixedAsset(
-					stringId));
+					id));
 		}
 		return fixedAssetList;
 	}

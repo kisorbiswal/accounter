@@ -122,7 +122,7 @@ public class VendorCreditMemo extends Transaction implements Lifecycle {
 						&& DecimalUtil.isEquals(
 								creditsAndPayments.creditAmount, 0.0d)) {
 					creditsAndPayments = new CreditsAndPayments(this,
-							creditsAndPayments.stringID);
+							creditsAndPayments.id);
 					this.setCreditsAndPayments(creditsAndPayments);
 				} else {
 					creditsAndPayments = new CreditsAndPayments(this);
@@ -285,7 +285,7 @@ public class VendorCreditMemo extends Transaction implements Lifecycle {
 						&& DecimalUtil.isEquals(
 								creditsAndPayments.creditAmount, 0.0d)) {
 					creditsAndPayments = new CreditsAndPayments(this,
-							creditsAndPayments.stringID);
+							creditsAndPayments.id);
 				} else {
 					creditsAndPayments = new CreditsAndPayments(this);
 				}

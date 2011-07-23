@@ -339,7 +339,7 @@ public class Account implements IAccounterServerCore, Lifecycle,
 		this.isIncrease = isIncrease;
 		this.isOpeningBalanceEditable = isOpeningBalanceEditable;
 		this.flow = flow;
-		this.stringID = SecureUtils.createID();
+		this.id = SecureUtils.createID();
 		this.isDefault = isDefaultAccount;
 		this.asOf = asOf;
 		this.createdDate = new FinanceDate();
@@ -753,7 +753,7 @@ public class Account implements IAccounterServerCore, Lifecycle,
 		FinanceLogger.log("Account {0} has been deleted", this.getName());
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setStringID(stringID);
+		accounterCore.setid(id);
 		accounterCore.setObjectType(AccounterCoreType.ACCOUNT);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -1313,8 +1313,8 @@ public class Account implements IAccounterServerCore, Lifecycle,
 
 		Query query = session
 				.createQuery(
-						"select a.name from com.vimukti.accounter.core.Account a where a.stringID=:stringId")
-				.setParameter("stringId", this.getID());
+						"select a.name from com.vimukti.accounter.core.Account a where a.id=:id")
+				.setParameter("id", this.getID());
 		String accountName = (String) query.uniqueResult();
 
 		if (accountName != null && !this.getName().equals(accountName))

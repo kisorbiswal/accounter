@@ -13,7 +13,7 @@ public class DepreciableFixedAssetsEntry implements IsSerializable,
 	double amountToBeDepreciated;
 
 	public long getID(){
-		return stringID;
+		return id;
 	}
 
 	public void setID(long id){

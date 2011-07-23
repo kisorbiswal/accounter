@@ -34,12 +34,12 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
-			String stringID) throws InvalidSessionException {
+			String id) throws InvalidSessionException {
 
 		FinanceTool tool = getFinanceTool();
 
 		try {
-			return tool.getObjectById(type, stringID);
+			return tool.getObjectById(type, id);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

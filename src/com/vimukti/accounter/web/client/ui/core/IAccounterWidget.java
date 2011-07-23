@@ -14,7 +14,7 @@ public interface IAccounterWidget {
 
 	public String getID();
 
-	public void setStringID(String stringID);
+	public void setid(String id);
 
 	public void processupdateView(IAccounterCore core, int command);
 }
