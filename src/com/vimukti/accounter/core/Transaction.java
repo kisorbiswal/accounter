@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -200,10 +201,10 @@ public abstract class Transaction implements IAccounterServerCore, Lifecycle,
 
 	transient boolean isImported;
 
-	String createdBy;
-	String lastModifier;
-	FinanceDate createdDate;
-	FinanceDate lastModifiedDate;
+	long createdBy;
+	long lastModifier;
+	Timestamp createdDate;
+	Timestamp lastModifiedDate;
 
 	// For UK version only
 	boolean amountsIncludeVAT;
@@ -714,8 +715,8 @@ public abstract class Transaction implements IAccounterServerCore, Lifecycle,
 		setTransactionType();
 
 		FinanceLogger.log("Transaction with No: {0} Type: {1}  going to save",
-				String.valueOf(this.getNumber()), Utility
-						.getTransactionName(this.type));
+				String.valueOf(this.getNumber()),
+				Utility.getTransactionName(this.type));
 		// if (id == 0l) {
 		/**
 		 * These lines are commented as this condition is already checked in all
@@ -754,13 +755,13 @@ public abstract class Transaction implements IAccounterServerCore, Lifecycle,
 	}
 
 	private void updateTaxAndNonTaxableAmounts() {
-//		this.subTotal = 0.0;
+		// this.subTotal = 0.0;
 		this.totalTaxableAmount = 0.0;
 		this.totalNonTaxableAmount = 0.0;
 
 		if (this.transactionItems != null) {
 			for (TransactionItem ti : this.transactionItems) {
-//				this.subTotal += ti.lineTotal;
+				// this.subTotal += ti.lineTotal;
 				if (ti.isTaxable) {
 					this.totalTaxableAmount += ti.lineTotal;
 				} else if (ti.type != TransactionItem.TYPE_SALESTAX
@@ -771,9 +772,9 @@ public abstract class Transaction implements IAccounterServerCore, Lifecycle,
 
 			FinanceLogger.log(
 					"Updation of Taxable Amount and Non-Taxable Amounts, are "
-							+ "respectively {0} and {1} ", String
-							.valueOf(this.totalTaxableAmount), String
-							.valueOf(this.totalNonTaxableAmount));
+							+ "respectively {0} and {1} ",
+					String.valueOf(this.totalTaxableAmount),
+					String.valueOf(this.totalNonTaxableAmount));
 		}
 	}
 
@@ -990,11 +991,10 @@ public abstract class Transaction implements IAccounterServerCore, Lifecycle,
 				|| (this.isDeleted() && !clonedObject.isDeleted() && !this.isVoid)) {
 
 			FinanceLogger
-					.log(
-							"Transaction with No: {0} Type: {1}  going to void,"
-									+ "so All effects of this transaction going to rollback",
-							String.valueOf(clonedObject.getNumber()), Utility
-									.getTransactionName(type));
+					.log("Transaction with No: {0} Type: {1}  going to void,"
+							+ "so All effects of this transaction going to rollback",
+							String.valueOf(clonedObject.getNumber()),
+							Utility.getTransactionName(type));
 
 			Session session = HibernateUtil.getCurrentSession();
 
@@ -1038,7 +1038,7 @@ public abstract class Transaction implements IAccounterServerCore, Lifecycle,
 		if (coreObject.getTransactionItems() != null) {
 			for (TransactionItem item : coreObject.getTransactionItems()) {
 				item.itemBackUpList.clear();
-				item.taxRateCalculationEntriesList.clear();				
+				item.taxRateCalculationEntriesList.clear();
 			}
 		}
 	}
@@ -1102,9 +1102,7 @@ public abstract class Transaction implements IAccounterServerCore, Lifecycle,
 	private void updatePayee(double amount) {
 		Payee payee = getPayee();
 		if (payee != null) {
-			payee
-					.updateBalance(HibernateUtil.getCurrentSession(), this,
-							amount);
+			payee.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
 		}
 
 	}
@@ -1130,35 +1128,35 @@ public abstract class Transaction implements IAccounterServerCore, Lifecycle,
 		return this.stringID;
 	}
 
-	public void setCreatedBy(String createdBy) {
+	public void setCreatedBy(long createdBy) {
 		this.createdBy = createdBy;
 	}
 
-	public String getCreatedBy() {
+	public long getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setLastModifier(String lastModifier) {
+	public void setLastModifier(long lastModifier) {
 		this.lastModifier = lastModifier;
 	}
 
-	public String getLastModifier() {
+	public long getLastModifier() {
 		return lastModifier;
 	}
 
-	public void setCreatedDate(FinanceDate createdDate) {
+	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
 	}
 
-	public FinanceDate getCreatedDate() {
+	public Timestamp getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setLastModifiedDate(FinanceDate lastModifiedDate) {
+	public void setLastModifiedDate(Timestamp lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 
-	public FinanceDate getLastModifiedDate() {
+	public Timestamp getLastModifiedDate() {
 		return lastModifiedDate;
 	}
 

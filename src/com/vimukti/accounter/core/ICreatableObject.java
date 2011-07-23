@@ -1,21 +1,22 @@
 package com.vimukti.accounter.core;
 
+import java.sql.Timestamp;
 
 public interface ICreatableObject {
-	
-	void setCreatedBy(String createdBy);
 
-	String getCreatedBy();
+	void setCreatedBy(long createdBy);
 
-	void setLastModifier(String lastModifier);
+	long getCreatedBy();
 
-	String getLastModifier();
+	void setLastModifier(long lastModifier);
 
-	void setCreatedDate(FinanceDate createdDate);
+	long getLastModifier();
 
-	FinanceDate getCreatedDate();
+	void setCreatedDate(Timestamp createdDate);
 
-	void setLastModifiedDate(FinanceDate lastModifiedDate);
+	Timestamp getCreatedDate();
 
-	FinanceDate getLastModifiedDate();
+	void setLastModifiedDate(Timestamp lastModifiedDate);
+
+	Timestamp getLastModifiedDate();
 }
