@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -150,7 +150,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 			final int expenceStatus) {
 
 		for (BillsList record : records) {
-			FinanceApplication.createGETService().getObjectById(
+			Accounter.createGETService().getObjectById(
 					AccounterCoreType.CASHPURCHASE, record.getTransactionId(),
 
 					new AsyncCallback<ClientCashPurchase>() {
@@ -182,13 +182,13 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 	protected void initRPCService() {
 		super.initRPCService();
 		String userName = null;
-		if (!FinanceApplication.getUser().isAdminUser()) {
-			userName = FinanceApplication.getUser().getName();
+		if (!Accounter.getUser().isAdminUser()) {
+			userName = Accounter.getUser().getName();
 		} else {
 			userName = null;
 		}
 
-		FinanceApplication
+		Accounter
 				.createHomeService()
 				.getEmployeeExpensesByStatus(
 						userName,
@@ -279,7 +279,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getVendorsMessages().awaitingAuthorisation();
+		return Accounter.getVendorsMessages().awaitingAuthorisation();
 	}
 
 }

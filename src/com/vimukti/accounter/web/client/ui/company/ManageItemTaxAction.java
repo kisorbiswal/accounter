@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
@@ -11,12 +11,12 @@ public class ManageItemTaxAction extends Action {
 
 	public ManageItemTaxAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	public ManageItemTaxAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	@Override

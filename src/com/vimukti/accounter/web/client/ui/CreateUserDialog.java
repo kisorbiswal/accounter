@@ -99,7 +99,7 @@ public class CreateUserDialog extends AbstractBaseDialog {
 				.create(IAccounterCRUDService.class);
 
 		((ServiceDefTarget) crudService)
-				.setServiceEntryPoint(FinanceApplication.CRUD_SERVICE_ENTRY_POINT);
+				.setServiceEntryPoint(Accounter.CRUD_SERVICE_ENTRY_POINT);
 
 		@SuppressWarnings("unused")
 		final AsyncCallback<IsSerializable> createUserCallback = new AsyncCallback<IsSerializable>() {
@@ -110,7 +110,7 @@ public class CreateUserDialog extends AbstractBaseDialog {
 			public void onSuccess(IsSerializable result) {
 				if (result != null) {
 					// //UIUtils.log("User created successfully!");
-					FinanceApplication.setUser((ClientUser) result);
+					Accounter.setUser((ClientUser) result);
 					removeFromParent();
 					// getUser();
 				}
@@ -199,59 +199,59 @@ public class CreateUserDialog extends AbstractBaseDialog {
 
 	private void createControls() {
 
-		fullName = new TextItem(FinanceApplication.getFinanceUIConstants()
+		fullName = new TextItem(Accounter.getFinanceUIConstants()
 				.fullName());
 		// fullName.setWidth("*");
 		fullName.setColSpan(3);
 
-		emailText = new EmailField(FinanceApplication.getFinanceUIConstants()
+		emailText = new EmailField(Accounter.getFinanceUIConstants()
 				.email());
 		// emailText.setWidth("*");
 		emailText.setRequired(true);
 
-		pwdText = new PasswordItem(FinanceApplication.getFinanceUIConstants()
+		pwdText = new PasswordItem(Accounter.getFinanceUIConstants()
 				.password());
 		// pwdText.setWidth("*");
 		pwdText.setRequired(true);
 
-		legalName = new TextItem(FinanceApplication.getFinanceUIConstants()
+		legalName = new TextItem(Accounter.getFinanceUIConstants()
 				.legalName());
 		// legalName.setWidth("*");
 
 		lastLogin = new DateItem();
 		lastLogin
-				.setName(FinanceApplication.getCustomersMessages().lastLogin());
+				.setName(Accounter.getCustomersMessages().lastLogin());
 		// lastLogin.setUseTextField(true);
 
 		createDate = new DateItem();
-		createDate.setName(FinanceApplication.getCustomersMessages()
+		createDate.setName(Accounter.getCustomersMessages()
 				.createDate());
 		// createDate.setUseTextField(true);
 
-		street1Text = new TextItem(FinanceApplication.getFinanceUIConstants()
+		street1Text = new TextItem(Accounter.getFinanceUIConstants()
 				.streetAddress1());
 		// street1Text.setWidth("*");
-		street2Text = new TextItem(FinanceApplication.getFinanceUIConstants()
+		street2Text = new TextItem(Accounter.getFinanceUIConstants()
 				.streetAddress2());
 		// street2Text.setWidth("*");
 
-		cityText = new TextItem(FinanceApplication.getFinanceUIConstants()
+		cityText = new TextItem(Accounter.getFinanceUIConstants()
 				.city());
 		// cityText.setWidth("*");
-		stateText = new TextItem(FinanceApplication.getFinanceUIConstants()
+		stateText = new TextItem(Accounter.getFinanceUIConstants()
 				.state());
 		// stateText.setWidth("*");
-		zipText = new TextItem(FinanceApplication.getFinanceUIConstants()
+		zipText = new TextItem(Accounter.getFinanceUIConstants()
 				.postalCode());
 		// zipText.setWidth("*");
-		phoneText = new IntegerField(FinanceApplication.getFinanceUIConstants()
+		phoneText = new IntegerField(Accounter.getFinanceUIConstants()
 				.phone());
 		// phoneText.setWidth("*");
 
-		faxText = new TextItem(FinanceApplication.getFinanceUIConstants().fax());
+		faxText = new TextItem(Accounter.getFinanceUIConstants().fax());
 		// faxText.setWidth("*");
 
-		websiteText = new TextItem(FinanceApplication.getFinanceUIConstants()
+		websiteText = new TextItem(Accounter.getFinanceUIConstants()
 				.website());
 		// websiteText.setWidth("*");
 
@@ -265,15 +265,15 @@ public class CreateUserDialog extends AbstractBaseDialog {
 				street2Text, cityText, stateText, zipText, phoneText, faxText,
 				websiteText);
 
-		AccounterButton createUser = new AccounterButton(FinanceApplication
+		AccounterButton createUser = new AccounterButton(Accounter
 				.getFinanceUIConstants().createUser());
 		// createUser.setLayoutAlign(Alignment.LEFT);
-		AccounterButton getUser = new AccounterButton(FinanceApplication
+		AccounterButton getUser = new AccounterButton(Accounter
 				.getFinanceUIConstants().getUser());
 		// getUser.setLayoutAlign(Alignment.RIGHT);
 		// createUser.setAlign(Alignment.LEFT);
 
-		AccounterButton canButt = new AccounterButton(FinanceApplication
+		AccounterButton canButt = new AccounterButton(Accounter
 				.getFinanceUIConstants().cancel());
 		// canButt.setAlign(Alignment.RIGHT);
 
@@ -311,7 +311,7 @@ public class CreateUserDialog extends AbstractBaseDialog {
 		vLay.add(userForm);
 		vLay.add(buttHLay);
 
-		vLay.setTitle(FinanceApplication.getFinanceUIConstants().userDialog());
+		vLay.setTitle(Accounter.getFinanceUIConstants().userDialog());
 		vLay.addStyleName("User Dialog");
 
 		// vLay.setTop(50);

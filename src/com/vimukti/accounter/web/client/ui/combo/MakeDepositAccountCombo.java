@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
@@ -22,9 +22,9 @@ public class MakeDepositAccountCombo extends AccountCombo {
 	@Override
 	public List<ClientAccount> getAccounts() {
 		deposiInAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : FinanceApplication.getCompany()
+		for (ClientAccount account : Accounter.getCompany()
 				.getActiveAccounts()) {
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				if (Arrays.asList(ClientAccount.TYPE_OTHER_CURRENT_ASSET,
 						ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
 						ClientAccount.TYPE_EQUITY).contains(account.getType())) {
@@ -50,9 +50,9 @@ public class MakeDepositAccountCombo extends AccountCombo {
 
 	public void setAccounts() {
 		deposiInAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : FinanceApplication.getCompany()
+		for (ClientAccount account : Accounter.getCompany()
 				.getActiveAccounts()) {
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				if (Arrays.asList(ClientAccount.TYPE_OTHER_CURRENT_ASSET,
 						ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
 						ClientAccount.TYPE_EQUITY).contains(account.getType())) {
@@ -78,7 +78,7 @@ public class MakeDepositAccountCombo extends AccountCombo {
 	}
 
 	private void setDefaultDepositInAccount() {
-		List<ClientAccount> accounts = FinanceApplication.getCompany()
+		List<ClientAccount> accounts = Accounter.getCompany()
 				.getAccounts();
 		for (ClientAccount account : accounts) {
 			if (account.getNumber().equals("1100")) {
@@ -97,7 +97,7 @@ public class MakeDepositAccountCombo extends AccountCombo {
 	public void onAddNew() {
 		NewAccountAction action = CompanyActionFactory.getNewAccountAction();
 		action.setActionSource(this);
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			action.setAccountTypes(Arrays.asList(
 					ClientAccount.TYPE_OTHER_CURRENT_ASSET,
 					ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
@@ -116,7 +116,7 @@ public class MakeDepositAccountCombo extends AccountCombo {
 
 	@Override
 	public void addItemThenfireEvent(ClientAccount obj) {
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			if (Arrays.asList(ClientAccount.TYPE_OTHER_CURRENT_ASSET,
 					ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
 					ClientAccount.TYPE_EQUITY).contains(obj.getType())) {

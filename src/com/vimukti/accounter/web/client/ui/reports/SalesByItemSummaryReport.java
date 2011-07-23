@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ReportsActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesByItemSummaryServerReport;
@@ -32,7 +32,7 @@ public class SalesByItemSummaryReport extends
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		FinanceApplication.createReportService().getSalesByItemSummary(
+		Accounter.createReportService().getSalesByItemSummary(
 				start.getTime(), end.getTime(), this);
 	}
 

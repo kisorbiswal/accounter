@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
@@ -10,20 +10,20 @@ public class TAXAgencyCombo extends CustomCombo<ClientTAXAgency> {
 
 	public TAXAgencyCombo(String title) {
 		super(title);
-		initCombo(FinanceApplication.getCompany().getActiveTAXAgencies());
+		initCombo(Accounter.getCompany().getActiveTAXAgencies());
 	}
 
 	public TAXAgencyCombo(String title, boolean isAddNewRequire) {
 		super(title, isAddNewRequire, 1);
-		initCombo(FinanceApplication.getCompany().getActiveTAXAgencies());
+		initCombo(Accounter.getCompany().getActiveTAXAgencies());
 	}
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		if(FinanceApplication.getCompany().getAccountingType()== 0)
-			return FinanceApplication.getAccounterComboConstants().newTaxAgency();
+		if(Accounter.getCompany().getAccountingType()== 0)
+			return Accounter.getAccounterComboConstants().newTaxAgency();
 		else
-		return FinanceApplication.getAccounterComboConstants().newVATAgency();
+		return Accounter.getAccounterComboConstants().newVATAgency();
 
 	}
 

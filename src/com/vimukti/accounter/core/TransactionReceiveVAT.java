@@ -30,7 +30,7 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 
 	long id;
 
-	public String stringID;
+	public long id;
 
 	/**
 	 * The TaxAgency that we have selected for what we are making the
@@ -71,22 +71,22 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
 	/**
 	 * @return the stringID
 	 */
-	public String getStringID() {
+	public long getID(){
 		return stringID;
 	}
 
 	/**
 	 * @param stringID the stringID to set
 	 */
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	/**

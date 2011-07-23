@@ -36,7 +36,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 				result.add(toServerObjectInternal(null, (S) src, session));
 			} else {
 				D obj = (D) loadObjectByStringID(session, class1
-						.getSimpleName(), ((S) src).getStringID());
+						.getSimpleName(), ((S) src).getID());
 				result.add(toServerObjectInternal(obj, (S) src, session));
 			}
 		}
@@ -60,7 +60,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 					result.add(toServerObjectInternal(null, (S) src, session));
 				} else {
 					D obj = (D) loadObjectByStringID(session, class1
-							.getSimpleName(), ((S) src).getStringID());
+							.getSimpleName(), ((S) src).getID());
 					result.add(toServerObjectInternal(obj, (S) src, session));
 				}
 			}
@@ -208,7 +208,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 			if (!isNotMappingEntity(serverCoreClass)) {
 				// dst = (D) session.get(serverCoreClass, src.getId());
 				dt = (D) loadObjectByStringID(session, serverCoreClass
-						.getSimpleName(), src.getStringID());
+						.getSimpleName(), src.getID());
 			}
 			dst = dt == null ? dst == null ? serverCoreClass.newInstance()
 					: dst : dt;

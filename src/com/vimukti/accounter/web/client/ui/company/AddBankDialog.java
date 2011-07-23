@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -27,7 +27,7 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 
 	public AddBankDialog(AbstractBaseView<ClientBank> parent) {
 		super(parent);
-		company = FinanceApplication.getCompany();
+		company = Accounter.getCompany();
 		createControls();
 		center();
 	}
@@ -89,7 +89,7 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 		final ClientBank bank = new ClientBank();
 		bank.setName(UIUtils.toStr(bankNameText.getValue()));
 		if (Utility.isObjectExist(
-				FinanceApplication.getCompany().getTaxItems(), bank.getName())) {
+				Accounter.getCompany().getTaxItems(), bank.getName())) {
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
 		} else {
 			ViewManager.getInstance().createObject(bank, this);
@@ -109,7 +109,7 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 
 	@Override
 	public void saveFailed(Throwable exception) {
-		Accounter.showError(FinanceApplication.getCompanyMessages()
+		Accounter.showError(Accounter.getCompanyMessages()
 				.failedToCreateBank());
 		super.saveFailed(exception);
 	}

@@ -11,7 +11,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.Lists.KeyFinancialIndicators;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Portlet;
 import com.vimukti.accounter.web.client.ui.grids.CompanyFinancialWidgetGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomerWidgetGrid;
@@ -124,7 +124,7 @@ public class WidgetCreator {
 
 	public void reloadKeyIndicators(final CompanyFinancialWidgetGrid widgetGrid) {
 
-		FinanceApplication.createGETService().getKeyFinancialIndicators(
+		Accounter.createGETService().getKeyFinancialIndicators(
 				new AsyncCallback<KeyFinancialIndicators>() {
 
 					@Override
@@ -199,7 +199,7 @@ public class WidgetCreator {
 	 * ListGridRecord[result.size()]; ClientEnterBill bill; for (int recordIndex
 	 * = 0; recordIndex < records.length; ++recordIndex) { bill =
 	 * result.get(recordIndex); records[recordIndex] = new ListGridRecord();
-	 * records[recordIndex].setAttribute("bill_id", bill.getStringID());
+	 * records[recordIndex].setAttribute("bill_id", bill.getID());
 	 * records[recordIndex].setAttribute("bill", FinanceApplication
 	 * .getCompany().getVendor(bill.getVendor()).getName());
 	 * records[recordIndex].setAttribute("status", bill.getStatus());
@@ -261,8 +261,8 @@ public class WidgetCreator {
 
 	public void reloadDebitors(final CustomerWidgetGrid grid) {
 
-		if (FinanceApplication.getStartDate() != null)
-			FinanceApplication.createReportService().getDebitors(0,
+		if (Accounter.getStartDate() != null)
+			Accounter.createReportService().getDebitors(0,
 					new ClientFinanceDate().getTime(),
 					new AsyncCallback<List<DummyDebitor>>() {
 
@@ -357,7 +357,7 @@ public class WidgetCreator {
 	 * ListGridRecord[result.size()]; ClientAccount account; for (int
 	 * recordIndex = 0; recordIndex < records.length; ++recordIndex) { account =
 	 * result.get(recordIndex); records[recordIndex] = new ListGridRecord();
-	 * records[recordIndex].setAttribute("account_id", account.getStringID());
+	 * records[recordIndex].setAttribute("account_id", account.getID());
 	 * records[recordIndex].setAttribute("account", account.getName());
 	 * records[recordIndex].setAttribute("balance", account .getTotalBalance());
 	 * }
@@ -408,7 +408,7 @@ public class WidgetCreator {
 	 * ListGridRecord[result.size()]; ClientEnterBill enterBill; for (int
 	 * recordIndex = 0; recordIndex < records.length; ++recordIndex) { enterBill
 	 * = result.get(recordIndex); records[recordIndex] = new ListGridRecord();
-	 * records[recordIndex].setAttribute("invoice_id", enterBill.getStringID());
+	 * records[recordIndex].setAttribute("invoice_id", enterBill.getID());
 	 * records[recordIndex].setAttribute("customer", FinanceApplication
 	 * .getCompany().getVendor(enterBill.getVendor()).getName());
 	 * 
@@ -519,7 +519,7 @@ public class WidgetCreator {
 	 * ClientEstimate estimate; for (int recordIndex = 0; recordIndex <
 	 * records.length; ++recordIndex) { estimate = result.get(recordIndex);
 	 * records[recordIndex] = new ListGridRecord();
-	 * records[recordIndex].setAttribute("estimate_id", estimate.getStringID());
+	 * records[recordIndex].setAttribute("estimate_id", estimate.getID());
 	 * records[recordIndex].setAttribute("customer", estimate .getCustomer());
 	 * records[recordIndex].setAttribute("status", estimate.getStatus());
 	 * records[recordIndex].setAttribute("owed", estimate.getTotal());
@@ -567,7 +567,7 @@ public class WidgetCreator {
 	 * estimate; // for (int recordIndex = 0; recordIndex < records.length;
 	 * ++recordIndex) { // estimate = result.get(recordIndex); //
 	 * records[recordIndex] = new ListGridRecord(); //
-	 * records[recordIndex].setAttribute("estimate_id", estimate.getStringID()
+	 * records[recordIndex].setAttribute("estimate_id", estimate.getID()
 	 * // .toString()); // records[recordIndex].setAttribute("customer",
 	 * estimate // .getCustomer().getName()); //
 	 * records[recordIndex].setAttribute("status", estimate.getStatus()); //
@@ -624,7 +624,7 @@ public class WidgetCreator {
 	 * ListGridRecord[result.size()]; ClientCustomer customer; for (int
 	 * recordIndex = 0; recordIndex < records.length; ++recordIndex) { customer
 	 * = result.get(recordIndex); records[recordIndex] = new ListGridRecord();
-	 * records[recordIndex].setAttribute("customer_id", customer.getStringID());
+	 * records[recordIndex].setAttribute("customer_id", customer.getID());
 	 * records[recordIndex].setAttribute("customer", customer.getName());
 	 * records[recordIndex].setAttribute("date", customer.getDate()); //
 	 * records[recordIndex].setAttribute("Value", customer.getE);
@@ -681,7 +681,7 @@ public class WidgetCreator {
 	 * ListGridRecord[result.size()]; ClientItem item; for (int recordIndex = 0;
 	 * recordIndex < records.length; ++recordIndex) { item =
 	 * result.get(recordIndex); records[recordIndex] = new ListGridRecord();
-	 * records[recordIndex].setAttribute("item_id", item.getStringID());
+	 * records[recordIndex].setAttribute("item_id", item.getID());
 	 * records[recordIndex].setAttribute("item", item.getName()); //
 	 * records[recordIndex].setAttribute("date", item.getDate()); //
 	 * records[recordIndex].setAttribute("Value", customer.getE);
@@ -736,7 +736,7 @@ public class WidgetCreator {
 	 * ClientItem item; for (int recordIndex = 0; recordIndex < records.length;
 	 * ++recordIndex) { item = result.get(recordIndex); records[recordIndex] =
 	 * new ListGridRecord(); records[recordIndex].setAttribute("item_id",
-	 * item.getStringID()); records[recordIndex].setAttribute("item",
+	 * item.getID()); records[recordIndex].setAttribute("item",
 	 * item.getName()); // records[recordIndex].setAttribute("date",
 	 * item.getCreatedDate()); // records[recordIndex].setAttribute("Value",
 	 * customer.getE);
@@ -794,7 +794,7 @@ public class WidgetCreator {
 	 * (int recordIndex = 0; recordIndex < records.length; ++recordIndex) {
 	 * receivePayment = result.get(recordIndex); records[recordIndex] = new
 	 * ListGridRecord(); records[recordIndex].setAttribute("payment_id",
-	 * receivePayment .getStringID()); //
+	 * receivePayment .getID()); //
 	 * records[recordIndex].setAttribute("customer", //
 	 * receivePayment.getName()); // records[recordIndex].setAttribute("date",
 	 * receivePayment // .getCreatedDate()); //
@@ -851,7 +851,7 @@ public class WidgetCreator {
 	 * recordIndex = 0; recordIndex < records.length; ++recordIndex) { cashSales
 	 * = result.get(recordIndex); records[recordIndex] = new ListGridRecord();
 	 * records[recordIndex].setAttribute("cashSale_id",
-	 * cashSales.getStringID()); //
+	 * cashSales.getID()); //
 	 * records[recordIndex].setAttribute("customer", // cashSales.getName());
 	 * records[recordIndex].setAttribute("date", cashSales.getDate()); //
 	 * records[recordIndex].setAttribute("Value", customer.getE);
@@ -909,7 +909,7 @@ public class WidgetCreator {
 	 * (int recordIndex = 0; recordIndex < records.length; ++recordIndex) {
 	 * customerRefund = result.get(recordIndex); records[recordIndex] = new
 	 * ListGridRecord(); records[recordIndex].setAttribute("refund_id",
-	 * customerRefund .getStringID()); //
+	 * customerRefund .getID()); //
 	 * records[recordIndex].setAttribute("customer", //
 	 * customerRefund.getName()); // records[recordIndex].setAttribute("date",
 	 * customerRefund // .getCreatedDate()); //
@@ -965,7 +965,7 @@ public class WidgetCreator {
 	 * ListGridRecord[result.size()]; ClientVendor vendor; for (int recordIndex
 	 * = 0; recordIndex < records.length; ++recordIndex) { vendor =
 	 * result.get(recordIndex); records[recordIndex] = new ListGridRecord();
-	 * records[recordIndex].setAttribute("vendor_id", vendor.getStringID());
+	 * records[recordIndex].setAttribute("vendor_id", vendor.getID());
 	 * records[recordIndex].setAttribute("vendor", vendor.getName()); //
 	 * records[recordIndex] // .setAttribute("date", vendor.getCreatedDate());
 	 * // records[recordIndex].setAttribute("Value", customer.getE);
@@ -1079,7 +1079,7 @@ public class WidgetCreator {
 	 * recordIndex = 0; recordIndex < records.length; ++recordIndex) {
 	 * cashPurchase = result.get(recordIndex); records[recordIndex] = new
 	 * ListGridRecord(); records[recordIndex].setAttribute("customer_id",
-	 * cashPurchase .getStringID()); //
+	 * cashPurchase .getID()); //
 	 * records[recordIndex].setAttribute("customer", // cashPurchase.getName());
 	 * // records[recordIndex].setAttribute("date", cashPurchase //
 	 * .getCreatedDate()); FIXME // records[recordIndex].setAttribute("Value",
@@ -1137,7 +1137,7 @@ public class WidgetCreator {
 	 * recordIndex = 0; recordIndex < records.length; ++recordIndex) {
 	 * writeCheck = result.get(recordIndex); records[recordIndex] = new
 	 * ListGridRecord(); records[recordIndex].setAttribute("check_id",
-	 * writeCheck.getStringID()); //
+	 * writeCheck.getID()); //
 	 * records[recordIndex].setAttribute("customer", // writeCheck.getName());
 	 * // records[recordIndex].setAttribute("date", writeCheck //
 	 * .getCreatedDate()); // records[recordIndex].setAttribute("Value",
@@ -1195,7 +1195,7 @@ public class WidgetCreator {
 	 * recordIndex = 0; recordIndex < records.length; ++recordIndex) {
 	 * makeDeposit = result.get(recordIndex); records[recordIndex] = new
 	 * ListGridRecord(); records[recordIndex].setAttribute("deposite_id",
-	 * makeDeposit .getStringID()); //
+	 * makeDeposit .getID()); //
 	 * records[recordIndex].setAttribute("customer", // makeDeposit.getName());
 	 * // records[recordIndex].setAttribute("date", makeDeposit //
 	 * .getCreatedDate()); // records[recordIndex].setAttribute("Value",
@@ -1254,7 +1254,7 @@ public class WidgetCreator {
 	 * recordIndex = 0; recordIndex < records.length; ++recordIndex) {
 	 * transferFund = result.get(recordIndex); records[recordIndex] = new
 	 * ListGridRecord(); records[recordIndex].setAttribute("transfer_id",
-	 * transferFund .getStringID()); //
+	 * transferFund .getID()); //
 	 * records[recordIndex].setAttribute("customer", // transferFund.getName());
 	 * // records[recordIndex].setAttribute("date", transferFund //
 	 * .getCreatedDate()); // records[recordIndex].setAttribute("Value",

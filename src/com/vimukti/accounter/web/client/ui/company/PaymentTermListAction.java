@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.PaymentTermListDialog;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -61,7 +61,7 @@ public class PaymentTermListAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().paymentTermsList();
+		return Accounter.getFinanceMenuImages().paymentTermsList();
 	}
 
 	@Override

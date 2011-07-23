@@ -4,7 +4,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.ui.CreditCardChargeView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -18,9 +18,9 @@ public class CreditCardChargeAction extends Action {
 	protected CreditCardChargeView view;
 
 	public CreditCardChargeAction(String text, String iconString) {
-		super(FinanceApplication.getBankingsMessages().newCreditCardCharge(),
+		super(Accounter.getBankingsMessages().newCreditCardCharge(),
 				text);
-		this.catagory = FinanceApplication.getBankingsMessages().banking();
+		this.catagory = Accounter.getBankingsMessages().banking();
 
 	}
 
@@ -28,7 +28,7 @@ public class CreditCardChargeAction extends Action {
 			ClientCreditCardCharge creditCardCharge,
 			AsyncCallback<Object> callback) {
 		super(text, iconString, creditCardCharge, callback);
-		this.catagory = FinanceApplication.getBankingsMessages().banking();
+		this.catagory = Accounter.getBankingsMessages().banking();
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class CreditCardChargeAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().newCreditCardCharge();
+		return Accounter.getFinanceMenuImages().newCreditCardCharge();
 	}
 
 	@Override

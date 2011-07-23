@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
 import com.vimukti.accounter.web.client.core.ClientTaxRates;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class VatCodeGrid extends ListGrid<ClientTaxRates> {
 
@@ -28,8 +28,8 @@ public class VatCodeGrid extends ListGrid<ClientTaxRates> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { FinanceApplication.getVATMessages().rate(),
-				FinanceApplication.getVATMessages().asof() };
+		return new String[] { Accounter.getVATMessages().rate(),
+				Accounter.getVATMessages().asof() };
 	}
 
 	@Override

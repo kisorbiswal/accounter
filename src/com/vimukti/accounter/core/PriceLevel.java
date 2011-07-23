@@ -32,7 +32,7 @@ public class PriceLevel implements IAccounterServerCore, Lifecycle,
 	/**
 	 * A unique Secure 40 Digit, Random Number
 	 */
-	public String stringID;
+	public long id;
 
 	/**
 	 * This field stores the name of the Price Level
@@ -146,14 +146,14 @@ public class PriceLevel implements IAccounterServerCore, Lifecycle,
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

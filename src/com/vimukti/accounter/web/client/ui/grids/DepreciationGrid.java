@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientDepreciationDummyEntry;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.FixedAssetAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -38,7 +38,7 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 	}
 
 	private void createControls() {
-		accountsCombo = new FixedAssetAccountCombo(FinanceApplication
+		accountsCombo = new FixedAssetAccountCombo(Accounter
 				.getCustomersMessages().accounts());
 		accountsCombo.setGrid(this);
 		accountsCombo.setRequired(true);
@@ -48,7 +48,7 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						selectedObject
-								.setAssetAccount(selectItem.getStringID());
+								.setAssetAccount(selectItem.getID());
 						setText(currentRow, currentCol, selectItem.getName());
 					}
 				});
@@ -59,13 +59,13 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 		 */
 
 		List<ClientAccount> accumulatedAccounts = accountsCombo.getAccounts();
-		List<ClientFixedAsset> fixedAssets = FinanceApplication.getCompany()
+		List<ClientFixedAsset> fixedAssets = Accounter.getCompany()
 				.getFixedAssets();
 		for (ClientFixedAsset asset : fixedAssets) {
 			for (ClientAccount accumulatedAccount : accumulatedAccounts) {
 				if (asset.getAssetAccount() != null
 						&& !asset.getAssetAccount().equals(
-								accumulatedAccount.getStringID()))
+								accumulatedAccount.getID()))
 					accountsCombo.setValue(accumulatedAccount);
 			}
 		}
@@ -103,10 +103,10 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] {
-				FinanceApplication.getFixedAssetConstants().account(),
-				FinanceApplication.getFixedAssetConstants()
+				Accounter.getFixedAssetConstants().account(),
+				Accounter.getFixedAssetConstants()
 						.AmounttobeDepreciated(),
-				FinanceApplication.getFixedAssetConstants().AccumulatedDepreciationAccount() };
+				Accounter.getFixedAssetConstants().AccumulatedDepreciationAccount() };
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 		case 1:
 			return DataUtils.getAmountAsString(item.getAmountToBeDepreciated());
 		case 2:
-			return item.getAssetAccount() != null ? FinanceApplication
+			return item.getAssetAccount() != null ? Accounter
 					.getCompany().getAccount(item.getAssetAccount()).getName()
 					: "";
 		default:

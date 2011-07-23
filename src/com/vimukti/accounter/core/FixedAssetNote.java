@@ -21,7 +21,7 @@ public class FixedAssetNote implements IAccounterServerCore, ICreatableObject,
 		Lifecycle {
 
 	private String note;
-	private String stringID;
+	private long id;
 	private long id;
 	transient boolean isImported;
 
@@ -34,11 +34,11 @@ public class FixedAssetNote implements IAccounterServerCore, ICreatableObject,
 	}
 
 	/*
-	 * @see com.vimukti.accounter.core.IAccounterServerCore#getStringID()
+	 * @see com.vimukti.accounter.core.IAccounterServerCore#getID()
 	 */
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	/*
@@ -47,8 +47,8 @@ public class FixedAssetNote implements IAccounterServerCore, ICreatableObject,
 	 * .String)
 	 */
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class FixedAssetNote implements IAccounterServerCore, ICreatableObject,
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 

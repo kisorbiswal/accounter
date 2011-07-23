@@ -38,7 +38,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 	@Override
 	public String getGoToText() {
-		return FinanceApplication.getCompanyMessages().goToExpenseCliams();
+		return Accounter.getCompanyMessages().goToExpenseCliams();
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 		VerticalPanel vPanel = new VerticalPanel();
 		FlexTable fTable = new FlexTable();
 
-		AccounterButton addExpenseBtn = new AccounterButton(FinanceApplication
+		AccounterButton addExpenseBtn = new AccounterButton(Accounter
 				.getCompanyMessages().addExpenses());
 		addExpenseBtn.addStyleName("addAccountPortlet");
 		addExpenseBtn.addClickHandler(new ClickHandler() {
@@ -81,14 +81,14 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 			}
 		});
 
-		Label allExpLabel = getLabel(FinanceApplication.getCompanyMessages()
+		Label allExpLabel = getLabel(Accounter.getCompanyMessages()
 				.allExpenses());
-		Label cashExpLabel = getLabel(FinanceApplication.getCompanyMessages()
+		Label cashExpLabel = getLabel(Accounter.getCompanyMessages()
 				.cashExpenses());
 		cashExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		Label empExpLabel = getLabel(FinanceApplication.getCompanyMessages()
+		Label empExpLabel = getLabel(Accounter.getCompanyMessages()
 				.employeeExpenses());
-		Label ccExpLabel = getLabel(FinanceApplication.getCompanyMessages()
+		Label ccExpLabel = getLabel(Accounter.getCompanyMessages()
 				.creditCardExpenses());
 		ccExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 
@@ -114,7 +114,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 		fTable.setWidget(3, 0, empExpAmtLabel);
 		fTable.setWidget(3, 1, ccExpAmtLabel);
 
-		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			vPanel.add(addExpenseBtn);
 			addExpenseBtn.enabledButton();
 		}
@@ -147,7 +147,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 				}
 			}
 		};
-		FinanceApplication.createHomeService().getGraphPointsforAccount(4, 0,
+		Accounter.createHomeService().getGraphPointsforAccount(4, 0,
 				callBack);
 	}
 
@@ -176,31 +176,31 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 			public void onClick(ClickEvent event) {
 				label.getElement().getStyle().setTextDecoration(
 						TextDecoration.NONE);
-				if (title.equals(FinanceApplication.getCompanyMessages()
+				if (title.equals(Accounter.getCompanyMessages()
 						.cashExpenses())) {
 					HistoryTokenUtils.setPresentToken(VendorsActionFactory
-							.getExpensesAction(FinanceApplication
+							.getExpensesAction(Accounter
 									.getVendorsMessages().cash()), null);
 					VendorsActionFactory.getExpensesAction(
-							FinanceApplication.getVendorsMessages().cash())
+							Accounter.getVendorsMessages().cash())
 							.run(null, true);
-				} else if (title.equals(FinanceApplication.getCompanyMessages()
+				} else if (title.equals(Accounter.getCompanyMessages()
 						.creditCardExpenses())) {
 					HistoryTokenUtils.setPresentToken(VendorsActionFactory
-							.getExpensesAction(FinanceApplication
+							.getExpensesAction(Accounter
 									.getVendorsMessages().creditCard()), null);
 					VendorsActionFactory.getExpensesAction(
-							FinanceApplication.getVendorsMessages()
+							Accounter.getVendorsMessages()
 									.creditCard()).run(null, true);
-				} else if (title.equals(FinanceApplication.getCompanyMessages()
+				} else if (title.equals(Accounter.getCompanyMessages()
 						.employeeExpenses())) {
 					HistoryTokenUtils.setPresentToken(VendorsActionFactory
-							.getExpensesAction(FinanceApplication
+							.getExpensesAction(Accounter
 									.getVendorsMessages().employee()), null);
 					VendorsActionFactory.getExpensesAction(
-							FinanceApplication.getVendorsMessages().employee())
+							Accounter.getVendorsMessages().employee())
 							.run(null, true);
-				} else if (title.equals(FinanceApplication.getCompanyMessages()
+				} else if (title.equals(Accounter.getCompanyMessages()
 						.allExpenses())) {
 					HistoryTokenUtils.setPresentToken(VendorsActionFactory
 							.getExpensesAction(null), null);

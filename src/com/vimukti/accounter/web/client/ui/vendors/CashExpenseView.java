@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectItemType;
@@ -38,12 +38,12 @@ public class CashExpenseView extends CashPurchaseView {
 
 	@Override
 	protected void initViewType() {
-		titlelabel.setText(FinanceApplication.getVendorsMessages()
+		titlelabel.setText(Accounter.getVendorsMessages()
 				.cashExpense());
 		vendorForm.clear();
 		vendorForm.removeFromParent();
 		termsForm.clear();
-		petycash = new AccountCombo(FinanceApplication.getVendorsMessages()
+		petycash = new AccountCombo(Accounter.getVendorsMessages()
 				.cashExpense()) {
 
 			@Override
@@ -53,7 +53,7 @@ public class CashExpenseView extends CashPurchaseView {
 
 			@Override
 			protected List<ClientAccount> getAccounts() {
-				List<ClientAccount> accounts = FinanceApplication.getCompany()
+				List<ClientAccount> accounts = Accounter.getCompany()
 						.getAccounts();
 				for (ClientAccount acct : accounts) {
 					if (acct.getName().equals(AccounterConstants.PETTY_CASH)) {
@@ -71,16 +71,16 @@ public class CashExpenseView extends CashPurchaseView {
 		petycash.setRequired(true);
 		try {
 			String listString[] = new String[] {
-					FinanceApplication.getVendorsMessages().cash(),
+					Accounter.getVendorsMessages().cash(),
 					UIUtils
-							.getpaymentMethodCheckBy_CompanyType(FinanceApplication
+							.getpaymentMethodCheckBy_CompanyType(Accounter
 									.getCustomersMessages().check()),
-					FinanceApplication.getVendorsMessages().creditCard(),
-					FinanceApplication.getVendorsMessages().directDebit(),
-					FinanceApplication.getVendorsMessages().masterCard(),
-					FinanceApplication.getVendorsMessages().onlineBanking(),
-					FinanceApplication.getVendorsMessages().standingOrder(),
-					FinanceApplication.getVendorsMessages().switchMaestro() };
+					Accounter.getVendorsMessages().creditCard(),
+					Accounter.getVendorsMessages().directDebit(),
+					Accounter.getVendorsMessages().masterCard(),
+					Accounter.getVendorsMessages().onlineBanking(),
+					Accounter.getVendorsMessages().standingOrder(),
+					Accounter.getVendorsMessages().switchMaestro() };
 			selectedComboList = new ArrayList<String>();
 			for (int i = 0; i < listString.length; i++) {
 				selectedComboList.add(listString[i]);
@@ -138,7 +138,7 @@ public class CashExpenseView extends CashPurchaseView {
 		cashPurchase.setPaymentMethod(paymentMethod);
 
 		// Setting Pay From Account
-		cashPurchase.setPayFrom(payFromAccount.getStringID());
+		cashPurchase.setPayFrom(payFromAccount.getID());
 
 		// Setting Check number
 		cashPurchase.setCheckNumber(checkNo.getValue().toString());
@@ -175,7 +175,7 @@ public class CashExpenseView extends CashPurchaseView {
 		case 3:
 			return AccounterValidator.validate_dueOrDelivaryDates(
 					deliveryDateItem.getEnteredDate(), this.transactionDate,
-					FinanceApplication.getVendorsMessages().deliverydate());
+					Accounter.getVendorsMessages().deliverydate());
 		case 2:
 			return AccounterValidator.isBlankTransaction(vendorTransactionGrid);
 		case 1:
@@ -223,18 +223,18 @@ public class CashExpenseView extends CashPurchaseView {
 
 	@Override
 	protected void showMenu(AccounterButton button) {
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, FinanceApplication.getVendorsMessages()
-					.accounts(), FinanceApplication.getVendorsMessages()
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			setMenuItems(button, Accounter.getVendorsMessages()
+					.accounts(), Accounter.getVendorsMessages()
 					.service());
 		else
-			setMenuItems(button, FinanceApplication.getVendorsMessages()
-					.accounts(), FinanceApplication.getVendorsMessages()
+			setMenuItems(button, Accounter.getVendorsMessages()
+					.accounts(), Accounter.getVendorsMessages()
 					.service());
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getVendorsMessages().cashExpense();
+		return Accounter.getVendorsMessages().cashExpense();
 	}
 }

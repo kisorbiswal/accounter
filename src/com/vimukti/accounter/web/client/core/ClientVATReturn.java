@@ -180,11 +180,11 @@ public class ClientVATReturn extends ClientTransaction {
 	}
 
 	/*
-	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#getStringID()
+	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#getID()
 	 */
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	/*
@@ -193,8 +193,8 @@ public class ClientVATReturn extends ClientTransaction {
 	 * .lang.String)
 	 */
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

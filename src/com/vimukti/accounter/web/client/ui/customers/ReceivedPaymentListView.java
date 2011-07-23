@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -26,12 +26,12 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 	private List<ReceivePaymentsList> listOfRecievePayments;
 
-	private static String ALL = FinanceApplication.getCustomersMessages().all();
-	private static String OPEN = FinanceApplication.getCustomersMessages()
+	private static String ALL = Accounter.getCustomersMessages().all();
+	private static String OPEN = Accounter.getCustomersMessages()
 			.open();
-	private static String FULLY_APPLIED = FinanceApplication
+	private static String FULLY_APPLIED = Accounter
 			.getCustomersMessages().fullyApplied();
-	private static String VOIDED = FinanceApplication.getVendorsMessages()
+	private static String VOIDED = Accounter.getVendorsMessages()
 			.Voided();
 	// private static String DELETED="Deleted";
 
@@ -62,7 +62,7 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		FinanceApplication.createHomeService().getReceivePaymentsList(this);
+		Accounter.createHomeService().getReceivePaymentsList(this);
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(FinanceApplication.getCustomersMessages()
+		viewSelect = new SelectCombo(Accounter.getCustomersMessages()
 				.currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
@@ -191,7 +191,7 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCustomersMessages().recievePayments();
+		return Accounter.getCustomersMessages().recievePayments();
 	}
 
 }

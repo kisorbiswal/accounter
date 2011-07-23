@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -38,7 +38,7 @@ public class CustomerTransactionHistoryServerReport1 extends
 
 	@Override
 	public String getTitle() {
-		return FinanceApplication.getReportsMessages()
+		return Accounter.getReportsMessages()
 				.customerTransactionHistory();
 	}
 
@@ -87,8 +87,8 @@ public class CustomerTransactionHistoryServerReport1 extends
 			addSection(sectionName, "", new int[0]);
 		} else if (sectionDepth == 2) {
 			// Inside fist section
-			addSection(FinanceApplication.getReportsMessages()
-					.beginingBalance(), FinanceApplication.getReportsMessages()
+			addSection(Accounter.getReportsMessages()
+					.beginingBalance(), Accounter.getReportsMessages()
 					.endingBalance(), new int[] { 3, 5, 8, 9 });
 		} else if (sectionDepth == 3) {
 			// No need to do anything, just allow adding this record

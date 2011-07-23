@@ -27,7 +27,7 @@ public class ItemBackUp implements IAccounterServerCore, Lifecycle {
 
 	long id;
 
-	public String stringID;
+	public long id;
 
 	TransactionItem transactionItem;
 
@@ -50,8 +50,8 @@ public class ItemBackUp implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
@@ -61,15 +61,15 @@ public class ItemBackUp implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	public long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 

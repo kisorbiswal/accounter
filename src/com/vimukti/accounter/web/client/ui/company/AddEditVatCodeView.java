@@ -66,7 +66,7 @@
 //	protected void updateCompany() {
 //
 //		rpcGetService.getObjectById(AccounterCoreType.COMPANY, company
-//				.getStringID(), new AsyncCallback<ClientCompany>() {
+//				.getID(), new AsyncCallback<ClientCompany>() {
 //
 //			public void onFailure(Throwable caught) {
 //				Accounter.showError(FinanceApplication.getCompanyMessages()
@@ -94,7 +94,7 @@
 //		selectedVatAgency = vatAgencyCombo.getSelectedValue();
 //		if (selectedVatCode != null) {
 //			vatAgencyCombo.setComboItem(FinanceApplication.getCompany()
-//					.getVatAgency(selectedVatCode.getStringID()));
+//					.getVatAgency(selectedVatCode.getID()));
 //		}
 //
 //	}
@@ -446,7 +446,7 @@
 //			vatCode.setDescription(UIUtils.toStr(obj));
 //
 //		// Setting Tax Agency
-//		vatCode.setTaxAgency(getSelectedVatAgency().getStringID());
+//		vatCode.setTaxAgency(getSelectedVatAgency().getID());
 //
 //		// Setting status check
 //		boolean isActive = (Boolean) statusCheck.getValue();

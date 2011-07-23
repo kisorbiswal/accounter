@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
@@ -47,9 +47,9 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	@Override
 	protected Object getColumnValue(ClientEstimate estimate, int col) {
 		if (estimate != null) {
-			ClientCustomer customer = FinanceApplication.getCompany()
+			ClientCustomer customer = Accounter.getCompany()
 					.getCustomer(estimate.getCustomer());
-			ClientSalesPerson clientSalesPerson = FinanceApplication
+			ClientSalesPerson clientSalesPerson = Accounter
 					.getCompany().getSalesPerson(estimate.getSalesPerson());
 			String salesPerson = clientSalesPerson != null ? clientSalesPerson
 					.getFirstName() : "";
@@ -88,14 +88,14 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 			case 8:
 
 				if (estimate.getStatus() == ClientEstimate.STATUS_OPEN)
-					return FinanceApplication.getFinanceImages().beforereject();
+					return Accounter.getFinanceImages().beforereject();
 				// return "/images/before-reject.png";
 				if (estimate.getStatus() == ClientEstimate.STATUS_ACCECPTED)
-					return FinanceApplication.getFinanceImages().tickMark();
+					return Accounter.getFinanceImages().tickMark();
 				// return "/images/Tick-mark.png";
 				if (estimate.getStatus() == ClientEstimate.STATUS_REJECTED
 						|| estimate.getStatus() == ClientEstimate.STATUS_DELETED)
-					return FinanceApplication.getFinanceImages().rejected();
+					return Accounter.getFinanceImages().rejected();
 				// return "/images/cancel.png";
 				break;
 			case 9:
@@ -137,7 +137,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
 	@Override
 	public void onDoubleClick(ClientEstimate obj) {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			HistoryTokenUtils.setPresentToken(CustomersActionFactory
 					.getNewQuoteAction(), obj);
 			CustomersActionFactory.getNewQuoteAction().run(obj, true);
@@ -145,7 +145,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	}
 
 	protected void onClick(ClientEstimate obj, int row, int col) {
-		if (!FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
 		if (col == 8 && obj.getStatus() == ClientEstimate.STATUS_OPEN) {
 			showWarningDialog(obj, col);
@@ -163,7 +163,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	private void showWarningDialog(final ClientEstimate obj, final int col) {
 		String msg = null;
 		if (col == 8 && obj.getStatus() == ClientEstimate.STATUS_OPEN) {
-			msg = FinanceApplication.getCustomersMessages()
+			msg = Accounter.getCustomersMessages()
 					.doyouwanttorejecttheEstimate();
 		}
 		// else if (col == 9) {
@@ -294,7 +294,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	}
 
 	private String getCustomer(ClientEstimate estimate) {
-		ClientCustomer customer = FinanceApplication.getCompany().getCustomer(
+		ClientCustomer customer = Accounter.getCompany().getCustomer(
 				estimate.getCustomer());
 
 		if (customer != null)
@@ -304,7 +304,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	}
 
 	private String getSalesPerson(ClientEstimate estimate) {
-		ClientSalesPerson clientSalesPerson = FinanceApplication.getCompany()
+		ClientSalesPerson clientSalesPerson = Accounter.getCompany()
 				.getSalesPerson(estimate.getSalesPerson());
 		return clientSalesPerson != null ? clientSalesPerson.getFirstName()
 				: "";
@@ -314,7 +314,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	private String getPhoneNumber(ClientEstimate estimate) {
 		String phoneNo = null;
 		if (estimate != null) {
-			ClientCustomer customer = FinanceApplication.getCompany()
+			ClientCustomer customer = Accounter.getCompany()
 					.getCustomer(estimate.getCustomer());
 			if (customer != null) {
 				Set<ClientPhone> phones = customer.getPhoneNumbers();

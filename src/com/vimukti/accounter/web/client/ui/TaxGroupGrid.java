@@ -48,7 +48,7 @@ public class TaxGroupGrid extends BaseListGrid<ClientTAXGroup> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { FinanceApplication.getCustomersMessages().name() };
+		return new String[] { Accounter.getCustomersMessages().name() };
 	}
 
 	@Override

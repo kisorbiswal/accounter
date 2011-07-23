@@ -5,7 +5,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.customers.SalesOrderListView;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
@@ -48,7 +48,7 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 
 	@Override
 	public void onDoubleClick(SalesOrdersList obj) {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			ReportsRPC.openTransactionView(obj.getType(), obj
 					.getTransactionId());
 	}
@@ -56,7 +56,7 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 	@Override
 	protected void onClick(SalesOrdersList obj, int row, int col) {
 		// TODO Auto-generated method stub
-		if (!FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
 		view.onClick(obj);
 		super.onClick(obj, row, col);
@@ -79,10 +79,10 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { FinanceApplication.getCustomersMessages().date(),
-				FinanceApplication.getCustomersMessages().orderNumber(),
-				FinanceApplication.getCustomersMessages().customeRName(),
-				FinanceApplication.getCustomersMessages().totalPrice() };
+		return new String[] { Accounter.getCustomersMessages().date(),
+				Accounter.getCustomersMessages().orderNumber(),
+				Accounter.getCustomersMessages().customeRName(),
+				Accounter.getCustomersMessages().totalPrice() };
 	}
 
 	@Override

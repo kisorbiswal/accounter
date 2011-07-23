@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
@@ -36,18 +36,18 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 		for (int index = 0; index < colArray.length; index++) {
 			switch (index) {
 			case 0:
-				colArray[index] = FinanceApplication.getVATMessages().active();
+				colArray[index] = Accounter.getVATMessages().active();
 				break;
 			case 1:
-				if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-					colArray[index] = FinanceApplication.getVendorsMessages()
+				if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+					colArray[index] = Accounter.getVendorsMessages()
 							.vendorName();
-				if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-					colArray[index] = FinanceApplication.getVendorsMessages()
+				if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+					colArray[index] = Accounter.getVendorsMessages()
 							.supplieRName();
 				break;
 			case 2:
-				colArray[index] = FinanceApplication.getCompanyMessages()
+				colArray[index] = Accounter.getCompanyMessages()
 						.currentMonth();
 				colsMap.put(2, getCurrentMonth());
 				break;
@@ -72,11 +72,11 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 				colsMap.put(6, getCurrentMonth() - 5);
 				break;
 			case 8:
-				colArray[index] = FinanceApplication.getCompanyMessages()
+				colArray[index] = Accounter.getCompanyMessages()
 						.yearToDate();
 				break;
 			case 9:
-				colArray[index] = FinanceApplication.getVendorsMessages()
+				colArray[index] = Accounter.getVendorsMessages()
 						.balance();
 				break;
 			case 10:
@@ -161,7 +161,7 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 			return DataUtils.getAmountAsString(payee.getBalance());
 		case 10:
 			updateTotal(payee, true);
-			return FinanceApplication.getFinanceMenuImages().delete();
+			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
 		default:
 			break;
@@ -227,15 +227,15 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 
 		};
 		if (payee.getType() == ClientPayee.TYPE_VENDOR)
-			FinanceApplication.createGETService().getObjectById(
+			Accounter.createGETService().getObjectById(
 					AccounterCoreType.VENDOR, payee.stringID, callback);
-		else if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
+		else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
 				&& payee.getType() == ClientPayee.TYPE_TAX_AGENCY)
-			FinanceApplication.createGETService().getObjectById(
+			Accounter.createGETService().getObjectById(
 					AccounterCoreType.TAXAGENCY, payee.stringID, callback);
-		else if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+		else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 				&& payee.getType() == ClientPayee.TYPE_TAX_AGENCY)
-			FinanceApplication.createGETService().getObjectById(
+			Accounter.createGETService().getObjectById(
 					AccounterCoreType.TAXAGENCY, payee.stringID, callback);
 	}
 
@@ -289,17 +289,17 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 
 		};
 		if (recordToBeDeleted.getType() == ClientPayee.TYPE_VENDOR)
-			FinanceApplication.createGETService().getObjectById(
+			Accounter.createGETService().getObjectById(
 					AccounterCoreType.VENDOR, recordToBeDeleted.stringID,
 					callback);
-		else if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
+		else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
 				&& recordToBeDeleted.getType() == ClientPayee.TYPE_TAX_AGENCY)
-			FinanceApplication.createGETService().getObjectById(
+			Accounter.createGETService().getObjectById(
 					AccounterCoreType.TAXAGENCY, recordToBeDeleted.stringID,
 					callback);
-		else if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+		else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 				&& recordToBeDeleted.getType() == ClientPayee.TYPE_TAX_AGENCY)
-			FinanceApplication.createGETService().getObjectById(
+			Accounter.createGETService().getObjectById(
 					AccounterCoreType.TAXAGENCY, recordToBeDeleted.stringID,
 					callback);
 

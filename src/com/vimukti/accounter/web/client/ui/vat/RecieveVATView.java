@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionReceiveVAT;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
@@ -89,9 +89,9 @@ public class RecieveVATView extends
 		// setTitle(UIUtils.title(FinanceApplication.getFinanceUIConstants()
 		// .payVAT()));
 
-		Label lab = new Label(FinanceApplication.getFinanceUIConstants()
+		Label lab = new Label(Accounter.getFinanceUIConstants()
 				.receiveVAT());
-		lab.setStyleName(FinanceApplication.getVendorsMessages().lableTitle());
+		lab.setStyleName(Accounter.getVendorsMessages().lableTitle());
 		// lab.setHeight("35px");
 		// date = new DateField(companyConstants.date());
 		// date.setHelpInformation(true);
@@ -101,7 +101,7 @@ public class RecieveVATView extends
 		transactionDateItem = createTransactionDateItem();
 
 		transNumber = createTransactionNumberItem();
-		transNumber.setTitle(FinanceApplication.getCompanyMessages().no());
+		transNumber.setTitle(Accounter.getCompanyMessages().no());
 
 		depositInAccCombo = new DepositInAccountCombo(companyConstants
 				.depositIn());
@@ -252,7 +252,7 @@ public class RecieveVATView extends
 
 		if (dueDateOnOrBefore != null) {
 			for (ClientReceiveVATEntries cont : filterList) {
-				ClientVATReturn clientVATReturn = FinanceApplication
+				ClientVATReturn clientVATReturn = Accounter
 						.getCompany().getVatReturn(cont.getVatReturn());
 				ClientFinanceDate date = new ClientFinanceDate(clientVATReturn
 						.getVATperiodEndDate());
@@ -290,7 +290,7 @@ public class RecieveVATView extends
 		List<ClientTransactionReceiveVAT> filterRecords = new ArrayList<ClientTransactionReceiveVAT>();
 		String selectedagency = selectedVATAgency.getName();
 		for (ClientTransactionReceiveVAT receiveVAT : grid.getRecords()) {
-			String taxAgencyname = FinanceApplication.getCompany()
+			String taxAgencyname = Accounter.getCompany()
 					.getTaxAgency(receiveVAT.getTaxAgency()).getName();
 			if (taxAgencyname.equals(selectedagency))
 				filterRecords.add(receiveVAT);
@@ -330,10 +330,10 @@ public class RecieveVATView extends
 	@Override
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 		receiveVAT = (ClientReceiveVAT) transactionObject;
-		selectedDepositInAccount = FinanceApplication.getCompany().getAccount(
+		selectedDepositInAccount = Accounter.getCompany().getAccount(
 				receiveVAT.getDepositIn());
 		depositInAccCombo.setComboItem(selectedDepositInAccount);
-		selectedVATAgency = FinanceApplication.getCompany().getTaxAgency(
+		selectedVATAgency = Accounter.getCompany().getTaxAgency(
 				receiveVAT.getVatAgency());
 		if (selectedVATAgency != null)
 			vatAgencyCombo.setComboItem(selectedVATAgency);
@@ -517,14 +517,14 @@ public class RecieveVATView extends
 		if (transactionDateItem.getEnteredDate() != null)
 			receiveVAT.setDate(transactionDateItem.getEnteredDate().getTime());
 
-		receiveVAT.setDepositIn(selectedDepositInAccount.getStringID());
+		receiveVAT.setDepositIn(selectedDepositInAccount.getID());
 		receiveVAT.setPaymentMethod(paymentMethod);
 
 		if (billsDue.getValue() != null)
 			receiveVAT.setReturnsDueOnOrBefore((billsDue.getValue()).getTime());
 
 		if (selectedTaxAgency != null)
-			receiveVAT.setVatAgency(selectedTaxAgency.getStringID());
+			receiveVAT.setVatAgency(selectedTaxAgency.getID());
 
 		receiveVAT.setTotal(totalAmount);
 		receiveVAT.setEndingBalance(endingBalance);
@@ -709,7 +709,7 @@ public class RecieveVATView extends
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getVATMessages().recieveVat();
+		return Accounter.getVATMessages().recieveVat();
 	}
 
 }

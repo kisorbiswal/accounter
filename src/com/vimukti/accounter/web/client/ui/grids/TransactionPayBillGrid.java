@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.ui.CashDiscountDialog;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
@@ -298,8 +298,8 @@ public class TransactionPayBillGrid extends
 
 	public void initCreditsAndPayments(final ClientVendor vendor) {
 
-		FinanceApplication.createHomeService().getVendorCreditsAndPayments(
-				vendor.getStringID(),
+		Accounter.createHomeService().getVendorCreditsAndPayments(
+				vendor.getID(),
 				new AsyncCallback<List<ClientCreditsAndPayments>>() {
 
 					public void onFailure(Throwable caught) {
@@ -333,16 +333,16 @@ public class TransactionPayBillGrid extends
 	public void openCashDiscountDialog() {
 		// if (cashDiscountDialog == null) {
 		ClientAccount discountAccount = null;
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			discountAccount = FinanceApplication.getCompany().getAccountByName(
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			discountAccount = Accounter.getCompany().getAccountByName(
 					companyConstants.cashDiscountTaken());
-		} else if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			discountAccount = FinanceApplication.getCompany().getAccountByName(
+		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			discountAccount = Accounter.getCompany().getAccountByName(
 					companyConstants.discounts());
 		}
 		cashDiscountDialog = new CashDiscountDialog(canEdit, selectedObject
 				.getCashDiscount(), canEdit ? discountAccount
-				: FinanceApplication.getCompany().getAccount(
+				: Accounter.getCompany().getAccount(
 						selectedObject.getDiscountAccount()));
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);

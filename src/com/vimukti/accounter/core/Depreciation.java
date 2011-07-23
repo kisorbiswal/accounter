@@ -54,7 +54,7 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 
 	long id;
 
-	private String stringID;
+	private long id;
 
 	/**
 	 * To know whether this Depreciation is for Approving or for Rollback.
@@ -102,21 +102,21 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	public long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
@@ -217,8 +217,8 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 				// Account changedLinkedAccount = this.linkedAccounts
 				// .get(assetAccount);
 				// if (!assetAccount.linkedAccumulatedDepreciationAccount
-				// .getStringID().equals(
-				// changedLinkedAccount.getStringID())) {
+				// .getID().equals(
+				// changedLinkedAccount.getID())) {
 				// // Account changedLinkedAccount = (Account) session
 				// // .createQuery(
 				// //

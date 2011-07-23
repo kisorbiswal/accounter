@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -14,12 +14,12 @@ public class ChartsOfAccountsAction extends Action {
 
 	public ChartsOfAccountsAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getBankingsMessages().banking();
+		this.catagory = Accounter.getBankingsMessages().banking();
 	}
 
 	public ChartsOfAccountsAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getBankingsMessages().banking();
+		this.catagory = Accounter.getBankingsMessages().banking();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
@@ -62,7 +62,7 @@ public class ChartsOfAccountsAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().cahrtOfAccounts();
+		return Accounter.getFinanceMenuImages().cahrtOfAccounts();
 	}
 
 	@Override

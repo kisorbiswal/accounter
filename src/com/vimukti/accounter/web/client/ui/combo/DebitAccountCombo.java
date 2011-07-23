@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
@@ -22,7 +22,7 @@ public class DebitAccountCombo extends AccountCombo {
 	protected List<ClientAccount> getAccounts() {
 		debitAccounts = new ArrayList<ClientAccount>();
 
-		for (ClientAccount account : FinanceApplication.getCompany()
+		for (ClientAccount account : Accounter.getCompany()
 				.getActiveAccounts()) {
 			if (account.getType() == ClientAccount.TYPE_INCOME
 					|| account.getType() == ClientAccount.TYPE_EXPENSE

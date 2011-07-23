@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.company;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientItem;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ItemView;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.SelectItemTypeDialog;
@@ -30,13 +30,13 @@ public class NewItemAction extends Action {
 
 	public NewItemAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 	
 	public NewItemAction(String text, String iconString,
 			boolean isGeneratedFromCustomer) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
 		// this.baseView = baseView;
 	}
@@ -44,7 +44,7 @@ public class NewItemAction extends Action {
 	public NewItemAction(String text, String iconString, ClientItem item,
 			AsyncCallback<Object> callback, boolean isGeneratedFromCustomer) {
 		super(text, iconString, item, callback);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
 		// this.baseView = baseView;
 	}
@@ -118,7 +118,7 @@ public class NewItemAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().newItem();
+		return Accounter.getFinanceMenuImages().newItem();
 	}
 
 	@Override

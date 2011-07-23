@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.IncomeAndExpensesAccountCombo;
@@ -64,8 +64,8 @@ public class TransferFundsDialog extends BaseDialog {
 	private AccounterButton editButton;
 
 	public TransferFundsDialog(Object data) {
-		super(FinanceApplication.getBankingsMessages().transferFunds(),
-				FinanceApplication.getBankingsMessages().toTransferFunds());
+		super(Accounter.getBankingsMessages().transferFunds(),
+				Accounter.getBankingsMessages().toTransferFunds());
 		createControls();
 		addAccountsNameToList();
 		addAccountsName2ToList();
@@ -83,7 +83,7 @@ public class TransferFundsDialog extends BaseDialog {
 	private void initData(ClientTransferFund data) {
 		transferDate.setEnteredDate(data.getDate());
 		transferDate.setDisabled(true);
-		ClientAccount fromAccount = FinanceApplication.getCompany().getAccount(
+		ClientAccount fromAccount = Accounter.getCompany().getAccount(
 				data.getTransferFrom());
 		accountFrom = fromAccount;
 
@@ -93,7 +93,7 @@ public class TransferFundsDialog extends BaseDialog {
 		balanceFromText.setValue(DataUtils
 				.getAmountAsString(fromAccount != null ? fromAccount
 						.getTotalBalance() : 0.0));
-		ClientAccount toAccount = FinanceApplication.getCompany().getAccount(
+		ClientAccount toAccount = Accounter.getCompany().getAccount(
 				data.getTransferTo());
 		accountTo = toAccount;
 		accountComboTo.setSelected(toAccount != null ? accountComboTo
@@ -203,13 +203,13 @@ public class TransferFundsDialog extends BaseDialog {
 						transferAmount = amountText.getAmount();
 						if (DecimalUtil.isLessThan(transferAmount, 0D)) {
 							transferAmount = 0D;
-							Accounter.showError(FinanceApplication
+							Accounter.showError(Accounter
 									.getBankingsMessages()
 									.amountShouldNotBeNegative());
 						}
 
 					} catch (Exception e) {
-						Accounter.showError(FinanceApplication
+						Accounter.showError(Accounter
 								.getBankingsMessages().invalidAmount());
 						transferAmount = 0D;
 					} finally {
@@ -228,8 +228,8 @@ public class TransferFundsDialog extends BaseDialog {
 		transferToForm.setGroupTitle(bankingConstants.transferTo());
 
 		transferToForm.setFields(accountComboTo, balanceToText, amountText);
-		okbtn.setTitle(FinanceApplication.getBankingsMessages().transfer());
-		cancelBtn.setTitle(FinanceApplication.getBankingsMessages().cancel());
+		okbtn.setTitle(Accounter.getBankingsMessages().transfer());
+		cancelBtn.setTitle(Accounter.getBankingsMessages().cancel());
 
 		HorizontalPanel hlay = new HorizontalPanel();
 		hlay.setWidth("100%");
@@ -352,8 +352,8 @@ public class TransferFundsDialog extends BaseDialog {
 			transferFund.setDate(((ClientFinanceDate) transferDate.getValue())
 					.getTime());
 		transferFund.setMemo(UIUtils.toStr(memoText.getValue()));
-		transferFund.setTransferFrom(accountFrom.getStringID());
-		transferFund.setTransferTo(accountTo.getStringID());
+		transferFund.setTransferFrom(accountFrom.getID());
+		transferFund.setTransferTo(accountTo.getID());
 		transferFund.setTotal(transferAmount);
 
 		return transferFund;
@@ -437,7 +437,7 @@ public class TransferFundsDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getBankingsMessages().transferFunds();
+		return Accounter.getBankingsMessages().transferFunds();
 	}
 
 }

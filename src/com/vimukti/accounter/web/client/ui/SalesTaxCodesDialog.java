@@ -71,7 +71,7 @@
 //			// invokes when Remove button clicked.
 //			public void onThirdButtonClick() {
 //				FinanceApplication.createCRUDService().deleteTaxCode(
-//						getSelectedTaxCode().getStringID(),
+//						getSelectedTaxCode().getID(),
 //						new AsyncCallback<Boolean>() {
 //
 //							public void onFailure(Throwable caught) {
@@ -97,7 +97,7 @@
 //	protected ClientTaxCode getSelectedTaxCodes() {
 //		for (ClientTaxCode taxCode : taxCodesList) {
 //			Long id = Long.parseLong(getSelectedRecord().getAttribute("id"));
-//			if (taxCode.getStringID() == id) {
+//			if (taxCode.getID() == id) {
 //				return taxCode;
 //			}
 //		}
@@ -137,7 +137,7 @@
 //
 //		};
 //
-//		FinanceApplication.createCRUDService().deleteTaxCode(selectedTaxCode.getStringID(), deleteTaxCodeCallback);
+//		FinanceApplication.createCRUDService().deleteTaxCode(selectedTaxCode.getID(), deleteTaxCodeCallback);
 //
 //	}
 //
@@ -148,7 +148,7 @@
 //			for (int i = 0; i < taxCodesList.size(); i++) {
 //				Long id = UIUtils
 //						.toLong(getSelectedRecord().getAttribute("id"));
-//				if (taxCodesList.get(i).getStringID()==(id)) {
+//				if (taxCodesList.get(i).getID()==(id)) {
 //					selectedTaxCodeIndex = i;
 //					return taxCodesList.get(i);
 //				}
@@ -220,7 +220,7 @@
 //		if ((description = taxCode.getDescription()) != null)
 //			record.setAttribute(ATTR_DESCRIPTION, description);
 //
-//		record.setAttribute("id", taxCode.getStringID());
+//		record.setAttribute("id", taxCode.getID());
 //		addRecord(record);
 //
 //	}
@@ -233,7 +233,7 @@
 //			getSelectedRecord().setAttribute(ATTR_DESCRIPTION,
 //					taxCode.getDescription());
 //
-//		getSelectedRecord().setAttribute("id", taxCode.getStringID());
+//		getSelectedRecord().setAttribute("id", taxCode.getID());
 //
 //		refreshGrid();
 //
@@ -274,7 +274,7 @@
 //			public void onSuccess(IsSerializable result) {
 //				ClientTaxCode taxCode = (ClientTaxCode) result;
 //
-//				if (taxCode != null && taxCode.getStringID() != 0) {
+//				if (taxCode != null && taxCode.getID() != 0) {
 //
 //					if (takenTaxCode == null) {
 //						addToGrid(taxCode);
@@ -334,7 +334,7 @@
 //
 //		// Setting Tax Agency
 //		taxCode.setTaxAgency(addEditTaxCodeDialog.getSelectedTaxAgency()
-//				.getStringID());
+//				.getID());
 //
 //		// Setting status check
 //		boolean isActive = (Boolean) addEditTaxCodeDialog.statusCheck
@@ -372,7 +372,7 @@
 //					.setAttribute("name", taxCodesList.get(i).getName());
 //			records[i].setAttribute(ATTR_DESCRIPTION, taxCodesList.get(i)
 //					.getDescription());
-//			records[i].setAttribute("id", taxCodesList.get(i).getStringID());
+//			records[i].setAttribute("id", taxCodesList.get(i).getID());
 //		}
 //		addRecords(records);
 //

@@ -9,7 +9,7 @@ import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -29,7 +29,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 	@Override
 	public void deleteFailed(Throwable caught) {
 		super.deleteFailed(caught);
-		Accounter.showInformation(FinanceApplication.getCustomersMessages()
+		Accounter.showInformation(Accounter.getCustomersMessages()
 				.youCantDeleteThisCustomer());
 
 	}
@@ -44,7 +44,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 	@Override
 	protected Action getAddNewAction() {
 
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			return CustomersActionFactory.getNewSalesperSonAction();
 		else
 			return null;
@@ -53,7 +53,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 	@Override
 	protected String getAddNewLabelString() {
 
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			return salesPersonConstants.addaNewsalesPerson();
 		else
 			return "";
@@ -84,7 +84,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 		grid = new SalesPersonListGrid();
 		// grid.addStyleName("listgrid-tl");
 		grid.init();
-		listOfsalesPerson = FinanceApplication.getCompany().getsalesPerson();
+		listOfsalesPerson = Accounter.getCompany().getsalesPerson();
 		filterList(true);
 		getTotalLayout(grid);
 	}
@@ -159,7 +159,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().SalesPersons();
+		return Accounter.getActionsConstants().SalesPersons();
 	}
 
 }

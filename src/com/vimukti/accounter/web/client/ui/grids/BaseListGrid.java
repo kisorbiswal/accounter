@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
 import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
@@ -34,7 +34,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	protected double total;
 	protected String viewType;
 
-	String stringID;
+	long id;
 
 	BaseListView view;
 
@@ -124,7 +124,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	protected void showWarningDialog(T obj, final AccounterCoreType coreType,
 			final String transactionsID, final int col) {
 		String msg = null;
-		msg = FinanceApplication.getCustomersMessages()
+		msg = Accounter.getCustomersMessages()
 				.doyouwanttoVoidtheTransaction();
 		// else if (col == 7) {
 		// if (!viewType.equalsIgnoreCase("Deleted"))
@@ -165,7 +165,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	}
 
 	protected void initRPCService() {
-		this.rpcDoSerivce = FinanceApplication.createCRUDService();
+		this.rpcDoSerivce = Accounter.createCRUDService();
 
 	}
 
@@ -242,13 +242,13 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	public void setTotal() {

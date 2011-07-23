@@ -34,7 +34,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
@@ -74,10 +74,10 @@ public class SalesOrderView extends
 	private TextItem customerOrderText;
 	private Label lab1;
 	private ArrayList<ClientEstimate> selectedSalesOrders;
-	private String OPEN = FinanceApplication.getCustomersMessages().open();
-	private String COMPLETED = FinanceApplication.getCustomersMessages()
+	private String OPEN = Accounter.getCustomersMessages().open();
+	private String COMPLETED = Accounter.getCustomersMessages()
 			.completed();
-	private String CANCELLED = FinanceApplication.getCustomersMessages()
+	private String CANCELLED = Accounter.getCustomersMessages()
 			.cancelled();
 	private TextAreaItem billToTextArea;
 	private ShipToForm shipToAddress;
@@ -94,11 +94,11 @@ public class SalesOrderView extends
 		emptylabel.setLinkTitle("");
 		emptylabel.setShowTitle(false);
 
-		lab1 = new Label(FinanceApplication.getCustomersMessages().salesOrder());
-		lab1.setStyleName(FinanceApplication.getCustomersMessages()
+		lab1 = new Label(Accounter.getCustomersMessages().salesOrder());
+		lab1.setStyleName(Accounter.getCustomersMessages()
 				.lableTitle());
 		// lab1.setHeight("35px");
-		statusSelect = new SelectCombo(FinanceApplication
+		statusSelect = new SelectCombo(Accounter
 				.getCustomersMessages().statuS());
 
 		selectComboList = new ArrayList<String>();
@@ -123,7 +123,7 @@ public class SalesOrderView extends
 		transactionDateItem = createTransactionDateItem();
 
 		transactionNumber = createTransactionNumberItem();
-		transactionNumber.setTitle(FinanceApplication.getVendorsMessages()
+		transactionNumber.setTitle(Accounter.getVendorsMessages()
 				.orderNo());
 		transactionNumber.setWidth(50);
 
@@ -146,7 +146,7 @@ public class SalesOrderView extends
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		customerCombo = new CustomerCombo(FinanceApplication
+		customerCombo = new CustomerCombo(Accounter
 				.getCustomersMessages().customeR(), true);
 		customerCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
@@ -166,7 +166,7 @@ public class SalesOrderView extends
 
 		customerCombo.setWidth(100);
 		quoteLabel = new LabelItem();
-		quoteLabel.setValue(FinanceApplication.getCustomersMessages().quotes());
+		quoteLabel.setValue(Accounter.getCustomersMessages().quotes());
 		quoteLabel.setWidth("100%");
 		quoteLabel.addStyleName("falseHyperlink");
 		quoteLabel.setShowTitle(false);
@@ -177,7 +177,7 @@ public class SalesOrderView extends
 
 		billToTextArea = new TextAreaItem();
 		billToTextArea.setWidth(100);
-		billToTextArea.setTitle(FinanceApplication.getCustomersMessages()
+		billToTextArea.setTitle(Accounter.getCustomersMessages()
 				.billTo());
 		billToTextArea.setDisabled(true);
 
@@ -215,7 +215,7 @@ public class SalesOrderView extends
 		custForm.getCellFormatter().setWidth(0, 0, "225px");
 		forms.add(custForm);
 
-		customerOrderText = new TextItem(FinanceApplication
+		customerOrderText = new TextItem(Accounter
 				.getCustomersMessages().customerOrderNo());
 		customerOrderText.setWidth(50);
 		customerOrderText.setColSpan(1);
@@ -463,7 +463,7 @@ public class SalesOrderView extends
 
 	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
 
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			return new SalesOrderUSGrid();
 		else
 			return new SalesOrderUKGrid();
@@ -532,7 +532,7 @@ public class SalesOrderView extends
 
 		ClientSalesOrder salesOrderToBeEdited = (ClientSalesOrder) transactionObject;
 
-		ClientCompany company = FinanceApplication.getCompany();
+		ClientCompany company = Accounter.getCompany();
 		this.customer = company.getCustomer(salesOrderToBeEdited.getCustomer());
 		this.billingAddress = salesOrderToBeEdited.getBillingAddress();
 
@@ -700,7 +700,7 @@ public class SalesOrderView extends
 			else if (statusSelect.getSelectedValue().equals(CANCELLED))
 				salesOrder.setStatus(ClientTransaction.STATUS_CANCELLED);
 			if (customer != null)
-				salesOrder.setCustomer(customer.getStringID());
+				salesOrder.setCustomer(customer.getID());
 			if (contact != null)
 				salesOrder.setContact(contact);
 			if (phoneSelect.getValue() != null)
@@ -714,13 +714,13 @@ public class SalesOrderView extends
 				salesOrder.setCustomerOrderNumber(customerOrderText.getValue()
 						.toString());
 			if (salesPerson != null)
-				salesOrder.setSalesPerson(salesPerson.getStringID());
+				salesOrder.setSalesPerson(salesPerson.getID());
 			if (paymentTerm != null)
-				salesOrder.setPaymentTerm(paymentTerm.getStringID());
+				salesOrder.setPaymentTerm(paymentTerm.getID());
 			if (shippingTerm != null)
-				salesOrder.setShippingTerm(shippingTerm.getStringID());
+				salesOrder.setShippingTerm(shippingTerm.getID());
 			if (shippingMethod != null)
-				salesOrder.setShippingMethod(shippingMethod.getStringID());
+				salesOrder.setShippingMethod(shippingMethod.getID());
 			if (dueDateItem.getEnteredDate() != null)
 				salesOrder.setDueDate(dueDateItem.getEnteredDate().getTime());
 
@@ -728,7 +728,7 @@ public class SalesOrderView extends
 				if (taxCode != null) {
 					for (ClientTransactionItem record : customerTransactionGrid
 							.getRecords()) {
-						record.setTaxItemGroup(taxCode.getStringID());
+						record.setTaxItemGroup(taxCode.getID());
 
 					}
 				}
@@ -749,7 +749,7 @@ public class SalesOrderView extends
 			transactionObject = salesOrder;
 			super.saveAndUpdateView();
 
-			if (transactionObject.getStringID() != null) {
+			if (transactionObject.getID() != null) {
 				alterObject((ClientSalesOrder) transactionObject);
 
 			} else {
@@ -802,8 +802,8 @@ public class SalesOrderView extends
 		salesPerson = person;
 		if (salesPerson != null) {
 
-			salesPersonCombo.setComboItem(FinanceApplication.getCompany()
-					.getSalesPerson(salesPerson.getStringID()));
+			salesPersonCombo.setComboItem(Accounter.getCompany()
+					.getSalesPerson(salesPerson.getID()));
 
 		}
 		salesPersonCombo.setDisabled(isEdit);
@@ -815,8 +815,8 @@ public class SalesOrderView extends
 		this.paymentTerm = paymentTerm;
 		if (this.paymentTerm != null && payTermsSelect != null) {
 
-			payTermsSelect.setComboItem(FinanceApplication.getCompany()
-					.getPaymentTerms(paymentTerm.getStringID()));
+			payTermsSelect.setComboItem(Accounter.getCompany()
+					.getPaymentTerms(paymentTerm.getID()));
 		}
 		ClientFinanceDate transDate = this.transactionDateItem.getEnteredDate();
 
@@ -836,7 +836,7 @@ public class SalesOrderView extends
 		// if (priceLevel != null && priceLevelSelect != null) {
 		//
 		// priceLevelSelect.setComboItem(FinanceApplication.getCompany()
-		// .getPriceLevel(priceLevel.getStringID()));
+		// .getPriceLevel(priceLevel.getID()));
 		//
 		// }
 		// if (transactionObject == null && customerTransactionGrid != null) {
@@ -849,9 +849,9 @@ public class SalesOrderView extends
 
 	protected DateField createDueDateItem() {
 
-		DateField dateItem = new DateField(FinanceApplication
+		DateField dateItem = new DateField(Accounter
 				.getCustomersMessages().dueDate());
-		dateItem.setTitle(FinanceApplication.getCustomersMessages().dueDate());
+		dateItem.setTitle(Accounter.getCustomersMessages().dueDate());
 		dateItem.setColSpan(1);
 
 		dateItem.setDisabled(isEdit);
@@ -875,7 +875,7 @@ public class SalesOrderView extends
 	public void updateNonEditableItems() {
 		if (customerTransactionGrid == null)
 			return;
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			Double taxableLineTotal = customerTransactionGrid
 					.getTaxableLineTotal();
 
@@ -884,7 +884,7 @@ public class SalesOrderView extends
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
 					transactionDateItem.getEnteredDate(), taxableLineTotal,
-					FinanceApplication.getCompany().getTAXItemGroup(
+					Accounter.getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
 			setSalesTax(salesTax);
@@ -921,10 +921,10 @@ public class SalesOrderView extends
 		if (this.rpcUtilService == null)
 			return;
 		if (customer == null) {
-			Accounter.showError(FinanceApplication.getCustomersMessages()
+			Accounter.showError(Accounter.getCustomersMessages()
 					.pleaseSelectCustomer());
 		} else {
-			this.rpcUtilService.getEstimates(customer.getStringID(),
+			this.rpcUtilService.getEstimates(customer.getID(),
 					new AsyncCallback<List<ClientEstimate>>() {
 
 						public void onFailure(Throwable caught) {
@@ -963,7 +963,7 @@ public class SalesOrderView extends
 
 		for (ClientEstimate record : result) {
 			for (ClientEstimate estimate : selectedSalesOrders) {
-				if (estimate.getStringID().equals(record.getStringID()))
+				if (estimate.getID().equals(record.getID()))
 					filteredList.remove(record);
 			}
 		}
@@ -989,7 +989,7 @@ public class SalesOrderView extends
 			for (ClientTransactionItem salesRecord : selectedEstimate
 					.getTransactionItems())
 				if (record.getReferringTransactionItem().equals(
-						salesRecord.getStringID()))
+						salesRecord.getID()))
 					customerTransactionGrid.deleteRecord(record);
 
 		}
@@ -1026,12 +1026,12 @@ public class SalesOrderView extends
 				clientItem.setLineTotal(item.getLineTotal()
 						- item.getInvoiced());
 				clientItem.setTaxable(item.isTaxable());
-				clientItem.setReferringTransactionItem(item.getStringID());
+				clientItem.setReferringTransactionItem(item.getID());
 				itemsList.add(clientItem);
 			}
 
 		}
-		selectedEstimateId = selectedEstimate.getStringID();
+		selectedEstimateId = selectedEstimate.getID();
 		orderNum = selectedEstimate.getNumber();
 		customerTransactionGrid.setAllTransactions(itemsList);
 		// if (selectedEstimate == null)
@@ -1042,7 +1042,7 @@ public class SalesOrderView extends
 		// ClientSalesOrder convertedSalesOrder = new ClientSalesOrder(
 		// selectedEstimate);
 		//
-		// selectedEstimateId = selectedEstimate.getStringID();
+		// selectedEstimateId = selectedEstimate.getID();
 		//
 		// if (convertedSalesOrder == null) {
 		// Accounter.showError(FinanceApplication.getCustomersMessages()
@@ -1090,13 +1090,13 @@ public class SalesOrderView extends
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		if (core.getStringID().equals(
-				this.shippingTermsCombo.getSelectedValue().getStringID())) {
+		if (core.getID().equals(
+				this.shippingTermsCombo.getSelectedValue().getID())) {
 			this.shippingTermsCombo
 					.addItemThenfireEvent((ClientShippingTerms) core);
 		}
-		if (core.getStringID().equals(
-				this.shippingMethodsCombo.getSelectedValue().getStringID())) {
+		if (core.getID().equals(
+				this.shippingMethodsCombo.getSelectedValue().getID())) {
 			this.shippingMethodsCombo
 					.addItemThenfireEvent((ClientShippingMethod) core);
 		}
@@ -1185,9 +1185,9 @@ public class SalesOrderView extends
 		this.taxCode = taxCode;
 		if (taxCode != null) {
 
-			taxCodeSelect.setComboItem(FinanceApplication.getCompany()
-					.getTAXCode(taxCode.getStringID()));
-			customerTransactionGrid.setTaxCode(taxCode.getStringID());
+			taxCodeSelect.setComboItem(Accounter.getCompany()
+					.getTAXCode(taxCode.getID()));
+			customerTransactionGrid.setTaxCode(taxCode.getID());
 		} else
 			taxCodeSelect.setValue("");
 		// updateNonEditableItems();
@@ -1196,7 +1196,7 @@ public class SalesOrderView extends
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCustomersMessages().salesOrder();
+		return Accounter.getCustomersMessages().salesOrder();
 	}
 
 }

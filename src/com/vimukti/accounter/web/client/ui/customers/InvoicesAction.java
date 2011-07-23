@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -20,12 +20,12 @@ public class InvoicesAction extends Action {
 
 	public InvoicesAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getCustomersMessages().customer();
+		this.catagory = Accounter.getCustomersMessages().customer();
 	}
 
 	public InvoicesAction(String text, String iconString, String viewType) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getCustomersMessages().customer();
+		this.catagory = Accounter.getCustomersMessages().customer();
 		this.viewType = viewType;
 	}
 
@@ -81,7 +81,7 @@ public class InvoicesAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().invoices();
+		return Accounter.getFinanceMenuImages().invoices();
 	}
 
 	@Override

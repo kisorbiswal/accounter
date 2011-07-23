@@ -43,7 +43,7 @@ public class DashBoard extends BaseHomeView {
 
 	public DashBoard() {
 		dashboard = this;
-		dashboardPreference = FinanceApplication.getCompanyMessages()
+		dashboardPreference = Accounter.getCompanyMessages()
 				.WELCOMEBANKINGSUMMARY();
 		/*
 		 * FinanceApplication.getUser().getUserPreferences()
@@ -85,13 +85,13 @@ public class DashBoard extends BaseHomeView {
 		gettingStartedPortlet = new GettingStartedPortlet(
 				"Getting Started using Accounter");
 
-		bankingPortlet = new BankingPortlet(FinanceApplication
+		bankingPortlet = new BankingPortlet(Accounter
 				.getCompanyMessages().bankAccounts());
-		moneyComingPortlet = new MoneyComingPortlet(FinanceApplication
+		moneyComingPortlet = new MoneyComingPortlet(Accounter
 				.getCompanyMessages().moneyComingIn());
-		moneyGoingPortlet = new MoneyGoingPortlet(FinanceApplication
+		moneyGoingPortlet = new MoneyGoingPortlet(Accounter
 				.getCompanyMessages().moneyGoingOut());
-		expenseClaimsPortlet = new ExpenseClaimPortlet(FinanceApplication
+		expenseClaimsPortlet = new ExpenseClaimPortlet(Accounter
 				.getCompanyMessages().expenseClaims());
 		FlexTable fTable = new FlexTable();
 
@@ -150,13 +150,13 @@ public class DashBoard extends BaseHomeView {
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
 		String[] totalWidget = {
-				FinanceApplication.getFinanceUIConstants().welcome(),
-				FinanceApplication.getFinanceUIConstants().bankingSummary(),
-				FinanceApplication.getFinanceUIConstants().profitAndLoss(),
-				FinanceApplication.getFinanceUIConstants().creditOverview(),
-				FinanceApplication.getFinanceUIConstants().debitOverview(),
-				FinanceApplication.getFinanceUIConstants().latestQuote(),
-				FinanceApplication.getFinanceUIConstants().expenses() };
+				Accounter.getFinanceUIConstants().welcome(),
+				Accounter.getFinanceUIConstants().bankingSummary(),
+				Accounter.getFinanceUIConstants().profitAndLoss(),
+				Accounter.getFinanceUIConstants().creditOverview(),
+				Accounter.getFinanceUIConstants().debitOverview(),
+				Accounter.getFinanceUIConstants().latestQuote(),
+				Accounter.getFinanceUIConstants().expenses() };
 
 		boolean isAvailable = false;
 
@@ -287,6 +287,6 @@ public class DashBoard extends BaseHomeView {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().home();
+		return Accounter.getActionsConstants().home();
 	}
 }

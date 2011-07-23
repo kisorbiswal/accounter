@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.SalesTaxItemsView;
 
@@ -10,7 +10,7 @@ public class ManageSalesTaxItemsAction extends Action {
 
 	public ManageSalesTaxItemsAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class ManageSalesTaxItemsAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		// TODO Auto-generated method stub
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			return "manageSalesTaxItems";
 		else
 			return "salesTaxItems";

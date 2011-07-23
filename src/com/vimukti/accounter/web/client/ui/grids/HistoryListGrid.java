@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetHistory;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
@@ -57,7 +57,7 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 							.getActionType()
 							.equalsIgnoreCase(
 									ClientFixedAssetHistory.ACTION_TYPE_DISPOSAL_REVERSED)) {
-				return FinanceApplication.getFixedAssetConstants()
+				return Accounter.getFixedAssetConstants()
 						.viewDisposalJournal();
 			} else {
 				return asset.getDetails() != null ? asset.getDetails() : "";
@@ -78,7 +78,7 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 						ClientFixedAssetHistory.ACTION_TYPE_DISPOSED)
 				|| asset.getActionType().equalsIgnoreCase(
 						ClientFixedAssetHistory.ACTION_TYPE_DISPOSAL_REVERSED)) {
-			FinanceApplication.createGETService().getObjectById(
+			Accounter.createGETService().getObjectById(
 					AccounterCoreType.JOURNALENTRY,
 					asset.getPostedJournalEntry(),
 					new AsyncCallback<ClientJournalEntry>() {
@@ -119,10 +119,10 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] {
-				FinanceApplication.getFixedAssetConstants().changes(),
-				FinanceApplication.getFixedAssetConstants().date(),
-				FinanceApplication.getFixedAssetConstants().user(),
-				FinanceApplication.getFixedAssetConstants().details() };
+				Accounter.getFixedAssetConstants().changes(),
+				Accounter.getFixedAssetConstants().date(),
+				Accounter.getFixedAssetConstants().user(),
+				Accounter.getFixedAssetConstants().details() };
 	}
 
 	@Override

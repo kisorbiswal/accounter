@@ -12,7 +12,7 @@ public interface IAccounterWidget {
 
 	public void deleteSuccess(Boolean result);
 
-	public String getStringID();
+	public String getID();
 
 	public void setStringID(String stringID);
 

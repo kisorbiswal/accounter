@@ -3,17 +3,17 @@ package com.vimukti.accounter.web.client.core;
 @SuppressWarnings("serial")
 public class ClientTAXCode implements IAccounterCore {
 
-	String stringID;
+	long id;
 	String name;
 	String description;
 	boolean isTaxable;
 	boolean isActive;
-	String TAXItemGrpForPurchases;
-	String TAXItemGrpForSales;
+	long TAXItemGrpForPurchases;
+	long TAXItemGrpForSales;
 
 	boolean isECSalesEntry;
 	boolean isDefault;
-	private String taxAgency;
+	private long taxAgency;
 
 	/**
 	 * @param name
@@ -47,20 +47,20 @@ public class ClientTAXCode implements IAccounterCore {
 		this.isActive = isActive;
 	}
 
-	public String getTAXItemGrpForPurchases() {
+	public long getTAXItemGrpForPurchases() {
 		return TAXItemGrpForPurchases;
 	}
 
-	public void setTAXItemGrpForPurchases(String vATItemGrpForPurchases) {
+	public void setTAXItemGrpForPurchases(long vATItemGrpForPurchases) {
 		TAXItemGrpForPurchases = vATItemGrpForPurchases;
 	}
 
-	public String getTAXItemGrpForSales() {
+	public long getTAXItemGrpForSales() {
 		return TAXItemGrpForSales;
 	}
 
-	public void setTAXItemGrpForSales(String vATItemGrpForSales) {
-		TAXItemGrpForSales = vATItemGrpForSales;
+	public void setTAXItemGrpForSales(long taxItemGroup) {
+		TAXItemGrpForSales = taxItemGroup;
 	}
 
 	/**
@@ -99,13 +99,13 @@ public class ClientTAXCode implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	public boolean isDefault() {
@@ -116,11 +116,11 @@ public class ClientTAXCode implements IAccounterCore {
 		this.isDefault = isDefault;
 	}
 
-	public void setTaxAgency(String taxAgency) {
+	public void setTaxAgency(long taxAgency) {
 		this.taxAgency = taxAgency;
 	}
 
-	public String getTaxAgency() {
+	public long getTaxAgency() {
 		return taxAgency;
 	}
 

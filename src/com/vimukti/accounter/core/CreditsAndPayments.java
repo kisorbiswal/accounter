@@ -35,7 +35,7 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 	long id;
 
-	public String stringID;
+	public long id;
 
 	/**
 	 * This memo is the name of the {@link Transaction} through which this
@@ -86,7 +86,7 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 	public CreditsAndPayments(Transaction transaction, String stringID) {
 		this(transaction);
-		this.stringID = stringID;
+		this.id=id;
 	}
 
 	public int getVersion() {
@@ -338,14 +338,14 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

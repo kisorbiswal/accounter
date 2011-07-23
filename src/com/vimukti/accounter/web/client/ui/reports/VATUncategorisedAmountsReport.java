@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.UncategorisedAmountsReport;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.VATUncategorisedAmountsServerReport;
 
@@ -24,9 +24,9 @@ public class VATUncategorisedAmountsReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			ReportsRPC.openTransactionView(record.getTransactionType(), record
-					.getStringId()
+					.getID()
 					+ "");
 	}
 
@@ -42,7 +42,7 @@ public class VATUncategorisedAmountsReport extends
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		balance = 0.0;
-		FinanceApplication.createReportService().getUncategorisedAmountsReport(
+		Accounter.createReportService().getUncategorisedAmountsReport(
 				start.getTime(), end.getTime(), this);
 
 	}

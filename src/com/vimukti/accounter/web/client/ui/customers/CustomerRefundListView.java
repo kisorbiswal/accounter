@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -27,13 +27,13 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 	protected List<CustomerRefundsList> transactions;
 	private List<CustomerRefundsList> listOfCustomerRefund;
 
-	private static String NOT_ISSUED = FinanceApplication
+	private static String NOT_ISSUED = Accounter
 			.getCustomersMessages().notIssued();
-	private static String ISSUED = FinanceApplication.getCustomersMessages()
+	private static String ISSUED = Accounter.getCustomersMessages()
 			.issued();
-	private static String VOID = FinanceApplication.getVendorsMessages()
+	private static String VOID = Accounter.getVendorsMessages()
 			.Voided();
-	private static String ALL = FinanceApplication.getCustomersMessages().all();
+	private static String ALL = Accounter.getCustomersMessages().all();
 	// private static String DELETED="Deleted";
 
 	private static final int STATUS_NOT_ISSUED = 0;
@@ -73,7 +73,7 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		FinanceApplication.createHomeService().getCustomerRefundsList(this);
+		Accounter.createHomeService().getCustomerRefundsList(this);
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(FinanceApplication.getCustomersMessages()
+		viewSelect = new SelectCombo(Accounter.getCustomersMessages()
 				.currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
@@ -194,6 +194,6 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCustomersMessages().customerRefunds();
+		return Accounter.getCustomersMessages().customerRefunds();
 	}
 }

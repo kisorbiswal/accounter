@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
@@ -14,12 +14,12 @@ public class NewTimeEntryAction extends Action {
 
 	public NewTimeEntryAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getCustomersMessages().customer();
+		this.catagory = Accounter.getCustomersMessages().customer();
 	}
 
 	public NewTimeEntryAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getCustomersMessages().customer();
+		this.catagory = Accounter.getCustomersMessages().customer();
 	}
 
 	@SuppressWarnings("unchecked")

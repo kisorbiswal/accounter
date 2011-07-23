@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.reports.AbstractReportView;
 import com.vimukti.accounter.web.client.ui.reports.DepositDetailReport;
@@ -11,12 +11,12 @@ public class DepositDetailAction extends Action {
 
 	public DepositDetailAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getReportsMessages().report();
+		this.catagory = Accounter.getReportsMessages().report();
 	}
 
 	public DepositDetailAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getReportsMessages().report();
+		this.catagory = Accounter.getReportsMessages().report();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
@@ -59,7 +59,7 @@ public class DepositDetailAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return  FinanceApplication.getFinanceMenuImages().reports();
+		return  Accounter.getFinanceMenuImages().reports();
 
 	}
 

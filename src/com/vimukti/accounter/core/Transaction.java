@@ -129,7 +129,7 @@ public abstract class Transaction implements IAccounterServerCore, Lifecycle,
 	 */
 	boolean isDeposited = false;
 
-	public String stringID;
+	public long id;
 
 	/**
 	 * To know that whether the transaction is voided or not.
@@ -404,7 +404,7 @@ public abstract class Transaction implements IAccounterServerCore, Lifecycle,
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
@@ -1117,15 +1117,15 @@ public abstract class Transaction implements IAccounterServerCore, Lifecycle,
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	public void setCreatedBy(long createdBy) {
@@ -1181,7 +1181,7 @@ public abstract class Transaction implements IAccounterServerCore, Lifecycle,
 		String query = " from com.vimukti.accounter.core.TAXRateCalculation vr where vr.transactionItem.transaction.stringID=? and vr.vatReturn is not null";
 		Session session = HibernateUtil.getCurrentSession();
 		Query query2 = session.createQuery(query);
-		query2.setParameter(0, this.getStringID());
+		query2.setParameter(0, this.getID());
 		List list = query2.list();
 		if (list != null && list.size() > 0)
 			throw new InvalidOperationException(

@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -16,16 +16,16 @@ public class PayBillsAction extends Action {
 	protected PayBillView view;
 
 	public PayBillsAction(String icon) {
-		super(FinanceApplication.getVendorsMessages().payBills(), icon);
-		this.catagory = UIUtils.getVendorString(FinanceApplication
-				.getVendorsMessages().supplier(), FinanceApplication
+		super(Accounter.getVendorsMessages().payBills(), icon);
+		this.catagory = UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplier(), Accounter
 				.getVendorsMessages().vendor());
 	}
 
 	public PayBillsAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(FinanceApplication
-				.getVendorsMessages().supplier(), FinanceApplication
+		this.catagory = UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplier(), Accounter
 				.getVendorsMessages().vendor());
 	}
 
@@ -77,7 +77,7 @@ public class PayBillsAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().payBill();
+		return Accounter.getFinanceMenuImages().payBill();
 	}
 
 	@Override

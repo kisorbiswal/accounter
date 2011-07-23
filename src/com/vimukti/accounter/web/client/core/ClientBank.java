@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.core;
 @SuppressWarnings("serial")
 public class ClientBank implements IAccounterCore {
 
-	String stringID;
+	long id;
 
 	String name;
 
@@ -51,13 +51,13 @@ public class ClientBank implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

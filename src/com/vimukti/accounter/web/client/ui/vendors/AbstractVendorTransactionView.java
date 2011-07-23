@@ -22,7 +22,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
@@ -115,7 +115,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 	@Override
 	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
 		if (gridType == VENDOR_TRANSACTION_GRID)
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 				return new VendorTransactionUSGrid();
 			else
 				return new VendorTransactionUKGrid();
@@ -147,15 +147,15 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 	@Override
 	protected void showMenu(AccounterButton button) {
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, FinanceApplication.getVendorsMessages()
-					.accounts(), FinanceApplication.getVendorsMessages()
-					.service(), FinanceApplication.getVendorsMessages()
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			setMenuItems(button, Accounter.getVendorsMessages()
+					.accounts(), Accounter.getVendorsMessages()
+					.service(), Accounter.getVendorsMessages()
 					.product());
 		else
-			setMenuItems(button, FinanceApplication.getVendorsMessages()
-					.accounts(), FinanceApplication.getVendorsMessages()
-					.service(), FinanceApplication.getVendorsMessages()
+			setMenuItems(button, Accounter.getVendorsMessages()
+					.accounts(), Accounter.getVendorsMessages()
+					.service(), Accounter.getVendorsMessages()
 					.product());
 	}
 
@@ -163,7 +163,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 		if (vendorCombo == null)
 			return;
-		List<ClientVendor> result = FinanceApplication.getCompany()
+		List<ClientVendor> result = Accounter.getCompany()
 				.getActiveVendors();
 		vendors = result;
 
@@ -201,7 +201,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 	protected AmountLabel createTransactionTotalNonEditableItem() {
 
-		AmountLabel amountItem = new AmountLabel(FinanceApplication
+		AmountLabel amountItem = new AmountLabel(Accounter
 				.getVendorsMessages().total());
 		amountItem.setDisabled(true);
 
@@ -211,7 +211,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 	protected AmountLabel createVATTotalNonEditableItem() {
 
-		AmountLabel amountItem = new AmountLabel(FinanceApplication
+		AmountLabel amountItem = new AmountLabel(Accounter
 				.getCustomersMessages().vat());
 		amountItem.setDisabled(true);
 
@@ -299,8 +299,8 @@ public abstract class AbstractVendorTransactionView<T> extends
 	public VendorCombo createVendorComboItem(String title) {
 
 		VendorCombo vendorCombo = new VendorCombo(title != null ? title
-				: UIUtils.getVendorString(FinanceApplication
-						.getVendorsMessages().supplier(), FinanceApplication
+				: UIUtils.getVendorString(Accounter
+						.getVendorsMessages().supplier(), Accounter
 						.getVendorsMessages().vendor()));
 		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(true);
@@ -325,8 +325,8 @@ public abstract class AbstractVendorTransactionView<T> extends
 	public VendorCombo createVendorComboItem(String title, boolean isRequired) {
 
 		VendorCombo vendorCombo = new VendorCombo(UIUtils.getVendorString(
-				FinanceApplication.getVendorsMessages().supplier(),
-				FinanceApplication.getVendorsMessages().vendor()));
+				Accounter.getVendorsMessages().supplier(),
+				Accounter.getVendorsMessages().vendor()));
 		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(isRequired);
 		vendorCombo.setDisabled(isEdit);
@@ -348,7 +348,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 	public ContactCombo createContactComboItem() {
 
-		ContactCombo contactCombo = new ContactCombo(FinanceApplication
+		ContactCombo contactCombo = new ContactCombo(Accounter
 				.getVendorsMessages().contactName());
 		contactCombo.setHelpInformation(true);
 		contactCombo
@@ -369,7 +369,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 	public AddressCombo createBillToComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(FinanceApplication
+		AddressCombo addressCombo = new AddressCombo(Accounter
 				.getVendorsMessages().billTo(), false);
 		addressCombo.setDefaultToFirstOption(false);
 		addressCombo.setHelpInformation(true);
@@ -540,7 +540,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 	protected DateField createTransactionDeliveryDateItem() {
 
-		final DateField dateItem = new DateField(FinanceApplication
+		final DateField dateItem = new DateField(Accounter
 				.getVendorsMessages().deliverydate());
 		dateItem.setHelpInformation(true);
 		// dateItem.setTitle("Delivery Date");
@@ -598,17 +598,17 @@ public abstract class AbstractVendorTransactionView<T> extends
 	// }
 	protected void onAddNew(String menuItem) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
-		if (menuItem.equals(FinanceApplication.getVendorsMessages().accounts())) {
+		if (menuItem.equals(Accounter.getVendorsMessages().accounts())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& !FinanceApplication.getCompany().getpreferences()
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+					&& !Accounter.getCompany().getpreferences()
 							.getDoYouPaySalesTax()) {
-				List<ClientTAXCode> taxCodes = FinanceApplication.getCompany()
+				List<ClientTAXCode> taxCodes = Accounter.getCompany()
 						.getActiveTaxCodes();
 				String ztaxCodeStringId = null;
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("Z")) {
-						ztaxCodeStringId = taxCode.getStringID();
+						ztaxCodeStringId = taxCode.getID();
 					}
 				}
 				if (ztaxCodeStringId != null)
@@ -616,15 +616,15 @@ public abstract class AbstractVendorTransactionView<T> extends
 				// transactionItem.setVatCode(vendor != null ? (vendor
 				// .getVATCode() != null ? vendor.getVATCode() : "") : "");
 			}
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& FinanceApplication.getCompany().getpreferences()
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+					&& Accounter.getCompany().getpreferences()
 							.getDoYouPaySalesTax()) {
-				List<ClientTAXCode> taxCodes = FinanceApplication.getCompany()
+				List<ClientTAXCode> taxCodes = Accounter.getCompany()
 						.getActiveTaxCodes();
 				String staxCodeStringId = null;
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
-						staxCodeStringId = taxCode.getStringID();
+						staxCodeStringId = taxCode.getID();
 					}
 				}
 				// if (zvatCodeStringId != null)
@@ -633,34 +633,34 @@ public abstract class AbstractVendorTransactionView<T> extends
 						.getTAXCode() != null ? vendor.getTAXCode()
 						: staxCodeStringId) : "");
 			}
-		} else if (menuItem.equals(FinanceApplication.getVendorsMessages()
+		} else if (menuItem.equals(Accounter.getVendorsMessages()
 				.product())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-			if (FinanceApplication.getCompany().getpreferences()
+			if (Accounter.getCompany().getpreferences()
 					.getDoYouPaySalesTax()) {
-				List<ClientTAXCode> taxCodes = FinanceApplication.getCompany()
+				List<ClientTAXCode> taxCodes = Accounter.getCompany()
 						.getActiveTaxCodes();
 				String staxCodeStringId = null;
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
-						staxCodeStringId = taxCode.getStringID();
+						staxCodeStringId = taxCode.getID();
 					}
 				}
 				transactionItem.setTaxCode(vendor != null ? (vendor
 						.getTAXCode() != null ? vendor.getTAXCode()
 						: staxCodeStringId) : "");
 			}
-		} else if (menuItem.equals(FinanceApplication.getVendorsMessages()
+		} else if (menuItem.equals(Accounter.getVendorsMessages()
 				.service())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
-			List<ClientTAXCode> taxCodes = FinanceApplication.getCompany()
+			List<ClientTAXCode> taxCodes = Accounter.getCompany()
 					.getActiveTaxCodes();
 			String ztaxCodeStringId = null;
-			if (FinanceApplication.getCompany().getpreferences()
+			if (Accounter.getCompany().getpreferences()
 					.getDoYouPaySalesTax()) {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
-						ztaxCodeStringId = taxCode.getStringID();
+						ztaxCodeStringId = taxCode.getID();
 					}
 				}
 				transactionItem.setTaxCode(vendor != null ? (vendor
@@ -669,7 +669,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 			} else {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("Z")) {
-						ztaxCodeStringId = taxCode.getStringID();
+						ztaxCodeStringId = taxCode.getID();
 					}
 				}
 				if (ztaxCodeStringId != null)

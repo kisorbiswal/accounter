@@ -47,7 +47,7 @@ public class BankingPortlet extends DashBoardPortlet {
 
 	@Override
 	public String getGoToText() {
-		return FinanceApplication.getCompanyMessages().gotoBanking();
+		return Accounter.getCompanyMessages().gotoBanking();
 	}
 
 	@Override
@@ -62,14 +62,14 @@ public class BankingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void createBody() {
-		if (FinanceApplication.getCompany() != null) {
-			bankAccounts = FinanceApplication.getCompany()
+		if (Accounter.getCompany() != null) {
+			bankAccounts = Accounter.getCompany()
 					.getActiveBankAccounts(ClientAccount.TYPE_BANK);
 		}
-		AccounterButton addAccount = new AccounterButton(FinanceApplication
+		AccounterButton addAccount = new AccounterButton(Accounter
 				.getCompanyMessages().addBankAccount());
 		addAccount.addStyleName("addAccountPortlet");
-		if (FinanceApplication.getUser().canDoBanking()) {
+		if (Accounter.getUser().canDoBanking()) {
 			body.add(addAccount);
 			addAccount.enabledButton();
 		}
@@ -207,7 +207,7 @@ public class BankingPortlet extends DashBoardPortlet {
 					}
 				};
 				try {
-					FinanceApplication
+					Accounter
 							.createHomeService()
 							.getGraphPointsforAccount(
 									GraphChart.BANK_ACCOUNT_CHART_TYPE,

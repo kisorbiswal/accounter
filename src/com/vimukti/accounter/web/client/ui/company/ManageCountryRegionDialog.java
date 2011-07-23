@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -39,16 +39,16 @@ public class ManageCountryRegionDialog extends GroupDialog {
 
 			public void onFirstButtonClick() {
 				// TODO Auto-generated method stub
-				new CountryRegionDialog(FinanceApplication.getCompanyMessages()
-						.addCountry(), FinanceApplication.getCompanyMessages()
+				new CountryRegionDialog(Accounter.getCompanyMessages()
+						.addCountry(), Accounter.getCompanyMessages()
 						.enterNameOfCountry()).show();
 
 			}
 
 			public void onSecondButtonClick() {
 				// TODO Auto-generated method stub
-				new CountryRegionDialog(FinanceApplication.getCompanyMessages()
-						.editCountry(), FinanceApplication.getCompanyMessages()
+				new CountryRegionDialog(Accounter.getCompanyMessages()
+						.editCountry(), Accounter.getCompanyMessages()
 						.enterNameOfCountry()).show();
 
 			}
@@ -90,7 +90,7 @@ public class ManageCountryRegionDialog extends GroupDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCompanyMessages().countryRegion();
+		return Accounter.getCompanyMessages().countryRegion();
 	}
 
 }// end of ManageCountryRegionDialog

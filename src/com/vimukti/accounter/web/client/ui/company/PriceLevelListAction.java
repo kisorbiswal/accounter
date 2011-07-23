@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.PriceLevelListDialog;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -46,7 +46,7 @@ public class PriceLevelListAction extends Action {
 				try {
 
 					PriceLevelListDialog dialog = new PriceLevelListDialog(
-							FinanceApplication.getCompanyMessages()
+							Accounter.getCompanyMessages()
 									.managePriceLevelListGroup(), " ");
 					ViewManager viewManager = ViewManager.getInstance();
 					viewManager.setCurrentDialog(dialog);
@@ -68,7 +68,7 @@ public class PriceLevelListAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().priceLevelList();
+		return Accounter.getFinanceMenuImages().priceLevelList();
 	}
 
 	@Override

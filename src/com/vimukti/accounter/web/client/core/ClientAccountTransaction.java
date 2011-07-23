@@ -3,26 +3,26 @@ package com.vimukti.accounter.web.client.core;
 @SuppressWarnings("serial")
 public class ClientAccountTransaction implements IAccounterCore {
 
-	String stringID;
-	String transaction;
-	String account;
+	long id;
+	long transaction;
+	long account;
 	double amount;
 
 	public ClientAccountTransaction() {
 	}
 
-	public ClientAccountTransaction(String account,
+	public ClientAccountTransaction(long account,
 			ClientTransaction transaction, Double amount) {
 		this.account = account;
-		this.transaction = transaction.getStringID();
+		this.transaction = transaction.getID();
 		this.amount = amount;
 
 	}
 
 	@Override
 	public String toString() {
-		if (transaction != null) {
-			return "   " + transaction.toString() + "    " + amount;
+		if (transaction != 0) {
+			return "   " + transaction + "    " + amount;
 		} else
 			return "";
 	}
@@ -39,14 +39,14 @@ public class ClientAccountTransaction implements IAccounterCore {
 	/**
 	 * @return the account
 	 */
-	public String getAccount() {
+	public long getAccount() {
 		return account;
 	}
 
 	/**
 	 * @return the transaction
 	 */
-	public String getTransaction() {
+	public long getTransaction() {
 		return transaction;
 	}
 
@@ -54,7 +54,7 @@ public class ClientAccountTransaction implements IAccounterCore {
 	 * @param transaction
 	 *            the transaction to set
 	 */
-	public void setTransaction(String transaction) {
+	public void setTransaction(long transaction) {
 		this.transaction = transaction;
 	}
 
@@ -62,7 +62,7 @@ public class ClientAccountTransaction implements IAccounterCore {
 	 * @param account
 	 *            the account to set
 	 */
-	public void setAccount(String account) {
+	public void setAccount(long account) {
 		this.account = account;
 	}
 
@@ -103,15 +103,15 @@ public class ClientAccountTransaction implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 
 	}
 
 	@Override
-	public void setStringID(String stringID) {
+	public void setID(long id){
 
-		this.stringID = stringID;
+		this.id=id;
 
 	}
 

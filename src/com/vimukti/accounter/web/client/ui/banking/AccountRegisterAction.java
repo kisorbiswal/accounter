@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.banking;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -17,12 +17,12 @@ public class AccountRegisterAction extends Action {
 	public AccountRegisterAction(String text, String icon, ClientAccount account) {
 		super(text, icon);
 		this.account = account;
-		this.catagory = FinanceApplication.getFinanceUIConstants().banking();
+		this.catagory = Accounter.getFinanceUIConstants().banking();
 	}
 
 	public AccountRegisterAction(String text, String icon) {
 		super(text, icon);
-		this.catagory = FinanceApplication.getFinanceUIConstants().banking();
+		this.catagory = Accounter.getFinanceUIConstants().banking();
 	}
 
 	public void run() {

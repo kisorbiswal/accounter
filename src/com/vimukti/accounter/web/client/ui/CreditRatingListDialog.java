@@ -77,7 +77,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 	}
 
 	public void createCreditRatings() {
-		if (Utility.isObjectExist(FinanceApplication.getCompany()
+		if (Utility.isObjectExist(Accounter.getCompany()
 				.getCreditRatings(), inputDlg.getTextItems().get(0).getValue()
 				.toString())) {
 			Accounter.showError("CreditRating  Already Exists");
@@ -92,7 +92,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 
 	public String getSelectedCreditGroupId() {
 
-		return ((ClientCreditRating) listGridView.getSelection()).getStringID();
+		return ((ClientCreditRating) listGridView.getSelection()).getID();
 	}
 
 	public ClientCreditRating getSelectedCreditGroup() {
@@ -102,13 +102,13 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 
 	public void showAddEditGroupDialog(ClientCreditRating rec) {
 		creditRating = rec;
-		String creditRateString = FinanceApplication.getFinanceUIConstants()
+		String creditRateString = Accounter.getFinanceUIConstants()
 				.creditRating();
-		inputDlg = new InputDialog(FinanceApplication.getCustomersMessages()
+		inputDlg = new InputDialog(Accounter.getCustomersMessages()
 				.creditRating(), "", creditRateString) {
 			@Override
 			protected String getViewTitle() {
-				return FinanceApplication.getCustomersMessages().creditRating();
+				return Accounter.getCustomersMessages().creditRating();
 			}
 		};
 
@@ -169,18 +169,18 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { FinanceApplication.getFinanceUIConstants().name() };
+		return new String[] { Accounter.getFinanceUIConstants().name() };
 	}
 
 	@Override
 	protected List<ClientCreditRating> getRecords() {
-		return (List<ClientCreditRating>) FinanceApplication.getCompany()
+		return (List<ClientCreditRating>) Accounter.getCompany()
 				.getCreditRatings();
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().creditRatingList();
+		return Accounter.getActionsConstants().creditRatingList();
 	}
 
 }

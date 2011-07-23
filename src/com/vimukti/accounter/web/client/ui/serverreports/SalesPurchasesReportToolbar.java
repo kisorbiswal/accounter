@@ -9,7 +9,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
@@ -87,7 +87,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		});
 
 		fromItem = new DateItem();
-		fromItem.setDatethanFireEvent(FinanceApplication.getStartDate());
+		fromItem.setDatethanFireEvent(Accounter.getStartDate());
 		fromItem.setTitle("From");
 
 		toItem = new DateItem();

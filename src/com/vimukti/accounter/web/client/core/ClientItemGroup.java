@@ -9,7 +9,7 @@ public class ClientItemGroup implements IAccounterCore {
 
 	String name;
 
-	String stringID;
+	long id;
 
 	boolean isDefault;
 
@@ -85,13 +85,13 @@ public class ClientItemGroup implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

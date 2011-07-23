@@ -164,7 +164,7 @@ public class MakeDepositView extends
 
 		};
 
-		FinanceApplication.createHomeService().getNextTransactionNumber(
+		Accounter.createHomeService().getNextTransactionNumber(
 				ClientTransaction.TYPE_MAKE_DEPOSIT,
 				getTransactionNumberCallback);
 	}
@@ -176,7 +176,7 @@ public class MakeDepositView extends
 	private void addTransactionMakeDepositsToGrid(
 			List<ClientTransactionMakeDeposit> transactionMakeDepositList) {
 		@SuppressWarnings("unused")
-		ClientCompany company = FinanceApplication.getCompany();
+		ClientCompany company = Accounter.getCompany();
 
 		ClientTransactionMakeDeposit records[] = new ClientTransactionMakeDeposit[transactionMakeDepositList
 				.size()];
@@ -240,7 +240,7 @@ public class MakeDepositView extends
 				if (DecimalUtil.isLessThan(cashBackAmount, 0.00)
 						|| DecimalUtil.isGreaterThan(cashBackAmount,
 								calculatedTotal)) {
-					Accounter.showError(FinanceApplication
+					Accounter.showError(Accounter
 							.getFinanceUIConstants().cashBackAmountErrorMsg());
 					cashBackAmount = 0.00;
 					// cashBackAmountText.setValue("$0.00");
@@ -262,7 +262,7 @@ public class MakeDepositView extends
 			// totText.setValue(UIUtils.format(diff));
 			totText.setAmount(diff);
 		} catch (Exception e) {
-			Accounter.showError(FinanceApplication.getFinanceUIConstants()
+			Accounter.showError(Accounter.getFinanceUIConstants()
 					.enterValidAmount());
 			// cashBackAmountText.setValue("$0.00");
 			cashBackAmountText.setAmount(0.00);
@@ -282,7 +282,7 @@ public class MakeDepositView extends
 					Accounter
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
-					Accounter.showError(FinanceApplication
+					Accounter.showError(Accounter
 							.getFinanceUIConstants()
 							.makeDepostTransationsListFailed());
 					gridView.removeAllRecords();
@@ -302,7 +302,7 @@ public class MakeDepositView extends
 
 				} else if (!isEdit) {
 					gridView.removeAllRecords();
-					Accounter.showError(FinanceApplication
+					Accounter.showError(Accounter
 							.getFinanceUIConstants().noDepositsToShow());
 					// gridView.addEmptyMessage("No records to show");
 				}
@@ -311,13 +311,13 @@ public class MakeDepositView extends
 
 		};
 
-		FinanceApplication.createHomeService().getTransactionMakeDeposits(
+		Accounter.createHomeService().getTransactionMakeDeposits(
 				callback);
 
 	}
 
 	public void initVendorCombo() {
-		List<ClientVendor> result = FinanceApplication.getCompany()
+		List<ClientVendor> result = Accounter.getCompany()
 				.getActiveVendors();
 		if (result != null) {
 			allVendors = result;
@@ -328,7 +328,7 @@ public class MakeDepositView extends
 	}
 
 	private void initCustomerCombo() {
-		List<ClientCustomer> result = FinanceApplication.getCompany()
+		List<ClientCustomer> result = Accounter.getCompany()
 				.getActiveCustomers();
 		if (result != null) {
 			allCustomers = result;
@@ -352,7 +352,7 @@ public class MakeDepositView extends
 				&& selectedCashBackAccount == null) {
 
 			flag = false;
-			Accounter.showError(FinanceApplication.getFinanceUIConstants()
+			Accounter.showError(Accounter.getFinanceUIConstants()
 					.cashBackAccountShouldBeSelected());
 
 		}
@@ -372,7 +372,7 @@ public class MakeDepositView extends
 		// calculatedTotal) {
 		if (DecimalUtil.isGreaterThan(cashBackAmountText.getAmount(),
 				calculatedTotal)) {
-			Accounter.showError(FinanceApplication.getFinanceUIConstants()
+			Accounter.showError(Accounter.getFinanceUIConstants()
 					.cashBackAmountShouldnotBeGreaterthanDepositedAmount());
 			return false;
 		}
@@ -387,7 +387,7 @@ public class MakeDepositView extends
 		// be '0'
 		if (rec.getType() == 0
 				|| (rec.getAccount().length() == 0 || rec.getAccount() == null)) {
-			Accounter.showError(FinanceApplication.getFinanceUIConstants()
+			Accounter.showError(Accounter.getFinanceUIConstants()
 					.pleaseChooseAnAccount());
 			return false;
 
@@ -448,13 +448,13 @@ public class MakeDepositView extends
 			if (DecimalUtil.isLessThan(enteredAmount, -1000000000000.00)
 					|| DecimalUtil.isGreaterThan(enteredAmount,
 							1000000000000.00)) {
-				Accounter.showError(FinanceApplication.getFinanceUIConstants()
+				Accounter.showError(Accounter.getFinanceUIConstants()
 						.amountExceedsTheLimit());
 				enteredAmount = 0.00;
 			} else
 				selectedRecord.setAmount(enteredAmount);
 		} catch (Exception e) {
-			Accounter.showError(FinanceApplication.getFinanceUIConstants()
+			Accounter.showError(Accounter.getFinanceUIConstants()
 					.invalidAmount());
 			selectedRecord.setAmount(0.00);
 		}
@@ -497,7 +497,7 @@ public class MakeDepositView extends
 			makeDeposit.setDate(date.getValue().getTime());
 
 		// Setting Deposit in
-		makeDeposit.setDepositIn(selectedDepositInAccount.getStringID());
+		makeDeposit.setDepositIn(selectedDepositInAccount.getID());
 
 		// Setting Memo
 		if (memoText.getValue() != null)
@@ -515,7 +515,7 @@ public class MakeDepositView extends
 		// Setting Cash back account
 		makeDeposit
 				.setCashBackAccount(selectedCashBackAccount != null ? selectedCashBackAccount
-						.getStringID()
+						.getID()
 						: null);
 		if (cashBackMemoText.getValue() != null)
 			makeDeposit.setCashBackMemo(cashBackMemoText.getValue().toString());
@@ -543,7 +543,7 @@ public class MakeDepositView extends
 		// Setting Transaction number
 		// makeDeposit.setNumber(transactionNumber);
 		super.saveAndUpdateView();
-		if (transactionObject.getStringID() != null) {
+		if (transactionObject.getID() != null) {
 			alterObject(makeDeposit);
 		} else {
 			createObject(makeDeposit);
@@ -574,7 +574,7 @@ public class MakeDepositView extends
 		// .getAccount(
 		// UIUtils.toLong(record
 		// .getAttribute("cashAccountId")))
-		// .getStringID());
+		// .getID());
 		//
 		// // setting DepositedTransactionId
 		// entry.setDepositedTransaction(Long.parseLong(record
@@ -608,7 +608,7 @@ public class MakeDepositView extends
 		//
 		// for (ClientAccount temp : allAccounts) {
 		// if (temp.getName().equalsIgnoreCase(account)) {
-		// entry.setAccount(temp.getStringID());
+		// entry.setAccount(temp.getID());
 		// break;
 		// }
 		// }
@@ -618,7 +618,7 @@ public class MakeDepositView extends
 		//
 		// for (ClientVendor temp : allVendors) {
 		// if (temp.getName().equalsIgnoreCase(account)) {
-		// entry.setVendor(temp.getStringID());
+		// entry.setVendor(temp.getID());
 		// break;
 		// }
 		// }
@@ -628,7 +628,7 @@ public class MakeDepositView extends
 		// .setType(ClientTransactionMakeDeposit.TYPE_CUSTOMER);
 		// for (ClientCustomer temp : allCustomers) {
 		// if (temp.getName().equalsIgnoreCase(account)) {
-		// entry.setCustomer(temp.getStringID());
+		// entry.setCustomer(temp.getID());
 		// break;
 		// }
 		// }
@@ -705,11 +705,11 @@ public class MakeDepositView extends
 		getDepositInAccounts();
 
 		if (transactionObject != null) {
-			depositInSelect.setComboItem(FinanceApplication.getCompany()
+			depositInSelect.setComboItem(Accounter.getCompany()
 					.getAccount(
 							((ClientMakeDeposit) transactionObject)
 									.getDepositIn()));
-			this.selectedDepositInAccount = FinanceApplication.getCompany()
+			this.selectedDepositInAccount = Accounter.getCompany()
 					.getAccount(
 							((ClientMakeDeposit) transactionObject)
 									.getDepositIn());
@@ -727,7 +727,7 @@ public class MakeDepositView extends
 
 	private void initCashBackAccounts() {
 		accountsList = new ArrayList<ClientAccount>();
-		for (ClientAccount account : FinanceApplication.getCompany()
+		for (ClientAccount account : Accounter.getCompany()
 				.getActiveAccounts()) {
 
 			if (account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
@@ -773,7 +773,7 @@ public class MakeDepositView extends
 	@Override
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
-		Label lab = new Label(FinanceApplication.getFinanceUIConstants()
+		Label lab = new Label(Accounter.getFinanceUIConstants()
 				.makeDeposit());
 		lab.removeStyleName("gwt-Label");
 		lab.addStyleName("lable-title");
@@ -877,7 +877,7 @@ public class MakeDepositView extends
 		// Label lab1 = new Label(FinanceApplication.getFinanceUIConstants()
 		// .paymentsReceived());
 
-		addButton = new AccounterButton(FinanceApplication
+		addButton = new AccounterButton(Accounter
 				.getFinanceUIConstants().add());
 
 		addButton.addClickHandler(new ClickHandler() {
@@ -972,7 +972,7 @@ public class MakeDepositView extends
 
 		if (transactionObject != null) {
 			date.setValue(transactionObject.getDate());
-			depositInSelect.setComboItem(FinanceApplication.getCompany()
+			depositInSelect.setComboItem(Accounter.getCompany()
 					.getAccount(
 							((ClientMakeDeposit) transactionObject)
 									.getDepositIn()));
@@ -980,7 +980,7 @@ public class MakeDepositView extends
 			if (((ClientMakeDeposit) transactionObject).getMemo() != null)
 				memoText.setValue(((ClientMakeDeposit) transactionObject)
 						.getMemo());
-			cashBackAccountSelect.setComboItem(FinanceApplication.getCompany()
+			cashBackAccountSelect.setComboItem(Accounter.getCompany()
 					.getAccount(
 							((ClientMakeDeposit) transactionObject)
 									.getCashBackAccount()));
@@ -1046,7 +1046,7 @@ public class MakeDepositView extends
 	}
 
 	private void initFianancialAccounts() {
-		allAccounts = FinanceApplication.getCompany().getActiveAccounts();
+		allAccounts = Accounter.getCompany().getActiveAccounts();
 		financeAccountSelect.initCombo(allAccounts);
 	}
 
@@ -1056,7 +1056,7 @@ public class MakeDepositView extends
 		super.setData(data);
 		if (isEdit && (!transactionObject.isMakeDeposit()))
 			try {
-				throw new Exception(FinanceApplication.getFinanceUIConstants()
+				throw new Exception(Accounter.getFinanceUIConstants()
 						.unabletoLoadTheRequiredDeposit());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -1322,6 +1322,6 @@ public class MakeDepositView extends
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getBankingsMessages().makeDeposit();
+		return Accounter.getBankingsMessages().makeDeposit();
 	}
 }

@@ -7,7 +7,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 
 /*
@@ -49,18 +49,18 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 
 				if (!GWT.isScript()) {
 					caught.printStackTrace();
-					Accounter.showError(FinanceApplication
+					Accounter.showError(Accounter
 							.getAccounterComboConstants().sorryFailedToAdd());
 				}
 
 			}
 
 			public void onSuccess(T result) {
-				boolean usTaxCode = FinanceApplication.getCompany()
+				boolean usTaxCode = Accounter.getCompany()
 						.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
 						&& result instanceof ClientTAXItemGroup;
 				if (usTaxCode)
-					result = (T) FinanceApplication.getCompany()
+					result = (T) Accounter.getCompany()
 							.getTAXCodeForTAXItemGroup(
 									(ClientTAXItemGroup) result);
 				if (result != null) {

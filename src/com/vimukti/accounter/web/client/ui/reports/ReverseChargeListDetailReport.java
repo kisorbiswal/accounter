@@ -4,7 +4,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.ReverseChargeListDetailServerReport;
 
@@ -37,7 +37,7 @@ public class ReverseChargeListDetailReport extends
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		ReverseChargeList transactionDetails = (ReverseChargeList) data;
-		FinanceApplication.createReportService()
+		Accounter.createReportService()
 				.getReverseChargeListDetailReport(transactionDetails.getName(),
 						start.getTime(), end.getTime(), this);
 		this.vatAgency = transactionDetails.getName();

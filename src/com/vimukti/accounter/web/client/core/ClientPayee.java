@@ -22,7 +22,7 @@ public abstract class ClientPayee implements IAccounterCore {
 
 	String fileAs;
 
-	String stringID;
+	long id;
 
 	int type;
 
@@ -295,13 +295,13 @@ public abstract class ClientPayee implements IAccounterCore {
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	public void setPhoneNo(String phoneNo) {

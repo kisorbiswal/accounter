@@ -52,13 +52,13 @@ public class Fax implements IAccounterServerCore {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
+	public void setID(long id){
 
 	}
 

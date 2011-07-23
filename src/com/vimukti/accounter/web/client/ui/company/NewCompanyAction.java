@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
@@ -24,7 +24,7 @@ public class NewCompanyAction extends Action {
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		if (FinanceApplication.getUser() == null) {
+		if (Accounter.getUser() == null) {
 			// SC.say(getText());
 		} else {
 			CompanySetupDialog comDialog = new CompanySetupDialog(null);

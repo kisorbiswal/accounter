@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.ui.core;
 
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.APAgingDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.APAgingSummaryReportAction;
@@ -59,47 +59,47 @@ public class ReportsActionFactory extends AbstractActionFactory {
 	}
 
 	public static VendorsListAction getVendorListAction() {
-		return new VendorsListAction(UIUtils.getVendorString(FinanceApplication
-				.getActionsConstants().suppliersList(), FinanceApplication
+		return new VendorsListAction(UIUtils.getVendorString(Accounter
+				.getActionsConstants().suppliersList(), Accounter
 				.getActionsConstants().vendorsList()),
 				"/images/icons/report/reports.png");
 	}
 
 	public static BalanceSheetAction getBalanceSheetAction() {
-		return new BalanceSheetAction(FinanceApplication.getActionsConstants()
+		return new BalanceSheetAction(Accounter.getActionsConstants()
 				.balanceSheet(), "/images/icons/report/reports.png");
 	}
 
 	public static CashFlowStatementAction getCashFlowStatementAction() {
-		return new CashFlowStatementAction(FinanceApplication
+		return new CashFlowStatementAction(Accounter
 				.getActionsConstants().cashFlowReport(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static TrialBalanceAction getTrialBalanceAction() {
-		return new TrialBalanceAction(FinanceApplication.getActionsConstants()
+		return new TrialBalanceAction(Accounter.getActionsConstants()
 				.trialBalance(), "/images/icons/report/reports.png");
 	}
 
 	public static TransactionDetailByAccountAction getTransactionDetailByAccountAction() {
-		return new TransactionDetailByAccountAction(FinanceApplication
+		return new TransactionDetailByAccountAction(Accounter
 				.getActionsConstants().transactionDetailByAccount(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static GLReportAction getGlReportAction() {
-		return new GLReportAction(FinanceApplication.getActionsConstants()
+		return new GLReportAction(Accounter.getActionsConstants()
 				.generalLedgerReport(), "/images/icons/report/reports.png");
 	}
 
 	public static SalesTaxLiabilityAction getSalesTaxLiabilityAction() {
-		return new SalesTaxLiabilityAction(FinanceApplication
+		return new SalesTaxLiabilityAction(Accounter
 				.getActionsConstants().salesTaxLiability(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static TransactionDetailByTaxItemAction getTransactionDetailByTaxItemAction() {
-		return new TransactionDetailByTaxItemAction(FinanceApplication
+		return new TransactionDetailByTaxItemAction(Accounter
 				.getActionsConstants().transactionDetailByTaxItem(),
 				"/images/icons/report/reports.png");
 	}
@@ -111,42 +111,42 @@ public class ReportsActionFactory extends AbstractActionFactory {
 	// }
 
 	public static ARAgingDetailAction getArAgingDetailAction() {
-		return new ARAgingDetailAction(FinanceApplication.getActionsConstants()
+		return new ARAgingDetailAction(Accounter.getActionsConstants()
 				.ARAgeingDetail(), "/images/icons/report/reports.png");
 	}
 
 	public static CustomerTransactionHistoryAction getCustomerTransactionHistoryAction() {
-		return new CustomerTransactionHistoryAction(FinanceApplication
+		return new CustomerTransactionHistoryAction(Accounter
 				.getActionsConstants().customerTransactionHistory(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static MostProfitableCustomersAction getMostProfitableCustomersAction() {
-		return new MostProfitableCustomersAction(FinanceApplication
+		return new MostProfitableCustomersAction(Accounter
 				.getActionsConstants().mostProfitableCustomers(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static SalesByCustomerSummaryAction getSalesByCustomerSummaryAction() {
-		return new SalesByCustomerSummaryAction(FinanceApplication
+		return new SalesByCustomerSummaryAction(Accounter
 				.getActionsConstants().salesByCustomerSumary(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static SalesByCustomerDetailAction getSalesByCustomerDetailAction() {
-		return new SalesByCustomerDetailAction(FinanceApplication
+		return new SalesByCustomerDetailAction(Accounter
 				.getActionsConstants().salesByCustomerDetail(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static SalesByItemSummaryAction getSalesByItemSummmaryAction() {
-		return new SalesByItemSummaryAction(FinanceApplication
+		return new SalesByItemSummaryAction(Accounter
 				.getActionsConstants().SalesByItemSummary(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static SalesByItemDetailAction getSalesByItemDetailAction() {
-		return new SalesByItemDetailAction(FinanceApplication
+		return new SalesByItemDetailAction(Accounter
 				.getActionsConstants().SalesByItemDetail(),
 				"/images/icons/report/reports.png");
 	}
@@ -158,14 +158,14 @@ public class ReportsActionFactory extends AbstractActionFactory {
 	// }
 
 	public static APAgingDetailAction getAorpAgingDetailAction() {
-		return new APAgingDetailAction(FinanceApplication.getActionsConstants()
+		return new APAgingDetailAction(Accounter.getActionsConstants()
 				.APAgeingDetail(), "/images/icons/report/reports.png");
 	}
 
 	public static VendorTransactionHistoryAction getVendorTransactionHistoryAction() {
 		return new VendorTransactionHistoryAction(UIUtils.getVendorString(
-				FinanceApplication.getActionsConstants()
-						.supplierTransactionHistory(), FinanceApplication
+				Accounter.getActionsConstants()
+						.supplierTransactionHistory(), Accounter
 						.getActionsConstants().vendorTransactionHistory()),
 				"/images/icons/report/reports.png");
 	}
@@ -182,148 +182,148 @@ public class ReportsActionFactory extends AbstractActionFactory {
 	}
 
 	public static SalesByItemSummaryAction getSalesByItemSummaryAction() {
-		return new SalesByItemSummaryAction(FinanceApplication
+		return new SalesByItemSummaryAction(Accounter
 				.getActionsConstants().SalesByItemSummary(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static PurchaseByVendorSummaryAction getPurchaseByVendorSummaryAction() {
 		return new PurchaseByVendorSummaryAction(UIUtils.getVendorString(
-				FinanceApplication.getActionsConstants()
-						.purchaseBySupplierSummary(), FinanceApplication
+				Accounter.getActionsConstants()
+						.purchaseBySupplierSummary(), Accounter
 						.getActionsConstants().purchaseByVendorSummary()),
 				"/images/icons/report/reports.png");
 	}
 
 	public static PurchaseByVendorDetailsAction getPurchaseByVendorDetailAction() {
 		return new PurchaseByVendorDetailsAction(UIUtils.getVendorString(
-				FinanceApplication.getActionsConstants()
-						.purchaseBySupplierDetail(), FinanceApplication
+				Accounter.getActionsConstants()
+						.purchaseBySupplierDetail(), Accounter
 						.getActionsConstants().purchaseByVendorDetail()),
 				"/images/icons/report/reports.png");
 	}
 
 	public static PurchaseByItemSummaryAction getPurchaseByItemSummaryAction() {
-		return new PurchaseByItemSummaryAction(FinanceApplication
+		return new PurchaseByItemSummaryAction(Accounter
 				.getActionsConstants().purchaseByItemSummary(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static PurchaseByItemDetailsAction getPurchaseByItemAction() {
-		return new PurchaseByItemDetailsAction(FinanceApplication
+		return new PurchaseByItemDetailsAction(Accounter
 				.getActionsConstants().purchaseByItemDetail(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static PurchaseOpenOrderAction getPurchaseOpenOrderAction() {
-		return new PurchaseOpenOrderAction(FinanceApplication
+		return new PurchaseOpenOrderAction(Accounter
 				.getActionsConstants().purchaseOrderReport(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static PurchaseClosedOrderAction getPurchaseClosedOrderAction() {
-		return new PurchaseClosedOrderAction(FinanceApplication
+		return new PurchaseClosedOrderAction(Accounter
 				.getActionsConstants().purchaseClosedOrder(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static SalesOpenOrderAction getSalesOpenOrderAction() {
-		return new SalesOpenOrderAction(FinanceApplication
+		return new SalesOpenOrderAction(Accounter
 				.getActionsConstants().salesOrderReport(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static SalesClosedOrderAction getSalesCloseOrderAction() {
-		return new SalesClosedOrderAction(FinanceApplication
+		return new SalesClosedOrderAction(Accounter
 				.getActionsConstants().salesCloseOrder(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static VATDetailsReportAction getVATDetailsReportAction() {
-		return new VATDetailsReportAction(FinanceApplication
+		return new VATDetailsReportAction(Accounter
 				.getReportsMessages().vatDetail());
 	}
 
 	public static VATSummaryReportAction getVATSummaryReportAction() {
-		return new VATSummaryReportAction(FinanceApplication
+		return new VATSummaryReportAction(Accounter
 				.getActionsConstants().priorVATReturns(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static VAT100ReportAction getVAT100ReportAction() {
-		return new VAT100ReportAction(FinanceApplication.getActionsConstants()
+		return new VAT100ReportAction(Accounter.getActionsConstants()
 				.VAT100(), "/images/icons/report/reports.png");
 	}
 
 	public static VATUncategorisedAmountsReportAction getVATUncategorisedAmountsReportAction() {
-		return new VATUncategorisedAmountsReportAction(FinanceApplication
+		return new VATUncategorisedAmountsReportAction(Accounter
 				.getActionsConstants().uncategorisedVATAmounts(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static VATItemSummaryReportAction getVATItemSummaryReportAction() {
-		return new VATItemSummaryReportAction(FinanceApplication
+		return new VATItemSummaryReportAction(Accounter
 				.getActionsConstants().VATItemSummary(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static ECSalesListAction getECSalesListAction() {
-		return new ECSalesListAction(FinanceApplication.getActionsConstants()
+		return new ECSalesListAction(Accounter.getActionsConstants()
 				.ECSalesList(), "/images/icons/report/reports.png");
 	}
 
 	public static ECSalesListDetailAction getECSalesListDetailAction() {
-		return new ECSalesListDetailAction(FinanceApplication
+		return new ECSalesListDetailAction(Accounter
 				.getActionsConstants().ECSalesListDetailReport(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static ReverseChargeListAction getReverseChargeListAction() {
-		return new ReverseChargeListAction(FinanceApplication
+		return new ReverseChargeListAction(Accounter
 				.getActionsConstants().reverseChargeList(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static ReverseChargeListDetailAction getReverseChargeListDetailAction() {
-		return new ReverseChargeListDetailAction(FinanceApplication
+		return new ReverseChargeListDetailAction(Accounter
 				.getActionsConstants().reverseChargeListDetailReport(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static VaTItemDetailAction getVaTItemDetailAction() {
-		return new VaTItemDetailAction(FinanceApplication.getActionsConstants()
+		return new VaTItemDetailAction(Accounter.getActionsConstants()
 				.VATItemDetailReport(), "/images/icons/report/reports.png");
 	}
 
 	public static ARAgingSummaryReportAction getArAgingSummaryReportAction() {
-		return new ARAgingSummaryReportAction(FinanceApplication
+		return new ARAgingSummaryReportAction(Accounter
 				.getActionsConstants().ARAgeingSummary(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static Action getAorpAgingSummaryReportAction() {
-		return new APAgingSummaryReportAction(FinanceApplication
+		return new APAgingSummaryReportAction(Accounter
 				.getActionsConstants().APAgeingSummary(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static ExpenseReportAction getExpenseReportAction() {
-		return new ExpenseReportAction(FinanceApplication.getActionsConstants()
+		return new ExpenseReportAction(Accounter.getActionsConstants()
 				.expenseReport(), "/images/icons/report/reports.png");
 	}
 
 	public static DepositDetailAction getDetailReportAction() {
-		return new DepositDetailAction(FinanceApplication.getActionsConstants()
+		return new DepositDetailAction(Accounter.getActionsConstants()
 				.depositDetail(), "");
 	}
 
 	public static CheckDetailReportAction getCheckDetailReport() {
-		return new CheckDetailReportAction(FinanceApplication
+		return new CheckDetailReportAction(Accounter
 				.getActionsConstants().checkDetail(), "");
 	}
 
 	public static Action getStatementReport() {
-		return new StatementReportAction(FinanceApplication
+		return new StatementReportAction(Accounter
 				.getReportsMessages().customerStatement(),
 				"/images/icons/report/reports.png");
 	}

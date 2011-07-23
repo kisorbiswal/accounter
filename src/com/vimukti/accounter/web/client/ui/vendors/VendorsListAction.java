@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -18,15 +18,15 @@ public class VendorsListAction extends Action {
 
 	public VendorsListAction(String icon) {
 		super("Vendors", icon);
-		this.catagory = UIUtils.getVendorString(FinanceApplication
-				.getVendorsMessages().supplier(), FinanceApplication
+		this.catagory = UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplier(), Accounter
 				.getVendorsMessages().vendor());
 	}
 
 	public VendorsListAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(FinanceApplication
-				.getVendorsMessages().supplier(), FinanceApplication
+		this.catagory = UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplier(), Accounter
 				.getVendorsMessages().vendor());
 	}
 
@@ -68,7 +68,7 @@ public class VendorsListAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().vendors();
+		return Accounter.getFinanceMenuImages().vendors();
 	}
 
 	@Override

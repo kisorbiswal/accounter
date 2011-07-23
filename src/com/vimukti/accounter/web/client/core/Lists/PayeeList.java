@@ -16,7 +16,7 @@ public class PayeeList implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = -6437227220504175273L;
 	int type;
-	public String stringID;
+	public long id;
 	String payeeName;
 	double currentMonth = 0D;
 	double previousMonth = 0D;
@@ -63,7 +63,7 @@ public class PayeeList implements IAccounterCore {
 	/**
 	 * @return the stringID
 	 */
-	public String getStringID() {
+	public long getID(){
 		return stringID;
 	}
 
@@ -71,8 +71,8 @@ public class PayeeList implements IAccounterCore {
 	 * @param stringID
 	 *            the stringID to set
 	 */
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	/**

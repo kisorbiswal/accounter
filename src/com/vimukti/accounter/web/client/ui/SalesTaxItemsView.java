@@ -15,7 +15,7 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	@Override
 	protected Action getAddNewAction() {
 
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			return VatActionFactory.getNewVatItemAction();
 		else
 			return null;
@@ -23,8 +23,8 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
-			return FinanceApplication.getVATMessages().addaNewTaxItem();
+		if (Accounter.getUser().canDoInvoiceTransactions())
+			return Accounter.getVATMessages().addaNewTaxItem();
 		else
 			return "";
 	}
@@ -32,7 +32,7 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	@Override
 	protected String getListViewHeading() {
 
-		return FinanceApplication.getVATMessages().taxItemsList();
+		return Accounter.getVATMessages().taxItemsList();
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 		grid = new ManageSalesTaxItemListGrid(false);
 		grid.addStyleName("listgrid-tl");
 		grid.init();
-		listOfTaxItems = FinanceApplication.getCompany().getTaxItems();
+		listOfTaxItems = Accounter.getCompany().getTaxItems();
 		filterList(true);
 
 	}
@@ -99,11 +99,11 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	@Override
 	protected String getViewTitle() {
 		String constant;
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
-			constant = FinanceApplication.getActionsConstants()
+		if (Accounter.getUser().canDoInvoiceTransactions())
+			constant = Accounter.getActionsConstants()
 					.manageSalesItems();
 		else
-			constant = FinanceApplication.getActionsConstants().salesTaxItems();
+			constant = Accounter.getActionsConstants().salesTaxItems();
 		return constant;
 	}
 

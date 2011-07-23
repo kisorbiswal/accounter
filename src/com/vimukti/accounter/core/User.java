@@ -60,8 +60,6 @@ public class User implements IAccounterServerCore, Lifecycle {
 	 * This is field used for AccounterLive. This is the URL which is dedicated
 	 * to the user at the time of registration.
 	 */
-	// String domainURL;
-	private String stringID;
 
 	private long lastLogin;
 	private FinanceDate createdDate;
@@ -114,7 +112,7 @@ public class User implements IAccounterServerCore, Lifecycle {
 
 	public User(ClientUser clientUser) {
 		// User user = new User();
-		this.setStringID(clientUser.getStringID());
+		this.setStringID(clientUser.getID());
 		this.setFirstName(clientUser.getFirstName());
 		this.setLastName(clientUser.getLastName());
 		this.setFullName(clientUser.getFullName());
@@ -152,7 +150,7 @@ public class User implements IAccounterServerCore, Lifecycle {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
@@ -209,14 +207,14 @@ public class User implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

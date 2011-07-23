@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
@@ -299,7 +299,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getSettingsMessages().generalSettings();
+		return Accounter.getSettingsMessages().generalSettings();
 	}
 
 }

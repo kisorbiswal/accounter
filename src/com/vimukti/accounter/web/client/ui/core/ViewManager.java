@@ -43,7 +43,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
 import com.vimukti.accounter.web.client.ui.DashBoard;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.FinanceDashboard;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -194,7 +194,7 @@ public class ViewManager extends DockPanel {
 			previousButton.setSize("20", "15");
 		else
 			previousButton.setSize("15", "15");
-		previousButton.setTitle(FinanceApplication.getCustomersMessages()
+		previousButton.setTitle(Accounter.getCustomersMessages()
 				.previous());
 		previousButton.setStyleName("previousButton");
 		previousButton
@@ -214,7 +214,7 @@ public class ViewManager extends DockPanel {
 			nextButton.setSize("20", "15");
 		else
 			nextButton.setSize("15", "15");
-		nextButton.setTitle(FinanceApplication.getCustomersMessages().next());
+		nextButton.setTitle(Accounter.getCustomersMessages().next());
 		nextButton.setStyleName("nextButton");
 		nextButton.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		nextButton.addClickHandler(new ClickHandler() {
@@ -238,7 +238,7 @@ public class ViewManager extends DockPanel {
 		statusLayout.add(hlay);
 
 		closeButton = new Label();
-		closeButton.setTitle(FinanceApplication.getCustomersMessages().close());
+		closeButton.setTitle(Accounter.getCustomersMessages().close());
 		if (UIUtils.isMSIEBrowser())
 			closeButton.setSize("20", "14");
 		else
@@ -301,7 +301,7 @@ public class ViewManager extends DockPanel {
 		print1Button = new Image("/images/Print1.png");
 		print1Button.setStyleName("print_button_icon");
 		print1Button
-				.setTitle(FinanceApplication.getCustomersMessages().print());
+				.setTitle(Accounter.getCustomersMessages().print());
 		print1Button.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -338,7 +338,7 @@ public class ViewManager extends DockPanel {
 
 		edit1Button = new Image("/images/Page_edit1.png");
 		edit1Button.setStyleName("edit_button_icon");
-		edit1Button.setTitle(FinanceApplication.getCustomersMessages().edit());
+		edit1Button.setTitle(Accounter.getCustomersMessages().edit());
 		edit1Button.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -524,10 +524,10 @@ public class ViewManager extends DockPanel {
 	}
 
 	private void resetTopRightButtons(Action action, Object input) {
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			boolean enableEdit = input != null
 					&& !action.getCatagory().equals(
-							FinanceApplication.getReportsMessages().report())
+							Accounter.getReportsMessages().report())
 					&& (input instanceof ClientTransaction)
 					&& !(input instanceof ClientPayVAT)
 					&& !(input instanceof ClientReceiveVAT);
@@ -535,7 +535,7 @@ public class ViewManager extends DockPanel {
 		} else {
 			boolean enableEdit = input != null
 					&& !action.getCatagory().equals(
-							FinanceApplication.getReportsMessages().report())
+							Accounter.getReportsMessages().report())
 					&& (input instanceof ClientTransaction)
 					&& !(input instanceof ClientPaySalesTax);
 			edit1Button.setVisible(enableEdit);
@@ -543,11 +543,11 @@ public class ViewManager extends DockPanel {
 
 		boolean enablePrint = (input != null && (input instanceof ClientInvoice || input instanceof ClientCustomerCreditMemo))
 				|| action.getCatagory().equals(
-						FinanceApplication.getReportsMessages().report());
+						Accounter.getReportsMessages().report());
 
 		print1Button.setVisible(enablePrint);
 		exportButton.setVisible(action.getCatagory().equals(
-				FinanceApplication.getReportsMessages().report()));
+				Accounter.getReportsMessages().report()));
 
 		boolean enableClose = !(action instanceof CompanyHomeAction)
 				&& !(action instanceof PurchaseOrderListAction)
@@ -641,8 +641,8 @@ public class ViewManager extends DockPanel {
 		statusLabel.setText(action.catagory
 				+ " > "
 				+ (input == null ? action.getText() : action.getText().replace(
-						FinanceApplication.getCustomersMessages().New(),
-						FinanceApplication.getCustomersMessages().viewEdit())));
+						Accounter.getCustomersMessages().New(),
+						Accounter.getCustomersMessages().viewEdit())));
 		refreshStatusBar();
 	}
 
@@ -752,9 +752,9 @@ public class ViewManager extends DockPanel {
 					+ " > "
 					+ (currentCanvas.isEditMode() ? history.getAction()
 							.getText().replace(
-									FinanceApplication.getCustomersMessages()
+									Accounter.getCustomersMessages()
 											.New(),
-									FinanceApplication.getCustomersMessages()
+									Accounter.getCustomersMessages()
 											.viewEdit()) : history.getAction()
 							.getText()));
 			fitToSize(this.height, this.width);
@@ -872,8 +872,8 @@ public class ViewManager extends DockPanel {
 				if (index <= 0) {
 					history = null;
 				} else {
-					if (FinanceApplication.isSales()
-							|| FinanceApplication.isPurchases()) {
+					if (Accounter.isSales()
+							|| Accounter.isPurchases()) {
 						if (historyList.size() == 1) {
 							return historyList.get(0);
 						}
@@ -907,8 +907,8 @@ public class ViewManager extends DockPanel {
 				if (index <= 0) {
 					history = null;
 				} else {
-					if (FinanceApplication.isSales()
-							|| FinanceApplication.isPurchases()) {
+					if (Accounter.isSales()
+							|| Accounter.isPurchases()) {
 						if (historyList.size() == 1) {
 							return historyList.get(0);
 						}
@@ -1224,9 +1224,9 @@ public class ViewManager extends DockPanel {
 						+ " > "
 						+ (currentCanvas.isEditMode() ? history.getAction()
 								.getText().replace(
-										FinanceApplication
+										Accounter
 												.getCustomersMessages().New(),
-										FinanceApplication
+										Accounter
 												.getCustomersMessages()
 												.viewEdit()) : history
 								.getAction().getText()));
@@ -1375,12 +1375,12 @@ public class ViewManager extends DockPanel {
 
 		if (dialog != null)
 			dialog.removeFromParent();
-		String id = exception.getStringID();
+		String id = exception.getID();
 		if (currentrequestedWidget == null || id == null) {
 			return;
 		}
-		if (!currentrequestedWidget.getStringID().equals(
-				exception.getStringID()))
+		if (!currentrequestedWidget.getID().equals(
+				exception.getID()))
 			return;
 
 		switch (exception.getStatus()) {
@@ -1403,7 +1403,7 @@ public class ViewManager extends DockPanel {
 			if (dialog != null)
 				dialog.removeFromParent();
 
-			String objectID = cmd.getStringID();
+			String objectID = cmd.getID();
 
 			if (currentCanvas instanceof BaseListView<?>
 					&& currentDialog == null && cmd.getData() != null) {
@@ -1418,7 +1418,7 @@ public class ViewManager extends DockPanel {
 				return;
 			}
 
-			if (!objectID.equals(currentrequestedWidget.getStringID()))
+			if (!objectID.equals(currentrequestedWidget.getID()))
 				return;
 
 			currentrequestedWidget.saveSuccess(cmd.getData() == null ? cmd
@@ -1463,8 +1463,8 @@ public class ViewManager extends DockPanel {
 
 			}
 			if (currentrequestedWidget != null
-					&& currentrequestedWidget.getStringID().equals(
-							accounterCoreObject.getStringID())) {
+					&& currentrequestedWidget.getID().equals(
+							accounterCoreObject.getID())) {
 
 				currentrequestedWidget.deleteSuccess(true);
 				currentrequestedWidget = null;
@@ -1478,7 +1478,7 @@ public class ViewManager extends DockPanel {
 	public <T extends IAccounterCore, P extends IAccounterCore> void createObject(
 			final P core, final IAccounterWidget widget) {
 
-		dialog = UIUtils.getLoadingMessageDialog(FinanceApplication
+		dialog = UIUtils.getLoadingMessageDialog(Accounter
 				.getCustomersMessages().processingRequest());
 
 		dialog.center();
@@ -1493,8 +1493,8 @@ public class ViewManager extends DockPanel {
 					InvalidOperationException exception = new InvalidOperationException();
 					exception
 							.setStatus(InvalidOperationException.CREATE_FAILED);
-					exception.setStringID(currentrequestedWidget.getStringID());
-					FinanceApplication.getCompany().processCommand(exception);
+					exception.setStringID(currentrequestedWidget.getID());
+					Accounter.getCompany().processCommand(exception);
 					exception.printStackTrace();
 					System.out.println(exception.getMessage());
 				}
@@ -1506,21 +1506,21 @@ public class ViewManager extends DockPanel {
 					AccounterCommand cmd = new AccounterCommand();
 					cmd.setCommand(AccounterCommand.CREATION_SUCCESS);
 					cmd.setData(core);
-					cmd.setStringID(core.getStringID());
+					cmd.setStringID(core.getID());
 					cmd.setObjectType(core.getObjectType());
-					FinanceApplication.getCompany().processCommand(cmd);
+					Accounter.getCompany().processCommand(cmd);
 				}
 			}
 
 		};
-		FinanceApplication.createGETService().getStringID(
+		Accounter.createGETService().getID(
 				new AsyncCallback<String>() {
 
 					@Override
 					public void onSuccess(String result) {
 						core.setStringID(result);
 						widget.setStringID(result);
-						FinanceApplication.createCRUDService().create(
+						Accounter.createCRUDService().create(
 								((IAccounterCore) core), transactionCallBack);
 					}
 
@@ -1544,13 +1544,13 @@ public class ViewManager extends DockPanel {
 			final P core, final IAccounterWidget widget) {
 
 		if (!((widget instanceof ExpenseClaimView) || (widget instanceof AwaitingAuthorisationView))) {
-			dialog = UIUtils.getLoadingMessageDialog(FinanceApplication
+			dialog = UIUtils.getLoadingMessageDialog(Accounter
 					.getCustomersMessages().processingRequest());
 
 			dialog.center();
 		} else {
 			if (!isprocessingRequestAdd(widget)) {
-				dialog = UIUtils.getLoadingMessageDialog(FinanceApplication
+				dialog = UIUtils.getLoadingMessageDialog(Accounter
 						.getCustomersMessages().processingRequest());
 
 				dialog.center();
@@ -1569,8 +1569,8 @@ public class ViewManager extends DockPanel {
 						exception
 								.setStatus(InvalidOperationException.UPDATE_FAILED);
 						exception.setStringID(currentrequestedWidget
-								.getStringID());
-						FinanceApplication.getCompany().processCommand(
+								.getID());
+						Accounter.getCompany().processCommand(
 								exception);
 					}
 				}
@@ -1582,20 +1582,20 @@ public class ViewManager extends DockPanel {
 					AccounterCommand cmd = new AccounterCommand();
 					cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
 					cmd.setData(core);
-					cmd.setStringID(widget.getStringID());
+					cmd.setStringID(widget.getID());
 					cmd.setObjectType(core.getObjectType());
-					FinanceApplication.getCompany().processCommand(cmd);
+					Accounter.getCompany().processCommand(cmd);
 				}
 			}
 		};
-		widget.setStringID(core.getStringID());
+		widget.setStringID(core.getID());
 		// when you edit transaction, previous transactionitems and related
 		// objects has to delete, below code is to clear lists that transaction
 		// item has, those no longer need after editing transactions
 		if (core instanceof ClientTransaction)
 			cleanTransactionitems((ClientTransaction) core);
 
-		FinanceApplication.createCRUDService().update(((IAccounterCore) core),
+		Accounter.createCRUDService().update(((IAccounterCore) core),
 				transactionCallBack);
 	}
 
@@ -1632,8 +1632,8 @@ public class ViewManager extends DockPanel {
 					InvalidOperationException exception = new InvalidOperationException();
 					exception
 							.setStatus(InvalidOperationException.UPDATE_FAILED);
-					exception.setStringID(currentrequestedWidget.getStringID());
-					FinanceApplication.getCompany().processCommand(exception);
+					exception.setStringID(currentrequestedWidget.getID());
+					Accounter.getCompany().processCommand(exception);
 				}
 			}
 
@@ -1644,16 +1644,16 @@ public class ViewManager extends DockPanel {
 						AccounterCommand cmd = new AccounterCommand();
 						cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
 						cmd.setData(null);
-						cmd.setStringID(widget.getStringID());
+						cmd.setStringID(widget.getID());
 						cmd.setObjectType(type);
-						FinanceApplication.getCompany().processCommand(cmd);
+						Accounter.getCompany().processCommand(cmd);
 					}
 				}
 
 			}
 		};
 		widget.setStringID(transactionID);
-		FinanceApplication.createCRUDService().voidTransaction(type,
+		Accounter.createCRUDService().voidTransaction(type,
 				transactionID, callback);
 	}
 
@@ -1670,7 +1670,7 @@ public class ViewManager extends DockPanel {
 	public void updateCompany(final ClientCompany clientCompany,
 			final IAccounterWidget widget) {
 
-		dialog = UIUtils.getLoadingMessageDialog(FinanceApplication
+		dialog = UIUtils.getLoadingMessageDialog(Accounter
 				.getCustomersMessages().processingRequest());
 
 		dialog.center();
@@ -1684,8 +1684,8 @@ public class ViewManager extends DockPanel {
 					InvalidOperationException exception = new InvalidOperationException();
 					exception
 							.setStatus(InvalidOperationException.DELETE_FAILED);
-					exception.setStringID(currentrequestedWidget.getStringID());
-					FinanceApplication.getCompany().processCommand(exception);
+					exception.setStringID(currentrequestedWidget.getID());
+					Accounter.getCompany().processCommand(exception);
 				}
 			}
 
@@ -1696,9 +1696,9 @@ public class ViewManager extends DockPanel {
 						AccounterCommand cmd = new AccounterCommand();
 						cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
 						cmd.setData(clientCompany);
-						cmd.setStringID(widget.getStringID());
+						cmd.setStringID(widget.getID());
 						cmd.setObjectType(clientCompany.getObjectType());
-						FinanceApplication.getCompany().processCommand(cmd);
+						Accounter.getCompany().processCommand(cmd);
 					} else {
 						onFailure(null);
 					}
@@ -1706,8 +1706,8 @@ public class ViewManager extends DockPanel {
 			}
 
 		};
-		widget.setStringID(clientCompany.getStringID());
-		FinanceApplication.createCRUDService().updateCompany(clientCompany,
+		widget.setStringID(clientCompany.getID());
+		Accounter.createCRUDService().updateCompany(clientCompany,
 				transactionCallBack);
 
 	}
@@ -1715,7 +1715,7 @@ public class ViewManager extends DockPanel {
 	public void updateCompanyPreferences(
 			final ClientCompanyPreferences preferences,
 			final IAccounterWidget widget) {
-		dialog = UIUtils.getLoadingMessageDialog(FinanceApplication
+		dialog = UIUtils.getLoadingMessageDialog(Accounter
 				.getCustomersMessages().processingRequest());
 
 		dialog.center();
@@ -1729,8 +1729,8 @@ public class ViewManager extends DockPanel {
 					InvalidOperationException exception = new InvalidOperationException();
 					exception
 							.setStatus(InvalidOperationException.DELETE_FAILED);
-					exception.setStringID(currentrequestedWidget.getStringID());
-					FinanceApplication.getCompany().processCommand(exception);
+					exception.setStringID(currentrequestedWidget.getID());
+					Accounter.getCompany().processCommand(exception);
 				}
 			}
 
@@ -1742,10 +1742,10 @@ public class ViewManager extends DockPanel {
 						cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
 						cmd.setData(preferences);
 						cmd
-								.setStringID(FinanceApplication.getCompany().stringID
+								.setStringID(Accounter.getCompany().stringID
 										+ "pre");
 						cmd.setObjectType(preferences.getObjectType());
-						FinanceApplication.getCompany().processCommand(cmd);
+						Accounter.getCompany().processCommand(cmd);
 					} else {
 						onFailure(null);
 					}
@@ -1753,8 +1753,8 @@ public class ViewManager extends DockPanel {
 			}
 
 		};
-		widget.setStringID(FinanceApplication.getCompany().stringID + "pre");
-		FinanceApplication.createCRUDService().updateCompanyPreferences(
+		widget.setStringID(Accounter.getCompany().stringID + "pre");
+		Accounter.createCRUDService().updateCompanyPreferences(
 				preferences, transactionCallBack);
 
 	}
@@ -1762,7 +1762,7 @@ public class ViewManager extends DockPanel {
 	public <A extends IAccounterCore> void deleteObject(final A core,
 			AccounterCoreType coreType, final IAccounterWidget widget) {
 
-		dialog = UIUtils.getLoadingMessageDialog(FinanceApplication
+		dialog = UIUtils.getLoadingMessageDialog(Accounter
 				.getCustomersMessages().processingRequest());
 
 		dialog.center();
@@ -1780,8 +1780,8 @@ public class ViewManager extends DockPanel {
 						exception
 								.setStatus(InvalidOperationException.DELETE_FAILED);
 						exception.setStringID(currentrequestedWidget
-								.getStringID());
-						FinanceApplication.getCompany().processCommand(
+								.getID());
+						Accounter.getCompany().processCommand(
 								exception);
 					}
 				}
@@ -1794,7 +1794,7 @@ public class ViewManager extends DockPanel {
 				// AccounterCommand cmd = new AccounterCommand();
 				// cmd.setCommand(AccounterCommand.DELETION_SUCCESS);
 				// cmd.setData(core);
-				// cmd.setStringID(widget.getStringID());
+				// cmd.setStringID(widget.getID());
 				// cmd.setObjectType(core.getObjectType());
 				// FinanceApplication.getCompany().processCommand(cmd);
 				// } else {
@@ -1804,9 +1804,9 @@ public class ViewManager extends DockPanel {
 			}
 
 		};
-		widget.setStringID(core.getStringID());
-		FinanceApplication.createCRUDService().delete(coreType,
-				core.getStringID(), transactionCallBack);
+		widget.setStringID(core.getID());
+		Accounter.createCRUDService().delete(coreType,
+				core.getID(), transactionCallBack);
 	}
 
 	public void updateHomePageLists(IAccounterCore accounterCoreObject) {

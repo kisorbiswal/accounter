@@ -19,7 +19,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -58,26 +58,26 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 
 	@SuppressWarnings("unused")
 	private static final String[] typeRecords = new String[] {
-			FinanceApplication.getCompanyMessages().basic(),
-			FinanceApplication.getCompanyMessages().healthcareProfessional(),
-			FinanceApplication.getCompanyMessages().homeBasedSales(),
-			FinanceApplication.getCompanyMessages().insuranceAgency(),
-			FinanceApplication.getCompanyMessages().ITServices(),
-			FinanceApplication.getCompanyMessages().lawFirm(),
-			FinanceApplication.getCompanyMessages().manufacturing(),
-			FinanceApplication.getCompanyMessages()
+			Accounter.getCompanyMessages().basic(),
+			Accounter.getCompanyMessages().healthcareProfessional(),
+			Accounter.getCompanyMessages().homeBasedSales(),
+			Accounter.getCompanyMessages().insuranceAgency(),
+			Accounter.getCompanyMessages().ITServices(),
+			Accounter.getCompanyMessages().lawFirm(),
+			Accounter.getCompanyMessages().manufacturing(),
+			Accounter.getCompanyMessages()
 					.manufacturingRepresentative(),
-			FinanceApplication.getCompanyMessages().notForProfitOrganization(),
-			FinanceApplication.getCompanyMessages().personalCareSalon(),
-			FinanceApplication.getCompanyMessages().personalInstructor(),
-			FinanceApplication.getCompanyMessages().petCare(),
-			FinanceApplication.getCompanyMessages().photographer(),
-			FinanceApplication.getCompanyMessages().propertyManagement(),
-			FinanceApplication.getCompanyMessages().realEstateAgent(),
-			FinanceApplication.getCompanyMessages().restaurant(),
-			FinanceApplication.getCompanyMessages().retail(),
-			FinanceApplication.getCompanyMessages().shippingAndPostalService(),
-			FinanceApplication.getCompanyMessages().webBasedSales() };
+			Accounter.getCompanyMessages().notForProfitOrganization(),
+			Accounter.getCompanyMessages().personalCareSalon(),
+			Accounter.getCompanyMessages().personalInstructor(),
+			Accounter.getCompanyMessages().petCare(),
+			Accounter.getCompanyMessages().photographer(),
+			Accounter.getCompanyMessages().propertyManagement(),
+			Accounter.getCompanyMessages().realEstateAgent(),
+			Accounter.getCompanyMessages().restaurant(),
+			Accounter.getCompanyMessages().retail(),
+			Accounter.getCompanyMessages().shippingAndPostalService(),
+			Accounter.getCompanyMessages().webBasedSales() };
 
 	public CompanySetupDialog(AbstractBaseView<ClientCompany> parent) {
 		super(parent);
@@ -109,10 +109,10 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 			company.setTradingName(legalNameText.getValue().toString());
 		}
 		if (accountType.getValue().toString().equalsIgnoreCase(
-				FinanceApplication.getCompanyMessages().UK())) {
+				Accounter.getCompanyMessages().UK())) {
 			company.setAccountingType(1);
 		} else if (accountType.getValue().toString().equalsIgnoreCase(
-				FinanceApplication.getCompanyMessages().US())) {
+				Accounter.getCompanyMessages().US())) {
 
 			company.setAccountingType(0);
 		}
@@ -203,7 +203,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 			public void onSuccess(String result) {
 				if (result != null) {
 					company.setStringID(result);
-					FinanceApplication.setCompany(company);
+					Accounter.setCompany(company);
 					hide();
 				} else {
 				}
@@ -211,7 +211,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		};
 
 		final ClientCompany company = getCompanyObject();
-		FinanceApplication.createCRUDService().create(company,
+		Accounter.createCRUDService().create(company,
 				createCompanyCallBack);
 	}
 
@@ -221,11 +221,11 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 				.create(IAccounterGETService.class);
 
 		((ServiceDefTarget) getService)
-				.setServiceEntryPoint(FinanceApplication.GET_SERVICE_ENTRY_POINT);
+				.setServiceEntryPoint(Accounter.GET_SERVICE_ENTRY_POINT);
 
 		final AsyncCallback<ClientCompany> getCompanyCallBack = new AsyncCallback<ClientCompany>() {
 			public void onFailure(Throwable caught) {
-				UIUtils.say(FinanceApplication.getCompanyMessages()
+				UIUtils.say(Accounter.getCompanyMessages()
 						.getCompanyFailed());
 
 			}
@@ -233,7 +233,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 			public void onSuccess(ClientCompany company) {
 				if (company != null) {
 
-					FinanceApplication.setCompany(company);
+					Accounter.setCompany(company);
 				} else {
 				}
 			}
@@ -276,7 +276,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		companyPrefLabel = new Label();
 		// companyPrefLabel.setAutoFit(true);
 		// companyPrefLabel.setIcon("");
-		companyPrefLabel.setText(FinanceApplication.getCompanyMessages()
+		companyPrefLabel.setText(Accounter.getCompanyMessages()
 				.companyAndPreferences());
 		// companyPrefLabel.setWrap(false);
 
@@ -299,25 +299,25 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		// typeLabel.setWrap(false);
 		// typeLabel.setContents(
 		// "<div style='font-size: 20px;'>Choose a Business type</div>");
-		typeLabel.setText(FinanceApplication.getCompanyMessages()
+		typeLabel.setText(Accounter.getCompanyMessages()
 				.addCompanyDetails());
 
 		// descLabel.setAutoFit(true);
 		// descLabel.setContents(
 		// "To preconfigure your Office Accounting company with a chart-of-accounts, other data, and preferences that are typical for your type of business, select a template from the list. You can review and modify the settings that are preconfigured after you create the company. If you don't want your company preconfigured to a business type, select 'Basic' at the bottom of the list."
 		// );
-		descLabel.setText(FinanceApplication.getCompanyMessages()
+		descLabel.setText(Accounter.getCompanyMessages()
 				.typeCompanyInfo());
 
 		companyNameText = new TextItem(companyConstants.companyName());
 		companyNameText.setRequired(true);
 		// companyNameText.setColSpan(3);
 
-		accountType = new SelectItem(FinanceApplication.getCompanyMessages()
+		accountType = new SelectItem(Accounter.getCompanyMessages()
 				.accountType());
-		accountType.setValueMap(FinanceApplication.getCompanyMessages().UK(),
-				FinanceApplication.getCompanyMessages().US());
-		accountType.setDefaultValue(FinanceApplication.getCompanyMessages()
+		accountType.setValueMap(Accounter.getCompanyMessages().UK(),
+				Accounter.getCompanyMessages().US());
+		accountType.setDefaultValue(Accounter.getCompanyMessages()
 				.US());
 
 		legalNameText = new TextItem(companyConstants.legalName());
@@ -342,9 +342,9 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		zipText.setValidators(DataUtils.zipValidator());
 
 		countrySelect = new SelectItem(companyConstants.countryRegion());
-		countrySelect.setValueMap(FinanceApplication.getCompanyMessages()
-				.india(), FinanceApplication.getCompanyMessages().UK(),
-				FinanceApplication.getCompanyMessages().US());
+		countrySelect.setValueMap(Accounter.getCompanyMessages()
+				.india(), Accounter.getCompanyMessages().UK(),
+				Accounter.getCompanyMessages().US());
 		countrySelect.setColSpan(3);
 
 		phoneText = new TextItem(companyConstants.phone());
@@ -447,7 +447,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		companyPrefLabel = new Label();
 		// companyPrefLabel.setAutoFit(true);
 		// companyPrefLabel.setIcon("");
-		companyPrefLabel.setText(FinanceApplication.getCompanyMessages()
+		companyPrefLabel.setText(Accounter.getCompanyMessages()
 				.companyAndPreferences());
 		// companyPrefLabel.setWrap(false);
 
@@ -470,10 +470,10 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		// typeLabel.setWrap(false);
 		// typeLabel.setContents(
 		// "<div style='font-size: 20px;'>Choose a Business type</div>");
-		typeLabel.setText(FinanceApplication.getCompanyMessages()
+		typeLabel.setText(Accounter.getCompanyMessages()
 				.chooseBusinessType());
 
-		descLabel.setText(FinanceApplication.getCompanyMessages()
+		descLabel.setText(Accounter.getCompanyMessages()
 				.preConfigureAccountingCompany());
 
 		typeGrid = new DialogGrid(false);
@@ -567,12 +567,12 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 
 	@SuppressWarnings("unused")
 	private void createStep3Canvas() {
-		setTitle(FinanceApplication.getCompanyMessages().companySetup());
+		setTitle(Accounter.getCompanyMessages().companySetup());
 
 		companyPrefLabel = new Label();
 		// companyPrefLabel.setAutoFit(true);
 		// companyPrefLabel.setIcon("");
-		companyPrefLabel.setText(FinanceApplication.getCompanyMessages()
+		companyPrefLabel.setText(Accounter.getCompanyMessages()
 				.companyAndPreferences());
 		// companyPrefLabel.setWrap(false);
 
@@ -593,16 +593,16 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 
 		// typeLabel.setAutoFit(true);
 		// typeLabel.setWrap(false);
-		typeLabel.setText(FinanceApplication.getCompanyMessages()
+		typeLabel.setText(Accounter.getCompanyMessages()
 				.chooseBusinessType());
-		typeLabel.setText(FinanceApplication.getCompanyMessages()
+		typeLabel.setText(Accounter.getCompanyMessages()
 				.addCompanyDetails());
 
 		// descLabel.setAutoFit(true);
 		// descLabel.setContents(
 		// "To preconfigure your Office Accounting company with a chart-of-accounts, other data, and preferences that are typical for your type of business, select a template from the list. You can review and modify the settings that are preconfigured after you create the company. If you don't want your company preconfigured to a business type, select 'Basic' at the bottom of the list."
 		// );
-		descLabel.setText(FinanceApplication.getCompanyMessages()
+		descLabel.setText(Accounter.getCompanyMessages()
 				.typeCompanyInfo());
 
 		companyNameText = new TextItem(companyConstants.companyName());
@@ -631,9 +631,9 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		zipText.setColSpan(1);
 
 		countrySelect = new SelectItem(companyConstants.countryRegion());
-		countrySelect.setValueMap(FinanceApplication.getCompanyMessages()
-				.india(), FinanceApplication.getCompanyMessages().UK(),
-				FinanceApplication.getCompanyMessages().US());
+		countrySelect.setValueMap(Accounter.getCompanyMessages()
+				.india(), Accounter.getCompanyMessages().UK(),
+				Accounter.getCompanyMessages().US());
 		countrySelect.setColSpan(3);
 
 		phoneText = new TextItem(companyConstants.phone());

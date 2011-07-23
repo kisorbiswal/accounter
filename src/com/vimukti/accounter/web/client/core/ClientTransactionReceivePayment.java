@@ -11,17 +11,17 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 
 	long dueDate;
 
-	String invoice;
+	long invoice;
 
 	double invoiceAmount = 0D;
 
 	long discountDate;
 
-	String discountAccount;
+	long discountAccount;
 
 	double cashDiscount = 0D;
 
-	String writeOffAccount;
+	long writeOffAccount;
 
 	double writeOff = 0D;
 
@@ -29,22 +29,22 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 
 	double payment = 0D;
 
-	String receivePayment;
+	long receivePayment;
 
 	List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments;
 
 	boolean isVoid = false;
 
-	String customerRefund;
+	long customerRefund;
 
 	public transient boolean isInvoice;
 
-	String journalEntry;
+	long journalEntry;
 
 	double amountDue;
 	private String number;
 
-	private String stringID;
+	private long id;
 	
 	/* The following fields are just for saving credits temporarly */
 	Map<Integer, Object> tempCredits = new HashMap<Integer, Object>();
@@ -87,11 +87,11 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 		this.amountDue = amountDue;
 	}
 
-	public String getJournalEntry() {
+	public long getJournalEntry() {
 		return journalEntry;
 	}
 
-	public void setJournalEntry(String journalEntry) {
+	public void setJournalEntry(long journalEntry) {
 		this.journalEntry = journalEntry;
 	}
 
@@ -117,7 +117,7 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 	/**
 	 * @return the invoice
 	 */
-	public String getInvoice() {
+	public long getInvoice() {
 		return invoice;
 	}
 
@@ -135,7 +135,7 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 		return discountDate;
 	}
 
-	public String getDiscountAccount() {
+	public long getDiscountAccount() {
 		return discountAccount;
 	}
 
@@ -146,7 +146,7 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 		return cashDiscount;
 	}
 
-	public String getWriteOffAccount() {
+	public long getWriteOffAccount() {
 		return writeOffAccount;
 	}
 
@@ -189,7 +189,7 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 	 * @param invoice
 	 *            the invoice to set
 	 */
-	public void setInvoice(String invoice) {
+	public void setInvoice(long invoice) {
 		this.invoice = invoice;
 	}
 
@@ -209,7 +209,7 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 		this.discountDate = date;
 	}
 
-	public void setDiscountAccount(String discountAccount) {
+	public void setDiscountAccount(long discountAccount) {
 		this.discountAccount = discountAccount;
 	}
 
@@ -221,7 +221,7 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 		this.cashDiscount = cashDiscount;
 	}
 
-	public void setWriteOffAccount(String writeOffAccount) {
+	public void setWriteOffAccount(long writeOffAccount) {
 		this.writeOffAccount = writeOffAccount;
 	}
 
@@ -253,7 +253,7 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 	/**
 	 * @return the transaction
 	 */
-	public String getReceivePayment() {
+	public long getReceivePayment() {
 		return receivePayment;
 	}
 
@@ -261,7 +261,7 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 	 * @param transaction
 	 *            the transaction to set
 	 */
-	public void setReceivePayment(String receivePaymentId) {
+	public void setReceivePayment(long receivePaymentId) {
 		this.receivePayment = receivePaymentId;
 	}
 
@@ -292,20 +292,20 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 	/**
 	 * @return the customerRefund
 	 */
-	public String getCustomerRefund() {
+	public long getCustomerRefund() {
 		return customerRefund;
 	}
 
 	public void setDiscountAccount(ClientAccount cashDiscountAccount) {
 
-		this.discountAccount = cashDiscountAccount.getStringID();
+		this.discountAccount = cashDiscountAccount.getID();
 	}
 
-	public void setCustomerRefund(String customerRefund) {
+	public void setCustomerRefund(long customerRefund) {
 		this.customerRefund = customerRefund;
 	}
 
-	public void setTransaction(String receivePayment) {
+	public void setTransaction(long receivePayment) {
 		this.receivePayment = receivePayment;
 	}
 
@@ -328,13 +328,13 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

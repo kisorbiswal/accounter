@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
@@ -21,13 +21,13 @@ public class ItemCombo extends CustomCombo<ClientItem> {
 	public ItemCombo(String title, int type) {
 		super(title);
 		this.type = type;
-		initCombo(FinanceApplication.getCompany().getActiveItems());
+		initCombo(Accounter.getCompany().getActiveItems());
 	}
 
 	public ItemCombo(String title, int type, boolean isAddNewRequired) {
 		super(title, isAddNewRequired, 3);
 		this.type = type;
-		initCombo(FinanceApplication.getCompany().getActiveItems());
+		initCombo(Accounter.getCompany().getActiveItems());
 	}
 
 	public ItemCombo(String title, int type, boolean isAddNewRequired,
@@ -39,7 +39,7 @@ public class ItemCombo extends CustomCombo<ClientItem> {
 	}
 
 	public void initCombo(boolean isService) {
-		List<ClientItem> items = FinanceApplication.getCompany()
+		List<ClientItem> items = Accounter.getCompany()
 				.getActiveItems();
 		List<ClientItem> serviceitems = new ArrayList<ClientItem>();
 		List<ClientItem> productitems = new ArrayList<ClientItem>();
@@ -92,8 +92,8 @@ public class ItemCombo extends CustomCombo<ClientItem> {
 		case 0:
 			return object.getName();
 		case 1:
-			return object.getType() == ClientItem.TYPE_SERVICE ? FinanceApplication.getCustomersMessages().service()
-					: FinanceApplication.getCustomersMessages().PRoduct();
+			return object.getType() == ClientItem.TYPE_SERVICE ? Accounter.getCustomersMessages().service()
+					: Accounter.getCustomersMessages().PRoduct();
 		case 2:
 			return DataUtils.getAmountAsString(object.getSalesPrice());
 		default:

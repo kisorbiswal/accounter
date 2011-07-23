@@ -1,19 +1,19 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShippingMethodListDialog;
 
 public class ShippingMethodsCombo extends CustomCombo<ClientShippingMethod> {
 
 	public ShippingMethodsCombo(String title) {
 		super(title);
-		initCombo(FinanceApplication.getCompany().getShippingMethods());
+		initCombo(Accounter.getCompany().getShippingMethods());
 	}
 
 	public ShippingMethodsCombo(String title, boolean isAddNewRequired) {
 		super(title, isAddNewRequired, 1);
-		initCombo(FinanceApplication.getCompany().getShippingMethods());
+		initCombo(Accounter.getCompany().getShippingMethods());
 	}
 
 	@Override

@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
@@ -68,7 +68,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 					showAddEditGroupDialog((ClientCustomerGroup) listGridView
 							.getSelection());
 				} else {
-					Accounter.showError(FinanceApplication
+					Accounter.showError(Accounter
 							.getCustomersMessages().selectTaxGroup());
 					new Exception();
 				}
@@ -89,7 +89,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 		ClientCustomerGroup customerGroup = new ClientCustomerGroup();
 		customerGroup.setName(inputDlg.getTextItems().get(0).getValue()
 				.toString());
-		if (Utility.isObjectExist(FinanceApplication.getCompany()
+		if (Utility.isObjectExist(Accounter.getCompany()
 				.getCustomerGroups(), customerGroup.getName())) {
 			Accounter.showError("Customer Group Already Exists");
 		} else {
@@ -98,16 +98,16 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 	}
 
 	// public long getSelectedCustomerId() {
-	// return ((ClientCustomerGroup) listGridView.getSelection()).getStringID();
+	// return ((ClientCustomerGroup) listGridView.getSelection()).getID();
 	// }
 
 	public void showAddEditGroupDialog(ClientCustomerGroup rec) {
 		customerGroup = rec;
 		inputDlg = new InputDialog(customerConstants.customerGroup(), "",
-				FinanceApplication.getCustomersMessages().customerGroup()) {
+				Accounter.getCustomersMessages().customerGroup()) {
 			@Override
 			protected String getViewTitle() {
-				return FinanceApplication.getCustomersMessages()
+				return Accounter.getCustomersMessages()
 						.customerGroup();
 			}
 		};
@@ -169,12 +169,12 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { FinanceApplication.getCustomersMessages().name() };
+		return new String[] { Accounter.getCustomersMessages().name() };
 	}
 
 	@Override
 	protected List getRecords() {
-		return (List) FinanceApplication.getCompany().getCustomerGroups();
+		return (List) Accounter.getCompany().getCustomerGroups();
 	}
 
 	public void deleteCallBack() {
@@ -188,7 +188,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCustomersMessages().customerGroups();
+		return Accounter.getCustomersMessages().customerGroups();
 	}
 
 }

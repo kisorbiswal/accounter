@@ -61,7 +61,7 @@ public class VATReturn extends Transaction implements Lifecycle {
 	/**
 	 * @return the stringID
 	 */
-	public String getStringID() {
+	public long getID(){
 		return stringID;
 	}
 
@@ -69,8 +69,8 @@ public class VATReturn extends Transaction implements Lifecycle {
 	 * @param stringID
 	 *            the stringID to set
 	 */
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class VATReturn extends Transaction implements Lifecycle {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 

@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.AddEditSalesTaxCodeAction;
 import com.vimukti.accounter.web.client.ui.company.CustomersAction;
 import com.vimukti.accounter.web.client.ui.company.ItemsAction;
@@ -61,7 +61,7 @@ public class CustomersActionFactory extends AbstractActionFactory {
 
 	public static AddEditSalesTaxCodeAction getAddEditSalesTaxCodeAction() {
 		String constant = null;
-		if (FinanceApplication.getCompany().getAccountingType() == 1)
+		if (Accounter.getCompany().getAccountingType() == 1)
 			constant = actionsConstants.newVatCode();
 		else
 			constant = actionsConstants.newTaxCode();
@@ -172,7 +172,7 @@ public class CustomersActionFactory extends AbstractActionFactory {
 
 	public static ItemsAction getItemsAction() {
 		return new ItemsAction(actionsConstants.items(),
-				"/images/icons/customers/items.png", FinanceApplication
+				"/images/icons/customers/items.png", Accounter
 						.getCustomersMessages().customer());
 	}
 

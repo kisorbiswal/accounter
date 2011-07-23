@@ -39,8 +39,8 @@ public class CashDiscountDialog extends BaseDialog {
 
 	public CashDiscountDialog(List<ClientAccount> allAccounts,
 			Double cashDiscountValue, IGenericCallback<String> callback) {
-		super(FinanceApplication.getFinanceUIConstants().cashDiscount(),
-				FinanceApplication.getFinanceUIConstants()
+		super(Accounter.getFinanceUIConstants().cashDiscount(),
+				Accounter.getFinanceUIConstants()
 						.cashDiscountPleaseAddDetails());
 		this.callback = callback;
 		this.allAccounts = allAccounts;
@@ -50,16 +50,16 @@ public class CashDiscountDialog extends BaseDialog {
 	}
 
 	public CashDiscountDialog() {
-		super(FinanceApplication.getFinanceUIConstants().cashDiscount(),
-				FinanceApplication.getFinanceUIConstants()
+		super(Accounter.getFinanceUIConstants().cashDiscount(),
+				Accounter.getFinanceUIConstants()
 						.cashDiscountPleaseAddDetails());
 		createControls();
 	}
 
 	public CashDiscountDialog(boolean canEdit, Double discountValue,
 			ClientAccount account) {
-		super(FinanceApplication.getFinanceUIConstants().cashDiscount(),
-				FinanceApplication.getFinanceUIConstants()
+		super(Accounter.getFinanceUIConstants().cashDiscount(),
+				Accounter.getFinanceUIConstants()
 						.cashDiscountPleaseAddDetails());
 		this.cashDiscountValue = discountValue;
 		this.canEdit = canEdit;
@@ -91,7 +91,7 @@ public class CashDiscountDialog extends BaseDialog {
 	private void createControls() {
 
 		mainPanel.setSpacing(5);
-		discAccSelect = new OtherAccountsCombo(FinanceApplication
+		discAccSelect = new OtherAccountsCombo(Accounter
 				.getCustomersMessages().discountaccount(), false);
 
 		discAccSelect.setComboItem(selectedDiscountAccount);
@@ -106,7 +106,7 @@ public class CashDiscountDialog extends BaseDialog {
 				});
 		discAccSelect.setRequired(true);
 
-		discAmtText = new AmountField(FinanceApplication
+		discAmtText = new AmountField(Accounter
 				.getFinanceUIConstants().discountAmount());
 		discAmtText.setAmount(cashDiscountValue);
 
@@ -179,8 +179,8 @@ public class CashDiscountDialog extends BaseDialog {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		if (core.getStringID().equals(
-				this.discAccSelect.getSelectedValue().getStringID())) {
+		if (core.getID().equals(
+				this.discAccSelect.getSelectedValue().getID())) {
 			this.discAccSelect.addItemThenfireEvent((ClientAccount) core);
 		}
 
@@ -188,7 +188,7 @@ public class CashDiscountDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCompanyMessages().cashDiscount();
+		return Accounter.getCompanyMessages().cashDiscount();
 	}
 
 }

@@ -84,7 +84,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		return SecureUtils.createID();
 	}
 

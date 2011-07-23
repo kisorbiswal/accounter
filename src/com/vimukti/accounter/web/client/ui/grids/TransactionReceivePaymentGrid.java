@@ -21,7 +21,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.ui.CashDiscountDialog;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
@@ -338,8 +338,8 @@ public class TransactionReceivePaymentGrid extends
 
 	public void initCreditsAndPayments(final ClientCustomer customer) {
 
-		FinanceApplication.createHomeService().getCustomerCreditsAndPayments(
-				customer.getStringID(),
+		Accounter.createHomeService().getCustomerCreditsAndPayments(
+				customer.getID(),
 				new AsyncCallback<List<ClientCreditsAndPayments>>() {
 
 					public void onFailure(Throwable caught) {
@@ -398,7 +398,7 @@ public class TransactionReceivePaymentGrid extends
 								selectedObject
 										.setDiscountAccount(cashDiscountDialog
 												.getSelectedDiscountAccount()
-												.getStringID());
+												.getID());
 								if (validatePaymentValue()) {
 									updatePayment(selectedObject);
 								} else {
@@ -430,14 +430,14 @@ public class TransactionReceivePaymentGrid extends
 
 	private ClientAccount getCashDiscountAccount() {
 
-		ClientAccount cashDiscountAccount = FinanceApplication.getCompany()
+		ClientAccount cashDiscountAccount = Accounter.getCompany()
 				.getAccount(selectedObject.getDiscountAccount());
 		return cashDiscountAccount;
 	}
 
 	private ClientAccount getWriteOffAccount() {
 
-		ClientAccount writeOffAccount = FinanceApplication.getCompany()
+		ClientAccount writeOffAccount = Accounter.getCompany()
 				.getAccount(selectedObject.getWriteOffAccount());
 		return writeOffAccount;
 	}
@@ -676,7 +676,7 @@ public class TransactionReceivePaymentGrid extends
 	}
 
 	public void openWriteOffDialog() {
-		writeOffDialog = new WriteOffDialog(FinanceApplication.getCompany()
+		writeOffDialog = new WriteOffDialog(Accounter.getCompany()
 				.getActiveAccounts(), selectedObject, canEdit,
 				getWriteOffAccount());
 		writeOffDialog.addInputDialogHandler(new InputDialogHandler() {
@@ -698,7 +698,7 @@ public class TransactionReceivePaymentGrid extends
 								selectedObject
 										.setWriteOffAccount(writeOffDialog
 												.getSelectedWriteOffAccount()
-												.getStringID());
+												.getID());
 								if (validatePaymentValue()) {
 									updatePayment(selectedObject);
 								} else {
@@ -755,24 +755,24 @@ public class TransactionReceivePaymentGrid extends
 
 	private void setAccountDefaultValues(ClientTransactionReceivePayment obj) {
 		ClientAccount cashDiscountAccount, writeOffAccount;
-		int accountType = FinanceApplication.getCompany().getAccountingType();
+		int accountType = Accounter.getCompany().getAccountingType();
 		switch (accountType) {
 		case ClientCompany.ACCOUNTING_TYPE_UK:
-			cashDiscountAccount = FinanceApplication.getCompany()
+			cashDiscountAccount = Accounter.getCompany()
 					.getAccountByName(AccounterConstants.DISCOUNTS);
 
-			writeOffAccount = FinanceApplication.getCompany().getAccountByName(
+			writeOffAccount = Accounter.getCompany().getAccountByName(
 					AccounterConstants.DISCOUNTS_TAKEN);
-			obj.setDiscountAccount(cashDiscountAccount.getStringID());
-			obj.setWriteOffAccount(writeOffAccount.getStringID());
+			obj.setDiscountAccount(cashDiscountAccount.getID());
+			obj.setWriteOffAccount(writeOffAccount.getID());
 			break;
 		case ClientCompany.ACCOUNTING_TYPE_US:
-			cashDiscountAccount = FinanceApplication.getCompany()
+			cashDiscountAccount = Accounter.getCompany()
 					.getAccountByName(AccounterConstants.CASH_DISCOUNT_TAKEN);
-			writeOffAccount = FinanceApplication.getCompany().getAccountByName(
+			writeOffAccount = Accounter.getCompany().getAccountByName(
 					AccounterConstants.WRITE_OFF);
-			obj.setDiscountAccount(cashDiscountAccount.getStringID());
-			obj.setWriteOffAccount(writeOffAccount.getStringID());
+			obj.setDiscountAccount(cashDiscountAccount.getID());
+			obj.setWriteOffAccount(writeOffAccount.getID());
 			break;
 		}
 	}

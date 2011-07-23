@@ -5,7 +5,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -57,9 +57,9 @@ public class AddOrEditPayTypeDialog extends BaseDialog {
 		type.setTitle(companyConstants.type());
 		// type.setType("comboBox");
 		type.setRequired(true);
-		type.setValueMap(FinanceApplication.getCompanyMessages().earning(),
-				FinanceApplication.getCompanyMessages().deduction());
-		type.setDefaultValue(FinanceApplication.getCompanyMessages().earning());
+		type.setValueMap(Accounter.getCompanyMessages().earning(),
+				Accounter.getCompanyMessages().deduction());
+		type.setDefaultValue(Accounter.getCompanyMessages().earning());
 
 		// account = new AccountCombo(companyConstants.account());
 
@@ -77,7 +77,7 @@ public class AddOrEditPayTypeDialog extends BaseDialog {
 
 		setBodyLayout(bodyLayout);
 		setSize("350", "300");
-		account.initCombo(FinanceApplication.getCompany().getActiveAccounts());
+		account.initCombo(Accounter.getCompany().getActiveAccounts());
 	}
 
 	@Override
@@ -113,6 +113,6 @@ public class AddOrEditPayTypeDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCompanyMessages().payType();
+		return Accounter.getCompanyMessages().payType();
 	}
 }

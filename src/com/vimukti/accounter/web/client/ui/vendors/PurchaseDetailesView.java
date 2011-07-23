@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
@@ -95,7 +95,7 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 
 		Label headerLabel = new Label();
 		headerLabel.setHeight("22px");
-		headerLabel.setText(FinanceApplication.getVendorsMessages()
+		headerLabel.setText(Accounter.getVendorsMessages()
 				.purchaseOrderDetails());
 		headerLabel.setStylePrimaryName("headerlabel");
 		add(headerLabel);
@@ -103,27 +103,27 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 		flexTable.clear();
 
 		Label orderNumberLabel = new Label();
-		orderNumberLabel.setText(FinanceApplication.getVendorsMessages()
+		orderNumberLabel.setText(Accounter.getVendorsMessages()
 				.orderNumber());
 		orderNumberLabel.setStyleName("selectedview_labelstyle");
 
 		orderNumberField = new HTML();
 
 		Label conLabel = new Label();
-		conLabel.setText(FinanceApplication.getVendorsMessages()
+		conLabel.setText(Accounter.getVendorsMessages()
 				.purchaseOrderNumber());
 		conLabel.setStyleName("selectedview_labelstyle");
 
 		customerNumberField = new HTML();
 
 		Label dueDate = new Label();
-		dueDate.setText(FinanceApplication.getVendorsMessages().dueDate());
+		dueDate.setText(Accounter.getVendorsMessages().dueDate());
 		dueDate.setStyleName("selectedview_labelstyle");
 
 		dueDateField = new HTML();
 
 		Label statusLabel = new Label();
-		statusLabel.setText(FinanceApplication.getVendorsMessages().status());
+		statusLabel.setText(Accounter.getVendorsMessages().status());
 		statusLabel.setStyleName("selectedview_labelstyle");
 
 		statusField = new HTML();
@@ -133,12 +133,12 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 		itemsLabel.setStyleName("selectedview_labelstyle");
 
 		Label billingAddress = new Label();
-		billingAddress.setText(FinanceApplication.getVendorsMessages()
+		billingAddress.setText(Accounter.getVendorsMessages()
 				.billingAddress());
 		billingAddress.setStyleName("selectedview_labelstyle");
 
 		Label shippingAddress = new Label();
-		shippingAddress.setText(FinanceApplication.getVendorsMessages()
+		shippingAddress.setText(Accounter.getVendorsMessages()
 				.shippingAddress());
 		shippingAddress.setStyleName("selectedview_textarea_label");
 
@@ -150,7 +150,7 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 
 		itemsGrid = new ItemsGrid(false);
 		itemsGrid.init();
-		itemsGrid.addEmptyMessage(FinanceApplication.getVendorsMessages()
+		itemsGrid.addEmptyMessage(Accounter.getVendorsMessages()
 				.noProductstoshow());
 
 		flexTable.setWidget(1, 0, orderNumberLabel);
@@ -181,7 +181,7 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 	 */
 	public void setEmptyMessage() {
 		flexTable.clear();
-		flexTable.setWidget(0, 0, new HTML(FinanceApplication
+		flexTable.setWidget(0, 0, new HTML(Accounter
 				.getVendorsMessages().selectaTaskNotetoseethedetails()));
 		cellFormatter.setHeight(0, 0, "300px");
 		cellFormatter.setAlignment(0, 0, ALIGN_CENTER, ALIGN_MIDDLE);
@@ -209,12 +209,12 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 				purchaseOrder.getDueDate())));
 
 		if (purchaseOrder.getStatus() == 101)
-			statusField.setText(FinanceApplication.getVendorsMessages().open());
+			statusField.setText(Accounter.getVendorsMessages().open());
 		else if (purchaseOrder.getStatus() == 102)
-			statusField.setText(FinanceApplication.getVendorsMessages()
+			statusField.setText(Accounter.getVendorsMessages()
 					.completed());
 		else if (purchaseOrder.getStatus() == 103)
-			statusField.setText(FinanceApplication.getVendorsMessages()
+			statusField.setText(Accounter.getVendorsMessages()
 					.cancelled());
 
 		ClientAddress address = purchaseOrder.getVendorAddress();

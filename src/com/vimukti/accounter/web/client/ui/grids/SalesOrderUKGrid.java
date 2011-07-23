@@ -6,7 +6,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
@@ -22,16 +22,16 @@ public class SalesOrderUKGrid extends CustomerTransactionUKGrid {
 
 		return new String[] {
 				"",
-				FinanceApplication.getCustomersMessages().name(),
-				FinanceApplication.getCustomersMessages().description(),
-				FinanceApplication.getCustomersMessages().quantity(),
-				FinanceApplication.getCustomersMessages().unitPrice(),
-				FinanceApplication.getCustomersMessages().discountPerc(),
+				Accounter.getCustomersMessages().name(),
+				Accounter.getCustomersMessages().description(),
+				Accounter.getCustomersMessages().quantity(),
+				Accounter.getCustomersMessages().unitPrice(),
+				Accounter.getCustomersMessages().discountPerc(),
 				// "Back Order",
-				FinanceApplication.getCustomersMessages().total(),
-				FinanceApplication.getVATMessages().newVATCode(),
-				FinanceApplication.getVATMessages().VAT(),
-				FinanceApplication.getCustomersMessages().invoiced(), " " };
+				Accounter.getCustomersMessages().total(),
+				Accounter.getVATMessages().newVATCode(),
+				Accounter.getVATMessages().VAT(),
+				Accounter.getCustomersMessages().invoiced(), " " };
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class SalesOrderUKGrid extends CustomerTransactionUKGrid {
 
 	@Override
 	protected boolean isEditable(ClientTransactionItem obj, int row, int col) {
-		if (!FinanceApplication.getCompany().getpreferences()
+		if (!Accounter.getCompany().getpreferences()
 				.getDoYouPaySalesTax()) {
 			if (col == 7 || col == 8)
 				return false;
@@ -221,7 +221,7 @@ public class SalesOrderUKGrid extends CustomerTransactionUKGrid {
 		case 9:
 			return DataUtils.getAmountAsString(item.getInvoiced());
 		case 10:
-			return FinanceApplication.getFinanceMenuImages().delete();
+			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
 		default:
 			return "";
@@ -238,7 +238,7 @@ public class SalesOrderUKGrid extends CustomerTransactionUKGrid {
 			return super.getCustomCombo(obj, colIndex);
 		case 7:
 			combo = (CustomCombo<E>) taxCodeCombo;
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				combo.downarrowpanel.getElement().getStyle().setMarginLeft(-7,
 						Unit.PX);
 			} else {

@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.ItemCombo;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 
@@ -16,7 +16,7 @@ public class ItemGroupGrid extends ListGrid<ClientItem> {
 			ClientItemGroup itemGroup) {
 		super(isMultiSelectionEnable);
 		this.itemGroup = itemGroup;
-		itemCombo = new ItemCombo(FinanceApplication.getCustomersMessages()
+		itemCombo = new ItemCombo(Accounter.getCustomersMessages()
 				.item(), 1, false);
 	}
 
@@ -89,7 +89,7 @@ public class ItemGroupGrid extends ListGrid<ClientItem> {
 	@Override
 	public void editComplete(ClientItem item, Object value, int col) {
 		if (col == 0) {
-			item.setItemGroup(itemGroup.getStringID());
+			item.setItemGroup(itemGroup.getID());
 		}
 		super.editComplete(item, value, col);
 	}
@@ -108,8 +108,8 @@ public class ItemGroupGrid extends ListGrid<ClientItem> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] {
-				FinanceApplication.getFinanceUIConstants().name(),
-				FinanceApplication.getFinanceUIConstants().price() };
+				Accounter.getFinanceUIConstants().name(),
+				Accounter.getFinanceUIConstants().price() };
 	}
 
 	@Override

@@ -18,7 +18,7 @@ public class ClientEntry implements IAccounterCore {
 
 	public static final int JOURNAL_ENTRY_TYPE_CUSTOMER = 3;
 
-	String stringID;
+	long id;
 
 	int type;
 
@@ -217,13 +217,13 @@ public class ClientEntry implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

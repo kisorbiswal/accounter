@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -28,19 +28,19 @@ public class NewVendorAction extends Action {
 	private int openedFrom;
 
 	public NewVendorAction(String text, String iconString) {
-		super(UIUtils.getVendorString(FinanceApplication.getVendorsMessages()
-				.newSupplier(), FinanceApplication.getVendorsMessages()
+		super(UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.newSupplier(), Accounter.getVendorsMessages()
 				.newVendor()), iconString);
-		this.catagory = UIUtils.getVendorString(FinanceApplication
-				.getVendorsMessages().supplier(), FinanceApplication
+		this.catagory = UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplier(), Accounter
 				.getVendorsMessages().vendor());
 	}
 
 	public NewVendorAction(String text, String iconString, ClientVendor vendor,
 			AsyncCallback<Object> callback) {
 		super(text, iconString, vendor, callback);
-		this.catagory = UIUtils.getVendorString(FinanceApplication
-				.getVendorsMessages().supplier(), FinanceApplication
+		this.catagory = UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplier(), Accounter
 				.getVendorsMessages().vendor());
 	}
 
@@ -87,7 +87,7 @@ public class NewVendorAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().newVendor();
+		return Accounter.getFinanceMenuImages().newVendor();
 	}
 
 	public void setOpenedFrom(int openedFrom) {

@@ -7,7 +7,7 @@ import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -28,15 +28,15 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	private List<ClientEstimate> listOfEstimates;
 
-	private static String OPEN = FinanceApplication.getCustomersMessages()
+	private static String OPEN = Accounter.getCustomersMessages()
 			.open();
-	private static String REJECTED = FinanceApplication.getCustomersMessages()
+	private static String REJECTED = Accounter.getCustomersMessages()
 			.rejected();
-	private static String ACCEPTED = FinanceApplication.getCustomersMessages()
+	private static String ACCEPTED = Accounter.getCustomersMessages()
 			.accepted();
-	private static String EXPIRED = FinanceApplication.getCustomersMessages()
+	private static String EXPIRED = Accounter.getCustomersMessages()
 			.expired();
-	private static String ALL = FinanceApplication.getCustomersMessages().all();
+	private static String ALL = Accounter.getCustomersMessages().all();
 	// private static String DELETED = "Deleted";
 
 	public static final int STATUS_OPEN = 0;
@@ -51,7 +51,7 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	@Override
 	protected Action getAddNewAction() {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			return CustomersActionFactory.getNewQuoteAction();
 		else
 			return null;
@@ -59,7 +59,7 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			return customerConstants.addaNewQuote();
 		else
 			return "";
@@ -67,13 +67,13 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	@Override
 	protected String getListViewHeading() {
-		return FinanceApplication.getCustomersMessages().quotesList();
+		return Accounter.getCustomersMessages().quotesList();
 	}
 
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		FinanceApplication.createHomeService().getEstimates(this);
+		Accounter.createHomeService().getEstimates(this);
 
 	}
 
@@ -98,7 +98,7 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(FinanceApplication.getCustomersMessages()
+		viewSelect = new SelectCombo(Accounter.getCustomersMessages()
 				.currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
@@ -203,6 +203,6 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().quotes();
+		return Accounter.getActionsConstants().quotes();
 	}
 }

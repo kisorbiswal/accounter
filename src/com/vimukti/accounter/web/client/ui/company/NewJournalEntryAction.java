@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.company;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -13,15 +13,15 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 public class NewJournalEntryAction extends Action {
 
 	public NewJournalEntryAction(String text, String iconString) {
-		super(FinanceApplication.getCompanyMessages().newJournalEntry(),
+		super(Accounter.getCompanyMessages().newJournalEntry(),
 				iconString);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	public NewJournalEntryAction(String text, String iconString,
 			ClientJournalEntry journalEntry, AsyncCallback<Object> callback) {
 		super(text, iconString, journalEntry, callback);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class NewJournalEntryAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().newJournalEntry();
+		return Accounter.getFinanceMenuImages().newJournalEntry();
 	}
 
 	@Override

@@ -36,7 +36,7 @@ public class PortalLayout extends VerticalPanel {
 			this.bankingParent = (BankingSectionHomeView) parent;
 		}
 
-		user = FinanceApplication.getUser();
+		user = Accounter.getUser();
 		// setBackgroundColor("#104E8B");
 		// setCanDragResize(false);
 		// setMembersMargin(4);
@@ -216,6 +216,6 @@ public class PortalLayout extends VerticalPanel {
 			}
 
 		};
-		FinanceApplication.createCRUDService().update(user, alterUserCallback);
+		Accounter.createCRUDService().update(user, alterUserCallback);
 	}
 }

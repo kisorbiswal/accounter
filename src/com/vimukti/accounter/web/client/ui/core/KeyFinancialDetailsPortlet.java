@@ -1,12 +1,12 @@
 package com.vimukti.accounter.web.client.ui.core;
 
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Portlet;
 
 public class KeyFinancialDetailsPortlet extends Portlet {
 
 	public KeyFinancialDetailsPortlet() {
-		super(FinanceApplication.getCompanyMessages().keyFinancialIndicators());
+		super(Accounter.getCompanyMessages().keyFinancialIndicators());
 	}
 
 	@Override

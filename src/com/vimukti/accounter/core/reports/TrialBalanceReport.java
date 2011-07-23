@@ -40,7 +40,7 @@ public class TrialBalanceReport extends AbstractReport<TrialBalance> {
 	protected TrialBalance process(Object obj) {
 		AccountTransaction at = (AccountTransaction) obj;
 		// Check if it for the previous account
-		if(trialBalance!=null && trialBalance.getAccountId()==at.getAccount().getStringID()){
+		if(trialBalance!=null && trialBalance.getAccountId()==at.getAccount().getID()){
 			// then update that amount and continue
 			trialBalance.addAmount(at.getAmount());
 			return null;
@@ -48,7 +48,7 @@ public class TrialBalanceReport extends AbstractReport<TrialBalance> {
 		trialBalance=new TrialBalance();
 		//TODO assign all other fields
 		trialBalance.setIsIncrease(at.getAccount().isIncrease());
-		trialBalance.setAccountId(at.getAccount().getStringID());
+		trialBalance.setAccountId(at.getAccount().getID());
 		trialBalance.setAccountName(at.getAccount().getName());
 		trialBalance.setAccountNumber(at.getAccount().getNumber());
 		trialBalance.addAmount(at.getAmount());

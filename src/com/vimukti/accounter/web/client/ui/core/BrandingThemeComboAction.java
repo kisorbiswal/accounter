@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.customers.BrandingThemeComboDialog;
 
 public class BrandingThemeComboAction extends Action {
@@ -34,7 +34,7 @@ public class BrandingThemeComboAction extends Action {
 
 	private void runAsync(Object data, Boolean isDependent) {
 		BrandingThemeComboDialog comboDialog = new BrandingThemeComboDialog(
-				FinanceApplication.getSettingsMessages().selectThemes(),
+				Accounter.getSettingsMessages().selectThemes(),
 				"", (ClientTransaction) data);
 		comboDialog.show();
 		comboDialog.center();

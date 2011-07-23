@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
@@ -40,28 +40,28 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 	protected String[] getColumns() {
 		if (accountType == ClientAccount.TYPE_BANK)
 			return new String[] {
-					FinanceApplication.getCustomersMessages().date(),
-					FinanceApplication.getCustomersMessages().type(),
-					(FinanceApplication.getCustomersMessages().checkNo() + "."),
-					FinanceApplication.getCustomersMessages().payTo(),
-					FinanceApplication.getCustomersMessages().memo(),
-					FinanceApplication.getCustomersMessages().account(),
-					FinanceApplication.getCustomersMessages().payment(),
-					FinanceApplication.getCustomersMessages().deposit(),
-					FinanceApplication.getCustomersMessages().currentBalance(),
-					FinanceApplication.getCustomersMessages().voided() };
+					Accounter.getCustomersMessages().date(),
+					Accounter.getCustomersMessages().type(),
+					(Accounter.getCustomersMessages().checkNo() + "."),
+					Accounter.getCustomersMessages().payTo(),
+					Accounter.getCustomersMessages().memo(),
+					Accounter.getCustomersMessages().account(),
+					Accounter.getCustomersMessages().payment(),
+					Accounter.getCustomersMessages().deposit(),
+					Accounter.getCustomersMessages().currentBalance(),
+					Accounter.getCustomersMessages().voided() };
 		else if (accountType == ClientAccount.TYPE_CREDIT_CARD)
 			return new String[] {
-					FinanceApplication.getCustomersMessages().date(),
-					FinanceApplication.getCustomersMessages().type(),
-					FinanceApplication.getCustomersMessages().documentNo(),
-					FinanceApplication.getCustomersMessages().payTo(),
-					FinanceApplication.getCustomersMessages().memo(),
-					FinanceApplication.getCustomersMessages().account(),
-					FinanceApplication.getCustomersMessages().charge(),
-					FinanceApplication.getCustomersMessages().payment(),
-					FinanceApplication.getCustomersMessages().currentBalance(),
-					FinanceApplication.getCustomersMessages().voided() };
+					Accounter.getCustomersMessages().date(),
+					Accounter.getCustomersMessages().type(),
+					Accounter.getCustomersMessages().documentNo(),
+					Accounter.getCustomersMessages().payTo(),
+					Accounter.getCustomersMessages().memo(),
+					Accounter.getCustomersMessages().account(),
+					Accounter.getCustomersMessages().charge(),
+					Accounter.getCustomersMessages().payment(),
+					Accounter.getCustomersMessages().currentBalance(),
+					Accounter.getCustomersMessages().voided() };
 		return new String[0];
 	}
 
@@ -99,10 +99,10 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 
 		case 9:
 			if (!accRegister.isVoided())
-				return FinanceApplication.getFinanceImages().notvoid();
+				return Accounter.getFinanceImages().notvoid();
 			// return "/images/not-void.png";
 			else
-				return FinanceApplication.getFinanceImages().voided();
+				return Accounter.getFinanceImages().voided();
 			// return "/images/voided.png";
 		}
 		return null;

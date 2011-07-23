@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
@@ -11,18 +11,18 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 
 	public VendorCombo(String title) {
 		super(title);
-		initCombo(FinanceApplication.getCompany().getActiveVendors());
+		initCombo(Accounter.getCompany().getActiveVendors());
 	}
 
 	public VendorCombo(String title, boolean isAddNewRequired) {
 		super(title, isAddNewRequired, 1);
-		initCombo(FinanceApplication.getCompany().getActiveVendors());
+		initCombo(Accounter.getCompany().getActiveVendors());
 	}
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return UIUtils.getVendorString(FinanceApplication
-				.getAccounterComboConstants().newSupplier(), FinanceApplication
+		return UIUtils.getVendorString(Accounter
+				.getAccounterComboConstants().newSupplier(), Accounter
 				.getAccounterComboConstants().newVendor());
 
 	}

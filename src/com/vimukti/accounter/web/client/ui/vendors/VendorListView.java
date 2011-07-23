@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -36,7 +36,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	public void deleteFailed(Throwable caught) {
 		super.deleteFailed(caught);
 
-		Accounter.showInformation(FinanceApplication.getVendorsMessages()
+		Accounter.showInformation(Accounter.getVendorsMessages()
 				.youCantDelete());
 
 	}
@@ -44,7 +44,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	public Action getAddNewAction() {
 
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			return VendorsActionFactory.getNewVendorAction();
 		else
 			return null;
@@ -53,9 +53,9 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getAddNewLabelString() {
 
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
-			return UIUtils.getVendorString(FinanceApplication
-					.getVendorsMessages().addaNewSupplier(), FinanceApplication
+		if (Accounter.getUser().canDoInvoiceTransactions())
+			return UIUtils.getVendorString(Accounter
+					.getVendorsMessages().addaNewSupplier(), Accounter
 					.getVendorsMessages().addANewVendor());
 		else
 			return "";
@@ -64,8 +64,8 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getListViewHeading() {
 
-		return UIUtils.getVendorString(FinanceApplication.getVendorsMessages()
-				.supplierList(), FinanceApplication.getVendorsMessages()
+		return UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplierList(), Accounter.getVendorsMessages()
 				.vendorList());
 	}
 
@@ -101,7 +101,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 			total += t.getBalance();
 		} else
 			total -= t.getBalance();
-		totalLabel.setText(FinanceApplication.getVendorsMessages()
+		totalLabel.setText(Accounter.getVendorsMessages()
 				.totalOutStandingBalance()
 
 				+ DataUtils.getAmountAsString(total) + "");
@@ -123,7 +123,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		FinanceApplication.createHomeService().getPayeeList(
+		Accounter.createHomeService().getPayeeList(
 				ClientTransaction.CATEGORY_VENDOR, this);
 
 	}
@@ -198,8 +198,8 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getViewTitle() {
 		return UIUtils
-				.getVendorString(FinanceApplication.getVendorsMessages()
-						.suppliers(), FinanceApplication.getVendorsMessages()
+				.getVendorString(Accounter.getVendorsMessages()
+						.suppliers(), Accounter.getVendorsMessages()
 						.vendors());
 	}
 }

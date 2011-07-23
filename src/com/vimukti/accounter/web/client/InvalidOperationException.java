@@ -27,7 +27,7 @@ public class InvalidOperationException extends Exception  {
 	public int status;
 
 	private String detailedMessage;
-	private String stringID;
+	private long id;
 
 	/**
 	 * @return the status
@@ -86,7 +86,7 @@ public class InvalidOperationException extends Exception  {
 
 		setStatus(status);
 
-		this.stringID = stringID;
+		this.id=id;
 
 		if (serverObject != null) {
 			this.detailedMessage = detailedMessage

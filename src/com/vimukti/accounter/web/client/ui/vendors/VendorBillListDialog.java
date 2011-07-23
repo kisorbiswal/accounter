@@ -23,7 +23,7 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceipts
 import com.vimukti.accounter.web.client.externalization.FinanceConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -49,7 +49,7 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 		this.view = view;
 		this.list = list;
 		// setTitle("");
-		setText(FinanceApplication.getVendorsMessages().purchaseOrderList());
+		setText(Accounter.getVendorsMessages().purchaseOrderList());
 		createControls();
 		setWidth("600");
 		setQuoteList(list);
@@ -61,17 +61,17 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 		VerticalPanel mainLayout = new VerticalPanel();
 		mainLayout.setSize("100%", "100%");
 		mainLayout.setSpacing(3);
-		Label infoLabel = new Label(FinanceApplication.getVendorsMessages()
+		Label infoLabel = new Label(Accounter.getVendorsMessages()
 				.selectPurchaseOrder()
-				+ FinanceApplication.getVendorsMessages().selectDocument());
+				+ Accounter.getVendorsMessages().selectDocument());
 
 		mainLayout.add(infoLabel);
 
 		grid = new DialogGrid(false);
 		grid.addColumns(vendorConstants.Date(), vendorConstants.no(),
 				vendorConstants.type(), UIUtils.getVendorString(
-						FinanceApplication.getVendorsMessages().supplierName(),
-						FinanceApplication.getVendorsMessages().vendorName()),
+						Accounter.getVendorsMessages().supplierName(),
+						Accounter.getVendorsMessages().vendorName()),
 				vendorConstants.total());
 		grid.setCellsWidth(60, 20, 90, -1, 60);
 		grid.setView(this);
@@ -88,7 +88,7 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 						// try {
 						// ClientEstimate record = (ClientEstimate) core;
 						//
-						// String estimateId = record.getStringID();
+						// String estimateId = record.getID();
 						// selectedEstimate = getEstimate(estimateId);
 						//
 						// if (invoiceView != null && selectedEstimate != null)
@@ -115,7 +115,7 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				Accounter.showError(FinanceApplication.getVendorsMessages()
+				Accounter.showError(Accounter.getVendorsMessages()
 						.sorryNoHelp());
 
 			}
@@ -205,7 +205,7 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 					Accounter
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
-					Accounter.showError(FinanceApplication.getVendorsMessages()
+					Accounter.showError(Accounter.getVendorsMessages()
 							.errorLoadingItemReceipt());
 				}
 
@@ -233,7 +233,7 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 					Accounter
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
-					Accounter.showError(FinanceApplication.getVendorsMessages()
+					Accounter.showError(Accounter.getVendorsMessages()
 							.errorLoadingPurchaseOrder());
 				}
 
@@ -262,7 +262,7 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 				grid.addData(rec);
 			}
 		} else
-			grid.addEmptyMessage(FinanceApplication.getVendorsMessages()
+			grid.addEmptyMessage(Accounter.getVendorsMessages()
 					.norecordstoshow());
 	}
 

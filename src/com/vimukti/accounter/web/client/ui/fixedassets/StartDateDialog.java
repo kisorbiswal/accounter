@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -29,7 +29,7 @@ public class StartDateDialog extends BaseDialog {
 	protected boolean isDateChanged;
 
 	public StartDateDialog() {
-		super(FinanceApplication.getFixedAssetConstants().startDate(), "");
+		super(Accounter.getFixedAssetConstants().startDate(), "");
 		getStartdates();
 		Timer timer = new Timer() {
 			@Override
@@ -42,7 +42,7 @@ public class StartDateDialog extends BaseDialog {
 	}
 
 	private String getStartDateString() {
-		ClientFinanceDate startDate = new ClientFinanceDate(FinanceApplication
+		ClientFinanceDate startDate = new ClientFinanceDate(Accounter
 				.getCompany().getPreferences().getDepreciationStartDate());
 		String startDateString = startDate.toString();
 
@@ -50,14 +50,14 @@ public class StartDateDialog extends BaseDialog {
 	}
 
 	private void createControl() {
-		Label introLabel = new Label(FinanceApplication
+		Label introLabel = new Label(Accounter
 				.getFixedAssetConstants().currentStartDateIs()
 				+ getStartDateString());
 
 		Label infoLabel = new Label();
-		infoLabel.setText(FinanceApplication.getFixedAssetConstants()
+		infoLabel.setText(Accounter.getFixedAssetConstants()
 				.startDateForManagingFixedAsset());
-		HTML prefixText = new HTML(FinanceApplication.getFixedAssetConstants()
+		HTML prefixText = new HTML(Accounter.getFixedAssetConstants()
 				.newStartDate());
 		dateBox = new ListBox();
 		dateBox.addChangeHandler(new ChangeHandler() {
@@ -128,7 +128,7 @@ public class StartDateDialog extends BaseDialog {
 	private void changeStartDate() {
 		String dateString = dateBox.getValue(dateBox.getSelectedIndex());
 		ClientFinanceDate date = UIUtils.stringToDate(dateString,
-				(FinanceApplication.getFixedAssetConstants().ddMMMyyyy()));
+				(Accounter.getFixedAssetConstants().ddMMMyyyy()));
 
 		AsyncCallback callBack = new AsyncCallback() {
 
@@ -146,7 +146,7 @@ public class StartDateDialog extends BaseDialog {
 			}
 
 		};
-		FinanceApplication.createHomeService().changeDepreciationStartDateTo(
+		Accounter.createHomeService().changeDepreciationStartDateTo(
 				date.getTime(), callBack);
 	}
 
@@ -171,7 +171,7 @@ public class StartDateDialog extends BaseDialog {
 			}
 
 		};
-		FinanceApplication.createHomeService().getFinancialYearStartDates(
+		Accounter.createHomeService().getFinancialYearStartDates(
 				callBack);
 
 	}
@@ -203,7 +203,7 @@ public class StartDateDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getFixedAssetConstants().startDate();
+		return Accounter.getFixedAssetConstants().startDate();
 	}
 
 }

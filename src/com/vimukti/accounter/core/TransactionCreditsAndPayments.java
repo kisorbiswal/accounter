@@ -25,7 +25,7 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 
 	String memo;
 
-	String stringID;
+	long id;
 
 	/**
 	 * The amount to be used when using this object.
@@ -86,7 +86,7 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 		return version;
 	}
 
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
@@ -289,13 +289,13 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	@Override

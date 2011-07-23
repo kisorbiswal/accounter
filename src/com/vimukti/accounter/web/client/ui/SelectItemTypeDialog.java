@@ -25,8 +25,8 @@ public class SelectItemTypeDialog extends BaseDialog {
 
 	public SelectItemTypeDialog(NewItemAction action,
 			boolean isGeneratedFromCustomer) {
-		super(FinanceApplication.getFinanceUIConstants().selectItemType(),
-				FinanceApplication.getFinanceUIConstants().selectOneOfItem());
+		super(Accounter.getFinanceUIConstants().selectItemType(),
+				Accounter.getFinanceUIConstants().selectOneOfItem());
 		this.action = action;
 		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
 		createControls();
@@ -44,10 +44,10 @@ public class SelectItemTypeDialog extends BaseDialog {
 		// typeMap.put("service", "Service");
 		// typeMap.put("non-inventory", "Non-Inventory&nbsp;Item");
 
-		typeRadio.setValueMap(FinanceApplication.getFinanceUIConstants()
-				.service(), FinanceApplication.getFinanceUIConstants()
+		typeRadio.setValueMap(Accounter.getFinanceUIConstants()
+				.service(), Accounter.getFinanceUIConstants()
 				.product());
-		typeRadio.setDefaultValue(FinanceApplication.getFinanceUIConstants()
+		typeRadio.setDefaultValue(Accounter.getFinanceUIConstants()
 				.service());
 
 		final DynamicForm typeForm = new DynamicForm();
@@ -74,7 +74,7 @@ public class SelectItemTypeDialog extends BaseDialog {
 
 				if (typeRadio.getValue() != null) {
 					String radio = typeRadio.getValue().toString();
-					if (radio.equals(FinanceApplication.getFinanceUIConstants()
+					if (radio.equals(Accounter.getFinanceUIConstants()
 							.service())) {
 						try {
 							ItemView view = new ItemView(null, TYPE_SERVICE,
@@ -85,7 +85,7 @@ public class SelectItemTypeDialog extends BaseDialog {
 							// //UIUtils.logError("Failed...", e);
 
 						}
-					} else if (radio.equals(FinanceApplication
+					} else if (radio.equals(Accounter
 							.getFinanceUIConstants().product())) {
 
 						try {
@@ -149,6 +149,6 @@ public class SelectItemTypeDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getFinanceUIConstants().selectItemType();
+		return Accounter.getFinanceUIConstants().selectItemType();
 	}
 }

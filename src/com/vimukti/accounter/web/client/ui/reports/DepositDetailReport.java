@@ -5,7 +5,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class DepositDetailReport extends AbstractReportView<DepositDetail> {
@@ -57,7 +57,7 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return FinanceApplication.getReportsMessages().financialYearToDate();
+		return Accounter.getReportsMessages().financialYearToDate();
 	}
 
 //	@Override
@@ -70,16 +70,16 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 	@Override
 	public String[] getColunms() {
 		return new String[] { "",
-				FinanceApplication.getReportsMessages().number(),
-				FinanceApplication.getReportsMessages().date(),
-				FinanceApplication.getReportsMessages().name(),
-				FinanceApplication.getReportsMessages().accountName(),
-				FinanceApplication.getReportsMessages().amount() };
+				Accounter.getReportsMessages().number(),
+				Accounter.getReportsMessages().date(),
+				Accounter.getReportsMessages().name(),
+				Accounter.getReportsMessages().accountName(),
+				Accounter.getReportsMessages().amount() };
 	}
 
 	@Override
 	public String getTitle() {
-		return FinanceApplication.getFinanceUIConstants().depositDetail();
+		return Accounter.getFinanceUIConstants().depositDetail();
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		FinanceApplication.createReportService().getDepositDetail(
+		Accounter.createReportService().getDepositDetail(
 				start.getTime(), end.getTime(), this);
 	}
 

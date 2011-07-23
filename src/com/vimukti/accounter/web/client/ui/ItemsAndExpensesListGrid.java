@@ -462,7 +462,7 @@
 //						for (ClientAccount temp : allAccounts) {
 //							if (temp.getName().equalsIgnoreCase(
 //									rec.getAttribute("name"))) {
-//								item.setAccount(temp.getStringID());
+//								item.setAccount(temp.getID());
 //								break;
 //							}
 //						}
@@ -473,7 +473,7 @@
 //						for (ClientItem temp : allItems) {
 //							if (temp.getName().equalsIgnoreCase(
 //									rec.getAttribute("name"))) {
-//								item.setItem(temp.getStringID());
+//								item.setItem(temp.getID());
 //								break;
 //							}
 //						}
@@ -485,7 +485,7 @@
 //					for (ClientTaxCode temp : allTaxeCodes) {
 //						if (temp.getName().equalsIgnoreCase(
 //								rec.getAttribute("name"))) {
-//							item.setTaxCode(temp.getStringID());
+//							item.setTaxCode(temp.getID());
 //							break;
 //						}
 //					}

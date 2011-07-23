@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.core;
 @SuppressWarnings("serial")
 public class ClientSalesOrder extends ClientTransaction {
 
-	String customer;
+	long customer;
 
 	ClientContact contact;
 
@@ -13,25 +13,25 @@ public class ClientSalesOrder extends ClientTransaction {
 
 	String phone;
 
-	String salesPerson;
+	long salesPerson;
 
-	String paymentTerm;
+	long paymentTerm;
 
-	String shippingTerm;
+	long shippingTerm;
 
-	String shippingMethod;
+	long shippingMethod;
 
 	long dueDate;
 
 	double discountTotal;
 
-	String priceLevel;
+	long priceLevel;
 
 	double salesTaxAmount;
 
-	String estimate;
+	long estimate;
 
-	String salesTaxItem;
+	long salesTaxItem;
 
 	/**
 	 * To give the user the feature to maintain his own number to know about
@@ -85,7 +85,7 @@ public class ClientSalesOrder extends ClientTransaction {
 	/**
 	 * @return the customer
 	 */
-	public String getCustomer() {
+	public long getCustomer() {
 		return customer;
 	}
 
@@ -93,7 +93,7 @@ public class ClientSalesOrder extends ClientTransaction {
 	 * @param customer
 	 *            the customer to set
 	 */
-	public void setCustomer(String customer) {
+	public void setCustomer(long customer) {
 		this.customer = customer;
 	}
 
@@ -160,7 +160,7 @@ public class ClientSalesOrder extends ClientTransaction {
 	/**
 	 * @return the salesPerson
 	 */
-	public String getSalesPerson() {
+	public long getSalesPerson() {
 		return salesPerson;
 	}
 
@@ -168,14 +168,14 @@ public class ClientSalesOrder extends ClientTransaction {
 	 * @param salesPerson
 	 *            the salesPerson to set
 	 */
-	public void setSalesPerson(String salesPerson) {
+	public void setSalesPerson(long salesPerson) {
 		this.salesPerson = salesPerson;
 	}
 
 	/**
 	 * @return the paymentTerm
 	 */
-	public String getPaymentTerm() {
+	public long getPaymentTerm() {
 		return paymentTerm;
 	}
 
@@ -183,14 +183,14 @@ public class ClientSalesOrder extends ClientTransaction {
 	 * @param paymentTerm
 	 *            the paymentTerm to set
 	 */
-	public void setPaymentTerm(String paymentTerm) {
+	public void setPaymentTerm(long paymentTerm) {
 		this.paymentTerm = paymentTerm;
 	}
 
 	/**
 	 * @return the shippingTerm
 	 */
-	public String getShippingTerm() {
+	public long getShippingTerm() {
 		return shippingTerm;
 	}
 
@@ -198,14 +198,14 @@ public class ClientSalesOrder extends ClientTransaction {
 	 * @param shippingTerm
 	 *            the shippingTerm to set
 	 */
-	public void setShippingTerm(String shippingTerm) {
+	public void setShippingTerm(long shippingTerm) {
 		this.shippingTerm = shippingTerm;
 	}
 
 	/**
 	 * @return the shippingMethod
 	 */
-	public String getShippingMethod() {
+	public long getShippingMethod() {
 		return shippingMethod;
 	}
 
@@ -213,14 +213,14 @@ public class ClientSalesOrder extends ClientTransaction {
 	 * @param shippingMethod
 	 *            the shippingMethod to set
 	 */
-	public void setShippingMethod(String shippingMethod) {
+	public void setShippingMethod(long shippingMethod) {
 		this.shippingMethod = shippingMethod;
 	}
 
 	/**
 	 * @return the priceLevel
 	 */
-	public String getPriceLevel() {
+	public long getPriceLevel() {
 		return priceLevel;
 	}
 
@@ -228,14 +228,14 @@ public class ClientSalesOrder extends ClientTransaction {
 	 * @param priceLevel
 	 *            the priceLevel to set
 	 */
-	public void setPriceLevel(String priceLevel) {
+	public void setPriceLevel(long priceLevel) {
 		this.priceLevel = priceLevel;
 	}
 
 	/**
 	 * @return the estimate
 	 */
-	public String getEstimate() {
+	public long getEstimate() {
 		return estimate;
 	}
 
@@ -243,14 +243,14 @@ public class ClientSalesOrder extends ClientTransaction {
 	 * @param estimate
 	 *            the estimate to set
 	 */
-	public void setEstimate(String estimate) {
+	public void setEstimate(long estimate) {
 		this.estimate = estimate;
 	}
 
 	/**
 	 * @return the salesTaxItem
 	 */
-	public String getSalesTaxItem() {
+	public long getSalesTaxItem() {
 		return salesTaxItem;
 	}
 
@@ -258,7 +258,7 @@ public class ClientSalesOrder extends ClientTransaction {
 	 * @param salesTaxItem
 	 *            the salesTaxItem to set
 	 */
-	public void setSalesTaxItem(String salesTaxItem) {
+	public void setSalesTaxItem(long salesTaxItem) {
 		this.salesTaxItem = salesTaxItem;
 	}
 
@@ -316,15 +316,15 @@ public class ClientSalesOrder extends ClientTransaction {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
+	public void setID(long id){
 
-		this.stringID = stringID;
+		this.id=id;
 	}
 
 }

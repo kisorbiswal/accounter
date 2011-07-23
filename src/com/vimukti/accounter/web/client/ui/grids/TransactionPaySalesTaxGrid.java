@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPaySalesTax;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.PaySalesTaxView;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
@@ -78,15 +78,15 @@ public class TransactionPaySalesTaxGrid extends
 		if (!paySalesTaxView.isEditMode()) {
 			switch (index) {
 			case 0:
-				return FinanceApplication.getCompany().getTaxAgency(
-						paySalesTax.getTaxAgency()).getName() != null ? FinanceApplication
+				return Accounter.getCompany().getTaxAgency(
+						paySalesTax.getTaxAgency()).getName() != null ? Accounter
 						.getCompany().getTaxAgency(paySalesTax.getTaxAgency())
 						.getName()
 						: "";
 			case 1:
-				return paySalesTax.getTaxItem() != null ? ((FinanceApplication
+				return paySalesTax.getTaxItem() != null ? ((Accounter
 						.getCompany().getTaxItem(paySalesTax.getTaxItem())
-						.getName()) != null ? (FinanceApplication.getCompany()
+						.getName()) != null ? (Accounter.getCompany()
 						.getTaxItem(paySalesTax.getTaxItem()).getName()) : "")
 						: " ";
 			case 2:
@@ -99,14 +99,14 @@ public class TransactionPaySalesTaxGrid extends
 		} else {
 			switch (index) {
 			case 0:
-				return FinanceApplication.getCompany().getTaxAgency(
-						paySalesTax.getTaxAgency()).getName() != null ? FinanceApplication
+				return Accounter.getCompany().getTaxAgency(
+						paySalesTax.getTaxAgency()).getName() != null ? Accounter
 						.getCompany().getTaxAgency(paySalesTax.getTaxAgency())
 						.getName()
 						: "";
 			case 1:
-				return FinanceApplication.getCompany().getTaxItem(
-						paySalesTax.getTaxItem()) != null ? FinanceApplication
+				return Accounter.getCompany().getTaxItem(
+						paySalesTax.getTaxItem()) != null ? Accounter
 						.getCompany().getTaxItem(paySalesTax.getTaxItem())
 						.getName() : "";
 

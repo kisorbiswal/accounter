@@ -4,7 +4,7 @@ package com.vimukti.accounter.web.client.core;
 public class ClientUnitOfMeasure implements IAccounterCore {
 
 	int version;
-	String stringID;
+	long id;
 	int type;
 	String name;
 	String abbreviation;
@@ -90,13 +90,13 @@ public class ClientUnitOfMeasure implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

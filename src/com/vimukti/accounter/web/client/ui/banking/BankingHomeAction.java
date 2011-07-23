@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.banking;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -14,7 +14,7 @@ public class BankingHomeAction extends Action {
 
 	public BankingHomeAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getBankingsMessages().banking();
+		this.catagory = Accounter.getBankingsMessages().banking();
 	}
 
 	/**
@@ -39,7 +39,7 @@ public class BankingHomeAction extends Action {
 			MainFinanceWindow.getViewManager()
 					.showView(view, null, false, this);
 		} catch (Exception e) {
-			Accounter.showError(FinanceApplication.getBankingsMessages()
+			Accounter.showError(Accounter.getBankingsMessages()
 					.failedToLoadBankingHome());
 		}
 	}
@@ -49,7 +49,7 @@ public class BankingHomeAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().bankingHome();
+		return Accounter.getFinanceMenuImages().bankingHome();
 	}
 
 	@Override

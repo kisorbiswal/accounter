@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.ui.CreditCardChargeView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -44,12 +44,12 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 	@Override
 	protected void initViewType() {
 
-		titlelabel.setText(FinanceApplication.getVendorsMessages()
+		titlelabel.setText(Accounter.getVendorsMessages()
 				.creditCardExpense());
 
 		vendorForm.clear();
 		termsForm.clear();
-		Ccard = new VendorCombo(FinanceApplication.getVendorsMessages()
+		Ccard = new VendorCombo(Accounter.getVendorsMessages()
 				.cCCompany(), true) {
 			@Override
 			public void initCombo(List<ClientVendor> list) {
@@ -58,7 +58,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 					ClientVendor vdr = iterator.next();
 					if (vdr.getVendorGroup() != null
 							&& !vdr.getVendorGroup().equals("")) {
-						ClientVendorGroup vendorGrougp = FinanceApplication
+						ClientVendorGroup vendorGrougp = Accounter
 								.getCompany().getVendorGroup(
 										vdr.getVendorGroup());
 						if (!vendorGrougp.getName().equals(
@@ -99,15 +99,15 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 		Ccard.setRequired(true);
 		String listString[] = new String[] {
-				FinanceApplication.getVendorsMessages().cash(),
-				UIUtils.getpaymentMethodCheckBy_CompanyType(FinanceApplication
+				Accounter.getVendorsMessages().cash(),
+				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
 						.getCustomersMessages().check()),
-				FinanceApplication.getVendorsMessages().creditCard(),
-				FinanceApplication.getVendorsMessages().directDebit(),
-				FinanceApplication.getVendorsMessages().masterCard(),
-				FinanceApplication.getVendorsMessages().onlineBanking(),
-				FinanceApplication.getVendorsMessages().standingOrder(),
-				FinanceApplication.getVendorsMessages().switchMaestro() };
+				Accounter.getVendorsMessages().creditCard(),
+				Accounter.getVendorsMessages().directDebit(),
+				Accounter.getVendorsMessages().masterCard(),
+				Accounter.getVendorsMessages().onlineBanking(),
+				Accounter.getVendorsMessages().standingOrder(),
+				Accounter.getVendorsMessages().switchMaestro() };
 
 		selectedComboList = new ArrayList<String>();
 		for (int i = 0; i < listString.length; i++) {
@@ -120,12 +120,12 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 		termsForm.removeFromParent();
 		termsForm.setWidth("100%");
 		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getCustomersMessages().width(), "203px");
+				Accounter.getCustomersMessages().width(), "203px");
 		hPanel.add(termsForm);
 
 		if (transactionObject != null) {
 			ClientCreditCardCharge creditCardCharge = (ClientCreditCardCharge) transactionObject;
-			Ccard.setComboItem(FinanceApplication.getCompany().getVendor(
+			Ccard.setComboItem(Accounter.getCompany().getVendor(
 					creditCardCharge.getVendor()));
 			Ccard.setDisabled(true);
 		}
@@ -163,7 +163,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 			creditCardCharge.setNumber(transactionNumber.getValue().toString());
 		ClientVendor vendor = Ccard.getSelectedValue();
 		if (vendor != null)
-			creditCardCharge.setVendor(vendor.getStringID());
+			creditCardCharge.setVendor(vendor.getID());
 		// setting contact
 		if (contact != null) {
 			creditCardCharge.setContact(contact);
@@ -190,10 +190,10 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 		creditCardCharge.setPaymentMethod(paymentMethod);
 
 		// Setting pay from
-		payFromAccount = payFrmSelect.getSelectedValue().getStringID();
+		payFromAccount = payFrmSelect.getSelectedValue().getID();
 		if (payFromAccount.length() != 0 && payFromAccount != null)
-			creditCardCharge.setPayFrom(FinanceApplication.getCompany()
-					.getAccount(payFromAccount).getStringID());
+			creditCardCharge.setPayFrom(Accounter.getCompany()
+					.getAccount(payFromAccount).getID());
 
 		// setting check no
 		if (cheqNoText.getValue() != null)
@@ -280,18 +280,18 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 	@Override
 	protected void showMenu(AccounterButton button) {
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, FinanceApplication.getVendorsMessages()
-					.accounts(), FinanceApplication.getVendorsMessages()
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			setMenuItems(button, Accounter.getVendorsMessages()
+					.accounts(), Accounter.getVendorsMessages()
 					.service());
 		else
-			setMenuItems(button, FinanceApplication.getVendorsMessages()
-					.accounts(), FinanceApplication.getVendorsMessages()
+			setMenuItems(button, Accounter.getVendorsMessages()
+					.accounts(), Accounter.getVendorsMessages()
 					.service());
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getVendorsMessages().creditCardExpense();
+		return Accounter.getVendorsMessages().creditCardExpense();
 	}
 }

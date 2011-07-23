@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
@@ -33,8 +33,8 @@ public class PayTypeListDialog extends GroupDialog {
 		@SuppressWarnings("unused")
 		final String description;
 
-		title = FinanceApplication.getCompanyMessages().addOrEditPayType();
-		description = FinanceApplication.getCompanyMessages().toAddPayType();
+		title = Accounter.getCompanyMessages().addOrEditPayType();
+		description = Accounter.getCompanyMessages().toAddPayType();
 		DialogGrid grid = getGrid();
 		grid.addColumn(ListGrid.COLUMN_TYPE_TEXT, companyConstants.active());
 		grid.addColumn(ListGrid.COLUMN_TYPE_TEXT, companyConstants
@@ -95,7 +95,7 @@ public class PayTypeListDialog extends GroupDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCompanyMessages().addOrEditPayType();
+		return Accounter.getCompanyMessages().addOrEditPayType();
 	}
 
 }

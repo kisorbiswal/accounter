@@ -4,7 +4,7 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.PaymentTermListDialog;
 
 /**
@@ -18,12 +18,12 @@ public class PaymentTermsCombo extends CustomCombo<ClientPaymentTerms> {
 	 */
 	public PaymentTermsCombo(String title) {
 		super(title);
-		initCombo(FinanceApplication.getCompany().getPaymentsTerms());
+		initCombo(Accounter.getCompany().getPaymentsTerms());
 	}
 
 	public PaymentTermsCombo(String title, boolean isAddNewRequired) {
 		super(title, isAddNewRequired, 1);
-		initCombo(FinanceApplication.getCompany().getPaymentsTerms());
+		initCombo(Accounter.getCompany().getPaymentsTerms());
 	}
 
 	@Override

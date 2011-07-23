@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -54,7 +54,7 @@ public class BillListView extends BaseListView<BillsList> {
 
 	@Override
 	protected Action getAddNewAction() {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			return VendorsActionFactory.getEnterBillsAction();
 		else
 			return null;
@@ -62,7 +62,7 @@ public class BillListView extends BaseListView<BillsList> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			return vendorsConstants.addaNewBill();
 		else
 			return "";
@@ -76,7 +76,7 @@ public class BillListView extends BaseListView<BillsList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		FinanceApplication.createHomeService().getBillsAndItemReceiptList(
+		Accounter.createHomeService().getBillsAndItemReceiptList(
 				false, this);
 
 	}
@@ -101,14 +101,14 @@ public class BillListView extends BaseListView<BillsList> {
 
 	@Override
 	protected SelectCombo getSelectItem() {
-		currentView = new SelectCombo(FinanceApplication.getVendorsMessages()
+		currentView = new SelectCombo(Accounter.getVendorsMessages()
 				.currentView());
 		currentView.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
-		listOfTypes.add(FinanceApplication.getVendorsMessages().open());
-		listOfTypes.add(FinanceApplication.getVendorsMessages().Voided());
-		listOfTypes.add(FinanceApplication.getVendorsMessages().overDue());
-		listOfTypes.add(FinanceApplication.getVendorsMessages().all());
+		listOfTypes.add(Accounter.getVendorsMessages().open());
+		listOfTypes.add(Accounter.getVendorsMessages().Voided());
+		listOfTypes.add(Accounter.getVendorsMessages().overDue());
+		listOfTypes.add(Accounter.getVendorsMessages().all());
 		currentView.initCombo(listOfTypes);
 
 		if (UIUtils.isMSIEBrowser())
@@ -117,7 +117,7 @@ public class BillListView extends BaseListView<BillsList> {
 		if (this.viewType != null && !viewType.equals(""))
 			currentView.setComboItem(viewType);
 		else {
-			currentView.setComboItem(FinanceApplication.getCustomersMessages()
+			currentView.setComboItem(Accounter.getCustomersMessages()
 					.all());
 		}
 		currentView
@@ -229,6 +229,6 @@ public class BillListView extends BaseListView<BillsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().billsAndItemReceipts();
+		return Accounter.getActionsConstants().billsAndItemReceipts();
 	}
 }

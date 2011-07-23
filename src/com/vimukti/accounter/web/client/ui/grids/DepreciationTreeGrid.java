@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientDepreciationDummyEntry;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author Murali.A
@@ -33,7 +33,7 @@ public class DepreciationTreeGrid extends
 		case 1:
 			return DataUtils.getAmountAsString(obj.getAmountToBeDepreciated());
 		case 2:
-			return obj.getAssetAccount() != null ? FinanceApplication
+			return obj.getAssetAccount() != null ? Accounter
 					.getCompany().getAccount(obj.getAssetAccount()).getName()
 					: "";
 		default:
@@ -44,10 +44,10 @@ public class DepreciationTreeGrid extends
 	@Override
 	protected String[] getColumns() {
 		return new String[] {
-				FinanceApplication.getFixedAssetConstants().Account(),
-				FinanceApplication.getFixedAssetConstants()
+				Accounter.getFixedAssetConstants().Account(),
+				Accounter.getFixedAssetConstants()
 						.AmounttobeDepreciated(),
-				FinanceApplication.getFixedAssetConstants()
+				Accounter.getFixedAssetConstants()
 						.AccumulatedDepreciationAccount() };
 	}
 
@@ -59,7 +59,7 @@ public class DepreciationTreeGrid extends
 	/* This method sets the columnvalues for parent row */
 	public void addParentOrEdit(int col, int row, String string) {
 		if (col == 0) {
-			addParent(string, FinanceApplication.getFinanceMenuImages()
+			addParent(string, Accounter.getFinanceMenuImages()
 					.newAccount().getURL());
 		} else {
 			this.setText(row, col, string);

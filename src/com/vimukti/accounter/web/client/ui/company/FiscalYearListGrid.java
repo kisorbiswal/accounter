@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -31,9 +31,9 @@ public class FiscalYearListGrid extends ListGrid<ClientFiscalYear> {
 			return UIUtils.getDateByCompanyType(obj.getEndDate());
 		case 2:
 			if (obj.getStatus() == 1) {
-				return FinanceApplication.getCompanyMessages().open();
+				return Accounter.getCompanyMessages().open();
 			} else {
-				return FinanceApplication.getCompanyMessages().close();
+				return Accounter.getCompanyMessages().close();
 			}
 
 		default:
@@ -99,9 +99,9 @@ public class FiscalYearListGrid extends ListGrid<ClientFiscalYear> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] {
-				FinanceApplication.getCompanyMessages().startDate(),
-				FinanceApplication.getCompanyMessages().endDate(),
-				FinanceApplication.getCompanyMessages().status() };
+				Accounter.getCompanyMessages().startDate(),
+				Accounter.getCompanyMessages().endDate(),
+				Accounter.getCompanyMessages().status() };
 	}
 
 	/*

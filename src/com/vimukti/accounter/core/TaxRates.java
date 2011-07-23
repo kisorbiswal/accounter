@@ -19,7 +19,7 @@ public class TaxRates implements IAccounterServerCore, Lifecycle {
 
 	long id;
 
-	public String stringID;
+	public long id;
 
 	/**
 	 * The amount of rate which should be imposed on any transaction at the
@@ -102,14 +102,14 @@ public class TaxRates implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

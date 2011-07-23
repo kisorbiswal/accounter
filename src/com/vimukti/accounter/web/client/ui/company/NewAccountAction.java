@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.List;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.NewAccountView;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -19,13 +19,13 @@ public class NewAccountAction extends Action {
 
 	public NewAccountAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	public NewAccountAction(String text, String iconString) {
 
 		super(text, iconString);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 
 	}
 
@@ -87,7 +87,7 @@ public class NewAccountAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().newAccount();
+		return Accounter.getFinanceMenuImages().newAccount();
 	}
 
 	@Override

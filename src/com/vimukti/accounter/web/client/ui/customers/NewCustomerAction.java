@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -16,14 +16,14 @@ public class NewCustomerAction extends Action {
 
 	public NewCustomerAction(String text, String icon) {
 		super(text, icon);
-		this.catagory = FinanceApplication.getCustomersMessages().customer();
-		super.setToolTip(FinanceApplication.getCustomersMessages().customer());
+		this.catagory = Accounter.getCustomersMessages().customer();
+		super.setToolTip(Accounter.getCustomersMessages().customer());
 	}
 
 	public NewCustomerAction(String text, String icon, ClientCustomer customer,
 			AsyncCallback<Object> callback) {
 		super(text, icon, customer, callback);
-		this.catagory = FinanceApplication.getCustomersMessages().customer();
+		this.catagory = Accounter.getCustomersMessages().customer();
 	}
 
 	public void run(Object data, Boolean isDependent) {
@@ -67,7 +67,7 @@ public class NewCustomerAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().newCustomer();
+		return Accounter.getFinanceMenuImages().newCustomer();
 	}
 
 	@Override

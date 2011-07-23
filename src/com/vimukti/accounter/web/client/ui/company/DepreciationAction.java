@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -14,19 +14,19 @@ public class DepreciationAction extends Action {
 
 	public DepreciationAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	public DepreciationAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getFixedAssetConstants()
+		this.catagory = Accounter.getFixedAssetConstants()
 		.fixedAssets();
 	}
 
 	public DepreciationAction(String text, String iconString,
 			Object editableObject, AsyncCallback<Object> callbackObject) {
 		super(text, iconString, editableObject, callbackObject);
-		this.catagory = FinanceApplication.getFixedAssetConstants()
+		this.catagory = Accounter.getFixedAssetConstants()
 		.fixedAssets();
 	}
 
@@ -39,7 +39,7 @@ public class DepreciationAction extends Action {
 	@Override
 	public ImageResource getSmallImage() {
 		// TODO Auto-generated method stub
-		return FinanceApplication.getFinanceMenuImages().Depreciation();
+		return Accounter.getFinanceMenuImages().Depreciation();
 	}
 @Override
 public String getImageUrl() {
@@ -59,7 +59,7 @@ public String getImageUrl() {
 			MainFinanceWindow.getViewManager()
 					.showView(view, null, false, this);
 		} catch (Exception e) {
-			Accounter.showError(FinanceApplication.getCompanyMessages()
+			Accounter.showError(Accounter.getCompanyMessages()
 					.failedToLoadCompanyHome());
 		}
 	}

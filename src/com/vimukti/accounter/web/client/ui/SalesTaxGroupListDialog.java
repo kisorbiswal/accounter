@@ -44,7 +44,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 
 	// public long getSelectedTaxGroupMethodId() {
 	//
-	// return ((ClientTaxGroup) listGridView.getSelection()).getStringID();
+	// return ((ClientTaxGroup) listGridView.getSelection()).getID();
 	// }
 
 	public void initialise() {
@@ -76,7 +76,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 				if (taxGroup != null) {
 					showAddEditTaxGroup(taxGroup);
 				} else {
-					Accounter.showError(FinanceApplication
+					Accounter.showError(Accounter
 							.getFinanceUIConstants().selectATaxGroup());
 					new Exception();
 				}
@@ -89,7 +89,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 				if (taxGroup != null) {
 					deleteObject(taxGroup);
 				} else
-					Accounter.showError(FinanceApplication
+					Accounter.showError(Accounter
 							.getFinanceUIConstants().selectATaxGroup());
 
 			}
@@ -101,12 +101,12 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 	public void showAddEditTaxGroup(final ClientTAXGroup taxGroup) {
 
 		if (taxGroup != null) {
-			salesTaxGroupDialog = new SalesTaxGroupDialog(FinanceApplication
-					.getFinanceUIConstants().taxGroup(), FinanceApplication
+			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter
+					.getFinanceUIConstants().taxGroup(), Accounter
 					.getFinanceUIConstants().toAddOrRemoveTaxCode(), taxGroup);
 		} else {
-			salesTaxGroupDialog = new SalesTaxGroupDialog(FinanceApplication
-					.getFinanceUIConstants().taxGroup(), FinanceApplication
+			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter
+					.getFinanceUIConstants().taxGroup(), Accounter
 					.getFinanceUIConstants().toAddOrRemoveTaxCode(), null);
 		}
 
@@ -127,7 +127,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 						newTaxGroup();
 						return true;
 					} else {
-						Accounter.showError(FinanceApplication
+						Accounter.showError(Accounter
 								.getFinanceUIConstants()
 								.pleaseEnterTaxGroupName());
 						return false;
@@ -224,11 +224,11 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 
 	@Override
 	protected List<ClientTAXGroup> getRecords() {
-		return FinanceApplication.getCompany().getTaxGroups();
+		return Accounter.getCompany().getTaxGroups();
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().salesTaxGroups();
+		return Accounter.getActionsConstants().salesTaxGroups();
 	}
 }

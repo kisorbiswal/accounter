@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.CreditRatingListDialog;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
@@ -43,8 +43,8 @@ public class CreditRatingListAction extends Action {
 				try {
 
 					CreditRatingListDialog dialog = new CreditRatingListDialog(
-							FinanceApplication.getCompanyMessages()
-									.creditRatingList(), FinanceApplication
+							Accounter.getCompanyMessages()
+									.creditRatingList(), Accounter
 									.getCompanyMessages().toAddCreditRating());
 					ViewManager viewManager = ViewManager.getInstance();
 					viewManager.setCurrentDialog(dialog);
@@ -67,7 +67,7 @@ public class CreditRatingListAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().creditRatingList();
+		return Accounter.getFinanceMenuImages().creditRatingList();
 	}
 	@Override
 	public String getImageUrl() {

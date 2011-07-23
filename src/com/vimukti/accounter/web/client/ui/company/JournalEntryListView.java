@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -87,10 +87,10 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 		// listOfTypes.add(FinanceApplication.getVendorsMessages().cashBasis());
 		// listOfTypes.add(FinanceApplication.getVendorsMessages()
 		// .voidedCashBasis());
-		listOfTypes.add(FinanceApplication.getVendorsMessages().all());
+		listOfTypes.add(Accounter.getVendorsMessages().all());
 		currentView.initCombo(listOfTypes);
 		// currentView.setComboItem(FinanceApplication.getVendorsMessages().all());
-		currentView.setComboItem(FinanceApplication.getCustomersMessages()
+		currentView.setComboItem(Accounter.getCustomersMessages()
 				.all());
 		currentView
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -191,7 +191,7 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().journalEntries();
+		return Accounter.getActionsConstants().journalEntries();
 	}
 
 }

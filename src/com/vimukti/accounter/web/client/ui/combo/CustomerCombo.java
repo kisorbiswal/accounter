@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientCustomer;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
@@ -10,13 +10,13 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
 	public CustomerCombo(String title) {
 		super(title);
-		initCombo(FinanceApplication.getCompany().getActiveCustomers());
+		initCombo(Accounter.getCompany().getActiveCustomers());
 
 	}
 
 	public CustomerCombo(String title, boolean isAddNewRequire) {
 		super(title, isAddNewRequire, 1);
-		initCombo(FinanceApplication.getCompany().getActiveCustomers());
+		initCombo(Accounter.getCompany().getActiveCustomers());
 
 	}
 

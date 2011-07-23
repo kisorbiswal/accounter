@@ -5,7 +5,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
@@ -39,7 +39,7 @@ public class ManageVATGroupListGrid extends BaseListGrid<ClientTAXGroup> {
 			return vatGroup.getDescription() != null ? vatGroup
 					.getDescription() : "";
 		case 3:
-			return FinanceApplication.getFinanceMenuImages().delete();
+			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
 		}
 
@@ -62,9 +62,9 @@ public class ManageVATGroupListGrid extends BaseListGrid<ClientTAXGroup> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { FinanceApplication.getVATMessages().active(),
-				FinanceApplication.getVATMessages().VATGroup(),
-				FinanceApplication.getVATMessages().description(), " " };
+		return new String[] { Accounter.getVATMessages().active(),
+				Accounter.getVATMessages().VATGroup(),
+				Accounter.getVATMessages().description(), " " };
 	}
 
 	@Override

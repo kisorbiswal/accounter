@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -16,7 +16,7 @@ public class ReportsHomeAction extends Action {
 
 	public ReportsHomeAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getReportsMessages().report();
+		this.catagory = Accounter.getReportsMessages().report();
 	}
 
 	public ReportsHomeAction(String text, String iconString) {
@@ -37,7 +37,7 @@ public class ReportsHomeAction extends Action {
 					new ReportSectionView(), null, isDependent,
 					ReportsHomeAction.this);
 		} catch (Exception e) {
-			Accounter.showError(FinanceApplication.getReportsMessages()
+			Accounter.showError(Accounter.getReportsMessages()
 					.failedtToLoadReportsHome());
 		}
 	}
@@ -47,7 +47,7 @@ public class ReportsHomeAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().reportsHome();
+		return Accounter.getFinanceMenuImages().reportsHome();
 	}
 
 	@Override

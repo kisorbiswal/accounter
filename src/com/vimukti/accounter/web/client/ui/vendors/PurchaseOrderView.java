@@ -31,7 +31,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
@@ -84,10 +84,10 @@ public class PurchaseOrderView extends
 	private TextItem purchaseOrderText;
 	private HTML lab1;
 	private List<String> listOfTypes;
-	private String OPEN = FinanceApplication.getVendorsMessages().open();
-	private String COMPLETED = FinanceApplication.getVendorsMessages()
+	private String OPEN = Accounter.getVendorsMessages().open();
+	private String COMPLETED = Accounter.getVendorsMessages()
 			.completed();
-	private String CANCELLED = FinanceApplication.getVendorsMessages()
+	private String CANCELLED = Accounter.getVendorsMessages()
 			.cancelled();
 	private DateField despatchDateItem;
 
@@ -100,12 +100,12 @@ public class PurchaseOrderView extends
 	protected void createControls() {
 		// setTitle(UIUtils.title(FinanceApplication.getVendorsMessages()
 		// .purchaseOrder()));
-		lab1 = new HTML(FinanceApplication.getVendorsMessages().purchaseOrder());
-		lab1.setStyleName(FinanceApplication.getCustomersMessages()
+		lab1 = new HTML(Accounter.getVendorsMessages().purchaseOrder());
+		lab1.setStyleName(Accounter.getCustomersMessages()
 				.lableTitle());
 		// lab1.setHeight("35px");
 
-		statusSelect = new SelectCombo(FinanceApplication.getVendorsMessages()
+		statusSelect = new SelectCombo(Accounter.getVendorsMessages()
 				.statuS());
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(OPEN);
@@ -128,7 +128,7 @@ public class PurchaseOrderView extends
 		transactionDateItem = createTransactionDateItem();
 
 		transactionNumber = createTransactionNumberItem();
-		transactionNumber.setTitle(FinanceApplication.getVendorsMessages()
+		transactionNumber.setTitle(Accounter.getVendorsMessages()
 				.orderNo());
 		transactionNumber.setWidth(50);
 
@@ -172,7 +172,7 @@ public class PurchaseOrderView extends
 
 	
 		
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 
 			DynamicForm priceLevelForm = new DynamicForm();
 			// priceLevelForm.setCellSpacing(4);
@@ -209,8 +209,8 @@ public class PurchaseOrderView extends
 		}
 		
 		vendorCombo = new VendorCombo(UIUtils.getVendorString(
-				FinanceApplication.getVendorsMessages().supplieR(),
-				FinanceApplication.getVendorsMessages().vendoR()), true);
+				Accounter.getVendorsMessages().supplieR(),
+				Accounter.getVendorsMessages().vendoR()), true);
 		vendorCombo.setRequired(true);
 		vendorCombo.setHelpInformation(true);
 
@@ -229,11 +229,11 @@ public class PurchaseOrderView extends
 		// vendorCombo.setWidth(100);
 		contactCombo = createContactComboItem();
 		contactCombo
-				.setTitle(FinanceApplication.getVendorsMessages().contact());
+				.setTitle(Accounter.getVendorsMessages().contact());
 		// contactCombo.setWidth(100);
 		// billToCombo = createVendorAddressComboItem();
 		// billToCombo.setTitle(FinanceApplication.getVendorsMessages().billTo());
-		billtoAreaItem = new TextAreaItem(FinanceApplication
+		billtoAreaItem = new TextAreaItem(Accounter
 				.getVendorsMessages().billTo());
 		billtoAreaItem.setWidth("100%");
 		billtoAreaItem.setDisabled(true);
@@ -242,7 +242,7 @@ public class PurchaseOrderView extends
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
 		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getCustomersMessages().width(), "40px");
+				Accounter.getCustomersMessages().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -263,8 +263,8 @@ public class PurchaseOrderView extends
 
 		formItems.add(phoneSelect);
 
-		vendorForm = UIUtils.form(UIUtils.getVendorString(FinanceApplication
-				.getVendorsMessages().supplier(), FinanceApplication
+		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplier(), Accounter
 				.getVendorsMessages().vendor()));
 		vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect,
@@ -277,8 +277,8 @@ public class PurchaseOrderView extends
 		formItems.add(billToCombo);
 
 		purchaseOrderText = new TextItem(UIUtils.getVendorString(
-				FinanceApplication.getVendorsMessages().supplierOrderNo(),
-				FinanceApplication.getVendorsMessages().vendorOrderNo()));
+				Accounter.getVendorsMessages().supplierOrderNo(),
+				Accounter.getVendorsMessages().vendorOrderNo()));
 		purchaseOrderText.setWidth(50);
 		purchaseOrderText.setColSpan(1);
 		purchaseOrderText.setDisabled(isEdit);
@@ -305,7 +305,7 @@ public class PurchaseOrderView extends
 							.getValue();
 					setDueDate(newDate.getTime());
 				} catch (Exception e) {
-					Accounter.showError(FinanceApplication.getVendorsMessages()
+					Accounter.showError(Accounter.getVendorsMessages()
 							.InvalidDueDate());
 				}
 
@@ -326,7 +326,7 @@ public class PurchaseOrderView extends
 							.getValue();
 					setDespatchDate(newDate.getTime());
 				} catch (Exception e) {
-					Accounter.showError(FinanceApplication.getVendorsMessages()
+					Accounter.showError(Accounter.getVendorsMessages()
 							.InvalidDespatchDate());
 				}
 
@@ -335,7 +335,7 @@ public class PurchaseOrderView extends
 		});
 
 		deliveryDateItem = createTransactionDeliveryDateItem();
-		deliveryDateItem.setTitle(FinanceApplication.getVendorsMessages()
+		deliveryDateItem.setTitle(Accounter.getVendorsMessages()
 				.receivedDate());
 
 		DynamicForm dateform = new DynamicForm();
@@ -470,7 +470,7 @@ public class PurchaseOrderView extends
 
 	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
 
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			return new PurchaseOrderUSGrid();
 		else
 			return new PurchaseOrderUKGrid();
@@ -479,7 +479,7 @@ public class PurchaseOrderView extends
 
 	private PaymentTermsCombo createPaymentTermsSelectItem() {
 
-		PaymentTermsCombo comboItem = new PaymentTermsCombo(FinanceApplication
+		PaymentTermsCombo comboItem = new PaymentTermsCombo(Accounter
 				.getVendorsMessages().paymentTerms());
 
 		comboItem
@@ -504,7 +504,7 @@ public class PurchaseOrderView extends
 	private ShippingTermsCombo createShippingTermsCombo() {
 
 		ShippingTermsCombo shippingTermsCombo = new ShippingTermsCombo(
-				FinanceApplication.getVendorsMessages().shippingTerms());
+				Accounter.getVendorsMessages().shippingTerms());
 
 		shippingTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
@@ -527,7 +527,7 @@ public class PurchaseOrderView extends
 	protected ShippingMethodsCombo createShippingMethodCombo() {
 
 		ShippingMethodsCombo shippingMethodsCombo = new ShippingMethodsCombo(
-				FinanceApplication.getVendorsMessages().shippingMethod());
+				Accounter.getVendorsMessages().shippingMethod());
 
 		shippingMethodsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
@@ -550,7 +550,7 @@ public class PurchaseOrderView extends
 
 	protected AddressCombo createShipToComboItem() {
 
-		AddressCombo shipToCombo = new AddressCombo(FinanceApplication
+		AddressCombo shipToCombo = new AddressCombo(Accounter
 				.getVendorsMessages().shipTo());
 
 		shipToCombo
@@ -574,8 +574,8 @@ public class PurchaseOrderView extends
 	public AddressCombo createVendorAddressComboItem() {
 
 		AddressCombo addressCombo = new AddressCombo(UIUtils.getVendorString(
-				FinanceApplication.getVendorsMessages().supplierAddress(),
-				FinanceApplication.getVendorsMessages().vendorAddress()));
+				Accounter.getVendorsMessages().supplierAddress(),
+				Accounter.getVendorsMessages().vendorAddress()));
 
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -616,7 +616,7 @@ public class PurchaseOrderView extends
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 		ClientPurchaseOrder purchaseOrderToBeEdited = (ClientPurchaseOrder) transactionObject;
 
-		ClientCompany company = FinanceApplication.getCompany();
+		ClientCompany company = Accounter.getCompany();
 
 		// String status;
 		// if (purchaseOrderToBeEdited.getStatus() ==
@@ -789,21 +789,21 @@ public class PurchaseOrderView extends
 
 	private void initPaymentTerms() {
 
-		payTermsSelect.initCombo(FinanceApplication.getCompany()
+		payTermsSelect.initCombo(Accounter.getCompany()
 				.getPaymentsTerms());
 
 	}
 
 	private void initShippingTerms() {
 
-		shippingTermsCombo.initCombo(FinanceApplication.getCompany()
+		shippingTermsCombo.initCombo(Accounter.getCompany()
 				.getShippingTerms());
 
 	}
 
 	private void initShippingMethod() {
 
-		List<ClientShippingMethod> result = FinanceApplication.getCompany()
+		List<ClientShippingMethod> result = Accounter.getCompany()
 				.getShippingMethods();
 		if (shippingMethodsCombo != null) {
 			shippingMethodsCombo.initCombo(result);
@@ -848,7 +848,7 @@ public class PurchaseOrderView extends
 		try {
 			ClientPurchaseOrder purchaseOrder = transactionObject != null ? (ClientPurchaseOrder) transactionObject
 					: new ClientPurchaseOrder();
-			purchaseOrder.setVendor(vendor.getStringID());
+			purchaseOrder.setVendor(vendor.getID());
 
 			if (statusSelect.getSelectedValue().equals(OPEN))
 				purchaseOrder.setStatus(ClientTransaction.STATUS_OPEN);
@@ -870,11 +870,11 @@ public class PurchaseOrderView extends
 				purchaseOrder.setPurchaseOrderNumber(purchaseOrderText
 						.getValue().toString());
 			if (paymentTerms != null)
-				purchaseOrder.setPaymentTerm(paymentTerms.getStringID());
+				purchaseOrder.setPaymentTerm(paymentTerms.getID());
 			if (shippingTerms != null)
-				purchaseOrder.setShippingTerms(shippingTerms.getStringID());
+				purchaseOrder.setShippingTerms(shippingTerms.getID());
 			if (shippingMethod != null)
-				purchaseOrder.setShippingMethod(shippingMethod.getStringID());
+				purchaseOrder.setShippingMethod(shippingMethod.getID());
 			if (dueDateItem.getEnteredDate() != null) {
 				purchaseOrder
 						.setDueDate(dueDateItem.getEnteredDate().getTime());
@@ -895,7 +895,7 @@ public class PurchaseOrderView extends
 			transactionObject = purchaseOrder;
 			super.saveAndUpdateView();
 
-			if (transactionObject.getStringID() != null) {
+			if (transactionObject.getID() != null) {
 				alterObject((ClientPurchaseOrder) transactionObject);
 
 			} else {
@@ -941,7 +941,7 @@ public class PurchaseOrderView extends
 		initVendorAddressCombo();
 		initShipToCombo();
 
-		ClientCompany company = FinanceApplication.getCompany();
+		ClientCompany company = Accounter.getCompany();
 		paymentTerms = company.getPaymentTerms(vendor.getPaymentTerms());
 		shippingMethod = company.getShippingMethod(vendor.getShippingMethod());
 		if (paymentTerms != null) {
@@ -1184,6 +1184,6 @@ public class PurchaseOrderView extends
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getVendorsMessages().purchaseOrder();
+		return Accounter.getVendorsMessages().purchaseOrder();
 	}
 }

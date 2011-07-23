@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -83,10 +83,10 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 	public CustomerCreditsAndPaymentsDialiog(ClientCustomer customer,
 			List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments,
 			boolean canEdit, ClientTransactionReceivePayment record) {
-		super(FinanceApplication.getCustomersMessages()
+		super(Accounter.getCustomersMessages()
 				.applyCreditsAndPaymentsFor(),
 		// + (customer != null ? customer.getName() : ""),
-				FinanceApplication.getCustomersMessages()
+				Accounter.getCustomersMessages()
 						.applyCreditsAndPayments());
 		this.customer = customer;
 		this.canEdit = canEdit;
@@ -101,10 +101,10 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 	public CustomerCreditsAndPaymentsDialiog(ClientVendor venddor,
 			List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments,
 			boolean canEdit, ClientTransactionPayBill record) {
-		super(FinanceApplication.getCustomersMessages()
+		super(Accounter.getCustomersMessages()
 				.applyCreditsAndPaymentsFor()
 				+ (venddor != null ? venddor.getName() : ""),
-				FinanceApplication.getCustomersMessages()
+				Accounter.getCustomersMessages()
 						.applyCreditsAndPayments());
 		this.vendor = venddor;
 		this.canEdit = canEdit;
@@ -122,7 +122,7 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 			int key,
 			LinkedHashMap<String, List<ClientTransactionCreditsAndPayments>> creditsAndPaymentsMap,
 			IGenericCallback<String> callback) {
-		super(FinanceApplication.getCustomersMessages()
+		super(Accounter.getCustomersMessages()
 				.applyCreditsAndPaymentsFor(), "");
 		this.key = key;
 		// this.creditsAndPaymentsMap = creditsAndPaymentsMap;
@@ -208,7 +208,7 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 			grid.removeAllRecords();
 			grid.setRecords(creditsAndPayments);
 		} else {
-			grid.addEmptyMessage(FinanceApplication.getCustomersMessages()
+			grid.addEmptyMessage(Accounter.getCustomersMessages()
 					.therearenocreditstoshow());
 		}
 		for (ClientCreditsAndPayments cr : creditsAndPayments) {
@@ -512,7 +512,7 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCustomersMessages()
+		return Accounter.getCustomersMessages()
 				.applyCreditsAndPaymentsFor();
 	}
 

@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
@@ -26,15 +26,15 @@ public class PurchaseOrderUKGrid extends VendorTransactionUKGrid {
 	protected String[] getColumns() {
 		return new String[] {
 				"",
-				FinanceApplication.getVendorsMessages().name(),
-				FinanceApplication.getCustomersMessages().description(),
-				FinanceApplication.getCustomersMessages().quantity(),
-				FinanceApplication.getVendorsMessages().unitPrice(),
+				Accounter.getVendorsMessages().name(),
+				Accounter.getCustomersMessages().description(),
+				Accounter.getCustomersMessages().quantity(),
+				Accounter.getVendorsMessages().unitPrice(),
 				// "On Hand",
-				FinanceApplication.getVendorsMessages().total(),
-				FinanceApplication.getVendorsMessages().billsReceived(),
-				FinanceApplication.getVATMessages().newVATCode(),
-				FinanceApplication.getVATMessages().VAT(), " " };
+				Accounter.getVendorsMessages().total(),
+				Accounter.getVendorsMessages().billsReceived(),
+				Accounter.getVATMessages().newVATCode(),
+				Accounter.getVATMessages().VAT(), " " };
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class PurchaseOrderUKGrid extends VendorTransactionUKGrid {
 		case 8:
 			return DataUtils.getAmountAsString(item.getVATfraction());
 		case 9:
-			return FinanceApplication.getFinanceMenuImages().delete();
+			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
 		default:
 			return "";

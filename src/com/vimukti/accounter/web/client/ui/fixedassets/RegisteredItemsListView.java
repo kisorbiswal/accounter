@@ -5,7 +5,7 @@ package com.vimukti.accounter.web.client.ui.fixedassets;
 
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.FixedAssetsActionFactory;
@@ -45,7 +45,7 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 	 */
 	@Override
 	protected String getListViewHeading() {
-		return FinanceApplication.getFixedAssetConstants()
+		return Accounter.getFixedAssetConstants()
 				.registeredItemsList();
 	}
 
@@ -58,7 +58,7 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 		grid = new RegisteredItemsListGrid(false);
 		grid.init();
 		grid.setRecords(getAssetsByType(ClientFixedAsset.STATUS_REGISTERED,
-				FinanceApplication.getCompany().getFixedAssets()));
+				Accounter.getCompany().getFixedAssets()));
 		disableFilter();
 	}
 
@@ -85,7 +85,7 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 	@Override
 	public void updateGrid(IAccounterCore core) {
 		grid.setRecords(getAssetsByType(ClientFixedAsset.STATUS_REGISTERED,
-				FinanceApplication.getCompany().getFixedAssets()));
+				Accounter.getCompany().getFixedAssets()));
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().registeredItemsList();
+		return Accounter.getActionsConstants().registeredItemsList();
 	}
 
 }

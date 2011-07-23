@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.externalization.FinanceConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -40,7 +40,7 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 		super(parentView);
 		salesView = parentView;
 		this.estimates = estimates;
-		setText(FinanceApplication.getCustomersMessages().quoteList());
+		setText(Accounter.getCustomersMessages().quoteList());
 		createControl();
 		setWidth("600");
 		setQuoteList(estimates);
@@ -53,7 +53,7 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 		VerticalPanel mainLayout = new VerticalPanel();
 		mainLayout.setSize("100%", "100%");
 		mainLayout.setSpacing(3);
-		Label infoLabel = new Label(FinanceApplication.getCustomersMessages()
+		Label infoLabel = new Label(Accounter.getCustomersMessages()
 				.selectQuote());
 
 		mainLayout.add(infoLabel);
@@ -76,7 +76,7 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 						try {
 							ClientEstimate record = (ClientEstimate) core;
 
-							String estimateId = record.getStringID();
+							String estimateId = record.getID();
 							selectedEstimate = getEstimate(estimateId);
 
 							if (salesView != null && selectedEstimate != null)
@@ -86,7 +86,7 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 
 						} catch (Exception e) {
 							Accounter
-									.showError(FinanceApplication
+									.showError(Accounter
 											.getCustomersMessages()
 											.errorLoadingQuote());
 						}
@@ -106,7 +106,7 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				Accounter.showError(FinanceApplication.getCustomersMessages()
+				Accounter.showError(Accounter.getCustomersMessages()
 						.sorryNoHelp());
 
 			}
@@ -132,7 +132,7 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 					removeFromParent();
 
 				} catch (Exception e) {
-					Accounter.showError(FinanceApplication
+					Accounter.showError(Accounter
 							.getCustomersMessages().errorLoadingQuote());
 				}
 
@@ -171,7 +171,7 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 	protected ClientEstimate getEstimate(String estimateId) {
 		for (ClientEstimate estimate : estimates) {
 			if (estimate != null) {
-				if (estimate.getStringID().equals(estimateId))
+				if (estimate.getID().equals(estimateId))
 					return estimate;
 			}
 		}

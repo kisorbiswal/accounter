@@ -25,12 +25,7 @@ public class ClientFixedAsset implements IAccounterCore {
 	 * Finance.
 	 * 
 	 */
-	long id;
-
-	/**
-	 * This will hold a secure 40 digit random number.
-	 */
-	private String stringID;
+	private long id;
 
 	/**
 	 * Unique Item ID, for which the
@@ -121,7 +116,7 @@ public class ClientFixedAsset implements IAccounterCore {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
@@ -134,13 +129,10 @@ public class ClientFixedAsset implements IAccounterCore {
 		this.linkedAccumulatedDepreciationAccount = linkedAccumulatedDepreciationAccount;
 	}
 
-	public String getStringID() {
-		return stringID;
+	public long getID(){
+		return id;
 	}
 
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
-	}
 
 	public String getAssetNumber() {
 		return assetNumber;

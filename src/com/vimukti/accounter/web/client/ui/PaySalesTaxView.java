@@ -90,7 +90,7 @@ public class PaySalesTaxView extends
 
 	private void getTaxItems() {
 
-		taxItems = FinanceApplication.getCompany().getActiveTaxItems();
+		taxItems = Accounter.getCompany().getActiveTaxItems();
 
 	}
 
@@ -142,7 +142,7 @@ public class PaySalesTaxView extends
 						} else {
 							Accounter
 									.showError("Failed to get the TransactionPaySalesTaxList");
-							grid.addEmptyMessage(FinanceApplication
+							grid.addEmptyMessage(Accounter
 									.getCustomersMessages().norecordstoshow());
 						}
 
@@ -160,7 +160,7 @@ public class PaySalesTaxView extends
 						if (result.size() == 0) {
 							// Accounter
 							// .showInformation("No PaySalesTax list to show");
-							grid.addEmptyMessage(FinanceApplication
+							grid.addEmptyMessage(Accounter
 									.getCustomersMessages().norecordstoshow());
 						} else {
 
@@ -199,7 +199,7 @@ public class PaySalesTaxView extends
 	}
 
 	private void initTaxAgencyCombo() {
-		allTaxAgencies = FinanceApplication.getCompany().getActiveTaxAgencies();
+		allTaxAgencies = Accounter.getCompany().getActiveTaxAgencies();
 		taxAgencyCombo.initCombo(allTaxAgencies);
 	}
 
@@ -268,7 +268,7 @@ public class PaySalesTaxView extends
 
 			paySalesTax.setDate(date.getEnteredDate().getTime());
 
-		paySalesTax.setPayFrom(selectedPayFromAccount.getStringID());
+		paySalesTax.setPayFrom(selectedPayFromAccount.getID());
 
 		paySalesTax.setPaymentMethod(paymentMethod);
 		if (billsDue.getValue() != null)
@@ -277,7 +277,7 @@ public class PaySalesTaxView extends
 					.getValue()).getTime());
 
 		if (selectedTaxAgency != null)
-			paySalesTax.setTaxAgency(selectedTaxAgency.getStringID());
+			paySalesTax.setTaxAgency(selectedTaxAgency.getID());
 
 		paySalesTax.setTotal(totalAmount);
 
@@ -307,10 +307,10 @@ public class PaySalesTaxView extends
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 
-		Label lab = new Label(FinanceApplication.getFinanceUIConstants()
+		Label lab = new Label(Accounter.getFinanceUIConstants()
 				.paySalesTax());
 		lab
-				.setStyleName(FinanceApplication.getCustomersMessages()
+				.setStyleName(Accounter.getCustomersMessages()
 						.lableTitle());
 
 		date = new DateField(null);
@@ -444,7 +444,7 @@ public class PaySalesTaxView extends
 		if (filterByDateList != null)
 			for (ClientTransactionPaySalesTax trpaySalesTax : getFilterByDateList()) {
 				if (trpaySalesTax.getTaxAgency() != null) {
-					String taxAgencyname = FinanceApplication.getCompany()
+					String taxAgencyname = Accounter.getCompany()
 							.getTaxAgency(trpaySalesTax.getTaxAgency())
 							.getName();
 					String selectedagency = selectedTaxAgency.getName();
@@ -490,10 +490,10 @@ public class PaySalesTaxView extends
 		isEdit = true;
 		paySalesTax = (ClientPaySalesTax) transactionObject;
 
-		selectedPayFromAccount = FinanceApplication.getCompany().getAccount(
+		selectedPayFromAccount = Accounter.getCompany().getAccount(
 				paySalesTax.getPayFrom());
 		payFromAccCombo.setComboItem(selectedPayFromAccount);
-		selectedTaxAgency = FinanceApplication.getCompany().getTaxAgency(
+		selectedTaxAgency = Accounter.getCompany().getTaxAgency(
 				paySalesTax.getTaxAgency());
 		if (selectedTaxAgency != null)
 			taxAgencyCombo.setComboItem(selectedTaxAgency);
@@ -705,7 +705,7 @@ public class PaySalesTaxView extends
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.title(FinanceApplication.getFinanceUIConstants()
+		return UIUtils.title(Accounter.getFinanceUIConstants()
 				.paySalesTax());
 	}
 }

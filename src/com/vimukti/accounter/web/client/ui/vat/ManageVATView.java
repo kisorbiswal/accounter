@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 
 @SuppressWarnings("unchecked")
@@ -47,35 +47,35 @@ public class ManageVATView extends AbstractBaseView {
 
 	private void createControls() {
 
-		Label stLabel = new Label(FinanceApplication.getVATMessages()
+		Label stLabel = new Label(Accounter.getVATMessages()
 				.thisWndHelpYoyManageVATTasks());
-		Label vatLabel = new Label(FinanceApplication.getVATMessages()
+		Label vatLabel = new Label(Accounter.getVATMessages()
 				.fileVATReturnNow());
 
-		CaptionPanel capAssignPanel = new CaptionPanel(FinanceApplication
+		CaptionPanel capAssignPanel = new CaptionPanel(Accounter
 				.getVATMessages().getStarted());
-		CaptionPanel capPayVatPanel = new CaptionPanel(FinanceApplication
+		CaptionPanel capPayVatPanel = new CaptionPanel(Accounter
 				.getVATMessages().payVATOwing());
-		CaptionPanel capTaskPanel = new CaptionPanel(FinanceApplication
+		CaptionPanel capTaskPanel = new CaptionPanel(Accounter
 				.getVATMessages().relatedTask());
 
-		vatButton = new AccounterButton(FinanceApplication.getVATMessages()
+		vatButton = new AccounterButton(Accounter.getVATMessages()
 				.fileVATReturn());
-		AccounterButton closeButton = new AccounterButton(FinanceApplication
+		AccounterButton closeButton = new AccounterButton(Accounter
 				.getVATMessages().close());
-		AccounterButton helpButton = new AccounterButton(FinanceApplication
+		AccounterButton helpButton = new AccounterButton(Accounter
 				.getVATMessages().help());
 
 		final Image icon = new Image();
 		icon.setUrl("/images/justifyleft.gif");
 
-		Hyperlink assignlink = new Hyperlink(FinanceApplication
+		Hyperlink assignlink = new Hyperlink(Accounter
 				.getVATMessages().assignVatCodesToItems(), "foo");
-		Hyperlink viewLink = new Hyperlink(FinanceApplication.getVATMessages()
+		Hyperlink viewLink = new Hyperlink(Accounter.getVATMessages()
 				.viewVATItems(), "link1");
-		Hyperlink openLink = new Hyperlink(FinanceApplication.getVATMessages()
+		Hyperlink openLink = new Hyperlink(Accounter.getVATMessages()
 				.openVATCodeList(), "link2");
-		Hyperlink adjLink = new Hyperlink(FinanceApplication.getVATMessages()
+		Hyperlink adjLink = new Hyperlink(Accounter.getVATMessages()
 				.adjustVATDue(), "link3");
 
 		VerticalPanel vPanel = new VerticalPanel();
@@ -168,7 +168,7 @@ public class ManageVATView extends AbstractBaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().manageVatCodes();
+		return Accounter.getActionsConstants().manageVatCodes();
 	}
 
 }

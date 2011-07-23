@@ -138,12 +138,12 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#getStringID()
+	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#getID()
 	 */
 	@Override
-	public String getStringID() {
+	public long getID(){
 
-		return this.stringID;
+		return this.id;
 	}
 
 	/**
@@ -207,8 +207,8 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 	 * .lang.String)
 	 */
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

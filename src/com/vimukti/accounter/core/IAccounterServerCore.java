@@ -16,7 +16,7 @@ public interface IAccounterServerCore extends Serializable, Cloneable {
 
 	void setStringID(String stringID);
 
-	String getStringID();
+	String getID();
 
 	void setImported(boolean isImported);
 

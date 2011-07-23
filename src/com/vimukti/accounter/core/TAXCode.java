@@ -30,7 +30,7 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 	 * 
 	 */
 	private static final long serialVersionUID = -1014067769682467798L;
-	String stringID;
+	long id;
 	long id;
 	boolean isImported;
 
@@ -95,7 +95,7 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
@@ -198,8 +198,8 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
@@ -209,7 +209,7 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void setStringID(java.lang.String stringID) {
-		this.stringID = stringID;
+		this.id=id;
 	}
 
 	@Override

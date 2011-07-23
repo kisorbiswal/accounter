@@ -27,7 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
@@ -59,19 +59,19 @@ public class ReportsRPC {
 			}
 
 		};
-		FinanceApplication.createGETService().getObjectById(c.getObjectType(),
+		Accounter.createGETService().getObjectById(c.getObjectType(),
 				stringID, callback);
 	}
 
 	public static void getTaxAgency(String name) {
-		UIUtils.runAction(FinanceApplication.getCompany().getTaxAgency(name),
+		UIUtils.runAction(Accounter.getCompany().getTaxAgency(name),
 				CompanyActionFactory.getNewTAXAgencyAction());
 
 	}
 
 	public static void getVendor(String name) {
 		UIUtils.runAction(
-				FinanceApplication.getCompany().getVendorByName(name),
+				Accounter.getCompany().getVendorByName(name),
 				VendorsActionFactory.getNewVendorAction());
 	}
 

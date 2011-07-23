@@ -25,7 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
@@ -226,7 +226,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	@Override
 	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
 		if (gridType == CUSTOMER_TRANSACTION_GRID)
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 				return new CustomerTransactionUSGrid() {
 					@Override
 					public void deleteRecord(ClientTransactionItem obj) {
@@ -245,22 +245,22 @@ public abstract class AbstractCustomerTransactionView<T> extends
 		if (TAXCodeID != null && TAXCodeID.length() != 0) {
 			// Checking the selected object is VATItem or VATGroup.
 			// If it is VATItem,the we should get 'VATRate',otherwise 'GroupRate
-			if (FinanceApplication.getCompany().getTAXItemGroup(
-					FinanceApplication.getCompany().getTAXCode(TAXCodeID)
+			if (Accounter.getCompany().getTAXItemGroup(
+					Accounter.getCompany().getTAXCode(TAXCodeID)
 							.getTAXItemGrpForPurchases()) instanceof ClientTAXItem) {
 				// The selected one is VATItem,so get 'VATRate' from 'VATItem'
-				vatRate = ((ClientTAXItem) FinanceApplication.getCompany()
+				vatRate = ((ClientTAXItem) Accounter.getCompany()
 						.getTAXItemGroup(
-								FinanceApplication.getCompany().getTAXCode(
+								Accounter.getCompany().getTAXCode(
 										TAXCodeID).getTAXItemGrpForSales()))
 						.getTaxRate();
 			} else {
 
 				// The selected one is VATGroup,so get 'GroupRate' from
 				// 'VATGroup'
-				vatRate = ((ClientTAXGroup) FinanceApplication.getCompany()
+				vatRate = ((ClientTAXGroup) Accounter.getCompany()
 						.getTAXItemGroup(
-								FinanceApplication.getCompany().getTAXCode(
+								Accounter.getCompany().getTAXCode(
 										TAXCodeID).getTAXItemGrpForSales()))
 						.getGroupRate();
 			}
@@ -275,7 +275,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	protected abstract void initSalesTaxNonEditableItem();
 
 	protected void initShippingTerms() {
-		shippingTerms = FinanceApplication.getCompany().getShippingTerms();
+		shippingTerms = Accounter.getCompany().getShippingTerms();
 
 		shippingTermsCombo.initCombo(shippingTerms);
 
@@ -293,7 +293,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	}
 
 	protected void initShippingMethod() {
-		List<ClientShippingMethod> result = FinanceApplication.getCompany()
+		List<ClientShippingMethod> result = Accounter.getCompany()
 				.getShippingMethods();
 		if (shippingMethodsCombo != null) {
 			shippingMethodsCombo.initCombo(result);
@@ -372,7 +372,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 		if (customer == null)
 			return;
 
-		ClientCompany company = FinanceApplication.getCompany();
+		ClientCompany company = Accounter.getCompany();
 
 		salesPersonSelected(company.getSalesPerson(customer.getSalesPerson()));
 		if (customer.getPaymentTerm() != null)
@@ -394,7 +394,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 		shippingMethodSelected(company.getShippingMethod(customer
 				.getShippingMethod()));
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			taxCodeSelected(company.getTAXCode(customer.getTAXCode()));
 
 		priceLevelSelected(company.getPriceLevel(customer.getPriceLevel()));
@@ -436,16 +436,16 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	@Override
 	protected void showMenu(AccounterButton button) {
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, FinanceApplication.getCustomersMessages()
-					.accounts(), FinanceApplication.getCustomersMessages()
-					.service(), FinanceApplication.getCustomersMessages()
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			setMenuItems(button, Accounter.getCustomersMessages()
+					.accounts(), Accounter.getCustomersMessages()
+					.service(), Accounter.getCustomersMessages()
 					.product());
 		// FinanceApplication.getCustomersMessages().salesTax());
 		else
-			setMenuItems(button, FinanceApplication.getCustomersMessages()
-					.accounts(), FinanceApplication.getCustomersMessages()
-					.service(), FinanceApplication.getCustomersMessages()
+			setMenuItems(button, Accounter.getCustomersMessages()
+					.accounts(), Accounter.getCustomersMessages()
+					.service(), Accounter.getCustomersMessages()
 					.product());
 		// FinanceApplication.getCustomersMessages().comment(),
 		// FinanceApplication.getCustomersMessages().VATItem());
@@ -464,7 +464,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 				// item.setTaxItem((ClientTAXItem) taxCode);
 				// if (taxCode instanceof ClientTAXGroup)
 				// item.setTaxGroup((ClientTAXGroup) taxCode);
-				item.setTaxCode(taxCode.getStringID());
+				item.setTaxCode(taxCode.getID());
 
 			}
 		}
@@ -481,14 +481,14 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected void initPaymentTerms() {
 
-		paymentTermsList = FinanceApplication.getCompany().getPaymentsTerms();
+		paymentTermsList = Accounter.getCompany().getPaymentsTerms();
 
 		payTermsSelect.initCombo(paymentTermsList);
 
 	}
 
 	public void initTaxItemGroups() {
-		taxCodes = FinanceApplication.getCompany().getTaxCodes();
+		taxCodes = Accounter.getCompany().getTaxCodes();
 
 		taxCodeSelect.initCombo(taxCodes);
 
@@ -504,7 +504,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected void initPriceLevels() {
 
-		priceLevels = FinanceApplication.getCompany().getPriceLevels();
+		priceLevels = Accounter.getCompany().getPriceLevels();
 
 		priceLevelSelect.initCombo(priceLevels);
 
@@ -512,14 +512,14 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected void initSalesPersons() {
 
-		salesPersons = FinanceApplication.getCompany().getActiveSalesPersons();
+		salesPersons = Accounter.getCompany().getActiveSalesPersons();
 
 		salesPersonCombo.initCombo(salesPersons);
 
 	}
 
 	protected void initCustomers() {
-		List<ClientCustomer> result = FinanceApplication.getCompany()
+		List<ClientCustomer> result = Accounter.getCompany()
 				.getActiveCustomers();
 		customers = result;
 
@@ -532,7 +532,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	public CustomerCombo createCustomerComboItem(String title) {
 
 		CustomerCombo customerCombo = new CustomerCombo(title != null ? title
-				: FinanceApplication.getCustomersMessages().customer());
+				: Accounter.getCustomersMessages().customer());
 		customerCombo.setHelpInformation(true);
 		customerCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
@@ -554,7 +554,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	public ContactCombo createContactComboItem() {
 
-		ContactCombo contactCombo = new ContactCombo(FinanceApplication
+		ContactCombo contactCombo = new ContactCombo(Accounter
 				.getCustomersMessages().contact());
 		contactCombo.setDefaultToFirstOption(false);
 		contactCombo.setHelpInformation(true);
@@ -578,7 +578,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	public AddressCombo createBillToComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(FinanceApplication
+		AddressCombo addressCombo = new AddressCombo(Accounter
 				.getCustomersMessages().billTo(), false);
 		addressCombo.setHelpInformation(true);
 		addressCombo
@@ -668,7 +668,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	public AddressCombo createShipToComboItem() {
 
-		AddressCombo shipToCombo = new AddressCombo(FinanceApplication
+		AddressCombo shipToCombo = new AddressCombo(Accounter
 				.getCustomersMessages().shipTo());
 		shipToCombo.setHelpInformation(true);
 		shipToCombo
@@ -694,7 +694,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	public SalesPersonCombo createSalesPersonComboItem() {
 
 		SalesPersonCombo salesPersonCombo = new SalesPersonCombo(
-				FinanceApplication.getCustomersMessages().salesPerson());
+				Accounter.getCustomersMessages().salesPerson());
 		salesPersonCombo.setHelpInformation(true);
 		salesPersonCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientSalesPerson>() {
@@ -719,7 +719,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	public DepositInAccountCombo createDepositInComboItem() {
 
 		DepositInAccountCombo accountCombo = new DepositInAccountCombo(
-				FinanceApplication.getCustomersMessages().depositIn());
+				Accounter.getCustomersMessages().depositIn());
 		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 
@@ -744,7 +744,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	protected ShippingTermsCombo createShippingTermsCombo() {
 
 		ShippingTermsCombo shippingTermsCombo = new ShippingTermsCombo(
-				FinanceApplication.getCustomersMessages().shippingTerms());
+				Accounter.getCustomersMessages().shippingTerms());
 		shippingTermsCombo.setHelpInformation(true);
 		shippingTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
@@ -768,7 +768,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	protected ShippingMethodsCombo createShippingMethodCombo() {
 
 		ShippingMethodsCombo shippingMethodsCombo = new ShippingMethodsCombo(
-				FinanceApplication.getCustomersMessages().shippingMethod());
+				Accounter.getCustomersMessages().shippingMethod());
 		shippingMethodsCombo.setHelpInformation(true);
 		shippingMethodsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
@@ -790,10 +790,10 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected DateField createTransactionDeliveryDateItem() {
 
-		final DateField dateItem = new DateField(FinanceApplication
+		final DateField dateItem = new DateField(Accounter
 				.getCustomersMessages().deliveryDate());
 		dateItem.setHelpInformation(true);
-		dateItem.setTitle(FinanceApplication.getCustomersMessages()
+		dateItem.setTitle(Accounter.getCustomersMessages()
 				.deliveryDate());
 		dateItem.setColSpan(1);
 
@@ -807,7 +807,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected TAXCodeCombo createTaxCodeSelectItem() {
 
-		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(FinanceApplication
+		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(Accounter
 				.getCustomersMessages().tax(), true);
 		taxCodeCombo.setHelpInformation(true);
 		taxCodeCombo.setRequired(true);
@@ -834,7 +834,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	protected PriceLevelCombo createPriceLevelSelectItem() {
 
 		PriceLevelCombo priceLevelCombo = new PriceLevelCombo(
-				FinanceApplication.getCustomersMessages().priceLevel());
+				Accounter.getCustomersMessages().priceLevel());
 		priceLevelCombo.setHelpInformation(true);
 		priceLevelCombo.setWidth(100);
 
@@ -865,7 +865,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	public PaymentTermsCombo createPaymentTermsSelectItem() {
 
-		PaymentTermsCombo comboItem = new PaymentTermsCombo(FinanceApplication
+		PaymentTermsCombo comboItem = new PaymentTermsCombo(Accounter
 				.getCustomersMessages().paymentTerms());
 		comboItem.setHelpInformation(true);
 		comboItem
@@ -887,7 +887,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected AmountField createSalesTaxNonEditableItem() {
 
-		AmountField amountItem = new AmountField(FinanceApplication
+		AmountField amountItem = new AmountField(Accounter
 				.getCustomersMessages().salesTax());
 		amountItem.setDisabled(true);
 
@@ -897,7 +897,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected AmountLabel createSalesTaxNonEditableLabel() {
 
-		AmountLabel amountLabel = new AmountLabel(FinanceApplication
+		AmountLabel amountLabel = new AmountLabel(Accounter
 				.getCustomersMessages().salesTax());
 
 		return amountLabel;
@@ -906,7 +906,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected AmountField createTransactionTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(FinanceApplication
+		AmountField amountItem = new AmountField(Accounter
 				.getCustomersMessages().total());
 		amountItem.setDisabled(true);
 
@@ -916,7 +916,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected AmountLabel createTransactionTotalNonEditableLabel() {
 
-		AmountLabel amountLabel = new AmountLabel(FinanceApplication
+		AmountLabel amountLabel = new AmountLabel(Accounter
 				.getCustomersMessages().total());
 
 		return amountLabel;
@@ -925,7 +925,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected AmountField createVATTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(FinanceApplication
+		AmountField amountItem = new AmountField(Accounter
 				.getCustomersMessages().vat());
 		amountItem.setDisabled(true);
 
@@ -934,7 +934,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	}
 
 	protected AmountLabel createVATTotalNonEditableLabel() {
-		AmountLabel amountLabel = new AmountLabel(FinanceApplication
+		AmountLabel amountLabel = new AmountLabel(Accounter
 				.getCustomersMessages().vat());
 
 		return amountLabel;
@@ -992,7 +992,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 			// This case is for all customer transactions except
 			// CustomerRefunds.
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				if (!(this.transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS))
 					return AccounterValidator.validateFormItem(taxCodeSelect,
 							false);
@@ -1124,23 +1124,23 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	// }
 	protected void onAddNew(String item) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
-		if (item.equals(FinanceApplication.getCustomersMessages().accounts())) {
+		if (item.equals(Accounter.getCustomersMessages().accounts())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-			List<ClientTAXCode> taxCodes = FinanceApplication.getCompany()
+			List<ClientTAXCode> taxCodes = Accounter.getCompany()
 					.getActiveTaxCodes();
 			String ztaxCodeStringId = null;
-			if (FinanceApplication.getCompany().getpreferences()
+			if (Accounter.getCompany().getpreferences()
 					.getDoYouPaySalesTax()) {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
-						ztaxCodeStringId = taxCode.getStringID();
+						ztaxCodeStringId = taxCode.getID();
 						break;
 					}
 				}
 			} else {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("Z")) {
-						ztaxCodeStringId = taxCode.getStringID();
+						ztaxCodeStringId = taxCode.getID();
 					}
 				}
 			}
@@ -1149,40 +1149,40 @@ public abstract class AbstractCustomerTransactionView<T> extends
 					: ztaxCodeStringId) : "");
 			// if (zvatCodeStringId != null)
 			// transactionItem.setVatCode(zvatCodeStringId);
-		} else if (item.equals(FinanceApplication.getCustomersMessages()
+		} else if (item.equals(Accounter.getCustomersMessages()
 				.product())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-			if (FinanceApplication.getCompany().getpreferences()
+			if (Accounter.getCompany().getpreferences()
 					.getDoYouPaySalesTax()) {
-				List<ClientTAXCode> taxCodes = FinanceApplication.getCompany()
+				List<ClientTAXCode> taxCodes = Accounter.getCompany()
 						.getActiveTaxCodes();
 				String staxCodeStringId = null;
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
-						staxCodeStringId = taxCode.getStringID();
+						staxCodeStringId = taxCode.getID();
 					}
 				}
 				transactionItem.setTaxCode(customer != null ? (customer
 						.getTAXCode() != null ? customer.getTAXCode()
 						: staxCodeStringId) : "");
 			}
-		} else if (item.equals(FinanceApplication.getCustomersMessages()
+		} else if (item.equals(Accounter.getCustomersMessages()
 				.service())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
-			List<ClientTAXCode> taxCodes = FinanceApplication.getCompany()
+			List<ClientTAXCode> taxCodes = Accounter.getCompany()
 					.getActiveTaxCodes();
 			String ztaxCodeStringId = null;
-			if (FinanceApplication.getCompany().getpreferences()
+			if (Accounter.getCompany().getpreferences()
 					.getDoYouPaySalesTax()) {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
-						ztaxCodeStringId = taxCode.getStringID();
+						ztaxCodeStringId = taxCode.getID();
 					}
 				}
 			} else {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("Z")) {
-						ztaxCodeStringId = taxCode.getStringID();
+						ztaxCodeStringId = taxCode.getID();
 					}
 				}
 			}
@@ -1199,8 +1199,8 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	protected void shippingMethodSelected(ClientShippingMethod selectItem) {
 		this.shippingMethod = selectItem;
 		if (shippingMethod != null && shippingMethodsCombo != null) {
-			shippingMethodsCombo.setComboItem(FinanceApplication.getCompany()
-					.getShippingMethod(shippingMethod.getStringID()));
+			shippingMethodsCombo.setComboItem(Accounter.getCompany()
+					.getShippingMethod(shippingMethod.getID()));
 			shippingMethodsCombo.setDisabled(isEdit);
 		}
 
@@ -1209,8 +1209,8 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	protected void shippingTermSelected(ClientShippingTerms shippingTerm2) {
 		this.shippingTerm = shippingTerm2;
 		if (shippingTerm != null && shippingTermsCombo != null) {
-			shippingTermsCombo.setComboItem(FinanceApplication.getCompany()
-					.getShippingTerms(shippingTerm.getStringID()));
+			shippingTermsCombo.setComboItem(Accounter.getCompany()
+					.getShippingTerms(shippingTerm.getID()));
 			shippingTermsCombo.setDisabled(isEdit);
 		}
 	}
@@ -1252,8 +1252,8 @@ public abstract class AbstractCustomerTransactionView<T> extends
 		this.depositInAccount = depositInAccount2;
 		if (depositInAccount != null && depositInCombo != null) {
 
-			depositInCombo.setComboItem(FinanceApplication.getCompany()
-					.getAccount(depositInAccount.getStringID()));
+			depositInCombo.setComboItem(Accounter.getCompany()
+					.getAccount(depositInAccount.getID()));
 			depositInCombo.setDisabled(isEdit);
 		}
 

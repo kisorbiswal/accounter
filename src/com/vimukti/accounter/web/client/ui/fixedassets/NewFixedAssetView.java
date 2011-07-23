@@ -24,7 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -109,7 +109,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		if (fixedAsset == null)
 			initAssetNumber();
 		if (fixedAsset != null) {
-			selectedAssetAccount = FinanceApplication.getCompany().getAccount(
+			selectedAssetAccount = Accounter.getCompany().getAccount(
 					fixedAsset.getAssetAccount());
 		}
 		if (fixedAsset != null) {
@@ -136,7 +136,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		 * need to display when "edit" is Selected
 		 */
 		if (selectedOption != null
-				&& selectedOption.equalsIgnoreCase(FinanceApplication
+				&& selectedOption.equalsIgnoreCase(Accounter
 						.getFixedAssetConstants().edit()) && fixedAsset != null
 				&& fixedAsset.getAssetAccount() != null
 				&& accumltdAccVPanel != null
@@ -170,28 +170,28 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		Label labl = new Label(FinanceApplication.getFixedAssetConstants()
+		Label labl = new Label(Accounter.getFixedAssetConstants()
 				.newAsset());
-		labl.setStyleName(FinanceApplication.getFixedAssetConstants()
+		labl.setStyleName(Accounter.getFixedAssetConstants()
 				.requiredField());
 		if (fixedAsset != null) {
 			switch (fixedAsset.getStatus()) {
 			case 0:
 			case ClientFixedAsset.STATUS_PENDING:
-				labl.setText(FinanceApplication.getFixedAssetConstants()
+				labl.setText(Accounter.getFixedAssetConstants()
 						.pendingAsset());
 				break;
 			case ClientFixedAsset.STATUS_REGISTERED:
-				labl.setText(FinanceApplication.getFixedAssetConstants()
+				labl.setText(Accounter.getFixedAssetConstants()
 						.registeredAsset());
 				break;
 			case ClientFixedAsset.STATUS_SOLD_OR_DISPOSED:
-				labl.setText(FinanceApplication.getFixedAssetConstants()
+				labl.setText(Accounter.getFixedAssetConstants()
 						.assetSold());
 			}
 		} else
 			labl
-					.setText(FinanceApplication.getFixedAssetConstants()
+					.setText(Accounter.getFixedAssetConstants()
 							.newAsset());
 
 		HorizontalPanel lablHPanel = new HorizontalPanel();
@@ -234,7 +234,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						accountCombo.getMainWidget().removeStyleName(
-								FinanceApplication.getFixedAssetConstants()
+								Accounter.getFixedAssetConstants()
 										.highlightedFormItem());
 						if (accountCombo.getSelectedValue() != null) {
 							selectedAssetAccount = accountCombo
@@ -285,7 +285,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			}
 		});
 
-		descrptionLabel = new Label(FinanceApplication.getFixedAssetConstants()
+		descrptionLabel = new Label(Accounter.getFixedAssetConstants()
 				.description());
 		descriptionTxtArea = new TextAreaItem();
 		descriptionTxtArea.setWidth(98);
@@ -319,7 +319,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		DynamicForm emptyPanel = new DynamicForm();
 		emptyPanel.setWidth("10%");
 		itemHPanel.add(emptyPanel);
-		AccounterDOM.setAttribute(emptyPanel.getElement(), FinanceApplication
+		AccounterDOM.setAttribute(emptyPanel.getElement(), Accounter
 				.getFixedAssetConstants().width(), "10%");
 		itemHPanel.add(purchaseInfoVPanel);
 
@@ -423,23 +423,23 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		mainVPanel = new VerticalPanel();
 		mainVPanel.setSize("100%", "");
 		if (fixedAsset != null) {
-			assetOptions = new SelectItem(FinanceApplication
+			assetOptions = new SelectItem(Accounter
 					.getFixedAssetConstants().assetOptions());
 			if (fixedAsset.getStatus() == ClientFixedAsset.STATUS_REGISTERED) {
-				assetOptions.setValueMap("", FinanceApplication
-						.getFixedAssetConstants().edit(), FinanceApplication
-						.getFixedAssetConstants().sell(), FinanceApplication
-						.getFixedAssetConstants().dispose(), FinanceApplication
-						.getFixedAssetConstants().addNote(), FinanceApplication
+				assetOptions.setValueMap("", Accounter
+						.getFixedAssetConstants().edit(), Accounter
+						.getFixedAssetConstants().sell(), Accounter
+						.getFixedAssetConstants().dispose(), Accounter
+						.getFixedAssetConstants().addNote(), Accounter
 						.getFixedAssetConstants().showHistory());
 			} else if (fixedAsset.getStatus() == ClientFixedAsset.STATUS_PENDING) {
-				assetOptions.setValueMap("", FinanceApplication
-						.getFixedAssetConstants().edit(), FinanceApplication
-						.getFixedAssetConstants().addNote(), FinanceApplication
+				assetOptions.setValueMap("", Accounter
+						.getFixedAssetConstants().edit(), Accounter
+						.getFixedAssetConstants().addNote(), Accounter
 						.getFixedAssetConstants().showHistory());
 			} else {
-				assetOptions.setValueMap("", FinanceApplication
-						.getFixedAssetConstants().addNote(), FinanceApplication
+				assetOptions.setValueMap("", Accounter
+						.getFixedAssetConstants().addNote(), Accounter
 						.getFixedAssetConstants().showHistory());
 			}
 			assetOptions.addChangeHandler(new ChangeHandler() {
@@ -447,41 +447,41 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				@Override
 				public void onChange(ChangeEvent event) {
 					selectedOption = assetOptions.getValue().toString();
-					if (selectedOption.equalsIgnoreCase(FinanceApplication
+					if (selectedOption.equalsIgnoreCase(Accounter
 							.getFixedAssetConstants().sell())) {
 						Action action = FixedAssetsActionFactory
 								.getSellingRegisteredItemAction();
-						action.catagory = FinanceApplication
+						action.catagory = Accounter
 								.getFixedAssetConstants()
 								.fixedAssetsNewFixedAsset();
 						HistoryTokenUtils.setPresentToken(action, fixedAsset);
 						action.run(fixedAsset, true);
 					} else if (selectedOption
-							.equalsIgnoreCase(FinanceApplication
+							.equalsIgnoreCase(Accounter
 									.getFixedAssetConstants().dispose())) {
 						Action action = FixedAssetsActionFactory
 								.getDiposingRegisteredItemAction();
-						action.catagory = FinanceApplication
+						action.catagory = Accounter
 								.getFixedAssetConstants()
 								.fixedAssetsNewFixedAsset();
 						HistoryTokenUtils.setPresentToken(action, fixedAsset);
 						action.run(fixedAsset, true);
 					} else if (selectedOption
-							.equalsIgnoreCase(FinanceApplication
+							.equalsIgnoreCase(Accounter
 									.getFixedAssetConstants().showHistory())) {
 						Action action = FixedAssetsActionFactory
 								.getHistoryListAction();
-						action.catagory = FinanceApplication
+						action.catagory = Accounter
 								.getFixedAssetConstants()
 								.fixedAssetsNewFixedAsset();
 						HistoryTokenUtils.setPresentToken(action, fixedAsset);
 						action.run(fixedAsset, true);
 					} else if (selectedOption
-							.equalsIgnoreCase(FinanceApplication
+							.equalsIgnoreCase(Accounter
 									.getFixedAssetConstants().addNote())) {
 						openNoteDialog();
 					} else if (selectedOption
-							.equalsIgnoreCase(FinanceApplication
+							.equalsIgnoreCase(Accounter
 									.getFixedAssetConstants().edit())) {
 						disableFields(false);
 					} else {
@@ -515,9 +515,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			itemTxt.setValue(fixedAsset.getName() != null ? fixedAsset
 					.getName() : "");
 			assetNumberTxt.setValue(fixedAsset.getAssetNumber());
-			if (FinanceApplication.getCompany().getAccount(
+			if (Accounter.getCompany().getAccount(
 					fixedAsset.getAssetAccount()) != null) {
-				accountCombo.setComboItem(FinanceApplication.getCompany()
+				accountCombo.setComboItem(Accounter.getCompany()
 						.getAccount(fixedAsset.getAssetAccount()));
 			}
 			purchaseDateTxt.setEnteredDate(new ClientFinanceDate(fixedAsset
@@ -531,10 +531,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			depreciationMethod.setSelectedValue(fixedAsset
 					.getDepreciationMethod());
 			if (fixedAsset.getDepreciationExpenseAccount() != null) {
-				if (FinanceApplication.getCompany().getAccount(
+				if (Accounter.getCompany().getAccount(
 						fixedAsset.getDepreciationExpenseAccount()) != null) {
 					depreciationAccount
-							.setComboItem(FinanceApplication
+							.setComboItem(Accounter
 									.getCompany()
 									.getAccount(
 											fixedAsset
@@ -548,11 +548,11 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						.getPurchaseDate()));
 			}
 			Label bookValueLbl = new Label();
-			bookValueLbl.setText(FinanceApplication.getFixedAssetConstants()
+			bookValueLbl.setText(Accounter.getFixedAssetConstants()
 					.bookValue()
 					+ fixedAsset.getBookValue());
 			Label accumDepLbl = new Label();
-			accumDepLbl.setText(FinanceApplication.getFixedAssetConstants()
+			accumDepLbl.setText(Accounter.getFixedAssetConstants()
 					.accumulatedDepreciation()
 					+ fixedAsset.getAccumulatedDepreciationAmount());
 			// FIXME -- need to check weder dis field is required or not
@@ -616,7 +616,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	 * clicking "save"
 	 */
 	private void openNoteDialog() {
-		noteDialog = new NoteDialog(FinanceApplication.getFixedAssetConstants()
+		noteDialog = new NoteDialog(Accounter.getFixedAssetConstants()
 				.addNote(), "");
 		noteDialog.addInputDialogHandler(new InputDialogHandler() {
 
@@ -656,13 +656,13 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	private void showAccumltdAccountForm() {
 		isAccumltd = true;
 		infoLabl2 = new Label(
-				FinanceApplication
+				Accounter
 						.getFixedAssetConstants()
 						.assetAccountYouHaveSelectedNeedsLinkedAccumulatedDepreciationAccount());
 		infoLabl2.addStyleName("requiredField");
 
 		accumulatedDepreciationAccount = new FixedAssetAccountCombo(
-				FinanceApplication.getFixedAssetConstants()
+				Accounter.getFixedAssetConstants()
 						.accumulatedDepreciationAccount());
 		accumulatedDepreciationAccount
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -682,17 +682,17 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		 */
 		List<ClientAccount> accumulatedAccounts = accumulatedDepreciationAccount
 				.getAccounts();
-		List<ClientFixedAsset> fixedAssets = FinanceApplication.getCompany()
+		List<ClientFixedAsset> fixedAssets = Accounter.getCompany()
 				.getFixedAssets();
 		for (ClientFixedAsset asset : fixedAssets) {
 			for (ClientAccount accumulatedAccount : accumulatedAccounts) {
 				if (asset.getAssetAccount() != null
 						&& !asset.getAssetAccount().equals(
-								accumulatedAccount.getStringID())
+								accumulatedAccount.getID())
 						&& selectedAssetAccount != null
-						&& !selectedAssetAccount.getStringID()
+						&& !selectedAssetAccount.getID()
 								.equalsIgnoreCase(
-										accumulatedAccount.getStringID()))
+										accumulatedAccount.getID()))
 					accumulatedDepreciationAccount.setValue(accumulatedAccount);
 			}
 		}
@@ -703,13 +703,13 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		 */
 		if (fixedAsset != null && fixedAsset.getAssetAccount() != null
 				&& fixedAsset.getAssetAccount().length() != 0) {
-			if (FinanceApplication.getCompany().getAccount(
+			if (Accounter.getCompany().getAccount(
 					fixedAsset.getAssetAccount())
 					.getLinkedAccumulatedDepreciationAccount() != null) {
-				String accumulatedAccountID = FinanceApplication.getCompany()
+				String accumulatedAccountID = Accounter.getCompany()
 						.getAccount(fixedAsset.getAssetAccount())
 						.getLinkedAccumulatedDepreciationAccount();
-				ClientAccount accumultdAcc = FinanceApplication.getCompany()
+				ClientAccount accumultdAcc = Accounter.getCompany()
 						.getAccount(accumulatedAccountID);
 				accumulatedDepreciationAccount
 						.setSelected(accumultdAcc != null ? accumultdAcc
@@ -721,7 +721,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		}
 		if (isEdit) {
 			accumulatedDepreciationAccount
-					.setComboItem(FinanceApplication.getCompany().getAccount(
+					.setComboItem(Accounter.getCompany().getAccount(
 							fixedAsset
 									.getLinkedAccumulatedDepreciationAccount()));
 		}
@@ -740,7 +740,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		ClientAccount selectItem = accumulatedDepreciationAccount
 				.getSelectedValue();
 		if (assetAccount != null && selectItem != null
-				&& assetAccount.getStringID().equals(selectItem.getStringID())) {
+				&& assetAccount.getID().equals(selectItem.getID())) {
 			Accounter
 					.showError("Account and Accumulated Depreciation Account should not be same ");
 			return false;
@@ -766,7 +766,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 												.toString())
 								+ ") so please enter: ");
 				infoLabel1.setStyleName("requiredField");
-				accmulatdDepreciationTxt = new AmountField(FinanceApplication
+				accmulatdDepreciationTxt = new AmountField(Accounter
 						.getFixedAssetConstants().accumulatedDepreciationTo()
 						+ " "
 						+ UIUtils.getDateStringByDate(enteredDate.toString()));
@@ -813,7 +813,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				double depRate = depreciationRate.getPercentage();
 				double purchasePrice = purchasePriceTxt.getAmount();
 				ClientFinanceDate depStartDate = new ClientFinanceDate(
-						FinanceApplication.getCompany().getpreferences()
+						Accounter.getCompany().getpreferences()
 								.getDepreciationStartDate());
 				depAmount = 0.0;
 				/*
@@ -823,7 +823,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				if (depMethod != 0 && !DecimalUtil.isEquals(depRate, 0)
 						&& !DecimalUtil.isEquals(purchasePrice, 0)
 						&& purchaseDate.before(depStartDate)) {
-					FinanceApplication.createHomeService()
+					Accounter.createHomeService()
 							.getAccumulatedDepreciationAmount(depMethod,
 									depRate, purchasePrice,
 									purchaseDate.getTime(),
@@ -854,7 +854,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	}
 
 	public ClientFinanceDate getDepreciationStartDate() {
-		return new ClientFinanceDate(FinanceApplication.getCompany()
+		return new ClientFinanceDate(Accounter.getCompany()
 				.getpreferences().getDepreciationStartDate());
 	}
 
@@ -863,7 +863,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		try {
 			ClientFixedAsset asset = getAssetObject();
 			if (fixedAsset == null) {
-				if (Utility.isObjectExist(FinanceApplication.getCompany()
+				if (Utility.isObjectExist(Accounter.getCompany()
 						.getFixedAssets(), itemTxt.getValue().toString())) {
 					throw new InvalidEntryException("FixedAsset"
 							+ AccounterErrorType.ALREADYEXIST);
@@ -880,8 +880,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	@Override
 	public void saveSuccess(IAccounterCore result) {
 		ClientFixedAsset createdAsset = (ClientFixedAsset) result;
-		if (createdAsset.getStringID() != null
-				&& createdAsset.getStringID().length() != 0) {
+		if (createdAsset.getID() != null
+				&& createdAsset.getID().length() != 0) {
 			// if (fixedAsset == null)
 			// Accounter.showInformation(FinanceApplication
 			// .getFixedAssetConstants().newAssetwithName()
@@ -894,7 +894,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			// .IsUpdatedSuccessfully());
 			super.saveSuccess(result);
 		} else
-			saveFailed(new Exception(FinanceApplication.getFinanceUIConstants()
+			saveFailed(new Exception(Accounter.getFinanceUIConstants()
 					.failed()));
 
 	}
@@ -906,13 +906,13 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			// BaseView.errordata.setHTML(FinanceApplication
 			// .getFinanceUIConstants().duplicationOfAssets());
 			MainFinanceWindow.getViewManager().showError(
-					FinanceApplication.getFinanceUIConstants()
+					Accounter.getFinanceUIConstants()
 							.duplicationOfAssets());
 		// BaseView.errordata.setHTML(FinanceApplication
 		else
 			// .getFinanceUIConstants().assetApdationFailed());
 			MainFinanceWindow.getViewManager().showError(
-					FinanceApplication.getFinanceUIConstants()
+					Accounter.getFinanceUIConstants()
 							.assetApdationFailed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
@@ -934,10 +934,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				asset
 						.setLinkedAccumulatedDepreciationAccount(accumulatedDepreciationAccount
 								.getSelectedValue() != null ? accumulatedDepreciationAccount
-								.getSelectedValue().getStringID()
+								.getSelectedValue().getID()
 								: "");
 			}
-			asset.setAssetAccount(selectedAssetAccount.getStringID());
+			asset.setAssetAccount(selectedAssetAccount.getID());
 
 		}
 		asset.setPurchaseDate(purchaseDateTxt.getEnteredDate().getTime());
@@ -956,7 +956,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		asset.setDepreciationMethod(depreciationMethod.getSelectedValue());
 		asset.setDepreciationExpenseAccount(depreciationAccount
 				.getSelectedValue() != null ? depreciationAccount
-				.getSelectedValue().getStringID() : "");
+				.getSelectedValue().getID() : "");
 
 		// if (isAssetAccumulated || fixedAsset != null
 		// && accmulatdDepreciationTxt != null) {
@@ -1046,7 +1046,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 							accumulatedDepreciationAccountForm, false) : true)) {
 				double price = purchasePriceTxt.getAmount();
 				if (DecimalUtil.isEquals(price, 0.0)) {
-					throw new InvalidEntryException(FinanceApplication
+					throw new InvalidEntryException(Accounter
 							.getFixedAssetConstants()
 							.purchasePricShouldNotBeZero());
 
@@ -1073,7 +1073,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				if (assetNumberTxt.getValue().toString().length() != 0)
 					return AccounterValidator.isNull(assetNumberTxt.getValue());
 				else {
-					throw new InvalidEntryException(FinanceApplication
+					throw new InvalidEntryException(Accounter
 							.getFixedAssetConstants()
 							.assetNumberShouldNotBeEmpty());
 
@@ -1101,11 +1101,11 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 	private boolean validateName(String name) {
 		if (!(fixedAsset == null
-				&& Utility.isObjectExist(FinanceApplication.getCompany()
+				&& Utility.isObjectExist(Accounter.getCompany()
 						.getFixedAssets(), name) ? true : false)
 				|| !(fixedAsset != null && !(fixedAsset.getName()
 						.equalsIgnoreCase(name) ? true : (Utility
-						.isObjectExist(FinanceApplication.getCompany()
+						.isObjectExist(Accounter.getCompany()
 								.getFixedAssets(), name) ? false : true)))) {
 			isVerified = true;
 			return false;
@@ -1204,6 +1204,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().newFixedAsset();
+		return Accounter.getActionsConstants().newFixedAsset();
 	}
 }

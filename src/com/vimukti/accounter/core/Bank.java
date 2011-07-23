@@ -21,7 +21,7 @@ public class Bank implements IAccounterServerCore {
 
 	int version;
 
-	public String stringID;
+	public long id;
 
 	transient boolean isImported;
 
@@ -47,7 +47,7 @@ public class Bank implements IAccounterServerCore {
 	 * @param id
 	 *            the id to set
 	 */
-	// public void setId(long id) {
+	// public void setID(long id){
 	// this.id = id;
 	// }
 	/**
@@ -79,14 +79,14 @@ public class Bank implements IAccounterServerCore {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

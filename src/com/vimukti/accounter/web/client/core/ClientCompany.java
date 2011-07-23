@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -9,11 +11,10 @@ import java.util.Set;
 
 import com.google.gwt.core.client.JavaScriptException;
 import com.vimukti.accounter.web.client.InvalidOperationException;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.SelectItemType;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 @SuppressWarnings("serial")
@@ -56,7 +57,7 @@ public class ClientCompany implements IAccounterCore {
 
 	int accountingType = 0;
 
-	public String stringID;
+	public long companyID;
 
 	String name;
 
@@ -69,9 +70,6 @@ public class ClientCompany implements IAccounterCore {
 	String companyEmailForCustomers;
 
 	boolean isConfigured;
-
-	ClientContact contact = new ClientContact(); // ClientContact
-	// String contact;
 
 	String ein;
 
@@ -99,21 +97,21 @@ public class ClientCompany implements IAccounterCore {
 
 	int industry;
 
-	String accountsReceivableAccount;
+	long accountsReceivableAccount;
 
-	String accountsPayableAccount;
+	long accountsPayableAccount;
 
-	String openingBalancesAccount;
+	long openingBalancesAccount;
 
-	String retainedEarningsAccount;
+	long retainedEarningsAccount;
 
-	String otherCashIncomeAccount;
+	long otherCashIncomeAccount;
 
-	String otherCashExpenseAccount;
+	long otherCashExpenseAccount;
 
-	String VATliabilityAccount;
+	long VATliabilityAccount;
 
-	String pendingItemReceiptsAccount;
+	long pendingItemReceiptsAccount;
 	// String prepaidVATaccount;
 	// String ECAcquisitionVATaccount;
 
@@ -199,7 +197,6 @@ public class ClientCompany implements IAccounterCore {
 
 	private List<ClientBrandingTheme> brandingTheme;
 
-	private List<ClientUser> usersList;
 
 	// private List<ClientTAXItemGroup> vatItemGroups;
 
@@ -269,7 +266,7 @@ public class ClientCompany implements IAccounterCore {
 	/**
 	 * @return the vatReturns
 	 */
-	public ClientVATReturn getVatReturn(String vatReturnID) {
+	public ClientVATReturn getVatReturn(long vatReturnID) {
 		return Utility.getObject(this.vatReturns, vatReturnID);
 	}
 
@@ -314,11 +311,11 @@ public class ClientCompany implements IAccounterCore {
 		return nominalCodeRange;
 	}
 
-	public String getPendingItemReceiptsAccount() {
+	public long getPendingItemReceiptsAccount() {
 		return pendingItemReceiptsAccount;
 	}
 
-	public void setPendingItemReceiptsAccount(String pendingItemReceiptsAccount) {
+	public void setPendingItemReceiptsAccount(long pendingItemReceiptsAccount) {
 		this.pendingItemReceiptsAccount = pendingItemReceiptsAccount;
 	}
 
@@ -354,7 +351,7 @@ public class ClientCompany implements IAccounterCore {
 	//
 	// for (ClientTAXItem clientVATItem : getVatItems()) {
 	//
-	// if (clientVATItem.getTaxAgency().equals(taxAgency.getStringID())) {
+	// if (clientVATItem.getTaxAgency().equals(taxAgency.getID())) {
 	// vatItems.add(clientVATItem);
 	// }
 	// }
@@ -393,7 +390,7 @@ public class ClientCompany implements IAccounterCore {
 			return taxItems;
 		}
 		for (ClientTAXItem clientTaxItem : getTaxItems()) {
-			if (clientTaxItem.getTaxAgency().equals(taxAgency.getStringID())) {
+			if (clientTaxItem.getTaxAgency().equals(taxAgency.getID())) {
 				taxItems.add(clientTaxItem);
 
 			}
@@ -412,7 +409,7 @@ public class ClientCompany implements IAccounterCore {
 	// return taxItems;
 	// }
 	// for (ClientTaxItem clientTaxItem : getTaxItems()) {
-	// if (clientTaxItem.getTaxAgency().equals(taxAgency.getStringID())) {
+	// if (clientTaxItem.getTaxAgency().equals(taxAgency.getID())) {
 	// taxItems.add(clientTaxItem);
 	//
 	// }
@@ -517,13 +514,6 @@ public class ClientCompany implements IAccounterCore {
 		this.vendors = vendors;
 	}
 
-	public ClientContact getContact() {
-		return contact;
-	}
-
-	public void setContact(ClientContact contact) {
-		this.contact = contact;
-	}
 
 	// public List<ClientTAXAgency> getTaxAgencies() {
 	// return Utility.getArrayList(taxAgencies);
@@ -850,51 +840,51 @@ public class ClientCompany implements IAccounterCore {
 		this.fiscalYearStarting = fiscalYearStarting;
 	}
 
-	public String getAccountsReceivableAccountId() {
+	public long getAccountsReceivableAccountId() {
 		return accountsReceivableAccount;
 	}
 
-	public void setAccountsReceivableAccount(String accountsReceivableAccount) {
+	public void setAccountsReceivableAccount(long accountsReceivableAccount) {
 		this.accountsReceivableAccount = accountsReceivableAccount;
 	}
 
-	public String getAccountsPayableAccount() {
+	public long getAccountsPayableAccount() {
 		return accountsPayableAccount;
 	}
 
-	public void setAccountsPayableAccountId(String accountsPayableAccount) {
+	public void setAccountsPayableAccountId(long accountsPayableAccount) {
 		this.accountsPayableAccount = accountsPayableAccount;
 	}
 
-	public String getOpeningBalancesAccount() {
+	public long getOpeningBalancesAccount() {
 		return openingBalancesAccount;
 	}
 
-	public void setOpeningBalancesAccountId(String openingBalancesAccount) {
+	public void setOpeningBalancesAccountId(long openingBalancesAccount) {
 		this.openingBalancesAccount = openingBalancesAccount;
 	}
 
-	public String getRetainedEarningsAccount() {
+	public long getRetainedEarningsAccount() {
 		return retainedEarningsAccount;
 	}
 
-	public void setRetainedEarningsAccount(String retainedEarningsAccount) {
+	public void setRetainedEarningsAccount(long retainedEarningsAccount) {
 		this.retainedEarningsAccount = retainedEarningsAccount;
 	}
 
-	public String getOtherCashIncomeAccount() {
+	public long getOtherCashIncomeAccount() {
 		return otherCashIncomeAccount;
 	}
 
-	public void setOtherCashIncomeAccount(String otherCashIncomeAccount) {
+	public void setOtherCashIncomeAccount(long otherCashIncomeAccount) {
 		this.otherCashIncomeAccount = otherCashIncomeAccount;
 	}
 
-	public String getOtherCashExpenseAccount() {
+	public long getOtherCashExpenseAccount() {
 		return otherCashExpenseAccount;
 	}
 
-	public void setOtherCashExpenseAccount(String otherCashExpenseAccount) {
+	public void setOtherCashExpenseAccount(long otherCashExpenseAccount) {
 		this.otherCashExpenseAccount = otherCashExpenseAccount;
 	}
 
@@ -1031,57 +1021,57 @@ public class ClientCompany implements IAccounterCore {
 		return this.industry;
 	}
 
-	public ClientPaymentTerms getPaymentTerms(String paymentTermsId) {
+	public ClientPaymentTerms getPaymentTerms(long paymentTermsId) {
 
 		return Utility.getObject(this.paymentTerms, paymentTermsId);
 	}
 
-	public ClientPaySalesTax getPaySalesTax(String paysalesTaxId) {
+	public ClientPaySalesTax getPaySalesTax(long paysalesTaxId) {
 
 		return Utility.getObject(this.paySalesTaxs, paysalesTaxId);
 	}
 
-	public ClientCustomerGroup getCustomerGroup(String customerGroupId) {
+	public ClientCustomerGroup getCustomerGroup(long customerGroupId) {
 
 		return Utility.getObject(this.customerGroups, customerGroupId);
 	}
 
-	public ClientVendorGroup getVendorGroup(String vendorGroupId) {
+	public ClientVendorGroup getVendorGroup(long vendorGroupId) {
 
 		return Utility.getObject(this.vendorGroups, vendorGroupId);
 	}
 
-	public ClientShippingMethod getShippingMethod(String shippingMethodId) {
+	public ClientShippingMethod getShippingMethod(long shippingMethodId) {
 
 		return Utility.getObject(this.shippingMethods, shippingMethodId);
 	}
 
-	public ClientShippingTerms getShippingTerms(String shippingTermsId) {
+	public ClientShippingTerms getShippingTerms(long shippingTermsId) {
 
 		return Utility.getObject(this.shippingTerms, shippingTermsId);
 	}
 
-	public ClientItemGroup getItemGroup(String itemGroupId) {
+	public ClientItemGroup getItemGroup(long itemGroupId) {
 
 		return Utility.getObject(this.ItemGroups, itemGroupId);
 	}
 
-	public ClientCreditRating getCreditRating(String creditRatingId) {
+	public ClientCreditRating getCreditRating(long creditRatingId) {
 
 		return Utility.getObject(this.creditRatings, creditRatingId);
 	}
 
-	public ClientTAXAgency getTaxAgency(String taxAgencyId) {
+	public ClientTAXAgency getTaxAgency(long taxAgencyId) {
 
 		return Utility.getObject(this.taxAgencies, taxAgencyId);
 	}
 
-	// public ClientTaxCode getTaxCode(String taxCodeId) {
+	// public ClientTaxCode getTaxCode(long taxCodeId) {
 	//
 	// return Utility.getObject(this.taxCodes, taxCodeId);
 	// }
 
-	public ClientCustomer getCustomer(String customerId) {
+	public ClientCustomer getCustomer(long customerId) {
 
 		return Utility.getObject(this.customers, customerId);
 	}
@@ -1090,12 +1080,12 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObjectByName(this.customers, customerName);
 	}
 
-	public ClientBank getBank(String bankId) {
+	public ClientBank getBank(long bankId) {
 
 		return Utility.getObject(this.banks, bankId);
 	}
 
-	public ClientVendor getVendor(String vendorId) {
+	public ClientVendor getVendor(long vendorId) {
 
 		return Utility.getObject(this.vendors, vendorId);
 	}
@@ -1105,12 +1095,12 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObjectByName(this.vendors, vendorName);
 	}
 
-	public ClientItem getItem(String itemId) {
+	public ClientItem getItem(long itemId) {
 
 		return Utility.getObject(this.items, itemId);
 	}
 
-	public ClientAccount getAccount(String accountId) {
+	public ClientAccount getAccount(long accountId) {
 
 		return Utility.getObject(this.accounts, accountId);
 	}
@@ -1120,71 +1110,68 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObjectByName(this.accounts, accountName);
 	}
 
-	public ClientAddress getAddress(String addressId) {
+	public ClientAddress getAddress(long addressId) {
 
 		return Utility.getObject(this.addresses, addressId);
 	}
 
-	public ClientTAXGroup getTaxGroup(String taxGroupId) {
+	public ClientTAXGroup getTaxGroup(long taxGroupId) {
 
 		return Utility.getObject(this.taxGroups, taxGroupId);
 	}
 
-	public ClientTAXItem getTaxItem(String taxGroupId) {
+	public ClientTAXItem getTaxItem(long taxGroupId) {
 
 		return Utility.getObject(this.taxItems, taxGroupId);
 	}
 
-	public ClientSalesPerson getSalesPerson(String salesPersonId) {
+	public ClientSalesPerson getSalesPerson(long salesPersonId) {
 
 		return Utility.getObject(this.salesPersons, salesPersonId);
 	}
 
-	public ClientFixedAsset getFixedAsset(String fixedAssetId) {
+	public ClientFixedAsset getFixedAsset(long fixedAssetId) {
 
 		return Utility.getObject(this.fixedAssets, fixedAssetId);
 	}
 
-	public ClientTAXCode getTAXCode(String taxCodeId) {
+	public ClientTAXCode getTAXCode(long taxCodeId) {
 
 		return Utility.getObject(this.taxCodes, taxCodeId);
 	}
 
-	// public ClientTAXItemGroup getVATItemGroup(String vatItemGrpId) {
+	// public ClientTAXItemGroup getVATItemGroup(long vatItemGrpId) {
 	//
 	// return Utility.getObject(this.vatItemGroups, vatItemGrpId);
 	// }
 
-	public ClientTAXItemGroup getTAXItemGroup(String taxItemGrpId) {
+	public ClientTAXItemGroup getTAXItemGroup(long taxItemGrpId) {
 
 		return Utility.getObject(this.taxItemGroups, taxItemGrpId);
 	}
 
-	public ClientPriceLevel getPriceLevel(String priceLevelId) {
+	public ClientPriceLevel getPriceLevel(long priceLevelId) {
 		return Utility.getObject(this.priceLevels, priceLevelId);
 	}
 
-	public ClientTAXItem getTAXItem(String stringID) {
+	public ClientTAXItem getTAXItem(long stringID) {
 		return Utility.getObject(this.taxItems, stringID);
 	}
 
-	// public ClientTAXAgency getTaxAgency(String stringID) {
+	// public ClientTAXAgency getTaxAgency(long stringID) {
 	// return Utility.getObject(this.taxAgencies, stringID);
 	// }
 
-	public ClientVATReturnBox getVatReturnBox(String stringID) {
+	public ClientVATReturnBox getVatReturnBox(long stringID) {
 		return Utility.getObject(this.vatReturnBoxes, stringID);
 	}
 
-	public ClientFiscalYear getFixelYear(String stringID) {
+	public ClientFiscalYear getFixelYear(long stringID) {
 		return Utility.getObject(this.fiscalYears, stringID);
 	}
 
-	public ClientUser getUser(String stringID) {
-		return Utility.getObject(this.usersList, stringID);
-	}
 
-	public ClientBrandingTheme getBrandingTheme(String stringID) {
+	public ClientBrandingTheme getBrandingTheme(long stringID) {
 		return Utility.getObject(this.brandingTheme, stringID);
 	}
 
@@ -1192,107 +1179,104 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObjectByName(this.taxAgencies, name);
 	}
 
-	public void deleteSalesPerson(String salesPersonId) {
+	public void deleteSalesPerson(long salesPersonId) {
 		this.salesPersons.remove(this.getSalesPerson(salesPersonId));
 	}
 
-	public void deletePaymentTerms(String paymentTermsId) {
+	public void deletePaymentTerms(long paymentTermsId) {
 		this.paymentTerms.remove(this.getPaymentTerms(paymentTermsId));
 	}
 
-	public void deletePriceLevel(String priceLevelId) {
+	public void deletePriceLevel(long priceLevelId) {
 		this.priceLevels.remove(this.getPriceLevel(priceLevelId));
 	}
 
-	public void deleteCustomerGroup(String customerGroup) {
+	public void deleteCustomerGroup(long customerGroup) {
 		this.customerGroups.remove(this.getCustomerGroup(customerGroup));
 	}
 
-	public void deleteVendorGroup(String vendorGroup) {
+	public void deleteVendorGroup(long vendorGroup) {
 		this.vendorGroups.remove(this.getVendorGroup(vendorGroup));
 	}
 
-	public void deleteShippingMethod(String shippingMethod) {
+	public void deleteShippingMethod(long shippingMethod) {
 		this.shippingMethods.remove(this.getShippingMethod(shippingMethod));
 	}
 
-	public void deleteShippingTerms(String shippingTerm) {
+	public void deleteShippingTerms(long shippingTerm) {
 		this.shippingTerms.remove(this.getShippingTerms(shippingTerm));
 	}
 
-	public void deleteItemGroup(String itemGroup) {
+	public void deleteItemGroup(long itemGroup) {
 		this.ItemGroups.remove(this.getItemGroup(itemGroup));
 	}
 
-	public void deleteCreditRating(String creditRating) {
+	public void deleteCreditRating(long creditRating) {
 		this.creditRatings.remove(this.getCreditRating(creditRating));
 	}
 
-	// public void deleteTaxAgency(String taxAgency) {
+	// public void deleteTaxAgency(long taxAgency) {
 	// this.taxAgencies.remove(this.getTaxAgency(taxAgency));
 	// }
 
-	// public void deleteTaxCode(String taxCode) {
+	// public void deleteTaxCode(long taxCode) {
 	// this.taxCodes.remove(this.getTaxCode(taxCode));
 	// }
 
-	public void deleteCustomer(String customerId) {
+	public void deleteCustomer(long customerId) {
 		this.customers.remove(this.getCustomer(customerId));
 	}
 
-	public void deleteVendor(String vendorId) {
+	public void deleteVendor(long vendorId) {
 		this.vendors.remove(this.getVendor(vendorId));
 	}
 
-	public void deleteItem(String itemId) {
+	public void deleteItem(long itemId) {
 		this.items.remove(this.getItem(itemId));
 	}
 
-	public void deleteAccount(String accountId) {
+	public void deleteAccount(long accountId) {
 		this.accounts.remove(this.getAccount(accountId));
 	}
 
-	public void deleteAddress(String addressID) {
+	public void deleteAddress(long addressID) {
 		this.addresses.remove(this.getAddress(addressID));
 	}
 
-	public void deleteTaxGroup(String taxGroup) {
+	public void deleteTaxGroup(long taxGroup) {
 		this.taxGroups.remove(this.getTaxGroup(taxGroup));
 	}
 
-	public void deleteBank(String bankId) {
+	public void deleteBank(long bankId) {
 		this.banks.remove(this.getBank(bankId));
 	}
 
-	public void deleteTaxCode(String taxCode) {
+	public void deleteTaxCode(long taxCode) {
 		this.taxCodes.remove(this.getTAXCode(taxCode));
 	}
 
-	// public void deleteVatGroup(String vatGroup) {
+	// public void deleteVatGroup(long vatGroup) {
 	// this.vatGroups.remove(this.getVATItem(vatGroup));
 	// }
 
-	public void deleteTaxItem(String taxItem) {
+	public void deleteTaxItem(long taxItem) {
 		this.taxItems.remove(this.getTAXItem(taxItem));
 	}
 
-	public void deleteTaxAgency(String taxAgencyId) {
+	public void deleteTaxAgency(long taxAgencyId) {
 		this.taxAgencies.remove(this.getTaxAgency(taxAgencyId));
 	}
 
-	public void deleteVAtReturn(String vatReturnId) {
+	public void deleteVAtReturn(long vatReturnId) {
 		this.vatReturns.remove(this.getVatReturnBox(vatReturnId));
 	}
 
-	public void deleteFixelYear(String fixelYearId) {
+	public void deleteFixelYear(long fixelYearId) {
 		this.fiscalYears.remove(this.getFixelYear(fixelYearId));
 	}
 
-	public void deleteUser(String userId) {
-		this.usersList.remove(this.getUser(userId));
-	}
 
-	public void deleteBrandingTheme(String themeId) {
+	public void deleteBrandingTheme(long themeId) {
 		this.brandingTheme.remove(this.getBrandingTheme(themeId));
 	}
 
@@ -1423,7 +1407,7 @@ public class ClientCompany implements IAccounterCore {
 					// Utility.updateClientList(account, accounts);
 
 					ClientAccount existObj = Utility.getObject(accounts,
-							account.getStringID());
+							account.getID());
 					if (existObj != null) {
 						if (account.getNumber().equals(existObj.getNumber())) {
 							accounts.remove(existObj);
@@ -1504,7 +1488,7 @@ public class ClientCompany implements IAccounterCore {
 					// Utility.updateClientList(taxGroup, taxGroups);
 					UIUtils.updateClientListAndTaxItemGroup(taxGroup, taxItems,
 							taxGroups, taxItemGroups);
-					if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+					if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 						ClientTAXCode code = getTAXCodeForTAXItemGroup((ClientTAXItemGroup) taxGroup);
 						// Utility.updateClientList(code, taxCodes);
 					}
@@ -1532,7 +1516,7 @@ public class ClientCompany implements IAccounterCore {
 					// Utility.updateClientList(taxItem, taxItems);
 					UIUtils.updateClientListAndTaxItemGroup(taxItem, taxItems,
 							taxGroups, taxItemGroups);
-					if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+					if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 						ClientTAXCode code = getTAXCodeForTAXItemGroup((ClientTAXItemGroup) taxItem);
 						// Utility.updateClientList(code, taxCodes);
 					}
@@ -1693,7 +1677,7 @@ public class ClientCompany implements IAccounterCore {
 				case FISCALYEAR:
 					ClientFiscalYear fiscalYear = (ClientFiscalYear) accounterCoreObject;
 					Utility.updateClientList(fiscalYear, this.fiscalYears);
-					Utility.sortFiscalYears();
+					sortFiscalYears();
 					break;
 
 				case COMPANY_PREFERENCES:
@@ -1706,10 +1690,6 @@ public class ClientCompany implements IAccounterCore {
 				case BRANDINGTHEME:
 					ClientBrandingTheme theme = (ClientBrandingTheme) accounterCoreObject;
 					Utility.updateClientList(theme, brandingTheme);
-					break;
-				case USER:
-					ClientUser user = (ClientUser) accounterCoreObject;
-					Utility.updateClientList(user, usersList);
 					break;
 				}
 			ViewManager.getInstance().operationSuccessFull(cmd);
@@ -1735,7 +1715,7 @@ public class ClientCompany implements IAccounterCore {
 
 		if (accounterCoreObjectType == null)
 			return;
-		String id = accounterCoreObject.getStringID();
+		long id = accounterCoreObject.getID();
 		switch (accounterCoreObjectType) {
 
 		case ACCOUNT:
@@ -1746,9 +1726,9 @@ public class ClientCompany implements IAccounterCore {
 
 		case CUSTOMER:
 			deleteCustomer(id);
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				for (ClientPayee payee : getActivePayees()) {
-					if (payee.stringID.equals(id)) {
+					if (payee.id==id) {
 						Utility.isDelete = true;
 						Utility.updateClientList(payee, payees);
 						Utility.isDelete = false;
@@ -1761,9 +1741,9 @@ public class ClientCompany implements IAccounterCore {
 		case VENDOR:
 
 			deleteVendor(id);
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				for (ClientPayee payee : getActivePayees()) {
-					if (payee.stringID.equals(id)) {
+					if (payee.id==id) {
 						Utility.isDelete = true;
 						Utility.updateClientList(payee, payees);
 						Utility.isDelete = false;
@@ -1776,9 +1756,9 @@ public class ClientCompany implements IAccounterCore {
 		case TAXAGENCY:
 
 			deleteTaxAgency(id);
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				for (ClientPayee payee : getActivePayees()) {
-					if (payee.stringID.equals(id)) {
+					if (payee.id==id) {
 						Utility.isDelete = true;
 						Utility.updateClientList(payee, payees);
 						Utility.isDelete = false;
@@ -1797,9 +1777,9 @@ public class ClientCompany implements IAccounterCore {
 		case TAX_GROUP:
 
 			deleteTaxGroup(id);
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				for (ClientTAXCode taxCode : getActiveTaxCodes()) {
-					if (taxCode.stringID.equals(id)) {
+					if (taxCode.id==id) {
 						Utility.isDelete = true;
 						Utility.updateClientList(taxCode, taxCodes);
 						Utility.isDelete = false;
@@ -1861,9 +1841,9 @@ public class ClientCompany implements IAccounterCore {
 			break;
 		case TAXITEM:
 			deleteTaxItem(id);
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				for (ClientTAXCode taxCode : getActiveTaxCodes()) {
-					if (taxCode.stringID.equals(id)) {
+					if (taxCode.id==id) {
 						Utility.isDelete = true;
 						Utility.updateClientList(taxCode, taxCodes);
 						Utility.isDelete = false;
@@ -1887,9 +1867,6 @@ public class ClientCompany implements IAccounterCore {
 		case FISCALYEAR:
 			deleteFixelYear(id);
 			break;
-		case USER:
-			deleteUser(id);
-			break;
 		case BRANDINGTHEME:
 			deleteBrandingTheme(id);
 			break;
@@ -1902,18 +1879,18 @@ public class ClientCompany implements IAccounterCore {
 	//
 	// }
 
-	public void deleteFixedAsset(String fixedAssetId) {
-		this.fixedAssets.remove(this.getFixedAsset(fixedAssetId));
+	public void deleteFixedAsset(long id) {
+		this.fixedAssets.remove(this.getFixedAsset(id));
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID() {
+		return this.companyID;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.companyID = id;
 
 	}
 
@@ -2007,7 +1984,7 @@ public class ClientCompany implements IAccounterCore {
 		return vatReturnBoxes;
 	}
 
-	public ClientVATReturnBox getVatReturnBoxByID(String vatReturnBoxID) {
+	public ClientVATReturnBox getVatReturnBoxByID(long vatReturnBoxID) {
 		return Utility.getObject(this.vatReturnBoxes, vatReturnBoxID);
 	}
 
@@ -2085,14 +2062,14 @@ public class ClientCompany implements IAccounterCore {
 			ClientTAXItemGroup taxItemGroup) {
 		boolean exist = false;
 		ClientTAXCode taxCode = new ClientTAXCode();
-		taxCode.setStringID(taxItemGroup.getStringID());
+		taxCode.setID(taxItemGroup.getID());
 		taxCode.setName(taxItemGroup.getName());
 		taxCode.setDescription(taxItemGroup.description);
 		taxCode.setActive(taxItemGroup.isActive());
-		taxCode.setTAXItemGrpForSales(taxItemGroup.getStringID());
+		taxCode.setTAXItemGrpForSales(taxItemGroup.getID());
 		taxCode.setTaxable(true);
 		taxCode.setECSalesEntry(false);
-		taxCode.setTAXItemGrpForPurchases(null);
+		taxCode.setTAXItemGrpForPurchases(0);
 		for (ClientTAXCode tempCode : taxCodes) {
 			if (tempCode.getName().equalsIgnoreCase(taxCode.getName())) {
 				exist = true;
@@ -2112,13 +2089,6 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getArrayList(brandingTheme);
 	}
 
-	public void setUsersList(List<ClientUser> users) {
-		this.usersList = users;
-	}
-
-	public List<ClientUser> getUsersList() {
-		return usersList;
-	}
 
 	public ClientAccount getAccountByNumber(long accountNo) {
 		for (ClientAccount account : getAccounts()) {
@@ -2135,4 +2105,82 @@ public class ClientCompany implements IAccounterCore {
 		InvalidOperationException e = (InvalidOperationException) obj;
 		Accounter.showMessage(e.getMessage());
 	}
+
+	public ClientFinanceDate getLastandOpenedFiscalYearStartDate() {
+		List<ClientFiscalYear> clientFiscalYears = getFiscalYears();
+		if (!clientFiscalYears.isEmpty())
+			return clientFiscalYears.get((clientFiscalYears.size() - 1))
+					.getStartDate();
+		return null;
+	}
+
+	public ClientFinanceDate getCurrentFiscalYearStartDate() {
+		List<ClientFiscalYear> clientFiscalYears = getFiscalYears();
+		boolean isCurrentOne = false;
+		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
+			isCurrentOne = new ClientFinanceDate().before(clientFiscalYears
+					.get(i).getEndDate())
+					&& new ClientFinanceDate().after(clientFiscalYears.get(i)
+							.getStartDate());
+			if (isCurrentOne)
+				return clientFiscalYears.get(i).getStartDate();
+		}
+		if (!isCurrentOne) {
+			return getLastandOpenedFiscalYearStartDate();
+		}
+		return null;
+	}
+
+	public ClientFinanceDate getCurrentFiscalYearEndDate() {
+		List<ClientFiscalYear> clientFiscalYears = getFiscalYears();
+		boolean isCurrentOne = false;
+		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
+			isCurrentOne = new ClientFinanceDate().before(clientFiscalYears
+					.get(i).getEndDate())
+					&& new ClientFinanceDate().after(clientFiscalYears.get(i)
+							.getStartDate());
+			if (isCurrentOne)
+				return clientFiscalYears.get(i).getEndDate();
+		}
+		if (!isCurrentOne) {
+			return getLastandOpenedFiscalYearEndDate();
+		}
+		return null;
+	}
+
+	public ClientFinanceDate getLastandOpenedFiscalYearEndDate() {
+		List<ClientFiscalYear> clientFiscalYears = getFiscalYears();
+
+		if (!clientFiscalYears.isEmpty())
+			return clientFiscalYears.get((clientFiscalYears.size() - 1))
+					.getEndDate();
+
+		return null;
+	}
+
+	public boolean isCurrentInFiscalYear(long date) {
+		List<ClientFiscalYear> clientFiscalYears = getFiscalYears();
+		boolean isCurrentOne = false;
+		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
+			long startDate = Math.round(clientFiscalYears.get(i).getStartDate()
+					.getTime() / 100);
+			long endDate = Math.round(clientFiscalYears.get(i).getEndDate()
+					.getTime() / 100);
+			isCurrentOne = (date >= startDate) && (date <= endDate);
+			if (isCurrentOne)
+				return true;
+		}
+		return false;
+	}
+
+	public void sortFiscalYears() {
+		Collections.sort(getFiscalYears(), new Comparator<ClientFiscalYear>() {
+
+			@Override
+			public int compare(ClientFiscalYear o1, ClientFiscalYear o2) {
+				return o1.getStartDate().compareTo(o2.getStartDate());
+			}
+		});
+	}
+
 }

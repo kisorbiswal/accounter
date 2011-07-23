@@ -5,7 +5,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByAccountServerReport;
 
@@ -23,7 +23,7 @@ public class TransactionDetailByAccountReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			ReportsRPC.openTransactionView(getType(record), record
 					.getTransactionId());
 	}
@@ -47,11 +47,11 @@ public class TransactionDetailByAccountReport extends
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		TrialBalance accountdetails = (TrialBalance) data;
 		if (accountdetails == null) {
-			FinanceApplication.createReportService()
+			Accounter.createReportService()
 					.getTransactionDetailByAccount(start.getTime(),
 							end.getTime(), this);
 		} else if (accountdetails.getAccountName() != null) {
-			FinanceApplication.createReportService()
+			Accounter.createReportService()
 					.getTransactionDetailByAccount(
 							accountdetails.getAccountName(), start.getTime(),
 							end.getTime(), this);

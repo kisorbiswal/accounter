@@ -48,7 +48,7 @@ public class AccountTransaction implements IAccounterServerCore,
 	 * entries and Cashbasis journal entries.
 	 */
 	boolean cashBasisEntry = false;
-	public String stringID;
+	public long id;
 
 	transient boolean isImported;
 	String createdBy;
@@ -131,7 +131,7 @@ public class AccountTransaction implements IAccounterServerCore,
 	 * @param id
 	 *            the id to set
 	 */
-	// public void setId(long id) {
+	// public void setID(long id){
 	// this.id = id;
 	// }
 	/**
@@ -202,8 +202,8 @@ public class AccountTransaction implements IAccounterServerCore,
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
@@ -212,8 +212,8 @@ public class AccountTransaction implements IAccounterServerCore,
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	/**

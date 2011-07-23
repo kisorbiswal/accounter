@@ -32,7 +32,7 @@ import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
@@ -153,7 +153,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		MainFinanceWindow.getViewManager().showError(
-				FinanceApplication.getCompanyMessages()
+				Accounter.getCompanyMessages()
 						.duplicationOfJournalEntriesNotAllowed());
 	}
 
@@ -326,10 +326,10 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 
-		lab1 = new Label(FinanceApplication.getCompanyMessages()
+		lab1 = new Label(Accounter.getCompanyMessages()
 				.journalEntryNew());
 		lab1.removeStyleName("gwt-Label");
-		lab1.addStyleName(FinanceApplication.getCompanyMessages().lableTitle());
+		lab1.addStyleName(Accounter.getCompanyMessages().lableTitle());
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		jourNoText = new TextItem(companyConstants.no());
@@ -355,7 +355,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		initListGrid();
 		grid.initTransactionData();
 		gridPanel = new VerticalPanel();
-		addButton = new AccounterButton(FinanceApplication.getCompanyMessages()
+		addButton = new AccounterButton(Accounter.getCompanyMessages()
 				.add());
 		addButton.addClickHandler(new ClickHandler() {
 
@@ -474,7 +474,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 			rec[i] = takenJournalEntry.getEntry().get(i);
 			@SuppressWarnings("unused")
-			ClientCompany company = FinanceApplication.getCompany();
+			ClientCompany company = Accounter.getCompany();
 			rec[i].setVoucherNumber(entry.getVoucherNumber());
 
 			// FIXME--The date need to be set for every record
@@ -535,7 +535,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 								Accounter
 										.showMessage("Your session expired, Please login again to continue");
 							} else {
-								Accounter.showError(FinanceApplication
+								Accounter.showError(Accounter
 										.getCompanyMessages()
 										.failedToGetTransactionNumber());
 							}
@@ -570,7 +570,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 					Accounter
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
-					Accounter.showError(FinanceApplication.getCompanyMessages()
+					Accounter.showError(Accounter.getCompanyMessages()
 							.failedToGetVocherNumber());
 				}
 
@@ -720,6 +720,6 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCompanyMessages().journalEntry();
+		return Accounter.getCompanyMessages().journalEntry();
 	}
 }

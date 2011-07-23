@@ -35,7 +35,7 @@ public class OpenAndClosedOrders extends BaseReport implements IsSerializable {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 

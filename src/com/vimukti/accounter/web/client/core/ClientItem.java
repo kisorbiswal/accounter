@@ -18,7 +18,7 @@ public class ClientItem extends BaseReport implements IAccounterCore {
 	public static final int TYPE_SALES_TAX_ITEM = 10;
 	public static final int TYPE_SALES_TAX_GROUP = 11;
 
-	String stringID;
+	long id;
 
 	int type;
 	String name;
@@ -370,13 +370,13 @@ public class ClientItem extends BaseReport implements IAccounterCore {
 	// }
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

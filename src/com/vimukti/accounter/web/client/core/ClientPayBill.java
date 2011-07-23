@@ -11,16 +11,16 @@ public class ClientPayBill extends ClientTransaction {
 
 	String fileAs;
 
-	String payFrom;
+	long payFrom;
 
 	private long billDueOnOrBefore;
 
-	String vendor;
+	long vendor;
 	boolean isToBePrinted;
 
 	double endingBalance;
 
-	String accountsPayable;
+	long accountsPayable;
 
 	private double unusedAmount = 0D;
 
@@ -119,7 +119,7 @@ public class ClientPayBill extends ClientTransaction {
 	}
 
 	public void setPayFrom(ClientAccount payFromAccount) {
-		this.payFrom = payFromAccount.getStringID();
+		this.payFrom = payFromAccount.getID();
 	}
 
 	public void setBillDueOnOrBefore(ClientFinanceDate enteredDate) {
@@ -128,7 +128,7 @@ public class ClientPayBill extends ClientTransaction {
 	}
 
 	public void setVendor(ClientVendor vendor2) {
-		this.vendor = vendor2.getStringID();
+		this.vendor = vendor2.getID();
 
 	}
 
@@ -146,7 +146,7 @@ public class ClientPayBill extends ClientTransaction {
 
 	}
 
-	public String getVendor() {
+	public long getVendor() {
 		return this.vendor;
 	}
 
@@ -154,11 +154,11 @@ public class ClientPayBill extends ClientTransaction {
 		return this.address;
 	}
 
-	public String getPayFrom() {
+	public long getPayFrom() {
 		return this.payFrom;
 	}
 
-	public String getAccountsPayable() {
+	public long getAccountsPayable() {
 		return this.accountsPayable;
 	}
 
@@ -192,13 +192,13 @@ public class ClientPayBill extends ClientTransaction {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.core;
 
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.NewPayeeAction;
 import com.vimukti.accounter.web.client.ui.company.ChangePasswordAction;
@@ -131,7 +131,7 @@ public class CompanyActionFactory extends AbstractActionFactory {
 
 	public static ManageSalesTaxGroupsAction getManageSalesTaxGroupsAction() {
 		String text;
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			text = actionsConstants.manageSalesGroups();
 		else
 			text = actionsConstants.salesTaxGroups();
@@ -263,30 +263,30 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	}
 
 	public static DepreciationAction getDepriciationAction() {
-		return new DepreciationAction(FinanceApplication
+		return new DepreciationAction(Accounter
 				.getFixedAssetConstants().depreciation(), null);
 
 	}
 
 	public static NewTAXAgencyAction getNewTAXAgencyAction() {
 		String flag;
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-			flag = FinanceApplication.getVATMessages().newVATAgency();
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+			flag = Accounter.getVATMessages().newVATAgency();
 
 		else
-			flag = FinanceApplication.getCompanyMessages().newTAXAgency();
+			flag = Accounter.getCompanyMessages().newTAXAgency();
 
 		return new NewTAXAgencyAction(flag);
 	}
 
 	public static FinanceLogAction getFinanceLogAction() {
-		return new FinanceLogAction(FinanceApplication.getCompanyMessages()
+		return new FinanceLogAction(Accounter.getCompanyMessages()
 				.showLog());
 	}
 
 	public static ManageSalesTaxItemsAction getManageSalesTaxItemsAction() {
 		String constant;
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			constant = actionsConstants.manageSalesItems();
 		else
 			constant = actionsConstants.salesTaxItems();

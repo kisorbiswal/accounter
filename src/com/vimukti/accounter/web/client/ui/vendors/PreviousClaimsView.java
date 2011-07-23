@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
@@ -88,7 +88,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 		List<BillsList> selectedRecords = grid.getSelectedRecords();
 
 		for (BillsList record : selectedRecords) {
-			FinanceApplication.createGETService().getObjectById(
+			Accounter.createGETService().getObjectById(
 					AccounterCoreType.CASHPURCHASE, record.getTransactionId(),
 
 					new AsyncCallback<ClientCashPurchase>() {
@@ -120,12 +120,12 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 	protected void initRPCService() {
 		super.initRPCService();
 		String userName = null;
-		if (!FinanceApplication.getUser().isAdminUser()) {
-			userName = FinanceApplication.getUser().getName();
+		if (!Accounter.getUser().isAdminUser()) {
+			userName = Accounter.getUser().getName();
 		} else {
 			userName = null;
 		}
-		FinanceApplication.createHomeService().getEmployeeExpensesByStatus(
+		Accounter.createHomeService().getEmployeeExpensesByStatus(
 				userName, ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED,
 				new AsyncCallback<List<BillsList>>() {
 
@@ -141,7 +141,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 					}
 				});
 
-		FinanceApplication.createHomeService().getEmployeeExpensesByStatus(
+		Accounter.createHomeService().getEmployeeExpensesByStatus(
 				userName, ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED,
 				new AsyncCallback<List<BillsList>>() {
 
@@ -157,7 +157,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 					}
 				});
 
-		FinanceApplication
+		Accounter
 				.createHomeService()
 				.getEmployeeExpensesByStatus(
 						userName,
@@ -221,7 +221,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getVendorsMessages().previousClaim();
+		return Accounter.getVendorsMessages().previousClaim();
 	}
 
 }

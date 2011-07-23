@@ -10,7 +10,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -38,20 +38,20 @@ public class DateRangeReportToolbar extends ReportToolbar {
 	private void createControls() {
 		@SuppressWarnings("unused")
 		String[] reportBasisArray = {
-				FinanceApplication.getReportsMessages().cash(),
-				FinanceApplication.getReportsMessages().accrual() };
+				Accounter.getReportsMessages().cash(),
+				Accounter.getReportsMessages().accrual() };
 
 		String[] dateRangeArray = {
-				FinanceApplication.getReportsMessages().all(),
-				FinanceApplication.getReportsMessages().thisWeek(),
-				FinanceApplication.getReportsMessages().thisMonth(),
-				FinanceApplication.getReportsMessages().lastWeek(),
-				FinanceApplication.getReportsMessages().lastMonth(),
-				FinanceApplication.getReportsMessages().thisFinancialYear(),
-				FinanceApplication.getReportsMessages().lastFinancialYear(),
-				FinanceApplication.getReportsMessages().thisFinancialQuarter(),
-				FinanceApplication.getReportsMessages().lastFinancialQuarter(),
-				FinanceApplication.getReportsMessages().financialYearToDate(),
+				Accounter.getReportsMessages().all(),
+				Accounter.getReportsMessages().thisWeek(),
+				Accounter.getReportsMessages().thisMonth(),
+				Accounter.getReportsMessages().lastWeek(),
+				Accounter.getReportsMessages().lastMonth(),
+				Accounter.getReportsMessages().thisFinancialYear(),
+				Accounter.getReportsMessages().lastFinancialYear(),
+				Accounter.getReportsMessages().thisFinancialQuarter(),
+				Accounter.getReportsMessages().lastFinancialQuarter(),
+				Accounter.getReportsMessages().financialYearToDate(),
 				// FinanceApplication.getReportsMessages().today(),
 				// FinanceApplication.getReportsMessages().endThisWeek(),
 				// FinanceApplication.getReportsMessages().endThisWeekToDate(),
@@ -79,10 +79,10 @@ public class DateRangeReportToolbar extends ReportToolbar {
 				// .previousFiscalYearSameDates(),
 				// FinanceApplication.getReportsMessages().lastCalenderYear(),
 				// FinanceApplication.getReportsMessages().previousCalenderYear(),
-				FinanceApplication.getReportsMessages().custom() };
+				Accounter.getReportsMessages().custom() };
 
 		LabelItem report = new LabelItem();
-		report.setTitle(FinanceApplication.getReportsMessages()
+		report.setTitle(Accounter.getReportsMessages()
 				.reportBasisAccrual());
 		// reportBasisItem = new ComboBoxItem();
 		// reportBasisItem.setTitle("Report Basis");
@@ -91,7 +91,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// // report basic is not yet implemented, so disable the feature.
 		// reportBasisItem.setDisabled(true);
 
-		dateRangeItemCombo = new SelectCombo(FinanceApplication
+		dateRangeItemCombo = new SelectCombo(Accounter
 				.getReportsMessages().dateRange());
 		dateRangeItemCombo.setHelpInformation(true);
 		dateRangeItemList = new ArrayList<String>();
@@ -99,7 +99,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 			dateRangeItemList.add(dateRangeArray[i]);
 		}
 		dateRangeItemCombo.initCombo(dateRangeItemList);
-		dateRangeItemCombo.setComboItem(FinanceApplication.getReportsMessages()
+		dateRangeItemCombo.setComboItem(Accounter.getReportsMessages()
 				.all());
 		// dateRangeItem.setDefaultValue(dateRangeArray[0]);
 		// dateRangeItem.addChangedHandler(new ChangeHandler() {
@@ -139,7 +139,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
-		fromItem.setTitle(FinanceApplication.getReportsMessages().from());
+		fromItem.setTitle(Accounter.getReportsMessages().from());
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
@@ -151,7 +151,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// else
 		// toItem.setDate(new Date());
 
-		toItem.setTitle(FinanceApplication.getReportsMessages().to());
+		toItem.setTitle(Accounter.getReportsMessages().to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -164,7 +164,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 			}
 		});
-		updateButton = new AccounterButton(FinanceApplication
+		updateButton = new AccounterButton(Accounter
 				.getReportsMessages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
@@ -176,9 +176,9 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
 						fromItem.getDate(), toItem.getDate());
-				dateRangeItemCombo.setDefaultValue(FinanceApplication
+				dateRangeItemCombo.setDefaultValue(Accounter
 						.getReportsMessages().custom());
-				setSelectedDateRange(FinanceApplication.getReportsMessages()
+				setSelectedDateRange(Accounter.getReportsMessages()
 						.custom());
 			}
 		});
@@ -187,7 +187,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// toItem.setDisabled(true);
 		// updateButton.setEnabled(false);
 
-		AccounterButton printButton = new AccounterButton(FinanceApplication
+		AccounterButton printButton = new AccounterButton(Accounter
 				.getReportsMessages().print());
 		// printButton.setTop(2);
 		// printButton.setWidth(40);

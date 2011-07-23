@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 public class TransactionPayExpense implements Lifecycle {
 
 	long id;
-	public String stringID;
+	public long id;
 
 	/**
 	 * The Expense object which is the cause of PayExpense to be made.
@@ -62,7 +62,7 @@ public class TransactionPayExpense implements Lifecycle {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 

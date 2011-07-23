@@ -4,7 +4,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
 import com.vimukti.accounter.web.client.ui.banking.BankingHomeAction;
 import com.vimukti.accounter.web.client.ui.banking.ChartsOfAccountsAction;
@@ -32,13 +32,13 @@ public class BankingActionFactory extends AbstractActionFactory {
 
 	public static BankingHomeAction getBankingHomeAction() {
 		return new BankingHomeAction(actionsConstants.bankingHome(),
-				FinanceApplication.getFinanceMenuImages().bankingHome()
+				Accounter.getFinanceMenuImages().bankingHome()
 						.getURL());
 	}
 
 	public static NewBankAccountAction getNewBankAccountAction() {
 		return new NewBankAccountAction(actionsConstants.newBankCategory(),
-				FinanceApplication.getFinanceMenuImages().newBankAccount()
+				Accounter.getFinanceMenuImages().newBankAccount()
 						.getURL());
 	}
 
@@ -50,7 +50,7 @@ public class BankingActionFactory extends AbstractActionFactory {
 
 	public static WriteChecksAction getWriteChecksAction() {
 		return new WriteChecksAction(actionsConstants.writeCheck(),
-				FinanceApplication.getFinanceMenuImages().newCheck().getURL());
+				Accounter.getFinanceMenuImages().newCheck().getURL());
 	}
 
 	public static WriteChecksAction getWriteChecksAction(

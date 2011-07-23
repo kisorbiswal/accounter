@@ -45,12 +45,12 @@ public class UserInformationDialog extends AbstractBaseDialog {
 				.create(IAccounterGETService.class);
 
 		((ServiceDefTarget) getService)
-				.setServiceEntryPoint(FinanceApplication.GET_SERVICE_ENTRY_POINT);
+				.setServiceEntryPoint(Accounter.GET_SERVICE_ENTRY_POINT);
 
 		@SuppressWarnings("unused")
 		final AsyncCallback<ClientUser> getUserCallBack = new AsyncCallback<ClientUser>() {
 			public void onFailure(Throwable caught) {
-				Accounter.showInformation(FinanceApplication
+				Accounter.showInformation(Accounter
 						.getFinanceUIConstants().getUserFailed());
 			}
 
@@ -90,7 +90,7 @@ public class UserInformationDialog extends AbstractBaseDialog {
 		};
 		// getService.getUser(emailText.getValue().toString(), getUserCallBack);
 		if (emailText.getValue() == null) {
-			UIUtils.say(FinanceApplication.getFinanceUIConstants()
+			UIUtils.say(Accounter.getFinanceUIConstants()
 					.pleaseEnterUserEmail());
 		} else {
 			// getService
@@ -105,7 +105,7 @@ public class UserInformationDialog extends AbstractBaseDialog {
 				.create(IAccounterCRUDService.class);
 
 		((ServiceDefTarget) crudService)
-				.setServiceEntryPoint(FinanceApplication.CRUD_SERVICE_ENTRY_POINT);
+				.setServiceEntryPoint(Accounter.CRUD_SERVICE_ENTRY_POINT);
 
 		final AsyncCallback<String> createUserCallback = new AsyncCallback<String>() {
 			public void onFailure(Throwable caught) {
@@ -186,40 +186,40 @@ public class UserInformationDialog extends AbstractBaseDialog {
 	}
 
 	private void createControls() {
-		fullName = new TextItem(FinanceApplication.getFinanceUIConstants()
+		fullName = new TextItem(Accounter.getFinanceUIConstants()
 				.fullName());
-		emailText = new EmailField(FinanceApplication.getFinanceUIConstants()
+		emailText = new EmailField(Accounter.getFinanceUIConstants()
 				.email());
-		legalName = new TextItem(FinanceApplication.getFinanceUIConstants()
+		legalName = new TextItem(Accounter.getFinanceUIConstants()
 				.legalName());
 
 		lastLogin = new DateItem();
-		lastLogin.setName(FinanceApplication.getFinanceUIConstants()
+		lastLogin.setName(Accounter.getFinanceUIConstants()
 				.lastLogin());
 		// lastLogin.setUseTextField(true);
 
 		createDate = new DateItem();
-		createDate.setName(FinanceApplication.getFinanceUIConstants()
+		createDate.setName(Accounter.getFinanceUIConstants()
 				.createDate());
 		// createDate.setUseTextField(true);
 
-		street1Text = new TextItem(FinanceApplication.getFinanceUIConstants()
+		street1Text = new TextItem(Accounter.getFinanceUIConstants()
 				.streetAddress1());
-		street2Text = new TextItem(FinanceApplication.getFinanceUIConstants()
+		street2Text = new TextItem(Accounter.getFinanceUIConstants()
 				.streetAddress2());
 
-		cityText = new TextItem(FinanceApplication.getFinanceUIConstants()
+		cityText = new TextItem(Accounter.getFinanceUIConstants()
 				.city());
-		stateText = new TextItem(FinanceApplication.getFinanceUIConstants()
+		stateText = new TextItem(Accounter.getFinanceUIConstants()
 				.state());
-		zipText = new TextItem(FinanceApplication.getFinanceUIConstants()
+		zipText = new TextItem(Accounter.getFinanceUIConstants()
 				.postalCode());
-		phoneText = new IntegerField(FinanceApplication.getFinanceUIConstants()
+		phoneText = new IntegerField(Accounter.getFinanceUIConstants()
 				.phone());
 
-		faxText = new TextItem(FinanceApplication.getFinanceUIConstants().fax());
+		faxText = new TextItem(Accounter.getFinanceUIConstants().fax());
 
-		websiteText = new TextItem(FinanceApplication.getFinanceUIConstants()
+		websiteText = new TextItem(Accounter.getFinanceUIConstants()
 				.website());
 
 		userForm = new DynamicForm();
@@ -232,13 +232,13 @@ public class UserInformationDialog extends AbstractBaseDialog {
 				street1Text, street2Text, cityText, stateText, zipText,
 				phoneText, faxText, legalName, websiteText);
 
-		AccounterButton createUser = new AccounterButton(FinanceApplication
+		AccounterButton createUser = new AccounterButton(Accounter
 				.getFinanceUIConstants().createUser());
-		AccounterButton getUser = new AccounterButton(FinanceApplication
+		AccounterButton getUser = new AccounterButton(Accounter
 				.getFinanceUIConstants().getUser());
 		// createUser.setAlign(Alignment.LEFT);
 
-		AccounterButton canButt = new AccounterButton(FinanceApplication
+		AccounterButton canButt = new AccounterButton(Accounter
 				.getFinanceUIConstants().close());
 		// canButt.setAlign(Alignment.RIGHT);
 
@@ -273,8 +273,8 @@ public class UserInformationDialog extends AbstractBaseDialog {
 		vLay.setSize("100%", "100%");
 		vLay.add(userForm);
 		vLay.add(buttHLay);
-		vLay.setTitle(FinanceApplication.getFinanceUIConstants().userDialog());
-		vLay.addStyleName(FinanceApplication.getFinanceUIConstants()
+		vLay.setTitle(Accounter.getFinanceUIConstants().userDialog());
+		vLay.addStyleName(Accounter.getFinanceUIConstants()
 				.userDialog());
 
 		setSize("600", "430");

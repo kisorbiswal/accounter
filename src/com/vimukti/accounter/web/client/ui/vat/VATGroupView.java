@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -60,18 +60,18 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 
 	private void createControls() {
 
-		Label infoLabel = new Label(FinanceApplication.getVATMessages()
+		Label infoLabel = new Label(Accounter.getVATMessages()
 				.newVATGroup());
-		infoLabel.setStyleName(FinanceApplication.getCustomersMessages()
+		infoLabel.setStyleName(Accounter.getCustomersMessages()
 				.lableTitle());
 
 		listforms = new ArrayList<DynamicForm>();
 
-		groupName = new TextItem(FinanceApplication.getVATMessages()
+		groupName = new TextItem(Accounter.getVATMessages()
 				.groupNameOrNumber());
 		groupName.setRequired(true);
 
-		desc = new TextItem(FinanceApplication.getVATMessages().description());
+		desc = new TextItem(Accounter.getVATMessages().description());
 
 		groupName.addBlurHandler(new BlurHandler() {
 
@@ -82,7 +82,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 			}
 		});
 
-		salesTypeRadio = new RadioGroupItem(FinanceApplication.getVATMessages()
+		salesTypeRadio = new RadioGroupItem(Accounter.getVATMessages()
 				.groupType());
 		salesTypeRadio.addClickHandler(new ClickHandler() {
 
@@ -91,29 +91,29 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 				gridView.filterVATItems(salesTypeRadio.getValue());
 			}
 		});
-		salesTypeRadio.setValueMap(FinanceApplication.getVATMessages()
-				.salesType(), FinanceApplication.getVATMessages()
+		salesTypeRadio.setValueMap(Accounter.getVATMessages()
+				.salesType(), Accounter.getVATMessages()
 				.purchaseType());
 		if (takenVatGroup != null) {
 			if (takenVatGroup.isSalesType())
-				salesTypeRadio.setDefaultValue(FinanceApplication
+				salesTypeRadio.setDefaultValue(Accounter
 						.getVATMessages().salesType());
 			else
-				salesTypeRadio.setDefaultValue(FinanceApplication
+				salesTypeRadio.setDefaultValue(Accounter
 						.getVATMessages().purchaseType());
 		} else
-			salesTypeRadio.setDefaultValue(FinanceApplication.getVATMessages()
+			salesTypeRadio.setDefaultValue(Accounter.getVATMessages()
 					.salesType());
-		checkbox = new CheckboxItem(FinanceApplication.getVATMessages()
+		checkbox = new CheckboxItem(Accounter.getVATMessages()
 				.itemIsActive());
 		checkbox.setValue(true);
 
 		form = new DynamicForm();
 		form.setFields(groupName, desc, salesTypeRadio, checkbox);
 
-		HTML label = new HTML(FinanceApplication.getVATMessages()
+		HTML label = new HTML(Accounter.getVATMessages()
 				.enterEachIndividualVAT());
-		AccounterButton addButton = new AccounterButton(FinanceApplication
+		AccounterButton addButton = new AccounterButton(Accounter
 				.getVATMessages().add());
 		addButton.addClickHandler(new ClickHandler() {
 
@@ -212,7 +212,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		MainFinanceWindow.getViewManager().showError(
-				FinanceApplication.getVATMessages()
+				Accounter.getVATMessages()
 						.duplicationOfVATGroupIsNotAllowed());
 	}
 
@@ -241,11 +241,11 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 		case 4:
 			String name = groupName.getValue().toString();
 			if (((takenVatGroup == null && Utility.isObjectExist(
-					FinanceApplication.getCompany().getVatGroups(), name)) ? false
+					Accounter.getCompany().getVatGroups(), name)) ? false
 					: true)
 					|| (takenVatGroup != null ? (takenVatGroup.getName()
 							.equalsIgnoreCase(name) ? true : (Utility
-							.isObjectExist(FinanceApplication.getCompany()
+							.isObjectExist(Accounter.getCompany()
 									.getVatGroups(), name) ? false : true))
 							: true)) {
 				return true;
@@ -321,6 +321,6 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().newvatGroup();
+		return Accounter.getActionsConstants().newvatGroup();
 	}
 }

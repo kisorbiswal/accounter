@@ -33,7 +33,7 @@ public class FinanceDashboard extends BaseHomeView {
 
 	public FinanceDashboard() {
 		dashboard = this;
-		dashboardPreference = FinanceApplication.getCompanyMessages()
+		dashboardPreference = Accounter.getCompanyMessages()
 				.WELCOMEBANKINGSUMMARY();
 		/*
 		 * FinanceApplication.getUser().getUserPreferences()
@@ -209,13 +209,13 @@ public class FinanceDashboard extends BaseHomeView {
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
 		String[] totalWidget = {
-				FinanceApplication.getFinanceUIConstants().welcome(),
-				FinanceApplication.getFinanceUIConstants().bankingSummary(),
-				FinanceApplication.getFinanceUIConstants().profitAndLoss(),
-				FinanceApplication.getFinanceUIConstants().creditOverview(),
-				FinanceApplication.getFinanceUIConstants().debitOverview(),
-				FinanceApplication.getFinanceUIConstants().latestQuote(),
-				FinanceApplication.getFinanceUIConstants().expenses() };
+				Accounter.getFinanceUIConstants().welcome(),
+				Accounter.getFinanceUIConstants().bankingSummary(),
+				Accounter.getFinanceUIConstants().profitAndLoss(),
+				Accounter.getFinanceUIConstants().creditOverview(),
+				Accounter.getFinanceUIConstants().debitOverview(),
+				Accounter.getFinanceUIConstants().latestQuote(),
+				Accounter.getFinanceUIConstants().expenses() };
 
 		boolean isAvailable = false;
 

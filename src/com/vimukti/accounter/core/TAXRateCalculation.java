@@ -30,7 +30,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	 */
 	private static final long serialVersionUID = 9008613714032328895L;
 	long id;
-	public String stringID;
+	public long id;
 	boolean isVATGroupEntry;
 	double vatAmount;
 	double lineTotal;
@@ -83,7 +83,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 			this.lineTotal = (!transactionItem.transaction.isBecameVoid())
 					? transactionItem.getLineTotal()
 					: -transactionItem.getLineTotal();
-		this.stringID = stringId;
+		this.id=id;
 		
 		if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {			
 			vatValue = Math.abs(this.getCeilValueofTAX());			
@@ -137,14 +137,14 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
 	/**
 	 * @return the stringID
 	 */
-	public String getStringID() {
+	public long getID(){
 		return stringID;
 	}
 
@@ -152,8 +152,8 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	 * @param stringID
 	 *            the stringID to set
 	 */
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	/**

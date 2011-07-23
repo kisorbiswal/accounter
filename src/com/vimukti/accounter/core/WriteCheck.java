@@ -105,7 +105,7 @@ public class WriteCheck extends Transaction implements Lifecycle {
 	 *            the id to set
 	 */
 	@Override
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 

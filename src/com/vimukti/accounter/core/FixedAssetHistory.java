@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 @SuppressWarnings("serial")
 public class FixedAssetHistory implements IAccounterServerCore, Lifecycle {
 
-	private String stringID;
+	private long id;
 	private long id;
 
 	public static final String ACTION_TYPE_NONE = "NONE";
@@ -39,20 +39,20 @@ public class FixedAssetHistory implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	public long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 

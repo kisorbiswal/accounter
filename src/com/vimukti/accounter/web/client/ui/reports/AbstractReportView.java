@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ISorting;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
@@ -78,13 +78,13 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 	private int companyType;
 
 	public AbstractReportView() {
-		companyType = FinanceApplication.getCompany().getAccountingType();
+		companyType = Accounter.getCompany().getAccountingType();
 		ReportUtility.companyType = companyType;
-		emptyMsg = FinanceApplication.getVendorsMessages().norecordstoshow();
+		emptyMsg = Accounter.getVendorsMessages().norecordstoshow();
 	}
 
 	public AbstractReportView(boolean showGridFooter, String emptyMsg) {
-		companyType = FinanceApplication.getCompany().getAccountingType();
+		companyType = Accounter.getCompany().getAccountingType();
 		ReportUtility.companyType = companyType;
 		this.emptyMsg = emptyMsg;
 	}
@@ -260,9 +260,9 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 		topLayout = new VerticalPanel();
 		topLayout.setSize("100%", "10%");
 
-		String cmpyname = FinanceApplication.getCompany().getName();
+		String cmpyname = Accounter.getCompany().getName();
 		cmpyname = cmpyname != null && !cmpyname.isEmpty() ? cmpyname
-				: FinanceApplication.getCompany().getTradingName();
+				: Accounter.getCompany().getTradingName();
 
 		@SuppressWarnings("unused")
 		HTML companyLabel = new HTML("<strong>" + cmpyname + "</strong");
@@ -327,9 +327,9 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 		topLayout = new VerticalPanel();
 		topLayout.setSize("100%", "10%");
 
-		String cmpyname = FinanceApplication.getCompany().getName();
+		String cmpyname = Accounter.getCompany().getName();
 		cmpyname = cmpyname != null && !cmpyname.isEmpty() ? cmpyname
-				: FinanceApplication.getCompany().getTradingName();
+				: Accounter.getCompany().getTradingName();
 
 		@SuppressWarnings("unused")
 		HTML companyLabel = new HTML("<strong>" + cmpyname + "</strong");
@@ -398,7 +398,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 		if (data != null) {
 			String dateRange = null;
 			dateRange = getPreviousReportDateRange(data);
-			if (dateRange.equals(FinanceApplication.getReportsMessages()
+			if (dateRange.equals(Accounter.getReportsMessages()
 					.custom())) {
 				toolbar.setStartAndEndDates(getPreviousReportStartDate(data),
 						getPreviousReportEndDate(data));
@@ -813,7 +813,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 
 	@Override
 	public void setCompanyType(int type) {
-		this.serverReport.setCompanyType(FinanceApplication.getCompany()
+		this.serverReport.setCompanyType(Accounter.getCompany()
 				.getAccountingType());
 	}
 }

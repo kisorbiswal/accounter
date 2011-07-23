@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
@@ -41,10 +41,10 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 			return DataUtils.getAmountAsString(bills.getBalance());
 		case 6:
 			if (!bills.isVoided())
-				return FinanceApplication.getFinanceImages().notvoid();
+				return Accounter.getFinanceImages().notvoid();
 			// return "/images/not-void.png";
 			else
-				return FinanceApplication.getFinanceImages().voided();
+				return Accounter.getFinanceImages().voided();
 			// return "/images/voided.png";
 			// case 7:
 			// if (bills.isDeleted())
@@ -74,8 +74,8 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 				vendorConstants.type(),
 				vendorConstants.Date(),
 				vendorConstants.no(),
-				UIUtils.getVendorString(FinanceApplication.getVendorsMessages()
-						.supplieRName(), FinanceApplication
+				UIUtils.getVendorString(Accounter.getVendorsMessages()
+						.supplieRName(), Accounter
 						.getVendorsMessages().vendorName()),
 				vendorConstants.originalAmount(), vendorConstants.balance(),
 				vendorConstants.IsVoid()
@@ -85,7 +85,7 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	public void onDoubleClick(BillsList bills) {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			ReportsRPC.openTransactionView(bills.getType(), bills
 					.getTransactionId());
 
@@ -108,7 +108,7 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected void onClick(BillsList obj, int row, int col) {
-		if (!FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
 		if (col == 6 && !obj.isVoided()) {
 			

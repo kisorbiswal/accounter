@@ -93,7 +93,7 @@ public class CreditCardChargeView extends
 		super.setData(data);
 		if (isEdit && (!transactionObject.isCreditCardCharge()))
 			try {
-				throw new Exception(FinanceApplication.getFinanceUIConstants()
+				throw new Exception(Accounter.getFinanceUIConstants()
 						.UnableToLoadRequiredCreditCardCharge());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -144,7 +144,7 @@ public class CreditCardChargeView extends
 			// creditCardChargeTaken.getVendor());
 			if (creditCardChargeTaken.getContact() != null)
 				contactNameSelect.setSelected(creditCardChargeTaken
-						.getContact().getStringID());
+						.getContact().getID());
 			if (creditCardChargeTaken.getPhone() != null)
 				// FIXME check and fix the below code
 				phoneSelect.setValue(creditCardChargeTaken.getPhone());
@@ -160,7 +160,7 @@ public class CreditCardChargeView extends
 		}
 
 		contactNameSelect.setSelected(String.valueOf(primaryContact
-				.getStringID()));
+				.getID()));
 		phoneSelect.setValue(primaryContact.getBusinessPhone());
 
 		// for (Address toBeShown : allAddress) {
@@ -191,7 +191,7 @@ public class CreditCardChargeView extends
 	}
 
 	private void addVendorsList() {
-		List<ClientVendor> result = FinanceApplication.getCompany()
+		List<ClientVendor> result = Accounter.getCompany()
 				.getActiveVendors();
 		if (result != null) {
 			initVendorsList(result);
@@ -203,7 +203,7 @@ public class CreditCardChargeView extends
 		// First identify existing selected vendor
 		for (ClientVendor vendor : result) {
 			if (creditCardChargeTaken != null)
-				if (vendor.getStringID().equalsIgnoreCase(
+				if (vendor.getID().equalsIgnoreCase(
 						creditCardChargeTaken.getVendor())) {
 					selectedVendor = vendor;
 				}
@@ -219,7 +219,7 @@ public class CreditCardChargeView extends
 
 	public ClientContact getContactBasedOnId(String Id) {
 		for (ClientContact cont : selectedVendor.getContacts()) {
-			if (String.valueOf(cont.getStringID()).equalsIgnoreCase(Id))
+			if (String.valueOf(cont.getID()).equalsIgnoreCase(Id))
 				return cont;
 
 		}
@@ -307,7 +307,7 @@ public class CreditCardChargeView extends
 		if (creditCardChargeTaken.getPayFrom() != null
 				&& creditCardChargeTaken.getPayFrom().length() != 0)
 			payFromAccountSelected(creditCardChargeTaken.getPayFrom());
-		payFrmSelect.setComboItem(FinanceApplication.getCompany().getAccount(
+		payFrmSelect.setComboItem(Accounter.getCompany().getAccount(
 				payFromAccount));
 		payFrmSelect.setDisabled(isEdit);
 		cheqNoText.setDisabled(true);
@@ -327,7 +327,7 @@ public class CreditCardChargeView extends
 		addressList = null;
 		// billToCombo.setDisabled(isEdit);
 		paymentMethod = UIUtils
-				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
+				.getpaymentMethodCheckBy_CompanyType(Accounter
 						.getCustomersMessages().check());
 		payFromAccount = "";
 		// phoneSelect.setValueMap("");
@@ -339,10 +339,10 @@ public class CreditCardChargeView extends
 
 	@Override
 	protected void createControls() {
-		titlelabel = new Label(FinanceApplication.getFinanceUIConstants()
+		titlelabel = new Label(Accounter.getFinanceUIConstants()
 				.creditCardCharge());
 		titlelabel.removeStyleName("gwt-Label");
-		titlelabel.addStyleName(FinanceApplication.getFinanceUIConstants()
+		titlelabel.addStyleName(Accounter.getFinanceUIConstants()
 				.lableTitle());
 		// titlelabel.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
@@ -369,8 +369,8 @@ public class CreditCardChargeView extends
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
 
 		vendorNameSelect = new VendorCombo(UIUtils.getVendorString(
-				FinanceApplication.getVendorsMessages().supplierName(),
-				FinanceApplication.getVendorsMessages().vendorName()));
+				Accounter.getVendorsMessages().supplierName(),
+				Accounter.getVendorsMessages().vendorName()));
 		vendorNameSelect.setHelpInformation(true);
 		vendorNameSelect.setWidth(100);
 		vendorNameSelect.setRequired(true);
@@ -398,7 +398,7 @@ public class CreditCardChargeView extends
 		// contactNameSelect.setWidth(100);
 		formItems.add(contactNameSelect);
 		// billToCombo = createBillToComboItem();
-		billToAreaItem = new TextAreaItem(FinanceApplication
+		billToAreaItem = new TextAreaItem(Accounter
 				.getVendorsMessages().billTo());
 		billToAreaItem.setWidth(100);
 		billToAreaItem.setDisabled(true);
@@ -419,24 +419,24 @@ public class CreditCardChargeView extends
 		forms.add(vendorForm);
 
 		payMethSelect = createPaymentMethodSelectItem();
-		payMethSelect.setTitle(FinanceApplication.getFinanceUIConstants()
+		payMethSelect.setTitle(Accounter.getFinanceUIConstants()
 				.paymentMethod());
 		payMethSelect.setWidth(90);
 		payMethSelect.setComboItem(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
+				.getpaymentMethodCheckBy_CompanyType(Accounter
 						.getCustomersMessages().check()));
 
 		payFrmSelect = createPayFromselectItem();
 		payFrmSelect.setWidth(90);
 		payFrmSelect.setPopupWidth("510px");
-		payFrmSelect.setTitle(FinanceApplication.getFinanceUIConstants()
+		payFrmSelect.setTitle(Accounter.getFinanceUIConstants()
 				.payFrom());
 		payFromAccount = "";
 		payFrmSelect.setColSpan(0);
 		formItems.add(payFrmSelect);
 
 		cheqNoText = new TextItem(
-				FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? bankingConstants
+				Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? bankingConstants
 						.chequeNo()
 						: bankingConstants.checkNo());
 		cheqNoText.setHelpInformation(true);
@@ -454,7 +454,7 @@ public class CreditCardChargeView extends
 		termsForm.setWidth("100%");
 		termsForm.setFields(payMethSelect, payFrmSelect, cheqNoText, delivDate);
 		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getCustomersMessages().width(), "203px");
+				Accounter.getCustomersMessages().width(), "203px");
 		forms.add(termsForm);
 
 		Label lab2 = new Label("Items and expenses");
@@ -462,7 +462,7 @@ public class CreditCardChargeView extends
 		AccounterButton addButton = createAddNewButton();// new
 		// Button(FinanceApplication
 
-		netAmount = new AmountLabel(FinanceApplication.getBankingsMessages()
+		netAmount = new AmountLabel(Accounter.getBankingsMessages()
 				.netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
@@ -471,7 +471,7 @@ public class CreditCardChargeView extends
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
-		vatinclusiveCheck = new CheckboxItem(FinanceApplication
+		vatinclusiveCheck = new CheckboxItem(Accounter
 				.getBankingsMessages().amountincludesVat());
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
@@ -525,7 +525,7 @@ public class CreditCardChargeView extends
 		panel.add(createAddNewButton());
 		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
 			VerticalPanel vPanel = new VerticalPanel();
@@ -623,7 +623,7 @@ public class CreditCardChargeView extends
 
 		if (transactionObject != null) {
 			ClientCreditCardCharge creditCardCharge = (ClientCreditCardCharge) transactionObject;
-			payFrmSelect.setComboItem(FinanceApplication.getCompany()
+			payFrmSelect.setComboItem(Accounter.getCompany()
 					.getAccount(creditCardCharge.getPayFrom()));
 		}
 	}
@@ -669,7 +669,7 @@ public class CreditCardChargeView extends
 		if (selectedVendor != null) {
 
 			// setting vendor
-			creditCardCharge.setVendor(selectedVendor.getStringID());
+			creditCardCharge.setVendor(selectedVendor.getID());
 
 			// setting contact
 			if (contact != null) {
@@ -698,11 +698,11 @@ public class CreditCardChargeView extends
 		creditCardCharge.setPaymentMethod(paymentMethod);
 
 		// Setting pay from
-		payFromAccount = payFrmSelect.getSelectedValue().getStringID();
+		payFromAccount = payFrmSelect.getSelectedValue().getID();
 		if (payFromAccount != null && payFromAccount.length() != 0) {
 
-			creditCardCharge.setPayFrom(FinanceApplication.getCompany()
-					.getAccount(payFromAccount).getStringID());
+			creditCardCharge.setPayFrom(Accounter.getCompany()
+					.getAccount(payFromAccount).getID());
 		}
 
 		// setting check no
@@ -734,7 +734,7 @@ public class CreditCardChargeView extends
 	}
 
 	public void createAlterObject() {
-		if (transactionObject.getStringID() != null)
+		if (transactionObject.getID() != null)
 			alterObject((ClientCreditCardCharge) transactionObject);
 		else
 			createObject((ClientCreditCardCharge) transactionObject);
@@ -744,7 +744,7 @@ public class CreditCardChargeView extends
 	@Override
 	public void updateNonEditableItems() {
 
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			transactionTotalNonEditableText.setAmount(vendorTransactionGrid
 					.getTotal());
 			netAmount.setAmount(vendorTransactionGrid.getGrandTotal());
@@ -865,9 +865,9 @@ public class CreditCardChargeView extends
 		transactionDateItem.setDisabled(isEdit);
 		transactionNumber.setDisabled(isEdit);
 		payMethSelect.setDisabled(isEdit);
-		if (paymentMethod.equals(FinanceApplication.getVendorsMessages()
+		if (paymentMethod.equals(Accounter.getVendorsMessages()
 				.check())
-				|| paymentMethod.equals(FinanceApplication.getVendorsMessages()
+				|| paymentMethod.equals(Accounter.getVendorsMessages()
 						.cheque())) {
 			cheqNoText.setDisabled(isEdit);
 		} else {

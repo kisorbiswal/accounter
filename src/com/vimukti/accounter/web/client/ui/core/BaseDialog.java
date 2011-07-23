@@ -19,7 +19,7 @@ import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.externalization.FinanceConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
 import com.vimukti.accounter.web.client.ui.vat.VATMessages;
 
@@ -83,21 +83,21 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 		} catch (Exception e) {
 
 			// SC.logWarn(e.getMessage());
-			Accounter.showError(FinanceApplication.getFinanceUIConstants()
+			Accounter.showError(Accounter.getFinanceUIConstants()
 					.failedToInitializeCompanyConstants());
 
 		}
 	}
 
 	protected void initRPCService() {
-		this.rpcGetService = FinanceApplication.createGETService();
-		this.rpcDoSerivce = FinanceApplication.createCRUDService();
-		this.rpcUtilService = FinanceApplication.createHomeService();
+		this.rpcGetService = Accounter.createGETService();
+		this.rpcDoSerivce = Accounter.createCRUDService();
+		this.rpcUtilService = Accounter.createHomeService();
 	}
 
 	protected void initCompany() {
 
-		this.company = FinanceApplication.getCompany();
+		this.company = Accounter.getCompany();
 
 	}
 

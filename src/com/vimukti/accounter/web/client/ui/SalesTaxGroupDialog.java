@@ -72,7 +72,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 	// getting all Tax Codes from Company Object & converting these to temporary
 	// TaxCodeInternal object for inserting data in Grid...
 	public List<ClientTAXItem> getAllTaxItem() {
-		List<ClientTAXItem> savedTaxItems = FinanceApplication.getCompany()
+		List<ClientTAXItem> savedTaxItems = Accounter.getCompany()
 				.getActiveTaxItems();
 
 		return savedTaxItems;
@@ -86,7 +86,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		for (ClientTAXItem codeInternal : getAllTaxItem()) {
 			if (tempAvailTaxItemList != null)
 				for (ClientTAXItem internal : tempAvailTaxItemList) {
-					if (codeInternal.getStringID() == internal.getStringID()) {
+					if (codeInternal.getID() == internal.getID()) {
 						isFound = true;
 						break;
 					} else
@@ -112,8 +112,8 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 	private void setAvailTaxItemsGridFields() {
 		availTaxItemsGrid.addColumns(new String[] {
-				FinanceApplication.getFinanceUIConstants().Name(),
-				FinanceApplication.getFinanceUIConstants().currentRate() });
+				Accounter.getFinanceUIConstants().Name(),
+				Accounter.getFinanceUIConstants().currentRate() });
 	}
 
 	public void setAvalableTCGridCellWidths() {
@@ -122,8 +122,8 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 	private void setSelectedTaxItemsGridFields() {
 		selectTaxItemsGrid.addColumns(new String[] {
-				FinanceApplication.getFinanceUIConstants().Name(),
-				FinanceApplication.getFinanceUIConstants().currentRate() });
+				Accounter.getFinanceUIConstants().Name(),
+				Accounter.getFinanceUIConstants().currentRate() });
 
 	}
 
@@ -161,7 +161,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 	public List<ClientTAXGroup> getAvailableRecords() {
 
-		return FinanceApplication.getCompany().getTaxGroups();
+		return Accounter.getCompany().getTaxGroups();
 	}
 
 	private void createControls(final ClientTAXGroup taxGroup) {
@@ -173,7 +173,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		form1 = new DynamicForm();
 		// form1.setHeight("100px");
 		taxGroupText = new TextItem();
-		taxGroupText.setTitle(FinanceApplication.getFinanceUIConstants()
+		taxGroupText.setTitle(Accounter.getFinanceUIConstants()
 				.selectedTaxGroupItem());
 		taxGroupText.setRequired(true);
 
@@ -191,7 +191,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		availTaxItemsGrid = new DialogGrid(false);
 		// availTaxCodesGrid.setCellsWidth(cellsWidth)
 
-		availTaxItemsGrid.setName(FinanceApplication.getFinanceUIConstants()
+		availTaxItemsGrid.setName(Accounter.getFinanceUIConstants()
 				.available());
 		setAvailTaxItemsGridFields();
 		setAvalableTCGridCellWidths();
@@ -215,7 +215,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		buttonsLayout.setSpacing(3);
 		// buttonsLayout.setMembersMargin(10);
 		// buttonsLayout.setLayoutMargin(10);
-		AccounterButton addButton = new AccounterButton(FinanceApplication
+		AccounterButton addButton = new AccounterButton(Accounter
 				.getVATMessages().Add());
 		addButton.setWidth("80px");
 		addButton.addClickHandler(new ClickHandler() {
@@ -233,7 +233,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 				} else {
 
-					UIUtils.say(FinanceApplication.getFinanceUIConstants()
+					UIUtils.say(Accounter.getFinanceUIConstants()
 							.selectTaxItemFromAvailableListofTaxItems());
 					new Exception();
 				}
@@ -241,7 +241,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 			}
 		});
 
-		AccounterButton removeButton = new AccounterButton(FinanceApplication
+		AccounterButton removeButton = new AccounterButton(Accounter
 				.getFinanceUIConstants().remove());
 		removeButton.setWidth("80px");
 		removeButton.addClickHandler(new ClickHandler() {
@@ -256,7 +256,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 						tempAvailTaxItemList.add(gridRecord);
 				} else {
 
-					Accounter.showError(FinanceApplication
+					Accounter.showError(Accounter
 							.getFinanceUIConstants()
 							.selectTaxItemFromSelectedListofTaxItems());
 					new Exception();
@@ -273,7 +273,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		// DynamicForm selectForm = new DynamicForm();
 
 		selectTaxItemsGrid = new DialogGrid(false);
-		selectTaxItemsGrid.setName(FinanceApplication.getFinanceUIConstants()
+		selectTaxItemsGrid.setName(Accounter.getFinanceUIConstants()
 				.selected());
 		setSelectedTaxItemsGridFields();
 		setSelectedTCGridCellWidths();
@@ -358,7 +358,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().salesTaxGroup();
+		return Accounter.getActionsConstants().salesTaxGroup();
 	}
 
 	// @Override

@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -269,7 +269,7 @@ public class ConversionDateView extends AbstractBaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getSettingsMessages().conversionDate();
+		return Accounter.getSettingsMessages().conversionDate();
 	}
 
 }

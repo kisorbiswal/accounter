@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.banking;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.MakeDepositView;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -19,13 +19,13 @@ public class MakeDepositAction extends Action {
 
 	public MakeDepositAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getBankingsMessages().banking();
+		this.catagory = Accounter.getBankingsMessages().banking();
 	}
 
 	public MakeDepositAction(String text, String iconString,
 			ClientMakeDeposit makeDeposit, AsyncCallback<Object> callback) {
 		super(text, iconString, makeDeposit, callback);
-		this.catagory = FinanceApplication.getBankingsMessages().banking();
+		this.catagory = Accounter.getBankingsMessages().banking();
 
 	}
 
@@ -68,7 +68,7 @@ public class MakeDepositAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().makeDeposit();
+		return Accounter.getFinanceMenuImages().makeDeposit();
 	}
 	@Override
 	public String getImageUrl() {

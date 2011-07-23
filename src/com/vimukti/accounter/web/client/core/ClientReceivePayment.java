@@ -7,7 +7,7 @@ public class ClientReceivePayment extends ClientTransaction {
 
 	public static final int TYPE_CUSTOMER_PAYMENT = 2;
 
-	String customer;
+	long customer;
 
 	ClientAddress address;
 
@@ -15,7 +15,7 @@ public class ClientReceivePayment extends ClientTransaction {
 
 	double customerBalance = 0D;
 
-	String depositIn;
+	long depositIn;
 
 	double unUsedCredits = 0D;
 
@@ -25,11 +25,11 @@ public class ClientReceivePayment extends ClientTransaction {
 
 	double totalWriteOff = 0D;
 
-	String accountsReceivable;
+	long accountsReceivable;
 
 	double totalAppliedCredits = 0D;
 
-	String creditsAndPayments;
+	long creditsAndPayments;
 
 	int receivePaymentType;
 
@@ -84,7 +84,7 @@ public class ClientReceivePayment extends ClientTransaction {
 	/**
 	 * @return the customer
 	 */
-	public String getCustomer() {
+	public long getCustomer() {
 		return this.customer;
 	}
 
@@ -92,7 +92,7 @@ public class ClientReceivePayment extends ClientTransaction {
 	 * @param customer
 	 *            the customer to set
 	 */
-	public void setCustomer(String customer) {
+	public void setCustomer(long customer) {
 		this.customer = customer;
 	}
 
@@ -114,7 +114,7 @@ public class ClientReceivePayment extends ClientTransaction {
 	/**
 	 * @return the depositIn
 	 */
-	public String getDepositIn() {
+	public long getDepositIn() {
 		return this.depositIn;
 	}
 
@@ -122,7 +122,7 @@ public class ClientReceivePayment extends ClientTransaction {
 	 * @param depositIn
 	 *            the depositIn to set
 	 */
-	public void setDepositIn(String depositIn) {
+	public void setDepositIn(long depositIn) {
 		this.depositIn = depositIn;
 	}
 
@@ -175,7 +175,7 @@ public class ClientReceivePayment extends ClientTransaction {
 	/**
 	 * @return the accountsReceivable
 	 */
-	public String getAccountsReceivable() {
+	public long getAccountsReceivable() {
 		return accountsReceivable;
 	}
 
@@ -183,7 +183,7 @@ public class ClientReceivePayment extends ClientTransaction {
 	 * @param accountsReceivable
 	 *            the accountsReceivable to set
 	 */
-	public void setAccountsReceivable(String accountsReceivable) {
+	public void setAccountsReceivable(long accountsReceivable) {
 		this.accountsReceivable = accountsReceivable;
 	}
 
@@ -213,13 +213,13 @@ public class ClientReceivePayment extends ClientTransaction {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 
@@ -262,7 +262,7 @@ public class ClientReceivePayment extends ClientTransaction {
 	}
 
 	public void setCustomer(ClientCustomer customer) {
-		this.customer = customer.getStringID();
+		this.customer = customer.getID();
 
 	}
 
@@ -272,7 +272,7 @@ public class ClientReceivePayment extends ClientTransaction {
 	}
 
 	public void setDepositIn(ClientAccount depositInAccount) {
-		this.depositIn = depositInAccount.getStringID();
+		this.depositIn = depositInAccount.getID();
 	}
 
 	public void setToBePrinted(Boolean isToBePrinted) {

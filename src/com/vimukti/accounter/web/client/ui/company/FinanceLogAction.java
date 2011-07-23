@@ -4,7 +4,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.FinanceLogView;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -22,7 +22,7 @@ public class FinanceLogAction extends Action {
 
 	public FinanceLogAction(String text) {
 		super(text);
-		catagory = FinanceApplication.getVendorsMessages().help();
+		catagory = Accounter.getVendorsMessages().help();
 	}
 
 	@Override

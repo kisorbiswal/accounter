@@ -271,7 +271,7 @@ public interface IAccounterGETService extends RemoteService {
 
 	public ClientCompany getCompany(String identityID) throws InvalidSessionException;
 
-	String getStringID();
+	String getID();
 
 	KeyFinancialIndicators getKeyFinancialIndicators();
 

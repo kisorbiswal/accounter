@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 public class UncategorisedAmountsReport extends BaseReport implements
 		IsSerializable, Serializable {
 
-	String stringId;
+	long id;
 
 	int transactionType;
 
@@ -29,7 +29,7 @@ public class UncategorisedAmountsReport extends BaseReport implements
 	/**
 	 * @return the stringId
 	 */
-	public String getStringId() {
+	public long getID(){
 		return stringId;
 	}
 
@@ -37,8 +37,8 @@ public class UncategorisedAmountsReport extends BaseReport implements
 	 * @param stringId
 	 *            the stringId to set
 	 */
-	public void setStringId(String stringId) {
-		this.stringId = stringId;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	/**

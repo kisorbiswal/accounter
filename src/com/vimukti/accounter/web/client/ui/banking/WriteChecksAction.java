@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.banking;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -14,13 +14,13 @@ public class WriteChecksAction extends Action {
 
 	public WriteChecksAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getBankingsMessages().banking();
+		this.catagory = Accounter.getBankingsMessages().banking();
 	}
 
 	public WriteChecksAction(String text, String iconString,
 			ClientWriteCheck writeCheck, AsyncCallback<Object> callback) {
 		super(text, iconString, writeCheck, callback);
-		this.catagory = FinanceApplication.getBankingsMessages().banking();
+		this.catagory = Accounter.getBankingsMessages().banking();
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class WriteChecksAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().newCheck();
+		return Accounter.getFinanceMenuImages().newCheck();
 	}
 
 	@Override

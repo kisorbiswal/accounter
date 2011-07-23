@@ -21,8 +21,8 @@ public class CreateTaxesDialog extends BaseDialog {
 	int i = 0;
 
 	public CreateTaxesDialog(AbstractBaseView<?> parent) {
-		super(FinanceApplication.getCustomersMessages().createTaxes(), "");
-		setText(FinanceApplication.getCustomersMessages().createTaxes());
+		super(Accounter.getCustomersMessages().createTaxes(), "");
+		setText(Accounter.getCustomersMessages().createTaxes());
 		createControls();
 		center();
 	}
@@ -71,7 +71,7 @@ public class CreateTaxesDialog extends BaseDialog {
 					}
 
 				};
-				FinanceApplication.createHomeService().createTaxes(index,
+				Accounter.createHomeService().createTaxes(index,
 						createTaxesCallback);
 				return true;
 			}
@@ -149,13 +149,13 @@ public class CreateTaxesDialog extends BaseDialog {
 		}
 
 		@Override
-		public String getStringID() {
+		public long getID(){
 			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
-		public void setStringID(String stringID) {
+		public void setID(long id){
 			// TODO Auto-generated method stub
 
 		}
@@ -170,7 +170,7 @@ public class CreateTaxesDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCustomersMessages().createTaxes();
+		return Accounter.getCustomersMessages().createTaxes();
 	}
 
 }

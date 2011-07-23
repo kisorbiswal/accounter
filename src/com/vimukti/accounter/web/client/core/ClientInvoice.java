@@ -7,7 +7,7 @@ import java.util.Set;
 @SuppressWarnings("serial")
 public class ClientInvoice extends ClientTransaction {
 
-	String customer;
+	long customer;
 
 	ClientContact contact;
 
@@ -17,17 +17,17 @@ public class ClientInvoice extends ClientTransaction {
 
 	String phone;
 
-	String salesPerson;
+	long salesPerson;
 
-	String paymentTerm;
+	long paymentTerm;
 
-	String shippingTerm;
+	long shippingTerm;
 
-	String shippingMethod;
+	long shippingMethod;
 
 	double discountTotal;
 
-	String priceLevel;
+	long priceLevel;
 
 	double salesTaxAmount;
 
@@ -37,13 +37,13 @@ public class ClientInvoice extends ClientTransaction {
 
 	boolean isPaid = false;
 
-	String accountsReceivable;
+	long accountsReceivable;
 
 	boolean isEdited = false;
 
-	String estimate;
+	long estimate;
 
-	String salesOrder;
+	long salesOrder;
 
 	String orderNum;
 
@@ -98,7 +98,7 @@ public class ClientInvoice extends ClientTransaction {
 	 * @param customer
 	 *            the customer to set
 	 */
-	public void setCustomer(String customer) {
+	public void setCustomer(long customer) {
 		this.customer = customer;
 	}
 
@@ -136,7 +136,7 @@ public class ClientInvoice extends ClientTransaction {
 	/**
 	 * @return the salesPerson
 	 */
-	public String getSalesPerson() {
+	public long getSalesPerson() {
 		return salesPerson;
 	}
 
@@ -144,7 +144,7 @@ public class ClientInvoice extends ClientTransaction {
 	 * @param salesPerson
 	 *            the salesPerson to set
 	 */
-	public void setSalesPerson(String salesPerson) {
+	public void setSalesPerson(long salesPerson) {
 		this.salesPerson = salesPerson;
 	}
 
@@ -160,7 +160,7 @@ public class ClientInvoice extends ClientTransaction {
 	 * @param paymentTerm
 	 *            the paymentTerm to set
 	 */
-	public void setPaymentTerm(String paymentTerm) {
+	public void setPaymentTerm(long paymentTerm) {
 		this.paymentTerm = paymentTerm;
 	}
 
@@ -168,7 +168,7 @@ public class ClientInvoice extends ClientTransaction {
 	 * @param shippingTerm
 	 *            the shippingTerm to set
 	 */
-	public void setShippingTerm(String shippingTerm) {
+	public void setShippingTerm(long shippingTerm) {
 		this.shippingTerm = shippingTerm;
 	}
 
@@ -176,7 +176,7 @@ public class ClientInvoice extends ClientTransaction {
 	 * @param shippingMethod
 	 *            the shippingMethod to set
 	 */
-	public void setShippingMethod(String shippingMethod) {
+	public void setShippingMethod(long shippingMethod) {
 		this.shippingMethod = shippingMethod;
 	}
 
@@ -184,14 +184,14 @@ public class ClientInvoice extends ClientTransaction {
 	 * @param priceLevel
 	 *            the priceLevel to set
 	 */
-	public void setPriceLevel(String priceLevel) {
+	public void setPriceLevel(long priceLevel) {
 		this.priceLevel = priceLevel;
 	}
 
 	/**
 	 * @return the accountsReceivable
 	 */
-	public String getAccountsReceivable() {
+	public long getAccountsReceivable() {
 		return accountsReceivable;
 	}
 
@@ -199,14 +199,14 @@ public class ClientInvoice extends ClientTransaction {
 	 * @param accountsReceivable
 	 *            the accountsReceivable to set
 	 */
-	public void setAccountsReceivable(String accountsReceivable) {
+	public void setAccountsReceivable(long accountsReceivable) {
 		this.accountsReceivable = accountsReceivable;
 	}
 
 	/**
 	 * @return the estimate
 	 */
-	public String getEstimate() {
+	public long getEstimate() {
 		return estimate;
 	}
 
@@ -214,7 +214,7 @@ public class ClientInvoice extends ClientTransaction {
 	 * @param estimate
 	 *            the estimate to set
 	 */
-	public void setEstimate(String estimate) {
+	public void setEstimate(long estimate) {
 		this.estimate = estimate;
 	}
 
@@ -225,11 +225,11 @@ public class ClientInvoice extends ClientTransaction {
 		return transactionReceivePayments;
 	}
 
-	public String getSalesOrder() {
+	public long getSalesOrder() {
 		return salesOrder;
 	}
 
-	public void setSalesOrder(String salesOrder) {
+	public void setSalesOrder(long salesOrder) {
 		this.salesOrder = salesOrder;
 	}
 
@@ -467,12 +467,12 @@ public class ClientInvoice extends ClientTransaction {
 		return null;
 	}
 
-	public String getPaymentTerm() {
+	public long getPaymentTerm() {
 		// TODO Auto-generated method stub
 		return this.paymentTerm;
 	}
 
-	public String getCustomer() {
+	public long getCustomer() {
 		// TODO Auto-generated method stub
 		return this.customer;
 	}
@@ -482,7 +482,7 @@ public class ClientInvoice extends ClientTransaction {
 		return this.contact;
 	}
 
-	public String getPriceLevel() {
+	public long getPriceLevel() {
 		// TODO Auto-generated method stub
 		return priceLevel;
 	}
@@ -490,11 +490,11 @@ public class ClientInvoice extends ClientTransaction {
 	/**
 	 * @return the shippingTerm
 	 */
-	public String getShippingTerm() {
+	public long getShippingTerm() {
 		return shippingTerm;
 	}
 
-	public String getShippingMethod() {
+	public long getShippingMethod() {
 		return shippingMethod;
 	}
 
@@ -504,13 +504,13 @@ public class ClientInvoice extends ClientTransaction {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

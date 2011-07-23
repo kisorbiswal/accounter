@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.PriorVATReturnsServerReport;
 
@@ -15,7 +15,7 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 	private String vatAgency;
 
 	public PriorVATReturnsReport() {
-		super(false, FinanceApplication.getReportsMessages()
+		super(false, Accounter.getReportsMessages()
 				.pleaseSelectVATAgencyAndEndingDateToViewReport());
 		isVATSummaryReport = true;
 		this.serverReport = new PriorVATReturnsServerReport(this);
@@ -42,7 +42,7 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 		this.row = -1;
 		if (this.serverReport instanceof PriorVATReturnsServerReport)
 			((PriorVATReturnsServerReport) this.serverReport).row = -1;
-		FinanceApplication.createReportService().getPriorReturnVATSummary(
+		Accounter.createReportService().getPriorReturnVATSummary(
 				vatAgency, end.getTime(), this);
 		this.vatAgency = vatAgency;
 	}

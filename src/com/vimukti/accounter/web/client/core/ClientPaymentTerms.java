@@ -11,7 +11,7 @@ public class ClientPaymentTerms implements IAccounterCore {
 
 	int version;
 
-	String stringID;
+	long id;
 
 	String name;
 	String description;
@@ -133,13 +133,13 @@ public class ClientPaymentTerms implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

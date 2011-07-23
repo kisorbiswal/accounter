@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.ExpenseServerReport;
 
@@ -40,7 +40,7 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 	@Override
 	public void makeReportRequest(int status, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		FinanceApplication.createReportService().getExpenseReportByType(status,
+		Accounter.createReportService().getExpenseReportByType(status,
 				startDate.getTime(), endDate.getTime(), this);
 		ExpenseReport.status = status;
 	}

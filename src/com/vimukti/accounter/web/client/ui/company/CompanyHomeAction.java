@@ -4,7 +4,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.ui.DashBoard;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -16,18 +16,18 @@ public class CompanyHomeAction extends Action {
 
 	public CompanyHomeAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	public CompanyHomeAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	public CompanyHomeAction(String text, String iconString,
 			IsSerializable editableObject, AsyncCallback<Object> callbackObject) {
 		super(text, iconString, editableObject, callbackObject);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class CompanyHomeAction extends Action {
 			MainFinanceWindow.getViewManager()
 					.showView(view, null, false, this);
 		} catch (Exception e) {
-			Accounter.showError(FinanceApplication.getCompanyMessages()
+			Accounter.showError(Accounter.getCompanyMessages()
 					.failedToLoadCompanyHome());
 		}
 	}

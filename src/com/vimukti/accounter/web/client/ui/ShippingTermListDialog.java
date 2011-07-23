@@ -79,7 +79,7 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 	}
 
 	public void createShippingTerms() {
-		if (Utility.isObjectExist(FinanceApplication.getCompany()
+		if (Utility.isObjectExist(Accounter.getCompany()
 				.getShippingTerms(), inputDlg.getTextValueByIndex(0))) {
 			Accounter.showError("ShippingTerm  Already Exists");
 		} else {
@@ -113,11 +113,11 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 		String arr[] = new String[2];
 		arr[0] = "Shipping Term";
 		arr[1] = "Description";
-		inputDlg = new InputDialog(FinanceApplication.getCompanyMessages()
+		inputDlg = new InputDialog(Accounter.getCompanyMessages()
 				.shippingTerm(), "", arr) {
 			@Override
 			protected String getViewTitle() {
-				return FinanceApplication.getCompanyMessages().shippingTerm();
+				return Accounter.getCompanyMessages().shippingTerm();
 			}
 		};
 		inputDlg.getTextItems().get(1).setRequired(false);
@@ -171,19 +171,19 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 	@Override
 	public String[] setColumns() {
 		return new String[] {
-				FinanceApplication.getFinanceUIConstants().Name(),
-				FinanceApplication.getFinanceUIConstants().description() };
+				Accounter.getFinanceUIConstants().Name(),
+				Accounter.getFinanceUIConstants().description() };
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	protected List getRecords() {
-		return FinanceApplication.getCompany().getShippingTerms();
+		return Accounter.getCompany().getShippingTerms();
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCompanyMessages().manageShippingTermList();
+		return Accounter.getCompanyMessages().manageShippingTermList();
 	}
 
 }

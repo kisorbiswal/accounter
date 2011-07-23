@@ -24,7 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
@@ -64,7 +64,7 @@ public class ItemReceiptView extends
 	protected void createControls() {
 		// setTitle(UIUtils.title(vendorConstants.cashPurchase()));
 
-		HTML lab1 = new HTML(FinanceApplication.getVendorsMessages()
+		HTML lab1 = new HTML(Accounter.getVendorsMessages()
 				.itemReceipt());
 
 		listforms = new ArrayList<DynamicForm>();
@@ -101,11 +101,11 @@ public class ItemReceiptView extends
 		formItems.add(transactionNumber);
 
 		vendorCombo = createVendorComboItem(UIUtils.getVendorString(
-				FinanceApplication.getVendorsMessages().supplierName(),
-				FinanceApplication.getVendorsMessages().vendorName()));
+				Accounter.getVendorsMessages().supplierName(),
+				Accounter.getVendorsMessages().vendorName()));
 		vendorCombo.setWidth(100);
 		purchaseLabel = new LinkItem();
-		purchaseLabel.setLinkTitle(FinanceApplication.getVendorsMessages()
+		purchaseLabel.setLinkTitle(Accounter.getVendorsMessages()
 				.purchaseOrders());
 		purchaseLabel.setShowTitle(false);
 		purchaseLabel.setDisabled(isEdit);
@@ -187,7 +187,7 @@ public class ItemReceiptView extends
 		memoForm.setFields(memoTextAreaItem);
 		forms.add(memoForm);
 
-		transactionTotalItem = new AmountField(FinanceApplication
+		transactionTotalItem = new AmountField(Accounter
 				.getVendorsMessages().total());
 		transactionTotalItem.setDisabled(true);
 		DynamicForm amountForm = new DynamicForm();
@@ -213,7 +213,7 @@ public class ItemReceiptView extends
 
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
-		int accountType = FinanceApplication.getCompany().getAccountingType();
+		int accountType = Accounter.getCompany().getAccountingType();
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			bottomLayout.add(memoForm);
 			bottomLayout.add(vatCheckform);
@@ -263,7 +263,7 @@ public class ItemReceiptView extends
 		selectedPurchaseOrders = new ArrayList<ClientPurchaseOrder>();
 
 		vendorCombo.setComboItem(vendor);
-		paymentTermsSelected(FinanceApplication.getCompany().getPaymentTerms(
+		paymentTermsSelected(Accounter.getCompany().getPaymentTerms(
 				vendor.getPaymentTerms()));
 		if (transactionObject == null)
 			getPurchaseOrders();
@@ -271,7 +271,7 @@ public class ItemReceiptView extends
 
 	private PaymentTermsCombo createPaymentTermsSelectItem() {
 
-		PaymentTermsCombo comboItem = new PaymentTermsCombo(FinanceApplication
+		PaymentTermsCombo comboItem = new PaymentTermsCombo(Accounter
 				.getVendorsMessages().paymentTerms());
 
 		comboItem
@@ -318,7 +318,7 @@ public class ItemReceiptView extends
 
 	private void initPaymentTerms() {
 
-		List<ClientPaymentTerms> paymentTermsList = FinanceApplication
+		List<ClientPaymentTerms> paymentTermsList = Accounter
 				.getCompany().getPaymentsTerms();
 
 		payTermsSelect.initCombo(paymentTermsList);
@@ -345,7 +345,7 @@ public class ItemReceiptView extends
 	@Override
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 		ClientItemReceipt itemReceipt = (ClientItemReceipt) transactionObject;
-		ClientCompany company = FinanceApplication.getCompany();
+		ClientCompany company = Accounter.getCompany();
 		this.vendor = company.getVendor(itemReceipt.getVendor());
 		this.contact = itemReceipt.getContact();
 		if (itemReceipt.getPhone() != null)
@@ -401,7 +401,7 @@ public class ItemReceiptView extends
 					: new ClientItemReceipt();
 
 			// Setting Vendor
-			itemReceipt.setVendor(this.vendor.getStringID());
+			itemReceipt.setVendor(this.vendor.getID());
 
 			// Setting Contact
 			if (contact != null)
@@ -416,7 +416,7 @@ public class ItemReceiptView extends
 				itemReceipt.setPhone(phoneNo);
 
 			if (paymentTerm != null)
-				itemReceipt.setPaymentTerm(paymentTerm.getStringID());
+				itemReceipt.setPaymentTerm(paymentTerm.getID());
 			if (deliveryDateItem != null)
 				itemReceipt.setDeliveryDate(deliveryDateItem.getEnteredDate()
 						.getTime());
@@ -440,7 +440,7 @@ public class ItemReceiptView extends
 
 			super.saveAndUpdateView();
 
-			if (transactionObject.getStringID() != null) {
+			if (transactionObject.getID() != null) {
 				alterObject(itemReceipt);
 
 			} else {
@@ -464,7 +464,7 @@ public class ItemReceiptView extends
 					clientItem.setType(item.getType());
 					clientItem.setItem(item.getItem());
 					clientItem.setAccount(item.getAccount());
-					if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+					if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 						clientItem.setVatItem(item.getVatItem());
 						clientItem.setTaxCode(item.getTaxCode());
 						clientItem.setTaxable(item.isTaxable());
@@ -476,14 +476,14 @@ public class ItemReceiptView extends
 					clientItem.setLineTotal(item.getLineTotal()
 							- item.getInvoiced());
 
-					clientItem.setReferringTransactionItem(item.getStringID());
+					clientItem.setReferringTransactionItem(item.getID());
 
 					itemsList.add(clientItem);
 				}
 
 			}
 
-			selectedPurchaseOrder = purchaseOrder.getStringID();
+			selectedPurchaseOrder = purchaseOrder.getID();
 			vendorTransactionGrid.isItemRecieptView = true;
 			vendorTransactionGrid.setAllTransactions(itemsList);
 		}
@@ -498,7 +498,7 @@ public class ItemReceiptView extends
 					"Please Select Supplier", "Please Select Vendor"));
 		} else {
 			this.rpcUtilService.getNotReceivedPurchaseOrdersList(vendor
-					.getStringID(),
+					.getID(),
 					new AsyncCallback<List<PurchaseOrdersList>>() {
 
 						public void onFailure(Throwable caught) {
@@ -536,7 +536,7 @@ public class ItemReceiptView extends
 
 		for (PurchaseOrdersList record : result) {
 			for (ClientPurchaseOrder purchaseOrder : selectedPurchaseOrders) {
-				if (purchaseOrder.getStringID().equals(
+				if (purchaseOrder.getID().equals(
 						record.getTransactionId()))
 					filteredList.remove(record);
 			}
@@ -594,7 +594,7 @@ public class ItemReceiptView extends
 		case 3:
 			return AccounterValidator.validate_dueOrDelivaryDates(
 					deliveryDateItem.getEnteredDate(), this.transactionDate,
-					FinanceApplication.getVendorsMessages().deliverydate());
+					Accounter.getVendorsMessages().deliverydate());
 		case 4:
 			return AccounterValidator.isBlankTransaction(vendorTransactionGrid);
 		case 5:
@@ -690,7 +690,7 @@ public class ItemReceiptView extends
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCustomersMessages().itemReciepts();
+		return Accounter.getCustomersMessages().itemReciepts();
 	}
 
 }

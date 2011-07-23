@@ -16,7 +16,7 @@ public class Box implements IAccounterServerCore {
 	 */
 	private static final long serialVersionUID = 3730671126732195673L;
 	long id;
-	String stringID;
+	long id;
 
 	int boxNumber;
 
@@ -36,7 +36,7 @@ public class Box implements IAccounterServerCore {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
@@ -102,14 +102,14 @@ public class Box implements IAccounterServerCore {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
 		return stringID;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	@Override

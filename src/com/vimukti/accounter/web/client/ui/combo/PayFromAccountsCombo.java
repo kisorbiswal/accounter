@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
@@ -27,7 +27,7 @@ public class PayFromAccountsCombo extends AccountCombo {
 	public List<ClientAccount> getAccounts() {
 		payFromAccounts = new ArrayList<ClientAccount>();
 
-		for (ClientAccount account : FinanceApplication.getCompany()
+		for (ClientAccount account : Accounter.getCompany()
 				.getActiveAccounts()) {
 			if (Arrays.asList(
 			// ClientAccount.TYPE_BANK, ClientAccount.TYPE_CASH,
@@ -38,10 +38,10 @@ public class PayFromAccountsCombo extends AccountCombo {
 			// ClientAccount.TYPE_FIXED_ASSET
 					).contains(account.getType()))
 				if (!account.getName().equalsIgnoreCase(
-						FinanceApplication.getAccounterComboConstants()
+						Accounter.getAccounterComboConstants()
 								.pendingItemReceipts())
 						&& !account.getName().equalsIgnoreCase(
-								FinanceApplication.getAccounterComboConstants()
+								Accounter.getAccounterComboConstants()
 										.salesTaxPayable())) {
 					payFromAccounts.add(account);
 				}
@@ -52,7 +52,7 @@ public class PayFromAccountsCombo extends AccountCombo {
 	public void setAccounts() {
 		payFromAccounts = new ArrayList<ClientAccount>();
 
-		for (ClientAccount account : FinanceApplication.getCompany()
+		for (ClientAccount account : Accounter.getCompany()
 				.getActiveAccounts()) {
 			if (Arrays.asList(
 			// ClientAccount.TYPE_BANK, ClientAccount.TYPE_CASH,
@@ -63,10 +63,10 @@ public class PayFromAccountsCombo extends AccountCombo {
 			// ClientAccount.TYPE_FIXED_ASSET
 					).contains(account.getType()))
 				if (!account.getName().equalsIgnoreCase(
-						FinanceApplication.getAccounterComboConstants()
+						Accounter.getAccounterComboConstants()
 								.pendingItemReceipts())
 						&& !account.getName().equalsIgnoreCase(
-								FinanceApplication.getAccounterComboConstants()
+								Accounter.getAccounterComboConstants()
 										.salesTaxPayable())) {
 
 					payFromAccounts.add(account);
@@ -77,7 +77,7 @@ public class PayFromAccountsCombo extends AccountCombo {
 
 	public void setDefaultPayFromAccount() {
 		/* Default deposit in account is set to Bank Current Account */
-		List<ClientAccount> accounts = FinanceApplication.getCompany()
+		List<ClientAccount> accounts = Accounter.getCompany()
 				.getAccounts();
 		for (ClientAccount account : accounts) {
 			if (account.getNumber().equals("1100")) {

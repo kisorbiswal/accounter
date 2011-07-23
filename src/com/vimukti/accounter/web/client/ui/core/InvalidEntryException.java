@@ -4,7 +4,7 @@
 package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author Fernandez
@@ -78,7 +78,7 @@ public class InvalidEntryException extends Exception {
 		if (this.message != null)
 			return super.getMessage();
 		else
-			return FinanceApplication.getCompanyMessages().invalidEntry()
+			return Accounter.getCompanyMessages().invalidEntry()
 					+ this.message;
 	}
 }

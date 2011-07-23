@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.PortalLayout;
 import com.vimukti.accounter.web.client.ui.Portlet;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -183,7 +183,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 		listGrid = new VendorListGrid(false);
 		listGrid.init();
 		// listGrid.setHeight("400px");
-		FinanceApplication.createHomeService().getPayeeList(
+		Accounter.createHomeService().getPayeeList(
 				ClientTransaction.CATEGORY_VENDOR,
 				new AsyncCallback<List<PayeeList>>() {
 
@@ -210,10 +210,10 @@ public class VendorSectionHomeView extends BaseHomeView {
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
 		String[] totalWidget = {
-				FinanceApplication.getVendorsMessages().newVendor(),
-				FinanceApplication.getVendorsMessages().itemPurchase(),
-				FinanceApplication.getVendorsMessages().billPaid(),
-				FinanceApplication.getVendorsMessages().cashPurchase() };
+				Accounter.getVendorsMessages().newVendor(),
+				Accounter.getVendorsMessages().itemPurchase(),
+				Accounter.getVendorsMessages().billPaid(),
+				Accounter.getVendorsMessages().cashPurchase() };
 
 		boolean isAvailable = false;
 
@@ -262,7 +262,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 
 	@Override
 	public void setPrevoiusOutput(Object preObject) {
-		FinanceApplication.createHomeService().getPayeeList(
+		Accounter.createHomeService().getPayeeList(
 				ClientTransaction.CATEGORY_VENDOR,
 				new AsyncCallback<List<PayeeList>>() {
 
@@ -280,8 +280,8 @@ public class VendorSectionHomeView extends BaseHomeView {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(FinanceApplication.getVendorsMessages()
-				.supplierhome(), FinanceApplication.getVendorsMessages()
+		return UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplierhome(), Accounter.getVendorsMessages()
 				.vendorHome());
 	}
 }

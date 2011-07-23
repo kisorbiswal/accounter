@@ -144,7 +144,7 @@
 //	@Override
 //	public void saveSuccess(IAccounterCore result) {
 //		ClientTaxAgency taxAgency = (ClientTaxAgency) result;
-//		if (taxAgency.getStringID() != null) {
+//		if (taxAgency.getID() != null) {
 //			// if (takenTaxAgency == null)
 //			// Accounter.showInformation(taxAgency.getName()
 //			// + FinanceApplication.getCompanyMessages()
@@ -221,10 +221,10 @@
 //		taxAgency.setActive((Boolean) statusCheck.getValue());
 //
 //		// Setting Payment Terms
-//		taxAgency.setPaymentTerm(selectedPaymentTerm.getStringID());
+//		taxAgency.setPaymentTerm(selectedPaymentTerm.getID());
 //
 //		// Setting Liability account
-//		taxAgency.setLiabilityAccount(selectedAccount.getStringID());
+//		taxAgency.setLiabilityAccount(selectedAccount.getID());
 //
 //		// Setting Contacts
 //

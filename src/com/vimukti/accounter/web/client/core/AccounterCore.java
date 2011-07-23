@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.core;
 
 @SuppressWarnings("serial")
 public class AccounterCore implements IAccounterCore {
-	public String stringID;
+	public long id;
 	private AccounterCoreType type;
 
 	@Override
@@ -25,14 +25,14 @@ public class AccounterCore implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

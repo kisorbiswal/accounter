@@ -36,7 +36,7 @@ public abstract class Payee implements IAccounterServerCore, ICreatableObject {
 	long id;
 	FinanceDate payeeSince;
 	int type;
-	public String stringID;
+	public long id;
 
 	int version;
 
@@ -122,7 +122,7 @@ public abstract class Payee implements IAccounterServerCore, ICreatableObject {
 	/**
 	 * @return the stringID
 	 */
-	public String getStringID() {
+	public long getID(){
 		return stringID;
 	}
 
@@ -130,8 +130,8 @@ public abstract class Payee implements IAccounterServerCore, ICreatableObject {
 	 * @param stringID
 	 *            the stringID to set
 	 */
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	/**
@@ -199,7 +199,7 @@ public abstract class Payee implements IAccounterServerCore, ICreatableObject {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
@@ -453,7 +453,7 @@ public abstract class Payee implements IAccounterServerCore, ICreatableObject {
 		Query query = session
 				.createQuery(
 						"select p.name from com.vimukti.accounter.core.Payee p where p.stringID=:stringId")
-				.setParameter("stringId", this.getStringID());
+				.setParameter("stringId", this.getID());
 		String payeeName = (String) query.uniqueResult();
 
 		if (payeeName != null && !this.getName().equals(payeeName))

@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -20,15 +20,15 @@ public class ReceivePaymentAction extends Action {
 	protected ReceivePaymentView view;
 
 	public ReceivePaymentAction(String text, String iconString) {
-		super(FinanceApplication.getCustomersMessages().newReceivePayment(),
+		super(Accounter.getCustomersMessages().newReceivePayment(),
 				iconString);
-		this.catagory = FinanceApplication.getCustomersMessages().customer();
+		this.catagory = Accounter.getCustomersMessages().customer();
 	}
 
 	public ReceivePaymentAction(String text, String iconString,
 			ClientReceivePayment receivePayment, AsyncCallback<Object> callback) {
 		super(text, iconString, receivePayment, callback);
-		this.catagory = FinanceApplication.getCustomersMessages().customer();
+		this.catagory = Accounter.getCustomersMessages().customer();
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class ReceivePaymentAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().newReceivePayment();
+		return Accounter.getFinanceMenuImages().newReceivePayment();
 	}
 	@Override
 	public String getImageUrl() {

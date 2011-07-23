@@ -120,10 +120,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	private void getSubAccounts() {
-		subAccounts = FinanceApplication.getCompany().getAccounts(accountType);
+		subAccounts = Accounter.getCompany().getAccounts(accountType);
 		if (takenAccount != null) {
 			for (ClientAccount account : subAccounts) {
-				if (account.getStringID() == takenAccount.getStringID()) {
+				if (account.getID() == takenAccount.getID()) {
 					subAccounts.remove(account);
 					break;
 				}
@@ -140,7 +140,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	private void getBanks() {
-		this.allBanks = FinanceApplication.getCompany().getBanks();
+		this.allBanks = Accounter.getCompany().getBanks();
 		initBankNameSelect();
 	}
 
@@ -149,7 +149,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		bankNameSelect.initCombo(allBanks);
 
 		if (takenAccount != null
-				&& (selectedBank = FinanceApplication.getCompany().getBank(
+				&& (selectedBank = Accounter.getCompany().getBank(
 						takenAccount.getBank())) != null) {
 			bankNameSelect.setComboItem(selectedBank);
 		}
@@ -164,11 +164,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// .createNewAccount()));
 		lab1 = new Label();
 		lab1.removeStyleName("gwt-Label");
-		lab1.addStyleName(FinanceApplication.getFinanceUIConstants()
+		lab1.addStyleName(Accounter.getFinanceUIConstants()
 				.lableTitle());
 		// lab1.setHeight("35px");
 		hierarchy = new String("");
-		accTypeSelect = new SelectCombo(FinanceApplication
+		accTypeSelect = new SelectCombo(Accounter
 				.getFinanceUIConstants().accountType());
 		accTypeSelect.setHelpInformation(true);
 		// accTypeSelect.setWidth(100);
@@ -183,7 +183,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					}
 				});
 
-		accNoText = new IntegerField(FinanceApplication.getFinanceUIConstants()
+		accNoText = new IntegerField(Accounter.getFinanceUIConstants()
 				.accountNo());
 		accNoText.setHelpInformation(true);
 		accNoText.setRequired(true);
@@ -198,7 +198,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 		});
 
-		accNameText = new TextItem(FinanceApplication.getFinanceUIConstants()
+		accNameText = new TextItem(Accounter.getFinanceUIConstants()
 				.accountName());
 		accNameText.setHelpInformation(true);
 		accNameText.setRequired(true);
@@ -237,12 +237,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		});
 
-		statusBox = new CheckboxItem(FinanceApplication.getFinanceUIConstants()
+		statusBox = new CheckboxItem(Accounter.getFinanceUIConstants()
 				.active());
 		statusBox.setWidth(100);
 		statusBox.setValue(true);
 
-		cashFlowCatSelect = new SelectItem(FinanceApplication
+		cashFlowCatSelect = new SelectItem(Accounter
 				.getFinanceUIConstants().cashFlowcategory());
 		cashFlowCatSelect.addChangeHandler(new ChangeHandler() {
 
@@ -263,7 +263,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		cashFlowCatSelect.setValueMap(cashFlowof);
 
-		opBalText = new AmountField(FinanceApplication.getFinanceUIConstants()
+		opBalText = new AmountField(Accounter.getFinanceUIConstants()
 				.openingBalance());
 		opBalText.setHelpInformation(true);
 
@@ -302,25 +302,25 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// }
 		//
 		// });
-		asofDate = new DateField(FinanceApplication.getFinanceUIConstants()
+		asofDate = new DateField(Accounter.getFinanceUIConstants()
 				.asOf());
 		asofDate.setHelpInformation(true);
 		// asofDate.setWidth(100);
 		asofDate
 				.setEnteredDate(new ClientFinanceDate(
-						FinanceApplication.getCompany().getPreferences()
+						Accounter.getCompany().getPreferences()
 								.getPreventPostingBeforeDate() == 0 ? new ClientFinanceDate()
 								.getTime()
-								: FinanceApplication.getCompany()
+								: Accounter.getCompany()
 										.getPreferences()
 										.getPreventPostingBeforeDate()));
 
-		catSelect = new SelectItem(FinanceApplication.getFinanceUIConstants()
+		catSelect = new SelectItem(Accounter.getFinanceUIConstants()
 				.category1099());
 		catSelect.setWidth(100);
 		catSelect.setDisabled(true);
 
-		accInfoForm = UIUtils.form(FinanceApplication.getFinanceUIConstants()
+		accInfoForm = UIUtils.form(Accounter.getFinanceUIConstants()
 				.chartOfAccountsInformation());
 		accInfoForm.setWidth("100%");
 
@@ -331,7 +331,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		if (accountType == 0 || accountType != ClientAccount.TYPE_BANK
 				&& accountType != ClientAccount.TYPE_CREDIT_CARD) {
-			subAccSelect = new OtherAccountsCombo(FinanceApplication
+			subAccSelect = new OtherAccountsCombo(Accounter
 					.getAccounterComboConstants().subCategoryof());
 			subAccSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -354,7 +354,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					});
 			subAccSelect.setWidth(100);
 
-			hierText = new TextItem(FinanceApplication.getFinanceUIConstants()
+			hierText = new TextItem(Accounter.getFinanceUIConstants()
 					.hierarchy());
 			hierText.setHelpInformation(true);
 			hierText.setDisabled(true);
@@ -385,34 +385,34 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		}
 		accInfoForm.getCellFormatter().setWidth(0, 0, "200");
-		cashAccountCheck = new CheckboxItem(FinanceApplication
+		cashAccountCheck = new CheckboxItem(Accounter
 				.getFinanceUIConstants().thisIsConsideredACashAccount());
 		cashAccountCheck.setWidth(100);
 
 		cashBasisForm = new DynamicForm();
 		cashBasisForm.setIsGroup(true);
-		cashBasisForm.setGroupTitle(FinanceApplication.getFinanceUIConstants()
+		cashBasisForm.setGroupTitle(Accounter.getFinanceUIConstants()
 				.cashBasisAccounting());
 		cashBasisForm.setFields(cashAccountCheck);
 		cashBasisForm.setWidth("100%");
 		cashBasisForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getVendorsMessages().width(), "200");
+				Accounter.getVendorsMessages().width(), "200");
 
 		commentsArea = new TextAreaItem();
 		commentsArea.setHelpInformation(true);
-		commentsArea.setTitle(FinanceApplication.getFinanceUIConstants()
+		commentsArea.setTitle(Accounter.getFinanceUIConstants()
 				.comments());
 		commentsArea.setWidth(100);
 		// commentsArea.setShowTitle(false);
 
-		commentsForm = UIUtils.form(FinanceApplication.getFinanceUIConstants()
+		commentsForm = UIUtils.form(Accounter.getFinanceUIConstants()
 				.comments());
 		commentsForm.setWidth("50%");
 		commentsForm.setFields(commentsArea);
 		commentsForm.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
 		commentsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getVendorsMessages().width(), "200");
+				Accounter.getVendorsMessages().width(), "200");
 
 		if (takenAccount != null) {
 		}
@@ -526,13 +526,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		accInfoForm.getCellFormatter().setWidth(0, 0, "200");
 		if (isNewBankAccount())
 			lab1.setText(" "
-					+ FinanceApplication.getAccounterComboConstants()
+					+ Accounter.getAccounterComboConstants()
 							.bankCategory());
 		else
 			lab1.setText(" "
 					+ Utility.getAccountTypeString(this.accountType)
 					+ " "
-					+ FinanceApplication.getAccounterComboConstants()
+					+ Accounter.getAccounterComboConstants()
 							.financeCategory());
 
 	}
@@ -541,7 +541,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		if (bankNameSelect == null) {
 
-			bankNameSelect = new BankNameCombo(FinanceApplication
+			bankNameSelect = new BankNameCombo(Accounter
 					.getFinanceUIConstants().bankName());
 			// bankNameSelect.setWidth(100);
 			bankNameSelect
@@ -576,7 +576,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		}
 		if (creditCardForm == null) {
 
-			limitText = new AmountField(FinanceApplication
+			limitText = new AmountField(Accounter
 					.getFinanceUIConstants().creditLimit());
 			limitText.setHelpInformation(true);
 			limitText.setWidth(100);
@@ -587,7 +587,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					Double limit = 0D;
 					try {
 						if (limitText.getValue() == null) {
-							Accounter.showError(FinanceApplication
+							Accounter.showError(Accounter
 									.getFinanceUIConstants()
 									.creditLimitShouldNotBeNull());
 						} else {
@@ -597,14 +597,14 @@ public class NewAccountView extends BaseView<ClientAccount> {
 									.isLessThan(limit, -1000000000000.00)
 									|| DecimalUtil.isGreaterThan(limit,
 											1000000000000.00)) {
-								Accounter.showError(FinanceApplication
+								Accounter.showError(Accounter
 										.getFinanceUIConstants()
 										.creditLimitShouldBeInTheRange());
 								limit = 0D;
 							}
 						}
 					} catch (Exception e) {
-						Accounter.showError(FinanceApplication
+						Accounter.showError(Accounter
 								.getFinanceUIConstants().invalidCreditLimit());
 					} finally {
 						limitText.setValue(DataUtils.getAmountAsString(limit));
@@ -613,11 +613,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				}
 
 			});
-			cardNumText = new IntegerField(FinanceApplication
+			cardNumText = new IntegerField(Accounter
 					.getFinanceUIConstants().cardOrLoadNumber());
 			cardNumText.setHelpInformation(true);
 			cardNumText.setWidth(100);
-			creditCardForm = UIUtils.form(FinanceApplication
+			creditCardForm = UIUtils.form(Accounter
 					.getFinanceUIConstants().creditCardAccountInformation());
 			creditCardForm.setFields(getBankNameSelectItem(), limitText,
 					cardNumText);
@@ -645,7 +645,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		if (bankForm == null) {
 
-			typeSelect = new SelectCombo(FinanceApplication
+			typeSelect = new SelectCombo(Accounter
 					.getFinanceUIConstants().bankAccountType());
 			// typeSelect.setWidth(100);
 			// typeSelect.setWidth("*");
@@ -668,14 +668,14 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			typeSelect.setRequired(true);
 			// typeSelect.setDefaultToFirstOption(Boolean.TRUE);
 
-			bankAccNumText = new TextItem(FinanceApplication
+			bankAccNumText = new TextItem(Accounter
 					.getAccounterComboConstants().bankFinanceCategorynumber());
 			bankAccNumText.setHelpInformation(true);
 			bankAccNumText.setWidth(100);
 
 			// accNameText.setWidth("*");
 
-			bankForm = UIUtils.form(FinanceApplication.getFinanceUIConstants()
+			bankForm = UIUtils.form(Accounter.getFinanceUIConstants()
 					.bankAccountInformation());
 			bankForm.setWidth("100%");
 			bankForm.setFields(getBankNameSelectItem(), typeSelect,
@@ -723,14 +723,14 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		}
 		if (isNewBankAccount())
 			lab1.setText(" "
-					+ FinanceApplication.getAccounterComboConstants()
+					+ Accounter.getAccounterComboConstants()
 							.bankCategory());
 		else
 
 			lab1.setText(" "
 					+ Utility.getAccountTypeString(accountType)
 					+ " "
-					+ FinanceApplication.getAccounterComboConstants()
+					+ Accounter.getAccounterComboConstants()
 							.financeCategory());
 
 	}
@@ -748,14 +748,14 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		} else {
 			for (int type : UIUtils.accountTypes) {
-				if (FinanceApplication.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK)
+				if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK)
 					list.add(Utility.getAccountTypeString(type));
 				else if (type != ClientAccount.TYPE_CASH
 						&& type != ClientAccount.TYPE_OTHER_INCOME
 						&& type != ClientAccount.TYPE_INVENTORY_ASSET
 						&& type != ClientAccount.TYPE_CREDIT_CARD
 						&& type != ClientAccount.TYPE_PAYROLL_LIABILITY) {
-					if (!FinanceApplication.getUser().canDoBanking()
+					if (!Accounter.getUser().canDoBanking()
 							&& type == ClientAccount.TYPE_BANK)
 						continue;
 					list.add(Utility.getAccountTypeString(type));
@@ -782,7 +782,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		} else {
 			for (int type : UIUtils.accountTypes) {
-				if (FinanceApplication.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK)
+				if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK)
 					accountTypesMap.put(String.valueOf(type), Utility
 							.getAccountTypeString(type));
 				else if (type != ClientAccount.TYPE_BANK
@@ -830,7 +830,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				if (Utility.isNumberCorrect(account)) {
 					throw new InvalidEntryException(
 							AccounterErrorType.INVALIDNUMBER);
-				} else if (Utility.isObjectExist(FinanceApplication
+				} else if (Utility.isObjectExist(Accounter
 						.getCompany().getAccounts(), account.getName())) {
 					throw new InvalidEntryException(
 							AccounterErrorType.ALREADYEXIST);
@@ -917,7 +917,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 						: "";
 				if (takenAccount != null ? (takenAccount.getName()
 						.equalsIgnoreCase(name) ? true : (Utility
-						.isObjectExist(FinanceApplication.getCompany()
+						.isObjectExist(Accounter.getCompany()
 								.getAccounts(), name) ? false : true)) : true) {
 					return true;
 				} else
@@ -928,7 +928,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			case 3:
 				if (takenAccount != null
 						&& takenAccount.getName().equalsIgnoreCase(
-								FinanceApplication.getAccounterComboConstants()
+								Accounter.getAccounterComboConstants()
 										.openingBalances()))
 					return true;
 				else
@@ -949,7 +949,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 						: "";
 				if (takenAccount != null ? (takenAccount.getName()
 						.equalsIgnoreCase(name) ? true : (Utility
-						.isObjectExist(FinanceApplication.getCompany()
+						.isObjectExist(Accounter.getCompany()
 								.getAccounts(), name) ? false : true)) : true) {
 					return true;
 				} else
@@ -1063,7 +1063,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			break;
 		default:
 			if (selectedSubAccount != null)
-				account.setParent(selectedSubAccount.getStringID());
+				account.setParent(selectedSubAccount.getID());
 			if (hierText != null)
 				account.setHierarchy(UIUtils.toStr(hierText.getValue()));
 			break;
@@ -1169,7 +1169,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 							.getCardOrLoanNumber()
 							: "");
 		} else {
-			selectedSubAccount = FinanceApplication.getCompany().getAccount(
+			selectedSubAccount = Accounter.getCompany().getAccount(
 					takenAccount.getParent());
 
 			if (selectedSubAccount != null) {
@@ -1262,11 +1262,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			if (item instanceof DateField)
 				((DateField) item)
 						.setEnteredDate(new ClientFinanceDate(
-								FinanceApplication.getCompany()
+								Accounter.getCompany()
 										.getPreferences()
 										.getPreventPostingBeforeDate() == 0 ? new ClientFinanceDate()
 										.getTime()
-										: FinanceApplication.getCompany()
+										: Accounter.getCompany()
 												.getPreferences()
 												.getPreventPostingBeforeDate()));
 			else if ((item instanceof AmountField))
@@ -1320,7 +1320,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (number == null)
 			return true;
 
-		List<ClientAccount> accounts = FinanceApplication.getCompany()
+		List<ClientAccount> accounts = Accounter.getCompany()
 				.getAccounts();
 		if (takenAccount == null) {
 			for (ClientAccount account : accounts) {
@@ -1331,7 +1331,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					// BaseView.commentPanel.setVisible(true);
 					// AbstractBaseView.errorOccured = true;
 					MainFinanceWindow.getViewManager().showError(
-							FinanceApplication.getCompanyMessages()
+							Accounter.getCompanyMessages()
 									.alreadyAccountExist());
 					// Accounter.showError(FinanceApplication.getCompanyMessages()
 					// .alreadyAccountExist());
@@ -1360,7 +1360,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		} else {
 			accountSubBaseType = UIUtils.getAccountSubBaseType(accountType);
 
-			nominalCodeRange = FinanceApplication.getCompany()
+			nominalCodeRange = Accounter.getCompany()
 					.getNominalCodeRange(accountSubBaseType);
 
 			if (nominalCodeRange == null
@@ -1484,6 +1484,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCompanyMessages().account();
+		return Accounter.getCompanyMessages().account();
 	}
 }

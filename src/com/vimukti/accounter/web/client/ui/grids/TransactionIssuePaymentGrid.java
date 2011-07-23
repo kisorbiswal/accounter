@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.IssuePaymentDialog;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
@@ -29,12 +29,12 @@ public class TransactionIssuePaymentGrid extends
 	@Override
 	protected String[] getColumns() {
 		// addFooterValue("Total", 3);
-		return new String[] { FinanceApplication.getVendorsMessages().Date(),
-				FinanceApplication.getVendorsMessages().number(),
-				FinanceApplication.getVendorsMessages().name(),
-				FinanceApplication.getVendorsMessages().memo(),
-				FinanceApplication.getBankingsMessages().amount(),
-				FinanceApplication.getVendorsMessages().paymentMethod() };
+		return new String[] { Accounter.getVendorsMessages().Date(),
+				Accounter.getVendorsMessages().number(),
+				Accounter.getVendorsMessages().name(),
+				Accounter.getVendorsMessages().memo(),
+				Accounter.getBankingsMessages().amount(),
+				Accounter.getVendorsMessages().paymentMethod() };
 	}
 
 	public boolean isSelected(ClientTransactionIssuePayment transactionList) {
@@ -82,7 +82,7 @@ public class TransactionIssuePaymentGrid extends
 			return DataUtils.getAmountAsString(issuepayment.getAmount());
 		case 5:
 			return issuepayment.getPaymentMethod() != null ? issuepayment
-					.getPaymentMethod() : FinanceApplication
+					.getPaymentMethod() : Accounter
 					.getVendorsMessages().check();
 		default:
 			return null;

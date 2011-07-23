@@ -23,7 +23,7 @@ public class VATReturnBox implements IAccounterServerCore, Lifecycle {
 	 */
 	private static final long serialVersionUID = -8208080531370075833L;
 	long id;
-	String stringID;
+	long id;
 
 	String name;
 	String vatBox;
@@ -62,7 +62,7 @@ public class VATReturnBox implements IAccounterServerCore, Lifecycle {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
@@ -122,13 +122,13 @@ public class VATReturnBox implements IAccounterServerCore, Lifecycle {
 	transient private boolean isOnSaveProccessed;
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	@Override

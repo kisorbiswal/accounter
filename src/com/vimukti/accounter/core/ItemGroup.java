@@ -36,7 +36,7 @@ public class ItemGroup implements IAccounterServerCore, Lifecycle,
 	/**
 	 * A Secure Random unique 40 digit Number
 	 */
-	public String stringID;
+	public long id;
 
 	/**
 	 * Item Group Name
@@ -157,13 +157,13 @@ public class ItemGroup implements IAccounterServerCore, Lifecycle,
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

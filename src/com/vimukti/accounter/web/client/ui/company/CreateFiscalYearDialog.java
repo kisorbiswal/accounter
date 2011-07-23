@@ -5,7 +5,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -31,7 +31,7 @@ public class CreateFiscalYearDialog extends BaseDialog {
 		this.listOfFiscalYear = listOfperiods;
 		createControls();
 		center();
-		if (title.equalsIgnoreCase(FinanceApplication.getCompanyMessages()
+		if (title.equalsIgnoreCase(Accounter.getCompanyMessages()
 				.editFiscalYear())) {
 			initData();
 		} else {
@@ -94,21 +94,21 @@ public class CreateFiscalYearDialog extends BaseDialog {
 
 	private void createControls() {
 		createFiscalYearLabel = new HTML();
-		createFiscalYearLabel.setHTML(FinanceApplication.getCompanyMessages()
+		createFiscalYearLabel.setHTML(Accounter.getCompanyMessages()
 				.createFascalYear());
 		descriptionLabel = new HTML();
-		descriptionLabel.setHTML(FinanceApplication.getCompanyMessages()
+		descriptionLabel.setHTML(Accounter.getCompanyMessages()
 				.enterAppropriateFiscalYear());
 		startOfFiscalYear = new DateItem();
 		startOfFiscalYear.setHelpInformation(true);
 		startOfFiscalYear.setRequired(true);
 		// startOfFiscalYear.setDisabled(true);
-		startOfFiscalYear.setTitle(FinanceApplication.getCompanyMessages()
+		startOfFiscalYear.setTitle(Accounter.getCompanyMessages()
 				.startOfFiscalYear());
 		endOfFiscalYear = new DateItem();
 		endOfFiscalYear.setRequired(true);
 		endOfFiscalYear.setHelpInformation(true);
-		endOfFiscalYear.setTitle(FinanceApplication.getCompanyMessages()
+		endOfFiscalYear.setTitle(Accounter.getCompanyMessages()
 				.endOfFiscalYear());
 		dynamicForm = new DynamicForm();
 		dynamicForm.setFields(startOfFiscalYear, endOfFiscalYear);
@@ -140,13 +140,13 @@ public class CreateFiscalYearDialog extends BaseDialog {
 
 					return false;
 				}
-				if (title.equalsIgnoreCase(FinanceApplication
+				if (title.equalsIgnoreCase(Accounter
 						.getCompanyMessages().editFiscalYear())) {
 
 					final ClientFiscalYear updateFiscalYear = getEditFiscalYear();
 					ViewManager.getInstance().alterObject(updateFiscalYear,
 							CreateFiscalYearDialog.this);
-				} else if (title.equalsIgnoreCase(FinanceApplication
+				} else if (title.equalsIgnoreCase(Accounter
 						.getCompanyMessages().createFascalYear())) {
 					final ClientFiscalYear fiscalYear = getNewFiscalYear();
 					ViewManager.getInstance().createObject(fiscalYear,
@@ -193,12 +193,12 @@ public class CreateFiscalYearDialog extends BaseDialog {
 	@Override
 	public void saveSuccess(IAccounterCore object) {
 		listOfFiscalYear.removeAllRecords();
-		for (ClientFiscalYear clientFiscalYear : FinanceApplication
+		for (ClientFiscalYear clientFiscalYear : Accounter
 				.getCompany().getFiscalYears()) {
 			listOfFiscalYear.addData(clientFiscalYear);
 		}
 		// if (Utility.getObject(this.listOfFiscalYear.getRecords(), object
-		// .getStringID()) != null)
+		// .getID()) != null)
 		// listOfFiscalYear.updateData((ClientFiscalYear) object);
 		// else
 		// listOfFiscalYear.addData((ClientFiscalYear) object);
@@ -217,7 +217,7 @@ public class CreateFiscalYearDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCompanyMessages().fiscalYear();
+		return Accounter.getCompanyMessages().fiscalYear();
 	}
 
 }

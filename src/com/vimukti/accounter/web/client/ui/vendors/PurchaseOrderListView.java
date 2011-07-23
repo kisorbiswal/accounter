@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -26,10 +26,10 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 	private PurchaseDetailesView purchaseDetailView;
 	private List<PurchaseOrdersList> listOfPurchaseOrders;
 
-	private static String OPEN = FinanceApplication.getVendorsMessages().open();
-	private static String COMPLETED = FinanceApplication.getVendorsMessages()
+	private static String OPEN = Accounter.getVendorsMessages().open();
+	private static String COMPLETED = Accounter.getVendorsMessages()
 			.completed();
-	private static String CANCELLED = FinanceApplication.getVendorsMessages()
+	private static String CANCELLED = Accounter.getVendorsMessages()
 			.cancelled();
 
 	// private static String CANCELLED = "Cancelled";
@@ -40,7 +40,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
 	@Override
 	protected Action getAddNewAction() {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			return VendorsActionFactory.getPurchaseOrderAction();
 		else
 			return null;
@@ -54,7 +54,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
 	@Override
 	protected String getListViewHeading() {
-		return FinanceApplication.getVendorsMessages().purchaseOrderList();
+		return Accounter.getVendorsMessages().purchaseOrderList();
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		FinanceApplication.createHomeService().getPurchaseOrders(this);
+		Accounter.createHomeService().getPurchaseOrders(this);
 
 	}
 
@@ -130,7 +130,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
 	protected SelectCombo getSelectItem() {
 		listOfTypes = new ArrayList<String>();
-		viewSelect = new SelectCombo(FinanceApplication.getVendorsMessages()
+		viewSelect = new SelectCombo(Accounter.getVendorsMessages()
 				.currentView());
 		listOfTypes.add(OPEN);
 		listOfTypes.add(COMPLETED);
@@ -259,6 +259,6 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getVendorsMessages().purchaseOrders();
+		return Accounter.getVendorsMessages().purchaseOrders();
 	}
 }

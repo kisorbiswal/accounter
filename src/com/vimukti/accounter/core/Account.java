@@ -123,7 +123,7 @@ public class Account implements IAccounterServerCore, Lifecycle,
 	/**
 	 * This will hold a secure 40 digit random number.
 	 */
-	public String stringID;
+	public long id;
 
 	/**
 	 * To decide about the type of the {@link Account}
@@ -416,7 +416,7 @@ public class Account implements IAccounterServerCore, Lifecycle,
 	 * @param id
 	 *            the id to set
 	 */
-	// public void setId(long id) {
+	// public void setID(long id){
 	// this.id = id;
 	// }
 	//
@@ -1204,14 +1204,14 @@ public class Account implements IAccounterServerCore, Lifecycle,
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 
@@ -1314,7 +1314,7 @@ public class Account implements IAccounterServerCore, Lifecycle,
 		Query query = session
 				.createQuery(
 						"select a.name from com.vimukti.accounter.core.Account a where a.stringID=:stringId")
-				.setParameter("stringId", this.getStringID());
+				.setParameter("stringId", this.getID());
 		String accountName = (String) query.uniqueResult();
 
 		if (accountName != null && !this.getName().equals(accountName))

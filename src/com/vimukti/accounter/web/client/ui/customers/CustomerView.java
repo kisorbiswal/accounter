@@ -39,7 +39,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.externalization.ActionsConstants;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -139,7 +139,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	CustomersMessages customerConstants;
 	@SuppressWarnings("unused")
 	private static ActionsConstants actionsConstants;
-	private ClientCompany company = FinanceApplication.getCompany();
+	private ClientCompany company = Accounter.getCompany();
 	private ArrayList<DynamicForm> listforms;
 	private TextItem custNoText;
 
@@ -176,7 +176,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	}
 
 	private void initTaxItemGroupList() {
-		List<ClientTAXItemGroup> result = FinanceApplication.getCompany()
+		List<ClientTAXItemGroup> result = Accounter.getCompany()
 				.getTaxItemGroups();
 
 		for (ClientTAXItemGroup taxItemGroup : result) {
@@ -193,7 +193,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private void initCustomerGroupList() {
 
-		custGroupSelect.initCombo(FinanceApplication.getCompany()
+		custGroupSelect.initCombo(Accounter.getCompany()
 				.getCustomerGroups());
 
 		// Setting Customer Group
@@ -204,7 +204,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	}
 
 	public void initPaymentTermsList() {
-		payTermsSelect.initCombo(FinanceApplication.getCompany()
+		payTermsSelect.initCombo(Accounter.getCompany()
 				.getPaymentsTerms());
 		// Setting Payment Term
 		if (takenCustomer != null && takenCustomer.getPaymentTerm() != null)
@@ -215,7 +215,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	public void initShippingMethodList() {
 
-		shipMethSelect.initCombo(FinanceApplication.getCompany()
+		shipMethSelect.initCombo(Accounter.getCompany()
 				.getShippingMethods());
 		// Setting Preferred Shipping Method
 		if (takenCustomer != null && takenCustomer.getShippingMethod() != null)
@@ -233,7 +233,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private void initPriceLevelList() {
 
-		priceLevelSelect.initCombo(FinanceApplication.getCompany()
+		priceLevelSelect.initCombo(Accounter.getCompany()
 				.getPriceLevels());
 		// Setting Preferred Shipping Method
 		if (takenCustomer != null && takenCustomer.getPriceLevel() != null)
@@ -628,7 +628,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		});
 		if (takenCustomer == null)
-			FinanceApplication.createHomeService().getCustomerNumber(
+			Accounter.createHomeService().getCustomerNumber(
 					new AsyncCallback<String>() {
 
 						@Override
@@ -706,9 +706,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		accInfoForm.setFields(statusCheck, customerSinceDate, balanceText,
 				balanceDate);
 
-		Label l1 = new Label(FinanceApplication.getCustomersMessages()
+		Label l1 = new Label(Accounter.getCustomersMessages()
 				.contacts());
-		AccounterButton addButton = new AccounterButton(FinanceApplication
+		AccounterButton addButton = new AccounterButton(Accounter
 				.getCustomersMessages().add());
 		addButton.addClickHandler(new ClickHandler() {
 
@@ -885,21 +885,21 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				titlewidth + "");
 
 		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
-				FinanceApplication.getCustomersMessages().width(), "185px");
+				Accounter.getCustomersMessages().width(), "185px");
 
 		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getCustomersMessages().width(), "240px");
+				Accounter.getCustomersMessages().width(), "240px");
 		// fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.getCustomersMessages().width(), "185px");
 
 		customerForm.getCellFormatter().getElement(0, 0).getStyle().setWidth(
 				150, Unit.PX);
 		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getCustomersMessages().width(), "240px");
+				Accounter.getCustomersMessages().width(), "240px");
 		// emailForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.getCustomersMessages().width(), "");
 		accInfoForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getCustomersMessages().width(), "150px");
+				Accounter.getCustomersMessages().width(), "150px");
 
 	}
 
@@ -1032,11 +1032,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 
-		vatregno = new TextItem(FinanceApplication.getCustomersMessages()
+		vatregno = new TextItem(Accounter.getCustomersMessages()
 				.VATRegistrationNumber());
 		vatregno.setHelpInformation(true);
 		vatregno.setWidth(100);
-		custTaxCode = new TAXCodeCombo(FinanceApplication
+		custTaxCode = new TAXCodeCombo(Accounter
 				.getCustomersMessages().customerVATCode(), true);
 		custTaxCode.setHelpInformation(true);
 		custTaxCode
@@ -1051,7 +1051,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		DynamicForm termsForm = UIUtils.form(customerConstants.terms());
 
-		int accounttype = FinanceApplication.getCompany().getAccountingType();
+		int accounttype = Accounter.getCompany().getAccountingType();
 
 		if (accounttype == 1)
 			termsForm.setFields(shipMethSelect, payMethSelect, payTermsSelect,
@@ -1086,7 +1086,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		if (takenCustomer != null) {
 			// Setting salesPerson
-			selectSalesPersonFromDetailsTab = FinanceApplication.getCompany()
+			selectSalesPersonFromDetailsTab = Accounter.getCompany()
 					.getSalesPerson(takenCustomer.getSalesPerson());
 			
 			bankAccountSelect.setValue(takenCustomer.getBankAccountNo());
@@ -1098,13 +1098,13 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				creditLimitText.setAmount(takenCustomer.getCreditLimit());
 
 			// Setting price level
-			selectPriceLevelFromDetailsTab = FinanceApplication.getCompany()
+			selectPriceLevelFromDetailsTab = Accounter.getCompany()
 					.getPriceLevel(takenCustomer.getPriceLevel());
 			// Setting Credit Rating
-			selectCreditRatingFromDetailsTab = FinanceApplication.getCompany()
+			selectCreditRatingFromDetailsTab = Accounter.getCompany()
 					.getCreditRating(takenCustomer.getCreditRating());
 			// Setting Shipping Method
-			selectShippingMethodFromDetailsTab = FinanceApplication
+			selectShippingMethodFromDetailsTab = Accounter
 					.getCompany().getShippingMethod(
 							takenCustomer.getShippingMethod());
 			// Setting Payment Method
@@ -1112,19 +1112,19 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			// .getPaymentMethod();
 			payMethSelect.setComboItem(takenCustomer.getPaymentMethod());
 			// Setting payemnt term
-			selectPayTermFromDetailsTab = FinanceApplication.getCompany()
+			selectPayTermFromDetailsTab = Accounter.getCompany()
 					.getPaymentTerms(takenCustomer.getPaymentTerm());
 			// Setting Customer Group
-			selectCustomerGroupFromDetailsTab = FinanceApplication.getCompany()
+			selectCustomerGroupFromDetailsTab = Accounter.getCompany()
 					.getCustomerGroup(takenCustomer.getCustomerGroup());
 			// Setting Tax Group
 			if (company.getAccountingType() == 0)
-				selectTaxGroupFromDetailsTab = FinanceApplication.getCompany()
+				selectTaxGroupFromDetailsTab = Accounter.getCompany()
 						.getTAXItemGroup(takenCustomer.getTaxItemGroups());
 			else {
 				// settting vatcode
 
-				selectVatCodeFromDetailsTab = FinanceApplication.getCompany()
+				selectVatCodeFromDetailsTab = Accounter.getCompany()
 						.getTAXCode(takenCustomer.getTAXCode());
 				// setting vatRegistrationNumber
 				vatregno.setValue(takenCustomer.getVATRegistrationNumber());
@@ -1377,6 +1377,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCustomersMessages().customer();
+		return Accounter.getCustomersMessages().customer();
 	}
 }

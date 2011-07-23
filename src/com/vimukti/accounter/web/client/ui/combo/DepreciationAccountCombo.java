@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
@@ -28,7 +28,7 @@ public class DepreciationAccountCombo extends AccountCombo {
 
 	@Override
 	public List<ClientAccount> getAccounts() {
-		List<ClientAccount> accounts = FinanceApplication.getCompany()
+		List<ClientAccount> accounts = Accounter.getCompany()
 				.getActiveAccounts();
 		List<ClientAccount> expenseAccounts = new ArrayList<ClientAccount>();
 		for (ClientAccount account : accounts) {

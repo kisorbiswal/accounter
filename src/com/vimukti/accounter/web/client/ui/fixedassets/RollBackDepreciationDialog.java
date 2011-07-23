@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -30,7 +30,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 	private ListBox dateBox;
 
 	public RollBackDepreciationDialog() {
-		super(FinanceApplication.getFixedAssetConstants()
+		super(Accounter.getFixedAssetConstants()
 				.rollBackDepreciation(), "");
 		getLastDepreciationDate();
 		// getAllDepreciationDates();
@@ -54,12 +54,12 @@ public class RollBackDepreciationDialog extends BaseDialog {
 		if (lastDepreciationDate != null) {
 			String lastDepreciationDateString = UIUtils
 					.getDateByCompanyType(lastDepreciationDate);
-			Label introLabel = new Label(FinanceApplication
+			Label introLabel = new Label(Accounter
 					.getFixedAssetConstants().lastDepreciation()
 					+ "  " + lastDepreciationDateString);
 			contentPanel.add(introLabel);
 		}
-		HTML prefixText = new HTML(FinanceApplication.getFixedAssetConstants()
+		HTML prefixText = new HTML(Accounter.getFixedAssetConstants()
 				.rollbackDepreciationTo());
 
 		dateBox = new ListBox();
@@ -104,7 +104,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 			}
 
 		};
-		FinanceApplication.createHomeService()
+		Accounter.createHomeService()
 				.getDepreciationLastDate(callBack);
 
 	}
@@ -117,7 +117,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 	private void getAllDepreciationDates() {
 
 		ClientFinanceDate depreciationStartDate = new ClientFinanceDate(
-				FinanceApplication.getCompany().getpreferences()
+				Accounter.getCompany().getpreferences()
 						.getDepreciationStartDate());
 		ClientFinanceDate tempDate = new ClientFinanceDate(
 				depreciationStartDate.getTime());
@@ -160,7 +160,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 	private void rollBackDepreciation() {
 		String dateString = dateBox.getValue(dateBox.getSelectedIndex());
 		ClientFinanceDate date = UIUtils.stringToDate(dateString,
-				(FinanceApplication.getFixedAssetConstants().ddMMMyyyy()));
+				(Accounter.getFixedAssetConstants().ddMMMyyyy()));
 
 		AsyncCallback callBack = new AsyncCallback() {
 
@@ -178,7 +178,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 			}
 
 		};
-		FinanceApplication.createHomeService().rollBackDepreciation(
+		Accounter.createHomeService().rollBackDepreciation(
 				date.getTime(), callBack);
 	}
 
@@ -218,7 +218,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getFixedAssetConstants()
+		return Accounter.getFixedAssetConstants()
 				.rollBackDepreciation();
 	}
 }

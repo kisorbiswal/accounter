@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -36,13 +36,13 @@ public class ExpensesListView extends BaseListView<BillsList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		FinanceApplication.createHomeService().getBillsAndItemReceiptList(true,
+		Accounter.createHomeService().getBillsAndItemReceiptList(true,
 				this);
 	}
 
 	@Override
 	protected Action getAddNewAction() {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			return VendorsActionFactory.getRecordExpensesAction();
 		else
 			return null;
@@ -50,43 +50,43 @@ public class ExpensesListView extends BaseListView<BillsList> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
-			return FinanceApplication.getVendorsMessages().addNewExpense();
+		if (Accounter.getUser().canDoInvoiceTransactions())
+			return Accounter.getVendorsMessages().addNewExpense();
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return FinanceApplication.getVendorsMessages().expensesList();
+		return Accounter.getVendorsMessages().expensesList();
 	}
 
 	@Override
 	protected void initGrid() {
 		grid = new BillsListGrid(false);
 		grid.init();
-		grid.setViewType(FinanceApplication.getVendorsMessages().all());
+		grid.setViewType(Accounter.getVendorsMessages().all());
 	}
 
 	@Override
 	protected SelectCombo getSelectItem() {
-		currentView = new SelectCombo(FinanceApplication.getVendorsMessages()
+		currentView = new SelectCombo(Accounter.getVendorsMessages()
 				.currentView());
 		currentView.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		// listOfTypes.add(FinanceApplication.getVendorsMessages().open());
 		// listOfTypes.add(FinanceApplication.getVendorsMessages().overDue());
-		listOfTypes.add(FinanceApplication.getVendorsMessages().cash());
-		listOfTypes.add(FinanceApplication.getVendorsMessages().creditCard());
-		listOfTypes.add(FinanceApplication.getVendorsMessages().employee());
-		listOfTypes.add(FinanceApplication.getVendorsMessages().Voided());
-		listOfTypes.add(FinanceApplication.getVendorsMessages().all());
+		listOfTypes.add(Accounter.getVendorsMessages().cash());
+		listOfTypes.add(Accounter.getVendorsMessages().creditCard());
+		listOfTypes.add(Accounter.getVendorsMessages().employee());
+		listOfTypes.add(Accounter.getVendorsMessages().Voided());
+		listOfTypes.add(Accounter.getVendorsMessages().all());
 		currentView.initCombo(listOfTypes);
 
 		if (UIUtils.isMSIEBrowser())
 			currentView.setWidth("150px");
 		if (this.viewType == null || this.viewType.equals(""))
-			currentView.setComboItem(FinanceApplication.getCustomersMessages()
+			currentView.setComboItem(Accounter.getCustomersMessages()
 					.all());
 		else
 			currentView.setComboItem(this.viewType);
@@ -106,7 +106,7 @@ public class ExpensesListView extends BaseListView<BillsList> {
 
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		if (text.equalsIgnoreCase(FinanceApplication.getVendorsMessages()
+		if (text.equalsIgnoreCase(Accounter.getVendorsMessages()
 				.employee())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
@@ -114,7 +114,7 @@ public class ExpensesListView extends BaseListView<BillsList> {
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(FinanceApplication
+		} else if (text.equalsIgnoreCase(Accounter
 				.getVendorsMessages().cash())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
@@ -122,7 +122,7 @@ public class ExpensesListView extends BaseListView<BillsList> {
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(FinanceApplication
+		} else if (text.equalsIgnoreCase(Accounter
 				.getVendorsMessages().creditCard())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
@@ -130,7 +130,7 @@ public class ExpensesListView extends BaseListView<BillsList> {
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(FinanceApplication
+		} else if (text.equalsIgnoreCase(Accounter
 				.getVendorsMessages().employee())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
@@ -190,7 +190,7 @@ public class ExpensesListView extends BaseListView<BillsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getVendorsMessages().expensesList();
+		return Accounter.getVendorsMessages().expensesList();
 	}
 
 }

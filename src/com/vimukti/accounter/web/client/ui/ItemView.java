@@ -90,26 +90,26 @@ public class ItemView extends BaseView<ClientItem> {
 		super();
 		this.takenItem = item;
 		this.type = type;
-		this.company = FinanceApplication.getCompany();
+		this.company = Accounter.getCompany();
 		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
 		this.validationCount = 9;
 
 	}
 
 	private void initTaxCodes() {
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			List<ClientTAXCode> result = FinanceApplication.getCompany()
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			List<ClientTAXCode> result = Accounter.getCompany()
 					.getActiveTaxCodes();
 			if (result != null) {
-				taxCode.initCombo(FinanceApplication.getCompany()
+				taxCode.initCombo(Accounter.getCompany()
 						.getActiveTaxCodes());
 				if (takenItem != null) {
-					taxCode.setComboItem(FinanceApplication.getCompany()
+					taxCode.setComboItem(Accounter.getCompany()
 							.getTAXCode(takenItem.getTaxCode()));
-				} else if (!FinanceApplication.getCompany().getpreferences()
+				} else if (!Accounter.getCompany().getpreferences()
 						.getDoYouPaySalesTax()) {
 					// vatCode.setDisabled(true);
-					List<ClientTAXCode> taxCodes = FinanceApplication
+					List<ClientTAXCode> taxCodes = Accounter
 							.getCompany().getActiveTaxCodes();
 					for (ClientTAXCode vatCod : taxCodes) {
 						if (vatCod.getName().equals("Z")) {
@@ -126,7 +126,7 @@ public class ItemView extends BaseView<ClientItem> {
 	}
 
 	private ClientAccount getDefaultAccount(String defaultAccount) {
-		List<ClientAccount> accountList = FinanceApplication.getCompany()
+		List<ClientAccount> accountList = Accounter.getCompany()
 				.getActiveAccounts();
 		for (ClientAccount account : accountList) {
 			if (account.getName().equalsIgnoreCase(defaultAccount)) {
@@ -144,9 +144,9 @@ public class ItemView extends BaseView<ClientItem> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		Label lab1 = new Label(FinanceApplication.getCustomersMessages()
+		Label lab1 = new Label(Accounter.getCustomersMessages()
 				.newProduct());
-		lab1.setStyleName(FinanceApplication.getCustomersMessages()
+		lab1.setStyleName(Accounter.getCustomersMessages()
 				.lableTitle());
 
 		HorizontalPanel hPanel = new HorizontalPanel();
@@ -154,13 +154,13 @@ public class ItemView extends BaseView<ClientItem> {
 
 		// nameText = new TextItem(FinanceApplication.getFinanceUIConstants()
 		// .itemName());
-		nameText = new TextItem(this.type == TYPE_SERVICE ? FinanceApplication
-				.getCustomersMessages().serviceName() : FinanceApplication
+		nameText = new TextItem(this.type == TYPE_SERVICE ? Accounter
+				.getCustomersMessages().serviceName() : Accounter
 				.getCustomersMessages().productName());
 		nameText.setHelpInformation(true);
 		nameText.setWidth(100);
 		nameText.setRequired(true);
-		isservice = new CheckboxItem(FinanceApplication.getFinanceUIConstants()
+		isservice = new CheckboxItem(Accounter.getFinanceUIConstants()
 				.isService());
 		isservice.setValue(true);
 		isservice.setDisabled(true);
@@ -176,36 +176,36 @@ public class ItemView extends BaseView<ClientItem> {
 		skuText.setWidth(100);
 		skuText.setTitle("UPC/SKU");
 
-		weightText = new IntegerField(FinanceApplication
+		weightText = new IntegerField(Accounter
 				.getFinanceUIConstants().weight());
 		weightText.setHelpInformation(true);
 		weightText.setWidth(100);
 		weightText.setValidators(integerRangeValidator);
-		commodityCode = new ItemGroupCombo(FinanceApplication
+		commodityCode = new ItemGroupCombo(Accounter
 				.getFinanceUIConstants().commmodityCode());
 		commodityCode.setHelpInformation(true);
 		itemForm = new DynamicForm();
 		itemForm.setWidth("98%");
 		itemForm.setStyleName("item-form-view");
 		itemForm.setIsGroup(true);
-		itemForm.setGroupTitle(FinanceApplication.getFinanceUIConstants()
+		itemForm.setGroupTitle(Accounter.getFinanceUIConstants()
 				.item());
 		if (isEdit)
 			this.type = takenItem.getType();
 		if (type == TYPE_SERVICE) {
 			lab1
-					.setText(FinanceApplication.getCustomersMessages()
+					.setText(Accounter.getCustomersMessages()
 							.newService());
-			if (FinanceApplication.getCompany().getAccountingType() == 1)
+			if (Accounter.getCompany().getAccountingType() == 1)
 				itemForm.setFields(nameText, isservice);
 			else
 
 				itemForm.setFields(nameText, isservice, skuText);
 		} else {
 			lab1
-					.setText(FinanceApplication.getCustomersMessages()
+					.setText(Accounter.getCustomersMessages()
 							.newProduct());
-			if (FinanceApplication.getCompany().getAccountingType() == 1)
+			if (Accounter.getCompany().getAccountingType() == 1)
 				itemForm.setFields(nameText, weightText);
 			else
 				itemForm.setFields(nameText, skuText, weightText);
@@ -214,10 +214,10 @@ public class ItemView extends BaseView<ClientItem> {
 		salesDescArea = new TextAreaItem();
 		salesDescArea.setHelpInformation(true);
 		salesDescArea.setWidth(100);
-		salesDescArea.setTitle(FinanceApplication.getFinanceUIConstants()
+		salesDescArea.setTitle(Accounter.getFinanceUIConstants()
 				.salesDescription());
 
-		salesPriceText = new AmountField(FinanceApplication
+		salesPriceText = new AmountField(Accounter
 				.getFinanceUIConstants().salesPrice());
 		salesPriceText.setHelpInformation(true);
 		salesPriceText.setWidth(100);
@@ -225,7 +225,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// salesPriceText.setValidators(floatRangeValidator);
 		// salesPriceText.setValidateOnChange(true);
 
-		accountCombo = new SalesItemCombo(FinanceApplication
+		accountCombo = new SalesItemCombo(Accounter
 				.getFinanceUIConstants().incomeAccount());
 		accountCombo.setHelpInformation(true);
 		// accountCombo.setWidth(100);
@@ -251,18 +251,18 @@ public class ItemView extends BaseView<ClientItem> {
 						}
 					}
 				});
-		itemTaxCheck = new CheckboxItem(FinanceApplication
+		itemTaxCheck = new CheckboxItem(Accounter
 				.getFinanceUIConstants().taxable());
 		itemTaxCheck.setValue(true);
 
-		comCheck = new CheckboxItem(FinanceApplication.getFinanceUIConstants()
+		comCheck = new CheckboxItem(Accounter.getFinanceUIConstants()
 				.commissionItem());
 
-		salesInfoForm = UIUtils.form(FinanceApplication.getFinanceUIConstants()
+		salesInfoForm = UIUtils.form(Accounter.getFinanceUIConstants()
 				.salesInformation());
 		salesInfoForm.setWidth("98%");
 
-		stdCostText = new AmountField(FinanceApplication
+		stdCostText = new AmountField(Accounter
 				.getFinanceUIConstants().standardCost());
 		stdCostText.setHelpInformation(true);
 		stdCostText.setWidth(100);
@@ -277,7 +277,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// stdCostForm.getCellFormatter().setWidth(0, 0, "165");
 		// itemGroupCombo = new ItemGroupCombo(FinanceApplication
 		// .getFinanceUIConstants().itemGroup());
-		itemGroupCombo = new ItemGroupCombo(FinanceApplication
+		itemGroupCombo = new ItemGroupCombo(Accounter
 				.getFinanceUIConstants().itemGroup());
 		itemGroupCombo.setHelpInformation(true);
 		// itemGroupCombo.setWidth(100);
@@ -287,7 +287,7 @@ public class ItemView extends BaseView<ClientItem> {
 						selectItemGroup = selectItem;
 					}
 				});
-		taxCode = new TAXCodeCombo(FinanceApplication.getFinanceUIConstants()
+		taxCode = new TAXCodeCombo(Accounter.getFinanceUIConstants()
 				.vatCode(), isGeneratedFromCustomer);
 		taxCode.setHelpInformation(true);
 		taxCode.setRequired(true);
@@ -303,16 +303,16 @@ public class ItemView extends BaseView<ClientItem> {
 					}
 				});
 		taxCode.setDefaultValue("Z-0.0%");
-		activeCheck = new CheckboxItem(FinanceApplication
+		activeCheck = new CheckboxItem(Accounter
 				.getFinanceUIConstants().active());
 		activeCheck.setValue(true);
 		purchaseDescArea = new TextAreaItem();
 		purchaseDescArea.setHelpInformation(true);
 		purchaseDescArea.setWidth(100);
-		purchaseDescArea.setTitle(FinanceApplication.getFinanceUIConstants()
+		purchaseDescArea.setTitle(Accounter.getFinanceUIConstants()
 				.purchaseDescription());
 
-		purchasePriceTxt = new AmountField(FinanceApplication
+		purchasePriceTxt = new AmountField(Accounter
 				.getFinanceUIConstants().purchasePrice());
 		purchasePriceTxt.setHelpInformation(true);
 		purchasePriceTxt.setWidth(100);
@@ -320,7 +320,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// purchasePriceTxt.setValidators(floatRangeValidator);
 		// purchasePriceTxt.setValidateOnChange(true);
 
-		expAccCombo = new PurchaseItemCombo(FinanceApplication
+		expAccCombo = new PurchaseItemCombo(Accounter
 				.getFinanceUIConstants().expenseAccount());
 		expAccCombo.setHelpInformation(true);
 		expAccCombo.setRequired(true);
@@ -345,8 +345,8 @@ public class ItemView extends BaseView<ClientItem> {
 				});
 		expAccCombo.setPopupWidth("500px");
 		prefVendorCombo = new VendorCombo(UIUtils.getVendorString(
-				FinanceApplication.getCustomersMessages().preferredSupplier(),
-				FinanceApplication.getCustomersMessages().preferredVendor()));
+				Accounter.getCustomersMessages().preferredSupplier(),
+				Accounter.getCustomersMessages().preferredVendor()));
 		prefVendorCombo.setHelpInformation(true);
 		prefVendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -355,11 +355,11 @@ public class ItemView extends BaseView<ClientItem> {
 					}
 				});
 		vendItemNumText = new IntegerField(this.type != TYPE_SERVICE ? UIUtils
-				.getVendorString(FinanceApplication.getCustomersMessages()
-						.supplierProductNo(), FinanceApplication
+				.getVendorString(Accounter.getCustomersMessages()
+						.supplierProductNo(), Accounter
 						.getCustomersMessages().vendorProductNo()) : UIUtils
-				.getVendorString(FinanceApplication.getCustomersMessages()
-						.supplierServiceNo(), FinanceApplication
+				.getVendorString(Accounter.getCustomersMessages()
+						.supplierServiceNo(), Accounter
 						.getCustomersMessages().vendorServiceNo()));
 		vendItemNumText.setHelpInformation(true);
 		vendItemNumText.setWidth(100);
@@ -367,9 +367,9 @@ public class ItemView extends BaseView<ClientItem> {
 		// isellCheck = new CheckboxItem(FinanceApplication
 		// .getFinanceUIConstants().iSellThisItem());
 		isellCheck = new CheckboxItem(
-				this.type == TYPE_SERVICE ? FinanceApplication
+				this.type == TYPE_SERVICE ? Accounter
 						.getCustomersMessages().isellthisservice()
-						: FinanceApplication.getCustomersMessages()
+						: Accounter.getCustomersMessages()
 								.isellthisproduct());
 		if (isGeneratedFromCustomer) {
 			isellCheck.setValue(isGeneratedFromCustomer);
@@ -393,9 +393,9 @@ public class ItemView extends BaseView<ClientItem> {
 		// CheckboxItem(FinanceApplication.getFinanceUIConstants()
 		// .iBuyThisItem());
 		ibuyCheck = new CheckboxItem(
-				this.type == TYPE_SERVICE ? FinanceApplication
+				this.type == TYPE_SERVICE ? Accounter
 						.getCustomersMessages().ibuythisservice()
-						: FinanceApplication.getCustomersMessages()
+						: Accounter.getCustomersMessages()
 								.ibuythisproduct());
 		ibuyCheck.setValue(!isGeneratedFromCustomer);
 
@@ -409,7 +409,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 		});
 
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			salesInfoForm.setFields(isellCheck, salesDescArea, salesPriceText,
 					accountCombo, comCheck, stdCostText);
 		else
@@ -422,15 +422,15 @@ public class ItemView extends BaseView<ClientItem> {
 		salesInfoForm.getCellFormatter().setWidth(0, 0, "25%");
 		salesInfoForm.getCellFormatter().setWidth(3, 0, "25%");
 		salesInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
-		itemInfoForm = UIUtils.form(FinanceApplication.getFinanceUIConstants()
+		itemInfoForm = UIUtils.form(Accounter.getFinanceUIConstants()
 				.itemInformation());
 		itemInfoForm.setWidth("97%");
-		if (FinanceApplication.getCompany().getAccountingType() == 1)
+		if (Accounter.getCompany().getAccountingType() == 1)
 			itemInfoForm.setFields(itemGroupCombo, taxCode, activeCheck);
 		else
 			itemInfoForm.setFields(itemGroupCombo, activeCheck);
 		itemInfoForm.getCellFormatter().setWidth(0, 0, "30%");
-		purchaseInfoForm = UIUtils.form(FinanceApplication
+		purchaseInfoForm = UIUtils.form(Accounter
 				.getFinanceUIConstants().purchaseInformation());
 		purchaseInfoForm.setNumCols(2);
 		purchaseInfoForm.setStyleName("purchase_info_form");
@@ -510,7 +510,7 @@ public class ItemView extends BaseView<ClientItem> {
 			name = takenItem.getName();
 			System.out.println(name + "before saving");
 			stdCostText.setAmount(takenItem.getStandardCost());
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 				skuText.setValue(takenItem.getUPCorSKU() != null ? takenItem
 						.getUPCorSKU() : "");
 
@@ -521,7 +521,7 @@ public class ItemView extends BaseView<ClientItem> {
 				salesDescArea.setValue(takenItem.getSalesDescription());
 			salesPriceText.setAmount(takenItem.getSalesPrice());
 
-			ClientCompany company = FinanceApplication.getCompany();
+			ClientCompany company = Accounter.getCompany();
 			selectAccount = company.getAccount(takenItem.getIncomeAccount());
 			comCheck.setValue(takenItem.isCommissionItem());
 
@@ -560,7 +560,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 		if (takenItem == null) {
 
-			if (Utility.isObjectExist(FinanceApplication.getCompany()
+			if (Utility.isObjectExist(Accounter.getCompany()
 					.getItems(), item.getName())) {
 				throw new InvalidEntryException(AccounterErrorType.ALREADYEXIST);
 			} else
@@ -604,7 +604,7 @@ public class ItemView extends BaseView<ClientItem> {
 		if (nameText.getValue() != null)
 			item.setName(nameText.getValue().toString());
 		if (selectItemGroup != null)
-			item.setItemGroup(selectItemGroup.getStringID());
+			item.setItemGroup(selectItemGroup.getID());
 		item.setStandardCost(stdCostText.getAmount());
 
 		item.setUPCorSKU((String) skuText.getValue());
@@ -620,7 +620,7 @@ public class ItemView extends BaseView<ClientItem> {
 				item.setSalesDescription(salesDescArea.getValue().toString());
 			item.setSalesPrice(salesPriceText.getAmount());
 			if (selectAccount != null)
-				item.setIncomeAccount(selectAccount.getStringID());
+				item.setIncomeAccount(selectAccount.getID());
 			item.setCommissionItem(getBooleanValue(comCheck));
 		}
 
@@ -629,18 +629,18 @@ public class ItemView extends BaseView<ClientItem> {
 			item.setPurchaseDescription(getStringValue(purchaseDescArea));
 			item.setPurchasePrice(purchasePriceTxt.getAmount());
 			if (selectVendor != null)
-				item.setPreferredVendor(selectVendor.getStringID());
+				item.setPreferredVendor(selectVendor.getID());
 			if (selectExpAccount != null)
-				item.setExpenseAccount(selectExpAccount.getStringID());
+				item.setExpenseAccount(selectExpAccount.getID());
 
 			item.setVendorItemNumber(vendItemNumText.getValue().toString());
 		}
-		if (FinanceApplication.getCompany().getAccountingType() == 0)
+		if (Accounter.getCompany().getAccountingType() == 0)
 			item.setTaxable(getBooleanValue(itemTaxCheck));
 		else
 			item.setTaxable(true);
 		if (type == NON_INVENTORY_PART || type == TYPE_SERVICE)
-			item.setTaxCode(selectTaxCode != null ? selectTaxCode.getStringID()
+			item.setTaxCode(selectTaxCode != null ? selectTaxCode.getID()
 					: null);
 		return item;
 	}
@@ -728,13 +728,13 @@ public class ItemView extends BaseView<ClientItem> {
 	}
 
 	private void initItemGroups() {
-		List<ClientItemGroup> clientItemgroup = FinanceApplication.getCompany()
+		List<ClientItemGroup> clientItemgroup = Accounter.getCompany()
 				.getItemGroups();
 
 		if (clientItemgroup != null) {
 			itemGroupCombo.initCombo(clientItemgroup);
 			if (takenItem != null) {
-				itemGroupCombo.setComboItem(FinanceApplication.getCompany()
+				itemGroupCombo.setComboItem(Accounter.getCompany()
 						.getItemGroup(takenItem.getItemGroup()));
 			}
 		}
@@ -757,12 +757,12 @@ public class ItemView extends BaseView<ClientItem> {
 	}
 
 	private void initVendorsList() {
-		List<ClientVendor> clientVendor = FinanceApplication.getCompany()
+		List<ClientVendor> clientVendor = Accounter.getCompany()
 				.getActiveVendors();
 		if (clientVendor != null) {
 			prefVendorCombo.initCombo(clientVendor);
 			if (takenItem != null) {
-				prefVendorCombo.setComboItem(FinanceApplication.getCompany()
+				prefVendorCombo.setComboItem(Accounter.getCompany()
 						.getVendor(takenItem.getPreferredVendor()));
 				if (takenItem.isIBuyThisItem() == false)
 					prefVendorCombo.setDisabled(true);
@@ -818,11 +818,11 @@ public class ItemView extends BaseView<ClientItem> {
 		}
 		if (takenItem != null) {
 
-			accountCombo.setComboItem(FinanceApplication.getCompany()
+			accountCombo.setComboItem(Accounter.getCompany()
 					.getAccount(takenItem.getIncomeAccount()));
 			if (takenItem.isISellThisItem() == false)
 				accountCombo.setDisabled(true);
-			selectExpAccount = FinanceApplication.getCompany().getAccount(
+			selectExpAccount = Accounter.getCompany().getAccount(
 					takenItem.getExpenseAccount());
 			expAccCombo.setComboItem(selectExpAccount);
 			if (takenItem.isIBuyThisItem() == false)
@@ -889,7 +889,7 @@ public class ItemView extends BaseView<ClientItem> {
 			return true;
 		case 5:
 			boolean result = true;
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				result = AccounterValidator.validateForm(itemInfoForm, false);
 			}
 			if (AccounterValidator.isChecked(ibuyCheck))
@@ -979,7 +979,7 @@ public class ItemView extends BaseView<ClientItem> {
 			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
 				this.expAccCombo.addComboItem((ClientAccount) core);
 			if (core.getObjectType() == AccounterCoreType.TAX_CODE
-					&& FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+					&& Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 				this.taxCode.addComboItem((ClientTAXCode) core);
 			break;
 		case AccounterCommand.UPDATION_SUCCESS:
@@ -994,7 +994,7 @@ public class ItemView extends BaseView<ClientItem> {
 			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
 				this.expAccCombo.updateComboItem((ClientAccount) core);
 			if (core.getObjectType() == AccounterCoreType.TAX_CODE
-					&& FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+					&& Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 				this.taxCode.updateComboItem((ClientTAXCode) core);
 			break;
 
@@ -1010,7 +1010,7 @@ public class ItemView extends BaseView<ClientItem> {
 			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
 				this.expAccCombo.removeComboItem((ClientAccount) core);
 			if (core.getObjectType() == AccounterCoreType.TAX_CODE
-					&& FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+					&& Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 				this.taxCode.removeComboItem((ClientTAXCode) core);
 			break;
 		}
@@ -1036,6 +1036,6 @@ public class ItemView extends BaseView<ClientItem> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCustomersMessages().item();
+		return Accounter.getCustomersMessages().item();
 	}
 }

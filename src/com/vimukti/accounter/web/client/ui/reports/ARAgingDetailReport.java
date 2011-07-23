@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.ARAgingDetailServerReport;
 
@@ -37,10 +37,10 @@ public class ARAgingDetailReport extends AbstractReportView<AgedDebtors> {
 		DummyDebitor byCustomerDetail = (DummyDebitor) this.data;
 
 		if (byCustomerDetail == null) {
-			FinanceApplication.createReportService().getAgedDebtors(
+			Accounter.createReportService().getAgedDebtors(
 					start.getTime(), new ClientFinanceDate().getTime(), this);
 		} else if (byCustomerDetail.getDebitorName() != null) {
-			FinanceApplication.createReportService().getAgedDebtors(
+			Accounter.createReportService().getAgedDebtors(
 					byCustomerDetail.getDebitorName(), start.getTime(),
 					new ClientFinanceDate().getTime(), this);
 		}
@@ -52,7 +52,7 @@ public class ARAgingDetailReport extends AbstractReportView<AgedDebtors> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			ReportsRPC.openTransactionView(record.getType(), record
 					.getTransactionId());
 	}

@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.StatementServerReport;
 
@@ -29,7 +29,7 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	public void makeReportRequest(String customer, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
 		// resetReport(endDate, endDate);
-		FinanceApplication.createReportService().getStatements(customer,
+		Accounter.createReportService().getStatements(customer,
 				new ClientFinanceDate().getTime(), startDate.getTime(),
 				endDate.getTime(), 0, false, false, 0.00, false, false, this);
 		customerId = customer;
@@ -175,6 +175,6 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return FinanceApplication.getReportsMessages().all();
+		return Accounter.getReportsMessages().all();
 	}
 }

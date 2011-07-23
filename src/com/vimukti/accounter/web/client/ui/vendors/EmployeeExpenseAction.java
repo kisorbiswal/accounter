@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -17,16 +17,16 @@ public class EmployeeExpenseAction extends Action {
 
 	public EmployeeExpenseAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(FinanceApplication
-				.getVendorsMessages().supplier(), FinanceApplication
+		this.catagory = UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplier(), Accounter
 				.getVendorsMessages().vendor());
 	}
 
 	public EmployeeExpenseAction(String text, String icon, ClientVendor vendor,
 			AsyncCallback<Object> callback) {
 		super(text, icon, vendor, callback);
-		this.catagory = UIUtils.getVendorString(FinanceApplication
-				.getVendorsMessages().supplier(), FinanceApplication
+		this.catagory = UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplier(), Accounter
 				.getVendorsMessages().vendor());
 	}
 
@@ -62,7 +62,7 @@ public class EmployeeExpenseAction extends Action {
 
 	@Override
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().newCashPurchage();
+		return Accounter.getFinanceMenuImages().newCashPurchage();
 	}
 
 	@SuppressWarnings("unchecked")

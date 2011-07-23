@@ -123,13 +123,13 @@ public class ClientUserPermissions implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
+	public void setID(long id){
 		// TODO Auto-generated method stub
 
 	}

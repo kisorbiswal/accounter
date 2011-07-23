@@ -26,7 +26,7 @@ public class PayVATEntries implements IAccounterServerCore, Lifecycle {
 
 	long id;
 
-	public String stringID;
+	public long id;
 
 	Transaction transaction;
 
@@ -155,14 +155,14 @@ public class PayVATEntries implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

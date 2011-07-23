@@ -32,7 +32,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
@@ -117,8 +117,8 @@ public class ReceivePaymentView extends
 			return;
 		}
 		if (customer != null && customerCombo != null) {
-			customerCombo.setComboItem(FinanceApplication.getCompany()
-					.getCustomer(selectedCustomer.getStringID()));
+			customerCombo.setComboItem(Accounter.getCompany()
+					.getCustomer(selectedCustomer.getID()));
 		}
 		this.customer = selectedCustomer;
 		this.gridView.setCustomer(customer);
@@ -157,7 +157,7 @@ public class ReceivePaymentView extends
 		long paymentDate = transactionDateItem.getDate().getTime();
 
 		this.rpcUtilService.getTransactionReceivePayments(selectedCustomer
-				.getStringID(), paymentDate,
+				.getID(), paymentDate,
 				new AsyncCallback<List<ReceivePaymentTransactionList>>() {
 
 					public void onFailure(Throwable caught) {
@@ -165,11 +165,11 @@ public class ReceivePaymentView extends
 							Accounter
 									.showMessage("Your session expired, Please login again to continue");
 						} else {
-							Accounter.showError(FinanceApplication
+							Accounter.showError(Accounter
 									.getCustomersMessages()
 									.failedToGetRecievePayments()
 									+ selectedCustomer.getName());
-							gridView.addEmptyMessage(FinanceApplication
+							gridView.addEmptyMessage(Accounter
 									.getCustomersMessages().norecordstoshow());
 						}
 					}
@@ -184,7 +184,7 @@ public class ReceivePaymentView extends
 							gridView.initCreditsAndPayments(selectedCustomer);
 							addTransactionRecievePayments(result);
 						} else {
-							gridView.addEmptyMessage(FinanceApplication
+							gridView.addEmptyMessage(Accounter
 									.getCustomersMessages().norecordstoshow());
 							totalInoiceAmt = 0.00d;
 							totalDueAmt = 0.00d;
@@ -374,9 +374,9 @@ public class ReceivePaymentView extends
 		if (paymentMethod != null)
 			receivePayment.setPaymentMethod(paymentMethod);
 		if (depositInAccount != null)
-			receivePayment.setDepositIn(depositInAccount.getStringID());
+			receivePayment.setDepositIn(depositInAccount.getID());
 		if (customer != null)
-			receivePayment.setCustomer(customer.getStringID());
+			receivePayment.setCustomer(customer.getID());
 		if (transactionNumber != null)
 			receivePayment.setNumber(transactionNumber.getValue().toString());
 		// if (refText != null)
@@ -412,7 +412,7 @@ public class ReceivePaymentView extends
 			// .getCustomersMessages().cashAccount(), gridView
 			// .indexOf(payment)));
 			// if (cashAcc != null)
-			// payment.setDiscountAccount(cashAcc.getStringID());
+			// payment.setDiscountAccount(cashAcc.getID());
 			//
 			// ClientAccount wrrittoff = FinanceApplication.getCompany()
 			// .getAccount(
@@ -420,9 +420,9 @@ public class ReceivePaymentView extends
 			// .getCustomersMessages().writeOff(),
 			// gridView.indexOf(payment)));
 			// if (wrrittoff != null)
-			// payment.setWriteOffAccount(wrrittoff.getStringID());
+			// payment.setWriteOffAccount(wrrittoff.getID());
 
-			payment.setTransaction(receivePayment.getStringID());
+			payment.setTransaction(receivePayment.getID());
 
 			// List<ClientTransactionCreditsAndPayments> trpList =
 			// (List<ClientTransactionCreditsAndPayments>) gridView
@@ -464,7 +464,7 @@ public class ReceivePaymentView extends
 			lab = new Label(Utility.getTransactionName(transactionType));
 		}
 		lab
-				.setStyleName(FinanceApplication.getCustomersMessages()
+				.setStyleName(Accounter.getCustomersMessages()
 						.lableTitle());
 		// lab.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
@@ -527,7 +527,7 @@ public class ReceivePaymentView extends
 					paymentAmountChanged(amount);
 
 					if (DecimalUtil.isLessThan(amount, 0)) {
-						Accounter.showError(FinanceApplication
+						Accounter.showError(Accounter
 								.getCustomersMessages()
 								.noNegativeAmountsReceived());
 						setAmount(0.00D);
@@ -570,7 +570,7 @@ public class ReceivePaymentView extends
 		payForm.setIsGroup(true);
 		payForm.setGroupTitle(customerConstants.payment());
 
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			payForm.setFields(customerCombo, amtText, paymentMethodCombo);
 		} else
 			payForm.setFields(customerCombo, amtText, paymentMethodCombo);
@@ -596,7 +596,7 @@ public class ReceivePaymentView extends
 		depoForm.getCellFormatter().setWidth(0, 0, "203px");
 		forms.add(depoForm);
 
-		Label lab1 = new Label(FinanceApplication.getCustomersMessages()
+		Label lab1 = new Label(Accounter.getCustomersMessages()
 				.dueForPayment());
 
 		initListGrid();
@@ -860,12 +860,12 @@ public class ReceivePaymentView extends
 
 		paymentToBeEdited = (ClientReceivePayment) transactionObject;
 
-		this.customer = FinanceApplication.getCompany().getCustomer(
+		this.customer = Accounter.getCompany().getCustomer(
 				paymentToBeEdited.getCustomer());
-		customerSelected(FinanceApplication.getCompany().getCustomer(
+		customerSelected(Accounter.getCompany().getCustomer(
 				paymentToBeEdited.getCustomer()));
 
-		depositInAccountSelected(FinanceApplication.getCompany().getAccount(
+		depositInAccountSelected(Accounter.getCompany().getAccount(
 				paymentToBeEdited.getDepositIn()));
 
 		this.transactionItems = paymentToBeEdited.getTransactionItems();
@@ -882,7 +882,7 @@ public class ReceivePaymentView extends
 		initTransactionTotalNonEditableItem();
 		List<ClientTransactionReceivePayment> tranReceivePaymnetsList = paymentToBeEdited
 				.getTransactionReceivePayment();
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			initListGridData(tranReceivePaymnetsList);
 		else {
 			initListGridData(tranReceivePaymnetsList);
@@ -1378,7 +1378,7 @@ public class ReceivePaymentView extends
 		transactionObject = null;
 
 		// this.rpcUtilService.getTransactionReceivePayments(customer
-		// .getStringID(),
+		// .getID(),
 		// new AsyncCallback<List<ReceivePaymentTransactionList>>() {
 		//
 		// public void onFailure(Throwable caught) {
@@ -1441,7 +1441,7 @@ public class ReceivePaymentView extends
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCustomersMessages().receivePayment();
+		return Accounter.getCustomersMessages().receivePayment();
 	}
 
 }

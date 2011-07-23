@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.forms;
 
 import com.google.gwt.user.client.ui.ListBox;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class RequiredFieldValidator implements Validator {
 
@@ -9,7 +9,7 @@ public class RequiredFieldValidator implements Validator {
 	public boolean validate(FormItem formItem) {
 		if (formItem.getMainWidget() instanceof ListBox) {
 			if (formItem.getValue().toString().equalsIgnoreCase(
-					FinanceApplication.getAccounterComboConstants()
+					Accounter.getAccounterComboConstants()
 							.emptyValue()))
 
 				return false;

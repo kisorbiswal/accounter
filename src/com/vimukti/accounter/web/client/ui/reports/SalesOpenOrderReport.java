@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesOpenOrderServerReport;
 
@@ -17,22 +17,22 @@ public class SalesOpenOrderReport extends
 
 	public SalesOpenOrderReport() {
 		this.serverReport = new SalesOpenOrderServerReport(this);
-		isSales = FinanceApplication.isSales();
+		isSales = Accounter.isSales();
 	}
 
 	@Override
 	public void init() {
 
 		super.init();
-		toolbar.setDateRanageOptions(FinanceApplication.getReportsMessages()
-				.all(), FinanceApplication.getReportsMessages().thisWeek(),
-				FinanceApplication.getReportsMessages().thisMonth(),
-				FinanceApplication.getReportsMessages().lastWeek(),
-				FinanceApplication.getReportsMessages().lastMonth(),
-				FinanceApplication.getReportsMessages().thisFinancialYear(),
-				FinanceApplication.getReportsMessages().lastFinancialYear(),
-				FinanceApplication.getReportsMessages().thisFinancialQuarter(),
-				FinanceApplication.getReportsMessages().lastFinancialQuarter(),
+		toolbar.setDateRanageOptions(Accounter.getReportsMessages()
+				.all(), Accounter.getReportsMessages().thisWeek(),
+				Accounter.getReportsMessages().thisMonth(),
+				Accounter.getReportsMessages().lastWeek(),
+				Accounter.getReportsMessages().lastMonth(),
+				Accounter.getReportsMessages().thisFinancialYear(),
+				Accounter.getReportsMessages().lastFinancialYear(),
+				Accounter.getReportsMessages().thisFinancialQuarter(),
+				Accounter.getReportsMessages().lastFinancialQuarter(),
 
 				// FinanceApplication
 				// .getReportsMessages().present(), FinanceApplication
@@ -40,12 +40,12 @@ public class SalesOpenOrderReport extends
 				// .getReportsMessages().last6Months(), FinanceApplication
 				// .getReportsMessages().lastYear(), FinanceApplication
 				// .getReportsMessages().untilEndOfYear(),
-				FinanceApplication.getReportsMessages().custom());
+				Accounter.getReportsMessages().custom());
 	}
 
 	@Override
 	public void OnRecordClick(OpenAndClosedOrders record) {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			ReportsRPC.openTransactionView(record.getTransactionType(), record
 					.getTransactionID());
 			// resetReport(toolbar.getStartDate(), toolbar.getEndDate());
@@ -67,18 +67,18 @@ public class SalesOpenOrderReport extends
 	public void makeReportRequest(int status, ClientFinanceDate start,
 			ClientFinanceDate end) {
 		if (status == 1)
-			FinanceApplication.createReportService().getSalesOpenOrderReport(
+			Accounter.createReportService().getSalesOpenOrderReport(
 					start.getTime(), end.getTime(), this);
 		else if (status == 2)
-			FinanceApplication.createReportService()
+			Accounter.createReportService()
 					.getSalesCompletedOrderReport(start.getTime(),
 							end.getTime(), this);
 		else if (status == 3)
-			FinanceApplication.createReportService()
+			Accounter.createReportService()
 					.getSalesCancelledOrderReport(start.getTime(),
 							end.getTime(), this);
 		else
-			FinanceApplication.createReportService().getSalesOrderReport(
+			Accounter.createReportService().getSalesOrderReport(
 					start.getTime(), end.getTime(), this);
 
 		this.status = String.valueOf(status);

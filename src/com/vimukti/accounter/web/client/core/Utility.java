@@ -9,7 +9,7 @@ import java.util.Set;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -228,7 +228,7 @@ public class Utility implements IsSerializable, Serializable {
 		if (account == null)
 			return "";
 
-		return getHierarchy(FinanceApplication.getCompany().getAccount(
+		return getHierarchy(Accounter.getCompany().getAccount(
 				account.getParent()))
 				+ account.getName() + " > ";
 	}
@@ -237,20 +237,20 @@ public class Utility implements IsSerializable, Serializable {
 			ClientFinanceDate transactionDate, ClientPaymentTerms paymentTerm) {
 
 		// try {
-		//		
+		//
 		// Date discountDate = new Date();
 		// discountDate = transactionDate;
-		//		
+		//
 		// if (paymentTerm != null) {
-		//		
+		//
 		// int ifPaidWithIn = 0;
 		// if (paymentTerm.getIfPaidWithIn() > 0)
 		// ifPaidWithIn = paymentTerm.getIfPaidWithIn();
 		// Calendar cal = Calendar.getInstance();
 		// cal.setTime(discountDate);
-		//		
+		//
 		// cal.add(Calendar.DAY_OF_MONTH, ifPaidWithIn);
-		//		
+		//
 		// discountDate = cal.getTime();
 		// return discountDate;
 		// } else
@@ -264,30 +264,30 @@ public class Utility implements IsSerializable, Serializable {
 
 	// public static String getCalculatedDiscountDate(String transactionDate,
 	// PaymentTerms paymentTerm){
-	//		
+	//
 	// String discountDate = "";
 	// if (paymentTerm != null) {
-	//				
+	//
 	// int ifPaidWithIn = 0;
 	// if (paymentTerm.getIfPaidWithIn() > 0)
 	// ifPaidWithIn = paymentTerm.getIfPaidWithIn();
-	//			 
+	//
 	// discountDate = calculateDiscountDate(transactionDate, ifPaidWithIn);
 	// }
-	//		 
+	//
 	// }
 
 	// private final static native String calculateDiscountDate(String
 	// transactionDate,
 	// int ifPaidWithIn) /*-{
-	//		
+	//
 	// Date discountDate = new Date(transactionDate);
 	// discountDate = discountDate+ifPaidWithIn;
 	// $wnd.alert(" discountDate:"+discountDate);
 	// return "";
-	// 		
-	// 		
-	// 		
+	//
+	//
+	//
 	//
 	// }-*/;
 
@@ -380,7 +380,7 @@ public class Utility implements IsSerializable, Serializable {
 		// " AND TR.AS_OF IN (SELECT MAX(TR1.AS_OF) FROM TAXRATES TR1 WHERE TR1.ID IN (SELECT (TR2.ID) FROM TAXRATES TR2 JOIN TAXGROUP_TAXCODE TGTC ON TR2.TAXCODE_ID = TGTC.TAXCODE_ID JOIN TAXGROUP TG ON TGTC.TAXGROUP_ID = TG.ID) AND TR1.AS_OF <= '"
 		// ).append(transactionDate).append(
 		// "' GROUP BY TR1.TAXCODE_ID) and TR.COMPANY_ID ="
-		// ).append(company.getStringID()).toString());
+		// ).append(company.getID()).toString());
 
 		Double salesTaxAmount = 0D;
 		Double calculatedTaxRate = 0D;
@@ -442,19 +442,19 @@ public class Utility implements IsSerializable, Serializable {
 	// return null;
 
 	// Double rate=null;
-	//		
+	//
 	// if(taxCode.getTaxRates()!=null) {
 	// Set <TaxRates> taxrates=taxCode.getTaxRates();
 	// Iterator<TaxRates> i3=taxrates.iterator();
-	//			
+	//
 	// Date date;
 	// if(i3.hasNext()) {
 	// TaxRates tr=(TaxRates) i3.next();
 	// date=(Date)tr.getAsOf();
 	// rate=tr.getRate();
-	//		
+	//
 	// while(i3.hasNext()) {
-	//		
+	//
 	// if(date.after(tr.getAsOf())) {
 	// date=tr.getAsOf();
 	// rate=tr.getRate();
@@ -745,7 +745,7 @@ public class Utility implements IsSerializable, Serializable {
 		// lhs = amt.nextToken();
 		// rhs = amt.nextToken();
 		// rhs = rhs.substring(0, 2);
-		//				
+		//
 		// }
 		// }
 		int length = lhs.length();
@@ -782,8 +782,9 @@ public class Utility implements IsSerializable, Serializable {
 			numberInWords += readNumber(subString);
 		}
 		if (!rhs.equals(""))
-			numberInWords = new StringBuilder().append(numberInWords).append(
-					" and ").append(rhs).append("/100 DOLLARS").toString();
+			numberInWords = new StringBuilder().append(numberInWords)
+					.append(" and ").append(rhs).append("/100 DOLLARS")
+					.toString();
 		System.out.println(numberInWords);
 
 		return numberInWords;
@@ -1220,9 +1221,9 @@ public class Utility implements IsSerializable, Serializable {
 		}
 	}
 
-	public static <T extends IAccounterCore> String getId(T source) {
+	public static <T extends IAccounterCore> long getId(T source) {
 
-		return source != null ? source.getStringID() : "";
+		return source != null ? source.getID() : -1;
 
 	}
 
@@ -1236,7 +1237,7 @@ public class Utility implements IsSerializable, Serializable {
 
 		if (objectInList == null || objectsList == null)
 			return;
-		T existObj = getObject(objectsList, objectInList.getStringID());
+		T existObj = getObject(objectsList, objectInList.getID());
 		if (existObj == null) {
 			// objectsList.add(objectInList);
 		} else {
@@ -1252,26 +1253,24 @@ public class Utility implements IsSerializable, Serializable {
 		}
 	}
 
-	public static <S extends IAccounterCore> S getObject(List<S> list, String id) {
+	public static <S extends IAccounterCore> S getObject(List<S> list, long id) {
 		if (list == null)
 			return null;
 		for (S s : list) {
-			if (s != null && s.getStringID() != null) {
-				if (s.getStringID().equals(id))
-					return s;
+			if (s != null && s.getID() != id) {
+				return s;
 			}
 		}
 		return null;
 	}
 
 	public static <S extends IsSerializable> S getObjectFromList(List<S> list,
-			String id) {
+			long id) {
 		if (list == null)
 			return null;
 		for (S s : list) {
-			if (s != null && ((IAccounterCore) s).getStringID() != null) {
-				if (((IAccounterCore) s).getStringID().equals(id))
-					return s;
+			if (s != null && ((IAccounterCore) s).getID() != id) {
+				return s;
 			}
 		}
 		return null;
@@ -1318,7 +1317,7 @@ public class Utility implements IsSerializable, Serializable {
 					throw new InvalidEntryException(
 							"A Supplier Account Number shouble be positive");
 				}
-				
+
 			}
 		} catch (InvalidEntryException e) {
 			return true;
@@ -1350,12 +1349,12 @@ public class Utility implements IsSerializable, Serializable {
 		return false;
 	}
 
-	public static <S extends IAccounterCore> S getObject(Set<S> set, String id) {
+	public static <S extends IAccounterCore> S getObject(Set<S> set, long id) {
 		if (set == null)
 			return null;
 
 		for (S s : set)
-			if (s.getStringID().equals(id))
+			if (s.getID() == id)
 				return s;
 		return null;
 	}
@@ -1435,89 +1434,6 @@ public class Utility implements IsSerializable, Serializable {
 		if (list == null)
 			return new ArrayList<L>();
 		return list;
-	}
-
-	public static void sortFiscalYears() {
-		Collections.sort(FinanceApplication.getCompany().getFiscalYears(),
-				new Comparator<ClientFiscalYear>() {
-
-					@Override
-					public int compare(ClientFiscalYear o1, ClientFiscalYear o2) {
-						return o1.getStartDate().compareTo(o2.getStartDate());
-					}
-				});
-	}
-
-	public static ClientFinanceDate getLastandOpenedFiscalYearEndDate() {
-		List<ClientFiscalYear> clientFiscalYears = FinanceApplication
-				.getCompany().getFiscalYears();
-
-		if (!clientFiscalYears.isEmpty())
-			return clientFiscalYears.get((clientFiscalYears.size() - 1))
-					.getEndDate();
-
-		return null;
-	}
-
-	public static ClientFinanceDate getLastandOpenedFiscalYearStartDate() {
-		List<ClientFiscalYear> clientFiscalYears = FinanceApplication
-				.getCompany().getFiscalYears();
-		if (!clientFiscalYears.isEmpty())
-			return clientFiscalYears.get((clientFiscalYears.size() - 1))
-					.getStartDate();
-		return null;
-	}
-
-	public static ClientFinanceDate getCurrentFiscalYearStartDate() {
-		List<ClientFiscalYear> clientFiscalYears = FinanceApplication
-				.getCompany().getFiscalYears();
-		boolean isCurrentOne = false;
-		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
-			isCurrentOne = new ClientFinanceDate().before(clientFiscalYears
-					.get(i).getEndDate())
-					&& new ClientFinanceDate().after(clientFiscalYears.get(i)
-							.getStartDate());
-			if (isCurrentOne)
-				return clientFiscalYears.get(i).getStartDate();
-		}
-		if (!isCurrentOne) {
-			return getLastandOpenedFiscalYearStartDate();
-		}
-		return null;
-	}
-
-	public static ClientFinanceDate getCurrentFiscalYearEndDate() {
-		List<ClientFiscalYear> clientFiscalYears = FinanceApplication
-				.getCompany().getFiscalYears();
-		boolean isCurrentOne = false;
-		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
-			isCurrentOne = new ClientFinanceDate().before(clientFiscalYears
-					.get(i).getEndDate())
-					&& new ClientFinanceDate().after(clientFiscalYears.get(i)
-							.getStartDate());
-			if (isCurrentOne)
-				return clientFiscalYears.get(i).getEndDate();
-		}
-		if (!isCurrentOne) {
-			return getLastandOpenedFiscalYearEndDate();
-		}
-		return null;
-	}
-
-	public static boolean isCurrentInFiscalYear(long date) {
-		List<ClientFiscalYear> clientFiscalYears = FinanceApplication
-				.getCompany().getFiscalYears();
-		boolean isCurrentOne = false;
-		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
-			long startDate = Math.round(clientFiscalYears.get(i).getStartDate()
-					.getTime() / 100);
-			long endDate = Math.round(clientFiscalYears.get(i).getEndDate()
-					.getTime() / 100);
-			isCurrentOne = (date >= startDate) && (date <= endDate);
-			if (isCurrentOne)
-				return true;
-		}
-		return false;
 	}
 
 	public static String getDescription(int boxType) {

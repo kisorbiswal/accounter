@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -51,19 +51,19 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 		 * }
 		 */
 		startDateItem.setDatethanFireEvent(new ClientFinanceDate(
-				FinanceApplication.getCompany().getPreferences()
+				Accounter.getCompany().getPreferences()
 						.getStartOfFiscalYear()));
 	}
 
 	private void createControls() {
 		enterStartDateLabel = new HTML();
-		enterStartDateLabel.setHTML(FinanceApplication.getCompanyMessages()
+		enterStartDateLabel.setHTML(Accounter.getCompanyMessages()
 				.pleaseEnterNewStartDate());
-		startDateItem = new DateField(FinanceApplication.getCompanyMessages()
+		startDateItem = new DateField(Accounter.getCompanyMessages()
 				.startDate());
 		startDateItem.setHelpInformation(true);
 
-		long startdate = FinanceApplication.getCompany().getPreferences()
+		long startdate = Accounter.getCompany().getPreferences()
 				.getStartOfFiscalYear();
 		startDateItem.setEnteredDate(new ClientFinanceDate(startdate));
 		// startDateItem.setTitle("Start date");
@@ -127,7 +127,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 			@Override
 			public void onSuccess(Boolean result) {
 				if (result) {
-					ClientCompanyPreferences preferences = FinanceApplication
+					ClientCompanyPreferences preferences = Accounter
 							.getCompany().getPreferences();
 					preferences.setStartOfFiscalYear(convertedStartDate);
 					// preferences.setPreventPostingBeforeDate(convertedStartDate);
@@ -234,7 +234,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 
 		listofperiods.removeAllRecords();
 
-		for (ClientFiscalYear clientFiscalYear : FinanceApplication
+		for (ClientFiscalYear clientFiscalYear : Accounter
 				.getCompany().getFiscalYears()) {
 			listofperiods.addData(clientFiscalYear);
 		}
@@ -254,7 +254,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 	public void addFiscalYearsToList() {
 		listofperiods.removeAllRecords();
 
-		for (ClientFiscalYear clientFiscalYear : FinanceApplication
+		for (ClientFiscalYear clientFiscalYear : Accounter
 				.getCompany().getFiscalYears()) {
 			listofperiods.addData(clientFiscalYear);
 		}
@@ -262,7 +262,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCompanyMessages().changeStartDate();
+		return Accounter.getCompanyMessages().changeStartDate();
 	}
 
 }

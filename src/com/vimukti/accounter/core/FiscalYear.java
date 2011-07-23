@@ -36,7 +36,7 @@ public class FiscalYear implements IAccounterServerCore, Lifecycle,
 	/**
 	 * A 40 Digit, Secure Random Number,
 	 */
-	public String stringID;
+	public long id;
 
 	/**
 	 * The StartDate for the Fiscal Year
@@ -108,7 +108,7 @@ public class FiscalYear implements IAccounterServerCore, Lifecycle,
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
@@ -445,13 +445,13 @@ public class FiscalYear implements IAccounterServerCore, Lifecycle,
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

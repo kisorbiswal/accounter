@@ -280,7 +280,7 @@ public class CustomerPrePayment extends Transaction implements Lifecycle {
 						&& DecimalUtil.isEquals(
 								creditsAndPayments.creditAmount, 0.0d)) {
 					creditsAndPayments = new CreditsAndPayments(this,
-							creditsAndPayments.getStringID());
+							creditsAndPayments.getID());
 				} else {
 					creditsAndPayments = new CreditsAndPayments(this);
 				}

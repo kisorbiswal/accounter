@@ -21,7 +21,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class Utility_R {
 
@@ -1417,7 +1417,7 @@ public class Utility_R {
 					.getFormat("dd/MM/yyyy");
 			String format = dateFormatter.format(date.getDateAsObject());
 			return format;
-		} else if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			DateTimeFormat dateFormatter = DateTimeFormat
 					.getFormat("MM/dd/yyyy");
 			String format = dateFormatter.format(date.getDateAsObject());
@@ -1477,7 +1477,7 @@ public class Utility_R {
 	}
 
 	public static String getVendorString(String forUk, String forUs) {
-		return FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? forUk
+		return Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? forUk
 				: forUs;
 	}
 

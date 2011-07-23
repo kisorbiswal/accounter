@@ -5,7 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -30,11 +30,11 @@ public class ChangePasswordDialog extends BaseDialog {
 
 	private void createControls() {
 
-		oldPasswordTextItem = new PasswordItem(FinanceApplication
+		oldPasswordTextItem = new PasswordItem(Accounter
 				.getCompanyMessages().oldPassword());
-		newPasswordTextItem = new PasswordItem(FinanceApplication
+		newPasswordTextItem = new PasswordItem(Accounter
 				.getCompanyMessages().newPassword());
-		confirmNewPasswordTextItem = new PasswordItem(FinanceApplication
+		confirmNewPasswordTextItem = new PasswordItem(Accounter
 				.getCompanyMessages().confirmNewPassword());
 
 		oldPasswordTextItem.setRequired(true);
@@ -51,7 +51,7 @@ public class ChangePasswordDialog extends BaseDialog {
 				confirmNewPasswordTextItem);
 
 		mainPanel.add(textItemsForm);
-		okbtn.setText(FinanceApplication.getSettingsMessages().saveButton());
+		okbtn.setText(Accounter.getSettingsMessages().saveButton());
 
 		setBodyLayout(mainPanel);
 
@@ -85,11 +85,11 @@ public class ChangePasswordDialog extends BaseDialog {
 		oldPassword = oldPasswordTextItem.getValue().toString();
 		newPassword = newPasswordTextItem.getValue().toString();
 		confirmNewPassword = confirmNewPasswordTextItem.getValue().toString();
-		String emailID = FinanceApplication.clientIdentity.getEmailAddress();
+		String emailID = Accounter.clientIdentity.getEmailAddress();
 
 		if (!(newPassword.toString().length() < 6)) {
 			if (newPassword.equals(confirmNewPassword)) {
-				FinanceApplication.createHomeService().changePassWord(emailID,
+				Accounter.createHomeService().changePassWord(emailID,
 						oldPassword, newPassword, new AsyncCallback<Boolean>() {
 
 							@Override
@@ -156,7 +156,7 @@ public class ChangePasswordDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().changePassword();
+		return Accounter.getActionsConstants().changePassword();
 	}
 
 }

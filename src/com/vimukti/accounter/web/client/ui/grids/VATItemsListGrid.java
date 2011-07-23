@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
@@ -63,11 +63,11 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	 */
 	@Override
 	protected String[] getColumns() {
-		return new String[] { FinanceApplication.getVATMessages().active(),
-				FinanceApplication.getVATMessages().product(),
-				FinanceApplication.getVATMessages().VatAgency(),
-				FinanceApplication.getVATMessages().description(),
-				FinanceApplication.getVATMessages().rate(), "" };
+		return new String[] { Accounter.getVATMessages().active(),
+				Accounter.getVATMessages().product(),
+				Accounter.getVATMessages().VatAgency(),
+				Accounter.getVATMessages().description(),
+				Accounter.getVATMessages().rate(), "" };
 	}
 
 	/*
@@ -85,7 +85,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 		case 2:
 			ClientTAXAgency agency = null;
 			if (item.getTaxAgency() != null) {
-				agency = FinanceApplication.getCompany().getTaxAgency(
+				agency = Accounter.getCompany().getTaxAgency(
 						item.getTaxAgency());
 			}
 			return agency != null ? agency.getName() : "";
@@ -97,7 +97,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 			else
 				return DataUtils.getAmountAsString(item.getTaxRate());
 		case 5:
-			return FinanceApplication.getFinanceMenuImages().delete();
+			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
 		}
 		return "";
@@ -150,7 +150,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 			// agency1 = getTaxAgency(obj1);
 			// agency2 = getTaxAgency(obj2);
 			// }
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				agency1 = getVATAgencyID(obj1);
 				agency2 = getVATAgencyID(obj2);
 			}
@@ -192,8 +192,8 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 		ClientTAXAgency agency = null;
 		if (obj.getTaxAgency() != null) {
 
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				agency = FinanceApplication.getCompany().getTaxAgency(
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				agency = Accounter.getCompany().getTaxAgency(
 						obj.getTaxAgency());
 
 			}

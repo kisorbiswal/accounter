@@ -1,19 +1,19 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShippingTermListDialog;
 
 public class ShippingTermsCombo extends CustomCombo<ClientShippingTerms> {
 
 	public ShippingTermsCombo(String title) {
 		super(title);
-		initCombo(FinanceApplication.getCompany().getShippingTerms());
+		initCombo(Accounter.getCompany().getShippingTerms());
 	}
 
 	public ShippingTermsCombo(String title, boolean isAddNewRequired) {
 		super(title, isAddNewRequired, 1);
-		initCombo(FinanceApplication.getCompany().getShippingTerms());
+		initCombo(Accounter.getCompany().getShippingTerms());
 	}
 
 	@Override

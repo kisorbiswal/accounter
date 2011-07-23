@@ -40,7 +40,7 @@ public class PaymentTerms implements IAccounterServerCore, Lifecycle,
 	/**
 	 * A Secure 40-digit, Random Number
 	 */
-	public String stringID;
+	public long id;
 
 	/**
 	 * Payment Term Name
@@ -182,14 +182,14 @@ public class PaymentTerms implements IAccounterServerCore, Lifecycle,
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.core;
 @SuppressWarnings("serial")
 public class ClientFixedAssetHistory implements IAccounterCore {
 
-	private String stringID;
+	private long id;
 
 	public static final String ACTION_TYPE_NOTE = "NONE";
 	public static final String ACTION_TYPE_STATUS = "Status";
@@ -46,13 +46,13 @@ public class ClientFixedAssetHistory implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

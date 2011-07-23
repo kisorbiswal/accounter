@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class TaxAgencyAccountsCombo extends AccountCombo {
 
@@ -17,7 +17,7 @@ public class TaxAgencyAccountsCombo extends AccountCombo {
 	@Override
 	public List<ClientAccount> getAccounts() {
 		taxAgencyAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : FinanceApplication.getCompany()
+		for (ClientAccount account : Accounter.getCompany()
 				.getActiveAccounts())
 			if (account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
 					&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE

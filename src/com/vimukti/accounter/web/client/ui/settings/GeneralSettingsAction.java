@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -13,7 +13,7 @@ public class GeneralSettingsAction extends Action {
 
 	public GeneralSettingsAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getSettingsMessages().settings();
+		this.catagory = Accounter.getSettingsMessages().settings();
 	}
 
 	@Override

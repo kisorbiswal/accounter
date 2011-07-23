@@ -19,7 +19,7 @@ public class CreditRating implements IAccounterServerCore, Lifecycle,
 
 	long id;
 
-	public String stringID;
+	public long id;
 
 	/**
 	 * This is the name of the Credit Rating.
@@ -112,14 +112,14 @@ public class CreditRating implements IAccounterServerCore, Lifecycle,
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

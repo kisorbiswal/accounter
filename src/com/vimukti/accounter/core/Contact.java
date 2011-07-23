@@ -107,13 +107,13 @@ public class Contact implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 
 		return null;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
+	public void setID(long id){
 
 	}
 

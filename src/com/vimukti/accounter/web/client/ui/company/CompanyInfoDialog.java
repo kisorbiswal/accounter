@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -91,7 +91,7 @@ public class CompanyInfoDialog extends BaseDialog {
 	}
 
 	protected void initData() {
-		this.company = FinanceApplication.getCompany();
+		this.company = Accounter.getCompany();
 		if (this.company != null) {
 			companyNameText.setValue(company.getName());
 			trandigNameText.setValue(company.getTradingName());
@@ -117,7 +117,7 @@ public class CompanyInfoDialog extends BaseDialog {
 			}
 			registrationNumberText.setValue(company.getRegistrationNumber());
 
-			doupaySalesChecBox.setValue(FinanceApplication.getCompany()
+			doupaySalesChecBox.setValue(Accounter.getCompany()
 					.getPreferences().getDoYouPaySalesTax());
 
 			if (doupaySalesChecBox.getValue() == Boolean.FALSE) {
@@ -212,7 +212,7 @@ public class CompanyInfoDialog extends BaseDialog {
 		faxText = new IntegerField(companyConstants.businessFax());
 		faxText.setHelpInformation(true);
 
-		emailText = new EmailField(FinanceApplication.getCompanyMessages()
+		emailText = new EmailField(Accounter.getCompanyMessages()
 				.email());
 		emailText.setHelpInformation(true);
 
@@ -227,12 +227,12 @@ public class CompanyInfoDialog extends BaseDialog {
 		taxIDText.setHelpInformation(true);
 
 		bankAccountText = new TextItem();
-		bankAccountText.setTitle(FinanceApplication.getCompanyMessages()
+		bankAccountText.setTitle(Accounter.getCompanyMessages()
 				.bankAccountNo());
 		bankAccountText.setHelpInformation(true);
 
 		sortCodeText = new TextItem();
-		sortCodeText.setTitle(FinanceApplication.getCompanyMessages()
+		sortCodeText.setTitle(Accounter.getCompanyMessages()
 				.sortCode());
 		sortCodeText.setHelpInformation(true);
 
@@ -252,7 +252,7 @@ public class CompanyInfoDialog extends BaseDialog {
 		// taxesForm.setPadding(10);
 
 		doupaySalesChecBox = new CheckboxItem();
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			doupaySalesChecBox.setTitle(companyMessges.doYoupaySalesTaxes());
 
 		} else
@@ -264,7 +264,7 @@ public class CompanyInfoDialog extends BaseDialog {
 		vatRegNumber.setWidth(100);
 		vatRegNumber.setDisabled(false);
 
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			doupaySalesChecBox.addChangeHandler(new ChangeHandler() {
 
 				private FocusWidget taxgroupBtn;
@@ -282,7 +282,7 @@ public class CompanyInfoDialog extends BaseDialog {
 						public void onValueChange(
 								ValueChangeEvent<Boolean> event) {
 							vatRegNumber.setDisabled(!event.getValue());
-							vatRegNumber.setValue(FinanceApplication
+							vatRegNumber.setValue(Accounter
 									.getCompany().getpreferences()
 									.getVATregistrationNumber());
 						}
@@ -296,13 +296,13 @@ public class CompanyInfoDialog extends BaseDialog {
 						public void onValueChange(
 								ValueChangeEvent<Boolean> event) {
 							vatRegNumber.setDisabled(!event.getValue());
-							vatRegNumber.setValue(FinanceApplication
+							vatRegNumber.setValue(Accounter
 									.getCompany().getpreferences()
 									.getVATregistrationNumber());
 						}
 					});
 		}
-		vatRegNumber.setValue(FinanceApplication.getCompany().getpreferences()
+		vatRegNumber.setValue(Accounter.getCompany().getpreferences()
 				.getVATregistrationNumber());
 		taxgroupBtn = new AccounterButton(companyMessges.taxgroups());
 		// taxgroupBtn.setColSpan("*");
@@ -371,7 +371,7 @@ public class CompanyInfoDialog extends BaseDialog {
 
 		});
 
-		okbtn.setText(FinanceApplication.getCompanyMessages().update());
+		okbtn.setText(Accounter.getCompanyMessages().update());
 
 		mainHLay.setWidth("600");
 		mainHLay.setHeight("250");
@@ -421,7 +421,7 @@ public class CompanyInfoDialog extends BaseDialog {
 		if (!list2.isEmpty())
 			clientCompany.setAddresses(list2);
 		else
-			clientCompany.setAddresses(FinanceApplication.getCompany()
+			clientCompany.setAddresses(Accounter.getCompany()
 					.getAddresses());
 
 		clientCompany
@@ -490,7 +490,7 @@ public class CompanyInfoDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCompanyMessages().companyInformation();
+		return Accounter.getCompanyMessages().companyInformation();
 	}
 
 }

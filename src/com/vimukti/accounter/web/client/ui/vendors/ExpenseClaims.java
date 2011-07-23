@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.SourcesTabEvents;
 import com.google.gwt.user.client.ui.TabListener;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -45,7 +45,7 @@ public class ExpenseClaims extends BaseView<BillsList> {
 
 		tabset.add(expenseview, "Present Claims");
 		tabset.add(claimsView, "Previous Claims");
-		if (FinanceApplication.getUser().canApproveExpences())
+		if (Accounter.getUser().canApproveExpences())
 			tabset.add(awaitingview, "Awaiting Authorisation");
 		setSize("100%", "100%");
 		mainPanel.add(tabset);
@@ -111,7 +111,7 @@ public class ExpenseClaims extends BaseView<BillsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getVendorsMessages().expenseClaims();
+		return Accounter.getVendorsMessages().expenseClaims();
 	}
 
 }

@@ -31,7 +31,7 @@ public class VendorGroup implements IAccounterServerCore, Lifecycle,
 	private static final long serialVersionUID = -6315811900319594794L;
 	int version;
 	long id;
-	public String stringID;
+	public long id;
 	/**
 	 * VendorGroup Category Name
 	 */
@@ -125,14 +125,14 @@ public class VendorGroup implements IAccounterServerCore, Lifecycle,
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

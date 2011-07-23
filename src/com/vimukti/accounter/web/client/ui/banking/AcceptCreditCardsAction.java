@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.banking;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
@@ -10,12 +10,12 @@ public class AcceptCreditCardsAction extends Action {
 
 	public AcceptCreditCardsAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getFinanceUIConstants().banking();
+		this.catagory = Accounter.getFinanceUIConstants().banking();
 	}
 
 	public AcceptCreditCardsAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getFinanceUIConstants().banking();
+		this.catagory = Accounter.getFinanceUIConstants().banking();
 	}
 
 	// @Override

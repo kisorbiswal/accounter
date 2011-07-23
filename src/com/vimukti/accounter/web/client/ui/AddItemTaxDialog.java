@@ -23,15 +23,15 @@ public class AddItemTaxDialog extends BaseDialog {
 
 	private void initiliase() {
 		taxText = new TextItem();
-		taxText.setTitle(FinanceApplication.getFinanceUIConstants().itemTax());
+		taxText.setTitle(Accounter.getFinanceUIConstants().itemTax());
 		taxText.setRequired(true);
 		taxText.setColSpan(3);
 
 		taxableRadio = new RadioGroupItem();
 		taxableRadio.setColSpan(1);
 		taxableRadio.setShowTitle(false);
-		taxableRadio.setValueMap(FinanceApplication.getFinanceUIConstants()
-				.taxable(), FinanceApplication.getFinanceUIConstants()
+		taxableRadio.setValueMap(Accounter.getFinanceUIConstants()
+				.taxable(), Accounter.getFinanceUIConstants()
 				.nonTaxable());
 
 		form = new DynamicForm();
@@ -80,8 +80,8 @@ public class AddItemTaxDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(FinanceApplication.getVATMessages()
-				.VATItem(), FinanceApplication.getCompanyMessages().taxItem());
+		return UIUtils.getVendorString(Accounter.getVATMessages()
+				.VATItem(), Accounter.getCompanyMessages().taxItem());
 	}
 
 }

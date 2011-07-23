@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
@@ -25,7 +25,7 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 
 	@Override
 	protected String getListViewHeading() {
-		return FinanceApplication.getVATMessages().VATItemsList();
+		return Accounter.getVATMessages().VATItemsList();
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 		grid = new VATItemsListGrid(false);
 		grid.addStyleName("listgrid-tl");
 		grid.init();
-		listOfVatItems = FinanceApplication.getCompany().getTaxItems();
+		listOfVatItems = Accounter.getCompany().getTaxItems();
 		filterList(true);
 	}
 
@@ -91,7 +91,7 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().vatitemList();
+		return Accounter.getActionsConstants().vatitemList();
 	}
 
 }

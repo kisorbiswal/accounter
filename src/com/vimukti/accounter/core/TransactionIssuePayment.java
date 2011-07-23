@@ -34,7 +34,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 	/**
 	 * This will hold a secure 40 digit random number.
 	 */
-	public String stringID;
+	public long id;
 
 	/**
 	 * Transaction Issue payment Date.
@@ -408,14 +408,14 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

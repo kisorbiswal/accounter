@@ -20,7 +20,7 @@ public class ClientTAXItem extends ClientTAXItemGroup {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 
 	}

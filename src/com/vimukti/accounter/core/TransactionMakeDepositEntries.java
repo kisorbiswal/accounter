@@ -25,7 +25,7 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 
 	long id;
 
-	public String stringID;
+	public long id;
 
 	/**
 	 * In this variable we store the type of the entry that was being created
@@ -127,9 +127,9 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
@@ -139,8 +139,8 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 				ClientTransactionMakeDeposit clientTransactionMakeDeposit = new ClientTransactionMakeDeposit();
 				clientTransactionMakeDeposit
 						.setDepositedTransaction(transactionMakeDepositEntry
-								.getTransaction().getStringID());
+								.getTransaction().getID());
 				clientTransactionMakeDeposit
 						.setDate(transactionMakeDepositEntry.getTransaction()
 								.getDate().getTime());
@@ -176,7 +176,7 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 
 				clientTransactionMakeDeposit
 						.setCashAccount(transactionMakeDepositEntry
-								.getAccount().getStringID());
+								.getAccount().getID());
 				clientTransactionMakeDeposit
 						.setPaymentMethod(transactionMakeDepositEntry
 								.getTransaction().getPaymentMethod());
@@ -188,11 +188,11 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 					if (payee.getType() == TYPE_CUSTOMER) {
 						clientTransactionMakeDeposit.setType(TYPE_CUSTOMER);
 						clientTransactionMakeDeposit.setCustomer(payee
-								.getStringID());
+								.getID());
 					} else if (payee.getType() == TYPE_VENDOR) {
 						clientTransactionMakeDeposit.setType(TYPE_VENDOR);
 						clientTransactionMakeDeposit.setVendor(payee
-								.getStringID());
+								.getID());
 					}
 
 				} else {
@@ -200,7 +200,7 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 							.setType(TYPE_FINANCIAL_ACCOUNT);
 					clientTransactionMakeDeposit
 							.setAccount(transactionMakeDepositEntry
-									.getAccount().getStringID());
+									.getAccount().getID());
 				}
 				list.add(clientTransactionMakeDeposit);
 			}

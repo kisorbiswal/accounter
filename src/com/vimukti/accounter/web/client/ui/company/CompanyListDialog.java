@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
@@ -65,15 +65,15 @@ public class CompanyListDialog extends AbstractBaseDialog<ClientCompany> {
 					public void OnCellDoubleClick(ClientCompany core, int column) {
 						ClientCompany company = core;
 						UIUtils
-								.say(FinanceApplication.getCompanyMessages()
+								.say(Accounter.getCompanyMessages()
 										.fetchingCompany()
-										+ company.getStringID()
+										+ company.getID()
 										+ "\n"
-										+ FinanceApplication
+										+ Accounter
 												.getCompanyMessages().name()
 										+ company.getName()
 										+ "\n"
-										+ FinanceApplication
+										+ Accounter
 												.getCompanyMessages()
 												.legalName()
 										+ company.getTradingName());
@@ -88,15 +88,15 @@ public class CompanyListDialog extends AbstractBaseDialog<ClientCompany> {
 					public void OnCellDoubleClick(ClientCompany core, int column) {
 						ClientCompany company = core;
 						UIUtils
-								.say(FinanceApplication.getCompanyMessages()
+								.say(Accounter.getCompanyMessages()
 										.fetchingCompany()
-										+ company.getStringID()
+										+ company.getID()
 										+ "\n"
-										+ FinanceApplication
+										+ Accounter
 												.getCompanyMessages().name()
 										+ company.getName()
 										+ "\n"
-										+ FinanceApplication
+										+ Accounter
 												.getCompanyMessages()
 												.legalName()
 										+ company.getTradingName());
@@ -121,7 +121,7 @@ public class CompanyListDialog extends AbstractBaseDialog<ClientCompany> {
 		IAccounterGETServiceAsync getService = (IAccounterGETServiceAsync) GWT
 				.create(IAccounterGETService.class);
 		((ServiceDefTarget) getService)
-				.setServiceEntryPoint(FinanceApplication.GET_SERVICE_ENTRY_POINT);
+				.setServiceEntryPoint(Accounter.GET_SERVICE_ENTRY_POINT);
 		AsyncCallback<List<ClientCompany>> getCompanyListCallback = new AsyncCallback<List<ClientCompany>>() {
 
 			public void onFailure(Throwable caught) {

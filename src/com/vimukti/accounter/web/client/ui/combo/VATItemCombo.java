@@ -6,7 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
@@ -40,10 +40,10 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	public List<ClientTAXItem> getVATItmesByVATAgncy(ClientTAXAgency taxAgency) {
 		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
 		if (taxAgency != null) {
-			for (ClientTAXItem vatItem : FinanceApplication.getCompany()
+			for (ClientTAXItem vatItem : Accounter.getCompany()
 					.getTaxItems()) {
 				if (vatItem.getTaxAgency().equalsIgnoreCase(
-						taxAgency.getStringID())) {
+						taxAgency.getID())) {
 					vatItmsList.add(vatItem);
 				}
 			}
@@ -54,7 +54,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	/* VATItmes whose 'isPercentage' is false, only allowed into the list */
 	List<ClientTAXItem> getVATItmes() {
 		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : FinanceApplication.getCompany()
+		for (ClientTAXItem vatItem : Accounter.getCompany()
 				.getTaxItems()) {
 			if (!vatItem.isPercentage()) {
 				vatItmsList.add(vatItem);
@@ -66,7 +66,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	/* VATItmes whose 'isPercentage' is true, only allowed into the list */
 	public List<ClientTAXItem> getFilteredVATItems() {
 		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : FinanceApplication.getCompany()
+		for (ClientTAXItem vatItem : Accounter.getCompany()
 				.getTaxItems()) {
 			if (vatItem.isPercentage()) {
 				vatItmsList.add(vatItem);
@@ -110,7 +110,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	 */
 	@Override
 	public String getDefaultAddNewCaption() {
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			return comboConstants.newTaxItem();
 		else
 			return comboConstants.newVATItem();

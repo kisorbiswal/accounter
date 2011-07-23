@@ -66,7 +66,7 @@ public class VATPaymentView extends
 
 	private void getPayFromAccounts() {
 		payFromAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : FinanceApplication.getCompany()
+		for (ClientAccount account : Accounter.getCompany()
 				.getActiveAccounts()) {
 			if (account.getType() == ClientAccount.TYPE_CASH
 					|| account.getType() == ClientAccount.TYPE_BANK
@@ -81,7 +81,7 @@ public class VATPaymentView extends
 	}
 
 	protected void createControls() {
-		Label lab = new Label(FinanceApplication.getFinanceUIConstants()
+		Label lab = new Label(Accounter.getFinanceUIConstants()
 				.VATPayment());
 		// lab.setAutoHeight();
 		// lab.setWrap(false);
@@ -179,10 +179,10 @@ public class VATPaymentView extends
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setRequired(true);
 		// paymentMethodCombo.setWidth("*");
-		paymentMethodCombo.setDefaultValue(FinanceApplication
+		paymentMethodCombo.setDefaultValue(Accounter
 				.getFinanceUIConstants().check());
 
-		toBePrinted = new CheckboxItem(FinanceApplication
+		toBePrinted = new CheckboxItem(Accounter
 				.getFinanceUIConstants().toBePrinted());
 		// toBePrinted.setDefaultValue(true);
 		toBePrinted.addChangedHandler(new ChangeHandler() {
@@ -203,7 +203,7 @@ public class VATPaymentView extends
 		});
 		// printCheck.setShowDisabled(false);
 
-		checkNoText = new TextItem(FinanceApplication.getFinanceUIConstants()
+		checkNoText = new TextItem(Accounter.getFinanceUIConstants()
 				.checkNo());
 		// checkNoText.setWidth("*");
 
@@ -287,7 +287,7 @@ public class VATPaymentView extends
 
 		paySalesTax.setReference(referenceNo.getValue().toString());
 
-		paySalesTax.setPayFrom(selectedPayFromAccount.getStringID());
+		paySalesTax.setPayFrom(selectedPayFromAccount.getID());
 
 		paySalesTax.setEndingBalance(endingBalance);
 
@@ -300,7 +300,7 @@ public class VATPaymentView extends
 	@Override
 	protected void paymentMethodSelected(String paymentmethod) {
 		super.paymentMethodSelected(paymentmethod);
-		if (paymentmethod.equalsIgnoreCase(FinanceApplication
+		if (paymentmethod.equalsIgnoreCase(Accounter
 				.getFinanceUIConstants().check())) {
 			toBePrinted.setDisabled(false);
 			toBePrinted.setValue(true);
@@ -403,7 +403,7 @@ public class VATPaymentView extends
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.title(FinanceApplication.getFinanceUIConstants()
+		return UIUtils.title(Accounter.getFinanceUIConstants()
 				.VATPayment());
 	}
 

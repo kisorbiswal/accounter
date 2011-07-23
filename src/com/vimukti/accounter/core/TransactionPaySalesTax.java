@@ -27,7 +27,7 @@ public class TransactionPaySalesTax implements IAccounterServerCore, Lifecycle {
 
 	long id;
 
-	public String stringID;
+	public long id;
 
 	/**
 	 * The TaxItem that is assigned for the TaxAgency for what we are making the
@@ -205,14 +205,14 @@ public class TransactionPaySalesTax implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.banking;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
@@ -13,13 +13,13 @@ public class TransferFundsAction extends Action {
 
 	public TransferFundsAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getBankingsMessages().banking();
+		this.catagory = Accounter.getBankingsMessages().banking();
 	}
 
 	public TransferFundsAction(String text, String iconString,
 			ClientTransferFund transferFund, AsyncCallback<Object> callback) {
 		super(text, iconString, transferFund, callback);
-		this.catagory = FinanceApplication.getBankingsMessages().banking();
+		this.catagory = Accounter.getBankingsMessages().banking();
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class TransferFundsAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().transerFunds();
+		return Accounter.getFinanceMenuImages().transerFunds();
 	}
 	@Override
 	public String getImageUrl() {

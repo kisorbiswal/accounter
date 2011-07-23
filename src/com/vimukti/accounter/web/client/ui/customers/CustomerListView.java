@@ -6,7 +6,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -27,7 +27,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	public void deleteFailed(Throwable caught) {
 		super.deleteFailed(caught);
-		Accounter.showInformation(FinanceApplication.getCustomersMessages()
+		Accounter.showInformation(Accounter.getCustomersMessages()
 				.youCantDeleteThisCustomer());
 
 	}
@@ -42,7 +42,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	protected Action getAddNewAction() {
 
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			return CustomersActionFactory.getNewCustomerAction();
 		else
 			return null;
@@ -51,7 +51,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getAddNewLabelString() {
 
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			return customerConstants.addaNewCustomer();
 		else
 			return "";
@@ -77,7 +77,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		FinanceApplication.createHomeService().getPayeeList(
+		Accounter.createHomeService().getPayeeList(
 				ClientTransaction.CATEGORY_CUSTOMER, this);
 
 	}
@@ -148,7 +148,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().customers();
+		return Accounter.getActionsConstants().customers();
 	}
 
 }

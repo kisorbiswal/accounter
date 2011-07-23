@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -16,15 +16,15 @@ public class ExpensesAction extends Action {
 
 	public ExpensesAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(FinanceApplication
-				.getVendorsMessages().supplier(), FinanceApplication
+		this.catagory = UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplier(), Accounter
 				.getVendorsMessages().vendor());
 	}
 
 	public ExpensesAction(String text, String iconString, String viewType) {
 		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(FinanceApplication
-				.getVendorsMessages().supplier(), FinanceApplication
+		this.catagory = UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplier(), Accounter
 				.getVendorsMessages().vendor());
 		this.viewType = viewType;
 	}
@@ -89,13 +89,13 @@ public class ExpensesAction extends Action {
 		// TODO Auto-generated method stub
 		if (viewType == null) {
 			return "expenses";
-		} else if (viewType.equals(FinanceApplication.getVendorsMessages()
+		} else if (viewType.equals(Accounter.getVendorsMessages()
 				.cash())) {
 			return "cashExpenses";
-		} else if (viewType.equals(FinanceApplication.getVendorsMessages()
+		} else if (viewType.equals(Accounter.getVendorsMessages()
 				.creditCard())) {
 			return "creditCardExpenses";
-		} else if (viewType.equals(FinanceApplication.getVendorsMessages()
+		} else if (viewType.equals(Accounter.getVendorsMessages()
 				.employee())) {
 			return "employeeExpenses";
 		}

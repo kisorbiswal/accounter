@@ -446,12 +446,12 @@ public class GraphPoints implements IAccounterCore {
 		return null;
 	}
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
-	public void setStringID(String stringID) {
+	public void setID(long id){
 		// TODO Auto-generated method stub
 		
 	}

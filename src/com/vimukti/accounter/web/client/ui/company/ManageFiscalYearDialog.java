@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
@@ -48,13 +48,13 @@ public class ManageFiscalYearDialog extends BaseDialog {
 
 	public void createControls() {
 		manageFiscalyearLabel = new HTML();
-		manageFiscalyearLabel.setHTML(FinanceApplication.getCompanyMessages()
+		manageFiscalyearLabel.setHTML(Accounter.getCompanyMessages()
 				.manageFiscalYear());
 		descriptionLabel = new HTML();
-		descriptionLabel.setHTML(FinanceApplication.getCompanyMessages()
+		descriptionLabel.setHTML(Accounter.getCompanyMessages()
 				.toCloseBooksOrFascalYear());
 		listOfperiods = new FiscalYearListGrid(this, false);
-		listOfperiods.setTitle(FinanceApplication.getCompanyMessages()
+		listOfperiods.setTitle(Accounter.getCompanyMessages()
 				.listOfPeriods());
 		listOfperiods.setWidth("350px");
 		listOfperiods.setHeight("250px");
@@ -90,7 +90,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 
 	private void initDataToFiscalYearList() {
 		listOfperiods.removeAllRecords();
-		for (ClientFiscalYear clientFiscalYear : FinanceApplication
+		for (ClientFiscalYear clientFiscalYear : Accounter
 				.getCompany().getFiscalYears()) {
 			listOfperiods.addData(clientFiscalYear);
 		}
@@ -99,18 +99,18 @@ public class ManageFiscalYearDialog extends BaseDialog {
 
 	private VerticalPanel getButtonLayout() {
 		buttonVlayout = new VerticalPanel();
-		buttonVlayout.setStyleName(FinanceApplication.getCompanyMessages()
+		buttonVlayout.setStyleName(Accounter.getCompanyMessages()
 				.fiscalYearButtons());
 		buttonVlayout.setSpacing(5);
 		newFiscalYearButton = new AccounterButton();
 		newFiscalYearButton.setWidth("140px");
-		newFiscalYearButton.setText(FinanceApplication.getCompanyMessages()
+		newFiscalYearButton.setText(Accounter.getCompanyMessages()
 				.newFiscalYear());
 		newFiscalYearButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				new CreateFiscalYearDialog(FinanceApplication
+				new CreateFiscalYearDialog(Accounter
 						.getCompanyMessages().createFascalYear(), "",
 						listOfperiods);
 			}
@@ -118,7 +118,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		closeFiscalYearButton = new AccounterButton();
 		closeFiscalYearButton.setWidth("140px");
 		closeFiscalYearButton.setEnabled(false);
-		closeFiscalYearButton.setText(FinanceApplication.getCompanyMessages()
+		closeFiscalYearButton.setText(Accounter.getCompanyMessages()
 				.closeFiscalYear());
 		closeFiscalYearButton.addClickHandler(new ClickHandler() {
 
@@ -130,7 +130,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		openFiscalYearButoon = new AccounterButton();
 		openFiscalYearButoon.setWidth("140px");
 		openFiscalYearButoon.setEnabled(false);
-		openFiscalYearButoon.setText(FinanceApplication.getCompanyMessages()
+		openFiscalYearButoon.setText(Accounter.getCompanyMessages()
 				.openFiscalYear());
 		openFiscalYearButoon.addClickHandler(new ClickHandler() {
 
@@ -145,7 +145,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		});
 		editFiscalYear = new AccounterButton();
 		editFiscalYear.setWidth("140px");
-		editFiscalYear.setText(FinanceApplication.getCompanyMessages()
+		editFiscalYear.setText(Accounter.getCompanyMessages()
 				.editFiscalYear());
 		editFiscalYear.addClickHandler(new ClickHandler() {
 
@@ -156,7 +156,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		});
 		deleteFiscalYear = new AccounterButton();
 		deleteFiscalYear.setWidth("140px");
-		deleteFiscalYear.setText(FinanceApplication.getCompanyMessages()
+		deleteFiscalYear.setText(Accounter.getCompanyMessages()
 				.deleteFiscalYear());
 		deleteFiscalYear.setWidth("140px");
 		// deleteFiscalYear.setEnabled(false);
@@ -169,13 +169,13 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		});
 		changeStartDate = new AccounterButton();
 		changeStartDate.setWidth("140px");
-		changeStartDate.setText(FinanceApplication.getCompanyMessages()
+		changeStartDate.setText(Accounter.getCompanyMessages()
 				.changeStartDate());
 		changeStartDate.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				new ChangeFiscalYearStartDateDialog(FinanceApplication
+				new ChangeFiscalYearStartDateDialog(Accounter
 						.getCompanyMessages().changeStartDate(), "",
 						listOfperiods);
 			}
@@ -279,7 +279,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 	}
 
 	private void showCloseFiscalYearPopupPanel() {
-		Accounter.showWarning(FinanceApplication.getCompanyMessages()
+		Accounter.showWarning(Accounter.getCompanyMessages()
 				.warnOfFascalYear(), AccounterType.WARNING,
 				new ErrorDialogHandler() {
 
@@ -318,7 +318,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 					this);
 			// }
 		} else {
-			Accounter.showInformation(FinanceApplication.getCompanyMessages()
+			Accounter.showInformation(Accounter.getCompanyMessages()
 					.SelectAnyOfTheFiscalYearFromList());
 		}
 	}
@@ -332,7 +332,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			// .getSelection()
 			// || listOfperiods.getRecordByIndex(0) == listOfperiods
 			// .getSelection()) {
-			new CreateFiscalYearDialog(FinanceApplication.getCompanyMessages()
+			new CreateFiscalYearDialog(Accounter.getCompanyMessages()
 					.editFiscalYear(), "", listOfperiods);
 			// }
 
@@ -343,7 +343,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			// }
 
 		} else if (listOfperiods.getSelection().getStatus() == ClientFiscalYear.STATUS_CLOSE)
-			Accounter.showInformation(FinanceApplication.getCompanyMessages()
+			Accounter.showInformation(Accounter.getCompanyMessages()
 					.youCannotEdiClosedFiscalYear());
 	}
 
@@ -445,6 +445,6 @@ public class ManageFiscalYearDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCompanyMessages().manageFiscalYear();
+		return Accounter.getCompanyMessages().manageFiscalYear();
 	}
 }

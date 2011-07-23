@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
@@ -63,7 +63,7 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 				// .getURL();
 				return "/images/blank_16x16.png";
 		case 4:
-			return FinanceApplication.getFinanceMenuImages().delete();
+			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
 
 		}
@@ -95,10 +95,10 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 	 */
 	@Override
 	protected String[] getColumns() {
-		return new String[] { FinanceApplication.getVATMessages().active(),
-				FinanceApplication.getVATMessages().code(),
-				FinanceApplication.getVATMessages().description(),
-				FinanceApplication.getVATMessages().taxable(), "" };
+		return new String[] { Accounter.getVATMessages().active(),
+				Accounter.getVATMessages().code(),
+				Accounter.getVATMessages().description(),
+				Accounter.getVATMessages().taxable(), "" };
 	}
 
 	@Override

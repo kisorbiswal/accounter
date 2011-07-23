@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -50,10 +50,10 @@ public class AccountRegisterOthersView extends
 	private final int FOOTER = 25;
 	private final int BORDER = 20;
 
-	String[] dateRangeArray = { FinanceApplication.getBankingsMessages().all(),
-			FinanceApplication.getBankingsMessages().today(),
-			FinanceApplication.getBankingsMessages().last30Days(),
-			FinanceApplication.getBankingsMessages().last45Days() };
+	String[] dateRangeArray = { Accounter.getBankingsMessages().all(),
+			Accounter.getBankingsMessages().today(),
+			Accounter.getBankingsMessages().last30Days(),
+			Accounter.getBankingsMessages().last45Days() };
 	private List<String> listOfDateRanges;
 
 	private ClientFinanceDate endDate;
@@ -62,8 +62,8 @@ public class AccountRegisterOthersView extends
 		super();
 		this.takenaccount = account2;
 
-		selectedDateRange = FinanceApplication.getBankingsMessages().today();
-		selectedOption = FinanceApplication.getBankingsMessages().all();
+		selectedDateRange = Accounter.getBankingsMessages().today();
+		selectedOption = Accounter.getBankingsMessages().all();
 	}
 
 	protected void createControls() {
@@ -84,7 +84,7 @@ public class AccountRegisterOthersView extends
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						if (!showTransactionSelect.getSelectedValue().equals(
-								FinanceApplication.getBankingsMessages()
+								Accounter.getBankingsMessages()
 										.custom()))
 							dateRangeChanged();
 
@@ -99,7 +99,7 @@ public class AccountRegisterOthersView extends
 
 		lab1 = new Label(bankingConstants.accountRegister() + " - "
 				+ takenaccount.getName());
-		lab1.setStyleName(FinanceApplication.getFinanceUIConstants()
+		lab1.setStyleName(Accounter.getFinanceUIConstants()
 				.lableTitle());
 		HorizontalPanel lableHpanel = new HorizontalPanel();
 		lableHpanel.setWidth("100%");
@@ -124,7 +124,7 @@ public class AccountRegisterOthersView extends
 		gridLayout.add(grid);
 
 		totalLabel = new Label();
-		totalLabel.setText(FinanceApplication.getFinanceUIConstants()
+		totalLabel.setText(Accounter.getFinanceUIConstants()
 				.totalEndingBalance()
 				+ DataUtils.getAmountAsString(total));
 		mainVLay = new VerticalPanel();
@@ -144,41 +144,41 @@ public class AccountRegisterOthersView extends
 	protected void dateRangeChanged() {
 		todaydate = new ClientFinanceDate();
 		selectedOption = showTransactionSelect.getSelectedValue();
-		if (!selectedDateRange.equals(FinanceApplication.getBankingsMessages()
+		if (!selectedDateRange.equals(Accounter.getBankingsMessages()
 				.all())
-				&& selectedOption.equals(FinanceApplication
+				&& selectedOption.equals(Accounter
 						.getBankingsMessages().all())) {
-			startDate = FinanceApplication.getStartDate();
+			startDate = Accounter.getStartDate();
 			endDate = Utility.getLastandOpenedFiscalYearEndDate();
 			if (endDate == null)
 				endDate = new ClientFinanceDate();
-			selectedDateRange = FinanceApplication.getBankingsMessages().all();
+			selectedDateRange = Accounter.getBankingsMessages().all();
 
-		} else if (!selectedDateRange.equals(FinanceApplication
+		} else if (!selectedDateRange.equals(Accounter
 				.getBankingsMessages().today())
-				&& selectedOption.equals(FinanceApplication
+				&& selectedOption.equals(Accounter
 						.getBankingsMessages().today())) {
 			startDate = todaydate;
 			endDate = todaydate;
-			selectedDateRange = FinanceApplication.getBankingsMessages()
+			selectedDateRange = Accounter.getBankingsMessages()
 					.today();
 
-		} else if (!selectedDateRange.equals(FinanceApplication
+		} else if (!selectedDateRange.equals(Accounter
 				.getBankingsMessages().last30Days())
-				&& selectedOption.equals(FinanceApplication
+				&& selectedOption.equals(Accounter
 						.getBankingsMessages().last30Days())) {
-			selectedDateRange = FinanceApplication.getBankingsMessages()
+			selectedDateRange = Accounter.getBankingsMessages()
 					.last30Days();
 			startDate = new ClientFinanceDate(todaydate.getYear(), todaydate
 					.getMonth() - 1, todaydate.getDate());
 			endDate = todaydate;
 
-		} else if (!selectedDateRange.equals(FinanceApplication
+		} else if (!selectedDateRange.equals(Accounter
 				.getBankingsMessages().last45Days())
-				&& selectedOption.equals(FinanceApplication
+				&& selectedOption.equals(Accounter
 						.getBankingsMessages().last45Days())) {
 
-			selectedDateRange = FinanceApplication.getBankingsMessages()
+			selectedDateRange = Accounter.getBankingsMessages()
 					.last45Days();
 			startDate = new ClientFinanceDate(todaydate.getYear(), todaydate
 					.getMonth() - 2, todaydate.getDate() + 16);
@@ -217,7 +217,7 @@ public class AccountRegisterOthersView extends
 		this.account = takenaccount;
 
 		this.rpcReportService.getAccountRegister(startDate.getTime(), endDate
-				.getTime(), takenaccount.getStringID(),
+				.getTime(), takenaccount.getID(),
 				new AsyncCallback<List<AccountRegister>>() {
 
 					public void onFailure(Throwable caught) {
@@ -225,7 +225,7 @@ public class AccountRegisterOthersView extends
 							Accounter
 									.showMessage("Your session expired, Please login again to continue");
 						} else {
-							Accounter.showError(FinanceApplication
+							Accounter.showError(Accounter
 									.getFinanceUIConstants()
 									.failedtoGetListofAccounts()
 									+ takenaccount.getName());
@@ -323,7 +323,7 @@ public class AccountRegisterOthersView extends
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().accountRegister();
+		return Accounter.getActionsConstants().accountRegister();
 	}
 
 }

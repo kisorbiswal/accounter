@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -26,7 +26,7 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		// setCanDragReposition(true);
 		// setShowCloseButton(true);
 
-		Label lab1 = new Label(FinanceApplication.getCustomersMessages()
+		Label lab1 = new Label(Accounter.getCustomersMessages()
 				.customerRefundIssued());
 		// lab1.setWrap(false);
 

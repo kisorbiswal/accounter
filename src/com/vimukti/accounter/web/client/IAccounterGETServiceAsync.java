@@ -355,7 +355,7 @@ public interface IAccounterGETServiceAsync {
 
 	void getCompany(String identityID, AsyncCallback<ClientCompany> callback);
 
-	void getStringID(AsyncCallback<String> callback);
+	void getID(AsyncCallback<String> callback);
 
 	void getKeyFinancialIndicators(
 			AsyncCallback<KeyFinancialIndicators> callback);

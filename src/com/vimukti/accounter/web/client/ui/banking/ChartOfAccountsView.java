@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -46,7 +46,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		Accounter.showInformation(FinanceApplication.getBankingsMessages()
+		Accounter.showInformation(Accounter.getBankingsMessages()
 				.youCantDeleteThisAccount());
 
 	}
@@ -67,7 +67,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	protected Action getAddNewAction() {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			return CompanyActionFactory.getNewAccountAction();
 		else
 			return null;
@@ -76,7 +76,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			return bankingConstants.addNewCategory();
 		else
 			return "";
@@ -104,9 +104,9 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 		grid.init();
 		// grid.setHeight("200");
 		if (typeOfAccount == 0)
-			listOfAccounts = FinanceApplication.getCompany().getAccounts();
+			listOfAccounts = Accounter.getCompany().getAccounts();
 		else
-			listOfAccounts = FinanceApplication.getCompany().getAccounts(
+			listOfAccounts = Accounter.getCompany().getAccounts(
 					typeOfAccount);
 		filterList(true);
 	}
@@ -167,7 +167,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 			List<ClientAccount> accountsList = grid.getRecords();
 
 			IAccounterCore obj = Utility.getObject(accountsList, core
-					.getStringID());
+					.getID());
 			switch (cmd) {
 			case AccounterCommand.CREATION_SUCCESS:
 			case AccounterCommand.UPDATION_SUCCESS:
@@ -220,7 +220,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCompanyMessages().accounts();
+		return Accounter.getCompanyMessages().accounts();
 	}
 
 }

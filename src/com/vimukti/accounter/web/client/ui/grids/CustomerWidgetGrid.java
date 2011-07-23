@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 
 	public CustomerWidgetGrid() {
-		super(FinanceApplication.getCustomersMessages().noDebitorstoShow());
+		super(Accounter.getCustomersMessages().noDebitorstoShow());
 	}
 
 	@Override
@@ -71,11 +71,11 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] { "",
-				FinanceApplication.getCustomersMessages().Days3(),
-				FinanceApplication.getCustomersMessages().Days2(),
-				FinanceApplication.getCustomersMessages().Days1(),
-				FinanceApplication.getCustomersMessages().older(),
-				FinanceApplication.getCustomersMessages().totalBalance() };
+				Accounter.getCustomersMessages().Days3(),
+				Accounter.getCustomersMessages().Days2(),
+				Accounter.getCustomersMessages().Days1(),
+				Accounter.getCustomersMessages().older(),
+				Accounter.getCustomersMessages().totalBalance() };
 	}
 
 	@Override

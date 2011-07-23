@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
@@ -30,7 +30,7 @@ public class AutomaticSequenceAction extends Action {
 	public void run(Object data, Boolean isDependent) {
 		try {
 			AutomaticSequenceDialog automaticSequenceDialog = new AutomaticSequenceDialog(
-					FinanceApplication.getSettingsMessages()
+					Accounter.getSettingsMessages()
 							.automaticSequencing(), "");
 			automaticSequenceDialog.show();
 			automaticSequenceDialog.center();

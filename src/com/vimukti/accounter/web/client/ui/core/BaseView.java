@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.SalesTaxGroupListView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -45,14 +45,14 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 	@Override
 	public void init() {
 		createView();
-		this.accountType = FinanceApplication.getCompany().getAccountingType();
+		this.accountType = Accounter.getCompany().getAccountingType();
 
 	}
 
 	@Override
 	public void createID() {
 
-		this.rpcGetService.getStringID(new AsyncCallback<String>() {
+		this.rpcGetService.getID(new AsyncCallback<String>() {
 
 			@Override
 			public void onSuccess(String result) {
@@ -125,7 +125,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 
 		cancelButton = new CustomButton(CustomButtonType.CANCEL, this);
 		if (this instanceof EmployeeExpenseView) {
-			if (FinanceApplication.getUser().canApproveExpences()) {
+			if (Accounter.getUser().canApproveExpences()) {
 				approveButton = new CustomButton(CustomButtonType.APPROVE, this);
 				buttonLayout.add(approveButton);
 			} else {
@@ -186,7 +186,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 			DOM.appendChild(saveAndNewButton.getElement(), spanElement);
 
 			if (!(this != null && this instanceof FileVATView)) {
-				ThemesUtil.addDivToButton(saveAndNewButton, FinanceApplication
+				ThemesUtil.addDivToButton(saveAndNewButton, Accounter
 						.getThemeImages().custom_button_right_blue_image(),
 						"custom-button-right-image");
 			}
@@ -203,7 +203,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 			savecloseimage.addClassName("save-close-image");
 			DOM.appendChild(saveAndCloseButton.getElement(), savecloseimage);
 
-			ThemesUtil.addDivToButton(saveAndCloseButton, FinanceApplication
+			ThemesUtil.addDivToButton(saveAndCloseButton, Accounter
 					.getThemeImages().custom_button_right_blue_image(),
 					"custom-button-right-image");
 		}
@@ -220,7 +220,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 			addimage.addClassName("approve-image");
 			DOM.appendChild(approveButton.getElement(), addimage);
 
-			ThemesUtil.addDivToButton(approveButton, FinanceApplication
+			ThemesUtil.addDivToButton(approveButton, Accounter
 					.getThemeImages().button_right_blue_image(),
 					"custom-button-right-image");
 		}
@@ -238,7 +238,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 			addimage.addClassName("submit-approve-image");
 			DOM.appendChild(submitForApprove.getElement(), addimage);
 
-			ThemesUtil.addDivToButton(submitForApprove, FinanceApplication
+			ThemesUtil.addDivToButton(submitForApprove, Accounter
 					.getThemeImages().button_right_blue_image(),
 					"custom-button-right-image");
 		}
@@ -251,7 +251,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 			closeimage.addClassName("close-image");
 			DOM.appendChild(cancelButton.getElement(), closeimage);
 
-			ThemesUtil.addDivToButton(cancelButton, FinanceApplication
+			ThemesUtil.addDivToButton(cancelButton, Accounter
 					.getThemeImages().button_right_gray_image(),
 					"custom-button-right-image");
 

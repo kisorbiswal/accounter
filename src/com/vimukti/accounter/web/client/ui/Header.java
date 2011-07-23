@@ -6,7 +6,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -19,43 +18,38 @@ import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 public class Header extends HorizontalPanel {
 
 	private Label userName;
-	public static Label companyName;
+	private Label companyName;
 
 	private HTML logout, help, logo;
 	private VerticalPanel panel1, panel2;
-	private static VerticalPanel panel3;
-	public static String gettingStartedStatus = "Hide Getting Started";
-	static MenuBar helpBar;
+	private VerticalPanel panel3;
+	private String gettingStartedStatus = "Hide Getting Started";
+	private MenuBar helpBar;
+	private Accounter accounter;
 
-	public Header() {
+	public Header(Accounter accounter) {
+		this.accounter=accounter;
 		createControls();
 	}
 
 	private void createControls() {
 
-		companyName = new Label(FinanceApplication.getCompany().getName());
+		companyName = new Label(accounter.getCompanyName());
 		companyName.addStyleName("companyName");
 		Label welcome = new Label("Welcome ");
 		userName = new Label();
-		userName.setText(FinanceApplication.getCompanyMessages().userName(
-				FinanceApplication.clientIdentity.getDisplayName()));
+		userName.setText(Accounter.getCompanyMessages().userName(
+				accounter.getUserDisplayName()));
 		userName.addStyleName("userName-style");
-		if (!FinanceApplication.clientIdentity.isLoggedInFromDomain()) {
-			userName.getElement().getStyle().setTextDecoration(
-					TextDecoration.UNDERLINE);
+		if (!accounter.isLoggedInFromDomain()) {
+			userName.getElement().getStyle()
+					.setTextDecoration(TextDecoration.UNDERLINE);
 			userName.getElement().getStyle().setCursor(Cursor.POINTER);
 
 			userName.addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					String historyToken = CompanyActionFactory
-							.getUserDetailsAction().getHistoryToken();
-					if (!History.getToken().equals(historyToken)) {
-						MainFinanceWindow.oldToken = History.getToken();
-						HistoryTokenUtils.setPresentToken(CompanyActionFactory
-								.getUserDetailsAction(), null);
-					}
 					CompanyActionFactory.getUserDetailsAction()
 							.run(null, false);
 				}
@@ -78,13 +72,6 @@ public class Header extends HorizontalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				String historyToken = CompanyActionFactory
-						.getCompanyHomeAction().getHistoryToken();
-				if (!History.getToken().equals(historyToken)) {
-					MainFinanceWindow.oldToken = History.getToken();
-					HistoryTokenUtils.setPresentToken(CompanyActionFactory
-							.getCompanyHomeAction(), null);
-				}
 				CompanyActionFactory.getCompanyHomeAction().run(null, false);
 			}
 		});
@@ -127,17 +114,17 @@ public class Header extends HorizontalPanel {
 
 	}
 
-	public static void initializeHelpBar() {
+	public void initializeHelpBar() {
 		MenuItem menuItem = helpBar.addItem("Help", getHelpMenuBar());
 		menuItem.getElement().getStyle().setColor("#072027");
 		Image child = new Image();
 		child.addStyleName("menu_arrow");
-		child.setUrl(FinanceApplication.getThemeImages().drop_down_indicator()
+		child.setUrl(Accounter.getThemeImages().drop_down_indicator()
 				.getURL());
 		DOM.insertChild(menuItem.getElement(), child.getElement(), 0);
 	}
 
-	private static CustomMenuBar getHelpMenuBar() {
+	private CustomMenuBar getHelpMenuBar() {
 		CustomMenuBar helpMenu = new CustomMenuBar();
 		helpMenu.addItem("<a href='http://help.accounter.com'>Help Centre</a>",
 				true, new Command() {
@@ -154,18 +141,18 @@ public class Header extends HorizontalPanel {
 			public void execute() {
 				if (gettingStartedStatus.equals("Hide Getting Started")) {
 					DashBoard.hideGettingStarted();
-					Header.changeHelpBarContent("Show Getting Started");
+					changeHelpBarContent("Show Getting Started");
 				} else {
 					DashBoard.showGettingStarted();
-					Header.changeHelpBarContent("Hide Getting Started");
+					changeHelpBarContent("Hide Getting Started");
 				}
 			}
 		});
 		return helpMenu;
 	}
 
-	public static void changeHelpBarContent(String gettingStartedStatus) {
-		Header.gettingStartedStatus = gettingStartedStatus;
+	public void changeHelpBarContent(String gettingStartedStatus) {
+		this.gettingStartedStatus = gettingStartedStatus;
 		panel3.remove(helpBar);
 		helpBar = new MenuBar();
 		initializeHelpBar();

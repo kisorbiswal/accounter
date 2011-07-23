@@ -6,7 +6,7 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
@@ -27,12 +27,12 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return FinanceApplication.getVATMessages().addNewVATCode();
+		return Accounter.getVATMessages().addNewVATCode();
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return FinanceApplication.getVATMessages().VATCodeList();
+		return Accounter.getVATMessages().VATCodeList();
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 		grid.addStyleName("listgrid-tl");
 		grid.init();
 
-		listOfTaxCodes = FinanceApplication.getCompany().getTaxCodes();
+		listOfTaxCodes = Accounter.getCompany().getTaxCodes();
 		filterList(true);
 
 	}
@@ -99,7 +99,7 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().vatCodeList();
+		return Accounter.getActionsConstants().vatCodeList();
 	}
 
 }

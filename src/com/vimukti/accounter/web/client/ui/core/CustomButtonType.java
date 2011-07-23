@@ -3,7 +3,7 @@
  */
 package com.vimukti.accounter.web.client.ui.core;
 
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author Fernandez
@@ -11,25 +11,25 @@ import com.vimukti.accounter.web.client.ui.FinanceApplication;
  */
 public enum CustomButtonType {
 
-	SAVE_AND_CLOSE(FinanceApplication.getCustomersMessages().saveAndClose()),
+	SAVE_AND_CLOSE(Accounter.getCustomersMessages().saveAndClose()),
 
-	SAVE_AND_NEW(FinanceApplication.getCustomersMessages().saveAndNew()),
+	SAVE_AND_NEW(Accounter.getCustomersMessages().saveAndNew()),
 
-	REGISTER(FinanceApplication.getCustomersMessages().register()),
+	REGISTER(Accounter.getCustomersMessages().register()),
 
-	ADD(FinanceApplication.getCustomersMessages().add()),
+	ADD(Accounter.getCustomersMessages().add()),
 
-	EDIT(FinanceApplication.getCustomersMessages().edit()),
+	EDIT(Accounter.getCustomersMessages().edit()),
 
-	DELETE(FinanceApplication.getCustomersMessages().delete()),
+	DELETE(Accounter.getCustomersMessages().delete()),
 
-	REVIEW_JOURNAL(FinanceApplication.getCustomersMessages().reviewJournal()),
+	REVIEW_JOURNAL(Accounter.getCustomersMessages().reviewJournal()),
 
-	CANCEL(FinanceApplication.getCompanyMessages().cancel()),
+	CANCEL(Accounter.getCompanyMessages().cancel()),
 
-	APPROVE(FinanceApplication.getCompanyMessages().approve()),
+	APPROVE(Accounter.getCompanyMessages().approve()),
 
-	SUBMIT(FinanceApplication.getCompanyMessages().submit());
+	SUBMIT(Accounter.getCompanyMessages().submit());
 
 	private String title;
 

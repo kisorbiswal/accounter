@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
@@ -124,7 +124,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 		// button3.enabledButton();
 		button1.setFocus(true);
 		bodyLayout.add(listGridView);
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			bodyLayout.add(buttonsLayout);
 		buttonsLayout.getElement().getParentElement().setAttribute("width", "25%");
 		setBodyLayout(bodyLayout);
@@ -301,7 +301,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 	private void updateOrAddRecord(T obj) {
 		IAccounterCore core = (IAccounterCore) obj;
 		if (Utility.getObject((List<IAccounterCore>) (ArrayList) listGridView
-				.getRecords(), core.getStringID()) != null)
+				.getRecords(), core.getID()) != null)
 			deleteRecord();
 
 		listGridView.addData((IsSerializable) obj);
@@ -367,7 +367,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 	@Override
 	public String toString() {
-		return FinanceApplication.getCustomersMessages().classNameis()
+		return Accounter.getCustomersMessages().classNameis()
 				+ this.getText();
 	}
 
@@ -376,7 +376,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 		if (core.getObjectType() == listGridView.getType()) {
 
 			IAccounterCore obj = (IAccounterCore) Utility.getObjectFromList(
-					listGridView.getRecords(), core.getStringID());
+					listGridView.getRecords(), core.getID());
 			switch (command) {
 			case AccounterCommand.CREATION_SUCCESS:
 			case AccounterCommand.UPDATION_SUCCESS:

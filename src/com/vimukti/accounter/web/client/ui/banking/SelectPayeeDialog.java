@@ -6,7 +6,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -28,18 +28,18 @@ public class SelectPayeeDialog extends BaseDialog {
 	// private ClientCompany company;
 	@SuppressWarnings("unused")
 	private final String VENDOR_PAY = UIUtils.getVendorString(
-			FinanceApplication.getVendorsMessages().supplierpay(),
-			FinanceApplication.getVendorsMessages().vendorpay());
+			Accounter.getVendorsMessages().supplierpay(),
+			Accounter.getVendorsMessages().vendorpay());
 	@SuppressWarnings("unused")
-	private final String CUST_REFUND = FinanceApplication.getVendorsMessages()
+	private final String CUST_REFUND = Accounter.getVendorsMessages()
 			.custrefund();
 	@SuppressWarnings("unused")
-	private final String EMP_REIMB = FinanceApplication.getVendorsMessages()
+	private final String EMP_REIMB = Accounter.getVendorsMessages()
 			.empreimb();
 
 	public SelectPayeeDialog(AbstractBaseView parent) {
-		super(FinanceApplication.getBankingsMessages().selectPayeeType(),
-				FinanceApplication.getBankingsMessages()
+		super(Accounter.getBankingsMessages().selectPayeeType(),
+				Accounter.getBankingsMessages()
 						.selectOneOfFollowingPayee());
 
 		// company = FinanceApplication.getCompany();
@@ -49,8 +49,8 @@ public class SelectPayeeDialog extends BaseDialog {
 	}
 
 	public SelectPayeeDialog(AbstractBaseView parent, FormItem actionSource) {
-		super(FinanceApplication.getBankingsMessages().selectPayeeType(),
-				FinanceApplication.getBankingsMessages()
+		super(Accounter.getBankingsMessages().selectPayeeType(),
+				Accounter.getBankingsMessages()
 						.selectOneOfFollowingPayee());
 		this.actionSource = actionSource;
 		// company = FinanceApplication.getCompany();
@@ -70,10 +70,10 @@ public class SelectPayeeDialog extends BaseDialog {
 		@SuppressWarnings("unused")
 		LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();
 
-		typeRadio.setValueMap(FinanceApplication.getFinanceUIConstants()
-				.customer(), FinanceApplication.getFinanceUIConstants()
+		typeRadio.setValueMap(Accounter.getFinanceUIConstants()
+				.customer(), Accounter.getFinanceUIConstants()
 				.supplier());
-		typeRadio.setDefaultValue(FinanceApplication.getFinanceUIConstants()
+		typeRadio.setDefaultValue(Accounter.getFinanceUIConstants()
 				.customer());
 
 		DynamicForm typeForm = new DynamicForm();
@@ -97,7 +97,7 @@ public class SelectPayeeDialog extends BaseDialog {
 					String radio = typeRadio.getValue().toString();
 					// FIXME--an action is required here
 					// okClick();
-					if (radio.equals(FinanceApplication.getFinanceUIConstants()
+					if (radio.equals(Accounter.getFinanceUIConstants()
 							.supplier())) {
 						// new VendorPaymentsAction("Not Issued").run();
 
@@ -113,7 +113,7 @@ public class SelectPayeeDialog extends BaseDialog {
 							// e);
 						}
 
-					} else if (radio.equals(FinanceApplication
+					} else if (radio.equals(Accounter
 							.getFinanceUIConstants().customer())) {
 						try {
 							Action action = CustomersActionFactory
@@ -131,7 +131,7 @@ public class SelectPayeeDialog extends BaseDialog {
 
 					}
 				} else {
-					Accounter.showError(FinanceApplication
+					Accounter.showError(Accounter
 							.getFinanceUIConstants().pleaseSelecPaymentType());
 				}
 				return true;
@@ -180,6 +180,6 @@ public class SelectPayeeDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getBankingsMessages().selectPayeeType();
+		return Accounter.getBankingsMessages().selectPayeeType();
 	}
 }

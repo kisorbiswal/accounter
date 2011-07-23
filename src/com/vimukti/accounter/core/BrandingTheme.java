@@ -46,7 +46,7 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	// public static final int SHOW_TAXES_AS_INCLUSIVE = 2;
 
 	long id;
-	String stringID;
+	long id;
 	String themeName;
 	int pageSizeType;
 	double topMargin, bottomMargin;
@@ -461,7 +461,7 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 			String contactDetails, String Terms_And_Payment_Advice) {
 
 		this.themeName = themeName;
-		this.stringID = stringId;
+		this.id=id;
 		this.pageSizeType = PAGE_SIZE_US_LETTER;
 		this.topMargin = topMargin;
 		this.bottomMargin = bottomMargin;
@@ -513,8 +513,8 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
@@ -524,8 +524,8 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	@Override
@@ -576,14 +576,14 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
 	/**
 	 * @return the stringId
 	 */
-	public String getStringId() {
+	public long getID(){
 		return stringID;
 	}
 
@@ -591,8 +591,8 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	 * @param stringId
 	 *            the stringId to set
 	 */
-	public void setStringId(String stringId) {
-		this.stringID = stringId;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	/**

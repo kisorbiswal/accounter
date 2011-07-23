@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseClosedOrderServerReport;
 
@@ -18,13 +18,13 @@ public class PurchaseClosedOrderReport extends
 	@Override
 	public void init() {
 		super.init();
-		toolbar.setDateRanageOptions("", FinanceApplication
-				.getReportsMessages().present(), FinanceApplication
-				.getReportsMessages().lastMonth(), FinanceApplication
-				.getReportsMessages().last3Months(), FinanceApplication
-				.getReportsMessages().last6Months(), FinanceApplication
-				.getReportsMessages().lastYear(), FinanceApplication
-				.getReportsMessages().untilEndOfYear(), FinanceApplication
+		toolbar.setDateRanageOptions("", Accounter
+				.getReportsMessages().present(), Accounter
+				.getReportsMessages().lastMonth(), Accounter
+				.getReportsMessages().last3Months(), Accounter
+				.getReportsMessages().last6Months(), Accounter
+				.getReportsMessages().lastYear(), Accounter
+				.getReportsMessages().untilEndOfYear(), Accounter
 				.getReportsMessages().custom());
 	}
 
@@ -41,7 +41,7 @@ public class PurchaseClosedOrderReport extends
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		FinanceApplication.createReportService().getPurchaseClosedOrderReport(
+		Accounter.createReportService().getPurchaseClosedOrderReport(
 				start.getTime(), end.getTime(), this);
 
 	}

@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -152,7 +152,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 					if (NewBrandThemeDialog.this.validate()) {
 						ClientBrandingTheme brandingTheme = saveValues();
 						if (takenTheme == null) {
-							if (!Utility.isObjectExist(FinanceApplication
+							if (!Utility.isObjectExist(Accounter
 									.getCompany().getBrandingTheme(),
 									brandingTheme.getThemeName())) {
 								ViewManager.getInstance()
@@ -435,7 +435,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 		contactDetailHtml = new HTML(messages.contactDetailsHtml());
 		contactDetailsArea = new TextArea();
 		contactDetailsArea.setStyleName("contact-deatils-area");
-		contactDetailsArea.setText(FinanceApplication.getCompany()
+		contactDetailsArea.setText(Accounter.getCompany()
 				.getDisplayName());
 
 		radioButtonPanel.add(logoLabel);
@@ -683,6 +683,6 @@ public class NewBrandThemeDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getSettingsMessages().editBrandThemeLabel();
+		return Accounter.getSettingsMessages().editBrandThemeLabel();
 	}
 }

@@ -9,7 +9,7 @@ public class ClientEmployeeDetail implements IAccounterCore {
 	public static final String PAST_EMPLOYEE = null;
 	public static final String FUTURE_EMPLOYEE = null;
 	public static final String CURRENT_EMPLOYEE = null;
-	private String stringID;
+	private long id;
 	private String name;
 	
 	private boolean isActive;
@@ -68,13 +68,13 @@ public class ClientEmployeeDetail implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
-		return stringID;
+	public long getID(){
+		return id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	/**

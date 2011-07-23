@@ -35,13 +35,13 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 		// <li><a href=''><font color='green'>Create a budget</font></a> for
 		// your organisation so that you can compare with actual expenditure
 		// throughout the year.
-		accountReceivable = getAnchor(FinanceApplication.getCompanyMessages()
+		accountReceivable = getAnchor(Accounter.getCompanyMessages()
 				.accountReceivable());
-		accountPayable = getAnchor(FinanceApplication.getCompanyMessages()
+		accountPayable = getAnchor(Accounter.getCompanyMessages()
 				.accountPayable());
-		banking = getAnchor(FinanceApplication.getCompanyMessages()
+		banking = getAnchor(Accounter.getCompanyMessages()
 				.bankingTransactions());
-		expences = getAnchor(FinanceApplication.getCompanyMessages()
+		expences = getAnchor(Accounter.getCompanyMessages()
 				.expenseClaims());
 		customer = getAnchor("customers");
 		vendor = getAnchor("vendors");
@@ -194,23 +194,23 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 			@Override
 			public void onClick(ClickEvent event) {
 
-				if (title.equals(FinanceApplication.getCompanyMessages()
+				if (title.equals(Accounter.getCompanyMessages()
 						.accountReceivable())) {
-					if (FinanceApplication.getUser().canDoInvoiceTransactions())
+					if (Accounter.getUser().canDoInvoiceTransactions())
 						CustomersActionFactory.getNewInvoiceAction().run(null,
 								true);
-				} else if (title.equals(FinanceApplication.getCompanyMessages()
+				} else if (title.equals(Accounter.getCompanyMessages()
 						.accountPayable())) {
-					if (FinanceApplication.getUser().canDoInvoiceTransactions())
+					if (Accounter.getUser().canDoInvoiceTransactions())
 						VendorsActionFactory.getEnterBillsAction().run(null,
 								true);
-				} else if (title.equals(FinanceApplication.getCompanyMessages()
+				} else if (title.equals(Accounter.getCompanyMessages()
 						.bankingTransactions()))
 					CompanyActionFactory.getChartOfAccountsAction(
 							ClientAccount.TYPE_BANK).run(null, true);
-				else if (title.equals(FinanceApplication.getCompanyMessages()
+				else if (title.equals(Accounter.getCompanyMessages()
 						.expenseClaims())) {
-					if (FinanceApplication.getUser().canDoInvoiceTransactions())
+					if (Accounter.getUser().canDoInvoiceTransactions())
 						VendorsActionFactory.getExpensesAction(null)
 								.run(null, true);
 				} else if (title.equals("customers"))
@@ -219,15 +219,15 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 				else if (title.equals("vendors"))
 					VendorsActionFactory.getNewVendorAction().run(null, true);
 				else if (title.equals("Invite Other User")) {
-					if (FinanceApplication.getUser().isCanDoUserManagement())
+					if (Accounter.getUser().isCanDoUserManagement())
 						SettingsActionFactory.getInviteUserAction().run(null,
 								true);
 				} else if (title.equals("Create any additional bank accounts")) {
-					if (FinanceApplication.getUser().canDoBanking())
+					if (Accounter.getUser().canDoBanking())
 						BankingActionFactory.getNewBankAccountAction().run(
 								null, true);
 				} else if (title.equals("finance categories")) {
-					if (FinanceApplication.getUser()
+					if (Accounter.getUser()
 							.canSeeInvoiceTransactions())
 						CompanyActionFactory.getChartOfAccountsAction().run(
 								null, true);

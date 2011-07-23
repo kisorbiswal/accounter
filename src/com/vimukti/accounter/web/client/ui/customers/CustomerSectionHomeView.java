@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.ui.AddWidgetDialog;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.PortalLayout;
 import com.vimukti.accounter.web.client.ui.Portlet;
 import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
@@ -195,7 +195,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 		listGrid = new CustomerListGrid();
 		listGrid.init();
 
-		FinanceApplication.createHomeService().getPayeeList(
+		Accounter.createHomeService().getPayeeList(
 				ClientTransaction.CATEGORY_CUSTOMER,
 				new AsyncCallback<List<PayeeList>>() {
 
@@ -217,11 +217,11 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
 		String[] totalWidget = {
-				FinanceApplication.getCustomersMessages().newCustomer(),
-				FinanceApplication.getCustomersMessages().salesItem(),
-				FinanceApplication.getCustomersMessages().paymentReceived(),
-				FinanceApplication.getCustomersMessages().cashSales(),
-				FinanceApplication.getCustomersMessages().creditAndRefunds() };
+				Accounter.getCustomersMessages().newCustomer(),
+				Accounter.getCustomersMessages().salesItem(),
+				Accounter.getCustomersMessages().paymentReceived(),
+				Accounter.getCustomersMessages().cashSales(),
+				Accounter.getCustomersMessages().creditAndRefunds() };
 		boolean isAvailable = false;
 
 		for (int i = 0; i < totalWidget.length; i++) {
@@ -267,7 +267,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 	@Override
 	public void setPrevoiusOutput(Object preObject) {
 
-		FinanceApplication.createHomeService().getPayeeList(
+		Accounter.createHomeService().getPayeeList(
 				ClientTransaction.CATEGORY_CUSTOMER,
 				new AsyncCallback<List<PayeeList>>() {
 
@@ -285,6 +285,6 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().customersHome();
+		return Accounter.getActionsConstants().customersHome();
 	}
 }

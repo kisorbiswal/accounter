@@ -24,7 +24,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -82,7 +82,7 @@ public class InvoiceBrandingView<T> extends
 		});
 		titleLabel = new Label(messages.invoiceBrandingLabel());
 		titleLabel.removeStyleName("gwt-Label");
-		titleLabel.setStyleName(FinanceApplication.getVendorsMessages()
+		titleLabel.setStyleName(Accounter.getVendorsMessages()
 				.lableTitle());
 		generalSettingsHTML.addClickHandler(new ClickHandler() {
 
@@ -138,7 +138,7 @@ public class InvoiceBrandingView<T> extends
 
 		mainPanel.add(titlePanel);
 		mainPanel.add(buttonPanel);
-		List<ClientBrandingTheme> brandingThemes = FinanceApplication
+		List<ClientBrandingTheme> brandingThemes = Accounter
 				.getCompany().getBrandingTheme();
 		for (int i = 0; i < brandingThemes.size(); i++) {
 			brandingTheme = brandingThemes.get(i);
@@ -610,13 +610,13 @@ public class InvoiceBrandingView<T> extends
 					.getInvoiceBrandingAction(), null);
 			SettingsActionFactory.getInvoiceBrandingAction().run(null, false);
 		} else
-			saveFailed(new Exception(FinanceApplication.getCompanyMessages()
+			saveFailed(new Exception(Accounter.getCompanyMessages()
 					.failed()));
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getSettingsMessages().invoiceBranding();
+		return Accounter.getSettingsMessages().invoiceBranding();
 	}
 
 }

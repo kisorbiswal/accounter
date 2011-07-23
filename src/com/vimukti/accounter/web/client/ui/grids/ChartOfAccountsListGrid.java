@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
@@ -42,11 +42,11 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			return DataUtils.getAmountAsString(!DecimalUtil.isEquals(obj
 					.getTotalBalance(), 0.0) ? obj.getTotalBalance() : 0.0);
 		case 5:
-			return FinanceApplication.getFinanceMenuImages()
+			return Accounter.getFinanceMenuImages()
 					.accounterRegisterIcon();
 			// return "/images/find.png";
 		case 6:
-			return FinanceApplication.getFinanceMenuImages().delete();
+			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
 		default:
 			break;
@@ -64,10 +64,10 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	@Override
 	protected void onClick(ClientAccount obj, int row, int col) {
-		if (!FinanceApplication.getUser().canDoBanking()
+		if (!Accounter.getUser().canDoBanking()
 				&& obj.getType() == ClientAccount.TYPE_BANK)
 			return;
-		else if (!FinanceApplication.getUser().canDoInvoiceTransactions())
+		else if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
 		if (col == getColumns().length - 1)
 			showWarnDialog(obj);
@@ -80,10 +80,10 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	@Override
 	public void onDoubleClick(ClientAccount account) {
-		if (!FinanceApplication.getUser().canDoBanking()
+		if (!Accounter.getUser().canDoBanking()
 				&& account.getType() == ClientAccount.TYPE_BANK)
 			return;
-		else if (!FinanceApplication.getUser().canDoInvoiceTransactions())
+		else if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
 		HistoryTokenUtils.setPresentToken(CompanyActionFactory
 				.getNewAccountAction(), account);

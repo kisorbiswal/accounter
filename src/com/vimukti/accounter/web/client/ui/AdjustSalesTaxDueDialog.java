@@ -28,44 +28,44 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		Label lab1 = new Label(FinanceApplication.getFinanceUIConstants()
+		Label lab1 = new Label(Accounter.getFinanceUIConstants()
 				.adjustSalesTax());
 		// lab1.setWrap(false);
 		// lab1.setAutoFit(true);
 
-		Label lab2 = new Label(FinanceApplication.getFinanceUIConstants()
+		Label lab2 = new Label(Accounter.getFinanceUIConstants()
 				.selectDate());
 		lab2.setHeight("1");
 		// lab2.setOverflow(Overflow.VISIBLE);
 		// lab2.setWrap(false);
 		lab2.setWidth("100%");
 
-		DateItem effectDate = UIUtils.date(FinanceApplication
+		DateItem effectDate = UIUtils.date(Accounter
 				.getFinanceUIConstants().dateEffective());
 		effectDate.setRequired(true);
 
-		IntegerField entryText = new IntegerField(FinanceApplication
+		IntegerField entryText = new IntegerField(Accounter
 				.getFinanceUIConstants().journalEntryNo());
 
-		SelectItem incSelect = new SelectItem(FinanceApplication
+		SelectItem incSelect = new SelectItem(Accounter
 				.getFinanceUIConstants().taxIncome());
 		incSelect.setRequired(true);
 
-		SelectItem codeSelect = new SelectItem(FinanceApplication
+		SelectItem codeSelect = new SelectItem(Accounter
 				.getFinanceUIConstants().taxCodeAdjust());
 		codeSelect.setRequired(true);
 
-		RadioGroupItem incDecRadio = new RadioGroupItem(FinanceApplication
+		RadioGroupItem incDecRadio = new RadioGroupItem(Accounter
 				.getFinanceUIConstants().adjust());
 
-		incDecRadio.setValueMap(FinanceApplication.getFinanceUIConstants()
-				.increase(), FinanceApplication.getFinanceUIConstants()
+		incDecRadio.setValueMap(Accounter.getFinanceUIConstants()
+				.increase(), Accounter.getFinanceUIConstants()
 				.decrease());
 
-		AmountField amtText = new AmountField(FinanceApplication
+		AmountField amtText = new AmountField(Accounter
 				.getFinanceUIConstants().amount());
 		TextItem memoText = new TextItem();
-		memoText.setTitle(FinanceApplication.getFinanceUIConstants().memo());
+		memoText.setTitle(Accounter.getFinanceUIConstants().memo());
 
 		final DynamicForm taxForm = new DynamicForm();
 		taxForm.setFields(effectDate, entryText, incSelect, codeSelect,
@@ -129,6 +129,6 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getFinanceUIConstants().adjustSalesTax();
+		return Accounter.getFinanceUIConstants().adjustSalesTax();
 	}
 }

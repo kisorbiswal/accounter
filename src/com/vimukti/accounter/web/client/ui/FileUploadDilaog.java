@@ -85,9 +85,9 @@ public class FileUploadDilaog extends CustomDialog {
 		panel.setSpacing(2);
 		panel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		// Create a FileUpload widget.
-		detailsHtml = new HTML(FinanceApplication.getSettingsMessages()
+		detailsHtml = new HTML(Accounter.getSettingsMessages()
 				.logoComment());
-		helpHtml = new HTML(FinanceApplication.getSettingsMessages()
+		helpHtml = new HTML(Accounter.getSettingsMessages()
 				.helpContent());
 		helpHtml.addMouseOverHandler(new MouseOverHandler() {
 
@@ -107,7 +107,7 @@ public class FileUploadDilaog extends CustomDialog {
 			}
 		});
 		helpHtml.setVisible(false);
-		chooseHtml = new HTML(FinanceApplication.getSettingsMessages()
+		chooseHtml = new HTML(Accounter.getSettingsMessages()
 				.chooseLogo());
 		final FileUpload upload = new FileUpload();
 		/* Default height of upload text box 26 */
@@ -125,7 +125,7 @@ public class FileUploadDilaog extends CustomDialog {
 		uploadSubmitButton.setWidth("80px");
 		// vpaPanel.add(uploadSubmitButton);
 
-		AccounterButton closeButton = new AccounterButton(FinanceApplication
+		AccounterButton closeButton = new AccounterButton(Accounter
 				.getCustomersMessages().close());
 		closeButton.setWidth("80px");
 		buttonHlay = new HorizontalPanel();

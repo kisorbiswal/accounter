@@ -34,7 +34,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.ClientVATCode;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.forms.CustomComboItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -421,12 +421,12 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	 */
 	@SuppressWarnings("unchecked")
 	public void addItemThenfireEvent(T obj) {
-		boolean usTaxCode = FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
+		boolean usTaxCode = Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
 				&& obj instanceof ClientTAXItemGroup;
 		if (obj instanceof IAccounterCore) {
 			IAccounterCore core = (IAccounterCore) obj;
 			if (usTaxCode)
-				obj = (T) FinanceApplication.getCompany()
+				obj = (T) Accounter.getCompany()
 						.getTAXCodeForTAXItemGroup((ClientTAXItemGroup) obj);
 			if (core.getObjectType() == AccounterCoreType.ACCOUNT) {
 				UIUtils.updateAccountsInSortedOrder(
@@ -741,7 +741,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 		int index = comboItems.indexOf(Utility.getObject(
 				(List<IAccounterCore>) comboItems,
-				((IAccounterCore) coreObject).getStringID()));
+				((IAccounterCore) coreObject).getID()));
 		if (index > 0) {
 			comboItems.remove(index);
 			dropDown.removeRow(isAddNewRequire ? index + 2 : index + 1);
@@ -751,8 +751,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	public void updateComboItem(T coreObject) {
 		for (T item : comboItems) {
-			if (((IAccounterCore) item).getStringID().equals(
-					((IAccounterCore) coreObject).getStringID())) {
+			if (((IAccounterCore) item).getID().equals(
+					((IAccounterCore) coreObject).getID())) {
 
 				if (this.getSelectedValue() != null ? this.getSelectedValue()
 						.equals(item) : true) {
@@ -763,7 +763,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 					addComboItem(coreObject);
 				}
 				break;
-			} else if (((IAccounterCore) coreObject).getStringID() != null) {
+			} else if (((IAccounterCore) coreObject).getID() != null) {
 				addComboItem(coreObject);
 				break;
 			}

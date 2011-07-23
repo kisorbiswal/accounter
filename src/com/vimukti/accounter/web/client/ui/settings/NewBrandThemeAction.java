@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
@@ -42,14 +42,14 @@ public class NewBrandThemeAction extends Action {
 		try {
 			if (data != null) {
 				newBrandThemeDialog = new NewBrandThemeDialog(
-						FinanceApplication.getSettingsMessages()
+						Accounter.getSettingsMessages()
 								.editBrandThemeLabel(), "",
 						(ClientBrandingTheme) data);
 				newBrandThemeDialog.show();
 				newBrandThemeDialog.center();
 			} else {
 				newBrandThemeDialog = new NewBrandThemeDialog(
-						FinanceApplication.getSettingsMessages()
+						Accounter.getSettingsMessages()
 								.newBrandThemeLabel(), "");
 				newBrandThemeDialog.show();
 				newBrandThemeDialog.center();

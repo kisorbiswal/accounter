@@ -19,7 +19,7 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.externalization.FinanceConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -44,7 +44,7 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 		super(view);
 		itemReceiptView = view;
 		this.purchaseOrderList = purchaseOrderList;
-		setText(FinanceApplication.getVendorsMessages().purchaseOrderList());
+		setText(Accounter.getVendorsMessages().purchaseOrderList());
 		createControls();
 		setPurchaseOrderList(purchaseOrderList);
 		setWidth("600");
@@ -57,17 +57,17 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 		VerticalPanel mainLayout = new VerticalPanel();
 		mainLayout.setSize("100%", "100%");
 		mainLayout.setSpacing(3);
-		Label infoLabel = new Label(FinanceApplication.getVendorsMessages()
+		Label infoLabel = new Label(Accounter.getVendorsMessages()
 				.selectPurchaseOrder()
-				+ FinanceApplication.getVendorsMessages().selectDocument());
+				+ Accounter.getVendorsMessages().selectDocument());
 
 		mainLayout.add(infoLabel);
 
 		grid = new DialogGrid(false);
 		grid.addColumns(vendorConstants.Date(), vendorConstants.no(),
 				vendorConstants.type(), UIUtils.getVendorString(
-						FinanceApplication.getVendorsMessages().supplierName(),
-						FinanceApplication.getVendorsMessages().vendorName()),
+						Accounter.getVendorsMessages().supplierName(),
+						Accounter.getVendorsMessages().vendorName()),
 				vendorConstants.total());
 		grid.setView(this);
 		grid.init();
@@ -100,7 +100,7 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				Accounter.showError(FinanceApplication.getVendorsMessages()
+				Accounter.showError(Accounter.getVendorsMessages()
 						.sorryNoHelp());
 
 			}
@@ -180,7 +180,7 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 					Accounter
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
-					Accounter.showError(FinanceApplication.getVendorsMessages()
+					Accounter.showError(Accounter.getVendorsMessages()
 							.failedToGetPurchaseOrder());
 				}
 				return;
@@ -209,7 +209,7 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 			case 1:
 				return purchaseOrder.getNumber();
 			case 2:
-				return FinanceApplication.getVendorsMessages().purchaseOrder();// purchaseOrder.getType();
+				return Accounter.getVendorsMessages().purchaseOrder();// purchaseOrder.getType();
 			case 3:
 				// return
 				// company.getVendor(purchaseOrder.getVendorName()).getName();

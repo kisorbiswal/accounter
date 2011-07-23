@@ -7,15 +7,15 @@ import java.util.Map;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.KeyFinancialIndicator;
 
 public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> {
 
-	String[] keys = { FinanceApplication.getCompanyMessages().grossProfit(),
-			FinanceApplication.getCompanyMessages().netProfit(),
-			FinanceApplication.getCompanyMessages().bankAccounts() };
+	String[] keys = { Accounter.getCompanyMessages().grossProfit(),
+			Accounter.getCompanyMessages().netProfit(),
+			Accounter.getCompanyMessages().bankAccounts() };
 
 	Map<Integer, Integer> colsMap = new HashMap<Integer, Integer>();
 	private Double rowTotal = 0.0;
@@ -124,7 +124,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 				colArray[index] = "";
 				break;
 			case 1:
-				colArray[index] = FinanceApplication.getCompanyMessages()
+				colArray[index] = Accounter.getCompanyMessages()
 						.currentMonth();
 				colsMap.put(1, getKeyValue(0));
 				break;
@@ -149,7 +149,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 				colsMap.put(6, getKeyValue(5));
 				break;
 			case 7:
-				colArray[index] = FinanceApplication.getCompanyMessages()
+				colArray[index] = Accounter.getCompanyMessages()
 						.yearToDate();
 				break;
 			default:

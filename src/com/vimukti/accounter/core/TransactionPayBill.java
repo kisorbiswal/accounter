@@ -29,7 +29,7 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 	 */
 	private static final long serialVersionUID = -4955126209995058112L;
 	long id;
-	public String stringID;
+	public long id;
 	int version;
 
 	/**
@@ -526,14 +526,14 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

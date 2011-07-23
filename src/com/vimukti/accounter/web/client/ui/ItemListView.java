@@ -49,7 +49,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 	@Override
 	public void deleteFailed(Throwable caught) {
 		super.deleteFailed(caught);
-		Accounter.showInformation(FinanceApplication.getFinanceUIConstants()
+		Accounter.showInformation(Accounter.getFinanceUIConstants()
 				.youCantDeleteItem());
 	}
 
@@ -70,25 +70,25 @@ public class ItemListView extends BaseListView<ClientItem> {
 			if (!DecimalUtil.isEquals(item.getSalesPrice(), 0))
 				total += item.getSalesPrice();
 		}
-		totalLabel.setText(FinanceApplication.getCustomersMessages()
+		totalLabel.setText(Accounter.getCustomersMessages()
 				.totalSalesPrice()
 				+ " = " + DataUtils.getAmountAsString(total));
 	}
 
 	@Override
 	protected Action getAddNewAction() {
-		if (!FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return null;
 		else {
 			NewItemAction action;
-			if (this.catageory.equals(FinanceApplication.getCustomersMessages()
+			if (this.catageory.equals(Accounter.getCustomersMessages()
 					.customer())) {
 				action = CustomersActionFactory.getNewItemAction();
 				action.setType(3);
 				return action;
-			} else if (this.catageory.equals(FinanceApplication
+			} else if (this.catageory.equals(Accounter
 					.getVendorsMessages().supplier())
-					|| this.catageory.equals(FinanceApplication
+					|| this.catageory.equals(Accounter
 							.getVendorsMessages().vendor())) {
 				action = VendorsActionFactory.getNewItemAction();
 				action.setType(3);
@@ -103,7 +103,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			return messages.addNewItem();
 		else
 			return "";
@@ -111,7 +111,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 	@Override
 	protected String getListViewHeading() {
-		return FinanceApplication.getVendorsMessages().productList();
+		return Accounter.getVendorsMessages().productList();
 	}
 
 	@Override
@@ -130,9 +130,9 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 		isPurchaseType = !isSalesType;
 		if (!isSalesType)
-			listOfItems = FinanceApplication.getCompany().getPurchaseItems();
+			listOfItems = Accounter.getCompany().getPurchaseItems();
 		else
-			listOfItems = FinanceApplication.getCompany().getSalesItems();
+			listOfItems = Accounter.getCompany().getSalesItems();
 
 		filterList(true);
 	}
@@ -190,7 +190,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCustomersMessages().items();
+		return Accounter.getCustomersMessages().items();
 	}
 
 }

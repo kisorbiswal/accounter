@@ -72,7 +72,7 @@
 //		if (transactionView == null)
 //			return;
 //
-//		// if (transaction!=null && transaction.getStringID() != null)
+//		// if (transaction!=null && transaction.getID() != null)
 //		// showImageForRecord(false);
 //
 //		this.customerTransactionView = transactionView;
@@ -83,7 +83,7 @@
 //
 //		if (transaction != null) {
 //			setAllTransactions(transaction.getTransactionItems());
-//			if (transaction.getStringID() != 0) {
+//			if (transaction.getID() != 0) {
 //				setEnableMenu(false);
 //				setIsDeleteEnable(false);
 //			}

@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
@@ -54,7 +54,7 @@ public class MakeDepositTransactionGrid extends
 
 		if (transactionObject != null) {
 			setAllTransactns(transactionObject.getTransactionMakeDeposit());
-			if (transactionObject.getStringID() != null) {
+			if (transactionObject.getID() != null) {
 				canDeleteRecord(false);
 				// canAddRecord(false);
 			}
@@ -141,7 +141,7 @@ public class MakeDepositTransactionGrid extends
 				if (column == 1) {
 					if (core.getAccount() != null
 							&& !core.getAccount().equals("")) {
-						accountCombo.setComboItem(FinanceApplication
+						accountCombo.setComboItem(Accounter
 								.getCompany().getAccount(core.getAccount()));
 					} else
 						accountCombo.setValue("");
@@ -152,7 +152,7 @@ public class MakeDepositTransactionGrid extends
 			}
 		});
 
-		accountCombo = new MakeDepositAccountCombo(FinanceApplication
+		accountCombo = new MakeDepositAccountCombo(Accounter
 				.getBankingsMessages().accounts());
 		accountCombo.setGrid(this);
 		// accountCombo.setWidth("600");
@@ -161,24 +161,24 @@ public class MakeDepositTransactionGrid extends
 
 					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
-						selectedObject.setAccount(selectItem.getStringID());
+						selectedObject.setAccount(selectItem.getID());
 						setText(currentRow, currentCol, selectItem.getName());
 					}
 				});
 		vendorsCombo = new VendorCombo(UIUtils.getVendorString(
-				FinanceApplication.getVendorsMessages().supplier(),
-				FinanceApplication.getVendorsMessages().vendor()));
+				Accounter.getVendorsMessages().supplier(),
+				Accounter.getVendorsMessages().vendor()));
 		vendorsCombo.setGrid(this);
 		vendorsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
 					@Override
 					public void selectedComboBoxItem(ClientVendor selectItem) {
-						selectedObject.setVendor(selectItem.getStringID());
+						selectedObject.setVendor(selectItem.getID());
 						setText(currentRow, currentCol, selectItem.getName());
 					}
 				});
-		customersCombo = new CustomerCombo(FinanceApplication
+		customersCombo = new CustomerCombo(Accounter
 				.getCustomersMessages().customer());
 		customersCombo.setGrid(this);
 		customersCombo
@@ -186,7 +186,7 @@ public class MakeDepositTransactionGrid extends
 
 					@Override
 					public void selectedComboBoxItem(ClientCustomer selectItem) {
-						selectedObject.setCustomer(selectItem.getStringID());
+						selectedObject.setCustomer(selectItem.getID());
 						setText(currentRow, currentCol, selectItem.getName());
 					}
 				});
@@ -213,17 +213,17 @@ public class MakeDepositTransactionGrid extends
 					if (core.getType() == ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT) {
 						if (core.getAccount() != null)
 							accountCombo
-									.setComboItem(FinanceApplication
+									.setComboItem(Accounter
 											.getCompany().getAccount(
 													core.getAccount()));
 					} else if (core.getType() == ClientTransactionMakeDeposit.TYPE_CUSTOMER) {
 						if (core.getCustomer() != null)
-							customersCombo.setComboItem(FinanceApplication
+							customersCombo.setComboItem(Accounter
 									.getCompany().getCustomer(
 											core.getCustomer()));
 					} else if (core.getType() == ClientTransactionMakeDeposit.TYPE_VENDOR) {
 						if (core.getVendor() != null)
-							vendorsCombo.setComboItem(FinanceApplication
+							vendorsCombo.setComboItem(Accounter
 									.getCompany().getVendor(core.getVendor()));
 					}
 					break;
@@ -275,15 +275,15 @@ public class MakeDepositTransactionGrid extends
 	private String getTypeAsString(int type) {
 		switch (type) {
 		case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
-			return FinanceApplication.getCustomersMessages().account();
+			return Accounter.getCustomersMessages().account();
 		case ClientTransactionMakeDeposit.TYPE_VENDOR:
-			return UIUtils.getVendorString(FinanceApplication
-					.getVendorsMessages().supplier(), FinanceApplication
+			return UIUtils.getVendorString(Accounter
+					.getVendorsMessages().supplier(), Accounter
 					.getVendorsMessages().vendor());
 		case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
-			return FinanceApplication.getCustomersMessages().customer();
+			return Accounter.getCustomersMessages().customer();
 		default:
-			return FinanceApplication.getCustomersMessages().type();
+			return Accounter.getCustomersMessages().type();
 		}
 	}
 
@@ -363,11 +363,11 @@ public class MakeDepositTransactionGrid extends
 			switch (obj.getType()) {
 			case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
 				// return "Financial Account";
-				return FinanceApplication.getBankingsMessages().transfer();
+				return Accounter.getBankingsMessages().transfer();
 			case ClientTransactionMakeDeposit.TYPE_VENDOR:
-				return FinanceApplication.getVendorsMessages().vendor();
+				return Accounter.getVendorsMessages().vendor();
 			case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
-				return FinanceApplication.getCustomersMessages().customer();
+				return Accounter.getCustomersMessages().customer();
 			default:
 				return "";
 			}
@@ -378,7 +378,7 @@ public class MakeDepositTransactionGrid extends
 		case 3:
 			return DataUtils.getAmountAsString(obj.getAmount());
 		case 4:
-			return FinanceApplication.getFinanceMenuImages().delete();
+			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
 		}
 		return "";
@@ -448,19 +448,19 @@ public class MakeDepositTransactionGrid extends
 	protected String[] getSelectValues(ClientTransactionMakeDeposit obj, int col) {
 		switch (col) {
 		case 0:
-			if (FinanceApplication.getCompany().getAccountingType() == 1) {
+			if (Accounter.getCompany().getAccountingType() == 1) {
 				return new String[] {
-						FinanceApplication.getCustomersMessages()
+						Accounter.getCustomersMessages()
 								.financialAccount(),
-						FinanceApplication.getVendorsMessages().vendor(),
-						FinanceApplication.getCustomersMessages().customer(),
-						FinanceApplication.getVATMessages().VAT() };
+						Accounter.getVendorsMessages().vendor(),
+						Accounter.getCustomersMessages().customer(),
+						Accounter.getVATMessages().VAT() };
 			} else {
 				return new String[] {
-						FinanceApplication.getCustomersMessages()
+						Accounter.getCustomersMessages()
 								.financialAccount(),
-						FinanceApplication.getVendorsMessages().vendor(),
-						FinanceApplication.getCustomersMessages().customer() };
+						Accounter.getVendorsMessages().vendor(),
+						Accounter.getCustomersMessages().customer() };
 			}
 
 		}
@@ -471,17 +471,17 @@ public class MakeDepositTransactionGrid extends
 		String name = "";
 		switch (obj.getType()) {
 		case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
-			ClientAccount account = FinanceApplication.getCompany().getAccount(
+			ClientAccount account = Accounter.getCompany().getAccount(
 					obj.getAccount());
 			name = account != null ? account.getName() : "";
 			break;
 		case ClientTransactionMakeDeposit.TYPE_VENDOR:
-			ClientVendor vendor = FinanceApplication.getCompany().getVendor(
+			ClientVendor vendor = Accounter.getCompany().getVendor(
 					obj.getVendor());
 			name = vendor != null ? vendor.getName() : "";
 			break;
 		case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
-			ClientCustomer customer = FinanceApplication.getCompany()
+			ClientCustomer customer = Accounter.getCompany()
 					.getCustomer(obj.getCustomer());
 			name = customer != null ? customer.getName() : "";
 			break;

@@ -29,8 +29,8 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	private AddPaymentTermDialog dialog;
 
 	public PaymentTermListDialog() {
-		super(FinanceApplication.getFinanceUIConstants().managePaymentTerm(),
-				FinanceApplication.getFinanceUIConstants()
+		super(Accounter.getFinanceUIConstants().managePaymentTerm(),
+				Accounter.getFinanceUIConstants()
 						.paymentTermDescription());
 		createControls();
 		center();
@@ -85,7 +85,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	}
 
 	public void createPaymentTerms() {
-		if (Utility.isObjectExist(FinanceApplication.getCompany()
+		if (Utility.isObjectExist(Accounter.getCompany()
 				.getPaymentsTerms(), dialog.payTermText.getValue().toString())) {
 			Accounter.showError("Payterms  Already Exists");
 		} else {
@@ -95,9 +95,9 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	}
 
 	public void showAddEditTermDialog(ClientPaymentTerms rec) {
-		dialog = new AddPaymentTermDialog(FinanceApplication
+		dialog = new AddPaymentTermDialog(Accounter
 				.getFinanceUIConstants().addPaymentTermTitle(),
-				FinanceApplication.getFinanceUIConstants()
+				Accounter.getFinanceUIConstants()
 						.addPaymentTermTitleDesc());
 
 		paymentTerm = rec;
@@ -232,20 +232,20 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	@Override
 	public String[] setColumns() {
 		return new String[] {
-				FinanceApplication.getFinanceUIConstants().Name(),
-				FinanceApplication.getFinanceUIConstants().description(),
-				FinanceApplication.getFinanceUIConstants().paidWithin(),
-				FinanceApplication.getFinanceUIConstants().cashDiscount() };
+				Accounter.getFinanceUIConstants().Name(),
+				Accounter.getFinanceUIConstants().description(),
+				Accounter.getFinanceUIConstants().paidWithin(),
+				Accounter.getFinanceUIConstants().cashDiscount() };
 	}
 
 	@Override
 	protected List<ClientPaymentTerms> getRecords() {
-		return (List<ClientPaymentTerms>) FinanceApplication.getCompany()
+		return (List<ClientPaymentTerms>) Accounter.getCompany()
 				.getPaymentsTerms();
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getFinanceUIConstants().managePaymentTerm();
+		return Accounter.getFinanceUIConstants().managePaymentTerm();
 	}
 }

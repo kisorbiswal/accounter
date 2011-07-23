@@ -71,7 +71,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public boolean canEdit = true;
 
 	int version;
-	public String stringID;
+	public long id;
 	int type;
 	long transactionDate;
 	String number = "";

@@ -4,7 +4,7 @@ package com.vimukti.accounter.web.client.core;
 public class ClientVendorGroup implements IAccounterCore {
 
 	int version;
-	String stringID;
+	long id;
 	String name;
 	boolean isDefault;
 
@@ -78,13 +78,13 @@ public class ClientVendorGroup implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

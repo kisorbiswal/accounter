@@ -57,7 +57,7 @@ public class TransactionItem
 
 	long id;
 
-	public String stringID;
+	public long id;
 
 	/**
 	 * The type field is used to differ the Item, comment, salestax, account
@@ -335,7 +335,7 @@ public class TransactionItem
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
@@ -487,7 +487,7 @@ public class TransactionItem
 		 */
 		for (TAXRateCalculation vrc : this.taxRateCalculationEntriesList) {
 			if (this.isVoid && vrc.transactionItem == null) {
-				vrcStringIds.add(vrc.getStringID());
+				vrcStringIds.add(vrc.getID());
 
 				if (vrc1 == null)
 					vrc1 = vrc;
@@ -495,7 +495,7 @@ public class TransactionItem
 					vrc2 = vrc;
 
 			} else if (!this.isVoid)
-				vrcStringIds.add(vrc.getStringID());
+				vrcStringIds.add(vrc.getID());
 		}
 
 		if (vrc1 != null)
@@ -829,14 +829,14 @@ public class TransactionItem
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

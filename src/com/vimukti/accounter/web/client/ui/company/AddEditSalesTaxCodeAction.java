@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.company;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.AddEditSalesTaxCodeView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -17,14 +17,14 @@ public class AddEditSalesTaxCodeAction extends Action {
 
 	public AddEditSalesTaxCodeAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
-		title = FinanceApplication.getCompanyMessages().taxCode();
+		this.catagory = Accounter.getCompanyMessages().company();
+		title = Accounter.getCompanyMessages().taxCode();
 	}
 
 	public AddEditSalesTaxCodeAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
-		title = FinanceApplication.getCompanyMessages().taxCode();
+		this.catagory = Accounter.getCompanyMessages().company();
+		title = Accounter.getCompanyMessages().taxCode();
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class AddEditSalesTaxCodeAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		// TODO Auto-generated method stub
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			return "newVatCode";
 		else
 			return "newTaxCode";

@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTaxRates;
 import com.vimukti.accounter.web.client.ui.AddEditSalesTaxCodeView;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class SaleTaxCodeGrid extends ListGrid<ClientTaxRates> {
@@ -49,7 +49,7 @@ public class SaleTaxCodeGrid extends ListGrid<ClientTaxRates> {
 		case 1:
 			return new ClientFinanceDate(taxRates.getAsOf()).toString();
 		case 2:
-			return FinanceApplication.getFinanceMenuImages().delete();
+			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
 		}
 		return null;
@@ -57,8 +57,8 @@ public class SaleTaxCodeGrid extends ListGrid<ClientTaxRates> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { FinanceApplication.getVATMessages().rate(),
-				FinanceApplication.getVATMessages().asof(), "" };
+		return new String[] { Accounter.getVATMessages().rate(),
+				Accounter.getVATMessages().asof(), "" };
 	}
 
 	@Override

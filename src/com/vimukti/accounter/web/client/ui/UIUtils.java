@@ -235,13 +235,13 @@ public class UIUtils {
 
 	public static String title(String windowName) {
 		String compName = "";
-		ClientCompany company = FinanceApplication.getCompany();
+		ClientCompany company = Accounter.getCompany();
 		if (company != null) {
 			compName = company.getName();
 		} else {
 			compName = "no company";
 		}
-		String appName = FinanceApplication.getAppName();
+		String appName = Accounter.getAppName();
 
 		return windowName + " [" + compName + "] -- " + appName;
 	}
@@ -667,7 +667,7 @@ public class UIUtils {
 		switch (comboType) {
 		case AccountCombo.DEPOSIT_IN_ACCOUNT:
 			for (int type : accountTypes) {
-				if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 					if (
 					// type == ClientAccount.TYPE_BANK
 					// || type == ClientAccount.TYPE_CASH
@@ -867,24 +867,24 @@ public class UIUtils {
 		selectCombo.setHelpInformation(true);
 		selectCombo.setTitle("Payment Method");
 		selectCombo
-				.setComboItem(FinanceApplication.getVendorsMessages().cash());
+				.setComboItem(Accounter.getVendorsMessages().cash());
 		List<String> listOfPaymentMethods = new ArrayList<String>();
 		listOfPaymentMethods
-				.add(FinanceApplication.getVendorsMessages().cash());
+				.add(Accounter.getVendorsMessages().cash());
 		listOfPaymentMethods.add(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
+				.getpaymentMethodCheckBy_CompanyType(Accounter
 						.getCustomersMessages().check()));
-		listOfPaymentMethods.add(FinanceApplication.getVendorsMessages()
+		listOfPaymentMethods.add(Accounter.getVendorsMessages()
 				.creditCard());
-		listOfPaymentMethods.add(FinanceApplication.getVendorsMessages()
+		listOfPaymentMethods.add(Accounter.getVendorsMessages()
 				.directDebit());
-		listOfPaymentMethods.add(FinanceApplication.getVendorsMessages()
+		listOfPaymentMethods.add(Accounter.getVendorsMessages()
 				.masterCard());
-		listOfPaymentMethods.add(FinanceApplication.getVendorsMessages()
+		listOfPaymentMethods.add(Accounter.getVendorsMessages()
 				.onlineBanking());
-		listOfPaymentMethods.add(FinanceApplication.getVendorsMessages()
+		listOfPaymentMethods.add(Accounter.getVendorsMessages()
 				.standingOrder());
-		listOfPaymentMethods.add(FinanceApplication.getVendorsMessages()
+		listOfPaymentMethods.add(Accounter.getVendorsMessages()
 				.switchMaestro());
 		selectCombo.initCombo(listOfPaymentMethods);
 
@@ -1185,7 +1185,7 @@ public class UIUtils {
 		case ClientTransactionItem.TYPE_ITEM:
 			return "Item";
 		case ClientTransactionItem.TYPE_SALESTAX:
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 				return "TaxGroup";
 			else
 				return "Vat Item";
@@ -1406,7 +1406,7 @@ public class UIUtils {
 	}
 
 	public static String getVendorString(String forUk, String forUs) {
-		return FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US ? forUs
+		return Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US ? forUs
 				: forUk;
 	}
 
@@ -1431,11 +1431,11 @@ public class UIUtils {
 	}
 
 	public static ClientTAXItem getVATItem(String vatCodeId, boolean isSales) {
-		ClientTAXCode clientTAXCode = FinanceApplication.getCompany()
+		ClientTAXCode clientTAXCode = Accounter.getCompany()
 				.getTAXCode(vatCodeId);
 		String vatIem = isSales ? clientTAXCode.getTAXItemGrpForSales()
 				: clientTAXCode.getTAXItemGrpForPurchases();
-		return FinanceApplication.getCompany().getTaxItem(vatIem);
+		return Accounter.getCompany().getTaxItem(vatIem);
 
 	}
 
@@ -1452,12 +1452,12 @@ public class UIUtils {
 		if (date == null) {
 			return "";
 		}
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			DateTimeFormat dateFormatter = DateTimeFormat
 					.getFormat("dd/MM/yyyy");
 			String format = dateFormatter.format(date.getDateAsObject());
 			return format;
-		} else if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			DateTimeFormat dateFormatter = DateTimeFormat
 					.getFormat("MM/dd/yyyy");
 			String format = dateFormatter.format(date.getDateAsObject());
@@ -1489,7 +1489,7 @@ public class UIUtils {
 		Iterator<ClientAccount> iterator = accountsList.iterator();
 		while (iterator.hasNext()) {
 			account = iterator.next();
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 					&& toBeAddedAccount.getNumber().equals("1175")) {
 				if (account.getNumber().equals("1180")) {
 					accountsList.add(accountsList.indexOf(account) - 1,
@@ -1561,7 +1561,7 @@ public class UIUtils {
 				|| taxItemGroupList == null)
 			return;
 		ClientTAXItemGroup existObj = Utility.getObject(taxItemGroupList,
-				taxItemGroup.getStringID());
+				taxItemGroup.getID());
 		if (existObj == null) {
 			// objectsList.add(objectInList);
 		} else {
@@ -1781,13 +1781,13 @@ public class UIUtils {
 
 	public static String getpaymentMethodCheckBy_CompanyType(
 			String paymentMethod) {
-		if (paymentMethod.equals(FinanceApplication.getCustomersMessages()
+		if (paymentMethod.equals(Accounter.getCustomersMessages()
 				.cheque())
-				|| paymentMethod.equals(FinanceApplication
+				|| paymentMethod.equals(Accounter
 						.getCustomersMessages().check())) {
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 				return "Cheque";
-			else if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 				return "Check";
 		}
 
@@ -1819,7 +1819,7 @@ public class UIUtils {
 		if (!taxCode.getName().equals("EGS")
 				&& !taxCode.getName().equals("EGZ")
 				&& !taxCode.getName().equals("RC")) {
-			ClientTAXItemGroup vatItemGroup = FinanceApplication.getCompany()
+			ClientTAXItemGroup vatItemGroup = Accounter.getCompany()
 					.getTAXItemGroup(
 							isSales ? taxCode.getTAXItemGrpForSales() : taxCode
 									.getTAXItemGrpForPurchases());

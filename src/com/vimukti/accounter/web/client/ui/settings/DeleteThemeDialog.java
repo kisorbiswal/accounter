@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -37,10 +37,10 @@ public class DeleteThemeDialog extends BaseDialog {
 
 		deleteHtml = new HTML("<p>Are you sure you want to delete <strong>"
 				+ brandingTheme.getThemeName() + "</strong> theme?</p>");
-		undoneHtml = new HTML(FinanceApplication.getSettingsMessages()
+		undoneHtml = new HTML(Accounter.getSettingsMessages()
 				.undoneHtml());
 
-		okbtn.setText(FinanceApplication.getSettingsMessages().deleteButton());
+		okbtn.setText(Accounter.getSettingsMessages().deleteButton());
 		okbtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -79,6 +79,6 @@ public class DeleteThemeDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getSettingsMessages().deleteThemeLabel();
+		return Accounter.getSettingsMessages().deleteThemeLabel();
 	}
 }

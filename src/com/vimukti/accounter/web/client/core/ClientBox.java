@@ -12,7 +12,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class ClientBox implements IAccounterCore {
 
-	String stringID;
+	long id;
 
 	String name;
 	double amount;
@@ -122,12 +122,12 @@ public class ClientBox implements IAccounterCore {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#getStringID()
+	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#getID()
 	 */
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	/*
@@ -138,8 +138,8 @@ public class ClientBox implements IAccounterCore {
 	 * .lang.String)
 	 */
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

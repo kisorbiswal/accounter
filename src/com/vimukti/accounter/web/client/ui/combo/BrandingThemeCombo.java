@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.settings.SettingsActionFactory;
@@ -10,12 +10,12 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 
 	public BrandingThemeCombo(String title) {
 		super(title);
-		initCombo(FinanceApplication.getCompany().getBrandingTheme());
+		initCombo(Accounter.getCompany().getBrandingTheme());
 	}
 
 	public BrandingThemeCombo(String title, boolean isAddNewRequire) {
 		super(title, isAddNewRequire, 1);
-		initCombo(FinanceApplication.getCompany().getBrandingTheme());
+		initCombo(Accounter.getCompany().getBrandingTheme());
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return FinanceApplication.getAccounterComboConstants().addNewBrandingTheme();
+		return Accounter.getAccounterComboConstants().addNewBrandingTheme();
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class AccounterButton extends Button {
 
@@ -106,7 +106,7 @@ public class AccounterButton extends Button {
 			addimage.addClassName("add-image");
 			DOM.appendChild(this.getElement(), addimage);
 
-			ThemesUtil.addDivToButton(this, FinanceApplication.getThemeImages()
+			ThemesUtil.addDivToButton(this, Accounter.getThemeImages()
 					.button_right_blue_image(), "add-right-image");
 		} catch (Exception e) {
 			System.err.println(e);
@@ -117,7 +117,7 @@ public class AccounterButton extends Button {
 	public void enabledButton() {
 		try {
 			this.getElement().getParentElement().setClassName("ibutton");
-			ThemesUtil.addDivToButton(this, FinanceApplication.getThemeImages()
+			ThemesUtil.addDivToButton(this, Accounter.getThemeImages()
 					.button_right_blue_image(), "ibutton-right-image");
 		} catch (Exception e) {
 			System.err.println(e);
@@ -154,7 +154,7 @@ public class AccounterButton extends Button {
 	public void enabledButton(String string) {
 		try {
 			this.getElement().getParentElement().setClassName(string);
-			ThemesUtil.addDivToButton(this, FinanceApplication.getThemeImages()
+			ThemesUtil.addDivToButton(this, Accounter.getThemeImages()
 					.button_right_blue_image(), "ibutton-right-image");
 		} catch (Exception e) {
 			System.err.println(e);
@@ -173,7 +173,7 @@ public class AccounterButton extends Button {
 			accounterImage.addClassName(image);
 			DOM.appendChild(this.getElement(), accounterImage);
 
-			ThemesUtil.addDivToButton(this, FinanceApplication.getThemeImages()
+			ThemesUtil.addDivToButton(this, Accounter.getThemeImages()
 					.button_right_blue_image(), "ibutton-right-image");
 
 		} catch (Exception e) {

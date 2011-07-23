@@ -63,9 +63,9 @@ public class ClientAccount implements IAccounterCore {
 
 	public static final int GROUPTYPE_CASH = 1;
 
-	// String stringID;
+	// long id;
 
-	public String stringID;
+	public long id;
 
 	int type;
 
@@ -464,14 +464,14 @@ public class ClientAccount implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

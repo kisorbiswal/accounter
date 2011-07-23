@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -14,13 +14,13 @@ public class StatementReportAction extends Action {
 
 	public StatementReportAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getReportsMessages().report();
+		this.catagory = Accounter.getReportsMessages().report();
 
 	}
 
 	public StatementReportAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getReportsMessages().report();
+		this.catagory = Accounter.getReportsMessages().report();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
@@ -62,7 +62,7 @@ public class StatementReportAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().reports();
+		return Accounter.getFinanceMenuImages().reports();
 
 	}
 

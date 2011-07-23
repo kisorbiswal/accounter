@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import com.vimukti.accounter.web.client.core.ClientUser;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -47,8 +47,8 @@ public class RecentActivityListGrid extends ListGrid<ClientUser> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { FinanceApplication.getSettingsMessages().name(),
-				FinanceApplication.getSettingsMessages().loginDate() };
+		return new String[] { Accounter.getSettingsMessages().name(),
+				Accounter.getSettingsMessages().loginDate() };
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.VAT100ServerReport;
 
@@ -29,26 +29,26 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 	@Override
 	public void init() {
 		super.init();
-		toolbar.setDateRanageOptions(FinanceApplication.getReportsMessages()
-				.all(), FinanceApplication.getReportsMessages().thisWeek(),
-				FinanceApplication.getReportsMessages().thisMonth(),
-				FinanceApplication.getReportsMessages().lastWeek(),
-				FinanceApplication.getReportsMessages().lastMonth(),
-				FinanceApplication.getReportsMessages().thisFinancialYear(),
-				FinanceApplication.getReportsMessages().lastFinancialYear(),
-				FinanceApplication.getReportsMessages().thisFinancialQuarter(),
-				FinanceApplication.getReportsMessages().lastFinancialQuarter(),
-				FinanceApplication.getReportsMessages().financialYearToDate(),
-				FinanceApplication.getReportsMessages().lastVATQuarter(),
-				FinanceApplication.getReportsMessages().lastVATQuarterToDate(),
-				FinanceApplication.getReportsMessages().custom());
+		toolbar.setDateRanageOptions(Accounter.getReportsMessages()
+				.all(), Accounter.getReportsMessages().thisWeek(),
+				Accounter.getReportsMessages().thisMonth(),
+				Accounter.getReportsMessages().lastWeek(),
+				Accounter.getReportsMessages().lastMonth(),
+				Accounter.getReportsMessages().thisFinancialYear(),
+				Accounter.getReportsMessages().lastFinancialYear(),
+				Accounter.getReportsMessages().thisFinancialQuarter(),
+				Accounter.getReportsMessages().lastFinancialQuarter(),
+				Accounter.getReportsMessages().financialYearToDate(),
+				Accounter.getReportsMessages().lastVATQuarter(),
+				Accounter.getReportsMessages().lastVATQuarterToDate(),
+				Accounter.getReportsMessages().custom());
 
 		// Make rpc request for default VAT Agency and default DateRange
-		List<ClientTAXAgency> vatAgencies = FinanceApplication.getCompany()
+		List<ClientTAXAgency> vatAgencies = Accounter.getCompany()
 				.getTaxAgencies();
 		for (ClientTAXAgency vatAgency : vatAgencies) {
 			if (vatAgency.getName().equalsIgnoreCase(
-					FinanceApplication.getReportsMessages()
+					Accounter.getReportsMessages()
 							.hmCustomsExciseVAT())) {
 				ClientFinanceDate date = new ClientFinanceDate();
 				int month = (date.getMonth()) % 3;
@@ -57,7 +57,7 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 						.getYear(), startMonth, 1);
 				ClientFinanceDate start = startDate;
 				ClientFinanceDate end = date;
-				makeReportRequest(vatAgency.getStringID(), start, end);
+				makeReportRequest(vatAgency.getID(), start, end);
 				break;
 			}
 		}
@@ -85,7 +85,7 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		// row = -1;
 		// this.sectionName = "";
-		FinanceApplication.createReportService().getVAT100Report(vatAgency,
+		Accounter.createReportService().getVAT100Report(vatAgency,
 				startDate.getTime(), endDate.getTime(), this);
 		this.vatAgency = vatAgency;
 	}

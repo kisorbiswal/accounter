@@ -36,7 +36,7 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 
 	long id;
 
-	public String stringID;
+	public long id;
 
 	/**
 	 * This will specify the type of Entry. If this Entry is Customer type then
@@ -213,9 +213,9 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 
-		return this.stringID;
+		return this.id;
 	}
 
 	/**
@@ -708,8 +708,8 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

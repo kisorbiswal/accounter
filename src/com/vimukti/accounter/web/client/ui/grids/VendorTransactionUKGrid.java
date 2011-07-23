@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
@@ -52,7 +52,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 			transactionView.setAmountIncludeChkValue(transactionObject
 					.isAmountsIncludeVAT());
 			setAllTransactions(transactionObject.getTransactionItems());
-			if (transactionObject.getStringID() != null) {
+			if (transactionObject.getID() != null) {
 				// ITS Edit Mode
 				canDeleteRecord(false);
 			}
@@ -60,10 +60,10 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 	}
 
 	protected void createControls() {
-		vatItemCombo = new VATItemCombo(FinanceApplication.getVATMessages()
+		vatItemCombo = new VATItemCombo(Accounter.getVATMessages()
 				.VATItem(), isAddNewRequired);
 		List<ClientTAXItem> vendorVATItems = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : FinanceApplication.getCompany()
+		for (ClientTAXItem vatItem : Accounter.getCompany()
 				.getActiveTaxItems()) {
 			if (!vatItem.isSalesType())
 				vendorVATItems.add(vatItem);
@@ -80,7 +80,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 								Accounter
 										.showError("The VATItem selected is already used in VAT column.Please select a different VATItem");
 							}
-							selectedObject.setVatItem(selectItem.getStringID());
+							selectedObject.setVatItem(selectItem.getID());
 							setText(currentRow, currentCol, selectItem
 									.getName());
 						}
@@ -88,7 +88,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 				});
 		// taxCodeCombo.setGrid(this);
 
-		taxCodeCombo = new TAXCodeCombo(FinanceApplication.getVATMessages()
+		taxCodeCombo = new TAXCodeCombo(Accounter.getVATMessages()
 				.vatCode(), isAddNewRequired, false);
 		taxCodeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
@@ -96,7 +96,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 					@Override
 					public void selectedComboBoxItem(ClientTAXCode selectItem) {
 						if (selectItem != null) {
-							selectedObject.setTaxCode(selectItem.getStringID());
+							selectedObject.setTaxCode(selectItem.getID());
 							if (selectedObject.getType() == TYPE_SERVICE
 									|| selectedObject.getType() == TYPE_ACCOUNT)
 								editComplete(selectedObject, selectedObject
@@ -115,9 +115,9 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 	public boolean isPreviuslyUsed(ClientTAXItem selectedVATItem) {
 		for (ClientTransactionItem rec : getRecords()) {
 			if (rec.getTaxCode() != null && rec.getTaxCode().length() != 0) {
-				String vatItem = FinanceApplication.getCompany().getTAXCode(
+				String vatItem = Accounter.getCompany().getTAXCode(
 						rec.getTaxCode()).getTAXItemGrpForPurchases();
-				if (selectedVATItem.getStringID().equals(vatItem)) {
+				if (selectedVATItem.getID().equals(vatItem)) {
 					return false;
 				}
 			}
@@ -176,20 +176,20 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 	@Override
 	protected String[] getColumns() {
 		return new String[] { "",
-				FinanceApplication.getVendorsMessages().name(),
-				FinanceApplication.getVATMessages().description(),
-				FinanceApplication.getCustomersMessages().quantity(),
-				FinanceApplication.getVendorsMessages().unitPrice(),
-				FinanceApplication.getVendorsMessages().total(),
-				FinanceApplication.getVATMessages().newVATCode(),
-				FinanceApplication.getVATMessages().VAT(), " " };
+				Accounter.getVendorsMessages().name(),
+				Accounter.getVATMessages().description(),
+				Accounter.getCustomersMessages().quantity(),
+				Accounter.getVendorsMessages().unitPrice(),
+				Accounter.getVendorsMessages().total(),
+				Accounter.getVATMessages().newVATCode(),
+				Accounter.getVATMessages().VAT(), " " };
 	}
 
 	@Override
 	protected boolean isEditable(ClientTransactionItem obj, int row, int col) {
 		if (obj == null)
 			return false;
-		if (!FinanceApplication.getCompany().getpreferences()
+		if (!Accounter.getCompany().getpreferences()
 				.getDoYouPaySalesTax()) {
 			if (col == 6 || col == 7)
 				return false;
@@ -303,7 +303,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 		case 7:
 			return DataUtils.getAmountAsString(item.getVATfraction());
 		case 8:
-			return FinanceApplication.getFinanceMenuImages().delete();
+			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
 		default:
 			return "";

@@ -189,10 +189,10 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 	}
 
 	protected void initRPCService() {
-		this.rpcGetService = FinanceApplication.createGETService();
-		this.rpcDoSerivce = FinanceApplication.createCRUDService();
-		this.rpcUtilService = FinanceApplication.createHomeService();
-		this.rpcReportService = FinanceApplication.createReportService();
+		this.rpcGetService = Accounter.createGETService();
+		this.rpcDoSerivce = Accounter.createCRUDService();
+		this.rpcUtilService = Accounter.createHomeService();
+		this.rpcReportService = Accounter.createReportService();
 
 	}
 
@@ -259,7 +259,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 	protected void updateCompany(IAccounterCore obj) {
 
-		FinanceApplication.getCompany().processCommand(obj);
+		Accounter.getCompany().processCommand(obj);
 
 	}
 
@@ -277,7 +277,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 		} catch (Exception e) {
 
 			// SC.logWarn(e.getMessage());
-			Accounter.showError(FinanceApplication.getFinanceUIConstants()
+			Accounter.showError(Accounter.getFinanceUIConstants()
 					.failedToInitializeCompanyConstants());
 
 		}
@@ -296,7 +296,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 		IAccounterCore core = (IAccounterCore) data;
 
-		this.isEdit = (core != null && core.getStringID().length() != 0);
+		this.isEdit = (core != null && core.getID().length() != 0);
 
 	}
 
@@ -399,7 +399,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 	// }
 	@Override
 	public String toString() {
-		return FinanceApplication.getCustomersMessages().actionClassNameis()
+		return Accounter.getCustomersMessages().actionClassNameis()
 				+ this.getAction().getText();
 	}
 

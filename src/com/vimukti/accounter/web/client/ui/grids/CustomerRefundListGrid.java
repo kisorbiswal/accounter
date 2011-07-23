@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
@@ -50,10 +50,10 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 			return DataUtils.getAmountAsString(customerRefund.getAmountPaid());
 		case 8:
 			if (!customerRefund.isVoided())
-				return FinanceApplication.getFinanceImages().notvoid();
+				return Accounter.getFinanceImages().notvoid();
 //				return "/images/not-void.png";
 			else
-				return FinanceApplication.getFinanceImages().voided();
+				return Accounter.getFinanceImages().voided();
 //				return "/images/voided.png";
 //		case 9:
 //			if (customerRefund.isDeleted())
@@ -113,7 +113,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 	private void showWarningDialog(final CustomerRefundsList obj, final int col) {
 		String msg = null;
 		if (col == 8) {
-			msg = FinanceApplication.getCustomersMessages()
+			msg = Accounter.getCustomersMessages()
 					.doyouwanttoVoidtheTransaction();
 		}
 //		else if (col == 9) {

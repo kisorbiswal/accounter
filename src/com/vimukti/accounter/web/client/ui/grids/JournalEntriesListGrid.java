@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
@@ -52,9 +52,9 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 			return DataUtils.getAmountAsString(obj.getTotal());
 		case 4:
 			if (!obj.isVoid())
-				return FinanceApplication.getFinanceImages().notvoid();
+				return Accounter.getFinanceImages().notvoid();
 			else
-				return FinanceApplication.getFinanceImages().voided();
+				return Accounter.getFinanceImages().voided();
 			// return "/images/voided.png";
 			// case 5:
 			// if (obj.getStatus() == ClientTransaction.STATUS_DELETED)
@@ -145,10 +145,10 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 	private void showWarningDialog(final ClientJournalEntry obj, final int col) {
 		String msg = null;
 		if (col == 4 && !obj.isVoid()) {
-			msg = FinanceApplication.getCustomersMessages()
+			msg = Accounter.getCustomersMessages()
 					.doyouwanttoVoidtheTransaction();
 		} else if (col == 5) {
-			msg = FinanceApplication.getCustomersMessages()
+			msg = Accounter.getCustomersMessages()
 					.doyouwanttoDeletetheTransaction();
 
 		}
@@ -199,11 +199,11 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 	// }
 	// };
 	// AccounterCoreType type = UIUtils.getAccounterCoreType(obj.getType());
-	// rpcDoSerivce.voidTransaction(type, obj.getStringID(), callback);
+	// rpcDoSerivce.voidTransaction(type, obj.getID(), callback);
 	// }
 	protected void voidTransaction(final ClientJournalEntry obj) {
 		ViewManager.getInstance().voidTransaction(
-				UIUtils.getAccounterCoreType(obj.getType()), obj.getStringID(),
+				UIUtils.getAccounterCoreType(obj.getType()), obj.getID(),
 				this);
 	}
 
@@ -228,7 +228,7 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 			}
 		};
 		AccounterCoreType type = UIUtils.getAccounterCoreType(obj.getType());
-		rpcDoSerivce.deleteTransaction(type, obj.getStringID(), callback);
+		rpcDoSerivce.deleteTransaction(type, obj.getID(), callback);
 	}
 
 	@Override

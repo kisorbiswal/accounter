@@ -4,7 +4,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
@@ -21,15 +21,15 @@ public class PaymentDialog extends BaseDialog {
 			.customerPrePayment();
 
 	public PaymentDialog() {
-		super(FinanceApplication.getCustomersMessages().payments(), "");
-		setText(FinanceApplication.getCustomersMessages().payments());
+		super(Accounter.getCustomersMessages().payments(), "");
+		setText(Accounter.getCustomersMessages().payments());
 		createControls();
 		center();
 	}
 
 	public PaymentDialog(AsyncCallback<IAccounterCore> callBack) {
-		super(FinanceApplication.getCustomersMessages().payments(), "");
-		setText(FinanceApplication.getCustomersMessages().payments());
+		super(Accounter.getCustomersMessages().payments(), "");
+		setText(Accounter.getCustomersMessages().payments());
 		createControls();
 		center();
 	}
@@ -65,7 +65,7 @@ public class PaymentDialog extends BaseDialog {
 							CustomersActionFactory.getReceivePaymentAction()
 									.run(null, false);
 						} catch (Throwable e) {
-							Accounter.showError(FinanceApplication
+							Accounter.showError(Accounter
 									.getVendorsMessages()
 									.failedToloadWriteCheck()
 
@@ -83,7 +83,7 @@ public class PaymentDialog extends BaseDialog {
 									.getNewCustomerPaymentAction().run(null,
 											false);
 						} catch (Throwable e) {
-							Accounter.showError(FinanceApplication
+							Accounter.showError(Accounter
 									.getVendorsMessages()
 									.failedToLoadCreditCardCharg());
 							e.printStackTrace();
@@ -142,6 +142,6 @@ public class PaymentDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCustomersMessages().payments();
+		return Accounter.getCustomersMessages().payments();
 	}
 }

@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -35,10 +35,10 @@ public class AddPaymentTermDialog extends BaseDialog {
 	public DynamicForm nameDescForm;
 	public IntegerField dayText;
 	public String[] dueValues = {
-			FinanceApplication.getCompanyMessages().currentMonth(),
-			FinanceApplication.getCompanyMessages().currentQuarter(),
-			FinanceApplication.getCompanyMessages().currentHalfYear(),
-			FinanceApplication.getCompanyMessages().currentYear() };
+			Accounter.getCompanyMessages().currentMonth(),
+			Accounter.getCompanyMessages().currentQuarter(),
+			Accounter.getCompanyMessages().currentHalfYear(),
+			Accounter.getCompanyMessages().currentYear() };
 	private List<String> listOfDueValues;
 	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
 	private Label dayLabel;
@@ -82,14 +82,14 @@ public class AddPaymentTermDialog extends BaseDialog {
 					}
 				});
 
-		dayText = new IntegerField(FinanceApplication.getCompanyMessages()
+		dayText = new IntegerField(Accounter.getCompanyMessages()
 				.and());
 		dayText.setHelpInformation(true);
 		// dayText.setWidth(20);
 		dayText.setValidators(integerRangeValidator);
 
 		dayLabel = new Label();
-		dayLabel.setText(FinanceApplication.getCompanyMessages().days());
+		dayLabel.setText(Accounter.getCompanyMessages().days());
 
 		nameDescForm = new DynamicForm();
 		nameDescForm.setFields(payTermText, descText);
@@ -104,7 +104,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 		discDayText = new IntegerField("If paid within");
 		discDayText.setHelpInformation(true);
 		discDayText.setColSpan(1);
-		discDayText.setHint(FinanceApplication.getCompanyMessages().days());
+		discDayText.setHint(Accounter.getCompanyMessages().days());
 		// discDayText.setWidth(20);
 
 		dueForm = new DynamicForm();
@@ -115,7 +115,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 		dueForm.setStyleName("due_form_table");
 
 		dayLabel = new Label();
-		dayLabel.setText(FinanceApplication.getCompanyMessages().days());
+		dayLabel.setText(Accounter.getCompanyMessages().days());
 
 		HorizontalPanel duePanel = new HorizontalPanel();
 		// duePanel.setSize("100%", "100%");
@@ -134,7 +134,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 		discForm.setSize("100%", "100%");
 
 		Label label2 = new Label();
-		label2.setText(FinanceApplication.getCompanyMessages().days());
+		label2.setText(Accounter.getCompanyMessages().days());
 
 		HorizontalPanel discountPanel = new HorizontalPanel();
 		// discountPanel.setSize("100%", "100%");
@@ -238,7 +238,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCompanyMessages().paymentTerm();
+		return Accounter.getCompanyMessages().paymentTerm();
 	}
 
 }

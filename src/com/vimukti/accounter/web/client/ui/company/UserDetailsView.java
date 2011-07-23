@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
@@ -28,10 +28,10 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 
 		mainPanel = new VerticalPanel();
 		userNameLabel = new Label("Name : "
-				+ FinanceApplication.clientIdentity.getFullname());
+				+ Accounter.clientIdentity.getFullname());
 		userNameLabel.setStyleName("user-name");
 		mailIdLabel = new Label("Mail ID : "
-				+ FinanceApplication.clientIdentity.getEmailAddress());
+				+ Accounter.clientIdentity.getEmailAddress());
 		mailIdLabel.setStyleName("user-name");
 		changePasswordHtml = new HTML("<a> Change Password </a>");
 		changePasswordHtml.setStyleName("change-password");
@@ -106,7 +106,7 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().userDetails();
+		return Accounter.getActionsConstants().userDetails();
 	}
 
 }

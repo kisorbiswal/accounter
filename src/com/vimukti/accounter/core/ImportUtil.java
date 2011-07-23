@@ -126,11 +126,11 @@ public class ImportUtil extends ObjectConvertUtil {
 		List<D> serverList = new ArrayList<D>();
 		for (S core : srcList) {
 			D dst = createObjectWithPrimitiveValues(null, core);
-			importedObjects.put(core.getStringID(), dst);
+			importedObjects.put(core.getID(), dst);
 		}
 		for (S core : srcList) {
 			D dst = modifyObjectWithReferanceValues(
-					(D) getObjectFromCacheMapByStringID(core.getStringID()),
+					(D) getObjectFromCacheMapByStringID(core.getID()),
 					core);
 			if (dst != null)
 				serverList.add(dst);
@@ -154,10 +154,10 @@ public class ImportUtil extends ObjectConvertUtil {
 		cache.set(null);
 		dst = createObjectWithPrimitiveValues(dst, core);
 
-		importedObjects.put(core.getStringID(), dst);
+		importedObjects.put(core.getID(), dst);
 
 		dst = modifyObjectWithReferanceValues(
-				(D) getObjectFromCacheMapByStringID(core.getStringID()), core);
+				(D) getObjectFromCacheMapByStringID(core.getID()), core);
 		cache.set(null);
 		return dst;
 	}
@@ -175,9 +175,9 @@ public class ImportUtil extends ObjectConvertUtil {
 						.getClass());
 				if (!isNotMappingEntity(serverCoreClass)) {
 					// dst = (D) session.get(serverCoreClass, src.getId());
-					if (src.getStringID() != null)
+					if (src.getID() != null)
 						dt = (D) getObjectFromCacheMapByStringID(src
-								.getStringID());
+								.getID());
 				}
 				dst = dt == null ? dst == null ? serverCoreClass.newInstance()
 						: dst : dt;
@@ -289,9 +289,9 @@ public class ImportUtil extends ObjectConvertUtil {
 						.getClass());
 				if (!isNotMappingEntity(serverCoreClass)) {
 					// dst = (D) session.get(serverCoreClass, src.getId());
-					if (src.getStringID() != null)
+					if (src.getID() != null)
 						dt = (D) getObjectFromCacheMapByStringID(src
-								.getStringID());
+								.getID());
 				}
 				dst = dt == null ? dst == null ? serverCoreClass.newInstance()
 						: dst : dt;
@@ -439,7 +439,7 @@ public class ImportUtil extends ObjectConvertUtil {
 			return null;
 		}
 		D ret = (D) localCache.get(src) == null ? (D) getObjectFromCacheMapByStringID(src
-				.getStringID())
+				.getID())
 				: (D) localCache.get(src);
 		if (ret == null) {
 			ret = modifyObjectWithReferanceValues(dst, src);

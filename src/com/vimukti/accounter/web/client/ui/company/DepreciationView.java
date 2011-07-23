@@ -27,7 +27,7 @@ import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsEntry;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsList;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetLinkedAccountMap;
 import com.vimukti.accounter.web.client.core.Lists.LinkAccount;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
@@ -82,13 +82,13 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setSize("100%", "");
 
-		Label titleLabel = new Label(FinanceApplication.getCompanyMessages()
+		Label titleLabel = new Label(Accounter.getCompanyMessages()
 				.depreciation());
-		titleLabel.setStyleName(FinanceApplication.getCustomersMessages()
+		titleLabel.setStyleName(Accounter.getCustomersMessages()
 				.lableTitle());
 		mainPanel.add(titleLabel);
 
-		startDateButton = new AccounterButton(FinanceApplication
+		startDateButton = new AccounterButton(Accounter
 				.getCompanyMessages().startDate());
 		startDateButton.addClickHandler(new ClickHandler() {
 
@@ -100,7 +100,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		});
 
 		AccounterButton rollBackDepreciation = new AccounterButton(
-				FinanceApplication.getCompanyMessages().rollbackDepreciation());
+				Accounter.getCompanyMessages().rollbackDepreciation());
 		rollBackDepreciation.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -117,10 +117,10 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		rollBackDepreciation.enabledButton();
 		mainPanel.add(buttonPanel);
 
-		fromLabel = new Label(FinanceApplication.getCompanyMessages()
+		fromLabel = new Label(Accounter.getCompanyMessages()
 				.depricatiedFrom());
 
-		format = DateTimeFormat.getFormat(FinanceApplication
+		format = DateTimeFormat.getFormat(Accounter
 				.getCompanyMessages().ddMMMyyyy());
 		// fromLabel.setText("Depreciate from:  "
 		// + format.format(depreciationStartDate));
@@ -135,7 +135,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			}
 		});
 
-		AccounterButton updateButton = new AccounterButton(FinanceApplication
+		AccounterButton updateButton = new AccounterButton(Accounter
 				.getCompanyMessages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
@@ -148,7 +148,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.setSpacing(10);
 		panel.add(fromLabel);
-		panel.add(new HTML(FinanceApplication.getCompanyMessages()
+		panel.add(new HTML(Accounter.getCompanyMessages()
 				.depreciateTo()));
 		panel.add(depreciatedToCombo);
 		// panel.add(updateButton);
@@ -160,8 +160,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		grid.isEnable = false;
 		grid.init();
 		grid.setHeight("300px");
-		grid.initParentAndChildIcons(FinanceApplication.getFinanceMenuImages()
-				.newAccount().getURL(), FinanceApplication
+		grid.initParentAndChildIcons(Accounter.getFinanceMenuImages()
+				.newAccount().getURL(), Accounter
 				.getFinanceMenuImages().newFixedAsset().getURL());
 		gridPanel.add(grid);
 
@@ -188,7 +188,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			public void onSuccess(ClientFinanceDate date) {
 				if (date == null) {
 					ClientFinanceDate date2 = new ClientFinanceDate(
-							FinanceApplication.getCompany().getPreferences()
+							Accounter.getCompany().getPreferences()
 									.getDepreciationStartDate());
 					depreciationStartDate = new ClientFinanceDate(date2
 							.getYear(), date2.getMonth(), 1);
@@ -208,7 +208,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			}
 
 		};
-		FinanceApplication.createHomeService()
+		Accounter.createHomeService()
 				.getDepreciationLastDate(callBack);
 	}
 
@@ -251,14 +251,14 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		// }
 		// }
 
-		DateTimeFormat format = DateTimeFormat.getFormat(FinanceApplication
+		DateTimeFormat format = DateTimeFormat.getFormat(Accounter
 				.getCompanyMessages().ddMMMyyyy());
 		List<String> dates = new ArrayList<String>();
 		Calendar fromDateCal = Calendar.getInstance();
 		fromDateCal.setTime(depreciationStartDate.getDateAsObject());
 
 		Calendar startDateCal = Calendar.getInstance();
-		startDateCal.setTime(new ClientFinanceDate(FinanceApplication
+		startDateCal.setTime(new ClientFinanceDate(Accounter
 				.getCompany().getpreferences().getDepreciationStartDate())
 				.getDateAsObject());
 
@@ -332,7 +332,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			for (ClientDepreciationDummyEntry entry : grid.getNodes()) {
 
 				for (String key : assets.keySet()) {
-					ClientAccount account = FinanceApplication.getCompany()
+					ClientAccount account = Accounter.getCompany()
 							.getAccount(key);
 					if (account.getName().equals(entry.getFixedAssetName())) {
 						LinkAccount link = new LinkAccount();
@@ -347,7 +347,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			// depreciation.setLinkedAccounts(map);
 
 			createObject(depreciation);
-			FinanceApplication.createHomeService().runDepreciation(
+			Accounter.createHomeService().runDepreciation(
 					depreciationStartDate.getTime(),
 					depreciationEndDate.getTime(), map, new AsyncCallback() {
 
@@ -413,7 +413,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			String dateString = depreciatedToCombo.getValue(index).toString();
 
 			depreciationEndDate = UIUtils.stringToDate(dateString,
-					FinanceApplication.getCompanyMessages().ddMMMyyyy());
+					Accounter.getCompanyMessages().ddMMMyyyy());
 
 			AsyncCallback<DepreciableFixedAssetsList> callBack = new AsyncCallback<DepreciableFixedAssetsList>() {
 
@@ -432,7 +432,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			if (depreciationStartDate != null && depreciationEndDate != null)
 				grid.removeAllRows();
 			grid.addLoadingImagePanel();
-			FinanceApplication.createHomeService().getDepreciableFixedAssets(
+			Accounter.createHomeService().getDepreciableFixedAssets(
 					depreciationStartDate.getTime(),
 					depreciationEndDate.getTime(), callBack);
 		}
@@ -447,7 +447,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			if (assets.size() > 0) {
 				assetStringIdList.addAll(assestsList.getFixedAssetStringIds());
 				for (String key : assets.keySet()) {
-					ClientAccount account = FinanceApplication.getCompany()
+					ClientAccount account = Accounter.getCompany()
 							.getAccount(key);
 					List<ClientDepreciationDummyEntry> dummyEntriesList = new ArrayList<ClientDepreciationDummyEntry>();
 					for (DepreciableFixedAssetsEntry entry : assets.get(key)) {
@@ -487,7 +487,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	private List<ClientFixedAsset> getAssetsList() {
 		List<ClientFixedAsset> fixedAssetList = new ArrayList<ClientFixedAsset>();
 		for (String stringId : assetStringIdList) {
-			fixedAssetList.add(FinanceApplication.getCompany().getFixedAsset(
+			fixedAssetList.add(Accounter.getCompany().getFixedAsset(
 					stringId));
 		}
 		return fixedAssetList;
@@ -536,7 +536,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getVendorsMessages().depreciation();
+		return Accounter.getVendorsMessages().depreciation();
 	}
 
 }

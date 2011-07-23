@@ -35,7 +35,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	boolean allowDuplicateDocumentNumbers;
 
 	boolean doYouPaySalesTax;
-	public String stringID;
+	public long id;
 
 	boolean isAccuralBasis;// if True then Accural (when customer is Invoiced),
 	// if False then Cash Basis(when customer pays
@@ -582,13 +582,13 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		// this.stringID = stringID;
+	public void setID(long id){
+		// this.id=id;
 
 	}
 

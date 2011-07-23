@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
@@ -22,9 +22,9 @@ public class DepositInAccountCombo extends AccountCombo {
 
 	public List<ClientAccount> getAccounts() {
 		deposiInAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : FinanceApplication.getCompany()
+		for (ClientAccount account : Accounter.getCompany()
 				.getActiveAccounts()) {
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				if (Arrays.asList(
 						// ClientAccount.TYPE_BANK, ClientAccount.TYPE_CASH,
 						ClientAccount.TYPE_CREDIT_CARD,
@@ -54,9 +54,9 @@ public class DepositInAccountCombo extends AccountCombo {
 
 	public void setAccounts() {
 		deposiInAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : FinanceApplication.getCompany()
+		for (ClientAccount account : Accounter.getCompany()
 				.getActiveAccounts()) {
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				if (Arrays.asList(
 						// ClientAccount.TYPE_BANK, ClientAccount.TYPE_CASH,
 						ClientAccount.TYPE_CREDIT_CARD,
@@ -85,13 +85,13 @@ public class DepositInAccountCombo extends AccountCombo {
 
 	private void setDefaultDepositInAccount() {
 		/* Default deposit in account is set to Bank Current Account */
-		List<ClientAccount> accounts = FinanceApplication.getCompany()
+		List<ClientAccount> accounts = Accounter.getCompany()
 				.getAccounts();
 		for (ClientAccount account : accounts) {
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK && account.getNumber().equals("1100")) {
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK && account.getNumber().equals("1100")) {
 				this.addItemThenfireEvent(account);
 				break;
-			} else if(FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US && account.getNumber().equals("1175")) {
+			} else if(Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US && account.getNumber().equals("1175")) {
 				this.addItemThenfireEvent(account);
 				break;
 			}

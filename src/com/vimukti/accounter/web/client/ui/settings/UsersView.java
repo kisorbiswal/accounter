@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -59,7 +59,7 @@ public class UsersView extends BaseView<ClientUser> {
 	@Override
 	public void initData() {
 		super.initData();
-		FinanceApplication.createHomeService().getAllUsers(
+		Accounter.createHomeService().getAllUsers(
 				new AsyncCallback<List<ClientUser>>() {
 
 					@Override
@@ -95,7 +95,7 @@ public class UsersView extends BaseView<ClientUser> {
 
 		mainLayPanel = new VerticalPanel();
 		flexTable = new FlexTable();
-		generalSettingsHTML = new HTML(FinanceApplication.getSettingsMessages()
+		generalSettingsHTML = new HTML(Accounter.getSettingsMessages()
 				.generalSettingsLabel());
 		generalSettingsHTML.addMouseOverHandler(new MouseOverHandler() {
 
@@ -123,11 +123,11 @@ public class UsersView extends BaseView<ClientUser> {
 						false);
 			}
 		});
-		titleLabel = new Label(FinanceApplication.getSettingsMessages()
+		titleLabel = new Label(Accounter.getSettingsMessages()
 				.usersTitle());
 
 		titleLabel.removeStyleName("gwt-Label");
-		titleLabel.setStyleName(FinanceApplication.getVendorsMessages()
+		titleLabel.setStyleName(Accounter.getVendorsMessages()
 				.lableTitle());
 
 		inviteUserButton = new AccounterButton("Invite a User");
@@ -141,9 +141,9 @@ public class UsersView extends BaseView<ClientUser> {
 			}
 		});
 		tabPanel = new DecoratedTabPanel();
-		tabPanel.add(getUsersPanel(), FinanceApplication.getSettingsMessages()
+		tabPanel.add(getUsersPanel(), Accounter.getSettingsMessages()
 				.users());
-		tabPanel.add(getRecentActivityPanel(), FinanceApplication
+		tabPanel.add(getRecentActivityPanel(), Accounter
 				.getSettingsMessages().recentActivity());
 		tabPanel.selectTab(0);
 
@@ -151,7 +151,7 @@ public class UsersView extends BaseView<ClientUser> {
 		flexTable.setWidget(1, 0, titleLabel);
 
 		mainLayPanel.add(flexTable);
-		if (FinanceApplication.getUser().isCanDoUserManagement()) {
+		if (Accounter.getUser().isCanDoUserManagement()) {
 			mainLayPanel.add(inviteUserButton);
 			inviteUserButton.enabledButton();
 		}
@@ -230,7 +230,7 @@ public class UsersView extends BaseView<ClientUser> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getSettingsMessages().users();
+		return Accounter.getSettingsMessages().users();
 	}
 
 }

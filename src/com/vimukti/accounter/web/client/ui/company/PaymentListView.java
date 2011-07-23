@@ -7,7 +7,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.SelectPaymentTypeDialog;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
@@ -34,13 +34,13 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 	BankingMessages bankingConstants = GWT.create(BankingMessages.class);
 	private List<PaymentsList> listOfPayments;
 
-	private static String NOT_ISSUED = FinanceApplication.getVendorsMessages()
+	private static String NOT_ISSUED = Accounter.getVendorsMessages()
 			.notIssued();
-	private static String ISSUED = FinanceApplication.getVendorsMessages()
+	private static String ISSUED = Accounter.getVendorsMessages()
 			.issued();
-	private static String VOID = FinanceApplication.getVendorsMessages()
+	private static String VOID = Accounter.getVendorsMessages()
 			.Voided();
-	private static String ALL = FinanceApplication.getVendorsMessages().all();
+	private static String ALL = Accounter.getVendorsMessages().all();
 	// private static String DELETED = "Deleted";
 
 	private static final int STATUS_NOT_ISSUED = 0;
@@ -69,13 +69,13 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 	@Override
 	protected String getListViewHeading() {
 
-		return FinanceApplication.getCompanyMessages().paymentsList();
+		return Accounter.getCompanyMessages().paymentsList();
 	}
 
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		FinanceApplication.createHomeService().getPaymentsList(this);
+		Accounter.createHomeService().getPaymentsList(this);
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(FinanceApplication.getBankingsMessages()
+		viewSelect = new SelectCombo(Accounter.getBankingsMessages()
 				.currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
@@ -202,7 +202,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getVendorsMessages().payments();
+		return Accounter.getVendorsMessages().payments();
 	}
 
 }

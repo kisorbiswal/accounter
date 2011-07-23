@@ -299,7 +299,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 				return dstCollection;
 			}
 			collection2.add(toClientWithStringIdInternal(s, getObject(
-					dstCollection, s.getStringID())));
+					dstCollection, s.getID())));
 		}
 		return collection2;
 	}
@@ -309,8 +309,8 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		if (list == null)
 			return null;
 		for (D s : list) {
-			if (s != null && s.getStringID() != null) {
-				if (s.getStringID().equals(id))
+			if (s != null && s.getID() != null) {
+				if (s.getID().equals(id))
 					return s;
 			}
 		}

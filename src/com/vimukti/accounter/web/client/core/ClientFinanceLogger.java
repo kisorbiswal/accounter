@@ -33,9 +33,6 @@ public class ClientFinanceLogger implements IAccounterCore{
 		return id;
 	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public long getCreatedDate() {
 		return createdDate;
@@ -78,13 +75,12 @@ public class ClientFinanceLogger implements IAccounterCore{
 	}
 
 	@Override
-	public String getStringID() {
-		// TODO Auto-generated method stub
-		return null;
+	public long getID(){
+		return 0;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
+	public void setID(long id){
 		// TODO Auto-generated method stub
 		
 	}

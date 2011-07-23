@@ -20,7 +20,7 @@ public class Budget {
 	 */
 	Account account;
 
-	public String stringID;
+	public long id;
 
 	transient boolean isImported;
 	String createdBy;
@@ -39,7 +39,7 @@ public class Budget {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 

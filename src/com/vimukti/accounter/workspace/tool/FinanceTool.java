@@ -495,7 +495,7 @@ public class FinanceTool implements IFinanceDAOService {
 				company.setPreferences(serverCompanyPreferences);
 				HibernateUtil.getCurrentSession().update(company);
 
-				serverCompanyPreferences.setStringID(company.getStringID()
+				serverCompanyPreferences.setStringID(company.getID()
 						+ "pre");
 				serverObject = serverCompanyPreferences;
 				ChangeTracker.put(serverCompanyPreferences);
@@ -606,8 +606,8 @@ public class FinanceTool implements IFinanceDAOService {
 		CollaberIdentity myIdentity = Server.getInstance().loadIdentity(
 				session, createdBy);
 		CollaberIdentity identity = new CollaberIdentity(user.getUserRole(),
-				user.getStringID(), myIdentity.getCompanyDBName());
-		identity.setId(user.getStringID());
+				user.getID(), myIdentity.getCompanyDBName());
+		identity.setId(user.getID());
 		identity.setEncryptedID(Security.getBytes(Security.createSpaceEncKey()));
 		identity.setEmailID(user.getEmailId());
 		// identity.intializaIdentityOnCreation();
@@ -726,14 +726,14 @@ public class FinanceTool implements IFinanceDAOService {
 
 	private <T extends IAccounterCore> String processCommandCreateNew(T object) {
 
-		if (object == null || object.getStringID() == null)
+		if (object == null || object.getID() == null)
 			return null;
 
 		Command cmd;
 		// if (object instanceof ClientUser)
-		// cmd = new Command(ADD_USER, object.getStringID(), null);
+		// cmd = new Command(ADD_USER, object.getID(), null);
 		// else
-		cmd = new Command(CREATE_NEW_ACTION, object.getStringID(), null);
+		cmd = new Command(CREATE_NEW_ACTION, object.getID(), null);
 
 		// FIXME** need to talk with uma */
 		// log.info("Command : CREATE_NEW_ACTION With Data"
@@ -745,16 +745,16 @@ public class FinanceTool implements IFinanceDAOService {
 
 		space.sendCommand(cmd, this);
 
-		return object.getStringID();
+		return object.getID();
 
 	}
 
 	private <T extends IAccounterCore> Boolean processCommandUpdate(T object) {
 
-		if (object == null || object.getStringID() == null)
+		if (object == null || object.getID() == null)
 			return null;
 
-		String stringID = String.valueOf(object.getStringID());
+		String stringID = String.valueOf(object.getID());
 		Command cmd;
 		cmd = new Command(UPDATE_ACTION, stringID, null);
 		cmd.data = object;
@@ -862,7 +862,7 @@ public class FinanceTool implements IFinanceDAOService {
 				String query = " from com.vimukti.accounter.core.TAXRateCalculation vr where vr.transactionItem.transaction.stringID=? and vr.vatReturn is not null";
 				Session session = HibernateUtil.getCurrentSession();
 				Query query2 = session.createQuery(query);
-				query2.setParameter(0, t.getStringID());
+				query2.setParameter(0, t.getID());
 				List list = query2.list();
 				if (list != null && list.size() > 0)
 					((ClientTransaction) t).setCanEdit(false);
@@ -1354,7 +1354,7 @@ public class FinanceTool implements IFinanceDAOService {
 			while (i.hasNext()) {
 				IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
 				WriteCheck wc = (WriteCheck) i.next();
-				issuePaymentTransaction.setTransactionId(wc.getStringID());
+				issuePaymentTransaction.setTransactionId(wc.getID());
 				issuePaymentTransaction.setType(wc.getType());
 				issuePaymentTransaction.setDate(new ClientFinanceDate(wc
 						.getDate().getTime()));
@@ -1381,7 +1381,7 @@ public class FinanceTool implements IFinanceDAOService {
 			while (i.hasNext()) {
 				IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
 				CustomerRefund cr = (CustomerRefund) i.next();
-				issuePaymentTransaction.setTransactionId(cr.getStringID());
+				issuePaymentTransaction.setTransactionId(cr.getID());
 				issuePaymentTransaction.setType(cr.getType());
 				issuePaymentTransaction.setDate(new ClientFinanceDate((long) cr
 						.getDate().getTime()));
@@ -1408,7 +1408,7 @@ public class FinanceTool implements IFinanceDAOService {
 			while (i.hasNext()) {
 				IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
 				PaySalesTax pst = (PaySalesTax) i.next();
-				issuePaymentTransaction.setTransactionId(pst.getStringID());
+				issuePaymentTransaction.setTransactionId(pst.getID());
 				issuePaymentTransaction.setType(pst.getType());
 				issuePaymentTransaction.setDate(new ClientFinanceDate(
 						(long) pst.getDate().getTime()));
@@ -1435,7 +1435,7 @@ public class FinanceTool implements IFinanceDAOService {
 			while (i.hasNext()) {
 				IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
 				PayBill pb = (PayBill) i.next();
-				issuePaymentTransaction.setTransactionId(pb.getStringID());
+				issuePaymentTransaction.setTransactionId(pb.getID());
 				issuePaymentTransaction.setType(pb.getType());
 				issuePaymentTransaction.setDate(new ClientFinanceDate((long) pb
 						.getDate().getTime()));
@@ -1463,7 +1463,7 @@ public class FinanceTool implements IFinanceDAOService {
 			while (i.hasNext()) {
 				IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
 				CreditCardCharge cc = (CreditCardCharge) i.next();
-				issuePaymentTransaction.setTransactionId(cc.getStringID());
+				issuePaymentTransaction.setTransactionId(cc.getID());
 				issuePaymentTransaction.setType(cc.getType());
 				issuePaymentTransaction.setDate(new ClientFinanceDate((long) cc
 						.getDate().getTime()));
@@ -1491,7 +1491,7 @@ public class FinanceTool implements IFinanceDAOService {
 			while (i.hasNext()) {
 				IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
 				CashPurchase cc = (CashPurchase) i.next();
-				issuePaymentTransaction.setTransactionId(cc.getStringID());
+				issuePaymentTransaction.setTransactionId(cc.getID());
 				issuePaymentTransaction.setType(cc.getType());
 				issuePaymentTransaction.setDate(new ClientFinanceDate((long) cc
 						.getDate().getTime()));
@@ -1548,7 +1548,7 @@ public class FinanceTool implements IFinanceDAOService {
 				while (i.hasNext()) {
 					IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
 					WriteCheck wc = (WriteCheck) i.next();
-					issuePaymentTransaction.setTransactionId(wc.getStringID());
+					issuePaymentTransaction.setTransactionId(wc.getID());
 					issuePaymentTransaction.setType(wc.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
 							(long) wc.getDate().getTime()));
@@ -1583,7 +1583,7 @@ public class FinanceTool implements IFinanceDAOService {
 				while (i.hasNext()) {
 					IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
 					CustomerRefund cr = (CustomerRefund) i.next();
-					issuePaymentTransaction.setTransactionId(cr.getStringID());
+					issuePaymentTransaction.setTransactionId(cr.getID());
 					issuePaymentTransaction.setType(cr.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
 							(long) cr.getDate().getTime()));
@@ -1612,7 +1612,7 @@ public class FinanceTool implements IFinanceDAOService {
 				while (i.hasNext()) {
 					IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
 					PaySalesTax pst = (PaySalesTax) i.next();
-					issuePaymentTransaction.setTransactionId(pst.getStringID());
+					issuePaymentTransaction.setTransactionId(pst.getID());
 					issuePaymentTransaction.setType(pst.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
 							(long) pst.getDate().getTime()));
@@ -1641,7 +1641,7 @@ public class FinanceTool implements IFinanceDAOService {
 				while (i.hasNext()) {
 					IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
 					PayBill pst = (PayBill) i.next();
-					issuePaymentTransaction.setTransactionId(pst.getStringID());
+					issuePaymentTransaction.setTransactionId(pst.getID());
 					issuePaymentTransaction.setType(pst.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
 							(long) pst.getDate().getTime()));
@@ -1671,7 +1671,7 @@ public class FinanceTool implements IFinanceDAOService {
 				while (i.hasNext()) {
 					IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
 					PayVAT pv = (PayVAT) i.next();
-					issuePaymentTransaction.setTransactionId(pv.getStringID());
+					issuePaymentTransaction.setTransactionId(pv.getID());
 					issuePaymentTransaction.setType(pv.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
 							(long) pv.getDate().getTime()));
@@ -1699,7 +1699,7 @@ public class FinanceTool implements IFinanceDAOService {
 				while (i.hasNext()) {
 					IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
 					ReceiveVAT rv = (ReceiveVAT) i.next();
-					issuePaymentTransaction.setTransactionId(rv.getStringID());
+					issuePaymentTransaction.setTransactionId(rv.getID());
 					issuePaymentTransaction.setType(rv.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
 							(long) rv.getDate().getTime()));
@@ -1728,7 +1728,7 @@ public class FinanceTool implements IFinanceDAOService {
 				while (i.hasNext()) {
 					IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
 					CreditCardCharge pst = (CreditCardCharge) i.next();
-					issuePaymentTransaction.setTransactionId(pst.getStringID());
+					issuePaymentTransaction.setTransactionId(pst.getID());
 					issuePaymentTransaction.setType(pst.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
 							(long) pst.getDate().getTime()));
@@ -1759,7 +1759,7 @@ public class FinanceTool implements IFinanceDAOService {
 				while (i.hasNext()) {
 					IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
 					CashPurchase pst = (CashPurchase) i.next();
-					issuePaymentTransaction.setTransactionId(pst.getStringID());
+					issuePaymentTransaction.setTransactionId(pst.getID());
 					issuePaymentTransaction.setType(pst.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
 							(long) pst.getDate().getTime()));
@@ -1793,7 +1793,7 @@ public class FinanceTool implements IFinanceDAOService {
 				while (i.hasNext()) {
 					IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
 					CustomerPrePayment cpp = (CustomerPrePayment) i.next();
-					issuePaymentTransaction.setTransactionId(cpp.getStringID());
+					issuePaymentTransaction.setTransactionId(cpp.getID());
 					issuePaymentTransaction.setType(cpp.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
 							(long) cpp.getDate().getTime()));
@@ -1902,7 +1902,7 @@ public class FinanceTool implements IFinanceDAOService {
 				while (i.hasNext()) {
 					CustomerRefundsList customerRefund = new CustomerRefundsList();
 					CustomerRefund cr = (CustomerRefund) i.next();
-					customerRefund.setTransactionId(cr.getStringID());
+					customerRefund.setTransactionId(cr.getID());
 					customerRefund.setType(cr.getType());
 					customerRefund.setPaymentDate(new ClientFinanceDate(cr
 							.getDate().getTime()));
@@ -1933,7 +1933,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 					CustomerRefundsList customerRefund = new CustomerRefundsList();
 					WriteCheck wc = (WriteCheck) i.next();
-					customerRefund.setTransactionId(wc.getStringID());
+					customerRefund.setTransactionId(wc.getID());
 					customerRefund.setType(wc.getType());
 					customerRefund.setPaymentDate(new ClientFinanceDate(wc
 							.getDate().getTime()));
@@ -2437,7 +2437,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			for (JournalEntry je : openingBalanceEntries) {
 				PayBillTransactionList payBillTransactionList = new PayBillTransactionList();
-				payBillTransactionList.setTransactionId(je.getStringID());
+				payBillTransactionList.setTransactionId(je.getID());
 				payBillTransactionList.setType(je.getType());
 				payBillTransactionList.setDueDate(new ClientFinanceDate(je
 						.getDate().getTime()));
@@ -2504,7 +2504,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			for (JournalEntry je : openingBalanceEntries) {
 				PayBillTransactionList payBillTransactionList = new PayBillTransactionList();
-				payBillTransactionList.setTransactionId(je.getStringID());
+				payBillTransactionList.setTransactionId(je.getID());
 				payBillTransactionList.setType(je.getType());
 				payBillTransactionList.setDueDate(new ClientFinanceDate(je
 						.getDate().getTime()));
@@ -2596,7 +2596,7 @@ public class FinanceTool implements IFinanceDAOService {
 			for (JournalEntry je : openingBalanceEntries) {
 				ReceivePaymentTransactionList receivePaymentTransactionList = new ReceivePaymentTransactionList();
 				receivePaymentTransactionList
-						.setTransactionId(je.getStringID());
+						.setTransactionId(je.getID());
 				receivePaymentTransactionList.setType(je.getType());
 				receivePaymentTransactionList.setDueDate(new ClientFinanceDate(
 						je.getDate().getTime()));
@@ -3449,7 +3449,7 @@ public class FinanceTool implements IFinanceDAOService {
 		//
 		// makeDepositTransactionsList.setCashAccountId(
 		// transactionMakeDepositEntry
-		// .getAccount().getStringID());
+		// .getAccount().getID());
 		// makeDepositTransactionsList.setPaymentMethod(
 		// transactionMakeDepositEntry
 		// .getTransaction().getPaymentMethod());
@@ -3729,7 +3729,7 @@ public class FinanceTool implements IFinanceDAOService {
 			for (TAXRateCalculation taxRateCalculation : list) {
 
 				PaySalesTaxEntries paySalesTaxList = new PaySalesTaxEntries();
-				paySalesTaxList.setStringID(taxRateCalculation.getStringID());
+				paySalesTaxList.setStringID(taxRateCalculation.getID());
 				paySalesTaxList.setBalance(taxRateCalculation.getTaxDue());
 				paySalesTaxList.setAmount(taxRateCalculation.getVatAmount());
 				paySalesTaxList.setTaxItem(taxRateCalculation.getTaxItem());
@@ -3754,7 +3754,7 @@ public class FinanceTool implements IFinanceDAOService {
 			for (TAXAdjustment taxAdjustment : taxAdjustments) {
 
 				PaySalesTaxEntries paySalesTaxList = new PaySalesTaxEntries();
-				paySalesTaxList.setStringID(taxAdjustment.getStringID());
+				paySalesTaxList.setStringID(taxAdjustment.getID());
 				paySalesTaxList.setBalance(taxAdjustment.getJournalEntry()
 						.getBalanceDue());
 				paySalesTaxList.setAmount(taxAdjustment.getTotal());
@@ -4048,9 +4048,9 @@ public class FinanceTool implements IFinanceDAOService {
 		for (FixedAsset fixedAsset : list) {
 
 			FixedAssetList fixedAssetList = new FixedAssetList();
-			fixedAssetList.setStringID(fixedAsset.getStringID());
+			fixedAssetList.setStringID(fixedAsset.getID());
 			fixedAssetList.setAssetAccount(fixedAsset.getAssetAccount()
-					.getStringID());
+					.getID());
 			fixedAssetList.setAssetNumber(fixedAsset.getAssetNumber());
 			fixedAssetList.setBookValue(fixedAsset.getBookValue());
 			fixedAssetList.setName(fixedAsset.getName());
@@ -4078,9 +4078,9 @@ public class FinanceTool implements IFinanceDAOService {
 		for (FixedAsset fixedAsset : list) {
 
 			SellingOrDisposingFixedAssetList fixedAssetList = new SellingOrDisposingFixedAssetList();
-			fixedAssetList.setStringID(fixedAsset.getStringID());
+			fixedAssetList.setStringID(fixedAsset.getID());
 			fixedAssetList.setAssetAccount(fixedAsset.getAssetAccount()
-					.getStringID());
+					.getID());
 			fixedAssetList.setAssetNumber(fixedAsset.getAssetNumber());
 			fixedAssetList.setName(fixedAsset.getName());
 			fixedAssetList.setSoldOrDisposedDate(new ClientFinanceDate(
@@ -4120,11 +4120,11 @@ public class FinanceTool implements IFinanceDAOService {
 			List<Account> assetAccounts = query.list();
 			for (Account assetAccount : assetAccounts) {
 				String changedLinkedAccountID = linkedAccounts.get(assetAccount
-						.getStringID());
+						.getID());
 
 				if (changedLinkedAccountID != null) {
 					if (!assetAccount.getLinkedAccumulatedDepreciationAccount()
-							.getStringID().equals(changedLinkedAccountID)) {
+							.getID().equals(changedLinkedAccountID)) {
 						Account changedLinkedAccount = (Account) session
 								.createQuery(
 										"from com.vimukti.accounter.core.Account a where a.stringID =?")
@@ -4181,23 +4181,23 @@ public class FinanceTool implements IFinanceDAOService {
 			// }
 
 			DepreciableFixedAssetsEntry depreciableFixedAssetsEntry = new DepreciableFixedAssetsEntry();
-			depreciableFixedAssetsEntry.setStringID(fixedAsset.getStringID());
+			depreciableFixedAssetsEntry.setStringID(fixedAsset.getID());
 			depreciableFixedAssetsEntry.setFixedAssetName(fixedAsset.getName());
 			depreciableFixedAssetsEntry
 					.setAmountToBeDepreciated(amountToBeDepreciatedforThisFixedAsset);
 
-			fixedAssetStringIds.add(fixedAsset.getStringID());
+			fixedAssetStringIds.add(fixedAsset.getID());
 
 			if (accountViceFixedAssets.containsKey(fixedAsset.getAssetAccount()
-					.getStringID())) {
+					.getID())) {
 				accountViceFixedAssets.get(
-						fixedAsset.getAssetAccount().getStringID()).add(
+						fixedAsset.getAssetAccount().getID()).add(
 						depreciableFixedAssetsEntry);
 			} else {
 				List<DepreciableFixedAssetsEntry> entries = new ArrayList<DepreciableFixedAssetsEntry>();
 				entries.add(depreciableFixedAssetsEntry);
 				accountViceFixedAssets.put(fixedAsset.getAssetAccount()
-						.getStringID(), entries);
+						.getID(), entries);
 			}
 
 		}
@@ -5238,7 +5238,7 @@ public class FinanceTool implements IFinanceDAOService {
 					: (Account) session.get(Account.class,
 							((Long) object[5]).longValue());
 			if (parentAccount != null) {
-				t.setParentAccount(parentAccount.getStringID());
+				t.setParentAccount(parentAccount.getID());
 			}
 
 			t.setAmount(object[6] == null ? 0d : ((Double) object[6])
@@ -6882,7 +6882,7 @@ public class FinanceTool implements IFinanceDAOService {
 					: (Account) session.get(Account.class,
 							((BigInteger) object[5]).longValue());
 			if (parentAccount != null) {
-				t.setParentAccount(parentAccount.getStringID());
+				t.setParentAccount(parentAccount.getID());
 			}
 			t.setAmount(object[6] == null ? 0 : ((Double) object[6])
 					.doubleValue());
@@ -6960,7 +6960,7 @@ public class FinanceTool implements IFinanceDAOService {
 					: (Account) session.get(Account.class,
 							((BigInteger) object[5]).longValue());
 			if (parentAccount != null) {
-				t.setParentAccount(parentAccount.getStringID());
+				t.setParentAccount(parentAccount.getID());
 			}
 			t.setAmount(object[6] == null ? 0 : ((Double) object[6])
 					.doubleValue());
@@ -7076,7 +7076,7 @@ public class FinanceTool implements IFinanceDAOService {
 					: (Account) session.get(Account.class,
 							((BigInteger) object[5]).longValue());
 			if (parentAccount != null) {
-				t.setParentAccount(parentAccount.getStringID());
+				t.setParentAccount(parentAccount.getID());
 			}
 			if (t.getAccountType() == Account.TYPE_ACCOUNT_RECEIVABLE
 					|| t.getAccountType() == Account.TYPE_OTHER_CURRENT_ASSET
@@ -7657,7 +7657,7 @@ public class FinanceTool implements IFinanceDAOService {
 					.getType());
 			vd.setVatRate(v.getTaxItem().getTaxRate());
 			vd.setTransactionId(v.getTransactionItem().getTransaction()
-					.getStringID());
+					.getID());
 			vd.setPercentage(v.getTaxItem().isPercentage());
 			vatDetailReport.getEntries().get(vd.getBoxName()).add(vd);
 
@@ -7754,7 +7754,7 @@ public class FinanceTool implements IFinanceDAOService {
 						.getType());
 				// vd1.setVatRate(v.getTransactionItem().getLineTotal());
 				vd1.setTransactionId(v.getTransactionItem().getTransaction()
-						.getStringID());
+						.getID());
 
 				vatDetailReport.getEntries().get(vd1.getBoxName()).add(vd1);
 
@@ -7817,7 +7817,7 @@ public class FinanceTool implements IFinanceDAOService {
 					vd.setTransactionName(e.getJournalEntry().toString());
 					vd.setTransactionNumber(e.getVoucherNumber());
 					vd.setTransactionType(e.getJournalEntryType());
-					vd.setTransactionId(e.getJournalEntry().getStringID());
+					vd.setTransactionId(e.getJournalEntry().getID());
 
 					vatDetailReport.getEntries().get(vd.getBoxName()).add(vd);
 				}
@@ -7865,7 +7865,7 @@ public class FinanceTool implements IFinanceDAOService {
 				vd1.setTransactionName(e.getJournalEntry().toString());
 				vd1.setTransactionNumber(e.getVoucherNumber());
 				vd1.setTransactionType(e.getJournalEntryType());
-				vd1.setTransactionId(e.getJournalEntry().getStringID());
+				vd1.setTransactionId(e.getJournalEntry().getID());
 
 				if (vatDetailReport.getEntries().get(vd1.getBoxName()) != null)
 					vatDetailReport.getEntries().get(vd1.getBoxName()).add(vd1);
@@ -7927,7 +7927,7 @@ public class FinanceTool implements IFinanceDAOService {
 							vd.setTransactionNumber(e.getVoucherNumber());
 							vd.setTransactionType(e.getJournalEntryType());
 							vd.setTransactionId(e.getJournalEntry()
-									.getStringID());
+									.getID());
 
 							// if (vatDetailReport.getEntries().get(
 							// vd.getBoxName()) != null)
@@ -8814,7 +8814,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 				u.setTransactionType(v.getJournalEntry().getType());
 				u.setTransactionNumber(v.getJournalEntry().getNumber());
-				u.setStringId(v.getJournalEntry().getStringID());
+				u.setStringId(v.getJournalEntry().getID());
 				u.setSourceName(v.getJournalEntry().getEntry().get(1)
 						.getAccount().getName());
 				u.setMemo("VAT Adjustment");
@@ -8874,7 +8874,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 				u.setTransactionType(v.getJournalEntry().getType());
 				u.setTransactionNumber(v.getJournalEntry().getNumber());
-				u.setStringId(v.getJournalEntry().getStringID());
+				u.setStringId(v.getJournalEntry().getID());
 				u.setSourceName(v.getJournalEntry().getEntry().get(0)
 						.getAccount().getName());
 				u.setMemo("Filed Uncategorised amounts");
@@ -8918,7 +8918,7 @@ public class FinanceTool implements IFinanceDAOService {
 			vi.setName(v.getTransactionItem().getTransaction()
 					.getInvolvedPayee().getName());
 			vi.setTransactionId(v.getTransactionItem().getTransaction()
-					.getStringID());
+					.getID());
 			vi.setMemo(v.getTransactionItem().getTransaction().getMemo());
 			vi.setTransactionNumber(v.getTransactionItem().getTransaction()
 					.getNumber());
@@ -8951,7 +8951,7 @@ public class FinanceTool implements IFinanceDAOService {
 					.getTime()));
 			vi.setMemo("VAT Adjustment");
 			vi.setName(v.getTaxItem().getTaxAgency().getName());
-			vi.setTransactionId(v.getJournalEntry().getStringID());
+			vi.setTransactionId(v.getJournalEntry().getID());
 			vi.setTransactionNumber(v.getJournalEntry().getNumber());
 			vi.setTransactionType(v.getJournalEntry().getType());
 			vatItemDetails.add(vi);
@@ -9015,7 +9015,7 @@ public class FinanceTool implements IFinanceDAOService {
 					}
 
 					vi.setTransactionId(v.getTransactionItem().getTransaction()
-							.getStringID());
+							.getID());
 					vi.setMemo(v.getTransactionItem().getTransaction()
 							.getMemo());
 					vi.setTransactionNumber(v.getTransactionItem()
@@ -9061,7 +9061,7 @@ public class FinanceTool implements IFinanceDAOService {
 					.getTime()));
 			vi.setMemo("VAT Adjustment");
 			vi.setName(v.getTaxItem().getTaxAgency().getName());
-			vi.setTransactionId(v.getJournalEntry().getStringID());
+			vi.setTransactionId(v.getJournalEntry().getID());
 			vi.setTransactionNumber(v.getJournalEntry().getNumber());
 			vi.setTransactionType(v.getJournalEntry().getType());
 			// vatItemDetails.add(vi);
@@ -9186,7 +9186,7 @@ public class FinanceTool implements IFinanceDAOService {
 						e.setTransactionNumber(v.getTransactionItem()
 								.getTransaction().getNumber());
 						e.setTransactionStringId(v.getTransactionItem()
-								.getTransaction().getStringID());
+								.getTransaction().getID());
 						e.setTransactionType(v.getTransactionItem()
 								.getTransaction().getType());
 
@@ -9220,7 +9220,7 @@ public class FinanceTool implements IFinanceDAOService {
 						// e2.setTransactionNumber(v.getTransactionItem()
 						// .getTransaction().getNumber());
 						// e2.setTransactionStringId(v.getTransactionItem()
-						// .getTransaction().getStringID());
+						// .getTransaction().getID());
 						// e2.setTransactionType(v.getTransactionItem()
 						// .getTransaction().getType());
 						//
@@ -10200,13 +10200,13 @@ public class FinanceTool implements IFinanceDAOService {
 		if (preferences == null)
 			return false;
 
-		// String stringID = String.valueOf(preferences.getStringID());
+		// String stringID = String.valueOf(preferences.getID());
 
 		Command cmd = new Command(UPDATE_PREFERENCES, "", null);
 
 		cmd.data = preferences;
 
-		cmd.arg1 = company.getStringID();
+		cmd.arg1 = company.getID();
 
 		cmd.arg2 = preferences.getObjectType().getServerClassSimpleName();
 
@@ -10223,7 +10223,7 @@ public class FinanceTool implements IFinanceDAOService {
 		if (clientCompany == null)
 			return false;
 
-		// String stringID = String.valueOf(preferences.getStringID());
+		// String stringID = String.valueOf(preferences.getID());
 
 		Command cmd = new Command(UPDATE_COMPANY, "", null);
 
@@ -10660,7 +10660,7 @@ public class FinanceTool implements IFinanceDAOService {
 								" from com.vimukti.accounter.core.Transaction t where t.type =? and t.number =? and t.stringID !=?")
 						.setParameter(0, clientObject.getType())
 						.setParameter(1, clientObject.getNumber())
-						.setParameter(2, clientObject.getStringID());
+						.setParameter(2, clientObject.getID());
 
 				List list = query.list();
 
@@ -11804,14 +11804,14 @@ public class FinanceTool implements IFinanceDAOService {
 		List<CashPurchase> cashpurchase = query.list();
 		for (CashPurchase cp : cashpurchase) {
 			BillsList bills = new BillsList();
-			bills.setTransactionId(cp.getStringID());
+			bills.setTransactionId(cp.getID());
 			bills.setOriginalAmount(cp.getTotal());
 			bills.setVendorName(cp.getEmployee());
 			bills.setDate(new ClientFinanceDate(cp.getDate().getTime()));
 			bills.setExpenseStatus(status);
 			bills.setType(Transaction.TYPE_EMPLOYEE_EXPENSE);
 			bills.setPayFrom(cp.getPayFrom() != null ? cp.getPayFrom()
-					.getStringID() : null);
+					.getID() : null);
 
 			/*
 			 * Here, to set transaction created date temporarly using setDueDate

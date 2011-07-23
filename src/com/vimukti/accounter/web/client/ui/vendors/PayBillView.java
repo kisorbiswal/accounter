@@ -24,7 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -141,7 +141,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		payBill.setPayBillType(ClientPayBill.TYPE_PAYBILL);
 
 		// Setting Accounts Payable
-		payBill.setAccountsPayable(FinanceApplication.getCompany()
+		payBill.setAccountsPayable(Accounter.getCompany()
 
 		.getAccountsPayableAccount());
 
@@ -183,17 +183,17 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 			} else if (payBillTX.getType() == ClientTransaction.TYPE_JOURNAL_ENTRY) {
 				tpbRecord.setJournalEntry(payBillTX.getTransactionId());
 			}
-			tpbRecord.setAccountsPayable(FinanceApplication.getCompany()
+			tpbRecord.setAccountsPayable(Accounter.getCompany()
 					.getAccountsPayableAccount());
 			tpbRecord.setPayBill(payBill);
 
-			ClientAccount cashAcc = FinanceApplication.getCompany()
+			ClientAccount cashAcc = Accounter.getCompany()
 					.getAccountByName(
-							gridView.getAttribute(FinanceApplication
+							gridView.getAttribute(Accounter
 									.getVendorsMessages().cashAccount(),
 									gridView.indexOf(tpbRecord)));
 			if (cashAcc != null)
-				tpbRecord.setDiscountAccount(cashAcc.getStringID());
+				tpbRecord.setDiscountAccount(cashAcc.getID());
 
 			List<ClientTransactionCreditsAndPayments> trpList = gridView.creditsAndPaymentsDialiog != null ? gridView.creditsAndPaymentsDialiog
 					.getTransactionCredits(tpbRecord)
@@ -282,10 +282,10 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 				record.setOriginalAmount(curntRec.getOriginalAmount());
 
 				// record.setPayment(curntRec.getPayment());
-				ClientVendor vendor = FinanceApplication.getCompany()
+				ClientVendor vendor = Accounter.getCompany()
 						.getVendorByName(curntRec.getVendorName());
 				if (vendor != null)
-					record.setVendor(vendor.getStringID());
+					record.setVendor(vendor.getID());
 
 				totalOrginalAmt += record.getOriginalAmount();
 				totalDueAmt += record.getAmountDue();
@@ -333,7 +333,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	@SuppressWarnings("unused")
 	private ClientVendor getVendorById(String id) {
 		for (ClientVendor temp : vendors) {
-			if (temp.getStringID() == id)
+			if (temp.getID() == id)
 				return temp;
 		}
 		return null;
@@ -344,9 +344,9 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		Label lab = new Label(FinanceApplication.getVendorsMessages().PayBill());
+		Label lab = new Label(Accounter.getVendorsMessages().PayBill());
 		lab.removeStyleName("gwt-Label");
-		lab.addStyleName(FinanceApplication.getVendorsMessages().lableTitle());
+		lab.addStyleName(Accounter.getVendorsMessages().lableTitle());
 		// lab.setHeight("50px");
 		date = new DateField(vendorConstants.Date());
 		date.setHelpInformation(true);
@@ -363,7 +363,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 						if (newDate != null)
 							setTransactionDate(newDate);
 					} catch (Exception e) {
-						Accounter.showError(FinanceApplication
+						Accounter.showError(Accounter
 								.getVendorsMessages().invalidTransactionDate());
 						setTransactionDate(new ClientFinanceDate());
 						date.setEnteredDate(getTransactionDate());
@@ -377,8 +377,8 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		transactionNumber = createTransactionNumberItem();
 
 		vendorCombo = createVendorComboItem(UIUtils.getVendorString(
-				FinanceApplication.getVendorsMessages().supplierName(),
-				FinanceApplication.getVendorsMessages().vendorName()));
+				Accounter.getVendorsMessages().supplierName(),
+				Accounter.getVendorsMessages().vendorName()));
 		vendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
@@ -394,7 +394,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		payFromCombo.setPopupWidth("500px");
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		// paymentMethodCombo.setWidth(100);
-		paymentMethodCombo.setDefaultValue(FinanceApplication
+		paymentMethodCombo.setDefaultValue(Accounter
 				.getVendorsMessages().onlineBanking());
 
 		dueDate = new DateField(vendorConstants.filterByBilldueonorbefore());
@@ -476,7 +476,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		balForm.setGroupTitle(vendorConstants.Balances());
 		balForm.setFields(amtText, endBalText);
 
-		Label lab1 = new Label(FinanceApplication.getVendorsMessages()
+		Label lab1 = new Label(Accounter.getVendorsMessages()
 				.billsDue());
 
 		menuButton = createAddNewButton();
@@ -600,7 +600,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	}
 
 	private void getTransactionPayBills(ClientVendor vendor) {
-		this.rpcUtilService.getTransactionPayBills(vendor.getStringID(),
+		this.rpcUtilService.getTransactionPayBills(vendor.getID(),
 				new AsyncCallback<List<PayBillTransactionList>>() {
 
 					public void onFailure(Throwable caught) {
@@ -650,20 +650,20 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 		this.transactionItems = billToBeEdited.getTransactionItems();
 
-		payFromCombo.setComboItem(FinanceApplication.getCompany().getAccount(
+		payFromCombo.setComboItem(Accounter.getCompany().getAccount(
 				billToBeEdited.getPayFrom()));
 		date.setValue(billToBeEdited.getDate());
 		date.setDisabled(true);
-		accountSelected(FinanceApplication.getCompany().getAccount(
+		accountSelected(Accounter.getCompany().getAccount(
 				billToBeEdited.getPayFrom()));
 
 		dueDate.setValue(new ClientFinanceDate(billToBeEdited
 				.getBillDueOnOrBefore()));
 		dueDate.setDisabled(true);
 
-		this.vendor = FinanceApplication.getCompany().getVendor(
+		this.vendor = Accounter.getCompany().getVendor(
 				billToBeEdited.getVendor());
-		vendorSelected(FinanceApplication.getCompany().getVendor(
+		vendorSelected(Accounter.getCompany().getVendor(
 				billToBeEdited.getVendor()));
 
 		amtText.setAmount(billToBeEdited.getTotal());
@@ -818,7 +818,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 			record.setPayment(cont.getPayment());
 
 			// record.setVendor(FinanceApplication.getCompany().getVendor(
-			// cont.getVendorName()).getStringID());
+			// cont.getVendorName()).getID());
 
 			records.add(record);
 		}
@@ -984,6 +984,6 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getVendorsMessages().payBills();
+		return Accounter.getVendorsMessages().payBills();
 	}
 }

@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -128,15 +128,15 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		viewSelect = getSelectItem();
 
 		if (viewSelect == null) {
-			viewSelect = new SelectCombo(FinanceApplication
+			viewSelect = new SelectCombo(Accounter
 					.getCustomersMessages().currentView());
 			viewSelect.setHelpInformation(true);
 			viewSelect.setWidth("150px");
 			List<String> typeList = new ArrayList<String>();
-			typeList.add(FinanceApplication.getCustomersMessages().active());
-			typeList.add(FinanceApplication.getCustomersMessages().inActive());
+			typeList.add(Accounter.getCustomersMessages().active());
+			typeList.add(Accounter.getCustomersMessages().inActive());
 			viewSelect.initCombo(typeList);
-			viewSelect.setComboItem(FinanceApplication.getCustomersMessages()
+			viewSelect.setComboItem(Accounter.getCustomersMessages()
 					.active());
 			viewSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -158,15 +158,15 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		dateRangeSelector = getDateRangeSelectItem();
 
 		if (dateRangeSelector == null) {
-			dateRangeSelector = new SelectCombo(FinanceApplication
+			dateRangeSelector = new SelectCombo(Accounter
 					.getCustomersMessages().date());
 			dateRangeSelector.setHelpInformation(true);
 			dateRangeSelector.setWidth("150px");
 			List<String> typeList = new ArrayList<String>();
-			typeList.add(FinanceApplication.getCustomersMessages().active());
-			typeList.add(FinanceApplication.getCustomersMessages().inActive());
+			typeList.add(Accounter.getCustomersMessages().active());
+			typeList.add(Accounter.getCustomersMessages().inActive());
 			dateRangeSelector.initCombo(typeList);
-			dateRangeSelector.setDefaultValue(FinanceApplication
+			dateRangeSelector.setDefaultValue(Accounter
 					.getCustomersMessages().active());
 			dateRangeSelector.addChangeHandler(new ChangeHandler() {
 
@@ -182,24 +182,24 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
-		fromItem.setTitle(FinanceApplication.getCustomersMessages().from());
-		fromItem.setDatethanFireEvent(FinanceApplication.getStartDate());
+		fromItem.setTitle(Accounter.getCustomersMessages().from());
+		fromItem.setDatethanFireEvent(Accounter.getStartDate());
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
-		toItem.setTitle(FinanceApplication.getCustomersMessages().to());
+		toItem.setTitle(Accounter.getCustomersMessages().to());
 		toItem
 				.setDatethanFireEvent(Utility
 						.getLastandOpenedFiscalYearEndDate());
 
-		updateButton = new AccounterButton(FinanceApplication
+		updateButton = new AccounterButton(Accounter
 				.getCustomersMessages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 
-				dateRangeSelector.setDefaultValue(FinanceApplication
+				dateRangeSelector.setDefaultValue(Accounter
 						.getReportsMessages().custom());
 				customManage();
 
@@ -497,7 +497,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 				|| core.getObjectType() == AccounterCoreType.TAXAGENCY) {
 
 			IAccounterCore obj = Utility.getObject(grid.getRecords(), core
-					.getStringID());
+					.getID());
 			switch (cmd) {
 			case AccounterCommand.CREATION_SUCCESS:
 			case AccounterCommand.UPDATION_SUCCESS:

@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -16,12 +16,12 @@ public class NewCashBasisJournalEntryAction extends Action {
 
 	public NewCashBasisJournalEntryAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	public NewCashBasisJournalEntryAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class NewCashBasisJournalEntryAction extends Action {
 			MainFinanceWindow.getViewManager().showView(new JournalEntryView(),
 					null, false, this);
 		} catch (Exception e) {
-			Accounter.showError(FinanceApplication.getCompanyMessages()
+			Accounter.showError(Accounter.getCompanyMessages()
 					.failedToLoadCashBasisJournalEntryFailed());
 		}
 

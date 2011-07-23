@@ -210,7 +210,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		setWidth("80");
 		mainPanel.setSpacing(3);
 
-		payMethodSelect = new SelectCombo(FinanceApplication
+		payMethodSelect = new SelectCombo(Accounter
 				.getFinanceUIConstants().paymentMethod());
 		payMethodSelect.setHelpInformation(true);
 		payMethodSelect.setRequired(true);
@@ -232,7 +232,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 				});
 
-		accountCombo = new PayFromAccountsCombo(FinanceApplication
+		accountCombo = new PayFromAccountsCombo(Accounter
 				.getFinanceUIConstants().account(), false);
 		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
@@ -254,7 +254,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		payForm.setFields(payMethodSelect, accountCombo);
 
 		Label label = new Label();
-		label.setText(FinanceApplication.getFinanceUIConstants()
+		label.setText(Accounter.getFinanceUIConstants()
 				.PaymentsToBeIssued());
 		initListGrid();
 
@@ -303,7 +303,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 		if (checkNoText != null) {
 			rpcUtilService.getNextIssuepaymentCheckNumber(
-					account.getStringID(), new AsyncCallback<Long>() {
+					account.getID(), new AsyncCallback<Long>() {
 
 						public void onFailure(Throwable caught) {
 							// UIUtils.logError(
@@ -346,7 +346,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 			setCheckNo(number);
 		} catch (NumberFormatException e) {
 			valid = false;
-			Accounter.showError(FinanceApplication.getFinanceUIConstants()
+			Accounter.showError(Accounter.getFinanceUIConstants()
 					.invalidCheckNumber());
 		}
 
@@ -409,7 +409,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 		issuePayment.setPaymentMethod(selectedpaymentMethod);
 
-		issuePayment.setAccount(selectedPayFromAccount.getStringID());
+		issuePayment.setAccount(selectedPayFromAccount.getID());
 
 		issuePayment.setTotal(totalAmount);
 		String chkNo;
@@ -432,7 +432,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		if (selectedPayFromAccount2 != null) {
 			grid.removeAllRecords();
 			grid.addLoadingImagePanel();
-			rpcUtilService.getChecks(selectedPayFromAccount2.getStringID(),
+			rpcUtilService.getChecks(selectedPayFromAccount2.getID(),
 					new AsyncCallback<List<IssuePaymentTransactionsList>>() {
 
 						public void onFailure(Throwable t) {
@@ -492,7 +492,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		emptyLabel.setWidth("25%");
 		totalLabel = new Label();
 		totalLabel.setWidth("30%");
-		totalLabel.setText(FinanceApplication.getFinanceUIConstants()
+		totalLabel.setText(Accounter.getFinanceUIConstants()
 				.totalAmount());
 
 		amountLabel = new Label();
@@ -508,9 +508,9 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		selectedpaymentMethod = selectedpaymentMethod1;
 		if (!selectedpaymentMethod.isEmpty()) {
 			checkNoText = new TextItem(
-					FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? FinanceApplication
+					Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
 							.getFinanceUIConstants().startingCheckNo()
-							: FinanceApplication.getFinanceUIConstants()
+							: Accounter.getFinanceUIConstants()
 									.startingChequeNo());
 			checkNoText.setHelpInformation(true);
 			checkNoText.setWidth(100);
@@ -640,7 +640,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getVendorsMessages().selectPaymentsToIssue();
+		return Accounter.getVendorsMessages().selectPaymentsToIssue();
 	}
 
 }

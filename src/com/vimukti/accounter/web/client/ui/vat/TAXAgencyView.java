@@ -29,7 +29,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -54,15 +54,15 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
 
-	private final String ATTR_PRIMARY = FinanceApplication.getVATMessages()
+	private final String ATTR_PRIMARY = Accounter.getVATMessages()
 			.primary();
-	private final String ATTR_CONTACT_NAME = FinanceApplication
+	private final String ATTR_CONTACT_NAME = Accounter
 			.getVATMessages().contactname();
-	private final String ATTR_TITLE = FinanceApplication.getVATMessages()
+	private final String ATTR_TITLE = Accounter.getVATMessages()
 			.title();
-	private final String ATTR_BUSINESS_PHONE = FinanceApplication
+	private final String ATTR_BUSINESS_PHONE = Accounter
 			.getVATMessages().businessphone();
-	private final String ATTR_EMAIL = FinanceApplication.getVATMessages()
+	private final String ATTR_EMAIL = Accounter.getVATMessages()
 			.email();
 
 	TextItem taxAgencyText, fileAsText;
@@ -105,10 +105,10 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	private void initPaymentTermsCombo() {
 
-		paymentTermsCombo.initCombo(FinanceApplication.getCompany()
+		paymentTermsCombo.initCombo(Accounter.getCompany()
 				.getPaymentsTerms());
 		if (takenVATAgency != null && (takenVATAgency.getPaymentTerm()) != null) {
-			selectedPaymentTerm = FinanceApplication.getCompany()
+			selectedPaymentTerm = Accounter.getCompany()
 					.getPaymentTerms(takenVATAgency.getPaymentTerm());
 			paymentTermsCombo.setComboItem(selectedPaymentTerm);
 		}
@@ -134,7 +134,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		try {
 			ClientTAXAgency vatAgency = getTaxAgency();
 			if (takenVATAgency == null) {
-				if (Utility.isObjectExist(FinanceApplication.getCompany()
+				if (Utility.isObjectExist(Accounter.getCompany()
 						.getTaxAgencies(), vatAgency.getName())) {
 					throw new InvalidEntryException(
 							AccounterErrorType.ALREADYEXIST);
@@ -158,13 +158,13 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			// BaseView.errordata.setHTML(FinanceApplication.getVATMessages()
 			// .duplicationOfTaxAgencyNameAreNotAllowed());
 			MainFinanceWindow.getViewManager().showError(
-					FinanceApplication.getVATMessages()
+					Accounter.getVATMessages()
 							.duplicationOfTaxAgencyNameAreNotAllowed());
 		else
 			// BaseView.errordata.setHTML(FinanceApplication.getVATMessages()
 			// .failedToUpdate());
 			MainFinanceWindow.getViewManager().showError(
-					FinanceApplication.getVATMessages().failedToUpdate());
+					Accounter.getVATMessages().failedToUpdate());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 	}
@@ -208,11 +208,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		case 3:
 			String name = taxAgencyText.getValue().toString();
 			if (((takenVATAgency == null && Utility.isObjectExist(
-					FinanceApplication.getCompany().getTaxAgencies(), name)) ? false
+					Accounter.getCompany().getTaxAgencies(), name)) ? false
 					: true)
 					|| (takenVATAgency != null ? (takenVATAgency.getName()
 							.equalsIgnoreCase(name) ? true : (Utility
-							.isObjectExist(FinanceApplication.getCompany()
+							.isObjectExist(Accounter.getCompany()
 									.getTaxAgencies(), name) ? false : true))
 							: true)) {
 				return true;
@@ -240,7 +240,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		// Setting TaxAgency
 		vatAgency.setName(taxAgencyText.getValue().toString());
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			if (vatReturnCombo.getSelectedValue() == "") {
 				vatAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_NONE);
 			} else if (vatReturnCombo.getSelectedValue() == "UK VAT") {
@@ -275,15 +275,15 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		vatAgency.setActive((Boolean) statusCheck.getValue());
 
 		// Setting Payment Terms
-		vatAgency.setPaymentTerm(selectedPaymentTerm.getStringID());
+		vatAgency.setPaymentTerm(selectedPaymentTerm.getID());
 
 		// Setting Sales Liability account
-		vatAgency.setSalesLiabilityAccount(selectedSalesAccount.getStringID());
+		vatAgency.setSalesLiabilityAccount(selectedSalesAccount.getID());
 
 		// Setting Purchase Liability account
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			vatAgency.setPurchaseLiabilityAccount(selectedPurchaseAccount
-					.getStringID());
+					.getID());
 		else
 			vatAgency.setPurchaseLiabilityAccount(null);
 
@@ -314,19 +314,19 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	private VerticalPanel getTopLayout() {
 		Label lab;
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			lab = new Label(FinanceApplication.getVATMessages().VatAgency());
-			taxAgencyText = new TextItem(FinanceApplication.getVATMessages()
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			lab = new Label(Accounter.getVATMessages().VatAgency());
+			taxAgencyText = new TextItem(Accounter.getVATMessages()
 					.VATAgency());
 			taxAgencyText.setHelpInformation(true);
 		} else {
-			lab = new Label(FinanceApplication.getCompanyMessages().taxAgency());
-			taxAgencyText = new TextItem(FinanceApplication
+			lab = new Label(Accounter.getCompanyMessages().taxAgency());
+			taxAgencyText = new TextItem(Accounter
 					.getCompanyMessages().taxAgency());
 			taxAgencyText.setHelpInformation(true);
 		}
 		lab.removeStyleName("gwt-Label");
-		lab.addStyleName(FinanceApplication.getVATMessages().lableTitle());
+		lab.addStyleName(Accounter.getVATMessages().lableTitle());
 		lab.setHeight("35px");
 		taxAgencyText.setWidth(100);
 		taxAgencyText.setRequired(true);
@@ -348,7 +348,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		taxAgencyForm = UIUtils.form(companyConstants.taxAgency());
 		taxAgencyForm.setWidth("100%");
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			taxAgencyForm.getCellFormatter().setWidth(0, 0, "182px");
 		} else
 			taxAgencyForm.getCellFormatter().setWidth(0, 0, "181px");
@@ -376,13 +376,13 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		paymentTermsCombo.setRequired(true);
 
-		vatReturnCombo = new SelectCombo(FinanceApplication.getVATMessages()
+		vatReturnCombo = new SelectCombo(Accounter.getVATMessages()
 				.VATReturn());
 		vatReturnCombo.setHelpInformation(true);
 		vatReturnCombo.setRequired(true);
 		vatReturnList = new ArrayList<String>();
-		vatReturnList.add(FinanceApplication.getVATMessages().UKVAT());
-		vatReturnList.add(FinanceApplication.getVATMessages().vAT3Ireland());
+		vatReturnList.add(Accounter.getVATMessages().UKVAT());
+		vatReturnList.add(Accounter.getVATMessages().vAT3Ireland());
 		vatReturnCombo.initCombo(vatReturnList);
 		vatReturnCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -397,7 +397,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 					}
 				});
 		liabilitySalesAccountCombo = new VATAgencyAccountCombo(
-				FinanceApplication.getVATMessages().salesLiabilityAccount());
+				Accounter.getVATMessages().salesLiabilityAccount());
 		liabilitySalesAccountCombo.setHelpInformation(true);
 		liabilitySalesAccountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -412,7 +412,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		liabilitySalesAccountCombo.setRequired(true);
 
 		liabilityPurchaseAccountCombo = new VATAgencyAccountCombo(
-				FinanceApplication.getVATMessages().purchaseLiabilityAccount());
+				Accounter.getVATMessages().purchaseLiabilityAccount());
 		liabilityPurchaseAccountCombo.setHelpInformation(true);
 		liabilityPurchaseAccountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -428,7 +428,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		Label contacts = new Label(companyConstants.contacts());
 		initListGrid();
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			accInfoForm.setFields(statusCheck, paymentTermsCombo,
 					vatReturnCombo, liabilitySalesAccountCombo,
 					liabilityPurchaseAccountCombo);
@@ -443,12 +443,12 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		memoForm.setWidth("50%");
 		memoArea = new TextAreaItem();
 		memoArea.setHelpInformation(true);
-		memoArea.setTitle(FinanceApplication.getVATMessages().memo());
+		memoArea.setTitle(Accounter.getVATMessages().memo());
 		memoArea.setWidth("400px");
 		memoForm.setFields(memoArea);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		addButton = new AccounterButton(FinanceApplication.getVATMessages()
+		addButton = new AccounterButton(Accounter.getVATMessages()
 				.add());
 		// addButton.setStyleName("addButton");
 		addButton.addClickHandler(new ClickHandler() {
@@ -525,7 +525,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 			}
 			if (takenVATAgency.getPaymentTerm() != null) {
-				ClientPaymentTerms payment = FinanceApplication.getCompany()
+				ClientPaymentTerms payment = Accounter.getCompany()
 						.getPaymentTerms(takenVATAgency.getPaymentTerm());
 				paymentTermsCombo.setComboItem(payment);
 			}
@@ -533,20 +533,20 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			if (takenVATAgency.getVATReturn() == ClientTAXAgency.RETURN_TYPE_NONE)
 				vatReturnCombo.setComboItem("");
 			else if (takenVATAgency.getVATReturn() == ClientTAXAgency.RETURN_TYPE_UK_VAT)
-				vatReturnCombo.setComboItem(FinanceApplication.getVATMessages()
+				vatReturnCombo.setComboItem(Accounter.getVATMessages()
 						.uKVAT());
 			else
-				vatReturnCombo.setComboItem(FinanceApplication.getVATMessages()
+				vatReturnCombo.setComboItem(Accounter.getVATMessages()
 						.vAT3Ireland());
 
 			if (takenVATAgency.getSalesLiabilityAccount() != null) {
-				ClientAccount account = FinanceApplication.getCompany()
+				ClientAccount account = Accounter.getCompany()
 						.getAccount(takenVATAgency.getSalesLiabilityAccount());
 				liabilitySalesAccountCombo.setComboItem(account);
 			}
 
 			if (takenVATAgency.getPurchaseLiabilityAccount() != null) {
-				ClientAccount account = FinanceApplication.getCompany()
+				ClientAccount account = Accounter.getCompany()
 						.getAccount(takenVATAgency.getSalesLiabilityAccount());
 				liabilityPurchaseAccountCombo.setComboItem(account);
 			}
@@ -657,9 +657,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		initPaymentTermsCombo();
 		if (this.takenVATAgency != null) {
-			this.selectedSalesAccount = FinanceApplication.getCompany()
+			this.selectedSalesAccount = Accounter.getCompany()
 					.getAccount(this.takenVATAgency.getSalesLiabilityAccount());
-			this.selectedPurchaseAccount = FinanceApplication.getCompany()
+			this.selectedPurchaseAccount = Accounter.getCompany()
 					.getAccount(
 							this.takenVATAgency.getPurchaseLiabilityAccount());
 		}
@@ -873,8 +873,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(FinanceApplication.getActionsConstants()
-				.vatAgency(), FinanceApplication.getActionsConstants()
+		return UIUtils.getVendorString(Accounter.getActionsConstants()
+				.vatAgency(), Accounter.getActionsConstants()
 				.taxAgency());
 	}
 

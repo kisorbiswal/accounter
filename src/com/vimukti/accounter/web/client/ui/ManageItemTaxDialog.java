@@ -36,7 +36,7 @@
 //////				records[i] = new ListGridRecord();
 //////				records[i]
 //////						.setAttribute("name", result.get(i).getName());
-//////				records[i].setAttribute("id", result.get(i).getStringID());
+//////				records[i].setAttribute("id", result.get(i).getID());
 //////			}
 //////			addRecords(records);
 //////		}
@@ -54,7 +54,7 @@
 //////						records[i] = new ListGridRecord();
 //////						records[i]
 //////								.setAttribute("name", result.get(i).getName());
-//////						records[i].setAttribute("id", result.get(i).getStringID());
+//////						records[i].setAttribute("id", result.get(i).getID());
 //////					}
 //////					addRecords(records);
 //////				}
@@ -96,7 +96,7 @@
 ////
 ////			public void onThirdButtonClick() {
 ////				FinanceApplication.createCRUDService().deleteItemTax(
-////						getSelectedItemTaxes().getStringID(),
+////						getSelectedItemTaxes().getID(),
 ////						new AsyncCallback<Boolean>() {
 ////
 ////							public void onFailure(Throwable caught) {
@@ -121,7 +121,7 @@
 ////	protected ClientItemTax getSelectedItemTaxes() {
 ////		for (ClientItemTax method : itemTaxes) {
 ////			Long id = Long.parseLong(getSelectedRecord().getAttribute("id"));
-////			if (method.getStringID() == id) {
+////			if (method.getID() == id) {
 ////
 ////				return method;
 ///*package com.vimukti.accounter.web.client.ui;
@@ -162,7 +162,7 @@
 ////				records[i] = new ListGridRecord();
 ////				records[i]
 ////						.setAttribute("name", result.get(i).getName());
-////				records[i].setAttribute("id", result.get(i).getStringID());
+////				records[i].setAttribute("id", result.get(i).getID());
 //>>>>>>> 1.3.4.12
 ////			}
 ////		}
@@ -191,7 +191,7 @@
 ////					ListGridRecord record = new ListGridRecord();
 ////					record.setAttribute("name", dialog.taxText.getValue()
 ////							.toString());
-////					record.setAttribute("id", itemTx.getStringID());
+////					record.setAttribute("id", itemTx.getID());
 ////					addRecord(record);
 ////					if (callBack != null) {
 ////						callBack.onSuccess((IAccounterCore) result);
@@ -306,7 +306,7 @@
 //
 //			public void onThirdButtonClick() {
 //				FinanceApplication.createCRUDService().deleteItemTax(
-//						getSelectedItemTaxes().getStringID(),
+//						getSelectedItemTaxes().getID(),
 //						new AsyncCallback<Boolean>() {
 //
 //							public void onFailure(Throwable caught) {
@@ -331,7 +331,7 @@
 //	protected ClientItemTax getSelectedItemTaxes() {
 //		for (ClientItemTax method : itemTaxes) {
 //			Long id = Long.parseLong(getSelectedRecord().getAttribute("id"));
-//			if (method.getStringID() == id) {
+//			if (method.getID() == id) {
 //
 //				return method;
 //			}
@@ -361,7 +361,7 @@
 //					ListGridRecord record = new ListGridRecord();
 //					record.setAttribute("name", dialog.taxText.getValue()
 //							.toString());
-//					record.setAttribute("id", itemTx.getStringID());
+//					record.setAttribute("id", itemTx.getID());
 //					addRecord(record);
 //					if (callBack != null) {
 //						callBack.onSuccess((IAccounterCore) result);

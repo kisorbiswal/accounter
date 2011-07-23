@@ -10,7 +10,7 @@ package com.vimukti.accounter.web.client.core;
 @SuppressWarnings("serial")
 public class ClientVATReturnBox implements IAccounterCore {
 
-	String stringID;
+	long id;
 
 	String name;
 	String vatBox;
@@ -108,11 +108,11 @@ public class ClientVATReturnBox implements IAccounterCore {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#getStringID()
+	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#getID()
 	 */
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	/*
@@ -123,8 +123,8 @@ public class ClientVATReturnBox implements IAccounterCore {
 	 * .lang.String)
 	 */
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	/**

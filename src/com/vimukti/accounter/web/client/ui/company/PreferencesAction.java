@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -12,7 +12,7 @@ public class PreferencesAction extends Action {
 
 	public PreferencesAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class PreferencesAction extends Action {
 			MainFinanceWindow.getViewManager().showView(view, null, true,
 					PreferencesAction.this);
 		} catch (Exception e) {
-			Accounter.showError(FinanceApplication.getCompanyMessages()
+			Accounter.showError(Accounter.getCompanyMessages()
 					.failedToLoadCompanyPreferences());
 		}
 
@@ -39,7 +39,7 @@ public class PreferencesAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().preferences();
+		return Accounter.getFinanceMenuImages().preferences();
 	}
 	@Override
 	public String getImageUrl() {

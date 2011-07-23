@@ -37,7 +37,7 @@ public class BaseHomeView extends AbstractBaseView {
 		// secondImagePanel.setStyleName(FinanceApplication
 		// .getFinanceUIConstants().imageAction());
 		VerticalPanel imagePanel = new VerticalPanel();
-		imagePanel.setStyleName(FinanceApplication.getFinanceUIConstants()
+		imagePanel.setStyleName(Accounter.getFinanceUIConstants()
 				.imageActionContainer());
 		imagePanel.setSpacing(5);
 		// imagePanel.setWidth("100%");
@@ -77,28 +77,28 @@ public class BaseHomeView extends AbstractBaseView {
 		HorizontalPanel firstRowPanel = new HorizontalPanel();
 		firstRowPanel.setWidth("100%");
 
-		ImageButton invoiceButton = new ImageButton(FinanceApplication
+		ImageButton invoiceButton = new ImageButton(Accounter
 				.getFinanceUIConstants().enterInvoice(),
 				"/images/new_invoice.png");
 		invoiceButton.setAction(CustomersActionFactory.getNewInvoiceAction());
 
-		ImageButton receivePaymentButton = new ImageButton(FinanceApplication
+		ImageButton receivePaymentButton = new ImageButton(Accounter
 				.getFinanceUIConstants().receivePayments(),
 				"/images/recived_payment_list.png");
 		receivePaymentButton.setAction(CustomersActionFactory
 				.getReceivePaymentAction());
 
-		ImageButton refundAnsCredits = new ImageButton(FinanceApplication
+		ImageButton refundAnsCredits = new ImageButton(Accounter
 				.getCustomersMessages().customerCredit(),
 				"/images/customer_refunds_list.png");
 		refundAnsCredits.setAction(CustomersActionFactory
 				.getNewCreditsAndRefundsAction());
 
-		ImageButton bankDeposit = new ImageButton(FinanceApplication
+		ImageButton bankDeposit = new ImageButton(Accounter
 				.getFinanceUIConstants().bankDeposite(),
 				"/images/make_deposit.png");
 		bankDeposit.setAction(BankingActionFactory.getMakeDepositAction());
-		ImageButton fileVat = new ImageButton(FinanceApplication
+		ImageButton fileVat = new ImageButton(Accounter
 				.getVATMessages().fileVAT(), "/images/File_vat.png");
 		fileVat.setAction(VatActionFactory.getFileVatAction());
 
@@ -140,25 +140,25 @@ public class BaseHomeView extends AbstractBaseView {
 		HorizontalPanel secondRowPanel = new HorizontalPanel();
 		secondRowPanel.setWidth("100%");
 
-		ImageButton enterBillButton = new ImageButton(FinanceApplication
+		ImageButton enterBillButton = new ImageButton(Accounter
 				.getFinanceUIConstants().enterBill(), "/images/enter_bills.png");
 		enterBillButton.setAction(VendorsActionFactory.getEnterBillsAction());
 
-		ImageButton payBill = new ImageButton(FinanceApplication
+		ImageButton payBill = new ImageButton(Accounter
 				.getFinanceUIConstants().payBill(), "/images/pay_bills.png");
 		payBill.setAction(VendorsActionFactory.getPayBillsAction());
 
 		ImageButton vendorcredit = new ImageButton(UIUtils.getVendorString(
-				FinanceApplication.getVendorsMessages().supplierCredit(),
-				FinanceApplication.getVendorsMessages().vendorCreditMemo()),
+				Accounter.getVendorsMessages().supplierCredit(),
+				Accounter.getVendorsMessages().vendorCreditMemo()),
 				"/images/new_credit_memo.png");
 		vendorcredit.setAction(VendorsActionFactory.getNewCreditMemoAction());
 
-		ImageButton expenses = new ImageButton(FinanceApplication
+		ImageButton expenses = new ImageButton(Accounter
 				.getFinanceUIConstants().enterExpenses(),
 				"/images/record_expenses.png");
 		expenses.setAction(VendorsActionFactory.getRecordExpensesAction());
-		ImageButton creditCardCharge = new ImageButton(FinanceApplication
+		ImageButton creditCardCharge = new ImageButton(Accounter
 				.getFinanceUIConstants().creaditCardCharges(),
 				"/images/credit_card_charge.png");
 		creditCardCharge.setAction(BankingActionFactory
@@ -398,7 +398,7 @@ public class BaseHomeView extends AbstractBaseView {
 	// for (ClientTaxGroup clientTaxGroup : FinanceApplication.getCompany()
 	// .getTaxGroups()) {
 	// if (clientTaxGroup.getName().equals("None")) {
-	// customer.setTaxGroup(clientTaxGroup.getStringID());
+	// customer.setTaxGroup(clientTaxGroup.getID());
 	// }
 	// }
 	//

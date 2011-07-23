@@ -20,7 +20,7 @@ public abstract class AbstractBaseDialog<T> extends CustomDialog implements
 	protected IAccounterGETServiceAsync rpcGetService;
 	protected ClientCompany company;
 
-	protected String stringID;
+	protected long id;
 
 	protected IAccounterCRUDServiceAsync rpcDoSerivce;
 
@@ -51,13 +51,13 @@ public abstract class AbstractBaseDialog<T> extends CustomDialog implements
 
 	protected void initCompany() {
 
-		this.company = FinanceApplication.getCompany();
+		this.company = Accounter.getCompany();
 
 	}
 
 	protected void initRPCService() {
-		this.rpcGetService = FinanceApplication.createGETService();
-		this.rpcDoSerivce = FinanceApplication.createCRUDService();
+		this.rpcGetService = Accounter.createGETService();
+		this.rpcDoSerivce = Accounter.createCRUDService();
 
 	}
 
@@ -65,12 +65,12 @@ public abstract class AbstractBaseDialog<T> extends CustomDialog implements
 		return null;
 	}
 
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	@Override

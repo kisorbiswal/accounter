@@ -35,7 +35,7 @@ public class ClientUser implements IAccounterCore {
 	private int loginCount;
 
 	int version;
-	String stringID;
+	long id;
 
 	String fullName;
 	String email;
@@ -306,13 +306,13 @@ public class ClientUser implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

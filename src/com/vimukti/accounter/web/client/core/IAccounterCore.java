@@ -25,9 +25,9 @@ public interface IAccounterCore extends IsSerializable, Serializable {
 
 	AccounterCoreType getObjectType();
 
-	void setStringID(String stringID);
+	void setID(long id);
 
-	String getStringID();
+	long getID();
 
 	String getClientClassSimpleName();
 	

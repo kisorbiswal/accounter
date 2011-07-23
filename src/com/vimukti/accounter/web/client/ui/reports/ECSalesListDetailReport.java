@@ -4,7 +4,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.ECSalesListDetailServerReport;
 
@@ -20,7 +20,7 @@ public class ECSalesListDetailReport extends
 
 	@Override
 	public void OnRecordClick(ECSalesListDetail record) {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			ReportsRPC.openTransactionView(record.getTransactionType(), record
 					.getTransactionStringId()
 					+ "");
@@ -36,7 +36,7 @@ public class ECSalesListDetailReport extends
 
 		ECSalesList bySalesDetail = (ECSalesList) this.data;
 
-		FinanceApplication.createReportService().getECSalesListDetailReport(
+		Accounter.createReportService().getECSalesListDetailReport(
 				bySalesDetail.getName(), start.getTime(), end.getTime(), this);
 
 		this.vatAgency = bySalesDetail.getName();

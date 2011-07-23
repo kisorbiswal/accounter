@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
@@ -57,10 +57,10 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 
 		case 8:
 			if (!accRegister.isVoided())
-				return FinanceApplication.getFinanceImages().notvoid();
+				return Accounter.getFinanceImages().notvoid();
 			// return "/images/not-void.png";
 			else
-				return FinanceApplication.getFinanceImages().voided();
+				return Accounter.getFinanceImages().voided();
 			// return "/images/voided.png";
 
 		}
@@ -87,15 +87,15 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { FinanceApplication.getCustomersMessages().date(),
-				FinanceApplication.getCustomersMessages().type(),
-				FinanceApplication.getCustomersMessages().documentNo(),
-				FinanceApplication.getCustomersMessages().increase(),
-				FinanceApplication.getCustomersMessages().reduce(),
-				FinanceApplication.getCustomersMessages().account(),
-				FinanceApplication.getCustomersMessages().memo(),
-				FinanceApplication.getCustomersMessages().currentBalance(),
-				FinanceApplication.getCustomersMessages().isVoided() };
+		return new String[] { Accounter.getCustomersMessages().date(),
+				Accounter.getCustomersMessages().type(),
+				Accounter.getCustomersMessages().documentNo(),
+				Accounter.getCustomersMessages().increase(),
+				Accounter.getCustomersMessages().reduce(),
+				Accounter.getCustomersMessages().account(),
+				Accounter.getCustomersMessages().memo(),
+				Accounter.getCustomersMessages().currentBalance(),
+				Accounter.getCustomersMessages().isVoided() };
 	}
 
 	@Override

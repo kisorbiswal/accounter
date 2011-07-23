@@ -449,7 +449,7 @@ public class CustomerCreditMemo extends Transaction implements
 				if (creditsAndPayments != null
 						&& DecimalUtil.isEquals(creditsAndPayments.creditAmount, 0.0d)) {
 					creditsAndPayments = new CreditsAndPayments(this,
-							creditsAndPayments.getStringID());
+							creditsAndPayments.getID());
 					this.setCreditsAndPayments(creditsAndPayments);
 				} else {
 					creditsAndPayments = new CreditsAndPayments(this);

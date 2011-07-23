@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
@@ -23,15 +23,15 @@ public class SalesOrderUSGrid extends CustomerTransactionUSGrid {
 
 		return new String[] {
 				"",
-				FinanceApplication.getCustomersMessages().name(),
-				FinanceApplication.getCustomersMessages().description(),
-				FinanceApplication.getCustomersMessages().quantity(),
-				FinanceApplication.getCustomersMessages().unitPrice(),
-				FinanceApplication.getCustomersMessages().discountPerc(),
+				Accounter.getCustomersMessages().name(),
+				Accounter.getCustomersMessages().description(),
+				Accounter.getCustomersMessages().quantity(),
+				Accounter.getCustomersMessages().unitPrice(),
+				Accounter.getCustomersMessages().discountPerc(),
 				// "Back Order",
-				FinanceApplication.getCustomersMessages().total(),
-				FinanceApplication.getVATMessages().tax(),
-				FinanceApplication.getCustomersMessages().invoiced(), " " };
+				Accounter.getCustomersMessages().total(),
+				Accounter.getVATMessages().tax(),
+				Accounter.getCustomersMessages().invoiced(), " " };
 	}
 
 	@Override
@@ -81,8 +81,8 @@ public class SalesOrderUSGrid extends CustomerTransactionUSGrid {
 		switch (index) {
 		case 9:
 			return new String[] {
-					FinanceApplication.getCustomersMessages().taxable(),
-					FinanceApplication.getCustomersMessages().nonTaxable() };
+					Accounter.getCustomersMessages().taxable(),
+					Accounter.getCustomersMessages().nonTaxable() };
 
 		default:
 			break;
@@ -256,14 +256,14 @@ public class SalesOrderUSGrid extends CustomerTransactionUSGrid {
 		case 6:
 			return DataUtils.getAmountAsString(item.getLineTotal());
 		case 7:
-			return item.isTaxable() ? FinanceApplication.getVATMessages()
-					.taxable() : FinanceApplication.getVATMessages()
+			return item.isTaxable() ? Accounter.getVATMessages()
+					.taxable() : Accounter.getVATMessages()
 					.nonTaxable();
 		case 8:
 			return DataUtils.getAmountAsString(item.getInvoiced());
 		case 9:
 			// return
-			return FinanceApplication.getFinanceMenuImages().delete();
+			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
 		default:
 			return "";

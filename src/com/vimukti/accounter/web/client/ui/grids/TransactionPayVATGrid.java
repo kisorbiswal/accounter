@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayVAT;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
@@ -98,7 +98,7 @@ public class TransactionPayVATGrid extends
 	protected Object getColumnValue(ClientTransactionPayVAT payVAT, int index) {
 		switch (index) {
 		case 0:
-			ClientTAXAgency taxAgency = FinanceApplication.getCompany()
+			ClientTAXAgency taxAgency = Accounter.getCompany()
 					.getTaxAgency(payVAT.getTaxAgency());
 			return taxAgency != null ? taxAgency.getName() : "";
 		case 1:

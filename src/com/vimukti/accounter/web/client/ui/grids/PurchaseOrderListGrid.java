@@ -5,7 +5,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListView;
@@ -35,12 +35,12 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] {
-				FinanceApplication.getVendorsMessages().Date(),
-				FinanceApplication.getVendorsMessages().number(),
-				UIUtils.getVendorString(FinanceApplication.getVendorsMessages()
-						.supplieRName(), FinanceApplication
+				Accounter.getVendorsMessages().Date(),
+				Accounter.getVendorsMessages().number(),
+				UIUtils.getVendorString(Accounter.getVendorsMessages()
+						.supplieRName(), Accounter
 						.getVendorsMessages().vendoRName()),
-				FinanceApplication.getVendorsMessages().purchasePrice() };
+				Accounter.getVendorsMessages().purchasePrice() };
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 
 	@Override
 	public void onDoubleClick(PurchaseOrdersList obj) {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			ReportsRPC.openTransactionView(obj.getType(), obj
 					.getTransactionId());
 
@@ -80,7 +80,7 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 
 	@Override
 	protected void onClick(PurchaseOrdersList obj, int row, int col) {
-		if (!FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
 		view.onClick(obj);
 		super.onClick(obj, row, col);

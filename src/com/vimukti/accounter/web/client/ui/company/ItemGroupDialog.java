@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -33,17 +33,17 @@ public class ItemGroupDialog extends BaseDialog {
 	}
 
 	private void initGridData() {
-		List<ClientItem> clientItems = FinanceApplication.getCompany()
+		List<ClientItem> clientItems = Accounter.getCompany()
 				.getActiveItems();
 		if (this.itemgroup != null) {
 			for (ClientItem clientItem : clientItems) {
 				if (clientItem.getItemGroup() != null
 						&& clientItem.getItemGroup().equals(
-								this.itemgroup.getStringID()))
+								this.itemgroup.getID()))
 					dialoggrid.addData(clientItem);
 			}
 		} else {
-			List<ClientItemGroup> itemGroups = FinanceApplication.getCompany()
+			List<ClientItemGroup> itemGroups = Accounter.getCompany()
 					.getItemGroups();
 			for (ClientItem clientItem : clientItems) {
 				if (clientItem.getItemGroup() == null) {
@@ -59,7 +59,7 @@ public class ItemGroupDialog extends BaseDialog {
 		VerticalPanel panel = new VerticalPanel();
 
 		dform = new DynamicForm();
-		itemGtext = new TextItem(FinanceApplication.getFinanceUIConstants()
+		itemGtext = new TextItem(Accounter.getFinanceUIConstants()
 				.itemGroup());
 		itemGtext.setHelpInformation(true);
 		itemGtext.setRequired(true);
@@ -140,6 +140,6 @@ public class ItemGroupDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getFinanceUIConstants().itemGroup();
+		return Accounter.getFinanceUIConstants().itemGroup();
 	}
 }

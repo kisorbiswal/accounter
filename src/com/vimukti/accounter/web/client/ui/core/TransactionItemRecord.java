@@ -298,7 +298,7 @@
 //
 //		case ClientTransactionItem.TYPE_ACCOUNT:
 //			if (account != null)
-//				transactionItem.setAccount(account.getStringID());
+//				transactionItem.setAccount(account.getID());
 //			else
 //				throw new InvalidEntryException(this, "Account Missing!");
 //
@@ -312,7 +312,7 @@
 //				else
 //					transactionItem.setTaxable(false);
 //			} else {
-//				transactionItem.setTaxCode(taxCode.getStringID());
+//				transactionItem.setTaxCode(taxCode.getID());
 //				transactionItem.setVATfraction(vat);
 //			}
 //
@@ -320,7 +320,7 @@
 //
 //		case ClientTransactionItem.TYPE_ITEM:
 //			if (item != null)
-//				transactionItem.setItem(item.getStringID());
+//				transactionItem.setItem(item.getID());
 //
 //			else
 //				throw new InvalidEntryException(this, "Missing Item");
@@ -343,7 +343,7 @@
 //
 //				if (transactionDomain == CUSTOMER_TRANSACTION
 //						|| transactionDomain == VENDOR_TRANSACTION) {
-//					transactionItem.setTaxCode(taxCode.getStringID());
+//					transactionItem.setTaxCode(taxCode.getID());
 //					transactionItem.setVATfraction(vat);
 //
 //				}
@@ -358,7 +358,7 @@
 //
 //		case ClientTransactionItem.TYPE_SALESTAX:
 //			if (taxCode != null)
-//				transactionItem.setTaxCode(taxCode.getStringID());
+//				transactionItem.setTaxCode(taxCode.getID());
 //			else
 //				throw new InvalidEntryException(this,
 //						"Missing tax Code in one of the transaction Items!!");
@@ -868,7 +868,7 @@
 //
 //		case ClientTransactionItem.TYPE_ACCOUNT:
 //			if (account != null)
-//				transactionItem.setAccount(account.getStringID());
+//				transactionItem.setAccount(account.getID());
 //			else
 //				throw new InvalidEntryException(this, "Account Missing!");
 //
@@ -882,7 +882,7 @@
 //				else
 //					transactionItem.setTaxable(false);
 //			} else {
-//				transactionItem.setTaxCode(taxCode.getStringID());
+//				transactionItem.setTaxCode(taxCode.getID());
 //				transactionItem.setVATfraction(vat);
 //			}
 //
@@ -890,7 +890,7 @@
 //
 //		case ClientTransactionItem.TYPE_ITEM:
 //			if (item != null)
-//				transactionItem.setItem(item.getStringID());
+//				transactionItem.setItem(item.getID());
 //
 //			else
 //				throw new InvalidEntryException(this, "Missing Item");
@@ -913,7 +913,7 @@
 //
 //				if (transactionDomain == CUSTOMER_TRANSACTION
 //						|| transactionDomain == VENDOR_TRANSACTION) {
-//					transactionItem.setTaxCode(taxCode.getStringID());
+//					transactionItem.setTaxCode(taxCode.getID());
 //					transactionItem.setVATfraction(vat);
 //
 //				}
@@ -928,7 +928,7 @@
 //
 //		case ClientTransactionItem.TYPE_SALESTAX:
 //			if (taxCode != null)
-//				transactionItem.setTaxCode(taxCode.getStringID());
+//				transactionItem.setTaxCode(taxCode.getID());
 //			else
 //				throw new InvalidEntryException(this,
 //						"Missing tax Code in one of the transaction Items!!");

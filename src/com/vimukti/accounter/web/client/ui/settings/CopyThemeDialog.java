@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -37,7 +37,7 @@ public class CopyThemeDialog extends BaseDialog {
 	private void createControls() {
 
 		VerticalPanel copyPanel = new VerticalPanel();
-		Label yourLabel = new Label(FinanceApplication.getSettingsMessages()
+		Label yourLabel = new Label(Accounter.getSettingsMessages()
 				.yourTitle());
 		nameBox = new TextBox();
 		okbtn.addClickHandler(new ClickHandler() {
@@ -46,7 +46,7 @@ public class CopyThemeDialog extends BaseDialog {
 			public void onClick(ClickEvent event) {
 				try {
 					if (validate()) {
-						if (!Utility.isObjectExist(FinanceApplication
+						if (!Utility.isObjectExist(Accounter
 								.getCompany().getBrandingTheme(), nameBox
 								.getText())) {
 							ClientBrandingTheme brandingTheme = new ClientBrandingTheme();
@@ -135,6 +135,6 @@ public class CopyThemeDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getSettingsMessages().copyTheme();
+		return Accounter.getSettingsMessages().copyTheme();
 	}
 }

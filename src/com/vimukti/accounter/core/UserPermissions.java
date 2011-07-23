@@ -31,7 +31,7 @@ public class UserPermissions implements IAccounterServerCore {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
@@ -107,7 +107,7 @@ public class UserPermissions implements IAccounterServerCore {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -119,7 +119,7 @@ public class UserPermissions implements IAccounterServerCore {
 	}
 
 	@Override
-	public void setStringID(String stringID) {
+	public void setID(long id){
 		// TODO Auto-generated method stub
 
 	}

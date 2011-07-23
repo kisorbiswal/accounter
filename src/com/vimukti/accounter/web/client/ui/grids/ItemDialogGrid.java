@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.ProductCombo;
@@ -29,7 +29,7 @@ public class ItemDialogGrid extends ListGrid<ClientItem> {
 
 	public void createControls() {
 		boolean isAddNewRequired = false;
-		productItemCombo = new ProductCombo(FinanceApplication
+		productItemCombo = new ProductCombo(Accounter
 				.getCustomersMessages().PRoduct(), 1, isAddNewRequired);
 		productItemCombo.setGrid(this);
 		productItemCombo.setRequired(true);
@@ -122,7 +122,7 @@ public class ItemDialogGrid extends ListGrid<ClientItem> {
 	public void editComplete(ClientItem item, Object value, int col) {
 		if (col == 0) {
 			if (itemGroup != null)
-				item.setItemGroup(itemGroup.getStringID());
+				item.setItemGroup(itemGroup.getID());
 		}
 		updateData(item);
 	}
@@ -158,8 +158,8 @@ public class ItemDialogGrid extends ListGrid<ClientItem> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] {
-				FinanceApplication.getFinanceUIConstants().itemName(),
-				FinanceApplication.getFinanceUIConstants().price() };
+				Accounter.getFinanceUIConstants().itemName(),
+				Accounter.getFinanceUIConstants().price() };
 	}
 
 }

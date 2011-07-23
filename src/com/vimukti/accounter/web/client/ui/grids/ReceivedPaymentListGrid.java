@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
@@ -45,10 +45,10 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 			return DataUtils.getAmountAsString(receivePayment.getAmountPaid());
 		case 6:
 			if (!receivePayment.isVoided())
-				return FinanceApplication.getFinanceImages().notvoid();
+				return Accounter.getFinanceImages().notvoid();
 			// return "/images/not-void.png";
 			else
-				return FinanceApplication.getFinanceImages().voided();
+				return Accounter.getFinanceImages().voided();
 			// return "/images/voided.png";
 			// case 7:
 			// if (receivePayment.isDeleted())
@@ -107,7 +107,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 	private void showWarningDialog(final ReceivePaymentsList obj, final int col) {
 		String msg = null;
 		if (col == 6 && !obj.isVoided()) {
-			msg = FinanceApplication.getCustomersMessages()
+			msg = Accounter.getCustomersMessages()
 					.doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 7) {

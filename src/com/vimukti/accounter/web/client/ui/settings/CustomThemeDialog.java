@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 
@@ -32,7 +32,7 @@ public class CustomThemeDialog extends BaseDialog {
 
 	private void createControls() {
 		subTable = new FlexTable();
-		titleHTML = new HTML(FinanceApplication.getSettingsMessages()
+		titleHTML = new HTML(Accounter.getSettingsMessages()
 				.yourTitle());
 		titleBox = new TextBox();
 		subTable.setWidget(0, 0, titleHTML);
@@ -76,6 +76,6 @@ public class CustomThemeDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getSettingsMessages().newBrandThemeLabel();
+		return Accounter.getSettingsMessages().newBrandThemeLabel();
 	}
 }

@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.vat;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -15,10 +15,10 @@ public class AdjustTAXAction extends Action {
 
 	public AdjustTAXAction(String text) {
 		super(text);
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			this.catagory = FinanceApplication.getCompanyMessages().company();
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			this.catagory = Accounter.getCompanyMessages().company();
 		else
-			this.catagory = FinanceApplication.getVATMessages().VAT();
+			this.catagory = Accounter.getVATMessages().VAT();
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class AdjustTAXAction extends Action {
 
 	@Override
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().vatAdjustment();
+		return Accounter.getFinanceMenuImages().vatAdjustment();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -80,7 +80,7 @@ public class AdjustTAXAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		// TODO Auto-generated method stub
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			return "vatAdjustment";
 		else
 			return "taxAdjustment";

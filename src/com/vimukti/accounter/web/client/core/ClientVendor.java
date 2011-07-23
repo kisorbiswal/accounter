@@ -8,19 +8,19 @@ public class ClientVendor extends ClientPayee {
 
 	String accountno;
 
-	String selectedAdress;
+	long selectedAdress;
 
 	long balanceAsOf;
 
-	String expenseAccount;
+	long expenseAccount;
 
 	double creditLimit;
 
-	String shippingMethod;
+	long shippingMethod;
 
-	String paymentTerms;
+	long paymentTerms;
 
-	String vendorGroup;
+	long vendorGroup;
 
 	String federalTaxId;
 	
@@ -105,7 +105,7 @@ public class ClientVendor extends ClientPayee {
 	/**
 	 * @return the expenseAccount
 	 */
-	public String getExpenseAccount() {
+	public long getExpenseAccount() {
 		return this.expenseAccount;
 	}
 
@@ -113,7 +113,7 @@ public class ClientVendor extends ClientPayee {
 	 * @param expenseAccount
 	 *            the expenseAccount to set
 	 */
-	public void setExpenseAccount(String expenseAccount) {
+	public void setExpenseAccount(long expenseAccount) {
 		this.expenseAccount = expenseAccount;
 	}
 
@@ -135,15 +135,15 @@ public class ClientVendor extends ClientPayee {
 	/**
 	 * @return the shippingMethod
 	 */
-	public String getShippingMethod() {
-		return shippingMethod != null ? shippingMethod : "";
+	public long getShippingMethod() {
+		return 0;
 	}
 
 	/**
 	 * @param shippingMethod
 	 *            the shippingMethod to set
 	 */
-	public void setShippingMethod(String shippingMethod) {
+	public void setShippingMethod(long shippingMethod) {
 		this.shippingMethod = shippingMethod;
 	}
 
@@ -156,26 +156,26 @@ public class ClientVendor extends ClientPayee {
 	/**
 	 * @return the paymentTerms
 	 */
-	public String getPaymentTermsId() {
-		return paymentTerms != null ? paymentTerms : "";
+	public long getPaymentTermsId() {
+		return paymentTerms;
 	}
 
 	/**
 	 * @param paymentTerms
 	 *            the paymentTerms to set
 	 */
-	public void setPaymentTerms(String paymentTerms) {
+	public void setPaymentTerms(long paymentTerms) {
 		this.paymentTerms = paymentTerms;
 	}
 
-	public String getPaymentTerms() {
+	public long getPaymentTerms() {
 		return paymentTerms;
 	}
 
 	/**
 	 * @return the vendorGroup
 	 */
-	public String getVendorGroup() {
+	public long getVendorGroup() {
 		return this.vendorGroup;
 	}
 
@@ -183,7 +183,7 @@ public class ClientVendor extends ClientPayee {
 	 * @param vendorGroup
 	 *            the vendorGroup to set
 	 */
-	public void setVendorGroup(String vendorGroup) {
+	public void setVendorGroup(long vendorGroup) {
 		this.vendorGroup = vendorGroup;
 	}
 
@@ -353,14 +353,14 @@ public class ClientVendor extends ClientPayee {
 		this.lifeTimePurchases = lifeTimePurchases;
 	}
 
-	public String getPrimaryContactId() {
+	public long getPrimaryContactId() {
 
-		String primaryContact = "";
+		long primaryContact = 0;
 
 		if (this.contacts != null) {
 			for (ClientContact contact : contacts) {
 				if (contact.isPrimary())
-					primaryContact = contact.getStringID();
+					primaryContact = contact.getID();
 			}
 		}
 
@@ -402,21 +402,21 @@ public class ClientVendor extends ClientPayee {
 	}
 
 	public void setVendorGroup(ClientVendorGroup selectVendorGroupFromDetailsTab) {
-		this.vendorGroup = selectVendorGroupFromDetailsTab.getStringID();
+		this.vendorGroup = selectVendorGroupFromDetailsTab.getID();
 	}
 
 	public void setPaymentTerms(
 			ClientPaymentTerms selectPaymentTermFromDetailsTab) {
-		this.paymentTerms = selectPaymentTermFromDetailsTab.getStringID();
+		this.paymentTerms = selectPaymentTermFromDetailsTab.getID();
 	}
 
 	public void setShippingMethod(
 			ClientShippingMethod selectShippingMethodFromDetailsTab) {
-		this.shippingMethod = selectShippingMethodFromDetailsTab.getStringID();
+		this.shippingMethod = selectShippingMethodFromDetailsTab.getID();
 	}
 
 	public void setExpenseAccount(ClientAccount selectAccountFromDetailsTab) {
-		this.expenseAccount = selectAccountFromDetailsTab.getStringID();
+		this.expenseAccount = selectAccountFromDetailsTab.getID();
 	}
 
 	public void setAccountsPayable(String accountsPayableAccount) {
@@ -429,24 +429,24 @@ public class ClientVendor extends ClientPayee {
 		this.address.add(address);
 	}
 
-	public void setSelectedAddress(String addressId) {
+	public void setSelectedAddress(long addressId) {
 		this.selectedAdress = addressId;
 	}
 
 	public ClientAddress getSelectedAddress() {
 		for (ClientAddress address : this.address) {
-			if (address.getStringID() == this.selectedAdress)
+			if (address.getID() == this.selectedAdress)
 				return address;
 		}
 		return null;
 	}
 
-	public ClientContact getContact(String contactId) {
+	public ClientContact getContact(long contactId) {
 		return Utility.getObject(this.contacts, contactId);
 
 	}
 
-	public ClientAddress getAddress(String addressId) {
+	public ClientAddress getAddress(long addressId) {
 		return Utility.getObject(this.address, addressId);
 	}
 

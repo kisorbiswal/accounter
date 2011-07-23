@@ -7,7 +7,7 @@ public class ClientTransactionMakeDepositEntries implements IAccounterCore {
 	public static final int TYPE_VENDOR = 2;
 	public static final int TYPE_CUSTOMER = 3;
 
-	public String stringID;
+	public long id;
 
 	/**
 	 * In this variable we store the type of the entry that was being created
@@ -108,13 +108,13 @@ public class ClientTransactionMakeDepositEntries implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 }

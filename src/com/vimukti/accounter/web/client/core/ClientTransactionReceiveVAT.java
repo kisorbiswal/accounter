@@ -9,7 +9,6 @@ public class ClientTransactionReceiveVAT implements IAccounterCore {
 
 	long id;
 
-	public String stringID;
 
 	/**
 	 * The TaxAgency that we have selected for what we are making the
@@ -46,7 +45,7 @@ public class ClientTransactionReceiveVAT implements IAccounterCore {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
@@ -180,15 +179,10 @@ public class ClientTransactionReceiveVAT implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 
-		return this.stringID;
+		return this.id;
 	}
 
-	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
-
-	}
 
 }

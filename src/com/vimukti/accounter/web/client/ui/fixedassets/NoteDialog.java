@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.fixedassets;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -21,7 +21,7 @@ public class NoteDialog extends BaseDialog {
 
 	private void createControl() {
 		mainPanel.setSpacing(3);
-		Label noteLbl = new Label(FinanceApplication.getFixedAssetConstants()
+		Label noteLbl = new Label(Accounter.getFixedAssetConstants()
 				.note());
 		noteArea = new TextAreaItem();
 		noteArea.setWidth(100);
@@ -65,7 +65,7 @@ public class NoteDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getFixedAssetConstants().addNote();
+		return Accounter.getFixedAssetConstants().addNote();
 	}
 
 }

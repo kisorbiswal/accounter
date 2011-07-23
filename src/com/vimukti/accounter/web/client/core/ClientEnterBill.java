@@ -6,7 +6,7 @@ import java.util.Set;
 @SuppressWarnings("serial")
 public class ClientEnterBill extends ClientTransaction {
 
-	String vendor;
+	long vendor;
 
 	ClientContact contact;
 
@@ -14,9 +14,9 @@ public class ClientEnterBill extends ClientTransaction {
 
 	String phone;
 
-	String paymentTerm;
-	
-	 long discountDate;
+	long paymentTerm;
+
+	long discountDate;
 
 	long dueDate;
 
@@ -56,7 +56,7 @@ public class ClientEnterBill extends ClientTransaction {
 	 * @param vendor
 	 *            the vendor to set
 	 */
-	public void setVendor(String vendor) {
+	public void setVendor(long vendor) {
 		this.vendor = vendor;
 	}
 
@@ -79,7 +79,7 @@ public class ClientEnterBill extends ClientTransaction {
 	 * @param paymentTerm
 	 *            the paymentTerm to set
 	 */
-	public void setPaymentTerm(String paymentTerm) {
+	public void setPaymentTerm(long paymentTerm) {
 		this.paymentTerm = paymentTerm;
 	}
 
@@ -182,11 +182,11 @@ public class ClientEnterBill extends ClientTransaction {
 		return this.contact;
 	}
 
-	public String getVendor() {
+	public long getVendor() {
 		return this.vendor;
 	}
 
-	public String getPaymentTerm() {
+	public long getPaymentTerm() {
 		return this.paymentTerm;
 	}
 
@@ -195,11 +195,11 @@ public class ClientEnterBill extends ClientTransaction {
 	}
 
 	public void setVendor(ClientVendor vendor2) {
-		this.vendor = vendor2.getStringID();
+		this.vendor = vendor2.getID();
 	}
 
 	public void setPaymentTerm(ClientPaymentTerms selectedPaymentTerm) {
-		this.paymentTerm = selectedPaymentTerm.getStringID();
+		this.paymentTerm = selectedPaymentTerm.getID();
 	}
 
 	public void setDueDate(ClientFinanceDate dueDate2) {
@@ -213,10 +213,10 @@ public class ClientEnterBill extends ClientTransaction {
 	public void setBalanceDue(double balanceDue) {
 		this.balanceDue = balanceDue;
 	}
+
 	public void setBalanceDue1(double total) {
 		this.balanceDue = total;
 	}
-	
 
 	public void setPhone(String phoneNo) {
 		this.phone = phoneNo;
@@ -231,13 +231,13 @@ public class ClientEnterBill extends ClientTransaction {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID() {
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 

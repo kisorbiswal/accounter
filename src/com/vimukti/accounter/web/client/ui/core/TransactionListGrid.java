@@ -92,7 +92,7 @@
 //
 //		if (transactionObject != null) {
 //			setAllTransactions(transactionObject.getTransactionItems());
-//			if (transactionObject.getStringID() != 0) {
+//			if (transactionObject.getID() != 0) {
 //				// ITS Edit Mode
 //				setEnableMenu(false);
 //				isEdit = true;

@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.WriteChequeView;
 
@@ -25,32 +25,32 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 	protected String[] getColumns() {
 		if (transactionView instanceof WriteChequeView)
 			return new String[] { "",
-					FinanceApplication.getCustomersMessages().name(),
-					FinanceApplication.getCustomersMessages().description(),
-					FinanceApplication.getCustomersMessages().quantity(),
-					FinanceApplication.getCustomersMessages().unitPrice(),
-					FinanceApplication.getCustomersMessages().discountPerc(),
-					FinanceApplication.getCustomersMessages().total(), " " };
+					Accounter.getCustomersMessages().name(),
+					Accounter.getCustomersMessages().description(),
+					Accounter.getCustomersMessages().quantity(),
+					Accounter.getCustomersMessages().unitPrice(),
+					Accounter.getCustomersMessages().discountPerc(),
+					Accounter.getCustomersMessages().total(), " " };
 		else
 			return new String[] { "",
-					FinanceApplication.getCustomersMessages().name(),
-					FinanceApplication.getCustomersMessages().description(),
-					FinanceApplication.getCustomersMessages().quantity(),
-					FinanceApplication.getCustomersMessages().unitPrice(),
-					FinanceApplication.getCustomersMessages().discountPerc(),
-					FinanceApplication.getCustomersMessages().total(),
-					FinanceApplication.getCustomersMessages().tax(), " " };
+					Accounter.getCustomersMessages().name(),
+					Accounter.getCustomersMessages().description(),
+					Accounter.getCustomersMessages().quantity(),
+					Accounter.getCustomersMessages().unitPrice(),
+					Accounter.getCustomersMessages().discountPerc(),
+					Accounter.getCustomersMessages().total(),
+					Accounter.getCustomersMessages().tax(), " " };
 	}
 
 	@Override
 	public String[] getColumnNamesForPrinting() {
 		return new String[] {
-				FinanceApplication.getCustomersMessages().quantity(),
-				FinanceApplication.getCustomersMessages().item(),
-				FinanceApplication.getCustomersMessages().description(),
-				FinanceApplication.getCustomersMessages().rate(),
-				FinanceApplication.getCustomersMessages().amount(),
-				FinanceApplication.getCustomersMessages().isTaxable() };
+				Accounter.getCustomersMessages().quantity(),
+				Accounter.getCustomersMessages().item(),
+				Accounter.getCustomersMessages().description(),
+				Accounter.getCustomersMessages().rate(),
+				Accounter.getCustomersMessages().amount(),
+				Accounter.getCustomersMessages().isTaxable() };
 	}
 
 	@Override
@@ -76,8 +76,8 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 		case 4:
 			return DataUtils.getAmountAsString(item.getLineTotal());
 		case 5:
-			return item.isTaxable() ? FinanceApplication.getCustomersMessages()
-					.taxable() : FinanceApplication.getCustomersMessages()
+			return item.isTaxable() ? Accounter.getCustomersMessages()
+					.taxable() : Accounter.getCustomersMessages()
 					.nonTaxable();
 		default:
 			return "";
@@ -184,14 +184,14 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 			return DataUtils.getAmountAsString(item.getLineTotal());
 		case 7:
 			if (transactionView instanceof WriteChequeView)
-				return FinanceApplication.getFinanceMenuImages().delete();
+				return Accounter.getFinanceMenuImages().delete();
 			else
-				return item.isTaxable() ? FinanceApplication
-						.getCustomersMessages().taxable() : FinanceApplication
+				return item.isTaxable() ? Accounter
+						.getCustomersMessages().taxable() : Accounter
 						.getCustomersMessages().nonTaxable();
 
 		case 8:
-			return FinanceApplication.getFinanceMenuImages().delete();
+			return Accounter.getFinanceMenuImages().delete();
 		default:
 			return "";
 		}
@@ -202,7 +202,7 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 		if (obj == null)
 			return false;
 		if (obj.getType() == TYPE_SERVICE
-				&& !FinanceApplication.getCompany().getpreferences()
+				&& !Accounter.getCompany().getpreferences()
 						.getDoYouPaySalesTax()) {
 			if (col == 7 || col == 8)
 				return false;

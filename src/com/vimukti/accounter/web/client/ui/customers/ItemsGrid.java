@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -59,21 +59,21 @@ public class ItemsGrid extends BaseListGrid<ClientTransactionItem> {
 		switch (item.getType()) {
 
 		case TYPE_ITEM:
-			ClientItem itm = FinanceApplication.getCompany().getItem(
+			ClientItem itm = Accounter.getCompany().getItem(
 					item.getItem());
 			return itm != null ? itm.getName() : "";
 		case TYPE_ACCOUNT:
-			ClientAccount account = FinanceApplication.getCompany().getAccount(
+			ClientAccount account = Accounter.getCompany().getAccount(
 					item.getAccount());
 			return account != null ? account.getDisplayName() : "";
 		case TYPE_SALESTAX:
-			ClientTAXItem vatItem = FinanceApplication.getCompany().getTaxItem(
+			ClientTAXItem vatItem = Accounter.getCompany().getTaxItem(
 					item.getVatItem());
 			return vatItem != null ? vatItem.getDisplayName() : "";
 		case TYPE_COMMENT:
 			return item.getDescription() != null ? item.getDescription() : "";
 		case TYPE_SERVICE:
-			ClientItem serviceItm = FinanceApplication.getCompany().getItem(
+			ClientItem serviceItm = Accounter.getCompany().getItem(
 					item.getItem());
 			return serviceItm != null ? serviceItm.getName() : "";
 		default:
@@ -96,10 +96,10 @@ public class ItemsGrid extends BaseListGrid<ClientTransactionItem> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { FinanceApplication.getCustomersMessages().name(),
-				FinanceApplication.getCustomersMessages().quantity(),
-				FinanceApplication.getCustomersMessages().unitPrice(),
-				FinanceApplication.getCustomersMessages().total() };
+		return new String[] { Accounter.getCustomersMessages().name(),
+				Accounter.getCustomersMessages().quantity(),
+				Accounter.getCustomersMessages().unitPrice(),
+				Accounter.getCustomersMessages().total() };
 	}
 
 	@Override

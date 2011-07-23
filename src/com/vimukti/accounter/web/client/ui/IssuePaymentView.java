@@ -168,7 +168,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		setWidth("80");
 		mainPanel.setSpacing(10);
 
-		payMethodSelect = new SelectItem(FinanceApplication
+		payMethodSelect = new SelectItem(Accounter
 				.getFinanceUIConstants().paymentMethod());
 		payMethodSelect.setRequired(true);
 		payMethodSelect.setValueMap(new String[] { "",
@@ -182,7 +182,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 			}
 		});
 
-		accountCombo = new PayFromAccountsCombo(FinanceApplication
+		accountCombo = new PayFromAccountsCombo(Accounter
 				.getFinanceUIConstants().account());
 		accountCombo.setRequired(true);
 		accountCombo
@@ -201,7 +201,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		payForm.setFields(payMethodSelect, accountCombo);
 
 		Label label = new Label();
-		label.setText(FinanceApplication.getFinanceUIConstants()
+		label.setText(Accounter.getFinanceUIConstants()
 				.PaymentsToBeIssued());
 		initListGrid();
 
@@ -246,7 +246,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 	protected void setStartingCheckNumber(ClientAccount account) {
 
 		if (checkNoText != null) {
-			rpcUtilService.getNextCheckNumber(account.getStringID(),
+			rpcUtilService.getNextCheckNumber(account.getID(),
 					new AsyncCallback<Long>() {
 
 						public void onFailure(Throwable caught) {
@@ -287,7 +287,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 			setCheckNo(number);
 		} catch (NumberFormatException e) {
 			valid = false;
-			Accounter.showError(FinanceApplication.getFinanceUIConstants()
+			Accounter.showError(Accounter.getFinanceUIConstants()
 					.invalidCheckNumber());
 		}
 
@@ -311,7 +311,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 
 		issuePayment.setPaymentMethod(selectedpaymentMethod);
 
-		issuePayment.setAccount(selectedPayFromAccount.getStringID());
+		issuePayment.setAccount(selectedPayFromAccount.getID());
 
 		issuePayment.setTotal(totalAmount);
 		String chkNo;
@@ -332,7 +332,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 	 */
 	protected void changeGridData(ClientAccount selectedPayFromAccount2) {
 
-		rpcUtilService.getChecks(selectedPayFromAccount2.getStringID(),
+		rpcUtilService.getChecks(selectedPayFromAccount2.getID(),
 				new AsyncCallback<List<IssuePaymentTransactionsList>>() {
 
 					public void onFailure(Throwable t) {
@@ -386,7 +386,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		emptyLabel.setWidth("25%");
 		totalLabel = new Label();
 		totalLabel.setWidth("30%");
-		totalLabel.setText(FinanceApplication.getFinanceUIConstants()
+		totalLabel.setText(Accounter.getFinanceUIConstants()
 				.totalAmount());
 
 		amountLabel = new Label();
@@ -402,9 +402,9 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		selectedpaymentMethod = selectedpaymentMethod1;
 		if (!selectedpaymentMethod.isEmpty()) {
 			checkNoText = new TextItem(
-					FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? FinanceApplication
+					Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
 							.getFinanceUIConstants().startingCheckNo()
-							: FinanceApplication.getFinanceUIConstants()
+							: Accounter.getFinanceUIConstants()
 									.startingChequeNo());
 			checkNoText.setWidth(100);
 			checkNoText.setRequired(true);
@@ -504,8 +504,8 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		if (core.getStringID().equals(
-				this.accountCombo.getSelectedValue().getStringID())) {
+		if (core.getID().equals(
+				this.accountCombo.getSelectedValue().getID())) {
 			this.accountCombo.addItemThenfireEvent((ClientAccount) core);
 		}
 
@@ -529,7 +529,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getVendorsMessages().issuePayments();
+		return Accounter.getVendorsMessages().issuePayments();
 	}
 
 }

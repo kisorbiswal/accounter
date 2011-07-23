@@ -35,7 +35,7 @@ public class PhoneFaxForm extends DynamicForm {
 		allFaxes = new LinkedHashMap<Integer, ClientFax>();
 		setPhonesAndFaxes(phones, faxes);
 		setIsGroup(true);
-		setGroupTitle(FinanceApplication.getFinanceUIConstants()
+		setGroupTitle(Accounter.getFinanceUIConstants()
 				.phoneAndFaxNumbers());
 		setNumCols(2);
 		businessPhoneSelect = new SelectCombo("Phone");

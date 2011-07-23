@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
@@ -65,10 +65,10 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		case 8:
 
 			if (!invoicesList.isVoided())
-				return FinanceApplication.getFinanceImages().notvoid();
+				return Accounter.getFinanceImages().notvoid();
 			// return "/images/not-void.png";
 			else
-				return FinanceApplication.getFinanceImages().voided();
+				return Accounter.getFinanceImages().voided();
 			// return "/images/voided.png";
 
 			// case 9:
@@ -98,13 +98,13 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 	@Override
 	public void onDoubleClick(InvoicesList obj) {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			ReportsRPC.openTransactionView(obj.getType(), obj
 					.getTransactionId());
 	}
 
 	protected void onClick(InvoicesList obj, int row, int col) {
-		if (!FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
 		if (col == 8 && !obj.isVoided()) {
 			showWarningDialog(obj, col);
@@ -121,7 +121,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	private void showWarningDialog(final InvoicesList obj, final int col) {
 		String msg = null;
 		if (!obj.isVoided() && col == 8) {
-			msg = FinanceApplication.getCustomersMessages()
+			msg = Accounter.getCustomersMessages()
 					.doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 9) {

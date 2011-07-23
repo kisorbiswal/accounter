@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -41,19 +41,19 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 		case 3:
 			ClientTAXAgency agency = null;
 			if (obj.getTaxAgency() != null) {
-				agency = FinanceApplication.getCompany().getTaxAgency(
+				agency = Accounter.getCompany().getTaxAgency(
 						obj.getTaxAgency());
 			}
 			return agency != null ? agency.getName() : "";
 		case 4:
-			return FinanceApplication.getFinanceMenuImages().delete();
+			return Accounter.getFinanceMenuImages().delete();
 		}
 		return "";
 	}
 
 	@Override
 	public void onDoubleClick(ClientTAXItem obj) {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			HistoryTokenUtils.setPresentToken(VatActionFactory
 					.getNewVatItemAction(), obj);
 			VatActionFactory.getNewVatItemAction().run(obj, true);
@@ -68,10 +68,10 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { FinanceApplication.getVATMessages().taxItem(),
-				FinanceApplication.getVATMessages().description(),
-				FinanceApplication.getVATMessages().taxRates(),
-				FinanceApplication.getVATMessages().taxAgency(), "" };
+		return new String[] { Accounter.getVATMessages().taxItem(),
+				Accounter.getVATMessages().description(),
+				Accounter.getVATMessages().taxRates(),
+				Accounter.getVATMessages().taxAgency(), "" };
 	}
 
 	@Override
@@ -117,8 +117,8 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 
 		ClientTAXAgency agency = null;
 		if (obj.getTaxAgency() != null) {
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-				agency = FinanceApplication.getCompany().getTaxAgency(
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+				agency = Accounter.getCompany().getTaxAgency(
 						obj.getTaxAgency());
 			}
 		}
@@ -152,7 +152,7 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 			// agency1 = getTaxAgency(obj1);
 			// agency2 = getTaxAgency(obj2);
 			// }
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				// agency1 = getTaxAgencyID(obj1);
 				// agency2 = getTaxAgencyID(obj2);
 			}

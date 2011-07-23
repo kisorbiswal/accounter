@@ -42,7 +42,7 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 	@Override
 	public String getGoToText() {
-		return FinanceApplication.getCompanyMessages().goToAccountsPayable();
+		return Accounter.getCompanyMessages().goToAccountsPayable();
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 		FlexTable fTable = new FlexTable();
 
 		AccounterButton addPayableInvoiceBtn = new AccounterButton(
-				FinanceApplication.getCompanyMessages().addPayableInvoice());
+				Accounter.getCompanyMessages().addPayableInvoice());
 		addPayableInvoiceBtn.addStyleName("addButtonPortlet");
 		addPayableInvoiceBtn.addClickHandler(new ClickHandler() {
 
@@ -87,9 +87,9 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 			}
 		});
 
-		draftLabel = getLabel(FinanceApplication.getCompanyMessages()
+		draftLabel = getLabel(Accounter.getCompanyMessages()
 				.draftInvoices());
-		overDueLabel = getLabel(FinanceApplication.getCompanyMessages()
+		overDueLabel = getLabel(Accounter.getCompanyMessages()
 				.overDueInvoices());
 		overDueLabel.getElement().getStyle().setPaddingLeft(10, Unit.PX);
 
@@ -105,7 +105,7 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 		fTable.setWidget(1, 1, overDueAmtLabel);
 		fTable.addStyleName("fTablePortlet");
 
-		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			hPanel.add(addPayableInvoiceBtn);
 			addPayableInvoiceBtn.enabledButton();
 		}
@@ -164,14 +164,14 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 				// chart.update();
 			}
 		};
-		FinanceApplication.createHomeService().getGraphPointsforAccount(
+		Accounter.createHomeService().getGraphPointsforAccount(
 				GraphChart.ACCOUNTS_PAYABLE_CHART_TYPE, 0, callBack);
 	}
 
 	private void updateCreditorsAccount() {
 		List<ClientAccount> accounts = new ArrayList<ClientAccount>();
-		if (FinanceApplication.getCompany() != null) {
-			accounts = FinanceApplication.getCompany().getAccounts(
+		if (Accounter.getCompany() != null) {
+			accounts = Accounter.getCompany().getAccounts(
 					ClientAccount.TYPE_OTHER_CURRENT_LIABILITY);
 		}
 		for (ClientAccount account : accounts) {
@@ -207,13 +207,13 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 			public void onClick(ClickEvent event) {
 				label.getElement().getStyle().setTextDecoration(
 						TextDecoration.NONE);
-				if (title.equals(FinanceApplication.getCompanyMessages()
+				if (title.equals(Accounter.getCompanyMessages()
 						.draftInvoices())) {
 					VendorsActionFactory.getBillsAction().run(null, true,
-							FinanceApplication.getVendorsMessages().open());
+							Accounter.getVendorsMessages().open());
 				} else {
 					VendorsActionFactory.getBillsAction().run(null, true,
-							FinanceApplication.getVendorsMessages().overDue());
+							Accounter.getVendorsMessages().overDue());
 				}
 			}
 		});

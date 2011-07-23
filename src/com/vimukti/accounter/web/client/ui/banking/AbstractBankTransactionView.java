@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -99,7 +99,7 @@ public abstract class AbstractBankTransactionView<T> extends
 	protected abstract void initTransactionTotalNonEditableItem();
 
 	private void initAccounts() {
-		accounts = FinanceApplication.getCompany().getActiveAccounts();
+		accounts = Accounter.getCompany().getActiveAccounts();
 	}
 
 	// private void getPayFromAccounts() {
@@ -122,7 +122,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	public AmountField createBalanceText() {
 
-		AmountField balText = new AmountField(FinanceApplication
+		AmountField balText = new AmountField(Accounter
 				.getBankingsMessages().balance());
 		// balText.setWidth("*");
 
@@ -134,15 +134,15 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	@Override
 	protected void showMenu(AccounterButton button) {
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, FinanceApplication.getVendorsMessages()
-					.accounts(), FinanceApplication.getVendorsMessages()
-					.service(), FinanceApplication.getVendorsMessages()
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			setMenuItems(button, Accounter.getVendorsMessages()
+					.accounts(), Accounter.getVendorsMessages()
+					.service(), Accounter.getVendorsMessages()
 					.product());
 		else
-			setMenuItems(button, FinanceApplication.getVendorsMessages()
-					.accounts(), FinanceApplication.getVendorsMessages()
-					.service(), FinanceApplication.getVendorsMessages()
+			setMenuItems(button, Accounter.getVendorsMessages()
+					.accounts(), Accounter.getVendorsMessages()
+					.service(), Accounter.getVendorsMessages()
 					.product());
 		// FinanceApplication.getVendorsMessages().comment());
 
@@ -150,7 +150,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	public AmountField createAmountText() {
 
-		AmountField amtText = new AmountField(FinanceApplication
+		AmountField amtText = new AmountField(Accounter
 				.getFinanceUIConstants().amount());
 		// amtText.setWidth("*");
 
@@ -166,7 +166,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	protected AmountField createVATTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(FinanceApplication
+		AmountField amountItem = new AmountField(Accounter
 				.getCustomersMessages().vat());
 		amountItem.setDisabled(true);
 
@@ -176,7 +176,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	protected AmountLabel createVATTotalNonEditableLabel() {
 
-		AmountLabel amountItem = new AmountLabel(FinanceApplication
+		AmountLabel amountItem = new AmountLabel(Accounter
 				.getCustomersMessages().vat());
 		amountItem.setDisabled(true);
 
@@ -223,7 +223,7 @@ public abstract class AbstractBankTransactionView<T> extends
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
 					public void selectedComboBoxItem(ClientAccount selectItem) {
-						payFromAccountSelected(selectItem.getStringID());
+						payFromAccountSelected(selectItem.getID());
 						// selectedAccount = (Account) selectItem;
 						// adjustBalance();
 
@@ -237,7 +237,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	public AddressCombo createBillToComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(FinanceApplication
+		AddressCombo addressCombo = new AddressCombo(Accounter
 				.getFinanceUIConstants().billTo(), false);
 
 		addressCombo.setHelpInformation(true);
@@ -305,7 +305,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	public ClientAddress getAddressById(String addressId) {
 		for (ClientAddress address : addressList) {
-			if (address.getStringID() == addressId) {
+			if (address.getID() == addressId) {
 				return address;
 			}
 		}
@@ -314,7 +314,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	protected AmountField createTransactionTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(FinanceApplication
+		AmountField amountItem = new AmountField(Accounter
 				.getBankingsMessages().total());
 		amountItem.setDisabled(true);
 
@@ -324,7 +324,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	protected AmountLabel createTransactionTotalNonEditableLabel() {
 
-		AmountLabel amountItem = new AmountLabel(FinanceApplication
+		AmountLabel amountItem = new AmountLabel(Accounter
 				.getBankingsMessages().total());
 		amountItem.setDisabled(true);
 
@@ -358,17 +358,17 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	protected void onAddNew(String menuItem) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
-		if (menuItem.equals(FinanceApplication.getVendorsMessages().accounts())) {
+		if (menuItem.equals(Accounter.getVendorsMessages().accounts())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& !FinanceApplication.getCompany().getpreferences()
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+					&& !Accounter.getCompany().getpreferences()
 							.getDoYouPaySalesTax()) {
-				List<ClientTAXCode> taxCodes = FinanceApplication.getCompany()
+				List<ClientTAXCode> taxCodes = Accounter.getCompany()
 						.getActiveTaxCodes();
 				String zvatCodeStringId = null;
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("Z")) {
-						zvatCodeStringId = taxCode.getStringID();
+						zvatCodeStringId = taxCode.getID();
 					}
 				}
 				if (zvatCodeStringId != null)
@@ -376,15 +376,15 @@ public abstract class AbstractBankTransactionView<T> extends
 				// transactionItem.setVatCode(vendor != null ? (vendor
 				// .getVATCode() != null ? vendor.getVATCode() : "") : "");
 			}
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& FinanceApplication.getCompany().getpreferences()
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+					&& Accounter.getCompany().getpreferences()
 							.getDoYouPaySalesTax()) {
-				List<ClientTAXCode> taxCodes = FinanceApplication.getCompany()
+				List<ClientTAXCode> taxCodes = Accounter.getCompany()
 						.getActiveTaxCodes();
 				String svatCodeStringId = null;
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
-						svatCodeStringId = taxCode.getStringID();
+						svatCodeStringId = taxCode.getID();
 					}
 				}
 				// if (zvatCodeStringId != null)
@@ -395,17 +395,17 @@ public abstract class AbstractBankTransactionView<T> extends
 								.getTAXCode() : svatCodeStringId) : "");
 			}
 
-		} else if (menuItem.equals(FinanceApplication.getVendorsMessages()
+		} else if (menuItem.equals(Accounter.getVendorsMessages()
 				.product())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-			if (FinanceApplication.getCompany().getpreferences()
+			if (Accounter.getCompany().getpreferences()
 					.getDoYouPaySalesTax()) {
-				List<ClientTAXCode> taxCodes = FinanceApplication.getCompany()
+				List<ClientTAXCode> taxCodes = Accounter.getCompany()
 						.getActiveTaxCodes();
 				String svatCodeStringId = null;
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
-						svatCodeStringId = taxCode.getStringID();
+						svatCodeStringId = taxCode.getID();
 					}
 				}
 				transactionItem
@@ -414,17 +414,17 @@ public abstract class AbstractBankTransactionView<T> extends
 								.getTAXCode() : svatCodeStringId) : "");
 			}
 
-		} else if (menuItem.equals(FinanceApplication.getVendorsMessages()
+		} else if (menuItem.equals(Accounter.getVendorsMessages()
 				.service())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
-			List<ClientTAXCode> taxCodes = FinanceApplication.getCompany()
+			List<ClientTAXCode> taxCodes = Accounter.getCompany()
 					.getActiveTaxCodes();
 			String zvatCodeStringId = null;
-			if (FinanceApplication.getCompany().getpreferences()
+			if (Accounter.getCompany().getpreferences()
 					.getDoYouPaySalesTax()) {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
-						zvatCodeStringId = taxCode.getStringID();
+						zvatCodeStringId = taxCode.getID();
 					}
 				}
 				transactionItem
@@ -434,7 +434,7 @@ public abstract class AbstractBankTransactionView<T> extends
 			} else {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("Z")) {
-						zvatCodeStringId = taxCode.getStringID();
+						zvatCodeStringId = taxCode.getID();
 					}
 				}
 				if (zvatCodeStringId != null)

@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.BrandingThemeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -38,7 +38,7 @@ public class BrandingThemeComboDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		brandingThemeTypeCombo = new BrandingThemeCombo(FinanceApplication
+		brandingThemeTypeCombo = new BrandingThemeCombo(Accounter
 				.getSettingsMessages().selectTheme());
 		brandingTheme = new ClientBrandingTheme();
 		brandingThemeTypeCombo
@@ -56,7 +56,7 @@ public class BrandingThemeComboDialog extends BaseDialog {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (brandingThemeTypeCombo.getSelectedValue().equals(null)) {
-					brandingThemeTypeCombo.setSelected(FinanceApplication
+					brandingThemeTypeCombo.setSelected(Accounter
 							.getSettingsMessages().standardTheme());
 				}
 				print();
@@ -85,12 +85,12 @@ public class BrandingThemeComboDialog extends BaseDialog {
 
 	private void print() {
 		UIUtils.downloadAttachment(((ClientInvoice) clientTransaction)
-				.getStringID(), ClientTransaction.TYPE_INVOICE, brandingTheme
-				.getStringID());
+				.getID(), ClientTransaction.TYPE_INVOICE, brandingTheme
+				.getID());
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getSettingsMessages().selectThemes();
+		return Accounter.getSettingsMessages().selectThemes();
 	}
 }

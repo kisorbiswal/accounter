@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.core.client.GWT;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
 import com.vimukti.accounter.web.client.ui.core.AbstractActionFactory;
 import com.vimukti.accounter.web.client.ui.core.InventoryItemsAction;
@@ -15,24 +15,24 @@ public class SettingsActionFactory extends AbstractActionFactory {
 	}
 
 	public static InventoryItemsAction getInventoryItemsAction() {
-		return new InventoryItemsAction(FinanceApplication
+		return new InventoryItemsAction(Accounter
 				.getSettingsMessages().inventoryItems());
 
 	}
 
 	public static ChartOfAccountsAction getChartOfAccountsAction() {
-		return new ChartOfAccountsAction(FinanceApplication
+		return new ChartOfAccountsAction(Accounter
 				.getSettingsMessages().chartOfAccounts());
 
 	}
 
 	public static ConversionBalancesAction getConversionBalancesAction() {
-		return new ConversionBalancesAction(FinanceApplication
+		return new ConversionBalancesAction(Accounter
 				.getSettingsMessages().conversionBalance());
 	}
 
 	public static InvoiceBrandingAction getInvoiceBrandingAction() {
-		return new InvoiceBrandingAction(FinanceApplication
+		return new InvoiceBrandingAction(Accounter
 				.getSettingsMessages().invoiceBranding());
 	}
 
@@ -42,12 +42,12 @@ public class SettingsActionFactory extends AbstractActionFactory {
 	}
 
 	public static ConversionDateAction getConversionDateAction() {
-		return new ConversionDateAction(FinanceApplication
+		return new ConversionDateAction(Accounter
 				.getSettingsMessages().conversionDate());
 	}
 
 	public static AutomaticSequenceAction getAutomaticSequenceAction() {
-		return new AutomaticSequenceAction(FinanceApplication
+		return new AutomaticSequenceAction(Accounter
 				.getSettingsMessages().automaticSequencing());
 	}
 

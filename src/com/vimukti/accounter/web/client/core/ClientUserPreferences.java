@@ -81,13 +81,13 @@ public class ClientUserPreferences implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
-		return null;
+	public long getID(){
+		return 0;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		// this.stringID = stringID;
+	public void setID(long id){
+		// this.id=id;
 
 	}
 

@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -60,7 +60,7 @@ public class WriteOffDialog extends BaseDialog {
 	public WriteOffDialog(List<ClientAccount> allAccounts,
 			ClientTransactionReceivePayment record, boolean canEdit,
 			ClientAccount clientAccount) {
-		super(customerConstants.writeOff(), FinanceApplication
+		super(customerConstants.writeOff(), Accounter
 				.getCustomersMessages().WriteOffPleaseAddDetails());
 		this.record = record;
 		this.allAccounts = allAccounts;
@@ -74,7 +74,7 @@ public class WriteOffDialog extends BaseDialog {
 	}
 
 	public WriteOffDialog() {
-		super(customerConstants.cashDiscount(), FinanceApplication
+		super(customerConstants.cashDiscount(), Accounter
 				.getCustomersMessages().WriteOffPleaseAddDetails());
 
 		createControls();
@@ -201,14 +201,14 @@ public class WriteOffDialog extends BaseDialog {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		if (core.getStringID().equals(
-				this.discAccSelect.getSelectedValue().getStringID())) {
+		if (core.getID().equals(
+				this.discAccSelect.getSelectedValue().getID())) {
 			this.discAccSelect.addItemThenfireEvent((ClientAccount) core);
 		}
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCustomersMessages().writeOff();
+		return Accounter.getCustomersMessages().writeOff();
 	}
 }

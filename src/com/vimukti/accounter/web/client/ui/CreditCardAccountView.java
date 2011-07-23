@@ -24,43 +24,43 @@ public class CreditCardAccountView extends AbstractBaseView {
 
 	private void createControls() {
 
-		accTypeText = new TextItem(FinanceApplication.getFinanceUIConstants()
+		accTypeText = new TextItem(Accounter.getFinanceUIConstants()
 				.accountType());
 		// accTypeText.setWidth("*");
 		accTypeText.setDisabled(true);
-		accTypeText.setValue(FinanceApplication.getFinanceUIConstants()
+		accTypeText.setValue(Accounter.getFinanceUIConstants()
 				.creditCardOrLineOfCredit());
 
-		TextItem numText = new TextItem(FinanceApplication
+		TextItem numText = new TextItem(Accounter
 				.getFinanceUIConstants().accountNo());
 		// numText.setWidth("*");
-		TextItem accNameText = new TextItem(FinanceApplication
+		TextItem accNameText = new TextItem(Accounter
 				.getFinanceUIConstants().accountName());
 		// accNameText.setWidth("*");
 		accNameText.setRequired(true);
-		CheckboxItem activeCheck = new CheckboxItem(FinanceApplication
+		CheckboxItem activeCheck = new CheckboxItem(Accounter
 				.getFinanceUIConstants().active());
-		SelectItem cashFlowSelect = new SelectItem(FinanceApplication
+		SelectItem cashFlowSelect = new SelectItem(Accounter
 				.getFinanceUIConstants().cashFlowcategory());
 		// cashFlowSelect.setWidth("*");
-		cashFlowSelect.setValue(FinanceApplication.getFinanceUIConstants()
+		cashFlowSelect.setValue(Accounter.getFinanceUIConstants()
 				.operating());
-		AmountField opBalText = new AmountField(FinanceApplication
+		AmountField opBalText = new AmountField(Accounter
 				.getFinanceUIConstants().openingBalance());
 		// opBalText.setWidth("*");
-		DateItem asofDate = UIUtils.date(FinanceApplication
+		DateItem asofDate = UIUtils.date(Accounter
 				.getFinanceUIConstants().asOf());
 		// asofDate.setWidth("*");
 
-		DynamicForm chartForm = UIUtils.form(FinanceApplication
+		DynamicForm chartForm = UIUtils.form(Accounter
 				.getFinanceUIConstants().chartOfAccountsInformation());
 		chartForm.setFields(accTypeText, numText, accNameText, activeCheck,
 				cashFlowSelect, opBalText, asofDate);
 
-		CheckboxItem basisCheck = new CheckboxItem(FinanceApplication
+		CheckboxItem basisCheck = new CheckboxItem(Accounter
 				.getFinanceUIConstants().thisIsConsideredACashAccount());
 
-		DynamicForm basisForm = UIUtils.form(FinanceApplication
+		DynamicForm basisForm = UIUtils.form(Accounter
 				.getFinanceUIConstants().cashBasisAccounting());
 		basisForm.setFields(basisCheck);
 
@@ -68,7 +68,7 @@ public class CreditCardAccountView extends AbstractBaseView {
 		// commentsArea.setWidth("*");
 		commentsArea.setShowTitle(false);
 
-		DynamicForm commentsForm = UIUtils.form(FinanceApplication
+		DynamicForm commentsForm = UIUtils.form(Accounter
 				.getFinanceUIConstants().comments());
 		commentsForm.setFields(commentsArea);
 
@@ -78,17 +78,17 @@ public class CreditCardAccountView extends AbstractBaseView {
 		leftVLay.add(basisForm);
 		leftVLay.add(commentsForm);
 
-		TextItem bankName = new TextItem(FinanceApplication
+		TextItem bankName = new TextItem(Accounter
 				.getFinanceUIConstants().bankName());
 		// bankName.setWidth("*");
-		AmountField limitText = new AmountField(FinanceApplication
+		AmountField limitText = new AmountField(Accounter
 				.getFinanceUIConstants().creditLimit());
 		// limitText.setWidth("*");
-		IntegerField cardNumText = new IntegerField(FinanceApplication
+		IntegerField cardNumText = new IntegerField(Accounter
 				.getFinanceUIConstants().cardOrLoadNumber());
 		// cardNumText.setWidth("*");
 
-		DynamicForm creditForm = UIUtils.form(FinanceApplication
+		DynamicForm creditForm = UIUtils.form(Accounter
 				.getFinanceUIConstants().creditCardAccountInformation());
 		// creditForm.setWidth("*");
 		// creditForm.setAutoHeight();
@@ -99,12 +99,12 @@ public class CreditCardAccountView extends AbstractBaseView {
 		topHLay.add(leftVLay);
 		topHLay.add(creditForm);
 
-		AccounterButton saveCloseButt = new AccounterButton(FinanceApplication
+		AccounterButton saveCloseButt = new AccounterButton(Accounter
 				.getFinanceUIConstants().saveAndClose());
 		// saveCloseButt.setAutoFit(true);
 		// saveCloseButt.setLayoutAlign(Alignment.LEFT);
 
-		AccounterButton saveNewButt = new AccounterButton(FinanceApplication
+		AccounterButton saveNewButt = new AccounterButton(Accounter
 				.getFinanceUIConstants().saveAndNew());
 		// saveNewButt.setAutoFit(true);
 		// saveNewButt.setLayoutAlign(Alignment.RIGHT);
@@ -194,7 +194,7 @@ public class CreditCardAccountView extends AbstractBaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getFinanceUIConstants().titleToGoHere();
+		return Accounter.getFinanceUIConstants().titleToGoHere();
 	}
 
 }

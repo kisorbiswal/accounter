@@ -4,7 +4,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.VATItemDetailServerReport;
 
@@ -21,7 +21,7 @@ public class VATItemDetailReport extends AbstractReportView<VATItemDetail> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			ReportsRPC.openTransactionView(record.getTransactionType(), record
 					.getTransactionId()
 					+ "");
@@ -40,7 +40,7 @@ public class VATItemDetailReport extends AbstractReportView<VATItemDetail> {
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		VATItemSummary itemList = (VATItemSummary) data;
-		FinanceApplication.createReportService().getVATItemDetailReport(
+		Accounter.createReportService().getVATItemDetailReport(
 				itemList.getName(), start.getTime(), end.getTime(), this);
 
 	}

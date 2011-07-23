@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
@@ -22,20 +22,20 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 	public TAXCodeCombo(String title, boolean isSales) {
 		super(title);
 		this.isSales = isSales;
-		initCombo(TAXCodesForSalesOrPurchase(FinanceApplication.getCompany()
+		initCombo(TAXCodesForSalesOrPurchase(Accounter.getCompany()
 				.getActiveTaxCodes()));
 	}
 
 	public TAXCodeCombo(String title, boolean isAddNewRequired, boolean isSales) {
 		super(title, isAddNewRequired, 1);
 		this.isSales = isSales;
-		initCombo(TAXCodesForSalesOrPurchase(FinanceApplication.getCompany()
+		initCombo(TAXCodesForSalesOrPurchase(Accounter.getCompany()
 				.getActiveTaxCodes()));
 	}
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			return comboConstants.addNewItem();
 		else
 			return comboConstants.newVatCode();
@@ -48,12 +48,12 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 		if (object != null) {
 			displayName = object.getName() != null ? object.getName() : "";
 			if (isSales) {
-				vatGroup = ((ClientTAXItemGroup) FinanceApplication
+				vatGroup = ((ClientTAXItemGroup) Accounter
 						.getCompany().getTAXItemGroup(
 								object.getTAXItemGrpForSales()));
 
 			} else {
-				vatGroup = ((ClientTAXItemGroup) FinanceApplication
+				vatGroup = ((ClientTAXItemGroup) Accounter
 						.getCompany().getTAXItemGroup(
 								object.getTAXItemGrpForPurchases()));
 			}
@@ -80,7 +80,7 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 
 	@Override
 	public void onAddNew() {
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				Action action = VatActionFactory.getNewTAXCodeAction();
 				action.setActionSource(this);
 				HistoryTokenUtils.setPresentToken(action, null);
@@ -105,11 +105,11 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 			return getDisplayName(object);
 		case 1:
 			if (isSales) {
-				ClientTAXItem item = FinanceApplication.getCompany()
+				ClientTAXItem item = Accounter.getCompany()
 						.getTaxItem(object.getTAXItemGrpForSales());
 				return DataUtils.getAmountAsString(item.getTaxRate()) + "%";
 			} else {
-				ClientTAXItem item = FinanceApplication.getCompany()
+				ClientTAXItem item = Accounter.getCompany()
 						.getTaxItem(object.getTAXItemGrpForPurchases());
 				return DataUtils.getAmountAsString(item.getTaxRate()) + "%";
 			}

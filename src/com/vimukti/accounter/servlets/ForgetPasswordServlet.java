@@ -77,14 +77,14 @@ public class ForgetPasswordServlet extends BaseServlet {
 
 		List<ResetPasswordToken> existtokens = session
 				.getNamedQuery("gettokens.by.userid")
-				.setParameter(0, user.getStringID()).list();
+				.setParameter(0, user.getID()).list();
 		for (ResetPasswordToken t : existtokens) {
 			session.delete(t);
 		}
 
 		String randomAttr = SecureUtils.createID();
 		ResetPasswordToken token = new ResetPasswordToken(randomAttr,
-				user.getStringID());
+				user.getID());
 		session.save(token);
 
 		String link = new String();

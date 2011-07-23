@@ -33,7 +33,6 @@ public class ClientBrandingTheme implements IAccounterCore {
 	// public static final int SHOW_TAXES_AS_INCLUSIVE = 2;
 
 	private long id;
-	private String stringID;
 	private String themeName;
 	private int pageSizeType;
 	private double bottomMargin;
@@ -95,19 +94,15 @@ public class ClientBrandingTheme implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
-		return stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
-
+	public void setID(long id){
+		this.id=id;
 	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public long getId() {
 		return id;

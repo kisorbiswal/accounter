@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ThemesUtil {
 
@@ -16,7 +16,7 @@ public class ThemesUtil {
 			MenuItem menuitem) {
 		Image child = new Image();
 		child.addStyleName("menu_arrow");
-		child.setUrl(FinanceApplication.getThemeImages().drop_down_indicator()
+		child.setUrl(Accounter.getThemeImages().drop_down_indicator()
 				.getURL());
 		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);
 		insertEmptyChildToMenuBar(menubar);
@@ -31,7 +31,7 @@ public class ThemesUtil {
 			}
 		}));
 		Image child = new Image();
-		child.setUrl(FinanceApplication.getThemeImages().menu_bar_devider()
+		child.setUrl(Accounter.getThemeImages().menu_bar_devider()
 				.getURL());
 		menuitem.setStyleName("menubar-devider");
 		DOM.insertChild(menuitem.getElement(), child.getElement(), 0);

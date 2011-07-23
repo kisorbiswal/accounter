@@ -67,7 +67,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 	}
 
 	public void initAccountsToList() {
-		bankAccSelect.initCombo(FinanceApplication.getCompany()
+		bankAccSelect.initCombo(Accounter.getCompany()
 				.getActiveAccounts());
 
 	}
@@ -75,7 +75,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 	public void getDepositInAccounts() {
 
 		List<ClientAccount> listOfAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : FinanceApplication.getCompany()
+		for (ClientAccount account : Accounter.getCompany()
 				.getActiveAccounts()) {
 			if (account.getType() == ClientAccount.TYPE_BANK
 					|| account.getType() == ClientAccount.TYPE_CREDIT_CARD) {
@@ -89,7 +89,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 	protected void createControls() {
 
-		bankAccSelect = new DepositInAccountCombo(FinanceApplication
+		bankAccSelect = new DepositInAccountCombo(Accounter
 				.getFinanceUIConstants().bankaccount());
 		bankAccSelect.setRequired(true);
 
@@ -238,16 +238,16 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 		if (endDate == null)
 			endDate = new ClientFinanceDate();
 
-		this.rpcReportService.getAccountRegister(FinanceApplication
+		this.rpcReportService.getAccountRegister(Accounter
 				.getStartDate().getTime(), endDate.getTime(), takenaccount
-				.getStringID(), new AsyncCallback<List<AccountRegister>>() {
+				.getID(), new AsyncCallback<List<AccountRegister>>() {
 
 			public void onFailure(Throwable caught) {
 				if (caught instanceof InvocationException) {
 					Accounter
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
-					Accounter.showError(FinanceApplication
+					Accounter.showError(Accounter
 							.getFinanceUIConstants()
 							.failedtoGetListofAccounts()
 							+ takenaccount.getName());
@@ -349,6 +349,6 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().accountRegister();
+		return Accounter.getActionsConstants().accountRegister();
 	}
 }

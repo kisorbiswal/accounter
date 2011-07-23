@@ -6,7 +6,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.PercentageField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -46,12 +46,12 @@ public class AddPriceLevelDialog extends BaseDialog {
 			public void onClick(ClickEvent event) {
 				setIncrOrDecrPercentValue(levelRadio.getValue().toString());
 			}
-		}, FinanceApplication.getCompanyMessages()
-				.decreasePriceLevelPercentage(), FinanceApplication
+		}, Accounter.getCompanyMessages()
+				.decreasePriceLevelPercentage(), Accounter
 				.getCompanyMessages().increasePriceLevelPercentage());
-		levelRadio.setDefaultValue(FinanceApplication.getCompanyMessages()
+		levelRadio.setDefaultValue(Accounter.getCompanyMessages()
 				.increasePriceLevelPercentage());
-		setIncrOrDecrPercentValue(FinanceApplication.getCompanyMessages()
+		setIncrOrDecrPercentValue(Accounter.getCompanyMessages()
 				.increasePriceLevelPercentage());
 		nameDescForm = new DynamicForm();
 		nameDescForm.setFields(levelText, percentText, levelRadio);
@@ -105,7 +105,7 @@ public class AddPriceLevelDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().priceLevel();
+		return Accounter.getActionsConstants().priceLevel();
 	}
 
 }

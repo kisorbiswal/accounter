@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
@@ -20,12 +20,12 @@ public class ManageVATGroupListView extends BaseListView<ClientTAXGroup> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return FinanceApplication.getVATMessages().addNewVATGroup();
+		return Accounter.getVATMessages().addNewVATGroup();
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return FinanceApplication.getVATMessages().VATGroupList();
+		return Accounter.getVATMessages().VATGroupList();
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class ManageVATGroupListView extends BaseListView<ClientTAXGroup> {
 		grid = new ManageVATGroupListGrid();
 		grid.addStyleName("listgrid-tl");
 		grid.init();
-		listOfVatGroups = FinanceApplication.getCompany().getVatGroups();
+		listOfVatGroups = Accounter.getCompany().getVatGroups();
 		filterList(true);
 		getTotalLayout(grid);
 	}

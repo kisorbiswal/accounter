@@ -28,7 +28,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -147,7 +147,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 			if (clientTransactionItem.getTaxCode() != null
 					&& clientTransactionItem.getTaxCode().length() != 0) {
 
-				taxCode = FinanceApplication.getCompany().getTAXCode(
+				taxCode = Accounter.getCompany().getTAXCode(
 						clientTransactionItem.getTaxCode());
 
 				// if (clientTransactionItem.getTaxItem() != null
@@ -174,7 +174,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	}
 
 	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			switch (gridType) {
 			case JOURNALENTRY_TRANSACTION_GRID:
 				break;
@@ -222,7 +222,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	}
 
 	public CheckboxItem getVATInclusiveCheckBox() {
-		vatinclusiveCheck = new CheckboxItem(FinanceApplication
+		vatinclusiveCheck = new CheckboxItem(Accounter
 				.getVATMessages().amountIncludesVat());
 		vatinclusiveCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -301,7 +301,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	protected DateField createTransactionDateItem() {
 
-		final DateField dateItem = new DateField(FinanceApplication
+		final DateField dateItem = new DateField(Accounter
 				.getVendorsMessages().date());
 		dateItem.setHelpInformation(true);
 		// if (this instanceof VendorBillView)
@@ -354,7 +354,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	protected TextItem createTransactionNumberItem() {
 
-		final TextItem item = new TextItem(FinanceApplication
+		final TextItem item = new TextItem(Accounter
 				.getVendorsMessages().no());
 		item.setHelpInformation(true);
 		item.setWidth(100);
@@ -373,7 +373,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	protected TextItem createRefereceText() {
 
-		TextItem refText = new TextItem(FinanceApplication.getVendorsMessages()
+		TextItem refText = new TextItem(Accounter.getVendorsMessages()
 				.reference());
 		refText.setHelpInformation(true);
 		formItems.add(refText);
@@ -383,7 +383,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	}
 
 	protected AmountField createNetAmountField() {
-		AmountField netAmountField = new AmountField(FinanceApplication
+		AmountField netAmountField = new AmountField(Accounter
 				.getVendorsMessages().netAmount());
 		netAmountField.setHelpInformation(true);
 		netAmountField.setDefaultValue("£0.00");
@@ -392,16 +392,16 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	}
 
 	protected AmountLabel createNetAmountLabel() {
-		AmountLabel netAmountLabel = new AmountLabel(FinanceApplication
+		AmountLabel netAmountLabel = new AmountLabel(Accounter
 				.getVendorsMessages().netAmount());
-		netAmountLabel.setTitle(FinanceApplication.getVendorsMessages()
+		netAmountLabel.setTitle(Accounter.getVendorsMessages()
 				.netAmount());
 		netAmountLabel.setDefaultValue("£0.00");
 		return netAmountLabel;
 	}
 	protected AmountLabel createTransactionTotalNonEditableLabelforPurchase() {
 
-		AmountLabel amountLabel = new AmountLabel(FinanceApplication
+		AmountLabel amountLabel = new AmountLabel(Accounter
 				.getCustomersMessages().total());
 
 		return amountLabel;
@@ -409,7 +409,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	}
 	
 	protected AmountLabel createVATTotalNonEditableLabelforPurchase() {
-		AmountLabel amountLabel = new AmountLabel(FinanceApplication
+		AmountLabel amountLabel = new AmountLabel(Accounter
 				.getCustomersMessages().vat());
 
 		return amountLabel;
@@ -422,7 +422,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 			memoArea.setMemo(true);
 		memoArea.setHelpInformation(true);
 
-		memoArea.setTitle(FinanceApplication.getVendorsMessages().memo());
+		memoArea.setTitle(Accounter.getVendorsMessages().memo());
 		// memoArea.setRowSpan(2);
 		// memoArea.setColSpan(3);
 
@@ -552,7 +552,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	}
 
 	public AccounterButton createAddNewButton() {
-		menuButton = new AccounterButton(FinanceApplication
+		menuButton = new AccounterButton(Accounter
 				.getCompanyMessages().addNewItm());
 		menuButton.addClickHandler(new ClickHandler() {
 			@Override
@@ -625,29 +625,29 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		String paymentType = null;
 		payVatMethodList = new ArrayList<String>();
 		paymentType = UIUtils
-				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
+				.getpaymentMethodCheckBy_CompanyType(Accounter
 						.getCustomersMessages().check());
 		String payVatMethodArray[] = new String[] {
-				FinanceApplication.getVendorsMessages().cash(), paymentType,
-				FinanceApplication.getVendorsMessages().creditCard(),
-				FinanceApplication.getVendorsMessages().directDebit(),
-				FinanceApplication.getVendorsMessages().masterCard(),
-				FinanceApplication.getVendorsMessages().onlineBanking(),
-				FinanceApplication.getVendorsMessages().standingOrder(),
-				FinanceApplication.getVendorsMessages().switchMaestro() };
+				Accounter.getVendorsMessages().cash(), paymentType,
+				Accounter.getVendorsMessages().creditCard(),
+				Accounter.getVendorsMessages().directDebit(),
+				Accounter.getVendorsMessages().masterCard(),
+				Accounter.getVendorsMessages().onlineBanking(),
+				Accounter.getVendorsMessages().standingOrder(),
+				Accounter.getVendorsMessages().switchMaestro() };
 
 		for (int i = 0; i < payVatMethodArray.length; i++) {
 			payVatMethodList.add(payVatMethodArray[i]);
 		}
 
 		final SelectCombo paymentMethodSelect = new SelectCombo(
-				FinanceApplication.getVendorsMessages().Paymentmethod());
+				Accounter.getVendorsMessages().Paymentmethod());
 		paymentMethodSelect.setHelpInformation(true);
 
 		paymentMethodSelect.setRequired(true);
 		paymentMethodSelect.initCombo(payVatMethodList);
 		paymentMethodSelect.setDefaultToFirstOption(true);
-		paymentMethod = FinanceApplication.getVendorsMessages().cash();
+		paymentMethod = Accounter.getVendorsMessages().cash();
 
 		paymentMethodSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -759,13 +759,13 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 			item.addStyleName(itm);
 			ImageResource image = null;
 			if (itm.equals("Accounts")) {
-				image = FinanceApplication.getFinanceMenuImages().Accounts();
+				image = Accounter.getFinanceMenuImages().Accounts();
 			} else if (itm.equals("Product Item")) {
-				image = FinanceApplication.getFinanceMenuImages().items();
+				image = Accounter.getFinanceMenuImages().items();
 			} else if (itm.equals("Comment")) {
-				image = FinanceApplication.getFinanceMenuImages().comments();
+				image = Accounter.getFinanceMenuImages().comments();
 			} else if (itm.equals("Sales Tax") || (itm.equals("Service Item"))) {
-				image = FinanceApplication.getFinanceMenuImages().salestax();
+				image = Accounter.getFinanceMenuImages().salestax();
 			}
 
 			item.setIcon(image);
@@ -780,7 +780,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	private void createPopupMenu(AccounterButton button) {
 		if (popupPanel == null) {
 			popupPanel = new PopupPanel(true);
-			popupMenuBar = new CustomMenuBar(FinanceApplication
+			popupMenuBar = new CustomMenuBar(Accounter
 					.getFinanceMenuImages());
 			popupMenuBar.getElement().setAttribute("id", "addnewpopumenu");
 
@@ -862,10 +862,10 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	public void validateVATCODEBaseOnTransactionDate()
 			throws InvalidEntryException {
 
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			for (ClientTransactionItem selectItem : this.transactionItems) {
 				if (selectItem.getTaxCode() != null) {
-					ClientTAXCode code = FinanceApplication.getCompany()
+					ClientTAXCode code = Accounter.getCompany()
 							.getTAXCode(selectItem.getTaxCode());
 
 					if (code.getName().equalsIgnoreCase("New S")

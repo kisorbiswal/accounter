@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.TransferFundsDialog;
@@ -208,7 +208,7 @@ public class AccounterValidator {
 	}
 
 	private static List<ClientFiscalYear> getClosedFiscalYears() {
-		List<ClientFiscalYear> fiscalyearlist = FinanceApplication.getCompany()
+		List<ClientFiscalYear> fiscalyearlist = Accounter.getCompany()
 				.getFiscalYears();
 		List<ClientFiscalYear> closedFiscalYears = new ArrayList<ClientFiscalYear>();
 		for (ClientFiscalYear fiscalyear : fiscalyearlist) {
@@ -222,7 +222,7 @@ public class AccounterValidator {
 	public static boolean isFixedAssetPurchaseDateWithinRange(
 			ClientFinanceDate purchaseDate) {
 
-		List<ClientFiscalYear> fiscalYears = FinanceApplication.getCompany()
+		List<ClientFiscalYear> fiscalYears = Accounter.getCompany()
 				.getFiscalYears();
 		for (ClientFiscalYear firstFiscalYear : fiscalYears) {
 			if (firstFiscalYear.getStatus() == ClientFiscalYear.STATUS_OPEN) {
@@ -256,7 +256,7 @@ public class AccounterValidator {
 					@Override
 					public boolean onYesClick() throws InvalidEntryException {
 						long convertedasOfDate = asofDate.getTime();
-						FinanceApplication.createHomeService()
+						Accounter.createHomeService()
 								.changeFiscalYearsStartDateTo(
 										convertedasOfDate,
 										new AsyncCallback<Boolean>() {
@@ -317,7 +317,7 @@ public class AccounterValidator {
 		if (!validDate)
 			throw new InvalidTransactionEntryException(
 					AccounterErrorType.InvalidTransactionDate);
-		if (transactionDate.before(new ClientFinanceDate(FinanceApplication
+		if (transactionDate.before(new ClientFinanceDate(Accounter
 				.getCompany().getpreferences().getPreventPostingBeforeDate())))
 			throw new InvalidTransactionEntryException(
 					AccounterErrorType.InvalidDate);
@@ -327,7 +327,7 @@ public class AccounterValidator {
 	}
 
 	public static List<ClientFiscalYear> getOpenFiscalYears() {
-		List<ClientFiscalYear> fiscalYears = FinanceApplication.getCompany()
+		List<ClientFiscalYear> fiscalYears = Accounter.getCompany()
 				.getFiscalYears();
 
 		List<ClientFiscalYear> openFiscalYears = new ArrayList<ClientFiscalYear>();
@@ -400,7 +400,7 @@ public class AccounterValidator {
 	// Item
 	public static void defaultIncomeAccountServiceItem(
 			final ClientAccount selectItem, ClientAccount defaultIncomeAccount) {
-		company = FinanceApplication.getCompany();
+		company = Accounter.getCompany();
 		if (defaultIncomeAccount != null)
 			if (!(defaultIncomeAccount.equals(selectItem))) {
 				Accounter.showWarning(
@@ -446,7 +446,7 @@ public class AccounterValidator {
 
 	public static void defaultIncomeAccountNonInventory(
 			final ClientAccount selectItem, ClientAccount defaultIncomeAccount) {
-		company = FinanceApplication.getCompany();
+		company = Accounter.getCompany();
 		if (!(defaultIncomeAccount.equals(selectItem))) {
 			Accounter.showWarning(
 					AccounterWarningType.default_IncomeAccountNonInventory,
@@ -489,7 +489,7 @@ public class AccounterValidator {
 	public static void defaultExpenseAccountServiceItem(
 			final ClientAccount selectItem, ClientAccount defaultExpenseAccount) {
 
-		company = FinanceApplication.getCompany();
+		company = Accounter.getCompany();
 		if (defaultExpenseAccount != null)
 			if (!(defaultExpenseAccount.equals(selectItem))) {
 				Accounter.showWarning(
@@ -536,7 +536,7 @@ public class AccounterValidator {
 	public static void defaultExpenseAccountNonInventory(
 			final ClientAccount selectExpAccount,
 			ClientAccount defaultExpAccount) {
-		company = FinanceApplication.getCompany();
+		company = Accounter.getCompany();
 		if (defaultExpAccount != null)
 			if (!(defaultExpAccount.equals(selectExpAccount))) {
 				Accounter
@@ -811,7 +811,7 @@ public class AccounterValidator {
 		// List<ClientTaxAgency> taxAgencies = FinanceApplication.getCompany()
 		// .getActiveTaxAgencies();
 		// for (ClientTaxAgency taxAgency : taxAgencies) {
-		// if (taxAgency.getLiabilityAccount() == financeAccount.getStringID())
+		// if (taxAgency.getLiabilityAccount() == financeAccount.getID())
 		// {
 		// throw new InvalidTransactionEntryException(financeAccount
 		// .getName()
@@ -1121,7 +1121,7 @@ public class AccounterValidator {
 				.getSelectedRecords();
 
 		for (ClientTransactionMakeDeposit rec : selectedRecords) {
-			if (rec.getAccount().equals(selectedDepositInAccount.getStringID())) {
+			if (rec.getAccount().equals(selectedDepositInAccount.getID())) {
 				Accounter
 						.showError(AccounterErrorType.makedepositAccountValidation);
 				return false;
@@ -1134,7 +1134,7 @@ public class AccounterValidator {
 
 	public static boolean validate_TransferFunds(ClientAccount from,
 			ClientAccount to) throws InvalidEntryException {
-		if (from.getStringID() == to.getStringID()) {
+		if (from.getID() == to.getID()) {
 			Accounter.showError(AccounterErrorType.transferFunds);
 			return false;
 		}
@@ -1614,7 +1614,7 @@ public class AccounterValidator {
 	public static boolean sinceDate(ClientFinanceDate sinceDate,
 			final AbstractBaseView view) {
 		ClientFinanceDate companyStartDate = new ClientFinanceDate(
-				FinanceApplication.getCompany().getpreferences()
+				Accounter.getCompany().getpreferences()
 						.getPreventPostingBeforeDate());
 
 		if (sinceDate.before(companyStartDate)) {
@@ -1656,7 +1656,7 @@ public class AccounterValidator {
 			final AbstractBaseView view) throws InvalidEntryException {
 
 		ClientFinanceDate companyStartDate = new ClientFinanceDate(
-				FinanceApplication.getCompany().getpreferences()
+				Accounter.getCompany().getpreferences()
 						.getPreventPostingBeforeDate());
 		if (asOfDate.before(companyStartDate)) {
 			throw new InvalidEntryException(AccounterErrorType.prior_asOfDate);

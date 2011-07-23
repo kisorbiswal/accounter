@@ -392,7 +392,7 @@
 //			item.setActive(getBooleanValue(activeCheck));
 //			item.setName(getStringValue(nameText));
 //			item.setItemGroup(((ClientItemGroup) itemGroupCombo.getSelection())
-//					.getStringID());
+//					.getID());
 //			item.setStandardCost(getDoubleValue(stdCostText));
 //			item.setUPCorSKU(getStringValue(skuText));
 //			item.setISellThisItem(getBooleanValue(isellCheck));
@@ -410,7 +410,7 @@
 //			item.setSalesDescription(getStringValue(salesDescArea));
 //			item.setSalesPrice(getDoubleValue(salesPriceText));
 //			item.setIncomeAccount(((ClientAccount) accountCombo.getSelection())
-//					.getStringID());
+//					.getID());
 //			return true;
 //		}
 //		return false;
@@ -421,10 +421,10 @@
 //			item.setPurchaseDescription(getStringValue(purchaseDescArea));
 //			item.setPurchasePrice(getDoubleValue(purchasePriceTxt));
 //			item.setPreferredVendor(((ClientVendor) prefVendorCombo
-//					.getSelection()).getStringID());
+//					.getSelection()).getID());
 //			item
 //					.setExpenseAccount((((ClientAccount) expAccCombo
-//							.getSelection()).getStringID()));
+//							.getSelection()).getID()));
 //			item.setVendorItemNumber(getStringValue(vendItemNumText));
 //			return true;
 //		}

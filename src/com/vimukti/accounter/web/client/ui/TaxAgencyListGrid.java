@@ -131,7 +131,7 @@
 //				// record.setAttribute("taxAgency", FinanceApplication
 //				// .getCompany().getTaxAgency(
 //				// selectedTaxCode.getTaxAgency()).getName());
-//				record.setTaxCode(selectedTaxCode.getStringID());
+//				record.setTaxCode(selectedTaxCode.getID());
 //		}
 //		List<IsSerializable> allrecords = getRecords();
 //		totallinetotal = 0;
@@ -173,7 +173,7 @@
 //		// for (ClientTaxCode temp : allTaxCodes) {
 //		// if (temp.getName().equalsIgnoreCase(
 //		// rec.getAttribute("taxCode"))) {
-//		// item.setTaxCode(temp.getStringID());
+//		// item.setTaxCode(temp.getID());
 //		// break;
 //		// }
 //		// }
@@ -195,7 +195,7 @@
 //			allRecords[i] = new ClientTransactionItem();
 //			ClientTaxCode clientTaxCode = FinanceApplication.getCompany()
 //					.getTaxCode(item.getTaxCode());
-//			allRecords[i].setTaxCode(clientTaxCode.getStringID());
+//			allRecords[i].setTaxCode(clientTaxCode.getID());
 //			// allRecords[i].setAttribute("taxAgency", FinanceApplication
 //			// .getCompany().getTaxAgency(clientTaxCode.getTaxAgency())
 //			// .getName());

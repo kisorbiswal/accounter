@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
@@ -67,11 +67,11 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 	@Override
 	protected String[] getColumns() {
 
-		return new String[] { FinanceApplication.getSettingsMessages().name(),
-				FinanceApplication.getSettingsMessages().permissions(),
+		return new String[] { Accounter.getSettingsMessages().name(),
+				Accounter.getSettingsMessages().permissions(),
 				// FinanceApplication.getSettingsMessages().status(),
-				FinanceApplication.getSettingsMessages().lastLogin(),
-				FinanceApplication.getSettingsMessages().loginCount(), "" };
+				Accounter.getSettingsMessages().lastLogin(),
+				Accounter.getSettingsMessages().loginCount(), "" };
 	}
 
 	public void setUsersView(UsersView usersView) {
@@ -101,7 +101,7 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 		case 3:
 			return String.valueOf(obj.getLoginCount());
 		case 4:
-			return FinanceApplication.getFinanceImages().delete();
+			return Accounter.getFinanceImages().delete();
 		default:
 			return "";
 		}
@@ -121,7 +121,7 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 	protected void onClick(ClientUser obj, int row, int index) {
 
 		if (index == 4) {
-			if (FinanceApplication.getUser().isCanDoUserManagement()) {
+			if (Accounter.getUser().isCanDoUserManagement()) {
 				showWarnDialog(obj);
 			} else {
 				Accounter
@@ -136,7 +136,7 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 
 	@Override
 	public void onDoubleClick(ClientUser obj) {
-		if (FinanceApplication.getUser().isCanDoUserManagement()) {
+		if (Accounter.getUser().isCanDoUserManagement()) {
 			HistoryTokenUtils.setPresentToken(SettingsActionFactory
 					.getInviteUserAction(), obj);
 			SettingsActionFactory.getInviteUserAction().run(obj, true);

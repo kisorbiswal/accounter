@@ -51,7 +51,7 @@ public class Item implements IAccounterServerCore, Lifecycle, ICreatableObject {
 	/**
 	 * A 40 Digit Secure Random Number
 	 */
-	public String stringID;
+	public long id;
 
 	/**
 	 * Item Type
@@ -170,7 +170,7 @@ public class Item implements IAccounterServerCore, Lifecycle, ICreatableObject {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
@@ -439,13 +439,13 @@ public class Item implements IAccounterServerCore, Lifecycle, ICreatableObject {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

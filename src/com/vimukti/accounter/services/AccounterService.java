@@ -44,14 +44,14 @@ public class AccounterService extends HibernateDaoSupport implements
 	@Override
 	public <T extends IAccounterServerCore> String createObject(T object)
 			throws DAOException {
-		if (object.getStringID() == null) {
+		if (object.getID() == null) {
 			object.setStringID(SecureUtils.createID());
 		}
 		Session session = Utility.getCurrentSession();
 		Transaction t = session.beginTransaction();
 		session.save(object);
 		t.commit();
-		return ((T) object).getStringID();
+		return ((T) object).getID();
 	}
 
 	@Override

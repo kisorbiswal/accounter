@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.HrEmployee;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -66,8 +66,8 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		cashPurchase.setPaymentMethod(paymentMethod);
 
 		// Setting Pay From Account
-		if (FinanceApplication.getUser().canApproveExpences())
-			cashPurchase.setPayFrom(payFromAccount.getStringID());
+		if (Accounter.getUser().canApproveExpences())
+			cashPurchase.setPayFrom(payFromAccount.getID());
 
 		// Setting Check number
 		cashPurchase.setCheckNumber(checkNo.getValue().toString());
@@ -99,9 +99,9 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		final MultiWordSuggestOracle employe = new MultiWordSuggestOracle();
 
-		titlelabel.setText(FinanceApplication.getVendorsMessages()
+		titlelabel.setText(Accounter.getVendorsMessages()
 				.employeeExpense());
-		FinanceApplication.createGETService().getHREmployees(
+		Accounter.createGETService().getHREmployees(
 				new AsyncCallback<List<HrEmployee>>() {
 
 					@Override
@@ -119,32 +119,32 @@ public class EmployeeExpenseView extends CashPurchaseView {
 					}
 				});
 
-		employee = new SuggestionItem(employe, FinanceApplication
+		employee = new SuggestionItem(employe, Accounter
 				.getVendorsMessages().employEe());
 		employee.getMainWidget();
 		employee.setHelpInformation(true);
 		employee.setRequired(true);
-		if (!FinanceApplication.getUser().isAdminUser()) {
-			employee.setValue(FinanceApplication.getUser().getName());
+		if (!Accounter.getUser().isAdminUser()) {
+			employee.setValue(Accounter.getUser().getName());
 			employee.setDisabledForSuggBox(true);
 		}
 
 		String listString[] = new String[] {
-				FinanceApplication.getVendorsMessages().cash(),
-				UIUtils.getpaymentMethodCheckBy_CompanyType(FinanceApplication
+				Accounter.getVendorsMessages().cash(),
+				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
 						.getCustomersMessages().check()),
-				FinanceApplication.getVendorsMessages().creditCard(),
-				FinanceApplication.getVendorsMessages().directDebit(),
-				FinanceApplication.getVendorsMessages().masterCard(),
-				FinanceApplication.getVendorsMessages().onlineBanking(),
-				FinanceApplication.getVendorsMessages().standingOrder(),
-				FinanceApplication.getVendorsMessages().switchMaestro() };
+				Accounter.getVendorsMessages().creditCard(),
+				Accounter.getVendorsMessages().directDebit(),
+				Accounter.getVendorsMessages().masterCard(),
+				Accounter.getVendorsMessages().onlineBanking(),
+				Accounter.getVendorsMessages().standingOrder(),
+				Accounter.getVendorsMessages().switchMaestro() };
 		selectedComboList = new ArrayList<String>();
 		for (int i = 0; i < listString.length; i++) {
 			selectedComboList.add(listString[i]);
 		}
 
-		if (!(FinanceApplication.getUser().canApproveExpences())) {
+		if (!(Accounter.getUser().canApproveExpences())) {
 			termsForm.setVisible(false);
 		}
 		paymentMethodCombo.initCombo(selectedComboList);
@@ -166,14 +166,14 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		if (transactionObject != null) {
 			ClientCashPurchase cashPurchase = (ClientCashPurchase) transactionObject;
 			employee.setValue(cashPurchase.getEmployee());
-			if (FinanceApplication.getUser().isAdmin()) {
+			if (Accounter.getUser().isAdmin()) {
 				employee.setDisabledForSuggBox(true);
 			}
 			deliveryDateItem.setValue(new ClientFinanceDate(cashPurchase
 					.getDeliveryDate()));
 
 			if (cashPurchase.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED) {
-				if (FinanceApplication.getUser().canApproveExpences())
+				if (Accounter.getUser().canApproveExpences())
 					approveButton.setEnabled(false);
 				else
 					submitForApprove.setEnabled(false);
@@ -189,7 +189,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		switch (this.validationCount) {
 		case 6:
-			if (FinanceApplication.getUser().isAdmin()) {
+			if (Accounter.getUser().isAdmin()) {
 				if (!hrEmployees.contains(employee.getValue()))
 					throw new InvalidTransactionEntryException(
 							"Please Select An Employee.The Employee must be in  Accounter HR.");
@@ -201,14 +201,14 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		case 5:
 			return AccounterValidator.validateTransactionDate(transactionDate);
 		case 4:
-			if (FinanceApplication.getUser().canApproveExpences())
+			if (Accounter.getUser().canApproveExpences())
 				return AccounterValidator.validateFormItem(payFromCombo, false);
 			else
 				return true;
 		case 3:
 			return AccounterValidator.validate_dueOrDelivaryDates(
 					deliveryDateItem.getEnteredDate(), this.transactionDate,
-					FinanceApplication.getVendorsMessages().deliverydate());
+					Accounter.getVendorsMessages().deliverydate());
 		case 2:
 			return AccounterValidator.isBlankTransaction(vendorTransactionGrid);
 		case 1:
@@ -255,23 +255,23 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	@Override
 	protected void enableFormItems() {
 		super.enableFormItems();
-		if (FinanceApplication.getUser().isAdmin()) {
+		if (Accounter.getUser().isAdmin()) {
 			employee.setDisabledForSuggBox(false);
 		}
 	}
 
 	@Override
 	protected void showMenu(AccounterButton button) {
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, FinanceApplication.getVendorsMessages()
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			setMenuItems(button, Accounter.getVendorsMessages()
 					.service());
 		else
-			setMenuItems(button, FinanceApplication.getVendorsMessages()
+			setMenuItems(button, Accounter.getVendorsMessages()
 					.service());
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getVendorsMessages().employeeExpense();
+		return Accounter.getVendorsMessages().employeeExpense();
 	}
 }

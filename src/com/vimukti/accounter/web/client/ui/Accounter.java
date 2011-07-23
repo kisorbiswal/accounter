@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.List;
 
+import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -45,13 +46,13 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorsMessages;
  * @author kumar kasimala
  * 
  */
-public class FinanceApplication extends VerticalPanel {
+public class Accounter extends VerticalPanel implements EntryPoint {
 
 	private MainFinanceWindow mainWindow;
 	private static ClientFinanceDate startDate;
 	private static ClientFinanceDate endDate;
 	protected Widget loadingDialog;
-	protected ValueCallBack<FinanceApplication> callback;
+	protected ValueCallBack<Accounter> callback;
 	private VerticalPanel mainPanel;
 	private HorizontalPanel helpPanel, corners;
 	private HTML vimukti, feedback, leftcorner, midrepeat, rightcorner,
@@ -65,10 +66,11 @@ public class FinanceApplication extends VerticalPanel {
 	public final static String REPORT_SERVICE_ENTRY_POINT = "/do/accounter/report/rpc/service";
 	public final static String USER_MANAGEMENT_ENTRY_POINT = "/do/accounter/user/rpc/service";
 
-	private static IAccounterCRUDServiceAsync crudService;
-	private static IAccounterGETServiceAsync getService;
-	private static IAccounterHomeViewServiceAsync homeViewService;
-	private static IAccounterReportServiceAsync reportService;
+	private IAccounterCRUDServiceAsync crudService;
+	private IAccounterGETServiceAsync getService;
+	private IAccounterHomeViewServiceAsync homeViewService;
+	private IAccounterReportServiceAsync reportService;
+	
 	private static CompanyMessages companyMessages;
 	private static FinanceMessages financeMessages;
 	private static VendorsMessages vendorsMessages;
@@ -97,9 +99,9 @@ public class FinanceApplication extends VerticalPanel {
 	// getCompany("");
 	// }
 
-	public FinanceApplication(String email, ClientUser user,
-			ValueCallBack<FinanceApplication> callback) {
-		FinanceApplication.user=user;
+	public Accounter(String email, ClientUser user,
+			ValueCallBack<Accounter> callback) {
+		Accounter.user=user;
 		this.callback = callback;
 		MainFinanceWindow.makeAllViewsStaticstoNull();
 
@@ -107,14 +109,14 @@ public class FinanceApplication extends VerticalPanel {
 	}
 
 
-	public FinanceApplication(final boolean isSales,
-			final ValueCallBack<FinanceApplication> callback) {
+	public Accounter(final boolean isSales,
+			final ValueCallBack<Accounter> callback) {
 		this.callback = callback;
 		MainFinanceWindow.makeAllViewsStaticstoNull();
 		final IAccounterGETServiceAsync getService = (IAccounterGETServiceAsync) GWT
 				.create(IAccounterGETService.class);
 		((ServiceDefTarget) getService)
-				.setServiceEntryPoint(FinanceApplication.GET_SERVICE_ENTRY_POINT);
+				.setServiceEntryPoint(Accounter.GET_SERVICE_ENTRY_POINT);
 
 		final AsyncCallback<ClientCompany> getCompanyCallback = new AsyncCallback<ClientCompany>() {
 			public void onFailure(Throwable caught) {
@@ -125,7 +127,7 @@ public class FinanceApplication extends VerticalPanel {
 			public void onSuccess(ClientCompany company) {
 				if (company != null) {
 					// We got the company, set it for all further references.
-					FinanceApplication.setCompany(company);
+					Accounter.setCompany(company);
 					// Close the startup dialog...
 					loadingDialog.removeFromParent();
 					// and, now we are ready to start the application.
@@ -140,7 +142,7 @@ public class FinanceApplication extends VerticalPanel {
 
 					// add(FinanceApplication.this);
 					if (callback != null) {
-						callback.execute(FinanceApplication.this);
+						callback.execute(Accounter.this);
 					}
 
 				} else {
@@ -152,11 +154,11 @@ public class FinanceApplication extends VerticalPanel {
 		getService.getCompany(getClientIdentity().getId(), getCompanyCallback);
 		// this.hide();
 		if (isSales)
-			loadingDialog = UIUtils.getLoadingDialog(FinanceApplication
+			loadingDialog = UIUtils.getLoadingDialog(Accounter
 					.getFinanceUIConstants().loadingSalesPleaseWait());
 
 		else
-			loadingDialog = UIUtils.getLoadingDialog(FinanceApplication
+			loadingDialog = UIUtils.getLoadingDialog(Accounter
 					.getFinanceUIConstants().loadingPurchasePleaseWait());
 
 	}
@@ -195,7 +197,7 @@ public class FinanceApplication extends VerticalPanel {
 		return corners;
 	}
 
-	public FinanceApplication() {
+	public Accounter() {
 		MainFinanceWindow.makeAllViewsStaticstoNull();
 		initGUI();
 		mainPanel = new VerticalPanel();
@@ -215,7 +217,7 @@ public class FinanceApplication extends VerticalPanel {
 
 			public void onSuccess(ClientUser user) {
 				if (user != null) {
-					FinanceApplication.setUser(user);
+					Accounter.setUser(user);
 					getCompany("DefBiz");
 				} else {
 					// //UIUtils.log("Get User Came But Failed!");
@@ -223,7 +225,7 @@ public class FinanceApplication extends VerticalPanel {
 			}
 
 		};
-		FinanceApplication.createGETService().getObjectById(
+		Accounter.createGETService().getObjectById(
 				AccounterCoreType.EMAIL, mail, getUserCallBack);
 	}
 
@@ -231,7 +233,7 @@ public class FinanceApplication extends VerticalPanel {
 		final IAccounterGETServiceAsync getService = (IAccounterGETServiceAsync) GWT
 				.create(IAccounterGETService.class);
 		((ServiceDefTarget) getService)
-				.setServiceEntryPoint(FinanceApplication.GET_SERVICE_ENTRY_POINT);
+				.setServiceEntryPoint(Accounter.GET_SERVICE_ENTRY_POINT);
 
 		final AsyncCallback<ClientCompany> getCompanyCallback = new AsyncCallback<ClientCompany>() {
 			public void onFailure(Throwable caught) {
@@ -244,9 +246,9 @@ public class FinanceApplication extends VerticalPanel {
 				if (company != null) {
 					// We got the company, set it for all further references.
 					// company.setAccountingType(ClientCompany.ACCOUNTING_TYPE_US);
-					FinanceApplication.setCompany(company);
-					FinanceApplication.setUser(company
-							.getUser(FinanceApplication.getClientIdentity()
+					Accounter.setCompany(company);
+					Accounter.setUser(company
+							.getUser(Accounter.getClientIdentity()
 									.getId()));
 					// Close the startup dialog...
 
@@ -276,7 +278,7 @@ public class FinanceApplication extends VerticalPanel {
 							add(helpPanel());
 							setWidth("100%");
 							if (callback != null) {
-								callback.execute(FinanceApplication.this);
+								callback.execute(Accounter.this);
 							}
 						}
 					};
@@ -293,16 +295,16 @@ public class FinanceApplication extends VerticalPanel {
 		getService.getCompany(getClientIdentity().getId(), getCompanyCallback);
 		// this.hide();
 		if (!GWT.isScript())
-			loadingDialog = UIUtils.getLoadingDialog(FinanceApplication
+			loadingDialog = UIUtils.getLoadingDialog(Accounter
 					.getFinanceUIConstants().loadingFinancePleaseWait());
 
 	}
 
-	public static ClientUser getUser() {
+	public ClientUser getUser() {
 		return user;
 	}
 
-	public static ClientCompany getCompany() {
+	public ClientCompany getCompany() {
 		return company;
 	}
 
@@ -347,58 +349,58 @@ public class FinanceApplication extends VerticalPanel {
 		return mainWindow;
 	}
 
-	public static IAccounterCRUDServiceAsync createCRUDService() {
+	public IAccounterCRUDServiceAsync createCRUDService() {
 		if (crudService == null) {
 			crudService = (IAccounterCRUDServiceAsync) GWT
 					.create(IAccounterCRUDService.class);
 			((ServiceDefTarget) crudService)
-					.setServiceEntryPoint(FinanceApplication.CRUD_SERVICE_ENTRY_POINT);
+					.setServiceEntryPoint(Accounter.CRUD_SERVICE_ENTRY_POINT);
 		}
 
 		return crudService;
 
 	}
 
-	public static IAccounterGETServiceAsync createGETService() {
+	public IAccounterGETServiceAsync createGETService() {
 		if (getService == null) {
 			getService = (IAccounterGETServiceAsync) GWT
 					.create(IAccounterGETService.class);
 			((ServiceDefTarget) getService)
-					.setServiceEntryPoint(FinanceApplication.GET_SERVICE_ENTRY_POINT);
+					.setServiceEntryPoint(Accounter.GET_SERVICE_ENTRY_POINT);
 		}
 		return getService;
 	}
 
-	public static IAccounterHomeViewServiceAsync createHomeService() {
+	public IAccounterHomeViewServiceAsync createHomeService() {
 		if (homeViewService == null) {
 			homeViewService = (IAccounterHomeViewServiceAsync) GWT
 					.create(IAccounterHomeViewService.class);
 			((ServiceDefTarget) homeViewService)
-					.setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
+					.setServiceEntryPoint(Accounter.HOME_SERVICE_ENTRY_POINT);
 		}
 		return homeViewService;
 	}
 
-	public static IAccounterReportServiceAsync createReportService() {
+	public IAccounterReportServiceAsync createReportService() {
 		if (reportService == null) {
 			reportService = (IAccounterReportServiceAsync) GWT
 					.create(IAccounterReportService.class);
 			((ServiceDefTarget) reportService)
-					.setServiceEntryPoint(FinanceApplication.REPORT_SERVICE_ENTRY_POINT);
+					.setServiceEntryPoint(Accounter.REPORT_SERVICE_ENTRY_POINT);
 		}
 		return reportService;
 	}
 
-	public static ClientFinanceDate getStartDate() {
+	public ClientFinanceDate getStartDate() {
 		return startDate;
 	}
 
-	public static ClientFinanceDate getEndDate() {
+	public ClientFinanceDate getEndDate() {
 		return endDate;
 	}
 
 	public static String getAppName() {
-		return FinanceApplication.getCompanyMessages().accounter();
+		return Accounter.getCompanyMessages().accounter();
 	}
 
 	public static CompanyMessages getCompanyMessages() {
@@ -528,23 +530,8 @@ public class FinanceApplication extends VerticalPanel {
 		return bankingMessages;
 	}
 
-	public static boolean isSales() {
-		return isSales;
-	}
 
-	public static boolean isPurchases() {
-		return isPurchases;
-	}
-
-	public static void setPurchases(boolean isPurchases) {
-		FinanceApplication.isPurchases = isPurchases;
-	}
-
-	public static void setSales(boolean isSales) {
-		FinanceApplication.isSales = isSales;
-	}
-
-	public static void makeAllStaticInstancesNull() {
+	public void makeAllStaticInstancesNull() {
 		endDate = null;
 		user = null;
 		company = null;
@@ -566,6 +553,43 @@ public class FinanceApplication extends VerticalPanel {
 		accounterComboConstants = null;
 		fixedAssetConstants = null;
 		reportsMessages = null;
+	}
+
+
+	@Override
+	public void onModuleLoad() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public String getUserDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public String getCompanyName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public boolean isLoggedInFromDomain() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	public static void showMessage(String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public static void showInformation(String string) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

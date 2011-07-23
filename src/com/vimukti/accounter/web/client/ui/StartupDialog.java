@@ -33,7 +33,7 @@ public class StartupDialog extends DialogBox {
 	private TextItem userPassText;
 	private DialogGrid companyGrid;
 	DynamicForm form;
-	private ValueCallBack<FinanceApplication> defbizcallback;
+	private ValueCallBack<Accounter> defbizcallback;
 	// protected BaseWidget loadingDialog;
 	public static StartupDialog startUp;
 
@@ -41,7 +41,7 @@ public class StartupDialog extends DialogBox {
 		createControls();
 	}
 
-	public StartupDialog(ValueCallBack<FinanceApplication> callback) {
+	public StartupDialog(ValueCallBack<Accounter> callback) {
 		super();
 		this.defbizcallback = callback;
 		// getUserByEmail(email);
@@ -53,34 +53,34 @@ public class StartupDialog extends DialogBox {
 	}
 
 	private void createControls() {
-		setText(FinanceApplication.getFinanceUIConstants().logIn());
+		setText(Accounter.getFinanceUIConstants().logIn());
 
-		userEmailText = new EmailField(FinanceApplication
+		userEmailText = new EmailField(Accounter
 				.getFinanceUIConstants().email());
 		userEmailText.setRequired(true);
 		// userEmailText.setWidth("*");
 		userEmailText.setValue("admin@accounter.com");
 
-		userPassText = new TextItem(FinanceApplication.getFinanceUIConstants()
+		userPassText = new TextItem(Accounter.getFinanceUIConstants()
 				.password());
 		userPassText.setRequired(true);
 		// userPassText.setWidth("*");
-		userPassText.setValue(FinanceApplication.getCompanyMessages().defbiz());
+		userPassText.setValue(Accounter.getCompanyMessages().defbiz());
 		// usrPassText.sett
 
 		form = new DynamicForm();
 		form.setFields(userEmailText, userPassText);
 
-		AccounterButton createButt = UIUtils.AccounterButton(FinanceApplication
+		AccounterButton createButt = UIUtils.AccounterButton(Accounter
 				.getCompanyMessages().createUser(), "U");
 		// createButt.setAutoFit(true);
 
-		AccounterButton loginButt = UIUtils.AccounterButton(FinanceApplication
+		AccounterButton loginButt = UIUtils.AccounterButton(Accounter
 				.getCompanyMessages().login(), "L");
 		// loginButt.setAutoFit(true);
 
 		AccounterButton createCompButt = UIUtils.AccounterButton(
-				FinanceApplication.getCompanyMessages().createCompany(), "C");
+				Accounter.getCompanyMessages().createCompany(), "C");
 		// createCompButt.setWidth("*");
 		// createCompButt.setAutoFit(true);
 		// createCompButt.setAlign(Alignment.CENTER);
@@ -113,7 +113,7 @@ public class StartupDialog extends DialogBox {
 
 		createCompButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				if (FinanceApplication.getUser() == null) {
+				if (Accounter.getUser() == null) {
 					UIUtils.say("Please login or create a user first!");
 				} else {
 					new CompanySetupDialog(null);
@@ -124,11 +124,11 @@ public class StartupDialog extends DialogBox {
 		companyGrid = new DialogGrid(false);
 		// companyGrid.hide();
 		companyGrid.addColumns(new String[] {
-				FinanceApplication.getCustomersMessages().Id(),
-				FinanceApplication.getCustomersMessages().name(),
-				FinanceApplication.getCustomersMessages().legalName() });
+				Accounter.getCustomersMessages().Id(),
+				Accounter.getCustomersMessages().name(),
+				Accounter.getCustomersMessages().legalName() });
 
-		AccounterButton closeButt = new AccounterButton(FinanceApplication.getCustomersMessages()
+		AccounterButton closeButt = new AccounterButton(Accounter.getCustomersMessages()
 				.close());
 		// closeButt.setLayoutAlign(Alignment.RIGHT);
 
@@ -172,7 +172,7 @@ public class StartupDialog extends DialogBox {
 		final IAccounterGETServiceAsync getService = (IAccounterGETServiceAsync) GWT
 				.create(IAccounterGETService.class);
 		((ServiceDefTarget) getService)
-				.setServiceEntryPoint(FinanceApplication.GET_SERVICE_ENTRY_POINT);
+				.setServiceEntryPoint(Accounter.GET_SERVICE_ENTRY_POINT);
 
 		final AsyncCallback<ClientCompany> getCompanyCallback = new AsyncCallback<ClientCompany>() {
 			public void onFailure(Throwable caught) {
@@ -184,14 +184,14 @@ public class StartupDialog extends DialogBox {
 			public void onSuccess(ClientCompany company) {
 				if (company != null) {
 					// We got the company, set it for all further references.
-					FinanceApplication.setCompany(company);
+					Accounter.setCompany(company);
 					// Close the startup dialog...
 					// destroy();
 					StartupDialog.this.removeFromParent();
 					// loadingDialog.destroy();
 					// and, now we are ready to start the application.
 
-					FinanceApplication financeApplication = new FinanceApplication();
+					Accounter financeApplication = new Accounter();
 					if (defbizcallback != null)
 						defbizcallback.execute(financeApplication);
 					add(financeApplication);
@@ -230,11 +230,11 @@ public class StartupDialog extends DialogBox {
 
 			public void onSuccess(ClientIdentity result) {
 				if (result != null) {
-					FinanceApplication application = new FinanceApplication("",
-							result, new ValueCallBack<FinanceApplication>() {
+					Accounter application = new Accounter("",
+							result, new ValueCallBack<Accounter>() {
 
 								@Override
-								public void execute(FinanceApplication value) {
+								public void execute(Accounter value) {
 									StartupDialog.this.removeFromParent();
 									RootPanel.get().add(value);
 
@@ -270,16 +270,16 @@ public class StartupDialog extends DialogBox {
 
 			public void onSuccess(ClientUser user) {
 				if (user != null) {
-					FinanceApplication.setUser(user);
+					Accounter.setUser(user);
 					// getCompanyList();
 
-					FinanceApplication.setCompany(user.getClientCompany());
+					Accounter.setCompany(user.getClientCompany());
 					// Close the startup dialog...
 					StartupDialog.this.removeFromParent();
 					// loadingDialog.destroy();
 					// and, now we are ready to start the application.
 
-					FinanceApplication financeApplication = new FinanceApplication();
+					Accounter financeApplication = new Accounter();
 					if (defbizcallback != null)
 						defbizcallback.execute(financeApplication);
 					// FIXME
@@ -307,7 +307,7 @@ public class StartupDialog extends DialogBox {
 
 			public void onSuccess(ClientUser user) {
 				if (user != null) {
-					FinanceApplication.setUser(user);
+					Accounter.setUser(user);
 					getCompany();
 				} else {
 					UIUtils.say("Get User Came But Failed!");
@@ -369,7 +369,7 @@ public class StartupDialog extends DialogBox {
 		// ++recordIndex) {
 		// c = result.get(recordIndex);
 		// records[recordIndex] = new ListGridRecord();
-		// records[recordIndex].setAttribute("comp_id", c.getStringID() + "");
+		// records[recordIndex].setAttribute("comp_id", c.getID() + "");
 		// records[recordIndex].setAttribute("name", c.getName());
 		// records[recordIndex].setAttribute("legal_name", c.getLegalName());
 		// }

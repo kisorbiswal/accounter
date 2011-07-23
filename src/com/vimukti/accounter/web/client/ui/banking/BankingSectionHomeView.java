@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.AddWidgetDialog;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.PortalLayout;
 import com.vimukti.accounter.web.client.ui.Portlet;
 import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
@@ -57,7 +57,7 @@ public class BankingSectionHomeView extends BaseHomeView {
 		// addWidgetLinkLayout.setHeight(20);
 
 		LinkItem addWidgetLink = new LinkItem();
-		addWidgetLink.setLinkTitle(FinanceApplication.getBankingsMessages()
+		addWidgetLink.setLinkTitle(Accounter.getBankingsMessages()
 				.addWidget());
 		addWidgetLink.setShowTitle(false);
 		// addWidgetLink.setAlign(Alignment.RIGHT);
@@ -193,7 +193,7 @@ public class BankingSectionHomeView extends BaseHomeView {
 		accounts.init();
 		VerticalPanel leftLayout = new VerticalPanel();
 		leftLayout.setSize("100%", "100%");
-		listOfAccounts = FinanceApplication.getCompany().getAccounts();
+		listOfAccounts = Accounter.getCompany().getAccounts();
 		filterList(true);
 		// leftLayout.add(addWidgetLinkLayout);
 		leftLayout.add(portalLayout);
@@ -205,11 +205,11 @@ public class BankingSectionHomeView extends BaseHomeView {
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
 		String[] totalWidget = {
-				FinanceApplication.getBankingsMessages().bankingSummary(),
-				FinanceApplication.getBankingsMessages().checkIssued(),
-				FinanceApplication.getBankingsMessages().deposite(),
-				FinanceApplication.getBankingsMessages().fundTransfered(),
-				FinanceApplication.getBankingsMessages().creditCardCharges() };
+				Accounter.getBankingsMessages().bankingSummary(),
+				Accounter.getBankingsMessages().checkIssued(),
+				Accounter.getBankingsMessages().deposite(),
+				Accounter.getBankingsMessages().fundTransfered(),
+				Accounter.getBankingsMessages().creditCardCharges() };
 		boolean isAvailable = false;
 
 		for (int i = 0; i < totalWidget.length; i++) {
@@ -268,6 +268,6 @@ public class BankingSectionHomeView extends BaseHomeView {
 	
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().bankingHome();
+		return Accounter.getActionsConstants().bankingHome();
 	}
 }

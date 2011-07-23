@@ -136,7 +136,7 @@
 //					@Override
 //					public void selectedComboBoxItem(ClientTAXItem selectItem) {
 //						if (selectItem != null)
-//							selectedVATPurchaseAcc = selectItem.getStringID();
+//							selectedVATPurchaseAcc = selectItem.getID();
 //					}
 //				});
 //
@@ -151,7 +151,7 @@
 //					@Override
 //					public void selectedComboBoxItem(ClientTAXItem selectItem) {
 //						if (selectItem != null)
-//							selectedVATSAlesAcc = selectItem.getStringID();
+//							selectedVATSAlesAcc = selectItem.getID();
 //					}
 //				});
 //		vatNameForm = new DynamicForm();

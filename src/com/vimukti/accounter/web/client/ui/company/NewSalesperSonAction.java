@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -21,13 +21,13 @@ public class NewSalesperSonAction extends Action {
 	private boolean isEdit;
 
 	public NewSalesperSonAction(String icon) {
-		super(FinanceApplication.getCompanyMessages().newSalesPerson(), icon);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		super(Accounter.getCompanyMessages().newSalesPerson(), icon);
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	public NewSalesperSonAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	@Override

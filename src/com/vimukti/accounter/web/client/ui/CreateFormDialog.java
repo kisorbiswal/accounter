@@ -144,7 +144,7 @@
 //		for (int recordIndex = 0; recordIndex < records.length; ++recordIndex) {
 //			estimate = result.get(recordIndex);
 //			records[recordIndex] = new ListGridRecord();
-//			records[recordIndex].setAttribute("estimate_id", String.valueOf(estimate.getStringID()));
+//			records[recordIndex].setAttribute("estimate_id", String.valueOf(estimate.getID()));
 //			records[recordIndex].setAttribute("date", estimate.getDate());
 //			records[recordIndex].setAttribute("no", estimate.getNumber());
 //			records[recordIndex].setAttribute("type", estimate.getType());

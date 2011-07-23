@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ItemGroupListDialog;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -18,12 +18,12 @@ public class ItemGroupListAction extends Action {
 
 	public ItemGroupListAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	public ItemGroupListAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	@Override
@@ -50,8 +50,8 @@ public class ItemGroupListAction extends Action {
 				try {
 
 					ItemGroupListDialog dialog = new ItemGroupListDialog(
-							FinanceApplication.getCompanyMessages()
-									.manageItemGroup(), FinanceApplication
+							Accounter.getCompanyMessages()
+									.manageItemGroup(), Accounter
 									.getCompanyMessages().toAddItemGroup());
 					ViewManager viewManager = ViewManager.getInstance();
 					viewManager.setCurrentDialog(dialog);
@@ -73,7 +73,7 @@ public class ItemGroupListAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().items();
+		return Accounter.getFinanceMenuImages().items();
 	}
 	@Override
 	public String getImageUrl() {

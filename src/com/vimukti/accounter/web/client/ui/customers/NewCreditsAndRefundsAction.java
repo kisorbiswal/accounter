@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -21,13 +21,13 @@ public class NewCreditsAndRefundsAction extends Action {
 
 	public NewCreditsAndRefundsAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getCustomersMessages().customer();
+		this.catagory = Accounter.getCustomersMessages().customer();
 	}
 
 	public NewCreditsAndRefundsAction(String text, String iconString,
 			ClientCustomerCreditMemo creditMemo, AsyncCallback<Object> callback) {
 		super(text, iconString, creditMemo, callback);
-		this.catagory = FinanceApplication.getCustomersMessages().customer();
+		this.catagory = Accounter.getCustomersMessages().customer();
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class NewCreditsAndRefundsAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().newCreditsAndRefunds();
+		return Accounter.getFinanceMenuImages().newCreditsAndRefunds();
 	}
 	@Override
 	public String getImageUrl() {

@@ -17,7 +17,7 @@ public class ClientItemBackUp implements IAccounterCore {
 		 */
 	private static final long serialVersionUID = 1L;
 
-	public String stringID;
+	public long id;
 
 	String transactionItem;
 
@@ -31,13 +31,13 @@ public class ClientItemBackUp implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	public String getTransactionItem() {

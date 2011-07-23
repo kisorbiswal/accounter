@@ -10,7 +10,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -41,25 +41,25 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 
 	private void createControls() {
 		String[] statusArray = {
-				FinanceApplication.getReportsMessages().open(),
-				FinanceApplication.getReportsMessages().completed(),
-				FinanceApplication.getReportsMessages().cancelled(),
-				FinanceApplication.getReportsMessages().all() };
+				Accounter.getReportsMessages().open(),
+				Accounter.getReportsMessages().completed(),
+				Accounter.getReportsMessages().cancelled(),
+				Accounter.getReportsMessages().all() };
 
 		String[] dateRangeArray = {
-				FinanceApplication.getReportsMessages().all(),
-				FinanceApplication.getReportsMessages().thisWeek(),
-				FinanceApplication.getReportsMessages().thisMonth(),
-				FinanceApplication.getReportsMessages().lastWeek(),
-				FinanceApplication.getReportsMessages().lastMonth(),
-				FinanceApplication.getReportsMessages().thisFinancialYear(),
-				FinanceApplication.getReportsMessages().lastFinancialYear(),
-				FinanceApplication.getReportsMessages().thisFinancialQuarter(),
-				FinanceApplication.getReportsMessages().lastFinancialQuarter(),
-				FinanceApplication.getReportsMessages().financialYearToDate(),
-				FinanceApplication.getReportsMessages().custom() };
+				Accounter.getReportsMessages().all(),
+				Accounter.getReportsMessages().thisWeek(),
+				Accounter.getReportsMessages().thisMonth(),
+				Accounter.getReportsMessages().lastWeek(),
+				Accounter.getReportsMessages().lastMonth(),
+				Accounter.getReportsMessages().thisFinancialYear(),
+				Accounter.getReportsMessages().lastFinancialYear(),
+				Accounter.getReportsMessages().thisFinancialQuarter(),
+				Accounter.getReportsMessages().lastFinancialQuarter(),
+				Accounter.getReportsMessages().financialYearToDate(),
+				Accounter.getReportsMessages().custom() };
 
-		statusCombo = new SelectCombo(FinanceApplication.getVendorsMessages()
+		statusCombo = new SelectCombo(Accounter.getVendorsMessages()
 				.status());
 		statusCombo.setHelpInformation(true);
 		statusList = new ArrayList<String>();
@@ -75,14 +75,14 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 					public void selectedComboBoxItem(String selectItem) {
 
 						if (statusCombo.getSelectedValue().equals(
-								FinanceApplication.getReportsMessages().open())) {
+								Accounter.getReportsMessages().open())) {
 							status = OPEN;
 						} else if (statusCombo.getSelectedValue().equals(
-								FinanceApplication.getReportsMessages()
+								Accounter.getReportsMessages()
 										.completed())) {
 							status = COMPLETED;
 						} else if (statusCombo.getSelectedValue().equals(
-								FinanceApplication.getReportsMessages().all())) {
+								Accounter.getReportsMessages().all())) {
 							status = ALL;
 						} else
 							status = CANCELLED;
@@ -94,7 +94,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 					}
 				});
 
-		dateRangeCombo = new SelectCombo(FinanceApplication
+		dateRangeCombo = new SelectCombo(Accounter
 				.getReportsMessages().dateRange());
 		dateRangeCombo.setHelpInformation(true);
 		dateRangeCombo.setValueMap(dateRangeArray);
@@ -104,7 +104,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 			dateRangeList.add(statusArray[i]);
 		}
 		dateRangeCombo.initCombo(dateRangeList);
-		dateRangeCombo.setComboItem(FinanceApplication.getReportsMessages()
+		dateRangeCombo.setComboItem(Accounter.getReportsMessages()
 				.all());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -118,8 +118,8 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
-		fromItem.setDatethanFireEvent(FinanceApplication.getStartDate());
-		fromItem.setTitle(FinanceApplication.getReportsMessages().from());
+		fromItem.setDatethanFireEvent(Accounter.getStartDate());
+		fromItem.setTitle(Accounter.getReportsMessages().from());
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
@@ -130,7 +130,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		else
 			toItem.setDatethanFireEvent(new ClientFinanceDate());
 
-		toItem.setTitle(FinanceApplication.getReportsMessages().to());
+		toItem.setTitle(Accounter.getReportsMessages().to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -139,7 +139,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 				endDate = toItem.getValue();
 			}
 		});
-		updateButton = new AccounterButton(FinanceApplication
+		updateButton = new AccounterButton(Accounter
 				.getReportsMessages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
@@ -150,9 +150,9 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 				setEndDate(toItem.getDate());
 
 				changeDates(fromItem.getDate(), toItem.getDate());
-				dateRangeCombo.setDefaultValue(FinanceApplication
+				dateRangeCombo.setDefaultValue(Accounter
 						.getReportsMessages().custom());
-				setSelectedDateRange(FinanceApplication.getReportsMessages()
+				setSelectedDateRange(Accounter.getReportsMessages()
 						.custom());
 
 			}
@@ -162,7 +162,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		// toItem.setDisabled(true);
 		// updateButton.setEnabled(false);
 
-		AccounterButton printButton = new AccounterButton(FinanceApplication
+		AccounterButton printButton = new AccounterButton(Accounter
 				.getReportsMessages().print());
 		// printButton.setTop(2);
 		// printButton.setWidth(40);

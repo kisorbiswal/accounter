@@ -7,7 +7,7 @@ public class ClientFiscalYear implements IAccounterCore {
 	public static final int STATUS_OPEN = 1;
 	public static final int STATUS_CLOSE = 2;
 
-	String stringID;
+	long id;
 
 	long startDate;
 
@@ -142,13 +142,13 @@ public class ClientFiscalYear implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID(){
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

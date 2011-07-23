@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.PaySalesTaxView;
 import com.vimukti.accounter.web.client.ui.VATPaymentView;
@@ -14,12 +14,12 @@ public class PaySalesTaxAction extends Action {
 
 	public PaySalesTaxAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	public PaySalesTaxAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class PaySalesTaxAction extends Action {
 			public void onCreated() {
 
 				try {
-					if (FinanceApplication.getCompany().getAccountingType() == 1) {
+					if (Accounter.getCompany().getAccountingType() == 1) {
 						MainFinanceWindow.getViewManager().showView(
 								new VATPaymentView(), data, false,
 								PaySalesTaxAction.this);
@@ -69,7 +69,7 @@ public class PaySalesTaxAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().paySalesTax();
+		return Accounter.getFinanceMenuImages().paySalesTax();
 	}
 
 	@Override

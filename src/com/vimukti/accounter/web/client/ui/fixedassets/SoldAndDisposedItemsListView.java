@@ -4,7 +4,7 @@
 package com.vimukti.accounter.web.client.ui.fixedassets;
 
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.FixedAssetsActionFactory;
@@ -43,7 +43,7 @@ public class SoldAndDisposedItemsListView extends
 	 */
 	@Override
 	protected String getListViewHeading() {
-		return FinanceApplication.getFixedAssetConstants()
+		return Accounter.getFixedAssetConstants()
 				.soldAndDisposedItems();
 	}
 
@@ -56,7 +56,7 @@ public class SoldAndDisposedItemsListView extends
 		grid = new SoldAndDisposedItemsListGrid(false);
 		grid.init();
 		grid.setRecords(getAssetsByType(
-				ClientFixedAsset.STATUS_SOLD_OR_DISPOSED, FinanceApplication
+				ClientFixedAsset.STATUS_SOLD_OR_DISPOSED, Accounter
 						.getCompany().getFixedAssets()));
 		disableFilter();
 	}
@@ -80,7 +80,7 @@ public class SoldAndDisposedItemsListView extends
 	@Override
 	public void updateInGrid(ClientFixedAsset objectTobeModified) {
 		grid.setRecords(getAssetsByType(ClientFixedAsset.STATUS_PENDING,
-				FinanceApplication.getCompany().getFixedAssets()));
+				Accounter.getCompany().getFixedAssets()));
 	}
 
 	@Override
@@ -109,7 +109,7 @@ public class SoldAndDisposedItemsListView extends
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().soldDisposedItems();
+		return Accounter.getActionsConstants().soldDisposedItems();
 	}
 
 }

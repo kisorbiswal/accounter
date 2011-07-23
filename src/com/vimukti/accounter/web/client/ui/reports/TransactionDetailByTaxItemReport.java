@@ -4,7 +4,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.SalesTaxLiability;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByTaxItemServerReport;
 
@@ -31,11 +31,11 @@ public class TransactionDetailByTaxItemReport extends
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		SalesTaxLiability taxLiability = (SalesTaxLiability) data;
 		if (taxLiability == null) {
-			FinanceApplication.createReportService()
+			Accounter.createReportService()
 					.getTransactionDetailByTaxItem(start.getTime(),
 							end.getTime(), this);
 		} else if (taxLiability.getTaxAgencyName() != null) {
-			FinanceApplication.createReportService()
+			Accounter.createReportService()
 					.getTransactionDetailByTaxItem(
 							taxLiability.getTaxAgencyName(), start.getTime(),
 							end.getTime(), this);

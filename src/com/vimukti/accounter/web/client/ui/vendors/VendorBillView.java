@@ -27,7 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
@@ -117,7 +117,7 @@ public class VendorBillView extends
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 
 		enterBillToBeEdited = (ClientEnterBill) transactionObject;
-		ClientVendor vendor = FinanceApplication.getCompany().getVendor(
+		ClientVendor vendor = Accounter.getCompany().getVendor(
 				enterBillToBeEdited.getVendor());
 		contactSelected(enterBillToBeEdited.getContact());
 		billToaddressSelected(enterBillToBeEdited.getVendorAddress());
@@ -169,7 +169,7 @@ public class VendorBillView extends
 	}
 
 	private void initPaymentTerms() {
-		paymentTermsList = FinanceApplication.getCompany().getPaymentsTerms();
+		paymentTermsList = Accounter.getCompany().getPaymentsTerms();
 
 		paymentTermsCombo.initCombo(paymentTermsList);
 		paymentTermsCombo.setDisabled(isEdit);
@@ -178,7 +178,7 @@ public class VendorBillView extends
 				&& ((ClientEnterBill) transactionObject).getPaymentTerm() != null
 				&& (((ClientEnterBill) transactionObject).getPaymentTerm()
 						.length() != 0)) {
-			ClientPaymentTerms paymentTerm = FinanceApplication.getCompany()
+			ClientPaymentTerms paymentTerm = Accounter.getCompany()
 					.getPaymentTerms(
 							((ClientEnterBill) transactionObject)
 									.getPaymentTerm());
@@ -223,7 +223,7 @@ public class VendorBillView extends
 			vendorTransactionGrid.removeAllRecords();
 
 		selectedOrdersAndItemReceipts = new ArrayList<ClientTransaction>();
-		if (!(transactionObject != null && vendor.getStringID().equals(
+		if (!(transactionObject != null && vendor.getID().equals(
 				enterBillToBeEdited.getVendor())))
 			setPaymentTermsCombo(vendor);
 		if (transactionObject == null)
@@ -241,14 +241,14 @@ public class VendorBillView extends
 		if (this.vendor != null && this.vendor != vendor) {
 			ClientEnterBill ent = (ClientEnterBill) this.transactionObject;
 
-			if (ent != null && ent.getVendor().equals(vendor.getStringID())) {
+			if (ent != null && ent.getVendor().equals(vendor.getID())) {
 				this.vendorTransactionGrid.removeAllRecords();
 				this.vendorTransactionGrid
 						.setRecords(ent.getTransactionItems());
 				selectedPurchaseOrder = ent.getPurchaseOrder();
 				selectedItemReceipt = ent.getItemReceipt();
 			} else if (ent != null
-					&& !ent.getVendor().equals(vendor.getStringID())) {
+					&& !ent.getVendor().equals(vendor.getID())) {
 				this.vendorTransactionGrid.removeAllRecords();
 				this.vendorTransactionGrid.updateTotals();
 
@@ -260,7 +260,7 @@ public class VendorBillView extends
 	}
 
 	private void setPaymentTermsCombo(ClientVendor vendor) {
-		ClientPaymentTerms vendorPaymentTerm = FinanceApplication.getCompany()
+		ClientPaymentTerms vendorPaymentTerm = Accounter.getCompany()
 				.getPaymentTerms(vendor.getPaymentTermsId());
 		// if (transactionObject != null && this.selectedPaymentTerm != null)
 		// paymentTermSelected(selectedPaymentTerm);
@@ -271,7 +271,7 @@ public class VendorBillView extends
 			paymentTermSelected(vendorPaymentTerm);
 
 		} else {
-			paymentTermsList = FinanceApplication.getCompany()
+			paymentTermsList = Accounter.getCompany()
 					.getPaymentsTerms();
 			for (ClientPaymentTerms paymentTerm : paymentTermsList) {
 				if (paymentTerm.getName().equals("Due on Receipt")) {
@@ -302,15 +302,15 @@ public class VendorBillView extends
 		// if (transactionObject == null
 		// || transactionObject.getStatus() ==
 		// ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
-		lab1 = new Label(FinanceApplication.getVendorsMessages().enterBill());
+		lab1 = new Label(Accounter.getVendorsMessages().enterBill());
 
 		// else
 		// lab1 = new Label("Enter Bill(" + getTransactionStatus() + ")");
 
-		lab1.setStyleName(FinanceApplication.getVendorsMessages().lableTitle());
+		lab1.setStyleName(Accounter.getVendorsMessages().lableTitle());
 		// lab1.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
-		transactionDateItem.setTitle(FinanceApplication.getVendorsMessages()
+		transactionDateItem.setTitle(Accounter.getVendorsMessages()
 				.billDate());
 		transactionDateItem
 				.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -327,7 +327,7 @@ public class VendorBillView extends
 		transactionNumber = createTransactionNumberItem();
 		// transactionNumber.setTitle(UIUtils.getVendorString("Supplier Bill no",
 		// "Vendor Bill No"));
-		transactionNumber.setTitle(FinanceApplication.getVendorsMessages()
+		transactionNumber.setTitle(Accounter.getVendorsMessages()
 				.INVno());
 		listforms = new ArrayList<DynamicForm>();
 
@@ -350,8 +350,8 @@ public class VendorBillView extends
 		forms.add(dateNoForm);
 
 		vendorCombo = createVendorComboItem(UIUtils.getVendorString(
-				FinanceApplication.getVendorsMessages().supplierName(),
-				FinanceApplication.getVendorsMessages().vendorName()));
+				Accounter.getVendorsMessages().supplierName(),
+				Accounter.getVendorsMessages().vendorName()));
 		// vendorCombo.setWidth(100);
 		// purchaseLabel = new LinkItem();
 		// purchaseLabel.setLinkTitle(FinanceApplication.getVendorsMessages()
@@ -376,8 +376,8 @@ public class VendorBillView extends
 		if (this.transactionObject != null)
 			billToCombo.setDisabled(true);
 
-		vendorForm = UIUtils.form(UIUtils.getVendorString(FinanceApplication
-				.getVendorsMessages().supplier(), FinanceApplication
+		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplier(), Accounter
 				.getVendorsMessages().vendor()));
 		vendorForm.setWidth("100%");
 		vendorForm.setNumCols(3);
@@ -423,7 +423,7 @@ public class VendorBillView extends
 		// deliveryDateItem.setWidth(100);
 
 		DynamicForm termsForm = UIUtils.form(vendorConstants.terms());
-		termsForm.setStyleName(FinanceApplication.getVendorsMessages()
+		termsForm.setStyleName(Accounter.getVendorsMessages()
 				.venderForm());
 		termsForm.setWidth("75%");
 		// termsForm.setFields(phoneSelect, paymentTermsCombo);
@@ -435,7 +435,7 @@ public class VendorBillView extends
 				deliveryDateItem);
 		dateform.getCellFormatter().setWidth(0, 0, "200px");
 		forms.add(termsForm);
-		netAmount = new AmountLabel(FinanceApplication.getVendorsMessages()
+		netAmount = new AmountLabel(Accounter.getVendorsMessages()
 				.netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
@@ -531,7 +531,7 @@ public class VendorBillView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 
-		if (FinanceApplication.getCompany().getAccountingType() == 1) {
+		if (Accounter.getCompany().getAccountingType() == 1) {
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vpanel.setWidth("100%");
@@ -676,8 +676,8 @@ public class VendorBillView extends
 
 		super.saveAndUpdateView();
 
-		if (transactionObject.getStringID() != null
-				&& transactionObject.getStringID().length() != 0)
+		if (transactionObject.getID() != null
+				&& transactionObject.getID().length() != 0)
 			alterObject((ClientEnterBill) transactionObject);
 
 		else
@@ -714,7 +714,7 @@ public class VendorBillView extends
 			return AccounterValidator.validateForm(vendorForm, false);
 		case 4:
 			return AccounterValidator.validate_dueOrDelivaryDates(dueDateItem
-					.getEnteredDate(), this.transactionDate, FinanceApplication
+					.getEnteredDate(), this.transactionDate, Accounter
 					.getVendorsMessages().dueDate());
 		case 3:
 			return true;
@@ -757,7 +757,7 @@ public class VendorBillView extends
 		if (this.rpcUtilService == null)
 			return;
 		if (vendor == null) {
-			Accounter.showError(FinanceApplication.getVendorsMessages()
+			Accounter.showError(Accounter.getVendorsMessages()
 					.pleaseSelectTheVendor());
 		} else {
 
@@ -792,7 +792,7 @@ public class VendorBillView extends
 			};
 
 			this.rpcUtilService.getPurchasesAndItemReceiptsList(vendor
-					.getStringID(), callback);
+					.getID(), callback);
 		}
 
 		// if (vendor == null)
@@ -811,7 +811,7 @@ public class VendorBillView extends
 
 		for (PurchaseOrdersAndItemReceiptsList record : result) {
 			for (ClientTransaction transaction : selectedOrdersAndItemReceipts) {
-				if (transaction.getStringID().equals(record.getTransactionId()))
+				if (transaction.getID().equals(record.getTransactionId()))
 					filteredList.remove(record);
 			}
 		}
@@ -834,7 +834,7 @@ public class VendorBillView extends
 			for (ClientTransactionItem salesRecord : purchaseOrder
 					.getTransactionItems())
 				if (record.getReferringTransactionItem().equals(
-						salesRecord.getStringID()))
+						salesRecord.getID()))
 					vendorTransactionGrid.deleteRecord(record);
 
 		}
@@ -859,7 +859,7 @@ public class VendorBillView extends
 			clientItem.setType(item.getType());
 			clientItem.setDescription(item.getDescription());
 			clientItem.setTaxCode(item.getTaxCode());
-			clientItem.setReferringTransactionItem(item.getStringID());
+			clientItem.setReferringTransactionItem(item.getID());
 			clientItem.setAccount(item.getAccount());
 			clientItem.setItem(item.getItem());
 			clientItem.setQuantity(item.getQuantity());
@@ -874,7 +874,7 @@ public class VendorBillView extends
 
 		}
 
-		selectedPurchaseOrder = purchaseOrder.getStringID();
+		selectedPurchaseOrder = purchaseOrder.getID();
 		vendorTransactionGrid.isItemRecieptView = true;
 		vendorTransactionGrid.setAllTransactions(itemsList);
 	}
@@ -891,7 +891,7 @@ public class VendorBillView extends
 			clientItem.setType(item.getType());
 			clientItem.setQuantity(item.getQuantity());
 			clientItem.setDescription(item.getDescription());
-			clientItem.setReferringTransactionItem(item.getStringID());
+			clientItem.setReferringTransactionItem(item.getID());
 			clientItem.setUnitPrice(item.getUnitPrice());
 			clientItem.setDiscount(item.getDiscount());
 			clientItem.setLineTotal(item.getLineTotal() - item.getInvoiced());
@@ -906,7 +906,7 @@ public class VendorBillView extends
 
 		}
 
-		selectedItemReceipt = itemReceipt.getStringID();
+		selectedItemReceipt = itemReceipt.getID();
 
 		vendorTransactionGrid.setAllTransactions(itemsList);
 	}
@@ -1041,6 +1041,6 @@ public class VendorBillView extends
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().enterBills();
+		return Accounter.getActionsConstants().enterBills();
 	}
 }

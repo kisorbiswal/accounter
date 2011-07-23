@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.core;
 
 public class AccountTransactionItem {
 
-	String stringID;
+	long id;
 	ClientTransaction transaction;
 	ClientAccount account;
 	double amount;

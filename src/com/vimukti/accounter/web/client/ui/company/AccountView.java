@@ -133,7 +133,7 @@
 //				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 //					@Override
 //					public void selectedComboBoxItem(ClientAccount selectItem) {
-//						newAcc.setParent(( selectItem).getStringID());
+//						newAcc.setParent(( selectItem).getID());
 //
 //					}
 //				});

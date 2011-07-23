@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.fixedassets;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -14,7 +14,7 @@ public class DisposingRegisteredItemAction extends Action {
 
 	public DisposingRegisteredItemAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getFixedAssetConstants()
+		this.catagory = Accounter.getFixedAssetConstants()
 				.fixedAssets();
 	}
 
@@ -60,7 +60,7 @@ public class DisposingRegisteredItemAction extends Action {
 			}
 
 			public void onCreateFailed(Throwable t) {
-				Accounter.showError(FinanceApplication.getFixedAssetConstants()
+				Accounter.showError(Accounter.getFixedAssetConstants()
 						.failedToLoadDisposedFixedAssetView());
 			}
 		});

@@ -82,7 +82,7 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 	}
 
 	public void createShippingMethod() {
-		if (Utility.isObjectExist(FinanceApplication.getCompany()
+		if (Utility.isObjectExist(Accounter.getCompany()
 				.getShippingMethods(), inputDlg.getTextValueByIndex(0))) {
 			Accounter.showError("Shipping Method  Already Exists");
 		} else {
@@ -105,13 +105,13 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 
 	public void showAddEditTermDialog(ClientShippingMethod rec) {
 		String arr[] = new String[2];
-		arr[0] = FinanceApplication.getFinanceUIConstants().shippingMethod();
-		arr[1] = FinanceApplication.getFinanceUIConstants().descriptioN();
-		inputDlg = new InputDialog(FinanceApplication.getCustomersMessages()
+		arr[0] = Accounter.getFinanceUIConstants().shippingMethod();
+		arr[1] = Accounter.getFinanceUIConstants().descriptioN();
+		inputDlg = new InputDialog(Accounter.getCustomersMessages()
 				.shippingMethod(), "", arr) {
 			@Override
 			protected String getViewTitle() {
-				return FinanceApplication.getCustomersMessages()
+				return Accounter.getCustomersMessages()
 						.shippingMethod();
 			}
 		};
@@ -180,25 +180,25 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 	@Override
 	public String[] setColumns() {
 		return new String[] {
-				FinanceApplication.getFinanceUIConstants().Name(),
-				FinanceApplication.getFinanceUIConstants().description() };
+				Accounter.getFinanceUIConstants().Name(),
+				Accounter.getFinanceUIConstants().description() };
 	}
 
 	@Override
 	protected List<ClientShippingMethod> getRecords() {
-		return (List<ClientShippingMethod>) FinanceApplication.getCompany()
+		return (List<ClientShippingMethod>) Accounter.getCompany()
 				.getShippingMethods();
 	}
 
 	@Override
 	public String toString() {
-		return FinanceApplication.getFinanceUIConstants()
+		return Accounter.getFinanceUIConstants()
 				.shippingMethodListDialog();
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCompanyMessages()
+		return Accounter.getCompanyMessages()
 				.manageShippingMethodList();
 	}
 }

@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
@@ -84,7 +84,7 @@ public class TransactionJournalEntryGrid extends
 				if (column == 2 && !isEdit) {
 					if (core.getAccount() != null
 							&& !core.getAccount().equals("")) {
-						accountsCombo.setComboItem(FinanceApplication
+						accountsCombo.setComboItem(Accounter
 								.getCompany().getAccount(core.getAccount()));
 					} else
 						accountsCombo.setValue("");
@@ -108,7 +108,7 @@ public class TransactionJournalEntryGrid extends
 
 					@Override
 					public void selectedComboBoxItem(ClientVendor vendor) {
-						selectedObject.setVendor(vendor.getStringID());
+						selectedObject.setVendor(vendor.getID());
 						selectedObject.setCustomer("");
 						selectedObject.setAccount("");
 						setText(currentRow, currentCol, vendor.getName());
@@ -125,7 +125,7 @@ public class TransactionJournalEntryGrid extends
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
 					public void selectedComboBoxItem(ClientAccount account) {
-						selectedObject.setAccount(account.getStringID());
+						selectedObject.setAccount(account.getID());
 						selectedObject.setVendor("");
 						selectedObject.setCustomer("");
 						setText(currentRow, currentCol, account.getName());
@@ -139,7 +139,7 @@ public class TransactionJournalEntryGrid extends
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
 
 					public void selectedComboBoxItem(ClientCustomer customer) {
-						selectedObject.setCustomer(customer.getStringID());
+						selectedObject.setCustomer(customer.getID());
 						selectedObject.setAccount("");
 						selectedObject.setVendor("");
 						setText(currentRow, currentCol, customer.getName());
@@ -154,7 +154,7 @@ public class TransactionJournalEntryGrid extends
 		// IAccounterComboSelectionChangeHandler<ClientVATCode>() {
 		//
 		// public void selectedComboBoxItem(ClientVATCode taxCode) {
-		// selectedObject.setTaxCode(taxCode.getStringID());
+		// selectedObject.setTaxCode(taxCode.getID());
 		// setText(currentRow, currentCol, taxCode.getName());
 		// }
 		//
@@ -173,7 +173,7 @@ public class TransactionJournalEntryGrid extends
 					// if (core.getType() == ClientEntry.TYPE_FINANCIAL_ACCOUNT)
 					// {
 					if (core.getAccount() != null)
-						accountsCombo.setComboItem(FinanceApplication
+						accountsCombo.setComboItem(Accounter
 								.getCompany().getAccount(core.getAccount()));
 					// } else if (core.getType() == ClientEntry.TYPE_CUSTOMER) {
 					// if (core.getCustomer() != null)
@@ -212,7 +212,7 @@ public class TransactionJournalEntryGrid extends
 	}
 
 	private void initAccountsCombo() {
-		List<ClientAccount> accounts = FinanceApplication.getCompany()
+		List<ClientAccount> accounts = Accounter.getCompany()
 				.getActiveAccounts();
 		if (accounts != null) {
 			accountsCombo.initCombo(accounts);
@@ -221,7 +221,7 @@ public class TransactionJournalEntryGrid extends
 	}
 
 	private void initCustomersCombo() {
-		List<ClientCustomer> customers = FinanceApplication.getCompany()
+		List<ClientCustomer> customers = Accounter.getCompany()
 				.getActiveCustomers();
 		if (customers != null) {
 			customerCombo.initCombo(customers);
@@ -230,14 +230,14 @@ public class TransactionJournalEntryGrid extends
 
 	@SuppressWarnings("unused")
 	private void initTaxCodesCombo() {
-		List<ClientTAXCode> taxCodes = FinanceApplication.getCompany()
+		List<ClientTAXCode> taxCodes = Accounter.getCompany()
 				.getActiveTaxCodes();
 		if (taxCodes != null)
 			taxcodeCombo.initCombo(taxCodes);
 	}
 
 	public void addVendorGroupList() {
-		List<ClientVendor> vendors = FinanceApplication.getCompany()
+		List<ClientVendor> vendors = Accounter.getCompany()
 				.getActiveVendors();
 		if (vendors != null) {
 			vendorCombo.initCombo(vendors);
@@ -287,11 +287,11 @@ public class TransactionJournalEntryGrid extends
 		case 2:
 			return new String[] {
 					"",
-					FinanceApplication.getVendorsMessages().financialAccount(),
-					UIUtils.getVendorString(FinanceApplication
+					Accounter.getVendorsMessages().financialAccount(),
+					UIUtils.getVendorString(Accounter
 							.getVendorsMessages().supplier(),
-							FinanceApplication.getVendorsMessages().vendor()),
-					FinanceApplication.getCustomersMessages().customer() };
+							Accounter.getVendorsMessages().vendor()),
+					Accounter.getCustomersMessages().customer() };
 		}
 
 		return null;
@@ -435,7 +435,7 @@ public class TransactionJournalEntryGrid extends
 			// ClientCompany.ACCOUNTING_TYPE_UK) {
 			// return entry.getVatCode() != null ? entry.getVatCode() : "";
 			// } else
-			return FinanceApplication.getFinanceMenuImages().delete();
+			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
 			// case 8:
 			// if (FinanceApplication.getCompany().getAccountingType() ==
@@ -455,11 +455,11 @@ public class TransactionJournalEntryGrid extends
 	private String getTypeAsString(ClientEntry entry, int type) {
 		switch (type) {
 		case ClientEntry.TYPE_FINANCIAL_ACCOUNT:
-			return FinanceApplication.getVendorsMessages().account();
+			return Accounter.getVendorsMessages().account();
 		case ClientEntry.TYPE_CUSTOMER:
-			return FinanceApplication.getCustomersMessages().customer();
+			return Accounter.getCustomersMessages().customer();
 		case ClientEntry.TYPE_VENDOR:
-			return FinanceApplication.getVendorsMessages().vendor();
+			return Accounter.getVendorsMessages().vendor();
 			// case ClientEntry.TYPE_VAT:
 			// return "VAT";
 		}
@@ -476,19 +476,19 @@ public class TransactionJournalEntryGrid extends
 		switch (vocherType) {
 
 		case ClientEntry.TYPE_FINANCIAL_ACCOUNT:
-			coreObj = FinanceApplication.getCompany().getAccount(
+			coreObj = Accounter.getCompany().getAccount(
 					entry.getAccount());
 			break;
 		case ClientEntry.TYPE_CUSTOMER:
-			coreObj = FinanceApplication.getCompany().getCustomer(
+			coreObj = Accounter.getCompany().getCustomer(
 					entry.getCustomer());
 			break;
 		case ClientEntry.TYPE_VENDOR:
-			coreObj = FinanceApplication.getCompany().getVendor(
+			coreObj = Accounter.getCompany().getVendor(
 					entry.getVendor());
 			break;
 		case ClientEntry.TYPE_VAT:
-			coreObj = FinanceApplication.getCompany().getTAXCode(
+			coreObj = Accounter.getCompany().getTAXCode(
 					entry.getTaxCode());
 		}
 		return coreObj != null ? coreObj.getName() : "";

@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -47,23 +47,23 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return UIUtils.getVendorString(FinanceApplication.getVendorsMessages()
-				.addANewSupplierPayment(), FinanceApplication
+		return UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.addANewSupplierPayment(), Accounter
 				.getVendorsMessages().addANewVendorPayment());
 	}
 
 	@Override
 	protected String getListViewHeading() {
 
-		return UIUtils.getVendorString(FinanceApplication.getVendorsMessages()
-				.supplierPaymentList(), FinanceApplication.getVendorsMessages()
+		return UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplierPaymentList(), Accounter.getVendorsMessages()
 				.vendorPaymentsList());
 	}
 
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		FinanceApplication.createHomeService().getVendorPaymentsList(this);
+		Accounter.createHomeService().getVendorPaymentsList(this);
 
 	}
 
@@ -77,31 +77,31 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 	protected void initGrid() {
 		grid = new VendorPaymentsListGrid(false);
 		grid.init();
-		grid.setViewType(FinanceApplication.getVendorsMessages().notIssued());
+		grid.setViewType(Accounter.getVendorsMessages().notIssued());
 	}
 
 	@Override
 	public void onSuccess(List<PaymentsList> result) {
 		super.onSuccess(result);
-		grid.setViewType(FinanceApplication.getVendorsMessages().all());
-		filterList(FinanceApplication.getVendorsMessages().all());
+		grid.setViewType(Accounter.getVendorsMessages().all());
+		filterList(Accounter.getVendorsMessages().all());
 	}
 
 	@Override
 	protected SelectCombo getSelectItem() {
-		currentView = new SelectCombo(FinanceApplication.getVendorsMessages()
+		currentView = new SelectCombo(Accounter.getVendorsMessages()
 				.currentView());
 		currentView.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
-		listOfTypes.add(FinanceApplication.getVendorsMessages().notIssued());
-		listOfTypes.add(FinanceApplication.getVendorsMessages().issued());
-		listOfTypes.add(FinanceApplication.getVendorsMessages().Voided());
-		listOfTypes.add(FinanceApplication.getVendorsMessages().all());
+		listOfTypes.add(Accounter.getVendorsMessages().notIssued());
+		listOfTypes.add(Accounter.getVendorsMessages().issued());
+		listOfTypes.add(Accounter.getVendorsMessages().Voided());
+		listOfTypes.add(Accounter.getVendorsMessages().all());
 		currentView.initCombo(listOfTypes);
 		if (UIUtils.isMSIEBrowser())
 			currentView.setWidth("150px");
 
-		currentView.setComboItem(FinanceApplication.getVendorsMessages().all());
+		currentView.setComboItem(Accounter.getVendorsMessages().all());
 		currentView
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -209,8 +209,8 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(FinanceApplication.getVendorsMessages()
-				.supplierPayments(), FinanceApplication.getVendorsMessages()
+		return UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplierPayments(), Accounter.getVendorsMessages()
 				.vendorPayments());
 	}
 }

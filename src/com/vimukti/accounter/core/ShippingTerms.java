@@ -25,7 +25,7 @@ public class ShippingTerms implements IAccounterServerCore, Lifecycle,
 	int version;
 
 	long id;
-	public String stringID;
+	public long id;
 
 	String name;
 	String description;
@@ -121,14 +121,14 @@ public class ShippingTerms implements IAccounterServerCore, Lifecycle,
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

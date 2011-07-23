@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 /**
@@ -230,7 +230,7 @@ public abstract class CustomTable extends VerticalPanel {
 		imagePanel = new HorizontalPanel();
 		imagePanel.setStyleName("loading-panel");
 		imagePanel.add(new Image("/images/loader.gif"));
-		Label label = new Label(FinanceApplication.getCustomersMessages()
+		Label label = new Label(Accounter.getCustomersMessages()
 				.pleasewaitdataisloading());
 		imagePanel.add(label);
 		imagePanel.setCellVerticalAlignment(label,

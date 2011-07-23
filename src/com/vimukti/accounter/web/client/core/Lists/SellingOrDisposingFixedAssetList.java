@@ -12,7 +12,7 @@ public class SellingOrDisposingFixedAssetList implements IsSerializable,
 	/**
 	 * This will hold a secure 40 digit random number.
 	 */
-	private String stringID;
+	private long id;
 
 	/**
 	 * Unique Item ID, for which the
@@ -37,7 +37,7 @@ public class SellingOrDisposingFixedAssetList implements IsSerializable,
 	/**
 	 * @return the stringID
 	 */
-	public String getStringID() {
+	public long getID(){
 		return stringID;
 	}
 
@@ -45,8 +45,8 @@ public class SellingOrDisposingFixedAssetList implements IsSerializable,
 	 * @param stringID
 	 *            the stringID to set
 	 */
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	public String getName() {

@@ -89,7 +89,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 	/**
 	 * This will hold a secure 40 digit random number.
 	 */
-	public String stringID;
+	public long id;
 
 	/**
 	 * this can hold a Set of {@link Address}
@@ -156,7 +156,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 
 	private String registrationNumber;
 
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
@@ -3950,14 +3950,14 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 
@@ -4629,7 +4629,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 		cmp.createdDate = this.getCreatedDate();
 		cmp.lastModifiedDate = this.getLastModifiedDate();
 		cmp.preferences = this.getPreferences();
-		cmp.stringID = this.getStringID();
+		cmp.stringID = this.getID();
 
 		cmp.accountsReceivableAccount = this.getAccountsReceivableAccount();
 		cmp.accountsPayableAccount = this.getAccountsPayableAccount();
@@ -4770,7 +4770,7 @@ public class Company implements IAccounterServerCore, ICreatableObject {
 	public ClientCompany toClientCompany() {
 		ClientCompany clientCompany = new ClientCompany();
 		clientCompany.setName(this.name);
-		clientCompany.setStringID(this.getStringID());
+		clientCompany.setStringID(this.getID());
 		List<ClientAddress> list = clientCompany.getAddresses();
 
 		if (list != null) {

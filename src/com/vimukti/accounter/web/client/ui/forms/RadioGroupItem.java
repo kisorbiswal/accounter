@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * 
@@ -56,7 +56,7 @@ public class RadioGroupItem extends FormItem {
 
 		for (String string : buttonTitles) {
 			if (this.grouoName == null) {
-				this.grouoName = FinanceApplication.getCompanyMessages()
+				this.grouoName = Accounter.getCompanyMessages()
 						.radioButtonGroup();
 			}
 			radioButton = new RadioButton(this.grouoName, string);
@@ -71,13 +71,13 @@ public class RadioGroupItem extends FormItem {
 
 	public void setValueMap(String title1, String title2) {
 
-		radioButton = new RadioButton(FinanceApplication.getCompanyMessages()
+		radioButton = new RadioButton(Accounter.getCompanyMessages()
 				.radioButtonGroup(), title1);
 		if (this.clickHandler != null) {
 			this.radioButton.addClickHandler(clickHandler);
 		}
 		this.radioButtonList.add(radioButton);
-		radioButton = new RadioButton(FinanceApplication.getCompanyMessages()
+		radioButton = new RadioButton(Accounter.getCompanyMessages()
 				.radioButtonGroup(), title2);
 		if (this.clickHandler != null) {
 			this.radioButton.addClickHandler(clickHandler);

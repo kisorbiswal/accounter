@@ -71,13 +71,13 @@ public class GUITest {
 	public <C extends IAccounterCore> void create(final C core,
 			final AsyncCallback<String> callBack) {
 
-		FinanceApplication.createGETService().getStringID(
+		Accounter.createGETService().getID(
 				new AsyncCallback<String>() {
 
 					@Override
 					public void onSuccess(String result) {
 						core.setStringID(result);
-						FinanceApplication.createCRUDService().create(
+						Accounter.createCRUDService().create(
 								((IAccounterCore) core), callBack);
 					}
 
@@ -179,7 +179,7 @@ public class GUITest {
 
 	private long getNextAccountNumber(final ClientAccount acc,
 			final String name, final int accType) {
-		FinanceApplication.createHomeService().getNextNominalCode(accType,
+		Accounter.createHomeService().getNextNominalCode(accType,
 				new AsyncCallback<Long>() {
 
 					@Override
@@ -240,7 +240,7 @@ public class GUITest {
 	public void setAccountParticulars(ClientAccount account, int accountType) {
 		switch (accountType) {
 		case ClientAccount.TYPE_BANK:
-			account.setBank(Utility.getId(FinanceApplication.getCompany()
+			account.setBank(Utility.getId(Accounter.getCompany()
 					.getBanks().get(0)));
 			account.setBankAccountType(ClientAccount.BANK_ACCCOUNT_TYPE_SAVING);
 			account.setBankAccountNumber("icici111");
@@ -248,7 +248,7 @@ public class GUITest {
 			break;
 		case ClientAccount.TYPE_CREDIT_CARD:
 
-			account.setBank(Utility.getId(getObjectByName(FinanceApplication
+			account.setBank(Utility.getId(getObjectByName(Accounter
 					.getCompany().getBanks(), "ICICI")));
 			account.setCreditLimit(5000);
 			account.setCardOrLoanNumber("visa101");
@@ -260,8 +260,8 @@ public class GUITest {
 		if (list == null)
 			return null;
 		for (S s : list) {
-			if (s != null && s.getStringID() != null) {
-				if (s.getStringID().equals(object.getStringID()))
+			if (s != null && s.getID() != null) {
+				if (s.getID().equals(object.getID()))
 					return s;
 			}
 		}
@@ -273,7 +273,7 @@ public class GUITest {
 		if (list == null)
 			return null;
 		for (S s : list) {
-			if (s != null && s.getStringID() != null) {
+			if (s != null && s.getID() != null) {
 				if (s.getName().equals(name))
 					return s;
 			}
@@ -447,37 +447,37 @@ public class GUITest {
 			customer.setCreditLimit(1000);
 
 			// Setting Price Level
-			customer.setPriceLevel(Utility.getId(FinanceApplication
+			customer.setPriceLevel(Utility.getId(Accounter
 					.getCompany().getPriceLevels().get(0)));
 
 			// Setting Credit Rating
-			customer.setCreditRating(FinanceApplication.getCompany()
-					.getCreditRatings().get(0).getStringID());
+			customer.setCreditRating(Accounter.getCompany()
+					.getCreditRatings().get(0).getID());
 
 			// Setting Preferred Shipping Method
-			customer.setShippingMethod(FinanceApplication.getCompany()
-					.getShippingMethods().get(0).getStringID());
+			customer.setShippingMethod(Accounter.getCompany()
+					.getShippingMethods().get(0).getID());
 
 			// Setting Preferred Payment Method
 
 			customer.setPaymentMethod(i == 1 ? "Cash" : "Check");
 
 			// Setting Preferred Payment Terms
-			customer.setPaymentTerm(Utility.getId(FinanceApplication
+			customer.setPaymentTerm(Utility.getId(Accounter
 					.getCompany().getPaymentsTerms().get(0)));
 
 			// Setting customer Group
-			customer.setCustomerGroup(Utility.getId(FinanceApplication
+			customer.setCustomerGroup(Utility.getId(Accounter
 					.getCompany().getCustomerGroups().get(0)));
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 				// Setting Tax Group
-				customer.setTaxGroup(Utility.getId(FinanceApplication
+				customer.setTaxGroup(Utility.getId(Accounter
 						.getCompany().getTaxGroups().get(0)));
 
-			else if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				// setting Vat Code
 				customer.setTAXCode(Utility.getId(getObjectByName(
-						FinanceApplication.getCompany().getTaxCodes(), "R")));
+						Accounter.getCompany().getTaxCodes(), "R")));
 				customer.setVATRegistrationNumber("12345");
 			}
 			create(customer, getCreateCallBack(customer));
@@ -498,10 +498,10 @@ public class GUITest {
 			// noninventory=3 servc = 1
 			item.setType(i == 0 ? 3 : 1);
 			item.setName(name[i]);
-			item.setItemGroup(FinanceApplication.getCompany().getItemGroups()
-					.get(0).getStringID());
+			item.setItemGroup(Accounter.getCompany().getItemGroups()
+					.get(0).getID());
 			item.setStandardCost(1000);
-			if (FinanceApplication.getCompany().getAccountingType() == 0
+			if (Accounter.getCompany().getAccountingType() == 0
 					&& i == 0)
 				item.setUPCorSKU("Product1");
 
@@ -513,38 +513,38 @@ public class GUITest {
 
 			item.setSalesDescription("Customer:Item Sold for $1000");
 			item.setSalesPrice(1000);
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				item.setIncomeAccount(FinanceApplication.getCompany()
-						.getAccountByName("Discounts").getStringID());
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				item.setIncomeAccount(Accounter.getCompany()
+						.getAccountByName("Discounts").getID());
 			} else {
-				item.setIncomeAccount(FinanceApplication.getCompany()
-						.getAccountByName("incomeAcc111").getStringID());
+				item.setIncomeAccount(Accounter.getCompany()
+						.getAccountByName("incomeAcc111").getID());
 			}
 			item.setCommissionItem(i == 0 ? false : true);
 
 			if (i == 1) {
 				item.setPurchaseDescription("Customer:Item Purcased at $1000");
 				item.setPurchasePrice(1000);
-				item.setPreferredVendor(FinanceApplication.getCompany()
+				item.setPreferredVendor(Accounter.getCompany()
 						.getVendorByName(
 								UIUtils.getVendorString("Supplier111",
-										"Vendor111")).getStringID());
-				if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-					item.setExpenseAccount(FinanceApplication.getCompany()
-							.getAccountByName("Discounts Taken").getStringID());
+										"Vendor111")).getID());
+				if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+					item.setExpenseAccount(Accounter.getCompany()
+							.getAccountByName("Discounts Taken").getID());
 				} else {
-					item.setExpenseAccount(FinanceApplication.getCompany()
-							.getAccountByName("expnsAcc111").getStringID());
+					item.setExpenseAccount(Accounter.getCompany()
+							.getAccountByName("expnsAcc111").getID());
 				}
 
 				item.setVendorItemNumber("product" + i);
 			}
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 				item.setTaxable(true);
 			else
 				item.setTaxCode(getObjectByName(
-						FinanceApplication.getCompany().getTaxCodes(), "S")
-						.getStringID());
+						Accounter.getCompany().getTaxCodes(), "S")
+						.getID());
 			create(item, getCreateCallBack(item));
 		}
 	}
@@ -603,44 +603,44 @@ public class GUITest {
 			// Setting Data from Details Tab
 
 			// Setting Expense Account
-			vendor.setExpenseAccount(Utility.getId(FinanceApplication
+			vendor.setExpenseAccount(Utility.getId(Accounter
 					.getCompany().getAccounts().get(0)));
 
 			// Setting Credit Limit
 			vendor.setCreditLimit(1000);
 
 			// Setting Preferred Shipping Method
-			vendor.setShippingMethod(FinanceApplication.getCompany()
-					.getShippingMethods().get(0).getStringID());
+			vendor.setShippingMethod(Accounter.getCompany()
+					.getShippingMethods().get(0).getID());
 
 			// Setting Preferred Payment Method
 
 			vendor.setPaymentMethod(i == 1 ? "Cash" : "Check");
 			// Setting Preferred Payment Terms
-			vendor.setPaymentTerms(Utility.getId(FinanceApplication
+			vendor.setPaymentTerms(Utility.getId(Accounter
 					.getCompany().getPaymentsTerms().get(0)));
 			// Setting Vendor Group
-			vendor.setVendorGroup(Utility.getId(FinanceApplication.getCompany()
+			vendor.setVendorGroup(Utility.getId(Accounter.getCompany()
 					.getVendorGroups().get(0)));
 
 			vendor.setFederalTaxId("Federal");
 
 			// Setting Account Payable
-			vendor.setAccountsPayable(FinanceApplication.getCompany()
+			vendor.setAccountsPayable(Accounter.getCompany()
 					.getAccountsPayableAccount());
 			// Seting opening balance accounts
-			vendor.setOpeningBalanceAccount(FinanceApplication.getCompany()
+			vendor.setOpeningBalanceAccount(Accounter.getCompany()
 					.getOpeningBalancesAccount());
-			vendor.setAccountsPayable(FinanceApplication.getCompany()
+			vendor.setAccountsPayable(Accounter.getCompany()
 					.getAccountsPayableAccount());
 
 			// Setting opening balance accounts
 
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 
 				vendor.setVATRegistrationNumber("123");
 			}
-			vendor.setTAXCode(Utility.getId(getObjectByName(FinanceApplication
+			vendor.setTAXCode(Utility.getId(getObjectByName(Accounter
 					.getCompany().getTaxCodes(), "R")));
 
 			create(vendor, getCreateCallBack(vendor));
@@ -659,10 +659,10 @@ public class GUITest {
 			// noninventory=3 servc = 1
 			item.setType(i == 0 ? 3 : 1);
 			item.setName(name[i]);
-			item.setItemGroup(FinanceApplication.getCompany().getItemGroups()
-					.get(0).getStringID());
+			item.setItemGroup(Accounter.getCompany().getItemGroups()
+					.get(0).getID());
 			item.setStandardCost(1000);
-			if (FinanceApplication.getCompany().getAccountingType() == 0
+			if (Accounter.getCompany().getAccountingType() == 0
 					&& i == 0)
 				item.setUPCorSKU("Product1");
 
@@ -675,35 +675,35 @@ public class GUITest {
 			if (i == 1) {
 				item.setSalesDescription("Vendor:Product Sold  $1000");
 				item.setSalesPrice(1000);
-				if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-					item.setIncomeAccount(FinanceApplication.getCompany()
-							.getAccountByName("Discounts").getStringID());
+				if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+					item.setIncomeAccount(Accounter.getCompany()
+							.getAccountByName("Discounts").getID());
 				} else {
-					item.setIncomeAccount(FinanceApplication.getCompany()
-							.getAccountByName("incomeAcc111").getStringID());
+					item.setIncomeAccount(Accounter.getCompany()
+							.getAccountByName("incomeAcc111").getID());
 				}
 				item.setCommissionItem(true);
 			}
 
 			item.setPurchaseDescription("Vendor:Product Purcased at $1000");
 			item.setPurchasePrice(1000);
-			item.setPreferredVendor(FinanceApplication.getCompany()
-					.getVendorByName("Vendor222").getStringID());
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				item.setExpenseAccount(FinanceApplication.getCompany()
-						.getAccountByName("Discounts Taken").getStringID());
+			item.setPreferredVendor(Accounter.getCompany()
+					.getVendorByName("Vendor222").getID());
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				item.setExpenseAccount(Accounter.getCompany()
+						.getAccountByName("Discounts Taken").getID());
 			} else {
-				item.setExpenseAccount(FinanceApplication.getCompany()
-						.getAccountByName("expnsAcc111").getStringID());
+				item.setExpenseAccount(Accounter.getCompany()
+						.getAccountByName("expnsAcc111").getID());
 			}
 
 			item.setVendorItemNumber("product" + i);
-			if (FinanceApplication.getCompany().getAccountingType() == 0)
+			if (Accounter.getCompany().getAccountingType() == 0)
 				item.setTaxable(true);
 			else
 				item.setTaxCode(getObjectByName(
-						FinanceApplication.getCompany().getTaxCodes(), "S")
-						.getStringID());
+						Accounter.getCompany().getTaxCodes(), "S")
+						.getID());
 			create(item, getCreateCallBack(item));
 		}
 	}
@@ -721,7 +721,7 @@ public class GUITest {
 		double vatRate = 0.0;
 		// Checking the selected object is VATItem or VATGroup.
 		// If it is VATItem,the we should get 'VATRate',otherwise 'GroupRate
-		ClientTAXItemGroup vatItemGroup = FinanceApplication.getCompany()
+		ClientTAXItemGroup vatItemGroup = Accounter.getCompany()
 				.getTAXItemGroup(taxCode.getTAXItemGrpForPurchases());
 		
 		if (vatItemGroup instanceof ClientTAXItem) {
@@ -753,23 +753,23 @@ public class GUITest {
 		// FIXME--need to check the index of the returnd item(since for
 		// vendors,only purzditems shud set)
 		record.setItem(getObjectByName(
-				FinanceApplication.getCompany().getItems(),
-				"servcVendorSoldPurchzdItm").getStringID());
+				Accounter.getCompany().getItems(),
+				"servcVendorSoldPurchzdItm").getID());
 		record.setDescription("this is product");
 		record.setQuantity(1);
 		record.setUnitPrice(getObjectByName(
-				FinanceApplication.getCompany().getItems(),
+				Accounter.getCompany().getItems(),
 				"servcVendorSoldPurchzdItm").getPurchasePrice());
 		record.setLineTotal(record.getUnitPrice() * record.getQuantity());
-		record.setTaxCode(FinanceApplication.getCompany().getItem(
+		record.setTaxCode(Accounter.getCompany().getItem(
 				record.getItem()).getTaxCode());
 		record
 				.setVATfraction(getCalculatedVATFraction(record.getLineTotal(),
-						FinanceApplication.getCompany().getTAXCode(
+						Accounter.getCompany().getTAXCode(
 								record.getTaxCode()), isAmountIncludeVAT));
 
 		records.add(record);
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			grandTotal = record.getVATfraction() + record.getLineTotal();
 		else {
 			if (isAmountIncludeVAT) {
@@ -800,33 +800,33 @@ public class GUITest {
 			ClientCashPurchase cashPurchase = new ClientCashPurchase();
 
 			// Setting Vendor
-			cashPurchase.setVendor(FinanceApplication.getCompany()
-					.getVendorByName(vName[i]).getStringID());
+			cashPurchase.setVendor(Accounter.getCompany()
+					.getVendorByName(vName[i]).getID());
 
 			// Setting Contact
-			cashPurchase.setContact(FinanceApplication.getCompany()
+			cashPurchase.setContact(Accounter.getCompany()
 					.getVendorByName(vName[i]).getPrimaryContact());
 			cashPurchase.setType(ClientTransaction.TYPE_CASH_PURCHASE);
 
 			// Setting Address
-			cashPurchase.setVendorAddress(getAddress((FinanceApplication
+			cashPurchase.setVendorAddress(getAddress((Accounter
 					.getCompany().getVendorByName(vName[i]).getAddress()),
 					ClientAddress.TYPE_BILL_TO));
 
 			// Setting Phone
-			cashPurchase.setPhone(FinanceApplication.getCompany()
+			cashPurchase.setPhone(Accounter.getCompany()
 					.getVendorByName(vName[i]).getPrimaryContact()
 					.getBusinessPhone());
 
 			// Setting Payment Methods
-			cashPurchase.setPaymentMethod(FinanceApplication.getCompany()
+			cashPurchase.setPaymentMethod(Accounter.getCompany()
 					.getVendorByName(vName[i]).getPaymentMethod());
 
 			// Setting Pay From Account
-			cashPurchase.setPayFrom(i == 1 ? FinanceApplication.getCompany()
-					.getAccountByName("cahsAcc111").getStringID()
-					: FinanceApplication.getCompany().getAccountByName(
-							"bankAcc111").getStringID());
+			cashPurchase.setPayFrom(i == 1 ? Accounter.getCompany()
+					.getAccountByName("cahsAcc111").getID()
+					: Accounter.getCompany().getAccountByName(
+							"bankAcc111").getID());
 
 			// Setting Check number
 			cashPurchase.setCheckNumber(i == 1 ? "0" : "1");
@@ -863,15 +863,15 @@ public class GUITest {
 		// FIXME--need to check the index of the returnd item(since for
 		// vendors,only purzditems shud set)
 		record.setItem(getObjectByName(
-				FinanceApplication.getCompany().getItems(),
-				"nonInventorySoldItm").getStringID());
+				Accounter.getCompany().getItems(),
+				"nonInventorySoldItm").getID());
 		record.setDescription("this is product");
 		record.setQuantity(1);
 
 		double percentage = priceLevel.getPercentage()
 				* (priceLevel.isPriceLevelDecreaseByThisPercentage() ? -1 : 1);
 		double salesPrice = getObjectByName(
-				FinanceApplication.getCompany().getItems(),
+				Accounter.getCompany().getItems(),
 				"nonInventorySoldItm").getSalesPrice();
 		double calcultdUnitPric = salesPrice + salesPrice * (percentage / 100);
 
@@ -880,17 +880,17 @@ public class GUITest {
 		record.setLineTotal((calcultdUnitPric + calcultdUnitPric
 				* record.getDiscount() / 100.0)
 				* record.getQuantity());
-		record.setTaxCode(FinanceApplication.getCompany().getItem(
+		record.setTaxCode(Accounter.getCompany().getItem(
 				record.getItem()).getTaxCode());
 		record
 				.setVATfraction(getCalculatedVATFraction(record.getLineTotal(),
-						FinanceApplication.getCompany().getTAXCode(
+						Accounter.getCompany().getTAXCode(
 								record.getTaxCode()), isAmountIncludeVAT));
 
 		// FIXME--need to set taxgroup for each record in US version
 
 		records.add(record);
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			grandTotal = record.getVATfraction() + record.getLineTotal();
 		else {
 			if (isAmountIncludeVAT) {
@@ -913,40 +913,40 @@ public class GUITest {
 			ClientEstimate quote = new ClientEstimate();
 
 			quote.setExpirationDate(new ClientFinanceDate().getTime());
-			quote.setCustomer(FinanceApplication.getCompany()
-					.getCustomerByName(name[i]).getStringID());
-			quote.setContact(FinanceApplication.getCompany().getCustomerByName(
+			quote.setCustomer(Accounter.getCompany()
+					.getCustomerByName(name[i]).getID());
+			quote.setContact(Accounter.getCompany().getCustomerByName(
 					name[i]).getPrimaryContact());
-			quote.setPhone(FinanceApplication.getCompany().getCustomerByName(
+			quote.setPhone(Accounter.getCompany().getCustomerByName(
 					name[i]).getPrimaryContact().getBusinessPhone());
 
 			quote.setDeliveryDate(new ClientFinanceDate().getTime());
 
 			// quote.setSalesPerson(null);
-			quote.setPriceLevel(FinanceApplication.getCompany()
+			quote.setPriceLevel(Accounter.getCompany()
 					.getCustomerByName(name[i]).getPriceLevel());
 
 			quote.setMemo("This is Quote of " + name[i]);
 
-			quote.setAddress(getAddress(FinanceApplication.getCompany()
+			quote.setAddress(getAddress(Accounter.getCompany()
 					.getCustomerByName(name[i]).getAddress(),
 					ClientAddress.TYPE_BILL_TO));
 
 			quote.setReference("This is reference");
-			quote.setPaymentTerm(FinanceApplication.getCompany()
+			quote.setPaymentTerm(Accounter.getCompany()
 					.getCustomerByName(name[i]).getPaymentTerm());
 			quote.setDate(new ClientFinanceDate().getTime());
 			quote.setTransactionDate(new ClientFinanceDate().getTime());
 			quote.setNumber("" + i + 1);
 			quote.setType(ClientTransaction.TYPE_ESTIMATE);
-			if (FinanceApplication.getCompany().getAccountingType() == 1)
+			if (Accounter.getCompany().getAccountingType() == 1)
 				quote.setAmountsIncludeVAT(i == 0 ? false : true);
 
 			quote.setTransactionItems(getCustomerTransactionItems(quote
-					.isAmountsIncludeVAT(), FinanceApplication.getCompany()
+					.isAmountsIncludeVAT(), Accounter.getCompany()
 					.getPriceLevel(quote.getPriceLevel())));
 
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				quote.setNetAmount(getNetAmount());
 
 			} else {
@@ -965,33 +965,33 @@ public class GUITest {
 		String name[] = new String[] { "Customer111", "Customer222" };
 		for (int i = 0; i < 2; i++) {
 			ClientInvoice invoice = new ClientInvoice();
-			invoice.setCustomer(FinanceApplication.getCompany()
-					.getCustomerByName(name[i]).getStringID());
+			invoice.setCustomer(Accounter.getCompany()
+					.getCustomerByName(name[i]).getID());
 
 			invoice.setDueDate(new ClientFinanceDate().getTime());
 			invoice.setType(ClientTransaction.TYPE_INVOICE);
 			invoice.setDeliverydate(new ClientFinanceDate().getTime());
-			if (FinanceApplication.getCompany().getAccountingType() == 0)
+			if (Accounter.getCompany().getAccountingType() == 0)
 				// invoice.setSalesTaxAmount(salesTaxTextNonEditable.getAmount());
-				invoice.setContact(FinanceApplication.getCompany()
+				invoice.setContact(Accounter.getCompany()
 						.getCustomerByName(name[i]).getPrimaryContact());
-			invoice.setPhone(FinanceApplication.getCompany().getCustomerByName(
+			invoice.setPhone(Accounter.getCompany().getCustomerByName(
 					name[i]).getPrimaryContact().getBusinessPhone());
-			invoice.setBillingAddress(getAddress(FinanceApplication
+			invoice.setBillingAddress(getAddress(Accounter
 					.getCompany().getCustomerByName(name[i]).getAddress(),
 					ClientAddress.TYPE_BILL_TO));
-			invoice.setShippingAdress(getAddress(FinanceApplication
+			invoice.setShippingAdress(getAddress(Accounter
 					.getCompany().getCustomerByName(name[i]).getAddress(),
 					ClientAddress.TYPE_SHIP_TO));
 			invoice.setSalesPerson(null);
-			invoice.setPaymentTerm(FinanceApplication.getCompany()
+			invoice.setPaymentTerm(Accounter.getCompany()
 					.getCustomerByName(name[i]).getPaymentTerm());
 
-			invoice.setShippingTerm(FinanceApplication.getCompany()
-					.getShippingTerms().get(0).getStringID());
-			invoice.setShippingMethod(FinanceApplication.getCompany()
+			invoice.setShippingTerm(Accounter.getCompany()
+					.getShippingTerms().get(0).getID());
+			invoice.setShippingMethod(Accounter.getCompany()
 					.getCustomerByName(name[i]).getShippingMethod());
-			invoice.setPriceLevel(FinanceApplication.getCompany()
+			invoice.setPriceLevel(Accounter.getCompany()
 					.getCustomerByName(name[i]).getPriceLevel());
 
 			invoice.setAmountsIncludeVAT(i == 0 ? true : false);
@@ -1000,9 +1000,9 @@ public class GUITest {
 			invoice.setReference("This is refernce for invoice" + i);
 
 			ClientFinanceDate discountDate = Utility.getCalculatedDiscountDate(
-					new ClientFinanceDate(), FinanceApplication.getCompany()
+					new ClientFinanceDate(), Accounter.getCompany()
 							.getPaymentTerms(
-									FinanceApplication.getCompany()
+									Accounter.getCompany()
 											.getCustomerByName(name[i])
 											.getPaymentTerm()));
 			invoice.setDiscountDate(discountDate.getTime());
@@ -1016,22 +1016,22 @@ public class GUITest {
 			invoice.setNumber("" + i + 1);
 
 			invoice.setTransactionItems(getCustomerTransactionItems(invoice
-					.isAmountsIncludeVAT(), FinanceApplication.getCompany()
+					.isAmountsIncludeVAT(), Accounter.getCompany()
 					.getPriceLevel(invoice.getPriceLevel())));
 			invoice.setTotal(getTotal());
 			invoice.setBalanceDue(getTotal());
 			invoice.setPayments(0);
 
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				// if (taxGroup != null) {
 				// for (ClientTransactionItem record : customerTransactionGrid
 				// .getRecords()) {
-				// record.setTaxGroup(taxGroup.getStringID());
+				// record.setTaxGroup(taxGroup.getID());
 				//
 				// }
 				// }
 				// invoice.setSalesTaxAmount(this.salesTax);
-			} else if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				invoice.setNetAmount(getNetAmount());
 			}
 
@@ -1047,34 +1047,34 @@ public class GUITest {
 		for (int i = 0; i < 2; i++) {
 			ClientCashSales cashSale = new ClientCashSales();
 
-			cashSale.setCustomer(FinanceApplication.getCompany()
-					.getCustomerByName(name[i]).getStringID());
+			cashSale.setCustomer(Accounter.getCompany()
+					.getCustomerByName(name[i]).getID());
 			cashSale.setType(ClientTransaction.TYPE_CASH_SALES);
-			cashSale.setDepositIn(i == 1 ? FinanceApplication.getCompany()
-					.getAccountByName("cahsAcc111").getStringID()
-					: FinanceApplication.getCompany().getAccountByName(
-							"bankAcc111").getStringID());
-			cashSale.setContact(FinanceApplication.getCompany()
+			cashSale.setDepositIn(i == 1 ? Accounter.getCompany()
+					.getAccountByName("cahsAcc111").getID()
+					: Accounter.getCompany().getAccountByName(
+							"bankAcc111").getID());
+			cashSale.setContact(Accounter.getCompany()
 					.getCustomerByName(name[i]).getPrimaryContact());
-			cashSale.setPhone(FinanceApplication.getCompany()
+			cashSale.setPhone(Accounter.getCompany()
 					.getCustomerByName(name[i]).getPrimaryContact()
 					.getBusinessPhone());
 			cashSale.setSalesPerson(null);
-			cashSale.setBillingAddress(getAddress(FinanceApplication
+			cashSale.setBillingAddress(getAddress(Accounter
 					.getCompany().getCustomerByName(name[i]).getAddress(),
 					ClientAddress.TYPE_BILL_TO));
-			cashSale.setShippingAdress(getAddress(FinanceApplication
+			cashSale.setShippingAdress(getAddress(Accounter
 					.getCompany().getCustomerByName(name[i]).getAddress(),
 					ClientAddress.TYPE_SHIP_TO));
-			cashSale.setShippingTerm(FinanceApplication.getCompany()
-					.getShippingTerms().get(0).getStringID());
-			cashSale.setShippingMethod(FinanceApplication.getCompany()
+			cashSale.setShippingTerm(Accounter.getCompany()
+					.getShippingTerms().get(0).getID());
+			cashSale.setShippingMethod(Accounter.getCompany()
 					.getCustomerByName(name[i]).getShippingMethod());
-			cashSale.setPaymentMethod(FinanceApplication.getCompany()
+			cashSale.setPaymentMethod(Accounter.getCompany()
 					.getCustomerByName(name[i]).getPaymentMethod());
 
 			cashSale.setDeliverydate(new ClientFinanceDate().getTime());
-			cashSale.setPriceLevel((FinanceApplication.getCompany()
+			cashSale.setPriceLevel((Accounter.getCompany()
 					.getCustomerByName(name[i]).getPriceLevel()));
 			cashSale.setMemo("This Cash Sale by: " + name[i]);
 			cashSale.setReference("This cashsale " + i);
@@ -1083,9 +1083,9 @@ public class GUITest {
 			cashSale.setDate(new ClientFinanceDate().getTime());
 			cashSale.setAmountsIncludeVAT(i == 0 ? false : true);
 			cashSale.setTransactionItems(getCustomerTransactionItems(cashSale
-					.isAmountsIncludeVAT(), FinanceApplication.getCompany()
+					.isAmountsIncludeVAT(), Accounter.getCompany()
 					.getPriceLevel(cashSale.getPriceLevel())));
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				cashSale.setNetAmount(getNetAmount());
 			} else {
 				// if (salesTax != null)
@@ -1105,19 +1105,19 @@ public class GUITest {
 		for (int i = 0; i < 2; i++) {
 			ClientCustomerCreditMemo creditMemo = new ClientCustomerCreditMemo();
 
-			creditMemo.setCustomer(FinanceApplication.getCompany()
-					.getCustomerByName(name[i]).getStringID());
+			creditMemo.setCustomer(Accounter.getCompany()
+					.getCustomerByName(name[i]).getID());
 			creditMemo.setType(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
-			creditMemo.setContact(FinanceApplication.getCompany()
+			creditMemo.setContact(Accounter.getCompany()
 					.getCustomerByName(name[i]).getPrimaryContact());
 			creditMemo.setSalesPerson(null);
-			creditMemo.setPhone(FinanceApplication.getCompany()
+			creditMemo.setPhone(Accounter.getCompany()
 					.getCustomerByName(name[i]).getPrimaryContact()
 					.getBusinessPhone());
-			creditMemo.setBillingAddress(getAddress(FinanceApplication
+			creditMemo.setBillingAddress(getAddress(Accounter
 					.getCompany().getCustomerByName(name[i]).getAddress(),
 					ClientAddress.TYPE_BILL_TO));
-			creditMemo.setPriceLevel((FinanceApplication.getCompany()
+			creditMemo.setPriceLevel((Accounter.getCompany()
 					.getCustomerByName(name[i]).getPriceLevel()));
 			creditMemo.setMemo("This is the credit for " + name[i]);
 			creditMemo.setReference("This is ference: " + i);
@@ -1125,10 +1125,10 @@ public class GUITest {
 			creditMemo.setDate(new ClientFinanceDate().getTime());
 			creditMemo.setNumber("" + i + 1);
 			creditMemo.setTransactionItems(getCustomerTransactionItems(
-					creditMemo.isAmountsIncludeVAT(), FinanceApplication
+					creditMemo.isAmountsIncludeVAT(), Accounter
 							.getCompany().getPriceLevel(
 									creditMemo.getPriceLevel())));
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				creditMemo.setNetAmount(getNetAmount());
 			} else
 				// creditMemo.setSalesTax(this.salesTax);
@@ -1151,26 +1151,26 @@ public class GUITest {
 
 			refund.setNumber("" + i + 1);
 
-			refund.setPayTo(FinanceApplication.getCompany().getCustomerByName(
-					name[i]).getStringID());
+			refund.setPayTo(Accounter.getCompany().getCustomerByName(
+					name[i]).getID());
 
-			refund.setAddress(getAddress(FinanceApplication.getCompany()
+			refund.setAddress(getAddress(Accounter.getCompany()
 					.getCustomerByName(name[i]).getAddress(),
 					ClientAddress.TYPE_BILL_TO));
 
-			refund.setPayFrom(Utility.getId(FinanceApplication.getCompany()
+			refund.setPayFrom(Utility.getId(Accounter.getCompany()
 					.getAccountByName("cahsAcc111")));
 
 			refund.setTotal(1000);
 			refund.setBalanceDue(refund.getTotal());
-			refund.setCustomerBalance(FinanceApplication.getCompany()
+			refund.setCustomerBalance(Accounter.getCompany()
 					.getCustomerByName(name[i]).getBalance()
 					+ refund.getTotal());
-			refund.setEndingBalance(FinanceApplication.getCompany()
+			refund.setEndingBalance(Accounter.getCompany()
 					.getAccountByName("cahsAcc111").getTotalBalance()
 					- refund.getTotal());
 
-			refund.setPaymentMethod(FinanceApplication.getCompany()
+			refund.setPaymentMethod(Accounter.getCompany()
 					.getCustomerByName(name[i]).getPaymentMethod());
 
 			refund.setIsToBePrinted(i == 3 ? true : false);
@@ -1190,14 +1190,14 @@ public class GUITest {
 			final ClientReceivePayment receivePayment,
 			final ClientCustomer selectedCustomer, final double recievedAmount) {
 		long paymentDate = new ClientFinanceDate().getTime();
-		FinanceApplication.createHomeService().getTransactionReceivePayments(
-				selectedCustomer.getStringID(), paymentDate,
+		Accounter.createHomeService().getTransactionReceivePayments(
+				selectedCustomer.getID(), paymentDate,
 				new AsyncCallback<List<ReceivePaymentTransactionList>>() {
 
 					private double unusedAmount;
 
 					public void onFailure(Throwable caught) {
-						Accounter.showError(FinanceApplication
+						Accounter.showError(Accounter
 								.getCustomersMessages()
 								.failedToGetRecievePayments()
 								+ selectedCustomer.getName());
@@ -1280,15 +1280,15 @@ public class GUITest {
 
 						for (ClientTransactionReceivePayment payment : receivePayment
 								.getTransactionReceivePayment()) {
-							ClientAccount cashAcc = FinanceApplication
+							ClientAccount cashAcc = Accounter
 									.getCompany()
 									.getAccountByName("cahsAcc111");
-							payment.setDiscountAccount(cashAcc.getStringID());
+							payment.setDiscountAccount(cashAcc.getID());
 
-							ClientAccount wrrittoff = FinanceApplication
+							ClientAccount wrrittoff = Accounter
 									.getCompany().getAccountByName(
 											"incomeAcc111");
-							payment.setWriteOffAccount(wrrittoff.getStringID());
+							payment.setWriteOffAccount(wrrittoff.getID());
 							/* No credits are used... */
 							payment.setTransactionCreditsAndPayments(null);
 							receivePayment.setUnUsedCredits(0);
@@ -1309,22 +1309,22 @@ public class GUITest {
 			ClientReceivePayment receivePayment = new ClientReceivePayment();
 
 			receivePayment.setDate(new ClientFinanceDate().getTime());
-			receivePayment.setCustomer(FinanceApplication.getCompany()
-					.getCustomerByName(name[i]).getStringID());
-			receivePayment.setPaymentMethod(FinanceApplication.getCompany()
+			receivePayment.setCustomer(Accounter.getCompany()
+					.getCustomerByName(name[i]).getID());
+			receivePayment.setPaymentMethod(Accounter.getCompany()
 					.getCustomerByName(name[i]).getPaymentMethod());
-			receivePayment.setDepositIn(FinanceApplication.getCompany()
-					.getAccountByName(depAccs[i]).getStringID());
+			receivePayment.setDepositIn(Accounter.getCompany()
+					.getAccountByName(depAccs[i]).getID());
 
 			receivePayment.setNumber("" + i + 1);
 			receivePayment.setReference("This is reference: " + i);
 			receivePayment.setMemo("This payment recieved from: " + name[i]);
-			receivePayment.setCustomerBalance(FinanceApplication.getCompany()
+			receivePayment.setCustomerBalance(Accounter.getCompany()
 					.getCustomerByName(name[i]).getBalance());
 
 			receivePayment.setTotal(100);
 
-			getTransactionRecievePayments(receivePayment, FinanceApplication
+			getTransactionRecievePayments(receivePayment, Accounter
 					.getCompany().getCustomerByName(name[i]), receivePayment
 					.getTotal());
 
@@ -1333,8 +1333,8 @@ public class GUITest {
 
 	private void getPayBillsForVendor(final ClientVendor vendor,
 			final ClientPayBill payBl) {
-		FinanceApplication.createHomeService().getTransactionPayBills(
-				vendor.getStringID(),
+		Accounter.createHomeService().getTransactionPayBills(
+				vendor.getID(),
 				new AsyncCallback<List<PayBillTransactionList>>() {
 
 					public void onFailure(Throwable caught) {
@@ -1392,11 +1392,11 @@ public class GUITest {
 							record.setAmountDue(curntRec.getAmountDue());
 
 							record.setPayment(100);
-							ClientVendor vendor = FinanceApplication
+							ClientVendor vendor = Accounter
 									.getCompany().getVendorByName(
 											curntRec.getVendorName());
 							if (vendor != null)
-								record.setVendor(vendor.getStringID());
+								record.setVendor(vendor.getID());
 
 							totalOrginalAmt += record.getOriginalAmount();
 							totalDueAmt += record.getAmountDue();
@@ -1411,14 +1411,14 @@ public class GUITest {
 						List<ClientTransactionPayBill> transactionPayBill = new ArrayList<ClientTransactionPayBill>();
 						for (ClientTransactionPayBill tpbRecord : selectedRecords) {
 
-							tpbRecord.setAccountsPayable(FinanceApplication
+							tpbRecord.setAccountsPayable(Accounter
 									.getCompany().getAccountsPayableAccount());
 							tpbRecord.setPayBill(payBill);
 
-							ClientAccount cashAcc = FinanceApplication
+							ClientAccount cashAcc = Accounter
 									.getCompany()
 									.getAccountByName("cahsAcc111");
-							tpbRecord.setDiscountAccount(cashAcc.getStringID());
+							tpbRecord.setDiscountAccount(cashAcc.getID());
 
 							/* No credits are applied */
 							// List<ClientTransactionCreditsAndPayments> trpList
@@ -1445,7 +1445,7 @@ public class GUITest {
 						}
 						// Setting Amount
 						payBill.setTotal(total);
-						ClientAccount payFromAccount = FinanceApplication
+						ClientAccount payFromAccount = Accounter
 								.getCompany().getAccount(payBill.getPayFrom());
 						if (payFromAccount.isIncrease()) {
 							toBeSetEndingBalance = payFromAccount
@@ -1478,7 +1478,7 @@ public class GUITest {
 			payBill.setPayBillType(ClientPayBill.TYPE_PAYBILL);
 
 			// Setting Accounts Payable
-			payBill.setAccountsPayable(FinanceApplication.getCompany()
+			payBill.setAccountsPayable(Accounter.getCompany()
 
 			.getAccountsPayableAccount());
 
@@ -1486,19 +1486,19 @@ public class GUITest {
 			payBill.setDate(new ClientFinanceDate().getTime());
 
 			// Setting Pay From
-			payBill.setPayFrom(FinanceApplication.getCompany()
+			payBill.setPayFrom(Accounter.getCompany()
 					.getAccountByName(payFrmAcc[i]));
 
 			// Setting payment method
-			payBill.setPaymentMethod(FinanceApplication.getCompany()
+			payBill.setPaymentMethod(Accounter.getCompany()
 					.getVendorByName(vName[i]).getPaymentMethod());
 
 			// Setting Bill due or before
 			payBill.setBillDueOnOrBefore(new ClientFinanceDate().getTime());
 			// Setting Vendor
-			payBill.setVendor(FinanceApplication.getCompany().getVendorByName(
+			payBill.setVendor(Accounter.getCompany().getVendorByName(
 					vName[i]));
-			getPayBillsForVendor(FinanceApplication.getCompany()
+			getPayBillsForVendor(Accounter.getCompany()
 					.getVendorByName(vName[i]), payBill);
 		}
 
@@ -1512,18 +1512,18 @@ public class GUITest {
 			ClientVendorCreditMemo vendorCreditMemo = new ClientVendorCreditMemo();
 
 			// Setting Vendor
-			vendorCreditMemo.setVendor(FinanceApplication.getCompany()
-					.getVendorByName(vName[i]).getStringID());
+			vendorCreditMemo.setVendor(Accounter.getCompany()
+					.getVendorByName(vName[i]).getID());
 
 			// Setting Contact
-			vendorCreditMemo.setContact(FinanceApplication.getCompany()
+			vendorCreditMemo.setContact(Accounter.getCompany()
 					.getVendorByName(vName[i]).getPrimaryContact());
 
 			vendorCreditMemo.setType(ClientTransaction.TYPE_VENDOR_CREDIT_MEMO);
 
 			// Setting Phone
 
-			vendorCreditMemo.setPhone(FinanceApplication.getCompany()
+			vendorCreditMemo.setPhone(Accounter.getCompany()
 					.getVendorByName(vName[i]).getPrimaryContact()
 					.getBusinessPhone());
 
@@ -1556,29 +1556,29 @@ public class GUITest {
 			ClientEnterBill enterBill = new ClientEnterBill();
 
 			// Setting Vendor
-			enterBill.setVendor(FinanceApplication.getCompany()
-					.getVendorByName(vName[i]).getStringID());
+			enterBill.setVendor(Accounter.getCompany()
+					.getVendorByName(vName[i]).getID());
 
 			// Setting Contact
 
-			enterBill.setContact(FinanceApplication.getCompany()
+			enterBill.setContact(Accounter.getCompany()
 					.getVendorByName(vName[i]).getPrimaryContact());
 
 			enterBill.setType(ClientTransaction.TYPE_ENTER_BILL);
 
 			// Setting Address
-			enterBill.setVendorAddress(getAddress((FinanceApplication
+			enterBill.setVendorAddress(getAddress((Accounter
 					.getCompany().getVendorByName(vName[i]).getAddress()),
 					ClientAddress.TYPE_BILL_TO));
 
 			// Setting Phone
 
-			enterBill.setPhone(FinanceApplication.getCompany().getVendorByName(
+			enterBill.setPhone(Accounter.getCompany().getVendorByName(
 					vName[i]).getPrimaryContact().getBusinessPhone());
 
 			// Setting Payment Terms
 
-			enterBill.setPaymentTerm(Utility.getId(FinanceApplication
+			enterBill.setPaymentTerm(Utility.getId(Accounter
 					.getCompany().getPaymentsTerms().get(0)));
 
 			// Setting Due date
@@ -1614,22 +1614,22 @@ public class GUITest {
 		String vName[] = new String[] { "Vendor1", "Vendor2", "Vendor2" };
 		for (int i = 0; i < 3; i++) {
 			ClientPayBill payBill = new ClientPayBill();
-			payBill.setVendor(FinanceApplication.getCompany().getVendorByName(
+			payBill.setVendor(Accounter.getCompany().getVendorByName(
 					vName[i]));
 
-			payBill.setAddress(getAddress((FinanceApplication.getCompany()
+			payBill.setAddress(getAddress((Accounter.getCompany()
 					.getVendorByName(vName[i]).getAddress()),
 					ClientAddress.TYPE_BILL_TO));
 
-			payBill.setPayFrom(i == 1 ? FinanceApplication.getCompany()
-					.getAccountByName("cahsAcc111") : FinanceApplication
+			payBill.setPayFrom(i == 1 ? Accounter.getCompany()
+					.getAccountByName("cahsAcc111") : Accounter
 					.getCompany().getAccountByName("bankAcc111"));
 
 			payBill.setType(ClientTransaction.TYPE_PAY_BILL);
 
 			payBill.setPayBillType(ClientTransaction.TYPE_VENDOR_PAYMENT);
 
-			payBill.setPaymentMethod(FinanceApplication.getCompany()
+			payBill.setPaymentMethod(Accounter.getCompany()
 					.getVendorByName(vName[i]).getPaymentMethod());
 
 			payBill.setToBePrinted(i == 3 ? true : false);
@@ -1642,10 +1642,10 @@ public class GUITest {
 
 			// Setting UnusedAmount
 			payBill.setUnusedAmount(1000);
-			payBill.setVendorBalance(FinanceApplication.getCompany()
+			payBill.setVendorBalance(Accounter.getCompany()
 					.getVendorByName(vName[i]).getBalance()
 					- payBill.getUnusedAmount());
-			payBill.setEndingBalance(FinanceApplication.getCompany()
+			payBill.setEndingBalance(Accounter.getCompany()
 					.getAccountByName("cahsAcc111").getTotalBalance()
 					- payBill.getUnusedAmount());
 
@@ -1672,11 +1672,11 @@ public class GUITest {
 
 		issuePayment.setPaymentMethod("Check");
 
-		issuePayment.setAccount(FinanceApplication.getCompany()
-				.getAccountByName("bankAcc111").getStringID());
+		issuePayment.setAccount(Accounter.getCompany()
+				.getAccountByName("bankAcc111").getID());
 		final ClientIssuePayment isuePaymnt = issuePayment;
 
-		FinanceApplication.createHomeService().getChecks(
+		Accounter.createHomeService().getChecks(
 				issuePayment.getAccount(),
 				new AsyncCallback<List<IssuePaymentTransactionsList>>() {
 
@@ -1745,28 +1745,28 @@ public class GUITest {
 			ClientItemReceipt itemReceipt = new ClientItemReceipt();
 
 			// Setting Vendor
-			itemReceipt.setVendor(FinanceApplication.getCompany()
-					.getVendorByName(vName[i]).getStringID());
+			itemReceipt.setVendor(Accounter.getCompany()
+					.getVendorByName(vName[i]).getID());
 
 			itemReceipt.setType(ClientTransaction.TYPE_ITEM_RECEIPT);
 
 			// Setting Contact
 
-			itemReceipt.setContact(FinanceApplication.getCompany()
+			itemReceipt.setContact(Accounter.getCompany()
 					.getVendorByName(vName[i]).getPrimaryContact());
 
 			// Setting Address
 
-			itemReceipt.setVendorAddress(getAddress((FinanceApplication
+			itemReceipt.setVendorAddress(getAddress((Accounter
 					.getCompany().getVendorByName(vName[i]).getAddress()),
 					ClientAddress.TYPE_BILL_TO));
 
 			// Setting Phone
-			itemReceipt.setPhone(FinanceApplication.getCompany()
+			itemReceipt.setPhone(Accounter.getCompany()
 					.getVendorByName(vName[i]).getPrimaryContact()
 					.getBusinessPhone());
 
-			itemReceipt.setPaymentTerm(Utility.getId(FinanceApplication
+			itemReceipt.setPaymentTerm(Utility.getId(Accounter
 					.getCompany().getPaymentsTerms().get(0)));
 
 			itemReceipt.setDeliveryDate(new ClientFinanceDate().getTime());
@@ -1800,9 +1800,9 @@ public class GUITest {
 			transferFund.setDate(new ClientFinanceDate().getTime());
 			transferFund
 					.setMemo("Transfering 1000 from cashAcc111 to Undeposited Account");
-			transferFund.setTransferFrom(Utility.getId(FinanceApplication
+			transferFund.setTransferFrom(Utility.getId(Accounter
 					.getCompany().getAccountByName("cahsAcc111")));
-			transferFund.setTransferTo(Utility.getId(FinanceApplication
+			transferFund.setTransferTo(Utility.getId(Accounter
 					.getCompany().getAccountByName("Un Deposited Funds")));
 
 			transferFund.setTotal(1000);
@@ -1827,34 +1827,34 @@ public class GUITest {
 			creditCardCharge.setDate(new ClientFinanceDate().getTime());
 			// setting number
 
-			creditCardCharge.setVendor(FinanceApplication.getCompany()
-					.getVendorByName(vName[i]).getStringID());
+			creditCardCharge.setVendor(Accounter.getCompany()
+					.getVendorByName(vName[i]).getID());
 
 			// setting contact
-			creditCardCharge.setContact(FinanceApplication.getCompany()
+			creditCardCharge.setContact(Accounter.getCompany()
 					.getVendorByName(vName[i]).getPrimaryContact());
 
-			creditCardCharge.setVendorAddress(getAddress((FinanceApplication
+			creditCardCharge.setVendorAddress(getAddress((Accounter
 					.getCompany().getVendorByName(vName[i]).getAddress()),
 					ClientAddress.TYPE_BILL_TO));
 
 			// setting phone
 
-			creditCardCharge.setPhone(FinanceApplication.getCompany()
+			creditCardCharge.setPhone(Accounter.getCompany()
 					.getVendorByName(vName[i]).getPrimaryContact()
 					.getBusinessPhone());
 
 			// Setting payment method
 
-			creditCardCharge.setPaymentMethod(FinanceApplication.getCompany()
+			creditCardCharge.setPaymentMethod(Accounter.getCompany()
 					.getVendorByName(vName[i]).getPaymentMethod());
 
 			// Setting pay from
 
-			creditCardCharge.setPayFrom(i == 1 ? FinanceApplication
-					.getCompany().getAccountByName("cahsAcc111").getStringID()
-					: FinanceApplication.getCompany().getAccountByName(
-							"bankAcc111").getStringID());
+			creditCardCharge.setPayFrom(i == 1 ? Accounter
+					.getCompany().getAccountByName("cahsAcc111").getID()
+					: Accounter.getCompany().getAccountByName(
+							"bankAcc111").getID());
 
 			// setting check no
 
@@ -1892,8 +1892,8 @@ public class GUITest {
 			makeDeposit.setDate(new ClientFinanceDate().getTime());
 
 			// Setting Deposit in
-			makeDeposit.setDepositIn(FinanceApplication.getCompany()
-					.getAccountByName(account[i]).getStringID());
+			makeDeposit.setDepositIn(Accounter.getCompany()
+					.getAccountByName(account[i]).getID());
 
 			makeDeposit.setMemo("This is Make Deposite Memo");
 
@@ -1902,8 +1902,8 @@ public class GUITest {
 			records.setNumber("" + i + 1);
 			records.setPaymentMethod(" ");
 			records.setType(ClientTransactionMakeDeposit.TYPE_VENDOR);
-			records.setVendor(FinanceApplication.getCompany().getVendorByName(
-					"Vendor2").getStringID());
+			records.setVendor(Accounter.getCompany().getVendorByName(
+					"Vendor2").getID());
 			records.setReference("This is reference");
 
 			records.setAmount(1000);
@@ -1914,8 +1914,8 @@ public class GUITest {
 			makeDeposit
 					.setTransactionMakeDeposit(listOfTrannsactionMakeDeposits);
 
-			makeDeposit.setCashBackAccount(FinanceApplication.getCompany()
-					.getAccountByName("expnsAcc111").getStringID());
+			makeDeposit.setCashBackAccount(Accounter.getCompany()
+					.getAccountByName("expnsAcc111").getID());
 
 			makeDeposit.setCashBackMemo("This is a deposit to the account "
 					+ account[i]);
@@ -1943,10 +1943,10 @@ public class GUITest {
 			asset.setName(item[i]);
 			asset.setAssetNumber("" + i + 1);
 
-			asset.setAssetAccount(i == 1 ? FinanceApplication.getCompany()
-					.getAccountByName("IT Equipment").getStringID()
-					: FinanceApplication.getCompany().getAccountByName(
-							"Vehicles").getStringID());
+			asset.setAssetAccount(i == 1 ? Accounter.getCompany()
+					.getAccountByName("IT Equipment").getID()
+					: Accounter.getCompany().getAccountByName(
+							"Vehicles").getID());
 
 			asset.setPurchaseDate(new ClientFinanceDate().getTime());
 			asset.setPurchasePrice(1000);
@@ -1956,10 +1956,10 @@ public class GUITest {
 			asset.setDepreciationRate(i);
 			// asset.setDepreciationMethod(ClientAccount.) == 1 ? 0 : 1);
 
-			asset.setDepreciationExpenseAccount((i == 1 ? FinanceApplication
+			asset.setDepreciationExpenseAccount((i == 1 ? Accounter
 					.getCompany().getAccountByName("IT Equipment")
-					.getStringID() : FinanceApplication.getCompany()
-					.getAccountByName("Vehicles").getStringID()));
+					.getID() : Accounter.getCompany()
+					.getAccountByName("Vehicles").getID()));
 
 			// asset.setAccumulatedDepreciationAmount(accmulatdDepreciationTxt.getAmount());
 

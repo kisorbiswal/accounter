@@ -53,7 +53,7 @@ public class MakeDepositTransactionsList implements IsSerializable,
 	public MakeDepositTransactionsList(ClientTransaction transaction,
 			double amount) {
 
-		this.transactionId = transaction.getStringID();
+		this.transactionId = transaction.getID();
 		this.transactionType = transaction.getType();
 		this.date = new ClientFinanceDate(transaction.getTransactionDate());
 		this.number = transaction.getNumber();

@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -16,13 +16,13 @@ public class SalesOrderAction extends Action {
 
 	public SalesOrderAction(String text, String icon) {
 		super(text, icon);
-		this.catagory = FinanceApplication.getCustomersMessages().customer();
+		this.catagory = Accounter.getCustomersMessages().customer();
 	}
 
 	public SalesOrderAction(String text, String icon,
 			ClientSalesOrder salesOrder, AsyncCallback<Object> callback) {
 		super(text, icon, salesOrder, callback);
-		this.catagory = FinanceApplication.getCustomersMessages().customer();
+		this.catagory = Accounter.getCustomersMessages().customer();
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class SalesOrderAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().salesOrder();
+		return Accounter.getFinanceMenuImages().salesOrder();
 	}
 
 	@Override

@@ -237,25 +237,25 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 					.getTransactionPaySalesTaxEntriesList(transactionDate);
 			for (PaySalesTaxEntries salesTaxEntry : paySalesTaxEntriesList) {
 				ClientPaySalesTaxEntries paySalesTxEntry = new ClientPaySalesTaxEntries();
-				paySalesTxEntry.setStringID(salesTaxEntry.getStringID());
+				paySalesTxEntry.setStringID(salesTaxEntry.getID());
 				paySalesTxEntry.setAmount(salesTaxEntry.getAmount());
 				paySalesTxEntry.setBalance(salesTaxEntry.getBalance());
 				// paySalesTxEntry.setStatus(salesTaxEntry.getTransaction()
 				// .getStatus());
 				paySalesTxEntry.setTaxAgency(salesTaxEntry.getTaxAgency()
-						.getStringID());
+						.getID());
 				if (salesTaxEntry.getTaxRateCalculation() != null)
 					paySalesTxEntry.setTaxRateCalculation(salesTaxEntry
-							.getTaxRateCalculation().getStringID());
+							.getTaxRateCalculation().getID());
 				if (salesTaxEntry.getTaxItem() != null)
 					paySalesTxEntry.setTaxItem(salesTaxEntry.getTaxItem()
-							.getStringID());
+							.getID());
 				if (salesTaxEntry.getTaxAdjustment() != null)
 					paySalesTxEntry.setTaxAdjustment(salesTaxEntry
-							.getTaxAdjustment().getStringID());
+							.getTaxAdjustment().getID());
 
 				paySalesTxEntry.setTransaction(salesTaxEntry.getTransaction()
-						.getStringID());
+						.getID());
 				paySalesTxEntry.setTransactionDate(salesTaxEntry
 						.getTransactionDate().getTime());
 				clientPaySlesTaxEntries.add(paySalesTxEntry);
@@ -1402,9 +1402,9 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			// VATReturn vatReturn =(VATReturn) entry.getTransaction();
 			// ClientVATReturn clientVATReturn = new
 			// ClientConvertUtil().toClientObject(vatReturn,ClientVATReturn.class);
-			clientEntry.setVatReturn(entry.getTransaction().getStringID());
+			clientEntry.setVatReturn(entry.getTransaction().getID());
 			clientEntry.setVatAgency(entry.getTaxAgency() != null ? entry
-					.getTaxAgency().getStringID() : null);
+					.getTaxAgency().getID() : null);
 			clientEntry.setBalance(entry.getBalance());
 			clientEntry.setAmount(entry.getAmount());
 
@@ -1518,9 +1518,9 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			// VATReturn vatReturn =(VATReturn) entry.getTransaction();
 			// ClientVATReturn clientVATReturn = new
 			// ClientConvertUtil().toClientObject(vatReturn,ClientVATReturn.class);
-			clientEntry.setVatReturn(entry.getTransaction().getStringID());
+			clientEntry.setVatReturn(entry.getTransaction().getID());
 			clientEntry.setVatAgency(entry.getTaxAgency() != null ? entry
-					.getTaxAgency().getStringID() : null);
+					.getTaxAgency().getID() : null);
 			clientEntry.setBalance(entry.getBalance());
 			clientEntry.setAmount(entry.getAmount());
 

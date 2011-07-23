@@ -12,9 +12,7 @@ public class ClientDepreciation implements IAccounterCore {
 	public static final int DEPRECIATION_FOR_ALL_FIXEDASSET = 1;
 	public static final int DEPRECIATION_FOR_SINGLE_FIXEDASSET = 2;
 
-	long id;
-
-	private String stringID;
+	private long id;
 
 	int status;
 
@@ -50,13 +48,13 @@ public class ClientDepreciation implements IAccounterCore {
 	}
 
 	@Override
-	public String getStringID() {
-		return stringID;
+	public long getID(){
+		return id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	public ClientFixedAsset getFixedAsset() {
@@ -67,13 +65,6 @@ public class ClientDepreciation implements IAccounterCore {
 		this.fixedAsset = fixedAsset;
 	}
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public int getStatus() {
 		return status;

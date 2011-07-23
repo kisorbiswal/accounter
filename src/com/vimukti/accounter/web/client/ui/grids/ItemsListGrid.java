@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -71,7 +71,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 						: "";
 
 		case 5:
-			return FinanceApplication.getFinanceMenuImages().delete();
+			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
 		}
 		return null;
@@ -80,16 +80,16 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] {
-				FinanceApplication.getCustomersMessages().active(),
-				FinanceApplication.getCustomersMessages().itemName(),
-				FinanceApplication.getCustomersMessages().description(),
-				FinanceApplication.getCustomersMessages().type(),
-				FinanceApplication.getCustomersMessages().price(), "" };
+				Accounter.getCustomersMessages().active(),
+				Accounter.getCustomersMessages().itemName(),
+				Accounter.getCustomersMessages().description(),
+				Accounter.getCustomersMessages().type(),
+				Accounter.getCustomersMessages().price(), "" };
 	}
 
 	@Override
 	public void onDoubleClick(ClientItem obj) {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			HistoryTokenUtils.setPresentToken(CompanyActionFactory
 					.getNewItemAction(), obj);
 			CompanyActionFactory.getNewItemAction().run(obj, true);
@@ -102,7 +102,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	}
 
 	protected void onClick(ClientItem item, int row, int col) {
-		if (!FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
 		if (col == 5) {
 			if (item != null)

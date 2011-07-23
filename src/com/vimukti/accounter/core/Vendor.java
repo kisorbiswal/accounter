@@ -110,7 +110,7 @@ public class Vendor extends Payee implements Lifecycle {
 	 *            the id to set
 	 */
 	@Override
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
@@ -437,14 +437,14 @@ public class Vendor extends Payee implements Lifecycle {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
-		return this.stringID;
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

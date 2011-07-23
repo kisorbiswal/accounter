@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 /**
@@ -33,25 +33,25 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 	@Override
 	protected String[] getColumns() {
 		return new String[] { "",
-				FinanceApplication.getCustomersMessages().name(),
-				FinanceApplication.getCustomersMessages().description(),
-				FinanceApplication.getCustomersMessages().quantity(),
-				FinanceApplication.getCustomersMessages().unitPrice(),
-				FinanceApplication.getCustomersMessages().discountPerc(),
-				FinanceApplication.getCustomersMessages().total(),
-				FinanceApplication.getCustomersMessages().VATCode(),
-				FinanceApplication.getCustomersMessages().vat(), " " };
+				Accounter.getCustomersMessages().name(),
+				Accounter.getCustomersMessages().description(),
+				Accounter.getCustomersMessages().quantity(),
+				Accounter.getCustomersMessages().unitPrice(),
+				Accounter.getCustomersMessages().discountPerc(),
+				Accounter.getCustomersMessages().total(),
+				Accounter.getCustomersMessages().VATCode(),
+				Accounter.getCustomersMessages().vat(), " " };
 	}
 
 	@Override
 	public String[] getColumnNamesForPrinting() {
 		return new String[] {
-				FinanceApplication.getCustomersMessages().description(),
-				FinanceApplication.getCustomersMessages().quantity(),
-				FinanceApplication.getCustomersMessages().unitPrice(),
-				FinanceApplication.getCustomersMessages().totalPrice(),
-				FinanceApplication.getVATMessages().vATRate(),
-				FinanceApplication.getVATMessages().vATAmount() };
+				Accounter.getCustomersMessages().description(),
+				Accounter.getCustomersMessages().quantity(),
+				Accounter.getCustomersMessages().unitPrice(),
+				Accounter.getCustomersMessages().totalPrice(),
+				Accounter.getVATMessages().vATRate(),
+				Accounter.getVATMessages().vATAmount() };
 	}
 
 	@Override
@@ -156,7 +156,7 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 		case 8:
 			return DataUtils.getAmountAsString(item.getVATfraction());
 		case 9:
-			return FinanceApplication.getFinanceMenuImages().delete();
+			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
 		default:
 			return "";
@@ -206,7 +206,7 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 	protected boolean isEditable(ClientTransactionItem obj, int row, int col) {
 		if (obj == null)
 			return false;
-		if (!FinanceApplication.getCompany().getpreferences()
+		if (!Accounter.getCompany().getpreferences()
 				.getDoYouPaySalesTax()) {
 			if (col == 7 || col == 8)
 				return false;

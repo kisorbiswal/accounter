@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.VATDetail;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.VATDetailServerReportView;
 
@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.VATDetailServerReportVi
 public class VATDetailReportView extends AbstractReportView<VATDetail> {
 
 	public VATDetailReportView() {
-		super(false, FinanceApplication.getReportsMessages().noRecordsToShow());
+		super(false, Accounter.getReportsMessages().noRecordsToShow());
 		isVATDetailReport = true;
 		this.serverReport = new VATDetailServerReportView(this);
 	}
@@ -27,7 +27,7 @@ public class VATDetailReportView extends AbstractReportView<VATDetail> {
 
 	@Override
 	public void OnRecordClick(VATDetail record) {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			ReportsRPC.openTransactionView(record.getTransactionType(), record
 					.getTransactionId());
 	}
@@ -39,7 +39,7 @@ public class VATDetailReportView extends AbstractReportView<VATDetail> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		FinanceApplication.createReportService()
+		Accounter.createReportService()
 				.getPriorVATReturnVATDetailReport(start.getTime(),
 						end.getTime(), this);
 	}

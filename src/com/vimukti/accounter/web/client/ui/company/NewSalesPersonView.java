@@ -18,7 +18,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
@@ -66,9 +66,9 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	protected String gender;
 	private List<String> listOfgenders;
 	private String[] genderTypes = {
-			FinanceApplication.getCompanyMessages().unspecified(),
-			FinanceApplication.getCompanyMessages().male(),
-			FinanceApplication.getCompanyMessages().female() };
+			Accounter.getCompanyMessages().unspecified(),
+			Accounter.getCompanyMessages().male(),
+			Accounter.getCompanyMessages().female() };
 	private List<ClientAccount> listOfAccounts;
 
 	private ArrayList<DynamicForm> listforms;
@@ -129,7 +129,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		memoForm.setWidth("50%");
 		memoArea = new TextAreaItem();
 		memoArea.setWidth(100);
-		memoArea.setTitle(FinanceApplication.getCompanyMessages().memo());
+		memoArea.setTitle(Accounter.getCompanyMessages().memo());
 		memoForm.setFields(memoArea);
 		memoForm.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
@@ -216,7 +216,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			emailForm.webText.setValue(takenSalesperson.getWebPageAddress());
 			statusCheck.setValue(takenSalesperson.isActive());
 			if (takenSalesperson.getExpenseAccount() != null) {
-				selectedExpenseAccount = FinanceApplication.getCompany()
+				selectedExpenseAccount = Accounter.getCompany()
 						.getAccount(takenSalesperson.getExpenseAccount());
 				expenseSelect.setComboItem(selectedExpenseAccount);
 			}
@@ -302,7 +302,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			String name = employeeNameText.getValue().toString();
 			if ((takenSalesperson != null ? (takenSalesperson.getName()
 					.equalsIgnoreCase(name) ? true
-					: (Utility.isObjectExist(FinanceApplication.getCompany()
+					: (Utility.isObjectExist(Accounter.getCompany()
 							.getSalesPersons(), name) ? false : true)) : true)) {
 				return true;
 			} else
@@ -344,13 +344,13 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			// BaseView.errordata.setHTML(FinanceApplication.getCompanyMessages()
 			// .DuplicationOfSalesPesonNotAllowed());
 			MainFinanceWindow.getViewManager().showError(
-					FinanceApplication.getCompanyMessages()
+					Accounter.getCompanyMessages()
 							.DuplicationOfSalesPesonNotAllowed());
 		else
 			// BaseView.errordata.setHTML(FinanceApplication.getCompanyMessages()
 			// .salesPersonUpdationFailed());
 			MainFinanceWindow.getViewManager().showError(
-					FinanceApplication.getCompanyMessages()
+					Accounter.getCompanyMessages()
 							.salesPersonUpdationFailed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
@@ -359,7 +359,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	@Override
 	public void saveSuccess(IAccounterCore result) {
 		ClientSalesPerson salesPerson = (ClientSalesPerson) result;
-		if (salesPerson.getStringID() != null) {
+		if (salesPerson.getID() != null) {
 			// if (takenSalesperson == null)
 			// Accounter.showInformation(((ClientSalesPerson) result)
 			// .getFirstName()
@@ -373,7 +373,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			super.saveSuccess(result);
 
 		} else
-			saveFailed(new Exception(FinanceApplication.getCompanyMessages()
+			saveFailed(new Exception(Accounter.getCompanyMessages()
 					.failed()));
 
 	}
@@ -400,7 +400,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			salesPerson = new ClientSalesPerson();
 		salesPerson.setMemo(UIUtils.toStr(memoArea.getValue()));
 		if (selectedExpenseAccount != null)
-			salesPerson.setExpenseAccount(selectedExpenseAccount.getStringID());
+			salesPerson.setExpenseAccount(selectedExpenseAccount.getID());
 		salesPerson.setJobTitle(jobTitleText.getValue().toString());
 		salesPerson.setFileAs(fileAsText.getValue().toString());
 		if (dateOfBirth.getValue().getTime() != 0) {
@@ -408,14 +408,14 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 				if (dateOfBirth.getValue().getDateAsObject().after(
 						new ClientFinanceDate().getDateAsObject())) {
-					throw new InvalidEntryException(FinanceApplication
+					throw new InvalidEntryException(Accounter
 							.getCompanyMessages().invalidDateOfBirth());
 
 				}
 				salesPerson.setDateOfBirth(UIUtils.toDate(dateOfBirth
 						.getValue()));
 			} catch (Exception e) {
-				throw new InvalidEntryException(FinanceApplication
+				throw new InvalidEntryException(Accounter
 						.getCompanyMessages().invalidDateOfBirth());
 			}
 		}
@@ -474,17 +474,17 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 
 		addrsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getCompanyMessages().width(),
+				Accounter.getCompanyMessages().width(),
 				titlewidth + "");
 		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
-				FinanceApplication.getCompanyMessages().width(),
+				Accounter.getCompanyMessages().width(),
 				listBoxWidth + "");
 
 		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getCompanyMessages().width(),
+				Accounter.getCompanyMessages().width(),
 				titlewidth + "");
 		fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
-				FinanceApplication.getCompanyMessages().width(),
+				Accounter.getCompanyMessages().width(),
 				listBoxWidth + "");
 
 		salesPersonForm.getCellFormatter().getElement(0, 0).getStyle()
@@ -492,12 +492,12 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		expenseAccountForm.getCellFormatter().getElement(0, 0).setAttribute(
 				"width", titlewidth + listBoxWidth + "");
 		memoForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getCompanyMessages().width(),
+				Accounter.getCompanyMessages().width(),
 				titlewidth + listBoxWidth + "");
 		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getCompanyMessages().width(), "");
+				Accounter.getCompanyMessages().width(), "");
 		emailForm.getCellFormatter().getElement(0, 1).setAttribute(
-				FinanceApplication.getCompanyMessages().width(), "");
+				Accounter.getCompanyMessages().width(), "");
 
 	}
 
@@ -564,8 +564,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stuba
-		if (core.getStringID().equals(
-				this.expenseSelect.getSelectedValue().getStringID())) {
+		if (core.getID().equals(
+				this.expenseSelect.getSelectedValue().getID())) {
 			this.expenseSelect.addItemThenfireEvent((ClientAccount) core);
 		}
 	}
@@ -590,6 +590,6 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().newSalesperson();
+		return Accounter.getActionsConstants().newSalesperson();
 	}
 }

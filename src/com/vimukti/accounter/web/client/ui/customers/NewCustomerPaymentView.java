@@ -31,7 +31,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -59,7 +59,7 @@ public class NewCustomerPaymentView extends
 	Double toBeSetCustomerBalance;
 	protected boolean isClose;
 	protected String paymentMethod = UIUtils
-			.getpaymentMethodCheckBy_CompanyType(FinanceApplication
+			.getpaymentMethodCheckBy_CompanyType(Accounter
 					.getCustomersMessages().check());
 	@SuppressWarnings("unused")
 	private CheckboxItem thisisVATinclusive;
@@ -133,7 +133,7 @@ public class NewCustomerPaymentView extends
 		this.addressListOfCustomer = null;
 		this.depositInAccount = null;
 		this.paymentMethod = UIUtils
-				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
+				.getpaymentMethodCheckBy_CompanyType(Accounter
 						.getCustomersMessages().check());
 		amountText.setAmount(0D);
 		endBalText.setAmount(0D);
@@ -151,12 +151,12 @@ public class NewCustomerPaymentView extends
 
 			customerPrePayment.setNumber(transactionNumber.getValue()
 					.toString());
-			customerPrePayment.setCustomer(customer.getStringID());
+			customerPrePayment.setCustomer(customer.getID());
 
 			if (billingAddress != null)
 				customerPrePayment.setAddress(billingAddress);
 			if (depositInAccount != null)
-				customerPrePayment.setDepositIn(depositInAccount.getStringID());
+				customerPrePayment.setDepositIn(depositInAccount.getID());
 			if (!DecimalUtil.isEquals(enteredBalance, 0.00))
 				customerPrePayment.setTotal(enteredBalance);
 			if (paymentMethod != null)
@@ -167,9 +167,9 @@ public class NewCustomerPaymentView extends
 				String value;
 				if (checkNo.getValue().toString()
 						.equalsIgnoreCase(
-								FinanceApplication.getCustomersMessages()
+								Accounter.getCustomersMessages()
 										.toBePrinted())) {
-					value = String.valueOf(FinanceApplication
+					value = String.valueOf(Accounter
 							.getVendorsMessages().Tobeprinted());
 				} else {
 					value = String.valueOf(checkNo.getValue());
@@ -214,7 +214,7 @@ public class NewCustomerPaymentView extends
 
 	@Override
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
-		ClientCompany comapny = FinanceApplication.getCompany();
+		ClientCompany comapny = Accounter.getCompany();
 
 		ClientCustomerPrePayment customerPrePaymentToBeEdited = (ClientCustomerPrePayment) transactionObject;
 		ClientCustomer customer = comapny
@@ -246,8 +246,8 @@ public class NewCustomerPaymentView extends
 
 		if (customerPrePaymentToBeEdited.getCheckNumber() != null) {
 			if (customerPrePaymentToBeEdited.getCheckNumber().equals(
-					FinanceApplication.getCustomersMessages().toBePrinted())) {
-				checkNo.setValue(FinanceApplication.getCustomersMessages()
+					Accounter.getCustomersMessages().toBePrinted())) {
+				checkNo.setValue(Accounter.getCustomersMessages()
 						.toBePrinted());
 				printCheck.setValue(true);
 			} else {
@@ -287,7 +287,7 @@ public class NewCustomerPaymentView extends
 		}
 		if (customer != null) {
 			if (transactionObject != null
-					&& customer.getStringID().equals(
+					&& customer.getID().equals(
 							customerPrePayment.getCustomer())
 					&& !DecimalUtil.isEquals(enteredBalance, 0)) {
 				double cusBal = DecimalUtil
@@ -311,7 +311,7 @@ public class NewCustomerPaymentView extends
 						- enteredBalance;
 			}
 			if (transactionObject != null
-					&& depositInAccount.getStringID().equals(
+					&& depositInAccount.getID().equals(
 							customerPrePayment.getDepositIn())
 					&& !DecimalUtil.isEquals(enteredBalance, 0)) {
 				toBeSetEndingBalance = toBeSetEndingBalance
@@ -323,11 +323,11 @@ public class NewCustomerPaymentView extends
 	}
 
 	private void setCheckNumber() {
-		rpcUtilService.getNextCheckNumber(depositInAccount.getStringID(),
+		rpcUtilService.getNextCheckNumber(depositInAccount.getID(),
 				new AsyncCallback<Long>() {
 
 					public void onFailure(Throwable t) {
-						checkNo.setValue(FinanceApplication
+						checkNo.setValue(Accounter
 								.getCustomersMessages().toBePrinted());
 						return;
 					}
@@ -358,9 +358,9 @@ public class NewCustomerPaymentView extends
 
 	@Override
 	protected void createControls() {
-		Label lab1 = new Label(FinanceApplication.getCustomersMessages()
+		Label lab1 = new Label(Accounter.getCustomersMessages()
 				.customerPrePayment());
-		lab1.setStyleName(FinanceApplication.getCustomersMessages()
+		lab1.setStyleName(Accounter.getCustomersMessages()
 				.lableTitle());
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
@@ -423,7 +423,7 @@ public class NewCustomerPaymentView extends
 		// paymentMethodCombo.setDefaultValue(UIUtils
 		// .getpaymentMethodCheckBy_CompanyType(FinanceApplication
 		// .getCustomersMessages().check()));
-		paymentMethodCombo.setComboItem(FinanceApplication
+		paymentMethodCombo.setComboItem(Accounter
 				.getCustomersMessages().cheque());
 		printCheck = new CheckboxItem(customerConstants.toBePrinted());
 		printCheck.setValue(true);
@@ -435,12 +435,12 @@ public class NewCustomerPaymentView extends
 				if (isChecked) {
 					if (printCheck.getValue().toString().equalsIgnoreCase(
 							"true")) {
-						checkNo.setValue(FinanceApplication
+						checkNo.setValue(Accounter
 								.getCustomersMessages().toBePrinted());
 						checkNo.setDisabled(true);
 					} else {
 						if (depositInAccount == null)
-							checkNo.setValueField(FinanceApplication
+							checkNo.setValueField(Accounter
 									.getVendorsMessages().Tobeprinted());
 						else if (transactionObject != null) {
 							checkNo
@@ -457,7 +457,7 @@ public class NewCustomerPaymentView extends
 		});
 
 		checkNo = createCheckNumberItem();
-		checkNo.setValue(FinanceApplication.getCustomersMessages()
+		checkNo.setValue(Accounter.getCustomersMessages()
 				.toBePrinted());
 		checkNo.setWidth(100);
 		checkNo.setDisabled(true);
@@ -475,7 +475,7 @@ public class NewCustomerPaymentView extends
 		memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
 		// refText.setWidth(100);
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			payForm.setFields(customerCombo, billToCombo, depositInCombo,
 					amountText, paymentMethodCombo, printCheck, checkNo,
 					memoTextAreaItem);
@@ -538,7 +538,7 @@ public class NewCustomerPaymentView extends
 	}
 
 	private AddressCombo createBillToComboItem(String address) {
-		AddressCombo addressCombo = new AddressCombo(FinanceApplication
+		AddressCombo addressCombo = new AddressCombo(Accounter
 				.getCustomersMessages().address(), false);
 		addressCombo.setHelpInformation(true);
 		addressCombo
@@ -562,7 +562,7 @@ public class NewCustomerPaymentView extends
 
 	private TextItem createCheckNumberItem() {
 		TextItem checkNoTextItem = new TextItem(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(FinanceApplication
+				.getpaymentMethodCheckBy_CompanyType(Accounter
 						.getCustomersMessages().check())
 				+ " " + "No");
 		checkNoTextItem.setHelpInformation(true);
@@ -574,7 +574,7 @@ public class NewCustomerPaymentView extends
 
 		try {
 			transactionObject = getPrePaymentObject();
-			if (transactionObject.getStringID() == null)
+			if (transactionObject.getID() == null)
 				createObject((ClientCustomerPrePayment) transactionObject);
 			else
 				alterObject((ClientCustomerPrePayment) transactionObject);
@@ -604,7 +604,7 @@ public class NewCustomerPaymentView extends
 					Double amount = DataUtils.getAmountStringAsDouble(value
 							.toString());
 					if (DecimalUtil.isLessThan(amount, 0)) {
-						Accounter.showError(FinanceApplication
+						Accounter.showError(Accounter
 								.getCustomersMessages().noNegativeAmounts());
 						amountText.setAmount(0.00D);
 
@@ -636,10 +636,10 @@ public class NewCustomerPaymentView extends
 
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
-					.equalsIgnoreCase(FinanceApplication.getVendorsMessages()
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
+					.equalsIgnoreCase(Accounter.getVendorsMessages()
 							.cheque())
-					: paymentMethod.equalsIgnoreCase(FinanceApplication
+					: paymentMethod.equalsIgnoreCase(Accounter
 							.getVendorsMessages().check())) {
 
 				printCheck.setDisabled(false);
@@ -660,8 +660,8 @@ public class NewCustomerPaymentView extends
 			return;
 		this.customer = customer;
 		if (customer != null && customerCombo != null) {
-			customerCombo.setComboItem(FinanceApplication.getCompany()
-					.getCustomer(customer.getStringID()));
+			customerCombo.setComboItem(Accounter.getCompany()
+					.getCustomer(customer.getID()));
 		}
 		this.addressListOfCustomer = customer.getAddress();
 		initBillToCombo();
@@ -752,7 +752,7 @@ public class NewCustomerPaymentView extends
 		paymentMethodCombo.setDisabled(isEdit);
 		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
-			checkNo.setValue(FinanceApplication.getCustomersMessages()
+			checkNo.setValue(Accounter.getCustomersMessages()
 					.toBePrinted());
 			checkNo.setDisabled(true);
 		}
@@ -826,6 +826,6 @@ public class NewCustomerPaymentView extends
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCustomersMessages().customerPayment();
+		return Accounter.getCustomersMessages().customerPayment();
 	}
 }

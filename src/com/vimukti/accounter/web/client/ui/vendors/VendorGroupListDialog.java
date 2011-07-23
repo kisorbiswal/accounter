@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
@@ -80,7 +80,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	protected void createVendorGroups() {
 		ClientVendorGroup vendorGroup = new ClientVendorGroup();
 		vendorGroup.setName(inputDlg.getTextValueByIndex(0));
-		if (Utility.isObjectExist(FinanceApplication.getCompany()
+		if (Utility.isObjectExist(Accounter.getCompany()
 				.getVendorGroups(), vendorGroup.getName())) {
 			Accounter.showError(UIUtils.getVendorString(
 					"Supplier Group Already Exists",
@@ -93,7 +93,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	public String getSelectedVendorId() {
 		if (listGridView.getSelection() != null)
 			return ((ClientVendorGroup) listGridView.getSelection())
-					.getStringID();
+					.getID();
 		return null;
 	}
 
@@ -171,18 +171,18 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { FinanceApplication.getVendorsMessages().name() };
+		return new String[] { Accounter.getVendorsMessages().name() };
 	}
 
 	@Override
 	protected List<ClientVendorGroup> getRecords() {
-		return FinanceApplication.getCompany().getVendorGroups();
+		return Accounter.getCompany().getVendorGroups();
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(FinanceApplication.getCompanyMessages()
-				.manageSupplierGroup(), FinanceApplication.getCompanyMessages()
+		return UIUtils.getVendorString(Accounter.getCompanyMessages()
+				.manageSupplierGroup(), Accounter.getCompanyMessages()
 				.manageVendorGroup());
 	}
 }

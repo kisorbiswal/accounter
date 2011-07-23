@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseByItemDetailServerReport;
 
@@ -21,7 +21,7 @@ public class PurchaseByItemDetailReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			ReportsRPC.openTransactionView(record.getType(), record
 					.getTransactionId());
 	}
@@ -35,10 +35,10 @@ public class PurchaseByItemDetailReport extends
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		SalesByCustomerDetail byCustomerDetail = (SalesByCustomerDetail) this.data;
 		if (byCustomerDetail == null) {
-			FinanceApplication.createReportService().getPurchasesByItemDetail(
+			Accounter.createReportService().getPurchasesByItemDetail(
 					start.getTime(), end.getTime(), this);
 		} else if (byCustomerDetail.getItemName() != null) {
-			FinanceApplication.createReportService().getPurchasesByItemDetail(
+			Accounter.createReportService().getPurchasesByItemDetail(
 					byCustomerDetail.getItemName(), start.getTime(),
 					end.getTime(), this);
 		}

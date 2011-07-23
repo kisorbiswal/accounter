@@ -10,7 +10,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -34,19 +34,19 @@ public class AsOfReportToolbar extends ReportToolbar {
 	private void createControls() {
 		@SuppressWarnings("unused")
 		String[] reportBasisArray = {
-				FinanceApplication.getReportsMessages().cash(),
-				FinanceApplication.getReportsMessages().accrual() };
+				Accounter.getReportsMessages().cash(),
+				Accounter.getReportsMessages().accrual() };
 		String[] dateRangeArray = {
-				FinanceApplication.getReportsMessages().all(),
-				FinanceApplication.getReportsMessages().thisWeek(),
-				FinanceApplication.getReportsMessages().thisMonth(),
-				FinanceApplication.getReportsMessages().lastWeek(),
-				FinanceApplication.getReportsMessages().lastMonth(),
-				FinanceApplication.getReportsMessages().thisFinancialYear(),
-				FinanceApplication.getReportsMessages().lastFinancialYear(),
-				FinanceApplication.getReportsMessages().thisFinancialQuarter(),
-				FinanceApplication.getReportsMessages().lastFinancialQuarter(),
-				FinanceApplication.getReportsMessages().financialYearToDate(),
+				Accounter.getReportsMessages().all(),
+				Accounter.getReportsMessages().thisWeek(),
+				Accounter.getReportsMessages().thisMonth(),
+				Accounter.getReportsMessages().lastWeek(),
+				Accounter.getReportsMessages().lastMonth(),
+				Accounter.getReportsMessages().thisFinancialYear(),
+				Accounter.getReportsMessages().lastFinancialYear(),
+				Accounter.getReportsMessages().thisFinancialQuarter(),
+				Accounter.getReportsMessages().lastFinancialQuarter(),
+				Accounter.getReportsMessages().financialYearToDate(),
 
 				// FinanceApplication.getReportsMessages().today(),
 				// FinanceApplication.getReportsMessages().endThisWeek(),
@@ -75,7 +75,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 				// .previousFiscalYearSameDates(),
 				// FinanceApplication.getReportsMessages().lastCalenderYear(),
 				// FinanceApplication.getReportsMessages().previousCalenderYear(),
-				FinanceApplication.getReportsMessages().custom() };
+				Accounter.getReportsMessages().custom() };
 
 		LabelItem report = new LabelItem();
 		report.setTitle("Report Basis - Accrual");
@@ -88,7 +88,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 		// // report basic is not yet implemented, so disable the feature.
 		// reportBasisItem.setDisabled(true);
 
-		dateRangeCombo = new SelectCombo(FinanceApplication
+		dateRangeCombo = new SelectCombo(Accounter
 				.getReportsMessages().dateRange());
 		dateRangeCombo.setHelpInformation(true);
 		dateRangeList = new ArrayList<String>();
@@ -97,7 +97,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 		}
 		dateRangeCombo.initCombo(dateRangeList);
 		dateRangeCombo.setDefaultValue(dateRangeArray[0]);
-		dateRangeCombo.setComboItem(FinanceApplication.getReportsMessages()
+		dateRangeCombo.setComboItem(Accounter.getReportsMessages()
 				.all());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -132,7 +132,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 
 				if (date != null) {
 					if (!date.after(startDate))
-						Accounter.showError(FinanceApplication
+						Accounter.showError(Accounter
 								.getReportsMessages()
 								.pleaseSelectDateAfterCompanyStartDate()
 								+ UIUtils.getDateStringByDate(startDate
@@ -140,7 +140,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 					else
 						changeDates(startDate, date);
 				} else {
-					Accounter.showError(FinanceApplication.getReportsMessages()
+					Accounter.showError(Accounter.getReportsMessages()
 							.pleaseSelectDate());
 				}
 
@@ -166,9 +166,9 @@ public class AsOfReportToolbar extends ReportToolbar {
 
 				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
 						startDate, customDate.getDate());
-				dateRangeCombo.setDefaultValue(FinanceApplication
+				dateRangeCombo.setDefaultValue(Accounter
 						.getReportsMessages().custom());
-				setSelectedDateRange(FinanceApplication.getReportsMessages()
+				setSelectedDateRange(Accounter.getReportsMessages()
 						.custom());
 
 			}

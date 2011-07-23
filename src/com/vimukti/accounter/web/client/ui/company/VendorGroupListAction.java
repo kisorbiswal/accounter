@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -45,14 +45,14 @@ public class VendorGroupListAction extends Action {
 
 					VendorGroupListDialog dialog = new VendorGroupListDialog(
 							UIUtils.getVendorString(
-									FinanceApplication.getCompanyMessages()
+									Accounter.getCompanyMessages()
 											.manageSupplierGroup(),
-									FinanceApplication.getCompanyMessages()
+									Accounter.getCompanyMessages()
 											.manageVendorGroup()), UIUtils
-									.getVendorString(FinanceApplication
+									.getVendorString(Accounter
 											.getCompanyMessages()
 											.toAddSupplierGroup(),
-											FinanceApplication
+											Accounter
 													.getCompanyMessages()
 													.toAddVendorGroup()));
 					ViewManager viewManager = ViewManager.getInstance();
@@ -76,7 +76,7 @@ public class VendorGroupListAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().vendors();
+		return Accounter.getFinanceMenuImages().vendors();
 	}
 
 	@Override

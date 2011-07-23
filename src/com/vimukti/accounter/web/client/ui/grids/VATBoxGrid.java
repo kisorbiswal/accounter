@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import com.vimukti.accounter.web.client.core.ClientBox;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class VATBoxGrid extends ListGrid<ClientBox> {
 
@@ -92,8 +92,8 @@ public class VATBoxGrid extends ListGrid<ClientBox> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { FinanceApplication.getVATMessages().VATLine(),
-				FinanceApplication.getVATMessages().amount() };
+		return new String[] { Accounter.getVATMessages().VATLine(),
+				Accounter.getVATMessages().amount() };
 	}
 
 }

@@ -72,7 +72,7 @@ public class NominalCodeRange implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -84,7 +84,7 @@ public class NominalCodeRange implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public void setStringID(String stringID) {
+	public void setID(long id){
 		// TODO Auto-generated method stub
 
 	}

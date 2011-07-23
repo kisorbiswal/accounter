@@ -8,7 +8,7 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public String stringID;
+	public long id;
 
 	/**
 	 * The rate by which the total amount of the transaction is laid on.
@@ -50,16 +50,16 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 	/**
 	 * @return the stringID
 	 */
-	public String getStringID() {
-		return stringID;
+	public long getID(){
+		return id;
 	}
 
 	/**
 	 * @param stringID
 	 *            the stringID to set
 	 */
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	/**

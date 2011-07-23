@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class CheckDetailReportView extends
@@ -55,11 +55,11 @@ public class CheckDetailReportView extends
 	@Override
 	public String[] getColunms() {
 		return new String[] { "",
-				FinanceApplication.getReportsMessages().number(),
-				FinanceApplication.getReportsMessages().date(),
-				FinanceApplication.getReportsMessages().name(),
-				FinanceApplication.getReportsMessages().acount(),
-				FinanceApplication.getReportsMessages().amount() };
+				Accounter.getReportsMessages().number(),
+				Accounter.getReportsMessages().date(),
+				Accounter.getReportsMessages().name(),
+				Accounter.getReportsMessages().acount(),
+				Accounter.getReportsMessages().amount() };
 	}
 
 	@Override
@@ -74,12 +74,12 @@ public class CheckDetailReportView extends
 
 	@Override
 	public String getTitle() {
-		return FinanceApplication.getActionsConstants().checkDetail();
+		return Accounter.getActionsConstants().checkDetail();
 	}
 
 	@Override
 	public String getDefaultDateRange() {
-		return FinanceApplication.getReportsMessages().financialYearToDate();
+		return Accounter.getReportsMessages().financialYearToDate();
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class CheckDetailReportView extends
 	@Override
 	public void makeReportRequest(String paymentmethod,
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		FinanceApplication.createReportService().getCheckDetailReport(
+		Accounter.createReportService().getCheckDetailReport(
 				paymentmethod, startDate.getTime(), endDate.getTime(), this);
 
 	}

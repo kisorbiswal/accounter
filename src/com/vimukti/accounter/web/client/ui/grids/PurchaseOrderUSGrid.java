@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -17,13 +17,13 @@ public class PurchaseOrderUSGrid extends VendorTransactionUSGrid {
 	@Override
 	protected String[] getColumns() {
 		return new String[] { "",
-				FinanceApplication.getVendorsMessages().name(),
-				FinanceApplication.getCustomersMessages().description(),
-				FinanceApplication.getCustomersMessages().quantity(),
-				FinanceApplication.getVendorsMessages().unitPrice(),
-				FinanceApplication.getVendorsMessages().onHand(),
-				FinanceApplication.getVendorsMessages().total(),
-				FinanceApplication.getVendorsMessages().billsReceived(), " " };
+				Accounter.getVendorsMessages().name(),
+				Accounter.getCustomersMessages().description(),
+				Accounter.getCustomersMessages().quantity(),
+				Accounter.getVendorsMessages().unitPrice(),
+				Accounter.getVendorsMessages().onHand(),
+				Accounter.getVendorsMessages().total(),
+				Accounter.getVendorsMessages().billsReceived(), " " };
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class PurchaseOrderUSGrid extends VendorTransactionUSGrid {
 		case 7:
 			return item.getInvoiced() + "";
 		case 8:
-			return FinanceApplication.getFinanceMenuImages().delete();
+			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
 		default:
 			return "";

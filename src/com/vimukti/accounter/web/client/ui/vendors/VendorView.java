@@ -39,7 +39,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -150,7 +150,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	private void getFiscalYear() {
-		List<ClientFiscalYear> result = FinanceApplication.getCompany()
+		List<ClientFiscalYear> result = Accounter.getCompany()
 				.getFiscalYears();
 		if (result != null && takenVendor == null) {
 			for (ClientFiscalYear fiscalYear : result) {
@@ -205,7 +205,7 @@ public class VendorView extends BaseView<ClientVendor> {
 //						}
 //					}
 					if (Utility
-							.isObjectExist(FinanceApplication.getCompany()
+							.isObjectExist(Accounter.getCompany()
 									.getVendors(), vendorNameText.getValue()
 									.toString())) {
 						if (tabSet.getTabBar().isTabEnabled(1)) {
@@ -282,8 +282,8 @@ public class VendorView extends BaseView<ClientVendor> {
 	@SuppressWarnings("deprecation")
 	private VerticalPanel getGeneralTab() {
 		vendorNameText = new TextItem(UIUtils.getVendorString(
-				FinanceApplication.getVendorsMessages().supplierName(),
-				FinanceApplication.getVendorsMessages().vendorName()));
+				Accounter.getVendorsMessages().supplierName(),
+				Accounter.getVendorsMessages().vendorName()));
 		vendorNameText.setHelpInformation(true);
 		vendorNameText.setRequired(true);
 		vendorNameText.setWidth(100);
@@ -302,12 +302,12 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		});
 
-		vendorForm = UIUtils.form(UIUtils.getVendorString(FinanceApplication
-				.getVendorsMessages().supplier(), FinanceApplication
+		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplier(), Accounter
 				.getVendorsMessages().vendor()));
 		vendorForm.setFields(vendorNameText);
 		vendorForm.setWidth("100%");
-		vendorForm.setStyleName(FinanceApplication.getVendorsMessages()
+		vendorForm.setStyleName(Accounter.getVendorsMessages()
 				.venderForm());
 		vendorForm.getCellFormatter().setWidth(0, 0, "245px");
 
@@ -320,8 +320,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		statusCheck.setValue(true);
 
 		vendorSinceDate = new DateField(UIUtils.getVendorString(
-				FinanceApplication.getVendorsMessages().supplierSince(),
-				FinanceApplication.getVendorsMessages().vendorSince()));
+				Accounter.getVendorsMessages().supplierSince(),
+				Accounter.getVendorsMessages().vendorSince()));
 		vendorSinceDate.setHelpInformation(true);
 		vendorSinceDate.setEnteredDate(new ClientFinanceDate());
 
@@ -352,9 +352,9 @@ public class VendorView extends BaseView<ClientVendor> {
 		accInfoForm.setFields(statusCheck, vendorSinceDate,
 				balanceText, balanceDate);
 
-		Label l1 = new Label(FinanceApplication.getVendorsMessages().contacts());
+		Label l1 = new Label(Accounter.getVendorsMessages().contacts());
 
-		AccounterButton addButton = new AccounterButton(FinanceApplication
+		AccounterButton addButton = new AccounterButton(Accounter
 				.getVendorsMessages().add());
 		addButton.addClickHandler(new ClickHandler() {
 
@@ -546,8 +546,8 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	private VerticalPanel getDetailsTab() {
 
-		Label lab = new Label(UIUtils.getVendorString(FinanceApplication
-				.getVendorsMessages().supplier(), FinanceApplication
+		Label lab = new Label(UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplier(), Accounter
 				.getVendorsMessages().vendor()));
 
 		expenseAccountsSelect = new OtherAccountsCombo(vendorConstants
@@ -616,8 +616,8 @@ public class VendorView extends BaseView<ClientVendor> {
 						payTermsSelect ,accountText , bankNameText ,bankBranchText);
 
 		vendorGroupSelect = new VendorGroupCombo(UIUtils.getVendorString(
-				FinanceApplication.getVendorsMessages().supplierGroup(),
-				FinanceApplication.getVendorsMessages().vendorGroup()));
+				Accounter.getVendorsMessages().supplierGroup(),
+				Accounter.getVendorsMessages().vendorGroup()));
 		vendorGroupSelect.setHelpInformation(true);
 		// vendorGroupSelect.setWidth(100);
 		vendorGroupSelect
@@ -630,11 +630,11 @@ public class VendorView extends BaseView<ClientVendor> {
 				});
 		NewVendorAction newVendorAction = (NewVendorAction) this.getAction();
 		if (newVendorAction.getOpenedFrom() == NewVendorAction.FROM_CREDIT_CARD_EXPENSE) {
-			vendorGroupList = FinanceApplication.getCompany().getVendorGroups();
+			vendorGroupList = Accounter.getCompany().getVendorGroups();
 
 			for (ClientVendorGroup vendorGroup : vendorGroupList) {
 				if (vendorGroup.getName().equals(
-						FinanceApplication.getVendorsMessages()
+						Accounter.getVendorsMessages()
 								.creditCardCompanies())) {
 					// vendorGroupSelect.setComboItem(vendorGroup);
 					vendorGroupSelect.addItemThenfireEvent(vendorGroup);
@@ -654,26 +654,26 @@ public class VendorView extends BaseView<ClientVendor> {
 		 * In UK n US versions we need different widths as for the view
 		 * requirement
 		 */
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			vendorGrpForm.setWidth("88%");
 		else
 			vendorGrpForm.setWidth("100%");
 
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			vendorGrpForm.setFields(vendorGroupSelect, federalText);
 		else
 			vendorGrpForm.setFields(vendorGroupSelect);
 
 		vendorGrpForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getVendorsMessages().width(), "136px");
+				Accounter.getVendorsMessages().width(), "136px");
 
 		vatRegistrationNumber = new TextItem(vendorConstants
 				.vatRegistrationNumber());
 		vatRegistrationNumber.setHelpInformation(true);
 		vatRegistrationNumber.setWidth(100);
 		vendorTaxCode = new TAXCodeCombo(UIUtils.getVendorString(
-				FinanceApplication.getVendorsMessages().supplierVatCode(),
-				FinanceApplication.getVendorsMessages().vendorVatCode()), false);
+				Accounter.getVendorsMessages().supplierVatCode(),
+				Accounter.getVendorsMessages().vendorVatCode()), false);
 		vendorTaxCode.setHelpInformation(true);
 		vendorTaxCode.setWidth(100);
 		vendorTaxCode
@@ -701,7 +701,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		VerticalPanel rVLayout = new VerticalPanel();
 		rVLayout.setWidth("100%");
 		rVLayout.setSpacing(10);
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			rVLayout.add(vendorGrpForm);
 		} else {
 			rVLayout.add(vendorGrpForm);
@@ -721,7 +721,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		if (takenVendor != null) {
 			// Setting Account
-			selectAccountFromDetailsTab = FinanceApplication.getCompany()
+			selectAccountFromDetailsTab = Accounter.getCompany()
 					.getAccount(takenVendor.getExpenseAccount());
 			
 			 accountText.setValue(takenVendor.getBankAccountNo().toString());
@@ -734,7 +734,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				creditLimitText.setAmount(takenVendor.getCreditLimit());
 
 			// Setting Preferred shipping method
-			selectShippingMethodFromDetailsTab = FinanceApplication
+			selectShippingMethodFromDetailsTab = Accounter
 					.getCompany().getShippingMethod(
 							takenVendor.getShippingMethod());
 
@@ -742,21 +742,21 @@ public class VendorView extends BaseView<ClientVendor> {
 			selectPaymentMethodFromDetialsTab = takenVendor.getPaymentMethod();
 
 			// Setting payment Terms
-			selectPaymentTermFromDetailsTab = FinanceApplication.getCompany()
+			selectPaymentTermFromDetailsTab = Accounter.getCompany()
 					.getPaymentTerms((takenVendor.getPaymentTermsId()));
 
 			// Setting Vendor Group
-			selectVendorGroupFromDetailsTab = FinanceApplication.getCompany()
+			selectVendorGroupFromDetailsTab = Accounter.getCompany()
 					.getVendorGroup(takenVendor.getVendorGroup());
 
-			if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				// if (vatRegistrationNumber.getValue() != null)
 				// vendor.setVATRegistrationNumber(vatRegistrationNumber.getValue().toString());
 				vatRegistrationNumber.setValue(takenVendor
 						.getVATRegistrationNumber());
 				vendorTaxCode
 						.setSelected(vendorTaxCode.getDisplayName(takenVendor
-								.getTAXCode() != null ? FinanceApplication
+								.getTAXCode() != null ? Accounter
 								.getCompany().getTAXCode(
 										takenVendor.getTAXCode()) : null));
 			} else {
@@ -786,23 +786,23 @@ public class VendorView extends BaseView<ClientVendor> {
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 
 		addrsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getVendorsMessages().width(), "25px");
+				Accounter.getVendorsMessages().width(), "25px");
 		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
-				FinanceApplication.getVendorsMessages().width(), "186px");
+				Accounter.getVendorsMessages().width(), "186px");
 
 		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getVendorsMessages().width(), "240px");
+				Accounter.getVendorsMessages().width(), "240px");
 		// fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.getVendorsMessages().width(), "185px");
 
 		vendorForm.getCellFormatter().getElement(0, 0).getStyle().setWidth(150,
 				Unit.PX);
 		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getVendorsMessages().width(), "240px");
+				Accounter.getVendorsMessages().width(), "240px");
 		// emailForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.getVendorsMessages().width(), "");
 		accInfoForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getVendorsMessages().width(), "150px");
+				Accounter.getVendorsMessages().width(), "150px");
 
 	}
 
@@ -834,11 +834,11 @@ public class VendorView extends BaseView<ClientVendor> {
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
 		String msg;
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			msg = FinanceApplication.getVendorsMessages()
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			msg = Accounter.getVendorsMessages()
 					.duplicationOfSupplierNameAreNotAllowed();
 		} else
-			msg = FinanceApplication.getVendorsMessages()
+			msg = Accounter.getVendorsMessages()
 					.duplicationOfVendorNameAreNotAllowed();
 		// BaseView.errordata.setHTML(msg);
 		// BaseView.commentPanel.setVisible(true);
@@ -985,7 +985,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		// Setting Vendor Group
 		vendor.setVendorGroup(Utility.getId(selectVendorGroupFromDetailsTab));
-		if (FinanceApplication.getCompany().getAccountingType() == 0)
+		if (Accounter.getCompany().getAccountingType() == 0)
 			if (federalText.getValue() != null) {
 				vendor.setFederalTaxId(federalText.getValue().toString());
 			}
@@ -996,17 +996,17 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendor.setBankBranch(bankBranchText.getValue().toString());
 
 		// Setting Account Payable
-		vendor.setAccountsPayable(FinanceApplication.getCompany()
+		vendor.setAccountsPayable(Accounter.getCompany()
 				.getAccountsPayableAccount());
 		// Seting opening balance accounts
-		vendor.setOpeningBalanceAccount(FinanceApplication.getCompany()
+		vendor.setOpeningBalanceAccount(Accounter.getCompany()
 				.getOpeningBalancesAccount());
-		vendor.setAccountsPayable(FinanceApplication.getCompany()
+		vendor.setAccountsPayable(Accounter.getCompany()
 				.getAccountsPayableAccount());
 
 		// Setting opening balance accounts
 
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			if (vatRegistrationNumber != null) {
 
 				String vatReg = vatRegistrationNumber.getValue() != null ? vatRegistrationNumber
@@ -1027,7 +1027,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		List<ClientAccount> allAccounts = expenseAccountsSelect.getAccounts();
 		expenseAccountsSelect.initCombo(allAccounts);
 		if (takenVendor != null) {
-			ClientAccount temp = FinanceApplication.getCompany().getAccount(
+			ClientAccount temp = Accounter.getCompany().getAccount(
 					takenVendor.getExpenseAccount());
 			// Setting Expense Account
 			if (temp != null)
@@ -1035,7 +1035,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			for (@SuppressWarnings("unused")
 			ClientAccount tempAccount : allAccounts) {
 				// FIXME
-				// if (tempAccount.getStringID() == (3))
+				// if (tempAccount.getID() == (3))
 				// accountPayableAccount = tempAccount;
 			}
 		}
@@ -1044,7 +1044,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	public void addVendorGroupList() {
 
-		vendorGroupSelect.initCombo(FinanceApplication.getCompany()
+		vendorGroupSelect.initCombo(Accounter.getCompany()
 				.getVendorGroups());
 		// Setting Vendor Group
 		if (takenVendor != null) {
@@ -1057,7 +1057,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	public void addShippingMethodList() {
-		preferredShippingSelect.initCombo(FinanceApplication.getCompany()
+		preferredShippingSelect.initCombo(Accounter.getCompany()
 				.getShippingMethods());
 		// Setting Preferred Shipping Method
 		if (takenVendor != null) {
@@ -1081,7 +1081,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	public void addPaymentTermsList() {
 
-		payTermsSelect.initCombo(FinanceApplication.getCompany()
+		payTermsSelect.initCombo(Accounter.getCompany()
 				.getPaymentsTerms());
 		// Setting Payment Term
 		if (takenVendor != null) {
@@ -1110,7 +1110,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	@Override
 	public void initData() {
 		super.initData();
-		company = FinanceApplication.getCompany();
+		company = Accounter.getCompany();
 		getFiscalYear();
 		addAccountsToList();
 		addVendorGroupList();
@@ -1127,13 +1127,13 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	private void addSuplierTaxCode() {
-		vendorTaxCode.initCombo(FinanceApplication.getCompany()
+		vendorTaxCode.initCombo(Accounter.getCompany()
 				.getActiveTaxCodes());
 		if (takenVendor != null) {
 			vendorTaxCode.setSelected(vendorTaxCode.getDisplayName(takenVendor
-					.getTAXCode() != null ? FinanceApplication.getCompany()
+					.getTAXCode() != null ? Accounter.getCompany()
 					.getTAXCode(takenVendor.getTAXCode()) : null));
-			vendorTaxCode.setComboItem(FinanceApplication.getCompany()
+			vendorTaxCode.setComboItem(Accounter.getCompany()
 					.getTAXCode(takenVendor.getTAXCode()));
 		}
 	}
@@ -1220,7 +1220,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				this.expenseAccountsSelect
 						.updateComboItem((ClientAccount) core);
 			if (core.getObjectType() == AccounterCoreType.TAX_CODE
-					&& FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+					&& Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 				this.vendorTaxCode.updateComboItem((ClientTAXCode) core);
 			if (core.getObjectType() == AccounterCoreType.VENDOR_GROUP)
 				this.vendorGroupSelect
@@ -1237,7 +1237,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				this.expenseAccountsSelect
 						.removeComboItem((ClientAccount) core);
 			if (core.getObjectType() == AccounterCoreType.TAX_CODE
-					&& FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+					&& Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 				this.vendorTaxCode.removeComboItem((ClientTAXCode) core);
 			if (core.getObjectType() == AccounterCoreType.VENDOR_GROUP)
 				this.vendorGroupSelect
@@ -1267,8 +1267,8 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(FinanceApplication.getVendorsMessages()
-				.newSupplier(), FinanceApplication.getVendorsMessages()
+		return UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.newSupplier(), Accounter.getVendorsMessages()
 				.newVendor());
 	}
 }

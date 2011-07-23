@@ -4,7 +4,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
@@ -18,29 +18,29 @@ import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 @SuppressWarnings("unchecked")
 public class SelectExpenseType extends BaseDialog {
 	RadioGroupItem typeRadio;
-	private final String CHECK = FinanceApplication.getVendorsMessages()
+	private final String CHECK = Accounter.getVendorsMessages()
 			.check();
-	private final String CREDIT_CARD = FinanceApplication.getVendorsMessages()
+	private final String CREDIT_CARD = Accounter.getVendorsMessages()
 			.creditCard();
 
-	private final String CASH = FinanceApplication.getVendorsMessages().cash();
-	private final String EMPLOYEE = FinanceApplication.getVendorsMessages()
+	private final String CASH = Accounter.getVendorsMessages().cash();
+	private final String EMPLOYEE = Accounter.getVendorsMessages()
 			.employee();
 	// private ViewConfiguration configuration;
 	private VendorsMessages vendorsConstants = GWT
 			.create(VendorsMessages.class);
 
 	public SelectExpenseType() {
-		super(FinanceApplication.getVendorsMessages().recordExpenses(), "");
-		setText(FinanceApplication.getVendorsMessages().recordExpenses());
+		super(Accounter.getVendorsMessages().recordExpenses(), "");
+		setText(Accounter.getVendorsMessages().recordExpenses());
 		createControls();
 		center();
 	}
 
 	public SelectExpenseType(AsyncCallback<IAccounterCore> callBack) {
-		super(FinanceApplication.getVendorsMessages().recordExpenses(), "");
+		super(Accounter.getVendorsMessages().recordExpenses(), "");
 		this.callBack = callBack;
-		setText(FinanceApplication.getVendorsMessages().recordExpenses());
+		setText(Accounter.getVendorsMessages().recordExpenses());
 		createControls();
 		center();
 	}
@@ -76,7 +76,7 @@ public class SelectExpenseType extends BaseDialog {
 							BankingActionFactory.getWriteChecksAction().run(
 									null, false);
 						} catch (Throwable e) {
-							Accounter.showError(FinanceApplication
+							Accounter.showError(Accounter
 									.getVendorsMessages()
 									.failedToloadWriteCheck()
 
@@ -92,7 +92,7 @@ public class SelectExpenseType extends BaseDialog {
 							VendorsActionFactory.CreditCardExpenseAction().run(
 									null, false);
 						} catch (Throwable e) {
-							Accounter.showError(FinanceApplication
+							Accounter.showError(Accounter
 									.getVendorsMessages()
 									.failedToLoadCreditCardCharg());
 							e.printStackTrace();
@@ -107,7 +107,7 @@ public class SelectExpenseType extends BaseDialog {
 							VendorsActionFactory.CashExpenseAction().run(null,
 									false);
 						} catch (Throwable e) {
-							Accounter.showError(FinanceApplication
+							Accounter.showError(Accounter
 									.getVendorsMessages()
 									.failedToLoadCashPurchase());
 							e.printStackTrace();
@@ -120,14 +120,14 @@ public class SelectExpenseType extends BaseDialog {
 							VendorsActionFactory.EmployeeExpenseAction().run(
 									null, false);
 						} catch (Throwable e) {
-							Accounter.showError(FinanceApplication
+							Accounter.showError(Accounter
 									.getVendorsMessages()
 									.failedToLoadCashPurchase());
 							e.printStackTrace();
 						}
 					} else {
 						Accounter
-								.showError(FinanceApplication
+								.showError(Accounter
 										.getVendorsMessages()
 										.pleaseSelectExpenseType());
 					}
@@ -190,7 +190,7 @@ public class SelectExpenseType extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getVendorsMessages().recordExpenses();
+		return Accounter.getVendorsMessages().recordExpenses();
 	}
 
 	// setTitle(vendorsConstants.selectExpenseType());

@@ -9,7 +9,7 @@ public class ClientEstimate extends ClientTransaction {
 
 	public static final int STATUS_ACCECPTED = 2;
 
-	String customer;
+	long customer;
 
 	ClientContact contact;
 
@@ -17,15 +17,15 @@ public class ClientEstimate extends ClientTransaction {
 
 	String phone;
 
-	String salesPerson;
+	long salesPerson;
 
-	String paymentTerm;
+	long paymentTerm;
 
 	long expirationDate;
 
 	long deliveryDate;
 
-	String priceLevel;
+	long priceLevel;
 
 	double salesTax;
 
@@ -96,7 +96,7 @@ public class ClientEstimate extends ClientTransaction {
 	/**
 	 * @return the customer
 	 */
-	public String getCustomer() {
+	public long getCustomer() {
 		return customer;
 	}
 
@@ -104,7 +104,7 @@ public class ClientEstimate extends ClientTransaction {
 	 * @param customer
 	 *            the customer to set
 	 */
-	public void setCustomer(String customer) {
+	public void setCustomer(long customer) {
 		this.customer = customer;
 	}
 
@@ -135,7 +135,7 @@ public class ClientEstimate extends ClientTransaction {
 	 * @param salesPerson
 	 *            the salesPerson to set
 	 */
-	public void setSalesPerson(String salesPerson) {
+	public void setSalesPerson(long salesPerson) {
 		this.salesPerson = salesPerson;
 	}
 
@@ -143,7 +143,7 @@ public class ClientEstimate extends ClientTransaction {
 	 * @param paymentTerm
 	 *            the paymentTerm to set
 	 */
-	public void setPaymentTerm(String paymentTerm) {
+	public void setPaymentTerm(long paymentTerm) {
 		this.paymentTerm = paymentTerm;
 	}
 
@@ -151,7 +151,7 @@ public class ClientEstimate extends ClientTransaction {
 	 * @param priceLevel
 	 *            the priceLevel to set
 	 */
-	public void setPriceLevel(String priceLevel) {
+	public void setPriceLevel(long priceLevel) {
 		this.priceLevel = priceLevel;
 	}
 
@@ -199,30 +199,30 @@ public class ClientEstimate extends ClientTransaction {
 	}
 
 	public void setCustomer(ClientCustomer customer) {
-		this.customer = customer.getStringID();
+		this.customer = customer.getID();
 
 	}
 
 	public void setSalesPerson(ClientSalesPerson salesPerson) {
-		this.salesPerson = salesPerson.getStringID();
+		this.salesPerson = salesPerson.getID();
 
 	}
 
 	public void setPriceLevel(ClientPriceLevel priceLevel) {
-		this.priceLevel = priceLevel.getStringID();
+		this.priceLevel = priceLevel.getID();
 	}
 
-	public String getPaymentTerm() {
+	public long getPaymentTerm() {
 
 		return this.paymentTerm;
 	}
 
-	public String getPriceLevel() {
+	public long getPriceLevel() {
 
 		return this.priceLevel;
 	}
 
-	public String getSalesPerson() {
+	public long getSalesPerson() {
 
 		return this.salesPerson;
 	}
@@ -239,13 +239,13 @@ public class ClientEstimate extends ClientTransaction {
 	}
 
 	@Override
-	public String getStringID() {
-		return this.stringID;
+	public long getID() {
+		return this.id;
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 

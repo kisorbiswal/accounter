@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
@@ -90,7 +90,7 @@ public class AccounterDialog extends CustomDialog {
 				setText("INFORMATION");
 			}
 
-			okButton = new AccounterButton(FinanceApplication
+			okButton = new AccounterButton(Accounter
 					.getCompanyMessages().ok());
 			okButton.setWidth("80px");
 
@@ -111,10 +111,10 @@ public class AccounterDialog extends CustomDialog {
 
 			imageUrl = "/images/warn-icon.png";
 			setText("WARNING");
-			yesButton = new AccounterButton(FinanceApplication
+			yesButton = new AccounterButton(Accounter
 					.getCompanyMessages().yes());
 			yesButton.setWidth("60");
-			noButton = new AccounterButton(FinanceApplication
+			noButton = new AccounterButton(Accounter
 					.getCompanyMessages().no());
 			noButton.setWidth("60");
 			yesButton.addClickHandler(new ClickHandler() {
@@ -142,7 +142,7 @@ public class AccounterDialog extends CustomDialog {
 			});
 			// buttonLayout.setAlign(Alignment.RIGHT);
 			if (this.type.equals(AccounterType.WARNINGWITHCANCEL)) {
-				cancelButton = new AccounterButton(FinanceApplication
+				cancelButton = new AccounterButton(Accounter
 						.getCompanyMessages().cancel());
 				buttonLayout.add(yesButton);
 				buttonLayout.add(noButton);

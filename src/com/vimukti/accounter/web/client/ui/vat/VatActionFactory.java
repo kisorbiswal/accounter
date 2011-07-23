@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.NewTAXAgencyAction;
 import com.vimukti.accounter.web.client.ui.core.AbstractActionFactory;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 public class VatActionFactory extends AbstractActionFactory {
 	public static NewVatItemAction getNewVatItemAction() {
 		String flag;
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			flag = actionsConstants.newVatitem();
 		else
 			flag = actionsConstants.newTaxItem();
@@ -57,18 +57,18 @@ public class VatActionFactory extends AbstractActionFactory {
 	}
 
 	public static AdjustTAXAction getVatAdjustmentAction() {
-		return new AdjustTAXAction(FinanceApplication.getVATMessages()
+		return new AdjustTAXAction(Accounter.getVATMessages()
 				.VATAdjustment());
 
 	}
 
 	public static PayVATAction getpayVATAction() {
-		return new PayVATAction(FinanceApplication.getVATMessages().payVAT());
+		return new PayVATAction(Accounter.getVATMessages().payVAT());
 
 	}
 
 	public static Action getreceiveVATAction() {
-		return new ReceiveVATAction(FinanceApplication.getVATMessages()
+		return new ReceiveVATAction(Accounter.getVATMessages()
 				.recieveVat());
 	}
 }

@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.vat;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -16,10 +16,10 @@ public class NewVatItemAction extends Action {
 	public NewVatItemAction(String text) {
 		super(text);
 		String flag;
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			flag = FinanceApplication.getCompanyMessages().company();
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			flag = Accounter.getCompanyMessages().company();
 		else
-			flag = FinanceApplication.getVATMessages().VAT();
+			flag = Accounter.getVATMessages().VAT();
 		this.catagory = flag;
 	}
 
@@ -30,7 +30,7 @@ public class NewVatItemAction extends Action {
 
 	@Override
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().newVatItem();
+		return Accounter.getFinanceMenuImages().newVatItem();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -77,7 +77,7 @@ public class NewVatItemAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		// TODO Auto-generated method stub
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			return "newVatItem";
 		else
 			return "newTaxItem";

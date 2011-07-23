@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -30,11 +30,11 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
 	private List<SalesOrdersList> listOfSalesOrder;
 
-	private static String OPEN = FinanceApplication.getCustomersMessages()
+	private static String OPEN = Accounter.getCustomersMessages()
 			.open();
-	private static String COMPLETED = FinanceApplication.getCustomersMessages()
+	private static String COMPLETED = Accounter.getCustomersMessages()
 			.completed();
-	private static String CANCELLED = FinanceApplication.getCustomersMessages()
+	private static String CANCELLED = Accounter.getCustomersMessages()
 			.cancelled();
 	private List<String> listOfTypes;
 
@@ -46,7 +46,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
 	@Override
 	protected Action getAddNewAction() {
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			return CustomersActionFactory.getSalesOrderAction();
 		else
 			return null;
@@ -60,7 +60,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
 	@Override
 	protected String getListViewHeading() {
-		return FinanceApplication.getCustomersMessages().salesOrderList();
+		return Accounter.getCustomersMessages().salesOrderList();
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		FinanceApplication.createHomeService().getSalesOrders(this);
+		Accounter.createHomeService().getSalesOrders(this);
 	}
 
 	@Override
@@ -126,7 +126,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(FinanceApplication.getCustomersMessages()
+		viewSelect = new SelectCombo(Accounter.getCustomersMessages()
 				.currentView());
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(OPEN);
@@ -265,7 +265,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().salesOrders();
+		return Accounter.getActionsConstants().salesOrders();
 	}
 
 }

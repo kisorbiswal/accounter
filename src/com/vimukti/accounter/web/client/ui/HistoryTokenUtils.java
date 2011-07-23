@@ -34,7 +34,7 @@ import com.vimukti.accounter.web.client.ui.core.History;
  */
 public class HistoryTokenUtils {
 
-	public static List<Object> getObject(String string) {
+	public List<Object> getObject(String string) {
 		int split1 = string.lastIndexOf('?');
 		int split2 = string.lastIndexOf(':');
 		List<Object> list = new ArrayList<Object>();
@@ -102,103 +102,103 @@ public class HistoryTokenUtils {
 		return list;
 	}
 
-	public static String getObjectNameWithID(Object object) {
+	public String getObjectNameWithID(Object object) {
 		StringBuilder temp = new StringBuilder();// object.getClass().getName().replaceFirst("Client",
 		// "");
 		if (object instanceof ClientCustomer) {
 			temp.append("customer");
 			temp.append(":");
-			temp.append(((ClientCustomer) object).getStringID());
+			temp.append(((ClientCustomer) object).getID());
 
 		} else if (object instanceof ClientVendor) {
 			temp.append("vendor");
 			temp.append(":");
-			temp.append(((ClientVendor) object).getStringID());
+			temp.append(((ClientVendor) object).getID());
 
 		} else if (object instanceof ClientItem) {
 			temp.append("item");
 			temp.append(":");
-			temp.append(((ClientItem) object).getStringID());
+			temp.append(((ClientItem) object).getID());
 
 		} else if (object instanceof ClientAccount) {
 			temp.append("account");
 			temp.append(":");
-			temp.append(((ClientAccount) object).getStringID());
+			temp.append(((ClientAccount) object).getID());
 
 		} else if (object instanceof ClientJournalEntry) {
 			temp.append("journalentry");
 			temp.append(":");
-			temp.append(((ClientJournalEntry) object).getStringID());
+			temp.append(((ClientJournalEntry) object).getID());
 
 		} else if (object instanceof ClientTAXItem) {
 			temp.append("taxitem");
 			temp.append(":");
-			temp.append(((ClientTAXItem) object).getStringID());
+			temp.append(((ClientTAXItem) object).getID());
 
 		} else if (object instanceof ClientTAXCode) {
 			temp.append("taxcode");
 			temp.append(":");
-			temp.append(((ClientTAXCode) object).getStringID());
+			temp.append(((ClientTAXCode) object).getID());
 
 		} else if (object instanceof ClientInvoice) {
 			temp.append("invoice");
 			temp.append(":");
-			temp.append(((ClientInvoice) object).getStringID());
+			temp.append(((ClientInvoice) object).getID());
 
 		} else if (object instanceof ClientCashSales) {
 			temp.append("cashsales");
 			temp.append(":");
-			temp.append(((ClientCashSales) object).getStringID());
+			temp.append(((ClientCashSales) object).getID());
 
 		} else if (object instanceof ClientEstimate) {
 			temp.append("estimate");
 			temp.append(":");
-			temp.append(((ClientEstimate) object).getStringID());
+			temp.append(((ClientEstimate) object).getID());
 
 		} else if (object instanceof ClientCustomerCreditMemo) {
 			temp.append("customercreditmemo");
 			temp.append(":");
-			temp.append(((ClientCustomerCreditMemo) object).getStringID());
+			temp.append(((ClientCustomerCreditMemo) object).getID());
 
 		} else if (object instanceof ClientReceivePayment) {
 			temp.append("receivepayment");
 			temp.append(":");
-			temp.append(((ClientReceivePayment) object).getStringID());
+			temp.append(((ClientReceivePayment) object).getID());
 
 		} else if (object instanceof ClientCustomerRefund) {
 			temp.append("customerrefund");
 			temp.append(":");
-			temp.append(((ClientCustomerRefund) object).getStringID());
+			temp.append(((ClientCustomerRefund) object).getID());
 
 		} else if (object instanceof ClientCustomerPrePayment) {
 			temp.append("customerprepayment");
 			temp.append(":");
-			temp.append(((ClientCustomerPrePayment) object).getStringID());
+			temp.append(((ClientCustomerPrePayment) object).getID());
 
 		} else if (object instanceof ClientEnterBill) {
 			temp.append("enterbill");
 			temp.append(":");
-			temp.append(((ClientEnterBill) object).getStringID());
+			temp.append(((ClientEnterBill) object).getID());
 
 		} else if (object instanceof ClientPayBill) {
 			temp.append("paybill");
 			temp.append(":");
-			temp.append(((ClientPayBill) object).getStringID());
+			temp.append(((ClientPayBill) object).getID());
 
 		} else if (object instanceof ClientCashPurchase) {
 			temp.append("cashpurchase");
 			temp.append(":");
-			temp.append(((ClientCashPurchase) object).getStringID());
+			temp.append(((ClientCashPurchase) object).getID());
 
 		} else if (object instanceof ClientVendorCreditMemo) {
 			temp.append("vendorcreditmemo");
 			temp.append(":");
-			temp.append(((ClientVendorCreditMemo) object).getStringID());
+			temp.append(((ClientVendorCreditMemo) object).getID());
 		}
 		return temp.toString();
 	}
 
-	public static void setPreviousToken() {
+	public void setPreviousToken() {
 		History history = MainFinanceWindow.getViewManager().getTempHistory();
 		if (history != null) {
 			setPresentToken(history.getAction(), null);
@@ -207,7 +207,7 @@ public class HistoryTokenUtils {
 		}
 	}
 
-	public static String getTokenWithID(String historyToken, Object object) {
+	public String getTokenWithID(String historyToken, Object object) {
 		String token = historyToken;
 		if (object != null) {
 			token = token + "?" + getObjectNameWithID(object);
@@ -215,7 +215,7 @@ public class HistoryTokenUtils {
 		return token;
 	}
 
-	public static void setPresentToken(Action action, Object obj) {
+	public void setPresentToken(Action action, Object obj) {
 		MainFinanceWindow.shouldExecuteRun = false;
 		MainFinanceWindow.oldToken = com.google.gwt.user.client.History.getToken();
 		com.google.gwt.user.client.History.newItem(getTokenWithID(action

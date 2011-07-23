@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.banking.ChartOfAccountsView;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -22,18 +22,18 @@ public class ChartOfAccountsAction extends Action {
 
 	public ChartOfAccountsAction(String text) {
 		super(text);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	public ChartOfAccountsAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	public ChartOfAccountsAction(String text, String iconString, int accountType) {
 		super(text, iconString);
 		this.accountType = accountType;
-		this.catagory = FinanceApplication.getCompanyMessages().company();
+		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
@@ -78,7 +78,7 @@ public class ChartOfAccountsAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().cahrtOfAccounts();
+		return Accounter.getFinanceMenuImages().cahrtOfAccounts();
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
@@ -24,7 +24,7 @@ public class ManageFiscalYearAction extends Action {
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		ManageFiscalYearDialog dialog = new ManageFiscalYearDialog(
-				FinanceApplication.getCompanyMessages().manageFiscalYear(), "");
+				Accounter.getCompanyMessages().manageFiscalYear(), "");
 		dialog.show();
 	}
 
@@ -33,7 +33,7 @@ public class ManageFiscalYearAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return FinanceApplication.getFinanceMenuImages().manageFiscalYear();
+		return Accounter.getFinanceMenuImages().manageFiscalYear();
 	}
 
 	@Override

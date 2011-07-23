@@ -28,39 +28,39 @@ public class AddresssDilaog extends AbstractBaseDialog {
 		setModal(true);
 
 		streetText1 = new TextItem();
-		streetText1.setTitle(FinanceApplication.getFinanceUIConstants()
+		streetText1.setTitle(Accounter.getFinanceUIConstants()
 				.streetAddress1());
 		streetText2 = new TextItem();
-		streetText2.setTitle(FinanceApplication.getFinanceUIConstants()
+		streetText2.setTitle(Accounter.getFinanceUIConstants()
 				.streetAddress2());
 		cityText = new TextItem();
 
-		cityText.setTitle(FinanceApplication.getFinanceUIConstants().city());
+		cityText.setTitle(Accounter.getFinanceUIConstants().city());
 		stateText = new TextItem();
-		stateText.setTitle(FinanceApplication.getFinanceUIConstants().state());
+		stateText.setTitle(Accounter.getFinanceUIConstants().state());
 		TextItem zipText = new TextItem();
-		zipText.setTitle(FinanceApplication.getFinanceUIConstants()
+		zipText.setTitle(Accounter.getFinanceUIConstants()
 				.postalCode());
 		countryText = new TextItem();
-		countryText.setTitle(FinanceApplication.getFinanceUIConstants()
+		countryText.setTitle(Accounter.getFinanceUIConstants()
 				.country());
 
 		DynamicForm form = new DynamicForm();
 		form.setFields(streetText1, streetText2, cityText, stateText, zipText,
 				countryText);
 
-		AccounterButton helpButt = new AccounterButton(FinanceApplication
+		AccounterButton helpButt = new AccounterButton(Accounter
 				.getFinanceUIConstants().help());
 		// helpButt.setLayoutAlign(Alignment.LEFT);
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		helpHLay.setWidth("50%");
 		helpHLay.add(helpButt);
 		helpButt.enabledButton();
-		AccounterButton okButt = new AccounterButton(FinanceApplication
+		AccounterButton okButt = new AccounterButton(Accounter
 				.getFinanceUIConstants().ok());
 		// okButt.setLayoutAlign(Alignment.RIGHT);
 
-		AccounterButton canButt = new AccounterButton(FinanceApplication
+		AccounterButton canButt = new AccounterButton(Accounter
 				.getFinanceUIConstants().cancel());
 		// canButt.setLayoutAlign(Alignment.RIGHT);
 

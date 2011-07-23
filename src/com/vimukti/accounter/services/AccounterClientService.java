@@ -861,7 +861,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// HibernateTemplate template = getHibernateTemplate();
 	//
 	// List list = template.find("from FiscalYear f where f.stringID= ? ",
-	// new Object[] { clientFiscalYear.getStringID() });
+	// new Object[] { clientFiscalYear.getID() });
 	//
 	// final FiscalYear existingFiscalYear = (FiscalYear) list.get(0);
 	//
@@ -1119,7 +1119,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// List list = template.find(
 	// "from JournalEntry pt where pt.stringID= ?",
-	// new Object[] { journalEntry.getStringID() });
+	// new Object[] { journalEntry.getID() });
 	//
 	// if (list.size() > 0) {
 	// @SuppressWarnings("unused")
@@ -1383,7 +1383,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// public Object doInHibernate(Session session)
 	// throws HibernateException, SQLException {
 	// IAccounterServerCore serverCore = (IAccounterServerCore) session
-	// .get(class1, accounterCore.getStringID());
+	// .get(class1, accounterCore.getID());
 	// if (serverCore != null) {
 	// Util.toServerObject(serverCore, accounterCore, session);
 	// if (serverCore instanceof Lifecycle) {

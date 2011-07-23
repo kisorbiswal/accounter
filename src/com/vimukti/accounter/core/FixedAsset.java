@@ -56,7 +56,7 @@ public class FixedAsset implements Lifecycle, IAccounterServerCore,
 	/**
 	 * This will hold a secure 40 digit random number.
 	 */
-	private String stringID;
+	private long id;
 
 	/**
 	 * Unique Item ID, for which the
@@ -242,12 +242,12 @@ public class FixedAsset implements Lifecycle, IAccounterServerCore,
 	FinanceDate createdDate;
 	FinanceDate lastModifiedDate;
 
-	public String getStringID() {
+	public long getID(){
 		return stringID;
 	}
 
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	/**
@@ -407,7 +407,7 @@ public class FixedAsset implements Lifecycle, IAccounterServerCore,
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
@@ -921,7 +921,7 @@ public class FixedAsset implements Lifecycle, IAccounterServerCore,
 						requiredStartDateCal.getTime()) > 0) {
 					try {
 						Depreciation
-								.rollBackDepreciation(this.getStringID(),
+								.rollBackDepreciation(this.getID(),
 										new FinanceDate(requiredStartDateCal
 												.getTime()));
 					} catch (Exception e) {
@@ -982,7 +982,7 @@ public class FixedAsset implements Lifecycle, IAccounterServerCore,
 				if (Utility.compareTo(lastDepreciationDate.getAsDateObject(),
 						depreciationTillDate.getAsDateObject()) > 0) {
 					try {
-						Depreciation.rollBackDepreciation(this.getStringID(),
+						Depreciation.rollBackDepreciation(this.getID(),
 								depreciationTillDate);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
@@ -1320,7 +1320,7 @@ public class FixedAsset implements Lifecycle, IAccounterServerCore,
 			throws Exception {
 
 		TempFixedAsset fixedAsset = new TempFixedAsset();
-		fixedAsset.setFixedAssetID(this.getStringID());
+		fixedAsset.setFixedAssetID(this.getID());
 		fixedAsset.setPurchaseDate(new ClientFinanceDate(this.getPurchaseDate()
 				.getTime()));
 		fixedAsset.setNoDepreciation(this.isNoDepreciation());

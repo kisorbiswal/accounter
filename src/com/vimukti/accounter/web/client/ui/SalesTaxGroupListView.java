@@ -95,7 +95,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	}
 
 	private void createControls() {
-		Label lab = new Label(FinanceApplication.getCompanyMessages()
+		Label lab = new Label(Accounter.getCompanyMessages()
 				.manageSalesTaxGroup());
 		lab.addStyleName("lable-title");
 
@@ -160,7 +160,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 		button1.setFocus(true);
 		bodyLayout.add(grid);
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			bodyLayout.add(buttonsLayout);
 		VerticalPanel mainVlay = new VerticalPanel();
 		mainVlay.add(lab);
@@ -196,7 +196,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 				if (taxGroup != null) {
 					showAddEditTaxGroup(taxGroup);
 				} else {
-					Accounter.showError(FinanceApplication
+					Accounter.showError(Accounter
 							.getFinanceUIConstants().selectATaxGroup());
 					new Exception();
 				}
@@ -208,7 +208,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 				if (taxGroup != null) {
 					deleteObject(taxGroup);
 				} else
-					Accounter.showError(FinanceApplication
+					Accounter.showError(Accounter
 							.getFinanceUIConstants().selectATaxGroup());
 
 			}
@@ -259,12 +259,12 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	public void showAddEditTaxGroup(final ClientTAXGroup taxGroup) {
 
 		if (taxGroup != null) {
-			salesTaxGroupDialog = new SalesTaxGroupDialog(FinanceApplication
-					.getFinanceUIConstants().taxGroup(), FinanceApplication
+			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter
+					.getFinanceUIConstants().taxGroup(), Accounter
 					.getFinanceUIConstants().toAddOrRemoveTaxCode(), taxGroup);
 		} else {
-			salesTaxGroupDialog = new SalesTaxGroupDialog(FinanceApplication
-					.getFinanceUIConstants().taxGroup(), FinanceApplication
+			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter
+					.getFinanceUIConstants().taxGroup(), Accounter
 					.getFinanceUIConstants().toAddOrRemoveTaxCode(), null);
 		}
 
@@ -305,7 +305,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	protected void editTaxGroup(ClientTAXGroup taxGroup) {
 		if (!(taxGroup.getName().equalsIgnoreCase(
 				UIUtils.toStr(salesTaxGroupDialog.taxGroupText.getValue())) ? true
-				: (Utility.isObjectExist(FinanceApplication.getCompany()
+				: (Utility.isObjectExist(Accounter.getCompany()
 						.getTaxGroups(), UIUtils
 						.toStr(salesTaxGroupDialog.taxGroupText.getValue())) ? false
 						: true))) {
@@ -358,9 +358,9 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		taxGroup.setTaxItems(getSelectedTaxItems(taxGroup));
 
 		if (Utility.isObjectExist(
-				FinanceApplication.getCompany().getTaxItems(), taxGroup
+				Accounter.getCompany().getTaxItems(), taxGroup
 						.getName())
-				|| Utility.isObjectExist(FinanceApplication.getCompany()
+				|| Utility.isObjectExist(Accounter.getCompany()
 						.getTaxGroups(), taxGroup.getName())) {
 
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
@@ -371,7 +371,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	}
 
 	protected List<ClientTAXGroup> getRecords() {
-		return FinanceApplication.getCompany().getTaxGroups();
+		return Accounter.getCompany().getTaxGroups();
 	}
 
 	public void setTaxItemsToGrid(List<ClientTAXItem> taxItems) {
@@ -382,7 +382,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getActionsConstants().vatgroupList();
+		return Accounter.getActionsConstants().vatgroupList();
 	}
 
 }

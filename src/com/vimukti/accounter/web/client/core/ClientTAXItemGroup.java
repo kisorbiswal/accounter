@@ -14,8 +14,6 @@ public class ClientTAXItemGroup implements IAccounterCore {
 
 	long id;
 
-	String stringID;
-
 	/**
 	 * Name of the Tax Group which is unique for every TaxGroup
 	 */
@@ -84,12 +82,12 @@ public class ClientTAXItemGroup implements IAccounterCore {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#getStringID()
+	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#getID()
 	 */
 	@Override
-	public String getStringID() {
+	public long getID(){
 
-		return this.stringID;
+		return this.id;
 	}
 
 	/*
@@ -100,8 +98,8 @@ public class ClientTAXItemGroup implements IAccounterCore {
 	 * .lang.String)
 	 */
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

@@ -10,7 +10,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.ui.AddEditFiscalYearDialog;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
@@ -113,8 +113,8 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 		addButton(changeButton);
 		changeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				new ChangeStartDateDialog(FinanceApplication
-						.getCompanyMessages().title(), FinanceApplication
+				new ChangeStartDateDialog(Accounter
+						.getCompanyMessages().title(), Accounter
 						.getCompanyMessages().description()).show();
 			}
 		});
@@ -129,15 +129,15 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 
 			public void onFirstButtonClick() {
 				// TODO Auto-generated method stub
-				showAddEditFiscalYear(FinanceApplication.getCompanyMessages()
-						.createFascalYear(), FinanceApplication
+				showAddEditFiscalYear(Accounter.getCompanyMessages()
+						.createFascalYear(), Accounter
 						.getCompanyMessages().description(), null);
 			}
 
 			public void onSecondButtonClick() {
 				// TODO Auto-generated method stub
-				showAddEditFiscalYear(FinanceApplication.getCompanyMessages()
-						.editFiscalYear(), FinanceApplication
+				showAddEditFiscalYear(Accounter.getCompanyMessages()
+						.editFiscalYear(), Accounter
 						.getCompanyMessages().description(), null);
 			}
 
@@ -188,7 +188,7 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 
 	@Override
 	protected String getViewTitle() {
-		return FinanceApplication.getCompanyMessages().fiscalYear();
+		return Accounter.getCompanyMessages().fiscalYear();
 	}
 
 }

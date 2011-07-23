@@ -18,7 +18,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -56,12 +56,12 @@ public class VendorCreditMemoView extends
 		if (this.vendor != null && this.vendor != vendor) {
 			ClientVendorCreditMemo ent = (ClientVendorCreditMemo) this.transactionObject;
 
-			if (ent != null && ent.getVendor().equals(vendor.getStringID())) {
+			if (ent != null && ent.getVendor().equals(vendor.getID())) {
 				this.vendorTransactionGrid.removeAllRecords();
 				this.vendorTransactionGrid
 						.setRecords(ent.getTransactionItems());
 			} else if (ent != null
-					&& !ent.getVendor().equals(vendor.getStringID())) {
+					&& !ent.getVendor().equals(vendor.getID())) {
 				this.vendorTransactionGrid.removeAllRecords();
 				this.vendorTransactionGrid.updateTotals();
 			}
@@ -80,7 +80,7 @@ public class VendorCreditMemoView extends
 	public void initTransactionViewData(ClientTransaction transactionObject) {
 
 		ClientVendorCreditMemo vendorCreditMemo = (ClientVendorCreditMemo) transactionObject;
-		vendorSelected(FinanceApplication.getCompany().getVendor(
+		vendorSelected(Accounter.getCompany().getVendor(
 				vendorCreditMemo.getVendor()));
 		contactSelected(vendorCreditMemo.getContact());
 		phoneSelect.setValue(vendorCreditMemo.getPhone());
@@ -113,32 +113,32 @@ public class VendorCreditMemoView extends
 	@Override
 	public void createControls() {
 
-		Label lab1 = new Label(UIUtils.getVendorString(FinanceApplication
-				.getVendorsMessages().supplierCredit(), FinanceApplication
+		Label lab1 = new Label(UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplierCredit(), Accounter
 				.getVendorsMessages().vendorCredit())
 				+ "(" + getTransactionStatus() + ")");
 
-		lab1.setStyleName(FinanceApplication.getCustomersMessages()
+		lab1.setStyleName(Accounter.getCustomersMessages()
 				.lableTitle());
 		if (transactionObject == null
 				|| transactionObject.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
-			lab1 = new Label(UIUtils.getVendorString(FinanceApplication
-					.getVendorsMessages().supplierCredit(), FinanceApplication
+			lab1 = new Label(UIUtils.getVendorString(Accounter
+					.getVendorsMessages().supplierCredit(), Accounter
 					.getVendorsMessages().vendorCredit()));
 
 		else
-			lab1 = new Label(UIUtils.getVendorString(FinanceApplication
-					.getVendorsMessages().supplierCredit(), FinanceApplication
+			lab1 = new Label(UIUtils.getVendorString(Accounter
+					.getVendorsMessages().supplierCredit(), Accounter
 					.getVendorsMessages().vendorCredit())
 					+ "(" + getTransactionStatus() + ")");
 
-		lab1.setStyleName(FinanceApplication.getCustomersMessages()
+		lab1.setStyleName(Accounter.getCustomersMessages()
 				.lableTitle());
 		// lab1.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
 
 		transactionNumber = createTransactionNumberItem();
-		transactionNumber.setTitle(FinanceApplication.getVendorsMessages()
+		transactionNumber.setTitle(Accounter.getVendorsMessages()
 				.creditNoteNo());
 
 		listforms = new ArrayList<DynamicForm>();
@@ -162,8 +162,8 @@ public class VendorCreditMemoView extends
 		forms.add(dateNoForm);
 
 		vendorCombo = createVendorComboItem(UIUtils.getVendorString(
-				FinanceApplication.getVendorsMessages().supplierName(),
-				FinanceApplication.getVendorsMessages().vendorName()));
+				Accounter.getVendorsMessages().supplierName(),
+				Accounter.getVendorsMessages().vendorName()));
 
 		contactCombo = createContactComboItem();
 
@@ -185,7 +185,7 @@ public class VendorCreditMemoView extends
 		}
 
 		forms.add(phoneForm);
-		netAmount = new AmountLabel(FinanceApplication.getVendorsMessages()
+		netAmount = new AmountLabel(Accounter.getVendorsMessages()
 				.netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
@@ -212,7 +212,7 @@ public class VendorCreditMemoView extends
 		vendorForm.setWidth("50%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect);
 		vendorForm.getCellFormatter().getElement(0, 0).setAttribute(
-				FinanceApplication.getCustomersMessages().width(), "190px");
+				Accounter.getCustomersMessages().width(), "190px");
 
 		leftVLay.add(vendorForm);
 
@@ -265,7 +265,7 @@ public class VendorCreditMemoView extends
 		VerticalPanel bottomPanel = new VerticalPanel();
 		bottomPanel.setWidth("100%");
 
-		int accountType = FinanceApplication.getCompany().getAccountingType();
+		int accountType = Accounter.getCompany().getAccountingType();
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 
 			VerticalPanel vPanel = new VerticalPanel();
@@ -362,7 +362,7 @@ public class VendorCreditMemoView extends
 			vendorCreditMemo = new ClientVendorCreditMemo();
 
 		// Setting Vendor
-		vendorCreditMemo.setVendor(vendor.getStringID());
+		vendorCreditMemo.setVendor(vendor.getID());
 
 		// Setting Contact
 		if (contact != null)
@@ -391,8 +391,8 @@ public class VendorCreditMemoView extends
 					.getValue());
 		super.saveAndUpdateView();
 
-		if (transactionObject.getStringID() != null
-				&& transactionObject.getStringID().length() != 0)
+		if (transactionObject.getID() != null
+				&& transactionObject.getID().length() != 0)
 			alterObject(vendorCreditMemo);
 		else
 			createObject(vendorCreditMemo);
@@ -564,8 +564,8 @@ public class VendorCreditMemoView extends
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(FinanceApplication.getVendorsMessages()
-				.supplierCredit(), FinanceApplication.getVendorsMessages()
+		return UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplierCredit(), Accounter.getVendorsMessages()
 				.vendorCredit());
 	}
 }

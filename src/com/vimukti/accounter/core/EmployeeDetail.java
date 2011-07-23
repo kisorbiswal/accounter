@@ -28,7 +28,7 @@ public class EmployeeDetail implements IAccounterServerCore, Lifecycle,
 	/**
 	 * This will hold a secure 40 digit random number.
 	 */
-	public String stringID;
+	public long id;
 
 	String employeeNumber;
 	String employeeName;
@@ -66,7 +66,7 @@ public class EmployeeDetail implements IAccounterServerCore, Lifecycle,
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setID(long id){
 		this.id = id;
 	}
 
@@ -431,7 +431,7 @@ public class EmployeeDetail implements IAccounterServerCore, Lifecycle,
 	}
 
 	@Override
-	public String getStringID() {
+	public long getID(){
 		return stringID;
 	}
 
@@ -442,8 +442,8 @@ public class EmployeeDetail implements IAccounterServerCore, Lifecycle,
 	}
 
 	@Override
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 
 	}
 

@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.VATItemCombo;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -63,7 +63,7 @@ public class TaxAgencyTransactionGrid extends
 		case 2:
 			return DataUtils.getAmountAsString(item.getLineTotal());
 		case 3:
-			return FinanceApplication.getFinanceMenuImages().delete();
+			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
 		default:
 			break;
@@ -93,9 +93,9 @@ public class TaxAgencyTransactionGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { FinanceApplication.getVATMessages().taxItem(),
-				FinanceApplication.getVATMessages().taxAgency(),
-				FinanceApplication.getVATMessages().amounttopay(), "" };
+		return new String[] { Accounter.getVATMessages().taxItem(),
+				Accounter.getVATMessages().taxAgency(),
+				Accounter.getVATMessages().amounttopay(), "" };
 	}
 
 	@Override
@@ -109,7 +109,7 @@ public class TaxAgencyTransactionGrid extends
 			removeAllRecords();
 			setRecords(transactionObject.getTransactionItems());
 			updateTotals();
-			if (transactionObject.getStringID() != null) {
+			if (transactionObject.getID() != null) {
 				canDeleteRecord(false);
 			}
 		}
@@ -126,9 +126,9 @@ public class TaxAgencyTransactionGrid extends
 //			for (ClientTaxItem taxItem : FinanceApplication.getCompany()
 //					.getActiveTaxItems()) {
 //				if (taxItem.getTaxAgency().equals(
-//						selectedTaxAgency.getStringID()))
-//					// if (taxItem.getStringID().equalsIgnoreCase(
-//					// selectedTaxAgency.getStringID())) {
+//						selectedTaxAgency.getID()))
+//					// if (taxItem.getID().equalsIgnoreCase(
+//					// selectedTaxAgency.getID())) {
 //					filteredTaxItems.add(taxItem);
 //				// }
 //			}
@@ -137,7 +137,7 @@ public class TaxAgencyTransactionGrid extends
 	}
 
 	private void createControls() {
-		taxItemCombo = new VATItemCombo(FinanceApplication.getVATMessages()
+		taxItemCombo = new VATItemCombo(Accounter.getVATMessages()
 				.taxCode());
 		taxItemCombo.setGrid(this);
 		addRecordDoubleClickHandler(new RecordDoubleClickHandler<ClientTransactionItem>() {
@@ -164,7 +164,7 @@ public class TaxAgencyTransactionGrid extends
 //
 //					@Override
 //					public void selectedComboBoxItem(ClientTaxItem selectItem) {
-//						// selectedObject.setTaxCode(selectItem.getStringID());
+//						// selectedObject.setTaxCode(selectItem.getID());
 //
 //						selectedObject.setTaxItem(selectItem);
 //						setText(currentRow, currentCol, selectItem.getName());
@@ -188,7 +188,7 @@ public class TaxAgencyTransactionGrid extends
 				// FinanceApplication.getCompany().getTaxCode(
 				// item.getTaxCode()).getTaxAgency())
 				// .getName());
-				item.setDescription(FinanceApplication.getCompany()
+				item.setDescription(Accounter.getCompany()
 						.getTaxAgency(item.getTaxItem().getTaxAgency())
 						.getName());
 

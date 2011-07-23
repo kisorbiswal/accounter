@@ -8,16 +8,16 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class DepreciableFixedAssetsEntry implements IsSerializable,
 		Serializable {
 
-	String stringID;
+	long id;
 	String fixedAssetName;
 	double amountToBeDepreciated;
 
-	public String getStringID() {
+	public long getID(){
 		return stringID;
 	}
 
-	public void setStringID(String stringID) {
-		this.stringID = stringID;
+	public void setID(long id){
+		this.id=id;
 	}
 
 	public String getFixedAssetName() {
