@@ -34,8 +34,7 @@ import com.vimukti.accounter.web.client.ui.core.SpecialReference;
  * 
  */
 
-public abstract class Transaction implements IAccounterServerCore, Lifecycle,
-		ICreatableObject, Cloneable {
+public abstract class Transaction extends CreatableObject implements IAccounterServerCore, Lifecycle, Cloneable {
 
 	/**
 	 * 
@@ -128,8 +127,6 @@ public abstract class Transaction implements IAccounterServerCore, Lifecycle,
 	 * To know that the transaction is deposited to bank or not.
 	 */
 	boolean isDeposited = false;
-
-	public long id;
 
 	/**
 	 * To know that whether the transaction is voided or not.
@@ -400,13 +397,6 @@ public abstract class Transaction implements IAccounterServerCore, Lifecycle,
 		return id;
 	}
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id){
-		this.id = id;
-	}
 
 	/**
 	 * @return the type
@@ -1116,11 +1106,6 @@ public abstract class Transaction implements IAccounterServerCore, Lifecycle,
 		}
 	}
 
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
 
 	@Override
 	public long getID(){
@@ -1128,37 +1113,6 @@ public abstract class Transaction implements IAccounterServerCore, Lifecycle,
 		return this.id;
 	}
 
-	public void setCreatedBy(long createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public long getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setLastModifier(long lastModifier) {
-		this.lastModifier = lastModifier;
-	}
-
-	public long getLastModifier() {
-		return lastModifier;
-	}
-
-	public void setCreatedDate(Timestamp createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public Timestamp getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setLastModifiedDate(Timestamp lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public Timestamp getLastModifiedDate() {
-		return lastModifiedDate;
-	}
 
 	public int compareTo(Object o) {
 		return 0;
