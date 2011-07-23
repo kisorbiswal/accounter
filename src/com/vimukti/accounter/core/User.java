@@ -27,7 +27,7 @@ public class User implements IAccounterServerCore, Lifecycle {
 	String emailId;
 
 	String userRole;
-	
+
 	private boolean isActive;
 
 	private UserPermissions permissions;
@@ -42,26 +42,26 @@ public class User implements IAccounterServerCore, Lifecycle {
 
 	private int loginCount;
 
-	int version;
+	// int version;
 
 	long id;
 	/**
 	 * The full name of the user.
 	 */
 	String fullName;
-	String email;
+	// String email;
 	String passwordSha1Hash;
 
 	/**
 	 * The user name is different from the full name. This is the name by which
 	 * user wants to login.
 	 */
-	String userName;
+	// String userName;
 	/**
 	 * This is field used for AccounterLive. This is the URL which is dedicated
 	 * to the user at the time of registration.
 	 */
-	String domainURL;
+	// String domainURL;
 	String stringID;
 
 	private long lastLogin;
@@ -71,13 +71,13 @@ public class User implements IAccounterServerCore, Lifecycle {
 	 * present reference itself is the Admin, then this field will remains as
 	 * null.
 	 */
-	User admin;
+	// User admin;
 
 	/**
 	 * By this int value we can come to know the maximum number of users that
 	 * can be assigned under the admin
 	 */
-	int maxUserCount;
+	// int maxUserCount;
 
 	/**
 	 * This is a AccounterLive variable. If the user is subscribed for
@@ -85,18 +85,22 @@ public class User implements IAccounterServerCore, Lifecycle {
 	 * be mailed automatically whenever there is a new update or new feature in
 	 * the software.
 	 */
-	boolean mailingList;
+	// boolean mailingList;
 
 	/**
 	 * Preferences that a user want to set.
 	 */
 	UserPreferences userPreferences = new UserPreferences();
 
-	Address address = new Address();
+	// Address address = new Address();
 
-	Contact contact = new Contact();
+	// Contact contact = new Contact();
 
 	transient boolean isImported;
+
+	public boolean isLoggedInFromDomain;
+
+	private boolean isMacApp;
 
 	public User() {
 		UserPreferences userPreferences = new UserPreferences();
@@ -134,37 +138,6 @@ public class User implements IAccounterServerCore, Lifecycle {
 		this.setPermissions(userPermissions);
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getDomainURL() {
-		return domainURL;
-	}
-
-	public void setDomainURL(String domainURL) {
-		this.domainURL = domainURL;
-	}
-
-	public boolean isMailingList() {
-		return mailingList;
-	}
-
-	public void setMailingList(boolean mailingList) {
-		this.mailingList = mailingList;
-	}
-
-	/**
-	 * @return the instanceVersion
-	 */
-	public int getVersion() {
-		return version;
-	}
-
 	/**
 	 * @return the id
 	 */
@@ -185,13 +158,6 @@ public class User implements IAccounterServerCore, Lifecycle {
 	 */
 	public String getFullName() {
 		return fullName;
-	}
-
-	/**
-	 * @return the email
-	 */
-	public String getEmail() {
-		return email;
 	}
 
 	/**
@@ -216,20 +182,6 @@ public class User implements IAccounterServerCore, Lifecycle {
 	}
 
 	/**
-	 * @return the admin
-	 */
-	public User getAdmin() {
-		return admin;
-	}
-
-	/**
-	 * @return the maxUserCount
-	 */
-	public int getMaxUserCount() {
-		return maxUserCount;
-	}
-
-	/**
 	 * @return the userPreferences
 	 */
 	public UserPreferences getUserPreferences() {
@@ -244,27 +196,8 @@ public class User implements IAccounterServerCore, Lifecycle {
 		this.userPreferences = userPreferences;
 	}
 
-	/**
-	 * @return the address
-	 */
-	public Address getAddress() {
-		return address;
-	}
-
-	/**
-	 * @return the contact
-	 */
-	public Contact getContact() {
-		return contact;
-	}
-
 	public void setFullName(String fname) {
 		this.fullName = fname;
-
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 
 	}
 
