@@ -69,7 +69,6 @@ public class FinanceApplication extends VerticalPanel {
 	private static IAccounterGETServiceAsync getService;
 	private static IAccounterHomeViewServiceAsync homeViewService;
 	private static IAccounterReportServiceAsync reportService;
-	private static UserManagmentServiceAsync userService;
 	private static CompanyMessages companyMessages;
 	private static FinanceMessages financeMessages;
 	private static VendorsMessages vendorsMessages;
@@ -88,25 +87,25 @@ public class FinanceApplication extends VerticalPanel {
 	private static ReportsMessages reportsMessages;
 	private static boolean isSales;
 	private static boolean isPurchases;
-	public static ClientIdentity clientIdentity;
 	private static ThemeImages themeImages;
 
-	public FinanceApplication(String email,
+	// public FinanceApplication(String email,
+	// ValueCallBack<FinanceApplication> callback) {
+	// this.callback = callback;
+	// MainFinanceWindow.makeAllViewsStaticstoNull();
+	//
+	// getCompany("");
+	// }
+
+	public FinanceApplication(String email, ClientUser user,
 			ValueCallBack<FinanceApplication> callback) {
+		FinanceApplication.user=user;
 		this.callback = callback;
 		MainFinanceWindow.makeAllViewsStaticstoNull();
 
 		getCompany("");
 	}
 
-	public FinanceApplication(String email, ClientIdentity identity,
-			ValueCallBack<FinanceApplication> callback) {
-		setClientIdentity(identity);
-		this.callback = callback;
-		MainFinanceWindow.makeAllViewsStaticstoNull();
-
-		getCompany("");
-	}
 
 	public FinanceApplication(final boolean isSales,
 			final ValueCallBack<FinanceApplication> callback) {
@@ -162,19 +161,20 @@ public class FinanceApplication extends VerticalPanel {
 
 	}
 
-	public HorizontalPanel helpPanel(){
+	public HorizontalPanel helpPanel() {
 		helpPanel = new HorizontalPanel();
 		helpPanel.setStyleName("XTRA_HELP_PANEL");
-		
+
 		footerleft = new HTML();
 		footerleft.addStyleName("footer-left");
-		feedback = new HTML("<div class='vimukti-name'>Vimukti Technologies Pvt Ltd. All rights reserved</div><div class='feedback-name'>Send your feedback to: <a href=''>support@accounterlive.com</a></div>");
+		feedback = new HTML(
+				"<div class='vimukti-name'>Vimukti Technologies Pvt Ltd. All rights reserved</div><div class='feedback-name'>Send your feedback to: <a href=''>support@accounterlive.com</a></div>");
 		feedback.addStyleName("feedback-option");
 		footerright = new HTML();
 		footerright.addStyleName("footer-right");
 		helpPanel.add(footerleft);
 		helpPanel.add(feedback);
-        helpPanel.setCellWidth(feedback,"99%");
+		helpPanel.setCellWidth(feedback, "99%");
 		helpPanel.add(footerright);
 		return helpPanel;
 	}
@@ -356,18 +356,6 @@ public class FinanceApplication extends VerticalPanel {
 		}
 
 		return crudService;
-
-	}
-
-	public static UserManagmentServiceAsync creatUserService() {
-		if (userService == null) {
-			userService = (UserManagmentServiceAsync) GWT
-					.create(UserManagmentService.class);
-			((ServiceDefTarget) userService)
-					.setServiceEntryPoint(FinanceApplication.USER_MANAGEMENT_ENTRY_POINT);
-		}
-
-		return userService;
 
 	}
 
@@ -580,11 +568,4 @@ public class FinanceApplication extends VerticalPanel {
 		reportsMessages = null;
 	}
 
-	public static void setClientIdentity(ClientIdentity clientIdentity) {
-		FinanceApplication.clientIdentity = clientIdentity;
-	}
-
-	public static ClientIdentity getClientIdentity() {
-		return clientIdentity;
-	}
 }

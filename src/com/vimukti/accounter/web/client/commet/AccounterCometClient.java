@@ -5,6 +5,8 @@ import com.google.gwt.user.client.rpc.SerializationStreamFactory;
 import com.vimukti.accounter.web.client.IAccounterGETService;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.FinanceApplication;
+import com.vimukti.comet.client.CometClient;
+import com.vimukti.comet.client.ICometListener;
 
 public class AccounterCometClient {
 
