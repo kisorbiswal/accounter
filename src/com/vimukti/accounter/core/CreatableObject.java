@@ -42,4 +42,8 @@ public abstract class CreatableObject {
 	Timestamp getLastModifiedDate() {
 		return this.lastModifiedDate;
 	}
+
+	long getID() {
+		return id;
+	}
 }
