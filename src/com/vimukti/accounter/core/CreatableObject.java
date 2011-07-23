@@ -4,10 +4,10 @@ import java.sql.Timestamp;
 
 public abstract class CreatableObject {
 
-	private long createdBy;
-	private long lastModifier;
-	private Timestamp createdDate;
-	private Timestamp lastModifiedDate;
+	protected long createdBy;
+	protected long lastModifier;
+	protected Timestamp createdDate;
+	protected Timestamp lastModifiedDate;
 
 	void setCreatedBy(long createdBy) {
 		this.createdBy = createdBy;
