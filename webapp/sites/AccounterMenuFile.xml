@@ -1,0 +1,160 @@
+<xml>
+   <menus>
+      <MainMenu text="Dashboard">
+       <Menu text="Open">https://www.accounterlive.com/accounter#dashBoard</Menu>
+      </MainMenu>
+      <MainMenu text="Company">
+         <Menu text="New Journal Entry">https://www.accounterlive.com/accounter#newJournalEntry</Menu>
+         <Menu text="New Account">https://www.accounterlive.com/accounter#newAccount</Menu>
+         <Menu text="Company Preferences">https://www.accounterlive.com/accounter#companyPreferences</Menu>
+         <Menu text="Manage Support Lists">
+           <SubMenu text="Customer Group List">https://www.accounterlive.com/accounter#customerGroupList</SubMenu>
+           <SubMenu text="Supplier Group List">https://www.accounterlive.com/accounter#supplierGroupList</SubMenu>
+           <SubMenu text="Payment Term List">https://www.accounterlive.com/accounter#paymentTerms</SubMenu>
+           <SubMenu text="Shipping Method List">https://www.accounterlive.com/accounter#shippingMethodsList</SubMenu>
+           <SubMenu text="Shipping Term List">https://www.accounterlive.com/accounter#shippingTermsList</SubMenu>
+           <SubMenu text="Price Level List">https://www.accounterlive.com/accounter#priceLevels</SubMenu>
+           <SubMenu text="Item Group List">https://www.accounterlive.com/accounter#itemGroupList</SubMenu>
+           <SubMenu text="Credit Rating List">https://www.accounterlive.com/accounter#creditRatingList</SubMenu>
+         </Menu>
+         <Menu text="Manage Fiscal Year">https://www.accounterlive.com/accounter#manageFiscalYear</Menu>
+         <Menu text="Company Lists">
+            <SubMenu text="Accounts List">https://www.accounterlive.com/accounter#accountsList</SubMenu>
+            <SubMenu text="Journal Entries">https://www.accounterlive.com/accounter#journalEntries</SubMenu>
+            <SubMenu text="Items">https://www.accounterlive.com/accounter#items</SubMenu>
+            <SubMenu text="Customers">https://www.accounterlive.com/accounter#customers</SubMenu>
+            <SubMenu text="Suppliers">https://www.accounterlive.com/accounter#supplierList</SubMenu>
+            <SubMenu text="Payments">https://www.accounterlive.com/accounter#payments</SubMenu>
+            <SubMenu text="Sales Persons">https://www.accounterlive.com/accounter#salesPersons</SubMenu>
+        </Menu>
+      </MainMenu>
+      <MainMenu text="VAT">
+         <Menu text="New">
+             <SubMenu text="New VAT Item">https://www.accounterlive.com/accounter#newVatItem</SubMenu>
+             <SubMenu text="New VAT Code">https://www.accounterlive.com/accounter#newVatCode</SubMenu>
+             <SubMenu text="New VAT Agency">https://www.accounterlive.com/accounter#newVatAgency</SubMenu>
+         </Menu>
+         <Menu text="VAT Adjustment">https://www.accounterlive.com/accounter#vatAdjustment</Menu>
+         <Menu text="File VAT">https://www.accounterlive.com/accounter#fileVAT</Menu>
+         <Menu text="Pay VAT">https://www.accounterlive.com/accounter#payVat</Menu>
+         <Menu text="Receive VAT">https://www.accounterlive.com/accounter#receiveVat</Menu>
+         <Menu text="VAT List">
+              <SubMenu text="VAT Items">https://www.accounterlive.com/accounter#vatItems</SubMenu>
+              <SubMenu text="VAT Codes">https://www.accounterlive.com/accounter#vatCodes</SubMenu>
+         </Menu>
+      </MainMenu>
+      <MainMenu text="Customer">
+           <Menu text="Customers Home">https://www.accounterlive.com/accounter#customerHome</Menu>
+           <Menu text="New">
+               <SubMenu text="New Customer">https://www.accounterlive.com/accounter#newCustomer</SubMenu>
+               <SubMenu text="New Item">https://www.accounterlive.com/accounter#newCustomerItem</SubMenu>
+               <SubMenu text="New Quote">https://www.accounterlive.com/accounter#newQuote</SubMenu>
+               <SubMenu text="New Invoice">https://www.accounterlive.com/accounter#newInvoice</SubMenu>
+               <SubMenu text="New Cash Sale">https://www.accounterlive.com/accounter#newCashSale</SubMenu>
+               <SubMenu text="New Credit">https://www.accounterlive.com/accounter#newCredit</SubMenu>
+           </Menu>
+           <Menu text="Customer PrePayment">https://www.accounterlive.com/accounter#customerPrepayment</Menu>
+           <Menu text="Receive Payment">https://www.accounterlive.com/accounter#receivePayment</Menu>
+           <Menu text="Customer Refund">https://www.accounterlive.com/accounter#customerRefund</Menu>
+           <Menu text="Customer List">
+               <SubMenu text="Customers">https://www.accounterlive.com/accounter#customers</SubMenu>
+               <SubMenu text="Items">https://www.accounterlive.com/accounter#items</SubMenu>
+               <SubMenu text="Quotes">https://www.accounterlive.com/accounter#quotes</SubMenu>
+               <SubMenu text="Invoices">https://www.accounterlive.com/accounter#invoices</SubMenu>
+               <SubMenu text="Receive Payments">https://www.accounterlive.com/accounter#receivePayments</SubMenu>
+               <SubMenu text="Customer Refunds">https://www.accounterlive.com/accounter#customerRefunds</SubMenu>
+           </Menu>
+      </MainMenu>
+      <MainMenu text="Supplier">
+           <Menu text="Suppliers Home">https://www.accounterlive.com/accounter#supplierHome
+           </Menu>
+           <Menu text="New">
+              <SubMenu text="New Supplier">https://www.accounterlive.com/accounter#newSupplier</SubMenu>
+              <SubMenu text="New Item">https://www.accounterlive.com/accounter#newSupplierItem</SubMenu>
+              <SubMenu text="Cash Purchase">https://www.accounterlive.com/accounter#newCashPurchase</SubMenu>
+              <SubMenu text="Supplier Credit">https://www.accounterlive.com/accounter#supplierCredit</SubMenu>
+           </Menu>
+           <Menu text="Enter Bill">https://www.accounterlive.com/accounter#enterBill</Menu>
+           <Menu text="Pay Bills">https://www.accounterlive.com/accounter#payBill</Menu>
+           <Menu text="Issue Payments">https://www.accounterlive.com/accounter#issuePayments</Menu>
+           <Menu text="Supplier PrePayment">https://www.accounterlive.com/accounter#supplierPrePayment</Menu>
+           <Menu text="Record Expenses">https://www.accounterlive.com/accounter#recordExpenses</Menu>
+           <Menu text="Expense Claims">https://www.accounterlive.com/accounter#expenseClaims</Menu>
+           <Menu text="Supplier Lists">
+                <SubMenu text="Supplier">https://www.accounterlive.com/accounter#supplierList</SubMenu>
+                <SubMenu text="Items">https://www.accounterlive.com/accounter#purchaseItems</SubMenu>
+                <SubMenu text="Bills And Expenses">https://www.accounterlive.com/accounter#billsAndExpenses</SubMenu>
+                <SubMenu text="Supplier Payments">https://www.accounterlive.com/accounter#supplierPayments</SubMenu>
+           </Menu>
+      </MainMenu>
+      <MainMenu text="Banking">
+           <Menu text="New Bank Account">https://www.accounterlive.com/accounter#newBankAccount</Menu>
+           <Menu text="Deposit / Transfer Funds">https://www.accounterlive.com/accounter#depositTransferFunds</Menu>
+           <Menu text="Pay Bills">https://www.accounterlive.com/accounter#payBill</Menu>
+           <Menu text="New Credit Card Charge">https://www.accounterlive.com/accounter#creditCardCharge</Menu>
+           <Menu text="Banking List">
+                <SubMenu text="Payments">https://www.accounterlive.com/accounter#payments</SubMenu>
+           </Menu>
+      </MainMenu>
+      <MainMenu text="Sales">
+           <Menu text="Sales Order">https://www.accounterlive.com/accounter#salesOrder</Menu>
+           <Menu text="SalesOrder List">https://www.accounterlive.com/accounter#salesOrderList</Menu>
+           <Menu text="SalesOrder Report">https://www.accounterlive.com/accounter#salesOrderReport</Menu>
+      </MainMenu>
+      <MainMenu text="Purchases">
+           <Menu text="Purchase Order">https://www.accounterlive.com/accounter#purchaseOrder</Menu>
+           <Menu text="PurchaseOrder List">https://www.accounterlive.com/accounter#purchaseOrderList</Menu>
+           <Menu text="PurchaseOrder Report">https://www.accounterlive.com/accounter#purchaseOrderReport</Menu>
+      </MainMenu>
+      <MainMenu text="Reports">
+           <Menu text="Company And Financial">
+                <SubMenu text="Profit And Loss">https://www.accounterlive.com/accounter#profitAndLoss</SubMenu>
+                <SubMenu text="Balance Sheet">https://www.accounterlive.com/accounter#balanceSheet</SubMenu>
+                <SubMenu text="Cash Flow Report">https://www.accounterlive.com/accounter#cashFlowReport</SubMenu>
+                <SubMenu text="Trial Balance">https://www.accounterlive.com/accounter#trialBalance</SubMenu>
+                <SubMenu text="Transaction Detail By Account">https://www.accounterlive.com/accounter#transactionDetailByAccount</SubMenu>
+                <SubMenu text="Expense Report">https://www.accounterlive.com/accounter#expenseReport</SubMenu>
+           </Menu>
+           <Menu text="Customers And Receivables">
+                <SubMenu text="A/R Ageing Summary">https://www.accounterlive.com/accounter#arAgingSummary</SubMenu>
+                <SubMenu text="A/R Ageing Detail">https://www.accounterlive.com/accounter#arAgingDetail</SubMenu>
+                <SubMenu text="Customer Statement">https://www.accounterlive.com/accounter#customerStatement</SubMenu>
+                <SubMenu text="Customer Transaction History">
+https://www.accounterlive.com/accounter#customerTransactionHistory</SubMenu>
+            </Menu>
+            <Menu text="Sales">
+                <SubMenu text="Sales By Customer Summary">https://www.accounterlive.com/accounter#salesByCustomerSummary</SubMenu>
+                <SubMenu text="Sales By Customer Detail">https://www.accounterlive.com/accounter#salesByCustomerDe</SubMenu>
+                <SubMenu text="Sales By Item Summary">https://www.accounterlive.com/accounter#salesByItemSummar</SubMenu>
+                <SubMenu text="Sales By Item Detail">https://www.accounterlive.com/accounter#salesByItemDetail</SubMenu>
+                <SubMenu text="Sales Order Report">https://www.accounterlive.com/accounter#salesOrderReport</SubMenu>
+             </Menu>
+             <Menu text="Suppliers And Payables">
+                <SubMenu text="A/P Ageing Summary">https://www.accounterlive.com/accounter#apAgingSummary</SubMenu>
+                <SubMenu text="A/P Ageing Detail">https://www.accounterlive.com/accounter#apAgingDetail</SubMenu>
+                <SubMenu text="Supplier Transaction History">
+https://www.accounterlive.com/accounter#supplierTransactionHistory</SubMenu>
+              </Menu>
+              <Menu text="Purchases">
+                <SubMenu text="Purchase By Supplier Summary">
+https://www.accounterlive.com/accounter#purchaseBySupplierSummary</SubMenu>
+                <SubMenu text="Purchase By Supplier Detail">
+https://www.accounterlive.com/accounter#purchaseBySupplierDetail</SubMenu>
+                <SubMenu text="Purchase By Item Summary">https://www.accounterlive.com/accounter#purchaseByItemSummary</SubMenu>
+                <SubMenu text="Purchase By Item Detail">https://www.accounterlive.com/accounter#purchaseByItemDetail</SubMenu>
+                <SubMenu text="Purchase Order Report">https://www.accounterlive.com/accounter#purchaseOrderReport</SubMenu>
+              </Menu>
+              <Menu text="VAT">
+                <SubMenu text="Prior VAT Returns">https://www.accounterlive.com/accounter#priorVatReturns</SubMenu>
+                <SubMenu text="VAT Detail">https://www.accounterlive.com/accounter#vatDetail</SubMenu>
+                <SubMenu text="VAT 100">https://www.accounterlive.com/accounter#vat100</SubMenu>
+                <SubMenu text="Uncategorised VAT Amounts">https://www.accounterlive.com/accounter#uncategorisedVatAmounts</SubMenu>
+                <SubMenu text="VAT Item Summary">https://www.accounterlive.com/accounter#vatItemSummary</SubMenu>
+                <SubMenu text="EC Sales List">https://www.accounterlive.com/accounter#ecSalesList</SubMenu>
+              </Menu>
+      </MainMenu>
+      <MainMenu text="Settings">
+           <Menu text="General Settings">https://www.accounterlive.com/accounter#generalSettings</Menu>
+      </MainMenu>
+   </menus>
+  </xml>
