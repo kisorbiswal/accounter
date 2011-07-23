@@ -42,15 +42,14 @@ public class User implements IAccounterServerCore, Lifecycle {
 
 	private int loginCount;
 
-	// int version;
-
-	long id;
+	private long id;
+	
 	/**
 	 * The full name of the user.
 	 */
-	String fullName;
-	// String email;
-	String passwordSha1Hash;
+	private String fullName;
+
+	private String passwordSha1Hash;
 
 	/**
 	 * The user name is different from the full name. This is the name by which
@@ -62,10 +61,10 @@ public class User implements IAccounterServerCore, Lifecycle {
 	 * to the user at the time of registration.
 	 */
 	// String domainURL;
-	String stringID;
+	private String stringID;
 
 	private long lastLogin;
-	FinanceDate createdDate;
+	private FinanceDate createdDate;
 	/**
 	 * This User object is referenced to the Administer of this User. If the
 	 * present reference itself is the Admin, then this field will remains as
@@ -90,7 +89,7 @@ public class User implements IAccounterServerCore, Lifecycle {
 	/**
 	 * Preferences that a user want to set.
 	 */
-	UserPreferences userPreferences = new UserPreferences();
+	private UserPreferences userPreferences = new UserPreferences();
 
 	// Address address = new Address();
 
@@ -101,6 +100,10 @@ public class User implements IAccounterServerCore, Lifecycle {
 	public boolean isLoggedInFromDomain;
 
 	private boolean isMacApp;
+	
+	private String phoneNo;
+	
+	private String country;
 
 	public User() {
 		UserPreferences userPreferences = new UserPreferences();
@@ -393,5 +396,21 @@ public class User implements IAccounterServerCore, Lifecycle {
 
 	public void setMacApp(boolean isMacApp) {
 		this.isMacApp = isMacApp;
+	}
+
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 }
