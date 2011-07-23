@@ -198,10 +198,6 @@ public abstract class Transaction extends CreatableObject implements IAccounterS
 
 	transient boolean isImported;
 
-	long createdBy;
-	long lastModifier;
-	Timestamp createdDate;
-	Timestamp lastModifiedDate;
 
 	// For UK version only
 	boolean amountsIncludeVAT;
