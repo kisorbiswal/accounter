@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,7 +16,8 @@ import com.vimukti.accounter.core.change.ChangeTracker;
  * @author Chandan
  * 
  */
-public abstract class Payee extends CreatableObject implements IAccounterServerCore{
+public abstract class Payee extends CreatableObject implements
+		IAccounterServerCore {
 
 	/**
 	 * 
@@ -60,14 +60,13 @@ public abstract class Payee extends CreatableObject implements IAccounterServerC
 	private String phoneNo;
 	private String faxNo;
 
-
 	// UKvariables
 	// boolean isEUVATExemptPayee;
 	String VATRegistrationNumber;
 	TAXCode TAXCode;
 	private String email;
 	boolean isDefault;
-	
+
 	String bankAccountNo;
 	String bankName;
 	String bankBranch;
@@ -116,10 +115,9 @@ public abstract class Payee extends CreatableObject implements IAccounterServerC
 	/**
 	 * @return the id
 	 */
-	public long getID(){
+	public long getID() {
 		return id;
 	}
-
 
 	/**
 	 * @return the vATRegistrationNumber
@@ -180,14 +178,6 @@ public abstract class Payee extends CreatableObject implements IAccounterServerC
 	 */
 	public long getId() {
 		return id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id){
-		this.id = id;
 	}
 
 	/**
@@ -398,10 +388,9 @@ public abstract class Payee extends CreatableObject implements IAccounterServerC
 	}
 
 	public abstract Account getAccount();
-	
-	 /*
-	 * Is to update Memo in Entry if and only if payee Name
-	 * was altered
+
+	/*
+	 * Is to update Memo in Entry if and only if payee Name was altered
 	 */
 	protected void updateEntryMemo(Session session) {
 
