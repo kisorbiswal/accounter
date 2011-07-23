@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 
 public abstract class CreatableObject {
 
+	protected long id;
+
 	protected long createdBy;
 	protected long lastModifier;
 	protected Timestamp createdDate;
