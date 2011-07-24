@@ -13,7 +13,7 @@ public class AccounterSessionListner implements HttpSessionListener
 	public void sessionCreated(HttpSessionEvent sessionEvent) {
 		HttpSession httpSession = sessionEvent.getSession();
 		System.out.println("session for corresponding id "
-				+ sessionEvent.getSession().getID());
+				+ sessionEvent.getSession().getId());
 		httpSession.setMaxInactiveInterval(120);
 
 	}
@@ -26,7 +26,7 @@ public class AccounterSessionListner implements HttpSessionListener
 		if (userID != null) {
 			// session time out
 			FinanceLogger.log("Session expired : " + userID);
-			CometManager.destroyStream(httpSession.getID(), userID);
+			CometManager.destroyStream(httpSession.getId(), userID);
 		}
 	}
 
