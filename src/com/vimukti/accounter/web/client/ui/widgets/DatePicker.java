@@ -19,7 +19,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.TextBox;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.ui.Accounter;
 /**
  * Main class of the DatePicker. It extends the TextBox widget and manages a
  * Date object. When it is clicked, it opens a PopupCalendar on which we can

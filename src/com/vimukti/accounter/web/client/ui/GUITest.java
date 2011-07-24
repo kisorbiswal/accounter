@@ -60,7 +60,6 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
 
 public class GUITest {
 	protected long nextAccNum;

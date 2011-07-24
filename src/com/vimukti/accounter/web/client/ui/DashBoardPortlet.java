@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.widgets.WorkbenchPanel;
 
 public abstract class DashBoardPortlet extends WorkbenchPanel {
@@ -179,4 +180,9 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		return this.previousIndex;
 	}
 
+	public ClientCompany getCompany(){
+		return null;
+		//FIXME 
+		
+	}
 }

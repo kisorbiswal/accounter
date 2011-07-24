@@ -32,7 +32,6 @@ import com.vimukti.accounter.web.client.ui.combo.DepreciationAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.DepreciationMethodCombo;
 import com.vimukti.accounter.web.client.ui.combo.FixedAssetAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;

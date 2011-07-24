@@ -27,6 +27,7 @@ import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.data.BizantraConstants;
 
 public class SubscriptionCreateCompanyServlet extends HttpServlet {
 

@@ -29,7 +29,6 @@ import com.vimukti.accounter.web.client.ui.combo.DropDownCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -830,8 +829,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				if (Utility.isNumberCorrect(account)) {
 					throw new InvalidEntryException(
 							AccounterErrorType.INVALIDNUMBER);
-				} else if (Utility.isObjectExist(Accounter
-						.getCompany().getAccounts(), account.getName())) {
+				} else if (Utility.isObjectExist(getCompany().getAccounts(), account.getName())) {
 					throw new InvalidEntryException(
 							AccounterErrorType.ALREADYEXIST);
 				} else {
@@ -880,8 +878,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// + " is updated successfully");
 
 		if (this.yesClicked && accountType == ClientAccount.TYPE_CREDIT_CARD) {
-			HistoryTokenUtils.setPresentToken(VendorsActionFactory
-					.getNewVendorAction(), null);
 			VendorsActionFactory.getNewVendorAction().run(null, false);
 		}
 

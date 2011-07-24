@@ -21,8 +21,8 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 	RadioGroupItem typeRadio;
 
 	public SelectPaymentTypeDialog() {
-		super(Accounter.getFinanceUIConstants().selectPaymentType(),
-				Accounter.getFinanceUIConstants().selectPaymentType());
+		super(Accounter.getFinanceUIConstants().selectPaymentType(), Accounter
+				.getFinanceUIConstants().selectPaymentType());
 		createControls();
 		center();
 
@@ -36,15 +36,13 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		typeRadio.setRequired(true);
 		String paymentType;
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			paymentType = Accounter.getFinanceUIConstants()
-					.vendorPayment();
+			paymentType = Accounter.getFinanceUIConstants().vendorPayment();
 		} else {
-			paymentType = Accounter.getFinanceUIConstants()
-					.supplierPayment();
+			paymentType = Accounter.getFinanceUIConstants().supplierPayment();
 		}
 
-		typeRadio.setValueMap(paymentType, Accounter
-				.getFinanceUIConstants().customerRefund());
+		typeRadio.setValueMap(paymentType, Accounter.getFinanceUIConstants()
+				.customerRefund());
 
 		final DynamicForm typeForm = new DynamicForm();
 		typeForm.setFields(typeRadio);
@@ -77,18 +75,15 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 					String radio = typeRadio.getValue().toString();
 					String paymentType;
 					if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-						paymentType = Accounter
-								.getFinanceUIConstants().vendorPayment();
+						paymentType = Accounter.getFinanceUIConstants()
+								.vendorPayment();
 					} else {
-						paymentType = Accounter
-								.getFinanceUIConstants().supplierPayment();
+						paymentType = Accounter.getFinanceUIConstants()
+								.supplierPayment();
 					}
 
 					if (radio.equals(paymentType)) {
 						try {
-							HistoryTokenUtils.setPresentToken(
-									VendorsActionFactory
-											.getNewVendorPaymentAction(), null);
 							VendorsActionFactory.getNewVendorPaymentAction()
 									.run(null, false);
 							;
@@ -96,13 +91,10 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 							// //UIUtils.logError("Failed...", e);
 
 						}
-					} else if (radio.equals(Accounter
-							.getFinanceUIConstants().customerRefund())) {
+					} else if (radio.equals(Accounter.getFinanceUIConstants()
+							.customerRefund())) {
 
 						try {
-							HistoryTokenUtils.setPresentToken(
-									CustomersActionFactory
-											.getCustomerRefundAction(), null);
 							CustomersActionFactory.getCustomerRefundAction()
 									.run(null, false);
 							;

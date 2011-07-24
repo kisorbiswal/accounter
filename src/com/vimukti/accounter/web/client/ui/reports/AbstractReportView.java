@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.core.ISorting;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;

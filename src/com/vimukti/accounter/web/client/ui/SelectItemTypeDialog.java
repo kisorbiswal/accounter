@@ -123,25 +123,6 @@ public class SelectItemTypeDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
-
-	}
-
-	@Override
-	public void deleteSuccess(Boolean result) {
-
-	}
-
-	@Override
-	public void saveSuccess(IAccounterCore object) {
-	}
-
-	@Override
-	public void saveFailed(Throwable exception) {
-
-	}
-
-	@Override
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
 

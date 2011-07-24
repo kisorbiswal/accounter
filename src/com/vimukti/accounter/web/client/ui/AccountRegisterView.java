@@ -20,7 +20,6 @@ import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
 import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayeeCombo;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.AccountRegisterListGrid;
 

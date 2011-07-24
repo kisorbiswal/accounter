@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShippingMethodListDialog;
 
 public class ShippingMethodsCombo extends CustomCombo<ClientShippingMethod> {

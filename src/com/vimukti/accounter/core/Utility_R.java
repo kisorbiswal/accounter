@@ -18,10 +18,8 @@ import org.hibernate.cfg.Configuration;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class Utility_R {
 

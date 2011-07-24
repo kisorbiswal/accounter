@@ -20,7 +20,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
@@ -52,8 +51,6 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void goToClicked() {
-		HistoryTokenUtils.setPresentToken(BankingActionFactory
-				.getAccountRegisterAction(), creditors);
 		BankingActionFactory.getAccountRegisterAction().run(creditors, true);
 	}
 
@@ -81,8 +78,6 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				HistoryTokenUtils.setPresentToken(VendorsActionFactory
-						.getEnterBillsAction(), null);
 				VendorsActionFactory.getEnterBillsAction().run(null, true);
 			}
 		});
@@ -232,8 +227,6 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void titleClicked() {
-		HistoryTokenUtils.setPresentToken(BankingActionFactory
-				.getAccountRegisterAction(), creditors);
 		BankingActionFactory.getAccountRegisterAction().run(creditors, true);
 	}
 

@@ -4,7 +4,6 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.PaymentTermListDialog;
 
 /**

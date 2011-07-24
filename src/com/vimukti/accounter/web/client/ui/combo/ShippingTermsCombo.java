@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShippingTermListDialog;
 
 public class ShippingTermsCombo extends CustomCombo<ClientShippingTerms> {

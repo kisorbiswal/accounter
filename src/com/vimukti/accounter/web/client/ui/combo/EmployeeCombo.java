@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientUser;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class EmployeeCombo extends CustomCombo<ClientUser> {
 

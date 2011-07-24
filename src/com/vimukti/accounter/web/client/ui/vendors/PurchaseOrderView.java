@@ -41,7 +41,6 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;

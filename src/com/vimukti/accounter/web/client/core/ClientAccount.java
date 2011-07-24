@@ -65,7 +65,7 @@ public class ClientAccount implements IAccounterCore {
 
 	// long id;
 
-	public long id;
+	long id;
 
 	int type;
 
@@ -75,7 +75,7 @@ public class ClientAccount implements IAccounterCore {
 
 	boolean isActive;
 
-	String parent = "";
+	long parent;
 
 	int cashFlowCategory;
 
@@ -87,7 +87,7 @@ public class ClientAccount implements IAccounterCore {
 
 	String comment;
 
-	String bank;
+	long bank;
 
 	int bankAccountType;
 
@@ -146,11 +146,11 @@ public class ClientAccount implements IAccounterCore {
 		this.totalBalance = totalBalance;
 	}
 
-	public String getParent() {
+	public long getParent() {
 		return parent;
 	}
 
-	public void setParent(String parent) {
+	public void setParent(long parent) {
 		this.parent = parent;
 	}
 
@@ -450,11 +450,11 @@ public class ClientAccount implements IAccounterCore {
 		return name;
 	}
 
-	public void setBank(String bank) {
+	public void setBank(long bank) {
 		this.bank = bank;
 	}
 
-	public String getBank() {
+	public long getBank() {
 		return bank;
 	}
 

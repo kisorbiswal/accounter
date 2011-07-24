@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.core;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.user.client.Timer;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 
 /**

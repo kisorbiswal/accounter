@@ -4,7 +4,11 @@ import java.util.List;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.HTML;
@@ -33,9 +37,14 @@ import com.vimukti.accounter.web.client.theme.ThemeImages;
 import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
 import com.vimukti.accounter.web.client.ui.combo.AccounterComboConstants;
 import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
+import com.vimukti.accounter.web.client.ui.core.AccounterExecute;
+import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
 import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
 import com.vimukti.accounter.web.client.ui.fixedassets.FixedAssetConstants;
+import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 import com.vimukti.accounter.web.client.ui.reports.ReportsMessages;
 import com.vimukti.accounter.web.client.ui.settings.SettingsMessages;
 import com.vimukti.accounter.web.client.ui.vat.VATMessages;
@@ -66,10 +75,10 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 	public final static String REPORT_SERVICE_ENTRY_POINT = "/do/accounter/report/rpc/service";
 	public final static String USER_MANAGEMENT_ENTRY_POINT = "/do/accounter/user/rpc/service";
 
-	private IAccounterCRUDServiceAsync crudService;
-	private IAccounterGETServiceAsync getService;
-	private IAccounterHomeViewServiceAsync homeViewService;
-	private IAccounterReportServiceAsync reportService;
+	private static IAccounterCRUDServiceAsync crudService;
+	private static IAccounterGETServiceAsync getService;
+	private static IAccounterHomeViewServiceAsync homeViewService;
+	private static IAccounterReportServiceAsync reportService;
 	
 	private static CompanyMessages companyMessages;
 	private static FinanceMessages financeMessages;
@@ -300,7 +309,7 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 
 	}
 
-	public ClientUser getUser() {
+	public static ClientUser getUser() {
 		return user;
 	}
 
@@ -371,7 +380,7 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 		return getService;
 	}
 
-	public IAccounterHomeViewServiceAsync createHomeService() {
+	public static IAccounterHomeViewServiceAsync createHomeService() {
 		if (homeViewService == null) {
 			homeViewService = (IAccounterHomeViewServiceAsync) GWT
 					.create(IAccounterHomeViewService.class);
@@ -581,21 +590,77 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 	}
 
 
+	private static CustomDialog expireDialog;
+
+	public enum AccounterType {
+		ERROR, WARNING, WARNINGWITHCANCEL, INFORMATION;
+	}
+
+	/**
+	 * 
+	 * @param mesg
+	 *            Default value:"Warning"
+	 * @param mesgeType
+	 *            Default value:"Warning"
+	 * @param dialogType
+	 *            Default OK
+	 */
+	public static void showError(String msg) {
+		new AccounterDialog(msg, AccounterType.ERROR);
+	}
+
+	public static void showWarning(String mesg, AccounterType typeOfMesg) {
+
+		new AccounterDialog(mesg, typeOfMesg).show();
+
+	}
+
+	public static void showWarning(String msg, AccounterType typeOfMesg,
+			ErrorDialogHandler handler) {
+
+		new AccounterDialog(msg, typeOfMesg, handler).show();
+	}
+
+	public static void showInformation(String msg) {
+
+		new AccounterDialog(msg, AccounterType.INFORMATION).show();
+	}
+
+	public static void stopExecution() {
+		if (timerExecution != null)
+			timerExecution.stop();
+	}
+
+	private static AccounterExecute timerExecution;
+
+	public static void setTimer(AccounterExecute execute) {
+		timerExecution = execute;
+	}
+
 	public static void showMessage(String message) {
-		// TODO Auto-generated method stub
-		
+		if (expireDialog != null) {
+			expireDialog.removeFromParent();
+		}
+		expireDialog = new CustomDialog();
+		expireDialog.setText("Session Expired");
+		VerticalPanel vPanel = new VerticalPanel();
+		HTML data = new HTML("<p>" + message + "</p");
+		data.getElement().getStyle().setMargin(10, Unit.PX);
+		data.getElement().getStyle().setFontSize(14, Unit.PX);
+		vPanel.add(data);
+		AccounterButton loginBtn = new AccounterButton("Login");
+		loginBtn.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				Window.Location.assign("/site/login");
+			}
+		});
+		vPanel.add(loginBtn);
+		loginBtn.enabledButton();
+		loginBtn.getElement().getParentElement().addClassName("expiredButton");
+		expireDialog.add(vPanel);
+		expireDialog.center();
 	}
-
-
-	public static void showInformation(String string) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	public static void showError(String string) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

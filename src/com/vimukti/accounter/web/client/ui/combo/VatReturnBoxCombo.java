@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientVATReturnBox;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class VatReturnBoxCombo extends CustomCombo<ClientVATReturnBox> {
 

@@ -1,8 +1,8 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.CreateTaxesDialog;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.CreateTaxesDialog;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 

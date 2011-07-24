@@ -16,10 +16,6 @@ import org.mortbay.jetty.Request;
 import org.mortbay.util.ajax.Continuation;
 import org.mortbay.util.ajax.ContinuationSupport;
 
-import com.bizantra.server.main.LocalServer;
-import com.bizantra.server.main.Server;
-import com.bizantra.server.sock.c2s.client.ClientPacketHandler;
-
 public class CometServerServlet extends HttpServlet {
 
 	/**

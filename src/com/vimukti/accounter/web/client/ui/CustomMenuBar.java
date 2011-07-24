@@ -7,7 +7,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.vimukti.accounter.web.client.images.FinanceMenuImages;
 import com.vimukti.accounter.web.client.ui.core.Action;

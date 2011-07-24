@@ -129,10 +129,6 @@ public class ClientFixedAsset implements IAccounterCore {
 		this.linkedAccumulatedDepreciationAccount = linkedAccumulatedDepreciationAccount;
 	}
 
-	public long getID(){
-		return id;
-	}
-
 
 	public String getAssetNumber() {
 		return assetNumber;

@@ -1,7 +1,5 @@
 package com.vimukti.accounter.main;
 
-import java.security.Security;
-
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.Server;
