@@ -130,9 +130,9 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 		isPurchaseType = !isSalesType;
 		if (!isSalesType)
-			listOfItems = Accounter.getCompany().getPurchaseItems();
+			listOfItems = getCompany().getPurchaseItems();
 		else
-			listOfItems = Accounter.getCompany().getSalesItems();
+			listOfItems = getCompany().getSalesItems();
 
 		filterList(true);
 	}

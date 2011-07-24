@@ -134,7 +134,7 @@ public class ClientBox implements IAccounterCore {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.vimukti.accounter.web.client.core.IAccounterCore#setid(java
+	 * com.vimukti.accounter.web.client.core.IAccounterCore#setID(java
 	 * .lang.String)
 	 */
 	@Override

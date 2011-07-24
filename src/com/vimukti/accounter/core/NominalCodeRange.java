@@ -39,7 +39,7 @@ public class NominalCodeRange implements IAccounterServerCore, Lifecycle {
 	public NominalCodeRange() {
 	}
 
-	String id = "";
+	long id;
 
 	int accountSubBaseType;
 
@@ -73,21 +73,9 @@ public class NominalCodeRange implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public long getID(){
-		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setID(long id){
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
@@ -110,9 +98,6 @@ public class NominalCodeRange implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		this.id = this.id == null || this.id != null
-    && this.id.isEmpty() ? SecureUtils.createID()
-    : this.id;
 		return false;
 	}
 

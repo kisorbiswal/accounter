@@ -101,7 +101,7 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 	double lastYear = 0D;
 	double lifeTimeSales = 0D;
 
-	transient boolean isImported;
+	
 
 	/*
 	 * =================================================================
@@ -119,13 +119,6 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 		return version;
 	}
 
-	/**
-	 * @return the id
-	 */
-	@Override
-	public long getId() {
-		return id;
-	}
 
 
 	/**
@@ -372,9 +365,6 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (isOnSaveProccessed)
 			return true;
 		isOnSaveProccessed = true;
@@ -521,23 +511,6 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 		this.balanceAsOf = balanceAsOf;
 	}
 
-	@Override
-	public long getID(){
-		// TODO Auto-generated method stub
-		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
 
 	// @Override
 	public boolean equals(Customer cust) {

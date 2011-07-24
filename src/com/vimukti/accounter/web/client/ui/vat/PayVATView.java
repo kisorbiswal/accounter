@@ -278,7 +278,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		List<ClientTransactionPayVAT> filterRecords = new ArrayList<ClientTransactionPayVAT>();
 		String selectedagency = selectedVATAgency.getName();
 		for (ClientTransactionPayVAT payVAT : grid.getRecords()) {
-			String taxAgencyname = Accounter.getCompany()
+			String taxAgencyname = getCompany()
 					.getTaxAgency(payVAT.getTaxAgency()).getName();
 			if (taxAgencyname.equals(selectedagency))
 				filterRecords.add(payVAT);
@@ -311,10 +311,10 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	@Override
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 		payVAT = (ClientPayVAT) transactionObject;
-		selectedPayFromAccount = Accounter.getCompany().getAccount(
+		selectedPayFromAccount = getCompany().getAccount(
 				payVAT.getPayFrom());
 		payFromAccCombo.setComboItem(selectedPayFromAccount);
-		selectedVATAgency = Accounter.getCompany().getTaxAgency(
+		selectedVATAgency = getCompany().getTaxAgency(
 				payVAT.getVatAgency());
 		if (selectedVATAgency != null)
 			taxAgencyCombo.setComboItem(selectedVATAgency);

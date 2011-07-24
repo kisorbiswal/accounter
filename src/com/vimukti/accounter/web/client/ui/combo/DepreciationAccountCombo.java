@@ -28,7 +28,7 @@ public class DepreciationAccountCombo extends AccountCombo {
 
 	@Override
 	public List<ClientAccount> getAccounts() {
-		List<ClientAccount> accounts = Accounter.getCompany()
+		List<ClientAccount> accounts = getCompany()
 				.getActiveAccounts();
 		List<ClientAccount> expenseAccounts = new ArrayList<ClientAccount>();
 		for (ClientAccount account : accounts) {
@@ -43,7 +43,7 @@ public class DepreciationAccountCombo extends AccountCombo {
 		action.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.DEPRECIATION_COMBO));
 		action.setActionSource(this);
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 
 	}

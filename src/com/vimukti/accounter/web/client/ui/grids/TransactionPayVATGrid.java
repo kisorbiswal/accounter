@@ -98,7 +98,7 @@ public class TransactionPayVATGrid extends
 	protected Object getColumnValue(ClientTransactionPayVAT payVAT, int index) {
 		switch (index) {
 		case 0:
-			ClientTAXAgency taxAgency = Accounter.getCompany()
+			ClientTAXAgency taxAgency = getCompany()
 					.getTaxAgency(payVAT.getTaxAgency());
 			return taxAgency != null ? taxAgency.getName() : "";
 		case 1:

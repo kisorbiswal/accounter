@@ -75,7 +75,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 					.getVATMessages().taxable() : Accounter
 					.getVATMessages().taxExempt());
 
-			if (Accounter.getCompany().getTaxItem(
+			if (getCompany().getTaxItem(
 					vat.getTAXItemGrpForPurchases()) != null) {
 				selectedVATPurchaseAcc = vat.getTAXItemGrpForPurchases();
 				vatItemComboForPurchases.setComboItem(Accounter
@@ -84,7 +84,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 			} else
 				vatItemComboForPurchases.setSelected("");
 
-			if (Accounter.getCompany().getTaxItem(
+			if (getCompany().getTaxItem(
 					vat.getTAXItemGrpForSales()) != null) {
 				selectedVATSAlesAcc = vat.getTAXItemGrpForSales();
 				vatItemComboForSales.setComboItem(Accounter
@@ -338,11 +338,11 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 			// throw new InvalidEntryException(
 			// AccounterErrorType.REQUIRED_FIELDS);
 			if (((editableTAXCode == null && Utility.isObjectExist(
-					Accounter.getCompany().getTaxCodes(), name)) ? false
+					getCompany().getTaxCodes(), name)) ? false
 					: true)
 					|| (editableTAXCode != null ? (editableTAXCode.getName()
 							.equalsIgnoreCase(name) ? true : (Utility
-							.isObjectExist(Accounter.getCompany()
+							.isObjectExist(getCompany()
 									.getTaxCodes(), name) ? false : true))
 							: true)) {
 				return true;

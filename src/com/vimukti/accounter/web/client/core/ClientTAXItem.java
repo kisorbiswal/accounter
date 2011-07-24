@@ -12,7 +12,7 @@ public class ClientTAXItem extends ClientTAXItemGroup {
 	/**
 	 * @return the id
 	 */
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 

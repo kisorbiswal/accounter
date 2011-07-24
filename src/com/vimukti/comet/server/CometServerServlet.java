@@ -125,7 +125,7 @@ public class CometServerServlet extends HttpServlet {
 			ServletException {
 		String identityID = (String) request.getSession().getAttribute(
 				"identityID");
-		String sessionID = request.getSession().getId();
+		String sessionID = request.getSession().getID();
 
 		String sessionKey = identityID + sessionID;
 
@@ -366,7 +366,7 @@ public class CometServerServlet extends HttpServlet {
 			throws ServletException {
 		String sessionKey = (String) getHttpServletRequest().getSession()
 				.getAttribute("identityID");
-		String sessionID = getHttpServletRequest().getSession().getId();
+		String sessionID = getHttpServletRequest().getSession().getID();
 		// log.info("IdentityID:" + sessionKey + " Session:" + sessionID);
 		if (sessionKey == null) {
 			// log.info("Terminating Comet");

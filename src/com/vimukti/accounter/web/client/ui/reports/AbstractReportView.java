@@ -78,13 +78,13 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 	private int companyType;
 
 	public AbstractReportView() {
-		companyType = Accounter.getCompany().getAccountingType();
+		companyType = getCompany().getAccountingType();
 		ReportUtility.companyType = companyType;
 		emptyMsg = Accounter.getVendorsMessages().norecordstoshow();
 	}
 
 	public AbstractReportView(boolean showGridFooter, String emptyMsg) {
-		companyType = Accounter.getCompany().getAccountingType();
+		companyType = getCompany().getAccountingType();
 		ReportUtility.companyType = companyType;
 		this.emptyMsg = emptyMsg;
 	}
@@ -193,7 +193,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 			// Element styleTag = DOM.getElementById("report-style-Tag");
 			// if (styleTag == null) {
 			// styleTag = DOM.createElement("Style");
-			// styleTag.setId("report-style-Tag");
+			// styleTag.setID("report-style-Tag");
 			// RootPanel.getBodyElement().appendChild(styleTag);
 			// }
 			if (UIUtils.isMSIEBrowser()) {
@@ -260,9 +260,9 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 		topLayout = new VerticalPanel();
 		topLayout.setSize("100%", "10%");
 
-		String cmpyname = Accounter.getCompany().getName();
+		String cmpyname = getCompany().getName();
 		cmpyname = cmpyname != null && !cmpyname.isEmpty() ? cmpyname
-				: Accounter.getCompany().getTradingName();
+				: getCompany().getTradingName();
 
 		@SuppressWarnings("unused")
 		HTML companyLabel = new HTML("<strong>" + cmpyname + "</strong");
@@ -327,9 +327,9 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 		topLayout = new VerticalPanel();
 		topLayout.setSize("100%", "10%");
 
-		String cmpyname = Accounter.getCompany().getName();
+		String cmpyname = getCompany().getName();
 		cmpyname = cmpyname != null && !cmpyname.isEmpty() ? cmpyname
-				: Accounter.getCompany().getTradingName();
+				: getCompany().getTradingName();
 
 		@SuppressWarnings("unused")
 		HTML companyLabel = new HTML("<strong>" + cmpyname + "</strong");
@@ -813,7 +813,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 
 	@Override
 	public void setCompanyType(int type) {
-		this.serverReport.setCompanyType(Accounter.getCompany()
+		this.serverReport.setCompanyType(getCompany()
 				.getAccountingType());
 	}
 }

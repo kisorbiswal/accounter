@@ -44,7 +44,7 @@ public class PaySalesTaxAction extends Action {
 			public void onCreated() {
 
 				try {
-					if (Accounter.getCompany().getAccountingType() == 1) {
+					if (getCompany().getAccountingType() == 1) {
 						MainFinanceWindow.getViewManager().showView(
 								new VATPaymentView(), data, false,
 								PaySalesTaxAction.this);

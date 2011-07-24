@@ -86,7 +86,7 @@ public class AccounterLoginServlet extends BaseServlet {
 	private void createUser(HttpServletRequest req, HttpServletResponse resp,
 			Session session, String companyName, boolean isAdmin) {
 		CollaberIdentity identity = (CollaberIdentity) session
-				.getNamedQuery("getidentity.from.emailid")
+				.getNamedQuery("getIDentity.from.emailid")
 				.setParameter("emailid", user.getEmail()).uniqueResult();
 		if (identity == null) {
 			identity = new CollaberIdentity(RolePermissions.BASIC_EMPLOYEE,
@@ -99,7 +99,7 @@ public class AccounterLoginServlet extends BaseServlet {
 
 		}
 		User financeUser = new User();
-		financeUser.setid(identity.getID());
+		financeUser.setID(identity.getID());
 		financeUser.setFirstName(user.getFirstName());
 		financeUser.setLastName(user.getLastName());
 		financeUser.setEmailId(user.getEmail());
@@ -164,7 +164,7 @@ public class AccounterLoginServlet extends BaseServlet {
 					identity.getCompanyName());
 			request.getSession().setAttribute("isLoggedInFromDomain", true);
 			Server.getInstance().addSeesionIdOfIdentity(identity.getID(),
-					request.getSession().getId());
+					request.getSession().getID());
 
 			request.setAttribute("success", true);
 
@@ -182,7 +182,7 @@ public class AccounterLoginServlet extends BaseServlet {
 		if (emailId != null && password != null) {
 			password = HexUtil
 					.bytesToHex(Security.makeHash(emailId + password));
-			CollaberIdentity identity = getIdentity(emailId, request,
+			CollaberIdentity identity = getIDentity(emailId, request,
 					companyName);
 			return identity;
 		}
@@ -190,13 +190,13 @@ public class AccounterLoginServlet extends BaseServlet {
 		return null;
 	}
 
-	private CollaberIdentity getIdentity(String emailId,
+	private CollaberIdentity getIDentity(String emailId,
 			HttpServletRequest request, String companyName) {
 
 		Session session = HibernateUtil.openSession(companyName);
 		try {
 			CollaberIdentity identity = null;
-			Query query = session.getNamedQuery("getidentity.from.emailid");
+			Query query = session.getNamedQuery("getIDentity.from.emailid");
 			query.setParameter("emailid", emailId);
 			// query.setParameter("password", password);
 			identity = (CollaberIdentity) query.uniqueResult();
@@ -363,7 +363,7 @@ public class AccounterLoginServlet extends BaseServlet {
 		// company.setTotalNoOfUsers(Integer.parseInt(noOfUsers));
 		// company.setTotalNoOfLiteUsers(Integer.parseInt(noOfLiteUsers));
 		company.setTotalSize(1024 * 1024 * 1024);
-		// company.setId(SecureUtils.createID());
+		// company.setID(SecureUtils.createID());
 		// company.setCompanyDomainName(name);
 		// company.setCompanyDisplayName(name);
 		// company.setSubscriptionType("FULL");

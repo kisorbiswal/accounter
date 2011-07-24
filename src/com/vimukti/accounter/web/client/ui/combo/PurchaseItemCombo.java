@@ -19,12 +19,12 @@ public class PurchaseItemCombo extends AccountCombo {
 
 	@Override
 	public List<ClientAccount> getAccounts() {
-		return Accounter.getCompany().getActiveAccounts();
+		return getCompany().getActiveAccounts();
 	}
 
 	public List<ClientAccount> getFilterdAccounts() {
 		filtrdAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : Accounter.getCompany()
+		for (ClientAccount account : getCompany()
 				.getActiveAccounts()) {
 			if (account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
 					&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
@@ -51,7 +51,7 @@ public class PurchaseItemCombo extends AccountCombo {
 		action.setAccountTypes(Arrays.asList(
 				ClientAccount.TYPE_COST_OF_GOODS_SOLD,
 				ClientAccount.TYPE_OTHER_EXPENSE, ClientAccount.TYPE_EXPENSE));
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 
 	}

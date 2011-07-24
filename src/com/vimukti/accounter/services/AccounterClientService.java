@@ -1506,11 +1506,11 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// defaultTaxAgency.setName("Tax Agency");
 	// //
 	// // defaultTaxAgency.setPaymentTerm(accounterDao.getPaymentTerms(
-	// // company.getId(), "Quarterly"));
+	// // company.getID(), "Quarterly"));
 	// // defaultTaxAgency.setLiabilityAccount(accounterDao.getAccount(
-	// // company.getId(), "Sales Tax Payable"));
+	// // company.getID(), "Sales Tax Payable"));
 	//
-	// this.createTaxAgency(company.getId(), Util.toClientObject(
+	// this.createTaxAgency(company.getID(), Util.toClientObject(
 	// defaultTaxAgency, ClientTaxAgency.class));
 	//
 	// TaxCode defaultTaxCode = new TaxCode();
@@ -1520,7 +1520,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// defaultTaxCode.setTaxAgency(defaultTaxAgency);
 	// defaultTaxCode.setTaxRates(null);
 	//
-	// this.createTaxCode(company.getId(), Util.toClientObject(
+	// this.createTaxCode(company.getID(), Util.toClientObject(
 	// defaultTaxCode, ClientTaxCode.class));
 	//
 	// TaxGroup defaultTaxGroup = new TaxGroup();
@@ -1531,7 +1531,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// taxCodes.add(defaultTaxCode);
 	// defaultTaxGroup.setTaxCodes(taxCodes);
 	//
-	// this.createTaxGroup(company.getId(), Util.toClientObject(
+	// this.createTaxGroup(company.getID(), Util.toClientObject(
 	// defaultTaxGroup, ClientTaxGroup.class));
 	// } catch (DAOException e) {
 	// e.printStackTrace();
@@ -1758,7 +1758,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// if (transactionIssuePayment.getWriteCheck() != null) {
 	//
 	// Long writeCheckId = transactionIssuePayment
-	// .getWriteCheck().getId();
+	// .getWriteCheck().getID();
 	//
 	// WriteCheck writeCheck;
 	//
@@ -1776,7 +1776,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// } else {
 	//
 	// Long customerRefundId = transactionIssuePayment
-	// .getCustomerRefund().getId();
+	// .getCustomerRefund().getID();
 	//
 	// CustomerRefund customerRefund = (CustomerRefund) session
 	// .get(CustomerRefund.class,

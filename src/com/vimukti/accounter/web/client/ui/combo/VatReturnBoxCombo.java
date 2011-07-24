@@ -7,7 +7,7 @@ public class VatReturnBoxCombo extends CustomCombo<ClientVATReturnBox> {
 
 	public VatReturnBoxCombo(String title) {
 		super(title);
-		initCombo(Accounter.getCompany().getVatReturnBoxes());
+		initCombo(getCompany().getVatReturnBoxes());
 	}
 
 	@Override

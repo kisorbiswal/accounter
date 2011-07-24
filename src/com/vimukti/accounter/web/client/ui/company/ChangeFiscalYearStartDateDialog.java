@@ -51,7 +51,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 		 * }
 		 */
 		startDateItem.setDatethanFireEvent(new ClientFinanceDate(
-				Accounter.getCompany().getPreferences()
+				getCompany().getPreferences()
 						.getStartOfFiscalYear()));
 	}
 
@@ -63,7 +63,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 				.startDate());
 		startDateItem.setHelpInformation(true);
 
-		long startdate = Accounter.getCompany().getPreferences()
+		long startdate = getCompany().getPreferences()
 				.getStartOfFiscalYear();
 		startDateItem.setEnteredDate(new ClientFinanceDate(startdate));
 		// startDateItem.setTitle("Start date");

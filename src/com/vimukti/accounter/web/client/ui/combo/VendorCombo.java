@@ -11,12 +11,12 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 
 	public VendorCombo(String title) {
 		super(title);
-		initCombo(Accounter.getCompany().getActiveVendors());
+		initCombo(getCompany().getActiveVendors());
 	}
 
 	public VendorCombo(String title, boolean isAddNewRequired) {
 		super(title, isAddNewRequired, 1);
-		initCombo(Accounter.getCompany().getActiveVendors());
+		initCombo(getCompany().getActiveVendors());
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 	public void onAddNew() {
 		NewVendorAction action = VendorsActionFactory.getNewVendorAction();
 		action.setActionSource(this);
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 	}
 

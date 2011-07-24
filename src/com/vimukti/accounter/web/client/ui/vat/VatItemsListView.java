@@ -33,7 +33,7 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 		grid = new VATItemsListGrid(false);
 		grid.addStyleName("listgrid-tl");
 		grid.init();
-		listOfVatItems = Accounter.getCompany().getTaxItems();
+		listOfVatItems = getCompany().getTaxItems();
 		filterList(true);
 	}
 

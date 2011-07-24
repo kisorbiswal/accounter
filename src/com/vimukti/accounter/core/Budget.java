@@ -20,9 +20,7 @@ public class Budget {
 	 */
 	Account account;
 
-	public long id;
-
-	transient boolean isImported;
+	
 	String createdBy;
 	String lastModifier;
 	String createdDate;
@@ -31,7 +29,7 @@ public class Budget {
 	/**
 	 * @return the id
 	 */
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 

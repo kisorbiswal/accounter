@@ -90,23 +90,23 @@ public class ItemView extends BaseView<ClientItem> {
 		super();
 		this.takenItem = item;
 		this.type = type;
-		this.company = Accounter.getCompany();
+		this.company = getCompany();
 		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
 		this.validationCount = 9;
 
 	}
 
 	private void initTaxCodes() {
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			List<ClientTAXCode> result = Accounter.getCompany()
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			List<ClientTAXCode> result = getCompany()
 					.getActiveTaxCodes();
 			if (result != null) {
-				taxCode.initCombo(Accounter.getCompany()
+				taxCode.initCombo(getCompany()
 						.getActiveTaxCodes());
 				if (takenItem != null) {
-					taxCode.setComboItem(Accounter.getCompany()
+					taxCode.setComboItem(getCompany()
 							.getTAXCode(takenItem.getTaxCode()));
-				} else if (!Accounter.getCompany().getpreferences()
+				} else if (!getCompany().getpreferences()
 						.getDoYouPaySalesTax()) {
 					// vatCode.setDisabled(true);
 					List<ClientTAXCode> taxCodes = Accounter
@@ -126,7 +126,7 @@ public class ItemView extends BaseView<ClientItem> {
 	}
 
 	private ClientAccount getDefaultAccount(String defaultAccount) {
-		List<ClientAccount> accountList = Accounter.getCompany()
+		List<ClientAccount> accountList = getCompany()
 				.getActiveAccounts();
 		for (ClientAccount account : accountList) {
 			if (account.getName().equalsIgnoreCase(defaultAccount)) {
@@ -196,7 +196,7 @@ public class ItemView extends BaseView<ClientItem> {
 			lab1
 					.setText(Accounter.getCustomersMessages()
 							.newService());
-			if (Accounter.getCompany().getAccountingType() == 1)
+			if (getCompany().getAccountingType() == 1)
 				itemForm.setFields(nameText, isservice);
 			else
 
@@ -205,7 +205,7 @@ public class ItemView extends BaseView<ClientItem> {
 			lab1
 					.setText(Accounter.getCustomersMessages()
 							.newProduct());
-			if (Accounter.getCompany().getAccountingType() == 1)
+			if (getCompany().getAccountingType() == 1)
 				itemForm.setFields(nameText, weightText);
 			else
 				itemForm.setFields(nameText, skuText, weightText);
@@ -409,7 +409,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 		});
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			salesInfoForm.setFields(isellCheck, salesDescArea, salesPriceText,
 					accountCombo, comCheck, stdCostText);
 		else
@@ -425,7 +425,7 @@ public class ItemView extends BaseView<ClientItem> {
 		itemInfoForm = UIUtils.form(Accounter.getFinanceUIConstants()
 				.itemInformation());
 		itemInfoForm.setWidth("97%");
-		if (Accounter.getCompany().getAccountingType() == 1)
+		if (getCompany().getAccountingType() == 1)
 			itemInfoForm.setFields(itemGroupCombo, taxCode, activeCheck);
 		else
 			itemInfoForm.setFields(itemGroupCombo, activeCheck);
@@ -510,7 +510,7 @@ public class ItemView extends BaseView<ClientItem> {
 			name = takenItem.getName();
 			System.out.println(name + "before saving");
 			stdCostText.setAmount(takenItem.getStandardCost());
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 				skuText.setValue(takenItem.getUPCorSKU() != null ? takenItem
 						.getUPCorSKU() : "");
 
@@ -521,7 +521,7 @@ public class ItemView extends BaseView<ClientItem> {
 				salesDescArea.setValue(takenItem.getSalesDescription());
 			salesPriceText.setAmount(takenItem.getSalesPrice());
 
-			ClientCompany company = Accounter.getCompany();
+			ClientCompany company = getCompany();
 			selectAccount = company.getAccount(takenItem.getIncomeAccount());
 			comCheck.setValue(takenItem.isCommissionItem());
 
@@ -560,7 +560,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 		if (takenItem == null) {
 
-			if (Utility.isObjectExist(Accounter.getCompany()
+			if (Utility.isObjectExist(getCompany()
 					.getItems(), item.getName())) {
 				throw new InvalidEntryException(AccounterErrorType.ALREADYEXIST);
 			} else
@@ -635,7 +635,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 			item.setVendorItemNumber(vendItemNumText.getValue().toString());
 		}
-		if (Accounter.getCompany().getAccountingType() == 0)
+		if (getCompany().getAccountingType() == 0)
 			item.setTaxable(getBooleanValue(itemTaxCheck));
 		else
 			item.setTaxable(true);
@@ -728,13 +728,13 @@ public class ItemView extends BaseView<ClientItem> {
 	}
 
 	private void initItemGroups() {
-		List<ClientItemGroup> clientItemgroup = Accounter.getCompany()
+		List<ClientItemGroup> clientItemgroup = getCompany()
 				.getItemGroups();
 
 		if (clientItemgroup != null) {
 			itemGroupCombo.initCombo(clientItemgroup);
 			if (takenItem != null) {
-				itemGroupCombo.setComboItem(Accounter.getCompany()
+				itemGroupCombo.setComboItem(getCompany()
 						.getItemGroup(takenItem.getItemGroup()));
 			}
 		}
@@ -757,12 +757,12 @@ public class ItemView extends BaseView<ClientItem> {
 	}
 
 	private void initVendorsList() {
-		List<ClientVendor> clientVendor = Accounter.getCompany()
+		List<ClientVendor> clientVendor = getCompany()
 				.getActiveVendors();
 		if (clientVendor != null) {
 			prefVendorCombo.initCombo(clientVendor);
 			if (takenItem != null) {
-				prefVendorCombo.setComboItem(Accounter.getCompany()
+				prefVendorCombo.setComboItem(getCompany()
 						.getVendor(takenItem.getPreferredVendor()));
 				if (takenItem.isIBuyThisItem() == false)
 					prefVendorCombo.setDisabled(true);
@@ -818,11 +818,11 @@ public class ItemView extends BaseView<ClientItem> {
 		}
 		if (takenItem != null) {
 
-			accountCombo.setComboItem(Accounter.getCompany()
+			accountCombo.setComboItem(getCompany()
 					.getAccount(takenItem.getIncomeAccount()));
 			if (takenItem.isISellThisItem() == false)
 				accountCombo.setDisabled(true);
-			selectExpAccount = Accounter.getCompany().getAccount(
+			selectExpAccount = getCompany().getAccount(
 					takenItem.getExpenseAccount());
 			expAccCombo.setComboItem(selectExpAccount);
 			if (takenItem.isIBuyThisItem() == false)
@@ -889,7 +889,7 @@ public class ItemView extends BaseView<ClientItem> {
 			return true;
 		case 5:
 			boolean result = true;
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				result = AccounterValidator.validateForm(itemInfoForm, false);
 			}
 			if (AccounterValidator.isChecked(ibuyCheck))
@@ -979,7 +979,7 @@ public class ItemView extends BaseView<ClientItem> {
 			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
 				this.expAccCombo.addComboItem((ClientAccount) core);
 			if (core.getObjectType() == AccounterCoreType.TAX_CODE
-					&& Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+					&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 				this.taxCode.addComboItem((ClientTAXCode) core);
 			break;
 		case AccounterCommand.UPDATION_SUCCESS:
@@ -994,7 +994,7 @@ public class ItemView extends BaseView<ClientItem> {
 			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
 				this.expAccCombo.updateComboItem((ClientAccount) core);
 			if (core.getObjectType() == AccounterCoreType.TAX_CODE
-					&& Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+					&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 				this.taxCode.updateComboItem((ClientTAXCode) core);
 			break;
 
@@ -1010,7 +1010,7 @@ public class ItemView extends BaseView<ClientItem> {
 			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
 				this.expAccCombo.removeComboItem((ClientAccount) core);
 			if (core.getObjectType() == AccounterCoreType.TAX_CODE
-					&& Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+					&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 				this.taxCode.removeComboItem((ClientTAXCode) core);
 			break;
 		}

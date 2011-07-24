@@ -79,7 +79,7 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 	}
 
 	public void createShippingTerms() {
-		if (Utility.isObjectExist(Accounter.getCompany()
+		if (Utility.isObjectExist(getCompany()
 				.getShippingTerms(), inputDlg.getTextValueByIndex(0))) {
 			Accounter.showError("ShippingTerm  Already Exists");
 		} else {
@@ -178,7 +178,7 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected List getRecords() {
-		return Accounter.getCompany().getShippingTerms();
+		return getCompany().getShippingTerms();
 	}
 
 	@Override

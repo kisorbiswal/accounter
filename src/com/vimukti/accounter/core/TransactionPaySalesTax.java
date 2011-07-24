@@ -77,7 +77,7 @@ public class TransactionPaySalesTax implements IAccounterServerCore, Lifecycle {
 	@ReffereredObject
 	Account liabilityAccount;
 
-	transient boolean isImported;
+	
 
 	transient private boolean isOnSaveProccessed;
 
@@ -89,9 +89,6 @@ public class TransactionPaySalesTax implements IAccounterServerCore, Lifecycle {
 		return version;
 	}
 
-	public long getId() {
-		return id;
-	}
 
 	public TAXItem getTaxItem() {
 		return taxItem;
@@ -135,9 +132,6 @@ public class TransactionPaySalesTax implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -204,7 +198,6 @@ public class TransactionPaySalesTax implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
 		return this.id;
 	}
 

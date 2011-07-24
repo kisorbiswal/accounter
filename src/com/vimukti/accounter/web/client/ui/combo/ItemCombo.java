@@ -21,13 +21,13 @@ public class ItemCombo extends CustomCombo<ClientItem> {
 	public ItemCombo(String title, int type) {
 		super(title);
 		this.type = type;
-		initCombo(Accounter.getCompany().getActiveItems());
+		initCombo(getCompany().getActiveItems());
 	}
 
 	public ItemCombo(String title, int type, boolean isAddNewRequired) {
 		super(title, isAddNewRequired, 3);
 		this.type = type;
-		initCombo(Accounter.getCompany().getActiveItems());
+		initCombo(getCompany().getActiveItems());
 	}
 
 	public ItemCombo(String title, int type, boolean isAddNewRequired,
@@ -39,7 +39,7 @@ public class ItemCombo extends CustomCombo<ClientItem> {
 	}
 
 	public void initCombo(boolean isService) {
-		List<ClientItem> items = Accounter.getCompany()
+		List<ClientItem> items = getCompany()
 				.getActiveItems();
 		List<ClientItem> serviceitems = new ArrayList<ClientItem>();
 		List<ClientItem> productitems = new ArrayList<ClientItem>();
@@ -77,7 +77,7 @@ public class ItemCombo extends CustomCombo<ClientItem> {
 			action = VendorsActionFactory.getNewItemAction();
 		}
 		action.setActionSource(this);
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 	}
 

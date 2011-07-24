@@ -22,7 +22,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
  * 
  */
 
-public class Item implements IAccounterServerCore, Lifecycle, CreatableObject {
+public class Item extends CreatableObject implements IAccounterServerCore, Lifecycle {
 	/**
 	 * 
 	 */
@@ -43,15 +43,6 @@ public class Item implements IAccounterServerCore, Lifecycle, CreatableObject {
 	public static final int TYPE_SALES_TAX_ITEM = 10;
 	public static final int TYPE_SALES_TAX_GROUP = 11;
 
-	/**
-	 * A Unique long id, generated, By Hibernate
-	 */
-	long id;
-
-	/**
-	 * A 40 Digit Secure Random Number
-	 */
-	public long id;
 
 	/**
 	 * Item Type
@@ -121,7 +112,7 @@ public class Item implements IAccounterServerCore, Lifecycle, CreatableObject {
 	double standardCost;
 	int version;
 
-	transient boolean isImported;
+	
 
 	String createdBy;
 	String lastModifier;
@@ -157,21 +148,6 @@ public class Item implements IAccounterServerCore, Lifecycle, CreatableObject {
 	 */
 	public void setDefault(boolean isDefault) {
 		this.isDefault = isDefault;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id){
-		this.id = id;
 	}
 
 	/**
@@ -398,7 +374,7 @@ public class Item implements IAccounterServerCore, Lifecycle, CreatableObject {
 				: "Purchase Price"));
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setid(this.id);
+		accounterCore.setID(this.id);
 		accounterCore.setObjectType(AccounterCoreType.ITEM);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -413,9 +389,6 @@ public class Item implements IAccounterServerCore, Lifecycle, CreatableObject {
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -438,54 +411,6 @@ public class Item implements IAccounterServerCore, Lifecycle, CreatableObject {
 		return false;
 	}
 
-	@Override
-	public long getID(){
-		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setLastModifier(String lastModifier) {
-		this.lastModifier = lastModifier;
-	}
-
-	public String getLastModifier() {
-		return lastModifier;
-	}
-
-	public void setCreatedDate(FinanceDate createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public FinanceDate getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setLastModifiedDate(FinanceDate lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public FinanceDate getLastModifiedDate() {
-		return lastModifiedDate;
-	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

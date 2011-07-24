@@ -20,7 +20,7 @@ public class IncomeAndExpensesAccountCombo extends AccountCombo {
 	@Override
 	public List<ClientAccount> getAccounts() {
 		incomeAndExpenseAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : Accounter.getCompany()
+		for (ClientAccount account : getCompany()
 				.getActiveAccounts())
 			if (account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
 					&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
@@ -44,7 +44,7 @@ public class IncomeAndExpensesAccountCombo extends AccountCombo {
 		NewAccountAction action = CompanyActionFactory.getNewAccountAction();
 		action.setActionSource(this);
 		action.setAccountTypes(getAccountTypes());
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 
 	}

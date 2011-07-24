@@ -188,7 +188,7 @@ public class TaxAgencyTransactionGrid extends
 				// FinanceApplication.getCompany().getTaxCode(
 				// item.getTaxCode()).getTaxAgency())
 				// .getName());
-				item.setDescription(Accounter.getCompany()
+				item.setDescription(getCompany()
 						.getTaxAgency(item.getTaxItem().getTaxAgency())
 						.getName());
 

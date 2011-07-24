@@ -17,13 +17,13 @@ public class ServiceCombo extends CustomCombo<ClientItem> {
 	public ServiceCombo(String title, int type) {
 		super(title);
 		this.type = type;
-		initCombo(Accounter.getCompany().getServiceItems());
+		initCombo(getCompany().getServiceItems());
 	}
 
 	public ServiceCombo(String title, int type, boolean isAddNewRequired) {
 		super(title, isAddNewRequired, 1);
 		this.type = type;
-		initCombo(Accounter.getCompany().getServiceItems());
+		initCombo(getCompany().getServiceItems());
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class ServiceCombo extends CustomCombo<ClientItem> {
 		}
 		action.setActionSource(this);
 		action.setType(1);
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 	}
 

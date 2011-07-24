@@ -56,7 +56,7 @@ public class TransferFund extends Transaction implements Lifecycle {
 	@ReffereredObject
 	JournalEntry journalEntry;
 
-	// transient boolean isImported;
+	// 
 
 	public TransferFund() {
 		setType(Transaction.TYPE_TRANSFER_FUND);
@@ -74,7 +74,7 @@ public class TransferFund extends Transaction implements Lifecycle {
 	 * @return the id
 	 */
 	@Override
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 
@@ -103,9 +103,6 @@ public class TransferFund extends Transaction implements Lifecycle {
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;

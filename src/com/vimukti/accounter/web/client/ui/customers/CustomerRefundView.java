@@ -88,7 +88,7 @@ public class CustomerRefundView extends
 		payFromSelect.setAccounts();
 
 		if (transactionObject != null) {
-			payFromSelect.setComboItem(Accounter.getCompany()
+			payFromSelect.setComboItem(getCompany()
 					.getAccount(
 							((ClientCustomerRefund) transactionObject)
 									.getPayFrom()));
@@ -104,7 +104,7 @@ public class CustomerRefundView extends
 			return;
 		this.customer = customer;
 		if (customer != null && customerCombo != null) {
-			customerCombo.setComboItem(Accounter.getCompany()
+			customerCombo.setComboItem(getCompany()
 					.getCustomer(customer.getID()));
 		}
 		addressListOfCustomer = customer.getAddress();
@@ -121,7 +121,7 @@ public class CustomerRefundView extends
 
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
 					.equalsIgnoreCase(Accounter.getVendorsMessages()
 							.cheque())
 					: paymentMethod.equalsIgnoreCase(Accounter
@@ -294,7 +294,7 @@ public class CustomerRefundView extends
 		});
 
 		checkNoText = new TextItem(
-				Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? customerConstants
+				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? customerConstants
 						.chequeNo()
 						: customerConstants.checkNo());
 		checkNoText.setValue(Accounter.getCustomersMessages()
@@ -553,9 +553,9 @@ public class CustomerRefundView extends
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 		ClientCustomerRefund customerRefundTobeEdited = (ClientCustomerRefund) transactionObject;
 
-		this.customer = Accounter.getCompany().getCustomer(
+		this.customer = getCompany().getCustomer(
 				customerRefundTobeEdited.getPayTo());
-		customerSelected(Accounter.getCompany().getCustomer(
+		customerSelected(getCompany().getCustomer(
 				customerRefundTobeEdited.getPayTo()));
 
 		amtText.setAmount(customerRefundTobeEdited.getTotal());
@@ -580,7 +580,7 @@ public class CustomerRefundView extends
 				printCheck.setValue(false);
 			}
 		}
-		this.selectedAccount = Accounter.getCompany().getAccount(
+		this.selectedAccount = getCompany().getAccount(
 				customerRefundTobeEdited.getPayFrom());
 		if (selectedAccount != null)
 			payFromSelect.setComboItem(selectedAccount);

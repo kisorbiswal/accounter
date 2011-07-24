@@ -185,9 +185,9 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 					public void onSuccess(List<ClientFinanceLogger> result) {
 						if (result != null && result.size() != 0) {
 							grid.setRecords(result);
-							firstRecordID = result.get(0).getId();
+							firstRecordID = result.get(0).getID();
 							lastRecordID = result.get(result.size() - 1)
-									.getId();
+									.getID();
 							isDateChanged = false;
 						} else
 							onFailure(null);
@@ -224,8 +224,8 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 							}
 							grid.setRecords(result);
 							lastRecordID = result.get(result.size() - 1)
-									.getId();
-							firstRecordID = result.get(0).getId();
+									.getID();
+							firstRecordID = result.get(0).getID();
 						} else
 							onFailure(null);
 					}
@@ -254,9 +254,9 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 							if (result.size() < 20)
 								nextHyprLnk.setEnabled(false);
 							grid.setRecords(result);
-							firstRecordID = result.get(0).getId();
+							firstRecordID = result.get(0).getID();
 							lastRecordID = result.get(result.size() - 1)
-									.getId();
+									.getID();
 						} else
 							onFailure(null);
 					}
@@ -282,9 +282,9 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 							if (result.size() < 20)
 								prvsHyprLink.setEnabled(false);
 							grid.setRecords(result);
-							firstRecordID = result.get(0).getId();
+							firstRecordID = result.get(0).getID();
 							lastRecordID = result.get(result.size() - 1)
-									.getId();
+									.getID();
 						} else {
 							onFailure(null);
 						}

@@ -26,8 +26,6 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 
 	long id;
 
-	public long id;
-
 	Transaction transaction;
 
 	TAXCode taxCode;
@@ -40,7 +38,7 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 
 	int version;
 
-	transient boolean isImported;
+	
 
 	transient private boolean isOnSaveProccessed;
 
@@ -79,9 +77,6 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 		return version;
 	}
 
-	public long getId() {
-		return id;
-	}
 
 	/**
 	 * @return the vatCode
@@ -113,12 +108,6 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 		this.taxAgency = taxAgency;
 	}
 
-	/**
-	 * @return the isImported
-	 */
-	public boolean isImported() {
-		return isImported;
-	}
 
 	/**
 	 * @param amount
@@ -156,15 +145,9 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public long getID(){
-		// TODO Auto-generated method stub
 		return this.id;
 	}
 
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
@@ -180,15 +163,9 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		this.id = this.id == null || this.id != null
-    && this.id.isEmpty() ? SecureUtils.createID()
-    : this.id;
 		return false;
 	}
 
@@ -198,11 +175,6 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 		return false;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

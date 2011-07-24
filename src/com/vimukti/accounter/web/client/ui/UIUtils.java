@@ -235,7 +235,7 @@ public class UIUtils {
 
 	public static String title(String windowName) {
 		String compName = "";
-		ClientCompany company = Accounter.getCompany();
+		ClientCompany company = getCompany();
 		if (company != null) {
 			compName = company.getName();
 		} else {
@@ -557,7 +557,7 @@ public class UIUtils {
 				}
 				Accounter.stopExecution();
 				T core = object;
-				core.setid(result);
+				core.setID(result);
 				view.saveSuccess(core);
 			}
 
@@ -611,7 +611,7 @@ public class UIUtils {
 				Accounter.stopExecution();
 				// view.updateCompany();
 				T core = object;
-				core.setid(result);
+				core.setID(result);
 				view.saveSuccess(object);
 			}
 
@@ -667,7 +667,7 @@ public class UIUtils {
 		switch (comboType) {
 		case AccountCombo.DEPOSIT_IN_ACCOUNT:
 			for (int type : accountTypes) {
-				if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 					if (
 					// type == ClientAccount.TYPE_BANK
 					// || type == ClientAccount.TYPE_CASH
@@ -1185,7 +1185,7 @@ public class UIUtils {
 		case ClientTransactionItem.TYPE_ITEM:
 			return "Item";
 		case ClientTransactionItem.TYPE_SALESTAX:
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 				return "TaxGroup";
 			else
 				return "Vat Item";
@@ -1406,7 +1406,7 @@ public class UIUtils {
 	}
 
 	public static String getVendorString(String forUk, String forUs) {
-		return Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US ? forUs
+		return getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US ? forUs
 				: forUk;
 	}
 
@@ -1431,11 +1431,11 @@ public class UIUtils {
 	}
 
 	public static ClientTAXItem getVATItem(String vatCodeId, boolean isSales) {
-		ClientTAXCode clientTAXCode = Accounter.getCompany()
+		ClientTAXCode clientTAXCode = getCompany()
 				.getTAXCode(vatCodeId);
 		String vatIem = isSales ? clientTAXCode.getTAXItemGrpForSales()
 				: clientTAXCode.getTAXItemGrpForPurchases();
-		return Accounter.getCompany().getTaxItem(vatIem);
+		return getCompany().getTaxItem(vatIem);
 
 	}
 
@@ -1452,12 +1452,12 @@ public class UIUtils {
 		if (date == null) {
 			return "";
 		}
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			DateTimeFormat dateFormatter = DateTimeFormat
 					.getFormat("dd/MM/yyyy");
 			String format = dateFormatter.format(date.getDateAsObject());
 			return format;
-		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		} else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			DateTimeFormat dateFormatter = DateTimeFormat
 					.getFormat("MM/dd/yyyy");
 			String format = dateFormatter.format(date.getDateAsObject());
@@ -1489,7 +1489,7 @@ public class UIUtils {
 		Iterator<ClientAccount> iterator = accountsList.iterator();
 		while (iterator.hasNext()) {
 			account = iterator.next();
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 					&& toBeAddedAccount.getNumber().equals("1175")) {
 				if (account.getNumber().equals("1180")) {
 					accountsList.add(accountsList.indexOf(account) - 1,
@@ -1785,9 +1785,9 @@ public class UIUtils {
 				.cheque())
 				|| paymentMethod.equals(Accounter
 						.getCustomersMessages().check())) {
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 				return "Cheque";
-			else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 				return "Check";
 		}
 
@@ -1819,7 +1819,7 @@ public class UIUtils {
 		if (!taxCode.getName().equals("EGS")
 				&& !taxCode.getName().equals("EGZ")
 				&& !taxCode.getName().equals("RC")) {
-			ClientTAXItemGroup vatItemGroup = Accounter.getCompany()
+			ClientTAXItemGroup vatItemGroup = getCompany()
 					.getTAXItemGroup(
 							isSales ? taxCode.getTAXItemGrpForSales() : taxCode
 									.getTAXItemGrpForPurchases());

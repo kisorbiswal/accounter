@@ -6,14 +6,12 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
-import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 
 @SuppressWarnings("serial")
 public class FixedAssetHistory implements IAccounterServerCore, Lifecycle {
 
-	private long id;
-	private long id;
+	long id;
 
 	public static final String ACTION_TYPE_NONE = "NONE";
 	public static final String ACTION_TYPE_STATUS = "Status";
@@ -30,7 +28,7 @@ public class FixedAssetHistory implements IAccounterServerCore, Lifecycle {
 	String actionType;
 	FinanceDate actionDate;
 	String details;
-	transient boolean isImported;
+	
 	String user;
 	JournalEntry postedJournalEntry;
 
@@ -38,22 +36,8 @@ public class FixedAssetHistory implements IAccounterServerCore, Lifecycle {
 
 	}
 
-	@Override
 	public long getID(){
 		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setID(long id){
-		this.id = id;
 	}
 
 	public String getDetails() {
@@ -88,11 +72,6 @@ public class FixedAssetHistory implements IAccounterServerCore, Lifecycle {
 		this.user = user;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
 
 	public JournalEntry getPostedJournalEntry() {
 		return postedJournalEntry;
@@ -123,9 +102,6 @@ public class FixedAssetHistory implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		this.id = this.id == null || this.id != null
-    && this.id.isEmpty() ? SecureUtils.createID()
-    : this.id;
 		return false;
 	}
 

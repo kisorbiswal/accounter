@@ -169,8 +169,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 	private void updateDebitorsAccount() {
 		List<ClientAccount> accounts = new ArrayList<ClientAccount>();
-		if (Accounter.getCompany() != null) {
-			accounts = Accounter.getCompany().getAccounts(
+		if (getCompany() != null) {
+			accounts = getCompany().getAccounts(
 					ClientAccount.TYPE_OTHER_CURRENT_ASSET);
 		}
 		for (ClientAccount account : accounts) {

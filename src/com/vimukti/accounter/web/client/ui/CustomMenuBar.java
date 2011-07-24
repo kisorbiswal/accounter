@@ -38,10 +38,6 @@ public class CustomMenuBar extends MenuBar {
 
 			@Override
 			public void execute() {
-				if (!History.getToken().equals(action.getHistoryToken())) {
-					MainFinanceWindow.oldToken = History.getToken();
-					HistoryTokenUtils.setPresentToken(action, null);
-				}
 				action.run(null, false);
 
 			}

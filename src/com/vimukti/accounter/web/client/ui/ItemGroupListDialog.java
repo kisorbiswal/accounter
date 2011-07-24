@@ -80,7 +80,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 	}
 
 	public void createItemSGroups() {
-		if (Utility.isObjectExist(Accounter.getCompany()
+		if (Utility.isObjectExist(getCompany()
 				.getItemGroups(), itemGroupDg.getItemGroupName())) {
 			Accounter.showError("A Item Group  Already Exists with this name");
 		} else {
@@ -161,7 +161,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 
 	@Override
 	protected List<ClientItemGroup> getRecords() {
-		return (List<ClientItemGroup>) Accounter.getCompany()
+		return (List<ClientItemGroup>) getCompany()
 				.getItemGroups();
 	}
 

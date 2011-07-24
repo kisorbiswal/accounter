@@ -78,7 +78,7 @@ public class SoldAndDisposedItemsListGrid extends
 		case 1:
 			return asset.getAssetNumber();
 		case 2:
-			return Accounter.getCompany().getAccount(
+			return getCompany().getAccount(
 					asset.getAssetAccount()) != null ? Accounter
 					.getCompany().getAccount(asset.getAssetAccount()).getName()
 					: "";
@@ -109,9 +109,9 @@ public class SoldAndDisposedItemsListGrid extends
 	}
 
 	// public ClientSellingOrDisposingFixedAsset getSellingDisposedItem(
-	// String assetId) {
+	// String assetID) {
 	//
-	// return FinanceApplication.getCompany().getSellingDisposedItem(assetId);
+	// return FinanceApplication.getCompany().getSellingDisposedItem(assetID);
 	//
 	// }
 
@@ -254,7 +254,7 @@ public class SoldAndDisposedItemsListGrid extends
 
 	private String getAccount(ClientFixedAsset obj) {
 
-		return Accounter.getCompany()
+		return getCompany()
 				.getAccount(obj.getAssetAccount()) != null ? Accounter
 				.getCompany().getAccount(obj.getAssetAccount()).getName() : "";
 	}

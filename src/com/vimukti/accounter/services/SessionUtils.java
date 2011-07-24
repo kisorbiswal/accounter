@@ -82,8 +82,8 @@ public class SessionUtils {
 											if (fieldValue != null
 													&& previousFieldValue != null) {// For
 												// Updation
-												long id = getId(fieldValue);
-												long prevId = getId(previousFieldValue);
+												long id = getID(fieldValue);
+												long prevId = getID(previousFieldValue);
 												if (id != 0 && prevId != 0
 														&& id != prevId) {
 													// Updating previous
@@ -207,7 +207,7 @@ public class SessionUtils {
 							e1.printStackTrace();
 						}
 						if (fieldValue != null) {
-							long id = getId(fieldValue);
+							long id = getID(fieldValue);
 							log.info("Field ID:" + id);
 							try {
 								if (id > 0) {
@@ -232,7 +232,7 @@ public class SessionUtils {
 
 	}
 
-	public static <T> long getId(T obj) {
+	public static <T> long getID(T obj) {
 		try {
 			Field idField = obj.getClass().getDeclaredField("id");
 			idField.setAccessible(true);

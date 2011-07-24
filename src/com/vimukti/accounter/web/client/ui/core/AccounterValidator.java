@@ -208,7 +208,7 @@ public class AccounterValidator {
 	}
 
 	private static List<ClientFiscalYear> getClosedFiscalYears() {
-		List<ClientFiscalYear> fiscalyearlist = Accounter.getCompany()
+		List<ClientFiscalYear> fiscalyearlist = getCompany()
 				.getFiscalYears();
 		List<ClientFiscalYear> closedFiscalYears = new ArrayList<ClientFiscalYear>();
 		for (ClientFiscalYear fiscalyear : fiscalyearlist) {
@@ -222,7 +222,7 @@ public class AccounterValidator {
 	public static boolean isFixedAssetPurchaseDateWithinRange(
 			ClientFinanceDate purchaseDate) {
 
-		List<ClientFiscalYear> fiscalYears = Accounter.getCompany()
+		List<ClientFiscalYear> fiscalYears = getCompany()
 				.getFiscalYears();
 		for (ClientFiscalYear firstFiscalYear : fiscalYears) {
 			if (firstFiscalYear.getStatus() == ClientFiscalYear.STATUS_OPEN) {
@@ -327,7 +327,7 @@ public class AccounterValidator {
 	}
 
 	public static List<ClientFiscalYear> getOpenFiscalYears() {
-		List<ClientFiscalYear> fiscalYears = Accounter.getCompany()
+		List<ClientFiscalYear> fiscalYears = getCompany()
 				.getFiscalYears();
 
 		List<ClientFiscalYear> openFiscalYears = new ArrayList<ClientFiscalYear>();
@@ -400,7 +400,7 @@ public class AccounterValidator {
 	// Item
 	public static void defaultIncomeAccountServiceItem(
 			final ClientAccount selectItem, ClientAccount defaultIncomeAccount) {
-		company = Accounter.getCompany();
+		company = getCompany();
 		if (defaultIncomeAccount != null)
 			if (!(defaultIncomeAccount.equals(selectItem))) {
 				Accounter.showWarning(
@@ -446,7 +446,7 @@ public class AccounterValidator {
 
 	public static void defaultIncomeAccountNonInventory(
 			final ClientAccount selectItem, ClientAccount defaultIncomeAccount) {
-		company = Accounter.getCompany();
+		company = getCompany();
 		if (!(defaultIncomeAccount.equals(selectItem))) {
 			Accounter.showWarning(
 					AccounterWarningType.default_IncomeAccountNonInventory,
@@ -489,7 +489,7 @@ public class AccounterValidator {
 	public static void defaultExpenseAccountServiceItem(
 			final ClientAccount selectItem, ClientAccount defaultExpenseAccount) {
 
-		company = Accounter.getCompany();
+		company = getCompany();
 		if (defaultExpenseAccount != null)
 			if (!(defaultExpenseAccount.equals(selectItem))) {
 				Accounter.showWarning(
@@ -536,7 +536,7 @@ public class AccounterValidator {
 	public static void defaultExpenseAccountNonInventory(
 			final ClientAccount selectExpAccount,
 			ClientAccount defaultExpAccount) {
-		company = Accounter.getCompany();
+		company = getCompany();
 		if (defaultExpAccount != null)
 			if (!(defaultExpAccount.equals(selectExpAccount))) {
 				Accounter
@@ -1614,7 +1614,7 @@ public class AccounterValidator {
 	public static boolean sinceDate(ClientFinanceDate sinceDate,
 			final AbstractBaseView view) {
 		ClientFinanceDate companyStartDate = new ClientFinanceDate(
-				Accounter.getCompany().getpreferences()
+				getCompany().getpreferences()
 						.getPreventPostingBeforeDate());
 
 		if (sinceDate.before(companyStartDate)) {
@@ -1656,7 +1656,7 @@ public class AccounterValidator {
 			final AbstractBaseView view) throws InvalidEntryException {
 
 		ClientFinanceDate companyStartDate = new ClientFinanceDate(
-				Accounter.getCompany().getpreferences()
+				getCompany().getpreferences()
 						.getPreventPostingBeforeDate());
 		if (asOfDate.before(companyStartDate)) {
 			throw new InvalidEntryException(AccounterErrorType.prior_asOfDate);

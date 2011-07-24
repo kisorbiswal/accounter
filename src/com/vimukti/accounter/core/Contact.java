@@ -33,7 +33,7 @@ public class Contact implements IAccounterServerCore, Lifecycle {
 	 */
 	String email = "";
 
-	transient boolean isImported;
+	
 	transient private boolean isOnSaveProccessed;
 
 	public Contact() {
@@ -109,19 +109,9 @@ public class Contact implements IAccounterServerCore, Lifecycle {
 	@Override
 	public long getID(){
 
-		return null;
+		return 0;
 	}
 
-	@Override
-	public void setID(long id){
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

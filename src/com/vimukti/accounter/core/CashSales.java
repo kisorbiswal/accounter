@@ -518,13 +518,6 @@ public class CashSales extends Transaction implements IAccounterServerCore,
 		return Transaction.CATEGORY_CUSTOMER;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		for (TransactionItem ti : this.transactionItems) {
-			ti.setImported(true);
-		}
-	}
 
 	@Override
 	public Payee getInvolvedPayee() {

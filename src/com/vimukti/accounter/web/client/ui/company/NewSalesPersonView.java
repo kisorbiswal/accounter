@@ -216,7 +216,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			emailForm.webText.setValue(takenSalesperson.getWebPageAddress());
 			statusCheck.setValue(takenSalesperson.isActive());
 			if (takenSalesperson.getExpenseAccount() != null) {
-				selectedExpenseAccount = Accounter.getCompany()
+				selectedExpenseAccount = getCompany()
 						.getAccount(takenSalesperson.getExpenseAccount());
 				expenseSelect.setComboItem(selectedExpenseAccount);
 			}
@@ -302,7 +302,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			String name = employeeNameText.getValue().toString();
 			if ((takenSalesperson != null ? (takenSalesperson.getName()
 					.equalsIgnoreCase(name) ? true
-					: (Utility.isObjectExist(Accounter.getCompany()
+					: (Utility.isObjectExist(getCompany()
 							.getSalesPersons(), name) ? false : true)) : true)) {
 				return true;
 			} else

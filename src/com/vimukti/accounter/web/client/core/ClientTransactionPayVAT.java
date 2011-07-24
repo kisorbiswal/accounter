@@ -31,12 +31,12 @@ public class ClientTransactionPayVAT implements IAccounterCore {
 
 	int version;
 
-	transient boolean isImported;
+	
 
 	/**
 	 * @return the id
 	 */
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 

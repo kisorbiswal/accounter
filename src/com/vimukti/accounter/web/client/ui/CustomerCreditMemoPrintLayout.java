@@ -64,7 +64,7 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 
 		Map<String, String> dateNumMap = getMap(new String[] {
 				"Customer Name",
-				Accounter.getCompany().getCustomer(
+				getCompany().getCustomer(
 						creditMemo.getCustomer()).getName(),
 				"Credit Date",
 				UIUtils.dateFormat(new ClientFinanceDate(creditMemo.getTransactionDate())),
@@ -82,7 +82,7 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 		adressHPanel.setSpacing(10);
 		adressHPanel.getElement().setAttribute("cellpaddding", "1");
 
-		ClientCustomer customer = Accounter.getCompany().getCustomer(
+		ClientCustomer customer = getCompany().getCustomer(
 				creditMemo.getCustomer());
 		String billAdrs = "<br/><br/><br/><br/><br/>";
 		Set<ClientAddress> bill = customer.getAddress();
@@ -144,7 +144,7 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 		gridPanel.add(grid);
 		gridPanel.setSize("100%", "100%");
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			vatPanel = new HorizontalPanel();
 
 			vatPanel.setSize("100%", "100%");
@@ -161,7 +161,7 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 
 		double lineTotal = view.getGridForPrinting().getTotal();
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			vatTotal = view.getGridForPrinting().getVatTotal();
 			totalAmount = lineTotal + vatTotal;
 

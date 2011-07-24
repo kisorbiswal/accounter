@@ -63,7 +63,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 		vatItemCombo = new VATItemCombo(Accounter.getVATMessages()
 				.VATItem(), isAddNewRequired);
 		List<ClientTAXItem> vendorVATItems = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : Accounter.getCompany()
+		for (ClientTAXItem vatItem : getCompany()
 				.getActiveTaxItems()) {
 			if (!vatItem.isSalesType())
 				vendorVATItems.add(vatItem);
@@ -115,7 +115,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 	public boolean isPreviuslyUsed(ClientTAXItem selectedVATItem) {
 		for (ClientTransactionItem rec : getRecords()) {
 			if (rec.getTaxCode() != null && rec.getTaxCode().length() != 0) {
-				String vatItem = Accounter.getCompany().getTAXCode(
+				String vatItem = getCompany().getTAXCode(
 						rec.getTaxCode()).getTAXItemGrpForPurchases();
 				if (selectedVATItem.getID().equals(vatItem)) {
 					return false;
@@ -189,7 +189,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 	protected boolean isEditable(ClientTransactionItem obj, int row, int col) {
 		if (obj == null)
 			return false;
-		if (!Accounter.getCompany().getpreferences()
+		if (!getCompany().getpreferences()
 				.getDoYouPaySalesTax()) {
 			if (col == 6 || col == 7)
 				return false;

@@ -85,7 +85,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 		case 2:
 			ClientTAXAgency agency = null;
 			if (item.getTaxAgency() != null) {
-				agency = Accounter.getCompany().getTaxAgency(
+				agency = getCompany().getTaxAgency(
 						item.getTaxAgency());
 			}
 			return agency != null ? agency.getName() : "";
@@ -150,7 +150,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 			// agency1 = getTaxAgency(obj1);
 			// agency2 = getTaxAgency(obj2);
 			// }
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				agency1 = getVATAgencyID(obj1);
 				agency2 = getVATAgencyID(obj2);
 			}
@@ -192,8 +192,8 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 		ClientTAXAgency agency = null;
 		if (obj.getTaxAgency() != null) {
 
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				agency = Accounter.getCompany().getTaxAgency(
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				agency = getCompany().getTaxAgency(
 						obj.getTaxAgency());
 
 			}

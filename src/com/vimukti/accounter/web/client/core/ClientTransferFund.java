@@ -3,8 +3,8 @@ package com.vimukti.accounter.web.client.core;
 @SuppressWarnings("serial")
 public class ClientTransferFund extends ClientTransaction {
 
-	String transferFrom;
-	String transferTo;
+	long transferFrom;
+	long transferTo;
 
 	/**
 	 * @return the version
@@ -26,7 +26,7 @@ public class ClientTransferFund extends ClientTransaction {
 	/**
 	 * @return the transferFrom
 	 */
-	public String getTransferFrom() {
+	public long getTransferFrom() {
 		return transferFrom;
 	}
 
@@ -34,14 +34,14 @@ public class ClientTransferFund extends ClientTransaction {
 	 * @param transferFrom
 	 *            the transferFrom to set
 	 */
-	public void setTransferFrom(String transferFrom) {
+	public void setTransferFrom(long transferFrom) {
 		this.transferFrom = transferFrom;
 	}
 
 	/**
 	 * @return the transferTo
 	 */
-	public String getTransferTo() {
+	public long getTransferTo() {
 		return transferTo;
 	}
 
@@ -49,7 +49,7 @@ public class ClientTransferFund extends ClientTransaction {
 	 * @param transferTo
 	 *            the transferTo to set
 	 */
-	public void setTransferTo(String transferTo) {
+	public void setTransferTo(long transferTo) {
 		this.transferTo = transferTo;
 	}
 

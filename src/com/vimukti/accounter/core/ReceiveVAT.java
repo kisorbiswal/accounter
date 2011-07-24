@@ -158,20 +158,7 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore,
 		this.transactionReceiveVAT = transactionReceiveVAT;
 	}
 
-	/**
-	 * @return the isImported
-	 */
-	public boolean isImported() {
-		return isImported;
-	}
 
-	/**
-	 * @param isImported
-	 *            the isImported to set
-	 */
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-	}
 
 	@Override
 	public Account getEffectingAccount() {
@@ -228,9 +215,6 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore,
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;

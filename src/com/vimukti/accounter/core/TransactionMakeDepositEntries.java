@@ -61,7 +61,7 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 	 */
 	private double balance;
 
-	transient boolean isImported;
+	
 
 	public TransactionMakeDepositEntries() {
 
@@ -76,12 +76,6 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 
 	}
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
 
 	/**
 	 * @return the type
@@ -215,8 +209,6 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		this.id = this.id == null || this.id != null && this.id.isEmpty() ? SecureUtils
-				.createID() : this.id;
 		return false;
 	}
 

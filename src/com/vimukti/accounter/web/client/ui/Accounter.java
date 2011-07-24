@@ -151,7 +151,7 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 			}
 
 		};
-		getService.getCompany(getClientIdentity().getId(), getCompanyCallback);
+		getService.getCompany(getClientIdentity().getID(), getCompanyCallback);
 		// this.hide();
 		if (isSales)
 			loadingDialog = UIUtils.getLoadingDialog(Accounter
@@ -249,7 +249,7 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 					Accounter.setCompany(company);
 					Accounter.setUser(company
 							.getUser(Accounter.getClientIdentity()
-									.getId()));
+									.getID()));
 					// Close the startup dialog...
 
 					// and, now we are ready to start the application.
@@ -292,7 +292,7 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 			}
 
 		};
-		getService.getCompany(getClientIdentity().getId(), getCompanyCallback);
+		getService.getCompany(getClientIdentity().getID(), getCompanyCallback);
 		// this.hide();
 		if (!GWT.isScript())
 			loadingDialog = UIUtils.getLoadingDialog(Accounter
@@ -588,6 +588,12 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 
 
 	public static void showInformation(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public static void showError(String string) {
 		// TODO Auto-generated method stub
 		
 	}

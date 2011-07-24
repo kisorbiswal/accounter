@@ -83,7 +83,7 @@ public class TransferFundsDialog extends BaseDialog {
 	private void initData(ClientTransferFund data) {
 		transferDate.setEnteredDate(data.getDate());
 		transferDate.setDisabled(true);
-		ClientAccount fromAccount = Accounter.getCompany().getAccount(
+		ClientAccount fromAccount = getCompany().getAccount(
 				data.getTransferFrom());
 		accountFrom = fromAccount;
 
@@ -93,7 +93,7 @@ public class TransferFundsDialog extends BaseDialog {
 		balanceFromText.setValue(DataUtils
 				.getAmountAsString(fromAccount != null ? fromAccount
 						.getTotalBalance() : 0.0));
-		ClientAccount toAccount = Accounter.getCompany().getAccount(
+		ClientAccount toAccount = getCompany().getAccount(
 				data.getTransferTo());
 		accountTo = toAccount;
 		accountComboTo.setSelected(toAccount != null ? accountComboTo
@@ -338,7 +338,7 @@ public class TransferFundsDialog extends BaseDialog {
 		if (transferFund == null) {
 			ViewManager.getInstance().createObject(transferFund1, this);
 		} else {
-			transferFund1.setid(transferFund.id);
+			transferFund1.setID(transferFund.id);
 			ViewManager.getInstance().alterObject(transferFund1, this);
 		}
 

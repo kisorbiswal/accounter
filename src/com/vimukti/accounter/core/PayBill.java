@@ -54,8 +54,8 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  *         New Credit and Payment is created for this vendor with this Payment
  *         Amount and Balance as Vendor Payment total and Memo as transaction
  *         number followed by VendorCreditMemo <br>
- *         ======================================================================
- * <br>
+ *         ====================================================================
+ *         == <br>
  * 
  * 
  *         <b><i> 2) PayBill Effect</i></b><br>
@@ -106,8 +106,9 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  * 
  * 
  * 
- *         
- *         ======================================================================
+ * 
+ *         ====================================================================
+ *         ==
  * 
  */
 
@@ -153,7 +154,7 @@ public class PayBill extends Transaction {
 	Address address;
 
 	// TaxCode VATCode;
-	//	
+	//
 	// double VATFraction;
 
 	/**
@@ -164,7 +165,7 @@ public class PayBill extends Transaction {
 
 	String checkNumber;
 
-	// transient boolean isImported;
+	//
 
 	public PayBill() {
 		setType(Transaction.TYPE_PAY_BILL);
@@ -298,9 +299,6 @@ public class PayBill extends Transaction {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -350,13 +348,11 @@ public class PayBill extends Transaction {
 						&& DecimalUtil.isEquals(
 								creditsAndPayments.creditAmount, 0.0d)) {
 
-					creditsAndPayments = new CreditsAndPayments(this,
-							creditsAndPayments.id);
-					this.setCreditsAndPayments(creditsAndPayments);
+					creditsAndPayments.update(this);
 				} else {
 					creditsAndPayments = new CreditsAndPayments(this);
-					this.setCreditsAndPayments(creditsAndPayments);
 				}
+				this.setCreditsAndPayments(creditsAndPayments);
 				session.save(creditsAndPayments);
 			}
 			if (this.payBillType != TYPE_VENDOR_PAYMENT) {
@@ -424,14 +420,11 @@ public class PayBill extends Transaction {
 			if (creditsAndPayments != null
 					&& DecimalUtil.isEquals(creditsAndPayments.creditAmount,
 							0.0d)) {
-				creditsAndPayments = new CreditsAndPayments(this,
-						creditsAndPayments.id);
-				this.setCreditsAndPayments(creditsAndPayments);
+				creditsAndPayments.update(this);
 			} else {
 				creditsAndPayments = new CreditsAndPayments(this);
-				this.setCreditsAndPayments(creditsAndPayments);
 			}
-
+			this.setCreditsAndPayments(creditsAndPayments);
 		} else {
 			this.creditsAndPayments.updateBalance(this, -amount);
 			this.unusedAmount += amount;
@@ -491,20 +484,10 @@ public class PayBill extends Transaction {
 	// public void setVATFraction(double fraction) {
 	// VATFraction = fraction;
 	// }
-	//	
+	//
 	@Override
 	public int getTransactionCategory() {
 		return Transaction.CATEGORY_VENDOR;
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		if (this.transactionPayBill != null) {
-			for (TransactionPayBill ti : this.transactionPayBill) {
-				ti.setImported(true);
-			}
-		}
 	}
 
 	@Override
@@ -516,11 +499,9 @@ public class PayBill extends Transaction {
 		if (this.vendor.id == obj.vendor.id
 
 				&& ((this.payFrom != null && obj.payFrom != null) ? (this.payFrom
-						.equals(obj.payFrom))
-						: true)
+						.equals(obj.payFrom)) : true)
 				&& ((this.paymentMethod != null && obj.paymentMethod != null) ? (this.paymentMethod
-						.equals(obj.paymentMethod))
-						: true)
+						.equals(obj.paymentMethod)) : true)
 				&& ((!DecimalUtil.isEquals(this.total, 0.0) && !DecimalUtil
 						.isEquals(obj.total, 0.0)) ? DecimalUtil.isEquals(
 						this.total, obj.total) : true)
@@ -548,7 +529,7 @@ public class PayBill extends Transaction {
 		Session session = HibernateUtil.getCurrentSession();
 		PayBill payBill = (PayBill) clonedObject;
 		/**
-		 *If present transaction is deleted or voided & the previous
+		 * If present transaction is deleted or voided & the previous
 		 * transaction is not voided then it will entered into the loop
 		 */
 
@@ -565,14 +546,12 @@ public class PayBill extends Transaction {
 					if (creditsAndPayments != null
 							&& DecimalUtil.isEquals(
 									creditsAndPayments.creditAmount, 0.0d)) {
-						creditsAndPayments = new CreditsAndPayments(this,
-								creditsAndPayments.id);
-						this.setCreditsAndPayments(creditsAndPayments);
+						creditsAndPayments.update(this);
 					} else {
-						CreditsAndPayments creditsAndPayments = new CreditsAndPayments(
-								this);
-						this.setCreditsAndPayments(creditsAndPayments);
+						creditsAndPayments = new CreditsAndPayments(this);
+
 					}
+					this.setCreditsAndPayments(creditsAndPayments);
 					session.save(creditsAndPayments);
 
 				}

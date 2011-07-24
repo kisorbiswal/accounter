@@ -77,7 +77,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 	}
 
 	public void createCreditRatings() {
-		if (Utility.isObjectExist(Accounter.getCompany()
+		if (Utility.isObjectExist(getCompany()
 				.getCreditRatings(), inputDlg.getTextItems().get(0).getValue()
 				.toString())) {
 			Accounter.showError("CreditRating  Already Exists");
@@ -174,7 +174,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 
 	@Override
 	protected List<ClientCreditRating> getRecords() {
-		return (List<ClientCreditRating>) Accounter.getCompany()
+		return (List<ClientCreditRating>) getCompany()
 				.getCreditRatings();
 	}
 

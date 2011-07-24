@@ -193,7 +193,7 @@ public class BankingSectionHomeView extends BaseHomeView {
 		accounts.init();
 		VerticalPanel leftLayout = new VerticalPanel();
 		leftLayout.setSize("100%", "100%");
-		listOfAccounts = Accounter.getCompany().getAccounts();
+		listOfAccounts = getCompany().getAccounts();
 		filterList(true);
 		// leftLayout.add(addWidgetLinkLayout);
 		leftLayout.add(portalLayout);

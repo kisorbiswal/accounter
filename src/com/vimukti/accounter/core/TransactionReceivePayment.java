@@ -134,7 +134,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 	@ReffereredObject
 	JournalEntry journalEntry;
 
-	transient boolean isImported;
+	
 
 	String number;
 
@@ -144,12 +144,6 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 
 	}
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
 
 	public int getVersion() {
 		return version;
@@ -328,9 +322,6 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;

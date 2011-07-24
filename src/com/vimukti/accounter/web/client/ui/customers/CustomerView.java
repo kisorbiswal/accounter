@@ -139,7 +139,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	CustomersMessages customerConstants;
 	@SuppressWarnings("unused")
 	private static ActionsConstants actionsConstants;
-	private ClientCompany company = Accounter.getCompany();
+	private ClientCompany company = getCompany();
 	private ArrayList<DynamicForm> listforms;
 	private TextItem custNoText;
 
@@ -176,7 +176,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	}
 
 	private void initTaxItemGroupList() {
-		List<ClientTAXItemGroup> result = Accounter.getCompany()
+		List<ClientTAXItemGroup> result = getCompany()
 				.getTaxItemGroups();
 
 		for (ClientTAXItemGroup taxItemGroup : result) {
@@ -193,7 +193,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private void initCustomerGroupList() {
 
-		custGroupSelect.initCombo(Accounter.getCompany()
+		custGroupSelect.initCombo(getCompany()
 				.getCustomerGroups());
 
 		// Setting Customer Group
@@ -204,7 +204,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	}
 
 	public void initPaymentTermsList() {
-		payTermsSelect.initCombo(Accounter.getCompany()
+		payTermsSelect.initCombo(getCompany()
 				.getPaymentsTerms());
 		// Setting Payment Term
 		if (takenCustomer != null && takenCustomer.getPaymentTerm() != null)
@@ -215,7 +215,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	public void initShippingMethodList() {
 
-		shipMethSelect.initCombo(Accounter.getCompany()
+		shipMethSelect.initCombo(getCompany()
 				.getShippingMethods());
 		// Setting Preferred Shipping Method
 		if (takenCustomer != null && takenCustomer.getShippingMethod() != null)
@@ -233,7 +233,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private void initPriceLevelList() {
 
-		priceLevelSelect.initCombo(Accounter.getCompany()
+		priceLevelSelect.initCombo(getCompany()
 				.getPriceLevels());
 		// Setting Preferred Shipping Method
 		if (takenCustomer != null && takenCustomer.getPriceLevel() != null)
@@ -558,7 +558,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// Setting Data from Details Tab
 
 		// Setting SalesPerson
-		customer.setSalesPerson(Utility.getId(selectSalesPersonFromDetailsTab));
+		customer.setSalesPerson(Utility.getID(selectSalesPersonFromDetailsTab));
 
 		// Setting Credit Limit
 
@@ -567,32 +567,32 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		}
 
 		// Setting Price Level
-		customer.setPriceLevel(Utility.getId(selectPriceLevelFromDetailsTab));
+		customer.setPriceLevel(Utility.getID(selectPriceLevelFromDetailsTab));
 
 		// Setting Credit Rating
 		customer.setCreditRating(Utility
-				.getId(selectCreditRatingFromDetailsTab));
+				.getID(selectCreditRatingFromDetailsTab));
 
 		// Setting Preferred Shipping Method
 		customer.setShippingMethod(Utility
-				.getId(selectShippingMethodFromDetailsTab));
+				.getID(selectShippingMethodFromDetailsTab));
 
 		// Setting Preferred Payment Method
 		customer.setPaymentMethod(selectPaymentMethodFromDetialsTab);
 
 		// Setting Preferred Payment Terms
-		customer.setPaymentTerm(Utility.getId(selectPayTermFromDetailsTab));
+		customer.setPaymentTerm(Utility.getID(selectPayTermFromDetailsTab));
 
 		// Setting customer Group
 		customer.setCustomerGroup(Utility
-				.getId(selectCustomerGroupFromDetailsTab));
+				.getID(selectCustomerGroupFromDetailsTab));
 		if (company.getAccountingType() == 0)
 			// Setting Tax Group
-			customer.setTAXCode(Utility.getId(selectVatCodeFromDetailsTab));
+			customer.setTAXCode(Utility.getID(selectVatCodeFromDetailsTab));
 
 		else if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			// setting Vat Code
-			customer.setTAXCode(Utility.getId(selectVatCodeFromDetailsTab));
+			customer.setTAXCode(Utility.getID(selectVatCodeFromDetailsTab));
 			if (vatregno.getValue() != null)
 				customer.setVATRegistrationNumber(vatregno.getValue()
 						.toString());
@@ -1051,7 +1051,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		DynamicForm termsForm = UIUtils.form(customerConstants.terms());
 
-		int accounttype = Accounter.getCompany().getAccountingType();
+		int accounttype = getCompany().getAccountingType();
 
 		if (accounttype == 1)
 			termsForm.setFields(shipMethSelect, payMethSelect, payTermsSelect,
@@ -1086,7 +1086,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		if (takenCustomer != null) {
 			// Setting salesPerson
-			selectSalesPersonFromDetailsTab = Accounter.getCompany()
+			selectSalesPersonFromDetailsTab = getCompany()
 					.getSalesPerson(takenCustomer.getSalesPerson());
 			
 			bankAccountSelect.setValue(takenCustomer.getBankAccountNo());
@@ -1098,10 +1098,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				creditLimitText.setAmount(takenCustomer.getCreditLimit());
 
 			// Setting price level
-			selectPriceLevelFromDetailsTab = Accounter.getCompany()
+			selectPriceLevelFromDetailsTab = getCompany()
 					.getPriceLevel(takenCustomer.getPriceLevel());
 			// Setting Credit Rating
-			selectCreditRatingFromDetailsTab = Accounter.getCompany()
+			selectCreditRatingFromDetailsTab = getCompany()
 					.getCreditRating(takenCustomer.getCreditRating());
 			// Setting Shipping Method
 			selectShippingMethodFromDetailsTab = Accounter
@@ -1112,19 +1112,19 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			// .getPaymentMethod();
 			payMethSelect.setComboItem(takenCustomer.getPaymentMethod());
 			// Setting payemnt term
-			selectPayTermFromDetailsTab = Accounter.getCompany()
+			selectPayTermFromDetailsTab = getCompany()
 					.getPaymentTerms(takenCustomer.getPaymentTerm());
 			// Setting Customer Group
-			selectCustomerGroupFromDetailsTab = Accounter.getCompany()
+			selectCustomerGroupFromDetailsTab = getCompany()
 					.getCustomerGroup(takenCustomer.getCustomerGroup());
 			// Setting Tax Group
 			if (company.getAccountingType() == 0)
-				selectTaxGroupFromDetailsTab = Accounter.getCompany()
+				selectTaxGroupFromDetailsTab = getCompany()
 						.getTAXItemGroup(takenCustomer.getTaxItemGroups());
 			else {
 				// settting vatcode
 
-				selectVatCodeFromDetailsTab = Accounter.getCompany()
+				selectVatCodeFromDetailsTab = getCompany()
 						.getTAXCode(takenCustomer.getTAXCode());
 				// setting vatRegistrationNumber
 				vatregno.setValue(takenCustomer.getVATRegistrationNumber());

@@ -128,19 +128,13 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 	@ReffereredObject
 	JournalEntry journalEntry;
 
-	transient boolean isImported;
+	
 	transient private boolean isOnSaveProccessed;
 
 	public TransactionPayBill() {
 		// TODO
 	}
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
 
 	public JournalEntry getJournalEntry() {
 		return journalEntry;
@@ -310,9 +304,6 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;

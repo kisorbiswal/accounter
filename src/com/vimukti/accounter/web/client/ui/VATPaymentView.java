@@ -66,7 +66,7 @@ public class VATPaymentView extends
 
 	private void getPayFromAccounts() {
 		payFromAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : Accounter.getCompany()
+		for (ClientAccount account : getCompany()
 				.getActiveAccounts()) {
 			if (account.getType() == ClientAccount.TYPE_CASH
 					|| account.getType() == ClientAccount.TYPE_BANK

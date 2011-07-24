@@ -27,7 +27,7 @@ public class Utility_R {
 
 	int version;
 
-	transient boolean isImported;
+	
 
 	public Utility_R() {
 
@@ -528,7 +528,7 @@ public class Utility_R {
 //		// " AND TR.AS_OF IN (SELECT MAX(TR1.AS_OF) FROM TAXRATES TR1 WHERE TR1.ID IN (SELECT (TR2.ID) FROM TAXRATES TR2 JOIN TAXGROUP_TAXCODE TGTC ON TR2.TAXCODE_ID = TGTC.TAXCODE_ID JOIN TAXGROUP TG ON TGTC.TAXGROUP_ID = TG.ID) AND TR1.AS_OF <= '"
 //		// ).append(transactionDate).append(
 //		// "' GROUP BY TR1.TAXCODE_ID) and TR.COMPANY_ID ="
-//		// ).append(company.getId()).toString());
+//		// ).append(company.getID()).toString());
 //
 //		double salesTaxAmount = 0D;
 //		double calculatedTaxRate = 0D;

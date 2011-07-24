@@ -132,7 +132,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	 */
 	List<TransactionReceivePayment> transactionReceivePayment;
 
-	// transient boolean isImported;
+	//
 
 	public ReceivePayment() {
 		setType(Transaction.TYPE_RECEIVE_PAYMENT);
@@ -308,25 +308,21 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	 */
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-
-		if (isImported) {
-
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
 		this.subTotal = this.amount;
-		
+
 		// this.total = this.amount;
 		//
 		// this.subTotal = this.total - this.unUsedPayments;
 
 		if (this.depositIn != null) {
-			this.depositIn.updateCurrentBalance(this, -(this.amount !=0 ? this.amount : this.total));
+			this.depositIn.updateCurrentBalance(this,
+					-(this.amount != 0 ? this.amount : this.total));
 			this.depositIn.onUpdate(session);
 		}
-		
+
 		super.onSave(session);
 
 		// the following condition checking is for UK
@@ -341,13 +337,12 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 			if (creditsAndPayments != null
 					&& DecimalUtil.isEquals(creditsAndPayments.creditAmount,
 							0.0d)) {
-				creditsAndPayments = new CreditsAndPayments(this,
-						creditsAndPayments.id);
-				this.setCreditsAndPayments(creditsAndPayments);
+				creditsAndPayments.update(this);
+
 			} else {
 				creditsAndPayments = new CreditsAndPayments(this);
-				this.setCreditsAndPayments(creditsAndPayments);
 			}
+			this.setCreditsAndPayments(creditsAndPayments);
 			session.save(creditsAndPayments);
 		}
 		if (this.getTransactionReceivePayment() != null)
@@ -386,13 +381,12 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 			if (creditsAndPayments != null
 					&& DecimalUtil.isEquals(creditsAndPayments.creditAmount,
 							0.0d)) {
-				creditsAndPayments = new CreditsAndPayments(this,
-						creditsAndPayments.id);
+				creditsAndPayments.update(this);
 				this.setCreditsAndPayments(creditsAndPayments);
 			} else {
 				creditsAndPayments = new CreditsAndPayments(this);
-				this.setCreditsAndPayments(creditsAndPayments);
 			}
+			this.setCreditsAndPayments(creditsAndPayments);
 			session.save(creditsAndPayments);
 		} else {
 			this.getCreditsAndPayments().updateBalance(this, -payment);
@@ -464,18 +458,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		if (this.transactionReceivePayment != null) {
-			for (TransactionReceivePayment ti : this.transactionReceivePayment) {
-				ti.setImported(true);
-			}
-
-		}
-
-	}
-
-	@Override
 	public Payee getInvolvedPayee() {
 
 		return this.customer;
@@ -492,15 +474,15 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		// TODO Auto-geneSrated method stub
 		if (DecimalUtil.isEquals(this.getTotal(), rp.getTotal())
 				&& DecimalUtil.isEquals(this.getAmount(), rp.getAmount())
-				&& DecimalUtil.isEquals(this.getDiscountTotalSum(), rp
-						.getDiscountTotalSum())
+				&& DecimalUtil.isEquals(this.getDiscountTotalSum(),
+						rp.getDiscountTotalSum())
 				&& DecimalUtil.isEquals(this.getTotal(), rp.getTotal())
-				&& DecimalUtil.isEquals(this.getTotalAppliedCredits(), rp
-						.getTotalAppliedCredits())
-				&& DecimalUtil.isEquals(this.getTotalCashDiscount(), rp
-						.getTotalCashDiscount())
-				&& DecimalUtil.isEquals(this.getLineTotalSum(), rp
-						.getLineTotalSum())
+				&& DecimalUtil.isEquals(this.getTotalAppliedCredits(),
+						rp.getTotalAppliedCredits())
+				&& DecimalUtil.isEquals(this.getTotalCashDiscount(),
+						rp.getTotalCashDiscount())
+				&& DecimalUtil.isEquals(this.getLineTotalSum(),
+						rp.getLineTotalSum())
 				&& this.getTransactionItems().size() == rp
 						.getTransactionItems().size()
 				&& (this.transactionDate != null && rp.transactionDate != null) ? (this.transactionDate
@@ -567,7 +549,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 					lifeCycle.onUpdate(session);
 				}
 			}
-			
+
 			if (this.status != Transaction.STATUS_DELETED)
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}

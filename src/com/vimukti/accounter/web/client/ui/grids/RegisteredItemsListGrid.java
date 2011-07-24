@@ -78,7 +78,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		case 1:
 			return item.getAssetNumber();
 		case 2:
-			return Accounter.getCompany().getAccount(
+			return getCompany().getAccount(
 					item.getAssetAccount()) != null ? Accounter
 					.getCompany().getAccount(item.getAssetAccount()).getName()
 					: "";
@@ -239,7 +239,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	private String getAccount(ClientFixedAsset obj) {
 
-		return Accounter.getCompany()
+		return getCompany()
 				.getAccount(obj.getAssetAccount()) != null ? Accounter
 				.getCompany().getAccount(obj.getAssetAccount()).getName() : "";
 	}

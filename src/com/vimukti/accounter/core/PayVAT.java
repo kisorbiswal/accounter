@@ -50,7 +50,7 @@ public class PayVAT extends Transaction implements IAccounterServerCore,
 
 	List<TransactionPayVAT> transactionPayVAT;
 
-	// transient boolean isImported;
+	// 
 
 	/**
 	 * @return the payFrom
@@ -157,20 +157,7 @@ public class PayVAT extends Transaction implements IAccounterServerCore,
 		this.transactionPayVAT = transactionPayVAT;
 	}
 
-	/**
-	 * @return the isImported
-	 */
-	public boolean isImported() {
-		return isImported;
-	}
 
-	/**
-	 * @param isImported
-	 *            the isImported to set
-	 */
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-	}
 
 	@Override
 	public boolean onDelete(Session s) throws CallbackException {
@@ -186,9 +173,6 @@ public class PayVAT extends Transaction implements IAccounterServerCore,
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;

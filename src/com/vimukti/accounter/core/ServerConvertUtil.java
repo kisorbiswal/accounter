@@ -206,7 +206,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 			D dt = null;
 			Class<D> serverCoreClass = getServerEqivalentClass(src.getClass());
 			if (!isNotMappingEntity(serverCoreClass)) {
-				// dst = (D) session.get(serverCoreClass, src.getId());
+				// dst = (D) session.get(serverCoreClass, src.getID());
 				dt = (D) loadObjectByid(session, serverCoreClass
 						.getSimpleName(), src.getID());
 			}
@@ -335,7 +335,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 
 								dstField.set(dst, loadObjectByid(session,
 										dstfieldType.getSimpleName(),
-										(String) srcField.get(src)));
+										(Long) srcField.get(src)));
 							}
 
 						} else if (isString(dstField.getType())) {

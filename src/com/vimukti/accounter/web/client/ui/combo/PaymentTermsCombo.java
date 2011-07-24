@@ -18,12 +18,12 @@ public class PaymentTermsCombo extends CustomCombo<ClientPaymentTerms> {
 	 */
 	public PaymentTermsCombo(String title) {
 		super(title);
-		initCombo(Accounter.getCompany().getPaymentsTerms());
+		initCombo(getCompany().getPaymentsTerms());
 	}
 
 	public PaymentTermsCombo(String title, boolean isAddNewRequired) {
 		super(title, isAddNewRequired, 1);
-		initCombo(Accounter.getCompany().getPaymentsTerms());
+		initCombo(getCompany().getPaymentsTerms());
 	}
 
 	@Override

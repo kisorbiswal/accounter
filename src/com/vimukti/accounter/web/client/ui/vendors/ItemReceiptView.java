@@ -213,7 +213,7 @@ public class ItemReceiptView extends
 
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
-		int accountType = Accounter.getCompany().getAccountingType();
+		int accountType = getCompany().getAccountingType();
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			bottomLayout.add(memoForm);
 			bottomLayout.add(vatCheckform);
@@ -263,7 +263,7 @@ public class ItemReceiptView extends
 		selectedPurchaseOrders = new ArrayList<ClientPurchaseOrder>();
 
 		vendorCombo.setComboItem(vendor);
-		paymentTermsSelected(Accounter.getCompany().getPaymentTerms(
+		paymentTermsSelected(getCompany().getPaymentTerms(
 				vendor.getPaymentTerms()));
 		if (transactionObject == null)
 			getPurchaseOrders();
@@ -345,7 +345,7 @@ public class ItemReceiptView extends
 	@Override
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 		ClientItemReceipt itemReceipt = (ClientItemReceipt) transactionObject;
-		ClientCompany company = Accounter.getCompany();
+		ClientCompany company = getCompany();
 		this.vendor = company.getVendor(itemReceipt.getVendor());
 		this.contact = itemReceipt.getContact();
 		if (itemReceipt.getPhone() != null)
@@ -464,7 +464,7 @@ public class ItemReceiptView extends
 					clientItem.setType(item.getType());
 					clientItem.setItem(item.getItem());
 					clientItem.setAccount(item.getAccount());
-					if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+					if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 						clientItem.setVatItem(item.getVatItem());
 						clientItem.setTaxCode(item.getTaxCode());
 						clientItem.setTaxable(item.isTaxable());

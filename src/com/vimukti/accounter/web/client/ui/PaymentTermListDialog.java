@@ -85,7 +85,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	}
 
 	public void createPaymentTerms() {
-		if (Utility.isObjectExist(Accounter.getCompany()
+		if (Utility.isObjectExist(getCompany()
 				.getPaymentsTerms(), dialog.payTermText.getValue().toString())) {
 			Accounter.showError("Payterms  Already Exists");
 		} else {
@@ -240,7 +240,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 	@Override
 	protected List<ClientPaymentTerms> getRecords() {
-		return (List<ClientPaymentTerms>) Accounter.getCompany()
+		return (List<ClientPaymentTerms>) getCompany()
 				.getPaymentsTerms();
 	}
 

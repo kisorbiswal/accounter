@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 public class VatActionFactory extends AbstractActionFactory {
 	public static NewVatItemAction getNewVatItemAction() {
 		String flag;
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			flag = actionsConstants.newVatitem();
 		else
 			flag = actionsConstants.newTaxItem();

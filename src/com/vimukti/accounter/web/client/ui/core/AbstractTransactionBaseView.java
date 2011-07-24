@@ -147,7 +147,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 			if (clientTransactionItem.getTaxCode() != null
 					&& clientTransactionItem.getTaxCode().length() != 0) {
 
-				taxCode = Accounter.getCompany().getTAXCode(
+				taxCode = getCompany().getTAXCode(
 						clientTransactionItem.getTaxCode());
 
 				// if (clientTransactionItem.getTaxItem() != null
@@ -174,7 +174,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	}
 
 	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			switch (gridType) {
 			case JOURNALENTRY_TRANSACTION_GRID:
 				break;
@@ -455,13 +455,13 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 				// resetForms();
 				// reload();
 				if (!History.getToken().equals(getAction().getHistoryToken())) {
-					MainFinanceWindow.oldToken = History.getToken();
-					HistoryTokenUtils.setPresentToken(getAction(), null);
+					
+					
 				}
 				getAction().run(null, true);
 
 			} else {
-				HistoryTokenUtils.setPreviousToken();
+				
 				MainFinanceWindow.getViewManager().closeView(this.getAction(),
 						result);
 			}
@@ -862,10 +862,10 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	public void validateVATCODEBaseOnTransactionDate()
 			throws InvalidEntryException {
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			for (ClientTransactionItem selectItem : this.transactionItems) {
 				if (selectItem.getTaxCode() != null) {
-					ClientTAXCode code = Accounter.getCompany()
+					ClientTAXCode code = getCompany()
 							.getTAXCode(selectItem.getTaxCode());
 
 					if (code.getName().equalsIgnoreCase("New S")

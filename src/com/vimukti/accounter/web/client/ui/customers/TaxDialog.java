@@ -80,7 +80,7 @@ public class TaxDialog extends BaseDialog {
 							Action action = CompanyActionFactory
 									.getManageSalesTaxGroupsAction();
 							action.setActionSource(actionSource);
-							HistoryTokenUtils.setPresentToken(action, null);
+							
 							action.run(null, true);
 						} catch (Throwable e) {
 							Accounter.showError(Accounter
@@ -96,7 +96,7 @@ public class TaxDialog extends BaseDialog {
 							Action action = VatActionFactory
 									.getNewVatItemAction();
 							action.setActionSource(actionSource);
-							HistoryTokenUtils.setPresentToken(action, null);
+							
 							action.run(null, true);
 							// VatActionFactory.getNewVatItemAction().run(null,
 							// true);

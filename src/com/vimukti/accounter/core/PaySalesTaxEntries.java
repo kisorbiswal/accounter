@@ -26,8 +26,6 @@ public class PaySalesTaxEntries implements IAccounterServerCore, Lifecycle {
 
 	long id;
 
-	public long id;
-
 	Transaction transaction;
 
 	TAXItem taxItem;
@@ -44,7 +42,7 @@ public class PaySalesTaxEntries implements IAccounterServerCore, Lifecycle {
 	//	
 	// boolean isVoid;
 
-	transient boolean isImported;
+	
 
 	FinanceDate transactionDate;
 
@@ -100,20 +98,6 @@ public class PaySalesTaxEntries implements IAccounterServerCore, Lifecycle {
 		this.transactionDate = transactionDate;
 	}
 
-	/**
-	 * @return the isImported
-	 */
-	public boolean isImported() {
-		return isImported;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id){
-		this.id = id;
-	}
 
 	/**
 	 * @param taxItem
@@ -178,9 +162,6 @@ public class PaySalesTaxEntries implements IAccounterServerCore, Lifecycle {
 		return taxAgency;
 	}
 
-	public long getId() {
-		return id;
-	}
 
 	public double getAmount() {
 		return amount;
@@ -202,15 +183,9 @@ public class PaySalesTaxEntries implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public long getID(){
-		// TODO Auto-generated method stub
 		return this.id;
 	}
 
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
@@ -226,15 +201,9 @@ public class PaySalesTaxEntries implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		this.id = this.id == null || this.id != null
-				&& this.id.isEmpty() ? SecureUtils.createID()
-				: this.id;
 		return false;
 	}
 
@@ -244,11 +213,6 @@ public class PaySalesTaxEntries implements IAccounterServerCore, Lifecycle {
 		return false;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

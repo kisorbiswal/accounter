@@ -83,7 +83,7 @@ public class Vendor extends Payee implements Lifecycle {
 	FinanceDate createdDate;
 	FinanceDate lastModifiedDate;
 
-	transient boolean isImported;
+	
 
 	/**
 	 * @return the instanceVersion
@@ -97,13 +97,6 @@ public class Vendor extends Payee implements Lifecycle {
 		return version;
 	}
 
-	/**
-	 * @return the id
-	 */
-	@Override
-	public long getId() {
-		return id;
-	}
 
 	/**
 	 * @return the address
@@ -357,9 +350,6 @@ public class Vendor extends Payee implements Lifecycle {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;

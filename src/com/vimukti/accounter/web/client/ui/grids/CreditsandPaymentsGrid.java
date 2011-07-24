@@ -270,7 +270,7 @@ public class CreditsandPaymentsGrid extends
 			r.setPayee(rec.getPayee());
 			r.setTransactionCreditsAndPayments(rec
 					.getTransactionCreditsAndPayments());
-			r.setid(rec.getID());
+			r.setID(rec.getID());
 			r.setTransaction(rec.getTransaction());
 			r.setActualAmt(rec.getActualAmt());
 			this.actualRecords.add(r);
@@ -289,7 +289,7 @@ public class CreditsandPaymentsGrid extends
 			r.setPayee(rec.getPayee());
 			r.setTransactionCreditsAndPayments(rec
 					.getTransactionCreditsAndPayments());
-			r.setid(rec.getID());
+			r.setID(rec.getID());
 			r.setTransaction(rec.getTransaction());
 			r.setActualAmt(rec.getActualAmt());
 			r.setRecordChanged(rec.isRecordChanged());

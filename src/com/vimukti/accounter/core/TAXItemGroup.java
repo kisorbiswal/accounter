@@ -47,7 +47,7 @@ public class TAXItemGroup implements IAccounterServerCore, Lifecycle {
 	boolean isSalesType;
 	boolean isPercentage;
 
-	transient boolean isImported;
+	
 	String createdBy;
 	String lastModifier;
 	FinanceDate createdDate;

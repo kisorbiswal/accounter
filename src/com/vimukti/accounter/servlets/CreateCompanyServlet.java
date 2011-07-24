@@ -148,7 +148,7 @@ public class CreateCompanyServlet extends BaseServlet {
 	private ClientUser createDefaultUser(HttpServletRequest request,
 			String identityID) {
 		ClientUser admin = new ClientUser();
-		admin.setid(identityID);
+		admin.setID(identityID);
 		admin.setFirstName(request.getParameter("firstName"));
 		admin.setLastName(request.getParameter("lastName"));
 		admin.setFullName(admin.getFirstName() + " " + admin.getLastName());
@@ -230,7 +230,7 @@ public class CreateCompanyServlet extends BaseServlet {
 		// company.setTotalNoOfUsers(Integer.parseInt(noOfUsers));
 		// company.setTotalNoOfLiteUsers(Integer.parseInt(noOfLiteUsers));
 		company.setTotalSize(1024 * 1024 * 1024);
-		// company.setId(SecureUtils.createID());
+		// company.setID(SecureUtils.createID());
 		// company.setCompanyDomainName(name);
 		// company.setCompanyDisplayName(name);
 		// company.setSubscriptionType("FULL");

@@ -21,7 +21,7 @@ public class CashBackAccountsCombo extends AccountCombo {
 
 	public List<ClientAccount> getAccounts() {
 		cashBackAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : Accounter.getCompany()
+		for (ClientAccount account : getCompany()
 				.getActiveAccounts()) {
 			if (account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
 					&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
@@ -40,7 +40,7 @@ public class CashBackAccountsCombo extends AccountCombo {
 		action.setActionSource(this);
 		action.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.CASH_BACK_ACCOUNTS_COMBO));
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 
 	}

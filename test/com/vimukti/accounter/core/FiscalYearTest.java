@@ -125,8 +125,8 @@ public class FiscalYearTest extends
 			e.printStackTrace();
 			fail("There should not be any exception");
 		}
-		assertNotNull(company.getId());
-		List<Account> accounts = accounterDao.getAccounts(company.getId());
+		assertNotNull(company.getID());
+		List<Account> accounts = accounterDao.getAccounts(company.getID());
 		Iterator<Account> i = accounts.iterator();
 		while (i.hasNext()) {
 			Account acc = (Account) i.next();
@@ -134,7 +134,7 @@ public class FiscalYearTest extends
 			assertEquals(acc.getName(), acc.getOpeningBalance(), 0.0);
 			assertEquals(acc.getName(), acc.getCurrentBalance(), 0.0);
 		}
-		setDefaultAccountVariables(accounts, company.getId());
+		setDefaultAccountVariables(accounts, company.getID());
 	}
 
 	public void testCreateFiscalYear() throws Exception {
@@ -184,9 +184,9 @@ public class FiscalYearTest extends
 
 		company = accounterDao.getCompany(1L);
 
-		double totalBalance = accounterDao.getAccount(company.getId(),
+		double totalBalance = accounterDao.getAccount(company.getID(),
 				"Opening Balances").getTotalBalance();
-		double currentBalance = accounterDao.getAccount(company.getId(),
+		double currentBalance = accounterDao.getAccount(company.getID(),
 				"Opening Balances").getCurrentBalance();
 
 		Account AccountExpense = new Account();
@@ -226,7 +226,7 @@ public class FiscalYearTest extends
 		acc.setNumber(num);
 		acc.setName(name);
 		acc.setType(type);
-		acc.setParent(accounterDao.getAccount(company.getId(), p));
+		acc.setParent(accounterDao.getAccount(company.getID(), p));
 		acc.setIsActive(a);
 		acc.setIncrease(i);
 		acc.setOpeningBalance(bal);
@@ -320,13 +320,13 @@ public class FiscalYearTest extends
 		customer.setName(name);
 		customer.setFileAs(FAs);
 		customer.setCustomerGroup(cg != null ? accounterDao.getCustomerGroup(
-				company.getId(), cg) : null);
+				company.getID(), cg) : null);
 		customer.setEmails(em);
 		customer.setAddress(a);
 		customer.setContacts(c);
 		try {
 			customer.setCustomerGroup(accounterDao.getCustomerGroup(company
-					.getId(), 1L));
+					.getID(), 1L));
 		} catch (DAOException e1) {
 			e1.printStackTrace();
 		}
@@ -349,16 +349,16 @@ public class FiscalYearTest extends
 		if (createCustomers) {
 			company = accounterDao.getCompany(1L);
 			double amt1 = 0.0, amt2 = 0.0;
-			double OBCurrentBalance = accounterDao.getAccount(company.getId(),
+			double OBCurrentBalance = accounterDao.getAccount(company.getID(),
 					AccounterConstants.OPENING_BALANCE).getCurrentBalance(), OBTotalBalance = accounterDao
-					.getAccount(company.getId(),
+					.getAccount(company.getID(),
 							AccounterConstants.OPENING_BALANCE)
 					.getTotalBalance();
 
 			ArrayList<Customer> custs = new ArrayList<Customer>();
 			try {
 
-				amt1 = accounterDao.getAccount(company.getId(),
+				amt1 = accounterDao.getAccount(company.getID(),
 						"Accounts Receivable").getOpeningBalance();
 
 				custs.add(testCallCreateCustomer("Customer1",
@@ -439,7 +439,7 @@ public class FiscalYearTest extends
 		item.setLineTotal(q * up);
 		item.isTaxable = (it);
 		item.setAccount(accounterDao.getAccount(accounterDao.getCompany(1L)
-				.getId(), ac));
+				.getID(), ac));
 		item.setTransaction(inv);
 		return item;
 	}
@@ -453,13 +453,13 @@ public class FiscalYearTest extends
 			// For every instruction, this array will get updated and later we
 			// check these values with the stored values in the database.
 
-			List<Item> items = accounterDao.getItems(company.getId());
+			List<Item> items = accounterDao.getItems(company.getID());
 			ListIterator<Item> its = items.listIterator();
 
-			List<Account> accounts = accounterDao.getAccounts(company.getId());
+			List<Account> accounts = accounterDao.getAccounts(company.getID());
 			ListIterator<Account> acs = accounts.listIterator();
 
-			List<TaxCode> codes = accounterDao.getTaxCodes(company.getId());
+			List<TaxCode> codes = accounterDao.getTaxCodes(company.getID());
 			for (int i = 0; i < codes.size(); i++) {
 				if (codes.get(i).getName().equals("None"))
 					codes.remove(i);
@@ -472,7 +472,7 @@ public class FiscalYearTest extends
 			// .getTaxAgency().getName(), company)] = codes.get(i)
 			// .getTaxAgency().getBalance();
 
-			setDefaultAccountVariables(accounts, company.getId());
+			setDefaultAccountVariables(accounts, company.getID());
 
 			Invoice invoice1 = new Invoice();
 			Invoice invoice2 = new Invoice();
@@ -686,12 +686,12 @@ public class FiscalYearTest extends
 			CustomerCreditMemo ccm) throws Exception {
 
 		ccm.setCustomer(accounterDao.getCustomer(accounterDao.getCompany(1L)
-				.getId(), cu));
+				.getID(), cu));
 		ccm.setCompany(accounterDao.getCompany(1L));
 		ccm.setType(Transaction.TYPE_CUSTOMER_CREDIT_MEMO);
 		ccm.setDate(format.parse(d));
 		ccm.setSalesPerson(sp != null ? accounterDao.getSalesPerson(
-				accounterDao.getCompany(1L).getId(), sp) : null);
+				accounterDao.getCompany(1L).getID(), sp) : null);
 		TaxGroup t = tg != null ? accounterDao.getTaxGroup(cm, tg) : null;
 		for (int i = 0; i < ti.size(); i++) {
 			if (ti.get(i).isTaxable)
@@ -710,7 +710,7 @@ public class FiscalYearTest extends
 		accounter.createCustomerCreditMemo(ccm);
 		if (checkTesting)
 			assertEquals(customerBalance - ccm.getTotal(), accounterDao
-					.getCustomer(company.getId(), ccm.getCustomer().getId())
+					.getCustomer(company.getID(), ccm.getCustomer().getID())
 					.getBalance());
 		return ccm;
 
@@ -726,7 +726,7 @@ public class FiscalYearTest extends
 		item.setLineTotal(q * up);
 		item.isTaxable = (it);
 		item.setAccount(accounterDao.getAccount(accounterDao.getCompany(1L)
-				.getId(), ac));
+				.getID(), ac));
 		item.setTransaction(ccm);
 		return item;
 	}
@@ -740,20 +740,20 @@ public class FiscalYearTest extends
 			// For every instruction, this array will get updated and later we
 			// check these values with the stored values in the database.
 
-			List<Item> items = accounterDao.getItems(company.getId());
+			List<Item> items = accounterDao.getItems(company.getID());
 			ListIterator<Item> its = items.listIterator();
 
-			List<Account> accounts = accounterDao.getAccounts(company.getId());
+			List<Account> accounts = accounterDao.getAccounts(company.getID());
 			ListIterator<Account> acs = accounts.listIterator();
 
-			List<TaxCode> codes = accounterDao.getTaxCodes(company.getId());
+			List<TaxCode> codes = accounterDao.getTaxCodes(company.getID());
 			for (int i = 0; i < codes.size(); i++) {
 				if (codes.get(i).getName().equals("None"))
 					codes.remove(i);
 			}
 			ListIterator<TaxCode> tcs = codes.listIterator();
 
-			setDefaultAccountVariables(accounts, company.getId());
+			setDefaultAccountVariables(accounts, company.getID());
 
 			CustomerCreditMemo creditMemo1 = new CustomerCreditMemo();
 			CustomerCreditMemo creditMemo2 = new CustomerCreditMemo();

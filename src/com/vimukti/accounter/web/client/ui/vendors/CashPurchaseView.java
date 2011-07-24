@@ -149,7 +149,7 @@ public class CashPurchaseView extends
 		payFromCombo = createPayFromCombo(vendorConstants.Payfrom());
 		// payFromCombo.setWidth(100);
 		payFromCombo.setPopupWidth("500px");
-		checkNo = createCheckNumberItem(Accounter.getCompany()
+		checkNo = createCheckNumberItem(getCompany()
 				.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? vendorConstants
 				.chequeNo()
 				: vendorConstants.checkno());
@@ -272,7 +272,7 @@ public class CashPurchaseView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setWidth("100%");
 			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
@@ -352,7 +352,7 @@ public class CashPurchaseView extends
 		this.payFromAccount = account;
 		payFromCombo.setComboItem(payFromAccount);
 		if (account != null
-				&& Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
+				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
 				.equalsIgnoreCase(Accounter.getVendorsMessages()
 						.cheque())
 				: paymentMethod.equalsIgnoreCase(Accounter
@@ -404,7 +404,7 @@ public class CashPurchaseView extends
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 		ClientCashPurchase cashPurchaseToBeEdited = (ClientCashPurchase) transactionObject;
 		contactSelected(cashPurchaseToBeEdited.getContact());
-		vendorSelected(Accounter.getCompany().getVendor(
+		vendorSelected(getCompany().getVendor(
 				cashPurchaseToBeEdited.getVendor()));
 		phoneSelect.setValue(cashPurchaseToBeEdited.getPhone());
 		this.billingAddress = cashPurchaseToBeEdited.getVendorAddress();
@@ -420,7 +420,7 @@ public class CashPurchaseView extends
 		// : "");
 		paymentMethodCombo.setComboItem(cashPurchaseToBeEdited
 				.getPaymentMethod());
-		accountSelected(Accounter.getCompany().getAccount(
+		accountSelected(getCompany().getAccount(
 				cashPurchaseToBeEdited.getPayFrom()));
 		// transactionDateItem.setEnteredDate(cashPurchaseToBeEdited.get)
 		initMemoAndReference();
@@ -488,7 +488,7 @@ public class CashPurchaseView extends
 
 	private void setDisableStateForCheckNo(String paymentMethod) {
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
 				.equalsIgnoreCase(Accounter.getVendorsMessages()
 						.cheque())
 				: paymentMethod.equalsIgnoreCase(Accounter
@@ -500,7 +500,7 @@ public class CashPurchaseView extends
 
 		}
 		if (transactionObject != null) {
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
 					.equalsIgnoreCase(Accounter.getVendorsMessages()
 							.cheque())
 					: paymentMethod.equalsIgnoreCase(Accounter

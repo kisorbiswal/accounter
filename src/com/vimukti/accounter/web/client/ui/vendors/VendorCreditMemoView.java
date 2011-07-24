@@ -80,7 +80,7 @@ public class VendorCreditMemoView extends
 	public void initTransactionViewData(ClientTransaction transactionObject) {
 
 		ClientVendorCreditMemo vendorCreditMemo = (ClientVendorCreditMemo) transactionObject;
-		vendorSelected(Accounter.getCompany().getVendor(
+		vendorSelected(getCompany().getVendor(
 				vendorCreditMemo.getVendor()));
 		contactSelected(vendorCreditMemo.getContact());
 		phoneSelect.setValue(vendorCreditMemo.getPhone());
@@ -265,7 +265,7 @@ public class VendorCreditMemoView extends
 		VerticalPanel bottomPanel = new VerticalPanel();
 		bottomPanel.setWidth("100%");
 
-		int accountType = Accounter.getCompany().getAccountingType();
+		int accountType = getCompany().getAccountingType();
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 
 			VerticalPanel vPanel = new VerticalPanel();

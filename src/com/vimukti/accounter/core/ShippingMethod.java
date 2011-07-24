@@ -55,7 +55,7 @@ public class ShippingMethod extends CreatableObject implements
 	/**
 	 * @return the id
 	 */
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 

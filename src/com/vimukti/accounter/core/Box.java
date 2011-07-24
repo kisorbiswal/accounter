@@ -24,12 +24,6 @@ public class Box implements IAccounterServerCore {
 
 	List<TAXRateCalculation> taxRateCalculations;
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
 
 
 	/**
@@ -95,15 +89,10 @@ public class Box implements IAccounterServerCore {
 
 	@Override
 	public long getID(){
-		// TODO Auto-generated method stub
 		return id;
 	}
 
 
-	@Override
-	public void setImported(boolean isImported) {
-
-	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

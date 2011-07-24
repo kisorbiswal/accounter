@@ -116,12 +116,12 @@ public class FinanceTest extends TestCase {
 		Company company = new Company(Company.ACCOUNTING_TYPE_UK, Utility
 				.getCurrentSession());
 		company.setName("Company1");
-		company.setStringID(SecureUtils.createID());
+		company.setID(SecureUtils.createID());
 		// session.save(company);
 		accounter.createObject(company);
 		Company cp = accounter.getObjectById(Company.class, company
-				.getStringID());
-		System.out.println(cp.getStringID());
+				.getID());
+		System.out.println(cp.getID());
 		// Account account = accounterService.getObjectByName(Account.class,
 		// AccounterConstants.PENDING_ITEM_RECEIPTS);
 		// account.setOpeningBalance(1000);
@@ -216,7 +216,7 @@ public class FinanceTest extends TestCase {
 			ArrayList<Customer> custs = new ArrayList<Customer>();
 			try {
 
-				// amt1 = accounterDao.getAccount(company.getId(),
+				// amt1 = accounterDao.getAccount(company.getID(),
 				// "Accounts Receivable").getOpeningBalance();
 
 				// for customer1
@@ -817,14 +817,14 @@ public class FinanceTest extends TestCase {
 				assertNotNull(amt1);
 				assertNotNull(amt2);
 
-				// Account acc = accounterDao.getAccount(company.getId(),
+				// Account acc = accounterDao.getAccount(company.getID(),
 				// "Accounts Payable");
 				// assertEquals(AccounterConstants.ACCOUNTS_PAYABLE,
 				// (amt1 + amt2), acc.getCurrentBalance());
 				// assertEquals(AccounterConstants.ACCOUNTS_PAYABLE,
 				// (amt1 + amt2), acc.getTotalBalance());
 				//
-				// acc = accounterDao.getAccount(company.getId(),
+				// acc = accounterDao.getAccount(company.getID(),
 				// AccounterConstants.OPENING_BALANCE);
 				// assertEquals(AccounterConstants.OPENING_BALANCE,
 				// (OBCurrentBalance - amt1 - amt2), acc
@@ -919,7 +919,7 @@ public class FinanceTest extends TestCase {
 			Iterator<Estimate> i = l.iterator();
 			while (i.hasNext()) {
 				Estimate e = i.next();
-				assertEquals("Estimate No " + e.getId() + "'s status", e
+				assertEquals("Estimate No " + e.getID() + "'s status", e
 						.getStatus(),
 						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 			}
@@ -975,7 +975,7 @@ public class FinanceTest extends TestCase {
 		// while(i.hasNext())
 		// {
 		// SalesOrder e=i.next();
-		// assertEquals("SalesOrder No "+ e.getId()+"'s status", e.getStatus(),
+		// assertEquals("SalesOrder No "+ e.getID()+"'s status", e.getStatus(),
 		// Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 		// }
 		// }
@@ -986,25 +986,25 @@ public class FinanceTest extends TestCase {
 		// SalesOrder s= new SalesOrder();
 		Customer c1 = accounter.getObjectByName(Customer.class, "Customer1");
 		List<EstimatesAndSalesOrdersList> sl = accounterGUIDao
-				.getEstimatesAndSalesOrdersList(c1.getStringID());
+				.getEstimatesAndSalesOrdersList(c1.getID());
 		System.out.println("sl size=" + sl.size());
 		List<SalesOrdersList> sol = accounterGUIDao.getSalesOrdersList(c1
-				.getStringID());
+				.getID());
 		System.out.println("SalesOrders list size=" + sol.size());
 
 		Vendor v1 = accounter.getObjectByName(Vendor.class, "Vendor1");
 
 		List<PurchaseOrdersAndItemReceiptsList> poil = accounterGUIDao
-				.getPurchasesAndItemReceiptsList(v1.getStringID());
+				.getPurchasesAndItemReceiptsList(v1.getID());
 		System.out.println("PurchaseOrdersAndItemReceiptsList size="
 				+ poil.size());
 
 		List<PurchaseOrdersList> pol = accounterGUIDao.getPurchaseOrdersList(v1
-				.getStringID());
+				.getID());
 		System.out.println("PurchaseOrdersList size=" + pol.size());
 
 		List<PurchaseOrdersList> pol2 = accounterGUIDao
-				.getNotReceivedPurchaseOrdersList(v1.getStringID());
+				.getNotReceivedPurchaseOrdersList(v1.getID());
 		System.out.println("NotReceivedPurchaseOrdersList size=" + pol2.size());
 
 	}
@@ -1112,7 +1112,7 @@ public class FinanceTest extends TestCase {
 		accounter.createObject(inv);
 		if (checkTesting) {
 			customer = accounter.getObjectById(Customer.class, inv
-					.getCustomer().getStringID());
+					.getCustomer().getID());
 			assertEquals(customerBalance + inv.getTotal(), customer
 					.getBalance());
 		}

@@ -294,7 +294,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 		List<ClientEntry> allGivenRecords = grid.getRecords();
 		// for (ClientEntry entry : allGivenRecords) {
-		// entry.setid("");
+		// entry.setID("");
 		// }
 		journalEntry.setEntry(allGivenRecords);
 		transactionObject = journalEntry;
@@ -474,7 +474,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 			rec[i] = takenJournalEntry.getEntry().get(i);
 			@SuppressWarnings("unused")
-			ClientCompany company = Accounter.getCompany();
+			ClientCompany company = getCompany();
 			rec[i].setVoucherNumber(entry.getVoucherNumber());
 
 			// FIXME--The date need to be set for every record

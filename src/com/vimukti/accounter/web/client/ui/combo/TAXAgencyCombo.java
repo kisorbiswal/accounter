@@ -10,17 +10,17 @@ public class TAXAgencyCombo extends CustomCombo<ClientTAXAgency> {
 
 	public TAXAgencyCombo(String title) {
 		super(title);
-		initCombo(Accounter.getCompany().getActiveTAXAgencies());
+		initCombo(getCompany().getActiveTAXAgencies());
 	}
 
 	public TAXAgencyCombo(String title, boolean isAddNewRequire) {
 		super(title, isAddNewRequire, 1);
-		initCombo(Accounter.getCompany().getActiveTAXAgencies());
+		initCombo(getCompany().getActiveTAXAgencies());
 	}
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		if(Accounter.getCompany().getAccountingType()== 0)
+		if(getCompany().getAccountingType()== 0)
 			return Accounter.getAccounterComboConstants().newTaxAgency();
 		else
 		return Accounter.getAccounterComboConstants().newVATAgency();
@@ -31,7 +31,7 @@ public class TAXAgencyCombo extends CustomCombo<ClientTAXAgency> {
 	public void onAddNew() {
 		Action action = CompanyActionFactory.getNewTAXAgencyAction();
 		action.setActionSource(this);
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 	}
 

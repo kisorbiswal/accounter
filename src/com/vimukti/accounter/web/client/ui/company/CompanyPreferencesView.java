@@ -117,7 +117,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 	public CompanyPreferencesView() {
 		this.validationCount = 2;
-		this.company = Accounter.getCompany();
+		this.company = getCompany();
 		this.getService = Accounter.createGETService();
 		this.crudService = Accounter.createCRUDService();
 
@@ -159,7 +159,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 						.getIsAccuralBasis());
 
 		}
-		this.company = Accounter.getCompany();
+		this.company = getCompany();
 		if (this.company != null) {
 			companyNameText.setValue(company.getName());
 			trandigNameText.setValue(company.getTradingName());
@@ -185,7 +185,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			}
 			registrationNumberText.setValue(company.getRegistrationNumber());
 
-			doupaySalesChecBox.setValue(Accounter.getCompany()
+			doupaySalesChecBox.setValue(getCompany()
 					.getPreferences().getDoYouPaySalesTax());
 
 			if (doupaySalesChecBox.getValue() == Boolean.FALSE) {
@@ -432,7 +432,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// taxesForm.setPadding(10);
 
 		doupaySalesChecBox = new CheckboxItem();
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			doupaySalesChecBox.setTitle(companyMessges.doYoupaySalesTaxes());
 
 		} else {
@@ -445,7 +445,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		vatRegNumber.setWidth(100);
 		vatRegNumber.setDisabled(false);
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			doupaySalesChecBox.addChangeHandler(new ChangeHandler() {
 
 				private FocusWidget taxgroupBtn;
@@ -483,7 +483,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 						}
 					});
 		}
-		vatRegNumber.setValue(Accounter.getCompany().getpreferences()
+		vatRegNumber.setValue(getCompany().getpreferences()
 				.getVATregistrationNumber());
 		taxgroupBtn = new AccounterButton(companyMessges.taxgroups());
 		// taxgroupBtn.setColSpan("*");
@@ -731,7 +731,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		if (!list2.isEmpty())
 			clientCompany.setAddresses(list2);
 		else
-			clientCompany.setAddresses(Accounter.getCompany()
+			clientCompany.setAddresses(getCompany()
 					.getAddresses());
 
 		clientCompany

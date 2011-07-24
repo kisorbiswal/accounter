@@ -117,7 +117,7 @@ public class ReceivePaymentView extends
 			return;
 		}
 		if (customer != null && customerCombo != null) {
-			customerCombo.setComboItem(Accounter.getCompany()
+			customerCombo.setComboItem(getCompany()
 					.getCustomer(selectedCustomer.getID()));
 		}
 		this.customer = selectedCustomer;
@@ -570,7 +570,7 @@ public class ReceivePaymentView extends
 		payForm.setIsGroup(true);
 		payForm.setGroupTitle(customerConstants.payment());
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			payForm.setFields(customerCombo, amtText, paymentMethodCombo);
 		} else
 			payForm.setFields(customerCombo, amtText, paymentMethodCombo);
@@ -860,12 +860,12 @@ public class ReceivePaymentView extends
 
 		paymentToBeEdited = (ClientReceivePayment) transactionObject;
 
-		this.customer = Accounter.getCompany().getCustomer(
+		this.customer = getCompany().getCustomer(
 				paymentToBeEdited.getCustomer());
-		customerSelected(Accounter.getCompany().getCustomer(
+		customerSelected(getCompany().getCustomer(
 				paymentToBeEdited.getCustomer()));
 
-		depositInAccountSelected(Accounter.getCompany().getAccount(
+		depositInAccountSelected(getCompany().getAccount(
 				paymentToBeEdited.getDepositIn()));
 
 		this.transactionItems = paymentToBeEdited.getTransactionItems();
@@ -882,7 +882,7 @@ public class ReceivePaymentView extends
 		initTransactionTotalNonEditableItem();
 		List<ClientTransactionReceivePayment> tranReceivePaymnetsList = paymentToBeEdited
 				.getTransactionReceivePayment();
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			initListGridData(tranReceivePaymnetsList);
 		else {
 			initListGridData(tranReceivePaymnetsList);

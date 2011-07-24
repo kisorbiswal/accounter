@@ -32,12 +32,6 @@ public class UnitOfMeasure implements IAccounterServerCore {
 		return version;
 	}
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
 
 	/**
 	 * @return the type

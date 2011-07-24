@@ -117,7 +117,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	String VATtaxAgencyName = AccounterConstants.DEFAULT_VAT_AGENCY_NAME;
 	public long id;
 	// String legalName = "";
-	transient boolean isImported;
+	
 
 	public CompanyPreferences() {
 		// TODO
@@ -236,12 +236,6 @@ public class CompanyPreferences implements IAccounterServerCore {
 		this.trackVAT = trackVAT;
 	}
 
-	/**
-	 * @return the isImported
-	 */
-	public boolean isImported() {
-		return isImported;
-	}
 
 	/**
 	 * @param logSpaceUsed
@@ -622,17 +616,6 @@ public class CompanyPreferences implements IAccounterServerCore {
 		return this.id;
 	}
 
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
 
 	public FinanceDate getDepreciationStartDate() {
 		return depreciationStartDate;

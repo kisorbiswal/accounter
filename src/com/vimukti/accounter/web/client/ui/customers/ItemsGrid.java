@@ -59,21 +59,21 @@ public class ItemsGrid extends BaseListGrid<ClientTransactionItem> {
 		switch (item.getType()) {
 
 		case TYPE_ITEM:
-			ClientItem itm = Accounter.getCompany().getItem(
+			ClientItem itm = getCompany().getItem(
 					item.getItem());
 			return itm != null ? itm.getName() : "";
 		case TYPE_ACCOUNT:
-			ClientAccount account = Accounter.getCompany().getAccount(
+			ClientAccount account = getCompany().getAccount(
 					item.getAccount());
 			return account != null ? account.getDisplayName() : "";
 		case TYPE_SALESTAX:
-			ClientTAXItem vatItem = Accounter.getCompany().getTaxItem(
+			ClientTAXItem vatItem = getCompany().getTaxItem(
 					item.getVatItem());
 			return vatItem != null ? vatItem.getDisplayName() : "";
 		case TYPE_COMMENT:
 			return item.getDescription() != null ? item.getDescription() : "";
 		case TYPE_SERVICE:
-			ClientItem serviceItm = Accounter.getCompany().getItem(
+			ClientItem serviceItm = getCompany().getItem(
 					item.getItem());
 			return serviceItm != null ? serviceItm.getName() : "";
 		default:

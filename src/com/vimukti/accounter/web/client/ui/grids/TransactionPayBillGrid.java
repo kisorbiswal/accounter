@@ -333,16 +333,16 @@ public class TransactionPayBillGrid extends
 	public void openCashDiscountDialog() {
 		// if (cashDiscountDialog == null) {
 		ClientAccount discountAccount = null;
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			discountAccount = Accounter.getCompany().getAccountByName(
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			discountAccount = getCompany().getAccountByName(
 					companyConstants.cashDiscountTaken());
-		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			discountAccount = Accounter.getCompany().getAccountByName(
+		} else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			discountAccount = getCompany().getAccountByName(
 					companyConstants.discounts());
 		}
 		cashDiscountDialog = new CashDiscountDialog(canEdit, selectedObject
 				.getCashDiscount(), canEdit ? discountAccount
-				: Accounter.getCompany().getAccount(
+				: getCompany().getAccount(
 						selectedObject.getDiscountAccount()));
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);

@@ -48,19 +48,6 @@ public class VATReturnBox implements IAccounterServerCore, Lifecycle {
 		this.vatReturnType = vatReturnType;
 	}
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
-
-	/**
-	 * @return the isImported
-	 */
-	public boolean isImported() {
-		return isImported;
-	}
 
 	/**
 	 * @return the name
@@ -107,8 +94,9 @@ public class VATReturnBox implements IAccounterServerCore, Lifecycle {
 		this.totalBox = totalBox;
 	}
 
-	transient boolean isImported;
+	
 	transient private boolean isOnSaveProccessed;
+	private long id;
 
 	@Override
 	public long getID() {

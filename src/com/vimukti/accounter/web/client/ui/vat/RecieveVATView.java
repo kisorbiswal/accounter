@@ -290,7 +290,7 @@ public class RecieveVATView extends
 		List<ClientTransactionReceiveVAT> filterRecords = new ArrayList<ClientTransactionReceiveVAT>();
 		String selectedagency = selectedVATAgency.getName();
 		for (ClientTransactionReceiveVAT receiveVAT : grid.getRecords()) {
-			String taxAgencyname = Accounter.getCompany()
+			String taxAgencyname = getCompany()
 					.getTaxAgency(receiveVAT.getTaxAgency()).getName();
 			if (taxAgencyname.equals(selectedagency))
 				filterRecords.add(receiveVAT);
@@ -330,10 +330,10 @@ public class RecieveVATView extends
 	@Override
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 		receiveVAT = (ClientReceiveVAT) transactionObject;
-		selectedDepositInAccount = Accounter.getCompany().getAccount(
+		selectedDepositInAccount = getCompany().getAccount(
 				receiveVAT.getDepositIn());
 		depositInAccCombo.setComboItem(selectedDepositInAccount);
-		selectedVATAgency = Accounter.getCompany().getTaxAgency(
+		selectedVATAgency = getCompany().getTaxAgency(
 				receiveVAT.getVatAgency());
 		if (selectedVATAgency != null)
 			vatAgencyCombo.setComboItem(selectedVATAgency);

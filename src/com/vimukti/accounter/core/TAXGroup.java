@@ -33,7 +33,7 @@ public class TAXGroup extends TAXItemGroup {
 	/**
 	 * @return the id
 	 */
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 
@@ -123,9 +123,6 @@ public class TAXGroup extends TAXItemGroup {
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
-		if (isImported) {
-			return false;
-		}
 
 		if (Company.getCompany() != null
 				&& Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {

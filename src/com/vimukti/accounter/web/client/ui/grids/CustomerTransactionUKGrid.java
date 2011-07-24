@@ -206,7 +206,7 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 	protected boolean isEditable(ClientTransactionItem obj, int row, int col) {
 		if (obj == null)
 			return false;
-		if (!Accounter.getCompany().getpreferences()
+		if (!getCompany().getpreferences()
 				.getDoYouPaySalesTax()) {
 			if (col == 7 || col == 8)
 				return false;

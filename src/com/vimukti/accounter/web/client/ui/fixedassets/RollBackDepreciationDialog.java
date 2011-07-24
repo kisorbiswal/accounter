@@ -117,7 +117,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 	private void getAllDepreciationDates() {
 
 		ClientFinanceDate depreciationStartDate = new ClientFinanceDate(
-				Accounter.getCompany().getpreferences()
+				getCompany().getpreferences()
 						.getDepreciationStartDate());
 		ClientFinanceDate tempDate = new ClientFinanceDate(
 				depreciationStartDate.getTime());

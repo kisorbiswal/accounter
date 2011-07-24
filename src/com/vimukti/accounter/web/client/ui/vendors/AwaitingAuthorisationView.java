@@ -174,7 +174,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 
 	void updateTransactionItems(ClientCashPurchase result) {
 		for (ClientTransactionItem item : result.getTransactionItems()) {
-			item.setid("");
+			item.setID("");
 		}
 	}
 

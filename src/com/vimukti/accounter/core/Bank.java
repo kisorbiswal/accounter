@@ -22,8 +22,6 @@ public class Bank implements IAccounterServerCore {
 	int version;
 
 
-	transient boolean isImported;
-
 	public Bank() {
 	}
 
@@ -31,16 +29,7 @@ public class Bank implements IAccounterServerCore {
 		return version;
 	}
 
-	// public void setVersion(int version) {
-	// this.version = version;
-	// }
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
 
 	/**
 	 * @param id
@@ -84,11 +73,6 @@ public class Bank implements IAccounterServerCore {
 	}
 
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

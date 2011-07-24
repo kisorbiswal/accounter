@@ -40,10 +40,10 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 		StringBuffer original = new StringBuffer();
 //		String imagesDomain = "/do/downloadFileFromFile?";
 		Session session = HibernateUtil.getCurrentSession();
-		BizantraCompany bizantraCompany = (BizantraCompany) session.get(BizantraCompany.class, 1L);
+		Company Company = (Company) session.get(Company.class, 1L);
 		original.append("<img src='file:///");
 		original.append(ServerConfiguration.getAttachmentsDir() + "/"
-				+ bizantraCompany.getCompanyDisplayName() + "/" + brandingTheme.getFileName());
+				+ Company.getDisplayName() + "/" + brandingTheme.getFileName());
 		original.append("'/>");
 		return original;
 	}

@@ -196,7 +196,7 @@ public abstract class Transaction extends CreatableObject implements IAccounterS
 
 	TransactionMakeDepositEntries transactionMakeDepositEntries;
 
-	transient boolean isImported;
+	
 
 
 	// For UK version only
@@ -386,12 +386,6 @@ public abstract class Transaction extends CreatableObject implements IAccounterS
 		return version;
 	}
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
 
 
 	/**
@@ -687,9 +681,6 @@ public abstract class Transaction extends CreatableObject implements IAccounterS
 	 */
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 
 		doCreateEffect(session);
 

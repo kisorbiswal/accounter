@@ -39,10 +39,10 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 				colArray[index] = Accounter.getVATMessages().active();
 				break;
 			case 1:
-				if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 					colArray[index] = Accounter.getVendorsMessages()
 							.vendorName();
-				if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 					colArray[index] = Accounter.getVendorsMessages()
 							.supplieRName();
 				break;
@@ -229,11 +229,11 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 		if (payee.getType() == ClientPayee.TYPE_VENDOR)
 			Accounter.createGETService().getObjectById(
 					AccounterCoreType.VENDOR, payee.id, callback);
-		else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
+		else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
 				&& payee.getType() == ClientPayee.TYPE_TAX_AGENCY)
 			Accounter.createGETService().getObjectById(
 					AccounterCoreType.TAXAGENCY, payee.id, callback);
-		else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+		else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 				&& payee.getType() == ClientPayee.TYPE_TAX_AGENCY)
 			Accounter.createGETService().getObjectById(
 					AccounterCoreType.TAXAGENCY, payee.id, callback);
@@ -292,12 +292,12 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 			Accounter.createGETService().getObjectById(
 					AccounterCoreType.VENDOR, recordToBeDeleted.id,
 					callback);
-		else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
+		else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
 				&& recordToBeDeleted.getType() == ClientPayee.TYPE_TAX_AGENCY)
 			Accounter.createGETService().getObjectById(
 					AccounterCoreType.TAXAGENCY, recordToBeDeleted.id,
 					callback);
-		else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+		else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 				&& recordToBeDeleted.getType() == ClientPayee.TYPE_TAX_AGENCY)
 			Accounter.createGETService().getObjectById(
 					AccounterCoreType.TAXAGENCY, recordToBeDeleted.id,

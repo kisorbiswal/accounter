@@ -219,7 +219,7 @@ public class CashSalesView extends
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
-		if (Accounter.getCompany().getAccountingType() == 1) {
+		if (getCompany().getAccountingType() == 1) {
 
 			// prodAndServiceForm2.setFields(priceLevelSelect, netAmountLabel,
 			// disabletextbox, vatTotalNonEditableText, disabletextbox,
@@ -249,7 +249,7 @@ public class CashSalesView extends
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
-		if (Accounter.getCompany().getAccountingType() == 1) {
+		if (getCompany().getAccountingType() == 1) {
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
 		} else
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
@@ -357,7 +357,7 @@ public class CashSalesView extends
 		this.salesPerson = person;
 		if (salesPerson != null && salesPersonCombo != null) {
 
-			salesPersonCombo.setComboItem(Accounter.getCompany()
+			salesPersonCombo.setComboItem(getCompany()
 					.getSalesPerson(salesPerson.getID()));
 
 		}
@@ -370,7 +370,7 @@ public class CashSalesView extends
 		this.priceLevel = priceLevel;
 		if (priceLevel != null && priceLevelSelect != null) {
 
-			priceLevelSelect.setComboItem(Accounter.getCompany()
+			priceLevelSelect.setComboItem(getCompany()
 					.getPriceLevel(priceLevel.getID()));
 
 		}
@@ -450,7 +450,7 @@ public class CashSalesView extends
 
 		if (customerTransactionGrid == null)
 			return;
-		if (Accounter.getCompany().getAccountingType() == 0) {
+		if (getCompany().getAccountingType() == 0) {
 
 			Double taxableLineTotal = customerTransactionGrid
 					.getTaxableLineTotal();
@@ -459,7 +459,7 @@ public class CashSalesView extends
 				return;
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
 					transactionDateItem.getEnteredDate(), taxableLineTotal,
-					Accounter.getCompany().getTAXItemGroup(
+					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
 			setSalesTax(salesTax);
@@ -481,7 +481,7 @@ public class CashSalesView extends
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 		initTransactionViewData();
 		ClientCashSales cashSale = (ClientCashSales) transactionObject;
-		ClientCompany company = Accounter.getCompany();
+		ClientCompany company = getCompany();
 		if (cashSale == null) {
 			UIUtils.err(Accounter.getCustomersMessages()
 					.unableToLoadRequiredQuote());
@@ -814,7 +814,7 @@ public class CashSalesView extends
 		this.taxCode = taxCode;
 		if (taxCode != null) {
 
-			taxCodeSelect.setComboItem(Accounter.getCompany()
+			taxCodeSelect.setComboItem(getCompany()
 					.getTAXCode(taxCode.getID()));
 			customerTransactionGrid.setTaxCode(taxCode.getID());
 		} else

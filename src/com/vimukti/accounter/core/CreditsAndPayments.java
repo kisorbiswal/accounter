@@ -73,7 +73,7 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	// TODO no use of this property.
 	int version;
 
-	transient boolean isImported;
+	
 
 	transient private boolean isOnSaveProccessed;
 
@@ -86,6 +86,11 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	}
 
 	public CreditsAndPayments(Transaction transaction) {
+		update(transaction);
+		
+	}
+
+	public void update(Transaction transaction) {
 
 		this.transaction = transaction;
 		this.creditAmount = transaction.getTotal();
@@ -143,9 +148,6 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 	}
 
-	public long getId() {
-		return id;
-	}
 
 	public String getMemo() {
 		return memo;
@@ -255,9 +257,6 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		if (isImported) {
-			return false;
-		}
 		double amount;
 		for (TransactionCreditsAndPayments t : this.transactionCreditsAndPayments) {
 			t.setCreditsAndPayments(this);
@@ -330,7 +329,6 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
 		return this.id;
 	}
 

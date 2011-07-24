@@ -54,8 +54,6 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 
 	long id;
 
-	private long id;
-
 	/**
 	 * To know whether this Depreciation is for Approving or for Rollback.
 	 */
@@ -92,7 +90,7 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 	transient int previousStatus;
 	transient FinanceDate rollBackDepreciationDate;
 
-	transient boolean isImported;
+	
 	transient private boolean isOnSaveProccessed;
 
 	// FixedAssetLinkedAccountMap linkedAccounts;
@@ -103,22 +101,9 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public long getID(){
-		// TODO Auto-generated method stub
 		return this.id;
 	}
 
-	@Override
-	public void setID(long id){
-		this.id=id;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setID(long id){
-		this.id = id;
-	}
 
 	public int getStatus() {
 		return status;
@@ -187,13 +172,6 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		this.id = this.id == null || this.id != null
-				&& this.id.isEmpty() ? SecureUtils.createID()
-				: this.id;
-
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed || this.fixedAsset == null)
 			return true;
 
@@ -556,11 +534,6 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 		this.previousStatus = status;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		// TODO Auto-generated method stub
-
-	}
 
 	/**
 	 * @param fixedAsset
@@ -633,7 +606,7 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static void rollBackDepreciation(String fixedAssetID,
+	public static void rollBackDepreciation(long fixedAssetID,
 			FinanceDate rollBackDepreciationTo) throws Exception {
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
 				.getCurrentSession() : HibernateUtil.getCurrentSession();

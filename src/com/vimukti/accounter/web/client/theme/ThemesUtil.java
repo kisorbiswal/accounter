@@ -42,7 +42,7 @@ public class ThemesUtil {
 		Element btnEle = button.getElement();
 
 		Element divEle = DOM.createDiv();
-		divEle.setId(button.getText());
+		divEle.setID(button.getText());
 		divEle.addClassName(styleName);
 		divEle.getStyle().setBackgroundImage(
 				"url(" + imgResource.getURL() + ")");

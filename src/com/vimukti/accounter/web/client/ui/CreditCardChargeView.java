@@ -191,7 +191,7 @@ public class CreditCardChargeView extends
 	}
 
 	private void addVendorsList() {
-		List<ClientVendor> result = Accounter.getCompany()
+		List<ClientVendor> result = getCompany()
 				.getActiveVendors();
 		if (result != null) {
 			initVendorsList(result);
@@ -307,7 +307,7 @@ public class CreditCardChargeView extends
 		if (creditCardChargeTaken.getPayFrom() != null
 				&& creditCardChargeTaken.getPayFrom().length() != 0)
 			payFromAccountSelected(creditCardChargeTaken.getPayFrom());
-		payFrmSelect.setComboItem(Accounter.getCompany().getAccount(
+		payFrmSelect.setComboItem(getCompany().getAccount(
 				payFromAccount));
 		payFrmSelect.setDisabled(isEdit);
 		cheqNoText.setDisabled(true);
@@ -436,7 +436,7 @@ public class CreditCardChargeView extends
 		formItems.add(payFrmSelect);
 
 		cheqNoText = new TextItem(
-				Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? bankingConstants
+				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? bankingConstants
 						.chequeNo()
 						: bankingConstants.checkNo());
 		cheqNoText.setHelpInformation(true);
@@ -525,7 +525,7 @@ public class CreditCardChargeView extends
 		panel.add(createAddNewButton());
 		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
 			VerticalPanel vPanel = new VerticalPanel();
@@ -623,7 +623,7 @@ public class CreditCardChargeView extends
 
 		if (transactionObject != null) {
 			ClientCreditCardCharge creditCardCharge = (ClientCreditCardCharge) transactionObject;
-			payFrmSelect.setComboItem(Accounter.getCompany()
+			payFrmSelect.setComboItem(getCompany()
 					.getAccount(creditCardCharge.getPayFrom()));
 		}
 	}
@@ -701,7 +701,7 @@ public class CreditCardChargeView extends
 		payFromAccount = payFrmSelect.getSelectedValue().getID();
 		if (payFromAccount != null && payFromAccount.length() != 0) {
 
-			creditCardCharge.setPayFrom(Accounter.getCompany()
+			creditCardCharge.setPayFrom(getCompany()
 					.getAccount(payFromAccount).getID());
 		}
 
@@ -744,7 +744,7 @@ public class CreditCardChargeView extends
 	@Override
 	public void updateNonEditableItems() {
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			transactionTotalNonEditableText.setAmount(vendorTransactionGrid
 					.getTotal());
 			netAmount.setAmount(vendorTransactionGrid.getGrandTotal());

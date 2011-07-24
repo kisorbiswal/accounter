@@ -99,7 +99,7 @@ public class CashPurchase extends Transaction implements Lifecycle {
 	 */
 	int expenseStatus;
 
-	// transient boolean isImported;
+	// 
 
 	/**
 	 * @return the cashExpenseAccount
@@ -313,9 +313,6 @@ public class CashPurchase extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (isOnSaveProccessed)
 			return true;
 		isOnSaveProccessed = true;
@@ -364,13 +361,6 @@ public class CashPurchase extends Transaction implements Lifecycle {
 
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		for (TransactionItem ti : this.transactionItems) {
-			ti.setImported(true);
-		}
-	}
 
 	@Override
 	public Payee getInvolvedPayee() {

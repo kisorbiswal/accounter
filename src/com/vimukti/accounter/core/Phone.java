@@ -17,7 +17,7 @@ public class Phone implements IAccounterServerCore {
 	String number = "";
 	boolean isSelected = false;
 
-	transient boolean isImported;
+	
 
 	public Phone() {
 
@@ -57,20 +57,9 @@ public class Phone implements IAccounterServerCore {
 
 	@Override
 	public long getID(){
-		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
-	@Override
-	public void setID(long id){
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

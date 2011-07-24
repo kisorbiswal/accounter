@@ -63,7 +63,7 @@ public class ClientBrandingTheme implements IAccounterCore {
 	private String Terms_And_Payment_Advice;
 	private String fileName;
 
-	private transient boolean isImported;
+	private 
 	private transient boolean isOnSaveProccessed;
 
 	String createdBy;
@@ -104,7 +104,7 @@ public class ClientBrandingTheme implements IAccounterCore {
 	}
 
 
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 

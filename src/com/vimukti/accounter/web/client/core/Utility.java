@@ -228,7 +228,7 @@ public class Utility implements IsSerializable, Serializable {
 		if (account == null)
 			return "";
 
-		return getHierarchy(Accounter.getCompany().getAccount(
+		return getHierarchy(getCompany().getAccount(
 				account.getParent()))
 				+ account.getName() + " > ";
 	}
@@ -1221,7 +1221,7 @@ public class Utility implements IsSerializable, Serializable {
 		}
 	}
 
-	public static <T extends IAccounterCore> long getId(T source) {
+	public static <T extends IAccounterCore> long getID(T source) {
 
 		return source != null ? source.getID() : -1;
 

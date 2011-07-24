@@ -224,7 +224,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 
 	@Override
 	protected List<ClientTAXGroup> getRecords() {
-		return Accounter.getCompany().getTaxGroups();
+		return getCompany().getTaxGroups();
 	}
 
 	@Override

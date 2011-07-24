@@ -31,7 +31,7 @@ public class ResetPasswordToken {
 		this.userId = userId;
 	}
 
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 

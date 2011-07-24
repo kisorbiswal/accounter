@@ -27,9 +27,6 @@ public class UserPermissions implements IAccounterServerCore {
 
 	User user;
 
-	public long getId() {
-		return id;
-	}
 
 	public int getTypeOfBankReconcilation() {
 		return typeOfBankReconcilation;

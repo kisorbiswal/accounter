@@ -75,7 +75,7 @@ package com.vimukti.accounter.main;
 //					String expiryType = companyExtension.getExtensionType();
 //					noOfUsers = companyExtension.getNoOfUsers();
 //					noOfLiteUsers = companyExtension.getNoOfLiteUsers();
-//					String refId = companyExtension.getId();
+//					String refId = companyExtension.getID();
 //
 //					if ((today.get(Calendar.YEAR) == (deletionDate)
 //							.get(Calendar.YEAR)

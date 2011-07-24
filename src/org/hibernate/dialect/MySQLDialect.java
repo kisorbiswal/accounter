@@ -173,11 +173,11 @@ public class MySQLDialect extends Dialect {
 		return true;
 	}
 
-	public String getIdentitySelectString() {
+	public String getIDentitySelectString() {
 		return "select last_insert_id()";
 	}
 
-	public String getIdentityColumnString() {
+	public String getIDentityColumnString() {
 		return "not null auto_increment"; //starts with 1, implicitly
 	}
 

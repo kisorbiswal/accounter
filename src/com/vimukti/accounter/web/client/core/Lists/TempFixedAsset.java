@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 public class TempFixedAsset implements IsSerializable, Serializable {
 
-	String fixedAssetID;
+	long fixedAssetID;
 	ClientFinanceDate purchaseDate;
 	boolean isNoDepreciation;
 	ClientFinanceDate soldOrDisposedDate;
@@ -22,10 +22,10 @@ public class TempFixedAsset implements IsSerializable, Serializable {
 	int depreciationMethod;
 	double depreciationRate;
 
-	public String getFixedAssetID() {
+	public long getFixedAssetID() {
 		return fixedAssetID;
 	}
-	public void setFixedAssetID(String fixedAssetID) {
+	public void setFixedAssetID(long fixedAssetID) {
 		this.fixedAssetID = fixedAssetID;
 	}
 	public ClientFinanceDate getPurchaseDate() {

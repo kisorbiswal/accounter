@@ -375,21 +375,18 @@ public class ObjectConvertUtil {
 
 	@SuppressWarnings("unchecked")
 	public Object loadObjectByid(Session session, String serverClassName,
-			String id) {
+			long id) {
 
 		FlushMode flushMode = session.getFlushMode();
 		session.setFlushMode(FlushMode.COMMIT);
 
 		try {
 
-			if (id == null)
+			if (id == -1)
 				return null;
-			if (id.isEmpty()) {
-				return null;
-			}
 
 			List<Object> list = session.getNamedQuery(
-					"unique.id." + serverClassName).setString(0, id)
+					"unique.id." + serverClassName).setLong(0, id)
 					.list();
 
 			// String hql = "from " + serverClassName + " where id = ?";

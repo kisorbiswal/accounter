@@ -35,7 +35,7 @@ public class VendorGroup extends CreatableObject implements
 	 */
 	String name;
 
-	transient boolean isImported;
+	
 
 	boolean isDefault;
 	transient private boolean isOnSaveProccessed;
@@ -66,12 +66,6 @@ public class VendorGroup extends CreatableObject implements
 		this.isDefault = isDefault;
 	}
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
 
 	/**
 	 * @return the vendorGroupName
@@ -102,9 +96,6 @@ public class VendorGroup extends CreatableObject implements
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;

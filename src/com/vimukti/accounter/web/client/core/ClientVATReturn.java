@@ -30,7 +30,7 @@ public class ClientVATReturn extends ClientTransaction {
 
 	List<ClientBox> boxes = new ArrayList<ClientBox>();
 
-	transient boolean isImported;
+	
 
 	String journalEntry;
 
@@ -189,7 +189,7 @@ public class ClientVATReturn extends ClientTransaction {
 
 	/*
 	 * @see
-	 * com.vimukti.accounter.web.client.core.IAccounterCore#setid(java
+	 * com.vimukti.accounter.web.client.core.IAccounterCore#setID(java
 	 * .lang.String)
 	 */
 	@Override

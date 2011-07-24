@@ -430,14 +430,14 @@ public class TransactionReceivePaymentGrid extends
 
 	private ClientAccount getCashDiscountAccount() {
 
-		ClientAccount cashDiscountAccount = Accounter.getCompany()
+		ClientAccount cashDiscountAccount = getCompany()
 				.getAccount(selectedObject.getDiscountAccount());
 		return cashDiscountAccount;
 	}
 
 	private ClientAccount getWriteOffAccount() {
 
-		ClientAccount writeOffAccount = Accounter.getCompany()
+		ClientAccount writeOffAccount = getCompany()
 				.getAccount(selectedObject.getWriteOffAccount());
 		return writeOffAccount;
 	}
@@ -676,7 +676,7 @@ public class TransactionReceivePaymentGrid extends
 	}
 
 	public void openWriteOffDialog() {
-		writeOffDialog = new WriteOffDialog(Accounter.getCompany()
+		writeOffDialog = new WriteOffDialog(getCompany()
 				.getActiveAccounts(), selectedObject, canEdit,
 				getWriteOffAccount());
 		writeOffDialog.addInputDialogHandler(new InputDialogHandler() {
@@ -755,21 +755,21 @@ public class TransactionReceivePaymentGrid extends
 
 	private void setAccountDefaultValues(ClientTransactionReceivePayment obj) {
 		ClientAccount cashDiscountAccount, writeOffAccount;
-		int accountType = Accounter.getCompany().getAccountingType();
+		int accountType = getCompany().getAccountingType();
 		switch (accountType) {
 		case ClientCompany.ACCOUNTING_TYPE_UK:
-			cashDiscountAccount = Accounter.getCompany()
+			cashDiscountAccount = getCompany()
 					.getAccountByName(AccounterConstants.DISCOUNTS);
 
-			writeOffAccount = Accounter.getCompany().getAccountByName(
+			writeOffAccount = getCompany().getAccountByName(
 					AccounterConstants.DISCOUNTS_TAKEN);
 			obj.setDiscountAccount(cashDiscountAccount.getID());
 			obj.setWriteOffAccount(writeOffAccount.getID());
 			break;
 		case ClientCompany.ACCOUNTING_TYPE_US:
-			cashDiscountAccount = Accounter.getCompany()
+			cashDiscountAccount = getCompany()
 					.getAccountByName(AccounterConstants.CASH_DISCOUNT_TAKEN);
-			writeOffAccount = Accounter.getCompany().getAccountByName(
+			writeOffAccount = getCompany().getAccountByName(
 					AccounterConstants.WRITE_OFF);
 			obj.setDiscountAccount(cashDiscountAccount.getID());
 			obj.setWriteOffAccount(writeOffAccount.getID());

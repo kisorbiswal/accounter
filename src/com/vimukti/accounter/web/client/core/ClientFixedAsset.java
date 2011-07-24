@@ -112,7 +112,7 @@ public class ClientFixedAsset implements IAccounterCore {
 		// TODO Auto-generated constructor stub
 	}
 
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 

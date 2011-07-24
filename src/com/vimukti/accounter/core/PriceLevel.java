@@ -14,8 +14,8 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 
-public class PriceLevel implements IAccounterServerCore, Lifecycle,
-		CreatableObject {
+public class PriceLevel extends CreatableObject implements
+		IAccounterServerCore, Lifecycle {
 
 	/**
 	 * 
@@ -30,11 +30,6 @@ public class PriceLevel implements IAccounterServerCore, Lifecycle,
 	long id;
 
 	/**
-	 * A unique Secure 40 Digit, Random Number
-	 */
-	public long id;
-
-	/**
 	 * This field stores the name of the Price Level
 	 */
 	String name;
@@ -45,8 +40,6 @@ public class PriceLevel implements IAccounterServerCore, Lifecycle,
 	double percentage;
 
 	boolean isPriceLevelDecreaseByThisPercentage;
-
-	transient boolean isImported;
 
 	String createdBy;
 	String lastModifier;
@@ -83,12 +76,6 @@ public class PriceLevel implements IAccounterServerCore, Lifecycle,
 		return version;
 	}
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
 
 	/**
 	 * @return the name
@@ -115,7 +102,7 @@ public class PriceLevel implements IAccounterServerCore, Lifecycle,
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setid(this.id);
+		accounterCore.setID(this.id);
 		accounterCore.setObjectType(AccounterCoreType.PRICE_LEVEL);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -129,9 +116,6 @@ public class PriceLevel implements IAccounterServerCore, Lifecycle,
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -145,55 +129,6 @@ public class PriceLevel implements IAccounterServerCore, Lifecycle,
 		return false;
 	}
 
-	@Override
-	public long getID(){
-		// TODO Auto-generated method stub
-		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setLastModifier(String lastModifier) {
-		this.lastModifier = lastModifier;
-	}
-
-	public String getLastModifier() {
-		return lastModifier;
-	}
-
-	public void setCreatedDate(FinanceDate createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public FinanceDate getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setLastModifiedDate(FinanceDate lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public FinanceDate getLastModifiedDate() {
-		return lastModifiedDate;
-	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

@@ -136,9 +136,6 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore,
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;

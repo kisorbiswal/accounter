@@ -104,9 +104,9 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 		grid.init();
 		// grid.setHeight("200");
 		if (typeOfAccount == 0)
-			listOfAccounts = Accounter.getCompany().getAccounts();
+			listOfAccounts = getCompany().getAccounts();
 		else
-			listOfAccounts = Accounter.getCompany().getAccounts(
+			listOfAccounts = getCompany().getAccounts(
 					typeOfAccount);
 		filterList(true);
 	}

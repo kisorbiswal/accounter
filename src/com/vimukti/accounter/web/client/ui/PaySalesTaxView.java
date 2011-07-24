@@ -90,7 +90,7 @@ public class PaySalesTaxView extends
 
 	private void getTaxItems() {
 
-		taxItems = Accounter.getCompany().getActiveTaxItems();
+		taxItems = getCompany().getActiveTaxItems();
 
 	}
 
@@ -199,7 +199,7 @@ public class PaySalesTaxView extends
 	}
 
 	private void initTaxAgencyCombo() {
-		allTaxAgencies = Accounter.getCompany().getActiveTaxAgencies();
+		allTaxAgencies = getCompany().getActiveTaxAgencies();
 		taxAgencyCombo.initCombo(allTaxAgencies);
 	}
 
@@ -444,7 +444,7 @@ public class PaySalesTaxView extends
 		if (filterByDateList != null)
 			for (ClientTransactionPaySalesTax trpaySalesTax : getFilterByDateList()) {
 				if (trpaySalesTax.getTaxAgency() != null) {
-					String taxAgencyname = Accounter.getCompany()
+					String taxAgencyname = getCompany()
 							.getTaxAgency(trpaySalesTax.getTaxAgency())
 							.getName();
 					String selectedagency = selectedTaxAgency.getName();
@@ -490,10 +490,10 @@ public class PaySalesTaxView extends
 		isEdit = true;
 		paySalesTax = (ClientPaySalesTax) transactionObject;
 
-		selectedPayFromAccount = Accounter.getCompany().getAccount(
+		selectedPayFromAccount = getCompany().getAccount(
 				paySalesTax.getPayFrom());
 		payFromAccCombo.setComboItem(selectedPayFromAccount);
-		selectedTaxAgency = Accounter.getCompany().getTaxAgency(
+		selectedTaxAgency = getCompany().getTaxAgency(
 				paySalesTax.getTaxAgency());
 		if (selectedTaxAgency != null)
 			taxAgencyCombo.setComboItem(selectedTaxAgency);

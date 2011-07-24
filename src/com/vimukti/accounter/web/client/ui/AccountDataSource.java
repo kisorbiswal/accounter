@@ -10,6 +10,6 @@ public class AccountDataSource extends BaseDataSource {
 	
 
 	public AccountDataSource(AsyncCallback<List<ClientAccount>> callback) {
-		Accounter.getCompany().getAccounts();
+		getCompany().getAccounts();
 	}
 }

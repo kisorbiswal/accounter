@@ -42,7 +42,7 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
 		grid = new PendingItemsListGrid(false);
 		grid.init();
 		grid.setRecords(getAssetsByType(ClientFixedAsset.STATUS_PENDING,
-				Accounter.getCompany().getFixedAssets()));
+				getCompany().getFixedAssets()));
 		disableFilter();
 	}
 
@@ -62,7 +62,7 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
 	@Override
 	public void updateGrid(IAccounterCore core) {
 		grid.setRecords(getAssetsByType(ClientFixedAsset.STATUS_PENDING,
-				Accounter.getCompany().getFixedAssets()));
+				getCompany().getFixedAssets()));
 	}
 
 	@Override

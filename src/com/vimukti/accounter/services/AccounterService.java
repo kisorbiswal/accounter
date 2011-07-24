@@ -45,7 +45,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	public <T extends IAccounterServerCore> String createObject(T object)
 			throws DAOException {
 		if (object.getID() == null) {
-			object.setid(SecureUtils.createID());
+			object.setID(SecureUtils.createID());
 		}
 		Session session = Utility.getCurrentSession();
 		Transaction t = session.beginTransaction();
@@ -195,10 +195,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * 
 	 * try { HibernateTemplate template = getHibernateTemplate(); List list =
 	 * template.find("from Account a where a.id= ? ", new Object[] {
-	 * account.getId() }); if (list.size() > 0) { Account existingAccount =
+	 * account.getID() }); if (list.size() > 0) { Account existingAccount =
 	 * (Account) list.get(0);
 	 * 
-	 * if (account.getId() != (existingAccount.getId())) { throw (new
+	 * if (account.getID() != (existingAccount.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); }
 	 * 
 	 * } template.saveOrUpdate(account);
@@ -209,10 +209,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * @Override public void alterCashPurchase(CashPurchase cashPurchase) throws
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * List list = template.find("from CashPurchase cp where cp.id= ? ", new
-	 * Object[] { cashPurchase.getId() }); if (list.size() > 0) { CashPurchase
+	 * Object[] { cashPurchase.getID() }); if (list.size() > 0) { CashPurchase
 	 * existingCashPurchase = (CashPurchase) list.get(0);
 	 * 
-	 * if (cashPurchase.getId() != (existingCashPurchase.getId())) { throw (new
+	 * if (cashPurchase.getID() != (existingCashPurchase.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(cashPurchase);
 	 * 
@@ -224,10 +224,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * @Override public void alterCashSales(CashSales cashSales) throws
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * List list = template.find("from CashSales cs where cs.id= ? ", new
-	 * Object[] { cashSales.getId() }); if (list.size() > 0) { CashSales
+	 * Object[] { cashSales.getID() }); if (list.size() > 0) { CashSales
 	 * existingCashSales = (CashSales) list.get(0);
 	 * 
-	 * if (cashSales.getId() != (existingCashSales.getId())) { throw (new
+	 * if (cashSales.getID() != (existingCashSales.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(cashSales);
 	 * 
@@ -239,10 +239,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * @Override public void alterCompany(Company company) throws DAOException {
 	 * try { HibernateTemplate template = getHibernateTemplate(); List list =
 	 * template.find("from Company c where c.id= ? ", new Object[] {
-	 * company.getId() }); if (list.size() > 0) { Company old = (Company)
+	 * company.getID() }); if (list.size() > 0) { Company old = (Company)
 	 * list.get(0);
 	 * 
-	 * if (old.getId() != (company.getId())) { throw (new DAOException(
+	 * if (old.getID() != (company.getID())) { throw (new DAOException(
 	 * DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(company);
 	 * 
@@ -256,10 +256,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * 
 	 * try { HibernateTemplate template = getHibernateTemplate(); List list =
 	 * template.find( "from CreditCardCharge cc where cc.id= ? ", new Object[] {
-	 * creditCardCharge.getId() }); if (list.size() > 0) { CreditCardCharge
+	 * creditCardCharge.getID() }); if (list.size() > 0) { CreditCardCharge
 	 * existingCreditCardCharge = (CreditCardCharge) list .get(0);
 	 * 
-	 * if (creditCardCharge.getId() != (existingCreditCardCharge .getId())) {
+	 * if (creditCardCharge.getID() != (existingCreditCardCharge .getID())) {
 	 * throw (new DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null));
 	 * } } template.saveOrUpdate(creditCardCharge);
 	 * 
@@ -273,10 +273,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * 
 	 * try { HibernateTemplate template = getHibernateTemplate(); List list =
 	 * template.find("from CreditRating cr where cr.id= ? ", new Object[] {
-	 * creditRating.getId() }); if (list.size() > 0) { CreditRating
+	 * creditRating.getID() }); if (list.size() > 0) { CreditRating
 	 * existingCreditRating = (CreditRating) list.get(0);
 	 * 
-	 * if (creditRating.getId() != (existingCreditRating.getId())) { throw (new
+	 * if (creditRating.getID() != (existingCreditRating.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(creditRating);
 	 * 
@@ -288,10 +288,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * @Override public void alterCurrency(Currency currency) throws
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * List list = template.find("from Currency c where c.id= ? ", new Object[]
-	 * { currency.getId() }); if (list.size() > 0) { Currency existingCurrency =
+	 * { currency.getID() }); if (list.size() > 0) { Currency existingCurrency =
 	 * (Currency) list.get(0);
 	 * 
-	 * if (existingCurrency.getId() != (currency.getId())) { throw (new
+	 * if (existingCurrency.getID() != (currency.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(currency);
 	 * 
@@ -303,10 +303,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * @Override public void alterCustomer(Customer customer) throws
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * List list = template.find("from Customer c where c.id= ? ", new Object[]
-	 * { customer.getId() }); if (list.size() > 0) { Customer old = (Customer)
+	 * { customer.getID() }); if (list.size() > 0) { Customer old = (Customer)
 	 * list.get(0);
 	 * 
-	 * if (old.getId() != (customer.getId())) { throw (new DAOException(
+	 * if (old.getID() != (customer.getID())) { throw (new DAOException(
 	 * DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(customer);
 	 * 
@@ -319,10 +319,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * creditMemo) throws DAOException { try { HibernateTemplate template =
 	 * getHibernateTemplate(); List list = template.find(
 	 * "from CustomerCreditMemo cm where cm.id= ? ", new Object[] {
-	 * creditMemo.getId() }); if (list.size() > 0) { CustomerCreditMemo
+	 * creditMemo.getID() }); if (list.size() > 0) { CustomerCreditMemo
 	 * existingCustomerCreditMemo = (CustomerCreditMemo) list .get(0);
 	 * 
-	 * if (creditMemo.getId() != (existingCustomerCreditMemo.getId())) { throw
+	 * if (creditMemo.getID() != (existingCustomerCreditMemo.getID())) { throw
 	 * (new DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(creditMemo);
 	 * 
@@ -335,10 +335,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * throws DAOException { try { HibernateTemplate template =
 	 * getHibernateTemplate(); List list =
 	 * template.find("from CustomerGroup c where c.id= ? ", new Object[] {
-	 * customerGroup.getId() }); if (list.size() > 0) { CustomerGroup old =
+	 * customerGroup.getID() }); if (list.size() > 0) { CustomerGroup old =
 	 * (CustomerGroup) list.get(0);
 	 * 
-	 * if (old.getId() != (customerGroup.getId())) { throw (new DAOException(
+	 * if (old.getID() != (customerGroup.getID())) { throw (new DAOException(
 	 * DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(customerGroup);
 	 * 
@@ -352,10 +352,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * 
 	 * try { HibernateTemplate template = getHibernateTemplate(); List list =
 	 * template.find("from CustomerRefund cr where cr.id= ? ", new Object[] {
-	 * customerRefunds.getId() }); if (list.size() > 0) { CustomerRefund
+	 * customerRefunds.getID() }); if (list.size() > 0) { CustomerRefund
 	 * existingCustomerRefunds = (CustomerRefund) list .get(0);
 	 * 
-	 * if (existingCustomerRefunds.getId() != (customerRefunds.getId())) { throw
+	 * if (existingCustomerRefunds.getID() != (customerRefunds.getID())) { throw
 	 * (new DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(customerRefunds);
 	 * 
@@ -367,10 +367,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * @Override public void alterEnterBill(EnterBill enterBill) throws
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * List list = template.find("from EnterBill e where e.id= ? ", new Object[]
-	 * { enterBill.getId() }); if (list.size() > 0) { EnterBill
+	 * { enterBill.getID() }); if (list.size() > 0) { EnterBill
 	 * existingenterbill = (EnterBill) list.get(0);
 	 * 
-	 * if (enterBill.getId() != (existingenterbill.getId())) { throw (new
+	 * if (enterBill.getID() != (existingenterbill.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * 
 	 * template.saveOrUpdate(enterBill);
@@ -383,10 +383,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * @Override public void alterExpense(Expense expense) throws DAOException {
 	 * try { HibernateTemplate template = getHibernateTemplate(); List list =
 	 * template.find("from Expense e where e.id= ? ", new Object[] {
-	 * expense.getId() }); if (list.size() > 0) { Expense existingExpense =
+	 * expense.getID() }); if (list.size() > 0) { Expense existingExpense =
 	 * (Expense) list.get(0);
 	 * 
-	 * if (expense.getId() != (existingExpense.getId())) { throw (new
+	 * if (expense.getID() != (existingExpense.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * 
 	 * template.update(expense);
@@ -399,10 +399,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * @Override public void alterEstimate(Estimate estimate) throws
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * List list = template.find("from Estimate e where e.id= ? ", new Object[]
-	 * { estimate.getId() }); if (list.size() > 0) { Estimate existingEstimate =
+	 * { estimate.getID() }); if (list.size() > 0) { Estimate existingEstimate =
 	 * (Estimate) list.get(0);
 	 * 
-	 * if (estimate.getId() != (existingEstimate.getId())) { throw (new
+	 * if (estimate.getID() != (existingEstimate.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(estimate);
 	 * 
@@ -415,10 +415,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * 
 	 * try { HibernateTemplate template = getHibernateTemplate(); List list =
 	 * template.find("from Invoice i where i.id= ? ", new Object[] {
-	 * invoice.getId() }); if (list.size() > 0) { Invoice existinginvoice =
+	 * invoice.getID() }); if (list.size() > 0) { Invoice existinginvoice =
 	 * (Invoice) list.get(0);
 	 * 
-	 * if (invoice.getId() != (existinginvoice.getId())) { throw (new
+	 * if (invoice.getID() != (existinginvoice.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(invoice);
 	 * 
@@ -430,10 +430,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * @Override public void alterIssuePayment(IssuePayment issuePayment) throws
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * List list = template.find("from IssuePayment i where i.id= ? ", new
-	 * Object[] { issuePayment.getId() }); if (list.size() > 0) { IssuePayment
+	 * Object[] { issuePayment.getID() }); if (list.size() > 0) { IssuePayment
 	 * existingIssuePayment = (IssuePayment) list.get(0);
 	 * 
-	 * if (issuePayment.getId() != (existingIssuePayment.getId())) { throw (new
+	 * if (issuePayment.getID() != (existingIssuePayment.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(issuePayment);
 	 * 
@@ -444,10 +444,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * 
 	 * @Override public void alterItem(Item item) throws DAOException { try {
 	 * HibernateTemplate template = getHibernateTemplate(); List list =
-	 * template.find("from Item i where i.id= ? ", new Object[] { item.getId()
+	 * template.find("from Item i where i.id= ? ", new Object[] { item.getID()
 	 * }); if (list.size() > 0) { Item old = (Item) list.get(0);
 	 * 
-	 * if (old.getId() != (item.getId())) { throw (new DAOException(
+	 * if (old.getID() != (item.getID())) { throw (new DAOException(
 	 * DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(item);
 	 * 
@@ -461,10 +461,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * 
 	 * try { HibernateTemplate template = getHibernateTemplate(); List list =
 	 * template.find("from ItemGroup i where i.id= ? ", new Object[] {
-	 * itemGroup.getId() }); if (list.size() > 0) { ItemGroup existingItemGroup
+	 * itemGroup.getID() }); if (list.size() > 0) { ItemGroup existingItemGroup
 	 * = (ItemGroup) list.get(0);
 	 * 
-	 * if (itemGroup.getId() != (existingItemGroup.getId())) { throw (new
+	 * if (itemGroup.getID() != (existingItemGroup.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(itemGroup);
 	 * 
@@ -476,10 +476,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * @Override public void alterMakeDeposit(MakeDeposit makeDeposit) throws
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * List list = template.find("from MakeDeposit m where m.id= ? ", new
-	 * Object[] { makeDeposit.getId() }); if (list.size() > 0) { MakeDeposit
+	 * Object[] { makeDeposit.getID() }); if (list.size() > 0) { MakeDeposit
 	 * existingMakeDeposit = (MakeDeposit) list.get(0);
 	 * 
-	 * if (makeDeposit.getId() != (existingMakeDeposit.getId())) { throw (new
+	 * if (makeDeposit.getID() != (existingMakeDeposit.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(makeDeposit);
 	 * 
@@ -491,10 +491,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * @Override public void alterPayBill(PayBill payBill) throws DAOException {
 	 * try { HibernateTemplate template = getHibernateTemplate(); List list =
 	 * template.find("from PayBill p where p.id= ? ", new Object[] {
-	 * payBill.getId() }); if (list.size() > 0) { PayBill existingpaybill =
+	 * payBill.getID() }); if (list.size() > 0) { PayBill existingpaybill =
 	 * (PayBill) list.get(0);
 	 * 
-	 * if (payBill.getId() != (existingpaybill.getId())) { throw (new
+	 * if (payBill.getID() != (existingpaybill.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(payBill);
 	 * 
@@ -507,10 +507,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from PaymentTerms pt where pt.id= ?", new
-	 * Object[] { paymentTerms.getId() });
+	 * Object[] { paymentTerms.getID() });
 	 * 
 	 * if (list.size() > 0) { PaymentTerms old = (PaymentTerms) list.get(0); if
-	 * ((old.getId() != (paymentTerms.getId()))) { throw (new DAOException(
+	 * ((old.getID() != (paymentTerms.getID()))) { throw (new DAOException(
 	 * DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(paymentTerms);
 	 * 
@@ -523,10 +523,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from PriceLevel pl where pl.id= ?", new
-	 * Object[] { priceLevel.getId() });
+	 * Object[] { priceLevel.getID() });
 	 * 
 	 * if (list.size() > 0) { PriceLevel old = (PriceLevel) list.get(0); if
-	 * ((old.getId() != (priceLevel.getId()))) { throw (new DAOException(
+	 * ((old.getID() != (priceLevel.getID()))) { throw (new DAOException(
 	 * DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(priceLevel);
 	 * 
@@ -539,10 +539,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * throws DAOException { try { HibernateTemplate template =
 	 * getHibernateTemplate(); List list =
 	 * template.find("from PurchaseOrder p where p.id= ? ", new Object[] {
-	 * purchaseOrder.getId() }); if (list.size() > 0) { PurchaseOrder
+	 * purchaseOrder.getID() }); if (list.size() > 0) { PurchaseOrder
 	 * existingpurchaseorder = (PurchaseOrder) list .get(0);
 	 * 
-	 * if (purchaseOrder.getId() != (existingpurchaseorder.getId())) { throw
+	 * if (purchaseOrder.getID() != (existingpurchaseorder.getID())) { throw
 	 * (new DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(purchaseOrder);
 	 * 
@@ -555,10 +555,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * throws DAOException { try { HibernateTemplate template =
 	 * getHibernateTemplate(); List list =
 	 * template.find("from ReceivePayment r where r.id= ? ", new Object[] {
-	 * receivePayment.getId() }); if (list.size() > 0) { ReceivePayment
+	 * receivePayment.getID() }); if (list.size() > 0) { ReceivePayment
 	 * existingreceivePayment = (ReceivePayment) list .get(0);
 	 * 
-	 * if (receivePayment.getId() != (existingreceivePayment.getId())) { throw
+	 * if (receivePayment.getID() != (existingreceivePayment.getID())) { throw
 	 * (new DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(receivePayment);
 	 * 
@@ -570,10 +570,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * @Override public void alterSalesOrder(SalesOrder salesOrder) throws
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * List list = template.find("from SalesOrder s where s.id= ? ", new
-	 * Object[] { salesOrder.getId() }); if (list.size() > 0) { SalesOrder
+	 * Object[] { salesOrder.getID() }); if (list.size() > 0) { SalesOrder
 	 * existingsalesorder = (SalesOrder) list.get(0);
 	 * 
-	 * if (salesOrder.getId() != (existingsalesorder.getId())) { throw (new
+	 * if (salesOrder.getID() != (existingsalesorder.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(salesOrder);
 	 * 
@@ -586,10 +586,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from SalesPerson sp where sp.id= ?", new
-	 * Object[] { salesPerson.getId() });
+	 * Object[] { salesPerson.getID() });
 	 * 
 	 * if (list.size() > 0) { SalesPerson old = (SalesPerson) list.get(0); if
-	 * ((old.getId() != (salesPerson.getId()))) { throw (new DAOException(
+	 * ((old.getID() != (salesPerson.getID()))) { throw (new DAOException(
 	 * DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(salesPerson);
 	 * 
@@ -602,10 +602,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * throws DAOException { try { HibernateTemplate template =
 	 * getHibernateTemplate(); List list =
 	 * template.find("from ShippingMethod s where s.id= ? ", new Object[] {
-	 * shippingMethod.getId() }); if (list.size() > 0) { ShippingMethod
+	 * shippingMethod.getID() }); if (list.size() > 0) { ShippingMethod
 	 * existingShippingMethod = (ShippingMethod) list .get(0);
 	 * 
-	 * if (shippingMethod.getId() != (existingShippingMethod.getId())) { throw
+	 * if (shippingMethod.getID() != (existingShippingMethod.getID())) { throw
 	 * (new DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(shippingMethod);
 	 * 
@@ -617,10 +617,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * 
 	 * try { HibernateTemplate template = getHibernateTemplate(); List list =
 	 * template.find("from ShippingTerms s where s.id= ? ", new Object[] {
-	 * shippingTerms.getId() }); if (list.size() > 0) { ShippingTerms
+	 * shippingTerms.getID() }); if (list.size() > 0) { ShippingTerms
 	 * existingShippingTerms = (ShippingTerms) list .get(0);
 	 * 
-	 * if (shippingTerms.getId() != (existingShippingTerms.getId())) { throw
+	 * if (shippingTerms.getID() != (existingShippingTerms.getID())) { throw
 	 * (new DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(shippingTerms);
 	 * 
@@ -634,10 +634,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * 
 	 * try { HibernateTemplate template = getHibernateTemplate(); List list =
 	 * template.find("from TaxAgency t where t.id= ? ", new Object[] {
-	 * taxAgency.getId() }); if (list.size() > 0) { TaxAgency existingTaxAgency
+	 * taxAgency.getID() }); if (list.size() > 0) { TaxAgency existingTaxAgency
 	 * = (TaxAgency) list.get(0);
 	 * 
-	 * if (taxAgency.getId() != (existingTaxAgency.getId())) { throw (new
+	 * if (taxAgency.getID() != (existingTaxAgency.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(taxAgency);
 	 * 
@@ -650,10 +650,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * 
 	 * try { HibernateTemplate template = getHibernateTemplate(); List list =
 	 * template.find("from TaxCode t where t.id= ? ", new Object[] {
-	 * taxCode.getId() }); if (list.size() > 0) { TaxCode existingTaxCode =
+	 * taxCode.getID() }); if (list.size() > 0) { TaxCode existingTaxCode =
 	 * (TaxCode) list.get(0);
 	 * 
-	 * if (taxCode.getId() != (existingTaxCode.getId())) { throw (new
+	 * if (taxCode.getID() != (existingTaxCode.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(taxCode);
 	 * 
@@ -667,10 +667,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * 
 	 * try { HibernateTemplate template = getHibernateTemplate(); List list =
 	 * template.find("from TaxGroup t where t.id= ? ", new Object[] {
-	 * taxGroup.getId() }); if (list.size() > 0) { TaxGroup existingTaxGroup =
+	 * taxGroup.getID() }); if (list.size() > 0) { TaxGroup existingTaxGroup =
 	 * (TaxGroup) list.get(0);
 	 * 
-	 * if (taxGroup.getId() != (existingTaxGroup.getId())) { throw (new
+	 * if (taxGroup.getID() != (existingTaxGroup.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(taxGroup);
 	 * 
@@ -684,10 +684,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * 
 	 * try { HibernateTemplate template = getHibernateTemplate(); List list =
 	 * template.find("from TaxRates t where t.id= ? ", new Object[] {
-	 * taxRates.getId() }); if (list.size() > 0) { TaxRates existingTaxRates =
+	 * taxRates.getID() }); if (list.size() > 0) { TaxRates existingTaxRates =
 	 * (TaxRates) list.get(0);
 	 * 
-	 * if (taxRates.getId() != (existingTaxRates.getId())) { throw (new
+	 * if (taxRates.getID() != (existingTaxRates.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(taxRates);
 	 * 
@@ -699,10 +699,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * @Override public void alterTransferFund(TransferFund transferFund) throws
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * List list = template.find("from TransferFund tf where tf.id= ? ", new
-	 * Object[] { transferFund.getId() }); if (list.size() > 0) { TransferFund
+	 * Object[] { transferFund.getID() }); if (list.size() > 0) { TransferFund
 	 * existingTransferFund = (TransferFund) list.get(0);
 	 * 
-	 * if (transferFund.getId() != (existingTransferFund.getId())) { throw (new
+	 * if (transferFund.getID() != (existingTransferFund.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(transferFund);
 	 * 
@@ -715,10 +715,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * throws DAOException { try { HibernateTemplate template =
 	 * getHibernateTemplate(); List list =
 	 * template.find("from UnitOfMeasure u where u.id= ? ", new Object[] {
-	 * untiOfMeasure.getId() }); if (list.size() > 0) { UnitOfMeasure
+	 * untiOfMeasure.getID() }); if (list.size() > 0) { UnitOfMeasure
 	 * existingUnitOfMeasure = (UnitOfMeasure) list .get(0);
 	 * 
-	 * if (untiOfMeasure.getId() != (existingUnitOfMeasure.getId())) { throw
+	 * if (untiOfMeasure.getID() != (existingUnitOfMeasure.getID())) { throw
 	 * (new DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(untiOfMeasure);
 	 * 
@@ -727,10 +727,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * 
 	 * @Override public void alterUser(User user) throws DAOException { try {
 	 * HibernateTemplate template = getHibernateTemplate(); List list =
-	 * template.find("from User u where u.id= ? ", new Object[] { user.getId()
+	 * template.find("from User u where u.id= ? ", new Object[] { user.getID()
 	 * }); if (list.size() > 0) { User existingUser = (User) list.get(0);
 	 * 
-	 * if (user.getId() != (existingUser.getId())) { throw (new DAOException(
+	 * if (user.getID() != (existingUser.getID())) { throw (new DAOException(
 	 * DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(user);
 	 * 
@@ -741,10 +741,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from Vendor v where v.id= ?", new Object[] {
-	 * vendor.getId() });
+	 * vendor.getID() });
 	 * 
 	 * if (list.size() > 0) { Vendor old = (Vendor) list.get(0); if
-	 * ((old.getId() != (vendor.getId()))) { throw (new DAOException(
+	 * ((old.getID() != (vendor.getID()))) { throw (new DAOException(
 	 * DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(vendor);
 	 * 
@@ -758,11 +758,11 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from VendorCreditMemo v where v.id= ?", new
-	 * Object[] { vendorCreditMemo.getId() });
+	 * Object[] { vendorCreditMemo.getID() });
 	 * 
 	 * if (list.size() > 0) { VendorCreditMemo existingVendorCreditMemo =
-	 * (VendorCreditMemo) list .get(0); if ((existingVendorCreditMemo.getId() !=
-	 * (vendorCreditMemo .getId()))) { throw (new DAOException(
+	 * (VendorCreditMemo) list .get(0); if ((existingVendorCreditMemo.getID() !=
+	 * (vendorCreditMemo .getID()))) { throw (new DAOException(
 	 * DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(vendorCreditMemo);
 	 * 
@@ -775,10 +775,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from VendorGroup vg where vg.id= ?", new
-	 * Object[] { vendorGroup.getId() });
+	 * Object[] { vendorGroup.getID() });
 	 * 
 	 * if (list.size() > 0) { VendorGroup old = (VendorGroup) list.get(0); if
-	 * ((old.getId() != (vendorGroup.getId()))) { throw (new DAOException(
+	 * ((old.getID() != (vendorGroup.getID()))) { throw (new DAOException(
 	 * DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(vendorGroup);
 	 * 
@@ -793,10 +793,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from WriteCheck wc where wc.id= ?", new
-	 * Object[] { writeCheck.getId() });
+	 * Object[] { writeCheck.getID() });
 	 * 
 	 * if (list.size() > 0) { WriteCheck old = (WriteCheck) list.get(0); if
-	 * ((old.getId() != (writeCheck.getId()))) { throw (new DAOException(
+	 * ((old.getID() != (writeCheck.getID()))) { throw (new DAOException(
 	 * DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(writeCheck);
 	 * 
@@ -955,11 +955,11 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * defaultVATAgency.setName(company.getPreferences()
 	 * .getVATtaxAgencyName()); //
 	 * defaultVATAgency.setPaymentTerm(accounterDao.getPaymentTerms( //
-	 * company.getId(), "Quarterly"));
+	 * company.getID(), "Quarterly"));
 	 * defaultVATAgency.setSalesVATAccount(accounterDao.getAccount(company
-	 * .getId(), AccounterConstants.SALES_OUTPUT_VAT));
+	 * .getID(), AccounterConstants.SALES_OUTPUT_VAT));
 	 * defaultVATAgency.setPurchasesVATAccount(accounterDao.getAccount(
-	 * company.getId(), AccounterConstants.PURCHASE_INPUT_VAT));
+	 * company.getID(), AccounterConstants.PURCHASE_INPUT_VAT));
 	 * 
 	 * this.createTaxAgency(defaultVATAgency);
 	 * 
@@ -1020,9 +1020,9 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * defaultTaxAgency.setName("Tax Agency");
 	 * 
 	 * defaultTaxAgency.setPaymentTerm(accounterDao.getPaymentTerms(
-	 * company.getId(), "Quarterly"));
+	 * company.getID(), "Quarterly"));
 	 * defaultTaxAgency.setLiabilityAccount(accounterDao.getAccount(
-	 * company.getId(), "Sales Tax Payable"));
+	 * company.getID(), "Sales Tax Payable"));
 	 * 
 	 * this.createTaxAgency(defaultTaxAgency);
 	 * 
@@ -1104,7 +1104,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * 
 	 * if (customer.getCompany().getAccountingType() ==
 	 * Company.ACCOUNTING_TYPE_US) { List<TaxAgency> taxAgencies = accounterDao
-	 * .getTaxAgencies(customer.getCompany().getId());
+	 * .getTaxAgencies(customer.getCompany().getID());
 	 * 
 	 * for (TaxAgency taxAgency : taxAgencies) {
 	 * 
@@ -1259,10 +1259,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * 
 	 * if (transactionIssuePayment.getWriteCheck() != null) {
 	 * 
-	 * Long writeCheckId = transactionIssuePayment.getWriteCheck() .getId();
+	 * Long writeCheckId = transactionIssuePayment.getWriteCheck() .getID();
 	 * 
 	 * WriteCheck writeCheck = accounterDao.getwriterCheck(
-	 * transactionIssuePayment.getTransaction() .getCompany().getId(),
+	 * transactionIssuePayment.getTransaction() .getCompany().getID(),
 	 * writeCheckId);
 	 * 
 	 * if (writeCheck == null) throw new
@@ -1272,11 +1272,11 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * transactionIssuePayment.setWriteCheck(writeCheck); } else {
 	 * 
 	 * Long customerRefundId = transactionIssuePayment
-	 * .getCustomerRefund().getId();
+	 * .getCustomerRefund().getID();
 	 * 
 	 * CustomerRefund customerRefund = accounterDao
 	 * .getCustomerRefunds(transactionIssuePayment
-	 * .getTransaction().getCompany().getId(), customerRefundId);
+	 * .getTransaction().getCompany().getID(), customerRefundId);
 	 * 
 	 * if (customerRefund == null) throw new
 	 * DAOException(DAOException.DATABASE_EXCEPTION, new Exception(),
@@ -1370,13 +1370,13 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * .next(); // // EnterBill enterBill = transactionPayBill //
 	 * .getEnterBill(); // if (enterBill != null) { // try { //
 	 * transactionPayBill // .setEnterBill(accounterDao // .getEnterBill(payBill
-	 * // .getCompany() // .getId(), enterBill // .getId())); // } catch
+	 * // .getCompany() // .getID(), enterBill // .getID())); // } catch
 	 * (DAOException e) { // // TODO Auto-generated catch block //
 	 * e.printStackTrace(); // } // } else { // // TransactionMakeDeposit
 	 * txMakeDeposit = transactionPayBill // .getTransactionMakeDeposit(); // //
 	 * try { // transactionPayBill // .setTransactionMakeDeposit(accounterGUIDao
-	 * // .getTransactionMakeDeposit( // payBill // .getCompany() // .getId(),
-	 * // txMakeDeposit // .getId())); // } catch (DAOException e) { // // TODO
+	 * // .getTransactionMakeDeposit( // payBill // .getCompany() // .getID(),
+	 * // txMakeDeposit // .getID())); // } catch (DAOException e) { // // TODO
 	 * Auto-generated catch block // e.printStackTrace(); // } // // } // // }
 	 * // // }
 	 * 
@@ -1710,7 +1710,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from Account a where a.id = ?", new Object[] {
-	 * account.getId() });
+	 * account.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(account);
 	 * 
@@ -1727,7 +1727,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * getHibernateTemplate();
 	 * 
 	 * List list = template.find("from CashPurchase cp where cp.id = ?", new
-	 * Object[] { cashPurchase.getId() });
+	 * Object[] { cashPurchase.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(cashPurchase);
 	 * 
@@ -1743,7 +1743,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from CashSales cs where cs.id = ?", new
-	 * Object[] { cashSales.getId() });
+	 * Object[] { cashSales.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(cashSales);
 	 * 
@@ -1759,7 +1759,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from Company c where c.id = ?", new Object[] {
-	 * company.getId() });
+	 * company.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(company);
 	 * 
@@ -1776,7 +1776,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * = getHibernateTemplate();
 	 * 
 	 * List list = template.find( "from CreditCardCharge cc where cc.id = ?",
-	 * new Object[] { creditCardCharge.getId() });
+	 * new Object[] { creditCardCharge.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(creditCardCharge);
 	 * 
@@ -1793,7 +1793,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * getHibernateTemplate();
 	 * 
 	 * List list = template.find("from CreditRating cr where cr.id = ?", new
-	 * Object[] { creditRating.getId() });
+	 * Object[] { creditRating.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(creditRating);
 	 * 
@@ -1809,7 +1809,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from Currency c where c.id = ?", new Object[]
-	 * { currency.getId() });
+	 * { currency.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(currency);
 	 * 
@@ -1825,7 +1825,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from Customer c where c.id = ?", new Object[]
-	 * { customer.getId() });
+	 * { customer.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(customer);
 	 * 
@@ -1842,7 +1842,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * getHibernateTemplate();
 	 * 
 	 * List list = template.find( "from CustomerCreditMemo cm where cm.id = ?",
-	 * new Object[] { creditMemo.getId() });
+	 * new Object[] { creditMemo.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(creditMemo);
 	 * 
@@ -1859,7 +1859,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * getHibernateTemplate();
 	 * 
 	 * List list = template.find("from CustomerGroup c where c.id = ?", new
-	 * Object[] { customerGroup.getId() });
+	 * Object[] { customerGroup.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(customerGroup);
 	 * 
@@ -1876,7 +1876,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * getHibernateTemplate();
 	 * 
 	 * List list = template.find("from CustomerRefund cr where cr.id = ?", new
-	 * Object[] { customerRefunds.getId() });
+	 * Object[] { customerRefunds.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(customerRefunds);
 	 * 
@@ -1890,7 +1890,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from EnterBill e where e.id = ?", new Object[]
-	 * { enterBill.getId() });
+	 * { enterBill.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(enterBill);
 	 * 
@@ -1906,7 +1906,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from Estimate e where e.id = ?", new Object[]
-	 * { estimate.getId() });
+	 * { estimate.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(estimate);
 	 * 
@@ -1922,7 +1922,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from Invoice i where i.id = ?", new Object[] {
-	 * invoice.getId() });
+	 * invoice.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(invoice);
 	 * 
@@ -1939,7 +1939,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * getHibernateTemplate();
 	 * 
 	 * List list = template.find("from IssuePayment ip where ip.id = ?", new
-	 * Object[] { issuePayment.getId() });
+	 * Object[] { issuePayment.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(issuePayment);
 	 * 
@@ -1955,7 +1955,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from Item i where i.id = ?", new Object[] {
-	 * item.getId() });
+	 * item.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(item);
 	 * 
@@ -1971,7 +1971,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from ItemGroup i where i.id = ?", new Object[]
-	 * { itemGroup.getId() });
+	 * { itemGroup.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(itemGroup);
 	 * 
@@ -1987,7 +1987,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from MakeDeposit md where md.id = ?", new
-	 * Object[] { makeDeposit.getId() });
+	 * Object[] { makeDeposit.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(makeDeposit);
 	 * 
@@ -2003,7 +2003,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from PayBill p where p.id = ?", new Object[] {
-	 * payBill.getId() });
+	 * payBill.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(payBill);
 	 * 
@@ -2020,7 +2020,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * getHibernateTemplate();
 	 * 
 	 * List list = template.find("from PaymentTerms st where st.id = ?", new
-	 * Object[] { paymentTerms.getId() });
+	 * Object[] { paymentTerms.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(paymentTerms);
 	 * 
@@ -2036,7 +2036,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from PriceLevel pl where pl.id = ?", new
-	 * Object[] { priceLevel.getId() });
+	 * Object[] { priceLevel.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(priceLevel);
 	 * 
@@ -2053,7 +2053,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * getHibernateTemplate();
 	 * 
 	 * List list = template.find("from PurchaseOrder p where p.id = ?", new
-	 * Object[] { purchaseOrder.getId() });
+	 * Object[] { purchaseOrder.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(purchaseOrder);
 	 * 
@@ -2070,7 +2070,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * getHibernateTemplate();
 	 * 
 	 * List list = template.find("from ReceivePayment r where r.id = ?", new
-	 * Object[] { receivePayment.getId() });
+	 * Object[] { receivePayment.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(receivePayment);
 	 * 
@@ -2086,7 +2086,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from SalesOrder s where s.id = ?", new
-	 * Object[] { salesOrder.getId() });
+	 * Object[] { salesOrder.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(salesOrder);
 	 * 
@@ -2102,7 +2102,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from SalesPerson sr where sr.id = ?", new
-	 * Object[] { salesPerson.getId() });
+	 * Object[] { salesPerson.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(salesPerson);
 	 * 
@@ -2119,7 +2119,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * getHibernateTemplate();
 	 * 
 	 * List list = template.find("from ShippingMethod sm where sm.id = ?", new
-	 * Object[] { shippingMethod.getId() });
+	 * Object[] { shippingMethod.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(shippingMethod);
 	 * 
@@ -2136,7 +2136,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * getHibernateTemplate();
 	 * 
 	 * List list = template.find("from ShippingTerms st where st.id = ?", new
-	 * Object[] { shippingTerms.getId() });
+	 * Object[] { shippingTerms.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(shippingTerms);
 	 * 
@@ -2152,7 +2152,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from TaxAgency t where t.id = ?", new Object[]
-	 * { taxAgency.getId() });
+	 * { taxAgency.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(taxAgency);
 	 * 
@@ -2168,7 +2168,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from TaxCode tc where tc.id = ?", new Object[]
-	 * { taxCode.getId() });
+	 * { taxCode.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(taxCode);
 	 * 
@@ -2184,7 +2184,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from TaxGroup tg where tg.id = ?", new
-	 * Object[] { taxGroup.getId() });
+	 * Object[] { taxGroup.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(taxGroup);
 	 * 
@@ -2200,7 +2200,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from TaxRates tr where tr.id = ?", new
-	 * Object[] { taxRates.getId() });
+	 * Object[] { taxRates.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(taxRates);
 	 * 
@@ -2217,7 +2217,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * getHibernateTemplate();
 	 * 
 	 * List list = template.find("from TransferFund tf where tf.id = ?", new
-	 * Object[] { transferFund.getId() });
+	 * Object[] { transferFund.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(transferFund);
 	 * 
@@ -2234,7 +2234,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * getHibernateTemplate();
 	 * 
 	 * List list = template.find("from UnitOfMeasure u where u.id = ?", new
-	 * Object[] { untiOfMeasure.getId() });
+	 * Object[] { untiOfMeasure.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(untiOfMeasure);
 	 * 
@@ -2250,7 +2250,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from User a where a.id = ?", new Object[] {
-	 * user.getId() });
+	 * user.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(user);
 	 * 
@@ -2264,7 +2264,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from Vendor v where v.id = ?", new Object[] {
-	 * vendor.getId() });
+	 * vendor.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(vendor);
 	 * 
@@ -2281,7 +2281,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from VendorCreditMemo v where v.id = ?", new
-	 * Object[] { vendorCreditMemo.getId() });
+	 * Object[] { vendorCreditMemo.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(vendorCreditMemo);
 	 * 
@@ -2297,7 +2297,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from VendorGroup vg where vg.id = ?", new
-	 * Object[] { vendorGroup.getId() });
+	 * Object[] { vendorGroup.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(vendorGroup);
 	 * 
@@ -2315,7 +2315,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from WriteCheck wc where wc.id = ?", new
-	 * Object[] { writeCheck.getId() });
+	 * Object[] { writeCheck.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(writeCheck);
 	 * 
@@ -2330,10 +2330,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * @Override public void alterJournalEntry(JournalEntry journalEntry) throws
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * List list = template.find("from JournalEntry je where je.id= ? ", new
-	 * Object[] { journalEntry.getId() }); if (list.size() > 0) { JournalEntry
+	 * Object[] { journalEntry.getID() }); if (list.size() > 0) { JournalEntry
 	 * existingJournalEntry = (JournalEntry) list.get(0);
 	 * 
-	 * if (journalEntry.getId() != (existingJournalEntry.getId())) { throw (new
+	 * if (journalEntry.getID() != (existingJournalEntry.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(journalEntry);
 	 * 
@@ -2345,10 +2345,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * @Override public void alterFiscalYear(final FiscalYear fiscalYear) throws
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * List list = template.find("from FiscalYear f where f.id= ? ", new
-	 * Object[] { fiscalYear.getId() }); if (list.size() > 0) { FiscalYear
+	 * Object[] { fiscalYear.getID() }); if (list.size() > 0) { FiscalYear
 	 * existingFiscalYear = (FiscalYear) list.get(0);
 	 * 
-	 * if (fiscalYear.getId() != (existingFiscalYear.getId())) { throw (new
+	 * if (fiscalYear.getID() != (existingFiscalYear.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } } if
 	 * (fiscalYear.getStartDate().equals( fiscalYear.getPreviousStartDate())) {
 	 * template.saveOrUpdate(fiscalYear); } else if
@@ -2483,7 +2483,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from FiscalYear f where f.id = ?", new
-	 * Object[] { fiscalYear.getId() });
+	 * Object[] { fiscalYear.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(fiscalYear);
 	 * 
@@ -2533,10 +2533,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * @Override public void alterPaySalesTax(PaySalesTax paySalesTax) throws
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * List list = template.find("from PaySalesTax pst where pst.id= ? ", new
-	 * Object[] { paySalesTax.getId() }); if (list.size() > 0) { PaySalesTax
+	 * Object[] { paySalesTax.getID() }); if (list.size() > 0) { PaySalesTax
 	 * existingPaySalesTax = (PaySalesTax) list.get(0);
 	 * 
-	 * if (paySalesTax.getId() != (existingPaySalesTax.getId())) { throw (new
+	 * if (paySalesTax.getID() != (existingPaySalesTax.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.saveOrUpdate(paySalesTax);
 	 * 
@@ -2566,10 +2566,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from FixedAsset fa where fa.id= ? ", new
-	 * Object[] { fixedAsset.getId() }); if (list.size() > 0) { FixedAsset
+	 * Object[] { fixedAsset.getID() }); if (list.size() > 0) { FixedAsset
 	 * existingFixedAsset = (FixedAsset) list.get(0);
 	 * 
-	 * if (fixedAsset.getId() != (existingFixedAsset.getId())) { throw (new
+	 * if (fixedAsset.getID() != (existingFixedAsset.getID())) { throw (new
 	 * DAOException( DAOException.INVALID_REQUEST_EXCEPTION, null)); } }
 	 * template.update(fixedAsset); } catch (DataAccessException e) { throw (new
 	 * DAOException(DAOException.DATABASE_EXCEPTION, e)); }
@@ -2580,7 +2580,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * DAOException { try { HibernateTemplate template = getHibernateTemplate();
 	 * 
 	 * List list = template.find("from FixedAsset fa where fa.id = ?", new
-	 * Object[] { fixedAsset.getId() });
+	 * Object[] { fixedAsset.getID() });
 	 * 
 	 * if (list.size() > 0) { template.delete(fixedAsset);
 	 * 

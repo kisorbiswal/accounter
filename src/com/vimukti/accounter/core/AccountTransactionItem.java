@@ -10,7 +10,7 @@ public class AccountTransactionItem {
 	Account account;
 	double amount;
 	
-	transient boolean isImported;
+	
 
 	public AccountTransactionItem() {
 		//TODO

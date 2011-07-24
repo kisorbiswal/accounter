@@ -49,7 +49,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	VATReturn vatReturn;
 	private transient double vatValue;
 
-	transient boolean isImported;
+	
 
 	/**
 	 * This taxDue is used to know how much Vat Amount is remains to pay
@@ -59,8 +59,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	public TAXRateCalculation() {
 	}
 
-	public TAXRateCalculation(TAXItem taxItem, TransactionItem transactonItem,
-			long id) {
+	public TAXRateCalculation(TAXItem taxItem, TransactionItem transactonItem) {
 
 		this.transactionItem = transactonItem;
 		this.taxItem = taxItem;
@@ -79,7 +78,6 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 		} else
 			this.lineTotal = (!transactionItem.transaction.isBecameVoid()) ? transactionItem
 					.getLineTotal() : -transactionItem.getLineTotal();
-		this.id = id;
 
 		if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			vatValue = Math.abs(this.getCeilValueofTAX());
@@ -125,24 +123,10 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @return the id
 	 */
-	public long getId() {
-		return id;
-	}
-
-	/**
-	 * @return the id
-	 */
 	public long getID() {
 		return id;
 	}
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id) {
-		this.id = id;
-	}
 
 	/**
 	 * @return the vatAgency
@@ -345,10 +329,6 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onSave(Session s) throws CallbackException {
-		if (isImported) {
-
-			return false;
-		}
 
 		return false;
 	}

@@ -435,7 +435,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 		contactDetailHtml = new HTML(messages.contactDetailsHtml());
 		contactDetailsArea = new TextArea();
 		contactDetailsArea.setStyleName("contact-deatils-area");
-		contactDetailsArea.setText(Accounter.getCompany()
+		contactDetailsArea.setText(getCompany()
 				.getDisplayName());
 
 		radioButtonPanel.add(logoLabel);

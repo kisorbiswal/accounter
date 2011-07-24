@@ -51,15 +51,15 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	private DateValueChangeHandler handler;
 
 	{
-		// if(!BizantraClient.getIdentity().getCompany().dateFormat.equals("")){
+		// if(!BizantraClient.getIDentity().getCompany().dateFormat.equals("")){
 		// dateFormatter =
-		// DateTimeFormat.getFormat(BizantraClient.getIdentity().getCompany().dateFormat);
+		// DateTimeFormat.getFormat(BizantraClient.getIDentity().getCompany().dateFormat);
 		// }else{
 		// dateFormatter=DateTimeFormat.getFormat(DateUtil.getUserPreferredDateFormat());
 		// }
-		if(Accounter.getCompany().getAccountingType()==ClientCompany.ACCOUNTING_TYPE_UK)
+		if(getCompany().getAccountingType()==ClientCompany.ACCOUNTING_TYPE_UK)
 		dateFormatter = DateTimeFormat.getFormat("dd/MM/yyyy");
-		if(Accounter.getCompany().getAccountingType()==ClientCompany.ACCOUNTING_TYPE_US)
+		if(getCompany().getAccountingType()==ClientCompany.ACCOUNTING_TYPE_US)
 			dateFormatter=DateTimeFormat.getFormat("MM/dd/yyyy");
 		popup = new PopupCalendar(this);
 		changeHandlers = new ArrayList<ChangeHandler>();

@@ -32,7 +32,7 @@ public class SalesPersonCombo extends CustomCombo<ClientSalesPerson> {
 	public void onAddNew() {
 		Action action = CompanyActionFactory.getNewSalesperSonAction();
 		action.setActionSource(this);
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 	}
 

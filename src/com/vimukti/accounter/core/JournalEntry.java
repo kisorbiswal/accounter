@@ -62,14 +62,13 @@ public class JournalEntry extends Transaction {
 
 	Set<TransactionPayBill> transactionPayBills = new HashSet<TransactionPayBill>();
 
-	// transient boolean isImported;
+	// 
 
 	public JournalEntry() {
 		setType(Transaction.TYPE_JOURNAL_ENTRY);
 	}
 
 	public JournalEntry(int journalEntryType) {
-		this.id = SecureUtils.createID();
 		this.journalEntryType = journalEntryType;
 	}
 
@@ -78,7 +77,6 @@ public class JournalEntry extends Transaction {
 		FinanceLogger.log("JournalEntry {0} For Customer {1}", String
 				.valueOf(number), customer.getName());
 
-		this.id = SecureUtils.createID();
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.journalEntryType = journalEntryType;
 		this.number = number;
@@ -125,7 +123,6 @@ public class JournalEntry extends Transaction {
 	}
 
 	public JournalEntry(Vendor vendor, String number, int journalEntryType) {
-		this.id = SecureUtils.createID();
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.journalEntryType = journalEntryType;
 		this.number = number;
@@ -164,7 +161,6 @@ public class JournalEntry extends Transaction {
 
 	public JournalEntry(Account account, String number, int journalEntryType) {
 
-		this.id = SecureUtils.createID();
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.journalEntryType = journalEntryType;
 		this.number = number;
@@ -217,7 +213,6 @@ public class JournalEntry extends Transaction {
 			List<AccountTransactionByAccount> accountTransactionList,
 			String number, int journalEntryType) {
 
-		this.id = SecureUtils.createID();
 
 		double debitTotal = 0D;
 		double creditTotal = 0D;
@@ -295,7 +290,6 @@ public class JournalEntry extends Transaction {
 	public JournalEntry(FiscalYear fiscalYear,
 			List<AccountTransactionByAccount> cashBasisAccountEntries,
 			String number, int journalEntryType) {
-		this.id = SecureUtils.createID();
 		double debitTotal = 0D;
 		double creditTotal = 0D;
 
@@ -372,7 +366,6 @@ public class JournalEntry extends Transaction {
 
 	public JournalEntry(FixedAsset fixedAsset, FinanceDate date, String number,
 			double amount) {
-		this.id = SecureUtils.createID();
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.number = number;
 		this.transactionDate = date;
@@ -414,7 +407,6 @@ public class JournalEntry extends Transaction {
 
 	public JournalEntry(FixedAsset fixedAsset, String number) {
 
-		this.id = SecureUtils.createID();
 
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.number = number;
@@ -560,7 +552,6 @@ public class JournalEntry extends Transaction {
 	public JournalEntry(TAXAdjustment adjustment, String number,
 			int journalEntryType) {
 
-		this.id = SecureUtils.createID();
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.journalEntryType = journalEntryType;
 		this.number = number;
@@ -708,9 +699,6 @@ public class JournalEntry extends Transaction {
 
 	public JournalEntry(VATReturn return1) {
 
-		this.id = this.id == null || this.id != null
-				&& this.id.isEmpty() ? SecureUtils.createID()
-				: this.id;
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.journalEntryType = TYPE_NORMAL_JOURNAL_ENTRY;
 		this.number = NumberUtils
@@ -877,7 +865,7 @@ public class JournalEntry extends Transaction {
 	 * @return the id
 	 */
 	@Override
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 
@@ -965,9 +953,6 @@ public class JournalEntry extends Transaction {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -1059,13 +1044,6 @@ public class JournalEntry extends Transaction {
 		return false;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		for (Entry e : this.entry) {
-			e.setImported(true);
-		}
-	}
 
 	protected boolean isBecameVoid() {
 		return isVoid && !this.isVoidBefore;

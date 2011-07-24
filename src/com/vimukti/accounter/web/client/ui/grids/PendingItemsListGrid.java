@@ -78,7 +78,7 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		case 1:
 			return asset.getAssetNumber();
 		case 2:
-			return Accounter.getCompany().getAccount(
+			return getCompany().getAccount(
 					asset.getAssetAccount()) != null ? Accounter
 					.getCompany().getAccount(asset.getAssetAccount()).getName()
 					: "";
@@ -235,7 +235,7 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	private String getAccount(ClientFixedAsset obj) {
 
-		return Accounter.getCompany()
+		return getCompany()
 				.getAccount(obj.getAssetAccount()) != null ? Accounter
 				.getCompany().getAccount(obj.getAssetAccount()).getName() : "";
 	}

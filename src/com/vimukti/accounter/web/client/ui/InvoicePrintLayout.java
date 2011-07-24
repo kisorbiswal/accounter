@@ -65,7 +65,7 @@ public class InvoicePrintLayout extends VerticalPanel {
 		List<String> removeHeaderBackground = new ArrayList<String>();
 
 		String cmpAdd = "<br/><br/><br/><br/><br/>";
-		for (ClientAddress cmpTrad : Accounter.getCompany()
+		for (ClientAddress cmpTrad : getCompany()
 				.getAddresses()) {
 			if (cmpTrad.getType() == ClientAddress.TYPE_COMPANY_REGISTRATION) {
 				if (cmpTrad != null)
@@ -82,11 +82,11 @@ public class InvoicePrintLayout extends VerticalPanel {
 		HTML compLab = new HTML();
 		compLab
 				.setHTML("<p style=\"margin-bottom:12px;\"><font color=\"black\" size=\"5\"><strong> "
-						+ Accounter.getCompany().getName().replace(
-								Accounter.getCompany().getName()
+						+ getCompany().getName().replace(
+								getCompany().getName()
 										.charAt(0)
 										+ "",
-								(Accounter.getCompany().getName()
+								(getCompany().getName()
 										.charAt(0) + "").toUpperCase())
 						+ "</strong></font>" + cmpAdd + "</p>");
 
@@ -99,7 +99,7 @@ public class InvoicePrintLayout extends VerticalPanel {
 				"Order Number",
 				invoice.getOrderNum(),
 				"Customer Number",
-				Accounter.getCompany().getCustomer(
+				getCompany().getCustomer(
 						invoice.getCustomer()).getNumber() });
 
 		HorizontalPanel datepanel = new HorizontalPanel();
@@ -128,7 +128,7 @@ public class InvoicePrintLayout extends VerticalPanel {
 		adressHPanel.setSpacing(10);
 		adressHPanel.getElement().setAttribute("cellpaddding", "1");
 
-		ClientCustomer customer = Accounter.getCompany().getCustomer(
+		ClientCustomer customer = getCompany().getCustomer(
 				invoice.getCustomer());
 		String billAdrs = "<br/><br/><br/><br/><br/>";
 		String shpAdrs1 = "<br/><br/><br/><br/><br/>";
@@ -172,17 +172,17 @@ public class InvoicePrintLayout extends VerticalPanel {
 		adressHPanel.setCellHorizontalAlignment(shipToTable,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		ClientSalesPerson salesPerson = Accounter.getCompany()
+		ClientSalesPerson salesPerson = getCompany()
 				.getSalesPerson(invoice.getSalesPerson());
-		ClientPaymentTerms paymtnTerm = Accounter.getCompany()
+		ClientPaymentTerms paymtnTerm = getCompany()
 				.getPaymentTerms(invoice.getPaymentTerm());
 		String paymentTermName = paymtnTerm != null ? paymtnTerm.getName() : "";
 		String salesPersname = salesPerson != null ? salesPerson.getName() : "";
-		ClientShippingMethod shipMtd = Accounter.getCompany()
+		ClientShippingMethod shipMtd = getCompany()
 				.getShippingMethod(invoice.getShippingMethod());
 		String shipMtdName = shipMtd != null ? shipMtd.getName() : "";
 
-		ClientShippingTerms shipingterm = Accounter.getCompany()
+		ClientShippingTerms shipingterm = getCompany()
 				.getShippingTerms(invoice.getShippingTerm());
 		String shipterm = shipingterm != null ? shipingterm.getName() : "";
 
@@ -203,7 +203,7 @@ public class InvoicePrintLayout extends VerticalPanel {
 		gridPanel.add(grid);
 		gridPanel.setSize("100%", "100%");
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			vatPanel = new HorizontalPanel();
 
 			vatPanel.setSize("100%", "100%");
@@ -228,7 +228,7 @@ public class InvoicePrintLayout extends VerticalPanel {
 
 		double lineTotal = invoiceView.getGridForPrinting().getTotal();
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			vatTotal = invoiceView.getGridForPrinting().getVatTotal();
 			totalAmount = lineTotal + vatTotal;
 
@@ -433,11 +433,11 @@ public class InvoicePrintLayout extends VerticalPanel {
 		PrintTemplateUtils util = new PrintTemplateUtils();
 
 		Map<String, String> detailsMap = getMap("VAT No : "
-				+ Accounter.getCompany().getpreferences()
+				+ getCompany().getpreferences()
 						.getVATregistrationNumber(), "" + "<br/>",
-				"Sort Code : " + Accounter.getCompany().getSortCode(),
+				"Sort Code : " + getCompany().getSortCode(),
 				"" + "<br/>", "Bank Account No : "
-						+ Accounter.getCompany().getBankAccountNo(),
+						+ getCompany().getBankAccountNo(),
 				"" + "<br/>");
 
 		FlexTable vatTable = util.getThinBorderWidget(2, 3, detailsMap, true);
@@ -445,7 +445,7 @@ public class InvoicePrintLayout extends VerticalPanel {
 		vatTable.setSize("100%", "100%");
 
 		String regAdd = "&nbsp;";
-		for (ClientAddress reg : Accounter.getCompany().getAddresses()) {
+		for (ClientAddress reg : getCompany().getAddresses()) {
 			if (reg.getType() == ClientAddress.TYPE_COMPANY) {
 				if (reg != null)
 					regAdd = reg.getAddress1() + ",&nbsp;" + reg.getStreet()
@@ -457,10 +457,10 @@ public class InvoicePrintLayout extends VerticalPanel {
 		}
 
 		HorizontalPanel Hpanel = new HorizontalPanel();
-		Map<String, String> regAddMap = getMap(Accounter.getCompany()
+		Map<String, String> regAddMap = getMap(getCompany()
 				.getName()
 				+ ", "
-				+ Accounter.getCompany().getRegistrationNumber()
+				+ getCompany().getRegistrationNumber()
 				+ ", " + regAdd);
 
 		FlexTable table = util.getThinBorderWidget(1, 0, regAddMap, true);

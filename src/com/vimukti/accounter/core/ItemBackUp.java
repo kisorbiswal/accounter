@@ -27,7 +27,6 @@ public class ItemBackUp implements IAccounterServerCore, Lifecycle {
 
 	long id;
 
-	public long id;
 
 	TransactionItem transactionItem;
 
@@ -49,29 +48,11 @@ public class ItemBackUp implements IAccounterServerCore, Lifecycle {
 		this.expenseAccount = transactionItem.getItem().getExpenseAccount();
 	}
 
-	@Override
-	public long getID(){
-		return this.id;
-	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-	}
-
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 
-	public void setID(long id){
-		this.id = id;
-	}
 
 	public TransactionItem getTransactionItem() {
 		return transactionItem;
@@ -126,9 +107,6 @@ public class ItemBackUp implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		this.id = this.id == null || this.id != null
-				&& this.id.isEmpty() ? SecureUtils.createID()
-				: this.id;
 		return false;
 	}
 

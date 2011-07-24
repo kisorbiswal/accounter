@@ -392,7 +392,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	/**
 	 * @return the id
 	 */
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 
@@ -1005,7 +1005,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			String oldFlow = this.flow;
 
 			Query query = session.getNamedQuery("getCountOfParentAccount")
-					.setParameter("parentId", this.parent.getId());
+					.setParameter("parentId", this.parent.getID());
 			List l = query.list();
 			// List l = session.createQuery(
 			// "select count(*) from Account a where a.parent=:parent")
@@ -1033,7 +1033,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 				// Query query1 =
 				// session.getNamedQuery("getAccountDetails").setParameter("parentId",
-				// this.oldParent.getId()).setParameter("flow", oldFlow);
+				// this.oldParent.getID()).setParameter("flow", oldFlow);
 
 				Query query1 = session
 						.createQuery(
@@ -1091,7 +1091,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		// session.createQuery(
 		// "from com.vimukti.accounter.core.TransactionMakeDepositEntries tme where tme.transaction.id=?"
 		// ).setParameter(0,
-		// accountTransaction.getTransaction().getId()).uniqueResult();
+		// accountTransaction.getTransaction().getID()).uniqueResult();
 		// transactionMakeDepositEntries = object !=
 		// null?(TransactionMakeDepositEntries) object:null;
 		// if(transactionMakeDepositEntries != null){

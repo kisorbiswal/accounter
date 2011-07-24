@@ -262,7 +262,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 	@Override
 	protected void showMenu(AccounterButton button) {
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, Accounter.getVendorsMessages()
 					.service());
 		else

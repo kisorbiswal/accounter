@@ -15,8 +15,8 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 
 @SuppressWarnings("serial")
-public class CustomerGroup implements IAccounterServerCore, Lifecycle,
-		CreatableObject {
+public class CustomerGroup extends CreatableObject implements
+		IAccounterServerCore, Lifecycle {
 
 	int version;
 
@@ -26,15 +26,6 @@ public class CustomerGroup implements IAccounterServerCore, Lifecycle,
 	 * The name of the Group
 	 */
 	String name;
-
-	public long id;
-
-	transient boolean isImported;
-
-	String createdBy;
-	String lastModifier;
-	FinanceDate createdDate;
-	FinanceDate lastModifiedDate;
 	boolean isDefault;
 
 	transient private boolean isOnSaveProccessed;
@@ -59,13 +50,6 @@ public class CustomerGroup implements IAccounterServerCore, Lifecycle,
 	}
 
 	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
-
-	/**
 	 * @return the name
 	 */
 	public String getName() {
@@ -81,7 +65,7 @@ public class CustomerGroup implements IAccounterServerCore, Lifecycle,
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setid(this.id);
+		accounterCore.setID(this.id);
 		accounterCore.setObjectType(AccounterCoreType.CUSTOMER_GROUP);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -95,9 +79,6 @@ public class CustomerGroup implements IAccounterServerCore, Lifecycle,
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -112,53 +93,9 @@ public class CustomerGroup implements IAccounterServerCore, Lifecycle,
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		// TODO Auto-generated method stub
 		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setLastModifier(String lastModifier) {
-		this.lastModifier = lastModifier;
-	}
-
-	public String getLastModifier() {
-		return lastModifier;
-	}
-
-	public void setCreatedDate(FinanceDate createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public FinanceDate getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setLastModifiedDate(FinanceDate lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public FinanceDate getLastModifiedDate() {
-		return lastModifiedDate;
 	}
 
 	@Override

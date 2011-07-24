@@ -38,7 +38,7 @@ public class BankAccountCombo extends AccountCombo {
 		action.setActionSource(this);
 		action.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.BANK_ACCOUNTS_COMBO));
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 
 	}
@@ -47,7 +47,7 @@ public class BankAccountCombo extends AccountCombo {
 	public List<ClientAccount> getAccounts() {
 		bankAccounts = new ArrayList<ClientAccount>();
 
-		for (ClientAccount account : Accounter.getCompany()
+		for (ClientAccount account : getCompany()
 				.getActiveAccounts()) {
 			if (account.getType() == ClientAccount.TYPE_BANK)
 				bankAccounts.add(account);

@@ -22,9 +22,9 @@ public class DepositInAccountCombo extends AccountCombo {
 
 	public List<ClientAccount> getAccounts() {
 		deposiInAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : Accounter.getCompany()
+		for (ClientAccount account : getCompany()
 				.getActiveAccounts()) {
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				if (Arrays.asList(
 						// ClientAccount.TYPE_BANK, ClientAccount.TYPE_CASH,
 						ClientAccount.TYPE_CREDIT_CARD,
@@ -54,9 +54,9 @@ public class DepositInAccountCombo extends AccountCombo {
 
 	public void setAccounts() {
 		deposiInAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : Accounter.getCompany()
+		for (ClientAccount account : getCompany()
 				.getActiveAccounts()) {
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				if (Arrays.asList(
 						// ClientAccount.TYPE_BANK, ClientAccount.TYPE_CASH,
 						ClientAccount.TYPE_CREDIT_CARD,
@@ -85,13 +85,13 @@ public class DepositInAccountCombo extends AccountCombo {
 
 	private void setDefaultDepositInAccount() {
 		/* Default deposit in account is set to Bank Current Account */
-		List<ClientAccount> accounts = Accounter.getCompany()
+		List<ClientAccount> accounts = getCompany()
 				.getAccounts();
 		for (ClientAccount account : accounts) {
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK && account.getNumber().equals("1100")) {
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK && account.getNumber().equals("1100")) {
 				this.addItemThenfireEvent(account);
 				break;
-			} else if(Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US && account.getNumber().equals("1175")) {
+			} else if(getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US && account.getNumber().equals("1175")) {
 				this.addItemThenfireEvent(account);
 				break;
 			}
@@ -105,7 +105,7 @@ public class DepositInAccountCombo extends AccountCombo {
 		action.setActionSource(this);
 		action.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.DEPOSIT_IN_ACCOUNT));
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 
 	}

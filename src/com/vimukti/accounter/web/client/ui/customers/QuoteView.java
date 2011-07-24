@@ -115,7 +115,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		this.paymentTerm = paymentTerm;
 		if (this.paymentTerm != null && payTermsSelect != null) {
 
-			payTermsSelect.setComboItem(Accounter.getCompany()
+			payTermsSelect.setComboItem(getCompany()
 					.getPaymentTerms(paymentTerm.getID()));
 		}
 		ClientFinanceDate transDate = this.transactionDateItem.getEnteredDate();
@@ -137,7 +137,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		this.salesPerson = salesPerson2;
 		if (salesPerson != null) {
 
-			salesPersonCombo.setComboItem(Accounter.getCompany()
+			salesPersonCombo.setComboItem(getCompany()
 					.getSalesPerson(salesPerson.getID()));
 
 		} else
@@ -180,7 +180,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 			// quote.setReference(this.refText.getValue() != null ? this.refText
 			// .getValue().toString() : "");
-			quote.setPaymentTerm(Utility.getId(paymentTerm));
+			quote.setPaymentTerm(Utility.getID(paymentTerm));
 			quote.setNetAmount(netAmountLabel.getAmount());
 
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -341,7 +341,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		prodAndServiceForm2.setNumCols(4);
 		prodAndServiceForm2.setCellSpacing(5);
 
-		int accountType = Accounter.getCompany().getAccountingType();
+		int accountType = getCompany().getAccountingType();
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			// prodAndServiceForm2.setFields(priceLevelSelect, netAmountLabel,
 			// disabletextbox, vatTotalNonEditableText, disabletextbox,
@@ -500,7 +500,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		estimate = (ClientEstimate) transactionObject;
 
-		ClientCompany company = Accounter.getCompany();
+		ClientCompany company = getCompany();
 		this.customer = company.getCustomer(estimate.getCustomer());
 		this.transactionObject = estimate;
 		if (this.customer != null) {
@@ -569,7 +569,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		this.priceLevel = priceLevel;
 		if (priceLevel != null && priceLevelSelect != null) {
 
-			priceLevelSelect.setComboItem(Accounter.getCompany()
+			priceLevelSelect.setComboItem(getCompany()
 					.getPriceLevel(priceLevel.getID()));
 
 		}
@@ -585,7 +585,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	public void updateNonEditableItems() {
 		if (customerTransactionGrid == null)
 			return;
-		int accountType = Accounter.getCompany().getAccountingType();
+		int accountType = getCompany().getAccountingType();
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
 			Double taxableLineTotal = customerTransactionGrid
 					.getTaxableLineTotal();
@@ -595,7 +595,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
 					transactionDateItem.getEnteredDate(), taxableLineTotal,
-					Accounter.getCompany().getTAXItemGroup(
+					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
 			setSalesTax(salesTax);
@@ -786,7 +786,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		this.taxCode = taxCode;
 		if (taxCode != null) {
 
-			taxCodeSelect.setComboItem(Accounter.getCompany()
+			taxCodeSelect.setComboItem(getCompany()
 					.getTAXCode(taxCode.getID()));
 			customerTransactionGrid.setTaxCode(taxCode.getID());
 		} else

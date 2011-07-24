@@ -30,7 +30,7 @@ public class ClientTAXItemGroup implements IAccounterCore {
 	boolean isPercentage;
 	boolean isDefault;
 
-	transient boolean isImported;
+	
 
 	/*
 	 * (non-Javadoc)
@@ -94,7 +94,7 @@ public class ClientTAXItemGroup implements IAccounterCore {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.vimukti.accounter.web.client.core.IAccounterCore#setid(java
+	 * com.vimukti.accounter.web.client.core.IAccounterCore#setID(java
 	 * .lang.String)
 	 */
 	@Override

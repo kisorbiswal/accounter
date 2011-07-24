@@ -88,7 +88,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 	boolean isBilled;
 
-	// transient boolean isImported;
+	// 
 
 	public boolean isToBePrinted() {
 		return toBePrinted;
@@ -319,9 +319,6 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 		 * account with the Item Receipt total.
 		 */
 
-		if (isImported) {
-			return false;
-		}
 
 		if (this.isOnSaveProccessed)
 			return true;
@@ -537,15 +534,6 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 		return AccounterConstants.TYPE_ITEM_RECEIPT;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		if (this.transactionItems != null) {
-			for (TransactionItem ti : this.transactionItems) {
-				ti.setImported(true);
-			}
-		}
-	}
 
 	@Override
 	public Payee getInvolvedPayee() {
@@ -674,7 +662,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 								.get(
 										TransactionItem.class,
 										transactionItem.referringTransactionItem
-												.getId());
+												.getID());
 
 						double amount = referringTransactionItem.usedamt;
 

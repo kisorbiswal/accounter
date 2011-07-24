@@ -25,7 +25,7 @@ public class Currency implements IAccounterServerCore {
 	 */
 	String formalName;
 
-	transient boolean isImported;
+	
 
 	public Currency() {
 		// TODO
@@ -38,12 +38,6 @@ public class Currency implements IAccounterServerCore {
 		return version;
 	}
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
 
 	/**
 	 * @return the name
@@ -68,16 +62,10 @@ public class Currency implements IAccounterServerCore {
 
 	@Override
 	public long getID(){
-		// TODO Auto-generated method stub
 		return this.id;
 	}
 
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

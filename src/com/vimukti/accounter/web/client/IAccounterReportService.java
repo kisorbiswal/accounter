@@ -86,10 +86,10 @@ public interface IAccounterReportService extends RemoteService {
 	public List<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			long startDate, long endDate);
 
-	public List<ClientTransaction> getRegister(String accountId);
+	List<ClientTransaction> getRegister(long accountId);
 
-	public List<AccountRegister> getAccountRegister(long startDate,
-			long endDate, String accountId);
+	List<AccountRegister> getAccountRegister(long startDate, long endDate,
+			long accountId);
 
 	public List<ClientCustomer> getTransactionHistoryCustomers(long startDate,
 			long endDate);
@@ -167,14 +167,11 @@ public interface IAccounterReportService extends RemoteService {
 	public List<VATDetail> getPriorVATReturnVATDetailReport(long startDate,
 			long endDate);
 
-	public List<VATDetail> getPriorVATReturnReport(String vatAgancy,
-			long endDate);
+	List<VATDetail> getPriorVATReturnReport(long vatAgancy, long endDate);
 
-	public List<VATSummary> getPriorReturnVATSummary(String vatAgency,
-			long endDate);
+	List<VATSummary> getPriorReturnVATSummary(long vatAgency, long endDate);
 
-	public List<VATSummary> getVAT100Report(String vatAgncy, long fromDate,
-			long toDate);
+	List<VATSummary> getVAT100Report(long vatAgncy, long fromDate, long toDate);
 
 	public List<UncategorisedAmountsReport> getUncategorisedAmountsReport(
 			long fromDate, long toDate);
@@ -211,9 +208,9 @@ public interface IAccounterReportService extends RemoteService {
 	public List<ExpenseList> getExpenseReportByType(int status, long startDate,
 			long endDate);
 
-	public List<CheckDetailReport> getCheckDetailReport(String paymentmethod,
+	List<CheckDetailReport> getCheckDetailReport(long paymentmethod,
 			long startDate, long endDate);
-	public List<PayeeStatementsList> getStatements(String id, long transactionDate,
+	List<PayeeStatementsList> getStatements(long id, long transactionDate,
 			long fromDate, long toDate, int noOfDays,
 			boolean isEnabledOfZeroBalBox,
 			boolean isEnabledOfLessThanZeroBalBox,

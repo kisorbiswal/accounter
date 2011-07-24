@@ -67,7 +67,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 	}
 
 	public void initAccountsToList() {
-		bankAccSelect.initCombo(Accounter.getCompany()
+		bankAccSelect.initCombo(getCompany()
 				.getActiveAccounts());
 
 	}
@@ -75,7 +75,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 	public void getDepositInAccounts() {
 
 		List<ClientAccount> listOfAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : Accounter.getCompany()
+		for (ClientAccount account : getCompany()
 				.getActiveAccounts()) {
 			if (account.getType() == ClientAccount.TYPE_BANK
 					|| account.getType() == ClientAccount.TYPE_CREDIT_CARD) {

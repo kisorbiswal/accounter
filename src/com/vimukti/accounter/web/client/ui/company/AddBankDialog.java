@@ -27,7 +27,7 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 
 	public AddBankDialog(AbstractBaseView<ClientBank> parent) {
 		super(parent);
-		company = Accounter.getCompany();
+		company = getCompany();
 		createControls();
 		center();
 	}
@@ -89,7 +89,7 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 		final ClientBank bank = new ClientBank();
 		bank.setName(UIUtils.toStr(bankNameText.getValue()));
 		if (Utility.isObjectExist(
-				Accounter.getCompany().getTaxItems(), bank.getName())) {
+				getCompany().getTaxItems(), bank.getName())) {
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
 		} else {
 			ViewManager.getInstance().createObject(bank, this);

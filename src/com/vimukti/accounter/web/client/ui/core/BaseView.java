@@ -45,7 +45,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 	@Override
 	public void init() {
 		createView();
-		this.accountType = Accounter.getCompany().getAccountingType();
+		this.accountType = getCompany().getAccountingType();
 
 	}
 

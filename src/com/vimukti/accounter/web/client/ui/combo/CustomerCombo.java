@@ -10,13 +10,13 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
 	public CustomerCombo(String title) {
 		super(title);
-		initCombo(Accounter.getCompany().getActiveCustomers());
+		initCombo(getCompany().getActiveCustomers());
 
 	}
 
 	public CustomerCombo(String title, boolean isAddNewRequire) {
 		super(title, isAddNewRequire, 1);
-		initCombo(Accounter.getCompany().getActiveCustomers());
+		initCombo(getCompany().getActiveCustomers());
 
 	}
 
@@ -37,7 +37,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 	public void onAddNew() {
 		Action action = CustomersActionFactory.getNewCustomerAction();
 		action.setActionSource(this);
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 	}
 

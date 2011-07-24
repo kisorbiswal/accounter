@@ -64,14 +64,14 @@ public class ReportsRPC {
 	}
 
 	public static void getTaxAgency(String name) {
-		UIUtils.runAction(Accounter.getCompany().getTaxAgency(name),
+		UIUtils.runAction(getCompany().getTaxAgency(name),
 				CompanyActionFactory.getNewTAXAgencyAction());
 
 	}
 
 	public static void getVendor(String name) {
 		UIUtils.runAction(
-				Accounter.getCompany().getVendorByName(name),
+				getCompany().getVendorByName(name),
 				VendorsActionFactory.getNewVendorAction());
 	}
 

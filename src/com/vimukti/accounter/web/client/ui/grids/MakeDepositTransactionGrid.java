@@ -448,7 +448,7 @@ public class MakeDepositTransactionGrid extends
 	protected String[] getSelectValues(ClientTransactionMakeDeposit obj, int col) {
 		switch (col) {
 		case 0:
-			if (Accounter.getCompany().getAccountingType() == 1) {
+			if (getCompany().getAccountingType() == 1) {
 				return new String[] {
 						Accounter.getCustomersMessages()
 								.financialAccount(),
@@ -471,17 +471,17 @@ public class MakeDepositTransactionGrid extends
 		String name = "";
 		switch (obj.getType()) {
 		case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
-			ClientAccount account = Accounter.getCompany().getAccount(
+			ClientAccount account = getCompany().getAccount(
 					obj.getAccount());
 			name = account != null ? account.getName() : "";
 			break;
 		case ClientTransactionMakeDeposit.TYPE_VENDOR:
-			ClientVendor vendor = Accounter.getCompany().getVendor(
+			ClientVendor vendor = getCompany().getVendor(
 					obj.getVendor());
 			name = vendor != null ? vendor.getName() : "";
 			break;
 		case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
-			ClientCustomer customer = Accounter.getCompany()
+			ClientCustomer customer = getCompany()
 					.getCustomer(obj.getCustomer());
 			name = customer != null ? customer.getName() : "";
 			break;

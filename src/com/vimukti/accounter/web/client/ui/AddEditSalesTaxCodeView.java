@@ -70,7 +70,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 	protected void initCompany() {
 
-		this.company = Accounter.getCompany();
+		this.company = getCompany();
 
 	}
 
@@ -586,7 +586,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	@Override
 	protected String getViewTitle() {
 		String constant;
-		if (Accounter.getCompany().getAccountingType() == 1)
+		if (getCompany().getAccountingType() == 1)
 			constant = Accounter.getActionsConstants().newVatCode();
 		else
 			constant = Accounter.getActionsConstants().newTaxCode();

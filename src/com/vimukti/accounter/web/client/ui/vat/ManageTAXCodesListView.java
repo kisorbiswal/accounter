@@ -41,7 +41,7 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 		grid.addStyleName("listgrid-tl");
 		grid.init();
 
-		listOfTaxCodes = Accounter.getCompany().getTaxCodes();
+		listOfTaxCodes = getCompany().getTaxCodes();
 		filterList(true);
 
 	}

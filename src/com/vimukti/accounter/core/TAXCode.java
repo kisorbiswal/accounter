@@ -83,12 +83,6 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 		this.name = name;
 	}
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
 
 	/**
 	 * @param id

@@ -270,7 +270,7 @@ public class CompanyActionFactory extends AbstractActionFactory {
 
 	public static NewTAXAgencyAction getNewTAXAgencyAction() {
 		String flag;
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			flag = Accounter.getVATMessages().newVATAgency();
 
 		else

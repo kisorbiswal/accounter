@@ -26,13 +26,13 @@ public class TransactionPayExpense implements Lifecycle {
 	 */
 	PayExpense payExpense;
 
-	transient boolean isImported;
+	
 	transient private boolean isOnSaveProccessed;
 
 	/**
 	 * @return the id
 	 */
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 
@@ -89,13 +89,6 @@ public class TransactionPayExpense implements Lifecycle {
 		this.payExpense = payExpense;
 	}
 
-	public boolean isImported() {
-		return isImported;
-	}
-
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-	}
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
@@ -111,9 +104,6 @@ public class TransactionPayExpense implements Lifecycle {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;

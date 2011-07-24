@@ -131,7 +131,7 @@ public class CustomerCreditMemo extends Transaction implements
 
 	double balanceDue = 0D;
 
-	// transient boolean isImported;
+	//
 
 	public CustomerCreditMemo() {
 		// TODO
@@ -256,9 +256,6 @@ public class CustomerCreditMemo extends Transaction implements
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -269,14 +266,13 @@ public class CustomerCreditMemo extends Transaction implements
 		if (DecimalUtil.isGreaterThan(this.getTotal(), 0.0)) {
 			this.balanceDue = this.total;
 			if (creditsAndPayments != null
-					&& DecimalUtil.isEquals(creditsAndPayments.creditAmount, 0.0d)) {
-				creditsAndPayments = new CreditsAndPayments(this,
-						creditsAndPayments.id);
-				this.setCreditsAndPayments(creditsAndPayments);
+					&& DecimalUtil.isEquals(creditsAndPayments.creditAmount,
+							0.0d)) {
+				creditsAndPayments.update(this);
 			} else {
 				creditsAndPayments = new CreditsAndPayments(this);
-				this.setCreditsAndPayments(creditsAndPayments);
 			}
+			this.setCreditsAndPayments(creditsAndPayments);
 			session.save(creditsAndPayments);
 		}
 
@@ -380,14 +376,6 @@ public class CustomerCreditMemo extends Transaction implements
 		return AccounterConstants.TYPE_CUSTOMER_CREDIT_MEMO;
 	}
 
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		for (TransactionItem ti : this.transactionItems) {
-			ti.setImported(true);
-		}
-
-	}
-
 	@Override
 	public Payee getInvolvedPayee() {
 
@@ -397,13 +385,13 @@ public class CustomerCreditMemo extends Transaction implements
 	// @Override
 	public boolean equals(CustomerCreditMemo ccm) {
 		// TODO Auto-generated method stub
-		if (DecimalUtil.isEquals(this.getTotal(), ccm.getTotal()) && this.id == ccm.id
+		if (DecimalUtil.isEquals(this.getTotal(), ccm.getTotal())
+				&& this.id == ccm.id
 				&& DecimalUtil.isEquals(this.total, ccm.total)
 				// && (this.transactionDate != null && ccm.transactionDate !=
 				// null) ? (this.transactionDate.equals(transactionDate)): true
 				&& ((this.customer != null && ccm.customer != null) ? (this.customer
-						.equals(ccm.customer))
-						: true)) {
+						.equals(ccm.customer)) : true)) {
 			for (int i = 0; i < this.transactionItems.size(); i++) {
 				if (!this.transactionItems.get(i).equals(
 						ccm.transactionItems.get(i)))
@@ -447,20 +435,20 @@ public class CustomerCreditMemo extends Transaction implements
 				voidCreditsAndPayments(customerCreditMemo);
 
 				if (creditsAndPayments != null
-						&& DecimalUtil.isEquals(creditsAndPayments.creditAmount, 0.0d)) {
-					creditsAndPayments = new CreditsAndPayments(this,
-							creditsAndPayments.getID());
-					this.setCreditsAndPayments(creditsAndPayments);
+						&& DecimalUtil.isEquals(
+								creditsAndPayments.creditAmount, 0.0d)) {
+					creditsAndPayments.update(this);
+
 				} else {
 					creditsAndPayments = new CreditsAndPayments(this);
-					this.setCreditsAndPayments(creditsAndPayments);
 				}
-
+				this.setCreditsAndPayments(creditsAndPayments);
 				session.save(creditsAndPayments);
 
 			}
 			if ((this.customer.equals(customerCreditMemo.customer))
-					&& (!DecimalUtil.isEquals(this.total, customerCreditMemo.total))) {
+					&& (!DecimalUtil.isEquals(this.total,
+							customerCreditMemo.total))) {
 				// updateCreditPayments
 				// if (this.total > customerCreditMemo.total) {
 				// this.total += this.total - customerCreditMemo.total;
@@ -477,7 +465,8 @@ public class CustomerCreditMemo extends Transaction implements
 				// HibernateUtil.getCurrentSession().saveOrUpdate(tcp);
 				// }
 
-				if (DecimalUtil.isLessThan(this.total, customerCreditMemo.total)) {
+				if (DecimalUtil
+						.isLessThan(this.total, customerCreditMemo.total)) {
 					this.customer.updateBalance(session, this, this.total
 							- customerCreditMemo.total);
 					this.creditsAndPayments.updateCreditPayments(this.total);

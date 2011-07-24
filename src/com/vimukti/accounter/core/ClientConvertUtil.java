@@ -104,14 +104,13 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 						if (dstFieldName.equals(srcField.getName())
 								&& isString(dstField.getType())) {
 							dstField.set(dst, getFieldInstanceID(dstFieldName
-									.equals("id") ? src : srcField
-									.get(src)));
+									.equals("id") ? src : srcField.get(src)));
 
 						}
 					}
 				} else if (isNotMappingEntity(srcType)) {
-					dstField.set(dst, toClientObjectInternal(srcField.get(src),
-							dstType));
+					dstField.set(dst,
+							toClientObjectInternal(srcField.get(src), dstType));
 				} else {
 					if (isSet(dstFieldType)) {
 						if (isList(srcField.getType())) {
@@ -122,8 +121,8 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 								set.addAll(list);
 							dstField.set(dst, set);
 						} else {
-							dstField.set(dst, toClientSet((Set<?>) srcField
-									.get(src)));
+							dstField.set(dst,
+									toClientSet((Set<?>) srcField.get(src)));
 						}
 					} else if (isList(dstFieldType)) {
 						if (isSet(srcField.getType())) {
@@ -134,8 +133,8 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 
 							dstField.set(dst, list);
 						} else {
-							dstField.set(dst, toClientList((List<?>) srcField
-									.get(src)));
+							dstField.set(dst,
+									toClientList((List<?>) srcField.get(src)));
 						}
 					} else if (isMap(dstFieldType)
 							|| srcField.get(src) instanceof Map) {
@@ -147,14 +146,19 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 						// that src value and assign it to the destination
 
 						if ((dstField.getType().getModifiers() & Modifier.ABSTRACT) > 0) {
-							dstField.set(dst, getClientAfterCheckingInCache(
-									srcField.get(src),
-									getClientEqualentClass(srcField.get(src)
-											.getClass())));
+							dstField.set(
+									dst,
+									getClientAfterCheckingInCache(srcField
+											.get(src),
+											getClientEqualentClass(srcField
+													.get(src).getClass())));
 
 						} else
-							dstField.set(dst, getClientAfterCheckingInCache(
-									srcField.get(src), dstField.getType()));
+							dstField.set(
+									dst,
+									getClientAfterCheckingInCache(
+											srcField.get(src),
+											dstField.getType()));
 					}
 				}
 			}
@@ -172,8 +176,8 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 			Object val = map.get(key);
 			Object clientKey = null;
 			if (key instanceof IAccounterServerCore) {
-				clientKey = toClientObject(val, getClientEqualentClass(val
-						.getClass()));
+				clientKey = toClientObject(val,
+						getClientEqualentClass(val.getClass()));
 			}
 			if (val instanceof IAccounterServerCore) {
 				val = toClientObject(val,
@@ -261,8 +265,10 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 						} else if (isSet(dstFieldType)) {
 							dstCollection = new HashSet();
 						}
-					dstField.set(dst, toCollection((Collection) srcField
-							.get(src), dstCollection));
+					dstField.set(
+							dst,
+							toCollection((Collection) srcField.get(src),
+									dstCollection));
 
 				} else if (isPrimitive(dstFieldType)) {
 					if (dstFieldName.equals("id")) {
@@ -270,9 +276,10 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 					}
 
 				} else {
-					dstField.set(dst,
-							getClientwithidAfterCheckingInCache(srcField
-									.get(src), dstField.get(dst)));
+					dstField.set(
+							dst,
+							getClientwithidAfterCheckingInCache(
+									srcField.get(src), dstField.get(dst)));
 				}
 			}
 
@@ -298,20 +305,19 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 			if (s instanceof Address) {
 				return dstCollection;
 			}
-			collection2.add(toClientWithidInternal(s, getObject(
-					dstCollection, s.getID())));
+			collection2.add(toClientWithidInternal(s,
+					getObject(dstCollection, s.getID())));
 		}
 		return collection2;
 	}
 
 	public static <D extends IAccounterCore> D getObject(Collection<D> list,
-			String id) {
+			long id) {
 		if (list == null)
 			return null;
 		for (D s : list) {
-			if (s != null && s.getID() != null) {
-				if (s.getID().equals(id))
-					return s;
+			if (s != null && s.getID() == id) {
+				return s;
 			}
 		}
 		return null;

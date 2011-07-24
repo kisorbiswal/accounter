@@ -153,13 +153,13 @@ public class AccounterDAOTest_US extends
 	
 	
 	
-	private long getLongIdForGivenStringId(AccounterCoreType entity,
+	private long getLongIdForGivenid(AccounterCoreType entity,
 			String account) {
 
 		Session session = HibernateUtil.getCurrentSession();
 		String hqlQuery = "select entity.id from "
 				+ entity.getServerClassFullyQualifiedName()
-				+ " entity where entity.stringID=?";
+				+ " entity where entity.id=?";
 		Query query = session.createQuery(hqlQuery).setString(0, account);
 		List l = query.list();
 		if (l != null && l.get(0) != null) {
@@ -175,15 +175,15 @@ public class AccounterDAOTest_US extends
 	// String endDate ="2010-12-31";
 	//		
 	// // List<MostProfitableCustomers> mostProfitableCustomers =
-	// accounterReportDAOService.getMostProfitableCustomers(company.getId(),
+	// accounterReportDAOService.getMostProfitableCustomers(company.getID(),
 	// startDate, endDate);
 	// //
 	// // List<MostProfitableCustomers> profitabilityByCustomerDetailReport =
 	// accounterReportDAOService
-	// .getProfitabilityByCustomerDetail(company.getId(),6L,startDate, endDate);
+	// .getProfitabilityByCustomerDetail(company.getID(),6L,startDate, endDate);
 	//		
 	// List<TrialBalance> profitAndLossReport =
-	// accounterReportDAOService.getProfitAndLossReport(company.getId(),
+	// accounterReportDAOService.getProfitAndLossReport(company.getID(),
 	// startDate, endDate);
 	// new WriteToPDF(profitAndLossReport);
 	//		
@@ -202,7 +202,7 @@ public class AccounterDAOTest_US extends
 		// e.printStackTrace();
 		// fail("There should not be any exception");
 		// }
-		// assertNotNull(user1.getId());
+		// assertNotNull(user1.getID());
 		// System.out.println("HH");
 		// // FileOutputStream fs=new FileOutputStream("gh");
 		// byte[] b = new byte[2];
@@ -235,8 +235,8 @@ public class AccounterDAOTest_US extends
 			e.printStackTrace();
 			fail("There should not be any exception");
 		}
-		assertNotNull(company.getId());
-		List<Account> accounts = accounterDao.getAccounts(company.getId());
+		assertNotNull(company.getID());
+		List<Account> accounts = accounterDao.getAccounts(company.getID());
 		Iterator<Account> i = accounts.iterator();
 		while (i.hasNext()) {
 			Account acc = (Account) i.next();
@@ -244,7 +244,7 @@ public class AccounterDAOTest_US extends
 			assertEquals(acc.getName(), acc.getOpeningBalance(), 0.0);
 			assertEquals(acc.getName(), acc.getCurrentBalance(), 0.0);
 		}
-		setDefaultAccountVariables(accounts, company.getId());
+		setDefaultAccountVariables(accounts, company.getID());
 	}
 
 	public void testCreateUser2() throws DAOException {
@@ -298,7 +298,7 @@ public class AccounterDAOTest_US extends
 			e.printStackTrace();
 			fail("There should not be any exception");
 		}
-		assertNotNull(user2.getId());
+		assertNotNull(user2.getID());
 	}
 
 	public String today() {
@@ -339,9 +339,9 @@ public class AccounterDAOTest_US extends
 
 		company = accounterDao.getCompany(1L);
 
-		double totalBalance = accounterDao.getAccount(company.getId(),
+		double totalBalance = accounterDao.getAccount(company.getID(),
 				"Opening Balances").getTotalBalance();
-		double currentBalance = accounterDao.getAccount(company.getId(),
+		double currentBalance = accounterDao.getAccount(company.getID(),
 				"Opening Balances").getCurrentBalance();
 
 		Account cash = new Account();
@@ -361,32 +361,32 @@ public class AccounterDAOTest_US extends
 		accounter.createAccount(cash);
 		if (checkTesting) {
 			assertNotNull("Account Cash", accounterDao.getAccount(
-					company.getId(), "Account Cash").getId());
+					company.getID(), "Account Cash").getID());
 			assertEquals("Account Cash", accounterDao.getAccount(
-					company.getId(), "Account Cash").getName());
+					company.getID(), "Account Cash").getName());
 
 			assertEquals("Account Cash", accounterDao.getAccount(
-					company.getId(), "Account Cash").getTotalBalance(), amount);
+					company.getID(), "Account Cash").getTotalBalance(), amount);
 			assertEquals("Account Cash", accounterDao.getAccount(
-					company.getId(), "Account Cash").getOpeningBalance(),
+					company.getID(), "Account Cash").getOpeningBalance(),
 					amount);
 			assertEquals("Account Cash", accounterDao.getAccount(
-					company.getId(), "Account Cash").getCurrentBalance(),
+					company.getID(), "Account Cash").getCurrentBalance(),
 					amount);
 
 			if (cash.isIncrease()) {
 				assertEquals("Opening Balances", accounterDao.getAccount(
-						company.getId(), "Opening Balances").getTotalBalance(),
+						company.getID(), "Opening Balances").getTotalBalance(),
 						totalBalance - amount);
 				assertEquals("Opening Balances", accounterDao.getAccount(
-						company.getId(), "Opening Balances")
+						company.getID(), "Opening Balances")
 						.getCurrentBalance(), currentBalance - amount);
 			} else {
 				assertEquals("Opening Balances", accounterDao.getAccount(
-						company.getId(), "Opening Balances").getTotalBalance(),
+						company.getID(), "Opening Balances").getTotalBalance(),
 						totalBalance + amount);
 				assertEquals("Opening Balances", accounterDao.getAccount(
-						company.getId(), "Opening Balances")
+						company.getID(), "Opening Balances")
 						.getCurrentBalance(), currentBalance + amount);
 			}
 		}
@@ -405,9 +405,9 @@ public class AccounterDAOTest_US extends
 
 		company = accounterDao.getCompany(1l);
 
-		double totalBalance = accounterDao.getAccount(company.getId(),
+		double totalBalance = accounterDao.getAccount(company.getID(),
 				"Opening Balances").getTotalBalance();
-		double currentBalance = accounterDao.getAccount(company.getId(),
+		double currentBalance = accounterDao.getAccount(company.getID(),
 				"Opening Balances").getCurrentBalance();
 
 		Account bank = new Account();
@@ -533,21 +533,21 @@ public class AccounterDAOTest_US extends
 		accounter.createAccount(OI);
 
 		assertNotNull("Bank account created", accounterDao.getAccount(company
-				.getId(), "Account Bank"));
+				.getID(), "Account Bank"));
 		assertNotNull("OCA account created", accounterDao.getAccount(company
-				.getId(), "Account OCA"));
+				.getID(), "Account OCA"));
 		assertNotNull("OA account created", accounterDao.getAccount(company
-				.getId(), "Account OA"));
+				.getID(), "Account OA"));
 		assertNotNull("LL account created", accounterDao.getAccount(company
-				.getId(), "Account LL"));
+				.getID(), "Account LL"));
 		assertNotNull("OE account created", accounterDao.getAccount(company
-				.getId(), "Account OE"));
+				.getID(), "Account OE"));
 		assertNotNull("FA account created", accounterDao.getAccount(company
-				.getId(), "Account FA"));
+				.getID(), "Account FA"));
 		assertNotNull("ia account created", accounterDao.getAccount(company
-				.getId(), "Account IA"));
+				.getID(), "Account IA"));
 		assertNotNull("OI account created", accounterDao.getAccount(company
-				.getId(), "Account OI"));
+				.getID(), "Account OI"));
 
 		if (checkTesting) {
 			Iterator<Account> i = accounts.iterator();
@@ -562,10 +562,10 @@ public class AccounterDAOTest_US extends
 
 			}
 			assertEquals("Opening Balances", accounterDao.getAccount(
-					company.getId(), "Opening Balances").getTotalBalance(),
+					company.getID(), "Opening Balances").getTotalBalance(),
 					totalBalance + value);
 			assertEquals("Opening Balances", accounterDao.getAccount(
-					company.getId(), "Opening Balances").getCurrentBalance(),
+					company.getID(), "Opening Balances").getCurrentBalance(),
 					currentBalance + value);
 		}
 	}
@@ -576,9 +576,9 @@ public class AccounterDAOTest_US extends
 
 		company = accounterDao.getCompany(1L);
 
-		double totalBalance = accounterDao.getAccount(company.getId(),
+		double totalBalance = accounterDao.getAccount(company.getID(),
 				"Opening Balances").getTotalBalance();
-		double currentBalance = accounterDao.getAccount(company.getId(),
+		double currentBalance = accounterDao.getAccount(company.getID(),
 				"Opening Balances").getCurrentBalance();
 
 		Account CC = new Account();
@@ -593,31 +593,31 @@ public class AccounterDAOTest_US extends
 		accounter.createAccount(CC);
 		if (checkTesting) {
 			assertNotNull("Credit Card Account created", accounterDao
-					.getAccount(company.getId(), "Account Credit Card"));
+					.getAccount(company.getID(), "Account Credit Card"));
 
 			assertEquals("Account Credit Card", accounterDao.getAccount(
-					company.getId(), "Account Credit Card").getTotalBalance(),
+					company.getID(), "Account Credit Card").getTotalBalance(),
 					amount);
 			assertEquals("Account Credit Card",
-					accounterDao.getAccount(company.getId(),
+					accounterDao.getAccount(company.getID(),
 							"Account Credit Card").getOpeningBalance(), amount);
 			assertEquals("Account Credit Card",
-					accounterDao.getAccount(company.getId(),
+					accounterDao.getAccount(company.getID(),
 							"Account Credit Card").getCurrentBalance(), amount);
 
 			if (CC.isIncrease()) {
 				assertEquals("Opening Balances", accounterDao.getAccount(
-						company.getId(), "Opening Balances").getTotalBalance(),
+						company.getID(), "Opening Balances").getTotalBalance(),
 						totalBalance - amount);
 				assertEquals("Opening Balances", accounterDao.getAccount(
-						company.getId(), "Opening Balances")
+						company.getID(), "Opening Balances")
 						.getCurrentBalance(), currentBalance - amount);
 			} else {
 				assertEquals("Opening Balances", accounterDao.getAccount(
-						company.getId(), "Opening Balances").getTotalBalance(),
+						company.getID(), "Opening Balances").getTotalBalance(),
 						totalBalance + amount);
 				assertEquals("Opening Balances", accounterDao.getAccount(
-						company.getId(), "Opening Balances")
+						company.getID(), "Opening Balances")
 						.getCurrentBalance(), currentBalance + amount);
 			}
 		}
@@ -651,7 +651,7 @@ public class AccounterDAOTest_US extends
 
 	public boolean isSubAccountOfOpeningBalance(Account acc) {
 		if (acc.getParent() != null) {
-			if (acc.getParent().getId() == 1)
+			if (acc.getParent().getID() == 1)
 				return true;
 			else
 				return isSubAccountOfOpeningBalance(acc.getParent());
@@ -666,14 +666,14 @@ public class AccounterDAOTest_US extends
 
 		company = accounterDao.getCompany(1L);
 
-		List<Account> accounts = accounterDao.getAccounts(company.getId());
+		List<Account> accounts = accounterDao.getAccounts(company.getID());
 
-		setAllDefaultAccountVariables(accounts, company.getId());
+		setAllDefaultAccountVariables(accounts, company.getID());
 
 		acc.setNumber(num);
 		acc.setName(name);
 		acc.setType(type);
-		acc.setParent(accounterDao.getAccount(company.getId(), p));
+		acc.setParent(accounterDao.getAccount(company.getID(), p));
 		acc.setIsActive(a);
 		acc.setIncrease(i);
 		acc.setOpeningBalance(bal);
@@ -688,11 +688,11 @@ public class AccounterDAOTest_US extends
 		accounter.createAccount(acc);
 
 		if (checkTesting) {
-			assertEquals(name, accounterDao.getAccount(company.getId(), name)
+			assertEquals(name, accounterDao.getAccount(company.getID(), name)
 					.getTotalBalance(), bal);
-			assertEquals(name, accounterDao.getAccount(company.getId(), name)
+			assertEquals(name, accounterDao.getAccount(company.getID(), name)
 					.getOpeningBalance(), bal);
-			assertEquals(name, accounterDao.getAccount(company.getId(), name)
+			assertEquals(name, accounterDao.getAccount(company.getID(), name)
 					.getCurrentBalance(), bal);
 
 			updateParentBalance(acc, bal, company, accounts);
@@ -716,15 +716,15 @@ public class AccounterDAOTest_US extends
 				// System.out.println("j=" + j);
 				String accName = accounts.get(j).getName();
 				assertEquals(acc.getName() + ", " + accName, accounterDao
-						.getAccount(company.getId(), accName)
+						.getAccount(company.getID(), accName)
 						.getOpeningBalance(), t[getAccountVariable(accounts,
 						accName, company)][0]);
 				assertEquals(acc.getName() + ", " + accName, accounterDao
-						.getAccount(company.getId(), accName)
+						.getAccount(company.getID(), accName)
 						.getCurrentBalance(), t[getAccountVariable(accounts,
 						accName, company)][1]);
 				assertEquals(acc.getName() + ", " + accName,
-						accounterDao.getAccount(company.getId(), accName)
+						accounterDao.getAccount(company.getID(), accName)
 								.getTotalBalance(), t[getAccountVariable(
 								accounts, accName, company)][2]);
 			}
@@ -951,9 +951,9 @@ public class AccounterDAOTest_US extends
 			fail("There should not be any exception");
 		}
 		if (checkTesting) {
-			assertNotNull(customerGroup.getId());
+			assertNotNull(customerGroup.getID());
 			List<CustomerGroup> l = accounterDao.getCustomerGroups(company
-					.getId());
+					.getID());
 
 			assertNotNull(l);
 			Iterator<CustomerGroup> i = l.iterator();
@@ -989,9 +989,9 @@ public class AccounterDAOTest_US extends
 			fail("There should not be any exception");
 		}
 		if (checkTesting) {
-			assertNotNull(itemGroup1.getId());
-			assertNotNull(itemGroup2.getId());
-			List<ItemGroup> l = accounterDao.getItemGroups(company.getId());
+			assertNotNull(itemGroup1.getID());
+			assertNotNull(itemGroup2.getID());
+			List<ItemGroup> l = accounterDao.getItemGroups(company.getID());
 
 			assertNotNull(l);
 			Iterator<ItemGroup> i = l.iterator();
@@ -1035,11 +1035,11 @@ public class AccounterDAOTest_US extends
 			taxAgency3.setCompany(company);
 
 			taxAgency1.setLiabilityAccount(accounterDao.getAccount(company
-					.getId(), AccounterConstants.SALES_TAX_PAYABLE));
+					.getID(), AccounterConstants.SALES_TAX_PAYABLE));
 			taxAgency2.setLiabilityAccount(accounterDao.getAccount(company
-					.getId(), AccounterConstants.SALES_TAX_PAYABLE));
+					.getID(), AccounterConstants.SALES_TAX_PAYABLE));
 			taxAgency3.setLiabilityAccount(accounterDao.getAccount(company
-					.getId(), AccounterConstants.SALES_TAX_PAYABLE));
+					.getID(), AccounterConstants.SALES_TAX_PAYABLE));
 
 			accounter.createTaxAgency(taxAgency1);
 			accounter.createTaxAgency(taxAgency2);
@@ -1051,11 +1051,11 @@ public class AccounterDAOTest_US extends
 			fail("There should not be any exception");
 		}
 		if (checkTesting) {
-			assertNotNull(taxAgency1.getId());
-			assertNotNull(taxAgency2.getId());
-			assertNotNull(taxAgency3.getId());
+			assertNotNull(taxAgency1.getID());
+			assertNotNull(taxAgency2.getID());
+			assertNotNull(taxAgency3.getID());
 
-			List<TaxAgency> l = accounterDao.getTaxAgencies(company.getId());
+			List<TaxAgency> l = accounterDao.getTaxAgencies(company.getID());
 
 			assertNotNull(l);
 			Iterator<TaxAgency> i = l.iterator();
@@ -1114,11 +1114,11 @@ public class AccounterDAOTest_US extends
 			taxCode2.setTaxRates(taxRates2);
 			taxCode3.setTaxRates(taxRates3);
 
-			taxCode1.setTaxAgency(accounterDao.getTaxAgency(company.getId(),
+			taxCode1.setTaxAgency(accounterDao.getTaxAgency(company.getID(),
 					"TA1"));
-			taxCode2.setTaxAgency(accounterDao.getTaxAgency(company.getId(),
+			taxCode2.setTaxAgency(accounterDao.getTaxAgency(company.getID(),
 					"TA2"));
-			taxCode3.setTaxAgency(accounterDao.getTaxAgency(company.getId(),
+			taxCode3.setTaxAgency(accounterDao.getTaxAgency(company.getID(),
 					"TA3"));
 
 			accounter.createTaxCode(taxCode1);
@@ -1130,11 +1130,11 @@ public class AccounterDAOTest_US extends
 			fail("There should not be any exception");
 		}
 		if (checkTesting) {
-			assertNotNull(taxCode1.getId());
-			assertNotNull(taxCode2.getId());
-			assertNotNull(taxCode3.getId());
+			assertNotNull(taxCode1.getID());
+			assertNotNull(taxCode2.getID());
+			assertNotNull(taxCode3.getID());
 
-			List<TaxCode> l = accounterDao.getTaxCodes(company.getId());
+			List<TaxCode> l = accounterDao.getTaxCodes(company.getID());
 
 			assertNotNull(l);
 			Iterator<TaxCode> i = l.iterator();
@@ -1168,21 +1168,21 @@ public class AccounterDAOTest_US extends
 			taxGroup4.setCompany(company);
 
 			Set<TaxCode> taxCodes1 = new HashSet<TaxCode>();
-			taxCodes1.add(accounterDao.getTaxCode(company.getId(), "TC1"));
-			taxCodes1.add(accounterDao.getTaxCode(company.getId(), "TC2"));
+			taxCodes1.add(accounterDao.getTaxCode(company.getID(), "TC1"));
+			taxCodes1.add(accounterDao.getTaxCode(company.getID(), "TC2"));
 
 			Set<TaxCode> taxCodes2 = new HashSet<TaxCode>();
-			taxCodes2.add(accounterDao.getTaxCode(company.getId(), "TC2"));
-			taxCodes2.add(accounterDao.getTaxCode(company.getId(), "TC3"));
+			taxCodes2.add(accounterDao.getTaxCode(company.getID(), "TC2"));
+			taxCodes2.add(accounterDao.getTaxCode(company.getID(), "TC3"));
 
 			Set<TaxCode> taxCodes3 = new HashSet<TaxCode>();
-			taxCodes3.add(accounterDao.getTaxCode(company.getId(), "TC3"));
-			taxCodes3.add(accounterDao.getTaxCode(company.getId(), "TC1"));
+			taxCodes3.add(accounterDao.getTaxCode(company.getID(), "TC3"));
+			taxCodes3.add(accounterDao.getTaxCode(company.getID(), "TC1"));
 
 			Set<TaxCode> taxCodes4 = new HashSet<TaxCode>();
-			taxCodes4.add(accounterDao.getTaxCode(company.getId(), "TC1"));
-			taxCodes4.add(accounterDao.getTaxCode(company.getId(), "TC2"));
-			taxCodes4.add(accounterDao.getTaxCode(company.getId(), "TC3"));
+			taxCodes4.add(accounterDao.getTaxCode(company.getID(), "TC1"));
+			taxCodes4.add(accounterDao.getTaxCode(company.getID(), "TC2"));
+			taxCodes4.add(accounterDao.getTaxCode(company.getID(), "TC3"));
 
 			taxGroup1.setTaxCodes(taxCodes1);
 			taxGroup2.setTaxCodes(taxCodes2);
@@ -1199,12 +1199,12 @@ public class AccounterDAOTest_US extends
 			fail("There should not be any exception");
 		}
 		if (checkTesting) {
-			assertNotNull(taxGroup1.getId());
-			assertNotNull(taxGroup2.getId());
-			assertNotNull(taxGroup3.getId());
-			assertNotNull(taxGroup4.getId());
+			assertNotNull(taxGroup1.getID());
+			assertNotNull(taxGroup2.getID());
+			assertNotNull(taxGroup3.getID());
+			assertNotNull(taxGroup4.getID());
 
-			List<TaxGroup> l = accounterDao.getTaxGroups(company.getId());
+			List<TaxGroup> l = accounterDao.getTaxGroups(company.getID());
 			assertNotNull(l);
 			Iterator<TaxGroup> i = l.iterator();
 
@@ -1224,9 +1224,9 @@ public class AccounterDAOTest_US extends
 		salesPerson.setCompany(company);
 		accounter.createSalesPerson(salesPerson);
 		if (checkTesting) {
-			assertNotNull(salesPerson.getId());
+			assertNotNull(salesPerson.getID());
 			assertNotNull(salesPerson.getFirstName(), accounterDao
-					.getSalesPerson(company.getId(), "SalesPerson1"));
+					.getSalesPerson(company.getID(), "SalesPerson1"));
 		}
 	}
 
@@ -1260,13 +1260,13 @@ public class AccounterDAOTest_US extends
 		customer.setName(name);
 		customer.setFileAs(FAs);
 		customer.setCustomerGroup(accounterDao.getCustomerGroup(
-				company.getId(), cg));
+				company.getID(), cg));
 		customer.setEmails(em);
 		customer.setAddress(a);
 		customer.setContacts(c);
 		try {
 			customer.setCustomerGroup(accounterDao.getCustomerGroup(company
-					.getId(), 1L));
+					.getID(), 1L));
 		} catch (DAOException e1) {
 			e1.printStackTrace();
 		}
@@ -1292,16 +1292,16 @@ public class AccounterDAOTest_US extends
 		if (createCustomers) {
 			company = accounterDao.getCompany(1L);
 			double amt1 = 0.0, amt2 = 0.0;
-			double OBCurrentBalance = accounterDao.getAccount(company.getId(),
+			double OBCurrentBalance = accounterDao.getAccount(company.getID(),
 					AccounterConstants.OPENING_BALANCE).getCurrentBalance(), OBTotalBalance = accounterDao
-					.getAccount(company.getId(),
+					.getAccount(company.getID(),
 							AccounterConstants.OPENING_BALANCE)
 					.getTotalBalance();
 
 			ArrayList<Customer> custs = new ArrayList<Customer>();
 			try {
 
-				amt1 = accounterDao.getAccount(company.getId(),
+				amt1 = accounterDao.getAccount(company.getID(),
 						"Accounts Receivable").getOpeningBalance();
 
 				// testCallCreateAddress( String str, // String city, // String
@@ -1437,7 +1437,7 @@ public class AccounterDAOTest_US extends
 				// //Testing starts from here
 				amt2 = 0.0;
 
-				List<Customer> l = accounterDao.getCustomers(company.getId());
+				List<Customer> l = accounterDao.getCustomers(company.getID());
 				ArrayList<Customer> l2 = custs;
 				assertNotNull(l);
 				assertNotNull(l2);
@@ -1574,14 +1574,14 @@ public class AccounterDAOTest_US extends
 				assertNotNull(amt1);
 				assertNotNull(amt2);
 
-				Account acc = accounterDao.getAccount(company.getId(),
+				Account acc = accounterDao.getAccount(company.getID(),
 						"Accounts Receivable");
 				assertEquals(AccounterConstants.ACCOUNTS_RECEIVABLE,
 						(amt1 + amt2), acc.getCurrentBalance());
 				assertEquals(AccounterConstants.ACCOUNTS_RECEIVABLE,
 						(amt1 + amt2), acc.getTotalBalance());
 
-				acc = accounterDao.getAccount(company.getId(),
+				acc = accounterDao.getAccount(company.getID(),
 						AccounterConstants.OPENING_BALANCE);
 				assertEquals(AccounterConstants.OPENING_BALANCE,
 						(OBCurrentBalance + amt1 + amt2), acc
@@ -1619,10 +1619,10 @@ public class AccounterDAOTest_US extends
 		}
 
 		if (checkTesting) {
-			assertNotNull(vendorGroup1.getId());
-			assertNotNull(vendorGroup2.getId());
+			assertNotNull(vendorGroup1.getID());
+			assertNotNull(vendorGroup2.getID());
 
-			List<VendorGroup> l = accounterDao.getVendorGroups(company.getId());
+			List<VendorGroup> l = accounterDao.getVendorGroups(company.getID());
 			List<VendorGroup> l2 = VGS;
 			Iterator<VendorGroup> i = l.iterator();
 			Iterator<VendorGroup> j = l2.iterator();
@@ -1679,9 +1679,9 @@ public class AccounterDAOTest_US extends
 		if (createVendors) {
 			company = accounterDao.getCompany(1L);
 			double amt1 = 0.0, amt2 = 0.0;
-			double OBCurrentBalance = accounterDao.getAccount(company.getId(),
+			double OBCurrentBalance = accounterDao.getAccount(company.getID(),
 					AccounterConstants.OPENING_BALANCE).getCurrentBalance(), OBTotalBalance = accounterDao
-					.getAccount(company.getId(),
+					.getAccount(company.getID(),
 							AccounterConstants.OPENING_BALANCE)
 					.getTotalBalance();
 			ArrayList<Vendor> vends = new ArrayList<Vendor>();
@@ -1817,7 +1817,7 @@ public class AccounterDAOTest_US extends
 			if (checkTesting) {
 				amt2 = 0.0;
 
-				List<Vendor> l = accounterDao.getVendors(company.getId());
+				List<Vendor> l = accounterDao.getVendors(company.getID());
 				ArrayList<Vendor> l2 = vends;
 
 				assertNotNull(l);
@@ -1955,14 +1955,14 @@ public class AccounterDAOTest_US extends
 				assertNotNull(amt1);
 				assertNotNull(amt2);
 
-				Account acc = accounterDao.getAccount(company.getId(),
+				Account acc = accounterDao.getAccount(company.getID(),
 						"Accounts Payable");
 				assertEquals(AccounterConstants.ACCOUNTS_PAYABLE,
 						(amt1 + amt2), acc.getCurrentBalance());
 				assertEquals(AccounterConstants.ACCOUNTS_PAYABLE,
 						(amt1 + amt2), acc.getTotalBalance());
 
-				acc = accounterDao.getAccount(company.getId(),
+				acc = accounterDao.getAccount(company.getID(),
 						AccounterConstants.OPENING_BALANCE);
 				assertEquals(AccounterConstants.OPENING_BALANCE,
 						(OBCurrentBalance - amt1 - amt2), acc
@@ -1986,13 +1986,13 @@ public class AccounterDAOTest_US extends
 		i.setName(name);
 		i.isTaxable = it;
 		i.setISellThisItem(seLL);
-		i.setIncomeAccount(accounterDao.getAccount(company.getId(), ia));
+		i.setIncomeAccount(accounterDao.getAccount(company.getID(), ia));
 		i.setSalesPrice(sp);
 		i.setStandardCost(sc);
-		i.setItemGroup(accounterDao.getItemGroup(company.getId(), ig));
+		i.setItemGroup(accounterDao.getItemGroup(company.getID(), ig));
 		i.setIBuyThisItem(buy);
 		i.setPurchasePrice(pp);
-		i.setExpenseAccount(accounterDao.getAccount(company.getId(), ea));
+		i.setExpenseAccount(accounterDao.getAccount(company.getID(), ea));
 		accounter.createItem(i);
 		return i;
 	}
@@ -2025,7 +2025,7 @@ public class AccounterDAOTest_US extends
 
 	public double setAccountBal(String s, Company company) throws DAOException {
 		company = accounterDao.getCompany(1L);
-		return accounterDao.getAccount(company.getId(), s).getTotalBalance();
+		return accounterDao.getAccount(company.getID(), s).getTotalBalance();
 	}
 
 	public void setDefaultAccountVariables(List<Account> accounts, long c)
@@ -2073,7 +2073,7 @@ public class AccounterDAOTest_US extends
 	public double getAmountSalesTax(String tg, List<TransactionItem> ti)
 			throws DAOException {
 		company = accounterDao.getCompany(1L);
-		TaxGroup tg1 = accounterDao.getTaxGroup(company.getId(), tg);
+		TaxGroup tg1 = accounterDao.getTaxGroup(company.getID(), tg);
 		double rate = 0.0, rate2 = 0.0;
 		Iterator<TransactionItem> j = ti.iterator();
 		if ((tg1 != null) && (tg1.getTaxCodes() != null) && (j.hasNext())) {
@@ -2191,11 +2191,11 @@ public class AccounterDAOTest_US extends
 		company = accounterDao.getCompany(1L);
 		item1.setType(type);
 		if (type == TransactionItem.TYPE_ITEM)
-			item1.setItem(accounterDao.getItem(company.getId(), item));
+			item1.setItem(accounterDao.getItem(company.getID(), item));
 		else if (type == TransactionItem.TYPE_ACCOUNT)
-			item1.setAccount(accounterDao.getAccount(company.getId(), item));
+			item1.setAccount(accounterDao.getAccount(company.getID(), item));
 		else if (type == TransactionItem.TYPE_SALESTAX)
-			item1.setTaxCode(accounterDao.getTaxCode(company.getId(), item));
+			item1.setTaxCode(accounterDao.getTaxCode(company.getID(), item));
 		item1.setQuantity(quantity);
 		item1.setUnitPrice(unitprice);
 		item1.setLineTotal(item1.getQuantity() * item1.getUnitPrice());
@@ -2211,7 +2211,7 @@ public class AccounterDAOTest_US extends
 		cs.setCustomer(customer);
 		cs.setCompany(company);
 		cs.setType(Transaction.TYPE_CASH_SALES);
-		cs.setNumber(accounterGUIDao.getNextTransactionNumber(company.getId(),
+		cs.setNumber(accounterGUIDao.getNextTransactionNumber(company.getID(),
 				Transaction.TYPE_CASH_SALES));
 		cs.setDate(format.parse(date));
 		// cs.setDepositIn(accounterDao.getAccount(cm, depIn));
@@ -2231,7 +2231,7 @@ public class AccounterDAOTest_US extends
 		accounter.createCashSales(cs);
 		if (checkTesting)
 			assertEquals("Customer Balance", customerBalance, accounterDao
-					.getCustomer(company.getId(), cs.getCustomer().getId())
+					.getCustomer(company.getID(), cs.getCustomer().getID())
 					.getBalance());
 		return cs;
 	}
@@ -2278,7 +2278,7 @@ public class AccounterDAOTest_US extends
 
 	public boolean getAccountIsTaxAgencyAccount(Account a) throws DAOException {
 
-		List<TaxCode> tcs = accounterDao.getTaxCodes(company.getId());
+		List<TaxCode> tcs = accounterDao.getTaxCodes(company.getID());
 
 		Iterator<TaxCode> itr = tcs.iterator();
 		while (itr.hasNext()) {
@@ -2734,7 +2734,7 @@ public class AccounterDAOTest_US extends
 		}
 
 		if (checkTesting) {
-			List<Item> items2 = accounterDao.getItems(company.getId());
+			List<Item> items2 = accounterDao.getItems(company.getID());
 			Iterator<Item> i = items.iterator();
 			Iterator<Item> j = items2.iterator();
 
@@ -2785,13 +2785,13 @@ public class AccounterDAOTest_US extends
 			// For every instruction, this array will get updated and later we
 			// check these values with the stored values in the database.
 
-			List<Item> items = accounterDao.getItems(company.getId());
+			List<Item> items = accounterDao.getItems(company.getID());
 			ListIterator<Item> its = items.listIterator();
 
-			List<Account> accounts = accounterDao.getAccounts(company.getId());
+			List<Account> accounts = accounterDao.getAccounts(company.getID());
 			ListIterator<Account> acs = accounts.listIterator();
 
-			List<TaxCode> codes = accounterDao.getTaxCodes(company.getId());
+			List<TaxCode> codes = accounterDao.getTaxCodes(company.getID());
 			for (int i = 0; i < codes.size(); i++) {
 				if (codes.get(i).getName().equals("None"))
 					codes.remove(i);
@@ -2804,7 +2804,7 @@ public class AccounterDAOTest_US extends
 						.getTaxAgency().getName(), company)] = codes.get(i)
 						.getTaxAgency().getBalance();
 
-			setDefaultAccountVariables(accounts, company.getId());
+			setDefaultAccountVariables(accounts, company.getID());
 
 			CashSales cashSales1 = new CashSales();
 			CashSales cashSales2 = new CashSales();
@@ -3097,37 +3097,37 @@ public class AccounterDAOTest_US extends
 					assertNotNull(c.getCustomer());
 					assertNotNull(c.getCustomer().getName());
 					assertEquals(c.getCustomer().getName(), accounterDao
-							.getCashSales(company.getId(), c.getId())
+							.getCashSales(company.getID(), c.getID())
 							.getCustomer().getName());
 					assertEquals(c.getDate(), accounterDao.getCashSales(
-							company.getId(), c.getId()).getDate());
+							company.getID(), c.getID()).getDate());
 					assertNotNull(c.getDepositIn());
 					assertNotNull(c.getDepositIn().getName());
 					assertEquals(c.getDepositIn().getName(), accounterDao
-							.getCashSales(company.getId(), c.getId())
+							.getCashSales(company.getID(), c.getID())
 							.getDepositIn().getName());
 					assertEquals(c.getDiscountTotal(), accounterDao
-							.getCashSales(company.getId(), c.getId())
+							.getCashSales(company.getID(), c.getID())
 							.getDiscountTotal());
 					assertEquals(c.getType(), accounterDao.getCashSales(
-							company.getId(), c.getId()).getType());
+							company.getID(), c.getID()).getType());
 					assertEquals(c.getTotal(), accounterDao.getCashSales(
-							company.getId(), c.getId()).getTotal());
+							company.getID(), c.getID()).getTotal());
 					assertEquals(c.getSalesTax(), accounterDao.getCashSales(
-							company.getId(), c.getId()).getSalesTax());
+							company.getID(), c.getID()).getSalesTax());
 					if (c.getSalesPerson() != null)
 						if (c.getSalesPerson().getFirstName() != null)
 							assertEquals(c.getSalesPerson().getFirstName(),
-									accounterDao.getCashSales(company.getId(),
-											c.getId()).getSalesPerson()
+									accounterDao.getCashSales(company.getID(),
+											c.getID()).getSalesPerson()
 											.getFirstName());
 					if (c.getPaymentMethod() != null)
 						if (c.getPaymentMethod() != null)
 							assertEquals(c.getPaymentMethod(), accounterDao
-									.getCashSales(company.getId(), c.getId())
+									.getCashSales(company.getID(), c.getID())
 									.getPaymentMethod());
 					assertEquals(c.getNumber(), accounterDao.getCashSales(
-							company.getId(), c.getId()).getNumber());
+							company.getID(), c.getID()).getNumber());
 
 					// Take all the transaction items that are involved in the
 					// cashsale and store them in a List.
@@ -3159,13 +3159,13 @@ public class AccounterDAOTest_US extends
 							d[getAccountVariable(accounts, acc.getName(),
 									company)] += it.getLineTotal();
 							String str = acc.getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] += it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is increase
@@ -3175,13 +3175,13 @@ public class AccounterDAOTest_US extends
 									company)] -= it.getLineTotal();
 							String str = acc.getName();
 							while (accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent() != null) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] -= it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is not increase
@@ -3242,15 +3242,15 @@ public class AccounterDAOTest_US extends
 												.getLiabilityAccount()
 												.getName();
 										while (accounterDao.getAccount(
-												company.getId(), str)
+												company.getID(), str)
 												.getParent() != null) {
 											d[getAccountVariable(accounts,
 													accounterDao.getAccount(
-															company.getId(),
+															company.getID(),
 															str).getParent()
 															.getName(), company)] += rate;
 											str = accounterDao.getAccount(
-													company.getId(), str)
+													company.getID(), str)
 													.getParent().getName();
 										}
 									}// taxAgency account isIncrease
@@ -3263,15 +3263,15 @@ public class AccounterDAOTest_US extends
 												.getLiabilityAccount()
 												.getName();
 										while (accounterDao.getAccount(
-												company.getId(), str)
+												company.getID(), str)
 												.getParent() != null) {
 											d[getAccountVariable(accounts,
 													accounterDao.getAccount(
-															company.getId(),
+															company.getID(),
 															str).getParent()
 															.getName(), company)] -= rate;
 											str = accounterDao.getAccount(
-													company.getId(), str)
+													company.getID(), str)
 													.getParent().getName();
 										}
 									}
@@ -3291,26 +3291,26 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, c.getDepositIn()
 								.getName(), company)] += c.getTotal();
 						String str = c.getDepositIn().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += c
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					} else {
 						d[getAccountVariable(accounts, c.getDepositIn()
 								.getName(), company)] -= c.getTotal();
 						String str = c.getDepositIn().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= c
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}
@@ -3332,13 +3332,13 @@ public class AccounterDAOTest_US extends
 					if (!i.hasNext()) {
 						for (long l1 = 0; l1 < accounts.size(); l1++) {
 							String name = accounterDao.getAccount(
-									company.getId(), (l1 + 1)).getName();
-							// if(accounterDao.getAccount(company.getId(), (l1 +
+									company.getID(), (l1 + 1)).getName();
+							// if(accounterDao.getAccount(company.getID(), (l1 +
 							// 1)).getName().equals("SubWO"))
 							// System.out.println("here - " + name);
 							assertEquals(name, d[getAccountVariable(accounts,
 									name, company)], accounterDao.getAccount(
-									company.getId(), name).getTotalBalance());
+									company.getID(), name).getTotalBalance());
 						}
 						for (long l1 = 0; l1 < codes.size(); l1++) {
 							String name = codes.get((int) l1).getTaxAgency()
@@ -3346,7 +3346,7 @@ public class AccounterDAOTest_US extends
 							assertEquals(name,
 									taxAgencies[getTaxAgencyVariable(codes,
 											name, company)],
-									accounterDao.getTaxAgency(company.getId(),
+									accounterDao.getTaxAgency(company.getID(),
 											name).getBalance());
 						}
 
@@ -3408,7 +3408,7 @@ public class AccounterDAOTest_US extends
 		item.setLineTotal((q * up) - d);
 		item.isTaxable = itemTax;
 		item.setItem(accounterDao.getItem(accounterDao.getCompany(
-				accounterDao.getUser("User1@vimukti.com").getId()).getId(),
+				accounterDao.getUser("User1@vimukti.com").getID()).getID(),
 				item1));
 		item.setTransaction(inv);
 		return item;
@@ -3424,7 +3424,7 @@ public class AccounterDAOTest_US extends
 		item.setLineTotal(q * up);
 		item.isTaxable = (it);
 		item.setAccount(accounterDao.getAccount(accounterDao.getCompany(1L)
-				.getId(), ac));
+				.getID(), ac));
 		item.setTransaction(inv);
 		return item;
 	}
@@ -3435,7 +3435,7 @@ public class AccounterDAOTest_US extends
 		item.setType(type);
 		item.setLineTotal(lt);
 		item.setTaxCode(accounterDao.getTaxCode(accounterDao.getCompany(1l)
-				.getId(), tc));
+				.getID(), tc));
 		item.setTransaction(inv);
 		return item;
 	}
@@ -3449,13 +3449,13 @@ public class AccounterDAOTest_US extends
 			// For every instruction, this array will get updated and later we
 			// check these values with the stored values in the database.
 
-			List<Item> items = accounterDao.getItems(company.getId());
+			List<Item> items = accounterDao.getItems(company.getID());
 			ListIterator<Item> its = items.listIterator();
 
-			List<Account> accounts = accounterDao.getAccounts(company.getId());
+			List<Account> accounts = accounterDao.getAccounts(company.getID());
 			ListIterator<Account> acs = accounts.listIterator();
 
-			List<TaxCode> codes = accounterDao.getTaxCodes(company.getId());
+			List<TaxCode> codes = accounterDao.getTaxCodes(company.getID());
 			for (int i = 0; i < codes.size(); i++) {
 				if (codes.get(i).getName().equals("None"))
 					codes.remove(i);
@@ -3468,7 +3468,7 @@ public class AccounterDAOTest_US extends
 						.getTaxAgency().getName(), company)] = codes.get(i)
 						.getTaxAgency().getBalance();
 
-			setDefaultAccountVariables(accounts, company.getId());
+			setDefaultAccountVariables(accounts, company.getID());
 
 			Invoice invoice1 = new Invoice();
 			Invoice invoice2 = new Invoice();
@@ -3782,33 +3782,33 @@ public class AccounterDAOTest_US extends
 					assertNotNull(c.getCustomer());
 					assertNotNull(c.getCustomer().getName());
 					assertEquals(c.getCustomer().getName(), accounterDao
-							.getInvoice(company.getId(), c.getId())
+							.getInvoice(company.getID(), c.getID())
 							.getCustomer().getName());
 					assertEquals(c.getDate(), accounterDao.getInvoice(
-							company.getId(), c.getId()).getDate());
+							company.getID(), c.getID()).getDate());
 					assertNotNull(c.getDueDate());
 					assertEquals(c.getDueDate(), accounterDao.getInvoice(
-							company.getId(), c.getId()).getDueDate());
+							company.getID(), c.getID()).getDueDate());
 					assertEquals(c.getDiscountTotal(), accounterDao.getInvoice(
-							company.getId(), c.getId()).getDiscountTotal());
+							company.getID(), c.getID()).getDiscountTotal());
 					assertEquals(c.getType(), accounterDao.getInvoice(
-							company.getId(), c.getId()).getType());
+							company.getID(), c.getID()).getType());
 					assertEquals(c.getTotal(), accounterDao.getInvoice(
-							company.getId(), c.getId()).getTotal());
+							company.getID(), c.getID()).getTotal());
 					assertEquals(c.getSalesTaxAmount(), accounterDao
-							.getInvoice(company.getId(), c.getId())
+							.getInvoice(company.getID(), c.getID())
 							.getSalesTaxAmount());
 					if (c.getSalesPerson() != null)
 						if (c.getSalesPerson().getFirstName() != null)
 							assertEquals(c.getSalesPerson().getFirstName(),
-									accounterDao.getInvoice(company.getId(),
-											c.getId()).getSalesPerson()
+									accounterDao.getInvoice(company.getID(),
+											c.getID()).getSalesPerson()
 											.getFirstName());
 					if (c.getPayments() != 0)
 						assertEquals(c.getPayments(), accounterDao.getInvoice(
-								company.getId(), c.getId()).getPayments());
+								company.getID(), c.getID()).getPayments());
 					assertEquals(c.getNumber(), accounterDao.getInvoice(
-							company.getId(), c.getId()).getNumber());
+							company.getID(), c.getID()).getNumber());
 
 					// Take all the transaction items that are involved in the
 					// cashsale and store them in a List.
@@ -3839,13 +3839,13 @@ public class AccounterDAOTest_US extends
 							d[getAccountVariable(accounts, acc.getName(),
 									company)] += it.getLineTotal();
 							String str = acc.getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] += it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is increase
@@ -3855,13 +3855,13 @@ public class AccounterDAOTest_US extends
 									company)] -= it.getLineTotal();
 							String str = acc.getName();
 							while (accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent() != null) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] -= it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is not increase
@@ -3923,15 +3923,15 @@ public class AccounterDAOTest_US extends
 												.getLiabilityAccount()
 												.getName();
 										while (accounterDao.getAccount(
-												company.getId(), str)
+												company.getID(), str)
 												.getParent() != null) {
 											d[getAccountVariable(accounts,
 													accounterDao.getAccount(
-															company.getId(),
+															company.getID(),
 															str).getParent()
 															.getName(), company)] += rate;
 											str = accounterDao.getAccount(
-													company.getId(), str)
+													company.getID(), str)
 													.getParent().getName();
 										}
 									}// taxAgency account isIncrease
@@ -3944,15 +3944,15 @@ public class AccounterDAOTest_US extends
 												.getLiabilityAccount()
 												.getName();
 										while (accounterDao.getAccount(
-												company.getId(), str)
+												company.getID(), str)
 												.getParent() != null) {
 											d[getAccountVariable(accounts,
 													accounterDao.getAccount(
-															company.getId(),
+															company.getID(),
 															str).getParent()
 															.getName(), company)] -= rate;
 											str = accounterDao.getAccount(
-													company.getId(), str)
+													company.getID(), str)
 													.getParent().getName();
 										}
 									}
@@ -3989,12 +3989,12 @@ public class AccounterDAOTest_US extends
 					if (!i.hasNext()) {
 						for (long l1 = 0; l1 < accounts.size(); l1++)
 							assertEquals(accounterDao.getAccount(
-									company.getId(), (l1 + 1)).getName(),
+									company.getID(), (l1 + 1)).getName(),
 									d[getAccountVariable(accounts, accounterDao
-											.getAccount(company.getId(),
+											.getAccount(company.getID(),
 													(l1 + 1)).getName(),
 											company)], accounterDao.getAccount(
-											company.getId(), (l1 + 1))
+											company.getID(), (l1 + 1))
 											.getTotalBalance());
 						for (long l1 = 0; l1 < codes.size(); l1++) {
 							String name = codes.get((int) l1).getTaxAgency()
@@ -4002,7 +4002,7 @@ public class AccounterDAOTest_US extends
 							assertEquals(name,
 									taxAgencies[getTaxAgencyVariable(codes,
 											name, company)],
-									accounterDao.getTaxAgency(company.getId(),
+									accounterDao.getTaxAgency(company.getID(),
 											name).getBalance());
 						}
 					}
@@ -4016,12 +4016,12 @@ public class AccounterDAOTest_US extends
 			CustomerCreditMemo ccm) throws Exception {
 
 		ccm.setCustomer(accounterDao.getCustomer(accounterDao.getCompany(1L)
-				.getId(), cu));
+				.getID(), cu));
 		ccm.setCompany(accounterDao.getCompany(1L));
 		ccm.setType(Transaction.TYPE_CUSTOMER_CREDIT_MEMO);
 		ccm.setDate(format.parse(d));
 		ccm.setSalesPerson(accounterDao.getSalesPerson(accounterDao.getCompany(
-				1L).getId(), sp));
+				1L).getID(), sp));
 		TaxGroup t = accounterDao.getTaxGroup(cm, tg);
 		for (int i = 0; i < ti.size(); i++) {
 			if (ti.get(i).isTaxable)
@@ -4040,7 +4040,7 @@ public class AccounterDAOTest_US extends
 		accounter.createCustomerCreditMemo(ccm);
 		if (checkTesting)
 			assertEquals(customerBalance - ccm.getTotal(), accounterDao
-					.getCustomer(company.getId(), ccm.getCustomer().getId())
+					.getCustomer(company.getID(), ccm.getCustomer().getID())
 					.getBalance());
 		return ccm;
 
@@ -4056,7 +4056,7 @@ public class AccounterDAOTest_US extends
 		item.setDiscount(d);
 		item.setLineTotal((q * up) - ((d * q * up) / 100));
 		item.isTaxable = (it);
-		item.setItem(accounterDao.getItem(accounterDao.getCompany(1L).getId(),
+		item.setItem(accounterDao.getItem(accounterDao.getCompany(1L).getID(),
 				i));
 		item.setTransaction(ccm);
 		return item;
@@ -4068,7 +4068,7 @@ public class AccounterDAOTest_US extends
 		item.setType(type);
 		item.setLineTotal(lt);
 		item.setTaxCode(accounterDao.getTaxCode(accounterDao.getCompany(1l)
-				.getId(), tc));
+				.getID(), tc));
 		item.setTransaction(ccm);
 		return item;
 	}
@@ -4083,7 +4083,7 @@ public class AccounterDAOTest_US extends
 		item.setLineTotal(q * up);
 		item.isTaxable = (it);
 		item.setAccount(accounterDao.getAccount(accounterDao.getCompany(1L)
-				.getId(), ac));
+				.getID(), ac));
 		item.setTransaction(ccm);
 		return item;
 	}
@@ -4097,13 +4097,13 @@ public class AccounterDAOTest_US extends
 			// For every instruction, this array will get updated and later we
 			// check these values with the stored values in the database.
 
-			List<Item> items = accounterDao.getItems(company.getId());
+			List<Item> items = accounterDao.getItems(company.getID());
 			ListIterator<Item> its = items.listIterator();
 
-			List<Account> accounts = accounterDao.getAccounts(company.getId());
+			List<Account> accounts = accounterDao.getAccounts(company.getID());
 			ListIterator<Account> acs = accounts.listIterator();
 
-			List<TaxCode> codes = accounterDao.getTaxCodes(company.getId());
+			List<TaxCode> codes = accounterDao.getTaxCodes(company.getID());
 			for (int i = 0; i < codes.size(); i++) {
 				if (codes.get(i).getName().equals("None"))
 					codes.remove(i);
@@ -4116,7 +4116,7 @@ public class AccounterDAOTest_US extends
 						.getTaxAgency().getName(), company)] = codes.get(i)
 						.getTaxAgency().getBalance();
 
-			setDefaultAccountVariables(accounts, company.getId());
+			setDefaultAccountVariables(accounts, company.getID());
 
 			CustomerCreditMemo creditMemo1 = new CustomerCreditMemo();
 			CustomerCreditMemo creditMemo2 = new CustomerCreditMemo();
@@ -4431,31 +4431,31 @@ public class AccounterDAOTest_US extends
 					assertNotNull(c.getCustomer());
 					assertNotNull(c.getCustomer().getName());
 					assertEquals(c.getCustomer().getName(), accounterDao
-							.getCustomerCreditMemo(company.getId(), c.getId())
+							.getCustomerCreditMemo(company.getID(), c.getID())
 							.getCustomer().getName());
 					assertEquals(c.getDate(), accounterDao
-							.getCustomerCreditMemo(company.getId(), c.getId())
+							.getCustomerCreditMemo(company.getID(), c.getID())
 							.getDate());
 					assertEquals(c.getDiscountTotal(), accounterDao
-							.getCustomerCreditMemo(company.getId(), c.getId())
+							.getCustomerCreditMemo(company.getID(), c.getID())
 							.getDiscountTotal());
 					assertEquals(c.getType(), accounterDao
-							.getCustomerCreditMemo(company.getId(), c.getId())
+							.getCustomerCreditMemo(company.getID(), c.getID())
 							.getType());
 					assertEquals(c.getTotal(), accounterDao
-							.getCustomerCreditMemo(company.getId(), c.getId())
+							.getCustomerCreditMemo(company.getID(), c.getID())
 							.getTotal());
 					assertEquals(c.getSalesTax(), accounterDao
-							.getCustomerCreditMemo(company.getId(), c.getId())
+							.getCustomerCreditMemo(company.getID(), c.getID())
 							.getSalesTax());
 					if (c.getSalesPerson() != null)
 						if (c.getSalesPerson().getFirstName() != null)
 							assertEquals(c.getSalesPerson().getFirstName(),
 									accounterDao.getCustomerCreditMemo(
-											company.getId(), c.getId())
+											company.getID(), c.getID())
 											.getSalesPerson().getFirstName());
 					assertEquals(c.getNumber(), accounterDao
-							.getCustomerCreditMemo(company.getId(), c.getId())
+							.getCustomerCreditMemo(company.getID(), c.getID())
 							.getNumber());
 
 					ti = c.getTransactionItems();
@@ -4487,13 +4487,13 @@ public class AccounterDAOTest_US extends
 							d[getAccountVariable(accounts, acc.getName(),
 									company)] -= it.getLineTotal();
 							String str = acc.getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] -= it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is increase
@@ -4503,13 +4503,13 @@ public class AccounterDAOTest_US extends
 									company)] += it.getLineTotal();
 							String str = acc.getName();
 							while (accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent() != null) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] += it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is not increase
@@ -4569,15 +4569,15 @@ public class AccounterDAOTest_US extends
 												.getLiabilityAccount()
 												.getName();
 										while (accounterDao.getAccount(
-												company.getId(), str)
+												company.getID(), str)
 												.getParent() != null) {
 											d[getAccountVariable(accounts,
 													accounterDao.getAccount(
-															company.getId(),
+															company.getID(),
 															str).getParent()
 															.getName(), company)] -= rate;
 											str = accounterDao.getAccount(
-													company.getId(), str)
+													company.getID(), str)
 													.getParent().getName();
 										}
 									}// taxAgency account isIncrease
@@ -4590,15 +4590,15 @@ public class AccounterDAOTest_US extends
 												.getLiabilityAccount()
 												.getName();
 										while (accounterDao.getAccount(
-												company.getId(), str)
+												company.getID(), str)
 												.getParent() != null) {
 											d[getAccountVariable(accounts,
 													accounterDao.getAccount(
-															company.getId(),
+															company.getID(),
 															str).getParent()
 															.getName(), company)] += rate;
 											str = accounterDao.getAccount(
-													company.getId(), str)
+													company.getID(), str)
 													.getParent().getName();
 										}
 									}
@@ -4636,12 +4636,12 @@ public class AccounterDAOTest_US extends
 					if (!i.hasNext()) {
 						for (long l1 = 0; l1 < accounts.size(); l1++)
 							assertEquals(accounterDao.getAccount(
-									company.getId(), (l1 + 1)).getName(),
+									company.getID(), (l1 + 1)).getName(),
 									d[getAccountVariable(accounts, accounterDao
-											.getAccount(company.getId(),
+											.getAccount(company.getID(),
 													(l1 + 1)).getName(),
 											company)], accounterDao.getAccount(
-											company.getId(), (l1 + 1))
+											company.getID(), (l1 + 1))
 											.getTotalBalance());
 
 						for (long l1 = 0; l1 < codes.size(); l1++) {
@@ -4650,7 +4650,7 @@ public class AccounterDAOTest_US extends
 							assertEquals(name,
 									taxAgencies[getTaxAgencyVariable(codes,
 											name, company)],
-									accounterDao.getTaxAgency(company.getId(),
+									accounterDao.getTaxAgency(company.getID(),
 											name).getBalance());
 						}
 					}
@@ -4684,35 +4684,35 @@ public class AccounterDAOTest_US extends
 		CustomerRefund customerRefund1 = new CustomerRefund();
 		customerRefund1.setCompany(company);
 		customerRefund1.setType(Transaction.TYPE_CUSTOMER_REFUNDS);
-		customerRefund1.setPayTo(accounterDao.getCustomer(company.getId(),
+		customerRefund1.setPayTo(accounterDao.getCustomer(company.getID(),
 				payTo));
-		// customerRefund1.setPayFrom(accounterDao.getAccount(company.getId(),
+		// customerRefund1.setPayFrom(accounterDao.getAccount(company.getID(),
 		// payFrom));
-		customerRefund1.setPayFrom(accounterDao.getAccount(company.getId(),
+		customerRefund1.setPayFrom(accounterDao.getAccount(company.getID(),
 				AccounterConstants.UN_DEPOSITED_FUNDS));
 		customerRefund1.setNumber(accounterGUIDao.getNextTransactionNumber(
-				company.getId(), Transaction.TYPE_CUSTOMER_REFUNDS));
+				company.getID(), Transaction.TYPE_CUSTOMER_REFUNDS));
 		customerRefund1.paymentMethod = (paymentmethod);
 		// if (paymentmethod == AccounterConstants.PAYMENT_METHOD_CHECK)
 		// customerRefund1.setCheckNumber(checkno);
 		customerRefund1.setTotal(amt);
 		customerRefund1.setDate(format.parse(date));
 		customerRefund1.setCustomerBalance(accounterDao.getCustomer(
-				company.getId(), customerRefund1.getPayTo().getId())
+				company.getID(), customerRefund1.getPayTo().getID())
 				.getBalance()
 				+ customerRefund1.getTotal());
 		customerRefund1.setEndingBalance(accounterDao.getAccount(
-				company.getId(), payFrom).getTotalBalance()
+				company.getID(), payFrom).getTotalBalance()
 				+ customerRefund1.getTotal());
 		customerRefund1.setPayments(payments);
 		customerRefund1.setBalanceDue(customerRefund1.getTotal());
-		double customerBalance = accounterDao.getCustomer(company.getId(),
-				customerRefund1.getPayTo().getId()).getBalance();
+		double customerBalance = accounterDao.getCustomer(company.getID(),
+				customerRefund1.getPayTo().getID()).getBalance();
 		accounter.createCustomerRefunds(customerRefund1);
 		if (checkTesting)
 			assertEquals(customerBalance + customerRefund1.getTotal(),
-					accounterDao.getCustomer(company.getId(),
-							customerRefund1.getPayTo().getId()).getBalance());
+					accounterDao.getCustomer(company.getID(),
+							customerRefund1.getPayTo().getID()).getBalance());
 		return customerRefund1;
 	}
 
@@ -4725,9 +4725,9 @@ public class AccounterDAOTest_US extends
 			// For every instruction, this array will get updated and later we
 			// check these values with the stored values in the database.
 
-			List<Account> accounts = accounterDao.getAccounts(company.getId());
+			List<Account> accounts = accounterDao.getAccounts(company.getID());
 
-			setDefaultAccountVariables(accounts, company.getId());
+			setDefaultAccountVariables(accounts, company.getID());
 
 			// /* testCallCreateCustomerRefund( company in long
 			// * transation type in int
@@ -4835,34 +4835,34 @@ public class AccounterDAOTest_US extends
 					assertNotNull(c.getPayTo());
 					assertNotNull(c.getPayTo().getName());
 					assertEquals(c.getPayTo().getName(), accounterDao
-							.getCustomerRefunds(company.getId(), c.getId())
+							.getCustomerRefunds(company.getID(), c.getID())
 							.getPayTo().getName());
 					assertNotNull(c.getPayFrom());
 					assertNotNull(c.getPayFrom().getName());
 					assertEquals(c.getPayFrom().getName(), accounterDao
-							.getCustomerRefunds(company.getId(), c.getId())
+							.getCustomerRefunds(company.getID(), c.getID())
 							.getPayFrom().getName());
 					assertNotNull(c.getPaymentMethod());
 					assertNotNull(c.getPaymentMethod());
 					assertEquals(c.getPaymentMethod(), accounterDao
-							.getCustomerRefunds(company.getId(), c.getId())
+							.getCustomerRefunds(company.getID(), c.getID())
 							.getPaymentMethod());
 					assertEquals(c.getDate(), accounterDao.getCustomerRefunds(
-							company.getId(), c.getId()).getDate());
+							company.getID(), c.getID()).getDate());
 					if (c.getDate() != null)
 						assertEquals(c.getDate(), accounterDao
-								.getCustomerRefunds(company.getId(), c.getId())
+								.getCustomerRefunds(company.getID(), c.getID())
 								.getDate());
 					assertEquals(c.getType(), accounterDao.getCustomerRefunds(
-							company.getId(), c.getId()).getType());
+							company.getID(), c.getID()).getType());
 					assertEquals(c.getTotal(), accounterDao.getCustomerRefunds(
-							company.getId(), c.getId()).getTotal());
+							company.getID(), c.getID()).getTotal());
 					if (c.getPayments() != 0)
 						assertEquals(c.getPayments(), accounterDao
-								.getCustomerRefunds(company.getId(), c.getId())
+								.getCustomerRefunds(company.getID(), c.getID())
 								.getPayments());
 					assertEquals(c.getNumber(), accounterDao
-							.getCustomerRefunds(company.getId(), c.getId())
+							.getCustomerRefunds(company.getID(), c.getID())
 							.getNumber());
 
 					// checking whether the depositIn account is updated. If it
@@ -4876,13 +4876,13 @@ public class AccounterDAOTest_US extends
 								c.getPayFrom().getName(), company)] += c
 								.getTotal();
 						String str = c.getPayFrom().getName();
-						while ((accounterDao.getAccount(company.getId(), str)
+						while ((accounterDao.getAccount(company.getID(), str)
 								.getParent() != null)) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += c
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					} else {
@@ -4890,13 +4890,13 @@ public class AccounterDAOTest_US extends
 								c.getPayFrom().getName(), company)] -= c
 								.getTotal();
 						String str = c.getPayFrom().getName();
-						while ((accounterDao.getAccount(company.getId(), str)
+						while ((accounterDao.getAccount(company.getID(), str)
 								.getParent() != null)) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= c
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}
@@ -4908,11 +4908,11 @@ public class AccounterDAOTest_US extends
 					if (!i.hasNext()) {
 						for (long l1 = 0; l1 < accounts.size(); l1++)
 							assertEquals(accounterDao.getAccount(
-									company.getId(), (l1 + 1)).getName(),
-									accounterDao.getAccount(company.getId(),
+									company.getID(), (l1 + 1)).getName(),
+									accounterDao.getAccount(company.getID(),
 											(l1 + 1)).getTotalBalance(),
 									d[getAccountVariable(accounts, accounterDao
-											.getAccount(company.getId(),
+											.getAccount(company.getID(),
 													(l1 + 1)).getName(),
 											company)]);
 					}
@@ -4946,12 +4946,12 @@ public class AccounterDAOTest_US extends
 		enterBill.setDueDate(format.parse(duedate));
 		enterBill.setTransactionItems(ti);
 		enterBill.setTotal(getAmountAllLineTotal(ti));
-		double vendorBalance = accounterDao.getVendor(company.getId(),
-				enterBill.getVendor().getId()).getBalance();
+		double vendorBalance = accounterDao.getVendor(company.getID(),
+				enterBill.getVendor().getID()).getBalance();
 		accounter.createEnterBill(enterBill);
 		if (checkTesting)
 			assertEquals(vendorBalance + enterBill.getTotal(), accounterDao
-					.getVendor(company.getId(), enterBill.getVendor().getId())
+					.getVendor(company.getID(), enterBill.getVendor().getID())
 					.getBalance());
 		return enterBill;
 	}
@@ -4962,13 +4962,13 @@ public class AccounterDAOTest_US extends
 
 			company = accounterDao.getCompany(1L);
 
-			List<Item> items = accounterDao.getItems(company.getId());
+			List<Item> items = accounterDao.getItems(company.getID());
 			ListIterator<Item> its = items.listIterator();
 
-			List<Account> accounts = accounterDao.getAccounts(company.getId());
+			List<Account> accounts = accounterDao.getAccounts(company.getID());
 			ListIterator<Account> acs = accounts.listIterator();
 
-			setDefaultAccountVariables(accounts, company.getId());
+			setDefaultAccountVariables(accounts, company.getID());
 			// This function declares a double array where all the present total
 			// balances of all the accounts in the company are stored.
 			// For every instruction, this array will get updated and later we
@@ -5216,27 +5216,27 @@ public class AccounterDAOTest_US extends
 					assertNotNull(c.getVendor());
 					assertNotNull(c.getVendor().getName());
 					assertEquals(c.getVendor().getName(), accounterDao
-							.getEnterBill(company.getId(), c.getId())
+							.getEnterBill(company.getID(), c.getID())
 							.getVendor().getName());
 					assertEquals(c.getDate(), accounterDao.getEnterBill(
-							company.getId(), c.getId()).getDate());
+							company.getID(), c.getID()).getDate());
 					assertNotNull(c.getDueDate());
 					assertEquals(c.getDueDate(), accounterDao.getEnterBill(
-							company.getId(), c.getId()).getDueDate());
+							company.getID(), c.getID()).getDueDate());
 					assertEquals(c.getTotal(), accounterDao.getEnterBill(
-							company.getId(), c.getId()).getTotal());
+							company.getID(), c.getID()).getTotal());
 					assertEquals(c.getType(), accounterDao.getEnterBill(
-							company.getId(), c.getId()).getType());
+							company.getID(), c.getID()).getType());
 					if (c.getPayments() != 0)
 						assertEquals(c.getPayments(), accounterDao
-								.getEnterBill(company.getId(), c.getId())
+								.getEnterBill(company.getID(), c.getID())
 								.getPayments());
 					if (c.getPaymentTerm() != null)
 						assertEquals(c.getPaymentTerm(), accounterDao
-								.getEnterBill(company.getId(), c.getId())
+								.getEnterBill(company.getID(), c.getID())
 								.getPaymentTerm());
 					assertEquals(c.getNumber(), accounterDao.getEnterBill(
-							company.getId(), c.getId()).getNumber());
+							company.getID(), c.getID()).getNumber());
 
 					// Take all the transaction items that are involved in the
 					// cashsale and store them in a List.
@@ -5261,13 +5261,13 @@ public class AccounterDAOTest_US extends
 							d[getAccountVariable(accounts, acc.getName(),
 									company)] -= it.getLineTotal();
 							String str = acc.getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] -= it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}
@@ -5277,13 +5277,13 @@ public class AccounterDAOTest_US extends
 									company)] += it.getLineTotal();
 							String str = acc.getName();
 							while (accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent() != null) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] += it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}
@@ -5301,12 +5301,12 @@ public class AccounterDAOTest_US extends
 					if (!i.hasNext()) {
 						for (long l1 = 0; l1 < accounts.size(); l1++)
 							assertEquals(accounterDao.getAccount(
-									company.getId(), (l1 + 1)).getName(),
+									company.getID(), (l1 + 1)).getName(),
 									d[getAccountVariable(accounts, accounterDao
-											.getAccount(company.getId(),
+											.getAccount(company.getID(),
 													(l1 + 1)).getName(),
 											company)], accounterDao.getAccount(
-											company.getId(), (l1 + 1))
+											company.getID(), (l1 + 1))
 											.getTotalBalance());
 					}
 				}
@@ -5337,12 +5337,12 @@ public class AccounterDAOTest_US extends
 				Transaction.TYPE_VENDOR_CREDIT_MEMO));
 		vcm.setTransactionItems(transactionitem);
 		vcm.setTotal(getAmountAllLineTotal(transactionitem));
-		double vendorBalance = accounterDao.getVendor(company.getId(),
-				vcm.getVendor().getId()).getBalance();
+		double vendorBalance = accounterDao.getVendor(company.getID(),
+				vcm.getVendor().getID()).getBalance();
 		accounter.createVendorCreditMemo(vcm);
 		if (checkTesting)
 			assertEquals(vendorBalance - vcm.getTotal(), accounterDao
-					.getVendor(company.getId(), vcm.getVendor().getId())
+					.getVendor(company.getID(), vcm.getVendor().getID())
 					.getBalance());
 		return vcm;
 	}
@@ -5356,13 +5356,13 @@ public class AccounterDAOTest_US extends
 			// For every instruction, this array will get updated and later we
 			// check these values with the stored values in the database.
 
-			List<Item> items = accounterDao.getItems(company.getId());
+			List<Item> items = accounterDao.getItems(company.getID());
 			ListIterator<Item> its = items.listIterator();
 
-			List<Account> accounts = accounterDao.getAccounts(company.getId());
+			List<Account> accounts = accounterDao.getAccounts(company.getID());
 			ListIterator<Account> acs = accounts.listIterator();
 
-			setDefaultAccountVariables(accounts, company.getId());
+			setDefaultAccountVariables(accounts, company.getID());
 
 			VendorCreditMemo vendorCreditMemo1 = new VendorCreditMemo();
 			VendorCreditMemo vendorCreditMemo2 = new VendorCreditMemo();
@@ -5613,17 +5613,17 @@ public class AccounterDAOTest_US extends
 					assertNotNull(c.getVendor());
 					assertNotNull(c.getVendor().getName());
 					assertEquals(c.getVendor().getName(), accounterDao
-							.getVendorCreditMemo(company.getId(), c.getId())
+							.getVendorCreditMemo(company.getID(), c.getID())
 							.getVendor().getName());
 					assertEquals(c.getDate(), accounterDao.getVendorCreditMemo(
-							company.getId(), c.getId()).getDate());
+							company.getID(), c.getID()).getDate());
 					assertEquals(c.getTotal(), accounterDao
-							.getVendorCreditMemo(company.getId(), c.getId())
+							.getVendorCreditMemo(company.getID(), c.getID())
 							.getTotal());
 					assertEquals(c.getType(), accounterDao.getVendorCreditMemo(
-							company.getId(), c.getId()).getType());
+							company.getID(), c.getID()).getType());
 					assertEquals(c.getNumber(), accounterDao
-							.getVendorCreditMemo(company.getId(), c.getId())
+							.getVendorCreditMemo(company.getID(), c.getID())
 							.getNumber());
 
 					// Take all the transaction items that are involved in the
@@ -5650,13 +5650,13 @@ public class AccounterDAOTest_US extends
 							d[getAccountVariable(accounts, acc.getName(),
 									company)] += it.getLineTotal();
 							String str = acc.getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] += it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is increase
@@ -5666,13 +5666,13 @@ public class AccounterDAOTest_US extends
 									company)] -= it.getLineTotal();
 							String str = acc.getName();
 							while (accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent() != null) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] -= it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is not increase
@@ -5691,12 +5691,12 @@ public class AccounterDAOTest_US extends
 					if (!i.hasNext()) {
 						for (long l1 = 0; l1 < accounts.size(); l1++)
 							assertEquals(accounterDao.getAccount(
-									company.getId(), (l1 + 1)).getName(),
+									company.getID(), (l1 + 1)).getName(),
 									d[getAccountVariable(accounts, accounterDao
-											.getAccount(company.getId(),
+											.getAccount(company.getID(),
 													(l1 + 1)).getName(),
 											company)], accounterDao.getAccount(
-											company.getId(), (l1 + 1))
+											company.getID(), (l1 + 1))
 											.getTotalBalance());
 					}
 				}
@@ -5734,12 +5734,12 @@ public class AccounterDAOTest_US extends
 		cp.setPayFrom(accounterDao.getAccount(1L,
 				AccounterConstants.UN_DEPOSITED_FUNDS));
 		// cp.setPayFrom(accounterDao.getAccount(1L, payfrom));
-		double vendorBalance = accounterDao.getVendor(company.getId(),
-				cp.getVendor().getId()).getBalance();
+		double vendorBalance = accounterDao.getVendor(company.getID(),
+				cp.getVendor().getID()).getBalance();
 		accounter.createCashPurchase(cp);
 		if (checkTesting)
-			assertEquals(vendorBalance, accounterDao.getVendor(company.getId(),
-					cp.getVendor().getId()).getBalance());
+			assertEquals(vendorBalance, accounterDao.getVendor(company.getID(),
+					cp.getVendor().getID()).getBalance());
 		return cp;
 
 	}
@@ -5753,13 +5753,13 @@ public class AccounterDAOTest_US extends
 			// For every instruction, this array will get updated and later we
 			// check these values with the stored values in the database.
 
-			List<Item> items = accounterDao.getItems(company.getId());
+			List<Item> items = accounterDao.getItems(company.getID());
 			ListIterator<Item> its = items.listIterator();
 
-			List<Account> accounts = accounterDao.getAccounts(company.getId());
+			List<Account> accounts = accounterDao.getAccounts(company.getID());
 			ListIterator<Account> acs = accounts.listIterator();
 
-			setDefaultAccountVariables(accounts, company.getId());
+			setDefaultAccountVariables(accounts, company.getID());
 
 			CashPurchase cashPurchase1 = new CashPurchase();
 			CashPurchase cashPurchase2 = new CashPurchase();
@@ -6034,30 +6034,30 @@ public class AccounterDAOTest_US extends
 					assertNotNull(c.getVendor());
 					assertNotNull(c.getVendor().getName());
 					assertEquals(c.getVendor().getName(), accounterDao
-							.getCashPurchase(company.getId(), c.getId())
+							.getCashPurchase(company.getID(), c.getID())
 							.getVendor().getName());
 					assertEquals(c.getDate(), accounterDao.getCashPurchase(
-							company.getId(), c.getId()).getDate());
+							company.getID(), c.getID()).getDate());
 					assertNotNull(c.getDate());
 					assertEquals(c.getDate(), accounterDao.getCashPurchase(
-							company.getId(), c.getId()).getDate());
+							company.getID(), c.getID()).getDate());
 					assertEquals(c.getTotal(), accounterDao.getCashPurchase(
-							company.getId(), c.getId()).getTotal());
+							company.getID(), c.getID()).getTotal());
 					assertEquals(c.getType(), accounterDao.getCashPurchase(
-							company.getId(), c.getId()).getType());
+							company.getID(), c.getID()).getType());
 					assertEquals(c.getPaymentMethod(), accounterDao
-							.getCashPurchase(company.getId(), c.getId())
+							.getCashPurchase(company.getID(), c.getID())
 							.getPaymentMethod());
 					if (c.getDeliveryDate() != null)
 						assertEquals(c.getDeliveryDate(), accounterDao
-								.getCashPurchase(company.getId(), c.getId())
+								.getCashPurchase(company.getID(), c.getID())
 								.getDeliveryDate());
 					if (c.getPayFrom() != null)
 						assertEquals(c.getPayFrom().getName(), accounterDao
-								.getCashPurchase(company.getId(), c.getId())
+								.getCashPurchase(company.getID(), c.getID())
 								.getPayFrom().getName());
 					assertEquals(c.getNumber(), accounterDao.getCashPurchase(
-							company.getId(), c.getId()).getNumber());
+							company.getID(), c.getID()).getNumber());
 
 					// Take all the transaction items that are involved in the
 					// cashsale and store them in a List.
@@ -6083,13 +6083,13 @@ public class AccounterDAOTest_US extends
 							d[getAccountVariable(accounts, acc.getName(),
 									company)] -= it.getLineTotal();
 							String str = acc.getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] -= it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is increase
@@ -6099,13 +6099,13 @@ public class AccounterDAOTest_US extends
 									company)] += it.getLineTotal();
 							String str = acc.getName();
 							while (accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent() != null) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] += it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is not increase
@@ -6120,13 +6120,13 @@ public class AccounterDAOTest_US extends
 								c.getPayFrom().getName(), company)] += c
 								.getTotal();
 						String str = c.getPayFrom().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += c
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					} else {
@@ -6134,13 +6134,13 @@ public class AccounterDAOTest_US extends
 								c.getPayFrom().getName(), company)] -= c
 								.getTotal();
 						String str = c.getPayFrom().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= c
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}
@@ -6150,12 +6150,12 @@ public class AccounterDAOTest_US extends
 					if (!i.hasNext()) {
 						for (long l1 = 0; l1 < accounts.size(); l1++)
 							assertEquals(accounterDao.getAccount(
-									company.getId(), (l1 + 1)).getName(),
+									company.getID(), (l1 + 1)).getName(),
 									d[getAccountVariable(accounts, accounterDao
-											.getAccount(company.getId(),
+											.getAccount(company.getID(),
 													(l1 + 1)).getName(),
 											company)], accounterDao.getAccount(
-											company.getId(), (l1 + 1))
+											company.getID(), (l1 + 1))
 											.getTotalBalance());
 					}
 				}
@@ -6179,14 +6179,14 @@ public class AccounterDAOTest_US extends
 			List<TransactionItem> ti, WriteCheck w) throws Exception {
 		w.setType(Transaction.TYPE_WRITE_CHECK);
 		w.setNumber(accounterGUIDao.getNextTransactionNumber(accounterDao
-				.getCompany(1L).getId(), Transaction.TYPE_WRITE_CHECK));
+				.getCompany(1L).getID(), Transaction.TYPE_WRITE_CHECK));
 		w.setDate(format.parse(date));
 		w.setCompany(accounterDao.getCompany(1L));
 		// w.setBankAccount(accounterDao.getAccount(accounterDao.getCompany(1L)
-		// .getId(), bank));
+		// .getID(), bank));
 
 		w.setBankAccount(accounterDao.getAccount(accounterDao.getCompany(1L)
-				.getId(), AccounterConstants.UN_DEPOSITED_FUNDS));
+				.getID(), AccounterConstants.UN_DEPOSITED_FUNDS));
 		w.setBalance(w.getBankAccount().getTotalBalance());
 		w.setTransactionItems(ti);
 		w.setAmount(getAmountAllLineTotal(ti));
@@ -6215,12 +6215,12 @@ public class AccounterDAOTest_US extends
 		testCallCreateWriteCheck(cm, date, bank, ti, w);
 		w.setVendor(accounterDao.getVendor(1L, vendor));
 		w.setPayToType(WriteCheck.TYPE_VENDOR);
-		double vendorBalance = accounterDao.getVendor(company.getId(),
-				w.getVendor().getId()).getBalance();
+		double vendorBalance = accounterDao.getVendor(company.getID(),
+				w.getVendor().getID()).getBalance();
 		accounter.createWriteCheck(w);
 		if (checkTesting)
-			assertEquals(vendorBalance, accounterDao.getVendor(company.getId(),
-					w.getVendor().getId()).getBalance());
+			assertEquals(vendorBalance, accounterDao.getVendor(company.getID(),
+					w.getVendor().getID()).getBalance());
 		return w;
 	}
 
@@ -6231,12 +6231,12 @@ public class AccounterDAOTest_US extends
 		testCallCreateWriteCheck(cm, date, bank, ti, w);
 		w.setCustomer(accounterDao.getCustomer(1L, customer));
 		w.setPayToType(WriteCheck.TYPE_CUSTOMER);
-		double customerBalance = accounterDao.getCustomer(company.getId(),
-				w.getCustomer().getId()).getBalance();
+		double customerBalance = accounterDao.getCustomer(company.getID(),
+				w.getCustomer().getID()).getBalance();
 		accounter.createWriteCheck(w);
 		if (checkTesting)
 			assertEquals(customerBalance, accounterDao.getCustomer(
-					company.getId(), w.getCustomer().getId()).getBalance());
+					company.getID(), w.getCustomer().getID()).getBalance());
 		return w;
 	}
 
@@ -6246,16 +6246,16 @@ public class AccounterDAOTest_US extends
 
 		testCallCreateWriteCheck(cm, date, bank, ti, w);
 		company = accounterDao.getCompany(1L);
-		w.setTaxAgency(accounterDao.getTaxAgency(company.getId(),
+		w.setTaxAgency(accounterDao.getTaxAgency(company.getID(),
 				getTaxAgencyName(ti)));
 		w.setPayToType(WriteCheck.TYPE_TAX_AGENCY);
-		TaxAgency taxAgency = accounterDao.getTaxAgency(company.getId(), w
-				.getTaxAgency().getId());
+		TaxAgency taxAgency = accounterDao.getTaxAgency(company.getID(), w
+				.getTaxAgency().getID());
 		accounter.createWriteCheck(w);
 		if (checkTesting)
 			assertEquals(taxAgency.getName(), taxAgency.getBalance()
-					- w.getTotal(), accounterDao.getTaxAgency(company.getId(),
-					w.getTaxAgency().getId()).getBalance());
+					- w.getTotal(), accounterDao.getTaxAgency(company.getID(),
+					w.getTaxAgency().getID()).getBalance());
 
 		return w;
 	}
@@ -6312,13 +6312,13 @@ public class AccounterDAOTest_US extends
 			// For every instruction, this array will get updated and later we
 			// check these values with the stored values in the database.
 
-			List<Item> items = accounterDao.getItems(company.getId());
+			List<Item> items = accounterDao.getItems(company.getID());
 			ListIterator<Item> its = items.listIterator();
 
-			List<Account> accounts = accounterDao.getAccounts(company.getId());
+			List<Account> accounts = accounterDao.getAccounts(company.getID());
 			ListIterator<Account> acs = accounts.listIterator();
 
-			List<TaxCode> codes = accounterDao.getTaxCodes(company.getId());
+			List<TaxCode> codes = accounterDao.getTaxCodes(company.getID());
 			for (int i = 0; i < codes.size(); i++) {
 				if (codes.get(i).getName().equals("None"))
 					codes.remove(i);
@@ -6331,7 +6331,7 @@ public class AccounterDAOTest_US extends
 						.getTaxAgency().getName(), company)] = codes.get(i)
 						.getTaxAgency().getBalance();
 
-			setDefaultAccountVariables(accounts, company.getId());
+			setDefaultAccountVariables(accounts, company.getID());
 
 			WriteCheck writeCheck1 = new WriteCheck();
 			WriteCheck writeCheck2 = new WriteCheck();
@@ -6399,7 +6399,7 @@ public class AccounterDAOTest_US extends
 			}
 
 			List<TaxAgency> agencies = accounterDao.getTaxAgencies(company
-					.getId());
+					.getID());
 			for (int i = 0; i < agencies.size(); i++) {
 				if (agencies.get(i).getName().equals("Tax Agency"))
 					agencies.remove(i);
@@ -6569,44 +6569,44 @@ public class AccounterDAOTest_US extends
 					List<TransactionItem> ti, ti2 = new ArrayList<TransactionItem>();
 					assertNotNull(c);
 					assertEquals(c.getType(), accounterDao.getwriterCheck(
-							company.getId(), c.getId()).getType());
+							company.getID(), c.getID()).getType());
 					assertEquals(c.getPayToType(), accounterDao.getwriterCheck(
-							company.getId(), c.getId()).getPayToType());
+							company.getID(), c.getID()).getPayToType());
 					if (c.getPayToType() == WriteCheck.TYPE_VENDOR) {
 						assertNotNull(c.getVendor());
 						assertNotNull(c.getVendor().getName());
 						assertEquals(c.getVendor().getName(), accounterDao
-								.getwriterCheck(company.getId(), c.getId())
+								.getwriterCheck(company.getID(), c.getID())
 								.getVendor().getName());
 					} else if (c.getPayToType() == WriteCheck.TYPE_CUSTOMER) {
 						assertNotNull(c.getCustomer());
 						assertNotNull(c.getCustomer().getName());
 						assertEquals(c.getCustomer().getName(), accounterDao
-								.getwriterCheck(company.getId(), c.getId())
+								.getwriterCheck(company.getID(), c.getID())
 								.getCustomer().getName());
 					} else {
 						assertNotNull(c.getTaxAgency());
 						assertNotNull(c.getTaxAgency().getName());
 						assertEquals(c.getTaxAgency().getName(), accounterDao
-								.getwriterCheck(company.getId(), c.getId())
+								.getwriterCheck(company.getID(), c.getID())
 								.getTaxAgency().getName());
 					}
 					assertEquals(c.getDate(), accounterDao.getwriterCheck(
-							company.getId(), c.getId()).getDate());
+							company.getID(), c.getID()).getDate());
 					assertNotNull(c.getDate());
 					assertEquals(c.getDate(), accounterDao.getwriterCheck(
-							company.getId(), c.getId()).getDate());
+							company.getID(), c.getID()).getDate());
 					assertEquals(c.getTotal(), accounterDao.getwriterCheck(
-							company.getId(), c.getId()).getTotal());
+							company.getID(), c.getID()).getTotal());
 					assertEquals(c.getType(), accounterDao.getwriterCheck(
-							company.getId(), c.getId()).getType());
+							company.getID(), c.getID()).getType());
 					assertEquals(c.getBankAccount().getName(), accounterDao
-							.getwriterCheck(company.getId(), c.getId())
+							.getwriterCheck(company.getID(), c.getID())
 							.getBankAccount().getName());
 					assertEquals(c.getBalance(), accounterDao.getwriterCheck(
-							company.getId(), c.getId()).getBalance());
+							company.getID(), c.getID()).getBalance());
 					assertEquals(c.getNumber(), accounterDao.getwriterCheck(
-							company.getId(), c.getId()).getNumber());
+							company.getID(), c.getID()).getNumber());
 
 					// Take all the transaction items that are involved in the
 					// writecheck and store them in a List.
@@ -6638,13 +6638,13 @@ public class AccounterDAOTest_US extends
 							d[getAccountVariable(accounts, acc.getName(),
 									company)] -= it.getLineTotal();
 							String str = acc.getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] -= it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is increase
@@ -6654,13 +6654,13 @@ public class AccounterDAOTest_US extends
 									company)] += it.getLineTotal();
 							String str = acc.getName();
 							while (accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent() != null) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] += it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is not increase
@@ -6683,26 +6683,26 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, c.getBankAccount()
 								.getName(), company)] += c.getTotal();
 						String str = c.getBankAccount().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += c
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					} else {
 						d[getAccountVariable(accounts, c.getBankAccount()
 								.getName(), company)] -= c.getTotal();
 						String str = c.getBankAccount().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= c
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}
@@ -6715,12 +6715,12 @@ public class AccounterDAOTest_US extends
 					if (!i.hasNext()) {
 						for (long l1 = 0; l1 < accounts.size(); l1++)
 							assertEquals(accounterDao.getAccount(
-									company.getId(), (l1 + 1)).getName(),
+									company.getID(), (l1 + 1)).getName(),
 									d[getAccountVariable(accounts, accounterDao
-											.getAccount(company.getId(),
+											.getAccount(company.getID(),
 													(l1 + 1)).getName(),
 											company)], accounterDao.getAccount(
-											company.getId(), (l1 + 1))
+											company.getID(), (l1 + 1))
 											.getTotalBalance());
 
 						for (long l1 = 0; l1 < codes.size(); l1++) {
@@ -6729,7 +6729,7 @@ public class AccounterDAOTest_US extends
 							assertEquals(name,
 									taxAgencies[getTaxAgencyVariable(codes,
 											name, company)],
-									accounterDao.getTaxAgency(company.getId(),
+									accounterDao.getTaxAgency(company.getID(),
 											name).getBalance());
 						}
 					}
@@ -6765,77 +6765,77 @@ public class AccounterDAOTest_US extends
 		company = accounterDao.getCompany(1L);
 		TransactionMakeDeposit entry = new TransactionMakeDeposit();
 		entry.setIsNewEntry(false);
-		entry.setCashAccount(accounterDao.getAccount(company.getId(),
+		entry.setCashAccount(accounterDao.getAccount(company.getID(),
 				AccounterConstants.UN_DEPOSITED_FUNDS));
-		entry.setAccount(accounterDao.getAccount(company.getId(),
+		entry.setAccount(accounterDao.getAccount(company.getID(),
 				AccounterConstants.UN_DEPOSITED_FUNDS));
 		entry.setAmount(md.getAmount());
 		entry.setMakeDeposit(m);
 		entry.setType(md.getType());
-		long id = getLongIdForGivenStringId(AccounterCoreType.TRANSACTION, md
+		long id = getLongIdForGivenid(AccounterCoreType.TRANSACTION, md
 				.getTransactionId());
 
 		switch (md.getTransactionType()) {
 
 		case Transaction.TYPE_CASH_PURCHASE:
 			entry.setDepositedTransaction(accounterDao.getCashPurchase(company
-					.getId(), id));
+					.getID(), id));
 			break;
 		case Transaction.TYPE_CASH_SALES:
 			entry.setDepositedTransaction(accounterDao.getCashSales(company
-					.getId(), id));
+					.getID(), id));
 			break;
 		case Transaction.TYPE_CREDIT_CARD_CHARGE:
 			entry.setDepositedTransaction(accounterDao.getCreditCardCharge(
-					company.getId(), id));
+					company.getID(), id));
 			break;
 		case Transaction.TYPE_CUSTOMER_CREDIT_MEMO:
 			entry.setDepositedTransaction(accounterDao.getCustomerCreditMemo(
-					company.getId(), id));
+					company.getID(), id));
 			break;
 		case Transaction.TYPE_CUSTOMER_REFUNDS:
 			entry.setDepositedTransaction(accounterDao.getCustomerRefunds(
-					company.getId(), id));
+					company.getID(), id));
 			break;
 		case Transaction.TYPE_ENTER_BILL:
 			entry.setDepositedTransaction(accounterDao.getEnterBill(company
-					.getId(), id));
+					.getID(), id));
 			break;
 		case Transaction.TYPE_ESTIMATE:
 			entry.setDepositedTransaction(accounterDao.getEstimate(company
-					.getId(), id));
+					.getID(), id));
 			break;
 		case Transaction.TYPE_INVOICE:
 			entry.setDepositedTransaction(accounterDao.getInvoice(company
-					.getId(), id));
+					.getID(), id));
 			break;
 		case Transaction.TYPE_ISSUE_PAYMENT:
 			entry.setDepositedTransaction(accounterDao.getIssuePayment(company
-					.getId(), id));
+					.getID(), id));
 			break;
 		case Transaction.TYPE_PAY_BILL:
 			entry.setDepositedTransaction(accounterDao.getPayBill(company
-					.getId(), id));
+					.getID(), id));
 			break;
 		case Transaction.TYPE_PAY_SALES_TAX:
 			entry.setDepositedTransaction(accounterDao.getPaySalesTax(company
-					.getId(), id));
+					.getID(), id));
 			break;
 		case Transaction.TYPE_RECEIVE_PAYMENT:
 			entry.setDepositedTransaction(accounterDao.getReceivePayment(
-					company.getId(), id));
+					company.getID(), id));
 			break;
 		case Transaction.TYPE_TRANSFER_FUND:
 			entry.setDepositedTransaction(accounterDao.getTransferFund(company
-					.getId(), id));
+					.getID(), id));
 			break;
 		case Transaction.TYPE_VENDOR_CREDIT_MEMO:
 			entry.setDepositedTransaction(accounterDao.getVendorCreditMemo(
-					company.getId(), id));
+					company.getID(), id));
 			break;
 		case Transaction.TYPE_WRITE_CHECK:
 			entry.setDepositedTransaction(accounterDao.getwriterCheck(company
-					.getId(), id));
+					.getID(), id));
 			break;
 
 		}
@@ -6894,20 +6894,20 @@ public class AccounterDAOTest_US extends
 			company = accounterDao.getCompany(1L);
 
 			List<Customer> customers = accounterDao.getCustomers(company
-					.getId());
+					.getID());
 			// System.out.println("Accounts Payable balance ="
-			// + accounterDao.getAccount(company.getId(),
+			// + accounterDao.getAccount(company.getID(),
 			// "Accounts Payable").getTotalBalance());
-			List<Account> accounts = accounterDao.getAccounts(company.getId());
+			List<Account> accounts = accounterDao.getAccounts(company.getID());
 			ListIterator<Account> acs = accounts.listIterator();
 
-			List<Vendor> vendors = accounterDao.getVendors(company.getId());
+			List<Vendor> vendors = accounterDao.getVendors(company.getID());
 
 			// This function declares a double array where all the present total
 			// balances of all the accounts in the company are stored.
 			// For every instruction, this array will get updated and later we
 			// check these values with the stored values in the database.
-			setDefaultAccountVariables(accounts, company.getId());
+			setDefaultAccountVariables(accounts, company.getID());
 
 			MakeDeposit makeDeposit1 = new MakeDeposit();
 			MakeDeposit makeDeposit2 = new MakeDeposit();
@@ -6921,7 +6921,7 @@ public class AccounterDAOTest_US extends
 			MakeDeposit makeDeposit10 = new MakeDeposit();
 
 			// System.out.println(" ap = "
-			// + accounterDao.getAccount(company.getId(),
+			// + accounterDao.getAccount(company.getID(),
 			// "Accounts Payable").getTotalBalance());
 
 			List<TransactionMakeDeposit> entries1 = new ArrayList<TransactionMakeDeposit>();
@@ -6936,7 +6936,7 @@ public class AccounterDAOTest_US extends
 			List<TransactionMakeDeposit> entries10 = new ArrayList<TransactionMakeDeposit>();
 
 			List<MakeDepositTransactionsList> mdtlist = accounterGUIDao
-					.getTransactionMakeDeposits(company.getId());
+					.getTransactionMakeDeposits(company.getID());
 			// assertEquals(mdtlist.size(),3);
 			Iterator<MakeDepositTransactionsList> itr = mdtlist.iterator();
 
@@ -7061,35 +7061,35 @@ public class AccounterDAOTest_US extends
 						.size()) / 3; n += 3) {
 
 					mdtlist = accounterGUIDao
-							.getTransactionMakeDeposits(company.getId());
+							.getTransactionMakeDeposits(company.getID());
 					if (mdtlist.size() > 0)
 						entries6.add(testCallCreateTransactionItem(mdtlist
 								.get(new Random().nextInt(mdtlist.size())), 1l,
 								makeDeposit6));
 
 					mdtlist = accounterGUIDao
-							.getTransactionMakeDeposits(company.getId());
+							.getTransactionMakeDeposits(company.getID());
 					if (mdtlist.size() > 0)
 						entries7.add(testCallCreateTransactionItem(mdtlist
 								.get(new Random().nextInt(mdtlist.size())), 1l,
 								makeDeposit7));
 
 					mdtlist = accounterGUIDao
-							.getTransactionMakeDeposits(company.getId());
+							.getTransactionMakeDeposits(company.getID());
 					if (mdtlist.size() > 0)
 						entries8.add(testCallCreateTransactionItem(mdtlist
 								.get(new Random().nextInt(mdtlist.size())), 1l,
 								makeDeposit8));
 
 					mdtlist = accounterGUIDao
-							.getTransactionMakeDeposits(company.getId());
+							.getTransactionMakeDeposits(company.getID());
 					if (mdtlist.size() > 0)
 						entries9.add(testCallCreateTransactionItem(mdtlist
 								.get(new Random().nextInt(mdtlist.size())), 1l,
 								makeDeposit9));
 
 					mdtlist = accounterGUIDao
-							.getTransactionMakeDeposits(company.getId());
+							.getTransactionMakeDeposits(company.getID());
 					if (mdtlist.size() > 0)
 						entries10.add(testCallCreateTransactionItem(mdtlist
 								.get(new Random().nextInt(mdtlist.size())), 1l,
@@ -7272,24 +7272,24 @@ public class AccounterDAOTest_US extends
 					List<TransactionMakeDeposit> ti2 = new ArrayList<TransactionMakeDeposit>();
 					assertNotNull(c);
 					assertEquals(c.getType(), accounterDao.getMakeDeposit(
-							company.getId(), c.getId()).getType());
+							company.getID(), c.getID()).getType());
 					assertEquals(c.getCashBackAccount().getName(), accounterDao
-							.getMakeDeposit(company.getId(), c.getId())
+							.getMakeDeposit(company.getID(), c.getID())
 							.getCashBackAccount().getName());
 					assertEquals(c.getCashBackAmount(), accounterDao
-							.getMakeDeposit(company.getId(), c.getId())
+							.getMakeDeposit(company.getID(), c.getID())
 							.getCashBackAmount());
 					assertEquals(c.getDate(), accounterDao.getMakeDeposit(
-							company.getId(), c.getId()).getDate());
+							company.getID(), c.getID()).getDate());
 					assertEquals(c.getTotal(), accounterDao.getMakeDeposit(
-							company.getId(), c.getId()).getTotal());
+							company.getID(), c.getID()).getTotal());
 					assertEquals(c.getDepositIn().getName(), accounterDao
-							.getMakeDeposit(company.getId(), c.getId())
+							.getMakeDeposit(company.getID(), c.getID())
 							.getDepositIn().getName());
 					assertEquals(c.getTotal(), accounterDao.getMakeDeposit(
-							company.getId(), c.getId()).getTotal());
+							company.getID(), c.getID()).getTotal());
 					assertEquals(c.getNumber(), accounterDao.getMakeDeposit(
-							company.getId(), c.getId()).getNumber());
+							company.getID(), c.getID()).getNumber());
 
 					// Take all the transaction items that are involved in the
 					// writecheck and store them in a List.
@@ -7305,15 +7305,15 @@ public class AccounterDAOTest_US extends
 						ti2.add(it);
 						if (it.getIsNewEntry()) {
 							if (it.getType() == TransactionMakeDeposit.TYPE_CUSTOMER)
-								acc = accounterDao.getAccount(company.getId(),
+								acc = accounterDao.getAccount(company.getID(),
 										"Accounts Receivable");
 							else if (it.getType() == TransactionMakeDeposit.TYPE_VENDOR)
-								acc = accounterDao.getAccount(company.getId(),
+								acc = accounterDao.getAccount(company.getID(),
 										"Accounts Payable");
 							else
 								acc = it.getAccount();
 						} else
-							acc = accounterDao.getAccount(company.getId(),
+							acc = accounterDao.getAccount(company.getID(),
 									"Un Deposited Funds");
 
 						if (acc.isIncrease()
@@ -7321,26 +7321,26 @@ public class AccounterDAOTest_US extends
 							d[getAccountVariable(accounts, acc.getName(),
 									company)] += it.getAmount();
 							String str = acc.getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] += it
 										.getAmount();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						} else {
 							d[getAccountVariable(accounts, acc.getName(),
 									company)] -= it.getAmount();
 							String str = acc.getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] -= it
 										.getAmount();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}
@@ -7358,13 +7358,13 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, acc.getName(), company)] -= c
 								.getCashBackAmount();
 						String str = acc.getName();
-						while ((accounterDao.getAccount(company.getId(), str)
+						while ((accounterDao.getAccount(company.getID(), str)
 								.getParent() != null)) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= c
 									.getCashBackAmount();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}
@@ -7373,13 +7373,13 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, acc.getName(), company)] += c
 								.getCashBackAmount();
 						String str = acc.getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += c
 									.getCashBackAmount();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}
@@ -7392,12 +7392,12 @@ public class AccounterDAOTest_US extends
 					if (!i.hasNext()) {
 						for (long l1 = 0; l1 < accounts.size(); l1++)
 							assertEquals(accounterDao.getAccount(
-									company.getId(), (l1 + 1)).getName(),
+									company.getID(), (l1 + 1)).getName(),
 									d[getAccountVariable(accounts, accounterDao
-											.getAccount(company.getId(),
+											.getAccount(company.getID(),
 													(l1 + 1)).getName(),
 											company)], accounterDao.getAccount(
-											company.getId(), (l1 + 1))
+											company.getID(), (l1 + 1))
 											.getTotalBalance());
 					}
 				}
@@ -7408,8 +7408,8 @@ public class AccounterDAOTest_US extends
 	public double getAmountUnUsedCredits(Customer customer) throws DAOException {
 
 		List<CreditsAndPayments> cpl = accounterGUIDao
-				.getCustomerCreditsAndPayments(company.getId(), customer
-						.getStringID());
+				.getCustomerCreditsAndPayments(company.getID(), customer
+						.getID());
 		Iterator<CreditsAndPayments> i = cpl.iterator();
 		double d = 0.0;
 		assertNotNull(cpl);
@@ -7497,7 +7497,7 @@ public class AccounterDAOTest_US extends
 		r.setDate(format.parse(date));
 		r.setPaymentMethod(paymethod);
 		r.setUnUsedCredits(getAmountUnUsedCredits(accounterDao.getCustomer(
-				company.getId(), customer)));
+				company.getID(), customer)));
 		r.setTotalAppliedCredits(getAmountTotalAppliedCredits(tr));
 		r.setTotalCashDiscount(getAmountTotalCashDiscount(tr));
 		r.setTotalWriteOff(getAmountTotalWriteOff(tr));
@@ -7505,14 +7505,14 @@ public class AccounterDAOTest_US extends
 		r.setAmount(amount + r.getTotal());
 		r.setUnUsedPayments(r.getAmount() - r.getTotal());
 		r.setTransactionReceivePayment(tr);
-		double customerBalance = accounterDao.getCustomer(company.getId(),
-				r.getCustomer().getId()).getBalance();
+		double customerBalance = accounterDao.getCustomer(company.getID(),
+				r.getCustomer().getID()).getBalance();
 		accounter.createReceivePayment(r);
 		if (checkTesting)
 			assertEquals(customerBalance
 					- (r.getTotal() + r.getTotalCashDiscount() + r
 							.getTotalWriteOff()), accounterDao.getCustomer(
-					company.getId(), r.getCustomer().getId()).getBalance());
+					company.getID(), r.getCustomer().getID()).getBalance());
 		return r;
 	}
 
@@ -7540,7 +7540,7 @@ public class AccounterDAOTest_US extends
 			throws DAOException {
 		boolean flag = true;
 		List<CreditsAndPayments> cpl = accounterGUIDao
-				.getCustomerCreditsAndPayments(company.getId(), cu);
+				.getCustomerCreditsAndPayments(company.getID(), cu);
 		Iterator<CreditsAndPayments> i = cpl.iterator();
 		assertNotNull(cpl);
 
@@ -7555,7 +7555,7 @@ public class AccounterDAOTest_US extends
 									: amtToUse);
 			c.setTransactionReceivePayment(p);
 			c.setCreditsAndPayments(accounterDao.getCreditAndPayment(company
-					.getId(), cp.getId()));
+					.getID(), cp.getID()));
 			creditsAndPayments.add(c);
 			if (amtToUse <= cp.getCreditAmount())
 				flag = false;
@@ -7575,8 +7575,8 @@ public class AccounterDAOTest_US extends
 		company = accounterDao.getCompany(1L);
 
 		List<ReceivePaymentTransactionList> rpl = accounterGUIDao
-				.getTransactionReceivePayments(company.getId(), accounterDao
-						.getCustomer(company.getId(), customer).getId());
+				.getTransactionReceivePayments(company.getID(), accounterDao
+						.getCustomer(company.getID(), customer).getID());
 		if (rpl.size() > 0) {
 			if (noOfEntries <= 0)
 				noOfEntries = 1;
@@ -7587,22 +7587,22 @@ public class AccounterDAOTest_US extends
 			TransactionReceivePayment p = new TransactionReceivePayment();
 			p.setReceivePayment(r);
 			if (rp.getType() == Transaction.TYPE_INVOICE) {
-				p.setInvoice(accounterDao.getInvoice(company.getId(), rp
+				p.setInvoice(accounterDao.getInvoice(company.getID(), rp
 						.getTransactionId()));
 				p.isInvoice = true;
 			} else {
 				p.setCustomerRefund(accounterDao.getCustomerRefunds(company
-						.getId(), rp.getTransactionId()));
+						.getID(), rp.getTransactionId()));
 				p.isInvoice = false;
 			}
 			p
 					.setInvoiceAmount(rp.getType() == Transaction.TYPE_INVOICE ? accounterDao
-							.getInvoice(company.getId(), rp.getTransactionId())
+							.getInvoice(company.getID(), rp.getTransactionId())
 							.getTotal()
-							: accounterDao.getCustomerRefunds(company.getId(),
+							: accounterDao.getCustomerRefunds(company.getID(),
 									rp.getTransactionId()).getTotal());
 			if (discountAccount != null) {
-				p.setDiscountAccount(accounterDao.getAccount(company.getId(),
+				p.setDiscountAccount(accounterDao.getAccount(company.getID(),
 						discountAccount));
 				p.setCashDiscount(discountAmount);
 			} else {
@@ -7610,7 +7610,7 @@ public class AccounterDAOTest_US extends
 				p.setCashDiscount(0D);
 			}
 			if (writeoff != null) {
-				p.setWriteOffAccount(accounterDao.getAccount(company.getId(),
+				p.setWriteOffAccount(accounterDao.getAccount(company.getID(),
 						writeoff));
 				p.setWriteOff(writeOffAmount);
 			} else {
@@ -7630,8 +7630,8 @@ public class AccounterDAOTest_US extends
 			List<TransactionCreditsAndPayments> creditsAndPayments = new ArrayList<TransactionCreditsAndPayments>();
 
 			double d = testCallCreateTransactionCreditsAndPayments(
-					useFullCredits, accounterDao.getCustomer(company.getId(),
-							customer).getId(), company, creditAmountToUse, p,
+					useFullCredits, accounterDao.getCustomer(company.getID(),
+							customer).getID(), company, creditAmountToUse, p,
 					creditsAndPayments);
 
 			if (addCreditToPayment)
@@ -7655,9 +7655,9 @@ public class AccounterDAOTest_US extends
 			// For every instruction, this array will get updated and later we
 			// check these values with the stored values in the database.
 
-			List<Account> accounts = accounterDao.getAccounts(company.getId());
+			List<Account> accounts = accounterDao.getAccounts(company.getID());
 
-			setDefaultAccountVariables(accounts, company.getId());
+			setDefaultAccountVariables(accounts, company.getID());
 
 			ReceivePayment receivePayment1 = new ReceivePayment();
 			ReceivePayment receivePayment2 = new ReceivePayment();
@@ -7939,26 +7939,26 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, r.getDepositIn()
 								.getName(), company)] -= r.getAmount();
 						String str = r.getDepositIn().getName();
-						while ((accounterDao.getAccount(company.getId(), str)
+						while ((accounterDao.getAccount(company.getID(), str)
 								.getParent() != null)) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= r
 									.getAmount();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					} else {
 						d[getAccountVariable(accounts, r.getDepositIn()
 								.getName(), company)] += r.getAmount();
 						String str = r.getDepositIn().getName();
-						while ((accounterDao.getAccount(company.getId(), str)
+						while ((accounterDao.getAccount(company.getID(), str)
 								.getParent() != null)) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += r
 									.getAmount();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}
@@ -7980,13 +7980,13 @@ public class AccounterDAOTest_US extends
 										company)] -= tp.getCashDiscount();
 								String str = tp.getDiscountAccount().getName();
 								while ((accounterDao.getAccount(
-										company.getId(), str).getParent() != null)) {
+										company.getID(), str).getParent() != null)) {
 									d[getAccountVariable(accounts, accounterDao
-											.getAccount(company.getId(), str)
+											.getAccount(company.getID(), str)
 											.getParent().getName(), company)] -= tp
 											.getCashDiscount();
 									str = accounterDao.getAccount(
-											company.getId(), str).getParent()
+											company.getID(), str).getParent()
 											.getName();
 								}
 							} else {
@@ -7995,13 +7995,13 @@ public class AccounterDAOTest_US extends
 										company)] += tp.getCashDiscount();
 								String str = tp.getDiscountAccount().getName();
 								while ((accounterDao.getAccount(
-										company.getId(), str).getParent() != null)) {
+										company.getID(), str).getParent() != null)) {
 									d[getAccountVariable(accounts, accounterDao
-											.getAccount(company.getId(), str)
+											.getAccount(company.getID(), str)
 											.getParent().getName(), company)] += tp
 											.getCashDiscount();
 									str = accounterDao.getAccount(
-											company.getId(), str).getParent()
+											company.getID(), str).getParent()
 											.getName();
 								}
 							}
@@ -8013,13 +8013,13 @@ public class AccounterDAOTest_US extends
 										company)] -= tp.getWriteOff();
 								String str = tp.getWriteOffAccount().getName();
 								while ((accounterDao.getAccount(
-										company.getId(), str).getParent() != null)) {
+										company.getID(), str).getParent() != null)) {
 									d[getAccountVariable(accounts, accounterDao
-											.getAccount(company.getId(), str)
+											.getAccount(company.getID(), str)
 											.getParent().getName(), company)] -= tp
 											.getWriteOff();
 									str = accounterDao.getAccount(
-											company.getId(), str).getParent()
+											company.getID(), str).getParent()
 											.getName();
 								}
 							} else {
@@ -8028,13 +8028,13 @@ public class AccounterDAOTest_US extends
 										company)] += tp.getWriteOff();
 								String str = tp.getWriteOffAccount().getName();
 								while ((accounterDao.getAccount(
-										company.getId(), str).getParent() != null)) {
+										company.getID(), str).getParent() != null)) {
 									d[getAccountVariable(accounts, accounterDao
-											.getAccount(company.getId(), str)
+											.getAccount(company.getID(), str)
 											.getParent().getName(), company)] += tp
 											.getWriteOff();
 									str = accounterDao.getAccount(
-											company.getId(), str).getParent()
+											company.getID(), str).getParent()
 											.getName();
 								}
 							}
@@ -8043,12 +8043,12 @@ public class AccounterDAOTest_US extends
 					if (!i.hasNext()) {
 						for (long l1 = 0; l1 < accounts.size(); l1++)
 							assertEquals(accounterDao.getAccount(
-									company.getId(), (l1 + 1)).getName(),
+									company.getID(), (l1 + 1)).getName(),
 									d[getAccountVariable(accounts, accounterDao
-											.getAccount(company.getId(),
+											.getAccount(company.getID(),
 													(l1 + 1)).getName(),
 											company)], accounterDao.getAccount(
-											company.getId(), (l1 + 1))
+											company.getID(), (l1 + 1))
 											.getTotalBalance());
 					}
 				}
@@ -8061,26 +8061,26 @@ public class AccounterDAOTest_US extends
 			List<Account> accounts) throws Exception {
 		company = accounterDao.getCompany(1l);
 		p.setCompany(company);
-		p.setNumber(accounterGUIDao.getNextTransactionNumber(company.getId(),
+		p.setNumber(accounterGUIDao.getNextTransactionNumber(company.getID(),
 				Transaction.TYPE_PAY_BILL));
 		p.setDate(format.parse(date));
 		p.setType(Transaction.TYPE_PAY_BILL);
 		p.setPayBillType(PayBill.TYPE_VENDOR_PAYMENT);
-		p.setPayFrom(accounterDao.getAccount(company.getId(), payFrom));// un
+		p.setPayFrom(accounterDao.getAccount(company.getID(), payFrom));// un
 		// deposited
 		// funds
 		p.setPaymentMethod(paymentMethod);
 		p.setTotal(amount);
 		p.setEndingBalance(d[getAccountVariable(accounts, payFrom, company)]
 				- amount);
-		p.setVendor(accounterDao.getVendor(company.getId(), vendor));
+		p.setVendor(accounterDao.getVendor(company.getID(), vendor));
 		p.setUnusedAmount(amount);
-		double vendorBalance = accounterDao.getVendor(company.getId(),
-				p.getVendor().getId()).getBalance();
+		double vendorBalance = accounterDao.getVendor(company.getID(),
+				p.getVendor().getID()).getBalance();
 		accounter.createPayBill(p);
 		if (checkTesting)
 			assertEquals(vendorBalance - p.getTotal(), accounterDao.getVendor(
-					company.getId(), p.getVendor().getId()).getBalance());
+					company.getID(), p.getVendor().getID()).getBalance());
 		return p;
 	}
 
@@ -8091,7 +8091,7 @@ public class AccounterDAOTest_US extends
 
 		company = accounterDao.getCompany(1l);
 		p.setCompany(company);
-		p.setNumber(accounterGUIDao.getNextTransactionNumber(company.getId(),
+		p.setNumber(accounterGUIDao.getNextTransactionNumber(company.getID(),
 				Transaction.TYPE_PAY_BILL));
 		p.setDate(format.parse(date));
 		p.setType(Transaction.TYPE_PAY_BILL);
@@ -8105,12 +8105,12 @@ public class AccounterDAOTest_US extends
 		p.setUnusedAmount(p.getTotal());
 		p.setTransactionPayBill(tp);
 		double vendorBalance = accounterDao
-				.getVendor(cm, p.getVendor().getId()).getBalance();
+				.getVendor(cm, p.getVendor().getID()).getBalance();
 		accounter.createPayBill(p);
 		if (checkTesting)
 			assertEquals(vendorBalance - p.getTotal()
 					- getAmountTotalDiscount(tp), accounterDao.getVendor(cm,
-					p.getVendor().getId()).getBalance());
+					p.getVendor().getID()).getBalance());
 		return p;
 	}
 
@@ -8121,7 +8121,7 @@ public class AccounterDAOTest_US extends
 		boolean flag = true;
 		company = v.getCompany();
 		List<CreditsAndPayments> cpl = accounterGUIDao
-				.getVendorCreditsAndPayments(company.getId(), v.getId());
+				.getVendorCreditsAndPayments(company.getID(), v.getID());
 		assertNotNull(cpl);
 		Iterator<CreditsAndPayments> i = cpl.iterator();
 		while (i.hasNext() && flag) {
@@ -8151,8 +8151,8 @@ public class AccounterDAOTest_US extends
 			throws Exception {
 
 		List<PayBillTransactionList> pbl = accounterGUIDao
-				.getTransactionPayBills(company.getId(), accounterDao
-						.getVendor(company.getId(), vendor).getId());
+				.getTransactionPayBills(company.getID(), accounterDao
+						.getVendor(company.getID(), vendor).getID());
 		if (pbl.size() > 0) {
 			PayBillTransactionList pb = (PayBillTransactionList) getLastTransaction(
 					1, pbl.size(), pbl.iterator());
@@ -8162,14 +8162,14 @@ public class AccounterDAOTest_US extends
 			double d = 0d;
 			if (amtToUse == 0.0)
 				d = testCallCreateCreditsAndPayments(accounterDao.getVendor(
-						company.getId(), vendor), useAllCredits, amtToUse, tc);
+						company.getID(), vendor), useAllCredits, amtToUse, tc);
 
 			TransactionPayBill tp = new TransactionPayBill();
 			tp.setAmountDue(pb.getAmountDue());
 			tp.setTransactionCreditsAndPayments(tc);
 			tp.setAppliedCredits(amtToUse - d);
 			tp.setCashDiscount(discount);
-			tp.setDiscountAccount(accounterDao.getAccount(company.getId(),
+			tp.setDiscountAccount(accounterDao.getAccount(company.getID(),
 					discountAccount));
 			tp.setDiscountDate(pb.getDiscountDate());
 			tp.setDueDate(format.parse(dueDate));
@@ -8178,11 +8178,11 @@ public class AccounterDAOTest_US extends
 					- (tp.getAppliedCredits() + tp.getCashDiscount()));
 			tp.setPayBill(p);
 			if (pb.getType() == Transaction.TYPE_ENTER_BILL)
-				tp.setEnterBill(accounterDao.getEnterBill(company.getId(), pb
+				tp.setEnterBill(accounterDao.getEnterBill(company.getID(), pb
 						.getTransactionId()));
 			else
 				tp.setTransactionMakeDeposit(accounterGUIDao
-						.getTransactionMakeDeposit(company.getId(), pb
+						.getTransactionMakeDeposit(company.getID(), pb
 								.getTransactionId()));
 
 			return tp;
@@ -8213,9 +8213,9 @@ public class AccounterDAOTest_US extends
 		// For every instruction, this array will get updated and later we check
 		// these values with the stored values in the database.
 
-		List<Account> accounts = accounterDao.getAccounts(company.getId());
+		List<Account> accounts = accounterDao.getAccounts(company.getID());
 
-		setDefaultAccountVariables(accounts, company.getId());
+		setDefaultAccountVariables(accounts, company.getID());
 
 		ArrayList<PayBill> paybills = new ArrayList<PayBill>();
 
@@ -8242,7 +8242,7 @@ public class AccounterDAOTest_US extends
 
 		List<Account> payFromAccounts = Utility.getPayFromAccounts(company);
 		// System.out.println("acounts payable amount="
-		// + accounterDao.getAccount(company.getId(), 3l)
+		// + accounterDao.getAccount(company.getID(), 3l)
 		// .getTotalBalance());
 
 		// paybills.add(testCallCreatePayBill(1l, "Vendor1", today(), //
@@ -8281,7 +8281,7 @@ public class AccounterDAOTest_US extends
 		List<TransactionPayBill> transactionPayBill9 = new ArrayList<TransactionPayBill>();
 		List<TransactionPayBill> transactionPayBill10 = new ArrayList<TransactionPayBill>();
 
-		//transactionPayBill6.add(testCallCreateTransactionPayBill(company.getId
+		//transactionPayBill6.add(testCallCreateTransactionPayBill(company.getID
 		// (),
 		// //
 		// "Vendor1", dueDate(2), "Account Credit Card", 100D, payBill6, false,
@@ -8402,24 +8402,24 @@ public class AccounterDAOTest_US extends
 					d[getAccountVariable(accounts, r.getPayFrom().getName(),
 							company)] += r.getTotal();
 					String str = r.getPayFrom().getName();
-					while ((accounterDao.getAccount(company.getId(), str)
+					while ((accounterDao.getAccount(company.getID(), str)
 							.getParent() != null)) {
 						d[getAccountVariable(accounts, accounterDao.getAccount(
-								company.getId(), str).getParent().getName(),
+								company.getID(), str).getParent().getName(),
 								company)] += r.getTotal();
-						str = accounterDao.getAccount(company.getId(), str)
+						str = accounterDao.getAccount(company.getID(), str)
 								.getParent().getName();
 					}
 				} else {
 					d[getAccountVariable(accounts, r.getPayFrom().getName(),
 							company)] -= r.getTotal();
 					String str = r.getPayFrom().getName();
-					while ((accounterDao.getAccount(company.getId(), str)
+					while ((accounterDao.getAccount(company.getID(), str)
 							.getParent() != null)) {
 						d[getAccountVariable(accounts, accounterDao.getAccount(
-								company.getId(), str).getParent().getName(),
+								company.getID(), str).getParent().getName(),
 								company)] -= r.getTotal();
-						str = accounterDao.getAccount(company.getId(), str)
+						str = accounterDao.getAccount(company.getID(), str)
 								.getParent().getName();
 					}
 				}
@@ -8440,13 +8440,13 @@ public class AccounterDAOTest_US extends
 									.getDiscountAccount().getName(), company)] += tp
 									.getCashDiscount();
 							String str = tp.getDiscountAccount().getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] += tp
 										.getCashDiscount();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						} else {
@@ -8454,13 +8454,13 @@ public class AccounterDAOTest_US extends
 									.getDiscountAccount().getName(), company)] -= tp
 									.getCashDiscount();
 							String str = tp.getDiscountAccount().getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] -= tp
 										.getCashDiscount();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}
@@ -8468,12 +8468,12 @@ public class AccounterDAOTest_US extends
 				}
 				if (!i.hasNext()) {
 					for (long l1 = 0; l1 < accounts.size(); l1++)
-						assertEquals(accounterDao.getAccount(company.getId(),
+						assertEquals(accounterDao.getAccount(company.getID(),
 								(l1 + 1)).getName(), d[getAccountVariable(
 								accounts, accounterDao.getAccount(
-										company.getId(), (l1 + 1)).getName(),
+										company.getID(), (l1 + 1)).getName(),
 								company)], accounterDao.getAccount(
-								company.getId(), (l1 + 1)).getTotalBalance());
+								company.getID(), (l1 + 1)).getTotalBalance());
 				}
 			}
 		}
@@ -8488,7 +8488,7 @@ public class AccounterDAOTest_US extends
 		cs.setVendor(accounterDao.getVendor(cm, cu));
 		cs.setCompany(company);
 		cs.setType(Transaction.TYPE_CASH_SALES);
-		cs.setNumber(accounterGUIDao.getNextTransactionNumber(company.getId(),
+		cs.setNumber(accounterGUIDao.getNextTransactionNumber(company.getID(),
 				Transaction.TYPE_CASH_SALES));
 		cs.setDate(format.parse(date));
 		// cs.setPayFrom(accounterDao.getAccount(cm, depIn));
@@ -8496,12 +8496,12 @@ public class AccounterDAOTest_US extends
 				AccounterConstants.UN_DEPOSITED_FUNDS));
 		cs.setTransactionItems(ti);
 		cs.setTotal(getAmountAllLineTotal(cs.getTransactionItems()));
-		double vendorBalance = accounterDao.getVendor(company.getId(),
-				cs.getVendor().getId()).getBalance();
+		double vendorBalance = accounterDao.getVendor(company.getID(),
+				cs.getVendor().getID()).getBalance();
 		accounter.createCreditCardCharge(cs);
 		if (checkTesting)
-			assertEquals(vendorBalance, accounterDao.getVendor(company.getId(),
-					cs.getVendor().getId()).getBalance());
+			assertEquals(vendorBalance, accounterDao.getVendor(company.getID(),
+					cs.getVendor().getID()).getBalance());
 		return cs;
 	}
 
@@ -8522,13 +8522,13 @@ public class AccounterDAOTest_US extends
 			// For every instruction, this array will get updated and later we
 			// check these values with the stored values in the database.
 
-			List<Item> items = accounterDao.getItems(company.getId());
+			List<Item> items = accounterDao.getItems(company.getID());
 			ListIterator<Item> its = items.listIterator();
 
-			List<Account> accounts = accounterDao.getAccounts(company.getId());
+			List<Account> accounts = accounterDao.getAccounts(company.getID());
 			ListIterator<Account> acs = accounts.listIterator();
 
-			setDefaultAccountVariables(accounts, company.getId());
+			setDefaultAccountVariables(accounts, company.getID());
 
 			CreditCardCharge ccc1 = new CreditCardCharge();
 			CreditCardCharge ccc2 = new CreditCardCharge();
@@ -8750,27 +8750,27 @@ public class AccounterDAOTest_US extends
 					assertNotNull(c.getVendor());
 					assertNotNull(c.getVendor().getName());
 					assertEquals(c.getVendor().getName(), accounterDao
-							.getCreditCardCharge(company.getId(), c.getId())
+							.getCreditCardCharge(company.getID(), c.getID())
 							.getVendor().getName());
 					assertEquals(c.getDate(), accounterDao.getCreditCardCharge(
-							company.getId(), c.getId()).getDate());
+							company.getID(), c.getID()).getDate());
 					assertNotNull(c.getPayFrom());
 					assertNotNull(c.getPayFrom().getName());
 					assertEquals(c.getPayFrom().getName(), accounterDao
-							.getCreditCardCharge(company.getId(), c.getId())
+							.getCreditCardCharge(company.getID(), c.getID())
 							.getPayFrom().getName());
 					assertEquals(c.getType(), accounterDao.getCreditCardCharge(
-							company.getId(), c.getId()).getType());
+							company.getID(), c.getID()).getType());
 					assertEquals(c.getTotal(), accounterDao
-							.getCreditCardCharge(company.getId(), c.getId())
+							.getCreditCardCharge(company.getID(), c.getID())
 							.getTotal());
 					if (c.getPaymentMethod() != null)
 						if (c.getPaymentMethod() != null)
 							assertEquals(c.getPaymentMethod(), accounterDao
-									.getCreditCardCharge(company.getId(),
-											c.getId()).getPaymentMethod());
+									.getCreditCardCharge(company.getID(),
+											c.getID()).getPaymentMethod());
 					assertEquals(c.getNumber(), accounterDao
-							.getCreditCardCharge(company.getId(), c.getId())
+							.getCreditCardCharge(company.getID(), c.getID())
 							.getNumber());
 
 					// Take all the transaction items that are involved in the
@@ -8800,13 +8800,13 @@ public class AccounterDAOTest_US extends
 							d[getAccountVariable(accounts, acc.getName(),
 									company)] -= it.getLineTotal();
 							String str = acc.getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] -= it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is increase
@@ -8816,13 +8816,13 @@ public class AccounterDAOTest_US extends
 									company)] += it.getLineTotal();
 							String str = acc.getName();
 							while (accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent() != null) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] += it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is not increase
@@ -8837,13 +8837,13 @@ public class AccounterDAOTest_US extends
 								c.getPayFrom().getName(), company)] += c
 								.getTotal();
 						String str = c.getPayFrom().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += c
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					} else {
@@ -8851,13 +8851,13 @@ public class AccounterDAOTest_US extends
 								c.getPayFrom().getName(), company)] -= c
 								.getTotal();
 						String str = c.getPayFrom().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= c
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 
 						}
@@ -8869,13 +8869,13 @@ public class AccounterDAOTest_US extends
 						if (!i.hasNext()) {
 							for (long l1 = 0; l1 < accounts.size(); l1++)
 								assertEquals(accounterDao.getAccount(
-										company.getId(), (l1 + 1)).getName(),
+										company.getID(), (l1 + 1)).getName(),
 										d[getAccountVariable(accounts,
 												accounterDao.getAccount(
-														company.getId(),
+														company.getID(),
 														(l1 + 1)).getName(),
 												company)], accounterDao
-												.getAccount(company.getId(),
+												.getAccount(company.getID(),
 														(l1 + 1))
 												.getTotalBalance());
 						}
@@ -8891,12 +8891,12 @@ public class AccounterDAOTest_US extends
 
 		t.setCompany(company);
 		t.setDate(format.parse(date));
-		t.setNumber(accounterGUIDao.getNextTransactionNumber(company.getId(),
+		t.setNumber(accounterGUIDao.getNextTransactionNumber(company.getID(),
 				Transaction.TYPE_TRANSFER_FUND));
 		t.setTotal(amount);
 		t.setTransferFrom(accounterDao
-				.getAccount(company.getId(), transferFrom));
-		t.setTransferTo(accounterDao.getAccount(company.getId(), transferTo));
+				.getAccount(company.getID(), transferFrom));
+		t.setTransferTo(accounterDao.getAccount(company.getID(), transferTo));
 		t.setType(Transaction.TYPE_TRANSFER_FUND);
 		accounter.createTransferFund(t);
 		return t;
@@ -8930,9 +8930,9 @@ public class AccounterDAOTest_US extends
 			// For every instruction, this array will get updated and later we
 			// check these values with the stored values in the database.
 
-			List<Account> accounts = accounterDao.getAccounts(company.getId());
+			List<Account> accounts = accounterDao.getAccounts(company.getID());
 
-			setDefaultAccountVariables(accounts, company.getId());
+			setDefaultAccountVariables(accounts, company.getID());
 
 			TransferFund transferFund1 = new TransferFund();
 			TransferFund transferFund2 = new TransferFund();
@@ -8950,7 +8950,7 @@ public class AccounterDAOTest_US extends
 			List<Account> transferAccounts = Utility
 					.getCashBackAccounts(company);
 
-			// tfs.add(testCallCreateTransferFund(company.getId(), today(),
+			// tfs.add(testCallCreateTransferFund(company.getID(), today(),
 			// 500.0, // AccounterConstants.WRITE_OFF,
 			// AccounterConstants.BANK_CHARGE, // transferFund1));
 			Account a = getRandomTransferAccount(transferAccounts,
@@ -9044,26 +9044,26 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, t.getTransferFrom()
 								.getName(), company)] += t.getTotal();
 						String str = t.getTransferFrom().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += t
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					} else {
 						d[getAccountVariable(accounts, t.getTransferFrom()
 								.getName(), company)] -= t.getTotal();
 						String str = t.getTransferFrom().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= t
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}
@@ -9071,38 +9071,38 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, t.getTransferTo()
 								.getName(), company)] -= t.getTotal();
 						String str = t.getTransferTo().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= t
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					} else {
 						d[getAccountVariable(accounts, t.getTransferTo()
 								.getName(), company)] += t.getTotal();
 						String str = t.getTransferTo().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += t
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}
 					if (!i.hasNext()) {
 						for (long l1 = 0; l1 < accounts.size(); l1++)
 							assertEquals(accounterDao.getAccount(
-									company.getId(), (l1 + 1)).getName(),
+									company.getID(), (l1 + 1)).getName(),
 									d[getAccountVariable(accounts, accounterDao
-											.getAccount(company.getId(),
+											.getAccount(company.getID(),
 													(l1 + 1)).getName(),
 											company)], accounterDao.getAccount(
-											company.getId(), (l1 + 1))
+											company.getID(), (l1 + 1))
 											.getTotalBalance());
 
 					}
@@ -9127,9 +9127,9 @@ public class AccounterDAOTest_US extends
 			throws DAOException {
 		TransactionPaySalesTax tpt = new TransactionPaySalesTax();
 
-		tpt.setTaxAgency(accounterDao.getTaxAgency(company.getId(), tpl
+		tpt.setTaxAgency(accounterDao.getTaxAgency(company.getID(), tpl
 				.getTaxAgency().name));
-		tpt.setTaxCode(accounterDao.getTaxCode(company.getId(), tpl
+		tpt.setTaxCode(accounterDao.getTaxCode(company.getID(), tpl
 				.getTaxCode().name));
 		if (tpl.balance < amountToPay)
 			tpt.setAmountToPay(tpl.balance);
@@ -9155,11 +9155,11 @@ public class AccounterDAOTest_US extends
 		paySalesTax.setDate(format.parse(today()));
 		paySalesTax.billsDueOnOrBefore = format.parse(date);
 		// paySalesTax.setPayFrom(account);
-		paySalesTax.setPayFrom(accounterDao.getAccount(company.getId(),
+		paySalesTax.setPayFrom(accounterDao.getAccount(company.getID(),
 				AccounterConstants.UN_DEPOSITED_FUNDS));
 		paySalesTax.setPaymentMethod(paymentMethod);
 		paySalesTax.setNumber(accounterGUIDao.getNextTransactionNumber(company
-				.getId(), Transaction.TYPE_PAY_SALES_TAX));
+				.getID(), Transaction.TYPE_PAY_SALES_TAX));
 		accounter.createPaySalesTax(paySalesTax);
 		List<TransactionPaySalesTax> tps = paySalesTax
 				.getTransactionPaySalesTax();
@@ -9179,10 +9179,10 @@ public class AccounterDAOTest_US extends
 		if (createPaySalesTaxes) {
 			company = accounterDao.getCompany(1L);
 			List<Account> payFromAccounts = Utility.getPayFromAccounts(company);
-			List<Account> accounts = accounterDao.getAccounts(company.getId());
-			setDefaultAccountVariables(accounts, company.getId());
+			List<Account> accounts = accounterDao.getAccounts(company.getID());
+			setDefaultAccountVariables(accounts, company.getID());
 
-			List<TaxCode> codes = accounterDao.getTaxCodes(company.getId());
+			List<TaxCode> codes = accounterDao.getTaxCodes(company.getID());
 			for (int i = 0; i < codes.size(); i++) {
 				if (codes.get(i).getName().equals("None"))
 					codes.remove(i);
@@ -9199,7 +9199,7 @@ public class AccounterDAOTest_US extends
 			// check these values with the stored values in the database.
 
 			List<PaySalesTaxEntries> tpsl = accounterGUIDao
-					.getTransactionPaySalesTaxEntriesList(company.getId(),
+					.getTransactionPaySalesTaxEntriesList(company.getID(),
 							format.parse(dueDate(1)));
 
 			PaySalesTax pt1 = new PaySalesTax();
@@ -9244,7 +9244,7 @@ public class AccounterDAOTest_US extends
 						AccounterConstants.PAYMENT_METHOD_CASH, true,
 						transactionItems1, pt1, codes));
 			// pts.add(testCallCreatePaySalesTax(company, today(),
-			// accounterDao.getAccount(company.getId(), "Account LL"),
+			// accounterDao.getAccount(company.getID(), "Account LL"),
 			// AccounterConstants.PAYMENT_METHOD_CASH, true, transactionItems1,
 			// pt1, codes));
 
@@ -9339,15 +9339,15 @@ public class AccounterDAOTest_US extends
 					assertNotNull(c);
 					assertNotNull(c.getTotal());
 					assertEquals(c.getTotal(), accounterDao.getPaySalesTax(
-							company.getId(), c.getId()).getTotal());
+							company.getID(), c.getID()).getTotal());
 					assertEquals(c.getDate(), accounterDao.getPaySalesTax(
-							company.getId(), c.getId()).getDate());
+							company.getID(), c.getID()).getDate());
 					assertEquals(c.getTotal(), accounterDao.getPaySalesTax(
-							company.getId(), c.getId()).getTotal());
+							company.getID(), c.getID()).getTotal());
 					assertEquals(c.getType(), accounterDao.getPaySalesTax(
-							company.getId(), c.getId()).getType());
+							company.getID(), c.getID()).getType());
 					assertEquals(c.getNumber(), accounterDao.getPaySalesTax(
-							company.getId(), c.getId()).getNumber());
+							company.getID(), c.getID()).getNumber());
 
 					// Take all the transaction items that are involved in the
 					// cashsale and store them in a List.
@@ -9370,13 +9370,13 @@ public class AccounterDAOTest_US extends
 							d[getAccountVariable(accounts, acc.getName(),
 									company)] -= it.getAmountToPay();
 							String str = acc.getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] -= it
 										.getAmountToPay();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is increase
@@ -9386,13 +9386,13 @@ public class AccounterDAOTest_US extends
 									company)] += it.getAmountToPay();
 							String str = acc.getName();
 							while (accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent() != null) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] += it
 										.getAmountToPay();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is not increase
@@ -9405,13 +9405,13 @@ public class AccounterDAOTest_US extends
 								c.getPayFrom().getName(), company)] += c
 								.getTotal();
 						String str = c.getPayFrom().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += c
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					} else {
@@ -9419,13 +9419,13 @@ public class AccounterDAOTest_US extends
 								c.getPayFrom().getName(), company)] -= c
 								.getTotal();
 						String str = c.getPayFrom().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= c
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}
@@ -9438,12 +9438,12 @@ public class AccounterDAOTest_US extends
 					if (!i.hasNext()) {
 						for (long l1 = 0; l1 < accounts.size(); l1++)
 							assertEquals(accounterDao.getAccount(
-									company.getId(), (l1 + 1)).getName(),
+									company.getID(), (l1 + 1)).getName(),
 									d[getAccountVariable(accounts, accounterDao
-											.getAccount(company.getId(),
+											.getAccount(company.getID(),
 													(l1 + 1)).getName(),
 											company)], accounterDao.getAccount(
-											company.getId(), (l1 + 1))
+											company.getID(), (l1 + 1))
 											.getTotalBalance());
 					}
 				}
@@ -9459,9 +9459,9 @@ public class AccounterDAOTest_US extends
 			// For every instruction, this array will get updated and later we
 			// check these values with the stored values in the database.
 
-			List<Account> accounts = accounterDao.getAccounts(company.getId());
+			List<Account> accounts = accounterDao.getAccounts(company.getID());
 
-			setDefaultAccountVariables(accounts, company.getId());
+			setDefaultAccountVariables(accounts, company.getID());
 
 			Expense e = new Expense();
 			e.setBillFrom("ABC");
@@ -9473,7 +9473,7 @@ public class AccounterDAOTest_US extends
 			e.setTotal(e.getAmountDue() + e.getPaidAmount());
 			List<TransactionItem> tis = new ArrayList<TransactionItem>();
 			TransactionItem ti = new TransactionItem();
-			ti.setAccount(accounterDao.getAccount(company.getId(),
+			ti.setAccount(accounterDao.getAccount(company.getID(),
 					AccounterConstants.BANK_CHARGE));
 			ti.setLineTotal(1000d);
 			ti.setUnitPrice(1000D);
@@ -9496,13 +9496,13 @@ public class AccounterDAOTest_US extends
 			// check these values with the stored values in the database.
 
 			List<Expense> expenses = accounterDao.getUnPaidExpense(company
-					.getId());
+					.getID());
 
 			Expense e = expenses.get(0);
 
 			PayExpense p = new PayExpense();
 			p.setTotal(500d);
-			p.setPaidFrom(accounterDao.getAccount(company.getId(),
+			p.setPaidFrom(accounterDao.getAccount(company.getID(),
 					AccounterConstants.UN_DEPOSITED_FUNDS));
 			p.setCompany(company);
 
@@ -9524,7 +9524,7 @@ public class AccounterDAOTest_US extends
 			throws DAOException {
 
 		List<ReportList> rls = new ArrayList<ReportList>();
-		List<Customer> customers = accounterDao.getCustomers(company.getId());
+		List<Customer> customers = accounterDao.getCustomers(company.getID());
 		Iterator<Customer> i = customers.iterator();
 
 		while (i.hasNext()) {
@@ -9552,7 +9552,7 @@ public class AccounterDAOTest_US extends
 			rls.add(rl2);
 
 		}
-		List<Vendor> vendors = accounterDao.getVendors(company.getId());
+		List<Vendor> vendors = accounterDao.getVendors(company.getID());
 		Iterator<Vendor> j = vendors.iterator();
 
 		while (j.hasNext()) {
@@ -9585,7 +9585,7 @@ public class AccounterDAOTest_US extends
 	public void testAddAccounts(Company company, List<ReportList> rls)
 			throws DAOException {
 
-		List<Account> accounts = accounterDao.getAccounts(company.getId());
+		List<Account> accounts = accounterDao.getAccounts(company.getID());
 		Iterator<Account> i = accounts.iterator();
 		while (i.hasNext()) {
 			Account c = (Account) i.next();
@@ -9596,7 +9596,7 @@ public class AccounterDAOTest_US extends
 				ReportList rl = new ReportList();
 				rl.setItemName(c.getName());
 				rl.setDate(c.getAsOf());
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				rl.setName("Opening Balance");
 				rl.setMemo("Opening Balance");
 				rl.setGroupName(AccounterConstants.OPENING_BALANCE);
@@ -9637,7 +9637,7 @@ public class AccounterDAOTest_US extends
 	public void setAccountRegisterCashSales(Company company,
 			List<ReportList> rls) throws DAOException {
 
-		List<CashSales> cashsales = accounterDao.getCashSales(company.getId());
+		List<CashSales> cashsales = accounterDao.getCashSales(company.getID());
 		Iterator<CashSales> i = cashsales.iterator();
 
 		CashSales c;
@@ -9671,7 +9671,7 @@ public class AccounterDAOTest_US extends
 				rl.setName(Utility.getTransactionName(c.getType()));
 				rl.setGroupName("Multiple");
 				rl.setFlag(true);
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				rl.setMemo("");
 				// If the isIncrease() value is true, then the account value is
 				// to be increased, else decreased.
@@ -9704,7 +9704,7 @@ public class AccounterDAOTest_US extends
 											.getType()));
 							rl2.setGroupName("Multiple");
 							rl2.setMemo("");
-							rl2.setTransactionId(c.getId());
+							rl2.setTransactionId(c.getID());
 							rl2.setFlag(true);
 							if (tc.getTaxAgency().getLiabilityAccount()
 									.isIncrease()) {
@@ -9729,7 +9729,7 @@ public class AccounterDAOTest_US extends
 				rl.setName(Utility.getTransactionName(c.getType()));
 				rl.setGroupName("Multiple");
 				rl.setFlag(true);
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				rl.setAmount(rl.getAmount() - c.getTotal());
 				rls2.add(rl);
 			} else {
@@ -9742,7 +9742,7 @@ public class AccounterDAOTest_US extends
 				rl.setGroupName("Multiple");
 				rl.setFlag(true);
 				rl.setAmount(rl.getAmount() + c.getTotal());
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				rls2.add(rl);
 			}
 
@@ -9758,7 +9758,7 @@ public class AccounterDAOTest_US extends
 	public void setAccountRegisterInvoices(Company company, List<ReportList> rls)
 			throws DAOException {
 
-		List<Invoice> invoices = accounterDao.getInvoices(company.getId());
+		List<Invoice> invoices = accounterDao.getInvoices(company.getID());
 		Iterator<Invoice> i = invoices.iterator();
 
 		Invoice c;
@@ -9793,7 +9793,7 @@ public class AccounterDAOTest_US extends
 					rl.setName(Utility.getTransactionName(c.getType()));
 					rl.setGroupName("Multiple");
 					rl.setFlag(true);
-					rl.setTransactionId(c.getId());
+					rl.setTransactionId(c.getID());
 					rl.setMemo("");
 
 					// If the isIncrease() value is true, then the account value
@@ -9824,7 +9824,7 @@ public class AccounterDAOTest_US extends
 							rl.setDate(c.getDate());
 							rl.setName(Utility.getTransactionName(c.getType()));
 							rl.setMemo("");
-							rl.setTransactionId(c.getId());
+							rl.setTransactionId(c.getID());
 							rl.setGroupName("Multiple");
 							rl.setFlag(true);
 							if (tc.getTaxAgency().getLiabilityAccount()
@@ -9849,7 +9849,7 @@ public class AccounterDAOTest_US extends
 				rl.setName(Utility.getTransactionName(c.getType()));
 				rl.setGroupName("Multiple");
 				rl.setMemo("");
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				rl.setFlag(true);
 				rl.setAmount(rl.getAmount() + c.getTotal());
 				rls2.add(rl);
@@ -9866,7 +9866,7 @@ public class AccounterDAOTest_US extends
 			List<ReportList> rls) throws DAOException {
 
 		List<CustomerCreditMemo> ccms = accounterDao
-				.getCustomerCreditMemos(company.getId());
+				.getCustomerCreditMemos(company.getID());
 		Iterator<CustomerCreditMemo> i = ccms.iterator();
 
 		CustomerCreditMemo c;
@@ -9903,7 +9903,7 @@ public class AccounterDAOTest_US extends
 					rl.setGroupName("Multiple");
 					rl.setFlag(true);
 					rl.setMemo("");
-					rl.setTransactionId(c.getId());
+					rl.setTransactionId(c.getID());
 					// If the isIncrease() value is true, then the account value
 					// is
 					// to be increased, else decreased.
@@ -9934,7 +9934,7 @@ public class AccounterDAOTest_US extends
 							rl.setMemo("");
 							rl.setGroupName("Multiple");
 							rl.setFlag(true);
-							rl.setTransactionId(c.getId());
+							rl.setTransactionId(c.getID());
 							if (tc.getTaxAgency().getLiabilityAccount()
 									.isIncrease()) {
 								rl.setAmount(-rate + rl.getAmount());
@@ -9959,7 +9959,7 @@ public class AccounterDAOTest_US extends
 				rl.setMemo("");
 				rl.setFlag(true);
 				rl.setAmount(-c.getTotal() + rl.getAmount());
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				rls2.add(rl);
 			}
 
@@ -9975,7 +9975,7 @@ public class AccounterDAOTest_US extends
 			List<ReportList> rls) throws DAOException {
 
 		List<CustomerRefund> ccms = accounterDao.getCustomerRefunds(company
-				.getId());
+				.getID());
 		Iterator<CustomerRefund> i = ccms.iterator();
 
 		CustomerRefund c;
@@ -9992,7 +9992,7 @@ public class AccounterDAOTest_US extends
 				rl.setGroupName(AccounterConstants.ACCOUNTS_RECEIVABLE);
 				rl.setFlag(true);
 				// rl.setMemo("");
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				// If the isIncrease() value is true, then the account value is
 				// to be increased, else decreased.
 				if (acc.isIncrease()) {// if account is increase
@@ -10010,7 +10010,7 @@ public class AccounterDAOTest_US extends
 						AccounterConstants.ACCOUNTS_RECEIVABLE);
 				rl.setItemName(AccounterConstants.ACCOUNTS_RECEIVABLE);
 				rl.setDate(c.getDate());
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				rl.setName(Utility.getTransactionName(c.getType()));
 				rl.setGroupName("Multiple");
 				rl.setFlag(true);
@@ -10027,7 +10027,7 @@ public class AccounterDAOTest_US extends
 	public void setAccountRegisterEnterBills(Company company,
 			List<ReportList> rls) throws DAOException {
 
-		List<EnterBill> ccms = accounterDao.getEnterBills(company.getId());
+		List<EnterBill> ccms = accounterDao.getEnterBills(company.getID());
 		Iterator<EnterBill> i = ccms.iterator();
 
 		EnterBill c;
@@ -10057,7 +10057,7 @@ public class AccounterDAOTest_US extends
 				rl.setGroupName("Multiple");
 				rl.setFlag(true);
 				rl.setMemo("");
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				// If the isIncrease() value is true, then the account value is
 				// to be increased, else decreased.
 				if (acc.isIncrease()) {// if account is increase
@@ -10080,7 +10080,7 @@ public class AccounterDAOTest_US extends
 				rl.setName(Utility.getTransactionName(c.getType()));
 				rl.setGroupName("Multiple");
 				rl.setFlag(true);
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				rl.setAmount(c.getTotal() + rl.getAmount());
 				rls2.add(rl);
 			}
@@ -10095,7 +10095,7 @@ public class AccounterDAOTest_US extends
 			List<ReportList> rls) throws DAOException {
 
 		List<VendorCreditMemo> ccms = accounterDao.getVendorCreditMemos(company
-				.getId());
+				.getID());
 		Iterator<VendorCreditMemo> i = ccms.iterator();
 		VendorCreditMemo c;
 		List<TransactionItem> ti;
@@ -10126,7 +10126,7 @@ public class AccounterDAOTest_US extends
 				rl.setGroupName("Multiple");
 				rl.setFlag(true);
 				rl.setMemo("");
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				// If the isIncrease() value is true, then the account value is
 				// to be increased, else decreased.
 				if (acc.isIncrease()) {// if account is increase
@@ -10149,7 +10149,7 @@ public class AccounterDAOTest_US extends
 				rl.setName(Utility.getTransactionName(c.getType()));
 				rl.setGroupName("Multiple");
 				rl.setFlag(true);
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				rl.setAmount(-c.getTotal() + rl.getAmount());
 				rls2.add(rl);
 			}
@@ -10164,7 +10164,7 @@ public class AccounterDAOTest_US extends
 			List<ReportList> rls) throws DAOException {
 
 		List<CashPurchase> ccms = accounterDao
-				.getCashPurchases(company.getId());
+				.getCashPurchases(company.getID());
 		Iterator<CashPurchase> i = ccms.iterator();
 
 		CashPurchase c;
@@ -10195,7 +10195,7 @@ public class AccounterDAOTest_US extends
 				rl.setGroupName("Multiple");
 				rl.setFlag(true);
 				rl.setMemo("");
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				// If the isIncrease() value is true, then the account value is
 				// to be increased, else decreased.
 				if (acc.isIncrease()) {// if account is increase
@@ -10216,7 +10216,7 @@ public class AccounterDAOTest_US extends
 				rl.setName(Utility.getTransactionName(c.getType()));
 				rl.setGroupName("Multiple");
 				rl.setFlag(true);
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				if (c.getPayFrom().isIncrease())
 					rl.setAmount(c.getTotal() + rl.getAmount());
 				else
@@ -10234,7 +10234,7 @@ public class AccounterDAOTest_US extends
 	public void setAccountRegisterWriteChecks(Company company,
 			List<ReportList> rls) throws DAOException {
 
-		List<WriteCheck> wcs = accounterDao.getWriteChecks(company.getId());
+		List<WriteCheck> wcs = accounterDao.getWriteChecks(company.getID());
 		Iterator<WriteCheck> i = wcs.iterator();
 
 		WriteCheck w;
@@ -10267,7 +10267,7 @@ public class AccounterDAOTest_US extends
 				rl.setGroupName("Multiple");
 				rl.setFlag(true);
 				rl.setMemo("");
-				rl.setTransactionId(w.getId());
+				rl.setTransactionId(w.getID());
 				// If the isIncrease() value is true, then the account value is
 				// to be increased, else decreased.
 				if (acc.isIncrease()) {// if account is increase
@@ -10289,7 +10289,7 @@ public class AccounterDAOTest_US extends
 				rl.setName(Utility.getTransactionName(w.getType()));
 				rl.setGroupName("Multiple");
 				rl.setFlag(true);
-				rl.setTransactionId(w.getId());
+				rl.setTransactionId(w.getID());
 				if (w.getBankAccount().isIncrease())
 					rl.setAmount(w.getTotal() + rl.getAmount());
 				else
@@ -10306,7 +10306,7 @@ public class AccounterDAOTest_US extends
 	public void setAccountRegisterMakeDeposits(Company company,
 			List<ReportList> rls) throws DAOException {
 
-		List<MakeDeposit> wcs = accounterDao.getMakeDeposits(company.getId());
+		List<MakeDeposit> wcs = accounterDao.getMakeDeposits(company.getID());
 		Iterator<MakeDeposit> i = wcs.iterator();
 
 		MakeDeposit c;
@@ -10328,15 +10328,15 @@ public class AccounterDAOTest_US extends
 				TransactionMakeDeposit it = (TransactionMakeDeposit) j.next();
 				if (it.getIsNewEntry()) {
 					if (it.getType() == TransactionMakeDeposit.TYPE_CUSTOMER)
-						acc = accounterDao.getAccount(company.getId(),
+						acc = accounterDao.getAccount(company.getID(),
 								"Accounts Receivable");
 					else if (it.getType() == TransactionMakeDeposit.TYPE_VENDOR)
-						acc = accounterDao.getAccount(company.getId(),
+						acc = accounterDao.getAccount(company.getID(),
 								"Accounts Payable");
 					else
 						acc = it.getAccount();
 				} else
-					acc = accounterDao.getAccount(company.getId(),
+					acc = accounterDao.getAccount(company.getID(),
 							"Un Deposited Funds");
 
 				ReportList rl = reportListObject(rls2, acc.getName());
@@ -10345,7 +10345,7 @@ public class AccounterDAOTest_US extends
 				rl.setName("Deposit");
 				rl.setGroupName("Multiple");
 				rl.setFlag(true);
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				if (acc.isIncrease()
 						|| acc.getName().equals("Accounts Payable"))
 					rl.setAmount(it.getAmount() + rl.getAmount());
@@ -10363,7 +10363,7 @@ public class AccounterDAOTest_US extends
 				rl.setName("Deposit");
 				rl.setGroupName("Multiple");
 				rl.setFlag(true);
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				rl.setAmount(c.getTotal() + rl.getAmount());
 				rls2.add(rl);
 
@@ -10376,7 +10376,7 @@ public class AccounterDAOTest_US extends
 			rl.setName("Deposit");
 			rl.setGroupName("Multiple");
 			rl.setFlag(true);
-			rl.setTransactionId(c.getId());
+			rl.setTransactionId(c.getID());
 			if (acc.isIncrease())
 				rl.setAmount(-c.getCashBackAmount() + rl.getAmount());
 			else
@@ -10394,7 +10394,7 @@ public class AccounterDAOTest_US extends
 			List<ReportList> rls) throws DAOException {
 
 		List<ReceivePayment> rps = accounterDao.getReceivePayments(company
-				.getId());
+				.getID());
 		Iterator<ReceivePayment> i = rps.iterator();
 
 		while (i.hasNext()) {
@@ -10409,7 +10409,7 @@ public class AccounterDAOTest_US extends
 				rl.setName(AccounterConstants.TYPE_RECEIVE_PAYMENT);
 				rl.setGroupName("Multiple");
 				rl.setFlag(true);
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				rl.setAmount(-(c.getAmount() + c.getTotalCashDiscount() + c
 						.getTotalWriteOff())
 						+ rl.getAmount());
@@ -10431,7 +10431,7 @@ public class AccounterDAOTest_US extends
 					rl.setName(AccounterConstants.TYPE_RECEIVE_PAYMENT);
 					rl.setGroupName("Multiple");
 					rl.setFlag(true);
-					rl.setTransactionId(c.getId());
+					rl.setTransactionId(c.getID());
 					if (tp.getDiscountAccount().isIncrease()) {
 						rl.setAmount(-tp.getCashDiscount() + rl.getAmount());
 					} else {
@@ -10448,7 +10448,7 @@ public class AccounterDAOTest_US extends
 					rl.setName(AccounterConstants.TYPE_RECEIVE_PAYMENT);
 					rl.setGroupName("Multiple");
 					rl.setFlag(true);
-					rl.setTransactionId(c.getId());
+					rl.setTransactionId(c.getID());
 					if (tp.getWriteOffAccount().isIncrease()) {
 						rl.setAmount(-tp.getWriteOff() + rl.getAmount());
 					} else {
@@ -10469,7 +10469,7 @@ public class AccounterDAOTest_US extends
 					rl.setGroupName("Multiple");
 				else
 					rl.setGroupName(AccounterConstants.ACCOUNTS_RECEIVABLE);
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				rl.setFlag(true);
 
 				if (c.getDepositIn().isIncrease())
@@ -10490,7 +10490,7 @@ public class AccounterDAOTest_US extends
 	public void setAccountRegisterPayBills(Company company, List<ReportList> rls)
 			throws DAOException {
 
-		List<PayBill> pbs = accounterDao.getPayBills(company.getId());
+		List<PayBill> pbs = accounterDao.getPayBills(company.getID());
 		Iterator<PayBill> i = pbs.iterator();
 
 		while (i.hasNext()) {
@@ -10506,7 +10506,7 @@ public class AccounterDAOTest_US extends
 					rl.setName(AccounterConstants.VENDOR_PAYMENT);
 					rl.setGroupName("Multiple");
 					rl.setFlag(true);
-					rl.setTransactionId(r.getId());
+					rl.setTransactionId(r.getID());
 					rl.setAmount(-(r.getTotal() + (getAmountTotalDiscount(r
 							.getTransactionPayBill())))
 							+ rl.getAmount());
@@ -10527,7 +10527,7 @@ public class AccounterDAOTest_US extends
 						rl.setName(AccounterConstants.VENDOR_PAYMENT);
 						rl.setGroupName("Multiple");
 						rl.setFlag(true);
-						rl.setTransactionId(r.getId());
+						rl.setTransactionId(r.getID());
 						if (tp.getDiscountAccount().isIncrease())
 							rl.setAmount(tp.getCashDiscount() + rl.getAmount());
 						else
@@ -10547,7 +10547,7 @@ public class AccounterDAOTest_US extends
 					rl.setGroupName("Multiple");
 				else
 					rl.setGroupName(AccounterConstants.ACCOUNTS_PAYABLE);
-				rl.setTransactionId(r.getId());
+				rl.setTransactionId(r.getID());
 				rl.setFlag(true);
 				if (r.getPayFrom().isIncrease())
 					rl.setAmount(r.getTotal() + rl.getAmount());
@@ -10561,7 +10561,7 @@ public class AccounterDAOTest_US extends
 							AccounterConstants.ACCOUNTS_PAYABLE);
 					rl.setItemName(AccounterConstants.ACCOUNTS_PAYABLE);
 					rl.setDate(r.getDate());
-					rl.setTransactionId(r.getId());
+					rl.setTransactionId(r.getID());
 					rl.setName(AccounterConstants.VENDOR_PAYMENT);
 					rl.setGroupName("Multiple");
 					rl.setFlag(true);
@@ -10574,7 +10574,7 @@ public class AccounterDAOTest_US extends
 				rl.setDate(r.getDate());
 				rl.setName(AccounterConstants.VENDOR_PAYMENT);
 				rl.setGroupName(AccounterConstants.ACCOUNTS_PAYABLE);
-				rl.setTransactionId(r.getId());
+				rl.setTransactionId(r.getID());
 				rl.setFlag(true);
 				if (r.getPayFrom().isIncrease())
 					rl.setAmount(r.getTotal() + rl.getAmount());
@@ -10593,7 +10593,7 @@ public class AccounterDAOTest_US extends
 	public void setAccountRegisterCreditCardCharges(Company company,
 			List<ReportList> rls) throws DAOException {
 		List<CreditCardCharge> ccms = accounterDao.getCreditCardCharges(company
-				.getId());
+				.getID());
 		Iterator<CreditCardCharge> i = ccms.iterator();
 
 		CreditCardCharge c;
@@ -10623,7 +10623,7 @@ public class AccounterDAOTest_US extends
 				rl.setGroupName("Multiple");
 				rl.setFlag(true);
 				rl.setMemo("");
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				// If the isIncrease() value is true, then the account value is
 				// to be increased, else decreased.
 				if (acc.isIncrease()) {// if account is increase
@@ -10645,7 +10645,7 @@ public class AccounterDAOTest_US extends
 				rl.setName(Utility.getTransactionName(c.getType()));
 				rl.setGroupName("Multiple");
 				rl.setFlag(true);
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				if (c.getPayFrom().isIncrease())
 					rl.setAmount(c.getTotal() + rl.getAmount());
 				else
@@ -10664,7 +10664,7 @@ public class AccounterDAOTest_US extends
 	public void setAccountRegisterTransferFunds(Company company,
 			List<ReportList> rls) throws DAOException {
 		List<TransferFund> ccms = accounterDao
-				.getTransferFunds(company.getId());
+				.getTransferFunds(company.getID());
 		Iterator<TransferFund> i = ccms.iterator();
 
 		TransferFund c;
@@ -10682,7 +10682,7 @@ public class AccounterDAOTest_US extends
 				rl.setName("Fund Transfer");
 				rl.setGroupName(c.getTransferFrom().getName());
 				rl.setFlag(true);
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				if (c.getTransferTo().isIncrease())
 					rl.setAmount(-c.getTotal() + rl.getAmount());
 				else
@@ -10698,7 +10698,7 @@ public class AccounterDAOTest_US extends
 				rl.setName("Fund Transfer");
 				rl.setGroupName(c.getTransferTo().getName());
 				rl.setFlag(true);
-				rl.setTransactionId(c.getId());
+				rl.setTransactionId(c.getID());
 				if (c.getTransferFrom().isIncrease())
 					rl.setAmount(c.getTotal() + rl.getAmount());
 				else
@@ -10718,7 +10718,7 @@ public class AccounterDAOTest_US extends
 
 		List<PaySalesTax> ccms;
 		try {
-			ccms = accounterDao.getPaySalesTaxes(company.getId());
+			ccms = accounterDao.getPaySalesTaxes(company.getID());
 
 			Iterator<PaySalesTax> i = ccms.iterator();
 
@@ -10741,7 +10741,7 @@ public class AccounterDAOTest_US extends
 					rl.setName("Tax Agent Payment");
 					rl.setGroupName("Multiple");
 					rl.setFlag(true);
-					rl.setTransactionId(c.getId());
+					rl.setTransactionId(c.getID());
 					if (tp.getTaxAgency().getLiabilityAccount().isIncrease())
 						rl.setAmount(-tp.getAmountToPay() + rl.getAmount());
 					else
@@ -10763,7 +10763,7 @@ public class AccounterDAOTest_US extends
 						rl.setAmount(-c.getTotal() + rl.getAmount());
 					else
 						rl.setAmount(c.getTotal() + rl.getAmount());
-					rl.setTransactionId(c.getId());
+					rl.setTransactionId(c.getID());
 					rls2.add(rl);
 				}
 
@@ -10783,7 +10783,7 @@ public class AccounterDAOTest_US extends
 
 		if (checkAccountRegister) {
 			company = accounterDao.getCompany(1L);
-			List<Account> accounts = accounterDao.getAccounts(company.getId());
+			List<Account> accounts = accounterDao.getAccounts(company.getID());
 			// ReportList name-> type transaction
 			// groupname-> Account(multiple/account name)
 			// itemname -> account's account register.
@@ -10831,8 +10831,8 @@ public class AccounterDAOTest_US extends
 				int count = 0;
 				// System.out.println("a=name" + a.getName());
 				List<AccountRegister> ars = accounterReportDAOService
-						.getAccountRegister(company.getId(), "2009-01-01",
-								today(), a.getId());
+						.getAccountRegister(company.getID(), "2009-01-01",
+								today(), a.getID());
 				Iterator<AccountRegister> j = ars.iterator();
 				while (j.hasNext()) {
 					AccountRegister ar = (AccountRegister) j.next();
@@ -11015,7 +11015,7 @@ public class AccounterDAOTest_US extends
 	//		
 	//			
 	// List<SalesByCustomerDetail>
-	//cdl=accounterReportDAOService.getSalesByCustomerDetailReport(company.getId
+	//cdl=accounterReportDAOService.getSalesByCustomerDetailReport(company.getID
 	// (),
 	// dueDate(-2), today());
 	// Iterator <SalesByCustomerDetail> i3=cdl.iterator();
@@ -11053,7 +11053,7 @@ public class AccounterDAOTest_US extends
 	// }
 	// //Testing Sales By Customer Summary
 	// List <SalesByCustomerDetail>
-	// csl=accounterReportDAOService.getSalesByCustomerSummary(company.getId(),
+	// csl=accounterReportDAOService.getSalesByCustomerSummary(company.getID(),
 	// dueDate(-2), today());
 	// Iterator<SalesByCustomerDetail> i4=csl.iterator();
 	//			
@@ -11123,7 +11123,7 @@ public class AccounterDAOTest_US extends
 	// throws DAOException {
 	//			
 	// Company company=accounterDao.getCompany(1l);
-	// List <CashSales>cashsales= accounterDao.getCashSales(company.getId());
+	// List <CashSales>cashsales= accounterDao.getCashSales(company.getID());
 	// Iterator<CashSales> itr=cashsales.iterator();
 	// while(itr.hasNext())
 	// {
@@ -11136,7 +11136,7 @@ public class AccounterDAOTest_US extends
 	// if(ti.getType()==TransactionItem.TYPE_ITEM)
 	// {
 	// ReportList i= new ReportList();
-	// setItemValues(c.getId(),c.getType(), c.getCustomer(), ti, i);
+	// setItemValues(c.getID(),c.getType(), c.getCustomer(), ti, i);
 	// itemDetails.add(i);
 	// }
 	// }
@@ -11147,7 +11147,7 @@ public class AccounterDAOTest_US extends
 	// throws DAOException {
 	//
 	// Company company=accounterDao.getCompany(1l);
-	// List <CashSales>cashsales= accounterDao.getCashSales(company.getId());
+	// List <CashSales>cashsales= accounterDao.getCashSales(company.getID());
 	// Iterator<CashSales> itr=cashsales.iterator();
 	// while(itr.hasNext())
 	// {
@@ -11160,7 +11160,7 @@ public class AccounterDAOTest_US extends
 	// if(ti.getType()!=TransactionItem.TYPE_SALESTAX)
 	// {
 	// ReportList i= new ReportList();
-	// setItemValues(c.getId(),c.getType(), c.getCustomer(),ti, i);
+	// setItemValues(c.getID(),c.getType(), c.getCustomer(),ti, i);
 	// itemDetails.add(i);
 	// }
 	// }
@@ -11172,7 +11172,7 @@ public class AccounterDAOTest_US extends
 	//			
 	// Company company=accounterDao.getCompany(1l);
 	// ArrayList <Invoice>invoices=(ArrayList<Invoice>)
-	// accounterDao.getInvoices(company.getId());
+	// accounterDao.getInvoices(company.getID());
 	//			
 	// Iterator<Invoice> itr=invoices.iterator();
 	// while(itr.hasNext())
@@ -11187,7 +11187,7 @@ public class AccounterDAOTest_US extends
 	// if(ti.getType()==TransactionItem.TYPE_ITEM)
 	// {
 	// ReportList i= new ReportList();
-	// setItemValues(c.getId(), c.getType(), c.getCustomer(),ti, i);
+	// setItemValues(c.getID(), c.getType(), c.getCustomer(),ti, i);
 	// itemDetails.add(i);
 	// }
 	// }
@@ -11201,7 +11201,7 @@ public class AccounterDAOTest_US extends
 	//		
 	// Company company=accounterDao.getCompany(1l);
 	// ArrayList <Invoice>invoices=(ArrayList<Invoice>)
-	// accounterDao.getInvoices(company.getId());
+	// accounterDao.getInvoices(company.getID());
 	//		
 	// Iterator<Invoice> itr=invoices.iterator();
 	// while(itr.hasNext())
@@ -11215,7 +11215,7 @@ public class AccounterDAOTest_US extends
 	// if(ti.getType()!=TransactionItem.TYPE_SALESTAX)
 	// {
 	// ReportList i= new ReportList();
-	// setItemValues(c.getId(), c.getType(), c.getCustomer(), ti, i);
+	// setItemValues(c.getID(), c.getType(), c.getCustomer(), ti, i);
 	// itemDetails.add(i);
 	// }
 	// }
@@ -11257,7 +11257,7 @@ public class AccounterDAOTest_US extends
 	//			
 	// company=accounterDao.getCompany(1l);
 	// ArrayList <CustomerCreditMemo>ccms=(ArrayList<CustomerCreditMemo>)
-	// accounterDao.getCustomerCreditMemos(company.getId());
+	// accounterDao.getCustomerCreditMemos(company.getID());
 	// Iterator<CustomerCreditMemo> itr=ccms.iterator();
 	// while(itr.hasNext())
 	// {
@@ -11271,7 +11271,7 @@ public class AccounterDAOTest_US extends
 	// if(ti.getType()==TransactionItem.TYPE_ITEM)
 	// {
 	// ReportList i= new ReportList();
-	// setItemValues(c.getId(), c.getType(), c.getCustomer(),ti, i);
+	// setItemValues(c.getID(), c.getType(), c.getCustomer(),ti, i);
 	// itemDetails.add(i);
 	// }
 	// }
@@ -11283,7 +11283,7 @@ public class AccounterDAOTest_US extends
 	//			
 	// company=accounterDao.getCompany(1l);
 	// ArrayList <CustomerCreditMemo>ccms=(ArrayList<CustomerCreditMemo>)
-	// accounterDao.getCustomerCreditMemos(company.getId());
+	// accounterDao.getCustomerCreditMemos(company.getID());
 	// Iterator<CustomerCreditMemo> itr=ccms.iterator();
 	// while(itr.hasNext())
 	// {
@@ -11297,7 +11297,7 @@ public class AccounterDAOTest_US extends
 	// if(ti.getType()!=TransactionItem.TYPE_SALESTAX)
 	// {
 	// ReportList i= new ReportList();
-	// setItemValues(c.getId(), c.getType(), c.getCustomer(), ti, i);
+	// setItemValues(c.getID(), c.getType(), c.getCustomer(), ti, i);
 	// itemDetails.add(i);
 	// }
 	// }
@@ -11309,14 +11309,14 @@ public class AccounterDAOTest_US extends
 	//		
 	// company=accounterDao.getCompany(1l);
 	// ArrayList <CashSales>ccms=(ArrayList<CashSales>)
-	// accounterDao.getCashSales(company.getId());
+	// accounterDao.getCashSales(company.getID());
 	// Iterator<CashSales> itr=ccms.iterator();
 	// while(itr.hasNext())
 	// {
 	// CashSales c=(CashSales) itr.next();
 	//			
 	// ReportList i= new ReportList();
-	// i.setTransactionId(c.getId());
+	// i.setTransactionId(c.getID());
 	// i.setName(c.getCustomer().getName());
 	// i.setBalance(c.getCustomer().getBalance());
 	// i.setDiscount(0.0);
@@ -11336,14 +11336,14 @@ public class AccounterDAOTest_US extends
 	//		
 	// company=accounterDao.getCompany(1l);
 	// ArrayList <Invoice>ccms=(ArrayList<Invoice>)
-	// accounterDao.getInvoices(company.getId());
+	// accounterDao.getInvoices(company.getID());
 	// Iterator<Invoice> itr=ccms.iterator();
 	// while(itr.hasNext())
 	// {
 	// Invoice c=(Invoice) itr.next();
 	//			
 	// ReportList i= new ReportList();
-	// i.setTransactionId(c.getId());
+	// i.setTransactionId(c.getID());
 	// i.setName(c.getCustomer().getName());
 	// i.setBalance(c.getCustomer().getBalance());
 	// i.setDiscount(0.0);
@@ -11362,13 +11362,13 @@ public class AccounterDAOTest_US extends
 	//		
 	// company=accounterDao.getCompany(1l);
 	// ArrayList <CustomerCreditMemo>ccms=(ArrayList<CustomerCreditMemo>)
-	// accounterDao.getCustomerCreditMemos(company.getId());
+	// accounterDao.getCustomerCreditMemos(company.getID());
 	// Iterator<CustomerCreditMemo> itr=ccms.iterator();
 	// while(itr.hasNext())
 	// {
 	// CustomerCreditMemo c=(CustomerCreditMemo) itr.next();
 	// ReportList i= new ReportList();
-	// i.setTransactionId(c.getId());
+	// i.setTransactionId(c.getID());
 	// i.setName(c.getCustomer().getName());
 	// i.setBalance(c.getCustomer().getBalance());
 	// i.setDiscount(0.0);
@@ -11387,7 +11387,7 @@ public class AccounterDAOTest_US extends
 	// DAOException
 	// {
 	// List <ReceivePayment>
-	// rps=accounterDao.getReceivePayments(company.getId());
+	// rps=accounterDao.getReceivePayments(company.getID());
 	// Iterator<ReceivePayment> itr=rps.iterator();
 	// while(itr.hasNext())
 	// {
@@ -11399,7 +11399,7 @@ public class AccounterDAOTest_US extends
 	// i.setStatus(rp.getStatus());
 	// i.setTransactionType(rp.getType());
 	// i.setNumber(rp.getNumber());
-	// i.setTransactionId(rp.getId());
+	// i.setTransactionId(rp.getID());
 	// i.setDiscount(rp.getTotalCashDiscount());
 	// i.setName(rp.getCustomer().getName());
 	// i.setFlag(true);
@@ -11412,7 +11412,7 @@ public class AccounterDAOTest_US extends
 	// DAOException
 	// {
 	// List<CustomerRefundsList>
-	// rps=accounterGUIDao.getCustomerRefundsList(company.getId());
+	// rps=accounterGUIDao.getCustomerRefundsList(company.getID());
 	// Iterator<CustomerRefundsList> itr=rps.iterator();
 	// while(itr.hasNext())
 	// {
@@ -11452,12 +11452,12 @@ public class AccounterDAOTest_US extends
 	//
 	//		 	
 	// //List <TransactionHistory>
-	//ctl=accounterReportDAOService.getCustomerTransactionHistory(company.getId(
+	//ctl=accounterReportDAOService.getCustomerTransactionHistory(company.getID(
 	// ),
 	// dueDate(-3), dueDate(1));
 	//
 	// List <TransactionHistory>
-	//ctl=accounterReportDAOService.getCustomerTransactionHistory(company.getId(
+	//ctl=accounterReportDAOService.getCustomerTransactionHistory(company.getID(
 	// ),
 	// "2009-01-01", "2009-09-11");
 	// Iterator<TransactionHistory> i=ctl.iterator();
@@ -11539,7 +11539,7 @@ public class AccounterDAOTest_US extends
 	//	 	 
 	//	 
 	// List <TransactionHistory>
-	//ctl=accounterReportDAOService.getVendorTransactionHistory(company.getId(),
+	//ctl=accounterReportDAOService.getVendorTransactionHistory(company.getID(),
 	// dueDate(-3), today());
 	// Iterator<TransactionHistory> i=ctl.iterator();
 	// assertEquals(ctl.size(),itemDetails.size());
@@ -11605,13 +11605,13 @@ public class AccounterDAOTest_US extends
 
 		company = accounterDao.getCompany(1l);
 		ArrayList<EnterBill> ebs = (ArrayList<EnterBill>) accounterDao
-				.getEnterBills(company.getId());
+				.getEnterBills(company.getID());
 		Iterator<EnterBill> itr = ebs.iterator();
 
 		while (itr.hasNext()) {
 			EnterBill c = (EnterBill) itr.next();
 			ReportList i = new ReportList();
-			i.setTransactionId(c.getId());
+			i.setTransactionId(c.getID());
 			i.setName(c.getVendor().getName());
 			i.setBalance(c.getVendor().getBalance());
 			i.setAmount(c.getTotal());
@@ -11629,13 +11629,13 @@ public class AccounterDAOTest_US extends
 
 		company = accounterDao.getCompany(1l);
 		ArrayList<CashPurchase> ebs = (ArrayList<CashPurchase>) accounterDao
-				.getCashPurchases(company.getId());
+				.getCashPurchases(company.getID());
 		Iterator<CashPurchase> itr = ebs.iterator();
 
 		while (itr.hasNext()) {
 			CashPurchase c = (CashPurchase) itr.next();
 			ReportList i = new ReportList();
-			i.setTransactionId(c.getId());
+			i.setTransactionId(c.getID());
 			i.setName(c.getVendor().getName());
 			i.setBalance(c.getVendor().getBalance());
 			i.setAmount(c.getTotal());
@@ -11653,13 +11653,13 @@ public class AccounterDAOTest_US extends
 
 		company = accounterDao.getCompany(1l);
 		ArrayList<PayBill> pbs = (ArrayList<PayBill>) accounterDao
-				.getPayBills(company.getId());
+				.getPayBills(company.getID());
 		Iterator<PayBill> itr = pbs.iterator();
 
 		while (itr.hasNext()) {
 			PayBill c = (PayBill) itr.next();
 			ReportList i = new ReportList();
-			i.setTransactionId(c.getId());
+			i.setTransactionId(c.getID());
 			i.setName(c.getVendor().getName());
 			i.setBalance(c.getVendor().getBalance());
 			i.setAmount(c.getTotal());
@@ -11677,13 +11677,13 @@ public class AccounterDAOTest_US extends
 
 		company = accounterDao.getCompany(1l);
 		ArrayList<CreditCardCharge> cccs = (ArrayList<CreditCardCharge>) accounterDao
-				.getCreditCardCharges(company.getId());
+				.getCreditCardCharges(company.getID());
 		Iterator<CreditCardCharge> itr = cccs.iterator();
 
 		while (itr.hasNext()) {
 			CreditCardCharge c = (CreditCardCharge) itr.next();
 			ReportList i = new ReportList();
-			i.setTransactionId(c.getId());
+			i.setTransactionId(c.getID());
 			i.setName(c.getVendor().getName());
 			i.setBalance(c.getVendor().getBalance());
 			i.setAmount(c.getTotal());
@@ -11700,13 +11700,13 @@ public class AccounterDAOTest_US extends
 
 		company = accounterDao.getCompany(1l);
 		ArrayList<VendorCreditMemo> ccms = (ArrayList<VendorCreditMemo>) accounterDao
-				.getVendorCreditMemos(company.getId());
+				.getVendorCreditMemos(company.getID());
 		Iterator<VendorCreditMemo> itr = ccms.iterator();
 
 		while (itr.hasNext()) {
 			VendorCreditMemo c = (VendorCreditMemo) itr.next();
 			ReportList i = new ReportList();
-			i.setTransactionId(c.getId());
+			i.setTransactionId(c.getID());
 			i.setName(c.getVendor().getName());
 			i.setBalance(c.getVendor().getBalance());
 			i.setAmount(c.getTotal());
@@ -11725,7 +11725,7 @@ public class AccounterDAOTest_US extends
 
 		company = accounterDao.getCompany(1l);
 		ArrayList<MakeDeposit> mds = (ArrayList<MakeDeposit>) accounterDao
-				.getMakeDeposits(company.getId());
+				.getMakeDeposits(company.getID());
 		Iterator<MakeDeposit> itr = mds.iterator();
 		while (itr.hasNext()) {
 			MakeDeposit m = (MakeDeposit) itr.next();
@@ -11736,7 +11736,7 @@ public class AccounterDAOTest_US extends
 				if (td.getIsNewEntry()) {
 					if (td.getCustomer() != null) {
 						ReportList i = new ReportList();
-						i.setTransactionId(m.getId());
+						i.setTransactionId(m.getID());
 						i.setName(td.getCustomer().getName());
 						i.setBalance(td.getCustomer().getBalance());
 						i.setAmount(td.getAmount());
@@ -11756,7 +11756,7 @@ public class AccounterDAOTest_US extends
 
 		company = accounterDao.getCompany(1l);
 		ArrayList<MakeDeposit> mds = (ArrayList<MakeDeposit>) accounterDao
-				.getMakeDeposits(company.getId());
+				.getMakeDeposits(company.getID());
 		Iterator<MakeDeposit> itr = mds.iterator();
 		while (itr.hasNext()) {
 			MakeDeposit m = (MakeDeposit) itr.next();
@@ -11767,7 +11767,7 @@ public class AccounterDAOTest_US extends
 				if (td.getIsNewEntry()) {
 					if (td.getVendor() != null) {
 						ReportList i = new ReportList();
-						i.setTransactionId(m.getId());
+						i.setTransactionId(m.getID());
 						i.setName(td.getVendor().getName());
 						i.setBalance(td.getVendor().getBalance());
 						i.setAmount(td.getAmount());
@@ -11787,7 +11787,7 @@ public class AccounterDAOTest_US extends
 
 		company = accounterDao.getCompany(1l);
 		ArrayList<WriteCheck> mds = (ArrayList<WriteCheck>) accounterDao
-				.getWriteChecks(company.getId());
+				.getWriteChecks(company.getID());
 		Iterator<WriteCheck> itr = mds.iterator();
 		while (itr.hasNext()) {
 			WriteCheck m = (WriteCheck) itr.next();
@@ -11795,7 +11795,7 @@ public class AccounterDAOTest_US extends
 				ReportList i = new ReportList();
 				i.setName(m.getCustomer().getName());
 				i.setBalance(m.getCustomer().getBalance());
-				i.setTransactionId(m.getId());
+				i.setTransactionId(m.getID());
 				i.setAmount(m.getAmount());
 				i.setFlag(true);
 				i.setTransactionType(m.getType());
@@ -11811,7 +11811,7 @@ public class AccounterDAOTest_US extends
 
 		company = accounterDao.getCompany(1l);
 		ArrayList<WriteCheck> mds = (ArrayList<WriteCheck>) accounterDao
-				.getWriteChecks(company.getId());
+				.getWriteChecks(company.getID());
 		Iterator<WriteCheck> itr = mds.iterator();
 		while (itr.hasNext()) {
 			WriteCheck m = (WriteCheck) itr.next();
@@ -11819,7 +11819,7 @@ public class AccounterDAOTest_US extends
 				ReportList i = new ReportList();
 				i.setName(m.getVendor().getName());
 				i.setBalance(m.getVendor().getBalance());
-				i.setTransactionId(m.getId());
+				i.setTransactionId(m.getID());
 				i.setAmount(m.getAmount());
 				i.setFlag(true);
 				i.setTransactionType(m.getType());
@@ -11855,7 +11855,7 @@ public class AccounterDAOTest_US extends
 	public void setTrialBalanceVendors(List<Account> accounts, long c)
 			throws DAOException {
 		company = accounterDao.getCompany(1L);
-		List<Vendor> vendors = accounterDao.getVendors(company.getId());
+		List<Vendor> vendors = accounterDao.getVendors(company.getID());
 		for (int i = 0; i < vendors.size(); i++) {
 			trialBalance[getAccountVariable(accounts, company
 					.getAccountsPayableAccount().getName(), company)] -= vendors
@@ -11869,7 +11869,7 @@ public class AccounterDAOTest_US extends
 	public void setTrialBalanceCustomers(List<Account> accounts, long c)
 			throws DAOException {
 		company = accounterDao.getCompany(1L);
-		List<Customer> customers = accounterDao.getCustomers(company.getId());
+		List<Customer> customers = accounterDao.getCustomers(company.getID());
 		for (int i = 0; i < customers.size(); i++) {
 			trialBalance[getAccountVariable(accounts, company
 					.getAccountsReceivableAccount().getName(), company)] += customers
@@ -11902,9 +11902,9 @@ public class AccounterDAOTest_US extends
 			throws DAOException {
 
 		company = accounterDao.getCompany(1L);
-		return (accounterDao.getAccount(company.getId(), s).isIncrease() ? -accounterDao
-				.getAccount(company.getId(), s).getOpeningBalance()
-				: accounterDao.getAccount(company.getId(), s)
+		return (accounterDao.getAccount(company.getID(), s).isIncrease() ? -accounterDao
+				.getAccount(company.getID(), s).getOpeningBalance()
+				: accounterDao.getAccount(company.getID(), s)
 						.getOpeningBalance());
 
 	}
@@ -11912,7 +11912,7 @@ public class AccounterDAOTest_US extends
 	public void setTrialAllCashSales(List<Account> accounts, Company company,
 			boolean isVoiding) throws DAOException {
 
-		List<CashSales> cashsales = accounterDao.getCashSales(company.getId());
+		List<CashSales> cashsales = accounterDao.getCashSales(company.getID());
 		Iterator<CashSales> i = cashsales.iterator();
 		while (i.hasNext()) {
 			CashSales c = (CashSales) i.next();
@@ -11992,7 +11992,7 @@ public class AccounterDAOTest_US extends
 	public void setTrialAllInvoices(List<Account> accounts, Company company,
 			boolean isVoiding) throws DAOException {
 
-		List<Invoice> invoices = accounterDao.getInvoices(company.getId());
+		List<Invoice> invoices = accounterDao.getInvoices(company.getID());
 		Iterator<Invoice> i = invoices.iterator();
 		while (i.hasNext()) {
 			Invoice c = (Invoice) i.next();
@@ -12066,7 +12066,7 @@ public class AccounterDAOTest_US extends
 			Company company, boolean voiding) throws DAOException {
 
 		List<CustomerCreditMemo> ccms = accounterDao
-				.getCustomerCreditMemos(company.getId());
+				.getCustomerCreditMemos(company.getID());
 		Iterator<CustomerCreditMemo> i = ccms.iterator();
 		while (i.hasNext()) {
 			CustomerCreditMemo c = (CustomerCreditMemo) i.next();
@@ -12141,7 +12141,7 @@ public class AccounterDAOTest_US extends
 			Company company, boolean voiding) throws DAOException {
 
 		List<CustomerRefund> cfs = accounterDao.getCustomerRefunds(company
-				.getId());
+				.getID());
 		Iterator<CustomerRefund> i = cfs.iterator();
 		while (i.hasNext()) {
 			CustomerRefund c = i.next();
@@ -12169,7 +12169,7 @@ public class AccounterDAOTest_US extends
 			Company company, boolean voiding) throws DAOException {
 
 		List<ReceivePayment> ccms = accounterDao.getReceivePayments(company
-				.getId());
+				.getID());
 		Iterator<ReceivePayment> i = ccms.iterator();
 
 		while (i.hasNext()) {
@@ -12237,7 +12237,7 @@ public class AccounterDAOTest_US extends
 	public void setTrialAllEnterBills(List<Account> accounts, Company company,
 			boolean voiding) throws DAOException {
 
-		List<EnterBill> ccms = accounterDao.getEnterBills(company.getId());
+		List<EnterBill> ccms = accounterDao.getEnterBills(company.getID());
 		Iterator<EnterBill> i = ccms.iterator();
 		while (i.hasNext()) {
 			EnterBill c = (EnterBill) i.next();
@@ -12281,7 +12281,7 @@ public class AccounterDAOTest_US extends
 			Company company, boolean voiding) throws DAOException {
 
 		List<CashPurchase> ccms = accounterDao
-				.getCashPurchases(company.getId());
+				.getCashPurchases(company.getID());
 		Iterator<CashPurchase> i = ccms.iterator();
 		while (i.hasNext()) {
 			CashPurchase c = (CashPurchase) i.next();
@@ -12323,7 +12323,7 @@ public class AccounterDAOTest_US extends
 			Company company, boolean voiding) throws DAOException {
 
 		List<VendorCreditMemo> ccms = accounterDao.getVendorCreditMemos(company
-				.getId());
+				.getID());
 		Iterator<VendorCreditMemo> i = ccms.iterator();
 		while (i.hasNext()) {
 			VendorCreditMemo c = (VendorCreditMemo) i.next();
@@ -12365,7 +12365,7 @@ public class AccounterDAOTest_US extends
 
 	public void setTrialAllVendorPayments(List<Account> accounts,
 			Company company, boolean voiding) throws DAOException {
-		List<PayBill> ccms = accounterDao.getPayBills(company.getId());
+		List<PayBill> ccms = accounterDao.getPayBills(company.getID());
 		Iterator<PayBill> i = ccms.iterator();
 		while (i.hasNext()) {
 			PayBill c = (PayBill) i.next();
@@ -12427,7 +12427,7 @@ public class AccounterDAOTest_US extends
 
 	public void setTrialAllWriteChecks(List<Account> accounts, Company company,
 			boolean voiding) throws DAOException {
-		List<WriteCheck> ccms = accounterDao.getWriteChecks(company.getId());
+		List<WriteCheck> ccms = accounterDao.getWriteChecks(company.getID());
 		Iterator<WriteCheck> i = ccms.iterator();
 		while (i.hasNext()) {
 			WriteCheck c = (WriteCheck) i.next();
@@ -12483,7 +12483,7 @@ public class AccounterDAOTest_US extends
 			Company company, boolean voiding) throws DAOException {
 
 		List<CreditCardCharge> ccms = accounterDao.getCreditCardCharges(company
-				.getId());
+				.getID());
 		Iterator<CreditCardCharge> i = ccms.iterator();
 		while (i.hasNext()) {
 			CreditCardCharge c = (CreditCardCharge) i.next();
@@ -12523,7 +12523,7 @@ public class AccounterDAOTest_US extends
 
 	public void setTrialAllMakeDeposits(List<Account> accounts,
 			Company company, boolean voiding) throws DAOException {
-		List<MakeDeposit> ccms = accounterDao.getMakeDeposits(company.getId());
+		List<MakeDeposit> ccms = accounterDao.getMakeDeposits(company.getID());
 		Iterator<MakeDeposit> i = ccms.iterator();
 		while (i.hasNext()) {
 			MakeDeposit c = (MakeDeposit) i.next();
@@ -12581,7 +12581,7 @@ public class AccounterDAOTest_US extends
 			Company company, boolean voiding) throws DAOException {
 
 		List<TransferFund> ccms = accounterDao
-				.getTransferFunds(company.getId());
+				.getTransferFunds(company.getID());
 		Iterator<TransferFund> i = ccms.iterator();
 		while (i.hasNext()) {
 			TransferFund c = (TransferFund) i.next();
@@ -12609,7 +12609,7 @@ public class AccounterDAOTest_US extends
 			Company company, boolean voiding) throws DAOException,
 			ParseException {
 
-		List<PaySalesTax> pts = accounterDao.getPaySalesTaxes(company.getId());
+		List<PaySalesTax> pts = accounterDao.getPaySalesTaxes(company.getID());
 		Iterator<PaySalesTax> i = pts.iterator();
 		while (i.hasNext()) {
 			PaySalesTax c = (PaySalesTax) i.next();
@@ -12671,37 +12671,37 @@ public class AccounterDAOTest_US extends
 					assertNotNull(c.getCustomer());
 					assertNotNull(c.getCustomer().getName());
 					assertEquals(c.getCustomer().getName(), accounterDao
-							.getCashSales(company.getId(), c.getId())
+							.getCashSales(company.getID(), c.getID())
 							.getCustomer().getName());
 					assertEquals(c.getDate(), accounterDao.getCashSales(
-							company.getId(), c.getId()).getDate());
+							company.getID(), c.getID()).getDate());
 					assertNotNull(c.getDepositIn());
 					assertNotNull(c.getDepositIn().getName());
 					assertEquals(c.getDepositIn().getName(), accounterDao
-							.getCashSales(company.getId(), c.getId())
+							.getCashSales(company.getID(), c.getID())
 							.getDepositIn().getName());
 					assertEquals(c.getDiscountTotal(), accounterDao
-							.getCashSales(company.getId(), c.getId())
+							.getCashSales(company.getID(), c.getID())
 							.getDiscountTotal());
 					assertEquals(c.getType(), accounterDao.getCashSales(
-							company.getId(), c.getId()).getType());
+							company.getID(), c.getID()).getType());
 					assertEquals(c.getTotal(), accounterDao.getCashSales(
-							company.getId(), c.getId()).getTotal());
+							company.getID(), c.getID()).getTotal());
 					assertEquals(c.getSalesTax(), accounterDao.getCashSales(
-							company.getId(), c.getId()).getSalesTax());
+							company.getID(), c.getID()).getSalesTax());
 					if (c.getSalesPerson() != null)
 						if (c.getSalesPerson().getFirstName() != null)
 							assertEquals(c.getSalesPerson().getFirstName(),
-									accounterDao.getCashSales(company.getId(),
-											c.getId()).getSalesPerson()
+									accounterDao.getCashSales(company.getID(),
+											c.getID()).getSalesPerson()
 											.getFirstName());
 					if (c.getPaymentMethod() != null)
 						if (c.getPaymentMethod() != null)
 							assertEquals(c.getPaymentMethod(), accounterDao
-									.getCashSales(company.getId(), c.getId())
+									.getCashSales(company.getID(), c.getID())
 									.getPaymentMethod());
 					assertEquals(c.getNumber(), accounterDao.getCashSales(
-							company.getId(), c.getId()).getNumber());
+							company.getID(), c.getID()).getNumber());
 
 					// Take all the transaction items that are involved in the
 					// cashsale and store them in a List.
@@ -12733,13 +12733,13 @@ public class AccounterDAOTest_US extends
 							d[getAccountVariable(accounts, acc.getName(),
 									company)] -= it.getLineTotal();
 							String str = acc.getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] -= it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is increase
@@ -12749,13 +12749,13 @@ public class AccounterDAOTest_US extends
 									company)] += it.getLineTotal();
 							String str = acc.getName();
 							while (accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent() != null) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] += it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is not increase
@@ -12816,15 +12816,15 @@ public class AccounterDAOTest_US extends
 												.getLiabilityAccount()
 												.getName();
 										while (accounterDao.getAccount(
-												company.getId(), str)
+												company.getID(), str)
 												.getParent() != null) {
 											d[getAccountVariable(accounts,
 													accounterDao.getAccount(
-															company.getId(),
+															company.getID(),
 															str).getParent()
 															.getName(), company)] -= rate;
 											str = accounterDao.getAccount(
-													company.getId(), str)
+													company.getID(), str)
 													.getParent().getName();
 										}
 									}// taxAgency account isIncrease
@@ -12837,15 +12837,15 @@ public class AccounterDAOTest_US extends
 												.getLiabilityAccount()
 												.getName();
 										while (accounterDao.getAccount(
-												company.getId(), str)
+												company.getID(), str)
 												.getParent() != null) {
 											d[getAccountVariable(accounts,
 													accounterDao.getAccount(
-															company.getId(),
+															company.getID(),
 															str).getParent()
 															.getName(), company)] += rate;
 											str = accounterDao.getAccount(
-													company.getId(), str)
+													company.getID(), str)
 													.getParent().getName();
 										}
 									}
@@ -12866,26 +12866,26 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, c.getDepositIn()
 								.getName(), company)] -= c.getTotal();
 						String str = c.getDepositIn().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= c
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					} else {
 						d[getAccountVariable(accounts, c.getDepositIn()
 								.getName(), company)] += c.getTotal();
 						String str = c.getDepositIn().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += c
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}
@@ -12907,13 +12907,13 @@ public class AccounterDAOTest_US extends
 					{
 						for (long l1 = 0; l1 < accounts.size(); l1++) {
 							String name = accounterDao.getAccount(
-									company.getId(), (l1 + 1)).getName();
-							// if(accounterDao.getAccount(company.getId(), (l1 +
+									company.getID(), (l1 + 1)).getName();
+							// if(accounterDao.getAccount(company.getID(), (l1 +
 							// 1)).getName().equals("SubWO"))
 							// System.out.println("here - " + name);
 							assertEquals(name, d[getAccountVariable(accounts,
 									name, company)], accounterDao.getAccount(
-									company.getId(), name).getTotalBalance());
+									company.getID(), name).getTotalBalance());
 						}
 						for (long l1 = 0; l1 < codes.size(); l1++) {
 							String name = codes.get((int) l1).getTaxAgency()
@@ -12921,7 +12921,7 @@ public class AccounterDAOTest_US extends
 							assertEquals(name,
 									taxAgencies[getTaxAgencyVariable(codes,
 											name, company)],
-									accounterDao.getTaxAgency(company.getId(),
+									accounterDao.getTaxAgency(company.getID(),
 											name).getBalance());
 						}
 
@@ -12948,8 +12948,8 @@ public class AccounterDAOTest_US extends
 				cpsBackUp = new ArrayList<CreditsAndPayments>();
 				{
 					List<CreditsAndPayments> cps1 = accounterGUIDao
-							.getCustomerCreditsAndPayments(company.getId(),
-									invoice.getCustomer().getId());
+							.getCustomerCreditsAndPayments(company.getID(),
+									invoice.getCustomer().getID());
 					for (int i = 0; i < cps1.size(); i++) {
 						CreditsAndPayments cp = new CreditsAndPayments();
 						cp.setBalance(cps1.get(i).getBalance());
@@ -12988,7 +12988,7 @@ public class AccounterDAOTest_US extends
 							cp.id = tcp1.creditsAndPayments.id;
 							tcp2.creditsAndPayments = cp;
 							tcp2.setCompany(tcp1.getCompany());
-							tcp2.setId(tcp1.getId());
+							tcp2.setID(tcp1.getID());
 							tcp2.memo = tcp1.memo;
 							tcpsBackUp.add(tcp2);
 						}
@@ -13012,8 +13012,8 @@ public class AccounterDAOTest_US extends
 			invoice.setVoid(true);
 			accounter.alterInvoice(invoice);
 
-			Invoice inv = accounterDao.getInvoice(company.getId(), invoice
-					.getId());
+			Invoice inv = accounterDao.getInvoice(company.getID(), invoice
+					.getID());
 			assertEquals("Invoice Payment value", inv.getPayments(), inv
 					.getTotal());
 			assertEquals("Invoice Balance Due value", inv.getBalanceDue(), 0.0);
@@ -13026,11 +13026,11 @@ public class AccounterDAOTest_US extends
 				for (Iterator<TransactionReceivePayment> i = trps.iterator(); i
 						.hasNext();) {
 					TransactionReceivePayment tp = i.next();
-					assertEquals("Transaction Receive Payment" + tp.getId(), tp
+					assertEquals("Transaction Receive Payment" + tp.getID(), tp
 							.getPayment(), 0.0);
-					assertEquals("Transaction Receive Payment" + tp.getId(), tp
+					assertEquals("Transaction Receive Payment" + tp.getID(), tp
 							.getWriteOff(), 0.0);
-					assertEquals("Transaction Receive Payment" + tp.getId(), tp
+					assertEquals("Transaction Receive Payment" + tp.getID(), tp
 							.getCashDiscount(), 0.0);
 					// assertNull("UnUsedCredits"+tp.getReceivePayment().
 					// getUnUsedCredits(),
@@ -13059,8 +13059,8 @@ public class AccounterDAOTest_US extends
 							TransactionCreditsAndPayments tcp2 = tcpsBackUp
 									.get(k);
 							if (tcp1.getMemo().equals(tcp2.getMemo())
-									&& (tcp1.getCreditsAndPayments().getId() == tcp2
-											.getCreditsAndPayments().getId())) {
+									&& (tcp1.getCreditsAndPayments().getID() == tcp2
+											.getCreditsAndPayments().getID())) {
 								assertEquals(
 										"CreditsAndPayments- Credit Amount to Use",
 										tcp1.getCreditsAndPayments()
@@ -13080,7 +13080,7 @@ public class AccounterDAOTest_US extends
 			if (invoice.getTransactionReceivePayments() != null
 					&& invoice.getTransactionReceivePayments().size() > 0) {
 				List<CreditsAndPayments> cps2 = accounterDao
-						.getCreditsAndPayments(company.getId());
+						.getCreditsAndPayments(company.getID());
 				{
 					for (Iterator<CreditsAndPayments> i = cpsBackUp.iterator(); i
 							.hasNext();) {
@@ -13095,11 +13095,11 @@ public class AccounterDAOTest_US extends
 														.getReceivePayment()
 														.getNumber()
 												+ AccounterConstants.TYPE_RECEIVE_PAYMENT)
-								&& cp1.getId() == ((TransactionReceivePayment) (((inv
+								&& cp1.getID() == ((TransactionReceivePayment) (((inv
 										.getTransactionReceivePayments())
 										.iterator()).next()))
 										.getTransactionCreditsAndPayments()
-										.get(0).getCreditsAndPayments().getId()) {
+										.get(0).getCreditsAndPayments().getID()) {
 							for (Iterator<CreditsAndPayments> j = cps2
 									.iterator(); j.hasNext();) {
 								CreditsAndPayments cp2 = (CreditsAndPayments) j
@@ -13154,32 +13154,32 @@ public class AccounterDAOTest_US extends
 				assertNotNull(c.getCustomer());
 				assertNotNull(c.getCustomer().getName());
 				assertEquals(c.getCustomer().getName(), accounterDao
-						.getInvoice(company.getId(), c.getId()).getCustomer()
+						.getInvoice(company.getID(), c.getID()).getCustomer()
 						.getName());
 				assertEquals(c.getDate(), accounterDao.getInvoice(
-						company.getId(), c.getId()).getDate());
+						company.getID(), c.getID()).getDate());
 				assertNotNull(c.getDueDate());
 				assertEquals(c.getDueDate(), accounterDao.getInvoice(
-						company.getId(), c.getId()).getDueDate());
+						company.getID(), c.getID()).getDueDate());
 				assertEquals(c.getDiscountTotal(), accounterDao.getInvoice(
-						company.getId(), c.getId()).getDiscountTotal());
+						company.getID(), c.getID()).getDiscountTotal());
 				assertEquals(c.getType(), accounterDao.getInvoice(
-						company.getId(), c.getId()).getType());
+						company.getID(), c.getID()).getType());
 				assertEquals(c.getTotal(), accounterDao.getInvoice(
-						company.getId(), c.getId()).getTotal());
+						company.getID(), c.getID()).getTotal());
 				assertEquals(c.getSalesTaxAmount(), accounterDao.getInvoice(
-						company.getId(), c.getId()).getSalesTaxAmount());
+						company.getID(), c.getID()).getSalesTaxAmount());
 				if (c.getSalesPerson() != null)
 					if (c.getSalesPerson().getFirstName() != null)
 						assertEquals(c.getSalesPerson().getFirstName(),
-								accounterDao.getInvoice(company.getId(),
-										c.getId()).getSalesPerson()
+								accounterDao.getInvoice(company.getID(),
+										c.getID()).getSalesPerson()
 										.getFirstName());
 				if (c.getPayments() != 0)
 					assertEquals(c.getPayments(), accounterDao.getInvoice(
-							company.getId(), c.getId()).getPayments());
+							company.getID(), c.getID()).getPayments());
 				assertEquals(c.getNumber(), accounterDao.getInvoice(
-						company.getId(), c.getId()).getNumber());
+						company.getID(), c.getID()).getNumber());
 
 				// Take all the transaction items that are involved in the
 				// cashsale and store them in a List.
@@ -13209,13 +13209,13 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, acc.getName(), company)] -= it
 								.getLineTotal();
 						String str = acc.getName();
-						while ((accounterDao.getAccount(company.getId(), str)
+						while ((accounterDao.getAccount(company.getID(), str)
 								.getParent() != null)) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= it
 									.getLineTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}// if for account is increase
@@ -13224,13 +13224,13 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, acc.getName(), company)] += it
 								.getLineTotal();
 						String str = acc.getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += it
 									.getLineTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}// if for account is not increase
@@ -13288,14 +13288,14 @@ public class AccounterDAOTest_US extends
 									String str = tc.getTaxAgency()
 											.getLiabilityAccount().getName();
 									while (accounterDao.getAccount(
-											company.getId(), str).getParent() != null) {
+											company.getID(), str).getParent() != null) {
 										d[getAccountVariable(accounts,
 												accounterDao.getAccount(
-														company.getId(), str)
+														company.getID(), str)
 														.getParent().getName(),
 												company)] -= rate;
 										str = accounterDao.getAccount(
-												company.getId(), str)
+												company.getID(), str)
 												.getParent().getName();
 									}
 								}// taxAgency account isIncrease
@@ -13307,14 +13307,14 @@ public class AccounterDAOTest_US extends
 									String str = tc.getTaxAgency()
 											.getLiabilityAccount().getName();
 									while (accounterDao.getAccount(
-											company.getId(), str).getParent() != null) {
+											company.getID(), str).getParent() != null) {
 										d[getAccountVariable(accounts,
 												accounterDao.getAccount(
-														company.getId(), str)
+														company.getID(), str)
 														.getParent().getName(),
 												company)] -= rate;
 										str = accounterDao.getAccount(
-												company.getId(), str)
+												company.getID(), str)
 												.getParent().getName();
 									}
 								}
@@ -13346,17 +13346,17 @@ public class AccounterDAOTest_US extends
 				// updated perfectly.
 
 				for (long l1 = 0; l1 < accounts.size(); l1++)
-					assertEquals(accounterDao.getAccount(company.getId(),
+					assertEquals(accounterDao.getAccount(company.getID(),
 							(l1 + 1)).getName(), d[getAccountVariable(accounts,
-							accounterDao.getAccount(company.getId(), (l1 + 1))
+							accounterDao.getAccount(company.getID(), (l1 + 1))
 									.getName(), company)], accounterDao
-							.getAccount(company.getId(), (l1 + 1))
+							.getAccount(company.getID(), (l1 + 1))
 							.getTotalBalance());
 				for (long l1 = 0; l1 < codes.size(); l1++) {
 					String name = codes.get((int) l1).getTaxAgency().getName();
 					assertEquals(name, taxAgencies[getTaxAgencyVariable(codes,
 							name, company)], accounterDao.getTaxAgency(
-							company.getId(), name).getBalance());
+							company.getID(), name).getBalance());
 				}
 			}
 			return invoice;
@@ -13375,8 +13375,8 @@ public class AccounterDAOTest_US extends
 			{
 				boolean flag = false;
 				List<CreditsAndPayments> cps1 = accounterGUIDao
-						.getCustomerCreditsAndPayments(company.getId(),
-								customerCreditMemo.getCustomer().getId());
+						.getCustomerCreditsAndPayments(company.getID(),
+								customerCreditMemo.getCustomer().getID());
 				for (int i = 0; i < cps1.size(); i++) {
 					CreditsAndPayments cp = new CreditsAndPayments();
 					cp.setBalance(cps1.get(i).getBalance());
@@ -13404,8 +13404,8 @@ public class AccounterDAOTest_US extends
 							TransactionReceivePayment trp = tcp
 									.getTransactionReceivePayment();
 							creditAmounts[++count][0] = trp.getReceivePayment()
-									.getId();
-							creditAmounts[++count][1] = trp.getId();
+									.getID();
+							creditAmounts[++count][1] = trp.getID();
 							creditAmounts[++count][2] = tcp.getAmountToUse();
 							if (trp.getInvoice() != null)
 								invoicesBackUp.add(trp.getInvoice());
@@ -13423,8 +13423,8 @@ public class AccounterDAOTest_US extends
 			{
 				boolean flag = false;
 				List<CreditsAndPayments> cps1 = accounterGUIDao
-						.getCustomerCreditsAndPayments(company.getId(),
-								customerCreditMemo.getCustomer().getId());
+						.getCustomerCreditsAndPayments(company.getID(),
+								customerCreditMemo.getCustomer().getID());
 				for (int i = 0; i < cps1.size(); i++) {
 					if (cps1
 							.get(i)
@@ -13436,10 +13436,10 @@ public class AccounterDAOTest_US extends
 							&& (((cps1.get(i)
 									.getTransactionCreditsAndPayments()
 									.iterator()).next())
-									.getCreditsAndPayments().getId() == ((cpsBackUp
+									.getCreditsAndPayments().getID() == ((cpsBackUp
 									.getTransactionCreditsAndPayments()
 									.iterator()).next())
-									.getCreditsAndPayments().getId())) {
+									.getCreditsAndPayments().getID())) {
 						flag = true;
 						break;
 					}
@@ -13454,10 +13454,10 @@ public class AccounterDAOTest_US extends
 						for (int j = 0; j < creditAmounts.length; j++) {
 							if (creditAmounts[j][0] == tp
 									.getTransactionReceivePayment()
-									.getReceivePayment().getId()
+									.getReceivePayment().getID()
 									&& creditAmounts[j][1] == tp
 											.getTransactionReceivePayment()
-											.getId()) {
+											.getID()) {
 								if (tp.getTransactionReceivePayment()
 										.getInvoice() != null) {
 									Invoice invoice = tp
@@ -13465,13 +13465,13 @@ public class AccounterDAOTest_US extends
 											.getInvoice();
 									assertEquals(invoice.getPayments()
 											- creditAmounts[j][2], accounterDao
-											.getInvoice(company.getId(),
-													invoice.getId())
+											.getInvoice(company.getID(),
+													invoice.getID())
 											.getPayments());
 									assertEquals(invoice.getBalanceDue()
 											+ creditAmounts[j][2], accounterDao
-											.getInvoice(company.getId(),
-													invoice.getId())
+											.getInvoice(company.getID(),
+													invoice.getID())
 											.getBalanceDue());
 								}
 							}
@@ -13491,31 +13491,31 @@ public class AccounterDAOTest_US extends
 					assertNotNull(c.getCustomer());
 					assertNotNull(c.getCustomer().getName());
 					assertEquals(c.getCustomer().getName(), accounterDao
-							.getCustomerCreditMemo(company.getId(), c.getId())
+							.getCustomerCreditMemo(company.getID(), c.getID())
 							.getCustomer().getName());
 					assertEquals(c.getDate(), accounterDao
-							.getCustomerCreditMemo(company.getId(), c.getId())
+							.getCustomerCreditMemo(company.getID(), c.getID())
 							.getDate());
 					assertEquals(c.getDiscountTotal(), accounterDao
-							.getCustomerCreditMemo(company.getId(), c.getId())
+							.getCustomerCreditMemo(company.getID(), c.getID())
 							.getDiscountTotal());
 					assertEquals(c.getType(), accounterDao
-							.getCustomerCreditMemo(company.getId(), c.getId())
+							.getCustomerCreditMemo(company.getID(), c.getID())
 							.getType());
 					assertEquals(c.getTotal(), accounterDao
-							.getCustomerCreditMemo(company.getId(), c.getId())
+							.getCustomerCreditMemo(company.getID(), c.getID())
 							.getTotal());
 					assertEquals(c.getSalesTax(), accounterDao
-							.getCustomerCreditMemo(company.getId(), c.getId())
+							.getCustomerCreditMemo(company.getID(), c.getID())
 							.getSalesTax());
 					if (c.getSalesPerson() != null)
 						if (c.getSalesPerson().getFirstName() != null)
 							assertEquals(c.getSalesPerson().getFirstName(),
 									accounterDao.getCustomerCreditMemo(
-											company.getId(), c.getId())
+											company.getID(), c.getID())
 											.getSalesPerson().getFirstName());
 					assertEquals(c.getNumber(), accounterDao
-							.getCustomerCreditMemo(company.getId(), c.getId())
+							.getCustomerCreditMemo(company.getID(), c.getID())
 							.getNumber());
 
 					ti = c.getTransactionItems();
@@ -13547,13 +13547,13 @@ public class AccounterDAOTest_US extends
 							d[getAccountVariable(accounts, acc.getName(),
 									company)] += it.getLineTotal();
 							String str = acc.getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] += it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is increase
@@ -13563,13 +13563,13 @@ public class AccounterDAOTest_US extends
 									company)] -= it.getLineTotal();
 							String str = acc.getName();
 							while (accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent() != null) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] -= it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is not increase
@@ -13629,15 +13629,15 @@ public class AccounterDAOTest_US extends
 												.getLiabilityAccount()
 												.getName();
 										while (accounterDao.getAccount(
-												company.getId(), str)
+												company.getID(), str)
 												.getParent() != null) {
 											d[getAccountVariable(accounts,
 													accounterDao.getAccount(
-															company.getId(),
+															company.getID(),
 															str).getParent()
 															.getName(), company)] += rate;
 											str = accounterDao.getAccount(
-													company.getId(), str)
+													company.getID(), str)
 													.getParent().getName();
 										}
 									}// taxAgency account isIncrease
@@ -13650,15 +13650,15 @@ public class AccounterDAOTest_US extends
 												.getLiabilityAccount()
 												.getName();
 										while (accounterDao.getAccount(
-												company.getId(), str)
+												company.getID(), str)
 												.getParent() != null) {
 											d[getAccountVariable(accounts,
 													accounterDao.getAccount(
-															company.getId(),
+															company.getID(),
 															str).getParent()
 															.getName(), company)] -= rate;
 											str = accounterDao.getAccount(
-													company.getId(), str)
+													company.getID(), str)
 													.getParent().getName();
 										}
 									}
@@ -13693,12 +13693,12 @@ public class AccounterDAOTest_US extends
 					{
 						for (long l1 = 0; l1 < accounts.size(); l1++)
 							assertEquals(accounterDao.getAccount(
-									company.getId(), (l1 + 1)).getName(),
+									company.getID(), (l1 + 1)).getName(),
 									d[getAccountVariable(accounts, accounterDao
-											.getAccount(company.getId(),
+											.getAccount(company.getID(),
 													(l1 + 1)).getName(),
 											company)], accounterDao.getAccount(
-											company.getId(), (l1 + 1))
+											company.getID(), (l1 + 1))
 											.getTotalBalance());
 
 						for (long l1 = 0; l1 < codes.size(); l1++) {
@@ -13707,7 +13707,7 @@ public class AccounterDAOTest_US extends
 							assertEquals(name,
 									taxAgencies[getTaxAgencyVariable(codes,
 											name, company)],
-									accounterDao.getTaxAgency(company.getId(),
+									accounterDao.getTaxAgency(company.getID(),
 											name).getBalance());
 						}
 					}
@@ -13727,7 +13727,7 @@ public class AccounterDAOTest_US extends
 			List<TransactionCreditsAndPayments> tcpsBack = null;
 			List<CreditsAndPayments> cpsBack = null;
 			if (customerRefund.transactionReceivePayments != null) {
-				cpsBack = accounterDao.getCreditsAndPayments(company.getId());
+				cpsBack = accounterDao.getCreditsAndPayments(company.getID());
 				Set<TransactionReceivePayment> trps1 = customerRefund.transactionReceivePayments;
 
 				trpsBack = new ArrayList<TransactionReceivePayment>();
@@ -13796,7 +13796,7 @@ public class AccounterDAOTest_US extends
 						}
 					}
 					List<CreditsAndPayments> cpsNew = accounterDao
-							.getCreditsAndPayments(company.getId());
+							.getCreditsAndPayments(company.getID());
 					for (int j = 0; j < cpsNew.size(); j++) {
 						if (cpsNew
 								.get(j)
@@ -13829,33 +13829,33 @@ public class AccounterDAOTest_US extends
 				assertNotNull(c.getPayTo());
 				assertNotNull(c.getPayTo().getName());
 				assertEquals(c.getPayTo().getName(), accounterDao
-						.getCustomerRefunds(company.getId(), c.getId())
+						.getCustomerRefunds(company.getID(), c.getID())
 						.getPayTo().getName());
 				assertNotNull(c.getPayFrom());
 				assertNotNull(c.getPayFrom().getName());
 				assertEquals(c.getPayFrom().getName(), accounterDao
-						.getCustomerRefunds(company.getId(), c.getId())
+						.getCustomerRefunds(company.getID(), c.getID())
 						.getPayFrom().getName());
 				assertNotNull(c.getPaymentMethod());
 				assertNotNull(c.getPaymentMethod());
 				assertEquals(c.getPaymentMethod(), accounterDao
-						.getCustomerRefunds(company.getId(), c.getId())
+						.getCustomerRefunds(company.getID(), c.getID())
 						.getPaymentMethod());
 				assertEquals(c.getDate(), accounterDao.getCustomerRefunds(
-						company.getId(), c.getId()).getDate());
+						company.getID(), c.getID()).getDate());
 				if (c.getDate() != null)
 					assertEquals(c.getDate(), accounterDao.getCustomerRefunds(
-							company.getId(), c.getId()).getDate());
+							company.getID(), c.getID()).getDate());
 				assertEquals(c.getType(), accounterDao.getCustomerRefunds(
-						company.getId(), c.getId()).getType());
+						company.getID(), c.getID()).getType());
 				assertEquals(c.getTotal(), accounterDao.getCustomerRefunds(
-						company.getId(), c.getId()).getTotal());
+						company.getID(), c.getID()).getTotal());
 				if (c.getPayments() != 0)
 					assertEquals(c.getPayments(), accounterDao
-							.getCustomerRefunds(company.getId(), c.getId())
+							.getCustomerRefunds(company.getID(), c.getID())
 							.getPayments());
 				assertEquals(c.getNumber(), accounterDao.getCustomerRefunds(
-						company.getId(), c.getId()).getNumber());
+						company.getID(), c.getID()).getNumber());
 
 				// checking whether the depositIn account is updated. If it has
 				// a parent it also need to be updated
@@ -13866,24 +13866,24 @@ public class AccounterDAOTest_US extends
 					d[getAccountVariable(accounts, c.getPayFrom().getName(),
 							company)] -= c.getTotal();
 					String str = c.getPayFrom().getName();
-					while ((accounterDao.getAccount(company.getId(), str)
+					while ((accounterDao.getAccount(company.getID(), str)
 							.getParent() != null)) {
 						d[getAccountVariable(accounts, accounterDao.getAccount(
-								company.getId(), str).getParent().getName(),
+								company.getID(), str).getParent().getName(),
 								company)] -= c.getTotal();
-						str = accounterDao.getAccount(company.getId(), str)
+						str = accounterDao.getAccount(company.getID(), str)
 								.getParent().getName();
 					}
 				} else {
 					d[getAccountVariable(accounts, c.getPayFrom().getName(),
 							company)] += c.getTotal();
 					String str = c.getPayFrom().getName();
-					while ((accounterDao.getAccount(company.getId(), str)
+					while ((accounterDao.getAccount(company.getID(), str)
 							.getParent() != null)) {
 						d[getAccountVariable(accounts, accounterDao.getAccount(
-								company.getId(), str).getParent().getName(),
+								company.getID(), str).getParent().getName(),
 								company)] += c.getTotal();
-						str = accounterDao.getAccount(company.getId(), str)
+						str = accounterDao.getAccount(company.getID(), str)
 								.getParent().getName();
 					}
 				}
@@ -13891,11 +13891,11 @@ public class AccounterDAOTest_US extends
 				// need to check the accounts table whether all the accounts are
 				// updated perfectly.
 				for (long l1 = 0; l1 < accounts.size(); l1++)
-					assertEquals(accounterDao.getAccount(company.getId(),
+					assertEquals(accounterDao.getAccount(company.getID(),
 							(l1 + 1)).getName(), accounterDao.getAccount(
-							company.getId(), (l1 + 1)).getTotalBalance(),
+							company.getID(), (l1 + 1)).getTotalBalance(),
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), (l1 + 1))
+									.getAccount(company.getID(), (l1 + 1))
 									.getName(), company)]);
 			}
 			return customerRefund;
@@ -13917,8 +13917,8 @@ public class AccounterDAOTest_US extends
 				vcpsBackUp = new ArrayList<CreditsAndPayments>();
 				{
 					List<CreditsAndPayments> cps1 = accounterGUIDao
-							.getVendorCreditsAndPayments(company.getId(),
-									enterBill.getVendor().getId());
+							.getVendorCreditsAndPayments(company.getID(),
+									enterBill.getVendor().getID());
 					for (int i = 0; i < cps1.size(); i++) {
 
 						CreditsAndPayments cp = new CreditsAndPayments();
@@ -13966,8 +13966,8 @@ public class AccounterDAOTest_US extends
 			{
 				if (enterBill.transactionPayBills != null) {
 					List<CreditsAndPayments> cps1 = accounterGUIDao
-							.getVendorCreditsAndPayments(company.getId(),
-									enterBill.getVendor().getId());
+							.getVendorCreditsAndPayments(company.getID(),
+									enterBill.getVendor().getID());
 					for (int i = 0; i < cps1.size(); i++) {
 						assertEquals("New CreditsAndPayments size=", cps1
 								.size(), vcpsBackUp.size() + 1);
@@ -14005,25 +14005,25 @@ public class AccounterDAOTest_US extends
 				assertNotNull(c.getVendor());
 				assertNotNull(c.getVendor().getName());
 				assertEquals(c.getVendor().getName(), accounterDao
-						.getEnterBill(company.getId(), c.getId()).getVendor()
+						.getEnterBill(company.getID(), c.getID()).getVendor()
 						.getName());
 				assertEquals(c.getDate(), accounterDao.getEnterBill(
-						company.getId(), c.getId()).getDate());
+						company.getID(), c.getID()).getDate());
 				assertNotNull(c.getDueDate());
 				assertEquals(c.getDueDate(), accounterDao.getEnterBill(
-						company.getId(), c.getId()).getDueDate());
+						company.getID(), c.getID()).getDueDate());
 				assertEquals(c.getTotal(), accounterDao.getEnterBill(
-						company.getId(), c.getId()).getTotal());
+						company.getID(), c.getID()).getTotal());
 				assertEquals(c.getType(), accounterDao.getEnterBill(
-						company.getId(), c.getId()).getType());
+						company.getID(), c.getID()).getType());
 				if (c.getPayments() != 0)
 					assertEquals(c.getPayments(), accounterDao.getEnterBill(
-							company.getId(), c.getId()).getPayments());
+							company.getID(), c.getID()).getPayments());
 				if (c.getPaymentTerm() != null)
 					assertEquals(c.getPaymentTerm(), accounterDao.getEnterBill(
-							company.getId(), c.getId()).getPaymentTerm());
+							company.getID(), c.getID()).getPaymentTerm());
 				assertEquals(c.getNumber(), accounterDao.getEnterBill(
-						company.getId(), c.getId()).getNumber());
+						company.getID(), c.getID()).getNumber());
 
 				// Take all the transaction items that are involved in the
 				// cashsale and store them in a List.
@@ -14047,13 +14047,13 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, acc.getName(), company)] += it
 								.getLineTotal();
 						String str = acc.getName();
-						while ((accounterDao.getAccount(company.getId(), str)
+						while ((accounterDao.getAccount(company.getID(), str)
 								.getParent() != null)) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += it
 									.getLineTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}
@@ -14062,13 +14062,13 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, acc.getName(), company)] -= it
 								.getLineTotal();
 						String str = acc.getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= it
 									.getLineTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}
@@ -14084,11 +14084,11 @@ public class AccounterDAOTest_US extends
 				// // we need to check the accounts table whether all the
 				// accounts are updated perfectly.
 				for (long l1 = 0; l1 < accounts.size(); l1++)
-					assertEquals(accounterDao.getAccount(company.getId(),
+					assertEquals(accounterDao.getAccount(company.getID(),
 							(l1 + 1)).getName(), d[getAccountVariable(accounts,
-							accounterDao.getAccount(company.getId(), (l1 + 1))
+							accounterDao.getAccount(company.getID(), (l1 + 1))
 									.getName(), company)], accounterDao
-							.getAccount(company.getId(), (l1 + 1))
+							.getAccount(company.getID(), (l1 + 1))
 							.getTotalBalance());
 			}
 			return enterBill;
@@ -14109,7 +14109,7 @@ public class AccounterDAOTest_US extends
 			vcmBackUp.setStatus(vendorCreditMemo.getStatus());
 			{
 				vcpsBackUp = accounterGUIDao.getVendorCreditsAndPayments(
-						company.getId(), vendorCreditMemo.getVendor().getId());
+						company.getID(), vendorCreditMemo.getVendor().getID());
 
 				if (vcpsBackUp.size() > 0) {
 					for (int i = 0; i < vcpsBackUp.size(); i++) {
@@ -14175,8 +14175,8 @@ public class AccounterDAOTest_US extends
 
 			{
 				List<CreditsAndPayments> cps = accounterGUIDao
-						.getVendorCreditsAndPayments(company.getId(),
-								vendorCreditMemo.getVendor().getId());
+						.getVendorCreditsAndPayments(company.getID(),
+								vendorCreditMemo.getVendor().getID());
 				assertEquals("new CreditsAndPayments size", cps.size(),
 						vcpsBackUp.size() - 1);
 				for (int i = 0; i < cps.size(); i++) {
@@ -14219,16 +14219,16 @@ public class AccounterDAOTest_US extends
 				assertNotNull(c.getVendor());
 				assertNotNull(c.getVendor().getName());
 				assertEquals(c.getVendor().getName(), accounterDao
-						.getVendorCreditMemo(company.getId(), c.getId())
+						.getVendorCreditMemo(company.getID(), c.getID())
 						.getVendor().getName());
 				assertEquals(c.getDate(), accounterDao.getVendorCreditMemo(
-						company.getId(), c.getId()).getDate());
+						company.getID(), c.getID()).getDate());
 				assertEquals(c.getTotal(), accounterDao.getVendorCreditMemo(
-						company.getId(), c.getId()).getTotal());
+						company.getID(), c.getID()).getTotal());
 				assertEquals(c.getType(), accounterDao.getVendorCreditMemo(
-						company.getId(), c.getId()).getType());
+						company.getID(), c.getID()).getType());
 				assertEquals(c.getNumber(), accounterDao.getVendorCreditMemo(
-						company.getId(), c.getId()).getNumber());
+						company.getID(), c.getID()).getNumber());
 
 				// Take all the transaction items that are involved in the
 				// cashsale and store them in a List.
@@ -14253,13 +14253,13 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, acc.getName(), company)] -= it
 								.getLineTotal();
 						String str = acc.getName();
-						while ((accounterDao.getAccount(company.getId(), str)
+						while ((accounterDao.getAccount(company.getID(), str)
 								.getParent() != null)) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= it
 									.getLineTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}// if for account is increase
@@ -14268,13 +14268,13 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, acc.getName(), company)] += it
 								.getLineTotal();
 						String str = acc.getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += it
 									.getLineTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}// if for account is not increase
@@ -14290,11 +14290,11 @@ public class AccounterDAOTest_US extends
 				// done, we need to check the accounts table whether all the
 				// accounts are updated perfectly.
 				for (long l1 = 0; l1 < accounts.size(); l1++)
-					assertEquals(accounterDao.getAccount(company.getId(),
+					assertEquals(accounterDao.getAccount(company.getID(),
 							(l1 + 1)).getName(), d[getAccountVariable(accounts,
-							accounterDao.getAccount(company.getId(), (l1 + 1))
+							accounterDao.getAccount(company.getID(), (l1 + 1))
 									.getName(), company)], accounterDao
-							.getAccount(company.getId(), (l1 + 1))
+							.getAccount(company.getID(), (l1 + 1))
 							.getTotalBalance());
 
 			}// voiding of vendorCreditMemo
@@ -14317,30 +14317,30 @@ public class AccounterDAOTest_US extends
 				assertNotNull(c.getVendor());
 				assertNotNull(c.getVendor().getName());
 				assertEquals(c.getVendor().getName(), accounterDao
-						.getCashPurchase(company.getId(), c.getId())
+						.getCashPurchase(company.getID(), c.getID())
 						.getVendor().getName());
 				assertEquals(c.getDate(), accounterDao.getCashPurchase(
-						company.getId(), c.getId()).getDate());
+						company.getID(), c.getID()).getDate());
 				assertNotNull(c.getDate());
 				assertEquals(c.getDate(), accounterDao.getCashPurchase(
-						company.getId(), c.getId()).getDate());
+						company.getID(), c.getID()).getDate());
 				assertEquals(c.getTotal(), accounterDao.getCashPurchase(
-						company.getId(), c.getId()).getTotal());
+						company.getID(), c.getID()).getTotal());
 				assertEquals(c.getType(), accounterDao.getCashPurchase(
-						company.getId(), c.getId()).getType());
+						company.getID(), c.getID()).getType());
 				assertEquals(c.getPaymentMethod(), accounterDao
-						.getCashPurchase(company.getId(), c.getId())
+						.getCashPurchase(company.getID(), c.getID())
 						.getPaymentMethod());
 				if (c.getDeliveryDate() != null)
 					assertEquals(c.getDeliveryDate(), accounterDao
-							.getCashPurchase(company.getId(), c.getId())
+							.getCashPurchase(company.getID(), c.getID())
 							.getDeliveryDate());
 				if (c.getPayFrom() != null)
 					assertEquals(c.getPayFrom().getName(), accounterDao
-							.getCashPurchase(company.getId(), c.getId())
+							.getCashPurchase(company.getID(), c.getID())
 							.getPayFrom().getName());
 				assertEquals(c.getNumber(), accounterDao.getCashPurchase(
-						company.getId(), c.getId()).getNumber());
+						company.getID(), c.getID()).getNumber());
 
 				// Take all the transaction items that are involved in the
 				// cashsale and store them in a List.
@@ -14365,13 +14365,13 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, acc.getName(), company)] += it
 								.getLineTotal();
 						String str = acc.getName();
-						while ((accounterDao.getAccount(company.getId(), str)
+						while ((accounterDao.getAccount(company.getID(), str)
 								.getParent() != null)) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += it
 									.getLineTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}// if for account is increase
@@ -14380,13 +14380,13 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, acc.getName(), company)] -= it
 								.getLineTotal();
 						String str = acc.getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= it
 									.getLineTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}// if for account is not increase
@@ -14399,24 +14399,24 @@ public class AccounterDAOTest_US extends
 					d[getAccountVariable(accounts, c.getPayFrom().getName(),
 							company)] -= c.getTotal();
 					String str = c.getPayFrom().getName();
-					while (accounterDao.getAccount(company.getId(), str)
+					while (accounterDao.getAccount(company.getID(), str)
 							.getParent() != null) {
 						d[getAccountVariable(accounts, accounterDao.getAccount(
-								company.getId(), str).getParent().getName(),
+								company.getID(), str).getParent().getName(),
 								company)] -= c.getTotal();
-						str = accounterDao.getAccount(company.getId(), str)
+						str = accounterDao.getAccount(company.getID(), str)
 								.getParent().getName();
 					}
 				} else {
 					d[getAccountVariable(accounts, c.getPayFrom().getName(),
 							company)] += c.getTotal();
 					String str = c.getPayFrom().getName();
-					while (accounterDao.getAccount(company.getId(), str)
+					while (accounterDao.getAccount(company.getID(), str)
 							.getParent() != null) {
 						d[getAccountVariable(accounts, accounterDao.getAccount(
-								company.getId(), str).getParent().getName(),
+								company.getID(), str).getParent().getName(),
 								company)] += c.getTotal();
-						str = accounterDao.getAccount(company.getId(), str)
+						str = accounterDao.getAccount(company.getID(), str)
 								.getParent().getName();
 					}
 				}
@@ -14424,11 +14424,11 @@ public class AccounterDAOTest_US extends
 				// done, we need to check the accounts table whether all the
 				// accounts are updated perfectly.
 				for (long l1 = 0; l1 < accounts.size(); l1++)
-					assertEquals(accounterDao.getAccount(company.getId(),
+					assertEquals(accounterDao.getAccount(company.getID(),
 							(l1 + 1)).getName(), d[getAccountVariable(accounts,
-							accounterDao.getAccount(company.getId(), (l1 + 1))
+							accounterDao.getAccount(company.getID(), (l1 + 1))
 									.getName(), company)], accounterDao
-							.getAccount(company.getId(), (l1 + 1))
+							.getAccount(company.getID(), (l1 + 1))
 							.getTotalBalance());
 
 			}// voiding of CashPurchase
@@ -14449,44 +14449,44 @@ public class AccounterDAOTest_US extends
 				List<TransactionItem> ti, ti2 = new ArrayList<TransactionItem>();
 				assertNotNull(c);
 				assertEquals(c.getType(), accounterDao.getwriterCheck(
-						company.getId(), c.getId()).getType());
+						company.getID(), c.getID()).getType());
 				assertEquals(c.getPayToType(), accounterDao.getwriterCheck(
-						company.getId(), c.getId()).getPayToType());
+						company.getID(), c.getID()).getPayToType());
 				if (c.getPayToType() == WriteCheck.TYPE_VENDOR) {
 					assertNotNull(c.getVendor());
 					assertNotNull(c.getVendor().getName());
 					assertEquals(c.getVendor().getName(), accounterDao
-							.getwriterCheck(company.getId(), c.getId())
+							.getwriterCheck(company.getID(), c.getID())
 							.getVendor().getName());
 				} else if (c.getPayToType() == WriteCheck.TYPE_CUSTOMER) {
 					assertNotNull(c.getCustomer());
 					assertNotNull(c.getCustomer().getName());
 					assertEquals(c.getCustomer().getName(), accounterDao
-							.getwriterCheck(company.getId(), c.getId())
+							.getwriterCheck(company.getID(), c.getID())
 							.getCustomer().getName());
 				} else {
 					assertNotNull(c.getTaxAgency());
 					assertNotNull(c.getTaxAgency().getName());
 					assertEquals(c.getTaxAgency().getName(), accounterDao
-							.getwriterCheck(company.getId(), c.getId())
+							.getwriterCheck(company.getID(), c.getID())
 							.getTaxAgency().getName());
 				}
 				assertEquals(c.getDate(), accounterDao.getwriterCheck(
-						company.getId(), c.getId()).getDate());
+						company.getID(), c.getID()).getDate());
 				assertNotNull(c.getDate());
 				assertEquals(c.getDate(), accounterDao.getwriterCheck(
-						company.getId(), c.getId()).getDate());
+						company.getID(), c.getID()).getDate());
 				assertEquals(c.getTotal(), accounterDao.getwriterCheck(
-						company.getId(), c.getId()).getTotal());
+						company.getID(), c.getID()).getTotal());
 				assertEquals(c.getType(), accounterDao.getwriterCheck(
-						company.getId(), c.getId()).getType());
+						company.getID(), c.getID()).getType());
 				assertEquals(c.getBankAccount().getName(), accounterDao
-						.getwriterCheck(company.getId(), c.getId())
+						.getwriterCheck(company.getID(), c.getID())
 						.getBankAccount().getName());
 				assertEquals(c.getBalance(), accounterDao.getwriterCheck(
-						company.getId(), c.getId()).getBalance());
+						company.getID(), c.getID()).getBalance());
 				assertEquals(c.getNumber(), accounterDao.getwriterCheck(
-						company.getId(), c.getId()).getNumber());
+						company.getID(), c.getID()).getNumber());
 
 				// Take all the transaction items that are involved in the
 				// writecheck and store them in a List.
@@ -14517,13 +14517,13 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, acc.getName(), company)] += it
 								.getLineTotal();
 						String str = acc.getName();
-						while ((accounterDao.getAccount(company.getId(), str)
+						while ((accounterDao.getAccount(company.getID(), str)
 								.getParent() != null)) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += it
 									.getLineTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}// if for account is increase
@@ -14532,13 +14532,13 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, acc.getName(), company)] -= it
 								.getLineTotal();
 						String str = acc.getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= it
 									.getLineTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}// if for account is not increase
@@ -14561,12 +14561,12 @@ public class AccounterDAOTest_US extends
 							c.getBankAccount().getName(), company)] -= c
 							.getTotal();
 					String str = c.getBankAccount().getName();
-					while (accounterDao.getAccount(company.getId(), str)
+					while (accounterDao.getAccount(company.getID(), str)
 							.getParent() != null) {
 						d[getAccountVariable(accounts, accounterDao.getAccount(
-								company.getId(), str).getParent().getName(),
+								company.getID(), str).getParent().getName(),
 								company)] -= c.getTotal();
-						str = accounterDao.getAccount(company.getId(), str)
+						str = accounterDao.getAccount(company.getID(), str)
 								.getParent().getName();
 					}
 				} else {
@@ -14574,12 +14574,12 @@ public class AccounterDAOTest_US extends
 							c.getBankAccount().getName(), company)] += c
 							.getTotal();
 					String str = c.getBankAccount().getName();
-					while (accounterDao.getAccount(company.getId(), str)
+					while (accounterDao.getAccount(company.getID(), str)
 							.getParent() != null) {
 						d[getAccountVariable(accounts, accounterDao.getAccount(
-								company.getId(), str).getParent().getName(),
+								company.getID(), str).getParent().getName(),
 								company)] += c.getTotal();
-						str = accounterDao.getAccount(company.getId(), str)
+						str = accounterDao.getAccount(company.getID(), str)
 								.getParent().getName();
 					}
 				}
@@ -14588,18 +14588,18 @@ public class AccounterDAOTest_US extends
 				// need to check the accounts table whether all the accounts are
 				// updated perfectly.
 				for (long l1 = 0; l1 < accounts.size(); l1++)
-					assertEquals(accounterDao.getAccount(company.getId(),
+					assertEquals(accounterDao.getAccount(company.getID(),
 							(l1 + 1)).getName(), d[getAccountVariable(accounts,
-							accounterDao.getAccount(company.getId(), (l1 + 1))
+							accounterDao.getAccount(company.getID(), (l1 + 1))
 									.getName(), company)], accounterDao
-							.getAccount(company.getId(), (l1 + 1))
+							.getAccount(company.getID(), (l1 + 1))
 							.getTotalBalance());
 
 				for (long l1 = 0; l1 < codes.size(); l1++) {
 					String name = codes.get((int) l1).getTaxAgency().getName();
 					assertEquals(name, taxAgencies[getTaxAgencyVariable(codes,
 							name, company)], accounterDao.getTaxAgency(
-							company.getId(), name).getBalance());
+							company.getID(), name).getBalance());
 				}
 			}// voiding of writechecks
 			return writeCheck;
@@ -14620,24 +14620,24 @@ public class AccounterDAOTest_US extends
 				List<TransactionMakeDeposit> ti2 = new ArrayList<TransactionMakeDeposit>();
 				assertNotNull(c);
 				assertEquals(c.getType(), accounterDao.getMakeDeposit(
-						company.getId(), c.getId()).getType());
+						company.getID(), c.getID()).getType());
 				assertEquals(c.getCashBackAccount().getName(), accounterDao
-						.getMakeDeposit(company.getId(), c.getId())
+						.getMakeDeposit(company.getID(), c.getID())
 						.getCashBackAccount().getName());
 				assertEquals(c.getCashBackAmount(), accounterDao
-						.getMakeDeposit(company.getId(), c.getId())
+						.getMakeDeposit(company.getID(), c.getID())
 						.getCashBackAmount());
 				assertEquals(c.getDate(), accounterDao.getMakeDeposit(
-						company.getId(), c.getId()).getDate());
+						company.getID(), c.getID()).getDate());
 				assertEquals(c.getTotal(), accounterDao.getMakeDeposit(
-						company.getId(), c.getId()).getTotal());
+						company.getID(), c.getID()).getTotal());
 				assertEquals(c.getDepositIn().getName(), accounterDao
-						.getMakeDeposit(company.getId(), c.getId())
+						.getMakeDeposit(company.getID(), c.getID())
 						.getDepositIn().getName());
 				assertEquals(c.getTotal(), accounterDao.getMakeDeposit(
-						company.getId(), c.getId()).getTotal());
+						company.getID(), c.getID()).getTotal());
 				assertEquals(c.getNumber(), accounterDao.getMakeDeposit(
-						company.getId(), c.getId()).getNumber());
+						company.getID(), c.getID()).getNumber());
 
 				// Take all the transaction items that are involved in the
 				// writecheck and store them in a List.
@@ -14653,15 +14653,15 @@ public class AccounterDAOTest_US extends
 					ti2.add(it);
 					if (it.getIsNewEntry()) {
 						if (it.getType() == TransactionMakeDeposit.TYPE_CUSTOMER)
-							acc = accounterDao.getAccount(company.getId(),
+							acc = accounterDao.getAccount(company.getID(),
 									"Accounts Receivable");
 						else if (it.getType() == TransactionMakeDeposit.TYPE_VENDOR)
-							acc = accounterDao.getAccount(company.getId(),
+							acc = accounterDao.getAccount(company.getID(),
 									"Accounts Payable");
 						else
 							acc = it.getAccount();
 					} else
-						acc = accounterDao.getAccount(company.getId(),
+						acc = accounterDao.getAccount(company.getID(),
 								"Un Deposited Funds");
 
 					if (acc.isIncrease()
@@ -14669,26 +14669,26 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, acc.getName(), company)] -= it
 								.getAmount();
 						String str = acc.getName();
-						while ((accounterDao.getAccount(company.getId(), str)
+						while ((accounterDao.getAccount(company.getID(), str)
 								.getParent() != null)) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= it
 									.getAmount();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					} else {
 						d[getAccountVariable(accounts, acc.getName(), company)] += it
 								.getAmount();
 						String str = acc.getName();
-						while ((accounterDao.getAccount(company.getId(), str)
+						while ((accounterDao.getAccount(company.getID(), str)
 								.getParent() != null)) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += it
 									.getAmount();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}
@@ -14705,12 +14705,12 @@ public class AccounterDAOTest_US extends
 					d[getAccountVariable(accounts, acc.getName(), company)] += c
 							.getCashBackAmount();
 					String str = acc.getName();
-					while ((accounterDao.getAccount(company.getId(), str)
+					while ((accounterDao.getAccount(company.getID(), str)
 							.getParent() != null)) {
 						d[getAccountVariable(accounts, accounterDao.getAccount(
-								company.getId(), str).getParent().getName(),
+								company.getID(), str).getParent().getName(),
 								company)] += c.getCashBackAmount();
-						str = accounterDao.getAccount(company.getId(), str)
+						str = accounterDao.getAccount(company.getID(), str)
 								.getParent().getName();
 					}
 				}
@@ -14719,12 +14719,12 @@ public class AccounterDAOTest_US extends
 					d[getAccountVariable(accounts, acc.getName(), company)] -= c
 							.getCashBackAmount();
 					String str = acc.getName();
-					while (accounterDao.getAccount(company.getId(), str)
+					while (accounterDao.getAccount(company.getID(), str)
 							.getParent() != null) {
 						d[getAccountVariable(accounts, accounterDao.getAccount(
-								company.getId(), str).getParent().getName(),
+								company.getID(), str).getParent().getName(),
 								company)] -= c.getCashBackAmount();
-						str = accounterDao.getAccount(company.getId(), str)
+						str = accounterDao.getAccount(company.getID(), str)
 								.getParent().getName();
 					}
 				}
@@ -14733,11 +14733,11 @@ public class AccounterDAOTest_US extends
 				// need to check the accounts table whether all the accounts are
 				// updated perfectly.
 				for (long l1 = 0; l1 < accounts.size(); l1++)
-					assertEquals(accounterDao.getAccount(company.getId(),
+					assertEquals(accounterDao.getAccount(company.getID(),
 							(l1 + 1)).getName(), d[getAccountVariable(accounts,
-							accounterDao.getAccount(company.getId(), (l1 + 1))
+							accounterDao.getAccount(company.getID(), (l1 + 1))
 									.getName(), company)], accounterDao
-							.getAccount(company.getId(), (l1 + 1))
+							.getAccount(company.getID(), (l1 + 1))
 							.getTotalBalance());
 
 			}// VOIDING MAKEDEPOSIT
@@ -14922,24 +14922,24 @@ public class AccounterDAOTest_US extends
 					d[getAccountVariable(accounts, r.getDepositIn().getName(),
 							company)] += r.getAmount();
 					String str = r.getDepositIn().getName();
-					while ((accounterDao.getAccount(company.getId(), str)
+					while ((accounterDao.getAccount(company.getID(), str)
 							.getParent() != null)) {
 						d[getAccountVariable(accounts, accounterDao.getAccount(
-								company.getId(), str).getParent().getName(),
+								company.getID(), str).getParent().getName(),
 								company)] += r.getAmount();
-						str = accounterDao.getAccount(company.getId(), str)
+						str = accounterDao.getAccount(company.getID(), str)
 								.getParent().getName();
 					}
 				} else {
 					d[getAccountVariable(accounts, r.getDepositIn().getName(),
 							company)] -= r.getAmount();
 					String str = r.getDepositIn().getName();
-					while ((accounterDao.getAccount(company.getId(), str)
+					while ((accounterDao.getAccount(company.getID(), str)
 							.getParent() != null)) {
 						d[getAccountVariable(accounts, accounterDao.getAccount(
-								company.getId(), str).getParent().getName(),
+								company.getID(), str).getParent().getName(),
 								company)] -= r.getAmount();
-						str = accounterDao.getAccount(company.getId(), str)
+						str = accounterDao.getAccount(company.getID(), str)
 								.getParent().getName();
 					}
 				}
@@ -14960,13 +14960,13 @@ public class AccounterDAOTest_US extends
 									.getDiscountAccount().getName(), company)] += tp
 									.getCashDiscount();
 							String str = tp.getDiscountAccount().getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] += tp
 										.getCashDiscount();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						} else {
@@ -14974,13 +14974,13 @@ public class AccounterDAOTest_US extends
 									.getDiscountAccount().getName(), company)] -= tp
 									.getCashDiscount();
 							String str = tp.getDiscountAccount().getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] -= tp
 										.getCashDiscount();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}
@@ -14991,13 +14991,13 @@ public class AccounterDAOTest_US extends
 									.getWriteOffAccount().getName(), company)] += tp
 									.getWriteOff();
 							String str = tp.getWriteOffAccount().getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] += tp
 										.getWriteOff();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						} else {
@@ -15005,24 +15005,24 @@ public class AccounterDAOTest_US extends
 									.getWriteOffAccount().getName(), company)] -= tp
 									.getWriteOff();
 							String str = tp.getWriteOffAccount().getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] -= tp
 										.getWriteOff();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}
 					}
 				}
 				for (long l1 = 0; l1 < accounts.size(); l1++)
-					assertEquals(accounterDao.getAccount(company.getId(),
+					assertEquals(accounterDao.getAccount(company.getID(),
 							(l1 + 1)).getName(), d[getAccountVariable(accounts,
-							accounterDao.getAccount(company.getId(), (l1 + 1))
+							accounterDao.getAccount(company.getID(), (l1 + 1))
 									.getName(), company)], accounterDao
-							.getAccount(company.getId(), (l1 + 1))
+							.getAccount(company.getID(), (l1 + 1))
 							.getTotalBalance());
 
 			}// voiding receive payment
@@ -15201,13 +15201,13 @@ public class AccounterDAOTest_US extends
 								r.getPayFrom().getName(), company)] -= r
 								.getTotal();
 						String str = r.getPayFrom().getName();
-						while ((accounterDao.getAccount(company.getId(), str)
+						while ((accounterDao.getAccount(company.getID(), str)
 								.getParent() != null)) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= r
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					} else {
@@ -15215,13 +15215,13 @@ public class AccounterDAOTest_US extends
 								r.getPayFrom().getName(), company)] += r
 								.getTotal();
 						String str = r.getPayFrom().getName();
-						while ((accounterDao.getAccount(company.getId(), str)
+						while ((accounterDao.getAccount(company.getID(), str)
 								.getParent() != null)) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += r
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}
@@ -15244,13 +15244,13 @@ public class AccounterDAOTest_US extends
 										company)] -= tp.getCashDiscount();
 								String str = tp.getDiscountAccount().getName();
 								while ((accounterDao.getAccount(
-										company.getId(), str).getParent() != null)) {
+										company.getID(), str).getParent() != null)) {
 									d[getAccountVariable(accounts, accounterDao
-											.getAccount(company.getId(), str)
+											.getAccount(company.getID(), str)
 											.getParent().getName(), company)] -= tp
 											.getCashDiscount();
 									str = accounterDao.getAccount(
-											company.getId(), str).getParent()
+											company.getID(), str).getParent()
 											.getName();
 								}
 							} else {
@@ -15259,25 +15259,25 @@ public class AccounterDAOTest_US extends
 										company)] += tp.getCashDiscount();
 								String str = tp.getDiscountAccount().getName();
 								while ((accounterDao.getAccount(
-										company.getId(), str).getParent() != null)) {
+										company.getID(), str).getParent() != null)) {
 									d[getAccountVariable(accounts, accounterDao
-											.getAccount(company.getId(), str)
+											.getAccount(company.getID(), str)
 											.getParent().getName(), company)] += tp
 											.getCashDiscount();
 									str = accounterDao.getAccount(
-											company.getId(), str).getParent()
+											company.getID(), str).getParent()
 											.getName();
 								}
 							}
 						}
 					}
 					for (long l1 = 0; l1 < accounts.size(); l1++)
-						assertEquals(accounterDao.getAccount(company.getId(),
+						assertEquals(accounterDao.getAccount(company.getID(),
 								(l1 + 1)).getName(), d[getAccountVariable(
 								accounts, accounterDao.getAccount(
-										company.getId(), (l1 + 1)).getName(),
+										company.getID(), (l1 + 1)).getName(),
 								company)], accounterDao.getAccount(
-								company.getId(), (l1 + 1)).getTotalBalance());
+								company.getID(), (l1 + 1)).getTotalBalance());
 				}
 
 			}
@@ -15310,27 +15310,27 @@ public class AccounterDAOTest_US extends
 					assertNotNull(c.getVendor());
 					assertNotNull(c.getVendor().getName());
 					assertEquals(c.getVendor().getName(), accounterDao
-							.getCreditCardCharge(company.getId(), c.getId())
+							.getCreditCardCharge(company.getID(), c.getID())
 							.getVendor().getName());
 					assertEquals(c.getDate(), accounterDao.getCreditCardCharge(
-							company.getId(), c.getId()).getDate());
+							company.getID(), c.getID()).getDate());
 					assertNotNull(c.getPayFrom());
 					assertNotNull(c.getPayFrom().getName());
 					assertEquals(c.getPayFrom().getName(), accounterDao
-							.getCreditCardCharge(company.getId(), c.getId())
+							.getCreditCardCharge(company.getID(), c.getID())
 							.getPayFrom().getName());
 					assertEquals(c.getType(), accounterDao.getCreditCardCharge(
-							company.getId(), c.getId()).getType());
+							company.getID(), c.getID()).getType());
 					assertEquals(c.getTotal(), accounterDao
-							.getCreditCardCharge(company.getId(), c.getId())
+							.getCreditCardCharge(company.getID(), c.getID())
 							.getTotal());
 					if (c.getPaymentMethod() != null)
 						if (c.getPaymentMethod() != null)
 							assertEquals(c.getPaymentMethod(), accounterDao
-									.getCreditCardCharge(company.getId(),
-											c.getId()).getPaymentMethod());
+									.getCreditCardCharge(company.getID(),
+											c.getID()).getPaymentMethod());
 					assertEquals(c.getNumber(), accounterDao
-							.getCreditCardCharge(company.getId(), c.getId())
+							.getCreditCardCharge(company.getID(), c.getID())
 							.getNumber());
 
 					// Take all the transaction items that are involved in the
@@ -15360,13 +15360,13 @@ public class AccounterDAOTest_US extends
 							d[getAccountVariable(accounts, acc.getName(),
 									company)] += it.getLineTotal();
 							String str = acc.getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] += it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is increase
@@ -15376,13 +15376,13 @@ public class AccounterDAOTest_US extends
 									company)] -= it.getLineTotal();
 							String str = acc.getName();
 							while (accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent() != null) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] -= it
 										.getLineTotal();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is not increase
@@ -15397,13 +15397,13 @@ public class AccounterDAOTest_US extends
 								c.getPayFrom().getName(), company)] -= c
 								.getTotal();
 						String str = c.getPayFrom().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= c
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					} else {
@@ -15411,13 +15411,13 @@ public class AccounterDAOTest_US extends
 								c.getPayFrom().getName(), company)] += c
 								.getTotal();
 						String str = c.getPayFrom().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += c
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 
 						}
@@ -15428,12 +15428,12 @@ public class AccounterDAOTest_US extends
 						// accounts are updated perfectly.
 						for (long l1 = 0; l1 < accounts.size(); l1++)
 							assertEquals(accounterDao.getAccount(
-									company.getId(), (l1 + 1)).getName(),
+									company.getID(), (l1 + 1)).getName(),
 									d[getAccountVariable(accounts, accounterDao
-											.getAccount(company.getId(),
+											.getAccount(company.getID(),
 													(l1 + 1)).getName(),
 											company)], accounterDao.getAccount(
-											company.getId(), (l1 + 1))
+											company.getID(), (l1 + 1))
 											.getTotalBalance());
 					}
 				}
@@ -15456,26 +15456,26 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, t.getTransferFrom()
 								.getName(), company)] -= t.getTotal();
 						String str = t.getTransferFrom().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= t
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					} else {
 						d[getAccountVariable(accounts, t.getTransferFrom()
 								.getName(), company)] += t.getTotal();
 						String str = t.getTransferFrom().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += t
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}
@@ -15483,36 +15483,36 @@ public class AccounterDAOTest_US extends
 						d[getAccountVariable(accounts, t.getTransferTo()
 								.getName(), company)] += t.getTotal();
 						String str = t.getTransferTo().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += t
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					} else {
 						d[getAccountVariable(accounts, t.getTransferTo()
 								.getName(), company)] -= t.getTotal();
 						String str = t.getTransferTo().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= t
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}
 					for (long l1 = 0; l1 < accounts.size(); l1++)
-						assertEquals(accounterDao.getAccount(company.getId(),
+						assertEquals(accounterDao.getAccount(company.getID(),
 								(l1 + 1)).getName(), d[getAccountVariable(
 								accounts, accounterDao.getAccount(
-										company.getId(), (l1 + 1)).getName(),
+										company.getID(), (l1 + 1)).getName(),
 								company)], accounterDao.getAccount(
-								company.getId(), (l1 + 1)).getTotalBalance());
+								company.getID(), (l1 + 1)).getTotalBalance());
 				}
 			}
 			return transferFund;
@@ -15533,18 +15533,18 @@ public class AccounterDAOTest_US extends
 					assertNotNull(c);
 					assertNotNull(c.getTotal());
 					assertEquals(c.getTotal(), accounterDao.getPaySalesTax(
-							company.getId(), c.getId()).getTotal());
+							company.getID(), c.getID()).getTotal());
 					// assertEquals(c.getTaxAgency().getName(), //
-					// accounterDao.getTaxAgency(company.getId(), //
-					// c.getTaxAgency().getId()));
+					// accounterDao.getTaxAgency(company.getID(), //
+					// c.getTaxAgency().getID()));
 					assertEquals(c.getDate(), accounterDao.getPaySalesTax(
-							company.getId(), c.getId()).getDate());
+							company.getID(), c.getID()).getDate());
 					assertEquals(c.getTotal(), accounterDao.getPaySalesTax(
-							company.getId(), c.getId()).getTotal());
+							company.getID(), c.getID()).getTotal());
 					assertEquals(c.getType(), accounterDao.getPaySalesTax(
-							company.getId(), c.getId()).getType());
+							company.getID(), c.getID()).getType());
 					assertEquals(c.getNumber(), accounterDao.getPaySalesTax(
-							company.getId(), c.getId()).getNumber());
+							company.getID(), c.getID()).getNumber());
 
 					// Take all the transaction items that are involved in the
 					// cashsale and store them in a List.
@@ -15567,13 +15567,13 @@ public class AccounterDAOTest_US extends
 							d[getAccountVariable(accounts, acc.getName(),
 									company)] += it.getAmountToPay();
 							String str = acc.getName();
-							while ((accounterDao.getAccount(company.getId(),
+							while ((accounterDao.getAccount(company.getID(),
 									str).getParent() != null)) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] += it
 										.getAmountToPay();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is increase
@@ -15583,13 +15583,13 @@ public class AccounterDAOTest_US extends
 									company)] -= it.getAmountToPay();
 							String str = acc.getName();
 							while (accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent() != null) {
 								d[getAccountVariable(accounts, accounterDao
-										.getAccount(company.getId(), str)
+										.getAccount(company.getID(), str)
 										.getParent().getName(), company)] -= it
 										.getAmountToPay();
-								str = accounterDao.getAccount(company.getId(),
+								str = accounterDao.getAccount(company.getID(),
 										str).getParent().getName();
 							}
 						}// if for account is not increase
@@ -15602,13 +15602,13 @@ public class AccounterDAOTest_US extends
 								c.getPayFrom().getName(), company)] -= c
 								.getTotal();
 						String str = c.getPayFrom().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] -= c
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					} else {
@@ -15616,13 +15616,13 @@ public class AccounterDAOTest_US extends
 								c.getPayFrom().getName(), company)] += c
 								.getTotal();
 						String str = c.getPayFrom().getName();
-						while (accounterDao.getAccount(company.getId(), str)
+						while (accounterDao.getAccount(company.getID(), str)
 								.getParent() != null) {
 							d[getAccountVariable(accounts, accounterDao
-									.getAccount(company.getId(), str)
+									.getAccount(company.getID(), str)
 									.getParent().getName(), company)] += c
 									.getTotal();
-							str = accounterDao.getAccount(company.getId(), str)
+							str = accounterDao.getAccount(company.getID(), str)
 									.getParent().getName();
 						}
 					}
@@ -15632,12 +15632,12 @@ public class AccounterDAOTest_US extends
 					// all the
 					// accounts are updated perfectly.
 					for (long l1 = 0; l1 < accounts.size(); l1++)
-						assertEquals(accounterDao.getAccount(company.getId(),
+						assertEquals(accounterDao.getAccount(company.getID(),
 								(l1 + 1)).getName(), d[getAccountVariable(
 								accounts, accounterDao.getAccount(
-										company.getId(), (l1 + 1)).getName(),
+										company.getID(), (l1 + 1)).getName(),
 								company)], accounterDao.getAccount(
-								company.getId(), (l1 + 1)).getTotalBalance());
+								company.getID(), (l1 + 1)).getTotalBalance());
 				}
 			}
 			return paySalesTax;
@@ -15647,12 +15647,12 @@ public class AccounterDAOTest_US extends
 
 	public void testTrailBalance() throws DAOException, ParseException {
 		company = accounterDao.getCompany(1l);
-		List<Account> accounts = accounterDao.getAccounts(company.getId());
-		List<TaxCode> codes = accounterDao.getTaxCodes(company.getId());
+		List<Account> accounts = accounterDao.getAccounts(company.getID());
+		List<TaxCode> codes = accounterDao.getTaxCodes(company.getID());
 
 		if (checkTrialBalance) {
-			setTrialBalanceAccountVariables(accounts, company.getId());
-			setDefaultAccountVariables(accounts, company.getId());
+			setTrialBalanceAccountVariables(accounts, company.getID());
+			setDefaultAccountVariables(accounts, company.getID());
 			taxAgencies = new double[codes.size()];
 			for (int i = 0; i < taxAgencies.length; i++)
 				taxAgencies[getTaxAgencyVariable(codes, codes.get(i)
@@ -15693,7 +15693,7 @@ public class AccounterDAOTest_US extends
 				setTrialAllPaySalesTaxes(accounts, company, false);
 
 			List<TrialBalance> tbs = accounterReportDAOService.getTrialBalance(
-					company.getId(), "2009-01-01", dueDate(1));
+					company.getID(), "2009-01-01", dueDate(1));
 			trialBalanceList = tbs;
 			balance = 0.0;
 			for (int n = 0; n < trialBalance.length; n++) {
@@ -15720,7 +15720,7 @@ public class AccounterDAOTest_US extends
 			company = accounterDao.getCompany(1l);
 			if (voidCashSales) {
 				List<CashSales> cashSales = accounterDao.getCashSales(company
-						.getId());
+						.getID());
 				for (int i = 0; i < (1 + (cashSales.size() / 2)); i++) {
 					if (cashSales.size() > 0)
 						setTrialVoidCashSales(accounts, company,
@@ -15730,7 +15730,7 @@ public class AccounterDAOTest_US extends
 			}
 			if (voidInvoices) {
 				List<Invoice> invoices = accounterDao.getInvoices(company
-						.getId());
+						.getID());
 				for (int i = 0; i < (invoices.size() / 2 + 1); i++) {
 					if (invoices.size() > 0)
 						setTrialVoidInvoices(accounts, company,
@@ -15740,7 +15740,7 @@ public class AccounterDAOTest_US extends
 			}
 			if (voidCustomerCreditMemos) {
 				List<CustomerCreditMemo> customerCreditsMemos = accounterDao
-						.getCustomerCreditMemos(company.getId());
+						.getCustomerCreditMemos(company.getID());
 				for (int i = 0; i < (customerCreditsMemos.size() / 2) + 1; i++) {
 					if (customerCreditsMemos.size() > 0)
 						setTrialVoidCustomerCreditMemos(accounts, company,
@@ -15750,7 +15750,7 @@ public class AccounterDAOTest_US extends
 			}
 			if (voidCustomerRefunds) {
 				List<CustomerRefund> customerRefunds = accounterDao
-						.getCustomerRefunds(company.getId());
+						.getCustomerRefunds(company.getID());
 				for (int i = 0; i < (customerRefunds.size() / 2) + 1; i++) {
 					if (customerRefunds.size() > 0)
 						setTrialVoidCustomerRefunds(accounts, company,
@@ -15760,7 +15760,7 @@ public class AccounterDAOTest_US extends
 			}
 			if (voidEnterBills) {
 				List<EnterBill> enterBills = accounterDao.getEnterBills(company
-						.getId());
+						.getID());
 				for (int i = 0; i < (enterBills.size() / 2) + 1; i++) {
 					if (enterBills.size() > 0)
 						setTrialVoidEnterBills(accounts, company,
@@ -15770,7 +15770,7 @@ public class AccounterDAOTest_US extends
 			}
 			if (voidVendorCreditMemos) {
 				List<VendorCreditMemo> vendorCreditMemos = accounterDao
-						.getVendorCreditMemos(company.getId());
+						.getVendorCreditMemos(company.getID());
 				for (int i = 0; i < (vendorCreditMemos.size() / 2) + 1; i++) {
 					if (vendorCreditMemos.size() > 0)
 						setTrialVoidVendorCreditMemos(accounts, company,
@@ -15780,7 +15780,7 @@ public class AccounterDAOTest_US extends
 			}
 			if (voidCashPurchases) {
 				List<CashPurchase> cashPurchases = accounterDao
-						.getCashPurchases(company.getId());
+						.getCashPurchases(company.getID());
 				for (int i = 0; i < (cashPurchases.size() / 2) + 1; i++) {
 					if (cashPurchases.size() > 0)
 						setTrialVoidCashPurchases(accounts, company,
@@ -15790,7 +15790,7 @@ public class AccounterDAOTest_US extends
 			}
 			if (voidWriteChecks) {
 				List<WriteCheck> writeChecks = accounterDao
-						.getWriteChecks(company.getId());
+						.getWriteChecks(company.getID());
 				for (int i = 0; i < (writeChecks.size() / 2) + 1; i++) {
 					if (writeChecks.size() > 0)
 						setTrialVoidWriteChecks(accounts, company,
@@ -15800,7 +15800,7 @@ public class AccounterDAOTest_US extends
 			}
 			if (voidMakeDeposits) {
 				List<MakeDeposit> makeDeposits = accounterDao
-						.getMakeDeposits(company.getId());
+						.getMakeDeposits(company.getID());
 				for (int i = 0; i < (makeDeposits.size() / 2) + 1; i++) {
 					if (makeDeposits.size() > 0)
 						setTrialVoidMakeDeposits(accounts, company,
@@ -15810,7 +15810,7 @@ public class AccounterDAOTest_US extends
 			}
 			if (voidReceivePayments) {
 				List<ReceivePayment> receivePayments = accounterDao
-						.getReceivePayments(company.getId());
+						.getReceivePayments(company.getID());
 				for (int i = 0; i < (receivePayments.size() / 2) + 1; i++) {
 					if (receivePayments.size() > 0)
 						setTrialVoidReceivePayments(accounts, company,
@@ -15820,7 +15820,7 @@ public class AccounterDAOTest_US extends
 			}
 			if (voidPayBills) {
 				List<PayBill> payBills = accounterDao.getPayBills(company
-						.getId());
+						.getID());
 				for (int i = 0; i < (payBills.size() / 2) + 1; i++) {
 					if (payBills.size() > 0)
 						setTrialVoidVendorPayments(
@@ -15831,7 +15831,7 @@ public class AccounterDAOTest_US extends
 			}
 			if (voidCreditCardCharges) {
 				List<CreditCardCharge> creditCardCharges = accounterDao
-						.getCreditCardCharges(company.getId());
+						.getCreditCardCharges(company.getID());
 				for (int i = 0; i < (creditCardCharges.size() / 2) + 1; i++) {
 					if (creditCardCharges.size() > 0)
 						setTrialVoidCreditCardCharges(accounts, company,
@@ -15841,7 +15841,7 @@ public class AccounterDAOTest_US extends
 			}
 			if (voidTransferFunds) {
 				List<TransferFund> transferFunds = accounterDao
-						.getTransferFunds(company.getId());
+						.getTransferFunds(company.getID());
 				for (int i = 0; i < (transferFunds.size() / 2) + 1; i++) {
 					if (transferFunds.size() > 0)
 						setTrialVoidTransferFunds(accounts, company,
@@ -15851,7 +15851,7 @@ public class AccounterDAOTest_US extends
 			}
 			if (voidPaySalesTaxes) {
 				List<PaySalesTax> paySalesTaxes = accounterDao
-						.getPaySalesTaxes(company.getId());
+						.getPaySalesTaxes(company.getID());
 				for (int i = 0; i < (paySalesTaxes.size() / 2) + 1; i++) {
 					if (paySalesTaxes.size() > 0)
 						setTrialVoidPaySalesTaxes(accounts, company,
@@ -15864,7 +15864,7 @@ public class AccounterDAOTest_US extends
 				balance += trialBalance[n];
 			assertEquals(balance, 0.0);
 			List<TrialBalance> tbs = accounterReportDAOService.getTrialBalance(
-					company.getId(), "2009-01-01", dueDate(1));
+					company.getID(), "2009-01-01", dueDate(1));
 
 			for (Iterator<TrialBalance> i = tbs.iterator(); i.hasNext();) {
 				TrialBalance tb1 = i.next();
@@ -16566,7 +16566,7 @@ public class AccounterDAOTest_US extends
 				// + tb.getAccountFlow());
 			}
 
-			setBalanceSheetAccountVariables(accounts, company.getId());
+			setBalanceSheetAccountVariables(accounts, company.getID());
 
 			if (createCashSales)
 				setBalanceSheetCashSales(accounts, company);
@@ -16645,7 +16645,7 @@ public class AccounterDAOTest_US extends
 			CashSales c = (CashSales) itr.next();
 
 			ReportList i = new ReportList();
-			i.setTransactionId(c.getId());
+			i.setTransactionId(c.getID());
 			i.setName(c.getCustomer().getName());
 			i.setBalance(c.getCustomer().getBalance());
 			i.setDiscount(0.0);
@@ -16671,7 +16671,7 @@ public class AccounterDAOTest_US extends
 			Invoice c = (Invoice) itr.next();
 
 			ReportList i = new ReportList();
-			i.setTransactionId(c.getId());
+			i.setTransactionId(c.getID());
 			i.setName(c.getCustomer().getName());
 			i.setBalance(c.getCustomer().getBalance());
 			i.setDiscount(0.0);
@@ -16695,7 +16695,7 @@ public class AccounterDAOTest_US extends
 		while (itr.hasNext()) {
 			CustomerCreditMemo c = (CustomerCreditMemo) itr.next();
 			ReportList i = new ReportList();
-			i.setTransactionId(c.getId());
+			i.setTransactionId(c.getID());
 			i.setName(c.getCustomer().getName());
 			i.setBalance(c.getCustomer().getBalance());
 			i.setDiscount(0.0);
@@ -16723,7 +16723,7 @@ public class AccounterDAOTest_US extends
 			i.setStatus(rp.getStatus());
 			i.setTransactionType(rp.getType());
 			i.setNumber(rp.getNumber());
-			i.setTransactionId(rp.getId());
+			i.setTransactionId(rp.getID());
 			i.setDiscount(rp.getTotalCashDiscount());
 			i.setName(rp.getCustomer().getName());
 			i.setFlag(true);

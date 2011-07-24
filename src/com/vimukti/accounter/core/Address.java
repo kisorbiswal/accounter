@@ -31,25 +31,11 @@ public class Address implements IAccounterServerCore {
 	boolean isSelected = false;
 	public long id;
 
-	transient boolean isImported;
+	
 
 	public Address() {
 	}
 
-	/**
-	 * @param version
-	 *            the version to set
-	 */
-	// public void setVersion(int version) {
-	// this.version = version;
-	// }
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	// public void setID(long id){
-	// this.id = id;
-	// }
 
 	/**
 	 * @return the type
@@ -202,15 +188,9 @@ public class Address implements IAccounterServerCore {
 
 	@Override
 	public long getID(){
-		// TODO Auto-generated method stub
 		return this.id;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

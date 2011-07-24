@@ -109,7 +109,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		if (fixedAsset == null)
 			initAssetNumber();
 		if (fixedAsset != null) {
-			selectedAssetAccount = Accounter.getCompany().getAccount(
+			selectedAssetAccount = getCompany().getAccount(
 					fixedAsset.getAssetAccount());
 		}
 		if (fixedAsset != null) {
@@ -515,9 +515,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			itemTxt.setValue(fixedAsset.getName() != null ? fixedAsset
 					.getName() : "");
 			assetNumberTxt.setValue(fixedAsset.getAssetNumber());
-			if (Accounter.getCompany().getAccount(
+			if (getCompany().getAccount(
 					fixedAsset.getAssetAccount()) != null) {
-				accountCombo.setComboItem(Accounter.getCompany()
+				accountCombo.setComboItem(getCompany()
 						.getAccount(fixedAsset.getAssetAccount()));
 			}
 			purchaseDateTxt.setEnteredDate(new ClientFinanceDate(fixedAsset
@@ -531,7 +531,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			depreciationMethod.setSelectedValue(fixedAsset
 					.getDepreciationMethod());
 			if (fixedAsset.getDepreciationExpenseAccount() != null) {
-				if (Accounter.getCompany().getAccount(
+				if (getCompany().getAccount(
 						fixedAsset.getDepreciationExpenseAccount()) != null) {
 					depreciationAccount
 							.setComboItem(Accounter
@@ -682,7 +682,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		 */
 		List<ClientAccount> accumulatedAccounts = accumulatedDepreciationAccount
 				.getAccounts();
-		List<ClientFixedAsset> fixedAssets = Accounter.getCompany()
+		List<ClientFixedAsset> fixedAssets = getCompany()
 				.getFixedAssets();
 		for (ClientFixedAsset asset : fixedAssets) {
 			for (ClientAccount accumulatedAccount : accumulatedAccounts) {
@@ -703,13 +703,13 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		 */
 		if (fixedAsset != null && fixedAsset.getAssetAccount() != null
 				&& fixedAsset.getAssetAccount().length() != 0) {
-			if (Accounter.getCompany().getAccount(
+			if (getCompany().getAccount(
 					fixedAsset.getAssetAccount())
 					.getLinkedAccumulatedDepreciationAccount() != null) {
-				String accumulatedAccountID = Accounter.getCompany()
+				String accumulatedAccountID = getCompany()
 						.getAccount(fixedAsset.getAssetAccount())
 						.getLinkedAccumulatedDepreciationAccount();
-				ClientAccount accumultdAcc = Accounter.getCompany()
+				ClientAccount accumultdAcc = getCompany()
 						.getAccount(accumulatedAccountID);
 				accumulatedDepreciationAccount
 						.setSelected(accumultdAcc != null ? accumultdAcc
@@ -721,7 +721,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		}
 		if (isEdit) {
 			accumulatedDepreciationAccount
-					.setComboItem(Accounter.getCompany().getAccount(
+					.setComboItem(getCompany().getAccount(
 							fixedAsset
 									.getLinkedAccumulatedDepreciationAccount()));
 		}
@@ -813,7 +813,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				double depRate = depreciationRate.getPercentage();
 				double purchasePrice = purchasePriceTxt.getAmount();
 				ClientFinanceDate depStartDate = new ClientFinanceDate(
-						Accounter.getCompany().getpreferences()
+						getCompany().getpreferences()
 								.getDepreciationStartDate());
 				depAmount = 0.0;
 				/*
@@ -854,7 +854,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	}
 
 	public ClientFinanceDate getDepreciationStartDate() {
-		return new ClientFinanceDate(Accounter.getCompany()
+		return new ClientFinanceDate(getCompany()
 				.getpreferences().getDepreciationStartDate());
 	}
 
@@ -863,7 +863,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		try {
 			ClientFixedAsset asset = getAssetObject();
 			if (fixedAsset == null) {
-				if (Utility.isObjectExist(Accounter.getCompany()
+				if (Utility.isObjectExist(getCompany()
 						.getFixedAssets(), itemTxt.getValue().toString())) {
 					throw new InvalidEntryException("FixedAsset"
 							+ AccounterErrorType.ALREADYEXIST);
@@ -1101,11 +1101,11 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 	private boolean validateName(String name) {
 		if (!(fixedAsset == null
-				&& Utility.isObjectExist(Accounter.getCompany()
+				&& Utility.isObjectExist(getCompany()
 						.getFixedAssets(), name) ? true : false)
 				|| !(fixedAsset != null && !(fixedAsset.getName()
 						.equalsIgnoreCase(name) ? true : (Utility
-						.isObjectExist(Accounter.getCompany()
+						.isObjectExist(getCompany()
 								.getFixedAssets(), name) ? false : true)))) {
 			isVerified = true;
 			return false;

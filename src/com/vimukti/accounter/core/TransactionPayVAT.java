@@ -50,16 +50,10 @@ public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
 
 	int version;
 
-	transient boolean isImported;
+	
 
 	transient private boolean isOnSaveProccessed;
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
 
 	/**
 	 * @return the id
@@ -143,20 +137,6 @@ public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
 		this.version = version;
 	}
 
-	/**
-	 * @return the isImported
-	 */
-	public boolean isImported() {
-		return isImported;
-	}
-
-	/**
-	 * @param isImported
-	 *            the isImported to set
-	 */
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-	}
 
 	/**
 	 * @return the payVAT
@@ -188,9 +168,6 @@ public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;

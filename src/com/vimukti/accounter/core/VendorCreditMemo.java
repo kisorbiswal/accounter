@@ -66,7 +66,7 @@ public class VendorCreditMemo extends Transaction implements Lifecycle {
 
 	double balanceDue = 0D;
 
-	// transient boolean isImported;
+	// 
 
 	/**
 	 * @return the version
@@ -103,9 +103,6 @@ public class VendorCreditMemo extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -121,13 +118,11 @@ public class VendorCreditMemo extends Transaction implements Lifecycle {
 				if (creditsAndPayments != null
 						&& DecimalUtil.isEquals(
 								creditsAndPayments.creditAmount, 0.0d)) {
-					creditsAndPayments = new CreditsAndPayments(this,
-							creditsAndPayments.id);
-					this.setCreditsAndPayments(creditsAndPayments);
+					creditsAndPayments.update(this);
 				} else {
 					creditsAndPayments = new CreditsAndPayments(this);
-					this.setCreditsAndPayments(creditsAndPayments);
 				}
+				this.setCreditsAndPayments(creditsAndPayments);
 				session.save(creditsAndPayments);
 			}
 		}
@@ -275,8 +270,7 @@ public class VendorCreditMemo extends Transaction implements Lifecycle {
 				if (creditsAndPayments != null
 						&& DecimalUtil.isEquals(
 								creditsAndPayments.creditAmount, 0.0d)) {
-					creditsAndPayments = new CreditsAndPayments(this,
-							creditsAndPayments.id);
+					creditsAndPayments.update(this);
 				} else {
 					creditsAndPayments = new CreditsAndPayments(this);
 				}

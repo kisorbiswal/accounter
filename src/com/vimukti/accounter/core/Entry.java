@@ -114,10 +114,8 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	 */
 	FinanceDate entryDate;
 
-//	@ReffereredObject
-//	TAXItem vatItem;
-
-	transient boolean isImported;
+	// @ReffereredObject
+	// TAXItem vatItem;
 
 	double total;
 
@@ -186,13 +184,6 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	}
 
 	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
-
-	/**
 	 * @return the journalEntry
 	 */
 	public JournalEntry getJournalEntry() {
@@ -211,7 +202,7 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 
 		return this.id;
 	}
@@ -247,9 +238,9 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @return the vatItem
 	 */
-//	public TAXItem getVatItem() {
-//		return vatItem;
-//	}
+	// public TAXItem getVatItem() {
+	// return vatItem;
+	// }
 
 	/**
 	 * @return the vendor
@@ -275,7 +266,7 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
 		// AccounterCore accounterCore = new AccounterCore();
-		// accounterCore.setid(this.id);
+		// accounterCore.setID(this.id);
 		// accounterCore.setObjectType(AccounterCoreType.ACCOUNT);
 		// ChangeTracker.put(accounterCore);
 		return false;
@@ -291,9 +282,6 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	public boolean onSave(Session session) throws CallbackException {
 
 		// SessionUtils.updateReferenceCount(null, this, session, true);
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -321,7 +309,7 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 		// account
 		// .updateCurrentBalance(this.journalEntry,
 		// -this.debit);
-		// if (this.account.getId() != 0l) {
+		// if (this.account.getID() != 0l) {
 		// session.update(account);
 		// }
 		// account.onUpdate(session);
@@ -332,7 +320,7 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 		// account
 		// .updateCurrentBalance(this.journalEntry,
 		// this.credit);
-		// if (this.account.getId() != 0l) {
+		// if (this.account.getID() != 0l) {
 		// session.update(account);
 		// }
 		// account.onUpdate(session);
@@ -536,7 +524,7 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 		// Account account = this.account;
 		// account.updateCurrentBalance(this.journalEntry,
 		// this.debit);
-		// if (this.account.getId() != 0l) {
+		// if (this.account.getID() != 0l) {
 		// session.update(account);
 		// }
 		// account.onUpdate(session);
@@ -545,7 +533,7 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 		// Account account = this.account;
 		// account.updateCurrentBalance(this.journalEntry,
 		// -this.credit);
-		// if (this.account.getId() != 0l) {
+		// if (this.account.getID() != 0l) {
 		// session.update(account);
 		// }
 		// account.onUpdate(session);
@@ -664,12 +652,6 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 		this.entryDate = entryDate;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
-
 	/**
 	 * @param journalEntry
 	 *            the journalEntry to set
@@ -700,7 +682,6 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
-
 
 	/**
 	 * @param total
@@ -762,7 +743,7 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 		}
 
 		account.updateCurrentBalance(entry.journalEntry, amount);
-		if (entry.account.getId() != 0l) {
+		if (entry.account.getID() != 0l) {
 			session.update(account);
 			account.onUpdate(session);
 		} else
@@ -772,8 +753,10 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	protected void updateEntryAccountBalances(Session session, boolean isOld) {
 
 		if (isOld) {
-			this.credit = !DecimalUtil.isEquals(this.credit, 0) ? -this.credit : 0.0;
-			this.debit = !DecimalUtil.isEquals(this.debit, 0) ? -this.debit : 0.0;
+			this.credit = !DecimalUtil.isEquals(this.credit, 0) ? -this.credit
+					: 0.0;
+			this.debit = !DecimalUtil.isEquals(this.debit, 0) ? -this.debit
+					: 0.0;
 		}
 
 		this.updateAccountBalances(session, true);
@@ -791,11 +774,11 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	 */
 	protected void updateAccountBalances(Session session, boolean isVoid) {
 
-		if (!(!DecimalUtil.isEquals(this.debit, 0.0) ^ !DecimalUtil.isEquals(this.credit, 0.0)))
+		if (!(!DecimalUtil.isEquals(this.debit, 0.0) ^ !DecimalUtil.isEquals(
+				this.credit, 0.0)))
 			return;
 
-		double amount = !DecimalUtil.isEquals(this.debit, 0.0)
-				? -(this.total = this.debit)
+		double amount = !DecimalUtil.isEquals(this.debit, 0.0) ? -(this.total = this.debit)
 				: (this.total = this.credit);
 
 		if (!isVoid) {
@@ -872,7 +855,7 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 
 			updateAccount(this, session, amount);
 
-			// if (this.account.getId() != 0l) {
+			// if (this.account.getID() != 0l) {
 			// session.update(account);
 			// }
 			// account.onUpdate(session);
@@ -886,11 +869,10 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 				session.save(this.journalEntry.creditsAndPayments);
 
 			} else if (this.journalEntry.creditsAndPayments != null
-					&& DecimalUtil.isEquals(this.journalEntry.creditsAndPayments.creditAmount, 0.0d)) {
-				this.journalEntry.creditsAndPayments = new CreditsAndPayments(
-						this.journalEntry,
-						this.journalEntry.creditsAndPayments.id);
-				session.save(this.journalEntry.creditsAndPayments);
+					&& DecimalUtil.isEquals(
+							this.journalEntry.creditsAndPayments.creditAmount,
+							0.0d)) {
+				this.journalEntry.creditsAndPayments.update(this.journalEntry);
 			} else if (this.journalEntry.creditsAndPayments != null && id != 0l) {
 
 				CreditsAndPayments creditsAndPayments = (CreditsAndPayments) session
@@ -924,10 +906,10 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 				session.save(this.journalEntry.creditsAndPayments);
 
 			} else if (this.journalEntry.creditsAndPayments != null
-					&& DecimalUtil.isEquals(this.journalEntry.creditsAndPayments.creditAmount, 0.0d)) {
-				this.journalEntry.creditsAndPayments = new CreditsAndPayments(
-						this.journalEntry,
-						this.journalEntry.creditsAndPayments.id);
+					&& DecimalUtil.isEquals(
+							this.journalEntry.creditsAndPayments.creditAmount,
+							0.0d)) {
+				this.journalEntry.creditsAndPayments.update(this.journalEntry);
 				session.save(this.journalEntry.creditsAndPayments);
 			} else if (this.journalEntry.creditsAndPayments != null && id != 0l) {
 
@@ -972,22 +954,22 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 
 		if (this.account != null) {
 
-			FinanceLogger.log("Effected Entry : {0} with {1} ", this.account
-					.getName(), amountValue);
+			FinanceLogger.log("Effected Entry : {0} with {1} ",
+					this.account.getName(), amountValue);
 
 		} else if (this.customer != null) {
 
-			FinanceLogger.log("Effected Entry : {0} with {1} ", this.customer
-					.getName(), amountValue);
+			FinanceLogger.log("Effected Entry : {0} with {1} ",
+					this.customer.getName(), amountValue);
 
 		} else if (this.vendor != null) {
-			FinanceLogger.log("Effected Entry : {0} with {1} ", this.vendor
-					.getName(), amountValue);
+			FinanceLogger.log("Effected Entry : {0} with {1} ",
+					this.vendor.getName(), amountValue);
 
 		} else if (this.taxItem != null) {
 
-			FinanceLogger.log("Effected Entry : {0} with {1} ", this.taxItem
-					.getName(), amountValue);
+			FinanceLogger.log("Effected Entry : {0} with {1} ",
+					this.taxItem.getName(), amountValue);
 
 		}
 
@@ -999,18 +981,17 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
+
 	/*
 	 * Is to update Memo in Entry if and only if payee Name or account Name was
 	 * altered
 	 */
 	public static void updateEntryMemo(Session session, String oldName,
 			String newName) {
-		session
-				.createQuery(
-						"update com.vimukti.accounter.core.Entry set memo=:newName where memo=:oldName")
-				.setParameter("newName", newName).setParameter("oldName",
-						oldName).executeUpdate();
+		session.createQuery(
+				"update com.vimukti.accounter.core.Entry set memo=:newName where memo=:oldName")
+				.setParameter("newName", newName)
+				.setParameter("oldName", oldName).executeUpdate();
 	}
 
 }

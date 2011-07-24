@@ -57,7 +57,7 @@ public abstract class AccountCombo extends CustomCombo<ClientAccount> {
 	public void onAddNew() {
 		Action action = CompanyActionFactory.getNewAccountAction();
 		action.setActionSource(this);
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 		
 	}

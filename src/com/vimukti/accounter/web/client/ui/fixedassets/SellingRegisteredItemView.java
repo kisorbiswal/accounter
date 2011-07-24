@@ -516,9 +516,9 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			tempFixedAsset.setDepreciationTillDate(date);
 		tempFixedAsset.setPurchasePrice(asset.getPurchasePrice());
 		tempFixedAsset.setBookValue(asset.getBookValue());
-		ClientAccount assetAccount = Accounter.getCompany()
+		ClientAccount assetAccount = getCompany()
 				.getAccount(asset.getAssetAccount());
-		ClientAccount linkdAccount = Accounter.getCompany()
+		ClientAccount linkdAccount = getCompany()
 				.getAccount(
 						assetAccount.getLinkedAccumulatedDepreciationAccount());
 		tempFixedAsset
@@ -527,7 +527,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 						: "");
 		tempFixedAsset.setAssetAccountName(assetAccount != null ? assetAccount
 				.getName() : "");
-		tempFixedAsset.setExpenseAccountName(Accounter.getCompany()
+		tempFixedAsset.setExpenseAccountName(getCompany()
 				.getAccount(asset.getDepreciationExpenseAccount()).getName());
 		tempFixedAsset.setDepreciationMethod(asset.getDepreciationMethod());
 		tempFixedAsset.setDepreciationRate(asset.getDepreciationRate());

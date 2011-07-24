@@ -84,7 +84,7 @@ public class LiveLoginServlet extends BaseServlet {
 		if (id != null && password != null) {
 
 			user = (User) session
-					.getNamedQuery("getidentity.from.id.and.password")
+					.getNamedQuery("getIDentity.from.id.and.password")
 					.setParameter("id", id)
 					.setParameter("password", password).uniqueResult();
 			if (user == null)
@@ -132,10 +132,10 @@ public class LiveLoginServlet extends BaseServlet {
 		try {
 			// user.incrementLoginCountAndStatus();
 			request.getSession().setAttribute(USER_ID,
-					String.valueOf(user.getId()));
+					String.valueOf(user.getID()));
 			request.getSession().setAttribute(COMPANY_NAME, user.getCompany());
 			Server.getInstance().addSeesionIdOfIdentity(
-					String.valueOf(user.getId()), request.getSession().getId());
+					String.valueOf(user.getID()), request.getSession().getID());
 
 			request.setAttribute("success", true);
 
@@ -171,7 +171,7 @@ public class LiveLoginServlet extends BaseServlet {
 		try {
 			User user = null;
 			Query query = session
-					.getNamedQuery("getidentity.from.emailid.and.password");
+					.getNamedQuery("getIDentity.from.emailid.and.password");
 			query.setParameter("emailid", emailId);
 			query.setParameter("password", password);
 			user = (User) query.uniqueResult();

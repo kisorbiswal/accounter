@@ -20,12 +20,12 @@ public class OtherAccountsCombo extends AccountCombo {
 
 	@Override
 	public List<ClientAccount> getAccounts() {
-		return Accounter.getCompany().getActiveAccounts();
+		return getCompany().getActiveAccounts();
 	}
 
 	public List<ClientAccount> getFilterdAccounts() {
 		filtrdAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : Accounter.getCompany()
+		for (ClientAccount account : getCompany()
 				.getActiveAccounts()) {
 			if (account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
 					&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE

@@ -61,7 +61,7 @@ public class CustomersActionFactory extends AbstractActionFactory {
 
 	public static AddEditSalesTaxCodeAction getAddEditSalesTaxCodeAction() {
 		String constant = null;
-		if (Accounter.getCompany().getAccountingType() == 1)
+		if (getCompany().getAccountingType() == 1)
 			constant = actionsConstants.newVatCode();
 		else
 			constant = actionsConstants.newTaxCode();

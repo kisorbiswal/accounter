@@ -254,7 +254,7 @@ public class SubscriptionCreateCompanyServlet extends HttpServlet {
 
 		// Add to the list of spaces
 		identity.getSpaces().add(space);
-		space.setIdentity(identity);
+		space.setIDentity(identity);
 		Log.info("Created Finance workspace");
 		return space;
 	}
@@ -281,7 +281,7 @@ public class SubscriptionCreateCompanyServlet extends HttpServlet {
 
 		identity.getSpaces().add(space);
 		// session.saveOrUpdate(group);
-		space.setIdentity(identity);
+		space.setIDentity(identity);
 		Log.info("Created Default workspace");
 		LiveServer.getInstance().addCompany(company.getCompanyDomainName());
 		return space;
@@ -437,7 +437,7 @@ public class SubscriptionCreateCompanyServlet extends HttpServlet {
 		}
 		session.close();
 		BizantraCompany company = new BizantraCompany();
-		// company.setId(id);
+		// company.setID(id);
 		try {
 			creationDate = (Date) formatter.parse(jsonObject
 					.getString("createdDate"));

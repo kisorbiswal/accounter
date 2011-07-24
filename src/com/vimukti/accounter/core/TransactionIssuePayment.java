@@ -108,7 +108,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 
 	int version;
 
-	transient boolean isImported;
+	
 
 	transient private boolean isOnSaveProccessed;
 
@@ -222,12 +222,6 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 		this.customerPrepayment = customerPrepayment;
 	}
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
 
 	public int getVersion() {
 		return version;
@@ -319,9 +313,6 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;

@@ -101,7 +101,7 @@ public class PurchaseOrder extends Transaction {
 	 */
 	String purchaseOrderNumber;
 
-	// transient boolean isImported;
+	// 
 
 	// List<ItemReceipt> itemReceipts;
 	//
@@ -378,13 +378,6 @@ public class PurchaseOrder extends Transaction {
 		return AccounterConstants.TYPE_PURCHASE_ORDER;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		for (TransactionItem ti : this.transactionItems) {
-			ti.setImported(true);
-		}
-	}
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {

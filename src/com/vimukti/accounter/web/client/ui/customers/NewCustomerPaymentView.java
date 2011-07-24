@@ -214,7 +214,7 @@ public class NewCustomerPaymentView extends
 
 	@Override
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
-		ClientCompany comapny = Accounter.getCompany();
+		ClientCompany comapny = getCompany();
 
 		ClientCustomerPrePayment customerPrePaymentToBeEdited = (ClientCustomerPrePayment) transactionObject;
 		ClientCustomer customer = comapny
@@ -475,7 +475,7 @@ public class NewCustomerPaymentView extends
 		memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
 		// refText.setWidth(100);
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			payForm.setFields(customerCombo, billToCombo, depositInCombo,
 					amountText, paymentMethodCombo, printCheck, checkNo,
 					memoTextAreaItem);
@@ -636,7 +636,7 @@ public class NewCustomerPaymentView extends
 
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
 					.equalsIgnoreCase(Accounter.getVendorsMessages()
 							.cheque())
 					: paymentMethod.equalsIgnoreCase(Accounter
@@ -660,7 +660,7 @@ public class NewCustomerPaymentView extends
 			return;
 		this.customer = customer;
 		if (customer != null && customerCombo != null) {
-			customerCombo.setComboItem(Accounter.getCompany()
+			customerCombo.setComboItem(getCompany()
 					.getCustomer(customer.getID()));
 		}
 		this.addressListOfCustomer = customer.getAddress();

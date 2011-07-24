@@ -21,7 +21,7 @@ public class RevenueAccountCombo extends AccountCombo {
 	@Override
 	protected List<ClientAccount> getAccounts() {
 		revenueAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : Accounter.getCompany()
+		for (ClientAccount account : getCompany()
 				.getActiveAccounts())
 			if (account.getType() == ClientAccount.TYPE_INCOME) {
 				revenueAccounts.add(account);

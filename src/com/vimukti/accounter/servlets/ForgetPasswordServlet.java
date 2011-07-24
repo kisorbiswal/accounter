@@ -93,8 +93,8 @@ public class ForgetPasswordServlet extends BaseServlet {
 
 		UsersMailSendar.sendResetPasswordLinkToUser(link, user.getEmailId());
 
-		// ResetIdentityPasswordEvent event = new
-		// ResetIdentityPasswordEvent(user
+		// ResetIDentityPasswordEvent event = new
+		// ResetIDentityPasswordEvent(user
 		// .getUserid(), companyName, HexUtil.getRandomString());
 		// Server.getInstance().process(user.getUserid(), event);
 	}

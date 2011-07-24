@@ -2145,7 +2145,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		try {
 			HibernateTemplate template = getHibernateTemplate();
 			User example = new User();
-			example.setId(userID);
+			example.setID(userID);
 			List list = template.find("from User u where u.id=?",
 					new Object[] { userID });
 			if (list.size() > 0) {
@@ -2450,7 +2450,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template.findByNamedQueryAndNamedParam(
-					"deletecreditrating", "id", creditRating.getId());
+					"deletecreditrating", "id", creditRating.getID());
 
 			if (list.size() > 0) {
 				return false;
@@ -2470,7 +2470,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template.findByNamedQueryAndNamedParam(
-					"deletecustomer", "id", customer.getId());
+					"deletecustomer", "id", customer.getID());
 
 			if (list.size() > 0) {
 				return false;
@@ -2491,7 +2491,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template.findByNamedQueryAndNamedParam(
-					"deletecustomergroup", "id", customerGroup.getId());
+					"deletecustomergroup", "id", customerGroup.getID());
 
 			if (list.size() > 0) {
 				return false;
@@ -2510,7 +2510,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template.findByNamedQueryAndNamedParam("deleteitem",
-					"id", item.getId());
+					"id", item.getID());
 
 			if (list.size() > 0) {
 				return false;
@@ -2529,7 +2529,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template.findByNamedQueryAndNamedParam(
-					"deleteitemgroup", "id", itemGroup.getId());
+					"deleteitemgroup", "id", itemGroup.getID());
 
 			if (list.size() > 0) {
 				return false;
@@ -2549,7 +2549,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template.findByNamedQueryAndNamedParam("deleteterms",
-					"id", paymentTerms.getId());
+					"id", paymentTerms.getID());
 
 			if (list.size() > 0) {
 				return false;
@@ -2569,7 +2569,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template.findByNamedQueryAndNamedParam(
-					"deletepricelevel", "id", priceLevel.getId());
+					"deletepricelevel", "id", priceLevel.getID());
 
 			if (list.size() > 0) {
 				return false;
@@ -2589,7 +2589,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template.findByNamedQueryAndNamedParam(
-					"deletesalesrep", "id", salesPerson.getId());
+					"deletesalesrep", "id", salesPerson.getID());
 
 			if (list.size() > 0) {
 				return false;
@@ -2609,7 +2609,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template.findByNamedQueryAndNamedParam(
-					"deleteshippingmethod", "id", shippingMethod.getId());
+					"deleteshippingmethod", "id", shippingMethod.getID());
 
 			if (list.size() > 0) {
 				return false;
@@ -2629,7 +2629,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template.findByNamedQueryAndNamedParam(
-					"deleteshippingterms", "id", shippingTerms.getId());
+					"deleteshippingterms", "id", shippingTerms.getID());
 
 			if (list.size() > 0) {
 				return false;
@@ -2648,7 +2648,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template.findByNamedQueryAndNamedParam(
-					"deletetaxagency", "id", TAXAgency.getId());
+					"deletetaxagency", "id", TAXAgency.getID());
 
 			if (list.size() > 0) {
 				return false;
@@ -2667,7 +2667,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template.findByNamedQueryAndNamedParam("deletetaxcode",
-					"id", taxCode.getId());
+					"id", taxCode.getID());
 
 			if (list.size() > 0) {
 				return false;
@@ -2686,7 +2686,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template.findByNamedQueryAndNamedParam(
-					"deletetaxgroup", "id", taxGroup.getId());
+					"deletetaxgroup", "id", taxGroup.getID());
 
 			if (list.size() > 0) {
 				return false;
@@ -2706,7 +2706,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template.findByNamedQueryAndNamedParam(
-					"deletetaxrates", "id", taxRates.getId());
+					"deletetaxrates", "id", taxRates.getID());
 
 			if (list.size() > 0) {
 				return false;
@@ -2726,7 +2726,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template.findByNamedQueryAndNamedParam(
-					"deleteunitofmeasure", "id", unitOfMeasure.getId());
+					"deleteunitofmeasure", "id", unitOfMeasure.getID());
 
 			if (list.size() > 0) {
 				return false;
@@ -2765,7 +2765,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template.findByNamedQueryAndNamedParam("deletevendor",
-					"id", vendor.getId());
+					"id", vendor.getID());
 
 			if (list.size() > 0) {
 				return false;
@@ -2786,7 +2786,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template.findByNamedQueryAndNamedParam(
-					"deletevendortype", "id", vendorGroup.getId());
+					"deletevendortype", "id", vendorGroup.getID());
 
 			if (list.size() > 0) {
 				return false;
@@ -3024,7 +3024,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public FixedAsset getFixedAsset(long companyId, long fixedAssetId)
+	public FixedAsset getFixedAsset(long companyId, long fixedAssetID)
 			throws DAOException {
 
 		try {
@@ -3033,7 +3033,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			List list = template
 					.find(
 							"from FixedAsset fa where fa.id = ? and fa.company.id = ? ",
-							new Object[] { fixedAssetId, companyId });
+							new Object[] { fixedAssetID, companyId });
 
 			if (list.size() > 0) {
 				FixedAsset fixedAsset = new FixedAsset();

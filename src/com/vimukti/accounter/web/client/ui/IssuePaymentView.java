@@ -152,7 +152,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 			record.setWriteCheck(entry.getTransactionId());
 		else if (record.getRecordType() == ClientTransaction.TYPE_CUSTOMER_REFUNDS)
 			record.setCustomerRefund(entry.getTransactionId());
-		record.setid(entry.getTransactionId());
+		record.setID(entry.getTransactionId());
 
 	}
 
@@ -402,7 +402,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		selectedpaymentMethod = selectedpaymentMethod1;
 		if (!selectedpaymentMethod.isEmpty()) {
 			checkNoText = new TextItem(
-					Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
+					getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
 							.getFinanceUIConstants().startingCheckNo()
 							: Accounter.getFinanceUIConstants()
 									.startingChequeNo());

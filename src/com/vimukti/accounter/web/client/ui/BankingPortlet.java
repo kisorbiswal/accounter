@@ -62,8 +62,8 @@ public class BankingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void createBody() {
-		if (Accounter.getCompany() != null) {
-			bankAccounts = Accounter.getCompany()
+		if (getCompany() != null) {
+			bankAccounts = getCompany()
 					.getActiveBankAccounts(ClientAccount.TYPE_BANK);
 		}
 		AccounterButton addAccount = new AccounterButton(Accounter

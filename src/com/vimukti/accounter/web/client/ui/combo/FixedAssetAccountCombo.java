@@ -32,7 +32,7 @@ public class FixedAssetAccountCombo extends AccountCombo {
 	public List<ClientAccount> getAccounts() {
 		assetAccounts = new ArrayList<ClientAccount>();
 
-		for (ClientAccount account : Accounter.getCompany()
+		for (ClientAccount account : getCompany()
 				.getActiveAccounts()) {
 			if (account.getType() == ClientAccount.TYPE_FIXED_ASSET)
 				assetAccounts.add(account);
@@ -51,7 +51,7 @@ public class FixedAssetAccountCombo extends AccountCombo {
 		action.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.FIXEDASSET_COMBO));
 		action.setActionSource(this);
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 
 	}

@@ -54,7 +54,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	protected ClientFinanceDate depreciationEndDate;
 	private AccounterButton startDateButton;
 	protected ClientAccount account;
-	private List<String> assetidList;
+	private List<String> assetIDList;
 	private List<ClientFiscalYear> openFiscalYears;
 	private Label fromLabel;
 	private DateTimeFormat format;
@@ -62,7 +62,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 	public DepreciationView() {
 		super();
-		assetidList = new ArrayList<String>();
+		assetIDList = new ArrayList<String>();
 		account = new ClientAccount();
 		getDepriciationLastDate();
 		validationCount = 1;
@@ -188,7 +188,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			public void onSuccess(ClientFinanceDate date) {
 				if (date == null) {
 					ClientFinanceDate date2 = new ClientFinanceDate(
-							Accounter.getCompany().getPreferences()
+							getCompany().getPreferences()
 									.getDepreciationStartDate());
 					depreciationStartDate = new ClientFinanceDate(date2
 							.getYear(), date2.getMonth(), 1);
@@ -332,7 +332,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			for (ClientDepreciationDummyEntry entry : grid.getNodes()) {
 
 				for (String key : assets.keySet()) {
-					ClientAccount account = Accounter.getCompany()
+					ClientAccount account = getCompany()
 							.getAccount(key);
 					if (account.getName().equals(entry.getFixedAssetName())) {
 						LinkAccount link = new LinkAccount();
@@ -445,9 +445,9 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			// }
 			assets = assestsList.getAccountViceFixedAssets();
 			if (assets.size() > 0) {
-				assetidList.addAll(assestsList.getFixedAssetids());
+				assetIDList.addAll(assestsList.getFixedAssetIDs());
 				for (String key : assets.keySet()) {
-					ClientAccount account = Accounter.getCompany()
+					ClientAccount account = getCompany()
 							.getAccount(key);
 					List<ClientDepreciationDummyEntry> dummyEntriesList = new ArrayList<ClientDepreciationDummyEntry>();
 					for (DepreciableFixedAssetsEntry entry : assets.get(key)) {
@@ -486,8 +486,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 	private List<ClientFixedAsset> getAssetsList() {
 		List<ClientFixedAsset> fixedAssetList = new ArrayList<ClientFixedAsset>();
-		for (String id : assetidList) {
-			fixedAssetList.add(Accounter.getCompany().getFixedAsset(
+		for (String id : assetIDList) {
+			fixedAssetList.add(getCompany().getFixedAsset(
 					id));
 		}
 		return fixedAssetList;

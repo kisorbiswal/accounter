@@ -8,12 +8,12 @@ public class ShippingTermsCombo extends CustomCombo<ClientShippingTerms> {
 
 	public ShippingTermsCombo(String title) {
 		super(title);
-		initCombo(Accounter.getCompany().getShippingTerms());
+		initCombo(getCompany().getShippingTerms());
 	}
 
 	public ShippingTermsCombo(String title, boolean isAddNewRequired) {
 		super(title, isAddNewRequired, 1);
-		initCombo(Accounter.getCompany().getShippingTerms());
+		initCombo(getCompany().getShippingTerms());
 	}
 
 	@Override

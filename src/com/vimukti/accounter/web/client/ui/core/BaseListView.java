@@ -351,7 +351,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			public void onClick(ClickEvent event) {
 				Action action = getAddNewAction();
 				if (action != null) {
-					HistoryTokenUtils.setPresentToken(action, null);
+					
 					UIUtils.runAction((IsSerializable) null, action);
 				}
 			}

@@ -305,7 +305,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	protected void editTaxGroup(ClientTAXGroup taxGroup) {
 		if (!(taxGroup.getName().equalsIgnoreCase(
 				UIUtils.toStr(salesTaxGroupDialog.taxGroupText.getValue())) ? true
-				: (Utility.isObjectExist(Accounter.getCompany()
+				: (Utility.isObjectExist(getCompany()
 						.getTaxGroups(), UIUtils
 						.toStr(salesTaxGroupDialog.taxGroupText.getValue())) ? false
 						: true))) {
@@ -358,9 +358,9 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		taxGroup.setTaxItems(getSelectedTaxItems(taxGroup));
 
 		if (Utility.isObjectExist(
-				Accounter.getCompany().getTaxItems(), taxGroup
+				getCompany().getTaxItems(), taxGroup
 						.getName())
-				|| Utility.isObjectExist(Accounter.getCompany()
+				|| Utility.isObjectExist(getCompany()
 						.getTaxGroups(), taxGroup.getName())) {
 
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
@@ -371,7 +371,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	}
 
 	protected List<ClientTAXGroup> getRecords() {
-		return Accounter.getCompany().getTaxGroups();
+		return getCompany().getTaxGroups();
 	}
 
 	public void setTaxItemsToGrid(List<ClientTAXItem> taxItems) {

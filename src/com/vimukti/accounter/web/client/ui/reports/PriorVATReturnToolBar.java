@@ -145,7 +145,7 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 
 					}
 				});
-		List<ClientTAXAgency> vatAgencies = Accounter.getCompany()
+		List<ClientTAXAgency> vatAgencies = getCompany()
 				.getActiveTAXAgencies();
 		for (ClientTAXAgency vatAgency : vatAgencies) {
 			if (vatAgency.getName().equals(
@@ -170,7 +170,7 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 	}
 
 	public void fillEndingDatesCombo(ClientTAXAgency selectItem) {
-		List<ClientVATReturn> vatReturns = Accounter.getCompany()
+		List<ClientVATReturn> vatReturns = getCompany()
 				.getVatReturns();
 		List<String> endDates = new ArrayList<String>();
 		// endDates.add("");

@@ -15,8 +15,8 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 
-public class PaymentTerms implements IAccounterServerCore, Lifecycle,
-		CreatableObject {
+public class PaymentTerms extends CreatableObject implements
+		IAccounterServerCore, Lifecycle {
 
 	/**
 	 * 
@@ -32,15 +32,6 @@ public class PaymentTerms implements IAccounterServerCore, Lifecycle,
 
 	int version;
 
-	/**
-	 * A Unique, Long id, generated, for this Payment Term, by Hibernate
-	 */
-	long id;
-
-	/**
-	 * A Secure 40-digit, Random Number
-	 */
-	public long id;
 
 	/**
 	 * Payment Term Name
@@ -58,12 +49,6 @@ public class PaymentTerms implements IAccounterServerCore, Lifecycle,
 	int ifPaidWithIn;
 	boolean isDefault;
 
-	transient boolean isImported;
-
-	String createdBy;
-	String lastModifier;
-	FinanceDate createdDate;
-	FinanceDate lastModifiedDate;
 	transient private boolean isOnSaveProccessed;
 
 	public PaymentTerms() {
@@ -95,13 +80,6 @@ public class PaymentTerms implements IAccounterServerCore, Lifecycle,
 	 */
 	public void setVersion(int version) {
 		this.version = version;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
 	}
 
 	/**
@@ -161,9 +139,6 @@ public class PaymentTerms implements IAccounterServerCore, Lifecycle,
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 
@@ -179,48 +154,10 @@ public class PaymentTerms implements IAccounterServerCore, Lifecycle,
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setLastModifier(String lastModifier) {
-		this.lastModifier = lastModifier;
-	}
-
-	public String getLastModifier() {
-		return lastModifier;
-	}
-
-	public void setCreatedDate(FinanceDate createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public FinanceDate getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setLastModifiedDate(FinanceDate lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public FinanceDate getLastModifiedDate() {
-		return lastModifiedDate;
-	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

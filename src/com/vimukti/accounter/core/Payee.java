@@ -112,12 +112,6 @@ public abstract class Payee extends CreatableObject implements
 		this.fileAs = fileAs;
 	}
 
-	/**
-	 * @return the id
-	 */
-	public long getID() {
-		return id;
-	}
 
 	/**
 	 * @return the vATRegistrationNumber
@@ -176,7 +170,7 @@ public abstract class Payee extends CreatableObject implements
 	/**
 	 * @return the id
 	 */
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 

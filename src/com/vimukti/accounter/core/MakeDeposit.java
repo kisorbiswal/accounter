@@ -48,7 +48,7 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	 */
 	double cashBackAmount;
 
-	// transient boolean isImported;
+	// 
 
 	List<TransactionMakeDeposit> transactionMakeDeposit;
 
@@ -95,9 +95,6 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -210,13 +207,6 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 		return AccounterConstants.TYPE_MAKE_DEPOSIT;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		for (TransactionMakeDeposit ti : this.transactionMakeDeposit) {
-			ti.setImported(true);
-		}
-	}
 
 	@Override
 	public Payee getInvolvedPayee() {

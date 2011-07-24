@@ -111,7 +111,7 @@ public class CustomerRefund extends Transaction implements
 	 */
 	public Set<TransactionReceivePayment> transactionReceivePayments = new HashSet<TransactionReceivePayment>();
 
-	// transient boolean isImported;
+	// 
 
 	public CustomerRefund() {
 		setType(Transaction.TYPE_CUSTOMER_REFUNDS);
@@ -122,22 +122,6 @@ public class CustomerRefund extends Transaction implements
 
 	}
 
-	/**
-	 * @return the id
-	 */
-	@Override
-	public long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	@Override
-	public void setID(long id){
-		this.id = id;
-	}
 
 	public Customer getPayTo() {
 		return payTo;
@@ -206,9 +190,6 @@ public class CustomerRefund extends Transaction implements
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -329,11 +310,6 @@ public class CustomerRefund extends Transaction implements
 		return AccounterConstants.TYPE_CUSTOMER_REFUNDS;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
 
 	@Override
 	public Payee getInvolvedPayee() {

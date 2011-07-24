@@ -118,7 +118,7 @@ public class WriteChequeView extends
 
 	private WriteChequeView() {
 		super(ClientTransaction.TYPE_WRITE_CHECK, 0);
-		this.company = Accounter.getCompany();
+		this.company = getCompany();
 		this.validationCount = 5;
 	}
 
@@ -239,7 +239,7 @@ public class WriteChequeView extends
 			mainVLay.remove(transactionCustomerGrid);
 		mainVLay.add(gridView);
 		mainVLay.add(vPanel);
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			// It should be like thid only,becoz vatPanel is getting add befor
 			// the gird.So,we need to remove n add after grid
 			mainVLay.remove(vatPanel);
@@ -304,7 +304,7 @@ public class WriteChequeView extends
 
 		} else if (takenPaySalesTax != null) {
 
-			selectBankAcc = Accounter.getCompany().getAccount(
+			selectBankAcc = getCompany().getAccount(
 					takenPaySalesTax.getPayFrom());
 
 		}
@@ -320,7 +320,7 @@ public class WriteChequeView extends
 	}
 
 	public void initPayToCombo() {
-		List<ClientPayee> payees = Accounter.getCompany()
+		List<ClientPayee> payees = getCompany()
 				.getActivePayees();
 
 		if (payees != null) {
@@ -346,7 +346,7 @@ public class WriteChequeView extends
 		if (writeCheckTaken != null) {
 			switch (writeCheckTaken.getPayToType()) {
 			case ClientWriteCheck.TYPE_VENDOR:
-				paytoSelect.setComboItem(Accounter.getCompany()
+				paytoSelect.setComboItem(getCompany()
 						.getVendor(writeCheckTaken.getVendor()));
 				payee = this.company.getVendor(writeCheckTaken.getVendor());
 
@@ -360,7 +360,7 @@ public class WriteChequeView extends
 
 				break;
 			case ClientWriteCheck.TYPE_TAX_AGENCY:
-				paytoSelect.setComboItem(Accounter.getCompany()
+				paytoSelect.setComboItem(getCompany()
 						.getTaxAgency(writeCheckTaken.getTaxAgency()));
 				payee = this.company.getTaxAgency(writeCheckTaken
 						.getTaxAgency());
@@ -1043,7 +1043,7 @@ public class WriteChequeView extends
 			mainVLay.add(transactionCustomerGrid);
 		}
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			mainVLay.add(vatPanel);
 
 		vPanel = new VerticalPanel();
@@ -1207,7 +1207,7 @@ public class WriteChequeView extends
 			case ClientWriteCheck.TYPE_CUSTOMER:
 			case ClientWriteCheck.TYPE_VENDOR:
 			case ClientWriteCheck.TYPE_TAX_AGENCY:
-				if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 					setMenuItems(button, Accounter
 							.getCustomersMessages().accounts(),
 							Accounter.getCustomersMessages().product()

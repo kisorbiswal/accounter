@@ -62,7 +62,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	private void createControls() {
 		Label infoLabel = null;
 		Label infolabel1 = null;
-		final int accounttype = Accounter.getCompany()
+		final int accounttype = getCompany()
 				.getAccountingType();
 		if (accounttype == 1) {
 			infoLabel = new Label(Accounter.getVATMessages().VATItem());
@@ -221,14 +221,14 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 			isPercentatateAmtCheck.setValue(takenVATItem.isPercentage());
 
 			if (takenVATItem.getTaxAgency() != null) {
-				selectedVATAgency = Accounter.getCompany()
+				selectedVATAgency = getCompany()
 						.getTaxAgency(takenVATItem.getTaxAgency());
 				vatAgencyCombo.setComboItem(selectedVATAgency);
 				loadVATReturnBoxes(selectedVATAgency);
 			}
 
 			if (takenVATItem.getVatReturnBox() != null) {
-				selectedBox = Accounter.getCompany().getVatReturnBox(
+				selectedBox = getCompany().getVatReturnBox(
 						takenVATItem.getVatReturnBox());
 				vatReturnBoxCombo.setComboItem(selectedBox);
 			}
@@ -290,7 +290,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	}
 
 	protected void loadVATReturnBoxes(ClientTAXAgency vatAgency) {
-		List<ClientVATReturnBox> vatBoxes = Accounter.getCompany()
+		List<ClientVATReturnBox> vatBoxes = getCompany()
 				.getVatReturnBoxes();
 		List<ClientVATReturnBox> vatBoxes2 = new ArrayList<ClientVATReturnBox>();
 		for (ClientVATReturnBox vatBox : vatBoxes) {
@@ -336,11 +336,11 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 					.getValue().toString()
 					: "";
 			if (((takenVATItem == null && Utility.isObjectExist(
-					Accounter.getCompany().getTaxItems(), name)) ? false
+					getCompany().getTaxItems(), name)) ? false
 					: true)
 					|| (takenVATItem != null ? (takenVATItem.getName()
 							.equalsIgnoreCase(name) ? true : (Utility
-							.isObjectExist(Accounter.getCompany()
+							.isObjectExist(getCompany()
 									.getTaxItems(), name) ? false : true))
 							: true)) {
 				return true;
@@ -382,7 +382,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 			}
 		case 1:
 			if (takenVATItem == null) {
-				if (Utility.isObjectExist(Accounter.getCompany()
+				if (Utility.isObjectExist(getCompany()
 						.getTaxItems(), this.vatItemNameText.getValue()
 						.toString())) {
 					throw new InvalidEntryException(
@@ -563,7 +563,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	@Override
 	protected String getViewTitle() {
 		String flag;
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			flag = Accounter.getActionsConstants().newVatitem();
 		else
 			flag = Accounter.getActionsConstants().newTaxItem();

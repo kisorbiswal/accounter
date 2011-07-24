@@ -58,7 +58,7 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 		grid = new RegisteredItemsListGrid(false);
 		grid.init();
 		grid.setRecords(getAssetsByType(ClientFixedAsset.STATUS_REGISTERED,
-				Accounter.getCompany().getFixedAssets()));
+				getCompany().getFixedAssets()));
 		disableFilter();
 	}
 
@@ -85,7 +85,7 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 	@Override
 	public void updateGrid(IAccounterCore core) {
 		grid.setRecords(getAssetsByType(ClientFixedAsset.STATUS_REGISTERED,
-				Accounter.getCompany().getFixedAssets()));
+				getCompany().getFixedAssets()));
 	}
 
 	@Override

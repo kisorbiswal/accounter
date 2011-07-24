@@ -30,7 +30,7 @@ public class PayExpense extends Transaction {
 	 */
 	List<TransactionPayExpense> transactionPayExpenses;
 
-//	transient boolean isImported;
+//	
 
 	public Account getPaidFrom() {
 		return paidFrom;
@@ -87,9 +87,6 @@ public class PayExpense extends Transaction {
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -113,13 +110,6 @@ public class PayExpense extends Transaction {
 		return null;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		for (TransactionPayExpense ti : this.transactionPayExpenses) {
-			ti.setImported(true);
-		}
-	}
 
 	@Override
 	public Payee getInvolvedPayee() {

@@ -15,8 +15,8 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 
-public class ItemGroup implements IAccounterServerCore, Lifecycle,
-		CreatableObject {
+public class ItemGroup extends CreatableObject implements IAccounterServerCore,
+		Lifecycle {
 
 	/**
 	 * 
@@ -28,27 +28,12 @@ public class ItemGroup implements IAccounterServerCore, Lifecycle,
 	 */
 	int version;
 
-	/**
-	 * A Unique Number Assigned by Hibernate
-	 */
-	long id;
 
-	/**
-	 * A Secure Random unique 40 digit Number
-	 */
-	public long id;
 
 	/**
 	 * Item Group Name
 	 */
 	String name;
-
-	transient boolean isImported;
-
-	String createdBy;
-	String lastModifier;
-	FinanceDate createdDate;
-	FinanceDate lastModifiedDate;
 
 	boolean isDefault;
 
@@ -59,7 +44,6 @@ public class ItemGroup implements IAccounterServerCore, Lifecycle,
 	transient private boolean isOnSaveProccessed;
 
 	public ItemGroup() {
-		// TODO
 	}
 
 	/**
@@ -85,13 +69,6 @@ public class ItemGroup implements IAccounterServerCore, Lifecycle,
 	}
 
 	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
-
-	/**
 	 * return false; return false;
 	 * 
 	 * @return the name
@@ -108,7 +85,7 @@ public class ItemGroup implements IAccounterServerCore, Lifecycle,
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setid(this.id);
+		accounterCore.setID(this.id);
 		accounterCore.setObjectType(AccounterCoreType.ITEM_GROUP);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -123,9 +100,6 @@ public class ItemGroup implements IAccounterServerCore, Lifecycle,
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -156,54 +130,6 @@ public class ItemGroup implements IAccounterServerCore, Lifecycle,
 		return false;
 	}
 
-	@Override
-	public long getID(){
-		return this.id;
-	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setLastModifier(String lastModifier) {
-		this.lastModifier = lastModifier;
-	}
-
-	public String getLastModifier() {
-		return lastModifier;
-	}
-
-	public void setCreatedDate(FinanceDate createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public FinanceDate getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setLastModifiedDate(FinanceDate lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public FinanceDate getLastModifiedDate() {
-		return lastModifiedDate;
-	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
@@ -213,8 +139,8 @@ public class ItemGroup implements IAccounterServerCore, Lifecycle,
 		// Query query = session.createQuery("from ItemGroup I where I.name=?")
 		// .setParameter(0, itemGroup.name);
 		Query query = session.getNamedQuery("getItemGroupWithSameName")
-				.setParameter("name", itemGroup.name).setParameter("id",
-						itemGroup.id);
+				.setParameter("name", itemGroup.name)
+				.setParameter("id", itemGroup.id);
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			throw new InvalidOperationException(

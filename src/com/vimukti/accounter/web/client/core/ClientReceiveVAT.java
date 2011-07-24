@@ -31,7 +31,7 @@ public class ClientReceiveVAT extends ClientTransaction {
 
 	List<ClientTransactionReceiveVAT> transactionReceiveVAT;
 
-	transient boolean isImported;
+	
 
 	@Override
 	public String getClientClassSimpleName() {

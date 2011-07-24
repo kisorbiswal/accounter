@@ -70,14 +70,14 @@ public class SubscriptionModificationServlet extends HttpServlet {
 		if (emailId != null && password != null) {
 			password = HexUtil
 					.bytesToHex(Security.makeHash(emailId + password));
-			CollaberIdentity identity = getIdentity(emailId, password,
+			CollaberIdentity identity = getIDentity(emailId, password,
 					companyName);
 			return identity;
 		}
 		return null;
 	}
 
-	private CollaberIdentity getIdentity(String emailId, String password,
+	private CollaberIdentity getIDentity(String emailId, String password,
 			String companyName) {
 
 		if (companyName == null) {
@@ -91,7 +91,7 @@ public class SubscriptionModificationServlet extends HttpServlet {
 		try {
 			CollaberIdentity identity = null;
 			Query query = session
-					.getNamedQuery("getidentity.from.emailid.and.password");
+					.getNamedQuery("getIDentity.from.emailid.and.password");
 			query.setParameter("emailid", emailId);
 			query.setParameter("password", password);
 			identity = (CollaberIdentity) query.uniqueResult();

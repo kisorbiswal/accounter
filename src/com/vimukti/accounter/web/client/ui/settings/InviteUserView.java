@@ -385,7 +385,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 	}
 
 	private boolean isExist(ClientUser object) {
-		List<ClientUser> list = Accounter.getCompany().getUsersList();
+		List<ClientUser> list = getCompany().getUsersList();
 		if (list == null || list.isEmpty())
 			return false;
 		for (ClientUser user : list) {

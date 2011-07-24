@@ -77,7 +77,7 @@ public class ChangeTracker {
 		if (!isTransaction)
 			cmd.setData(core);
 
-		cmd.setid(core.getID());
+		cmd.setID(core.getID());
 		cmd.setObjectType(core.getObjectType());
 		Utility.updateClientList(cmd, clientobjects);
 	}

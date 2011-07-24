@@ -97,7 +97,7 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 
 	protected void initCompany() {
 
-		this.company = Accounter.getCompany();
+		this.company = getCompany();
 
 	}
 

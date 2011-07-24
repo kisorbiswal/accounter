@@ -69,7 +69,7 @@ public class SubscriptionResetPasswordServlet extends HttpServlet {
 			return UPDATE_PROCESS_UNSUCCESSFUL;
 		}
 
-		ResetIdentityPasswordEvent event = new ResetIdentityPasswordEvent(user
+		ResetIDentityPasswordEvent event = new ResetIDentityPasswordEvent(user
 				.getUserid(), domainName, password, adminName, true);
 		Server.getInstance().process(user.getUserid(), event);
 		return UPDATE_PROCESS_SUCCESSFUL;

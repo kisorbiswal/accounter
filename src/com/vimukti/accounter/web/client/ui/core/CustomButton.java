@@ -74,7 +74,7 @@ public class CustomButton extends Button {
 				try {
 					// CustomButton.this.getParent().setVisible(false);
 					if (type == CustomButtonType.CANCEL) {
-						HistoryTokenUtils.setPreviousToken();
+						
 						ViewManager.getInstance().closeCurrentView();
 						return;
 					}

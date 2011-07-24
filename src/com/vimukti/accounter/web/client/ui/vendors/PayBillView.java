@@ -141,7 +141,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		payBill.setPayBillType(ClientPayBill.TYPE_PAYBILL);
 
 		// Setting Accounts Payable
-		payBill.setAccountsPayable(Accounter.getCompany()
+		payBill.setAccountsPayable(getCompany()
 
 		.getAccountsPayableAccount());
 
@@ -183,11 +183,11 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 			} else if (payBillTX.getType() == ClientTransaction.TYPE_JOURNAL_ENTRY) {
 				tpbRecord.setJournalEntry(payBillTX.getTransactionId());
 			}
-			tpbRecord.setAccountsPayable(Accounter.getCompany()
+			tpbRecord.setAccountsPayable(getCompany()
 					.getAccountsPayableAccount());
 			tpbRecord.setPayBill(payBill);
 
-			ClientAccount cashAcc = Accounter.getCompany()
+			ClientAccount cashAcc = getCompany()
 					.getAccountByName(
 							gridView.getAttribute(Accounter
 									.getVendorsMessages().cashAccount(),
@@ -282,7 +282,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 				record.setOriginalAmount(curntRec.getOriginalAmount());
 
 				// record.setPayment(curntRec.getPayment());
-				ClientVendor vendor = Accounter.getCompany()
+				ClientVendor vendor = getCompany()
 						.getVendorByName(curntRec.getVendorName());
 				if (vendor != null)
 					record.setVendor(vendor.getID());
@@ -650,20 +650,20 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 		this.transactionItems = billToBeEdited.getTransactionItems();
 
-		payFromCombo.setComboItem(Accounter.getCompany().getAccount(
+		payFromCombo.setComboItem(getCompany().getAccount(
 				billToBeEdited.getPayFrom()));
 		date.setValue(billToBeEdited.getDate());
 		date.setDisabled(true);
-		accountSelected(Accounter.getCompany().getAccount(
+		accountSelected(getCompany().getAccount(
 				billToBeEdited.getPayFrom()));
 
 		dueDate.setValue(new ClientFinanceDate(billToBeEdited
 				.getBillDueOnOrBefore()));
 		dueDate.setDisabled(true);
 
-		this.vendor = Accounter.getCompany().getVendor(
+		this.vendor = getCompany().getVendor(
 				billToBeEdited.getVendor());
-		vendorSelected(Accounter.getCompany().getVendor(
+		vendorSelected(getCompany().getVendor(
 				billToBeEdited.getVendor()));
 
 		amtText.setAmount(billToBeEdited.getTotal());

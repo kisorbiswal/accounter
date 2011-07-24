@@ -78,7 +78,7 @@ public class TransactionPaySalesTaxGrid extends
 		if (!paySalesTaxView.isEditMode()) {
 			switch (index) {
 			case 0:
-				return Accounter.getCompany().getTaxAgency(
+				return getCompany().getTaxAgency(
 						paySalesTax.getTaxAgency()).getName() != null ? Accounter
 						.getCompany().getTaxAgency(paySalesTax.getTaxAgency())
 						.getName()
@@ -86,7 +86,7 @@ public class TransactionPaySalesTaxGrid extends
 			case 1:
 				return paySalesTax.getTaxItem() != null ? ((Accounter
 						.getCompany().getTaxItem(paySalesTax.getTaxItem())
-						.getName()) != null ? (Accounter.getCompany()
+						.getName()) != null ? (getCompany()
 						.getTaxItem(paySalesTax.getTaxItem()).getName()) : "")
 						: " ";
 			case 2:
@@ -99,13 +99,13 @@ public class TransactionPaySalesTaxGrid extends
 		} else {
 			switch (index) {
 			case 0:
-				return Accounter.getCompany().getTaxAgency(
+				return getCompany().getTaxAgency(
 						paySalesTax.getTaxAgency()).getName() != null ? Accounter
 						.getCompany().getTaxAgency(paySalesTax.getTaxAgency())
 						.getName()
 						: "";
 			case 1:
-				return Accounter.getCompany().getTaxItem(
+				return getCompany().getTaxItem(
 						paySalesTax.getTaxItem()) != null ? Accounter
 						.getCompany().getTaxItem(paySalesTax.getTaxItem())
 						.getName() : "";

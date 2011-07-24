@@ -44,7 +44,7 @@ public class ShippingTerms extends CreatableObject implements
 	/**
 	 * @return the id
 	 */
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 
@@ -95,9 +95,6 @@ public class ShippingTerms extends CreatableObject implements
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;

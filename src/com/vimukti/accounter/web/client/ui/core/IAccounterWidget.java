@@ -12,9 +12,9 @@ public interface IAccounterWidget {
 
 	public void deleteSuccess(Boolean result);
 
-	public String getID();
+	public long getID();
 
-	public void setid(String id);
+	public void setID(long id);
 
 	public void processupdateView(IAccounterCore core, int command);
 }

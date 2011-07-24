@@ -123,7 +123,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 	@ReffereredObject
 	ItemReceipt itemReceipt;
 
-	// transient boolean isImported;
+	// 
 
 	public EnterBill() {
 		setType(Transaction.TYPE_ENTER_BILL);
@@ -216,9 +216,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -531,20 +528,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 		return "Supplier Enter Bill";
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		if (this.transactionItems != null) {
-			for (TransactionItem ti : this.transactionItems) {
-				ti.setImported(true);
-			}
-		}
-		if (this.transactionPayBills != null) {
-			for (TransactionPayBill tp : this.transactionPayBills) {
-				tp.setImported(true);
-			}
-		}
-	}
 
 	@Override
 	public Payee getInvolvedPayee() {
@@ -774,7 +757,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 				// .get(
 				// TransactionItem.class,
 				// transactionItem.referringTransactionItem
-				// .getId());
+				// .getID());
 				// //
 				// double amount = referringTransactionItem.usedamt;
 				//
@@ -836,7 +819,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 					TransactionItem referringTransactionItem = (TransactionItem) session
 							.get(TransactionItem.class,
 									transactionItem.referringTransactionItem
-											.getId());
+											.getID());
 					double amount = 0d;
 
 					if (!isAddition)

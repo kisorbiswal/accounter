@@ -17,7 +17,7 @@ public class TaxAgencyAccountsCombo extends AccountCombo {
 	@Override
 	public List<ClientAccount> getAccounts() {
 		taxAgencyAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : Accounter.getCompany()
+		for (ClientAccount account : getCompany()
 				.getActiveAccounts())
 			if (account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
 					&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE

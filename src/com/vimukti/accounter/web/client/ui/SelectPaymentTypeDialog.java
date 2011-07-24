@@ -35,7 +35,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		typeRadio.setShowTitle(false);
 		typeRadio.setRequired(true);
 		String paymentType;
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			paymentType = Accounter.getFinanceUIConstants()
 					.vendorPayment();
 		} else {
@@ -76,7 +76,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 				if (typeRadio.getValue() != null) {
 					String radio = typeRadio.getValue().toString();
 					String paymentType;
-					if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+					if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 						paymentType = Accounter
 								.getFinanceUIConstants().vendorPayment();
 					} else {

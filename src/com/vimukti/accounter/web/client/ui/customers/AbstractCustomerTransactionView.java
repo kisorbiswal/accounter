@@ -226,7 +226,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	@Override
 	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
 		if (gridType == CUSTOMER_TRANSACTION_GRID)
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 				return new CustomerTransactionUSGrid() {
 					@Override
 					public void deleteRecord(ClientTransactionItem obj) {
@@ -245,22 +245,22 @@ public abstract class AbstractCustomerTransactionView<T> extends
 		if (TAXCodeID != null && TAXCodeID.length() != 0) {
 			// Checking the selected object is VATItem or VATGroup.
 			// If it is VATItem,the we should get 'VATRate',otherwise 'GroupRate
-			if (Accounter.getCompany().getTAXItemGroup(
-					Accounter.getCompany().getTAXCode(TAXCodeID)
+			if (getCompany().getTAXItemGroup(
+					getCompany().getTAXCode(TAXCodeID)
 							.getTAXItemGrpForPurchases()) instanceof ClientTAXItem) {
 				// The selected one is VATItem,so get 'VATRate' from 'VATItem'
-				vatRate = ((ClientTAXItem) Accounter.getCompany()
+				vatRate = ((ClientTAXItem) getCompany()
 						.getTAXItemGroup(
-								Accounter.getCompany().getTAXCode(
+								getCompany().getTAXCode(
 										TAXCodeID).getTAXItemGrpForSales()))
 						.getTaxRate();
 			} else {
 
 				// The selected one is VATGroup,so get 'GroupRate' from
 				// 'VATGroup'
-				vatRate = ((ClientTAXGroup) Accounter.getCompany()
+				vatRate = ((ClientTAXGroup) getCompany()
 						.getTAXItemGroup(
-								Accounter.getCompany().getTAXCode(
+								getCompany().getTAXCode(
 										TAXCodeID).getTAXItemGrpForSales()))
 						.getGroupRate();
 			}
@@ -275,7 +275,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	protected abstract void initSalesTaxNonEditableItem();
 
 	protected void initShippingTerms() {
-		shippingTerms = Accounter.getCompany().getShippingTerms();
+		shippingTerms = getCompany().getShippingTerms();
 
 		shippingTermsCombo.initCombo(shippingTerms);
 
@@ -293,7 +293,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	}
 
 	protected void initShippingMethod() {
-		List<ClientShippingMethod> result = Accounter.getCompany()
+		List<ClientShippingMethod> result = getCompany()
 				.getShippingMethods();
 		if (shippingMethodsCombo != null) {
 			shippingMethodsCombo.initCombo(result);
@@ -372,7 +372,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 		if (customer == null)
 			return;
 
-		ClientCompany company = Accounter.getCompany();
+		ClientCompany company = getCompany();
 
 		salesPersonSelected(company.getSalesPerson(customer.getSalesPerson()));
 		if (customer.getPaymentTerm() != null)
@@ -394,7 +394,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 		shippingMethodSelected(company.getShippingMethod(customer
 				.getShippingMethod()));
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			taxCodeSelected(company.getTAXCode(customer.getTAXCode()));
 
 		priceLevelSelected(company.getPriceLevel(customer.getPriceLevel()));
@@ -436,7 +436,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	@Override
 	protected void showMenu(AccounterButton button) {
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, Accounter.getCustomersMessages()
 					.accounts(), Accounter.getCustomersMessages()
 					.service(), Accounter.getCustomersMessages()
@@ -481,14 +481,14 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected void initPaymentTerms() {
 
-		paymentTermsList = Accounter.getCompany().getPaymentsTerms();
+		paymentTermsList = getCompany().getPaymentsTerms();
 
 		payTermsSelect.initCombo(paymentTermsList);
 
 	}
 
 	public void initTaxItemGroups() {
-		taxCodes = Accounter.getCompany().getTaxCodes();
+		taxCodes = getCompany().getTaxCodes();
 
 		taxCodeSelect.initCombo(taxCodes);
 
@@ -504,7 +504,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected void initPriceLevels() {
 
-		priceLevels = Accounter.getCompany().getPriceLevels();
+		priceLevels = getCompany().getPriceLevels();
 
 		priceLevelSelect.initCombo(priceLevels);
 
@@ -512,14 +512,14 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected void initSalesPersons() {
 
-		salesPersons = Accounter.getCompany().getActiveSalesPersons();
+		salesPersons = getCompany().getActiveSalesPersons();
 
 		salesPersonCombo.initCombo(salesPersons);
 
 	}
 
 	protected void initCustomers() {
-		List<ClientCustomer> result = Accounter.getCompany()
+		List<ClientCustomer> result = getCompany()
 				.getActiveCustomers();
 		customers = result;
 
@@ -992,7 +992,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 			// This case is for all customer transactions except
 			// CustomerRefunds.
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				if (!(this.transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS))
 					return AccounterValidator.validateFormItem(taxCodeSelect,
 							false);
@@ -1126,10 +1126,10 @@ public abstract class AbstractCustomerTransactionView<T> extends
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 		if (item.equals(Accounter.getCustomersMessages().accounts())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-			List<ClientTAXCode> taxCodes = Accounter.getCompany()
+			List<ClientTAXCode> taxCodes = getCompany()
 					.getActiveTaxCodes();
 			String ztaxCodeid = null;
-			if (Accounter.getCompany().getpreferences()
+			if (getCompany().getpreferences()
 					.getDoYouPaySalesTax()) {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
@@ -1152,9 +1152,9 @@ public abstract class AbstractCustomerTransactionView<T> extends
 		} else if (item.equals(Accounter.getCustomersMessages()
 				.product())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-			if (Accounter.getCompany().getpreferences()
+			if (getCompany().getpreferences()
 					.getDoYouPaySalesTax()) {
-				List<ClientTAXCode> taxCodes = Accounter.getCompany()
+				List<ClientTAXCode> taxCodes = getCompany()
 						.getActiveTaxCodes();
 				String staxCodeid = null;
 				for (ClientTAXCode taxCode : taxCodes) {
@@ -1169,10 +1169,10 @@ public abstract class AbstractCustomerTransactionView<T> extends
 		} else if (item.equals(Accounter.getCustomersMessages()
 				.service())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
-			List<ClientTAXCode> taxCodes = Accounter.getCompany()
+			List<ClientTAXCode> taxCodes = getCompany()
 					.getActiveTaxCodes();
 			String ztaxCodeid = null;
-			if (Accounter.getCompany().getpreferences()
+			if (getCompany().getpreferences()
 					.getDoYouPaySalesTax()) {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
@@ -1199,7 +1199,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	protected void shippingMethodSelected(ClientShippingMethod selectItem) {
 		this.shippingMethod = selectItem;
 		if (shippingMethod != null && shippingMethodsCombo != null) {
-			shippingMethodsCombo.setComboItem(Accounter.getCompany()
+			shippingMethodsCombo.setComboItem(getCompany()
 					.getShippingMethod(shippingMethod.getID()));
 			shippingMethodsCombo.setDisabled(isEdit);
 		}
@@ -1209,7 +1209,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	protected void shippingTermSelected(ClientShippingTerms shippingTerm2) {
 		this.shippingTerm = shippingTerm2;
 		if (shippingTerm != null && shippingTermsCombo != null) {
-			shippingTermsCombo.setComboItem(Accounter.getCompany()
+			shippingTermsCombo.setComboItem(getCompany()
 					.getShippingTerms(shippingTerm.getID()));
 			shippingTermsCombo.setDisabled(isEdit);
 		}
@@ -1252,7 +1252,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 		this.depositInAccount = depositInAccount2;
 		if (depositInAccount != null && depositInCombo != null) {
 
-			depositInCombo.setComboItem(Accounter.getCompany()
+			depositInCombo.setComboItem(getCompany()
 					.getAccount(depositInAccount.getID()));
 			depositInCombo.setDisabled(isEdit);
 		}

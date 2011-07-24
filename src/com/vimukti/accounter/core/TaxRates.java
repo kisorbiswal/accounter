@@ -31,7 +31,7 @@ public class TaxRates implements IAccounterServerCore, Lifecycle {
 	 */
 	FinanceDate asOf;
 
-	transient boolean isImported;
+	
 
 	transient private boolean isOnSaveProccessed;
 
@@ -45,12 +45,6 @@ public class TaxRates implements IAccounterServerCore, Lifecycle {
 		return version;
 	}
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
 
 	/**
 	 * @return the rate

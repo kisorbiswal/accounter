@@ -80,7 +80,7 @@ public class SoldAndDisposedItemsListView extends
 	@Override
 	public void updateInGrid(ClientFixedAsset objectTobeModified) {
 		grid.setRecords(getAssetsByType(ClientFixedAsset.STATUS_PENDING,
-				Accounter.getCompany().getFixedAssets()));
+				getCompany().getFixedAssets()));
 	}
 
 	@Override

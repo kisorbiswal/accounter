@@ -7,7 +7,7 @@ public class EmployeeCombo extends CustomCombo<ClientUser> {
 
 	public EmployeeCombo(String title) {
 		super(title);
-		initCombo(Accounter.getCompany().getUsersList());
+		initCombo(getCompany().getUsersList());
 	}
 
 	@Override

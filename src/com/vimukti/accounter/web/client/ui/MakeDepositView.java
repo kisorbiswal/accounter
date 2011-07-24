@@ -176,7 +176,7 @@ public class MakeDepositView extends
 	private void addTransactionMakeDepositsToGrid(
 			List<ClientTransactionMakeDeposit> transactionMakeDepositList) {
 		@SuppressWarnings("unused")
-		ClientCompany company = Accounter.getCompany();
+		ClientCompany company = getCompany();
 
 		ClientTransactionMakeDeposit records[] = new ClientTransactionMakeDeposit[transactionMakeDepositList
 				.size()];
@@ -317,7 +317,7 @@ public class MakeDepositView extends
 	}
 
 	public void initVendorCombo() {
-		List<ClientVendor> result = Accounter.getCompany()
+		List<ClientVendor> result = getCompany()
 				.getActiveVendors();
 		if (result != null) {
 			allVendors = result;
@@ -328,7 +328,7 @@ public class MakeDepositView extends
 	}
 
 	private void initCustomerCombo() {
-		List<ClientCustomer> result = Accounter.getCompany()
+		List<ClientCustomer> result = getCompany()
 				.getActiveCustomers();
 		if (result != null) {
 			allCustomers = result;
@@ -661,7 +661,7 @@ public class MakeDepositView extends
 				.getRecords();
 
 		for (ClientTransactionMakeDeposit rec : selectedRecords) {
-			rec.setid("");
+			rec.setID("");
 			rec.setMakeDeposit(makeDeposit);
 		}
 
@@ -705,11 +705,11 @@ public class MakeDepositView extends
 		getDepositInAccounts();
 
 		if (transactionObject != null) {
-			depositInSelect.setComboItem(Accounter.getCompany()
+			depositInSelect.setComboItem(getCompany()
 					.getAccount(
 							((ClientMakeDeposit) transactionObject)
 									.getDepositIn()));
-			this.selectedDepositInAccount = Accounter.getCompany()
+			this.selectedDepositInAccount = getCompany()
 					.getAccount(
 							((ClientMakeDeposit) transactionObject)
 									.getDepositIn());
@@ -727,7 +727,7 @@ public class MakeDepositView extends
 
 	private void initCashBackAccounts() {
 		accountsList = new ArrayList<ClientAccount>();
-		for (ClientAccount account : Accounter.getCompany()
+		for (ClientAccount account : getCompany()
 				.getActiveAccounts()) {
 
 			if (account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
@@ -972,7 +972,7 @@ public class MakeDepositView extends
 
 		if (transactionObject != null) {
 			date.setValue(transactionObject.getDate());
-			depositInSelect.setComboItem(Accounter.getCompany()
+			depositInSelect.setComboItem(getCompany()
 					.getAccount(
 							((ClientMakeDeposit) transactionObject)
 									.getDepositIn()));
@@ -980,7 +980,7 @@ public class MakeDepositView extends
 			if (((ClientMakeDeposit) transactionObject).getMemo() != null)
 				memoText.setValue(((ClientMakeDeposit) transactionObject)
 						.getMemo());
-			cashBackAccountSelect.setComboItem(Accounter.getCompany()
+			cashBackAccountSelect.setComboItem(getCompany()
 					.getAccount(
 							((ClientMakeDeposit) transactionObject)
 									.getCashBackAccount()));
@@ -1046,7 +1046,7 @@ public class MakeDepositView extends
 	}
 
 	private void initFianancialAccounts() {
-		allAccounts = Accounter.getCompany().getActiveAccounts();
+		allAccounts = getCompany().getActiveAccounts();
 		financeAccountSelect.initCombo(allAccounts);
 	}
 

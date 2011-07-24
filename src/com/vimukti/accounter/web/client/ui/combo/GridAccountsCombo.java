@@ -26,7 +26,7 @@ public class GridAccountsCombo extends AccountCombo {
 
 	public List<ClientAccount> getAccounts() {
 		gridAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : Accounter.getCompany()
+		for (ClientAccount account : getCompany()
 				.getActiveAccounts()) {
 			if (account.getType() != ClientAccount.TYPE_CASH
 					&& account.getType() != ClientAccount.TYPE_BANK
@@ -57,7 +57,7 @@ public class GridAccountsCombo extends AccountCombo {
 		action.setActionSource(this);
 		action.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.GRID_ACCOUNTS_COMBO));
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 
 	}

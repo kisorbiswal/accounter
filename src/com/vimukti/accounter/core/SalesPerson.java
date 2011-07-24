@@ -101,7 +101,7 @@ public class SalesPerson extends Payee implements Lifecycle {
 	 */
 	FinanceDate dateOfRelease;
 
-	transient boolean isImported;
+	
 	String createdBy;
 	String lastModifier;
 //	String createdDate;
@@ -119,13 +119,6 @@ public class SalesPerson extends Payee implements Lifecycle {
 		return version;
 	}
 
-	/**
-	 * @return the id
-	 */
-	@Override
-	public long getId() {
-		return id;
-	}
 
 	/**
 	 * @return the title
@@ -255,7 +248,7 @@ public class SalesPerson extends Payee implements Lifecycle {
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setid(this.id);
+		accounterCore.setID(this.id);
 		accounterCore.setObjectType(AccounterCoreType.SALES_PERSON);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -269,9 +262,6 @@ public class SalesPerson extends Payee implements Lifecycle {
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -287,20 +277,9 @@ public class SalesPerson extends Payee implements Lifecycle {
 
 	@Override
 	public long getID(){
-		// TODO Auto-generated method stub
 		return this.id;
 	}
 
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

@@ -19,12 +19,12 @@ public class SalesItemCombo extends AccountCombo {
 
 	@Override
 	public List<ClientAccount> getAccounts() {
-		return Accounter.getCompany().getActiveAccounts();
+		return getCompany().getActiveAccounts();
 	}
 
 	public List<ClientAccount> getFilterdAccounts() {
 		filtrdAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : Accounter.getCompany()
+		for (ClientAccount account : getCompany()
 				.getActiveAccounts()) {
 			if (account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
 					&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
@@ -51,7 +51,7 @@ public class SalesItemCombo extends AccountCombo {
 		NewAccountAction action = CompanyActionFactory.getNewAccountAction();
 		action.setActionSource(this);
 		action.setAccountTypes(Arrays.asList(ClientAccount.TYPE_INCOME));
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 
 	}

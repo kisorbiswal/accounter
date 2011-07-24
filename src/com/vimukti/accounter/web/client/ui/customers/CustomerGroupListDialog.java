@@ -89,7 +89,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 		ClientCustomerGroup customerGroup = new ClientCustomerGroup();
 		customerGroup.setName(inputDlg.getTextItems().get(0).getValue()
 				.toString());
-		if (Utility.isObjectExist(Accounter.getCompany()
+		if (Utility.isObjectExist(getCompany()
 				.getCustomerGroups(), customerGroup.getName())) {
 			Accounter.showError("Customer Group Already Exists");
 		} else {
@@ -174,7 +174,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 
 	@Override
 	protected List getRecords() {
-		return (List) Accounter.getCompany().getCustomerGroups();
+		return (List) getCompany().getCustomerGroups();
 	}
 
 	public void deleteCallBack() {

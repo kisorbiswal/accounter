@@ -44,7 +44,7 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 				Accounter.getReportsMessages().custom());
 
 		// Make rpc request for default VAT Agency and default DateRange
-		List<ClientTAXAgency> vatAgencies = Accounter.getCompany()
+		List<ClientTAXAgency> vatAgencies = getCompany()
 				.getTaxAgencies();
 		for (ClientTAXAgency vatAgency : vatAgencies) {
 			if (vatAgency.getName().equalsIgnoreCase(

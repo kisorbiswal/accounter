@@ -46,7 +46,7 @@ public class CustomerPrePayment extends Transaction implements Lifecycle {
 	 */
 	List<TransactionCreditsAndPayments> transactionCreditsAndPayments;
 
-	// transient boolean isImported;
+	// 
 
 	public CustomerPrePayment() {
 
@@ -124,9 +124,6 @@ public class CustomerPrePayment extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -140,13 +137,12 @@ public class CustomerPrePayment extends Transaction implements Lifecycle {
 			if (creditsAndPayments != null
 					&& DecimalUtil.isEquals(creditsAndPayments.creditAmount,
 							0.0d)) {
-				creditsAndPayments = new CreditsAndPayments(this,
-						creditsAndPayments.id);
+				creditsAndPayments.update(this);
 				this.setCreditsAndPayments(creditsAndPayments);
 			} else {
 				creditsAndPayments = new CreditsAndPayments(this);
-				this.setCreditsAndPayments(creditsAndPayments);
 			}
+			this.setCreditsAndPayments(creditsAndPayments);
 			session.save(creditsAndPayments);
 		}
 		if (!(this.paymentMethod
@@ -221,16 +217,6 @@ public class CustomerPrePayment extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		if (this.transactionCreditsAndPayments != null) {
-			for (TransactionCreditsAndPayments ti : this.transactionCreditsAndPayments) {
-				ti.setImported(true);
-			}
-		}
-	}
-
-	@Override
 	public Payee getInvolvedPayee() {
 		return this.customer;
 	}
@@ -279,13 +265,11 @@ public class CustomerPrePayment extends Transaction implements Lifecycle {
 				if (creditsAndPayments != null
 						&& DecimalUtil.isEquals(
 								creditsAndPayments.creditAmount, 0.0d)) {
-					creditsAndPayments = new CreditsAndPayments(this,
-							creditsAndPayments.getID());
+					creditsAndPayments.update(this);
 				} else {
 					creditsAndPayments = new CreditsAndPayments(this);
 				}
 				this.setCreditsAndPayments(creditsAndPayments);
-
 				session.save(creditsAndPayments);
 
 			} else if (!DecimalUtil.isEquals(customerPrePayment.total,

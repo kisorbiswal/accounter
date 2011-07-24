@@ -283,7 +283,7 @@ public class MainFinanceWindow extends VerticalPanel {
 				.getFinanceUIConstants().company(), getCompanyMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
-		if (accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			menuitem = menuBar.addItem(Accounter
 					.getFinanceUIConstants().vat(), getVATMenu());
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
@@ -768,7 +768,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		// reportMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
 		// .banking(), getBankingSubMenu());
 		// }
-		if (accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			reportMenuBar.addItem(accounter.getFinanceUIConstants()
 					.vat(), getVATReportMenu());
 		}
@@ -908,15 +908,15 @@ public class MainFinanceWindow extends VerticalPanel {
 				.getTrialBalanceAction());
 		companyAndFinancialMenuBar.addItem(ReportsActionFactory
 				.getTransactionDetailByAccountAction());
-		if (accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			companyAndFinancialMenuBar.addItem(ReportsActionFactory
 					.getGlReportAction());
 		companyAndFinancialMenuBar.addItem(ReportsActionFactory
 				.getExpenseReportAction());
-		if (accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			companyAndFinancialMenuBar.addItem(ReportsActionFactory
 					.getSalesTaxLiabilityAction());
-		if (accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			companyAndFinancialMenuBar.addItem(ReportsActionFactory
 					.getTransactionDetailByTaxItemAction());
 		return companyAndFinancialMenuBar;
@@ -929,7 +929,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		bankingMenuBar.addItem(BankingActionFactory.getNewBankAccountAction());
 		bankingMenuBar.addSeparator();
 		// bankingMenuBar.addItem(BankingActionFactory.getAccountRegisterAction());
-		if (accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			bankingMenuBar.addItem(BankingActionFactory.getWriteChecksAction());
 
 		bankingMenuBar.addItem(BankingActionFactory.getMakeDepositAction());
@@ -1013,7 +1013,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		if (accounter.getUser().canDoInvoiceTransactions())
 			newVendorMenuBar.addItem(VendorsActionFactory
 					.getNewCreditMemoAction());
-		if (accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			if (accounter.getUser().canDoInvoiceTransactions())
 				newVendorMenuBar.addItem(VendorsActionFactory
 						.getNewCheckAction());
@@ -1159,7 +1159,7 @@ public class MainFinanceWindow extends VerticalPanel {
 			companyMenuBar.addItem(CompanyActionFactory.getPreferencesAction());
 			companyMenuBar.addSeparator();
 		}
-		if (accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			companyMenuBar.addItem(accounter.getFinanceUIConstants()
 					.itemTax(), getSalesTaxSubmenu());
 		companyMenuBar.addItem(accounter.getFinanceUIConstants()

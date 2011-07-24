@@ -82,7 +82,7 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 	}
 
 	public void createShippingMethod() {
-		if (Utility.isObjectExist(Accounter.getCompany()
+		if (Utility.isObjectExist(getCompany()
 				.getShippingMethods(), inputDlg.getTextValueByIndex(0))) {
 			Accounter.showError("Shipping Method  Already Exists");
 		} else {
@@ -186,7 +186,7 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 
 	@Override
 	protected List<ClientShippingMethod> getRecords() {
-		return (List<ClientShippingMethod>) Accounter.getCompany()
+		return (List<ClientShippingMethod>) getCompany()
 				.getShippingMethods();
 	}
 

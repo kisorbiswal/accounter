@@ -34,7 +34,7 @@ public class UploadAttachmentServlet extends HttpServlet {
 			if (companyName == null)
 				return;
 			session = HibernateUtil.openSession(companyName);
-			identity = getIdentity(request);
+			identity = getIDentity(request);
 			if (identity == null) {
 				return;
 			}
@@ -126,7 +126,7 @@ public class UploadAttachmentServlet extends HttpServlet {
 		}
 	}
 
-	public CollaberIdentity getIdentity(HttpServletRequest req) {
+	public CollaberIdentity getIDentity(HttpServletRequest req) {
 		String identityID = (String) req.getSession().getAttribute(
 				BizantraService.SESSION_IDENTITYID);
 		if (identityID == null) {

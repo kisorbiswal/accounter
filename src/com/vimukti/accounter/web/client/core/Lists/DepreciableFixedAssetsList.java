@@ -10,7 +10,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class DepreciableFixedAssetsList implements IsSerializable, Serializable {
 
 	Map<String, List<DepreciableFixedAssetsEntry>> accountViceFixedAssets;
-	List<String> fixedAssetids;
+	List<String> fixedAssetIDs;
 
 	public DepreciableFixedAssetsList() {
 	}
@@ -33,12 +33,12 @@ public class DepreciableFixedAssetsList implements IsSerializable, Serializable 
 		this.accountViceFixedAssets = accountViceFixedAssets;
 	}
 
-	public List<String> getFixedAssetids() {
-		return fixedAssetids;
+	public List<String> getFixedAssetIDs() {
+		return fixedAssetIDs;
 	}
 
-	public void setFixedAssetids(List<String> fixedAssetids) {
-		this.fixedAssetids = fixedAssetids;
+	public void setFixedAssetIDs(List<String> fixedAssetIDs) {
+		this.fixedAssetIDs = fixedAssetIDs;
 	}
 
 }

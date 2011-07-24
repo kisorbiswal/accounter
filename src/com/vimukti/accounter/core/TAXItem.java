@@ -63,7 +63,7 @@ public class TAXItem extends TAXItemGroup {
 	/**
 	 * @return the id
 	 */
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 
@@ -174,9 +174,6 @@ public class TAXItem extends TAXItemGroup {
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
-		if (isImported) {
-			return false;
-		}
 
 		if (this.vatReturnBox != null
 				&& (this.vatReturnBox.name

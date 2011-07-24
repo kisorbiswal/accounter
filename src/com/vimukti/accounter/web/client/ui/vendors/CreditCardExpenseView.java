@@ -80,7 +80,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 				action.setActionSource(this);
 				action.setOpenedFrom(viewFrom);
-				HistoryTokenUtils.setPresentToken(action, null);
+				
 				action.run(null, true);
 
 			}
@@ -125,7 +125,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 		if (transactionObject != null) {
 			ClientCreditCardCharge creditCardCharge = (ClientCreditCardCharge) transactionObject;
-			Ccard.setComboItem(Accounter.getCompany().getVendor(
+			Ccard.setComboItem(getCompany().getVendor(
 					creditCardCharge.getVendor()));
 			Ccard.setDisabled(true);
 		}
@@ -192,7 +192,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 		// Setting pay from
 		payFromAccount = payFrmSelect.getSelectedValue().getID();
 		if (payFromAccount.length() != 0 && payFromAccount != null)
-			creditCardCharge.setPayFrom(Accounter.getCompany()
+			creditCardCharge.setPayFrom(getCompany()
 					.getAccount(payFromAccount).getID());
 
 		// setting check no
@@ -280,7 +280,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 	@Override
 	protected void showMenu(AccounterButton button) {
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, Accounter.getVendorsMessages()
 					.accounts(), Accounter.getVendorsMessages()
 					.service());

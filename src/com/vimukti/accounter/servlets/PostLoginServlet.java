@@ -32,7 +32,7 @@ public class PostLoginServlet extends BaseServlet {
 		String userID = (String) request.getSession().getAttribute(USER_ID);
 		RequestDispatcher dispatcher;
 		if (userID != null) {
-			initComet(request.getSession().getId(), userID);
+			initComet(request.getSession().getID(), userID);
 			// there is no session, so do external redirect to login page
 			// response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
 			// response.setHeader("Location", "/Accounter.jsp");

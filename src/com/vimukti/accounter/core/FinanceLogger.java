@@ -24,13 +24,6 @@ public class FinanceLogger implements IAccounterServerCore {
 	private String createdBy;
 	private String logMessge;
 
-	public long getId() {
-		return id;
-	}
-
-	public void setID(long id){
-		this.id = id;
-	}
 
 	public FinanceDate getCreatedDate() {
 		return createdDate;
@@ -124,19 +117,9 @@ public class FinanceLogger implements IAccounterServerCore {
 
 	@Override
 	public long getID(){
-		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
-	@Override
-	public void setID(long id){
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-
-	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

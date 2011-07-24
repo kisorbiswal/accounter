@@ -105,7 +105,7 @@ public class SelectPayeeDialog extends BaseDialog {
 							Action action = VendorsActionFactory
 									.getNewVendorAction();
 							action.setActionSource(actionSource);
-							HistoryTokenUtils.setPresentToken(action, null);
+							
 							action.run(null, true);
 							
 						} catch (Throwable e) {
@@ -119,7 +119,7 @@ public class SelectPayeeDialog extends BaseDialog {
 							Action action = CustomersActionFactory
 									.getNewCustomerAction();
 							action.setActionSource(actionSource);
-							HistoryTokenUtils.setPresentToken(action, null);
+							
 							action.run(null, true);
 							
 							hide();

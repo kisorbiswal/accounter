@@ -233,7 +233,7 @@ public interface IAccounterDAOService {
 	public List<VendorGroup> getVendorGroups(long companyId)
 			throws DAOException;
 
-	public FixedAsset getFixedAsset(long companyId, long fixedAssetId)
+	public FixedAsset getFixedAsset(long companyId, long fixedAssetID)
 			throws DAOException;
 
 	/**

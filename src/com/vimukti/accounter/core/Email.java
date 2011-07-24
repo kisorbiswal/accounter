@@ -24,7 +24,7 @@ public class Email implements IAccounterServerCore {
 	 */
 	boolean isSelected = false;
 
-	transient boolean isImported;
+	
 
 	public Email() {
 		// TODO
@@ -68,21 +68,9 @@ public class Email implements IAccounterServerCore {
 
 	@Override
 	public long getID(){
-		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
-	@Override
-	public void setID(long id){
-		// this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

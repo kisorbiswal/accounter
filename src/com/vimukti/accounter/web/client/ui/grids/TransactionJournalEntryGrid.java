@@ -212,7 +212,7 @@ public class TransactionJournalEntryGrid extends
 	}
 
 	private void initAccountsCombo() {
-		List<ClientAccount> accounts = Accounter.getCompany()
+		List<ClientAccount> accounts = getCompany()
 				.getActiveAccounts();
 		if (accounts != null) {
 			accountsCombo.initCombo(accounts);
@@ -221,7 +221,7 @@ public class TransactionJournalEntryGrid extends
 	}
 
 	private void initCustomersCombo() {
-		List<ClientCustomer> customers = Accounter.getCompany()
+		List<ClientCustomer> customers = getCompany()
 				.getActiveCustomers();
 		if (customers != null) {
 			customerCombo.initCombo(customers);
@@ -230,14 +230,14 @@ public class TransactionJournalEntryGrid extends
 
 	@SuppressWarnings("unused")
 	private void initTaxCodesCombo() {
-		List<ClientTAXCode> taxCodes = Accounter.getCompany()
+		List<ClientTAXCode> taxCodes = getCompany()
 				.getActiveTaxCodes();
 		if (taxCodes != null)
 			taxcodeCombo.initCombo(taxCodes);
 	}
 
 	public void addVendorGroupList() {
-		List<ClientVendor> vendors = Accounter.getCompany()
+		List<ClientVendor> vendors = getCompany()
 				.getActiveVendors();
 		if (vendors != null) {
 			vendorCombo.initCombo(vendors);
@@ -476,19 +476,19 @@ public class TransactionJournalEntryGrid extends
 		switch (vocherType) {
 
 		case ClientEntry.TYPE_FINANCIAL_ACCOUNT:
-			coreObj = Accounter.getCompany().getAccount(
+			coreObj = getCompany().getAccount(
 					entry.getAccount());
 			break;
 		case ClientEntry.TYPE_CUSTOMER:
-			coreObj = Accounter.getCompany().getCustomer(
+			coreObj = getCompany().getCustomer(
 					entry.getCustomer());
 			break;
 		case ClientEntry.TYPE_VENDOR:
-			coreObj = Accounter.getCompany().getVendor(
+			coreObj = getCompany().getVendor(
 					entry.getVendor());
 			break;
 		case ClientEntry.TYPE_VAT:
-			coreObj = Accounter.getCompany().getTAXCode(
+			coreObj = getCompany().getTAXCode(
 					entry.getTaxCode());
 		}
 		return coreObj != null ? coreObj.getName() : "";

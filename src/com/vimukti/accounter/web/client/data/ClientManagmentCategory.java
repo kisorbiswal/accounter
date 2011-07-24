@@ -46,7 +46,7 @@ public class ClientManagmentCategory implements Serializable, Cloneable {
 		}
 	}
 
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 

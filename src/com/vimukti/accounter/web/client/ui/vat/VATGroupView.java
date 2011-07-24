@@ -241,11 +241,11 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 		case 4:
 			String name = groupName.getValue().toString();
 			if (((takenVatGroup == null && Utility.isObjectExist(
-					Accounter.getCompany().getVatGroups(), name)) ? false
+					getCompany().getVatGroups(), name)) ? false
 					: true)
 					|| (takenVatGroup != null ? (takenVatGroup.getName()
 							.equalsIgnoreCase(name) ? true : (Utility
-							.isObjectExist(Accounter.getCompany()
+							.isObjectExist(getCompany()
 									.getVatGroups(), name) ? false : true))
 							: true)) {
 				return true;

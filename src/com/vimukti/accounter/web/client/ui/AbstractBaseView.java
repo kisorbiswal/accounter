@@ -17,10 +17,12 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterReportServiceAsync;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -230,13 +232,13 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 				this.callback.onSuccess(object);
 			}
 			if (saveAndClose) {
-				HistoryTokenUtils.setPreviousToken();
+
 				MainFinanceWindow.getViewManager().closeView(this.getAction(),
 						object);
 			} else {
 				if (!History.getToken().equals(getAction().getHistoryToken())) {
-					MainFinanceWindow.oldToken = History.getToken();
-					HistoryTokenUtils.setPresentToken(getAction(), null);
+					
+
 				}
 				getAction().run(null, true);
 
@@ -259,7 +261,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 	protected void updateCompany(IAccounterCore obj) {
 
-		Accounter.getCompany().processCommand(obj);
+		getCompany().processCommand(obj);
 
 	}
 
@@ -438,4 +440,9 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 		this.isViewModfied = isViewModified;
 	}
 
+	public ClientCompany getCompany() {
+		// TODO
+		return null;
+
+	}
 }

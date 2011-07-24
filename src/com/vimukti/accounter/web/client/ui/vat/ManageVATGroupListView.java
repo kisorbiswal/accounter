@@ -33,7 +33,7 @@ public class ManageVATGroupListView extends BaseListView<ClientTAXGroup> {
 		grid = new ManageVATGroupListGrid();
 		grid.addStyleName("listgrid-tl");
 		grid.init();
-		listOfVatGroups = Accounter.getCompany().getVatGroups();
+		listOfVatGroups = getCompany().getVatGroups();
 		filterList(true);
 		getTotalLayout(grid);
 	}

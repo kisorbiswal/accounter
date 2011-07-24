@@ -199,7 +199,7 @@ public class Invoice extends Transaction implements Lifecycle {
 	@ReffereredObject
 	Set<TransactionReceivePayment> transactionReceivePayments = new HashSet<TransactionReceivePayment>();
 
-	// transient boolean isImported;
+	// 
 
 	public Set<TransactionReceivePayment> getTransactionReceivePayments() {
 		return transactionReceivePayments;
@@ -422,9 +422,6 @@ public class Invoice extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -475,7 +472,7 @@ public class Invoice extends Transaction implements Lifecycle {
 								.get(
 										TransactionItem.class,
 										transactionItem.referringTransactionItem
-												.getId());
+												.getID());
 						double amount = 0d;
 
 						if (!isCreated)
@@ -671,7 +668,7 @@ public class Invoice extends Transaction implements Lifecycle {
 								.get(
 										TransactionItem.class,
 										transactionItem.referringTransactionItem
-												.getId());
+												.getID());
 						double amount = 0d;
 
 						if (!isAddition)
@@ -859,21 +856,6 @@ public class Invoice extends Transaction implements Lifecycle {
 		return AccounterConstants.TYPE_INVOICE;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		if (this.transactionItems != null) {
-			for (TransactionItem ti : this.transactionItems) {
-				ti.setImported(true);
-			}
-		}
-		if (this.transactionReceivePayments != null) {
-			for (TransactionReceivePayment trp : this.transactionReceivePayments) {
-				trp.setImported(true);
-			}
-		}
-
-	}
 
 	@Override
 	public Payee getInvolvedPayee() {

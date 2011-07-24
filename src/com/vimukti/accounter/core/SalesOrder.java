@@ -103,7 +103,7 @@ public class SalesOrder extends Transaction implements Lifecycle {
 	 */
 	String customerOrderNumber;
 
-	// transient boolean isImported;
+	// 
 
 	// List<Invoice> invoices;
 
@@ -369,9 +369,6 @@ public class SalesOrder extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -419,7 +416,7 @@ public class SalesOrder extends Transaction implements Lifecycle {
 								.get(
 										TransactionItem.class,
 										transactionItem.referringTransactionItem
-												.getId());
+												.getID());
 						double amount = 0d;
 						if (!isAddition)
 							if (transactionItem.type == TransactionItem.TYPE_ITEM
@@ -567,13 +564,6 @@ public class SalesOrder extends Transaction implements Lifecycle {
 		return AccounterConstants.TYPE_SALES_ORDER;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		for (TransactionItem ti : this.transactionItems) {
-			ti.setImported(true);
-		}
-	}
 
 	@Override
 	public Payee getInvolvedPayee() {

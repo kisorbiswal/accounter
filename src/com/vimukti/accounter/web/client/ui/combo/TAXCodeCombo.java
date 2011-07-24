@@ -22,20 +22,20 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 	public TAXCodeCombo(String title, boolean isSales) {
 		super(title);
 		this.isSales = isSales;
-		initCombo(TAXCodesForSalesOrPurchase(Accounter.getCompany()
+		initCombo(TAXCodesForSalesOrPurchase(getCompany()
 				.getActiveTaxCodes()));
 	}
 
 	public TAXCodeCombo(String title, boolean isAddNewRequired, boolean isSales) {
 		super(title, isAddNewRequired, 1);
 		this.isSales = isSales;
-		initCombo(TAXCodesForSalesOrPurchase(Accounter.getCompany()
+		initCombo(TAXCodesForSalesOrPurchase(getCompany()
 				.getActiveTaxCodes()));
 	}
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			return comboConstants.addNewItem();
 		else
 			return comboConstants.newVatCode();
@@ -80,10 +80,10 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 
 	@Override
 	public void onAddNew() {
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				Action action = VatActionFactory.getNewTAXCodeAction();
 				action.setActionSource(this);
-				HistoryTokenUtils.setPresentToken(action, null);
+				
 				action.run(null, true);
 			} else {
 				TaxDialogAction action1 = CustomersActionFactory.getTaxAction();
@@ -105,11 +105,11 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 			return getDisplayName(object);
 		case 1:
 			if (isSales) {
-				ClientTAXItem item = Accounter.getCompany()
+				ClientTAXItem item = getCompany()
 						.getTaxItem(object.getTAXItemGrpForSales());
 				return DataUtils.getAmountAsString(item.getTaxRate()) + "%";
 			} else {
-				ClientTAXItem item = Accounter.getCompany()
+				ClientTAXItem item = getCompany()
 						.getTaxItem(object.getTAXItemGrpForPurchases());
 				return DataUtils.getAmountAsString(item.getTaxRate()) + "%";
 			}

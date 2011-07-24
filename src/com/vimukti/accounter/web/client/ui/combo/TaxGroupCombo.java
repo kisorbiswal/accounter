@@ -30,7 +30,7 @@ public class TaxGroupCombo extends CustomCombo<ClientTAXItemGroup> {
 	public void onAddNew() {
 		Action action = CompanyActionFactory.getManageSalesTaxGroupsAction();
 		action.setActionSource(this);
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 	}
 

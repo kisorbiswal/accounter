@@ -149,7 +149,7 @@ public class CompanyListDialog extends AbstractBaseDialog<ClientCompany> {
 		// ++recordIndex) {
 		// c = result.get(recordIndex);
 		// records[recordIndex] = new ListGridRecord();
-		// records[recordIndex].setAttribute("comp_id", c.getId() + "");
+		// records[recordIndex].setAttribute("comp_id", c.getID() + "");
 		// records[recordIndex].setAttribute("name", c.getName());
 		// // records[recordIndex].setAttribute("legal_name",
 		// // c.getLegalName());

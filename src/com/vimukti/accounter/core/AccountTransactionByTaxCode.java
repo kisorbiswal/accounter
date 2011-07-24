@@ -7,7 +7,7 @@ public class AccountTransactionByTaxCode {
 	
 	double amount;
 
-	transient boolean isImported;
+	
 
 	public Account getAccount() {
 		return account;

@@ -36,7 +36,7 @@ public class IssuePayment extends Transaction {
 	 */
 	List<TransactionIssuePayment> transactionIssuePayment;
 
-	// transient boolean isImported;
+	// 
 
 	public IssuePayment() {
 		// TODO
@@ -58,7 +58,7 @@ public class IssuePayment extends Transaction {
 	 * @return the id
 	 */
 	@Override
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 
@@ -112,14 +112,6 @@ public class IssuePayment extends Transaction {
 		return AccounterConstants.TYPE_ISSUE_PAYMENT;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		for (TransactionIssuePayment ti : this.transactionIssuePayment) {
-			ti.setImported(true);
-		}
-
-	}
 
 	@Override
 	public Payee getInvolvedPayee() {

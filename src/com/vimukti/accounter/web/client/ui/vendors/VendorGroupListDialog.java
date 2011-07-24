@@ -80,7 +80,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	protected void createVendorGroups() {
 		ClientVendorGroup vendorGroup = new ClientVendorGroup();
 		vendorGroup.setName(inputDlg.getTextValueByIndex(0));
-		if (Utility.isObjectExist(Accounter.getCompany()
+		if (Utility.isObjectExist(getCompany()
 				.getVendorGroups(), vendorGroup.getName())) {
 			Accounter.showError(UIUtils.getVendorString(
 					"Supplier Group Already Exists",
@@ -176,7 +176,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 	@Override
 	protected List<ClientVendorGroup> getRecords() {
-		return Accounter.getCompany().getVendorGroups();
+		return getCompany().getVendorGroups();
 	}
 
 	@Override

@@ -50,7 +50,7 @@ public class PaySalesTax extends Transaction implements Lifecycle {
 
 	List<TransactionPaySalesTax> transactionPaySalesTax;
 
-	// transient boolean isImported;
+	// 
 
 	// List<TransactionPaySalesTax> transactionPaySalesTax;
 
@@ -98,9 +98,6 @@ public class PaySalesTax extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -194,13 +191,6 @@ public class PaySalesTax extends Transaction implements Lifecycle {
 		return AccounterConstants.TYPE_PAY_SALES_TAX;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		for (TransactionPaySalesTax ti : this.transactionPaySalesTax) {
-			ti.setImported(true);
-		}
-	}
 
 	@Override
 	public Payee getInvolvedPayee() {

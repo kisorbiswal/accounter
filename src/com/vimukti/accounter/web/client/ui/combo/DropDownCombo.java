@@ -421,12 +421,12 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	 */
 	@SuppressWarnings("unchecked")
 	public void addItemThenfireEvent(T obj) {
-		boolean usTaxCode = Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
+		boolean usTaxCode = getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
 				&& obj instanceof ClientTAXItemGroup;
 		if (obj instanceof IAccounterCore) {
 			IAccounterCore core = (IAccounterCore) obj;
 			if (usTaxCode)
-				obj = (T) Accounter.getCompany()
+				obj = (T) getCompany()
 						.getTAXCodeForTAXItemGroup((ClientTAXItemGroup) obj);
 			if (core.getObjectType() == AccounterCoreType.ACCOUNT) {
 				UIUtils.updateAccountsInSortedOrder(

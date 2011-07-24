@@ -120,7 +120,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	private void getSubAccounts() {
-		subAccounts = Accounter.getCompany().getAccounts(accountType);
+		subAccounts = getCompany().getAccounts(accountType);
 		if (takenAccount != null) {
 			for (ClientAccount account : subAccounts) {
 				if (account.getID() == takenAccount.getID()) {
@@ -140,7 +140,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	private void getBanks() {
-		this.allBanks = Accounter.getCompany().getBanks();
+		this.allBanks = getCompany().getBanks();
 		initBankNameSelect();
 	}
 
@@ -149,7 +149,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		bankNameSelect.initCombo(allBanks);
 
 		if (takenAccount != null
-				&& (selectedBank = Accounter.getCompany().getBank(
+				&& (selectedBank = getCompany().getBank(
 						takenAccount.getBank())) != null) {
 			bankNameSelect.setComboItem(selectedBank);
 		}
@@ -308,10 +308,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// asofDate.setWidth(100);
 		asofDate
 				.setEnteredDate(new ClientFinanceDate(
-						Accounter.getCompany().getPreferences()
+						getCompany().getPreferences()
 								.getPreventPostingBeforeDate() == 0 ? new ClientFinanceDate()
 								.getTime()
-								: Accounter.getCompany()
+								: getCompany()
 										.getPreferences()
 										.getPreventPostingBeforeDate()));
 
@@ -748,7 +748,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		} else {
 			for (int type : UIUtils.accountTypes) {
-				if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK)
+				if (getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK)
 					list.add(Utility.getAccountTypeString(type));
 				else if (type != ClientAccount.TYPE_CASH
 						&& type != ClientAccount.TYPE_OTHER_INCOME
@@ -782,7 +782,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		} else {
 			for (int type : UIUtils.accountTypes) {
-				if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK)
+				if (getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK)
 					accountTypesMap.put(String.valueOf(type), Utility
 							.getAccountTypeString(type));
 				else if (type != ClientAccount.TYPE_BANK
@@ -917,7 +917,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 						: "";
 				if (takenAccount != null ? (takenAccount.getName()
 						.equalsIgnoreCase(name) ? true : (Utility
-						.isObjectExist(Accounter.getCompany()
+						.isObjectExist(getCompany()
 								.getAccounts(), name) ? false : true)) : true) {
 					return true;
 				} else
@@ -949,7 +949,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 						: "";
 				if (takenAccount != null ? (takenAccount.getName()
 						.equalsIgnoreCase(name) ? true : (Utility
-						.isObjectExist(Accounter.getCompany()
+						.isObjectExist(getCompany()
 								.getAccounts(), name) ? false : true)) : true) {
 					return true;
 				} else
@@ -1037,7 +1037,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		switch (accountType) {
 		case ClientAccount.TYPE_BANK:
-			account.setBank(Utility.getId(selectedBank));
+			account.setBank(Utility.getID(selectedBank));
 			if (typeSelect.getSelectedValue() != null) {
 				int type = 0;
 				if (typeSelect.getSelectedValue().equals(
@@ -1055,7 +1055,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			account.setIncrease(Boolean.FALSE);
 			break;
 		case ClientAccount.TYPE_CREDIT_CARD:
-			account.setBank(Utility.getId(selectedBank));
+			account.setBank(Utility.getID(selectedBank));
 			if (limitText.getValue() != null)
 				account.setCreditLimit(getCreditLimit());
 			if (cardNumText.getValue() != null)
@@ -1169,7 +1169,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 							.getCardOrLoanNumber()
 							: "");
 		} else {
-			selectedSubAccount = Accounter.getCompany().getAccount(
+			selectedSubAccount = getCompany().getAccount(
 					takenAccount.getParent());
 
 			if (selectedSubAccount != null) {
@@ -1262,11 +1262,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			if (item instanceof DateField)
 				((DateField) item)
 						.setEnteredDate(new ClientFinanceDate(
-								Accounter.getCompany()
+								getCompany()
 										.getPreferences()
 										.getPreventPostingBeforeDate() == 0 ? new ClientFinanceDate()
 										.getTime()
-										: Accounter.getCompany()
+										: getCompany()
 												.getPreferences()
 												.getPreventPostingBeforeDate()));
 			else if ((item instanceof AmountField))
@@ -1320,7 +1320,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (number == null)
 			return true;
 
-		List<ClientAccount> accounts = Accounter.getCompany()
+		List<ClientAccount> accounts = getCompany()
 				.getAccounts();
 		if (takenAccount == null) {
 			for (ClientAccount account : accounts) {
@@ -1360,7 +1360,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		} else {
 			accountSubBaseType = UIUtils.getAccountSubBaseType(accountType);
 
-			nominalCodeRange = Accounter.getCompany()
+			nominalCodeRange = getCompany()
 					.getNominalCodeRange(accountSubBaseType);
 
 			if (nominalCodeRange == null

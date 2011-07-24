@@ -54,15 +54,9 @@ public class TransactionExpense implements IAccounterServerCore, Lifecycle {
 	 */
 	Expense expense;
 
-	transient boolean isImported;
+	
 	transient private boolean isOnSaveProccessed;
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
 
 	/**
 	 * @return the type

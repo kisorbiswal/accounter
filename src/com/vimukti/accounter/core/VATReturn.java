@@ -40,7 +40,7 @@ public class VATReturn extends Transaction implements Lifecycle {
 	 * 
 	 */
 	TAXAgency taxAgency;
-	// transient boolean isImported;
+	// 
 
 	List<Box> boxes = new ArrayList<Box>();
 
@@ -52,17 +52,11 @@ public class VATReturn extends Transaction implements Lifecycle {
 	public static final int VAT_RETURN_IRELAND = 2;
 	public static final int VAT_RETURN_NONE = 3;
 
-	/**
-	 * @return the id
-	 */
-	public long getID() {
-		return id;
-	}
 
 	/**
 	 * @return the id
 	 */
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 
@@ -96,12 +90,6 @@ public class VATReturn extends Transaction implements Lifecycle {
 		this.balance = balance;
 	}
 
-	/**
-	 * @return the isImported
-	 */
-	public boolean isImported() {
-		return isImported;
-	}
 
 	/**
 	 * @return the boxes
@@ -170,10 +158,6 @@ public class VATReturn extends Transaction implements Lifecycle {
 
 		try {
 
-			if (isImported) {
-
-				return false;
-			}
 			if (this.isOnSaveProccessed)
 				return true;
 			this.isOnSaveProccessed = true;
@@ -214,7 +198,7 @@ public class VATReturn extends Transaction implements Lifecycle {
 					.createQuery(
 							"from com.vimukti.accounter.core.TAXRateCalculation vr where vr.taxItem is not null and vr.taxAgency.id=:vatAgency and vr.transactionDate <= :toDate and vr.vatReturn is null")
 					.setParameter("toDate", this.VATperiodEndDate)
-					.setParameter("vatAgency", taxAgency.getId());
+					.setParameter("vatAgency", taxAgency.getID());
 
 			this.setJournalEntry(new JournalEntry(this));
 
@@ -263,7 +247,7 @@ public class VATReturn extends Transaction implements Lifecycle {
 					.createQuery(
 							"from com.vimukti.accounter.core.TAXRateCalculation vr where vr.vatItem is not null and vr.vatItem.vatAgency.id=:vatAgency and vr.transactionDate > :toDate and vr.vatReturn is null")
 					.setParameter("toDate", this.VATperiodEndDate)
-					.setParameter("vatAgency", taxAgency.getId());
+					.setParameter("vatAgency", taxAgency.getID());
 
 			List<TAXRateCalculation> vrc = query.list();
 			for (TAXRateCalculation v : vrc) {

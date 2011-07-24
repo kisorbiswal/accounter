@@ -193,7 +193,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 		}
 
-		// record.setid(entry.getTransactionId());
+		// record.setID(entry.getTransactionId());
 
 	}
 
@@ -508,7 +508,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		selectedpaymentMethod = selectedpaymentMethod1;
 		if (!selectedpaymentMethod.isEmpty()) {
 			checkNoText = new TextItem(
-					Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
+					getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
 							.getFinanceUIConstants().startingCheckNo()
 							: Accounter.getFinanceUIConstants()
 									.startingChequeNo());

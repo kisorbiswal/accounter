@@ -53,7 +53,7 @@ public class CashExpenseView extends CashPurchaseView {
 
 			@Override
 			protected List<ClientAccount> getAccounts() {
-				List<ClientAccount> accounts = Accounter.getCompany()
+				List<ClientAccount> accounts = getCompany()
 						.getAccounts();
 				for (ClientAccount acct : accounts) {
 					if (acct.getName().equals(AccounterConstants.PETTY_CASH)) {
@@ -223,7 +223,7 @@ public class CashExpenseView extends CashPurchaseView {
 
 	@Override
 	protected void showMenu(AccounterButton button) {
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, Accounter.getVendorsMessages()
 					.accounts(), Accounter.getVendorsMessages()
 					.service());

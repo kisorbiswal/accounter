@@ -7,7 +7,7 @@ public class AccountTransactionByAccount {
 	
 	double amount;
 
-	transient boolean isImported;
+	
 
 	public Account getAccount() {
 		return account;

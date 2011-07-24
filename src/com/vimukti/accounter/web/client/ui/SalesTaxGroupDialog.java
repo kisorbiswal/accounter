@@ -72,7 +72,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 	// getting all Tax Codes from Company Object & converting these to temporary
 	// TaxCodeInternal object for inserting data in Grid...
 	public List<ClientTAXItem> getAllTaxItem() {
-		List<ClientTAXItem> savedTaxItems = Accounter.getCompany()
+		List<ClientTAXItem> savedTaxItems = getCompany()
 				.getActiveTaxItems();
 
 		return savedTaxItems;
@@ -161,7 +161,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 	public List<ClientTAXGroup> getAvailableRecords() {
 
-		return Accounter.getCompany().getTaxGroups();
+		return getCompany().getTaxGroups();
 	}
 
 	private void createControls(final ClientTAXGroup taxGroup) {

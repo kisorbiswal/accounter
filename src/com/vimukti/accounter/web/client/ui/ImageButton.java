@@ -78,8 +78,8 @@ public class ImageButton {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (!History.getToken().equals(getAction().getHistoryToken())) {
-					MainFinanceWindow.oldToken = History.getToken();
-					HistoryTokenUtils.setPresentToken(getAction(), null);
+					
+					
 				}
 				getAction().run(null, false);
 			}
@@ -89,8 +89,8 @@ public class ImageButton {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (!History.getToken().equals(getAction().getHistoryToken())) {
-					MainFinanceWindow.oldToken = History.getToken();
-					HistoryTokenUtils.setPresentToken(getAction(), null);
+					
+					
 				}
 				getAction().run(null, false);
 			}

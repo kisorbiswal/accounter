@@ -3,7 +3,6 @@ package com.vimukti.accounter.core;
 import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
@@ -17,8 +16,8 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  * 
  */
 @SuppressWarnings("serial")
-public class AccountTransaction implements IAccounterServerCore,
-		IsSerializable, Serializable, CreatableObject {
+public class AccountTransaction extends CreatableObject implements IAccounterServerCore,
+		IsSerializable, Serializable  {
 
 	long id;
 	/**
@@ -49,7 +48,7 @@ public class AccountTransaction implements IAccounterServerCore,
 	 */
 	boolean cashBasisEntry = false;
 
-	transient boolean isImported;
+	
 	String createdBy;
 	String lastModifier;
 	FinanceDate createdDate;
@@ -120,7 +119,7 @@ public class AccountTransaction implements IAccounterServerCore,
 	/**
 	 * @return the id
 	 */
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 
@@ -166,47 +165,6 @@ public class AccountTransaction implements IAccounterServerCore,
 		return amount;
 	}
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setLastModifier(String lastModifier) {
-		this.lastModifier = lastModifier;
-	}
-
-	public String getLastModifier() {
-		return lastModifier;
-	}
-
-	public void setCreatedDate(FinanceDate createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public FinanceDate getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setLastModifiedDate(FinanceDate lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public FinanceDate getLastModifiedDate() {
-		return lastModifiedDate;
-	}
-
-	@Override
-	public long getID(){
-		return this.id;
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-
-	}
 
 
 	/**

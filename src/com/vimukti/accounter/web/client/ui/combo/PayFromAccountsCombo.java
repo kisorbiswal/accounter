@@ -27,7 +27,7 @@ public class PayFromAccountsCombo extends AccountCombo {
 	public List<ClientAccount> getAccounts() {
 		payFromAccounts = new ArrayList<ClientAccount>();
 
-		for (ClientAccount account : Accounter.getCompany()
+		for (ClientAccount account : getCompany()
 				.getActiveAccounts()) {
 			if (Arrays.asList(
 			// ClientAccount.TYPE_BANK, ClientAccount.TYPE_CASH,
@@ -52,7 +52,7 @@ public class PayFromAccountsCombo extends AccountCombo {
 	public void setAccounts() {
 		payFromAccounts = new ArrayList<ClientAccount>();
 
-		for (ClientAccount account : Accounter.getCompany()
+		for (ClientAccount account : getCompany()
 				.getActiveAccounts()) {
 			if (Arrays.asList(
 			// ClientAccount.TYPE_BANK, ClientAccount.TYPE_CASH,
@@ -77,7 +77,7 @@ public class PayFromAccountsCombo extends AccountCombo {
 
 	public void setDefaultPayFromAccount() {
 		/* Default deposit in account is set to Bank Current Account */
-		List<ClientAccount> accounts = Accounter.getCompany()
+		List<ClientAccount> accounts = getCompany()
 				.getAccounts();
 		for (ClientAccount account : accounts) {
 			if (account.getNumber().equals("1100")) {
@@ -99,7 +99,7 @@ public class PayFromAccountsCombo extends AccountCombo {
 				// ClientAccount.TYPE_CASH,
 				// ClientAccount.TYPE_CREDIT_CARD,
 				ClientAccount.TYPE_OTHER_CURRENT_ASSET));
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 
 	}

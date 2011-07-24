@@ -47,7 +47,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	@Override
 	protected Object getColumnValue(ClientEstimate estimate, int col) {
 		if (estimate != null) {
-			ClientCustomer customer = Accounter.getCompany()
+			ClientCustomer customer = getCompany()
 					.getCustomer(estimate.getCustomer());
 			ClientSalesPerson clientSalesPerson = Accounter
 					.getCompany().getSalesPerson(estimate.getSalesPerson());
@@ -294,7 +294,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	}
 
 	private String getCustomer(ClientEstimate estimate) {
-		ClientCustomer customer = Accounter.getCompany().getCustomer(
+		ClientCustomer customer = getCompany().getCustomer(
 				estimate.getCustomer());
 
 		if (customer != null)
@@ -304,7 +304,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	}
 
 	private String getSalesPerson(ClientEstimate estimate) {
-		ClientSalesPerson clientSalesPerson = Accounter.getCompany()
+		ClientSalesPerson clientSalesPerson = getCompany()
 				.getSalesPerson(estimate.getSalesPerson());
 		return clientSalesPerson != null ? clientSalesPerson.getFirstName()
 				: "";
@@ -314,7 +314,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	private String getPhoneNumber(ClientEstimate estimate) {
 		String phoneNo = null;
 		if (estimate != null) {
-			ClientCustomer customer = Accounter.getCompany()
+			ClientCustomer customer = getCompany()
 					.getCustomer(estimate.getCustomer());
 			if (customer != null) {
 				Set<ClientPhone> phones = customer.getPhoneNumbers();

@@ -1130,9 +1130,9 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObject(this.salesPersons, salesPersonId);
 	}
 
-	public ClientFixedAsset getFixedAsset(long fixedAssetId) {
+	public ClientFixedAsset getFixedAsset(long fixedAssetID) {
 
-		return Utility.getObject(this.fixedAssets, fixedAssetId);
+		return Utility.getObject(this.fixedAssets, fixedAssetID);
 	}
 
 	public ClientTAXCode getTAXCode(long taxCodeId) {

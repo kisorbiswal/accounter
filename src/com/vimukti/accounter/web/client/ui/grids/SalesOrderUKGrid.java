@@ -55,7 +55,7 @@ public class SalesOrderUKGrid extends CustomerTransactionUKGrid {
 
 	@Override
 	protected boolean isEditable(ClientTransactionItem obj, int row, int col) {
-		if (!Accounter.getCompany().getpreferences()
+		if (!getCompany().getpreferences()
 				.getDoYouPaySalesTax()) {
 			if (col == 7 || col == 8)
 				return false;
@@ -238,7 +238,7 @@ public class SalesOrderUKGrid extends CustomerTransactionUKGrid {
 			return super.getCustomCombo(obj, colIndex);
 		case 7:
 			combo = (CustomCombo<E>) taxCodeCombo;
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				combo.downarrowpanel.getElement().getStyle().setMarginLeft(-7,
 						Unit.PX);
 			} else {

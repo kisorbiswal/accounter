@@ -93,7 +93,7 @@ public class User implements IAccounterServerCore, Lifecycle {
 
 	// Contact contact = new Contact();
 
-	transient boolean isImported;
+	
 
 	public boolean isLoggedInFromDomain;
 
@@ -139,12 +139,6 @@ public class User implements IAccounterServerCore, Lifecycle {
 		this.setPermissions(userPermissions);
 	}
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
 
 	/**
 	 * @return the fullName

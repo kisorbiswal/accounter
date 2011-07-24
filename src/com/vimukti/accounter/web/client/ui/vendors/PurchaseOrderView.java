@@ -172,7 +172,7 @@ public class PurchaseOrderView extends
 
 	
 		
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 
 			DynamicForm priceLevelForm = new DynamicForm();
 			// priceLevelForm.setCellSpacing(4);
@@ -470,7 +470,7 @@ public class PurchaseOrderView extends
 
 	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			return new PurchaseOrderUSGrid();
 		else
 			return new PurchaseOrderUKGrid();
@@ -616,7 +616,7 @@ public class PurchaseOrderView extends
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 		ClientPurchaseOrder purchaseOrderToBeEdited = (ClientPurchaseOrder) transactionObject;
 
-		ClientCompany company = Accounter.getCompany();
+		ClientCompany company = getCompany();
 
 		// String status;
 		// if (purchaseOrderToBeEdited.getStatus() ==
@@ -789,21 +789,21 @@ public class PurchaseOrderView extends
 
 	private void initPaymentTerms() {
 
-		payTermsSelect.initCombo(Accounter.getCompany()
+		payTermsSelect.initCombo(getCompany()
 				.getPaymentsTerms());
 
 	}
 
 	private void initShippingTerms() {
 
-		shippingTermsCombo.initCombo(Accounter.getCompany()
+		shippingTermsCombo.initCombo(getCompany()
 				.getShippingTerms());
 
 	}
 
 	private void initShippingMethod() {
 
-		List<ClientShippingMethod> result = Accounter.getCompany()
+		List<ClientShippingMethod> result = getCompany()
 				.getShippingMethods();
 		if (shippingMethodsCombo != null) {
 			shippingMethodsCombo.initCombo(result);
@@ -941,7 +941,7 @@ public class PurchaseOrderView extends
 		initVendorAddressCombo();
 		initShipToCombo();
 
-		ClientCompany company = Accounter.getCompany();
+		ClientCompany company = getCompany();
 		paymentTerms = company.getPaymentTerms(vendor.getPaymentTerms());
 		shippingMethod = company.getShippingMethod(vendor.getShippingMethod());
 		if (paymentTerms != null) {

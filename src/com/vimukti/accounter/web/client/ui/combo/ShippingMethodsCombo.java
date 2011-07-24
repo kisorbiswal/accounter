@@ -8,12 +8,12 @@ public class ShippingMethodsCombo extends CustomCombo<ClientShippingMethod> {
 
 	public ShippingMethodsCombo(String title) {
 		super(title);
-		initCombo(Accounter.getCompany().getShippingMethods());
+		initCombo(getCompany().getShippingMethods());
 	}
 
 	public ShippingMethodsCombo(String title, boolean isAddNewRequired) {
 		super(title, isAddNewRequired, 1);
-		initCombo(Accounter.getCompany().getShippingMethods());
+		initCombo(getCompany().getShippingMethods());
 	}
 
 	@Override

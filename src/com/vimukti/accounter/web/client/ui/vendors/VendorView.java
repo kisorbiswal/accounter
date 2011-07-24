@@ -150,7 +150,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	private void getFiscalYear() {
-		List<ClientFiscalYear> result = Accounter.getCompany()
+		List<ClientFiscalYear> result = getCompany()
 				.getFiscalYears();
 		if (result != null && takenVendor == null) {
 			for (ClientFiscalYear fiscalYear : result) {
@@ -205,7 +205,7 @@ public class VendorView extends BaseView<ClientVendor> {
 //						}
 //					}
 					if (Utility
-							.isObjectExist(Accounter.getCompany()
+							.isObjectExist(getCompany()
 									.getVendors(), vendorNameText.getValue()
 									.toString())) {
 						if (tabSet.getTabBar().isTabEnabled(1)) {
@@ -630,7 +630,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				});
 		NewVendorAction newVendorAction = (NewVendorAction) this.getAction();
 		if (newVendorAction.getOpenedFrom() == NewVendorAction.FROM_CREDIT_CARD_EXPENSE) {
-			vendorGroupList = Accounter.getCompany().getVendorGroups();
+			vendorGroupList = getCompany().getVendorGroups();
 
 			for (ClientVendorGroup vendorGroup : vendorGroupList) {
 				if (vendorGroup.getName().equals(
@@ -654,12 +654,12 @@ public class VendorView extends BaseView<ClientVendor> {
 		 * In UK n US versions we need different widths as for the view
 		 * requirement
 		 */
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			vendorGrpForm.setWidth("88%");
 		else
 			vendorGrpForm.setWidth("100%");
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			vendorGrpForm.setFields(vendorGroupSelect, federalText);
 		else
 			vendorGrpForm.setFields(vendorGroupSelect);
@@ -701,7 +701,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		VerticalPanel rVLayout = new VerticalPanel();
 		rVLayout.setWidth("100%");
 		rVLayout.setSpacing(10);
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			rVLayout.add(vendorGrpForm);
 		} else {
 			rVLayout.add(vendorGrpForm);
@@ -721,7 +721,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		if (takenVendor != null) {
 			// Setting Account
-			selectAccountFromDetailsTab = Accounter.getCompany()
+			selectAccountFromDetailsTab = getCompany()
 					.getAccount(takenVendor.getExpenseAccount());
 			
 			 accountText.setValue(takenVendor.getBankAccountNo().toString());
@@ -742,14 +742,14 @@ public class VendorView extends BaseView<ClientVendor> {
 			selectPaymentMethodFromDetialsTab = takenVendor.getPaymentMethod();
 
 			// Setting payment Terms
-			selectPaymentTermFromDetailsTab = Accounter.getCompany()
+			selectPaymentTermFromDetailsTab = getCompany()
 					.getPaymentTerms((takenVendor.getPaymentTermsId()));
 
 			// Setting Vendor Group
-			selectVendorGroupFromDetailsTab = Accounter.getCompany()
+			selectVendorGroupFromDetailsTab = getCompany()
 					.getVendorGroup(takenVendor.getVendorGroup());
 
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				// if (vatRegistrationNumber.getValue() != null)
 				// vendor.setVATRegistrationNumber(vatRegistrationNumber.getValue().toString());
 				vatRegistrationNumber.setValue(takenVendor
@@ -834,7 +834,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
 		String msg;
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			msg = Accounter.getVendorsMessages()
 					.duplicationOfSupplierNameAreNotAllowed();
 		} else
@@ -967,25 +967,25 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting Data from Details Tab
 
 		// Setting Expense Account
-		vendor.setExpenseAccount(Utility.getId(selectAccountFromDetailsTab));
+		vendor.setExpenseAccount(Utility.getID(selectAccountFromDetailsTab));
 
 		// Setting Credit Limit
 		vendor.setCreditLimit(creditLimitText.getAmount());
 
 		// Setting Preferred Shipping Method
 		vendor.setShippingMethod(Utility
-				.getId(selectShippingMethodFromDetailsTab));
+				.getID(selectShippingMethodFromDetailsTab));
 
 		// Setting Preferred Payment Method
 		vendor
 				.setPaymentMethod(selectPaymentMethodFromDetialsTab != null ? selectPaymentMethodFromDetialsTab
 						: preferredPaymentSelect.getSelectedValue());
 		// Setting Preferred Payment Terms
-		vendor.setPaymentTerms(Utility.getId(selectPaymentTermFromDetailsTab));
+		vendor.setPaymentTerms(Utility.getID(selectPaymentTermFromDetailsTab));
 
 		// Setting Vendor Group
-		vendor.setVendorGroup(Utility.getId(selectVendorGroupFromDetailsTab));
-		if (Accounter.getCompany().getAccountingType() == 0)
+		vendor.setVendorGroup(Utility.getID(selectVendorGroupFromDetailsTab));
+		if (getCompany().getAccountingType() == 0)
 			if (federalText.getValue() != null) {
 				vendor.setFederalTaxId(federalText.getValue().toString());
 			}
@@ -996,17 +996,17 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendor.setBankBranch(bankBranchText.getValue().toString());
 
 		// Setting Account Payable
-		vendor.setAccountsPayable(Accounter.getCompany()
+		vendor.setAccountsPayable(getCompany()
 				.getAccountsPayableAccount());
 		// Seting opening balance accounts
-		vendor.setOpeningBalanceAccount(Accounter.getCompany()
+		vendor.setOpeningBalanceAccount(getCompany()
 				.getOpeningBalancesAccount());
-		vendor.setAccountsPayable(Accounter.getCompany()
+		vendor.setAccountsPayable(getCompany()
 				.getAccountsPayableAccount());
 
 		// Setting opening balance accounts
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			if (vatRegistrationNumber != null) {
 
 				String vatReg = vatRegistrationNumber.getValue() != null ? vatRegistrationNumber
@@ -1017,7 +1017,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 			}
 			if (vendorTaxCode != null)
-				vendor.setTAXCode(Utility.getId(selectTaxCodeFromDetailsTab));
+				vendor.setTAXCode(Utility.getID(selectTaxCodeFromDetailsTab));
 		}
 		return vendor;
 
@@ -1027,7 +1027,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		List<ClientAccount> allAccounts = expenseAccountsSelect.getAccounts();
 		expenseAccountsSelect.initCombo(allAccounts);
 		if (takenVendor != null) {
-			ClientAccount temp = Accounter.getCompany().getAccount(
+			ClientAccount temp = getCompany().getAccount(
 					takenVendor.getExpenseAccount());
 			// Setting Expense Account
 			if (temp != null)
@@ -1044,7 +1044,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	public void addVendorGroupList() {
 
-		vendorGroupSelect.initCombo(Accounter.getCompany()
+		vendorGroupSelect.initCombo(getCompany()
 				.getVendorGroups());
 		// Setting Vendor Group
 		if (takenVendor != null) {
@@ -1057,7 +1057,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	public void addShippingMethodList() {
-		preferredShippingSelect.initCombo(Accounter.getCompany()
+		preferredShippingSelect.initCombo(getCompany()
 				.getShippingMethods());
 		// Setting Preferred Shipping Method
 		if (takenVendor != null) {
@@ -1081,7 +1081,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	public void addPaymentTermsList() {
 
-		payTermsSelect.initCombo(Accounter.getCompany()
+		payTermsSelect.initCombo(getCompany()
 				.getPaymentsTerms());
 		// Setting Payment Term
 		if (takenVendor != null) {
@@ -1110,7 +1110,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	@Override
 	public void initData() {
 		super.initData();
-		company = Accounter.getCompany();
+		company = getCompany();
 		getFiscalYear();
 		addAccountsToList();
 		addVendorGroupList();
@@ -1127,13 +1127,13 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	private void addSuplierTaxCode() {
-		vendorTaxCode.initCombo(Accounter.getCompany()
+		vendorTaxCode.initCombo(getCompany()
 				.getActiveTaxCodes());
 		if (takenVendor != null) {
 			vendorTaxCode.setSelected(vendorTaxCode.getDisplayName(takenVendor
-					.getTAXCode() != null ? Accounter.getCompany()
+					.getTAXCode() != null ? getCompany()
 					.getTAXCode(takenVendor.getTAXCode()) : null));
-			vendorTaxCode.setComboItem(Accounter.getCompany()
+			vendorTaxCode.setComboItem(getCompany()
 					.getTAXCode(takenVendor.getTAXCode()));
 		}
 	}
@@ -1220,7 +1220,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				this.expenseAccountsSelect
 						.updateComboItem((ClientAccount) core);
 			if (core.getObjectType() == AccounterCoreType.TAX_CODE
-					&& Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+					&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 				this.vendorTaxCode.updateComboItem((ClientTAXCode) core);
 			if (core.getObjectType() == AccounterCoreType.VENDOR_GROUP)
 				this.vendorGroupSelect
@@ -1237,7 +1237,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				this.expenseAccountsSelect
 						.removeComboItem((ClientAccount) core);
 			if (core.getObjectType() == AccounterCoreType.TAX_CODE
-					&& Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+					&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 				this.vendorTaxCode.removeComboItem((ClientTAXCode) core);
 			if (core.getObjectType() == AccounterCoreType.VENDOR_GROUP)
 				this.vendorGroupSelect

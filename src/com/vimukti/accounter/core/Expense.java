@@ -64,7 +64,7 @@ public class Expense extends Transaction {
 
 	List<TransactionExpense> transactionExpenses;
 
-	// transient boolean isImported;
+	// 
 
 	/**
 	 * @return the billFrom
@@ -299,11 +299,6 @@ public class Expense extends Transaction {
 		return null;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
 
 	@Override
 	public Payee getInvolvedPayee() {

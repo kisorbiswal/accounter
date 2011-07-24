@@ -56,14 +56,14 @@ public class VendorTransactionUSGrid extends
 
 	public VendorTransactionUSGrid() {
 		super(false, true);
-		this.accountingType = Accounter.getCompany()
+		this.accountingType = getCompany()
 				.getAccountingType();
 	}
 
 	public VendorTransactionUSGrid(boolean isAddNewRequired) {
 		super(false, true);
 		this.isAddNewRequired = isAddNewRequired;
-		this.accountingType = Accounter.getCompany()
+		this.accountingType = getCompany()
 				.getAccountingType();
 	}
 
@@ -71,7 +71,7 @@ public class VendorTransactionUSGrid extends
 	public void init() {
 		super.isEnable = false;
 		super.init();
-		if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
 			createControls();
 			initTransactionData();
 
@@ -94,7 +94,7 @@ public class VendorTransactionUSGrid extends
 
 	protected void initTransactionData() {
 
-		List<ClientItem> items = Accounter.getCompany()
+		List<ClientItem> items = getCompany()
 				.getActiveItems();
 		List<ClientItem> vendorItems = new ArrayList<ClientItem>();
 		for (ClientItem item : items) {
@@ -136,7 +136,7 @@ public class VendorTransactionUSGrid extends
 							selectedObject.setItem(selectItem.getID());
 							selectedObject.setUnitPrice(selectItem
 									.getPurchasePrice());
-							if (Accounter.getCompany()
+							if (getCompany()
 									.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 								selectedObject.setTaxable(selectItem
 										.isTaxable());
@@ -144,7 +144,7 @@ public class VendorTransactionUSGrid extends
 								selectedObject.setTaxable(false);
 							setText(currentRow, currentCol, selectItem
 									.getName());
-							if (Accounter.getCompany()
+							if (getCompany()
 									.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 								selectedObject.setTaxCode(selectItem
 										.getTaxCode() != null ? selectItem
@@ -156,7 +156,7 @@ public class VendorTransactionUSGrid extends
 							// it should be here only for vat calculations(it
 							// needs line total for this,linetotal calculated in
 							// editcomplete()
-							if (Accounter.getCompany()
+							if (getCompany()
 									.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 									&& !isPurchseOrderTransaction) {
 								refreshVatValue(selectedObject);
@@ -177,7 +177,7 @@ public class VendorTransactionUSGrid extends
 							selectedObject.setItem(selectItem.getID());
 							selectedObject.setUnitPrice(selectItem
 									.getPurchasePrice());
-							if (Accounter.getCompany()
+							if (getCompany()
 									.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 								selectedObject.setTaxable(selectItem
 										.isTaxable());
@@ -185,7 +185,7 @@ public class VendorTransactionUSGrid extends
 								selectedObject.setTaxable(false);
 							setText(currentRow, currentCol, selectItem
 									.getName());
-							if (Accounter.getCompany()
+							if (getCompany()
 									.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 								selectedObject.setTaxCode(selectItem
 										.getTaxCode() != null ? selectItem
@@ -197,7 +197,7 @@ public class VendorTransactionUSGrid extends
 							// it should be here only for vat calculations(it
 							// needs line total for this,linetotal calculated in
 							// editcomplete()
-							if (Accounter.getCompany()
+							if (getCompany()
 									.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 									&& !isPurchseOrderTransaction) {
 								refreshVatValue(selectedObject);
@@ -215,11 +215,11 @@ public class VendorTransactionUSGrid extends
 					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						selectedObject.setAccount(selectItem.getID());
-						if (Accounter.getCompany().getAccountingType() == 1)
+						if (getCompany().getAccountingType() == 1)
 							selectedObject.setTaxable(true);
 						setText(currentRow, currentCol, selectItem.getName());
-						if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-							if (Accounter.getCompany()
+						if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+							if (getCompany()
 									.getpreferences().getDoYouPaySalesTax())
 								setVendorTaxCode(selectedObject);
 
@@ -240,7 +240,7 @@ public class VendorTransactionUSGrid extends
 		// this.addFooterValues(new String[] { "", "", "",
 		// FinanceApplication.getVATMessages().totalcolan(), "" });
 		// }
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			if (!isBankingTransaction && !isPurchseOrderTransaction) {
 				// this.addFooterValue("VAT", 6);
 				// this.addFooterValue(DataUtils.getAmountAsString(0.00), 7);
@@ -301,9 +301,9 @@ public class VendorTransactionUSGrid extends
 					return true;
 				}
 
-				if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 						&& column == 6) {
-					taxCodeCombo.setComboItem(Accounter.getCompany()
+					taxCodeCombo.setComboItem(getCompany()
 							.getTAXCode(core.getTaxCode()));
 				}
 				return true;
@@ -336,10 +336,10 @@ public class VendorTransactionUSGrid extends
 
 		stopEditing(col);
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 				&& !isPurchseOrderTransaction
 				&& selectedItem.getTaxCode() != null) {
-			record.setTaxCode(Accounter.getCompany().getTAXCode(
+			record.setTaxCode(getCompany().getTAXCode(
 					selectedItem.getTaxCode()).getID());
 			refreshVatValue(record);
 		} else {
@@ -362,7 +362,7 @@ public class VendorTransactionUSGrid extends
 	}
 
 	public void setVendorTaxCode(ClientTransactionItem selectedObject) {
-		List<ClientTAXCode> taxCodes = Accounter.getCompany()
+		List<ClientTAXCode> taxCodes = getCompany()
 				.getActiveTaxCodes();
 		for (ClientTAXCode taxCode : taxCodes) {
 			if (taxCode.getName().equals("S")) {
@@ -406,7 +406,7 @@ public class VendorTransactionUSGrid extends
 			Double lineTotalAmt = rec.getLineTotal();
 			totallinetotal += lineTotalAmt;
 
-			ClientItem item = Accounter.getCompany().getItem(
+			ClientItem item = getCompany().getItem(
 					rec.getItem());
 			if (item != null && item.isTaxable()) {
 				taxableTotal += lineTotalAmt;
@@ -419,7 +419,7 @@ public class VendorTransactionUSGrid extends
 		// this.addFooterValue(DataUtils.getAmountAsString(totallinetotal), 5);
 		// }
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			grandTotal = totalVat + totallinetotal;
 		else {
 			// if (transactionView.vatinclusiveCheck != null
@@ -464,7 +464,7 @@ public class VendorTransactionUSGrid extends
 					itemName = getNameValue(transactionItems.get(i));
 				}
 				combo.setSelected(itemName);
-				if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 					combo = getCustomCombo(transactionItems.get(i), 6);
 					if (combo != null) {
 						String taxCodeName = "";
@@ -481,7 +481,7 @@ public class VendorTransactionUSGrid extends
 		}
 		if (!(this instanceof PurchaseOrderUKGrid || this instanceof PurchaseOrderUSGrid)) {
 			for (ClientTransactionItem item : transactionItems) {
-				item.setid("");
+				item.setID("");
 			}
 		}
 		addRecords(transactionItems);
@@ -495,7 +495,7 @@ public class VendorTransactionUSGrid extends
 	protected String getTAXCodeName(String taxCode) {
 		ClientTAXCode t = null;
 		if (taxCode != null)
-			t = Accounter.getCompany().getTAXCode(taxCode);
+			t = getCompany().getTAXCode(taxCode);
 		return t != null ? t.getName() : "";
 	}
 
@@ -713,19 +713,19 @@ public class VendorTransactionUSGrid extends
 		// should
 		// have a default value selected.)
 		case TYPE_ITEM:
-			ClientItem itm = Accounter.getCompany().getItem(
+			ClientItem itm = getCompany().getItem(
 					item.getItem());
 			return itm != null ? itm.getName() : "";
 		case TYPE_SERVICE:
-			ClientItem itm1 = Accounter.getCompany().getItem(
+			ClientItem itm1 = getCompany().getItem(
 					item.getItem());
 			return itm1 != null ? itm1.getName() : "";
 		case TYPE_ACCOUNT:
-			ClientAccount account = Accounter.getCompany().getAccount(
+			ClientAccount account = getCompany().getAccount(
 					item.getAccount());
 			return account != null ? account.getDisplayName() : "";
 		case TYPE_SALESTAX:
-			ClientTAXItem vatItem = Accounter.getCompany().getTaxItem(
+			ClientTAXItem vatItem = getCompany().getTaxItem(
 					item.getVatItem());
 			return vatItem != null ? vatItem.getDisplayName() : "";
 		case TYPE_COMMENT:
@@ -893,7 +893,7 @@ public class VendorTransactionUSGrid extends
 				break;
 
 			case 7:
-				if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 					if (value.equals("Taxable")) {
 						item.setTaxable(true);
 					} else
@@ -912,7 +912,7 @@ public class VendorTransactionUSGrid extends
 		}
 
 		if (accountingType == ClientCompany.ACCOUNTING_TYPE_UK
-				&& !Accounter.getCompany().getpreferences()
+				&& !getCompany().getpreferences()
 						.getDoYouPaySalesTax()) {
 			if (item.getType() == TYPE_SERVICE
 					&& item.getType() == TYPE_ACCOUNT
@@ -944,7 +944,7 @@ public class VendorTransactionUSGrid extends
 		}
 		updateTotals();
 		updateData(item);
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			if (Arrays.asList(3, 4, 5, 6).contains(col))
 				refreshVatValue();
 		}
@@ -954,7 +954,7 @@ public class VendorTransactionUSGrid extends
 	protected boolean isEditable(ClientTransactionItem obj, int row, int col) {
 		if (obj == null)
 			return false;
-		if (!Accounter.getCompany().getpreferences()
+		if (!getCompany().getpreferences()
 				.getDoYouPaySalesTax()) {
 			if (col == 6 || col == 7)
 				return false;
@@ -1016,7 +1016,7 @@ public class VendorTransactionUSGrid extends
 				combo = (CustomCombo<E>) vatItemCombo;
 			}
 
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				combo.downarrowpanel.getElement().getStyle().setMarginLeft(-10,
 						Unit.PX);
 			} else {
@@ -1031,7 +1031,7 @@ public class VendorTransactionUSGrid extends
 		case 6:
 			// for UK
 			combo = (CustomCombo<E>) taxCodeCombo;
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				combo.downarrowpanel.getElement().getStyle().setMarginLeft(-7,
 						Unit.PX);
 			} else {
@@ -1041,7 +1041,7 @@ public class VendorTransactionUSGrid extends
 		case 7:
 			// for purchase Order
 			combo = (CustomCombo<E>) taxCodeCombo;
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				combo.downarrowpanel.getElement().getStyle().setMarginLeft(-7,
 						Unit.PX);
 			} else {

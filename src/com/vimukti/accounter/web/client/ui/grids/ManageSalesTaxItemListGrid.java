@@ -41,7 +41,7 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 		case 3:
 			ClientTAXAgency agency = null;
 			if (obj.getTaxAgency() != null) {
-				agency = Accounter.getCompany().getTaxAgency(
+				agency = getCompany().getTaxAgency(
 						obj.getTaxAgency());
 			}
 			return agency != null ? agency.getName() : "";
@@ -117,8 +117,8 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 
 		ClientTAXAgency agency = null;
 		if (obj.getTaxAgency() != null) {
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-				agency = Accounter.getCompany().getTaxAgency(
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+				agency = getCompany().getTaxAgency(
 						obj.getTaxAgency());
 			}
 		}
@@ -152,7 +152,7 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 			// agency1 = getTaxAgency(obj1);
 			// agency2 = getTaxAgency(obj2);
 			// }
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				// agency1 = getTaxAgencyID(obj1);
 				// agency2 = getTaxAgencyID(obj2);
 			}

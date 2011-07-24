@@ -237,7 +237,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 					.getTransactionPaySalesTaxEntriesList(transactionDate);
 			for (PaySalesTaxEntries salesTaxEntry : paySalesTaxEntriesList) {
 				ClientPaySalesTaxEntries paySalesTxEntry = new ClientPaySalesTaxEntries();
-				paySalesTxEntry.setid(salesTaxEntry.getID());
+				paySalesTxEntry.setID(salesTaxEntry.getID());
 				paySalesTxEntry.setAmount(salesTaxEntry.getAmount());
 				paySalesTxEntry.setBalance(salesTaxEntry.getBalance());
 				// paySalesTxEntry.setStatus(salesTaxEntry.getTransaction()
@@ -1436,7 +1436,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			clientLog.setLogMessge(log.getLogMessge());
 			clientLog.setCreatedBy(log.getCreatedBy());
 			clientLog.setCreatedDate(log.getCreatedDate().getTime());
-			clientLog.setId(log.getId());
+			clientLog.setID(log.getID());
 
 			clientLogs.add(clientLog);
 		}
@@ -1459,7 +1459,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		for (FinanceLogger log : logs) {
 			ClientFinanceLogger clientLog = new ClientFinanceLogger();
 
-			clientLog.setId(log.getId());
+			clientLog.setID(log.getID());
 			clientLog.setDescription(log.getDescription());
 			clientLog.setLogMessge(log.getLogMessge());
 			clientLog.setCreatedDate(log.getCreatedDate().getTime());

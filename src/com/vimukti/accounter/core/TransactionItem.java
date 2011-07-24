@@ -176,13 +176,12 @@ public class TransactionItem extends CreatableObject implements
 	 */
 	boolean isVoidBefore;
 
-	transient boolean isImported;
+	
 
 	TAXCode taxCode;
 	// TAXItem vatItem;
 	private boolean isOnSaveProccessed;
 
-	transient public static List<String> vrcids = new ArrayList<String>();
 
 	public TransactionItem() {
 
@@ -251,7 +250,7 @@ public class TransactionItem extends CreatableObject implements
 	/**
 	 * @return the id
 	 */
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 
@@ -428,9 +427,6 @@ public class TransactionItem extends CreatableObject implements
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 
 		if (this.isOnSaveProccessed)
 			return true;
@@ -463,15 +459,16 @@ public class TransactionItem extends CreatableObject implements
 		 */
 		for (TAXRateCalculation vrc : this.taxRateCalculationEntriesList) {
 			if (this.isVoid && vrc.transactionItem == null) {
-				vrcids.add(vrc.getID());
+//				vrcids.add(vrc.getID());
 
 				if (vrc1 == null)
 					vrc1 = vrc;
 				else
 					vrc2 = vrc;
 
-			} else if (!this.isVoid)
-				vrcids.add(vrc.getID());
+			}
+//			else if (!this.isVoid)
+//				vrcids.add(vrc.getID());
 		}
 
 		if (vrc1 != null)
@@ -734,33 +731,6 @@ public class TransactionItem extends CreatableObject implements
 		return null;
 	}
 
-	// public TaxAgency getEffectingTaxAgency() {
-	//
-	// if (this.type == TransactionItem.TYPE_SALESTAX) {
-	//
-	// for (PaySalesTaxEntries paySalesTaxEntries :
-	// this.transaction.paySalesTaxEntriesList) {
-	//
-	// if (this.taxCode.name
-	// .equalsIgnoreCase(paySalesTaxEntries.taxCode.name)) {
-	// paySalesTaxEntries.updateAmountAndBalane(this.lineTotal);
-	// flag = true;
-	// break;
-	//
-	// }
-	//
-	// }
-	// if (!flag) {
-	//
-	// PaySalesTaxEntries paySalesTaxEntries = new PaySalesTaxEntries(
-	// this.lineTotal, 100, this.taxCode, this.transaction);
-	// this.transaction.paySalesTaxEntriesList.add(paySalesTaxEntries);
-	// }
-	// return this.taxCode.getTaxAgency();
-	//
-	// }
-	// return null;
-	// }
 
 	public void setType(int type) {
 		this.type = type;
@@ -846,11 +816,4 @@ public class TransactionItem extends CreatableObject implements
 		return true;
 	}
 
-	public static String getPresentVRCid() {
-		if (vrcids.isEmpty()) {
-			return null;
-		}
-		String sId = vrcids.remove(0);
-		return sId;
-	}
 }

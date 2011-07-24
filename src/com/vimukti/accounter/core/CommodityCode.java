@@ -11,17 +11,6 @@ public class CommodityCode implements IAccounterServerCore {
 	 */
 	String name;
 
-	public long id;
-
-	transient boolean isImported;
-
-	public long getId() {
-		return id;
-	}
-
-	public void setID(long id){
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -37,17 +26,6 @@ public class CommodityCode implements IAccounterServerCore {
 		return this.id;
 	}
 
-	@Override
-	public void setID(long id){
-		this.id=id;
-
-	}
-
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-
-	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

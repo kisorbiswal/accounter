@@ -51,8 +51,13 @@ public abstract class AbstractBaseDialog<T> extends CustomDialog implements
 
 	protected void initCompany() {
 
-		this.company = Accounter.getCompany();
+		this.company = getCompany();
 
+	}
+
+	protected ClientCompany getCompany() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	protected void initRPCService() {

@@ -115,7 +115,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 	@Override
 	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
 		if (gridType == VENDOR_TRANSACTION_GRID)
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 				return new VendorTransactionUSGrid();
 			else
 				return new VendorTransactionUKGrid();
@@ -147,7 +147,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 	@Override
 	protected void showMenu(AccounterButton button) {
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, Accounter.getVendorsMessages()
 					.accounts(), Accounter.getVendorsMessages()
 					.service(), Accounter.getVendorsMessages()
@@ -163,7 +163,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 		if (vendorCombo == null)
 			return;
-		List<ClientVendor> result = Accounter.getCompany()
+		List<ClientVendor> result = getCompany()
 				.getActiveVendors();
 		vendors = result;
 
@@ -600,10 +600,10 @@ public abstract class AbstractVendorTransactionView<T> extends
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 		if (menuItem.equals(Accounter.getVendorsMessages().accounts())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& !Accounter.getCompany().getpreferences()
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+					&& !getCompany().getpreferences()
 							.getDoYouPaySalesTax()) {
-				List<ClientTAXCode> taxCodes = Accounter.getCompany()
+				List<ClientTAXCode> taxCodes = getCompany()
 						.getActiveTaxCodes();
 				String ztaxCodeid = null;
 				for (ClientTAXCode taxCode : taxCodes) {
@@ -616,10 +616,10 @@ public abstract class AbstractVendorTransactionView<T> extends
 				// transactionItem.setVatCode(vendor != null ? (vendor
 				// .getVATCode() != null ? vendor.getVATCode() : "") : "");
 			}
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& Accounter.getCompany().getpreferences()
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+					&& getCompany().getpreferences()
 							.getDoYouPaySalesTax()) {
-				List<ClientTAXCode> taxCodes = Accounter.getCompany()
+				List<ClientTAXCode> taxCodes = getCompany()
 						.getActiveTaxCodes();
 				String staxCodeid = null;
 				for (ClientTAXCode taxCode : taxCodes) {
@@ -636,9 +636,9 @@ public abstract class AbstractVendorTransactionView<T> extends
 		} else if (menuItem.equals(Accounter.getVendorsMessages()
 				.product())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-			if (Accounter.getCompany().getpreferences()
+			if (getCompany().getpreferences()
 					.getDoYouPaySalesTax()) {
-				List<ClientTAXCode> taxCodes = Accounter.getCompany()
+				List<ClientTAXCode> taxCodes = getCompany()
 						.getActiveTaxCodes();
 				String staxCodeid = null;
 				for (ClientTAXCode taxCode : taxCodes) {
@@ -653,10 +653,10 @@ public abstract class AbstractVendorTransactionView<T> extends
 		} else if (menuItem.equals(Accounter.getVendorsMessages()
 				.service())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
-			List<ClientTAXCode> taxCodes = Accounter.getCompany()
+			List<ClientTAXCode> taxCodes = getCompany()
 					.getActiveTaxCodes();
 			String ztaxCodeid = null;
-			if (Accounter.getCompany().getpreferences()
+			if (getCompany().getpreferences()
 					.getDoYouPaySalesTax()) {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {

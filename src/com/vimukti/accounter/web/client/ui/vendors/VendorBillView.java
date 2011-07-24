@@ -117,7 +117,7 @@ public class VendorBillView extends
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 
 		enterBillToBeEdited = (ClientEnterBill) transactionObject;
-		ClientVendor vendor = Accounter.getCompany().getVendor(
+		ClientVendor vendor = getCompany().getVendor(
 				enterBillToBeEdited.getVendor());
 		contactSelected(enterBillToBeEdited.getContact());
 		billToaddressSelected(enterBillToBeEdited.getVendorAddress());
@@ -169,7 +169,7 @@ public class VendorBillView extends
 	}
 
 	private void initPaymentTerms() {
-		paymentTermsList = Accounter.getCompany().getPaymentsTerms();
+		paymentTermsList = getCompany().getPaymentsTerms();
 
 		paymentTermsCombo.initCombo(paymentTermsList);
 		paymentTermsCombo.setDisabled(isEdit);
@@ -178,7 +178,7 @@ public class VendorBillView extends
 				&& ((ClientEnterBill) transactionObject).getPaymentTerm() != null
 				&& (((ClientEnterBill) transactionObject).getPaymentTerm()
 						.length() != 0)) {
-			ClientPaymentTerms paymentTerm = Accounter.getCompany()
+			ClientPaymentTerms paymentTerm = getCompany()
 					.getPaymentTerms(
 							((ClientEnterBill) transactionObject)
 									.getPaymentTerm());
@@ -260,7 +260,7 @@ public class VendorBillView extends
 	}
 
 	private void setPaymentTermsCombo(ClientVendor vendor) {
-		ClientPaymentTerms vendorPaymentTerm = Accounter.getCompany()
+		ClientPaymentTerms vendorPaymentTerm = getCompany()
 				.getPaymentTerms(vendor.getPaymentTermsId());
 		// if (transactionObject != null && this.selectedPaymentTerm != null)
 		// paymentTermSelected(selectedPaymentTerm);
@@ -271,7 +271,7 @@ public class VendorBillView extends
 			paymentTermSelected(vendorPaymentTerm);
 
 		} else {
-			paymentTermsList = Accounter.getCompany()
+			paymentTermsList = getCompany()
 					.getPaymentsTerms();
 			for (ClientPaymentTerms paymentTerm : paymentTermsList) {
 				if (paymentTerm.getName().equals("Due on Receipt")) {
@@ -531,7 +531,7 @@ public class VendorBillView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 
-		if (Accounter.getCompany().getAccountingType() == 1) {
+		if (getCompany().getAccountingType() == 1) {
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vpanel.setWidth("100%");

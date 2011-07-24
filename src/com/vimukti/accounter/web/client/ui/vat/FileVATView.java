@@ -237,7 +237,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	}
 
 	private void getVATReturnEndDate(ClientTAXAgency selectItem) {
-		List<ClientVATReturn> vatReturns = Accounter.getCompany()
+		List<ClientVATReturn> vatReturns = getCompany()
 				.getVatReturns();
 		ClientVATReturn lastVATReturn = null;
 		for (ClientVATReturn vatReturn : vatReturns) {

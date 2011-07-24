@@ -35,7 +35,7 @@ public class VATAgencyAccountCombo extends AccountCombo {
 	public void onAddNew() {
 		Action action = CompanyActionFactory.getNewAccountAction();
 		action.setActionSource(this);
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 
 	}
@@ -44,7 +44,7 @@ public class VATAgencyAccountCombo extends AccountCombo {
 	protected List<ClientAccount> getAccounts() {
 		accounts = new ArrayList<ClientAccount>();
 
-		for (ClientAccount account : Accounter.getCompany()
+		for (ClientAccount account : getCompany()
 				.getActiveAccounts()) {
 			if (Arrays.asList(ClientAccount.TYPE_INCOME,
 					ClientAccount.TYPE_EXPENSE,

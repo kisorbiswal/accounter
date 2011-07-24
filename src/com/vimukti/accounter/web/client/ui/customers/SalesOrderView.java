@@ -463,7 +463,7 @@ public class SalesOrderView extends
 
 	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			return new SalesOrderUSGrid();
 		else
 			return new SalesOrderUKGrid();
@@ -532,7 +532,7 @@ public class SalesOrderView extends
 
 		ClientSalesOrder salesOrderToBeEdited = (ClientSalesOrder) transactionObject;
 
-		ClientCompany company = Accounter.getCompany();
+		ClientCompany company = getCompany();
 		this.customer = company.getCustomer(salesOrderToBeEdited.getCustomer());
 		this.billingAddress = salesOrderToBeEdited.getBillingAddress();
 
@@ -802,7 +802,7 @@ public class SalesOrderView extends
 		salesPerson = person;
 		if (salesPerson != null) {
 
-			salesPersonCombo.setComboItem(Accounter.getCompany()
+			salesPersonCombo.setComboItem(getCompany()
 					.getSalesPerson(salesPerson.getID()));
 
 		}
@@ -815,7 +815,7 @@ public class SalesOrderView extends
 		this.paymentTerm = paymentTerm;
 		if (this.paymentTerm != null && payTermsSelect != null) {
 
-			payTermsSelect.setComboItem(Accounter.getCompany()
+			payTermsSelect.setComboItem(getCompany()
 					.getPaymentTerms(paymentTerm.getID()));
 		}
 		ClientFinanceDate transDate = this.transactionDateItem.getEnteredDate();
@@ -875,7 +875,7 @@ public class SalesOrderView extends
 	public void updateNonEditableItems() {
 		if (customerTransactionGrid == null)
 			return;
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			Double taxableLineTotal = customerTransactionGrid
 					.getTaxableLineTotal();
 
@@ -884,7 +884,7 @@ public class SalesOrderView extends
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
 					transactionDateItem.getEnteredDate(), taxableLineTotal,
-					Accounter.getCompany().getTAXItemGroup(
+					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
 			setSalesTax(salesTax);
@@ -1185,7 +1185,7 @@ public class SalesOrderView extends
 		this.taxCode = taxCode;
 		if (taxCode != null) {
 
-			taxCodeSelect.setComboItem(Accounter.getCompany()
+			taxCodeSelect.setComboItem(getCompany()
 					.getTAXCode(taxCode.getID()));
 			customerTransactionGrid.setTaxCode(taxCode.getID());
 		} else

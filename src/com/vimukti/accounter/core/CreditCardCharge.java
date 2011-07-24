@@ -77,7 +77,7 @@ public class CreditCardCharge extends Transaction implements Lifecycle {
 	 */
 	FinanceDate deliveryDate;
 
-	// transient boolean isImported;
+	// 
 
 	public CreditCardCharge() {
 
@@ -203,9 +203,6 @@ public class CreditCardCharge extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (isOnSaveProccessed)
 			return true;
 		isOnSaveProccessed = true;
@@ -235,14 +232,6 @@ public class CreditCardCharge extends Transaction implements Lifecycle {
 		return false;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		for (TransactionItem ti : this.transactionItems) {
-			ti.setImported(true);
-		}
-
-	}
 
 	@Override
 	public Payee getInvolvedPayee() {

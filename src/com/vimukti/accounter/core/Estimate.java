@@ -240,13 +240,6 @@ public class Estimate extends Transaction {
 		return AccounterConstants.TYPE_ESTIMATE;
 	}
 
-	@Override
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-		for (TransactionItem ti : this.transactionItems) {
-			ti.setImported(true);
-		}
-	}
 
 	@Override
 	public Payee getInvolvedPayee() {

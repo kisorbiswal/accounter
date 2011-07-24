@@ -29,7 +29,7 @@ public class ClientFinanceLogger implements IAccounterCore{
 		this.logMessge = logMessge;
 	}
 
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 

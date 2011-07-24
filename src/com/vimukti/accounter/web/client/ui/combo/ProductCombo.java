@@ -17,13 +17,13 @@ public class ProductCombo extends CustomCombo<ClientItem> {
 	public ProductCombo(String title, int type) {
 		super(title);
 		this.type = type;
-		initCombo(Accounter.getCompany().getProductItems());
+		initCombo(getCompany().getProductItems());
 	}
 
 	public ProductCombo(String title, int type, boolean isAddNewRequired) {
 		super(title, isAddNewRequired, 1);
 		this.type = type;
-		initCombo(Accounter.getCompany().getProductItems());
+		initCombo(getCompany().getProductItems());
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class ProductCombo extends CustomCombo<ClientItem> {
 		}
 		action.setActionSource(this);
 		action.setType(2);
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 	}
 

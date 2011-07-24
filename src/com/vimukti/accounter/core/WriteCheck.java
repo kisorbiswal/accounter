@@ -86,7 +86,7 @@ public class WriteCheck extends Transaction implements Lifecycle {
 	 */
 	String checkNumber = WriteCheck.IS_TO_BE_PRINTED;
 
-	// transient boolean isImported;
+	// 
 
 	/**
 	 * @return the id
@@ -96,7 +96,7 @@ public class WriteCheck extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 
@@ -330,9 +330,6 @@ public class WriteCheck extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;

@@ -54,19 +54,12 @@ public class TAXAgency extends Payee implements Lifecycle {
 
 	int VATReturn;
 
-	transient boolean isImported;
+	
 
 	public TAXAgency() {
 		setType(Payee.TYPE_TAX_AGENCY);
 	}
 
-	/**
-	 * @return the id
-	 */
-	@Override
-	public long getId() {
-		return id;
-	}
 
 	/**
 	 * @return the purchaseLiabilityAccount
@@ -187,9 +180,6 @@ public class TAXAgency extends Payee implements Lifecycle {
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;

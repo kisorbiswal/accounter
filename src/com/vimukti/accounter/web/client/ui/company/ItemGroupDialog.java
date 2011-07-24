@@ -33,7 +33,7 @@ public class ItemGroupDialog extends BaseDialog {
 	}
 
 	private void initGridData() {
-		List<ClientItem> clientItems = Accounter.getCompany()
+		List<ClientItem> clientItems = getCompany()
 				.getActiveItems();
 		if (this.itemgroup != null) {
 			for (ClientItem clientItem : clientItems) {
@@ -43,7 +43,7 @@ public class ItemGroupDialog extends BaseDialog {
 					dialoggrid.addData(clientItem);
 			}
 		} else {
-			List<ClientItemGroup> itemGroups = Accounter.getCompany()
+			List<ClientItemGroup> itemGroups = getCompany()
 					.getItemGroups();
 			for (ClientItem clientItem : clientItems) {
 				if (clientItem.getItemGroup() == null) {

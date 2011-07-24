@@ -10,12 +10,12 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 
 	public BrandingThemeCombo(String title) {
 		super(title);
-		initCombo(Accounter.getCompany().getBrandingTheme());
+		initCombo(getCompany().getBrandingTheme());
 	}
 
 	public BrandingThemeCombo(String title, boolean isAddNewRequire) {
 		super(title, isAddNewRequire, 1);
-		initCombo(Accounter.getCompany().getBrandingTheme());
+		initCombo(getCompany().getBrandingTheme());
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 	public void onAddNew() {
 		Action action = SettingsActionFactory.getNewBrandThemeAction();
 		action.setActionSource(this);
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 	}
 

@@ -40,7 +40,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	public List<ClientTAXItem> getVATItmesByVATAgncy(ClientTAXAgency taxAgency) {
 		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
 		if (taxAgency != null) {
-			for (ClientTAXItem vatItem : Accounter.getCompany()
+			for (ClientTAXItem vatItem : getCompany()
 					.getTaxItems()) {
 				if (vatItem.getTaxAgency().equalsIgnoreCase(
 						taxAgency.getID())) {
@@ -54,7 +54,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	/* VATItmes whose 'isPercentage' is false, only allowed into the list */
 	List<ClientTAXItem> getVATItmes() {
 		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : Accounter.getCompany()
+		for (ClientTAXItem vatItem : getCompany()
 				.getTaxItems()) {
 			if (!vatItem.isPercentage()) {
 				vatItmsList.add(vatItem);
@@ -66,7 +66,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	/* VATItmes whose 'isPercentage' is true, only allowed into the list */
 	public List<ClientTAXItem> getFilteredVATItems() {
 		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : Accounter.getCompany()
+		for (ClientTAXItem vatItem : getCompany()
 				.getTaxItems()) {
 			if (vatItem.isPercentage()) {
 				vatItmsList.add(vatItem);
@@ -110,7 +110,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	 */
 	@Override
 	public String getDefaultAddNewCaption() {
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			return comboConstants.newTaxItem();
 		else
 			return comboConstants.newVATItem();
@@ -145,7 +145,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	public void onAddNew() {
 		Action action = VatActionFactory.getNewVatItemAction();
 		action.setActionSource(this);
-		HistoryTokenUtils.setPresentToken(action, null);
+		
 		action.run(null, true);
 	}
 

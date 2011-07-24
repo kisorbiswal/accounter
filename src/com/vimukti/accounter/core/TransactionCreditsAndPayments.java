@@ -67,7 +67,7 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 
 	int version;
 
-	transient boolean isImported;
+	
 
 	transient private boolean isOnSaveProccessed;
 
@@ -75,17 +75,11 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 		// TODO
 	}
 
-	public long getId() {
-		return id;
-	}
 
 	public int getVersion() {
 		return version;
 	}
 
-	public void setID(long id) {
-		this.id = id;
-	}
 
 	public FinanceDate getDate() {
 		return date;
@@ -155,9 +149,6 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;

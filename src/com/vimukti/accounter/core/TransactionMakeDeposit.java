@@ -129,7 +129,7 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 	@ReffereredObject
 	CreditsAndPayments creditsAndPayments;
 
-	transient boolean isImported;
+	
 	transient private boolean isOnSaveProccessed;
 
 	public TransactionMakeDeposit() {
@@ -143,27 +143,6 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 		return version;
 	}
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
-
-	// /**
-	// * @return the company
-	// */
-	// public Company getCompany() {
-	// return company;
-	// }
-	//
-	// /**
-	// * @param company
-	// * the company to set
-	// */
-	// public void setCompany(Company company) {
-	// this.company = company;
-	// }
 
 	/**
 	 * @return the date
@@ -288,9 +267,6 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;

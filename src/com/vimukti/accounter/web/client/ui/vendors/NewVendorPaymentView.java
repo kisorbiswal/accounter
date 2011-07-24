@@ -95,7 +95,7 @@ public class NewVendorPaymentView extends
 
 	@Override
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
-		ClientCompany comapny = Accounter.getCompany();
+		ClientCompany comapny = getCompany();
 
 		ClientPayBill payBillToBeEdited = (ClientPayBill) transactionObject;
 		amountText.setAmount((Double) payBillToBeEdited.getUnusedAmount());
@@ -260,7 +260,7 @@ public class NewVendorPaymentView extends
 
 			}
 		});
-		checkNo = createCheckNumberItem(Accounter.getCompany()
+		checkNo = createCheckNumberItem(getCompany()
 				.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? vendorConstants
 				.chequeNo()
 				: vendorConstants.checkno());
@@ -282,7 +282,7 @@ public class NewVendorPaymentView extends
 		memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
 		// refText.setWidth(100);
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			payForm.setFields(vendorCombo, billToCombo, payFromCombo,
 					amountText, paymentMethodCombo, printCheck, checkNo,
 					memoTextAreaItem);
@@ -417,7 +417,7 @@ public class NewVendorPaymentView extends
 
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
 					.equalsIgnoreCase(Accounter.getVendorsMessages()
 							.cheque())
 					: paymentMethod.equalsIgnoreCase(Accounter
@@ -441,7 +441,7 @@ public class NewVendorPaymentView extends
 			return;
 		this.vendor = vendor;
 		if (vendor != null && vendorCombo != null) {
-			vendorCombo.setComboItem(Accounter.getCompany().getVendor(
+			vendorCombo.setComboItem(getCompany().getVendor(
 					vendor.getID()));
 		}
 		this.addressListOfVendor = vendor.getAddress();

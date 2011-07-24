@@ -23,7 +23,7 @@ public class LogoutServlet extends BaseServlet {
 			if (userid != null) {
 				deleteCookie(req, resp);
 				// Destroy the comet queue so that it wont take memory
-				CometManager.destroyStream(req.getSession().getId(), userid);
+				CometManager.destroyStream(req.getSession().getID(), userid);
 				req.getSession().setAttribute(USER_ID, null);
 			}
 			req.getSession().invalidate();

@@ -46,7 +46,6 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	// public static final int SHOW_TAXES_AS_INCLUSIVE = 2;
 
 	long id;
-	long id;
 	String themeName;
 	int pageSizeType;
 	double topMargin, bottomMargin;
@@ -74,7 +73,7 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	String contactDetails;
 	String Terms_And_Payment_Advice;
 
-	transient boolean isImported;
+	
 	public transient boolean isOnSaveProccessed;
 
 	String createdBy;
@@ -512,11 +511,6 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	}
 
 
-	@Override
-	public void setImported(boolean isImported) {
-		// TODO Auto-generated method stub
-
-	}
 
 
 	@Override
@@ -538,9 +532,6 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
 
-		if (isImported) {
-			return false;
-		}
 		if (isOnSaveProccessed)
 			return true;
 		isOnSaveProccessed = true;
@@ -556,12 +547,6 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 		return false;
 	}
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
 
 
 	/**
@@ -587,12 +572,6 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 		this.isOnSaveProccessed = isOnSaveProccessed;
 	}
 
-	/**
-	 * @return the isImported
-	 */
-	public boolean isImported() {
-		return isImported;
-	}
 
 	public boolean isDefault() {
 		return isDefault;
