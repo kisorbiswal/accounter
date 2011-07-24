@@ -1407,28 +1407,6 @@ public class Utility_R {
 		return valueTobesend;
 	}
 
-	public static String getDateByCompanyType(ClientFinanceDate date) {
-
-		if (date == null) {
-			return "";
-		}
-		if (Company.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("dd/MM/yyyy");
-			String format = dateFormatter.format(date.getDateAsObject());
-			return format;
-		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("MM/dd/yyyy");
-			String format = dateFormatter.format(date.getDateAsObject());
-			return format;
-		} else {
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("dd/MM/yyyy");
-			String format = dateFormatter.format(date.getDateAsObject());
-			return format;
-		}
-	}
 
 	@SuppressWarnings("unchecked")
 	public static ClientFinanceDate getCurrentFiscalYearStartDate() {
@@ -1476,10 +1454,6 @@ public class Utility_R {
 
 	}
 
-	public static String getVendorString(String forUk, String forUs) {
-		return Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? forUk
-				: forUs;
-	}
 
 	public static native boolean isMSIEBrowser()/*-{
 		if (navigator.userAgent.indexOf("MSIE")>=0)
