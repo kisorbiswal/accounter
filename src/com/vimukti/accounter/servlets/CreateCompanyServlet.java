@@ -2,8 +2,6 @@ package com.vimukti.accounter.servlets;
 
 import java.io.File;
 import java.io.IOException;
-import java.security.Security;
-import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,13 +14,17 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.services.AccounterService;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
-import com.vimukti.accounter.web.client.data.BizantraConstants;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
+import com.vimukti.accounter.workspace.tool.AccounterException;
+import com.vimukti.accounter.workspace.tool.ErrorCode;
 
 public class CreateCompanyServlet extends BaseServlet {
 
@@ -35,7 +37,10 @@ public class CreateCompanyServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		Company company = doCreateCompany(request);
+		Company company = null;
+
+		company = doCreateCompany(request);
+
 		if (company != null) {
 			initSessionFactory(company, request);
 			request.setAttribute("successmessage",
@@ -46,8 +51,7 @@ public class CreateCompanyServlet extends BaseServlet {
 		}
 	}
 
-	private void initSessionFactory(Company company,
-			HttpServletRequest request) {
+	private void initSessionFactory(Company company, HttpServletRequest request) {
 		try {
 			init(company, request);
 		} catch (Throwable e) {
@@ -58,24 +62,23 @@ public class CreateCompanyServlet extends BaseServlet {
 
 	private void init(Company company, HttpServletRequest request) {
 		// HibernateUtil.rebuildSessionFactory();
-		Session session = HibernateUtil.openSession(
-				company.getCompanyDomainName(), true);
+		Session session = HibernateUtil.openSession(company.getCompanyID(),
+				true);
 		// Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			session.save(company);
-//			CollaberIdentity identity = new CollaberIdentity(
-//					RolePermissions.ADMIN, SecureUtils.createID(),
-//					company.getCompanyDomainName());
-//			identity.setEncryptedID(Security.getBytes(Security
-//					.createSpaceEncKey()));
-//			identity.setEmailID(request.getParameter("emailId").toLowerCase()
-//					.trim());
-//			identity.setPassword(request.getParameter("password"));
-//			identity.setPasswordChanged(true);
-//			// identity.setCompanyName(company.getCompanyDomainName());
-//			initializeBizantraUserPreference(identity);
-//			session.save(identity);
+			User admin = new User();
+			// FIXME :: check the parameter names
+			admin.setFirstName(request.getParameter("firstName"));
+			admin.setLastName(request.getParameter("lastName"));
+			admin.setEmailId(request.getParameter("emailId"));
+			admin.setPasswordSha1Hash(request.getParameter("password"));
+			admin.setPhoneNo(request.getParameter("phoneNo"));
+			admin.setCountry(request.getParameter("country"));
+			admin.setUserRole(RolePermissions.ADMIN);
+
+			session.save(admin);
 
 			// createDefaultSpace(identity, session, false, request, company);
 
@@ -84,7 +87,7 @@ public class CreateCompanyServlet extends BaseServlet {
 			// createHrWorkspace(identity, session);
 			// createHolidayProcessWorkspace(identity, session);
 
-//			createFinanceSpace(identity, session, request, company);
+			// createFinanceSpace(identity, session, request, company);
 
 			// SpaceGroup defaultGroup = identity
 			// .getSpaceGroup(BizantraConstants.DEFAULT_GROUP_NAME);
@@ -98,9 +101,9 @@ public class CreateCompanyServlet extends BaseServlet {
 			// defaultGroup.getSpaces().add(holidayProcessWorkSpace);
 			//
 			// session.save(defaultGroup);
-//			session.saveOrUpdate(identity);
-			UsersMailSendar.sendMailToDefaultUser(identity,
-					company.getCompanyDisplayName());
+			// session.saveOrUpdate(identity);
+			UsersMailSendar
+					.sendMailToDefaultUser(admin, company.getCompanyID());
 			try {
 				tx.commit();
 			} catch (RuntimeException re) {
@@ -113,7 +116,7 @@ public class CreateCompanyServlet extends BaseServlet {
 
 			// Create Attachment Directory for company
 			File file = new File(ServerConfiguration.getAttachmentsDir(company
-					.getCompanyDomainName()));
+					.getCompanyID()));
 
 			if (!file.exists()) {
 				file.mkdir();
@@ -149,7 +152,6 @@ public class CreateCompanyServlet extends BaseServlet {
 	private ClientUser createDefaultUser(HttpServletRequest request,
 			String identityID) {
 		ClientUser admin = new ClientUser();
-		admin.setID(identityID);
 		admin.setFirstName(request.getParameter("firstName"));
 		admin.setLastName(request.getParameter("lastName"));
 		admin.setFullName(admin.getFirstName() + " " + admin.getLastName());
@@ -180,21 +182,19 @@ public class CreateCompanyServlet extends BaseServlet {
 		return admin;
 	}
 
-	
-
 	private Company doCreateCompany(HttpServletRequest request) {
 		Company company = getCompany(request);
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
 
 		Transaction tx = session.beginTransaction();
-		if (!validation(request)) {
+		if (!validation(request, company)) {
 			return null;
 		}
 		try {
 
 			// TODO write sql query for creating database in .xml file
 			Query query = session.createSQLQuery("CREATE SCHEMA "
-					+ company.getCompanyDomainName());
+					+ company.getCompanyID());
 			query.executeUpdate();
 			session.save(company);
 			tx.commit();
@@ -216,21 +216,27 @@ public class CreateCompanyServlet extends BaseServlet {
 	}
 
 	private Company getCompany(HttpServletRequest request) {
-		String companyName = request.getParameter("companyName");
+		// FIXME ::: check the names of the parameters
+		String companyFullName = request.getParameter("companyFullName");
 		// String noOfUsers = request.getParameter("nooofusers");
 		// String noOfLiteUsers = request.getParameter("noofliteusers");
-		String address = request.getParameter("address");
-		String city = request.getParameter("city");
-		String country = request.getParameter("country");
-		String zip = request.getParameter("zip");
-		String province = request.getParameter("provence");
-		Date expirationDate = new Date();
-		expirationDate.setYear(expirationDate.getYear() + 10);
-		Company company = new Company(companyName, companyName,
-				expirationDate);
+		String companyId = request.getParameter("companyId");
+		String companyType = request.getParameter("companyType").toLowerCase()
+				.trim();
+
+		Company company = null;
+		if (companyType.equals(Company.UK))
+			company = new Company(Company.ACCOUNTING_TYPE_UK);
+		else if (companyType.equals(Company.US))
+			company = new Company(Company.ACCOUNTING_TYPE_US);
+		else
+			company = new Company(Company.ACCOUNTING_TYPE_INDIA);
+		company.setCompanyFullName(companyFullName);
+		company.setCompanyID(companyId);
+
 		// company.setTotalNoOfUsers(Integer.parseInt(noOfUsers));
 		// company.setTotalNoOfLiteUsers(Integer.parseInt(noOfLiteUsers));
-		company.setTotalSize(1024 * 1024 * 1024);
+		// company.setTotalSize(1024 * 1024 * 1024);
 		// company.setID(SecureUtils.createID());
 		// company.setCompanyDomainName(name);
 		// company.setCompanyDisplayName(name);
@@ -238,36 +244,46 @@ public class CreateCompanyServlet extends BaseServlet {
 		// company.setInitialUsers(Integer.parseInt(noOfUsers));
 		// company.setInitialSize(1073741824);
 		// company.setTotalNoOfUsers(Integer.parseInt(noOfUsers));
-		company.setBizantraVersion(Integer.parseInt(request
-				.getParameter("companyType")));
-		company.setAddress(address);
-		company.setCity(city);
-		company.setCountry(country);
-		company.setZip(zip);
-		company.setProvince(province);
-		company.setDateStyle(2);
-		if (company.getDateStyle() == 2) {
-			company.setCountryCode("United Kingdom");
-		} else {
-			// TODO HAVE TO BE SET COUNTRY CODE BASE DON DATE STYLE PRESENT
-			// GIVING DEFAULT ONE IS 'United Kingdom'
-			company.setCountryCode("United Kingdom");
-		}
+		// company.setBizantraVersion(Integer.parseInt(request
+		// .getParameter("companyType")));
+		// company.setAddress(address);
+		// company.setCity(city);
+		// company.setCountry(country);
+		// company.setZip(zip);
+		// company.setProvince(province);
+		// company.setDateStyle(2);
+		// if (company.getDateStyle() == 2) {
+		// company.setCountryCode("United Kingdom");
+		// } else {
+		// // TODO HAVE TO BE SET COUNTRY CODE BASE DON DATE STYLE PRESENT
+		// // GIVING DEFAULT ONE IS 'United Kingdom'
+		// company.setCountryCode("United Kingdom");
+		// }
 		// company.setTime("Y");
 		// company.setPeriod(1);
 		// company.setExpirationDate(company.getExpirationDateByDate("Y"));
 
-		StringBuilder holidayStartString = new StringBuilder();
-		holidayStartString.append(request.getParameter("startDateDate"));
-		holidayStartString.append(", ");
-		holidayStartString.append(request.getParameter("startDateMonth"));
-		company.setHolidayStartDate(holidayStartString.toString());
-
-		company.setSubsType(BizantraConstants.TRIAL_SUBSCRIPTION);
-		company.setSubscriberEmail(request.getParameter("emailId")
-				.toLowerCase().trim());
+		// StringBuilder holidayStartString = new StringBuilder();
+		// holidayStartString.append(request.getParameter("startDateDate"));
+		// holidayStartString.append(", ");
+		// holidayStartString.append(request.getParameter("startDateMonth"));
+		// company.setHolidayStartDate(holidayStartString.toString());
+		//
+		// company.setSubsType(BizantraConstants.TRIAL_SUBSCRIPTION);
+		// company.setSubscriberEmail(request.getParameter("emailId")
+		// .toLowerCase().trim());
 
 		return company;
+	}
+
+	private boolean isValidSubnetName(String companyId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	private boolean isValidDBName(String companyId) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	public void dispatchView(HttpServletRequest request,
@@ -283,12 +299,12 @@ public class CreateCompanyServlet extends BaseServlet {
 		}
 	}
 
-	private boolean validation(HttpServletRequest request) {
+	private boolean validation(HttpServletRequest request, Company company) {
 		Boolean flag = true;
 		String message = "";
 		// String firstName = request.getParameter("firstName");
 		// String lastName = request.getParameter("lastName");
-		String companyName = request.getParameter("companyName");
+		String companyId = company.getCompanyID();
 		// String emailId = request.getParameter("emailId");
 		// String password = request.getParameter("password");
 		// String confirmPassword = request.getParameter("confirmPassword");
@@ -307,13 +323,23 @@ public class CreateCompanyServlet extends BaseServlet {
 		// message = "Company name is not valid.";
 		// flag = false;
 		// }
-		if (BizantraService.isCompanyExits(companyName)) {
+		if (AccounterService.isCompanyExits(companyId)) {
 			if (!message.isEmpty())
 				message = message + ", Company with this name is already exist";
 			else
 				message = "Company with this name is already exist";
 			flag = false;
 		}
+
+		if (!(isValidDBName(companyId) && isValidSubnetName(companyId))) {
+			if (!message.isEmpty())
+				message = message + ", Invalid Company ID";
+			else
+				message = "Invalid Company ID";
+			flag = false;
+
+		}
+
 		// if (request.getParameter("nooofusers") == null
 		// || request.getParameter("nooofusers") == "") {
 		// message = "Company must have a number of User";
@@ -360,12 +386,13 @@ public class CreateCompanyServlet extends BaseServlet {
 		return flag;
 	}
 
-	private void initializeBizantraUserPreference(CollaberIdentity identity) {
-		BizantraUserPreferences userPreferences = new BizantraUserPreferences();
-		userPreferences.setDefaultPreferences();
-		identity.setUserPreferences(userPreferences);
-
-	}
+	// private void initializeBizantraUserPreference(CollaberIdentity identity)
+	// {
+	// BizantraUserPreferences userPreferences = new BizantraUserPreferences();
+	// userPreferences.setDefaultPreferences();
+	// identity.setUserPreferences(userPreferences);
+	//
+	// }
 
 	@Override
 	protected void doGet(HttpServletRequest request,
