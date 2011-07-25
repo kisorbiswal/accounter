@@ -16,7 +16,7 @@ import com.vimukti.accounter.workspace.tool.AccounterException;
  */
 public interface IAccounterCRUDService extends RemoteService {
 
-	long create(IAccounterCore coreObject) throws getObjectByIdgetObjectById;
+	long create(IAccounterCore coreObject) throws AccounterException;
 
 	long update(IAccounterCore coreObject) throws AccounterException;
 
