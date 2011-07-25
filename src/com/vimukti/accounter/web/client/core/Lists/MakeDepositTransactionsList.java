@@ -16,7 +16,7 @@ public class MakeDepositTransactionsList implements IsSerializable,
 
 	public static final int TYPE_CUSTOMER = 3;
 
-	String transactionId;
+	long transactionId;
 
 	int transactionType;
 
@@ -74,7 +74,7 @@ public class MakeDepositTransactionsList implements IsSerializable,
 	/**
 	 * @return the transactionId
 	 */
-	public String getTransactionId() {
+	public long getTransactionId() {
 		return transactionId;
 	}
 
@@ -82,7 +82,7 @@ public class MakeDepositTransactionsList implements IsSerializable,
 	 * @param transactionId
 	 *            the transactionId to set
 	 */
-	public void setTransactionId(String transactionId) {
+	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
 	}
 

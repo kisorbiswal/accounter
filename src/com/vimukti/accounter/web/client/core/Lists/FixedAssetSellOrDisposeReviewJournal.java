@@ -10,19 +10,14 @@ public class FixedAssetSellOrDisposeReviewJournal implements IsSerializable {
 
 	Map<String, Double> disposalJournal;
 
-	public long getID(){
-		// TODO Auto-generated method stub
-		return null;
+	private long id;
+
+	public long getID() {
+		return this.id;
 	}
 
-	public void setImported(boolean isImported) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setID(long id){
-		// TODO Auto-generated method stub
-
+	public void setID(long id) {
+		this.id = id;
 	}
 
 	public Map<String, Double> getDisposalSummary() {
