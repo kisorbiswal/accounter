@@ -26,7 +26,7 @@ public class ClientEntry implements IAccounterCore {
 
 	long account;
 
-	String vendor;
+	long vendor;
 
 	String customer;
 
@@ -128,11 +128,11 @@ public class ClientEntry implements IAccounterCore {
 		this.account = account;
 	}
 
-	public String getVendor() {
+	public long getVendor() {
 		return vendor;
 	}
 
-	public void setVendor(String vendor) {
+	public void setVendor(long vendor) {
 		this.vendor = vendor;
 	}
 
