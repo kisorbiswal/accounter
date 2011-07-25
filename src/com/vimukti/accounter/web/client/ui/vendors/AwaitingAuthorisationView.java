@@ -122,7 +122,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 	protected List<BillsList> getRecordsToApprove() {
 		List<BillsList> records = new ArrayList<BillsList>();
 		for (BillsList r : grid.getSelectedRecords()) {
-			if (r.getPayFrom() != null)
+			if (r.getPayFrom() != 0)
 				records.add(r);
 		}
 		return records;
@@ -132,7 +132,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 		boolean isErrorOccured = false;
 		List<BillsList> selectedRecords = grid.getSelectedRecords();
 		for (BillsList record : selectedRecords) {
-			if (record.getPayFrom() == null) {
+			if (record.getPayFrom() == 0) {
 				isErrorOccured = true;
 			}
 		}
