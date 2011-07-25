@@ -38,10 +38,8 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	public List<ClientTAXItem> getVATItmesByVATAgncy(ClientTAXAgency taxAgency) {
 		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
 		if (taxAgency != null) {
-			for (ClientTAXItem vatItem : getCompany()
-					.getTaxItems()) {
-				if (vatItem.getTaxAgency().equalsIgnoreCase(
-						taxAgency.getID())) {
+			for (ClientTAXItem vatItem : getCompany().getTaxItems()) {
+				if (vatItem.getTaxAgency() == (taxAgency.getID())) {
 					vatItmsList.add(vatItem);
 				}
 			}
@@ -52,8 +50,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	/* VATItmes whose 'isPercentage' is false, only allowed into the list */
 	List<ClientTAXItem> getVATItmes() {
 		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : getCompany()
-				.getTaxItems()) {
+		for (ClientTAXItem vatItem : getCompany().getTaxItems()) {
 			if (!vatItem.isPercentage()) {
 				vatItmsList.add(vatItem);
 			}
@@ -64,8 +61,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	/* VATItmes whose 'isPercentage' is true, only allowed into the list */
 	public List<ClientTAXItem> getFilteredVATItems() {
 		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : getCompany()
-				.getTaxItems()) {
+		for (ClientTAXItem vatItem : getCompany().getTaxItems()) {
 			if (vatItem.isPercentage()) {
 				vatItmsList.add(vatItem);
 			}
@@ -143,7 +139,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	public void onAddNew() {
 		Action action = VatActionFactory.getNewVatItemAction();
 		action.setActionSource(this);
-		
+
 		action.run(null, true);
 	}
 
