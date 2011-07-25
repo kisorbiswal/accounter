@@ -80,7 +80,9 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.data.InvalidSessionException;
+import com.vimukti.accounter.workspace.tool.AccounterOperationException;
 import com.vimukti.accounter.workspace.tool.FinanceTool;
+import com.vimukti.accounter.workspace.tool.OperationContext;
 
 /**
  * @author Fernandez
@@ -1305,9 +1307,14 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			throws InvalidSessionException {
 		try {
 			FinanceTool tool = getFinanceTool();
-			tool.changeDepreciationStartDateTo(newStartDate);
+			OperationContext opContext = new OperationContext(newStartDate);
+			
+			tool.updateDeprecationStartDate(opContext);
 		} catch (DAOException e) {
 			e.printStackTrace();
+		} catch (AccounterOperationException e) {
+			e.printStackTrace();
+			throw new InvalidSessionException(e.getMessage());
 		}
 	}
 
