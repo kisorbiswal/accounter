@@ -5,7 +5,7 @@ public class ClientTransactionPaySalesTax implements IAccounterCore {
 
 	long id;
 
-	String taxItem;
+	long taxItem;
 
 	long taxAgency;
 
@@ -39,11 +39,11 @@ public class ClientTransactionPaySalesTax implements IAccounterCore {
 		this.version = version;
 	}
 
-	public String getTaxItem() {
+	public long getTaxItem() {
 		return taxItem;
 	}
 
-	public void setTaxItem(String taxItemId) {
+	public void setTaxItem(long taxItemId) {
 		this.taxItem = taxItemId;
 	}
 
