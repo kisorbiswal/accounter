@@ -96,9 +96,9 @@
 		from BizantraCompany
 	</query>
 
-	<query name="get.super.users">
-		from CollaberIdentity identity where
-		identity.systemRole='Super User'
+	<query name="get.admin.users">
+		from User user where
+		user.userRole='Admin'
 	</query>
 
 	<sql-query name="get.external.member.by.id">
