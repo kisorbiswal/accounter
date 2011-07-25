@@ -47,8 +47,6 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 	@Override
 	public void goToClicked() {
-		HistoryTokenUtils.setPresentToken(VendorsActionFactory
-				.getExpensesAction(null), null);
 		VendorsActionFactory.getExpensesAction(null).run(null, true);
 	}
 
@@ -74,8 +72,6 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				HistoryTokenUtils.setPresentToken(VendorsActionFactory
-						.getRecordExpensesAction(), null);
 				VendorsActionFactory.getRecordExpensesAction().run(null, true);
 			}
 		});
@@ -146,8 +142,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 				}
 			}
 		};
-		Accounter.createHomeService().getGraphPointsforAccount(4, 0,
-				callBack);
+		Accounter.createHomeService().getGraphPointsforAccount(4, 0, callBack);
 	}
 
 	private Label getLabel(final String title) {
@@ -157,52 +152,40 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				label.getElement().getStyle().setCursor(Cursor.POINTER);
-				label.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				label.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 			}
 		});
 		label.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				label.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				label.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
 		label.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				label.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
-				if (title.equals(Accounter.getCompanyMessages()
-						.cashExpenses())) {
-					HistoryTokenUtils.setPresentToken(VendorsActionFactory
-							.getExpensesAction(Accounter
-									.getVendorsMessages().cash()), null);
+				label.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
+				if (title.equals(Accounter.getCompanyMessages().cashExpenses())) {
 					VendorsActionFactory.getExpensesAction(
-							Accounter.getVendorsMessages().cash())
-							.run(null, true);
+							Accounter.getVendorsMessages().cash()).run(null,
+							true);
 				} else if (title.equals(Accounter.getCompanyMessages()
 						.creditCardExpenses())) {
-					HistoryTokenUtils.setPresentToken(VendorsActionFactory
-							.getExpensesAction(Accounter
-									.getVendorsMessages().creditCard()), null);
 					VendorsActionFactory.getExpensesAction(
-							Accounter.getVendorsMessages()
-									.creditCard()).run(null, true);
+							Accounter.getVendorsMessages().creditCard()).run(
+							null, true);
 				} else if (title.equals(Accounter.getCompanyMessages()
 						.employeeExpenses())) {
-					HistoryTokenUtils.setPresentToken(VendorsActionFactory
-							.getExpensesAction(Accounter
-									.getVendorsMessages().employee()), null);
 					VendorsActionFactory.getExpensesAction(
-							Accounter.getVendorsMessages().employee())
-							.run(null, true);
+							Accounter.getVendorsMessages().employee()).run(
+							null, true);
 				} else if (title.equals(Accounter.getCompanyMessages()
 						.allExpenses())) {
-					HistoryTokenUtils.setPresentToken(VendorsActionFactory
-							.getExpensesAction(null), null);
 					VendorsActionFactory.getExpensesAction(null)
 							.run(null, true);
 				}
@@ -222,8 +205,6 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 	@Override
 	public void titleClicked() {
-		HistoryTokenUtils.setPresentToken(VendorsActionFactory
-				.getExpensesAction(null), null);
 		VendorsActionFactory.getExpensesAction(null).run(null, true);
 	}
 

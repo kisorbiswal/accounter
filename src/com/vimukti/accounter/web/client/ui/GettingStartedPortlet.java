@@ -41,8 +41,7 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 				.accountPayable());
 		banking = getAnchor(Accounter.getCompanyMessages()
 				.bankingTransactions());
-		expences = getAnchor(Accounter.getCompanyMessages()
-				.expenseClaims());
+		expences = getAnchor(Accounter.getCompanyMessages().expenseClaims());
 		customer = getAnchor("customers");
 		vendor = getAnchor("vendors");
 		inviteUser = getAnchor("Invite Other User");
@@ -177,7 +176,7 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 	public void goToClicked() {
 		// TODO Auto-generated method stub
 		this.setVisible(false);
-		Header.changeHelpBarContent("Show Getting Started");
+		// Header.changeHelpBarContent("Show Getting Started");
 	}
 
 	@Override
@@ -211,8 +210,8 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 				else if (title.equals(Accounter.getCompanyMessages()
 						.expenseClaims())) {
 					if (Accounter.getUser().canDoInvoiceTransactions())
-						VendorsActionFactory.getExpensesAction(null)
-								.run(null, true);
+						VendorsActionFactory.getExpensesAction(null).run(null,
+								true);
 				} else if (title.equals("customers"))
 					CustomersActionFactory.getNewCustomerAction().run(null,
 							true);
@@ -227,8 +226,7 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 						BankingActionFactory.getNewBankAccountAction().run(
 								null, true);
 				} else if (title.equals("finance categories")) {
-					if (Accounter.getUser()
-							.canSeeInvoiceTransactions())
+					if (Accounter.getUser().canSeeInvoiceTransactions())
 						CompanyActionFactory.getChartOfAccountsAction().run(
 								null, true);
 				}

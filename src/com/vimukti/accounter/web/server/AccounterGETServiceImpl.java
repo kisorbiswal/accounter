@@ -79,13 +79,14 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ClientCompany getCompany(String identityID) throws InvalidSessionException {
+	public ClientCompany getCompany(String identityID)
+			throws InvalidSessionException {
 		FinanceTool tool = (FinanceTool) getFinanceTool();
 		return tool.getClientCompany(identityID);
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return SecureUtils.createID();
 	}
 

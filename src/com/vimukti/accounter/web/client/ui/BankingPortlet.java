@@ -38,8 +38,6 @@ public class BankingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void goToClicked() {
-		HistoryTokenUtils.setPresentToken(CompanyActionFactory
-				.getChartOfAccountsAction(ClientAccount.TYPE_BANK), null);
 		CompanyActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK)
 				.run(null, true);
 	}
@@ -62,8 +60,8 @@ public class BankingPortlet extends DashBoardPortlet {
 	@Override
 	public void createBody() {
 		if (getCompany() != null) {
-			bankAccounts = getCompany()
-					.getActiveBankAccounts(ClientAccount.TYPE_BANK);
+			bankAccounts = getCompany().getActiveBankAccounts(
+					ClientAccount.TYPE_BANK);
 		}
 		AccounterButton addAccount = new AccounterButton(Accounter
 				.getCompanyMessages().addBankAccount());
@@ -79,8 +77,6 @@ public class BankingPortlet extends DashBoardPortlet {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					HistoryTokenUtils.setPresentToken(BankingActionFactory
-							.getNewBankAccountAction(), null);
 					BankingActionFactory.getNewBankAccountAction().run(null,
 							true);
 				}
@@ -111,26 +107,24 @@ public class BankingPortlet extends DashBoardPortlet {
 
 					@Override
 					public void onMouseOver(MouseOverEvent event) {
-						accountLabel.getElement().getStyle().setCursor(
-								Cursor.POINTER);
-						accountLabel.getElement().getStyle().setTextDecoration(
-								TextDecoration.UNDERLINE);
+						accountLabel.getElement().getStyle()
+								.setCursor(Cursor.POINTER);
+						accountLabel.getElement().getStyle()
+								.setTextDecoration(TextDecoration.UNDERLINE);
 					}
 				});
 				accountLabel.addMouseOutHandler(new MouseOutHandler() {
 
 					@Override
 					public void onMouseOut(MouseOutEvent event) {
-						accountLabel.getElement().getStyle().setTextDecoration(
-								TextDecoration.NONE);
+						accountLabel.getElement().getStyle()
+								.setTextDecoration(TextDecoration.NONE);
 					}
 				});
 				accountLabel.addClickHandler(new ClickHandler() {
 
 					@Override
 					public void onClick(ClickEvent event) {
-						HistoryTokenUtils.setPresentToken(BankingActionFactory
-								.getAccountRegisterAction(), account);
 						BankingActionFactory.getAccountRegisterAction().run(
 								account, true);
 					}
@@ -185,11 +179,9 @@ public class BankingPortlet extends DashBoardPortlet {
 													.getText().equals(
 															account.getName())) {
 												GraphChart chart = new GraphChart();
-												body
-														.insert(
-																chart
-																		.createBankingChart(result),
-																++i);
+												body.insert(
+														chart.createBankingChart(result),
+														++i);
 											}
 										}
 									}
@@ -206,11 +198,9 @@ public class BankingPortlet extends DashBoardPortlet {
 					}
 				};
 				try {
-					Accounter
-							.createHomeService()
-							.getGraphPointsforAccount(
-									GraphChart.BANK_ACCOUNT_CHART_TYPE,
-									Long.valueOf(account.getNumber()), callBack);
+					Accounter.createHomeService().getGraphPointsforAccount(
+							GraphChart.BANK_ACCOUNT_CHART_TYPE,
+							Long.valueOf(account.getNumber()), callBack);
 					i++;
 				} catch (Exception e) {
 					System.err.println(e);
@@ -222,8 +212,6 @@ public class BankingPortlet extends DashBoardPortlet {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					HistoryTokenUtils.setPresentToken(BankingActionFactory
-							.getNewBankAccountAction(), null);
 					BankingActionFactory.getNewBankAccountAction().run(null,
 							true);
 				}
@@ -233,8 +221,6 @@ public class BankingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void titleClicked() {
-		HistoryTokenUtils.setPresentToken(CompanyActionFactory
-				.getChartOfAccountsAction(ClientAccount.TYPE_BANK), null);
 		CompanyActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK)
 				.run(null, true);
 	}

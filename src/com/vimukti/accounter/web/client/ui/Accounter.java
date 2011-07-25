@@ -7,6 +7,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -624,6 +625,7 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 	}
 
 	private static AccounterExecute timerExecution;
+	private static EventBus eventBus;
 
 	public static void setTimer(AccounterExecute execute) {
 		timerExecution = execute;
@@ -655,4 +657,9 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 		expireDialog.add(vPanel);
 		expireDialog.center();
 	}
+
+	public static EventBus getEventBus() {
+		return eventBus;
+	}
+
 }

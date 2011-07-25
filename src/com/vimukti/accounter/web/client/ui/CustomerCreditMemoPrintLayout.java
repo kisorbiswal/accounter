@@ -82,7 +82,7 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 		adressHPanel.setSpacing(10);
 		adressHPanel.getElement().setAttribute("cellpaddding", "1");
 
-		ClientCustomer customer = getCompany().getCustomer(
+		ClientCustomer customer = Accounter.getCompany().getCustomer(
 				creditMemo.getCustomer());
 		String billAdrs = "<br/><br/><br/><br/><br/>";
 		Set<ClientAddress> bill = customer.getAddress();
@@ -144,7 +144,7 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 		gridPanel.add(grid);
 		gridPanel.setSize("100%", "100%");
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			vatPanel = new HorizontalPanel();
 
 			vatPanel.setSize("100%", "100%");
@@ -161,7 +161,7 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 
 		double lineTotal = view.getGridForPrinting().getTotal();
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			vatTotal = view.getGridForPrinting().getVatTotal();
 			totalAmount = lineTotal + vatTotal;
 

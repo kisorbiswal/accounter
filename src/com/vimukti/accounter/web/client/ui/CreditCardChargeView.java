@@ -143,7 +143,7 @@ public class CreditCardChargeView extends
 			// creditCardChargeTaken.getVendor());
 			if (creditCardChargeTaken.getContact() != null)
 				contactNameSelect.setSelected(creditCardChargeTaken
-						.getContact().getID());
+						.getContact().getName());
 			if (creditCardChargeTaken.getPhone() != null)
 				// FIXME check and fix the below code
 				phoneSelect.setValue(creditCardChargeTaken.getPhone());
@@ -153,12 +153,12 @@ public class CreditCardChargeView extends
 			return;
 		}
 		if (primaryContact == null) {
-			contactNameSelect.setSelected(0);
+			contactNameSelect.setSelected("");
 			phoneSelect.setValue("");
 			return;
 		}
 
-		contactNameSelect.setSelected(primaryContact.getID());
+		contactNameSelect.setSelected(primaryContact.getName());
 		phoneSelect.setValue(primaryContact.getBusinessPhone());
 
 		// for (Address toBeShown : allAddress) {

@@ -345,7 +345,7 @@ public interface IAccounterGETServiceAsync {
 	// AsyncCallback<ClientPaySalesTax> callback);
 
 	public <T extends IAccounterCore> void getObjectById(
-			AccounterCoreType type, long id, AsyncCallback<T> callback);
+			AccounterCoreType type, String id, AsyncCallback<T> callback);
 
 	public <T extends IAccounterCore> void getObjectByName(
 			AccounterCoreType type, String name, AsyncCallback<T> callback);
