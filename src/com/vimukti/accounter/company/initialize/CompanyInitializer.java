@@ -6,7 +6,7 @@ public abstract class CompanyInitializer {
 	/**
 	 * this is used to set the company type
 	 */
-	public void setCompany(){
+	public void getCompany(){
 		
 	}
 	
