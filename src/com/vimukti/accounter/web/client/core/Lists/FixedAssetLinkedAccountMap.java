@@ -21,17 +21,17 @@ public class FixedAssetLinkedAccountMap implements IsSerializable,Serializable {
 		this.assetLinkedAccounts = fixedAssetLinkedAccounts;
 	}
 
-	public Set<String> keySet() {
-		Set<String> keySet = new HashSet<String>();
+	public Set<Long> keySet() {
+		Set<Long> keySet = new HashSet<Long>();
 		for (LinkAccount linkAccount : assetLinkedAccounts) {
 			keySet.add(linkAccount.assetAccount);
 		}
 		return keySet;
 	}
 
-	public String get(String account) {
+	public String get(long account) {
 		for (LinkAccount linkAccount : assetLinkedAccounts) {
-			if (linkAccount.assetAccount.equals(account)) {
+			if (linkAccount.assetAccount == account) {
 				return linkAccount.linkedAccount;
 			}
 		}
