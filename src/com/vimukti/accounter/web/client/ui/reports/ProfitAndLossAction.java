@@ -35,7 +35,7 @@ public class ProfitAndLossAction extends Action {
 			public void onCreated() {
 
 				try {
-					if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+					if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 						report = new ProfitAndLossUKReport();
 					else
 						report = new ProfitAndLossReport();
