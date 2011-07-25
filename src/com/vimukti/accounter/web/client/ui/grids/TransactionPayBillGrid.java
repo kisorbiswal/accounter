@@ -248,8 +248,7 @@ public class TransactionPayBillGrid extends
 			// "" + UIUtils.getCurrencySymbol() + "", "");
 			// }
 			double payment = Double.parseDouble(DataUtils
-					.getReformatedAmount(value.toString())
-					+ "");
+					.getReformatedAmount(value.toString()) + "");
 			editingRecord.setPayment(payment);
 			updateAmountDue(editingRecord);
 			updateData(editingRecord);
@@ -339,10 +338,10 @@ public class TransactionPayBillGrid extends
 			discountAccount = getCompany().getAccountByName(
 					companyConstants.discounts());
 		}
-		cashDiscountDialog = new CashDiscountDialog(canEdit, selectedObject
-				.getCashDiscount(), canEdit ? discountAccount
-				: getCompany().getAccount(
-						selectedObject.getDiscountAccount()));
+		cashDiscountDialog = new CashDiscountDialog(canEdit,
+				selectedObject.getCashDiscount(), canEdit ? discountAccount
+						: getCompany().getAccount(
+								selectedObject.getDiscountAccount()));
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject
@@ -385,6 +384,10 @@ public class TransactionPayBillGrid extends
 			}
 		});
 		cashDiscountDialog.show();
+	}
+
+	private ClientCompany getCompany() {
+		return Accounter.getCompany();
 	}
 
 	public void openCreditsDialog() {
@@ -954,6 +957,12 @@ public class TransactionPayBillGrid extends
 
 	@Override
 	public void setTaxCode(String taxCode) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setTaxCode(long taxCode) {
 		// TODO Auto-generated method stub
 
 	}
