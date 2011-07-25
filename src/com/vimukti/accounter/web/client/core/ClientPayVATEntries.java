@@ -4,7 +4,7 @@ public class ClientPayVATEntries implements IAccounterCore {
 	
 	private static final long serialVersionUID = 1L;
 
-	String vatAgency;
+	long vatAgency;
 
 	double amount;
 
@@ -16,7 +16,7 @@ public class ClientPayVATEntries implements IAccounterCore {
 		return vatAgency;
 	}
 
-	public void setVatAgency(String vatAgency) {
+	public void setVatAgency(long vatAgency) {
 		this.vatAgency = vatAgency;
 	}
 
