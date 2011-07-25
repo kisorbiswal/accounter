@@ -78,16 +78,16 @@ public class TransactionPaySalesTaxGrid extends
 		if (!paySalesTaxView.isEditMode()) {
 			switch (index) {
 			case 0:
-				return getCompany().getTaxAgency(
-						paySalesTax.getTaxAgency()).getName() != null ? Accounter
+				return Accounter.getCompany()
+						.getTaxAgency(paySalesTax.getTaxAgency()).getName() != null ? Accounter
 						.getCompany().getTaxAgency(paySalesTax.getTaxAgency())
 						.getName()
 						: "";
 			case 1:
-				return paySalesTax.getTaxItem() != null ? ((Accounter
+				return paySalesTax.getTaxItem() != 0 ? ((Accounter.getCompany()
+						.getTaxItem(paySalesTax.getTaxItem()).getName()) != null ? (Accounter
 						.getCompany().getTaxItem(paySalesTax.getTaxItem())
-						.getName()) != null ? (getCompany()
-						.getTaxItem(paySalesTax.getTaxItem()).getName()) : "")
+						.getName()) : "")
 						: " ";
 			case 2:
 				return DataUtils.getAmountAsString(paySalesTax.getTaxDue());
@@ -99,13 +99,13 @@ public class TransactionPaySalesTaxGrid extends
 		} else {
 			switch (index) {
 			case 0:
-				return getCompany().getTaxAgency(
-						paySalesTax.getTaxAgency()).getName() != null ? Accounter
+				return Accounter.getCompany()
+						.getTaxAgency(paySalesTax.getTaxAgency()).getName() != null ? Accounter
 						.getCompany().getTaxAgency(paySalesTax.getTaxAgency())
 						.getName()
 						: "";
 			case 1:
-				return getCompany().getTaxItem(
+				return Accounter.getCompany().getTaxItem(
 						paySalesTax.getTaxItem()) != null ? Accounter
 						.getCompany().getTaxItem(paySalesTax.getTaxItem())
 						.getName() : "";
@@ -195,8 +195,7 @@ public class TransactionPaySalesTaxGrid extends
 			Object value, int col) {
 		if (col == 3) {
 			paySalesTax.setAmountToPay(Double.parseDouble(DataUtils
-					.getReformatedAmount(value.toString())
-					+ ""));
+					.getReformatedAmount(value.toString()) + ""));
 			updateRecord(paySalesTax, indexOf(paySalesTax), 3);
 			updateFotterTotal();
 
@@ -224,7 +223,7 @@ public class TransactionPaySalesTaxGrid extends
 	}
 
 	@Override
-	public void setTaxCode(String taxCode) {
+	public void setTaxCode(long taxCode) {
 		// TODO Auto-generated method stub
 
 	}
