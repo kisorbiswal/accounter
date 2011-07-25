@@ -62,7 +62,7 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getTime())),
 				Integer.parseInt(String.valueOf(endDate.getTime())), 116, "",
-				"", status);
+				"", String.valueOf(status));
 
 	}
 
@@ -98,7 +98,7 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getTime())),
 				Integer.parseInt(String.valueOf(endDate.getTime())), 116, "",
-				"", status);
+				"", String.valueOf(status));
 
 	}
 
