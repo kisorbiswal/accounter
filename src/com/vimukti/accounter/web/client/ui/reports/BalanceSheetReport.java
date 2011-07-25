@@ -22,7 +22,7 @@ public class BalanceSheetReport extends AbstractReportView<TrialBalance> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		if (record.getAccountId() != null) {
+		if (record.getAccountId() != 0) {
 			UIUtils.runAction(record, ReportsActionFactory
 					.getTransactionDetailByAccountAction());
 		} else {
