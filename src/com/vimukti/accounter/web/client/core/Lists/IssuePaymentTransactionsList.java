@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 public class IssuePaymentTransactionsList implements IsSerializable,
 		Serializable {
 
-	String transactionId;
+	long transactionId;
 
 	int type;
 
@@ -28,7 +28,7 @@ public class IssuePaymentTransactionsList implements IsSerializable,
 	/**
 	 * @return the transactionId
 	 */
-	public String getTransactionId() {
+	public long getTransactionId() {
 		return transactionId;
 	}
 
@@ -36,7 +36,7 @@ public class IssuePaymentTransactionsList implements IsSerializable,
 	 * @param transactionId
 	 *            the transactionId to set
 	 */
-	public void setTransactionId(String transactionId) {
+	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
 	}
 
