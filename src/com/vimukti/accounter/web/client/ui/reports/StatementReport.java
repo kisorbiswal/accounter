@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.StatementServerReport;
 @SuppressWarnings("unchecked")
 public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	public int precategory = 1001;
-	public String customerId;
+	public long customerId;
 
 	public StatementReport() {
 		this.serverReport = new StatementServerReport(this);
@@ -26,7 +26,7 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	}
 
 	@Override
-	public void makeReportRequest(String customer, ClientFinanceDate startDate,
+	public void makeReportRequest(long customer, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
 		// resetReport(endDate, endDate);
 		Accounter.createReportService().getStatements(customer,
