@@ -193,7 +193,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 			super.saveAndUpdateView();
 
-			if (transactionObject.getID() == null)
+			if (transactionObject.getID() == 0)
 				createObject((ClientEstimate) transactionObject);
 			else
 				alterObject((ClientEstimate) transactionObject);
