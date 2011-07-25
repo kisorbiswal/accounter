@@ -5,17 +5,17 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class ClientPaySalesTax extends ClientTransaction {
 
-	String payFrom;
+	long payFrom;
 
 	long billsDueOnOrBefore;
 
-	String taxAgency;
+	long taxAgency;
 
 	// double amount;
 
 	double endingBalance;
 
-//	boolean isVoid = false;
+	// boolean isVoid = false;
 
 	boolean isEdited = false;
 
@@ -41,11 +41,11 @@ public class ClientPaySalesTax extends ClientTransaction {
 		this.isEdited = isEdited;
 	}
 
-	public String getPayFrom() {
+	public long getPayFrom() {
 		return this.payFrom;
 	}
 
-	public void setPayFrom(String payFrom) {
+	public void setPayFrom(long payFrom) {
 		this.payFrom = payFrom;
 	}
 
@@ -57,11 +57,11 @@ public class ClientPaySalesTax extends ClientTransaction {
 		this.billsDueOnOrBefore = billsDueOnOrBefore;
 	}
 
-	public String getTaxAgency() {
+	public long getTaxAgency() {
 		return this.taxAgency;
 	}
 
-	public void setTaxAgency(String taxAgency) {
+	public void setTaxAgency(long taxAgency) {
 		this.taxAgency = taxAgency;
 	}
 
@@ -95,13 +95,13 @@ public class ClientPaySalesTax extends ClientTransaction {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 

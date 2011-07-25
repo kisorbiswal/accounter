@@ -78,7 +78,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public List<IssuePaymentTransactionsList> getChecks();
 
-	public List<IssuePaymentTransactionsList> getChecks(String accountId);
+	public List<IssuePaymentTransactionsList> getChecks(long accountId);
 
 	public List<ClientCreditCardCharge> getCreditCardChargesThisMonth(long date);
 
@@ -116,7 +116,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public Long getNextCheckNumber(long accountId);
 
 	// To auto generate the next Issue Payement Check number.
-	public Long getNextIssuepaymentCheckNumber(String accountId);
+	public Long getNextIssuepaymentCheckNumber(long accountId);
 
 	// To check whether an Account is a Tax Agency Account or not
 	public boolean isTaxAgencyAccount(String accountId);

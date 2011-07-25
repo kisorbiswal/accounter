@@ -38,7 +38,7 @@ public class TrialBalance extends BaseReport implements IsSerializable,
 	 * @param id
 	 *            the id to set
 	 */
-	public void setID(long id){
+	public void setID(long id) {
 		this.id = id;
 	}
 

@@ -167,8 +167,8 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		setWidth("80");
 		mainPanel.setSpacing(10);
 
-		payMethodSelect = new SelectItem(Accounter
-				.getFinanceUIConstants().paymentMethod());
+		payMethodSelect = new SelectItem(Accounter.getFinanceUIConstants()
+				.paymentMethod());
 		payMethodSelect.setRequired(true);
 		payMethodSelect.setValueMap(new String[] { "",
 				AccounterConstants.PAYMENT_METHOD_CHECK });
@@ -200,8 +200,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		payForm.setFields(payMethodSelect, accountCombo);
 
 		Label label = new Label();
-		label.setText(Accounter.getFinanceUIConstants()
-				.PaymentsToBeIssued());
+		label.setText(Accounter.getFinanceUIConstants().PaymentsToBeIssued());
 		initListGrid();
 
 		addInputDialogHandler(new InputDialogHandler() {
@@ -385,8 +384,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		emptyLabel.setWidth("25%");
 		totalLabel = new Label();
 		totalLabel.setWidth("30%");
-		totalLabel.setText(Accounter.getFinanceUIConstants()
-				.totalAmount());
+		totalLabel.setText(Accounter.getFinanceUIConstants().totalAmount());
 
 		amountLabel = new Label();
 		amountLabel.setText("" + UIUtils.getCurrencySymbol() + "0");
@@ -503,8 +501,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		if (core.getID().equals(
-				this.accountCombo.getSelectedValue().getID())) {
+		if (core.getID() == this.accountCombo.getSelectedValue().getID()) {
 			this.accountCombo.addItemThenfireEvent((ClientAccount) core);
 		}
 

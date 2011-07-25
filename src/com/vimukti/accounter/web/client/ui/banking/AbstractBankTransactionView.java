@@ -301,7 +301,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	}
 
-	public ClientAddress getAddressById(String addressId) {
+	public ClientAddress getAddressById(long addressId) {
 		for (ClientAddress address : addressList) {
 			if (address.getID() == addressId) {
 				return address;
@@ -361,13 +361,13 @@ public abstract class AbstractBankTransactionView<T> extends
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 					&& !getCompany().getpreferences().getDoYouPaySalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-				String zvatCodeid = null;
+				long zvatCodeid = 0;
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("Z")) {
 						zvatCodeid = taxCode.getID();
 					}
 				}
-				if (zvatCodeid != null)
+				if (zvatCodeid != 0)
 					transactionItem.setTaxCode(zvatCodeid);
 				// transactionItem.setVatCode(vendor != null ? (vendor
 				// .getVATCode() != null ? vendor.getVATCode() : "") : "");
@@ -375,7 +375,7 @@ public abstract class AbstractBankTransactionView<T> extends
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 					&& getCompany().getpreferences().getDoYouPaySalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-				String svatCodeid = null;
+				long svatCodeid = 0;
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
 						svatCodeid = taxCode.getID();
@@ -385,15 +385,15 @@ public abstract class AbstractBankTransactionView<T> extends
 				// transactionItem.setVatCode(zvatCodeid);
 				transactionItem
 						.setTaxCode(selectedVendor != null ? (selectedVendor
-								.getTAXCode() != null ? selectedVendor
-								.getTAXCode() : svatCodeid) : "");
+								.getTAXCode() != 0 ? selectedVendor
+								.getTAXCode() : svatCodeid) : 0);
 			}
 
 		} else if (menuItem.equals(Accounter.getVendorsMessages().product())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 			if (getCompany().getpreferences().getDoYouPaySalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-				String svatCodeid = null;
+				long svatCodeid = 0;
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
 						svatCodeid = taxCode.getID();
@@ -401,14 +401,14 @@ public abstract class AbstractBankTransactionView<T> extends
 				}
 				transactionItem
 						.setTaxCode(selectedVendor != null ? (selectedVendor
-								.getTAXCode() != null ? selectedVendor
-								.getTAXCode() : svatCodeid) : "");
+								.getTAXCode() != 0 ? selectedVendor
+								.getTAXCode() : svatCodeid) : 0);
 			}
 
 		} else if (menuItem.equals(Accounter.getVendorsMessages().service())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
 			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-			String zvatCodeid = null;
+			long zvatCodeid = 0;
 			if (getCompany().getpreferences().getDoYouPaySalesTax()) {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
@@ -417,15 +417,15 @@ public abstract class AbstractBankTransactionView<T> extends
 				}
 				transactionItem
 						.setTaxCode(selectedVendor != null ? (selectedVendor
-								.getTAXCode() != null ? selectedVendor
-								.getTAXCode() : zvatCodeid) : "");
+								.getTAXCode() != 0 ? selectedVendor
+								.getTAXCode() : zvatCodeid) : 0);
 			} else {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("Z")) {
 						zvatCodeid = taxCode.getID();
 					}
 				}
-				if (zvatCodeid != null)
+				if (zvatCodeid != 0)
 					transactionItem.setTaxCode(zvatCodeid);
 			}
 		}

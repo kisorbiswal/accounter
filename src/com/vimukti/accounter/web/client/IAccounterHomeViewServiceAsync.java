@@ -84,7 +84,7 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getChecks(
 			AsyncCallback<List<IssuePaymentTransactionsList>> callBack);
 
-	public void getChecks(String accountId,
+	public void getChecks(long accountId,
 			AsyncCallback<List<IssuePaymentTransactionsList>> callback);
 
 	public void getCreditCardChargesThisMonth(long date,
@@ -128,7 +128,7 @@ public interface IAccounterHomeViewServiceAsync {
 	// To auto generate the next Check number.
 	public void getNextCheckNumber(long accountId, AsyncCallback<Long> callback);
 
-	public void getNextIssuepaymentCheckNumber(String accountId,
+	public void getNextIssuepaymentCheckNumber(long accountId,
 			AsyncCallback<Long> callback);
 
 	// To check whether an Account is a Tax Agency Account or not

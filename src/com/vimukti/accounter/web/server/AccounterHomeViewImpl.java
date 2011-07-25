@@ -353,7 +353,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
-	public List<IssuePaymentTransactionsList> getChecks(String accountId) {
+	public List<IssuePaymentTransactionsList> getChecks(long accountId) {
 
 		List<IssuePaymentTransactionsList> checks = null;
 
@@ -832,7 +832,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return nextCheckNumber;
 	}
 
-	public Long getNextIssuepaymentCheckNumber(String accountId) {
+	public Long getNextIssuepaymentCheckNumber(long accountId) {
 		Long nextCheckNumber = 0l;
 		try {
 
@@ -1308,7 +1308,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 			FinanceTool tool = getFinanceTool();
 			OperationContext opContext = new OperationContext(newStartDate);
-			
+
 			tool.updateDeprecationStartDate(opContext);
 		} catch (DAOException e) {
 			e.printStackTrace();

@@ -21,15 +21,13 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 	public TAXCodeCombo(String title, boolean isSales) {
 		super(title);
 		this.isSales = isSales;
-		initCombo(TAXCodesForSalesOrPurchase(getCompany()
-				.getActiveTaxCodes()));
+		initCombo(TAXCodesForSalesOrPurchase(getCompany().getActiveTaxCodes()));
 	}
 
 	public TAXCodeCombo(String title, boolean isAddNewRequired, boolean isSales) {
 		super(title, isAddNewRequired, 1);
 		this.isSales = isSales;
-		initCombo(TAXCodesForSalesOrPurchase(getCompany()
-				.getActiveTaxCodes()));
+		initCombo(TAXCodesForSalesOrPurchase(getCompany().getActiveTaxCodes()));
 	}
 
 	@Override
@@ -47,14 +45,12 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 		if (object != null) {
 			displayName = object.getName() != null ? object.getName() : "";
 			if (isSales) {
-				vatGroup = ((ClientTAXItemGroup) Accounter
-						.getCompany().getTAXItemGroup(
-								object.getTAXItemGrpForSales()));
+				vatGroup = ((ClientTAXItemGroup) Accounter.getCompany()
+						.getTAXItemGroup(object.getTAXItemGrpForSales()));
 
 			} else {
-				vatGroup = ((ClientTAXItemGroup) Accounter
-						.getCompany().getTAXItemGroup(
-								object.getTAXItemGrpForPurchases()));
+				vatGroup = ((ClientTAXItemGroup) Accounter.getCompany()
+						.getTAXItemGroup(object.getTAXItemGrpForPurchases()));
 			}
 
 			if (vatGroup instanceof ClientTAXItem) {
@@ -79,18 +75,17 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 
 	@Override
 	public void onAddNew() {
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				Action action = VatActionFactory.getNewTAXCodeAction();
-				action.setActionSource(this);
-				
-				action.run(null, true);
-			} else {
-				TaxDialogAction action1 = CustomersActionFactory.getTaxAction();
-				action1.setActionSource(this);
-				action1.run(createAddNewCallBack(),this , null, true);
-			}
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			Action action = VatActionFactory.getNewTAXCodeAction();
+			action.setActionSource(this);
+
+			action.run(null, true);
+		} else {
+			TaxDialogAction action1 = CustomersActionFactory.getTaxAction();
+			action1.setActionSource(this);
+			action1.run(createAddNewCallBack(), this, null, true);
 		}
-	
+	}
 
 	@Override
 	public SelectItemType getSelectItemType() {
@@ -104,12 +99,12 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 			return getDisplayName(object);
 		case 1:
 			if (isSales) {
-				ClientTAXItem item = getCompany()
-						.getTaxItem(object.getTAXItemGrpForSales());
+				ClientTAXItem item = getCompany().getTaxItem(
+						object.getTAXItemGrpForSales());
 				return DataUtils.getAmountAsString(item.getTaxRate()) + "%";
 			} else {
-				ClientTAXItem item = getCompany()
-						.getTaxItem(object.getTAXItemGrpForPurchases());
+				ClientTAXItem item = getCompany().getTaxItem(
+						object.getTAXItemGrpForPurchases());
 				return DataUtils.getAmountAsString(item.getTaxRate()) + "%";
 			}
 		}
@@ -122,21 +117,15 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 		List<ClientTAXCode> taxCodeList = new ArrayList<ClientTAXCode>();
 		for (ClientTAXCode taxCode : activeTaxCodes) {
 			if (isSales) {
-				if (taxCode.getTAXItemGrpForPurchases() == null
-						|| taxCode.getTAXItemGrpForPurchases().equals("")
-						|| ((taxCode.getTAXItemGrpForSales() != null && !taxCode
-								.getTAXItemGrpForSales().equals("")) && (taxCode
-								.getTAXItemGrpForPurchases() != null && !taxCode
-								.getTAXItemGrpForPurchases().equals("")))) {
+				if (taxCode.getTAXItemGrpForPurchases() == 0
+						|| ((taxCode.getTAXItemGrpForSales() != 0) && (taxCode
+								.getTAXItemGrpForPurchases() != 0))) {
 					taxCodeList.add(taxCode);
 				}
 			} else {
-				if (taxCode.getTAXItemGrpForSales() == null
-						|| taxCode.getTAXItemGrpForSales().equals("")
-						|| ((taxCode.getTAXItemGrpForPurchases() != null && !taxCode
-								.getTAXItemGrpForPurchases().equals("")) && (taxCode
-								.getTAXItemGrpForSales() != null && !taxCode
-								.getTAXItemGrpForSales().equals("")))) {
+				if (taxCode.getTAXItemGrpForSales() == 0
+						|| ((taxCode.getTAXItemGrpForPurchases() != 0) && (taxCode
+								.getTAXItemGrpForSales() != 0))) {
 					taxCodeList.add(taxCode);
 				}
 			}

@@ -24,14 +24,14 @@ public class ClientItem extends BaseReport implements IAccounterCore {
 	String name;
 	String UPCorSKU;
 	int weight;
-	String itemGroup;
+	long itemGroup;
 	boolean isActive;
 
 	public boolean isISellThisItem;
 	String salesDescription;
 
 	double salesPrice;
-	String incomeAccount;
+	long incomeAccount;
 	boolean isTaxable;
 	boolean isCommissionItem;
 
@@ -39,8 +39,8 @@ public class ClientItem extends BaseReport implements IAccounterCore {
 	String purchaseDescription;
 
 	double purchasePrice;
-	String expenseAccount;
-	String preferredVendor;
+	long expenseAccount;
+	long preferredVendor;
 	String vendorItemNumber;
 	long taxCode;
 	double standardCost;
@@ -81,31 +81,31 @@ public class ClientItem extends BaseReport implements IAccounterCore {
 		this.isDefault = isDefault;
 	}
 
-	public String getIncomeAccount() {
+	public long getIncomeAccount() {
 		return incomeAccount;
 	}
 
-	public void setIncomeAccount(String incomeAccount) {
+	public void setIncomeAccount(long incomeAccount) {
 		this.incomeAccount = incomeAccount;
 	}
 
-	public String getExpenseAccount() {
+	public long getExpenseAccount() {
 		return expenseAccount;
 	}
 
-	public void setExpenseAccount(String expenseAccount) {
+	public void setExpenseAccount(long expenseAccount) {
 		this.expenseAccount = expenseAccount;
 	}
 
-	public String getPreferredVendor() {
+	public long getPreferredVendor() {
 		return preferredVendor;
 	}
 
-	public void setPreferredVendor(String preferredVendor) {
+	public void setPreferredVendor(long preferredVendor) {
 		this.preferredVendor = preferredVendor;
 	}
 
-	public void setItemGroup(String itemGroup) {
+	public void setItemGroup(long itemGroup) {
 		this.itemGroup = itemGroup;
 	}
 
@@ -351,7 +351,7 @@ public class ClientItem extends BaseReport implements IAccounterCore {
 		this.isTaxable = isTaxable;
 	}
 
-	public String getItemGroup() {
+	public long getItemGroup() {
 		return this.itemGroup;
 	}
 

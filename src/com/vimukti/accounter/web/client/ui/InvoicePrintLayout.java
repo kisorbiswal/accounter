@@ -65,8 +65,7 @@ public class InvoicePrintLayout extends VerticalPanel {
 		List<String> removeHeaderBackground = new ArrayList<String>();
 
 		String cmpAdd = "<br/><br/><br/><br/><br/>";
-		for (ClientAddress cmpTrad : getCompany()
-				.getAddresses()) {
+		for (ClientAddress cmpTrad : getCompany().getAddresses()) {
 			if (cmpTrad.getType() == ClientAddress.TYPE_COMPANY_REGISTRATION) {
 				if (cmpTrad != null)
 					cmpAdd = "<br><font size=\"2\">&nbsp;"
@@ -80,27 +79,19 @@ public class InvoicePrintLayout extends VerticalPanel {
 		}
 
 		HTML compLab = new HTML();
-		compLab
-				.setHTML("<p style=\"margin-bottom:12px;\"><font color=\"black\" size=\"5\"><strong> "
-						+ getCompany().getName().replace(
-								getCompany().getName()
-										.charAt(0)
-										+ "",
-								(getCompany().getName()
-										.charAt(0) + "").toUpperCase())
-						+ "</strong></font>" + cmpAdd + "</p>");
+		compLab.setHTML("<p style=\"margin-bottom:12px;\"><font color=\"black\" size=\"5\"><strong> "
+				+ getCompany().getName().replace(
+						getCompany().getName().charAt(0) + "",
+						(getCompany().getName().charAt(0) + "").toUpperCase())
+				+ "</strong></font>" + cmpAdd + "</p>");
 
 		Map<String, String> dateNumForm = getMap(new String[] {
 				"Invoice Date",
 				UIUtils.dateFormat(new ClientFinanceDate(invoice
-						.getTransactionDate())),
-				"Invoice Number",
-				invoice.getNumber() + "",
-				"Order Number",
-				invoice.getOrderNum(),
-				"Customer Number",
-				getCompany().getCustomer(
-						invoice.getCustomer()).getNumber() });
+						.getTransactionDate())), "Invoice Number",
+				invoice.getNumber() + "", "Order Number",
+				invoice.getOrderNum(), "Customer Number",
+				getCompany().getCustomer(invoice.getCustomer()).getNumber() });
 
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setSize("300px", "100%");
@@ -110,9 +101,8 @@ public class InvoicePrintLayout extends VerticalPanel {
 		datepanel.add(table);
 
 		HTML lab1 = new HTML();
-		lab1
-				.setHTML("<p style=\"margin-bottom:12px;\"><font color=\"black\" size=\"5\"><strong>Invoice</strong></font></p>"
-						+ datepanel);
+		lab1.setHTML("<p style=\"margin-bottom:12px;\"><font color=\"black\" size=\"5\"><strong>Invoice</strong></font></p>"
+				+ datepanel);
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setSize("100%", "100%");
@@ -172,18 +162,18 @@ public class InvoicePrintLayout extends VerticalPanel {
 		adressHPanel.setCellHorizontalAlignment(shipToTable,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		ClientSalesPerson salesPerson = getCompany()
-				.getSalesPerson(invoice.getSalesPerson());
-		ClientPaymentTerms paymtnTerm = getCompany()
-				.getPaymentTerms(invoice.getPaymentTerm());
+		ClientSalesPerson salesPerson = getCompany().getSalesPerson(
+				invoice.getSalesPerson());
+		ClientPaymentTerms paymtnTerm = getCompany().getPaymentTerms(
+				invoice.getPaymentTerm());
 		String paymentTermName = paymtnTerm != null ? paymtnTerm.getName() : "";
 		String salesPersname = salesPerson != null ? salesPerson.getName() : "";
-		ClientShippingMethod shipMtd = getCompany()
-				.getShippingMethod(invoice.getShippingMethod());
+		ClientShippingMethod shipMtd = getCompany().getShippingMethod(
+				invoice.getShippingMethod());
 		String shipMtdName = shipMtd != null ? shipMtd.getName() : "";
 
-		ClientShippingTerms shipingterm = getCompany()
-				.getShippingTerms(invoice.getShippingTerm());
+		ClientShippingTerms shipingterm = getCompany().getShippingTerms(
+				invoice.getShippingTerm());
 		String shipterm = shipingterm != null ? shipingterm.getName() : "";
 
 		Map<String, String> detailsMap = getMap("Sales Person", salesPersname
@@ -233,11 +223,16 @@ public class InvoicePrintLayout extends VerticalPanel {
 			totalAmount = lineTotal + vatTotal;
 
 			Map<String, String> footer2Map = new LinkedHashMap<String, String>();
-			footer2Map = getMap("Sub Total", "<p align=\"right\">"
-					+ splitString(DataUtils.getAmountAsString(lineTotal))
-					+ "</p>", "VAT Total", "<p align=\"right\">"
-					+ splitString(DataUtils.getAmountAsString(vatTotal))
-					+ "</p>", "TOTAL",
+			footer2Map = getMap(
+					"Sub Total",
+					"<p align=\"right\">"
+							+ splitString(DataUtils
+									.getAmountAsString(lineTotal)) + "</p>",
+					"VAT Total",
+					"<p align=\"right\">"
+							+ splitString(DataUtils.getAmountAsString(vatTotal))
+							+ "</p>",
+					"TOTAL",
 					"<p align=\"right\" class=\"gridHeaderBackGround\">"
 							+ splitString(DataUtils
 									.getAmountAsString(totalAmount)) + "</p>");
@@ -266,11 +261,16 @@ public class InvoicePrintLayout extends VerticalPanel {
 			totalAmount = lineTotal + taxTotal;
 
 			Map<String, String> footer2Map = new LinkedHashMap<String, String>();
-			footer2Map = getMap("Sub Total", "<p align=\"right\">"
-					+ splitString(DataUtils.getAmountAsString(lineTotal))
-					+ "</p>", "Total Tax", "<p align=\"right\">"
-					+ splitString(DataUtils.getAmountAsString(taxTotal))
-					+ "</p>", "TOTAL",
+			footer2Map = getMap(
+					"Sub Total",
+					"<p align=\"right\">"
+							+ splitString(DataUtils
+									.getAmountAsString(lineTotal)) + "</p>",
+					"Total Tax",
+					"<p align=\"right\">"
+							+ splitString(DataUtils.getAmountAsString(taxTotal))
+							+ "</p>",
+					"TOTAL",
 					"<p align=\"right\"  class=\"gridHeaderBackGround\">"
 							+ splitString(DataUtils
 									.getAmountAsString(totalAmount)) + "</p>");
@@ -309,6 +309,13 @@ public class InvoicePrintLayout extends VerticalPanel {
 
 		add(mainVPanel);
 		setSize("100%", "100%");
+	}
+
+	/**
+	 * @return
+	 */
+	private ClientCompany getCompany() {
+		return Accounter.getCompany();
 	}
 
 	private Map<List<String>, Map<Integer, List<String>>> getGridDataMap() {
@@ -365,9 +372,10 @@ public class InvoicePrintLayout extends VerticalPanel {
 				+ "</td></tr></tbody></table>";
 		System.out.println(html);
 		StringBuffer postData = new StringBuffer();
-		postData.append(URL.encode("htmltoconvert")).append("=").append(
-				URL.encode(html)).append("&").append(URL.encode("cssfile"))
-				.append("=").append(URL.encode(style1));
+		postData.append(URL.encode("htmltoconvert")).append("=")
+				.append(URL.encode(html)).append("&")
+				.append(URL.encode("cssfile")).append("=")
+				.append(URL.encode(style1));
 
 		String url = GWT.getModuleBaseURL() + postData;
 		// UIUtils.downloadAttachment(this.invoice.getID());
@@ -404,8 +412,8 @@ public class InvoicePrintLayout extends VerticalPanel {
 				if (split[j].length() > 9)
 					val = val
 							+ "  "
-							+ getStringBy9char(split[j].substring(8), split[j]
-									.substring(0, 8));
+							+ getStringBy9char(split[j].substring(8),
+									split[j].substring(0, 8));
 				else
 					val = val + "  " + split[j];
 			}
@@ -433,12 +441,10 @@ public class InvoicePrintLayout extends VerticalPanel {
 		PrintTemplateUtils util = new PrintTemplateUtils();
 
 		Map<String, String> detailsMap = getMap("VAT No : "
-				+ getCompany().getpreferences()
-						.getVATregistrationNumber(), "" + "<br/>",
-				"Sort Code : " + getCompany().getSortCode(),
-				"" + "<br/>", "Bank Account No : "
-						+ getCompany().getBankAccountNo(),
-				"" + "<br/>");
+				+ getCompany().getpreferences().getVATregistrationNumber(), ""
+				+ "<br/>", "Sort Code : " + getCompany().getSortCode(), ""
+				+ "<br/>", "Bank Account No : "
+				+ getCompany().getBankAccountNo(), "" + "<br/>");
 
 		FlexTable vatTable = util.getThinBorderWidget(2, 3, detailsMap, true);
 		Vpanel.add(vatTable);
@@ -457,11 +463,8 @@ public class InvoicePrintLayout extends VerticalPanel {
 		}
 
 		HorizontalPanel Hpanel = new HorizontalPanel();
-		Map<String, String> regAddMap = getMap(getCompany()
-				.getName()
-				+ ", "
-				+ getCompany().getRegistrationNumber()
-				+ ", " + regAdd);
+		Map<String, String> regAddMap = getMap(getCompany().getName() + ", "
+				+ getCompany().getRegistrationNumber() + ", " + regAdd);
 
 		FlexTable table = util.getThinBorderWidget(1, 0, regAddMap, true);
 		table.setSize("100%", "100%");

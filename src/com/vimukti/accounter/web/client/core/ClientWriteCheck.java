@@ -12,15 +12,15 @@ public class ClientWriteCheck extends ClientTransaction {
 
 	int payToType;
 
-	String bankAccount;
+	long bankAccount;
 
 	double balance;
 
-	String customer;
+	long customer;
 
-	String vendor;
+	long vendor;
 
-	String taxAgency;
+	long taxAgency;
 
 	ClientAddress address;
 
@@ -69,7 +69,7 @@ public class ClientWriteCheck extends ClientTransaction {
 	/**
 	 * @return the bankAccount
 	 */
-	public String getBankAccount() {
+	public long getBankAccount() {
 		return this.bankAccount;
 	}
 
@@ -77,7 +77,7 @@ public class ClientWriteCheck extends ClientTransaction {
 	 * @param bankAccount
 	 *            the bankAccount to set
 	 */
-	public void setBankAccount(String bankAccountId) {
+	public void setBankAccount(long bankAccountId) {
 		this.bankAccount = bankAccountId;
 	}
 
@@ -99,7 +99,7 @@ public class ClientWriteCheck extends ClientTransaction {
 	/**
 	 * @return the customer
 	 */
-	public String getCustomer() {
+	public long getCustomer() {
 		return customer;
 	}
 
@@ -107,14 +107,14 @@ public class ClientWriteCheck extends ClientTransaction {
 	 * @param customer
 	 *            the customer to set
 	 */
-	public void setCustomer(String customerId) {
+	public void setCustomer(long customerId) {
 		this.customer = customerId;
 	}
 
 	/**
 	 * @return the vendor
 	 */
-	public String getVendor() {
+	public long getVendor() {
 		return vendor;
 	}
 
@@ -122,14 +122,14 @@ public class ClientWriteCheck extends ClientTransaction {
 	 * @param vendor
 	 *            the vendor to set
 	 */
-	public void setVendor(String vendorId) {
+	public void setVendor(long vendorId) {
 		this.vendor = vendorId;
 	}
 
 	/**
 	 * @return the taxAgency
 	 */
-	public String getTaxAgency() {
+	public long getTaxAgency() {
 		return this.taxAgency;
 	}
 
@@ -137,7 +137,7 @@ public class ClientWriteCheck extends ClientTransaction {
 	 * @param taxAgency
 	 *            the taxAgency to set
 	 */
-	public void setTaxAgency(String taxAgencyId) {
+	public void setTaxAgency(long taxAgencyId) {
 		this.taxAgency = taxAgencyId;
 	}
 
@@ -242,13 +242,13 @@ public class ClientWriteCheck extends ClientTransaction {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 

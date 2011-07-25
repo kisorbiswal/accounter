@@ -7,7 +7,8 @@ import com.vimukti.accounter.web.client.ui.reports.Section;
 
 public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 
-	public ProfitAndLossUKServerReport(long startDate, long endDate,int generationType) {
+	public ProfitAndLossUKServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 

@@ -85,8 +85,8 @@ public class DashBoardView extends BaseHomeView {
 		gettingStartedPortlet = new GettingStartedPortlet(
 				"Getting Started using Accounter");
 
-		bankingPortlet = new BankingPortlet(Accounter
-				.getCompanyMessages().bankAccounts());
+		bankingPortlet = new BankingPortlet(Accounter.getCompanyMessages()
+				.bankAccounts());
 		moneyComingPortlet = new MoneyComingPortlet(Accounter
 				.getCompanyMessages().moneyComingIn());
 		moneyGoingPortlet = new MoneyGoingPortlet(Accounter
@@ -101,8 +101,8 @@ public class DashBoardView extends BaseHomeView {
 		fTable.setWidget(1, 0, expenseClaimsPortlet);
 
 		try {
-			bankingPortlet.getElement().getParentElement().setClassName(
-					"banking-portlet");
+			bankingPortlet.getElement().getParentElement()
+					.setClassName("banking-portlet");
 		} catch (Exception e) {
 			System.err.println("Exception :" + e);
 		}
@@ -116,10 +116,7 @@ public class DashBoardView extends BaseHomeView {
 		// mainLayOut.add(gettingStartedPortlet);
 		mainLayOut.add(fTable);
 		fTable.setWidth("100%");
-		if (Header.gettingStartedStatus.equals("Show Getting Started"))
-			gettingStartedPortlet.setVisible(false);
-		else
-			gettingStartedPortlet.setVisible(true);
+		gettingStartedPortlet.setVisible(true);
 		// leftLayout.add(addWidgetLinkLayout);
 		// leftLayout.add(portalLayout);
 		return mainLayOut;
@@ -149,8 +146,7 @@ public class DashBoardView extends BaseHomeView {
 	}
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
-		String[] totalWidget = {
-				Accounter.getFinanceUIConstants().welcome(),
+		String[] totalWidget = { Accounter.getFinanceUIConstants().welcome(),
 				Accounter.getFinanceUIConstants().bankingSummary(),
 				Accounter.getFinanceUIConstants().profitAndLoss(),
 				Accounter.getFinanceUIConstants().creditOverview(),

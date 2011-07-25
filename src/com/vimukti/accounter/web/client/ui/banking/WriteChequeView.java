@@ -1425,19 +1425,19 @@ public class WriteChequeView extends
 
 		if (selectItem instanceof ClientCustomer) {
 			transactionCustomerGrid.removeAllRecords();
-			if (check.getCustomer().equals(selectItem.getID())) {
+			if (check.getCustomer() == selectItem.getID()) {
 				transactionCustomerGrid.setRecords(check.getTransactionItems());
 			}
 
 		} else if (selectItem instanceof ClientVendor) {
 			transactionVendorGrid.removeAllRecords();
-			if (check.getVendor().equals(selectItem.getID())) {
+			if (check.getVendor() == selectItem.getID()) {
 				transactionVendorGrid.setRecords(check.getTransactionItems());
 			}
 
 		} else if (selectItem instanceof ClientTAXAgency) {
 			transactionVendorGrid.removeAllRecords();
-			if (check.getTaxAgency().equals(selectItem.getID())) {
+			if (check.getTaxAgency() == selectItem.getID()) {
 				transactionVendorGrid.setRecords(check.getTransactionItems());
 			}
 
