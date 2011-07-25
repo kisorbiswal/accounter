@@ -405,8 +405,8 @@ public class UsersMailSendar {
 
 	}
 
-	public static void sendMailToInvitedUser(CollaberIdentity identity,
-			String password, String companyName) {
+	public static void sendMailToInvitedUser(User user, String password,
+			String companyName) {
 		try {
 			initPropertyParserToInviteUser();
 			LOG.info("Invitation Email is being sent to user");
@@ -419,10 +419,10 @@ public class UsersMailSendar {
 		}
 
 		String content = propertyParser.getProperty("contentForInviteUser", "");
-		content = content.replaceAll("%USER%", identity.getDisplayName());
+		content = content.replaceAll("%USER%", user.getDisplayName());
 		content = content.replaceAll("%COMPANY%", companyName);
 		content = content.replaceAll("%PASSWORD%", password);
-		content = content.replaceAll("%EMAILID%", identity.getEmailAddress());
+		content = content.replaceAll("%EMAILID%", user.getEmailId());
 		// content = content.replaceAll("%LOGINURL%", loginURL);
 
 		String subject = propertyParser.getProperty("subjectForInviteUser", "");
@@ -431,7 +431,7 @@ public class UsersMailSendar {
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(content);
 		emailMsg.setSubject(subject);
-		emailMsg.setRecepeant(identity.getEmailAddress());
+		emailMsg.setRecepeant(user.getEmailId());
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), companyName);
 
 		EmailManager.getInstance().addJob(job);
