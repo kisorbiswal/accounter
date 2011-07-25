@@ -48,7 +48,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
-import com.vimukti.accounter.web.client.data.InvalidSessionException;
+import com.vimukti.accounter.workspace.tool.AccounterException;
 
 /**
  * 
@@ -192,61 +192,59 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public List<ClientTransactionMakeDeposit> getTransactionMakeDeposits();
 
-	public List<SalesOrdersList> getSalesOrders()
-			throws InvalidSessionException;
+	public List<SalesOrdersList> getSalesOrders() throws AccounterException;
 
 	public List<PurchaseOrdersList> getPurchaseOrders()
-			throws InvalidSessionException;
+			throws AccounterException;
 
 	public List<SalesOrdersList> getSalesOrdersForCustomer(String customerID)
-			throws InvalidSessionException;
+			throws AccounterException;
 
 	public List<SalesOrdersList> getPurchaseOrdersForVendor(String vendorID)
-			throws InvalidSessionException;
+			throws AccounterException;
 
 	public List<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
-			long vendorID) throws InvalidSessionException;
+			long vendorID) throws AccounterException;
 
 	public ClientPurchaseOrder getPurchaseOrderById(String transactionId);
 
 	public List<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
-			long vendorId) throws InvalidSessionException;
+			long vendorId) throws AccounterException;
 
 	public List<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
-			long customerId) throws InvalidSessionException;
+			long customerId) throws AccounterException;
 
 	public DepreciableFixedAssetsList getDepreciableFixedAssets(
 			long depreciationFrom, long depreciationTo)
-			throws InvalidSessionException;
+			throws AccounterException;
 
 	public ClientFinanceDate getDepreciationLastDate()
-			throws InvalidSessionException;
+			throws AccounterException;
 
 	public void rollBackDepreciation(long rollBackDepreciationTo)
-			throws InvalidSessionException;
+			throws AccounterException;
 
 	public List<ClientFinanceDate> getFinancialYearStartDates()
-			throws InvalidSessionException;
+			throws AccounterException;
 
 	public List<ClientFinanceDate> getAllDepreciationFromDates()
-			throws InvalidSessionException;
+			throws AccounterException;
 
 	public void changeDepreciationStartDateTo(long newStartDate)
-			throws InvalidSessionException;
+			throws AccounterException;
 
 	public ClientVATReturn getTAXReturn(ClientTAXAgency taxAgency,
-			long fromDate, long toDate) throws InvalidOperationException,
-			InvalidSessionException;
+			long fromDate, long toDate) throws AccounterException;
 
 	public FixedAssetSellOrDisposeReviewJournal getReviewJournal(
-			TempFixedAsset fixedAsset) throws InvalidSessionException;
+			TempFixedAsset fixedAsset) throws AccounterException;
 
 	public boolean createTaxes(int[] vatReturnType);
 
 	public double getAccumulatedDepreciationAmount(int depreciationMethod,
 			double depreciationRate, double purchasePrice,
 			long depreciationfrom, long depreciationtoDate)
-			throws InvalidSessionException;
+			throws AccounterException;
 
 	public Long getNextNominalCode(int accountType);
 
@@ -261,16 +259,16 @@ public interface IAccounterHomeViewService extends RemoteService {
 			long transactionDate);
 
 	public List<ClientPayVATEntries> getPayVATEntries()
-			throws InvalidSessionException;
+			throws AccounterException;
 
 	public List<ClientReceiveVATEntries> getReceiveVATEntries()
-			throws InvalidSessionException;
+			throws AccounterException;
 
 	public List<ClientFinanceLogger> getLog(long id, boolean isNext)
-			throws InvalidSessionException;
+			throws AccounterException;
 
 	public List<ClientFinanceLogger> getLog(String date, long id, boolean isNext)
-			throws InvalidSessionException;
+			throws AccounterException;
 
 	public List<PayeeList> getPayeeList(int transactionCategory);
 
@@ -288,5 +286,5 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public List<BillsList> getEmployeeExpensesByStatus(String userName,
 			int status);
 
-	public List<ClientUser> getAllUsers() throws InvalidSessionException;
+	public List<ClientUser> getAllUsers() throws AccounterException;
 }

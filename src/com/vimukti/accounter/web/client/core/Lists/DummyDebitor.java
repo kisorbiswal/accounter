@@ -17,14 +17,14 @@ public class DummyDebitor extends BaseReport implements IsSerializable,
 	double debitdays_inolder;
 	double debitdays_incurrent;
 
-	String transactionId;
+	long transactionId;
 	ClientFinanceDate dueDate;
 
-	public String getTransactionId() {
+	public long getTransactionId() {
 		return transactionId;
 	}
 
-	public void setTransactionId(String transactionId) {
+	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
 	}
 

@@ -49,9 +49,9 @@ import com.vimukti.accounter.web.client.core.reports.VATDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
-import com.vimukti.accounter.web.client.data.InvalidSessionException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
+import com.vimukti.accounter.workspace.tool.AccounterException;
 
 @SuppressWarnings("serial")
 public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
@@ -458,7 +458,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientTransaction> getRegister(String accountId) {
+	public List<ClientTransaction> getRegister(long accountId) {
 		List<ClientTransaction> clientTransactionList = new ArrayList<ClientTransaction>();
 		@SuppressWarnings("unused")
 		List<Transaction> serverTransactionList = null;
@@ -1064,8 +1064,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 				trialbalanceList.add((TrialBalance) setStartEndDates(obj));
 
 			if (trialbalanceList.size() == 1) {
-				if (trialbalanceList.get(0).getAccountName().equals(
-						"Net Income")
+				if (trialbalanceList.get(0).getAccountName()
+						.equals("Net Income")
 						&& DecimalUtil.isEquals(trialbalanceList.get(0)
 								.getAmount(), 0)) {
 					trialbalanceList.clear();
@@ -1310,12 +1310,12 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return salesOrders;
 	}
 
-	//	
+	//
 	// public List<OpenAndClosedOrders> getSalesOpenOrderReportByStatus(
 	// int status) {
 	// List<OpenAndClosedOrders> salesOpenOrders = null;
 	// try {
-	//			
+	//
 	// } catch (Exception e) {
 	// e.printStackTrace();
 	// }
@@ -1346,8 +1346,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<VATDetail> getPriorVATReturnReport(String taxAgency,
-			long endDate) {
+	public List<VATDetail> getPriorVATReturnReport(long taxAgency, long endDate) {
 		List<VATDetail> vatDetailReport = null;
 
 		// getMinimumAndMaximumDates("", endDate);
@@ -1372,8 +1371,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return vatDetailReport;
 	}
 
-	public List<VATSummary> getPriorReturnVATSummary(String taxAgncy,
-			long endDate) {
+	public List<VATSummary> getPriorReturnVATSummary(long taxAgncy, long endDate) {
 		List<VATSummary> vatSummaryList = new ArrayList<VATSummary>();
 
 		transtartDate = 0;
@@ -1402,7 +1400,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return vatSummaryList;
 	}
 
-	public List<VATSummary> getVAT100Report(String taxAgency, long fromDate,
+	public List<VATSummary> getVAT100Report(long taxAgency, long fromDate,
 			long toDate) {
 		List<VATSummary> vatSummaryList = new ArrayList<VATSummary>();
 
@@ -1618,7 +1616,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<DummyDebitor> getDebitors(long startDate, long endDate)
-			throws InvalidSessionException {
+			throws AccounterException {
 
 		getMinimumAndMaximumDates(startDate, endDate);
 
@@ -1757,7 +1755,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<DummyDebitor> getCreditors(long startDate, long endDate)
-			throws InvalidSessionException {
+			throws AccounterException {
 
 		getMinimumAndMaximumDates(startDate, endDate);
 
@@ -1843,7 +1841,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<CheckDetailReport> getCheckDetailReport(String paymentmethod,
+	public List<CheckDetailReport> getCheckDetailReport(long paymentmethod,
 			long startDate, long endDate) {
 
 		List<CheckDetailReport> checkDetailReports = null;
@@ -1884,21 +1882,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		getMinimumAndMaximumDates(fromDate, toDate);
 		try {
 
-			resultList= getFinanceTool()
-					.getPayeeStatementsList(id, transactionDate, transtartDate,
-							tranendDate, noOfDays, isEnabledOfZeroBalBox,
-							isEnabledOfLessthanZeroBalBox,
-							lessThanZeroBalanceValue,
-							isEnabledOfNoAccountActivity,
-							isEnabledOfInactiveCustomer);
-			
-			PayeeStatementsList obj=new PayeeStatementsList();
-			if(resultList!=null)
-				resultList.add((PayeeStatementsList)setStartEndDates(obj));
-//			for (PayeeStatementsList obj : list) {
-//
-//				resultList.add((PayeeStatementsList) setStartEndDates(obj));
-//			}
+			resultList = getFinanceTool().getPayeeStatementsList(id,
+					transactionDate, transtartDate, tranendDate, noOfDays,
+					isEnabledOfZeroBalBox, isEnabledOfLessthanZeroBalBox,
+					lessThanZeroBalanceValue, isEnabledOfNoAccountActivity,
+					isEnabledOfInactiveCustomer);
+
+			PayeeStatementsList obj = new PayeeStatementsList();
+			if (resultList != null)
+				resultList.add((PayeeStatementsList) setStartEndDates(obj));
+			// for (PayeeStatementsList obj : list) {
+			//
+			// resultList.add((PayeeStatementsList) setStartEndDates(obj));
+			// }
 
 		} catch (Exception e) {
 			e.printStackTrace();

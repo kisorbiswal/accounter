@@ -32,8 +32,8 @@ import com.vimukti.accounter.web.client.core.reports.VATDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
-import com.vimukti.accounter.web.client.data.InvalidSessionException;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
+import com.vimukti.accounter.workspace.tool.AccounterException;
 
 public interface IAccounterReportService extends RemoteService {
 
@@ -60,7 +60,8 @@ public interface IAccounterReportService extends RemoteService {
 	public List<TransactionHistory> getCustomerTransactionHistory(
 			long startDate, long endDate);
 
-	public List<DepositDetail> getDepositDetail(final long startDate,final long endDate);
+	public List<DepositDetail> getDepositDetail(final long startDate,
+			final long endDate);
 
 	public List<SalesByCustomerDetail> getPurchasesByVendorDetail(
 			long startDate, long endDate);
@@ -188,10 +189,10 @@ public interface IAccounterReportService extends RemoteService {
 			long toDate);
 
 	public List<DummyDebitor> getDebitors(long startDate, long endDate)
-			throws InvalidSessionException;
+			throws AccounterException;
 
 	public List<DummyDebitor> getCreditors(long startDate, long endDate)
-			throws InvalidSessionException;
+			throws AccounterException;
 
 	public List<AgedDebtors> getAgedDebtors(String Name, long startDate,
 			long endDate);
@@ -210,6 +211,7 @@ public interface IAccounterReportService extends RemoteService {
 
 	List<CheckDetailReport> getCheckDetailReport(long paymentmethod,
 			long startDate, long endDate);
+
 	List<PayeeStatementsList> getStatements(long id, long transactionDate,
 			long fromDate, long toDate, int noOfDays,
 			boolean isEnabledOfZeroBalBox,

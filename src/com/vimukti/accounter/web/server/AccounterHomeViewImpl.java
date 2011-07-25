@@ -33,7 +33,6 @@ import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.IAccounterHomeViewService;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
@@ -79,7 +78,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
-import com.vimukti.accounter.web.client.data.InvalidSessionException;
+import com.vimukti.accounter.workspace.tool.AccounterException;
 import com.vimukti.accounter.workspace.tool.AccounterOperationException;
 import com.vimukti.accounter.workspace.tool.FinanceTool;
 import com.vimukti.accounter.workspace.tool.OperationContext;
@@ -1095,7 +1094,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<PurchaseOrdersList> getPurchaseOrders()
-			throws InvalidSessionException {
+			throws AccounterException {
 
 		FinanceTool tool = getFinanceTool();
 
@@ -1110,7 +1109,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID)
-			throws InvalidSessionException {
+			throws AccounterException {
 
 		FinanceTool tool = getFinanceTool();
 
@@ -1118,8 +1117,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<SalesOrdersList> getSalesOrders()
-			throws InvalidSessionException {
+	public List<SalesOrdersList> getSalesOrders() throws AccounterException {
 
 		FinanceTool tool = getFinanceTool();
 
@@ -1134,7 +1132,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<SalesOrdersList> getSalesOrdersForCustomer(long customerID)
-			throws InvalidSessionException {
+			throws AccounterException {
 
 		FinanceTool tool = getFinanceTool();
 
@@ -1144,7 +1142,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
-			long vendorID) throws InvalidSessionException {
+			long vendorID) throws AccounterException {
 
 		FinanceTool tool = getFinanceTool();
 
@@ -1165,7 +1163,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
-			long vendorId) throws InvalidSessionException {
+			long vendorId) throws AccounterException {
 		try {
 			FinanceTool tool = getFinanceTool();
 			return tool != null ? tool
@@ -1179,7 +1177,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	public List<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
-			long customerId) throws InvalidSessionException {
+			long customerId) throws AccounterException {
 
 		try {
 			FinanceTool tool = getFinanceTool();
@@ -1209,8 +1207,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ClientVATReturn getTAXReturn(ClientTAXAgency taxAgency,
-			long fromDate, long toDate) throws InvalidOperationException,
-			InvalidSessionException {
+			long fromDate, long toDate) throws AccounterException {
 
 		try {
 			FinanceTool tool = getFinanceTool();
@@ -1230,7 +1227,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public FixedAssetSellOrDisposeReviewJournal getReviewJournal(
-			TempFixedAsset fixedAsset) throws InvalidSessionException {
+			TempFixedAsset fixedAsset) throws AccounterException {
 		try {
 			return getFinanceTool().getReviewJournal(fixedAsset);
 		} catch (DAOException e) {
@@ -1243,7 +1240,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public DepreciableFixedAssetsList getDepreciableFixedAssets(
 			long depreciationFrom, long depreciationTo)
-			throws InvalidSessionException {
+			throws AccounterException {
 		try {
 			FinanceTool tool = getFinanceTool();
 			return tool != null ? tool.getDepreciableFixedAssets(
@@ -1256,7 +1253,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<ClientFinanceDate> getAllDepreciationFromDates()
-			throws InvalidSessionException {
+			throws AccounterException {
 		try {
 			FinanceTool tool = getFinanceTool();
 			return tool != null ? tool.getAllDepreciationFromDates() : null;
@@ -1268,7 +1265,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ClientFinanceDate getDepreciationLastDate()
-			throws InvalidSessionException {
+			throws AccounterException {
 		try {
 			FinanceTool tool = getFinanceTool();
 			return tool != null ? tool.getDepreciationLastDate() : null;
@@ -1280,7 +1277,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<ClientFinanceDate> getFinancialYearStartDates()
-			throws InvalidSessionException {
+			throws AccounterException {
 		try {
 			FinanceTool tool = getFinanceTool();
 			return tool != null ? tool.getFinancialYearStartDates() : null;
@@ -1292,7 +1289,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public void rollBackDepreciation(long rollBackDepreciationTo)
-			throws InvalidSessionException {
+			throws AccounterException {
 		try {
 			FinanceTool tool = getFinanceTool();
 			tool.rollBackDepreciation(rollBackDepreciationTo);
@@ -1304,7 +1301,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public void changeDepreciationStartDateTo(long newStartDate)
-			throws InvalidSessionException {
+			throws AccounterException {
 		try {
 			FinanceTool tool = getFinanceTool();
 			OperationContext opContext = new OperationContext(newStartDate);
@@ -1314,7 +1311,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		} catch (AccounterOperationException e) {
 			e.printStackTrace();
-			throw new InvalidSessionException(e.getMessage());
+			throw new AccounterException(e.getMessage());
 		}
 	}
 
@@ -1322,7 +1319,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public double getAccumulatedDepreciationAmount(int depreciationMethod,
 			double depreciationRate, double purchasePrice,
 			long depreciationfromDate, long depreciationtoDate)
-			throws InvalidSessionException {
+			throws AccounterException {
 		try {
 			FinanceTool tool = getFinanceTool();
 			return tool.getCalculatedDepreciatedAmount(depreciationMethod,
@@ -1398,7 +1395,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<ClientPayVATEntries> getPayVATEntries()
-			throws InvalidSessionException {
+			throws AccounterException {
 
 		List<ClientPayVATEntries> clientEntries = new ArrayList<ClientPayVATEntries>();
 
@@ -1425,7 +1422,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<ClientFinanceLogger> getLog(long id, boolean isNext)
-			throws InvalidSessionException {
+			throws AccounterException {
 
 		List<ClientFinanceLogger> clientLogs = new ArrayList<ClientFinanceLogger>();
 
@@ -1456,7 +1453,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<ClientFinanceLogger> getLog(String date, long id, boolean isNext)
-			throws InvalidSessionException {
+			throws AccounterException {
 
 		List<ClientFinanceLogger> clientLogs = new ArrayList<ClientFinanceLogger>();
 
@@ -1514,7 +1511,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<ClientReceiveVATEntries> getReceiveVATEntries()
-			throws InvalidSessionException {
+			throws AccounterException {
 
 		List<ClientReceiveVATEntries> clientEntries = new ArrayList<ClientReceiveVATEntries>();
 
@@ -1581,7 +1578,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return changePassword;
 	}
 
-	public List<ClientUser> getAllUsers() throws InvalidSessionException {
+	public List<ClientUser> getAllUsers() throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 			List<ClientUser> allUsers = tool.getAllUsers();

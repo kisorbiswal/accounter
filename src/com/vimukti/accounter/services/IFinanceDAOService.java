@@ -18,7 +18,6 @@ import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Entry;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FiscalYear;
-import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.MakeDeposit;
@@ -35,8 +34,6 @@ import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -94,17 +91,17 @@ import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
  */
 public interface IFinanceDAOService {
 
-//	public <T extends IAccounterCore> String createObject(T t)
-//			throws DAOException;
-//
-//	public <T extends IAccounterCore> Boolean updateObject(T t)
-//			throws DAOException;
-//
-//	public Boolean deleteObject(AccounterCoreType type, String id)
-//			throws DAOException;
+	// public <T extends IAccounterCore> String createObject(T t)
+	// throws DAOException;
+	//
+	// public <T extends IAccounterCore> Boolean updateObject(T t)
+	// throws DAOException;
+	//
+	// public Boolean deleteObject(AccounterCoreType type, String id)
+	// throws DAOException;
 
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
-			String id) throws DAOException;
+			long id) throws DAOException;
 
 	public <T extends IAccounterCore> T getObjectByName(AccounterCoreType type,
 			String name) throws DAOException;
@@ -112,11 +109,12 @@ public interface IFinanceDAOService {
 	public <T extends IAccounterCore> List<T> getObjects(AccounterCoreType type)
 			throws DAOException;
 
-//	public Boolean updateCompanyPreferences(ClientCompanyPreferences preferences)
-//			throws DAOException;
-//
-//	public Boolean updateCompany(ClientCompany clientCompany)
-//			throws DAOException;
+	// public Boolean updateCompanyPreferences(ClientCompanyPreferences
+	// preferences)
+	// throws DAOException;
+	//
+	// public Boolean updateCompany(ClientCompany clientCompany)
+	// throws DAOException;
 
 	/**
 	 * This method is to check whether an Object is deletable or not.
@@ -128,8 +126,8 @@ public interface IFinanceDAOService {
 	 *         otherwise return false.
 	 * @throws DAOException
 	 */
-//	public <T extends IAccounterServerCore> Boolean canDelete(
-//			AccounterCoreType clazz, String id) throws DAOException;
+	// public <T extends IAccounterServerCore> Boolean canDelete(
+	// AccounterCoreType clazz, String id) throws DAOException;
 
 	public void alterFiscalYear(final FiscalYear fiscalYear)
 			throws DAOException;
@@ -313,7 +311,8 @@ public interface IFinanceDAOService {
 
 	// To get all Vendor Bills, Vendor Credit Memo, Cash Purchase and Credit
 	// Card Charge and Write Check -> Vendor
-	public List<BillsList> getBillsList(boolean isExpensesList) throws DAOException;
+	public List<BillsList> getBillsList(boolean isExpensesList)
+			throws DAOException;
 
 	// To get all Vendor Payments, PayBills, Write Check -> Vendor and TaxAgency
 	public List<ReceivePaymentsList> getReceivePaymentsList()
@@ -383,8 +382,8 @@ public interface IFinanceDAOService {
 	public FixedAssetSellOrDisposeReviewJournal getReviewJournal(
 			TempFixedAsset fixedAsset) throws DAOException;
 
-//	public void changeDepreciationStartDateTo(long newStartDate)
-//			throws DAOException;
+	// public void changeDepreciationStartDateTo(long newStartDate)
+	// throws DAOException;
 
 	public List<ClientFinanceDate> getFinancialYearStartDates()
 			throws DAOException;
@@ -392,8 +391,8 @@ public interface IFinanceDAOService {
 	public List<ClientFinanceDate> getAllDepreciationFromDates()
 			throws DAOException;
 
-//	public void changeFiscalYearsStartDateTo(long newStartDate)
-//			throws DAOException;
+	// public void changeFiscalYearsStartDateTo(long newStartDate)
+	// throws DAOException;
 
 	/*
 	 * ==========================================================================
@@ -624,22 +623,25 @@ public interface IFinanceDAOService {
 
 	public List<DepositDetail> getDepositDetail(long startDate, long endDate);
 
-	public List<CheckDetailReport> getCheckDetailReport(String paymentmethod,
+	public List<CheckDetailReport> getCheckDetailReport(long paymentmethod,
 			long startDate, long endDate) throws DAOException;
-	
-	public List<PayeeStatementsList> getPayeeStatementsList(String id, long transactionDate,
-			long fromDate, long toDate, int noOfDays,
+
+	public List<PayeeStatementsList> getPayeeStatementsList(String id,
+			long transactionDate, long fromDate, long toDate, int noOfDays,
 			boolean isEnabledOfZeroBalBox,
 			boolean isEnabledOfLessthanZeroBalBox,
 			double lessThanZeroBalanceValue,
 			boolean isEnabledOfNoAccountActivity,
 			boolean isEnabledOfInactiveCustomer) throws DAOException;
-	
-	public List<Double> getGraphPointsforAccount(int chartType, long accountNo) throws DAOException;
-	
-	public List<BillsList> getEmployeeExpensesByStatus(String userName, int status)  throws DAOException;
-	
-	public boolean changeMyPassword(String emailId, String oldPassword, String newPassword)  throws DAOException;
-	
+
+	public List<Double> getGraphPointsforAccount(int chartType, long accountNo)
+			throws DAOException;
+
+	public List<BillsList> getEmployeeExpensesByStatus(String userName,
+			int status) throws DAOException;
+
+	public boolean changeMyPassword(String emailId, String oldPassword,
+			String newPassword) throws DAOException;
+
 	public List<ClientUser> getAllUsers();
 }

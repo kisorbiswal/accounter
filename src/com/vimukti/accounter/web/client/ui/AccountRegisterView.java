@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
 import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
@@ -66,16 +65,14 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 	}
 
 	public void initAccountsToList() {
-		bankAccSelect.initCombo(getCompany()
-				.getActiveAccounts());
+		bankAccSelect.initCombo(getCompany().getActiveAccounts());
 
 	}
 
 	public void getDepositInAccounts() {
 
 		List<ClientAccount> listOfAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : getCompany()
-				.getActiveAccounts()) {
+		for (ClientAccount account : getCompany().getActiveAccounts()) {
 			if (account.getType() == ClientAccount.TYPE_BANK
 					|| account.getType() == ClientAccount.TYPE_CREDIT_CARD) {
 				listOfAccounts.add(account);
@@ -232,36 +229,37 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 		this.account = takenaccount;
 
-		ClientFinanceDate endDate = Utility.getLastandOpenedFiscalYearEndDate();
+		ClientFinanceDate endDate = Accounter.getCompany()
+				.getLastandOpenedFiscalYearEndDate();
 
 		if (endDate == null)
 			endDate = new ClientFinanceDate();
 
-		this.rpcReportService.getAccountRegister(Accounter
-				.getStartDate().getTime(), endDate.getTime(), takenaccount
-				.getID(), new AsyncCallback<List<AccountRegister>>() {
+		this.rpcReportService.getAccountRegister(Accounter.getStartDate()
+				.getTime(), endDate.getTime(), takenaccount.getID(),
+				new AsyncCallback<List<AccountRegister>>() {
 
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter.showError(Accounter
-							.getFinanceUIConstants()
-							.failedtoGetListofAccounts()
-							+ takenaccount.getName());
-				}
+					public void onFailure(Throwable caught) {
+						if (caught instanceof InvocationException) {
+							Accounter
+									.showMessage("Your session expired, Please login again to continue");
+						} else {
+							Accounter.showError(Accounter
+									.getFinanceUIConstants()
+									.failedtoGetListofAccounts()
+									+ takenaccount.getName());
+						}
 
-			}
+					}
 
-			public void onSuccess(List<AccountRegister> result) {
-				accountRegister = result;
+					public void onSuccess(List<AccountRegister> result) {
+						accountRegister = result;
 
-				getAccountRegisterGrid(result);
+						getAccountRegisterGrid(result);
 
-			}
+					}
 
-		});
+				});
 
 	}
 

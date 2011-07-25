@@ -579,7 +579,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	public Object getServerObjectForid(AccounterCoreType t, String id) {
+	public Object getServerObjectForid(AccounterCoreType t, long id) {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -588,8 +588,7 @@ public class FinanceTool implements IFinanceDAOService {
 		if (serverClass != null) {
 
 			Query hibernateQuery = session.getNamedQuery(
-					"unique.id." + t.getServerClassSimpleName()).setString(0,
-					id);
+					"unique.id." + t.getServerClassSimpleName()).setLong(0, id);
 
 			List objects = hibernateQuery.list();
 
@@ -607,7 +606,7 @@ public class FinanceTool implements IFinanceDAOService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
-			String id) throws DAOException {
+			long id) throws DAOException {
 
 		Object serverObject = getServerObjectForid(type, id);
 
@@ -10797,7 +10796,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<CheckDetailReport> getCheckDetailReport(String paymentmethod,
+	public List<CheckDetailReport> getCheckDetailReport(long paymentmethod,
 			long startDate, long endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();

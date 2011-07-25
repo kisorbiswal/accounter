@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.KeyFinancialIndicators;
 import com.vimukti.accounter.web.client.data.InvalidSessionException;
+import com.vimukti.accounter.workspace.tool.AccounterException;
 
 /**
  * @author Fernandez
@@ -262,20 +263,19 @@ public interface IAccounterGETService extends RemoteService {
 	// public ClientPaySalesTax getPaySalesTax(Long id);
 
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
-			long id) throws InvalidSessionException;
+			long id) throws AccounterException;
 
 	public <T extends IAccounterCore> T getObjectByName(AccounterCoreType type,
-			String name) throws InvalidSessionException;
+			String name) throws AccounterException;
 
 	public <T extends IAccounterCore> List<T> getObjects(AccounterCoreType type);
 
-	public ClientCompany getCompany(String identityID)
-			throws InvalidSessionException;
+	public ClientCompany getCompany() throws AccounterException;
 
 	KeyFinancialIndicators getKeyFinancialIndicators();
 
-	List<HrEmployee> getHREmployees() throws InvalidSessionException;
+	List<HrEmployee> getHREmployees() throws AccounterException;
 
-	public List<HelpLink> getHelpLinks(int type) throws InvalidSessionException;
+	public List<HelpLink> getHelpLinks(int type) throws AccounterException;
 
 }

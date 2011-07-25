@@ -268,12 +268,12 @@ public class Util {
 
 	@SuppressWarnings("unchecked")
 	public static Object loadObjectByid(Session session,
-			String serverClassName, String id) {
+			String serverClassName, long id) {
 		try {
 
-			List<Object> list = session.getNamedQuery(
-					"unique.id." + serverClassName).setString(0, id)
-					.list();
+			List<Object> list = session
+					.getNamedQuery("unique.id." + serverClassName)
+					.setLong(0, id).list();
 
 			// String hql = "from " + serverClassName + " where id = ?";
 			//
