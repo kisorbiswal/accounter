@@ -67,11 +67,9 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	}
 
 	private void createControls() {
-		Label infolabel = new Label(Accounter.getVATMessages()
-				.fileVAT());
+		Label infolabel = new Label(Accounter.getVATMessages().fileVAT());
 		infolabel.removeStyleName("gwt-Label");
-		infolabel.addStyleName(Accounter.getVendorsMessages()
-				.lableTitle());
+		infolabel.addStyleName(Accounter.getVendorsMessages().lableTitle());
 		taxAgencyCombo = new TAXAgencyCombo(Accounter.getVATMessages()
 				.VATAgency());
 		taxAgencyCombo.setHelpInformation(true);
@@ -95,8 +93,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		toDate.setWidth(100);
 		listforms = new ArrayList<DynamicForm>();
 
-		updateButton = new AccounterButton(Accounter.getVATMessages()
-				.update());
+		updateButton = new AccounterButton(Accounter.getVATMessages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -120,8 +117,8 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 				+ Accounter.getVATMessages().beforeYouFile());
 
 		HTML adjustLabel = new HTML("<strong>"
-				+ Accounter.getVATMessages()
-						.doYouNeedToMakeAnAdjustment() + " </strong><br>"
+				+ Accounter.getVATMessages().doYouNeedToMakeAnAdjustment()
+				+ " </strong><br>"
 				+ Accounter.getVATMessages().useAdjustButton());
 
 		adjustButton = new AccounterButton(Accounter.getVATMessages()
@@ -131,8 +128,9 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (selectedVatAgency != null) {
-					HistoryTokenUtils.setPresentToken(VatActionFactory
-							.getVatAdjustmentAction(), selectedVatAgency);
+					HistoryTokenUtils.setPresentToken(
+							VatActionFactory.getVatAdjustmentAction(),
+							selectedVatAgency);
 					VatActionFactory.getVatAdjustmentAction().run(
 							selectedVatAgency, true);
 				}
@@ -153,8 +151,8 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		// "ibutton-right-image");
 		// }
 		HTML printLabel = new HTML("<strong>"
-				+ Accounter.getVATMessages()
-						.doYouWantPrintYourVATReturn() + "</strong><br>"
+				+ Accounter.getVATMessages().doYouWantPrintYourVATReturn()
+				+ "</strong><br>"
 				+ Accounter.getVATMessages().youCanPrintVATReturn());
 
 		printButton = new AccounterButton(Accounter.getVATMessages()
@@ -236,18 +234,17 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	}
 
 	private void getVATReturnEndDate(ClientTAXAgency selectItem) {
-		List<ClientVATReturn> vatReturns = getCompany()
-				.getVatReturns();
+		List<ClientVATReturn> vatReturns = getCompany().getVatReturns();
 		ClientVATReturn lastVATReturn = null;
 		for (ClientVATReturn vatReturn : vatReturns) {
-			if (selectItem.getID().equals(vatReturn.getTAXAgency())) {
+			if (selectItem.getID() == vatReturn.getTAXAgency()) {
 				lastVATReturn = vatReturn;
 			}
 		}
 		if (lastVATReturn != null) {
 			if (lastVATReturn.getVATperiodEndDate() != 0) {
-				ClientFinanceDate date = new ClientFinanceDate(lastVATReturn
-						.getVATperiodEndDate());
+				ClientFinanceDate date = new ClientFinanceDate(
+						lastVATReturn.getVATperiodEndDate());
 				int day = date.getDate();
 				date.setDate(day + 1);
 				fromDate.setDatethanFireEvent(date);
@@ -255,8 +252,8 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 				toDate.setDatethanFireEvent(date);
 			}
 		} else {
-			List<ClientFiscalYear> fiscalYears = Accounter
-					.getCompany().getFiscalYears();
+			List<ClientFiscalYear> fiscalYears = Accounter.getCompany()
+					.getFiscalYears();
 			for (ClientFiscalYear fiscalYear : fiscalYears) {
 				if (fiscalYear.getIsCurrentFiscalYear()) {
 					fromDate.setDatethanFireEvent(fiscalYear.getStartDate());
@@ -304,8 +301,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 					@Override
 					public void onFailure(Throwable caught) {
 						// gridView.clear();
-						gridView.addEmptyMessage(Accounter
-								.getVATMessages()
+						gridView.addEmptyMessage(Accounter.getVATMessages()
 								.norecordstoshowinbetweentheselecteddates());
 						// UIUtils.err(FinanceApplication.getVATMessages()
 						// .failedToRetrieveVatBoxesForVATAgency()
@@ -493,8 +489,8 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		};
 		report.init();
 		report.initData();
-		report.makeReportRequest(selectedVatAgency.getID(), fromDate
-				.getEnteredDate(), toDate.getEnteredDate());
+		report.makeReportRequest(selectedVatAgency.getID(),
+				fromDate.getEnteredDate(), toDate.getEnteredDate());
 
 	}
 
@@ -515,9 +511,10 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 				// .pleaseSelectValidVATAgency() + ".");
 				// BaseView.commentPanel.setVisible(true);
 				// AbstractBaseView.errorOccured = true;
-				MainFinanceWindow.getViewManager().appendError(
-						Accounter.getVATMessages()
-								.pleaseSelectValidVATAgency());
+				MainFinanceWindow.getViewManager()
+						.appendError(
+								Accounter.getVATMessages()
+										.pleaseSelectValidVATAgency());
 				// UIUtils.err(FinanceApplication.getVATMessages()
 				// .pleaseSelectValidVATAgency());
 				return false;
