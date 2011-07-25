@@ -84,28 +84,24 @@ public class PurchaseOrderView extends
 	private HTML lab1;
 	private List<String> listOfTypes;
 	private String OPEN = Accounter.getVendorsMessages().open();
-	private String COMPLETED = Accounter.getVendorsMessages()
-			.completed();
-	private String CANCELLED = Accounter.getVendorsMessages()
-			.cancelled();
+	private String COMPLETED = Accounter.getVendorsMessages().completed();
+	private String CANCELLED = Accounter.getVendorsMessages().cancelled();
 	private DateField despatchDateItem;
 
 	public PurchaseOrderView() {
 		super(ClientTransaction.TYPE_PURCHASE_ORDER, VENDOR_TRANSACTION_GRID);
 		validationCount = 5;
 	}
-	
+
 	@Override
 	protected void createControls() {
 		// setTitle(UIUtils.title(FinanceApplication.getVendorsMessages()
 		// .purchaseOrder()));
 		lab1 = new HTML(Accounter.getVendorsMessages().purchaseOrder());
-		lab1.setStyleName(Accounter.getCustomersMessages()
-				.lableTitle());
+		lab1.setStyleName(Accounter.getCustomersMessages().lableTitle());
 		// lab1.setHeight("35px");
 
-		statusSelect = new SelectCombo(Accounter.getVendorsMessages()
-				.statuS());
+		statusSelect = new SelectCombo(Accounter.getVendorsMessages().statuS());
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(OPEN);
 		listOfTypes.add(COMPLETED);
@@ -127,8 +123,7 @@ public class PurchaseOrderView extends
 		transactionDateItem = createTransactionDateItem();
 
 		transactionNumber = createTransactionNumberItem();
-		transactionNumber.setTitle(Accounter.getVendorsMessages()
-				.orderNo());
+		transactionNumber.setTitle(Accounter.getVendorsMessages().orderNo());
 		transactionNumber.setWidth(50);
 
 		listforms = new ArrayList<DynamicForm>();
@@ -153,7 +148,7 @@ public class PurchaseOrderView extends
 		disabletextbox.setVisible(false);
 		amountsForm = new DynamicForm();
 		amountsForm.setWidth("100%");
-		
+
 		netAmount = createNetAmountLabel();
 
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabelforPurchase();
@@ -161,22 +156,18 @@ public class PurchaseOrderView extends
 		vatTotalNonEditableText = createVATTotalNonEditableLabelforPurchase();
 
 		// vendorCombo = createVendorComboItem(vendorConstants.vendorName());
-		
-	 
+
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 		prodAndServiceHLay.add(amountsForm);
-		prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
-				ALIGN_RIGHT);
+		prodAndServiceHLay.setCellHorizontalAlignment(amountsForm, ALIGN_RIGHT);
 
-	
-		
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 
 			DynamicForm priceLevelForm = new DynamicForm();
 			// priceLevelForm.setCellSpacing(4);
-			//priceLevelForm.setWidth("70%");
-			//priceLevelForm.setFields(priceLevelSelect);
+			// priceLevelForm.setWidth("70%");
+			// priceLevelForm.setFields(priceLevelSelect);
 			amountsForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
 			amountsForm.setStyleName("invoice-total");
@@ -206,10 +197,10 @@ public class PurchaseOrderView extends
 			prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
 					ALIGN_RIGHT);
 		}
-		
-		vendorCombo = new VendorCombo(UIUtils.getVendorString(
-				Accounter.getVendorsMessages().supplieR(),
-				Accounter.getVendorsMessages().vendoR()), true);
+
+		vendorCombo = new VendorCombo(UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplieR(), Accounter
+				.getVendorsMessages().vendoR()), true);
 		vendorCombo.setRequired(true);
 		vendorCombo.setHelpInformation(true);
 
@@ -227,21 +218,20 @@ public class PurchaseOrderView extends
 				});
 		// vendorCombo.setWidth(100);
 		contactCombo = createContactComboItem();
-		contactCombo
-				.setTitle(Accounter.getVendorsMessages().contact());
+		contactCombo.setTitle(Accounter.getVendorsMessages().contact());
 		// contactCombo.setWidth(100);
 		// billToCombo = createVendorAddressComboItem();
 		// billToCombo.setTitle(FinanceApplication.getVendorsMessages().billTo());
-		billtoAreaItem = new TextAreaItem(Accounter
-				.getVendorsMessages().billTo());
+		billtoAreaItem = new TextAreaItem(Accounter.getVendorsMessages()
+				.billTo());
 		billtoAreaItem.setWidth("100%");
 		billtoAreaItem.setDisabled(true);
 		// shipToCombo = createShipToComboItem();
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.getCustomersMessages().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.getCustomersMessages().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -275,9 +265,9 @@ public class PurchaseOrderView extends
 		formItems.add(contactCombo);
 		formItems.add(billToCombo);
 
-		purchaseOrderText = new TextItem(UIUtils.getVendorString(
-				Accounter.getVendorsMessages().supplierOrderNo(),
-				Accounter.getVendorsMessages().vendorOrderNo()));
+		purchaseOrderText = new TextItem(UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplierOrderNo(), Accounter
+				.getVendorsMessages().vendorOrderNo()));
 		purchaseOrderText.setWidth(50);
 		purchaseOrderText.setColSpan(1);
 		purchaseOrderText.setDisabled(isEdit);
@@ -334,8 +324,8 @@ public class PurchaseOrderView extends
 		});
 
 		deliveryDateItem = createTransactionDeliveryDateItem();
-		deliveryDateItem.setTitle(Accounter.getVendorsMessages()
-				.receivedDate());
+		deliveryDateItem
+				.setTitle(Accounter.getVendorsMessages().receivedDate());
 
 		DynamicForm dateform = new DynamicForm();
 		dateform.setWidth("100%");
@@ -412,7 +402,7 @@ public class PurchaseOrderView extends
 		topHLay.setCellWidth(leftVLay, "52%");
 		topHLay.setCellWidth(rightVLay, "47%");
 		// topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
-		
+
 		VerticalPanel panel = new VerticalPanel();
 		panel.add(createAddNewButton());
 		panel.add(amountsForm);
@@ -423,7 +413,6 @@ public class PurchaseOrderView extends
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
 		bottomLayout.setHorizontalAlignment(ALIGN_RIGHT);
-		
 
 		menuButton.setType(AccounterButton.ADD_BUTTON);
 
@@ -573,8 +562,8 @@ public class PurchaseOrderView extends
 	public AddressCombo createVendorAddressComboItem() {
 
 		AddressCombo addressCombo = new AddressCombo(UIUtils.getVendorString(
-				Accounter.getVendorsMessages().supplierAddress(),
-				Accounter.getVendorsMessages().vendorAddress()));
+				Accounter.getVendorsMessages().supplierAddress(), Accounter
+						.getVendorsMessages().vendorAddress()));
 
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -788,22 +777,19 @@ public class PurchaseOrderView extends
 
 	private void initPaymentTerms() {
 
-		payTermsSelect.initCombo(getCompany()
-				.getPaymentsTerms());
+		payTermsSelect.initCombo(getCompany().getPaymentsTerms());
 
 	}
 
 	private void initShippingTerms() {
 
-		shippingTermsCombo.initCombo(getCompany()
-				.getShippingTerms());
+		shippingTermsCombo.initCombo(getCompany().getShippingTerms());
 
 	}
 
 	private void initShippingMethod() {
 
-		List<ClientShippingMethod> result = getCompany()
-				.getShippingMethods();
+		List<ClientShippingMethod> result = getCompany().getShippingMethods();
 		if (shippingMethodsCombo != null) {
 			shippingMethodsCombo.initCombo(result);
 
@@ -833,12 +819,11 @@ public class PurchaseOrderView extends
 		transactionTotalNonEditableText.setAmount(vendorTransactionGrid
 				.getTotal());
 		netAmount.setAmount(vendorTransactionGrid.getGrandTotal());
-		//vatTotalNonEditableText.setValue(vendorTransactionGrid.getVatTotal());
+		// vatTotalNonEditableText.setValue(vendorTransactionGrid.getVatTotal());
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			vatTotalNonEditableText.setAmount(vendorTransactionGrid.getTotal()
 					- vendorTransactionGrid.getGrandTotal());
 		}
-	
 
 	}
 
@@ -894,20 +879,21 @@ public class PurchaseOrderView extends
 			transactionObject = purchaseOrder;
 			super.saveAndUpdateView();
 
-			if (transactionObject.getID() != null) {
+			if (transactionObject.getID() != 0) {
 				alterObject((ClientPurchaseOrder) transactionObject);
 
 			} else {
 				createObject((ClientPurchaseOrder) transactionObject);
 			}
-			
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_US || accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+
+			if (accountType == ClientCompany.ACCOUNTING_TYPE_US
+					|| accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 				netAmount.setAmount(purchaseOrder.getNetAmount());
 				vatTotalNonEditableText.setAmount(purchaseOrder.getTotal()
 						- purchaseOrder.getNetAmount());
-				transactionTotalNonEditableText.setAmount(purchaseOrder.getTotal());
-			} 
-			
+				transactionTotalNonEditableText.setAmount(purchaseOrder
+						.getTotal());
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1076,7 +1062,7 @@ public class PurchaseOrderView extends
 		case AccounterCommand.UPDATION_SUCCESS:
 			break;
 		}
-		
+
 	}
 
 	public boolean validate() throws Exception {
@@ -1084,9 +1070,9 @@ public class PurchaseOrderView extends
 		case 5:
 			return AccounterValidator.validateFormItem(false, statusSelect);
 		case 4:
-			return AccounterValidator.validate_dueOrDelivaryDates(dueDateItem
-					.getDate(), transactionDateItem.getDate(), vendorConstants
-					.dueDate());
+			return AccounterValidator.validate_dueOrDelivaryDates(
+					dueDateItem.getDate(), transactionDateItem.getDate(),
+					vendorConstants.dueDate());
 		case 3:
 			return AccounterValidator.validateForm(vendorForm, false);
 		case 2:
@@ -1127,8 +1113,7 @@ public class PurchaseOrderView extends
 
 			AccounterCoreType type = UIUtils
 					.getAccounterCoreType(transactionObject.getType());
-			this.rpcDoSerivce.canEdit(type, transactionObject.id,
-					editCallBack);
+			this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
 
 		}
 
