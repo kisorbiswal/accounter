@@ -385,9 +385,8 @@ public class CreditsandPaymentsGrid extends
 	}
 
 	@Override
-	public void setTaxCode(String taxCode) {
+	public void setTaxCode(long taxCode) {
 		// TODO Auto-generated method stub
-		
 	}
 
 }
