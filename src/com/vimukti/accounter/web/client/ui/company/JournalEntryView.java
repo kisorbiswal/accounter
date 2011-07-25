@@ -182,7 +182,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	//
 	// protected void save() {
 	// MainFinanceWindow.removeFromTab(this);
-	//	
+	//
 	// }
 
 	public List<ClientEntry> getallEntries(ClientTransaction object) {
@@ -284,8 +284,8 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 				.getValue().toString() : "");
 		// initMemo(journalEntry);
 		journalEntry.setDate(new ClientFinanceDate().getTime());
-		if (DecimalUtil.isEquals(grid.getTotalDebittotal(), grid
-				.getTotalCredittotal())) {
+		if (DecimalUtil.isEquals(grid.getTotalDebittotal(),
+				grid.getTotalCredittotal())) {
 			journalEntry.setDebitTotal(grid.getTotalDebittotal());
 			journalEntry.setCreditTotal(grid.getTotalCredittotal());
 			journalEntry.setTotal(grid.getTotalDebittotal());
@@ -325,8 +325,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 
-		lab1 = new Label(Accounter.getCompanyMessages()
-				.journalEntryNew());
+		lab1 = new Label(Accounter.getCompanyMessages().journalEntryNew());
 		lab1.removeStyleName("gwt-Label");
 		lab1.addStyleName(Accounter.getCompanyMessages().lableTitle());
 		// lab1.setHeight("35px");
@@ -354,8 +353,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		initListGrid();
 		grid.initTransactionData();
 		gridPanel = new VerticalPanel();
-		addButton = new AccounterButton(Accounter.getCompanyMessages()
-				.add());
+		addButton = new AccounterButton(Accounter.getCompanyMessages().add());
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -481,15 +479,15 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 			if (entry.getType() == ClientEntry.TYPE_FINANCIAL_ACCOUNT) {
 				rec[i].setType(ClientEntry.TYPE_FINANCIAL_ACCOUNT);
-				if (entry.getAccount() != null)
+				if (entry.getAccount() != 0)
 					rec[i].setAccount(entry.getAccount());
 			} else if (entry.getType() == ClientTransactionMakeDeposit.TYPE_VENDOR) {
 				rec[i].setType(ClientEntry.TYPE_VENDOR);
-				if (entry.getVendor() != null)
+				if (entry.getVendor() != 0)
 					rec[i].setVendor(entry.getVendor());
 			} else {
 				rec[i].setType(ClientEntry.TYPE_CUSTOMER);
-				if (entry.getCustomer() != null)
+				if (entry.getCustomer() != 0)
 					rec[i].setCustomer(entry.getCustomer());
 
 			}
@@ -685,8 +683,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id,
-				editCallBack);
+		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
 
 	}
 
