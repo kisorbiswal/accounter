@@ -39,7 +39,7 @@ public class HistoryTokenUtils {
 		int split2 = string.lastIndexOf(':');
 		List<Object> list = new ArrayList<Object>();
 		if (!(split1 <= 0) && !(split2 <= 0)) {
- 			list.add(string.substring(0, split1));
+			list.add(string.substring(0, split1));
 			String temp = string.substring(split1 + 1, split2);
 			if (temp.equalsIgnoreCase("customer")) {
 				ClientCustomer clientCustomer = new ClientCustomer();
@@ -215,10 +215,11 @@ public class HistoryTokenUtils {
 		return token;
 	}
 
-	public static void setPresentToken(Action action, Object obj) {
+	private static void setPresentToken(Action action, Object obj) {
 		MainFinanceWindow.shouldExecuteRun = false;
-		MainFinanceWindow.oldToken = com.google.gwt.user.client.History.getToken();
-		com.google.gwt.user.client.History.newItem(getTokenWithID(action
-				.getHistoryToken(), obj));
+		MainFinanceWindow.oldToken = com.google.gwt.user.client.History
+				.getToken();
+		com.google.gwt.user.client.History.newItem(getTokenWithID(
+				action.getHistoryToken(), obj));
 	}
 }
