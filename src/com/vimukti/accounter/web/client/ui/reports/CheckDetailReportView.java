@@ -88,7 +88,7 @@ public class CheckDetailReportView extends
 	}
 
 	@Override
-	public void makeReportRequest(String paymentmethod,
+	public void makeReportRequest(long paymentmethod,
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		Accounter.createReportService().getCheckDetailReport(
 				paymentmethod, startDate.getTime(), endDate.getTime(), this);
