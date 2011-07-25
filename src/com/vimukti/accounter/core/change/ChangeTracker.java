@@ -72,7 +72,7 @@ public class ChangeTracker {
 		log.info("Put Object:" + core.toString());
 
 		AccounterCommand cmd = new AccounterCommand();
-		cmd.setCommand(IFinanceTool.UPDATE_ACTION);
+		cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
 
 		if (!isTransaction)
 			cmd.setData(core);
