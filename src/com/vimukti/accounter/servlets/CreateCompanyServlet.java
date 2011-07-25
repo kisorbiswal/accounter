@@ -64,18 +64,18 @@ public class CreateCompanyServlet extends BaseServlet {
 		Transaction tx = session.beginTransaction();
 		try {
 			session.save(company);
-			CollaberIdentity identity = new CollaberIdentity(
-					RolePermissions.ADMIN, SecureUtils.createID(),
-					company.getCompanyDomainName());
-			identity.setEncryptedID(Security.getBytes(Security
-					.createSpaceEncKey()));
-			identity.setEmailID(request.getParameter("emailId").toLowerCase()
-					.trim());
-			identity.setPassword(request.getParameter("password"));
-			identity.setPasswordChanged(true);
-			// identity.setCompanyName(company.getCompanyDomainName());
-			initializeBizantraUserPreference(identity);
-			session.save(identity);
+//			CollaberIdentity identity = new CollaberIdentity(
+//					RolePermissions.ADMIN, SecureUtils.createID(),
+//					company.getCompanyDomainName());
+//			identity.setEncryptedID(Security.getBytes(Security
+//					.createSpaceEncKey()));
+//			identity.setEmailID(request.getParameter("emailId").toLowerCase()
+//					.trim());
+//			identity.setPassword(request.getParameter("password"));
+//			identity.setPasswordChanged(true);
+//			// identity.setCompanyName(company.getCompanyDomainName());
+//			initializeBizantraUserPreference(identity);
+//			session.save(identity);
 
 			// createDefaultSpace(identity, session, false, request, company);
 
@@ -84,7 +84,7 @@ public class CreateCompanyServlet extends BaseServlet {
 			// createHrWorkspace(identity, session);
 			// createHolidayProcessWorkspace(identity, session);
 
-			createFinanceSpace(identity, session, request, company);
+//			createFinanceSpace(identity, session, request, company);
 
 			// SpaceGroup defaultGroup = identity
 			// .getSpaceGroup(BizantraConstants.DEFAULT_GROUP_NAME);
@@ -98,7 +98,7 @@ public class CreateCompanyServlet extends BaseServlet {
 			// defaultGroup.getSpaces().add(holidayProcessWorkSpace);
 			//
 			// session.save(defaultGroup);
-			session.saveOrUpdate(identity);
+//			session.saveOrUpdate(identity);
 			UsersMailSendar.sendMailToDefaultUser(identity,
 					company.getCompanyDisplayName());
 			try {
