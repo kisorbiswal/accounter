@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.core.reports.BaseReport;
 
 public class OpenAndClosedOrders extends BaseReport implements IsSerializable {
 
-	String transactionID;
+	long transactionID;
 
 	long id;
 
@@ -23,11 +23,11 @@ public class OpenAndClosedOrders extends BaseReport implements IsSerializable {
 
 	double amount;
 
-	public String getTransactionID() {
+	public long getTransactionID() {
 		return transactionID;
 	}
 
-	public void setTransactionID(String transactionID) {
+	public void setTransactionID(long transactionID) {
 		this.transactionID = transactionID;
 	}
 
