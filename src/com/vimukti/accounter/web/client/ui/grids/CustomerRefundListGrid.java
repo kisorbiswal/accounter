@@ -268,7 +268,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 		return AccounterCoreType.CUSTOMERREFUND;
 	}
 
-	private String getTransactionID(CustomerRefundsList obj) {
+	private long getTransactionID(CustomerRefundsList obj) {
 		return obj.getTransactionId();
 	}
 
