@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 @SuppressWarnings("serial")
 public class InvoicesList implements IsSerializable, Serializable {
 
-	String transactionId;
+	long transactionId;
 
 	int type;
 
@@ -53,7 +53,7 @@ public class InvoicesList implements IsSerializable, Serializable {
 	/**
 	 * @return the transactionId
 	 */
-	public String getTransactionId() {
+	public long getTransactionId() {
 		return transactionId;
 	}
 
@@ -61,7 +61,7 @@ public class InvoicesList implements IsSerializable, Serializable {
 	 * @param transactionId
 	 *            the transactionId to set
 	 */
-	public void setTransactionId(String transactionId) {
+	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
 	}
 
