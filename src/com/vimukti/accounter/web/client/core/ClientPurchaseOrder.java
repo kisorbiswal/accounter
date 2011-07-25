@@ -29,9 +29,9 @@ public class ClientPurchaseOrder extends ClientTransaction {
 
 	ClientAddress shippingAddress;
 
-	String shippingTerms;
+	long shippingTerms;
 
-	String shippingMethod;
+	long shippingMethod;
 
 	/**
 	 * To maintain the user defined auto incrementing number.
@@ -146,7 +146,7 @@ public class ClientPurchaseOrder extends ClientTransaction {
 	/**
 	 * @return the shippingTerms
 	 */
-	public String getShippingTerms() {
+	public long getShippingTerms() {
 		return shippingTerms;
 	}
 
@@ -154,14 +154,14 @@ public class ClientPurchaseOrder extends ClientTransaction {
 	 * @param shippingTerms
 	 *            the shippingTerms to set
 	 */
-	public void setShippingTerms(String shippingTerms) {
+	public void setShippingTerms(long shippingTerms) {
 		this.shippingTerms = shippingTerms;
 	}
 
 	/**
 	 * @return the shippingMethod
 	 */
-	public String getShippingMethod() {
+	public long getShippingMethod() {
 		return shippingMethod;
 	}
 
@@ -169,7 +169,7 @@ public class ClientPurchaseOrder extends ClientTransaction {
 	 * @param shippingMethod
 	 *            the shippingMethod to set
 	 */
-	public void setShippingMethod(String shippingMethod) {
+	public void setShippingMethod(long shippingMethod) {
 		this.shippingMethod = shippingMethod;
 	}
 
