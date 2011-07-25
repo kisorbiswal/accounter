@@ -7,7 +7,7 @@ public class ClientTransactionPaySalesTax implements IAccounterCore {
 
 	String taxItem;
 
-	String taxAgency;
+	long taxAgency;
 
 	double taxDue;
 
@@ -47,11 +47,11 @@ public class ClientTransactionPaySalesTax implements IAccounterCore {
 		this.taxItem = taxItemId;
 	}
 
-	public String getTaxAgency() {
+	public long getTaxAgency() {
 		return taxAgency;
 	}
 
-	public void setTaxAgency(String taxAgency) {
+	public void setTaxAgency(long taxAgency) {
 		this.taxAgency = taxAgency;
 	}
 
@@ -98,13 +98,13 @@ public class ClientTransactionPaySalesTax implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
