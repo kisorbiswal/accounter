@@ -2,6 +2,8 @@ package com.vimukti.accounter.services;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -188,6 +190,18 @@ public class AccounterService extends HibernateDaoSupport implements
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Parse the URL and get the first part of the domain which represents the
+	 * company Name
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static String getCompanyFromRequest(HttpServletRequest request) {
+		Object companyName = request.getSession().getAttribute(COMPANY_ID);
+		return (String) companyName;
 	}
 
 	// //////////////////////////////////////////////////////////////////////////////////////////////////////
