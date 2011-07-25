@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.SalesByItemDetailServer
 public class SalesByItemDetailReport extends
 		AbstractReportView<SalesByCustomerDetail> {
 
-	public String bycustomerDetail;
+	public long bycustomerDetail;
 
 	public SalesByItemDetailReport() {
 		this.serverReport = new SalesByItemDetailServerReport(this);
@@ -24,8 +24,8 @@ public class SalesByItemDetailReport extends
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(record.getType(), record
-					.getTransactionId());
+			ReportsRPC.openTransactionView(record.getType(),
+					record.getTransactionId());
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class SalesByItemDetailReport extends
 					byCustomerDetail.getItemName(), start.getTime(),
 					end.getTime(), this);
 		}
-		this.bycustomerDetail = byCustomerDetail.getItemName();
+		this.bycustomerDetail = byCustomerDetail.getTransactionId();
 	}
 
 	@Override
@@ -61,14 +61,16 @@ public class SalesByItemDetailReport extends
 
 	@Override
 	public void print() {
-		if (bycustomerDetail == null) {
-			UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-					.getTime())), Integer.parseInt(String.valueOf(endDate
-					.getTime())), 124, "", "");
+		if (bycustomerDetail == 0) {
+			UIUtils.generateReportPDF(
+					Integer.parseInt(String.valueOf(startDate.getTime())),
+					Integer.parseInt(String.valueOf(endDate.getTime())), 124,
+					"", "");
 		} else {
-			UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-					.getTime())), Integer.parseInt(String.valueOf(endDate
-					.getTime())), 124, "", "", bycustomerDetail);
+			UIUtils.generateReportPDF(
+					Integer.parseInt(String.valueOf(startDate.getTime())),
+					Integer.parseInt(String.valueOf(endDate.getTime())), 124,
+					"", "", bycustomerDetail);
 		}
 
 	}
@@ -87,8 +89,8 @@ public class SalesByItemDetailReport extends
 	public int sort(SalesByCustomerDetail obj1, SalesByCustomerDetail obj2,
 			int col) {
 
-		int ret = obj1.getItemName().toLowerCase().compareTo(
-				obj2.getItemName().toLowerCase());
+		int ret = obj1.getItemName().toLowerCase()
+				.compareTo(obj2.getItemName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
@@ -104,14 +106,14 @@ public class SalesByItemDetailReport extends
 					Integer.parseInt(obj2.getNumber()));
 
 		case 0:
-			return obj1.getItemName().toLowerCase().compareTo(
-					obj2.getItemName().toLowerCase());
+			return obj1.getItemName().toLowerCase()
+					.compareTo(obj2.getItemName().toLowerCase());
 		case 4:
 			return UIUtils
 					.compareDouble(obj1.getQuantity(), obj2.getQuantity());
 		case 5:
-			return UIUtils.compareDouble(obj1.getUnitPrice(), obj2
-					.getUnitPrice());
+			return UIUtils.compareDouble(obj1.getUnitPrice(),
+					obj2.getUnitPrice());
 
 		case 6:
 			return UIUtils
@@ -125,14 +127,16 @@ public class SalesByItemDetailReport extends
 	}
 
 	public void exportToCsv() {
-		if (bycustomerDetail == null) {
-			UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-					.getTime())), Integer.parseInt(String.valueOf(endDate
-					.getTime())), 124, "", "");
+		if (bycustomerDetail == 0) {
+			UIUtils.exportReport(
+					Integer.parseInt(String.valueOf(startDate.getTime())),
+					Integer.parseInt(String.valueOf(endDate.getTime())), 124,
+					"", "");
 		} else {
-			UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-					.getTime())), Integer.parseInt(String.valueOf(endDate
-					.getTime())), 124, "", "", bycustomerDetail);
+			UIUtils.exportReport(
+					Integer.parseInt(String.valueOf(startDate.getTime())),
+					Integer.parseInt(String.valueOf(endDate.getTime())), 124,
+					"", "", bycustomerDetail);
 		}
 	}
 }
