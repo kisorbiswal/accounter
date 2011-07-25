@@ -40,8 +40,8 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		record.setStartDate(toolbar.getEndDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		ReportsRPC.openTransactionView(record.getTransactiontype(), record
-				.getTransactionId());
+		ReportsRPC.openTransactionView(record.getTransactiontype(),
+				record.getTransactionId());
 
 	}
 
@@ -58,15 +58,17 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 150, "", "", customerId);
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 150, "",
+				"", customerId);
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 150, "", "", customerId);
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 150, "",
+				"", customerId);
 	}
 
 	//
@@ -152,19 +154,19 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 			if (num1 != 0 && num2 != 0)
 				return UIUtils.compareInt(num1, num2);
 			else
-				return UIUtils.compareTo(obj1.getTransactionNumber(), obj2
-						.getTransactionNumber());
+				return UIUtils.compareTo(obj1.getTransactionNumber(),
+						obj2.getTransactionNumber());
 
 		case 1:
-			return UIUtils.compareInt(obj1.getTransactiontype(), obj2
-					.getTransactiontype());
+			return UIUtils.compareInt(obj1.getTransactiontype(),
+					obj2.getTransactiontype());
 
 		case 3:
 			return UIUtils.compareDouble(obj1.getAgeing(), obj2.getAgeing());
 
 		case 0:
-			return UIUtils.compareTo(obj1.getTransactionDate(), obj2
-					.getTransactionDate());
+			return UIUtils.compareTo(obj1.getTransactionDate(),
+					obj2.getTransactionDate());
 
 		case 4:
 			return UIUtils.compareDouble(obj1.getTotal(), obj2.getTotal());
