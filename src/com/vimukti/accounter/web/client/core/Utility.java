@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -225,7 +226,7 @@ public class Utility implements IsSerializable, Serializable {
 		if (account == null)
 			return "";
 
-		return getHierarchy(getCompany().getAccount(
+		return getHierarchy(Accounter.getCompany().getAccount(
 				account.getParent()))
 				+ account.getName() + " > ";
 	}
