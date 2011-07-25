@@ -32,8 +32,7 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { "",
-				Accounter.getCustomersMessages().name(),
+		return new String[] { "", Accounter.getCustomersMessages().name(),
 				Accounter.getCustomersMessages().description(),
 				Accounter.getCustomersMessages().quantity(),
 				Accounter.getCustomersMessages().unitPrice(),
@@ -45,8 +44,7 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 
 	@Override
 	public String[] getColumnNamesForPrinting() {
-		return new String[] {
-				Accounter.getCustomersMessages().description(),
+		return new String[] { Accounter.getCustomersMessages().description(),
 				Accounter.getCustomersMessages().quantity(),
 				Accounter.getCustomersMessages().unitPrice(),
 				Accounter.getCustomersMessages().totalPrice(),
@@ -138,7 +136,8 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
 				return item.getQuantity();
 			else {
-				return (item.getQuantity() != 0 || item.getLineTotal() == 0) ? item.getQuantity() : "";
+				return (item.getQuantity() != 0 || item.getLineTotal() == 0) ? item
+						.getQuantity() : "";
 			}
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
@@ -163,8 +162,7 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 		}
 	}
 
-	private String getDecimalsUsingMaxDecimals(int quantity,
-			int maxDecimalPoint) {
+	private String getDecimalsUsingMaxDecimals(int quantity, int maxDecimalPoint) {
 		String qty = String.valueOf(quantity);
 		// if (maxDecimalPoint != 0) {
 		// qty = !qty.contains(".") ? qty + ".0" : qty;
@@ -206,8 +204,7 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 	protected boolean isEditable(ClientTransactionItem obj, int row, int col) {
 		if (obj == null)
 			return false;
-		if (!getCompany().getpreferences()
-				.getDoYouPaySalesTax()) {
+		if (!Accounter.getCompany().getpreferences().getDoYouPaySalesTax()) {
 			if (col == 7 || col == 8)
 				return false;
 		}
@@ -281,7 +278,7 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 		return true;
 	}
 
-	public String getTaxCode(ClientTransactionItem item) {
+	public long getTaxCode(ClientTransactionItem item) {
 		return item.getTaxCode();
 	}
 }
