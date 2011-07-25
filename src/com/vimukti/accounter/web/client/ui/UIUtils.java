@@ -1910,7 +1910,8 @@ public class UIUtils {
 	}-*/;
 
 	public static native void generateReportPDF(int start, int end,
-			int reportType, String name, String dateRangeHtml, String status)/*-{
+			int reportType, String name, String dateRangeHtml, long status)/*-{
+				//FIXME changed status String to long
 		try {
 			var frame = document.createElement("IFRAME");
 			frame.setAttribute("src",
