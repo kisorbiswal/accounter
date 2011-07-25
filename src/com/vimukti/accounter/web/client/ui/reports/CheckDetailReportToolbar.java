@@ -28,8 +28,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 	}
 
 	private void createControls() {
-		String[] statusArray = {
-				Accounter.getVendorsMessages().cash(),
+		String[] statusArray = { Accounter.getVendorsMessages().cash(),
 				Accounter.getVendorsMessages().check(),
 				Accounter.getVendorsMessages().creditCard(),
 				Accounter.getVendorsMessages().directDebit(),
@@ -38,8 +37,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 				Accounter.getVendorsMessages().standingOrder(),
 				Accounter.getVendorsMessages().switchMaestro() };
 
-		String[] dateRangeArray = {
-				Accounter.getReportsMessages().all(),
+		String[] dateRangeArray = { Accounter.getReportsMessages().all(),
 				Accounter.getReportsMessages().thisWeek(),
 				Accounter.getReportsMessages().thisMonth(),
 				Accounter.getReportsMessages().lastWeek(),
@@ -69,8 +67,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 		});
 
 		dateRangeItem = new ComboBoxItem();
-		dateRangeItem.setTitle(Accounter.getReportsMessages()
-				.dateRange());
+		dateRangeItem.setTitle(Accounter.getReportsMessages().dateRange());
 		dateRangeItem.setValueMap(dateRangeArray);
 		dateRangeItem.setDefaultValue(dateRangeArray[0]);
 
@@ -89,7 +86,8 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 		fromItem.setTitle(Accounter.getReportsMessages().from());
 
 		toItem = new DateItem();
-		ClientFinanceDate date = Utility.getLastandOpenedFiscalYearEndDate();
+		ClientFinanceDate date = Accounter.getCompany()
+				.getLastandOpenedFiscalYearEndDate();
 
 		if (date != null)
 			toItem.setDatethanFireEvent(date);
@@ -105,8 +103,8 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 				endDate = (ClientFinanceDate) toItem.getValue();
 			}
 		});
-		updateButton = new AccounterButton(Accounter
-				.getReportsMessages().update());
+		updateButton = new AccounterButton(Accounter.getReportsMessages()
+				.update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -116,10 +114,9 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 				setEndDate(toItem.getDate());
 
 				changeDates(fromItem.getDate(), toItem.getDate());
-				dateRangeItem.setDefaultValue(Accounter
-						.getReportsMessages().custom());
-				setSelectedDateRange(Accounter.getReportsMessages()
+				dateRangeItem.setDefaultValue(Accounter.getReportsMessages()
 						.custom());
+				setSelectedDateRange(Accounter.getReportsMessages().custom());
 
 			}
 		});
