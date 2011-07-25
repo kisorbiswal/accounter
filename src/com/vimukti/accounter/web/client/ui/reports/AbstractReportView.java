@@ -540,7 +540,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 
 	}
 
-	public void makeReportRequest(String vatAgency,
+	public void makeReportRequest(long vatAgency,
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 
 	}
