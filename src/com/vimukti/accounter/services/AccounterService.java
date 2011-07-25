@@ -12,6 +12,8 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Utility;
+import com.vimukti.accounter.main.Server;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 /**
  * 
@@ -21,7 +23,7 @@ import com.vimukti.accounter.core.Utility;
 
 public class AccounterService extends HibernateDaoSupport implements
 		IAccounterService {
-
+	private static final String COMPANY_ID = "companyID";
 	TransactionTemplate transactionTemplate;
 	IAccounterDAOService accounterDao;
 	IAccounterGUIDAOService accounterGUIDao;
@@ -175,6 +177,17 @@ public class AccounterService extends HibernateDaoSupport implements
 			}
 		}
 		return flag;
+	}
+	
+	public static boolean isCompanyExits(String companyID) {
+		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Object uniqueResult = session.getNamedQuery("getCompanyName.is.unique")
+				.setString(COMPANY_ID, companyID).uniqueResult();
+		session.close();
+		if (companyID == null || uniqueResult != null) {
+			return true;
+		}
+		return false;
 	}
 
 	// //////////////////////////////////////////////////////////////////////////////////////////////////////
