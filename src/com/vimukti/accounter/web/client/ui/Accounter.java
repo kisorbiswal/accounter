@@ -79,7 +79,7 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 	private static IAccounterGETServiceAsync getService;
 	private static IAccounterHomeViewServiceAsync homeViewService;
 	private static IAccounterReportServiceAsync reportService;
-	
+
 	private static CompanyMessages companyMessages;
 	private static FinanceMessages financeMessages;
 	private static VendorsMessages vendorsMessages;
@@ -110,13 +110,12 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 
 	public Accounter(String email, ClientUser user,
 			ValueCallBack<Accounter> callback) {
-		Accounter.user=user;
+		Accounter.user = user;
 		this.callback = callback;
 		MainFinanceWindow.makeAllViewsStaticstoNull();
 
 		getCompany("");
 	}
-
 
 	public Accounter(final boolean isSales,
 			final ValueCallBack<Accounter> callback) {
@@ -234,8 +233,8 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 			}
 
 		};
-		Accounter.createGETService().getObjectById(
-				AccounterCoreType.EMAIL, mail, getUserCallBack);
+		Accounter.createGETService().getObjectById(AccounterCoreType.EMAIL,
+				mail, getUserCallBack);
 	}
 
 	public void getCompany(String name) {
@@ -256,9 +255,8 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 					// We got the company, set it for all further references.
 					// company.setAccountingType(ClientCompany.ACCOUNTING_TYPE_US);
 					Accounter.setCompany(company);
-					Accounter.setUser(company
-							.getUser(Accounter.getClientIdentity()
-									.getID()));
+					Accounter.setUser(company.getUser(Accounter
+							.getClientIdentity().getID()));
 					// Close the startup dialog...
 
 					// and, now we are ready to start the application.
@@ -358,7 +356,7 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 		return mainWindow;
 	}
 
-	public IAccounterCRUDServiceAsync createCRUDService() {
+	public static IAccounterCRUDServiceAsync createCRUDService() {
 		if (crudService == null) {
 			crudService = (IAccounterCRUDServiceAsync) GWT
 					.create(IAccounterCRUDService.class);
@@ -370,7 +368,7 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 
 	}
 
-	public IAccounterGETServiceAsync createGETService() {
+	public static IAccounterGETServiceAsync createGETService() {
 		if (getService == null) {
 			getService = (IAccounterGETServiceAsync) GWT
 					.create(IAccounterGETService.class);
@@ -390,7 +388,7 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 		return homeViewService;
 	}
 
-	public IAccounterReportServiceAsync createReportService() {
+	public static IAccounterReportServiceAsync createReportService() {
 		if (reportService == null) {
 			reportService = (IAccounterReportServiceAsync) GWT
 					.create(IAccounterReportService.class);
@@ -539,7 +537,6 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 		return bankingMessages;
 	}
 
-
 	public void makeAllStaticInstancesNull() {
 		endDate = null;
 		user = null;
@@ -564,31 +561,26 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 		reportsMessages = null;
 	}
 
-
 	@Override
 	public void onModuleLoad() {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	public String getUserDisplayName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
 	public String getCompanyName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
 	public boolean isLoggedInFromDomain() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 
 	private static CustomDialog expireDialog;
 
