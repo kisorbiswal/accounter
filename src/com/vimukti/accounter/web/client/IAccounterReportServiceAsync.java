@@ -183,7 +183,7 @@ public interface IAccounterReportServiceAsync {
 	public void getPriorReturnVATSummary(long vatAgency, long endDate,
 			AsyncCallback<List<VATSummary>> callback);
 
-	public void getVAT100Report(long vatAgncy, long fromDate, long toDate,
+	public void getVAT100Report(String vatAgncy, long fromDate, long toDate,
 			AsyncCallback<List<VATSummary>> callback);
 
 	public void getUncategorisedAmountsReport(long fromDate, long toDate,
@@ -230,7 +230,7 @@ public interface IAccounterReportServiceAsync {
 			final long startDate, final long endDate,
 			AsyncCallback<List<CheckDetailReport>> callBackResult);
 
-	public void getStatements(long id, long transactionDate, long fromDate,
+	public void getStatements(String id, long transactionDate, long fromDate,
 			long toDate, int noOfDays, boolean isEnabledOfZeroBalBox,
 			boolean isEnabledOfLessThanZeroBalBox,
 			double lessThanZeroBalanceValue,
