@@ -6142,7 +6142,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<AccountRegister> getAccountRegister(final long startDate,
-			final long endDate, final String accountId2) throws DAOException {
+			final long endDate, final long accountId2) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		long accountId = getLongIdForGivenid(AccounterCoreType.ACCOUNT,
