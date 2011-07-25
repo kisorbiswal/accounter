@@ -11,35 +11,32 @@ import com.vimukti.accounter.web.client.ui.serverreports.PurchaseOpenOrderServer
 public class PurchaseOpenOrderReport extends
 		AbstractReportView<OpenAndClosedOrders> {
 
-	@SuppressWarnings("unused")
-	private boolean isPurchases;
 	private String status;
 
 	public PurchaseOpenOrderReport() {
 		this.serverReport = new PurchaseOpenOrderServerReport(this);
-		isPurchases = Accounter.isPurchases();
 	}
 
 	@Override
 	public void init() {
 		super.init();
-		toolbar.setDateRanageOptions(Accounter.getReportsMessages()
-				.all(), Accounter.getReportsMessages().thisWeek(),
-				Accounter.getReportsMessages().thisMonth(),
-				Accounter.getReportsMessages().lastWeek(),
-				Accounter.getReportsMessages().lastMonth(),
-				Accounter.getReportsMessages().thisFinancialYear(),
-				Accounter.getReportsMessages().lastFinancialYear(),
-				Accounter.getReportsMessages().thisFinancialQuarter(),
-				Accounter.getReportsMessages().lastFinancialQuarter(),
-				Accounter.getReportsMessages().custom());
+		toolbar.setDateRanageOptions(Accounter.getReportsMessages().all(),
+				Accounter.getReportsMessages().thisWeek(), Accounter
+						.getReportsMessages().thisMonth(), Accounter
+						.getReportsMessages().lastWeek(), Accounter
+						.getReportsMessages().lastMonth(), Accounter
+						.getReportsMessages().thisFinancialYear(), Accounter
+						.getReportsMessages().lastFinancialYear(), Accounter
+						.getReportsMessages().thisFinancialQuarter(), Accounter
+						.getReportsMessages().lastFinancialQuarter(), Accounter
+						.getReportsMessages().custom());
 	}
 
 	@Override
 	public void OnRecordClick(OpenAndClosedOrders record) {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			ReportsRPC.openTransactionView(record.getTransactionType(), record
-					.getTransactionID());
+			ReportsRPC.openTransactionView(record.getTransactionType(),
+					record.getTransactionID());
 			// resetReport(toolbar.getStartDate(), toolbar.getEndDate());
 		}
 	}
@@ -58,17 +55,14 @@ public class PurchaseOpenOrderReport extends
 	public void makeReportRequest(int status, ClientFinanceDate start,
 			ClientFinanceDate end) {
 		if (status == 1)
-			Accounter.createReportService()
-					.getPurchaseOpenOrderReport(start.getTime(), end.getTime(),
-							this);
+			Accounter.createReportService().getPurchaseOpenOrderReport(
+					start.getTime(), end.getTime(), this);
 		else if (status == 2)
-			Accounter.createReportService()
-					.getPurchaseCompletedOrderReport(start.getTime(),
-							end.getTime(), this);
+			Accounter.createReportService().getPurchaseCompletedOrderReport(
+					start.getTime(), end.getTime(), this);
 		else if (status == 3)
-			Accounter.createReportService()
-					.getPurchaseCancelledOrderReport(start.getTime(),
-							end.getTime(), this);
+			Accounter.createReportService().getPurchaseCancelledOrderReport(
+					start.getTime(), end.getTime(), this);
 		else
 			Accounter.createReportService().getPurchaseOrderReport(
 					start.getTime(), end.getTime(), this);
@@ -89,9 +83,10 @@ public class PurchaseOpenOrderReport extends
 
 	@Override
 	public void print() {
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 134, "", "", status);
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 134, "",
+				"", status);
 	}
 
 	@Override
@@ -102,8 +97,8 @@ public class PurchaseOpenOrderReport extends
 
 	public int sort(OpenAndClosedOrders obj1, OpenAndClosedOrders obj2, int col) {
 
-		int ret = obj1.getVendorOrCustomerName().toLowerCase().compareTo(
-				obj2.getVendorOrCustomerName().toLowerCase());
+		int ret = obj1.getVendorOrCustomerName().toLowerCase()
+				.compareTo(obj2.getVendorOrCustomerName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
@@ -114,8 +109,8 @@ public class PurchaseOpenOrderReport extends
 					obj2.getTransactionDate());
 
 		case 1:
-			return obj1.getVendorOrCustomerName().toLowerCase().compareTo(
-					obj2.getVendorOrCustomerName().toLowerCase());
+			return obj1.getVendorOrCustomerName().toLowerCase()
+					.compareTo(obj2.getVendorOrCustomerName().toLowerCase());
 
 			// case 2:
 			// // if (isPurchases)
@@ -136,8 +131,9 @@ public class PurchaseOpenOrderReport extends
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 134, "", "", status);
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 134, "",
+				"", status);
 	}
 }
