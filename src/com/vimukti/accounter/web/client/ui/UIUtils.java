@@ -1664,7 +1664,7 @@ public class UIUtils {
 	 * @param brandingTheme
 	 */
 	public native static void downloadAttachment(long objectID, int type,
-			String brandingThemeId)/*-{
+			long brandingThemeId)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
 			frame.setAttribute("src",
