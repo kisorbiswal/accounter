@@ -146,7 +146,7 @@ public class VendorTransactionUSGrid extends
 							if (getCompany()
 									.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 								selectedObject.setTaxCode(selectItem
-										.getTaxCode() != null ? selectItem
+										.getTaxCode() != 0 ? selectItem
 										.getTaxCode() : "");
 							}
 							editComplete(selectedObject, selectItem
@@ -187,7 +187,7 @@ public class VendorTransactionUSGrid extends
 							if (getCompany()
 									.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 								selectedObject.setTaxCode(selectItem
-										.getTaxCode() != null ? selectItem
+										.getTaxCode() != 0 ? selectItem
 										.getTaxCode() : "");
 							}
 							editComplete(selectedObject, selectItem
@@ -254,7 +254,7 @@ public class VendorTransactionUSGrid extends
 				switch (column) {
 				case 1:
 					if (core.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
-						if (core.getAccount() != null)
+						if (core.getAccount() != 0)
 							accountsCombo
 									.setComboItem(Accounter
 											.getCompany().getAccount(
@@ -262,19 +262,19 @@ public class VendorTransactionUSGrid extends
 						else
 							accountsCombo.setValue("");
 					} else if (core.getType() == ClientTransactionItem.TYPE_ITEM) {
-						if (core.getItem() != null)
+						if (core.getItem() != 0)
 							productItemCombo.setComboItem(Accounter
 									.getCompany().getItem(core.getItem()));
 						else
 							productItemCombo.setValue("");
 					} else if (core.getType() == ClientTransactionItem.TYPE_SERVICE) {
-						if (core.getItem() != null)
+						if (core.getItem() != 0)
 							serviceItemCombo.setComboItem(Accounter
 									.getCompany().getItem(core.getItem()));
 						else
 							serviceItemCombo.setValue("");
 					} else if (core.getType() == ClientTransactionItem.TYPE_SALESTAX) {
-						if (core.getTaxCode() != null)
+						if (core.getTaxCode() != 0)
 							vatItemCombo
 									.setComboItem(Accounter
 											.getCompany().getTaxItem(
@@ -337,7 +337,7 @@ public class VendorTransactionUSGrid extends
 
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 				&& !isPurchseOrderTransaction
-				&& selectedItem.getTaxCode() != null) {
+				&& selectedItem.getTaxCode() != 0) {
 			record.setTaxCode(getCompany().getTAXCode(
 					selectedItem.getTaxCode()).getID());
 			refreshVatValue(record);
@@ -371,9 +371,9 @@ public class VendorTransactionUSGrid extends
 		if (transactionView.getTransactionObject() == null
 				&& transactionView.vendor != null)
 			selectedObject
-					.setTaxCode(selectedObject.getTaxCode() != null ? selectedObject
+					.setTaxCode(selectedObject.getTaxCode() != 0 ? selectedObject
 							.getTaxCode()
-							: transactionView.vendor.getTAXCode() != null ? transactionView.vendor
+							: transactionView.vendor.getTAXCode() != 0 ? transactionView.vendor
 									.getTAXCode()
 									: ztaxCodeid);
 
@@ -534,7 +534,7 @@ public class VendorTransactionUSGrid extends
 	public void refreshVatValue() {
 		List<ClientTransactionItem> allrecords = getRecords();
 		for (ClientTransactionItem record : allrecords) {
-			if (record.getTaxCode() != null)
+			if (record.getTaxCode() != 0)
 				refreshVatValue(record);
 		}
 		updateTotals();
@@ -546,7 +546,7 @@ public class VendorTransactionUSGrid extends
 		if (!(record instanceof ClientTransactionItem))
 			return;
 
-		if (record.getTaxCode() == null)
+		if (record.getTaxCode() == 0)
 			return;
 
 		record.setVATfraction(getVATAmount(record.getTaxCode(), record));
