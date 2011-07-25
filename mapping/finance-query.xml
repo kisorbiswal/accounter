@@ -19,7 +19,7 @@
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="CUSTOMER_NAME" type="string" />
 		SELECT
-		T.STRING_ID AS TRANSACTION_ID,
+		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.NUMBER AS TRANSACTION_NUMBER,
 		T.TOTAL AS ORIGINAL_AMOUNT,
@@ -55,7 +55,7 @@
 		<return-scalar column="CUSTOMER_NAME" type="string" />
 		<return-scalar column="REMAINING_TOTAL" type="double" />
 		SELECT
-		T.STRING_ID AS TRANSACTION_ID,
+		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.NUMBER AS TRANSACTION_NUMBER,
 		T.TOTAL AS ORIGINAL_AMOUNT,
@@ -94,7 +94,7 @@
 		<return-scalar column="DUE_DATE" type="long" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		SELECT
-		T.STRING_ID AS TRANSACTION_ID,
+		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.NUMBER AS TRANSACTION_NUMBER,
 		T.TOTAL AS TOTAL_PRICE,
@@ -127,7 +127,7 @@
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="REMAINING_TOTAL" type="double" />
 		SELECT
-		T.STRING_ID AS TRANSACTION_ID,
+		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.NUMBER AS TRANSACTION_NUMBER,
 		T.TOTAL AS ORIGINAL_AMOUNT,
@@ -166,7 +166,7 @@
 		<return-scalar column="DELIVERY_DATE" type="long" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		SELECT
-		T.STRING_ID AS TRANSACTION_ID,
+		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.NUMBER AS TRANSACTION_NUMBER,
 		T.TOTAL AS ORIGINAL_AMOUNT,
@@ -196,7 +196,7 @@
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="VENDOR_NAME" type="string" />
 		SELECT
-		T.STRING_ID AS TRANSACTION_ID,
+		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.NUMBER AS TRANSACTION_NUMBER,
 		T.TOTAL AS ORIGINAL_AMOUNT,
@@ -231,7 +231,7 @@
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
 		SELECT
-		T.STRING_ID AS TRANSACTION_ID,
+		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		CASE
 		WHEN T.T_TYPE = 6
@@ -343,7 +343,7 @@
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		SELECT
-		T.STRING_ID AS TRANSACTION_ID,
+		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.T_DATE AS TRANSACTION_DATE,
 		T.NUMBER TRANSACTION_NUMBER,
@@ -412,7 +412,7 @@
 		<return-scalar column="IS_VOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		SELECT
-		T.STRING_ID AS TRANSACTION_ID,
+		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.T_DATE AS TRANSACTION_DATE,
 		T.NUMBER AS TRANSACTION_NUMBER,
@@ -456,7 +456,7 @@
 		<return-scalar column="PAYBILL_TYPE" type="int" />
 
 		SELECT
-		T.STRING_ID AS TRANSACTION_ID,
+		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.T_DATE AS PAYMENT_DATE ,
 		T.NUMBER AS TRANSACTION_NUMBER,
@@ -596,7 +596,7 @@
 		<return-scalar column="VOIDED" type="boolean" />
 
 		SELECT
-		T.STRING_ID AS TRANSACTION_ID,
+		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.T_DATE AS PAYMENT_DATE ,
 		T.NUMBER AS TRANSACTION_NUMBER,
@@ -1194,10 +1194,10 @@
 		SELECT
 		CASE
 		WHEN T.T_TYPE = 6
-		THEN T.STRING_ID
+		THEN T.ID
 		WHEN T.T_TYPE = 10
 		THEN
-		TMD.STRING_ID
+		TMD.ID
 		END AS ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		CASE
@@ -1269,8 +1269,8 @@
 		<return-scalar column="PAYMENT_METHOD" type="string" />
 		<return-scalar column="DISCOUNT_DATE" type="long" />
 		SELECT
-		CASE WHEN T.T_TYPE = 6 THEN T.STRING_ID WHEN T.T_TYPE = 10 THEN
-		TMD.STRING_ID END AS ID,
+		CASE WHEN T.T_TYPE = 6 THEN T.ID WHEN T.T_TYPE = 10 THEN
+		TMD.ID END AS ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		CASE WHEN T.T_TYPE = 6 THEN EB.DUE_DATE ELSE null END AS DUE_DATE ,
 		(SELECT
@@ -1318,7 +1318,7 @@
 		<return-scalar column="PAYMENTS" type="double" />
 		<return-scalar column="PT_DISCOUNT" type="int" />
 		SELECT
-		T.STRING_ID AS TRANSACTION_ID,
+		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		CASE
 		WHEN T.T_TYPE = 8
@@ -1380,7 +1380,7 @@
 		<return-scalar column="payment" type="double" />
 		<return-scalar column="balance_due" type="double" />
 		SELECT
-		T.STRING_ID AS transaction_id,
+		T.ID AS transaction_id,
 		I.DUE_DATE AS due_date,
 		P.NAME AS
 		name,
@@ -1418,7 +1418,7 @@
 		<return-scalar column="BALANCE" type="double" />
 
 		SELECT
-		T.STRING_ID TRANSACTION_ID,
+		T.ID TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.T_DATE AS DATE ,
 		T.NUMBER AS TRANSACTION_NUMBER,
@@ -1504,7 +1504,7 @@
 		<return-scalar column="AMOUNT_PAID" type="double" />
 
 		SELECT
-		T.STRING_ID AS TRANSACTION_ID,
+		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.T_DATE AS
 		PAYMENT_DATE ,
@@ -1559,7 +1559,7 @@
 		<return-scalar column="BALANCE" type="double" />
 
 		SELECT
-		T.STRING_ID AS TRANSACTION_ID,
+		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		CASE
 		WHEN T.T_TYPE = 6
@@ -1623,7 +1623,7 @@
 		<return-scalar column="AMOUNT_PAID" type="double" />
 
 		SELECT
-		T.STRING_ID AS TRANSACTION_ID,
+		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.T_DATE ASPAYMENT_DATE ,
 		T.NUMBER AS TRANSACTION_NUMBER,
@@ -1681,14 +1681,14 @@
 		<return-scalar column="RP_DATE" type="long" />
 		<return-scalar column="RP_CUSTOMER_ID" type="long" />
 		<return-scalar column="RP_AMOUNT" type="double" />
-		<return-scalar column="RP_STRING_ID" type="string" />
+		<return-scalar column="RP_ID" type="string" />
 
 		SELECT
 		TOP(10) RP.ID AS RP_ID,
 		T.T_DATE AS RP_DATE,
 		RP.CUSTOMER_ID
 		RP_CUSTOMER_ID,
-		RP.AMOUNT AS RP_AMOUNT , T.STRING_ID AS RP_STRING_ID
+		RP.AMOUNT AS RP_AMOUNT , T.ID AS RP_ID
 		FROM RECEIVE_PAYMENT RP
 		JOIN TRANSACTION T ON RP.ID = T.ID ORDER BY
 		RP.ID DESC
@@ -1702,13 +1702,13 @@
 		<return-scalar column="CP_DATE" type="long" />
 		<return-scalar column="CP_VENDOR_ID" type="long" />
 		<return-scalar column="CP_TOTAL" type="double" />
-		<return-scalar column="CP_STRING_ID" type="string" />
+		<return-scalar column="CP_ID" type="string" />
 
 		SELECT CP.ID AS CP_ID,
 		T.T_DATE AS CP_DATE,
 		CP.VENDOR_ID AS
 		CP_VENDOR_ID,
-		T.TOTAL AS CP_TOTAL,T.STRING_ID AS CP_STRING_ID
+		T.TOTAL AS CP_TOTAL,T.ID AS CP_ID
 		FROM
 		CASH_PURCHASE CP JOIN TRANSACTION T ON CP.ID = T.ID ORDER BY CP.ID
 		DESC LIMIT 0,10
@@ -1723,13 +1723,13 @@
 		<return-scalar column="CS_CUSTOMER_ID" type="long" />
 		<return-scalar column="SALESPERSON_ID" type="long" />
 		<return-scalar column="TOTAL" type="double" />
-		<return-scalar column="CS_STRING_ID" type="string" />
+		<return-scalar column="CS_ID" type="string" />
 		SELECT CS.ID AS CS_ID,
 		T.T_DATE CS_DATE,
 		CS.CUSTOMER_ID CS_CUSTOMER_ID,
 		CS.SALES_PERSON_ID AS SALESPERSON_ID,
-		T.TOTAL AS TOTAL,T.STRING_ID AS
-		CS_STRING_ID
+		T.TOTAL AS TOTAL,T.ID AS
+		CS_ID
 		FROM CASH_SALES CS JOIN TRANSACTION T ON CS.ID = T.ID
 		ORDER BY T.ID DESC
 		LIMIT 0,10
@@ -1747,7 +1747,7 @@
 		<return-scalar column="WC_VENDOR_ID" type="long" />
 		<return-scalar column="TAXAGENCY_ID" type="long" />
 		<return-scalar column="WC_AMOUNT" type="double" />
-		<return-scalar column="WC_STRING_ID" type="string" />
+		<return-scalar column="WC_ID" type="string" />
 
 		SELECT
 		WC.ID AS WC_ID,
@@ -1759,7 +1759,7 @@
 		WC_VENDOR_ID,
 		WC.TAX_AGENCY_ID AS TAXAGENCY_ID,
 		WC.AMOUNT AS WC_AMOUNT,
-		T.STRING_ID AS WC_STRING_ID
+		T.ID AS WC_ID
 		FROM WRITE_CHECKS WC
 		JOIN
 		TRANSACTION T
@@ -1777,7 +1777,7 @@
 		<return-scalar column="CR_CUSTOMER_ID" type="long" />
 		<return-scalar column="CR_AMOUNT" type="double" />
 		<return-scalar column="CR_BALANCE_DUE" type="double" />
-		<return-scalar column="CR_STRING_ID" type="string" />
+		<return-scalar column="CR_ID" type="string" />
 		SELECT
 		CR.ID AS CR_ID,
 		T.T_DATE AS CR_DATE,
@@ -1785,7 +1785,7 @@
 		CR_CUSTOMER_ID,
 		T.TOTAL AS CR_AMOUNT,
 		CR.BALANCE_DUE AS CR_BALANCE_DUE,
-		T.STRING_ID AS CR_STRING_ID
+		T.ID AS CR_ID
 		FROM CUSTOMER_REFUND CR
 		JOIN
 		TRANSACTION T
@@ -1801,12 +1801,12 @@
 		<return-scalar column="CUSTOMER_ID" type="long" />
 		<return-scalar column="CUSTOMER_NAME" type="string" />
 		<return-scalar column="DATE" type="long" />
-		<return-scalar column="CUSTOMER_STRING_ID" type="string" />
+		<return-scalar column="CUSTOMER_ID" type="string" />
 
 		SELECT C.ID AS CUSTOMER_ID,
 		P.NAME AS CUSTOMER_NAME,
 		P.P_DATE AS DATE
-		,P.STRING_ID AS CUSTOMER_STRING_ID
+		,P.ID AS CUSTOMER_ID
 		FROM CUSTOMER C LEFT JOIN
 		PAYEE P ON
 		P.ID = C.ID ORDER BY C.ID DESC LIMIT 0, 10
@@ -1824,7 +1824,7 @@
 		<return-scalar column="CASH_BACK_MEMO" type="string" />
 		<return-scalar column="CASH_BACK_AMOUNT" type="double" />
 		<return-scalar column="TOTAL" type="double" />
-		<return-scalar column="MD_STRING_ID" type="string" />
+		<return-scalar column="MD_ID" type="string" />
 
 		SELECT MD.ID AS MD_ID,
 		MD.DEPOSIT_IN_ID AS DEPOSIT_IN_ID,
@@ -1835,7 +1835,7 @@
 		CASH_BACK_ACCOUNT_ID,
 		MD.CASH_BACK_MEMO AS CASH_BACK_MEMO,
 		MD.CASH_BACK_AMOUNT AS CASH_BACK_AMOUNT,
-		T.STRING_ID AS MD_STRING_ID
+		T.ID AS MD_ID
 		FROM MAKE_DEPOSIT MD JOIN TRANSACTION T ON MD.ID =
 		T.ID ORDER BY T.ID
 		DESC LIMIT 0, 10
@@ -1850,7 +1850,7 @@
 		<return-scalar column="TRANSFER_FROM" type="long" />
 		<return-scalar column="TRANSFER_TO" type="long" />
 		<return-scalar column="TRANSFER_AMOUNT" type="double" />
-		<return-scalar column="TF_STRING_ID" type="string" />
+		<return-scalar column="TF_ID" type="string" />
 
 		SELECT TF.ID AS TF_ID,
 		T.T_DATE AS TF_DATE,
@@ -1859,7 +1859,7 @@
 		TF.TRANSFER_TO AS TRANSFER_TO,
 		T.TOTAL AS TRANSFER_AMOUNT
 		,
-		T.STRING_ID AS TF_STRING_ID
+		T.ID AS TF_ID
 		FROM TRANSFER_FUND TF JOIN TRANSACTION T
 		ON TF.ID =
 		T.ID ORDER BY T.ID DESC LIMIT 0, 10
@@ -1873,12 +1873,12 @@
 		<return-scalar column="ITEM_NAME" type="string" />
 		<return-scalar column="ITEM_TYPE" type="int" />
 		<return-scalar column="SALES_PRICE" type="double" />
-		<return-scalar column="I_STRING_ID" type="string" />
+		<return-scalar column="I_ID" type="string" />
 
 		SELECT I.ID AS ITEM_ID,
 		I.NAME AS ITEM_NAME,
 		I.TYPE AS ITEM_TYPE,
-		I.SALES_PRICE AS SALES_PRICE, I.STRING_ID AS I_STRING_ID
+		I.SALES_PRICE AS SALES_PRICE, I.ID AS I_ID
 		FROM ITEM I
 		ORDER BY I.ID
 		DESC LIMIT 0, 10
@@ -1892,12 +1892,12 @@
 		<return-scalar column="ITEM_NAME" type="string" />
 		<return-scalar column="ITEM_TYPE" type="int" />
 		<return-scalar column="SALES_PRICE" type="double" />
-		<return-scalar column="ITEM_STRING_ID" type="string" />
+		<return-scalar column="ITEM_ID" type="string" />
 
 		SELECT I.ID AS ITEM_ID,
 		I.NAME AS ITEM_NAME,
 		I.TYPE AS ITEM_TYPE,
-		I.SALES_PRICE AS SALES_PRICE, I.STRING_ID AS ITEM_STRING_ID
+		I.SALES_PRICE AS SALES_PRICE, I.ID AS ITEM_ID
 		FROM ITEM I
 		WHERE
 		I.IS_SELL_ITEM = TRUE ORDER BY I.ID DESC LIMIT 0, 10
@@ -1911,12 +1911,12 @@
 		<return-scalar column="ITEM_NAME" type="string" />
 		<return-scalar column="ITEM_TYPE" type="int" />
 		<return-scalar column="SALES_PRICE" type="double" />
-		<return-scalar column="ITEM_STRING_ID" type="string" />
+		<return-scalar column="ITEM_ID" type="string" />
 
 		SELECT I.ID AS ITEM_ID,
 		I.NAME AS ITEM_NAME,
 		I.TYPE AS ITEM_TYPE,
-		I.SALES_PRICE AS SALES_PRICE, I.STRING_ID AS ITEM_STRING_ID
+		I.SALES_PRICE AS SALES_PRICE, I.ID AS ITEM_ID
 		FROM ITEM I
 		WHERE I.IS_BUY_ITEM = TRUE ORDER BY I.ID DESC LIMIT 0, 10
 	</sql-query>
@@ -1928,12 +1928,12 @@
 		<return-scalar column="VENDOR_ID" type="long" />
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="PAYEE_DATE" type="long" />
-		<return-scalar column="PAYEE_STRING_ID" type="string" />
+		<return-scalar column="PAYEE_ID" type="string" />
 
 		SELECT V.ID AS VENDOR_ID,
 		P.NAME AS VENDOR_NAME,
 		P.P_DATE AS
-		PAYEE_DATE,P.STRING_ID AS PAYEE_STRING_ID FROM VENDOR V LEFT JOIN
+		PAYEE_DATE,P.ID AS PAYEE_ID FROM VENDOR V LEFT JOIN
 		PAYEE P ON P.ID = V.ID ORDER BY V.ID DESC LIMIT 0, 10
 	</sql-query>
 
@@ -1978,7 +1978,7 @@
 		<return-scalar column="taxagency_name" type="string" />
 		<return-scalar column="balance" type="double" />
 
-		SELECT T.STRING_ID AS transaction_id,T.T_DATE AS transaction_date,
+		SELECT T.ID AS transaction_id,T.T_DATE AS transaction_date,
 		TC.NAME AS taxcode_name,P.NAME AS taxagency_name, SUM(PT.BALANCE) AS
 		balance
 		FROM PAY_SALES_TAX_ENTRIES PT
@@ -3002,7 +3002,7 @@
 		CREATE OR REPLACE
 		VIEW SALES_PURCHASES_VIEW AS
 		select
-		T.STRING_ID as TRANSACTION_ID,
+		T.ID as TRANSACTION_ID,
 		C.ID as CUSTOMER_ID,
 		V.ID as
 		VENDOR_ID,
@@ -3153,7 +3153,7 @@
 		CREATE OR REPLACE VIEW
 		TRANSACTION_HISTORY_VIEW AS
 		select
-		T.STRING_ID as TRANSACTION_ID,
+		T.ID as TRANSACTION_ID,
 		C.ID as CUSTOMER_ID,
 		V.ID as VENDOR_ID,
 		case
@@ -3462,7 +3462,7 @@
 		SALES_PURCHASES_VIEW AS
 
 		select
-		T.STRING_ID as TRANSACTION_ID,
+		T.ID as TRANSACTION_ID,
 		C.ID as CUSTOMER_ID,
 		V.ID as
 		VENDOR_ID,
@@ -3616,7 +3616,7 @@
 		TRANSACTION_HISTORY_VIEW AS
 
 		select
-		T.STRING_ID as TRANSACTION_ID,
+		T.ID as TRANSACTION_ID,
 		C.ID as CUSTOMER_ID,
 		V.ID as VENDOR_ID,
 		case
@@ -3918,7 +3918,7 @@
   		<return-scalar column="IS_ACTIVE" type="boolean" />
   		<return-scalar column="CUSTOMER_NAME" type="string" />
   		<return-scalar column="ACCOUNTER_TYPE" type="int" />
- 		<return-scalar column="STRING_ID" type="string" />
+ 		<return-scalar column="ID" type="string" />
  		<return-scalar column="CURRENT_MONTH_TOTAL" type="double" />
  		<return-scalar column="PREVIOUS_FIRST_MONTH_TOTAL" type="double" />
  		<return-scalar column="PREVIOUS_SECOND_MONTH_TOTAL" type="double" />
@@ -3932,7 +3932,7 @@
   				P.NAME AS CUSTOMER_NAME,
   				P.TYPE AS
   				ACCOUNTER_TYPE,
- 				 P.STRING_ID AS STRING_ID,
+ 				 P.ID AS ID,
   			(CASE
  				 WHEN
  			 (SELECT
@@ -4112,7 +4112,7 @@
 		<return-scalar column="IS_ACTIVE" type="boolean" />
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="ACCOUNTER_TYPE" type="int" />
-		<return-scalar column="STRING_ID" type="string" />
+		<return-scalar column="ID" type="string" />
 		<return-scalar column="CURRENT_MONTH_TOTAL" type="double" />
 		<return-scalar column="PREVIOUS_FIRST_MONTH_TOTAL" type="double" />
 		<return-scalar column="PREVIOUS_SECOND_MONTH_TOTAL"
@@ -4128,7 +4128,7 @@
 		P.NAME AS VENDOR_NAME,
 		P.TYPE AS
 		ACCOUNTER_TYPE,
-		P.STRING_ID AS STRING_ID,
+		P.ID AS ID,
 		(CASE
 		WHEN
 		(SELECT
@@ -4309,7 +4309,7 @@
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_NUMBER" type="string" />
-		<return-scalar column="STRING_ID" type="string" />
+		<return-scalar column="ID" type="string" />
 		<return-scalar column="SOURCE_NAME" type="string" />
 		<return-scalar column="MEMO" type="string" />
 		<return-scalar column="AMOUNT" type="double" />
@@ -4325,7 +4325,7 @@
 		END AS TRANSACTION_TYPE,
 		T.T_DATE AS TRANSACTION_DATE,
 		T.NUMBER AS TRANSACTION_NUMBER,
-		T.STRING_ID AS STRING_ID,
+		T.ID AS ID,
 		P.NAME AS SOURCE_NAME,
 		TIG.DESCRIPTION AS MEMO,
 		SUM(VRC.VAT_AMOUNT) AS AMOUNT
@@ -4397,7 +4397,7 @@
 		T.NUMBER AS TRANSACTION_NUMBER,
 		VIG.IS_PERCENTAGE AS IS_PERCENTAGE,
 		VI.VAT_RATE AS VAT_RATE,
-		T.STRING_ID AS TRANSACTION_ID,
+		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		SUM(V.LINE_TOTAL) AS LINE_TOTAL,
 		T.T_DATE AS TRANSACTION_DATE,
@@ -4621,7 +4621,7 @@
 			LEFT OUTER JOIN SHIPPINGMETHOD SM ON SM.ID = C.SHIPPING_METHOD_ID
 			LEFT OUTER JOIN PAYMENTTERMS PT ON PT.ID = C.PAYMENT_TERM_ID
 
-			WHERE (T.T_DATE between :startDate and :endDate) AND P.STRING_ID =:customerId AND T.T_TYPE IN (4, 8) AND
+			WHERE (T.T_DATE between :startDate and :endDate) AND P.ID =:customerId AND T.T_TYPE IN (4, 8) AND
 				CASE WHEN (SELECT COUNT(PA2.TYPE) FROM PAYEE_ADDRESS PA2 WHERE PA2.PAYEE_ID = P.ID) != 0
        				THEN PA.TYPE = 2
       			ELSE
@@ -4689,7 +4689,7 @@
 			LEFT OUTER JOIN PAYEE P ON P.ID = E.VENDOR_ID
 			LEFT OUTER JOIN PAYEE_ADDRESS PA ON PA.PAYEE_ID = P.ID
 
-			WHERE T.T_DATE between :startDate and :endDate AND P.STRING_ID =:vendorId AND T.T_TYPE IN (6) AND
+			WHERE T.T_DATE between :startDate and :endDate AND P.ID =:vendorId AND T.T_TYPE IN (6) AND
 				CASE WHEN (SELECT COUNT(PA2.TYPE) FROM PAYEE_ADDRESS PA2 WHERE PA2.PAYEE_ID = P.ID) != 0
        				THEN PA.TYPE = 2
       			ELSE
