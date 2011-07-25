@@ -19,7 +19,6 @@ public abstract class AbstractReport<T> extends ArrayList<T> {
 		this.session = session;
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void run() {
 		Query q = execute();
 		List list = q.list();
