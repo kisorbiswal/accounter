@@ -71,7 +71,7 @@ public class MainFinanceWindow extends VerticalPanel {
 	private HelpItem item;
 	private HorizontalPanel downpanel;
 	public Map<String, Action> actions;
-	private Accounter accounter;
+	private static Accounter accounter;
 	public static String oldToken;
 	public static boolean shouldExecuteRun = true;
 
@@ -94,8 +94,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		});
 		oldToken = CompanyActionFactory.getCompanyHomeAction()
 				.getHistoryToken();
-		HistoryTokenUtils.setPresentToken(CompanyActionFactory
-				.getCompanyHomeAction(), null);
+		HistoryTokenUtils.setPresentToken(
+				CompanyActionFactory.getCompanyHomeAction(), null);
 		shouldExecuteRun = true;
 		handleBackSpaceEvent();
 	}
@@ -1760,7 +1760,8 @@ public class MainFinanceWindow extends VerticalPanel {
 				.getHistoryToken(), CompanyActionFactory.getUserDetailsAction());
 
 	}
-	public ClientCompany getCompany(){
+
+	public ClientCompany getCompany() {
 		return Accounter.getCompany();
 	}
 }

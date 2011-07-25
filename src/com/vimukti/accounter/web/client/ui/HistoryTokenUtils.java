@@ -34,7 +34,7 @@ import com.vimukti.accounter.web.client.ui.core.History;
  */
 public class HistoryTokenUtils {
 
-	public List<Object> getObject(String string) {
+	public static List<Object> getObject(String string) {
 		int split1 = string.lastIndexOf('?');
 		int split2 = string.lastIndexOf(':');
 		List<Object> list = new ArrayList<Object>();
@@ -102,7 +102,7 @@ public class HistoryTokenUtils {
 		return list;
 	}
 
-	public String getObjectNameWithID(Object object) {
+	public static String getObjectNameWithID(Object object) {
 		StringBuilder temp = new StringBuilder();// object.getClass().getName().replaceFirst("Client",
 		// "");
 		if (object instanceof ClientCustomer) {
@@ -207,7 +207,7 @@ public class HistoryTokenUtils {
 		}
 	}
 
-	public String getTokenWithID(String historyToken, Object object) {
+	public static String getTokenWithID(String historyToken, Object object) {
 		String token = historyToken;
 		if (object != null) {
 			token = token + "?" + getObjectNameWithID(object);

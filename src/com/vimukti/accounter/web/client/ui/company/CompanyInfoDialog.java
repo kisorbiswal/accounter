@@ -110,14 +110,15 @@ public class CompanyInfoDialog extends BaseDialog {
 				}
 				if (address.getType() == ClientAddress.TYPE_COMPANY_REGISTRATION) {
 					setAddressToTextItem(textareaItem2, address);
-					allAddresses.put(UIUtils
-							.getAddressType("companyregistration"), address);
+					allAddresses.put(
+							UIUtils.getAddressType("companyregistration"),
+							address);
 				}
 			}
 			registrationNumberText.setValue(company.getRegistrationNumber());
 
-			doupaySalesChecBox.setValue(getCompany()
-					.getPreferences().getDoYouPaySalesTax());
+			doupaySalesChecBox.setValue(getCompany().getPreferences()
+					.getDoYouPaySalesTax());
 
 			if (doupaySalesChecBox.getValue() == Boolean.FALSE) {
 				vatRegNumber.setDisabled(true);
@@ -211,28 +212,26 @@ public class CompanyInfoDialog extends BaseDialog {
 		faxText = new IntegerField(companyConstants.businessFax());
 		faxText.setHelpInformation(true);
 
-		emailText = new EmailField(Accounter.getCompanyMessages()
-				.email());
+		emailText = new EmailField(Accounter.getCompanyMessages().email());
 		emailText.setHelpInformation(true);
 
 		websiteText = new TextItem(companyConstants.webPageAddress());
 		websiteText.setHelpInformation(true);
 
-		registrationNumberText = new TextItem(companyConstants
-				.companyRegistrationNumber());
+		registrationNumberText = new TextItem(
+				companyConstants.companyRegistrationNumber());
 		registrationNumberText.setHelpInformation(true);
 
 		taxIDText = new TextItem(companyConstants.federalTaxId());
 		taxIDText.setHelpInformation(true);
 
 		bankAccountText = new TextItem();
-		bankAccountText.setTitle(Accounter.getCompanyMessages()
-				.bankAccountNo());
+		bankAccountText
+				.setTitle(Accounter.getCompanyMessages().bankAccountNo());
 		bankAccountText.setHelpInformation(true);
 
 		sortCodeText = new TextItem();
-		sortCodeText.setTitle(Accounter.getCompanyMessages()
-				.sortCode());
+		sortCodeText.setTitle(Accounter.getCompanyMessages().sortCode());
 		sortCodeText.setHelpInformation(true);
 
 		phoneAndFaxForm = UIUtils.form(companyConstants.phoneAndFaxNumbers());
@@ -257,8 +256,8 @@ public class CompanyInfoDialog extends BaseDialog {
 		} else
 			doupaySalesChecBox
 					.setTitle(companyMessges.areYouRegisteredForVAT());
-		vatRegNumber = new TextItem(UIUtils.getVendorString(companyMessges
-				.vatRegNo(), companyMessges.taxRegNo()));
+		vatRegNumber = new TextItem(UIUtils.getVendorString(
+				companyMessges.vatRegNo(), companyMessges.taxRegNo()));
 		vatRegNumber.setHelpInformation(true);
 		vatRegNumber.setWidth(100);
 		vatRegNumber.setDisabled(false);
@@ -281,8 +280,8 @@ public class CompanyInfoDialog extends BaseDialog {
 						public void onValueChange(
 								ValueChangeEvent<Boolean> event) {
 							vatRegNumber.setDisabled(!event.getValue());
-							vatRegNumber.setValue(Accounter
-									.getCompany().getpreferences()
+							vatRegNumber.setValue(Accounter.getCompany()
+									.getpreferences()
 									.getVATregistrationNumber());
 						}
 					});
@@ -295,8 +294,8 @@ public class CompanyInfoDialog extends BaseDialog {
 						public void onValueChange(
 								ValueChangeEvent<Boolean> event) {
 							vatRegNumber.setDisabled(!event.getValue());
-							vatRegNumber.setValue(Accounter
-									.getCompany().getpreferences()
+							vatRegNumber.setValue(Accounter.getCompany()
+									.getpreferences()
 									.getVATregistrationNumber());
 						}
 					});
@@ -393,7 +392,7 @@ public class CompanyInfoDialog extends BaseDialog {
 		 * be updated are only sent to server.
 		 */
 		ClientCompany clientCompany = new ClientCompany();
-		clientCompany.id = company.id;
+		clientCompany.id = company.companyID;
 		clientCompany.setName(getStringValue(companyNameText));
 		clientCompany.setTradingName(getStringValue(this.trandigNameText));
 		clientCompany.setPhone(getStringValue(phoneText));
@@ -415,13 +414,12 @@ public class CompanyInfoDialog extends BaseDialog {
 
 		clientCompany.setpreferences(companyPreferences);
 
-		List<ClientAddress> list2 = new ArrayList<ClientAddress>(allAddresses
-				.values());
+		List<ClientAddress> list2 = new ArrayList<ClientAddress>(
+				allAddresses.values());
 		if (!list2.isEmpty())
 			clientCompany.setAddresses(list2);
 		else
-			clientCompany.setAddresses(getCompany()
-					.getAddresses());
+			clientCompany.setAddresses(getCompany().getAddresses());
 
 		clientCompany
 				.setRegistrationNumber(getStringValue(registrationNumberText));
