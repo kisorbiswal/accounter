@@ -54,8 +54,8 @@ public class StartupDialog extends DialogBox {
 	private void createControls() {
 		setText(Accounter.getFinanceUIConstants().logIn());
 
-		userEmailText = new EmailField(Accounter
-				.getFinanceUIConstants().email());
+		userEmailText = new EmailField(Accounter.getFinanceUIConstants()
+				.email());
 		userEmailText.setRequired(true);
 		// userEmailText.setWidth("*");
 		userEmailText.setValue("admin@accounter.com");
@@ -78,8 +78,8 @@ public class StartupDialog extends DialogBox {
 				.getCompanyMessages().login(), "L");
 		// loginButt.setAutoFit(true);
 
-		AccounterButton createCompButt = UIUtils.AccounterButton(
-				Accounter.getCompanyMessages().createCompany(), "C");
+		AccounterButton createCompButt = UIUtils.AccounterButton(Accounter
+				.getCompanyMessages().createCompany(), "C");
 		// createCompButt.setWidth("*");
 		// createCompButt.setAutoFit(true);
 		// createCompButt.setAlign(Alignment.CENTER);
@@ -127,8 +127,8 @@ public class StartupDialog extends DialogBox {
 				Accounter.getCustomersMessages().name(),
 				Accounter.getCustomersMessages().legalName() });
 
-		AccounterButton closeButt = new AccounterButton(Accounter.getCustomersMessages()
-				.close());
+		AccounterButton closeButt = new AccounterButton(Accounter
+				.getCustomersMessages().close());
 		// closeButt.setLayoutAlign(Alignment.RIGHT);
 
 		closeButt.addClickHandler(new ClickHandler() {
@@ -202,7 +202,7 @@ public class StartupDialog extends DialogBox {
 			}
 
 		};
-		getService.getCompany(null, getCompanyCallback);
+		getService.getCompany(getCompanyCallback);
 
 		this.hide();
 		// loadingDialog = UIUtils
@@ -229,8 +229,8 @@ public class StartupDialog extends DialogBox {
 
 			public void onSuccess(ClientIdentity result) {
 				if (result != null) {
-					Accounter application = new Accounter("",
-							result, new ValueCallBack<Accounter>() {
+					Accounter application = new Accounter("", result,
+							new ValueCallBack<Accounter>() {
 
 								@Override
 								public void execute(Accounter value) {

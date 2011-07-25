@@ -12,7 +12,7 @@ public class ClientCustomer extends ClientPayee {
 
 	double creditLimit = 0D;
 
-	String priceLevel;
+	long priceLevel;
 
 	long salesPerson;
 
@@ -386,7 +386,7 @@ public class ClientCustomer extends ClientPayee {
 		return null;
 	}
 
-	public String getPriceLevel() {
+	public long getPriceLevel() {
 		return this.priceLevel;
 	}
 
@@ -423,7 +423,7 @@ public class ClientCustomer extends ClientPayee {
 		this.salesPerson = selectSalesPersonFromDetailsTab;
 	}
 
-	public void setPriceLevel(String selectPriceLevelFromDetailsTab) {
+	public void setPriceLevel(long selectPriceLevelFromDetailsTab) {
 		this.priceLevel = selectPriceLevelFromDetailsTab;
 	}
 

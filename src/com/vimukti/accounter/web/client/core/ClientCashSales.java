@@ -5,7 +5,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class ClientCashSales extends ClientTransaction {
 
-	String customer;
+	long customer;
 
 	ClientContact contact;
 
@@ -15,22 +15,21 @@ public class ClientCashSales extends ClientTransaction {
 
 	String phone;
 
-	String salesPerson;
+	long salesPerson;
 
-	String depositIn;
+	long depositIn;
 
-	String shippingTerm;
+	long shippingTerm;
 
-	String shippingMethod;
+	long shippingMethod;
 
 	long deliverydate;
 
-	String priceLevel;
+	long priceLevel;
 
 	double salesTax = 0D;
 
 	double discountTotal = 0D;
-	
 
 	@Override
 	public double getAllNonTaxableLineTotal() {
@@ -45,7 +44,7 @@ public class ClientCashSales extends ClientTransaction {
 	/**
 	 * @return the customer
 	 */
-	public String getCustomer() {
+	public long getCustomer() {
 		return customer;
 	}
 
@@ -53,7 +52,7 @@ public class ClientCashSales extends ClientTransaction {
 	 * @param customer
 	 *            the customer to set
 	 */
-	public void setCustomer(String customer) {
+	public void setCustomer(long customer) {
 		this.customer = customer;
 	}
 
@@ -121,7 +120,7 @@ public class ClientCashSales extends ClientTransaction {
 	 * @return the salesPerson
 	 */
 
-	public String getSalesPerson() {
+	public long getSalesPerson() {
 		return this.salesPerson;
 	}
 
@@ -129,14 +128,14 @@ public class ClientCashSales extends ClientTransaction {
 	 * @param salesPerson
 	 *            the salesPerson to set
 	 */
-	public void setSalesPerson(String salesPerson) {
+	public void setSalesPerson(long salesPerson) {
 		this.salesPerson = salesPerson;
 	}
 
 	/**
 	 * @return the depositIn
 	 */
-	public String getDepositIn() {
+	public long getDepositIn() {
 		return depositIn;
 	}
 
@@ -144,14 +143,14 @@ public class ClientCashSales extends ClientTransaction {
 	 * @param depositIn
 	 *            the depositIn to set
 	 */
-	public void setDepositIn(String depositIn) {
+	public void setDepositIn(long depositIn) {
 		this.depositIn = depositIn;
 	}
 
 	/**
 	 * @return the shippingTerm
 	 */
-	public String getShippingTerm() {
+	public long getShippingTerm() {
 		return shippingTerm;
 	}
 
@@ -159,14 +158,14 @@ public class ClientCashSales extends ClientTransaction {
 	 * @param shippingTerm
 	 *            the shippingTerm to set
 	 */
-	public void setShippingTerm(String shippingTerm) {
+	public void setShippingTerm(long shippingTerm) {
 		this.shippingTerm = shippingTerm;
 	}
 
 	/**
 	 * @return the shippingMethod
 	 */
-	public String getShippingMethod() {
+	public long getShippingMethod() {
 		return shippingMethod;
 	}
 
@@ -174,7 +173,7 @@ public class ClientCashSales extends ClientTransaction {
 	 * @param shippingMethod
 	 *            the shippingMethod to set
 	 */
-	public void setShippingMethod(String shippingMethod) {
+	public void setShippingMethod(long shippingMethod) {
 		this.shippingMethod = shippingMethod;
 	}
 
@@ -196,7 +195,7 @@ public class ClientCashSales extends ClientTransaction {
 	/**
 	 * @return the priceLevel
 	 */
-	public String getPriceLevel() {
+	public long getPriceLevel() {
 		return priceLevel;
 	}
 
@@ -204,7 +203,7 @@ public class ClientCashSales extends ClientTransaction {
 	 * @param priceLevel
 	 *            the priceLevel to set
 	 */
-	public void setPriceLevel(String priceLevel) {
+	public void setPriceLevel(long priceLevel) {
 		this.priceLevel = priceLevel;
 	}
 
@@ -295,13 +294,13 @@ public class ClientCashSales extends ClientTransaction {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
