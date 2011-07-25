@@ -13,6 +13,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class TemplateResetServlet extends HttpServlet {
@@ -28,23 +31,23 @@ public class TemplateResetServlet extends HttpServlet {
 		String userName = request.getParameter("username");
 		String password = request.getParameter("password");
 
-		if (userName.equals("admin@bizantra.com") && password.equals("***REMOVED***")) {
+		if (userName.equals("admin@accounterlive.com") && password.equals("***REMOVED***")) {
 
 			Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
 
-			List<BizantraCompany> companies = session.getNamedQuery(
+			List<Company> companies = session.getNamedQuery(
 					"get.all.companies").list();
 			session.close();
 
-			for (BizantraCompany company : companies) {
+			for (Company company : companies) {
 				Session s = HibernateUtil.openSession(company
-						.getCompanyDomainName());
+						.getCompanyID());
 
-				CollaberIdentity identity = (CollaberIdentity) s.getNamedQuery(
+				User user = (User) s.getNamedQuery(
 						"get.super.users").list().get(0);
 				logger.info("*************** Updating "
-						+ company.getCompanyDomainName() + " with admin ID: "
-						+ identity.getEmailAddress() + " **************");
+						+ company.getCompanyID() + " with admin ID: "
+						+ user.getEmailId() + " **************");
 
 				s.close();
 
