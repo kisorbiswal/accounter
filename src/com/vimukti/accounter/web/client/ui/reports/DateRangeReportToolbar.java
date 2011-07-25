@@ -37,12 +37,10 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 	private void createControls() {
 		@SuppressWarnings("unused")
-		String[] reportBasisArray = {
-				Accounter.getReportsMessages().cash(),
+		String[] reportBasisArray = { Accounter.getReportsMessages().cash(),
 				Accounter.getReportsMessages().accrual() };
 
-		String[] dateRangeArray = {
-				Accounter.getReportsMessages().all(),
+		String[] dateRangeArray = { Accounter.getReportsMessages().all(),
 				Accounter.getReportsMessages().thisWeek(),
 				Accounter.getReportsMessages().thisMonth(),
 				Accounter.getReportsMessages().lastWeek(),
@@ -82,8 +80,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 				Accounter.getReportsMessages().custom() };
 
 		LabelItem report = new LabelItem();
-		report.setTitle(Accounter.getReportsMessages()
-				.reportBasisAccrual());
+		report.setTitle(Accounter.getReportsMessages().reportBasisAccrual());
 		// reportBasisItem = new ComboBoxItem();
 		// reportBasisItem.setTitle("Report Basis");
 		// reportBasisItem.setValueMap(reportBasisArray);
@@ -91,16 +88,15 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// // report basic is not yet implemented, so disable the feature.
 		// reportBasisItem.setDisabled(true);
 
-		dateRangeItemCombo = new SelectCombo(Accounter
-				.getReportsMessages().dateRange());
+		dateRangeItemCombo = new SelectCombo(Accounter.getReportsMessages()
+				.dateRange());
 		dateRangeItemCombo.setHelpInformation(true);
 		dateRangeItemList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeItemList.add(dateRangeArray[i]);
 		}
 		dateRangeItemCombo.initCombo(dateRangeItemList);
-		dateRangeItemCombo.setComboItem(Accounter.getReportsMessages()
-				.all());
+		dateRangeItemCombo.setComboItem(Accounter.getReportsMessages().all());
 		// dateRangeItem.setDefaultValue(dateRangeArray[0]);
 		// dateRangeItem.addChangedHandler(new ChangeHandler() {
 		//
@@ -144,7 +140,8 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
 		@SuppressWarnings("unused")
-		ClientFinanceDate date = Utility.getLastandOpenedFiscalYearEndDate();
+		ClientFinanceDate date = Accounter.getCompany()
+				.getLastandOpenedFiscalYearEndDate();
 
 		// if (date != null)
 		// toItem.setDate(date);
@@ -164,8 +161,8 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 			}
 		});
-		updateButton = new AccounterButton(Accounter
-				.getReportsMessages().update());
+		updateButton = new AccounterButton(Accounter.getReportsMessages()
+				.update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -178,8 +175,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 						fromItem.getDate(), toItem.getDate());
 				dateRangeItemCombo.setDefaultValue(Accounter
 						.getReportsMessages().custom());
-				setSelectedDateRange(Accounter.getReportsMessages()
-						.custom());
+				setSelectedDateRange(Accounter.getReportsMessages().custom());
 			}
 		});
 
