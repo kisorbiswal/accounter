@@ -101,7 +101,7 @@ public class ClientFixedAsset implements IAccounterCore {
 
 	private String lossOrGainOnDisposalAccount;
 
-	private String totalCapitalGain;
+	private long totalCapitalGain;
 	private double totalCapitalGainAmount;
 
 	private double lossOrGain;
@@ -359,14 +359,14 @@ public class ClientFixedAsset implements IAccounterCore {
 	 * @param totalCapitalGain
 	 *            the totalCapitalGain to set
 	 */
-	public void setTotalCapitalGain(String totalCapitalGain) {
+	public void setTotalCapitalGain(long totalCapitalGain) {
 		this.totalCapitalGain = totalCapitalGain;
 	}
 
 	/**
 	 * @return the totalCapitalGain
 	 */
-	public String getTotalCapitalGain() {
+	public long getTotalCapitalGain() {
 		return totalCapitalGain;
 	}
 
