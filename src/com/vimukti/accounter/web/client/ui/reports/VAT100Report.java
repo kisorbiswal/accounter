@@ -16,7 +16,7 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 	private String sectionName = "";
 	@SuppressWarnings("unused")
 	private int row = -1;
-	private String vatAgency;
+	private long vatAgency;
 
 	protected Double box3amount = 0.0D;
 	protected Double box4amount = 0.0D;
@@ -56,7 +56,7 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 						date.getYear(), startMonth, 1);
 				ClientFinanceDate start = startDate;
 				ClientFinanceDate end = date;
-				makeReportRequest(vatAgency.getName(), start, end);
+				makeReportRequest(vatAgency.getID(), start, end);
 				break;
 			}
 		}
@@ -80,8 +80,8 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 	}
 
 	@Override
-	public void makeReportRequest(String vatAgency,
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+	public void makeReportRequest(long vatAgency, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		// row = -1;
 		// this.sectionName = "";
 		Accounter.createReportService().getVAT100Report(vatAgency,
