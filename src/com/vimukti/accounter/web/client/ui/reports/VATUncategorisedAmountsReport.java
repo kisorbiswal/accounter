@@ -25,9 +25,8 @@ public class VATUncategorisedAmountsReport extends
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(record.getTransactionType(), record
-					.getID()
-					+ "");
+			ReportsRPC.openTransactionView(record.getTransactionType(),
+					record.getID());
 	}
 
 	@Override
@@ -62,9 +61,10 @@ public class VATUncategorisedAmountsReport extends
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 140, "", "");
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 140, "",
+				"");
 	}
 
 	@Override
@@ -78,20 +78,20 @@ public class VATUncategorisedAmountsReport extends
 
 		switch (col) {
 		case 0:
-			return UIUtils.compareInt(obj1.getTransactionType(), obj2
-					.getTransactionType());
+			return UIUtils.compareInt(obj1.getTransactionType(),
+					obj2.getTransactionType());
 		case 1:
 			return obj1.getDate().compareTo(obj2.getDate());
 		case 2:
-			return UIUtils.compareInt(Integer.parseInt(obj1
-					.getTransactionNumber()), Integer.parseInt(obj2
-					.getTransactionNumber()));
+			return UIUtils.compareInt(
+					Integer.parseInt(obj1.getTransactionNumber()),
+					Integer.parseInt(obj2.getTransactionNumber()));
 		case 3:
-			return obj1.getSourceName().toLowerCase().compareTo(
-					obj2.getSourceName().toLowerCase());
+			return obj1.getSourceName().toLowerCase()
+					.compareTo(obj2.getSourceName().toLowerCase());
 		case 4:
-			return obj1.getMemo().toLowerCase().compareTo(
-					obj2.getMemo().toLowerCase());
+			return obj1.getMemo().toLowerCase()
+					.compareTo(obj2.getMemo().toLowerCase());
 		case 5:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		}
@@ -99,9 +99,10 @@ public class VATUncategorisedAmountsReport extends
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 140, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 140, "",
+				"");
 	}
 
 }
