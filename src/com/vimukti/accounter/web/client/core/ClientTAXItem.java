@@ -7,7 +7,7 @@ public class ClientTAXItem extends ClientTAXItemGroup {
 
 	double taxRate;
 
-	String vatReturnBox;
+	long vatReturnBox;
 
 	/**
 	 * @return the id
@@ -88,7 +88,7 @@ public class ClientTAXItem extends ClientTAXItemGroup {
 	/**
 	 * @return the vatReturnBox
 	 */
-	public String getVatReturnBox() {
+	public long getVatReturnBox() {
 		return vatReturnBox;
 	}
 
@@ -96,7 +96,7 @@ public class ClientTAXItem extends ClientTAXItemGroup {
 	 * @param vatReturnBox
 	 *            the vatReturnBox to set
 	 */
-	public void setVatReturnBox(String vatReturnBox) {
+	public void setVatReturnBox(long vatReturnBox) {
 		this.vatReturnBox = vatReturnBox;
 	}
 
