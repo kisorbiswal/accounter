@@ -75,7 +75,7 @@ public class ReportsRPC {
 	}
 
 	public static void openTransactionView(int transactionType,
-			String transactionId) {
+			long transactionId) {
 		switch (transactionType) {
 
 		case ClientTransaction.TYPE_PAY_BILL:
