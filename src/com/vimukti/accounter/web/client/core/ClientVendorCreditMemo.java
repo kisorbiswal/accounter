@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.core;
 @SuppressWarnings("serial")
 public class ClientVendorCreditMemo extends ClientTransaction {
 
-	String vendor;
+	long vendor;
 
 	ClientContact contact;
 
@@ -33,7 +33,7 @@ public class ClientVendorCreditMemo extends ClientTransaction {
 	/**
 	 * @return the vendor
 	 */
-	public String getVendor() {
+	public long getVendor() {
 		return this.vendor;
 	}
 
@@ -41,7 +41,7 @@ public class ClientVendorCreditMemo extends ClientTransaction {
 	 * @param vendor
 	 *            the vendor to set
 	 */
-	public void setVendor(String vendorId) {
+	public void setVendor(long vendorId) {
 		this.vendor = vendorId;
 	}
 
