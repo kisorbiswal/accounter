@@ -37,8 +37,7 @@
 		<property name="isOpeningBalanceEditable" column="IS_OPENING_BALANCE_EDITABLE"></property>
 		<property name="hierarchy" column="HIERARCHY"></property>
 		<property name="version" column="VERSION"></property>
-		<property name="stringID" column="STRING_ID"></property>
-		<set name="budget" inverse="true" lazy="false" cascade="save-update,delete">
+	<set name="budget" inverse="true" lazy="false" cascade="save-update,delete">
 			<key column="ACCOUNT_ID"></key>
 			<one-to-many class="Budget" />
 		</set>
@@ -69,14 +68,12 @@
 		<id name="id" column="ID">
 			<generator class="native"></generator>
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="name" unique="true" column="NAME"></property>
 	</class>
 	<class name="AccountTransaction" table="ACCOUNT_TRANSACTION">
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<many-to-one name="transaction" class="Transaction" lazy="false"
 			column="TRANSACTION_ID">
 		</many-to-one>
@@ -109,7 +106,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="startDate" column="START_DATE"
 			type="com.vimukti.accounter.core.LongUseType" unique="true"></property>
 		<property name="endDate" column="END_DATE"
@@ -129,7 +125,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="name" unique="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 	</class>
@@ -137,7 +132,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="month" column="MONTH"></property>
 		<property name="amount" column="AMOUNT"></property>
 		<many-to-one name="account" class="Account" lazy="false"
@@ -148,7 +142,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="accountingType" column="ACCOUNTING_TYPE"></property>
 		<property name="name" unique="true" column="NAME"></property>
 		<set name="users" lazy="false" cascade="save-update,delete">
@@ -183,7 +176,6 @@
 			lazy="false" cascade="save-update">
 			<key column="COMPANY_ID" not-null="true" />
 			<composite-element class="NominalCodeRange">
-				<property name="stringID" column="STRING_ID" not-null="true"></property>
 				<property name="accountSubBaseType" column="ACCOUNT_SUB_BASE_TYPE"
 					not-null="true"></property>
 				<property name="minimum" column="MINIMUM" not-null="true"></property>
@@ -412,7 +404,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="name" unique="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<property name="createdBy" column="CREATED_BY" type="string" />
@@ -427,7 +418,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="name" unique="true" column="NAME"></property>
 		<property name="symbol" column="SYMBOL"></property>
 		<property name="formalName" column="FORMAL_NAME"></property>
@@ -437,7 +427,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="name" unique="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<property name="createdBy" column="CREATED_BY" type="string" />
@@ -465,7 +454,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<!--
 			<many-to-one name="VATCode" class="TaxCode" column="VAT_CODE_ID">
 		-->
@@ -513,7 +501,6 @@
 		<id name="id" column="ID">
 			<generator class="native"></generator>
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="name" unique="true" column="NAME"></property>
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
@@ -551,7 +538,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="name" unique="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<property name="createdBy" column="CREATED_BY" type="string" />
@@ -574,7 +560,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="name" unique="true" column="NAME"></property>
 		<property name="payeeSince" column="PAYEE_SINCE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
@@ -790,7 +775,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="name" unique="true" column="NAME"></property>
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="due" column="DUE"></property>
@@ -818,7 +802,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="name" unique="true" column="NAME"></property>
 		<property name="percentage" column="PERCENTAGE"></property>
 		<property name="isPriceLevelDecreaseByThisPercentage" column="IS_P_DECREASE_BY_THIS_PERCENT"></property>
@@ -835,7 +818,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="name" unique="true" column="NAME"></property>
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="version" column="VERSION"></property>
@@ -851,7 +833,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="name" unique="true" column="NAME"></property>
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="version" column="VERSION"></property>
@@ -865,8 +846,7 @@
 	</class>
 	<!--
 		<class name="TaxCode" table="TAXCODE"> <id name="id" column="ID">
-		<generator class="native" /> </id> <property name="stringID"
-		column="STRING_ID"></property> <property name="name" unique="true"
+		<generator class="native" /> </id><property name="name" unique="true"
 		column="NAME"></property> <property name="description"
 		column="DESCRIPTION"></property> <many-to-one name="taxAgency"
 		class="TaxAgency" column="TAXAGENCY_ID" lazy="false"> </many-to-one>
@@ -890,7 +870,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="rate" column="RATE"></property>
 		<property name="asOf" column="AS_OF"
 			type="com.vimukti.accounter.core.LongUseType"></property>
@@ -898,8 +877,7 @@
 	</class>
 	<!--
 		<class name="TaxRateCalculation" table="TAX_RATE_CALCULATION"> <id
-		name="id" column="ID"> <generator class="increment" /> </id> <property
-		name="stringID" column="STRING_ID"></property> <property name="rate"
+		name="id" column="ID"> <generator class="increment" /> </id>  <property name="rate"
 		column="RATE"></property> <many-to-one name="transactionItem"
 		class="TransactionItem" lazy="false" column="TRANSACTION_ITEM_ID">
 		</many-to-one> <many-to-one name="taxItem" class="TAXItem"
@@ -916,7 +894,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="isVATGroupEntry" column="VAT_GROUP_ENTRY"></property>
 		<property name="vatAmount" column="VAT_AMOUNT"></property>
 		<property name="lineTotal" column="LINE_TOTAL"></property>
@@ -950,7 +927,6 @@
 		<id name="id" column="ID">
 			<generator class="native"></generator>
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<many-to-one name="transactionItem" class="TransactionItem"
 			lazy="false" column="TRANSACTION_ITEM_ID"></many-to-one>
 		<many-to-one name="item" class="Item" lazy="false" column="ITEM_ID"></many-to-one>
@@ -963,7 +939,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="type" column="TYPE"></property>
 		<property name="name" unique="true" column="NAME"></property>
 		<property name="abbreviation" column="ABBREVIATION"></property>
@@ -985,7 +960,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<!--<property name="version" column="VERSION"></property>-->
 		<property name="firstName" column="FIRST_NAME"></property>
 		<property name="lastName" column="LAST_NAME"></property>
@@ -1065,7 +1039,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="name" unique="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<property name="createdBy" column="CREATED_BY" type="string" />
@@ -1080,7 +1053,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="name" unique="true" column="NAME"></property>
 		<property name="assetNumber" column="ASSET_NUMBER"></property>
 		<many-to-one name="assetAccount" class="Account" lazy="false"
@@ -1155,8 +1127,7 @@
 	<!--
 		<class name="SellingOrDisposingFixedAsset"
 		table="SELLING_OR_DISPOSING_FIXED_ASSET"> <id name="id" column="ID">
-		<generator class="native" /> </id> <property name="stringID"
-		column="STRING_ID"></property> <many-to-one name="fixedAsset"
+		<generator class="native" /> </id> <many-to-one name="fixedAsset"
 		class="FixedAsset" lazy="false" column="FIXED_ASSET_ID">
 		</many-to-one> <property name="soldOrDisposedDate"
 		column="SOLD_OR_DISPOSED_DATE" type="date"></property> <many-to-one
@@ -1177,7 +1148,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="status" column="STATUS"></property>
 		<property name="depreciateFrom" column="DEPRECIATE_FROM"
 			type="com.vimukti.accounter.core.LongUseType"></property>
@@ -1197,7 +1167,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="actionDate" column="ACTION_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="actionType" column="ACTION_TYPE"></property>
@@ -1211,7 +1180,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="note" column="NOTE"></property>
 		<property name="createdBy" column="CREATED_BY" type="string" />
 		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
@@ -1224,7 +1192,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="name" unique="true" column="NAME"></property>
 		<property name="vatBox" column="VAT_BOX"></property>
 		<property name="totalBox" column="TOTAL_BOX"></property>
@@ -1234,7 +1201,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="name" column="NAME"></property>
 		<property name="boxNumber" column="BOX_NUMBER"></property>
 		<property name="amount" column="AMOUNT"></property>
@@ -1248,7 +1214,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="name" unique="true" column="NAME"></property>
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="isTaxable" column="ISTAXABLE"></property>
@@ -1277,8 +1242,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID">
-		</property>
 		<property name="themeName" column="THEME_NAME">
 		</property>
 		<property name="pageSizeType" column="PAGE_SIZE_TYPE">
@@ -1356,8 +1319,7 @@
 
 	<!--
 		<class name="TaxItemGroup" table="TAX_ITEM_GROUPS"> <id name="id"
-		column="ID"> <generator class="native"></generator> </id> <property
-		name="stringID" column="STRING_ID"></property> <property name="name"
+		column="ID"> <generator class="native"></generator> </id> <property name="name"
 		unique="true" column="NAME"></property> <property name="description"
 		column="DESCRIPTION"></property> <property name="isActive"
 		column="IS_ACTIVE"></property> <property name="createdBy"
