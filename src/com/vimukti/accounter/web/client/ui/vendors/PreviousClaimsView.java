@@ -112,7 +112,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 
 	void updateTransactionItems(ClientCashPurchase result) {
 		for (ClientTransactionItem item : result.getTransactionItems()) {
-			item.setID("");
+			item.setID(0);
 		}
 	}
 
@@ -125,8 +125,8 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 		} else {
 			userName = null;
 		}
-		Accounter.createHomeService().getEmployeeExpensesByStatus(
-				userName, ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED,
+		Accounter.createHomeService().getEmployeeExpensesByStatus(userName,
+				ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED,
 				new AsyncCallback<List<BillsList>>() {
 
 					@Override
@@ -141,8 +141,8 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 					}
 				});
 
-		Accounter.createHomeService().getEmployeeExpensesByStatus(
-				userName, ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED,
+		Accounter.createHomeService().getEmployeeExpensesByStatus(userName,
+				ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED,
 				new AsyncCallback<List<BillsList>>() {
 
 					@Override
