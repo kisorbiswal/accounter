@@ -29,7 +29,7 @@ public class FixedAssetLinkedAccountMap implements IsSerializable,Serializable {
 		return keySet;
 	}
 
-	public String get(long account) {
+	public Long get(long account) {
 		for (LinkAccount linkAccount : assetLinkedAccounts) {
 			if (linkAccount.assetAccount == account) {
 				return linkAccount.linkedAccount;
