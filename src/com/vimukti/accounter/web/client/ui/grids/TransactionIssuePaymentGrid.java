@@ -81,8 +81,8 @@ public class TransactionIssuePaymentGrid extends
 			return DataUtils.getAmountAsString(issuepayment.getAmount());
 		case 5:
 			return issuepayment.getPaymentMethod() != null ? issuepayment
-					.getPaymentMethod() : Accounter
-					.getVendorsMessages().check();
+					.getPaymentMethod() : Accounter.getVendorsMessages()
+					.check();
 		default:
 			return null;
 		}
@@ -165,7 +165,7 @@ public class TransactionIssuePaymentGrid extends
 	}
 
 	@Override
-	public void setTaxCode(String taxCode) {
+	public void setTaxCode(long taxCode) {
 		// TODO Auto-generated method stub
 
 	}
