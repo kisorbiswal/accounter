@@ -23,7 +23,8 @@ public class CashFlowStatementServerReport extends
 		this.reportView = reportView;
 	}
 
-	public CashFlowStatementServerReport(long startDate, long endDate,int generationType) {
+	public CashFlowStatementServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -37,8 +38,7 @@ public class CashFlowStatementServerReport extends
 		switch (columnIndex) {
 		case 0:
 			return record.getAccountNumber() != null ? record
-					.getAccountNumber()
-					+ "-" + record.getAccountName() : ""
+					.getAccountNumber() + "-" + record.getAccountName() : ""
 					+ record.getAccountName();
 		case 1:
 			return record.getAmount();
@@ -118,7 +118,7 @@ public class CashFlowStatementServerReport extends
 		} else if (record.getCashFlowCategory() == ClientAccount.CASH_FLOW_CATEGORY_INVESTING) {
 			addInvestingTypes(record);
 		}
-		if (closePrevSection(record.getParentAccount() == null ? record
+		if (closePrevSection(record.getParentAccount() == 0 ? record
 				.getAccountName() : getAccountNameById(record
 				.getParentAccount()))) {
 			processRecord(record);
@@ -159,8 +159,7 @@ public class CashFlowStatementServerReport extends
 				}
 				if (section.footer == "Cash at End of Period") {
 					CashFlowStatementServerReport.this.grid
-							.addRow(
-									null,
+							.addRow(null,
 									1,
 									new Object[] {
 											"Net cash Change for the Period",
@@ -179,10 +178,10 @@ public class CashFlowStatementServerReport extends
 
 	}
 
-	public String getAccountNameById(String id) {
+	public String getAccountNameById(long id) {
 		for (TrialBalance balance : this.records)
-			if (balance.getAccountId() != null)
-				if (balance.getAccountId().equals(id))
+			if (balance.getAccountId() != 0)
+				if (balance.getAccountId() == id)
 					return balance.getAccountName();
 		return null;
 	}
@@ -233,8 +232,8 @@ public class CashFlowStatementServerReport extends
 
 	public boolean isParent(TrialBalance record) {
 		for (TrialBalance balance : this.records) {
-			if (balance.getParentAccount() != null)
-				if (balance.getParentAccount().equals(record.getAccountId()))
+			if (balance.getParentAccount() != 0)
+				if (balance.getParentAccount() == record.getAccountId())
 					return true;
 		}
 		return false;
@@ -244,9 +243,9 @@ public class CashFlowStatementServerReport extends
 		if (isParent(record)) {
 			types.add(record.getAccountName());
 			curentParent = record.getAccountName();
-			addSection(record.getAccountNumber() + "-"
-					+ record.getAccountName(), "Total"
-					+ record.getAccountName(), new int[] { 1 });
+			addSection(
+					record.getAccountNumber() + "-" + record.getAccountName(),
+					"Total" + record.getAccountName(), new int[] { 1 });
 			return true;
 		}
 		return false;
