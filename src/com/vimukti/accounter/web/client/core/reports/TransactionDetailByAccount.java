@@ -14,7 +14,7 @@ public class TransactionDetailByAccount extends BaseReport implements
 
 	String name;
 
-	String transactionId;
+	long transactionId;
 
 	int transactionType;
 
@@ -67,7 +67,7 @@ public class TransactionDetailByAccount extends BaseReport implements
 	/**
 	 * @return the transactionId
 	 */
-	public String getTransactionId() {
+	public long getTransactionId() {
 		return transactionId;
 	}
 
@@ -75,7 +75,7 @@ public class TransactionDetailByAccount extends BaseReport implements
 	 * @param transactionId
 	 *            the transactionId to set
 	 */
-	public void setTransactionId(String transactionId) {
+	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
 	}
 
