@@ -7,7 +7,7 @@ import com.vimukti.accounter.core.IAccounterServerCore;
 public interface IAccounterService {
 
 	// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public <T extends IAccounterServerCore> String createObject(T t) // /////
+	public <T extends IAccounterServerCore> long createObject(T t) // /////
 			throws DAOException; // /////
 
 	// /////
