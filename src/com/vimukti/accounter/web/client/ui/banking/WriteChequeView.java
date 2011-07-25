@@ -657,7 +657,7 @@ public class WriteChequeView extends
 			transactionObject = writeCheck;
 			// super.saveAndUpdateView();
 
-			if (transactionObject.getID() == null)
+			if (transactionObject.getID() == 0)
 				createObject(transactionObject);
 			else
 
