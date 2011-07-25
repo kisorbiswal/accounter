@@ -7,6 +7,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -81,10 +82,9 @@ public class TransactionJournalEntryGrid extends
 				// .getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 				// && !isEdit)
 				if (column == 2 && !isEdit) {
-					if (core.getAccount() != null
-							&& !core.getAccount().equals("")) {
-						accountsCombo.setComboItem(Accounter
-								.getCompany().getAccount(core.getAccount()));
+					if (core.getAccount() != 0) {
+						accountsCombo.setComboItem(Accounter.getCompany()
+								.getAccount(core.getAccount()));
 					} else
 						accountsCombo.setValue("");
 				} else if (column == 6 && !isEdit)
@@ -108,8 +108,8 @@ public class TransactionJournalEntryGrid extends
 					@Override
 					public void selectedComboBoxItem(ClientVendor vendor) {
 						selectedObject.setVendor(vendor.getID());
-						selectedObject.setCustomer("");
-						selectedObject.setAccount("");
+						selectedObject.setCustomer(0);
+						selectedObject.setAccount(0);
 						setText(currentRow, currentCol, vendor.getName());
 
 					}
@@ -118,15 +118,16 @@ public class TransactionJournalEntryGrid extends
 		accountsCombo = new OtherAccountsCombo("");
 		accountsCombo.setGrid(this);
 		accountsCombo.setRequired(true);
-		accountsCombo.downarrowpanel.getElement().getStyle().setMarginLeft(-13,Unit.PX);
+		accountsCombo.downarrowpanel.getElement().getStyle()
+				.setMarginLeft(-13, Unit.PX);
 		// accountsCombo.setWidth("600");
 		accountsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
 					public void selectedComboBoxItem(ClientAccount account) {
 						selectedObject.setAccount(account.getID());
-						selectedObject.setVendor("");
-						selectedObject.setCustomer("");
+						selectedObject.setVendor(0);
+						selectedObject.setCustomer(0);
 						setText(currentRow, currentCol, account.getName());
 					}
 
@@ -139,8 +140,8 @@ public class TransactionJournalEntryGrid extends
 
 					public void selectedComboBoxItem(ClientCustomer customer) {
 						selectedObject.setCustomer(customer.getID());
-						selectedObject.setAccount("");
-						selectedObject.setVendor("");
+						selectedObject.setAccount(0);
+						selectedObject.setVendor(0);
 						setText(currentRow, currentCol, customer.getName());
 					}
 
@@ -171,9 +172,9 @@ public class TransactionJournalEntryGrid extends
 				case 3:
 					// if (core.getType() == ClientEntry.TYPE_FINANCIAL_ACCOUNT)
 					// {
-					if (core.getAccount() != null)
-						accountsCombo.setComboItem(Accounter
-								.getCompany().getAccount(core.getAccount()));
+					if (core.getAccount() != 0)
+						accountsCombo.setComboItem(Accounter.getCompany()
+								.getAccount(core.getAccount()));
 					// } else if (core.getType() == ClientEntry.TYPE_CUSTOMER) {
 					// if (core.getCustomer() != null)
 					// customerCombo.setComboItem(FinanceApplication
@@ -211,17 +212,19 @@ public class TransactionJournalEntryGrid extends
 	}
 
 	private void initAccountsCombo() {
-		List<ClientAccount> accounts = getCompany()
-				.getActiveAccounts();
+		List<ClientAccount> accounts = getCompany().getActiveAccounts();
 		if (accounts != null) {
 			accountsCombo.initCombo(accounts);
 		}
 
 	}
 
+	private ClientCompany getCompany() {
+		return Accounter.getCompany();
+	}
+
 	private void initCustomersCombo() {
-		List<ClientCustomer> customers = getCompany()
-				.getActiveCustomers();
+		List<ClientCustomer> customers = getCompany().getActiveCustomers();
 		if (customers != null) {
 			customerCombo.initCombo(customers);
 		}
@@ -229,15 +232,13 @@ public class TransactionJournalEntryGrid extends
 
 	@SuppressWarnings("unused")
 	private void initTaxCodesCombo() {
-		List<ClientTAXCode> taxCodes = getCompany()
-				.getActiveTaxCodes();
+		List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 		if (taxCodes != null)
 			taxcodeCombo.initCombo(taxCodes);
 	}
 
 	public void addVendorGroupList() {
-		List<ClientVendor> vendors = getCompany()
-				.getActiveVendors();
+		List<ClientVendor> vendors = getCompany().getActiveVendors();
 		if (vendors != null) {
 			vendorCombo.initCombo(vendors);
 		}
@@ -287,9 +288,9 @@ public class TransactionJournalEntryGrid extends
 			return new String[] {
 					"",
 					Accounter.getVendorsMessages().financialAccount(),
-					UIUtils.getVendorString(Accounter
-							.getVendorsMessages().supplier(),
-							Accounter.getVendorsMessages().vendor()),
+					UIUtils.getVendorString(Accounter.getVendorsMessages()
+							.supplier(), Accounter.getVendorsMessages()
+							.vendor()),
 					Accounter.getCustomersMessages().customer() };
 		}
 
@@ -475,20 +476,16 @@ public class TransactionJournalEntryGrid extends
 		switch (vocherType) {
 
 		case ClientEntry.TYPE_FINANCIAL_ACCOUNT:
-			coreObj = getCompany().getAccount(
-					entry.getAccount());
+			coreObj = getCompany().getAccount(entry.getAccount());
 			break;
 		case ClientEntry.TYPE_CUSTOMER:
-			coreObj = getCompany().getCustomer(
-					entry.getCustomer());
+			coreObj = getCompany().getCustomer(entry.getCustomer());
 			break;
 		case ClientEntry.TYPE_VENDOR:
-			coreObj = getCompany().getVendor(
-					entry.getVendor());
+			coreObj = getCompany().getVendor(entry.getVendor());
 			break;
 		case ClientEntry.TYPE_VAT:
-			coreObj = getCompany().getTAXCode(
-					entry.getTaxCode());
+			coreObj = getCompany().getTAXCode(entry.getTaxCode());
 		}
 		return coreObj != null ? coreObj.getName() : "";
 	}
@@ -616,8 +613,8 @@ public class TransactionJournalEntryGrid extends
 			case 1:
 				editingRecord
 						.setEntryDate(editingRecord.getEntryDate() != 0 ? editingRecord
-								.getEntryDate()
-								: new ClientFinanceDate().getTime());
+								.getEntryDate() : new ClientFinanceDate()
+								.getTime());
 				break;
 			case 4:
 				editingRecord.setDebit(editingRecord.getDebit());
@@ -755,7 +752,7 @@ public class TransactionJournalEntryGrid extends
 	}
 
 	@Override
-	public void setTaxCode(String taxCode) {
+	public void setTaxCode(long taxCode) {
 		// TODO Auto-generated method stub
 
 	}
@@ -885,22 +882,22 @@ public class TransactionJournalEntryGrid extends
 	// break;
 	// }
 	// for (int j =i+1; j < entryList.size(); j++) {
-	//	
+	//
 	// entry2 = entryList.get(j);
 	// if (entry1.getAccount().equalsIgnoreCase(
 	// entry2.getAccount()))
 	// throw new InvalidTransactionEntryException(
 	// AccounterErrorType.journalEntryAccount);
-	//	
+	//
 	// }
-	//	
+	//
 	// tempNumber = entry.getVoucherNumber();
 	// entryList.clear();
 	// entryList.add(entry);
 	// count++;
-	//	
+	//
 	// }
-	//	
+	//
 	// return true;
 	// }
 
