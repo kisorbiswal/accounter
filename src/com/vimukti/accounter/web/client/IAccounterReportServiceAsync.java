@@ -226,7 +226,7 @@ public interface IAccounterReportServiceAsync {
 	public void getDepositDetail(final long startDate, final long endDate,
 			AsyncCallback<List<DepositDetail>> callBackResult);
 
-	public void getCheckDetailReport(long paymentmethod,
+	public void getCheckDetailReport(String paymentmethod,
 			final long startDate, final long endDate,
 			AsyncCallback<List<CheckDetailReport>> callBackResult);
 
