@@ -55,12 +55,11 @@ public class VendorCreditMemoView extends
 		if (this.vendor != null && this.vendor != vendor) {
 			ClientVendorCreditMemo ent = (ClientVendorCreditMemo) this.transactionObject;
 
-			if (ent != null && ent.getVendor().equals(vendor.getID())) {
+			if (ent != null && ent.getVendor() == vendor.getID()) {
 				this.vendorTransactionGrid.removeAllRecords();
 				this.vendorTransactionGrid
 						.setRecords(ent.getTransactionItems());
-			} else if (ent != null
-					&& !ent.getVendor().equals(vendor.getID())) {
+			} else if (ent != null && ent.getVendor() != vendor.getID()) {
 				this.vendorTransactionGrid.removeAllRecords();
 				this.vendorTransactionGrid.updateTotals();
 			}
@@ -79,8 +78,7 @@ public class VendorCreditMemoView extends
 	public void initTransactionViewData(ClientTransaction transactionObject) {
 
 		ClientVendorCreditMemo vendorCreditMemo = (ClientVendorCreditMemo) transactionObject;
-		vendorSelected(getCompany().getVendor(
-				vendorCreditMemo.getVendor()));
+		vendorSelected(getCompany().getVendor(vendorCreditMemo.getVendor()));
 		contactSelected(vendorCreditMemo.getContact());
 		phoneSelect.setValue(vendorCreditMemo.getPhone());
 		transactionNumber.setValue(vendorCreditMemo.getNumber());
@@ -117,8 +115,7 @@ public class VendorCreditMemoView extends
 				.getVendorsMessages().vendorCredit())
 				+ "(" + getTransactionStatus() + ")");
 
-		lab1.setStyleName(Accounter.getCustomersMessages()
-				.lableTitle());
+		lab1.setStyleName(Accounter.getCustomersMessages().lableTitle());
 		if (transactionObject == null
 				|| transactionObject.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 			lab1 = new Label(UIUtils.getVendorString(Accounter
@@ -131,8 +128,7 @@ public class VendorCreditMemoView extends
 					.getVendorsMessages().vendorCredit())
 					+ "(" + getTransactionStatus() + ")");
 
-		lab1.setStyleName(Accounter.getCustomersMessages()
-				.lableTitle());
+		lab1.setStyleName(Accounter.getCustomersMessages().lableTitle());
 		// lab1.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
 
@@ -160,9 +156,9 @@ public class VendorCreditMemoView extends
 
 		forms.add(dateNoForm);
 
-		vendorCombo = createVendorComboItem(UIUtils.getVendorString(
-				Accounter.getVendorsMessages().supplierName(),
-				Accounter.getVendorsMessages().vendorName()));
+		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplierName(), Accounter
+				.getVendorsMessages().vendorName()));
 
 		contactCombo = createContactComboItem();
 
@@ -184,8 +180,7 @@ public class VendorCreditMemoView extends
 		}
 
 		forms.add(phoneForm);
-		netAmount = new AmountLabel(Accounter.getVendorsMessages()
-				.netAmount());
+		netAmount = new AmountLabel(Accounter.getVendorsMessages().netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 
@@ -210,8 +205,10 @@ public class VendorCreditMemoView extends
 		vendorForm = UIUtils.form(vendorConstants.supplier());
 		vendorForm.setWidth("50%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect);
-		vendorForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.getCustomersMessages().width(), "190px");
+		vendorForm
+				.getCellFormatter()
+				.getElement(0, 0)
+				.setAttribute(Accounter.getCustomersMessages().width(), "190px");
 
 		leftVLay.add(vendorForm);
 
@@ -279,7 +276,7 @@ public class VendorCreditMemoView extends
 
 			bottomPanel.add(vPanel);
 			bottomPanel.add(bottomLayout1);
-			//			
+			//
 			// VerticalPanel vPanel = new VerticalPanel();
 			//
 			// vPanel.add(menuButton);
@@ -390,8 +387,7 @@ public class VendorCreditMemoView extends
 					.getValue());
 		super.saveAndUpdateView();
 
-		if (transactionObject.getID() != null
-				&& transactionObject.getID().length() != 0)
+		if (transactionObject.getID() != 0)
 			alterObject(vendorCreditMemo);
 		else
 			createObject(vendorCreditMemo);
@@ -522,8 +518,7 @@ public class VendorCreditMemoView extends
 
 		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id,
-				editCallBack);
+		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
 
 	}
 
