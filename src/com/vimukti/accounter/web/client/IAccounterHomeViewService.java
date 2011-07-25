@@ -74,7 +74,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public List<PaymentsList> getPaymentsList();
 
 	public List<ClientCreditsAndPayments> getVendorCreditsAndPayments(
-			String vendorId);
+			long vendorId);
 
 	public List<IssuePaymentTransactionsList> getChecks();
 
@@ -119,10 +119,10 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public Long getNextIssuepaymentCheckNumber(long accountId);
 
 	// To check whether an Account is a Tax Agency Account or not
-	public boolean isTaxAgencyAccount(String accountId);
+	public boolean isTaxAgencyAccount(long accountId);
 
 	// To check whether an Account is a Sales Tax Payable Account or not
-	public boolean isSalesTaxPayableAccount(String accountId);
+	public boolean isSalesTaxPayableAccount(long accountId);
 
 	// To check whether an Account is a Sales Tax Payable Account or not
 	public boolean isSalesTaxPayableAccountByName(String accountName);
@@ -131,11 +131,11 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public List<ClientEstimate> getEstimates();
 
 	// To get the Estimates/Quotes of a particular customer in the company
-	public List<ClientEstimate> getEstimates(String customerId);
+	public List<ClientEstimate> getEstimates(long customerId);
 
 	// To check whether an Invoice or Vendor Bill can be Voidable and Editable
 	// or not
-	public boolean canVoidOrEdit(String invoiceOrVendorBillId);
+	public boolean canVoidOrEdit(long invoiceOrVendorBillId);
 
 	// To display the Item combo box of Transaction Item lines in Creating
 	// Creating Invoice,Cash Sale, Customer Credit Memo, Customer Refund
@@ -147,22 +147,22 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	// To get the Credits and Payments of a particular Customer in a company
 	public List<ClientCreditsAndPayments> getCustomerCreditsAndPayments(
-			String customerId);
+			long customerId);
 
 	// To get all the Invoices and CustomerRefunds of a particular customer
 	// which are not paid and display as the Transaction ReceivePayments in
 	// ReceivePayment
 	public List<ReceivePaymentTransactionList> getTransactionReceivePayments(
-			String customerId, long paymentDate);
+			long customerId, long paymentDate);
 
 	// To get a particular Journal Entry
-	public ClientJournalEntry getJournalEntry(String journalEntryId);
+	public ClientJournalEntry getJournalEntry(long journalEntryId);
 
 	// To get all the Journal Entries in a company
 	public List<ClientJournalEntry> getJournalEntries();
 
 	// To get all the Entries of a particular journal entry
-	public List<ClientEntry> getEntries(String journalEntryId);
+	public List<ClientEntry> getEntries(long journalEntryId);
 
 	// to get the Account Register of a particular account
 	// public AccountRegister getAccountRegister(String accountId)
@@ -188,7 +188,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public List<ClientReceivePayment> getLatestReceivePayments();
 
 	public ClientTransactionMakeDeposit getTransactionMakeDeposit(
-			String transactionMakeDepositId);
+			long transactionMakeDepositId);
 
 	public List<ClientTransactionMakeDeposit> getTransactionMakeDeposits();
 

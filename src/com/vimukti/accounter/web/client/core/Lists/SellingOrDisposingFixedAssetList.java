@@ -26,7 +26,7 @@ public class SellingOrDisposingFixedAssetList implements IsSerializable,
 	 * 
 	 * @see
 	 */
-	private String assetAccount;
+	private long assetAccount;
 
 	private ClientFinanceDate soldOrDisposedDate;
 
@@ -37,7 +37,7 @@ public class SellingOrDisposingFixedAssetList implements IsSerializable,
 	/**
 	 * @return the id
 	 */
-	public long getID(){
+	public long getID() {
 		return id;
 	}
 
@@ -45,8 +45,8 @@ public class SellingOrDisposingFixedAssetList implements IsSerializable,
 	 * @param id
 	 *            the id to set
 	 */
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -75,7 +75,7 @@ public class SellingOrDisposingFixedAssetList implements IsSerializable,
 	/**
 	 * @return the assetAccount
 	 */
-	public String getAssetAccount() {
+	public long getAssetAccount() {
 		return assetAccount;
 	}
 
@@ -83,7 +83,7 @@ public class SellingOrDisposingFixedAssetList implements IsSerializable,
 	 * @param assetAccount
 	 *            the assetAccount to set
 	 */
-	public void setAssetAccount(String assetAccount) {
+	public void setAssetAccount(long assetAccount) {
 		this.assetAccount = assetAccount;
 	}
 

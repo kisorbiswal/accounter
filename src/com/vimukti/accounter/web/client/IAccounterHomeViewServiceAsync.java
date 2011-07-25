@@ -78,7 +78,7 @@ public interface IAccounterHomeViewServiceAsync {
 
 	public void getPaymentsList(AsyncCallback<List<PaymentsList>> callBack);
 
-	public void getVendorCreditsAndPayments(String vendorId,
+	public void getVendorCreditsAndPayments(long vendorId,
 			AsyncCallback<List<ClientCreditsAndPayments>> callBack);
 
 	public void getChecks(
@@ -132,11 +132,11 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<Long> callback);
 
 	// To check whether an Account is a Tax Agency Account or not
-	public void isTaxAgencyAccount(String accountId,
+	public void isTaxAgencyAccount(long accountId,
 			AsyncCallback<Boolean> callback);
 
 	// To check whether an Account is a Sales Tax Payable Account or not
-	public void isSalesTaxPayableAccount(String accountId,
+	public void isSalesTaxPayableAccount(long accountId,
 			AsyncCallback<Boolean> callback);
 
 	// To check whether an Account is a Sales Tax Payable Account or not
@@ -147,12 +147,12 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getEstimates(AsyncCallback<List<ClientEstimate>> callback);
 
 	// To get the Estimates/Quotes of a particular customer in the company
-	public void getEstimates(String customerId,
+	public void getEstimates(long customerId,
 			AsyncCallback<List<ClientEstimate>> callback);
 
 	// To check whether an Invoice or Vendor Bill can be Voidable and Editable
 	// or not
-	public void canVoidOrEdit(String invoiceOrVendorBillId,
+	public void canVoidOrEdit(long invoiceOrVendorBillId,
 			AsyncCallback<Boolean> callback);
 
 	// To display the Item combo box of Transaction Item lines in Creating
@@ -164,18 +164,18 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getPurchaseItems(AsyncCallback<List<ClientItem>> callback);
 
 	// To get the Credits and Payments of a particular Customer in a company
-	public void getCustomerCreditsAndPayments(String customerId,
+	public void getCustomerCreditsAndPayments(long customerId,
 			AsyncCallback<List<ClientCreditsAndPayments>> callback);
 
 	// To get all the Invoices and CustomerRefunds of a particular customer
 	// which are not paid and display as the Transaction ReceivePayments in
 	// ReceivePayment
-	public void getTransactionReceivePayments(String customerId,
+	public void getTransactionReceivePayments(long customerId,
 			long paymentDate,
 			AsyncCallback<List<ReceivePaymentTransactionList>> callback);
 
 	// To get a particular Journal Entry
-	public void getJournalEntry(String journalEntryId,
+	public void getJournalEntry(long journalEntryId,
 			AsyncCallback<ClientJournalEntry> callback);
 
 	// To get all the Journal Entries in a company
@@ -183,7 +183,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<List<ClientJournalEntry>> callback);
 
 	// To get all the Entries of a particular journal entry
-	public void getEntries(String journalEntryId,
+	public void getEntries(long journalEntryId,
 			AsyncCallback<List<ClientEntry>> callback);
 
 	// to get the Account Register of a particular account
@@ -212,7 +212,7 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getLatestReceivePayments(
 			AsyncCallback<List<ClientReceivePayment>> callback);
 
-	public void getTransactionMakeDeposit(String transactionMakeDepositId,
+	public void getTransactionMakeDeposit(long transactionMakeDepositId,
 			AsyncCallback<ClientTransactionMakeDeposit> callback);
 
 	public void getTransactionMakeDeposits(

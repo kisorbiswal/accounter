@@ -217,11 +217,10 @@ public interface IFinanceDAOService {
 	public String getNextFixedAssetNumber() throws DAOException;
 
 	// To check whether an Account is a Tax Agency Account or not
-	public boolean isTaxAgencyAccount(String account) throws DAOException;
+	public boolean isTaxAgencyAccount(long account) throws DAOException;
 
 	// To check whether an Account is a Sales Tax Payable Account or not
-	public boolean isSalesTaxPayableAccount(String accountId)
-			throws DAOException;
+	public boolean isSalesTaxPayableAccount(long accountId) throws DAOException;
 
 	// To check whether an Account is a Sales Tax Payable Account or not
 	public boolean isSalesTaxPayableAccountByName(String accountName)
@@ -231,11 +230,11 @@ public interface IFinanceDAOService {
 	public List<Estimate> getEstimates() throws DAOException;
 
 	// To get the Estimates/Quotes of a particular customer in the company
-	public List<Estimate> getEstimates(String customer) throws DAOException;
+	public List<Estimate> getEstimates(long customer) throws DAOException;
 
 	// To check whether an Invoice or Vendor Bill can be Voidable and Editable
 	// or not
-	public boolean canVoidOrEdit(String invoiceOrVendorBillId)
+	public boolean canVoidOrEdit(long invoiceOrVendorBillId)
 			throws DAOException;
 
 	// To display the Item combo box of Transaction Item lines in Creating
@@ -247,22 +246,22 @@ public interface IFinanceDAOService {
 	public List<Item> getPurchaseItems() throws DAOException;
 
 	// To get the Credits and Payments of a particular Customer in a company
-	public List<CreditsAndPayments> getCustomerCreditsAndPayments(
-			String customer) throws DAOException;
+	public List<CreditsAndPayments> getCustomerCreditsAndPayments(long customer)
+			throws DAOException;
 
 	// To get the Credits and Payments of a particular Vendor in a company
-	public List<CreditsAndPayments> getVendorCreditsAndPayments(String vendor)
+	public List<CreditsAndPayments> getVendorCreditsAndPayments(long vendor)
 			throws DAOException;
 
 	// To get Make Deposit by passing the Transaction Make Deposit
 	public TransactionMakeDeposit getTransactionMakeDeposit(
-			String transactionMakeDepositId) throws DAOException;
+			long transactionMakeDepositId) throws DAOException;
 
 	// To get all the Invoices and CustomerRefunds of a particular customer
 	// which are not paid and display as the Transaction ReceivePayments in
 	// ReceivePayment
 	public List<ReceivePaymentTransactionList> getTransactionReceivePayments(
-			String customerId, long paymentDate) throws DAOException,
+			long customerId, long paymentDate) throws DAOException,
 			ParseException;
 
 	// To get all the Vendor Bills and MakeDeposit(New Vendor Entries) which are
@@ -284,14 +283,14 @@ public interface IFinanceDAOService {
 			throws DAOException;
 
 	// To get a particular Journal Entry
-	public JournalEntry getJournalEntry(String journalEntryId)
+	public JournalEntry getJournalEntry(long journalEntryId)
 			throws DAOException;
 
 	// To get all the Journal Entries in a company
 	public List<JournalEntry> getJournalEntries() throws DAOException;
 
 	// To get all the Entries of a particular journal entry
-	public List<Entry> getEntries(String journalEntryId) throws DAOException;
+	public List<Entry> getEntries(long journalEntryId) throws DAOException;
 
 	// to get the Account Register of a particular account
 	// public AccountRegister getAccountRegister(String accountId)
@@ -455,7 +454,7 @@ public interface IFinanceDAOService {
 			long startDate, long endDate) throws DAOException;
 
 	public List<MostProfitableCustomers> getProfitabilityByCustomerDetail(
-			String customer, long startDate, long endDate) throws DAOException;
+			long customer, long startDate, long endDate) throws DAOException;
 
 	public List<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			long startDate, long endDate) throws DAOException;

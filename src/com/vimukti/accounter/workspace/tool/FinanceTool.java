@@ -291,8 +291,8 @@ public class FinanceTool implements IFinanceDAOService {
 					"Operation Data Found Null...." + updateContext);
 		}
 		IAccounterServerCore serverObject = (IAccounterServerCore) Util
-				.loadObjectByid(session, (updateContext).getArg2(),
-						(updateContext).getArg1());
+				.loadObjectByid(session, updateContext.getArg2(),
+						Long.parseLong(updateContext.getArg1()));
 		IAccounterServerCore clonedObject = new CloneUtil().clone(null,
 				serverObject);
 
@@ -1586,8 +1586,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<CreditsAndPayments> getCustomerCreditsAndPayments(
-			String customer2) throws DAOException {
+	public List<CreditsAndPayments> getCustomerCreditsAndPayments(long customer2)
+			throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			long customer = getLongIdForGivenid(AccounterCoreType.CUSTOMER,
@@ -1682,8 +1682,8 @@ public class FinanceTool implements IFinanceDAOService {
 			if (customerRefundsList != null) {
 				return customerRefundsList;
 			} else
-				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-						null));
+				throw new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
+						null);
 		} catch (DAOException e) {
 			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
 		}
@@ -1691,7 +1691,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Entry> getEntries(String journalEntryId2) throws DAOException {
+	public List<Entry> getEntries(long journalEntryId2) throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -1736,7 +1736,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Estimate> getEstimates(String customer2) throws DAOException {
+	public List<Estimate> getEstimates(long customer2) throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -1829,7 +1829,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public JournalEntry getJournalEntry(String journalEntryId2)
+	public JournalEntry getJournalEntry(long journalEntryId2)
 			throws DAOException {
 		try {
 
@@ -2224,8 +2224,6 @@ public class FinanceTool implements IFinanceDAOService {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			long vendorId = getLongIdForGivenid(AccounterCoreType.VENDOR,
-					vendorId);
 			Query query = session
 					.createQuery(
 							"select je from com.vimukti.accounter.core.Entry e inner join e.journalEntry je where e.vendor.id=:vendorId and e.credit!=0.0 and je.balanceDue>0.0 order by je.id")
@@ -2297,7 +2295,7 @@ public class FinanceTool implements IFinanceDAOService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ReceivePaymentTransactionList> getTransactionReceivePayments(
-			String customerId2, long paymentDate1) throws DAOException,
+			long customerId, long paymentDate1) throws DAOException,
 			ParseException {
 		try {
 
@@ -2305,8 +2303,6 @@ public class FinanceTool implements IFinanceDAOService {
 			FinanceDate paymentDate = null;
 			paymentDate = new FinanceDate(paymentDate1);
 			Session session = HibernateUtil.getCurrentSession();
-			long customerId = getLongIdForGivenid(AccounterCoreType.CUSTOMER,
-					customerId2);
 			Query query = session.getNamedQuery(
 					"getReceivePaymentTransactionsListForCustomer")
 					.setParameter("customerId", customerId);
@@ -2391,11 +2387,10 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<CreditsAndPayments> getVendorCreditsAndPayments(String vendor2)
+	public List<CreditsAndPayments> getVendorCreditsAndPayments(long vendor)
 			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		long vendor = getLongIdForGivenid(AccounterCoreType.VENDOR, vendor2);
 		Query query = session
 				.createQuery(
 						"from com.vimukti.accounter.core.CreditsAndPayments cp where cp.payee.id = ? and cp.balance > 0.0 ")
@@ -2471,14 +2466,11 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean isSalesTaxPayableAccount(String accountId2)
-			throws DAOException {
+	public boolean isSalesTaxPayableAccount(long accountId) throws DAOException {
 
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			long accountId = getLongIdForGivenid(AccounterCoreType.ACCOUNT,
-					accountId2);
 			Query query = session
 					.createQuery(
 							"from com.vimukti.accounter.core.Account a a.id = ? and a.type = ? ")
@@ -2531,13 +2523,11 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean isTaxAgencyAccount(String account2) throws DAOException {
+	public boolean isTaxAgencyAccount(long account) throws DAOException {
 
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			long account = getLongIdForGivenid(AccounterCoreType.ACCOUNT,
-					account2);
 			Query query = session
 					.createQuery(
 							"from com.vimukti.accounter.core.TaxAgency ta where ta.liabilityAccount.id = ?")
@@ -2560,11 +2550,9 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean canVoidOrEdit(String invoiceOrVendorBillId2)
+	public boolean canVoidOrEdit(long invoiceOrVendorBillId)
 			throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
-		long invoiceOrVendorBillId = getLongIdForGivenid(
-				AccounterCoreType.TRANSACTION, invoiceOrVendorBillId2);
 		Query query = session
 				.createQuery(
 						"select t.canVoidOrEdit from com.vimukti.accounter.core.Transaction t where t.id = ? ")
@@ -3078,13 +3066,10 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public TransactionMakeDeposit getTransactionMakeDeposit(
-			String transactionMakeDepositId2) throws DAOException {
+			long transactionMakeDepositId) throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			long transactionMakeDepositId = getLongIdForGivenid(
-					AccounterCoreType.TRANSACTION_MAKEDEPOSIT,
-					transactionMakeDepositId2);
 			Query query = session
 					.createQuery(
 							" from com.vimukti.accounter.core.TransactionMakeDeposit tmd where tmd.id = ?)")
@@ -4959,7 +4944,7 @@ public class FinanceTool implements IFinanceDAOService {
 			// this condition is to filter unnecessary rows
 			// if ((object[6] == null ? 0 : ((Double) object[6]).doubleValue())
 			// != 0.0) {
-			t.setAccountId(((String) object[0]));
+			t.setAccountId(((Long) object[0]));
 			t.setAccountName(object[1] == null ? null : (String) object[1]);
 			t.setAccountNumber(object[2] == null ? null : (String) object[2]);
 			t.setAccountType(object[3] == null ? 0 : ((Integer) object[3])
@@ -5356,7 +5341,7 @@ public class FinanceTool implements IFinanceDAOService {
 			 */
 			salesByCustomerDetail.setMemo((String) object[17]);
 			salesByCustomerDetail.setReference((String) object[18]);
-			salesByCustomerDetail.setTransactionId((String) object[19]);
+			salesByCustomerDetail.setTransactionId((Long) object[19]);
 			queryResult.add(salesByCustomerDetail);
 		}
 		return queryResult;
@@ -5464,7 +5449,7 @@ public class FinanceTool implements IFinanceDAOService {
 					: ((Double) object[10]).doubleValue());
 			transactionHistory.setWriteOff(object[11] == null ? 0
 					: ((Double) object[11]).doubleValue());
-			transactionHistory.setTransactionId((String) object[12]);
+			transactionHistory.setTransactionId((Long) object[12]);
 			transactionHistory
 					.setBeginningBalance((object[13] != null ? ((Double) object[13])
 							.doubleValue() : 0.0));
@@ -5574,7 +5559,7 @@ public class FinanceTool implements IFinanceDAOService {
 			salesByCustomerDetail.setIsVoid(object[12] == null ? true
 					: ((Boolean) object[12]).booleanValue());
 			salesByCustomerDetail.setReference((String) object[13]);
-			salesByCustomerDetail.setTransactionId((String) object[14]);
+			salesByCustomerDetail.setTransactionId((Long) object[14]);
 			queryResult.add(salesByCustomerDetail);
 		}
 
@@ -5658,7 +5643,7 @@ public class FinanceTool implements IFinanceDAOService {
 			salesByCustomerDetail.setIsVoid(object[11] == null ? true
 					: ((Boolean) object[11]).booleanValue());
 			salesByCustomerDetail.setReference((String) object[12]);
-			salesByCustomerDetail.setTransactionId((((String) object[13])));
+			salesByCustomerDetail.setTransactionId((((Long) object[13])));
 			queryResult.add(salesByCustomerDetail);
 		}
 		return queryResult;
@@ -5782,7 +5767,7 @@ public class FinanceTool implements IFinanceDAOService {
 			transactionHistory.setIsVoid(object[12] == null ? true
 					: ((Boolean) object[12]).booleanValue());
 			transactionHistory.setReference((String) object[13]);
-			transactionHistory.setTransactionId((String) object[14]);
+			transactionHistory.setTransactionId((Long) object[14]);
 			transactionHistory
 					.setBeginningBalance((object[15] != null ? (((Double) object[15])
 							.doubleValue()) : 0.0));
@@ -5959,12 +5944,10 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@SuppressWarnings("unchecked")
 	public List<MostProfitableCustomers> getProfitabilityByCustomerDetail(
-			final String customer2, long startDate, long endDate)
+			final long customer, long startDate, long endDate)
 			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		long customer = getLongIdForGivenid(AccounterCoreType.CUSTOMER,
-				customer2);
 		Query query = session
 				.createQuery(
 						"select je from com.vimukti.accounter.core.Entry e inner join e.journalEntry je where e.customer.id=:customer order by je.id")
@@ -6192,7 +6175,7 @@ public class FinanceTool implements IFinanceDAOService {
 			accountRegister.setMemo((String) object[7]);
 			accountRegister.setBalance(object[8] == null ? 0
 					: ((Double) object[8]).doubleValue());
-			accountRegister.setTransactionId((String) object[9]);
+			accountRegister.setTransactionId((Long) object[9]);
 			accountRegister.setVoided(object[10] == null ? false
 					: (Boolean) object[10]);
 
@@ -6593,7 +6576,7 @@ public class FinanceTool implements IFinanceDAOService {
 			// if ((object[6] == null ? 0 : ((Double) object[6]).doubleValue())
 			// != 0.0) {
 
-			t.setAccountId((String) object[0]);
+			t.setAccountId((Long) object[0]);
 			t.setAccountName((String) object[1]);
 			t.setAccountNumber((String) object[2]);
 			t.setAccountType(object[3] == null ? 0 : ((Integer) object[3])
@@ -6671,7 +6654,7 @@ public class FinanceTool implements IFinanceDAOService {
 			// if ((object[6] == null ? 0 : ((Double) object[6]).doubleValue())
 			// != 0.0) {
 
-			t.setAccountId((String) object[0]);
+			t.setAccountId((Long) object[0]);
 			t.setAccountName((String) object[1]);
 			t.setAccountNumber((String) object[2]);
 			t.setAccountType(object[3] == null ? 0 : ((Integer) object[3])
@@ -6787,7 +6770,7 @@ public class FinanceTool implements IFinanceDAOService {
 			// if ((object[6] == null ? 0 : ((Double) object[6]).doubleValue())
 			// != 0.0) {
 
-			t.setAccountId((String) object[0]);
+			t.setAccountId((Long) object[0]);
 			t.setAccountName((String) object[1]);
 			t.setAccountNumber((String) object[2]);
 			t.setAccountType(object[3] == null ? 0 : ((Integer) object[3])
@@ -9069,7 +9052,7 @@ public class FinanceTool implements IFinanceDAOService {
 				r.setNumber((String) object[3]);
 				r.setPercentage((Boolean) object[4]);
 				r.setSalesPrice((Double) object[5]);
-				r.setTransactionId((String) object[6]);
+				r.setTransactionId((Long) object[6]);
 				r.setTransactionType((Integer) object[7]);
 				r.setDate(new ClientFinanceDate((Long) object[9]));
 
@@ -9096,7 +9079,7 @@ public class FinanceTool implements IFinanceDAOService {
 					r2.setNumber((String) object[3]);
 					r2.setPercentage(false);
 					r2.setSalesPrice((Double) object[11]);
-					r2.setTransactionId((String) object[6]);
+					r2.setTransactionId((Long) object[6]);
 					r2.setTransactionType((Integer) object[7]);
 
 					if (maps.containsKey(r2.getCustomerName())) {

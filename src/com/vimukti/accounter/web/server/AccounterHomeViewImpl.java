@@ -292,7 +292,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	public List<ClientCreditsAndPayments> getVendorCreditsAndPayments(
-			String vendorId) {
+			long vendorId) {
 		List<ClientCreditsAndPayments> clientCreditsAndPaymentsList = new ArrayList<ClientCreditsAndPayments>();
 		List<CreditsAndPayments> serverCreditsAndPayments = null;
 		try {
@@ -615,7 +615,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
-	public boolean canVoidOrEdit(String invoiceOrVendorBillId) {
+	public boolean canVoidOrEdit(long invoiceOrVendorBillId) {
 		boolean isCanVoidOrEdit = false;
 		try {
 
@@ -630,7 +630,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	public List<ClientCreditsAndPayments> getCustomerCreditsAndPayments(
-			String customerId) {
+			long customerId) {
 		List<ClientCreditsAndPayments> clientCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
 		List<CreditsAndPayments> serverCreditsAndPayments = null;
 		try {
@@ -665,7 +665,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return customerRefundsList;
 	}
 
-	public List<ClientEntry> getEntries(String journalEntryId) {
+	public List<ClientEntry> getEntries(long journalEntryId) {
 		List<ClientEntry> clientEntries = new ArrayList<ClientEntry>();
 		List<Entry> serverEntries = null;
 		try {
@@ -704,7 +704,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return clientEstimate;
 	}
 
-	public List<ClientEstimate> getEstimates(String customerId) {
+	public List<ClientEstimate> getEstimates(long customerId) {
 		List<ClientEstimate> clientEstimate = new ArrayList<ClientEstimate>();
 		List<Estimate> serverEstimates = null;
 		try {
@@ -800,7 +800,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return clientJournalEntries;
 	}
 
-	public ClientJournalEntry getJournalEntry(String journalEntryId) {
+	public ClientJournalEntry getJournalEntry(long journalEntryId) {
 		ClientJournalEntry clientJournalEntry = null;
 		JournalEntry serverJournalEntry = null;
 		try {
@@ -917,7 +917,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	public List<ReceivePaymentTransactionList> getTransactionReceivePayments(
-			String customerId, long paymentDate) {
+			long customerId, long paymentDate) {
 		List<ReceivePaymentTransactionList> receivePaymentTransactionList = null;
 
 		try {
@@ -936,7 +936,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return receivePaymentTransactionList;
 	}
 
-	public boolean isSalesTaxPayableAccount(String accountId) {
+	public boolean isSalesTaxPayableAccount(long accountId) {
 		boolean isSalesTaxPayable = false;
 		try {
 
@@ -964,7 +964,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return isSalesTaxPayable;
 	}
 
-	public boolean isTaxAgencyAccount(String accountId) {
+	public boolean isTaxAgencyAccount(long accountId) {
 		boolean isTaxAgency = false;
 		try {
 
@@ -1052,7 +1052,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	public ClientTransactionMakeDeposit getTransactionMakeDeposit(
-			String transactionMakeDepositId) {
+			long transactionMakeDepositId) {
 		ClientTransactionMakeDeposit clientTransactionMakeDeposit = null;
 		TransactionMakeDeposit serverTransactionMakeDeposit = null;
 		try {
