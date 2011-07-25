@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.ReverseChargeListDetail
 public class ReverseChargeListDetailReport extends
 		AbstractReportView<ReverseChargeListDetail> {
 
-	private String vatAgency;
+	private long vatAgency;
 
 	public ReverseChargeListDetailReport() {
 		this.serverReport = new ReverseChargeListDetailServerReport(this);
