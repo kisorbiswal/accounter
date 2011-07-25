@@ -4,13 +4,13 @@ public class ResetPasswordToken {
 
 	long id;
 	String token;
-	String userId;
+	long userId;
 	
 	public ResetPasswordToken() {
 		
 	}
 	
-	public ResetPasswordToken(String token, String userId) {
+	public ResetPasswordToken(String token, long userId) {
 		this.token = token;
 		this.userId = userId;
 	}
@@ -23,11 +23,11 @@ public class ResetPasswordToken {
 		this.token = token;
 	}
 
-	public String getUserId() {
+	public long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 
