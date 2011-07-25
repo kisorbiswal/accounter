@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.PurchaseByItemDetailSer
 @SuppressWarnings("unchecked")
 public class PurchaseByItemDetailReport extends
 		AbstractReportView<SalesByCustomerDetail> {
-	public String byCustomerDetail;
+	public long byCustomerDetail;
 
 	public PurchaseByItemDetailReport() {
 		this.serverReport = new PurchaseByItemDetailServerReport(this);
@@ -22,8 +22,8 @@ public class PurchaseByItemDetailReport extends
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(record.getType(), record
-					.getTransactionId());
+			ReportsRPC.openTransactionView(record.getType(),
+					record.getTransactionId());
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class PurchaseByItemDetailReport extends
 					byCustomerDetail.getItemName(), start.getTime(),
 					end.getTime(), this);
 		}
-		this.byCustomerDetail = byCustomerDetail.getItemName();
+		this.byCustomerDetail = byCustomerDetail.getTransactionId();
 	}
 
 	@Override
@@ -59,15 +59,17 @@ public class PurchaseByItemDetailReport extends
 
 	@Override
 	public void print() {
-		if (byCustomerDetail == null) {
+		if (byCustomerDetail == 0) {
 
-			UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-					.getTime())), Integer.parseInt(String.valueOf(endDate
-					.getTime())), 133, "", "");
+			UIUtils.generateReportPDF(
+					Integer.parseInt(String.valueOf(startDate.getTime())),
+					Integer.parseInt(String.valueOf(endDate.getTime())), 133,
+					"", "");
 		} else {
-			UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-					.getTime())), Integer.parseInt(String.valueOf(endDate
-					.getTime())), 133, "", "", byCustomerDetail);
+			UIUtils.generateReportPDF(
+					Integer.parseInt(String.valueOf(startDate.getTime())),
+					Integer.parseInt(String.valueOf(endDate.getTime())), 133,
+					"", "", byCustomerDetail);
 		}
 	}
 
@@ -80,8 +82,8 @@ public class PurchaseByItemDetailReport extends
 	public int sort(SalesByCustomerDetail obj1, SalesByCustomerDetail obj2,
 			int col) {
 
-		int ret = obj1.getItemName().toLowerCase().compareTo(
-				obj2.getItemName().toLowerCase());
+		int ret = obj1.getItemName().toLowerCase()
+				.compareTo(obj2.getItemName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
@@ -97,15 +99,15 @@ public class PurchaseByItemDetailReport extends
 					Integer.parseInt(obj2.getNumber()));
 
 		case 0:
-			return obj1.getItemName().toLowerCase().compareTo(
-					obj2.getItemName().toLowerCase());
+			return obj1.getItemName().toLowerCase()
+					.compareTo(obj2.getItemName().toLowerCase());
 
 		case 4:
 			return UIUtils
 					.compareDouble(obj1.getQuantity(), obj2.getQuantity());
 		case 5:
-			return UIUtils.compareDouble(obj1.getUnitPrice(), obj2
-					.getUnitPrice());
+			return UIUtils.compareDouble(obj1.getUnitPrice(),
+					obj2.getUnitPrice());
 
 		case 6:
 			return UIUtils
@@ -119,14 +121,16 @@ public class PurchaseByItemDetailReport extends
 	}
 
 	public void exportToCsv() {
-		if (byCustomerDetail == null) {
-			UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-					.getTime())), Integer.parseInt(String.valueOf(endDate
-					.getTime())), 133, "", "");
+		if (byCustomerDetail == 0) {
+			UIUtils.exportReport(
+					Integer.parseInt(String.valueOf(startDate.getTime())),
+					Integer.parseInt(String.valueOf(endDate.getTime())), 133,
+					"", "");
 		} else {
-			UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-					.getTime())), Integer.parseInt(String.valueOf(endDate
-					.getTime())), 133, "", "", byCustomerDetail);
+			UIUtils.exportReport(
+					Integer.parseInt(String.valueOf(startDate.getTime())),
+					Integer.parseInt(String.valueOf(endDate.getTime())), 133,
+					"", "", byCustomerDetail);
 		}
 	}
 }
