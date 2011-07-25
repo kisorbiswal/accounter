@@ -24,10 +24,9 @@ public class BalanceSheetServerReport extends
 	private double otherNominalAccounts;
 	private double netAssetsTotal;
 	private double dividendAmount;
-	
-	
 
-	public BalanceSheetServerReport(long startDate, long endDate,int generationType) {
+	public BalanceSheetServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 		this.columnstoHide.add(3);
 	}
@@ -133,7 +132,7 @@ public class BalanceSheetServerReport extends
 		//
 		// }
 		// }
-		if (closePrevSection(record.getParentAccount() == null ? record
+		if (closePrevSection(record.getParentAccount() == 0 ? record
 				.getAccountName() : getAccountNameById(record
 				.getParentAccount()))) {
 			processRecord(record);
@@ -144,9 +143,9 @@ public class BalanceSheetServerReport extends
 
 	}
 
-	public String getAccountNameById(String id) {
+	public String getAccountNameById(long id) {
 		for (TrialBalance balance : this.records)
-			if (balance.getAccountId().equals(id))
+			if (balance.getAccountId() == id)
 				return balance.getAccountName();
 		return null;
 	}
@@ -309,8 +308,8 @@ public class BalanceSheetServerReport extends
 
 	public boolean isParent(TrialBalance record) {
 		for (TrialBalance balance : this.records) {
-			if (balance.getParentAccount() != null)
-				if (balance.getParentAccount().equals(record.getAccountId()))
+			if (balance.getParentAccount() != 0)
+				if (balance.getParentAccount() == record.getAccountId())
 					return true;
 		}
 		return false;
@@ -479,8 +478,7 @@ public class BalanceSheetServerReport extends
 				}
 				if (section.footer.equals("Shareholder Funds")) {
 					shareHoldersFund = Double.valueOf(section.data[3]
-							.toString())
-							- 2 * dividendAmount;
+							.toString()) - 2 * dividendAmount;
 					section.data[3] = shareHoldersFund;
 				}
 				if (section.footer.equals("Net Current Assets")) {
