@@ -87,10 +87,8 @@ public class CustomerRefundView extends
 		payFromSelect.setAccounts();
 
 		if (transactionObject != null) {
-			payFromSelect.setComboItem(getCompany()
-					.getAccount(
-							((ClientCustomerRefund) transactionObject)
-									.getPayFrom()));
+			payFromSelect.setComboItem(getCompany().getAccount(
+					((ClientCustomerRefund) transactionObject).getPayFrom()));
 		}
 
 		selectedAccount = payFromSelect.getSelectedValue();
@@ -103,8 +101,8 @@ public class CustomerRefundView extends
 			return;
 		this.customer = customer;
 		if (customer != null && customerCombo != null) {
-			customerCombo.setComboItem(getCompany()
-					.getCustomer(customer.getID()));
+			customerCombo.setComboItem(getCompany().getCustomer(
+					customer.getID()));
 		}
 		addressListOfCustomer = customer.getAddress();
 		super.initBillToCombo();
@@ -121,8 +119,7 @@ public class CustomerRefundView extends
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
-					.equalsIgnoreCase(Accounter.getVendorsMessages()
-							.cheque())
+					.equalsIgnoreCase(Accounter.getVendorsMessages().cheque())
 					: paymentMethod.equalsIgnoreCase(Accounter
 							.getVendorsMessages().check())) {
 
@@ -144,8 +141,7 @@ public class CustomerRefundView extends
 		// Label lab1 = new Label(Utility.getTransactionName(transactionType)
 		// + "(" + getTransactionStatus() + ")");
 		Label lab1 = new Label(Utility.getTransactionName(transactionType));
-		lab1.setStyleName(Accounter.getCustomersMessages()
-				.lableTitle());
+		lab1.setStyleName(Accounter.getCustomersMessages().lableTitle());
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
@@ -269,10 +265,10 @@ public class CustomerRefundView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString().equalsIgnoreCase(
-							"true")) {
-						checkNoText.setValue(Accounter
-								.getCustomersMessages().toBePrinted());
+					if (printCheck.getValue().toString()
+							.equalsIgnoreCase("true")) {
+						checkNoText.setValue(Accounter.getCustomersMessages()
+								.toBePrinted());
 						checkNoText.setDisabled(true);
 					} else {
 						if (payFromSelect.getValue() == null)
@@ -294,10 +290,8 @@ public class CustomerRefundView extends
 
 		checkNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? customerConstants
-						.chequeNo()
-						: customerConstants.checkNo());
-		checkNoText.setValue(Accounter.getCustomersMessages()
-				.toBePrinted());
+						.chequeNo() : customerConstants.checkNo());
+		checkNoText.setValue(Accounter.getCustomersMessages().toBePrinted());
 		checkNoText.setHelpInformation(true);
 		checkNoText.setWidth(100);
 		if (!paymentMethodCombo.getSelectedValue().equals(
@@ -437,7 +431,7 @@ public class CustomerRefundView extends
 
 			super.saveAndUpdateView();
 
-			if (transactionObject.getID() == null)
+			if (transactionObject.getID() == 0)
 				createObject((ClientCustomerRefund) transactionObject);
 			else
 				alterObject((ClientCustomerRefund) transactionObject);
@@ -464,8 +458,8 @@ public class CustomerRefundView extends
 		} else {
 			String checknumber;
 			checknumber = this.checkNumber;
-			if (checknumber.equals(Accounter.getVendorsMessages()
-					.Tobeprinted()))
+			if (checknumber
+					.equals(Accounter.getVendorsMessages().Tobeprinted()))
 				value = Accounter.getCustomersMessages().toBePrinted();
 			else
 				value = String.valueOf(checknumber);
@@ -726,8 +720,7 @@ public class CustomerRefundView extends
 
 		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id,
-				editCallBack);
+		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
 
 	}
 
@@ -743,8 +736,8 @@ public class CustomerRefundView extends
 		paymentMethodCombo.setDisabled(isEdit);
 		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
-			checkNoText.setValue(Accounter.getCustomersMessages()
-					.toBePrinted());
+			checkNoText
+					.setValue(Accounter.getCustomersMessages().toBePrinted());
 			checkNoText.setDisabled(true);
 		}
 		// paymentMethodSelected(paymentMethodCombo.getValue().toString());

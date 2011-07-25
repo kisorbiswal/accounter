@@ -306,11 +306,8 @@ public class PaySalesTaxView extends
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 
-		Label lab = new Label(Accounter.getFinanceUIConstants()
-				.paySalesTax());
-		lab
-				.setStyleName(Accounter.getCustomersMessages()
-						.lableTitle());
+		Label lab = new Label(Accounter.getFinanceUIConstants().paySalesTax());
+		lab.setStyleName(Accounter.getCustomersMessages().lableTitle());
 
 		date = new DateField(null);
 		// date.setTitle(companyConstants.date());
@@ -343,8 +340,7 @@ public class PaySalesTaxView extends
 						selectedPayFromAccount = selectItem;
 						initialEndingBalance = !DecimalUtil.isEquals(
 								selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
-								.getTotalBalance()
-								: 0D;
+								.getTotalBalance() : 0D;
 						calculateEndingBalance();
 
 						endingBalanceText.setValue(DataUtils
@@ -442,10 +438,9 @@ public class PaySalesTaxView extends
 		List<ClientTransactionPaySalesTax> filterRecords = new ArrayList<ClientTransactionPaySalesTax>();
 		if (filterByDateList != null)
 			for (ClientTransactionPaySalesTax trpaySalesTax : getFilterByDateList()) {
-				if (trpaySalesTax.getTaxAgency() != null) {
-					String taxAgencyname = getCompany()
-							.getTaxAgency(trpaySalesTax.getTaxAgency())
-							.getName();
+				if (trpaySalesTax.getTaxAgency() != 0) {
+					String taxAgencyname = getCompany().getTaxAgency(
+							trpaySalesTax.getTaxAgency()).getName();
 					String selectedagency = selectedTaxAgency.getName();
 					if (taxAgencyname.equals(selectedagency))
 						filterRecords.add(trpaySalesTax);
@@ -460,10 +455,10 @@ public class PaySalesTaxView extends
 			List<ClientPaySalesTaxEntries> entrylist) {
 		List<ClientPaySalesTaxEntries> filterlist = new ArrayList<ClientPaySalesTaxEntries>();
 		ClientFinanceDate transactionDate;
-		ClientFinanceDate firstDate = new ClientFinanceDate(fillterdate
-				.getYear(), fillterdate.getMonth() - 1, 01);
-		ClientFinanceDate lastDate = new ClientFinanceDate(fillterdate
-				.getYear(), fillterdate.getMonth(), 01);
+		ClientFinanceDate firstDate = new ClientFinanceDate(
+				fillterdate.getYear(), fillterdate.getMonth() - 1, 01);
+		ClientFinanceDate lastDate = new ClientFinanceDate(
+				fillterdate.getYear(), fillterdate.getMonth(), 01);
 		for (ClientPaySalesTaxEntries entry : entrylist) {
 			transactionDate = new ClientFinanceDate(entry.getTransactionDate());
 			if (isAfterDate(transactionDate, firstDate)
@@ -704,7 +699,6 @@ public class PaySalesTaxView extends
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.title(Accounter.getFinanceUIConstants()
-				.paySalesTax());
+		return UIUtils.title(Accounter.getFinanceUIConstants().paySalesTax());
 	}
 }

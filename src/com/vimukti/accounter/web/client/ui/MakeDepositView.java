@@ -534,7 +534,7 @@ public class MakeDepositView extends
 		// Setting Transaction number
 		// makeDeposit.setNumber(transactionNumber);
 		super.saveAndUpdateView();
-		if (transactionObject.getID() != null) {
+		if (transactionObject.getID() != 0) {
 			alterObject(makeDeposit);
 		} else {
 			createObject(makeDeposit);

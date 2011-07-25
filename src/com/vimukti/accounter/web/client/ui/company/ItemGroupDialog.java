@@ -43,7 +43,7 @@ public class ItemGroupDialog extends BaseDialog {
 		} else {
 			List<ClientItemGroup> itemGroups = getCompany().getItemGroups();
 			for (ClientItem clientItem : clientItems) {
-				if (clientItem.getItemGroup() == null) {
+				if (clientItem.getItemGroup() == 0) {
 					dialoggrid.addData(clientItem);
 					continue;
 				}

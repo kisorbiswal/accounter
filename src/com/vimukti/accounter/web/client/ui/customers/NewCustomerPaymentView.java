@@ -567,7 +567,7 @@ public class NewCustomerPaymentView extends
 
 		try {
 			transactionObject = getPrePaymentObject();
-			if (transactionObject.getID() == null)
+			if (transactionObject.getID() == 0)
 				createObject((ClientCustomerPrePayment) transactionObject);
 			else
 				alterObject((ClientCustomerPrePayment) transactionObject);

@@ -17,7 +17,7 @@ public class ClientTransactionPaySalesTax implements IAccounterCore {
 
 	String taxAdjustment;
 
-	String taxRateCalculation;
+	long taxRateCalculation;
 
 	ClientPaySalesTaxEntries paySalesTaxEntry;
 
@@ -122,11 +122,11 @@ public class ClientTransactionPaySalesTax implements IAccounterCore {
 		return taxAdjustment;
 	}
 
-	public void setTaxRateCalculation(String taxRateCalculation) {
+	public void setTaxRateCalculation(long taxRateCalculation) {
 		this.taxRateCalculation = taxRateCalculation;
 	}
 
-	public String getTaxRateCalculation() {
+	public long getTaxRateCalculation() {
 		return taxRateCalculation;
 	}
 

@@ -356,7 +356,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	@Override
 	public void saveSuccess(IAccounterCore result) {
 		ClientSalesPerson salesPerson = (ClientSalesPerson) result;
-		if (salesPerson.getID() != null) {
+		if (salesPerson.getID() != 0) {
 			// if (takenSalesperson == null)
 			// Accounter.showInformation(((ClientSalesPerson) result)
 			// .getFirstName()

@@ -95,11 +95,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	PriceLevelCombo priceLevelSelect;
 	CreditRatingCombo creditRatingSelect;
-	
+
 	TextItem bankAccountSelect;
 	TextItem bankNameSelect;
 	TextItem bankBranchSelect;
-	
+
 	ShippingMethodsCombo shipMethSelect;
 	PaymentTermsCombo payTermsSelect;
 	CustomerGroupCombo custGroupSelect;
@@ -162,7 +162,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private void initSalesPersonList() {
 		salesPersonSelect.initCombo(company.getActiveSalesPersons());
-		if (takenCustomer != null && takenCustomer.getSalesPerson() != null)
+		if (takenCustomer != null && takenCustomer.getSalesPerson() != 0)
 			salesPersonSelect.setComboItem(company.getSalesPerson(takenCustomer
 					.getSalesPerson()));
 
@@ -176,8 +176,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	}
 
 	private void initTaxItemGroupList() {
-		List<ClientTAXItemGroup> result = getCompany()
-				.getTaxItemGroups();
+		List<ClientTAXItemGroup> result = getCompany().getTaxItemGroups();
 
 		for (ClientTAXItemGroup taxItemGroup : result) {
 			if (taxItemGroup.getName().equalsIgnoreCase("None")) {
@@ -193,8 +192,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private void initCustomerGroupList() {
 
-		custGroupSelect.initCombo(getCompany()
-				.getCustomerGroups());
+		custGroupSelect.initCombo(getCompany().getCustomerGroups());
 
 		// Setting Customer Group
 		if (takenCustomer != null && takenCustomer.getCustomerGroup() != null)
@@ -204,10 +202,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	}
 
 	public void initPaymentTermsList() {
-		payTermsSelect.initCombo(getCompany()
-				.getPaymentsTerms());
+		payTermsSelect.initCombo(getCompany().getPaymentsTerms());
 		// Setting Payment Term
-		if (takenCustomer != null && takenCustomer.getPaymentTerm() != null)
+		if (takenCustomer != null && takenCustomer.getPaymentTerm() != 0)
 			payTermsSelect.setComboItem(company.getPaymentTerms(takenCustomer
 					.getPaymentTerm()));
 
@@ -215,10 +212,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	public void initShippingMethodList() {
 
-		shipMethSelect.initCombo(getCompany()
-				.getShippingMethods());
+		shipMethSelect.initCombo(getCompany().getShippingMethods());
 		// Setting Preferred Shipping Method
-		if (takenCustomer != null && takenCustomer.getShippingMethod() != null)
+		if (takenCustomer != null && takenCustomer.getShippingMethod() != 0)
 			shipMethSelect.setComboItem(company.getShippingMethod(takenCustomer
 					.getShippingMethod()));
 	}
@@ -233,10 +229,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private void initPriceLevelList() {
 
-		priceLevelSelect.initCombo(getCompany()
-				.getPriceLevels());
+		priceLevelSelect.initCombo(getCompany().getPriceLevels());
 		// Setting Preferred Shipping Method
-		if (takenCustomer != null && takenCustomer.getPriceLevel() != null)
+		if (takenCustomer != null && takenCustomer.getPriceLevel() != 0)
 			priceLevelSelect.setComboItem(company.getPriceLevel(takenCustomer
 					.getPriceLevel()));
 	}
@@ -245,7 +240,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		List<ClientTAXCode> taxcodes = company.getActiveTaxCodes();
 		if (taxcodes != null)
 			custTaxCode.initCombo(taxcodes);
-		if (takenCustomer != null && takenCustomer.getTAXCode() != null)
+		if (takenCustomer != null && takenCustomer.getTAXCode() != 0)
 			custTaxCode.setComboItem(company.getTAXCode(takenCustomer
 					.getTAXCode()));
 	}
@@ -477,22 +472,20 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		// Setting Active
 		customer.setActive((Boolean) statusCheck.getValue());
-        
-		//Setting accout number 
-		customer.setBankAccountNo(bankAccountSelect.getValue().toString());
-		
-		//Setting Bank name
-		customer.setBankName(bankNameSelect.getValue().toString());
-		
-		//Setting Branch name
-		customer.setBankBranch(bankBranchSelect.getValue().toString());
 
+		// Setting accout number
+		customer.setBankAccountNo(bankAccountSelect.getValue().toString());
+
+		// Setting Bank name
+		customer.setBankName(bankNameSelect.getValue().toString());
+
+		// Setting Branch name
+		customer.setBankBranch(bankBranchSelect.getValue().toString());
 
 		// Setting customer Since
 		if (customerSinceDate != null
 				&& customerSinceDate.getEnteredDate() != null)
-			customer
-					.setPayeeSince(customerSinceDate.getEnteredDate().getTime());
+			customer.setPayeeSince(customerSinceDate.getEnteredDate().getTime());
 
 		// Setting Balance
 		// Setting Balance
@@ -706,8 +699,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		accInfoForm.setFields(statusCheck, customerSinceDate, balanceText,
 				balanceDate);
 
-		Label l1 = new Label(Accounter.getCustomersMessages()
-				.contacts());
+		Label l1 = new Label(Accounter.getCustomersMessages().contacts());
 		AccounterButton addButton = new AccounterButton(Accounter
 				.getCustomersMessages().add());
 		addButton.addClickHandler(new ClickHandler() {
@@ -785,8 +777,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			emailForm.setWidth("100%");
 			// Setting Status Check
 			statusCheck.setValue(takenCustomer.isActive());
-			
-			
 
 			// Setting Customer Since
 			customerSinceDate.setEnteredDate(new ClientFinanceDate(
@@ -881,32 +871,40 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 
-		addrsForm.getCellFormatter().getElement(0, 0).setAttribute("width",
-				titlewidth + "");
+		addrsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute("width", titlewidth + "");
 
-		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
-				Accounter.getCustomersMessages().width(), "185px");
+		addrsForm
+				.getCellFormatter()
+				.getElement(0, 1)
+				.setAttribute(Accounter.getCustomersMessages().width(), "185px");
 
-		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.getCustomersMessages().width(), "240px");
+		fonFaxForm
+				.getCellFormatter()
+				.getElement(0, 0)
+				.setAttribute(Accounter.getCustomersMessages().width(), "240px");
 		// fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.getCustomersMessages().width(), "185px");
 
-		customerForm.getCellFormatter().getElement(0, 0).getStyle().setWidth(
-				150, Unit.PX);
-		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.getCustomersMessages().width(), "240px");
+		customerForm.getCellFormatter().getElement(0, 0).getStyle()
+				.setWidth(150, Unit.PX);
+		emailForm
+				.getCellFormatter()
+				.getElement(0, 0)
+				.setAttribute(Accounter.getCustomersMessages().width(), "240px");
 		// emailForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.getCustomersMessages().width(), "");
-		accInfoForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.getCustomersMessages().width(), "150px");
+		accInfoForm
+				.getCellFormatter()
+				.getElement(0, 0)
+				.setAttribute(Accounter.getCustomersMessages().width(), "150px");
 
 	}
 
 	private HorizontalPanel getDetailsTab() {
 
-		salesPersonSelect = new SalesPersonCombo(customerConstants
-				.salesPerson());
+		salesPersonSelect = new SalesPersonCombo(
+				customerConstants.salesPerson());
 		salesPersonSelect.setHelpInformation(true);
 		salesPersonSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientSalesPerson>() {
@@ -939,8 +937,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 
-		creditRatingSelect = new CreditRatingCombo(customerConstants
-				.creditRating());
+		creditRatingSelect = new CreditRatingCombo(
+				customerConstants.creditRating());
 		creditRatingSelect.setHelpInformation(true);
 		creditRatingSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCreditRating>() {
@@ -951,23 +949,23 @@ public class CustomerView extends BaseView<ClientCustomer> {
 					}
 
 				});
-		bankAccountSelect =new  TextItem(customerConstants.bankAccountNo());
+		bankAccountSelect = new TextItem(customerConstants.bankAccountNo());
 		bankAccountSelect.setHelpInformation(true);
-		bankNameSelect =new  TextItem(customerConstants.bankName());
+		bankNameSelect = new TextItem(customerConstants.bankName());
 		bankNameSelect.setHelpInformation(true);
-		bankBranchSelect =new  TextItem(customerConstants.bankBranch());
+		bankBranchSelect = new TextItem(customerConstants.bankBranch());
 		bankBranchSelect.setHelpInformation(true);
-		
-		
+
 		DynamicForm financeDitailsForm = UIUtils.form(customerConstants
 				.financialDetails());
 
 		financeDitailsForm.setFields(salesPersonSelect, priceLevelSelect,
-				creditRatingSelect,bankNameSelect,bankAccountSelect,bankBranchSelect);
+				creditRatingSelect, bankNameSelect, bankAccountSelect,
+				bankBranchSelect);
 		financeDitailsForm.setWidth("100%");
 
-		shipMethSelect = new ShippingMethodsCombo(customerConstants
-				.preferredShippingMethod());
+		shipMethSelect = new ShippingMethodsCombo(
+				customerConstants.preferredShippingMethod());
 		shipMethSelect.setHelpInformation(true);
 		shipMethSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
@@ -1006,8 +1004,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 
-		custGroupSelect = new CustomerGroupCombo(customerConstants
-				.customerGroup());
+		custGroupSelect = new CustomerGroupCombo(
+				customerConstants.customerGroup());
 		custGroupSelect.setHelpInformation(true);
 		custGroupSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomerGroup>() {
@@ -1036,8 +1034,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				.VATRegistrationNumber());
 		vatregno.setHelpInformation(true);
 		vatregno.setWidth(100);
-		custTaxCode = new TAXCodeCombo(Accounter
-				.getCustomersMessages().customerVATCode(), true);
+		custTaxCode = new TAXCodeCombo(Accounter.getCustomersMessages()
+				.customerVATCode(), true);
 		custTaxCode.setHelpInformation(true);
 		custTaxCode
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
@@ -1067,8 +1065,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setSize("100%", "100%");
 		leftVLay.setHeight("350px");
-		leftVLay.getElement().getStyle().setBorderColor(
-				"none repeat scroll 0 0 #eee !important");
+		leftVLay.getElement().getStyle()
+				.setBorderColor("none repeat scroll 0 0 #eee !important");
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 
@@ -1086,46 +1084,45 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		if (takenCustomer != null) {
 			// Setting salesPerson
-			selectSalesPersonFromDetailsTab = getCompany()
-					.getSalesPerson(takenCustomer.getSalesPerson());
-			
+			selectSalesPersonFromDetailsTab = getCompany().getSalesPerson(
+					takenCustomer.getSalesPerson());
+
 			bankAccountSelect.setValue(takenCustomer.getBankAccountNo());
 			bankNameSelect.setValue(takenCustomer.getBankName());
 			bankBranchSelect.setValue(takenCustomer.getBankBranch());
-			
+
 			// Setting Credit Limit Text
 			if (!DecimalUtil.isEquals(takenCustomer.getCreditLimit(), 0))
 				creditLimitText.setAmount(takenCustomer.getCreditLimit());
 
 			// Setting price level
-			selectPriceLevelFromDetailsTab = getCompany()
-					.getPriceLevel(takenCustomer.getPriceLevel());
+			selectPriceLevelFromDetailsTab = getCompany().getPriceLevel(
+					takenCustomer.getPriceLevel());
 			// Setting Credit Rating
-			selectCreditRatingFromDetailsTab = getCompany()
-					.getCreditRating(takenCustomer.getCreditRating());
+			selectCreditRatingFromDetailsTab = getCompany().getCreditRating(
+					takenCustomer.getCreditRating());
 			// Setting Shipping Method
-			selectShippingMethodFromDetailsTab = Accounter
-					.getCompany().getShippingMethod(
-							takenCustomer.getShippingMethod());
+			selectShippingMethodFromDetailsTab = Accounter.getCompany()
+					.getShippingMethod(takenCustomer.getShippingMethod());
 			// Setting Payment Method
 			// selectPaymentMethodFromDetialsTab = takenCustomer
 			// .getPaymentMethod();
 			payMethSelect.setComboItem(takenCustomer.getPaymentMethod());
 			// Setting payemnt term
-			selectPayTermFromDetailsTab = getCompany()
-					.getPaymentTerms(takenCustomer.getPaymentTerm());
+			selectPayTermFromDetailsTab = getCompany().getPaymentTerms(
+					takenCustomer.getPaymentTerm());
 			// Setting Customer Group
-			selectCustomerGroupFromDetailsTab = getCompany()
-					.getCustomerGroup(takenCustomer.getCustomerGroup());
+			selectCustomerGroupFromDetailsTab = getCompany().getCustomerGroup(
+					takenCustomer.getCustomerGroup());
 			// Setting Tax Group
 			if (company.getAccountingType() == 0)
-				selectTaxGroupFromDetailsTab = getCompany()
-						.getTAXItemGroup(takenCustomer.getTaxItemGroups());
+				selectTaxGroupFromDetailsTab = getCompany().getTAXItemGroup(
+						takenCustomer.getTaxItemGroups());
 			else {
 				// settting vatcode
 
-				selectVatCodeFromDetailsTab = getCompany()
-						.getTAXCode(takenCustomer.getTAXCode());
+				selectVatCodeFromDetailsTab = getCompany().getTAXCode(
+						takenCustomer.getTAXCode());
 				// setting vatRegistrationNumber
 				vatregno.setValue(takenCustomer.getVATRegistrationNumber());
 			}
