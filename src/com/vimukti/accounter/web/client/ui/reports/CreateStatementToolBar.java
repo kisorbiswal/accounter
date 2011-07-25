@@ -60,7 +60,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 							ClientFinanceDate startDate = fromItem.getDate();
 							ClientFinanceDate endDate = toItem.getDate();
 							reportview.makeReportRequest(
-									selectedCusotmer.getID(), startDate,
+									selectedCusotmer.getName(), startDate,
 									endDate);
 
 						}
@@ -167,7 +167,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 		fromItem.setValue(startDate);
 		toItem.setValue(endDate);
 		if (selectedCusotmer != null)
-			reportview.makeReportRequest(selectedCusotmer.getID(), startDate,
+			reportview.makeReportRequest(selectedCusotmer.getName(), startDate,
 					endDate);
 		else
 			reportview.addEmptyMessage("No records to show");
@@ -197,7 +197,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 	}
 
 	public void reportRequest() {
-		reportview.makeReportRequest(selectedCusotmer.getID(), startDate,
+		reportview.makeReportRequest(selectedCusotmer.getName(), startDate,
 				endDate);
 	}
 
