@@ -26,7 +26,7 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	int type;
 
-	String item;
+	long item;
 
 	ClientTAXItem taxItem;
 
@@ -35,9 +35,9 @@ public class ClientTransactionItem implements IAccounterCore {
 	long taxCode;
 
 	// String taxCode;
-	String vatItem;
+	long vatItem;
 
-	String account;
+	long account;
 
 	ClientTAXGroup taxGroup;
 
@@ -94,7 +94,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	/**
 	 * @return the vatItem
 	 */
-	public String getVatItem() {
+	public long getVatItem() {
 		return vatItem;
 	}
 
@@ -102,7 +102,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	 * @param vatItem
 	 *            the vatItem to set
 	 */
-	public void setVatItem(String vatItem) {
+	public void setVatItem(long vatItem) {
 		this.vatItem = vatItem;
 	}
 
@@ -172,7 +172,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	/**
 	 * @return the item
 	 */
-	public String getItem() {
+	public long getItem() {
 		return item;
 	}
 
@@ -190,7 +190,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	/**
 	 * @return the account
 	 */
-	public String getAccount() {
+	public long getAccount() {
 		return this.account;
 	}
 
@@ -269,7 +269,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	 * @param itemId
 	 *            the item to set
 	 */
-	public void setItem(String item) {
+	public void setItem(long item) {
 		this.item = item;
 	}
 
@@ -289,7 +289,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	 * @param accountId
 	 *            the account to set
 	 */
-	public void setAccount(String accountId) {
+	public void setAccount(long accountId) {
 		this.account = accountId;
 	}
 
