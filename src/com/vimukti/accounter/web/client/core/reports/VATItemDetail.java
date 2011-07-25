@@ -13,7 +13,7 @@ IsSerializable, Serializable{
 	 */
 	private static final long serialVersionUID = -5444906010811268472L;
 
-	String transactionId;
+	long transactionId;
 
 	int transactionType;
 
@@ -32,7 +32,7 @@ IsSerializable, Serializable{
 	/**
 	 * @return the transactionId
 	 */
-	public String getTransactionId() {
+	public long getTransactionId() {
 		return transactionId;
 	}
 
@@ -40,7 +40,7 @@ IsSerializable, Serializable{
 	 * @param transactionId
 	 *            the transactionId to set
 	 */
-	public void setTransactionId(String transactionId) {
+	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
 	}
 
