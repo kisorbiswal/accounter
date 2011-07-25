@@ -125,8 +125,9 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			FinanceTool tool = getFinanceTool();
+			OperationContext opContext = new OperationContext(clientCompany);
 
-			return tool.updateCompany(clientCompany);
+			return tool.updateCompany(opContext);
 
 		} catch (Exception e) {
 			e.printStackTrace();
