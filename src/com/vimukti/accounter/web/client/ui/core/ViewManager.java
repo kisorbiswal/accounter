@@ -1457,8 +1457,8 @@ public class ViewManager extends DockPanel {
 
 			}
 			if (currentrequestedWidget != null
-					&& currentrequestedWidget.getID().equals(
-							accounterCoreObject.getID())) {
+					&& currentrequestedWidget.getID() == (accounterCoreObject
+							.getID())) {
 
 				currentrequestedWidget.deleteSuccess(true);
 				currentrequestedWidget = null;
