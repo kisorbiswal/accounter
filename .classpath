@@ -43,5 +43,6 @@
 	<classpathentry kind="lib" path="libs/gwt-servlet.jar"/>
 	<classpathentry kind="lib" path="libs/pd4ml.jar"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="lib" path="libs/cos.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
