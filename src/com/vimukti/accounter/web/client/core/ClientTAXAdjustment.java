@@ -19,15 +19,15 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 
 	boolean isFiled;
 
-	String adjustmentAccount;
+	long adjustmentAccount;
 
 	String vatAccount;
 
-	String taxItem;
+	long taxItem;
 
 	String journalEntry;
 
-	String taxAgency;
+	long taxAgency;
 
 	/**
 	 * @return the journalEntry
@@ -149,7 +149,7 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 	/**
 	 * @return the adjustmentAccount
 	 */
-	public String getAdjustmentAccount() {
+	public long getAdjustmentAccount() {
 		return adjustmentAccount;
 	}
 
@@ -157,7 +157,7 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 	 * @param adjustmentAccount
 	 *            the adjustmentAccount to set
 	 */
-	public void setAdjustmentAccount(String adjustmentAccount) {
+	public void setAdjustmentAccount(long adjustmentAccount) {
 		this.adjustmentAccount = adjustmentAccount;
 	}
 
@@ -179,7 +179,7 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 	/**
 	 * @return the vatItem
 	 */
-	public String getTaxItem() {
+	public long getTaxItem() {
 		return taxItem;
 	}
 
@@ -187,7 +187,7 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 	 * @param taxItem
 	 *            the vatItem to set
 	 */
-	public void setTaxItem(String taxItem) {
+	public void setTaxItem(long taxItem) {
 		this.taxItem = taxItem;
 	}
 
@@ -212,11 +212,11 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 
 	}
 
-	public String getTaxAgency() {
+	public long getTaxAgency() {
 		return taxAgency;
 	}
 
-	public void setTaxAgency(String taxAgency) {
+	public void setTaxAgency(long taxAgency) {
 		this.taxAgency = taxAgency;
 	}
 
