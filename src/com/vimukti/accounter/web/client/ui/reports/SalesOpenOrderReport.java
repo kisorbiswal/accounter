@@ -11,28 +11,25 @@ import com.vimukti.accounter.web.client.ui.serverreports.SalesOpenOrderServerRep
 public class SalesOpenOrderReport extends
 		AbstractReportView<OpenAndClosedOrders> {
 
-	@SuppressWarnings("unused")
-	private boolean isSales;
 	private String status;
 
 	public SalesOpenOrderReport() {
 		this.serverReport = new SalesOpenOrderServerReport(this);
-		isSales = Accounter.isSales();
 	}
 
 	@Override
 	public void init() {
 
 		super.init();
-		toolbar.setDateRanageOptions(Accounter.getReportsMessages()
-				.all(), Accounter.getReportsMessages().thisWeek(),
-				Accounter.getReportsMessages().thisMonth(),
-				Accounter.getReportsMessages().lastWeek(),
-				Accounter.getReportsMessages().lastMonth(),
-				Accounter.getReportsMessages().thisFinancialYear(),
-				Accounter.getReportsMessages().lastFinancialYear(),
-				Accounter.getReportsMessages().thisFinancialQuarter(),
-				Accounter.getReportsMessages().lastFinancialQuarter(),
+		toolbar.setDateRanageOptions(Accounter.getReportsMessages().all(),
+				Accounter.getReportsMessages().thisWeek(), Accounter
+						.getReportsMessages().thisMonth(), Accounter
+						.getReportsMessages().lastWeek(), Accounter
+						.getReportsMessages().lastMonth(), Accounter
+						.getReportsMessages().thisFinancialYear(), Accounter
+						.getReportsMessages().lastFinancialYear(), Accounter
+						.getReportsMessages().thisFinancialQuarter(), Accounter
+						.getReportsMessages().lastFinancialQuarter(),
 
 				// FinanceApplication
 				// .getReportsMessages().present(), FinanceApplication
@@ -46,8 +43,8 @@ public class SalesOpenOrderReport extends
 	@Override
 	public void OnRecordClick(OpenAndClosedOrders record) {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			ReportsRPC.openTransactionView(record.getTransactionType(), record
-					.getTransactionID());
+			ReportsRPC.openTransactionView(record.getTransactionType(),
+					record.getTransactionID());
 			// resetReport(toolbar.getStartDate(), toolbar.getEndDate());
 		}
 	}
@@ -70,13 +67,11 @@ public class SalesOpenOrderReport extends
 			Accounter.createReportService().getSalesOpenOrderReport(
 					start.getTime(), end.getTime(), this);
 		else if (status == 2)
-			Accounter.createReportService()
-					.getSalesCompletedOrderReport(start.getTime(),
-							end.getTime(), this);
+			Accounter.createReportService().getSalesCompletedOrderReport(
+					start.getTime(), end.getTime(), this);
 		else if (status == 3)
-			Accounter.createReportService()
-					.getSalesCancelledOrderReport(start.getTime(),
-							end.getTime(), this);
+			Accounter.createReportService().getSalesCancelledOrderReport(
+					start.getTime(), end.getTime(), this);
 		else
 			Accounter.createReportService().getSalesOrderReport(
 					start.getTime(), end.getTime(), this);
@@ -99,9 +94,10 @@ public class SalesOpenOrderReport extends
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 125, "", "", status);
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 125, "",
+				"", status);
 	}
 
 	@Override
@@ -112,8 +108,8 @@ public class SalesOpenOrderReport extends
 
 	public int sort(OpenAndClosedOrders obj1, OpenAndClosedOrders obj2, int col) {
 
-		int ret = obj1.getVendorOrCustomerName().toLowerCase().compareTo(
-				obj2.getVendorOrCustomerName().toLowerCase());
+		int ret = obj1.getVendorOrCustomerName().toLowerCase()
+				.compareTo(obj2.getVendorOrCustomerName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
@@ -124,8 +120,8 @@ public class SalesOpenOrderReport extends
 					obj2.getTransactionDate());
 
 		case 1:
-			return obj1.getVendorOrCustomerName().toLowerCase().compareTo(
-					obj2.getVendorOrCustomerName().toLowerCase());
+			return obj1.getVendorOrCustomerName().toLowerCase()
+					.compareTo(obj2.getVendorOrCustomerName().toLowerCase());
 
 			// case 2:
 			// // if (isSales)
@@ -146,8 +142,9 @@ public class SalesOpenOrderReport extends
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 125, "", "", status);
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 125, "",
+				"", status);
 	}
 }
