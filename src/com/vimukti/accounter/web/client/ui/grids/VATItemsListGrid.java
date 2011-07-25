@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
 
@@ -84,7 +83,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 			return item.getName() != null ? item.getName() : "";
 		case 2:
 			ClientTAXAgency agency = null;
-			if (item.getTaxAgency() != null) {
+			if (item.getTaxAgency() != 0) {
 				agency = getCompany().getTaxAgency(item.getTaxAgency());
 			}
 			return agency != null ? agency.getName() : "";
@@ -187,7 +186,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	private String getVATAgencyID(ClientTAXItem obj) {
 
 		ClientTAXAgency agency = null;
-		if (obj.getTaxAgency() != null) {
+		if (obj.getTaxAgency() != 0) {
 
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				agency = getCompany().getTaxAgency(obj.getTaxAgency());
