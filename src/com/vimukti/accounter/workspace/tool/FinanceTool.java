@@ -6,7 +6,6 @@ package com.vimukti.accounter.workspace.tool;
 import java.io.NotSerializableException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.security.Security;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,7 +38,6 @@ import org.hibernate.criterion.Restrictions;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterConstants;
-import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Bank;
 import com.vimukti.accounter.core.Box;
 import com.vimukti.accounter.core.BrandingTheme;
@@ -49,6 +47,7 @@ import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.CloneUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
+import com.vimukti.accounter.core.CreatableObject;
 import com.vimukti.accounter.core.CreditCardCharge;
 import com.vimukti.accounter.core.CreditRating;
 import com.vimukti.accounter.core.CreditsAndPayments;
@@ -71,7 +70,6 @@ import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.MakeDeposit;
 import com.vimukti.accounter.core.NumberUtils;
-import com.vimukti.accounter.core.ObjectConvertUtil;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.PaySalesTax;
 import com.vimukti.accounter.core.PaySalesTaxEntries;
@@ -108,12 +106,11 @@ import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.core.change.ChangeTracker;
-import com.vimukti.accounter.ext.Command;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.services.IFinanceDAOService;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.SecureUtils;
+import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -176,7 +173,6 @@ import com.vimukti.accounter.web.client.core.reports.VATDetailReport;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
-import com.vimukti.accounter.web.client.data.BizantraConstants;
 import com.vimukti.accounter.web.client.ui.GraphChart;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.CompanyPreferencesView;
@@ -195,8 +191,6 @@ public class FinanceTool implements IFinanceDAOService {
 
 	public static User user;
 
-	private Company bizantraCompany;
-
 	Logger log = Logger.getLogger(FinanceTool.class);
 
 	private ClientConvertUtil convertUtil;
@@ -205,75 +199,40 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	/**
-	 * Called when Finance Workspace is Created...
-	 * 
-	 * @param name
-	 * @param toolID
-	 * @param space
-	 */
-	public FinanceTool(String name, String toolID, WorkSpace space,
-			int financeCompanyAccType) {
-		super(space, name, toolID);
-
-		Session session = HibernateUtil.getCurrentSession();
-		createDefaultFinanceCompany(financeCompanyAccType);
-		session.saveOrUpdate(this);
-
-		log.info("Created Finance Tool with Name " + name + " for Space "
-				+ space.getName());
-		createView();
-
-	}
-
-	public FinanceTool(IToolMetaData irmd, IWorkSpace space2) {
-		super(space2, irmd.getName(), irmd.getToolID());
-		Session session = HibernateUtil.getCurrentSession();
-		FinanceData ftmd = (FinanceData) irmd;
-		ImportUtil importUtil = new ImportUtil();
-
-		for (IAccounterServerCore each : importUtil
-				.toServerObjects(ftmd.objects)) {
-			if (each != null)
-				saveObject(each);
-		}
-
-		session.save(this);
-		createViewsForclient();
-	}
-
-	private void saveObject(IAccounterServerCore serverObject) {
-		Session session = HibernateUtil.getCurrentSession();
-		try {
-
-			session.save(serverObject);
-
-			if (serverObject instanceof Company) {
-				this.company = (Company) serverObject;
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	private void createDefaultFinanceCompany(int financeCompanyAccType) {
-
-		this.company = new Company(financeCompanyAccType);
-		this.company.setName(getSpace().getIDentity().getCompanyDBName());
-		this.company
-				.setTradingName(getSpace().getIDentity().getCompanyDBName());
-
-	}
+	// /**
+	// * Called when Finance Workspace is Created...
+	// *
+	// * @param name
+	// * @param toolID
+	// * @param space
+	// */
+	//
+	// private void saveObject(IAccounterServerCore serverObject) {
+	// Session session = HibernateUtil.getCurrentSession();
+	// try {
+	//
+	// session.save(serverObject);
+	//
+	// if (serverObject instanceof Company) {
+	// this.company = (Company) serverObject;
+	// }
+	//
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	//
+	// }
 
 	/**
 	 * This will Get Called when Create Operation is Invoked by the Client
 	 * 
 	 * @param createContext
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
 	 */
 	public long create(OperationContext createContext)
-			throws AccounterOperationException {
+			throws AccounterOperationException, InstantiationException,
+			IllegalAccessException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -294,9 +253,11 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Util.setCompany((IAccounterServerCore) serverObject, getCompany());
 
-		if ((IAccounterServerCore) serverObject instanceof ICreatableObject) {
-			((ICreatableObject) serverObject).setCreatedBy(userID);
-			((ICreatableObject) serverObject).setCreatedDate(createContext
+		if ((IAccounterServerCore) serverObject instanceof CreatableObject) {
+			// TODO::: get the user from user id
+			((CreatableObject) serverObject).setCreatedBy(company
+					.getUserByUserId(userID));
+			((CreatableObject) serverObject).setCreatedDate(createContext
 					.getDate());
 		}
 
@@ -309,9 +270,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 
 		session.save(serverObject);
-		if (serverObject instanceof User) {
-			createIdentity((User) serverObject, null, userID);
-		}
+
 		ChangeTracker.put(serverObject);
 		return serverObject.getID();
 	}
@@ -320,9 +279,10 @@ public class FinanceTool implements IFinanceDAOService {
 	 * This will Get Called when Update Operation is Invoked by the Client
 	 * 
 	 * @param createContext
+	 * @throws InvalidOperationException
 	 */
 	public long update(OperationContext updateContext)
-			throws AccounterOperationException {
+			throws AccounterOperationException, InvalidOperationException {
 		Session session = HibernateUtil.getCurrentSession();
 		IAccounterCore data = updateContext.getData();
 
@@ -331,8 +291,8 @@ public class FinanceTool implements IFinanceDAOService {
 					"Operation Data Found Null...." + updateContext);
 		}
 		IAccounterServerCore serverObject = (IAccounterServerCore) Util
-				.loadObjectByid(session, updateContext.getArg2(),
-						updateContext.getArg1());
+				.loadObjectByid(session, (updateContext).getArg2(),
+						(updateContext).getArg1());
 		IAccounterServerCore clonedObject = new CloneUtil().clone(null,
 				serverObject);
 
@@ -370,9 +330,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		session.flush();
 		session.saveOrUpdate(serverObject);
-		if (serverObject instanceof User) {
-			updateIdentity((User) serverObject, updateContext.getUserID());
-		}
+
 		ChangeTracker.put(serverObject);
 
 		return serverObject.getID();
@@ -383,14 +341,17 @@ public class FinanceTool implements IFinanceDAOService {
 	 * This will Get Called when Delete Operation is Invoked by the Client
 	 * 
 	 * @param createContext
+	 * @throws InvalidOperationException
+	 * @throws HibernateException
 	 */
-	public void delete(OperationContext context)
-			throws AccounterOperationException {
+	public boolean delete(OperationContext context)
+			throws AccounterOperationException, HibernateException,
+			InvalidOperationException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		String arg1 = context.getArg1();
-		String arg2 = context.getArg2();
+		String arg1 = (context).getArg1();
+		String arg2 = (context).getArg2();
 
 		if (arg1 == null || arg2 == null) {
 			throw new AccounterOperationException(
@@ -419,21 +380,21 @@ public class FinanceTool implements IFinanceDAOService {
 					if (((FiscalYear) serverObject)
 							.canDelete((FiscalYear) serverObject)) {
 						session.delete(serverObject);
+						return true;
 						// ChangeTracker.put(serverObject);
 					}
 				} else {
 					session.delete(serverObject);
-					if (serverObject instanceof User)
-						deleteIdentity((User) serverObject, context.getUser()
-								.getID());
-					// ChangeTracker.put(serverObject);
+					return true;
+
 				}
 
 		}
+		return false;
 
 	}
 
-	public void updateCompanyPreferences(OperationContext context)
+	public long updateCompanyPreferences(OperationContext context)
 			throws AccounterOperationException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -446,7 +407,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 
 		Company company = getCompany();
-		String IdentiName = this.getSpace().getIDentity().getDisplayName();
+		// String IdentiName = this.getSpace().getIDentity().getDisplayName();
 
 		CompanyPreferences serverCompanyPreferences = company.getPreferences();
 
@@ -454,16 +415,15 @@ public class FinanceTool implements IFinanceDAOService {
 				serverCompanyPreferences, (ClientCompanyPreferences) data,
 				session);
 
-		serverCompanyPreferences.setStringID("");
 		company.setPreferences(serverCompanyPreferences);
 		session.update(company);
 
-		serverCompanyPreferences.setStringID(company.getStringID() + "pre");
-		CompanyPreferences serverObject = serverCompanyPreferences;
+		// CompanyPreferences serverObject = serverCompanyPreferences;
 		ChangeTracker.put(serverCompanyPreferences);
+		return 1;
 	}
 
-	public void updateCompany(OperationContext context)
+	public long updateCompany(OperationContext context)
 			throws AccounterOperationException {
 		IAccounterCore data = context.getData();
 		if (data == null) {
@@ -479,6 +439,7 @@ public class FinanceTool implements IFinanceDAOService {
 		ChangeTracker.put(cmp.toClientCompany());
 		Company serverObject = cmp;
 		HibernateUtil.getCurrentSession().update(serverObject);
+		return 1;
 
 	}
 
@@ -502,13 +463,13 @@ public class FinanceTool implements IFinanceDAOService {
 		serverCompanyPreferences.setStartDate(modifiedStartDate);
 		serverCompanyPreferences.setPreventPostingBeforeDate(modifiedStartDate);
 		serverCompanyPreferences.setStartOfFiscalYear(modifiedStartDate);
-		CompanyPreferences serverObject = serverCompanyPreferences;
+		// CompanyPreferences serverObject = serverCompanyPreferences;
 		HibernateUtil.getCurrentSession().update(company);
 		ChangeTracker.put(serverCompanyPreferences);
 	}
 
 	public void updateDeprecationStartDate(OperationContext context)
-			throws AccounterOperationException {
+			throws AccounterOperationException, DAOException {
 		String arg1 = context.getArg1();
 
 		if (arg1 == null || arg1.isEmpty()) {
@@ -525,121 +486,9 @@ public class FinanceTool implements IFinanceDAOService {
 
 		company1.setPreferences(serverCompanyPreferences1);
 		serverCompanyPreferences1.setDepreciationStartDate(newStartDate);
-		CompanyPreferences serverObject = serverCompanyPreferences1;
+		// CompanyPreferences serverObject = serverCompanyPreferences1;
 		HibernateUtil.getCurrentSession().saveOrUpdate(company1);
 		ChangeTracker.put(serverCompanyPreferences1);
-	}
-
-	public @Override
-	public boolean processCommand(Command command, IMember member, int device) {
-		Session session = HibernateUtil.getCurrentSession();
-
-		FlushMode flushMode = session.getFlushMode();
-		session.setFlushMode(FlushMode.COMMIT);
-
-		log.info("FinanceTool: Processing Command " + command + " for Member "
-				+ member);
-
-		String IdentiName = this.getSpace().getIdentity().getDisplayName();
-
-		boolean execptionOccur = false;
-
-		FinanceLogger.getInstance().startLogger((IAccounterCore) command.data,
-				IdentiName, command.command);
-
-		IAccounterServerCore serverObject = null;
-
-		try {
-
-			switch (command.command) {
-			case UPDATE_PREFERENCES: {
-
-			}
-
-				break;
-
-			case UPDATE_COMPANY: {
-
-			}
-				break;
-			case UPDATE_COMPANY_STARTDATE:
-
-				break;
-			case UPDATE_DEPRECIATION_STARTDATE:
-
-				break;
-
-			default:
-			}
-
-		} catch (Exception e) {
-			sendExecptionToIdeneity(command.command, command.arg1, e);
-			command.command = 0;
-			log.error("FinanceTool:processCommand Error While Processing "
-					+ command);
-			e.printStackTrace();
-			execptionOccur = true;
-
-			session.getTransaction().rollback();
-
-		} finally {
-			command.data = new ClientConvertUtil().toClientWithid(serverObject,
-					command.data);
-			if (!execptionOccur) {
-				session.refresh(this);
-				if (command.command != DELETE_ACTION
-						&& !(serverObject instanceof Company || serverObject instanceof CompanyPreferences)) {
-					ChangeTracker.put(serverObject,
-							serverObject instanceof Transaction);
-				}
-
-				putChangesInCometStream();
-			}
-
-			FinanceLogger.getInstance().closeLogger();
-			session.setFlushMode(flushMode);
-		}
-
-		return false;
-	}
-
-	public void createIdentity(User user, String spaceId, long createdBy) {
-
-		Session session = HibernateUtil.getCurrentSession();
-		CollaberIdentity myIdentity = Server.getInstance().loadIdentity(
-				session, createdBy);
-		CollaberIdentity identity = new CollaberIdentity(user.getUserRole(),
-				user.getID(), myIdentity.getCompanyDBName());
-		identity.setID(user.getID());
-		identity.setEncryptedID(Security.getBytes(Security.createSpaceEncKey()));
-		identity.setEmailID(user.getEmailId());
-		// identity.intializaIdentityOnCreation();
-		String passwd = HexUtil.getRandomString();
-		// String passwd = "***REMOVED***";
-		identity.setPassword(passwd);
-		System.err.println(identity.getEmailAddress() + " : " + passwd);
-		((WorkSpace) myIdentity.getFinanceWorkspace()).createMember(identity);
-		session.saveOrUpdate((WorkSpace) myIdentity.getFinanceWorkspace());
-
-		identity.getSpaces().add((WorkSpace) myIdentity.getFinanceWorkspace());
-
-		// identity.getSpaces().add(myIdentity.getBizantraWorkSpace());
-		// identity.getSpaces().add((WorkSpace)
-		// myIdentity.getFinanceWorkspace());
-		session.saveOrUpdate(identity);
-		session.saveOrUpdate(myIdentity);
-
-		IntializeIdentityEvent identityEvent = new IntializeIdentityEvent(
-				createdBy, identity.getID(), this.getSpace().getIDentity()
-						.getCompanyDBName(), user.getUserRole(), myIdentity
-						.getSpaceByName(BizantraConstants.FINANCE_CATEGORYNAME)
-						.getSpaceID());
-		Server.getInstance()
-				.process(getIDentityMember().getID(), identityEvent);
-
-		UsersMailSendar.sendMailToInvitedUser(identity, passwd,
-				identity.getCompanyDBName());
-
 	}
 
 	public static boolean canEdit(IAccounterServerCore clonedObject,
@@ -653,44 +502,42 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	@SuppressWarnings("unchecked")
-	private Company toServerCompany(Company company, ClientCompany clientCompany) {
-		company.setName(clientCompany.getName());
-		company.setTradingName(clientCompany.getTradingName());
-		company.setPhone(clientCompany.getPhone());
-		company.setCompanyEmail(clientCompany.getCompanyEmail());
-		company.setWebSite(clientCompany.getWebSite());
-		company.setFax(clientCompany.getFax());
-		company.setRegistrationNumber(clientCompany.getRegistrationNumber());
+	// @SuppressWarnings("unchecked")
+	// private Company toServerCompany(Company company, ClientCompany
+	// clientCompany) {
+	// company.setName(clientCompany.getName());
+	// company.setTradingName(clientCompany.getTradingName());
+	// company.setPhone(clientCompany.getPhone());
+	// company.setCompanyEmail(clientCompany.getCompanyEmail());
+	// company.setWebSite(clientCompany.getWebSite());
+	// company.setFax(clientCompany.getFax());
+	// company.setRegistrationNumber(clientCompany.getRegistrationNumber());
+	//
+	// Set<ClientAddress> clientAddress = new HashSet<ClientAddress>();
+	// clientAddress.addAll(clientCompany.getAddresses());
+	// Set<Address> setAddress = (Set<Address>) new ServerConvertUtil()
+	// .toServerSet(clientAddress, HibernateUtil.getCurrentSession());
+	// company.setAddresses(setAddress);
+	//
+	// company.setTaxId(clientCompany.getTaxId());
+	// return company;
+	// }
 
-		Set<ClientAddress> clientAddress = new HashSet<ClientAddress>();
-		clientAddress.addAll(clientCompany.getAddresses());
-		Set<Address> setAddress = (Set<Address>) new ServerConvertUtil()
-				.toServerSet(clientAddress, HibernateUtil.getCurrentSession());
-		company.setAddresses(setAddress);
-
-		company.setTaxId(clientCompany.getTaxId());
-		return company;
-	}
-
-	private void sendExecptionToIdeneity(int command, String arg, Exception e) {
-		// An Un-Expected Exception has Occured, Create A Serializable
-		// Custom Exception, to be Notified to Client thru Comet
-
-		InvalidOperationException exception = e instanceof InvalidOperationException ? (InvalidOperationException) e
-				: new InvalidOperationException(command, arg, null);
-		// exception.setStatus(command);
-		exception.setID(arg);
-		exception.status = command;
-
-		CometStream stream = CometManager.getStream(getSpace().getIDentity()
-				.getID(), "accounter");
-		try {
-			stream.put(exception);
-		} catch (NotSerializableException e1) {
-			e1.printStackTrace();
-		}
-	}
+	/*
+	 * private void sendExecptionToIdeneity(int command, String arg, Exception
+	 * e) { // An Un-Expected Exception has Occured, Create A Serializable //
+	 * Custom Exception, to be Notified to Client thru Comet
+	 * 
+	 * InvalidOperationException exception = e instanceof
+	 * InvalidOperationException ? (InvalidOperationException) e : new
+	 * InvalidOperationException(command, arg, null); //
+	 * exception.setStatus(command); // exception.setID(arg); exception.status =
+	 * command;
+	 * 
+	 * CometStream stream = CometManager.getStream(getSpace().getIDentity()
+	 * .getID(), "accounter"); try { stream.put(exception); } catch
+	 * (NotSerializableException e1) { e1.printStackTrace(); } }
+	 */
 
 	/**
 	 * if command type id create, alter and delete, then changes will be add in
@@ -701,11 +548,16 @@ public class FinanceTool implements IFinanceDAOService {
 			IAccounterCore[] changes = ChangeTracker.getChanges();
 			if (changes != null && changes.length > 0) {
 				log.info("Sending Changes From ChangeTracker:" + changes.length);
-				for (IMember member : space.getMembers()) {
+				Session session = null;
+				session = HibernateUtil.getCurrentSession();
+				List<User> users = session.getNamedQuery("getUsers.active")
+						.list();
+
+				for (User user : users) {
 					try {
 
 						CometStream stream = CometManager.getStream(
-								member.getID(), "accounter");
+								user.getID(), "accounter");
 						if (stream == null) {
 							continue;
 						}
@@ -713,7 +565,7 @@ public class FinanceTool implements IFinanceDAOService {
 							stream.put(obj);
 						}
 						log.info("Sent " + changes.length + " change to "
-								+ member.getEmailId());
+								+ user.getEmailId());
 					} catch (NotSerializableException e) {
 						e.printStackTrace();
 						log.error("Failed to Process Request", e);
@@ -725,91 +577,6 @@ public class FinanceTool implements IFinanceDAOService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	private <T extends IAccounterCore> String processCommandCreateNew(T object) {
-
-		if (object == null || object.getID() == null)
-			return null;
-
-		Command cmd;
-		// if (object instanceof ClientUser)
-		// cmd = new Command(ADD_USER, object.getID(), null);
-		// else
-		cmd = new Command(CREATE_NEW_ACTION, object.getID(), null);
-
-		// FIXME** need to talk with uma */
-		// log.info("Command : CREATE_NEW_ACTION With Data"
-		// + String.valueOf(""));
-
-		cmd.data = object;
-
-		cmd.arg2 = object.getObjectType().getClientClassSimpleName();
-
-		space.sendCommand(cmd, this);
-
-		return object.getID();
-
-	}
-
-	private <T extends IAccounterCore> Boolean processCommandUpdate(T object) {
-
-		if (object == null || object.getID() == null)
-			return null;
-
-		String id = String.valueOf(object.getID());
-		Command cmd;
-		cmd = new Command(UPDATE_ACTION, id, null);
-		cmd.data = object;
-
-		cmd.arg1 = id;
-
-		cmd.arg2 = object.getObjectType().getServerClassSimpleName();
-
-		space.sendCommand(cmd, this);
-
-		return true;
-	}
-
-	private Boolean processCommandDelete(AccounterCoreType t, String id) {
-
-		if (t == null || id == null)
-			return false;
-
-		try {
-			if (!canDelete(t, id)) {
-				if (!t.getServerClassSimpleName().equals("User"))
-					sendExecptionToIdeneity(DELETE_ACTION, id, null);
-				return false;
-			}
-		} catch (DAOException e) {
-			e.printStackTrace();
-			return false;
-		}
-		Command command;
-		// if (t.getClientClassSimpleName().equals("ClientUser"))
-		// command = new Command(DELETE_USER, id, t
-		// .getClientClassSimpleName());
-		// else
-		command = new Command(DELETE_ACTION, id, t.getClientClassSimpleName());
-		// FIXME talk to uma
-		// /**
-		// *
-		// */
-		// private static final long serialVersionUID = 1L;
-		//
-		// @Override
-		// public String toString() {
-		// log.info("Command : ACTION_DELETE for " + String.valueOf(arg2));
-		// return super.toString();
-		// }
-		//
-		// };
-
-		space.sendCommand(command, this);
-
-		return true;
-
 	}
 
 	public Object getServerObjectForid(AccounterCoreType t, String id) {
@@ -835,17 +602,6 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 
 		return null;
-	}
-
-	@Override
-	public <T extends IAccounterCore> String createObject(T t) {
-		return processCommandCreateNew(t);
-	}
-
-	@Override
-	public <T extends IAccounterCore> Boolean updateObject(T t) {
-
-		return processCommandUpdate(t);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -991,14 +747,6 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	@Override
-	public Boolean deleteObject(AccounterCoreType type, String id)
-			throws DAOException {
-
-		return processCommandDelete(type, id);
-
-	}
-
 	private long getLongIdForGivenid(AccounterCoreType entity, String account) {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -1030,69 +778,48 @@ public class FinanceTool implements IFinanceDAOService {
 	//
 	// }
 
-	@Override
-	public <T extends IAccounterServerCore> Boolean canDelete(
-			AccounterCoreType clazz, String id) throws DAOException {
+	/*
+	 * @Override public <T extends IAccounterServerCore> Boolean canDelete(
+	 * AccounterCoreType clazz, String id) throws DAOException {
+	 * 
+	 * Session session = HibernateUtil.getCurrentSession(); ObjectConvertUtil
+	 * convertUtil = new ObjectConvertUtil();
+	 * 
+	 * try { if (convertUtil.isFieldExist("isDefault",
+	 * Class.forName(clazz.getServerClassFullyQualifiedName()))) { Object object
+	 * = session .createQuery( "select entity.isDefault from " +
+	 * clazz.getServerClassFullyQualifiedName() + " entity where entity.id=?")
+	 * .setParameter(0, id).uniqueResult(); if ((object != null && ((Boolean)
+	 * object))) return false; } } catch (HibernateException e) {
+	 * e.printStackTrace(); } catch (ClassNotFoundException e) {
+	 * e.printStackTrace(); } if
+	 * (clazz.getServerClassSimpleName().equals("User")) { return
+	 * checkCanDeleteUser(session, clazz, id); }
+	 * 
+	 * deleteTaxCodeOfTaxItemGroupIfUSversion(session, clazz, id);
+	 * 
+	 * long inputId = getLongIdForGivenid(clazz, id); String queryName = new
+	 * StringBuilder().append("canDelete")
+	 * .append(clazz.getServerClassSimpleName()).toString(); Query query =
+	 * session.getNamedQuery(queryName).setParameter("inputId", inputId); return
+	 * executeQuery(query); }
+	 */
 
-		Session session = HibernateUtil.getCurrentSession();
-		ObjectConvertUtil convertUtil = new ObjectConvertUtil();
-
-		try {
-			if (convertUtil.isFieldExist("isDefault",
-					Class.forName(clazz.getServerClassFullyQualifiedName()))) {
-				Object object = session
-						.createQuery(
-								"select entity.isDefault from "
-										+ clazz.getServerClassFullyQualifiedName()
-										+ " entity where entity.id=?")
-						.setParameter(0, id).uniqueResult();
-				if ((object != null && ((Boolean) object)))
-					return false;
-			}
-		} catch (HibernateException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		if (clazz.getServerClassSimpleName().equals("User")) {
-			return checkCanDeleteUser(session, clazz, id);
-		}
-
-		deleteTaxCodeOfTaxItemGroupIfUSversion(session, clazz, id);
-
-		long inputId = getLongIdForGivenid(clazz, id);
-		String queryName = new StringBuilder().append("canDelete")
-				.append(clazz.getServerClassSimpleName()).toString();
-		Query query = session.getNamedQuery(queryName).setParameter("inputId",
-				inputId);
-		return executeQuery(query);
-	}
-
-	private boolean checkCanDeleteUser(Session session,
-			AccounterCoreType clazz, String id) {
-		if (identity != null && identity.getID().equals(id)) {
-			sendExecptionToIdeneity(DELETE_ACTION, id,
-					new InvalidOperationException(
-							"You can't delete your own user"));
-			return false;
-		} else {
-			Query query = session.createQuery(
-					"from com.vimukti.accounter.core.User u where u.id =:id")
-					.setParameter("id", id);
-
-			User user = (User) query.uniqueResult();
-			if (user.isAdmin()) {
-				sendExecptionToIdeneity(
-						DELETE_ACTION,
-						id,
-						new InvalidOperationException(
-								"You can't delete Administrator of this organization"));
-				return false;
-			}
-		}
-		return true;
-	}
-
+	/*
+	 * private boolean checkCanDeleteUser(Session session, AccounterCoreType
+	 * clazz, String id) { if (identity != null && identity.getID().equals(id))
+	 * { sendExecptionToIdeneity(DELETE_ACTION, id, new
+	 * InvalidOperationException( "You can't delete your own user")); return
+	 * false; } else { Query query = session.createQuery(
+	 * "from com.vimukti.accounter.core.User u where u.id =:id")
+	 * .setParameter("id", id);
+	 * 
+	 * User user = (User) query.uniqueResult(); if (user.isAdmin()) {
+	 * sendExecptionToIdeneity( DELETE_ACTION, id, new
+	 * InvalidOperationException(
+	 * "You can't delete Administrator of this organization")); return false; }
+	 * } return true; }
+	 */
 	private Boolean executeQuery(Query query) {
 
 		List queryResult = query.list();
@@ -1280,6 +1007,7 @@ public class FinanceTool implements IFinanceDAOService {
 			throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
+			// FIXME:: change the sql query to hql query
 			Query query = session.getNamedQuery("getBillsList");
 			List list = query.list();
 			if (list != null) {
@@ -1291,8 +1019,7 @@ public class FinanceTool implements IFinanceDAOService {
 					BillsList billsList = new BillsList();
 					object = (Object[]) iterator.next();
 
-					billsList.setTransactionId((object[0] == null ? null
-							: ((String) object[0])));
+					billsList.setTransactionId((Long) object[0]);
 					billsList.setType((Integer) object[1]);
 					billsList.setDueDate(((Long) object[2]) == null ? null
 							: new ClientFinanceDate((Long) object[2]));
@@ -2038,6 +1765,7 @@ public class FinanceTool implements IFinanceDAOService {
 	public List<InvoicesList> getInvoiceList() throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
+			// FIXME
 			Query query = session.getNamedQuery("getInvoicesList");
 			List list = query.list();
 
@@ -2134,6 +1862,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		try {
 			Session session = HibernateUtil.getCurrentSession();
+			// FIXME
 			Query query = session.getNamedQuery("getLatestQuotes");
 			List list2 = query.list();
 			Object object[] = null;
@@ -2143,7 +1872,9 @@ public class FinanceTool implements IFinanceDAOService {
 			while (iterator.hasNext()) {
 				object = (Object[]) iterator.next();
 				Estimate estimate = new Estimate();
-				estimate.setID((object[0] == null ? null : ((Long) object[0])));
+				// TODO :: change the query
+				// estimate.setID((object[0] == null ? null : ((Long)
+				// object[0])));
 				estimate.setDate(new FinanceDate((Long) (object[1])));
 				estimate.setCustomer(object[2] != null ? (Customer) session
 						.get(Customer.class, ((Long) object[2])) : null);
@@ -2287,6 +2018,8 @@ public class FinanceTool implements IFinanceDAOService {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			Query query = session.getNamedQuery("getLatestOverDueInvoices");
+			// FIXME ::: check the sql query and change it to hql query if
+			// required
 			List list = query.list();
 
 			if (list != null) {
@@ -2330,6 +2063,8 @@ public class FinanceTool implements IFinanceDAOService {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			Query query = session.getNamedQuery("getPaymentsList");
+			// FIXME ::: check the sql query and change it to hql query if
+			// required
 			List list = query.list();
 			if (list != null) {
 				Object[] object = null;
@@ -2425,6 +2160,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Query query = session.getNamedQuery("getPayBillTransactionsList");
+			// FIXME ::: check the sql query and change it to hql query if
+			// required
 			List list = query.list();
 
 			List<PayBillTransactionList> queryResult = new ArrayList<PayBillTransactionList>();
@@ -2455,9 +2192,7 @@ public class FinanceTool implements IFinanceDAOService {
 					PayBillTransactionList payBillTransactionList = new PayBillTransactionList();
 					object = (Object[]) iterator.next();
 
-					payBillTransactionList
-							.setTransactionId((object[0] == null ? null
-									: ((String) object[0])));
+					payBillTransactionList.setTransactionId((Long) object[0]);
 					payBillTransactionList.setType((Integer) object[1]);
 					payBillTransactionList.setDueDate(new ClientFinanceDate(
 							(Long) object[2]));
@@ -2520,6 +2255,8 @@ public class FinanceTool implements IFinanceDAOService {
 			query = session
 					.getNamedQuery("getPayBillTransactionsListForVendor")
 					.setParameter("vendorId", vendorId);
+			// FIXME ::: check the sql query and change it to hql query if
+			// required
 			List list = query.list();
 
 			if (list != null) {
@@ -2530,9 +2267,7 @@ public class FinanceTool implements IFinanceDAOService {
 					PayBillTransactionList payBillTransactionList = new PayBillTransactionList();
 					object = (Object[]) iterator.next();
 
-					payBillTransactionList
-							.setTransactionId((object[0] == null ? null
-									: ((String) object[0])));
+					payBillTransactionList.setTransactionId((Long) object[0]);
 					payBillTransactionList.setType((Integer) object[1]);
 					payBillTransactionList.setDueDate(object[2] == null ? null
 							: new ClientFinanceDate((Long) object[2]));
@@ -2618,8 +2353,7 @@ public class FinanceTool implements IFinanceDAOService {
 					object = (Object[]) iterator.next();
 
 					receivePaymentTransactionList
-							.setTransactionId((object[0] == null ? null
-									: ((String) object[0])));
+							.setTransactionId((Long) object[0]);
 					receivePaymentTransactionList.setType((Integer) object[1]);
 					receivePaymentTransactionList
 							.setDueDate(object[2] == null ? null
@@ -2684,6 +2418,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Query query = session.getNamedQuery("getVendorPaymentsList");
+			// FIXME ::: check the sql query and change it to hql query if
+			// required
 			List list = query.list();
 
 			if (list != null) {
@@ -2845,6 +2581,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Query query = session.getNamedQuery("getLatestBills");
+			// FIXME ::: check the sql query and change it to hql query if
+			// required
 			List list = query.list();
 
 			if (list != null) {
@@ -2856,8 +2594,7 @@ public class FinanceTool implements IFinanceDAOService {
 					BillsList billsList = new BillsList();
 					object = (Object[]) iterator.next();
 
-					billsList.setTransactionId((object[0] == null ? null
-							: ((String) object[0])));
+					billsList.setTransactionId((Long) object[0]);
 					billsList.setType((Integer) object[1]);
 					billsList
 							.setDueDate(new ClientFinanceDate((Long) object[2]));
@@ -2884,6 +2621,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Query query = session.getNamedQuery("getLatestCashPurchases");
+			// FIXME ::: check the sql query and change it to hql query if
+			// required
 			List list2 = query.list();
 
 			Object object[] = null;
@@ -2893,14 +2632,14 @@ public class FinanceTool implements IFinanceDAOService {
 
 				object = (Object[]) iterator.next();
 				CashPurchase cashPurchase = new CashPurchase();
-				cashPurchase.setID((object[0] == null ? null
-						: ((Long) object[0])));
+				// cashPurchase.setID((object[0] == null ? null
+				// : ((Long) object[0])));
 				cashPurchase.setDate((new FinanceDate((Long) object[1])));
 				cashPurchase.setVendor(object[2] != null ? (Vendor) session
 						.get(Vendor.class, ((Long) object[2])) : null);
 				cashPurchase.setTotal((Double) object[3]);
-				cashPurchase.setID((object[4] == null ? null
-						: ((String) object[4])));
+				// cashPurchase.setID((object[4] == null ? null
+				// : ((String) object[4])));
 				list.add(cashPurchase);
 			}
 			if (list != null) {
@@ -2928,14 +2667,16 @@ public class FinanceTool implements IFinanceDAOService {
 
 				object = (Object[]) iterator.next();
 				CashSales cashSale = new CashSales();
-				cashSale.setID((object[0] == null ? null : ((Long) object[0])));
+				// cashSale.setID((object[0] == null ? null : ((Long)
+				// object[0])));
 				cashSale.setDate((new FinanceDate((Long) object[1])));
 				cashSale.setCustomer(object[2] != null ? (Customer) session
 						.get(Customer.class, ((Long) object[2])) : null);
 				cashSale.setSalesPerson(object[3] != null ? (SalesPerson) session
 						.get(Vendor.class, ((Long) object[3])) : null);
 				cashSale.setTotal((Double) object[4]);
-				cashSale.setID((object[5] == null ? null : ((String) object[5])));
+				// cashSale.setID((object[5] == null ? null : ((String)
+				// object[5])));
 				list.add(cashSale);
 			}
 			if (list != null) {
@@ -2954,6 +2695,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Query query = session.getNamedQuery("getLatestChecks");
+			// FIXME ::: check the sql query and change it to hql query if
+			// required try to fix all sql queries
 			List list2 = query.list();
 
 			Object object[] = null;
@@ -2963,8 +2706,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 				object = (Object[]) iterator.next();
 				WriteCheck writeCheck = new WriteCheck();
-				writeCheck
-						.setID((object[0] == null ? null : ((Long) object[0])));
+				// writeCheck
+				// .setID((object[0] == null ? null : ((Long) object[0])));
 				writeCheck.setDate((new FinanceDate((Long) object[1])));
 				writeCheck.setPayToType((Integer) object[2]);
 				writeCheck.setBalance((Double) object[3]);
@@ -2975,8 +2718,8 @@ public class FinanceTool implements IFinanceDAOService {
 				writeCheck.setTaxAgency(object[6] != null ? (TAXAgency) session
 						.get(TAXAgency.class, ((Long) object[5])) : null);
 				writeCheck.setAmount((Double) object[7]);
-				writeCheck.setID((object[8] == null ? null
-						: ((String) object[8])));
+				// writeCheck.setID((object[8] == null ? null
+				// : ((String) object[8])));
 				list.add(writeCheck);
 			}
 			if (list != null) {
@@ -3004,15 +2747,15 @@ public class FinanceTool implements IFinanceDAOService {
 
 				object = (Object[]) iterator.next();
 				CustomerRefund customerRefund = new CustomerRefund();
-				customerRefund.setID((object[0] == null ? null
-						: ((Long) object[0])));
+				// customerRefund.setID((object[0] == null ? null
+				// : ((Long) object[0])));
 				customerRefund.setDate(new FinanceDate((Long) object[1]));
 				customerRefund.setPayTo(object[2] != null ? (Customer) session
 						.get(Customer.class, ((Long) object[2])) : null);
 				customerRefund.setTotal((Double) object[3]);
 				customerRefund.setBalanceDue((Double) object[3]);
-				customerRefund.setID((object[4] == null ? null
-						: ((String) object[4])));
+				// customerRefund.setID((object[4] == null ? null
+				// : ((String) object[4])));
 
 				list.add(customerRefund);
 			}
@@ -3040,10 +2783,11 @@ public class FinanceTool implements IFinanceDAOService {
 			while (iterator.hasNext()) {
 				object = (Object[]) iterator.next();
 				Customer customer = new Customer();
-				customer.setID((object[0] == null ? null : ((Long) object[0])));
+				// customer.setID((object[0] == null ? null : ((Long)
+				// object[0])));
 				customer.setName((String) object[1]);
 				customer.setDate(new FinanceDate((Long) object[2]));
-				customer.setID((String) object[3]);
+				// customer.setID((String) object[3]);
 				list.add(customer);
 			}
 			if (list != null) {
@@ -3070,8 +2814,8 @@ public class FinanceTool implements IFinanceDAOService {
 			while (iterator.hasNext()) {
 				object = (Object[]) iterator.next();
 				MakeDeposit makeDeposit = new MakeDeposit();
-				makeDeposit.setID((object[0] == null ? null
-						: ((Long) object[0])));
+				// makeDeposit.setID((object[0] == null ? null
+				// : ((Long) object[0])));
 				makeDeposit.setDepositIn(object[1] == null ? null
 						: (Account) session.get(Account.class,
 								((Long) object[1])));
@@ -3084,7 +2828,7 @@ public class FinanceTool implements IFinanceDAOService {
 				makeDeposit.setCashBackMemo((String) object[5]);
 				makeDeposit.setCashBackAmount((object[6] == null ? null
 						: ((Double) object[6])));
-				makeDeposit.setID((String) object[7]);
+				// makeDeposit.setID((String) object[7]);
 				list.add(makeDeposit);
 
 			}
@@ -3113,8 +2857,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 				object = (Object[]) iterator.next();
 				TransferFund transferFund = new TransferFund();
-				transferFund.setID((object[0] == null ? null
-						: ((Long) object[0])));
+				// transferFund.setID((object[0] == null ? null
+				// : ((Long) object[0])));
 				transferFund.setDate(new FinanceDate((Long) object[1]));
 				transferFund
 						.setTransferFrom(object[2] != null ? (Account) session
@@ -3123,8 +2867,8 @@ public class FinanceTool implements IFinanceDAOService {
 						.setTransferTo(object[3] != null ? (Account) session
 								.get(Account.class, ((Long) object[3])) : null);
 				transferFund.setTotal((Double) object[4]);
-				transferFund.setID((object[5] == null ? null
-						: ((String) object[5])));
+				// transferFund.setID((object[5] == null ? null
+				// : ((String) object[5])));
 				list.add(transferFund);
 			}
 			if (list != null) {
@@ -3151,11 +2895,11 @@ public class FinanceTool implements IFinanceDAOService {
 			while (iterator.hasNext()) {
 				object = (Object[]) iterator.next();
 				Item item = new Item();
-				item.setID((object[0] == null ? null : ((Long) object[0])));
+				// item.setID((object[0] == null ? null : ((Long) object[0])));
 				item.setName((String) object[1]);
 				item.setType((Integer) object[2]);
 				item.setSalesPrice((Double) object[3]);
-				item.setID((String) object[4]);
+				// item.setID((String) object[4]);
 				list.add(item);
 			}
 			if (list != null) {
@@ -3225,10 +2969,11 @@ public class FinanceTool implements IFinanceDAOService {
 				while (iterator.hasNext()) {
 					object = (Object[]) iterator.next();
 					Vendor vendor = new Vendor();
-					vendor.setID((object[0] == null ? null : ((Long) object[0])));
+					// vendor.setID((object[0] == null ? null : ((Long)
+					// object[0])));
 					vendor.setName((String) object[1]);
 					vendor.setDate(new FinanceDate((Long) object[2]));
-					vendor.setID((String) object[3]);
+					// vendor.setID((String) object[3]);
 					list.add(vendor);
 				}
 			}
@@ -3569,11 +3314,9 @@ public class FinanceTool implements IFinanceDAOService {
 		while (iterator.hasNext()) {
 			object = (Object[]) iterator.next();
 			Item item = new Item();
-			item.setID((object[0] == null ? null : ((Long) object[0])));
 			item.setName((String) object[1]);
 			item.setType((Integer) object[2]);
 			item.setSalesPrice((Double) object[3]);
-			item.setID((String) object[4]);
 			list.add(item);
 		}
 		if (list != null) {
@@ -3597,13 +3340,13 @@ public class FinanceTool implements IFinanceDAOService {
 		while (iterator.hasNext()) {
 			object = (Object[]) iterator.next();
 			ReceivePayment receivePayment = new ReceivePayment();
-			receivePayment
-					.setID((object[0] == null ? null : ((Long) object[0])));
+			// receivePayment
+			// .setID((object[0] == null ? null : ((Long) object[0])));
 			receivePayment.setDate(new FinanceDate((Long) object[1]));
 			receivePayment.setCustomer(object[2] != null ? (Customer) session
 					.get(Customer.class, ((Long) object[2])) : null);
 			receivePayment.setAmount((Double) object[3]);
-			receivePayment.setID((String) object[4]);
+			// receivePayment.setID((String) object[4]);
 
 			list.add(receivePayment);
 		}
@@ -3628,11 +3371,11 @@ public class FinanceTool implements IFinanceDAOService {
 		while (iterator.hasNext()) {
 			object = (Object[]) iterator.next();
 			Item item = new Item();
-			item.setID((object[0] == null ? null : ((Long) object[0])));
+			// item.setID((object[0] == null ? null : ((Long) object[0])));
 			item.setName((String) object[1]);
 			item.setType((Integer) object[2]);
 			item.setSalesPrice((Double) object[3]);
-			item.setID((String) object[4]);
+			// item.setID((String) object[4]);
 
 			list.add(item);
 		}
@@ -3725,7 +3468,6 @@ public class FinanceTool implements IFinanceDAOService {
 			for (TAXRateCalculation taxRateCalculation : list) {
 
 				PaySalesTaxEntries paySalesTaxList = new PaySalesTaxEntries();
-				paySalesTaxList.setID(taxRateCalculation.getID());
 				paySalesTaxList.setBalance(taxRateCalculation.getTaxDue());
 				paySalesTaxList.setAmount(taxRateCalculation.getVatAmount());
 				paySalesTaxList.setTaxItem(taxRateCalculation.getTaxItem());
@@ -3750,7 +3492,6 @@ public class FinanceTool implements IFinanceDAOService {
 			for (TAXAdjustment taxAdjustment : taxAdjustments) {
 
 				PaySalesTaxEntries paySalesTaxList = new PaySalesTaxEntries();
-				paySalesTaxList.setID(taxAdjustment.getID());
 				paySalesTaxList.setBalance(taxAdjustment.getJournalEntry()
 						.getBalanceDue());
 				paySalesTaxList.setAmount(taxAdjustment.getTotal());
@@ -3911,7 +3652,7 @@ public class FinanceTool implements IFinanceDAOService {
 			// for (int j = 0; j < obj.length; j++)
 			{
 				PurchaseOrdersAndItemReceiptsList el = new PurchaseOrdersAndItemReceiptsList();
-				el.setTransactionId((String) obj[0]);
+				el.setTransactionId((Long) obj[0]);
 				el.setType(((Integer) obj[1]).intValue());
 				el.setTransactionNumber(((String) obj[2]));
 				el.setTotal(((Double) obj[3]).doubleValue());
@@ -3965,7 +3706,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getPurchaseOrdersList");
-
+		// FIXME ::: check the sql query and change it to hql query if required
 		List list = query.list();
 		List<PurchaseOrdersList> pil = new ArrayList<PurchaseOrdersList>();
 
@@ -3975,7 +3716,7 @@ public class FinanceTool implements IFinanceDAOService {
 			// for (int j = 0; j < obj.length; j++)
 			{
 				PurchaseOrdersList el = new PurchaseOrdersList();
-				el.setTransactionId((String) obj[0]);
+				el.setTransactionId((Long) obj[0]);
 				el.setType(((Integer) obj[1]).intValue());
 				el.setNumber(((String) obj[2]));
 				el.setPurchasePrice(((Double) obj[3]).doubleValue());
@@ -4002,6 +3743,7 @@ public class FinanceTool implements IFinanceDAOService {
 				.getNamedQuery("getNotReceivedPurchaseOrdersList")
 				.setParameter("vendorId",
 						getLongIdForGivenid(AccounterCoreType.VENDOR, vendorId));
+		// FIXME ::: check the sql query and change it to hql query if required
 
 		List list = query.list();
 		List<PurchaseOrdersList> pil = new ArrayList<PurchaseOrdersList>();
@@ -4012,7 +3754,7 @@ public class FinanceTool implements IFinanceDAOService {
 			// for (int j = 0; j < obj.length; j++)
 			{
 				PurchaseOrdersList el = new PurchaseOrdersList();
-				el.setTransactionId((String) obj[0]);
+				el.setTransactionId((Long) obj[0]);
 				el.setType(((Integer) obj[1]).intValue());
 				el.setNumber(((String) obj[2]));
 				el.setPurchasePrice(((Double) obj[3]).doubleValue());
@@ -4113,12 +3855,12 @@ public class FinanceTool implements IFinanceDAOService {
 					.setParameterList("accountsList", linkedAccounts.keySet());
 			List<Account> assetAccounts = query.list();
 			for (Account assetAccount : assetAccounts) {
-				String changedLinkedAccountID = linkedAccounts.get(assetAccount
+				Long changedLinkedAccountID = linkedAccounts.get(assetAccount
 						.getID());
 
 				if (changedLinkedAccountID != null) {
-					if (!assetAccount.getLinkedAccumulatedDepreciationAccount()
-							.getID().equals(changedLinkedAccountID)) {
+					if (!(assetAccount
+							.getLinkedAccumulatedDepreciationAccount().getID() == (changedLinkedAccountID))) {
 						Account changedLinkedAccount = (Account) session
 								.createQuery(
 										"from com.vimukti.accounter.core.Account a where a.id =?")
@@ -4147,11 +3889,11 @@ public class FinanceTool implements IFinanceDAOService {
 				.setParameter(0, (new FinanceDate(depreciationTo)));
 		List<FixedAsset> fixedAssets = query.list();
 
-		List<String> fixedAssetIDs = new ArrayList<String>();
+		List<Long> fixedAssetIDs = new ArrayList<Long>();
 
 		DepreciableFixedAssetsList depreciableFixedAssets = new DepreciableFixedAssetsList();
 
-		Map<String, List<DepreciableFixedAssetsEntry>> accountViceFixedAssets = new HashMap<String, List<DepreciableFixedAssetsEntry>>();
+		Map<Long, List<DepreciableFixedAssetsEntry>> accountViceFixedAssets = new HashMap<Long, List<DepreciableFixedAssetsEntry>>();
 		for (FixedAsset fixedAsset : fixedAssets) {
 			double amountToBeDepreciatedforThisFixedAsset = Double
 					.parseDouble(decimalFormat.format(fixedAsset
@@ -4539,9 +4281,8 @@ public class FinanceTool implements IFinanceDAOService {
 		return rollBackDepAmt;
 	}
 
-	private double getCalculatedRollBackDepreciationAmount2(
-			String fixedAssetID, FinanceDate rollBackDepreciationTo)
-			throws DAOException {
+	private double getCalculatedRollBackDepreciationAmount2(long fixedAssetID,
+			FinanceDate rollBackDepreciationTo) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
@@ -4930,19 +4671,19 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	@Override
-	public void changeDepreciationStartDateTo(long newStartDate)
-			throws DAOException {
-		if (newStartDate == 0)
-			return;
-
-		Command cmd = new Command(UPDATE_DEPRECIATION_STARTDATE, newStartDate
-				+ "", null);
-		cmd.data = new ClientConvertUtil().toClientObject(Company.getCompany()
-				.getPreferences(), null);
-
-		space.sendCommand(cmd, this);
-	}
+	// @Override
+	// public void changeDepreciationStartDateTo(long newStartDate)
+	// throws DAOException {
+	// if (newStartDate == 0)
+	// return;
+	//
+	// Command cmd = new Command(UPDATE_DEPRECIATION_STARTDATE, newStartDate
+	// + "", null);
+	// cmd.data = new ClientConvertUtil().toClientObject(Company.getCompany()
+	// .getPreferences(), null);
+	//
+	// space.sendCommand(cmd, this);
+	// }
 
 	@Override
 	public List<ClientFinanceDate> getFinancialYearStartDates()
@@ -5003,20 +4744,20 @@ public class FinanceTool implements IFinanceDAOService {
 		return fromDates;
 	}
 
-	public void changeFiscalYearsStartDateTo(long newStartDate)
-			throws DAOException {
-
-		if (newStartDate == 0)
-			return;
-
-		Command cmd = new Command(UPDATE_COMPANY_STARTDATE, newStartDate + "",
-				null);
-		cmd.data = new ClientConvertUtil().toClientObject(Company.getCompany()
-				.getPreferences(), null);
-
-		space.sendCommand(cmd, this);
-
-	}
+	// public void changeFiscalYearsStartDateTo(long newStartDate)
+	// throws DAOException {
+	//
+	// if (newStartDate == 0)
+	// return;
+	//
+	// Command cmd = new Command(UPDATE_COMPANY_STARTDATE, newStartDate + "",
+	// null);
+	// cmd.data = new ClientConvertUtil().toClientObject(Company.getCompany()
+	// .getPreferences(), null);
+	//
+	// space.sendCommand(cmd, this);
+	//
+	// }
 
 	private void changeFiscalYearsStartDate(FinanceDate modifiedStartDate) {
 
@@ -5432,7 +5173,7 @@ public class FinanceTool implements IFinanceDAOService {
 					.doubleValue());
 			agedDebtors.setIsVoid(object[11] == null ? true
 					: ((Boolean) object[11]).booleanValue());
-			agedDebtors.setTransactionId((String) object[12]);
+			agedDebtors.setTransactionId((Long) object[12]);
 			agedDebtors
 					.setMemo(object[13] != null ? (String) object[13] : null);
 			long ageing = getAgeing(agedDebtors.getDate(),
@@ -6610,12 +6351,10 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Item item = new Item();
 			object = (Object[]) iterator.next();
-			item.setID((object[0] == null ? 0l : (((Long) object[0])
-					.longValue())));
+
 			item.setType(object[1] == null ? 0 : ((Integer) object[1])
 					.intValue());
 			item.setName((String) object[2]);
-			item.setID((String) object[3]);
 			queryResult.add(item);
 		}
 		return queryResult;
@@ -6639,12 +6378,9 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Item item = new Item();
 			object = (Object[]) iterator.next();
-			item.setID((object[0] == null ? 0l : (((Long) object[0])
-					.longValue())));
 			item.setType(object[1] == null ? 0 : ((Integer) object[1])
 					.intValue());
 			item.setName((String) object[2]);
-			item.setID((String) object[3]);
 			queryResult.add(item);
 		}
 		return queryResult;
@@ -6668,10 +6404,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Customer customer = new Customer();
 			object = (Object[]) iterator.next();
-			customer.setID((object[0] == null ? 0l : ((Long) object[0])
-					.longValue()));
 			customer.setName((String) object[1]);
-			customer.setID((String) object[2]);
 			queryResult.add(customer);
 		}
 		return queryResult;
@@ -6695,10 +6428,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Vendor vendor = new Vendor();
 			object = (Object[]) iterator.next();
-			vendor.setID((object[0] == null ? 0l : (((Long) object[0])
-					.longValue())));
 			vendor.setName((String) object[1]);
-			vendor.setID((String) object[2]);
 			queryResult.add(vendor);
 		}
 		return queryResult;
@@ -7122,7 +6852,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		for (TrialBalance t : queryResult) {
 
-			if (t.getParentAccount() == null) {
+			if (t.getParentAccount() == 0) {
 
 				if (!sortedList.contains(t)) {
 					String str = t.getAccountFlow();
@@ -8779,7 +8509,6 @@ public class FinanceTool implements IFinanceDAOService {
 			u.setTransactionType((Integer) object[0]);
 			u.setDate(new ClientFinanceDate((Long) object[1]));
 			u.setTransactionNumber((String) object[2]);
-			u.setID((String) object[3]);
 			u.setSourceName((String) object[4]);
 			u.setMemo((String) object[5]);
 			u.setAmount(object[6] == null ? 0 : (Double) object[6]);
@@ -9555,7 +9284,6 @@ public class FinanceTool implements IFinanceDAOService {
 		collectorGeneral.setPurchaseLiabilityAccount(vatLiabilityAccount);
 		collectorGeneral.setSalesLiabilityAccount(vatLiabilityAccount);
 		collectorGeneral.setType(Payee.TYPE_TAX_AGENCY);
-		collectorGeneral.setID(SecureUtils.createID());
 		collectorGeneral.setVATReturn(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 		session.save(collectorGeneral);
 		return collectorGeneral;
@@ -9603,7 +9331,6 @@ public class FinanceTool implements IFinanceDAOService {
 		vc.setDefault(true);
 		vc.setDescription(description);
 		vc.setName(codeName);
-		vc.setID(SecureUtils.createID());
 		vc.setTaxable(isTaxable);
 		if (vatItems.length > 0)
 			vc.setTAXItemGrpForPurchases((TAXItemGroup) getServerObjectByName(
@@ -9851,7 +9578,6 @@ public class FinanceTool implements IFinanceDAOService {
 		vi.setName(name);
 		vi.setPercentage(isPercentage);
 		vi.setSalesType(isSalesType);
-		vi.setID(SecureUtils.createID());
 		vi.setTaxAgency(vatAgency);
 		vi.setTaxRate(rate);
 		vi.setVatReturnBox(vatReturnBox);
@@ -9889,7 +9615,6 @@ public class FinanceTool implements IFinanceDAOService {
 		vg.setName(groupName);
 		vg.setPercentage(true);
 		vg.setSalesType(isSalesType);
-		vg.setID(SecureUtils.createID());
 		List<TAXItem> vats = new ArrayList<TAXItem>();
 		double groupRate = 0;
 		for (String s : vatItems) {
@@ -10183,53 +9908,54 @@ public class FinanceTool implements IFinanceDAOService {
 		return null;
 	}
 
-	@Override
-	public Boolean updateCompanyPreferences(ClientCompanyPreferences preferences)
-			throws DAOException {
+	// @Override
+	// public Boolean updateCompanyPreferences(ClientCompanyPreferences
+	// preferences)
+	// throws DAOException {
+	//
+	// if (preferences == null)
+	// return false;
+	//
+	// // String id = String.valueOf(preferences.getID());
+	//
+	// Command cmd = new Command(UPDATE_PREFERENCES, "", null);
+	//
+	// cmd.data = preferences;
+	//
+	// cmd.arg1 = company.getID();
+	//
+	// cmd.arg2 = preferences.getObjectType().getServerClassSimpleName();
+	//
+	// space.sendCommand(cmd, this);
+	//
+	// return true;
+	//
+	// }
+	//
+	// @Override
+	// public Boolean updateCompany(ClientCompany clientCompany)
+	// throws DAOException {
+	//
+	// if (clientCompany == null)
+	// return false;
+	//
+	// // String id = String.valueOf(preferences.getID());
+	//
+	// Command cmd = new Command(UPDATE_COMPANY, "", null);
+	//
+	// cmd.data = clientCompany;
+	//
+	// cmd.arg1 = clientCompany.id;
+	//
+	// cmd.arg2 = clientCompany.getObjectType().getServerClassSimpleName();
+	//
+	// space.sendCommand(cmd, this);
+	//
+	// return true;
+	//
+	// }
 
-		if (preferences == null)
-			return false;
-
-		// String id = String.valueOf(preferences.getID());
-
-		Command cmd = new Command(UPDATE_PREFERENCES, "", null);
-
-		cmd.data = preferences;
-
-		cmd.arg1 = company.getID();
-
-		cmd.arg2 = preferences.getObjectType().getServerClassSimpleName();
-
-		space.sendCommand(cmd, this);
-
-		return true;
-
-	}
-
-	@Override
-	public Boolean updateCompany(ClientCompany clientCompany)
-			throws DAOException {
-
-		if (clientCompany == null)
-			return false;
-
-		// String id = String.valueOf(preferences.getID());
-
-		Command cmd = new Command(UPDATE_COMPANY, "", null);
-
-		cmd.data = clientCompany;
-
-		cmd.arg1 = clientCompany.id;
-
-		cmd.arg2 = clientCompany.getObjectType().getServerClassSimpleName();
-
-		space.sendCommand(cmd, this);
-
-		return true;
-
-	}
-
-	public ClientCompany getClientCompany(String identityID) {
+	public ClientCompany getClientCompany() {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -10330,14 +10056,6 @@ public class FinanceTool implements IFinanceDAOService {
 		company = company.toCompany(company);
 
 		setCompany(company);
-
-		if (identityID != null) {
-			CollaberIdentity identity = (CollaberIdentity) session
-					.getNamedQuery("getIDentity.from.id")
-					.setParameter("id", identityID).uniqueResult();
-			FinanceTool.identity = identity;
-			FinanceTool.user = company.getUserByUserId(identityID);
-		}
 
 		return new ClientConvertUtil().toClientObject(company,
 				ClientCompany.class);
@@ -10994,7 +10712,6 @@ public class FinanceTool implements IFinanceDAOService {
 						payeeName = (String) object[1];
 						payeeList.setPayeeName(payeeName);
 						payeeList.setType((Integer) object[2]);
-						payeeList.setID((String) object[3]);
 						payeeList.setCurrentMonth((Double) object[4]);
 						payeeList.setPreviousMonth((Double) object[5]);
 						payeeList.setPreviousSecondMonth((Double) object[6]);
@@ -11056,7 +10773,7 @@ public class FinanceTool implements IFinanceDAOService {
 			ExpenseList expense = new ExpenseList();
 			object = (Object[]) iterator.next();
 
-			expense.setTransactionId(object[0] != null ? (String) object[0]
+			expense.setTransactionId(object[0] != null ? (Long) object[0]
 					: null);
 			expense.setTransactionType(object[1] != null ? (Integer) object[1]
 					: null);
@@ -11097,7 +10814,7 @@ public class FinanceTool implements IFinanceDAOService {
 			CheckDetailReport checkDetail = new CheckDetailReport();
 			object = (Object[]) iterator.next();
 
-			checkDetail.setTransactionId((String) object[0]);
+			checkDetail.setTransactionId((Long) object[0]);
 			checkDetail.setTransactionType(((Integer) object[1]));
 			checkDetail.setNumber((String) object[2]);
 			checkDetail.setTransactionDate(new ClientFinanceDate(
@@ -11122,22 +10839,22 @@ public class FinanceTool implements IFinanceDAOService {
 		List list = session.getNamedQuery("getDepositDetail")
 				.setParameter("startDate", startDate)
 				.setParameter("endDate", endDate).list();
-		Map<String, List<DepositDetail>> map = new LinkedHashMap<String, List<DepositDetail>>();
+		Map<Long, List<DepositDetail>> map = new LinkedHashMap<Long, List<DepositDetail>>();
 		List<DepositDetail> depositDetails = new ArrayList<DepositDetail>();
 		Iterator it = list.iterator();
-		String tempTransactionID = null;
+		Long tempTransactionID = null;
 		double tempAmount = 0;
 		while (it.hasNext()) {
 			Object[] object = (Object[]) it.next();
 			DepositDetail d = new DepositDetail();
-			d.setTransactionId((String) object[0]);
+			d.setTransactionId((Long) object[0]);
 			d.setTransactionType((Integer) object[1]);
 			d.setTransactionNumber((String) object[2]);
 			d.setTransactionDate(new ClientFinanceDate((Long) object[3]));
 			d.setName((String) object[4]);
 			d.setAccountName((String) object[5]);
 			if (tempTransactionID == null
-					|| !d.getTransactionId().equals(tempTransactionID)) {
+					|| (d.getTransactionId() != tempTransactionID)) {
 				d.setTotal((Double) object[6]);
 				tempAmount = d.getTotal();
 			} else {
@@ -11156,9 +10873,9 @@ public class FinanceTool implements IFinanceDAOService {
 			tempTransactionID = d.getTransactionId();
 		}
 
-		String[] ids = new String[map.keySet().size()];
+		Long[] ids = new Long[map.keySet().size()];
 		map.keySet().toArray(ids);
-		for (String s : ids)
+		for (Long s : ids)
 			depositDetails.addAll(map.get(s));
 
 		return depositDetails;
@@ -11761,14 +11478,6 @@ public class FinanceTool implements IFinanceDAOService {
 		session.saveOrUpdate(this);
 	}
 
-	public void setBizantraCompany(BizantraCompany bizantraCompany) {
-		this.bizantraCompany = bizantraCompany;
-	}
-
-	public BizantraCompany getBizantraCompany() {
-		return bizantraCompany;
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<BillsList> getEmployeeExpensesByStatus(String employeeName,
@@ -11861,6 +11570,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 		return clientUsers;
 	}
+
 }
 
 // throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
