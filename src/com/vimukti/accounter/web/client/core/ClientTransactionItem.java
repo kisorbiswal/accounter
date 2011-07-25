@@ -41,7 +41,7 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	ClientTAXGroup taxGroup;
 
-	String taxItemGroup;
+	long taxItemGroup;
 
 	String description;
 
@@ -357,11 +357,11 @@ public class ClientTransactionItem implements IAccounterCore {
 		return this.transaction;
 	}
 
-	public String getTaxItemGroup() {
+	public long getTaxItemGroup() {
 		return taxItemGroup;
 	}
 
-	public void setTaxItemGroup(String taxItemGroup) {
+	public void setTaxItemGroup(long taxItemGroup) {
 		this.taxItemGroup = taxItemGroup;
 	}
 
@@ -425,13 +425,13 @@ public class ClientTransactionItem implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
