@@ -71,7 +71,7 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getTransactionPayBills(
 			AsyncCallback<List<PayBillTransactionList>> callback);
 
-	public void getTransactionPayBills(String vendorId,
+	public void getTransactionPayBills(long vendorId,
 			AsyncCallback<List<PayBillTransactionList>> callback);
 
 	public void getVendorPaymentsList(AsyncCallback<List<PaymentsList>> callBack);
