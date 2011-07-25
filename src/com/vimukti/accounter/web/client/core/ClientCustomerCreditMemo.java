@@ -10,11 +10,11 @@ public class ClientCustomerCreditMemo extends ClientTransaction {
 
 	String phone;
 
-	String salesPerson;
+	long salesPerson;
 
-	String account;
+	long account;
 
-	String priceLevel;
+	long priceLevel;
 
 	double salesTax = 0D;
 
@@ -105,7 +105,7 @@ public class ClientCustomerCreditMemo extends ClientTransaction {
 	/**
 	 * @return the salesPersonId
 	 */
-	public String getSalesPerson() {
+	public long getSalesPerson() {
 		return salesPerson;
 	}
 
@@ -113,14 +113,14 @@ public class ClientCustomerCreditMemo extends ClientTransaction {
 	 * @param salesPersonId
 	 *            the salesPersonId to set
 	 */
-	public void setSalesPerson(String salesPerson) {
+	public void setSalesPerson(long salesPerson) {
 		this.salesPerson = salesPerson;
 	}
 
 	/**
 	 * @return the accountId
 	 */
-	public String getAccount() {
+	public long getAccount() {
 		return account;
 	}
 
@@ -128,14 +128,14 @@ public class ClientCustomerCreditMemo extends ClientTransaction {
 	 * @param accountId
 	 *            the accountId to set
 	 */
-	public void setAccount(String account) {
+	public void setAccount(long account) {
 		this.account = account;
 	}
 
 	/**
 	 * @return the priceLevelId
 	 */
-	public String getPriceLevel() {
+	public long getPriceLevel() {
 		return priceLevel;
 	}
 
@@ -143,7 +143,7 @@ public class ClientCustomerCreditMemo extends ClientTransaction {
 	 * @param priceLevelId
 	 *            the priceLevelId to set
 	 */
-	public void setPriceLevel(String priceLevel) {
+	public void setPriceLevel(long priceLevel) {
 		this.priceLevel = priceLevel;
 	}
 
