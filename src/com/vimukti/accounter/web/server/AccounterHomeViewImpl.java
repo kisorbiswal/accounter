@@ -1109,7 +1109,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<SalesOrdersList> getPurchaseOrdersForVendor(String vendorID)
+	public List<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID)
 			throws InvalidSessionException {
 
 		FinanceTool tool = getFinanceTool();
@@ -1133,7 +1133,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<SalesOrdersList> getSalesOrdersForCustomer(String customerID)
+	public List<SalesOrdersList> getSalesOrdersForCustomer(long customerID)
 			throws InvalidSessionException {
 
 		FinanceTool tool = getFinanceTool();
@@ -1144,7 +1144,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
-			String vendorID) throws InvalidSessionException {
+			long vendorID) throws InvalidSessionException {
 
 		FinanceTool tool = getFinanceTool();
 
@@ -1158,14 +1158,14 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return null;
 	}
 
-	public ClientPurchaseOrder getPurchaseOrderById(String transactionId) {
+	public ClientPurchaseOrder getPurchaseOrderById(long transactionId) {
 
 		return null;
 	}
 
 	@Override
 	public List<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
-			String vendorId) throws InvalidSessionException {
+			long vendorId) throws InvalidSessionException {
 		try {
 			FinanceTool tool = getFinanceTool();
 			return tool != null ? tool
@@ -1179,7 +1179,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	public List<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
-			String customerId) throws InvalidSessionException {
+			long customerId) throws InvalidSessionException {
 
 		try {
 			FinanceTool tool = getFinanceTool();
@@ -1218,9 +1218,9 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			TAXAgency serverVatAgency = new ServerConvertUtil().toServerObject(
 					new TAXAgency(), taxAgency, getSession());
 
-			return new ClientConvertUtil().toClientObject(tool
-					.getVATReturnDetails(serverVatAgency, fromDate, toDate),
-					ClientVATReturn.class);
+			return new ClientConvertUtil()
+					.toClientObject(tool.getVATReturnDetails(serverVatAgency,
+							fromDate, toDate), ClientVATReturn.class);
 
 		} catch (DAOException e) {
 			e.printStackTrace();

@@ -44,7 +44,7 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
-import com.vimukti.accounter.web.client.ui.DashBoard;
+import com.vimukti.accounter.web.client.ui.DashBoardView;
 import com.vimukti.accounter.web.client.ui.FinanceDashboard;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -740,8 +740,8 @@ public class ViewManager extends DockPanel {
 			}
 			if (item != null)
 				history.getAction().setActionSource(item);
-			if (currentCanvas instanceof DashBoard)
-				((DashBoard) currentCanvas).refreshWidgetData(null);
+			if (currentCanvas instanceof DashBoardView)
+				((DashBoardView) currentCanvas).refreshWidgetData(null);
 
 			currentCanvas.setWidth("100%");
 			scrollPanel.add(currentCanvas);
@@ -1210,8 +1210,8 @@ public class ViewManager extends DockPanel {
 			if (view instanceof AbstractReportView) {
 				((AbstractReportView<?>) view).showRecords();
 			}
-			if (view instanceof DashBoard) {
-				((DashBoard) view).refreshWidgetData(null);
+			if (view instanceof DashBoardView) {
+				((DashBoardView) view).refreshWidgetData(null);
 			}
 			scrollPanel.add(view);
 			rightCanvas.add(scrollPanel);
@@ -1479,7 +1479,7 @@ public class ViewManager extends DockPanel {
 
 		currentrequestedWidget = widget;
 
-		final AsyncCallback<String> transactionCallBack = new AsyncCallback<String>() {
+		final AsyncCallback<Long> transactionCallBack = new AsyncCallback<Long>() {
 
 			public void onFailure(Throwable caught) {
 
@@ -1488,13 +1488,13 @@ public class ViewManager extends DockPanel {
 					exception
 							.setStatus(InvalidOperationException.CREATE_FAILED);
 					exception.setID(currentrequestedWidget.getID());
-					getCompany().processCommand(exception);
+					Accounter.getCompany().processCommand(exception);
 					exception.printStackTrace();
 					System.out.println(exception.getMessage());
 				}
 			}
 
-			public void onSuccess(String result) {
+			public void onSuccess(Long result) {
 
 				if (!GWT.isScript()) {
 					AccounterCommand cmd = new AccounterCommand();
@@ -1502,15 +1502,15 @@ public class ViewManager extends DockPanel {
 					cmd.setData(core);
 					cmd.setID(core.getID());
 					cmd.setObjectType(core.getObjectType());
-					getCompany().processCommand(cmd);
+					Accounter.getCompany().processCommand(cmd);
 				}
 			}
 
 		};
-		Accounter.createGETService().getID(new AsyncCallback<String>() {
+		Accounter.createGETService().getID(new AsyncCallback<Long>() {
 
 			@Override
-			public void onSuccess(String result) {
+			public void onSuccess(Long result) {
 				core.setID(result);
 				widget.setID(result);
 				Accounter.createCRUDService().create(((IAccounterCore) core),
@@ -1805,8 +1805,8 @@ public class ViewManager extends DockPanel {
 
 	public void updateDashBoardData(IAccounterCore accounterCoreObject) {
 		History history = this.historyList.get(0);
-		if (history.getView() instanceof DashBoard) {
-			DashBoard dashboard = (DashBoard) history.getView();
+		if (history.getView() instanceof DashBoardView) {
+			DashBoardView dashboard = (DashBoardView) history.getView();
 			dashboard.refreshWidgetData(accounterCoreObject);
 		}
 	}

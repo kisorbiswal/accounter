@@ -140,10 +140,10 @@ public class Header extends HorizontalPanel {
 			@Override
 			public void execute() {
 				if (gettingStartedStatus.equals("Hide Getting Started")) {
-					DashBoard.hideGettingStarted();
+					DashBoardView.hideGettingStarted();
 					changeHelpBarContent("Show Getting Started");
 				} else {
-					DashBoard.showGettingStarted();
+					DashBoardView.showGettingStarted();
 					changeHelpBarContent("Hide Getting Started");
 				}
 			}

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.services.DAOException;
-import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.IAccounterGETService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -35,7 +34,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
-			String id) throws InvalidSessionException {
+			long id) throws InvalidSessionException {
 
 		FinanceTool tool = getFinanceTool();
 
@@ -83,11 +82,6 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 			throws InvalidSessionException {
 		FinanceTool tool = (FinanceTool) getFinanceTool();
 		return tool.getClientCompany(identityID);
-	}
-
-	@Override
-	public long getID() {
-		return SecureUtils.createID();
 	}
 
 	@Override

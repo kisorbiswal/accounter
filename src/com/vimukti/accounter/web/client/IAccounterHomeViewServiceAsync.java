@@ -126,8 +126,7 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getNextVoucherNumber(AsyncCallback<String> callback);
 
 	// To auto generate the next Check number.
-	public void getNextCheckNumber(long accountId,
-			AsyncCallback<Long> callback);
+	public void getNextCheckNumber(long accountId, AsyncCallback<Long> callback);
 
 	public void getNextIssuepaymentCheckNumber(String accountId,
 			AsyncCallback<Long> callback);
@@ -239,7 +238,7 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getPurchasesAndItemReceiptsList(long vendorID,
 			AsyncCallback<List<PurchaseOrdersAndItemReceiptsList>> callback);
 
-	public void getEstimatesAndSalesOrdersList(String customerID,
+	public void getEstimatesAndSalesOrdersList(long customerID,
 			AsyncCallback<List<EstimatesAndSalesOrdersList>> callback);
 
 	public void getDepreciableFixedAssets(long depreciationFrom,
@@ -315,13 +314,12 @@ public interface IAccounterHomeViewServiceAsync {
 
 	public void getGraphPointsforAccount(int chartType, long accountNo,
 			AsyncCallback<List<Double>> callBack);
-	
-	public void getEmployeeExpensesByStatus(String userName,int status,
+
+	public void getEmployeeExpensesByStatus(String userName, int status,
 			AsyncCallback<List<BillsList>> callBack);
-	
-	public void changePassWord(String emailID, String oldPassword, String newPassword,
-			AsyncCallback<Boolean> callback);
-	
-	void getAllUsers(
-			AsyncCallback<List<ClientUser>> callback);
+
+	public void changePassWord(String emailID, String oldPassword,
+			String newPassword, AsyncCallback<Boolean> callback);
+
+	void getAllUsers(AsyncCallback<List<ClientUser>> callback);
 }

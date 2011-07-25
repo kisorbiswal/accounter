@@ -67,7 +67,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public List<PayBillTransactionList> getTransactionPayBills();
 
-	public List<PayBillTransactionList> getTransactionPayBills(String vendorId);
+	public List<PayBillTransactionList> getTransactionPayBills(long vendorId);
 
 	public List<PaymentsList> getVendorPaymentsList();
 
@@ -113,7 +113,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public String getNextVoucherNumber();
 
 	// To auto generate the next Check number.
-	public Long getNextCheckNumber(String accountId);
+	public Long getNextCheckNumber(long accountId);
 
 	// To auto generate the next Issue Payement Check number.
 	public Long getNextIssuepaymentCheckNumber(String accountId);
@@ -205,15 +205,15 @@ public interface IAccounterHomeViewService extends RemoteService {
 			throws InvalidSessionException;
 
 	public List<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
-			String vendorID) throws InvalidSessionException;
+			long vendorID) throws InvalidSessionException;
 
 	public ClientPurchaseOrder getPurchaseOrderById(String transactionId);
 
 	public List<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
-			String vendorId) throws InvalidSessionException;
+			long vendorId) throws InvalidSessionException;
 
 	public List<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
-			String customerId) throws InvalidSessionException;
+			long customerId) throws InvalidSessionException;
 
 	public DepreciableFixedAssetsList getDepreciableFixedAssets(
 			long depreciationFrom, long depreciationTo)

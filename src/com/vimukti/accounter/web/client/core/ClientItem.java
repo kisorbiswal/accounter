@@ -42,7 +42,7 @@ public class ClientItem extends BaseReport implements IAccounterCore {
 	String expenseAccount;
 	String preferredVendor;
 	String vendorItemNumber;
-	String taxCode;
+	long taxCode;
 	double standardCost;
 	int version;
 
@@ -54,7 +54,7 @@ public class ClientItem extends BaseReport implements IAccounterCore {
 	/**
 	 * @return the vatCode
 	 */
-	public String getTaxCode() {
+	public long getTaxCode() {
 		return taxCode;
 	}
 
@@ -62,7 +62,7 @@ public class ClientItem extends BaseReport implements IAccounterCore {
 	 * @param taxCode
 	 *            the vatCode to set
 	 */
-	public void setTaxCode(String taxCode) {
+	public void setTaxCode(long taxCode) {
 		this.taxCode = taxCode;
 	}
 
@@ -370,13 +370,13 @@ public class ClientItem extends BaseReport implements IAccounterCore {
 	// }
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 

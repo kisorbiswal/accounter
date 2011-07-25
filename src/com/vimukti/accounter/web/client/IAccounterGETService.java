@@ -262,7 +262,7 @@ public interface IAccounterGETService extends RemoteService {
 	// public ClientPaySalesTax getPaySalesTax(Long id);
 
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
-			String id) throws InvalidSessionException;
+			long id) throws InvalidSessionException;
 
 	public <T extends IAccounterCore> T getObjectByName(AccounterCoreType type,
 			String name) throws InvalidSessionException;
@@ -271,8 +271,6 @@ public interface IAccounterGETService extends RemoteService {
 
 	public ClientCompany getCompany(String identityID)
 			throws InvalidSessionException;
-
-	String getID();
 
 	KeyFinancialIndicators getKeyFinancialIndicators();
 

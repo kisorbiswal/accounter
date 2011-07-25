@@ -4,14 +4,14 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DashBoard;
+import com.vimukti.accounter.web.client.ui.DashBoardView;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class CompanyHomeAction extends Action {
 
-	private DashBoard view;
+	private DashBoardView view;
 
 	public CompanyHomeAction(String text) {
 		super(text);
@@ -36,7 +36,7 @@ public class CompanyHomeAction extends Action {
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		view = new DashBoard();
+		view = new DashBoardView();
 
 		try {
 			MainFinanceWindow.getViewManager()

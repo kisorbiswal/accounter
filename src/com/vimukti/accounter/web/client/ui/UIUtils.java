@@ -865,26 +865,21 @@ public class UIUtils {
 		SelectCombo selectCombo = new SelectCombo(null);
 		selectCombo.setHelpInformation(true);
 		selectCombo.setTitle("Payment Method");
-		selectCombo
-				.setComboItem(Accounter.getVendorsMessages().cash());
+		selectCombo.setComboItem(Accounter.getVendorsMessages().cash());
 		List<String> listOfPaymentMethods = new ArrayList<String>();
-		listOfPaymentMethods
-				.add(Accounter.getVendorsMessages().cash());
+		listOfPaymentMethods.add(Accounter.getVendorsMessages().cash());
 		listOfPaymentMethods.add(UIUtils
 				.getpaymentMethodCheckBy_CompanyType(Accounter
 						.getCustomersMessages().check()));
-		listOfPaymentMethods.add(Accounter.getVendorsMessages()
-				.creditCard());
-		listOfPaymentMethods.add(Accounter.getVendorsMessages()
-				.directDebit());
-		listOfPaymentMethods.add(Accounter.getVendorsMessages()
-				.masterCard());
-		listOfPaymentMethods.add(Accounter.getVendorsMessages()
-				.onlineBanking());
-		listOfPaymentMethods.add(Accounter.getVendorsMessages()
-				.standingOrder());
-		listOfPaymentMethods.add(Accounter.getVendorsMessages()
-				.switchMaestro());
+		listOfPaymentMethods.add(Accounter.getVendorsMessages().creditCard());
+		listOfPaymentMethods.add(Accounter.getVendorsMessages().directDebit());
+		listOfPaymentMethods.add(Accounter.getVendorsMessages().masterCard());
+		listOfPaymentMethods
+				.add(Accounter.getVendorsMessages().onlineBanking());
+		listOfPaymentMethods
+				.add(Accounter.getVendorsMessages().standingOrder());
+		listOfPaymentMethods
+				.add(Accounter.getVendorsMessages().switchMaestro());
 		selectCombo.initCombo(listOfPaymentMethods);
 
 		return selectCombo;
@@ -1397,8 +1392,8 @@ public class UIUtils {
 		if (incredNumber.length() > 0) {
 			// incredNumber = new
 			// StringBuffer(incredNumber).reverse().toString();
-			prevNumber = prevNumber.replace(incredNumber, ""
-					+ (Long.parseLong(incredNumber) + 1));
+			prevNumber = prevNumber.replace(incredNumber,
+					"" + (Long.parseLong(incredNumber) + 1));
 		}
 		return prevNumber;
 
@@ -1429,10 +1424,9 @@ public class UIUtils {
 		return obj1.compareTo(obj2);
 	}
 
-	public static ClientTAXItem getVATItem(String vatCodeId, boolean isSales) {
-		ClientTAXCode clientTAXCode = getCompany()
-				.getTAXCode(vatCodeId);
-		String vatIem = isSales ? clientTAXCode.getTAXItemGrpForSales()
+	public static ClientTAXItem getVATItem(long vatCodeId, boolean isSales) {
+		ClientTAXCode clientTAXCode = getCompany().getTAXCode(vatCodeId);
+		long vatIem = isSales ? clientTAXCode.getTAXItemGrpForSales()
 				: clientTAXCode.getTAXItemGrpForPurchases();
 		return getCompany().getTaxItem(vatIem);
 
@@ -1467,6 +1461,13 @@ public class UIUtils {
 			String format = dateFormatter.format(date.getDateAsObject());
 			return format;
 		}
+	}
+
+	/**
+	 * @return
+	 */
+	private static ClientCompany getCompany() {
+		return Accounter.getCompany();
 	}
 
 	public static void updateAccountsInSortedOrder(
@@ -1546,7 +1547,7 @@ public class UIUtils {
 				isAccountAdded = true;
 			}
 		}
-		if(!isAccountAdded) {
+		if (!isAccountAdded) {
 			accountsList.add(toBeAddedAccount);
 		}
 	}
@@ -1780,10 +1781,9 @@ public class UIUtils {
 
 	public static String getpaymentMethodCheckBy_CompanyType(
 			String paymentMethod) {
-		if (paymentMethod.equals(Accounter.getCustomersMessages()
-				.cheque())
-				|| paymentMethod.equals(Accounter
-						.getCustomersMessages().check())) {
+		if (paymentMethod.equals(Accounter.getCustomersMessages().cheque())
+				|| paymentMethod.equals(Accounter.getCustomersMessages()
+						.check())) {
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 				return "Cheque";
 			else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
@@ -1795,7 +1795,7 @@ public class UIUtils {
 	}
 
 	public static Double getRoundValue(Double value) {
-//		value = Math.floor(value * 100) / 100;
+		// value = Math.floor(value * 100) / 100;
 		value = (double) Math.round(value * 100) / 100;
 		return value;
 	}
@@ -1818,10 +1818,9 @@ public class UIUtils {
 		if (!taxCode.getName().equals("EGS")
 				&& !taxCode.getName().equals("EGZ")
 				&& !taxCode.getName().equals("RC")) {
-			ClientTAXItemGroup vatItemGroup = getCompany()
-					.getTAXItemGroup(
-							isSales ? taxCode.getTAXItemGrpForSales() : taxCode
-									.getTAXItemGrpForPurchases());
+			ClientTAXItemGroup vatItemGroup = getCompany().getTAXItemGroup(
+					isSales ? taxCode.getTAXItemGrpForSales() : taxCode
+							.getTAXItemGrpForPurchases());
 			if (vatItemGroup != null) {
 				if (vatItemGroup instanceof ClientTAXItem) {
 					return ((ClientTAXItem) vatItemGroup).getTaxRate();
