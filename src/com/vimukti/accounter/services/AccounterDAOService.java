@@ -2145,7 +2145,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		try {
 			HibernateTemplate template = getHibernateTemplate();
 			User example = new User();
-			example.setID(userID);
 			List list = template.find("from User u where u.id=?",
 					new Object[] { userID });
 			if (list.size() > 0) {

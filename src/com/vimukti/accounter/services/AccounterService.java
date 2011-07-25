@@ -12,7 +12,6 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Utility;
-import com.vimukti.accounter.utils.SecureUtils;
 
 /**
  * 
@@ -42,11 +41,8 @@ public class AccounterService extends HibernateDaoSupport implements
 	// /////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public <T extends IAccounterServerCore> String createObject(T object)
+	public <T extends IAccounterServerCore> long createObject(T object)
 			throws DAOException {
-		if (object.getID() == null) {
-			object.setID(SecureUtils.createID());
-		}
 		Session session = Utility.getCurrentSession();
 		Transaction t = session.beginTransaction();
 		session.save(object);
@@ -73,10 +69,8 @@ public class AccounterService extends HibernateDaoSupport implements
 	public <T extends IAccounterServerCore> T getObjectById(Class clazz,
 			String id) throws DAOException {
 		Session session = Utility.getCurrentSession();
-		Query query = session
-				.createQuery(
-						"from " + clazz.getName()
-								+ " entity where entity.id = ?")
+		Query query = session.createQuery(
+				"from " + clazz.getName() + " entity where entity.id = ?")
 				.setParameter(0, id);
 		List l = query.list();
 		T entity = null;
@@ -159,8 +153,8 @@ public class AccounterService extends HibernateDaoSupport implements
 
 		Session session = Utility.getCurrentSession();
 		long inputId = getLongIdForGivenid(clazz, id);
-		String queryName = new StringBuilder().append("canDelete").append(
-				clazz.getSimpleName()).toString();
+		String queryName = new StringBuilder().append("canDelete")
+				.append(clazz.getSimpleName()).toString();
 		Query query = session.getNamedQuery(queryName).setParameter("inputId",
 				inputId);
 		return executeQuery(query);
