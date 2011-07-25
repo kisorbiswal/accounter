@@ -208,8 +208,7 @@ public class AccounterValidator {
 	}
 
 	private static List<ClientFiscalYear> getClosedFiscalYears() {
-		List<ClientFiscalYear> fiscalyearlist = getCompany()
-				.getFiscalYears();
+		List<ClientFiscalYear> fiscalyearlist = getCompany().getFiscalYears();
 		List<ClientFiscalYear> closedFiscalYears = new ArrayList<ClientFiscalYear>();
 		for (ClientFiscalYear fiscalyear : fiscalyearlist) {
 			if (fiscalyear.getStatus() == ClientFiscalYear.STATUS_CLOSE) {
@@ -222,8 +221,7 @@ public class AccounterValidator {
 	public static boolean isFixedAssetPurchaseDateWithinRange(
 			ClientFinanceDate purchaseDate) {
 
-		List<ClientFiscalYear> fiscalYears = getCompany()
-				.getFiscalYears();
+		List<ClientFiscalYear> fiscalYears = getCompany().getFiscalYears();
 		for (ClientFiscalYear firstFiscalYear : fiscalYears) {
 			if (firstFiscalYear.getStatus() == ClientFiscalYear.STATUS_OPEN) {
 				if (purchaseDate.after(firstFiscalYear.getStartDate())) {
@@ -317,8 +315,8 @@ public class AccounterValidator {
 		if (!validDate)
 			throw new InvalidTransactionEntryException(
 					AccounterErrorType.InvalidTransactionDate);
-		if (transactionDate.before(new ClientFinanceDate(Accounter
-				.getCompany().getpreferences().getPreventPostingBeforeDate())))
+		if (transactionDate.before(new ClientFinanceDate(Accounter.getCompany()
+				.getpreferences().getPreventPostingBeforeDate())))
 			throw new InvalidTransactionEntryException(
 					AccounterErrorType.InvalidDate);
 
@@ -327,8 +325,7 @@ public class AccounterValidator {
 	}
 
 	public static List<ClientFiscalYear> getOpenFiscalYears() {
-		List<ClientFiscalYear> fiscalYears = getCompany()
-				.getFiscalYears();
+		List<ClientFiscalYear> fiscalYears = getCompany().getFiscalYears();
 
 		List<ClientFiscalYear> openFiscalYears = new ArrayList<ClientFiscalYear>();
 		for (ClientFiscalYear clientFiscalYear : fiscalYears) {
@@ -425,13 +422,11 @@ public class AccounterValidator {
 							public boolean onYesClick()
 									throws InvalidEntryException {
 								if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-									company
-											.setUkServiceItemDefaultIncomeAccount(selectItem
-													.getName());
+									company.setUkServiceItemDefaultIncomeAccount(selectItem
+											.getName());
 								else
-									company
-											.setServiceItemDefaultIncomeAccount(selectItem
-													.getName());
+									company.setServiceItemDefaultIncomeAccount(selectItem
+											.getName());
 								return true;
 							}
 
@@ -469,13 +464,11 @@ public class AccounterValidator {
 						public boolean onYesClick()
 								throws InvalidEntryException {
 							if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-								company
-										.setUkNonInventoryItemDefaultIncomeAccount(selectItem
-												.getName());
+								company.setUkNonInventoryItemDefaultIncomeAccount(selectItem
+										.getName());
 							else
-								company
-										.setNonInventoryItemDefaultIncomeAccount(selectItem
-												.getName());
+								company.setNonInventoryItemDefaultIncomeAccount(selectItem
+										.getName());
 							return true;
 						}
 
@@ -514,13 +507,11 @@ public class AccounterValidator {
 							public boolean onYesClick()
 									throws InvalidEntryException {
 								if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-									company
-											.setUkServiceItemDefaultExpenseAccount(selectItem
-													.getName());
+									company.setUkServiceItemDefaultExpenseAccount(selectItem
+											.getName());
 								else
-									company
-											.setServiceItemDefaultExpenseAccount(selectItem
-													.getName());
+									company.setServiceItemDefaultExpenseAccount(selectItem
+											.getName());
 								return true;
 							}
 
@@ -563,13 +554,11 @@ public class AccounterValidator {
 									public boolean onYesClick()
 											throws InvalidEntryException {
 										if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-											company
-													.setUkNonInventoryItemDefaultExpenseAccount(selectExpAccount
-															.getName());
+											company.setUkNonInventoryItemDefaultExpenseAccount(selectExpAccount
+													.getName());
 										else
-											company
-													.setNonInventoryItemDefaultExpenseAccount(selectExpAccount
-															.getName());
+											company.setNonInventoryItemDefaultExpenseAccount(selectExpAccount
+													.getName());
 										return true;
 									}
 
@@ -1121,7 +1110,7 @@ public class AccounterValidator {
 				.getSelectedRecords();
 
 		for (ClientTransactionMakeDeposit rec : selectedRecords) {
-			if (rec.getAccount().equals(selectedDepositInAccount.getID())) {
+			if (rec.getAccount() == (selectedDepositInAccount.getID())) {
 				Accounter
 						.showError(AccounterErrorType.makedepositAccountValidation);
 				return false;
@@ -1613,9 +1602,8 @@ public class AccounterValidator {
 
 	public static boolean sinceDate(ClientFinanceDate sinceDate,
 			final AbstractBaseView view) {
-		ClientFinanceDate companyStartDate = new ClientFinanceDate(
-				getCompany().getpreferences()
-						.getPreventPostingBeforeDate());
+		ClientFinanceDate companyStartDate = new ClientFinanceDate(getCompany()
+				.getpreferences().getPreventPostingBeforeDate());
 
 		if (sinceDate.before(companyStartDate)) {
 			String msg;
@@ -1655,9 +1643,8 @@ public class AccounterValidator {
 	public static boolean isPriorAsOfDate(ClientFinanceDate asOfDate,
 			final AbstractBaseView view) throws InvalidEntryException {
 
-		ClientFinanceDate companyStartDate = new ClientFinanceDate(
-				getCompany().getpreferences()
-						.getPreventPostingBeforeDate());
+		ClientFinanceDate companyStartDate = new ClientFinanceDate(getCompany()
+				.getpreferences().getPreventPostingBeforeDate());
 		if (asOfDate.before(companyStartDate)) {
 			throw new InvalidEntryException(AccounterErrorType.prior_asOfDate);
 			// return false;
