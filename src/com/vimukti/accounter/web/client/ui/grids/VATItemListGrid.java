@@ -158,9 +158,9 @@ public class VATItemListGrid extends ListGrid<ClientTAXItem> {
 		case 1:
 			return obj.getTaxRate() + " %";
 		case 2:
-			return obj.getTaxAgency() != null ? getCompany()
+			return obj.getTaxAgency() != 0 ? Accounter.getCompany()
 					.getTaxAgency(obj.getTaxAgency()).getName() : "";
-			
+
 		case 3:
 			return obj.getDescription();
 		case 4:
