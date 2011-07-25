@@ -15,7 +15,7 @@ public class ClientTAXAgency extends ClientPayee {
 	 * 
 	 * @see
 	 */
-	String paymentTerm;
+	long paymentTerm;
 
 	/**
 	 * Liability Account for this TaxAgency
@@ -61,11 +61,11 @@ public class ClientTAXAgency extends ClientPayee {
 		return AccounterCoreType.TAXAGENCY;
 	}
 
-	public String getPaymentTerm() {
+	public long getPaymentTerm() {
 		return paymentTerm;
 	}
 
-	public void setPaymentTerm(String paymentTerm) {
+	public void setPaymentTerm(long paymentTerm) {
 		this.paymentTerm = paymentTerm;
 	}
 
