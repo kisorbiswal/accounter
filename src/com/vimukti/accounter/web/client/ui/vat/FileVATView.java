@@ -473,7 +473,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 			}
 
 			@Override
-			public void makeReportRequest(String vatAgency,
+			public void makeReportRequest(long vatAgency,
 					ClientFinanceDate startDate, ClientFinanceDate endDate) {
 				if (isSecondReuqest) {
 					super.makeReportRequest(vatAgency, startDate, endDate);
@@ -485,7 +485,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		};
 		report.init();
 		report.initData();
-		report.makeReportRequest(selectedVatAgency.getName(),
+		report.makeReportRequest(selectedVatAgency.getID(),
 				fromDate.getEnteredDate(), toDate.getEnteredDate());
 
 	}
