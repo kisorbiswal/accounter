@@ -230,7 +230,7 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getPurchaseOrdersForVendor(String vendorID,
 			AsyncCallback<List<SalesOrdersList>> callback);
 
-	public void getNotReceivedPurchaseOrdersList(String vendorID,
+	public void getNotReceivedPurchaseOrdersList(long vendorID,
 			AsyncCallback<List<PurchaseOrdersList>> callback);
 
 	public void getPurchaseOrderById(String transactionId,
