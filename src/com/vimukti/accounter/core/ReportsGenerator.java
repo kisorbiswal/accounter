@@ -696,6 +696,7 @@ public class ReportsGenerator {
 			updateReport(priorVATReturnsServerReport, finaTool);
 			priorVATReturnsServerReport.resetVariables();
 			try {
+				//FIXME
 				priorVATReturnsServerReport.onSuccess(reportsSerivce
 						.getPriorReturnVATSummary(status, endDate));
 
@@ -716,6 +717,7 @@ public class ReportsGenerator {
 			updateReport(vat100ServerReport, finaTool);
 			vat100ServerReport.resetVariables();
 			try {
+				//FIXME
 				vat100ServerReport.onSuccess(reportsSerivce.getVAT100Report(
 						status, startDate, endDate));
 			} catch (Exception e) {
@@ -982,6 +984,7 @@ public class ReportsGenerator {
 			updateReport(statementReport, finaTool);
 			statementReport.resetVariables();
 			try {
+				//FIXME
 				statementReport.onSuccess(finaTool.getPayeeStatementsList(
 						status, new ClientFinanceDate().getTime(), startDate,
 						endDate, 0, false, false, 0.00, false, false));
