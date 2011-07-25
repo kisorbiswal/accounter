@@ -27,7 +27,7 @@ public class ClientTransactionPayBill implements IAccounterCore {
 
 	boolean isVoid = false;
 
-	String vendorId;
+	long vendorId;
 
 	String billNumber;
 
@@ -86,7 +86,7 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	/**
 	 * @return the vendor
 	 */
-	public String getVendor() {
+	public long getVendor() {
 		return vendorId;
 	}
 
@@ -179,7 +179,7 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	 * @param vendorId
 	 *            the vendor to set
 	 */
-	public void setVendor(String vendorId) {
+	public void setVendor(long vendorId) {
 		this.vendorId = vendorId;
 	}
 
