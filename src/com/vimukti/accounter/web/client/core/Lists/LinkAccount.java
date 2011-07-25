@@ -8,7 +8,7 @@ public class LinkAccount implements IsSerializable,Serializable{
 
 	long assetAccount;
 
-	String linkedAccount;
+	long linkedAccount;
 
 	public long getAssetAccount() {
 		return assetAccount;
@@ -18,11 +18,11 @@ public class LinkAccount implements IsSerializable,Serializable{
 		this.assetAccount = assetAccount;
 	}
 
-	public String getLinkedAccount() {
+	public long getLinkedAccount() {
 		return linkedAccount;
 	}
 
-	public void setLinkedAccount(String linkedAccount) {
+	public void setLinkedAccount(long linkedAccount) {
 		this.linkedAccount = linkedAccount;
 	}
 
