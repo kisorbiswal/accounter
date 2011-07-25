@@ -91,7 +91,8 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		fromItem.setTitle("From");
 
 		toItem = new DateItem();
-		ClientFinanceDate date = Utility.getLastandOpenedFiscalYearEndDate();
+		ClientFinanceDate date = Accounter.getCompany()
+				.getLastandOpenedFiscalYearEndDate();
 
 		if (date != null)
 			toItem.setDatethanFireEvent(date);
