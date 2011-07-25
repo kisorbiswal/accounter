@@ -59,8 +59,7 @@ public class CustomerCreditMemoView extends
 	protected void createControls() {
 
 		Label lab1 = new Label(customerConstants.customerCreditNote());
-		lab1.setStyleName(Accounter.getCustomersMessages()
-				.lableTitle());
+		lab1.setStyleName(Accounter.getCustomersMessages().lableTitle());
 		// lab1.setHeight("35px");
 		listforms = new ArrayList<DynamicForm>();
 
@@ -90,8 +89,7 @@ public class CustomerCreditMemoView extends
 				});
 
 		transactionNumber = createTransactionNumberItem();
-		transactionNumber.setTitle(Accounter.getCustomersMessages()
-				.creditNo());
+		transactionNumber.setTitle(Accounter.getCustomersMessages().creditNo());
 
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(4);
@@ -118,15 +116,15 @@ public class CustomerCreditMemoView extends
 		billToTextArea = new TextAreaItem();
 		billToTextArea.setHelpInformation(true);
 		billToTextArea.setWidth(100);
-		billToTextArea.setTitle(Accounter.getCustomersMessages()
-				.creditTo());
+		billToTextArea.setTitle(Accounter.getCustomersMessages().creditTo());
 		billToTextArea.setDisabled(true);
 
 		custForm = UIUtils.form(customerConstants.customer());
 		custForm.setFields(customerCombo, contactCombo, billToTextArea);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
-		custForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.getCustomersMessages().width(), "190px");
+		custForm.getCellFormatter()
+				.getElement(0, 0)
+				.setAttribute(Accounter.getCustomersMessages().width(), "190px");
 		custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
 		forms.add(custForm);
@@ -276,8 +274,8 @@ public class CustomerCreditMemoView extends
 		this.priceLevel = priceLevel;
 		if (priceLevel != null && priceLevelSelect != null) {
 
-			priceLevelSelect.setComboItem(getCompany()
-					.getPriceLevel(priceLevel.getID()));
+			priceLevelSelect.setComboItem(getCompany().getPriceLevel(
+					priceLevel.getID()));
 
 		}
 
@@ -294,8 +292,8 @@ public class CustomerCreditMemoView extends
 		this.salesPerson = person;
 		if (salesPerson != null && salesPersonCombo != null) {
 
-			salesPersonCombo.setComboItem(getCompany()
-					.getSalesPerson(salesPerson.getID()));
+			salesPersonCombo.setComboItem(getCompany().getSalesPerson(
+					salesPerson.getID()));
 
 		}
 
@@ -306,7 +304,7 @@ public class CustomerCreditMemoView extends
 		try {
 			transactionObject = getCreditMemoObject();
 			super.saveAndUpdateView();
-			if (transactionObject.getID() == null)
+			if (transactionObject.getID() == 0)
 				createObject((ClientCustomerCreditMemo) transactionObject);
 			else
 				alterObject((ClientCustomerCreditMemo) transactionObject);
@@ -358,8 +356,8 @@ public class CustomerCreditMemoView extends
 		initTransactionViewData();
 		ClientCustomerCreditMemo creditToBeEdited = (ClientCustomerCreditMemo) transactionObject;
 
-		this.customer = getCompany().getCustomer(
-				creditToBeEdited.getCustomer());
+		this.customer = getCompany()
+				.getCustomer(creditToBeEdited.getCustomer());
 		this.transactionObject = creditToBeEdited;
 		this.billingAddress = creditToBeEdited.getBillingAddress();
 		this.contact = creditToBeEdited.getContact();
@@ -466,7 +464,8 @@ public class CustomerCreditMemoView extends
 			if (taxableLineTotal == null)
 				return;
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(), taxableLineTotal,
+					transactionDateItem.getEnteredDate(),
+					taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -517,12 +516,11 @@ public class CustomerCreditMemoView extends
 		if (this.customer != null && this.customer != customer) {
 			ClientCustomerCreditMemo ent = (ClientCustomerCreditMemo) this.transactionObject;
 
-			if (ent != null && ent.getCustomer().equals(customer.getID())) {
+			if (ent != null && ent.getCustomer() == customer.getID()) {
 				this.customerTransactionGrid.removeAllRecords();
 				this.customerTransactionGrid.setRecords(ent
 						.getTransactionItems());
-			} else if (ent != null
-					&& !ent.getCustomer().equals(customer.getID())) {
+			} else if (ent != null && ent.getCustomer() != customer.getID()) {
 				this.customerTransactionGrid.removeAllRecords();
 				this.customerTransactionGrid.updateTotals();
 			} else if (ent == null)
@@ -644,8 +642,7 @@ public class CustomerCreditMemoView extends
 
 		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id,
-				editCallBack);
+		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
 
 	}
 
@@ -674,8 +671,7 @@ public class CustomerCreditMemoView extends
 	public void print() {
 
 		UIUtils.downloadAttachment(
-				((ClientCustomerCreditMemo) getCreditMemoObject())
-						.getID(),
+				((ClientCustomerCreditMemo) getCreditMemoObject()).getID(),
 				ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
 
 	}
@@ -692,8 +688,8 @@ public class CustomerCreditMemoView extends
 		this.taxCode = taxCode;
 		if (taxCode != null) {
 
-			taxCodeSelect.setComboItem(getCompany()
-					.getTAXCode(taxCode.getID()));
+			taxCodeSelect
+					.setComboItem(getCompany().getTAXCode(taxCode.getID()));
 			customerTransactionGrid.setTaxCode(taxCode.getID());
 		} else
 			taxCodeSelect.setValue("");
