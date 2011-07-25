@@ -35,14 +35,15 @@ public class ProfitAndLossServerReport extends
 	protected Double otherNetIncome2 = 0.0D;
 
 	// TrialBalance trialBalance
-	public ProfitAndLossServerReport(long startDate, long endDate,int generationType) {
-		super(startDate, endDate,generationType);
+	public ProfitAndLossServerReport(long startDate, long endDate,
+			int generationType) {
+		super(startDate, endDate, generationType);
 		this.columnstoHide.add(3);
 		this.columnstoHide.add(5);
 	}
 
-	public ProfitAndLossServerReport(long startDate, long endDate,int generationType,
-			IFinanceReport<TrialBalance> reportView) {
+	public ProfitAndLossServerReport(long startDate, long endDate,
+			int generationType, IFinanceReport<TrialBalance> reportView) {
 		super(startDate, endDate, generationType);
 		this.columnstoHide.add(3);
 		this.columnstoHide.add(5);
@@ -156,7 +157,7 @@ public class ProfitAndLossServerReport extends
 		// closeAllSection();
 		// }
 
-		if (closePrevSection(record.getParentAccount() == null ? record
+		if (closePrevSection(record.getParentAccount() == 0 ? record
 				.getAccountName() : getAccountNameById(record
 				.getParentAccount()))) {
 			processRecord(record);
@@ -249,9 +250,9 @@ public class ProfitAndLossServerReport extends
 
 	}
 
-	public String getAccountNameById(String id) {
+	public String getAccountNameById(long id) {
 		for (TrialBalance balance : this.records)
-			if (balance.getAccountId().equals(id))
+			if (balance.getAccountId() == id)
 				return balance.getAccountName();
 		return null;
 	}
@@ -344,8 +345,8 @@ public class ProfitAndLossServerReport extends
 
 	public boolean isParent(TrialBalance record) {
 		for (TrialBalance balance : this.records) {
-			if (balance.getParentAccount() != null) {
-				if (balance.getParentAccount().equals(record.getAccountId()))
+			if (balance.getParentAccount() != 0) {
+				if (balance.getParentAccount() == record.getAccountId())
 					return true;
 			}
 		}
@@ -357,9 +358,10 @@ public class ProfitAndLossServerReport extends
 			types.add(record.getAccountName());
 			curentParent = record.getAccountName();
 			// System.out.println("Add:" + curentParent);
-			addSection(record.getAccountNumber() + "-"
-					+ record.getAccountName(), record.getAccountName() + "  "
-					+ "Total", new int[] { 3, 5 });
+			addSection(
+					record.getAccountNumber() + "-" + record.getAccountName(),
+					record.getAccountName() + "  " + "Total",
+					new int[] { 3, 5 });
 			return true;
 		}
 		return false;
@@ -461,7 +463,7 @@ public class ProfitAndLossServerReport extends
 	@Override
 	public int getColumnWidth(int index) {
 
-	switch (index) {
+		switch (index) {
 		case 0:
 			return 110;
 		case 2:
