@@ -12,7 +12,7 @@ public class ClientPayVAT extends ClientTransaction {
 	/**
 	 * PayFrom
 	 */
-	String payFrom;
+	long payFrom;
 
 	/**
 	 * Bills Due On or Before.
@@ -23,7 +23,7 @@ public class ClientPayVAT extends ClientTransaction {
 	 * The Default TaxAgency Set for Transaction
 	 * 
 	 */
-	String vatAgency;
+	long vatAgency;
 
 	double endingBalance;
 
@@ -56,7 +56,7 @@ public class ClientPayVAT extends ClientTransaction {
 	/**
 	 * @return the payFrom
 	 */
-	public String getPayFrom() {
+	public long getPayFrom() {
 		return payFrom;
 	}
 
@@ -64,7 +64,7 @@ public class ClientPayVAT extends ClientTransaction {
 	 * @param payFrom
 	 *            the payFrom to set
 	 */
-	public void setPayFrom(String payFrom) {
+	public void setPayFrom(long payFrom) {
 		this.payFrom = payFrom;
 	}
 
@@ -86,7 +86,7 @@ public class ClientPayVAT extends ClientTransaction {
 	/**
 	 * @return the vatAgency
 	 */
-	public String getVatAgency() {
+	public long getVatAgency() {
 		return vatAgency;
 	}
 
@@ -94,7 +94,7 @@ public class ClientPayVAT extends ClientTransaction {
 	 * @param vatAgency
 	 *            the vatAgency to set
 	 */
-	public void setVatAgency(String vatAgency) {
+	public void setVatAgency(long vatAgency) {
 		this.vatAgency = vatAgency;
 	}
 

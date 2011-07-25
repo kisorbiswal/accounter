@@ -26,7 +26,7 @@ public class ClientVATReturn extends ClientTransaction {
 	 * The VAT Agency to which we are going to create this VAT Return
 	 * 
 	 */
-	String taxAgency;
+	long taxAgency;
 
 	List<ClientBox> boxes = new ArrayList<ClientBox>();
 
@@ -52,7 +52,7 @@ public class ClientVATReturn extends ClientTransaction {
 	/**
 	 * @return the vatAgency
 	 */
-	public String getTaxAgency() {
+	public long getTaxAgency() {
 		return taxAgency;
 	}
 
@@ -60,7 +60,7 @@ public class ClientVATReturn extends ClientTransaction {
 	 * @param taxAgency
 	 *            the vatAgency to set
 	 */
-	public void setTaxAgency(String taxAgency) {
+	public void setTaxAgency(long taxAgency) {
 		this.taxAgency = taxAgency;
 	}
 
@@ -101,11 +101,11 @@ public class ClientVATReturn extends ClientTransaction {
 		return boxes;
 	}
 
-	public String getTAXAgency() {
+	public long getTAXAgency() {
 		return taxAgency;
 	}
 
-	public void setTAXAgency(String tAXAgency) {
+	public void setTAXAgency(long tAXAgency) {
 		taxAgency = tAXAgency;
 	}
 

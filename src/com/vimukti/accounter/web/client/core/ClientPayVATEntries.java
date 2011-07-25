@@ -10,9 +10,9 @@ public class ClientPayVATEntries implements IAccounterCore {
 
 	double balance;
 	
-	private String vatReturn;
+	private long vatReturn;
 
-	public String getVatAgency() {
+	public long getVatAgency() {
 		return vatAgency;
 	}
 
@@ -72,11 +72,11 @@ public class ClientPayVATEntries implements IAccounterCore {
 
 	}
 
-	public void setVatReturn(String vatReturn) {
+	public void setVatReturn(long vatReturn) {
 		this.vatReturn = vatReturn;
 	}
 
-	public String getVatReturn() {
+	public long getVatReturn() {
 		return vatReturn;
 	}
 

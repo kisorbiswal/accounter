@@ -22,9 +22,9 @@ public class ClientTAXAgency extends ClientPayee {
 	 * 
 	 * @see
 	 */
-	String purchaseLiabilityAccount;
+	long purchaseLiabilityAccount;
 
-	String salesLiabilityAccount;
+	long salesLiabilityAccount;
 
 	public final static int RETURN_TYPE_NONE = 0;
 	public final static int RETURN_TYPE_UK_VAT = 1;
@@ -72,7 +72,7 @@ public class ClientTAXAgency extends ClientPayee {
 	/**
 	 * @return the purchaseLiabilityAccount
 	 */
-	public String getPurchaseLiabilityAccount() {
+	public long getPurchaseLiabilityAccount() {
 		return purchaseLiabilityAccount;
 	}
 
@@ -80,15 +80,15 @@ public class ClientTAXAgency extends ClientPayee {
 	 * @param purchaseLiabilityAccount
 	 *            the purchaseLiabilityAccount to set
 	 */
-	public void setPurchaseLiabilityAccount(String purchaseLiabilityAccount) {
+	public void setPurchaseLiabilityAccount(long purchaseLiabilityAccount) {
 		this.purchaseLiabilityAccount = purchaseLiabilityAccount;
 	}
 
-	public String getSalesLiabilityAccount() {
+	public long getSalesLiabilityAccount() {
 		return salesLiabilityAccount;
 	}
 
-	public void setSalesLiabilityAccount(String salesLiabilityAccount) {
+	public void setSalesLiabilityAccount(long salesLiabilityAccount) {
 		this.salesLiabilityAccount = salesLiabilityAccount;
 	}
 

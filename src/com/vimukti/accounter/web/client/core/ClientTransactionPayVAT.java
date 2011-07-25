@@ -25,7 +25,7 @@ public class ClientTransactionPayVAT implements IAccounterCore {
 	 */
 	double amountToPay;
 
-	String vatReturn;
+	long vatReturn;
 
 	ClientPayVAT payVAT;
 
@@ -94,7 +94,7 @@ public class ClientTransactionPayVAT implements IAccounterCore {
 	/**
 	 * @return the vatReturn
 	 */
-	public String getVatReturn() {
+	public long getVatReturn() {
 		return vatReturn;
 	}
 
@@ -102,7 +102,7 @@ public class ClientTransactionPayVAT implements IAccounterCore {
 	 * @param vatReturn
 	 *            the vatReturn to set
 	 */
-	public void setVatReturn(String vatReturn) {
+	public void setVatReturn(long vatReturn) {
 		this.vatReturn = vatReturn;
 	}
 
