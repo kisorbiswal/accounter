@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.ECSalesListDetailServer
 public class ECSalesListDetailReport extends
 		AbstractReportView<ECSalesListDetail> {
 
-	private long vatAgency;
+	private String vatAgency;
 
 	public ECSalesListDetailReport() {
 		this.serverReport = new ECSalesListDetailServerReport(this);
@@ -38,7 +38,7 @@ public class ECSalesListDetailReport extends
 		Accounter.createReportService().getECSalesListDetailReport(
 				bySalesDetail.getName(), start.getTime(), end.getTime(), this);
 
-		this.vatAgency = bySalesDetail.getTransactionId();
+		this.vatAgency = bySalesDetail.getName();
 
 	}
 
