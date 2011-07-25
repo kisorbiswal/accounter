@@ -311,7 +311,7 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 		return user;
 	}
 
-	public ClientCompany getCompany() {
+	public static ClientCompany getCompany() {
 		return company;
 	}
 
