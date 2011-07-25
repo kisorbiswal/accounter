@@ -10,7 +10,7 @@ public class CheckDetailReport extends BaseReport {
 
 	int transactionType;
 
-	private String transactionId;
+	private long transactionId;
 
 	ClientFinanceDate transactionDate;
 
@@ -80,11 +80,11 @@ public class CheckDetailReport extends BaseReport {
 		this.accountName = accountName;
 	}
 
-	public void setTransactionId(String transactionId) {
+	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
 	}
 
-	public String getTransactionId() {
+	public long getTransactionId() {
 		return transactionId;
 	}
 
