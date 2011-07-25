@@ -463,7 +463,7 @@ public interface IFinanceDAOService {
 	public List<Transaction> getRegister(Account account) throws DAOException;
 
 	public List<AccountRegister> getAccountRegister(long startDate,
-			long endDate, String accountId) throws DAOException;
+			long endDate, long accountId) throws DAOException;
 
 	public List<TransactionDetailByAccount> getTransactionDetailByAccount(
 			final long startDate, final long endDate) throws DAOException;
