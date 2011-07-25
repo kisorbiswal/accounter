@@ -4,9 +4,9 @@ import org.apache.log4j.Logger;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.workspace.tool.FinanceTool;
 
 @SuppressWarnings("serial")
 public class FinanceLogger implements IAccounterServerCore {
@@ -23,7 +23,6 @@ public class FinanceLogger implements IAccounterServerCore {
 	private FinanceDate createdDate;
 	private String createdBy;
 	private String logMessge;
-
 
 	public FinanceDate getCreatedDate() {
 		return createdDate;
@@ -61,9 +60,9 @@ public class FinanceLogger implements IAccounterServerCore {
 
 	public void startLogger(IAccounterCore data, String createdBy, int comand) {
 		getInstance();
-		String cmdType = (comand == FinanceTool.CREATE_NEW_ACTION ? "Creation of "
-				: (comand == FinanceTool.UPDATE_ACTION ? "Updation of "
-						: (comand == FinanceTool.DELETE_ACTION ? "Deletion of "
+		String cmdType = (comand == AccounterCommand.CREATION_SUCCESS ? "Creation of "
+				: (comand == AccounterCommand.UPDATION_SUCCESS ? "Updation of "
+						: (comand == AccounterCommand.DELETION_SUCCESS ? "Deletion of "
 								: "")));
 		if (data != null)
 			this.description = cmdType
@@ -86,8 +85,7 @@ public class FinanceLogger implements IAccounterServerCore {
 	public void closeLogger() {
 		log("Logging is completed");
 
-		log
-				.info("--------------------------------------------- End of Logging-------------------------------------------------\n");
+		log.info("--------------------------------------------- End of Logging-------------------------------------------------\n");
 
 		this.setLogMessge(this.strBuffer.toString());
 
@@ -116,10 +114,9 @@ public class FinanceLogger implements IAccounterServerCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return 0;
 	}
-
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
