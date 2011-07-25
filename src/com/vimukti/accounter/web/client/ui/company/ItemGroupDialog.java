@@ -33,18 +33,15 @@ public class ItemGroupDialog extends BaseDialog {
 	}
 
 	private void initGridData() {
-		List<ClientItem> clientItems = getCompany()
-				.getActiveItems();
+		List<ClientItem> clientItems = getCompany().getActiveItems();
 		if (this.itemgroup != null) {
 			for (ClientItem clientItem : clientItems) {
-				if (clientItem.getItemGroup() != null
-						&& clientItem.getItemGroup().equals(
-								this.itemgroup.getID()))
+				if (clientItem.getItemGroup() != 0
+						&& clientItem.getItemGroup() == (this.itemgroup.getID()))
 					dialoggrid.addData(clientItem);
 			}
 		} else {
-			List<ClientItemGroup> itemGroups = getCompany()
-					.getItemGroups();
+			List<ClientItemGroup> itemGroups = getCompany().getItemGroups();
 			for (ClientItem clientItem : clientItems) {
 				if (clientItem.getItemGroup() == null) {
 					dialoggrid.addData(clientItem);
@@ -59,8 +56,7 @@ public class ItemGroupDialog extends BaseDialog {
 		VerticalPanel panel = new VerticalPanel();
 
 		dform = new DynamicForm();
-		itemGtext = new TextItem(Accounter.getFinanceUIConstants()
-				.itemGroup());
+		itemGtext = new TextItem(Accounter.getFinanceUIConstants().itemGroup());
 		itemGtext.setHelpInformation(true);
 		itemGtext.setRequired(true);
 		dform.setFields(itemGtext);
