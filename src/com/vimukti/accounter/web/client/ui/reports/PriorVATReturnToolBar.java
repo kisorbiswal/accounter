@@ -221,7 +221,7 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 		}
 		// if (selectedEndDate.length() == 0)
 		// return;
-		reportview
-				.makeReportRequest(selectedVATAgency.getID(), selectedEndDate);
+		reportview.makeReportRequest(selectedVATAgency.getName(),
+				selectedEndDate);
 	}
 }
