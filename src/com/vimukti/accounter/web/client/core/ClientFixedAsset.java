@@ -70,7 +70,7 @@ public class ClientFixedAsset implements IAccounterCore {
 	 * Depreciation Expense Account
 	 * 
 	 */
-	private String depreciationExpenseAccount;
+	private long depreciationExpenseAccount;
 
 	private double accumulatedDepreciationAmount = 0.0;
 
@@ -116,7 +116,7 @@ public class ClientFixedAsset implements IAccounterCore {
 		return id;
 	}
 
-	public void setID(long id){
+	public void setID(long id) {
 		this.id = id;
 	}
 
@@ -128,7 +128,6 @@ public class ClientFixedAsset implements IAccounterCore {
 			String linkedAccumulatedDepreciationAccount) {
 		this.linkedAccumulatedDepreciationAccount = linkedAccumulatedDepreciationAccount;
 	}
-
 
 	public String getAssetNumber() {
 		return assetNumber;
@@ -194,11 +193,11 @@ public class ClientFixedAsset implements IAccounterCore {
 		this.depreciationMethod = depreciationMethod;
 	}
 
-	public String getDepreciationExpenseAccount() {
+	public long getDepreciationExpenseAccount() {
 		return depreciationExpenseAccount;
 	}
 
-	public void setDepreciationExpenseAccount(String depreciationExpenseAccount) {
+	public void setDepreciationExpenseAccount(long depreciationExpenseAccount) {
 		this.depreciationExpenseAccount = depreciationExpenseAccount;
 	}
 
