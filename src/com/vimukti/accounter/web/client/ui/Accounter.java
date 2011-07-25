@@ -160,7 +160,7 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 			}
 
 		};
-		getService.getCompany(getClientIdentity().getID(), getCompanyCallback);
+		getService.getCompany(getCompanyCallback);
 		// this.hide();
 		if (isSales)
 			loadingDialog = UIUtils.getLoadingDialog(Accounter
@@ -256,8 +256,8 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 					// We got the company, set it for all further references.
 					// company.setAccountingType(ClientCompany.ACCOUNTING_TYPE_US);
 					Accounter.setCompany(company);
-					Accounter.setUser(company.getUser(Accounter
-							.getClientIdentity().getID()));
+					// Accounter.setUser(company.getUser(Accounter
+					// .getClientIdentity().getID()));
 					// Close the startup dialog...
 
 					// and, now we are ready to start the application.
@@ -300,7 +300,7 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 			}
 
 		};
-		getService.getCompany(getClientIdentity().getID(), getCompanyCallback);
+		getService.getCompany(getCompanyCallback);
 		// this.hide();
 		if (!GWT.isScript())
 			loadingDialog = UIUtils.getLoadingDialog(Accounter

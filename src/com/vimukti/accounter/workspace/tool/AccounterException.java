@@ -10,6 +10,7 @@ package com.vimukti.accounter.workspace.tool;
 public class AccounterException extends Exception {
 
 	protected int errorCode;
+	private long id;
 
 	/**
 	 * Creates new Instance
@@ -37,5 +38,26 @@ public class AccounterException extends Exception {
 	 */
 	public AccounterException(Throwable t) {
 		super(t);
+	}
+
+	/**
+	 * @return
+	 */
+	public int getError() {
+		return errorCode;
+	}
+
+	/**
+	 * @param id
+	 */
+	public void setID(long id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return
+	 */
+	public long getID() {
+		return this.id;
 	}
 }

@@ -1739,4 +1739,11 @@ public class AccounterValidator {
 		return false;
 
 	}
+
+	/**
+	 * @return
+	 */
+	private static ClientCompany getCompany() {
+		return Accounter.getCompany();
+	}
 }

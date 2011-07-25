@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -16,6 +17,7 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.SelectItemType;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
+import com.vimukti.accounter.workspace.tool.AccounterException;
 
 @SuppressWarnings("serial")
 public class ClientCompany implements IAccounterCore {
@@ -1284,7 +1286,7 @@ public class ClientCompany implements IAccounterCore {
 	 * @param accounterCoreObject
 	 */
 
-	public void processCommand(IAccounterCore accounterCoreObject) {
+	public void processCommand(Serializable accounterCoreObject) {
 
 		if (accounterCoreObject == null)
 			return;
@@ -1303,11 +1305,10 @@ public class ClientCompany implements IAccounterCore {
 				break;
 			}
 
-		} else if (accounterCoreObject.getObjectType() == AccounterCoreType.ERROR) {
-			InvalidOperationException e = (InvalidOperationException) accounterCoreObject;
+		} else if (accounterCoreObject instanceof AccounterException) {
+			AccounterException e = (AccounterException) accounterCoreObject;
 			if (e.status != 819) {
-				MainFinanceWindow.getViewManager().operationFailed(
-						(InvalidOperationException) accounterCoreObject);
+				MainFinanceWindow.getViewManager().operationFailed(e);
 			} else {
 				processRequest(e);
 			}

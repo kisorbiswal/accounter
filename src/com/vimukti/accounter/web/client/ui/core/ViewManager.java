@@ -27,7 +27,6 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -60,6 +59,8 @@ import com.vimukti.accounter.web.client.ui.vendors.AwaitingAuthorisationView;
 import com.vimukti.accounter.web.client.ui.vendors.ExpenseClaimView;
 import com.vimukti.accounter.web.client.ui.vendors.ExpenseClaims;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListAction;
+import com.vimukti.accounter.workspace.tool.AccounterException;
+import com.vimukti.accounter.workspace.tool.ErrorCode;
 
 /**
  * 
@@ -873,11 +874,6 @@ public class ViewManager extends DockPanel {
 				if (index <= 0) {
 					history = null;
 				} else {
-					if (Accounter.isSales() || Accounter.isPurchases()) {
-						if (historyList.size() == 1) {
-							return historyList.get(0);
-						}
-					}
 					if (index > historyList.size()) {
 						index = historyList.size() > 1 ? historyList.size() - 1
 								: 1;
@@ -907,11 +903,6 @@ public class ViewManager extends DockPanel {
 				if (index <= 0) {
 					history = null;
 				} else {
-					if (Accounter.isSales() || Accounter.isPurchases()) {
-						if (historyList.size() == 1) {
-							return historyList.get(0);
-						}
-					}
 
 					if (index > historyList.size()) {
 						history = historyList
@@ -1367,23 +1358,23 @@ public class ViewManager extends DockPanel {
 
 	}
 
-	public void operationFailed(InvalidOperationException exception) {
+	public void operationFailed(AccounterException exception) {
 
 		if (dialog != null)
 			dialog.removeFromParent();
-		String id = exception.getID();
-		if (currentrequestedWidget == null || id == null) {
+		long id = exception.getID();
+		if (currentrequestedWidget == null) {
 			return;
 		}
-		if (!currentrequestedWidget.getID().equals(exception.getID()))
+		if (currentrequestedWidget.getID() != exception.getID())
 			return;
 
-		switch (exception.getStatus()) {
-		case InvalidOperationException.DELETE_FAILED:
+		switch (exception.getError()) {
+		case ErrorCode.DELETE_FAILED:
 			currentrequestedWidget.deleteFailed(exception);
 			break;
-		case InvalidOperationException.UPDATE_FAILED:
-		case InvalidOperationException.CREATE_FAILED:
+		case ErrorCode.UPDATE_FAILED:
+		case ErrorCode.CREATE_FAILED:
 			currentrequestedWidget.saveFailed(exception);
 		default:
 			break;
@@ -1398,7 +1389,7 @@ public class ViewManager extends DockPanel {
 			if (dialog != null)
 				dialog.removeFromParent();
 
-			String objectID = cmd.getID();
+			long objectID = cmd.getID();
 
 			if (currentCanvas instanceof BaseListView<?>
 					&& currentDialog == null && cmd.getData() != null) {
@@ -1409,11 +1400,11 @@ public class ViewManager extends DockPanel {
 				}
 			}
 
-			if (currentrequestedWidget == null || objectID == null) {
+			if (currentrequestedWidget == null) {
 				return;
 			}
 
-			if (!objectID.equals(currentrequestedWidget.getID()))
+			if (objectID != currentrequestedWidget.getID())
 				return;
 
 			currentrequestedWidget.saveSuccess(cmd.getData() == null ? cmd
@@ -1484,13 +1475,10 @@ public class ViewManager extends DockPanel {
 			public void onFailure(Throwable caught) {
 
 				if (!GWT.isScript()) {
-					InvalidOperationException exception = new InvalidOperationException();
-					exception
-							.setStatus(InvalidOperationException.CREATE_FAILED);
+					AccounterException exception = (AccounterException) caught;
 					exception.setID(currentrequestedWidget.getID());
-					Accounter.getCompany().processCommand(exception);
+					getCompany().processCommand(exception);
 					exception.printStackTrace();
-					System.out.println(exception.getMessage());
 				}
 			}
 
@@ -1507,28 +1495,8 @@ public class ViewManager extends DockPanel {
 			}
 
 		};
-		Accounter.createGETService().getID(new AsyncCallback<Long>() {
-
-			@Override
-			public void onSuccess(Long result) {
-				core.setID(result);
-				widget.setID(result);
-				Accounter.createCRUDService().create(((IAccounterCore) core),
-						transactionCallBack);
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter.showError("Could Not Initialize the id.....");
-				}
-				dialog.removeFromParent();
-				currentrequestedWidget = null;
-			}
-		});
+		Accounter.createCRUDService().create(((IAccounterCore) core),
+				transactionCallBack);
 
 	}
 
@@ -1549,7 +1517,7 @@ public class ViewManager extends DockPanel {
 			}
 		}
 		currentrequestedWidget = widget;
-		AsyncCallback<Boolean> transactionCallBack = new AsyncCallback<Boolean>() {
+		AsyncCallback<Long> transactionCallBack = new AsyncCallback<Long>() {
 
 			public void onFailure(Throwable caught) {
 				if (caught instanceof InvocationException) {
@@ -1557,16 +1525,14 @@ public class ViewManager extends DockPanel {
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
 					if (!GWT.isScript()) {
-						InvalidOperationException exception = new InvalidOperationException();
-						exception
-								.setStatus(InvalidOperationException.UPDATE_FAILED);
+						AccounterException exception = (AccounterException) caught;
 						exception.setID(currentrequestedWidget.getID());
 						getCompany().processCommand(exception);
 					}
 				}
 			}
 
-			public void onSuccess(Boolean result) {
+			public void onSuccess(Long result) {
 
 				if (!GWT.isScript()) {
 					AccounterCommand cmd = new AccounterCommand();
@@ -1587,6 +1553,13 @@ public class ViewManager extends DockPanel {
 
 		Accounter.createCRUDService().update(((IAccounterCore) core),
 				transactionCallBack);
+	}
+
+	/**
+	 * @return
+	 */
+	protected ClientCompany getCompany() {
+		return Accounter.getCompany();
 	}
 
 	private boolean isprocessingRequestAdd(final IAccounterWidget widget) {
@@ -1619,9 +1592,7 @@ public class ViewManager extends DockPanel {
 			@Override
 			public void onFailure(Throwable caught) {
 				if (!GWT.isScript()) {
-					InvalidOperationException exception = new InvalidOperationException();
-					exception
-							.setStatus(InvalidOperationException.UPDATE_FAILED);
+					AccounterException exception = (AccounterException) caught;
 					exception.setID(currentrequestedWidget.getID());
 					getCompany().processCommand(exception);
 				}
@@ -1666,23 +1637,21 @@ public class ViewManager extends DockPanel {
 		dialog.center();
 		currentrequestedWidget = widget;
 
-		AsyncCallback<Boolean> transactionCallBack = new AsyncCallback<Boolean>() {
+		AsyncCallback<Long> transactionCallBack = new AsyncCallback<Long>() {
 
 			public void onFailure(Throwable caught) {
 
 				if (!GWT.isScript()) {
-					InvalidOperationException exception = new InvalidOperationException();
-					exception
-							.setStatus(InvalidOperationException.DELETE_FAILED);
+					AccounterException exception = (AccounterException) caught;
 					exception.setID(currentrequestedWidget.getID());
 					getCompany().processCommand(exception);
 				}
 			}
 
-			public void onSuccess(Boolean result) {
+			public void onSuccess(Long result) {
 
 				if (!GWT.isScript()) {
-					if (result != null && result) {
+					if (result != 0) {
 						AccounterCommand cmd = new AccounterCommand();
 						cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
 						cmd.setData(clientCompany);
@@ -1711,27 +1680,25 @@ public class ViewManager extends DockPanel {
 		dialog.center();
 		currentrequestedWidget = widget;
 
-		AsyncCallback<Boolean> transactionCallBack = new AsyncCallback<Boolean>() {
+		AsyncCallback<Long> transactionCallBack = new AsyncCallback<Long>() {
 
 			public void onFailure(Throwable caught) {
 
 				if (!GWT.isScript()) {
-					InvalidOperationException exception = new InvalidOperationException();
-					exception
-							.setStatus(InvalidOperationException.DELETE_FAILED);
+					AccounterException exception = (AccounterException) caught;
 					exception.setID(currentrequestedWidget.getID());
 					getCompany().processCommand(exception);
 				}
 			}
 
-			public void onSuccess(Boolean result) {
+			public void onSuccess(Long result) {
 
 				if (!GWT.isScript()) {
-					if (result != null && result) {
+					if (result != 0) {
 						AccounterCommand cmd = new AccounterCommand();
 						cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
 						cmd.setData(preferences);
-						cmd.setID(getCompany().id + "pre");
+						cmd.setID(getCompany().getID());
 						cmd.setObjectType(preferences.getObjectType());
 						getCompany().processCommand(cmd);
 					} else {
@@ -1741,7 +1708,7 @@ public class ViewManager extends DockPanel {
 			}
 
 		};
-		widget.setID(getCompany().id + "pre");
+		widget.setID(getCompany().getID());
 		Accounter.createCRUDService().updateCompanyPreferences(preferences,
 				transactionCallBack);
 
@@ -1764,9 +1731,7 @@ public class ViewManager extends DockPanel {
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
 					if (!GWT.isScript()) {
-						InvalidOperationException exception = new InvalidOperationException();
-						exception
-								.setStatus(InvalidOperationException.DELETE_FAILED);
+						AccounterException exception = (AccounterException) caught;
 						exception.setID(currentrequestedWidget.getID());
 						getCompany().processCommand(exception);
 					}
