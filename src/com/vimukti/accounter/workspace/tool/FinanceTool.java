@@ -1777,8 +1777,8 @@ public class FinanceTool implements IFinanceDAOService {
 					InvoicesList invoicesList = new InvoicesList();
 					object = (Object[]) iterator.next();
 
-					String transactionNumber = (object[0] == null ? null
-							: ((String) object[0]));
+					long transactionNumber = (object[0] == null ? 0
+							: ((Long) object[0]));
 					invoicesList.setTransactionId(transactionNumber);
 					invoicesList.setType((Integer) object[1]);
 					invoicesList
@@ -2076,8 +2076,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 					String name = (String) object[6];
 					if (name != null) {
-						paymentsList.setTransactionId((object[0] == null ? null
-								: ((String) object[0])));
+						paymentsList.setTransactionId((object[0] == null ? 0
+								: ((Long) object[0])));
 						paymentsList.setType((Integer) object[1]);
 						paymentsList.setPaymentDate((object[2] == null ? null
 								: (new ClientFinanceDate(((Long) object[2])))));
@@ -2917,7 +2917,7 @@ public class FinanceTool implements IFinanceDAOService {
 					object = (Object[]) iterator.next();
 
 					paymentsList.setTransactionId((object[0] == null ? null
-							: ((String) object[0])));
+							: ((Long) object[0])));
 					paymentsList.setType((Integer) object[1]);
 					paymentsList.setPaymentDate(new ClientFinanceDate(
 							(Long) object[2]));
@@ -3106,7 +3106,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 					receivePaymentsList
 							.setTransactionId((object[0] == null ? null
-									: ((String) object[0])));
+									: ((Long) object[0])));
 					receivePaymentsList.setType((Integer) object[1]);
 					receivePaymentsList.setPaymentDate(new ClientFinanceDate(
 							object[2] == null ? null : ((Long) object[2])));
@@ -3258,8 +3258,8 @@ public class FinanceTool implements IFinanceDAOService {
 					InvoicesList invoicesList = new InvoicesList();
 					object = (Object[]) iterator.next();
 
-					String transactionNumber = (object[0] == null ? null
-							: ((String) object[0]));
+					long transactionNumber = (object[0] == null ? 0
+							: ((Long) object[0]));
 					invoicesList.setTransactionId(transactionNumber);
 					invoicesList.setType((Integer) object[1]);
 					invoicesList

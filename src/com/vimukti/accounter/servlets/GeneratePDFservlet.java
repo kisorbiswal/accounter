@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
+import org.zefer.pd4ml.PD4Constants;
 
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.CreditNoteTemplete;
@@ -22,6 +23,7 @@ import com.vimukti.accounter.core.ReportTemplate;
 import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.workspace.tool.FinanceTool;
@@ -102,14 +104,14 @@ public class GeneratePDFservlet extends BaseServlet {
 
 				if (type == Transaction.TYPE_INVOICE) {
 					Invoice invoice = (Invoice) financetool
-							.getServerObjectForid(
-									AccounterCoreType.INVOICE, objectId);
+							.getServerObjectForid(AccounterCoreType.INVOICE,
+									Long.parseLong(objectId));
 					String brandingThemeId = request
 							.getParameter("brandingThemeId");
 					BrandingTheme brandingTheme = (BrandingTheme) financetool
 							.getServerObjectForid(
 									AccounterCoreType.BRANDINGTHEME,
-									brandingThemeId);
+									Long.parseLong(brandingThemeId));
 
 					result.converter = new Converter(
 							getPageSizeType(brandingTheme.getPageSizeType()));
@@ -122,7 +124,7 @@ public class GeneratePDFservlet extends BaseServlet {
 					CustomerCreditMemo memo = (CustomerCreditMemo) financetool
 							.getServerObjectForid(
 									AccounterCoreType.CUSTOMERCREDITMEMO,
-									objectId);
+									Long.parseLong(objectId));
 					result.template = new CreditNoteTemplete(memo, footerImg,
 							style);
 				}
