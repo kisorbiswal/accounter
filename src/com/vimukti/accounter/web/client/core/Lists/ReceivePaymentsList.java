@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 @SuppressWarnings("serial")
 public class ReceivePaymentsList implements IsSerializable, Serializable {
 
-	String transactionId;
+	long transactionId;
 
 	int type;
 
@@ -26,13 +26,11 @@ public class ReceivePaymentsList implements IsSerializable, Serializable {
 	int status;
 
 	boolean isVoided;
-	
 
 	public boolean isDeleted() {
 		return this.status == ClientTransaction.STATUS_DELETED;
 	}
 
-	
 	public int getStatus() {
 		return status;
 	}
@@ -52,7 +50,7 @@ public class ReceivePaymentsList implements IsSerializable, Serializable {
 	/**
 	 * @return the transactionId
 	 */
-	public String getTransactionId() {
+	public long getTransactionId() {
 		return transactionId;
 	}
 
@@ -60,7 +58,7 @@ public class ReceivePaymentsList implements IsSerializable, Serializable {
 	 * @param transactionId
 	 *            the transactionId to set
 	 */
-	public void setTransactionId(final String transactionId) {
+	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
 	}
 
