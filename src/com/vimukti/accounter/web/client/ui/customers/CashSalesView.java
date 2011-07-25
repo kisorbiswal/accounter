@@ -79,10 +79,8 @@ public class CashSalesView extends
 
 	@Override
 	protected void createControls() {
-		Label lab1 = new Label(Accounter.getCustomersMessages()
-				.newcashsale());
-		lab1.setStyleName(Accounter.getCustomersMessages()
-				.lableTitle());
+		Label lab1 = new Label(Accounter.getCustomersMessages().newcashsale());
+		lab1.setStyleName(Accounter.getCustomersMessages().lableTitle());
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
@@ -126,14 +124,14 @@ public class CashSalesView extends
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isEdit);
 
-		billToTextArea = new TextAreaItem(Accounter
-				.getCustomersMessages().billTo());
+		billToTextArea = new TextAreaItem(Accounter.getCustomersMessages()
+				.billTo());
 		billToTextArea.setDisabled(true);
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.getCustomersMessages().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.getCustomersMessages().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -176,8 +174,10 @@ public class CashSalesView extends
 				depositInCombo, shippingTermsCombo, shippingMethodsCombo,
 				deliveryDate);
 		termsForm.setStyleName("align-form");
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.getCustomersMessages().width(), "203px");
+		termsForm
+				.getCellFormatter()
+				.getElement(0, 0)
+				.setAttribute(Accounter.getCustomersMessages().width(), "203px");
 		forms.add(termsForm);
 
 		memoTextAreaItem = createMemoTextAreaItem();
@@ -315,12 +315,11 @@ public class CashSalesView extends
 		if (this.customer != null && this.customer != customer) {
 			ClientCashSales ent = (ClientCashSales) this.transactionObject;
 
-			if (ent != null && ent.getCustomer().equals(customer.getID())) {
+			if (ent != null && ent.getCustomer() == customer.getID()) {
 				this.customerTransactionGrid.removeAllRecords();
 				this.customerTransactionGrid.setRecords(ent
 						.getTransactionItems());
-			} else if (ent != null
-					&& !ent.getCustomer().equals(customer.getID())) {
+			} else if (ent != null && ent.getCustomer() != customer.getID()) {
 				this.customerTransactionGrid.removeAllRecords();
 				this.customerTransactionGrid.updateTotals();
 			} else if (ent == null)
@@ -356,8 +355,8 @@ public class CashSalesView extends
 		this.salesPerson = person;
 		if (salesPerson != null && salesPersonCombo != null) {
 
-			salesPersonCombo.setComboItem(getCompany()
-					.getSalesPerson(salesPerson.getID()));
+			salesPersonCombo.setComboItem(getCompany().getSalesPerson(
+					salesPerson.getID()));
 
 		}
 
@@ -369,8 +368,8 @@ public class CashSalesView extends
 		this.priceLevel = priceLevel;
 		if (priceLevel != null && priceLevelSelect != null) {
 
-			priceLevelSelect.setComboItem(getCompany()
-					.getPriceLevel(priceLevel.getID()));
+			priceLevelSelect.setComboItem(getCompany().getPriceLevel(
+					priceLevel.getID()));
 
 		}
 		if (transactionObject == null && customerTransactionGrid != null) {
@@ -433,7 +432,7 @@ public class CashSalesView extends
 
 			super.saveAndUpdateView();
 
-			if (transactionObject.getID() == null)
+			if (transactionObject.getID() == 0)
 				createObject(cashSale);
 			else
 				alterObject(cashSale);
@@ -457,7 +456,8 @@ public class CashSalesView extends
 			if (taxableLineTotal == null)
 				return;
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(), taxableLineTotal,
+					transactionDateItem.getEnteredDate(),
+					taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -469,8 +469,7 @@ public class CashSalesView extends
 		} else {
 			netAmountLabel.setAmount(customerTransactionGrid.getGrandTotal());
 			vatTotalNonEditableText.setAmount(customerTransactionGrid
-					.getTotalValue()
-					- customerTransactionGrid.getGrandTotal());
+					.getTotalValue() - customerTransactionGrid.getGrandTotal());
 			setTransactionTotal(customerTransactionGrid.getTotalValue());
 		}
 
@@ -545,7 +544,7 @@ public class CashSalesView extends
 			this.deliveryDate.setEnteredDate(new ClientFinanceDate(cashSale
 					.getDeliverydate()));
 
-		if (cashSale.getID() != null) {
+		if (cashSale.getID() != 0) {
 			isEdit = Boolean.TRUE;
 		}
 		memoTextAreaItem.setValue(cashSale.getMemo());
@@ -762,8 +761,7 @@ public class CashSalesView extends
 
 		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id,
-				editCallBack);
+		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
 
 	}
 
@@ -813,8 +811,8 @@ public class CashSalesView extends
 		this.taxCode = taxCode;
 		if (taxCode != null) {
 
-			taxCodeSelect.setComboItem(getCompany()
-					.getTAXCode(taxCode.getID()));
+			taxCodeSelect
+					.setComboItem(getCompany().getTAXCode(taxCode.getID()));
 			customerTransactionGrid.setTaxCode(taxCode.getID());
 		} else
 			taxCodeSelect.setValue("");
