@@ -954,8 +954,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		boolean isSalesTaxPayable = false;
 		try {
 
-			isSalesTaxPayable = getFinanceTool().isSalesTaxPayableAccount(
-					accountName);
+			isSalesTaxPayable = getFinanceTool()
+					.isSalesTaxPayableAccountByName(accountName);
 
 		} catch (Exception e) {
 			e.printStackTrace();
