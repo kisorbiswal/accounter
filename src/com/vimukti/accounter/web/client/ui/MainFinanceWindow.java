@@ -1760,4 +1760,7 @@ public class MainFinanceWindow extends VerticalPanel {
 				.getHistoryToken(), CompanyActionFactory.getUserDetailsAction());
 
 	}
+	public ClientCompany getCompany(){
+		return Accounter.getCompany();
+	}
 }
