@@ -72,6 +72,12 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 	public static final int ACCOUNTING_TYPE_UK = 1;
 	public static final int ACCOUNTING_TYPE_INDIA = 2;
 
+	public static final String UK = "UK";
+
+	public static final String US = "US";
+	
+	public static final String INDIA = "India";
+
 	int accountingType = 0;
 
 	long id;
@@ -289,6 +295,30 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 
 	private Set<VATReturn> vatReturns = new HashSet<VATReturn>();
 	private String companyDomainName;
+	public String getCompanyDomainName() {
+		return companyDomainName;
+	}
+
+	public void setCompanyDomainName(String companyDomainName) {
+		this.companyDomainName = companyDomainName;
+	}
+
+	public String getCompanyDisplayName() {
+		return companyDisplayName;
+	}
+
+	public void setCompanyDisplayName(String companyDisplayName) {
+		this.companyDisplayName = companyDisplayName;
+	}
+
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
+	}
+
 	private String companyDisplayName;
 	private String countryCode = "United Kingdom";
 
