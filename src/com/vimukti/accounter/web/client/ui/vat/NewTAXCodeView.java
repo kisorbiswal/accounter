@@ -40,8 +40,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	private VATItemCombo vatItemComboForPurchases;
 	private VATItemCombo vatItemComboForSales;
 	private DynamicForm vatNameForm;
-	public String selectedVATPurchaseAcc = "";
-	public String selectedVATSAlesAcc = "";
+	public long selectedVATPurchaseAcc;
+	public long selectedVATSAlesAcc;
 	private ClientTAXCode editableTAXCode;
 	protected boolean isComboDisabled = false;
 	private String vatCode;
@@ -72,23 +72,20 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 					.getDescription() : "");
 			isActive.setValue(vat.isActive());
 			taxableGroupRadio.setValue(vat.isTaxable() ? Accounter
-					.getVATMessages().taxable() : Accounter
-					.getVATMessages().taxExempt());
+					.getVATMessages().taxable() : Accounter.getVATMessages()
+					.taxExempt());
 
-			if (getCompany().getTaxItem(
-					vat.getTAXItemGrpForPurchases()) != null) {
+			if (getCompany().getTaxItem(vat.getTAXItemGrpForPurchases()) != null) {
 				selectedVATPurchaseAcc = vat.getTAXItemGrpForPurchases();
-				vatItemComboForPurchases.setComboItem(Accounter
-						.getCompany().getTaxItem(
-								vat.getTAXItemGrpForPurchases()));
+				vatItemComboForPurchases.setComboItem(Accounter.getCompany()
+						.getTaxItem(vat.getTAXItemGrpForPurchases()));
 			} else
 				vatItemComboForPurchases.setSelected("");
 
-			if (getCompany().getTaxItem(
-					vat.getTAXItemGrpForSales()) != null) {
+			if (getCompany().getTaxItem(vat.getTAXItemGrpForSales()) != null) {
 				selectedVATSAlesAcc = vat.getTAXItemGrpForSales();
-				vatItemComboForSales.setComboItem(Accounter
-						.getCompany().getTaxItem(vat.getTAXItemGrpForSales()));
+				vatItemComboForSales.setComboItem(Accounter.getCompany()
+						.getTaxItem(vat.getTAXItemGrpForSales()));
 			} else
 				vatItemComboForSales.setSelected("");
 
@@ -104,10 +101,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	}
 
 	private void createControls() {
-		Label infoLabel = new Label(Accounter.getVATMessages()
-				.newVATCode());
-		infoLabel.setStyleName(Accounter.getCustomersMessages()
-				.lableTitle());
+		Label infoLabel = new Label(Accounter.getVATMessages().newVATCode());
+		infoLabel.setStyleName(Accounter.getCustomersMessages().lableTitle());
 		// infoLabel.setHeight("35px");
 		listforms = new ArrayList<DynamicForm>();
 
@@ -120,21 +115,18 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		description.setWidth(100);
 		description.setTitle(Accounter.getVATMessages().description());
 
-		isActive = new CheckboxItem(Accounter.getVATMessages()
-				.isActive());
+		isActive = new CheckboxItem(Accounter.getVATMessages().isActive());
 		isActive.setValue((Boolean) true);
 
-		taxableGroupRadio = new RadioGroupItem(Accounter
-				.getVATMessages().tax());
+		taxableGroupRadio = new RadioGroupItem(Accounter.getVATMessages().tax());
 		taxableGroupRadio.setWidth(100);
 		taxableGroupRadio.setValues(getClickHandler(), Accounter
-				.getVATMessages().taxable(), Accounter
-				.getVATMessages().taxExempt());
-		taxableGroupRadio.setDefaultValue(Accounter.getVATMessages()
-				.taxable());
+				.getVATMessages().taxable(), Accounter.getVATMessages()
+				.taxExempt());
+		taxableGroupRadio.setDefaultValue(Accounter.getVATMessages().taxable());
 
-		vatItemComboForPurchases = new VATItemCombo(Accounter
-				.getVATMessages().VATItemForPurchases());
+		vatItemComboForPurchases = new VATItemCombo(Accounter.getVATMessages()
+				.VATItemForPurchases());
 		vatItemComboForPurchases.setHelpInformation(true);
 		vatItemComboForPurchases.initCombo(vatItemComboForPurchases
 				.getPurchaseWithPrcntVATItems());
@@ -149,8 +141,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 					}
 				});
 
-		vatItemComboForSales = new VATItemCombo(Accounter
-				.getVATMessages().VATItemForSales());
+		vatItemComboForSales = new VATItemCombo(Accounter.getVATMessages()
+				.VATItemForSales());
 		vatItemComboForSales.setHelpInformation(true);
 		vatItemComboForSales.initCombo(vatItemComboForSales
 				.getSalesWithPrcntVATItems());
@@ -175,27 +167,24 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		if (editableTAXCode != null) {
 			vatCodeTxt
 					.setValue(editableTAXCode.getName() != null ? editableTAXCode
-							.getName()
-							: "");
+							.getName() : "");
 			description
 					.setValue(editableTAXCode.getDescription() != null ? editableTAXCode
-							.getDescription()
-							: "");
+							.getDescription() : "");
 			isActive.setValue(editableTAXCode.isActive());
-			taxableGroupRadio
-					.setValue(editableTAXCode.isTaxable() ? Accounter
-							.getVATMessages().taxable() : Accounter
-							.getVATMessages().taxExempt());
+			taxableGroupRadio.setValue(editableTAXCode.isTaxable() ? Accounter
+					.getVATMessages().taxable() : Accounter.getVATMessages()
+					.taxExempt());
 			vatItemComboForPurchases.setValue(editableTAXCode
-					.getTAXItemGrpForPurchases() != null ? Accounter
-					.getCompany().getTAXItemGroup(
+					.getTAXItemGrpForPurchases() != 0 ? Accounter
+					.getCompany()
+					.getTAXItemGroup(
 							editableTAXCode.getTAXItemGrpForPurchases())
 					.getName() : "");
 			vatItemComboForSales.setValue(editableTAXCode
-					.getTAXItemGrpForSales() != null ? Accounter
-					.getCompany().getTAXItemGroup(
-							editableTAXCode.getTAXItemGrpForSales()).getName()
-					: "");
+					.getTAXItemGrpForSales() != 0 ? Accounter.getCompany()
+					.getTAXItemGroup(editableTAXCode.getTAXItemGrpForSales())
+					.getName() : "");
 		}
 
 		VerticalPanel mainVPanel = new VerticalPanel();
@@ -228,8 +217,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 						"highlightedFormItem");
 				String taxbl = taxableGroupRadio.getValue().toString();
 				taxableGroupRadio.setValue(taxbl);
-				if (taxbl.equalsIgnoreCase(Accounter.getVATMessages()
-						.taxable())) {
+				if (taxbl
+						.equalsIgnoreCase(Accounter.getVATMessages().taxable())) {
 					isComboDisabled = false;
 					vatItemComboForPurchases.setDisabled(false);
 					vatItemComboForSales.setDisabled(false);
@@ -305,8 +294,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 				.getValue().toString() : "");
 		vatCode.setActive((Boolean) isActive.getValue());
 		if (taxableGroupRadio.getValue() != null) {
-			if (taxableGroupRadio.getValue().toString().equalsIgnoreCase(
-					"Taxable"))
+			if (taxableGroupRadio.getValue().toString()
+					.equalsIgnoreCase("Taxable"))
 				vatCode.setTaxable(true);
 			else
 				vatCode.setTaxable(false);
@@ -337,14 +326,13 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 			// if (name == null || name.equals(""))
 			// throw new InvalidEntryException(
 			// AccounterErrorType.REQUIRED_FIELDS);
-			if (((editableTAXCode == null && Utility.isObjectExist(
-					getCompany().getTaxCodes(), name)) ? false
-					: true)
+			if (((editableTAXCode == null && Utility.isObjectExist(getCompany()
+					.getTaxCodes(), name)) ? false : true)
 					|| (editableTAXCode != null ? (editableTAXCode.getName()
-							.equalsIgnoreCase(name) ? true : (Utility
-							.isObjectExist(getCompany()
-									.getTaxCodes(), name) ? false : true))
-							: true)) {
+							.equalsIgnoreCase(name) ? true
+							: (Utility.isObjectExist(
+									getCompany().getTaxCodes(), name) ? false
+									: true)) : true)) {
 				return true;
 			} else
 				throw new InvalidEntryException(AccounterErrorType.ALREADYEXIST);
@@ -465,7 +453,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(vatMessages.vatCode(), vatMessages
-				.taxCode());
+		return UIUtils.getVendorString(vatMessages.vatCode(),
+				vatMessages.taxCode());
 	}
 }
