@@ -79,8 +79,8 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	protected void createVendorGroups() {
 		ClientVendorGroup vendorGroup = new ClientVendorGroup();
 		vendorGroup.setName(inputDlg.getTextValueByIndex(0));
-		if (Utility.isObjectExist(getCompany()
-				.getVendorGroups(), vendorGroup.getName())) {
+		if (Utility.isObjectExist(getCompany().getVendorGroups(),
+				vendorGroup.getName())) {
 			Accounter.showError(UIUtils.getVendorString(
 					"Supplier Group Already Exists",
 					"Vendor Group Already Exists"));
@@ -89,11 +89,10 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 		}
 	}
 
-	public String getSelectedVendorId() {
+	public long getSelectedVendorId() {
 		if (listGridView.getSelection() != null)
-			return ((ClientVendorGroup) listGridView.getSelection())
-					.getID();
-		return null;
+			return ((ClientVendorGroup) listGridView.getSelection()).getID();
+		return 0;
 	}
 
 	public ClientVendorGroup getSelectedVendor() {
@@ -102,9 +101,10 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 	public void showAddEditGroupDialog(ClientVendorGroup rec) {
 		vendorGroup = rec;
-		inputDlg = new InputDialog(UIUtils.getVendorString(vendorConstants
-				.supplierGroup(), vendorConstants.vendorGroup()), "", UIUtils
-				.getVendorString(vendorConstants.supplieRGroup(),
+		inputDlg = new InputDialog(
+				UIUtils.getVendorString(vendorConstants.supplierGroup(),
+						vendorConstants.vendorGroup()), "",
+				UIUtils.getVendorString(vendorConstants.supplieRGroup(),
 						vendorConstants.vendorGroup())) {
 			@Override
 			protected String getViewTitle() {
@@ -157,9 +157,10 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 		if (!(vendorGroup.getName().equalsIgnoreCase(
 				UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
-						.toString())) ? true : (Utility.isObjectExist(company
-				.getVendorGroups(), UIUtils.toStr(inputDlg.getTextItems()
-				.get(0).getValue().toString())) ? false : true))) {
+						.toString())) ? true : (Utility.isObjectExist(
+				company.getVendorGroups(),
+				UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
+						.toString())) ? false : true))) {
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
 		} else {
 			vendorGroup.setName(inputDlg.getTextValueByIndex(0));
