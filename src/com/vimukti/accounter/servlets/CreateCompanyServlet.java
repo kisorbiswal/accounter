@@ -67,12 +67,11 @@ public class CreateCompanyServlet extends BaseServlet {
 		try {
 			session.save(company);
 			User admin = new User();
-			// FIXME :: check the parameter names
 			admin.setFirstName(request.getParameter("firstName"));
 			admin.setLastName(request.getParameter("lastName"));
 			admin.setEmailId(request.getParameter("emailId"));
 			admin.setPasswordSha1Hash(request.getParameter("password"));
-			admin.setPhoneNo(request.getParameter("phoneNo"));
+			admin.setPhoneNo(request.getParameter("phoneNumber"));
 			admin.setCountry(request.getParameter("country"));
 			admin.setUserRole(RolePermissions.ADMIN);
 
@@ -214,11 +213,11 @@ public class CreateCompanyServlet extends BaseServlet {
 	}
 
 	private Company getCompany(HttpServletRequest request) {
-		// FIXME ::: check the names of the parameters
+		
 		String companyFullName = request.getParameter("companyFullName");
 		// String noOfUsers = request.getParameter("nooofusers");
 		// String noOfLiteUsers = request.getParameter("noofliteusers");
-		String companyId = request.getParameter("companyId");
+		String companyId = request.getParameter("companyName");
 		String companyType = request.getParameter("companyType").toLowerCase()
 				.trim();
 
@@ -274,7 +273,7 @@ public class CreateCompanyServlet extends BaseServlet {
 		return company;
 	}
 
-	private boolean isValidSubnetName(String companyId) {
+	private boolean isValidSubDomainName(String companyId) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -329,7 +328,7 @@ public class CreateCompanyServlet extends BaseServlet {
 			flag = false;
 		}
 
-		if (!(isValidDBName(companyId) && isValidSubnetName(companyId))) {
+		if (!(isValidDBName(companyId) && isValidSubDomainName(companyId))) {
 			if (!message.isEmpty())
 				message = message + ", Invalid Company ID";
 			else
