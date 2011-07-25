@@ -236,7 +236,7 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getPurchaseOrderById(String transactionId,
 			AsyncCallback<ClientPurchaseOrder> callback);
 
-	public void getPurchasesAndItemReceiptsList(String vendorID,
+	public void getPurchasesAndItemReceiptsList(long vendorID,
 			AsyncCallback<List<PurchaseOrdersAndItemReceiptsList>> callback);
 
 	public void getEstimatesAndSalesOrdersList(String customerID,
