@@ -23,8 +23,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
-import com.vimukti.accounter.workspace.tool.AccounterException;
-import com.vimukti.accounter.workspace.tool.ErrorCode;
 
 public class CreateCompanyServlet extends BaseServlet {
 
