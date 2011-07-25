@@ -14,7 +14,7 @@ public class ClientCustomer extends ClientPayee {
 
 	String priceLevel;
 
-	String salesPerson;
+	long salesPerson;
 
 	String creditRating;
 
@@ -407,7 +407,7 @@ public class ClientCustomer extends ClientPayee {
 		return this.shippingMethod;
 	}
 
-	public String getSalesPerson() {
+	public long getSalesPerson() {
 		return this.salesPerson;
 	}
 
@@ -419,7 +419,7 @@ public class ClientCustomer extends ClientPayee {
 		return this.customerGroup;
 	}
 
-	public void setSalesPerson(String selectSalesPersonFromDetailsTab) {
+	public void setSalesPerson(long selectSalesPersonFromDetailsTab) {
 		this.salesPerson = selectSalesPersonFromDetailsTab;
 	}
 
@@ -457,13 +457,13 @@ public class ClientCustomer extends ClientPayee {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
