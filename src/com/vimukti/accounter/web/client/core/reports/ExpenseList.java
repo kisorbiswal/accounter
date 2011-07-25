@@ -10,7 +10,7 @@ public class ExpenseList extends BaseReport implements IsSerializable,
 
 	String name;
 
-	String transactionId;
+	long transactionId;
 
 	int transactionType;
 
@@ -30,11 +30,11 @@ public class ExpenseList extends BaseReport implements IsSerializable,
 		this.name = name;
 	}
 
-	public String getTransactionId() {
+	public long getTransactionId() {
 		return transactionId;
 	}
 
-	public void setTransactionId(String transactionId) {
+	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
 	}
 
