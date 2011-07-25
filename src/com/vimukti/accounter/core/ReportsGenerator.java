@@ -135,8 +135,7 @@ public class ReportsGenerator {
 
 		AccounterReportServiceImpl reportsSerivce = new AccounterReportServiceImpl() {
 			@Override
-			protected FinanceTool getFinanceTool()
-					throws InvalidSessionException {
+			protected FinanceTool getFinanceTool() {
 				return finaTool;
 			}
 		};
