@@ -64,7 +64,8 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 		if (amt == null) {
 			return UIUtils.getCurrencySymbol() + " 0.00";
 		} else {
-			if (Utility.isCurrentInFiscalYear(colsMap.get(index))) {
+			if (Accounter.getCompany()
+					.isCurrentInFiscalYear(colsMap.get(index))) {
 				rowTotal += amt;
 			}
 		}
@@ -124,8 +125,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 				colArray[index] = "";
 				break;
 			case 1:
-				colArray[index] = Accounter.getCompanyMessages()
-						.currentMonth();
+				colArray[index] = Accounter.getCompanyMessages().currentMonth();
 				colsMap.put(1, getKeyValue(0));
 				break;
 			case 2:
@@ -149,8 +149,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 				colsMap.put(6, getKeyValue(5));
 				break;
 			case 7:
-				colArray[index] = Accounter.getCompanyMessages()
-						.yearToDate();
+				colArray[index] = Accounter.getCompanyMessages().yearToDate();
 				break;
 			default:
 				break;
