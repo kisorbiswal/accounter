@@ -80,8 +80,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			FinanceTool tool = getFinanceTool();
-
-			return tool.deleteObject(type, id);
+			OperationContext opContext = new OperationContext(type, id); 
+			return tool.delete(opContext);
 
 		} catch (Exception e) {
 			e.printStackTrace();
