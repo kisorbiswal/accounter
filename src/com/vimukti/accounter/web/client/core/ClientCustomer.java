@@ -20,7 +20,7 @@ public class ClientCustomer extends ClientPayee {
 
 	String shippingMethod;
 
-	String paymentTerm;
+	long paymentTerm;
 
 	String customerGroup;
 
@@ -399,7 +399,7 @@ public class ClientCustomer extends ClientPayee {
 		return this.taxGroup;
 	}
 
-	public String getPaymentTerm() {
+	public long getPaymentTerm() {
 		return paymentTerm;
 	}
 
@@ -435,7 +435,7 @@ public class ClientCustomer extends ClientPayee {
 		this.shippingMethod = selectShippingMethodFromDetailsTab;
 	}
 
-	public void setPaymentTerm(String selectPayTermFromDetailsTab) {
+	public void setPaymentTerm(long selectPayTermFromDetailsTab) {
 		this.paymentTerm = selectPayTermFromDetailsTab;
 	}
 
