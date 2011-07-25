@@ -35,7 +35,7 @@ public class AgedDebtors extends BaseReport implements IsSerializable,
 
 	boolean isVoid;
 
-	String transactionId;
+	long transactionId;
 
 	int category;
 
@@ -257,7 +257,7 @@ public class AgedDebtors extends BaseReport implements IsSerializable,
 	/**
 	 * @return the transactionId
 	 */
-	public String getTransactionId() {
+	public long getTransactionId() {
 		return transactionId;
 	}
 
@@ -265,7 +265,7 @@ public class AgedDebtors extends BaseReport implements IsSerializable,
 	 * @param transactionId
 	 *            the transactionId to set
 	 */
-	public void setTransactionId(String transactionId) {
+	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
 	}
 
