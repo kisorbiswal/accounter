@@ -84,9 +84,8 @@ public class BrandingThemeComboDialog extends BaseDialog {
 	}
 
 	private void print() {
-		UIUtils.downloadAttachment(((ClientInvoice) clientTransaction)
-				.getID(), ClientTransaction.TYPE_INVOICE, brandingTheme
-				.getID());
+		UIUtils.downloadAttachment(((ClientInvoice) clientTransaction).getID(),
+				ClientTransaction.TYPE_INVOICE, brandingTheme.getID());
 	}
 
 	@Override
