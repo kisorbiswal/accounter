@@ -6,7 +6,7 @@ public class ClientItemReceipt extends ClientTransaction {
 	boolean toBePrinted;
 	boolean toBeEmailed;
 
-	String vendor;
+	long vendor;
 
 	ClientAccount shipTo;
 
@@ -18,7 +18,7 @@ public class ClientItemReceipt extends ClientTransaction {
 
 	String phone;
 
-	String paymentTerm;
+	long paymentTerm;
 
 	long deliveryDate;
 
@@ -28,7 +28,7 @@ public class ClientItemReceipt extends ClientTransaction {
 
 	String shippingMethod;
 
-	private String purchaseOrder;
+	private long purchaseOrder;
 
 	boolean isBilled;
 
@@ -40,11 +40,11 @@ public class ClientItemReceipt extends ClientTransaction {
 		this.toBePrinted = toBePrinted;
 	}
 
-	public String getVendor() {
+	public long getVendor() {
 		return vendor;
 	}
 
-	public void setVendor(String vendor) {
+	public void setVendor(long vendor) {
 		this.vendor = vendor;
 	}
 
@@ -88,11 +88,11 @@ public class ClientItemReceipt extends ClientTransaction {
 		this.phone = phone;
 	}
 
-	public String getPaymentTerm() {
+	public long getPaymentTerm() {
 		return paymentTerm;
 	}
 
-	public void setPaymentTerm(String paymentTerm) {
+	public void setPaymentTerm(long paymentTerm) {
 		this.paymentTerm = paymentTerm;
 	}
 
@@ -164,11 +164,11 @@ public class ClientItemReceipt extends ClientTransaction {
 		this.id=id;
 	}
 
-	public void setPurchaseOrder(String purchaseOrder) {
+	public void setPurchaseOrder(long purchaseOrder) {
 		this.purchaseOrder = purchaseOrder;
 	}
 
-	public String getPurchaseOrder() {
+	public long getPurchaseOrder() {
 		return purchaseOrder;
 	}
 

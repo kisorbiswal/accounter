@@ -126,7 +126,7 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getNextVoucherNumber(AsyncCallback<String> callback);
 
 	// To auto generate the next Check number.
-	public void getNextCheckNumber(String accountId,
+	public void getNextCheckNumber(long accountId,
 			AsyncCallback<Long> callback);
 
 	public void getNextIssuepaymentCheckNumber(String accountId,

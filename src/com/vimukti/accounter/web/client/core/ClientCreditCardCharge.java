@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.core;
 
 @SuppressWarnings("serial")
 public class ClientCreditCardCharge extends ClientTransaction {
-	String vendor;
+	long vendor;
 
 	ClientContact contact;
 
@@ -11,7 +11,7 @@ public class ClientCreditCardCharge extends ClientTransaction {
 
 	String phone;
 
-	String payFrom;
+	long payFrom;
 
 	String checkNumber;
 
@@ -20,7 +20,7 @@ public class ClientCreditCardCharge extends ClientTransaction {
 	/**
 	 * @return the vendorId
 	 */
-	public String getVendor() {
+	public long getVendor() {
 		return vendor;
 	}
 
@@ -28,7 +28,7 @@ public class ClientCreditCardCharge extends ClientTransaction {
 	 * @param vendorId
 	 *            the vendorId to set
 	 */
-	public void setVendor(String vendor) {
+	public void setVendor(long vendor) {
 		this.vendor = vendor;
 	}
 
@@ -74,7 +74,7 @@ public class ClientCreditCardCharge extends ClientTransaction {
 	 * @param payFromId
 	 *            the payFromId to set
 	 */
-	public void setPayFrom(String payFrom) {
+	public void setPayFrom(long payFrom) {
 		this.payFrom = payFrom;
 	}
 
@@ -120,7 +120,7 @@ public class ClientCreditCardCharge extends ClientTransaction {
 
 	}
 
-	public String getPayFrom() {
+	public long getPayFrom() {
 		return this.payFrom;
 	}
 

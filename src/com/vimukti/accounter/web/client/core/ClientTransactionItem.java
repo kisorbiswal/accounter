@@ -32,7 +32,7 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	private String taxitem;
 
-	String taxCode;
+	long taxCode;
 
 	// String taxCode;
 	String vatItem;
@@ -81,7 +81,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	 * For the purpose of SalesOrder. To know how much amount of this
 	 * transactionItem in SalesOrder is invoiced
 	 */
-	String referringTransactionItem;
+	long referringTransactionItem;
 
 	public double getVATfraction() {
 		return VATfraction;
@@ -124,7 +124,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	/**
 	 * @return the referringTransactionItem
 	 */
-	public String getReferringTransactionItem() {
+	public long getReferringTransactionItem() {
 		return referringTransactionItem;
 	}
 
@@ -132,7 +132,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	 * @param referringTransactionItem
 	 *            the referringTransactionItem to set
 	 */
-	public void setReferringTransactionItem(String referringTransactionItem) {
+	public void setReferringTransactionItem(long referringTransactionItem) {
 		this.referringTransactionItem = referringTransactionItem;
 	}
 
@@ -218,7 +218,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	/**
 	 * @return the vatCode
 	 */
-	public String getTaxCode() {
+	public long getTaxCode() {
 		return taxCode;
 	}
 
@@ -226,7 +226,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	 * @param taxCode
 	 *            the vatCode to set
 	 */
-	public void setTaxCode(String taxCode) {
+	public void setTaxCode(long taxCode) {
 		this.taxCode = taxCode;
 	}
 

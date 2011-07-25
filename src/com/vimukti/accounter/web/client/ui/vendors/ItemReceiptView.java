@@ -49,7 +49,7 @@ public class ItemReceiptView extends
 	private VendorPurchaseListDialog dialog;
 	@SuppressWarnings("unused")
 	private long deliveryDate;
-	private String selectedPurchaseOrder;
+	private long selectedPurchaseOrder;
 
 	private ArrayList<DynamicForm> listforms;
 	private ArrayList<ClientPurchaseOrder> selectedPurchaseOrders;
@@ -63,8 +63,7 @@ public class ItemReceiptView extends
 	protected void createControls() {
 		// setTitle(UIUtils.title(vendorConstants.cashPurchase()));
 
-		HTML lab1 = new HTML(Accounter.getVendorsMessages()
-				.itemReceipt());
+		HTML lab1 = new HTML(Accounter.getVendorsMessages().itemReceipt());
 
 		listforms = new ArrayList<DynamicForm>();
 
@@ -99,9 +98,9 @@ public class ItemReceiptView extends
 		formItems.add(transactionDateItem);
 		formItems.add(transactionNumber);
 
-		vendorCombo = createVendorComboItem(UIUtils.getVendorString(
-				Accounter.getVendorsMessages().supplierName(),
-				Accounter.getVendorsMessages().vendorName()));
+		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplierName(), Accounter
+				.getVendorsMessages().vendorName()));
 		vendorCombo.setWidth(100);
 		purchaseLabel = new LinkItem();
 		purchaseLabel.setLinkTitle(Accounter.getVendorsMessages()
@@ -186,8 +185,8 @@ public class ItemReceiptView extends
 		memoForm.setFields(memoTextAreaItem);
 		forms.add(memoForm);
 
-		transactionTotalItem = new AmountField(Accounter
-				.getVendorsMessages().total());
+		transactionTotalItem = new AmountField(Accounter.getVendorsMessages()
+				.total());
 		transactionTotalItem.setDisabled(true);
 		DynamicForm amountForm = new DynamicForm();
 		amountForm.setFields(transactionTotalItem);
@@ -297,7 +296,7 @@ public class ItemReceiptView extends
 			payTermsSelect.setComboItem(paymentTerm);
 		}
 		// Date transDate = this.transactionDateItem.getEnteredDate();
-		//		
+		//
 		// if (transDate != null && paymentTerm != null) {
 		// Date dueDate = Utility.getCalculatedDueDate(transDate, paymentTerm);
 		// if (dueDate != null) {
@@ -317,8 +316,8 @@ public class ItemReceiptView extends
 
 	private void initPaymentTerms() {
 
-		List<ClientPaymentTerms> paymentTermsList = Accounter
-				.getCompany().getPaymentsTerms();
+		List<ClientPaymentTerms> paymentTermsList = Accounter.getCompany()
+				.getPaymentsTerms();
 
 		payTermsSelect.initCombo(paymentTermsList);
 
@@ -439,7 +438,7 @@ public class ItemReceiptView extends
 
 			super.saveAndUpdateView();
 
-			if (transactionObject.getID() != null) {
+			if (transactionObject.getID() != 0) {
 				alterObject(itemReceipt);
 
 			} else {
@@ -496,8 +495,8 @@ public class ItemReceiptView extends
 			Accounter.showError(UIUtils.getVendorString(
 					"Please Select Supplier", "Please Select Vendor"));
 		} else {
-			this.rpcUtilService.getNotReceivedPurchaseOrdersList(vendor
-					.getID(),
+			this.rpcUtilService.getNotReceivedPurchaseOrdersList(
+					vendor.getID(),
 					new AsyncCallback<List<PurchaseOrdersList>>() {
 
 						public void onFailure(Throwable caught) {
@@ -535,8 +534,7 @@ public class ItemReceiptView extends
 
 		for (PurchaseOrdersList record : result) {
 			for (ClientPurchaseOrder purchaseOrder : selectedPurchaseOrders) {
-				if (purchaseOrder.getID().equals(
-						record.getTransactionId()))
+				if (purchaseOrder.getID().equals(record.getTransactionId()))
 					filteredList.remove(record);
 			}
 		}
@@ -652,8 +650,7 @@ public class ItemReceiptView extends
 
 		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id,
-				editCallBack);
+		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
 
 	}
 

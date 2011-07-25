@@ -54,8 +54,8 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				HistoryTokenUtils.setPresentToken(VendorsActionFactory
-						.EmployeeExpenseAction(), null);
+				HistoryTokenUtils.setPresentToken(
+						VendorsActionFactory.EmployeeExpenseAction(), null);
 				VendorsActionFactory.EmployeeExpenseAction().run(null, false);
 			}
 		});
@@ -101,10 +101,10 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 		deleteButton.enabledButton(AccounterButton.DELETE_BUTTON,
 				"close-image", "ibutton1");
 		mainPanel.removeStyleName("main-class-pannel");
-		buttonLayout.getElement().getParentElement().removeClassName(
-				"bottom-view");
-		bottomShadow.getElement().getParentElement().removeClassName(
-				"bottom-shadow");
+		buttonLayout.getElement().getParentElement()
+				.removeClassName("bottom-view");
+		bottomShadow.getElement().getParentElement()
+				.removeClassName("bottom-shadow");
 
 	}
 
@@ -144,7 +144,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 
 	void updateTransactionItems(ClientCashPurchase result) {
 		for (ClientTransactionItem item : result.getTransactionItems()) {
-			item.setID("");
+			item.setID(0);
 		}
 	}
 
@@ -157,8 +157,8 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 		} else {
 			userName = null;
 		}
-		Accounter.createHomeService().getEmployeeExpensesByStatus(
-				userName, ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SAVE,
+		Accounter.createHomeService().getEmployeeExpensesByStatus(userName,
+				ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SAVE,
 				new AsyncCallback<List<BillsList>>() {
 
 					@Override

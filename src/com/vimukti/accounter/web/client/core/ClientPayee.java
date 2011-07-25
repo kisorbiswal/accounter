@@ -53,7 +53,7 @@ public abstract class ClientPayee implements IAccounterCore {
 	// UK variables
 	// boolean isEUVATExemptPayee;
 	String VATRegistrationNumber;
-	String TAXCode;
+	long TAXCode;
 	boolean isOpeningBalanceEditable = Boolean.TRUE;
 	private String email;
 	boolean isDefault;
@@ -99,7 +99,7 @@ public abstract class ClientPayee implements IAccounterCore {
 	/**
 	 * @return the vATCode
 	 */
-	public String getTAXCode() {
+	public long getTAXCode() {
 		return TAXCode;
 	}
 
@@ -107,7 +107,7 @@ public abstract class ClientPayee implements IAccounterCore {
 	 * @param code
 	 *            the vATCode to set
 	 */
-	public void setTAXCode(String code) {
+	public void setTAXCode(long code) {
 		TAXCode = code;
 	}
 

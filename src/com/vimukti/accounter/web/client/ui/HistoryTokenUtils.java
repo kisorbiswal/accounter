@@ -215,7 +215,7 @@ public class HistoryTokenUtils {
 		return token;
 	}
 
-	public void setPresentToken(Action action, Object obj) {
+	public static void setPresentToken(Action action, Object obj) {
 		MainFinanceWindow.shouldExecuteRun = false;
 		MainFinanceWindow.oldToken = com.google.gwt.user.client.History.getToken();
 		com.google.gwt.user.client.History.newItem(getTokenWithID(action

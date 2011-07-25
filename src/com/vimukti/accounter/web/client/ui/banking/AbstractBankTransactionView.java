@@ -60,7 +60,7 @@ public abstract class AbstractBankTransactionView<T> extends
 	protected Set<ClientAddress> addressList;
 	protected AddressCombo billToCombo;
 
-	protected String payFromAccount;
+	protected long payFromAccount;
 	protected CheckboxItem vatinclusiveCheck;
 
 	private List<ClientAccount> listOfAccounts;

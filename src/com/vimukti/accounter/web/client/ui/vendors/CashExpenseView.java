@@ -37,8 +37,7 @@ public class CashExpenseView extends CashPurchaseView {
 
 	@Override
 	protected void initViewType() {
-		titlelabel.setText(Accounter.getVendorsMessages()
-				.cashExpense());
+		titlelabel.setText(Accounter.getVendorsMessages().cashExpense());
 		vendorForm.clear();
 		vendorForm.removeFromParent();
 		termsForm.clear();
@@ -52,8 +51,7 @@ public class CashExpenseView extends CashPurchaseView {
 
 			@Override
 			protected List<ClientAccount> getAccounts() {
-				List<ClientAccount> accounts = getCompany()
-						.getAccounts();
+				List<ClientAccount> accounts = getCompany().getAccounts();
 				for (ClientAccount acct : accounts) {
 					if (acct.getName().equals(AccounterConstants.PETTY_CASH)) {
 						pettycash = acct;
@@ -71,9 +69,8 @@ public class CashExpenseView extends CashPurchaseView {
 		try {
 			String listString[] = new String[] {
 					Accounter.getVendorsMessages().cash(),
-					UIUtils
-							.getpaymentMethodCheckBy_CompanyType(Accounter
-									.getCustomersMessages().check()),
+					UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
+							.getCustomersMessages().check()),
 					Accounter.getVendorsMessages().creditCard(),
 					Accounter.getVendorsMessages().directDebit(),
 					Accounter.getVendorsMessages().masterCard(),
@@ -210,8 +207,7 @@ public class CashExpenseView extends CashPurchaseView {
 
 		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id,
-				editCallBack);
+		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
 	}
 
 	@Override
@@ -223,13 +219,11 @@ public class CashExpenseView extends CashPurchaseView {
 	@Override
 	protected void showMenu(AccounterButton button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.getVendorsMessages()
-					.accounts(), Accounter.getVendorsMessages()
-					.service());
+			setMenuItems(button, Accounter.getVendorsMessages().accounts(),
+					Accounter.getVendorsMessages().service());
 		else
-			setMenuItems(button, Accounter.getVendorsMessages()
-					.accounts(), Accounter.getVendorsMessages()
-					.service());
+			setMenuItems(button, Accounter.getVendorsMessages().accounts(),
+					Accounter.getVendorsMessages().service());
 	}
 
 	@Override

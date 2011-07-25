@@ -63,10 +63,8 @@ public class CashPurchaseView extends
 
 		// setTitle(UIUtils.title(vendorConstants.cashPurchase()));
 
-		titlelabel = new Label(Accounter.getVendorsMessages()
-				.cashPurchase());
-		titlelabel.setStyleName(Accounter.getCustomersMessages()
-				.lableTitle());
+		titlelabel = new Label(Accounter.getVendorsMessages().cashPurchase());
+		titlelabel.setStyleName(Accounter.getCustomersMessages().lableTitle());
 		// titlelabel.setHeight("50px");
 		listforms = new ArrayList<DynamicForm>();
 
@@ -113,16 +111,16 @@ public class CashPurchaseView extends
 		formItems.add(transactionDateItem);
 		formItems.add(transactionNumber);
 
-		vendorCombo = createVendorComboItem(UIUtils.getVendorString(
-				Accounter.getVendorsMessages().supplierName(),
-				Accounter.getVendorsMessages().vendorName()));
+		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplierName(), Accounter
+				.getVendorsMessages().vendorName()));
 		vendorCombo.setHelpInformation(true);
 		// vendorCombo.setWidth(100);
 		contactCombo = createContactComboItem();
 		contactCombo.setHelpInformation(true);
 		// contactCombo.setWidth(100);
-		billToAreaItem = new TextAreaItem(Accounter
-				.getVendorsMessages().billTo());
+		billToAreaItem = new TextAreaItem(Accounter.getVendorsMessages()
+				.billTo());
 		billToAreaItem.setHelpInformation(true);
 		billToAreaItem.setWidth(100);
 		billToAreaItem.setDisabled(true);
@@ -148,10 +146,8 @@ public class CashPurchaseView extends
 		payFromCombo = createPayFromCombo(vendorConstants.Payfrom());
 		// payFromCombo.setWidth(100);
 		payFromCombo.setPopupWidth("500px");
-		checkNo = createCheckNumberItem(getCompany()
-				.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? vendorConstants
-				.chequeNo()
-				: vendorConstants.checkno());
+		checkNo = createCheckNumberItem(getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? vendorConstants
+				.chequeNo() : vendorConstants.checkno());
 		checkNo.setDisabled(true);
 		checkNo.setWidth(100);
 		deliveryDateItem = createTransactionDeliveryDateItem();
@@ -166,22 +162,18 @@ public class CashPurchaseView extends
 					public void selectedComboBoxItem(String selectItem) {
 						paymentMethodSelected(paymentMethodCombo
 								.getSelectedValue());
-						if (paymentMethodCombo.getSelectedValue()
-								.equals(
-										Accounter.getVendorsMessages()
-												.check())
+						if (paymentMethodCombo.getSelectedValue().equals(
+								Accounter.getVendorsMessages().check())
 								|| paymentMethodCombo.getSelectedValue()
-										.equals(
-												Accounter
-														.getVendorsMessages()
-														.cheque())) {
+										.equals(Accounter.getVendorsMessages()
+												.cheque())) {
 							checkNo.setDisabled(false);
 						} else {
 							checkNo.setDisabled(true);
 						}
 
-						if (paymentMethod.equals(Accounter
-								.getVendorsMessages().check())
+						if (paymentMethod.equals(Accounter.getVendorsMessages()
+								.check())
 								&& transactionObject != null
 								&& payFromAccount != null) {
 							ClientCashPurchase cashPurchase = (ClientCashPurchase) transactionObject;
@@ -194,8 +186,10 @@ public class CashPurchaseView extends
 		termsForm.setWidth("100%");
 		termsForm.setFields(paymentMethodCombo, payFromCombo, checkNo,
 				deliveryDateItem);
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.getCustomersMessages().width(), "203px");
+		termsForm
+				.getCellFormatter()
+				.getElement(0, 0)
+				.setAttribute(Accounter.getCustomersMessages().width(), "203px");
 
 		forms.add(termsForm);
 		formItems.add(checkNo);
@@ -204,8 +198,7 @@ public class CashPurchaseView extends
 		Label lab2 = new Label(vendorConstants.itemsAndExpenses());
 		menuButton = createAddNewButton();
 
-		netAmount = new AmountLabel(Accounter.getVendorsMessages()
-				.netAmount());
+		netAmount = new AmountLabel(Accounter.getVendorsMessages().netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 		transactionTotalNonEditableText = createTransactionTotalNonEditableItem();
@@ -352,11 +345,9 @@ public class CashPurchaseView extends
 		payFromCombo.setComboItem(payFromAccount);
 		if (account != null
 				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
-				.equalsIgnoreCase(Accounter.getVendorsMessages()
-						.cheque())
-				: paymentMethod.equalsIgnoreCase(Accounter
-						.getVendorsMessages().check())
-						&& transactionObject != null) {
+				.equalsIgnoreCase(Accounter.getVendorsMessages().cheque())
+				: paymentMethod.equalsIgnoreCase(Accounter.getVendorsMessages()
+						.check()) && transactionObject != null) {
 			ClientCashPurchase cashPurchase = (ClientCashPurchase) transactionObject;
 			checkNo.setValue(cashPurchase.getCheckNumber());
 			// setCheckNumber();
@@ -373,8 +364,8 @@ public class CashPurchaseView extends
 					public void onFailure(Throwable t) {
 						// //UIUtils.logError(
 						// "Failed to get the next check number!!", t);
-						checkNo.setValue(Accounter
-								.getVendorsMessages().Tobeprinted());
+						checkNo.setValue(Accounter.getVendorsMessages()
+								.Tobeprinted());
 						return;
 					}
 
@@ -446,12 +437,11 @@ public class CashPurchaseView extends
 		if (this.vendor != null && this.vendor != vendor) {
 			ClientCashPurchase ent = (ClientCashPurchase) this.transactionObject;
 
-			if (ent != null && ent.getVendor().equals(vendor.getID())) {
+			if (ent != null && ent.getVendor() == vendor.getID()) {
 				this.vendorTransactionGrid.removeAllRecords();
 				this.vendorTransactionGrid
 						.setRecords(ent.getTransactionItems());
-			} else if (ent != null
-					&& !ent.getVendor().equals(vendor.getID())) {
+			} else if (ent != null && ent.getVendor() != vendor.getID()) {
 				this.vendorTransactionGrid.removeAllRecords();
 				this.vendorTransactionGrid.updateTotals();
 			}
@@ -488,10 +478,9 @@ public class CashPurchaseView extends
 	private void setDisableStateForCheckNo(String paymentMethod) {
 
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
-				.equalsIgnoreCase(Accounter.getVendorsMessages()
-						.cheque())
-				: paymentMethod.equalsIgnoreCase(Accounter
-						.getVendorsMessages().check())) {
+				.equalsIgnoreCase(Accounter.getVendorsMessages().cheque())
+				: paymentMethod.equalsIgnoreCase(Accounter.getVendorsMessages()
+						.check())) {
 			checkNo.setDisabled(false);
 		} else {
 			checkNo.setValue("");
@@ -500,8 +489,7 @@ public class CashPurchaseView extends
 		}
 		if (transactionObject != null) {
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
-					.equalsIgnoreCase(Accounter.getVendorsMessages()
-							.cheque())
+					.equalsIgnoreCase(Accounter.getVendorsMessages().cheque())
 					: paymentMethod.equalsIgnoreCase(Accounter
 							.getVendorsMessages().check())) {
 				checkNo.setDisabled(false);
@@ -581,12 +569,11 @@ public class CashPurchaseView extends
 
 	public void createAlterObject() {
 
-		if (transactionObject.getID() != null
-				&& transactionObject.getID().length() != 0)
+		if (transactionObject.getID() != 0) {
 			alterObject((ClientCashPurchase) transactionObject);
-
-		else
+		} else {
 			createObject((ClientCashPurchase) transactionObject);
+		}
 
 	}
 
@@ -724,8 +711,7 @@ public class CashPurchaseView extends
 
 		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id,
-				editCallBack);
+		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
 
 	}
 
@@ -735,10 +721,9 @@ public class CashPurchaseView extends
 		transactionDateItem.setDisabled(isEdit);
 		transactionNumber.setDisabled(isEdit);
 		paymentMethodCombo.setDisabled(isEdit);
-		if (paymentMethod.equals(Accounter.getVendorsMessages()
-				.check())
-				|| paymentMethod.equals(Accounter.getVendorsMessages()
-						.cheque())) {
+		if (paymentMethod.equals(Accounter.getVendorsMessages().check())
+				|| paymentMethod
+						.equals(Accounter.getVendorsMessages().cheque())) {
 			checkNo.setDisabled(isEdit);
 		} else {
 			checkNo.setDisabled(!isEdit);

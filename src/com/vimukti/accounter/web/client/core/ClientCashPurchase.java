@@ -10,7 +10,7 @@ public class ClientCashPurchase extends ClientTransaction {
 	public static final int EMPLOYEE_EXPENSE_STATUS_DECLINED = 4;
 	public static final int EMPLOYEE_EXPENSE_STATUS_NOT_TO_SHOW = 5;
 
-	String vendor;
+	long vendor;
 
 	ClientContact contact;
 
@@ -20,7 +20,7 @@ public class ClientCashPurchase extends ClientTransaction {
 
 	String phone;
 
-	String payFrom;
+	long payFrom;
 
 	String checkNumber;
 
@@ -30,11 +30,11 @@ public class ClientCashPurchase extends ClientTransaction {
 
 	int expenseStatus;
 
-	public String getVendor() {
+	public long getVendor() {
 		return vendor;
 	}
 
-	public void setVendor(String vendor) {
+	public void setVendor(long vendor) {
 		this.vendor = vendor;
 	}
 
@@ -62,11 +62,11 @@ public class ClientCashPurchase extends ClientTransaction {
 		this.phone = phone;
 	}
 
-	public String getPayFrom() {
+	public long getPayFrom() {
 		return payFrom;
 	}
 
-	public void setPayFrom(String payFrom) {
+	public void setPayFrom(long payFrom) {
 		this.payFrom = payFrom;
 	}
 

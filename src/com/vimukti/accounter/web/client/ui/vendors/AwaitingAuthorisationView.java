@@ -112,10 +112,10 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 		panel.setCellHorizontalAlignment(buttonPanel, ALIGN_RIGHT);
 		mainPanel.add(panel);
 		mainPanel.removeStyleName("main-class-pannel");
-		buttonLayout.getElement().getParentElement().removeClassName(
-				"bottom-view");
-		bottomShadow.getElement().getParentElement().removeClassName(
-				"bottom-shadow");
+		buttonLayout.getElement().getParentElement()
+				.removeClassName("bottom-view");
+		bottomShadow.getElement().getParentElement()
+				.removeClassName("bottom-shadow");
 
 	}
 
@@ -173,7 +173,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 
 	void updateTransactionItems(ClientCashPurchase result) {
 		for (ClientTransactionItem item : result.getTransactionItems()) {
-			item.setID("");
+			item.setID(0);
 		}
 	}
 

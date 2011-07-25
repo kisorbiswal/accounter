@@ -42,23 +42,20 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 	@Override
 	protected void initViewType() {
 
-		titlelabel.setText(Accounter.getVendorsMessages()
-				.creditCardExpense());
+		titlelabel.setText(Accounter.getVendorsMessages().creditCardExpense());
 
 		vendorForm.clear();
 		termsForm.clear();
-		Ccard = new VendorCombo(Accounter.getVendorsMessages()
-				.cCCompany(), true) {
+		Ccard = new VendorCombo(Accounter.getVendorsMessages().cCCompany(),
+				true) {
 			@Override
 			public void initCombo(List<ClientVendor> list) {
 				Iterator<ClientVendor> iterator = list.iterator();
 				while (iterator.hasNext()) {
 					ClientVendor vdr = iterator.next();
-					if (vdr.getVendorGroup() != null
-							&& !vdr.getVendorGroup().equals("")) {
-						ClientVendorGroup vendorGrougp = Accounter
-								.getCompany().getVendorGroup(
-										vdr.getVendorGroup());
+					if (vdr.getVendorGroup() != 0) {
+						ClientVendorGroup vendorGrougp = Accounter.getCompany()
+								.getVendorGroup(vdr.getVendorGroup());
 						if (!vendorGrougp.getName().equals(
 								AccounterConstants.CREDIT_CARD_COMPANIES)) {
 							iterator.remove();
@@ -78,22 +75,21 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 				action.setActionSource(this);
 				action.setOpenedFrom(viewFrom);
-				
+
 				action.run(null, true);
 
 			}
 		};
 		Ccard.setHelpInformation(true);
-		Ccard
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
+		Ccard.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
-					@Override
-					public void selectedComboBoxItem(ClientVendor selectItem) {
-						selectedVendor = selectItem;
-						Ccard.setComboItem(selectItem);
-						addPhonesContactsAndAddress();
-					}
-				});
+			@Override
+			public void selectedComboBoxItem(ClientVendor selectItem) {
+				selectedVendor = selectItem;
+				Ccard.setComboItem(selectItem);
+				addPhonesContactsAndAddress();
+			}
+		});
 
 		Ccard.setRequired(true);
 		String listString[] = new String[] {
@@ -117,8 +113,10 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 		HorizontalPanel hPanel = (HorizontalPanel) termsForm.getParent();
 		termsForm.removeFromParent();
 		termsForm.setWidth("100%");
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.getCustomersMessages().width(), "203px");
+		termsForm
+				.getCellFormatter()
+				.getElement(0, 0)
+				.setAttribute(Accounter.getCustomersMessages().width(), "203px");
 		hPanel.add(termsForm);
 
 		if (transactionObject != null) {
@@ -189,9 +187,9 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 		// Setting pay from
 		payFromAccount = payFrmSelect.getSelectedValue().getID();
-		if (payFromAccount.length() != 0 && payFromAccount != null)
-			creditCardCharge.setPayFrom(getCompany()
-					.getAccount(payFromAccount).getID());
+		if (payFromAccount != 0)
+			creditCardCharge.setPayFrom(getCompany().getAccount(payFromAccount)
+					.getID());
 
 		// setting check no
 		if (cheqNoText.getValue() != null)
@@ -267,8 +265,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id,
-				editCallBack);
+		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
 	}
 
 	public void enableFormItems() {
@@ -279,13 +276,11 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 	@Override
 	protected void showMenu(AccounterButton button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.getVendorsMessages()
-					.accounts(), Accounter.getVendorsMessages()
-					.service());
+			setMenuItems(button, Accounter.getVendorsMessages().accounts(),
+					Accounter.getVendorsMessages().service());
 		else
-			setMenuItems(button, Accounter.getVendorsMessages()
-					.accounts(), Accounter.getVendorsMessages()
-					.service());
+			setMenuItems(button, Accounter.getVendorsMessages().accounts(),
+					Accounter.getVendorsMessages().service());
 	}
 
 	@Override
