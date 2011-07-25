@@ -33,7 +33,7 @@ public class DepreciableFixedAssetsList implements IsSerializable, Serializable 
 		this.accountViceFixedAssets = accountViceFixedAssets;
 	}
 
-	public List<String> getFixedAssetIDs() {
+	public List<Long> getFixedAssetIDs() {
 		return fixedAssetIDs;
 	}
 
