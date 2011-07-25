@@ -35,7 +35,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 	public void onAddNew() {
 		Action action = CustomersActionFactory.getNewCustomerAction();
 		action.setActionSource(this);
-		
+
 		action.run(null, true);
 	}
 

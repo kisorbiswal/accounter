@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.ClientVATCode;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.forms.CustomComboItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -154,7 +155,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			protected void onLoad() {
 				super.onLoad();
 			}
-			
+
 			@SuppressWarnings("deprecation")
 			@Override
 			public void onBrowserEvent(Event event) {
@@ -162,7 +163,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 				case Event.ONMOUSEOUT:
 					Element element = event.getTarget();
 					if (this.getElement().equals(element)) {
-					this.hide();
+						this.hide();
 					}
 					break;
 				default:
@@ -202,7 +203,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		dropDown.getRowElement(0).getStyle().setHeight(15, Unit.PX);
 		int x = getMainWidget().getAbsoluteLeft();
 		int y = getMainWidget().getAbsoluteTop() + 22;
-		dropDown.setWidth(getMainWidget().getOffsetWidth()-2 + "px");
+		dropDown.setWidth(getMainWidget().getOffsetWidth() - 2 + "px");
 		// dropDown.setHeight(getMainWidget().getOffsetHeight() + "px");
 		//
 		popup.setPopupPosition(x + 1, y);
@@ -213,8 +214,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			@Override
 			public void onPopupClosed(PopupPanel sender, boolean autoClosed) {
 				if ((selectedName == null || !selectedName.equals(getValue()
-						.toString()))
-						&& selectedIndex == -1)
+						.toString())) && selectedIndex == -1)
 					setRelatedComboItem(getValue().toString());
 			}
 		});
@@ -420,13 +420,13 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	 */
 	@SuppressWarnings("unchecked")
 	public void addItemThenfireEvent(T obj) {
-		boolean usTaxCode = getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
+		boolean usTaxCode = Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
 				&& obj instanceof ClientTAXItemGroup;
 		if (obj instanceof IAccounterCore) {
 			IAccounterCore core = (IAccounterCore) obj;
 			if (usTaxCode)
-				obj = (T) getCompany()
-						.getTAXCodeForTAXItemGroup((ClientTAXItemGroup) obj);
+				obj = (T) Accounter.getCompany().getTAXCodeForTAXItemGroup(
+						(ClientTAXItemGroup) obj);
 			if (core.getObjectType() == AccounterCoreType.ACCOUNT) {
 				UIUtils.updateAccountsInSortedOrder(
 						(List<ClientAccount>) this.comboItems,
@@ -750,8 +750,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	public void updateComboItem(T coreObject) {
 		for (T item : comboItems) {
-			if (((IAccounterCore) item).getID().equals(
-					((IAccounterCore) coreObject).getID())) {
+			if (((IAccounterCore) item).getID() == ((IAccounterCore) coreObject)
+					.getID()) {
 
 				if (this.getSelectedValue() != null ? this.getSelectedValue()
 						.equals(item) : true) {
@@ -762,7 +762,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 					addComboItem(coreObject);
 				}
 				break;
-			} else if (((IAccounterCore) coreObject).getID() != null) {
+			} else if (((IAccounterCore) coreObject).getID() != 0) {
 				addComboItem(coreObject);
 				break;
 			}
@@ -800,8 +800,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	private void filterValues(char key) {
 
 		String val = getValue() != null ? getValue().toString()
-				+ String.valueOf(key).replace("/", "").trim() : String.valueOf(
-				key).replace("/", "").trim();
+				+ String.valueOf(key).replace("/", "").trim() : String
+				.valueOf(key).replace("/", "").trim();
 
 		resetComboList();
 		if (key == '/') {

@@ -55,11 +55,12 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 			}
 
 			public void onSuccess(T result) {
-				boolean usTaxCode = getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
+				boolean usTaxCode = Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
 						&& result instanceof ClientTAXItemGroup;
 				if (usTaxCode)
-					result = (T) getCompany().getTAXCodeForTAXItemGroup(
-							(ClientTAXItemGroup) result);
+					result = (T) Accounter.getCompany()
+							.getTAXCodeForTAXItemGroup(
+									(ClientTAXItemGroup) result);
 				if (result != null) {
 					if (!usTaxCode)
 						setComboItem(result);
@@ -196,5 +197,9 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 			}
 		}
 
+	}
+
+	protected ClientCompany getCompany() {
+		return Accounter.getCompany();
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
@@ -19,8 +20,7 @@ public class CashBackAccountsCombo extends AccountCombo {
 
 	public List<ClientAccount> getAccounts() {
 		cashBackAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : getCompany()
-				.getActiveAccounts()) {
+		for (ClientAccount account : Accounter.getCompany().getActiveAccounts()) {
 			if (account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
 					&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
 					&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
@@ -38,7 +38,7 @@ public class CashBackAccountsCombo extends AccountCombo {
 		action.setActionSource(this);
 		action.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.CASH_BACK_ACCOUNTS_COMBO));
-		
+
 		action.run(null, true);
 
 	}

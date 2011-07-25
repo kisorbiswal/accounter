@@ -9,12 +9,12 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 
 	public BrandingThemeCombo(String title) {
 		super(title);
-		initCombo(getCompany().getBrandingTheme());
+		initCombo(Accounter.getCompany().getBrandingTheme());
 	}
 
 	public BrandingThemeCombo(String title, boolean isAddNewRequire) {
 		super(title, isAddNewRequire, 1);
-		initCombo(getCompany().getBrandingTheme());
+		initCombo(Accounter.getCompany().getBrandingTheme());
 	}
 
 	@Override
@@ -38,6 +38,7 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 		}
 		return null;
 	}
+
 	@Override
 	public void setDefaultValue(String value) {
 		super.setDefaultValue(value);
@@ -52,7 +53,7 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 	public void onAddNew() {
 		Action action = SettingsActionFactory.getNewBrandThemeAction();
 		action.setActionSource(this);
-		
+
 		action.run(null, true);
 	}
 

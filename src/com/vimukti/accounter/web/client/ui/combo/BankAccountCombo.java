@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.NewBankAccountAction;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
@@ -36,7 +37,7 @@ public class BankAccountCombo extends AccountCombo {
 		action.setActionSource(this);
 		action.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.BANK_ACCOUNTS_COMBO));
-		
+
 		action.run(null, true);
 
 	}
@@ -45,8 +46,7 @@ public class BankAccountCombo extends AccountCombo {
 	public List<ClientAccount> getAccounts() {
 		bankAccounts = new ArrayList<ClientAccount>();
 
-		for (ClientAccount account : getCompany()
-				.getActiveAccounts()) {
+		for (ClientAccount account : Accounter.getCompany().getActiveAccounts()) {
 			if (account.getType() == ClientAccount.TYPE_BANK)
 				bankAccounts.add(account);
 		}

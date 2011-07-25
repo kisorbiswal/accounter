@@ -20,8 +20,7 @@ public class DebitAccountCombo extends AccountCombo {
 	protected List<ClientAccount> getAccounts() {
 		debitAccounts = new ArrayList<ClientAccount>();
 
-		for (ClientAccount account : getCompany()
-				.getActiveAccounts()) {
+		for (ClientAccount account : getCompany().getActiveAccounts()) {
 			if (account.getType() == ClientAccount.TYPE_INCOME
 					|| account.getType() == ClientAccount.TYPE_EXPENSE
 					|| account.getType() == ClientAccount.TYPE_EQUITY
@@ -45,7 +44,7 @@ public class DebitAccountCombo extends AccountCombo {
 		action.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.DEBIT_COMBO));
 		action.setActionSource(this);
-		
+
 		action.run(null, true);
 
 	}
