@@ -85,8 +85,8 @@ public class InviteUserView extends BaseView<ClientUser> {
 		manageLabel.addStyleName("inviteUserLabel");
 
 		custForm.setFields(firstNametext, lastNametext, emailField);
-		custForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.getCompanyMessages().width(), "150px");
+		custForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.getCompanyMessages().width(), "150px");
 
 		vPanel.add(custForm);
 		vPanel.add(setPerLabel);
@@ -224,7 +224,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 			user.setCanDoUserManagement(selectedRole.isCanDoUserManagement());
 		}
 
-		if (user.getID() != null)
+		if (user.getID() != 0)
 			if (!user.getEmailId().equals(prevoiusEmail))
 				if (isExist(user))
 					throw new InvalidEntryException(
@@ -388,8 +388,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 		if (list == null || list.isEmpty())
 			return false;
 		for (ClientUser user : list) {
-			if (user.getID() != object.getID()
-					&& user.getEmailId() != null
+			if (user.getID() != object.getID() && user.getEmailId() != null
 					&& user.getEmailId().equals(object.getEmailId())) {
 				return true;
 			}
