@@ -60,8 +60,8 @@ public class WriteOffDialog extends BaseDialog {
 	public WriteOffDialog(List<ClientAccount> allAccounts,
 			ClientTransactionReceivePayment record, boolean canEdit,
 			ClientAccount clientAccount) {
-		super(customerConstants.writeOff(), Accounter
-				.getCustomersMessages().WriteOffPleaseAddDetails());
+		super(customerConstants.writeOff(), Accounter.getCustomersMessages()
+				.WriteOffPleaseAddDetails());
 		this.record = record;
 		this.allAccounts = allAccounts;
 		this.setSelectedWriteOffAccount(clientAccount);
@@ -82,8 +82,8 @@ public class WriteOffDialog extends BaseDialog {
 
 	private void createControls() {
 
-		discAccSelect = new OtherAccountsCombo(customerConstants
-				.writeOffAccount(), false);
+		discAccSelect = new OtherAccountsCombo(
+				customerConstants.writeOffAccount(), false);
 		discAccSelect.initCombo(allAccounts);
 		discAccSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -201,8 +201,7 @@ public class WriteOffDialog extends BaseDialog {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		if (core.getID().equals(
-				this.discAccSelect.getSelectedValue().getID())) {
+		if (core.getID() == this.discAccSelect.getSelectedValue().getID()) {
 			this.discAccSelect.addItemThenfireEvent((ClientAccount) core);
 		}
 	}
