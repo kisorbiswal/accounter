@@ -27,7 +27,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 	public static int EMPLOYEE = 1;
 	public static int CASH = 2;
 	public static int CREDITCARD = 3;
-	private int status ;
+	private int status;
 
 	public ExpenseReportToolbar() {
 		createControls();
@@ -35,14 +35,12 @@ public class ExpenseReportToolbar extends ReportToolbar {
 	}
 
 	private void createControls() {
-		String[] statusArray = {
-				Accounter.getReportsMessages().allExpenses(),
+		String[] statusArray = { Accounter.getReportsMessages().allExpenses(),
 				Accounter.getReportsMessages().cash(),
 				Accounter.getReportsMessages().creditCard(),
 				Accounter.getReportsMessages().employee() };
 
-		String[] dateRangeArray = {
-				Accounter.getReportsMessages().all(),
+		String[] dateRangeArray = { Accounter.getReportsMessages().all(),
 				Accounter.getReportsMessages().thisWeek(),
 				Accounter.getReportsMessages().thisMonth(),
 				Accounter.getReportsMessages().lastWeek(),
@@ -69,8 +67,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						if (selectItem.toString().equals(
-								Accounter.getReportsMessages()
-										.allExpenses())) {
+								Accounter.getReportsMessages().allExpenses())) {
 							/*
 							 * status 0 used to get all expenses like Cash,
 							 * Credit Card
@@ -81,12 +78,10 @@ public class ExpenseReportToolbar extends ReportToolbar {
 								Accounter.getReportsMessages().cash())) {
 							status = ClientTransaction.TYPE_CASH_EXPENSE;
 						} else if (selectItem.toString().equals(
-								Accounter.getReportsMessages()
-										.creditCard())) {
+								Accounter.getReportsMessages().creditCard())) {
 							status = ClientTransaction.TYPE_CREDIT_CARD_EXPENSE;
 						} else if (selectItem.toString().equals(
-								Accounter.getReportsMessages()
-										.employee())) {
+								Accounter.getReportsMessages().employee())) {
 							status = ClientTransaction.TYPE_EMPLOYEE_EXPENSE;
 						}
 
@@ -98,8 +93,8 @@ public class ExpenseReportToolbar extends ReportToolbar {
 					}
 				});
 
-		dateRangeCombo = new SelectCombo(Accounter
-				.getReportsMessages().dateRange());
+		dateRangeCombo = new SelectCombo(Accounter.getReportsMessages()
+				.dateRange());
 		dateRangeCombo.setHelpInformation(true);
 		dateRangeList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
@@ -107,8 +102,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		}
 		dateRangeCombo.initCombo(dateRangeList);
 		dateRangeCombo.setDefaultValue(dateRangeArray[0]);
-		dateRangeCombo.setComboItem(Accounter.getReportsMessages()
-				.all());
+		dateRangeCombo.setComboItem(Accounter.getReportsMessages().all());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -127,7 +121,8 @@ public class ExpenseReportToolbar extends ReportToolbar {
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
-		ClientFinanceDate date = Utility.getLastandOpenedFiscalYearEndDate();
+		ClientFinanceDate date = Accounter.getCompany()
+				.getLastandOpenedFiscalYearEndDate();
 
 		if (date != null)
 			toItem.setDatethanFireEvent(date);
@@ -143,8 +138,8 @@ public class ExpenseReportToolbar extends ReportToolbar {
 				endDate = (ClientFinanceDate) toItem.getValue();
 			}
 		});
-		updateButton = new AccounterButton(Accounter
-				.getReportsMessages().update());
+		updateButton = new AccounterButton(Accounter.getReportsMessages()
+				.update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -154,10 +149,9 @@ public class ExpenseReportToolbar extends ReportToolbar {
 				setEndDate(toItem.getDate());
 
 				changeDates(fromItem.getDate(), toItem.getDate());
-				dateRangeCombo.setDefaultValue(Accounter
-						.getReportsMessages().custom());
-				setSelectedDateRange(Accounter.getReportsMessages()
+				dateRangeCombo.setDefaultValue(Accounter.getReportsMessages()
 						.custom());
+				setSelectedDateRange(Accounter.getReportsMessages().custom());
 
 			}
 		});
