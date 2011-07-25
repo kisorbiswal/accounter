@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.core;
 @SuppressWarnings("serial")
 public class ClientPurchaseOrder extends ClientTransaction {
 
-	String vendor;
+	long vendor;
 
 	ClientAddress shipTo;
 
@@ -56,7 +56,7 @@ public class ClientPurchaseOrder extends ClientTransaction {
 	/**
 	 * @return the vendor
 	 */
-	public String getVendor() {
+	public long getVendor() {
 		return vendor;
 	}
 
@@ -64,7 +64,7 @@ public class ClientPurchaseOrder extends ClientTransaction {
 	 * @param vendor
 	 *            the vendor to set
 	 */
-	public void setVendor(String vendor) {
+	public void setVendor(long vendor) {
 		this.vendor = vendor;
 	}
 
