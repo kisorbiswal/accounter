@@ -38,7 +38,7 @@ public class ClientFixedAsset implements IAccounterCore {
 	 * Asset Account
 	 * 
 	 */
-	private String assetAccount;
+	private long assetAccount;
 
 	String linkedAccumulatedDepreciationAccount;
 
@@ -138,11 +138,11 @@ public class ClientFixedAsset implements IAccounterCore {
 		this.assetNumber = assetNumber;
 	}
 
-	public String getAssetAccount() {
+	public long getAssetAccount() {
 		return assetAccount;
 	}
 
-	public void setAssetAccount(String assetAccount) {
+	public void setAssetAccount(long assetAccount) {
 		this.assetAccount = assetAccount;
 	}
 
