@@ -79,12 +79,12 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 	/**
 	 * Name of the Company
 	 */
-	String name;
+	String name;//Trading name
 	/**
 	 * Legal Name of the Company
 	 */
 
-	String legalName;
+	String legalName;//registered name
 
 
 	/**
@@ -288,6 +288,9 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 	// }
 
 	private Set<VATReturn> vatReturns = new HashSet<VATReturn>();
+	private String companyDomainName;
+	private String companyDisplayName;
+	private String countryCode = "United Kingdom";
 
 	public void setVatReturns(Set<VATReturn> vatReturns) {
 		this.vatReturns = vatReturns;
@@ -4706,7 +4709,7 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 		return usersList;
 	}
 
-	public User getUserByUserId(String userID) {
+	public User getUserByUserId(long userID) {
 		Session session = HibernateUtil.getCurrentSession();
 		User user = (User) session.getNamedQuery("unique.id.User")
 				.setParameter(0, userID).uniqueResult();
