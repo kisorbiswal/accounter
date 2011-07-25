@@ -42,10 +42,8 @@ public class TemplateResetServlet extends HttpServlet {
 			for (Company company : companies) {
 				Session s = HibernateUtil.openSession(company
 						.getCompanyID());
-
-				//FIXME :: need to check the query
 				User user = (User) s.getNamedQuery(
-						"get.super.users").list().get(0);
+						"get.admin.users").list().get(0);
 				logger.info("*************** Updating "
 						+ company.getCompanyID() + " with admin ID: "
 						+ user.getEmailId() + " **************");
