@@ -31,7 +31,7 @@ public class ClientTransactionPayBill implements IAccounterCore {
 
 	String billNumber;
 
-	String journalEntry;
+	long journalEntry;
 
 	/* The following fields are just for saving credits temporarly */
 	Map<Integer, Object> tempCredits = new HashMap<Integer, Object>();
@@ -68,11 +68,11 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	 * @return the id
 	 */
 
-	public String getJournalEntry() {
+	public long getJournalEntry() {
 		return journalEntry;
 	}
 
-	public void setJournalEntry(String journalEntry) {
+	public void setJournalEntry(long journalEntry) {
 		this.journalEntry = journalEntry;
 	}
 
