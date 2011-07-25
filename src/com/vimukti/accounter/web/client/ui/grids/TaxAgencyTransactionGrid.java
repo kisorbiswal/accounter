@@ -109,36 +109,35 @@ public class TaxAgencyTransactionGrid extends
 			removeAllRecords();
 			setRecords(transactionObject.getTransactionItems());
 			updateTotals();
-			if (transactionObject.getID() != null) {
+			if (transactionObject.getID() != 0) {
 				canDeleteRecord(false);
 			}
 		}
 	}
 
-//	public void setSelectedTaxAgency(ClientTaxAgency selectedTaxAgency) {
-//		this.selectedTaxAgency = selectedTaxAgency;
-//	}
+	// public void setSelectedTaxAgency(ClientTaxAgency selectedTaxAgency) {
+	// this.selectedTaxAgency = selectedTaxAgency;
+	// }
 
 	public void filteredTaxCodes() {
 
 		List<ClientTAXItem> filteredTaxItems = new ArrayList<ClientTAXItem>();
-//		if (selectedTaxAgency != null) {
-//			for (ClientTaxItem taxItem : FinanceApplication.getCompany()
-//					.getActiveTaxItems()) {
-//				if (taxItem.getTaxAgency().equals(
-//						selectedTaxAgency.getID()))
-//					// if (taxItem.getID().equalsIgnoreCase(
-//					// selectedTaxAgency.getID())) {
-//					filteredTaxItems.add(taxItem);
-//				// }
-//			}
-//		}
-//		taxItemCombo.initCombo(filteredTaxItems);
+		// if (selectedTaxAgency != null) {
+		// for (ClientTaxItem taxItem : FinanceApplication.getCompany()
+		// .getActiveTaxItems()) {
+		// if (taxItem.getTaxAgency().equals(
+		// selectedTaxAgency.getID()))
+		// // if (taxItem.getID().equalsIgnoreCase(
+		// // selectedTaxAgency.getID())) {
+		// filteredTaxItems.add(taxItem);
+		// // }
+		// }
+		// }
+		// taxItemCombo.initCombo(filteredTaxItems);
 	}
 
 	private void createControls() {
-		taxItemCombo = new VATItemCombo(Accounter.getVATMessages()
-				.taxCode());
+		taxItemCombo = new VATItemCombo(Accounter.getVATMessages().taxCode());
 		taxItemCombo.setGrid(this);
 		addRecordDoubleClickHandler(new RecordDoubleClickHandler<ClientTransactionItem>() {
 
@@ -151,28 +150,29 @@ public class TaxAgencyTransactionGrid extends
 				if (column == 0) {
 					if (core.getTaxItem() != null
 							&& !core.getTaxItem().equals("")) {
-//						taxItemCombo.setComboItem(core.getTaxItem());
+						// taxItemCombo.setComboItem(core.getTaxItem());
 					} else
 						taxItemCombo.setValue("");
 				}
 				return;
 			}
 		});
-		
-//		taxItemCombo
-//				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTaxItem>() {
-//
-//					@Override
-//					public void selectedComboBoxItem(ClientTaxItem selectItem) {
-//						// selectedObject.setTaxCode(selectItem.getID());
-//
-//						selectedObject.setTaxItem(selectItem);
-//						setText(currentRow, currentCol, selectItem.getName());
-//						updateRecord(selectedObject, currentRow, currentCol);
-//					}
-//				});
-//		taxItemCombo.initCombo(FinanceApplication.getCompany()
-//				.getActiveTaxItems());
+
+		// taxItemCombo
+		// .addSelectionChangeHandler(new
+		// IAccounterComboSelectionChangeHandler<ClientTaxItem>() {
+		//
+		// @Override
+		// public void selectedComboBoxItem(ClientTaxItem selectItem) {
+		// // selectedObject.setTaxCode(selectItem.getID());
+		//
+		// selectedObject.setTaxItem(selectItem);
+		// setText(currentRow, currentCol, selectItem.getName());
+		// updateRecord(selectedObject, currentRow, currentCol);
+		// }
+		// });
+		// taxItemCombo.initCombo(FinanceApplication.getCompany()
+		// .getActiveTaxItems());
 		// this.addFooterValue(FinanceApplication.getCustomersMessages().total(),
 		// 2);
 
@@ -188,7 +188,7 @@ public class TaxAgencyTransactionGrid extends
 				// FinanceApplication.getCompany().getTaxCode(
 				// item.getTaxCode()).getTaxAgency())
 				// .getName());
-				item.setDescription(getCompany()
+				item.setDescription(Accounter.getCompany()
 						.getTaxAgency(item.getTaxItem().getTaxAgency())
 						.getName());
 
@@ -234,8 +234,7 @@ public class TaxAgencyTransactionGrid extends
 	public void editComplete(ClientTransactionItem item, Object value, int col) {
 		if (col == 2) {
 			item.setLineTotal(Double.parseDouble(DataUtils
-					.getReformatedAmount(value.toString())
-					+ ""));
+					.getReformatedAmount(value.toString()) + ""));
 		}
 		updateTotals();
 		updateData(item);
@@ -259,9 +258,9 @@ public class TaxAgencyTransactionGrid extends
 	}
 
 	@Override
-	public void setTaxCode(String taxCode) {
+	public void setTaxCode(long taxCode) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
