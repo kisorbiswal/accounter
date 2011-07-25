@@ -13,15 +13,15 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
  */
 public interface IAccounterCRUDServiceAsync {
 
-	void create(IAccounterCore coreObject, AsyncCallback<String> callback);
+	void create(IAccounterCore coreObject, AsyncCallback<Long> callback);
 
-	void update(IAccounterCore coreObject, AsyncCallback<Boolean> callback);
+	void update(IAccounterCore coreObject, AsyncCallback<Long> callback);
 
 	void delete(AccounterCoreType type, String id,
 			AsyncCallback<Boolean> callback);
 
 	void updateCompanyPreferences(ClientCompanyPreferences preferences,
-			AsyncCallback<Boolean> callback);
+			AsyncCallback<Long> callback);
 
 	void voidTransaction(AccounterCoreType accounterCoreType, String id,
 			AsyncCallback<Boolean> callback);
@@ -32,7 +32,6 @@ public interface IAccounterCRUDServiceAsync {
 	void canEdit(AccounterCoreType accounterCoreType, String id,
 			AsyncCallback<Boolean> callback);
 
-	void updateCompany(ClientCompany clientCompany,
-			AsyncCallback<Boolean> callback);
+	void updateCompany(ClientCompany clientCompany, AsyncCallback<Long> callback);
 
 }

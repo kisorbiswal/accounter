@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.data.InvalidSessionException;
+import com.vimukti.accounter.workspace.tool.AccounterException;
 
 /**
  * @author Fernandez
@@ -16,29 +16,25 @@ import com.vimukti.accounter.web.client.data.InvalidSessionException;
  */
 public interface IAccounterCRUDService extends RemoteService {
 
-	String create(IAccounterCore coreObject) throws InvalidOperationException,
-			InvalidSessionException;
+	long create(IAccounterCore coreObject) throws AccounterException;
 
-	Boolean update(IAccounterCore coreObject) throws InvalidOperationException,
-			InvalidSessionException;
+	long update(IAccounterCore coreObject) throws AccounterException;
 
-	Boolean delete(AccounterCoreType type, String id)
-			throws InvalidOperationException;
+	boolean delete(AccounterCoreType type, long stringID)
+			throws AccounterException;
 
-	Boolean updateCompanyPreferences(ClientCompanyPreferences preferences)
-			throws InvalidOperationException;
+	long updateCompanyPreferences(ClientCompanyPreferences preferences)
+			throws AccounterException;
 
-	Boolean voidTransaction(AccounterCoreType accounterCoreType, String id)
-			throws InvalidOperationException, InvalidSessionException;
+	Boolean voidTransaction(AccounterCoreType accounterCoreType, long id)
+			throws AccounterException;
 
-	Boolean deleteTransaction(AccounterCoreType accounterCoreType,
-			String id) throws InvalidOperationException,
-			InvalidSessionException;
+	boolean deleteTransaction(AccounterCoreType accounterCoreType, long stringID)
+			throws AccounterException;
 
-	Boolean canEdit(AccounterCoreType accounterCoreType, String id)
-			throws InvalidOperationException;
+	boolean canEdit(AccounterCoreType accounterCoreType, long stringID)
+			throws AccounterException;
 
-	Boolean updateCompany(ClientCompany clientCompany)
-			throws InvalidOperationException;
+	long updateCompany(ClientCompany clientCompany) throws AccounterException;
 
 }

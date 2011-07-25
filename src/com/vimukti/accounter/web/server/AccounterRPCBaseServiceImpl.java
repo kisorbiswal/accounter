@@ -15,7 +15,7 @@ import org.hibernate.Session;
 import com.google.gwt.rpc.server.RpcServlet;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.data.InvalidSessionException;
+import com.vimukti.accounter.workspace.tool.AccounterException;
 import com.vimukti.accounter.workspace.tool.FinanceTool;
 import com.vimukti.comet.server.CometManager;
 
@@ -90,9 +90,9 @@ public class AccounterRPCBaseServiceImpl extends RpcServlet {
 	 * 
 	 * @return
 	 */
-	private String getUserID() {
-		return (String) getThreadLocalRequest().getSession().getAttribute(
-				USER_ID);
+	protected long getUserID() {
+		return (Long) getThreadLocalRequest().getSession()
+				.getAttribute(USER_ID);
 	}
 
 	public boolean isValidSession(HttpServletRequest request) {
@@ -100,7 +100,7 @@ public class AccounterRPCBaseServiceImpl extends RpcServlet {
 				: true;
 	}
 
-	protected FinanceTool getFinanceTool() throws InvalidSessionException {
+	protected FinanceTool getFinanceTool() throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 
 		FinanceTool financeTool = (FinanceTool) session.load(FinanceTool.class,

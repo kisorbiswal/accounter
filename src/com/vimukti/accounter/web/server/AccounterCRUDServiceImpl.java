@@ -11,13 +11,13 @@ import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Util;
 import com.vimukti.accounter.web.client.IAccounterCRUDService;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.data.InvalidSessionException;
+import com.vimukti.accounter.workspace.tool.AccounterException;
 import com.vimukti.accounter.workspace.tool.FinanceTool;
+import com.vimukti.accounter.workspace.tool.OperationContext;
 
 /**
  * 
@@ -47,31 +47,35 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public String create(IAccounterCore coreObject)
-			throws InvalidOperationException, InvalidSessionException
-
-	{
+	public long create(IAccounterCore coreObject) throws AccounterException {
 
 		FinanceTool tool = getFinanceTool();
+		String clientClassSimpleName = coreObject.getObjectType()
+				.getClientClassSimpleName();
 
-		return tool.createObject(coreObject);
+		OperationContext context = new OperationContext(coreObject, getUserID());
+		context.setArg2(clientClassSimpleName);
+
+		return tool.create(context);
 	}
 
 	@Override
-	public Boolean update(IAccounterCore coreObject)
-			throws InvalidOperationException, InvalidSessionException
-
-	{
+	public long update(IAccounterCore coreObject) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 
-		return tool.updateObject(coreObject);
+		String clientClassSimpleName = coreObject.getObjectType()
+				.getClientClassSimpleName();
+
+		OperationContext context = new OperationContext(coreObject,
+				getUserID(), String.valueOf(coreObject.getID()),
+				clientClassSimpleName);
+
+		return tool.update(context);
 	}
 
 	@Override
-	public Boolean delete(AccounterCoreType type, String id)
-			throws InvalidOperationException
-
-	{
+	public boolean delete(AccounterCoreType type, long id)
+			throws AccounterException {
 
 		try {
 
@@ -83,11 +87,11 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return null;
+		return false;
 	}
 
 	@Override
-	public Boolean updateCompanyPreferences(ClientCompanyPreferences preferences) {
+	public long updateCompanyPreferences(ClientCompanyPreferences preferences) {
 
 		try {
 
@@ -99,11 +103,11 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return null;
+		return 0;
 	}
 
 	@Override
-	public Boolean updateCompany(ClientCompany clientCompany) {
+	public long updateCompany(ClientCompany clientCompany) {
 
 		try {
 
@@ -115,22 +119,21 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return null;
+		return 0;
 	}
 
 	@Override
-	public Boolean voidTransaction(AccounterCoreType accounterCoreType,
-			String id) throws InvalidOperationException,
-			InvalidSessionException {
+	public boolean voidTransaction(AccounterCoreType accounterCoreType, long id)
+			throws AccounterException {
 		IAccounterServerCore serverCore = (IAccounterServerCore) Util
-				.loadObjectByid(getSession(), accounterCoreType
-						.getServerClassSimpleName(), id);
+				.loadObjectByStringID(getSession(),
+						accounterCoreType.getServerClassSimpleName(), id);
 		if (serverCore instanceof Transaction) {
 			Transaction trans = (Transaction) serverCore;
 			trans.setVoid(true);
 			update((IAccounterCore) new ClientConvertUtil().toClientObject(
-					serverCore, Util.getClientEqualentClass(serverCore
-							.getClass())));
+					serverCore,
+					Util.getClientEqualentClass(serverCore.getClass())));
 
 			return true;
 		}
@@ -138,19 +141,18 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public Boolean deleteTransaction(AccounterCoreType accounterCoreType,
-			String id) throws InvalidOperationException,
-			InvalidSessionException {
+	public boolean deleteTransaction(AccounterCoreType accounterCoreType,
+			long id) throws AccounterException {
 		IAccounterServerCore serverCore = (IAccounterServerCore) Util
-				.loadObjectByid(getSession(), accounterCoreType
-						.getServerClassSimpleName(), id);
+				.loadObjectByStringID(getSession(),
+						accounterCoreType.getServerClassSimpleName(), stringID);
 		if (serverCore instanceof Transaction) {
 			Transaction trans = (Transaction) serverCore;
 			trans.setStatus(Transaction.STATUS_DELETED);
 			trans.setVoid(true);
 			update((IAccounterCore) new ClientConvertUtil().toClientObject(
-					serverCore, Util.getClientEqualentClass(serverCore
-							.getClass())));
+					serverCore,
+					Util.getClientEqualentClass(serverCore.getClass())));
 
 			return true;
 		}
@@ -158,12 +160,11 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public Boolean canEdit(AccounterCoreType accounterCoreType, String id)
-			throws InvalidOperationException {
+	public boolean canEdit(AccounterCoreType accounterCoreType, long id)
+			throws AccounterException {
 		IAccounterServerCore serverCore = (IAccounterServerCore) Util
-				.loadObjectByid(getSession(), accounterCoreType
-						.getServerClassSimpleName(), id);
+				.loadObjectByStringID(getSession(),
+						accounterCoreType.getServerClassSimpleName(), stringID);
 		return serverCore.canEdit(serverCore);
 	}
-
 }

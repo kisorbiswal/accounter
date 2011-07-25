@@ -9,7 +9,7 @@ package com.vimukti.accounter.workspace.tool;
  * @author Prasanna Kumar G
  * 
  */
-public class AccounterOperationException extends Exception {
+public class AccounterOperationException extends AccounterException {
 	/**
 	 * Creates new Instance
 	 */
@@ -21,7 +21,7 @@ public class AccounterOperationException extends Exception {
 	 * Creates new Instance
 	 */
 	public AccounterOperationException(Throwable t, String message) {
-		super(message, t);
+		super(t, message);
 	}
 
 	/**
@@ -30,4 +30,20 @@ public class AccounterOperationException extends Exception {
 	public AccounterOperationException(Throwable t) {
 		super(t);
 	}
+
+	/**
+	 * Creates new Instance
+	 */
+	public AccounterOperationException(int code) {
+		super(code);
+	}
+
+	/**
+	 * Creates new Instance
+	 */
+	public AccounterOperationException(int errorCode, String message) {
+		super(message);
+		this.errorCode = errorCode;
+	}
+
 }

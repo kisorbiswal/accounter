@@ -19,7 +19,6 @@ public interface IAccounterCore extends IsSerializable, Serializable {
 
 	String getName();
 
-
 	// Display name as in Combo
 	String getDisplayName();
 
@@ -30,7 +29,5 @@ public interface IAccounterCore extends IsSerializable, Serializable {
 	long getID();
 
 	String getClientClassSimpleName();
-	
-
 
 }

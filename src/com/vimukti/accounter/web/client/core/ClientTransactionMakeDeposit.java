@@ -11,15 +11,15 @@ public class ClientTransactionMakeDeposit implements IAccounterCore {
 	long id;
 	long date;
 	int type;
-	String account;
-	String vendor;
-	String customer;
+	long account;
+	long vendor;
+	long customer;
 	String reference;
 	String paymentMethod;
 	double amount;
 	boolean isNewEntry = false;
 
-	String cashAccount;
+	long cashAccount;
 
 	ClientMakeDeposit makeDeposit;
 
@@ -28,13 +28,11 @@ public class ClientTransactionMakeDeposit implements IAccounterCore {
 	double balanceDue = 0D;
 
 	// Transaction depositedTransaction;
-	String depositedTransaction;
+	long depositedTransaction;
 
 	String number;
 
 	boolean isVoid;
-
-	
 
 	public String getPaymentMethod() {
 		return paymentMethod;
@@ -52,7 +50,6 @@ public class ClientTransactionMakeDeposit implements IAccounterCore {
 		this.amount = amount;
 	}
 
-	
 	public long getDate() {
 		return date;
 	}
@@ -100,7 +97,7 @@ public class ClientTransactionMakeDeposit implements IAccounterCore {
 	/**
 	 * @return the account
 	 */
-	public String getAccount() {
+	public long getAccount() {
 		return account;
 	}
 
@@ -108,14 +105,14 @@ public class ClientTransactionMakeDeposit implements IAccounterCore {
 	 * @param account
 	 *            the account to set
 	 */
-	public void setAccount(String account) {
+	public void setAccount(long account) {
 		this.account = account;
 	}
 
 	/**
 	 * @return the vendor
 	 */
-	public String getVendor() {
+	public long getVendor() {
 		return vendor;
 	}
 
@@ -123,14 +120,14 @@ public class ClientTransactionMakeDeposit implements IAccounterCore {
 	 * @param vendor
 	 *            the vendor to set
 	 */
-	public void setVendor(String vendor) {
+	public void setVendor(long vendor) {
 		this.vendor = vendor;
 	}
 
 	/**
 	 * @return the customer
 	 */
-	public String getCustomer() {
+	public long getCustomer() {
 		return customer;
 	}
 
@@ -138,11 +135,9 @@ public class ClientTransactionMakeDeposit implements IAccounterCore {
 	 * @param customer
 	 *            the customer to set
 	 */
-	public void setCustomer(String customer) {
+	public void setCustomer(long customer) {
 		this.customer = customer;
 	}
-
-	
 
 	/**
 	 * @return the amount
@@ -166,7 +161,7 @@ public class ClientTransactionMakeDeposit implements IAccounterCore {
 	/**
 	 * @return the cashAccount
 	 */
-	public String getCashAccount() {
+	public long getCashAccount() {
 		return cashAccount;
 	}
 
@@ -174,7 +169,7 @@ public class ClientTransactionMakeDeposit implements IAccounterCore {
 	 * @param cashAccountId
 	 *            the cashAccount to set
 	 */
-	public void setCashAccount(String cashAccountId) {
+	public void setCashAccount(long cashAccountId) {
 		this.cashAccount = cashAccountId;
 	}
 
@@ -202,7 +197,6 @@ public class ClientTransactionMakeDeposit implements IAccounterCore {
 		this.balanceDue = balanceDue;
 	}
 
-	
 	public void setIsVoid(boolean isVoid) {
 		this.isVoid = isVoid;
 	}
@@ -210,7 +204,7 @@ public class ClientTransactionMakeDeposit implements IAccounterCore {
 	/**
 	 * @return the depositedTransaction
 	 */
-	public String getDepositedTransaction() {
+	public long getDepositedTransaction() {
 		return depositedTransaction;
 	}
 
@@ -218,7 +212,7 @@ public class ClientTransactionMakeDeposit implements IAccounterCore {
 	 * @param depositedTransactionId
 	 *            the depositedTransaction to set
 	 */
-	public void setDepositedTransaction(String depositedTransactionId) {
+	public void setDepositedTransaction(long depositedTransactionId) {
 		this.depositedTransaction = depositedTransactionId;
 	}
 
@@ -227,15 +221,14 @@ public class ClientTransactionMakeDeposit implements IAccounterCore {
 		return this.getName();
 	}
 
-	
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
