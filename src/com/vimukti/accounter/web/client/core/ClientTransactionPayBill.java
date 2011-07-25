@@ -10,7 +10,7 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	long id;
 	int version;
 	long dueDate;
-	String enterBill;
+	long enterBill;
 	double originalAmount = 0D;
 	double amountDue = 0D;
 	long discountDate;
@@ -93,7 +93,7 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	/**
 	 * @return the enterBill
 	 */
-	public String getEnterBill() {
+	public long getEnterBill() {
 		return enterBill;
 	}
 
@@ -187,7 +187,7 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	 * @param enterBillId
 	 *            the enterBill to set
 	 */
-	public void setEnterBill(String enterBillId) {
+	public void setEnterBill(long enterBillId) {
 		this.enterBill = enterBillId;
 	}
 
