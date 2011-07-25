@@ -398,7 +398,7 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 		return reportService;
 	}
 
-	public ClientFinanceDate getStartDate() {
+	public static ClientFinanceDate getStartDate() {
 		return startDate;
 	}
 
