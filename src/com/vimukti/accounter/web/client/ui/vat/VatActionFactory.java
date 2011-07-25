@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 public class VatActionFactory extends AbstractActionFactory {
 	public static NewVatItemAction getNewVatItemAction() {
 		String flag;
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			flag = actionsConstants.newVatitem();
 		else
 			flag = actionsConstants.newTaxItem();
@@ -57,8 +57,7 @@ public class VatActionFactory extends AbstractActionFactory {
 	}
 
 	public static AdjustTAXAction getVatAdjustmentAction() {
-		return new AdjustTAXAction(Accounter.getVATMessages()
-				.VATAdjustment());
+		return new AdjustTAXAction(Accounter.getVATMessages().VATAdjustment());
 
 	}
 
@@ -68,7 +67,6 @@ public class VatActionFactory extends AbstractActionFactory {
 	}
 
 	public static Action getreceiveVATAction() {
-		return new ReceiveVATAction(Accounter.getVATMessages()
-				.recieveVat());
+		return new ReceiveVATAction(Accounter.getVATMessages().recieveVat());
 	}
 }
