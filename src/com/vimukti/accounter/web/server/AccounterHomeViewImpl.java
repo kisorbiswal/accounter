@@ -273,7 +273,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
-	public List<PayBillTransactionList> getTransactionPayBills(String vendorId) {
+	public List<PayBillTransactionList> getTransactionPayBills(long vendorId) {
 
 		List<PayBillTransactionList> paybillTrList = null;
 
@@ -818,7 +818,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return clientJournalEntry;
 	}
 
-	public Long getNextCheckNumber(String accountId) {
+	public Long getNextCheckNumber(long accountId) {
 		Long nextCheckNumber = 0l;
 		try {
 
@@ -1219,10 +1219,9 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 					.toClientObject(tool.getVATReturnDetails(serverVatAgency,
 							fromDate, toDate), ClientVATReturn.class);
 
-		} catch (DAOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw new AccounterException(e);
 		}
-		return null;
 	}
 
 	@Override

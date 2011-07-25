@@ -201,14 +201,14 @@ public interface IFinanceDAOService {
 	public String getNextTransactionNumber(int transactionType)
 			throws DAOException;
 
-	public Long getNextIssuePaymentCheckNumber(String account2)
+	public Long getNextIssuePaymentCheckNumber(long account2)
 			throws DAOException;
 
 	// To auto generate the next Voucher number for all vouchers.
 	public String getNextVoucherNumber() throws DAOException;
 
 	// To auto generate the next Check number.
-	public Long getNextCheckNumber(String account) throws DAOException;
+	public Long getNextCheckNumber(long account) throws DAOException;
 
 	// To auto generate the next Nominal Code for a given account type with in
 	// the range.
@@ -273,14 +273,14 @@ public interface IFinanceDAOService {
 	// To get all the Vendor Bills and MakeDeposit(New Vendor Entries) of a
 	// particular Vendor which are not paid and display as the Transaction
 	// PayBills in PayBill
-	public List<PayBillTransactionList> getTransactionPayBills(String vendorId)
+	public List<PayBillTransactionList> getTransactionPayBills(long vendorId)
 			throws DAOException;
 
 	// To get all the Write Checks in a company
 	public List<IssuePaymentTransactionsList> getChecks() throws DAOException;
 
 	// To get the Write Checks related to a particular Account in a company
-	public List<IssuePaymentTransactionsList> getChecks(String account)
+	public List<IssuePaymentTransactionsList> getChecks(long account)
 			throws DAOException;
 
 	// To get a particular Journal Entry
@@ -333,24 +333,24 @@ public interface IFinanceDAOService {
 			long billsDueOnOrBefore) throws DAOException;
 
 	public List<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
-			String customerId) throws DAOException;
+			long customerId) throws DAOException;
 
 	public List<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
-			String vendorId) throws DAOException;
+			long vendorId) throws DAOException;
 
 	public List<SalesOrdersList> getSalesOrders(boolean orderByDate);
 
 	public List<PurchaseOrdersList> getPurchaseOrders(boolean orderByDate);
 
-	public List<SalesOrdersList> getSalesOrdersForCustomer(String customerID);
+	public List<SalesOrdersList> getSalesOrdersForCustomer(long customerID);
 
-	public List<SalesOrdersList> getPurchaseOrdersForVendor(String vendorID);
+	public List<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID);
 
 	List<SalesOrdersList> getSalesOrdersList() throws DAOException;
 
 	List<PurchaseOrdersList> getPurchaseOrdersList() throws DAOException;
 
-	List<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(String vendorId)
+	List<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(long vendorId)
 			throws DAOException;
 
 	List<FixedAssetList> getFixedAssets(int status) throws DAOException;

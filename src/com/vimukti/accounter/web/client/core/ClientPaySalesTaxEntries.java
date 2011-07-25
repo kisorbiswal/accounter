@@ -5,15 +5,15 @@ public class ClientPaySalesTaxEntries implements IAccounterCore {
 
 	long id;
 
-	String transaction;
+	long transaction;
 
-	String taxItem;
+	long taxItem;
 
-	String taxAgency;
+	long taxAgency;
 
-	String taxRateCalculation;
+	long taxRateCalculation;
 
-	String taxAdjustment;
+	long taxAdjustment;
 
 	double amount;
 
@@ -22,16 +22,16 @@ public class ClientPaySalesTaxEntries implements IAccounterCore {
 	int version;
 	int status = 0;
 	boolean isVoid;
-	
+
 	public long getTransactionDate() {
 		return transactionDate;
 	}
 
-	public String getTransaction() {
+	public long getTransaction() {
 		return transaction;
 	}
 
-	public void setTransaction(String transaction) {
+	public void setTransaction(long transaction) {
 		this.transaction = transaction;
 	}
 
@@ -47,19 +47,19 @@ public class ClientPaySalesTaxEntries implements IAccounterCore {
 		this.version = version;
 	}
 
-	public String getTaxItem() {
+	public long getTaxItem() {
 		return taxItem;
 	}
 
-	public void setTaxItem(String taxItem) {
+	public void setTaxItem(long taxItem) {
 		this.taxItem = taxItem;
 	}
 
-	public String getTaxAgency() {
+	public long getTaxAgency() {
 		return taxAgency;
 	}
 
-	public void setTaxAgency(String taxAgency) {
+	public void setTaxAgency(long taxAgency) {
 		this.taxAgency = taxAgency;
 	}
 
@@ -97,13 +97,13 @@ public class ClientPaySalesTaxEntries implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
@@ -129,19 +129,19 @@ public class ClientPaySalesTaxEntries implements IAccounterCore {
 		this.isVoid = isVoid;
 	}
 
-	public void setTaxRateCalculation(String taxRateCalculation) {
+	public void setTaxRateCalculation(long taxRateCalculation) {
 		this.taxRateCalculation = taxRateCalculation;
 	}
 
-	public String getTaxRateCalculation() {
+	public long getTaxRateCalculation() {
 		return taxRateCalculation;
 	}
 
-	public void setTaxAdjustment(String taxAdjustment) {
+	public void setTaxAdjustment(long taxAdjustment) {
 		this.taxAdjustment = taxAdjustment;
 	}
 
-	public String getTaxAdjustment() {
+	public long getTaxAdjustment() {
 		return taxAdjustment;
 	}
 

@@ -197,16 +197,16 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public List<PurchaseOrdersList> getPurchaseOrders()
 			throws AccounterException;
 
-	public List<SalesOrdersList> getSalesOrdersForCustomer(String customerID)
+	public List<SalesOrdersList> getSalesOrdersForCustomer(long customerID)
 			throws AccounterException;
 
-	public List<SalesOrdersList> getPurchaseOrdersForVendor(String vendorID)
+	public List<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID)
 			throws AccounterException;
 
 	public List<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
 			long vendorID) throws AccounterException;
 
-	public ClientPurchaseOrder getPurchaseOrderById(String transactionId);
+	public ClientPurchaseOrder getPurchaseOrderById(long transactionId);
 
 	public List<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
 			long vendorId) throws AccounterException;

@@ -746,13 +746,13 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	private long getLongIdForGivenid(AccounterCoreType entity, String account) {
+	private long getLongIdForGivenid(AccounterCoreType entity, long account) {
 
 		Session session = HibernateUtil.getCurrentSession();
 		String hqlQuery = "select entity.id from "
 				+ entity.getServerClassFullyQualifiedName()
 				+ " entity where entity.id=?";
-		Query query = session.createQuery(hqlQuery).setString(0, account);
+		Query query = session.createQuery(hqlQuery).setLong(0, account);
 		List l = query.list();
 		if (l != null && !l.isEmpty() && l.get(0) != null) {
 			return (Long) l.get(0);
@@ -1241,7 +1241,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<IssuePaymentTransactionsList> getChecks(String account2)
+	public List<IssuePaymentTransactionsList> getChecks(long account2)
 			throws DAOException {
 		try {
 			// Session session = getSessionFactory().openSession();
@@ -1895,7 +1895,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Long getNextIssuePaymentCheckNumber(String account2)
+	public Long getNextIssuePaymentCheckNumber(long account2)
 			throws DAOException {
 		try {
 
@@ -2220,12 +2220,12 @@ public class FinanceTool implements IFinanceDAOService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<PayBillTransactionList> getTransactionPayBills(
-			final String vendorId2) throws DAOException {
+			final long vendorId) throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
 			long vendorId = getLongIdForGivenid(AccounterCoreType.VENDOR,
-					vendorId2);
+					vendorId);
 			Query query = session
 					.createQuery(
 							"select je from com.vimukti.accounter.core.Entry e inner join e.journalEntry je where e.vendor.id=:vendorId and e.credit!=0.0 and je.balanceDue>0.0 order by je.id")
@@ -2987,7 +2987,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public Long getNextCheckNumber(String account2) throws DAOException {
+	public Long getNextCheckNumber(long accountId) throws DAOException {
 
 		// try {
 		// Session session = HibernateUtil.getCurrentSession();
@@ -3598,7 +3598,7 @@ public class FinanceTool implements IFinanceDAOService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
-			String customerId) throws DAOException {
+			long customerId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -3633,7 +3633,7 @@ public class FinanceTool implements IFinanceDAOService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
-			String vendorId) throws DAOException {
+			long vendorId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -3734,14 +3734,14 @@ public class FinanceTool implements IFinanceDAOService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
-			String vendorId) throws DAOException {
+			long vendorID) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session
 				.getNamedQuery("getNotReceivedPurchaseOrdersList")
 				.setParameter("vendorId",
-						getLongIdForGivenid(AccounterCoreType.VENDOR, vendorId));
+						getLongIdForGivenid(AccounterCoreType.VENDOR, vendorID));
 		// FIXME ::: check the sql query and change it to hql query if required
 
 		List list = query.list();
@@ -5072,8 +5072,8 @@ public class FinanceTool implements IFinanceDAOService {
 			salesByCustomerDetail.setIsVoid(object[12] == null ? true
 					: ((Boolean) object[12]).booleanValue());
 			salesByCustomerDetail.setReference((String) object[13]);
-			salesByCustomerDetail.setTransactionId((object[14] == null ? null
-					: ((String) object[14])));
+			salesByCustomerDetail.setTransactionId((object[14] == null ? 0
+					: ((Long) object[14])));
 			queryResult.add(salesByCustomerDetail);
 		}
 		// return prepareSalesPurchaseEntriesForVoid(queryResult);
@@ -9896,13 +9896,13 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<SalesOrdersList> getPurchaseOrdersForVendor(String vendorID) {
+	public List<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<SalesOrdersList> getSalesOrdersForCustomer(String customerID) {
+	public List<SalesOrdersList> getSalesOrdersForCustomer(long customerID) {
 		// TODO Auto-generated method stub
 		return null;
 	}
