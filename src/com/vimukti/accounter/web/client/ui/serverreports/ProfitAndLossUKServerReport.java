@@ -30,7 +30,7 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 		// closeAllSection();
 		// }
 
-		if (closePrevSection(record.getParentAccount() == null ? record
+		if (closePrevSection(record.getParentAccount() == 0 ? record
 				.getAccountName() : getAccountNameById(record
 				.getParentAccount()))) {
 			processRecord(record);
