@@ -30,7 +30,7 @@ public class ClientEntry implements IAccounterCore {
 
 	long customer;
 
-	String taxCode;
+	long taxCode;
 
 	// String taxCode;
 
@@ -108,7 +108,7 @@ public class ClientEntry implements IAccounterCore {
 	/**
 	 * @return the taxCode
 	 */
-	public String getTaxCode() {
+	public long getTaxCode() {
 		return taxCode;
 	}
 
@@ -116,7 +116,7 @@ public class ClientEntry implements IAccounterCore {
 	 * @param taxCode
 	 *            the taxCode to set
 	 */
-	public void setTaxCode(String taxCode) {
+	public void setTaxCode(long taxCode) {
 		this.taxCode = taxCode;
 	}
 
