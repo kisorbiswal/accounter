@@ -800,12 +800,12 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 
 	@Override
 	public ClientFinanceDate getCurrentFiscalYearStartDate() {
-		return Utility.getCurrentFiscalYearStartDate();
+		return getCompany().getCurrentFiscalYearStartDate();
 	}
 
 	@Override
 	public ClientFinanceDate getCurrentFiscalYearEndDate() {
-		return Utility.getCurrentFiscalYearEndDate();
+		return getCompany().getCurrentFiscalYearEndDate();
 	}
 
 	@Override
