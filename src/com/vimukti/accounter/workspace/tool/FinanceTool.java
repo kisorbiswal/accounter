@@ -10903,7 +10903,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<PayeeStatementsList> getPayeeStatementsList(String id,
+	public List<PayeeStatementsList> getPayeeStatementsList(long id,
 			long transactionDate, long fromDate, long toDate, int noOfDays,
 			boolean isEnabledOfZeroBalBox,
 			boolean isEnabledOfLessthanZeroBalBox,
