@@ -7,10 +7,11 @@ public class CompanyInitializedFactory {
 	/**
 	 * this is use to get the initializer for the company
 	 * 
-	 * @param companyName
+	 * @param company
 	 */
-	public void getInitializer(Company company) {
-
+	public CompanyInitializer getInitializer(Company company) {
+		// TODO
+		return null;
 	}
 
 }
