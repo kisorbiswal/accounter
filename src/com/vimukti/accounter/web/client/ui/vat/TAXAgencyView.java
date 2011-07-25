@@ -107,7 +107,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		paymentTermsCombo.initCombo(getCompany()
 				.getPaymentsTerms());
-		if (takenVATAgency != null && (takenVATAgency.getPaymentTerm()) != null) {
+		if (takenVATAgency != null && (takenVATAgency.getPaymentTerm()) != 0) {
 			selectedPaymentTerm = getCompany()
 					.getPaymentTerms(takenVATAgency.getPaymentTerm());
 			paymentTermsCombo.setComboItem(selectedPaymentTerm);
@@ -285,7 +285,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			vatAgency.setPurchaseLiabilityAccount(selectedPurchaseAccount
 					.getID());
 		else
-			vatAgency.setPurchaseLiabilityAccount(null);
+			vatAgency.setPurchaseLiabilityAccount(0);
 
 		// Setting Contacts
 
@@ -524,7 +524,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 				records[i++].setEmail(contact.getEmail());
 
 			}
-			if (takenVATAgency.getPaymentTerm() != null) {
+			if (takenVATAgency.getPaymentTerm() != 0) {
 				ClientPaymentTerms payment = getCompany()
 						.getPaymentTerms(takenVATAgency.getPaymentTerm());
 				paymentTermsCombo.setComboItem(payment);
@@ -539,13 +539,13 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 				vatReturnCombo.setComboItem(Accounter.getVATMessages()
 						.vAT3Ireland());
 
-			if (takenVATAgency.getSalesLiabilityAccount() != null) {
+			if (takenVATAgency.getSalesLiabilityAccount() != 0) {
 				ClientAccount account = getCompany()
 						.getAccount(takenVATAgency.getSalesLiabilityAccount());
 				liabilitySalesAccountCombo.setComboItem(account);
 			}
 
-			if (takenVATAgency.getPurchaseLiabilityAccount() != null) {
+			if (takenVATAgency.getPurchaseLiabilityAccount() != 0) {
 				ClientAccount account = getCompany()
 						.getAccount(takenVATAgency.getSalesLiabilityAccount());
 				liabilityPurchaseAccountCombo.setComboItem(account);
