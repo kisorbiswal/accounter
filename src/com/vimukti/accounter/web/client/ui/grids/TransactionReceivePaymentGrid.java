@@ -196,8 +196,8 @@ public class TransactionReceivePaymentGrid extends
 				updateAmountDue(item);
 				double totalValue = item.getCashDiscount() + item.getWriteOff()
 						+ item.getAppliedCredits() + item.getPayment();
-				if (AccounterValidator.validate_Receive_Payment(item
-						.getAmountDue(), totalValue,
+				if (AccounterValidator.validate_Receive_Payment(
+						item.getAmountDue(), totalValue,
 						AccounterErrorType.RECEIVEPAYMENT_PAYMENT_EXCESS)) {
 					paymentView.recalculateGridAmounts();
 					updateTotalPayment(0.0);
@@ -368,8 +368,8 @@ public class TransactionReceivePaymentGrid extends
 	}
 
 	public void openCashDiscountDialog() {
-		cashDiscountDialog = new CashDiscountDialog(canEdit, selectedObject
-				.getCashDiscount(), getCashDiscountAccount());
+		cashDiscountDialog = new CashDiscountDialog(canEdit,
+				selectedObject.getCashDiscount(), getCashDiscountAccount());
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject
@@ -429,15 +429,19 @@ public class TransactionReceivePaymentGrid extends
 
 	private ClientAccount getCashDiscountAccount() {
 
-		ClientAccount cashDiscountAccount = getCompany()
-				.getAccount(selectedObject.getDiscountAccount());
+		ClientAccount cashDiscountAccount = getCompany().getAccount(
+				selectedObject.getDiscountAccount());
 		return cashDiscountAccount;
+	}
+
+	private ClientCompany getCompany() {
+		return Accounter.getCompany();
 	}
 
 	private ClientAccount getWriteOffAccount() {
 
-		ClientAccount writeOffAccount = getCompany()
-				.getAccount(selectedObject.getWriteOffAccount());
+		ClientAccount writeOffAccount = getCompany().getAccount(
+				selectedObject.getWriteOffAccount());
 		return writeOffAccount;
 	}
 
@@ -653,8 +657,8 @@ public class TransactionReceivePaymentGrid extends
 
 	protected boolean validatePaymentValue() {
 		double totalValue = getTotalValue(selectedObject);
-		if (AccounterValidator.validate_Receive_Payment(selectedObject
-				.getAmountDue(), totalValue,
+		if (AccounterValidator.validate_Receive_Payment(
+				selectedObject.getAmountDue(), totalValue,
 				AccounterErrorType.RECEIVEPAYMENT_AMOUNT_DUE)) {
 			return true;
 		} else
@@ -675,9 +679,8 @@ public class TransactionReceivePaymentGrid extends
 	}
 
 	public void openWriteOffDialog() {
-		writeOffDialog = new WriteOffDialog(getCompany()
-				.getActiveAccounts(), selectedObject, canEdit,
-				getWriteOffAccount());
+		writeOffDialog = new WriteOffDialog(getCompany().getActiveAccounts(),
+				selectedObject, canEdit, getWriteOffAccount());
 		writeOffDialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
@@ -757,8 +760,8 @@ public class TransactionReceivePaymentGrid extends
 		int accountType = getCompany().getAccountingType();
 		switch (accountType) {
 		case ClientCompany.ACCOUNTING_TYPE_UK:
-			cashDiscountAccount = getCompany()
-					.getAccountByName(AccounterConstants.DISCOUNTS);
+			cashDiscountAccount = getCompany().getAccountByName(
+					AccounterConstants.DISCOUNTS);
 
 			writeOffAccount = getCompany().getAccountByName(
 					AccounterConstants.DISCOUNTS_TAKEN);
@@ -766,8 +769,8 @@ public class TransactionReceivePaymentGrid extends
 			obj.setWriteOffAccount(writeOffAccount.getID());
 			break;
 		case ClientCompany.ACCOUNTING_TYPE_US:
-			cashDiscountAccount = getCompany()
-					.getAccountByName(AccounterConstants.CASH_DISCOUNT_TAKEN);
+			cashDiscountAccount = getCompany().getAccountByName(
+					AccounterConstants.CASH_DISCOUNT_TAKEN);
 			writeOffAccount = getCompany().getAccountByName(
 					AccounterConstants.WRITE_OFF);
 			obj.setDiscountAccount(cashDiscountAccount.getID());
@@ -920,7 +923,7 @@ public class TransactionReceivePaymentGrid extends
 	}
 
 	@Override
-	public void setTaxCode(String taxCode) {
+	public void setTaxCode(long taxCode) {
 		// TODO Auto-generated method stub
 
 	}
