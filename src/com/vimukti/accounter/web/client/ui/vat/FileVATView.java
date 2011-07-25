@@ -485,7 +485,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		};
 		report.init();
 		report.initData();
-		report.makeReportRequest(selectedVatAgency.getID(),
+		report.makeReportRequest(selectedVatAgency.getName(),
 				fromDate.getEnteredDate(), toDate.getEnteredDate());
 
 	}
