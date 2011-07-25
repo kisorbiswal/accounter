@@ -171,7 +171,8 @@
 		W.SPACE_ID
 		WHERE
 		W.IS_PERSONAL_SPACE=true AND
-		W.CREATOR = C.CREATED_BY AND
+		W.CREATOR = C.CREATED_BY
+		AND
 		C.EDATE >=:date AND C.CREATED_BY=:userId
 	</sql-query>
 
@@ -257,4 +258,9 @@
 		select LASTCONNECTED as lastConnected from COLLABERIDENTITY
 	</sql-query>
 
+	<query name="getUsers.active">
+		from User user where user.isActive=true and user.userRole != 'Basic
+		Employee'
+
+	</query>
 </hibernate-mapping>
