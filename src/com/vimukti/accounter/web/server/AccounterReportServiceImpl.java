@@ -127,7 +127,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<AccountRegister> getAccountRegister(long startDate,
-			long endDate, String accountId) {
+			long endDate, long accountId) {
 		List<AccountRegister> accountRegisterList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -1870,7 +1870,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<PayeeStatementsList> getStatements(String id,
+	public List<PayeeStatementsList> getStatements(long id,
 			long transactionDate, long fromDate, long toDate, int noOfDays,
 			boolean isEnabledOfZeroBalBox,
 			boolean isEnabledOfLessthanZeroBalBox,
