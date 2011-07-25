@@ -63,8 +63,7 @@ public class TransactionReceiveVATGrid extends
 		try {
 
 			double payment = Double.parseDouble(DataUtils
-					.getReformatedAmount(value.toString())
-					+ "");
+					.getReformatedAmount(value.toString()) + "");
 			editingRecord.setAmountToReceive(payment);
 			updateData(editingRecord);
 
@@ -99,8 +98,8 @@ public class TransactionReceiveVATGrid extends
 			int index) {
 		switch (index) {
 		case 0:
-			ClientTAXAgency taxAgency = getCompany()
-					.getTaxAgency(payVAT.getTaxAgency());
+			ClientTAXAgency taxAgency = Accounter.getCompany().getTaxAgency(
+					payVAT.getTaxAgency());
 			return taxAgency != null ? taxAgency.getName() : "";
 		case 1:
 			return DataUtils.getAmountAsString(payVAT.getTaxDue());
@@ -197,7 +196,7 @@ public class TransactionReceiveVATGrid extends
 	}
 
 	@Override
-	public void setTaxCode(String taxCode) {
+	public void setTaxCode(long taxCode) {
 		// TODO Auto-generated method stub
 
 	}
