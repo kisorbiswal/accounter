@@ -1376,7 +1376,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public boolean changeFiscalYearsStartDateTo(long newStartDate) {
 		try {
-			getFinanceTool().changeFiscalYearsStartDateTo(newStartDate);
+			OperationContext opContext = new OperationContext(newStartDate);
+			getFinanceTool().updateCompanyStartDate(opContext);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
