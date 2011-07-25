@@ -11,6 +11,7 @@ import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Util;
 import com.vimukti.accounter.web.client.IAccounterCRUDService;
+import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -56,7 +57,14 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		OperationContext context = new OperationContext(coreObject, getUserID());
 		context.setArg2(clientClassSimpleName);
 
-		return tool.create(context);
+		try {
+			return tool.create(context);
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 	@Override
@@ -70,7 +78,12 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 				getUserID(), String.valueOf(coreObject.getID()),
 				clientClassSimpleName);
 
-		return tool.update(context);
+		try {
+			return tool.update(context);
+		} catch (InvalidOperationException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 	@Override
@@ -80,13 +93,12 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			FinanceTool tool = getFinanceTool();
-			OperationContext opContext = new OperationContext(type, id); 
+			OperationContext opContext = new OperationContext(type, id);
 			return tool.delete(opContext);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return false;
 	}
 
@@ -124,10 +136,10 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public boolean voidTransaction(AccounterCoreType accounterCoreType, long id)
+	public Boolean voidTransaction(AccounterCoreType accounterCoreType, long id)
 			throws AccounterException {
 		IAccounterServerCore serverCore = (IAccounterServerCore) Util
-				.loadObjectByStringID(getSession(),
+				.loadObjectByid(getSession(),
 						accounterCoreType.getServerClassSimpleName(), id);
 		if (serverCore instanceof Transaction) {
 			Transaction trans = (Transaction) serverCore;
@@ -145,8 +157,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	public boolean deleteTransaction(AccounterCoreType accounterCoreType,
 			long id) throws AccounterException {
 		IAccounterServerCore serverCore = (IAccounterServerCore) Util
-				.loadObjectByStringID(getSession(),
-						accounterCoreType.getServerClassSimpleName(), stringID);
+				.loadObjectByid(getSession(),
+						accounterCoreType.getServerClassSimpleName(), id);
 		if (serverCore instanceof Transaction) {
 			Transaction trans = (Transaction) serverCore;
 			trans.setStatus(Transaction.STATUS_DELETED);
@@ -164,8 +176,13 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	public boolean canEdit(AccounterCoreType accounterCoreType, long id)
 			throws AccounterException {
 		IAccounterServerCore serverCore = (IAccounterServerCore) Util
-				.loadObjectByStringID(getSession(),
-						accounterCoreType.getServerClassSimpleName(), stringID);
-		return serverCore.canEdit(serverCore);
+				.loadObjectByid(getSession(),
+						accounterCoreType.getServerClassSimpleName(), id);
+		try {
+			return serverCore.canEdit(serverCore);
+		} catch (InvalidOperationException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }
