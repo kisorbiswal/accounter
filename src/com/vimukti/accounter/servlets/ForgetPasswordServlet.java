@@ -12,6 +12,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.ResetPasswordToken;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 
