@@ -1,5 +1,7 @@
 package com.vimukti.accounter.company.initialize;
 
+import org.hibernate.Session;
+
 public class IndianCompanyInitializer {
 
 	/**
