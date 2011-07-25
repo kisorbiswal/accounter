@@ -540,7 +540,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			this.quoteExpiryDate.setValue(new ClientFinanceDate(estimate
 					.getExpirationDate()));
 
-		if (estimate.getID() != null) {
+		if (estimate.getID() != 0) {
 			isEdit = Boolean.TRUE;
 		}
 		this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
