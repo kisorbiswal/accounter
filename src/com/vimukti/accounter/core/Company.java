@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
-public class Company extends CreatableObject implements IAccounterServerCore  {
+public class Company extends CreatableObject implements IAccounterServerCore {
 
 	/**
 	 * 
@@ -75,23 +75,24 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 	public static final String UK = "UK";
 
 	public static final String US = "US";
-	
+
 	public static final String INDIA = "India";
 
 	int accountingType = 0;
 
 	long id;
-
+	String companyFullName;
+	String companyID;
+	
 	/**
 	 * Name of the Company
 	 */
-	String name;//Trading name
+	String name;// Trading name
 	/**
 	 * Legal Name of the Company
 	 */
 
-	String legalName;//registered name
-
+	String legalName;// registered name
 
 	/**
 	 * this can hold a Set of {@link Address}
@@ -153,7 +154,7 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 
 	private String registrationNumber;
 
-	public void setID(long id){
+	public void setID(long id) {
 		this.id = id;
 	}
 
@@ -213,8 +214,6 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 	 * Fiscal years and close them.
 	 */
 	List<FiscalYear> fiscalYears = new ArrayList<FiscalYear>();
-
-	
 
 	// Set<PayType> payTypes = new HashSet<PayType>();
 
@@ -294,22 +293,6 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 	// }
 
 	private Set<VATReturn> vatReturns = new HashSet<VATReturn>();
-	private String companyDomainName;
-	public String getCompanyDomainName() {
-		return companyDomainName;
-	}
-
-	public void setCompanyDomainName(String companyDomainName) {
-		this.companyDomainName = companyDomainName;
-	}
-
-	public String getCompanyDisplayName() {
-		return companyDisplayName;
-	}
-
-	public void setCompanyDisplayName(String companyDisplayName) {
-		this.companyDisplayName = companyDisplayName;
-	}
 
 	public String getCountryCode() {
 		return countryCode;
@@ -319,7 +302,6 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 		this.countryCode = countryCode;
 	}
 
-	private String companyDisplayName;
 	private String countryCode = "United Kingdom";
 
 	public void setVatReturns(Set<VATReturn> vatReturns) {
@@ -739,7 +721,6 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 		this.otherCashExpenseAccount = otherCashExpenseAccount;
 	}
 
-
 	public Company(int accountingType) {
 		this.accountingType = accountingType;
 		Session session = HibernateUtil.getCurrentSession();
@@ -792,10 +773,10 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 	private void initDefaultUKAccounts(Session session) {
 
 		FinanceDate currentDate = new FinanceDate();
-		FinanceDate fiscalYearStartDate = new FinanceDate((int) currentDate
-				.getYear(), 0, 1);
-		FinanceDate fiscalYearEndDate = new FinanceDate((int) currentDate
-				.getYear(), 11, 31);
+		FinanceDate fiscalYearStartDate = new FinanceDate(
+				(int) currentDate.getYear(), 0, 1);
+		FinanceDate fiscalYearEndDate = new FinanceDate(
+				(int) currentDate.getYear(), 11, 31);
 
 		FiscalYear fiscalYear = new FiscalYear(fiscalYearStartDate,
 				fiscalYearEndDate, FiscalYear.STATUS_OPEN, Boolean.TRUE);
@@ -859,8 +840,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.ACCOUNTS_RECEIVABLE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, false, false,
-				openingBalances, "2", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "2", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(accountsReceivable);
 
@@ -868,8 +849,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"1003", AccounterConstants.DEPOSITS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "100", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "100", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(deposits);
 
@@ -878,8 +859,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.ACCOUNTS_PAYABLE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "3", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "3", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(accountsPayable);
 
@@ -897,8 +878,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.SALES_INCOME_TYPE_A, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "5", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "5", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(salesIncomeTypeA);
 
@@ -906,16 +887,16 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.SALES_INCOME_TYPE_B, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "6", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "6", true,
+				this.preferences.getPreventPostingBeforeDate());
 		session.save(salesIncomeTypeB);
 
 		Account salesIncomeTypeC = new Account(Account.TYPE_INCOME, "4003",
 				AccounterConstants.SALES_INCOME_TYPE_C, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "7", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "7", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(salesIncomeTypeC);
 
@@ -923,8 +904,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.SALES_INCOME_TYPE_D, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "8", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "8", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(salesIncomeTypeD);
 
@@ -932,8 +913,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.SALES_INCOME_TYPE_E, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "9", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "9", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(salesIncomeTypeE);
 
@@ -941,8 +922,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.MISCELLANEOUS_INCOME, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "10", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "10", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(miscellaneousIncome);
 
@@ -950,8 +931,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"4110", AccounterConstants.DISTRIBUTION_AND_CARRIAGE, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "11", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "11", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(distributionAndCarriage);
 
@@ -959,8 +940,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.DISCOUNTS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "12", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "12", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(discounts);
 
@@ -968,8 +949,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.COMMISSION_RECIEVED, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "13", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "13", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(commissionsReceived);
 
@@ -977,8 +958,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"4210", AccounterConstants.CREDIT_CHARGES_LATEPAYMENT, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "14", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "14", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(creditChargesLatePayment);
 
@@ -986,8 +967,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.INSURANCE_CLAIMS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "15", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "15", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(insuranceClaims);
 
@@ -995,8 +976,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.INTEREST_INCOME, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "16", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "16", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(interestIncome);
 
@@ -1004,8 +985,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.RENT_INCOME, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "17", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "17", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(rentIncome);
 
@@ -1013,8 +994,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.ROYALTIES_RECIEVED, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "18", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "18", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(royltiesReceived);
 
@@ -1022,8 +1003,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"4260", AccounterConstants.PROFIT_OR_LOSS_ON_SALES_ASSETS,
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				true, false, openingBalances, "19", true, this.preferences
-						.getPreventPostingBeforeDate());
+				true, false, openingBalances, "19", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(profitOrLossOnSalesOfAssets);
 
@@ -1037,8 +1018,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_A,
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				true, false, openingBalances, "20", true, this.preferences
-						.getPreventPostingBeforeDate());
+				true, false, openingBalances, "20", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(productsOrMaterialsPurchasedTypeA);
 
@@ -1047,8 +1028,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_B,
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				true, false, openingBalances, "21", true, this.preferences
-						.getPreventPostingBeforeDate());
+				true, false, openingBalances, "21", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(productsOrMaterialsPurchasedTypeB);
 
@@ -1057,8 +1038,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_C,
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				true, false, openingBalances, "3", true, this.preferences
-						.getPreventPostingBeforeDate());
+				true, false, openingBalances, "3", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(productsOrMaterialsPurchasedTypeC);
 
@@ -1067,8 +1048,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_D,
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				true, false, openingBalances, "22", true, this.preferences
-						.getPreventPostingBeforeDate());
+				true, false, openingBalances, "22", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(productsOrMaterialsPurchasedTypeD);
 
@@ -1077,8 +1058,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_E,
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				true, false, openingBalances, "23", true, this.preferences
-						.getPreventPostingBeforeDate());
+				true, false, openingBalances, "23", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(productsOrMaterialsPurchasedTypeE);
 
@@ -1086,8 +1067,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.CARRIAGE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "28", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "28", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(carriage);
 
@@ -1095,8 +1076,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"5210", AccounterConstants.DISCOUNTS_TAKEN, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "29", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "29", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(discountsTaken);
 
@@ -1104,8 +1085,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"5220", AccounterConstants.IMPORT_DUTY, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "30", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "30", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(importDuty);
 
@@ -1113,8 +1094,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"5900", AccounterConstants.OPENING_STOCK, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "24", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "24", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(openingStock);
 
@@ -1132,8 +1113,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.OPEN_FINISHED_GOODS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "26", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "26", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(openingFinishedGoods);
 
@@ -1152,8 +1133,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.OPEN_WORK_IN_PROGRESS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "27", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "27", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(openingWorkInProgress);
 		//
@@ -1176,8 +1157,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.DIRECT_LABOUR, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "31", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "31", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(directLabour);
 
@@ -1185,8 +1166,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"6010", AccounterConstants.DIRECT_EMPLOYERS_NI, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "32", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "32", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(directEmployersNI);
 
@@ -1195,8 +1176,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.OTHER_DIRECT_EMPLOYEE_RELATED_COSTS, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "33", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "33", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(otherDirectEmployeeRelatedCosts);
 
@@ -1204,8 +1185,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"6100", AccounterConstants.DIRECT_EXPENSES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "34", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "34", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(directExpenses);
 
@@ -1213,8 +1194,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.DIRECT_TRAVEL, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "35", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "35", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(directTravel);
 
@@ -1222,8 +1203,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"6200", AccounterConstants.DIRECT_CONSUMABLES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "36", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "36", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(directConsumables);
 
@@ -1231,8 +1212,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"6300", AccounterConstants.MERCHANT_ACCOUNT_FEES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "37", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "37", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(merchantAccountFees);
 
@@ -1240,8 +1221,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"6310", AccounterConstants.COMMISSIONS_PAID, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "38", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "38", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(commisionsPaid);
 
@@ -1249,8 +1230,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.INDIRECT_LABOUR, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "39", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "39", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(indirectLabour);
 
@@ -1258,8 +1239,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.INDIRECT_EMPLOYERS_NI, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "40", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "40", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(indirectEmployersNI);
 
@@ -1267,8 +1248,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"7003", AccounterConstants.DIRECTORS_REMUNERATION, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "41", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "41", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(directorsRemunaration);
 
@@ -1276,8 +1257,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.CASUAL_LABOUR, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "42", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "42", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(casualLabour);
 
@@ -1286,8 +1267,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.EMPLOYERS_PANSION_CONTRIBUTIONS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "43", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "43", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(employersPensionContributions);
 
@@ -1295,8 +1276,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.SSP_RECLAIMED, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "44", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "44", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(sspReclaimed);
 
@@ -1304,8 +1285,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.SMP_RECLAIMED, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "45", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "45", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(smpReclaimed);
 
@@ -1313,8 +1294,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.EMPLOYEE_BENIFITS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "46", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "46", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(employeeBenifits);
 
@@ -1322,8 +1303,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.MEDICAL_INSURANCE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "47", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "47", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(medicalInsurance);
 
@@ -1331,8 +1312,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.RECRUITMENT, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "48", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "48", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(recruitement);
 
@@ -1340,8 +1321,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.TRAINING, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "49", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "49", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(training);
 
@@ -1349,8 +1330,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.RENT, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "50", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "50", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(rent);
 
@@ -1358,8 +1339,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.GENERAL_RATES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "51", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "51", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(generalRates);
 
@@ -1367,8 +1348,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.WATER_RATES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "52", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "52", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(waterRates);
 
@@ -1376,8 +1357,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.ELECTRICITY, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "53", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "53", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(electricity);
 
@@ -1385,8 +1366,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.GAS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "54", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "54", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(gas);
 
@@ -1394,8 +1375,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.OIL, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "55", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "55", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(oil);
 
@@ -1403,8 +1384,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.OFFICE_CLEANING, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "56", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "56", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(officeCleaning);
 
@@ -1412,8 +1393,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"7130", AccounterConstants.OFFICE_MACHINE_MAINTENANCE, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "57", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "57", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(officeMachineMaintanance);
 
@@ -1421,8 +1402,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.REPAIR_RENEWALS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "58", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "58", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(repairsAndRenewals);
 
@@ -1430,8 +1411,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.OFFICE_CONSUMABLES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "59", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "59", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(officeConsumables);
 
@@ -1439,8 +1420,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.BOOKS_ETC, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "60", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "60", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(booksEtc);
 
@@ -1448,8 +1429,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.INTERNET, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "61", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "61", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(internet);
 
@@ -1457,8 +1438,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.POSTAGE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "62", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "62", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(postage);
 
@@ -1466,8 +1447,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.PRINTING, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "63", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "63", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(printing);
 
@@ -1475,8 +1456,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.STATIONERY, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "64", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "64", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(stationary);
 
@@ -1484,8 +1465,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.SUBSCRIPTIONS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "65", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "65", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(subscriptions);
 
@@ -1493,8 +1474,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.TELEPHONE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "66", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "66", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(telephone);
 
@@ -1502,8 +1483,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"7158", AccounterConstants.CONFERENCES_AND_SEMINARS, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "67", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "67", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(conferenceAndSeminars);
 
@@ -1511,8 +1492,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.CHARITY_DONATIONS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "68", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "68", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(charityDonations);
 
@@ -1520,8 +1501,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.INSURANCES_BUSINESS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "69", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "69", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(insurencesBusiness);
 
@@ -1529,8 +1510,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"7250", AccounterConstants.ADVERTISING_AND_MARKETING, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "70", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "70", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(advertisiningAndMarketing);
 
@@ -1538,8 +1519,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.LOCAL_ENTERTAINMENT, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "71", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "71", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(localEntertainment);
 
@@ -1547,8 +1528,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"7261", AccounterConstants.OVERSEAS_ENTERTAINMENT, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "72", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "72", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(overseasEntertainment);
 
@@ -1556,8 +1537,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.INDIRECT_LOCAL_TRAVEL, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "73", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "73", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(indirectLocalTravel);
 
@@ -1565,8 +1546,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"7271", AccounterConstants.INDIRECT_OVERSEAS_TRAVEL, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "74", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "74", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(indirectOverseasTravel);
 
@@ -1574,8 +1555,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.SUBSISTENCE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "75", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "75", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(subsitence);
 
@@ -1583,8 +1564,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.VECHILE_EXPENSES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "76", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "76", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(vechileExpenses);
 
@@ -1592,8 +1573,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.VECHILE_INSURANCE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "77", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "77", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(vechileInsurance);
 
@@ -1601,8 +1582,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"7320", AccounterConstants.VECHILE_REPAIRS_AND_SERVICING, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "78", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "78", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(vechileRepairAndServicing);
 
@@ -1610,8 +1591,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.PROFESSIONAL_FEES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "79", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "79", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(professonalFees);
 
@@ -1619,8 +1600,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.ACCOUNTANCY_FEES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "80", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "80", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(accountancyFees);
 
@@ -1628,8 +1609,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.CONSULTANY_FEES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "81", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "81", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(consultancyFees);
 
@@ -1637,8 +1618,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.LEGAL_FEES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "82", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "82", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(legalFees);
 
@@ -1646,8 +1627,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.BANK_INTEREST_PAID, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "83", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "83", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(bankInterestPaid);
 
@@ -1655,8 +1636,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.BANK_CHARGES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "84", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "84", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(bankCharges);
 
@@ -1664,8 +1645,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.CREDIT_CHARGES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "85", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "85", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(creditCharges);
 
@@ -1673,8 +1654,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.LEASE_PAYMENTS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "86", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "86", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(leasePayments);
 
@@ -1682,8 +1663,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.LOAN_INTEREST_PAID, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "87", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "87", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(loanInterestPaid);
 
@@ -1691,8 +1672,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.CURRENCY_CHARGES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "88", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "88", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(currencyCharges);
 
@@ -1700,8 +1681,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"7460", AccounterConstants.EXCHANGE_RATE_VARIANCE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "89", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "89", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(exchangeRateVariance);
 
@@ -1709,8 +1690,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.BAD_DEBT_PROVISION, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "90", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "90", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(badDebtProvision);
 
@@ -1718,8 +1699,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.BAD_DEBT_WRITE_OFF, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "91", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "91", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(badDebtWriteOff);
 
@@ -1727,8 +1708,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.DEPRECIATION, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "92", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "92", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(depreciation);
 
@@ -1736,8 +1717,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"7510", AccounterConstants.OFFICE_EQUIPMENT_DEPRECIATION, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "93", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "93", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(officeEquipmentDepreciation);
 
@@ -1745,8 +1726,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"7520", AccounterConstants.IT_EQUIPMENT_DEPRECIATION, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "94", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "94", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(itEquipmentDepreciation);
 
@@ -1755,8 +1736,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.FURNITURE_AND_FIXTURES_DEPRECIARION, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "95", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "95", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(furnituresAndFixuresDepreciation);
 
@@ -1765,8 +1746,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.PLANT_OR_MACHINERY_DEPRECIATION, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "96", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "96", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(palntOrMachineryDepreciation);
 
@@ -1774,8 +1755,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.VECHILE_DEPRECIATION, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "97", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "97", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(vechileDepreciation);
 
@@ -1784,8 +1765,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.FREEHOLD_BUILDING_DEPRECIATION, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "98", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "98", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(freeHoldBuildingDepreciation);
 
@@ -1815,8 +1796,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.BANK_CURRENT_ACCOUNT, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "103", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "103", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(bankCurrentAccount);
 
@@ -1825,8 +1806,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.BANK_DEPOSIT_ACCOUNT, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "104", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "104", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(bankDepositAccount);
 
@@ -1835,8 +1816,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.UN_DEPOSITED_FUNDS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, false, true,
-				openingBalances, "1", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "1", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(unDepositedFunds);
 
@@ -1844,8 +1825,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"1180", AccounterConstants.PETTY_CASH, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "105", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "105", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(pettyCash);
 
@@ -1853,8 +1834,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"1185", AccounterConstants.PRE_PAYMENTS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "106", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "106", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(prepayments);
 
@@ -1863,8 +1844,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.ADVANCES_TO_EMPLOYEES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "107", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "107", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(advancesToEmployees);
 
@@ -1872,8 +1853,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.STOCK, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "108", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "108", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(stock);
 
@@ -1891,8 +1872,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"2050", AccounterConstants.CREDIT_CARDS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "110", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "110", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(creditCards);
 
@@ -1901,8 +1882,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.PAYEE_EMPLOYEMENT_TAX, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "111", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "111", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(payeeEmploymentTax);
 
@@ -1911,8 +1892,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.NATIONAL_INSURANCE_TAX, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "112", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "112", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(nationalInsuranceTax);
 
@@ -1920,8 +1901,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"2120", AccounterConstants.SALES_TAX_VAT_UNFILED, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "113", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "113", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(saelsTaxVAT);
 
@@ -1930,8 +1911,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.CORPORATION_RAX, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "114", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "114", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(corporationTax);
 
@@ -1939,8 +1920,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"2200", AccounterConstants.LOANS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "115", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "115", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(loans);
 
@@ -1948,8 +1929,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"2250", AccounterConstants.MORTGAGES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "116", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "116", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(mortagages);
 
@@ -1957,8 +1938,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"2300", AccounterConstants.ACCRUALS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "117", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "117", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(accruals);
 
@@ -1967,8 +1948,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.DIRECTORS_CURRENT_ACCOUNT, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "118", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "118", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(directorsCurrentAccount);
 
@@ -1976,8 +1957,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"2500", AccounterConstants.NET_SALARIES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "119", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "119", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(netSalaries);
 
@@ -1985,8 +1966,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"2510", AccounterConstants.PENSIONS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "120", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "120", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(pensions);
 
@@ -1995,8 +1976,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.UNPAID_EXPENSE_CLAIMS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "121", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "121", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(unpaidExpenseClaims);
 
@@ -2004,8 +1985,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"0001", AccounterConstants.FREEHOLD_BUILDINGS, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "122", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "122", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(freeHoldBuildings);
 
@@ -2014,8 +1995,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.ACCUMULATED_FREEHOLD_BUILDING_DEPRECIATION,
 				true, null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				true, false, openingBalances, "123", true, this.preferences
-						.getPreventPostingBeforeDate());
+				true, false, openingBalances, "123", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(acumulatedFreeHoldBuildingDepreciation);
 
@@ -2024,8 +2005,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.LEASEHOLD_PROPERTY_IMPROVEMENTS, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "124", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "124", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(leaseHoldPropertyImprovements);
 
@@ -2044,8 +2025,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.OFFICE_EQUIPMENT, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "126", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "126", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(officeEquipment);
 
@@ -2054,8 +2035,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.ACCUMULATED_OFFICE_EQUIPMENT_DEPRECIATION,
 				true, null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				true, false, openingBalances, "127", true, this.preferences
-						.getPreventPostingBeforeDate());
+				true, false, openingBalances, "127", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(acumltdOfcEqupmntDepreciation);
 
@@ -2063,8 +2044,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.IT_EQUIPMENT, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "128", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "128", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(itEquipment);
 
@@ -2073,8 +2054,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.ACCUMULATED_IT_EQUIPMENT_DEPRECIATION, true,
 				null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "129", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "129", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(accumltdITEquipmentDepreciation);
 
@@ -2082,8 +2063,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"0140", AccounterConstants.FURNITURE_AND_FIXTURES, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "130", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "130", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(furnitureAndFixtures);
 
@@ -2102,8 +2083,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"0160", AccounterConstants.PLANT_AND_MACHINERY, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "132", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "132", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(plantAndMachinary);
 
@@ -2122,8 +2103,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.VECHICLES, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "134", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "134", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(vechiles);
 
@@ -2132,8 +2113,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.ACCUMULATED_VEHICLES_DEPRECIATION, true,
 				null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "135", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "135", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(accumltdVechilesDepreciation);
 
@@ -2141,8 +2122,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.INTANGIBLES, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "136", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "136", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(intangibles);
 
@@ -2150,8 +2131,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"9001", AccounterConstants.LONG_TERM_LOANS, true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "137", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "137", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(longTermLoans);
 
@@ -2160,8 +2141,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.HIRE_PURCHASE_CREDITORS, true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "138", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "138", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(hirePurchaseCreditors);
 
@@ -2169,8 +2150,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"9200", AccounterConstants.DEFERRED_TAX, true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "139", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "139", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(deferredTax);
 
@@ -2178,8 +2159,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.BANK_REVALUATIONS, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "140", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "140", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(bankRevolutions);
 
@@ -2187,8 +2168,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"9510", AccounterConstants.HISTORICAL_ADJUSTMENT, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "141", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "141", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(historicalAdjustment);
 
@@ -2196,8 +2177,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"9520", AccounterConstants.REALISED_CURRENCY_GAINS, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "142", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "142", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(realisedCurrencyGains);
 
@@ -2205,8 +2186,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"9530", AccounterConstants.UNREALISED_CURRENCY_GAINS, true,
 				null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "143", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "143", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(unrealisedCurrencyGains);
 
@@ -2214,8 +2195,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.ROUNDING, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "144", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "144", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(rounding);
 
@@ -2223,8 +2204,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.VAT_ON_IMPORTS, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "145", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "145", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(vatOnImports);
 
@@ -2232,8 +2213,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.SUSPENSE, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "146", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "146", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(suspense);
 
@@ -2241,8 +2222,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.ORDINARY_SHARES, true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "147", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "147", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(ordinaryShares);
 
@@ -2250,8 +2231,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"3050", AccounterConstants.RESERVES_RETAINED_EARNINGS, true,
 				null, Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "148", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "148", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(reservesRetainedEarnings);
 
@@ -2259,8 +2240,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"3100", AccounterConstants.P_AND_L_BOUGHT_FORWARD_OR_YTD, true,
 				null, Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "149", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "149", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(PAndLBoughtForwardOrYTD);
 
@@ -2268,8 +2249,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.DIVIDENDS, true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "150", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "150", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(dividends);
 
@@ -2278,8 +2259,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.SALES_TAX_VAT_FILED, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "151", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "151", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(salesTaxVATFiled);
 
@@ -2685,11 +2666,11 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 			defaultTaxAgency.setName("Tax Agency");
 
 			defaultTaxAgency.setPaymentTerm((PaymentTerms) session
-					.getNamedQuery("unique.name.PaymentTerms").setString(0,
-							"Net Monthly").list().get(0));
+					.getNamedQuery("unique.name.PaymentTerms")
+					.setString(0, "Net Monthly").list().get(0));
 			defaultTaxAgency.setSalesLiabilityAccount((Account) session
-					.getNamedQuery("unique.name.Account").setString(0,
-							"Sales Tax Payable").list().get(0));
+					.getNamedQuery("unique.name.Account")
+					.setString(0, "Sales Tax Payable").list().get(0));
 			defaultTaxAgency.setDefault(true);
 			session.save(defaultTaxAgency);
 
@@ -2719,7 +2700,7 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 			// defaultTaxGroup.setID(SecureUtils.createID());
 			// defaultTaxGroup.setActive(Boolean.TRUE);
 			// defaultTaxGroup.setSalesType(true);
-			//			
+			//
 			// List<TAXItem> taxItems = new ArrayList<TAXItem>();
 			// taxItems.add(defaultTaxItem);
 			// defaultTaxGroup.setTAXItems(taxItems);
@@ -2799,8 +2780,7 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 
 			VATReturnBox vt20 = new VATReturnBox();
 			vt20.setName(AccounterConstants.IRELAND_DOMESTIC_SALES);
-			vt20
-					.setVatBox(AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
+			vt20.setVatBox(AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
 			vt20.setTotalBox(AccounterConstants.IRELAND_BOX8_TOTAL_NET_SALES);
 			vt20.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt20);
@@ -2808,8 +2788,7 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 			VATReturnBox vt21 = new VATReturnBox();
 			vt21.setName(AccounterConstants.IRELAND_DOMESTIC_PURCHASES);
 			vt21.setVatBox(AccounterConstants.IRELAND_BOX4_VAT_ON_PURCHASES);
-			vt21
-					.setTotalBox(AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
+			vt21.setTotalBox(AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
 			vt21.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt21);
 
@@ -2822,16 +2801,14 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 
 			VATReturnBox vt23 = new VATReturnBox();
 			vt23.setName(AccounterConstants.IRELAND_EC_PURCHASES_GOODS);
-			vt23
-					.setVatBox(AccounterConstants.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS);
+			vt23.setVatBox(AccounterConstants.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS);
 			vt23.setTotalBox(AccounterConstants.IRELAND_BOX7_E2_GOODS_FROM_EU);
 			vt23.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt23);
 
 			VATReturnBox vt24 = new VATReturnBox();
 			vt24.setName(AccounterConstants.IRELAND_EXEMPT_SALES);
-			vt24
-					.setVatBox(AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
+			vt24.setVatBox(AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
 			vt24.setTotalBox(AccounterConstants.IRELAND_BOX8_TOTAL_NET_SALES);
 			vt24.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt24);
@@ -2839,15 +2816,13 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 			VATReturnBox vt25 = new VATReturnBox();
 			vt25.setName(AccounterConstants.IRELAND_EXEMPT_PURCHASES);
 			vt25.setVatBox(AccounterConstants.IRELAND_BOX7_E2_GOODS_FROM_EU);
-			vt25
-					.setTotalBox(AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
+			vt25.setTotalBox(AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
 			vt25.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt25);
 
 			VATReturnBox vt26 = new VATReturnBox();
 			vt26.setName(AccounterConstants.IRELAND_NOT_REGISTERED_SALES);
-			vt26
-					.setVatBox(AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
+			vt26.setVatBox(AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
 			vt26.setTotalBox(AccounterConstants.IRELAND_BOX8_TOTAL_NET_SALES);
 			vt26.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt26);
@@ -2855,8 +2830,7 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 			VATReturnBox vt27 = new VATReturnBox();
 			vt27.setName(AccounterConstants.IRELAND_NOT_REGISTERED_PURCHASES);
 			vt27.setVatBox(AccounterConstants.IRELAND_BOX4_VAT_ON_PURCHASES);
-			vt27
-					.setTotalBox(AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
+			vt27.setTotalBox(AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
 			vt27.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt27);
 
@@ -2868,14 +2842,14 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 			defaultVATAgency.setVATReturn(VATReturn.VAT_RETURN_UK_VAT);
 
 			defaultVATAgency.setSalesLiabilityAccount((Account) session
-					.getNamedQuery("unique.name.Account").setString(0,
-							AccounterConstants.SALES_TAX_VAT_UNFILED).list()
-					.get(0));
+					.getNamedQuery("unique.name.Account")
+					.setString(0, AccounterConstants.SALES_TAX_VAT_UNFILED)
+					.list().get(0));
 
 			defaultVATAgency.setPurchaseLiabilityAccount((Account) session
-					.getNamedQuery("unique.name.Account").setString(0,
-							AccounterConstants.SALES_TAX_VAT_UNFILED).list()
-					.get(0));
+					.getNamedQuery("unique.name.Account")
+					.setString(0, AccounterConstants.SALES_TAX_VAT_UNFILED)
+					.list().get(0));
 
 			defaultVATAgency.setDefault(true);
 
@@ -3366,10 +3340,10 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 
 		// Current Fiscal Year creation
 		FinanceDate currentDate = new FinanceDate();
-		FinanceDate fiscalYearStartDate = new FinanceDate((int) currentDate
-				.getYear(), 0, 1);
-		FinanceDate fiscalYearEndDate = new FinanceDate((int) currentDate
-				.getYear(), 11, 31);
+		FinanceDate fiscalYearStartDate = new FinanceDate(
+				(int) currentDate.getYear(), 0, 1);
+		FinanceDate fiscalYearEndDate = new FinanceDate(
+				(int) currentDate.getYear(), 11, 31);
 
 		FiscalYear fiscalYear = new FiscalYear(fiscalYearStartDate,
 				fiscalYearEndDate, FiscalYear.STATUS_OPEN, Boolean.TRUE);
@@ -3441,7 +3415,6 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 	public int getVersion() {
 		return version;
 	}
-
 
 	/**
 	 * @return the name
@@ -3717,8 +3690,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				Account.TYPE_OTHER_CURRENT_ASSET, "1175", "Un Deposited Funds",
 				true, null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				false, true, openingBalances, "1", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, true, openingBalances, "1", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(unDepositedFunds);
 
@@ -3726,8 +3699,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				Account.TYPE_OTHER_CURRENT_ASSET, "1001", "Debtors", true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, false,
-				false, openingBalances, "2", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "2", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(accountsReceivable);
 
@@ -3735,8 +3708,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				Account.TYPE_OTHER_CURRENT_LIABILITY, "2001", "Creditors",
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				true, false, openingBalances, "3", true, this.preferences
-						.getPreventPostingBeforeDate());
+				true, false, openingBalances, "3", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(accountsPayable);
 
@@ -3745,8 +3718,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.PENDING_ITEM_RECEIPTS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, true,
-				openingBalances, "4", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "4", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(pendingItemReceipts);
 
@@ -3755,8 +3728,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"Sales Tax Payable", true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, true,
-				openingBalances, "5", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "5", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(salesTaxPayable);
 
@@ -3765,8 +3738,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"Employee Payroll Liabilities", true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, true,
-				openingBalances, "6", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "6", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(employeePayrollLiabilities);
 
@@ -3774,8 +3747,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"Retained Earnings", true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, true,
-				openingBalances, "8", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "8", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(retainedEarnings);
 
@@ -3783,8 +3756,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"Income and Distribution", true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, true,
-				openingBalances, "9", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "9", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(cashDiscountGiven);
 
@@ -3800,8 +3773,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				Account.TYPE_COST_OF_GOODS_SOLD, "5100", "Cash Discount taken",
 				true, null, Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				false, true, openingBalances, "11", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, true, openingBalances, "11", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(cashDiscountTaken);
 
@@ -3809,8 +3782,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				"Bank Charge", true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, false, true,
-				openingBalances, "12", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "12", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(bankCharge);
 
@@ -3819,8 +3792,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.OTHER_CASH_INCOME, false, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, true, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, true,
-				openingBalances, "13", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "13", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(otherCashIncome);
 
@@ -3828,8 +3801,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 				AccounterConstants.OTHER_CASH_EXPENSE, false, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, true, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, false, true,
-				openingBalances, "14", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "14", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(otherCashExpense);
 
@@ -3910,16 +3883,15 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 
 		return this.id;
 	}
 
-
 	public static Company getCompany() {
 		Company company = HibernateUtil.getCurrentSession() != null ? (Company) HibernateUtil
-				.getCurrentSession().get(Company.class, 1L)
-				: (Company) Utility.getCurrentSession().get(Company.class, 1L);
+				.getCurrentSession().get(Company.class, 1L) : (Company) Utility
+				.getCurrentSession().get(Company.class, 1L);
 
 		if (company == null)
 			return null;
@@ -4375,13 +4347,13 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 	//
 	// // No need to create separate PayVATEntries. All the entries in the
 	// PayVAT can be get from VATReturns.
-	//		
+	//
 	// VATCode code = transactionItem.getVatCode();
-	//		
-	//		
-	//		
+	//
+	//
+	//
 	// PayVATEntries pt = getPaySalesTaxEntry(code);
-	//		
+	//
 	// if(pt!=null)
 	// {
 	// pt.updateAmountAndBalane(transactionItem.getVATfraction());
@@ -4398,9 +4370,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 
 	// private static PayVATEntries getPaySalesTaxEntry(VATCode code) {
 	// return null;
-	//		
+	//
 	// }
-
 
 	// <<<<<<< .working
 	// public void setVatCodes(List<VATCode> vatCodes) {
@@ -4679,8 +4650,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 		this.bankAccountNo = clientCompany.getBankAccountNo();
 		this.sortCode = clientCompany.getSortCode();
 		this.preferences = new ServerConvertUtil().toServerObject(
-				this.preferences, clientCompany.getpreferences(), HibernateUtil
-						.getCurrentSession());
+				this.preferences, clientCompany.getpreferences(),
+				HibernateUtil.getCurrentSession());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -4696,9 +4667,8 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 			list = new ArrayList<ClientAddress>();
 
 		}
-		list
-				.addAll((Collection<? extends ClientAddress>) new ClientConvertUtil()
-						.toClientSet(this.addresses));
+		list.addAll((Collection<? extends ClientAddress>) new ClientConvertUtil()
+				.toClientSet(this.addresses));
 		clientCompany.setAddresses(list);
 		clientCompany.setCompanyEmail(this.companyEmail);
 		clientCompany.setPhone(this.phone);
@@ -4716,10 +4686,10 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 	}
 
 	private void createDefaultBrandingTheme(Session session) {
-		BrandingTheme brandingTheme = new BrandingTheme("Standard", SecureUtils
-				.createID(), 1.35, 1.00, 1.00, "Times New Roman", "10pt",
-				"INVOICE", "CREDIT", "STATEMENT", "democo@democo.co", true,
-				this.getName(), "(None Added)");
+		BrandingTheme brandingTheme = new BrandingTheme("Standard",
+				SecureUtils.createID(), 1.35, 1.00, 1.00, "Times New Roman",
+				"10pt", "INVOICE", "CREDIT", "STATEMENT", "democo@democo.co",
+				true, this.getName(), "(None Added)");
 		session.save(brandingTheme);
 	}
 
@@ -4749,6 +4719,22 @@ public class Company extends CreatableObject implements IAccounterServerCore  {
 	public String getDisplayName() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public String getCompanyFullName() {
+		return companyFullName;
+	}
+
+	public void setCompanyFullName(String companyFullName) {
+		this.companyFullName = companyFullName;
+	}
+
+	public String getCompanyID() {
+		return companyID;
+	}
+
+	public void setCompanyID(String companyID) {
+		this.companyID = companyID;
 	}
 
 }
