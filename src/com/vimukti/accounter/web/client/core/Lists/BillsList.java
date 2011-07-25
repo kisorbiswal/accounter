@@ -39,7 +39,7 @@ public class BillsList implements IsSerializable, Serializable {
 	
 	private int expenseStatus;
 	
-	private String payFrom;
+	private long payFrom;
 
 	/**
 	 * @return the transactionId
@@ -197,11 +197,11 @@ public class BillsList implements IsSerializable, Serializable {
 		return expenseStatus;
 	}
 
-	public void setPayFrom(String payFrom) {
+	public void setPayFrom(long payFrom) {
 		this.payFrom = payFrom;
 	}
 
-	public String getPayFrom() {
+	public long getPayFrom() {
 		return payFrom;
 	}
 
