@@ -32,7 +32,7 @@ public class TransactionDetailByTaxItem extends BaseReport implements
 
 	boolean isVoid;
 
-	String transactionId;
+	long transactionId;
 
 	public String getPayeeName() {
 		return payeeName;
@@ -195,7 +195,7 @@ public class TransactionDetailByTaxItem extends BaseReport implements
 	/**
 	 * @return the transactionId
 	 */
-	public String getTransactionId() {
+	public long getTransactionId() {
 		return transactionId;
 	}
 
@@ -203,7 +203,7 @@ public class TransactionDetailByTaxItem extends BaseReport implements
 	 * @param transactionId
 	 *            the transactionId to set
 	 */
-	public void setTransactionId(String transactionId) {
+	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
 	}
 
