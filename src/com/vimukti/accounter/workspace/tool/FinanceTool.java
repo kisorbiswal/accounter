@@ -2430,7 +2430,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 						vendorPaymentsList
 								.setTransactionId((object[0] == null ? null
-										: ((String) object[0])));
+										: ((Long) object[0])));
 						vendorPaymentsList.setType((Integer) object[1]);
 						vendorPaymentsList
 								.setPaymentDate(new ClientFinanceDate(
@@ -3390,7 +3390,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 					vendorPaymentsList
 							.setTransactionId((object[0] == null ? null
-									: ((String) object[0])));
+									: ((Long) object[0])));
 					vendorPaymentsList.setType((Integer) object[1]);
 					vendorPaymentsList.setPaymentDate(new ClientFinanceDate(
 							(Long) object[2]));
