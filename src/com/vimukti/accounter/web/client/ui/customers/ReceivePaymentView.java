@@ -116,8 +116,8 @@ public class ReceivePaymentView extends
 			return;
 		}
 		if (customer != null && customerCombo != null) {
-			customerCombo.setComboItem(getCompany()
-					.getCustomer(selectedCustomer.getID()));
+			customerCombo.setComboItem(getCompany().getCustomer(
+					selectedCustomer.getID()));
 		}
 		this.customer = selectedCustomer;
 		this.gridView.setCustomer(customer);
@@ -155,8 +155,8 @@ public class ReceivePaymentView extends
 
 		long paymentDate = transactionDateItem.getDate().getTime();
 
-		this.rpcUtilService.getTransactionReceivePayments(selectedCustomer
-				.getID(), paymentDate,
+		this.rpcUtilService.getTransactionReceivePayments(
+				selectedCustomer.getID(), paymentDate,
 				new AsyncCallback<List<ReceivePaymentTransactionList>>() {
 
 					public void onFailure(Throwable caught) {
@@ -232,10 +232,8 @@ public class ReceivePaymentView extends
 
 			ClientTransactionReceivePayment record = new ClientTransactionReceivePayment();
 
-			record
-					.setDueDate(receivePaymentTransaction.getDueDate() != null ? receivePaymentTransaction
-							.getDueDate().getTime()
-							: 0);
+			record.setDueDate(receivePaymentTransaction.getDueDate() != null ? receivePaymentTransaction
+					.getDueDate().getTime() : 0);
 			record.setNumber(receivePaymentTransaction.getNumber());
 
 			record.setInvoiceAmount(receivePaymentTransaction
@@ -244,11 +242,8 @@ public class ReceivePaymentView extends
 			record.setInvoice(receivePaymentTransaction.getTransactionId());
 			record.setAmountDue(receivePaymentTransaction.getAmountDue());
 			record.setDummyDue(receivePaymentTransaction.getAmountDue());
-			record
-					.setDiscountDate(receivePaymentTransaction
-							.getDiscountDate() != null ? receivePaymentTransaction
-							.getDiscountDate().getTime()
-							: 0);
+			record.setDiscountDate(receivePaymentTransaction.getDiscountDate() != null ? receivePaymentTransaction
+					.getDiscountDate().getTime() : 0);
 
 			record.setCashDiscount(receivePaymentTransaction.getCashDiscount());
 
@@ -336,7 +331,7 @@ public class ReceivePaymentView extends
 		Long id = Long.parseLong(attribute);
 
 		for (ReceivePaymentTransactionList recv : receivePaymentTransactionList) {
-			if (recv.getTransactionId().equals(id)) {
+			if (recv.getTransactionId() == (id)) {
 				return recv;
 			}
 		}
@@ -438,8 +433,7 @@ public class ReceivePaymentView extends
 								.setTransactionReceivePayment(payment);
 					}
 
-				payment
-						.setTransactionCreditsAndPayments(tranCreditsandPayments);
+				payment.setTransactionCreditsAndPayments(tranCreditsandPayments);
 			}
 			paymentsList.add(payment);
 			payment.getTempCredits().clear();
@@ -462,9 +456,7 @@ public class ReceivePaymentView extends
 			// + getTransactionStatus() + ")");
 			lab = new Label(Utility.getTransactionName(transactionType));
 		}
-		lab
-				.setStyleName(Accounter.getCustomersMessages()
-						.lableTitle());
+		lab.setStyleName(Accounter.getCustomersMessages().lableTitle());
 		// lab.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
@@ -519,15 +511,13 @@ public class ReceivePaymentView extends
 					return;
 				Double amount = 0.00D;
 				try {
-					amount = DataUtils
-							.getAmountStringAsDouble(value.toString());
+					amount = DataUtils.getAmountStringAsDouble(value.toString());
 					setAmount(DataUtils.isValidAmount(value.toString()) ? amount
 							: 0.00D);
 					paymentAmountChanged(amount);
 
 					if (DecimalUtil.isLessThan(amount, 0)) {
-						Accounter.showError(Accounter
-								.getCustomersMessages()
+						Accounter.showError(Accounter.getCustomersMessages()
 								.noNegativeAmountsReceived());
 						setAmount(0.00D);
 
@@ -578,8 +568,8 @@ public class ReceivePaymentView extends
 
 		forms.add(payForm);
 
-		customerNonEditablebalText = new AmountField(customerConstants
-				.customerBalance());
+		customerNonEditablebalText = new AmountField(
+				customerConstants.customerBalance());
 		customerNonEditablebalText.setHelpInformation(true);
 		customerNonEditablebalText.setWidth(100);
 		customerNonEditablebalText.setDisabled(true);
@@ -595,8 +585,7 @@ public class ReceivePaymentView extends
 		depoForm.getCellFormatter().setWidth(0, 0, "203px");
 		forms.add(depoForm);
 
-		Label lab1 = new Label(Accounter.getCustomersMessages()
-				.dueForPayment());
+		Label lab1 = new Label(Accounter.getCustomersMessages().dueForPayment());
 
 		initListGrid();
 
@@ -725,9 +714,9 @@ public class ReceivePaymentView extends
 			// .getNearestTaxRate(((Date) transactionDateItem
 			// .getValue()).getTime())));
 		} // else
-		// fraction = 0.0;
-		// if (vatFraction != null)
-		// vatFraction.setAmount(fraction);
+			// fraction = 0.0;
+			// if (vatFraction != null)
+			// vatFraction.setAmount(fraction);
 	}
 
 	@Override
@@ -1352,8 +1341,7 @@ public class ReceivePaymentView extends
 		if (paymentToBeEdited != null) {
 			AccounterCoreType type = UIUtils
 					.getAccounterCoreType(paymentToBeEdited.getType());
-			rpcDoSerivce.voidTransaction(type, paymentToBeEdited.id,
-					callback);
+			rpcDoSerivce.voidTransaction(type, paymentToBeEdited.id, callback);
 		}
 	}
 
