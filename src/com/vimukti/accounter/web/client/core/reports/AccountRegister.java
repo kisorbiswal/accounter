@@ -30,7 +30,7 @@ public class AccountRegister extends BaseReport implements IsSerializable,
 
 	private boolean isVoided;
 
-	String transactionId;
+	long transactionId;
 
 	/**
 	 * @return the date
@@ -170,7 +170,7 @@ public class AccountRegister extends BaseReport implements IsSerializable,
 	/**
 	 * @return the transactionId
 	 */
-	public String getTransactionId() {
+	public long getTransactionId() {
 		return transactionId;
 	}
 
@@ -178,7 +178,7 @@ public class AccountRegister extends BaseReport implements IsSerializable,
 	 * @param transactionId
 	 *            the transactionId to set
 	 */
-	public void setTransactionId(String transactionId) {
+	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
 	}
 
