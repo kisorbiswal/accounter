@@ -42,7 +42,7 @@ public class ClientVendor extends ClientPayee {
 	double lastYear;
 	double lifeTimePurchases;
 
-	String openingBalanceAccount;
+	long openingBalanceAccount;
 
 	public ClientVendor() {
 	}
@@ -419,7 +419,7 @@ public class ClientVendor extends ClientPayee {
 		this.expenseAccount = selectAccountFromDetailsTab.getID();
 	}
 
-	public void setAccountsPayable(String accountsPayableAccount) {
+	public void setAccountsPayable(long accountsPayableAccount) {
 		// FIXME no need to setAccountsPayable , it is available in company
 		// object
 		// this.accountNumber = String.valueOf(accountsPayableAccount);
@@ -450,7 +450,7 @@ public class ClientVendor extends ClientPayee {
 		return Utility.getObject(this.address, addressId);
 	}
 
-	public void setOpeningBalanceAccount(String openingBalancesAccountId) {
+	public void setOpeningBalanceAccount(long openingBalancesAccountId) {
 		this.openingBalanceAccount = openingBalancesAccountId;
 	}
 
