@@ -24,16 +24,14 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 	@Override
 	protected String[] getColumns() {
 		if (transactionView instanceof WriteChequeView)
-			return new String[] { "",
-					Accounter.getCustomersMessages().name(),
+			return new String[] { "", Accounter.getCustomersMessages().name(),
 					Accounter.getCustomersMessages().description(),
 					Accounter.getCustomersMessages().quantity(),
 					Accounter.getCustomersMessages().unitPrice(),
 					Accounter.getCustomersMessages().discountPerc(),
 					Accounter.getCustomersMessages().total(), " " };
 		else
-			return new String[] { "",
-					Accounter.getCustomersMessages().name(),
+			return new String[] { "", Accounter.getCustomersMessages().name(),
 					Accounter.getCustomersMessages().description(),
 					Accounter.getCustomersMessages().quantity(),
 					Accounter.getCustomersMessages().unitPrice(),
@@ -44,8 +42,7 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 
 	@Override
 	public String[] getColumnNamesForPrinting() {
-		return new String[] {
-				Accounter.getCustomersMessages().quantity(),
+		return new String[] { Accounter.getCustomersMessages().quantity(),
 				Accounter.getCustomersMessages().item(),
 				Accounter.getCustomersMessages().description(),
 				Accounter.getCustomersMessages().rate(),
@@ -77,8 +74,7 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 			return DataUtils.getAmountAsString(item.getLineTotal());
 		case 5:
 			return item.isTaxable() ? Accounter.getCustomersMessages()
-					.taxable() : Accounter.getCustomersMessages()
-					.nonTaxable();
+					.taxable() : Accounter.getCustomersMessages().nonTaxable();
 		default:
 			return "";
 		}
@@ -169,7 +165,8 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
 				return item.getQuantity();
 			else {
-				return (item.getQuantity() != 0 || item.getLineTotal() == 0) ? item.getQuantity() : "";
+				return (item.getQuantity() != 0 || item.getLineTotal() == 0) ? item
+						.getQuantity() : "";
 			}
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
@@ -186,9 +183,9 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 			if (transactionView instanceof WriteChequeView)
 				return Accounter.getFinanceMenuImages().delete();
 			else
-				return item.isTaxable() ? Accounter
-						.getCustomersMessages().taxable() : Accounter
-						.getCustomersMessages().nonTaxable();
+				return item.isTaxable() ? Accounter.getCustomersMessages()
+						.taxable() : Accounter.getCustomersMessages()
+						.nonTaxable();
 
 		case 8:
 			return Accounter.getFinanceMenuImages().delete();
@@ -202,7 +199,7 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 		if (obj == null)
 			return false;
 		if (obj.getType() == TYPE_SERVICE
-				&& !getCompany().getpreferences()
+				&& !Accounter.getCompany().getpreferences()
 						.getDoYouPaySalesTax()) {
 			if (col == 7 || col == 8)
 				return false;
@@ -270,7 +267,12 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 	}
 
 	@Override
-	public String getTaxCode(ClientTransactionItem item) {
+	public long getTaxCode(ClientTransactionItem item) {
 		return this.taxCode;
+	}
+
+	@Override
+	public void setTaxCode(long taxCode) {
+		this.taxCode = taxCode;
 	}
 }
