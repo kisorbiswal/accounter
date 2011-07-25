@@ -47,8 +47,7 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 
 					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
-						selectedObject
-								.setAssetAccount(selectItem.getID());
+						selectedObject.setAssetAccount(selectItem.getID());
 						setText(currentRow, currentCol, selectItem.getName());
 					}
 				});
@@ -59,7 +58,7 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 		 */
 
 		List<ClientAccount> accumulatedAccounts = accountsCombo.getAccounts();
-		List<ClientFixedAsset> fixedAssets = getCompany()
+		List<ClientFixedAsset> fixedAssets = Accounter.getCompany()
 				.getFixedAssets();
 		for (ClientFixedAsset asset : fixedAssets) {
 			for (ClientAccount accumulatedAccount : accumulatedAccounts) {
@@ -104,9 +103,9 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 	protected String[] getColumns() {
 		return new String[] {
 				Accounter.getFixedAssetConstants().account(),
+				Accounter.getFixedAssetConstants().AmounttobeDepreciated(),
 				Accounter.getFixedAssetConstants()
-						.AmounttobeDepreciated(),
-				Accounter.getFixedAssetConstants().AccumulatedDepreciationAccount() };
+						.AccumulatedDepreciationAccount() };
 	}
 
 	@Override
@@ -117,9 +116,8 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 		case 1:
 			return DataUtils.getAmountAsString(item.getAmountToBeDepreciated());
 		case 2:
-			return item.getAssetAccount() != null ? Accounter
-					.getCompany().getAccount(item.getAssetAccount()).getName()
-					: "";
+			return item.getAssetAccount() != 0 ? Accounter.getCompany()
+					.getAccount(item.getAssetAccount()).getName() : "";
 		default:
 			return "";
 		}
