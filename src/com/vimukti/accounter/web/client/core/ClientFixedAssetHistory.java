@@ -20,7 +20,7 @@ public class ClientFixedAssetHistory implements IAccounterCore {
 	long actionDate;
 	String details;
 	String user;
-	String postedJournalEntry;
+	long postedJournalEntry;
 
 	public ClientFixedAssetHistory() {
 	}
@@ -94,11 +94,11 @@ public class ClientFixedAssetHistory implements IAccounterCore {
 	// }
 	// }
 
-	public String getPostedJournalEntry() {
+	public long getPostedJournalEntry() {
 		return postedJournalEntry;
 	}
 
-	public void setPostedJournalEntry(String postedJournalEntry) {
+	public void setPostedJournalEntry(long postedJournalEntry) {
 		this.postedJournalEntry = postedJournalEntry;
 	}
 
