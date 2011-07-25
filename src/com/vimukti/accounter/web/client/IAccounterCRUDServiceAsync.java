@@ -17,19 +17,18 @@ public interface IAccounterCRUDServiceAsync {
 
 	void update(IAccounterCore coreObject, AsyncCallback<Long> callback);
 
-	void delete(AccounterCoreType type, String id,
-			AsyncCallback<Boolean> callback);
+	void delete(AccounterCoreType type, long id, AsyncCallback<Boolean> callback);
 
 	void updateCompanyPreferences(ClientCompanyPreferences preferences,
 			AsyncCallback<Long> callback);
 
-	void voidTransaction(AccounterCoreType accounterCoreType, String id,
+	void voidTransaction(AccounterCoreType accounterCoreType, long id,
 			AsyncCallback<Boolean> callback);
 
-	void deleteTransaction(AccounterCoreType accounterCoreType,
-			String id, AsyncCallback<Boolean> callback);
+	void deleteTransaction(AccounterCoreType accounterCoreType, long id,
+			AsyncCallback<Boolean> callback);
 
-	void canEdit(AccounterCoreType accounterCoreType, String id,
+	void canEdit(AccounterCoreType accounterCoreType, long id,
 			AsyncCallback<Boolean> callback);
 
 	void updateCompany(ClientCompany clientCompany, AsyncCallback<Long> callback);
