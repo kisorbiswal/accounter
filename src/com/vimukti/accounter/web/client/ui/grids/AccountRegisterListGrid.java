@@ -277,10 +277,6 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 		return null;
 	}
 
-	private String getTransactionID(AccountRegister obj) {
-		return obj.getTransactionId();
-	}
-
 	public boolean isVoided(AccountRegister obj) {
 		return obj.isVoided();
 	}
