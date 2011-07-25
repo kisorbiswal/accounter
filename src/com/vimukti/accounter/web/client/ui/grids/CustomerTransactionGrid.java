@@ -65,7 +65,7 @@ public abstract class CustomerTransactionGrid extends
 	private boolean isAddNewRequired = true;
 	private long ztaxCodeid;
 	protected int maxDecimalPoint;
-	protected String taxCode;
+	protected long taxCode;
 
 	public CustomerTransactionGrid() {
 		super(false, true);
@@ -837,7 +837,7 @@ public abstract class CustomerTransactionGrid extends
 		updateData(record);
 	}
 
-	public void setTaxCode(String taxCode) {
+	public void setTaxCode(long taxCode) {
 		this.taxCode = taxCode;
 		refreshVatValue();
 	}
