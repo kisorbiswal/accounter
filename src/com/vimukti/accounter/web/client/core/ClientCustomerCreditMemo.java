@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.core;
 
 @SuppressWarnings("serial")
 public class ClientCustomerCreditMemo extends ClientTransaction {
-	String customer;
+	long customer;
 
 	ClientContact contact;
 
@@ -45,7 +45,7 @@ public class ClientCustomerCreditMemo extends ClientTransaction {
 	/**
 	 * @return the customerIdgetPrimaryContact
 	 */
-	public String getCustomer() {
+	public long getCustomer() {
 		return customer;
 	}
 
@@ -53,7 +53,7 @@ public class ClientCustomerCreditMemo extends ClientTransaction {
 	 * @param customerId
 	 *            the customerId to set
 	 */
-	public void setCustomer(String customer) {
+	public void setCustomer(long customer) {
 		this.customer = customer;
 	}
 
@@ -237,13 +237,13 @@ public class ClientCustomerCreditMemo extends ClientTransaction {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
