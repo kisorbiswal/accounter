@@ -32,11 +32,9 @@ public class AsOfReportToolbar extends ReportToolbar {
 
 	private void createControls() {
 		@SuppressWarnings("unused")
-		String[] reportBasisArray = {
-				Accounter.getReportsMessages().cash(),
+		String[] reportBasisArray = { Accounter.getReportsMessages().cash(),
 				Accounter.getReportsMessages().accrual() };
-		String[] dateRangeArray = {
-				Accounter.getReportsMessages().all(),
+		String[] dateRangeArray = { Accounter.getReportsMessages().all(),
 				Accounter.getReportsMessages().thisWeek(),
 				Accounter.getReportsMessages().thisMonth(),
 				Accounter.getReportsMessages().lastWeek(),
@@ -87,8 +85,8 @@ public class AsOfReportToolbar extends ReportToolbar {
 		// // report basic is not yet implemented, so disable the feature.
 		// reportBasisItem.setDisabled(true);
 
-		dateRangeCombo = new SelectCombo(Accounter
-				.getReportsMessages().dateRange());
+		dateRangeCombo = new SelectCombo(Accounter.getReportsMessages()
+				.dateRange());
 		dateRangeCombo.setHelpInformation(true);
 		dateRangeList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
@@ -96,8 +94,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 		}
 		dateRangeCombo.initCombo(dateRangeList);
 		dateRangeCombo.setDefaultValue(dateRangeArray[0]);
-		dateRangeCombo.setComboItem(Accounter.getReportsMessages()
-				.all());
+		dateRangeCombo.setComboItem(Accounter.getReportsMessages().all());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -131,8 +128,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 
 				if (date != null) {
 					if (!date.after(startDate))
-						Accounter.showError(Accounter
-								.getReportsMessages()
+						Accounter.showError(Accounter.getReportsMessages()
 								.pleaseSelectDateAfterCompanyStartDate()
 								+ UIUtils.getDateStringByDate(startDate
 										.toString()));
@@ -147,7 +143,8 @@ public class AsOfReportToolbar extends ReportToolbar {
 
 		});
 
-		ClientFinanceDate date = Utility.getLastandOpenedFiscalYearEndDate();
+		ClientFinanceDate date = Accounter.getCompany()
+				.getLastandOpenedFiscalYearEndDate();
 		if (date != null)
 			customDate.setValue(date);
 		else
@@ -165,10 +162,9 @@ public class AsOfReportToolbar extends ReportToolbar {
 
 				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
 						startDate, customDate.getDate());
-				dateRangeCombo.setDefaultValue(Accounter
-						.getReportsMessages().custom());
-				setSelectedDateRange(Accounter.getReportsMessages()
+				dateRangeCombo.setDefaultValue(Accounter.getReportsMessages()
 						.custom());
+				setSelectedDateRange(Accounter.getReportsMessages().custom());
 
 			}
 		});
