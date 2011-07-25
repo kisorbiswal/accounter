@@ -3,11 +3,11 @@ package com.vimukti.accounter.web.client.core;
 @SuppressWarnings("serial")
 public class AccounterCommand implements IAccounterCore {
 
-	public static final int CREATION_SUCCESS = 777;
+	public static final int CREATION_SUCCESS = 1;
 
-	public static final int UPDATION_SUCCESS = 888;
+	public static final int UPDATION_SUCCESS = 2;
 
-	public static final int DELETION_SUCCESS = 999;
+	public static final int DELETION_SUCCESS = 3;
 
 	public int command;
 
