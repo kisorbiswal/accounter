@@ -14,7 +14,7 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	double originalAmount = 0D;
 	double amountDue = 0D;
 	long discountDate;
-	String discountAccount;
+	long discountAccount;
 	double cashDiscount = 0D;
 	double appliedCredits = 0D;
 	double payment = 0D;
@@ -121,7 +121,7 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	/**
 	 * @return the discountAccount
 	 */
-	public String getDiscountAccount() {
+	public long getDiscountAccount() {
 		return discountAccount;
 	}
 
@@ -129,7 +129,7 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	 * @param discountAccountId
 	 *            the discountAccount to set
 	 */
-	public void setDiscountAccount(String discountAccountId) {
+	public void setDiscountAccount(long discountAccountId) {
 		this.discountAccount = discountAccountId;
 	}
 
