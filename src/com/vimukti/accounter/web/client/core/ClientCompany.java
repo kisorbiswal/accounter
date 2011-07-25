@@ -430,6 +430,7 @@ public class ClientCompany implements IAccounterCore {
 
 	// private List<ClientTAXItem> vatItems;
 	private List<ClientVATReturnBox> vatReturnBoxes;
+	public long id;
 
 	// private List<ClientTaxItem> taxItems;
 
