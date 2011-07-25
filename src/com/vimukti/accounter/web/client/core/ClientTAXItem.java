@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.core;
 @SuppressWarnings("serial")
 public class ClientTAXItem extends ClientTAXItemGroup {
 
-	String taxAgency;
+	long taxAgency;
 
 	double taxRate;
 
@@ -58,7 +58,7 @@ public class ClientTAXItem extends ClientTAXItemGroup {
 	/**
 	 * @return the vatAgency
 	 */
-	public String getTaxAgency() {
+	public long getTaxAgency() {
 		return taxAgency;
 	}
 
@@ -66,7 +66,7 @@ public class ClientTAXItem extends ClientTAXItemGroup {
 	 * @param taxAgency
 	 *            the vatAgency to set
 	 */
-	public void setTaxAgency(String taxAgency) {
+	public void setTaxAgency(long taxAgency) {
 		this.taxAgency = taxAgency;
 	}
 
