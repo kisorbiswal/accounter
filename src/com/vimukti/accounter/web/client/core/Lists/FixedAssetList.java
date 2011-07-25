@@ -25,7 +25,7 @@ public class FixedAssetList implements IsSerializable, Serializable {
 	 * 
 	 * @see
 	 */
-	private String assetAccount;
+	private long assetAccount;
 
 	/**
 	 * Date of Purchase
@@ -80,7 +80,7 @@ public class FixedAssetList implements IsSerializable, Serializable {
 	/**
 	 * @return the assetAccount
 	 */
-	public String getAssetAccount() {
+	public long getAssetAccount() {
 		return assetAccount;
 	}
 
@@ -88,7 +88,7 @@ public class FixedAssetList implements IsSerializable, Serializable {
 	 * @param assetAccount
 	 *            the assetAccount to set
 	 */
-	public void setAssetAccount(String assetAccount) {
+	public void setAssetAccount(long assetAccount) {
 		this.assetAccount = assetAccount;
 	}
 
