@@ -69,7 +69,7 @@ public class CreateCompanyServlet extends BaseServlet {
 			User admin = new User();
 			admin.setFirstName(request.getParameter("firstName"));
 			admin.setLastName(request.getParameter("lastName"));
-			admin.setEmailId(request.getParameter("emailId"));
+			admin.setEmail(request.getParameter("emailId"));
 			admin.setPasswordSha1Hash(request.getParameter("password"));
 			admin.setPhoneNo(request.getParameter("phoneNumber"));
 			admin.setCountry(request.getParameter("country"));
@@ -152,7 +152,7 @@ public class CreateCompanyServlet extends BaseServlet {
 		admin.setFirstName(request.getParameter("firstName"));
 		admin.setLastName(request.getParameter("lastName"));
 		admin.setFullName(admin.getFirstName() + " " + admin.getLastName());
-		admin.setEmailId(request.getParameter("emailId").toLowerCase().trim());
+		admin.setEmail(request.getParameter("emailId").toLowerCase().trim());
 		admin.setUserRole(RolePermissions.ADMIN);
 		admin.setActive(true);
 		admin.setCanDoUserManagement(true);

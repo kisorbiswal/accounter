@@ -15,7 +15,7 @@ public class CometManager {
 	/**
 	 * Map of UserID and the Queue
 	 */
-	private static HashMap<String, Map<String, CommandQueue<ObjectPayload>>> map = new HashMap<String, Map<String, CommandQueue<ObjectPayload>>>();
+	private static HashMap<Long, Map<String, CommandQueue<ObjectPayload>>> map = new HashMap<Long, Map<String, CommandQueue<ObjectPayload>>>();
 
 	private static HashMap<String, Class<?>> streamVsRPCInterfaceMap = new HashMap<String, Class<?>>();
 	private static IComentConnectionListener connectionListener;
@@ -28,7 +28,7 @@ public class CometManager {
 	 * @return
 	 */
 	static CommandQueue<ObjectPayload> getQueue(String sessionID,
-			String identityID) {
+			long identityID) {
 		Map<String, CommandQueue<ObjectPayload>> queues = map.get(identityID);
 		if (queues != null) {
 			return queues.get(sessionID);
@@ -68,7 +68,7 @@ public class CometManager {
 		streamVsRPCInterfaceMap.put(stream, cls);
 	}
 
-	public static void initStream(String sessionID, String userID, String stream) {
+	public static void initStream(String sessionID, long userID, String stream) {
 		Map<String, CommandQueue<ObjectPayload>> queues = map.get(userID);
 		if (queues == null) {
 			queues = new HashMap<String, CommandQueue<ObjectPayload>>();
@@ -86,12 +86,13 @@ public class CometManager {
 	}
 
 	public static void destroyStream(String sessionID, String userID) {
-		Map<String, CommandQueue<ObjectPayload>> queues = map.get(userID);
+		Map<String, CommandQueue<ObjectPayload>> queues = map.get(Long
+				.parseLong(userID));
 		if (queues != null) {
 			queues.remove(sessionID);
 		}
 		if (queues.size() == 0) {
-			map.remove(userID);
+			map.remove(Long.parseLong(userID));
 		}
 	}
 

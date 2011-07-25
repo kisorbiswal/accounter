@@ -304,9 +304,7 @@ public class CometServerServlet extends HttpServlet {
 			number = Integer.parseInt(value);
 
 			if (number < 0) {
-				this
-						.throwInitParameterDoesntContainAPositiveNumber(name,
-								value);
+				this.throwInitParameterDoesntContainAPositiveNumber(name, value);
 			}
 
 		} catch (final NumberFormatException badNumber) {
@@ -370,7 +368,7 @@ public class CometServerServlet extends HttpServlet {
 			return false;
 		}
 		CommandQueue<ObjectPayload> queue = CometManager.getQueue(sessionID,
-				sessionKey);
+				Long.parseLong(sessionKey));
 
 		if (queue == null) {
 			return false;
@@ -503,11 +501,12 @@ public class CometServerServlet extends HttpServlet {
 	}
 
 	private String getSyncStatus() {
-		/*if (Server.isLocal()) {
-			LocalServer server = LocalServer.getInstance();
-			ClientPacketHandler packetHadler = server.getHandler();
-			return String.valueOf(packetHadler.getStatus());
-		}*/
+		/*
+		 * if (Server.isLocal()) { LocalServer server =
+		 * LocalServer.getInstance(); ClientPacketHandler packetHadler =
+		 * server.getHandler(); return String.valueOf(packetHadler.getStatus());
+		 * }
+		 */
 		return "";
 	}
 

@@ -12,8 +12,6 @@ public class ClientUser implements IAccounterCore {
 
 	String lastName;
 
-	String emailId;
-
 	String userRole;
 
 	private boolean isActive;
@@ -77,14 +75,6 @@ public class ClientUser implements IAccounterCore {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public String getEmailId() {
-		return emailId;
-	}
-
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
 	}
 
 	public String getUserRole() {
@@ -306,13 +296,13 @@ public class ClientUser implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 

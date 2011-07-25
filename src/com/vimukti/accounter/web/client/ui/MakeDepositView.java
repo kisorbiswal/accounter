@@ -652,7 +652,7 @@ public class MakeDepositView extends
 				.getRecords();
 
 		for (ClientTransactionMakeDeposit rec : selectedRecords) {
-			rec.setID("");
+			rec.setID(0);
 			rec.setMakeDeposit(makeDeposit);
 		}
 

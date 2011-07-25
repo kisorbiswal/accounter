@@ -103,7 +103,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 		if (takenUser != null) {
 			firstNametext.setValue(takenUser.getFirstName());
 			lastNametext.setValue(takenUser.getLastName());
-			emailField.setValue(takenUser.getEmailId());
+			emailField.setValue(takenUser.getEmail());
 			// userManagementBox.setValue(takenUser.isCanDoUserManagement());
 			grid.setRecords(getRolePermissionsForUser(takenUser));
 			if (takenUser.isActive()) {
@@ -195,11 +195,11 @@ public class InviteUserView extends BaseView<ClientUser> {
 	@Override
 	public void saveAndUpdateView() throws Exception {
 		ClientUser user = takenUser != null ? takenUser : new ClientUser();
-		String prevoiusEmail = takenUser != null ? takenUser.getEmailId() : "";
+		String prevoiusEmail = takenUser != null ? takenUser.getEmail() : "";
 		user.setFirstName(firstNametext.getValue().toString());
 		user.setLastName(lastNametext.getValue().toString());
 		user.setFullName(user.getName());
-		user.setEmailId(emailField.getValue().toString());
+		user.setEmail(emailField.getValue().toString());
 		// user.setCanDoUserManagement(userManagementBox.getValue());
 
 		RolePermissions selectedRole = getSelectedRolePermission();
@@ -225,7 +225,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 		}
 
 		if (user.getID() != 0)
-			if (!user.getEmailId().equals(prevoiusEmail))
+			if (!user.getEmail().equals(prevoiusEmail))
 				if (isExist(user))
 					throw new InvalidEntryException(
 							"An User already exists with this Email ID");
@@ -388,8 +388,8 @@ public class InviteUserView extends BaseView<ClientUser> {
 		if (list == null || list.isEmpty())
 			return false;
 		for (ClientUser user : list) {
-			if (user.getID() != object.getID() && user.getEmailId() != null
-					&& user.getEmailId().equals(object.getEmailId())) {
+			if (user.getID() != object.getID() && user.getEmail() != null
+					&& user.getEmail().equals(object.getEmail())) {
 				return true;
 			}
 		}

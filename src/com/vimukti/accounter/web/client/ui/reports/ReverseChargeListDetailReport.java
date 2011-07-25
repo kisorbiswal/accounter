@@ -39,8 +39,8 @@ public class ReverseChargeListDetailReport extends
 		Accounter.createReportService().getReverseChargeListDetailReport(
 				transactionDetails.getName(), start.getTime(), end.getTime(),
 				this);
-		//FIXME
-		this.vatAgency = transactionDetails.getName();
+		// FIXME
+		// this.vatAgency = transactionDetails.getName();
 	}
 
 	@Override

@@ -28,8 +28,15 @@ public class Header extends HorizontalPanel {
 	private Accounter accounter;
 
 	public Header(Accounter accounter) {
-		this.accounter=accounter;
+		this.accounter = accounter;
 		createControls();
+	}
+
+	/**
+	 * Creates new Instance
+	 */
+	public Header() {
+		// TODO Auto-generated constructor stub
 	}
 
 	private void createControls() {
@@ -119,8 +126,7 @@ public class Header extends HorizontalPanel {
 		menuItem.getElement().getStyle().setColor("#072027");
 		Image child = new Image();
 		child.addStyleName("menu_arrow");
-		child.setUrl(Accounter.getThemeImages().drop_down_indicator()
-				.getURL());
+		child.setUrl(Accounter.getThemeImages().drop_down_indicator().getURL());
 		DOM.insertChild(menuItem.getElement(), child.getElement(), 0);
 	}
 

@@ -1369,7 +1369,7 @@ public class ViewManager extends DockPanel {
 		if (currentrequestedWidget.getID() != exception.getID())
 			return;
 
-		switch (exception.getError()) {
+		switch (exception.getErrorCode()) {
 		case ErrorCode.DELETE_FAILED:
 			currentrequestedWidget.deleteFailed(exception);
 			break;

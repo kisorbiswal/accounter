@@ -222,12 +222,12 @@ public class StartupDialog extends DialogBox {
 
 	private void checkUserLogin() {
 
-		final AsyncCallback<ClientIdentity> checkLoginCallback = new AsyncCallback<ClientIdentity>() {
+		final AsyncCallback<ClientUser> checkLoginCallback = new AsyncCallback<ClientUser>() {
 			public void onFailure(Throwable caught) {
 				UIUtils.say("Could not authenticate!");
 			}
 
-			public void onSuccess(ClientIdentity result) {
+			public void onSuccess(ClientUser result) {
 				if (result != null) {
 					Accounter application = new Accounter("", result,
 							new ValueCallBack<Accounter>() {
@@ -246,13 +246,14 @@ public class StartupDialog extends DialogBox {
 			}
 
 		};
-		IdentityServiceAsync service = GWT.create(IdentityService.class);
+		IAccounterGETServiceAsync service = GWT
+				.create(IAccounterGETService.class);
+
 		((ServiceDefTarget) service)
 				.setServiceEntryPoint("/do/bizantra/identity");
 
-		service.getUserIdentity(userEmailText.getValue().toString(),
-				userPassText.getValue().toString(), false, 11,
-				checkLoginCallback);
+		service.getUser(userEmailText.getValue().toString(), userPassText
+				.getValue().toString(), false, 11, checkLoginCallback);
 
 	}
 

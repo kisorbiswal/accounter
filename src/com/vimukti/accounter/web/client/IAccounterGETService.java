@@ -8,6 +8,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.HelpLink;
 import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -277,5 +278,8 @@ public interface IAccounterGETService extends RemoteService {
 	List<HrEmployee> getHREmployees() throws AccounterException;
 
 	public List<HelpLink> getHelpLinks(int type) throws AccounterException;
+
+	public ClientUser getUser(String userName, String password,
+			boolean isremeber, int offset);
 
 }

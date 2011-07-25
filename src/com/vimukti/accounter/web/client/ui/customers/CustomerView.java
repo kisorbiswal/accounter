@@ -195,7 +195,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		custGroupSelect.initCombo(getCompany().getCustomerGroups());
 
 		// Setting Customer Group
-		if (takenCustomer != null && takenCustomer.getCustomerGroup() != null)
+		if (takenCustomer != null && takenCustomer.getCustomerGroup() != 0)
 			custGroupSelect.setComboItem(company.getCustomerGroup(takenCustomer
 					.getCustomerGroup()));
 
@@ -222,7 +222,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	private void initCreditRatingList() {
 		creditRatingSelect.initCombo(company.getCreditRatings());
 
-		if (takenCustomer != null && takenCustomer.getCreditRating() != null)
+		if (takenCustomer != null && takenCustomer.getCreditRating() != 0)
 			creditRatingSelect.setComboItem(company
 					.getCreditRating(takenCustomer.getCreditRating()));
 	}

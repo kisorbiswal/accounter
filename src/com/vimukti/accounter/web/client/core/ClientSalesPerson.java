@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-
 @SuppressWarnings("serial")
 public class ClientSalesPerson extends ClientPayee {
 
@@ -29,7 +28,7 @@ public class ClientSalesPerson extends ClientPayee {
 
 	String jobTitle;
 
-	String expenseAccount;
+	long expenseAccount;
 
 	String gender;
 	long dateOfBirth;
@@ -168,7 +167,7 @@ public class ClientSalesPerson extends ClientPayee {
 	 * @param expenseAccount
 	 *            the expenseAccount to set
 	 */
-	public void setExpenseAccount(String expenseAccount) {
+	public void setExpenseAccount(long expenseAccount) {
 		this.expenseAccount = expenseAccount;
 	}
 
@@ -287,7 +286,7 @@ public class ClientSalesPerson extends ClientPayee {
 		return firstName;
 	}
 
-	public String getExpenseAccount() {
+	public long getExpenseAccount() {
 		return this.expenseAccount;
 	}
 

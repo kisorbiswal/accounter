@@ -46,7 +46,7 @@ public class TemplateResetServlet extends HttpServlet {
 						"get.admin.users").list().get(0);
 				logger.info("*************** Updating "
 						+ company.getCompanyID() + " with admin ID: "
-						+ user.getEmailId() + " **************");
+						+ user.getEmail() + " **************");
 
 				s.close();
 

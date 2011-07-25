@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -14,7 +12,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.SalesTaxGroupListView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.vat.FileVATView;
@@ -46,32 +43,6 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 	public void init() {
 		createView();
 		this.accountType = getCompany().getAccountingType();
-
-	}
-
-	@Override
-	public void createID() {
-
-		this.rpcGetService.getID(new AsyncCallback<String>() {
-
-			@Override
-			public void onSuccess(String result) {
-				BaseView.this.id = result;
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter
-							.showError("Could Not Initialize View.... \nID Could Not Be Initialized");
-					MainFinanceWindow.getViewManager().closeView(getAction(),
-							null);
-				}
-			}
-		});
 
 	}
 
@@ -169,11 +140,11 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 			buttonLayout.setVisible(false);
 		buttonLayout.getElement().getParentElement()
 				.setClassName("bottom-view");
-		bottomShadow.getElement().getParentElement().setClassName(
-				"bottom-shadow");
+		bottomShadow.getElement().getParentElement()
+				.setClassName("bottom-shadow");
 
-		cancelButton.getElement().getParentElement().setClassName(
-				"cancel-button");
+		cancelButton.getElement().getParentElement()
+				.setClassName("cancel-button");
 
 		// inithelpPansel();
 		if (saveAndNewButton.isEnabled()) {
@@ -195,9 +166,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 
 			Element savecloseseparator = DOM.createSpan();
 			savecloseseparator.addClassName("save-close-separator");
-			DOM
-					.appendChild(saveAndCloseButton.getElement(),
-							savecloseseparator);
+			DOM.appendChild(saveAndCloseButton.getElement(), savecloseseparator);
 
 			Element savecloseimage = DOM.createSpan();
 			savecloseimage.addClassName("save-close-image");
@@ -220,9 +189,8 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 			addimage.addClassName("approve-image");
 			DOM.appendChild(approveButton.getElement(), addimage);
 
-			ThemesUtil.addDivToButton(approveButton, Accounter
-					.getThemeImages().button_right_blue_image(),
-					"custom-button-right-image");
+			ThemesUtil.addDivToButton(approveButton, Accounter.getThemeImages()
+					.button_right_blue_image(), "custom-button-right-image");
 		}
 
 		if (submitForApprove != null && submitForApprove.isEnabled()) {
@@ -251,9 +219,8 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 			closeimage.addClassName("close-image");
 			DOM.appendChild(cancelButton.getElement(), closeimage);
 
-			ThemesUtil.addDivToButton(cancelButton, Accounter
-					.getThemeImages().button_right_gray_image(),
-					"custom-button-right-image");
+			ThemesUtil.addDivToButton(cancelButton, Accounter.getThemeImages()
+					.button_right_gray_image(), "custom-button-right-image");
 
 		}
 

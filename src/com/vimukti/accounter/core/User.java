@@ -24,7 +24,7 @@ public class User implements IAccounterServerCore, Lifecycle {
 
 	private String lastName;
 
-	private String emailId;
+	private String email;
 
 	private String userRole;
 
@@ -93,8 +93,6 @@ public class User implements IAccounterServerCore, Lifecycle {
 
 	// Contact contact = new Contact();
 
-	
-
 	public boolean isLoggedInFromDomain;
 
 	private boolean isMacApp;
@@ -116,7 +114,7 @@ public class User implements IAccounterServerCore, Lifecycle {
 		this.setFirstName(clientUser.getFirstName());
 		this.setLastName(clientUser.getLastName());
 		this.setFullName(clientUser.getFullName());
-		this.setEmailId(clientUser.getEmailId());
+		this.setEmail(clientUser.getEmail());
 		this.setActive(clientUser.isActive());
 		this.setCanDoUserManagement(clientUser.isCanDoUserManagement());
 		this.setUserRole(clientUser.getUserRole());
@@ -138,7 +136,6 @@ public class User implements IAccounterServerCore, Lifecycle {
 				.getTypeOfLockDates());
 		this.setPermissions(userPermissions);
 	}
-
 
 	/**
 	 * @return the fullName
@@ -221,12 +218,12 @@ public class User implements IAccounterServerCore, Lifecycle {
 		this.lastName = lastName;
 	}
 
-	public String getEmailId() {
-		return emailId;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
+	public void setEmail(String emailId) {
+		this.email = emailId;
 	}
 
 	public String getUserRole() {
@@ -276,7 +273,7 @@ public class User implements IAccounterServerCore, Lifecycle {
 		ClientUser user = new ClientUser();
 		user.setFirstName(this.getFirstName());
 		user.setLastName(this.getLastName());
-		user.setEmailId(this.getEmailId());
+		user.setEmail(this.getEmail());
 		user.setCanDoUserManagement(this.isCanDoUserManagement());
 		user.setUserRole(this.getUserRole());
 		ClientUserPermissions userPermissions = new ClientUserPermissions();

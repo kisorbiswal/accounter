@@ -2,9 +2,9 @@ package com.vimukti.accounter.web.client.core;
 
 public class ClientCustomerPrePayment extends ClientTransaction {
 
-	String customer;
+	long customer;
 
-	String depositIn;
+	long depositIn;
 
 	ClientAddress address;
 
@@ -47,28 +47,28 @@ public class ClientCustomerPrePayment extends ClientTransaction {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 	}
 
-	public String getCustomer() {
+	public long getCustomer() {
 		return customer;
 	}
 
-	public void setCustomer(String customer) {
+	public void setCustomer(long customer) {
 		this.customer = customer;
 	}
 
-	public String getDepositIn() {
+	public long getDepositIn() {
 		return depositIn;
 	}
 
-	public void setDepositIn(String depositIn) {
+	public void setDepositIn(long depositIn) {
 		this.depositIn = depositIn;
 	}
 

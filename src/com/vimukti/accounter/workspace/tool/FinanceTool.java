@@ -565,7 +565,7 @@ public class FinanceTool implements IFinanceDAOService {
 							stream.put(obj);
 						}
 						log.info("Sent " + changes.length + " change to "
-								+ user.getEmailId());
+								+ user.getEmail());
 					} catch (NotSerializableException e) {
 						e.printStackTrace();
 						log.error("Failed to Process Request", e);
@@ -9240,8 +9240,9 @@ public class FinanceTool implements IFinanceDAOService {
 
 					session.save(salesTaxVAT);
 
-					Company.getCompany().createUKDefaultVATCodesAndVATAgency(
-							session);
+					// FIXME
+					// Company.getCompany().createUKDefaultVATCodesAndVATAgency(
+					// session);
 				}
 			}
 

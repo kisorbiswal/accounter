@@ -31,7 +31,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
-import com.vimukti.accounter.web.client.ui.Header;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
@@ -745,12 +744,14 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	public void saveSuccess(IAccounterCore result) {
 		if (result != null || isCancel == true) {
 			super.saveSuccess(result);
-			Header.companyName.setText(this.companyNameText.getValue()
-					.toString());
+			// FIXME
+			// Header.companyName.setText(this.companyNameText.getValue()
+			// .toString());
 			CompanyActionFactory.getCompanyHomeAction().run(null, false);
 
-		} else
+		} else {
 			saveFailed(new Exception(Accounter.getCompanyMessages().failed()));
+		}
 
 	}
 

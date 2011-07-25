@@ -12,7 +12,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -67,8 +66,8 @@ public class AccountRegisterOthersView extends
 
 	protected void createControls() {
 
-		showTransactionSelect = new SelectCombo(bankingConstants
-				.showTransactions());
+		showTransactionSelect = new SelectCombo(
+				bankingConstants.showTransactions());
 		listOfDateRanges = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			listOfDateRanges.add(dateRangeArray[i]);
@@ -83,8 +82,7 @@ public class AccountRegisterOthersView extends
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						if (!showTransactionSelect.getSelectedValue().equals(
-								Accounter.getBankingsMessages()
-										.custom()))
+								Accounter.getBankingsMessages().custom()))
 							dateRangeChanged();
 
 					}
@@ -98,8 +96,7 @@ public class AccountRegisterOthersView extends
 
 		lab1 = new Label(bankingConstants.accountRegister() + " - "
 				+ takenaccount.getName());
-		lab1.setStyleName(Accounter.getFinanceUIConstants()
-				.lableTitle());
+		lab1.setStyleName(Accounter.getFinanceUIConstants().lableTitle());
 		HorizontalPanel lableHpanel = new HorizontalPanel();
 		lableHpanel.setWidth("100%");
 		lableHpanel.add(lab1);
@@ -124,8 +121,7 @@ public class AccountRegisterOthersView extends
 
 		totalLabel = new Label();
 		totalLabel.setText(Accounter.getFinanceUIConstants()
-				.totalEndingBalance()
-				+ DataUtils.getAmountAsString(total));
+				.totalEndingBalance() + DataUtils.getAmountAsString(total));
 		mainVLay = new VerticalPanel();
 		mainVLay.setHeight("100%");
 		mainVLay.setWidth("100%");
@@ -143,44 +139,40 @@ public class AccountRegisterOthersView extends
 	protected void dateRangeChanged() {
 		todaydate = new ClientFinanceDate();
 		selectedOption = showTransactionSelect.getSelectedValue();
-		if (!selectedDateRange.equals(Accounter.getBankingsMessages()
-				.all())
-				&& selectedOption.equals(Accounter
-						.getBankingsMessages().all())) {
+		if (!selectedDateRange.equals(Accounter.getBankingsMessages().all())
+				&& selectedOption.equals(Accounter.getBankingsMessages().all())) {
 			startDate = Accounter.getStartDate();
-			endDate = Utility.getLastandOpenedFiscalYearEndDate();
+			endDate = Accounter.getCompany()
+					.getLastandOpenedFiscalYearEndDate();
 			if (endDate == null)
 				endDate = new ClientFinanceDate();
 			selectedDateRange = Accounter.getBankingsMessages().all();
 
-		} else if (!selectedDateRange.equals(Accounter
-				.getBankingsMessages().today())
-				&& selectedOption.equals(Accounter
-						.getBankingsMessages().today())) {
+		} else if (!selectedDateRange.equals(Accounter.getBankingsMessages()
+				.today())
+				&& selectedOption.equals(Accounter.getBankingsMessages()
+						.today())) {
 			startDate = todaydate;
 			endDate = todaydate;
-			selectedDateRange = Accounter.getBankingsMessages()
-					.today();
+			selectedDateRange = Accounter.getBankingsMessages().today();
 
-		} else if (!selectedDateRange.equals(Accounter
-				.getBankingsMessages().last30Days())
-				&& selectedOption.equals(Accounter
-						.getBankingsMessages().last30Days())) {
-			selectedDateRange = Accounter.getBankingsMessages()
-					.last30Days();
-			startDate = new ClientFinanceDate(todaydate.getYear(), todaydate
-					.getMonth() - 1, todaydate.getDate());
+		} else if (!selectedDateRange.equals(Accounter.getBankingsMessages()
+				.last30Days())
+				&& selectedOption.equals(Accounter.getBankingsMessages()
+						.last30Days())) {
+			selectedDateRange = Accounter.getBankingsMessages().last30Days();
+			startDate = new ClientFinanceDate(todaydate.getYear(),
+					todaydate.getMonth() - 1, todaydate.getDate());
 			endDate = todaydate;
 
-		} else if (!selectedDateRange.equals(Accounter
-				.getBankingsMessages().last45Days())
-				&& selectedOption.equals(Accounter
-						.getBankingsMessages().last45Days())) {
+		} else if (!selectedDateRange.equals(Accounter.getBankingsMessages()
+				.last45Days())
+				&& selectedOption.equals(Accounter.getBankingsMessages()
+						.last45Days())) {
 
-			selectedDateRange = Accounter.getBankingsMessages()
-					.last45Days();
-			startDate = new ClientFinanceDate(todaydate.getYear(), todaydate
-					.getMonth() - 2, todaydate.getDate() + 16);
+			selectedDateRange = Accounter.getBankingsMessages().last45Days();
+			startDate = new ClientFinanceDate(todaydate.getYear(),
+					todaydate.getMonth() - 2, todaydate.getDate() + 16);
 			endDate = todaydate;
 		}
 		accountSelected(takenaccount);
@@ -215,8 +207,8 @@ public class AccountRegisterOthersView extends
 
 		this.account = takenaccount;
 
-		this.rpcReportService.getAccountRegister(startDate.getTime(), endDate
-				.getTime(), takenaccount.getID(),
+		this.rpcReportService.getAccountRegister(startDate.getTime(),
+				endDate.getTime(), takenaccount.getID(),
 				new AsyncCallback<List<AccountRegister>>() {
 
 					public void onFailure(Throwable caught) {

@@ -43,7 +43,7 @@ public class AccounterException extends Exception {
 	/**
 	 * @return
 	 */
-	public int getError() {
+	public int getErrorCode() {
 		return errorCode;
 	}
 

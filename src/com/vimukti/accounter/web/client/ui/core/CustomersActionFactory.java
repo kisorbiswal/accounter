@@ -61,7 +61,7 @@ public class CustomersActionFactory extends AbstractActionFactory {
 
 	public static AddEditSalesTaxCodeAction getAddEditSalesTaxCodeAction() {
 		String constant = null;
-		if (getCompany().getAccountingType() == 1)
+		if (Accounter.getCompany().getAccountingType() == 1)
 			constant = actionsConstants.newVatCode();
 		else
 			constant = actionsConstants.newTaxCode();
@@ -128,8 +128,8 @@ public class CustomersActionFactory extends AbstractActionFactory {
 	public static NewCreditsAndRefundsAction getNewCreditsAndRefundsAction(
 			ClientCustomerCreditMemo creditMemo,
 			AsyncCallback<Object> callBackObject) {
-		return new NewCreditsAndRefundsAction(actionsConstants
-				.newCreditsAndRefunds(),
+		return new NewCreditsAndRefundsAction(
+				actionsConstants.newCreditsAndRefunds(),
 				"/images/icons/customers/new_credits_and_refunds.png",
 				creditMemo, callBackObject);
 	}
@@ -223,8 +223,8 @@ public class CustomersActionFactory extends AbstractActionFactory {
 	}
 
 	public static BrandingThemeComboAction getBrandingThemeComboAction() {
-		return new BrandingThemeComboAction(actionsConstants
-				.brandingThemeCombo());
+		return new BrandingThemeComboAction(
+				actionsConstants.brandingThemeCombo());
 	}
 
 	public static PaymentDialogAction getPaymentDialogAction() {

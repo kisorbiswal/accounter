@@ -539,32 +539,33 @@ public class UIUtils {
 
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <T extends IAccounterCore> AsyncCallback<String> getGeneralizedSaveCallBack(
-			final AbstractBaseView view, final T object) {
-
-		AsyncCallback<String> callBack = new AsyncCallback<String>() {
-
-			public void onFailure(Throwable caught) {
-				view.saveFailed(caught);
-			}
-
-			public void onSuccess(String result) {
-				if (result == null) {
-					onFailure(new Exception("UnKnown Exception.... Got Null"));
-					return;
-				}
-				Accounter.stopExecution();
-				T core = object;
-				core.setID(result);
-				view.saveSuccess(core);
-			}
-
-		};
-
-		return callBack;
-
-	}
+	// @SuppressWarnings("unchecked")
+	// public static <T extends IAccounterCore> AsyncCallback<String>
+	// getGeneralizedSaveCallBack(
+	// final AbstractBaseView view, final T object) {
+	//
+	// AsyncCallback<String> callBack = new AsyncCallback<String>() {
+	//
+	// public void onFailure(Throwable caught) {
+	// view.saveFailed(caught);
+	// }
+	//
+	// public void onSuccess(String result) {
+	// if (result == null) {
+	// onFailure(new Exception("UnKnown Exception.... Got Null"));
+	// return;
+	// }
+	// Accounter.stopExecution();
+	// T core = object;
+	// core.setID(result);
+	// view.saveSuccess(core);
+	// }
+	//
+	// };
+	//
+	// return callBack;
+	//
+	// }
 
 	@SuppressWarnings("unchecked")
 	public static AsyncCallback<Boolean> getGeneralizedDeleteCallBack(
@@ -592,32 +593,33 @@ public class UIUtils {
 
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <T extends IAccounterCore> AsyncCallback<String> getGeneralizedSaveCallBack(
-			final AbstractBaseDialog view, final T object) {
-
-		AsyncCallback<String> callBack = new AsyncCallback<String>() {
-
-			public void onFailure(Throwable caught) {
-				view.saveFailed(caught);
-			}
-
-			public void onSuccess(String result) {
-				if (result == null) {
-					onFailure(new Exception("UnKnown Exception.... Got Null"));
-					return;
-				}
-				Accounter.stopExecution();
-				// view.updateCompany();
-				T core = object;
-				core.setID(result);
-				view.saveSuccess(object);
-			}
-
-		};
-
-		return callBack;
-	}
+	// @SuppressWarnings("unchecked")
+	// public static <T extends IAccounterCore> AsyncCallback<String>
+	// getGeneralizedSaveCallBack(
+	// final AbstractBaseDialog view, final T object) {
+	//
+	// AsyncCallback<String> callBack = new AsyncCallback<String>() {
+	//
+	// public void onFailure(Throwable caught) {
+	// view.saveFailed(caught);
+	// }
+	//
+	// public void onSuccess(String result) {
+	// if (result == null) {
+	// onFailure(new Exception("UnKnown Exception.... Got Null"));
+	// return;
+	// }
+	// Accounter.stopExecution();
+	// // view.updateCompany();
+	// T core = object;
+	// core.setID(result);
+	// view.saveSuccess(object);
+	// }
+	//
+	// };
+	//
+	// return callBack;
+	// }
 
 	// public static AsyncCallback<Boolean> getGeneralizedUpdateCallBack(
 	// final AbstractBaseDialog view, final Object object) {
@@ -1678,7 +1680,7 @@ public class UIUtils {
 		}
 	}-*/;
 
-	public native static void downloadAttachment(String objectID, int type)/*-{
+	public native static void downloadAttachment(long objectID, int type)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
 			frame.setAttribute("src",

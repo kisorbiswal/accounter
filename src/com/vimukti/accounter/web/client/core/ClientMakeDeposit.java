@@ -3,9 +3,9 @@ package com.vimukti.accounter.web.client.core;
 @SuppressWarnings("serial")
 public class ClientMakeDeposit extends ClientTransaction {
 
-	String depositIn;
+	long depositIn;
 
-	String cashBackAccount;
+	long cashBackAccount;
 
 	String cashBackMemo;
 
@@ -14,7 +14,7 @@ public class ClientMakeDeposit extends ClientTransaction {
 	/**
 	 * @return the cashBackAccount
 	 */
-	public String getCashBackAccount() {
+	public long getCashBackAccount() {
 		return cashBackAccount;
 	}
 
@@ -22,14 +22,14 @@ public class ClientMakeDeposit extends ClientTransaction {
 	 * @param cashBackAccount
 	 *            the cashBackAccount to set
 	 */
-	public void setCashBackAccount(String cashBackAccount) {
+	public void setCashBackAccount(long cashBackAccount) {
 		this.cashBackAccount = cashBackAccount;
 	}
 
 	/**
 	 * @return the depositIn
 	 */
-	public String getDepositIn() {
+	public long getDepositIn() {
 		return depositIn;
 	}
 
@@ -37,7 +37,7 @@ public class ClientMakeDeposit extends ClientTransaction {
 	 * @param depositIn
 	 *            the depositIn to set
 	 */
-	public void setDepositIn(String depositIn) {
+	public void setDepositIn(long depositIn) {
 		this.depositIn = depositIn;
 	}
 
@@ -84,13 +84,13 @@ public class ClientMakeDeposit extends ClientTransaction {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 

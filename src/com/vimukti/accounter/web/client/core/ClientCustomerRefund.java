@@ -12,11 +12,11 @@ public class ClientCustomerRefund extends ClientTransaction {
 
 	// long date;
 
-	String payTo;
+	long payTo;
 
 	ClientAddress address;
 
-	String payFrom;
+	long payFrom;
 
 	boolean isToBePrinted;
 
@@ -135,30 +135,30 @@ public class ClientCustomerRefund extends ClientTransaction {
 		return Utility.getTransactionName(getType());
 	}
 
-	public void setPayTo(String id) {
+	public void setPayTo(long id) {
 		this.payTo = id;
 	}
 
-	public void setPayFrom(String id) {
+	public void setPayFrom(long id) {
 		this.payFrom = id;
 	}
 
-	public String getPayFrom() {
+	public long getPayFrom() {
 		return this.payFrom;
 	}
 
-	public String getPayTo() {
+	public long getPayTo() {
 		return this.payTo;
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 

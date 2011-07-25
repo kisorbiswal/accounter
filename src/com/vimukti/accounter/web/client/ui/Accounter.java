@@ -25,7 +25,6 @@ import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterReportService;
 import com.vimukti.accounter.web.client.IAccounterReportServiceAsync;
 import com.vimukti.accounter.web.client.ValueCallBack;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -217,26 +216,27 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 		setWidth("100%");
 	}
 
-	@SuppressWarnings("unused")
-	private void getUserByEmail(String mail) {
-		final AsyncCallback<ClientUser> getUserCallBack = new AsyncCallback<ClientUser>() {
-			public void onFailure(Throwable caught) {
-				// //UIUtils.log(caught.toString());
-			}
-
-			public void onSuccess(ClientUser user) {
-				if (user != null) {
-					Accounter.setUser(user);
-					getCompany("DefBiz");
-				} else {
-					// //UIUtils.log("Get User Came But Failed!");
-				}
-			}
-
-		};
-		Accounter.createGETService().getObjectById(AccounterCoreType.EMAIL,
-				mail, getUserCallBack);
-	}
+	// @SuppressWarnings("unused")
+	// private void getUserByEmail(String mail) {
+	// final AsyncCallback<ClientUser> getUserCallBack = new
+	// AsyncCallback<ClientUser>() {
+	// public void onFailure(Throwable caught) {
+	// // //UIUtils.log(caught.toString());
+	// }
+	//
+	// public void onSuccess(ClientUser user) {
+	// if (user != null) {
+	// Accounter.setUser(user);
+	// getCompany("DefBiz");
+	// } else {
+	// // //UIUtils.log("Get User Came But Failed!");
+	// }
+	// }
+	//
+	// };
+	// Accounter.createGETService().getObjectById(AccounterCoreType.EMAIL,
+	// mail, getUserCallBack);
+	// }
 
 	public void getCompany(String name) {
 		final IAccounterGETServiceAsync getService = (IAccounterGETServiceAsync) GWT

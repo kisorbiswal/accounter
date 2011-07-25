@@ -594,9 +594,9 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	protected void addEmptRecords() {
 		ClientEntry entry = new ClientEntry();
 		ClientEntry entry1 = new ClientEntry();
-		entry.setAccount("");
+		entry.setAccount(0);
 		entry.setMemo("");
-		entry1.setAccount("");
+		entry1.setAccount(0);
 		entry1.setMemo("");
 		entry.setType(ClientEntry.TYPE_FINANCIAL_ACCOUNT);
 		entry1.setType(ClientEntry.TYPE_FINANCIAL_ACCOUNT);

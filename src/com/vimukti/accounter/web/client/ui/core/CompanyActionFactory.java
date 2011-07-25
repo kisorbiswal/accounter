@@ -88,8 +88,8 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	}
 
 	public static IntegrateWithBusinessContactManagerAction getIntegrateWithBusinessContactManagerAction() {
-		return new IntegrateWithBusinessContactManagerAction(actionsConstants
-				.integrateWithBusinessContactManager());
+		return new IntegrateWithBusinessContactManagerAction(
+				actionsConstants.integrateWithBusinessContactManager());
 	}
 
 	public static NewJournalEntryAction getNewJournalEntryAction() {
@@ -98,8 +98,8 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	}
 
 	public static NewCashBasisJournalEntryAction getNewCashBasisJournalEntryAction() {
-		return new NewCashBasisJournalEntryAction(actionsConstants
-				.newCashBasisJournalEntry(),
+		return new NewCashBasisJournalEntryAction(
+				actionsConstants.newCashBasisJournalEntry(),
 				"/images/icons/company/new_cash_base_journal_entry.png");
 	}
 
@@ -125,8 +125,8 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	}
 
 	public static MergeFinancialAccountsAction getMergeFinancialAccountsAction() {
-		return new MergeFinancialAccountsAction(actionsConstants
-				.mergeFinacialAccounts());
+		return new MergeFinancialAccountsAction(
+				actionsConstants.mergeFinacialAccounts());
 	}
 
 	public static ManageSalesTaxGroupsAction getManageSalesTaxGroupsAction() {
@@ -167,8 +167,8 @@ public class CompanyActionFactory extends AbstractActionFactory {
 
 	public static VendorGroupListAction getVendorGroupListAction() {
 		return new VendorGroupListAction(UIUtils.getVendorString(
-				actionsConstants.supplierGroupList(), actionsConstants
-						.vendorGroupList()));
+				actionsConstants.supplierGroupList(),
+				actionsConstants.vendorGroupList()));
 	}
 
 	public static PaymentTermListAction getPaymentTermListAction() {
@@ -176,8 +176,8 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	}
 
 	public static ShippingMethodListAction getShippingMethodListAction() {
-		return new ShippingMethodListAction(actionsConstants
-				.shippingMethodList());
+		return new ShippingMethodListAction(
+				actionsConstants.shippingMethodList());
 	}
 
 	public static ShippingTermListAction getShippingTermListAction() {
@@ -213,14 +213,14 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	}
 
 	public static ChartOfAccountsAction getChartOfAccountsAction() {
-		return new ChartOfAccountsAction(actionsConstants
-				.accounterCategoryList(),
+		return new ChartOfAccountsAction(
+				actionsConstants.accounterCategoryList(),
 				"/images/icons/banking/chart_of_accounts.png");
 	}
 
 	public static ChartOfAccountsAction getChartOfAccountsAction(int accountType) {
-		return new ChartOfAccountsAction(actionsConstants
-				.accounterCategoryList(),
+		return new ChartOfAccountsAction(
+				actionsConstants.accounterCategoryList(),
 				"/images/icons/banking/chart_of_accounts.png", accountType);
 	}
 
@@ -263,14 +263,14 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	}
 
 	public static DepreciationAction getDepriciationAction() {
-		return new DepreciationAction(Accounter
-				.getFixedAssetConstants().depreciation(), null);
+		return new DepreciationAction(Accounter.getFixedAssetConstants()
+				.depreciation(), null);
 
 	}
 
 	public static NewTAXAgencyAction getNewTAXAgencyAction() {
 		String flag;
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			flag = Accounter.getVATMessages().newVATAgency();
 
 		else
@@ -280,8 +280,7 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	}
 
 	public static FinanceLogAction getFinanceLogAction() {
-		return new FinanceLogAction(Accounter.getCompanyMessages()
-				.showLog());
+		return new FinanceLogAction(Accounter.getCompanyMessages().showLog());
 	}
 
 	public static ManageSalesTaxItemsAction getManageSalesTaxItemsAction() {
@@ -313,7 +312,7 @@ public class CompanyActionFactory extends AbstractActionFactory {
 
 	// public static ForgetPasswordAction getForgetPasswordAction(){
 	// return new ForgetPasswordAction(actionsConstants.forgetPassword());
-	//		
+	//
 	// }
 
 }

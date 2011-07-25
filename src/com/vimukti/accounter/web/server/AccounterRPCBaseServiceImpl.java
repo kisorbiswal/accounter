@@ -6,15 +6,22 @@ package com.vimukti.accounter.web.server;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.google.gwt.rpc.server.RpcServlet;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.utils.Security;
+import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.workspace.tool.AccounterException;
 import com.vimukti.accounter.workspace.tool.FinanceTool;
 import com.vimukti.comet.server.CometManager;
@@ -121,5 +128,51 @@ public class AccounterRPCBaseServiceImpl extends RpcServlet {
 
 	protected Session getSession() {
 		return HibernateUtil.getCurrentSession();
+	}
+
+	public ClientUser login(String string, String password, Boolean rememberMe,
+			int offSet) {
+
+		User user = null;
+		if (string != null && password != null) {
+			password = HexUtil.bytesToHex(Security.makeHash(string + password));
+			Session session = getSession();
+			Query query = session
+					.getNamedQuery("getuser.from.emailid.and.password");
+			query.setParameter("emailid", string);
+			query.setParameter("password", password);
+			user = (User) query.uniqueResult();
+			if (user == null) {
+				return null;
+			}
+			user.setLoginCount(user.getLoginCount() + 1);
+			user.setLastLogin(Calendar.getInstance().getTimeInMillis());
+			user.setLoginCount(user.getLoginCount());
+			user.setActive(true);
+			session.saveOrUpdate(user);
+			this.getThreadLocalRequest().getSession()
+					.setAttribute(USER_ID, user.getID());
+			this.getThreadLocalRequest()
+					.getSession()
+					.setAttribute(COMPANY_ID,
+							getCompanyName(getThreadLocalRequest()));
+			getThreadLocalRequest().getSession().setAttribute("offSet", offSet);
+			CometManager.initStream(getThreadLocalRequest().getSession()
+					.getId(), user.getID(), "bizantra");
+
+			if (rememberMe) {
+				setCookies(string, password);
+			}
+			return user.getClientUser();
+		}
+		return null;
+	}
+
+	private void setCookies(String string, String password) {
+		Cookie cookie = new Cookie("_accounter_01_infinity_2711",
+				new StringBuffer(string).append(",").append(password)
+						.toString());
+		cookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
+		this.getThreadLocalResponse().addCookie(cookie);
 	}
 }

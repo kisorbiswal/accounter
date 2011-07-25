@@ -8,6 +8,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.HelpLink;
 import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -361,5 +362,15 @@ public interface IAccounterGETServiceAsync {
 	void getHREmployees(AsyncCallback<List<HrEmployee>> callback);
 
 	public void getHelpLinks(int type, AsyncCallback<List<HelpLink>> callback);
+
+	/**
+	 * @param string
+	 * @param string2
+	 * @param b
+	 * @param i
+	 * @param checkLoginCallback
+	 */
+	public void getUser(String string, String string2, boolean b, int i,
+			AsyncCallback<ClientUser> checkLoginCallback);
 
 }

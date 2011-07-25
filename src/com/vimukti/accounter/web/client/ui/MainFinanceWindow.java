@@ -139,8 +139,6 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		// setTitle(FinanceApplication.getFinanceUIConstants().bizantraSales());
 
-		accounter.setSales(true);
-
 		VerticalPanel vlay = new VerticalPanel();
 		vlay.setSize("100%", "100%");
 
@@ -179,7 +177,6 @@ public class MainFinanceWindow extends VerticalPanel {
 		vlay.setSize("100%", "100%");
 
 		viewManager = ViewManager.getInstance();
-		accounter.setPurchases(true);
 		header = new Header();
 		CompanyActionFactory.getCompanyHomeAction().run(null, false);
 		/**
@@ -387,287 +384,287 @@ public class MainFinanceWindow extends VerticalPanel {
 		return dashBoardcmd;
 	}
 
-	private CustomMenuBar getTestMenu() {
-		final GUITest guiTest = new GUITest();
-		CustomMenuBar test = getSubMenu();
-
-		Command cmd1 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createSupportList();
-
-			}
-		};
-		CustomMenuItem menuItem1 = new CustomMenuItem(Accounter
-				.getFinanceMessages().supportLists(), cmd1);
-		test.addItem(menuItem1);
-
-		Command cmd2 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createAccounts();
-
-			}
-		};
-		CustomMenuItem menuItem2 = new CustomMenuItem(Accounter
-				.getFinanceMessages().accounts(), cmd2);
-		test.addItem(menuItem2);
-
-		CustomMenuBar customerMenu = getSubMenu();
-		Command cmd3 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createCustomers();
-
-			}
-		};
-
-		CustomMenuItem menuItem3 = new CustomMenuItem(Accounter
-				.getFinanceMessages().customers(), cmd3);
-		customerMenu.addItem(menuItem3);
-
-		Command cmd4 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createCustomerIems();
-
-			}
-		};
-		CustomMenuItem menuItem4 = new CustomMenuItem(Accounter
-				.getFinanceMessages().customerItems(), cmd4);
-		customerMenu.addItem(menuItem4);
-
-		Command cmd5 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createQuotes();
-
-			}
-		};
-		CustomMenuItem menuItem5 = new CustomMenuItem(Accounter
-				.getFinanceMessages().quotes(), cmd5);
-		customerMenu.addItem(menuItem5);
-
-		Command cmd6 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createInvoices();
-
-			}
-		};
-		CustomMenuItem menuItem6 = new CustomMenuItem(Accounter
-				.getFinanceMessages().invoices(), cmd6);
-		customerMenu.addItem(menuItem6);
-
-		Command cmd7 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createCashSales();
-
-			}
-		};
-		CustomMenuItem menuItem7 = new CustomMenuItem(Accounter
-				.getFinanceMessages().cashSales(), cmd7);
-		customerMenu.addItem(menuItem7);
-
-		Command cmd8 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createCustomerCredits();
-
-			}
-		};
-		CustomMenuItem menuItem8 = new CustomMenuItem(Accounter
-				.getFinanceMessages().customerCredit(), cmd8);
-		customerMenu.addItem(menuItem8);
-
-		Command cmd9 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createCustomerRefunds();
-
-			}
-		};
-		CustomMenuItem menuItem9 = new CustomMenuItem(Accounter
-				.getFinanceMessages().customerRefunds(), cmd9);
-		customerMenu.addItem(menuItem9);
-
-		Command cmd10 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createRecievePayments();
-
-			}
-		};
-		CustomMenuItem menuItem10 = new CustomMenuItem(Accounter
-				.getFinanceMessages().recievePayments(), cmd10);
-		customerMenu.addItem(menuItem10);
-
-		test.addItem(accounter.getCustomersMessages().customer(), customerMenu);
-
-		CustomMenuBar vendorMenu = new CustomMenuBar();
-
-		Command cmd11 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createVendors();
-
-			}
-		};
-
-		CustomMenuItem menuItem11 = new CustomMenuItem(UIUtils.getVendorString(
-				accounter.getVendorsMessages().vendors(), accounter
-						.getVendorsMessages().vendors()), cmd11);
-		vendorMenu.addItem(menuItem11);
-
-		Command cmd12 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createVendorIems();
-
-			}
-		};
-		CustomMenuItem menuItem12 = new CustomMenuItem(UIUtils.getVendorString(
-				accounter.getFinanceMessages().supplierItems(), accounter
-						.getFinanceMessages().vendorItems()), cmd12);
-		vendorMenu.addItem(menuItem12);
-
-		Command cmd13 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createCashPurchases();
-
-			}
-		};
-		CustomMenuItem menuItem13 = new CustomMenuItem(Accounter
-				.getFinanceMessages().cashPurchases(), cmd13);
-		vendorMenu.addItem(menuItem13);
-
-		Command cmd14 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createVendorCreditMemo();
-
-			}
-		};
-		CustomMenuItem menuItem14 = new CustomMenuItem(UIUtils.getVendorString(
-				accounter.getFinanceMessages().supplierMemo(), accounter
-						.getFinanceMessages().vendorMemo()), cmd14);
-		vendorMenu.addItem(menuItem14);
-
-		Command cmd15 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createEnterBill();
-			}
-		};
-		CustomMenuItem menuItem15 = new CustomMenuItem(Accounter
-				.getFinanceMessages().enterBills(), cmd15);
-		vendorMenu.addItem(menuItem15);
-
-		Command cmd16 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createItemReceipt();
-			}
-		};
-		CustomMenuItem menuItem16 = new CustomMenuItem(Accounter
-				.getFinanceMessages().itemReciepts(), cmd16);
-		vendorMenu.addItem(menuItem16);
-
-		Command cmd17 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createVendorPayment();
-			}
-		};
-		CustomMenuItem menuItem17 = new CustomMenuItem(UIUtils.getVendorString(
-				accounter.getFinanceMessages().supplierPayment(), accounter
-						.getFinanceMessages().vendorPayment()), cmd17);
-		vendorMenu.addItem(menuItem17);
-
-		Command cmd18 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.creatVendorPayBills();
-			}
-		};
-		CustomMenuItem menuItem18 = new CustomMenuItem(Accounter
-				.getFinanceMessages().payBills(), cmd18);
-		vendorMenu.addItem(menuItem18);
-
-		Command cmd19 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createIssuePayments();
-			}
-		};
-		CustomMenuItem menuItem19 = new CustomMenuItem(Accounter
-				.getFinanceMessages().issuePayments(), cmd19);
-		vendorMenu.addItem(menuItem19);
-
-		test.addItem(UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.supplier(), Accounter.getVendorsMessages().vendor()),
-				vendorMenu);
-
-		CustomMenuBar bankMenu = getSubMenu();
-
-		Command cmd20 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createTransferFunds();
-			}
-		};
-		CustomMenuItem menuItem20 = new CustomMenuItem(Accounter
-				.getFinanceMessages().transferFunds(), cmd20);
-		bankMenu.addItem(menuItem20);
-
-		Command cmd22 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createMakeDeposite();
-			}
-		};
-		CustomMenuItem menuItem22 = new CustomMenuItem(Accounter
-				.getFinanceMessages().makeDeposits(), cmd22);
-		bankMenu.addItem(menuItem22);
-
-		Command cmd23 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createCreditCardCharge();
-			}
-		};
-		CustomMenuItem menuItem23 = new CustomMenuItem(Accounter
-				.getFinanceMessages().creditCardCharge(), cmd23);
-		bankMenu.addItem(menuItem23);
-
-		test.addItem(accounter.getFinanceMessages().bank(), bankMenu);
-
-		return test;
-	}
+	// private CustomMenuBar getTestMenu() {
+	// final GUITest guiTest = new GUITest();
+	// CustomMenuBar test = getSubMenu();
+	//
+	// Command cmd1 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createSupportList();
+	//
+	// }
+	// };
+	// CustomMenuItem menuItem1 = new CustomMenuItem(Accounter
+	// .getFinanceMessages().supportLists(), cmd1);
+	// test.addItem(menuItem1);
+	//
+	// Command cmd2 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createAccounts();
+	//
+	// }
+	// };
+	// CustomMenuItem menuItem2 = new CustomMenuItem(Accounter
+	// .getFinanceMessages().accounts(), cmd2);
+	// test.addItem(menuItem2);
+	//
+	// CustomMenuBar customerMenu = getSubMenu();
+	// Command cmd3 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createCustomers();
+	//
+	// }
+	// };
+	//
+	// CustomMenuItem menuItem3 = new CustomMenuItem(Accounter
+	// .getFinanceMessages().customers(), cmd3);
+	// customerMenu.addItem(menuItem3);
+	//
+	// Command cmd4 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createCustomerIems();
+	//
+	// }
+	// };
+	// CustomMenuItem menuItem4 = new CustomMenuItem(Accounter
+	// .getFinanceMessages().customerItems(), cmd4);
+	// customerMenu.addItem(menuItem4);
+	//
+	// Command cmd5 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createQuotes();
+	//
+	// }
+	// };
+	// CustomMenuItem menuItem5 = new CustomMenuItem(Accounter
+	// .getFinanceMessages().quotes(), cmd5);
+	// customerMenu.addItem(menuItem5);
+	//
+	// Command cmd6 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createInvoices();
+	//
+	// }
+	// };
+	// CustomMenuItem menuItem6 = new CustomMenuItem(Accounter
+	// .getFinanceMessages().invoices(), cmd6);
+	// customerMenu.addItem(menuItem6);
+	//
+	// Command cmd7 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createCashSales();
+	//
+	// }
+	// };
+	// CustomMenuItem menuItem7 = new CustomMenuItem(Accounter
+	// .getFinanceMessages().cashSales(), cmd7);
+	// customerMenu.addItem(menuItem7);
+	//
+	// Command cmd8 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createCustomerCredits();
+	//
+	// }
+	// };
+	// CustomMenuItem menuItem8 = new CustomMenuItem(Accounter
+	// .getFinanceMessages().customerCredit(), cmd8);
+	// customerMenu.addItem(menuItem8);
+	//
+	// Command cmd9 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createCustomerRefunds();
+	//
+	// }
+	// };
+	// CustomMenuItem menuItem9 = new CustomMenuItem(Accounter
+	// .getFinanceMessages().customerRefunds(), cmd9);
+	// customerMenu.addItem(menuItem9);
+	//
+	// Command cmd10 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createRecievePayments();
+	//
+	// }
+	// };
+	// CustomMenuItem menuItem10 = new CustomMenuItem(Accounter
+	// .getFinanceMessages().recievePayments(), cmd10);
+	// customerMenu.addItem(menuItem10);
+	//
+	// test.addItem(accounter.getCustomersMessages().customer(), customerMenu);
+	//
+	// CustomMenuBar vendorMenu = new CustomMenuBar();
+	//
+	// Command cmd11 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createVendors();
+	//
+	// }
+	// };
+	//
+	// CustomMenuItem menuItem11 = new CustomMenuItem(UIUtils.getVendorString(
+	// accounter.getVendorsMessages().vendors(), accounter
+	// .getVendorsMessages().vendors()), cmd11);
+	// vendorMenu.addItem(menuItem11);
+	//
+	// Command cmd12 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createVendorIems();
+	//
+	// }
+	// };
+	// CustomMenuItem menuItem12 = new CustomMenuItem(UIUtils.getVendorString(
+	// accounter.getFinanceMessages().supplierItems(), accounter
+	// .getFinanceMessages().vendorItems()), cmd12);
+	// vendorMenu.addItem(menuItem12);
+	//
+	// Command cmd13 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createCashPurchases();
+	//
+	// }
+	// };
+	// CustomMenuItem menuItem13 = new CustomMenuItem(Accounter
+	// .getFinanceMessages().cashPurchases(), cmd13);
+	// vendorMenu.addItem(menuItem13);
+	//
+	// Command cmd14 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createVendorCreditMemo();
+	//
+	// }
+	// };
+	// CustomMenuItem menuItem14 = new CustomMenuItem(UIUtils.getVendorString(
+	// accounter.getFinanceMessages().supplierMemo(), accounter
+	// .getFinanceMessages().vendorMemo()), cmd14);
+	// vendorMenu.addItem(menuItem14);
+	//
+	// Command cmd15 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createEnterBill();
+	// }
+	// };
+	// CustomMenuItem menuItem15 = new CustomMenuItem(Accounter
+	// .getFinanceMessages().enterBills(), cmd15);
+	// vendorMenu.addItem(menuItem15);
+	//
+	// Command cmd16 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createItemReceipt();
+	// }
+	// };
+	// CustomMenuItem menuItem16 = new CustomMenuItem(Accounter
+	// .getFinanceMessages().itemReciepts(), cmd16);
+	// vendorMenu.addItem(menuItem16);
+	//
+	// Command cmd17 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createVendorPayment();
+	// }
+	// };
+	// CustomMenuItem menuItem17 = new CustomMenuItem(UIUtils.getVendorString(
+	// accounter.getFinanceMessages().supplierPayment(), accounter
+	// .getFinanceMessages().vendorPayment()), cmd17);
+	// vendorMenu.addItem(menuItem17);
+	//
+	// Command cmd18 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.creatVendorPayBills();
+	// }
+	// };
+	// CustomMenuItem menuItem18 = new CustomMenuItem(Accounter
+	// .getFinanceMessages().payBills(), cmd18);
+	// vendorMenu.addItem(menuItem18);
+	//
+	// Command cmd19 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createIssuePayments();
+	// }
+	// };
+	// CustomMenuItem menuItem19 = new CustomMenuItem(Accounter
+	// .getFinanceMessages().issuePayments(), cmd19);
+	// vendorMenu.addItem(menuItem19);
+	//
+	// test.addItem(UIUtils.getVendorString(Accounter.getVendorsMessages()
+	// .supplier(), Accounter.getVendorsMessages().vendor()),
+	// vendorMenu);
+	//
+	// CustomMenuBar bankMenu = getSubMenu();
+	//
+	// Command cmd20 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createTransferFunds();
+	// }
+	// };
+	// CustomMenuItem menuItem20 = new CustomMenuItem(Accounter
+	// .getFinanceMessages().transferFunds(), cmd20);
+	// bankMenu.addItem(menuItem20);
+	//
+	// Command cmd22 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createMakeDeposite();
+	// }
+	// };
+	// CustomMenuItem menuItem22 = new CustomMenuItem(Accounter
+	// .getFinanceMessages().makeDeposits(), cmd22);
+	// bankMenu.addItem(menuItem22);
+	//
+	// Command cmd23 = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// guiTest.createCreditCardCharge();
+	// }
+	// };
+	// CustomMenuItem menuItem23 = new CustomMenuItem(Accounter
+	// .getFinanceMessages().creditCardCharge(), cmd23);
+	// bankMenu.addItem(menuItem23);
+	//
+	// test.addItem(accounter.getFinanceMessages().bank(), bankMenu);
+	//
+	// return test;
+	// }
 
 	private CustomMenuBar getFixedAssetsMenu() {
 		CustomMenuBar fixedAssetMenu = new CustomMenuBar();
@@ -1383,21 +1380,22 @@ public class MainFinanceWindow extends VerticalPanel {
 		if (actions == null || value == null)
 			return;
 
-		String historyToken = null, id = null;
+		String historyToken = null;
+		long id = 0;
 		AccounterCoreType type = null;
 
 		List<Object> list = HistoryTokenUtils.getObject(value);
 		historyToken = (String) list.get(0);
 		if (list.size() == 3) {
 			type = (AccounterCoreType) list.get(1);
-			id = (String) list.get(2);
+			id = Long.parseLong((String) list.get(2));
 			// historyToken = value.substring(0, value.indexOf("?"));
 			// id = value.substring(value.indexOf("?") + 1);
 		}
 
 		final Action action = actions.get(historyToken);
 		if (action != null) {
-			if (type != null && id != null) {
+			if (type != null && id != 0) {
 				AsyncCallback<T> callback = new AsyncCallback<T>() {
 
 					public void onFailure(Throwable caught) {

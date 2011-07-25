@@ -79,15 +79,15 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 	}
 
 	public void createItemSGroups() {
-		if (Utility.isObjectExist(getCompany()
-				.getItemGroups(), itemGroupDg.getItemGroupName())) {
+		if (Utility.isObjectExist(getCompany().getItemGroups(),
+				itemGroupDg.getItemGroupName())) {
 			Accounter.showError("A Item Group  Already Exists with this name");
 		} else {
 			createObject(itemGroupDg.createOrEditItemGroup());
 		}
 	}
 
-	public String getSelectedItemGroupId() {
+	public long getSelectedItemGroupId() {
 		return ((ClientItemGroup) listGridView.getSelection()).getID();
 	}
 
@@ -97,8 +97,8 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 
 	public void showAddEditGroupDialog(ClientItemGroup rec) {
 		itemGroup = rec;
-		itemGroupDg = new ItemGroupDialog(Accounter
-				.getFinanceUIConstants().itemGroup(), "", itemGroup);
+		itemGroupDg = new ItemGroupDialog(Accounter.getFinanceUIConstants()
+				.itemGroup(), "", itemGroup);
 
 		InputDialogHandler dialogHandler = new InputDialogHandler() {
 
@@ -130,8 +130,8 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 
 		if (!(itemGroup.getName().equalsIgnoreCase(
 				itemGroupDg.getItemGroupName()) ? true : (Utility
-				.isObjectExist(company.getItemGroups(), itemGroupDg
-						.getItemGroupName())) ? false : true)) {
+				.isObjectExist(company.getItemGroups(),
+						itemGroupDg.getItemGroupName())) ? false : true)) {
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
 		} else {
 			alterObject(itemGroupDg.createOrEditItemGroup());
@@ -160,8 +160,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 
 	@Override
 	protected List<ClientItemGroup> getRecords() {
-		return (List<ClientItemGroup>) getCompany()
-				.getItemGroups();
+		return (List<ClientItemGroup>) getCompany().getItemGroups();
 	}
 
 	@Override

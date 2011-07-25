@@ -146,7 +146,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 			c.setEmail(emailText.getValue().toString());
 		}
 
-		company.setContact(c);
+		// company.setContact(c);
 
 		// company.setUser(FinanceApplication.getUser());
 
@@ -214,7 +214,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 	}
 
 	@SuppressWarnings("unused")
-	private void getCompany() {
+	public ClientCompany getCompany() {
 		final IAccounterGETServiceAsync getService = (IAccounterGETServiceAsync) GWT
 				.create(IAccounterGETService.class);
 
@@ -238,6 +238,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 
 		getService.getObjectByName(AccounterCoreType.COMPANY, companyNameText
 				.getValue().toString(), getCompanyCallBack);
+		return Accounter.getCompany();
 	}
 
 	private void createPrevStepCanvas() {

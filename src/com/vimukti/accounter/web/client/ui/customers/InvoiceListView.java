@@ -9,7 +9,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -29,12 +28,9 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 
 	private List<String> dateRangeList;
 
-	public static String OPEN = Accounter.getCustomersMessages()
-			.open();
-	public static String OVER_DUE = Accounter.getCustomersMessages()
-			.overDue();
-	public static String VOID = Accounter.getVendorsMessages()
-			.Voided();
+	public static String OPEN = Accounter.getCustomersMessages().open();
+	public static String OVER_DUE = Accounter.getCustomersMessages().overDue();
+	public static String VOID = Accounter.getVendorsMessages().Voided();
 	public static String ALL = Accounter.getVendorsMessages().all();
 	// private static String DELETE = "Deleted";
 	protected ClientFinanceDate startDate;
@@ -44,14 +40,14 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 	public InvoiceListView() {
 		isDeleteDisable = true;
 		startDate = Accounter.getStartDate();
-		endDate = Utility.getLastandOpenedFiscalYearEndDate();
+		endDate = getCompany().getLastandOpenedFiscalYearEndDate();
 	}
 
 	public InvoiceListView(String viewType) {
 		this.viewType = viewType;
 		isDeleteDisable = true;
 		startDate = Accounter.getStartDate();
-		endDate = Utility.getLastandOpenedFiscalYearEndDate();
+		endDate = getCompany().getLastandOpenedFiscalYearEndDate();
 	}
 
 	// @Override
@@ -88,8 +84,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getInvoiceList(
-				startDate.getTime(), endDate.getTime(), this);
+		Accounter.createHomeService().getInvoiceList(startDate.getTime(),
+				endDate.getTime(), this);
 	}
 
 	@Override
@@ -106,8 +102,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 		grid.init();
 	}
 
-	String[] dateRangeArray = {
-			Accounter.getCustomersMessages().all(),
+	String[] dateRangeArray = { Accounter.getCustomersMessages().all(),
 			Accounter.getCustomersMessages().thisWeek(),
 			Accounter.getCustomersMessages().thisMonth(),
 			Accounter.getCustomersMessages().lastWeek(),
@@ -156,8 +151,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 	}
 
 	protected SelectCombo getDateRangeSelectItem() {
-		dateRangeSelector = new SelectCombo(Accounter
-				.getCustomersMessages().date());
+		dateRangeSelector = new SelectCombo(Accounter.getCustomersMessages()
+				.date());
 		dateRangeList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeList.add(dateRangeArray[i]);
@@ -180,8 +175,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 					public void selectedComboBoxItem(String selectItem) {
 						if (dateRangeSelector.getValue() != null
 								&& !dateRangeSelector.getValue().equals(
-										Accounter
-												.getCustomersMessages()
+										Accounter.getCustomersMessages()
 												.custom())) {
 							dateRangeChanged(dateRangeSelector
 									.getSelectedValue());
@@ -246,32 +240,28 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 	public void dateRangeChanged(String dateRange) {
 		ClientFinanceDate date = new ClientFinanceDate();
 		startDate = Accounter.getStartDate();
-		endDate = Utility.getLastandOpenedFiscalYearEndDate();
+		endDate = getCompany().getLastandOpenedFiscalYearEndDate();
 		if (dateRange.equals(Accounter.getCustomersMessages().all())) {
 			getMinimumAndMaximumDates();
 			return;
 		}
-		if (dateRange.equals(Accounter.getCustomersMessages()
-				.thisWeek())) {
+		if (dateRange.equals(Accounter.getCustomersMessages().thisWeek())) {
 			startDate = getWeekStartDate();
 			endDate = new ClientFinanceDate();
 		}
-		if (dateRange.equals(Accounter.getCustomersMessages()
-				.thisMonth())) {
+		if (dateRange.equals(Accounter.getCustomersMessages().thisMonth())) {
 			startDate = new ClientFinanceDate(date.getYear(), date.getMonth(),
 					1);
 			endDate = new ClientFinanceDate();
 		}
-		if (dateRange.equals(Accounter.getCustomersMessages()
-				.lastWeek())) {
+		if (dateRange.equals(Accounter.getCustomersMessages().lastWeek())) {
 			endDate = getWeekStartDate();
 			endDate.setDate(endDate.getDate() - 1);
 			startDate = new ClientFinanceDate(endDate.getTime());
 			startDate.setDate(startDate.getDate() - 6);
 
 		}
-		if (dateRange.equals(Accounter.getCustomersMessages()
-				.lastMonth())) {
+		if (dateRange.equals(Accounter.getCustomersMessages().lastMonth())) {
 			int day;
 			if (date.getMonth() == 0) {
 				day = getMonthLastDate(11, date.getYear() - 1);
@@ -279,16 +269,16 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 				endDate = new ClientFinanceDate(date.getYear() - 1, 11, day);
 			} else {
 				day = getMonthLastDate(date.getMonth() - 1, date.getYear());
-				startDate = new ClientFinanceDate(date.getYear(), date
-						.getMonth() - 1, 1);
+				startDate = new ClientFinanceDate(date.getYear(),
+						date.getMonth() - 1, 1);
 				endDate = new ClientFinanceDate(date.getYear(),
 						date.getMonth() - 1, day);
 			}
 		}
 		if (dateRange.equals(Accounter.getCustomersMessages()
 				.thisFinancialYear())) {
-			startDate = Utility.getCurrentFiscalYearStartDate();
-			endDate = Utility.getCurrentFiscalYearEndDate();
+			startDate = getCompany().getCurrentFiscalYearStartDate();
+			endDate = getCompany().getCurrentFiscalYearEndDate();
 		}
 		if (dateRange.equals(Accounter.getCustomersMessages()
 				.lastFinancialYear())) {
@@ -298,20 +288,20 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 		if (dateRange.equals(Accounter.getCustomersMessages()
 				.thisFinancialQuarter())) {
 			startDate = new ClientFinanceDate();
-			endDate = Utility.getLastandOpenedFiscalYearEndDate();
+			endDate = getCompany().getLastandOpenedFiscalYearEndDate();
 			getCurrentQuarter();
 		}
 		if (dateRange.equals(Accounter.getCustomersMessages()
 				.lastFinancialQuarter())) {
 			startDate = new ClientFinanceDate();
-			endDate = Utility.getLastandOpenedFiscalYearEndDate();
+			endDate = getCompany().getLastandOpenedFiscalYearEndDate();
 			getCurrentQuarter();
 			startDate.setYear(startDate.getYear() - 1);
 			endDate.setYear(endDate.getYear() - 1);
 		}
 		if (dateRange.equals(Accounter.getCustomersMessages()
 				.financialYearToDate())) {
-			startDate = Utility.getCurrentFiscalYearStartDate();
+			startDate = getCompany().getCurrentFiscalYearStartDate();
 			endDate = new ClientFinanceDate();
 		}
 		setStartDate(startDate);

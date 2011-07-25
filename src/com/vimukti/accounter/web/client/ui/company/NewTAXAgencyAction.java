@@ -22,7 +22,7 @@ public class NewTAXAgencyAction extends Action {
 	public NewTAXAgencyAction(String text) {
 		super(text);
 		String flag;
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			flag = Accounter.getCompanyMessages().company();
 		else
 			flag = Accounter.getVATMessages().VAT();
@@ -89,7 +89,7 @@ public class NewTAXAgencyAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		// TODO Auto-generated method stub
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			return "newVatAgency";
 		else
 			return "newTaxAgency";

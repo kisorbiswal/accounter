@@ -422,7 +422,7 @@ public class UsersMailSendar {
 		content = content.replaceAll("%USER%", user.getDisplayName());
 		content = content.replaceAll("%COMPANY%", companyName);
 		content = content.replaceAll("%PASSWORD%", password);
-		content = content.replaceAll("%EMAILID%", user.getEmailId());
+		content = content.replaceAll("%EMAILID%", user.getEmail());
 		// content = content.replaceAll("%LOGINURL%", loginURL);
 
 		String subject = propertyParser.getProperty("subjectForInviteUser", "");
@@ -431,7 +431,7 @@ public class UsersMailSendar {
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(content);
 		emailMsg.setSubject(subject);
-		emailMsg.setRecepeant(user.getEmailId());
+		emailMsg.setRecepeant(user.getEmail());
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), companyName);
 
 		EmailManager.getInstance().addJob(job);
@@ -470,7 +470,7 @@ public class UsersMailSendar {
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(content);
 		emailMsg.setSubject(subject);
-		emailMsg.setRecepeant(admin.getEmailId());
+		emailMsg.setRecepeant(admin.getEmail());
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), companyName);
 
 		EmailManager.getInstance().addJob(job);

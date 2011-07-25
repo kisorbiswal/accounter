@@ -29,10 +29,10 @@ public class ChangePasswordDialog extends BaseDialog {
 
 	private void createControls() {
 
-		oldPasswordTextItem = new PasswordItem(Accounter
-				.getCompanyMessages().oldPassword());
-		newPasswordTextItem = new PasswordItem(Accounter
-				.getCompanyMessages().newPassword());
+		oldPasswordTextItem = new PasswordItem(Accounter.getCompanyMessages()
+				.oldPassword());
+		newPasswordTextItem = new PasswordItem(Accounter.getCompanyMessages()
+				.newPassword());
 		confirmNewPasswordTextItem = new PasswordItem(Accounter
 				.getCompanyMessages().confirmNewPassword());
 
@@ -84,7 +84,7 @@ public class ChangePasswordDialog extends BaseDialog {
 		oldPassword = oldPasswordTextItem.getValue().toString();
 		newPassword = newPasswordTextItem.getValue().toString();
 		confirmNewPassword = confirmNewPasswordTextItem.getValue().toString();
-		String emailID = Accounter.clientIdentity.getEmailAddress();
+		String emailID = Accounter.getUser().getEmail();
 
 		if (!(newPassword.toString().length() < 6)) {
 			if (newPassword.equals(confirmNewPassword)) {

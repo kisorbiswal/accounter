@@ -7,6 +7,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.IAccounterGETService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.HelpLink;
 import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -131,5 +132,18 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 
 		return helpLinks;
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.vimukti.accounter.web.client.IAccounterGETService#getUser(java.lang
+	 * .String, java.lang.String, boolean, int)
+	 */
+	@Override
+	public ClientUser getUser(String userName, String password,
+			boolean isremeber, int offset) {
+		return login(userName, password, isremeber, offset);
 	}
 }

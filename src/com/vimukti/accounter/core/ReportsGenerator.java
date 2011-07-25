@@ -697,7 +697,8 @@ public class ReportsGenerator {
 			try {
 				// FIXME
 				priorVATReturnsServerReport.onSuccess(reportsSerivce
-						.getPriorReturnVATSummary(status, endDate));
+						.getPriorReturnVATSummary(Long.parseLong(status),
+								endDate));
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -718,7 +719,7 @@ public class ReportsGenerator {
 			try {
 				// FIXME
 				vat100ServerReport.onSuccess(reportsSerivce.getVAT100Report(
-						status, startDate, endDate));
+						Long.parseLong(status), startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -985,8 +986,9 @@ public class ReportsGenerator {
 			try {
 				// FIXME
 				statementReport.onSuccess(finaTool.getPayeeStatementsList(
-						status, new ClientFinanceDate().getTime(), startDate,
-						endDate, 0, false, false, 0.00, false, false));
+						Long.parseLong(status),
+						new ClientFinanceDate().getTime(), startDate, endDate,
+						0, false, false, 0.00, false, false));
 
 			} catch (Exception e) {
 				e.printStackTrace();

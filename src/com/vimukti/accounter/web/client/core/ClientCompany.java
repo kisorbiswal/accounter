@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.core.client.JavaScriptException;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -1307,7 +1306,7 @@ public class ClientCompany implements IAccounterCore {
 
 		} else if (accounterCoreObject instanceof AccounterException) {
 			AccounterException e = (AccounterException) accounterCoreObject;
-			if (e.status != 819) {
+			if (e.getErrorCode() != 819) {
 				MainFinanceWindow.getViewManager().operationFailed(e);
 			} else {
 				processRequest(e);
@@ -2107,9 +2106,8 @@ public class ClientCompany implements IAccounterCore {
 
 	}
 
-	public void processRequest(Object obj) {
+	public void processRequest(AccounterException e) {
 		// Accounter.showError("Session expired message");
-		InvalidOperationException e = (InvalidOperationException) obj;
 		Accounter.showMessage(e.getMessage());
 	}
 

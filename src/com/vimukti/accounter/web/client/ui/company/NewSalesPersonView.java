@@ -213,7 +213,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			emailForm.businesEmailText.setValue(takenSalesperson.getEmail());
 			emailForm.webText.setValue(takenSalesperson.getWebPageAddress());
 			statusCheck.setValue(takenSalesperson.isActive());
-			if (takenSalesperson.getExpenseAccount() != null) {
+			if (takenSalesperson.getExpenseAccount() != 0) {
 				selectedExpenseAccount = getCompany().getAccount(
 						takenSalesperson.getExpenseAccount());
 				expenseSelect.setComboItem(selectedExpenseAccount);

@@ -16,17 +16,17 @@ public class ClientCustomer extends ClientPayee {
 
 	long salesPerson;
 
-	String creditRating;
+	long creditRating;
 
 	long shippingMethod;
 
 	long paymentTerm;
 
-	String customerGroup;
+	long customerGroup;
 
 	String taxGroup;
 
-	String taxItemGroups;
+	long taxItemGroups;
 
 	double current = 0D;
 
@@ -390,7 +390,7 @@ public class ClientCustomer extends ClientPayee {
 		return this.priceLevel;
 	}
 
-	public String getTaxItemGroups() {
+	public long getTaxItemGroups() {
 		return this.taxItemGroups;
 
 	}
@@ -411,11 +411,11 @@ public class ClientCustomer extends ClientPayee {
 		return this.salesPerson;
 	}
 
-	public String getCreditRating() {
+	public long getCreditRating() {
 		return this.creditRating;
 	}
 
-	public String getCustomerGroup() {
+	public long getCustomerGroup() {
 		return this.customerGroup;
 	}
 
@@ -427,7 +427,7 @@ public class ClientCustomer extends ClientPayee {
 		this.priceLevel = selectPriceLevelFromDetailsTab;
 	}
 
-	public void setCreditRating(String selectCreditRatingFromDetailsTab) {
+	public void setCreditRating(long selectCreditRatingFromDetailsTab) {
 		this.creditRating = selectCreditRatingFromDetailsTab;
 	}
 
@@ -439,7 +439,7 @@ public class ClientCustomer extends ClientPayee {
 		this.paymentTerm = selectPayTermFromDetailsTab;
 	}
 
-	public void setCustomerGroup(String selectCustomerGroupFromDetailsTab) {
+	public void setCustomerGroup(long selectCustomerGroupFromDetailsTab) {
 		this.customerGroup = selectCustomerGroupFromDetailsTab;
 	}
 
