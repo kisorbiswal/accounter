@@ -135,7 +135,7 @@ public class LiveLoginServlet extends BaseServlet {
 					String.valueOf(user.getID()));
 			request.getSession().setAttribute(COMPANY_NAME, user.getCompany());
 			Server.getInstance().addSeesionIdOfIdentity(
-					String.valueOf(user.getID()), request.getSession().getID());
+					String.valueOf(user.getID()), request.getSession().getId());
 
 			request.setAttribute("success", true);
 
