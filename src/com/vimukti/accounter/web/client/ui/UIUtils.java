@@ -1910,7 +1910,7 @@ public class UIUtils {
 	}-*/;
 
 	public static native void generateReportPDF(int start, int end,
-			int reportType, String name, String dateRangeHtml, long status)/*-{
+			int reportType, String name, String dateRangeHtml, String status)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
 			frame.setAttribute("src",
