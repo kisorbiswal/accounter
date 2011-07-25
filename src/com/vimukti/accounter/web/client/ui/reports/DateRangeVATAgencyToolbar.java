@@ -38,8 +38,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 	private void createControls() {
 
-		String[] dateRangeArray = {
-				Accounter.getReportsMessages().all(),
+		String[] dateRangeArray = { Accounter.getReportsMessages().all(),
 				Accounter.getReportsMessages().thisWeek(),
 				Accounter.getReportsMessages().thisMonth(),
 				Accounter.getReportsMessages().lastWeek(),
@@ -78,8 +77,8 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 				// FinanceApplication.getReportsMessages().previousCalenderYear(),
 				Accounter.getReportsMessages().custom() };
 
-		vatAgencyCombo = new TAXAgencyCombo(Accounter
-				.getReportsMessages().chooseVATAgency(), false);
+		vatAgencyCombo = new TAXAgencyCombo(Accounter.getReportsMessages()
+				.chooseVATAgency(), false);
 		vatAgencyCombo.setHelpInformation(true);
 		vatAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
@@ -91,8 +90,8 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 							ClientFinanceDate startDate = fromItem.getDate();
 							ClientFinanceDate endDate = toItem.getDate();
 
-							reportview.makeReportRequest(selectItem
-									.getID(), startDate, endDate);
+							reportview.makeReportRequest(selectItem.getName(),
+									startDate, endDate);
 						}
 
 					}
@@ -115,8 +114,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeList.add(dateRangeArray[i]);
 		}
-		dateRangeItem.setComboItem(Accounter.getReportsMessages()
-				.all());
+		dateRangeItem.setComboItem(Accounter.getReportsMessages().all());
 		dateRangeItem
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -152,7 +150,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 				ClientFinanceDate endDate = toItem.getDate();
 				ClientTAXAgency vatAgency = vatAgencyCombo.getSelectedValue();
 				if (vatAgency != null)
-					reportview.makeReportRequest(vatAgency.getID(),
+					reportview.makeReportRequest(vatAgency.getName(),
 							startDate, endDate);
 
 				// itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
@@ -161,8 +159,8 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 			}
 		});
 
-		updateButton = new AccounterButton(Accounter
-				.getReportsMessages().update());
+		updateButton = new AccounterButton(Accounter.getReportsMessages()
+				.update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -175,16 +173,15 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 				ClientFinanceDate end = toItem.getDate();
 				ClientTAXAgency vatAgency = vatAgencyCombo.getSelectedValue();
 				if (vatAgency != null)
-					reportview.makeReportRequest(vatAgency.getID(),
-							start, end);
+					reportview.makeReportRequest(vatAgency.getName(), start,
+							end);
 
 				// This will update the dates in the date range layout
 				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
 						startDate, endDate);
-				dateRangeItem.setDefaultValue(Accounter
-						.getReportsMessages().custom());
-				setSelectedDateRange(Accounter.getReportsMessages()
+				dateRangeItem.setDefaultValue(Accounter.getReportsMessages()
 						.custom());
+				setSelectedDateRange(Accounter.getReportsMessages().custom());
 			}
 		});
 
@@ -246,7 +243,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 		ClientFinanceDate end = endDate;
 		ClientTAXAgency vatAgency = vatAgencyCombo.getSelectedValue();
 		if (vatAgency != null)
-			reportview.makeReportRequest(vatAgency.getID(), start, end);
+			reportview.makeReportRequest(vatAgency.getName(), start, end);
 
 		itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL, startDate,
 				endDate);
