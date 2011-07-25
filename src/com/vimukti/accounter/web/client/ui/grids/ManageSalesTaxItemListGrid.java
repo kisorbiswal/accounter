@@ -39,7 +39,7 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 				return DataUtils.getAmountAsString(obj.getTaxRate());
 		case 3:
 			ClientTAXAgency agency = null;
-			if (obj.getTaxAgency() != null) {
+			if (obj.getTaxAgency() != 0) {
 				agency = getCompany().getTaxAgency(obj.getTaxAgency());
 			}
 			return agency != null ? agency.getName() : "";
@@ -112,7 +112,7 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 	private String getTaxAgencyID(ClientTAXItem obj) {
 
 		ClientTAXAgency agency = null;
-		if (obj.getTaxAgency() != null) {
+		if (obj.getTaxAgency() != 0) {
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				agency = getCompany().getTaxAgency(obj.getTaxAgency());
 			}
