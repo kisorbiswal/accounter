@@ -90,7 +90,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 							ClientFinanceDate startDate = fromItem.getDate();
 							ClientFinanceDate endDate = toItem.getDate();
 
-							reportview.makeReportRequest(selectItem.getName(),
+							reportview.makeReportRequest(selectItem.getID(),
 									startDate, endDate);
 						}
 
@@ -150,8 +150,8 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 				ClientFinanceDate endDate = toItem.getDate();
 				ClientTAXAgency vatAgency = vatAgencyCombo.getSelectedValue();
 				if (vatAgency != null)
-					reportview.makeReportRequest(vatAgency.getName(),
-							startDate, endDate);
+					reportview.makeReportRequest(vatAgency.getID(), startDate,
+							endDate);
 
 				// itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
 				// fromItem.getDate(), toItem.getDate());
@@ -173,8 +173,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 				ClientFinanceDate end = toItem.getDate();
 				ClientTAXAgency vatAgency = vatAgencyCombo.getSelectedValue();
 				if (vatAgency != null)
-					reportview.makeReportRequest(vatAgency.getName(), start,
-							end);
+					reportview.makeReportRequest(vatAgency.getID(), start, end);
 
 				// This will update the dates in the date range layout
 				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
@@ -243,7 +242,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 		ClientFinanceDate end = endDate;
 		ClientTAXAgency vatAgency = vatAgencyCombo.getSelectedValue();
 		if (vatAgency != null)
-			reportview.makeReportRequest(vatAgency.getName(), start, end);
+			reportview.makeReportRequest(vatAgency.getID(), start, end);
 
 		itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL, startDate,
 				endDate);
