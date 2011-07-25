@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.PurchaseOpenOrderServer
 public class PurchaseOpenOrderReport extends
 		AbstractReportView<OpenAndClosedOrders> {
 
-	private String status;
+	private long status;
 
 	public PurchaseOpenOrderReport() {
 		this.serverReport = new PurchaseOpenOrderServerReport(this);
@@ -66,7 +66,7 @@ public class PurchaseOpenOrderReport extends
 		else
 			Accounter.createReportService().getPurchaseOrderReport(
 					start.getTime(), end.getTime(), this);
-		this.status = String.valueOf(status);
+		this.status = status;
 	}
 
 	@Override
