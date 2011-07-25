@@ -534,7 +534,7 @@ public class ItemReceiptView extends
 
 		for (PurchaseOrdersList record : result) {
 			for (ClientPurchaseOrder purchaseOrder : selectedPurchaseOrders) {
-				if (purchaseOrder.getID().equals(record.getTransactionId()))
+				if (purchaseOrder.getID() == record.getTransactionId())
 					filteredList.remove(record);
 			}
 		}
