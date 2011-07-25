@@ -30,8 +30,6 @@ public class ClientVATReturn extends ClientTransaction {
 
 	List<ClientBox> boxes = new ArrayList<ClientBox>();
 
-	
-
 	String journalEntry;
 
 	double balance;
@@ -79,21 +77,6 @@ public class ClientVATReturn extends ClientTransaction {
 	 */
 	public void setBalance(double balance) {
 		this.balance = balance;
-	}
-
-	/**
-	 * @return the isImported
-	 */
-	public boolean isImported() {
-		return isImported;
-	}
-
-	/**
-	 * @param isImported
-	 *            the isImported to set
-	 */
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
 	}
 
 	/**
@@ -183,18 +166,17 @@ public class ClientVATReturn extends ClientTransaction {
 	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#getID()
 	 */
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	/*
-	 * @see
-	 * com.vimukti.accounter.web.client.core.IAccounterCore#setID(java
+	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#setID(java
 	 * .lang.String)
 	 */
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 

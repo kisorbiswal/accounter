@@ -31,8 +31,6 @@ public class ClientPayVAT extends ClientTransaction {
 
 	List<ClientTransactionPayVAT> transactionPayVAT;
 
-	
-
 	@Override
 	public String getClientClassSimpleName() {
 		// TODO Auto-generated method stub
@@ -45,13 +43,13 @@ public class ClientPayVAT extends ClientTransaction {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
@@ -159,21 +157,6 @@ public class ClientPayVAT extends ClientTransaction {
 	public void setClientTransactionPayVAT(
 			List<ClientTransactionPayVAT> clientTransactionPayVAT) {
 		this.transactionPayVAT = clientTransactionPayVAT;
-	}
-
-	/**
-	 * @return the isImported
-	 */
-	public boolean isImported() {
-		return isImported;
-	}
-
-	/**
-	 * @param isImported
-	 *            the isImported to set
-	 */
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
 	}
 
 }

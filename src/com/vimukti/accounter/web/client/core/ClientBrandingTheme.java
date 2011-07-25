@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.core;
 /**
  * 
  * @author Uday Kumar
- *
+ * 
  */
 public class ClientBrandingTheme implements IAccounterCore {
 
@@ -63,7 +63,6 @@ public class ClientBrandingTheme implements IAccounterCore {
 	private String Terms_And_Payment_Advice;
 	private String fileName;
 
-	private 
 	private transient boolean isOnSaveProccessed;
 
 	String createdBy;
@@ -94,15 +93,9 @@ public class ClientBrandingTheme implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
-		return this.id;
+	public void setID(long id) {
+		this.id = id;
 	}
-
-	@Override
-	public void setID(long id){
-		this.id=id;
-	}
-
 
 	public long getID() {
 		return id;
@@ -300,14 +293,6 @@ public class ClientBrandingTheme implements IAccounterCore {
 
 	public String getTerms_And_Payment_Advice() {
 		return Terms_And_Payment_Advice;
-	}
-
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-	}
-
-	public boolean isImported() {
-		return isImported;
 	}
 
 	public void setOnSaveProccessed(boolean isOnSaveProccessed) {

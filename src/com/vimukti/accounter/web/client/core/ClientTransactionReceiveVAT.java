@@ -9,7 +9,6 @@ public class ClientTransactionReceiveVAT implements IAccounterCore {
 
 	long id;
 
-
 	/**
 	 * The TaxAgency that we have selected for what we are making the
 	 * PaySalesTax.
@@ -32,8 +31,6 @@ public class ClientTransactionReceiveVAT implements IAccounterCore {
 
 	int version;
 
-	
-
 	/**
 	 * @return the id
 	 */
@@ -45,7 +42,7 @@ public class ClientTransactionReceiveVAT implements IAccounterCore {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setID(long id){
+	public void setID(long id) {
 		this.id = id;
 	}
 
@@ -139,21 +136,6 @@ public class ClientTransactionReceiveVAT implements IAccounterCore {
 		this.version = version;
 	}
 
-	/**
-	 * @return the isImported
-	 */
-	public boolean isImported() {
-		return isImported;
-	}
-
-	/**
-	 * @param isImported
-	 *            the isImported to set
-	 */
-	public void setImported(boolean isImported) {
-		this.isImported = isImported;
-	}
-
 	@Override
 	public String getClientClassSimpleName() {
 
@@ -177,12 +159,5 @@ public class ClientTransactionReceiveVAT implements IAccounterCore {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public long getID(){
-
-		return this.id;
-	}
-
 
 }

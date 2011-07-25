@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
-
-public class ClientFinanceLogger implements IAccounterCore{
+public class ClientFinanceLogger implements IAccounterCore {
 
 	public ClientFinanceLogger() {
 
@@ -28,11 +27,6 @@ public class ClientFinanceLogger implements IAccounterCore{
 	public void setLogMessge(String logMessge) {
 		this.logMessge = logMessge;
 	}
-
-	public long getID() {
-		return id;
-	}
-
 
 	public long getCreatedDate() {
 		return createdDate;
@@ -75,15 +69,13 @@ public class ClientFinanceLogger implements IAccounterCore{
 	}
 
 	@Override
-	public long getID(){
-		return 0;
+	public long getID() {
+		return id;
 	}
 
 	@Override
-	public void setID(long id){
-		// TODO Auto-generated method stub
-		
+	public void setID(long id) {
+		this.id = id;
 	}
-	
 
 }
