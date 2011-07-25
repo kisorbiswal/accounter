@@ -245,7 +245,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 		return null;
 	}
 
-	private String getTransactionID(ReceivePaymentsList obj) {
+	private long getTransactionID(ReceivePaymentsList obj) {
 		return obj.getTransactionId();
 	}
 
