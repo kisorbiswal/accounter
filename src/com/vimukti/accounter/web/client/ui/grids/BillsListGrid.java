@@ -217,7 +217,7 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	}
 
-	private String getTransactionID(BillsList obj) {
+	private long getTransactionID(BillsList obj) {
 		return obj.getTransactionId();
 	}
 
