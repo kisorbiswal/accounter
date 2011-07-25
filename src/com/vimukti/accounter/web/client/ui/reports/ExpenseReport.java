@@ -23,8 +23,8 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		ReportsRPC.openTransactionView(record.getTransactionType(), record
-				.getTransactionId());
+		ReportsRPC.openTransactionView(record.getTransactionType(),
+				record.getTransactionId());
 	}
 
 	@Override
@@ -59,10 +59,10 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 116, "", "", String
-				.valueOf(status));
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 116, "",
+				"", status);
 
 	}
 
@@ -75,8 +75,8 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 	public int sort(ExpenseList obj1, ExpenseList obj2, int col) {
 		switch (col) {
 		case 0:
-			return UIUtils.compareInt(obj1.getTransactionType(), obj2
-					.getTransactionType());
+			return UIUtils.compareInt(obj1.getTransactionType(),
+					obj2.getTransactionType());
 		case 1:
 			return obj1.getTransactionDate().compareTo(
 					obj2.getTransactionDate());
@@ -85,8 +85,8 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 		case 3:
 			if (!currentsectionName.toLowerCase().equals(
 					obj1.getName().toLowerCase())) {
-				return obj1.getName().toLowerCase().compareTo(
-						obj2.getName().toLowerCase());
+				return obj1.getName().toLowerCase()
+						.compareTo(obj2.getName().toLowerCase());
 			} else {
 				return UIUtils.compareDouble(obj1.getTotal(), obj2.getTotal());
 			}
@@ -95,10 +95,10 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 116, "", "", String
-				.valueOf(status));
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 116, "",
+				"", status);
 
 	}
 
