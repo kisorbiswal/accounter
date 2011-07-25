@@ -93,7 +93,7 @@
 		</sql-query> -->
 
 	<query name="get.all.companies">
-		from BizantraCompany
+		from Company
 	</query>
 
 	<query name="get.admin.users">
