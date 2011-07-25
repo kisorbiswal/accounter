@@ -108,7 +108,7 @@ public class ClientAccount implements IAccounterCore {
 	int subBaseType;
 	int groupType;
 
-	String linkedAccumulatedDepreciationAccount;;
+	long linkedAccumulatedDepreciationAccount;;
 
 	boolean isDefault;
 
@@ -158,12 +158,12 @@ public class ClientAccount implements IAccounterCore {
 
 	}
 
-	public String getLinkedAccumulatedDepreciationAccount() {
+	public long getLinkedAccumulatedDepreciationAccount() {
 		return linkedAccumulatedDepreciationAccount;
 	}
 
 	public void setLinkedAccumulatedDepreciationAccount(
-			String linkedAccumulatedDepreciationAccount) {
+			long linkedAccumulatedDepreciationAccount) {
 		this.linkedAccumulatedDepreciationAccount = linkedAccumulatedDepreciationAccount;
 	}
 
@@ -464,14 +464,14 @@ public class ClientAccount implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
