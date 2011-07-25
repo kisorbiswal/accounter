@@ -97,7 +97,7 @@ public class ClientPayBill extends ClientTransaction {
 
 	}
 
-	public void setAccountsPayable(String accountsPayableAccount) {
+	public void setAccountsPayable(long accountsPayableAccount) {
 		// this.accountsPayable ;
 		// TODO
 
