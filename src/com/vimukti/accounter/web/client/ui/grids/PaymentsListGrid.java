@@ -294,7 +294,7 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 		return null;
 	}
 
-	private String getTransactionID(PaymentsList obj) {
+	private long getTransactionID(PaymentsList obj) {
 		return obj.getTransactionId();
 	}
 
