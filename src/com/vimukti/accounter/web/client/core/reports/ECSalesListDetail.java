@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 public class ECSalesListDetail extends BaseReport implements IsSerializable,
 		Serializable {
 
-	String transactionid;
+	long transactionid;
 
 	String transactionNumber;
 
@@ -34,7 +34,7 @@ public class ECSalesListDetail extends BaseReport implements IsSerializable,
 	/**
 	 * @return the transactionid
 	 */
-	public String getTransactionid() {
+	public long getTransactionid() {
 		return transactionid;
 	}
 
@@ -42,7 +42,7 @@ public class ECSalesListDetail extends BaseReport implements IsSerializable,
 	 * @param transactionid
 	 *            the transactionid to set
 	 */
-	public void setTransactionid(String transactionid) {
+	public void setTransactionid(long transactionid) {
 		this.transactionid = transactionid;
 	}
 
