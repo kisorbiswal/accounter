@@ -956,12 +956,6 @@ public class TransactionPayBillGrid extends
 	}
 
 	@Override
-	public void setTaxCode(String taxCode) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void setTaxCode(long taxCode) {
 		// TODO Auto-generated method stub
 
