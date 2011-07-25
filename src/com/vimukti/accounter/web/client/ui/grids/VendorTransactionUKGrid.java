@@ -51,7 +51,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 			transactionView.setAmountIncludeChkValue(transactionObject
 					.isAmountsIncludeVAT());
 			setAllTransactions(transactionObject.getTransactionItems());
-			if (transactionObject.getID() != null) {
+			if (transactionObject.getID() != 0) {
 				// ITS Edit Mode
 				canDeleteRecord(false);
 			}
@@ -59,11 +59,10 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 	}
 
 	protected void createControls() {
-		vatItemCombo = new VATItemCombo(Accounter.getVATMessages()
-				.VATItem(), isAddNewRequired);
+		vatItemCombo = new VATItemCombo(Accounter.getVATMessages().VATItem(),
+				isAddNewRequired);
 		List<ClientTAXItem> vendorVATItems = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : getCompany()
-				.getActiveTaxItems()) {
+		for (ClientTAXItem vatItem : Accounter.getCompany().getActiveTaxItems()) {
 			if (!vatItem.isSalesType())
 				vendorVATItems.add(vatItem);
 
@@ -80,15 +79,15 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 										.showError("The VATItem selected is already used in VAT column.Please select a different VATItem");
 							}
 							selectedObject.setVatItem(selectItem.getID());
-							setText(currentRow, currentCol, selectItem
-									.getName());
+							setText(currentRow, currentCol,
+									selectItem.getName());
 						}
 					}
 				});
 		// taxCodeCombo.setGrid(this);
 
-		taxCodeCombo = new TAXCodeCombo(Accounter.getVATMessages()
-				.vatCode(), isAddNewRequired, false);
+		taxCodeCombo = new TAXCodeCombo(Accounter.getVATMessages().vatCode(),
+				isAddNewRequired, false);
 		taxCodeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
 
@@ -98,11 +97,11 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 							selectedObject.setTaxCode(selectItem.getID());
 							if (selectedObject.getType() == TYPE_SERVICE
 									|| selectedObject.getType() == TYPE_ACCOUNT)
-								editComplete(selectedObject, selectedObject
-										.getLineTotal(), 6);
+								editComplete(selectedObject,
+										selectedObject.getLineTotal(), 6);
 							else
-								editComplete(selectedObject, selectedObject
-										.getUnitPrice(), 4);
+								editComplete(selectedObject,
+										selectedObject.getUnitPrice(), 4);
 						}
 					}
 				});
@@ -113,10 +112,11 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 
 	public boolean isPreviuslyUsed(ClientTAXItem selectedVATItem) {
 		for (ClientTransactionItem rec : getRecords()) {
-			if (rec.getTaxCode() != null && rec.getTaxCode().length() != 0) {
-				String vatItem = getCompany().getTAXCode(
-						rec.getTaxCode()).getTAXItemGrpForPurchases();
-				if (selectedVATItem.getID().equals(vatItem)) {
+			if (rec.getTaxCode() != 0) {
+				long vatItem = Accounter.getCompany()
+						.getTAXCode(rec.getTaxCode())
+						.getTAXItemGrpForPurchases();
+				if (selectedVATItem.getID() == vatItem) {
 					return false;
 				}
 			}
@@ -174,8 +174,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { "",
-				Accounter.getVendorsMessages().name(),
+		return new String[] { "", Accounter.getVendorsMessages().name(),
 				Accounter.getVATMessages().description(),
 				Accounter.getCustomersMessages().quantity(),
 				Accounter.getVendorsMessages().unitPrice(),
@@ -188,8 +187,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 	protected boolean isEditable(ClientTransactionItem obj, int row, int col) {
 		if (obj == null)
 			return false;
-		if (!getCompany().getpreferences()
-				.getDoYouPaySalesTax()) {
+		if (!Accounter.getCompany().getpreferences().getDoYouPaySalesTax()) {
 			if (col == 6 || col == 7)
 				return false;
 		}
@@ -286,7 +284,8 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
 				return item.getQuantity();
 			else {
-				return (item.getQuantity() != 0 || item.getLineTotal() == 0) ? item.getQuantity() : "";
+				return (item.getQuantity() != 0 || item.getLineTotal() == 0) ? item
+						.getQuantity() : "";
 			}
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
