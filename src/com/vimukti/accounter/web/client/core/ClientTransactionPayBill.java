@@ -23,7 +23,7 @@ public class ClientTransactionPayBill implements IAccounterCore {
 
 	List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments;
 
-	String transactionMakeDeposit;
+	long transactionMakeDeposit;
 
 	boolean isVoid = false;
 
@@ -281,7 +281,7 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	/**
 	 * @return the transactionMakeDeposit
 	 */
-	public String getTransactionMakeDeposit() {
+	public long getTransactionMakeDeposit() {
 		return transactionMakeDeposit;
 	}
 
@@ -289,7 +289,7 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	 * @param transactionMakeDepositId
 	 *            the transactionMakeDeposit to set
 	 */
-	public void setTransactionMakeDeposit(String transactionMakeDeposit) {
+	public void setTransactionMakeDeposit(long transactionMakeDeposit) {
 		this.transactionMakeDeposit = transactionMakeDeposit;
 	}
 
