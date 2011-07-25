@@ -111,6 +111,7 @@ public class CreateTaxesDialog extends BaseDialog {
 
 		boolean isChecked;
 		String name;
+		private long id;
 
 		@Override
 		public String getClientClassSimpleName() {
@@ -149,15 +150,13 @@ public class CreateTaxesDialog extends BaseDialog {
 		}
 
 		@Override
-		public long getID(){
-			// TODO Auto-generated method stub
-			return null;
+		public long getID() {
+			return this.id;
 		}
 
 		@Override
-		public void setID(long id){
-			// TODO Auto-generated method stub
-
+		public void setID(long id) {
+			this.id = id;
 		}
 
 	}

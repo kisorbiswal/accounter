@@ -55,8 +55,7 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 		List<String> removeHeaderBackground = new ArrayList<String>();
 
 		HTML lab1 = new HTML();
-		lab1
-				.setHTML("<p style=\"margin-bottom:12px;\"><font color=\"black\" size=\"4\"><strong>Credit</strong></font></p>");
+		lab1.setHTML("<p style=\"margin-bottom:12px;\"><font color=\"black\" size=\"4\"><strong>Credit</strong></font></p>");
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setSize("auto", "100%");
@@ -64,11 +63,12 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 
 		Map<String, String> dateNumMap = getMap(new String[] {
 				"Customer Name",
-				getCompany().getCustomer(
-						creditMemo.getCustomer()).getName(),
+				Accounter.getCompany().getCustomer(creditMemo.getCustomer())
+						.getName(),
 				"Credit Date",
-				UIUtils.dateFormat(new ClientFinanceDate(creditMemo.getTransactionDate())),
-				"Credit No.", creditMemo.getNumber() + "" });
+				UIUtils.dateFormat(new ClientFinanceDate(creditMemo
+						.getTransactionDate())), "Credit No.",
+				creditMemo.getNumber() + "" });
 
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setSize("300px", "150px");
@@ -166,11 +166,15 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 			totalAmount = lineTotal + vatTotal;
 
 			Map<String, String> footer2Map = new LinkedHashMap<String, String>();
-			footer2Map = getMap("Sub Total", "<p align=\"right\">"
-					+ DataUtils.getAmountAsString(lineTotal) + "</p>",
-					"VAT Total", "<p align=\"right\">"
+			footer2Map = getMap(
+					"Sub Total",
+					"<p align=\"right\">"
+							+ DataUtils.getAmountAsString(lineTotal) + "</p>",
+					"VAT Total",
+					"<p align=\"right\">"
 							+ DataUtils.getAmountAsString(vatTotal) + "</p>",
-					"Total", "<p align=\"right\">"
+					"Total",
+					"<p align=\"right\">"
 							+ DataUtils.getAmountAsString(totalAmount) + "</p>");
 			// footer2Map.put("0",
 			// "<strong>Sub Total</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -195,11 +199,15 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 			totalAmount = lineTotal + taxTotal;
 
 			Map<String, String> footer2Map = new LinkedHashMap<String, String>();
-			footer2Map = getMap("Sub Total", "<p align=\"right\">"
-					+ DataUtils.getAmountAsString(lineTotal) + "</p>",
-					"Total Tax", "<p align=\"right\">"
+			footer2Map = getMap(
+					"Sub Total",
+					"<p align=\"right\">"
+							+ DataUtils.getAmountAsString(lineTotal) + "</p>",
+					"Total Tax",
+					"<p align=\"right\">"
 							+ DataUtils.getAmountAsString(taxTotal) + "</p>",
-					"Total", "<p align=\"right\">"
+					"Total",
+					"<p align=\"right\">"
 							+ DataUtils.getAmountAsString(totalAmount) + "</p>");
 
 			// footer2Map.put("0",
@@ -224,8 +232,8 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 		gridPanel.add(vatPanel);
 
 		mainVPanel.add(labeldateNoLayout);
-		labeldateNoLayout.getElement().getParentElement().setAttribute("align",
-				"right");
+		labeldateNoLayout.getElement().getParentElement()
+				.setAttribute("align", "right");
 		mainVPanel.add(datepanel);
 		datepanel.getElement().getParentElement()
 				.setAttribute("align", "right");

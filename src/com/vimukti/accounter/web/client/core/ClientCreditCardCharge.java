@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-
 @SuppressWarnings("serial")
 public class ClientCreditCardCharge extends ClientTransaction {
 	long vendor;
@@ -140,13 +139,13 @@ public class ClientCreditCardCharge extends ClientTransaction {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 

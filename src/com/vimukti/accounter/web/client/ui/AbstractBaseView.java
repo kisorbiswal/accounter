@@ -235,7 +235,6 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 						object);
 			} else {
 				if (!History.getToken().equals(getAction().getHistoryToken())) {
-					
 
 				}
 				getAction().run(null, true);
@@ -296,7 +295,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 		IAccounterCore core = (IAccounterCore) data;
 
-		this.isEdit = (core != null && core.getID().length() != 0);
+		this.isEdit = (core != null && core.getID() != 0);
 
 	}
 

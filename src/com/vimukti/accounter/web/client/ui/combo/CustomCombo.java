@@ -48,20 +48,18 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 
 				if (!GWT.isScript()) {
 					caught.printStackTrace();
-					Accounter.showError(Accounter
-							.getAccounterComboConstants().sorryFailedToAdd());
+					Accounter.showError(Accounter.getAccounterComboConstants()
+							.sorryFailedToAdd());
 				}
 
 			}
 
 			public void onSuccess(T result) {
-				boolean usTaxCode = getCompany()
-						.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
+				boolean usTaxCode = getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
 						&& result instanceof ClientTAXItemGroup;
 				if (usTaxCode)
-					result = (T) getCompany()
-							.getTAXCodeForTAXItemGroup(
-									(ClientTAXItemGroup) result);
+					result = (T) getCompany().getTAXCodeForTAXItemGroup(
+							(ClientTAXItemGroup) result);
 				if (result != null) {
 					if (!usTaxCode)
 						setComboItem(result);
@@ -189,7 +187,7 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 		}
 	}
 
-	public void setSelected(String itemName) {
+	public void setSelected(long itemName) {
 		List<T> combo = comboItems;
 		for (T item : combo) {
 			if (getDisplayName(item).equals(itemName)) {

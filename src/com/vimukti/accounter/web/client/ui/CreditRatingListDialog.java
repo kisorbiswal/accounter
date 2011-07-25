@@ -76,9 +76,8 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 	}
 
 	public void createCreditRatings() {
-		if (Utility.isObjectExist(getCompany()
-				.getCreditRatings(), inputDlg.getTextItems().get(0).getValue()
-				.toString())) {
+		if (Utility.isObjectExist(getCompany().getCreditRatings(), inputDlg
+				.getTextItems().get(0).getValue().toString())) {
 			Accounter.showError("CreditRating  Already Exists");
 		} else {
 			ClientCreditRating creditRating = new ClientCreditRating();
@@ -89,7 +88,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 		}
 	}
 
-	public String getSelectedCreditGroupId() {
+	public long getSelectedCreditGroupId() {
 
 		return ((ClientCreditRating) listGridView.getSelection()).getID();
 	}
@@ -143,9 +142,10 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 	protected void EditCreditRatings() {
 		if (!(creditRating.getName().equalsIgnoreCase(
 				UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
-						.toString())) ? true : (Utility.isObjectExist(company
-				.getItemGroups(), UIUtils.toStr(inputDlg.getTextItems().get(0)
-				.getValue().toString()))) ? false : true)) {
+						.toString())) ? true : (Utility.isObjectExist(
+				company.getItemGroups(),
+				UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
+						.toString()))) ? false : true)) {
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
 		} else {
 			creditRating.setName(inputDlg.getTextValueByIndex(0));
@@ -173,8 +173,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 
 	@Override
 	protected List<ClientCreditRating> getRecords() {
-		return (List<ClientCreditRating>) getCompany()
-				.getCreditRatings();
+		return (List<ClientCreditRating>) getCompany().getCreditRatings();
 	}
 
 	@Override

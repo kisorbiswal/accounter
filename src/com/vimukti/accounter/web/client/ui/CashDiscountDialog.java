@@ -39,9 +39,8 @@ public class CashDiscountDialog extends BaseDialog {
 
 	public CashDiscountDialog(List<ClientAccount> allAccounts,
 			Double cashDiscountValue, IGenericCallback<String> callback) {
-		super(Accounter.getFinanceUIConstants().cashDiscount(),
-				Accounter.getFinanceUIConstants()
-						.cashDiscountPleaseAddDetails());
+		super(Accounter.getFinanceUIConstants().cashDiscount(), Accounter
+				.getFinanceUIConstants().cashDiscountPleaseAddDetails());
 		this.callback = callback;
 		this.allAccounts = allAccounts;
 		this.cashDiscountValue = cashDiscountValue;
@@ -50,17 +49,15 @@ public class CashDiscountDialog extends BaseDialog {
 	}
 
 	public CashDiscountDialog() {
-		super(Accounter.getFinanceUIConstants().cashDiscount(),
-				Accounter.getFinanceUIConstants()
-						.cashDiscountPleaseAddDetails());
+		super(Accounter.getFinanceUIConstants().cashDiscount(), Accounter
+				.getFinanceUIConstants().cashDiscountPleaseAddDetails());
 		createControls();
 	}
 
 	public CashDiscountDialog(boolean canEdit, Double discountValue,
 			ClientAccount account) {
-		super(Accounter.getFinanceUIConstants().cashDiscount(),
-				Accounter.getFinanceUIConstants()
-						.cashDiscountPleaseAddDetails());
+		super(Accounter.getFinanceUIConstants().cashDiscount(), Accounter
+				.getFinanceUIConstants().cashDiscountPleaseAddDetails());
 		this.cashDiscountValue = discountValue;
 		this.canEdit = canEdit;
 		this.selectedDiscountAccount = account;
@@ -91,8 +88,8 @@ public class CashDiscountDialog extends BaseDialog {
 	private void createControls() {
 
 		mainPanel.setSpacing(5);
-		discAccSelect = new OtherAccountsCombo(Accounter
-				.getCustomersMessages().discountaccount(), false);
+		discAccSelect = new OtherAccountsCombo(Accounter.getCustomersMessages()
+				.discountaccount(), false);
 
 		discAccSelect.setComboItem(selectedDiscountAccount);
 
@@ -106,8 +103,8 @@ public class CashDiscountDialog extends BaseDialog {
 				});
 		discAccSelect.setRequired(true);
 
-		discAmtText = new AmountField(Accounter
-				.getFinanceUIConstants().discountAmount());
+		discAmtText = new AmountField(Accounter.getFinanceUIConstants()
+				.discountAmount());
 		discAmtText.setAmount(cashDiscountValue);
 
 		form = new DynamicForm();
@@ -179,8 +176,7 @@ public class CashDiscountDialog extends BaseDialog {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		if (core.getID().equals(
-				this.discAccSelect.getSelectedValue().getID())) {
+		if (core.getID() == this.discAccSelect.getSelectedValue().getID()) {
 			this.discAccSelect.addItemThenfireEvent((ClientAccount) core);
 		}
 
