@@ -33,7 +33,7 @@ public class DepreciationTreeGrid extends
 		case 1:
 			return DataUtils.getAmountAsString(obj.getAmountToBeDepreciated());
 		case 2:
-			return obj.getAssetAccount() != null ? Accounter
+			return obj.getAssetAccount() != 0 ? Accounter
 					.getCompany().getAccount(obj.getAssetAccount()).getName()
 					: "";
 		default:
