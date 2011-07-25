@@ -21,9 +21,8 @@ public class ECSalesListDetailReport extends
 	@Override
 	public void OnRecordClick(ECSalesListDetail record) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(record.getTransactionType(), record
-					.getTransactionid()
-					+ "");
+			ReportsRPC.openTransactionView(record.getTransactionType(),
+					record.getTransactionid());
 	}
 
 	@Override
@@ -58,9 +57,10 @@ public class ECSalesListDetailReport extends
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 143, "", "", vatAgency);
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 143, "",
+				"", vatAgency);
 
 	}
 
@@ -71,39 +71,40 @@ public class ECSalesListDetailReport extends
 	}
 
 	public int sort(ECSalesListDetail obj1, ECSalesListDetail obj2, int col) {
-		int ret = obj1.getName().toLowerCase().compareTo(
-				obj2.getName().toLowerCase());
+		int ret = obj1.getName().toLowerCase()
+				.compareTo(obj2.getName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
 
 		switch (col) {
 		case 0:
-			return UIUtils.compareInt(obj1.getTransactionType(), obj2
-					.getTransactionType());
+			return UIUtils.compareInt(obj1.getTransactionType(),
+					obj2.getTransactionType());
 		case 1:
 			return obj1.getDate().compareTo(obj2.getDate());
 		case 2:
 			return obj1.getTransactionNumber().compareTo(
 					obj2.getTransactionNumber());
 		case 3:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 		case 4:
-			return obj1.getMemo().toLowerCase().compareTo(
-					obj2.getMemo().toLowerCase());
+			return obj1.getMemo().toLowerCase()
+					.compareTo(obj2.getMemo().toLowerCase());
 		case 5:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		case 6:
-			return UIUtils.compareDouble(obj1.getSalesPrice(), obj2
-					.getSalesPrice());
+			return UIUtils.compareDouble(obj1.getSalesPrice(),
+					obj2.getSalesPrice());
 		}
 		return 0;
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 143, "", "", vatAgency);
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 143, "",
+				"", vatAgency);
 	}
 }
