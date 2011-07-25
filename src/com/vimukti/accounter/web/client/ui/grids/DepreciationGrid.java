@@ -62,9 +62,9 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 				.getFixedAssets();
 		for (ClientFixedAsset asset : fixedAssets) {
 			for (ClientAccount accumulatedAccount : accumulatedAccounts) {
-				if (asset.getAssetAccount() != null
-						&& !asset.getAssetAccount().equals(
-								accumulatedAccount.getID()))
+				if (asset.getAssetAccount() != 0
+						&& asset.getAssetAccount() != accumulatedAccount
+								.getID())
 					accountsCombo.setValue(accumulatedAccount);
 			}
 		}
