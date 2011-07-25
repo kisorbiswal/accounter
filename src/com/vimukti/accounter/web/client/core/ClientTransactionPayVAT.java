@@ -13,7 +13,7 @@ public class ClientTransactionPayVAT implements IAccounterCore {
 	 * The TaxAgency that we have selected for what we are making the
 	 * PaySalesTax.
 	 */
-	String taxAgency;
+	long taxAgency;
 
 	/**
 	 * The amount of Tax which we still have to pay.
@@ -49,7 +49,7 @@ public class ClientTransactionPayVAT implements IAccounterCore {
 	/**
 	 * @return the vatAgency
 	 */
-	public String getTaxAgency() {
+	public long getTaxAgency() {
 		return taxAgency;
 	}
 
@@ -57,7 +57,7 @@ public class ClientTransactionPayVAT implements IAccounterCore {
 	 * @param vatAgency
 	 *            the vatAgency to set
 	 */
-	public void setTaxAgency(String taxAgency) {
+	public void setTaxAgency(long taxAgency) {
 		this.taxAgency = taxAgency;
 	}
 
