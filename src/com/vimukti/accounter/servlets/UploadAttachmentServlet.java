@@ -15,7 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.services.AccounterService;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class UploadAttachmentServlet extends HttpServlet {
@@ -28,17 +31,11 @@ public class UploadAttachmentServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		Session session = null;
-		CollaberIdentity identity = null;
 		try {
-			String companyName = BizantraService.getCompanyFromRequest(request);
-			if (companyName == null)
+			String companyID = AccounterService.getCompanyFromRequest(request);
+			if (companyID == null)
 				return;
-			session = HibernateUtil.openSession(companyName);
-			identity = getIDentity(request);
-			if (identity == null) {
-				return;
-			}
-
+			session = HibernateUtil.openSession(companyID);
 			StringBuilder builder = new StringBuilder();
 			/*
 			 * Mutipart request which upload file in given temp directory refer
@@ -77,7 +74,7 @@ public class UploadAttachmentServlet extends HttpServlet {
 
 					File attachmentDir = new File(ServerConfiguration
 							.getAttachmentsDir()
-							+ "/" + identity.getCompanyName());
+							+ "/" + companyID);
 					if (!attachmentDir.exists()) {
 						attachmentDir.mkdirs();
 					}
@@ -126,7 +123,7 @@ public class UploadAttachmentServlet extends HttpServlet {
 		}
 	}
 
-	public CollaberIdentity getIDentity(HttpServletRequest req) {
+	/*public CollaberIdentity getIDentity(HttpServletRequest req) {
 		String identityID = (String) req.getSession().getAttribute(
 				BizantraService.SESSION_IDENTITYID);
 		if (identityID == null) {
@@ -141,7 +138,7 @@ public class UploadAttachmentServlet extends HttpServlet {
 			return identity;
 		} finally {
 		}
-	}
+	}*/
 
 	// private String getJSonAttachment(IAttachment attachmet) {
 	// StringBuilder stringBuilder = new StringBuilder();
