@@ -1663,7 +1663,7 @@ public class UIUtils {
 	 * 
 	 * @param brandingTheme
 	 */
-	public native static void downloadAttachment(String objectID, int type,
+	public native static void downloadAttachment(long objectID, int type,
 			String brandingThemeId)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
