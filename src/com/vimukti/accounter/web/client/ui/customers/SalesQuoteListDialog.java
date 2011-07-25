@@ -66,32 +66,28 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 		grid.setView(this);
 		grid.init();
 
-		grid
-				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<ClientEstimate>() {
+		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<ClientEstimate>() {
 
-					@Override
-					public void OnCellDoubleClick(ClientEstimate core,
-							int column) {
-						try {
-							ClientEstimate record = (ClientEstimate) core;
+			@Override
+			public void OnCellDoubleClick(ClientEstimate core, int column) {
+				try {
+					ClientEstimate record = (ClientEstimate) core;
 
-							String estimateId = record.getID();
-							selectedEstimate = getEstimate(estimateId);
+					long estimateId = record.getID();
+					selectedEstimate = getEstimate(estimateId);
 
-							if (salesView != null && selectedEstimate != null)
-								salesView.selectedQuote(selectedEstimate);
+					if (salesView != null && selectedEstimate != null)
+						salesView.selectedQuote(selectedEstimate);
 
-							removeFromParent();
+					removeFromParent();
 
-						} catch (Exception e) {
-							Accounter
-									.showError(Accounter
-											.getCustomersMessages()
-											.errorLoadingQuote());
-						}
+				} catch (Exception e) {
+					Accounter.showError(Accounter.getCustomersMessages()
+							.errorLoadingQuote());
+				}
 
-					}
-				});
+			}
+		});
 
 		// getGridData();
 		setQuoteList(estimates);
@@ -100,8 +96,8 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 
 		HorizontalPanel helpButtonLayout = new HorizontalPanel();
 
-		AccounterButton helpButton = new AccounterButton(financeConstants
-				.help());
+		AccounterButton helpButton = new AccounterButton(
+				financeConstants.help());
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -131,8 +127,8 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 					removeFromParent();
 
 				} catch (Exception e) {
-					Accounter.showError(Accounter
-							.getCustomersMessages().errorLoadingQuote());
+					Accounter.showError(Accounter.getCustomersMessages()
+							.errorLoadingQuote());
 				}
 
 			}
@@ -141,8 +137,8 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 		okButtonLayout.add(okButton);
 
 		okButton.enabledButton();
-		AccounterButton cancelButton = new AccounterButton(financeConstants
-				.cancel());
+		AccounterButton cancelButton = new AccounterButton(
+				financeConstants.cancel());
 		cancelButton.setWidth("100px");
 		cancelButton.addClickHandler(new ClickHandler() {
 
@@ -167,10 +163,10 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 		add(mainLayout);
 	}
 
-	protected ClientEstimate getEstimate(String estimateId) {
+	protected ClientEstimate getEstimate(long estimateId) {
 		for (ClientEstimate estimate : estimates) {
 			if (estimate != null) {
-				if (estimate.getID().equals(estimateId))
+				if (estimate.getID() == estimateId)
 					return estimate;
 			}
 		}
