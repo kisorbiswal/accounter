@@ -18,7 +18,7 @@ public class ClientCustomer extends ClientPayee {
 
 	String creditRating;
 
-	String shippingMethod;
+	long shippingMethod;
 
 	long paymentTerm;
 
@@ -403,7 +403,7 @@ public class ClientCustomer extends ClientPayee {
 		return paymentTerm;
 	}
 
-	public String getShippingMethod() {
+	public long getShippingMethod() {
 		return this.shippingMethod;
 	}
 
@@ -431,7 +431,7 @@ public class ClientCustomer extends ClientPayee {
 		this.creditRating = selectCreditRatingFromDetailsTab;
 	}
 
-	public void setShippingMethod(String selectShippingMethodFromDetailsTab) {
+	public void setShippingMethod(long selectShippingMethodFromDetailsTab) {
 		this.shippingMethod = selectShippingMethodFromDetailsTab;
 	}
 
