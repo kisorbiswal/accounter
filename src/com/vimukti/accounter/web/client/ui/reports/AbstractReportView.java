@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ISorting;
@@ -308,6 +309,10 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 
 	}
 
+	private ClientCompany getCompany() {
+		return Accounter.getCompany();
+	}
+
 	private void createControlsForIE() {
 		mainLayout = new VerticalPanel() {
 			@Override
@@ -397,8 +402,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 		if (data != null) {
 			String dateRange = null;
 			dateRange = getPreviousReportDateRange(data);
-			if (dateRange.equals(Accounter.getReportsMessages()
-					.custom())) {
+			if (dateRange.equals(Accounter.getReportsMessages().custom())) {
 				toolbar.setStartAndEndDates(getPreviousReportStartDate(data),
 						getPreviousReportEndDate(data));
 			}
@@ -417,8 +421,8 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 
 	private void createReportTable() {
 		try {
-			this.grid = new ReportGrid<R>(getColunms(), this.serverReport
-					.isIshowGridFooter()) {
+			this.grid = new ReportGrid<R>(getColunms(),
+					this.serverReport.isIshowGridFooter()) {
 				@Override
 				protected void onLoad() {
 					if (UIUtils.isMSIEBrowser())
@@ -540,8 +544,8 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 
 	}
 
-	public void makeReportRequest(long vatAgency,
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+	public void makeReportRequest(long vatAgency, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 
 	}
 
@@ -812,7 +816,6 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 
 	@Override
 	public void setCompanyType(int type) {
-		this.serverReport.setCompanyType(getCompany()
-				.getAccountingType());
+		this.serverReport.setCompanyType(getCompany().getAccountingType());
 	}
 }
