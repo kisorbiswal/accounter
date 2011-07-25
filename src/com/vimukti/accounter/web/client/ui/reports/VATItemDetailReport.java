@@ -22,9 +22,8 @@ public class VATItemDetailReport extends AbstractReportView<VATItemDetail> {
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(record.getTransactionType(), record
-					.getTransactionId()
-					+ "");
+			ReportsRPC.openTransactionView(record.getTransactionType(),
+					record.getTransactionId());
 	}
 
 	@Override
@@ -54,9 +53,10 @@ public class VATItemDetailReport extends AbstractReportView<VATItemDetail> {
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 139, "", "");
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 139, "",
+				"");
 
 	}
 
@@ -80,8 +80,8 @@ public class VATItemDetailReport extends AbstractReportView<VATItemDetail> {
 
 		switch (col) {
 		case 0:
-			return UIUtils.compareInt(obj1.getTransactionType(), obj2
-					.getTransactionType());
+			return UIUtils.compareInt(obj1.getTransactionType(),
+					obj2.getTransactionType());
 		case 1:
 			return obj1.getDate().compareTo(obj2.getDate());
 		case 2:
@@ -94,16 +94,17 @@ public class VATItemDetailReport extends AbstractReportView<VATItemDetail> {
 		case 5:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		case 6:
-			return UIUtils.compareDouble(obj1.getSalesPrice(), obj2
-					.getSalesPrice());
+			return UIUtils.compareDouble(obj1.getSalesPrice(),
+					obj2.getSalesPrice());
 		}
 		return 0;
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 139, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 139, "",
+				"");
 	}
 
 }
