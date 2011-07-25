@@ -15,8 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
 
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.AccounterService;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -72,9 +70,9 @@ public class UploadAttachmentServlet extends HttpServlet {
 					// fileID = SecureUtils.createID();
 					// }
 
-					File attachmentDir = new File(ServerConfiguration
-							.getAttachmentsDir()
-							+ "/" + companyID);
+					File attachmentDir = new File(
+							ServerConfiguration.getAttachmentsDir() + "/"
+									+ companyID);
 					if (!attachmentDir.exists()) {
 						attachmentDir.mkdirs();
 					}
@@ -123,22 +121,17 @@ public class UploadAttachmentServlet extends HttpServlet {
 		}
 	}
 
-	/*public CollaberIdentity getIDentity(HttpServletRequest req) {
-		String identityID = (String) req.getSession().getAttribute(
-				BizantraService.SESSION_IDENTITYID);
-		if (identityID == null) {
-			return null;
-		}
-		try {
-			assert (identityID != null) : "session is expired";
-
-			CollaberIdentity identity = Server.getInstance().loadIdentity(
-					HibernateUtil.getCurrentSession(), identityID);
-			// identity.setCompanyName(BizantraService.getCompanyFromRequest(req));
-			return identity;
-		} finally {
-		}
-	}*/
+	/*
+	 * public CollaberIdentity getIDentity(HttpServletRequest req) { String
+	 * identityID = (String) req.getSession().getAttribute(
+	 * BizantraService.SESSION_IDENTITYID); if (identityID == null) { return
+	 * null; } try { assert (identityID != null) : "session is expired";
+	 * 
+	 * CollaberIdentity identity = Server.getInstance().loadIdentity(
+	 * HibernateUtil.getCurrentSession(), identityID); //
+	 * identity.setCompanyName(BizantraService.getCompanyFromRequest(req));
+	 * return identity; } finally { } }
+	 */
 
 	// private String getJSonAttachment(IAttachment attachmet) {
 	// StringBuilder stringBuilder = new StringBuilder();
