@@ -626,7 +626,7 @@ public interface IFinanceDAOService {
 	public List<CheckDetailReport> getCheckDetailReport(long paymentmethod,
 			long startDate, long endDate) throws DAOException;
 
-	public List<PayeeStatementsList> getPayeeStatementsList(String id,
+	public List<PayeeStatementsList> getPayeeStatementsList(long id,
 			long transactionDate, long fromDate, long toDate, int noOfDays,
 			boolean isEnabledOfZeroBalBox,
 			boolean isEnabledOfLessthanZeroBalBox,
