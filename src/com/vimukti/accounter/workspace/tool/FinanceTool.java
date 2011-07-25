@@ -3667,7 +3667,7 @@ public class FinanceTool implements IFinanceDAOService {
 			// for (int j = 0; j < obj.length; j++)
 			{
 				SalesOrdersList el = new SalesOrdersList();
-				el.setTransactionId((String) obj[0]);
+				el.setTransactionId((Long) obj[0]);
 				el.setType(((Integer) obj[1]).intValue());
 				el.setNumber(((String) obj[2]));
 				el.setTotal(((Double) obj[3]).doubleValue());
