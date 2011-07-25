@@ -109,8 +109,8 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 
 	}
 
-	private String getTransactionID(T obj) {
-		return null;
+	private long getTransactionID(T obj) {
+		return 0;
 	}
 
 	public boolean isVoided(T obj) {
@@ -122,7 +122,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	}
 
 	protected void showWarningDialog(T obj, final AccounterCoreType coreType,
-			final String transactionsID, final int col) {
+			final long transactionsID, final int col) {
 		String msg = null;
 		msg = Accounter.getCustomersMessages().doyouwanttoVoidtheTransaction();
 		// else if (col == 7) {
@@ -158,7 +158,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	}
 
 	protected void voidTransaction(AccounterCoreType coreType,
-			String transactionsID) {
+			long transactionsID) {
 		ViewManager.getInstance().voidTransaction(coreType, transactionsID,
 				this);
 	}
