@@ -264,7 +264,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 	}
 
-	private String getTransactionID(InvoicesList obj) {
+	private long getTransactionID(InvoicesList obj) {
 		return obj.getTransactionId();
 	}
 
