@@ -6098,7 +6098,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			TransactionDetailByTaxItem TransactionDetailByTaxItem = new TransactionDetailByTaxItem();
 			object = (Object[]) iterator.next();
-			TransactionDetailByTaxItem.setTransactionId((String) object[0]);
+			TransactionDetailByTaxItem.setTransactionId((Long) object[0]);
 			// transactionDetailByTaxcode
 			// .setType(object[1]== null ? 0 :((Integer) object[1]).intValue());
 			TransactionDetailByTaxItem.setPayeeName((String) object[1]);
@@ -6265,7 +6265,7 @@ public class FinanceTool implements IFinanceDAOService {
 				transactionDetailByAccount.setName((object[1] == null ? null
 						: ((String) object[1])));
 
-			transactionDetailByAccount.setTransactionId((String) object[2]);
+			transactionDetailByAccount.setTransactionId((Long) object[2]);
 
 			transactionDetailByAccount
 					.setTransactionDate(object[4] == null ? null
@@ -8471,7 +8471,7 @@ public class FinanceTool implements IFinanceDAOService {
 		while ((iterator).hasNext()) {
 			OpenAndClosedOrders openAndClosedOrder = new OpenAndClosedOrders();
 			object = (Object[]) iterator.next();
-			openAndClosedOrder.setTransactionID((String) object[0]);
+			openAndClosedOrder.setTransactionID((Long) object[0]);
 			openAndClosedOrder.setTransactionType((Integer) object[1]);
 			openAndClosedOrder.setTransactionDate(new ClientFinanceDate(
 					((BigInteger) object[2]).longValue()));
