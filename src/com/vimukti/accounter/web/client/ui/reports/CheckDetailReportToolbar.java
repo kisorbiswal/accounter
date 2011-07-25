@@ -8,7 +8,6 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -60,8 +59,8 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 			public void onChange(ChangeEvent event) {
 				ClientFinanceDate startDate = fromItem.getDate();
 				ClientFinanceDate endDate = toItem.getDate();
-				reportview.makeReportRequest(checkDetailCombo.getValue()
-						.toString(), startDate, endDate);
+				reportview.makeReportRequest(
+						(Long) checkDetailCombo.getValue(), startDate, endDate);
 
 			}
 		});
@@ -153,7 +152,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 			ClientFinanceDate endDate) {
 		fromItem.setValue(startDate);
 		toItem.setValue(endDate);
-		reportview.makeReportRequest(checkDetailCombo.getValue().toString(),
+		reportview.makeReportRequest((Long) checkDetailCombo.getValue(),
 				startDate, endDate);
 
 		// itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL, startDate,
