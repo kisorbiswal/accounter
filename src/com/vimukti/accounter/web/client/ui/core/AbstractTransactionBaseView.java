@@ -143,8 +143,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		ClientTAXCode taxCode = null;
 
 		for (ClientTransactionItem clientTransactionItem : transactionItems) {
-			if (clientTransactionItem.getTaxCode() != null
-					&& clientTransactionItem.getTaxCode().length() != 0) {
+			if (clientTransactionItem.getTaxCode() != 0) {
 
 				taxCode = getCompany().getTAXCode(
 						clientTransactionItem.getTaxCode());
@@ -168,7 +167,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		return taxCode;
 	}
 
-	public double getVATRate(String VATCodeID) {
+	public double getVATRate(long VATCodeID) {
 		return 0.0;
 	}
 
@@ -221,8 +220,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	}
 
 	public CheckboxItem getVATInclusiveCheckBox() {
-		vatinclusiveCheck = new CheckboxItem(Accounter
-				.getVATMessages().amountIncludesVat());
+		vatinclusiveCheck = new CheckboxItem(Accounter.getVATMessages()
+				.amountIncludesVat());
 		vatinclusiveCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -300,8 +299,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	protected DateField createTransactionDateItem() {
 
-		final DateField dateItem = new DateField(Accounter
-				.getVendorsMessages().date());
+		final DateField dateItem = new DateField(Accounter.getVendorsMessages()
+				.date());
 		dateItem.setHelpInformation(true);
 		// if (this instanceof VendorBillView)
 		// dateItem.setShowTitle(true);
@@ -353,8 +352,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	protected TextItem createTransactionNumberItem() {
 
-		final TextItem item = new TextItem(Accounter
-				.getVendorsMessages().no());
+		final TextItem item = new TextItem(Accounter.getVendorsMessages().no());
 		item.setHelpInformation(true);
 		item.setWidth(100);
 		item.setColSpan(1);
@@ -393,11 +391,11 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	protected AmountLabel createNetAmountLabel() {
 		AmountLabel netAmountLabel = new AmountLabel(Accounter
 				.getVendorsMessages().netAmount());
-		netAmountLabel.setTitle(Accounter.getVendorsMessages()
-				.netAmount());
+		netAmountLabel.setTitle(Accounter.getVendorsMessages().netAmount());
 		netAmountLabel.setDefaultValue("£0.00");
 		return netAmountLabel;
 	}
+
 	protected AmountLabel createTransactionTotalNonEditableLabelforPurchase() {
 
 		AmountLabel amountLabel = new AmountLabel(Accounter
@@ -406,13 +404,14 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		return amountLabel;
 
 	}
-	
+
 	protected AmountLabel createVATTotalNonEditableLabelforPurchase() {
 		AmountLabel amountLabel = new AmountLabel(Accounter
 				.getCustomersMessages().vat());
 
 		return amountLabel;
 	}
+
 	protected TextAreaItem createMemoTextAreaItem() {
 
 		TextAreaItem memoArea = new TextAreaItem();
@@ -454,13 +453,12 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 				// resetForms();
 				// reload();
 				if (!History.getToken().equals(getAction().getHistoryToken())) {
-					
-					
+
 				}
 				getAction().run(null, true);
 
 			} else {
-				
+
 				MainFinanceWindow.getViewManager().closeView(this.getAction(),
 						result);
 			}
@@ -551,8 +549,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	}
 
 	public AccounterButton createAddNewButton() {
-		menuButton = new AccounterButton(Accounter
-				.getCompanyMessages().addNewItm());
+		menuButton = new AccounterButton(Accounter.getCompanyMessages()
+				.addNewItm());
 		menuButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -612,8 +610,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	public String getMemoTextAreaItem() {
 		return memoTextAreaItem != null
 				&& memoTextAreaItem.getValue().toString() != null ? memoTextAreaItem
-				.getValue().toString()
-				: "";
+				.getValue().toString() : "";
 	}
 
 	public void setMemoTextAreaItem(String memo) {
@@ -623,9 +620,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	public SelectCombo createPaymentMethodSelectItem() {
 		String paymentType = null;
 		payVatMethodList = new ArrayList<String>();
-		paymentType = UIUtils
-				.getpaymentMethodCheckBy_CompanyType(Accounter
-						.getCustomersMessages().check());
+		paymentType = UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
+				.getCustomersMessages().check());
 		String payVatMethodArray[] = new String[] {
 				Accounter.getVendorsMessages().cash(), paymentType,
 				Accounter.getVendorsMessages().creditCard(),
@@ -639,8 +635,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 			payVatMethodList.add(payVatMethodArray[i]);
 		}
 
-		final SelectCombo paymentMethodSelect = new SelectCombo(
-				Accounter.getVendorsMessages().Paymentmethod());
+		final SelectCombo paymentMethodSelect = new SelectCombo(Accounter
+				.getVendorsMessages().Paymentmethod());
 		paymentMethodSelect.setHelpInformation(true);
 
 		paymentMethodSelect.setRequired(true);
@@ -779,17 +775,15 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	private void createPopupMenu(AccounterButton button) {
 		if (popupPanel == null) {
 			popupPanel = new PopupPanel(true);
-			popupMenuBar = new CustomMenuBar(Accounter
-					.getFinanceMenuImages());
+			popupMenuBar = new CustomMenuBar(Accounter.getFinanceMenuImages());
 			popupMenuBar.getElement().setAttribute("id", "addnewpopumenu");
 
 			popupPanel.setStyleName("popup");
 			popupPanel.getElement().setAttribute("id", "addnewpopuppanel");
 			popupMenuBar.setVisible(true);
 			popupPanel.add(popupMenuBar);
-			popupPanel.setPopupPosition(button.getAbsoluteLeft(), button
-					.getAbsoluteTop()
-					+ button.getOffsetHeight());
+			popupPanel.setPopupPosition(button.getAbsoluteLeft(),
+					button.getAbsoluteTop() + button.getOffsetHeight());
 		}
 	}
 
@@ -809,8 +803,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		// int x = DOM.eventGetClientX(event);
 		// int y = DOM.eventGetClientY(event);
 		// popupPanel.setPopupPosition(x, y);
-		popupPanel.setPopupPosition(menuButton.getAbsoluteLeft(), menuButton
-				.getAbsoluteTop() - 100);
+		popupPanel.setPopupPosition(menuButton.getAbsoluteLeft(),
+				menuButton.getAbsoluteTop() - 100);
 		if (this instanceof CreditCardExpenseView
 				|| this instanceof CashExpenseView
 				|| this instanceof WriteChequeView)
@@ -863,9 +857,9 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			for (ClientTransactionItem selectItem : this.transactionItems) {
-				if (selectItem.getTaxCode() != null) {
-					ClientTAXCode code = getCompany()
-							.getTAXCode(selectItem.getTaxCode());
+				if (selectItem.getTaxCode() != 0) {
+					ClientTAXCode code = getCompany().getTAXCode(
+							selectItem.getTaxCode());
 
 					if (code.getName().equalsIgnoreCase("New S")
 							&& getTransactionDate().before(
