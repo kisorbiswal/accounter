@@ -60,8 +60,8 @@ public class ReportsRPC {
 				callback);
 	}
 
-	public static void getTaxAgency(String name) {
-		UIUtils.runAction(Accounter.getCompany().getTaxAgency(name),
+	public static void getTaxAgency(long id) {
+		UIUtils.runAction(Accounter.getCompany().getTaxAgency(id),
 				CompanyActionFactory.getNewTAXAgencyAction());
 
 	}
