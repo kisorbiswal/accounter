@@ -99,7 +99,7 @@ public class ClientFixedAsset implements IAccounterCore {
 
 	private String notes;
 
-	private String lossOrGainOnDisposalAccount;
+	private long lossOrGainOnDisposalAccount;
 
 	private long totalCapitalGain;
 	private double totalCapitalGainAmount;
@@ -343,15 +343,14 @@ public class ClientFixedAsset implements IAccounterCore {
 	 * @param lossOrGainOnDisposalAccount
 	 *            the lossOrGainOnDisposalAccount to set
 	 */
-	public void setLossOrGainOnDisposalAccount(
-			String lossOrGainOnDisposalAccount) {
+	public void setLossOrGainOnDisposalAccount(long lossOrGainOnDisposalAccount) {
 		this.lossOrGainOnDisposalAccount = lossOrGainOnDisposalAccount;
 	}
 
 	/**
 	 * @return the lossOrGainOnDisposalAccount
 	 */
-	public String getLossOrGainOnDisposalAccount() {
+	public long getLossOrGainOnDisposalAccount() {
 		return lossOrGainOnDisposalAccount;
 	}
 
