@@ -4,19 +4,19 @@ public class ClientReceiveVATEntries implements IAccounterCore {
 	
 	private static final long serialVersionUID = 1L;
 
-	String vatAgency;
+	long vatAgency;
 
 	double amount;
 
 	double balance;
 	
-	private String vatReturn;
+	private long vatReturn;
 
-	public String getVatAgency() {
+	public long getVatAgency() {
 		return vatAgency;
 	}
 
-	public void setVatAgency(String vatAgency) {
+	public void setVatAgency(long vatAgency) {
 		this.vatAgency = vatAgency;
 	}
 
@@ -72,11 +72,11 @@ public class ClientReceiveVATEntries implements IAccounterCore {
 
 	}
 
-	public void setVatReturn(String vatReturn) {
+	public void setVatReturn(long vatReturn) {
 		this.vatReturn = vatReturn;
 	}
 
-	public String getVatReturn() {
+	public long getVatReturn() {
 		return vatReturn;
 	}
 

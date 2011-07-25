@@ -12,7 +12,7 @@ public class ClientReceiveVAT extends ClientTransaction {
 	/**
 	 * PayFrom
 	 */
-	String depositIn;
+	long depositIn;
 
 	/**
 	 * Bills Due On or Before.
@@ -23,7 +23,7 @@ public class ClientReceiveVAT extends ClientTransaction {
 	 * The Default TaxAgency Set for Transaction
 	 * 
 	 */
-	String vatAgency;
+	long vatAgency;
 
 	double endingBalance;
 
@@ -56,7 +56,7 @@ public class ClientReceiveVAT extends ClientTransaction {
 	/**
 	 * @return the payFrom
 	 */
-	public String getDepositIn() {
+	public long getDepositIn() {
 		return depositIn;
 	}
 
@@ -65,7 +65,7 @@ public class ClientReceiveVAT extends ClientTransaction {
 	 *            the DepositIn to set
 	 */
 
-	public void setDepositIn(String depositIn) {
+	public void setDepositIn(long depositIn) {
 		this.depositIn = depositIn;
 	}
 
@@ -87,7 +87,7 @@ public class ClientReceiveVAT extends ClientTransaction {
 	/**
 	 * @return the vatAgency
 	 */
-	public String getVatAgency() {
+	public long getVatAgency() {
 		return vatAgency;
 	}
 
@@ -95,7 +95,7 @@ public class ClientReceiveVAT extends ClientTransaction {
 	 * @param vatAgency
 	 *            the vatAgency to set
 	 */
-	public void setVatAgency(String vatAgency) {
+	public void setVatAgency(long vatAgency) {
 		this.vatAgency = vatAgency;
 	}
 
