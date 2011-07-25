@@ -29,7 +29,7 @@ public class VATDetail extends BaseReport implements IsSerializable,
 
 	int boxNumber;
 
-	String transactionId;
+	long transactionId;
 
 	boolean isPercentage;
 
@@ -66,7 +66,7 @@ public class VATDetail extends BaseReport implements IsSerializable,
 	/**
 	 * @return the transactionId
 	 */
-	public String getTransactionId() {
+	public long getTransactionId() {
 		return transactionId;
 	}
 
@@ -74,7 +74,7 @@ public class VATDetail extends BaseReport implements IsSerializable,
 	 * @param transactionId
 	 *            the transactionId to set
 	 */
-	public void setTransactionId(String transactionId) {
+	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
 	}
 
