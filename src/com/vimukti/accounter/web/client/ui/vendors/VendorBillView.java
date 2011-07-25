@@ -69,8 +69,8 @@ public class VendorBillView extends
 	private VendorBillListDialog dialog;
 	private Double balanceDue = 0.0;
 
-	private String selectedPurchaseOrder;
-	private String selectedItemReceipt;
+	private long selectedPurchaseOrder;
+	private long selectedItemReceipt;
 
 	private ArrayList<DynamicForm> listforms;
 	private ArrayList<ClientTransaction> selectedOrdersAndItemReceipts;
@@ -174,13 +174,9 @@ public class VendorBillView extends
 		paymentTermsCombo.setDisabled(isEdit);
 
 		if (transactionObject != null
-				&& ((ClientEnterBill) transactionObject).getPaymentTerm() != null
-				&& (((ClientEnterBill) transactionObject).getPaymentTerm()
-						.length() != 0)) {
-			ClientPaymentTerms paymentTerm = getCompany()
-					.getPaymentTerms(
-							((ClientEnterBill) transactionObject)
-									.getPaymentTerm());
+				&& ((ClientEnterBill) transactionObject).getPaymentTerm() != 0) {
+			ClientPaymentTerms paymentTerm = getCompany().getPaymentTerms(
+					((ClientEnterBill) transactionObject).getPaymentTerm());
 			paymentTermsCombo.setComboItem(paymentTerm);
 			selectedPaymentTerm = paymentTerm;
 
@@ -222,8 +218,8 @@ public class VendorBillView extends
 			vendorTransactionGrid.removeAllRecords();
 
 		selectedOrdersAndItemReceipts = new ArrayList<ClientTransaction>();
-		if (!(transactionObject != null && vendor.getID().equals(
-				enterBillToBeEdited.getVendor())))
+		if (!(transactionObject != null && vendor.getID() == enterBillToBeEdited
+				.getVendor()))
 			setPaymentTermsCombo(vendor);
 		if (transactionObject == null)
 			getPurchaseOrdersAndItemReceipt();
@@ -240,27 +236,26 @@ public class VendorBillView extends
 		if (this.vendor != null && this.vendor != vendor) {
 			ClientEnterBill ent = (ClientEnterBill) this.transactionObject;
 
-			if (ent != null && ent.getVendor().equals(vendor.getID())) {
+			if (ent != null && ent.getVendor() == vendor.getID()) {
 				this.vendorTransactionGrid.removeAllRecords();
 				this.vendorTransactionGrid
 						.setRecords(ent.getTransactionItems());
 				selectedPurchaseOrder = ent.getPurchaseOrder();
 				selectedItemReceipt = ent.getItemReceipt();
-			} else if (ent != null
-					&& !ent.getVendor().equals(vendor.getID())) {
+			} else if (ent != null && ent.getVendor() != vendor.getID()) {
 				this.vendorTransactionGrid.removeAllRecords();
 				this.vendorTransactionGrid.updateTotals();
 
-				selectedPurchaseOrder = "noid";
-				selectedItemReceipt = "noid";
+				selectedPurchaseOrder = 0;
+				selectedItemReceipt = 0;
 			}
 		}
 
 	}
 
 	private void setPaymentTermsCombo(ClientVendor vendor) {
-		ClientPaymentTerms vendorPaymentTerm = getCompany()
-				.getPaymentTerms(vendor.getPaymentTermsId());
+		ClientPaymentTerms vendorPaymentTerm = getCompany().getPaymentTerms(
+				vendor.getPaymentTermsId());
 		// if (transactionObject != null && this.selectedPaymentTerm != null)
 		// paymentTermSelected(selectedPaymentTerm);
 
@@ -270,8 +265,7 @@ public class VendorBillView extends
 			paymentTermSelected(vendorPaymentTerm);
 
 		} else {
-			paymentTermsList = getCompany()
-					.getPaymentsTerms();
+			paymentTermsList = getCompany().getPaymentsTerms();
 			for (ClientPaymentTerms paymentTerm : paymentTermsList) {
 				if (paymentTerm.getName().equals("Due on Receipt")) {
 					paymentTermsCombo.addItemThenfireEvent(paymentTerm);
@@ -309,8 +303,7 @@ public class VendorBillView extends
 		lab1.setStyleName(Accounter.getVendorsMessages().lableTitle());
 		// lab1.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
-		transactionDateItem.setTitle(Accounter.getVendorsMessages()
-				.billDate());
+		transactionDateItem.setTitle(Accounter.getVendorsMessages().billDate());
 		transactionDateItem
 				.addDateValueChangeHandler(new DateValueChangeHandler() {
 
@@ -326,8 +319,7 @@ public class VendorBillView extends
 		transactionNumber = createTransactionNumberItem();
 		// transactionNumber.setTitle(UIUtils.getVendorString("Supplier Bill no",
 		// "Vendor Bill No"));
-		transactionNumber.setTitle(Accounter.getVendorsMessages()
-				.INVno());
+		transactionNumber.setTitle(Accounter.getVendorsMessages().INVno());
 		listforms = new ArrayList<DynamicForm>();
 
 		DynamicForm dateNoForm = new DynamicForm();
@@ -348,9 +340,9 @@ public class VendorBillView extends
 		labeldateNoLayout.add(datepanel);
 		forms.add(dateNoForm);
 
-		vendorCombo = createVendorComboItem(UIUtils.getVendorString(
-				Accounter.getVendorsMessages().supplierName(),
-				Accounter.getVendorsMessages().vendorName()));
+		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplierName(), Accounter
+				.getVendorsMessages().vendorName()));
 		// vendorCombo.setWidth(100);
 		// purchaseLabel = new LinkItem();
 		// purchaseLabel.setLinkTitle(FinanceApplication.getVendorsMessages()
@@ -395,8 +387,8 @@ public class VendorBillView extends
 		phoneSelect.setDisabled(false);
 		formItems.add(phoneSelect);
 
-		paymentTermsCombo = new PaymentTermsCombo(vendorConstants
-				.paymentTerms());
+		paymentTermsCombo = new PaymentTermsCombo(
+				vendorConstants.paymentTerms());
 		paymentTermsCombo.setHelpInformation(true);
 		// paymentTermsCombo.setWidth(80);
 		paymentTermsCombo.setDisabled(isEdit);
@@ -422,8 +414,7 @@ public class VendorBillView extends
 		// deliveryDateItem.setWidth(100);
 
 		DynamicForm termsForm = UIUtils.form(vendorConstants.terms());
-		termsForm.setStyleName(Accounter.getVendorsMessages()
-				.venderForm());
+		termsForm.setStyleName(Accounter.getVendorsMessages().venderForm());
 		termsForm.setWidth("75%");
 		// termsForm.setFields(phoneSelect, paymentTermsCombo);
 
@@ -434,8 +425,7 @@ public class VendorBillView extends
 				deliveryDateItem);
 		dateform.getCellFormatter().setWidth(0, 0, "200px");
 		forms.add(termsForm);
-		netAmount = new AmountLabel(Accounter.getVendorsMessages()
-				.netAmount());
+		netAmount = new AmountLabel(Accounter.getVendorsMessages().netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 
@@ -444,8 +434,8 @@ public class VendorBillView extends
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
-		balanceDueNonEditableText = new AmountField(vendorConstants
-				.balanceDue());
+		balanceDueNonEditableText = new AmountField(
+				vendorConstants.balanceDue());
 		balanceDueNonEditableText.setHelpInformation(true);
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
@@ -658,13 +648,13 @@ public class VendorBillView extends
 				transactionDateItem.getEnteredDate(), selectedPaymentTerm);
 		enterBill.setDiscountDate(discountDate.getTime());
 
-		if (selectedItemReceipt != null)
+		if (selectedItemReceipt != 0)
 			enterBill.setItemReceipt(selectedItemReceipt);
 		if (vatinclusiveCheck != null)
 			enterBill.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
 
-		if (selectedPurchaseOrder != null)
+		if (selectedPurchaseOrder != 0)
 			enterBill.setPurchaseOrder(selectedPurchaseOrder);
 		transactionObject = enterBill;
 
@@ -675,8 +665,7 @@ public class VendorBillView extends
 
 		super.saveAndUpdateView();
 
-		if (transactionObject.getID() != null
-				&& transactionObject.getID().length() != 0)
+		if (transactionObject.getID() != 0)
 			alterObject((ClientEnterBill) transactionObject);
 
 		else
@@ -712,9 +701,9 @@ public class VendorBillView extends
 		case 5:
 			return AccounterValidator.validateForm(vendorForm, false);
 		case 4:
-			return AccounterValidator.validate_dueOrDelivaryDates(dueDateItem
-					.getEnteredDate(), this.transactionDate, Accounter
-					.getVendorsMessages().dueDate());
+			return AccounterValidator.validate_dueOrDelivaryDates(
+					dueDateItem.getEnteredDate(), this.transactionDate,
+					Accounter.getVendorsMessages().dueDate());
 		case 3:
 			return true;
 			// return AccounterValidator.validate_dueOrDelivaryDates(
@@ -790,8 +779,8 @@ public class VendorBillView extends
 				}
 			};
 
-			this.rpcUtilService.getPurchasesAndItemReceiptsList(vendor
-					.getID(), callback);
+			this.rpcUtilService.getPurchasesAndItemReceiptsList(vendor.getID(),
+					callback);
 		}
 
 		// if (vendor == null)
@@ -810,7 +799,7 @@ public class VendorBillView extends
 
 		for (PurchaseOrdersAndItemReceiptsList record : result) {
 			for (ClientTransaction transaction : selectedOrdersAndItemReceipts) {
-				if (transaction.getID().equals(record.getTransactionId()))
+				if (transaction.getID() == record.getTransactionId())
 					filteredList.remove(record);
 			}
 		}
@@ -832,8 +821,7 @@ public class VendorBillView extends
 				.getRecords()) {
 			for (ClientTransactionItem salesRecord : purchaseOrder
 					.getTransactionItems())
-				if (record.getReferringTransactionItem().equals(
-						salesRecord.getID()))
+				if (record.getReferringTransactionItem() == salesRecord.getID())
 					vendorTransactionGrid.deleteRecord(record);
 
 		}
@@ -991,8 +979,7 @@ public class VendorBillView extends
 
 		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id,
-				editCallBack);
+		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
 
 	}
 
