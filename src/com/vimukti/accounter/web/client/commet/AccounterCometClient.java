@@ -49,7 +49,7 @@ public class AccounterCometClient {
 	}
 
 	protected void processCommand(IAccounterCore obj) {
-		getCompany().processCommand(obj);
+		Accounter.getCompany().processCommand(obj);
 	}
 
 	public void cometStop() {
