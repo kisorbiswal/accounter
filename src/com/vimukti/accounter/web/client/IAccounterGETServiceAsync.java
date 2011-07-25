@@ -362,6 +362,6 @@ public interface IAccounterGETServiceAsync {
 
 	void getHREmployees(AsyncCallback<List<HrEmployee>> callback);
 
-	public void getHelpLinks(int type,AsyncCallback<List<HelpLink>> callback);
+	public void getHelpLinks(int type, AsyncCallback<List<HelpLink>> callback);
 
 }

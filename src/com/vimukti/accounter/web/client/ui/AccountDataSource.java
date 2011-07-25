@@ -6,10 +6,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 
 public class AccountDataSource extends BaseDataSource {
-	
-	
 
 	public AccountDataSource(AsyncCallback<List<ClientAccount>> callback) {
-		getCompany().getAccounts();
+		Accounter.getCompany().getAccounts();
 	}
 }

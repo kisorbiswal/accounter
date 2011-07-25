@@ -197,6 +197,7 @@ public class ClientCompany implements IAccounterCore {
 
 	private List<ClientBrandingTheme> brandingTheme;
 
+	private List<ClientUser> usersList;
 
 	// private List<ClientTAXItemGroup> vatItemGroups;
 
@@ -2089,6 +2090,13 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getArrayList(brandingTheme);
 	}
 
+	public void setUsersList(List<ClientUser> users) {
+		this.usersList = users;
+	}
+
+	public List<ClientUser> getUsersList() {
+		return usersList;
+	}
 
 	public ClientAccount getAccountByNumber(long accountNo) {
 		for (ClientAccount account : getAccounts()) {
