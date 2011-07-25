@@ -12,7 +12,7 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 
 	@SuppressWarnings("unused")
 	private int row = -1;
-	private String vatAgency;
+	private long vatAgency;
 
 	public PriorVATReturnsReport() {
 		super(false, Accounter.getReportsMessages()
@@ -38,7 +38,7 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 	}
 
 	@Override
-	public void makeReportRequest(String vatAgency, ClientFinanceDate end) {
+	public void makeReportRequest(long vatAgency, ClientFinanceDate end) {
 		this.row = -1;
 		if (this.serverReport instanceof PriorVATReturnsServerReport)
 			((PriorVATReturnsServerReport) this.serverReport).row = -1;
