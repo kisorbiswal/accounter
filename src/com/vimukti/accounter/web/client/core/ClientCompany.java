@@ -391,7 +391,7 @@ public class ClientCompany implements IAccounterCore {
 			return taxItems;
 		}
 		for (ClientTAXItem clientTaxItem : getTaxItems()) {
-			if (clientTaxItem.getTaxAgency().equals(taxAgency.getID())) {
+			if (clientTaxItem.getTaxAgency() == taxAgency.getID()) {
 				taxItems.add(clientTaxItem);
 
 			}
@@ -514,7 +514,6 @@ public class ClientCompany implements IAccounterCore {
 	public void setVendors(List<ClientVendor> vendors) {
 		this.vendors = vendors;
 	}
-
 
 	// public List<ClientTAXAgency> getTaxAgencies() {
 	// return Utility.getArrayList(taxAgencies);
@@ -1171,7 +1170,6 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObject(this.fiscalYears, id);
 	}
 
-
 	public ClientBrandingTheme getBrandingTheme(long id) {
 		return Utility.getObject(this.brandingTheme, id);
 	}
@@ -1275,7 +1273,6 @@ public class ClientCompany implements IAccounterCore {
 	public void deleteFixelYear(long fixelYearId) {
 		this.fiscalYears.remove(this.getFixelYear(fixelYearId));
 	}
-
 
 	public void deleteBrandingTheme(long themeId) {
 		this.brandingTheme.remove(this.getBrandingTheme(themeId));
@@ -1729,7 +1726,7 @@ public class ClientCompany implements IAccounterCore {
 			deleteCustomer(id);
 			if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				for (ClientPayee payee : getActivePayees()) {
-					if (payee.id==id) {
+					if (payee.id == id) {
 						Utility.isDelete = true;
 						Utility.updateClientList(payee, payees);
 						Utility.isDelete = false;
@@ -1744,7 +1741,7 @@ public class ClientCompany implements IAccounterCore {
 			deleteVendor(id);
 			if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				for (ClientPayee payee : getActivePayees()) {
-					if (payee.id==id) {
+					if (payee.id == id) {
 						Utility.isDelete = true;
 						Utility.updateClientList(payee, payees);
 						Utility.isDelete = false;
@@ -1759,7 +1756,7 @@ public class ClientCompany implements IAccounterCore {
 			deleteTaxAgency(id);
 			if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				for (ClientPayee payee : getActivePayees()) {
-					if (payee.id==id) {
+					if (payee.id == id) {
 						Utility.isDelete = true;
 						Utility.updateClientList(payee, payees);
 						Utility.isDelete = false;
@@ -1780,7 +1777,7 @@ public class ClientCompany implements IAccounterCore {
 			deleteTaxGroup(id);
 			if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				for (ClientTAXCode taxCode : getActiveTaxCodes()) {
-					if (taxCode.id==id) {
+					if (taxCode.id == id) {
 						Utility.isDelete = true;
 						Utility.updateClientList(taxCode, taxCodes);
 						Utility.isDelete = false;
@@ -1844,7 +1841,7 @@ public class ClientCompany implements IAccounterCore {
 			deleteTaxItem(id);
 			if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				for (ClientTAXCode taxCode : getActiveTaxCodes()) {
-					if (taxCode.id==id) {
+					if (taxCode.id == id) {
 						Utility.isDelete = true;
 						Utility.updateClientList(taxCode, taxCodes);
 						Utility.isDelete = false;
@@ -1890,7 +1887,7 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	@Override
-	public void setID(long id){
+	public void setID(long id) {
 		this.companyID = id;
 
 	}
