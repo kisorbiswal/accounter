@@ -171,8 +171,8 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	public void onDoubleClick(PaymentsList paymentsList) {
-		ReportsRPC.openTransactionView(getType(paymentsList), paymentsList
-				.getTransactionId());
+		ReportsRPC.openTransactionView(getType(paymentsList),
+				paymentsList.getTransactionId());
 	}
 
 	/* This method returns the Transaction type type basing on the PayBill Type */
@@ -189,9 +189,9 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 	protected int getCellWidth(int index) {
 		if (index == 8)
 			return 65;
-		else if(index==3)
+		else if (index == 3)
 			return 90;
-		else if(index==5)
+		else if (index == 5)
 			return 120;
 		// else if (index == 10)
 		// return 30;
@@ -227,12 +227,15 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 			break;
 
 		case 1:
-			int num1 = UIUtils.isInteger(obj1.getPaymentNumber())?Integer.parseInt(obj1.getPaymentNumber()):0;
-			int num2 = UIUtils.isInteger(obj2.getPaymentNumber())?Integer.parseInt(obj2.getPaymentNumber()):0;
-			if (num1!=0 && num2!=0)
+			int num1 = UIUtils.isInteger(obj1.getPaymentNumber()) ? Integer
+					.parseInt(obj1.getPaymentNumber()) : 0;
+			int num2 = UIUtils.isInteger(obj2.getPaymentNumber()) ? Integer
+					.parseInt(obj2.getPaymentNumber()) : 0;
+			if (num1 != 0 && num2 != 0)
 				return UIUtils.compareInt(num1, num2);
 			else
-				return obj1.getPaymentNumber().compareTo(obj2.getPaymentNumber());
+				return obj1.getPaymentNumber().compareTo(
+						obj2.getPaymentNumber());
 
 		case 2:
 			String status1 = Utility
@@ -249,8 +252,8 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 			break;
 
 		case 4:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 
 		case 5:
 			String type1 = Utility.getTransactionName(obj1.getType())
@@ -260,8 +263,8 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 			return type1.compareTo(type2);
 
 		case 6:
-			return obj1.getPaymentMethodName().toLowerCase().compareTo(
-					obj2.getPaymentMethodName().toLowerCase());
+			return obj1.getPaymentMethodName().toLowerCase()
+					.compareTo(obj2.getPaymentMethodName().toLowerCase());
 
 		case 7:
 			return obj1.getAmountPaid().compareTo(obj2.getAmountPaid());
@@ -279,7 +282,7 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 		return null;
 	}
 
-	private String getTransactionID(PaymentsList obj) {
+	private long getTransactionID(PaymentsList obj) {
 		return obj.getTransactionId();
 	}
 
