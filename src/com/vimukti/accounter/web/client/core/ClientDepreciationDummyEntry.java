@@ -5,7 +5,7 @@ public class ClientDepreciationDummyEntry {
 	private ClientAccount account;
 	private String fixedAssetName;
 	private double amountToBeDepreciated;
-	private String assetAccount;
+	private long assetAccount;
 
 	public ClientAccount getAccount() {
 		return account;
@@ -31,11 +31,11 @@ public class ClientDepreciationDummyEntry {
 		this.amountToBeDepreciated = amountToBeDepreciated;
 	}
 
-	public String getAssetAccount() {
+	public long getAssetAccount() {
 		return assetAccount;
 	}
 
-	public void setAssetAccount(String assetAccount) {
+	public void setAssetAccount(long assetAccount) {
 		this.assetAccount = assetAccount;
 	}
 
