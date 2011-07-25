@@ -180,7 +180,7 @@ public interface IAccounterReportServiceAsync {
 	void getPriorVATReturnReport(long vatAgancy, long endDate,
 			AsyncCallback<List<VATDetail>> callback);
 
-	public void getPriorReturnVATSummary(long vatAgency, long endDate,
+	public void getPriorReturnVATSummary(String vatAgency, long endDate,
 			AsyncCallback<List<VATSummary>> callback);
 
 	public void getVAT100Report(String vatAgncy, long fromDate, long toDate,
