@@ -726,10 +726,10 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		Session session = HibernateUtil.getCurrentSession();
 		switch (accountingType) {
 		case ACCOUNTING_TYPE_US:
-			initDefaultUSAccounts(session);
+			//initDefaultUSAccounts(session);
 			break;
 		case ACCOUNTING_TYPE_UK:
-			initDefaultUKAccounts(session);
+			//initDefaultUKAccounts(session);
 			break;
 		case ACCOUNTING_TYPE_INDIA:
 			break;
@@ -741,10 +741,10 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		this.accountingType = accountingType;
 		switch (accountingType) {
 		case ACCOUNTING_TYPE_US:
-			initDefaultUSAccounts(session);
+			//initDefaultUSAccounts(session);
 			break;
 		case ACCOUNTING_TYPE_UK:
-			initDefaultUKAccounts(session);
+			//initDefaultUKAccounts(session);
 			break;
 		case ACCOUNTING_TYPE_INDIA:
 			break;
@@ -770,7 +770,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		return null;
 	}
 
-	private void initDefaultUKAccounts(Session session) {
+/*	private void initDefaultUKAccounts(Session session) {
 
 		FinanceDate currentDate = new FinanceDate();
 		FinanceDate fiscalYearStartDate = new FinanceDate(
@@ -1008,10 +1008,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 		session.save(profitOrLossOnSalesOfAssets);
 
-		/**
-		 * The following are the Default Accounts for the Type Direct Costs &
-		 * Material Products
-		 */
+
 
 		Account productsOrMaterialsPurchasedTypeA = new Account(
 				Account.TYPE_COST_OF_GOODS_SOLD, "5001",
@@ -1148,10 +1145,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		//
 		// session.save(closingWorkInProgress);
 
-		/**
-		 * The following are the Default Accounts for the Type of Other Direct
-		 * Costs.
-		 */
+		
 
 		Account directLabour = new Account(Account.TYPE_OTHER_EXPENSE, "6001",
 				AccounterConstants.DIRECT_LABOUR, true, null,
@@ -2492,7 +2486,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		createNominalCodesRanges(session);
 		createDefaultBrandingTheme(session);
 
-	}
+	}*/
 
 	/**
 	 * Creates all the nominal code ranges for all the default accounts in the
@@ -2500,7 +2494,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * 
 	 * @param session
 	 */
-	private void createNominalCodesRanges(Session session) {
+/*	private void createNominalCodesRanges(Session session) {
 
 		Set<NominalCodeRange> nominalCodesRangeSet = new HashSet<NominalCodeRange>();
 
@@ -2581,10 +2575,10 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 		this.setNominalCodeRange(nominalCodesRangeSet);
 
-	}
+	}*/
 
 	@SuppressWarnings("deprecation")
-	private void setDefaultsUKValues(Session session) {
+	/*private void setDefaultsUKValues(Session session) {
 
 		// Session session = HibernateUtil.getCurrentSession();
 		// Create Default UK Payment Terms
@@ -2652,9 +2646,9 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		creditCardCompanies.setDefault(true);
 		session.save(creditCardCompanies);
 
-	}
+	}*/
 
-	public void createUSDefaultTaxGroup(Session session) {
+/*	public void createUSDefaultTaxGroup(Session session) {
 
 		try {
 
@@ -2715,9 +2709,9 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 			e.printStackTrace();
 		}
 
-	}
+	}*/
 
-	public void createUKDefaultVATCodesAndVATAgency(Session session) {
+/*	public void createUKDefaultVATCodesAndVATAgency(Session session) {
 
 		try {
 			VATReturnBox vt1 = new VATReturnBox();
@@ -3227,7 +3221,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 			e.printStackTrace();
 		}
 
-	}
+	}*/
 
 	public List<Payee> getPayees() {
 		return payees;
@@ -3271,7 +3265,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param session
 	 */
 	@SuppressWarnings("deprecation")
-	private void setDefaultsUSValues(Session session) {
+/*	private void setDefaultsUSValues(Session session) {
 
 		// Session session = HibernateUtil.getCurrentSession();
 		// Create Default Payment Terms
@@ -3399,7 +3393,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		creditCardCompanies.setDefault(true);
 		session.save(creditCardCompanies);
 
-	}
+	}*/
 
 	public static List<Integer> getAccountingTypes() {
 		List<Integer> accountingTypes = new ArrayList<Integer>();
@@ -3674,7 +3668,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * 
 	 * @param session
 	 */
-	public void initDefaultUSAccounts(Session session) {
+/*	public void initDefaultUSAccounts(Session session) {
 
 		setDefaultsUSValues(session);
 
@@ -3817,7 +3811,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		createUSDefaultTaxGroup(session);
 		createNominalCodesRanges(session);
 		createDefaultBrandingTheme(session);
-	}
+	}*/
 
 	@Override
 	public String toString() {
@@ -4685,13 +4679,13 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		return clientCompany;
 	}
 
-	private void createDefaultBrandingTheme(Session session) {
+/*	private void createDefaultBrandingTheme(Session session) {
 		BrandingTheme brandingTheme = new BrandingTheme("Standard",
 				SecureUtils.createID(), 1.35, 1.00, 1.00, "Times New Roman",
 				"10pt", "INVOICE", "CREDIT", "STATEMENT", "democo@democo.co",
 				true, this.getName(), "(None Added)");
 		session.save(brandingTheme);
-	}
+	}*/
 
 	public List<BrandingTheme> getBrandingTheme() {
 		return brandingTheme;
