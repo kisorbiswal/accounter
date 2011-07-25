@@ -8,11 +8,9 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
@@ -279,9 +277,5 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 		return null;
 	}
 
-	public abstract void setTaxCode(String taxCode);
-
-	public ClientCompany getCompany() {
-		return Accounter.getCompany();
-	}
+	public abstract void setTaxCode(long taxCode);
 }
