@@ -121,7 +121,7 @@ public class CometServerServlet extends HttpServlet {
 			ServletException {
 		String identityID = (String) request.getSession().getAttribute(
 				"identityID");
-		String sessionID = request.getSession().getID();
+		String sessionID = request.getSession().getId();
 
 		String sessionKey = identityID + sessionID;
 
@@ -362,7 +362,7 @@ public class CometServerServlet extends HttpServlet {
 			throws ServletException {
 		String sessionKey = (String) getHttpServletRequest().getSession()
 				.getAttribute("identityID");
-		String sessionID = getHttpServletRequest().getSession().getID();
+		String sessionID = getHttpServletRequest().getSession().getId();
 		// log.info("IdentityID:" + sessionKey + " Session:" + sessionID);
 		if (sessionKey == null) {
 			// log.info("Terminating Comet");
@@ -503,11 +503,11 @@ public class CometServerServlet extends HttpServlet {
 	}
 
 	private String getSyncStatus() {
-		if (Server.isLocal()) {
+		/*if (Server.isLocal()) {
 			LocalServer server = LocalServer.getInstance();
 			ClientPacketHandler packetHadler = server.getHandler();
 			return String.valueOf(packetHadler.getStatus());
-		}
+		}*/
 		return "";
 	}
 
