@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
@@ -96,8 +97,8 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	@Override
 	protected void onClick(T obj, int row, int col) {
 		if (col == 6 && !this.isVoided(obj)) {
-			showWarningDialog(obj, this.getAccounterCoreType(obj), this
-					.getTransactionID(obj), col);
+			showWarningDialog(obj, this.getAccounterCoreType(obj),
+					this.getTransactionID(obj), col);
 		}
 		// else if (col == 7) {
 		// if (!isDeleted)
@@ -123,8 +124,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	protected void showWarningDialog(T obj, final AccounterCoreType coreType,
 			final String transactionsID, final int col) {
 		String msg = null;
-		msg = Accounter.getCustomersMessages()
-				.doyouwanttoVoidtheTransaction();
+		msg = Accounter.getCustomersMessages().doyouwanttoVoidtheTransaction();
 		// else if (col == 7) {
 		// if (!viewType.equalsIgnoreCase("Deleted"))
 		// msg = "Do you want to Delete the Transaction";
@@ -241,13 +241,13 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 	}
 
 	public void setTotal() {
@@ -263,5 +263,9 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 		if (core != null) {
 			view.initListCallback();
 		}
+	}
+
+	protected ClientCompany getCompany() {
+		return Accounter.getCompany();
 	}
 }

@@ -24,10 +24,12 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
+import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -209,8 +211,8 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		setWidth("80");
 		mainPanel.setSpacing(3);
 
-		payMethodSelect = new SelectCombo(Accounter
-				.getFinanceUIConstants().paymentMethod());
+		payMethodSelect = new SelectCombo(Accounter.getFinanceUIConstants()
+				.paymentMethod());
 		payMethodSelect.setHelpInformation(true);
 		payMethodSelect.setRequired(true);
 		payMethodItemList = new ArrayList<String>();
@@ -253,17 +255,13 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		payForm.setFields(payMethodSelect, accountCombo);
 
 		Label label = new Label();
-		label.setText(Accounter.getFinanceUIConstants()
-				.PaymentsToBeIssued());
+		label.setText(Accounter.getFinanceUIConstants().PaymentsToBeIssued());
 		initListGrid();
 
 		addInputDialogHandler(new InputDialogHandler() {
 
 			public void onCancelClick() {
-				HistoryTokenUtils.setPresentToken(MainFinanceWindow
-						.getViewManager().getCurrentView().getAction(),
-						MainFinanceWindow.getViewManager().getCurrentView()
-								.getData());
+				Action.cancle();
 			}
 
 			public boolean onOkClick() {
@@ -301,8 +299,8 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 	protected void setStartingCheckNumber(ClientAccount account) {
 
 		if (checkNoText != null) {
-			rpcUtilService.getNextIssuepaymentCheckNumber(
-					account.getID(), new AsyncCallback<Long>() {
+			rpcUtilService.getNextIssuepaymentCheckNumber(account.getID(),
+					new AsyncCallback<Long>() {
 
 						public void onFailure(Throwable caught) {
 							// UIUtils.logError(
@@ -384,10 +382,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		// .createdSuccessfully());
 		IssuePaymentDialog.this.removeFromParent();
 		super.saveSuccess(object);
-		HistoryTokenUtils.setPresentToken(MainFinanceWindow
-				.getViewManager().getCurrentView().getAction(),
-				MainFinanceWindow.getViewManager().getCurrentView()
-						.getData());
+		VendorsActionFactory.getExpensesAction(null).run(null, true);
 	}
 
 	@Override
@@ -491,8 +486,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		emptyLabel.setWidth("25%");
 		totalLabel = new Label();
 		totalLabel.setWidth("30%");
-		totalLabel.setText(Accounter.getFinanceUIConstants()
-				.totalAmount());
+		totalLabel.setText(Accounter.getFinanceUIConstants().totalAmount());
 
 		amountLabel = new Label();
 		amountLabel.setText("" + UIUtils.getCurrencySymbol() + "0");

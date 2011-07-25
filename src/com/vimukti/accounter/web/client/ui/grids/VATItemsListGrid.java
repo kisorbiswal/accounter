@@ -85,8 +85,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 		case 2:
 			ClientTAXAgency agency = null;
 			if (item.getTaxAgency() != null) {
-				agency = getCompany().getTaxAgency(
-						item.getTaxAgency());
+				agency = getCompany().getTaxAgency(item.getTaxAgency());
 			}
 			return agency != null ? agency.getName() : "";
 		case 3:
@@ -122,8 +121,6 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	 */
 	@Override
 	public void onDoubleClick(ClientTAXItem obj) {
-		HistoryTokenUtils.setPresentToken(VatActionFactory
-				.getNewVatItemAction(), obj);
 		VatActionFactory.getNewVatItemAction().run(obj, true);
 	}
 
@@ -139,8 +136,8 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	protected int sort(ClientTAXItem obj1, ClientTAXItem obj2, int index) {
 		switch (index) {
 		case 1:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 
 		case 2:
 			String agency1 = null;
@@ -193,8 +190,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 		if (obj.getTaxAgency() != null) {
 
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				agency = getCompany().getTaxAgency(
-						obj.getTaxAgency());
+				agency = getCompany().getTaxAgency(obj.getTaxAgency());
 
 			}
 		}

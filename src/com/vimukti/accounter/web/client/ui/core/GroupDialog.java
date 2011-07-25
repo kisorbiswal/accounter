@@ -77,8 +77,6 @@ public abstract class GroupDialog<T> extends BaseDialog {
 		buttonsLayout = new VerticalPanel();
 		buttonsLayout.setWidth("100");
 		buttonsLayout.setSpacing(5);
-		
-		
 
 		button1 = new AccounterButton(constants.add());
 		button1.setWidth("80");
@@ -126,7 +124,8 @@ public abstract class GroupDialog<T> extends BaseDialog {
 		bodyLayout.add(listGridView);
 		if (Accounter.getUser().canDoInvoiceTransactions())
 			bodyLayout.add(buttonsLayout);
-		buttonsLayout.getElement().getParentElement().setAttribute("width", "25%");
+		buttonsLayout.getElement().getParentElement()
+				.setAttribute("width", "25%");
 		setBodyLayout(bodyLayout);
 		cancelBtn.setTitle(this.constants.close());
 		dialogHandler = new InputDialogHandler() {
@@ -134,15 +133,21 @@ public abstract class GroupDialog<T> extends BaseDialog {
 			public void onCancelClick() {
 				closeWindow();
 				ViewManager.getInstance().setCurrentDialog(null);
-				HistoryTokenUtils.setPresentToken(MainFinanceWindow
-						.getViewManager().getCurrentView().getAction(),
-						MainFinanceWindow.getViewManager().getCurrentView()
-								.getData());
+				Action.cancle();
 			}
 
 			public boolean onOkClick() {
-				
-				ViewManager.getInstance().setCurrentDialog(null);  //after clicked ok button anywhere ,save and close button not working properly_suresh
+
+				ViewManager.getInstance().setCurrentDialog(null); // after
+																	// clicked
+																	// ok button
+																	// anywhere
+																	// ,save and
+																	// close
+																	// button
+																	// not
+																	// working
+																	// properly_suresh
 				HistoryTokenUtils.setPresentToken(MainFinanceWindow
 						.getViewManager().getCurrentView().getAction(),
 						MainFinanceWindow.getViewManager().getCurrentView()
@@ -300,8 +305,9 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 	private void updateOrAddRecord(T obj) {
 		IAccounterCore core = (IAccounterCore) obj;
-		if (Utility.getObject((List<IAccounterCore>) (ArrayList) listGridView
-				.getRecords(), core.getID()) != null)
+		if (Utility.getObject(
+				(List<IAccounterCore>) (ArrayList) listGridView.getRecords(),
+				core.getID()) != null)
 			deleteRecord();
 
 		listGridView.addData((IsSerializable) obj);
@@ -367,8 +373,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 	@Override
 	public String toString() {
-		return Accounter.getCustomersMessages().classNameis()
-				+ this.getText();
+		return Accounter.getCustomersMessages().classNameis() + this.getText();
 	}
 
 	@Override

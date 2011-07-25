@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -69,16 +68,14 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 		for (int index = 0; index < colArray.length; index++) {
 			switch (index) {
 			case 0:
-				colArray[index] = Accounter.getCustomersMessages()
-						.active();
+				colArray[index] = Accounter.getCustomersMessages().active();
 				break;
 			case 1:
 				colArray[index] = Accounter.getCustomersMessages()
 						.customeRName();
 				break;
 			case 2:
-				colArray[index] = Accounter.getCompanyMessages()
-						.currentMonth();
+				colArray[index] = Accounter.getCompanyMessages().currentMonth();
 				colsMap.put(2, getCurrentMonth());
 				break;
 			case 3:
@@ -102,12 +99,10 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 				colsMap.put(6, getCurrentMonth() - 5);
 				break;
 			case 8:
-				colArray[index] = Accounter.getCompanyMessages()
-						.yearToDate();
+				colArray[index] = Accounter.getCompanyMessages().yearToDate();
 				break;
 			case 9:
-				colArray[index] = Accounter.getCustomersMessages()
-						.balance();
+				colArray[index] = Accounter.getCustomersMessages().balance();
 				break;
 			case 10:
 				colArray[index] = "";
@@ -202,16 +197,14 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 
 			public void onSuccess(ClientCustomer result) {
 				if (result != null) {
-					HistoryTokenUtils.setPresentToken(CustomersActionFactory
-							.getNewCustomerAction(), result);
-					UIUtils.runAction(result, CustomersActionFactory
-							.getNewCustomerAction());
+					CustomersActionFactory.getNewCustomerAction().run(result,
+							true);
 				}
 			}
 
 		};
-		Accounter.createGETService().getObjectById(
-				AccounterCoreType.CUSTOMER, obj.id, callback);
+		Accounter.createGETService().getObjectById(AccounterCoreType.CUSTOMER,
+				obj.id, callback);
 	}
 
 	protected void executeDelete(final PayeeList recordToBeDeleted) {
@@ -229,9 +222,8 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 			}
 
 		};
-		Accounter.createGETService().getObjectById(
-				AccounterCoreType.CUSTOMER, recordToBeDeleted.id,
-				callback);
+		Accounter.createGETService().getObjectById(AccounterCoreType.CUSTOMER,
+				recordToBeDeleted.id, callback);
 
 	}
 
@@ -294,8 +286,8 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 	protected int sort(PayeeList obj1, PayeeList obj2, int index) {
 		switch (index) {
 		case 1:
-			return obj1.getPayeeName().toLowerCase().compareTo(
-					obj2.getPayeeName().toLowerCase());
+			return obj1.getPayeeName().toLowerCase()
+					.compareTo(obj2.getPayeeName().toLowerCase());
 
 			// case 3:
 			//

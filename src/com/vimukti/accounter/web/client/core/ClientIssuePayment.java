@@ -8,14 +8,14 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class ClientIssuePayment extends ClientTransaction implements
 		IsSerializable, Serializable {
 
-	String account;
+	long account;
 
 	String checkNumber;
 
 	/**
 	 * @return the account
 	 */
-	public String getAccount() {
+	public long getAccount() {
 		return account;
 	}
 
@@ -23,7 +23,7 @@ public class ClientIssuePayment extends ClientTransaction implements
 	 * @param account
 	 *            the account to set
 	 */
-	public void setAccount(String account) {
+	public void setAccount(long account) {
 		this.account = account;
 	}
 
@@ -55,13 +55,13 @@ public class ClientIssuePayment extends ClientTransaction implements
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 

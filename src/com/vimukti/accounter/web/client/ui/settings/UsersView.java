@@ -24,7 +24,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -100,18 +99,18 @@ public class UsersView extends BaseView<ClientUser> {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				generalSettingsHTML.getElement().getStyle().setCursor(
-						Cursor.POINTER);
-				generalSettingsHTML.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				generalSettingsHTML.getElement().getStyle()
+						.setCursor(Cursor.POINTER);
+				generalSettingsHTML.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 			}
 		});
 		generalSettingsHTML.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				generalSettingsHTML.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				generalSettingsHTML.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
 		generalSettingsHTML.addClickHandler(new ClickHandler() {
@@ -122,28 +121,23 @@ public class UsersView extends BaseView<ClientUser> {
 						false);
 			}
 		});
-		titleLabel = new Label(Accounter.getSettingsMessages()
-				.usersTitle());
+		titleLabel = new Label(Accounter.getSettingsMessages().usersTitle());
 
 		titleLabel.removeStyleName("gwt-Label");
-		titleLabel.setStyleName(Accounter.getVendorsMessages()
-				.lableTitle());
+		titleLabel.setStyleName(Accounter.getVendorsMessages().lableTitle());
 
 		inviteUserButton = new AccounterButton("Invite a User");
 		inviteUserButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				HistoryTokenUtils.setPresentToken(SettingsActionFactory
-						.getInviteUserAction(), null);
 				SettingsActionFactory.getInviteUserAction().run(null, true);
 			}
 		});
 		tabPanel = new DecoratedTabPanel();
-		tabPanel.add(getUsersPanel(), Accounter.getSettingsMessages()
-				.users());
-		tabPanel.add(getRecentActivityPanel(), Accounter
-				.getSettingsMessages().recentActivity());
+		tabPanel.add(getUsersPanel(), Accounter.getSettingsMessages().users());
+		tabPanel.add(getRecentActivityPanel(), Accounter.getSettingsMessages()
+				.recentActivity());
 		tabPanel.selectTab(0);
 
 		// flexTable.setWidget(0, 0, generalSettingsHTML);

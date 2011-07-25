@@ -4,6 +4,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
+import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -25,8 +26,8 @@ public class SelectItemTypeDialog extends BaseDialog {
 
 	public SelectItemTypeDialog(NewItemAction action,
 			boolean isGeneratedFromCustomer) {
-		super(Accounter.getFinanceUIConstants().selectItemType(),
-				Accounter.getFinanceUIConstants().selectOneOfItem());
+		super(Accounter.getFinanceUIConstants().selectItemType(), Accounter
+				.getFinanceUIConstants().selectOneOfItem());
 		this.action = action;
 		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
 		createControls();
@@ -44,11 +45,9 @@ public class SelectItemTypeDialog extends BaseDialog {
 		// typeMap.put("service", "Service");
 		// typeMap.put("non-inventory", "Non-Inventory&nbsp;Item");
 
-		typeRadio.setValueMap(Accounter.getFinanceUIConstants()
-				.service(), Accounter.getFinanceUIConstants()
-				.product());
-		typeRadio.setDefaultValue(Accounter.getFinanceUIConstants()
-				.service());
+		typeRadio.setValueMap(Accounter.getFinanceUIConstants().service(),
+				Accounter.getFinanceUIConstants().product());
+		typeRadio.setDefaultValue(Accounter.getFinanceUIConstants().service());
 
 		final DynamicForm typeForm = new DynamicForm();
 		typeForm.setFields(typeRadio);
@@ -57,10 +56,7 @@ public class SelectItemTypeDialog extends BaseDialog {
 		addInputDialogHandler(new InputDialogHandler() {
 
 			public void onCancelClick() {
-				HistoryTokenUtils.setPresentToken(MainFinanceWindow
-						.getViewManager().getCurrentView().getAction(),
-						MainFinanceWindow.getViewManager().getCurrentView()
-								.getData());
+				Action.cancle();
 			}
 
 			public boolean onOkClick() {
@@ -85,8 +81,8 @@ public class SelectItemTypeDialog extends BaseDialog {
 							// //UIUtils.logError("Failed...", e);
 
 						}
-					} else if (radio.equals(Accounter
-							.getFinanceUIConstants().product())) {
+					} else if (radio.equals(Accounter.getFinanceUIConstants()
+							.product())) {
 
 						try {
 							ItemView view = new ItemView(null,

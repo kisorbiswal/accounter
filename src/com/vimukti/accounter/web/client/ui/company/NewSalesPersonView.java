@@ -19,7 +19,6 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -192,8 +191,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			salesPersonName = takenSalesperson.getFirstName();
 			jobTitleText
 					.setValue(takenSalesperson.getJobTitle() != null ? takenSalesperson
-							.getJobTitle()
-							: "");
+							.getJobTitle() : "");
 			fileAsText.setValue(takenSalesperson.getFileAs());
 
 			addrsForm = new AddressForm(takenSalesperson.getAddress());
@@ -207,8 +205,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			fonFaxForm.businessPhoneText
 					.setValue(takenSalesperson.getPhoneNo());
 			fonFaxForm.businessFaxText.setValue(takenSalesperson.getFaxNo());
-			emailForm = new EmailForm(null, takenSalesperson
-					.getWebPageAddress());
+			emailForm = new EmailForm(null,
+					takenSalesperson.getWebPageAddress());
 			emailForm.setWidth("100%");
 			emailForm.getCellFormatter().setWidth(0, 0, "159");
 			emailForm.getCellFormatter().setWidth(0, 1, "125");
@@ -216,8 +214,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			emailForm.webText.setValue(takenSalesperson.getWebPageAddress());
 			statusCheck.setValue(takenSalesperson.isActive());
 			if (takenSalesperson.getExpenseAccount() != null) {
-				selectedExpenseAccount = getCompany()
-						.getAccount(takenSalesperson.getExpenseAccount());
+				selectedExpenseAccount = getCompany().getAccount(
+						takenSalesperson.getExpenseAccount());
 				expenseSelect.setComboItem(selectedExpenseAccount);
 			}
 			genderSelect.setComboItem(takenSalesperson.getGender());
@@ -301,9 +299,9 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		case 1:
 			String name = employeeNameText.getValue().toString();
 			if ((takenSalesperson != null ? (takenSalesperson.getName()
-					.equalsIgnoreCase(name) ? true
-					: (Utility.isObjectExist(getCompany()
-							.getSalesPersons(), name) ? false : true)) : true)) {
+					.equalsIgnoreCase(name) ? true : (Utility.isObjectExist(
+					getCompany().getSalesPersons(), name) ? false : true))
+					: true)) {
 				return true;
 			} else
 				throw new InvalidEntryException(AccounterErrorType.ALREADYEXIST);
@@ -350,8 +348,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			// BaseView.errordata.setHTML(FinanceApplication.getCompanyMessages()
 			// .salesPersonUpdationFailed());
 			MainFinanceWindow.getViewManager().showError(
-					Accounter.getCompanyMessages()
-							.salesPersonUpdationFailed());
+					Accounter.getCompanyMessages().salesPersonUpdationFailed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 	}
@@ -373,16 +370,13 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			super.saveSuccess(result);
 
 		} else
-			saveFailed(new Exception(Accounter.getCompanyMessages()
-					.failed()));
+			saveFailed(new Exception(Accounter.getCompanyMessages().failed()));
 
 	}
 
 	@SuppressWarnings("unused")
 	private void reload() {
 		try {
-			HistoryTokenUtils.setPresentToken(CompanyActionFactory
-					.getNewSalesperSonAction(), null);
 			CompanyActionFactory.getNewSalesperSonAction().run(null, true);
 		} catch (Throwable e) {
 
@@ -406,8 +400,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		if (dateOfBirth.getValue().getTime() != 0) {
 			try {
 
-				if (dateOfBirth.getValue().getDateAsObject().after(
-						new ClientFinanceDate().getDateAsObject())) {
+				if (dateOfBirth.getValue().getDateAsObject()
+						.after(new ClientFinanceDate().getDateAsObject())) {
 					throw new InvalidEntryException(Accounter
 							.getCompanyMessages().invalidDateOfBirth());
 
@@ -415,8 +409,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				salesPerson.setDateOfBirth(UIUtils.toDate(dateOfBirth
 						.getValue()));
 			} catch (Exception e) {
-				throw new InvalidEntryException(Accounter
-						.getCompanyMessages().invalidDateOfBirth());
+				throw new InvalidEntryException(Accounter.getCompanyMessages()
+						.invalidDateOfBirth());
 			}
 		}
 
@@ -473,31 +467,40 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 
-		addrsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.getCompanyMessages().width(),
-				titlewidth + "");
-		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
-				Accounter.getCompanyMessages().width(),
-				listBoxWidth + "");
+		addrsForm
+				.getCellFormatter()
+				.getElement(0, 0)
+				.setAttribute(Accounter.getCompanyMessages().width(),
+						titlewidth + "");
+		addrsForm
+				.getCellFormatter()
+				.getElement(0, 1)
+				.setAttribute(Accounter.getCompanyMessages().width(),
+						listBoxWidth + "");
 
-		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.getCompanyMessages().width(),
-				titlewidth + "");
-		fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
-				Accounter.getCompanyMessages().width(),
-				listBoxWidth + "");
+		fonFaxForm
+				.getCellFormatter()
+				.getElement(0, 0)
+				.setAttribute(Accounter.getCompanyMessages().width(),
+						titlewidth + "");
+		fonFaxForm
+				.getCellFormatter()
+				.getElement(0, 1)
+				.setAttribute(Accounter.getCompanyMessages().width(),
+						listBoxWidth + "");
 
 		salesPersonForm.getCellFormatter().getElement(0, 0).getStyle()
 				.setWidth(titlewidth + listBoxWidth, Unit.PX);
-		expenseAccountForm.getCellFormatter().getElement(0, 0).setAttribute(
-				"width", titlewidth + listBoxWidth + "");
-		memoForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.getCompanyMessages().width(),
-				titlewidth + listBoxWidth + "");
-		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.getCompanyMessages().width(), "");
-		emailForm.getCellFormatter().getElement(0, 1).setAttribute(
-				Accounter.getCompanyMessages().width(), "");
+		expenseAccountForm.getCellFormatter().getElement(0, 0)
+				.setAttribute("width", titlewidth + listBoxWidth + "");
+		memoForm.getCellFormatter()
+				.getElement(0, 0)
+				.setAttribute(Accounter.getCompanyMessages().width(),
+						titlewidth + listBoxWidth + "");
+		emailForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.getCompanyMessages().width(), "");
+		emailForm.getCellFormatter().getElement(0, 1)
+				.setAttribute(Accounter.getCompanyMessages().width(), "");
 
 	}
 
@@ -564,8 +567,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stuba
-		if (core.getID().equals(
-				this.expenseSelect.getSelectedValue().getID())) {
+		if (core.getID().equals(this.expenseSelect.getSelectedValue().getID())) {
 			this.expenseSelect.addItemThenfireEvent((ClientAccount) core);
 		}
 	}

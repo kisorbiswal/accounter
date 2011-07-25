@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
@@ -47,8 +46,7 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 							.supplieRName();
 				break;
 			case 2:
-				colArray[index] = Accounter.getCompanyMessages()
-						.currentMonth();
+				colArray[index] = Accounter.getCompanyMessages().currentMonth();
 				colsMap.put(2, getCurrentMonth());
 				break;
 			case 3:
@@ -72,12 +70,10 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 				colsMap.put(6, getCurrentMonth() - 5);
 				break;
 			case 8:
-				colArray[index] = Accounter.getCompanyMessages()
-						.yearToDate();
+				colArray[index] = Accounter.getCompanyMessages().yearToDate();
 				break;
 			case 9:
-				colArray[index] = Accounter.getVendorsMessages()
-						.balance();
+				colArray[index] = Accounter.getVendorsMessages().balance();
 				break;
 			case 10:
 				colArray[index] = "";
@@ -208,18 +204,14 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 			public void onSuccess(ClientPayee result) {
 				if (result != null) {
 					if (result instanceof ClientVendor) {
-						HistoryTokenUtils.setPresentToken(VendorsActionFactory
-								.getNewVendorAction(), result);
-						UIUtils.runAction(result, VendorsActionFactory
-								.getNewVendorAction());
+						VendorsActionFactory.getNewVendorAction().run(result,
+								true);
 						// } else if (result instanceof ClientTaxAgency) {
 						// UIUtils.runAction(result, CompanyActionFactory
 						// .getNewTaxAgencyAction());
 					} else if (result instanceof ClientTAXAgency) {
-						HistoryTokenUtils.setPresentToken(CompanyActionFactory
-								.getNewTAXAgencyAction(), result);
-						UIUtils.runAction(result, CompanyActionFactory
-								.getNewTAXAgencyAction());
+						CompanyActionFactory.getNewTAXAgencyAction().run(
+								result, true);
 					}
 
 				}
@@ -290,18 +282,17 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 		};
 		if (recordToBeDeleted.getType() == ClientPayee.TYPE_VENDOR)
 			Accounter.createGETService().getObjectById(
-					AccounterCoreType.VENDOR, recordToBeDeleted.id,
-					callback);
+					AccounterCoreType.VENDOR, recordToBeDeleted.id, callback);
 		else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
 				&& recordToBeDeleted.getType() == ClientPayee.TYPE_TAX_AGENCY)
-			Accounter.createGETService().getObjectById(
-					AccounterCoreType.TAXAGENCY, recordToBeDeleted.id,
-					callback);
+			Accounter.createGETService()
+					.getObjectById(AccounterCoreType.TAXAGENCY,
+							recordToBeDeleted.id, callback);
 		else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 				&& recordToBeDeleted.getType() == ClientPayee.TYPE_TAX_AGENCY)
-			Accounter.createGETService().getObjectById(
-					AccounterCoreType.TAXAGENCY, recordToBeDeleted.id,
-					callback);
+			Accounter.createGETService()
+					.getObjectById(AccounterCoreType.TAXAGENCY,
+							recordToBeDeleted.id, callback);
 
 		// rpcDoSerivce = FinanceApplication.createCRUDService();
 
@@ -344,8 +335,8 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 	protected int sort(PayeeList obj1, PayeeList obj2, int index) {
 		switch (index) {
 		case 1:
-			return obj1.getPayeeName().toLowerCase().compareTo(
-					obj2.getPayeeName().toLowerCase());
+			return obj1.getPayeeName().toLowerCase()
+					.compareTo(obj2.getPayeeName().toLowerCase());
 			//
 			// case 3:
 			//

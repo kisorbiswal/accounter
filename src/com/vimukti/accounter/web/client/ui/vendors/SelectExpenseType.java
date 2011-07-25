@@ -5,8 +5,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
@@ -17,14 +15,12 @@ import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 @SuppressWarnings("unchecked")
 public class SelectExpenseType extends BaseDialog {
 	RadioGroupItem typeRadio;
-	private final String CHECK = Accounter.getVendorsMessages()
-			.check();
+	private final String CHECK = Accounter.getVendorsMessages().check();
 	private final String CREDIT_CARD = Accounter.getVendorsMessages()
 			.creditCard();
 
 	private final String CASH = Accounter.getVendorsMessages().cash();
-	private final String EMPLOYEE = Accounter.getVendorsMessages()
-			.employee();
+	private final String EMPLOYEE = Accounter.getVendorsMessages().employee();
 	// private ViewConfiguration configuration;
 	private VendorsMessages vendorsConstants = GWT
 			.create(VendorsMessages.class);
@@ -63,20 +59,14 @@ public class SelectExpenseType extends BaseDialog {
 				if (typeRadio.getValue() != null) {
 					String radio = typeRadio.getValue().toString();
 					if (radio.equals(EMPLOYEE)) {
-						HistoryTokenUtils.setPresentToken(VendorsActionFactory
-								.EmployeeExpenseAction(), null);
 						VendorsActionFactory.EmployeeExpenseAction().run(null,
 								false);
 					} else if (radio.equals(CHECK)) {
 						try {
-							HistoryTokenUtils
-									.setPresentToken(BankingActionFactory
-											.getWriteChecksAction(), null);
 							BankingActionFactory.getWriteChecksAction().run(
 									null, false);
 						} catch (Throwable e) {
-							Accounter.showError(Accounter
-									.getVendorsMessages()
+							Accounter.showError(Accounter.getVendorsMessages()
 									.failedToloadWriteCheck()
 
 							);
@@ -85,14 +75,10 @@ public class SelectExpenseType extends BaseDialog {
 
 					} else if (radio.equals(CREDIT_CARD)) {
 						try {
-							HistoryTokenUtils.setPresentToken(
-									VendorsActionFactory
-											.CreditCardExpenseAction(), null);
 							VendorsActionFactory.CreditCardExpenseAction().run(
 									null, false);
 						} catch (Throwable e) {
-							Accounter.showError(Accounter
-									.getVendorsMessages()
+							Accounter.showError(Accounter.getVendorsMessages()
 									.failedToLoadCreditCardCharg());
 							e.printStackTrace();
 
@@ -100,35 +86,25 @@ public class SelectExpenseType extends BaseDialog {
 
 					} else if (radio.equals(CASH)) {
 						try {
-							HistoryTokenUtils.setPresentToken(
-									VendorsActionFactory.CashExpenseAction(),
-									null);
 							VendorsActionFactory.CashExpenseAction().run(null,
 									false);
 						} catch (Throwable e) {
-							Accounter.showError(Accounter
-									.getVendorsMessages()
+							Accounter.showError(Accounter.getVendorsMessages()
 									.failedToLoadCashPurchase());
 							e.printStackTrace();
 						}
 					} else if (radio.equals(EMPLOYEE)) {
 						try {
-							HistoryTokenUtils.setPresentToken(
-									VendorsActionFactory
-											.EmployeeExpenseAction(), null);
 							VendorsActionFactory.EmployeeExpenseAction().run(
 									null, false);
 						} catch (Throwable e) {
-							Accounter.showError(Accounter
-									.getVendorsMessages()
+							Accounter.showError(Accounter.getVendorsMessages()
 									.failedToLoadCashPurchase());
 							e.printStackTrace();
 						}
 					} else {
-						Accounter
-								.showError(Accounter
-										.getVendorsMessages()
-										.pleaseSelectExpenseType());
+						Accounter.showError(Accounter.getVendorsMessages()
+								.pleaseSelectExpenseType());
 					}
 
 				}
@@ -139,10 +115,6 @@ public class SelectExpenseType extends BaseDialog {
 			@Override
 			public void onCancelClick() {
 				removeFromParent();
-				HistoryTokenUtils.setPresentToken(MainFinanceWindow
-						.getViewManager().getCurrentView().getAction(),
-						MainFinanceWindow.getViewManager().getCurrentView()
-								.getData());
 			}
 		});
 

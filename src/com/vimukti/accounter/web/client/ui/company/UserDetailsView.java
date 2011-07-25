@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
 public class UserDetailsView extends AbstractBaseView<ClientUser> {
@@ -39,8 +38,6 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				HistoryTokenUtils.setPresentToken(CompanyActionFactory
-						.getChangePasswordAction(), null);
 				CompanyActionFactory.getChangePasswordAction().run(null, false);
 			}
 		});

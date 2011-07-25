@@ -52,8 +52,6 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void goToClicked() {
-		HistoryTokenUtils.setPresentToken(BankingActionFactory
-				.getAccountRegisterAction(), debitors);
 		BankingActionFactory.getAccountRegisterAction().run(debitors, true);
 	}
 
@@ -74,21 +72,18 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 		HorizontalPanel hPanel = new HorizontalPanel();
 		FlexTable fTable = new FlexTable();
 
-		AccounterButton addReceivableInvoiceBtn = new AccounterButton(
-				Accounter.getCompanyMessages().addReceivableInvoice());
+		AccounterButton addReceivableInvoiceBtn = new AccounterButton(Accounter
+				.getCompanyMessages().addReceivableInvoice());
 		addReceivableInvoiceBtn.addStyleName("addButtonPortlet");
 		addReceivableInvoiceBtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				HistoryTokenUtils.setPresentToken(CustomersActionFactory
-						.getNewInvoiceAction(), null);
 				CustomersActionFactory.getNewInvoiceAction().run(null, true);
 			}
 		});
 
-		draftLabel = getLabel(Accounter.getCompanyMessages()
-				.draftInvoices());
+		draftLabel = getLabel(Accounter.getCompanyMessages().draftInvoices());
 		overDueLabel = getLabel(Accounter.getCompanyMessages()
 				.overDueInvoices());
 		overDueLabel.getElement().getStyle().setPaddingLeft(10, Unit.PX);
@@ -187,33 +182,29 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				label.getElement().getStyle().setCursor(Cursor.POINTER);
-				label.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				label.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 			}
 		});
 		label.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				label.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				label.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
 		label.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				label.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
-				if (title.equals(Accounter.getCompanyMessages()
-						.draftInvoices())) {
-					HistoryTokenUtils.setPresentToken(CustomersActionFactory
-							.getInvoicesAction(null), null);
+				label.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
+				if (title
+						.equals(Accounter.getCompanyMessages().draftInvoices())) {
 					CustomersActionFactory.getInvoicesAction(null).run(null,
 							true);
 				} else {
-					HistoryTokenUtils.setPresentToken(CustomersActionFactory
-							.getInvoicesAction(InvoiceListView.OVER_DUE), null);
 					CustomersActionFactory.getInvoicesAction(
 							InvoiceListView.OVER_DUE).run(null, true);
 				}
@@ -235,8 +226,6 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void titleClicked() {
-		HistoryTokenUtils.setPresentToken(BankingActionFactory
-				.getAccountRegisterAction(), debitors);
 		BankingActionFactory.getAccountRegisterAction().run(debitors, true);
 	}
 

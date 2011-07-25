@@ -25,7 +25,6 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
@@ -66,24 +65,23 @@ public class InvoiceBrandingView<T> extends
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				generalSettingsHTML.getElement().getStyle().setCursor(
-						Cursor.POINTER);
-				generalSettingsHTML.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				generalSettingsHTML.getElement().getStyle()
+						.setCursor(Cursor.POINTER);
+				generalSettingsHTML.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 			}
 		});
 		generalSettingsHTML.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				generalSettingsHTML.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				generalSettingsHTML.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
 		titleLabel = new Label(messages.invoiceBrandingLabel());
 		titleLabel.removeStyleName("gwt-Label");
-		titleLabel.setStyleName(Accounter.getVendorsMessages()
-				.lableTitle());
+		titleLabel.setStyleName(Accounter.getVendorsMessages().lableTitle());
 		generalSettingsHTML.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -102,8 +100,6 @@ public class InvoiceBrandingView<T> extends
 
 			@Override
 			public void onClick(ClickEvent event) {
-				HistoryTokenUtils.setPresentToken(SettingsActionFactory
-						.getNewBrandThemeAction(), null);
 				SettingsActionFactory.getNewBrandThemeAction().run(null, false);
 			}
 		});
@@ -138,8 +134,8 @@ public class InvoiceBrandingView<T> extends
 
 		mainPanel.add(titlePanel);
 		mainPanel.add(buttonPanel);
-		List<ClientBrandingTheme> brandingThemes = Accounter
-				.getCompany().getBrandingTheme();
+		List<ClientBrandingTheme> brandingThemes = Accounter.getCompany()
+				.getBrandingTheme();
 		for (int i = 0; i < brandingThemes.size(); i++) {
 			brandingTheme = brandingThemes.get(i);
 			mainPanel.add(addingThemeToView(brandingTheme));
@@ -245,11 +241,9 @@ public class InvoiceBrandingView<T> extends
 
 		// adding titles.....
 		String overDueTitle = theme.getOverDueInvoiceTitle().isEmpty() ? messages
-				.none()
-				: theme.getOverDueInvoiceTitle();
+				.none() : theme.getOverDueInvoiceTitle();
 		String creditMemoTitle = theme.getCreditMemoTitle().isEmpty() ? messages
-				.none()
-				: theme.getCreditMemoTitle();
+				.none() : theme.getCreditMemoTitle();
 		String statementTitle = theme.getStatementTitle().isEmpty() ? messages
 				.none() : theme.getStatementTitle();
 
@@ -300,8 +294,8 @@ public class InvoiceBrandingView<T> extends
 
 				@Override
 				public void onMouseOver(MouseOverEvent event) {
-					uploadPictureHtml.getElement().getStyle().setCursor(
-							Cursor.POINTER);
+					uploadPictureHtml.getElement().getStyle()
+							.setCursor(Cursor.POINTER);
 					uploadPictureHtml.getElement().getStyle()
 							.setTextDecoration(TextDecoration.UNDERLINE);
 				}
@@ -382,17 +376,15 @@ public class InvoiceBrandingView<T> extends
 			if (theme.getFileName() == null) {
 				optionsPanel.add(getOptionsMenuDefaultThemeNoLogo(optionsPanel,
 						theme));
-				optionsPanel.setPopupPosition(button.getAbsoluteLeft(), button
-						.getAbsoluteTop()
-						+ button.getOffsetHeight());
+				optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
+						button.getAbsoluteTop() + button.getOffsetHeight());
 				optionsPanel.show();
 				optionsPanel.setAutoHideEnabled(true);
 			} else {
 				optionsPanel
 						.add(getOptionsMenuDefaultTheme(optionsPanel, theme));
-				optionsPanel.setPopupPosition(button.getAbsoluteLeft(), button
-						.getAbsoluteTop()
-						+ button.getOffsetHeight());
+				optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
+						button.getAbsoluteTop() + button.getOffsetHeight());
 				optionsPanel.show();
 				optionsPanel.setAutoHideEnabled(true);
 			}
@@ -400,16 +392,14 @@ public class InvoiceBrandingView<T> extends
 		} else {
 			if (theme.getFileName() == null) {
 				optionsPanel.add(getOptionsMenuNoLogo(optionsPanel, theme));
-				optionsPanel.setPopupPosition(button.getAbsoluteLeft(), button
-						.getAbsoluteTop()
-						+ button.getOffsetHeight());
+				optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
+						button.getAbsoluteTop() + button.getOffsetHeight());
 				optionsPanel.show();
 				optionsPanel.setAutoHideEnabled(true);
 			} else {
 				optionsPanel.add(getOptionsMenuWithLogo(optionsPanel, theme));
-				optionsPanel.setPopupPosition(button.getAbsoluteLeft(), button
-						.getAbsoluteTop()
-						+ button.getOffsetHeight());
+				optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
+						button.getAbsoluteTop() + button.getOffsetHeight());
 				optionsPanel.show();
 				optionsPanel.setAutoHideEnabled(true);
 			}
@@ -468,8 +458,6 @@ public class InvoiceBrandingView<T> extends
 				panel.hide();
 				switch (type) {
 				case 1:
-					HistoryTokenUtils.setPresentToken(SettingsActionFactory
-							.getNewBrandThemeAction(), theme);
 					SettingsActionFactory.getNewBrandThemeAction().run(theme,
 							false);
 					break;
@@ -606,12 +594,9 @@ public class InvoiceBrandingView<T> extends
 	public void saveSuccess(IAccounterCore object) {
 		if (object != null) {
 			super.saveSuccess(object);
-			HistoryTokenUtils.setPresentToken(SettingsActionFactory
-					.getInvoiceBrandingAction(), null);
 			SettingsActionFactory.getInvoiceBrandingAction().run(null, false);
 		} else
-			saveFailed(new Exception(Accounter.getCompanyMessages()
-					.failed()));
+			saveFailed(new Exception(Accounter.getCompanyMessages().failed()));
 	}
 
 	@Override

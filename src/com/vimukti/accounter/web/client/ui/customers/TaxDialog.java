@@ -5,8 +5,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
@@ -20,26 +18,24 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorsMessages;
 @SuppressWarnings("unchecked")
 public class TaxDialog extends BaseDialog {
 	RadioGroupItem typeRadio;
-	private final String TAXGROUP = Accounter.getCustomersMessages()
-			.taxGroup();
-	private final String TAXITEM = Accounter.getCustomersMessages()
-			.taxItem();
+	private final String TAXGROUP = Accounter.getCustomersMessages().taxGroup();
+	private final String TAXITEM = Accounter.getCustomersMessages().taxItem();
 	private FormItem actionSource;
 	// private ViewConfiguration configuration;
 	private VendorsMessages vendorsConstants = GWT
 			.create(VendorsMessages.class);
 
 	public TaxDialog() {
-		super(Accounter.getCustomersMessages().tax(),
-				Accounter.getCompanyMessages().selectOneType());
+		super(Accounter.getCustomersMessages().tax(), Accounter
+				.getCompanyMessages().selectOneType());
 		setText(Accounter.getCustomersMessages().tax());
 		createControls();
 		center();
 	}
 
 	public <T> TaxDialog(AsyncCallback<T> callBack) {
-		super(Accounter.getCustomersMessages().tax(),
-				Accounter.getCompanyMessages().selectOneType());
+		super(Accounter.getCustomersMessages().tax(), Accounter
+				.getCompanyMessages().selectOneType());
 		this.callBack = callBack;
 		setText(Accounter.getCustomersMessages().tax());
 		createControls();
@@ -47,8 +43,8 @@ public class TaxDialog extends BaseDialog {
 	}
 
 	public <T> TaxDialog(AsyncCallback<T> callBack, FormItem actionSource) {
-		super(Accounter.getCustomersMessages().tax(),
-				Accounter.getCompanyMessages().selectOneType());
+		super(Accounter.getCustomersMessages().tax(), Accounter
+				.getCompanyMessages().selectOneType());
 		this.callBack = callBack;
 		this.actionSource = actionSource;
 		setText(Accounter.getCustomersMessages().tax());
@@ -79,7 +75,7 @@ public class TaxDialog extends BaseDialog {
 							Action action = CompanyActionFactory
 									.getManageSalesTaxGroupsAction();
 							action.setActionSource(actionSource);
-							
+
 							action.run(null, true);
 						} catch (Throwable e) {
 							Accounter.showError(Accounter
@@ -95,7 +91,7 @@ public class TaxDialog extends BaseDialog {
 							Action action = VatActionFactory
 									.getNewVatItemAction();
 							action.setActionSource(actionSource);
-							
+
 							action.run(null, true);
 							// VatActionFactory.getNewVatItemAction().run(null,
 							// true);
@@ -108,8 +104,8 @@ public class TaxDialog extends BaseDialog {
 						}
 
 					} else {
-						Accounter.showError(Accounter
-								.getCustomersMessages().pleaseSelectTaxType());
+						Accounter.showError(Accounter.getCustomersMessages()
+								.pleaseSelectTaxType());
 					}
 
 				}
@@ -120,10 +116,7 @@ public class TaxDialog extends BaseDialog {
 			@Override
 			public void onCancelClick() {
 				removeFromParent();
-				HistoryTokenUtils.setPresentToken(MainFinanceWindow
-						.getViewManager().getCurrentView().getAction(),
-						MainFinanceWindow.getViewManager().getCurrentView()
-								.getData());
+				Action.cancle();
 			}
 		});
 

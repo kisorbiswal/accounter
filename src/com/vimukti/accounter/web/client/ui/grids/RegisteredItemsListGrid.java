@@ -12,7 +12,6 @@ import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.FixedAssetsActionFactory;
@@ -78,8 +77,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		case 1:
 			return item.getAssetNumber();
 		case 2:
-			return getCompany().getAccount(
-					item.getAssetAccount()) != null ? Accounter
+			return getCompany().getAccount(item.getAssetAccount()) != null ? Accounter
 					.getCompany().getAccount(item.getAssetAccount()).getName()
 					: "";
 		case 3:
@@ -108,8 +106,6 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	 */
 	@Override
 	public void onDoubleClick(ClientFixedAsset obj) {
-		HistoryTokenUtils.setPresentToken(FixedAssetsActionFactory
-				.getNewFixedAssetAction(), obj);
 		FixedAssetsActionFactory.getNewFixedAssetAction().run(obj, true);
 	}
 
@@ -133,7 +129,6 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		Action action = FixedAssetsActionFactory.getHistoryListAction();
 		action.catagory = Accounter.getFixedAssetConstants()
 				.fixedAssetsPendingItemsList();
-		HistoryTokenUtils.setPresentToken(action, obj);
 		action.run(obj, true);
 	}
 
@@ -145,8 +140,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 			@Override
 			public boolean onOkClick() {
 				String note = noteDialog.noteArea.getValue() != null ? noteDialog.noteArea
-						.getValue().toString()
-						: "";
+						.getValue().toString() : "";
 				// setAttribute("note", note, currentRow);
 				if (note.length() != 0)
 					executeUpdate(asset, note);
@@ -187,8 +181,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	 */
 	@Override
 	protected String[] getColumns() {
-		return new String[] {
-				Accounter.getFixedAssetConstants().item(),
+		return new String[] { Accounter.getFixedAssetConstants().item(),
 				Accounter.getFixedAssetConstants().assetNumber(),
 				Accounter.getFixedAssetConstants().account(),
 				Accounter.getFixedAssetConstants().purchaseDate(),
@@ -214,10 +207,10 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 			return getAccount(obj1).compareTo(getAccount(obj2));
 
 		case 3:
-			ClientFinanceDate date1 = new ClientFinanceDate(obj1
-					.getPurchaseDate());
-			ClientFinanceDate date2 = new ClientFinanceDate(obj2
-					.getPurchaseDate());
+			ClientFinanceDate date1 = new ClientFinanceDate(
+					obj1.getPurchaseDate());
+			ClientFinanceDate date2 = new ClientFinanceDate(
+					obj2.getPurchaseDate());
 			if (date1 != null && date2 != null)
 				return date1.compareTo(date2);
 			break;
@@ -239,9 +232,9 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	private String getAccount(ClientFixedAsset obj) {
 
-		return getCompany()
-				.getAccount(obj.getAssetAccount()) != null ? Accounter
-				.getCompany().getAccount(obj.getAssetAccount()).getName() : "";
+		return getCompany().getAccount(obj.getAssetAccount()) != null ? Accounter
+				.getCompany().getAccount(obj.getAssetAccount()).getName()
+				: "";
 	}
 
 	@Override

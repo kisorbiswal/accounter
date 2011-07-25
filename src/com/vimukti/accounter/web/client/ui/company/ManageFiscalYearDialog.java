@@ -10,9 +10,8 @@ import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
@@ -53,8 +52,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		descriptionLabel.setHTML(Accounter.getCompanyMessages()
 				.toCloseBooksOrFascalYear());
 		listOfperiods = new FiscalYearListGrid(this, false);
-		listOfperiods.setTitle(Accounter.getCompanyMessages()
-				.listOfPeriods());
+		listOfperiods.setTitle(Accounter.getCompanyMessages().listOfPeriods());
 		listOfperiods.setWidth("350px");
 		listOfperiods.setHeight("250px");
 		listHpanel = new HorizontalPanel();
@@ -78,10 +76,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			@Override
 			public void onCancelClick() {
 				hide();
-				HistoryTokenUtils.setPresentToken(MainFinanceWindow
-						.getViewManager().getCurrentView().getAction(),
-						MainFinanceWindow.getViewManager().getCurrentView()
-								.getData());
+				Action.cancle();
 			}
 		});
 		initDataToFiscalYearList();
@@ -89,8 +84,8 @@ public class ManageFiscalYearDialog extends BaseDialog {
 
 	private void initDataToFiscalYearList() {
 		listOfperiods.removeAllRecords();
-		for (ClientFiscalYear clientFiscalYear : Accounter
-				.getCompany().getFiscalYears()) {
+		for (ClientFiscalYear clientFiscalYear : Accounter.getCompany()
+				.getFiscalYears()) {
 			listOfperiods.addData(clientFiscalYear);
 		}
 		// listOfperiods.sortList();
@@ -109,9 +104,8 @@ public class ManageFiscalYearDialog extends BaseDialog {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				new CreateFiscalYearDialog(Accounter
-						.getCompanyMessages().createFascalYear(), "",
-						listOfperiods);
+				new CreateFiscalYearDialog(Accounter.getCompanyMessages()
+						.createFascalYear(), "", listOfperiods);
 			}
 		});
 		closeFiscalYearButton = new AccounterButton();
@@ -144,8 +138,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		});
 		editFiscalYear = new AccounterButton();
 		editFiscalYear.setWidth("140px");
-		editFiscalYear.setText(Accounter.getCompanyMessages()
-				.editFiscalYear());
+		editFiscalYear.setText(Accounter.getCompanyMessages().editFiscalYear());
 		editFiscalYear.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -278,9 +271,9 @@ public class ManageFiscalYearDialog extends BaseDialog {
 	}
 
 	private void showCloseFiscalYearPopupPanel() {
-		Accounter.showWarning(Accounter.getCompanyMessages()
-				.warnOfFascalYear(), AccounterType.WARNING,
-				new ErrorDialogHandler() {
+		Accounter.showWarning(
+				Accounter.getCompanyMessages().warnOfFascalYear(),
+				AccounterType.WARNING, new ErrorDialogHandler() {
 
 					@Override
 					public boolean onYesClick() throws InvalidEntryException {

@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
@@ -41,8 +40,7 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 		case 3:
 			ClientTAXAgency agency = null;
 			if (obj.getTaxAgency() != null) {
-				agency = getCompany().getTaxAgency(
-						obj.getTaxAgency());
+				agency = getCompany().getTaxAgency(obj.getTaxAgency());
 			}
 			return agency != null ? agency.getName() : "";
 		case 4:
@@ -54,8 +52,6 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 	@Override
 	public void onDoubleClick(ClientTAXItem obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			HistoryTokenUtils.setPresentToken(VatActionFactory
-					.getNewVatItemAction(), obj);
 			VatActionFactory.getNewVatItemAction().run(obj, true);
 		}
 
@@ -118,8 +114,7 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 		ClientTAXAgency agency = null;
 		if (obj.getTaxAgency() != null) {
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-				agency = getCompany().getTaxAgency(
-						obj.getTaxAgency());
+				agency = getCompany().getTaxAgency(obj.getTaxAgency());
 			}
 		}
 		return agency != null ? agency.getName() : "";
@@ -130,8 +125,8 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 	protected int sort(ClientTAXItem obj1, ClientTAXItem obj2, int index) {
 		switch (index) {
 		case 1:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 
 		case 2:
 			String desc1 = obj1.getDescription() != null ? obj1

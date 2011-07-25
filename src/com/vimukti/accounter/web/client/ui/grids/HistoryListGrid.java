@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.core.ClientFixedAssetHistory;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
@@ -52,12 +51,10 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 		case 3:
 			if (asset.getActionType().equalsIgnoreCase(
 					ClientFixedAssetHistory.ACTION_TYPE_DISPOSED)
-					|| asset
-							.getActionType()
+					|| asset.getActionType()
 							.equalsIgnoreCase(
 									ClientFixedAssetHistory.ACTION_TYPE_DISPOSAL_REVERSED)) {
-				return Accounter.getFixedAssetConstants()
-						.viewDisposalJournal();
+				return Accounter.getFixedAssetConstants().viewDisposalJournal();
 			} else {
 				return asset.getDetails() != null ? asset.getDetails() : "";
 			}
@@ -96,10 +93,6 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 						@Override
 						public void onSuccess(ClientJournalEntry journalEntry) {
 							if (journalEntry != null) {
-								HistoryTokenUtils.setPresentToken(
-										CompanyActionFactory
-												.getNewJournalEntryAction(),
-										journalEntry);
 								CompanyActionFactory.getNewJournalEntryAction()
 										.run(journalEntry, true);
 							}
@@ -117,8 +110,7 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] {
-				Accounter.getFixedAssetConstants().changes(),
+		return new String[] { Accounter.getFixedAssetConstants().changes(),
 				Accounter.getFixedAssetConstants().date(),
 				Accounter.getFixedAssetConstants().user(),
 				Accounter.getFixedAssetConstants().details() };

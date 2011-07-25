@@ -32,7 +32,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.Header;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
@@ -178,14 +177,15 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 				}
 				if (address.getType() == ClientAddress.TYPE_COMPANY_REGISTRATION) {
 					setAddressToTextItem(textareaItem2, address);
-					allAddresses.put(UIUtils
-							.getAddressType("companyregistration"), address);
+					allAddresses.put(
+							UIUtils.getAddressType("companyregistration"),
+							address);
 				}
 			}
 			registrationNumberText.setValue(company.getRegistrationNumber());
 
-			doupaySalesChecBox.setValue(getCompany()
-					.getPreferences().getDoYouPaySalesTax());
+			doupaySalesChecBox.setValue(getCompany().getPreferences()
+					.getDoYouPaySalesTax());
 
 			if (doupaySalesChecBox.getValue() == Boolean.FALSE) {
 				vatRegNumber.setDisabled(true);
@@ -387,28 +387,26 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		faxText = new IntegerField(companyConstants.businessFax());
 		faxText.setHelpInformation(true);
 
-		emailText = new EmailField(Accounter.getCompanyMessages()
-				.email());
+		emailText = new EmailField(Accounter.getCompanyMessages().email());
 		emailText.setHelpInformation(true);
 
 		websiteText = new TextItem(companyConstants.webPageAddress());
 		websiteText.setHelpInformation(true);
 
-		registrationNumberText = new TextItem(companyConstants
-				.companyRegistrationNumber());
+		registrationNumberText = new TextItem(
+				companyConstants.companyRegistrationNumber());
 		registrationNumberText.setHelpInformation(true);
 
 		taxIDText = new TextItem(companyConstants.federalTaxId());
 		taxIDText.setHelpInformation(true);
 
 		bankAccountText = new TextItem();
-		bankAccountText.setTitle(Accounter.getCompanyMessages()
-				.bankAccountNo());
+		bankAccountText
+				.setTitle(Accounter.getCompanyMessages().bankAccountNo());
 		bankAccountText.setHelpInformation(true);
 
 		sortCodeText = new TextItem();
-		sortCodeText.setTitle(Accounter.getCompanyMessages()
-				.sortCode());
+		sortCodeText.setTitle(Accounter.getCompanyMessages().sortCode());
 		sortCodeText.setHelpInformation(true);
 
 		phoneAndFaxForm = UIUtils.form(companyConstants.phoneAndFaxNumbers());
@@ -438,8 +436,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			doupaySalesChecBox
 					.setTitle(companyMessges.areYouRegisteredForVAT());
 		}
-		vatRegNumber = new TextItem(UIUtils.getVendorString(companyMessges
-				.vatRegNo(), companyMessges.taxRegNo()));
+		vatRegNumber = new TextItem(UIUtils.getVendorString(
+				companyMessges.vatRegNo(), companyMessges.taxRegNo()));
 		vatRegNumber.setHelpInformation(true);
 		vatRegNumber.setWidth(100);
 		vatRegNumber.setDisabled(false);
@@ -462,8 +460,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 						public void onValueChange(
 								ValueChangeEvent<Boolean> event) {
 							vatRegNumber.setDisabled(!event.getValue());
-							vatRegNumber.setValue(Accounter
-									.getCompany().getpreferences()
+							vatRegNumber.setValue(Accounter.getCompany()
+									.getpreferences()
 									.getVATregistrationNumber());
 						}
 					});
@@ -476,8 +474,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 						public void onValueChange(
 								ValueChangeEvent<Boolean> event) {
 							vatRegNumber.setDisabled(!event.getValue());
-							vatRegNumber.setValue(Accounter
-									.getCompany().getpreferences()
+							vatRegNumber.setValue(Accounter.getCompany()
+									.getpreferences()
 									.getVATregistrationNumber());
 						}
 					});
@@ -539,13 +537,13 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		mainHLay.setCellHorizontalAlignment(mainVLay2, ALIGN_RIGHT);
 
 		// addInputDialogHandler(new InputDialogHandler() {
-		//		
+		//
 		// public void onCancelClick() {
-		//		
+		//
 		// }
-		//		
+		//
 		// public boolean onOkClick() {
-		//		
+		//
 		// try {
 		// if (CompanyInfoDialog.this.validate())
 		// updatedCompany();
@@ -627,7 +625,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		companyPreferences.setUseVendorId(getBooleanValue(useVendorId));
 		companyPreferences
 				.setAgeingFromTransactionDateORDueDate(ageingFromTransactionDateORDueDate
-						.getValue().toString().equalsIgnoreCase(
+						.getValue()
+						.toString()
+						.equalsIgnoreCase(
 								Accounter.getCompanyMessages()
 										.ageingforduedate()) ? CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE
 						: CompanyPreferencesView.TYPE_AGEING_FROM_TRANSACTIONDATE);
@@ -677,7 +677,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		companyPreferences.setUseVendorId(getBooleanValue(useVendorId));
 		companyPreferences
 				.setAgeingFromTransactionDateORDueDate(ageingFromTransactionDateORDueDate
-						.getValue().toString().equalsIgnoreCase(
+						.getValue()
+						.toString()
+						.equalsIgnoreCase(
 								Accounter.getCompanyMessages()
 										.ageingforduedate()) ? CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE
 						: CompanyPreferencesView.TYPE_AGEING_FROM_TRANSACTIONDATE);
@@ -725,13 +727,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		clientCompany.setpreferences(companyPreferences);
 
-		List<ClientAddress> list2 = new ArrayList<ClientAddress>(allAddresses
-				.values());
+		List<ClientAddress> list2 = new ArrayList<ClientAddress>(
+				allAddresses.values());
 		if (!list2.isEmpty())
 			clientCompany.setAddresses(list2);
 		else
-			clientCompany.setAddresses(getCompany()
-					.getAddresses());
+			clientCompany.setAddresses(getCompany().getAddresses());
 
 		clientCompany
 				.setRegistrationNumber(getStringValue(registrationNumberText));
@@ -746,13 +747,10 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			super.saveSuccess(result);
 			Header.companyName.setText(this.companyNameText.getValue()
 					.toString());
-			HistoryTokenUtils.setPresentToken(CompanyActionFactory
-					.getCompanyHomeAction(), null);
 			CompanyActionFactory.getCompanyHomeAction().run(null, false);
 
 		} else
-			saveFailed(new Exception(Accounter.getCompanyMessages()
-					.failed()));
+			saveFailed(new Exception(Accounter.getCompanyMessages().failed()));
 
 	}
 
@@ -805,13 +803,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		useVendorId = new CheckboxItem();
 		useVendorId.setTitle(companyMessges.useVendorId());
-		ageingFromTransactionDateORDueDate = new RadioGroupItem(
-				Accounter.getCompanyMessages().ageingDetails());
+		ageingFromTransactionDateORDueDate = new RadioGroupItem(Accounter
+				.getCompanyMessages().ageingDetails());
 
 		ageingFromTransactionDateORDueDate.setValues(getClickHandler(),
-				Accounter.getCompanyMessages().ageingforduedate(),
-				Accounter.getCompanyMessages()
-						.ageingfortransactiondate());
+				Accounter.getCompanyMessages().ageingforduedate(), Accounter
+						.getCompanyMessages().ageingfortransactiondate());
 		// ageingFromTransactionDateORDueDate.setDefaultValue(FinanceApplication
 		// .getCompanyMessages().ageingfortransactiondate());
 
@@ -974,8 +971,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			public void onClick(ClickEvent event) {
 				String ageing = ageingFromTransactionDateORDueDate.getValue()
 						.toString();
-				if (ageing.equalsIgnoreCase(Accounter
-						.getCompanyMessages().ageingforduedate())) {
+				if (ageing.equalsIgnoreCase(Accounter.getCompanyMessages()
+						.ageingforduedate())) {
 					ageingFromTransactionDateORDueDate
 							.setValue(CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE);
 				} else
@@ -989,8 +986,6 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	protected void taxGroupButtonClick() {
-		HistoryTokenUtils.setPresentToken(CompanyActionFactory
-				.getManageSalesTaxGroupsAction(), null);
 		new ManageSalesTaxGroupsAction("").run(null, false);
 
 	}
@@ -1008,49 +1003,49 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		systemAccountForm.setGroupTitle(companyMessges.systemAccounts());
 		// systemAccountForm.setPadding(30);
 
-		openinBalcombo = new OtherAccountsCombo(companyMessges
-				.openingBalances());
+		openinBalcombo = new OtherAccountsCombo(
+				companyMessges.openingBalances());
 
 		openinBalcombo.initCombo(accounts);
 
 		openinBalcombo.setWidth(150);
 		// openinBalcombo.setWrapTitle(false);
-		accountsreceivablecombo = new OtherAccountsCombo(companyMessges
-				.accountsReceivable());
+		accountsreceivablecombo = new OtherAccountsCombo(
+				companyMessges.accountsReceivable());
 		accountsreceivablecombo.initCombo(accounts);
 
 		accountsreceivablecombo.setWidth(150);
 		// accountsreceivablecombo.setWrapTitle(false);
-		accountsPayablecombo = new OtherAccountsCombo(companyMessges
-				.accountsPayable());
+		accountsPayablecombo = new OtherAccountsCombo(
+				companyMessges.accountsPayable());
 		accountsPayablecombo.initCombo(accounts);
 		accountsPayablecombo.setWidth(150);
 		// accountsPayablecombo.setWrapTitle(false);
-		salesTaxPayablecombo = new OtherAccountsCombo(companyMessges
-				.salesTaxPayable());
+		salesTaxPayablecombo = new OtherAccountsCombo(
+				companyMessges.salesTaxPayable());
 		salesTaxPayablecombo.initCombo(accounts);
 
 		salesTaxPayablecombo.setWidth(150);
 		// salesTaxPayablecombo.setWrapTitle(false);
-		cashDiscountGivencombo = new OtherAccountsCombo(companyMessges
-				.cashDiscountGiven());
+		cashDiscountGivencombo = new OtherAccountsCombo(
+				companyMessges.cashDiscountGiven());
 		cashDiscountGivencombo.initCombo(accounts);
 
 		cashDiscountGivencombo.setWidth(150);
 		// cashDiscountGivencombo.setWrapTitle(false);
-		cashDiscountTakencombo = new OtherAccountsCombo(companyMessges
-				.cashDiscountTaken());
+		cashDiscountTakencombo = new OtherAccountsCombo(
+				companyMessges.cashDiscountTaken());
 
 		cashDiscountTakencombo.initCombo(accounts);
 		cashDiscountTakencombo.setWidth(150);
 		// cashDiscountTakencombo.setWrapTitle(false);
 
-		payrollLiabilitycombo = new OtherAccountsCombo(companyMessges
-				.payrollLiability());
+		payrollLiabilitycombo = new OtherAccountsCombo(
+				companyMessges.payrollLiability());
 		payrollLiabilitycombo.initCombo(accounts);
 		payrollLiabilitycombo.setWidth(150);
-		undepositedFoundscombo = new OtherAccountsCombo(companyMessges
-				.undepositedFounds());
+		undepositedFoundscombo = new OtherAccountsCombo(
+				companyMessges.undepositedFounds());
 
 		undepositedFoundscombo.initCombo(accounts);
 		undepositedFoundscombo.setWidth(150);
@@ -1058,27 +1053,27 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		bankChargecombo.initCombo(accounts);
 		bankChargecombo.setWidth(150);
-		retainedEarningsCombo = new OtherAccountsCombo(companyMessges
-				.retainedEarnings());
+		retainedEarningsCombo = new OtherAccountsCombo(
+				companyMessges.retainedEarnings());
 		retainedEarningsCombo.initCombo(accounts);
 
 		retainedEarningsCombo.setWidth(150);
-		pendingItemrecicptsCombo = new OtherAccountsCombo(companyMessges
-				.pendingItemreceipts());
+		pendingItemrecicptsCombo = new OtherAccountsCombo(
+				companyMessges.pendingItemreceipts());
 		pendingItemrecicptsCombo.initCombo(accounts);
 		pendingItemrecicptsCombo.setWidth(150);
 		// pendingItemrecicptsCombo.setWrapTitle(false);
-		jobresellAccountCombo = new OtherAccountsCombo(companyMessges
-				.jobresellAccount());
+		jobresellAccountCombo = new OtherAccountsCombo(
+				companyMessges.jobresellAccount());
 		jobresellAccountCombo.initCombo(accounts);
 
 		jobresellAccountCombo.setWidth(150);
-		writeOffAccountCombo = new OtherAccountsCombo(companyMessges
-				.writeOffAccount());
+		writeOffAccountCombo = new OtherAccountsCombo(
+				companyMessges.writeOffAccount());
 		writeOffAccountCombo.initCombo(accounts);
 		writeOffAccountCombo.setWidth(150);
-		defaultCashCombo = new OtherAccountsCombo(companyMessges
-				.defaultAccounts());
+		defaultCashCombo = new OtherAccountsCombo(
+				companyMessges.defaultAccounts());
 
 		defaultCashCombo.initCombo(accounts);
 		defaultCashCombo.setWidth(150);
@@ -1146,13 +1141,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		defautFileAsSettings = new SelectItem();
 		// defautFileAsSettings.setWidth(200);
 		// defautFileAsSettings.setHeight("20");
-		defautFileAsSettings.setDefaultValue(Accounter
-				.getCompanyMessages().company());
+		defautFileAsSettings.setDefaultValue(Accounter.getCompanyMessages()
+				.company());
 		defautFileAsSettings.setTitle(companyMessges.defaultFileAsSettings());
-		defautFileAsSettings.setValueMap(Accounter
-				.getCompanyMessages().company(), Accounter
-				.getCompanyMessages().firstLast(), Accounter
-				.getCompanyMessages().lastFirst());
+		defautFileAsSettings.setValueMap(Accounter.getCompanyMessages()
+				.company(), Accounter.getCompanyMessages().firstLast(),
+				Accounter.getCompanyMessages().lastFirst());
 		filingRecordNameForm.setItems(defautFileAsSettings);
 		// filingRecordNameForm.setPadding(10);
 
@@ -1166,8 +1160,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// serviceMapForm.setPadding(10);
 
 		// FIXME--Previusly 'mangeServiceMappingsBtn' is ButtonItem
-		mangeServiceMappingsBtn = new AccounterButton(companyMessges
-				.manageServiceMappings());
+		mangeServiceMappingsBtn = new AccounterButton(
+				companyMessges.manageServiceMappings());
 		mangeServiceMappingsBtn.setHeight("30");
 
 		/**
@@ -1199,13 +1193,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		logContentSelect = new SelectItem();
 		logContentSelect.setWidth(100);
 		logContentSelect.setTitle(companyMessges.logContent());
-		logContentSelect.setDefaultValue(Accounter
-				.getCompanyMessages().doNotLog());
-		logContentSelect.setValueMap(Accounter.getCompanyMessages()
-				.doNotLog(), Accounter.getCompanyMessages()
-				.criticalErrorsOnly(), Accounter.getCompanyMessages()
-				.allErrors(), Accounter.getCompanyMessages()
-				.allErrorsAndMessages());
+		logContentSelect.setDefaultValue(Accounter.getCompanyMessages()
+				.doNotLog());
+		logContentSelect.setValueMap(Accounter.getCompanyMessages().doNotLog(),
+				Accounter.getCompanyMessages().criticalErrorsOnly(), Accounter
+						.getCompanyMessages().allErrors(), Accounter
+						.getCompanyMessages().allErrorsAndMessages());
 
 		supportLogging.setItems(logspaceTxt, logContentSelect);
 		VerticalPanel suportLogPanel = new VerticalPanel();

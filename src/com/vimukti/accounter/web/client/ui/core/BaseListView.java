@@ -9,7 +9,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -21,7 +20,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.company.JournalEntryListView;
@@ -127,16 +125,15 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		viewSelect = getSelectItem();
 
 		if (viewSelect == null) {
-			viewSelect = new SelectCombo(Accounter
-					.getCustomersMessages().currentView());
+			viewSelect = new SelectCombo(Accounter.getCustomersMessages()
+					.currentView());
 			viewSelect.setHelpInformation(true);
 			viewSelect.setWidth("150px");
 			List<String> typeList = new ArrayList<String>();
 			typeList.add(Accounter.getCustomersMessages().active());
 			typeList.add(Accounter.getCustomersMessages().inActive());
 			viewSelect.initCombo(typeList);
-			viewSelect.setComboItem(Accounter.getCustomersMessages()
-					.active());
+			viewSelect.setComboItem(Accounter.getCustomersMessages().active());
 			viewSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -165,8 +162,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			typeList.add(Accounter.getCustomersMessages().active());
 			typeList.add(Accounter.getCustomersMessages().inActive());
 			dateRangeSelector.initCombo(typeList);
-			dateRangeSelector.setDefaultValue(Accounter
-					.getCustomersMessages().active());
+			dateRangeSelector.setDefaultValue(Accounter.getCustomersMessages()
+					.active());
 			dateRangeSelector.addChangeHandler(new ChangeHandler() {
 
 				@Override
@@ -187,12 +184,10 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
 		toItem.setTitle(Accounter.getCustomersMessages().to());
-		toItem
-				.setDatethanFireEvent(Utility
-						.getLastandOpenedFiscalYearEndDate());
+		toItem.setDatethanFireEvent(Utility.getLastandOpenedFiscalYearEndDate());
 
-		updateButton = new AccounterButton(Accounter
-				.getCustomersMessages().update());
+		updateButton = new AccounterButton(Accounter.getCustomersMessages()
+				.update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -350,8 +345,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			public void onClick(ClickEvent event) {
 				Action action = getAddNewAction();
 				if (action != null) {
-					
-					UIUtils.runAction((IsSerializable) null, action);
+					action.run(null, true);
 				}
 			}
 
@@ -495,8 +489,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		if (core.getObjectType() == grid.getType()
 				|| core.getObjectType() == AccounterCoreType.TAXAGENCY) {
 
-			IAccounterCore obj = Utility.getObject(grid.getRecords(), core
-					.getID());
+			IAccounterCore obj = Utility.getObject(grid.getRecords(),
+					core.getID());
 			switch (cmd) {
 			case AccounterCommand.CREATION_SUCCESS:
 			case AccounterCommand.UPDATION_SUCCESS:

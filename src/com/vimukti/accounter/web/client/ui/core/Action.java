@@ -159,8 +159,8 @@ public abstract class Action {
 
 		else {
 
-			boolean isSameClass = object.getClass().getName().equals(
-					this.getClass().getName());
+			boolean isSameClass = object.getClass().getName()
+					.equals(this.getClass().getName());
 
 			// boolean hasSameHashCode = object.hashCode() == this.hashCode();
 
@@ -180,7 +180,13 @@ public abstract class Action {
 	public String getImageUrl() {
 		return "";
 	}
-	
+
 	public abstract String getHistoryToken();
 
+	/**
+	 * Cancels the Present Action
+	 */
+	public static void cancle() {
+		// FIXME Cancel the Present Running Action
+	}
 }

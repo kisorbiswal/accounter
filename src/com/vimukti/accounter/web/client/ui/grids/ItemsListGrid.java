@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
@@ -63,12 +62,10 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 		case 4:
 			if (!ItemListView.isPurchaseType) {
 				return DataUtils.getAmountAsString(obj.getSalesPrice()) != null ? DataUtils
-						.getAmountAsString(obj.getSalesPrice())
-						: "";
+						.getAmountAsString(obj.getSalesPrice()) : "";
 			} else
 				return DataUtils.getAmountAsString(obj.getPurchasePrice()) != null ? DataUtils
-						.getAmountAsString(obj.getPurchasePrice())
-						: "";
+						.getAmountAsString(obj.getPurchasePrice()) : "";
 
 		case 5:
 			return Accounter.getFinanceMenuImages().delete();
@@ -79,8 +76,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] {
-				Accounter.getCustomersMessages().active(),
+		return new String[] { Accounter.getCustomersMessages().active(),
 				Accounter.getCustomersMessages().itemName(),
 				Accounter.getCustomersMessages().description(),
 				Accounter.getCustomersMessages().type(),
@@ -90,8 +86,6 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	@Override
 	public void onDoubleClick(ClientItem obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			HistoryTokenUtils.setPresentToken(CompanyActionFactory
-					.getNewItemAction(), obj);
 			CompanyActionFactory.getNewItemAction().run(obj, true);
 		}
 	}
@@ -121,8 +115,8 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
 		switch (index) {
 		case 1:
-			return item1.getName().toLowerCase().compareTo(
-					item2.getName().toLowerCase());
+			return item1.getName().toLowerCase()
+					.compareTo(item2.getName().toLowerCase());
 		case 2:
 			if (!ItemListView.isPurchaseType) {
 				String obj1 = item1.getSalesDescription() != null ? item1

@@ -5,8 +5,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
@@ -59,14 +57,10 @@ public class PaymentDialog extends BaseDialog {
 					String radio = typeRadio.getValue().toString();
 					if (radio.equals(RECEIVE_PAYMENT)) {
 						try {
-							HistoryTokenUtils.setPresentToken(
-									CustomersActionFactory
-											.getReceivePaymentAction(), null);
 							CustomersActionFactory.getReceivePaymentAction()
 									.run(null, false);
 						} catch (Throwable e) {
-							Accounter.showError(Accounter
-									.getVendorsMessages()
+							Accounter.showError(Accounter.getVendorsMessages()
 									.failedToloadWriteCheck()
 
 							);
@@ -75,16 +69,11 @@ public class PaymentDialog extends BaseDialog {
 
 					} else if (radio.equals(CUSTOMER_PREPAYMENT)) {
 						try {
-							HistoryTokenUtils.setPresentToken(
-									CustomersActionFactory
-											.getNewCustomerPaymentAction(),
-									null);
 							CustomersActionFactory
 									.getNewCustomerPaymentAction().run(null,
 											false);
 						} catch (Throwable e) {
-							Accounter.showError(Accounter
-									.getVendorsMessages()
+							Accounter.showError(Accounter.getVendorsMessages()
 									.failedToLoadCreditCardCharg());
 							e.printStackTrace();
 
@@ -99,10 +88,7 @@ public class PaymentDialog extends BaseDialog {
 			@Override
 			public void onCancelClick() {
 				removeFromParent();
-				HistoryTokenUtils.setPresentToken(MainFinanceWindow
-						.getViewManager().getCurrentView().getAction(),
-						MainFinanceWindow.getViewManager().getCurrentView()
-								.getData());
+				Action.cancle();
 			}
 		});
 

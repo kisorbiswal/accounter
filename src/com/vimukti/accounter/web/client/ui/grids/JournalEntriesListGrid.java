@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
@@ -111,8 +110,6 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 
 	@Override
 	public void onDoubleClick(ClientJournalEntry obj) {
-		HistoryTokenUtils.setPresentToken(CompanyActionFactory
-				.getNewJournalEntryAction(), obj);
 		CompanyActionFactory.getNewJournalEntryAction().run(obj, true);
 	}
 
@@ -202,8 +199,7 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 	// }
 	protected void voidTransaction(final ClientJournalEntry obj) {
 		ViewManager.getInstance().voidTransaction(
-				UIUtils.getAccounterCoreType(obj.getType()), obj.getID(),
-				this);
+				UIUtils.getAccounterCoreType(obj.getType()), obj.getID(), this);
 	}
 
 	protected void deleteTransaction(final ClientJournalEntry obj) {
@@ -263,8 +259,8 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 			break;
 		case 2:
 			if (obj1.getMemo() != null && obj2.getMemo() != null)
-				return obj1.getMemo().toLowerCase().compareTo(
-						obj2.getMemo().toLowerCase());
+				return obj1.getMemo().toLowerCase()
+						.compareTo(obj2.getMemo().toLowerCase());
 			break;
 		case 3:
 			Double amt1 = obj1.getTotal();

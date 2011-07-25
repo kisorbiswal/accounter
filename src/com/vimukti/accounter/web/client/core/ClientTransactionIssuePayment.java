@@ -7,23 +7,23 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 
 	long date;
 
-	String writeCheck;
+	long writeCheck;
 
-	String customerRefund;
+	long customerRefund;
 
-	String payBill;
+	long payBill;
 
-	String customerPrepayment;
+	long customerPrepayment;
 
-	String creditCardCharge;
+	long creditCardCharge;
 
-	String cashPurchase;
+	long cashPurchase;
 
-	String payVAT;
+	long payVAT;
 
-	String receiveVAT;
+	long receiveVAT;
 
-	String paySalesTax;
+	long paySalesTax;
 
 	String number;
 
@@ -44,7 +44,7 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 	/**
 	 * @return the payBill
 	 */
-	public String getPayBill() {
+	public long getPayBill() {
 		return payBill;
 	}
 
@@ -52,14 +52,14 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 	 * @param payBill
 	 *            the payBill to set
 	 */
-	public void setPayBill(String payBill) {
+	public void setPayBill(long payBill) {
 		this.payBill = payBill;
 	}
 
 	/**
 	 * @return the creditCardCharge
 	 */
-	public String getCreditCardCharge() {
+	public long getCreditCardCharge() {
 		return creditCardCharge;
 	}
 
@@ -67,7 +67,7 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 	 * @param creditCardCharge
 	 *            the creditCardCharge to set
 	 */
-	public void setCreditCardCharge(String creditCardCharge) {
+	public void setCreditCardCharge(long creditCardCharge) {
 		this.creditCardCharge = creditCardCharge;
 	}
 
@@ -75,7 +75,7 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 	 * @return the payVAT
 	 */
 
-	public String getPayVAT() {
+	public long getPayVAT() {
 		return payVAT;
 	}
 
@@ -83,14 +83,14 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 	 * @param payVAT
 	 *            the payVAT to set
 	 */
-	public void setPayVAT(String payVAT) {
+	public void setPayVAT(long payVAT) {
 		this.payVAT = payVAT;
 	}
 
 	/**
 	 * @return the receiveVAT
 	 */
-	public String getReceiveVAT() {
+	public long getReceiveVAT() {
 		return receiveVAT;
 	}
 
@@ -98,14 +98,14 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 	 * @param receiveVAT
 	 *            the receiveVAT to set
 	 */
-	public void setReceiveVAT(String receiveVAT) {
+	public void setReceiveVAT(long receiveVAT) {
 		this.receiveVAT = receiveVAT;
 	}
 
 	/**
 	 * @return the cashPurchase
 	 */
-	public String getCashPurchase() {
+	public long getCashPurchase() {
 		return cashPurchase;
 	}
 
@@ -113,14 +113,14 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 	 * @param cashPurchase
 	 *            the cashPurchase to set
 	 */
-	public void setCashPurchase(String cashPurchase) {
+	public void setCashPurchase(long cashPurchase) {
 		this.cashPurchase = cashPurchase;
 	}
 
 	/**
 	 * @return the paySalesTax
 	 */
-	public String getPaySalesTax() {
+	public long getPaySalesTax() {
 		return paySalesTax;
 	}
 
@@ -128,7 +128,7 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 	 * @param paySalesTax
 	 *            the paySalesTax to set
 	 */
-	public void setPaySalesTax(String paySalesTax) {
+	public void setPaySalesTax(long paySalesTax) {
 		this.paySalesTax = paySalesTax;
 	}
 
@@ -162,7 +162,7 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 	/**
 	 * @return the writeCheck
 	 */
-	public String getWriteCheck() {
+	public long getWriteCheck() {
 		return writeCheck;
 	}
 
@@ -170,7 +170,7 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 	 * @param writeCheckId
 	 *            the writeCheck to set
 	 */
-	public void setWriteCheck(String writeCheckId) {
+	public void setWriteCheck(long writeCheckId) {
 		this.writeCheck = writeCheckId;
 	}
 
@@ -253,7 +253,7 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 	/**
 	 * @return the customerRefund
 	 */
-	public String getCustomerRefund() {
+	public long getCustomerRefund() {
 		return customerRefund;
 	}
 
@@ -261,7 +261,7 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 	 * @param customerRefundId
 	 *            the customerRefund to set
 	 */
-	public void setCustomerRefund(String customerRefundId) {
+	public void setCustomerRefund(long customerRefundId) {
 		this.customerRefund = customerRefundId;
 	}
 
@@ -283,13 +283,13 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
@@ -305,11 +305,11 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 		return null;
 	}
 
-	public void setCustomerPrepayment(String customerPrepayment) {
+	public void setCustomerPrepayment(long customerPrepayment) {
 		this.customerPrepayment = customerPrepayment;
 	}
 
-	public String getCustomerPrepayment() {
+	public long getCustomerPrepayment() {
 		return customerPrepayment;
 	}
 

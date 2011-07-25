@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -38,7 +39,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * @author Uday Kumar
  * 
  */
-@SuppressWarnings( { "deprecation", "unchecked" })
+@SuppressWarnings({ "deprecation", "unchecked" })
 public class NewBrandThemeDialog extends BaseDialog {
 
 	private Label pageSizeLabel, topMarginLabel, bottomMarginLabel,
@@ -94,10 +95,10 @@ public class NewBrandThemeDialog extends BaseDialog {
 		takenTheme = brandingTheme;
 		nameItem.setValue(brandingTheme.getThemeName());
 		topMarginBox.setValue(String.valueOf(brandingTheme.getTopMargin()));
-		bottomMarginBox.setValue(String
-				.valueOf(brandingTheme.getBottomMargin()));
-		addressPadBox.setValue(String
-				.valueOf(brandingTheme.getAddressPadding()));
+		bottomMarginBox
+				.setValue(String.valueOf(brandingTheme.getBottomMargin()));
+		addressPadBox
+				.setValue(String.valueOf(brandingTheme.getAddressPadding()));
 		setPazeSize(brandingTheme.getPageSizeType());
 		fontNameBox.setComboItem(brandingTheme.getFont());
 		fontSizeBox.setComboItem(brandingTheme.getFontSize());
@@ -152,16 +153,17 @@ public class NewBrandThemeDialog extends BaseDialog {
 					if (NewBrandThemeDialog.this.validate()) {
 						ClientBrandingTheme brandingTheme = saveValues();
 						if (takenTheme == null) {
-							if (!Utility.isObjectExist(Accounter
-									.getCompany().getBrandingTheme(),
-									brandingTheme.getThemeName())) {
+							if (!Utility.isObjectExist(Accounter.getCompany()
+									.getBrandingTheme(), brandingTheme
+									.getThemeName())) {
 								ViewManager.getInstance()
 										.createObject(brandingTheme,
 												NewBrandThemeDialog.this);
-								HistoryTokenUtils.setPresentToken(MainFinanceWindow
-										.getViewManager().getCurrentView().getAction(),
-										MainFinanceWindow.getViewManager().getCurrentView()
-												.getData());
+								HistoryTokenUtils.setPresentToken(
+										MainFinanceWindow.getViewManager()
+												.getCurrentView().getAction(),
+										MainFinanceWindow.getViewManager()
+												.getCurrentView().getData());
 							} else {
 								MainFinanceWindow.getViewManager()
 										.showErrorInCurrectDialog(
@@ -182,10 +184,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 			@Override
 			public void onCancelClick() {
 				removeFromParent();
-				HistoryTokenUtils.setPresentToken(MainFinanceWindow
-						.getViewManager().getCurrentView().getAction(),
-						MainFinanceWindow.getViewManager().getCurrentView()
-								.getData());
+				Action.cancle();
 			}
 
 		});
@@ -422,8 +421,8 @@ public class NewBrandThemeDialog extends BaseDialog {
 		measureLabel = new Label(messages.measure());
 		logoLabel = new Label(messages.logoAlignment());
 		leftRadioButton = new RadioButton(messages.logoType(), messages.left());
-		rightRadioButton = new RadioButton(messages.logoType(), messages
-				.right());
+		rightRadioButton = new RadioButton(messages.logoType(),
+				messages.right());
 		leftRadioButton.setChecked(true);
 		// taxesLabel = new Label(messages.showTaxesAs());
 		// exclusiveButton = new RadioButton(messages.taxType(), messages
@@ -435,8 +434,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 		contactDetailHtml = new HTML(messages.contactDetailsHtml());
 		contactDetailsArea = new TextArea();
 		contactDetailsArea.setStyleName("contact-deatils-area");
-		contactDetailsArea.setText(getCompany()
-				.getDisplayName());
+		contactDetailsArea.setText(getCompany().getDisplayName());
 
 		radioButtonPanel.add(logoLabel);
 		radioButtonPanel.add(leftRadioButton);
@@ -526,8 +524,8 @@ public class NewBrandThemeDialog extends BaseDialog {
 		statementBox.setText(messages.statement());
 
 		a4Button = new RadioButton(messages.pageType(), messages.a4());
-		usLetterButton = new RadioButton(messages.pageType(), messages
-				.usLetter());
+		usLetterButton = new RadioButton(messages.pageType(),
+				messages.usLetter());
 		a4Button.setChecked(true);
 
 		cmButton = new RadioButton(messages.measureType(), messages.cm());
@@ -676,8 +674,6 @@ public class NewBrandThemeDialog extends BaseDialog {
 	public void saveSuccess(IAccounterCore object) {
 		NewBrandThemeDialog.this.removeFromParent();
 		super.saveSuccess(object);
-		HistoryTokenUtils.setPresentToken(SettingsActionFactory
-				.getInvoiceBrandingAction(), null);
 		SettingsActionFactory.getInvoiceBrandingAction().run(null, true);
 	}
 

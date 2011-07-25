@@ -33,7 +33,6 @@ import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
@@ -197,8 +196,6 @@ public class WriteChequeView extends
 	protected void reload() {
 		if (!saveAndClose)
 			try {
-				HistoryTokenUtils.setPresentToken(BankingActionFactory
-						.getWriteChecksAction(), null);
 				BankingActionFactory.getWriteChecksAction().run(null, true);
 			} catch (Throwable e) {
 
@@ -216,7 +213,7 @@ public class WriteChequeView extends
 			// mainVLay.add(customerGrid);
 		} else if (gridView instanceof VendorTransactionUSGrid
 				|| gridView instanceof TaxAgencyTransactionGrid) {
-			@SuppressWarnings( { "unused" })
+			@SuppressWarnings({ "unused" })
 			VendorTransactionUSGrid vendorGrid = (VendorTransactionUSGrid) gridView;
 			setMenuRequired(true);
 		}
@@ -257,8 +254,7 @@ public class WriteChequeView extends
 
 		if (writeCheckTaken != null && writeCheckTaken.getAddress() != null) {
 			addressList = payee.getAddress();
-			toBeShown = getAddressById(writeCheckTaken.getAddress()
-					.getID());
+			toBeShown = getAddressById(writeCheckTaken.getAddress().getID());
 		} else {
 			for (ClientAddress to : allAddress) {
 				if (to.getType() == ClientAddress.TYPE_BUSINESS) {
@@ -319,8 +315,7 @@ public class WriteChequeView extends
 	}
 
 	public void initPayToCombo() {
-		List<ClientPayee> payees = getCompany()
-				.getActivePayees();
+		List<ClientPayee> payees = getCompany().getActivePayees();
 
 		if (payees != null) {
 
@@ -345,8 +340,8 @@ public class WriteChequeView extends
 		if (writeCheckTaken != null) {
 			switch (writeCheckTaken.getPayToType()) {
 			case ClientWriteCheck.TYPE_VENDOR:
-				paytoSelect.setComboItem(getCompany()
-						.getVendor(writeCheckTaken.getVendor()));
+				paytoSelect.setComboItem(getCompany().getVendor(
+						writeCheckTaken.getVendor()));
 				payee = this.company.getVendor(writeCheckTaken.getVendor());
 
 				break;
@@ -359,8 +354,8 @@ public class WriteChequeView extends
 
 				break;
 			case ClientWriteCheck.TYPE_TAX_AGENCY:
-				paytoSelect.setComboItem(getCompany()
-						.getTaxAgency(writeCheckTaken.getTaxAgency()));
+				paytoSelect.setComboItem(getCompany().getTaxAgency(
+						writeCheckTaken.getTaxAgency()));
 				payee = this.company.getTaxAgency(writeCheckTaken
 						.getTaxAgency());
 				break;
@@ -687,9 +682,7 @@ public class WriteChequeView extends
 		// setTitle(bankingConstants.writeCheck());
 		Label lab1 = new Label(bankingConstants.writeCheck() + "("
 				+ getTransactionStatus() + ")");
-		lab1
-				.addStyleName(Accounter.getBankingsMessages()
-						.lableTitle());
+		lab1.addStyleName(Accounter.getBankingsMessages().lableTitle());
 		if (takenPaySalesTax != null)
 			lab1.setText(bankingConstants.taxAgentPayment());
 
@@ -903,8 +896,7 @@ public class WriteChequeView extends
 		vatPanel.setWidth("100%");
 		vatInclusiveCheck = getVATInclusiveCheckBox();
 		totalTxt = createTransactionTotalNonEditableLabel();
-		netAmount = new AmountLabel(Accounter.getBankingsMessages()
-				.netAmount());
+		netAmount = new AmountLabel(Accounter.getBankingsMessages().netAmount());
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setFields(totalTxt, netAmount);
 
@@ -1160,8 +1152,7 @@ public class WriteChequeView extends
 					|| payee instanceof ClientTAXAgency) {
 				this.amtText.setAmount(transactionVendorGrid.getTotal());
 				text.setValue(Utility.getNumberInWords(transactionVendorGrid
-						.getTotal()
-						+ ""));
+						.getTotal() + ""));
 				totalTxt.setValue(transactionVendorGrid.getTotal());
 				netAmount.setAmount(transactionVendorGrid.getGrandTotal());
 			}
@@ -1207,20 +1198,18 @@ public class WriteChequeView extends
 			case ClientWriteCheck.TYPE_VENDOR:
 			case ClientWriteCheck.TYPE_TAX_AGENCY:
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-					setMenuItems(button, Accounter
-							.getCustomersMessages().accounts(),
-							Accounter.getCustomersMessages().product()
+					setMenuItems(button, Accounter.getCustomersMessages()
+							.accounts(), Accounter.getCustomersMessages()
+							.product()
 					// FinanceApplication.getCustomersMessages().comment(),
 					// FinanceApplication.getCustomersMessages()
 					// .salesTax()
 					);
 				else
-					setMenuItems(
-							button,
-							Accounter.getCustomersMessages()
-									.accounts(),
-							Accounter.getCustomersMessages().product(),
-							// FinanceApplication.getCustomersMessages().comment(),
+					setMenuItems(button, Accounter.getCustomersMessages()
+							.accounts(), Accounter.getCustomersMessages()
+							.product(),
+					// FinanceApplication.getCustomersMessages().comment(),
 							Accounter.getCustomersMessages().VATItem());
 				// break;
 				// case ClientWriteCheck.TYPE_VENDOR:
@@ -1254,9 +1243,8 @@ public class WriteChequeView extends
 				// FinanceApplication.getVendorsMessages().comment());
 			}
 		} else
-			setMenuItems(button, Accounter.getCustomersMessages()
-					.accounts(), Accounter.getCustomersMessages()
-					.product()
+			setMenuItems(button, Accounter.getCustomersMessages().accounts(),
+					Accounter.getCustomersMessages().product()
 			// FinanceApplication.getFinanceUIConstants().comment(),
 			// FinanceApplication.getFinanceUIConstants().salesTax()
 			);
@@ -1268,15 +1256,14 @@ public class WriteChequeView extends
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 		if (payee != null) {
 			if (payee.getType() == ClientWriteCheck.TYPE_CUSTOMER) {
-				if (item.equals(Accounter.getCustomersMessages()
-						.accounts())) {
+				if (item.equals(Accounter.getCustomersMessages().accounts())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-				} else if (item.equals(Accounter
-						.getCustomersMessages().product())) {
+				} else if (item.equals(Accounter.getCustomersMessages()
+						.product())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 
-				} else if (item.equals(Accounter
-						.getFinanceUIConstants().comment())) {
+				} else if (item.equals(Accounter.getFinanceUIConstants()
+						.comment())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);
 				} else if (item.equals("Sales Tax")) {
 					transactionItem
@@ -1285,30 +1272,26 @@ public class WriteChequeView extends
 				transactionCustomerGrid.addData(transactionItem);
 			} else if (payee.getType() == ClientWriteCheck.TYPE_VENDOR
 					|| payee.getType() == ClientWriteCheck.TYPE_TAX_AGENCY) {
-				if (item.equals(Accounter.getCustomersMessages()
-						.accounts())) {
+				if (item.equals(Accounter.getCustomersMessages().accounts())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-				} else if (item.equals(Accounter
-						.getCustomersMessages().product())) {
+				} else if (item.equals(Accounter.getCustomersMessages()
+						.product())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-				} else if (item.equals(Accounter
-						.getFinanceUIConstants().comment())) {
+				} else if (item.equals(Accounter.getFinanceUIConstants()
+						.comment())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);
 				}
 				transactionVendorGrid.addData(transactionItem);
 			}
 		} else {
-			if (item.equals(Accounter.getCustomersMessages()
-					.accounts())) {
+			if (item.equals(Accounter.getCustomersMessages().accounts())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-			} else if (item.equals(Accounter.getCustomersMessages()
-					.product())) {
+			} else if (item.equals(Accounter.getCustomersMessages().product())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-			} else if (item.equals(Accounter.getFinanceUIConstants()
-					.comment())) {
+			} else if (item.equals(Accounter.getFinanceUIConstants().comment())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);
-			} else if (item.equals(Accounter.getFinanceUIConstants()
-					.salesTax())) {
+			} else if (item
+					.equals(Accounter.getFinanceUIConstants().salesTax())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_SALESTAX);
 			}
 			transactionCustomerGrid.addData(transactionItem);
@@ -1398,8 +1381,7 @@ public class WriteChequeView extends
 
 		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id,
-				editCallBack);
+		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
 
 	}
 

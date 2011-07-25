@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
@@ -46,10 +45,10 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	@Override
 	protected Object getColumnValue(ClientEstimate estimate, int col) {
 		if (estimate != null) {
-			ClientCustomer customer = getCompany()
-					.getCustomer(estimate.getCustomer());
-			ClientSalesPerson clientSalesPerson = Accounter
-					.getCompany().getSalesPerson(estimate.getSalesPerson());
+			ClientCustomer customer = getCompany().getCustomer(
+					estimate.getCustomer());
+			ClientSalesPerson clientSalesPerson = Accounter.getCompany()
+					.getSalesPerson(estimate.getSalesPerson());
 			String salesPerson = clientSalesPerson != null ? clientSalesPerson
 					.getFirstName() : "";
 			if (salesPerson == null)
@@ -137,8 +136,6 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	@Override
 	public void onDoubleClick(ClientEstimate obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			HistoryTokenUtils.setPresentToken(CustomersActionFactory
-					.getNewQuoteAction(), obj);
 			CustomersActionFactory.getNewQuoteAction().run(obj, true);
 		}
 	}
@@ -267,17 +264,17 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 			return salesPerson1.compareTo(salesPerson2);
 
 		case 5:
-			ClientFinanceDate expiration1 = new ClientFinanceDate(obj1
-					.getExpirationDate());
-			ClientFinanceDate expiration2 = new ClientFinanceDate(obj2
-					.getExpirationDate());
+			ClientFinanceDate expiration1 = new ClientFinanceDate(
+					obj1.getExpirationDate());
+			ClientFinanceDate expiration2 = new ClientFinanceDate(
+					obj2.getExpirationDate());
 			return expiration1.compareTo(expiration2);
 
 		case 6:
-			ClientFinanceDate deliveryDate1 = new ClientFinanceDate(obj1
-					.getDeliveryDate());
-			ClientFinanceDate deliveryDate2 = new ClientFinanceDate(obj2
-					.getDeliveryDate());
+			ClientFinanceDate deliveryDate1 = new ClientFinanceDate(
+					obj1.getDeliveryDate());
+			ClientFinanceDate deliveryDate2 = new ClientFinanceDate(
+					obj2.getDeliveryDate());
 			return deliveryDate1.compareTo(deliveryDate2);
 
 		case 7:
@@ -303,8 +300,8 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	}
 
 	private String getSalesPerson(ClientEstimate estimate) {
-		ClientSalesPerson clientSalesPerson = getCompany()
-				.getSalesPerson(estimate.getSalesPerson());
+		ClientSalesPerson clientSalesPerson = getCompany().getSalesPerson(
+				estimate.getSalesPerson());
 		return clientSalesPerson != null ? clientSalesPerson.getFirstName()
 				: "";
 
@@ -313,8 +310,8 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	private String getPhoneNumber(ClientEstimate estimate) {
 		String phoneNo = null;
 		if (estimate != null) {
-			ClientCustomer customer = getCompany()
-					.getCustomer(estimate.getCustomer());
+			ClientCustomer customer = getCompany().getCustomer(
+					estimate.getCustomer());
 			if (customer != null) {
 				Set<ClientPhone> phones = customer.getPhoneNumbers();
 				if (phones != null)

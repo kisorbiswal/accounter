@@ -278,18 +278,19 @@ public class MainFinanceWindow extends VerticalPanel {
 		// dashBoardMenuitem.getElement().setTitle(
 		// "Click here to download this plugin");
 
-		MenuItem menuitem = menuBar.addItem(Accounter
-				.getFinanceUIConstants().company(), getCompanyMenu());
+		MenuItem menuitem = menuBar.addItem(Accounter.getFinanceUIConstants()
+				.company(), getCompanyMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			menuitem = menuBar.addItem(Accounter
-					.getFinanceUIConstants().vat(), getVATMenu());
+			menuitem = menuBar.addItem(Accounter.getFinanceUIConstants().vat(),
+					getVATMenu());
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 
-		menuitem = menuBar.addItem(accounter.getFinanceUIConstants()
-				.customer(), getCustomerMenu());
+		menuitem = menuBar
+				.addItem(accounter.getFinanceUIConstants().customer(),
+						getCustomerMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		menuitem = menuBar.addItem(UIUtils.getVendorString(Accounter
@@ -298,8 +299,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		if (accounter.getUser().canDoBanking()) {
-			menuitem = menuBar.addItem(Accounter
-					.getFinanceUIConstants().banking(), getBankingMenu());
+			menuitem = menuBar.addItem(Accounter.getFinanceUIConstants()
+					.banking(), getBankingMenu());
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 
@@ -312,8 +313,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		// menuBar.addItem(FinanceApplication.getFinanceUIConstants()
 		// .fixedAssets(), getFixedAssetsMenu());
 		if (accounter.getUser().canViewReports()) {
-			menuitem = menuBar.addItem(Accounter
-					.getFinanceUIConstants().reports(), getReportMenu());
+			menuitem = menuBar.addItem(Accounter.getFinanceUIConstants()
+					.reports(), getReportMenu());
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 		// menuBar.addItem(FinanceApplication.getFinanceUIConstants().help(),
@@ -377,8 +378,8 @@ public class MainFinanceWindow extends VerticalPanel {
 						.getCompanyHomeAction().getHistoryToken();
 				if (!History.getToken().equals(historyToken)) {
 					oldToken = History.getToken();
-					HistoryTokenUtils.setPresentToken(CompanyActionFactory
-							.getCompanyHomeAction(), null);
+					VendorsActionFactory.getExpensesAction(null)
+							.run(null, true);
 				}
 				CompanyActionFactory.getCompanyHomeAction().run(null, false);
 			}
@@ -512,8 +513,7 @@ public class MainFinanceWindow extends VerticalPanel {
 				.getFinanceMessages().recievePayments(), cmd10);
 		customerMenu.addItem(menuItem10);
 
-		test.addItem(accounter.getCustomersMessages().customer(),
-				customerMenu);
+		test.addItem(accounter.getCustomersMessages().customer(), customerMenu);
 
 		CustomMenuBar vendorMenu = new CustomMenuBar();
 
@@ -527,8 +527,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		};
 
 		CustomMenuItem menuItem11 = new CustomMenuItem(UIUtils.getVendorString(
-				accounter.getVendorsMessages().vendors(),
-				accounter.getVendorsMessages().vendors()), cmd11);
+				accounter.getVendorsMessages().vendors(), accounter
+						.getVendorsMessages().vendors()), cmd11);
 		vendorMenu.addItem(menuItem11);
 
 		Command cmd12 = new Command() {
@@ -540,8 +540,8 @@ public class MainFinanceWindow extends VerticalPanel {
 			}
 		};
 		CustomMenuItem menuItem12 = new CustomMenuItem(UIUtils.getVendorString(
-				accounter.getFinanceMessages().supplierItems(),
-				accounter.getFinanceMessages().vendorItems()), cmd12);
+				accounter.getFinanceMessages().supplierItems(), accounter
+						.getFinanceMessages().vendorItems()), cmd12);
 		vendorMenu.addItem(menuItem12);
 
 		Command cmd13 = new Command() {
@@ -565,8 +565,8 @@ public class MainFinanceWindow extends VerticalPanel {
 			}
 		};
 		CustomMenuItem menuItem14 = new CustomMenuItem(UIUtils.getVendorString(
-				accounter.getFinanceMessages().supplierMemo(),
-				accounter.getFinanceMessages().vendorMemo()), cmd14);
+				accounter.getFinanceMessages().supplierMemo(), accounter
+						.getFinanceMessages().vendorMemo()), cmd14);
 		vendorMenu.addItem(menuItem14);
 
 		Command cmd15 = new Command() {
@@ -599,8 +599,8 @@ public class MainFinanceWindow extends VerticalPanel {
 			}
 		};
 		CustomMenuItem menuItem17 = new CustomMenuItem(UIUtils.getVendorString(
-				accounter.getFinanceMessages().supplierPayment(),
-				accounter.getFinanceMessages().vendorPayment()), cmd17);
+				accounter.getFinanceMessages().supplierPayment(), accounter
+						.getFinanceMessages().vendorPayment()), cmd17);
 		vendorMenu.addItem(menuItem17);
 
 		Command cmd18 = new Command() {
@@ -625,9 +625,9 @@ public class MainFinanceWindow extends VerticalPanel {
 				.getFinanceMessages().issuePayments(), cmd19);
 		vendorMenu.addItem(menuItem19);
 
-		test.addItem(UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor()), vendorMenu);
+		test.addItem(UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor()),
+				vendorMenu);
 
 		CustomMenuBar bankMenu = getSubMenu();
 
@@ -692,8 +692,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		// vatNews.addItem(VatActionFactory.getVatGroupAction());
 		vatNews.addItem(VatActionFactory.getNewTAXCodeAction());
 		vatNews.addItem(VatActionFactory.getNewTAXAgencyAction());
-		vatmenu.addItem(accounter.getCustomersMessages().New(),
-				vatNews);
+		vatmenu.addItem(accounter.getCustomersMessages().New(), vatNews);
 		vatmenu.addSeparator();
 		if (accounter.getUser().canDoInvoiceTransactions()) {
 			vatmenu.addItem(VatActionFactory.getAdjustTaxAction());
@@ -754,22 +753,22 @@ public class MainFinanceWindow extends VerticalPanel {
 				.companyAndFinancial(), getCompanyAndFinancialMenu());
 		reportMenuBar.addItem(accounter.getFinanceUIConstants()
 				.customersAndReceivable(), getCustomersAndReceivableMenu());
-		reportMenuBar.addItem(accounter.getFinanceUIConstants()
-				.sales(), getSalesMenu());
+		reportMenuBar.addItem(accounter.getFinanceUIConstants().sales(),
+				getSalesMenu());
 		reportMenuBar.addItem(UIUtils.getVendorString(Accounter
-				.getVendorsMessages().suppliersAndPayables(),
-				accounter.getVendorsMessages().vendorsAndPayables()),
+				.getVendorsMessages().suppliersAndPayables(), accounter
+				.getVendorsMessages().vendorsAndPayables()),
 				getVendorAndPayablesMenu());
-		reportMenuBar.addItem(accounter.getFinanceUIConstants()
-				.purchase(), getPurchaseMenu());
+		reportMenuBar.addItem(accounter.getFinanceUIConstants().purchase(),
+				getPurchaseMenu());
 		// if (FinanceApplication.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_US) {
 		// reportMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
 		// .banking(), getBankingSubMenu());
 		// }
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			reportMenuBar.addItem(accounter.getFinanceUIConstants()
-					.vat(), getVATReportMenu());
+			reportMenuBar.addItem(accounter.getFinanceUIConstants().vat(),
+					getVATReportMenu());
 		}
 		// reportMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
 		// .salesAndPurchaseOrders(), getSalesAndPurchaseMenu());
@@ -939,8 +938,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		bankingMenuBar
 				.addItem(BankingActionFactory.getCreditCardChargeAction());
 		bankingMenuBar.addSeparator();
-		bankingMenuBar.addItem(accounter.getFinanceUIConstants()
-				.bankingList(), getBankingListMenu());
+		bankingMenuBar.addItem(accounter.getFinanceUIConstants().bankingList(),
+				getBankingListMenu());
 
 		return bankingMenuBar;
 	}
@@ -959,8 +958,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		vendorMenuBar.addItem(VendorsActionFactory.getVendorsHomeAction());
 		if (getNewVendorMenu().menuItems.size() > 0) {
 			vendorMenuBar.addSeparator();
-			vendorMenuBar.addItem(accounter.getFinanceUIConstants()
-					.New(), getNewVendorMenu());
+			vendorMenuBar.addItem(accounter.getFinanceUIConstants().New(),
+					getNewVendorMenu());
 		}
 		vendorMenuBar.addSeparator();
 		if (accounter.getUser().canDoInvoiceTransactions())
@@ -1026,8 +1025,8 @@ public class MainFinanceWindow extends VerticalPanel {
 				.addItem(CustomersActionFactory.getCustomersHomeAction());
 		if (getNewCustomerMenu().menuItems.size() > 0) {
 			customerMenuBar.addSeparator();
-			customerMenuBar.addItem(accounter.getFinanceUIConstants()
-					.New(), getNewCustomerMenu());
+			customerMenuBar.addItem(accounter.getFinanceUIConstants().New(),
+					getNewCustomerMenu());
 		}
 		customerMenuBar.addSeparator();
 		if (accounter.getUser().canDoBanking()) {
@@ -1159,16 +1158,17 @@ public class MainFinanceWindow extends VerticalPanel {
 			companyMenuBar.addSeparator();
 		}
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			companyMenuBar.addItem(accounter.getFinanceUIConstants()
-					.itemTax(), getSalesTaxSubmenu());
+			companyMenuBar.addItem(accounter.getFinanceUIConstants().itemTax(),
+					getSalesTaxSubmenu());
 		companyMenuBar.addItem(accounter.getFinanceUIConstants()
 				.manageSupportLists(), getManageSupportListSubmenu());
 		if (accounter.getUser().canManageFiscalYears())
 			companyMenuBar.addItem(CompanyActionFactory
 					.getManageFiscalYearAction());
 		companyMenuBar.addSeparator();
-		companyMenuBar.addItem(accounter.getFinanceUIConstants()
-				.companyLists(), getCompanyListMenu());
+		companyMenuBar.addItem(
+				accounter.getFinanceUIConstants().companyLists(),
+				getCompanyListMenu());
 
 		return companyMenuBar;
 	}
@@ -1416,8 +1416,7 @@ public class MainFinanceWindow extends VerticalPanel {
 					}
 
 				};
-				accounter.createGETService().getObjectById(type,
-						id, callback);
+				accounter.createGETService().getObjectById(type, id, callback);
 
 			} else {
 				action.run(null, false);
@@ -1427,29 +1426,23 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	private void initializeActionsWithTokens() {
 		actions = new HashMap<String, Action>();
-		actions
-				.put(CompanyActionFactory.getCompanyHomeAction()
-						.getHistoryToken(), CompanyActionFactory
-						.getCompanyHomeAction());
+		actions.put(CompanyActionFactory.getCompanyHomeAction()
+				.getHistoryToken(), CompanyActionFactory.getCompanyHomeAction());
 		actions.put(CompanyActionFactory.getNewJournalEntryAction()
 				.getHistoryToken(), CompanyActionFactory
 				.getNewJournalEntryAction());
 		actions.put(CompanyActionFactory.getNewAccountAction()
 				.getHistoryToken(), CompanyActionFactory.getNewAccountAction());
-		actions
-				.put(CompanyActionFactory.getPreferencesAction()
-						.getHistoryToken(), CompanyActionFactory
-						.getPreferencesAction());
+		actions.put(CompanyActionFactory.getPreferencesAction()
+				.getHistoryToken(), CompanyActionFactory.getPreferencesAction());
 		actions.put(CompanyActionFactory.getManageSalesTaxGroupsAction()
 				.getHistoryToken(), CompanyActionFactory
 				.getManageSalesTaxGroupsAction());
 		actions.put(CompanyActionFactory.getManageSalesTaxItemsAction()
 				.getHistoryToken(), CompanyActionFactory
 				.getManageSalesTaxItemsAction());
-		actions
-				.put(CompanyActionFactory.getPaySalesTaxAction()
-						.getHistoryToken(), CompanyActionFactory
-						.getPaySalesTaxAction());
+		actions.put(CompanyActionFactory.getPaySalesTaxAction()
+				.getHistoryToken(), CompanyActionFactory.getPaySalesTaxAction());
 		actions.put(
 				CompanyActionFactory.getAdjustTaxAction().getHistoryToken(),
 				CompanyActionFactory.getAdjustTaxAction());
@@ -1492,10 +1485,8 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(CustomersActionFactory.getItemsAction().getHistoryToken(),
 				CustomersActionFactory.getItemsAction());
-		actions
-				.put(CustomersActionFactory.getCustomersAction()
-						.getHistoryToken(), CustomersActionFactory
-						.getCustomersAction());
+		actions.put(CustomersActionFactory.getCustomersAction()
+				.getHistoryToken(), CustomersActionFactory.getCustomersAction());
 		actions.put(VendorsActionFactory.getVendorsAction().getHistoryToken(),
 				VendorsActionFactory.getVendorsAction());
 		actions.put(CompanyActionFactory.getPaymentsAction().getHistoryToken(),
@@ -1554,10 +1545,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(CustomersActionFactory.getCustomerRefundAction()
 				.getHistoryToken(), CustomersActionFactory
 				.getCustomerRefundAction());
-		actions
-				.put(CustomersActionFactory.getCustomersAction()
-						.getHistoryToken(), CustomersActionFactory
-						.getCustomersAction());
+		actions.put(CustomersActionFactory.getCustomersAction()
+				.getHistoryToken(), CustomersActionFactory.getCustomersAction());
 		actions.put(CustomersActionFactory.getItemsAction().getHistoryToken(),
 				CustomersActionFactory.getItemsAction());
 		actions.put(CustomersActionFactory.getQuotesAction().getHistoryToken(),
@@ -1572,10 +1561,8 @@ public class MainFinanceWindow extends VerticalPanel {
 				.getHistoryToken(), CustomersActionFactory
 				.getCustomerRefundsAction());
 
-		actions
-				.put(VendorsActionFactory.getVendorsHomeAction()
-						.getHistoryToken(), VendorsActionFactory
-						.getVendorsHomeAction());
+		actions.put(VendorsActionFactory.getVendorsHomeAction()
+				.getHistoryToken(), VendorsActionFactory.getVendorsHomeAction());
 		actions.put(
 				VendorsActionFactory.getNewVendorAction().getHistoryToken(),
 				VendorsActionFactory.getNewVendorAction());
@@ -1619,14 +1606,10 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(BankingActionFactory.getNewBankAccountAction()
 				.getHistoryToken(), BankingActionFactory
 				.getNewBankAccountAction());
-		actions
-				.put(BankingActionFactory.getWriteChecksAction()
-						.getHistoryToken(), BankingActionFactory
-						.getWriteChecksAction());
-		actions
-				.put(BankingActionFactory.getMakeDepositAction()
-						.getHistoryToken(), BankingActionFactory
-						.getMakeDepositAction());
+		actions.put(BankingActionFactory.getWriteChecksAction()
+				.getHistoryToken(), BankingActionFactory.getWriteChecksAction());
+		actions.put(BankingActionFactory.getMakeDepositAction()
+				.getHistoryToken(), BankingActionFactory.getMakeDepositAction());
 		actions.put(VendorsActionFactory.getPayBillsAction().getHistoryToken(),
 				VendorsActionFactory.getPayBillsAction());
 		actions.put(BankingActionFactory.getCreditCardChargeAction()
@@ -1753,10 +1736,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ReportsActionFactory.getVATItemSummaryReportAction()
 				.getHistoryToken(), ReportsActionFactory
 				.getVATItemSummaryReportAction());
-		actions
-				.put(ReportsActionFactory.getECSalesListAction()
-						.getHistoryToken(), ReportsActionFactory
-						.getECSalesListAction());
+		actions.put(ReportsActionFactory.getECSalesListAction()
+				.getHistoryToken(), ReportsActionFactory.getECSalesListAction());
 
 		actions.put(SettingsActionFactory.getGeneralSettingsAction()
 				.getHistoryToken(), SettingsActionFactory
@@ -1765,23 +1746,18 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put("bankAccounts", CompanyActionFactory
 				.getChartOfAccountsAction(ClientAccount.TYPE_BANK));
 		actions.put("cashExpenses", VendorsActionFactory
-				.getExpensesAction(accounter.getVendorsMessages()
-						.cash()));
+				.getExpensesAction(accounter.getVendorsMessages().cash()));
 		actions.put("creditCardExpenses", VendorsActionFactory
-				.getExpensesAction(accounter.getVendorsMessages()
-						.creditCard()));
+				.getExpensesAction(accounter.getVendorsMessages().creditCard()));
 		actions.put("employeeExpenses", VendorsActionFactory
-				.getExpensesAction(accounter.getVendorsMessages()
-						.employee()));
+				.getExpensesAction(accounter.getVendorsMessages().employee()));
 		actions.put(BankingActionFactory.getAccountRegisterAction()
 				.getHistoryToken(), BankingActionFactory
 				.getAccountRegisterAction());
 		actions.put("overDueInvoices", CustomersActionFactory
 				.getInvoicesAction(InvoiceListView.OVER_DUE));
-		actions
-				.put(CompanyActionFactory.getUserDetailsAction()
-						.getHistoryToken(), CompanyActionFactory
-						.getUserDetailsAction());
+		actions.put(CompanyActionFactory.getUserDetailsAction()
+				.getHistoryToken(), CompanyActionFactory.getUserDetailsAction());
 
 	}
 }

@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
@@ -136,8 +135,6 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 	@Override
 	public void onDoubleClick(ClientUser obj) {
 		if (Accounter.getUser().isCanDoUserManagement()) {
-			HistoryTokenUtils.setPresentToken(SettingsActionFactory
-					.getInviteUserAction(), obj);
 			SettingsActionFactory.getInviteUserAction().run(obj, true);
 		}
 	}
