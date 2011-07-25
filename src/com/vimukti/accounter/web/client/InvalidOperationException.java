@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
  * @author vimukti5
  * 
  */
-public class InvalidOperationException extends Exception  {
+public class InvalidOperationException extends Exception {
 
 	/**
 	 * 
@@ -49,10 +49,10 @@ public class InvalidOperationException extends Exception  {
 			break;
 
 		case UPDATE_FAILED:
-			this.detailedMessage ="Update Failed";
+			this.detailedMessage = "Update Failed";
 			break;
 		case DELETE_FAILED:
-			this.detailedMessage ="Delete Failed";
+			this.detailedMessage = "Delete Failed";
 			break;
 		default:
 			this.detailedMessage = "Failed";
@@ -80,13 +80,13 @@ public class InvalidOperationException extends Exception  {
 
 	}
 
-	public InvalidOperationException(int status, String id,
+	public InvalidOperationException(int status, long id,
 			IAccounterCore serverObject) {
 		super();
 
 		setStatus(status);
 
-		this.id=id;
+		this.id = id;
 
 		if (serverObject != null) {
 			this.detailedMessage = detailedMessage

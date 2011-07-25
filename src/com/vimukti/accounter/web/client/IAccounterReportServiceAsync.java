@@ -89,8 +89,7 @@ public interface IAccounterReportServiceAsync {
 			AsyncCallback<List<ClientTransaction>> callBackResult);
 
 	public void getAccountRegister(long startDate, long endDate,
-			long accountId,
-			AsyncCallback<List<AccountRegister>> callBackResult);
+			long accountId, AsyncCallback<List<AccountRegister>> callBackResult);
 
 	public void getTransactionHistoryCustomers(long startDate, long endDate,
 			AsyncCallback<List<ClientCustomer>> callBackResult);
@@ -180,10 +179,10 @@ public interface IAccounterReportServiceAsync {
 	void getPriorVATReturnReport(long vatAgancy, long endDate,
 			AsyncCallback<List<VATDetail>> callback);
 
-	public void getPriorReturnVATSummary(String vatAgency, long endDate,
+	public void getPriorReturnVATSummary(long vatAgency, long endDate,
 			AsyncCallback<List<VATSummary>> callback);
 
-	public void getVAT100Report(String vatAgncy, long fromDate, long toDate,
+	public void getVAT100Report(long vatAgncy, long fromDate, long toDate,
 			AsyncCallback<List<VATSummary>> callback);
 
 	public void getUncategorisedAmountsReport(long fromDate, long toDate,
@@ -226,11 +225,11 @@ public interface IAccounterReportServiceAsync {
 	public void getDepositDetail(final long startDate, final long endDate,
 			AsyncCallback<List<DepositDetail>> callBackResult);
 
-	public void getCheckDetailReport(String paymentmethod,
-			final long startDate, final long endDate,
+	public void getCheckDetailReport(long paymentmethod, final long startDate,
+			final long endDate,
 			AsyncCallback<List<CheckDetailReport>> callBackResult);
 
-	public void getStatements(String id, long transactionDate, long fromDate,
+	public void getStatements(long id, long transactionDate, long fromDate,
 			long toDate, int noOfDays, boolean isEnabledOfZeroBalBox,
 			boolean isEnabledOfLessThanZeroBalBox,
 			double lessThanZeroBalanceValue,
