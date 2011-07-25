@@ -85,8 +85,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	private void createControls() {
 
 		listforms = new ArrayList<DynamicForm>();
-		detailsLabel = new Label(Accounter.getFixedAssetConstants()
-				.details());
+		detailsLabel = new Label(Accounter.getFixedAssetConstants().details());
 		detailsLabel.setStyleName(Accounter.getFixedAssetConstants()
 				.lableTitle());
 
@@ -123,8 +122,8 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 		DynamicForm radioForm = new DynamicForm();
 		radioForm.setFields(QuestionItem);
-		dateItemCombo = new SelectItem(Accounter
-				.getFixedAssetConstants().date());
+		dateItemCombo = new SelectItem(Accounter.getFixedAssetConstants()
+				.date());
 		dateForm = new DynamicForm();
 		dateForm.setWidth("50%");
 		dateForm.setFields(dateItemCombo);
@@ -192,8 +191,8 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		accountCombo = createDebitAccountCombo();
 		accountCombo.setRequired(true);
 
-		salepriceText = new AmountField(Accounter
-				.getFixedAssetConstants().salepriceExcludingTax());
+		salepriceText = new AmountField(Accounter.getFixedAssetConstants()
+				.salepriceExcludingTax());
 		salepriceText.setRequired(true);
 		salepriceText.setWidth(100);
 		DynamicForm detailForm = new DynamicForm();
@@ -208,8 +207,8 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 	protected void openJournalDialog(
 			FixedAssetSellOrDisposeReviewJournal journalObject) {
-		dialog = new JournalViewDialog(Accounter
-				.getFixedAssetConstants().journalView(), "", journalObject);
+		dialog = new JournalViewDialog(Accounter.getFixedAssetConstants()
+				.journalView(), "", journalObject);
 		dialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
@@ -277,8 +276,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			sellorDisposeAsset.setNotes(notesArea.getValue().toString());
 		if (dialog.totalCapitalGainAccount != null) {
 			sellorDisposeAsset
-					.setTotalCapitalGain(dialog.totalCapitalGainAccount
-							.getID());
+					.setTotalCapitalGain(dialog.totalCapitalGainAccount.getID());
 			sellorDisposeAsset.setTotalCapitalGainAmount(dialog
 					.getTotalCapitalGainAmount());
 		}
@@ -301,8 +299,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		depriciationForFinancialyearLabel.setText(Accounter
 				.getFixedAssetConstants().depriciationForThe()
 				+ yearValue
-				+ "     "
-				+ Accounter.getFixedAssetConstants().financialYear());
+				+ "     " + Accounter.getFixedAssetConstants().financialYear());
 		initDateCombo();
 	}
 
@@ -515,19 +512,17 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			tempFixedAsset.setDepreciationTillDate(date);
 		tempFixedAsset.setPurchasePrice(asset.getPurchasePrice());
 		tempFixedAsset.setBookValue(asset.getBookValue());
-		ClientAccount assetAccount = getCompany()
-				.getAccount(asset.getAssetAccount());
-		ClientAccount linkdAccount = getCompany()
-				.getAccount(
-						assetAccount.getLinkedAccumulatedDepreciationAccount());
+		ClientAccount assetAccount = getCompany().getAccount(
+				asset.getAssetAccount());
+		ClientAccount linkdAccount = getCompany().getAccount(
+				assetAccount.getLinkedAccumulatedDepreciationAccount());
 		tempFixedAsset
 				.setLinkedAccumulatedDepreciatedAccountName(linkdAccount != null ? linkdAccount
-						.getName()
-						: "");
+						.getName() : "");
 		tempFixedAsset.setAssetAccountName(assetAccount != null ? assetAccount
 				.getName() : "");
-		tempFixedAsset.setExpenseAccountName(getCompany()
-				.getAccount(asset.getDepreciationExpenseAccount()).getName());
+		tempFixedAsset.setExpenseAccountName(getCompany().getAccount(
+				asset.getDepreciationExpenseAccount()).getName());
 		tempFixedAsset.setDepreciationMethod(asset.getDepreciationMethod());
 		tempFixedAsset.setDepreciationRate(asset.getDepreciationRate());
 		return tempFixedAsset;
@@ -536,8 +531,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	@Override
 	public void saveSuccess(IAccounterCore result) {
 		ClientFixedAsset createdAsset = (ClientFixedAsset) result;
-		if (createdAsset.getID() != null
-				&& createdAsset.getID().length() != 0) {
+		if (createdAsset.getID() != 0) {
 			// Accounter.showInformation(FinanceApplication
 			// .getFixedAssetConstants().fixedAssetItemHasBeenSold());
 			saveAndClose = true;
@@ -547,8 +541,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			// FixedAssetsActionFactory.getSoldDisposedListAction().run(null,
 			// false);
 		} else
-			saveFailed(new Exception(Accounter.getFinanceUIConstants()
-					.failed()));
+			saveFailed(new Exception(Accounter.getFinanceUIConstants().failed()));
 
 	}
 
@@ -580,9 +573,8 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	}
 
 	private DebitAccountCombo createDebitAccountCombo() {
-		DebitAccountCombo accountCombo = new DebitAccountCombo(
-				Accounter.getFixedAssetConstants()
-						.accountToDebitForSale());
+		DebitAccountCombo accountCombo = new DebitAccountCombo(Accounter
+				.getFixedAssetConstants().accountToDebitForSale());
 
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
