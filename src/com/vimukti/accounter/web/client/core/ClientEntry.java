@@ -24,7 +24,7 @@ public class ClientEntry implements IAccounterCore {
 
 	int journalEntryType;
 
-	String account;
+	long account;
 
 	String vendor;
 
@@ -120,11 +120,11 @@ public class ClientEntry implements IAccounterCore {
 		this.taxCode = taxCode;
 	}
 
-	public String getAccount() {
+	public long getAccount() {
 		return account;
 	}
 
-	public void setAccount(String account) {
+	public void setAccount(long account) {
 		this.account = account;
 	}
 
