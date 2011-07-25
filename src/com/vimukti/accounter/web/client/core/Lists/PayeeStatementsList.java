@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.core.reports.BaseReport;
 
 public class PayeeStatementsList extends BaseReport implements IsSerializable,
 		Serializable {
-	private String transactionId;
+	private long transactionId;
 	private int transactiontype;
 	private String transactionNumber;
 	private ClientFinanceDate transactionDate;
@@ -25,11 +25,11 @@ public class PayeeStatementsList extends BaseReport implements IsSerializable,
 	private long ageing;
 	private int category;
 
-	public void setTransactionId(String transactionId) {
+	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
 	}
 
-	public String getTransactionId() {
+	public long getTransactionId() {
 		return transactionId;
 	}
 

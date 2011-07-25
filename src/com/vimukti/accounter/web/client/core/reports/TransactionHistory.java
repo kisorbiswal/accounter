@@ -12,7 +12,7 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 
 	String name;
 
-	String transactionId;
+	long transactionId;
 
 	int type;
 
@@ -101,7 +101,7 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 	/**
 	 * @return the transactionId
 	 */
-	public String getTransactionId() {
+	public long getTransactionId() {
 		return transactionId;
 	}
 
@@ -109,7 +109,7 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 	 * @param transactionId
 	 *            the transactionId to set
 	 */
-	public void setTransactionId(String transactionId) {
+	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
 	}
 

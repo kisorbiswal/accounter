@@ -10,7 +10,7 @@ public class TrialBalance extends BaseReport implements IsSerializable,
 		Serializable {
 
 	long id;
-	String accountId;
+	long accountId;
 	String accountName;
 	String accountNumber;
 	int accountType;
@@ -42,11 +42,11 @@ public class TrialBalance extends BaseReport implements IsSerializable,
 		this.id = id;
 	}
 
-	public String getAccountId() {
+	public long getAccountId() {
 		return accountId;
 	}
 
-	public void setAccountId(String accountId) {
+	public void setAccountId(long accountId) {
 		this.accountId = accountId;
 	}
 
