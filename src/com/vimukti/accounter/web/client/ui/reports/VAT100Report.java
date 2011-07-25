@@ -29,35 +29,34 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 	@Override
 	public void init() {
 		super.init();
-		toolbar.setDateRanageOptions(Accounter.getReportsMessages()
-				.all(), Accounter.getReportsMessages().thisWeek(),
-				Accounter.getReportsMessages().thisMonth(),
-				Accounter.getReportsMessages().lastWeek(),
-				Accounter.getReportsMessages().lastMonth(),
-				Accounter.getReportsMessages().thisFinancialYear(),
-				Accounter.getReportsMessages().lastFinancialYear(),
-				Accounter.getReportsMessages().thisFinancialQuarter(),
-				Accounter.getReportsMessages().lastFinancialQuarter(),
-				Accounter.getReportsMessages().financialYearToDate(),
-				Accounter.getReportsMessages().lastVATQuarter(),
-				Accounter.getReportsMessages().lastVATQuarterToDate(),
-				Accounter.getReportsMessages().custom());
+		toolbar.setDateRanageOptions(Accounter.getReportsMessages().all(),
+				Accounter.getReportsMessages().thisWeek(), Accounter
+						.getReportsMessages().thisMonth(), Accounter
+						.getReportsMessages().lastWeek(), Accounter
+						.getReportsMessages().lastMonth(), Accounter
+						.getReportsMessages().thisFinancialYear(), Accounter
+						.getReportsMessages().lastFinancialYear(), Accounter
+						.getReportsMessages().thisFinancialQuarter(), Accounter
+						.getReportsMessages().lastFinancialQuarter(), Accounter
+						.getReportsMessages().financialYearToDate(), Accounter
+						.getReportsMessages().lastVATQuarter(), Accounter
+						.getReportsMessages().lastVATQuarterToDate(), Accounter
+						.getReportsMessages().custom());
 
 		// Make rpc request for default VAT Agency and default DateRange
-		List<ClientTAXAgency> vatAgencies = getCompany()
+		List<ClientTAXAgency> vatAgencies = Accounter.getCompany()
 				.getTaxAgencies();
 		for (ClientTAXAgency vatAgency : vatAgencies) {
 			if (vatAgency.getName().equalsIgnoreCase(
-					Accounter.getReportsMessages()
-							.hmCustomsExciseVAT())) {
+					Accounter.getReportsMessages().hmCustomsExciseVAT())) {
 				ClientFinanceDate date = new ClientFinanceDate();
 				int month = (date.getMonth()) % 3;
 				int startMonth = date.getMonth() - month;
-				ClientFinanceDate startDate = new ClientFinanceDate(date
-						.getYear(), startMonth, 1);
+				ClientFinanceDate startDate = new ClientFinanceDate(
+						date.getYear(), startMonth, 1);
 				ClientFinanceDate start = startDate;
 				ClientFinanceDate end = date;
-				makeReportRequest(vatAgency.getID(), start, end);
+				makeReportRequest(vatAgency.getName(), start, end);
 				break;
 			}
 		}
@@ -110,9 +109,10 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 137, "", "", vatAgency);
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 137, "",
+				"", vatAgency);
 	}
 
 	@Override
@@ -135,9 +135,10 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 
 	public void exportToCsv() {
 
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 137, "", "", vatAgency);
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 137, "",
+				"", vatAgency);
 	}
 
 }
