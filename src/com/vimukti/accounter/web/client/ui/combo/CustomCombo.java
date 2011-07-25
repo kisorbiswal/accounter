@@ -188,7 +188,7 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 		}
 	}
 
-	public void setSelected(long itemName) {
+	public void setSelected(String itemName) {
 		List<T> combo = comboItems;
 		for (T item : combo) {
 			if (getDisplayName(item).equals(itemName)) {
