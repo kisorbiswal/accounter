@@ -28,7 +28,7 @@ public class ClientEntry implements IAccounterCore {
 
 	long vendor;
 
-	String customer;
+	long customer;
 
 	String taxCode;
 
@@ -136,11 +136,11 @@ public class ClientEntry implements IAccounterCore {
 		this.vendor = vendor;
 	}
 
-	public String getCustomer() {
+	public long getCustomer() {
 		return customer;
 	}
 
-	public void setCustomer(String customer) {
+	public void setCustomer(long customer) {
 		this.customer = customer;
 	}
 
