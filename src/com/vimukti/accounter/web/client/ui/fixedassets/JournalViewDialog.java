@@ -68,16 +68,16 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 	private void createControls() {
 		Label disposalSummarylabel = new Label(Accounter
 				.getFixedAssetConstants().disposalSummary());
-		disposalSummarylabel.setStyleName(Accounter
-				.getFixedAssetConstants().lableTitle());
+		disposalSummarylabel.setStyleName(Accounter.getFixedAssetConstants()
+				.lableTitle());
 		disposalSummarylabel.addStyleName("title-color");
 		disposalSummaryForm = getDisposalSummaryForm();
 
 		disposalSummaryForm.setWidth("100%");
 		Label disposalJOurnallabel = new Label(Accounter
 				.getFixedAssetConstants().disposalJournal());
-		disposalJOurnallabel.setStyleName(Accounter
-				.getFixedAssetConstants().lableTitle());
+		disposalJOurnallabel.setStyleName(Accounter.getFixedAssetConstants()
+				.lableTitle());
 		disposalJOurnallabel.addStyleName("title-color");
 		totalGainItem = createTotalGainCombo();
 		totalGainItem.setRequired(true);
@@ -92,8 +92,7 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 
 		disposalJournalForm.setWidth("100%");
 
-		okbtn = new AccounterButton(Accounter.getFixedAssetConstants()
-				.post());
+		okbtn = new AccounterButton(Accounter.getFixedAssetConstants().post());
 		okbtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -141,8 +140,8 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 			value = journalSummary.get(StringValue);
 			if (!DecimalUtil.isEquals(value, 0.0)) {
 				disposalSummaryForm.setText(row, 0, StringValue);
-				disposalSummaryForm.setText(row, 1, DataUtils
-						.getAmountAsString(value));
+				disposalSummaryForm.setText(row, 1,
+						DataUtils.getAmountAsString(value));
 			}
 			disposalSummaryForm.getCellFormatter().setWidth(0, 0, "100%");
 			row++;
@@ -180,8 +179,8 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 				value = disposalJOurnal.get(keyValue);
 				if (DecimalUtil.isLessThan(value, 0)) {
 					debitvalue = value * (-1);
-					disposalJournalForm.setText(row, col++, DataUtils
-							.getAmountAsString(debitvalue));
+					disposalJournalForm.setText(row, col++,
+							DataUtils.getAmountAsString(debitvalue));
 					disposalJournalForm.setText(row, col++, "" + " ");
 					disposalJournalForm.getCellFormatter().setStyleName(row,
 							col - 1, "column-seperater");
@@ -193,8 +192,8 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 					disposalJournalForm.setText(row, col++, "" + " ");
 					disposalJournalForm.getCellFormatter().setStyleName(row,
 							col - 1, "column-seperater");
-					disposalJournalForm.setText(row, col++, DataUtils
-							.getAmountAsString(value));
+					disposalJournalForm.setText(row, col++,
+							DataUtils.getAmountAsString(value));
 
 					setCreditTotal(value);
 				}
@@ -214,8 +213,8 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 	 */
 	@SuppressWarnings("unchecked")
 	private CustomCombo getCombo(String keyValue) {
-		if (keyValue.equals(Accounter.getFixedAssetConstants()
-				.lossOnDisposal())) {
+		if (keyValue
+				.equals(Accounter.getFixedAssetConstants().lossOnDisposal())) {
 			setLossorGainAmount(this.disposalJOurnal.get(keyValue));
 			return lossOnDisposal;
 		} else if (keyValue.equals(Accounter.getFixedAssetConstants()
@@ -251,15 +250,14 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 	}
 
 	/**
-	 *This method is setting Debit and Credit labels to the Form
+	 * This method is setting Debit and Credit labels to the Form
 	 */
 
 	private void setCreditandDebitForm(DynamicForm form) {
 		HTML debitLabel = new HTML();
 		debitLabel.setHTML(Accounter.getFixedAssetConstants().debit());
 		HTML creditLabel = new HTML();
-		creditLabel.setHTML(Accounter.getFixedAssetConstants()
-				.credit());
+		creditLabel.setHTML(Accounter.getFixedAssetConstants().credit());
 		form.setText(0, 0, "");
 		form.setWidth("100%");
 		form.setWidget(0, 1, debitLabel);
@@ -276,9 +274,8 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 	}
 
 	private RevenueAccountCombo createTotalGainCombo() {
-		RevenueAccountCombo revenueCombo = new RevenueAccountCombo(
-				Accounter.getFixedAssetConstants().totalCapitalGain(),
-				false);
+		RevenueAccountCombo revenueCombo = new RevenueAccountCombo(Accounter
+				.getFixedAssetConstants().totalCapitalGain(), false);
 		revenueCombo.setWidth(80);
 		revenueCombo.setRequired(true);
 		revenueCombo
@@ -400,16 +397,13 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
 
-		if (core.getID().equals(
-				this.totalGainItem.getSelectedValue().getID())) {
+		if (core.getID() == this.totalGainItem.getSelectedValue().getID()) {
 			this.totalGainItem.addItemThenfireEvent((ClientAccount) core);
 		}
-		if (core.getID().equals(
-				this.lossOnDisposal.getSelectedValue().getID())) {
+		if (core.getID() == this.lossOnDisposal.getSelectedValue().getID()) {
 			this.lossOnDisposal.addItemThenfireEvent((ClientAccount) core);
 		}
-		if (core.getID().equals(
-				this.gainOnDisposal.getSelectedValue().getID())) {
+		if (core.getID() == this.gainOnDisposal.getSelectedValue().getID()) {
 			this.gainOnDisposal.addItemThenfireEvent((ClientAccount) core);
 		}
 	}
