@@ -15,7 +15,7 @@ public class TrialBalance extends BaseReport implements IsSerializable,
 	String accountNumber;
 	int accountType;
 	int cashFlowCategory;
-	String parentAccount;
+	long parentAccount;
 	double creditAmount;
 	double debitAmount;
 	double amount;
@@ -113,7 +113,7 @@ public class TrialBalance extends BaseReport implements IsSerializable,
 	/**
 	 * @return the parentAccount
 	 */
-	public String getParentAccount() {
+	public long getParentAccount() {
 		return parentAccount;
 	}
 
@@ -121,7 +121,7 @@ public class TrialBalance extends BaseReport implements IsSerializable,
 	 * @param parentAccount
 	 *            the parentAccount to set
 	 */
-	public void setParentAccount(String parentAccount) {
+	public void setParentAccount(long parentAccount) {
 		this.parentAccount = parentAccount;
 	}
 
