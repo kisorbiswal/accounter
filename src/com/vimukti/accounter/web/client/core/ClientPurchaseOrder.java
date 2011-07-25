@@ -19,7 +19,7 @@ public class ClientPurchaseOrder extends ClientTransaction {
 
 	String phone;
 
-	String paymentTerm;
+	long paymentTerm;
 
 	long dueDate;
 
@@ -116,7 +116,7 @@ public class ClientPurchaseOrder extends ClientTransaction {
 	/**
 	 * @return the paymentTerm
 	 */
-	public String getPaymentTerm() {
+	public long getPaymentTerm() {
 		return paymentTerm;
 	}
 
@@ -124,7 +124,7 @@ public class ClientPurchaseOrder extends ClientTransaction {
 	 * @param paymentTerm
 	 *            the paymentTerm to set
 	 */
-	public void setPaymentTerm(String paymentTerm) {
+	public void setPaymentTerm(long paymentTerm) {
 		this.paymentTerm = paymentTerm;
 	}
 
