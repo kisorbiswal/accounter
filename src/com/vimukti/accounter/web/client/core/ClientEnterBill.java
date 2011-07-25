@@ -32,23 +32,23 @@ public class ClientEnterBill extends ClientTransaction {
 
 	Set<ClientTransactionPayBill> transactionPayBills = new HashSet<ClientTransactionPayBill>();
 
-	String purchaseOrder;
+	long purchaseOrder;
 
-	String itemReceipt;
+	long itemReceipt;
 
-	public String getPurchaseOrder() {
+	public long getPurchaseOrder() {
 		return purchaseOrder;
 	}
 
-	public void setPurchaseOrder(String purchaseOrder) {
+	public void setPurchaseOrder(long purchaseOrder) {
 		this.purchaseOrder = purchaseOrder;
 	}
 
-	public String getItemReceipt() {
+	public long getItemReceipt() {
 		return itemReceipt;
 	}
 
-	public void setItemReceipt(String itemReceipt) {
+	public void setItemReceipt(long itemReceipt) {
 		this.itemReceipt = itemReceipt;
 	}
 
