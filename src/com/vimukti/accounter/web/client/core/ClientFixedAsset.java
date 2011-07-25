@@ -40,7 +40,7 @@ public class ClientFixedAsset implements IAccounterCore {
 	 */
 	private long assetAccount;
 
-	String linkedAccumulatedDepreciationAccount;
+	long linkedAccumulatedDepreciationAccount;
 
 	/**
 	 * Date of Purchase
@@ -120,12 +120,12 @@ public class ClientFixedAsset implements IAccounterCore {
 		this.id = id;
 	}
 
-	public String getLinkedAccumulatedDepreciationAccount() {
+	public long getLinkedAccumulatedDepreciationAccount() {
 		return linkedAccumulatedDepreciationAccount;
 	}
 
 	public void setLinkedAccumulatedDepreciationAccount(
-			String linkedAccumulatedDepreciationAccount) {
+			long linkedAccumulatedDepreciationAccount) {
 		this.linkedAccumulatedDepreciationAccount = linkedAccumulatedDepreciationAccount;
 	}
 
