@@ -16,7 +16,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -97,9 +96,11 @@ public class ConversionBalancesView extends AbstractBaseView {
 		bodyPanel.add(headerButtonPanel);
 		try {
 			tabPanel = new DecoratedTabPanel();
-			tabPanel.add(getBodyControls(), Utility
+			tabPanel.add(getBodyControls(), Accounter.getCompany()
 					.getCurrentFiscalYearStartDate().toString()
-					+ " _ " + Utility.getCurrentFiscalYearEndDate().toString());
+					+ " _ "
+					+ Accounter.getCompany().getCurrentFiscalYearEndDate()
+							.toString());
 
 			bodyPanel.add(tabPanel);
 		} catch (Exception e) {
@@ -124,26 +125,26 @@ public class ConversionBalancesView extends AbstractBaseView {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				superHeaderHtml.getElement().getStyle().setCursor(
-						Cursor.POINTER);
-				superHeaderHtml.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				superHeaderHtml.getElement().getStyle()
+						.setCursor(Cursor.POINTER);
+				superHeaderHtml.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 			}
 		});
 		superHeaderHtml.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				superHeaderHtml.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				superHeaderHtml.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
 		headerHtml = new HTML(messages.conversionBalanaceHeader());
 
-		addComparativeBalancesButton = new AccounterButton(messages
-				.addComparativeButton());
-		conversionDateButton = new AccounterButton(messages
-				.conversionDateButton());
+		addComparativeBalancesButton = new AccounterButton(
+				messages.addComparativeButton());
+		conversionDateButton = new AccounterButton(
+				messages.conversionDateButton());
 
 		headerButtonPanel.add(addComparativeBalancesButton);
 		headerButtonPanel.add(conversionDateButton);
