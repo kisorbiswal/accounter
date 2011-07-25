@@ -522,7 +522,7 @@ public class ViewManager extends DockPanel {
 	}
 
 	private void resetTopRightButtons(Action action, Object input) {
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			boolean enableEdit = input != null
 					&& !action.getCatagory().equals(
 							Accounter.getReportsMessages().report())
@@ -1610,7 +1610,7 @@ public class ViewManager extends DockPanel {
 	}
 
 	public <T extends IAccounterCore, P extends IAccounterCore> void voidTransaction(
-			final AccounterCoreType type, String transactionID,
+			final AccounterCoreType type, long transactionID,
 			final IAccounterWidget widget) {
 
 		currentrequestedWidget = widget;
