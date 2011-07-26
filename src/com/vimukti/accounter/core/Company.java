@@ -102,20 +102,20 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	String companyEmail;
 
-	// TODO don't know the purpose
+	//  don't know the purpose
 
 	String companyEmailForCustomers;
 
-	// TODO don't know the purpose
+	//  don't know the purpose
 	Contact contact = new Contact();
 
-	// TODO don't know the purpose
+	//  don't know the purpose
 	String ein;
 
-	// TODO not used yet
+	//  not used yet
 	int firstMonthOfFiscalYear;
 
-	// TODO not used yet
+	//  not used yet
 	int firstMonthOfIncomeTaxYear;
 
 	int taxForm;
