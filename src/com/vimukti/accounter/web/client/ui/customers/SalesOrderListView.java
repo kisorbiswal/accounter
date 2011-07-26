@@ -30,8 +30,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
 	private List<SalesOrdersList> listOfSalesOrder;
 
-	private static String OPEN = Accounter.getCustomersMessages()
-			.open();
+	private static String OPEN = Accounter.getCustomersMessages().open();
 	private static String COMPLETED = Accounter.getCustomersMessages()
 			.completed();
 	private static String CANCELLED = Accounter.getCustomersMessages()
@@ -75,7 +74,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getSalesOrders(this);
+		// Accounter.createHomeService().getSalesOrders(this);
 	}
 
 	@Override
@@ -112,8 +111,8 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
 			}
 		};
-		rpcGetService.getObjectById(AccounterCoreType.SALESORDER, obj
-				.getTransactionId(), callbackforsalesOrder);
+		rpcGetService.getObjectById(AccounterCoreType.SALESORDER,
+				obj.getTransactionId(), callbackforsalesOrder);
 
 	}
 

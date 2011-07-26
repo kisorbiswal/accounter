@@ -3630,7 +3630,6 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<SalesOrdersList> getSalesOrdersList() throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -3663,7 +3662,6 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<PurchaseOrdersList> getPurchaseOrdersList() throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -8392,7 +8390,6 @@ public class FinanceTool implements IFinanceDAOService {
 		return prepareQueryResult(l);
 	}
 
-	@Override
 	public List<OpenAndClosedOrders> getPurchaseOrders(long startDate,
 			long endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -8402,7 +8399,6 @@ public class FinanceTool implements IFinanceDAOService {
 		return prepareQueryResult(l);
 	}
 
-	@Override
 	public List<OpenAndClosedOrders> getSalesOrders(long startDate, long endDate)
 			throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();

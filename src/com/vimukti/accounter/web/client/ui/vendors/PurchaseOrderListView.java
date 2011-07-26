@@ -72,7 +72,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getPurchaseOrders(this);
+		// Accounter.createHomeService().getPurchaseOrders(this);
 
 	}
 
@@ -115,8 +115,8 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
 			}
 		};
-		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER, obj
-				.getTransactionId(), callbackforsalesOrder);
+		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
+				obj.getTransactionId(), callbackforsalesOrder);
 
 	}
 
