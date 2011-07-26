@@ -261,42 +261,42 @@ public class StartupDialog extends DialogBox {
 		new CreateUserDialog(null);
 	}
 
-	private void getUser() {
-		@SuppressWarnings("unused")
-		final AsyncCallback<ClientUser> getUserCallBack = new AsyncCallback<ClientUser>() {
-			public void onFailure(Throwable caught) {
-				Accounter.showError("Unable to login");
-			}
-
-			public void onSuccess(ClientUser user) {
-				if (user != null) {
-					Accounter.setUser(user);
-					// getCompanyList();
-
-					Accounter.setCompany(user.getClientCompany());
-					// Close the startup dialog...
-					StartupDialog.this.removeFromParent();
-					// loadingDialog.destroy();
-					// and, now we are ready to start the application.
-
-					Accounter financeApplication = new Accounter();
-					if (defbizcallback != null)
-						defbizcallback.execute(financeApplication);
-					// FIXME
-					// financeApplication.draw();
-					// else
-
-					// destroy();
-					// new CompanySetupDialog();
-				} else {
-					UIUtils.say("Get User Came But Failed!");
-				}
-			}
-
-		};
-		// FinanceApplication.createGETService().getUser(
-		// userEmailText.getValue().toString(), getUserCallBack);
-	}
+	// private void getUser() {
+	// final AsyncCallback<ClientUser> getUserCallBack = new
+	// AsyncCallback<ClientUser>() {
+	// public void onFailure(Throwable caught) {
+	// Accounter.showError("Unable to login");
+	// }
+	//
+	// public void onSuccess(ClientUser user) {
+	// if (user != null) {
+	// Accounter.setUser(user);
+	// // getCompanyList();
+	//
+	// Accounter.setCompany(user.getClientCompany());
+	// // Close the startup dialog...
+	// StartupDialog.this.removeFromParent();
+	// // loadingDialog.destroy();
+	// // and, now we are ready to start the application.
+	//
+	// Accounter financeApplication = new Accounter();
+	// if (defbizcallback != null)
+	// defbizcallback.execute(financeApplication);
+	// XXX NOT USED
+	// // financeApplication.draw();
+	// // else
+	//
+	// // destroy();
+	// // new CompanySetupDialog();
+	// } else {
+	// UIUtils.say("Get User Came But Failed!");
+	// }
+	// }
+	//
+	// };
+	// // FinanceApplication.createGETService().getUser(
+	// // userEmailText.getValue().toString(), getUserCallBack);
+	// }
 
 	@SuppressWarnings("unused")
 	private void getUserByEmail(String mail) {

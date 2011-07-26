@@ -44,7 +44,7 @@
 //		this.noInWordsText = noInWordsText;
 //		company = FinanceApplication.getCompany();
 //		createControls();
-//		// FIXME
+//		// XXX NOT USED
 //		// addTaxCodesList();
 //	}
 //
@@ -64,11 +64,11 @@
 //		// }
 //		//
 //		// });
-//		// FIXME
+//		// XXX NOT IN USE
 //		// taxCodeField.setRequired(true);
 //
 //		grid.addColumn(ListGrid.COLUMN_TYPE_SELECT, "Tax Agency");
-//		// FIXME
+//		// XXX NOT USED
 //		// taxAgencyField.setRequired(true);
 //		// taxAgencyField.setCanEdit(false);
 //		grid.addColumn(ListGrid.COLUMN_TYPE_TEXTBOX, "Amount To Pay");
@@ -161,7 +161,7 @@
 //
 //		List<IsSerializable> records = getRecords();
 //		final List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
-//		// // FIXME
+//		// // XXX NOT USED
 //		// if (records != null) {
 //		// for (IsSerializable re : records) {
 //		// ClientWriteCheck rec = (ClientWriteCheck) re;
@@ -282,4 +282,4 @@
 //		// return tpsList;
 //		return paySalesTax.getTransactionPaySalesTax();
 //	}
-//}
+// }
