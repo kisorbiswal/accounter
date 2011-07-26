@@ -2,31 +2,17 @@
 <!DOCTYPE hibernate-mapping PUBLIC
 "-//Hibernate/Hibernate Mapping DTD//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping package="com.bizantra.server.workspace.users.internal"
+<hibernate-mapping package="com.vimukti.accounter.core"
 	default-access="field">
 
-	<joined-subclass name="UsersTool"
-		extends="com.bizantra.server.workspace.ext.AbstractTool" table="USERSTOOL">
-		<key column="ID"></key>
-		<many-to-one name="company" class="com.bizantra.server.internal.core.BizantraCompany"
-			column="COMPANY" />
-
-		<bag name="users" cascade="all" lazy="false" order-by="FULLNAME">
-			<key column="TOOL_ID"></key>
-			<one-to-many class="User" />
-		</bag>
-
-	</joined-subclass>
-
-	<class name="User" table="USER">
+	<!-- <class name="User" table="USER">
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="userid" column="USER_ID" />
 		<property name="fullName" column="FULLNAME" />
 		<property name="displayName" column="DISPALYNAME" />
-		<property name="emailID" column="EMAIL_ID" />
-		<property name="role" column="ROLE" />
+		<property name="email" column="EMAIL_ID" />
+		 <property name="userRole" column="USER_ROLE" /> 
 		<property name="company" column="COMPANY" />
 		<property name="address1" column="ADDRESS1" />
 		<property name="address2" column="ADDRESS2" />
@@ -40,14 +26,14 @@
 		<property name="isExternal" column="ISEXTERNAL" />
 		<property name="designation" column="DESIGNATION" />
 		<property name="title" column="TITLE" />
-		<!-- <property name="isItDeletedUser" column="IS_DELETED_USER" /> -->
+		<property name="isItDeletedUser" column="IS_DELETED_USER" />
 		<map name="acessInfo" cascade="all,delete-orphan" table="ACCESS_INFO">
 			<key column="USER_ID" not-null="true" />
 			<index column="CATEGORY_NAME" type="string" />
 			<element column="ACESS_VALUE" type="string" />
 		</map>
 
-	</class>
+	</class> -->
 
 	<sql-query name="getAllUsersIds">
 		SELECT U.USERID FROM `USER` U

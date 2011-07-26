@@ -75,7 +75,6 @@
 
 		<!--  Mappings for Finance Module  -->
 
-		<mapping resource="mapping/finance.xml" />
 		<mapping resource="mapping/finance-mapping.xml" />
 		<mapping resource="mapping/finance-transactions.xml" />
 		<mapping resource="mapping/finance-query.xml" />

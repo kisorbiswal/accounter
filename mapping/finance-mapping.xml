@@ -88,13 +88,7 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 	</class>
-	<!-- <class name="Address" table="ADDRESS"> <id name="id" column="ID"> <generator 
-		class="native" /> </id> <property name="type" column="TYPE"></property> <property 
-		name="street" column="STREET"></property> <property name="city" column="CITY"></property> 
-		<property name="stateOrProvinence" column="STATE"></property> <property name="zipOrPostalCode" 
-		column="ZIP"></property> <property name="countryOrRegion" column="COUNTRY"></property> 
-		<property name="isSelected" column="IS_SELECTED"></property> <property name="version" 
-		column="VERSION"></property> </class> -->
+
 	<class name="FiscalYear" table="FISCAL_YEAR">
 		<id name="id" column="ID">
 			<generator class="native" />
@@ -1218,10 +1212,39 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 
-		<many-to-one name="contact" column="CONTACT_ID" class="Contact"
-			lazy="false" />
-		<many-to-one name="address" column="ADDRESS_ID" class="Address"
-			lazy="false" />
+	<!-- <many-to-one name="contact" column="CONTACT_ID" class="Contact" lazy="false" 
+		/> -->
+		<!-- <many-to-one name="address" column="ADDRESS_ID" class="Address"
+			lazy="false" /> -->
+			
+		<component name="address" class="Address" lazy="false">
+			<property name="type" column="TYPE" not-null="true"></property>
+				<property name="address1" column="ADDRESS1" not-null="true"
+					length="100"></property>
+				<property name="street" column="STREET" not-null="true"
+					length="100"></property>
+				<property name="city" column="CITY" not-null="true" length="100"></property>
+				<property name="stateOrProvinence" column="STATE" not-null="true"
+					length="100"></property>
+				<property name="zipOrPostalCode" column="ZIP" not-null="true"
+					length="100"></property>
+				<property name="countryOrRegion" column="COUNTRY" not-null="true"
+					length="100"></property>
+				<property name="isSelected" column="IS_SELECTED" not-null="true"></property>
+		</component>
+		
+		<component name="contact" class="Contact" lazy="false">
+			<property name="isPrimary" column="COMPANY_CONTACT__IS_PRIMARY"
+				not-null="true"></property>
+			<property name="name" column="COMPANY_CONTACT__NAME"
+				not-null="true"></property>
+			<property name="title" column="COMPANY_CONTACT__TITLE"
+				not-null="true"></property>
+			<property name="businessPhone" column="COMPANY_CONTACT__BUSINESS_PHONE"
+				not-null="true"></property>
+			<property name="email" column="COMPANY_CONTACT_EMAIL"
+				not-null="true"></property>
+		</component>
 
 		<set name="itemStatuses" table="ITEM_STATUS" inverse="true"
 			cascade="save-update,delete" lazy="false">
@@ -1231,12 +1254,12 @@
 				<many-to-one name="item" column="ITEM_ID" class="Item"
 					lazy="false">
 				</many-to-one>
-				<property name="createdBy" column="CREATED_BY" type="string" />
+				<!-- <property name="createdBy" column="CREATED_BY" type="string" />
 				<property name="lastModifier" column="LAST_MODIFIER" type="string" />
 				<property name="createdDate" column="CREATED_DATE"
 					type="com.vimukti.accounter.core.LongUseType" />
 				<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
-					type="com.vimukti.accounter.core.LongUseType" />
+					type="com.vimukti.accounter.core.LongUseType" /> -->
 
 				<nested-composite-element name="quantity"
 					class="Quantity">
@@ -1258,12 +1281,12 @@
 		<many-to-one name="item" column="ITEM_ID" class="Item"
 			lazy="false">
 		</many-to-one>
-		<property name="createdBy" column="CREATED_BY" type="string" />
+		<!-- <property name="createdBy" column="CREATED_BY" type="string" />
 		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
-			type="com.vimukti.accounter.core.LongUseType" />
+			type="com.vimukti.accounter.core.LongUseType" /> -->
 
 		<component name="quantity" class="Quantity">
 			<property name="value" column="QTY_VALUE" />
@@ -1309,8 +1332,8 @@
 
 		<property name="type" column="TYPE" />
 		<property name="factor" column="FACTOR" />
-		<many-to-one name="measurement" column="MEASUREMENT" class="Measurement"
-			lazy="false" cascade="save-update" />
+		<many-to-one name="measurement" column="MEASUREMENT"
+			class="Measurement" lazy="false" cascade="save-update" />
 	</class>
 
 
@@ -1344,30 +1367,29 @@
 			<column name="WAREHOUSE" />
 		</many-to-one>
 	</class>
-	
+
 	<class name="StockTransferItem" table="TRANSFER_ITEM">
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		
-		<many-to-one name="item" class="Item"
-			fetch="join">
+
+		<many-to-one name="item" class="Item" fetch="join">
 			<column name="ITEM" />
 		</many-to-one>
-		
+
 		<component name="quantity" class="Quantity">
 			<property name="value" column="QTY_VALUE" />
 			<many-to-one name="unit" column="QTY_UNIT" class="Unit" lazy="false"
 				cascade="save-update" />
 		</component>
-		
+
 		<property name="memo" type="java.lang.String">
 			<column name="MEMO" />
 		</property>
-		
+
 	</class>
 
-	<class name="StockTransfer" table="STOCK_TRANSFER">
+	 <class name="StockTransfer" table="STOCK_TRANSFER">
 		<id name="id" column="ID"/>
 		
 		<many-to-one name="fromWarehouse" column="FROM_WAREHOUSE"
