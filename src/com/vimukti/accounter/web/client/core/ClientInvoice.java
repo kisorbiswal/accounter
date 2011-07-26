@@ -457,33 +457,27 @@ public class ClientInvoice extends ClientTransaction {
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getDisplayName();
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getName();
 	}
 
 	public long getPaymentTerm() {
-		// TODO Auto-generated method stub
 		return this.paymentTerm;
 	}
 
 	public long getCustomer() {
-		// TODO Auto-generated method stub
 		return this.customer;
 	}
 
 	public ClientContact getContact() {
-		// TODO Auto-generated method stub
 		return this.contact;
 	}
 
 	public long getPriceLevel() {
-		// TODO Auto-generated method stub
 		return priceLevel;
 	}
 
@@ -499,18 +493,17 @@ public class ClientInvoice extends ClientTransaction {
 	}
 
 	public ClientAddress getBillingAddress() {
-		// TODO Auto-generated method stub
 		return this.billingAddress;
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
