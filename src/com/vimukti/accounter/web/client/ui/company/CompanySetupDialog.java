@@ -174,8 +174,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 
 		canButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				// FIXME--need some action
-				// cancelClick();
+				removeFromParent();
 			}
 		});
 
