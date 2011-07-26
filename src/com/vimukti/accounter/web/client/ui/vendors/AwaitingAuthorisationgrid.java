@@ -12,19 +12,17 @@ import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 /**
  * 
  * @author Uday Kumar
- *
+ * 
  */
 public class AwaitingAuthorisationgrid extends BaseListGrid<BillsList> {
 	AwaitingAuthorisationView view;
 
 	public AwaitingAuthorisationgrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	protected void executeDelete(BillsList object) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -75,13 +73,13 @@ public class AwaitingAuthorisationgrid extends BaseListGrid<BillsList> {
 
 	@Override
 	public void onDoubleClick(BillsList billsList) {
-		ReportsRPC.openTransactionView(billsList.getType(), billsList.getTransactionId());
+		ReportsRPC.openTransactionView(billsList.getType(),
+				billsList.getTransactionId());
 
 	}
 
 	@Override
 	public boolean validateGrid() throws InvalidTransactionEntryException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -92,7 +90,6 @@ public class AwaitingAuthorisationgrid extends BaseListGrid<BillsList> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
