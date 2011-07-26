@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
@@ -190,9 +191,8 @@ public abstract class AbstractBankTransactionView<T> extends
 		listOfAccounts = payFrmSelect.getAccounts();
 
 		payFrmSelect.initCombo(listOfAccounts);
-		// FIXME
-		// payFrmSelect.setAccountTypes(UIUtils
-		// .getOptionsByType(AccountCombo.PAY_FROM_COMBO));
+		payFrmSelect.setAccountTypes(UIUtils
+		 .getOptionsByType(AccountCombo.PAY_FROM_COMBO));
 		payFrmSelect.setAccounts();
 		payFrmSelect.setDisabled(isEdit);
 
