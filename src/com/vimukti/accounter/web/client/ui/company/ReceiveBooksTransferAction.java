@@ -17,7 +17,6 @@ public class ReceiveBooksTransferAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -37,8 +36,7 @@ public class ReceiveBooksTransferAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "ReceiveBooks";
 	}
 
 }

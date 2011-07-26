@@ -644,13 +644,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -767,19 +765,16 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
-		// TODO Auto-generated method stub
 		this.taxCode = taxCode;
 		if (taxCode != null) {
 

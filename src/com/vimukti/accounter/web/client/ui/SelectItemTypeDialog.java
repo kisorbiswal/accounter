@@ -4,7 +4,6 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
-import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -57,7 +56,7 @@ public class SelectItemTypeDialog extends BaseDialog {
 
 			public void onCancelClick() {
 				removeFromParent();
-				//Action.cancle();
+				// Action.cancle();
 			}
 
 			public boolean onOkClick() {
@@ -121,7 +120,6 @@ public class SelectItemTypeDialog extends BaseDialog {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 

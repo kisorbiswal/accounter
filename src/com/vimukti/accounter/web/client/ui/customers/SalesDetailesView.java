@@ -101,15 +101,13 @@ public class SalesDetailesView extends ParentCanvas<VerticalPanel> {
 		flexTable.clear();
 
 		Label orderNumberLabel = new Label();
-		orderNumberLabel.setText(Accounter.getVendorsMessages()
-				.orderNumber());
+		orderNumberLabel.setText(Accounter.getVendorsMessages().orderNumber());
 		orderNumberLabel.setStyleName("selectedview_labelstyle");
 
 		orderNumberField = new HTML();
 
 		Label conLabel = new Label();
-		conLabel.setText(Accounter.getCustomersMessages()
-				.customerOrderNumber());
+		conLabel.setText(Accounter.getCustomersMessages().customerOrderNumber());
 		conLabel.setStyleName("selectedview_labelstyle");
 
 		customerNumberField = new HTML();
@@ -207,14 +205,11 @@ public class SalesDetailesView extends ParentCanvas<VerticalPanel> {
 				.getDateByCompanyType(new ClientFinanceDate(salesOrder
 						.getDueDate())));
 		if (salesOrder.getStatus() == 101)
-			statusField.setText(Accounter.getCustomersMessages()
-					.open());
+			statusField.setText(Accounter.getCustomersMessages().open());
 		else if (salesOrder.getStatus() == 102)
-			statusField.setText(Accounter.getCustomersMessages()
-					.completed());
+			statusField.setText(Accounter.getCustomersMessages().completed());
 		else if (salesOrder.getStatus() == 103)
-			statusField.setText(Accounter.getCustomersMessages()
-					.cancelled());
+			statusField.setText(Accounter.getCustomersMessages().cancelled());
 		ClientAddress address = salesOrder.getBillingAddress();
 		if (address != null) {
 			billingAdress.setHTML(addressInfo(address));
@@ -273,54 +268,46 @@ public class SalesDetailesView extends ParentCanvas<VerticalPanel> {
 
 	@Override
 	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void saveFailed(Throwable exception) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void saveSuccess(IAccounterCore object) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 

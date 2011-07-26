@@ -28,14 +28,12 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	private List<ClientEstimate> listOfEstimates;
 
-	private static String OPEN = Accounter.getCustomersMessages()
-			.open();
+	private static String OPEN = Accounter.getCustomersMessages().open();
 	private static String REJECTED = Accounter.getCustomersMessages()
 			.rejected();
 	private static String ACCEPTED = Accounter.getCustomersMessages()
 			.accepted();
-	private static String EXPIRED = Accounter.getCustomersMessages()
-			.expired();
+	private static String EXPIRED = Accounter.getCustomersMessages().expired();
 	private static String ALL = Accounter.getCustomersMessages().all();
 	// private static String DELETED = "Deleted";
 
@@ -152,8 +150,8 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 				continue;
 			}
 			if (text.equals(EXPIRED)) {
-				ClientFinanceDate expiryDate = new ClientFinanceDate(estimate
-						.getExpirationDate());
+				ClientFinanceDate expiryDate = new ClientFinanceDate(
+						estimate.getExpirationDate());
 				if (expiryDate.before(new ClientFinanceDate()))
 					grid.addData(estimate);
 				continue;
@@ -179,25 +177,21 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 

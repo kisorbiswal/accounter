@@ -88,8 +88,7 @@ public class RecieveVATView extends
 		// setTitle(UIUtils.title(FinanceApplication.getFinanceUIConstants()
 		// .payVAT()));
 
-		Label lab = new Label(Accounter.getFinanceUIConstants()
-				.receiveVAT());
+		Label lab = new Label(Accounter.getFinanceUIConstants().receiveVAT());
 		lab.setStyleName(Accounter.getVendorsMessages().lableTitle());
 		// lab.setHeight("35px");
 		// date = new DateField(companyConstants.date());
@@ -102,8 +101,8 @@ public class RecieveVATView extends
 		transNumber = createTransactionNumberItem();
 		transNumber.setTitle(Accounter.getCompanyMessages().no());
 
-		depositInAccCombo = new DepositInAccountCombo(companyConstants
-				.depositIn());
+		depositInAccCombo = new DepositInAccountCombo(
+				companyConstants.depositIn());
 		depositInAccCombo.setHelpInformation(true);
 		depositInAccCombo.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.DEPOSIT_IN_ACCOUNT));
@@ -120,8 +119,7 @@ public class RecieveVATView extends
 
 						initialEndingBalance = !DecimalUtil.isEquals(
 								selectedDepositInAccount.getTotalBalance(), 0) ? selectedDepositInAccount
-								.getTotalBalance()
-								: 0D;
+								.getTotalBalance() : 0D;
 
 						calculateEndingBalance();
 					}
@@ -235,8 +233,8 @@ public class RecieveVATView extends
 		listforms.add(balForm);
 
 		selectedDepositInAccount = depositInAccCombo.getSelectedValue();
-		initialEndingBalance = !DecimalUtil.isEquals(selectedDepositInAccount
-				.getTotalBalance(), 0) ? selectedDepositInAccount
+		initialEndingBalance = !DecimalUtil.isEquals(
+				selectedDepositInAccount.getTotalBalance(), 0) ? selectedDepositInAccount
 				.getTotalBalance() : 0D;
 
 		calculateEndingBalance();
@@ -251,10 +249,10 @@ public class RecieveVATView extends
 
 		if (dueDateOnOrBefore != null) {
 			for (ClientReceiveVATEntries cont : filterList) {
-				ClientVATReturn clientVATReturn = Accounter
-						.getCompany().getVatReturn(cont.getVatReturn());
-				ClientFinanceDate date = new ClientFinanceDate(clientVATReturn
-						.getVATperiodEndDate());
+				ClientVATReturn clientVATReturn = Accounter.getCompany()
+						.getVatReturn(cont.getVatReturn());
+				ClientFinanceDate date = new ClientFinanceDate(
+						clientVATReturn.getVATperiodEndDate());
 				if (date.equals(dueDateOnOrBefore)
 						|| date.before(dueDateOnOrBefore))
 					tempList.add(cont);
@@ -289,8 +287,8 @@ public class RecieveVATView extends
 		List<ClientTransactionReceiveVAT> filterRecords = new ArrayList<ClientTransactionReceiveVAT>();
 		String selectedagency = selectedVATAgency.getName();
 		for (ClientTransactionReceiveVAT receiveVAT : grid.getRecords()) {
-			String taxAgencyname = getCompany()
-					.getTaxAgency(receiveVAT.getTaxAgency()).getName();
+			String taxAgencyname = getCompany().getTaxAgency(
+					receiveVAT.getTaxAgency()).getName();
 			if (taxAgencyname.equals(selectedagency))
 				filterRecords.add(receiveVAT);
 		}
@@ -332,8 +330,8 @@ public class RecieveVATView extends
 		selectedDepositInAccount = getCompany().getAccount(
 				receiveVAT.getDepositIn());
 		depositInAccCombo.setComboItem(selectedDepositInAccount);
-		selectedVATAgency = getCompany().getTaxAgency(
-				receiveVAT.getVatAgency());
+		selectedVATAgency = getCompany()
+				.getTaxAgency(receiveVAT.getVatAgency());
 		if (selectedVATAgency != null)
 			vatAgencyCombo.setComboItem(selectedVATAgency);
 
@@ -601,25 +599,21 @@ public class RecieveVATView extends
 
 	@Override
 	public List<DynamicForm> getForms() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -704,13 +698,11 @@ public class RecieveVATView extends
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 

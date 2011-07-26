@@ -18,7 +18,6 @@ public class SellingRegisteredItemAction extends Action {
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -67,7 +66,6 @@ public class SellingRegisteredItemAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "SellingRequesteredItem ";
 	}
 }

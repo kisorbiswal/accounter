@@ -27,12 +27,10 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 	private List<ReceivePaymentsList> listOfRecievePayments;
 
 	private static String ALL = Accounter.getCustomersMessages().all();
-	private static String OPEN = Accounter.getCustomersMessages()
-			.open();
-	private static String FULLY_APPLIED = Accounter
-			.getCustomersMessages().fullyApplied();
-	private static String VOIDED = Accounter.getVendorsMessages()
-			.Voided();
+	private static String OPEN = Accounter.getCustomersMessages().open();
+	private static String FULLY_APPLIED = Accounter.getCustomersMessages()
+			.fullyApplied();
+	private static String VOIDED = Accounter.getVendorsMessages().Voided();
 	// private static String DELETED="Deleted";
 
 	private static final int STATUS_UNAPPLIED = 0;
@@ -106,7 +104,6 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						// TODO Auto-generated method stub
 						if (viewSelect.getSelectedValue() != null) {
 							grid.setViewType(viewSelect.getSelectedValue());
 							filterList(viewSelect.getSelectedValue());
@@ -167,25 +164,21 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
