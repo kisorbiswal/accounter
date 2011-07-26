@@ -30,7 +30,7 @@ public class VendorPaymentsListAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+		// TODO currently not using
 		return null;
 	}
 
@@ -77,13 +77,13 @@ public class VendorPaymentsListAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
+		
 		return "/images/vendor_payments.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+		
 		return UIUtils.getVendorString("supplierPayments", "vendorPayments");
 	}
 }
