@@ -391,6 +391,15 @@ public abstract class GroupDialog<T> extends BaseDialog {
 					listGridView.deleteRecord(obj);
 					listGridView.addData(core);
 				}
+				for (int i = 0; i < listGridView.getRecords().size(); i++) {
+					List<IsSerializable> list = listGridView.getRecords();
+					if (list.get(i) == core) {
+						listGridView.rowFormatter.addStyleName(i, "selected");
+					} else {
+						listGridView.rowFormatter
+								.removeStyleName(i, "selected");
+					}
+				}
 				break;
 			case AccounterCommand.DELETION_SUCCESS:
 				if (obj != null) {

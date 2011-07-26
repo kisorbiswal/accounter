@@ -55,7 +55,7 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 	public BaseDialog(String title, String desc) {
 
 		super(title);
-		setText(getViewTitle());
+		// setText(getViewTitle());
 		setText(title);
 		setModal(true);
 		this.description = desc;
