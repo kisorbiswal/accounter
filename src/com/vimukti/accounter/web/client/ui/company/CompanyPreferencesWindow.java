@@ -614,7 +614,7 @@
 //		supportLogging.setItems(logspaceTxt, logContentSelect);
 //		VerticalPanel suportLogPanel = new VerticalPanel();
 //		suportLogPanel.add(supportLogging);
-//		// FIXME
+//		// XXX NOT IN USE
 //		suportLogPanel.add(clearlogBtn);
 //
 //		this.generalLayOut = new VerticalPanel();
@@ -744,4 +744,4 @@
 //	public void close() {
 //		// destroy();
 //	}
-//}
+// }

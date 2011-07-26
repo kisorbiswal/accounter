@@ -465,17 +465,15 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 		ClientEntry rec[] = new ClientEntry[entries.size()];
 		int i = 0;
-		@SuppressWarnings("unused")
 		ClientEntry temp = null;
 		for (ClientEntry entry : takenJournalEntry.getEntry()) {
 
 			rec[i] = takenJournalEntry.getEntry().get(i);
-			@SuppressWarnings("unused")
 			ClientCompany company = getCompany();
 			rec[i].setVoucherNumber(entry.getVoucherNumber());
 
-			// FIXME--The date need to be set for every record
-			// rec[i].setAttribute(ATTR_DATE, takenJournalEntry.getDate());
+			// --The date need to be set for every record
+			rec[i].setEntryDate(takenJournalEntry.getDate().getTime());
 
 			if (entry.getType() == ClientEntry.TYPE_FINANCIAL_ACCOUNT) {
 				rec[i].setType(ClientEntry.TYPE_FINANCIAL_ACCOUNT);
