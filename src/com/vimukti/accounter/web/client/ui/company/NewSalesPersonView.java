@@ -560,8 +560,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	@Override
 	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
-
+		super.fitToSize(height, width);
 	}
 
 	@Override
@@ -584,6 +583,9 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void printPreview() {
 		// TODO Auto-generated method stub
