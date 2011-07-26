@@ -8,4 +8,5 @@ public abstract class CompanyInitializer {
 	 * this is used to get the company type
 	 */
 	public abstract Company getCompany();
+	
 }

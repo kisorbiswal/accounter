@@ -13,6 +13,8 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.company.initialize.CompanyInitializedFactory;
+import com.vimukti.accounter.company.initialize.CompanyInitializer;
 
 public class Company extends CreatableObject implements IAccounterServerCore {
 
@@ -725,6 +727,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		Session session = HibernateUtil.getCurrentSession();
 		switch (accountingType) {
 		case ACCOUNTING_TYPE_US:
+
 			//initDefaultUSAccounts(session);
 			break;
 		case ACCOUNTING_TYPE_UK:
@@ -748,6 +751,14 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		case ACCOUNTING_TYPE_INDIA:
 			break;
 		}
+	}
+	
+	
+
+	public Company() {
+		CompanyInitializedFactory getFactory = new CompanyInitializedFactory();
+		getFactory.getInitializer(getCompany());
+		
 	}
 
 	/**

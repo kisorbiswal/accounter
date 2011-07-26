@@ -354,6 +354,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	}
 	
 	/**
+	 * 
+	 *  Constructor of Account class
 	 * @param type
 	 * 
 	 * @param number
