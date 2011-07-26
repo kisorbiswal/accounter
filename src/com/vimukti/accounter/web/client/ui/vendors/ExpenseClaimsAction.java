@@ -18,24 +18,20 @@ public class ExpenseClaimsAction extends Action {
 	public ExpenseClaimsAction(String text, String iconString, int selectedTab) {
 		super(text);
 		this.selectedTab = selectedTab;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ImageResource getSmallImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -52,7 +48,6 @@ public class ExpenseClaimsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "expenseClaims";
 	}
 }

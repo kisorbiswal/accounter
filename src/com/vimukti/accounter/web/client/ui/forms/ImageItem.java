@@ -9,12 +9,10 @@ public class ImageItem extends FormItem {
 	private Image image;
 
 	public ImageItem() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public Widget getMainWidget() {
-		// TODO Auto-generated method stub
 		return this.image;
 	}
 

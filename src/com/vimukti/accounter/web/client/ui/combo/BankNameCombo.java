@@ -7,7 +7,6 @@ public class BankNameCombo extends CustomCombo<ClientBank> {
 
 	public BankNameCombo(String title) {
 		super(title);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

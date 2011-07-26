@@ -15,7 +15,6 @@ public class HelpLink implements IsSerializable, Serializable {
 	 */
 
 	public HelpLink() {
-		// TODO Auto-generated constructor stub
 	}
 
 	String title;

@@ -109,7 +109,6 @@ public class ClientFixedAsset implements IAccounterCore {
 	// private String sellingOrDisposingFixedAsset;
 
 	public ClientFixedAsset() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public long getID() {

@@ -378,7 +378,6 @@ public class Calendar implements Cloneable {
 	}
 
 	private Calendar() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public void setTime(Date date) {
@@ -622,7 +621,7 @@ public class Calendar implements Cloneable {
 	 * @exception NullPointerException
 	 *                if <code>anotherDate</code> is null.
 	 */
-	public static short compare(Date date1,Date date2) {
+	public static short compare(Date date1, Date date2) {
 		if (date1.getTime() == date2.getTime())
 			return 0;
 		else if (date1.getTime() > date2.getTime())

@@ -76,7 +76,6 @@ public class ClientCreditsAndPayments implements IAccounterCore {
 	}
 
 	public ClientCreditsAndPayments() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getMemo() {
@@ -105,19 +104,17 @@ public class ClientCreditsAndPayments implements IAccounterCore {
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
 		return AccounterCoreType.CREDITS_AND_PAYMENTS;
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
@@ -138,13 +135,13 @@ public class ClientCreditsAndPayments implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 	}
 
 }

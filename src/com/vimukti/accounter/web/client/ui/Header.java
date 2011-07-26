@@ -17,15 +17,12 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
-
 public class Header extends HorizontalPanel {
-
 
 	private Image userImage;
 	private HorizontalPanel usernamePanel;
 
 	public static Label companyName;
-
 
 	private HTML logout, help, logo, userName;
 
@@ -44,7 +41,6 @@ public class Header extends HorizontalPanel {
 	 * Creates new Instance
 	 */
 	public Header() {
-		// TODO Auto-generated constructor stub
 	}
 
 	private void createControls() {
@@ -55,13 +51,12 @@ public class Header extends HorizontalPanel {
 		userImage.getElement().getStyle().setPaddingBottom(4, Unit.PX);
 		userName = new HTML("<a><font color=\"#3299A4\">"
 				+ Accounter.getCompanyMessages().userName(
-						accounter.getUserDisplayName())
-				+ "<font></a>");
+						accounter.getUserDisplayName()) + "<font></a>");
 		userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 
 		if (!accounter.isLoggedInFromDomain()) {
-			userName.getElement().getStyle().setTextDecoration(
-					TextDecoration.UNDERLINE);
+			userName.getElement().getStyle()
+					.setTextDecoration(TextDecoration.UNDERLINE);
 			userName.getElement().getStyle().setCursor(Cursor.POINTER);
 
 			userName.addClickHandler(new ClickHandler() {
@@ -72,8 +67,9 @@ public class Header extends HorizontalPanel {
 							.getUserDetailsAction().getHistoryToken();
 					if (!History.getToken().equals(historyToken)) {
 						MainFinanceWindow.oldToken = History.getToken();
-						HistoryTokenUtils.setPresentToken(CompanyActionFactory
-								.getUserDetailsAction(), null);
+						HistoryTokenUtils.setPresentToken(
+								CompanyActionFactory.getUserDetailsAction(),
+								null);
 					}
 					CompanyActionFactory.getUserDetailsAction()
 							.run(null, false);

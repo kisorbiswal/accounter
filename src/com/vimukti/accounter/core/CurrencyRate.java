@@ -15,7 +15,6 @@ public class CurrencyRate {
 	private double sellRate;
 
 	public CurrencyRate() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Currency getBaseCurrency() {

@@ -28,7 +28,6 @@ public class ClientWarehouse implements IAccounterCore {
 	FinanceDate lastModifiedDate;
 
 	public ClientWarehouse() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Address getAddress() {
@@ -81,13 +80,11 @@ public class ClientWarehouse implements IAccounterCore {
 
 	@Override
 	public void setID(long id) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

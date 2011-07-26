@@ -698,13 +698,11 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
 		return "Transaction";
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "Transaction";
 	}
 

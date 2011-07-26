@@ -21,7 +21,6 @@ public class AdjustmentReason extends CreatableObject implements
 	FinanceDate lastModifiedDate;
 
 	public AdjustmentReason() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getSection() {
@@ -43,7 +42,6 @@ public class AdjustmentReason extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

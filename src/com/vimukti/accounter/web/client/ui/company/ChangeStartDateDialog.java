@@ -16,7 +16,6 @@ public class ChangeStartDateDialog extends BaseDialog {
 
 	public ChangeStartDateDialog(String title, String desc) {
 		super(title, desc);
-		// TODO Auto-generated constructor stub
 		createControls();
 		center();
 
@@ -41,7 +40,6 @@ public class ChangeStartDateDialog extends BaseDialog {
 
 	@Override
 	public Object getGridColumnValue(IsSerializable obj, int index) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

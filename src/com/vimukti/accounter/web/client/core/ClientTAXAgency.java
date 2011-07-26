@@ -7,7 +7,7 @@ package com.vimukti.accounter.web.client.core;
  * @author Murali
  * 
  */
-@SuppressWarnings("serial") 
+@SuppressWarnings("serial")
 public class ClientTAXAgency extends ClientPayee {
 
 	/**
@@ -36,7 +36,6 @@ public class ClientTAXAgency extends ClientPayee {
 	 * 
 	 */
 	public ClientTAXAgency() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/*

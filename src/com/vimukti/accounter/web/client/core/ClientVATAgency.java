@@ -3,7 +3,6 @@
  */
 package com.vimukti.accounter.web.client.core;
 
-
 /**
  * @author Murali
  * 
@@ -37,7 +36,6 @@ public class ClientVATAgency extends ClientPayee {
 	 * 
 	 */
 	public ClientVATAgency() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/*

@@ -61,7 +61,7 @@ public class JournalEntry extends Transaction {
 
 	Set<TransactionPayBill> transactionPayBills = new HashSet<TransactionPayBill>();
 
-	// 
+	//
 
 	public JournalEntry() {
 		setType(Transaction.TYPE_JOURNAL_ENTRY);
@@ -73,8 +73,8 @@ public class JournalEntry extends Transaction {
 
 	public JournalEntry(Customer customer, String number, int journalEntryType) {
 
-		FinanceLogger.log("JournalEntry {0} For Customer {1}", String
-				.valueOf(number), customer.getName());
+		FinanceLogger.log("JournalEntry {0} For Customer {1}",
+				String.valueOf(number), customer.getName());
 
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.journalEntryType = journalEntryType;
@@ -83,8 +83,8 @@ public class JournalEntry extends Transaction {
 		this.memo = "Opening Balance";
 		this.balanceDue = customer.getOpeningBalance();
 
-		FinanceLogger.log("Journal Entry Date : {0} Balance Due : {1} ", String
-				.valueOf(transactionDate), String.valueOf(balanceDue));
+		FinanceLogger.log("Journal Entry Date : {0} Balance Due : {1} ",
+				String.valueOf(transactionDate), String.valueOf(balanceDue));
 
 		List<Entry> entries = new ArrayList<Entry>();
 		Entry entry1 = new Entry();
@@ -100,8 +100,8 @@ public class JournalEntry extends Transaction {
 		entry1.setJournalEntry(this);
 
 		FinanceLogger.log("Credited Account : {0}  Credited Amount {1} ",
-				String.valueOf(entry1.getAccount()), String.valueOf(entry1
-						.getCredit()));
+				String.valueOf(entry1.getAccount()),
+				String.valueOf(entry1.getCredit()));
 
 		Entry entry2 = new Entry();
 		entry2.setVoucherNumber(voucherNumber);
@@ -212,7 +212,6 @@ public class JournalEntry extends Transaction {
 			List<AccountTransactionByAccount> accountTransactionList,
 			String number, int journalEntryType) {
 
-
 		double debitTotal = 0D;
 		double creditTotal = 0D;
 
@@ -231,15 +230,14 @@ public class JournalEntry extends Transaction {
 			entry = new Entry();
 			entry.setVoucherNumber(voucherNumber);
 			entry.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
-			entry
-					.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
+			entry.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
 			entry.setAccount(account);
 			entry.setMemo("Balance moved to Retained Earnings");
 			entry.setJournalEntry(this);
 
 			if (account.isIncrease == true) {
-				if (DecimalUtil.isGreaterThan(accountTransactionByTaxCode
-						.getAmount(), 0.0)) {
+				if (DecimalUtil.isGreaterThan(
+						accountTransactionByTaxCode.getAmount(), 0.0)) {
 					entry.setDebit(Math.abs(accountTransactionByTaxCode
 							.getAmount()));
 				} else {
@@ -247,8 +245,8 @@ public class JournalEntry extends Transaction {
 							.getAmount()));
 				}
 			} else {
-				if (DecimalUtil.isGreaterThan(accountTransactionByTaxCode
-						.getAmount(), 0.0)) {
+				if (DecimalUtil.isGreaterThan(
+						accountTransactionByTaxCode.getAmount(), 0.0)) {
 					entry.setCredit(Math.abs(accountTransactionByTaxCode
 							.getAmount()));
 				} else {
@@ -310,8 +308,7 @@ public class JournalEntry extends Transaction {
 			entry = new Entry();
 			entry.setVoucherNumber(voucherNumber);
 			entry.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
-			entry
-					.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
+			entry.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
 			entry.setAccount(account);
 			if (account.getName().equals(AccounterConstants.RETAINED_EARNINGS)) {
 				entry.setMemo("Net income");
@@ -405,7 +402,6 @@ public class JournalEntry extends Transaction {
 	}
 
 	public JournalEntry(FixedAsset fixedAsset, String number) {
-
 
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.number = number;
@@ -559,24 +555,23 @@ public class JournalEntry extends Transaction {
 
 		this.transaction = adjustment;
 		this.memo = "VAT Adjustment";
-		
+
 		Account liabilityAccount;
 		boolean isSalesType;
-		
+
 		if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			liabilityAccount = adjustment.getTaxAgency()
 					.getSalesLiabilityAccount();
 			isSalesType = true;
 			this.memo = "TAX Adjustment";
 
-		} else  {
+		} else {
 			liabilityAccount = adjustment.taxItem.isSalesType == true ? adjustment.taxItem.taxAgency
-					.getSalesLiabilityAccount()
-					: adjustment.taxItem.taxAgency
-							.getPurchaseLiabilityAccount();
+					.getSalesLiabilityAccount() : adjustment.taxItem.taxAgency
+					.getPurchaseLiabilityAccount();
 			isSalesType = adjustment.taxItem.isSalesType;
 		}
-					
+
 		Account adjustmentAccount = adjustment.getAdjustmentAccount();
 
 		List<Entry> entries = new ArrayList<Entry>();
@@ -635,66 +630,66 @@ public class JournalEntry extends Transaction {
 		this.setCreditTotal(entry1.getCredit() + entry2.getCredit());
 
 	}
-	
-//	public JournalEntry(TAXAdjustment adjustment, String number,
-//			int journalEntryType) {
-//
-//		this.id = SecureUtils.createID();
-//		this.type = Transaction.TYPE_JOURNAL_ENTRY;
-//		this.journalEntryType = journalEntryType;
-//		this.number = number;
-//		this.transactionDate = adjustment.transactionDate;
-//
-//		this.transaction = adjustment;
-//		this.memo = "TAX Adjustment";
-//
-//		Account liabilityAccount = adjustment.taxAgency.getSalesLiabilityAccount();
-//		Account adjustmentAccount = adjustment.getAdjustmentAccount();
-//
-//		List<Entry> entries = new ArrayList<Entry>();
-//		String voucherNumber = NumberUtils.getNextVoucherNumber();
-//
-//		Entry entry1 = new Entry();
-//		entry1.setVoucherNumber(voucherNumber);
-//		entry1.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
-//		entry1.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
-//		entry1.setAccount(liabilityAccount);
-//		entry1.setMemo(adjustmentAccount.getName());
-//		entry1.setJournalEntry(this);
-//		entry1.setTotal(adjustment.total);
-//		entry1.setEntryDate(adjustment.getDate());
-//
-//		Entry entry2 = new Entry();
-//		entry2.setVoucherNumber(voucherNumber);
-//		entry2.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
-//		entry2.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
-//		entry2.setAccount(adjustmentAccount);
-//		entry2.setMemo(liabilityAccount.getName());
-//		entry2.setJournalEntry(this);
-//		entry2.setTotal(adjustment.total);
-//		entry2.setEntryDate(adjustment.getDate());
-//
-//		if (adjustment.increaseTAXLine) {
-//			entry1.setDebit(0d);
-//			entry1.setCredit(adjustment.total);
-//			entry2.setDebit(adjustment.total);
-//			entry2.setCredit(0d);
-//			
-//		} else {
-//			entry1.setDebit(adjustment.total);
-//			entry1.setCredit(0d);
-//			entry2.setDebit(0d);
-//			entry2.setCredit(adjustment.total);
-//		}
-//
-//		entries.add(entry1);
-//		entries.add(entry2);
-//		this.setEntry(entries);
-//		this.setDebitTotal(entry1.getDebit() + entry2.getDebit());
-//		this.setCreditTotal(entry1.getCredit() + entry2.getCredit());
-//
-//	}
 
+	// public JournalEntry(TAXAdjustment adjustment, String number,
+	// int journalEntryType) {
+	//
+	// this.id = SecureUtils.createID();
+	// this.type = Transaction.TYPE_JOURNAL_ENTRY;
+	// this.journalEntryType = journalEntryType;
+	// this.number = number;
+	// this.transactionDate = adjustment.transactionDate;
+	//
+	// this.transaction = adjustment;
+	// this.memo = "TAX Adjustment";
+	//
+	// Account liabilityAccount =
+	// adjustment.taxAgency.getSalesLiabilityAccount();
+	// Account adjustmentAccount = adjustment.getAdjustmentAccount();
+	//
+	// List<Entry> entries = new ArrayList<Entry>();
+	// String voucherNumber = NumberUtils.getNextVoucherNumber();
+	//
+	// Entry entry1 = new Entry();
+	// entry1.setVoucherNumber(voucherNumber);
+	// entry1.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
+	// entry1.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
+	// entry1.setAccount(liabilityAccount);
+	// entry1.setMemo(adjustmentAccount.getName());
+	// entry1.setJournalEntry(this);
+	// entry1.setTotal(adjustment.total);
+	// entry1.setEntryDate(adjustment.getDate());
+	//
+	// Entry entry2 = new Entry();
+	// entry2.setVoucherNumber(voucherNumber);
+	// entry2.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
+	// entry2.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
+	// entry2.setAccount(adjustmentAccount);
+	// entry2.setMemo(liabilityAccount.getName());
+	// entry2.setJournalEntry(this);
+	// entry2.setTotal(adjustment.total);
+	// entry2.setEntryDate(adjustment.getDate());
+	//
+	// if (adjustment.increaseTAXLine) {
+	// entry1.setDebit(0d);
+	// entry1.setCredit(adjustment.total);
+	// entry2.setDebit(adjustment.total);
+	// entry2.setCredit(0d);
+	//
+	// } else {
+	// entry1.setDebit(adjustment.total);
+	// entry1.setCredit(0d);
+	// entry2.setDebit(0d);
+	// entry2.setCredit(adjustment.total);
+	// }
+	//
+	// entries.add(entry1);
+	// entries.add(entry2);
+	// this.setEntry(entries);
+	// this.setDebitTotal(entry1.getDebit() + entry2.getDebit());
+	// this.setCreditTotal(entry1.getCredit() + entry2.getCredit());
+	//
+	// }
 
 	public JournalEntry(VATReturn return1) {
 
@@ -710,110 +705,108 @@ public class JournalEntry extends Transaction {
 		List<Entry> entries = new ArrayList<Entry>();
 		String voucherNumber = NumberUtils.getNextVoucherNumber();
 		for (Box b : return1.boxes) {
-//			if (b.getTaxRateCalculations() != null
-//					&& b.getTaxRateCalculations().size() > 0) {
-	
-				if (b.getAmount() != 0
-						&& (b.getBoxNumber() == 1 || b.getBoxNumber() == 2)) {
+			// if (b.getTaxRateCalculations() != null
+			// && b.getTaxRateCalculations().size() > 0) {
 
-					Entry e = new Entry();
+			if (b.getAmount() != 0
+					&& (b.getBoxNumber() == 1 || b.getBoxNumber() == 2)) {
 
-					FinanceLogger.log(
-							"Entry created for {0} with amount : {1} ", b
-									.getName(), String.valueOf(b.amount));
+				Entry e = new Entry();
 
-					e.setVoucherNumber(voucherNumber);
-					if (DecimalUtil.isGreaterThan(b.getAmount(), 0)) {
-						e.setDebit(b.amount);
-						debitTotal += b.amount;
-					} else {						
-						creditTotal += (-1 * b.amount);
-						e.setCredit(-1 * b.amount);
-					}
-					e.setAccount(return1.getTaxAgency()
-							.getSalesLiabilityAccount());
+				FinanceLogger.log("Entry created for {0} with amount : {1} ",
+						b.getName(), String.valueOf(b.amount));
 
-					e.setEntryDate(return1.getDate());
-					e.setType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
-					e.setMemo("Filed VAT amount of " + b.amount + " for Box "
-							+ b.boxNumber);
-					e.setTaxItem(b.getTaxRateCalculations() != null ? (b.getTaxRateCalculations().get(0))
-							.getTaxItem() : null);
-					e.setTotal(b.getAmount());
-					entries.add(e);
-
-				} else if (b.getAmount() != 0 && b.getBoxNumber() == 4) {
-
-					Entry e = new Entry();
-					e.setVoucherNumber(voucherNumber);
-					e.setTotal(b.getAmount());
-					if (DecimalUtil.isGreaterThan(b.getAmount(), 0)) {
-						e.setCredit(b.amount);
-						creditTotal += b.amount;
-					} else {						
-						debitTotal += (-1 * b.amount);
-						e.setDebit(-1 * b.amount);
-					}
-					e.setAccount(return1.getTaxAgency()
-							.getPurchaseLiabilityAccount());
-					e.setEntryDate(return1.getDate());
-					e.setType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
-					e.setMemo("Filed VAT amount of " + b.amount + " for Box "
-							+ b.boxNumber);
-					e.setTaxItem(b.getTaxRateCalculations() != null ? (b.getTaxRateCalculations().get(0))
-							.getTaxItem() : null);
-					entries.add(e);
-				} else if (b.getAmount() != 0
-						&& (b.getBoxNumber() == 6 || b.boxNumber == 7
-								|| b.boxNumber == 8 || b.boxNumber == 9)) {
-
-					Entry e = new Entry();
-					e.setVoucherNumber(voucherNumber);
-					if (DecimalUtil.isGreaterThan(b.getAmount(), 0)) {
-						e.setDebit(0d);
-						// debitTotal += b.amount;
-					} else {
-						// creditTotal += b.amount;
-						e.setCredit(0d);
-					}
-					e.setTotal(b.getAmount());
-					e.setTaxItem(b.getTaxRateCalculations() != null ? (b.getTaxRateCalculations().get(0))
-							.getTaxItem() : null);
-					e.setAccount(return1.getTaxAgency()
-							.getPurchaseLiabilityAccount());
-					e.setEntryDate(return1.getDate());
-					e.setType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
-					e.setMemo("Filed net amount of " + b.amount + " for Box "
-							+ b.boxNumber);
-					entries.add(e);
-					
-				} else if (b.getAmount() != 0
-							&& b.boxNumber == 10) {
-
-					Entry e = new Entry();
-					e.setVoucherNumber(voucherNumber);
-					if (DecimalUtil.isGreaterThan(b.getAmount(), 0)) {
-						e.setDebit(b.amount);
-						debitTotal += b.amount;
-					} else {						
-						creditTotal += (-1 * b.amount);
-						e.setCredit(-1 * b.amount);
-					}
-					e.setTotal(b.getAmount());
-					e.setTaxItem(b.getTaxRateCalculations() != null ? (b.getTaxRateCalculations().get(0))
-							.getTaxItem() : null);
-					e.setAccount(return1.getTaxAgency()
-							.getPurchaseLiabilityAccount());
-					e.setEntryDate(return1.getDate());
-					e.setType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
-					e.setMemo("Filed net amount of " + b.amount + " for Box "
-							+ b.boxNumber);
-					entries.add(e);
+				e.setVoucherNumber(voucherNumber);
+				if (DecimalUtil.isGreaterThan(b.getAmount(), 0)) {
+					e.setDebit(b.amount);
+					debitTotal += b.amount;
+				} else {
+					creditTotal += (-1 * b.amount);
+					e.setCredit(-1 * b.amount);
 				}
-//			}
+				e.setAccount(return1.getTaxAgency().getSalesLiabilityAccount());
+
+				e.setEntryDate(return1.getDate());
+				e.setType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
+				e.setMemo("Filed VAT amount of " + b.amount + " for Box "
+						+ b.boxNumber);
+				e.setTaxItem(b.getTaxRateCalculations() != null ? (b
+						.getTaxRateCalculations().get(0)).getTaxItem() : null);
+				e.setTotal(b.getAmount());
+				entries.add(e);
+
+			} else if (b.getAmount() != 0 && b.getBoxNumber() == 4) {
+
+				Entry e = new Entry();
+				e.setVoucherNumber(voucherNumber);
+				e.setTotal(b.getAmount());
+				if (DecimalUtil.isGreaterThan(b.getAmount(), 0)) {
+					e.setCredit(b.amount);
+					creditTotal += b.amount;
+				} else {
+					debitTotal += (-1 * b.amount);
+					e.setDebit(-1 * b.amount);
+				}
+				e.setAccount(return1.getTaxAgency()
+						.getPurchaseLiabilityAccount());
+				e.setEntryDate(return1.getDate());
+				e.setType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
+				e.setMemo("Filed VAT amount of " + b.amount + " for Box "
+						+ b.boxNumber);
+				e.setTaxItem(b.getTaxRateCalculations() != null ? (b
+						.getTaxRateCalculations().get(0)).getTaxItem() : null);
+				entries.add(e);
+			} else if (b.getAmount() != 0
+					&& (b.getBoxNumber() == 6 || b.boxNumber == 7
+							|| b.boxNumber == 8 || b.boxNumber == 9)) {
+
+				Entry e = new Entry();
+				e.setVoucherNumber(voucherNumber);
+				if (DecimalUtil.isGreaterThan(b.getAmount(), 0)) {
+					e.setDebit(0d);
+					// debitTotal += b.amount;
+				} else {
+					// creditTotal += b.amount;
+					e.setCredit(0d);
+				}
+				e.setTotal(b.getAmount());
+				e.setTaxItem(b.getTaxRateCalculations() != null ? (b
+						.getTaxRateCalculations().get(0)).getTaxItem() : null);
+				e.setAccount(return1.getTaxAgency()
+						.getPurchaseLiabilityAccount());
+				e.setEntryDate(return1.getDate());
+				e.setType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
+				e.setMemo("Filed net amount of " + b.amount + " for Box "
+						+ b.boxNumber);
+				entries.add(e);
+
+			} else if (b.getAmount() != 0 && b.boxNumber == 10) {
+
+				Entry e = new Entry();
+				e.setVoucherNumber(voucherNumber);
+				if (DecimalUtil.isGreaterThan(b.getAmount(), 0)) {
+					e.setDebit(b.amount);
+					debitTotal += b.amount;
+				} else {
+					creditTotal += (-1 * b.amount);
+					e.setCredit(-1 * b.amount);
+				}
+				e.setTotal(b.getAmount());
+				e.setTaxItem(b.getTaxRateCalculations() != null ? (b
+						.getTaxRateCalculations().get(0)).getTaxItem() : null);
+				e.setAccount(return1.getTaxAgency()
+						.getPurchaseLiabilityAccount());
+				e.setEntryDate(return1.getDate());
+				e.setType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
+				e.setMemo("Filed net amount of " + b.amount + " for Box "
+						+ b.boxNumber);
+				entries.add(e);
+			}
+			// }
 		}
 		double amount = return1.getBoxes().get(4).getAmount()
-				+ return1.getBoxes().get(return1.getBoxes().size() - 1).getAmount();
+				+ return1.getBoxes().get(return1.getBoxes().size() - 1)
+						.getAmount();
 
 		Entry e = new Entry();
 		e.setVoucherNumber(voucherNumber);
@@ -821,12 +814,11 @@ public class JournalEntry extends Transaction {
 		e.setEntryDate(return1.getDate());
 		e.setType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
 		e.setMemo("Filed VAT Amount");
-		if (DecimalUtil
-				.isGreaterThan(amount, 0)) {
+		if (DecimalUtil.isGreaterThan(amount, 0)) {
 			e.setCredit(amount);
 			creditTotal += amount;
 
-		} else {			
+		} else {
 			debitTotal += (-1 * amount);
 			e.setDebit(-1 * amount);
 		}
@@ -841,7 +833,6 @@ public class JournalEntry extends Transaction {
 	}
 
 	public JournalEntry(TransferFund transferFund) {
-		// TODO Auto-generated constructor stub
 	}
 
 	public double getBalanceDue() {
@@ -988,11 +979,10 @@ public class JournalEntry extends Transaction {
 		}
 
 		FinanceLogger
-				.log(
-						"Journal Entry No: {0} Created with Total Debit: {1} and Total Credit: {2} ",
-						String.valueOf(this.getNumber()), String
-								.valueOf(this.debitTotal), String
-								.valueOf(creditTotal));
+				.log("Journal Entry No: {0} Created with Total Debit: {1} and Total Credit: {2} ",
+						String.valueOf(this.getNumber()),
+						String.valueOf(this.debitTotal),
+						String.valueOf(creditTotal));
 
 		return super.onSave(session);
 	}
@@ -1042,7 +1032,6 @@ public class JournalEntry extends Transaction {
 
 		return false;
 	}
-
 
 	protected boolean isBecameVoid() {
 		return isVoid && !this.isVoidBefore;

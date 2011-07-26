@@ -96,7 +96,6 @@ public class InvalidOperationException extends Exception {
 	}
 
 	public InvalidOperationException() {
-		// TODO Auto-generated constructor stub
 	}
 
 }

@@ -226,7 +226,6 @@ public class ClientUser implements Serializable, IsSerializable, Cloneable {
 	}
 
 	public ClientUser() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getStatus() {

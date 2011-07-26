@@ -25,25 +25,21 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 
 	public FiscalYearListDialog(String title, String descript) {
 		super(title, descript);
-		// TODO Auto-generated constructor stub
 		initialise();
 		getListFiscalYear();
 		center();
 	}
 
 	private void getListFiscalYear() {
-		// TODO Auto-generated method stub
 
 		@SuppressWarnings("unused")
 		AsyncCallback<List<ClientFiscalYear>> callback = new AsyncCallback<List<ClientFiscalYear>>() {
 
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
 
 			}
 
 			public void onSuccess(List<ClientFiscalYear> result) {
-				// TODO Auto-generated method stub
 				savedFiscalYear = result;
 				fillFiscalYear(result);
 			}
@@ -54,7 +50,6 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 	}
 
 	protected void fillFiscalYear(List<ClientFiscalYear> result) {
-		// TODO Auto-generated method stub
 		@SuppressWarnings("unused")
 		String period, status;
 		// if (result != null) {
@@ -98,7 +93,6 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 		closeButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
 
 			}
 		});
@@ -113,9 +107,9 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 		addButton(changeButton);
 		changeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				new ChangeStartDateDialog(Accounter
-						.getCompanyMessages().title(), Accounter
-						.getCompanyMessages().description()).show();
+				new ChangeStartDateDialog(Accounter.getCompanyMessages()
+						.title(), Accounter.getCompanyMessages().description())
+						.show();
 			}
 		});
 		// setHeight(250);
@@ -123,26 +117,22 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 		groupDialogButtonHandler = new GroupDialogButtonsHandler() {
 
 			public void onCloseButtonClick() {
-				// TODO Auto-generated method stub
 
 			}
 
 			public void onFirstButtonClick() {
-				// TODO Auto-generated method stub
 				showAddEditFiscalYear(Accounter.getCompanyMessages()
-						.createFascalYear(), Accounter
-						.getCompanyMessages().description(), null);
+						.createFascalYear(), Accounter.getCompanyMessages()
+						.description(), null);
 			}
 
 			public void onSecondButtonClick() {
-				// TODO Auto-generated method stub
 				showAddEditFiscalYear(Accounter.getCompanyMessages()
-						.editFiscalYear(), Accounter
-						.getCompanyMessages().description(), null);
+						.editFiscalYear(), Accounter.getCompanyMessages()
+						.description(), null);
 			}
 
 			public void onThirdButtonClick() {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -152,7 +142,6 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 
 	protected void showAddEditFiscalYear(String title, String Description,
 			ClientFiscalYear fiscalYear) {
-		// TODO Auto-generated method stub
 		addEditFiscalYear = new AddEditFiscalYearDialog(title, Description,
 				fiscalYear);
 		addEditFiscalYear.show();
@@ -161,19 +150,16 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 
 	@Override
 	public Object getGridColumnValue(IsSerializable obj, int index) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String[] setColumns() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected List<ClientFiscalYear> getRecords() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

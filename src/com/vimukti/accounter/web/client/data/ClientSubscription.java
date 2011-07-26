@@ -20,7 +20,6 @@ public class ClientSubscription implements Serializable, IsSerializable,
 
 	public ClientSubscription() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 }

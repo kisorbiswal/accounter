@@ -20,7 +20,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
@@ -52,8 +51,8 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void goToClicked() {
-		HistoryTokenUtils.setPresentToken(BankingActionFactory
-				.getAccountRegisterAction(), creditors);
+		HistoryTokenUtils.setPresentToken(
+				BankingActionFactory.getAccountRegisterAction(), creditors);
 		BankingActionFactory.getAccountRegisterAction().run(creditors, true);
 	}
 
@@ -74,21 +73,20 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 		HorizontalPanel hPanel = new HorizontalPanel();
 		FlexTable fTable = new FlexTable();
 
-		AccounterButton addPayableInvoiceBtn = new AccounterButton(
-				Accounter.getCompanyMessages().addPayableInvoice());
+		AccounterButton addPayableInvoiceBtn = new AccounterButton(Accounter
+				.getCompanyMessages().addPayableInvoice());
 		addPayableInvoiceBtn.addStyleName("addButtonPortlet");
 		addPayableInvoiceBtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				HistoryTokenUtils.setPresentToken(VendorsActionFactory
-						.getEnterBillsAction(), null);
+				HistoryTokenUtils.setPresentToken(
+						VendorsActionFactory.getEnterBillsAction(), null);
 				VendorsActionFactory.getEnterBillsAction().run(null, true);
 			}
 		});
 
-		draftLabel = getLabel(Accounter.getCompanyMessages()
-				.draftInvoices());
+		draftLabel = getLabel(Accounter.getCompanyMessages().draftInvoices());
 		overDueLabel = getLabel(Accounter.getCompanyMessages()
 				.overDueInvoices());
 		overDueLabel.getElement().getStyle().setMarginLeft(10, Unit.PX);
@@ -189,26 +187,26 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				label.getElement().getStyle().setCursor(Cursor.POINTER);
-				label.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				label.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 			}
 		});
 		label.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				label.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				label.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
 		label.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				label.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
-				if (title.equals(Accounter.getCompanyMessages()
-						.draftInvoices())) {
+				label.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
+				if (title
+						.equals(Accounter.getCompanyMessages().draftInvoices())) {
 					VendorsActionFactory.getBillsAction().run(null, true,
 							Accounter.getVendorsMessages().open());
 				} else {
@@ -232,8 +230,8 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void titleClicked() {
-		HistoryTokenUtils.setPresentToken(BankingActionFactory
-				.getAccountRegisterAction(), creditors);
+		HistoryTokenUtils.setPresentToken(
+				BankingActionFactory.getAccountRegisterAction(), creditors);
 		BankingActionFactory.getAccountRegisterAction().run(creditors, true);
 	}
 

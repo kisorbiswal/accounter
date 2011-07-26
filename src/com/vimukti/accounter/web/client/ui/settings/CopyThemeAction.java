@@ -10,33 +10,29 @@ public class CopyThemeAction extends Action {
 
 	public CopyThemeAction(String text) {
 		super(text);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ImageResource getSmallImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		try {
-			CopyThemeDialog copyThemeDialog = new CopyThemeDialog(
-					Accounter.getSettingsMessages().copyTheme(), "",
+			CopyThemeDialog copyThemeDialog = new CopyThemeDialog(Accounter
+					.getSettingsMessages().copyTheme(), "",
 					(ClientBrandingTheme) data);
 			copyThemeDialog.center();
 			copyThemeDialog.show();
@@ -48,7 +44,6 @@ public class CopyThemeAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -20,11 +20,10 @@ public class ClientJournalEntry extends ClientTransaction implements
 	int journalEntryType = TYPE_NORMAL_JOURNAL_ENTRY;
 
 	double balanceDue = 0d;
-	
-	Set<ClientTransactionReceivePayment> transactionReceivePayments = new HashSet<ClientTransactionReceivePayment>();
-	
-	Set<ClientTransactionPayBill> transactionPayBills = new HashSet<ClientTransactionPayBill>();
 
+	Set<ClientTransactionReceivePayment> transactionReceivePayments = new HashSet<ClientTransactionReceivePayment>();
+
+	Set<ClientTransactionPayBill> transactionPayBills = new HashSet<ClientTransactionPayBill>();
 
 	public ClientJournalEntry(ClientCustomer customer) {
 		/*
@@ -161,7 +160,6 @@ public class ClientJournalEntry extends ClientTransaction implements
 	}
 
 	public ClientJournalEntry() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public ClientJournalEntry(int journalEntryType) {
@@ -222,13 +220,13 @@ public class ClientJournalEntry extends ClientTransaction implements
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
@@ -260,6 +258,5 @@ public class ClientJournalEntry extends ClientTransaction implements
 			Set<ClientTransactionPayBill> transactionPayBills) {
 		this.transactionPayBills = transactionPayBills;
 	}
-	
 
 }

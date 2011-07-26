@@ -56,7 +56,6 @@ public class ClientCustomer extends ClientPayee {
 	double lifeTimeSales = 0D;
 
 	public ClientCustomer() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
