@@ -482,12 +482,20 @@ public class RecieveVATView extends
 			return AccounterValidator.validateForm(mainform, false);
 		case 3:
 			if (isEdit) {
-				return AccounterValidator.isBlankTransactionGrid(grid);
+				if (grid.getRecords().isEmpty()) {
+					throw new InvalidTransactionEntryException(
+							"You don't have any filed VAT entries to select");
+				}
 			} else {
 				return true;
 			}
 		case 2:
-			return AccounterValidator.validateReceivePaymentGrid(grid);
+			if (grid.getRecords().isEmpty()) {
+				throw new InvalidTransactionEntryException(
+						"You don't have any filed VAT entries to select");
+			} else {
+				return AccounterValidator.validateReceivePaymentGrid(grid);
+			}
 		case 1:
 			if (isEdit) {
 				return AccounterValidator.validateAmount(totalAmount);

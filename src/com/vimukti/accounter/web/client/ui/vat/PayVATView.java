@@ -463,7 +463,12 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		case 3:
 			return AccounterValidator.validateForm(mainform, false);
 		case 2:
-			return AccounterValidator.validateGrid(grid);
+			if (grid.getRecords().isEmpty()) {
+				throw new InvalidTransactionEntryException(
+						"You don't have any filed VAT entries to select");
+			} else {
+				return AccounterValidator.validateGrid(grid);
+			}
 		case 1:
 			return AccounterValidator.validateAmount(totalAmount);
 		default:

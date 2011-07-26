@@ -327,7 +327,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		balanceDate = new DateField(vendorConstants.balanceasof());
 		balanceDate.setHelpInformation(true);
 		ClientFinanceDate todaydate = new ClientFinanceDate();
-		todaydate.setDate(todaydate.getDate() + 1);
+		todaydate.setDate(todaydate.getDate());
 		balanceDate.setDatethanFireEvent(todaydate);
 		balanceDate.addDateValueChangeHandler(new DateValueChangeHandler() {
 

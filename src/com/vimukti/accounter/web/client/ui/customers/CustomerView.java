@@ -660,7 +660,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		balanceDate = new DateField(customerConstants.balanceAsOf());
 		balanceDate.setHelpInformation(true);
 		ClientFinanceDate todaydate = new ClientFinanceDate();
-		todaydate.setDate(todaydate.getDate() + 1);
+		todaydate.setDate(todaydate.getDate());
 		balanceDate.setDatethanFireEvent(todaydate);
 		balanceDate.addDateValueChangeHandler(new DateValueChangeHandler() {
 
