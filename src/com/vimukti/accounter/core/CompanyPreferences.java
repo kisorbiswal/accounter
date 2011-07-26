@@ -116,11 +116,10 @@ public class CompanyPreferences implements IAccounterServerCore {
 	boolean trackVAT = true;
 	String VATtaxAgencyName = AccounterConstants.DEFAULT_VAT_AGENCY_NAME;
 	public long id;
+
 	// String legalName = "";
-	
 
 	public CompanyPreferences() {
-		// TODO
 	}
 
 	/**
@@ -235,7 +234,6 @@ public class CompanyPreferences implements IAccounterServerCore {
 	public void setTrackVAT(boolean trackVAT) {
 		this.trackVAT = trackVAT;
 	}
-
 
 	/**
 	 * @param logSpaceUsed
@@ -530,7 +528,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 	 * @param ageing
 	 *            the ageing to set
 	 */
-	public void setAgeingFromTransactionDateORDueDate(int ageingFromTransactionDateORDueDate) {
+	public void setAgeingFromTransactionDateORDueDate(
+			int ageingFromTransactionDateORDueDate) {
 		this.ageingFromTransactionDateORDueDate = ageingFromTransactionDateORDueDate;
 	}
 
@@ -611,11 +610,10 @@ public class CompanyPreferences implements IAccounterServerCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		// TODO Auto-generated method stub
 		return this.id;
 	}
-
 
 	public FinanceDate getDepreciationStartDate() {
 		return depreciationStartDate;
