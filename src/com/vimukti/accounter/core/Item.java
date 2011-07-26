@@ -119,8 +119,28 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 	boolean isDefault;
 	transient private boolean isOnSaveProccessed;
+	
+	private Measurement measurement;
+	private int maxStockAlertLevel;
+	private int minStockAlertLevel;
 
 	// TaxCode VATCode;
+
+	public int getMaxStockAlertLevel() {
+		return maxStockAlertLevel;
+	}
+
+	public void setMaxStockAlertLevel(int maxStockAlertLevel) {
+		this.maxStockAlertLevel = maxStockAlertLevel;
+	}
+
+	public int getMinStockAlertLevel() {
+		return minStockAlertLevel;
+	}
+
+	public void setMinStockAlertLevel(int minStockAlertLevel) {
+		this.minStockAlertLevel = minStockAlertLevel;
+	}
 
 	public Item() {
 	}
@@ -427,5 +447,13 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 		return true;
 
+	}
+
+	public void setMeasurement(Measurement measurement) {
+		this.measurement = measurement;
+	}
+
+	public Measurement getMeasurement() {
+		return measurement;
 	}
 }

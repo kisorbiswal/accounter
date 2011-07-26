@@ -29,14 +29,13 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 	 */
 	private static final long serialVersionUID = 640523202925694992L;
 
-	private String stringID;
 	private Address address;
 	private Set<ItemStatus> itemStatuses;
 
 	private String name;
 	private Contact contact;
 
-	transient boolean isImported;
+	
 
 	String createdBy;
 	String lastModifier;
@@ -89,10 +88,6 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public boolean onSave(Session s) throws CallbackException {
-		if (isImported) {
-			return false;
-		}
-
 		if (isOnSaveProccessed)
 			return true;
 
