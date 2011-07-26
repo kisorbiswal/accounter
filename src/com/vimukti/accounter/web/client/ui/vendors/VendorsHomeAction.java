@@ -18,23 +18,20 @@ public class VendorsHomeAction extends Action {
 
 	public VendorsHomeAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	public VendorsHomeAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// // TODO Auto-generated method stub
-		// return null;
+
 		return this.view;
 	}
 
@@ -61,13 +58,13 @@ public class VendorsHomeAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
+
 		return "/images/vendor_home.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+
 		return UIUtils.getVendorString("supplierHome", "vendorHome");
 	}
 }
