@@ -184,8 +184,10 @@ public enum AccounterCoreType implements IsSerializable {
 	TAXADJUSTMENT("ClientTAXAdjustment", "TAXAdjustment"),
 
 	BRANDINGTHEME("ClientBrandingTheme", "BrandingTheme"),
-	
-	EMPLOYEE("ClientEmployeeDetail", "EmployeeDetail");
+
+	EMPLOYEE("ClientEmployeeDetail", "EmployeeDetail"),
+
+	WAREHOUSE("ClientWarehouse", "Warehouse");
 
 	private String clientName;
 	private String serverName;
