@@ -23,9 +23,9 @@ public class ClientVendor extends ClientPayee {
 	long vendorGroup;
 
 	String federalTaxId;
-	
-	//there  three bank details for  newsupplier details 
-	
+
+	// there three bank details for newsupplier details
+
 	// Balance due fields
 
 	double current;
@@ -417,12 +417,6 @@ public class ClientVendor extends ClientPayee {
 
 	public void setExpenseAccount(ClientAccount selectAccountFromDetailsTab) {
 		this.expenseAccount = selectAccountFromDetailsTab.getID();
-	}
-
-	public void setAccountsPayable(long accountsPayableAccount) {
-		// FIXME no need to setAccountsPayable , it is available in company
-		// object
-		// this.accountNumber = String.valueOf(accountsPayableAccount);
 	}
 
 	public void setAddress(ClientAddress address) {

@@ -70,6 +70,7 @@ import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.MakeDeposit;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.ObjectConvertUtil;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.PaySalesTax;
 import com.vimukti.accounter.core.PaySalesTaxEntries;
@@ -240,18 +241,19 @@ public class FinanceTool implements IFinanceDAOService {
 		long userID = createContext.getUserID();
 
 		if (data == null) {
-			throw new AccounterOperationException(
+			throw new AccounterOperationException(ErrorCode.CREATE_FAILED,
 					"Operation Data Found Null...." + createContext);
 		}
 
-		Class<IAccounterServerCore> serverClass = Util
+		Class<IAccounterServerCore> serverClass = ObjectConvertUtil
 				.getServerEqivalentClass(data.getClass());
 		IAccounterServerCore serverObject = serverClass.newInstance();
 
 		serverObject = new ServerConvertUtil().toServerObject(serverObject,
 				(IAccounterCore) data, session);
 
-		Util.setCompany((IAccounterServerCore) serverObject, getCompany());
+		ObjectConvertUtil.setCompany((IAccounterServerCore) serverObject,
+				getCompany());
 
 		if ((IAccounterServerCore) serverObject instanceof CreatableObject) {
 			// TODO::: get the user from user id
@@ -287,7 +289,7 @@ public class FinanceTool implements IFinanceDAOService {
 		IAccounterCore data = updateContext.getData();
 
 		if (data == null) {
-			throw new AccounterOperationException(
+			throw new AccounterOperationException(ErrorCode.UPDATE_FAILED,
 					"Operation Data Found Null...." + updateContext);
 		}
 		IAccounterServerCore serverObject = (IAccounterServerCore) Util
@@ -297,7 +299,8 @@ public class FinanceTool implements IFinanceDAOService {
 				serverObject);
 
 		if (!canEdit(clonedObject, (IAccounterCore) data)) {
-			throw new AccounterOperationException(ErrorCode.CANNOT_EDIT_OBJECT);
+			throw new AccounterOperationException(ErrorCode.UPDATE_FAILED,
+					"Access Denied on " + clonedObject);
 		}
 
 		isTransactionNumberExist((IAccounterCore) data);
@@ -354,14 +357,15 @@ public class FinanceTool implements IFinanceDAOService {
 		String arg2 = (context).getArg2();
 
 		if (arg1 == null || arg2 == null) {
-			throw new AccounterOperationException(
+			throw new AccounterOperationException(ErrorCode.DELETE_FAILED,
 					"Delete Operation Cannot be Processed id or cmd.arg2 Found Null...."
 							+ context);
 		}
 
-		Class<?> clientClass = Util.getEqivalentClientClass(arg2);
+		Class<?> clientClass = ObjectConvertUtil.getEqivalentClientClass(arg2);
 
-		Class<?> serverClass = Util.getServerEqivalentClass(clientClass);
+		Class<?> serverClass = ObjectConvertUtil
+				.getServerEqivalentClass(clientClass);
 
 		String query = "from " + serverClass.getName() + " a where a.id =:id";
 
@@ -746,20 +750,21 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	private long getLongIdForGivenid(AccounterCoreType entity, long account) {
-
-		Session session = HibernateUtil.getCurrentSession();
-		String hqlQuery = "select entity.id from "
-				+ entity.getServerClassFullyQualifiedName()
-				+ " entity where entity.id=?";
-		Query query = session.createQuery(hqlQuery).setLong(0, account);
-		List l = query.list();
-		if (l != null && !l.isEmpty() && l.get(0) != null) {
-			return (Long) l.get(0);
-		} else
-			return 0;
-
-	}
+	// private long getLongIdForGivenid(AccounterCoreType entity, long account)
+	// {
+	//
+	// Session session = HibernateUtil.getCurrentSession();
+	// String hqlQuery = "select entity.id from "
+	// + entity.getServerClassFullyQualifiedName()
+	// + " entity where entity.id=?";
+	// Query query = session.createQuery(hqlQuery).setLong(0, account);
+	// List l = query.list();
+	// if (l != null && !l.isEmpty() && l.get(0) != null) {
+	// return (Long) l.get(0);
+	// } else
+	// return 0;
+	//
+	// }
 
 	// private long getLongIdForGivenid(Class clazz,
 	// String id) {
@@ -1148,11 +1153,9 @@ public class FinanceTool implements IFinanceDAOService {
 
 			}
 		}
-		query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.PayBill pb where pb.status = ?")
-				.setParameter(0,
-						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
+		query = session.getNamedQuery("getPayBill.form.status").setParameter(
+				"status",
+				Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 		list = query.list();
 
 		if (list != null) {
@@ -1176,10 +1179,8 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 		}
 
-		query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.CreditCardCharge cc where cc.status = ?")
-				.setParameter(0,
+		query = session.getNamedQuery("getCreditCardCharge.form.status")
+				.setParameter("status",
 						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 		list = query.list();
 
@@ -1204,10 +1205,8 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 		}
 
-		query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.CashPurchase cc where cc.status = ?")
-				.setParameter(0,
+		query = session.getNamedQuery("getCashPurchase.form.status")
+				.setParameter("status",
 						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 		list = query.list();
 
@@ -1241,7 +1240,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<IssuePaymentTransactionsList> getChecks(long account2)
+	public List<IssuePaymentTransactionsList> getChecks(long account)
 			throws DAOException {
 		try {
 			// Session session = getSessionFactory().openSession();
@@ -1254,9 +1253,6 @@ public class FinanceTool implements IFinanceDAOService {
 			// while(iterator.hasNext()){
 			// list.add((WriteCheck)iterator.next());
 			// }
-
-			long account = getLongIdForGivenid(AccounterCoreType.ACCOUNT,
-					account2);
 
 			Session session = HibernateUtil.getCurrentSession();
 			List<IssuePaymentTransactionsList> issuePaymentTransactionsList = new ArrayList<IssuePaymentTransactionsList>();
@@ -1354,11 +1350,10 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 
 			query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.PayBill pst where pst.payFrom.id = ? and  pst.isVoid=false and pst.status = ?")
-					.setParameter(0, account)
+					.getNamedQuery("getPayBill.form.accountId.and.status")
+					.setParameter("accountId", account)
 					.setParameter(
-							1,
+							"status",
 							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 			list = query.list();
 			if (list != null) {
@@ -1384,11 +1379,10 @@ public class FinanceTool implements IFinanceDAOService {
 				}
 			}
 			query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.PayVAT pv where pv.payFrom.id = ? and pv.isVoid=false and pv.status = ?")
-					.setParameter(0, account)
+					.getNamedQuery("getPayVAT.form.accountId.and.status")
+					.setParameter("accountId", account)
 					.setParameter(
-							1,
+							"status",
 							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 			list = query.list();
 			if (list != null) {
@@ -1412,11 +1406,10 @@ public class FinanceTool implements IFinanceDAOService {
 				}
 			}
 			query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.ReceiveVAT rv where rv.depositIn.id = ? and rv.isVoid=false and rv.status = ?")
-					.setParameter(0, account)
+					.getNamedQuery("getReceiveVAT.form.accountId.and.status")
+					.setParameter("accountId", account)
 					.setParameter(
-							1,
+							"status",
 							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 			list = query.list();
 			if (list != null) {
@@ -1441,11 +1434,11 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 
 			query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.CreditCardCharge pst where pst.payFrom.id = ? and pst.isVoid=false and pst.status = ?")
-					.setParameter(0, account)
+					.getNamedQuery(
+							"getCreditCardCharge.form.accountId.and.status")
+					.setParameter("accountId", account)
 					.setParameter(
-							1,
+							"status",
 							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 			list = query.list();
 			if (list != null) {
@@ -1472,11 +1465,10 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 
 			query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.CashPurchase pst where pst.payFrom.id = ? and pst.isVoid=false and pst.status = ?")
-					.setParameter(0, account)
+					.getNamedQuery("getCashPurchase.form.accountId.and.status")
+					.setParameter("accountId", account)
 					.setParameter(
-							1,
+							"status",
 							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 			list = query.list();
 			if (list != null) {
@@ -1505,11 +1497,11 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 
 			query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.CustomerPrePayment cpp where  cpp.depositIn.id = ? and cpp.isVoid=false and cpp.status = ?")
-					.setParameter(0, account)
+					.getNamedQuery(
+							"getCustomerPrePayment.form.accountId.and.status")
+					.setParameter("accountId", account)
 					.setParameter(
-							1,
+							"status",
 							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 			list = query.list();
 
@@ -1586,12 +1578,10 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<CreditsAndPayments> getCustomerCreditsAndPayments(long customer2)
+	public List<CreditsAndPayments> getCustomerCreditsAndPayments(long customer)
 			throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
-			long customer = getLongIdForGivenid(AccounterCoreType.CUSTOMER,
-					customer2);
 
 			Query query = session
 					.createQuery(
@@ -1691,12 +1681,10 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Entry> getEntries(long journalEntryId2) throws DAOException {
+	public List<Entry> getEntries(long journalEntryId) throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			long journalEntryId = getLongIdForGivenid(
-					AccounterCoreType.JOURNALENTRY, journalEntryId2);
 
 			Query query = session
 					.createQuery(
@@ -1736,12 +1724,10 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Estimate> getEstimates(long customer2) throws DAOException {
+	public List<Estimate> getEstimates(long customer) throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			long customer = getLongIdForGivenid(AccounterCoreType.CUSTOMER,
-					customer2);
 
 			Query query = session
 					.createQuery(
@@ -1829,13 +1815,11 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public JournalEntry getJournalEntry(long journalEntryId2)
+	public JournalEntry getJournalEntry(long journalEntryId)
 			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			long journalEntryId = getLongIdForGivenid(
-					AccounterCoreType.JOURNALENTRY, journalEntryId2);
 
 			Query query = session
 					.createQuery(
@@ -1895,13 +1879,11 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Long getNextIssuePaymentCheckNumber(long account2)
+	public Long getNextIssuePaymentCheckNumber(long account)
 			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			long account = getLongIdForGivenid(AccounterCoreType.ACCOUNT,
-					account2);
 			Query query = session.getNamedQuery(
 					"getNextIssuePaymentCheckNumber").setParameter("accountID",
 					account);
@@ -3588,10 +3570,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getEstimatesAndSalesOrdersList")
-				.setParameter(
-						"customerId",
-						getLongIdForGivenid(AccounterCoreType.CUSTOMER,
-								customerId));
+				.setParameter("customerId", customerId);
 
 		List list = query.list();
 		List<EstimatesAndSalesOrdersList> esl = new ArrayList<EstimatesAndSalesOrdersList>();
@@ -3623,10 +3602,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		Query query = session
-				.getNamedQuery("getPurchasesAndItemReceipts")
-				.setParameter("vendorId",
-						getLongIdForGivenid(AccounterCoreType.VENDOR, vendorId));
+		Query query = session.getNamedQuery("getPurchasesAndItemReceipts")
+				.setParameter("vendorId", vendorId);
 
 		List list = query.list();
 		List<PurchaseOrdersAndItemReceiptsList> pil = new ArrayList<PurchaseOrdersAndItemReceiptsList>();
@@ -3724,10 +3701,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		Query query = session
-				.getNamedQuery("getNotReceivedPurchaseOrdersList")
-				.setParameter("vendorId",
-						getLongIdForGivenid(AccounterCoreType.VENDOR, vendorID));
+		Query query = session.getNamedQuery("getNotReceivedPurchaseOrdersList")
+				.setParameter("vendorId", vendorID);
 		// FIXME ::: check the sql query and change it to hql query if required
 
 		List list = query.list();
@@ -6117,11 +6092,9 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<AccountRegister> getAccountRegister(final long startDate,
-			final long endDate, final long accountId2) throws DAOException {
+			final long endDate, final long accountId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		long accountId = getLongIdForGivenid(AccounterCoreType.ACCOUNT,
-				accountId2);
 		Query query = session.getNamedQuery("getAccountRegister")
 				.setParameter("accountId", accountId)
 				.setParameter("startDate", startDate)
@@ -9217,17 +9190,17 @@ public class FinanceTool implements IFinanceDAOService {
 
 				} else if (i == VATReturn.VAT_RETURN_UK_VAT) {
 
+					Account openingBalenceAcount = (Account) session
+							.getNamedQuery("unique.name.Account")
+							.setString(0, AccounterConstants.OPENING_BALANCE)
+							.list().get(0);
 					Account salesTaxVAT = new Account(
 							Account.TYPE_OTHER_CURRENT_LIABILITY, "2120",
 							AccounterConstants.SALES_TAX_VAT_UNFILED, true,
 							null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0,
 							false, "", null, Account.BANK_ACCCOUNT_TYPE_NONE,
-							null, 0.0, null, true, false, (Account) session
-									.getNamedQuery("unique.name.Account")
-									.setString(0,
-											AccounterConstants.OPENING_BALANCE)
-									.list().get(0), "113", true, Company
-									.getCompany().getPreferences()
+							null, 0.0, null, true, false, openingBalenceAcount,
+							"113", true, Company.getCompany().getPreferences()
 									.getStartOfFiscalYear());
 
 					session.save(salesTaxVAT);

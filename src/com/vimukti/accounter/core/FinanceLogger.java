@@ -66,7 +66,8 @@ public class FinanceLogger implements IAccounterServerCore {
 								: "")));
 		if (data != null)
 			this.description = cmdType
-					+ Util.getServerEqivalentClass(data.getClass())
+					+ ObjectConvertUtil
+							.getServerEqivalentClass(data.getClass())
 							.getSimpleName()
 					+ ":"
 					+ (data instanceof ClientTransaction ? "Number "

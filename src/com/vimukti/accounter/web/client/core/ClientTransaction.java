@@ -120,9 +120,9 @@ public abstract class ClientTransaction implements IAccounterCore {
 	//
 	// double netAmount;
 	// double totalVAT;
-	//	
-	//	
-	//	
+	//
+	//
+	//
 	// public double getNetAmount() {
 	// return netAmount;
 	// }
@@ -397,11 +397,11 @@ public abstract class ClientTransaction implements IAccounterCore {
 	// /**
 	// * @return the checkNumber
 	// */
-	//	
+	//
 	// public String getCheckNumber(){
 	// return checkNumber;
 	// }
-	//	
+	//
 	// /**
 	// * @param checkNumber
 	// * the checkNumber to set

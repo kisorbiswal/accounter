@@ -80,8 +80,8 @@ public class ObjectConvertUtil {
 	}
 
 	public boolean isNotMappingEntity(Class<?> class1) {
-		String classNames[] = {"Contact", "Phone", "Fax", "Email", "Address",
-				"UserPreferences", "CompanyPreferences", "NominalCodeRange"};
+		String classNames[] = { "Contact", "Phone", "Fax", "Email", "Address",
+				"UserPreferences", "CompanyPreferences", "NominalCodeRange" };
 		String packge = "com.vimukti.accounter.core.";
 		return class1.getName().equals(packge + classNames[0])
 				|| class1.getName().equals(packge + classNames[1])
@@ -105,6 +105,7 @@ public class ObjectConvertUtil {
 			return true;
 		return false;
 	}
+
 	@SuppressWarnings("unchecked")
 	protected boolean isFinanceDate(Class class1) {
 		if (class1.getName().equals("com.vimukti.accounter.core.FinanceDate"))
@@ -192,8 +193,14 @@ public class ObjectConvertUtil {
 		return fieldType.isPrimitive();
 	}
 
+	/**
+	 * Converts the ServerClass from The ClientClass(Serializable)
+	 * 
+	 * @param class1
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
-	public <D extends IAccounterCore, S extends IAccounterServerCore> Class<S> getServerEqivalentClass(
+	public static <D extends IAccounterCore, S extends IAccounterServerCore> Class<S> getServerEqivalentClass(
 			Class<?> class1) {
 
 		String clientClassName = class1.getSimpleName();
@@ -201,9 +208,6 @@ public class ObjectConvertUtil {
 		clientClassName = clientClassName.replaceAll("Client", "");
 
 		Class<S> clazz = null;
-
-		// FIXME if Class class1 if of another package other than,
-		// com.vimukti.accounter.core
 
 		try {
 			String qualifiedName = "com.vimukti.accounter.core."
@@ -217,7 +221,13 @@ public class ObjectConvertUtil {
 
 	}
 
-	public void setCompany(IAccounterServerCore accounterClient,
+	/**
+	 * Sets the given Company to the IAccounterServerCore Object
+	 * 
+	 * @param accounterClient
+	 * @param companyFromSession
+	 */
+	public static void setCompany(IAccounterServerCore accounterClient,
 			Company companyFromSession) {
 		if (companyFromSession == null)
 			return;
@@ -232,7 +242,7 @@ public class ObjectConvertUtil {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Field getFieldByName(Class<?> class1, String name) {
+	public static Field getFieldByName(Class<?> class1, String name) {
 		for (Class obj = class1; !obj.equals(Object.class); obj = obj
 				.getSuperclass()) {
 			for (Field field : obj.getDeclaredFields()) {
@@ -335,7 +345,7 @@ public class ObjectConvertUtil {
 	// }
 	// return oldList;
 	// }
-	public Class<?> getEqivalentClientClass(String clientClassSimpleName) {
+	public static Class<?> getEqivalentClientClass(String clientClassSimpleName) {
 
 		try {
 
@@ -385,9 +395,9 @@ public class ObjectConvertUtil {
 			if (id == -1)
 				return null;
 
-			List<Object> list = session.getNamedQuery(
-					"unique.id." + serverClassName).setLong(0, id)
-					.list();
+			List<Object> list = session
+					.getNamedQuery("unique.id." + serverClassName)
+					.setLong(0, id).list();
 
 			// String hql = "from " + serverClassName + " where id = ?";
 			//

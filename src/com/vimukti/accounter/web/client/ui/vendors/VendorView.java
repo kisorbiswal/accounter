@@ -982,12 +982,14 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendor.setBankName(bankNameText.getValue().toString());
 		vendor.setBankBranch(bankBranchText.getValue().toString());
 
-		// Setting Account Payable
-		vendor.setAccountsPayable(getCompany().getAccountsPayableAccount());
+		// Here No Need to Set AccountPayableAccount. All Vendors will have the
+		// Only one Payable Account
+
+		// vendor.setAccountsPayable(getCompany().getAccountsPayableAccount());
 		// Seting opening balance accounts
 		vendor.setOpeningBalanceAccount(getCompany()
 				.getOpeningBalancesAccount());
-		vendor.setAccountsPayable(getCompany().getAccountsPayableAccount());
+		// vendor.setAccountsPayable(getCompany().getAccountsPayableAccount());
 
 		// Setting opening balance accounts
 

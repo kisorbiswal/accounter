@@ -9,7 +9,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 public class Util {
 
@@ -171,99 +170,6 @@ public class Util {
 			return true;
 		}
 		return fieldType.isPrimitive();
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <D extends IAccounterCore, S extends IAccounterServerCore> Class<S> getServerEqivalentClass(
-			Class<?> class1) {
-
-		String clientClassName = class1.getSimpleName();
-
-		clientClassName = clientClassName.replaceAll("Client", "");
-
-		Class<S> clazz = null;
-
-		// FIXME if Class class1 if of another package other than,
-		// com.vimukti.accounter.core
-
-		try {
-			String qualifiedName = "com.vimukti.accounter.core."
-					+ clientClassName;
-			clazz = (Class<S>) Class.forName(qualifiedName);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return clazz;
-
-	}
-
-	public static void setCompany(IAccounterServerCore accounterClient,
-			Company companyFromSession) {
-		if (companyFromSession == null)
-			return;
-		Field field = getFieldByName(accounterClient.getClass(), "company");
-		if (field == null)
-			return;
-		try {
-			field.set(accounterClient, companyFromSession);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public static Field getFieldByName(Class<?> class1, String name) {
-		for (Class obj = class1; !obj.equals(Object.class); obj = obj
-				.getSuperclass()) {
-			for (Field field : obj.getDeclaredFields()) {
-				field.setAccessible(true);
-				try {
-					if (field.getName() == name)
-						return field;
-				} catch (IllegalArgumentException e) {
-				}
-			}
-		}
-		return null;
-	}
-
-	public static Class<?> getEqivalentClientClass(String clientClassSimpleName) {
-
-		try {
-
-			String clientPackageName = "com.vimukti.accounter.web.client.core.";
-
-			String qualifiedClientClassName = clientPackageName
-					.concat(clientClassSimpleName);
-
-			return Class.forName(qualifiedClientClassName);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return null;
-
-	}
-
-	public static Class<?> getEqivalentServerClass(String serverClassSimpleName) {
-
-		try {
-
-			String serverPackageName = "com.vimukti.accounter.core.";
-
-			String qualifiedServerClassName = serverPackageName
-					.concat(serverClassSimpleName);
-
-			return Class.forName(qualifiedServerClassName);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return null;
-
 	}
 
 	@SuppressWarnings("unchecked")
