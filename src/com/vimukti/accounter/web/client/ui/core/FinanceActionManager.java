@@ -455,7 +455,7 @@ package com.vimukti.accounter.web.client.ui.core;
 //				"/images/icons/paybal.png", new ClickHandler() {
 //
 //					public void onClick(MenuItemClickEvent event) {
-//						// FIXME
+//						// XXX
 //					}
 //
 //				});
