@@ -58,6 +58,7 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceipts
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
+import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.SellingOrDisposingFixedAssetList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.core.reports.AccountBalance;
@@ -336,6 +337,18 @@ public interface IFinanceDAOService {
 	public List<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
 			long vendorId) throws DAOException;
 
+	public List<SalesOrdersList> getSalesOrders(boolean orderByDate);
+
+	public List<PurchaseOrdersList> getPurchaseOrders(boolean orderByDate);
+
+	public List<SalesOrdersList> getSalesOrdersForCustomer(long customerID);
+
+	public List<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID);
+
+	List<SalesOrdersList> getSalesOrdersList() throws DAOException;
+
+	List<PurchaseOrdersList> getPurchaseOrdersList() throws DAOException;
+
 	List<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(long vendorId)
 			throws DAOException;
 
@@ -511,6 +524,12 @@ public interface IFinanceDAOService {
 
 	public List<OpenAndClosedOrders> getCompletedSalesOrders(long startDate,
 			long endDate) throws DAOException;
+
+	public List<OpenAndClosedOrders> getPurchaseOrders(long startDate,
+			long endDate) throws DAOException;
+
+	public List<OpenAndClosedOrders> getSalesOrders(long startDate, long endDate)
+			throws DAOException;
 
 	public List<OpenAndClosedOrders> getCanceledSalesOrders(long startDate,
 			long endDate) throws DAOException;

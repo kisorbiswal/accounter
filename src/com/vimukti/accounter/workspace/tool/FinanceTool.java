@@ -11500,6 +11500,57 @@ public class FinanceTool implements IFinanceDAOService {
 		return clientUsers;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.vimukti.accounter.services.IFinanceDAOService#getSalesOrders(boolean)
+	 */
+	@Override
+	public List<SalesOrdersList> getSalesOrders(boolean orderByDate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.vimukti.accounter.services.IFinanceDAOService#getPurchaseOrders(boolean
+	 * )
+	 */
+	@Override
+	public List<PurchaseOrdersList> getPurchaseOrders(boolean orderByDate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.vimukti.accounter.services.IFinanceDAOService#getSalesOrdersForCustomer
+	 * (long)
+	 */
+	@Override
+	public List<SalesOrdersList> getSalesOrdersForCustomer(long customerID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.vimukti.accounter.services.IFinanceDAOService#getPurchaseOrdersForVendor
+	 * (long)
+	 */
+	@Override
+	public List<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
 
 // throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
