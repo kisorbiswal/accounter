@@ -59,15 +59,12 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 
 	private void createControls() {
 
-		Label infoLabel = new Label(Accounter.getVATMessages()
-				.newVATGroup());
-		infoLabel.setStyleName(Accounter.getCustomersMessages()
-				.lableTitle());
+		Label infoLabel = new Label(Accounter.getVATMessages().newVATGroup());
+		infoLabel.setStyleName(Accounter.getCustomersMessages().lableTitle());
 
 		listforms = new ArrayList<DynamicForm>();
 
-		groupName = new TextItem(Accounter.getVATMessages()
-				.groupNameOrNumber());
+		groupName = new TextItem(Accounter.getVATMessages().groupNameOrNumber());
 		groupName.setRequired(true);
 
 		desc = new TextItem(Accounter.getVATMessages().description());
@@ -90,21 +87,19 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 				gridView.filterVATItems(salesTypeRadio.getValue());
 			}
 		});
-		salesTypeRadio.setValueMap(Accounter.getVATMessages()
-				.salesType(), Accounter.getVATMessages()
-				.purchaseType());
+		salesTypeRadio.setValueMap(Accounter.getVATMessages().salesType(),
+				Accounter.getVATMessages().purchaseType());
 		if (takenVatGroup != null) {
 			if (takenVatGroup.isSalesType())
-				salesTypeRadio.setDefaultValue(Accounter
-						.getVATMessages().salesType());
+				salesTypeRadio.setDefaultValue(Accounter.getVATMessages()
+						.salesType());
 			else
-				salesTypeRadio.setDefaultValue(Accounter
-						.getVATMessages().purchaseType());
+				salesTypeRadio.setDefaultValue(Accounter.getVATMessages()
+						.purchaseType());
 		} else
 			salesTypeRadio.setDefaultValue(Accounter.getVATMessages()
 					.salesType());
-		checkbox = new CheckboxItem(Accounter.getVATMessages()
-				.itemIsActive());
+		checkbox = new CheckboxItem(Accounter.getVATMessages().itemIsActive());
 		checkbox.setValue(true);
 
 		form = new DynamicForm();
@@ -211,8 +206,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		MainFinanceWindow.getViewManager().showError(
-				Accounter.getVATMessages()
-						.duplicationOfVATGroupIsNotAllowed());
+				Accounter.getVATMessages().duplicationOfVATGroupIsNotAllowed());
 	}
 
 	@Override
@@ -239,12 +233,11 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 		switch (validationCount) {
 		case 4:
 			String name = groupName.getValue().toString();
-			if (((takenVatGroup == null && Utility.isObjectExist(
-					getCompany().getVatGroups(), name)) ? false
-					: true)
+			if (((takenVatGroup == null && Utility.isObjectExist(getCompany()
+					.getVatGroups(), name)) ? false : true)
 					|| (takenVatGroup != null ? (takenVatGroup.getName()
-							.equalsIgnoreCase(name) ? true : (Utility
-							.isObjectExist(getCompany()
+							.equalsIgnoreCase(name) ? true
+							: (Utility.isObjectExist(getCompany()
 									.getVatGroups(), name) ? false : true))
 							: true)) {
 				return true;
@@ -312,10 +305,11 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
