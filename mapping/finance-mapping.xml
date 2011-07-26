@@ -1393,10 +1393,10 @@
 		<id name="id" column="ID"/>
 		
 		<many-to-one name="fromWarehouse" column="FROM_WAREHOUSE"
-				class="warehouse" lazy="false">
+				class="Warehouse" lazy="false">
 			</many-to-one>
 			<many-to-one name="toWarehouse" column="TO_WAREHOUSE"
-				class="warehouse" lazy="false">
+				class="Warehouse" lazy="false">
 			</many-to-one>
 
 			<set name="stockTransferItems" inverse="true"
