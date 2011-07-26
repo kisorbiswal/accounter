@@ -19,7 +19,7 @@ public class PayTypeListDialog extends GroupDialog {
 
 	public PayTypeListDialog(String title, String descript) {
 		super(title, descript);
-		// TODO Auto-generated constructor stub
+
 		initialise();
 		center();
 	}
@@ -37,28 +37,26 @@ public class PayTypeListDialog extends GroupDialog {
 		description = Accounter.getCompanyMessages().toAddPayType();
 		DialogGrid grid = getGrid();
 		grid.addColumn(ListGrid.COLUMN_TYPE_TEXT, companyConstants.active());
-		grid.addColumn(ListGrid.COLUMN_TYPE_TEXT, companyConstants
-				.description());
+		grid.addColumn(ListGrid.COLUMN_TYPE_TEXT,
+				companyConstants.description());
 
 		groupDialogButtonHandler = new GroupDialogButtonsHandler() {
 
 			public void onCloseButtonClick() {
-				// TODO Auto-generated method stub
 
 			}
 
 			public void onFirstButtonClick() {
-				// TODO Auto-generated method stub
+
 				// new AddOrEditPayTypeDialog(title, description).show();
 			}
 
 			public void onSecondButtonClick() {
-				// TODO Auto-generated method stub
+
 				// new AddOrEditPayTypeDialog(title, description).show();
 			}
 
 			public void onThirdButtonClick() {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -68,19 +66,19 @@ public class PayTypeListDialog extends GroupDialog {
 
 	@Override
 	public Object getGridColumnValue(IsSerializable obj, int index) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public String[] setColumns() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	protected List getRecords() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 

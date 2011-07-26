@@ -13,7 +13,7 @@ public class MatchTrasactionsAction extends Action {
 
 	public MatchTrasactionsAction(String text, String iconString) {
 		super(text, iconString);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	/**
@@ -26,13 +26,11 @@ public class MatchTrasactionsAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -46,7 +44,6 @@ public class MatchTrasactionsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

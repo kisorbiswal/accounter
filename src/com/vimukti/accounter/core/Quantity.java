@@ -22,7 +22,6 @@ public class Quantity implements Comparable<Quantity> {
 	 * 
 	 */
 	public Quantity() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

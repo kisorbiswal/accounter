@@ -6,25 +6,25 @@ public class PaymentDialogAction extends Action {
 
 	public PaymentDialogAction(String text) {
 		super(text);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ImageResource getSmallImage() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
@@ -36,7 +36,7 @@ public class PaymentDialogAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 

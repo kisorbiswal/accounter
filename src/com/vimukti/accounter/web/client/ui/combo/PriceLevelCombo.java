@@ -7,7 +7,6 @@ public class PriceLevelCombo extends CustomCombo<ClientPriceLevel> {
 
 	public PriceLevelCombo(String title) {
 		super(title);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

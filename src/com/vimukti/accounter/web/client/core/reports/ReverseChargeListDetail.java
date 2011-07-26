@@ -30,7 +30,6 @@ public class ReverseChargeListDetail extends BaseReport implements
 	boolean isPercentage;
 
 	public ReverseChargeListDetail() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

@@ -13,7 +13,6 @@ public class ReconcileAccountAction extends Action {
 
 	public ReconcileAccountAction(String text, String iconString) {
 		super(text, iconString);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -23,16 +22,16 @@ public class ReconcileAccountAction extends Action {
 	public void run(AsyncCallback<Object> asyncCallback) {
 	}
 
+	// its not using any where
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	// its not using any where
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		// TODO Auto-generated method stub
 
 	}
 

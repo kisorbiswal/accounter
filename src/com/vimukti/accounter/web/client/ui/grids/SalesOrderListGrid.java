@@ -49,8 +49,8 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 	@Override
 	public void onDoubleClick(SalesOrdersList obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(obj.getType(), obj
-					.getTransactionId());
+			ReportsRPC.openTransactionView(obj.getType(),
+					obj.getTransactionId());
 	}
 
 	@Override

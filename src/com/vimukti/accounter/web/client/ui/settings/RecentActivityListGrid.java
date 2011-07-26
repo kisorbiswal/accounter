@@ -11,7 +11,6 @@ public class RecentActivityListGrid extends ListGrid<ClientUser> {
 
 	public RecentActivityListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -33,16 +32,15 @@ public class RecentActivityListGrid extends ListGrid<ClientUser> {
 		this.usersView = view;
 	}
 
+	// its not using any where
 	@Override
 	public boolean validateGrid() throws InvalidTransactionEntryException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	protected int getCellWidth(int index) {
-		// TODO Auto-generated method stub
-		return 0;
+		return -1;
 	}
 
 	@Override
@@ -63,34 +61,37 @@ public class RecentActivityListGrid extends ListGrid<ClientUser> {
 		}
 	}
 
+	// its not using any where
 	@Override
 	protected String[] getSelectValues(ClientUser obj, int index) {
 		return null;
 	}
 
+	// its not using any where
 	@Override
 	protected boolean isEditable(ClientUser obj, int row, int index) {
 		return false;
 	}
 
+	// its not using any where
 	@Override
 	protected void onClick(ClientUser obj, int row, int index) {
-		// TODO Auto-generated method stub
 
 	}
 
+	// its not using any where
 	@Override
 	public void onDoubleClick(ClientUser obj) {
-		// TODO Auto-generated method stub
 
 	}
 
+	// its not using any where
 	@Override
 	protected void onValueChange(ClientUser obj, int index, Object value) {
-		// TODO Auto-generated method stub
 
 	}
 
+	// its not using any where
 	@Override
 	protected int sort(ClientUser obj1, ClientUser obj2, int index) {
 		return 0;

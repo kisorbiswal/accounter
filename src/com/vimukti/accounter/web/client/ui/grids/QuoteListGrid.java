@@ -26,7 +26,6 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
 	public QuoteListGrid() {
 		super(false);
-		// TODO Auto-generated constructor stub
 	}
 
 	boolean isDeleted;
@@ -171,7 +170,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
 					@Override
 					public boolean onCancelClick() throws InvalidEntryException {
-						// TODO Auto-generated method stub
+
 						return false;
 					}
 
@@ -223,15 +222,15 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 		rpcDoSerivce.deleteTransaction(type, obj.id, callback);
 	}
 
+	// this is not using any where
 	@Override
 	public boolean validateGrid() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
+	// this is not using any where
 	@Override
 	protected void executeDelete(ClientEstimate object) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -336,12 +335,12 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 		super.saveSuccess(object);
 	}
 
+	// this is not using any where
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
-
+//this is not using any where
 	public AccounterCoreType getType() {
 		return null;
 	}

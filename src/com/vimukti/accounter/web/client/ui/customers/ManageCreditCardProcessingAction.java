@@ -13,24 +13,22 @@ public class ManageCreditCardProcessingAction extends Action {
 
 	public ManageCreditCardProcessingAction(String text) {
 		super(text);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public ManageCreditCardProcessingAction(String text, String iconString) {
 		super(text, iconString);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -44,7 +42,6 @@ public class ManageCreditCardProcessingAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

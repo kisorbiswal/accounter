@@ -9,12 +9,10 @@ public class SetUpOnlineBankingAction extends Action {
 
 	public SetUpOnlineBankingAction(String text) {
 		super(text);
-		// TODO Auto-generated constructor stub
 	}
 
 	public SetUpOnlineBankingAction(String text, String iconString) {
 		super(text, iconString);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -24,10 +22,10 @@ public class SetUpOnlineBankingAction extends Action {
 	public void run(AsyncCallback<Object> asyncCallback) {
 	}
 
+	// its not using any where
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -47,8 +45,7 @@ public class SetUpOnlineBankingAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "SetUpOnlineBanking";
 	}
 
 }

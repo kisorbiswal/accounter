@@ -8,7 +8,6 @@ public class ReceiveBooksTransferAction extends Action {
 
 	public ReceiveBooksTransferAction(String text) {
 		super(text);
-		// TODO Auto-generated constructor stub
 	}
 
 	public ReceiveBooksTransferAction(String text, String iconString) {

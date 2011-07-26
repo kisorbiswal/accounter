@@ -8,24 +8,20 @@ public class MakeInActiveAction extends Action {
 
 	public MakeInActiveAction(String text) {
 		super(text);
-		// TODO Auto-generated constructor stub
 	}
 
 	public MakeInActiveAction(String text, String iconString) {
 		super(text, iconString);
-		// TODO Auto-generated constructor stub
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -39,7 +35,6 @@ public class MakeInActiveAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

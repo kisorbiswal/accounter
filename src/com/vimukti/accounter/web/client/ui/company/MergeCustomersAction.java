@@ -12,19 +12,18 @@ public class MergeCustomersAction extends Action {
 
 	public MergeCustomersAction(String text, String iconString) {
 		super(text, iconString);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	public ImageResource getBigImage() {
@@ -37,9 +36,8 @@ public class MergeCustomersAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
-
 
 }
