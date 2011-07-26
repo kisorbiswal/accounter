@@ -15,19 +15,19 @@ public class StockAdjustment extends Transaction implements Lifecycle {
 
 	private static final long serialVersionUID = -2706077052390641514L;
 
-	private Set<AdjustmentItem> adjustmentItems;
+	private Set<StockAdjustmentItem> adjustmentItems;
 
 	private boolean completed;
 
 	public StockAdjustment() {
-		adjustmentItems = new HashSet<AdjustmentItem>();
+		adjustmentItems = new HashSet<StockAdjustmentItem>();
 	}
 
-	public void add(AdjustmentItem adjustmentItem) {
+	public void add(StockAdjustmentItem adjustmentItem) {
 		adjustmentItems.add(adjustmentItem);
 	}
 
-	public Set<AdjustmentItem> getAdjustmentItems() {
+	public Set<StockAdjustmentItem> getAdjustmentItems() {
 		return adjustmentItems;
 	}
 
@@ -71,11 +71,11 @@ public class StockAdjustment extends Transaction implements Lifecycle {
 		return false;
 	}
 
-	public boolean remove(AdjustmentItem item) {
+	public boolean remove(StockAdjustmentItem item) {
 		return adjustmentItems.remove(item);
 	}
 
-	public void setAdjustmentItems(Set<AdjustmentItem> adjustmentItems) {
+	public void setAdjustmentItems(Set<StockAdjustmentItem> adjustmentItems) {
 		this.adjustmentItems = adjustmentItems;
 	}
 
@@ -96,7 +96,7 @@ public class StockAdjustment extends Transaction implements Lifecycle {
 	 */
 	public double totalAdjustmentPrice() {
 		double totalPrice = 0;
-		for (AdjustmentItem item : adjustmentItems) {
+		for (StockAdjustmentItem item : adjustmentItems) {
 			totalPrice += item.getAdjustmentPriceValue();
 		}
 		return totalPrice;
