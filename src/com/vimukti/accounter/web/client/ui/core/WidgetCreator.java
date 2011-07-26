@@ -1082,7 +1082,7 @@ public class WidgetCreator {
 	 * cashPurchase .getID()); //
 	 * records[recordIndex].setAttribute("customer", // cashPurchase.getName());
 	 * // records[recordIndex].setAttribute("date", cashPurchase //
-	 * .getCreatedDate()); FIXME // records[recordIndex].setAttribute("Value",
+	 * .getCreatedDate()); XXX // records[recordIndex].setAttribute("Value",
 	 * customer.getE);
 	 * 
 	 * }
