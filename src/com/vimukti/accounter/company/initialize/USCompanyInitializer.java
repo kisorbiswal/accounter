@@ -144,7 +144,7 @@ public class USCompanyInitializer {
 	
 	
 	/**
-	 * Initialises all the US default accounts that are useful in the company
+	 * Initializes all the US default accounts that are useful in the company
 	 * 
 	 * @param session
 	 */

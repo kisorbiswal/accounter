@@ -145,6 +145,7 @@ public class UKCompanyInitializer {
 	}
 
 	
+
 	private void initDefaultUKAccounts(Session session) {
 
 		FinanceDate currentDate = new FinanceDate();

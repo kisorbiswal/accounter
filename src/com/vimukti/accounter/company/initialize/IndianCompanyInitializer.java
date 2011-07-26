@@ -1,6 +1,7 @@
 package com.vimukti.accounter.company.initialize;
 
 
+
 public class IndianCompanyInitializer {
 
 	/**
