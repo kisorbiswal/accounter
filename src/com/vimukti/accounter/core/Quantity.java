@@ -142,7 +142,6 @@ public class Quantity implements Comparable<Quantity> {
 
 	@Override
 	public int compareTo(Quantity other) {
-		// TODO verify this method later
 		Quantity thisQty = convertToDefaultUnit();
 		Quantity otherQty = other.convertToDefaultUnit();
 		return (int) (thisQty.getValue() - otherQty.getValue());
