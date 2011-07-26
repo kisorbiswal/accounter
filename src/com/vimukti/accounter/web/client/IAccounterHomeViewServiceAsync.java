@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPaySalesTaxEntries;
 import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
-import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -49,7 +48,6 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceipts
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
-import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 
 /**
@@ -218,22 +216,33 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getTransactionMakeDeposits(
 			AsyncCallback<List<ClientTransactionMakeDeposit>> callback);
 
-	public void getSalesOrders(AsyncCallback<List<SalesOrdersList>> callback);
+	/*
+	 * public void getSalesOrders(AsyncCallback<List<SalesOrdersList>>
+	 * callback);
+	 */
 
-	public void getPurchaseOrders(
-			AsyncCallback<List<PurchaseOrdersList>> callback);
+	/*
+	 * public void getPurchaseOrders( AsyncCallback<List<PurchaseOrdersList>>
+	 * callback);
+	 */
 
-	public void getSalesOrdersForCustomer(long customerID,
-			AsyncCallback<List<SalesOrdersList>> callback);
+	/*
+	 * public void getSalesOrdersForCustomer(long customerID,
+	 * AsyncCallback<List<SalesOrdersList>> callback);
+	 */
 
-	public void getPurchaseOrdersForVendor(long vendorID,
-			AsyncCallback<List<SalesOrdersList>> callback);
+	/*
+	 * public void getPurchaseOrdersForVendor(long vendorID,
+	 * AsyncCallback<List<SalesOrdersList>> callback);
+	 */
 
 	public void getNotReceivedPurchaseOrdersList(long vendorID,
 			AsyncCallback<List<PurchaseOrdersList>> callback);
 
-	public void getPurchaseOrderById(long transactionId,
-			AsyncCallback<ClientPurchaseOrder> callback);
+	/*
+	 * public void getPurchaseOrderById(long transactionId,
+	 * AsyncCallback<ClientPurchaseOrder> callback);
+	 */
 
 	public void getPurchasesAndItemReceiptsList(long vendorID,
 			AsyncCallback<List<PurchaseOrdersAndItemReceiptsList>> callback);
@@ -275,7 +284,8 @@ public interface IAccounterHomeViewServiceAsync {
 
 	public void getNextNominalCode(int accountType, AsyncCallback<Long> callback);
 
-	//public void createTaxes(int[] vatReturnType, AsyncCallback<Boolean> callback);
+	// public void createTaxes(int[] vatReturnType, AsyncCallback<Boolean>
+	// callback);
 
 	public void getNextFixedAssetNumber(AsyncCallback<String> callback);
 

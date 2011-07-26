@@ -257,7 +257,7 @@ public class FinanceTool implements IFinanceDAOService {
 				getCompany());
 
 		if ((IAccounterServerCore) serverObject instanceof CreatableObject) {
-			//  get the user from user id
+			// get the user from user id
 			((CreatableObject) serverObject).setCreatedBy(company
 					.getUserByUserId(userID));
 			((CreatableObject) serverObject).setCreatedDate(createContext
@@ -9840,30 +9840,6 @@ public class FinanceTool implements IFinanceDAOService {
 
 	public void setCompany(Company company) {
 		this.company = company;
-	}
-
-	@Override
-	public List<PurchaseOrdersList> getPurchaseOrders(boolean orderByDate) {
-		// FIXME
-		return null;
-	}
-
-	@Override
-	public List<SalesOrdersList> getSalesOrders(boolean orderByDate) {
-		// FIXME
-		return null;
-	}
-
-	@Override
-	public List<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID) {
-		// FIXME
-		return null;
-	}
-
-	@Override
-	public List<SalesOrdersList> getSalesOrdersForCustomer(long customerID) {
-		// FIXME
-		return null;
 	}
 
 	// @Override

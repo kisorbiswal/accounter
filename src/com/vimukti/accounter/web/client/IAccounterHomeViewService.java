@@ -20,7 +20,6 @@ import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPaySalesTaxEntries;
 import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
-import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -46,7 +45,6 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceipts
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
-import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.workspace.tool.AccounterException;
 
@@ -192,21 +190,23 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public List<ClientTransactionMakeDeposit> getTransactionMakeDeposits();
 
-	public List<SalesOrdersList> getSalesOrders() throws AccounterException;
-
-	public List<PurchaseOrdersList> getPurchaseOrders()
-			throws AccounterException;
-
-	public List<SalesOrdersList> getSalesOrdersForCustomer(long customerID)
-			throws AccounterException;
-
-	public List<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID)
-			throws AccounterException;
+	/*
+	 * public List<SalesOrdersList> getSalesOrders() throws AccounterException;
+	 * 
+	 * public List<PurchaseOrdersList> getPurchaseOrders() throws
+	 * AccounterException;
+	 * 
+	 * public List<SalesOrdersList> getSalesOrdersForCustomer(long customerID)
+	 * throws AccounterException;
+	 * 
+	 * public List<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID)
+	 * throws AccounterException;
+	 */
 
 	public List<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
 			long vendorID) throws AccounterException;
 
-	public ClientPurchaseOrder getPurchaseOrderById(long transactionId);
+	/* public ClientPurchaseOrder getPurchaseOrderById(long transactionId); */
 
 	public List<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
 			long vendorId) throws AccounterException;
@@ -239,7 +239,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public FixedAssetSellOrDisposeReviewJournal getReviewJournal(
 			TempFixedAsset fixedAsset) throws AccounterException;
 
-	//public boolean createTaxes(int[] vatReturnType);
+	// public boolean createTaxes(int[] vatReturnType);
 
 	public double getAccumulatedDepreciationAmount(int depreciationMethod,
 			double depreciationRate, double purchasePrice,

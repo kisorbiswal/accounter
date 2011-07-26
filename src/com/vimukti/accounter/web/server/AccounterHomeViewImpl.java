@@ -50,7 +50,6 @@ import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPaySalesTaxEntries;
 import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
-import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -76,7 +75,6 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceipts
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
-import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.workspace.tool.AccounterException;
 import com.vimukti.accounter.workspace.tool.AccounterOperationException;
@@ -1092,51 +1090,39 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return makeDepositTransactionsList;
 	}
 
-	@Override
-	public List<PurchaseOrdersList> getPurchaseOrders()
-			throws AccounterException {
-
-		FinanceTool tool = getFinanceTool();
-
-		try {
-			return tool != null ? tool.getPurchaseOrdersList() : null;
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	@Override
-	public List<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID)
-			throws AccounterException {
-
-		FinanceTool tool = getFinanceTool();
-
-		return tool != null ? tool.getPurchaseOrdersForVendor(vendorID) : null;
-	}
-
-	@Override
-	public List<SalesOrdersList> getSalesOrders() throws AccounterException {
-
-		FinanceTool tool = getFinanceTool();
-
-		try {
-			return tool != null ? tool.getSalesOrdersList() : null;
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	@Override
-	public List<SalesOrdersList> getSalesOrdersForCustomer(long customerID)
-			throws AccounterException {
-
-		FinanceTool tool = getFinanceTool();
-
-		return tool != null ? tool.getSalesOrdersForCustomer(customerID) : null;
-
-	}
+	/*
+	 * @Override public List<PurchaseOrdersList> getPurchaseOrders() throws
+	 * AccounterException {
+	 * 
+	 * FinanceTool tool = getFinanceTool();
+	 * 
+	 * try { return tool != null ? tool.getPurchaseOrdersList() : null; } catch
+	 * (DAOException e) { e.printStackTrace(); } return null; }
+	 * 
+	 * @Override public List<SalesOrdersList> getPurchaseOrdersForVendor(long
+	 * vendorID) throws AccounterException {
+	 * 
+	 * FinanceTool tool = getFinanceTool();
+	 * 
+	 * return tool != null ? tool.getPurchaseOrdersForVendor(vendorID) : null; }
+	 * 
+	 * @Override public List<SalesOrdersList> getSalesOrders() throws
+	 * AccounterException {
+	 * 
+	 * FinanceTool tool = getFinanceTool();
+	 * 
+	 * try { return tool != null ? tool.getSalesOrdersList() : null; } catch
+	 * (DAOException e) { e.printStackTrace(); } return null; }
+	 * 
+	 * @Override public List<SalesOrdersList> getSalesOrdersForCustomer(long
+	 * customerID) throws AccounterException {
+	 * 
+	 * FinanceTool tool = getFinanceTool();
+	 * 
+	 * return tool != null ? tool.getSalesOrdersForCustomer(customerID) : null;
+	 * 
+	 * }
+	 */
 
 	@Override
 	public List<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
@@ -1150,11 +1136,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
-		return null;
-	}
-
-	public ClientPurchaseOrder getPurchaseOrderById(long transactionId) {
-
 		return null;
 	}
 
@@ -1341,16 +1322,13 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
-/*	public boolean createTaxes(int[] vatReturnType) {
-		try {
-			getFinanceTool().createTaxes(vatReturnType);
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-
-	}*/
+	/*
+	 * public boolean createTaxes(int[] vatReturnType) { try {
+	 * getFinanceTool().createTaxes(vatReturnType); return true; } catch
+	 * (Exception e) { e.printStackTrace(); return false; }
+	 * 
+	 * }
+	 */
 
 	public String getNextFixedAssetNumber() {
 		String nextFixedAssestNumber = "";
