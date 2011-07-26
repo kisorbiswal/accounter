@@ -27,10 +27,12 @@ public class VendorPaymentsListAction extends Action {
 		this.catagory = UIUtils.getVendorString("Supplier", "Vendor");
 	}
 
+	/**
+	 * THIS METHOD NOT USING ANY WHERE IN THE PROJECT.
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO currently not using
 		return null;
 	}
 
@@ -77,13 +79,13 @@ public class VendorPaymentsListAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		
+
 		return "/images/vendor_payments.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		
+
 		return UIUtils.getVendorString("supplierPayments", "vendorPayments");
 	}
 }
