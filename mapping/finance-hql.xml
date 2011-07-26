@@ -140,244 +140,244 @@
 
 
 	<query name="unique.id.Account">from com.vimukti.accounter.core.Account a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.CommodityCode">from com.vimukti.accounter.core.CommodityCode a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.AccountTransaction">from
 		com.vimukti.accounter.core.AccountTransaction a
-		where a.stringID=?
+		where a.id=?
 	</query>
 	<query name="unique.id.FiscalYear">from com.vimukti.accounter.core.FiscalYear a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.Bank">from com.vimukti.accounter.core.Bank a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.Budget">from com.vimukti.accounter.core.Budget a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.Company">from com.vimukti.accounter.core.Company a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.CreditRating">from com.vimukti.accounter.core.CreditRating a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.Currency">from com.vimukti.accounter.core.Currency a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.CustomerGroup">from com.vimukti.accounter.core.CustomerGroup a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.Item">from com.vimukti.accounter.core.Item a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.ItemReceipt">from com.vimukti.accounter.core.ItemReceipt a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.ItemGroup">from com.vimukti.accounter.core.ItemGroup a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.Payee">from com.vimukti.accounter.core.Payee a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.PaymentTerms">from com.vimukti.accounter.core.PaymentTerms a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.PaySalesTax">from com.vimukti.accounter.core.PaySalesTax a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.PriceLevel">from com.vimukti.accounter.core.PriceLevel a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.ShippingMethod">from com.vimukti.accounter.core.ShippingMethod a
-		where a.stringID=?</query>
+		where a.id=?</query>
 	<query name="unique.id.ShippingTerms">from com.vimukti.accounter.core.ShippingTerms a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.TAXCode">from com.vimukti.accounter.core.TAXCode a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.TAXItem">from com.vimukti.accounter.core.TAXItem a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.TAXGroup">from com.vimukti.accounter.core.TAXGroup a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.TaxRates">from com.vimukti.accounter.core.TaxRates a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<!--
 		<query name="unique.id.TaxRateCalculation">from
-		com.vimukti.accounter.core.TaxRateCalculation a where a.stringID=?
+		com.vimukti.accounter.core.TaxRateCalculation a where a.id=?
 		</query>
 	-->
 	<query name="unique.id.ItemBackUp">from
 		com.vimukti.accounter.core.ItemBackUp a
 		where
-		a.stringID=?
+		a.id=?
 	</query>
 	<query name="unique.id.UnitOfMeasure">from com.vimukti.accounter.core.UnitOfMeasure a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.User">from com.vimukti.accounter.core.User a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.VendorGroup">from com.vimukti.accounter.core.VendorGroup a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.PayVAT">from com.vimukti.accounter.core.PayVAT a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 
 	<query name="unique.id.TransactionPayVAT">from com.vimukti.accounter.core.TransactionPayVAT a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 
 	<query name="unique.id.ReceiveVAT">from com.vimukti.accounter.core.ReceiveVAT a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 
 	<query name="unique.id.TransactionReceiveVAT">from com.vimukti.accounter.core.TransactionReceiveVAT
 		a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 
 	<query name="unique.id.FixedAsset">from com.vimukti.accounter.core.FixedAsset a where
-		a.stringID=?
+		a.id=?
 	</query>
 	<query name="unique.id.FixedAssetNote">from com.vimukti.accounter.core.FixedAssetNote a
-		where a.stringID=?
+		where a.id=?
 	</query>
 	<!--	<query name="unique.id.SellingOrDisposingFixedAsset">from-->
 	<!--		com.vimukti.accounter.core.SellingOrDisposingFixedAsset a where-->
-	<!--		a.stringID=?</query>-->
+	<!--		a.id=?</query>-->
 	<query name="unique.id.Transaction">from com.vimukti.accounter.core.Transaction a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.VATReturnBox">from com.vimukti.accounter.core.VATReturnBox a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.TAXRateCalculation">from com.vimukti.accounter.core.TAXRateCalculation a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 
 	<query name="unique.id.TAXAgency">from com.vimukti.accounter.core.TAXAgency a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.Box">from com.vimukti.accounter.core.Box a where
-		a.stringID=?</query>
+		a.id=?</query>
 
 
 
 	<query name="unique.id.TAXItemGroup">from com.vimukti.accounter.core.TAXItemGroup a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.Entry">from com.vimukti.accounter.core.Entry a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.TransactionItem">from com.vimukti.accounter.core.TransactionItem a
-		where a.stringID=?</query>
+		where a.id=?</query>
 	<query name="unique.id.CreditsAndPayments">from
 		com.vimukti.accounter.core.CreditsAndPayments a
-		where a.stringID=?
+		where a.id=?
 	</query>
 	<query name="unique.id.TransactionCreditsAndPayments">from
 		com.vimukti.accounter.core.TransactionCreditsAndPayments a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.TransactionMakeDeposit">from
-		com.vimukti.accounter.core.TransactionMakeDeposit a where a.stringID=?
+		com.vimukti.accounter.core.TransactionMakeDeposit a where a.id=?
 	</query>
 	<query name="unique.id.TransactionPayBill">from
 		com.vimukti.accounter.core.TransactionPayBill a
-		where a.stringID=?
+		where a.id=?
 	</query>
 	<query name="unique.id.TransactionReceivePayment">from
 		com.vimukti.accounter.core.TransactionReceivePayment a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.TransactionIssuePayment">from
 		com.vimukti.accounter.core.TransactionIssuePayment a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.PaySalesTaxEntries">from
 		com.vimukti.accounter.core.PaySalesTaxEntries a
-		where a.stringID=?
+		where a.id=?
 	</query>
 	<query name="unique.id.TransactionMakeDepositEntries">from
 		com.vimukti.accounter.core.TransactionMakeDepositEntries a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.TransactionExpense">from
 		com.vimukti.accounter.core.TransactionExpense a
-		where a.stringID=?
+		where a.id=?
 	</query>
 	<query name="unique.id.TransactionPayExpense">from
 		com.vimukti.accounter.core.TransactionPayExpense
-		a where a.stringID=?
+		a where a.id=?
 	</query>
 	<query name="unique.id.FixedAssetHistory">from com.vimukti.accounter.core.FixedAssetHistory
 		a
-		where a.stringID=?</query>
+		where a.id=?</query>
 	<query name="unique.id.Vendor">from com.vimukti.accounter.core.Vendor a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.Customer">from com.vimukti.accounter.core.Customer a where
-		a.stringID=?</query>
+		a.id=?</query>
 
 	<query name="unique.id.SalesPerson">from com.vimukti.accounter.core.SalesPerson a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.Invoice">from com.vimukti.accounter.core.Invoice a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.CashPurchase">from com.vimukti.accounter.core.CashPurchase a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.CashSales">from com.vimukti.accounter.core.CashSales a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.CreditCardCharge">from com.vimukti.accounter.core.CreditCardCharge
 		a
-		where a.stringID=?</query>
+		where a.id=?</query>
 	<query name="unique.id.CustomerCreditMemo">from
 		com.vimukti.accounter.core.CustomerCreditMemo a
-		where a.stringID=?
+		where a.id=?
 	</query>
 	<query name="unique.id.CustomerPrePayment">from
 		com.vimukti.accounter.core.CustomerPrePayment a
-		where a.stringID=?
+		where a.id=?
 	</query>
 	<query name="unique.id.Depreciation">from
 		com.vimukti.accounter.core.Depreciation a
 		where
-		a.stringID=?
+		a.id=?
 	</query>
 	<query name="unique.id.CustomerRefund">from com.vimukti.accounter.core.CustomerRefund a
-		where a.stringID=?</query>
+		where a.id=?</query>
 	<query name="unique.id.EnterBill">from com.vimukti.accounter.core.EnterBill a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.Estimate">from com.vimukti.accounter.core.Estimate a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.MakeDeposit">from com.vimukti.accounter.core.MakeDeposit a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.PayBill">from com.vimukti.accounter.core.PayBill a where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.PurchaseOrder">from com.vimukti.accounter.core.PurchaseOrder a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.ReceivePayment">from com.vimukti.accounter.core.ReceivePayment a
-		where a.stringID=?</query>
+		where a.id=?</query>
 	<query name="unique.id.SalesOrder">from com.vimukti.accounter.core.SalesOrder a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.Expense">from com.vimukti.accounter.core.Expense a where
 		a.billFrom=?</query>
 	<query name="unique.id.VendorCreditMemo">from com.vimukti.accounter.core.VendorCreditMemo
 		a
-		where a.stringID=?</query>
+		where a.id=?</query>
 	<query name="unique.id.PayExpense">from com.vimukti.accounter.core.PayExpense a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.WriteCheck">from com.vimukti.accounter.core.WriteCheck a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.TransferFund">from com.vimukti.accounter.core.TransferFund a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.IssuePayment">from com.vimukti.accounter.core.IssuePayment a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.JournalEntry">from com.vimukti.accounter.core.JournalEntry a
 		where
-		a.stringID=?</query>
+		a.id=?</query>
 	<query name="unique.id.TAXAdjustment">from
 		com.vimukti.accounter.core.TAXAdjustment a where
-		a.stringID=?
+		a.id=?
 	</query>
 	<query name="unique.id.VATReturn">from com.vimukti.accounter.core.VATReturn a where
-		a.stringID=?</query>
+		a.id=?</query>
 
 	<query name="unique.name.Account">from com.vimukti.accounter.core.Account a where
 		a.name=?</query>
@@ -400,7 +400,7 @@
 		where
 		v.name=?</query>
 	<query name="unique.id.BrandingTheme">from com.vimukti.accounter.core.BrandingTheme bt
-		where bt.stringID=?</query>
+		where bt.ID=?</query>
 	<query name="unique.emailId.User">from com.vimukti.accounter.core.User u where u.emailId=?</query>
 	<query name="gettoken.by.id">from com.vimukti.accounter.core.ResetPasswordToken r where r.token=?</query>
 	<query name="gettokens.by.userid">from com.vimukti.accounter.core.ResetPasswordToken r where r.userId=?</query>

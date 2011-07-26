@@ -306,7 +306,7 @@
 	
 	<query name="getCreditCardCharge.form.status">
 		<query-param name="status" type="number" />
-		from CreditCardCharge cc where cc.status =:status
+		from CreditCardCharge cc where cc.status=:status
 	</query>
 	
 	<query name="getPayBill.form.status">
