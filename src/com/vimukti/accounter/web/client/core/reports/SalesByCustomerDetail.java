@@ -3,8 +3,8 @@ package com.vimukti.accounter.web.client.core.reports;
 import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 @SuppressWarnings("serial")
@@ -32,7 +32,7 @@ public class SalesByCustomerDetail extends BaseReport implements
 
 	String itemName;
 
-	Quantity quantity;
+	ClientQuantity quantity;
 
 	double unitPrice = 0D;
 
@@ -148,11 +148,11 @@ public class SalesByCustomerDetail extends BaseReport implements
 		this.itemName = itemName;
 	}
 
-	public Quantity getQuantity() {
+	public ClientQuantity getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(Quantity quantity) {
+	public void setQuantity(ClientQuantity quantity) {
 		this.quantity = quantity;
 	}
 

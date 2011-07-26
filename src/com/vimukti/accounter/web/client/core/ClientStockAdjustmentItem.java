@@ -6,7 +6,6 @@ package com.vimukti.accounter.web.client.core;
 import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.vimukti.accounter.core.Item;
 
 /**
  * @author Prasanna Kumar G
@@ -20,7 +19,7 @@ public class ClientStockAdjustmentItem implements Serializable, IsSerializable {
 	private ClientQuantity adjustmentQty;
 	// comment is specific to this adjustment item (along with reason).
 	private String comment;
-	private Item item;
+	private ClientItem item;
 	// qtyBeforeTransaction is for further information, like report generation.
 	private ClientQuantity qtyBeforeTransaction;
 	private ClientAdjustmentReason reason;
@@ -89,7 +88,7 @@ public class ClientStockAdjustmentItem implements Serializable, IsSerializable {
 	/**
 	 * @return the item
 	 */
-	public Item getItem() {
+	public ClientItem getItem() {
 		return item;
 	}
 
@@ -97,7 +96,7 @@ public class ClientStockAdjustmentItem implements Serializable, IsSerializable {
 	 * @param item
 	 *            the item to set
 	 */
-	public void setItem(Item item) {
+	public void setItem(ClientItem item) {
 		this.item = item;
 	}
 

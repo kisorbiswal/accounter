@@ -15,7 +15,7 @@ import com.vimukti.accounter.core.Unit;
  */
 public class ClientMeasurement implements Serializable, IsSerializable {
 
-	private Unit defaultUnit;
+	private ClientUnit defaultUnit;
 
 	private String desctiption;
 
@@ -27,7 +27,7 @@ public class ClientMeasurement implements Serializable, IsSerializable {
 	/**
 	 * @return the defaultUnit
 	 */
-	public Unit getDefaultUnit() {
+	public ClientUnit getDefaultUnit() {
 		return defaultUnit;
 	}
 
@@ -35,7 +35,7 @@ public class ClientMeasurement implements Serializable, IsSerializable {
 	 * @param defaultUnit
 	 *            the defaultUnit to set
 	 */
-	public void setDefaultUnit(Unit defaultUnit) {
+	public void setDefaultUnit(ClientUnit defaultUnit) {
 		this.defaultUnit = defaultUnit;
 	}
 

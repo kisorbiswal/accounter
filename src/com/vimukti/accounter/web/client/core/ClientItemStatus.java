@@ -6,7 +6,6 @@ package com.vimukti.accounter.web.client.core;
 import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.vimukti.accounter.core.Item;
 
 /**
  * @author Prasanna Kumar G
@@ -16,7 +15,7 @@ public class ClientItemStatus implements Serializable, IsSerializable {
 
 	private long id;
 
-	private Item item;
+	private ClientItem item;
 
 	private ClientQuantity quantity;
 
@@ -40,7 +39,7 @@ public class ClientItemStatus implements Serializable, IsSerializable {
 	/**
 	 * @return the item
 	 */
-	public Item getItem() {
+	public ClientItem getItem() {
 		return item;
 	}
 
@@ -48,7 +47,7 @@ public class ClientItemStatus implements Serializable, IsSerializable {
 	 * @param item
 	 *            the item to set
 	 */
-	public void setItem(Item item) {
+	public void setItem(ClientItem item) {
 		this.item = item;
 	}
 
