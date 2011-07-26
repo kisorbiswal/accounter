@@ -1012,18 +1012,13 @@ public class VendorView extends BaseView<ClientVendor> {
 	public void addAccountsToList() {
 		List<ClientAccount> allAccounts = expenseAccountsSelect.getAccounts();
 		expenseAccountsSelect.initCombo(allAccounts);
+
 		if (takenVendor != null) {
 			ClientAccount temp = getCompany().getAccount(
 					takenVendor.getExpenseAccount());
 			// Setting Expense Account
 			if (temp != null)
 				expenseAccountsSelect.setComboItem(temp);
-			for (@SuppressWarnings("unused")
-			ClientAccount tempAccount : allAccounts) {
-				// FIXME
-				// if (tempAccount.getID() == (3))
-				// accountPayableAccount = tempAccount;
-			}
 		}
 
 	}
@@ -1147,13 +1142,11 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		
 
 	}
 
@@ -1228,19 +1221,16 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	@Override
 	public void onEdit() {
-		
 
 	}
 
 	@Override
 	public void print() {
-		
 
 	}
 
 	@Override
 	public void printPreview() {
-		
 
 	}
 
