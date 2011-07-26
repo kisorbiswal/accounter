@@ -25,10 +25,7 @@ public class Currency implements IAccounterServerCore {
 	 */
 	String formalName;
 
-	
-
 	public Currency() {
-		// TODO
 	}
 
 	/**
@@ -37,7 +34,6 @@ public class Currency implements IAccounterServerCore {
 	public int getVersion() {
 		return version;
 	}
-
 
 	/**
 	 * @return the name
@@ -61,11 +57,9 @@ public class Currency implements IAccounterServerCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
-
-
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
