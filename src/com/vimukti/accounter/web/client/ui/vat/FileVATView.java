@@ -287,8 +287,12 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		gridView.removeAllRecords();
 		gridView.addLoadingImagePanel();
 
-		if (this.selectedVatAgency == null)
+		if (this.selectedVatAgency == null) {
+			gridView.removeLoadingImage();
+			gridView.addEmptyMessage(AccounterErrorType.SELECT_VATAGENCY);
+			disableprintButton();
 			return;
+		}
 
 		this.rpcUtilService.getTAXReturn(this.selectedVatAgency, fromDate
 				.getDate().getTime(), toDate.getDate().getTime(),
@@ -346,6 +350,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 							}
 							gridView.addData(box);
 						}
+						enableprintButton();
 
 					}
 				});

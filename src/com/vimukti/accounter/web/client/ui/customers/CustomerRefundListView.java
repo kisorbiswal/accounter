@@ -80,8 +80,10 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 	public void onSuccess(List<CustomerRefundsList> result) {
 		super.onSuccess(result);
 		listOfCustomerRefund = result;
-		filterList(NOT_ISSUED);
-		grid.setViewType(NOT_ISSUED);
+		filterList(viewSelect != null ? viewSelect.getSelectedValue()
+				: NOT_ISSUED);
+		grid.setViewType(viewSelect != null ? viewSelect.getSelectedValue()
+				: NOT_ISSUED);
 	}
 
 	@Override
