@@ -28,9 +28,10 @@ public class PropertyParser {
 				continue;
 
 			// String[] pair = line.split("[ \t]*=[ \t]*");
-			if (line.indexOf("=") != -1) {
-				String name = line.substring(0, line.indexOf("="));
-				String value = line.substring(line.indexOf("=") + 1);
+			int indexOf = line.indexOf("=");
+			if (indexOf != -1) {
+				String name = line.substring(0, indexOf);
+				String value = line.substring(indexOf + 1);
 				keyValue.put(name, value);
 			}
 		}
@@ -55,7 +56,6 @@ public class PropertyParser {
 		try {
 			ps.loadFile("config.ini");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		int i = 1;
