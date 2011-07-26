@@ -343,8 +343,6 @@ public class Vendor extends Payee implements Lifecycle {
 	 */
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
