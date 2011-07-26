@@ -23,7 +23,7 @@ public class VATSummaryReportAction extends Action {
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
+		// currently not using
 		return null;
 	}
 
@@ -75,7 +75,7 @@ public class VATSummaryReportAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+		
 		return "priorVatReturns";
 	}
 
