@@ -109,19 +109,16 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 
 	@Override
 	public void onDoubleClick(AccountRegister obj) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public boolean validateGrid() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	protected void executeDelete(AccountRegister object) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -148,7 +145,6 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -199,8 +195,8 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 
 			case 6:
 				if (obj1.getMemo() != null && obj2.getMemo() != null)
-					return obj1.getMemo().toLowerCase().compareTo(
-							obj2.getMemo().toLowerCase());
+					return obj1.getMemo().toLowerCase()
+							.compareTo(obj2.getMemo().toLowerCase());
 				break;
 			case 7:
 				Double bal1 = getBalanceValue(obj1);
@@ -221,7 +217,6 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 
 					@Override
 					public boolean onCancelClick() throws InvalidEntryException {
-						// TODO Auto-generated method stub
 						return false;
 					}
 
