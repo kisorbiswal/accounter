@@ -12,24 +12,21 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 
 @SuppressWarnings("serial")
-public class CreditRating extends CreatableObject implements IAccounterServerCore, Lifecycle
-		 {
+public class CreditRating extends CreatableObject implements
+		IAccounterServerCore, Lifecycle {
 
 	int version;
-
 
 	/**
 	 * This is the name of the Credit Rating.
 	 */
 	String name;
 
-
 	boolean isDefault;
 
 	transient private boolean isOnSaveProccessed;
 
 	public CreditRating() {
-		// TODO
 	}
 
 	/**
@@ -53,7 +50,6 @@ public class CreditRating extends CreatableObject implements IAccounterServerCor
 	public int getVersion() {
 		return version;
 	}
-
 
 	/**
 	 * @return the name
@@ -92,7 +88,6 @@ public class CreditRating extends CreatableObject implements IAccounterServerCor
 		ChangeTracker.put(this);
 		return false;
 	}
-
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
