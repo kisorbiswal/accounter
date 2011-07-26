@@ -531,9 +531,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			accumDepLbl.setText(Accounter.getFixedAssetConstants()
 					.accumulatedDepreciation()
 					+ fixedAsset.getAccumulatedDepreciationAmount());
-			// FIXME -- need to check weder dis field is required or not
+			// XXX THIS CLASS IS NOT USED.
+			// -- need to check weder dis field is required or not
 			// Label lastDepreciatedLabl = new Label();
-			// // FIXME--check whether is it lastdepricaited date or not
+			// --check whether is it lastdepricaited date or not
 			// lastDepreciatedLabl.setText(FinanceApplication
 			// .getFixedAssetConstants().lastDepreciation()
 			// + fixedAsset.getLastDate());
