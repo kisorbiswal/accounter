@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.1.0//EN" "http://google-web-toolkit.googlecode.com/svn/tags/2.1/distro-source/core/src/gwt-module.dtd">
-<module rename-to='finance'>
+<module rename-to='accounter'>
   <!-- Inherit the core Web Toolkit stuff.                        -->
 	<inherits name='com.google.gwt.user.User' />
 
@@ -11,14 +11,14 @@
 <!--<inherits name='com.smartclient.theme.treefrog.TreeFrog' />-->
   <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome' /> -->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark' />     -->
-  
-  <inherits name="com.vimukti.comet.Comet" /> 
 
   <!-- Other module inherits                                      -->
 <!--	<inherits name='com.smartgwt.SmartGwt' />-->
-		
 	<inherits name="com.google.gwt.i18n.I18N" />
+	<inherits name="com.vimukti.comet.Comet" /> 
+	<inherits name="com.google.gwt.visualization.Visualization"/>
 <!--	<inherits name='pl.balon.gwt.diagrams.Diagrams' />-->
 	
   <!-- Specify the app entry point class.                         -->
+	<entry-point class='com.vimukti.accounter.web.client.ui.Accounter' />
 </module>
