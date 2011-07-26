@@ -115,8 +115,10 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 		return false;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void onLoad(Session s, Serializable id) {
-		// TODO Auto-generated method stub
 	}
 }
