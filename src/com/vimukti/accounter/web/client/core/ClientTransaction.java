@@ -588,7 +588,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 			if (txItem.getType() == ClientTransactionItem.TYPE_COMMENT)
 				continue;
-			// FIXME
+			// FIXME ::: check it
 			// if (txItem.getItemTax() != null &&
 			// txItem.getItemTax().isTaxable()) {
 			//
@@ -615,7 +615,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 			if (txItem.getType() == ClientTransactionItem.TYPE_COMMENT)
 				continue;
-			// FIXME
+			// FIXME :: check it
 			// amount += ((txItem.getLineTotal() != null) ?
 			// txItem.getLineTotal()
 			// : 0.00D);
