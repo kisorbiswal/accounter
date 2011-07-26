@@ -10,9 +10,10 @@
 		</id>
 		<property name="stringID" column="STRING_ID"></property>
 		<property name="version" column="VERSION"></property>
-		<!--		<property name="netAmount" column="NET_AMOUNT"></property>-->
-		<!--		<property name="totalVAT" column="TOTAL_VAT"></property>-->
-		<property name="transactionDate" column="T_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<!-- <property name="netAmount" column="NET_AMOUNT"></property> -->
+		<!-- <property name="totalVAT" column="TOTAL_VAT"></property> -->
+		<property name="transactionDate" column="T_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="type" column="T_TYPE"></property>
 		<property name="number" column="NUMBER"></property>
 		<property name="isVoid" column="IS_VOID"></property>
@@ -23,13 +24,8 @@
 		<property name="totalTaxableAmount" column="TOTAL_TAXABLE_AMOUNT"></property>
 		<property name="totalNonTaxableAmount" column="TOTAL_NON_TAXABLE_AMOUNT"></property>
 		<property name="amountsIncludeVAT" column="AMOUNTS_INCLUDE_VAT"></property>
-		<!--
-			<property name="EUVATExemptPayee"
-			column="EU_VAT_EXEMPT_PAYEE"></property>
-		-->
-		<!--
-			<property name="isVATreturned" column="IS_VAT_RETURNED"></property>
-		-->
+		<!-- <property name="EUVATExemptPayee" column="EU_VAT_EXEMPT_PAYEE"></property> -->
+		<!-- <property name="isVATreturned" column="IS_VAT_RETURNED"></property> -->
 		<list name="transactionItems" cascade="save-update,delete-orphan"
 			lazy="false">
 			<key column="TRANSACTION_ID" />
@@ -43,7 +39,8 @@
 		<property name="netAmount" column="NET_AMOUNT"></property>
 		<property name="createdBy" column="CREATED_BY" type="string" />
 		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
-		<property name="createdDate" column="CREATED_DATE" type="com.vimukti.accounter.core.LongUseType" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<set name="accountTransactionEntriesList" inverse="true" cascade="save-update"
@@ -157,7 +154,8 @@
 			</many-to-one>
 			<!-- <property name="employeeName" column="EMPLOYEE_NAME" type="string"></property> -->
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
-			<property name="deliveryDate" column="DELIVERY_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="deliveryDate" column="DELIVERY_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="expenseStatus" column="EXPENSE_STATUS"></property>
 		</joined-subclass>
 		<joined-subclass name="CashSales" table="CASH_SALES">
@@ -206,7 +204,8 @@
 			<many-to-one name="shippingMethod" class="ShippingMethod"
 				lazy="false" column="SHIPPING_METHOD_ID">
 			</many-to-one>
-			<property name="deliverydate" column="DELIVERY_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="deliverydate" column="DELIVERY_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
 			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
 				column="PRICE_LEVEL_ID">
 			</many-to-one>
@@ -239,7 +238,8 @@
 				cascade="save-update" column="PAYFROM_ACCOUNT_ID">
 			</many-to-one>
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
-			<property name="deliveryDate" column="DELIVERY_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="deliveryDate" column="DELIVERY_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
 		</joined-subclass>
 		<joined-subclass name="CustomerCreditMemo" table="CUSTOMER_CREDIT_MEMO">
 			<key column="id" />
@@ -359,12 +359,15 @@
 			<many-to-one name="paymentTerm" class="PaymentTerms"
 				lazy="false" column="PAYMENT_TERM_ID">
 			</many-to-one>
-			<property name="dueDate" column="DUE_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
-			<property name="deliveryDate" column="DELIVERY_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="dueDate" column="DUE_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="deliveryDate" column="DELIVERY_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="isPaid" column="IS_PAID"></property>
 			<property name="payments" column="PAYMENTS"></property>
 			<property name="balanceDue" column="BALANCE_DUE"></property>
-			<property name="discountDate" column="DISCOUNT_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="discountDate" column="DISCOUNT_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
 			<set name="transactionPayBills" inverse="true" cascade="save-update,delete"
 				lazy="false">
 				<key column="ENTER_BILL_ID"></key>
@@ -409,7 +412,8 @@
 			</many-to-one>
 			<property name="expirationDate" column="EXPIRATION_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
-			<property name="deliveryDate" column="DELIVERY_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="deliveryDate" column="DELIVERY_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
 			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
 				column="PRICE_LEVEL_ID">
 			</many-to-one>
@@ -462,8 +466,10 @@
 			<many-to-one name="shippingMethod" class="ShippingMethod"
 				lazy="false" column="SHIPPING_METHOD_ID">
 			</many-to-one>
-			<property name="dueDate" column="DUE_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
-			<property name="deliverydate" column="DELIVERY_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="dueDate" column="DUE_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="deliverydate" column="DELIVERY_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="orderNum" column="SALES_ORDER_NO"></property>
 			<property name="discountTotal" column="DISCOUNT_TOTAL"></property>
 			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
@@ -480,7 +486,8 @@
 			<many-to-one name="salesOrder" class="SalesOrder" lazy="false"
 				cascade="save-update" column="SALES_ORDER_ID">
 			</many-to-one>
-			<property name="discountDate" column="DISCOUNT_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="discountDate" column="DISCOUNT_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
 			<set name="transactionReceivePayments" inverse="true" lazy="false"
 				cascade="save-update,delete">
 				<key column="INVOICE_ID"></key>
@@ -530,12 +537,10 @@
 				<property name="countryOrRegion" column="PAYBILL_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="PAYBILL_ADDRESS_IS_SELECTED"></property>
 			</component>
-			<!--
-				<many-to-one name="VATCode" column="VAT_CODE_ID" class="TaxCode"
-			-->
-			<!--				lazy="false">-->
-			<!--			</many-to-one>-->
-			<!--			<property name="VATFraction" column="VAT_FRACTION"></property>-->
+			<!-- <many-to-one name="VATCode" column="VAT_CODE_ID" class="TaxCode" -->
+			<!-- lazy="false"> -->
+			<!-- </many-to-one> -->
+			<!-- <property name="VATFraction" column="VAT_FRACTION"></property> -->
 			<list name="transactionPayBill" cascade="save-update,delete"
 				lazy="false">
 				<key column="TRANSACTION_ID" />
@@ -578,9 +583,12 @@
 			<many-to-one name="paymentTerm" class="PaymentTerms"
 				lazy="false" column="PAYMENT_TERM_ID">
 			</many-to-one>
-			<property name="dueDate" column="DUE_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
-			<property name="deliveryDate" column="DELIVERY_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
-			<property name="dispatchDate" column="DISPATCH_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="dueDate" column="DUE_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="deliveryDate" column="DELIVERY_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="dispatchDate" column="DISPATCH_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
 			<component name="shippingAddress" class="Address" lazy="false">
 				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
 				<property name="address1" column="SHIPPING_ADDRESS_ADDRESS1"
@@ -599,14 +607,11 @@
 				lazy="false" cascade="save-update" column="SHIPPING_METHOD_ID">
 			</many-to-one>
 			<property name="purchaseOrderNumber" column="PURCHASE_ORDER_NUMBER"></property>
-			<!--
-				<list name="enterBills" cascade="save-update,delete" lazy="false">
-				<key column="TRANSACTION_ID" /> <list-index column="EBX" />
-				<one-to-many class="EnterBill" /> </list> <list name="itemReceipts"
-				cascade="save-update,delete" lazy="false"> <key
-				column="TRANSACTION_ID" /> <list-index column="IRX" /> <one-to-many
-				class="ItemReceipt" /> </list>
-			-->
+			<!-- <list name="enterBills" cascade="save-update,delete" lazy="false"> 
+				<key column="TRANSACTION_ID" /> <list-index column="EBX" /> <one-to-many 
+				class="EnterBill" /> </list> <list name="itemReceipts" cascade="save-update,delete" 
+				lazy="false"> <key column="TRANSACTION_ID" /> <list-index column="IRX" /> 
+				<one-to-many class="ItemReceipt" /> </list> -->
 		</joined-subclass>
 		<joined-subclass name="ItemReceipt" table="ITEM_RECEIPT">
 			<key column="id" />
@@ -642,8 +647,10 @@
 			<many-to-one name="paymentTerm" class="PaymentTerms"
 				lazy="false" column="PAYMENT_TERM_ID">
 			</many-to-one>
-			<property name="dueDate" column="DUE_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
-			<property name="deliveryDate" column="DELIVERY_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="dueDate" column="DUE_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="deliveryDate" column="DELIVERY_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
 			<component name="shippingAddress" class="Address" lazy="false">
 				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
 				<property name="address1" column="SHIPPING_ADDRESS_ADDRESS1"
@@ -661,11 +668,9 @@
 			<many-to-one name="shippingMethod" class="ShippingMethod"
 				lazy="false" cascade="save-update" column="SHIPPING_METHOD_ID">
 			</many-to-one>
-			<!--
-				<list name="enterBills" cascade="save-update,delete" lazy="false">
-				<key column="TRANSACTION_ID" /> <list-index column="EBX" />
-				<one-to-many class="EnterBill" /> </list>
-			-->
+			<!-- <list name="enterBills" cascade="save-update,delete" lazy="false"> 
+				<key column="TRANSACTION_ID" /> <list-index column="EBX" /> <one-to-many 
+				class="EnterBill" /> </list> -->
 			<many-to-one name="purchaseOrder" class="PurchaseOrder"
 				lazy="false" cascade="save-update" column="PURCHASE_ORDER_ID">
 			</many-to-one>
@@ -688,12 +693,10 @@
 			<property name="totalCashDiscount" column="TOTAL_CASH_DISCOUNT"></property>
 			<property name="totalWriteOff" column="TOTAL_WRITE_OFF"></property>
 			<property name="totalAppliedCredits" column="TOTAL_APPLIED_CREDITS"></property>
-			<!--
-				<many-to-one name="VATCode" column="VAT_CODE_ID" class="TaxCode"
-			-->
-			<!--				lazy="false">-->
-			<!--			</many-to-one>-->
-			<!--			<property name="VATFraction" column="VAT_FRACTION"></property>-->
+			<!-- <many-to-one name="VATCode" column="VAT_CODE_ID" class="TaxCode" -->
+			<!-- lazy="false"> -->
+			<!-- </many-to-one> -->
+			<!-- <property name="VATFraction" column="VAT_FRACTION"></property> -->
 			<many-to-one name="creditsAndPayments" class="CreditsAndPayments"
 				lazy="false" column="CREDITS_AND_PAYMENTS_ID">
 			</many-to-one>
@@ -750,7 +753,8 @@
 			<many-to-one name="shippingMethod" class="ShippingMethod"
 				lazy="false" column="SHIPPING_METHOD_ID">
 			</many-to-one>
-			<property name="dueDate" column="DUE_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="dueDate" column="DUE_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="discountTotal" column="DISCOUNT_TOTAL"></property>
 			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
 				column="PRICE_LEVEL_ID">
@@ -763,21 +767,22 @@
 				cascade="save-update" column="ESTIMATE_ID">
 			</many-to-one>
 			<property name="customerOrderNumber" column="CUSTOMER_ORDER_NUMBER"></property>
-			<!--
-				<list name="invoices" cascade="save-update,delete" lazy="false">
-				<key column="TRANSACTION_ID" /> <list-index column="IDX" />
-				<one-to-many class="Invoice" /> </list>
-			-->
+			<!-- <list name="invoices" cascade="save-update,delete" lazy="false"> 
+				<key column="TRANSACTION_ID" /> <list-index column="IDX" /> <one-to-many 
+				class="Invoice" /> </list> -->
 		</joined-subclass>
 		<joined-subclass name="Expense" table="EXPENSE">
 			<key column="id" />
 			<property name="billFrom" column="BILL_FROM"></property>
-			<property name="billDate" column="BILL_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="billDate" column="BILL_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="status" column="STATUS"></property>
-			<property name="submittedDate" column="SUBMITTED_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="submittedDate" column="SUBMITTED_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="paymentDueDate" column="PAYMENT_DUE_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
-			<property name="reportingDate" column="REPORTING_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="reportingDate" column="REPORTING_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="amountDue" column="AMOUNT_DUE"></property>
 			<property name="paidAmount" column="PAID_AMOUNT"></property>
 			<property name="category" column="CATEGORY"></property>
@@ -935,21 +940,29 @@
 				lazy="false" cascade="save-update,delete" column="JOURNAL_ENTRY">
 			</many-to-one>
 		</joined-subclass>
-<!-- 		
-		<joined-subclass name="TAXAdjustment" table="TAX_ADJUSTMENT">
+		<joined-subclass name="StockAdjustment" table="STOCK_ADJUSTMENT">
 			<key column="id" />
-			<property name="increaseTAXLine" column="INCREASE_TAX_LINE"></property>
-			<many-to-one name="adjustmentAccount" class="Account"
-				lazy="false" cascade="save-update" column="ADJUSTMENT_ACCOUNT_ID">
+			<many-to-one name="warehouse" column="WAREHOUSE_ID"
+				class="WAREHOUSE" lazy="false">
 			</many-to-one>
-			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
-				cascade="save-update" column="TAX_AGENCY_ID">
+			<many-to-one name="item" column="ITEM_ID" class="Item"
+				lazy="false">
 			</many-to-one>
-			<many-to-one name="journalEntry" class="JournalEntry"
-				lazy="false" cascade="save-update,delete" column="JOURNAL_ENTRY_ID">
+			<property name="adjustmentQty" column="ADJUSTMENT_QTY"></property>
+			<many-to-one name="reason" column="ADJUSTMENT_REASON"
+				class="AdjustmentReason" lazy="false">
 			</many-to-one>
+			<property name="comment" column="COMMENT"></property>
+			<property name="completed" column="COMPLETED" />
+			<property name="qtyBeforeTransaction" column="QTY_BEFORE_TRANSACTION" />
 		</joined-subclass>
- -->		
+		<!-- <joined-subclass name="TAXAdjustment" table="TAX_ADJUSTMENT"> <key 
+			column="id" /> <property name="increaseTAXLine" column="INCREASE_TAX_LINE"></property> 
+			<many-to-one name="adjustmentAccount" class="Account" lazy="false" cascade="save-update" 
+			column="ADJUSTMENT_ACCOUNT_ID"> </many-to-one> <many-to-one name="taxAgency" 
+			class="TAXAgency" lazy="false" cascade="save-update" column="TAX_AGENCY_ID"> 
+			</many-to-one> <many-to-one name="journalEntry" class="JournalEntry" lazy="false" 
+			cascade="save-update,delete" column="JOURNAL_ENTRY_ID"> </many-to-one> </joined-subclass> -->
 	</class>
 	<class name="Entry" table="ENTRY">
 		<id name="id" column="ID">
@@ -974,11 +987,8 @@
 		<many-to-one name="taxCode" class="TAXCode" column="TAXCODE_ID"
 			lazy="false">
 		</many-to-one>
-		<!-- 
-		<many-to-one name="taxItem" class="TAXItem" column="TAXITEM_ID"
-			lazy="false">
-		</many-to-one>
-		 -->
+		<!-- <many-to-one name="taxItem" class="TAXItem" column="TAXITEM_ID" lazy="false"> 
+			</many-to-one> -->
 		<property name="memo" column="MEMO"></property>
 		<property name="debit" column="DEBIT"></property>
 		<property name="credit" column="CREDIT"></property>
@@ -987,13 +997,11 @@
 		<many-to-one name="journalEntry" class="JournalEntry"
 			lazy="false" column="TRANSACTION_ID">
 		</many-to-one>
-		<!--
-			<many-to-one name="VATAgency" class="TaxAgency"
-			column="VAT_AGENCY_ID"
-		-->
-		<!--			lazy="false">-->
-		<!--		</many-to-one>-->
-		<property name="entryDate" column="ENTRY_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<!-- <many-to-one name="VATAgency" class="TaxAgency" column="VAT_AGENCY_ID" -->
+		<!-- lazy="false"> -->
+		<!-- </many-to-one> -->
+		<property name="entryDate" column="ENTRY_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
 	</class>
 	<class name="TransactionItem" table="TRANSACTION_ITEM">
 		<id name="id" column="ID">
@@ -1013,11 +1021,8 @@
 		<many-to-one name="taxCode" class="TAXCode" lazy="false"
 			column="TAX_CODE">
 		</many-to-one>
-		<!-- 
-		<many-to-one name="vatItem" class="VATItem" lazy="false"
-			column="VAT_ITEM">
-		</many-to-one>
-		-->
+		<!-- <many-to-one name="vatItem" class="VATItem" lazy="false" column="VAT_ITEM"> 
+			</many-to-one> -->
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="quantity" column="QUANTITY"></property>
 		<property name="unitPrice" column="UNIT_PRICE"></property>
@@ -1035,13 +1040,9 @@
 			<key column="TRANSACTION_ITEM_ID"></key>
 			<one-to-many class="ItemBackUp" />
 		</set>
-<!-- 		
-		<set name="taxRateCalculationEntriesList" inverse="true"
-			cascade="all-delete-orphan" lazy="false">
-			<key column="TRANSACTION_ITEM_ID"></key>
-			<one-to-many class="TaxRateCalculation" />
-		</set>
--->		
+		<!-- <set name="taxRateCalculationEntriesList" inverse="true" cascade="all-delete-orphan" 
+			lazy="false"> <key column="TRANSACTION_ITEM_ID"></key> <one-to-many class="TaxRateCalculation" 
+			/> </set> -->
 		<set name="taxRateCalculationEntriesList" inverse="true"
 			cascade="all-delete-orphan" lazy="false">
 			<key column="TRANSACTION_ITEM_ID"></key>
@@ -1056,7 +1057,8 @@
 		<property name="isVoid" column="IS_VOID"></property>
 		<property name="createdBy" column="CREATED_BY" type="string" />
 		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
-		<property name="createdDate" column="CREATED_DATE" type="com.vimukti.accounter.core.LongUseType" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 	</class>
@@ -1087,7 +1089,8 @@
 			<generator class="native" />
 		</id>
 		<property name="stringID" column="STRING_ID"></property>
-		<property name="date" column="DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="date" column="DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="memo" column="MEMO"></property>
 		<property name="amountToUse" column="AMOUNT_TO_USE"></property>
 		<many-to-one name="transactionReceivePayment" class="TransactionReceivePayment"
@@ -1110,7 +1113,8 @@
 		</id>
 		<property name="stringID" column="STRING_ID"></property>
 		<property name="version" column="VERSION"></property>
-		<property name="date" column="DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="date" column="DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="type" column="TYPE"></property>
 		<many-to-one name="account" class="Account" lazy="false"
 			cascade="save-update" column="ACCOUNT_ID">
@@ -1152,13 +1156,15 @@
 		</id>
 		<property name="stringID" column="STRING_ID"></property>
 		<property name="version" column="VERSION"></property>
-		<property name="dueDate" column="DUE_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="dueDate" column="DUE_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
 		<many-to-one name="enterBill" class="EnterBill" lazy="false"
 			cascade="save-update" column="ENTER_BILL_ID">
 		</many-to-one>
 		<property name="originalAmount" column="ORIGINAL_AMOUNT"></property>
 		<property name="amountDue" column="AMOUNT_DUE"></property>
-		<property name="discountDate" column="DISCOUNT_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="discountDate" column="DISCOUNT_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
 		<many-to-one name="discountAccount" class="Account" lazy="false"
 			column="DISCOUNT_ID">
 		</many-to-one>
@@ -1189,12 +1195,14 @@
 		</id>
 		<property name="stringID" column="STRING_ID"></property>
 		<property name="version" column="VERSION"></property>
-		<property name="dueDate" column="DUE_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="dueDate" column="DUE_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
 		<many-to-one name="invoice" class="Invoice" lazy="false"
 			cascade="save-update" column="INVOICE_ID">
 		</many-to-one>
 		<property name="invoiceAmount" column="INVOICE_AMOUNT"></property>
-		<property name="discountDate" column="DISCOUNT_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="discountDate" column="DISCOUNT_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
 		<many-to-one name="discountAccount" class="Account" lazy="false"
 			cascade="save-update" column="DISCOUNT_ID">
 		</many-to-one>
@@ -1228,7 +1236,8 @@
 			<generator class="native" />
 		</id>
 		<property name="stringID" column="STRING_ID"></property>
-		<property name="date" column="DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="date" column="DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
 		<many-to-one name="writeCheck" class="WriteCheck" lazy="false"
 			column="WRITE_CHECK_ID">
 		</many-to-one>

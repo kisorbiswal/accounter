@@ -472,6 +472,13 @@
 		<many-to-one name="incomeAccount" class="Account"
 			column="INCOME_ACCOUNT_ID" lazy="false">
 		</many-to-one>
+		
+		<property name="minStockAlertLevel" column="MIN_STOCK_ALERT_LEVEL"/>
+		<property name="maxStockAlertLevel" column="MAX_STOCK_ALERT_LEVEL"/>
+		
+		<many-to-one name="measurement" class="Measurement"
+			column="MEASUREMENT" lazy="false"/>
+		
 		<property name="isTaxable" column="IS_TAXABLE"></property>
 		<property name="isCommissionItem" column="IS_COMMISSION_ITME"></property>
 		<property name="isIBuyThisItem" column="IS_BUY_ITEM"></property>
@@ -1315,6 +1322,150 @@
 		</id>
 		<property name="token" column="TOKEN" />
 		<property name="userId" column="USER_ID" />
+	</class>
+
+
+<class name="Warehouse" table="WAREHOUSE">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID" />
+		<property name="name" column="NAME" />
+
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+
+		<many-to-one name="contact" column="CONTACT_ID" class="Contact"
+			lazy="false" />
+		<many-to-one name="address" column="ADDRESS_ID" class="Address"
+			lazy="false" />
+
+		<set name="itemStatuses" table="ITEM_STATUS" inverse="true"
+			cascade="save-update,delete" lazy="false">
+			<key column="WAREHOUSE" />
+			<composite-element class="ItemStatus"> <!-- class attribute required -->
+				<parent name="warehouse" />
+				<property name="stringID" column="STRING_ID" />
+				<many-to-one name="item" column="ITEM_ID" class="ITEM"
+					lazy="false">
+				</many-to-one>
+				<property name="createdBy" column="CREATED_BY" type="string" />
+				<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+				<property name="createdDate" column="CREATED_DATE"
+					type="com.vimukti.accounter.core.LongUseType" />
+				<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+					type="com.vimukti.accounter.core.LongUseType" />
+
+				<nested-composite-element name="quantity"
+					class="Quantity">
+					<property name="value" column="VALUE" />
+					<!-- DOUBT on this mapping -->
+					<many-to-one name="unit" column="UNIT" class="Unit"
+						lazy="false" cascade="save-update" />
+				</nested-composite-element>
+
+			</composite-element>
+		</set>
+
+	</class>
+
+	<class name="ItemStatus" table="ITEM_STATUS">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID" />
+		<many-to-one name="item" column="ITEM_ID" class="ITEM"
+			lazy="false">
+		</many-to-one>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+
+		<component name="quantity" class="Quantity">
+			<property name="value" column="VALUE" />
+			<many-to-one name="unit" column="ID" class="Unit" lazy="false"
+				cascade="save-update" />
+		</component>
+	</class>
+
+	<class name="AdjustmentReason" table="ADJUSTMENT_REASON">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID" />
+		<property name="section" column="SECTION" />
+		<property name="name" column="NAME" />
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+	</class>
+
+
+	<class name="Measurement" table="MEASUREMENT">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+
+		<property name="name" column="NAME" />
+		<property name="desctiption" column="DESCRIPTION" />
+
+		<set name="units" inverse="true" cascade="save-update,delete"
+			lazy="false">
+			<key column="ID" />
+			<one-to-many class="Unit" />
+		</set>
+	</class>
+
+	<class name="Unit" table="UNIT">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+
+		<property name="value" column="VALUE" />
+		<many-to-one name="measurement" column="ID" class="Measurement"
+			lazy="false" cascade="save-update" />
+	</class>
+
+
+	<class name="AdjustmentItem" table="ADJUSTMENT_ITEM">
+		<id name="">
+			<column name="" />
+		</id>
+
+		<property name="adjustmentPriceValue" type="double">
+			<column name="ADJUSTMENT_PRICE_VALUE" />
+		</property>
+		<property name="adjustmentQty" type="double">
+			<column name="ADJUSTMENT_QTY" />
+		</property>
+		<property name="comment" type="java.lang.String">
+			<column name="COMMENT" />
+		</property>
+		<many-to-one name="item" class="com.vimukti.accounter.core.Item"
+			fetch="join">
+			<column name="ITEM" />
+		</many-to-one>
+		<property name="qtyBeforeTransaction" type="double">
+			<column name="QTY_BEFORE_TRANSACTION" />
+		</property>
+		<many-to-one name="reason"
+			class="com.vimukti.accounter.core.AdjustmentReason" fetch="join">
+			<column name="REASON" />
+		</many-to-one>
+		<many-to-one name="warehouse" class="com.vimukti.accounter.core.Warehouse"
+			fetch="join">
+			<column name="WAREHOUSE" />
+		</many-to-one>
 	</class>
 
 	<!--
