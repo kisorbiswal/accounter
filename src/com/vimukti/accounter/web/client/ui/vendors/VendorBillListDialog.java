@@ -68,39 +68,38 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 
 		grid = new DialogGrid(false);
 		grid.addColumns(vendorConstants.Date(), vendorConstants.no(),
-				vendorConstants.type(), UIUtils.getVendorString(
-						Accounter.getVendorsMessages().supplierName(),
-						Accounter.getVendorsMessages().vendorName()),
-				vendorConstants.total());
+				vendorConstants.type(), UIUtils.getVendorString(Accounter
+						.getVendorsMessages().supplierName(), Accounter
+						.getVendorsMessages().vendorName()), vendorConstants
+						.total());
 		grid.setCellsWidth(60, 20, 90, -1, 60);
 		grid.setView(this);
 		grid.init();
 
-		grid
-				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersAndItemReceiptsList>() {
+		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersAndItemReceiptsList>() {
 
-					@Override
-					public void OnCellDoubleClick(
-							PurchaseOrdersAndItemReceiptsList core, int column) {
+			@Override
+			public void OnCellDoubleClick(
+					PurchaseOrdersAndItemReceiptsList core, int column) {
 
-						setRecord(core);
-						// try {
-						// ClientEstimate record = (ClientEstimate) core;
-						//
-						// String estimateId = record.getID();
-						// selectedEstimate = getEstimate(estimateId);
-						//
-						// if (invoiceView != null && selectedEstimate != null)
-						// invoiceView.selectedQuote(selectedEstimate);
-						//
-						// removeFromParent();
-						//
-						// } catch (Exception e) {
-						// Accounter.showError("Error Loading Quote...");
-						// }
+				setRecord(core);
+				// try {
+				// ClientEstimate record = (ClientEstimate) core;
+				//
+				// String estimateId = record.getID();
+				// selectedEstimate = getEstimate(estimateId);
+				//
+				// if (invoiceView != null && selectedEstimate != null)
+				// invoiceView.selectedQuote(selectedEstimate);
+				//
+				// removeFromParent();
+				//
+				// } catch (Exception e) {
+				// Accounter.showError("Error Loading Quote...");
+				// }
 
-					}
-				});
+			}
+		});
 
 		// getGridData();
 		// setQuoteList(estimates);
@@ -109,8 +108,8 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 
 		HorizontalPanel helpButtonLayout = new HorizontalPanel();
 
-		AccounterButton helpButton = new AccounterButton(financeConstants
-				.help());
+		AccounterButton helpButton = new AccounterButton(
+				financeConstants.help());
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -155,8 +154,8 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 
 		okButton.enabledButton();
 
-		AccounterButton cancelButton = new AccounterButton(financeConstants
-				.cancel());
+		AccounterButton cancelButton = new AccounterButton(
+				financeConstants.cancel());
 		cancelButton.setWidth("100px");
 		cancelButton.addClickHandler(new ClickHandler() {
 
@@ -218,8 +217,8 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.ITEMRECEIPT, record
-				.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.ITEMRECEIPT,
+				record.getTransactionId(), callback);
 
 	}
 
@@ -246,8 +245,8 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER, record
-				.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
+				record.getTransactionId(), callback);
 
 	}
 
@@ -289,9 +288,10 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 		// cancelBtn.setFocus(true);
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
 	}
 }
