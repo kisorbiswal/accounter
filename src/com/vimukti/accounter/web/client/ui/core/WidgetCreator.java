@@ -100,7 +100,7 @@ public class WidgetCreator {
 
 			@Override
 			public void linkClicked() {
-				// TODO Auto-generated method stub
+				
 
 			}
 
@@ -609,8 +609,8 @@ public class WidgetCreator {
 	 * getService .getLatestCustomers(new AsyncCallback<List<ClientCustomer>>()
 	 * {
 	 * 
-	 * public void onFailure(Throwable caught) { // TODO Auto-generated method
-	 * stub
+	 * public void onFailure(Throwable caught) { // 
+	 * 
 	 * 
 	 * }
 	 * 
@@ -664,7 +664,7 @@ public class WidgetCreator {
 	 * getService .getLatestPurchaseItems(new AsyncCallback<List<ClientItem>>()
 	 * {
 	 * 
-	 * public void onFailure(Throwable caught) { // TODO Auto-generated method
+	 * public void onFailure(Throwable caught) { //  Auto-generated method
 	 * stub
 	 * 
 	 * }
@@ -719,7 +719,7 @@ public class WidgetCreator {
 	 * 
 	 * getService.getSalesItems(new AsyncCallback<List<ClientItem>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { // TODO Auto-generated method
+	 * public void onFailure(Throwable caught) { //  Auto-generated method
 	 * stub
 	 * 
 	 * }
@@ -776,7 +776,7 @@ public class WidgetCreator {
 	 * getService .getLatestReceivePayments(new
 	 * AsyncCallback<List<ClientReceivePayment>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { // TODO Auto-generated method
+	 * public void onFailure(Throwable caught) { //  Auto-generated method
 	 * stub
 	 * 
 	 * }
@@ -833,7 +833,7 @@ public class WidgetCreator {
 	 * getService .getLatestCashSales(new AsyncCallback<List<ClientCashSales>>()
 	 * {
 	 * 
-	 * public void onFailure(Throwable caught) { // TODO Auto-generated method
+	 * public void onFailure(Throwable caught) { //  Auto-generated method
 	 * stub
 	 * 
 	 * }
@@ -891,7 +891,7 @@ public class WidgetCreator {
 	 * getService .getLatestCustomerRefunds(new
 	 * AsyncCallback<List<ClientCustomerRefund>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { // TODO Auto-generated method
+	 * public void onFailure(Throwable caught) { //  Auto-generated method
 	 * stub
 	 * 
 	 * }
@@ -948,7 +948,7 @@ public class WidgetCreator {
 	 * 
 	 * getService.getLatestVendors(new AsyncCallback<List<ClientVendor>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { // TODO Auto-generated method
+	 * public void onFailure(Throwable caught) { //  Auto-generated method
 	 * stub
 	 * 
 	 * }
@@ -1002,7 +1002,7 @@ public class WidgetCreator {
 	 * getService .getLatestVendorPayments(new
 	 * AsyncCallback<List<PaymentsList>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { // TODO Auto-generated method
+	 * public void onFailure(Throwable caught) { //  Auto-generated method
 	 * stub
 	 * 
 	 * }
@@ -1061,7 +1061,7 @@ public class WidgetCreator {
 	 * getService .getLatestCashPurchases(new
 	 * AsyncCallback<List<ClientCashPurchase>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { // TODO Auto-generated method
+	 * public void onFailure(Throwable caught) { //  Auto-generated method
 	 * stub
 	 * 
 	 * }
@@ -1119,7 +1119,7 @@ public class WidgetCreator {
 	 * 
 	 * getService.getLatestChecks(new AsyncCallback<List<ClientWriteCheck>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { // TODO Auto-generated method
+	 * public void onFailure(Throwable caught) { //  Auto-generated method
 	 * stub
 	 * 
 	 * }
@@ -1177,7 +1177,7 @@ public class WidgetCreator {
 	 * getService .getLatestDeposits(new
 	 * AsyncCallback<List<ClientMakeDeposit>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { // TODO Auto-generated method
+	 * public void onFailure(Throwable caught) { //  Auto-generated method
 	 * stub
 	 * 
 	 * }
@@ -1236,7 +1236,7 @@ public class WidgetCreator {
 	 * getService .getLatestFundsTransfer(new
 	 * AsyncCallback<List<ClientTransferFund>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { // TODO Auto-generated method
+	 * public void onFailure(Throwable caught) { //  Auto-generated method
 	 * stub
 	 * 
 	 * }
