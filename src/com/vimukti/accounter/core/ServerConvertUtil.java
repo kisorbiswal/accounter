@@ -27,7 +27,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 			List<?> set, Session session) {
 		if (set == null)
 			return null;
-		ArrayList result = new ArrayList();
+		ArrayList result = new ArrayList<Account>();
 		if (set.size() == 0)
 			return result;
 		Class class1 = getServerEqivalentClass(set.iterator().next().getClass());
@@ -35,8 +35,8 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 			if (isNotMappingEntity(class1)) {
 				result.add(toServerObjectInternal(null, (S) src, session));
 			} else {
-				D obj = (D) loadObjectByid(session, class1
-						.getSimpleName(), ((S) src).getID());
+				D obj = (D) loadObjectByid(session, class1.getSimpleName(),
+						((S) src).getID());
 				result.add(toServerObjectInternal(obj, (S) src, session));
 			}
 		}
@@ -59,8 +59,8 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 				if (isNotMappingEntity(class1)) {
 					result.add(toServerObjectInternal(null, (S) src, session));
 				} else {
-					D obj = (D) loadObjectByid(session, class1
-							.getSimpleName(), ((S) src).getID());
+					D obj = (D) loadObjectByid(session, class1.getSimpleName(),
+							((S) src).getID());
 					result.add(toServerObjectInternal(obj, (S) src, session));
 				}
 			}
@@ -85,8 +85,8 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 					list.addAll(set);
 
 			} else {
-				List result = (List<S>) toServerList((List<S>) srcField
-						.get(src), session);
+				List result = (List<S>) toServerList(
+						(List<S>) srcField.get(src), session);
 				list.clear();
 				if (result != null)
 					list.addAll(result);
@@ -207,8 +207,8 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 			Class<D> serverCoreClass = getServerEqivalentClass(src.getClass());
 			if (!isNotMappingEntity(serverCoreClass)) {
 				// dst = (D) session.get(serverCoreClass, src.getID());
-				dt = (D) loadObjectByid(session, serverCoreClass
-						.getSimpleName(), src.getID());
+				dt = (D) loadObjectByid(session,
+						serverCoreClass.getSimpleName(), src.getID());
 			}
 			dst = dt == null ? dst == null ? serverCoreClass.newInstance()
 					: dst : dt;
@@ -326,16 +326,20 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 							// Its a Persistent Object Reference Id
 							// So Get the Object with id from Session
 							if (isNotMappingEntity(dstfieldType)) {
-								dstField.set(dst, toServerObjectInternal(
-										(D) dstField.get(dst), (S) srcField
-												.get(src), session));
+								dstField.set(
+										dst,
+										toServerObjectInternal(
+												(D) dstField.get(dst),
+												(S) srcField.get(src), session));
 							} else {
 								// Object t = session.get(dstfieldType,
 								// longValue);
 
-								dstField.set(dst, loadObjectByid(session,
-										dstfieldType.getSimpleName(),
-										(Long) srcField.get(src)));
+								dstField.set(
+										dst,
+										loadObjectByid(session,
+												dstfieldType.getSimpleName(),
+												(Long) srcField.get(src)));
 							}
 
 						} else if (isString(dstField.getType())) {
@@ -343,8 +347,9 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 							dstField.set(dst, srcField.get(src));
 
 						} else {
-							D d = getServerAfterCheckingInCache((D) dstField
-									.get(dst), (S) srcField.get(src), session);
+							D d = getServerAfterCheckingInCache(
+									(D) dstField.get(dst),
+									(S) srcField.get(src), session);
 							// if
 							// (dstField.getAnnotation(SpecialReference.class)
 							// != null) {

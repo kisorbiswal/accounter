@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-@SuppressWarnings("unchecked")
 public class AddOrEditPayTypeDialog extends BaseDialog {
 
 	// private AccountCombo account;
@@ -57,8 +56,8 @@ public class AddOrEditPayTypeDialog extends BaseDialog {
 		type.setTitle(companyConstants.type());
 		// type.setType("comboBox");
 		type.setRequired(true);
-		type.setValueMap(Accounter.getCompanyMessages().earning(),
-				Accounter.getCompanyMessages().deduction());
+		type.setValueMap(Accounter.getCompanyMessages().earning(), Accounter
+				.getCompanyMessages().deduction());
 		type.setDefaultValue(Accounter.getCompanyMessages().earning());
 
 		// account = new AccountCombo(companyConstants.account());

@@ -25,8 +25,6 @@ public class Utility_R {
 
 	int version;
 
-	
-
 	public Utility_R() {
 
 	}
@@ -410,30 +408,30 @@ public class Utility_R {
 
 	// public static String getCalculatedDiscountDate(String transactionDate,
 	// PaymentTerms paymentTerm){
-	//		
+	//
 	// String discountDate = "";
 	// if (paymentTerm != null) {
-	//				
+	//
 	// int ifPaidWithIn = 0;
 	// if (paymentTerm.getIfPaidWithIn() > 0)
 	// ifPaidWithIn = paymentTerm.getIfPaidWithIn();
-	//			 
+	//
 	// discountDate = calculateDiscountDate(transactionDate, ifPaidWithIn);
 	// }
-	//		 
+	//
 	// }
 
 	// private final static native String calculateDiscountDate(String
 	// transactionDate,
 	// int ifPaidWithIn) /*-{
-	//		
+	//
 	// Date discountDate = new Date(transactionDate);
 	// discountDate = discountDate+ifPaidWithIn;
 	// $wnd.alert(" discountDate:"+discountDate);
 	// return "";
-	// 		
-	// 		
-	// 		
+	//
+	//
+	//
 	//
 	// }-*/;
 
@@ -519,32 +517,34 @@ public class Utility_R {
 	public static double getCalculatedSalesTax(FinanceDate transactionDate,
 			double taxableLineTotal, TAXGroup taxGroup) {
 
-//		// Query query = session.createSQLQuery(new
-//		// StringBuilder().append(
-//		// "SELECT SUM(TR.RATE) FROM TAXRATES TR JOIN TAXGROUP_TAXCODE TGTC ON TR.TAXCODE_ID = TGTC.TAXCODE_ID JOIN TAXGROUP TG ON TGTC.TAXGROUP_ID = TG.ID JOIN TAXCODE TC ON TC.ID=TR.TAXCODE_ID WHERE TG.ID = "
-//		// ).append(taxGroupID).append(
-//		// " AND TR.AS_OF IN (SELECT MAX(TR1.AS_OF) FROM TAXRATES TR1 WHERE TR1.ID IN (SELECT (TR2.ID) FROM TAXRATES TR2 JOIN TAXGROUP_TAXCODE TGTC ON TR2.TAXCODE_ID = TGTC.TAXCODE_ID JOIN TAXGROUP TG ON TGTC.TAXGROUP_ID = TG.ID) AND TR1.AS_OF <= '"
-//		// ).append(transactionDate).append(
-//		// "' GROUP BY TR1.TAXCODE_ID) and TR.COMPANY_ID ="
-//		// ).append(company.getID()).toString());
-//
-//		double salesTaxAmount = 0D;
-//		double calculatedTaxRate = 0D;
-//
-//		if (taxGroup == null || taxGroup.getName().equals("None"))
-//			return salesTaxAmount;
-//
-//		Iterator taxCodeIterator = taxGroup.getTaxCodes().iterator();
-//		while (taxCodeIterator.hasNext()) {
-//			TAXCode taxCode = (TAXCode) taxCodeIterator.next();
-////			calculatedTaxRate += getLatestTaxRate(taxCode, transactionDate);
-//
-//		}
-//		if (DecimalUtil.isGreaterThan(calculatedTaxRate, 0.0)) {
-//			salesTaxAmount = (taxableLineTotal * calculatedTaxRate) / 100;
-//		}
-//
-//		return salesTaxAmount;
+		// // Query query = session.createSQLQuery(new
+		// // StringBuilder().append(
+		// //
+		// "SELECT SUM(TR.RATE) FROM TAXRATES TR JOIN TAXGROUP_TAXCODE TGTC ON TR.TAXCODE_ID = TGTC.TAXCODE_ID JOIN TAXGROUP TG ON TGTC.TAXGROUP_ID = TG.ID JOIN TAXCODE TC ON TC.ID=TR.TAXCODE_ID WHERE TG.ID = "
+		// // ).append(taxGroupID).append(
+		// //
+		// " AND TR.AS_OF IN (SELECT MAX(TR1.AS_OF) FROM TAXRATES TR1 WHERE TR1.ID IN (SELECT (TR2.ID) FROM TAXRATES TR2 JOIN TAXGROUP_TAXCODE TGTC ON TR2.TAXCODE_ID = TGTC.TAXCODE_ID JOIN TAXGROUP TG ON TGTC.TAXGROUP_ID = TG.ID) AND TR1.AS_OF <= '"
+		// // ).append(transactionDate).append(
+		// // "' GROUP BY TR1.TAXCODE_ID) and TR.COMPANY_ID ="
+		// // ).append(company.getID()).toString());
+		//
+		// double salesTaxAmount = 0D;
+		// double calculatedTaxRate = 0D;
+		//
+		// if (taxGroup == null || taxGroup.getName().equals("None"))
+		// return salesTaxAmount;
+		//
+		// Iterator taxCodeIterator = taxGroup.getTaxCodes().iterator();
+		// while (taxCodeIterator.hasNext()) {
+		// TAXCode taxCode = (TAXCode) taxCodeIterator.next();
+		// // calculatedTaxRate += getLatestTaxRate(taxCode, transactionDate);
+		//
+		// }
+		// if (DecimalUtil.isGreaterThan(calculatedTaxRate, 0.0)) {
+		// salesTaxAmount = (taxableLineTotal * calculatedTaxRate) / 100;
+		// }
+		//
+		// return salesTaxAmount;
 		return 0;
 
 	}
@@ -553,48 +553,48 @@ public class Utility_R {
 	private static double getLatestTaxRate(TAXCode taxCode,
 			FinanceDate transactionDate) {
 
-//		Set<TaxRates> taxRates = taxCode.getTaxRates();
-//		int numberOfTaxRates = taxRates.size();
-//		Iterator taxRateIterator = taxRates.iterator();
-//		FinanceDate latestDate = null;
-//
-//		FinanceDate taxDate[] = new FinanceDate[numberOfTaxRates];
-//		int index = 0;
-//		while (taxRateIterator.hasNext()) {
-//			TaxRates taxRate = (TaxRates) taxRateIterator.next();
-//			taxDate[index] = taxRate.getAsOf();
-//			index++;
-//		}
-//		latestDate = taxDate[0];
-//		for (FinanceDate date : taxDate) {
-//			if (date.after(latestDate)) {
-//				latestDate = date;
-//			}
-//
-//		}
-//		taxRateIterator = taxRates.iterator();
-//		while (taxRateIterator.hasNext()) {
-//			TaxRates taxRate = (TaxRates) taxRateIterator.next();
-//			if (latestDate.equals(taxRate.getAsOf())) {
-//				return taxRate.getRate();
-//			}
-//		}
+		// Set<TaxRates> taxRates = taxCode.getTaxRates();
+		// int numberOfTaxRates = taxRates.size();
+		// Iterator taxRateIterator = taxRates.iterator();
+		// FinanceDate latestDate = null;
+		//
+		// FinanceDate taxDate[] = new FinanceDate[numberOfTaxRates];
+		// int index = 0;
+		// while (taxRateIterator.hasNext()) {
+		// TaxRates taxRate = (TaxRates) taxRateIterator.next();
+		// taxDate[index] = taxRate.getAsOf();
+		// index++;
+		// }
+		// latestDate = taxDate[0];
+		// for (FinanceDate date : taxDate) {
+		// if (date.after(latestDate)) {
+		// latestDate = date;
+		// }
+		//
+		// }
+		// taxRateIterator = taxRates.iterator();
+		// while (taxRateIterator.hasNext()) {
+		// TaxRates taxRate = (TaxRates) taxRateIterator.next();
+		// if (latestDate.equals(taxRate.getAsOf())) {
+		// return taxRate.getRate();
+		// }
+		// }
 		return 0.0;
 
 		// double rate=null;
-		//		
+		//
 		// if(taxCode.getTaxRates()!=null) {
 		// Set <TaxRates> taxrates=taxCode.getTaxRates();
 		// Iterator<TaxRates> i3=taxrates.iterator();
-		//			
+		//
 		// Date date;
 		// if(i3.hasNext()) {
 		// TaxRates tr=(TaxRates) i3.next();
 		// date=(Date)tr.getAsOf();
 		// rate=tr.getRate();
-		//		
+		//
 		// while(i3.hasNext()) {
-		//		
+		//
 		// if(date.after(tr.getAsOf())) {
 		// date=tr.getAsOf();
 		// rate=tr.getRate();
@@ -613,7 +613,7 @@ public class Utility_R {
 	@SuppressWarnings("unchecked")
 	public static List<Account> getPayFromAccounts(Company company) {
 
-		List<Account> payFromAccounts = new ArrayList();
+		List<Account> payFromAccounts = new ArrayList<Account>();
 
 		Iterator iterator = company.getAccounts().iterator();
 
@@ -636,7 +636,7 @@ public class Utility_R {
 	@SuppressWarnings("unchecked")
 	public static List<Account> getDepositInAccounts(Company company) {
 
-		List<Account> depositInAccounts = new ArrayList();
+		List<Account> depositInAccounts = new ArrayList<Account>();
 
 		Iterator iterator = company.getAccounts().iterator();
 
@@ -655,7 +655,7 @@ public class Utility_R {
 	// To Display the Account Combo box of Transaction Item Lines.
 	@SuppressWarnings("unchecked")
 	public static List<Account> getGridAccounts(Company company) {
-		List<Account> gridAccounts = new ArrayList();
+		List<Account> gridAccounts = new ArrayList<Account>();
 
 		Iterator iterator = company.getAccounts().iterator();
 
@@ -674,7 +674,7 @@ public class Utility_R {
 
 	@SuppressWarnings("unchecked")
 	public static List<Account> getCashBackAccounts(Company company) {
-		List<Account> cashBackAccounts = new ArrayList();
+		List<Account> cashBackAccounts = new ArrayList<Account>();
 
 		Iterator iterator = company.getAccounts().iterator();
 
@@ -691,7 +691,7 @@ public class Utility_R {
 
 	@SuppressWarnings("unchecked")
 	public static List<Account> getIncomeAndExpenseAccounts(Company company) {
-		List<Account> incomeAndExpenseAccounts = new ArrayList();
+		List<Account> incomeAndExpenseAccounts = new ArrayList<Account>();
 
 		Iterator iterator = company.getAccounts().iterator();
 
@@ -708,7 +708,7 @@ public class Utility_R {
 
 	@SuppressWarnings("unchecked")
 	public static List<Account> getTaxAgencyAccounts(Company company) {
-		List<Account> taxAgencyAccounts = new ArrayList();
+		List<Account> taxAgencyAccounts = new ArrayList<Account>();
 
 		Iterator iterator = company.getAccounts().iterator();
 
@@ -730,7 +730,7 @@ public class Utility_R {
 	@SuppressWarnings("unchecked")
 	public static List<Account> getBankAccounts(Company company) {
 
-		List<Account> bankAccounts = new ArrayList();
+		List<Account> bankAccounts = new ArrayList<Account>();
 
 		Iterator iterator = company.getAccounts().iterator();
 
@@ -747,7 +747,7 @@ public class Utility_R {
 	@SuppressWarnings("unchecked")
 	public static List<Account> getBankingAccountSummary(Company company) {
 
-		List<Account> bankingAccountSummary = new ArrayList();
+		List<Account> bankingAccountSummary = new ArrayList<Account>();
 
 		Iterator iterator = company.getAccounts().iterator();
 
@@ -783,7 +783,7 @@ public class Utility_R {
 	@SuppressWarnings("unchecked")
 	public static List<Account> getAccounts(Company company, int type) {
 
-		List<Account> accounts = new ArrayList();
+		List<Account> accounts = new ArrayList<Account>();
 
 		Iterator iterator = company.getAccounts().iterator();
 
@@ -800,7 +800,7 @@ public class Utility_R {
 	@SuppressWarnings("unchecked")
 	public static List<Account> getAccounts(Company company) {
 
-		List<Account> accounts = new ArrayList();
+		List<Account> accounts = new ArrayList<Account>();
 
 		Iterator iterator = company.getAccounts().iterator();
 
@@ -882,7 +882,7 @@ public class Utility_R {
 		// lhs = amt.nextToken();
 		// rhs = amt.nextToken();
 		// rhs = rhs.substring(0, 2);
-		//				
+		//
 		// }
 		// }
 		int length = lhs.length();
@@ -919,8 +919,9 @@ public class Utility_R {
 			numberInWords += readNumber(subString);
 		}
 		if (!rhs.equals(""))
-			numberInWords = new StringBuilder().append(numberInWords).append(
-					" and ").append(rhs).append("/100 DOLLARS").toString();
+			numberInWords = new StringBuilder().append(numberInWords)
+					.append(" and ").append(rhs).append("/100 DOLLARS")
+					.toString();
 		System.out.println(numberInWords);
 
 		return numberInWords;
@@ -1341,12 +1342,12 @@ public class Utility_R {
 		tempDate2.setTime(date2);
 
 		Calendar date1Cal = new GregorianCalendar(tempDate1.get(Calendar.YEAR),
-				tempDate1.get(Calendar.MONTH), tempDate1
-						.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+				tempDate1.get(Calendar.MONTH),
+				tempDate1.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
 
 		Calendar date2Cal = new GregorianCalendar(tempDate2.get(Calendar.YEAR),
-				tempDate2.get(Calendar.MONTH), tempDate2
-						.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+				tempDate2.get(Calendar.MONTH),
+				tempDate2.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
 
 		return date1Cal.compareTo(date2Cal);
 	}
@@ -1382,8 +1383,8 @@ public class Utility_R {
 				if (split[j].length() > 9)
 					val = val
 							+ "  "
-							+ getStringBy9char(split[j].substring(8), split[j]
-									.substring(0, 8));
+							+ getStringBy9char(split[j].substring(8),
+									split[j].substring(0, 8));
 				else
 					val = val + "  " + split[j];
 			}
@@ -1404,7 +1405,6 @@ public class Utility_R {
 		}
 		return valueTobesend;
 	}
-
 
 	@SuppressWarnings("unchecked")
 	public static ClientFinanceDate getCurrentFiscalYearStartDate() {
@@ -1452,10 +1452,9 @@ public class Utility_R {
 
 	}
 
-
 	public static native boolean isMSIEBrowser()/*-{
-		if (navigator.userAgent.indexOf("MSIE")>=0)
-		return true;
+		if (navigator.userAgent.indexOf("MSIE") >= 0)
+			return true;
 		return false;
 	}-*/;
 
