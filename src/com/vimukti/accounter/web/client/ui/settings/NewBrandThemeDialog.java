@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -23,6 +25,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -197,6 +200,37 @@ public class NewBrandThemeDialog extends BaseDialog {
 		button_textBoxPanel.add(mainLayoutPanel);
 
 		setBodyLayout(button_textBoxPanel);
+		topMarginBox.addBlurHandler(new BlurHandler() {
+			@Override
+			public void onBlur(BlurEvent event) {
+				if(!UIUtils.isDouble(topMarginBox.getValue())){
+					Accounter.showError(messages.numberForTopMarginField());
+					 MainFinanceWindow.getViewManager().showErrorInCurrectDialog(messages.errorForTopMarginField());
+					topMarginBox.setValue("");
+				}
+			}
+		});
+		bottomMarginBox.addBlurHandler(new BlurHandler() {
+			@Override
+			public void onBlur(BlurEvent event) {
+				if(!UIUtils.isDouble(bottomMarginBox.getValue())){
+					Accounter.showError(messages.numberForbottomMarginField());
+					 MainFinanceWindow.getViewManager().showErrorInCurrectDialog(messages.errorForbottomMarginField());
+					bottomMarginBox.setValue("");
+				}
+			}
+		});
+		 addressPadBox.addBlurHandler(new BlurHandler() {
+			@Override
+			public void onBlur(BlurEvent event) {
+				if(!UIUtils.isDouble(addressPadBox.getValue())){
+					Accounter.showError(messages.numberForAddresspadField());
+					 MainFinanceWindow.getViewManager().showErrorInCurrectDialog(messages.errorForaddresspadField());
+					addressPadBox.setValue("");
+				}
+			}
+		});
+		 
 
 	}
 

@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
@@ -16,7 +17,7 @@ public class InvoiceBrandingAction extends Action {
 
 	public InvoiceBrandingAction(String text) {
 		super(text);
-		// TODO Auto-generated constructor stub
+		this.catagory = Accounter.getSettingsMessages().settings();
 	}
 
 	@Override

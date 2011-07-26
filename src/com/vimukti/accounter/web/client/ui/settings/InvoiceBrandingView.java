@@ -81,6 +81,7 @@ public class InvoiceBrandingView<T> extends
 		});
 		titleLabel = new Label(messages.invoiceBrandingLabel());
 		titleLabel.removeStyleName("gwt-Label");
+ 
 		titleLabel.setStyleName(Accounter.getVendorsMessages().lableTitle());
 		generalSettingsHTML.addClickHandler(new ClickHandler() {
 
@@ -134,8 +135,10 @@ public class InvoiceBrandingView<T> extends
 
 		mainPanel.add(titlePanel);
 		mainPanel.add(buttonPanel);
+
 		List<ClientBrandingTheme> brandingThemes = Accounter.getCompany()
 				.getBrandingTheme();
+
 		for (int i = 0; i < brandingThemes.size(); i++) {
 			brandingTheme = brandingThemes.get(i);
 			mainPanel.add(addingThemeToView(brandingTheme));

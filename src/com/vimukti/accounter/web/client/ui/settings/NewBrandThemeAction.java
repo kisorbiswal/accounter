@@ -7,16 +7,16 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 /**
-*
-* @author Uday Kumar
-* 
-*/
+ * 
+ * @author Uday Kumar
+ * 
+ */
 public class NewBrandThemeAction extends Action {
 	public NewBrandThemeDialog newBrandThemeDialog;
 
 	public NewBrandThemeAction(String text) {
 		super(text);
-		// TODO Auto-generated constructor stub
+		this.catagory = Accounter.getSettingsMessages().settings();
 	}
 
 	@Override
@@ -41,16 +41,14 @@ public class NewBrandThemeAction extends Action {
 	public void run(Object data, Boolean isDependent) {
 		try {
 			if (data != null) {
-				newBrandThemeDialog = new NewBrandThemeDialog(
-						Accounter.getSettingsMessages()
-								.editBrandThemeLabel(), "",
+				newBrandThemeDialog = new NewBrandThemeDialog(Accounter
+						.getSettingsMessages().editBrandThemeLabel(), "",
 						(ClientBrandingTheme) data);
 				newBrandThemeDialog.show();
 				newBrandThemeDialog.center();
 			} else {
-				newBrandThemeDialog = new NewBrandThemeDialog(
-						Accounter.getSettingsMessages()
-								.newBrandThemeLabel(), "");
+				newBrandThemeDialog = new NewBrandThemeDialog(Accounter
+						.getSettingsMessages().newBrandThemeLabel(), "");
 				newBrandThemeDialog.show();
 				newBrandThemeDialog.center();
 			}
