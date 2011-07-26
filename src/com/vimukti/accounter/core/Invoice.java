@@ -199,7 +199,7 @@ public class Invoice extends Transaction implements Lifecycle {
 	@ReffereredObject
 	Set<TransactionReceivePayment> transactionReceivePayments = new HashSet<TransactionReceivePayment>();
 
-	// 
+	//
 
 	public Set<TransactionReceivePayment> getTransactionReceivePayments() {
 		return transactionReceivePayments;
@@ -457,8 +457,7 @@ public class Invoice extends Transaction implements Lifecycle {
 					&& invoice.transactionItems.size() > 0) {
 
 				FinanceLogger
-						.log(
-								"update the Status of the Estimate with Number {0}  (if any) Involved in this Invoice ",
+						.log("update the Status of the Estimate with Number {0}  (if any) Involved in this Invoice ",
 								String.valueOf(this.estimate.number));
 
 				for (TransactionItem transactionItem : invoice.transactionItems) {
@@ -469,8 +468,7 @@ public class Invoice extends Transaction implements Lifecycle {
 
 					if (transactionItem.referringTransactionItem != null) {
 						TransactionItem referringTransactionItem = (TransactionItem) session
-								.get(
-										TransactionItem.class,
+								.get(TransactionItem.class,
 										transactionItem.referringTransactionItem
 												.getID());
 						double amount = 0d;
@@ -481,12 +479,16 @@ public class Invoice extends Transaction implements Lifecycle {
 								if (DecimalUtil
 										.isLessThan(
 												transactionItem.lineTotal,
-												transactionItem.quantity
-														* referringTransactionItem.unitPrice))
+												transactionItem
+														.getQuantity()
+														.calculatePrice(
+																referringTransactionItem.unitPrice)))
 									referringTransactionItem.usedamt -= transactionItem.lineTotal;
 								else
-									referringTransactionItem.usedamt -= transactionItem.quantity
-											* referringTransactionItem.unitPrice;
+									referringTransactionItem.usedamt -= transactionItem
+											.getQuantity()
+											.calculatePrice(
+													referringTransactionItem.unitPrice);
 							} else
 								referringTransactionItem.usedamt -= transactionItem.lineTotal;
 
@@ -496,12 +498,16 @@ public class Invoice extends Transaction implements Lifecycle {
 								if (DecimalUtil
 										.isLessThan(
 												transactionItem.lineTotal,
-												transactionItem.quantity
-														* referringTransactionItem.unitPrice))
+												transactionItem
+														.getQuantity()
+														.calculatePrice(
+																referringTransactionItem.unitPrice)))
 									referringTransactionItem.usedamt += transactionItem.lineTotal;
 								else
-									referringTransactionItem.usedamt += transactionItem.quantity
-											* referringTransactionItem.unitPrice;
+									referringTransactionItem.usedamt += transactionItem
+											.getQuantity()
+											.calculatePrice(
+													referringTransactionItem.unitPrice);
 							} else
 								referringTransactionItem.usedamt += transactionItem.lineTotal;
 						}
@@ -514,10 +520,10 @@ public class Invoice extends Transaction implements Lifecycle {
 
 						if (flag
 								&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT
-										|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM || transactionItem.type == TransactionItem.TYPE_SERVICE) && DecimalUtil
-										.isLessThan(
-												transactionItem.quantity,
-												referringTransactionItem.quantity))))) {
+										|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM || transactionItem.type == TransactionItem.TYPE_SERVICE) && transactionItem
+										.getQuantity().compareTo(
+												referringTransactionItem
+														.getQuantity()) < 0)))) {
 							if (isCreated ? DecimalUtil.isLessThan(amount,
 									referringTransactionItem.lineTotal)
 									: DecimalUtil.isGreaterThan(amount, 0)) {
@@ -654,8 +660,8 @@ public class Invoice extends Transaction implements Lifecycle {
 
 				FinanceLogger.log(
 						"update the Status of the Sales Order with Number {0} "
-								+ "  (if any) Invloved in this Invoice", String
-								.valueOf(invoice.salesOrder.number));
+								+ "  (if any) Invloved in this Invoice",
+						String.valueOf(invoice.salesOrder.number));
 
 				for (TransactionItem transactionItem : invoice.transactionItems) {
 					/**
@@ -665,8 +671,7 @@ public class Invoice extends Transaction implements Lifecycle {
 
 					if (transactionItem.referringTransactionItem != null) {
 						TransactionItem referringTransactionItem = (TransactionItem) session
-								.get(
-										TransactionItem.class,
+								.get(TransactionItem.class,
 										transactionItem.referringTransactionItem
 												.getID());
 						double amount = 0d;
@@ -677,12 +682,16 @@ public class Invoice extends Transaction implements Lifecycle {
 								if (DecimalUtil
 										.isLessThan(
 												transactionItem.lineTotal,
-												transactionItem.quantity
-														* referringTransactionItem.unitPrice))
+												transactionItem
+														.getQuantity()
+														.calculatePrice(
+																referringTransactionItem.unitPrice)))
 									referringTransactionItem.usedamt -= transactionItem.lineTotal;
 								else
-									referringTransactionItem.usedamt -= transactionItem.quantity
-											* referringTransactionItem.unitPrice;
+									referringTransactionItem.usedamt -= transactionItem
+											.getQuantity()
+											.calculatePrice(
+													referringTransactionItem.unitPrice);
 							} else
 								referringTransactionItem.usedamt -= transactionItem.lineTotal;
 
@@ -692,12 +701,16 @@ public class Invoice extends Transaction implements Lifecycle {
 								if (DecimalUtil
 										.isLessThan(
 												transactionItem.lineTotal,
-												transactionItem.quantity
-														* referringTransactionItem.unitPrice))
+												transactionItem
+														.getQuantity()
+														.calculatePrice(
+																referringTransactionItem.unitPrice)))
 									referringTransactionItem.usedamt += transactionItem.lineTotal;
 								else
-									referringTransactionItem.usedamt += transactionItem.quantity
-											* referringTransactionItem.unitPrice;
+									referringTransactionItem.usedamt += transactionItem
+											.getQuantity()
+											.calculatePrice(
+													referringTransactionItem.unitPrice);
 							} else
 								referringTransactionItem.usedamt += transactionItem.lineTotal;
 						}
@@ -710,10 +723,10 @@ public class Invoice extends Transaction implements Lifecycle {
 
 						if (flag
 								&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT
-										|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM || transactionItem.type == TransactionItem.TYPE_SERVICE) && DecimalUtil
-										.isLessThan(
-												transactionItem.quantity,
-												referringTransactionItem.quantity))))) {
+										|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM || transactionItem.type == TransactionItem.TYPE_SERVICE) && transactionItem
+										.getQuantity().compareTo(
+												referringTransactionItem
+														.getQuantity()) < 0)))) {
 							if (isAddition ? DecimalUtil.isLessThan(amount,
 									referringTransactionItem.lineTotal)
 									: DecimalUtil.isGreaterThan(amount, 0)) {
@@ -856,7 +869,6 @@ public class Invoice extends Transaction implements Lifecycle {
 		return AccounterConstants.TYPE_INVOICE;
 	}
 
-
 	@Override
 	public Payee getInvolvedPayee() {
 
@@ -870,14 +882,11 @@ public class Invoice extends Transaction implements Lifecycle {
 				&& this.transactionItems.size() == in.transactionItems.size()
 
 				&& ((this.transactionDate != null && in.transactionDate != null) ? (this.transactionDate
-						.equals(in.transactionDate))
-						: true)
+						.equals(in.transactionDate)) : true)
 				&& ((this.customer != null && in.customer != null) ? (this.customer
-						.equals(in.customer))
-						: true)
+						.equals(in.customer)) : true)
 				&& ((this.estimate != null && in.estimate != null) ? (this.estimate
-						.equals(estimate))
-						: true)
+						.equals(estimate)) : true)
 				&& ((this.salesOrder != null && in.salesOrder != null) ? (this.salesOrder.id == in.salesOrder.id)
 						: true)) {
 
@@ -901,7 +910,7 @@ public class Invoice extends Transaction implements Lifecycle {
 
 		this.balanceDue = this.total - payments;
 		/**
-		 *if present transaction is deleted or voided & previous transaction is
+		 * if present transaction is deleted or voided & previous transaction is
 		 * not voided then only it will enter the loop
 		 */
 

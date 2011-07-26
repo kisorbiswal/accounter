@@ -232,7 +232,7 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 						+ forNullValue(item.getDescription())
 						+ "</p></div></td><td style=\"padding: 6px;\" align=\"right\" class=\"qty\"><div><p class=\"fontSetting\">"
 						+ (forZeroAmounts(getDecimalsUsingMaxDecimals(item
-								.getQuantity(), null, maxDecimalPoints)))
+								.getQuantity().getValue(), null, maxDecimalPoints)))
 						+ "</p></div></td><td style=\"padding: 6px;\" align=\"right\"><div class=\"cost\"><p class=\"fontSetting\">"
 						+ (forZeroAmounts(largeAmountConversation(item
 								.getUnitPrice())))

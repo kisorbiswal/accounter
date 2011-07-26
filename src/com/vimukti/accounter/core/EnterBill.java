@@ -828,12 +828,12 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 							if (DecimalUtil
 									.isLessThan(
 											transactionItem.lineTotal,
-											transactionItem.quantity
-													* referringTransactionItem.unitPrice))
+											transactionItem.getQuantity().calculatePrice(referringTransactionItem.unitPrice)))
+													
 								referringTransactionItem.usedamt -= transactionItem.lineTotal;
 							else
-								referringTransactionItem.usedamt -= transactionItem.quantity
-										* referringTransactionItem.unitPrice;
+								referringTransactionItem.usedamt -= transactionItem.getQuantity().calculatePrice(referringTransactionItem.unitPrice);
+										
 						} else
 							referringTransactionItem.usedamt -= transactionItem.lineTotal;
 
@@ -843,12 +843,11 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 							if (DecimalUtil
 									.isLessThan(
 											transactionItem.lineTotal,
-											transactionItem.quantity
-													* referringTransactionItem.unitPrice))
+											transactionItem.getQuantity().calculatePrice(referringTransactionItem.unitPrice)))
+													
 								referringTransactionItem.usedamt += transactionItem.lineTotal;
 							else
-								referringTransactionItem.usedamt += transactionItem.quantity
-										* referringTransactionItem.unitPrice;
+								referringTransactionItem.usedamt += transactionItem.getQuantity().calculatePrice(referringTransactionItem.unitPrice);
 						} else
 							referringTransactionItem.usedamt += transactionItem.lineTotal;
 					}
@@ -861,7 +860,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 
 					if (flag
 							&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT
-									|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM || transactionItem.type == TransactionItem.TYPE_SERVICE) && transactionItem.quantity < referringTransactionItem.quantity)))) {
+									|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM || transactionItem.type == TransactionItem.TYPE_SERVICE) && transactionItem.getQuantity().compareTo(referringTransactionItem.getQuantity()) <0 )))) {
 
 						if (isAddition ? DecimalUtil.isLessThan(amount,
 								referringTransactionItem.lineTotal)
@@ -910,16 +909,14 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 					if (referringTransactionItem != null) {
 						if (!isAddition)
 							if (transactionItem.type == transactionItem.TYPE_ITEM) {
-								referringTransactionItem.usedamt -= transactionItem.quantity
-										* referringTransactionItem.unitPrice;
+								referringTransactionItem.usedamt -= transactionItem.getQuantity().calculatePrice(referringTransactionItem.unitPrice);
 							} else
 								referringTransactionItem.usedamt -= referringTransactionItem.usedamt
 										- transactionItem.lineTotal;
 
 						else {
 							if (transactionItem.type == TransactionItem.TYPE_ITEM) {
-								referringTransactionItem.usedamt = transactionItem.quantity
-										* referringTransactionItem.unitPrice;
+								referringTransactionItem.usedamt = transactionItem.getQuantity().calculatePrice(referringTransactionItem.unitPrice);
 							} else
 								referringTransactionItem.usedamt += transactionItem.lineTotal
 										- referringTransactionItem.usedamt;

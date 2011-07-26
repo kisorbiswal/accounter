@@ -103,7 +103,7 @@ public class SalesOrder extends Transaction implements Lifecycle {
 	 */
 	String customerOrderNumber;
 
-	// 
+	//
 
 	// List<Invoice> invoices;
 
@@ -401,8 +401,7 @@ public class SalesOrder extends Transaction implements Lifecycle {
 					&& salesorder.transactionItems.size() > 0) {
 
 				FinanceLogger
-						.log(
-								"update the Status of the Estimate with Number {0}  (if any) Involved in this Invoice ",
+						.log("update the Status of the Estimate with Number {0}  (if any) Involved in this Invoice ",
 								String.valueOf(this.estimate.number));
 
 				for (TransactionItem transactionItem : salesorder.transactionItems) {
@@ -413,8 +412,7 @@ public class SalesOrder extends Transaction implements Lifecycle {
 
 					if (transactionItem.referringTransactionItem != null) {
 						TransactionItem referringTransactionItem = (TransactionItem) session
-								.get(
-										TransactionItem.class,
+								.get(TransactionItem.class,
 										transactionItem.referringTransactionItem
 												.getID());
 						double amount = 0d;
@@ -424,12 +422,16 @@ public class SalesOrder extends Transaction implements Lifecycle {
 								if (DecimalUtil
 										.isLessThan(
 												transactionItem.lineTotal,
-												transactionItem.quantity
-														* referringTransactionItem.unitPrice))
+												transactionItem
+														.getQuantity()
+														.calculatePrice(
+																referringTransactionItem.unitPrice)))
 									referringTransactionItem.usedamt -= transactionItem.lineTotal;
 								else
-									referringTransactionItem.usedamt -= transactionItem.quantity
-											* referringTransactionItem.unitPrice;
+									referringTransactionItem.usedamt -= transactionItem
+											.getQuantity()
+											.calculatePrice(
+													referringTransactionItem.unitPrice);
 							} else
 								referringTransactionItem.usedamt -= transactionItem.lineTotal;
 
@@ -439,12 +441,16 @@ public class SalesOrder extends Transaction implements Lifecycle {
 								if (DecimalUtil
 										.isLessThan(
 												transactionItem.lineTotal,
-												transactionItem.quantity
-														* referringTransactionItem.unitPrice))
+												transactionItem
+														.getQuantity()
+														.calculatePrice(
+																referringTransactionItem.unitPrice)))
 									referringTransactionItem.usedamt += transactionItem.lineTotal;
 								else
-									referringTransactionItem.usedamt += transactionItem.quantity
-											* referringTransactionItem.unitPrice;
+									referringTransactionItem.usedamt += transactionItem
+											.getQuantity()
+											.calculatePrice(
+													referringTransactionItem.unitPrice);
 							} else
 								referringTransactionItem.usedamt += transactionItem.lineTotal;
 						}
@@ -458,10 +464,10 @@ public class SalesOrder extends Transaction implements Lifecycle {
 
 						if (flag
 								&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT
-										|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM || transactionItem.type == TransactionItem.TYPE_SERVICE) && DecimalUtil
-										.isLessThan(
-												transactionItem.quantity,
-												referringTransactionItem.quantity))))) {
+										|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM || transactionItem.type == TransactionItem.TYPE_SERVICE) && transactionItem
+										.getQuantity().compareTo(
+												referringTransactionItem
+														.getQuantity()) < 0)))) {
 							if (isAddition ? DecimalUtil.isLessThan(amount,
 									referringTransactionItem.lineTotal)
 									: DecimalUtil.isGreaterThan(amount, 0)) {
@@ -564,7 +570,6 @@ public class SalesOrder extends Transaction implements Lifecycle {
 		return AccounterConstants.TYPE_SALES_ORDER;
 	}
 
-
 	@Override
 	public Payee getInvolvedPayee() {
 
@@ -607,11 +612,11 @@ public class SalesOrder extends Transaction implements Lifecycle {
 	// if (!this.transactionItems.get(i).equals(
 	// so.transactionItems.get(i)))
 	// return false;
-	//	
+	//
 	// }
 	// return true;
 	// }
-	//	
+	//
 	// return false;
 	// }
 
@@ -637,7 +642,7 @@ public class SalesOrder extends Transaction implements Lifecycle {
 		// for (TransactionItem transactionItem : this.transactionItems) {
 		// for (TransactionItem item : invoice.transactionItems) {
 		// if (transactionItem == item.referringTransactionItem) {
-		//                         
+		//
 		// }
 		// }
 		// }
@@ -692,7 +697,7 @@ public class SalesOrder extends Transaction implements Lifecycle {
 		// if (this.status == STATUS_COMPLETED || this.status ==
 		// STATUS_CANCELLED
 		// || this.status == STATUS_PAID_OR_APPLIED_OR_ISSUED) {
-		//			
+		//
 		// throw new InvalidOperationException(
 		// "This SalesOrder can't be edited, becuase it is Completed or Canceled "
 		// + this.getNumber());

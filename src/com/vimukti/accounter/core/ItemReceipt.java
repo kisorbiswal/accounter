@@ -667,8 +667,8 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 						double amount = referringTransactionItem.usedamt;
 
 						if (transactionItem.type == TransactionItem.TYPE_ITEM)
-							transactionItem.lineTotal = transactionItem.quantity
-									* referringTransactionItem.unitPrice;
+							transactionItem.lineTotal = transactionItem.getQuantity().calculatePrice(referringTransactionItem.unitPrice);
+									
 
 						else
 							transactionItem.lineTotal = transactionItem.lineTotal;
@@ -685,7 +685,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 						if (flag
 								&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT
-										|| transactionItem.type == TransactionItem.TYPE_SALESTAX || (transactionItem.type == TransactionItem.TYPE_ITEM && transactionItem.quantity < referringTransactionItem.quantity)))) {
+										|| transactionItem.type == TransactionItem.TYPE_SALESTAX || (transactionItem.type == TransactionItem.TYPE_ITEM && transactionItem.getQuantity().compareTo(referringTransactionItem.getQuantity()) <0 )))) {
 							if (isAddition ? DecimalUtil.isLessThan(
 									referringTransactionItem.usedamt,
 									referringTransactionItem.lineTotal)

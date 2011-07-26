@@ -91,7 +91,7 @@ public class CreditNoteTemplete extends TemplateBuilder implements ITemplate {
 						+ forNullValue(item.getDescription())
 						+ "</div></td><td style=\"padding: 6px;\" align=\"right\" class=\"qty\"><div>"
 						+ (forZeroAmounts(getDecimalsUsingMaxDecimals(item
-								.getQuantity(), null, maxDecimalPoints)))
+								.getQuantity().getValue(), null, maxDecimalPoints)))
 						+ "</div></td><td style=\"padding: 6px;\" align=\"right\"><div class=\"cost\">"
 						+ (forZeroAmounts(largeAmountConversation(item
 								.getUnitPrice())))

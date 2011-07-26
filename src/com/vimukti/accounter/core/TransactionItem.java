@@ -82,8 +82,9 @@ public class TransactionItem extends CreatableObject implements
 	/**
 	 * The quantity of TransactionItem to be used.
 	 */
-	int quantity;
-
+	//int quantity;
+	private Quantity quantity;
+	
 	/**
 	 * The unit price which is given to be multiplied with quantity and reduced
 	 * by discount which results in Line total
@@ -290,7 +291,7 @@ public class TransactionItem extends CreatableObject implements
 	/**
 	 * @return the quantity
 	 */
-	public int getQuantity() {
+	public Quantity getQuantity() {
 		return quantity;
 	}
 
@@ -735,7 +736,7 @@ public class TransactionItem extends CreatableObject implements
 
 	}
 
-	public void setQuantity(int quality) {
+	public void setQuantity(Quantity quality) {
 		this.quantity = quality;
 	}
 
