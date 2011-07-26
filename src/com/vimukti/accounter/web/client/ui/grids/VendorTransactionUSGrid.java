@@ -1119,7 +1119,7 @@ public class VendorTransactionUSGrid extends
 
 	@Override
 	public void setTaxCode(long taxCode) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
