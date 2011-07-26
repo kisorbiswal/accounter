@@ -20,6 +20,8 @@ public class EstimatesAndSalesOrdersList implements IsSerializable,
 	String customerName;
 
 	double total;
+	
+	private double remainingTotal;
 
 	/**
 	 * @return the transactionId
@@ -109,6 +111,14 @@ public class EstimatesAndSalesOrdersList implements IsSerializable,
 	 */
 	public void setTotal(double total) {
 		this.total = total;
+	}
+
+	public double getRemainingTotal() {
+		return remainingTotal;
+	}
+
+	public void setRemainingTotal(double remainingTotal) {
+		this.remainingTotal = remainingTotal;
 	}
 
 }
