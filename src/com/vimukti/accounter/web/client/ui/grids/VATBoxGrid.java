@@ -37,45 +37,56 @@ public class VATBoxGrid extends ListGrid<ClientBox> {
 		return null;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	protected String[] getSelectValues(ClientBox obj, int index) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	protected boolean isEditable(ClientBox obj, int row, int index) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	protected void onClick(ClientBox obj, int row, int index) {
-		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void onDoubleClick(ClientBox obj) {
-		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	protected void onValueChange(ClientBox obj, int index, Object value) {
-		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	protected int sort(ClientBox obj1, ClientBox obj2, int index) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public boolean validateGrid() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
