@@ -87,7 +87,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 
 	FinanceDate discountDate;
 
-	// TODO we have used this at the Time we have used the Triggers.
+	
 	boolean isPaid = false;
 
 	/**
