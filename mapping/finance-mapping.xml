@@ -1311,7 +1311,7 @@
 
 		<property name="type" column="TYPE" />
 		<property name="factor" column="FACTOR" />
-		<many-to-one name="measurement" column="ID" class="Measurement"
+		<many-to-one name="measurement" column="MEASUREMENT" class="Measurement"
 			lazy="false" cascade="save-update" />
 	</class>
 
