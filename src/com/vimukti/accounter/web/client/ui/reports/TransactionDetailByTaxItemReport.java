@@ -18,8 +18,8 @@ public class TransactionDetailByTaxItemReport extends
 
 	@Override
 	public void OnRecordClick(TransactionDetailByTaxItem record) {
-		ReportsRPC.openTransactionView(record.getTransactionType(), record
-				.getTransactionId());
+		ReportsRPC.openTransactionView(record.getTransactionType(),
+				record.getTransactionId());
 	}
 
 	@Override
@@ -31,44 +31,41 @@ public class TransactionDetailByTaxItemReport extends
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		SalesTaxLiability taxLiability = (SalesTaxLiability) data;
 		if (taxLiability == null) {
-			Accounter.createReportService()
-					.getTransactionDetailByTaxItem(start.getTime(),
-							end.getTime(), this);
+			Accounter.createReportService().getTransactionDetailByTaxItem(
+					start.getTime(), end.getTime(), this);
 		} else if (taxLiability.getTaxAgencyName() != null) {
-			Accounter.createReportService()
-					.getTransactionDetailByTaxItem(
-							taxLiability.getTaxAgencyName(), start.getTime(),
-							end.getTime(), this);
+			Accounter.createReportService().getTransactionDetailByTaxItem(
+					taxLiability.getTaxAgencyName(), start.getTime(),
+					end.getTime(), this);
 
 		}
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 114, "", "");
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 114, "",
+				"");
 
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 114, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 114, "",
+				"");
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -37,8 +37,8 @@ public class ARAgingDetailReport extends AbstractReportView<AgedDebtors> {
 		DummyDebitor byCustomerDetail = (DummyDebitor) this.data;
 
 		if (byCustomerDetail == null) {
-			Accounter.createReportService().getAgedDebtors(
-					start.getTime(), new ClientFinanceDate().getTime(), this);
+			Accounter.createReportService().getAgedDebtors(start.getTime(),
+					new ClientFinanceDate().getTime(), this);
 		} else if (byCustomerDetail.getDebitorName() != null) {
 			Accounter.createReportService().getAgedDebtors(
 					byCustomerDetail.getDebitorName(), start.getTime(),
@@ -53,28 +53,27 @@ public class ARAgingDetailReport extends AbstractReportView<AgedDebtors> {
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(record.getType(), record
-					.getTransactionId());
+			ReportsRPC.openTransactionView(record.getType(),
+					record.getTransactionId());
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 118, "", "");
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 118, "",
+				"");
 	}
 
 	@Override
@@ -106,8 +105,8 @@ public class ARAgingDetailReport extends AbstractReportView<AgedDebtors> {
 				return UIUtils.compareTo(obj1.getNumber(), obj2.getNumber());
 
 		case 0:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 
 			// case 4:
 			// return obj1.getDueDate().compareTo(obj2.getDueDate());
@@ -122,9 +121,10 @@ public class ARAgingDetailReport extends AbstractReportView<AgedDebtors> {
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 118, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 118, "",
+				"");
 	}
 
 }

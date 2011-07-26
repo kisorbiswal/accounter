@@ -21,8 +21,8 @@ public class ReverseChargeListReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record, ReportsActionFactory
-				.getReverseChargeListDetailAction());
+		UIUtils.runAction(record,
+				ReportsActionFactory.getReverseChargeListDetailAction());
 
 	}
 
@@ -40,36 +40,34 @@ public class ReverseChargeListReport extends
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 145, "", "");
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 145, "",
+				"");
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
 	public int sort(ReverseChargeList obj1, ReverseChargeList obj2, int col) {
 		switch (col) {
 		case 0:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 		case 1:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		}
@@ -77,9 +75,10 @@ public class ReverseChargeListReport extends
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 145, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 145, "",
+				"");
 	}
 
 }

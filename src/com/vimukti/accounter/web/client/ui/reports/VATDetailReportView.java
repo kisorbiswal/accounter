@@ -28,8 +28,8 @@ public class VATDetailReportView extends AbstractReportView<VATDetail> {
 	@Override
 	public void OnRecordClick(VATDetail record) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(record.getTransactionType(), record
-					.getTransactionId());
+			ReportsRPC.openTransactionView(record.getTransactionType(),
+					record.getTransactionId());
 	}
 
 	@Override
@@ -39,34 +39,31 @@ public class VATDetailReportView extends AbstractReportView<VATDetail> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService()
-				.getPriorVATReturnVATDetailReport(start.getTime(),
-						end.getTime(), this);
+		Accounter.createReportService().getPriorVATReturnVATDetailReport(
+				start.getTime(), end.getTime(), this);
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 138, "", "");
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 138, "",
+				"");
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -83,16 +80,16 @@ public class VATDetailReportView extends AbstractReportView<VATDetail> {
 			return obj1.getTransactionDate().compareTo(
 					obj2.getTransactionDate());
 		case 2:
-			return UIUtils.compareInt(Integer.parseInt(obj1
-					.getTransactionNumber()), Integer.parseInt(obj2
-					.getTransactionNumber()));
+			return UIUtils.compareInt(
+					Integer.parseInt(obj1.getTransactionNumber()),
+					Integer.parseInt(obj2.getTransactionNumber()));
 		case 3:
 			return obj1.getPayeeName().compareTo(obj2.getPayeeName());
 		case 4:
 			return UIUtils.compareDouble(obj1.getVatRate(), obj2.getVatRate());
 		case 5:
-			return UIUtils.compareDouble(obj1.getNetAmount(), obj2
-					.getNetAmount());
+			return UIUtils.compareDouble(obj1.getNetAmount(),
+					obj2.getNetAmount());
 		case 6:
 			return UIUtils.compareDouble(obj1.getTotal(), obj2.getTotal());
 		}
@@ -100,9 +97,10 @@ public class VATDetailReportView extends AbstractReportView<VATDetail> {
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 138, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 138, "",
+				"");
 	}
 
 }

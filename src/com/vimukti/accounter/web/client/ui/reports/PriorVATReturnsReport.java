@@ -28,7 +28,6 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 
 	@Override
 	public void OnRecordClick(VATSummary record) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -42,8 +41,8 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 		this.row = -1;
 		if (this.serverReport instanceof PriorVATReturnsServerReport)
 			((PriorVATReturnsServerReport) this.serverReport).row = -1;
-		Accounter.createReportService().getPriorReturnVATSummary(
-				vatAgency, end.getTime(), this);
+		Accounter.createReportService().getPriorReturnVATSummary(vatAgency,
+				end.getTime(), this);
 		this.vatAgency = vatAgency;
 	}
 
@@ -56,27 +55,25 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 136, "", "", vatAgency);
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 136, "",
+				"", vatAgency);
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -93,9 +90,10 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 147, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 147, "",
+				"");
 	}
 
 }

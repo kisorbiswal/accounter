@@ -46,7 +46,6 @@ public class VATItemDetailReport extends AbstractReportView<VATItemDetail> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -62,13 +61,11 @@ public class VATItemDetailReport extends AbstractReportView<VATItemDetail> {
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 

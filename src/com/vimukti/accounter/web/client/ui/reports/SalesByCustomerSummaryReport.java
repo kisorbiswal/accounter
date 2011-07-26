@@ -21,8 +21,8 @@ public class SalesByCustomerSummaryReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record, ReportsActionFactory
-				.getSalesByCustomerDetailAction());
+		UIUtils.runAction(record,
+				ReportsActionFactory.getSalesByCustomerDetailAction());
 	}
 
 	@Override
@@ -38,28 +38,26 @@ public class SalesByCustomerSummaryReport extends
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 121, "", "");
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 121, "",
+				"");
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -67,8 +65,8 @@ public class SalesByCustomerSummaryReport extends
 			int col) {
 		switch (col) {
 		case 0:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 			// case 1:
 			// return obj1.getGroupName().toLowerCase().compareTo(
 			// obj2.getGroupName().toLowerCase());
@@ -80,8 +78,9 @@ public class SalesByCustomerSummaryReport extends
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 121, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 121, "",
+				"");
 	}
 }

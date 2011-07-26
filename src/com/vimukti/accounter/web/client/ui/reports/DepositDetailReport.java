@@ -22,8 +22,8 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		ReportsRPC.openTransactionView(getType(record), record
-				.getTransactionId());
+		ReportsRPC.openTransactionView(getType(record),
+				record.getTransactionId());
 	}
 
 	@Override
@@ -60,17 +60,16 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 		return Accounter.getReportsMessages().financialYearToDate();
 	}
 
-//	@Override
-//	public int[] getColumnTypes() {
-//		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER,
-//				COLUMN_TYPE_DATE, COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
-//				COLUMN_TYPE_AMOUNT };
-//	}
+	// @Override
+	// public int[] getColumnTypes() {
+	// return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER,
+	// COLUMN_TYPE_DATE, COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
+	// COLUMN_TYPE_AMOUNT };
+	// }
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "",
-				Accounter.getReportsMessages().number(),
+		return new String[] { "", Accounter.getReportsMessages().number(),
 				Accounter.getReportsMessages().date(),
 				Accounter.getReportsMessages().name(),
 				Accounter.getReportsMessages().accountName(),
@@ -89,31 +88,31 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getDepositDetail(
-				start.getTime(), end.getTime(), this);
+		Accounter.createReportService().getDepositDetail(start.getTime(),
+				end.getTime(), this);
 	}
 
 	@Override
 	public void processRecord(DepositDetail record) {
-//		if (sectionDepth == 0) {
-//			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-//					FinanceApplication.getReportsMessages().total() },
-//					new int[] { 5 });
-//		} else if (sectionDepth == 1) {
-//			this.sectionName = Utility.getTransactionName(getType(record));
-//			this.sectionID = record.getTransactionId();
-//			addSection(new String[] { sectionName }, new String[] { "" },
-//					new int[] { 5 });
-//		} else if (sectionDepth == 2) {
-//			// No need to do anything, just allow adding this record
-//			// if (!sectionName
-//			// .equals(Utility.getTransactionName(getType(record)))) {
-//			if (!sectionID.equals(record.getTransactionId())) {
-//				endSection();
-//			} else {
-//				return;
-//			}
-//		}
+		// if (sectionDepth == 0) {
+		// addSection(new String[] { "", "" }, new String[] { "", "", "", "",
+		// FinanceApplication.getReportsMessages().total() },
+		// new int[] { 5 });
+		// } else if (sectionDepth == 1) {
+		// this.sectionName = Utility.getTransactionName(getType(record));
+		// this.sectionID = record.getTransactionId();
+		// addSection(new String[] { sectionName }, new String[] { "" },
+		// new int[] { 5 });
+		// } else if (sectionDepth == 2) {
+		// // No need to do anything, just allow adding this record
+		// // if (!sectionName
+		// // .equals(Utility.getTransactionName(getType(record)))) {
+		// if (!sectionID.equals(record.getTransactionId())) {
+		// endSection();
+		// } else {
+		// return;
+		// }
+		// }
 		// Go on recursive calling if we reached this place
 		processRecord(record);
 	}
@@ -125,7 +124,6 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -141,7 +139,6 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -192,15 +189,15 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 
 	@Override
 	public int sort(DepositDetail obj1, DepositDetail obj2, int col) {
-		int ret = UIUtils.compareInt(obj1.getTransactionType(), obj2
-				.getTransactionType());
+		int ret = UIUtils.compareInt(obj1.getTransactionType(),
+				obj2.getTransactionType());
 		if (ret != 0) {
 			return ret;
 		}
 		switch (col) {
 		case 0:
-			return UIUtils.compareInt(obj1.getTransactionType(), obj2
-					.getTransactionType());
+			return UIUtils.compareInt(obj1.getTransactionType(),
+					obj2.getTransactionType());
 		case 1:
 			int num1 = UIUtils.isInteger(obj1.getTransactionNumber()) ? Integer
 					.parseInt(obj1.getTransactionNumber()) : 0;
@@ -228,7 +225,7 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 
 	@Override
 	public void resetVariables() {
-//		this.sectionDepth = 0;
+		// this.sectionDepth = 0;
 		this.sectionName = "";
 		this.currentsectionName = "";
 	}

@@ -23,11 +23,11 @@ public class BalanceSheetReport extends AbstractReportView<TrialBalance> {
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		if (record.getAccountId() != 0) {
-			UIUtils.runAction(record, ReportsActionFactory
-					.getTransactionDetailByAccountAction());
+			UIUtils.runAction(record,
+					ReportsActionFactory.getTransactionDetailByAccountAction());
 		} else {
-			UIUtils.runAction(record, ReportsActionFactory
-					.getProfitAndLossAction());
+			UIUtils.runAction(record,
+					ReportsActionFactory.getProfitAndLossAction());
 		}
 
 	}
@@ -39,34 +39,34 @@ public class BalanceSheetReport extends AbstractReportView<TrialBalance> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getBalanceSheetReport(
-				start.getTime(), end.getTime(), this);
+		Accounter.createReportService().getBalanceSheetReport(start.getTime(),
+				end.getTime(), this);
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 112, "", "");
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 112, "",
+				"");
 
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 112, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 112, "",
+				"");
 	}
 }

@@ -18,8 +18,8 @@ public class SalesTaxLiabilityReport extends
 
 	@Override
 	public void OnRecordClick(SalesTaxLiability record) {
-		UIUtils.runAction(record, ReportsActionFactory
-				.getTransactionDetailByTaxItemAction());
+		UIUtils.runAction(record,
+				ReportsActionFactory.getTransactionDetailByTaxItemAction());
 	}
 
 	@Override
@@ -35,34 +35,33 @@ public class SalesTaxLiabilityReport extends
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 144, "", "");
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 144, "",
+				"");
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 144, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 144, "",
+				"");
 	}
 
 }

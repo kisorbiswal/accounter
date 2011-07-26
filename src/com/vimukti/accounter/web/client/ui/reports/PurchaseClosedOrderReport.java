@@ -18,19 +18,17 @@ public class PurchaseClosedOrderReport extends
 	@Override
 	public void init() {
 		super.init();
-		toolbar.setDateRanageOptions("", Accounter
-				.getReportsMessages().present(), Accounter
-				.getReportsMessages().lastMonth(), Accounter
-				.getReportsMessages().last3Months(), Accounter
-				.getReportsMessages().last6Months(), Accounter
-				.getReportsMessages().lastYear(), Accounter
-				.getReportsMessages().untilEndOfYear(), Accounter
-				.getReportsMessages().custom());
+		toolbar.setDateRanageOptions("", Accounter.getReportsMessages()
+				.present(), Accounter.getReportsMessages().lastMonth(),
+				Accounter.getReportsMessages().last3Months(), Accounter
+						.getReportsMessages().last6Months(), Accounter
+						.getReportsMessages().lastYear(), Accounter
+						.getReportsMessages().untilEndOfYear(), Accounter
+						.getReportsMessages().custom());
 	}
 
 	@Override
 	public void OnRecordClick(OpenAndClosedOrders record) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -48,34 +46,33 @@ public class PurchaseClosedOrderReport extends
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 135, "", "");
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 135, "",
+				"");
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 135, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 135, "",
+				"");
 	}
 }

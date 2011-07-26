@@ -40,7 +40,7 @@ public class APAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
+
 	}
 
 	@Override
@@ -60,7 +60,6 @@ public class APAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 

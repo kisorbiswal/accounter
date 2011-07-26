@@ -24,8 +24,8 @@ public class TransactionDetailByAccountReport extends
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(getType(record), record
-					.getTransactionId());
+			ReportsRPC.openTransactionView(getType(record),
+					record.getTransactionId());
 	}
 
 	int getType(TransactionDetailByAccount record) {
@@ -47,14 +47,12 @@ public class TransactionDetailByAccountReport extends
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		TrialBalance accountdetails = (TrialBalance) data;
 		if (accountdetails == null) {
-			Accounter.createReportService()
-					.getTransactionDetailByAccount(start.getTime(),
-							end.getTime(), this);
+			Accounter.createReportService().getTransactionDetailByAccount(
+					start.getTime(), end.getTime(), this);
 		} else if (accountdetails.getAccountName() != null) {
-			Accounter.createReportService()
-					.getTransactionDetailByAccount(
-							accountdetails.getAccountName(), start.getTime(),
-							end.getTime(), this);
+			Accounter.createReportService().getTransactionDetailByAccount(
+					accountdetails.getAccountName(), start.getTime(),
+					end.getTime(), this);
 		}
 	}
 
@@ -65,36 +63,35 @@ public class TransactionDetailByAccountReport extends
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 115, "", "");
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 115, "",
+				"");
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
 	public int sort(TransactionDetailByAccount obj1,
 			TransactionDetailByAccount obj2, int col) {
-		int ret = obj1.getAccountName().toLowerCase().compareTo(
-				obj2.getAccountName().toLowerCase());
+		int ret = obj1.getAccountName().toLowerCase()
+				.compareTo(obj2.getAccountName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
 		switch (col) {
 		case 0:
-			return obj1.getAccountName().toLowerCase().compareTo(
-					obj2.getAccountName().toLowerCase());
+			return obj1.getAccountName().toLowerCase()
+					.compareTo(obj2.getAccountName().toLowerCase());
 		case 1:
 			String name1 = obj1.getName();
 			String name2 = obj2.getName();
@@ -103,8 +100,8 @@ public class TransactionDetailByAccountReport extends
 			return obj1.getTransactionDate().compareTo(
 					obj2.getTransactionDate());
 		case 3:
-			return UIUtils.compareInt(obj1.getTransactionType(), obj2
-					.getTransactionType());
+			return UIUtils.compareInt(obj1.getTransactionType(),
+					obj2.getTransactionType());
 		case 4:
 			int num1 = UIUtils.isInteger(obj1.getTransactionNumber()) ? Integer
 					.parseInt(obj1.getTransactionNumber()) : 0;
@@ -121,8 +118,8 @@ public class TransactionDetailByAccountReport extends
 		case 6:
 			if (!currentsectionName.toLowerCase().equals(
 					obj1.getAccountName().toLowerCase())) {
-				return obj1.getAccountName().toLowerCase().compareTo(
-						obj2.getAccountName().toLowerCase());
+				return obj1.getAccountName().toLowerCase()
+						.compareTo(obj2.getAccountName().toLowerCase());
 			} else {
 				return UIUtils.compareDouble(obj1.getTotal(), obj2.getTotal());
 			}
@@ -131,9 +128,10 @@ public class TransactionDetailByAccountReport extends
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 115, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 115, "",
+				"");
 	}
 
 	// private void printDataForIEBrowser() {

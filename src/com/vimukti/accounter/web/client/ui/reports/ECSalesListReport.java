@@ -42,7 +42,6 @@ public class ECSalesListReport extends AbstractReportView<ECSalesList> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 

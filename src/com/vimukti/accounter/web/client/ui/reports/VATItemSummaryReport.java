@@ -21,9 +21,7 @@ public class VATItemSummaryReport extends AbstractReportView<VATItemSummary> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils
-				.runAction(record, ReportsActionFactory
-						.getVaTItemDetailAction());
+		UIUtils.runAction(record, ReportsActionFactory.getVaTItemDetailAction());
 
 	}
 
@@ -51,27 +49,25 @@ public class VATItemSummaryReport extends AbstractReportView<VATItemSummary> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 141, "", "");
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 141, "",
+				"");
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -79,8 +75,8 @@ public class VATItemSummaryReport extends AbstractReportView<VATItemSummary> {
 
 		switch (col) {
 		case 0:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 		case 1:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		}
@@ -88,9 +84,10 @@ public class VATItemSummaryReport extends AbstractReportView<VATItemSummary> {
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 141, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 141, "",
+				"");
 	}
 
 }

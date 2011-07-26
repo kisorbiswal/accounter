@@ -39,27 +39,25 @@ public class MostProfitableCustomerReport extends
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 147, "", "");
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 147, "",
+				"");
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -67,26 +65,27 @@ public class MostProfitableCustomerReport extends
 			int col) {
 		switch (col) {
 		case 0:
-			return obj1.getCustomer().toLowerCase().compareTo(
-					obj2.getCustomer().toLowerCase());
+			return obj1.getCustomer().toLowerCase()
+					.compareTo(obj2.getCustomer().toLowerCase());
 		case 1:
-			return UIUtils.compareDouble(obj1.getInvoicedAmount(), obj2
-					.getInvoicedAmount());
+			return UIUtils.compareDouble(obj1.getInvoicedAmount(),
+					obj2.getInvoicedAmount());
 		case 2:
 			return UIUtils.compareDouble(obj1.getCost(), obj2.getCost());
 		case 3:
 			return UIUtils.compareDouble(obj1.getMargin(), obj2.getMargin());
 		case 4:
-			return UIUtils.compareDouble(obj1.getMarginPercentage(), obj2
-					.getMarginPercentage());
+			return UIUtils.compareDouble(obj1.getMarginPercentage(),
+					obj2.getMarginPercentage());
 		}
 		return 0;
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 147, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 147, "",
+				"");
 	}
 
 }
