@@ -80,7 +80,6 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 
 	@Override
 	protected String[] getSelectValues(T obj, int col) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -135,7 +134,6 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 
 					@Override
 					public boolean onCancelClick() throws InvalidEntryException {
-						// TODO Auto-generated method stub
 						return false;
 					}
 
