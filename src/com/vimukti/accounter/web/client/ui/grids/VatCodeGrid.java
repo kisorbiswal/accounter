@@ -20,9 +20,11 @@ public class VatCodeGrid extends ListGrid<ClientTaxRates> {
 		return 0;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	protected Object getColumnValue(ClientTaxRates obj, int col) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -32,45 +34,57 @@ public class VatCodeGrid extends ListGrid<ClientTaxRates> {
 				Accounter.getVATMessages().asof() };
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	protected String[] getSelectValues(ClientTaxRates obj, int col) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	protected boolean isEditable(ClientTaxRates obj, int row, int col) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	protected void onClick(ClientTaxRates obj, int row, int col) {
-		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void onDoubleClick(ClientTaxRates obj) {
-		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	protected void onValueChange(ClientTaxRates obj, int col, Object value) {
-		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	protected int sort(ClientTaxRates obj1, ClientTaxRates obj2, int index) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public boolean validateGrid() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
