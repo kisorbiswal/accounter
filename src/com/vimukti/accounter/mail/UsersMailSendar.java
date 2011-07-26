@@ -134,7 +134,7 @@ public class UsersMailSendar {
 			e.printStackTrace();
 			return;
 		}
-		// TODO take different files for different email content
+		// take different files for different email content
 		String content = getContentForNewUser();
 		content = content.replaceAll("%USER%", name);
 		content = content.replaceAll("%USERID%", emailId);
