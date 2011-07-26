@@ -42,13 +42,13 @@ public class VendorTransactionHistoryReport extends
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -61,7 +61,7 @@ public class VendorTransactionHistoryReport extends
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
