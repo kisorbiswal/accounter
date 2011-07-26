@@ -31,6 +31,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
+import com.vimukti.accounter.web.client.ui.Header;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
@@ -82,7 +83,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			undepositedFoundscombo, bankChargecombo, retainedEarningsCombo,
 			pendingItemrecicptsCombo, jobresellAccountCombo,
 			writeOffAccountCombo, defaultCashCombo;
-	// FIXME--Previously 'logspaceTxt' was FloatItem
+	// --Previously 'logspaceTxt' was FloatItem
 	private FormItem logspaceTxt;
 	private SelectItem logContentSelect, defautFileAsSettings;
 	private boolean isCancel = false;
@@ -122,7 +123,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 	protected void initCompany() {
 		ClientCompanyPreferences companyPreferences = company.getPreferences();
-		// FIXME Call Back to get ClientCompanyPreferences Object of Company
+		// Call Back to get ClientCompanyPreferences Object of Company
 		if (companyPreferences != null) {
 
 			dateItem.setValue(new ClientFinanceDate(companyPreferences
@@ -612,7 +613,6 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// companyPreferences.setVATregistrationNumber(vatRegNumber.getValue()
 		// .toString());
 
-		// FIXME
 		// companyPreferences.setIsAccuralBasis(paysalesTaxgroupItem.getValue()
 		// .equals("2"));
 		// System.out.println("radio value:" +
@@ -637,7 +637,6 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			// .setEndOfFiscalYear(dateItem.getValue().getTime());
 		}
 
-		// FIXME
 		// companyPreferences
 		// .setIsMyAccountantWillrunPayroll(whowillrunAccTransfer
 		// .getValue().equals("2"));
@@ -664,7 +663,6 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// companyPreferences.setVATregistrationNumber(vatRegNumber.getValue()
 		// .toString());
 
-		// FIXME
 		// companyPreferences.setIsAccuralBasis(paysalesTaxgroupItem.getValue()
 		// .equals("2"));
 		// System.out.println("radio value:" +
@@ -691,7 +689,6 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			// .setEndOfFiscalYear(dateItem.getValue().getTime());
 		}
 
-		// FIXME
 		// companyPreferences
 		// .setIsMyAccountantWillrunPayroll(whowillrunAccTransfer
 		// .getValue().equals("2"));
@@ -744,9 +741,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	public void saveSuccess(IAccounterCore result) {
 		if (result != null || isCancel == true) {
 			super.saveSuccess(result);
-			// FIXME
-			// Header.companyName.setText(this.companyNameText.getValue()
-			// .toString());
+			Header.companyName.setText(this.companyNameText.getValue()
+					.toString());
 			CompanyActionFactory.getCompanyHomeAction().run(null, false);
 
 		} else {
@@ -1160,7 +1156,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		serviceMapForm.setGroupTitle(companyMessges.serviceMapping());
 		// serviceMapForm.setPadding(10);
 
-		// FIXME--Previusly 'mangeServiceMappingsBtn' is ButtonItem
+		// --Previusly 'mangeServiceMappingsBtn' is ButtonItem
 		mangeServiceMappingsBtn = new AccounterButton(
 				companyMessges.manageServiceMappings());
 		mangeServiceMappingsBtn.setHeight("30");
@@ -1177,7 +1173,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// supportLogging.setTop(20);
 		// supportLogging.setPadding(20);
 
-		// FIXME--Previusly 'logspaceTxt' is FloatItem
+		// --Previusly 'logspaceTxt' is FloatItem
 		logspaceTxt = new FormItem() {
 
 			@Override
@@ -1204,7 +1200,6 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		supportLogging.setItems(logspaceTxt, logContentSelect);
 		VerticalPanel suportLogPanel = new VerticalPanel();
 		suportLogPanel.add(supportLogging);
-		// FIXME
 		suportLogPanel.add(clearlogBtn);
 		clearlogBtn.enabledButton();
 		generalLayOut = new VerticalPanel();
