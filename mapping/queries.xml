@@ -4,7 +4,7 @@
 
 
 
-	<query name="getidentity.from.emailid.and.password">
+	<query name="getuser.from.emailid.and.password">
 		<query-param name="emailid" type="string" />
 		<query-param name="password" type="string" />
 		from User user where user.emailID=:emailid and
@@ -261,6 +261,59 @@
 	<query name="getUsers.active">
 		from User user where user.isActive=true and user.userRole != 'Basic
 		Employee'
-
 	</query>
+	
+	<query name="getPayBill.form.accountId.and.status">
+		<query-param name="accountId" type="number" />
+		<query-param name="status" type="number" />
+		from PayBill pst where pst.payFrom.id =:accountID and  pst.isVoid=false and pst.status =:status
+	</query>
+	
+	<query name="getPayVAT.form.accountId.and.status">
+		<query-param name="accountId" type="number" />
+		<query-param name="status" type="number" />
+		from PayVAT pv where pv.payFrom.id =:accountId and pv.isVoid=false and pv.status =:status
+	</query>
+	
+	<query name="getReceiveVAT.form.accountId.and.status">
+		<query-param name="accountId" type="number" />
+		<query-param name="status" type="number" />
+		from ReceiveVAT rv where rv.depositIn.id =:accountId and rv.isVoid=false and rv.status =:status
+	</query>
+	
+	<query name="getCreditCardCharge.form.accountId.and.status">
+		<query-param name="accountId" type="number" />
+		<query-param name="status" type="number" />
+		from CreditCardCharge pst where pst.payFrom.id =:accountId and pst.isVoid=false and pst.status =:status
+	</query>
+	
+	<query name="getCashPurchase.form.accountId.and.status">
+		<query-param name="accountId" type="number" />
+		<query-param name="status" type="number" />
+		from CashPurchase pst where pst.payFrom.id =:accountId and pst.isVoid=false and pst.status =:status
+	</query>
+	
+	<query name="getCustomerPrePayment.form.accountId.and.status">
+		<query-param name="accountId" type="number" />
+		<query-param name="status" type="number" />
+		from CustomerPrePayment cpp where  cpp.depositIn.id =:accountId and cpp.isVoid=false and cpp.status =:status
+	</query>
+	
+	<query name="getCashPurchase.form.status">
+		<query-param name="status" type="number" />
+		from CashPurchase cc where cc.status =:status
+	</query>
+	
+	<query name="getCreditCardCharge.form.status">
+		<query-param name="status" type="number" />
+		from CreditCardCharge cc where cc.status =:status
+	</query>
+	
+	<query name="getPayBill.form.status">
+		<query-param name="status" type="number" />
+		from PayBill pb where pb.status =:status
+	</query>
+	
+	
+	
 </hibernate-mapping>
