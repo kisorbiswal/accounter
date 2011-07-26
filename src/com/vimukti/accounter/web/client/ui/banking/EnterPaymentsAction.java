@@ -20,10 +20,12 @@ public class EnterPaymentsAction extends Action {
 	public void run(AsyncCallback<Object> asyncCallback) {
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -33,10 +35,16 @@ public class EnterPaymentsAction extends Action {
 
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	public ImageResource getBigImage() {
 		return null;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	public ImageResource getSmallImage() {
 		return null;
 	}
