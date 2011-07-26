@@ -21,10 +21,8 @@ import com.vimukti.accounter.core.TAXItemGroup;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.utils.SecureUtils;
 
-public class USCompanyInitializer extends CompanyInitializer{
+public class USCompanyInitializer extends CompanyInitializer {
 
-	
-	
 	/**
 	 * Each company have it's own preferences. This will hold all the
 	 * preferences related to the company.
@@ -32,7 +30,7 @@ public class USCompanyInitializer extends CompanyInitializer{
 	 * @see Company
 	 */
 	CompanyPreferences preferences = new CompanyPreferences();
-	
+
 	/**
 	 * This is the direct references to the Accounts Receivable Account for the
 	 * purpose of the Transactions.
@@ -78,13 +76,13 @@ public class USCompanyInitializer extends CompanyInitializer{
 	 * Filed
 	 */
 	Account VATFiledLiabilityAccount;
-	
+
 	Set<NominalCodeRange> nominalCodeRange = new HashSet<NominalCodeRange>();
 	/**
 	 * Name of the Company
 	 */
-	String name;//Trading name
-	
+	String name;// Trading name
+
 	/**
 	 * @param args
 	 */
@@ -114,11 +112,11 @@ public class USCompanyInitializer extends CompanyInitializer{
 	public void setPreferences(CompanyPreferences preferences) {
 		this.preferences = preferences;
 	}
-	
 
 	public void setNominalCodeRange(Set<NominalCodeRange> nominalCodeRange) {
 		this.nominalCodeRange = nominalCodeRange;
 	}
+
 	/**
 	 * Return the list of Nominal code ranges for the given sub base type of an
 	 * Account
@@ -137,12 +135,11 @@ public class USCompanyInitializer extends CompanyInitializer{
 
 		return null;
 	}
-	
+
 	public Set<NominalCodeRange> getNominalCodeRange() {
 		return nominalCodeRange;
 	}
-	
-	
+
 	/**
 	 * Initializes all the US default accounts that are useful in the company
 	 * 
@@ -164,8 +161,8 @@ public class USCompanyInitializer extends CompanyInitializer{
 				Account.TYPE_OTHER_CURRENT_ASSET, "1175", "Un Deposited Funds",
 				true, null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				false, true, openingBalances, "1", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, true, openingBalances, "1", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(unDepositedFunds);
 
@@ -173,8 +170,8 @@ public class USCompanyInitializer extends CompanyInitializer{
 				Account.TYPE_OTHER_CURRENT_ASSET, "1001", "Debtors", true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, false,
-				false, openingBalances, "2", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "2", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(accountsReceivable);
 
@@ -182,8 +179,8 @@ public class USCompanyInitializer extends CompanyInitializer{
 				Account.TYPE_OTHER_CURRENT_LIABILITY, "2001", "Creditors",
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				true, false, openingBalances, "3", true, this.preferences
-						.getPreventPostingBeforeDate());
+				true, false, openingBalances, "3", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(accountsPayable);
 
@@ -192,8 +189,8 @@ public class USCompanyInitializer extends CompanyInitializer{
 				AccounterConstants.PENDING_ITEM_RECEIPTS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, true,
-				openingBalances, "4", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "4", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(pendingItemReceipts);
 
@@ -202,8 +199,8 @@ public class USCompanyInitializer extends CompanyInitializer{
 				"Sales Tax Payable", true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, true,
-				openingBalances, "5", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "5", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(salesTaxPayable);
 
@@ -212,8 +209,8 @@ public class USCompanyInitializer extends CompanyInitializer{
 				"Employee Payroll Liabilities", true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, true,
-				openingBalances, "6", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "6", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(employeePayrollLiabilities);
 
@@ -221,8 +218,8 @@ public class USCompanyInitializer extends CompanyInitializer{
 				"Retained Earnings", true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, true,
-				openingBalances, "8", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "8", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(retainedEarnings);
 
@@ -230,8 +227,8 @@ public class USCompanyInitializer extends CompanyInitializer{
 				"Income and Distribution", true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, true,
-				openingBalances, "9", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "9", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(cashDiscountGiven);
 
@@ -247,8 +244,8 @@ public class USCompanyInitializer extends CompanyInitializer{
 				Account.TYPE_COST_OF_GOODS_SOLD, "5100", "Cash Discount taken",
 				true, null, Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				false, true, openingBalances, "11", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, true, openingBalances, "11", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(cashDiscountTaken);
 
@@ -256,8 +253,8 @@ public class USCompanyInitializer extends CompanyInitializer{
 				"Bank Charge", true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, false, true,
-				openingBalances, "12", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "12", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(bankCharge);
 
@@ -266,8 +263,8 @@ public class USCompanyInitializer extends CompanyInitializer{
 				AccounterConstants.OTHER_CASH_INCOME, false, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, true, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, true,
-				openingBalances, "13", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "13", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(otherCashIncome);
 
@@ -275,8 +272,8 @@ public class USCompanyInitializer extends CompanyInitializer{
 				AccounterConstants.OTHER_CASH_EXPENSE, false, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, true, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, false, true,
-				openingBalances, "14", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "14", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(otherCashExpense);
 
@@ -292,6 +289,7 @@ public class USCompanyInitializer extends CompanyInitializer{
 		createNominalCodesRanges(session);
 		createDefaultBrandingTheme(session);
 	}
+
 	private void setDefaultsUSValues(Session session) {
 
 		// Session session = HibernateUtil.getCurrentSession();
@@ -361,10 +359,10 @@ public class USCompanyInitializer extends CompanyInitializer{
 
 		// Current Fiscal Year creation
 		FinanceDate currentDate = new FinanceDate();
-		FinanceDate fiscalYearStartDate = new FinanceDate((int) currentDate
-				.getYear(), 0, 1);
-		FinanceDate fiscalYearEndDate = new FinanceDate((int) currentDate
-				.getYear(), 11, 31);
+		FinanceDate fiscalYearStartDate = new FinanceDate(
+				(int) currentDate.getYear(), 0, 1);
+		FinanceDate fiscalYearEndDate = new FinanceDate(
+				(int) currentDate.getYear(), 11, 31);
 
 		FiscalYear fiscalYear = new FiscalYear(fiscalYearStartDate,
 				fiscalYearEndDate, FiscalYear.STATUS_OPEN, Boolean.TRUE);
@@ -504,13 +502,12 @@ public class USCompanyInitializer extends CompanyInitializer{
 		this.setNominalCodeRange(nominalCodesRangeSet);
 
 	}
-	
-	
+
 	private void createDefaultBrandingTheme(Session session) {
-		BrandingTheme brandingTheme = new BrandingTheme("Standard", SecureUtils
-				.createID(), 1.35, 1.00, 1.00, "Times New Roman", "10pt",
-				"INVOICE", "CREDIT", "STATEMENT", "democo@democo.co", true,
-				this.getName(), "(None Added)");
+		BrandingTheme brandingTheme = new BrandingTheme("Standard",
+				SecureUtils.createID(), 1.35, 1.00, 1.00, "Times New Roman",
+				"10pt", "INVOICE", "CREDIT", "STATEMENT", "democo@democo.co",
+				true, this.getName(), "(None Added)");
 		session.save(brandingTheme);
 	}
 
@@ -526,11 +523,11 @@ public class USCompanyInitializer extends CompanyInitializer{
 			defaultTaxAgency.setName("Tax Agency");
 
 			defaultTaxAgency.setPaymentTerm((PaymentTerms) session
-					.getNamedQuery("unique.name.PaymentTerms").setString(0,
-							"Net Monthly").list().get(0));
+					.getNamedQuery("unique.name.PaymentTerms")
+					.setString(0, "Net Monthly").list().get(0));
 			defaultTaxAgency.setSalesLiabilityAccount((Account) session
-					.getNamedQuery("unique.name.Account").setString(0,
-							"Sales Tax Payable").list().get(0));
+					.getNamedQuery("unique.name.Account")
+					.setString(0, "Sales Tax Payable").list().get(0));
 			defaultTaxAgency.setDefault(true);
 			session.save(defaultTaxAgency);
 
@@ -560,7 +557,7 @@ public class USCompanyInitializer extends CompanyInitializer{
 			// defaultTaxGroup.setID(SecureUtils.createID());
 			// defaultTaxGroup.setActive(Boolean.TRUE);
 			// defaultTaxGroup.setSalesType(true);
-			//			
+			//
 			// List<TAXItem> taxItems = new ArrayList<TAXItem>();
 			// taxItems.add(defaultTaxItem);
 			// defaultTaxGroup.setTAXItems(taxItems);
@@ -586,7 +583,43 @@ public class USCompanyInitializer extends CompanyInitializer{
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public void office_expense() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void motor_veichel_expense() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void travel_expenses() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void other_expenses() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void Cost_of_good_sold() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void other_direct_cost() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -348,25 +348,22 @@ public class VATPaymentView extends
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
+		super.fitToSize(height, width);
 
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 		switch (command) {
 		case AccounterCommand.CREATION_SUCCESS:
 

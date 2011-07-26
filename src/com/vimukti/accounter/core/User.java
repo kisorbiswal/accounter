@@ -43,7 +43,7 @@ public class User implements IAccounterServerCore, Lifecycle {
 	private int loginCount;
 
 	private long id;
-	
+
 	private boolean isDeleted;
 
 	/**
@@ -193,7 +193,6 @@ public class User implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
 		return this.id;
 	}
 

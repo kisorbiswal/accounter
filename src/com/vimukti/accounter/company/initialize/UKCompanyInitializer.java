@@ -26,7 +26,6 @@ import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 
-
 public class UKCompanyInitializer extends CompanyInitializer {
 
 	/**
@@ -36,7 +35,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 	 * @see Company
 	 */
 	CompanyPreferences preferences = new CompanyPreferences();
-	
+
 	/**
 	 * This is the direct references to the Accounts Receivable Account for the
 	 * purpose of the Transactions.
@@ -82,13 +81,13 @@ public class UKCompanyInitializer extends CompanyInitializer {
 	 * Filed
 	 */
 	Account VATFiledLiabilityAccount;
-	
+
 	Set<NominalCodeRange> nominalCodeRange = new HashSet<NominalCodeRange>();
 	/**
 	 * Name of the Company
 	 */
-	String name;//Trading name
-	
+	String name;// Trading name
+
 	/**
 	 * @param args
 	 */
@@ -122,6 +121,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 	public void setNominalCodeRange(Set<NominalCodeRange> nominalCodeRange) {
 		this.nominalCodeRange = nominalCodeRange;
 	}
+
 	/**
 	 * Return the list of Nominal code ranges for the given sub base type of an
 	 * Account
@@ -140,20 +140,18 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 		return null;
 	}
-	
+
 	public Set<NominalCodeRange> getNominalCodeRange() {
 		return nominalCodeRange;
 	}
 
-	
-
 	private void initDefaultUKAccounts(Session session) {
 
 		FinanceDate currentDate = new FinanceDate();
-		FinanceDate fiscalYearStartDate = new FinanceDate((int) currentDate
-				.getYear(), 0, 1);
-		FinanceDate fiscalYearEndDate = new FinanceDate((int) currentDate
-				.getYear(), 11, 31);
+		FinanceDate fiscalYearStartDate = new FinanceDate(
+				(int) currentDate.getYear(), 0, 1);
+		FinanceDate fiscalYearEndDate = new FinanceDate(
+				(int) currentDate.getYear(), 11, 31);
 
 		FiscalYear fiscalYear = new FiscalYear(fiscalYearStartDate,
 				fiscalYearEndDate, FiscalYear.STATUS_OPEN, Boolean.TRUE);
@@ -217,8 +215,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.ACCOUNTS_RECEIVABLE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, false, false,
-				openingBalances, "2", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "2", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(accountsReceivable);
 
@@ -226,8 +224,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"1003", AccounterConstants.DEPOSITS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "100", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "100", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(deposits);
 
@@ -236,8 +234,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.ACCOUNTS_PAYABLE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "3", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "3", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(accountsPayable);
 
@@ -255,8 +253,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.SALES_INCOME_TYPE_A, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "5", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "5", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(salesIncomeTypeA);
 
@@ -264,16 +262,16 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.SALES_INCOME_TYPE_B, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "6", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "6", true,
+				this.preferences.getPreventPostingBeforeDate());
 		session.save(salesIncomeTypeB);
 
 		Account salesIncomeTypeC = new Account(Account.TYPE_INCOME, "4003",
 				AccounterConstants.SALES_INCOME_TYPE_C, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "7", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "7", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(salesIncomeTypeC);
 
@@ -281,8 +279,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.SALES_INCOME_TYPE_D, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "8", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "8", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(salesIncomeTypeD);
 
@@ -290,8 +288,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.SALES_INCOME_TYPE_E, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "9", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "9", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(salesIncomeTypeE);
 
@@ -299,8 +297,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.MISCELLANEOUS_INCOME, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "10", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "10", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(miscellaneousIncome);
 
@@ -308,8 +306,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"4110", AccounterConstants.DISTRIBUTION_AND_CARRIAGE, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "11", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "11", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(distributionAndCarriage);
 
@@ -317,8 +315,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.DISCOUNTS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "12", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "12", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(discounts);
 
@@ -326,8 +324,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.COMMISSION_RECIEVED, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "13", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "13", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(commissionsReceived);
 
@@ -335,8 +333,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"4210", AccounterConstants.CREDIT_CHARGES_LATEPAYMENT, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "14", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "14", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(creditChargesLatePayment);
 
@@ -344,8 +342,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.INSURANCE_CLAIMS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "15", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "15", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(insuranceClaims);
 
@@ -353,8 +351,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.INTEREST_INCOME, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "16", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "16", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(interestIncome);
 
@@ -362,8 +360,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.RENT_INCOME, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "17", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "17", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(rentIncome);
 
@@ -371,8 +369,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.ROYALTIES_RECIEVED, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "18", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "18", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(royltiesReceived);
 
@@ -380,8 +378,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"4260", AccounterConstants.PROFIT_OR_LOSS_ON_SALES_ASSETS,
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				true, false, openingBalances, "19", true, this.preferences
-						.getPreventPostingBeforeDate());
+				true, false, openingBalances, "19", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(profitOrLossOnSalesOfAssets);
 
@@ -395,8 +393,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_A,
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				true, false, openingBalances, "20", true, this.preferences
-						.getPreventPostingBeforeDate());
+				true, false, openingBalances, "20", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(productsOrMaterialsPurchasedTypeA);
 
@@ -405,8 +403,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_B,
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				true, false, openingBalances, "21", true, this.preferences
-						.getPreventPostingBeforeDate());
+				true, false, openingBalances, "21", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(productsOrMaterialsPurchasedTypeB);
 
@@ -415,8 +413,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_C,
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				true, false, openingBalances, "3", true, this.preferences
-						.getPreventPostingBeforeDate());
+				true, false, openingBalances, "3", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(productsOrMaterialsPurchasedTypeC);
 
@@ -425,8 +423,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_D,
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				true, false, openingBalances, "22", true, this.preferences
-						.getPreventPostingBeforeDate());
+				true, false, openingBalances, "22", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(productsOrMaterialsPurchasedTypeD);
 
@@ -435,8 +433,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_E,
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				true, false, openingBalances, "23", true, this.preferences
-						.getPreventPostingBeforeDate());
+				true, false, openingBalances, "23", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(productsOrMaterialsPurchasedTypeE);
 
@@ -444,8 +442,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.CARRIAGE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "28", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "28", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(carriage);
 
@@ -453,8 +451,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"5210", AccounterConstants.DISCOUNTS_TAKEN, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "29", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "29", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(discountsTaken);
 
@@ -462,8 +460,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"5220", AccounterConstants.IMPORT_DUTY, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "30", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "30", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(importDuty);
 
@@ -471,8 +469,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"5900", AccounterConstants.OPENING_STOCK, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "24", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "24", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(openingStock);
 
@@ -490,8 +488,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.OPEN_FINISHED_GOODS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "26", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "26", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(openingFinishedGoods);
 
@@ -510,8 +508,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.OPEN_WORK_IN_PROGRESS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "27", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "27", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(openingWorkInProgress);
 		//
@@ -534,8 +532,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.DIRECT_LABOUR, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "31", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "31", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(directLabour);
 
@@ -543,8 +541,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"6010", AccounterConstants.DIRECT_EMPLOYERS_NI, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "32", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "32", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(directEmployersNI);
 
@@ -553,8 +551,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.OTHER_DIRECT_EMPLOYEE_RELATED_COSTS, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "33", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "33", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(otherDirectEmployeeRelatedCosts);
 
@@ -562,8 +560,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"6100", AccounterConstants.DIRECT_EXPENSES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "34", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "34", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(directExpenses);
 
@@ -571,8 +569,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.DIRECT_TRAVEL, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "35", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "35", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(directTravel);
 
@@ -580,8 +578,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"6200", AccounterConstants.DIRECT_CONSUMABLES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "36", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "36", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(directConsumables);
 
@@ -589,8 +587,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"6300", AccounterConstants.MERCHANT_ACCOUNT_FEES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "37", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "37", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(merchantAccountFees);
 
@@ -598,8 +596,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"6310", AccounterConstants.COMMISSIONS_PAID, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "38", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "38", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(commisionsPaid);
 
@@ -607,8 +605,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.INDIRECT_LABOUR, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "39", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "39", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(indirectLabour);
 
@@ -616,8 +614,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.INDIRECT_EMPLOYERS_NI, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "40", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "40", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(indirectEmployersNI);
 
@@ -625,8 +623,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"7003", AccounterConstants.DIRECTORS_REMUNERATION, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "41", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "41", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(directorsRemunaration);
 
@@ -634,8 +632,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.CASUAL_LABOUR, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "42", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "42", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(casualLabour);
 
@@ -644,8 +642,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.EMPLOYERS_PANSION_CONTRIBUTIONS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "43", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "43", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(employersPensionContributions);
 
@@ -653,8 +651,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.SSP_RECLAIMED, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "44", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "44", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(sspReclaimed);
 
@@ -662,8 +660,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.SMP_RECLAIMED, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "45", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "45", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(smpReclaimed);
 
@@ -671,8 +669,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.EMPLOYEE_BENIFITS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "46", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "46", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(employeeBenifits);
 
@@ -680,8 +678,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.MEDICAL_INSURANCE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "47", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "47", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(medicalInsurance);
 
@@ -689,8 +687,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.RECRUITMENT, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "48", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "48", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(recruitement);
 
@@ -698,8 +696,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.TRAINING, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "49", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "49", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(training);
 
@@ -707,8 +705,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.RENT, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "50", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "50", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(rent);
 
@@ -716,8 +714,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.GENERAL_RATES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "51", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "51", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(generalRates);
 
@@ -725,8 +723,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.WATER_RATES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "52", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "52", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(waterRates);
 
@@ -734,8 +732,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.ELECTRICITY, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "53", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "53", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(electricity);
 
@@ -743,8 +741,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.GAS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "54", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "54", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(gas);
 
@@ -752,8 +750,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.OIL, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "55", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "55", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(oil);
 
@@ -761,8 +759,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.OFFICE_CLEANING, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "56", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "56", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(officeCleaning);
 
@@ -770,8 +768,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"7130", AccounterConstants.OFFICE_MACHINE_MAINTENANCE, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "57", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "57", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(officeMachineMaintanance);
 
@@ -779,8 +777,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.REPAIR_RENEWALS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "58", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "58", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(repairsAndRenewals);
 
@@ -788,8 +786,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.OFFICE_CONSUMABLES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "59", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "59", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(officeConsumables);
 
@@ -797,8 +795,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.BOOKS_ETC, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "60", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "60", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(booksEtc);
 
@@ -806,8 +804,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.INTERNET, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "61", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "61", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(internet);
 
@@ -815,8 +813,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.POSTAGE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "62", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "62", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(postage);
 
@@ -824,8 +822,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.PRINTING, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "63", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "63", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(printing);
 
@@ -833,8 +831,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.STATIONERY, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "64", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "64", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(stationary);
 
@@ -842,8 +840,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.SUBSCRIPTIONS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "65", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "65", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(subscriptions);
 
@@ -851,8 +849,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.TELEPHONE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "66", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "66", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(telephone);
 
@@ -860,8 +858,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"7158", AccounterConstants.CONFERENCES_AND_SEMINARS, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "67", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "67", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(conferenceAndSeminars);
 
@@ -869,8 +867,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.CHARITY_DONATIONS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "68", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "68", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(charityDonations);
 
@@ -878,8 +876,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.INSURANCES_BUSINESS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "69", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "69", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(insurencesBusiness);
 
@@ -887,8 +885,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"7250", AccounterConstants.ADVERTISING_AND_MARKETING, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "70", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "70", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(advertisiningAndMarketing);
 
@@ -896,8 +894,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.LOCAL_ENTERTAINMENT, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "71", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "71", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(localEntertainment);
 
@@ -905,8 +903,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"7261", AccounterConstants.OVERSEAS_ENTERTAINMENT, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "72", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "72", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(overseasEntertainment);
 
@@ -914,8 +912,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.INDIRECT_LOCAL_TRAVEL, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "73", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "73", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(indirectLocalTravel);
 
@@ -923,8 +921,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"7271", AccounterConstants.INDIRECT_OVERSEAS_TRAVEL, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "74", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "74", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(indirectOverseasTravel);
 
@@ -932,8 +930,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.SUBSISTENCE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "75", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "75", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(subsitence);
 
@@ -941,8 +939,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.VECHILE_EXPENSES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "76", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "76", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(vechileExpenses);
 
@@ -950,8 +948,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.VECHILE_INSURANCE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "77", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "77", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(vechileInsurance);
 
@@ -959,8 +957,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"7320", AccounterConstants.VECHILE_REPAIRS_AND_SERVICING, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "78", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "78", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(vechileRepairAndServicing);
 
@@ -968,8 +966,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.PROFESSIONAL_FEES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "79", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "79", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(professonalFees);
 
@@ -977,8 +975,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.ACCOUNTANCY_FEES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "80", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "80", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(accountancyFees);
 
@@ -986,8 +984,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.CONSULTANY_FEES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "81", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "81", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(consultancyFees);
 
@@ -995,8 +993,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.LEGAL_FEES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "82", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "82", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(legalFees);
 
@@ -1004,8 +1002,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.BANK_INTEREST_PAID, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "83", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "83", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(bankInterestPaid);
 
@@ -1013,8 +1011,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.BANK_CHARGES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "84", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "84", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(bankCharges);
 
@@ -1022,8 +1020,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.CREDIT_CHARGES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "85", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "85", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(creditCharges);
 
@@ -1031,8 +1029,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.LEASE_PAYMENTS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "86", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "86", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(leasePayments);
 
@@ -1040,8 +1038,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.LOAN_INTEREST_PAID, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "87", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "87", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(loanInterestPaid);
 
@@ -1049,8 +1047,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.CURRENCY_CHARGES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "88", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "88", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(currencyCharges);
 
@@ -1058,8 +1056,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"7460", AccounterConstants.EXCHANGE_RATE_VARIANCE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "89", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "89", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(exchangeRateVariance);
 
@@ -1067,8 +1065,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.BAD_DEBT_PROVISION, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "90", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "90", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(badDebtProvision);
 
@@ -1076,8 +1074,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.BAD_DEBT_WRITE_OFF, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "91", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "91", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(badDebtWriteOff);
 
@@ -1085,8 +1083,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.DEPRECIATION, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "92", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "92", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(depreciation);
 
@@ -1094,8 +1092,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"7510", AccounterConstants.OFFICE_EQUIPMENT_DEPRECIATION, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "93", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "93", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(officeEquipmentDepreciation);
 
@@ -1103,8 +1101,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"7520", AccounterConstants.IT_EQUIPMENT_DEPRECIATION, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "94", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "94", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(itEquipmentDepreciation);
 
@@ -1113,8 +1111,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.FURNITURE_AND_FIXTURES_DEPRECIARION, true,
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "95", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "95", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(furnituresAndFixuresDepreciation);
 
@@ -1123,8 +1121,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.PLANT_OR_MACHINERY_DEPRECIATION, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "96", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "96", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(palntOrMachineryDepreciation);
 
@@ -1132,8 +1130,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.VECHILE_DEPRECIATION, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "97", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "97", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(vechileDepreciation);
 
@@ -1142,8 +1140,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.FREEHOLD_BUILDING_DEPRECIATION, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "98", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "98", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(freeHoldBuildingDepreciation);
 
@@ -1173,8 +1171,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.BANK_CURRENT_ACCOUNT, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "103", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "103", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(bankCurrentAccount);
 
@@ -1183,8 +1181,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.BANK_DEPOSIT_ACCOUNT, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "104", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "104", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(bankDepositAccount);
 
@@ -1193,8 +1191,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.UN_DEPOSITED_FUNDS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, false, true,
-				openingBalances, "1", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "1", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(unDepositedFunds);
 
@@ -1202,8 +1200,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"1180", AccounterConstants.PETTY_CASH, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "105", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "105", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(pettyCash);
 
@@ -1211,8 +1209,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"1185", AccounterConstants.PRE_PAYMENTS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "106", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "106", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(prepayments);
 
@@ -1221,8 +1219,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.ADVANCES_TO_EMPLOYEES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "107", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "107", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(advancesToEmployees);
 
@@ -1230,8 +1228,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.STOCK, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "108", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "108", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(stock);
 
@@ -1249,8 +1247,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"2050", AccounterConstants.CREDIT_CARDS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "110", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "110", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(creditCards);
 
@@ -1259,8 +1257,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.PAYEE_EMPLOYEMENT_TAX, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "111", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "111", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(payeeEmploymentTax);
 
@@ -1269,8 +1267,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.NATIONAL_INSURANCE_TAX, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "112", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "112", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(nationalInsuranceTax);
 
@@ -1278,8 +1276,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"2120", AccounterConstants.SALES_TAX_VAT_UNFILED, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "113", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "113", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(saelsTaxVAT);
 
@@ -1288,8 +1286,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.CORPORATION_RAX, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "114", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "114", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(corporationTax);
 
@@ -1297,8 +1295,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"2200", AccounterConstants.LOANS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "115", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "115", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(loans);
 
@@ -1306,8 +1304,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"2250", AccounterConstants.MORTGAGES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "116", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "116", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(mortagages);
 
@@ -1315,8 +1313,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"2300", AccounterConstants.ACCRUALS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "117", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "117", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(accruals);
 
@@ -1325,8 +1323,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.DIRECTORS_CURRENT_ACCOUNT, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "118", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "118", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(directorsCurrentAccount);
 
@@ -1334,8 +1332,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"2500", AccounterConstants.NET_SALARIES, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "119", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "119", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(netSalaries);
 
@@ -1343,8 +1341,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"2510", AccounterConstants.PENSIONS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "120", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "120", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(pensions);
 
@@ -1353,8 +1351,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.UNPAID_EXPENSE_CLAIMS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "121", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "121", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(unpaidExpenseClaims);
 
@@ -1362,8 +1360,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"0001", AccounterConstants.FREEHOLD_BUILDINGS, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "122", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "122", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(freeHoldBuildings);
 
@@ -1372,8 +1370,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.ACCUMULATED_FREEHOLD_BUILDING_DEPRECIATION,
 				true, null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				true, false, openingBalances, "123", true, this.preferences
-						.getPreventPostingBeforeDate());
+				true, false, openingBalances, "123", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(acumulatedFreeHoldBuildingDepreciation);
 
@@ -1382,8 +1380,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.LEASEHOLD_PROPERTY_IMPROVEMENTS, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "124", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "124", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(leaseHoldPropertyImprovements);
 
@@ -1402,8 +1400,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.OFFICE_EQUIPMENT, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "126", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "126", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(officeEquipment);
 
@@ -1412,8 +1410,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.ACCUMULATED_OFFICE_EQUIPMENT_DEPRECIATION,
 				true, null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false,
 				"", null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
-				true, false, openingBalances, "127", true, this.preferences
-						.getPreventPostingBeforeDate());
+				true, false, openingBalances, "127", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(acumltdOfcEqupmntDepreciation);
 
@@ -1421,8 +1419,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.IT_EQUIPMENT, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "128", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "128", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(itEquipment);
 
@@ -1431,8 +1429,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.ACCUMULATED_IT_EQUIPMENT_DEPRECIATION, true,
 				null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "129", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "129", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(accumltdITEquipmentDepreciation);
 
@@ -1440,8 +1438,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"0140", AccounterConstants.FURNITURE_AND_FIXTURES, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "130", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "130", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(furnitureAndFixtures);
 
@@ -1460,8 +1458,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"0160", AccounterConstants.PLANT_AND_MACHINERY, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "132", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "132", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(plantAndMachinary);
 
@@ -1480,8 +1478,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.VECHICLES, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "134", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "134", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(vechiles);
 
@@ -1490,8 +1488,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.ACCUMULATED_VEHICLES_DEPRECIATION, true,
 				null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "135", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "135", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(accumltdVechilesDepreciation);
 
@@ -1499,8 +1497,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.INTANGIBLES, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "136", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "136", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(intangibles);
 
@@ -1508,8 +1506,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"9001", AccounterConstants.LONG_TERM_LOANS, true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "137", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "137", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(longTermLoans);
 
@@ -1518,8 +1516,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.HIRE_PURCHASE_CREDITORS, true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "138", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "138", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(hirePurchaseCreditors);
 
@@ -1527,8 +1525,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"9200", AccounterConstants.DEFERRED_TAX, true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "139", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "139", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(deferredTax);
 
@@ -1536,8 +1534,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.BANK_REVALUATIONS, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "140", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "140", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(bankRevolutions);
 
@@ -1545,8 +1543,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"9510", AccounterConstants.HISTORICAL_ADJUSTMENT, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "141", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "141", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(historicalAdjustment);
 
@@ -1554,8 +1552,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"9520", AccounterConstants.REALISED_CURRENCY_GAINS, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "142", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "142", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(realisedCurrencyGains);
 
@@ -1563,8 +1561,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"9530", AccounterConstants.UNREALISED_CURRENCY_GAINS, true,
 				null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "143", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "143", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(unrealisedCurrencyGains);
 
@@ -1572,8 +1570,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.ROUNDING, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "144", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "144", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(rounding);
 
@@ -1581,8 +1579,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.VAT_ON_IMPORTS, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "145", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "145", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(vatOnImports);
 
@@ -1590,8 +1588,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.SUSPENSE, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "146", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "146", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(suspense);
 
@@ -1599,8 +1597,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.ORDINARY_SHARES, true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "147", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "147", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(ordinaryShares);
 
@@ -1608,8 +1606,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"3050", AccounterConstants.RESERVES_RETAINED_EARNINGS, true,
 				null, Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "148", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "148", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(reservesRetainedEarnings);
 
@@ -1617,8 +1615,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				"3100", AccounterConstants.P_AND_L_BOUGHT_FORWARD_OR_YTD, true,
 				null, Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "",
 				null, Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true,
-				false, openingBalances, "149", true, this.preferences
-						.getPreventPostingBeforeDate());
+				false, openingBalances, "149", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(PAndLBoughtForwardOrYTD);
 
@@ -1626,8 +1624,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.DIVIDENDS, true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "150", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "150", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(dividends);
 
@@ -1636,8 +1634,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 				AccounterConstants.SALES_TAX_VAT_FILED, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
 				Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-				openingBalances, "151", true, this.preferences
-						.getPreventPostingBeforeDate());
+				openingBalances, "151", true,
+				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(salesTaxVATFiled);
 
@@ -1877,7 +1875,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 	 * 
 	 * @param session
 	 */
-	
+
 	private void createNominalCodesRanges(Session session) {
 
 		Set<NominalCodeRange> nominalCodesRangeSet = new HashSet<NominalCodeRange>();
@@ -1961,7 +1959,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 	}
 
-	
 	private void setDefaultsUKValues(Session session) {
 
 		// Session session = HibernateUtil.getCurrentSession();
@@ -2032,7 +2029,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 	}
 
-
 	public void createUKDefaultVATCodesAndVATAgency(Session session) {
 
 		try {
@@ -2096,8 +2092,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 			VATReturnBox vt20 = new VATReturnBox();
 			vt20.setName(AccounterConstants.IRELAND_DOMESTIC_SALES);
-			vt20
-					.setVatBox(AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
+			vt20.setVatBox(AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
 			vt20.setTotalBox(AccounterConstants.IRELAND_BOX8_TOTAL_NET_SALES);
 			vt20.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt20);
@@ -2105,8 +2100,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			VATReturnBox vt21 = new VATReturnBox();
 			vt21.setName(AccounterConstants.IRELAND_DOMESTIC_PURCHASES);
 			vt21.setVatBox(AccounterConstants.IRELAND_BOX4_VAT_ON_PURCHASES);
-			vt21
-					.setTotalBox(AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
+			vt21.setTotalBox(AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
 			vt21.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt21);
 
@@ -2119,16 +2113,14 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 			VATReturnBox vt23 = new VATReturnBox();
 			vt23.setName(AccounterConstants.IRELAND_EC_PURCHASES_GOODS);
-			vt23
-					.setVatBox(AccounterConstants.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS);
+			vt23.setVatBox(AccounterConstants.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS);
 			vt23.setTotalBox(AccounterConstants.IRELAND_BOX7_E2_GOODS_FROM_EU);
 			vt23.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt23);
 
 			VATReturnBox vt24 = new VATReturnBox();
 			vt24.setName(AccounterConstants.IRELAND_EXEMPT_SALES);
-			vt24
-					.setVatBox(AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
+			vt24.setVatBox(AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
 			vt24.setTotalBox(AccounterConstants.IRELAND_BOX8_TOTAL_NET_SALES);
 			vt24.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt24);
@@ -2136,15 +2128,13 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			VATReturnBox vt25 = new VATReturnBox();
 			vt25.setName(AccounterConstants.IRELAND_EXEMPT_PURCHASES);
 			vt25.setVatBox(AccounterConstants.IRELAND_BOX7_E2_GOODS_FROM_EU);
-			vt25
-					.setTotalBox(AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
+			vt25.setTotalBox(AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
 			vt25.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt25);
 
 			VATReturnBox vt26 = new VATReturnBox();
 			vt26.setName(AccounterConstants.IRELAND_NOT_REGISTERED_SALES);
-			vt26
-					.setVatBox(AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
+			vt26.setVatBox(AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
 			vt26.setTotalBox(AccounterConstants.IRELAND_BOX8_TOTAL_NET_SALES);
 			vt26.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt26);
@@ -2152,8 +2142,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			VATReturnBox vt27 = new VATReturnBox();
 			vt27.setName(AccounterConstants.IRELAND_NOT_REGISTERED_PURCHASES);
 			vt27.setVatBox(AccounterConstants.IRELAND_BOX4_VAT_ON_PURCHASES);
-			vt27
-					.setTotalBox(AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
+			vt27.setTotalBox(AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
 			vt27.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt27);
 
@@ -2165,14 +2154,14 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			defaultVATAgency.setVATReturn(VATReturn.VAT_RETURN_UK_VAT);
 
 			defaultVATAgency.setSalesLiabilityAccount((Account) session
-					.getNamedQuery("unique.name.Account").setString(0,
-							AccounterConstants.SALES_TAX_VAT_UNFILED).list()
-					.get(0));
+					.getNamedQuery("unique.name.Account")
+					.setString(0, AccounterConstants.SALES_TAX_VAT_UNFILED)
+					.list().get(0));
 
 			defaultVATAgency.setPurchaseLiabilityAccount((Account) session
-					.getNamedQuery("unique.name.Account").setString(0,
-							AccounterConstants.SALES_TAX_VAT_UNFILED).list()
-					.get(0));
+					.getNamedQuery("unique.name.Account")
+					.setString(0, AccounterConstants.SALES_TAX_VAT_UNFILED)
+					.list().get(0));
 
 			defaultVATAgency.setDefault(true);
 
@@ -2551,12 +2540,12 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		}
 
 	}
-	
+
 	private void createDefaultBrandingTheme(Session session) {
-		BrandingTheme brandingTheme = new BrandingTheme("Standard", SecureUtils
-				.createID(), 1.35, 1.00, 1.00, "Times New Roman", "10pt",
-				"INVOICE", "CREDIT", "STATEMENT", "democo@democo.co", true,
-				this.getName(), "(None Added)");
+		BrandingTheme brandingTheme = new BrandingTheme("Standard",
+				SecureUtils.createID(), 1.35, 1.00, 1.00, "Times New Roman",
+				"10pt", "INVOICE", "CREDIT", "STATEMENT", "democo@democo.co",
+				true, this.getName(), "(None Added)");
 		session.save(brandingTheme);
 	}
 
@@ -2568,10 +2557,45 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
 		Session session = HibernateUtil.getCurrentSession();
 		createUKDefaultVATCodesAndVATAgency(session);
-		
+
+	}
+
+	@Override
+	public void office_expense() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void motor_veichel_expense() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void travel_expenses() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void other_expenses() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void Cost_of_good_sold() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void other_direct_cost() {
+		// TODO Auto-generated method stub
+
 	}
 
 }
