@@ -298,15 +298,18 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	protected void onValueChange(PayeeList obj, int col, Object value) {
-		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public boolean validateGrid() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -402,10 +405,11 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 		return 0;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public AccounterCoreType getType() {
