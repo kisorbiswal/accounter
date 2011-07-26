@@ -57,7 +57,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 		initRPCService();
 		initConstants();
-		setTitle(getViewTitle());
+		// setTitle(getViewTitle());
 		this.addStyleName("abstract_base_view");
 	}
 
