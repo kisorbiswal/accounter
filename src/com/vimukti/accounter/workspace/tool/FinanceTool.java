@@ -256,7 +256,7 @@ public class FinanceTool implements IFinanceDAOService {
 				getCompany());
 
 		if ((IAccounterServerCore) serverObject instanceof CreatableObject) {
-			// TODO::: get the user from user id
+			//  get the user from user id
 			((CreatableObject) serverObject).setCreatedBy(company
 					.getUserByUserId(userID));
 			((CreatableObject) serverObject).setCreatedDate(createContext
