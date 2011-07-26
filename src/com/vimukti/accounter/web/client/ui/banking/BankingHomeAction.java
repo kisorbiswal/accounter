@@ -52,14 +52,12 @@ public class BankingHomeAction extends Action {
 	}
 
 	@Override
-	public String getImageUrl() {
-		
+	public String getImageUrl() {		
 		return "/images/banking_home.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "bankingHome";
 	}
 }
