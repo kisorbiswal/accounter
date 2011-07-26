@@ -489,6 +489,10 @@
 		<property name="isIBuyThisItem" column="IS_BUY_ITEM"></property>
 		<property name="purchaseDescription" column="PURCHASE_DESCRIPTION"></property>
 		<property name="purchasePrice" column="PURCHASE_PRISE"></property>
+		
+		<property name="minStockAlertLevel" column="MIN_STOCK_ALERT_LEVEL"/>
+		<property name="maxStockAlertLevel" column="MAX_STOCK_ALERT_LEVEL"/>
+		
 		<many-to-one name="expenseAccount" class="Account"
 			column="EXPENSE_ACCOUNT_ID" lazy="false">
 		</many-to-one>
@@ -1252,30 +1256,168 @@
 		<property name="userId" column="USER_ID" />
 	</class>
 
-	<!--
-		<class name="TaxItemGroup" table="TAX_ITEM_GROUPS"> <id name="id"
-		column="ID"> <generator class="native"></generator> </id> <property
-		name="stringID" column="STRING_ID"></property> <property name="name"
-		unique="true" column="NAME"></property> <property name="description"
-		column="DESCRIPTION"></property> <property name="isActive"
-		column="IS_ACTIVE"></property> <property name="createdBy"
-		column="CREATED_BY" type="string" /> <property name="lastModifier"
-		column="LAST_MODIFIER" type="string" /> <property name="createdDate"
-		column="CREATED_DATE" type="com.vimukti.accounter.core.LongUseType" />
+	<class name="Warehouse" table="WAREHOUSE">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID" />
+		<property name="name" column="NAME" />
+
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
-		type="com.vimukti.accounter.core.LongUseType" /> <property
-		name="isPercentage" column="IS_PERCENTAGE"></property> <property
-		name="isDefault" column="IS_DEFAULT"></property> <joined-subclass
-		name="TaxItem" table="TAX_ITEM"> <key column="id" /> <many-to-one
-		name="taxAgency" class="TaxAgency" column="TAX_AGENCY" lazy="false">
-		</many-to-one> <property name="taxRate" column="TAX_RATE"></property>
-		</joined-subclass> <joined-subclass name="TaxGroup" table="TAX_GROUP">
-		<key column="id" /> <list name="taxItems" table="TAX_GROUP_TAX_ITEM"
-		lazy="false" cascade="save-update"> <key column="TAX_GROUP_ID"></key>
-		<list-index column="IDX" /> <many-to-many column="TAX_ITEM_ID"
-		class="TaxItem" /> </list> <property name="groupRate"
-		column="GROUP_RATE"></property> </joined-subclass> </class>
-	-->
+			type="com.vimukti.accounter.core.LongUseType" />
+
+		<many-to-one name="contact" column="CONTACT_ID" class="Contact"
+			lazy="false" />
+		<many-to-one name="address" column="ADDRESS_ID" class="Address"
+			lazy="false" />
+
+		<set name="itemStatuses" table="ITEM_STATUS" inverse="true"
+			cascade="save-update,delete" lazy="false">
+			<key column="WAREHOUSE" />
+			<composite-element class="ItemStatus"> <!-- class attribute required -->
+				<parent name="warehouse" />
+				<property name="stringID" column="STRING_ID" />
+				<many-to-one name="item" column="ITEM_ID" class="ITEM"
+					lazy="false">
+				</many-to-one>
+				<property name="createdBy" column="CREATED_BY" type="string" />
+				<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+				<property name="createdDate" column="CREATED_DATE"
+					type="com.vimukti.accounter.core.LongUseType" />
+				<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+					type="com.vimukti.accounter.core.LongUseType" />
+
+				<nested-composite-element name="quantity"
+					class="Quantity">
+					<property name="value" column="VALUE" />
+					<!-- DOUBT on this mapping -->
+					<many-to-one name="unit" column="UNIT" class="Unit"
+						lazy="false" cascade="save-update" />
+				</nested-composite-element>
+
+			</composite-element>
+		</set>
+
+	</class>
+
+	<class name="ItemStatus" table="ITEM_STATUS">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID" />
+		<many-to-one name="item" column="ITEM_ID" class="ITEM"
+			lazy="false">
+		</many-to-one>
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+
+		<component name="quantity" class="Quantity">
+			<property name="value" column="VALUE" />
+			<many-to-one name="unit" column="ID" class="Unit" lazy="false"
+				cascade="save-update" />
+		</component>
+	</class>
+
+	<class name="AdjustmentReason" table="ADJUSTMENT_REASON">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="stringID" column="STRING_ID" />
+		<property name="section" column="SECTION" />
+		<property name="name" column="NAME" />
+		<property name="createdBy" column="CREATED_BY" type="string" />
+		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+	</class>
+
+
+	<class name="Measurement" table="MEASUREMENT">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+
+		<property name="name" column="NAME" />
+		<property name="desctiption" column="DESCRIPTION" />
+
+		<set name="units" inverse="true" cascade="save-update,delete"
+			lazy="false">
+			<key column="ID" />
+			<one-to-many class="Unit" />
+		</set>
+	</class>
+
+	<class name="Unit" table="UNIT">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+
+		<property name="value" column="VALUE" />
+		<many-to-one name="measurement" column="ID" class="Measurement"
+			lazy="false" cascade="save-update" />
+	</class>
+
+
+	<class name="AdjustmentItem" table="ADJUSTMENT_ITEM">
+		<id name="">
+			<column name="" />
+		</id>
+
+		<property name="adjustmentPriceValue" type="double">
+			<column name="ADJUSTMENT_PRICE_VALUE" />
+		</property>
+		<property name="adjustmentQty" type="double">
+			<column name="ADJUSTMENT_QTY" />
+		</property>
+		<property name="comment" type="java.lang.String">
+			<column name="COMMENT" />
+		</property>
+		<many-to-one name="item" class="com.vimukti.accounter.core.Item"
+			fetch="join">
+			<column name="ITEM" />
+		</many-to-one>
+		<property name="qtyBeforeTransaction" type="double">
+			<column name="QTY_BEFORE_TRANSACTION" />
+		</property>
+		<many-to-one name="reason"
+			class="com.vimukti.accounter.core.AdjustmentReason" fetch="join">
+			<column name="REASON" />
+		</many-to-one>
+		<many-to-one name="warehouse" class="com.vimukti.accounter.core.Warehouse"
+			fetch="join">
+			<column name="WAREHOUSE" />
+		</many-to-one>
+	</class>
+
+
+	<!-- <class name="TaxItemGroup" table="TAX_ITEM_GROUPS"> <id name="id" column="ID"> 
+		<generator class="native"></generator> </id> <property name="stringID" column="STRING_ID"></property> 
+		<property name="name" unique="true" column="NAME"></property> <property name="description" 
+		column="DESCRIPTION"></property> <property name="isActive" column="IS_ACTIVE"></property> 
+		<property name="createdBy" column="CREATED_BY" type="string" /> <property 
+		name="lastModifier" column="LAST_MODIFIER" type="string" /> <property name="createdDate" 
+		column="CREATED_DATE" type="com.vimukti.accounter.core.LongUseType" /> <property 
+		name="lastModifiedDate" column="LAST_MODIFIED_DATE" type="com.vimukti.accounter.core.LongUseType" 
+		/> <property name="isPercentage" column="IS_PERCENTAGE"></property> <property 
+		name="isDefault" column="IS_DEFAULT"></property> <joined-subclass name="TaxItem" 
+		table="TAX_ITEM"> <key column="id" /> <many-to-one name="taxAgency" class="TaxAgency" 
+		column="TAX_AGENCY" lazy="false"> </many-to-one> <property name="taxRate" 
+		column="TAX_RATE"></property> </joined-subclass> <joined-subclass name="TaxGroup" 
+		table="TAX_GROUP"> <key column="id" /> <list name="taxItems" table="TAX_GROUP_TAX_ITEM" 
+		lazy="false" cascade="save-update"> <key column="TAX_GROUP_ID"></key> <list-index 
+		column="IDX" /> <many-to-many column="TAX_ITEM_ID" class="TaxItem" /> </list> 
+		<property name="groupRate" column="GROUP_RATE"></property> </joined-subclass> 
+		</class> -->
 
 </hibernate-mapping>
 
