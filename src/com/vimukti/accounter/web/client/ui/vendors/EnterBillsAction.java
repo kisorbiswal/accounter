@@ -21,16 +21,14 @@ public class EnterBillsAction extends Action {
 
 	public EnterBillsAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	public EnterBillsAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	@Override
@@ -86,9 +84,11 @@ public class EnterBillsAction extends Action {
 		return Accounter.getFinanceMenuImages().newBill();
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/enter_bills.png";
 	}
 
