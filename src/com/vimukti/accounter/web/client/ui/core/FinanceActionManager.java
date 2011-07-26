@@ -551,7 +551,7 @@ package com.vimukti.accounter.web.client.ui.core;
 //				new ClickHandler() {
 //
 //					public void onClick(MenuItemClickEvent event) {
-//						// FIXME
+//						// XXX
 //					}
 //
 //				});
