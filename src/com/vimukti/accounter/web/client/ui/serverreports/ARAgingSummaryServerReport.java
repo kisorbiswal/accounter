@@ -66,29 +66,25 @@ public class ARAgingSummaryServerReport extends
 
 	@Override
 	public void makeReportRequest(long start, long end) {
-		//Get the report service and get the debitors using the given start and end time.
-		//The result is set to the view using the callback onSuccess()
-		Accounter.createReportService().getDebitors(start,
-				end, this);
-		/*FinanceApplication.createReportService().getDebitors(start.getTime(),
-				new ClientFinanceDate().getTime(), this);*/
-		/*AccounterReportServiceImpl reportService = new AccounterReportServiceImpl() {
-			@Override
-			protected IFinanceTool getFinanceTool()
-					throws InvaliedSessionException {
-				return this.financeTool;
-			}
-		};
-		if (this.financeTool == null)
-			return;
-
-		try {
-			onSuccess(reportService.getDebitors(start, end));
-		} catch (InvaliedSessionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-*/
+		// Get the report service and get the debitors using the given start and
+		// end time.
+		// The result is set to the view using the callback onSuccess()
+		Accounter.createReportService().getDebitors(start, end, this);
+		/*
+		 * FinanceApplication.createReportService().getDebitors(start.getTime(),
+		 * new ClientFinanceDate().getTime(), this);
+		 */
+		/*
+		 * AccounterReportServiceImpl reportService = new
+		 * AccounterReportServiceImpl() {
+		 * 
+		 * @Override protected IFinanceTool getFinanceTool() throws
+		 * InvaliedSessionException { return this.financeTool; } }; if
+		 * (this.financeTool == null) return;
+		 * 
+		 * try { onSuccess(reportService.getDebitors(start, end)); } catch
+		 * (InvaliedSessionException e) { e.printStackTrace(); }
+		 */
 	}
 
 	@Override

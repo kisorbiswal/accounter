@@ -7,6 +7,7 @@ package com.vimukti.accounter.workspace.tool;
  * @author Prasanna Kumar G
  * 
  */
+@SuppressWarnings("serial")
 public class AccounterException extends Exception {
 
 	protected int errorCode;

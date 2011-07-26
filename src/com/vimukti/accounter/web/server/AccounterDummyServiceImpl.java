@@ -98,11 +98,6 @@ public class AccounterDummyServiceImpl extends AccounterRPCBaseServiceImpl
 		return null;
 	}
 
-	// @Override
-	// public ClientTaxCode getClientTaxCode() {
-	// return null;
-	// }
-
 	@Override
 	public ClientTAXGroup getClientTaxGroup() {
 		return null;
@@ -123,11 +118,11 @@ public class AccounterDummyServiceImpl extends AccounterRPCBaseServiceImpl
 		return null;
 	}
 
-//	@Override
-//	public ClientTaxAgency getClientTaxAgency() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	// @Override
+	// public ClientTaxAgency getClientTaxAgency() {
+	// // TODO Auto-generated method stub
+	// return null;
+	// }
 
 	// @Override
 	// public AccounterCore getAccounterCore() {

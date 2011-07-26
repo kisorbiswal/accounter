@@ -644,7 +644,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 
 	public void setTransactionTemplate(TransactionTemplate transactionTemplate) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setAccounterDao(AccounterDAOService accounterDao) {
@@ -980,7 +980,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// createFiscalYear(
 	// company, cfs);
 	// } catch (DAOException e) {
-	// // TODO Auto-generated
+	// // Auto-generated
 	// // catch block
 	// e.printStackTrace();
 	// }
@@ -1020,7 +1020,6 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// createFiscalYear(
 	// company, cfs);
 	// } catch (DAOException e) {
-	// // TODO Auto-generated
 	// // catch block
 	// e.printStackTrace();
 	// }

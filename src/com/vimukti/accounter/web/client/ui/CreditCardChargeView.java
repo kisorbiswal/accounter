@@ -95,7 +95,6 @@ public class CreditCardChargeView extends
 				throw new Exception(Accounter.getFinanceUIConstants()
 						.UnableToLoadRequiredCreditCardCharge());
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	}

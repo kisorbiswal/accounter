@@ -66,8 +66,8 @@ public class EmailManager extends Thread {
 			Authenticator authenticator = new javax.mail.Authenticator() {
 				public PasswordAuthentication getPasswordAuthentication() {
 					return new PasswordAuthentication(
-							sender.getSenderEmailID(), sender
-									.getSenderPassword());
+							sender.getSenderEmailID(),
+							sender.getSenderPassword());
 				}
 			};
 			session = Session.getInstance(p, authenticator);
@@ -81,9 +81,9 @@ public class EmailManager extends Thread {
 				MimeMessage msg = createMimeMessage(sender, emsg, session,
 						mail.companyName);
 				Transport transport = session.getTransport("smtp");
-				transport.connect(sender.getOutGoingMailServer(), Integer
-						.parseInt(sender.getSslPort()), sender
-						.getSenderEmailID(), sender.getSenderPassword());
+				transport.connect(sender.getOutGoingMailServer(),
+						Integer.parseInt(sender.getSslPort()),
+						sender.getSenderEmailID(), sender.getSenderPassword());
 				transport.sendMessage(msg, msg.getAllRecipients());
 				transport.close();
 				// Transport.send(msg);
@@ -91,8 +91,6 @@ public class EmailManager extends Thread {
 			}
 
 			catch (Exception ex) {
-
-				// TODO after problem fix remove comment
 				ex.printStackTrace();
 				if (ex instanceof MessagingException) {
 					error = "connection to host: \""
@@ -341,7 +339,6 @@ public class EmailManager extends Thread {
 		return content;
 
 	}
-
 
 	private LinkedBlockingQueue<EMailJob> getQueue() {
 		return queue;

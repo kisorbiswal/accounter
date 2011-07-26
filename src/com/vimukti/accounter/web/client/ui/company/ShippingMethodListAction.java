@@ -48,9 +48,8 @@ public class ShippingMethodListAction extends Action {
 
 					ShippingMethodListDialog dialog = new ShippingMethodListDialog(
 							Accounter.getCompanyMessages()
-									.manageShippingMethodList(),
-							Accounter.getCompanyMessages()
-									.toAddShippingMethod());
+									.manageShippingMethodList(), Accounter
+									.getCompanyMessages().toAddShippingMethod());
 					ViewManager viewManager = ViewManager.getInstance();
 					viewManager.setCurrentDialog(dialog);
 					// dialog.addCallBack(getViewConfiguration().getCallback());
@@ -75,13 +74,11 @@ public class ShippingMethodListAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/Shipping-Method.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "shippingMethodsList";
 	}
 }

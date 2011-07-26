@@ -1643,7 +1643,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 				debitors.add((DummyDebitor) setStartEndDates(obj));
 
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 
@@ -1782,7 +1782,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 				Creditors.add((DummyDebitor) setStartEndDates(obj));
 
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 

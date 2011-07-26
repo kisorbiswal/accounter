@@ -13,8 +13,7 @@ public class SellingRegisteredItemAction extends Action {
 
 	public SellingRegisteredItemAction(String text) {
 		super(text);
-		this.catagory = Accounter.getFixedAssetConstants()
-				.fixedAssets();
+		this.catagory = Accounter.getFixedAssetConstants().fixedAssets();
 	}
 
 	@Override

@@ -98,8 +98,8 @@ public class BaseHomeView extends AbstractBaseView {
 				.getFinanceUIConstants().bankDeposite(),
 				"/images/make_deposit.png");
 		bankDeposit.setAction(BankingActionFactory.getMakeDepositAction());
-		ImageButton fileVat = new ImageButton(Accounter
-				.getVATMessages().fileVAT(), "/images/File_vat.png");
+		ImageButton fileVat = new ImageButton(Accounter.getVATMessages()
+				.fileVAT(), "/images/File_vat.png");
 		fileVat.setAction(VatActionFactory.getFileVatAction());
 
 		// ImageButton vat = new ImageButton(FinanceApplication
@@ -144,13 +144,13 @@ public class BaseHomeView extends AbstractBaseView {
 				.getFinanceUIConstants().enterBill(), "/images/enter_bills.png");
 		enterBillButton.setAction(VendorsActionFactory.getEnterBillsAction());
 
-		ImageButton payBill = new ImageButton(Accounter
-				.getFinanceUIConstants().payBill(), "/images/pay_bills.png");
+		ImageButton payBill = new ImageButton(Accounter.getFinanceUIConstants()
+				.payBill(), "/images/pay_bills.png");
 		payBill.setAction(VendorsActionFactory.getPayBillsAction());
 
 		ImageButton vendorcredit = new ImageButton(UIUtils.getVendorString(
-				Accounter.getVendorsMessages().supplierCredit(),
-				Accounter.getVendorsMessages().vendorCreditMemo()),
+				Accounter.getVendorsMessages().supplierCredit(), Accounter
+						.getVendorsMessages().vendorCreditMemo()),
 				"/images/new_credit_memo.png");
 		vendorcredit.setAction(VendorsActionFactory.getNewCreditMemoAction());
 
@@ -268,7 +268,7 @@ public class BaseHomeView extends AbstractBaseView {
 	// try {
 	// CustomersActionFactory.getNewQuoteAction().run(null, false);
 	// } catch (Throwable e) {
-	// // TODO Auto-generated catch block
+	//
 	// e.printStackTrace();
 	// }
 	// }

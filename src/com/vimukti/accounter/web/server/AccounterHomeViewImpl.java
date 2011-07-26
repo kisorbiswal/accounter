@@ -1101,7 +1101,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 			return tool != null ? tool.getPurchaseOrdersList() : null;
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -1124,7 +1123,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 			return tool != null ? tool.getSalesOrdersList() : null;
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -1150,7 +1148,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			return tool != null ? tool
 					.getNotReceivedPurchaseOrdersList(vendorID) : null;
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -1169,7 +1166,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			return tool != null ? tool
 					.getPurchasesAndItemReceiptsList(vendorId) : null;
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -1184,7 +1180,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			return tool != null ? tool
 					.getEstimatesAndSalesOrdersList(customerId) : null;
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		return null;
@@ -1199,7 +1195,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	// return tool != null ? tool.getDepreciationFixedAssets(startDate,
 	// toDate) : null;
 	// } catch (DAOException e) {
-	// // TODO Auto-generated catch block
+	//
 	// e.printStackTrace();
 	// }
 	// return null;
@@ -1230,7 +1226,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 			return getFinanceTool().getReviewJournal(fixedAsset);
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		return null;

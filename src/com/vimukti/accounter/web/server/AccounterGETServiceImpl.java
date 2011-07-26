@@ -42,7 +42,6 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 			return tool.getObjectById(type, id);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -58,7 +57,6 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 			return tool.getObjectByName(type, name);
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

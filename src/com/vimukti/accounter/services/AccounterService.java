@@ -180,7 +180,7 @@ public class AccounterService extends HibernateDaoSupport implements
 		}
 		return flag;
 	}
-	
+
 	public static boolean isCompanyExits(String companyID) {
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
 		Object uniqueResult = session.getNamedQuery("getCompanyName.is.unique")
@@ -191,7 +191,7 @@ public class AccounterService extends HibernateDaoSupport implements
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Parse the URL and get the first part of the domain which represents the
 	 * company Name
@@ -1026,8 +1026,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * defaultVATCode4.setTaxRates(taxRates4);
 	 * this.createTaxCode(defaultVATCode4);
 	 * 
-	 * } catch (DAOException e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); }
+	 * } catch (DAOException e) { e.printStackTrace(); }
 	 * 
 	 * }
 	 * 
@@ -1392,14 +1391,13 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * .getEnterBill(); // if (enterBill != null) { // try { //
 	 * transactionPayBill // .setEnterBill(accounterDao // .getEnterBill(payBill
 	 * // .getCompany() // .getID(), enterBill // .getID())); // } catch
-	 * (DAOException e) { // // TODO Auto-generated catch block //
-	 * e.printStackTrace(); // } // } else { // // TransactionMakeDeposit
-	 * txMakeDeposit = transactionPayBill // .getTransactionMakeDeposit(); // //
-	 * try { // transactionPayBill // .setTransactionMakeDeposit(accounterGUIDao
-	 * // .getTransactionMakeDeposit( // payBill // .getCompany() // .getID(),
-	 * // txMakeDeposit // .getID())); // } catch (DAOException e) { // // TODO
-	 * Auto-generated catch block // e.printStackTrace(); // } // // } // // }
-	 * // // }
+	 * (DAOException e) { // // e.printStackTrace(); // } // } else { // //
+	 * TransactionMakeDeposit txMakeDeposit = transactionPayBill //
+	 * .getTransactionMakeDeposit(); // // try { // transactionPayBill //
+	 * .setTransactionMakeDeposit(accounterGUIDao // .getTransactionMakeDeposit(
+	 * // payBill // .getCompany() // .getID(), // txMakeDeposit // .getID()));
+	 * // } catch (DAOException e) { // // TODO Auto-generated catch block //
+	 * e.printStackTrace(); // } // // } // // } // // }
 	 * 
 	 * session.save(payBill); return null; }
 	 * 
@@ -2478,8 +2476,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * (fiscalYear.getStatus() == FiscalYear.STATUS_CLOSE) { // if
 	 * (!fiscalYear.getIsCurrentFiscalYear()) { // try { // throw (new
 	 * DAOException( // DAOException.INVALID_REQUEST_EXCEPTION, null)); // }
-	 * catch (DAOException e) { // // TODO Auto-generated catch block //
-	 * e.printStackTrace(); // } // } else { //
+	 * catch (DAOException e) { // // e.printStackTrace(); // } // } else { //
 	 * session.saveOrUpdate(fiscalYear); // } // } // return null; // }});
 	 * 
 	 * } catch (DataAccessException e) { throw (new
