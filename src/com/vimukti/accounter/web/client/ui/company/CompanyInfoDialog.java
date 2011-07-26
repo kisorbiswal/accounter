@@ -379,9 +379,7 @@ public class CompanyInfoDialog extends BaseDialog {
 	}
 
 	public void close() {
-		// FIXME
 
-		// destroy();
 	}
 
 	protected void updatedCompany() {
