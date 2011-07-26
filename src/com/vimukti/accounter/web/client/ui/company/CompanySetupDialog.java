@@ -245,7 +245,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		switch (currentStep) {
 		case STEP3:
 			currentStep = STEP2;
-			// TODO: really?
+			
 			break;
 		case STEP2:
 			currentStep = STEP1;
@@ -265,7 +265,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 			break;
 		case STEP2:
 			currentStep = STEP3;
-			// TODO: really?
+			
 			break;
 		}
 	}
@@ -722,7 +722,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
