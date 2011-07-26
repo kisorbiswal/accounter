@@ -355,7 +355,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 	@SuppressWarnings("unchecked")
 	private void addComboItemToMap(CustomCombo comboItem) {
-		// FIXME--replaced comboItem.getComboType() with comboItem.getSelectItemType()
+		//FIXED --replaced comboItem.getComboType() with comboItem.getSelectItemType()
 		 if (comboItem == null)
 		 return;
 		
