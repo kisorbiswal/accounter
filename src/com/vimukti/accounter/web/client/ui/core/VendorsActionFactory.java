@@ -70,8 +70,8 @@ public class VendorsActionFactory extends AbstractActionFactory {
 	public static PurchaseItemsAction getItemsAction() {
 		return new PurchaseItemsAction(actionsConstants.items(),
 				"/images/icons/customers/items.png", UIUtils.getVendorString(
-						Accounter.getVendorsMessages().supplier(),
-						Accounter.getVendorsMessages().vendor()));
+						Accounter.getVendorsMessages().supplier(), Accounter
+								.getVendorsMessages().vendor()));
 	}
 
 	// public static NewItemAction getNewItemAction() {
@@ -98,9 +98,9 @@ public class VendorsActionFactory extends AbstractActionFactory {
 	}
 
 	public static NewCreditMemoAction getNewCreditMemoAction() {
-		return new NewCreditMemoAction(UIUtils.getVendorString(
-				Accounter.getVendorsMessages().supplierCredit(),
-				Accounter.getVendorsMessages().vendorCredit()),
+		return new NewCreditMemoAction(UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplierCredit(), Accounter
+				.getVendorsMessages().vendorCredit()),
 				"/images/icons/vendors/new_credit_memo.png");
 	}
 
@@ -138,9 +138,9 @@ public class VendorsActionFactory extends AbstractActionFactory {
 	}
 
 	public static VendorPaymentsAction getNewVendorPaymentAction() {
-		return new VendorPaymentsAction(UIUtils.getVendorString(
-				Accounter.getVendorsMessages().supplierPrePayment(),
-				Accounter.getVendorsMessages().vendorPrePayment()),
+		return new VendorPaymentsAction(UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplierPrePayment(), Accounter
+				.getVendorsMessages().vendorPrePayment()),
 				"/images/icons/vendors/vendor_payments.png");
 	}
 
@@ -181,9 +181,9 @@ public class VendorsActionFactory extends AbstractActionFactory {
 
 	public static VendorPaymentsListAction getVendorPaymentsAction() {
 
-		return new VendorPaymentsListAction(UIUtils.getVendorString(
-				Accounter.getVendorsMessages().supplierPayments(),
-				Accounter.getVendorsMessages().vendorPayments()),
+		return new VendorPaymentsListAction(UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplierPayments(), Accounter
+				.getVendorsMessages().vendorPayments()),
 				"/images/icons/vendors/vendor_payments.png");
 	}
 
@@ -193,8 +193,8 @@ public class VendorsActionFactory extends AbstractActionFactory {
 	}
 
 	public static PurchaseOrderListAction getPurchaseOrderListAction() {
-		return new PurchaseOrderListAction(Accounter
-				.getVendorsMessages().purchaseOrderList(),
+		return new PurchaseOrderListAction(Accounter.getVendorsMessages()
+				.purchaseOrderList(),
 				"/images/icons/vendors/vendor_payments.png");
 	}
 
@@ -204,36 +204,35 @@ public class VendorsActionFactory extends AbstractActionFactory {
 	}
 
 	public static CashExpenseAction CashExpenseAction() {
-		return new CashExpenseAction(Accounter.getVendorsMessages()
-				.cash(), "/images/icons/vendors/new_cash_purchase.png");
+		return new CashExpenseAction(Accounter.getVendorsMessages().cash(),
+				"/images/icons/vendors/new_cash_purchase.png");
 	}
 
 	public static EmployeeExpenseAction EmployeeExpenseAction() {
-		return new EmployeeExpenseAction(Accounter
-				.getVendorsMessages().employee(),
-				"/images/icons/vendors/new_cash_purchase.png");
+		return new EmployeeExpenseAction(Accounter.getVendorsMessages()
+				.employee(), "/images/icons/vendors/new_cash_purchase.png");
 	}
 
 	public static CreditCardExpenseAction CreditCardExpenseAction() {
-		return new CreditCardExpenseAction(Accounter
-				.getVendorsMessages().CreditCard(),
-				"/images/icons/vendors/new_cash_purchase.png");
+		return new CreditCardExpenseAction(Accounter.getVendorsMessages()
+				.CreditCard(), "/images/icons/vendors/new_cash_purchase.png");
 	}
 
 	public static AwaitingAuthorisationAction getAwaitingAuthorisationAction() {
-		return new AwaitingAuthorisationAction(Accounter
-				.getVendorsMessages().awaitingAuthorisation());
+		return new AwaitingAuthorisationAction(Accounter.getVendorsMessages()
+				.awaitingAuthorisation());
 
 	}
 
 	public static PreviousClaimAction getPreviousClaimAction() {
 		return new PreviousClaimAction(Accounter.getVendorsMessages()
-				.previousClaim());
+				.previousClaims());
 
 	}
 
 	public static ExpenseClaimsAction getExpenseClaimsAction(int selectedTab) {
 		return new ExpenseClaimsAction(Accounter.getVendorsMessages()
-				.expenseClaims(), "/images/icons/vendors/record_expense.png", selectedTab);
+				.expenseClaims(), "/images/icons/vendors/record_expense.png",
+				selectedTab);
 	}
 }
