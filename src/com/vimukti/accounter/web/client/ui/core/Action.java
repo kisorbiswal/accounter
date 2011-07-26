@@ -183,10 +183,4 @@ public abstract class Action {
 
 	public abstract String getHistoryToken();
 
-	/**
-	 * Cancels the Present Action
-	 */
-	public static void cancle() {
-		// FIXME Cancel the Present Running Action
-	}
 }
