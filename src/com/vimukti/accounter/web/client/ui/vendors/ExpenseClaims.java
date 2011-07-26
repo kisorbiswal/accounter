@@ -38,15 +38,19 @@ public class ExpenseClaims extends BaseView<BillsList> {
 	}
 
 	public void createControls() {
+
 		tabset = new DecoratedTabPanel();
 		AwaitingAuthorisationView awaitingview = new AwaitingAuthorisationView();
 		ExpenseClaimView expenseview = new ExpenseClaimView();
 		PreviousClaimsView claimsView = new PreviousClaimsView();
 
-		tabset.add(expenseview, "Present Claims");
-		tabset.add(claimsView, "Previous Claims");
+		tabset.add(expenseview, Accounter.getVendorsMessages()
+				.presentClaims());
+		tabset.add(claimsView, Accounter.getVendorsMessages()
+				.previousClaims());
 		if (Accounter.getUser().canApproveExpences())
-			tabset.add(awaitingview, "Awaiting Authorisation");
+			tabset.add(awaitingview, Accounter.getVendorsMessages()
+					.awaitingAuthorisation());
 		setSize("100%", "100%");
 		mainPanel.add(tabset);
 		mainPanel.removeStyleName("main-class-pannel");

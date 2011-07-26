@@ -28,9 +28,9 @@ public interface VendorsMessages extends FinanceMessages {
 	String vendorSince();
 
 	String accountno();
-	
+
 	String bankname();
-	
+
 	String bankBranch();
 
 	String balance();
@@ -553,8 +553,20 @@ public interface VendorsMessages extends FinanceMessages {
 
 	String awaitingAuthorisation();
 
-	String previousClaim();
+	String previousClaims();
 
 	String depreciation();
+
+	String submitForApproval();
+
+	String addNewEmployeeExpense();
+
+	String presentClaims();
+
+	String pleaseSelectPayFromAccount();
+
+	String approveButton();
+
+	String declineButton();
 
 }

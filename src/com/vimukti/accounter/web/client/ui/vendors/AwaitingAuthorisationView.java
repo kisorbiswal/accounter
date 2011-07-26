@@ -46,7 +46,8 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.getElement().getStyle().setMarginTop(15, Unit.PX);
 
-		AccounterButton approve = new AccounterButton("Approve");
+		AccounterButton approve = new AccounterButton(Accounter
+				.getVendorsMessages().approveButton());
 		approve.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -57,16 +58,23 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 				// boolean isErrorOccured = checkPayFromAccount();
 				List<BillsList> records = getRecordsToApprove();
 				// if (!isErrorOccured)
-				updateRecords(records,
-						ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED);
-				// else
-				if (records.size() != grid.getSelectedRecords().size())
-					Accounter
-							.showError("Please Select Pay From Account for pending records. To update please double click on each record.");
+				if (records.size() > 0) {
+					updateRecords(records,
+							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED);
+					// else
+					if (records.size() != grid.getSelectedRecords().size())
+						Accounter.showError(Accounter.getVendorsMessages()
+								.pleaseSelectPayFromAccount());
+				} else {
+					Accounter.showInformation(Accounter.getVendorsMessages()
+							.norecordstoshow());
+				}
+
 			}
 		});
 
-		AccounterButton decline = new AccounterButton("Decline");
+		AccounterButton decline = new AccounterButton(Accounter
+				.getVendorsMessages().declineButton());
 		decline.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -74,12 +82,19 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 				MainFinanceWindow.getViewManager().restoreErrorBox();
 				isProcessingAdded = false;
 				setAction(VendorsActionFactory.getAwaitingAuthorisationAction());
-				updateRecords(grid.getSelectedRecords(),
-						ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED);
+				List<BillsList> records = getRecordsToApprove();
+				if (records.size() > 0) {
+					updateRecords(grid.getSelectedRecords(),
+							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED);
+				} else {
+					Accounter.showInformation(Accounter.getVendorsMessages()
+							.norecordstoshow());
+				}
 			}
 		});
 
-		AccounterButton delete = new AccounterButton("Delete");
+		AccounterButton delete = new AccounterButton(Accounter
+				.getVendorsMessages().delete());
 		delete.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -87,8 +102,14 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 				MainFinanceWindow.getViewManager().restoreErrorBox();
 				isProcessingAdded = false;
 				setAction(VendorsActionFactory.getAwaitingAuthorisationAction());
-				updateRecords(grid.getSelectedRecords(),
-						ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
+				List<BillsList> records = getRecordsToApprove();
+				if (records.size() > 0) {
+					updateRecords(grid.getSelectedRecords(),
+							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
+				} else {
+					Accounter.showInformation(Accounter.getVendorsMessages()
+							.norecordstoshow());
+				}
 			}
 		});
 
@@ -96,7 +117,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 		buttonPanel.add(decline);
 		buttonPanel.add(delete);
 		approve.getElement().getStyle().setMarginLeft(25, Unit.PX);
-		approve.setWidth("95px");
+		approve.setWidth("105px");
 		approve.enabledButton(AccounterButton.APPROVE_BUTTON, "approve-image",
 				"ibutton1");
 		decline.setWidth("95px");
@@ -111,7 +132,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 		panel.add(buttonPanel);
 		panel.setCellHorizontalAlignment(buttonPanel, ALIGN_RIGHT);
 		mainPanel.add(panel);
-		mainPanel.removeStyleName("main-class-pannel");
+		// mainPanel.removeStyleName("main-class-pannel");
 		buttonLayout.getElement().getParentElement()
 				.removeClassName("bottom-view");
 		bottomShadow.getElement().getParentElement()

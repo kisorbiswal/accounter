@@ -16,6 +16,8 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -30,7 +32,6 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 public class ExpenseClaimView extends BaseView<BillsList> {
 
 	ExpenseClaimGrid grid;
-	List<String> expenseLists = new ArrayList<String>();
 	public boolean isProcessingAdded;
 
 	public ExpenseClaimView() {
@@ -46,13 +47,16 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 	private void createControls() {
 
 		VerticalPanel panel = new VerticalPanel();
-		HTML addNew = new HTML("<a>Add New Employee Expense</a>");
+		HTML addNew = new HTML(Accounter.getVendorsMessages()
+				.addNewEmployeeExpense());
 		addNew.setStyleName("add-new-expense");
 		addNew.getElement().getStyle().setMarginBottom(10, Unit.PX);
 		addNew.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				HistoryTokenUtils.setPresentToken(
+						VendorsActionFactory.EmployeeExpenseAction(), null);
 				VendorsActionFactory.EmployeeExpenseAction().run(null, false);
 			}
 		});
@@ -60,26 +64,45 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setStyleName("button-expense");
-		AccounterButton submitApproval = new AccounterButton(
-				"Submit For Approval");
+		AccounterButton submitApproval = new AccounterButton(Accounter
+				.getVendorsMessages().submitForApproval());
 		submitApproval.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				MainFinanceWindow.getViewManager().restoreErrorBox();
 				isProcessingAdded = false;
 				setAction(VendorsActionFactory.getExpenseClaimsAction(0));
-				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL);
+
+				List<BillsList> records = grid.getSelectedRecords();
+				if (records.size() > 0) {
+					updateSelectedRecords(
+							records,
+							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL);
+				} else {
+					Accounter.showInformation(Accounter.getVendorsMessages()
+							.norecordstoshow());
+				}
+
 			}
 		});
 
-		AccounterButton deleteButton = new AccounterButton("Delete");
+		AccounterButton deleteButton = new AccounterButton(Accounter
+				.getVendorsMessages().delete());
 		deleteButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				isProcessingAdded = false;
 				setAction(VendorsActionFactory.getExpenseClaimsAction(0));
-				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
+				List<BillsList> records = grid.getSelectedRecords();
+				if (records.size() > 0) {
+					updateSelectedRecords(records,
+							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
+				} else {
+					Accounter.showInformation(Accounter.getVendorsMessages()
+							.norecordstoshow());
+				}
 			}
 		});
 		buttonPanel.add(submitApproval);
@@ -113,10 +136,9 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 		grid.setSize("100%", "100%");
 	}
 
-	protected void updateSelectedRecords(final int expenceStatus) {
-		List<BillsList> selectedRecords = grid.getSelectedRecords();
-
-		for (BillsList record : selectedRecords) {
+	protected void updateSelectedRecords(List<BillsList> records,
+			final int expenceStatus) {
+		for (BillsList record : records) {
 			Accounter.createGETService().getObjectById(
 					AccounterCoreType.CASHPURCHASE, record.getTransactionId(),
 
@@ -137,6 +159,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 						}
 					});
 		}
+
 	}
 
 	void updateTransactionItems(ClientCashPurchase result) {
@@ -160,8 +183,14 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 
 					@Override
 					public void onSuccess(List<BillsList> result) {
-						for (BillsList list : result)
-							grid.addData(list);
+						if (result.size() > 0) {
+							for (BillsList list : result)
+								grid.addData(list);
+						} else {
+							grid.addEmptyMessage(Accounter.getVendorsMessages()
+									.norecordstoshow());
+						}
+
 					}
 
 					@Override

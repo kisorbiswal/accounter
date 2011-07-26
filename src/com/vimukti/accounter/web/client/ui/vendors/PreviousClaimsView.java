@@ -43,14 +43,14 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 
 		VerticalPanel panel = new VerticalPanel();
 
-		Label previous = new Label("Previous Claims");
+		Label previous = new Label(Accounter.getVendorsMessages()
+				.previousClaims());
 
 		initGrid();
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setStyleName("button-expense");
-		AccounterButton notShowInList = new AccounterButton(
-				"Don't Show in List");
+		AccounterButton notShowInList = new AccounterButton("Don't Show in List");
 		notShowInList.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -86,33 +86,38 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 
 	protected void updateSelectedRecords(final int expenceStatus) {
 		List<BillsList> selectedRecords = grid.getSelectedRecords();
+		if (selectedRecords.size() > 0) {
+			for (BillsList record : selectedRecords) {
+				Accounter.createGETService().getObjectById(
+						AccounterCoreType.CASHPURCHASE,
+						record.getTransactionId(),
 
-		for (BillsList record : selectedRecords) {
-			Accounter.createGETService().getObjectById(
-					AccounterCoreType.CASHPURCHASE, record.getTransactionId(),
+						new AsyncCallback<ClientCashPurchase>() {
 
-					new AsyncCallback<ClientCashPurchase>() {
+							@Override
+							public void onFailure(Throwable caught) {
 
-						@Override
-						public void onFailure(Throwable caught) {
+							}
 
-						}
-
-						@Override
-						public void onSuccess(ClientCashPurchase result) {
-							result.setExpenseStatus(expenceStatus);
-							updateTransactionItems(result);
-							setAction(VendorsActionFactory
-									.getExpenseClaimsAction(1));
-							alterObject(result);
-						}
-					});
+							@Override
+							public void onSuccess(ClientCashPurchase result) {
+								result.setExpenseStatus(expenceStatus);
+								updateTransactionItems(result);
+								setAction(VendorsActionFactory
+										.getExpenseClaimsAction(1));
+								alterObject(result);
+							}
+						});
+			}
+		} else {
+			Accounter.showInformation("No Records Selected");
 		}
+
 	}
 
 	void updateTransactionItems(ClientCashPurchase result) {
 		for (ClientTransactionItem item : result.getTransactionItems()) {
-			item.setID(0);
+			item.setID(id);
 		}
 	}
 
@@ -125,14 +130,15 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 		} else {
 			userName = null;
 		}
-		Accounter.createHomeService().getEmployeeExpensesByStatus(userName,
-				ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED,
+		Accounter.createHomeService().getEmployeeExpensesByStatus(
+				userName, ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED,
 				new AsyncCallback<List<BillsList>>() {
 
 					@Override
 					public void onSuccess(List<BillsList> result) {
 						for (BillsList list : result)
 							grid.addData(list);
+
 					}
 
 					@Override
@@ -141,8 +147,8 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 					}
 				});
 
-		Accounter.createHomeService().getEmployeeExpensesByStatus(userName,
-				ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED,
+		Accounter.createHomeService().getEmployeeExpensesByStatus(
+				userName, ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED,
 				new AsyncCallback<List<BillsList>>() {
 
 					@Override
@@ -221,7 +227,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getVendorsMessages().previousClaim();
+		return Accounter.getVendorsMessages().previousClaims();
 	}
 
 }
