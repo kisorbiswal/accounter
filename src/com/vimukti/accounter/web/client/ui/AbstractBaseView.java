@@ -438,8 +438,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 	}
 
 	public ClientCompany getCompany() {
-		// TODO
-		return null;
+		return Accounter.getCompany();
 
 	}
 }

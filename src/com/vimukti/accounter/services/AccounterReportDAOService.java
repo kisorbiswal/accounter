@@ -49,8 +49,7 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 	}
 
 	@SuppressWarnings("unchecked")
-	private long getLongIdForGivenid(AccounterCoreType entity,
-			String account) {
+	private long getLongIdForGivenid(AccounterCoreType entity, String account) {
 
 		Session session = Utility.getCurrentSession();
 		String hqlQuery = "select entity.id from "
@@ -68,7 +67,7 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 	@Override
 	public void createTaxes(int... vatReturnType) throws DAOException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -374,5 +373,4 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 		return null;
 	}
 
-	
 }

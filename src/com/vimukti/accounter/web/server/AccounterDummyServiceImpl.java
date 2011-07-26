@@ -118,17 +118,11 @@ public class AccounterDummyServiceImpl extends AccounterRPCBaseServiceImpl
 		return null;
 	}
 
-	// @Override
-	// public ClientTaxAgency getClientTaxAgency() {
-	// // TODO Auto-generated method stub
-	// return null;
-	// }
-
-	// @Override
-	// public AccounterCore getAccounterCore() {
-	// // TODO Auto-generated method stub
-	// return null;
-	// }
+	@Override
+	public AccounterCommand getAccounterCommand() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public ClientTAXAgency getClientTAXAgency() {
@@ -138,6 +132,18 @@ public class AccounterDummyServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ClientTAXCode getClientTAXCode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ClientVATReturn getClientVATReturn() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ClientVATReturnBox getClientVATReturnBox() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -161,18 +167,6 @@ public class AccounterDummyServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ClientVATReturn getClientVATReturn() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ClientVATReturnBox getClientVATReturnBox() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public ClientFixedAsset getClientFixedAsset() {
 		// TODO Auto-generated method stub
 		return null;
@@ -186,12 +180,6 @@ public class AccounterDummyServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public InvalidOperationException getInvalidOperationException() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public AccounterCommand getAccounterCommand() {
 		// TODO Auto-generated method stub
 		return null;
 	}

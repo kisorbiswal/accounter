@@ -14,7 +14,6 @@ public class AddEditFiscalYearDialog extends BaseDialog {
 	public AddEditFiscalYearDialog(String title, String desc,
 			ClientFiscalYear fiscalYear) {
 		super(title, desc);
-		// TODO Auto-generated constructor stub
 		createControls(fiscalYear);
 		center();
 	}

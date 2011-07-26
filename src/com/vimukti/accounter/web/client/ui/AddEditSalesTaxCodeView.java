@@ -29,10 +29,8 @@ import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.SaleTaxCodeGrid;
 
 public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
-	static final String ATTR_RATE = Accounter.getCustomersMessages()
-			.Rate();
-	static final String ATTR_AS_OF = Accounter.getCustomersMessages()
-			.Asof();
+	static final String ATTR_RATE = Accounter.getCustomersMessages().Rate();
+	static final String ATTR_AS_OF = Accounter.getCustomersMessages().Asof();
 
 	TextItem taxCodeText;
 	TextItem descriptionText;
@@ -57,8 +55,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 	public AddEditSalesTaxCodeView(String title) {
 		this.title = title;
-		info = Accounter.getFinanceUIConstants().addorEdit() + " "
-				+ title;
+		info = Accounter.getFinanceUIConstants().addorEdit() + " " + title;
 		validationCount = 1;
 		// FinanceApplication.getFinanceUIConstants().codeToEnterNew()
 		// + title
@@ -75,26 +72,26 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 	protected void updateCompany() {
 
-		rpcGetService.getObjectById(AccounterCoreType.COMPANY, company
-				.getID(), new AsyncCallback<ClientCompany>() {
+		rpcGetService.getObjectById(AccounterCoreType.COMPANY, company.getID(),
+				new AsyncCallback<ClientCompany>() {
 
-			public void onFailure(Throwable caught) {
-				Accounter.showError(Accounter.getFinanceUIConstants()
-						.failedtoUpdatetheCompany());
+					public void onFailure(Throwable caught) {
+						Accounter.showError(Accounter.getFinanceUIConstants()
+								.failedtoUpdatetheCompany());
 
-			}
+					}
 
-			public void onSuccess(ClientCompany result) {
+					public void onSuccess(ClientCompany result) {
 
-				if (result == null) {
-					onFailure(new Exception());
-					return;
-				}
+						if (result == null) {
+							onFailure(new Exception());
+							return;
+						}
 
-				Accounter.setCompany(result);
+						Accounter.setCompany(result);
 
-			}
-		});
+					}
+				});
 	}
 
 	private void initTaxAgencyCombo() {
@@ -139,12 +136,11 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 			public void onClick(ClickEvent event) {
 				changedValue = typeRadio.getValue().toString();
 			}
-		}, Accounter.getFinanceUIConstants().taxable(),
-				Accounter.getFinanceUIConstants().nonTaxable());
-		typeRadio.setDefaultValue(Accounter.getFinanceUIConstants()
-				.taxable());
-		statusCheck = new CheckboxItem(Accounter
-				.getFinanceUIConstants().active());
+		}, Accounter.getFinanceUIConstants().taxable(), Accounter
+				.getFinanceUIConstants().nonTaxable());
+		typeRadio.setDefaultValue(Accounter.getFinanceUIConstants().taxable());
+		statusCheck = new CheckboxItem(Accounter.getFinanceUIConstants()
+				.active());
 		statusCheck.setValue(true);
 
 		taxCodeForm = new DynamicForm();
@@ -223,8 +219,8 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 			public void onClick(ClickEvent event) {
 				ClientTaxRates taxRates = new ClientTaxRates();
 				taxRates.setAsOf(new ClientFinanceDate().getTime());
-				validateDateField(new ClientFinanceDate(), gridView
-						.getRecords());
+				validateDateField(new ClientFinanceDate(),
+						gridView.getRecords());
 				gridView.addData(taxRates);
 
 			}
@@ -290,8 +286,8 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 			}
 		} catch (Exception e) {
-			Accounter.showError(Accounter.getFinanceUIConstants()
-					.invalidDate());
+			Accounter
+					.showError(Accounter.getFinanceUIConstants().invalidDate());
 			// setValidDate(new Date());
 			return false;
 		}
@@ -332,13 +328,14 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 			return false;
 
 		if ((takenTaxCode == null
-				&& Utility.isObjectExist(company.getTaxCodes(), UIUtils
-						.toStr(taxCodeText.getValue())) ? true : false)
+				&& Utility.isObjectExist(company.getTaxCodes(),
+						UIUtils.toStr(taxCodeText.getValue())) ? true : false)
 				|| (takenTaxCode != null && !(takenTaxCode
 						.getName()
 						.equalsIgnoreCase(UIUtils.toStr(taxCodeText.getValue())) ? true
-						: (Utility.isObjectExist(company.getTaxCodes(), UIUtils
-								.toStr(taxCodeText.getValue())) ? false : true)))) {
+						: (Utility.isObjectExist(company.getTaxCodes(),
+								UIUtils.toStr(taxCodeText.getValue())) ? false
+								: true)))) {
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
 			return false;
 		}
@@ -479,8 +476,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 		// Setting status check
 		taxCode.setTaxable(typeRadio.getValue().equals(
-				Accounter.getFinanceUIConstants().taxable()) ? true
-				: false);
+				Accounter.getFinanceUIConstants().taxable()) ? true : false);
 		boolean isActive = (Boolean) statusCheck.getValue();
 		taxCode.setActive(isActive);
 
@@ -513,7 +509,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 		this.validDate = validDate;
 	}
 
-	@SuppressWarnings( { "deprecation" })
+	@SuppressWarnings({ "deprecation" })
 	private boolean compareDate(ClientFinanceDate date,
 			ClientFinanceDate selectedRecordDate) {
 		if ((date.getYear() == selectedRecordDate.getYear())

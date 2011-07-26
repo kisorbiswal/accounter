@@ -7,8 +7,8 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 public class AddInPacksUtilitiesAction extends Action {
 
 	public AddInPacksUtilitiesAction(String text) {
-		super( text);
-		// 
+		super(text);
+		//
 	}
 
 	public AddInPacksUtilitiesAction(String text, String iconString) {
@@ -24,8 +24,11 @@ public class AddInPacksUtilitiesAction extends Action {
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
+		if (isDependent) {
+
+		}
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public ImageResource getBigImage() {
@@ -42,5 +45,4 @@ public class AddInPacksUtilitiesAction extends Action {
 		return null;
 	}
 
-	
 }
