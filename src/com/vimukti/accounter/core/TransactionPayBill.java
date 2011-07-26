@@ -128,13 +128,10 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 	@ReffereredObject
 	JournalEntry journalEntry;
 
-	
 	transient private boolean isOnSaveProccessed;
 
 	public TransactionPayBill() {
-		// TODO
 	}
-
 
 	public JournalEntry getJournalEntry() {
 		return journalEntry;

@@ -124,7 +124,6 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	// TaxAgency VATAgency;
 
 	public Entry() {
-		// TODO
 	}
 
 	/**

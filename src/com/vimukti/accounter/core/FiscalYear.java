@@ -18,15 +18,14 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 
-public class FiscalYear extends CreatableObject implements IAccounterServerCore, Lifecycle
-		 {
+public class FiscalYear extends CreatableObject implements
+		IAccounterServerCore, Lifecycle {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3871302599394319194L;
 	public static final int STATUS_OPEN = 1;
 	public static final int STATUS_CLOSE = 2;
-
 
 	/**
 	 * The StartDate for the Fiscal Year
@@ -54,8 +53,6 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore,
 
 	transient int previousStatus;
 
-	
-
 	String createdBy;
 	String lastModifier;
 	FinanceDate createdDate;
@@ -66,7 +63,6 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore,
 	transient FinanceDate previousEndDate;
 
 	public FiscalYear() {
-		// TODO
 	}
 
 	public int getVersion() {
@@ -86,7 +82,6 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore,
 		this.isCurrentFiscalYear = isCurrentFiscalYear;
 
 	}
-
 
 	/**
 	 * @return the startDate
@@ -212,8 +207,9 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore,
 			// move the Net Income to the Retain Earnings Account and updating
 			// the Income and Expense accounts balances accordingly.
 
-			Query query = session.getNamedQuery("getNetIncome").setParameter(
-					"startDate", this.previousStartDate.getTime())
+			Query query = session
+					.getNamedQuery("getNetIncome")
+					.setParameter("startDate", this.previousStartDate.getTime())
 					.setParameter("endDate", this.endDate.getTime());
 
 			List list = query.list();
@@ -269,12 +265,10 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore,
 							&& !(accountTransactionByAccount
 									.getAccount()
 									.getName()
-									.equals(
-											AccounterConstants.OTHER_CASH_INCOME) || accountTransactionByAccount
+									.equals(AccounterConstants.OTHER_CASH_INCOME) || accountTransactionByAccount
 									.getAccount()
 									.getName()
-									.equals(
-											AccounterConstants.OTHER_CASH_EXPENSE))) {
+									.equals(AccounterConstants.OTHER_CASH_EXPENSE))) {
 						cashBasisAccountEntries
 								.add(accountTransactionByAccount);
 					}
@@ -292,7 +286,8 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore,
 				}
 
 			}
-		} else if (this.getPreviousStartDate() != null && this.getStartDate().equals(this.getPreviousStartDate())) {
+		} else if (this.getPreviousStartDate() != null
+				&& this.getStartDate().equals(this.getPreviousStartDate())) {
 			session.saveOrUpdate(this);
 		} else if ((this.getPreviousStartDate() != null && !this.getStartDate()
 				.equals(this.getPreviousStartDate()))
@@ -303,9 +298,7 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore,
 				company.getPreferences().setPreventPostingBeforeDate(
 						this.startDate);
 				session.saveOrUpdate(company);
-				this
-						.setEndDate(getEndDateForStartDate(this.startDate
-								.getTime()));
+				this.setEndDate(getEndDateForStartDate(this.startDate.getTime()));
 				checkIsCurrentFY(this);
 				session.saveOrUpdate(this);
 				addOrUpdateFiscalYears(this);
@@ -426,8 +419,8 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore,
 		List list = session
 				.createQuery(
 						"from com.vimukti.accounter.core.Transaction t where t.transactionDate between :startDate and :endDate")
-				.setParameter("startDate", object.getStartDate()).setParameter(
-						"endDate", object.getEndDate()).list();
+				.setParameter("startDate", object.getStartDate())
+				.setParameter("endDate", object.getEndDate()).list();
 		if (list != null && list.size() != 0)
 			throw new InvalidOperationException(
 					"You already created some transaction in this period, You can't delete");
@@ -453,8 +446,8 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore,
 		List<FiscalYear> beforeFYs = s
 				.createQuery(
 						"from com.vimukti.accounter.core.FiscalYear f where f.id !=:id and f.startDate<:startDate order by f.startDate desc")
-				.setParameter("id", this.getID()).setParameter("startDate",
-						this.getStartDate()).list();
+				.setParameter("id", this.getID())
+				.setParameter("startDate", this.getStartDate()).list();
 		Calendar tempCal = Calendar.getInstance();
 		tempCal.setTime(this.getStartDate().getAsDateObject());
 		for (FiscalYear fYear : beforeFYs) {
@@ -474,8 +467,8 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore,
 		List<FiscalYear> afterFYs = s
 				.createQuery(
 						"from com.vimukti.accounter.core.FiscalYear f where f.id !=:id and f.startDate>=:startDate order by f.startDate")
-				.setParameter("id", this.id).setParameter("startDate",
-						this.getStartDate()).list();
+				.setParameter("id", this.id)
+				.setParameter("startDate", this.getStartDate()).list();
 		tempCal.setTime(this.getStartDate().getAsDateObject());
 		for (FiscalYear fYear : afterFYs) {
 			Calendar cal = Calendar.getInstance();
@@ -500,8 +493,8 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore,
 
 		Calendar endDateCal = Calendar.getInstance();
 		endDateCal.setTime(startDateCal.getTime());
-		endDateCal.set(Calendar.DAY_OF_MONTH, startDateCal
-				.get(Calendar.DAY_OF_MONTH) - 1);
+		endDateCal.set(Calendar.DAY_OF_MONTH,
+				startDateCal.get(Calendar.DAY_OF_MONTH) - 1);
 
 		return new FinanceDate(endDateCal.getTime());
 	}
@@ -551,8 +544,8 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore,
 
 				cal.clear();
 				cal.setTime(tempCal.getTime());
-				cal.set(Calendar.DAY_OF_MONTH, tempCal
-						.get(Calendar.DAY_OF_MONTH) - 1);
+				cal.set(Calendar.DAY_OF_MONTH,
+						tempCal.get(Calendar.DAY_OF_MONTH) - 1);
 
 				FinanceDate endDate = new FinanceDate(cal.getTime());
 
@@ -580,8 +573,8 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore,
 				Calendar cal = Calendar.getInstance();
 
 				cal.setTime(tempCal.getTime());
-				cal.set(Calendar.DAY_OF_MONTH, tempCal
-						.get(Calendar.DAY_OF_MONTH) + 1);
+				cal.set(Calendar.DAY_OF_MONTH,
+						tempCal.get(Calendar.DAY_OF_MONTH) + 1);
 
 				FinanceDate startDate = new FinanceDate(cal.getTime());
 

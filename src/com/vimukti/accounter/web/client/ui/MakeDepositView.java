@@ -382,7 +382,6 @@ public class MakeDepositView extends
 			Accounter.showError(Accounter.getFinanceUIConstants()
 					.pleaseChooseAnAccount());
 			return false;
-
 		}
 		return true;
 	}
@@ -1030,7 +1029,6 @@ public class MakeDepositView extends
 				throw new Exception(Accounter.getFinanceUIConstants()
 						.unabletoLoadTheRequiredDeposit());
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 

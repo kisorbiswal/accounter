@@ -25,7 +25,6 @@ public class PayVATEntries implements IAccounterServerCore, Lifecycle {
 
 	long id;
 
-
 	Transaction transaction;
 
 	TAXCode taxCode;
@@ -38,12 +37,9 @@ public class PayVATEntries implements IAccounterServerCore, Lifecycle {
 
 	int version;
 
-	
-
 	transient private boolean isOnSaveProccessed;
 
 	public PayVATEntries() {
-		// TODO
 	}
 
 	public PayVATEntries(double taxableAmount, double rate, TAXCode vatCode,
@@ -77,7 +73,6 @@ public class PayVATEntries implements IAccounterServerCore, Lifecycle {
 		return version;
 	}
 
-
 	/**
 	 * @return the vatCode
 	 */
@@ -107,7 +102,6 @@ public class PayVATEntries implements IAccounterServerCore, Lifecycle {
 	public void setTaxAgency(TAXAgency taxAgency) {
 		this.taxAgency = taxAgency;
 	}
-
 
 	/**
 	 * @param amount
@@ -144,10 +138,9 @@ public class PayVATEntries implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
-
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
@@ -174,7 +167,6 @@ public class PayVATEntries implements IAccounterServerCore, Lifecycle {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

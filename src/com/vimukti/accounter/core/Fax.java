@@ -15,10 +15,7 @@ public class Fax implements IAccounterServerCore {
 	String number = "";
 	boolean isSelected = false;
 
-	
-
 	public Fax() {
-		// TODO
 	}
 
 	/**
@@ -52,10 +49,9 @@ public class Fax implements IAccounterServerCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return 0;
 	}
-
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

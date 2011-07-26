@@ -20,8 +20,7 @@ public class SalesOrderUSGrid extends CustomerTransactionUSGrid {
 	@Override
 	protected String[] getColumns() {
 
-		return new String[] {
-				"",
+		return new String[] { "",
 				Accounter.getCustomersMessages().name(),
 				Accounter.getCustomersMessages().description(),
 				Accounter.getCustomersMessages().quantity(),
@@ -79,8 +78,7 @@ public class SalesOrderUSGrid extends CustomerTransactionUSGrid {
 	protected String[] getSelectValues(ClientTransactionItem obj, int index) {
 		switch (index) {
 		case 9:
-			return new String[] {
-					Accounter.getCustomersMessages().taxable(),
+			return new String[] { Accounter.getCustomersMessages().taxable(),
 					Accounter.getCustomersMessages().nonTaxable() };
 
 		default:
@@ -112,14 +110,12 @@ public class SalesOrderUSGrid extends CustomerTransactionUSGrid {
 								@Override
 								public boolean onNoClick()
 										throws InvalidEntryException {
-									// TODO Auto-generated method stub
 									return false;
 								}
 
 								@Override
 								public boolean onCancelClick()
 										throws InvalidEntryException {
-									// TODO Auto-generated method stub
 									return false;
 								}
 							});
@@ -128,7 +124,6 @@ public class SalesOrderUSGrid extends CustomerTransactionUSGrid {
 				}
 
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -239,7 +234,8 @@ public class SalesOrderUSGrid extends CustomerTransactionUSGrid {
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
 				return item.getQuantity();
 			else {
-				return (item.getQuantity() != 0 || item.getLineTotal() == 0) ? item.getQuantity() : "";
+				return (item.getQuantity() != 0 || item.getLineTotal() == 0) ? item
+						.getQuantity() : "";
 			}
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
@@ -255,9 +251,8 @@ public class SalesOrderUSGrid extends CustomerTransactionUSGrid {
 		case 6:
 			return DataUtils.getAmountAsString(item.getLineTotal());
 		case 7:
-			return item.isTaxable() ? Accounter.getVATMessages()
-					.taxable() : Accounter.getVATMessages()
-					.nonTaxable();
+			return item.isTaxable() ? Accounter.getVATMessages().taxable()
+					: Accounter.getVATMessages().nonTaxable();
 		case 8:
 			return DataUtils.getAmountAsString(item.getInvoiced());
 		case 9:

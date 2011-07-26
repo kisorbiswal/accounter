@@ -37,16 +37,13 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 
 	int version;
 
-	
-
 	transient private boolean isOnSaveProccessed;
 
 	public ReceiveVATEntries() {
-		// TODO
 	}
 
-	public ReceiveVATEntries(double taxableAmount, double rate, TAXCode taxCode,
-			TAXAgency taxAgency, Transaction transaction) {
+	public ReceiveVATEntries(double taxableAmount, double rate,
+			TAXCode taxCode, TAXAgency taxAgency, Transaction transaction) {
 
 		this.transaction = transaction;
 		this.taxCode = taxCode;
@@ -75,7 +72,6 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 	public int getVersion() {
 		return version;
 	}
-
 
 	/**
 	 * @return the vatCode
@@ -106,7 +102,6 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 	public void setTaxAgency(TAXAgency taxAgency) {
 		this.taxAgency = taxAgency;
 	}
-
 
 	/**
 	 * @param amount
@@ -143,10 +138,9 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
-
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
@@ -173,7 +167,6 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

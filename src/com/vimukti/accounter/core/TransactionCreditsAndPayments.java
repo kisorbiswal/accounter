@@ -67,19 +67,14 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 
 	int version;
 
-	
-
 	transient private boolean isOnSaveProccessed;
 
 	public TransactionCreditsAndPayments() {
-		// TODO
 	}
-
 
 	public int getVersion() {
 		return version;
 	}
-
 
 	public FinanceDate getDate() {
 		return date;

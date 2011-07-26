@@ -77,18 +77,14 @@ public class TransactionPaySalesTax implements IAccounterServerCore, Lifecycle {
 	@ReffereredObject
 	Account liabilityAccount;
 
-	
-
 	transient private boolean isOnSaveProccessed;
 
 	public TransactionPaySalesTax() {
-		// TODO
 	}
 
 	public int getVersion() {
 		return version;
 	}
-
 
 	public TAXItem getTaxItem() {
 		return taxItem;

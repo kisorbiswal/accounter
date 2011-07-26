@@ -35,8 +35,6 @@ public class VendorGroup extends CreatableObject implements
 	 */
 	String name;
 
-	
-
 	boolean isDefault;
 	transient private boolean isOnSaveProccessed;
 
@@ -44,7 +42,6 @@ public class VendorGroup extends CreatableObject implements
 	 * @return the version
 	 */
 	public VendorGroup() {
-		// TODO
 	}
 
 	public int getVersion() {
@@ -65,7 +62,6 @@ public class VendorGroup extends CreatableObject implements
 	public void setDefault(boolean isDefault) {
 		this.isDefault = isDefault;
 	}
-
 
 	/**
 	 * @return the vendorGroupName

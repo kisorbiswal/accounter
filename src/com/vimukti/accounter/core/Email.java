@@ -24,10 +24,7 @@ public class Email implements IAccounterServerCore {
 	 */
 	boolean isSelected = false;
 
-	
-
 	public Email() {
-		// TODO
 
 	}
 
@@ -67,10 +64,9 @@ public class Email implements IAccounterServerCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return 0;
 	}
-
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

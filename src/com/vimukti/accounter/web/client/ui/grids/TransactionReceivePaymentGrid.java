@@ -206,7 +206,6 @@ public class TransactionReceivePaymentGrid extends
 				}
 
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 

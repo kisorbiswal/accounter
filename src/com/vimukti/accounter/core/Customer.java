@@ -29,7 +29,7 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 
 	String number;
 
-	// TODO as we are not implementing Employee section, it does not have any
+	// as we are not implementing Employee section, it does not have any
 	// functionality.
 	SalesPerson salesPerson;
 
@@ -101,8 +101,6 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 	double lastYear = 0D;
 	double lifeTimeSales = 0D;
 
-	
-
 	/*
 	 * =================================================================
 	 */
@@ -118,8 +116,6 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 	public int getVersion() {
 		return version;
 	}
-
-
 
 	/**
 	 * @return the number
@@ -342,8 +338,8 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 	public boolean onDelete(Session arg0) throws CallbackException {
 
 		FinanceLogger.log(
-				"Customer with Name {0} and Balance {1} has been deleted", this
-						.getName(), String.valueOf(this.getBalance()));
+				"Customer with Name {0} and Balance {1} has been deleted",
+				this.getName(), String.valueOf(this.getBalance()));
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
@@ -375,8 +371,8 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 
 		FinanceLogger.log(
 				"Opening Balance= {0}    Is Opening Balance Editable: {1}",
-				String.valueOf(this.getOpeningBalance()), String.valueOf(this
-						.isOpeningBalanceEditable()));
+				String.valueOf(this.getOpeningBalance()),
+				String.valueOf(this.isOpeningBalanceEditable()));
 
 		return onUpdate(session);
 	}
@@ -511,10 +507,9 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 		this.balanceAsOf = balanceAsOf;
 	}
 
-
 	// @Override
 	public boolean equals(Customer cust) {
-		// TODO Auto-generated method stub
+
 		if (this.id == cust.id
 				&& this.address.size() == cust.address.size()
 				&& this.address.equals(cust.address)
@@ -584,7 +579,7 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 		// .createQuery(
 		// "from com.vimukti.accounter.core.Customer C where C.number=?")
 		// .setParameter(0, this.number);
-		//			
+		//
 		// List list = query.list();
 		//
 		// if (list != null && list.size() > 0) {
@@ -600,8 +595,9 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 		// }
 		// }
 
-		Query query = session.getNamedQuery("getCustomers").setParameter(
-				"name", this.name).setParameter("number", this.number)
+		Query query = session.getNamedQuery("getCustomers")
+				.setParameter("name", this.name)
+				.setParameter("number", this.number)
 				.setParameter("id", this.id);
 
 		List list = query.list();

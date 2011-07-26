@@ -9,8 +9,8 @@ public class CompanyInitializedFactory {
 	 * 
 	 * @param company
 	 */
+
 	public CompanyInitializer getInitializer(Company company) {
-		// TODO
 		
 		return null;
 	}

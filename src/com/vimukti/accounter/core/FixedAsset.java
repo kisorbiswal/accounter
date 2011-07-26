@@ -39,14 +39,12 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  *         can Sell or Dispose any Fixed Asset.
  */
 @SuppressWarnings("serial")
-public class FixedAsset extends CreatableObject implements Lifecycle, IAccounterServerCore,
-		 Cloneable {
+public class FixedAsset extends CreatableObject implements Lifecycle,
+		IAccounterServerCore, Cloneable {
 
 	public static final int STATUS_PENDING = 1;
 	public static final int STATUS_REGISTERED = 2;
 	public static final int STATUS_SOLD_OR_DISPOSED = 3;
-
-
 
 	/**
 	 * Unique Item ID, for which the
@@ -224,9 +222,7 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 	 */
 	double totalCapitalGainAmount;
 
-	
 	transient int oldStatus;
-
 
 	/**
 	 * @return the transactions
@@ -242,7 +238,6 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 	public void setTransactions(List<Transaction> transactions) {
 		this.transactions = transactions;
 	}
-
 
 	public Account getLinkedAccumulatedDepreciationAccount() {
 		return linkedAccumulatedDepreciationAccount;
@@ -379,7 +374,7 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 	 * @param id
 	 *            the id to set
 	 */
-	public void setID(long id){
+	public void setID(long id) {
 		this.id = id;
 	}
 
@@ -505,7 +500,7 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 	// SellingOrDisposingFixedAsset sellingOrDisposingFixedAsset) {
 	// this.sellingOrDisposingFixedAsset = sellingOrDisposingFixedAsset;
 	// }
-	//	
+	//
 
 	/**
 	 * @return the soldOrDisposedDate
@@ -785,8 +780,7 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 				&& this.linkedAccumulatedDepreciationAccount.getID() != this.oldLinkedAccumulatedDepreciationAccount
 						.getID()) {
 			Account account = this.getAssetAccount();
-			account
-					.setLinkedAccumulatedDepreciationAccount(linkedAccumulatedDepreciationAccount);
+			account.setLinkedAccumulatedDepreciationAccount(linkedAccumulatedDepreciationAccount);
 			session.saveOrUpdate(account);
 		}
 		if (this.oldStatus == STATUS_PENDING
@@ -890,11 +884,11 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 						requiredStartDateCal.getTime()) > 0) {
 					try {
 						Depreciation
-								.rollBackDepreciation(this.getID(),
+								.rollBackDepreciation(
+										this.getID(),
 										new FinanceDate(requiredStartDateCal
 												.getTime()));
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -926,12 +920,14 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 					depreciation
 							.setDepreciationFor(Depreciation.DEPRECIATION_FOR_SINGLE_FIXEDASSET);
 					depreciation
-							.setDepreciateFrom(this.getPurchaseDate()
-									.getAsDateObject().compareTo(
+							.setDepreciateFrom(this
+									.getPurchaseDate()
+									.getAsDateObject()
+									.compareTo(
 											lastDepreciationDate
 													.getAsDateObject()) <= 0 ? new FinanceDate(
-									lastDepreciationDateCal.getTime())
-									: this.getPurchaseDate());
+									lastDepreciationDateCal.getTime()) : this
+									.getPurchaseDate());
 					depreciation.setDepreciateTo(new FinanceDate(
 							requiredStartDateCal.getTime()));
 					session.save(depreciation);
@@ -954,7 +950,7 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 						Depreciation.rollBackDepreciation(this.getID(),
 								depreciationTillDate);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
+
 						e.printStackTrace();
 					}
 				}
@@ -987,8 +983,8 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 					depreciation
 							.setDepreciateFrom(this.getPurchaseDate()
 									.compareTo(lastDepreciationDate) <= 0 ? (new FinanceDate(
-									lastDepreciationDateCal.getTime()))
-									: this.getPurchaseDate());
+									lastDepreciationDateCal.getTime())) : this
+									.getPurchaseDate());
 					depreciation.setDepreciateTo(depreciationTillDate);
 					session.save(depreciation);
 
@@ -1101,8 +1097,8 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 				fromCal.clear();
 				fromCal.set(Calendar.YEAR, year);
 				fromCal.set(Calendar.MONTH, month);
-				fromCal.set(Calendar.DATE, fromCal
-						.getActualMaximum(Calendar.DAY_OF_MONTH));
+				fromCal.set(Calendar.DATE,
+						fromCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 
 			}
 
@@ -1135,7 +1131,7 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 		try {
 			fixedAsset = this.clone();
 		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 
@@ -1201,8 +1197,8 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 			 * Depreciation should calculate on the Book value in that year.
 			 */
 			double amount = fixedAsset.getDepreciationMethod() == Depreciation.METHOD_STRAIGHT_LINE ? fixedAsset
-					.getPurchasePrice()
-					: fixedAsset.getOpeningBalanceForFiscalYear();
+					.getPurchasePrice() : fixedAsset
+					.getOpeningBalanceForFiscalYear();
 
 			/**
 			 * To calculate the depreciation amount for this month based on the
@@ -1225,8 +1221,7 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 			 * this calculated depreciation amount for this month.
 			 */
 			fixedAsset.setAccumulatedDepreciationAmount(fixedAsset
-					.getAccumulatedDepreciationAmount()
-					+ depreciationAmount);
+					.getAccumulatedDepreciationAmount() + depreciationAmount);
 
 			/**
 			 * Adjusting the from date so that it will hold the next month last
@@ -1238,8 +1233,8 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 			fromCal.clear();
 			fromCal.set(Calendar.YEAR, year);
 			fromCal.set(Calendar.MONTH, month);
-			fromCal.set(Calendar.DATE, fromCal
-					.getActualMaximum(Calendar.DAY_OF_MONTH));
+			fromCal.set(Calendar.DATE,
+					fromCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 
 		}
 
@@ -1263,8 +1258,8 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 		Query query = session
 				.createQuery(
 						"from com.vimukti.accounter.core.Depreciation d where d.depreciateFrom >= ? and d.status=? ")
-				.setParameter(0, rollBackDepreciationTo).setParameter(1,
-						Depreciation.APPROVE);
+				.setParameter(0, rollBackDepreciationTo)
+				.setParameter(1, Depreciation.APPROVE);
 		List<Depreciation> list = query.list();
 		double rollBackDepAmt = 0.0;
 		for (Depreciation dep : list) {
@@ -1341,8 +1336,8 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 		Calendar lastDepreciationDateCal = new GregorianCalendar();
 		lastDepreciationDateCal.setTime(lastDepreciationDate.getAsDateObject());
 		lastDepreciationDateCal.set(Calendar.DAY_OF_MONTH, 01);
-		lastDepreciationDateCal.set(Calendar.MONTH, lastDepreciationDateCal
-				.get(Calendar.MONTH) + 1);
+		lastDepreciationDateCal.set(Calendar.MONTH,
+				lastDepreciationDateCal.get(Calendar.MONTH) + 1);
 
 		if (fixedAsset.isNoDepreciation()) {
 
@@ -1356,11 +1351,11 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 			startDateCal.setTime(startDate.getAsDateObject());
 
 			Calendar soldYearStartDateCal = new GregorianCalendar(
-					soldOrDisposedDateCal.get(Calendar.YEAR), startDateCal
-							.get(Calendar.MONTH), startDateCal
-							.get(Calendar.DAY_OF_MONTH));
-			soldYearStartDateCal.set(Calendar.MONTH, soldYearStartDateCal
-					.get(Calendar.MONTH) - 1);
+					soldOrDisposedDateCal.get(Calendar.YEAR),
+					startDateCal.get(Calendar.MONTH),
+					startDateCal.get(Calendar.DAY_OF_MONTH));
+			soldYearStartDateCal.set(Calendar.MONTH,
+					soldYearStartDateCal.get(Calendar.MONTH) - 1);
 			soldYearStartDateCal.set(Calendar.DAY_OF_MONTH,
 					soldYearStartDateCal
 							.getActualMaximum(Calendar.DAY_OF_MONTH));
@@ -1377,8 +1372,8 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 						.compareTo(
 								new ClientFinanceDate(lastDepreciationDate
 										.getTime())) <= 0 ? (new ClientFinanceDate(
-						lastDepreciationDateCal.getTime()))
-						: (fixedAsset.getPurchaseDate());
+						lastDepreciationDateCal.getTime())) : (fixedAsset
+						.getPurchaseDate());
 				depreciationTobePosted += format.format(depFrom);
 				depreciationTobePosted += " to";
 				depreciationTobePosted += format.format(soldYearStartDateCal
@@ -1386,10 +1381,10 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 				depreciationTobePosted += ")";
 
 				depreciationToBePostedAmount = getCalculatedDepreciatedAmount(
-						fixedAsset.getDepreciationMethod(), fixedAsset
-								.getDepreciationRate(), fixedAsset
-								.getPurchasePrice(), new FinanceDate(depFrom
-								.getTime()), new FinanceDate(
+						fixedAsset.getDepreciationMethod(),
+						fixedAsset.getDepreciationRate(),
+						fixedAsset.getPurchasePrice(),
+						new FinanceDate(depFrom.getTime()), new FinanceDate(
 								soldYearStartDateCal.getTime()));
 				depreciationToBePostedAmount = Double.parseDouble(decimalFormat
 						.format(depreciationToBePostedAmount));
@@ -1409,8 +1404,8 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 			}
 			// }
 
-			depreciationTillDate = new FinanceDate(soldYearStartDateCal
-					.getTime());
+			depreciationTillDate = new FinanceDate(
+					soldYearStartDateCal.getTime());
 
 		} else {
 
@@ -1435,9 +1430,9 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 							.format(depreciationTillDate);
 					depreciationTobePosted += ")";
 					depreciationToBePostedAmount = getCalculatedDepreciatedAmount(
-							fixedAsset.getDepreciationMethod(), fixedAsset
-									.getDepreciationRate(), fixedAsset
-									.getPurchasePrice(), depFrom,
+							fixedAsset.getDepreciationMethod(),
+							fixedAsset.getDepreciationRate(),
+							fixedAsset.getPurchasePrice(), depFrom,
 							depreciationTillDate);
 					depreciationToBePostedAmount = Double
 							.parseDouble(decimalFormat
@@ -1467,12 +1462,13 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 		 */
 		Map<String, Double> disposalSummary = new LinkedHashMap<String, Double>();
 		disposalSummary.put(purchasedDate, fixedAsset.getPurchasePrice());
-		if (!DecimalUtil.isEquals(fixedAsset.getPurchasePrice(), fixedAsset
-				.getBookValue())) {
+		if (!DecimalUtil.isEquals(fixedAsset.getPurchasePrice(),
+				fixedAsset.getBookValue())) {
 			// disposalSummary.put(currentAccumulatedDepreciation, fixedAsset
 			// .getAccumulatedDepreciationAmount());
-			disposalSummary.put(currentAccumulatedDepreciation, (fixedAsset
-					.getPurchasePrice() - fixedAsset.getBookValue()));
+			disposalSummary
+					.put(currentAccumulatedDepreciation, (fixedAsset
+							.getPurchasePrice() - fixedAsset.getBookValue()));
 		}
 		if (!DecimalUtil.isEquals(depreciationToBePostedAmount, 0.0)) {
 			disposalSummary.put(depreciationTobePosted,
@@ -1499,22 +1495,21 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 		double salesPrice = fixedAsset.getSalesPrice();
 		double purchasePrice = fixedAsset.getPurchasePrice();
 		double lessAccumulatedDepreciationAmount = fixedAsset
-				.getPurchasePrice()
-				- fixedAsset.getBookValue();
+				.getPurchasePrice() - fixedAsset.getBookValue();
 
 		/**
 		 * calculating whether there will be any capital gain or not for this
 		 * Sell or Dispose of Fixed Asset.
 		 */
 		double totalCapitalGain = Double
-				.parseDouble(decimalFormat
-						.format((DecimalUtil.isGreaterThan(salesPrice,
-								purchasePrice)) ? (salesPrice - purchasePrice)
-								: 0.0));
+				.parseDouble(decimalFormat.format((DecimalUtil.isGreaterThan(
+						salesPrice, purchasePrice)) ? (salesPrice - purchasePrice)
+						: 0.0));
 
 		double calculatedLessAccDep = (fixedAsset.getPurchasePrice() - fixedAsset
 				.getBookValue())
-				+ depreciationToBePostedAmount - rollBackDepreciatinAmount;
+				+ depreciationToBePostedAmount
+				- rollBackDepreciatinAmount;
 
 		/**
 		 * calculating gain/loss for this Sell or Dispose of Fixed Asset. If the
@@ -1569,8 +1564,9 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 		Query query = session
 				.createQuery(
 						"select d from com.vimukti.accounter.core.Depreciation d inner join d.fixedAsset where d.depreciateFrom >= ? and d.status=? and d.fixedAsset.id=? group by d.fixedAsset.id")
-				.setParameter(0, rollBackDepreciationTo).setParameter(1,
-						Depreciation.APPROVE).setParameter(2, fixedAssetID);
+				.setParameter(0, rollBackDepreciationTo)
+				.setParameter(1, Depreciation.APPROVE)
+				.setParameter(2, fixedAssetID);
 
 		List<Depreciation> list = query.list();
 		double rollBackDepAmt = 0.0;
@@ -1606,7 +1602,7 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 		// try {
 		// fixedAsset = fixedAsset2.clone();
 		// } catch (CloneNotSupportedException e) {
-		// // TODO Auto-generated catch block
+		//
 		// e.printStackTrace();
 		// }
 
@@ -1660,8 +1656,8 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 			 * Depreciation should calculate on the Book value in that year.
 			 */
 			double amount = fixedAsset.getDepreciationMethod() == Depreciation.METHOD_STRAIGHT_LINE ? fixedAsset
-					.getPurchasePrice()
-					: fixedAsset.getOpeningBalanceForFiscalYear();
+					.getPurchasePrice() : fixedAsset
+					.getOpeningBalanceForFiscalYear();
 
 			/**
 			 * To calculate the depreciation amount for this month based on the
@@ -1684,8 +1680,7 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 			 * this calculated depreciation amount for this month.
 			 */
 			fixedAsset.setAccumulatedDepreciationAmount(fixedAsset
-					.getAccumulatedDepreciationAmount()
-					+ depreciationAmount);
+					.getAccumulatedDepreciationAmount() + depreciationAmount);
 
 			/**
 			 * Adjusting the from date so that it will hold the next month last
@@ -1697,8 +1692,8 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 			fromCal.clear();
 			fromCal.set(Calendar.YEAR, year);
 			fromCal.set(Calendar.MONTH, month);
-			fromCal.set(Calendar.DATE, fromCal
-					.getActualMaximum(Calendar.DAY_OF_MONTH));
+			fromCal.set(Calendar.DATE,
+					fromCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 
 			/**
 			 * Adjusting the opening balance of this Fixed Asset each year after
@@ -1730,7 +1725,6 @@ public class FixedAsset extends CreatableObject implements Lifecycle, IAccounter
 	public void setFixedAssetsHistory(List<FixedAssetHistory> fixedAssetsHistory) {
 		this.fixedAssetsHistory = fixedAssetsHistory;
 	}
-
 
 	@Override
 	public FixedAsset clone() throws CloneNotSupportedException {

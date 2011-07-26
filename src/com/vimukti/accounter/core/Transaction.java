@@ -33,7 +33,8 @@ import com.vimukti.accounter.web.client.ui.core.SpecialReference;
  * 
  */
 
-public abstract class Transaction extends CreatableObject implements IAccounterServerCore, Lifecycle, Cloneable {
+public abstract class Transaction extends CreatableObject implements
+		IAccounterServerCore, Lifecycle, Cloneable {
 
 	/**
 	 * 
@@ -147,9 +148,6 @@ public abstract class Transaction extends CreatableObject implements IAccounterS
 
 	double netAmount;
 
-	/**
-	 * //TODO
-	 */
 	double previousTotal;
 
 	/**
@@ -194,9 +192,6 @@ public abstract class Transaction extends CreatableObject implements IAccounterS
 	Set<ReceiveVATEntries> receiveVATEntriesList = new HashSet<ReceiveVATEntries>();
 
 	TransactionMakeDepositEntries transactionMakeDepositEntries;
-
-	
-
 
 	// For UK version only
 	boolean amountsIncludeVAT;
@@ -384,8 +379,6 @@ public abstract class Transaction extends CreatableObject implements IAccounterS
 	public int getVersion() {
 		return version;
 	}
-
-
 
 	/**
 	 * @return the type
@@ -1092,13 +1085,11 @@ public abstract class Transaction extends CreatableObject implements IAccounterS
 		}
 	}
 
-
 	@Override
-	public long getID(){
+	public long getID() {
 		// TODO Auto-generated method stub
 		return this.id;
 	}
-
 
 	public int compareTo(Object o) {
 		return 0;

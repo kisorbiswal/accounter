@@ -72,16 +72,9 @@ public class GeneratePDFservlet extends BaseServlet {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			// try {
-			// // if (sos != null)
-			// // sos.close();
-			// } catch (IOException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
+
 		}
 	}
 

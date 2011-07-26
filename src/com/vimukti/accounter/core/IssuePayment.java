@@ -36,10 +36,9 @@ public class IssuePayment extends Transaction {
 	 */
 	List<TransactionIssuePayment> transactionIssuePayment;
 
-	// 
+	//
 
 	public IssuePayment() {
-		// TODO
 	}
 
 	public IssuePayment(Session session, ClientIssuePayment issuepayment) {
@@ -111,7 +110,6 @@ public class IssuePayment extends Transaction {
 	public String toString() {
 		return AccounterConstants.TYPE_ISSUE_PAYMENT;
 	}
-
 
 	@Override
 	public Payee getInvolvedPayee() {

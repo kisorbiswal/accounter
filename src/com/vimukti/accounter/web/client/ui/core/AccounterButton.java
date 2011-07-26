@@ -26,22 +26,18 @@ public class AccounterButton extends Button {
 
 	public AccounterButton(String html) {
 		super(html);
-		// TODO Auto-generated constructor stub
 	}
 
 	public AccounterButton(Element element) {
 		super(element);
-		// TODO Auto-generated constructor stub
 	}
 
 	public AccounterButton(SafeHtml html, ClickHandler handler) {
 		super(html, handler);
-		// TODO Auto-generated constructor stub
 	}
 
 	public AccounterButton(String html, ClickHandler handler) {
 		super(html, handler);
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getType() {
@@ -127,8 +123,8 @@ public class AccounterButton extends Button {
 	public void disabledAddButton() {
 		try {
 			if (this.getElement().getParentElement().getClassName() != null) {
-				this.getElement().getParentElement().removeClassName(
-						"add-button");
+				this.getElement().getParentElement()
+						.removeClassName("add-button");
 			}
 			if (this.getText() != null) {
 				ThemesUtil.removeDivToButton(this);

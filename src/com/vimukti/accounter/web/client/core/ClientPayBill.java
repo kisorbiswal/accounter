@@ -100,7 +100,6 @@ public class ClientPayBill extends ClientTransaction {
 	public void setAccountsPayable(long accountsPayableAccount) {
 		// this.accountsPayable ;
 		// TODO
-
 	}
 
 	/**
@@ -192,13 +191,13 @@ public class ClientPayBill extends ClientTransaction {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 

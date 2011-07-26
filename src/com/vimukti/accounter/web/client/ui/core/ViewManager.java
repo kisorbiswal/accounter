@@ -662,7 +662,7 @@ public class ViewManager extends DockPanel {
 							showPresentView(view, input, dependent, action);
 							isShowWarningDialog = false;
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
+
 							e.printStackTrace();
 						}
 						return true;
@@ -684,7 +684,7 @@ public class ViewManager extends DockPanel {
 						// try {
 						// showPresentView(view, input, dependent, action);
 						// } catch (Exception e) {
-						// // TODO Auto-generated catch block
+						//
 						// e.printStackTrace();
 						// }
 						return true;
@@ -704,7 +704,6 @@ public class ViewManager extends DockPanel {
 				showPresentView(presentView, presentDate,
 						presentViewDependency, presentAction);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return;

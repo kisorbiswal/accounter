@@ -22,7 +22,8 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
  * 
  */
 
-public class Item extends CreatableObject implements IAccounterServerCore, Lifecycle {
+public class Item extends CreatableObject implements IAccounterServerCore,
+		Lifecycle {
 	/**
 	 * 
 	 */
@@ -42,7 +43,6 @@ public class Item extends CreatableObject implements IAccounterServerCore, Lifec
 	public static final int TYPE_PAYMENT = 9;
 	public static final int TYPE_SALES_TAX_ITEM = 10;
 	public static final int TYPE_SALES_TAX_GROUP = 11;
-
 
 	/**
 	 * Item Type
@@ -112,8 +112,6 @@ public class Item extends CreatableObject implements IAccounterServerCore, Lifec
 	double standardCost;
 	int version;
 
-	
-
 	String createdBy;
 	String lastModifier;
 	FinanceDate createdDate;
@@ -125,7 +123,6 @@ public class Item extends CreatableObject implements IAccounterServerCore, Lifec
 	// TaxCode VATCode;
 
 	public Item() {
-		// TODO
 	}
 
 	/**
@@ -410,7 +407,6 @@ public class Item extends CreatableObject implements IAccounterServerCore, Lifec
 		ChangeTracker.put(this);
 		return false;
 	}
-
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

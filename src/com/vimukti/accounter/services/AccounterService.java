@@ -1396,8 +1396,8 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * .getTransactionMakeDeposit(); // // try { // transactionPayBill //
 	 * .setTransactionMakeDeposit(accounterGUIDao // .getTransactionMakeDeposit(
 	 * // payBill // .getCompany() // .getID(), // txMakeDeposit // .getID()));
-	 * // } catch (DAOException e) { // // TODO Auto-generated catch block //
-	 * e.printStackTrace(); // } // // } // // } // // }
+	 * // } catch (DAOException e) { // // e.printStackTrace(); // } // // } //
+	 * // } // // }
 	 * 
 	 * session.save(payBill); return null; }
 	 * 

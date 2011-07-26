@@ -83,20 +83,16 @@ public class Vendor extends Payee implements Lifecycle {
 	FinanceDate createdDate;
 	FinanceDate lastModifiedDate;
 
-	
-
 	/**
 	 * @return the instanceVersion
 	 */
 	public Vendor() {
-		// TODO
 	}
 
 	@Override
 	public int getVersion() {
 		return version;
 	}
-
 
 	/**
 	 * @return the address

@@ -31,7 +31,6 @@ public class CustomerGroup extends CreatableObject implements
 	transient private boolean isOnSaveProccessed;
 
 	public CustomerGroup() {
-		// TODO
 	}
 
 	public boolean isDefault() {

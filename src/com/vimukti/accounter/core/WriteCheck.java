@@ -86,13 +86,12 @@ public class WriteCheck extends Transaction implements Lifecycle {
 	 */
 	String checkNumber = WriteCheck.IS_TO_BE_PRINTED;
 
-	// 
+	//
 
 	/**
 	 * @return the id
 	 */
 	public WriteCheck() {
-		// TODO
 	}
 
 	@Override

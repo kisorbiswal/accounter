@@ -257,102 +257,10 @@ public class SalesOrderUKGrid extends CustomerTransactionUKGrid {
 	public void editComplete(final ClientTransactionItem item,
 			final Object value, final int col) {
 		super.editComplete(item, value, col);
-
-		// if (col == 3) {
-		//
-		// try {
-		// double changedqty = DataUtils.getAmountStringAsDouble(value
-		// .toString());
-		// if (changedqty < (item.getInvoiced() / item.getUnitPrice())) {
-		// Accounter.showWarning("error", AccounterType.WARNING,
-		// new ErrorDialogHandler() {
-		//
-		// @Override
-		// public boolean onYesClick()
-		// throws InvalidEntryException {
-		// // SalesOrderUKGrid.super.editComplete(item,
-		// // value, col);
-		// return true;
-		// }
-		//
-		// @Override
-		// public boolean onNoClick()
-		// throws InvalidEntryException {
-		// // TODO Auto-generated method stub
-		// return true;
-		// }
-		//
-		// @Override
-		// public boolean onCancelClick()
-		// throws InvalidEntryException {
-		// // TODO Auto-generated method stub
-		// return true;
-		// }
-		// });
-		// }
-		// // else {
-		// // super.editComplete(item, value, col);
-		// // }
-		//
-		// } catch (Exception e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		//
-		// }
-		// else
-		// super.editComplete(item, value, col);
-
 	}
 
 	@Override
 	public boolean validateGrid() throws InvalidTransactionEntryException {
-		super.validateGrid();
-		// for (ClientTransactionItem item : this.getRecords()) {
-		// if (item.getType() != ClientTransactionItem.TYPE_COMMENT) {
-		// try {
-		// // double changedqty =
-		// // DataUtils.getAmountStringAsDouble(value
-		// // .toString());
-		// if (item.getQuantity() < (item.getInvoiced() / item
-		// .getUnitPrice())) {
-		// Accounter.showWarning("error", AccounterType.WARNING,
-		// new ErrorDialogHandler() {
-		//
-		// @Override
-		// public boolean onYesClick()
-		// throws InvalidEntryException {
-		// // SalesOrderUKGrid.super.editComplete(item,
-		// // value, col);
-		// return true;
-		// }
-		//
-		// @Override
-		// public boolean onNoClick()
-		// throws InvalidEntryException {
-		// // TODO Auto-generated method stub
-		// return true;
-		// }
-		//
-		// @Override
-		// public boolean onCancelClick()
-		// throws InvalidEntryException {
-		// // TODO Auto-generated method stub
-		// return true;
-		// }
-		// });
-		// }
-		// // else {
-		// // super.editComplete(item, value, col);
-		// // }
-		//
-		// } catch (Exception e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// }
-		// }
-
-		return true;
+		return super.validateGrid();
 	}
 }

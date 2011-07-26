@@ -129,11 +129,9 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 	@ReffereredObject
 	CreditsAndPayments creditsAndPayments;
 
-	
 	transient private boolean isOnSaveProccessed;
 
 	public TransactionMakeDeposit() {
-		// TODO
 	}
 
 	/**
@@ -142,7 +140,6 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 	public int getVersion() {
 		return version;
 	}
-
 
 	/**
 	 * @return the date

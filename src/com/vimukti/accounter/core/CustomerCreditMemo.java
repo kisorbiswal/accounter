@@ -102,8 +102,6 @@ public class CustomerCreditMemo extends Transaction implements
 	 */
 	String phone;
 
-	// TODO as we are not implementing Employee section, it does not have any
-	// functionality.
 	SalesPerson salesPerson;
 
 	// TODO not using this property.
@@ -134,7 +132,6 @@ public class CustomerCreditMemo extends Transaction implements
 	//
 
 	public CustomerCreditMemo() {
-		// TODO
 	}
 
 	public CustomerCreditMemo(Session session,

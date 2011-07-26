@@ -42,8 +42,6 @@ public class Estimate extends Transaction {
 	 */
 	String phone;
 
-	// TODO as we are not implementing Employee section, it does not have any
-	// functionality.
 	SalesPerson salesPerson;
 
 	/**
@@ -240,7 +238,6 @@ public class Estimate extends Transaction {
 		return AccounterConstants.TYPE_ESTIMATE;
 	}
 
-
 	@Override
 	public Payee getInvolvedPayee() {
 
@@ -253,11 +250,9 @@ public class Estimate extends Transaction {
 				&& this.id == est.id
 				&& this.transactionItems.size() == est.transactionItems.size()
 				&& ((this.transactionDate != null && est.transactionDate != null) ? (this.transactionDate
-						.equals(est.transactionDate))
-						: true)
+						.equals(est.transactionDate)) : true)
 				&& ((this.customer != null && est.customer != null) ? (this.customer
-						.equals(est.customer))
-						: true)) {
+						.equals(est.customer)) : true)) {
 			for (int i = 0; i < this.transactionItems.size(); i++) {
 				if (!this.transactionItems.get(i).equals(
 						est.transactionItems.get(i)))
