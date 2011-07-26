@@ -3608,6 +3608,7 @@ public class FinanceTool implements IFinanceDAOService {
 				el.setTotal(((Double) obj[3]).doubleValue());
 				el.setDate(new ClientFinanceDate((Long) obj[4]));
 				el.setCustomerName((String) obj[5]);
+				el.setRemainingTotal(((Double) obj[6]).doubleValue());
 				esl.add(el);
 			}
 		}
