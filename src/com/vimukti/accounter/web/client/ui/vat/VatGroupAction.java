@@ -60,10 +60,12 @@ public class VatGroupAction extends Action {
 		});
 
 	}
-	
+
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/Vat_group.png";
 	}
 
