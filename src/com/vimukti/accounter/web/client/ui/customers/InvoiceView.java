@@ -85,7 +85,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	DynamicForm amountsForm;
 
 	@SuppressWarnings("unused")
-	private ClientCompany company = getCompany();
+	private ClientCompany company = Accounter.getCompany();
 
 	@Override
 	protected void initTransactionViewData() {
@@ -133,7 +133,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	@Override
 	protected void initPaymentTerms() {
 
-		paymentTermsList = getCompany().getPaymentsTerms();
+		paymentTermsList = Accounter.getCompany().getPaymentsTerms();
 
 		payTermsSelect.initCombo(paymentTermsList);
 		for (ClientPaymentTerms paymentTerm : paymentTermsList) {
@@ -177,6 +177,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		if (transactionObject == null
 				|| transactionObject.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+ 
 			lab1 = new Label(Accounter.getCustomersMessages().invoice());
 
 		else {
@@ -198,6 +199,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				});
 		transactionDateItem.setHelpInformation(true);
 		transactionNumber = createTransactionNumberItem();
+ 
 		transactionNumber
 				.setTitle(Accounter.getCustomersMessages().invoiceNo());
 		listforms = new ArrayList<DynamicForm>();
@@ -242,6 +244,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		billToTextArea = new TextAreaItem();
 		billToTextArea.setHelpInformation(true);
 		billToTextArea.setWidth(100);
+
 		billToTextArea.setTitle(Accounter.getCustomersMessages().billTo());
 		billToTextArea.setDisabled(true);
 		billToTextArea.setHelpInformation(true);
@@ -251,6 +254,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
+ 
 		shipToAddress.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.getCustomersMessages().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
@@ -288,6 +292,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		custForm.setFields(customerCombo, quoteLabel, contactCombo, emptylabel,
 				billToTextArea, emptylabel);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
+ 
 		custForm.getCellFormatter()
 				.getElement(0, 0)
 				.setAttribute(Accounter.getCustomersMessages().width(), "226px");
@@ -331,6 +336,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				shippingTermsCombo, shippingMethodsCombo, dueDateItem,
 				deliveryDate, orderNumText);
 		termsForm.setStyleName("align-form");
+ 
 		termsForm
 				.getCellFormatter()
 				.getElement(0, 0)
@@ -427,7 +433,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				});
 		amountsForm = new DynamicForm();
 		amountsForm.setWidth("100%");
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 
 			DynamicForm priceLevelForm = new DynamicForm();
 			// priceLevelForm.setCellSpacing(4);
@@ -479,7 +485,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(amountsForm);
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			prodAndServiceHLay.setCellWidth(amountsForm, "30%");
 		} else
 			prodAndServiceHLay.setCellWidth(amountsForm, "50%");
@@ -583,7 +589,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		if (customerTransactionGrid == null)
 			return;
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			Double taxableLineTotal = customerTransactionGrid
 					.getTaxableLineTotal();
 
@@ -593,7 +599,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
 					transactionDateItem.getEnteredDate(),
 					taxableLineTotal,
-					getCompany().getTAXItemGroup(
+					Accounter.getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
 			setSalesTax(salesTax);
@@ -665,14 +671,16 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		if (this.customer != null && this.customer != customer) {
 			ClientInvoice inv = (ClientInvoice) this.transactionObject;
 
+ 
 			if (inv.getCustomer() == customer.getID()) {
 				this.customerTransactionGrid.removeAllRecords();
 				this.customerTransactionGrid.setRecords(inv
 						.getTransactionItems());
 				selectedSalesOrder = inv.getSalesOrder();
 				selectedEstimateId = inv.getEstimate();
+
 			} else {
-				this.customerTransactionGrid.removeAllRecords();
+ 
 				selectedSalesOrder = 0;
 				selectedEstimateId = 0;
 			}
@@ -800,6 +808,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		ClientInvoice invoice = new ClientInvoice(selectedEstimate);
 		setShippingAdress(invoice);
 		for (ClientTransactionItem item : invoice.getTransactionItems()) {
+ 
 			item.setID(0);
 		}
 
@@ -807,7 +816,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	}
 
 	private void setShippingAdress(ClientInvoice invoice) {
-		ClientCustomer customer = getCompany().getCustomer(
+		ClientCustomer customer = Accounter.getCompany().getCustomer(
 				invoice.getCustomer());
 		this.addressListOfCustomer = customer.getAddress();
 		ClientAddress shippingAdressValue = getAddress(ClientAddress.TYPE_SHIP_TO);
@@ -819,7 +828,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 		initTransactionViewData();
 		ClientInvoice invoiceToBeEdited = (ClientInvoice) transactionObject;
-		ClientCompany company = getCompany();
+		ClientCompany company = Accounter.getCompany();
 		this.customer = company.getCustomer(invoiceToBeEdited.getCustomer());
 		this.contact = invoiceToBeEdited.getContact();
 		// customerSelected(company.getCustomer(invoiceToBeEdited.getCustomer()));
@@ -965,6 +974,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		this.paymentTerm = paymentTerm;
 		if (this.paymentTerm != null && payTermsSelect != null) {
 
+ 
 			payTermsSelect.setComboItem(getCompany().getPaymentTerms(
 					paymentTerm.getID()));
 		}
@@ -995,7 +1005,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				invoice.setDueDate((dueDateItem.getEnteredDate()).getTime());
 			if (deliveryDate.getEnteredDate() != null)
 				invoice.setDeliverydate(deliveryDate.getEnteredDate().getTime());
-			if (getCompany().getAccountingType() == 0)
+			if (Accounter.getCompany().getAccountingType() == 0)
 				invoice.setSalesTaxAmount(salesTaxTextNonEditable.getAmount());
 
 			if (contactCombo.getSelectedValue() != null) {
@@ -1027,7 +1037,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				invoice.setOrderNum(orderNum);
 			// if (taxItemGroup != null)
 			// invoice.setTaxItemGroup(taxItemGoup);
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				if (taxCode != null) {
 					for (ClientTransactionItem record : customerTransactionGrid
 							.getRecords()) {
@@ -1070,8 +1080,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				} else if (isNumberCorrect((String) orderNumText.getValue()) == 2) {
 					throw new InvalidEntryException(
 							AccounterErrorType.SALESORDERNUMBERPOSITIVE);
+				} else if (isNumberCorrect((String) orderNumText.getValue()) == 3) {
+					throw new InvalidEntryException(
+							AccounterErrorType.SALESORDERNUMBERGREATER0);
 				}
 			}
+ 
 			if (transactionObject.getID() != 0) {
 				alterObject(invoice);
 
@@ -1096,7 +1110,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			invoice.setDueDate((dueDateItem.getEnteredDate()).getTime());
 		if (deliveryDate.getEnteredDate() != null)
 			invoice.setDeliverydate(deliveryDate.getEnteredDate().getTime());
-		if (getCompany().getAccountingType() == 0)
+		if (Accounter.getCompany().getAccountingType() == 0)
 			invoice.setSalesTaxAmount(salesTaxTextNonEditable.getAmount());
 		if (contact != null)
 			invoice.setContact(contact);
@@ -1126,7 +1140,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		// if (taxItemGroup != null)
 		// invoice.setTaxItemGroup(taxItemGroup);
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			if (taxCode != null) {
 				for (ClientTransactionItem record : customerTransactionGrid
 						.getRecords()) {
@@ -1187,12 +1201,21 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			return 1;
 		}
 		try {
-			if (Integer.parseInt(value) < 1) {
+			if (Integer.parseInt(value) < 0) {
 				throw new InvalidEntryException(
 						AccounterErrorType.SALESORDERNUMBERPOSITIVE);
 			}
 		} catch (Exception e) {
 			return 2;
+		}
+
+		try {
+			if (Integer.parseInt(value) == 0) {
+				throw new InvalidEntryException(
+						AccounterErrorType.SALESORDERNUMBERGREATER0);
+			}
+		} catch (Exception e) {
+			return 3;
 		}
 		return 0;
 	}
@@ -1236,7 +1259,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 				@Override
 				public void onFailure(Throwable caught) {
-					// Accounter.showError(FinanceApplication
+					// Accounter.showError(Accounter
 					// .getCustomersMessages()
 					// .noQuotesAndSalesOrderForCustomer()
 					// + " " + customer.getName());
@@ -1257,6 +1280,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				}
 
 			};
+ 
 			this.rpcUtilService.getEstimatesAndSalesOrdersList(
 					customer.getID(), callback);
 
@@ -1271,6 +1295,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				.getRecords()) {
 			for (ClientTransactionItem salesRecord : salesOrder
 					.getTransactionItems())
+ 
 				if (record.getReferringTransactionItem() == salesRecord.getID())
 					customerTransactionGrid.deleteRecord(record);
 
@@ -1316,6 +1341,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		orderNum = salesOrder.getNumber();
 		orderNumText.setValue(orderNum);
 		customerTransactionGrid.setAllTransactions(itemsList);
+		customerTransactionGrid.refreshVatValue();
 	}
 
 	public List<DynamicForm> getForms() {
@@ -1510,6 +1536,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		this.taxCode = taxCode;
 		if (taxCode != null) {
 
+ 
 			taxCodeSelect
 					.setComboItem(getCompany().getTAXCode(taxCode.getID()));
 			customerTransactionGrid.setTaxCode(taxCode.getID());
