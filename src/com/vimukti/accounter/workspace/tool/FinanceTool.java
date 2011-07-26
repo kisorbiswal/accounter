@@ -1764,7 +1764,7 @@ public class FinanceTool implements IFinanceDAOService {
 	public List<InvoicesList> getInvoiceList() throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
-			// FIXME
+			// FIXME :: query optimization
 			Query query = session.getNamedQuery("getInvoicesList");
 			List list = query.list();
 
@@ -1861,7 +1861,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		try {
 			Session session = HibernateUtil.getCurrentSession();
-			// FIXME
+			// FIXME::: query optimization
 			Query query = session.getNamedQuery("getLatestQuotes");
 			List list2 = query.list();
 			Object object[] = null;
@@ -9232,9 +9232,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 					session.save(salesTaxVAT);
 
-					// FIXME
-					// Company.getCompany().createUKDefaultVATCodesAndVATAgency(
-					// session);
+					
 				}
 			}
 
