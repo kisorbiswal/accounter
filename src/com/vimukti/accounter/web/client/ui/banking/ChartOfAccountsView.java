@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -132,7 +133,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 		if (grid.getRecords().isEmpty()) {
 			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 		}
-
+		Window.scrollTo(0, 0);
 	}
 
 	@Override
