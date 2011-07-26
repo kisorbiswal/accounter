@@ -29,7 +29,7 @@ public class JettyServer {
 
 		webappcontext.setContextPath("/");
 		// webappcontext.setWar("webapp");
-		Resource resource = Resource.newClassPathResource("webapp");
+		Resource resource = Resource.newClassPathResource("war");
 
 		webappcontext.setBaseResource(resource);
 
@@ -43,23 +43,23 @@ public class JettyServer {
 
 		jettyServer.setConnectors(new Connector[] { connector });
 
-		webappcontext.setAttribute("documentDomain", ServerConfiguration
-				.getServerDomainName());
+		webappcontext.setAttribute("documentDomain",
+				ServerConfiguration.getServerDomainName());
 
-		webappcontext.setAttribute("loginEnforceHttps", Boolean
-				.valueOf(ServerConfiguration.isLoginHTTPS()));
+		webappcontext.setAttribute("loginEnforceHttps",
+				Boolean.valueOf(ServerConfiguration.isLoginHTTPS()));
 
-		webappcontext.setAttribute("enforceHttps", Boolean
-				.valueOf(ServerConfiguration.enforceHTTS()));
+		webappcontext.setAttribute("enforceHttps",
+				Boolean.valueOf(ServerConfiguration.enforceHTTS()));
 
 		webappcontext.setAttribute("helpUrl", ServerConfiguration.getHelpUrl());
 
 		if (ServerConfiguration.getHelperDomain().length() > 1) {
-			webappcontext.setAttribute("helperDomain", ServerConfiguration
-					.getHelperDomain());
+			webappcontext.setAttribute("helperDomain",
+					ServerConfiguration.getHelperDomain());
 		}
-		webappcontext.setAttribute("port", Integer.valueOf(ServerConfiguration
-				.getPort()));
+		webappcontext.setAttribute("port",
+				Integer.valueOf(ServerConfiguration.getPort()));
 
 		// for max post data
 		webappcontext.getServletContext().getContextHandler()
