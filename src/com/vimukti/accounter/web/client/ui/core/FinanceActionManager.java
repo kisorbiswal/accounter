@@ -496,7 +496,7 @@ package com.vimukti.accounter.web.client.ui.core;
 //				"fixed_asset_manager.png", new ClickHandler() {
 //
 //					public void onClick(MenuItemClickEvent event) {
-//						// FIXME
+//						// XXX
 //					}
 //
 //				});
