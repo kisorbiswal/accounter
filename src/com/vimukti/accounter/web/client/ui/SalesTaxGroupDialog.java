@@ -71,8 +71,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 	// getting all Tax Codes from Company Object & converting these to temporary
 	// TaxCodeInternal object for inserting data in Grid...
 	public List<ClientTAXItem> getAllTaxItem() {
-		List<ClientTAXItem> savedTaxItems = getCompany()
-				.getActiveTaxItems();
+		List<ClientTAXItem> savedTaxItems = getCompany().getActiveTaxItems();
 
 		return savedTaxItems;
 	}
@@ -190,8 +189,8 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		availTaxItemsGrid = new DialogGrid(false);
 		// availTaxCodesGrid.setCellsWidth(cellsWidth)
 
-		availTaxItemsGrid.setName(Accounter.getFinanceUIConstants()
-				.available());
+		availTaxItemsGrid
+				.setName(Accounter.getFinanceUIConstants().available());
 		setAvailTaxItemsGridFields();
 		setAvalableTCGridCellWidths();
 		availTaxItemsGrid.setView(SalesTaxGroupDialog.this);
@@ -255,8 +254,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 						tempAvailTaxItemList.add(gridRecord);
 				} else {
 
-					Accounter.showError(Accounter
-							.getFinanceUIConstants()
+					Accounter.showError(Accounter.getFinanceUIConstants()
 							.selectTaxItemFromSelectedListofTaxItems());
 					new Exception();
 				}
@@ -272,8 +270,8 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		// DynamicForm selectForm = new DynamicForm();
 
 		selectTaxItemsGrid = new DialogGrid(false);
-		selectTaxItemsGrid.setName(Accounter.getFinanceUIConstants()
-				.selected());
+		selectTaxItemsGrid
+				.setName(Accounter.getFinanceUIConstants().selected());
 		setSelectedTaxItemsGridFields();
 		setSelectedTCGridCellWidths();
 		selectTaxItemsGrid.setView(SalesTaxGroupDialog.this);
@@ -351,7 +349,6 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -362,7 +359,6 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 	// @Override
 	// public Object getGridColumnValue(IsSerializable obj, int index) {
-	// // TODO Auto-generated method stub
 	// return null;
 	// }
 
@@ -380,7 +376,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 	// }
 	// }
 	// }
-	//	
+	//
 	// public void addToGrid(ClientTaxGroup objectToBeAdded) {
 	// availTaxCodesGrid.addData((IsSerializable) objectToBeAdded);
 	// }

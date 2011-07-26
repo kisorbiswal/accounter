@@ -53,37 +53,31 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -195,8 +189,8 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 				if (taxGroup != null) {
 					showAddEditTaxGroup(taxGroup);
 				} else {
-					Accounter.showError(Accounter
-							.getFinanceUIConstants().selectATaxGroup());
+					Accounter.showError(Accounter.getFinanceUIConstants()
+							.selectATaxGroup());
 					new Exception();
 				}
 			}
@@ -207,8 +201,8 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 				if (taxGroup != null) {
 					deleteObject(taxGroup);
 				} else
-					Accounter.showError(Accounter
-							.getFinanceUIConstants().selectATaxGroup());
+					Accounter.showError(Accounter.getFinanceUIConstants()
+							.selectATaxGroup());
 
 			}
 		};
@@ -304,8 +298,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	protected void editTaxGroup(ClientTAXGroup taxGroup) {
 		if (!(taxGroup.getName().equalsIgnoreCase(
 				UIUtils.toStr(salesTaxGroupDialog.taxGroupText.getValue())) ? true
-				: (Utility.isObjectExist(getCompany()
-						.getTaxGroups(), UIUtils
+				: (Utility.isObjectExist(getCompany().getTaxGroups(), UIUtils
 						.toStr(salesTaxGroupDialog.taxGroupText.getValue())) ? false
 						: true))) {
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
@@ -356,11 +349,10 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		taxGroup.setSalesType(true);
 		taxGroup.setTaxItems(getSelectedTaxItems(taxGroup));
 
-		if (Utility.isObjectExist(
-				getCompany().getTaxItems(), taxGroup
-						.getName())
-				|| Utility.isObjectExist(getCompany()
-						.getTaxGroups(), taxGroup.getName())) {
+		if (Utility.isObjectExist(getCompany().getTaxItems(),
+				taxGroup.getName())
+				|| Utility.isObjectExist(getCompany().getTaxGroups(),
+						taxGroup.getName())) {
 
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
 			errorOccured = true;

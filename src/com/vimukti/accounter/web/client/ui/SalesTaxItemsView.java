@@ -47,19 +47,16 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -100,8 +97,7 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	protected String getViewTitle() {
 		String constant;
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			constant = Accounter.getActionsConstants()
-					.manageSalesItems();
+			constant = Accounter.getActionsConstants().manageSalesItems();
 		else
 			constant = Accounter.getActionsConstants().salesTaxItems();
 		return constant;
