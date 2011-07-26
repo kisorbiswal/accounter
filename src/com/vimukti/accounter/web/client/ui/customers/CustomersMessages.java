@@ -657,4 +657,6 @@ public interface CustomersMessages extends FinanceMessages {
 	public String receivePayment();
 
 	public String youCantVoidThisOne();
+	
+	public String remainingTotal();
 }

@@ -68,13 +68,13 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 		grid = new DialogGrid(false);
 		grid.addColumns(customerConstants.date(), customerConstants.no(),
 				customerConstants.type(), customerConstants.customeRName(),
-				customerConstants.total());
+				customerConstants.total(), customerConstants.remainingTotal());
 		grid.setView(this);
-		grid.setCellsWidth(70, 30, 80, -1, 60);
+		grid.setCellsWidth(70, 30, 80, -1, 60, 95);
 		grid.init();
 		grid.setColumnTypes(ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT);
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT);
 		grid
 				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<EstimatesAndSalesOrdersList>() {
 
@@ -251,6 +251,8 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 				return estimate.getCustomerName();
 			case 4:
 				return DataUtils.getAmountAsString(estimate.getTotal());
+			case 5:
+				return DataUtils.getAmountAsString(estimate.getRemainingTotal());
 			}
 		}
 		return null;
