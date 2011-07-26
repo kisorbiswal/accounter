@@ -197,10 +197,11 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public AccounterCoreType getType() {
