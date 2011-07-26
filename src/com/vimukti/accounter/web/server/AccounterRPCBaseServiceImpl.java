@@ -116,10 +116,10 @@ public class AccounterRPCBaseServiceImpl extends RpcServlet {
 
 	}
 
-	protected FinanceTool getFinanceTool(HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	// protected FinanceTool getFinanceTool(HttpServletRequest request) {
+	// // Auto-generated method stub
+	// return null;
+	// }
 
 	protected String getCompanyName(HttpServletRequest req) {
 		return null;
