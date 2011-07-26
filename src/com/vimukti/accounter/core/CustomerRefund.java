@@ -87,7 +87,7 @@ public class CustomerRefund extends Transaction implements
 	 */
 	double customerBalance = 0D;
 
-	// TODO we have used this at the Time we have used the Triggers.
+	//  we have used this at the Time we have used the Triggers.
 	boolean isPaid = false;
 
 	/**
@@ -319,7 +319,7 @@ public class CustomerRefund extends Transaction implements
 
 	// @Overridetrue
 	public boolean equals(CustomerRefund cr) {
-		// TODO Auto-generated method stub
+		
 		if (DecimalUtil.isEquals(this.getTotal(), cr.getTotal())
 				&& this.id == cr.id
 				// && this.transactionItems.size() == cr.transactionItems.size()
