@@ -57,8 +57,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 		grid.setWidth("100%");
 		grid.setHeight("280px");
 		grid.setView(this);
-		Label label = new Label(Accounter.getCompanyMessages()
-				.detailedLog());
+		Label label = new Label(Accounter.getCompanyMessages().detailedLog());
 		label.addStyleName("bold");
 		messageTxtPnl = new ScrollPanel();
 		messageTxtPnl.addStyleName("logview-border");
@@ -196,8 +195,8 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 					@Override
 					public void onFailure(Throwable caught) {
 						grid.clear();
-						grid.addEmptyMessage(Accounter
-								.getCustomersMessages().norecordstoshow());
+						grid.addEmptyMessage(Accounter.getCustomersMessages()
+								.norecordstoshow());
 					}
 				});
 	}
@@ -237,8 +236,8 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 						firstRecordID = -1;
 						lastRecordID = -1;
 						grid.clear();
-						grid.addEmptyMessage(Accounter
-								.getCustomersMessages().norecordstoshow());
+						grid.addEmptyMessage(Accounter.getCustomersMessages()
+								.norecordstoshow());
 					}
 				});
 	}
@@ -266,8 +265,8 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 						firstRecordID = lastRecordID;
 						nextHyprLnk.setEnabled(false);
 						grid.clear();
-						grid.addEmptyMessage(Accounter
-								.getCustomersMessages().norecordstoshow());
+						grid.addEmptyMessage(Accounter.getCustomersMessages()
+								.norecordstoshow());
 					}
 				});
 	}
@@ -295,8 +294,8 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 						prvsHyprLink.setEnabled(false);
 						lastRecordID = firstRecordID;
 						grid.clear();
-						grid.addEmptyMessage(Accounter
-								.getCustomersMessages().norecordstoshow());
+						grid.addEmptyMessage(Accounter.getCustomersMessages()
+								.norecordstoshow());
 					}
 				});
 	}
@@ -313,7 +312,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-
+		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -334,10 +333,11 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
