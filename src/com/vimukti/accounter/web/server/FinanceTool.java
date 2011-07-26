@@ -79,7 +79,6 @@ import com.vimukti.accounter.core.PayVATEntries;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PriceLevel;
-import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.ReceiveVATEntries;
@@ -122,6 +121,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
@@ -5015,7 +5015,7 @@ public class FinanceTool implements IFinanceDAOService {
 							.longValue()));
 			salesByCustomerDetail.setPaymentTermName((String) object[6]);
 			salesByCustomerDetail.setItemName((String) object[7]);
-			Quantity quantity = new Quantity();
+			ClientQuantity quantity = new ClientQuantity();
 			quantity.setValue(object[8] == null ? 0 : ((BigInteger) object[8])
 					.intValue());
 			salesByCustomerDetail.setQuantity(quantity);
@@ -5271,7 +5271,7 @@ public class FinanceTool implements IFinanceDAOService {
 			salesByCustomerDetail.setNumber((String) object[4]);
 
 			salesByCustomerDetail.setName((String) object[5]);
-			Quantity quantity = new Quantity();
+			ClientQuantity quantity = new ClientQuantity();
 			quantity.setValue(object[6] == null ? 0 : ((BigInteger) object[6])
 					.intValue());
 			salesByCustomerDetail.setQuantity(quantity);
@@ -5342,7 +5342,7 @@ public class FinanceTool implements IFinanceDAOService {
 					: (Integer) object[0]);
 			salesByCustomerDetail.setItemName((String) object[1]);
 			salesByCustomerDetail.setItemGroup((String) object[2]);
-			Quantity quantity = new Quantity();
+			ClientQuantity quantity = new ClientQuantity();
 			quantity.setValue(object[3] == null ? 0 : ((BigDecimal) object[3])
 					.intValue());
 			salesByCustomerDetail.setQuantity(quantity);
@@ -5521,7 +5521,7 @@ public class FinanceTool implements IFinanceDAOService {
 									.longValue()));
 			salesByCustomerDetail.setItemName((String) object[6]);
 			salesByCustomerDetail.setDescription((String) object[7]);
-			Quantity quantity = new Quantity();
+			ClientQuantity quantity = new ClientQuantity();
 			quantity.setValue(object[8] == null ? 0 : ((BigInteger) object[8])
 					.intValue());
 			salesByCustomerDetail.setQuantity(quantity);
@@ -5607,7 +5607,7 @@ public class FinanceTool implements IFinanceDAOService {
 			salesByCustomerDetail.setDueDate(object[6] == null ? null
 					: new ClientFinanceDate(((BigInteger) object[6])
 							.longValue()));
-			Quantity quantity = new Quantity();
+			ClientQuantity quantity = new ClientQuantity();
 			quantity.setValue(object[7] == null ? 0 : ((BigInteger) object[7])
 					.intValue());
 			salesByCustomerDetail.setQuantity(quantity);
@@ -5649,7 +5649,7 @@ public class FinanceTool implements IFinanceDAOService {
 					: (Integer) object[0]);
 			salesByCustomerDetail.setItemName((String) object[1]);
 			salesByCustomerDetail.setItemGroup((String) object[2]);
-			Quantity quantity = new Quantity();
+			ClientQuantity quantity = new ClientQuantity();
 			quantity.setValue(object[3] == null ? 0 : ((BigDecimal) object[3])
 					.intValue());
 			salesByCustomerDetail.setQuantity(quantity);
@@ -5992,7 +5992,7 @@ public class FinanceTool implements IFinanceDAOService {
 					.setTransactionNumber(object[3] != null ? ((String) object[3])
 							: "0");
 			mostProfitableCustomers.setItemName((String) object[4]);
-			Quantity quantity = new Quantity();
+			ClientQuantity quantity = new ClientQuantity();
 			quantity.setValue(object[5] != null ? ((Double) object[5]) : 0.0);
 			mostProfitableCustomers.setQuantity(quantity);
 			mostProfitableCustomers.setInvoicedAmount(object[6] == null ? 0

@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.vimukti.accounter.core.Unit;
 
 /**
  * @author Prasanna Kumar G
@@ -22,7 +21,7 @@ public class ClientMeasurement implements Serializable, IsSerializable {
 	private long id;
 
 	private String name;
-	private Set<Unit> units;
+	private Set<ClientUnit> units;
 
 	/**
 	 * @return the defaultUnit
@@ -87,7 +86,7 @@ public class ClientMeasurement implements Serializable, IsSerializable {
 	/**
 	 * @return the units
 	 */
-	public Set<Unit> getUnits() {
+	public Set<ClientUnit> getUnits() {
 		return units;
 	}
 
@@ -95,8 +94,52 @@ public class ClientMeasurement implements Serializable, IsSerializable {
 	 * @param units
 	 *            the units to set
 	 */
-	public void setUnits(Set<Unit> units) {
+	public void setUnits(Set<ClientUnit> units) {
 		this.units = units;
+	}
+
+	/**
+	 * Gives factor for converting given measure to default measure.
+	 * 
+	 * @param fromMeasure
+	 * @return
+	 */
+	public double getConversionFactor(String fromMeasure) {
+		return getConversionFactor(fromMeasure, defaultUnit.getType());
+	}
+
+	/**
+	 * This will give you the factor to convert from type to another.
+	 * 
+	 * <pre>
+	 *  result = fromMeasureFactor/toMeasureFactor.
+	 * </pre>
+	 * 
+	 * @param fromMeasure
+	 * @param toMeasure
+	 * @return
+	 */
+	public double getConversionFactor(String fromUnit, String toUnit) {
+		return getFactor(fromUnit) / getFactor(toUnit);
+	}
+
+	/**
+	 * 
+	 * @param unitType
+	 * @return
+	 * @exception IllegalArgumentException
+	 *                if unitType not found.
+	 */
+	public double getFactor(String unitType) {
+
+		for (ClientUnit unit : units) {
+			if (unit.getType().equals(unitType)) {
+				return unit.getFactor();
+			}
+		}
+
+		throw new IllegalArgumentException(
+				"Specified unit type not found in measure.");
 	}
 
 }

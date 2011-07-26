@@ -11,7 +11,8 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author Prasanna Kumar G
  * 
  */
-public class ClientQuantity implements IsSerializable, Serializable {
+public class ClientQuantity implements IsSerializable, Serializable,
+		Comparable<ClientQuantity> {
 
 	private ClientUnit unit;
 	private double value;
@@ -44,6 +45,31 @@ public class ClientQuantity implements IsSerializable, Serializable {
 	 */
 	public void setValue(double value) {
 		this.value = value;
+	}
+
+	@Override
+	public int compareTo(ClientQuantity o) {
+		// TODO verify this method later
+		ClientQuantity thisQty = convertToDefaultUnit();
+		ClientQuantity otherQty = o.convertToDefaultUnit();
+		return (int) (thisQty.getValue() - otherQty.getValue());
+	}
+
+	/**
+	 * Converts the present quantity into default measurement.
+	 * 
+	 * @return
+	 */
+	private ClientQuantity convertToDefaultUnit() {
+		double conversionFactor = unit == null ? 1 : unit.getMeasurement()
+				.getConversionFactor(unit.getType());
+
+		ClientQuantity quantity = new ClientQuantity();
+		quantity.setValue(value * conversionFactor);
+		if (unit != null)
+			quantity.setUnit(unit.getMeasurement().getDefaultUnit());
+
+		return quantity;
 	}
 
 }
