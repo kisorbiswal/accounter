@@ -1008,7 +1008,7 @@ public class VendorBillView extends
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
