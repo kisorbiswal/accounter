@@ -399,10 +399,6 @@ public class MakeDepositView extends
 
 	protected void setEditorTypeForAccountFiled(int selectedType) {
 		ClientTransactionMakeDeposit selectedRecord = gridView.getSelection();
-		@SuppressWarnings("unused")
-		int selectedRecordindex = gridView.indexOf(selectedRecord);
-		// FIXME
-		// gridView.setEditDisableCells(6);
 		selectedRecord.setType(selectedType);
 		switch (selectedType) {
 		case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
@@ -421,9 +417,6 @@ public class MakeDepositView extends
 		default:
 			break;
 		}
-		// FIXME
-		// gridView.setEditDiableCellsExecpt(0, 1, 2, 3, 4, 5, 6);
-
 	}
 
 	protected void validateAmountField(
@@ -750,8 +743,6 @@ public class MakeDepositView extends
 		// FIMXE--need to add this type
 		// gridView.setEditEvent();
 		gridView.setCanEdit(false);
-		// FIXME
-		// gridView.setEditDisableCells(0, 1, 2, 3, 4, 5, 6);
 		initTransactionViewData();
 
 	}
