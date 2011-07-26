@@ -26,7 +26,7 @@ import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.workspace.tool.FinanceTool;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 @SuppressWarnings("serial")
 public class GeneratePDFservlet extends BaseServlet {

@@ -47,7 +47,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.VATItemSummaryServerRep
 import com.vimukti.accounter.web.client.ui.serverreports.VATUncategorisedAmountsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.VendorTransactionHistoryServerReport;
 import com.vimukti.accounter.web.server.AccounterReportServiceImpl;
-import com.vimukti.accounter.workspace.tool.FinanceTool;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class ReportsGenerator {
 

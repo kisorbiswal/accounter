@@ -7,7 +7,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.workspace.tool.FinanceTool;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class BaseServlet extends HttpServlet {
 	public static final String USER_ID = "userID";

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.vimukti.accounter.workspace.tool;
+package com.vimukti.accounter.web.client.exception;
 
 /**
  * @author Prasanna Kumar G

@@ -16,7 +16,7 @@ import com.vimukti.accounter.core.ITemplate;
 import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.workspace.tool.FinanceTool;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 @SuppressWarnings("serial")
 public class ExportReportServlet extends BaseServlet {

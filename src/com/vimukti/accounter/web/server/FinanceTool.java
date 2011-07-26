@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.vimukti.accounter.workspace.tool;
+package com.vimukti.accounter.web.server;
 
 import java.io.NotSerializableException;
 import java.math.BigDecimal;
@@ -175,6 +175,8 @@ import com.vimukti.accounter.web.client.core.reports.VATDetailReport;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
+import com.vimukti.accounter.web.client.exception.AccounterOperationException;
+import com.vimukti.accounter.web.client.exception.ErrorCode;
 import com.vimukti.accounter.web.client.ui.GraphChart;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.CompanyPreferencesView;

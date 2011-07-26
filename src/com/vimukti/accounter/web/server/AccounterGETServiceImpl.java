@@ -12,8 +12,7 @@ import com.vimukti.accounter.web.client.core.HelpLink;
 import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.KeyFinancialIndicators;
-import com.vimukti.accounter.workspace.tool.AccounterException;
-import com.vimukti.accounter.workspace.tool.FinanceTool;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * @author Fernandez

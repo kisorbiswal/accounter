@@ -76,10 +76,8 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
-import com.vimukti.accounter.workspace.tool.AccounterException;
-import com.vimukti.accounter.workspace.tool.AccounterOperationException;
-import com.vimukti.accounter.workspace.tool.FinanceTool;
-import com.vimukti.accounter.workspace.tool.OperationContext;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterOperationException;
 
 /**
  * @author Fernandez

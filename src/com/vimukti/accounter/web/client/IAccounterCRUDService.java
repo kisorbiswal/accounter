@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.workspace.tool.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * @author Fernandez
