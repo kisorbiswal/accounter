@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.ItemGroupCombo;
 import com.vimukti.accounter.web.client.ui.combo.PurchaseItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesItemCombo;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
@@ -51,7 +52,9 @@ public class ItemView extends BaseView<ClientItem> {
 	private int type;
 	private TextItem nameText, skuText;
 	private AmountField salesPriceText, stdCostText, purchasePriceTxt;
-	private IntegerField vendItemNumText, weightText;
+	private IntegerField vendItemNumText, weightText, minStock, maxStock,
+			defaultSellPrice, defaultPurchasePrice, salesTaxRate,
+			purcahseTaxRate;
 	private TextAreaItem salesDescArea, purchaseDescArea;
 	CheckboxItem isservice, isellCheck, comCheck, activeCheck, ibuyCheck,
 			itemTaxCheck;
@@ -85,6 +88,8 @@ public class ItemView extends BaseView<ClientItem> {
 	private ArrayList<DynamicForm> listforms;
 	String name;
 
+	private SelectCombo measurement, wareHouse;
+
 	public ItemView(ClientItem item, int type, boolean isGeneratedFromCustomer) {
 
 		super();
@@ -98,19 +103,16 @@ public class ItemView extends BaseView<ClientItem> {
 
 	private void initTaxCodes() {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			List<ClientTAXCode> result = getCompany()
-					.getActiveTaxCodes();
+			List<ClientTAXCode> result = getCompany().getActiveTaxCodes();
 			if (result != null) {
-				taxCode.initCombo(getCompany()
-						.getActiveTaxCodes());
+				taxCode.initCombo(getCompany().getActiveTaxCodes());
 				if (takenItem != null) {
-					taxCode.setComboItem(getCompany()
-							.getTAXCode(takenItem.getTaxCode()));
-				} else if (!getCompany().getpreferences()
-						.getDoYouPaySalesTax()) {
+					taxCode.setComboItem(getCompany().getTAXCode(
+							takenItem.getTaxCode()));
+				} else if (!getCompany().getpreferences().getDoYouPaySalesTax()) {
 					// vatCode.setDisabled(true);
-					List<ClientTAXCode> taxCodes = Accounter
-							.getCompany().getActiveTaxCodes();
+					List<ClientTAXCode> taxCodes = Accounter.getCompany()
+							.getActiveTaxCodes();
 					for (ClientTAXCode vatCod : taxCodes) {
 						if (vatCod.getName().equals("Z")) {
 							taxCode.setComboItem(vatCod);
@@ -126,8 +128,7 @@ public class ItemView extends BaseView<ClientItem> {
 	}
 
 	private ClientAccount getDefaultAccount(String defaultAccount) {
-		List<ClientAccount> accountList = getCompany()
-				.getActiveAccounts();
+		List<ClientAccount> accountList = getCompany().getActiveAccounts();
 		for (ClientAccount account : accountList) {
 			if (account.getName().equalsIgnoreCase(defaultAccount)) {
 				return account;
@@ -144,10 +145,8 @@ public class ItemView extends BaseView<ClientItem> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		Label lab1 = new Label(Accounter.getCustomersMessages()
-				.newProduct());
-		lab1.setStyleName(Accounter.getCustomersMessages()
-				.lableTitle());
+		Label lab1 = new Label(Accounter.getCustomersMessages().newProduct());
+		lab1.setStyleName(Accounter.getCustomersMessages().lableTitle());
 
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(lab1);
@@ -176,35 +175,30 @@ public class ItemView extends BaseView<ClientItem> {
 		skuText.setWidth(100);
 		skuText.setTitle("UPC/SKU");
 
-		weightText = new IntegerField(Accounter
-				.getFinanceUIConstants().weight());
+		weightText = new IntegerField(Accounter.getFinanceUIConstants()
+				.weight());
 		weightText.setHelpInformation(true);
 		weightText.setWidth(100);
 		weightText.setValidators(integerRangeValidator);
-		commodityCode = new ItemGroupCombo(Accounter
-				.getFinanceUIConstants().commmodityCode());
+		commodityCode = new ItemGroupCombo(Accounter.getFinanceUIConstants()
+				.commmodityCode());
 		commodityCode.setHelpInformation(true);
 		itemForm = new DynamicForm();
 		itemForm.setWidth("98%");
 		itemForm.setStyleName("item-form-view");
 		itemForm.setIsGroup(true);
-		itemForm.setGroupTitle(Accounter.getFinanceUIConstants()
-				.item());
+		itemForm.setGroupTitle(Accounter.getFinanceUIConstants().item());
 		if (isEdit)
 			this.type = takenItem.getType();
 		if (type == TYPE_SERVICE) {
-			lab1
-					.setText(Accounter.getCustomersMessages()
-							.newService());
+			lab1.setText(Accounter.getCustomersMessages().newService());
 			if (getCompany().getAccountingType() == 1)
 				itemForm.setFields(nameText, isservice);
 			else
 
 				itemForm.setFields(nameText, isservice, skuText);
 		} else {
-			lab1
-					.setText(Accounter.getCustomersMessages()
-							.newProduct());
+			lab1.setText(Accounter.getCustomersMessages().newProduct());
 			if (getCompany().getAccountingType() == 1)
 				itemForm.setFields(nameText, weightText);
 			else
@@ -217,16 +211,16 @@ public class ItemView extends BaseView<ClientItem> {
 		salesDescArea.setTitle(Accounter.getFinanceUIConstants()
 				.salesDescription());
 
-		salesPriceText = new AmountField(Accounter
-				.getFinanceUIConstants().salesPrice());
+		salesPriceText = new AmountField(Accounter.getFinanceUIConstants()
+				.salesPrice());
 		salesPriceText.setHelpInformation(true);
 		salesPriceText.setWidth(100);
 		// FIXME--needto implement this feature
 		// salesPriceText.setValidators(floatRangeValidator);
 		// salesPriceText.setValidateOnChange(true);
 
-		accountCombo = new SalesItemCombo(Accounter
-				.getFinanceUIConstants().incomeAccount());
+		accountCombo = new SalesItemCombo(Accounter.getFinanceUIConstants()
+				.incomeAccount());
 		accountCombo.setHelpInformation(true);
 		// accountCombo.setWidth(100);
 		accountCombo.setPopupWidth("500px");
@@ -251,8 +245,8 @@ public class ItemView extends BaseView<ClientItem> {
 						}
 					}
 				});
-		itemTaxCheck = new CheckboxItem(Accounter
-				.getFinanceUIConstants().taxable());
+		itemTaxCheck = new CheckboxItem(Accounter.getFinanceUIConstants()
+				.taxable());
 		itemTaxCheck.setValue(true);
 
 		comCheck = new CheckboxItem(Accounter.getFinanceUIConstants()
@@ -262,8 +256,8 @@ public class ItemView extends BaseView<ClientItem> {
 				.salesInformation());
 		salesInfoForm.setWidth("98%");
 
-		stdCostText = new AmountField(Accounter
-				.getFinanceUIConstants().standardCost());
+		stdCostText = new AmountField(Accounter.getFinanceUIConstants()
+				.standardCost());
 		stdCostText.setHelpInformation(true);
 		stdCostText.setWidth(100);
 		// FIXME--needto implement this feature
@@ -277,8 +271,8 @@ public class ItemView extends BaseView<ClientItem> {
 		// stdCostForm.getCellFormatter().setWidth(0, 0, "165");
 		// itemGroupCombo = new ItemGroupCombo(FinanceApplication
 		// .getFinanceUIConstants().itemGroup());
-		itemGroupCombo = new ItemGroupCombo(Accounter
-				.getFinanceUIConstants().itemGroup());
+		itemGroupCombo = new ItemGroupCombo(Accounter.getFinanceUIConstants()
+				.itemGroup());
 		itemGroupCombo.setHelpInformation(true);
 		// itemGroupCombo.setWidth(100);
 		itemGroupCombo
@@ -287,8 +281,8 @@ public class ItemView extends BaseView<ClientItem> {
 						selectItemGroup = selectItem;
 					}
 				});
-		taxCode = new TAXCodeCombo(Accounter.getFinanceUIConstants()
-				.vatCode(), isGeneratedFromCustomer);
+		taxCode = new TAXCodeCombo(Accounter.getFinanceUIConstants().vatCode(),
+				isGeneratedFromCustomer);
 		taxCode.setHelpInformation(true);
 		taxCode.setRequired(true);
 		// if (!FinanceApplication.getCompany().getpreferences()
@@ -296,15 +290,14 @@ public class ItemView extends BaseView<ClientItem> {
 		// vatCode.setDisabled(true);
 		// }
 
-		taxCode
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
-					public void selectedComboBoxItem(ClientTAXCode selectItem) {
-						selectTaxCode = selectItem;
-					}
-				});
+		taxCode.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
+			public void selectedComboBoxItem(ClientTAXCode selectItem) {
+				selectTaxCode = selectItem;
+			}
+		});
 		taxCode.setDefaultValue("Z-0.0%");
-		activeCheck = new CheckboxItem(Accounter
-				.getFinanceUIConstants().active());
+		activeCheck = new CheckboxItem(Accounter.getFinanceUIConstants()
+				.active());
 		activeCheck.setValue(true);
 		purchaseDescArea = new TextAreaItem();
 		purchaseDescArea.setHelpInformation(true);
@@ -312,16 +305,16 @@ public class ItemView extends BaseView<ClientItem> {
 		purchaseDescArea.setTitle(Accounter.getFinanceUIConstants()
 				.purchaseDescription());
 
-		purchasePriceTxt = new AmountField(Accounter
-				.getFinanceUIConstants().purchasePrice());
+		purchasePriceTxt = new AmountField(Accounter.getFinanceUIConstants()
+				.purchasePrice());
 		purchasePriceTxt.setHelpInformation(true);
 		purchasePriceTxt.setWidth(100);
 		// FIXME--needto implement this feature
 		// purchasePriceTxt.setValidators(floatRangeValidator);
 		// purchasePriceTxt.setValidateOnChange(true);
 
-		expAccCombo = new PurchaseItemCombo(Accounter
-				.getFinanceUIConstants().expenseAccount());
+		expAccCombo = new PurchaseItemCombo(Accounter.getFinanceUIConstants()
+				.expenseAccount());
 		expAccCombo.setHelpInformation(true);
 		expAccCombo.setRequired(true);
 		expAccCombo
@@ -344,9 +337,9 @@ public class ItemView extends BaseView<ClientItem> {
 					}
 				});
 		expAccCombo.setPopupWidth("500px");
-		prefVendorCombo = new VendorCombo(UIUtils.getVendorString(
-				Accounter.getCustomersMessages().preferredSupplier(),
-				Accounter.getCustomersMessages().preferredVendor()));
+		prefVendorCombo = new VendorCombo(UIUtils.getVendorString(Accounter
+				.getCustomersMessages().preferredSupplier(), Accounter
+				.getCustomersMessages().preferredVendor()));
 		prefVendorCombo.setHelpInformation(true);
 		prefVendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -354,23 +347,22 @@ public class ItemView extends BaseView<ClientItem> {
 						selectVendor = selectItem;
 					}
 				});
-		vendItemNumText = new IntegerField(this.type != TYPE_SERVICE ? UIUtils
-				.getVendorString(Accounter.getCustomersMessages()
-						.supplierProductNo(), Accounter
-						.getCustomersMessages().vendorProductNo()) : UIUtils
-				.getVendorString(Accounter.getCustomersMessages()
-						.supplierServiceNo(), Accounter
-						.getCustomersMessages().vendorServiceNo()));
+		vendItemNumText = new IntegerField(
+				this.type != TYPE_SERVICE ? UIUtils.getVendorString(Accounter
+						.getCustomersMessages().supplierProductNo(), Accounter
+						.getCustomersMessages().vendorProductNo())
+						: UIUtils.getVendorString(Accounter
+								.getCustomersMessages().supplierServiceNo(),
+								Accounter.getCustomersMessages()
+										.vendorServiceNo()));
 		vendItemNumText.setHelpInformation(true);
 		vendItemNumText.setWidth(100);
 
 		// isellCheck = new CheckboxItem(FinanceApplication
 		// .getFinanceUIConstants().iSellThisItem());
-		isellCheck = new CheckboxItem(
-				this.type == TYPE_SERVICE ? Accounter
-						.getCustomersMessages().isellthisservice()
-						: Accounter.getCustomersMessages()
-								.isellthisproduct());
+		isellCheck = new CheckboxItem(this.type == TYPE_SERVICE ? Accounter
+				.getCustomersMessages().isellthisservice() : Accounter
+				.getCustomersMessages().isellthisproduct());
 		if (isGeneratedFromCustomer) {
 			isellCheck.setValue(isGeneratedFromCustomer);
 			isellCheck.setDisabled(!isGeneratedFromCustomer);
@@ -392,11 +384,9 @@ public class ItemView extends BaseView<ClientItem> {
 		// ibuyCheck = new
 		// CheckboxItem(FinanceApplication.getFinanceUIConstants()
 		// .iBuyThisItem());
-		ibuyCheck = new CheckboxItem(
-				this.type == TYPE_SERVICE ? Accounter
-						.getCustomersMessages().ibuythisservice()
-						: Accounter.getCustomersMessages()
-								.ibuythisproduct());
+		ibuyCheck = new CheckboxItem(this.type == TYPE_SERVICE ? Accounter
+				.getCustomersMessages().ibuythisservice() : Accounter
+				.getCustomersMessages().ibuythisproduct());
 		ibuyCheck.setValue(!isGeneratedFromCustomer);
 
 		ibuyCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -416,7 +406,7 @@ public class ItemView extends BaseView<ClientItem> {
 			salesInfoForm.setFields(isservice, isellCheck, salesDescArea,
 					salesPriceText, accountCombo, itemTaxCheck, comCheck,
 					stdCostText);
-		
+
 		salesInfoForm.setStyleName("align-form");
 		salesInfoForm.setStyleName("new_service_table");
 		salesInfoForm.getCellFormatter().setWidth(0, 0, "25%");
@@ -430,8 +420,8 @@ public class ItemView extends BaseView<ClientItem> {
 		else
 			itemInfoForm.setFields(itemGroupCombo, activeCheck);
 		itemInfoForm.getCellFormatter().setWidth(0, 0, "30%");
-		purchaseInfoForm = UIUtils.form(Accounter
-				.getFinanceUIConstants().purchaseInformation());
+		purchaseInfoForm = UIUtils.form(Accounter.getFinanceUIConstants()
+				.purchaseInformation());
 		purchaseInfoForm.setNumCols(2);
 		purchaseInfoForm.setStyleName("purchase_info_form");
 		purchaseInfoForm.setWidth("97%");
@@ -494,14 +484,33 @@ public class ItemView extends BaseView<ClientItem> {
 		topPanel2.setCellWidth(purchzVPanel, "50%");
 		topHLay.add(topPanel1);
 		topHLay.add(topPanel2);
-		//topHLay.setCellWidth(topPanel1, "50%");
-		//topHLay.setCellWidth(topPanel2, "50%");
+		// topHLay.setCellWidth(topPanel1, "50%");
+		// topHLay.setCellWidth(topPanel2, "50%");
+
+		VerticalPanel stockPanel = new VerticalPanel();
+		DynamicForm stockForm = new DynamicForm();
+		measurement = new SelectCombo("Measurement");
+		wareHouse = new SelectCombo("Warehouse");
+		minStock = new IntegerField("Min. Stock Alert Level");
+		maxStock = new IntegerField("Max. Stock Alert Level");
+		defaultSellPrice = new IntegerField("Detault Sell Price");
+		defaultPurchasePrice = new IntegerField("Default Purchase Price");
+		salesTaxRate = new IntegerField("Sales Tax Rate");
+		purcahseTaxRate = new IntegerField("Purchase Tax Rate");
+		stockForm.setFields(measurement, wareHouse, minStock, maxStock,
+				defaultSellPrice, defaultPurchasePrice, salesTaxRate,
+				purcahseTaxRate);
+
+		stockPanel.add(stockForm);
+		stockPanel.setWidth("100%");
+
 		VerticalPanel mainVLay = new VerticalPanel();
 
 		mainVLay.setSize("100%", "100%");
 		mainVLay.getElement().getStyle().setMarginBottom(15, Unit.PX);
 		mainVLay.add(hPanel);
 		mainVLay.add(topHLay);
+		mainVLay.add(stockPanel);
 
 		canvas.add(mainVLay);
 
@@ -560,8 +569,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 		if (takenItem == null) {
 
-			if (Utility.isObjectExist(getCompany()
-					.getItems(), item.getName())) {
+			if (Utility.isObjectExist(getCompany().getItems(), item.getName())) {
 				throw new InvalidEntryException(AccounterErrorType.ALREADYEXIST);
 			} else
 				createObject(item);
@@ -728,14 +736,13 @@ public class ItemView extends BaseView<ClientItem> {
 	}
 
 	private void initItemGroups() {
-		List<ClientItemGroup> clientItemgroup = getCompany()
-				.getItemGroups();
+		List<ClientItemGroup> clientItemgroup = getCompany().getItemGroups();
 
 		if (clientItemgroup != null) {
 			itemGroupCombo.initCombo(clientItemgroup);
 			if (takenItem != null) {
-				itemGroupCombo.setComboItem(getCompany()
-						.getItemGroup(takenItem.getItemGroup()));
+				itemGroupCombo.setComboItem(getCompany().getItemGroup(
+						takenItem.getItemGroup()));
 			}
 		}
 		if (takenItem != null) {
@@ -757,13 +764,12 @@ public class ItemView extends BaseView<ClientItem> {
 	}
 
 	private void initVendorsList() {
-		List<ClientVendor> clientVendor = getCompany()
-				.getActiveVendors();
+		List<ClientVendor> clientVendor = getCompany().getActiveVendors();
 		if (clientVendor != null) {
 			prefVendorCombo.initCombo(clientVendor);
 			if (takenItem != null) {
-				prefVendorCombo.setComboItem(getCompany()
-						.getVendor(takenItem.getPreferredVendor()));
+				prefVendorCombo.setComboItem(getCompany().getVendor(
+						takenItem.getPreferredVendor()));
 				if (takenItem.isIBuyThisItem() == false)
 					prefVendorCombo.setDisabled(true);
 				else
@@ -818,8 +824,8 @@ public class ItemView extends BaseView<ClientItem> {
 		}
 		if (takenItem != null) {
 
-			accountCombo.setComboItem(getCompany()
-					.getAccount(takenItem.getIncomeAccount()));
+			accountCombo.setComboItem(getCompany().getAccount(
+					takenItem.getIncomeAccount()));
 			if (takenItem.isISellThisItem() == false)
 				accountCombo.setDisabled(true);
 			selectExpAccount = getCompany().getAccount(
