@@ -27,7 +27,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		MenuBar menuBar = getMenuBar();
 		add(menuBar);
 		setStyleName("MENU_BAR_BG");
-		AccounterDOM.addStyleToparent(menuBar.getElement(), FinanceApplication
+		AccounterDOM.addStyleToparent(menuBar.getElement(), Accounter
 				.getFinanceUIConstants().menuBarParent());
 	}
 
@@ -39,27 +39,27 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		// dashBoardMenuitem.getElement().setTitle(
 		// "Click here to download this plugin");
 
-		MenuItem menuitem = menuBar.addItem(FinanceApplication
+		MenuItem menuitem = menuBar.addItem(Accounter
 				.getFinanceUIConstants().company(), getCompanyMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			menuitem = menuBar.addItem(FinanceApplication
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			menuitem = menuBar.addItem(Accounter
 					.getFinanceUIConstants().vat(), getVATMenu());
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 
-		menuitem = menuBar.addItem(FinanceApplication.getFinanceUIConstants()
+		menuitem = menuBar.addItem(Accounter.getFinanceUIConstants()
 				.customer(), getCustomerMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
-		menuitem = menuBar.addItem(UIUtils.getVendorString(FinanceApplication
-				.getVendorsMessages().supplier(), FinanceApplication
+		menuitem = menuBar.addItem(UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplier(), Accounter
 				.getVendorsMessages().vendor()), getVendorMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
-		if (FinanceApplication.getUser().canDoBanking()) {
-			menuitem = menuBar.addItem(FinanceApplication
+		if (Accounter.getUser().canDoBanking()) {
+			menuitem = menuBar.addItem(Accounter
 					.getFinanceUIConstants().banking(), getBankingMenu());
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
@@ -70,23 +70,23 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		menuitem = menuBar.addItem("Purchases", getPurchaseSubMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
-		// menuBar.addItem(FinanceApplication.getFinanceUIConstants()
+		// menuBar.addItem(Accounter.getFinanceUIConstants()
 		// .fixedAssets(), getFixedAssetsMenu());
-		if (FinanceApplication.getUser().canViewReports()) {
-			menuitem = menuBar.addItem(FinanceApplication
+		if (Accounter.getUser().canViewReports()) {
+			menuitem = menuBar.addItem(Accounter
 					.getFinanceUIConstants().reports(), getReportMenu());
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
-		// menuBar.addItem(FinanceApplication.getFinanceUIConstants().help(),
+		// menuBar.addItem(Accounter.getFinanceUIConstants().help(),
 		// getHelpMenu());
-		if (FinanceApplication.getUser().canChangeSettings()) {
-			menuitem = menuBar.addItem(FinanceApplication.getSettingsMessages()
+		if (Accounter.getUser().canChangeSettings()) {
+			menuitem = menuBar.addItem(Accounter.getSettingsMessages()
 					.settings(), getSettingsMenu());
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 		//
 		// if (!GWT.isScript()) {
-		// menuitem = menuBar.addItem(FinanceApplication.getCompanyMessages()
+		// menuitem = menuBar.addItem(Accounter.getCompanyMessages()
 		// .test(), getTestMenu());
 		// ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		// }
@@ -129,288 +129,288 @@ public class HorizontalMenuBar extends HorizontalPanel {
 	// return settingsCommand;
 	// }
 
-	private CustomMenuBar getTestMenu() {
-		final GUITest guiTest = new GUITest();
-		CustomMenuBar test = getSubMenu();
-
-		Command cmd1 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createSupportList();
-
-			}
-		};
-		CustomMenuItem menuItem1 = new CustomMenuItem(FinanceApplication
-				.getFinanceMessages().supportLists(), cmd1);
-		test.addItem(menuItem1);
-
-		Command cmd2 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createAccounts();
-
-			}
-		};
-		CustomMenuItem menuItem2 = new CustomMenuItem(FinanceApplication
-				.getFinanceMessages().accounts(), cmd2);
-		test.addItem(menuItem2);
-
-		CustomMenuBar customerMenu = getSubMenu();
-		Command cmd3 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createCustomers();
-
-			}
-		};
-
-		CustomMenuItem menuItem3 = new CustomMenuItem(FinanceApplication
-				.getFinanceMessages().customers(), cmd3);
-		customerMenu.addItem(menuItem3);
-
-		Command cmd4 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createCustomerIems();
-
-			}
-		};
-		CustomMenuItem menuItem4 = new CustomMenuItem(FinanceApplication
-				.getFinanceMessages().customerItems(), cmd4);
-		customerMenu.addItem(menuItem4);
-
-		Command cmd5 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createQuotes();
-
-			}
-		};
-		CustomMenuItem menuItem5 = new CustomMenuItem(FinanceApplication
-				.getFinanceMessages().quotes(), cmd5);
-		customerMenu.addItem(menuItem5);
-
-		Command cmd6 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createInvoices();
-
-			}
-		};
-		CustomMenuItem menuItem6 = new CustomMenuItem(FinanceApplication
-				.getFinanceMessages().invoices(), cmd6);
-		customerMenu.addItem(menuItem6);
-
-		Command cmd7 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createCashSales();
-
-			}
-		};
-		CustomMenuItem menuItem7 = new CustomMenuItem(FinanceApplication
-				.getFinanceMessages().cashSales(), cmd7);
-		customerMenu.addItem(menuItem7);
-
-		Command cmd8 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createCustomerCredits();
-
-			}
-		};
-		CustomMenuItem menuItem8 = new CustomMenuItem(FinanceApplication
-				.getFinanceMessages().customerCredit(), cmd8);
-		customerMenu.addItem(menuItem8);
-
-		Command cmd9 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createCustomerRefunds();
-
-			}
-		};
-		CustomMenuItem menuItem9 = new CustomMenuItem(FinanceApplication
-				.getFinanceMessages().customerRefunds(), cmd9);
-		customerMenu.addItem(menuItem9);
-
-		Command cmd10 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createRecievePayments();
-
-			}
-		};
-		CustomMenuItem menuItem10 = new CustomMenuItem(FinanceApplication
-				.getFinanceMessages().recievePayments(), cmd10);
-		customerMenu.addItem(menuItem10);
-
-		test.addItem(FinanceApplication.getCustomersMessages().customer(),
-				customerMenu);
-
-		CustomMenuBar vendorMenu = new CustomMenuBar();
-
-		Command cmd11 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createVendors();
-
-			}
-		};
-
-		CustomMenuItem menuItem11 = new CustomMenuItem(UIUtils.getVendorString(
-				FinanceApplication.getVendorsMessages().vendors(),
-				FinanceApplication.getVendorsMessages().vendors()), cmd11);
-		vendorMenu.addItem(menuItem11);
-
-		Command cmd12 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createVendorIems();
-
-			}
-		};
-		CustomMenuItem menuItem12 = new CustomMenuItem(UIUtils.getVendorString(
-				FinanceApplication.getFinanceMessages().supplierItems(),
-				FinanceApplication.getFinanceMessages().vendorItems()), cmd12);
-		vendorMenu.addItem(menuItem12);
-
-		Command cmd13 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createCashPurchases();
-
-			}
-		};
-		CustomMenuItem menuItem13 = new CustomMenuItem(FinanceApplication
-				.getFinanceMessages().cashPurchases(), cmd13);
-		vendorMenu.addItem(menuItem13);
-
-		Command cmd14 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createVendorCreditMemo();
-
-			}
-		};
-		CustomMenuItem menuItem14 = new CustomMenuItem(UIUtils.getVendorString(
-				FinanceApplication.getFinanceMessages().supplierMemo(),
-				FinanceApplication.getFinanceMessages().vendorMemo()), cmd14);
-		vendorMenu.addItem(menuItem14);
-
-		Command cmd15 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createEnterBill();
-			}
-		};
-		CustomMenuItem menuItem15 = new CustomMenuItem(FinanceApplication
-				.getFinanceMessages().enterBills(), cmd15);
-		vendorMenu.addItem(menuItem15);
-
-		Command cmd16 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createItemReceipt();
-			}
-		};
-		CustomMenuItem menuItem16 = new CustomMenuItem(FinanceApplication
-				.getFinanceMessages().itemReciepts(), cmd16);
-		vendorMenu.addItem(menuItem16);
-
-		Command cmd17 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createVendorPayment();
-			}
-		};
-		CustomMenuItem menuItem17 = new CustomMenuItem(UIUtils.getVendorString(
-				FinanceApplication.getFinanceMessages().supplierPayment(),
-				FinanceApplication.getFinanceMessages().vendorPayment()), cmd17);
-		vendorMenu.addItem(menuItem17);
-
-		Command cmd18 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.creatVendorPayBills();
-			}
-		};
-		CustomMenuItem menuItem18 = new CustomMenuItem(FinanceApplication
-				.getFinanceMessages().payBills(), cmd18);
-		vendorMenu.addItem(menuItem18);
-
-		Command cmd19 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createIssuePayments();
-			}
-		};
-		CustomMenuItem menuItem19 = new CustomMenuItem(FinanceApplication
-				.getFinanceMessages().issuePayments(), cmd19);
-		vendorMenu.addItem(menuItem19);
-
-		test.addItem(UIUtils.getVendorString(FinanceApplication
-				.getVendorsMessages().supplier(), FinanceApplication
-				.getVendorsMessages().vendor()), vendorMenu);
-
-		CustomMenuBar bankMenu = getSubMenu();
-
-		Command cmd20 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createTransferFunds();
-			}
-		};
-		CustomMenuItem menuItem20 = new CustomMenuItem(FinanceApplication
-				.getFinanceMessages().transferFunds(), cmd20);
-		bankMenu.addItem(menuItem20);
-
-		Command cmd22 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createMakeDeposite();
-			}
-		};
-		CustomMenuItem menuItem22 = new CustomMenuItem(FinanceApplication
-				.getFinanceMessages().makeDeposits(), cmd22);
-		bankMenu.addItem(menuItem22);
-
-		Command cmd23 = new Command() {
-
-			@Override
-			public void execute() {
-				guiTest.createCreditCardCharge();
-			}
-		};
-		CustomMenuItem menuItem23 = new CustomMenuItem(FinanceApplication
-				.getFinanceMessages().creditCardCharge(), cmd23);
-		bankMenu.addItem(menuItem23);
-
-		test.addItem(FinanceApplication.getFinanceMessages().bank(), bankMenu);
-
-		return test;
-	}
+//	private CustomMenuBar getTestMenu() {
+//		final GUITest guiTest = new GUITest();
+//		CustomMenuBar test = getSubMenu();
+//
+//		Command cmd1 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createSupportList();
+//
+//			}
+//		};
+//		CustomMenuItem menuItem1 = new CustomMenuItem(Accounter
+//				.getFinanceMessages().supportLists(), cmd1);
+//		test.addItem(menuItem1);
+//
+//		Command cmd2 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createAccounts();
+//
+//			}
+//		};
+//		CustomMenuItem menuItem2 = new CustomMenuItem(Accounter
+//				.getFinanceMessages().accounts(), cmd2);
+//		test.addItem(menuItem2);
+//
+//		CustomMenuBar customerMenu = getSubMenu();
+//		Command cmd3 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createCustomers();
+//
+//			}
+//		};
+//
+//		CustomMenuItem menuItem3 = new CustomMenuItem(Accounter
+//				.getFinanceMessages().customers(), cmd3);
+//		customerMenu.addItem(menuItem3);
+//
+//		Command cmd4 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createCustomerIems();
+//
+//			}
+//		};
+//		CustomMenuItem menuItem4 = new CustomMenuItem(Accounter
+//				.getFinanceMessages().customerItems(), cmd4);
+//		customerMenu.addItem(menuItem4);
+//
+//		Command cmd5 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createQuotes();
+//
+//			}
+//		};
+//		CustomMenuItem menuItem5 = new CustomMenuItem(Accounter
+//				.getFinanceMessages().quotes(), cmd5);
+//		customerMenu.addItem(menuItem5);
+//
+//		Command cmd6 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createInvoices();
+//
+//			}
+//		};
+//		CustomMenuItem menuItem6 = new CustomMenuItem(Accounter
+//				.getFinanceMessages().invoices(), cmd6);
+//		customerMenu.addItem(menuItem6);
+//
+//		Command cmd7 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createCashSales();
+//
+//			}
+//		};
+//		CustomMenuItem menuItem7 = new CustomMenuItem(Accounter
+//				.getFinanceMessages().cashSales(), cmd7);
+//		customerMenu.addItem(menuItem7);
+//
+//		Command cmd8 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createCustomerCredits();
+//
+//			}
+//		};
+//		CustomMenuItem menuItem8 = new CustomMenuItem(Accounter
+//				.getFinanceMessages().customerCredit(), cmd8);
+//		customerMenu.addItem(menuItem8);
+//
+//		Command cmd9 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createCustomerRefunds();
+//
+//			}
+//		};
+//		CustomMenuItem menuItem9 = new CustomMenuItem(Accounter
+//				.getFinanceMessages().customerRefunds(), cmd9);
+//		customerMenu.addItem(menuItem9);
+//
+//		Command cmd10 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createRecievePayments();
+//
+//			}
+//		};
+//		CustomMenuItem menuItem10 = new CustomMenuItem(Accounter
+//				.getFinanceMessages().recievePayments(), cmd10);
+//		customerMenu.addItem(menuItem10);
+//
+//		test.addItem(Accounter.getCustomersMessages().customer(),
+//				customerMenu);
+//
+//		CustomMenuBar vendorMenu = new CustomMenuBar();
+//
+//		Command cmd11 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createVendors();
+//
+//			}
+//		};
+//
+//		CustomMenuItem menuItem11 = new CustomMenuItem(UIUtils.getVendorString(
+//				Accounter.getVendorsMessages().vendors(),
+//				Accounter.getVendorsMessages().vendors()), cmd11);
+//		vendorMenu.addItem(menuItem11);
+//
+//		Command cmd12 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createVendorIems();
+//
+//			}
+//		};
+//		CustomMenuItem menuItem12 = new CustomMenuItem(UIUtils.getVendorString(
+//				Accounter.getFinanceMessages().supplierItems(),
+//				Accounter.getFinanceMessages().vendorItems()), cmd12);
+//		vendorMenu.addItem(menuItem12);
+//
+//		Command cmd13 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createCashPurchases();
+//
+//			}
+//		};
+//		CustomMenuItem menuItem13 = new CustomMenuItem(Accounter
+//				.getFinanceMessages().cashPurchases(), cmd13);
+//		vendorMenu.addItem(menuItem13);
+//
+//		Command cmd14 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createVendorCreditMemo();
+//
+//			}
+//		};
+//		CustomMenuItem menuItem14 = new CustomMenuItem(UIUtils.getVendorString(
+//				Accounter.getFinanceMessages().supplierMemo(),
+//				Accounter.getFinanceMessages().vendorMemo()), cmd14);
+//		vendorMenu.addItem(menuItem14);
+//
+//		Command cmd15 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createEnterBill();
+//			}
+//		};
+//		CustomMenuItem menuItem15 = new CustomMenuItem(Accounter
+//				.getFinanceMessages().enterBills(), cmd15);
+//		vendorMenu.addItem(menuItem15);
+//
+//		Command cmd16 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createItemReceipt();
+//			}
+//		};
+//		CustomMenuItem menuItem16 = new CustomMenuItem(Accounter
+//				.getFinanceMessages().itemReciepts(), cmd16);
+//		vendorMenu.addItem(menuItem16);
+//
+//		Command cmd17 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createVendorPayment();
+//			}
+//		};
+//		CustomMenuItem menuItem17 = new CustomMenuItem(UIUtils.getVendorString(
+//				Accounter.getFinanceMessages().supplierPayment(),
+//				Accounter.getFinanceMessages().vendorPayment()), cmd17);
+//		vendorMenu.addItem(menuItem17);
+//
+//		Command cmd18 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.creatVendorPayBills();
+//			}
+//		};
+//		CustomMenuItem menuItem18 = new CustomMenuItem(Accounter
+//				.getFinanceMessages().payBills(), cmd18);
+//		vendorMenu.addItem(menuItem18);
+//
+//		Command cmd19 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createIssuePayments();
+//			}
+//		};
+//		CustomMenuItem menuItem19 = new CustomMenuItem(Accounter
+//				.getFinanceMessages().issuePayments(), cmd19);
+//		vendorMenu.addItem(menuItem19);
+//
+//		test.addItem(UIUtils.getVendorString(Accounter
+//				.getVendorsMessages().supplier(), Accounter
+//				.getVendorsMessages().vendor()), vendorMenu);
+//
+//		CustomMenuBar bankMenu = getSubMenu();
+//
+//		Command cmd20 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createTransferFunds();
+//			}
+//		};
+//		CustomMenuItem menuItem20 = new CustomMenuItem(Accounter
+//				.getFinanceMessages().transferFunds(), cmd20);
+//		bankMenu.addItem(menuItem20);
+//
+//		Command cmd22 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createMakeDeposite();
+//			}
+//		};
+//		CustomMenuItem menuItem22 = new CustomMenuItem(Accounter
+//				.getFinanceMessages().makeDeposits(), cmd22);
+//		bankMenu.addItem(menuItem22);
+//
+//		Command cmd23 = new Command() {
+//
+//			@Override
+//			public void execute() {
+//				guiTest.createCreditCardCharge();
+//			}
+//		};
+//		CustomMenuItem menuItem23 = new CustomMenuItem(Accounter
+//				.getFinanceMessages().creditCardCharge(), cmd23);
+//		bankMenu.addItem(menuItem23);
+//
+//		test.addItem(Accounter.getFinanceMessages().bank(), bankMenu);
+//
+//		return test;
+//	}
 
 	private CustomMenuBar getFixedAssetsMenu() {
 		CustomMenuBar fixedAssetMenu = new CustomMenuBar();
@@ -421,7 +421,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 		fixedAssetMenu.addSeparator();
 
-		fixedAssetMenu.addItem(FinanceApplication.getFinanceUIConstants()
+		fixedAssetMenu.addItem(Accounter.getFinanceUIConstants()
 				.fixedAssetsList(), getFixedAssetsListMenu());
 
 		return fixedAssetMenu;
@@ -435,21 +435,21 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		// vatNews.addItem(VatActionFactory.getVatGroupAction());
 		vatNews.addItem(VatActionFactory.getNewTAXCodeAction());
 		vatNews.addItem(VatActionFactory.getNewTAXAgencyAction());
-		vatmenu.addItem(FinanceApplication.getCustomersMessages().New(),
+		vatmenu.addItem(Accounter.getCustomersMessages().New(),
 				vatNews);
 		vatmenu.addSeparator();
-		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			vatmenu.addItem(VatActionFactory.getAdjustTaxAction());
 			vatmenu.addItem(VatActionFactory.getFileVatAction());
 		}
 		// vatmenu.addItem(VatActionFactory.getCreateTaxesAction());
-		if (FinanceApplication.getUser().canDoBanking()) {
+		if (Accounter.getUser().canDoBanking()) {
 			vatmenu.addItem(VatActionFactory.getpayVATAction());
 			vatmenu.addItem(VatActionFactory.getreceiveVATAction());
 		}
 		vatmenu.addSeparator();
 
-		vatmenu.addItem(FinanceApplication.getFinanceUIConstants().vatList(),
+		vatmenu.addItem(Accounter.getFinanceUIConstants().vatList(),
 				getVATsListMenu());
 
 		return vatmenu;
@@ -478,7 +478,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 	private CustomMenuBar getHelpMenu() {
 		CustomMenuBar helpMenuBar = getSubMenu();
-		// helpMenuBar.addItem(FinanceApplication.getFinanceUIConstants().help(),
+		// helpMenuBar.addItem(Accounter.getFinanceUIConstants().help(),
 		// new Command() {
 		// public void execute() {
 		// Window.alert("Not implemented yet!");
@@ -493,28 +493,28 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		CustomMenuBar reportMenuBar = getSubMenu();
 		// reportMenuBar.addItem(ReportsActionFactory.getReportsHomeAction());
 		// reportMenuBar.addSeparator();
-		reportMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
+		reportMenuBar.addItem(Accounter.getFinanceUIConstants()
 				.companyAndFinancial(), getCompanyAndFinancialMenu());
-		reportMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
+		reportMenuBar.addItem(Accounter.getFinanceUIConstants()
 				.customersAndReceivable(), getCustomersAndReceivableMenu());
-		reportMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
+		reportMenuBar.addItem(Accounter.getFinanceUIConstants()
 				.sales(), getSalesMenu());
-		reportMenuBar.addItem(UIUtils.getVendorString(FinanceApplication
+		reportMenuBar.addItem(UIUtils.getVendorString(Accounter
 				.getVendorsMessages().suppliersAndPayables(),
-				FinanceApplication.getVendorsMessages().vendorsAndPayables()),
+				Accounter.getVendorsMessages().vendorsAndPayables()),
 				getVendorAndPayablesMenu());
-		reportMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
+		reportMenuBar.addItem(Accounter.getFinanceUIConstants()
 				.purchase(), getPurchaseMenu());
-		// if (FinanceApplication.getCompany().getAccountingType() ==
+		// if (Accounter.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_US) {
-		// reportMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
+		// reportMenuBar.addItem(Accounter.getFinanceUIConstants()
 		// .banking(), getBankingSubMenu());
 		// }
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			reportMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			reportMenuBar.addItem(Accounter.getFinanceUIConstants()
 					.vat(), getVATReportMenu());
 		}
-		// reportMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
+		// reportMenuBar.addItem(Accounter.getFinanceUIConstants()
 		// .salesAndPurchaseOrders(), getSalesAndPurchaseMenu());
 		return reportMenuBar;
 	}
@@ -537,12 +537,12 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 	private CustomMenuBar getSalesSubMenu() {
 		CustomMenuBar salesMenu = getSubMenu();
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			salesMenu.addItem(SalesOrderActionFactory.getSalesOrderAction());
-		if (FinanceApplication.getUser().canSeeInvoiceTransactions())
+		if (Accounter.getUser().canSeeInvoiceTransactions())
 			salesMenu
 					.addItem(SalesOrderActionFactory.getSalesOrderListAction());
-		if (FinanceApplication.getUser().canViewReports())
+		if (Accounter.getUser().canViewReports())
 			salesMenu
 					.addItem(SalesOrderActionFactory.getSalesOpenOrderAction());
 		return salesMenu;
@@ -550,13 +550,13 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 	private CustomMenuBar getPurchaseSubMenu() {
 		CustomMenuBar purchaseMenu = getSubMenu();
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			purchaseMenu.addItem(PurchaseOrderActionFactory
 					.getPurchaseOrderAction());
-		if (FinanceApplication.getUser().canSeeInvoiceTransactions())
+		if (Accounter.getUser().canSeeInvoiceTransactions())
 			purchaseMenu.addItem(PurchaseOrderActionFactory
 					.getPurchaseOrderListAction());
-		if (FinanceApplication.getUser().canViewReports())
+		if (Accounter.getUser().canViewReports())
 			purchaseMenu.addItem(PurchaseOrderActionFactory
 					.getPurchaseOpenOrderListAction());
 		return purchaseMenu;
@@ -642,7 +642,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				.getProfitAndLossAction());
 		companyAndFinancialMenuBar.addItem(ReportsActionFactory
 				.getBalanceSheetAction());
-		// if (FinanceApplication.getCompany().getAccountingType() ==
+		// if (Accounter.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_US)
 		companyAndFinancialMenuBar.addItem(ReportsActionFactory
 				.getCashFlowStatementAction());
@@ -650,15 +650,15 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				.getTrialBalanceAction());
 		companyAndFinancialMenuBar.addItem(ReportsActionFactory
 				.getTransactionDetailByAccountAction());
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			companyAndFinancialMenuBar.addItem(ReportsActionFactory
 					.getGlReportAction());
 		companyAndFinancialMenuBar.addItem(ReportsActionFactory
 				.getExpenseReportAction());
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			companyAndFinancialMenuBar.addItem(ReportsActionFactory
 					.getSalesTaxLiabilityAction());
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			companyAndFinancialMenuBar.addItem(ReportsActionFactory
 					.getTransactionDetailByTaxItemAction());
 		return companyAndFinancialMenuBar;
@@ -671,7 +671,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		bankingMenuBar.addItem(BankingActionFactory.getNewBankAccountAction());
 		bankingMenuBar.addSeparator();
 		// bankingMenuBar.addItem(BankingActionFactory.getAccountRegisterAction());
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			bankingMenuBar.addItem(BankingActionFactory.getWriteChecksAction());
 
 		bankingMenuBar.addItem(BankingActionFactory.getMakeDepositAction());
@@ -682,7 +682,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		bankingMenuBar
 				.addItem(BankingActionFactory.getCreditCardChargeAction());
 		bankingMenuBar.addSeparator();
-		bankingMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
+		bankingMenuBar.addItem(Accounter.getFinanceUIConstants()
 				.bankingList(), getBankingListMenu());
 
 		return bankingMenuBar;
@@ -702,20 +702,20 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		vendorMenuBar.addItem(VendorsActionFactory.getVendorsHomeAction());
 		if (getNewVendorMenu().menuItems.size() > 0) {
 			vendorMenuBar.addSeparator();
-			vendorMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
+			vendorMenuBar.addItem(Accounter.getFinanceUIConstants()
 					.New(), getNewVendorMenu());
 		}
 		vendorMenuBar.addSeparator();
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			vendorMenuBar.addItem(VendorsActionFactory.getEnterBillsAction());
-		if (FinanceApplication.getUser().canDoBanking()) {
+		if (Accounter.getUser().canDoBanking()) {
 			vendorMenuBar.addItem(VendorsActionFactory.getPayBillsAction());
 			vendorMenuBar
 					.addItem(VendorsActionFactory.getIssuePaymentsAction());
 			vendorMenuBar.addItem(VendorsActionFactory
 					.getNewVendorPaymentAction());
 		}
-		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			vendorMenuBar.addItem(VendorsActionFactory
 					.getRecordExpensesAction());
 			vendorMenuBar.addItem(VendorsActionFactory
@@ -723,8 +723,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			// vendorMenuBar.addItem(VendorsActionFactory.getItemReceiptAction());
 			vendorMenuBar.addSeparator();
 		}
-		vendorMenuBar.addItem(UIUtils.getVendorString(FinanceApplication
-				.getVendorsMessages().supplierLists(), FinanceApplication
+		vendorMenuBar.addItem(UIUtils.getVendorString(Accounter
+				.getVendorsMessages().supplierLists(), Accounter
 				.getVendorsMessages().vendorLists()), getVendorListMenu());
 		return vendorMenuBar;
 	}
@@ -732,11 +732,11 @@ public class HorizontalMenuBar extends HorizontalPanel {
 	private CustomMenuBar getVendorListMenu() {
 		CustomMenuBar vendorListMenuBar = getSubMenu();
 		vendorListMenuBar.addItem(VendorsActionFactory.getVendorsAction());
-		if (FinanceApplication.getUser().canSeeInvoiceTransactions()) {
+		if (Accounter.getUser().canSeeInvoiceTransactions()) {
 			vendorListMenuBar.addItem(VendorsActionFactory.getItemsAction());
 			vendorListMenuBar.addItem(VendorsActionFactory.getBillsAction());
 		}
-		if (FinanceApplication.getUser().canSeeBanking())
+		if (Accounter.getUser().canSeeBanking())
 			vendorListMenuBar.addItem(VendorsActionFactory
 					.getVendorPaymentsAction());
 
@@ -745,18 +745,18 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 	private CustomMenuBar getNewVendorMenu() {
 		CustomMenuBar newVendorMenuBar = getSubMenu();
-		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			newVendorMenuBar.addItem(VendorsActionFactory.getNewVendorAction());
 			newVendorMenuBar.addItem(VendorsActionFactory.getNewItemAction());
 		}
-		if (FinanceApplication.getUser().canDoBanking())
+		if (Accounter.getUser().canDoBanking())
 			newVendorMenuBar.addItem(VendorsActionFactory
 					.getNewCashPurchaseAction());
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			newVendorMenuBar.addItem(VendorsActionFactory
 					.getNewCreditMemoAction());
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			if (Accounter.getUser().canDoInvoiceTransactions())
 				newVendorMenuBar.addItem(VendorsActionFactory
 						.getNewCheckAction());
 
@@ -769,11 +769,11 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				.addItem(CustomersActionFactory.getCustomersHomeAction());
 		if (getNewCustomerMenu().menuItems.size() > 0) {
 			customerMenuBar.addSeparator();
-			customerMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
+			customerMenuBar.addItem(Accounter.getFinanceUIConstants()
 					.New(), getNewCustomerMenu());
 		}
 		customerMenuBar.addSeparator();
-		if (FinanceApplication.getUser().canDoBanking()) {
+		if (Accounter.getUser().canDoBanking()) {
 			customerMenuBar.addItem(CustomersActionFactory
 					.getNewCustomerPaymentAction());
 			customerMenuBar.addItem(CustomersActionFactory
@@ -782,7 +782,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 					.getCustomerRefundAction());
 			customerMenuBar.addSeparator();
 		}
-		customerMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
+		customerMenuBar.addItem(Accounter.getFinanceUIConstants()
 				.customerLists(), getCustomerListMenu());
 		return customerMenuBar;
 	}
@@ -791,7 +791,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		CustomMenuBar customerListMenuBar = getSubMenu();
 		customerListMenuBar
 				.addItem(CustomersActionFactory.getCustomersAction());
-		if (FinanceApplication.getUser().canSeeInvoiceTransactions()) {
+		if (Accounter.getUser().canSeeInvoiceTransactions()) {
 			customerListMenuBar
 					.addItem(CustomersActionFactory.getItemsAction());
 			customerListMenuBar.addItem(CustomersActionFactory
@@ -799,7 +799,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			customerListMenuBar.addItem(CustomersActionFactory
 					.getInvoicesAction(null));
 		}
-		if (FinanceApplication.getUser().canSeeBanking()) {
+		if (Accounter.getUser().canSeeBanking()) {
 			customerListMenuBar.addItem(CustomersActionFactory
 					.getReceivedPaymentsAction());
 			customerListMenuBar.addItem(CustomersActionFactory
@@ -811,7 +811,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 	private CustomMenuBar getNewCustomerMenu() {
 		CustomMenuBar newCustomerMenuBar = getSubMenu();
-		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			newCustomerMenuBar.addItem(CustomersActionFactory
 					.getNewCustomerAction());
 			newCustomerMenuBar.addItem(CustomersActionFactory
@@ -821,10 +821,10 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			newCustomerMenuBar.addItem(CustomersActionFactory
 					.getNewInvoiceAction());
 		}
-		if (FinanceApplication.getUser().canDoBanking())
+		if (Accounter.getUser().canDoBanking())
 			newCustomerMenuBar.addItem(CustomersActionFactory
 					.getNewCashSaleAction());
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			newCustomerMenuBar.addItem(CustomersActionFactory
 					.getNewCreditsAndRefundsAction());
 
@@ -906,29 +906,29 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		companyMenuBar.addItem("DashBoard", getDashBoardCommand());
 		companyMenuBar.addSeparator();
 
-		if (FinanceApplication.getUser().canDoBanking())
+		if (Accounter.getUser().canDoBanking())
 			companyMenuBar.addItem(CompanyActionFactory
 					.getNewJournalEntryAction());
-		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			companyMenuBar.addItem(CompanyActionFactory.getNewAccountAction());
 			companyMenuBar.addSeparator();
 		}
 		// companyMenuBar.addItem(CompanyActionFactory
 		// .getCompanyInformationAction());
-		if (FinanceApplication.getUser().canChangeSettings()) {
+		if (Accounter.getUser().canChangeSettings()) {
 			companyMenuBar.addItem(CompanyActionFactory.getPreferencesAction());
 			companyMenuBar.addSeparator();
 		}
-		if (FinanceApplication.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			companyMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			companyMenuBar.addItem(Accounter.getFinanceUIConstants()
 					.itemTax(), getSalesTaxSubmenu());
-		companyMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
+		companyMenuBar.addItem(Accounter.getFinanceUIConstants()
 				.manageSupportLists(), getManageSupportListSubmenu());
-		if (FinanceApplication.getUser().canManageFiscalYears())
+		if (Accounter.getUser().canManageFiscalYears())
 			companyMenuBar.addItem(CompanyActionFactory
 					.getManageFiscalYearAction());
 		companyMenuBar.addSeparator();
-		companyMenuBar.addItem(FinanceApplication.getFinanceUIConstants()
+		companyMenuBar.addItem(Accounter.getFinanceUIConstants()
 				.companyLists(), getCompanyListMenu());
 
 		return companyMenuBar;
@@ -936,17 +936,17 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 	private CustomMenuBar getCompanyListMenu() {
 		CustomMenuBar companyListMenuBar = getSubMenu();
-		if (FinanceApplication.getUser().canSeeInvoiceTransactions())
+		if (Accounter.getUser().canSeeInvoiceTransactions())
 			companyListMenuBar.addItem(CompanyActionFactory
 					.getChartOfAccountsAction());
-		if (FinanceApplication.getUser().canSeeBanking())
+		if (Accounter.getUser().canSeeBanking())
 			companyListMenuBar.addItem(CompanyActionFactory
 					.getJournalEntriesAction());
-		if (FinanceApplication.getUser().canSeeInvoiceTransactions())
+		if (Accounter.getUser().canSeeInvoiceTransactions())
 			companyListMenuBar.addItem(CustomersActionFactory.getItemsAction());
 		companyListMenuBar.addItem(CustomersActionFactory.getCustomersAction());
 		companyListMenuBar.addItem(VendorsActionFactory.getVendorsAction());
-		if (FinanceApplication.getUser().canSeeBanking())
+		if (Accounter.getUser().canSeeBanking())
 			companyListMenuBar
 					.addItem(CompanyActionFactory.getPaymentsAction());
 		companyListMenuBar.addItem(CustomersActionFactory
@@ -989,15 +989,15 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		// .getManageSalesTaxCodesAction());
 		salesTaxMenuBar.addItem(CompanyActionFactory
 				.getManageSalesTaxItemsAction());
-		if (FinanceApplication.getUser().canDoBanking())
+		if (Accounter.getUser().canDoBanking())
 			salesTaxMenuBar
 					.addItem(CompanyActionFactory.getPaySalesTaxAction());
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			salesTaxMenuBar.addItem(CompanyActionFactory.getAdjustTaxAction());
 		// salesTaxMenuBar.addItem(CompanyActionFactory
 		// .getViewSalesTaxLiabilityAction());
 		// salesTaxMenuBar.addItem(CompanyActionFactory.getTaxItemAction());
-		if (FinanceApplication.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions())
 			salesTaxMenuBar.addItem(CompanyActionFactory
 					.getNewTAXAgencyAction());
 		return salesTaxMenuBar;

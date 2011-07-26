@@ -20,7 +20,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.ColumnChart;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
@@ -43,7 +42,7 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 	@Override
 	public String getGoToText() {
-		return FinanceApplication.getCompanyMessages().goToAccountReceivable();
+		return Accounter.getCompanyMessages().goToAccountReceivable();
 	}
 
 	@Override
@@ -74,13 +73,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 		FlexTable fTable = new FlexTable();
 		hPanel.setWidth("100%");
 
-<<<<<<< .mine
-		AccounterButton addReceivableInvoiceBtn = new AccounterButton(
-				FinanceApplication.getCompanyMessages().addReceivableInvoice());
-=======
 		AccounterButton addReceivableInvoiceBtn = new AccounterButton(Accounter
 				.getCompanyMessages().addReceivableInvoice());
->>>>>>> .r2312
 		addReceivableInvoiceBtn.addStyleName("addButtonPortlet");
 		addReceivableInvoiceBtn.addClickHandler(new ClickHandler() {
 
@@ -90,13 +84,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 			}
 		});
 
-<<<<<<< .mine
-		draftLabel = getLabel(FinanceApplication.getCompanyMessages()
-				.draftInvoices());
-=======
 		draftLabel = getLabel(Accounter.getCompanyMessages().draftInvoices());
->>>>>>> .r2312
-		overDueLabel = getLabel(FinanceApplication.getCompanyMessages()
+		overDueLabel = getLabel(Accounter.getCompanyMessages()
 				.overDueInvoices());
 		overDueLabel.getElement().getStyle().setMarginLeft(10, Unit.PX);
 
@@ -112,7 +101,7 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 		fTable.setWidget(1, 1, overDueAmtLabel);
 		fTable.addStyleName("fTablePortlet");
 
-		if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			hPanel.add(addReceivableInvoiceBtn);
 
 			addReceivableInvoiceBtn.enabledButton();
@@ -168,15 +157,15 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 				// chart.update();
 			}
 		};
-		FinanceApplication.createHomeService().getGraphPointsforAccount(
+		Accounter.createHomeService().getGraphPointsforAccount(
 				GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE, 0, callBack);
 
 	}
 
 	private void updateDebitorsAccount() {
 		List<ClientAccount> accounts = new ArrayList<ClientAccount>();
-		if (FinanceApplication.getCompany() != null) {
-			accounts = FinanceApplication.getCompany().getAccounts(
+		if (Accounter.getCompany() != null) {
+			accounts = Accounter.getCompany().getAccounts(
 					ClientAccount.TYPE_OTHER_CURRENT_ASSET);
 		}
 		for (ClientAccount account : accounts) {
@@ -210,19 +199,11 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onClick(ClickEvent event) {
-<<<<<<< .mine
-				label.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
-				if (title.equals(FinanceApplication.getCompanyMessages()
-						.draftInvoices())) {
-					HistoryTokenUtils.setPresentToken(CustomersActionFactory
-							.getInvoicesAction(null), null);
-=======
+ 
 				label.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
 				if (title
 						.equals(Accounter.getCompanyMessages().draftInvoices())) {
->>>>>>> .r2312
 					CustomersActionFactory.getInvoicesAction(null).run(null,
 							true);
 				} else {

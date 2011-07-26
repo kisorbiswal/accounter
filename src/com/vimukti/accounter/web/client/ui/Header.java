@@ -2,10 +2,12 @@ package com.vimukti.accounter.web.client.ui;
 
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -15,12 +17,18 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
+
 public class Header extends HorizontalPanel {
 
-	private Label userName;
+
+	private Image userImage;
+	private HorizontalPanel usernamePanel;
+
 	public static Label companyName;
 
-	private HTML logout, help, logo;
+
+	private HTML logout, help, logo, userName;
+
 	private VerticalPanel panel1, panel2;
 	private VerticalPanel panel3;
 	private String gettingStartedStatus = "Hide Getting Started";
@@ -43,20 +51,30 @@ public class Header extends HorizontalPanel {
 
 		companyName = new Label(accounter.getCompanyName());
 		companyName.addStyleName("companyName");
-		Label welcome = new Label("Welcome ");
-		userName = new Label();
-		userName.setText(Accounter.getCompanyMessages().userName(
-				accounter.getUserDisplayName()));
-		userName.addStyleName("userName-style");
+		userImage = new Image("images/User.png");
+		userImage.getElement().getStyle().setPaddingBottom(4, Unit.PX);
+		userName = new HTML("<a><font color=\"#3299A4\">"
+				+ Accounter.getCompanyMessages().userName(
+						accounter.getUserDisplayName())
+				+ "<font></a>");
+		userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
+
 		if (!accounter.isLoggedInFromDomain()) {
-			userName.getElement().getStyle()
-					.setTextDecoration(TextDecoration.UNDERLINE);
+			userName.getElement().getStyle().setTextDecoration(
+					TextDecoration.UNDERLINE);
 			userName.getElement().getStyle().setCursor(Cursor.POINTER);
 
 			userName.addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
+					String historyToken = CompanyActionFactory
+							.getUserDetailsAction().getHistoryToken();
+					if (!History.getToken().equals(historyToken)) {
+						MainFinanceWindow.oldToken = History.getToken();
+						HistoryTokenUtils.setPresentToken(CompanyActionFactory
+								.getUserDetailsAction(), null);
+					}
 					CompanyActionFactory.getUserDetailsAction()
 							.run(null, false);
 				}
