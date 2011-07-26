@@ -1,0 +1,6 @@
+# Module accounter
+# RPC service class, partial path of RPC policy file
+com.vimukti.accounter.web.client.IAccounterCRUDService, D33BAD9C6E57B8914B97818FB729D69D.gwt.rpc
+com.vimukti.accounter.web.client.IAccounterHomeViewService, ED17F348A3C4235564ABEB870C49BC73.gwt.rpc
+com.vimukti.accounter.web.client.IAccounterGETService, 0A104080D03D0CABEB417C4F3A84597E.gwt.rpc
+com.vimukti.accounter.web.client.IAccounterReportService, 87D67C86C30C32EDA2335333C0EBE53A.gwt.rpc

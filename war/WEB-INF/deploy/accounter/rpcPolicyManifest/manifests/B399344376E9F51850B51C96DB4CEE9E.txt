@@ -1,0 +1,2 @@
+serviceClass: com.vimukti.accounter.web.client.IAccounterGETService
+path: 0A104080D03D0CABEB417C4F3A84597E.gwt.rpc
