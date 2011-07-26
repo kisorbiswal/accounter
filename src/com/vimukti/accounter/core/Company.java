@@ -8,13 +8,13 @@ import java.util.Set;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.company.initialize.CompanyInitializedFactory;
+import com.vimukti.accounter.company.initialize.UKCompanyInitializer;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.company.initialize.CompanyInitializedFactory;
-import com.vimukti.accounter.company.initialize.CompanyInitializer;
 
 public class Company extends CreatableObject implements IAccounterServerCore {
 
@@ -724,7 +724,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	public Company(int accountingType) {
 		this.accountingType = accountingType;
-		Session session = HibernateUtil.getCurrentSession();
+		CompanyInitializedFactory.getInitializer(this).init();
+		/*Session session = HibernateUtil.getCurrentSession();
 		switch (accountingType) {
 		case ACCOUNTING_TYPE_US:
 
@@ -735,10 +736,10 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 			break;
 		case ACCOUNTING_TYPE_INDIA:
 			break;
-		}
+		}*/
 	}
 
-	public Company(int accountingType, Session session) {
+	/*public Company(int accountingType, Session session) {
 
 		this.accountingType = accountingType;
 		switch (accountingType) {
@@ -746,13 +747,14 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 			//initDefaultUSAccounts(session);
 			break;
 		case ACCOUNTING_TYPE_UK:
+			new UKCompanyInitializer().createUKDefaultVATCodesAndVATAgency(session);
 			//initDefaultUKAccounts(session);
 			break;
 		case ACCOUNTING_TYPE_INDIA:
 			break;
 		}
 	}
-	
+	*/
 	
 
 	public Company(Company company) {
