@@ -757,11 +757,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	*/
 	
 
-	public Company(Company company) {
-		CompanyInitializedFactory getFactory = new CompanyInitializedFactory();
-		getFactory.getInitializer(company);
-		
-	}
+
 
 	/**
 	 * Return the list of Nominal code ranges for the given sub base type of an
