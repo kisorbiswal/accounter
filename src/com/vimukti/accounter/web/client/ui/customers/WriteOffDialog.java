@@ -164,7 +164,7 @@ public class WriteOffDialog extends BaseDialog {
 
 	@Override
 	public Object getGridColumnValue(IsSerializable obj, int index) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
