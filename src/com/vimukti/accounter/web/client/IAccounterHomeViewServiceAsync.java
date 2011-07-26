@@ -275,7 +275,7 @@ public interface IAccounterHomeViewServiceAsync {
 
 	public void getNextNominalCode(int accountType, AsyncCallback<Long> callback);
 
-	public void createTaxes(int[] vatReturnType, AsyncCallback<Boolean> callback);
+	//public void createTaxes(int[] vatReturnType, AsyncCallback<Boolean> callback);
 
 	public void getNextFixedAssetNumber(AsyncCallback<String> callback);
 

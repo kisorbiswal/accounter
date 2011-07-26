@@ -239,7 +239,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public FixedAssetSellOrDisposeReviewJournal getReviewJournal(
 			TempFixedAsset fixedAsset) throws AccounterException;
 
-	public boolean createTaxes(int[] vatReturnType);
+	//public boolean createTaxes(int[] vatReturnType);
 
 	public double getAccumulatedDepreciationAmount(int depreciationMethod,
 			double depreciationRate, double purchasePrice,
