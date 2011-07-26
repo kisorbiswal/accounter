@@ -1367,6 +1367,26 @@
 		
 	</class>
 
+	<class name="StockTransfer" table="STOCK_TRANSFER">
+		<id name="id" column="ID"/>
+		
+		<many-to-one name="fromWarehouse" column="FROM_WAREHOUSE"
+				class="WAREHOUSE" lazy="false">
+			</many-to-one>
+			<many-to-one name="toWarehouse" column="TO_WAREHOUSE"
+				class="WAREHOUSE" lazy="false">
+			</many-to-one>
+
+			<set name="stockTransferItems" inverse="true"
+				cascade="save-update,delete-orphan" lazy="false" table="STOCK_TRANSFER_MAPPING">
+				<key column="STOCK_TRANSFER"></key>
+				<one-to-many class="StockTransferItem" />
+			</set>
+		
+	</class>
+
+
+
 	<!-- <class name="TaxItemGroup" table="TAX_ITEM_GROUPS"> <id name="id" column="ID"> 
 		<generator class="native"></generator> </id> <property name="name" unique="true" 
 		column="NAME"></property> <property name="description" column="DESCRIPTION"></property> 
