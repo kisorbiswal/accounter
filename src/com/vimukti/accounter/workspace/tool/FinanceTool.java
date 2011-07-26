@@ -4035,13 +4035,6 @@ public class FinanceTool implements IFinanceDAOService {
 		fixedAsset.setDepreciationMethod(depreciationMethod);
 		fixedAsset.setDepreciationRate(depreciationRate);
 
-		// try {
-		// fixedAsset = fixedAsset2.clone();
-		// } catch (CloneNotSupportedException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-
 		DecimalFormat decimalFormat = new DecimalFormat("##.##");
 
 		double amountToBeDepreciatedforThisFixedAsset = 0.0;
@@ -5212,7 +5205,6 @@ public class FinanceTool implements IFinanceDAOService {
 			// }
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return ageing;
@@ -5392,7 +5384,6 @@ public class FinanceTool implements IFinanceDAOService {
 		try {
 			cal.setTime(new FinanceDate(startDate).getAsDateObject());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		cal.add(Calendar.DAY_OF_MONTH, -1);
@@ -9249,7 +9240,6 @@ public class FinanceTool implements IFinanceDAOService {
 			t.commit();
 
 		} catch (HibernateException he) {
-
 			t.rollback();
 			throw he;
 		}
@@ -9869,25 +9859,25 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<PurchaseOrdersList> getPurchaseOrders(boolean orderByDate) {
-		// TODO Auto-generated method stub
+		// FIXME
 		return null;
 	}
 
 	@Override
 	public List<SalesOrdersList> getSalesOrders(boolean orderByDate) {
-		// TODO Auto-generated method stub
+		// FIXME
 		return null;
 	}
 
 	@Override
 	public List<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID) {
-		// TODO Auto-generated method stub
+		// FIXME
 		return null;
 	}
 
 	@Override
 	public List<SalesOrdersList> getSalesOrdersForCustomer(long customerID) {
-		// TODO Auto-generated method stub
+		// FIXME
 		return null;
 	}
 
@@ -10120,7 +10110,6 @@ public class FinanceTool implements IFinanceDAOService {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			date1 = new FinanceDate(format.parse(date));
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
