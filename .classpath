@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="war/WEB-INF/classes"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="libs/adapter-core-1.2.3.823.jar"/>
 	<classpathentry kind="lib" path="libs/adapter4gwt-1.2.3.823.jar"/>
@@ -40,9 +41,9 @@
 	<classpathentry kind="lib" path="libs/jetty-util-6.1.0.jar"/>
 	<classpathentry kind="lib" path="libs/mail.jar"/>
 	<classpathentry kind="lib" path="libs/bcprov-jdk15-133.jar"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="lib" path="libs/gwt-servlet.jar"/>
 	<classpathentry kind="lib" path="libs/pd4ml.jar"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="lib" path="libs/cos.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
