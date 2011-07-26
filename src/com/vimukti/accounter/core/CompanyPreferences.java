@@ -39,7 +39,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	boolean useJobs = false;
 	// TODO property existed from our older QuickBooks Code
 	boolean useChangeLog = false;
-	// TODO property existed from our older QuickBooks Code
+	//  property existed from our older QuickBooks Code
 	double logSpaceUsed = 0D;
 	/**
 	 * To Confirm whether we can allow duplicate {@link Transaction} Numbers or
