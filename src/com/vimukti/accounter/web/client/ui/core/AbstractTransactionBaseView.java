@@ -474,7 +474,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		transactionObject = null;
 		if (customerTransactionGrid != null) {
 			customerTransactionGrid.canDeleteRecord(true);
-			// FIXME
+			// FIXME ::: no need of this statement
 			// transactionGrid.setEnableMenu(true);
 			customerTransactionGrid.canDeleteRecord(true);
 			// customerTransactionGrid.setShowMenu(true);
