@@ -9,6 +9,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
@@ -21,6 +22,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -28,14 +31,16 @@ import com.google.gwt.user.client.ui.impl.FocusImpl;
 import com.vimukti.accounter.web.client.commet.AccounterCometClient;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.company.HelpItem;
-import com.vimukti.accounter.web.client.ui.core.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
+import com.vimukti.accounter.web.client.ui.core.FixedAssetsActionFactory;
 import com.vimukti.accounter.web.client.ui.core.PurchaseOrderActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ReportsActionFactory;
 import com.vimukti.accounter.web.client.ui.core.SalesOrderActionFactory;
@@ -65,10 +70,9 @@ public class MainFinanceWindow extends VerticalPanel {
 	private HelpItem item;
 	private HorizontalPanel downpanel;
 	public Map<String, Action> actions;
-<<<<<<< .mine
-=======
+
 	private static Accounter accounter;
->>>>>>> .r2312
+
 	public static String oldToken;
 	public static boolean shouldExecuteRun = true;
 
@@ -136,11 +140,7 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		// setTitle(FinanceApplication.getFinanceUIConstants().bizantraSales());
 
-<<<<<<< .mine
-		FinanceApplication.setSales(true);
 
-=======
->>>>>>> .r2312
 		VerticalPanel vlay = new VerticalPanel();
 		vlay.setSize("100%", "100%");
 
@@ -179,10 +179,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		vlay.setSize("100%", "100%");
 
 		viewManager = ViewManager.getInstance();
-<<<<<<< .mine
-		FinanceApplication.setPurchases(true);
-=======
->>>>>>> .r2312
+
 		header = new Header();
 		CompanyActionFactory.getCompanyHomeAction().run(null, false);
 		/**
@@ -250,7 +247,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		add(helppanel);
 		setCellHorizontalAlignment(helppanel, ALIGN_CENTER);
 		// setSize("100%", "100%");
-		addStyleName(FinanceApplication.getFinanceUIConstants().financeWindow());
+		addStyleName(accounter.getFinanceUIConstants().financeWindow());
 
 		if (UIUtils.isMSIEBrowser()) {
 			this.getElement().getStyle().setPaddingTop(0, Unit.PX);
@@ -268,8 +265,6 @@ public class MainFinanceWindow extends VerticalPanel {
 		return financeWindow;
 	}
 
-<<<<<<< .mine
-=======
 	private MenuBar getMenuBar() {
 		MenuBar menuBar = new MenuBar();
 		// MenuItem dashBoardMenuitem = menuBar.addItem("DashBoard",
@@ -1242,7 +1237,6 @@ public class MainFinanceWindow extends VerticalPanel {
 		return salesTaxMenuBar;
 	}
 
->>>>>>> .r2312
 	public static ViewManager getViewManager() {
 		return viewManager;
 	}
@@ -1323,7 +1317,7 @@ public class MainFinanceWindow extends VerticalPanel {
 			// make all static instances to null in finance
 			ViewManager.makeAllStaticInstancesNull();
 			MainFinanceWindow.makeAllStaticInstancesNull();
-			FinanceApplication.makeAllStaticInstancesNull();
+			accounter.makeAllStaticInstancesNull();
 		}
 		isNotDetachableTab = false;
 
@@ -1349,7 +1343,7 @@ public class MainFinanceWindow extends VerticalPanel {
 	public static void makeAllViewsStaticstoNull() {
 		ViewManager.makeAllStaticInstancesNull();
 		MainFinanceWindow.makeAllStaticInstancesNull();
-		FinanceApplication.makeAllStaticInstancesNull();
+		accounter.makeAllStaticInstancesNull();
 		MainFinanceWindow.setIsnotDetachableTab(true);
 	}
 
@@ -1384,34 +1378,26 @@ public class MainFinanceWindow extends VerticalPanel {
 		if (actions == null || value == null)
 			return;
 
-<<<<<<< .mine
-		String historyToken = null, stringID = null;
-=======
+
 		String historyToken = null;
 		long id = 0;
->>>>>>> .r2312
+
 		AccounterCoreType type = null;
 
 		List<Object> list = HistoryTokenUtils.getObject(value);
 		historyToken = (String) list.get(0);
 		if (list.size() == 3) {
 			type = (AccounterCoreType) list.get(1);
-<<<<<<< .mine
-			stringID = (String) list.get(2);
-=======
 			id = Long.parseLong((String) list.get(2));
->>>>>>> .r2312
+
 			// historyToken = value.substring(0, value.indexOf("?"));
 			// stringID = value.substring(value.indexOf("?") + 1);
 		}
 
 		final Action action = actions.get(historyToken);
 		if (action != null) {
-<<<<<<< .mine
-			if (type != null && stringID != null) {
-=======
+
 			if (type != null && id != 0) {
->>>>>>> .r2312
 				AsyncCallback<T> callback = new AsyncCallback<T>() {
 
 					public void onFailure(Throwable caught) {
@@ -1430,12 +1416,9 @@ public class MainFinanceWindow extends VerticalPanel {
 					}
 
 				};
-<<<<<<< .mine
-				FinanceApplication.createGETService().getObjectById(type,
-						stringID, callback);
-=======
+
 				accounter.createGETService().getObjectById(type, id, callback);
->>>>>>> .r2312
+
 
 			} else {
 				action.run(null, false);
@@ -1765,26 +1748,11 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put("bankAccounts", CompanyActionFactory
 				.getChartOfAccountsAction(ClientAccount.TYPE_BANK));
 		actions.put("cashExpenses", VendorsActionFactory
-<<<<<<< .mine
-				.getExpensesAction(FinanceApplication.getVendorsMessages()
-						.cash()));
-=======
 				.getExpensesAction(accounter.getVendorsMessages().cash()));
->>>>>>> .r2312
 		actions.put("creditCardExpenses", VendorsActionFactory
-<<<<<<< .mine
-				.getExpensesAction(FinanceApplication.getVendorsMessages()
-						.creditCard()));
-=======
 				.getExpensesAction(accounter.getVendorsMessages().creditCard()));
->>>>>>> .r2312
 		actions.put("employeeExpenses", VendorsActionFactory
-<<<<<<< .mine
-				.getExpensesAction(FinanceApplication.getVendorsMessages()
-						.employee()));
-=======
 				.getExpensesAction(accounter.getVendorsMessages().employee()));
->>>>>>> .r2312
 		actions.put(BankingActionFactory.getAccountRegisterAction()
 				.getHistoryToken(), BankingActionFactory
 				.getAccountRegisterAction());
@@ -1794,10 +1762,8 @@ public class MainFinanceWindow extends VerticalPanel {
 				.getHistoryToken(), CompanyActionFactory.getUserDetailsAction());
 
 	}
-<<<<<<< .mine
-=======
 
 	public ClientCompany getCompany() {
 		return Accounter.getCompany();
 	}
-}>>>>>>> .r2312
+}
