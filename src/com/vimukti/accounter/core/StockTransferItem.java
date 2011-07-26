@@ -35,7 +35,6 @@ public class StockTransferItem {
 		this.quantity = quantity;
 	}
 
-<<<<<<< .mine
 	/**
 	 * @return the id
 	 */
@@ -43,10 +42,4 @@ public class StockTransferItem {
 		return id;
 	}
 
-=======
-	public long getId() {
-		return id;
-	}
-	
->>>>>>> .r2551
 }
