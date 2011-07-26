@@ -32,6 +32,7 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 		mailIdLabel.setStyleName("user-name");
 		changePasswordHtml = new HTML("<a> Change Password </a>");
 		changePasswordHtml.setStyleName("change-password");
+		changePasswordHtml.setWidth("12%");
 		changePasswordHtml.addClickHandler(new ClickHandler() {
 
 			@Override
