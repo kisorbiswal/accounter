@@ -3,7 +3,6 @@ package com.vimukti.accounter.core;
 public class StockTransferItem {
 
 	private long id;
-	
 	private Item item;
 	private Quantity quantity;
 	private String memo;
@@ -36,8 +35,18 @@ public class StockTransferItem {
 		this.quantity = quantity;
 	}
 
+<<<<<<< .mine
+	/**
+	 * @return the id
+	 */
+	public long getId() {
+		return id;
+	}
+
+=======
 	public long getId() {
 		return id;
 	}
 	
+>>>>>>> .r2551
 }

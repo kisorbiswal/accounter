@@ -148,10 +148,10 @@
 			<many-to-one name="cashExpenseAccount" class="Account"
 				lazy="false" cascade="save-update" column="CASH_EXPENSE_ACCOUNT_ID">
 			</many-to-one>
-			<many-to-one name="employee" class="User" lazy="false"
+			<!-- <many-to-one name="employee" class="User" lazy="false"
 				cascade="save-update" column="EMPLOYEE">
-			</many-to-one>
-			<!-- <property name="employeeName" column="EMPLOYEE_NAME" type="string"></property> -->
+			</many-to-one> -->
+			 <property name="employeeName" column="EMPLOYEE_NAME" type="string"></property>
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
 			<property name="deliveryDate" column="DELIVERY_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>

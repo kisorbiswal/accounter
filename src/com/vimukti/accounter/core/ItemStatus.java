@@ -13,15 +13,12 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
  */
 public class ItemStatus implements IAccounterServerCore {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3127954338713524771L;
+
 	private long id;
-	
+
 	private Item item;
 	private Quantity quantity;
-
 
 	public Warehouse warehouse;
 
@@ -51,9 +48,29 @@ public class ItemStatus implements IAccounterServerCore {
 		this.quantity = quantity;
 	}
 
-	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return id;
+	}
+
+	/**
+	 * @return the warehouse
+	 */
+	public Warehouse getWarehouse() {
+		return warehouse;
+	}
+
+	/**
+	 * @param warehouse
+	 *            the warehouse to set
+	 */
+	public void setWarehouse(Warehouse warehouse) {
+		this.warehouse = warehouse;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public long getId() {
+		return id;
 	}
 }
