@@ -77,12 +77,14 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	public static final int TYPE_EXPENSE = 16;
 	public static final int TYPE_OTHER_INCOME = 17;
 	public static final int TYPE_OTHER_EXPENSE = 18;
+	
 	/**
 	 * Types of cash flow
 	 */
 	public static final int CASH_FLOW_CATEGORY_FINANCING = 1;
 	public static final int CASH_FLOW_CATEGORY_INVESTING = 2;
 	public static final int CASH_FLOW_CATEGORY_OPERATING = 3;
+	
 	/**
 	 * Types of bank
 	 */
@@ -349,6 +351,34 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			clientaccount.setIncrease(Boolean.FALSE);
 		}
 
+	}
+	
+	/**
+	 * @param type
+	 * 
+	 * @param number
+	 * 
+	 * @param name
+	 * 
+	 * @param parent
+	 * 
+	 * @param openingBalance
+	 * 
+	 * @param comment
+	 * 
+	 * @param asOf
+	 * 
+	 * @return
+	 */
+	
+	public Account(int type,String number, String name,Account parent, double openingBalance,String comment,FinanceDate asOf){
+		this.type = type;
+		this.number = number;
+		this.name = name;
+		this.parent = parent;
+		this.openingBalance = openingBalance;
+		this.comment = comment;
+		this.asOf = asOf;
 	}
 
 	public Map<Integer, Double> getMonthViceAmounts() {
