@@ -11,7 +11,9 @@
 	width: 100% !important;
 	/*display: none;*/
 }
-
+html, body{
+	height:100% !important;
+}
 .copy-img {
 	float: left;
 	margin-top: 3px;
@@ -241,7 +243,6 @@ h1 {
 .expiredButton {
 	margin-left: 250px !important;
 }
-
 
 .newquote {
 	background: url(images/icons/newquote.png) repeat-x;
@@ -627,6 +628,7 @@ td.gridDecimalCell {
 
 .dropdownFlex td {
 	white-space: nowrap;
+	font-size:13px;
 }
 
 .dropdownFlex {
@@ -1361,7 +1363,7 @@ important
 		!important;
 	height: 25px;
 	margin-left: 5px;
-	margin-top: -2px;
+	margin-top: -3px;
 	position: absolute;
 	width: 2px;
 }
@@ -1802,14 +1804,16 @@ normal
 }
 
 .upload-logo {
-	border: 1px solid #DDDDDD;
+	border: 1px solid #989898;
 	height: 150px;
 	margin: 2px;
 	width: 164px;
 }
 
 .picture-link {
-	padding: 56px;
+	margin-left: 60px;
+    margin-top: 60px;
+    width: 38%;
 }
 
 .name-item {
@@ -1831,6 +1835,9 @@ normal
 		float: inherit !important;
 		/*line-height:2;*/
 	}
+	.dropdownTable {
+	  overflow:inherit;
+     }
 	.add-button button {
 		line-height: inherit;
 	}
@@ -2044,15 +2051,31 @@ input[type="text"],textarea {
    height:35px;
    width:5px;
 }
-.feedback-name a{
+.feedback-name a,.vimukti-name a{
    text-decoration: none;
    color:#a53b01 !important;
    font-style:italic;
 }
-.feedback-name a:hover{
+.feedback-name a:hover,.vimukti-name a:hover{
    color:#a53b01;
    text-decoration: underline;
 }
 .popupContent img{
    /*padding:5px 0 5px 10px;*/
+}
+.accounte_register_Grid{
+   width:100% !important;
+}
+.NAME-BOX{
+   margin-left:30px;
+}
+.AND_TEXT{
+   margin-left:47px;
+}
+.gwt-viz-container{
+	margin:0 3px 0 -6px;
+}
+.Records_empty_message tr{
+    cursor: default;
+    background:none !important;
 }

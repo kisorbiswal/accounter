@@ -846,6 +846,7 @@ h1 {
 	color: #0000;
 	padding: 5px 0;
 	font-weight: bold;
+	font-size:13px;
 }
 
 .selectedview_textarea_label {
@@ -865,6 +866,7 @@ h1 {
 	line-height: 1.6;
 	text-align: center;
 	font-weight: bold;
+	font-size:14px;
 }
 
 .selectedview_textareadata {
@@ -1272,7 +1274,7 @@ noindex:-o-prefocus,.gridBody tr td {
 	border-width: 0 1px 1px !important;
 	/*overflow-y: scroll;*/
 	border-color: #AAAAAA !important;
-	overflow-y: visible !important;
+	overflow: hidden !important;
 }
 
 .gridBodyContainer {
