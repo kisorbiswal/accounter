@@ -59,596 +59,587 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	@Override
 	public ClientAccount alterAccount(long companyId, ClientAccount account)
 			throws DAOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientCashPurchase alterCashPurchase(long company,
 			ClientCashPurchase cashPurchase) throws DAOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientCashSales alterCashSales(long company,
 			ClientCashSales cashSales) throws DAOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientCompany alterCompany(ClientCompany company)
 			throws DAOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientCreditCardCharge alterCreditCardCharge(long company,
 			ClientCreditCardCharge creditCardCharge) throws DAOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientCreditRating alterCreditRating(long company,
 			ClientCreditRating creditRating) throws DAOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientCurrency alterCurrency(long company, ClientCurrency currency)
 			throws DAOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientCustomer alterCustomer(long company, ClientCustomer customer)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientCustomerCreditMemo alterCustomerCreditMemo(long company,
 			ClientCustomerCreditMemo customerCreditMemo) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientCustomerGroup alterCustomerGroup(long company,
 			ClientCustomerGroup customerGroup) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientCustomerRefund alterCustomerRefunds(long company,
 			ClientCustomerRefund customerRefunds) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientEnterBill alterEnterBill(long company,
 			ClientEnterBill enterBill) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientEstimate alterEstimate(long company, ClientEstimate estimate)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientFiscalYear alterFiscalYear(long company,
 			ClientFiscalYear fiscalYear) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientInvoice alterInvoice(long company, ClientInvoice invoice)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientIssuePayment alterIssuePayment(long company,
 			ClientIssuePayment issuePayment) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientItem alterItem(long company, ClientItem item)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientItemGroup alterItemGroup(long company,
 			ClientItemGroup itemGroup) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientJournalEntry alterJournalEntry(long company,
 			ClientJournalEntry journalEntry) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientMakeDeposit alterMakeDeposit(long company,
 			ClientMakeDeposit makeDeposit) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientPayBill alterPayBill(long company, ClientPayBill payBill)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientPaySalesTax alterPaySalesTax(long company,
 			ClientPaySalesTax paySalesTax) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientPaymentTerms alterPaymentTerms(long company,
 			ClientPaymentTerms paymentTerms) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientPriceLevel alterPriceLevel(long company,
 			ClientPriceLevel priceLevel) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientPurchaseOrder alterPurchaseOrder(long company,
 			ClientPurchaseOrder purchaseOrder) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientReceivePayment alterReceivePayment(long company,
 			ClientReceivePayment receivePayment) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientSalesOrder alterSalesOrder(long company,
 			ClientSalesOrder salesOrder) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientSalesPerson alterSalesPerson(long company,
 			ClientSalesPerson salesPerson) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientShippingMethod alterShippingMethod(long company,
 			ClientShippingMethod shippingMethod) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientShippingTerms alterShippingTerms(long company,
 			ClientShippingTerms shippingTerms) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientTAXAgency alterTaxAgency(long company,
 			ClientTAXAgency taxAgency) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientTAXCode alterTaxCode(long company, ClientTAXCode taxCode)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientTAXGroup alterTaxGroup(long company, ClientTAXGroup taxGroup)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientTaxRates alterTaxRates(long company, ClientTaxRates taxRates)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientTransferFund alterTransferFund(long company,
 			ClientTransferFund transferFund) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientUnitOfMeasure alterUnitOfMeasure(long company,
 			ClientUnitOfMeasure untiOfMeasure) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientUser alterUser(long company, ClientUser user)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientVendor alterVendor(long company, ClientVendor vendor)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientVendorCreditMemo alterVendorCreditMemo(long company,
 			ClientVendorCreditMemo vendorCreditMemo) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientVendorGroup alterVendorGroup(long company,
 			ClientVendorGroup vendorGroup) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientWriteCheck alterWriteCheck(long company,
 			ClientWriteCheck writeCheck) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientAccount createAccount(long companyId, ClientAccount account)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientBank createBank(long company, ClientBank bank)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientCashPurchase createCashPurchase(long company,
 			ClientCashPurchase cashPurchase) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientCashSales createCashSales(long company,
 			ClientCashSales cashSales) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientCompany createCompany(ClientCompany company)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientCreditCardCharge createCreditCardCharge(long company,
 			ClientCreditCardCharge creditCardCharge) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientCreditRating createCreditRating(long company,
 			ClientCreditRating creditRating) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientCurrency createCurrency(long company, ClientCurrency currency)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientCustomer createCustomer(long company, ClientCustomer customer)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientCustomerCreditMemo createCustomerCreditMemo(long company,
 			ClientCustomerCreditMemo customerCreditMemo) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientCustomerGroup createCustomerGroup(long company,
 			ClientCustomerGroup customerGroup) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientCustomerRefund createCustomerRefunds(long company,
 			ClientCustomerRefund customerRefunds) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientEnterBill createEnterBill(long company,
 			ClientEnterBill enterBill) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientEstimate createEstimate(long company, ClientEstimate estimate)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientFiscalYear createFiscalYear(long company,
 			ClientFiscalYear fiscalYear) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientInvoice createInvoice(long company, ClientInvoice invoice)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientIssuePayment createIssuePayment(long company,
 			ClientIssuePayment issuePayment) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientItem createItem(long company, ClientItem item)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientItemGroup createItemGroup(long company,
 			ClientItemGroup itemGroup) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientJournalEntry createJournalEntry(long company,
 			ClientJournalEntry journalEntry) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientMakeDeposit createMakeDeposit(long company,
 			ClientMakeDeposit makeDeposit) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientPayBill createPayBill(long company, ClientPayBill payBill)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientPaySalesTax createPaySalesTax(long company,
 			ClientPaySalesTax paySalesTax) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientPaymentTerms createPaymentTerms(long company,
 			ClientPaymentTerms paymentTerms) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientPriceLevel createPriceLevel(long company,
 			ClientPriceLevel priceLevel) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientPurchaseOrder createPurchaseOrder(long company,
 			ClientPurchaseOrder purchaseOrder) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientReceivePayment createReceivePayment(long company,
 			ClientReceivePayment receivePayment) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientSalesOrder createSalesOrder(long company,
 			ClientSalesOrder salesOrder) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientSalesPerson createSalesPerson(long company,
 			ClientSalesPerson salesPerson) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientShippingMethod createShippingMethod(long company,
 			ClientShippingMethod shippingMethod) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientShippingTerms createShippingTerms(long company,
 			ClientShippingTerms shippingTerms) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientTAXAgency createTaxAgency(long company,
 			ClientTAXAgency taxAgency) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientTAXCode createTaxCode(long company, ClientTAXCode taxCode)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientTAXGroup createTaxGroup(long company, ClientTAXGroup taxGroup)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientTaxRates createTaxRates(long company, ClientTaxRates taxRates)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientTransferFund createTransferFund(long company,
 			ClientTransferFund transferFund) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientUnitOfMeasure createUnitOfMeasure(long company,
 			ClientUnitOfMeasure untiOfMeasure) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientUser createUser(ClientUser user) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientVendor createVendor(long company, ClientVendor vendor)
 			throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientVendorCreditMemo createVendorCreditMemo(long company,
 			ClientVendorCreditMemo vendorCreditMemo) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientVendorGroup createVendorGroup(long company,
 			ClientVendorGroup vendorGroup) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ClientWriteCheck createWriteCheck(long company,
 			ClientWriteCheck writeCheck) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public Boolean deleteObject(Class class1, long Id) throws DAOException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	public void setTransactionTemplate(TransactionTemplate transactionTemplate) {
-		// TODO Auto-generated method stub
 
 	}
 
 	public void setAccounterDao(AccounterDAOService accounterDao) {
-		// TODO Auto-generated method stub
 
 	}
 

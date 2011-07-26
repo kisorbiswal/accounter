@@ -37,7 +37,6 @@ public class AmountField extends TextItem {
 	}
 
 	private void setKeyPressFilter(String string) {
-		// TODO allow only nummbers
 	}
 
 	private BlurHandler getBlurHandler() {
@@ -118,7 +117,7 @@ public class AmountField extends TextItem {
 	// .removeDollar(value.toString())));
 	//
 	// } catch (Exception e) {
-	// // TODO: handle exception
+	// //
 	// }
 	//
 	// }

@@ -33,7 +33,6 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 	// functionality.
 	SalesPerson salesPerson;
 
-	// TODO don't know the exact meaning.
 	double creditLimit = 0D;
 	/**
 	 * The default Price Level which can be applied on the Items sales price
@@ -43,7 +42,6 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 	 */
 	PriceLevel priceLevel;
 
-	// TODO don't know the exact meaning.
 	CreditRating creditRating;
 
 	/**

@@ -21,8 +21,8 @@ public class APAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record, ReportsActionFactory
-				.getAorpAgingDetailAction());
+		UIUtils.runAction(record,
+				ReportsActionFactory.getAorpAgingDetailAction());
 
 	}
 
@@ -41,21 +41,20 @@ public class APAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 	@Override
 	public void onEdit() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 127, "", "");
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 127, "",
+				"");
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -83,30 +82,32 @@ public class APAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 	public int sort(DummyDebitor obj1, DummyDebitor obj2, int col) {
 		switch (col) {
 		case 0:
-			return obj1.getDebitorName().toLowerCase().compareTo(
-					obj2.getDebitorName().toLowerCase());
+			return obj1.getDebitorName().toLowerCase()
+					.compareTo(obj2.getDebitorName().toLowerCase());
 
 		case 1:
-			return UIUtils.compareDouble((obj1.getDebitdays_in30() + obj1
-					.getDebitdays_incurrent()),
+			return UIUtils.compareDouble(
+					(obj1.getDebitdays_in30() + obj1.getDebitdays_incurrent()),
 					(obj2.getDebitdays_in30() + obj2.getDebitdays_incurrent()));
 		case 2:
-			return UIUtils.compareDouble(obj1.getDebitdays_in60(), obj2
-					.getDebitdays_in60());
+			return UIUtils.compareDouble(obj1.getDebitdays_in60(),
+					obj2.getDebitdays_in60());
 		case 3:
-			return UIUtils.compareDouble(obj1.getDebitdays_in90(), obj2
-					.getDebitdays_in90());
+			return UIUtils.compareDouble(obj1.getDebitdays_in90(),
+					obj2.getDebitdays_in90());
 		case 4:
-			return UIUtils.compareDouble(obj1.getDebitdays_inolder(), obj2
-					.getDebitdays_inolder());
+			return UIUtils.compareDouble(obj1.getDebitdays_inolder(),
+					obj2.getDebitdays_inolder());
 		case 5:
-			return UIUtils.compareDouble((obj1.getDebitdays_in30()
-					+ obj1.getDebitdays_in60() + obj1.getDebitdays_in90()
-					+ obj1.getDebitdays_inolder() + obj1
-					.getDebitdays_incurrent()), (obj2.getDebitdays_in30()
-					+ obj2.getDebitdays_in60() + obj2.getDebitdays_in90()
-					+ obj2.getDebitdays_inolder() + obj2
-					.getDebitdays_incurrent()));
+			return UIUtils.compareDouble(
+					(obj1.getDebitdays_in30() + obj1.getDebitdays_in60()
+							+ obj1.getDebitdays_in90()
+							+ obj1.getDebitdays_inolder() + obj1
+							.getDebitdays_incurrent()),
+					(obj2.getDebitdays_in30() + obj2.getDebitdays_in60()
+							+ obj2.getDebitdays_in90()
+							+ obj2.getDebitdays_inolder() + obj2
+							.getDebitdays_incurrent()));
 		}
 		return 0;
 	}
@@ -117,9 +118,10 @@ public class APAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 127, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 127, "",
+				"");
 	}
 
 }

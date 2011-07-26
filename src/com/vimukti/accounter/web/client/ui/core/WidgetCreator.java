@@ -100,7 +100,6 @@ public class WidgetCreator {
 
 			@Override
 			public void linkClicked() {
-				
 
 			}
 
@@ -227,8 +226,8 @@ public class WidgetCreator {
 				// // .getClientHeight() - 60;
 				// // customerWidgetGrid.setHeight(height + "px");
 				// customerWidgetGrid.setHeight("250px");
-				customerWidgetGrid.getElement().getStyle().setBorderWidth(0,
-						Unit.PX);
+				customerWidgetGrid.getElement().getStyle()
+						.setBorderWidth(0, Unit.PX);
 				super.onAttach();
 			}
 
@@ -567,9 +566,9 @@ public class WidgetCreator {
 	 * estimate; // for (int recordIndex = 0; recordIndex < records.length;
 	 * ++recordIndex) { // estimate = result.get(recordIndex); //
 	 * records[recordIndex] = new ListGridRecord(); //
-	 * records[recordIndex].setAttribute("estimate_id", estimate.getID()
-	 * // .toString()); // records[recordIndex].setAttribute("customer",
-	 * estimate // .getCustomer().getName()); //
+	 * records[recordIndex].setAttribute("estimate_id", estimate.getID() //
+	 * .toString()); // records[recordIndex].setAttribute("customer", estimate
+	 * // .getCustomer().getName()); //
 	 * records[recordIndex].setAttribute("status", estimate.getStatus()); //
 	 * records[recordIndex].setAttribute("Value", estimate.getTotal()); // // }
 	 * // // latestQuoteGrid.setRecords(records); //
@@ -609,7 +608,7 @@ public class WidgetCreator {
 	 * getService .getLatestCustomers(new AsyncCallback<List<ClientCustomer>>()
 	 * {
 	 * 
-	 * public void onFailure(Throwable caught) { // 
+	 * public void onFailure(Throwable caught) { //
 	 * 
 	 * 
 	 * }
@@ -664,8 +663,7 @@ public class WidgetCreator {
 	 * getService .getLatestPurchaseItems(new AsyncCallback<List<ClientItem>>()
 	 * {
 	 * 
-	 * public void onFailure(Throwable caught) { //  Auto-generated method
-	 * stub
+	 * public void onFailure(Throwable caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -719,8 +717,7 @@ public class WidgetCreator {
 	 * 
 	 * getService.getSalesItems(new AsyncCallback<List<ClientItem>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { //  Auto-generated method
-	 * stub
+	 * public void onFailure(Throwable caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -736,10 +733,9 @@ public class WidgetCreator {
 	 * ClientItem item; for (int recordIndex = 0; recordIndex < records.length;
 	 * ++recordIndex) { item = result.get(recordIndex); records[recordIndex] =
 	 * new ListGridRecord(); records[recordIndex].setAttribute("item_id",
-	 * item.getID()); records[recordIndex].setAttribute("item",
-	 * item.getName()); // records[recordIndex].setAttribute("date",
-	 * item.getCreatedDate()); // records[recordIndex].setAttribute("Value",
-	 * customer.getE);
+	 * item.getID()); records[recordIndex].setAttribute("item", item.getName());
+	 * // records[recordIndex].setAttribute("date", item.getCreatedDate()); //
+	 * records[recordIndex].setAttribute("Value", customer.getE);
 	 * 
 	 * }
 	 * 
@@ -776,8 +772,7 @@ public class WidgetCreator {
 	 * getService .getLatestReceivePayments(new
 	 * AsyncCallback<List<ClientReceivePayment>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { //  Auto-generated method
-	 * stub
+	 * public void onFailure(Throwable caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -833,8 +828,7 @@ public class WidgetCreator {
 	 * getService .getLatestCashSales(new AsyncCallback<List<ClientCashSales>>()
 	 * {
 	 * 
-	 * public void onFailure(Throwable caught) { //  Auto-generated method
-	 * stub
+	 * public void onFailure(Throwable caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -850,8 +844,7 @@ public class WidgetCreator {
 	 * ListGridRecord[result.size()]; ClientCashSales cashSales; for (int
 	 * recordIndex = 0; recordIndex < records.length; ++recordIndex) { cashSales
 	 * = result.get(recordIndex); records[recordIndex] = new ListGridRecord();
-	 * records[recordIndex].setAttribute("cashSale_id",
-	 * cashSales.getID()); //
+	 * records[recordIndex].setAttribute("cashSale_id", cashSales.getID()); //
 	 * records[recordIndex].setAttribute("customer", // cashSales.getName());
 	 * records[recordIndex].setAttribute("date", cashSales.getDate()); //
 	 * records[recordIndex].setAttribute("Value", customer.getE);
@@ -891,8 +884,7 @@ public class WidgetCreator {
 	 * getService .getLatestCustomerRefunds(new
 	 * AsyncCallback<List<ClientCustomerRefund>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { //  Auto-generated method
-	 * stub
+	 * public void onFailure(Throwable caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -948,8 +940,7 @@ public class WidgetCreator {
 	 * 
 	 * getService.getLatestVendors(new AsyncCallback<List<ClientVendor>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { //  Auto-generated method
-	 * stub
+	 * public void onFailure(Throwable caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -1002,8 +993,7 @@ public class WidgetCreator {
 	 * getService .getLatestVendorPayments(new
 	 * AsyncCallback<List<PaymentsList>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { //  Auto-generated method
-	 * stub
+	 * public void onFailure(Throwable caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -1061,8 +1051,7 @@ public class WidgetCreator {
 	 * getService .getLatestCashPurchases(new
 	 * AsyncCallback<List<ClientCashPurchase>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { //  Auto-generated method
-	 * stub
+	 * public void onFailure(Throwable caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -1079,11 +1068,9 @@ public class WidgetCreator {
 	 * recordIndex = 0; recordIndex < records.length; ++recordIndex) {
 	 * cashPurchase = result.get(recordIndex); records[recordIndex] = new
 	 * ListGridRecord(); records[recordIndex].setAttribute("customer_id",
-	 * cashPurchase .getID()); //
-	 * records[recordIndex].setAttribute("customer", // cashPurchase.getName());
-	 * // records[recordIndex].setAttribute("date", cashPurchase //
-	 * .getCreatedDate()); XXX // records[recordIndex].setAttribute("Value",
-	 * customer.getE);
+	 * cashPurchase .getID()); // records[recordIndex].setAttribute("customer",
+	 * // cashPurchase.getName()); // records[recordIndex].setAttribute("date",
+	 * cashPurchase // .getCreatedDate()); customer.getE);
 	 * 
 	 * }
 	 * 
@@ -1119,8 +1106,7 @@ public class WidgetCreator {
 	 * 
 	 * getService.getLatestChecks(new AsyncCallback<List<ClientWriteCheck>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { //  Auto-generated method
-	 * stub
+	 * public void onFailure(Throwable caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -1137,11 +1123,10 @@ public class WidgetCreator {
 	 * recordIndex = 0; recordIndex < records.length; ++recordIndex) {
 	 * writeCheck = result.get(recordIndex); records[recordIndex] = new
 	 * ListGridRecord(); records[recordIndex].setAttribute("check_id",
-	 * writeCheck.getID()); //
-	 * records[recordIndex].setAttribute("customer", // writeCheck.getName());
-	 * // records[recordIndex].setAttribute("date", writeCheck //
-	 * .getCreatedDate()); // records[recordIndex].setAttribute("Value",
-	 * customer.getE);
+	 * writeCheck.getID()); // records[recordIndex].setAttribute("customer", //
+	 * writeCheck.getName()); // records[recordIndex].setAttribute("date",
+	 * writeCheck // .getCreatedDate()); //
+	 * records[recordIndex].setAttribute("Value", customer.getE);
 	 * 
 	 * }
 	 * 
@@ -1177,8 +1162,7 @@ public class WidgetCreator {
 	 * getService .getLatestDeposits(new
 	 * AsyncCallback<List<ClientMakeDeposit>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { //  Auto-generated method
-	 * stub
+	 * public void onFailure(Throwable caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -1195,11 +1179,10 @@ public class WidgetCreator {
 	 * recordIndex = 0; recordIndex < records.length; ++recordIndex) {
 	 * makeDeposit = result.get(recordIndex); records[recordIndex] = new
 	 * ListGridRecord(); records[recordIndex].setAttribute("deposite_id",
-	 * makeDeposit .getID()); //
-	 * records[recordIndex].setAttribute("customer", // makeDeposit.getName());
-	 * // records[recordIndex].setAttribute("date", makeDeposit //
-	 * .getCreatedDate()); // records[recordIndex].setAttribute("Value",
-	 * customer.getE);
+	 * makeDeposit .getID()); // records[recordIndex].setAttribute("customer",
+	 * // makeDeposit.getName()); // records[recordIndex].setAttribute("date",
+	 * makeDeposit // .getCreatedDate()); //
+	 * records[recordIndex].setAttribute("Value", customer.getE);
 	 * 
 	 * }
 	 * 
@@ -1236,8 +1219,7 @@ public class WidgetCreator {
 	 * getService .getLatestFundsTransfer(new
 	 * AsyncCallback<List<ClientTransferFund>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { //  Auto-generated method
-	 * stub
+	 * public void onFailure(Throwable caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -1254,11 +1236,10 @@ public class WidgetCreator {
 	 * recordIndex = 0; recordIndex < records.length; ++recordIndex) {
 	 * transferFund = result.get(recordIndex); records[recordIndex] = new
 	 * ListGridRecord(); records[recordIndex].setAttribute("transfer_id",
-	 * transferFund .getID()); //
-	 * records[recordIndex].setAttribute("customer", // transferFund.getName());
-	 * // records[recordIndex].setAttribute("date", transferFund //
-	 * .getCreatedDate()); // records[recordIndex].setAttribute("Value",
-	 * customer.getE);
+	 * transferFund .getID()); // records[recordIndex].setAttribute("customer",
+	 * // transferFund.getName()); // records[recordIndex].setAttribute("date",
+	 * transferFund // .getCreatedDate()); //
+	 * records[recordIndex].setAttribute("Value", customer.getE);
 	 * 
 	 * }
 	 * 

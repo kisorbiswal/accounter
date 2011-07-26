@@ -9,12 +9,12 @@ public class SyncOnlinePayeesAction extends Action {
 
 	public SyncOnlinePayeesAction(String text) {
 		super(text);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public SyncOnlinePayeesAction(String text, String iconString) {
 		super(text, iconString);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class SyncOnlinePayeesAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		// TODO Auto-generated method stub
-		return null;
+		return "Sync";
 	}
 
 }

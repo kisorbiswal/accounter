@@ -8,7 +8,6 @@ public class StockTransferItem {
 
 	public StockTransferItem() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Item getItem() {

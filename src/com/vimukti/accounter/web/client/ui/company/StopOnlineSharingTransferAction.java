@@ -8,18 +8,16 @@ public class StopOnlineSharingTransferAction extends Action {
 
 	public StopOnlineSharingTransferAction(String text) {
 		super(text);
-		// TODO Auto-generated constructor stub
 	}
 
 	public StopOnlineSharingTransferAction(String text, String iconString) {
 		super(text, iconString);
-		// TODO Auto-generated constructor stub
 	}
 
+	// its not using any where
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -40,7 +38,7 @@ public class StopOnlineSharingTransferAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		// TODO Auto-generated method stub
-		return null;
+		return "StopOnlineSharingTransfer";
 	}
 
 }

@@ -15,7 +15,8 @@ public class TransactionDetailByTaxItemServerReport extends
 		this.reportView = reportView;
 	}
 
-	public TransactionDetailByTaxItemServerReport(long startDate, long endDate,int generationType) {
+	public TransactionDetailByTaxItemServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -24,7 +25,8 @@ public class TransactionDetailByTaxItemServerReport extends
 			int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return ReportUtility.getTransactionName(record.getTransactionType());
+			return ReportUtility
+					.getTransactionName(record.getTransactionType());
 		case 1:
 			return record.getRate();
 		case 2:
@@ -33,7 +35,7 @@ public class TransactionDetailByTaxItemServerReport extends
 			return record.getNumber();
 		case 4:
 			return record.getTaxItemName();
-//			return record.getTaxCodeName();
+			// return record.getTaxCodeName();
 		case 5:
 			return record.getMemo();
 		case 6:
@@ -78,7 +80,7 @@ public class TransactionDetailByTaxItemServerReport extends
 		// navigateObjectName, start, end));
 		// }
 		// } catch (DAOException e) {
-		// // TODO Auto-generated catch block
+		// //
 		// e.printStackTrace();
 		// }
 	}
@@ -103,8 +105,8 @@ public class TransactionDetailByTaxItemServerReport extends
 		processRecord(record);
 	}
 
+	// its not using any where
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 

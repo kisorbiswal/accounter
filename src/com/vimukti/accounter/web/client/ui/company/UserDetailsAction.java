@@ -11,24 +11,23 @@ public class UserDetailsAction extends Action {
 
 	public UserDetailsAction(String text) {
 		super(text);
-		// TODO Auto-generated constructor stub
 	}
 
+	// its not using any where
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	// its not using any where
 	@Override
 	public ImageResource getSmallImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	// its not using any where
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -36,15 +35,14 @@ public class UserDetailsAction extends Action {
 	public void run(Object data, Boolean isDependent) {
 		view = new UserDetailsView();
 		try {
-			MainFinanceWindow.getViewManager().showView(view, data, isDependent,
-					this);
+			MainFinanceWindow.getViewManager().showView(view, data,
+					isDependent, this);
 		} catch (Exception e) {
 		}
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "userDetails";
 	}
 

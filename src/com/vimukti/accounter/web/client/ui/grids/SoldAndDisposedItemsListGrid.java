@@ -42,7 +42,6 @@ public class SoldAndDisposedItemsListGrid extends
 	public SoldAndDisposedItemsListGrid(boolean isMultiSelectionEnable,
 			boolean showFooter) {
 		super(isMultiSelectionEnable, showFooter);
-		// TODO Auto-generated constructor stub
 	}
 
 	/*
@@ -185,9 +184,9 @@ public class SoldAndDisposedItemsListGrid extends
 	/*
 	 * @see com.vimukti.accounter.web.client.ui.grids.ListGrid#validateGrid()
 	 */
+	// its not using any where
 	@Override
 	public boolean validateGrid() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -252,9 +251,9 @@ public class SoldAndDisposedItemsListGrid extends
 				: "";
 	}
 
+	// its not using any where
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 

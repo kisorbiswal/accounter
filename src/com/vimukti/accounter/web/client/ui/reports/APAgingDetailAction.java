@@ -76,7 +76,6 @@ public class APAgingDetailAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "apAgingDetail";
 	}
 

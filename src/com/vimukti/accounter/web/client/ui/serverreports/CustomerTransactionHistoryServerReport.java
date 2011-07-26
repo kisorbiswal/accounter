@@ -15,7 +15,8 @@ public class CustomerTransactionHistoryServerReport extends
 		this.reportView = reportView;
 	}
 
-	public CustomerTransactionHistoryServerReport(long startDate, long endDate,int generationType) {
+	public CustomerTransactionHistoryServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -31,7 +32,7 @@ public class CustomerTransactionHistoryServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] { "Customer", "Date", "Type", "No.",
-		// ".invoicedAmount(),
+				// ".invoicedAmount(),
 				// ".paidAmount(),
 				// ".paymentTerms(),
 				// ".dueDate(),
@@ -63,7 +64,8 @@ public class CustomerTransactionHistoryServerReport extends
 		else if (index == 5)
 			return 135;
 		else
-			return 125;	}
+			return 125;
+	}
 
 	@Override
 	public void makeReportRequest(long start, long end) {
@@ -77,7 +79,7 @@ public class CustomerTransactionHistoryServerReport extends
 		// end));
 		// }
 		// } catch (DAOException e) {
-		// // TODO Auto-generated catch block
+		// //
 		// e.printStackTrace();
 		// }
 		// }
@@ -107,8 +109,7 @@ public class CustomerTransactionHistoryServerReport extends
 		case 5:
 			// return record.getPaymentTerm();
 			return DecimalUtil.isEquals(record.getInvoicedAmount(), 0.0) ? record
-					.getPaidAmount()
-					: record.getInvoicedAmount();
+					.getPaidAmount() : record.getInvoicedAmount();
 			// return record.getInvoicedAmount() - record.getPaidAmount();
 			// case 6:
 			// return record.getPaymentTerm();
@@ -167,8 +168,8 @@ public class CustomerTransactionHistoryServerReport extends
 	}
 
 	public int sort(TransactionHistory obj1, TransactionHistory obj2, int col) {
-		int ret = obj1.getName().toLowerCase().compareTo(
-				obj2.getName().toLowerCase());
+		int ret = obj1.getName().toLowerCase()
+				.compareTo(obj2.getName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
@@ -183,15 +184,15 @@ public class CustomerTransactionHistoryServerReport extends
 			return UIUtils.compareInt(Integer.parseInt(obj1.getNumber()),
 					Integer.parseInt(obj2.getNumber()));
 		case 4:
-			return obj1.getAccount().toLowerCase().compareTo(
-					obj2.getAccount().toLowerCase());
+			return obj1.getAccount().toLowerCase()
+					.compareTo(obj2.getAccount().toLowerCase());
 		case 5:
 			if (DecimalUtil.isEquals(obj1.getInvoicedAmount(), 0.0))
-				return UIUtils.compareDouble(obj1.getPaidAmount(), obj2
-						.getPaidAmount());
+				return UIUtils.compareDouble(obj1.getPaidAmount(),
+						obj2.getPaidAmount());
 			else
-				return UIUtils.compareDouble(obj1.getInvoicedAmount(), obj2
-						.getInvoicedAmount());
+				return UIUtils.compareDouble(obj1.getInvoicedAmount(),
+						obj2.getInvoicedAmount());
 		}
 		return 0;
 	}

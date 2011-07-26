@@ -647,7 +647,6 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
 				Window.Location.assign("/site/login");
 			}
 		});

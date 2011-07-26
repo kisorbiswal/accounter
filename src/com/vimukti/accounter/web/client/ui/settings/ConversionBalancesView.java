@@ -87,7 +87,7 @@ public class ConversionBalancesView extends AbstractBaseView {
 					SettingsActionFactory.getConversionDateAction().run(null,
 							false);
 				} catch (Exception e) {
-					// TODO: handle exception
+					e.printStackTrace();
 				}
 
 			}

@@ -39,7 +39,6 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public void service(ServletRequest arg0, ServletResponse arg1)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 
 		super.service(arg0, arg1);
 

@@ -207,7 +207,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 					entry.setVoucherNumber(rec.getVoucherNumber());
 
 				} catch (Exception e) {
-					// TODO: handle exception
+					e.printStackTrace();
 				}
 				// try {
 				//
@@ -230,7 +230,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 					// entry.setVendor(selectedVendor);
 
 				} catch (Exception e) {
-					// TODO: handle exception
+					e.printStackTrace();
 				}
 				// Setting Line total
 				try {
@@ -242,7 +242,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 					entry.setCredit(rec.getCredit());
 
 				} catch (Exception e) {
-					// TODO: handle exception
+					e.printStackTrace();
 				}
 
 				transactionItems.add(entry);

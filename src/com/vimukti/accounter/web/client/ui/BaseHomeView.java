@@ -337,7 +337,7 @@ public class BaseHomeView extends AbstractBaseView {
 	// saveAndUpdateView();
 	// saveSuccess(null);
 	// } catch (Exception e) {
-	// // TODO: handle exception
+	// //
 	// }
 	//
 	// }

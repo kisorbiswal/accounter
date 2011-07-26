@@ -54,7 +54,6 @@ public class VATPaymentView extends
 
 	public VATPaymentView() {
 		super(ClientTransaction.TYPE_PAY_SALES_TAX, 0);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -66,8 +65,7 @@ public class VATPaymentView extends
 
 	private void getPayFromAccounts() {
 		payFromAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : getCompany()
-				.getActiveAccounts()) {
+		for (ClientAccount account : getCompany().getActiveAccounts()) {
 			if (account.getType() == ClientAccount.TYPE_CASH
 					|| account.getType() == ClientAccount.TYPE_BANK
 					|| account.getType() == ClientAccount.TYPE_CREDIT_CARD
@@ -81,8 +79,7 @@ public class VATPaymentView extends
 	}
 
 	protected void createControls() {
-		Label lab = new Label(Accounter.getFinanceUIConstants()
-				.VATPayment());
+		Label lab = new Label(Accounter.getFinanceUIConstants().VATPayment());
 		// lab.setAutoHeight();
 		// lab.setWrap(false);
 
@@ -158,8 +155,7 @@ public class VATPaymentView extends
 						selectedPayFromAccount = selectItem;
 						initialEndingBalance = !DecimalUtil.isEquals(
 								selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
-								.getTotalBalance()
-								: 0D;
+								.getTotalBalance() : 0D;
 						calculateEndingBalance();
 
 						endingBalanceText.setValue(DataUtils
@@ -179,11 +175,11 @@ public class VATPaymentView extends
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setRequired(true);
 		// paymentMethodCombo.setWidth("*");
-		paymentMethodCombo.setDefaultValue(Accounter
-				.getFinanceUIConstants().check());
+		paymentMethodCombo.setDefaultValue(Accounter.getFinanceUIConstants()
+				.check());
 
-		toBePrinted = new CheckboxItem(Accounter
-				.getFinanceUIConstants().toBePrinted());
+		toBePrinted = new CheckboxItem(Accounter.getFinanceUIConstants()
+				.toBePrinted());
 		// toBePrinted.setDefaultValue(true);
 		toBePrinted.addChangedHandler(new ChangeHandler() {
 
@@ -203,8 +199,7 @@ public class VATPaymentView extends
 		});
 		// printCheck.setShowDisabled(false);
 
-		checkNoText = new TextItem(Accounter.getFinanceUIConstants()
-				.checkNo());
+		checkNoText = new TextItem(Accounter.getFinanceUIConstants().checkNo());
 		// checkNoText.setWidth("*");
 
 		paymentMethodForm = new DynamicForm();
@@ -300,8 +295,8 @@ public class VATPaymentView extends
 	@Override
 	protected void paymentMethodSelected(String paymentmethod) {
 		super.paymentMethodSelected(paymentmethod);
-		if (paymentmethod.equalsIgnoreCase(Accounter
-				.getFinanceUIConstants().check())) {
+		if (paymentmethod.equalsIgnoreCase(Accounter.getFinanceUIConstants()
+				.check())) {
 			toBePrinted.setDisabled(false);
 			toBePrinted.setValue(true);
 			checkNoText.setDisabled(false);
@@ -389,22 +384,21 @@ public class VATPaymentView extends
 		}
 	}
 
+	// its not using any where
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
+	// its not using any where
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.title(Accounter.getFinanceUIConstants()
-				.VATPayment());
+		return UIUtils.title(Accounter.getFinanceUIConstants().VATPayment());
 	}
 
 }

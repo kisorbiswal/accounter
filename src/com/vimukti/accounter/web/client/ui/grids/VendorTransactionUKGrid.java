@@ -28,7 +28,6 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 	boolean isAddNewRequired = true;
 
 	public VendorTransactionUKGrid() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public VendorTransactionUKGrid(boolean isAddNewRequired) {

@@ -30,14 +30,13 @@ public class ECSalesListReport extends AbstractReportView<ECSalesList> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getECSalesListReport(
-				start.getTime(), end.getTime(), this);
+		Accounter.createReportService().getECSalesListReport(start.getTime(),
+				end.getTime(), this);
 
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -50,23 +49,23 @@ public class ECSalesListReport extends AbstractReportView<ECSalesList> {
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 142, "", "");
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 142, "",
+				"");
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
 	public int sort(ECSalesList obj1, ECSalesList obj2, int col) {
 		switch (col) {
 		case 0:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 		case 1:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		}
@@ -74,8 +73,9 @@ public class ECSalesListReport extends AbstractReportView<ECSalesList> {
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 142, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 142, "",
+				"");
 	}
 }

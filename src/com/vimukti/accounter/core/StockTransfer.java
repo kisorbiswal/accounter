@@ -24,7 +24,6 @@ public class StockTransfer extends Transaction implements Lifecycle {
 
 	public StockTransfer() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Warehouse getFromWarehouse() {

@@ -72,7 +72,6 @@ public class AddEditSalesTaxCodeAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			return "newVatCode";
 		else

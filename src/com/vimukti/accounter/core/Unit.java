@@ -8,7 +8,6 @@ public class Unit {
 	private double factor;
 
 	public Unit() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Unit(String type, double factor) {
