@@ -489,14 +489,22 @@ public class ItemView extends BaseView<ClientItem> {
 
 		VerticalPanel stockPanel = new VerticalPanel();
 		DynamicForm stockForm = new DynamicForm();
-		measurement = new SelectCombo("Measurement");
-		wareHouse = new SelectCombo("Warehouse");
-		minStock = new IntegerField("Min. Stock Alert Level");
-		maxStock = new IntegerField("Max. Stock Alert Level");
-		defaultSellPrice = new IntegerField("Detault Sell Price");
-		defaultPurchasePrice = new IntegerField("Default Purchase Price");
-		salesTaxRate = new IntegerField("Sales Tax Rate");
-		purcahseTaxRate = new IntegerField("Purchase Tax Rate");
+		measurement = new SelectCombo(Accounter.getFinanceUIConstants()
+				.measurement());
+		wareHouse = new SelectCombo(Accounter.getFinanceUIConstants()
+				.warehouse());
+		minStock = new IntegerField(Accounter.getFinanceUIConstants()
+				.minStockAlertLevel());
+		maxStock = new IntegerField(Accounter.getFinanceUIConstants()
+				.maxStockAlertLevel());
+		defaultSellPrice = new IntegerField(Accounter.getFinanceUIConstants()
+				.defaultSellPrice());
+		defaultPurchasePrice = new IntegerField(Accounter
+				.getFinanceUIConstants().defaultPurchasePrice());
+		salesTaxRate = new IntegerField(Accounter.getFinanceUIConstants()
+				.salesTaxRate());
+		purcahseTaxRate = new IntegerField(Accounter.getFinanceUIConstants()
+				.purchaseTaxRate());
 		stockForm.setFields(measurement, wareHouse, minStock, maxStock,
 				defaultSellPrice, defaultPurchasePrice, salesTaxRate,
 				purcahseTaxRate);

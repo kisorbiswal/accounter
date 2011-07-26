@@ -262,7 +262,7 @@ public interface FinanceUIConstants extends FinanceConstants {
 	public String totalAmount();
 
 	public String startingCheckNo();
-	
+
 	public String startingChequeNo();
 
 	public String itemDeletedSuccessfully();
@@ -704,8 +704,25 @@ public interface FinanceUIConstants extends FinanceConstants {
 	public String createStatement();
 
 	public String descriptioN();
+
 	// public String StatementPeriod();
 	//
 	// public String allOpenTransactions();
+
+	public String measurement();
+
+	public String warehouse();
+
+	public String minStockAlertLevel();
+
+	public String maxStockAlertLevel();
+
+	public String defaultSellPrice();
+
+	public String defaultPurchasePrice();
+
+	public String salesTaxRate();
+
+	public String purchaseTaxRate();
 
 }
