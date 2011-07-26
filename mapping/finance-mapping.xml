@@ -1266,8 +1266,8 @@
 			type="com.vimukti.accounter.core.LongUseType" />
 
 		<component name="quantity" class="Quantity">
-			<property name="value" column="VALUE" />
-			<many-to-one name="unit" column="ID" class="Unit" lazy="false"
+			<property name="value" column="QTY_VALUE" />
+			<many-to-one name="unit" column="UNIT" class="Unit" lazy="false"
 				cascade="save-update" />
 		</component>
 	</class>
@@ -1356,8 +1356,8 @@
 		</many-to-one>
 		
 		<component name="quantity" class="Quantity">
-			<property name="value" column="VALUE" />
-			<many-to-one name="unit" column="ID" class="Unit" lazy="false"
+			<property name="value" column="QTY_VALUE" />
+			<many-to-one name="unit" column="QTY_UNIT" class="Unit" lazy="false"
 				cascade="save-update" />
 		</component>
 		
