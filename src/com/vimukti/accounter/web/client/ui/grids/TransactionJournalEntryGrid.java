@@ -185,7 +185,7 @@ public class TransactionJournalEntryGrid extends
 					// vendorCombo.setComboItem(FinanceApplication
 					// .getCompany().getVendor(core.getVendor()));
 					// }
-					// // TODO to be Implemented for VAT in UK else if
+					// //  to be Implemented for VAT in UK else if
 					// else if (core.getType() == ClientEntry.TYPE_VAT) {
 					// if (core.getVendor() != null)
 					// accountsCombo
