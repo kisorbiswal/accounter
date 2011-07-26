@@ -292,7 +292,7 @@ public class ReceivePaymentView extends
 			ClientTransactionReceivePayment record) {
 
 		ClientTransactionReceivePayment trpRecord = (ClientTransactionReceivePayment) record;
-		// FIXME
+		// FIXME :: confirm it
 		Double amountDue = trpRecord.getAmountDue();
 
 		Double cashDiscount = trpRecord.getCashDiscount();
@@ -736,7 +736,7 @@ public class ReceivePaymentView extends
 	private void distributeEnteredAmount(Double amount) {
 
 		Double unusedAmounts = 0.0;
-		// FIXME
+		// FIXME :: Presently not using this method, basically it has to distribute the amount entered by the customer over the invoices
 		//
 		// for (ClientTransactionReceivePayment record : this.gridView
 		// .getRecords()) {
