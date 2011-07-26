@@ -556,7 +556,6 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 	@Override
 	public List<DynamicForm> getForms() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -574,7 +573,6 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 

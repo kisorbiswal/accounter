@@ -20,7 +20,6 @@ public class AcceptCreditCardsAction extends Action {
 
 	// @Override
 	// public void run() {
-	// // TODO Auto-generated method stub
 	//
 	// }
 
@@ -34,7 +33,6 @@ public class AcceptCreditCardsAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -54,9 +52,7 @@ public class AcceptCreditCardsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "AcceptCreditCards";
 	}
 
-	
 }

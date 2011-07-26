@@ -27,7 +27,8 @@ public class ARAgingDetailServerReport extends
 		this.reportView = reportView;
 	}
 
-	public ARAgingDetailServerReport(long startDate, long endDate,int generationType) {
+	public ARAgingDetailServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -86,7 +87,7 @@ public class ARAgingDetailServerReport extends
 		// }
 		//
 		// private void initValues() {
-		// // TODO Auto-generated method stub
+		// //
 
 	}
 
@@ -397,8 +398,8 @@ public class ARAgingDetailServerReport extends
 				return UIUtils.compareTo(obj1.getNumber(), obj2.getNumber());
 
 		case 0:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 
 			// case 4:
 			// return obj1.getDueDate().compareTo(obj2.getDueDate());

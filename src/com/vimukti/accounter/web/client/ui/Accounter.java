@@ -333,8 +333,6 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 				new AsyncCallback<List<ClientFinanceDate>>() {
 
 					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-
 					}
 
 					public void onSuccess(List<ClientFinanceDate> result) {
@@ -564,18 +562,15 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		// TODO Auto-generated method stub
 
 	}
 
 	public String getUserDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.getCompany().getDisplayName();
 	}
 
 	public String getCompanyName() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.getCompany().getName();
 	}
 
 	public boolean isLoggedInFromDomain() {

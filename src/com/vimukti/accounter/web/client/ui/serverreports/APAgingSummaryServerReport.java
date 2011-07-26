@@ -12,7 +12,8 @@ public class APAgingSummaryServerReport extends
 		this.reportView = reportView;
 	}
 
-	public APAgingSummaryServerReport(long startDate, long endDate,int generationType) {
+	public APAgingSummaryServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -33,7 +34,7 @@ public class APAgingSummaryServerReport extends
 			return (record.getDebitdays_in30() + record.getDebitdays_in60()
 					+ record.getDebitdays_in90()
 					+ record.getDebitdays_inolder() + record
-					.getDebitdays_incurrent());
+						.getDebitdays_incurrent());
 		}
 
 		return null;
@@ -83,7 +84,7 @@ public class APAgingSummaryServerReport extends
 		// }
 		//
 		// private void initValues() {
-		// // TODO Auto-generated method stub
+		// //
 
 	}
 
@@ -191,30 +192,32 @@ public class APAgingSummaryServerReport extends
 	public int sort(DummyDebitor obj1, DummyDebitor obj2, int col) {
 		switch (col) {
 		case 0:
-			return obj1.getDebitorName().toLowerCase().compareTo(
-					obj2.getDebitorName().toLowerCase());
+			return obj1.getDebitorName().toLowerCase()
+					.compareTo(obj2.getDebitorName().toLowerCase());
 
 		case 1:
-			return UIUtils.compareDouble((obj1.getDebitdays_in30() + obj1
-					.getDebitdays_incurrent()),
+			return UIUtils.compareDouble(
+					(obj1.getDebitdays_in30() + obj1.getDebitdays_incurrent()),
 					(obj2.getDebitdays_in30() + obj2.getDebitdays_incurrent()));
 		case 2:
-			return UIUtils.compareDouble(obj1.getDebitdays_in60(), obj2
-					.getDebitdays_in60());
+			return UIUtils.compareDouble(obj1.getDebitdays_in60(),
+					obj2.getDebitdays_in60());
 		case 3:
-			return UIUtils.compareDouble(obj1.getDebitdays_in90(), obj2
-					.getDebitdays_in90());
+			return UIUtils.compareDouble(obj1.getDebitdays_in90(),
+					obj2.getDebitdays_in90());
 		case 4:
-			return UIUtils.compareDouble(obj1.getDebitdays_inolder(), obj2
-					.getDebitdays_inolder());
+			return UIUtils.compareDouble(obj1.getDebitdays_inolder(),
+					obj2.getDebitdays_inolder());
 		case 5:
-			return UIUtils.compareDouble((obj1.getDebitdays_in30()
-					+ obj1.getDebitdays_in60() + obj1.getDebitdays_in90()
-					+ obj1.getDebitdays_inolder() + obj1
-					.getDebitdays_incurrent()), (obj2.getDebitdays_in30()
-					+ obj2.getDebitdays_in60() + obj2.getDebitdays_in90()
-					+ obj2.getDebitdays_inolder() + obj2
-					.getDebitdays_incurrent()));
+			return UIUtils.compareDouble(
+					(obj1.getDebitdays_in30() + obj1.getDebitdays_in60()
+							+ obj1.getDebitdays_in90()
+							+ obj1.getDebitdays_inolder() + obj1
+							.getDebitdays_incurrent()),
+					(obj2.getDebitdays_in30() + obj2.getDebitdays_in60()
+							+ obj2.getDebitdays_in90()
+							+ obj2.getDebitdays_inolder() + obj2
+							.getDebitdays_incurrent()));
 		}
 		return 0;
 	}

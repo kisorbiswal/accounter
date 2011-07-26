@@ -17,7 +17,6 @@ public class AccounterException extends Exception {
 	 * Creates new Instance
 	 */
 	public AccounterException() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

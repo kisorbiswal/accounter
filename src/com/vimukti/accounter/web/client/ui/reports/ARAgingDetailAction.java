@@ -77,7 +77,6 @@ public class ARAgingDetailAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "arAgingDetail";
 	}
 

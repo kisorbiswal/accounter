@@ -308,7 +308,6 @@ public class AccountRegisterOthersView extends
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -25,7 +25,6 @@ public class APAgingSummaryReportAction extends Action {
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -76,7 +75,6 @@ public class APAgingSummaryReportAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "apAgingSummary";
 	}
 

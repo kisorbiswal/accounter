@@ -38,8 +38,7 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 	@Override
 	protected String[] getColumns() {
 		if (accountType == ClientAccount.TYPE_BANK)
-			return new String[] {
-					Accounter.getCustomersMessages().date(),
+			return new String[] { Accounter.getCustomersMessages().date(),
 					Accounter.getCustomersMessages().type(),
 					(Accounter.getCustomersMessages().checkNo() + "."),
 					Accounter.getCustomersMessages().payTo(),
@@ -50,8 +49,7 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 					Accounter.getCustomersMessages().currentBalance(),
 					Accounter.getCustomersMessages().voided() };
 		else if (accountType == ClientAccount.TYPE_CREDIT_CARD)
-			return new String[] {
-					Accounter.getCustomersMessages().date(),
+			return new String[] { Accounter.getCustomersMessages().date(),
 					Accounter.getCustomersMessages().type(),
 					Accounter.getCustomersMessages().documentNo(),
 					Accounter.getCustomersMessages().payTo(),
@@ -188,19 +186,19 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 	}
 
 	protected void onClick(AccountRegister obj, int row, int col) {
-//		if (col == 9 && !obj.isVoided()) {
-//			showWarningDialog(obj);
-		//		}
+		// if (col == 9 && !obj.isVoided()) {
+		// showWarningDialog(obj);
+		// }
 
 	}
 
+	@SuppressWarnings("unused")
 	private void showWarningDialog(final AccountRegister obj) {
 		Accounter.showWarning("Do you want to Void the Transaction",
 				AccounterType.WARNING, new ErrorDialogHandler() {
 
 					@Override
 					public boolean onCancelClick() throws InvalidEntryException {
-						// TODO Auto-generated method stub
 						return false;
 					}
 
@@ -269,7 +267,6 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 

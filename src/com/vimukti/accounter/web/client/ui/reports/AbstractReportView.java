@@ -785,7 +785,6 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -202,7 +202,6 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 
 	@Override
 	public void onDoubleClick(T obj) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -239,37 +238,32 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 	}
 
 	public void updateTotals() {
-		// TODO Auto-generated method stub
 
 	}
 
 	public void resetGridEditEvent() {
-		// TODO Auto-generated method stub
 
 	}
 
 	public void refreshVatValue(IsSerializable record) {
-		// TODO Auto-generated method stub
 
 	}
 
 	public void updatePriceLevel() {
-		// TODO Auto-generated method stub
 
 	}
 
 	public void priceLevelSelected(ClientPriceLevel priceLevel) {
-		// TODO Auto-generated method stub
 
 	}
 
 	public Double getTaxableLineTotal() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	public Double getGrandTotal() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 

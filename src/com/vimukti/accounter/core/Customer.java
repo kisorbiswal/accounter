@@ -352,7 +352,7 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 		// try {
 		// this.previousCustomer = (Customer) this.clone();
 		// } catch (CloneNotSupportedException e) {
-		// // TODO Auto-generated catch block
+		// //
 		// e.printStackTrace();
 		// }
 	}
