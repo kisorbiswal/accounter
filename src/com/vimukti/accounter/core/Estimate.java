@@ -245,7 +245,6 @@ public class Estimate extends Transaction {
 	}
 
 	public boolean equals(Estimate est) {
-		// TODO Auto-generated method stub
 		if (DecimalUtil.isEquals(this.getTotal(), est.getTotal())
 				&& this.id == est.id
 				&& this.transactionItems.size() == est.transactionItems.size()

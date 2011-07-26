@@ -271,9 +271,10 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
