@@ -497,7 +497,7 @@ public class CustomerCreditMemoView extends
 			}
 		}
 
-		// TODO this.paymentsNonEditableText.setValue(transactionGrid.);
+		//  this.paymentsNonEditableText.setValue(transactionGrid.);
 
 		// this.balanceDueNonEditableText.setValue(""+UIUtils.getCurrencySymbol()
 		// +"0.00");
