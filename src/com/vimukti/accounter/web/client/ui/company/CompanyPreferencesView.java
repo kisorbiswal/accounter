@@ -91,9 +91,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
 
 	TextItem websiteText, taxIDText, companyNameText, trandigNameText,
-			registrationNumberText, bankAccountText, sortCodeText;
+			sortCodeText;
 	EmailField emailText;
-	IntegerField phoneText, faxText;
+	IntegerField phoneText, faxText, registrationNumberText, bankAccountText;
 
 	DynamicForm companyDetailsForm, phoneAndFaxForm, taxIDForm,
 			RegistrationNumberForm;
@@ -392,16 +392,16 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		websiteText = new TextItem(companyConstants.webPageAddress());
 		websiteText.setHelpInformation(true);
 
-		registrationNumberText = new TextItem(
+		registrationNumberText = new IntegerField(
 				companyConstants.companyRegistrationNumber());
 		registrationNumberText.setHelpInformation(true);
 
 		taxIDText = new TextItem(companyConstants.federalTaxId());
 		taxIDText.setHelpInformation(true);
 
-		bankAccountText = new TextItem();
-		bankAccountText
-				.setTitle(Accounter.getCompanyMessages().bankAccountNo());
+		bankAccountText = new IntegerField(Accounter.getCompanyMessages()
+				.bankAccountNo());
+		// bankAccountText.setTitle();
 		bankAccountText.setHelpInformation(true);
 
 		sortCodeText = new TextItem();
