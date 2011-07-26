@@ -471,7 +471,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	 */
 	// @Override
 	public boolean equals(ReceivePayment rp) {
-		// TODO Auto-geneSrated method stub
+		
 		if (DecimalUtil.isEquals(this.getTotal(), rp.getTotal())
 				&& DecimalUtil.isEquals(this.getAmount(), rp.getAmount())
 				&& DecimalUtil.isEquals(this.getDiscountTotalSum(),
