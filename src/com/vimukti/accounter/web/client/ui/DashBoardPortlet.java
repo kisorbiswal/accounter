@@ -181,8 +181,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 	}
 
 	public ClientCompany getCompany(){
-		return null;
-		//FIXME 
+		return Accounter.getCompany();
 		
 	}
 }
