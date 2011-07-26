@@ -60,7 +60,7 @@
 //			undepositedFoundscombo, bankChargecombo, retainedEarningsCombo,
 //			pendingItemrecicptsCombo, jobresellAccountCombo,
 //			writeOffAccountCombo, defaultCashCombo;
-//	// FIXME--Previously 'logspaceTxt' was FloatItem
+//	// XXX NOT USED --Previously 'logspaceTxt' was FloatItem
 //	private FormItem logspaceTxt;
 //	private SelectItem logContentSelect, defautFileAsSettings;
 //	private boolean isCancel = false;
@@ -78,7 +78,7 @@
 //
 //	protected void initCompany() {
 //		ClientCompanyPreferences companyPreferences = company.getPreferences();
-//		// FIXME Call Back to get ClientCompanyPreferences Object of Company
+//		// XXX NOT USED Call Back to get ClientCompanyPreferences Object of Company
 //		if (companyPreferences != null) {
 //
 //			dateItem.setValue(new Date(companyPreferences
@@ -591,7 +591,7 @@
 //		// supportLogging.setTop(20);
 //		// supportLogging.setPadding(20);
 //
-//		// FIXME--Previusly 'logspaceTxt' is FloatItem
+//		// XXX NOT USED --Previusly 'logspaceTxt' is FloatItem
 //		logspaceTxt = new FormItem() {
 //
 //			@Override
