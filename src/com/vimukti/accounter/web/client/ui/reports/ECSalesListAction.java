@@ -72,7 +72,6 @@ public class ECSalesListAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "ecSalesList";
 	}
 
