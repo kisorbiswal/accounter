@@ -36,8 +36,7 @@ public class ExpensesListView extends BaseListView<BillsList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getBillsAndItemReceiptList(true,
-				this);
+		Accounter.createHomeService().getBillsAndItemReceiptList(true, this);
 	}
 
 	@Override
@@ -86,8 +85,7 @@ public class ExpensesListView extends BaseListView<BillsList> {
 		if (UIUtils.isMSIEBrowser())
 			currentView.setWidth("150px");
 		if (this.viewType == null || this.viewType.equals(""))
-			currentView.setComboItem(Accounter.getCustomersMessages()
-					.all());
+			currentView.setComboItem(Accounter.getCustomersMessages().all());
 		else
 			currentView.setComboItem(this.viewType);
 		currentView
@@ -106,32 +104,30 @@ public class ExpensesListView extends BaseListView<BillsList> {
 
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		if (text.equalsIgnoreCase(Accounter.getVendorsMessages()
-				.employee())) {
+		if (text.equalsIgnoreCase(Accounter.getVendorsMessages().employee())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(Accounter
-				.getVendorsMessages().cash())) {
+		} else if (text.equalsIgnoreCase(Accounter.getVendorsMessages().cash())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_CASH_EXPENSE)
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(Accounter
-				.getVendorsMessages().creditCard())) {
+		} else if (text.equalsIgnoreCase(Accounter.getVendorsMessages()
+				.creditCard())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE)
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(Accounter
-				.getVendorsMessages().employee())) {
+		} else if (text.equalsIgnoreCase(Accounter.getVendorsMessages()
+				.employee())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
@@ -176,16 +172,18 @@ public class ExpensesListView extends BaseListView<BillsList> {
 
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void updateInGrid(BillsList objectTobeModified) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
