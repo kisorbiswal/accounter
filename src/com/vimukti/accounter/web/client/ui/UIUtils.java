@@ -1657,14 +1657,20 @@ public class UIUtils {
 		// .getElement());
 	}
 
+	public static void downloadAttachment(long objectID, int type,
+			long brandingThemeId) {
+		downloadAttachment(String.valueOf(objectID), type,
+				String.valueOf(brandingThemeId));
+	}
+
 	/**
 	 * This method is used for the pdf generation.The Require parameters are
 	 * object id and Type
 	 * 
 	 * @param brandingTheme
 	 */
-	public native static void downloadAttachment(long objectID, int type,
-			long brandingThemeId)/*-{
+	public native static void downloadAttachment(String objectID, int type,
+			String brandingThemeId)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
 			frame.setAttribute("src",
@@ -1678,7 +1684,11 @@ public class UIUtils {
 		}
 	}-*/;
 
-	public native static void downloadAttachment(long objectID, int type)/*-{
+	public static void downloadAttachment(long objectID, int type) {
+		downloadAttachment(String.valueOf(objectID), type);
+	}
+
+	public native static void downloadAttachment(String objectID, int type)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
 			frame.setAttribute("src",
