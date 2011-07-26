@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 public class StockAdjustmentItem {
 
+	private long id;
 	// Price value at the time of transaction
 	private double adjustmentPriceValue;
 	private Quantity adjustmentQty;
@@ -83,4 +84,7 @@ public class StockAdjustmentItem {
 		this.warehouse = warehouse;
 	}
 
+	public long getId() {
+		return id;
+	}
 }

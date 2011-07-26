@@ -18,7 +18,7 @@ public class StockAdjustment extends Transaction implements Lifecycle {
 	private Set<StockAdjustmentItem> adjustmentItems;
 
 	private boolean completed;
-
+	
 	public StockAdjustment() {
 		adjustmentItems = new HashSet<StockAdjustmentItem>();
 	}
