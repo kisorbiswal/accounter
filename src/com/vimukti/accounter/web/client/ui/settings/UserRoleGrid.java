@@ -63,15 +63,19 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 		return null;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	protected String[] getSelectValues(RolePermissions obj, int index) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	protected boolean isEditable(RolePermissions obj, int row, int index) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -103,27 +107,33 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 		}
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void onDoubleClick(RolePermissions obj) {
-		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	protected void onValueChange(RolePermissions obj, int index, Object value) {
-		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	protected int sort(RolePermissions obj1, RolePermissions obj2, int index) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public boolean validateGrid() throws InvalidTransactionEntryException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
