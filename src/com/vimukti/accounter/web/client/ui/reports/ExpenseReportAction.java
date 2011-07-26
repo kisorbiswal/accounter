@@ -49,17 +49,25 @@ public class ExpenseReportAction extends Action {
 		runAsync(data, isDependent);
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	public ImageResource getBigImage() {
 		return null;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().reports();
 	}
@@ -71,7 +79,6 @@ public class ExpenseReportAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "expenseReport";
 	}
 
