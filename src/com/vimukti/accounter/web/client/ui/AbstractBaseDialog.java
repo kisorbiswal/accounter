@@ -56,8 +56,7 @@ public abstract class AbstractBaseDialog<T> extends CustomDialog implements
 	}
 
 	protected ClientCompany getCompany() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.getCompany();
 	}
 
 	protected void initRPCService() {
@@ -70,12 +69,12 @@ public abstract class AbstractBaseDialog<T> extends CustomDialog implements
 		return null;
 	}
 
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 	}
 
 	@Override
