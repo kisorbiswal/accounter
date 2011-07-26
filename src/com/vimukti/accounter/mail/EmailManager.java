@@ -26,8 +26,6 @@ import javax.mail.internet.MimeMultipart;
 
 import org.apache.log4j.Logger;
 
-import com.vimukti.accounter.main.ServerConfiguration;
-
 public class EmailManager extends Thread {
 
 	static LinkedBlockingQueue<EMailJob> queue = new LinkedBlockingQueue<EMailJob>();
@@ -250,7 +248,7 @@ public class EmailManager extends Thread {
 	private String processContent(String content, Multipart multipart,
 			String comapanyDBName) {
 
-		String emailImagesDomain = ServerConfiguration.getEmailImagesUrl();
+		// String emailImagesDomain = ServerConfiguration.getEmailImagesUrl();
 
 		// // Pattern imgTagPattern = Pattern
 		// // .compile(
@@ -296,41 +294,41 @@ public class EmailManager extends Thread {
 						Pattern.CASE_INSENSITIVE | Pattern.MULTILINE
 								| Pattern.DOTALL);
 		Matcher matcher = imgTagPattern.matcher(content);
-		while (matcher.find()) {
-			// System.out.println("Match= " + matcher.group(0));
-			// System.out.println("group1= " + matcher.group(1));
-			// System.out.println("group2= " + matcher.group(2));
-			// System.out.println("group3= " + matcher.group(3));
-			// System.out.println("group4= " + matcher.group(4));
-			String group1 = matcher.group(1);
-			if (group1 != null) {
-				StringBuilder original = new StringBuilder();
-				original.append("<img src='http://");
-				original.append(emailImagesDomain);
-				original.append('/');
-				original.append(matcher.group(2));
-				original.append("' ");
-				original.append(group1);
-				original.append("/>");
-				keyValue.put(matcher.group(0), original.toString());
-			} else {
-				StringBuilder original = new StringBuilder();
-				original.append("<img src='http://");
-				original.append(emailImagesDomain);
-				original.append('/');
-				original.append(matcher.group(2));
-				original.append("' ");
-				String group3 = matcher.group(3).trim();
-				original.append(group3);
-				if (group3.endsWith("/")) {
-					original.append(">");
-				} else {
-					original.append("/>");
-				}
-				keyValue.put(matcher.group(0), original.toString());
-			}
-
-		}
+		// while (matcher.find()) {
+		// // System.out.println("Match= " + matcher.group(0));
+		// // System.out.println("group1= " + matcher.group(1));
+		// // System.out.println("group2= " + matcher.group(2));
+		// // System.out.println("group3= " + matcher.group(3));
+		// // System.out.println("group4= " + matcher.group(4));
+		// String group1 = matcher.group(1);
+		// if (group1 != null) {
+		// StringBuilder original = new StringBuilder();
+		// original.append("<img src='http://");
+		// original.append(emailImagesDomain);
+		// original.append('/');
+		// original.append(matcher.group(2));
+		// original.append("' ");
+		// original.append(group1);
+		// original.append("/>");
+		// keyValue.put(matcher.group(0), original.toString());
+		// } else {
+		// StringBuilder original = new StringBuilder();
+		// original.append("<img src='http://");
+		// original.append(emailImagesDomain);
+		// original.append('/');
+		// original.append(matcher.group(2));
+		// original.append("' ");
+		// String group3 = matcher.group(3).trim();
+		// original.append(group3);
+		// if (group3.endsWith("/")) {
+		// original.append(">");
+		// } else {
+		// original.append("/>");
+		// }
+		// keyValue.put(matcher.group(0), original.toString());
+		// }
+		//
+		// }
 		for (String old : keyValue.keySet()) {
 			System.out.println("Old= " + old);
 			System.out.println("New= " + keyValue.get(old));
