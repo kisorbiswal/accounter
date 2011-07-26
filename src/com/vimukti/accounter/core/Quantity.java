@@ -1,0 +1,151 @@
+/**
+ * 
+ */
+package com.vimukti.accounter.core;
+
+/**
+ * This class contains Quantity calculation methods and price calculation
+ * method. <br>
+ * <b><i>Unit</i></b> may be null. <br>
+ * <br>
+ * This class is an <b>immutable</b> class.
+ * 
+ * @author Srikanth.J
+ * 
+ */
+public class Quantity implements Comparable<Quantity> {
+
+	private Unit unit;
+	private double value;
+
+	/**
+	 * 
+	 */
+	public Quantity() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * Gives the result into default measurement.
+	 * 
+	 * @param quantity
+	 * @return this plus givenQuantity
+	 * @exception IllegalArgumentException
+	 *                thrown if the unit types mismatched.
+	 */
+	public Quantity add(Quantity quantity) {
+		Unit otherUnit = quantity.getUnit();
+		if (unit == null ^ otherUnit == null) {
+			// one unit is null and another one is not null.
+			throw new IllegalArgumentException(
+					"Can't able to add, null type mismatch");
+		}
+
+		if (unit != null
+				&& !otherUnit.getMeasurement().getName()
+						.equals(unit.getMeasurement().getName())) {
+			// unit available, but the both are not belongs to same Measurement.
+			throw new IllegalArgumentException(
+					"Can't able to add different Unit types");
+		}
+
+		/*
+		 * convert the quantities to default measure
+		 */
+		Quantity thisQuantity = convertToDefaultUnit();
+		Quantity otherQuantity = quantity.convertToDefaultUnit();
+
+		/*
+		 * add the default quantities to make result quantity.
+		 */
+		Quantity resultQuantity = new Quantity();
+		if (unit != null) {
+			resultQuantity.setUnit(unit.getMeasurement().getDefaultUnit());
+		}
+		resultQuantity.setValue(thisQuantity.getValue()
+				+ otherQuantity.getValue());
+
+		return resultQuantity;
+	}
+
+	/**
+	 * Gives the result into default measurement.
+	 * 
+	 * @param quantity
+	 * @return this minus givenQuantity
+	 * @exception IllegalArgumentException
+	 *                thrown if the unit types mismatched.
+	 */
+	public Quantity subtract(Quantity quantity) {
+		// multiply the value with -1. or change sign.
+		quantity.setValue(-quantity.getValue());
+		return add(quantity);
+	}
+
+	/**
+	 * Calculates price for the available quantity based on given unitPrice[for
+	 * default unit].
+	 * 
+	 * <br>
+	 * <b>NOTE</b> <i>: No Currency details included here.</i>
+	 * 
+	 * @param defaultUnitPrice
+	 * @return
+	 */
+	public double calculatePrice(double defaultUnitPrice) {
+		Quantity defaultQty = convertToDefaultUnit();
+		return defaultQty.getValue() * defaultUnitPrice;
+	}
+
+	/**
+	 * Converts the present quantity into default measurement.
+	 * 
+	 * @return
+	 */
+	private Quantity convertToDefaultUnit() {
+		double conversionFactor = unit == null ? 1 : unit.getMeasurement()
+				.getConversionFactor(unit.getType());
+
+		Quantity quantity = new Quantity();
+		quantity.setValue(value * conversionFactor);
+		if (unit != null)
+			quantity.setUnit(unit.getMeasurement().getDefaultUnit());
+
+		return quantity;
+	}
+
+	public Unit getUnit() {
+		return unit;
+	}
+
+	public double getValue() {
+		return value;
+	}
+
+	public void setUnit(Unit unit) {
+		this.unit = unit;
+	}
+
+	public void setValue(double value) {
+		this.value = value;
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(getValue());
+		if (unit != null) {
+			sb.append(' ').append(unit.getType()).append(" of ")
+					.append(unit.getMeasurement().getName());
+		}
+		return sb.toString();
+	}
+
+	@Override
+	public int compareTo(Quantity other) {
+		// TODO verify this method later
+		Quantity thisQty = convertToDefaultUnit();
+		Quantity otherQty = other.convertToDefaultUnit();
+		return (int) (thisQty.getValue() - otherQty.getValue());
+	}
+}
