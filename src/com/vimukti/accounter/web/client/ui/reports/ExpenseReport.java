@@ -47,7 +47,7 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-
+		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -58,7 +58,6 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 
 	@Override
 	public void print() {
-
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getTime())),
 				Integer.parseInt(String.valueOf(endDate.getTime())), 116, "",
@@ -66,10 +65,11 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
 	}
 
 	public int sort(ExpenseList obj1, ExpenseList obj2, int col) {
