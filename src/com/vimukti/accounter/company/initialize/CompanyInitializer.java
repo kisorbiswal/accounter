@@ -5,7 +5,7 @@ import com.vimukti.accounter.core.Company;
 public abstract class CompanyInitializer {
 
 	/**
-	 * this is used to set the company type
+	 * this is used to get the company type
 	 */
 	public abstract Company getCompany();
 }
