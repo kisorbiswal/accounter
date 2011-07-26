@@ -83,10 +83,11 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
