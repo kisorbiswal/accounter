@@ -292,7 +292,7 @@ public class ReceivePaymentView extends
 			ClientTransactionReceivePayment record) {
 
 		ClientTransactionReceivePayment trpRecord = (ClientTransactionReceivePayment) record;
-		// FIXME :: confirm it
+		// FIXME :: required no changes but it has fix me so confirm it
 		Double amountDue = trpRecord.getAmountDue();
 
 		Double cashDiscount = trpRecord.getCashDiscount();
