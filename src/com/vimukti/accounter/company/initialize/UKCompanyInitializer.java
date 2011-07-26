@@ -26,7 +26,7 @@ import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.utils.SecureUtils;
 
 
-public class UKCompanyInitializer {
+public class UKCompanyInitializer extends CompanyInitializer {
 
 	/**
 	 * Each company have it's own preferences. This will hold all the
@@ -2557,6 +2557,12 @@ public class UKCompanyInitializer {
 				"INVOICE", "CREDIT", "STATEMENT", "democo@democo.co", true,
 				this.getName(), "(None Added)");
 		session.save(brandingTheme);
+	}
+
+	@Override
+	public Company getCompany() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

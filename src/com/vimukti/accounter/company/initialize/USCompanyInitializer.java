@@ -21,7 +21,7 @@ import com.vimukti.accounter.core.TAXItemGroup;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.utils.SecureUtils;
 
-public class USCompanyInitializer {
+public class USCompanyInitializer extends CompanyInitializer{
 
 	
 	
@@ -575,6 +575,12 @@ public class USCompanyInitializer {
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public Company getCompany() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

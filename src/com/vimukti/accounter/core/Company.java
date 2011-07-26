@@ -755,9 +755,9 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	
 	
 
-	public Company() {
+	public Company(Company company) {
 		CompanyInitializedFactory getFactory = new CompanyInitializedFactory();
-		getFactory.getInitializer(getCompany());
+		getFactory.getInitializer(company);
 		
 	}
 
