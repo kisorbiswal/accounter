@@ -40,4 +40,7 @@ public class Unit {
 		this.factor = factor;
 	}
 
+	public long getId() {
+		return id;
+	}
 }
