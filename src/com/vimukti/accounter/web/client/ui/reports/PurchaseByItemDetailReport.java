@@ -103,8 +103,7 @@ public class PurchaseByItemDetailReport extends
 					.compareTo(obj2.getItemName().toLowerCase());
 
 		case 4:
-			return UIUtils
-					.compareDouble(obj1.getQuantity(), obj2.getQuantity());
+			return UIUtils.compareTo(obj1.getQuantity(), obj2.getQuantity());
 		case 5:
 			return UIUtils.compareDouble(obj1.getUnitPrice(),
 					obj2.getUnitPrice());

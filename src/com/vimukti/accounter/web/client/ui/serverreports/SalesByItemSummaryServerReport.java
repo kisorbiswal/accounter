@@ -43,7 +43,7 @@ public class SalesByItemSummaryServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] { "Item",
-		// FinanceApplication.getReportsMessages().itemGroup(),
+				// FinanceApplication.getReportsMessages().itemGroup(),
 				"Quantity", "Amount" };
 	}
 
@@ -118,14 +118,13 @@ public class SalesByItemSummaryServerReport extends
 			int col) {
 		switch (col) {
 		case 0:
-			return obj1.getItemName().toLowerCase().compareTo(
-					obj2.getItemName().toLowerCase());
+			return obj1.getItemName().toLowerCase()
+					.compareTo(obj2.getItemName().toLowerCase());
 			// case 1:
 			// return obj1.getItemGroup().toLowerCase().compareTo(
 			// obj2.getItemGroup());
 		case 1:
-			return UIUtils
-					.compareDouble(obj1.getQuantity(), obj2.getQuantity());
+			return UIUtils.compareTo(obj1.getQuantity(), obj2.getQuantity());
 		case 2:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 
@@ -136,7 +135,7 @@ public class SalesByItemSummaryServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { "Item",
-		// FinanceApplication.getReportsMessages().itemGroup(),
+				// FinanceApplication.getReportsMessages().itemGroup(),
 				"Quantity", "Amount" };
 	}
 

@@ -180,8 +180,8 @@ public class PurchaseByItemDetailServerReport extends
 	public int sort(SalesByCustomerDetail obj1, SalesByCustomerDetail obj2,
 			int col) {
 
-		int ret = obj1.getItemName().toLowerCase().compareTo(
-				obj2.getItemName().toLowerCase());
+		int ret = obj1.getItemName().toLowerCase()
+				.compareTo(obj2.getItemName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
@@ -197,15 +197,14 @@ public class PurchaseByItemDetailServerReport extends
 					Integer.parseInt(obj2.getNumber()));
 
 		case 0:
-			return obj1.getItemName().toLowerCase().compareTo(
-					obj2.getItemName().toLowerCase());
+			return obj1.getItemName().toLowerCase()
+					.compareTo(obj2.getItemName().toLowerCase());
 
 		case 4:
-			return UIUtils
-					.compareDouble(obj1.getQuantity(), obj2.getQuantity());
+			return UIUtils.compareTo(obj1.getQuantity(), obj2.getQuantity());
 		case 5:
-			return UIUtils.compareDouble(obj1.getUnitPrice(), obj2
-					.getUnitPrice());
+			return UIUtils.compareDouble(obj1.getUnitPrice(),
+					obj2.getUnitPrice());
 
 		case 6:
 			return UIUtils

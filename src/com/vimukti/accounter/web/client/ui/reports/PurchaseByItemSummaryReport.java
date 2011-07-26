@@ -21,8 +21,8 @@ public class PurchaseByItemSummaryReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record, ReportsActionFactory
-				.getPurchaseByItemAction());
+		UIUtils.runAction(record,
+				ReportsActionFactory.getPurchaseByItemAction());
 	}
 
 	@Override
@@ -51,9 +51,10 @@ public class PurchaseByItemSummaryReport extends
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 132, "", "");
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 132, "",
+				"");
 
 	}
 
@@ -67,14 +68,13 @@ public class PurchaseByItemSummaryReport extends
 			int col) {
 		switch (col) {
 		case 0:
-			return obj1.getItemName().toLowerCase().compareTo(
-					obj2.getItemName().toLowerCase());
+			return obj1.getItemName().toLowerCase()
+					.compareTo(obj2.getItemName().toLowerCase());
 			// case 1:
 			// return obj1.getItemGroup().toLowerCase().compareTo(
 			// obj2.getItemGroup().toLowerCase());
 		case 1:
-			return UIUtils
-					.compareDouble(obj1.getQuantity(), obj2.getQuantity());
+			return UIUtils.compareTo(obj1.getQuantity(), obj2.getQuantity());
 		case 2:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 
@@ -83,8 +83,9 @@ public class PurchaseByItemSummaryReport extends
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 132, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 132, "",
+				"");
 	}
 }

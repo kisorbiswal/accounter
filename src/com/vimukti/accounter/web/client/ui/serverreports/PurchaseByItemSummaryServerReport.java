@@ -14,7 +14,8 @@ public class PurchaseByItemSummaryServerReport extends
 		this.reportView = reportView;
 	}
 
-	public PurchaseByItemSummaryServerReport(long startDate, long endDate,int generationType) {
+	public PurchaseByItemSummaryServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -140,14 +141,13 @@ public class PurchaseByItemSummaryServerReport extends
 			int col) {
 		switch (col) {
 		case 0:
-			return obj1.getItemName().toLowerCase().compareTo(
-					obj2.getItemName().toLowerCase());
+			return obj1.getItemName().toLowerCase()
+					.compareTo(obj2.getItemName().toLowerCase());
 			// case 1:
 			// return obj1.getItemGroup().toLowerCase().compareTo(
 			// obj2.getItemGroup().toLowerCase());
 		case 1:
-			return UIUtils
-					.compareDouble(obj1.getQuantity(), obj2.getQuantity());
+			return UIUtils.compareTo(obj1.getQuantity(), obj2.getQuantity());
 		case 2:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 

@@ -21,8 +21,8 @@ public class SalesByItemSummaryReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record, ReportsActionFactory
-				.getSalesByItemDetailAction());
+		UIUtils.runAction(record,
+				ReportsActionFactory.getSalesByItemDetailAction());
 	}
 
 	@Override
@@ -32,8 +32,8 @@ public class SalesByItemSummaryReport extends
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getSalesByItemSummary(
-				start.getTime(), end.getTime(), this);
+		Accounter.createReportService().getSalesByItemSummary(start.getTime(),
+				end.getTime(), this);
 	}
 
 	@Override
@@ -51,9 +51,10 @@ public class SalesByItemSummaryReport extends
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 123, "", "");
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 123, "",
+				"");
 
 	}
 
@@ -67,14 +68,13 @@ public class SalesByItemSummaryReport extends
 			int col) {
 		switch (col) {
 		case 0:
-			return obj1.getItemName().toLowerCase().compareTo(
-					obj2.getItemName().toLowerCase());
+			return obj1.getItemName().toLowerCase()
+					.compareTo(obj2.getItemName().toLowerCase());
 			// case 1:
 			// return obj1.getItemGroup().toLowerCase().compareTo(
 			// obj2.getItemGroup());
 		case 1:
-			return UIUtils
-					.compareDouble(obj1.getQuantity(), obj2.getQuantity());
+			return UIUtils.compareTo(obj1.getQuantity(), obj2.getQuantity());
 		case 2:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 
@@ -83,8 +83,9 @@ public class SalesByItemSummaryReport extends
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 123, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getTime())),
+				Integer.parseInt(String.valueOf(endDate.getTime())), 123, "",
+				"");
 	}
 }
