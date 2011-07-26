@@ -1,6 +1,8 @@
 package com.vimukti.accounter.company.initialize;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.FinanceDate;
 
 public abstract class CompanyInitializer {
 
@@ -12,8 +14,19 @@ public abstract class CompanyInitializer {
 	
 	
 	
-	public void advertising_and_marketing() {
-	}
+	int type;
+	
+	String name;
+	
+	String number;
+	
+	String comment;
+	
+	FinanceDate asOf;
+	
+	Account parentaccount = new Account();
+	
+	Account expense  = new Account(type, number, name, parentaccount, comment, asOf);
 	
 	public void consulting_and_accounting(){
 		
