@@ -47,7 +47,6 @@ public class TAXItemGroup implements IAccounterServerCore, Lifecycle {
 	boolean isSalesType;
 	boolean isPercentage;
 
-	
 	String createdBy;
 	String lastModifier;
 	FinanceDate createdDate;
@@ -63,7 +62,6 @@ public class TAXItemGroup implements IAccounterServerCore, Lifecycle {
 	 */
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
 		return this.id;
 	}
 
@@ -127,7 +125,6 @@ public class TAXItemGroup implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		// TODO Auto-generated method stub
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -137,7 +134,6 @@ public class TAXItemGroup implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
-		// TODO Auto-generated method stub
 		ChangeTracker.put(this);
 		return false;
 	}

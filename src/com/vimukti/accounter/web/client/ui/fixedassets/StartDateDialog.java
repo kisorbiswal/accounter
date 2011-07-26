@@ -49,9 +49,8 @@ public class StartDateDialog extends BaseDialog {
 	}
 
 	private void createControl() {
-		Label introLabel = new Label(Accounter
-				.getFixedAssetConstants().currentStartDateIs()
-				+ getStartDateString());
+		Label introLabel = new Label(Accounter.getFixedAssetConstants()
+				.currentStartDateIs() + getStartDateString());
 
 		Label infoLabel = new Label();
 		infoLabel.setText(Accounter.getFixedAssetConstants()
@@ -170,8 +169,7 @@ public class StartDateDialog extends BaseDialog {
 			}
 
 		};
-		Accounter.createHomeService().getFinancialYearStartDates(
-				callBack);
+		Accounter.createHomeService().getFinancialYearStartDates(callBack);
 
 	}
 
@@ -196,7 +194,6 @@ public class StartDateDialog extends BaseDialog {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -24,8 +24,7 @@ public class SoldDisposedFixedAssetsListAction extends Action {
 	 */
 	public SoldDisposedFixedAssetsListAction(String text) {
 		super(text);
-		this.catagory = Accounter.getFixedAssetConstants()
-				.fixedAssets();
+		this.catagory = Accounter.getFixedAssetConstants().fixedAssets();
 	}
 
 	/*
@@ -33,7 +32,6 @@ public class SoldDisposedFixedAssetsListAction extends Action {
 	 */
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -42,8 +40,7 @@ public class SoldDisposedFixedAssetsListAction extends Action {
 	 */
 	@Override
 	public ImageResource getSmallImage() {
-		return Accounter.getFinanceMenuImages()
-				.soldDisposedItemsList();
+		return Accounter.getFinanceMenuImages().soldDisposedItemsList();
 	}
 
 	/*
@@ -91,7 +88,6 @@ public class SoldDisposedFixedAssetsListAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

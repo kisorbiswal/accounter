@@ -773,13 +773,11 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 

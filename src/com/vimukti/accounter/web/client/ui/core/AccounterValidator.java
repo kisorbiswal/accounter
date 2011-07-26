@@ -407,7 +407,7 @@ public class AccounterValidator {
 							@Override
 							public boolean onCancelClick()
 									throws InvalidEntryException {
-								// TODO Auto-generated method stub
+
 								return false;
 							}
 
@@ -450,7 +450,7 @@ public class AccounterValidator {
 						@Override
 						public boolean onCancelClick()
 								throws InvalidEntryException {
-							// TODO Auto-generated method stub
+
 							return false;
 						}
 
@@ -492,14 +492,14 @@ public class AccounterValidator {
 							@Override
 							public boolean onCancelClick()
 									throws InvalidEntryException {
-								// TODO Auto-generated method stub
+
 								return false;
 							}
 
 							@Override
 							public boolean onNoClick()
 									throws InvalidEntryException {
-								// TODO Auto-generated method stub
+
 								return true;
 							}
 
@@ -539,14 +539,14 @@ public class AccounterValidator {
 									@Override
 									public boolean onCancelClick()
 											throws InvalidEntryException {
-										// TODO Auto-generated method stub
+
 										return false;
 									}
 
 									@Override
 									public boolean onNoClick()
 											throws InvalidEntryException {
-										// TODO Auto-generated method stub
+
 										return true;
 									}
 
@@ -579,7 +579,7 @@ public class AccounterValidator {
 						@Override
 						public boolean onCancelClick()
 								throws InvalidEntryException {
-							// TODO Auto-generated method stub
+
 							return false;
 						}
 
@@ -653,7 +653,7 @@ public class AccounterValidator {
 						@Override
 						public boolean onCancelClick()
 								throws InvalidEntryException {
-							// TODO Auto-generated method stub
+
 							return false;
 						}
 
@@ -764,7 +764,7 @@ public class AccounterValidator {
 						@Override
 						public boolean onCancelClick()
 								throws InvalidEntryException {
-							// TODO Auto-generated method stub
+
 							return false;
 						}
 
@@ -1251,7 +1251,7 @@ public class AccounterValidator {
 	// }
 	//
 	// }
-	// // XXX
+	// //
 	// // for (IsSerializable record : transactionGrid.getRecords()) {
 	// //
 	// // TransactionItemRecord transactionItem = (TransactionItemRecord)

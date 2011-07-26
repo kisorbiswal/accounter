@@ -26,7 +26,6 @@ public class ShippingMethodListAction extends Action {
 
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

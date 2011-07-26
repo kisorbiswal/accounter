@@ -9,26 +9,22 @@ public class ApplyDepreciationAction extends Action {
 
 	public ApplyDepreciationAction(String text) {
 		super(text);
-		this.catagory = Accounter.getFixedAssetConstants()
-				.fixedAssets();
+		this.catagory = Accounter.getFixedAssetConstants().fixedAssets();
 	}
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ImageResource getSmallImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -40,8 +36,7 @@ public class ApplyDepreciationAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "ApplyDepreciation";
 	}
 
 }

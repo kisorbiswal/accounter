@@ -230,7 +230,7 @@
 //
 //		Set<ClientContact> allContacts = new HashSet<ClientContact>();
 //
-//		// XXX --The records from contactgrid are added here
+//		// 
 //		for (ClientContact record : gridView.getRecords()) {
 //			ClientContact contact = new ClientContact();
 //			if (record.isPrimary())
@@ -325,7 +325,7 @@
 //		memoForm.setWidth("100%");
 //		memoForm.setIsGroup(true);
 //		memoForm.setGroupTitle(companyConstants.memo());
-//		// XXX --previusly TextArea accepts a string which'll display as title
+//		// 
 //		memoArea = new TextAreaItem();
 //		memoArea.setTitle(FinanceApplication.getCompanyMessages().memo());
 //		memoArea.setWidth(100);
@@ -398,7 +398,7 @@
 //			ClientContact temp = null;
 //			for (ClientContact contact : contactsOfEditableTaxAgency) {
 //				records[i] = new ClientContact();
-//				// XXX --the contactgrid fields values are populated here
+//				// 
 //
 //				if (contact.isPrimary()) {
 //					temp = records[i];
@@ -597,25 +597,25 @@
 //
 //	@Override
 //	public void deleteFailed(Throwable caught) {
-//		// TODO Auto-generated method stub
+//		
 //
 //	}
 //
 //	@Override
 //	public void deleteSuccess(Boolean result) {
-//		// TODO Auto-generated method stub
+//		
 //
 //	}
 //
 //	@Override
 //	public void fitToSize(int height, int width) {
-//		// TODO Auto-generated method stub
+//		
 //
 //	}
 //
 //	@Override
 //	public void processupdateView(IAccounterCore core, int command) {
-//		// TODO Auto-generated method stub
+//		
 //		switch (command) {
 //		case AccounterCommand.CREATION_SUCCESS:
 //
@@ -645,19 +645,19 @@
 //
 //	@Override
 //	public void onEdit() {
-//		// TODO Auto-generated method stub
+//		
 //		
 //	}
 //
 //	@Override
 //	public void print() {
-//		// TODO Auto-generated method stub
+//		
 //		
 //	}
 //
 //	@Override
 //	public void printPreview() {
-//		// TODO Auto-generated method stub
+//		
 //		
 //	}
 // }

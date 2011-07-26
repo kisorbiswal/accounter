@@ -43,8 +43,7 @@ public class SoldAndDisposedItemsListView extends
 	 */
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.getFixedAssetConstants()
-				.soldAndDisposedItems();
+		return Accounter.getFixedAssetConstants().soldAndDisposedItems();
 	}
 
 	/*
@@ -91,19 +90,16 @@ public class SoldAndDisposedItemsListView extends
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 

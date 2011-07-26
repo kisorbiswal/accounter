@@ -26,7 +26,6 @@ public class ShippingTermListAction extends Action {
 
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -48,9 +47,8 @@ public class ShippingTermListAction extends Action {
 
 					ShippingTermListDialog dialog = new ShippingTermListDialog(
 							Accounter.getCompanyMessages()
-									.manageShippingTermList(),
-							Accounter.getCompanyMessages()
-									.toAddShippingTerm());
+									.manageShippingTermList(), Accounter
+									.getCompanyMessages().toAddShippingTerm());
 					ViewManager viewManager = ViewManager.getInstance();
 					viewManager.setCurrentDialog(dialog);
 					// dialog.addCallBack(getViewConfiguration().getCallback());
@@ -76,13 +74,11 @@ public class ShippingTermListAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/Shipping_term_icon.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "shippingTermsList";
 	}
 }
