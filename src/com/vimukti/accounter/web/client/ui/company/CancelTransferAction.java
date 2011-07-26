@@ -16,13 +16,13 @@ public class CancelTransferAction extends Action {
 
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stubf
+		
 		return null;
 	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -36,7 +36,7 @@ public class CancelTransferAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
