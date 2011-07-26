@@ -23,6 +23,7 @@ import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.VATReturn;
 import com.vimukti.accounter.core.VATReturnBox;
 import com.vimukti.accounter.core.VendorGroup;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 
 
@@ -2563,6 +2564,14 @@ public class UKCompanyInitializer extends CompanyInitializer {
 	public Company getCompany() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		Session session = HibernateUtil.getCurrentSession();
+		createUKDefaultVATCodesAndVATAgency(session);
+		
 	}
 
 }
