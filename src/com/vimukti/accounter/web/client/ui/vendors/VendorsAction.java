@@ -19,29 +19,38 @@ public class VendorsAction extends Action {
 		super(text, iconString);
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	public ImageResource getBigImage() {
 		return null;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	public ImageResource getSmallImage() {
 		return null;
 	}
-	
+
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "";
 	}
 
