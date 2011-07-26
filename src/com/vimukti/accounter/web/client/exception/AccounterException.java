@@ -16,6 +16,13 @@ public class AccounterException extends Exception {
 	/**
 	 * Creates new Instance
 	 */
+	public AccounterException() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * Creates new Instance
+	 */
 	public AccounterException(String message) {
 		super(message);
 	}

@@ -10,6 +10,14 @@ package com.vimukti.accounter.web.client.exception;
  * 
  */
 public class AccounterOperationException extends AccounterException {
+
+	/**
+	 * Creates new Instance
+	 */
+	public AccounterOperationException() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * Creates new Instance
 	 */
