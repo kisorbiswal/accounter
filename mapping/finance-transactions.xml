@@ -956,6 +956,24 @@
 			<property name="completed" column="COMPLETED" />
 			<property name="qtyBeforeTransaction" column="QTY_BEFORE_TRANSACTION" />
 		</joined-subclass>
+
+		<joined-subclass name="StockTransfer" table="STOCK_TRANSFER">
+			<key column="id" />
+			<many-to-one name="fromWarehouse" column="FROM_WAREHOUSE"
+				class="WAREHOUSE" lazy="false">
+			</many-to-one>
+			<many-to-one name="toWarehouse" column="TO_WAREHOUSE"
+				class="WAREHOUSE" lazy="false">
+			</many-to-one>
+
+			<set name="stockTransferItems" inverse="true"
+				cascade="save-update,delete-orphan" lazy="false" table="STOCK_TRANSFER_ITEM">
+				<key column="STOCK_TRANSFER"></key>
+				<one-to-many class="StockTransferItem" />
+			</set>
+
+		</joined-subclass>
+
 		<!-- <joined-subclass name="TAXAdjustment" table="TAX_ADJUSTMENT"> <key 
 			column="id" /> <property name="increaseTAXLine" column="INCREASE_TAX_LINE"></property> 
 			<many-to-one name="adjustmentAccount" class="Account" lazy="false" cascade="save-update" 
