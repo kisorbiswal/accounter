@@ -307,7 +307,7 @@
 //	}
 //
 //	private void clearFields() {
-//		// FIXME
+//		// XXX
 //		// accInfoForm.resetValues();
 //		// form2.resetValues();
 //		// form3.resetValues();
