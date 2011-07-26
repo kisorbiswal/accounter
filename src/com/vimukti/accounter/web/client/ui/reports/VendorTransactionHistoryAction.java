@@ -71,13 +71,13 @@ public class VendorTransactionHistoryAction extends Action {
 	
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
+		
 		return "/images/reports.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+		
 		return UIUtils.getVendorString("supplierTransactionHistory", "vendorTransactionHistory");
 	}
 
