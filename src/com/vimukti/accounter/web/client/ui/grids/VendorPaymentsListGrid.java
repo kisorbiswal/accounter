@@ -80,7 +80,7 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 					@Override
 					public boolean onCancelClick() throws InvalidEntryException {
-						// TODO Auto-generated method stub
+						
 						return false;
 					}
 
@@ -205,13 +205,13 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	public boolean validateGrid() {
-		// TODO Auto-generated method stub
+	
 		return false;
 	}
 
 	@Override
 	protected void executeDelete(PaymentsList object) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -274,7 +274,7 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
