@@ -278,7 +278,7 @@ public class SalesByCustomerDetail extends BaseReport implements
 				&& this.type == sc.type && this.number == sc.number
 				&& this.paymentTermName.equals(sc.paymentTermName)
 				&& this.itemName.equals(sc.itemName)
-				&& DecimalUtil.isEquals(this.quantity, sc.quantity)
+				&& this.quantity.equals(sc.quantity)
 				&& DecimalUtil.isEquals(this.unitPrice, sc.unitPrice)
 				&& DecimalUtil.isEquals(this.amount, sc.amount)
 				&& this.isVoid == sc.isVoid
