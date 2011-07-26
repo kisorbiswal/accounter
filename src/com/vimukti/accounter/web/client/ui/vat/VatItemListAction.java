@@ -56,16 +56,16 @@ public class VatItemListAction extends Action {
 			}
 		});
 	}
-	
+
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
+
 		return "/images/Vat_item.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+
 		return "vatItems";
 	}
 
