@@ -88,7 +88,7 @@ public class PaymentDialog extends BaseDialog {
 			@Override
 			public void onCancelClick() {
 				removeFromParent();
-				Action.cancle();
+				//Action.cancle();
 			}
 		});
 

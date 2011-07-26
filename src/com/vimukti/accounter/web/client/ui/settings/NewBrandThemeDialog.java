@@ -187,7 +187,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 			@Override
 			public void onCancelClick() {
 				removeFromParent();
-				Action.cancle();
+				//Action.cancle();
 			}
 
 		});

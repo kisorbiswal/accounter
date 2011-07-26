@@ -78,7 +78,7 @@ public class SelectPayeeDialog extends BaseDialog {
 
 			public void onCancelClick() {
 				removeFromParent();
-				Action.cancle();
+				//Action.cancle();
 			}
 
 			public boolean onOkClick() {

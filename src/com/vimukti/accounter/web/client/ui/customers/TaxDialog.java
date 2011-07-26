@@ -116,7 +116,7 @@ public class TaxDialog extends BaseDialog {
 			@Override
 			public void onCancelClick() {
 				removeFromParent();
-				Action.cancle();
+				//Action.cancle();
 			}
 		});
 

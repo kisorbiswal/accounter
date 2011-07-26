@@ -261,7 +261,8 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		addInputDialogHandler(new InputDialogHandler() {
 
 			public void onCancelClick() {
-				Action.cancle();
+				removeFromParent();
+//				Action.cancle();
 			}
 
 			public boolean onOkClick() {

@@ -76,7 +76,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			@Override
 			public void onCancelClick() {
 				hide();
-				Action.cancle();
+				//Action.cancle();
 			}
 		});
 		initDataToFiscalYearList();

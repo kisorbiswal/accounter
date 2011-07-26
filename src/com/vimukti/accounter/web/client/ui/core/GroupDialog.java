@@ -133,7 +133,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 			public void onCancelClick() {
 				closeWindow();
 				ViewManager.getInstance().setCurrentDialog(null);
-				Action.cancle();
+				//Action.cancle();
 			}
 
 			public boolean onOkClick() {

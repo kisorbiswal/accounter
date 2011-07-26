@@ -571,7 +571,7 @@
 //		serviceMapForm.setGroupTitle(this.companyMessges.serviceMapping());
 //		// serviceMapForm.setPadding(10);
 //
-//		// FIXME--Previusly 'mangeServiceMappingsBtn' is ButtonItem
+//		// XXX--Previusly 'mangeServiceMappingsBtn' is ButtonItem
 //		mangeServiceMappingsBtn = new Button();
 //		mangeServiceMappingsBtn.setTitle(this.companyMessges
 //				.manageServiceMappings());
