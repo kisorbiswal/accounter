@@ -1228,7 +1228,7 @@
 			<key column="WAREHOUSE" />
 			<composite-element class="ItemStatus"> <!-- class attribute required -->
 				<parent name="warehouse" />
-				<many-to-one name="item" column="ITEM_ID" class="ITEM"
+				<many-to-one name="item" column="ITEM_ID" class="Item"
 					lazy="false">
 				</many-to-one>
 				<property name="createdBy" column="CREATED_BY" type="string" />
@@ -1255,7 +1255,7 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<many-to-one name="item" column="ITEM_ID" class="ITEM"
+		<many-to-one name="item" column="ITEM_ID" class="Item"
 			lazy="false">
 		</many-to-one>
 		<property name="createdBy" column="CREATED_BY" type="string" />
@@ -1276,7 +1276,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID" />
 		<property name="section" column="SECTION" />
 		<property name="name" column="NAME" />
 		<property name="createdBy" column="CREATED_BY" type="string" />
@@ -1315,7 +1314,7 @@
 	</class>
 
 
-	<!-- <class name="AdjustmentItem" table="ADJUSTMENT_ITEM">
+	<class name="StockAdjustmentItem" table="STOCK_ADJUSTMENT_ITEM">
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
@@ -1344,7 +1343,29 @@
 			fetch="join">
 			<column name="WAREHOUSE" />
 		</many-to-one>
-	</class> -->
+	</class>
+	
+	<class name="StockTransferItem" table="TRANSFER_ITEM">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		
+		<many-to-one name="item" class="Item"
+			fetch="join">
+			<column name="ITEM" />
+		</many-to-one>
+		
+		<component name="quantity" class="Quantity">
+			<property name="value" column="VALUE" />
+			<many-to-one name="unit" column="ID" class="Unit" lazy="false"
+				cascade="save-update" />
+		</component>
+		
+		<property name="memo" type="java.lang.String">
+			<column name="MEMO" />
+		</property>
+		
+	</class>
 
 	<!-- <class name="TaxItemGroup" table="TAX_ITEM_GROUPS"> <id name="id" column="ID"> 
 		<generator class="native"></generator> </id> <property name="name" unique="true" 
