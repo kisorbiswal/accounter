@@ -91,7 +91,7 @@ public class ItemReceiptView extends
 		labeldateNoLayout.add(datepanel);
 
 		if (this.transactionObject != null)
-			// FIXME--the form need to be disabled here
+			
 			dateNoForm.setDisabled(true);
 
 		forms.add(dateNoForm);
