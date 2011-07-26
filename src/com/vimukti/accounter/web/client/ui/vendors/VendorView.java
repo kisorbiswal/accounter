@@ -1147,13 +1147,13 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -1228,19 +1228,19 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
