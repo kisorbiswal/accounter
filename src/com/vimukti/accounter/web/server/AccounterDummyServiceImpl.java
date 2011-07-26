@@ -33,43 +33,36 @@ public class AccounterDummyServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ClientAccount getClientAccount() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientCreditRating getClientCreditRating() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientCustomer getClientCustomer() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientCustomerGroup getClientCustomerGroup() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientFiscalYear getClientFiscalYear() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientItem getClientItem() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientItemGroup getClientItemGroup() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -120,67 +113,56 @@ public class AccounterDummyServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public AccounterCommand getAccounterCommand() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientTAXAgency getClientTAXAgency() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientTAXCode getClientTAXCode() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientVATReturn getClientVATReturn() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientVATReturnBox getClientVATReturnBox() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientTAXGroup getClientVATGroup() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientTAXItem getClientVATItem() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientTAXItemGroup getClientVATItemGroup() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientFixedAsset getClientFixedAsset() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientDepreciation getClientDepreciation() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public InvalidOperationException getInvalidOperationException() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
