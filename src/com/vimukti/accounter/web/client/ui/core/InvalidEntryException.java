@@ -65,7 +65,6 @@ public class InvalidEntryException extends Exception {
 		this.cause = this;
 	}
 
-	// FIXME
 	// InvalidEntryException(ListGridRecord record, String message) {
 	// super(message);
 	// this.record = record;
@@ -78,7 +77,6 @@ public class InvalidEntryException extends Exception {
 		if (this.message != null)
 			return super.getMessage();
 		else
-			return Accounter.getCompanyMessages().invalidEntry()
-					+ this.message;
+			return Accounter.getCompanyMessages().invalidEntry() + this.message;
 	}
 }

@@ -390,7 +390,7 @@
 //	public void setBottomLabelTitle(String title, int colom) {
 //		Label lal = labels.get(colom);
 //		lal.setText(title);
-//		//FIXME
+//		//XXX NOT IN USE
 ////		HorizontalPanel.reflowNow();
 //	}
 //
@@ -463,7 +463,7 @@
 //	 */
 //	public void addMenuItem(String title, String image,
 //			ClickHandler clickHandler) {
-//		//FIXME
+//		//XXX NOT IN USE
 ////		MenuItem menuitem = new MenuItem(title);
 ////		menuitem.setIcon(image);
 ////		menuitem.addClickHandler(clickHandler);
@@ -639,4 +639,4 @@
 //		this.listgrid.setEditEvent(gridEditEvent);
 //	}
 //
-//}
+// }
