@@ -74,8 +74,9 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 
 	@SuppressWarnings("deprecation")
 	public Date getDateAsObject() {
-		Date date = new Date((Integer.parseInt(this.year)) - 1900, (Integer
-				.parseInt(this.month) - 1), (Integer.parseInt(this.date)));
+		Date date = new Date((Integer.parseInt(this.year)) - 1900,
+				(Integer.parseInt(this.month) - 1),
+				(Integer.parseInt(this.date)));
 		date.setHours(00);
 		date.setMinutes(00);
 		date.setSeconds(00);
@@ -244,8 +245,8 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 
 	public void setMonth(int month) {
 		this.month = String.valueOf(month);
-		Date dt = new Date(Integer.parseInt(this.year) - 1900, 0, Integer
-				.parseInt(this.date));
+		Date dt = new Date(Integer.parseInt(this.year) - 1900, 0,
+				Integer.parseInt(this.date));
 		dt.setMonth(Integer.parseInt(this.month));
 
 		synchornizeDate(dt);
@@ -254,8 +255,8 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 	public void setDate(int date) {
 		this.date = String.valueOf(date);
 
-		Date dt = new Date(Integer.parseInt(this.year) - 1900, Integer
-				.parseInt(this.month), 0);
+		Date dt = new Date(Integer.parseInt(this.year) - 1900,
+				Integer.parseInt(this.month), 0);
 		dt.setDate(Integer.parseInt(this.date));
 
 		synchornizeDate(dt);

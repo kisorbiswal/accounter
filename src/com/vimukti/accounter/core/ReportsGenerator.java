@@ -137,6 +137,7 @@ public class ReportsGenerator {
 			protected FinanceTool getFinanceTool() {
 				return finaTool;
 			}
+
 		};
 		switch (reportType) {
 		case REPORT_TYPE_PROFITANDLOSS:
