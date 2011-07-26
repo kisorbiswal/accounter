@@ -298,7 +298,7 @@
 
 	<!-- SUBSCRIPTION MANAGEMENT -->
 
-	<servlet>
+	<!-- <servlet>
 		<servlet-name>subscriptioncreatecompany</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.SubscriptionCreateCompanyServlet
 		</servlet-class>
@@ -336,7 +336,7 @@
 	<servlet-mapping>
 		<servlet-name>subscriptionResetPassword</servlet-name>
 		<url-pattern>/subscriptionResetPassword</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 
 
 	<!-- <servlet>
@@ -413,7 +413,7 @@
 
 	<filter>
 		<filter-name>GzipFilter</filter-name>
-		<filter-class>com.accounter.server.utils.GzipFilter</filter-class>
+		<filter-class>com.vimukti.accounter.utils.GzipFilter</filter-class>
 		<init-param>
 			<param-name>mimeTypes</param-name>
 			<param-value>text/plain,text/xml,application/xhtml+xml,text/css,application/javascript,image/svg+xml
@@ -443,7 +443,7 @@
 		</listener-class>
 	</listener>
  -->
-	<servlet>
+	<!-- <servlet>
 		<servlet-name>OpenIdServlet</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.OpenIdServlet
 		</servlet-class>
@@ -459,14 +459,14 @@
 			<param-name>home_path</param-name>
 			<param-value>/site/accounterlogin</param-value>
 		</init-param>
-	</servlet>
+	</servlet> -->
 
-	<servlet-mapping>
+	<!-- <servlet-mapping>
 		<servlet-name>OpenIdServlet</servlet-name>
 		<url-pattern>/openid</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 
-	<servlet>
+	<!-- <servlet>
 		<servlet-name>accounterlogin</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.AccounterLoginServlet
 		</servlet-class>
@@ -474,7 +474,7 @@
 	<servlet-mapping>
 		<servlet-name>accounterlogin</servlet-name>
 		<url-pattern>/site/accounterlogin</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 
 	<context-param>
 		<param-name>version</param-name>
