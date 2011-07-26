@@ -234,7 +234,7 @@ public class SalesOrderUSGrid extends CustomerTransactionUSGrid {
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
 				return item.getQuantity();
 			else {
-				return (item.getQuantity() != 0 || item.getLineTotal() == 0) ? item
+				return (item.getQuantity() != null || item.getLineTotal() == 0) ? item
 						.getQuantity() : "";
 			}
 		case 4:

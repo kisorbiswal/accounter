@@ -931,14 +931,16 @@ public abstract class CustomerTransactionGrid extends
 					qty = "1";
 				}
 				try {
+					Quantity quant = new Quantity();
 					if (!AccounterValidator.validateGridQuantity(quantity)) {
-						Quantity quant = new Quantity();
 						quant.setValue(Integer.parseInt(qty));
 						item.setQuantity(quant);
 						update_quantity_inAllRecords(item.getQuantity()
 								.getValue());
-					} else
-						item.setQuantity(isItem ? 1 : 0);
+					} else {
+						quant.setValue(isItem ? 1 : 0);
+						item.setQuantity(quant);
+					}
 				} catch (InvalidTransactionEntryException e) {
 					e.printStackTrace();
 				}
@@ -1009,14 +1011,18 @@ public abstract class CustomerTransactionGrid extends
 										.isAmountTooLarge(lineTotal))) {
 							item.setLineTotal(lineTotal);
 							item.setUnitPrice(isItem ? lineTotal : 0.0D);
-							item.setQuantity(isItem ? 1 : 0);
+							Quantity quant = new Quantity();
+							quant.setValue(isItem ? 1 : 0);
+							item.setQuantity(quant);
 						}
 					} catch (Exception e) {
 
 						if (e instanceof InvalidEntryException) {
 							item.setLineTotal(0.0D);
 							item.setUnitPrice(0.0D);
-							item.setQuantity(isItem ? 1 : 0);
+							Quantity quant = new Quantity();
+							quant.setValue(isItem ? 1 : 0);
+							item.setQuantity(quant);
 							Accounter.showError(e.getMessage());
 
 						}

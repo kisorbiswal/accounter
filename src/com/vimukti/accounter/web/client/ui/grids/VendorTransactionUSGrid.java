@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -785,12 +786,15 @@ public class VendorTransactionUSGrid extends
 					qty = "1";
 				}
 				try {
+					Quantity quant = new Quantity();
 					if (!AccounterValidator.validateGridQuantity(quantity)) {
-						item.setQuantity(Integer.parseInt(qty));
+						quant.setValue(Integer.parseInt(qty));
+						item.setQuantity(quant);
 						update_quantity_inAllRecords(item.getQuantity()
 								.getValue());
 					} else
-						item.setQuantity(isItem ? 1 : 0);
+						quant.setValue(isItem ? 1 : 0);
+					item.setQuantity(quant);
 				} catch (InvalidTransactionEntryException e) {
 					e.printStackTrace();
 				}
@@ -852,14 +856,18 @@ public class VendorTransactionUSGrid extends
 										.isAmountTooLarge(lineTotal))) {
 							item.setLineTotal(lineTotal);
 							item.setUnitPrice(isItem ? lineTotal : 0);
-							item.setQuantity(isItem ? 1 : 0);
+							Quantity quant = new Quantity();
+							quant.setValue(isItem ? 1 : 0);
+							item.setQuantity(quant);
 						}
 
 					} catch (Exception e) {
 						if (e instanceof InvalidEntryException) {
 							item.setLineTotal(0.0D);
 							item.setUnitPrice(0.0D);
-							item.setQuantity(isItem ? 1 : 0);
+							Quantity quant = new Quantity();
+							quant.setValue(isItem ? 1 : 0);
+							item.setQuantity(quant);
 							// Accounter.showError(e.getMessage());
 							// BaseView.errordata.setHTML("<li> " +
 							// e.getMessage()
