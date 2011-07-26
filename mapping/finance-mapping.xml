@@ -1228,7 +1228,6 @@
 			<key column="WAREHOUSE" />
 			<composite-element class="ItemStatus"> <!-- class attribute required -->
 				<parent name="warehouse" />
-				<property name="stringID" column="STRING_ID" />
 				<many-to-one name="item" column="ITEM_ID" class="ITEM"
 					lazy="false">
 				</many-to-one>
@@ -1316,9 +1315,9 @@
 	</class>
 
 
-	<class name="AdjustmentItem" table="ADJUSTMENT_ITEM">
-		<id name="">
-			<column name="" />
+	<!-- <class name="AdjustmentItem" table="ADJUSTMENT_ITEM">
+		<id name="id" column="ID">
+			<generator class="native" />
 		</id>
 
 		<property name="adjustmentPriceValue" type="double">
@@ -1345,7 +1344,7 @@
 			fetch="join">
 			<column name="WAREHOUSE" />
 		</many-to-one>
-	</class>
+	</class> -->
 
 	<!-- <class name="TaxItemGroup" table="TAX_ITEM_GROUPS"> <id name="id" column="ID"> 
 		<generator class="native"></generator> </id> <property name="name" unique="true" 

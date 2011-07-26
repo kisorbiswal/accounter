@@ -70,8 +70,6 @@
 			class="com.bizantra.server.storage.internal.LoadObjectListener" />
 			</event>
 		-->
-		<mapping resource="mapping/server.xml" />
-		<mapping resource="mapping/storage.xml" />
 		<mapping resource="mapping/queries.xml" />
 		<mapping resource="mapping/usermanagment.xml" />
 
