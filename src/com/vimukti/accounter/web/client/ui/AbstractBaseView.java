@@ -73,7 +73,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 	/**
 	 * Optional to Deleted in Future
 	 */
-	// FIXME if required
+	// XXX if required
 	// protected FinanceGrid<T> view;
 	/**
 	 * Base reference for all RPC GET Services
@@ -355,19 +355,19 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 	@SuppressWarnings("unchecked")
 	private void addComboItemToMap(CustomCombo comboItem) {
-		// FIXME--need to check the code
-		// if (comboItem == null)
-		// return;
-		//
-		// List<CustomCombo> comboList = comboMap.get(comboItem.getComboType());
-		//
-		// if (comboList == null) {
-		// comboList = new ArrayList<CustomCombo>();
-		// }
-		//
-		// comboList.add(comboItem);
-		//
-		// comboMap.put(comboItem.getComboType(), comboList);
+		// FIXME--replaced comboItem.getComboType() with comboItem.getSelectItemType()
+		 if (comboItem == null)
+		 return;
+		
+		 List<CustomCombo> comboList = comboMap.get(comboItem.getSelectItemType());
+		
+		 if (comboList == null) {
+		 comboList = new ArrayList<CustomCombo>();
+		 }
+		
+		 comboList.add(comboItem);
+		
+		 comboMap.put(comboItem.getSelectItemType(), comboList);
 
 	}
 
