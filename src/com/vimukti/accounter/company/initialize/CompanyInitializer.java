@@ -96,4 +96,109 @@ public abstract class CompanyInitializer {
 	public void credit_card_charge(){
 		
 	}
+	public abstract void travel_expenses();
+	
+	public void travel_international(){
+		
+	}
+	public void travel_national(){
+		
+	}
+	public void automobile_expense(){
+		
+	}
+	public void deprication_expense(){
+		
+	}
+	public abstract void other_expenses();
+	
+	public void explain_gain_loss(){
+		
+	}
+	
+	public void miscellaneous(){
+		
+	}
+	
+	public void penalties_settelment(){
+		
+	}
+	
+	public void utilities(){
+		
+	}
+	public void taxes_and_lisences(){
+		
+	}
+	
+	
+	public  abstract void Cost_of_good_sold();
+
+	public void product_material_purchased_A(){
+		
+	}
+	public void product_material_purchased_B(){
+		
+	}
+	public void product_material_purchased_C(){
+	
+	}
+	public void product_material_purchased_D(){
+	
+	}
+	public void product_material_purchased_E(){
+	
+	}
+	public void product_material_purchased_F(){
+	
+	}
+	public void carriage(){
+		
+	}
+	public void discount_taken(){
+		
+	}
+	public void import_Duty(){
+		
+	}
+	public void stock_value_change(){
+		
+	}
+	public void finished_goods_value_change(){
+		
+	}
+	public void work_in_progress_value_change(){
+		
+	}
+	
+	
+	public abstract void other_direct_cost();
+	
+	public void direct_labour(){
+		
+	}
+	public void direct_employers_NI(){
+		
+	}
+	public void other_direct_employee_related_costs(){
+		
+	}
+	public void direct_expense(){
+		
+	}
+	public void direct_travel(){
+		
+	}
+	public void direct_consumables(){
+		
+	}
+	public void merchant_account_fees(){
+		
+	}
+	public void commissions_paid(){
+		
+	}
+
+
+
 }
