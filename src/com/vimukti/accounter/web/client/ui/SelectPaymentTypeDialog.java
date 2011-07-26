@@ -57,6 +57,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		addInputDialogHandler(new InputDialogHandler() {
 
 			public void onCancelClick() {
+				removeFromParent();
 				//Action.cancle();
 			}
 
