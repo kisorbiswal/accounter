@@ -230,7 +230,7 @@
 //
 //		Set<ClientContact> allContacts = new HashSet<ClientContact>();
 //
-//		// FIXME--The records from contactgrid are added here
+//		// XXX --The records from contactgrid are added here
 //		for (ClientContact record : gridView.getRecords()) {
 //			ClientContact contact = new ClientContact();
 //			if (record.isPrimary())
@@ -325,7 +325,7 @@
 //		memoForm.setWidth("100%");
 //		memoForm.setIsGroup(true);
 //		memoForm.setGroupTitle(companyConstants.memo());
-//		// FIXME--previusly TextArea accepts a string which'll display as title
+//		// XXX --previusly TextArea accepts a string which'll display as title
 //		memoArea = new TextAreaItem();
 //		memoArea.setTitle(FinanceApplication.getCompanyMessages().memo());
 //		memoArea.setWidth(100);
@@ -398,7 +398,7 @@
 //			ClientContact temp = null;
 //			for (ClientContact contact : contactsOfEditableTaxAgency) {
 //				records[i] = new ClientContact();
-//				// FIXME--the contactgrid fields values are populated here
+//				// XXX --the contactgrid fields values are populated here
 //
 //				if (contact.isPrimary()) {
 //					temp = records[i];
@@ -660,4 +660,4 @@
 //		// TODO Auto-generated method stub
 //		
 //	}
-//}
+// }

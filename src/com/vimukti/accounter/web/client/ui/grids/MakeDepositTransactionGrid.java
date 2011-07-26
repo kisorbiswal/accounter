@@ -313,8 +313,6 @@ public class MakeDepositTransactionGrid extends
 		case 3:
 			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
 		case 4:
-			// FIXME--This delete cell should be disabled for the old records
-			// and is enabled for the newly created records.
 			return ListGrid.COLUMN_TYPE_IMAGE;
 		}
 
