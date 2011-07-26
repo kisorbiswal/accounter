@@ -353,7 +353,7 @@
 		where
 		a.stringID=?</query>
 	<query name="unique.id.Expense">from com.vimukti.accounter.core.Expense a where
-		a.stringID=?</query>
+		a.billFrom=?</query>
 	<query name="unique.id.VendorCreditMemo">from com.vimukti.accounter.core.VendorCreditMemo
 		a
 		where a.stringID=?</query>
