@@ -50,7 +50,7 @@ public abstract class Portlet extends WorkbenchPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Write RPC Call to get Data & set it to Grid
+				
 				refresh.setStyleName("loading");
 				refreshClicked();
 			}
@@ -61,7 +61,7 @@ public abstract class Portlet extends WorkbenchPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Write Action to be performed when Link has been clicked
+				// Write Action to be performed when Link has been clicked
 				linkClicked();
 			}
 		});
