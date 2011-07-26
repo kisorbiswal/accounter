@@ -84,10 +84,11 @@ public class VendorGroup extends CreatableObject implements
 		return false;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
