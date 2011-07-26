@@ -16,8 +16,8 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  * 
  */
 @SuppressWarnings("serial")
-public class AccountTransaction extends CreatableObject implements IAccounterServerCore,
-		IsSerializable, Serializable  {
+public class AccountTransaction extends CreatableObject implements
+		IAccounterServerCore, IsSerializable, Serializable {
 
 	long id;
 	/**
@@ -48,7 +48,6 @@ public class AccountTransaction extends CreatableObject implements IAccounterSer
 	 */
 	boolean cashBasisEntry = false;
 
-	
 	String createdBy;
 	String lastModifier;
 	FinanceDate createdDate;
@@ -58,7 +57,6 @@ public class AccountTransaction extends CreatableObject implements IAccounterSer
 	public AccountTransaction() {
 	}
 
-	@SuppressWarnings("deprecation")
 	public AccountTransaction(Account account, Transaction transaction,
 			double amount, boolean closingFYEntry, boolean cashBasisEntry) {
 
@@ -73,9 +71,9 @@ public class AccountTransaction extends CreatableObject implements IAccounterSer
 
 		FinanceLogger.log(
 				"AccountTransaction Entry has been created for effect "
-						+ " of {0} on Account {1} with amount : {2} ", Utility
-						.getTransactionName(transaction.getType()), account
-						.getName(), String.valueOf(amount));
+						+ " of {0} on Account {1} with amount : {2} ",
+				Utility.getTransactionName(transaction.getType()),
+				account.getName(), String.valueOf(amount));
 		// CompanyPreferences preferences =
 		// Company.getCompany().getPreferences();
 		// if (this.transaction.transactionDate.getYear() == preferences
@@ -88,9 +86,7 @@ public class AccountTransaction extends CreatableObject implements IAccounterSer
 				+ tempTransactionDate.getMonth();
 		if (this.account.monthViceAmounts.containsKey(key)) {
 			this.account.monthViceAmounts.put(key,
-					(Double) this.account.monthViceAmounts
-							.get(key)
-							+ amount);
+					(Double) this.account.monthViceAmounts.get(key) + amount);
 		} else {
 			this.account.monthViceAmounts.put(key, amount);
 		}
@@ -164,8 +160,6 @@ public class AccountTransaction extends CreatableObject implements IAccounterSer
 	public double getAmount() {
 		return amount;
 	}
-
-
 
 	/**
 	 * @param amount
