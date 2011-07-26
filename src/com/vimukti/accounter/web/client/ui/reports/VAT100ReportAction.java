@@ -22,9 +22,11 @@ public class VAT100ReportAction extends Action {
 		this.catagory = Accounter.getReportsMessages().report();
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
