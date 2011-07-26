@@ -21,7 +21,7 @@ public class VATItemSummaryReportAction extends Action {
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
@@ -33,7 +33,7 @@ public class VATItemSummaryReportAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
@@ -73,7 +73,7 @@ public class VATItemSummaryReportAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+
 		return "vatItemSummary";
 	}
 
