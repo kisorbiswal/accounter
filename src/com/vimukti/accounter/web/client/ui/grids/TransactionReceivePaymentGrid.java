@@ -734,12 +734,12 @@ public class TransactionReceivePaymentGrid extends
 
 	public void selectAllRows() {
 		for (ClientTransactionReceivePayment obj : this.getRecords()) {
-			if (!isSelected(obj)) {
-				((CheckBox) this.body.getWidget(indexOf(obj), 0))
-						.setValue(true);
-				selectedValues.add(indexOf(obj));
-				// updateValue(obj);
-			}
+			// if (!isSelected(obj)) {
+			((CheckBox) this.body.getWidget(indexOf(obj), 0)).setValue(true);
+			selectedValues.add(indexOf(obj));
+			this.rowFormatter.addStyleName(indexOf(obj), "selected");
+			// updateValue(obj);
+			// }
 		}
 		paymentView.recalculateGridAmounts();
 	}
@@ -804,6 +804,7 @@ public class TransactionReceivePaymentGrid extends
 			if (creditsAndPaymentsDialiog != null
 					&& creditsAndPaymentsDialiog.grid.getRecords().size() == 0)
 				creditsStack.clear();
+			this.rowFormatter.removeStyleName(indexOf(obj), "selected");
 			selectedValues.remove((Integer) indexOf(obj));
 		}
 		creditsAndPaymentsDialiog = null;
@@ -878,11 +879,13 @@ public class TransactionReceivePaymentGrid extends
 	protected void onSelectionChanged(ClientTransactionReceivePayment obj,
 			int row, boolean isChecked) {
 		if (isChecked && !selectedValues.contains(row)) {
+			this.rowFormatter.addStyleName(row, "selected");
 			selectedValues.add(row);
 			// updateValue(obj);
 			updateUnuseAmt();
 		} else {
 			selectedValues.remove((Integer) row);
+			this.rowFormatter.removeStyleName(row, "selected");
 			resetValue(obj);
 		}
 		super.onSelectionChanged(obj, row, isChecked);

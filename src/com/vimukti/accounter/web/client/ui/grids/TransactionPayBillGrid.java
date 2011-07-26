@@ -687,12 +687,12 @@ public class TransactionPayBillGrid extends
 	 */
 	public void selectAllRows() {
 		for (ClientTransactionPayBill obj : this.getRecords()) {
-			if (!isSelected(obj)) {
-				((CheckBox) this.body.getWidget(indexOf(obj), 0))
-						.setValue(true);
-				selectedValues.add(indexOf(obj));
-				// updateValue(obj);
-			}
+			// if (!isSelected(obj)) {
+			((CheckBox) this.body.getWidget(indexOf(obj), 0)).setValue(true);
+			selectedValues.add(indexOf(obj));
+			this.rowFormatter.addStyleName(indexOf(obj), "selected");
+			// updateValue(obj);
+			// }
 		}
 		paybillView.adjustAmountAndEndingBalance();
 	}
@@ -791,6 +791,8 @@ public class TransactionPayBillGrid extends
 			obj.setPayment(0.0);
 			obj.setCashDiscount(0);
 			obj.setAppliedCredits(0);
+			this.rowFormatter.removeStyleName((Integer) indexOf(obj),
+			"selected");
 			selectedValues.remove((Integer) indexOf(obj));
 			updateData(obj);
 		}
@@ -913,9 +915,11 @@ public class TransactionPayBillGrid extends
 	protected void onSelectionChanged(ClientTransactionPayBill obj, int row,
 			boolean isChecked) {
 		if (isChecked && !selectedValues.contains(row)) {
+			this.rowFormatter.addStyleName(row, "selected");
 			selectedValues.add(row);
-			// updateValue(obj);
+			updateValue(obj);
 		} else {
+			this.rowFormatter.removeStyleName(row, "selected");
 			selectedValues.remove((Integer) row);
 			resetValue(obj);
 		}
