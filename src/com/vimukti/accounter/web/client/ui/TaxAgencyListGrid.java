@@ -236,7 +236,7 @@
 //	public List<ClientTransactionPaySalesTax> getTransactionPaySalesTaxList(
 //			ClientPaySalesTax paySalesTax) {
 //
-//		// TODO need to change later.
+//		//  need to change later.
 //		// List<TransactionPaySalesTax> tpsList = new
 //		// ArrayList<TransactionPaySalesTax>();
 //		// TransactionPaySalesTax entry;
