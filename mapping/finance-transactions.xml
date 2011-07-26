@@ -8,7 +8,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="version" column="VERSION"></property>
 		<!-- <property name="netAmount" column="NET_AMOUNT"></property> -->
 		<!-- <property name="totalVAT" column="TOTAL_VAT"></property> -->
@@ -978,7 +977,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="version" column="VERSION"></property>
 		<property name="type" column="TYPE"></property>
 		<property name="journalEntryType" column="JOURNAL_ENTRY_TYPE"></property>
@@ -1017,7 +1015,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="version" column="VERSION"></property>
 		<property name="type" column="TYPE"></property>
 		<many-to-one name="item" class="Item" lazy="false" column="ITEM_ID">
@@ -1080,7 +1077,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="memo" column="MEMO"></property>
 		<property name="creditAmount" column="CREDIT_AMOUNT"></property>
 		<property name="balance" column="BALANCE"></property>
@@ -1102,7 +1098,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="date" column="DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="memo" column="MEMO"></property>
@@ -1125,7 +1120,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="version" column="VERSION"></property>
 		<property name="date" column="DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
@@ -1168,7 +1162,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="version" column="VERSION"></property>
 		<property name="dueDate" column="DUE_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
@@ -1207,7 +1200,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="version" column="VERSION"></property>
 		<property name="dueDate" column="DUE_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
@@ -1249,7 +1241,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="date" column="DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<many-to-one name="writeCheck" class="WriteCheck" lazy="false"
@@ -1283,7 +1274,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
 			cascade="save-update" column="TAX_AGENCY_ID">
 		</many-to-one>
@@ -1307,7 +1297,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
 			cascade="save-update" column="TAX_AGENCY_ID">
 		</many-to-one>
@@ -1325,7 +1314,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
 			cascade="save-update" column="TAX_AGENCY_ID">
 		</many-to-one>
@@ -1343,7 +1331,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<many-to-one name="transaction" class="Transaction" lazy="false"
 			column="TRANSACTION_ID">
 		</many-to-one>
@@ -1363,7 +1350,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<many-to-one name="transaction" class="Transaction" lazy="false"
 			column="TRANSACTION_ID">
 		</many-to-one>
@@ -1381,7 +1367,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="type" column="TYPE"></property>
 		<many-to-one name="transaction" class="Transaction" lazy="false"
 			column="TRANSACTION_ID">
@@ -1396,7 +1381,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<property name="type" column="TYPE"></property>
 		<many-to-one name="item" class="Item" lazy="false" column="ITEM_ID">
 		</many-to-one>
@@ -1415,7 +1399,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID"></property>
 		<many-to-one name="expense" class="Expense" lazy="false"
 			cascade="save-update" column="EXPENSE_ID">
 		</many-to-one>

@@ -11,14 +11,8 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 public class AdjustmentReason extends CreatableObject implements
 		IAccounterServerCore {
 
-	private String stringID;
 	private String section;
 	private String name;
-
-	String createdBy;
-	String lastModifier;
-	FinanceDate createdDate;
-	FinanceDate lastModifiedDate;
 
 	public AdjustmentReason() {
 	}

@@ -1,12 +1,11 @@
-package com.vimukti.accounter.web.client.ui.core;
+package com.vimukti.accounter.web.client.core;
 
 import java.util.Set;
 
-import com.vimukti.accounter.core.Address;
-import com.vimukti.accounter.core.Contact;
-import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.ItemStatus;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 public class ClientWarehouse implements IAccounterCore {
@@ -16,33 +15,28 @@ public class ClientWarehouse implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 32420869218969185L;
 	private String stringID;
-	private Address address;
-	private Set<ItemStatus> itemStatuses;
+	private ClientAddress address;
+	private Set<ClientItemStatus> itemStatuses;
 
 	private String name;
-	private Contact contact;
-
-	String createdBy;
-	String lastModifier;
-	FinanceDate createdDate;
-	FinanceDate lastModifiedDate;
+	private ClientContact contact;
 
 	public ClientWarehouse() {
 	}
 
-	public Address getAddress() {
+	public ClientAddress getAddress() {
 		return address;
 	}
 
-	public Set<ItemStatus> getItemStatuses() {
+	public Set<ClientItemStatus> getItemStatuses() {
 		return itemStatuses;
 	}
 
-	public void setAddress(Address address) {
+	public void setAddress(ClientAddress address) {
 		this.address = address;
 	}
 
-	public void setItemStatuses(Set<ItemStatus> itemStatuses) {
+	public void setItemStatuses(Set<ClientItemStatus> itemStatuses) {
 		this.itemStatuses = itemStatuses;
 	}
 
@@ -50,11 +44,11 @@ public class ClientWarehouse implements IAccounterCore {
 		this.name = name;
 	}
 
-	public void setContact(Contact contact) {
+	public void setContact(ClientContact contact) {
 		this.contact = contact;
 	}
 
-	public Contact getContact() {
+	public ClientContact getContact() {
 		return contact;
 	}
 

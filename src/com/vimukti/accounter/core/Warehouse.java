@@ -35,8 +35,6 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 	private String name;
 	private Contact contact;
 
-	
-
 	String createdBy;
 	String lastModifier;
 	FinanceDate createdDate;

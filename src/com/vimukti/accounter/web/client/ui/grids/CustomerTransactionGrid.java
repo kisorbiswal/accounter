@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
@@ -931,7 +931,7 @@ public abstract class CustomerTransactionGrid extends
 					qty = "1";
 				}
 				try {
-					Quantity quant = new Quantity();
+					ClientQuantity quant = new ClientQuantity();
 					if (!AccounterValidator.validateGridQuantity(quantity)) {
 						quant.setValue(Integer.parseInt(qty));
 						item.setQuantity(quant);
@@ -1011,7 +1011,7 @@ public abstract class CustomerTransactionGrid extends
 										.isAmountTooLarge(lineTotal))) {
 							item.setLineTotal(lineTotal);
 							item.setUnitPrice(isItem ? lineTotal : 0.0D);
-							Quantity quant = new Quantity();
+							ClientQuantity quant = new ClientQuantity();
 							quant.setValue(isItem ? 1 : 0);
 							item.setQuantity(quant);
 						}
@@ -1020,7 +1020,7 @@ public abstract class CustomerTransactionGrid extends
 						if (e instanceof InvalidEntryException) {
 							item.setLineTotal(0.0D);
 							item.setUnitPrice(0.0D);
-							Quantity quant = new Quantity();
+							ClientQuantity quant = new ClientQuantity();
 							quant.setValue(isItem ? 1 : 0);
 							item.setQuantity(quant);
 							Accounter.showError(e.getMessage());
