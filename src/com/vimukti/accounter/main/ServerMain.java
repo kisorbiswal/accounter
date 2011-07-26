@@ -33,36 +33,14 @@ public class ServerMain extends Main {
 		Session session = HibernateUtil
 				.openSession(Server.LOCAL_DATABASE, true);
 		session.close();
-		// Server server = (LiveServer) session.get(LiveServer.class,
-		// ServerConfiguration.getServerID());
-		// DeleteCompanyThread thread = DeleteCompanyThread.getInstance();
-		// thread.start();
-		// if (server == null) {
-		// Transaction tx = session.beginTransaction();
-		// try {
 		LiveServer server = new LiveServer(true);
-		// session.saveOrUpdate(server);
-		// tx.commit();
-		// } catch (RuntimeException re) {
-		// tx.rollback();
-		// }
-		// }
-
-		// Session se = HibernateUtil
-		// .openSession("subscription_management", false);
-		//
-		// SQLQuery query =
-		// se.createSQLQuery("SELECT DOMAIN_NAME from SERVERS");
-		// List<String> list = (List<String>) query.list();
-		// server.setServers(list);
-		// se.close();
 
 		server.startServer();
 		// session.close();
 
 		CometManager.initStream("accounter", IAccounterDummyService.class);
 
-		JettyServer.start(ServerConfiguration.getAdminPort());
+		JettyServer.start(ServerConfiguration.getMainServerPort());
 		JettyServer.jettyServer.join();
 
 	}

@@ -971,7 +971,7 @@
 		<property name="firstName" column="FIRST_NAME"></property>
 		<property name="lastName" column="LAST_NAME"></property>
 		<property name="fullName" column="FULL_NAME"></property>
-		<property name="emailId" column="EMAIL_ID"></property>
+		<property name="email" column="EMAIL_ID"></property>
 		<property name="userRole" column="USER_ROLE"></property>
 		<property name="passwordSha1Hash" column="PASSWORD"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
@@ -1249,7 +1249,7 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="themeName" column="THEME_NAME">
+		<property name="themeName" column="THEME_NAME" unique="true" not-null="true">
 		</property>
 		<property name="pageSizeType" column="PAGE_SIZE_TYPE">
 		</property>
@@ -1329,8 +1329,7 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID" />
-		<property name="name" column="NAME" />
+		<property name="name" column="NAME" unique="true" not-null="true"/>
 
 		<property name="createdBy" column="CREATED_BY" type="string" />
 		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
@@ -1377,7 +1376,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="stringID" column="STRING_ID" />
 		<many-to-one name="item" column="ITEM_ID" class="ITEM"
 			lazy="false">
 		</many-to-one>

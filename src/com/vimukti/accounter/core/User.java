@@ -43,6 +43,8 @@ public class User implements IAccounterServerCore, Lifecycle {
 	private int loginCount;
 
 	private long id;
+	
+	private boolean isDeleted;
 
 	/**
 	 * The full name of the user.
@@ -382,5 +384,13 @@ public class User implements IAccounterServerCore, Lifecycle {
 
 	public void setCountry(String country) {
 		this.country = country;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 }

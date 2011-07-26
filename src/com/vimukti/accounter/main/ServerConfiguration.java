@@ -13,11 +13,8 @@ public class ServerConfiguration {
 	private static String awsKeyID;
 	private static String s3BucketName;
 	private static String attachmentsDir;
-	private static String keystorePath;
-	private static int s2sPort;
 	private static boolean enforceHTTPS;
 	private static String serverURL;
-	public static boolean isLiveServer;
 	private static String link;
 
 	private static String serverDomainName;
@@ -26,8 +23,6 @@ public class ServerConfiguration {
 	// an alternate domain that is required by the client
 	private static int websServerPort;
 
-	private static String emailImagesUrl;
-	private static String emailImageContainer;
 
 	public static int getPort() {
 		return websServerPort;
@@ -39,10 +34,6 @@ public class ServerConfiguration {
 
 	// protocol for the web client http/https
 	private static String protocol;
-
-	private static int c2sPort;
-
-	private static int adminPort;
 
 	// private static int mobilePort;
 	private static String logsDir;
@@ -57,17 +48,7 @@ public class ServerConfiguration {
 		return tmpDir;
 	}
 
-	private static String mode;
 
-	public static String getMode() {
-		return mode;
-	}
-
-	public static String getInitializeXML() {
-		return initializeXML;
-	}
-
-	private static String initializeXML;
 
 	private static String emailAddress;
 
@@ -88,17 +69,11 @@ public class ServerConfiguration {
 	 * Rackspace container Name
 	 */
 	private static String rsContainerName;
-	private static String searchDir;
-	private static String multiserverdir;
 
 	public static boolean isDebugMode;
 
 	public static String getRsContainerName() {
 		return rsContainerName;
-	}
-
-	public static int getAdminPort() {
-		return adminPort;
 	}
 
 	public static String getAdminPassword() {
@@ -122,26 +97,6 @@ public class ServerConfiguration {
 		return attachmentsDir + companyDBName;
 	}
 
-	private static String getLocalAttDir() {
-		File attachmentDir = new File(ServerConfiguration.getHome(),
-				"ServerData");
-		if (!attachmentDir.exists()) {
-			attachmentDir.mkdirs();
-		}
-		return attachmentDir.getAbsolutePath();
-	}
-
-	public static String getSearchDirectory() {
-		return searchDir;
-	}
-
-	private static String getLocalSearchDir() {
-		File attachmentDir = new File(ServerConfiguration.getHome(), "search");
-		if (!attachmentDir.exists()) {
-			attachmentDir.mkdirs();
-		}
-		return attachmentDir.getAbsolutePath();
-	}
 
 	public static String getAWSKeyID() {
 		return awsKeyID;
@@ -160,17 +115,11 @@ public class ServerConfiguration {
 		return s3BucketName;
 	}
 
-	public static int getServerC2SPort() {
-		return c2sPort;
-	}
 
 	public static String getServerDomainName() {
 		return serverDomainName;
 	}
 
-	public static int getServerS2SPort() {
-		return s2sPort;
-	}
 
 	static void init() {
 		// A port at which the web server will be listening
@@ -185,12 +134,10 @@ public class ServerConfiguration {
 
 		new File(logsDir).mkdirs();
 
-		adminPort = 9090;
 
 		System.setProperty("logsDir", logsDir);
 		serverDomainName = "127.0.0.1";
 
-		c2sPort = 9092;
 		setMainServerPort(8890);
 
 		helpUrl = "http://www.bizantrahelp.vimukti.com/";
@@ -224,7 +171,6 @@ public class ServerConfiguration {
 
 		try {
 			serverDomainName = prop.getProperty("serverDomainName", "");
-			multiserverdir = (prop.getProperty("multiserverdir", ""));
 			setMainServer(prop.getProperty("mainServer", ""));
 
 			protocol = prop.getProperty("protocol", "http");
@@ -239,8 +185,6 @@ public class ServerConfiguration {
 				System.exit(0);
 			}
 
-			c2sPort = Integer.parseInt(prop.getProperty("c2sPort", "7790"));
-			s2sPort = Integer.parseInt(prop.getProperty("s2sPort", "7690"));
 			/*
 			 * mobilePort = Integer.parseInt(prop.getProperty("mobilePort",
 			 * "7990"));
@@ -250,7 +194,6 @@ public class ServerConfiguration {
 			setMainServerPort(Integer.parseInt(prop
 					.getProperty("adminPort", "")));
 
-			setKeystorePath(prop.getProperty("keystore", ""));
 
 			logsDir = prop.getProperty("logsdir", "./");
 			System.setProperty("logsDir", logsDir);
@@ -285,8 +228,6 @@ public class ServerConfiguration {
 			}
 
 			uploadToS3 = prop.getProperty("uploadToS3", "false").equals("true");
-			isLiveServer = prop.getProperty("isLiveServer", "false").equals(
-					"true");
 			uploadToRackspace = prop.getProperty("uploadToRackspace", "false")
 					.equals("true");
 			isLocal = prop.getProperty("isLocal", "false").equals("true");
@@ -296,31 +237,10 @@ public class ServerConfiguration {
 
 			rsContainerName = prop.getProperty("containerName", "bizantra");
 
-			String operatingSystem = System.getProperty("os.name");
-
-			if (operatingSystem.toLowerCase().contains("windows")) {
-				String attachments = System.getenv("APPDATA");
-				attachmentsDir = attachments;
-			} else {
-				attachmentsDir = prop.getProperty("attachmentsDir", "");
-			}
-
-			if (operatingSystem.toLowerCase().contains("windows")) {
-				File newFile = new File(attachmentsDir + "/" + "search");
-				if (!newFile.exists()) {
-					newFile.mkdirs();
-				}
-				searchDir = attachmentsDir + "/" + "search";
-			} else {
-				searchDir = prop.getProperty("searchDir", "./accounter");
-			}
 			financeDir = prop.getProperty("FinanceDir", "");
-			emailImagesUrl = prop.getProperty("emailImagesUrl", "");
-			emailImageContainer = prop.getProperty("emailImageContainer", "");
+			
+			attachmentsDir = prop.getProperty("attachmentsDir", "");
 
-			mode = prop.getProperty("mode", "1");
-			initializeXML = prop
-					.getProperty("account_initialization_xml", null);
 			if (uploadToS3) {
 				if (awsKeyID.length() != 20 || awsSecretKey.length() != 40
 						|| s3BucketName.length() == 0) {
@@ -334,11 +254,6 @@ public class ServerConfiguration {
 					System.exit(0);
 				}
 			}
-			if (!isLocal() && !new File(searchDir).exists()) {
-				System.err.println("Invalid configuration for search dir");
-				System.exit(0);
-			}
-			adminPort = Integer.parseInt(prop.getProperty("adminPort", "8080"));
 			String databaseUrl = prop.getProperty("databaseUrl", null);
 			String databaseDriver = prop.getProperty("databaseDriver", null);
 			String username = prop.getProperty("username", null);
@@ -502,35 +417,7 @@ public class ServerConfiguration {
 		return financeDir;
 	}
 
-	public static String getEmailImagesUrl() {
-		return emailImagesUrl;
-	}
 
-	public static String getEmailImageContainer() {
-		return emailImageContainer;
-	}
-
-	/**
-	 * @param keystorePath
-	 *            the keystorePath to set
-	 */
-	public static void setKeystorePath(String keystorePath) {
-		ServerConfiguration.keystorePath = keystorePath;
-	}
-
-	/**
-	 * @return the keystorePath
-	 */
-	public static String getKeystorePath() {
-		return keystorePath;
-	}
-
-	/**
-	 * @return the multiserverdir
-	 */
-	public static String getMultiserverdir() {
-		return multiserverdir;
-	}
 
 	public static String getAttachmentsDir() {
 		return attachmentsDir;

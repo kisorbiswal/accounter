@@ -71,11 +71,8 @@
 			</event>
 		-->
 		<mapping resource="mapping/server.xml" />
-		<mapping resource="mapping/core.xml" />
-		<mapping resource="mapping/workspace.xml" />
 		<mapping resource="mapping/storage.xml" />
 		<mapping resource="mapping/queries.xml" />
-		<mapping resource="mapping/company.xml" />
 		<mapping resource="mapping/usermanagment.xml" />
 
 		<!--  Mappings for Finance Module  -->

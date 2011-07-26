@@ -17,11 +17,11 @@ public class ItemStatus implements IAccounterServerCore {
 	 * 
 	 */
 	private static final long serialVersionUID = -3127954338713524771L;
+	private long id;
 	
 	private Item item;
 	private Quantity quantity;
 
-	public String stringID;
 
 	public Warehouse warehouse;
 

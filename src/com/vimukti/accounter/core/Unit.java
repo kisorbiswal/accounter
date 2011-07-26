@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 public class Unit {
+	private long id;
 
 	private Measurement measurement;
 	private String type;
