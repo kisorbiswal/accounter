@@ -4,10 +4,13 @@ import com.vimukti.accounter.web.client.externalization.FinanceMessages;
 
 public interface CustomersMessages extends FinanceMessages {
 	public String customer();
- 
+
 	public String bankAccountNo();
+
 	public String bankName();
+
 	public String bankBranch();
+
 	public String billingAddress();
 
 	public String shippingAddress();
@@ -657,6 +660,10 @@ public interface CustomersMessages extends FinanceMessages {
 	public String receivePayment();
 
 	public String youCantVoidThisOne();
-	
+
 	public String remainingTotal();
+
+	public String wareHouse();
+
+	public String availableItems();
 }
