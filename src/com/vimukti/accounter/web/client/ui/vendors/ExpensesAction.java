@@ -16,34 +16,38 @@ public class ExpensesAction extends Action {
 
 	public ExpensesAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	public ExpensesAction(String text, String iconString, String viewType) {
 		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 		this.viewType = viewType;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public ImageResource getSmallImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return this.view;
 	}
 
@@ -86,17 +90,13 @@ public class ExpensesAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		if (viewType == null) {
 			return "expenses";
-		} else if (viewType.equals(Accounter.getVendorsMessages()
-				.cash())) {
+		} else if (viewType.equals(Accounter.getVendorsMessages().cash())) {
 			return "cashExpenses";
-		} else if (viewType.equals(Accounter.getVendorsMessages()
-				.creditCard())) {
+		} else if (viewType.equals(Accounter.getVendorsMessages().creditCard())) {
 			return "creditCardExpenses";
-		} else if (viewType.equals(Accounter.getVendorsMessages()
-				.employee())) {
+		} else if (viewType.equals(Accounter.getVendorsMessages().employee())) {
 			return "employeeExpenses";
 		}
 		return "";
