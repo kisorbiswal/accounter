@@ -67,7 +67,7 @@ public class AddBankDialog extends AbstractBaseDialog {
 
 		canButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				// FIXME-- it needs an action
+				// FIXME-- it needs an action::: currently not using this class
 				// cancelClick();
 			}
 		});
