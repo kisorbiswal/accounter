@@ -1341,7 +1341,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
-	public boolean createTaxes(int[] vatReturnType) {
+/*	public boolean createTaxes(int[] vatReturnType) {
 		try {
 			getFinanceTool().createTaxes(vatReturnType);
 			return true;
@@ -1350,7 +1350,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			return false;
 		}
 
-	}
+	}*/
 
 	public String getNextFixedAssetNumber() {
 		String nextFixedAssestNumber = "";
