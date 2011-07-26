@@ -26,9 +26,11 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.Widget;
@@ -36,7 +38,10 @@ import com.google.gwt.user.datepicker.client.DateBox;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid.RecordClickHandler;
 
 /**
@@ -60,6 +65,7 @@ public abstract class ListGrid<T> extends CustomTable {
 	public static final int COLUMN_TYPE_LINK = 10;
 	public static final int COLUMN_TYPE_DECIMAL_TEXTBOX = 11;
 	public static final int COLUMN_TYPE_DECIMAL_TEXT = 12;
+	public static final int COLUMN_TYPE_QUANTITY_POPUP = 13;
 
 	public static final int EDIT_EVENT_CLICK = 1;
 	public static final int EDIT_EVENT_DBCLICK = 2;
@@ -274,9 +280,34 @@ public abstract class ListGrid<T> extends CustomTable {
 		case COLUMN_TYPE_SELECT:
 			addOrEditSelectBox(selectedObject, val);
 			break;
+		case COLUMN_TYPE_QUANTITY_POPUP:
+			addQuantityPopup(selectedObject, val);
+			break;
 		default:
 			break;
 		}
+
+	}
+
+	private void addQuantityPopup(T selectedObject2, String val) {
+
+		PopupPanel popupPanel = new PopupPanel();
+
+		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		TextItem textField = new TextItem("Quantity");
+		SelectCombo selectCombo = new SelectCombo("units");
+		selectCombo.setWidth("50%");
+		DynamicForm dynamicForm = new DynamicForm();
+		dynamicForm.setNumCols(4);
+		dynamicForm.setFields(textField, selectCombo);
+
+		horizontalPanel.add(dynamicForm);
+		popupPanel.add(horizontalPanel);
+		setWidget(currentRow, currentCol, popupPanel);
+		popupPanel.show();
+		popupPanel.center();
+		popupPanel.setAutoHideEnabled(true);
+		// popupPanel.setPopupPosition(left, top)
 
 	}
 
@@ -409,6 +440,10 @@ public abstract class ListGrid<T> extends CustomTable {
 			}
 			setText(currentRow, currentCol, data != null ? data.toString() : "");
 			addCellStyles("gridDecimalCell");
+			break;
+		case COLUMN_TYPE_QUANTITY_POPUP:
+			data = ((String) data);
+			setText(currentRow, currentCol, data != null ? data.toString() : "");
 			break;
 		}
 	}
@@ -572,10 +607,10 @@ public abstract class ListGrid<T> extends CustomTable {
 			selectbox.addChangeHandler(new ChangeHandler() {
 				@Override
 				public void onChange(ChangeEvent event) {
-					onValueChange(selectedObject, currentCol, values[selectbox
-							.getSelectedIndex()]);
-					onWidgetValueChanged(selectbox, values[selectbox
-							.getSelectedIndex()]);
+					onValueChange(selectedObject, currentCol,
+							values[selectbox.getSelectedIndex()]);
+					onWidgetValueChanged(selectbox,
+							values[selectbox.getSelectedIndex()]);
 				}
 			});
 			if (value != null)
@@ -609,8 +644,8 @@ public abstract class ListGrid<T> extends CustomTable {
 				@Override
 				public void onValueChange(ValueChangeEvent<Date> event) {
 
-					onWidgetValueChanged(datePicker, UIUtils
-							.stringToDate((Date) event.getValue()));
+					onWidgetValueChanged(datePicker,
+							UIUtils.stringToDate((Date) event.getValue()));
 
 				}
 			});
@@ -650,7 +685,7 @@ public abstract class ListGrid<T> extends CustomTable {
 	// this.footer.setText(0, i, values[i]);
 	// else
 	// this.footer.setText(0, i, "");
-	//			
+	//
 	// this.footer.getCellFormatter().addStyleName(0, i, "gridDecimalCell");
 	//
 	// this.footer.getCellFormatter()

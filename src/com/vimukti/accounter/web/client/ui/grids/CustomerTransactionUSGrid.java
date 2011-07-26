@@ -91,7 +91,7 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 		case 2:
 			return ListGrid.COLUMN_TYPE_TEXTBOX;
 		case 3:
-			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
+			return ListGrid.COLUMN_TYPE_QUANTITY_POPUP;
 		case 4:
 			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
 		case 5:
@@ -165,7 +165,7 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
 				return item.getQuantity();
 			else {
-				return (item.getQuantity() != 0 || item.getLineTotal() == 0) ? item
+				return (item.getQuantity() != null || item.getLineTotal() == 0) ? item
 						.getQuantity() : "";
 			}
 		case 4:

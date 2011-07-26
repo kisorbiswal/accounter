@@ -108,17 +108,15 @@ public class PurchaseOrderUKGrid extends VendorTransactionUKGrid {
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
 				return item.getQuantity();
 			else {
-				return (item.getQuantity() != 0 || item.getLineTotal() == 0) ? item
-						.getQuantity()
-						: "";
+				return (item.getQuantity() != null || item.getLineTotal() == 0) ? item
+						.getQuantity() : "";
 			}
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
 				return DataUtils.getAmountAsString(item.getUnitPrice());
 			else {
 				return (item.getUnitPrice() != 0 || item.getLineTotal() == 0) ? DataUtils
-						.getAmountAsString(item.getUnitPrice())
-						: "";
+						.getAmountAsString(item.getUnitPrice()) : "";
 			}
 			// case 5:
 			// return item.getBackOrder() + "";
@@ -173,21 +171,20 @@ public class PurchaseOrderUKGrid extends VendorTransactionUKGrid {
 				// lineTotalAmtString = lineTotalAmtString.replaceAll(",",
 				// "");
 				Double lineTotal = Double.parseDouble(DataUtils
-						.getReformatedAmount(lineTotalAmtString)
-						+ "");
+						.getReformatedAmount(lineTotalAmtString) + "");
 
 				try {
 					if (!AccounterValidator.validateGridLineTotal(lineTotal)
 							&& !AccounterValidator.isAmountTooLarge(lineTotal)) {
 						item.setLineTotal(lineTotal);
 						item.setUnitPrice(0.0D);
-						item.setQuantity(0);
+						item.setQuantity(null);
 					}
 				} catch (Exception e) {
 					if (e instanceof InvalidEntryException) {
 						item.setLineTotal(0.0D);
 						item.setUnitPrice(0.0D);
-						item.setQuantity(0);
+						item.setQuantity(null);
 						Accounter.showError(e.getMessage());
 
 					}

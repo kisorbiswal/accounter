@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -599,7 +600,7 @@ public abstract class CustomerTransactionGrid extends
 			record.setTaxable(selectedItem.isTaxable());
 
 		}
-		double lt = record.getQuantity() * record.getUnitPrice();
+		double lt = record.getQuantity().getValue() * record.getUnitPrice();
 		double disc = record.getDiscount();
 		record.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
 				* disc / 100)) : lt);
@@ -931,8 +932,11 @@ public abstract class CustomerTransactionGrid extends
 				}
 				try {
 					if (!AccounterValidator.validateGridQuantity(quantity)) {
-						item.setQuantity(Integer.parseInt(qty));
-						update_quantity_inAllRecords(item.getQuantity());
+						Quantity quant = new Quantity();
+						quant.setValue(Integer.parseInt(qty));
+						item.setQuantity(quant);
+						update_quantity_inAllRecords(item.getQuantity()
+								.getValue());
 					} else
 						item.setQuantity(isItem ? 1 : 0);
 				} catch (InvalidTransactionEntryException e) {
@@ -1060,7 +1064,7 @@ public abstract class CustomerTransactionGrid extends
 			}
 		}
 		if (item.getType() != TYPE_SALESTAX && col != 6 && col != 7) {
-			double lt = item.getQuantity() * item.getUnitPrice();
+			double lt = item.getQuantity().getValue() * item.getUnitPrice();
 			double disc = item.getDiscount();
 			item.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
 					* disc / 100)) : lt);
@@ -1105,12 +1109,12 @@ public abstract class CustomerTransactionGrid extends
 		switch (obj.getType()) {
 		case ClientTransactionItem.TYPE_ACCOUNT:
 			switch (col) {
-			// case 3:
-			// return false;
-			// case 4:
-			// return false;
-			// case 5:
-			// return false;
+			case 1:
+				return false;
+			case 2:
+				return false;
+			case 3:
+				return false;
 
 			default:
 				return true;
@@ -1254,8 +1258,8 @@ public abstract class CustomerTransactionGrid extends
 		return true;
 	}
 
-	private void update_quantity_inAllRecords(int quantity) {
-		int decimalpoints_count = getMaxDecimals((int) quantity);
+	private void update_quantity_inAllRecords(double d) {
+		int decimalpoints_count = getMaxDecimals((int) d);
 		if (maxDecimalPoint < decimalpoints_count) {
 			maxDecimalPoint = decimalpoints_count;
 			for (ClientTransactionItem item : this.getRecords()) {

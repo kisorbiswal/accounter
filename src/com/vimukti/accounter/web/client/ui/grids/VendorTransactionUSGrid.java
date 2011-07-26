@@ -674,7 +674,7 @@ public class VendorTransactionUSGrid extends
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
 				return item.getQuantity();
 			else {
-				return (item.getQuantity() != 0 || item.getLineTotal() == 0) ? item
+				return (item.getQuantity() != null || item.getLineTotal() == 0) ? item
 						.getQuantity() : "";
 			}
 		case 4:
@@ -787,7 +787,8 @@ public class VendorTransactionUSGrid extends
 				try {
 					if (!AccounterValidator.validateGridQuantity(quantity)) {
 						item.setQuantity(Integer.parseInt(qty));
-						update_quantity_inAllRecords(item.getQuantity());
+						update_quantity_inAllRecords(item.getQuantity()
+								.getValue());
 					} else
 						item.setQuantity(isItem ? 1 : 0);
 				} catch (InvalidTransactionEntryException e) {
@@ -913,7 +914,7 @@ public class VendorTransactionUSGrid extends
 
 		}
 		if (col != 5 && col != 6) {
-			double lt = item.getQuantity() * item.getUnitPrice();
+			double lt = item.getQuantity().getValue() * item.getUnitPrice();
 			double disc = item.getDiscount();
 			if (col != 5)
 				item.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
