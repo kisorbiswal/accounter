@@ -44,10 +44,8 @@ public class ExpenseClaims extends BaseView<BillsList> {
 		ExpenseClaimView expenseview = new ExpenseClaimView();
 		PreviousClaimsView claimsView = new PreviousClaimsView();
 
-		tabset.add(expenseview, Accounter.getVendorsMessages()
-				.presentClaims());
-		tabset.add(claimsView, Accounter.getVendorsMessages()
-				.previousClaims());
+		tabset.add(expenseview, Accounter.getVendorsMessages().presentClaims());
+		tabset.add(claimsView, Accounter.getVendorsMessages().previousClaims());
 		if (Accounter.getUser().canApproveExpences())
 			tabset.add(awaitingview, Accounter.getVendorsMessages()
 					.awaitingAuthorisation());
@@ -80,18 +78,20 @@ public class ExpenseClaims extends BaseView<BillsList> {
 	@Override
 	public void print() {
 		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public List<DynamicForm> getForms() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -110,7 +110,6 @@ public class ExpenseClaims extends BaseView<BillsList> {
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
