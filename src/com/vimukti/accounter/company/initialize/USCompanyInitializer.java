@@ -583,4 +583,10 @@ public class USCompanyInitializer extends CompanyInitializer{
 		return null;
 	}
 
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
