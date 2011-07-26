@@ -427,7 +427,7 @@
 //								+ Double.parseDouble(rec.getAttribute("qty")));
 //
 //					} catch (Exception e) {
-//						// TODO: handle exception
+//						
 //					}
 //
 //					// Setting Unit Price
@@ -452,7 +452,6 @@
 //										"unitPrice").replace("$", "")));
 //
 //					} catch (Exception e) {
-//						// TODO: handle exception
 //					}
 //
 //					// Setting Name
@@ -538,4 +537,4 @@
 //		addRecords(allRecords);
 //		calaculateTotal();
 //	}
-//}
+// }
