@@ -137,7 +137,6 @@ public abstract class ParentCanvas<T> extends VerticalPanel implements
 
 	@Override
 	public WidgetCollection getChildren() {
-		// TODO Auto-generated method stub
 		return super.getChildren();
 	}
 
@@ -153,13 +152,13 @@ public abstract class ParentCanvas<T> extends VerticalPanel implements
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 	}
 
 	public abstract void onEdit();
