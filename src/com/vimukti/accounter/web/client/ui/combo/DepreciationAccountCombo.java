@@ -48,7 +48,6 @@ public class DepreciationAccountCombo extends AccountCombo {
 
 	@Override
 	public SelectItemType getSelectItemType() {
-		// FIXME-->for temporary use only.Need to create one enum
 		return SelectItemType.ACCOUNT;
 	}
 
