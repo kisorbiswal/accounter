@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.ReverseChargeListDetail
 public class ReverseChargeListDetailReport extends
 		AbstractReportView<ReverseChargeListDetail> {
 
-	private long vatAgency;
+	private String vatAgency;
 
 	public ReverseChargeListDetailReport() {
 		this.serverReport = new ReverseChargeListDetailServerReport(this);
@@ -40,7 +40,7 @@ public class ReverseChargeListDetailReport extends
 				transactionDetails.getName(), start.getTime(), end.getTime(),
 				this);
 		// FIXME
-		// this.vatAgency = transactionDetails.getName();
+		this.vatAgency = transactionDetails.getName();
 	}
 
 	@Override

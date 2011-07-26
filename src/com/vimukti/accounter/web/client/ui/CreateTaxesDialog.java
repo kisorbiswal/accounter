@@ -60,19 +60,19 @@ public class CreateTaxesDialog extends BaseDialog {
 					i++;
 				}
 
-				AsyncCallback<Boolean> createTaxesCallback = new AsyncCallback<Boolean>() {
+				AsyncCallback<Long> createTaxesCallback = new AsyncCallback<Long>() {
 
 					public void onFailure(Throwable caught) {
 
 					}
 
-					public void onSuccess(Boolean result) {
+					public void onSuccess(Long result) {
 						okClicked();
 					}
 
 				};
-				Accounter.createHomeService().createTaxes(index,
-						createTaxesCallback);
+				// Accounter.createHomeService().createTaxes(index,
+				// createTaxesCallback);
 				return true;
 			}
 

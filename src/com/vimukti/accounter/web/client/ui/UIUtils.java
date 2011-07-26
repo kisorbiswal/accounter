@@ -797,7 +797,6 @@ public class UIUtils {
 
 	public static void runAction(String name, Action action) {
 		try {
-			// FIXME
 			// action.run();
 		} catch (Throwable e) {
 			// logError(e.getMessage(), e);
@@ -808,7 +807,6 @@ public class UIUtils {
 	// AsyncCallback<Object> callback) {
 	// try {
 	//
-	// // FIXME
 	// // action.run();
 	// } catch (Throwable e) {
 	// // logError("Failed", e);
@@ -1879,9 +1877,14 @@ public class UIUtils {
 		}
 	}-*/;
 
+	public static void exportReport(int start, int end, int reportType,
+			String name, String dateRangeHtml, long status) {
+		exportReport(start, end, reportType, name, dateRangeHtml,
+				String.valueOf(status));
+	}
+
 	public static native void exportReport(int start, int end, int reportType,
-			String name, String dateRangeHtml, long status)/*-{
-		//FIXME changed status String to long
+			String name, String dateRangeHtml, String status)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
 			frame.setAttribute("src",
@@ -1895,6 +1898,12 @@ public class UIUtils {
 			alert(e);
 		}
 	}-*/;
+
+	public static void generateReportPDF(int start, int end, int reportType,
+			String name, long dateRangeHtml) {
+		generateReportPDF(start, end, reportType, name,
+				String.valueOf(dateRangeHtml));
+	}
 
 	public static native void generateReportPDF(int start, int end,
 			int reportType, String name, String dateRangeHtml)/*-{
@@ -1912,9 +1921,14 @@ public class UIUtils {
 		}
 	}-*/;
 
+	public static void generateReportPDF(int start, int end, int reportType,
+			String name, String dateRangeHtml, long status) {
+		generateReportPDF(start, end, reportType, name, dateRangeHtml,
+				String.valueOf(status));
+	}
+
 	public static native void generateReportPDF(int start, int end,
-			int reportType, String name, String dateRangeHtml, long status)/*-{
-		//FIXME changed status String to long
+			int reportType, String name, String dateRangeHtml, String status)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
 			frame.setAttribute("src",

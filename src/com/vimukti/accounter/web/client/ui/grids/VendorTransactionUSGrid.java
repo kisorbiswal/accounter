@@ -697,6 +697,7 @@ public class VendorTransactionUSGrid extends
 
 	protected String getNameValue(ClientTransactionItem item) {
 		switch (item.getType()) {
+		// Without Fixing this, Software is working fine
 		// FIXME--need to check for default selection values(eg:- a combo
 		// should
 		// have a default value selected.)
