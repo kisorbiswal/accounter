@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.core;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.vimukti.accounter.core.Quantity;
+
 /**
  * 
  * This transactionItem Object is used for
@@ -45,7 +47,7 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	String description;
 
-	int quantity = 1;
+	Quantity quantity;
 
 	double unitPrice;
 
@@ -204,7 +206,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	/**
 	 * @return the quantity
 	 */
-	public int getQuantity() {
+	public Quantity getQuantity() {
 		return quantity;
 	}
 
@@ -305,7 +307,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	 * @param quantity
 	 *            the quantity to set
 	 */
-	public void setQuantity(int quantity) {
+	public void setQuantity(Quantity quantity) {
 		this.quantity = quantity;
 	}
 
