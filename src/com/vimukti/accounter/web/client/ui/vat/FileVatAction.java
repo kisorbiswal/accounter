@@ -15,9 +15,11 @@ public class FileVatAction extends Action {
 		this.catagory = Accounter.getVATMessages().VAT();
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -26,10 +28,12 @@ public class FileVatAction extends Action {
 		return Accounter.getFinanceMenuImages().fileVAT();
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -63,10 +67,12 @@ public class FileVatAction extends Action {
 		});
 
 	}
-	
+
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/File_vat.png";
 	}
 
