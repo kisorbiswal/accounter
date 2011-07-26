@@ -942,19 +942,11 @@
 		</joined-subclass>
 		<joined-subclass name="StockAdjustment" table="STOCK_ADJUSTMENT">
 			<key column="id" />
-			<many-to-one name="warehouse" column="WAREHOUSE_ID"
-				class="WAREHOUSE" lazy="false">
-			</many-to-one>
-			<many-to-one name="item" column="ITEM_ID" class="Item"
-				lazy="false">
-			</many-to-one>
-			<property name="adjustmentQty" column="ADJUSTMENT_QTY"></property>
-			<many-to-one name="reason" column="ADJUSTMENT_REASON"
-				class="AdjustmentReason" lazy="false">
-			</many-to-one>
-			<property name="comment" column="COMMENT"></property>
 			<property name="completed" column="COMPLETED" />
-			<property name="qtyBeforeTransaction" column="QTY_BEFORE_TRANSACTION" />
+			<set name="adjustmentItems" table="STOCK_ADJUSTMENT_ITEM">
+				<key column="STOCK_ADJUSTMENT" />
+				<one-to-many class="StockAdjustmentItem" />
+			</set>
 		</joined-subclass>
 
 		<joined-subclass name="StockTransfer" table="STOCK_TRANSFER">
