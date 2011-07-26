@@ -109,15 +109,6 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 					netIncome2 = grosProft2 - totalexpese2;
 					section.data[5] = netIncome2;
 				}
-				// FIXME
-				// if(!isServerSide())
-				// reportView.updateTotals(values)
-				// .getCellFormatter().addStyleName(0, 1,
-				// "depth2");
-				// if (section.footer == FinanceApplication.getReportsMessages()
-				// .netIncome()) {
-				// section.data[3] = netIncome + otherNetIncome;
-				// }
 			}
 		};
 

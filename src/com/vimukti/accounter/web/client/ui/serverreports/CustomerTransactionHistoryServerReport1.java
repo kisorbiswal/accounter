@@ -17,7 +17,8 @@ public class CustomerTransactionHistoryServerReport1 extends
 		this.reportView = reportView;
 	}
 
-	public CustomerTransactionHistoryServerReport1(long startDate, long endDate,int generationType) {
+	public CustomerTransactionHistoryServerReport1(long startDate,
+			long endDate, int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -38,16 +39,13 @@ public class CustomerTransactionHistoryServerReport1 extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.getReportsMessages()
-				.customerTransactionHistory();
+		return Accounter.getReportsMessages().customerTransactionHistory();
 	}
 
 	@Override
 	public void makeReportRequest(long start, long end) {
-		// FIXME
-
-		// FinanceApplication.createReportService().getCustomerTransactionHistory(
-		// start.getTime(), end.getTime(), this);
+		Accounter.createReportService().getCustomerTransactionHistory(start,
+				end, this);
 	}
 
 	@Override
@@ -87,9 +85,9 @@ public class CustomerTransactionHistoryServerReport1 extends
 			addSection(sectionName, "", new int[0]);
 		} else if (sectionDepth == 2) {
 			// Inside fist section
-			addSection(Accounter.getReportsMessages()
-					.beginingBalance(), Accounter.getReportsMessages()
-					.endingBalance(), new int[] { 3, 5, 8, 9 });
+			addSection(Accounter.getReportsMessages().beginingBalance(),
+					Accounter.getReportsMessages().endingBalance(), new int[] {
+							3, 5, 8, 9 });
 		} else if (sectionDepth == 3) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getName())) {
