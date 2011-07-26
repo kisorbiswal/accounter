@@ -60,7 +60,7 @@ public class WriteChecksAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -80,7 +80,7 @@ public class WriteChecksAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+		
 		return "writeCheck";
 	}
 }
