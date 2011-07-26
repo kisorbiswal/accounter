@@ -226,7 +226,7 @@
 //		//
 //		// }
 //		// });
-//		// FIXME
+//		// XXX
 //		// gridView.setShowMenu(false);
 //		// gridView.setHeight("20%");
 //		// gridView.setGroupTitle("VAT Rate");
@@ -239,7 +239,7 @@
 //		// asOfField.setAlign(Alignment.CENTER);
 //
 //		// gridView.setDefaultValue(ATTR_RATE, "0%");
-//		// FIXME--need to implement
+//		// XXX--need to implement
 //		// gridView.addEditCompleteHandler(new
 //		// EditCompleteHandler<ClientTaxCode>() {
 //		// @Override
