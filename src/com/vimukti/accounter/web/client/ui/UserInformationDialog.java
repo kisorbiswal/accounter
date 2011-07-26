@@ -270,10 +270,11 @@ public class UserInformationDialog extends AbstractBaseDialog {
 		show();
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
