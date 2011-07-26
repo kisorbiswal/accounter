@@ -1251,7 +1251,7 @@ public class AccounterValidator {
 	// }
 	//
 	// }
-	// // FIXME
+	// // XXX
 	// // for (IsSerializable record : transactionGrid.getRecords()) {
 	// //
 	// // TransactionItemRecord transactionItem = (TransactionItemRecord)
