@@ -166,7 +166,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 
 	@Override
 	public void updateInGrid(PayeeList objectTobeModified) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -178,19 +178,19 @@ public class VendorListView extends BaseListView<PayeeList> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
