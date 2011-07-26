@@ -14,7 +14,7 @@ import org.hibernate.classic.Lifecycle;
 public class StockAdjustment extends Transaction implements Lifecycle {
 
 	private static final long serialVersionUID = -2706077052390641514L;
-
+		
 	private Set<StockAdjustmentItem> adjustmentItems;
 
 	private boolean completed;
