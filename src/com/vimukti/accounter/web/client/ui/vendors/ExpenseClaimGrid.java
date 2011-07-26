@@ -42,9 +42,11 @@ public class ExpenseClaimGrid extends BaseListGrid<BillsList> {
 
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public boolean validateGrid() throws InvalidTransactionEntryException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -54,16 +56,19 @@ public class ExpenseClaimGrid extends BaseListGrid<BillsList> {
 				"Status", "Amount" };
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	protected void executeDelete(BillsList bills) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -106,8 +111,8 @@ public class ExpenseClaimGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	public void onDoubleClick(BillsList billsList) {
-		ReportsRPC.openTransactionView(billsList.getType(), billsList
-				.getTransactionId());
+		ReportsRPC.openTransactionView(billsList.getType(),
+				billsList.getTransactionId());
 	}
 
 }
