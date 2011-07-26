@@ -37,7 +37,7 @@ public class AmountField extends TextItem {
 	}
 
 	private void setKeyPressFilter(String string) {
-		// FIXME allow only nummbers
+		// TODO allow only nummbers
 	}
 
 	private BlurHandler getBlurHandler() {
