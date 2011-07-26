@@ -104,7 +104,7 @@ public class CashPurchaseView extends
 		labeldateNoLayout.add(datepanel);
 
 		if (this.transactionObject != null)
-			// FIXME--the form need to be disabled here
+			// --the form need to be disabled here
 			dateNoForm.setDisabled(true);
 
 		forms.add(dateNoForm);

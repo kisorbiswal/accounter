@@ -20,37 +20,41 @@ public class CometClient {
 	}
 
 	public native void initializeMetro(String host)/*-{
-													var self = this;
+		var self = this;
 
-													$wnd.Meteor.registerEventCallback("process",
-													function(data){
-													var index=data.indexOf(':');
-													var channelName=data.substr(0,index);
-													data=data.substring(index+1);
-													try{
-													self.@com.vimukti.comet.client.CometClient::dispatch(Ljava/lang/String;Ljava/lang/String;)(data,channelName);
-													}
-													catch(e)
-													{
-													$wnd.Meteor.log("Exception while processing "+e);
-													}
-													}
-													);
-													$wnd.Meteor.registerEventCallback("reset", self.@com.vimukti.comet.client.CometClient::reset());
-													$wnd.Meteor.registerEventCallback("eof", self.@com.vimukti.comet.client.CometClient::terminate());
-													$wnd.Meteor.registerEventCallback("statuschanged",
-													function(status){
-													self.@com.vimukti.comet.client.CometClient::statusChanged(I)(status);
-													}
-													);
-													$wnd.Meteor.registerEventCallback("syncstatuschanged",
-													function(syncstatus){
-													self.@com.vimukti.comet.client.CometClient::syncStatuschanged(I)(syncstatus);
-													}
-													);
-													//$wnd.Meteor.joinChannel("demo", 10);
-													$wnd.Meteor.mode ='stream';
-													}-*/;
+		$wnd.Meteor
+				.registerEventCallback(
+						"process",
+						function(data) {
+							var index = data.indexOf(':');
+							var channelName = data.substr(0, index);
+							data = data.substring(index + 1);
+							try {
+								self.@com.vimukti.comet.client.CometClient::dispatch(Ljava/lang/String;Ljava/lang/String;)(data,channelName);
+							} catch (e) {
+								$wnd.Meteor.log("Exception while processing "
+										+ e);
+							}
+						});
+		$wnd.Meteor.registerEventCallback("reset", self
+				.@com.vimukti.comet.client.CometClient::reset());
+		$wnd.Meteor.registerEventCallback("eof", self
+				.@com.vimukti.comet.client.CometClient::terminate());
+		$wnd.Meteor
+				.registerEventCallback(
+						"statuschanged",
+						function(status) {
+							self.@com.vimukti.comet.client.CometClient::statusChanged(I)(status);
+						});
+		$wnd.Meteor
+				.registerEventCallback(
+						"syncstatuschanged",
+						function(syncstatus) {
+							self.@com.vimukti.comet.client.CometClient::syncStatuschanged(I)(syncstatus);
+						});
+		//$wnd.Meteor.joinChannel("demo", 10);
+		$wnd.Meteor.mode = 'stream';
+	}-*/;
 
 	public native void connect()/*-{
 								//													$wnd.Meteor.connect();
@@ -88,17 +92,17 @@ public class CometClient {
 	 * as they are streamed to the server.
 	 */
 	public native void start() /*-{
-								$wnd.Meteor.connect();
-								}-*/;
+		$wnd.Meteor.connect();
+	}-*/;
 
 	public native void stop() /*-{
-								//$wnd.alert('stop');
-								$wnd.Meteor.disconnect();
-								}-*/;
+		//$wnd.alert('stop');
+		$wnd.Meteor.disconnect();
+	}-*/;
 
 	protected native void disconnect()/*-{
-										$wnd.Meteor.disconnect();
-										}-*/;
+		$wnd.Meteor.disconnect();
+	}-*/;
 
 	public void onDisconnect() {
 	}
@@ -136,7 +140,7 @@ public class CometClient {
 	private Object deserialize(String data, String channel) {
 		SerializationStreamFactory ssf = factories.get(channel);
 		if (ssf == null) {
-			// FIXME if condition not required.
+			// XXX if condition not required.
 			// If there is not stream factory then we can assume that it is JSON
 			// object, otherwise we can not deserialize it anyway
 			// JSONValue obj = JSONParser.parse(data);
@@ -195,8 +199,8 @@ public class CometClient {
 	}
 
 	public native void joinChannel(String stream) /*-{
-													$wnd.Meteor.joinChannel(stream, 10);
-													}-*/;
+		$wnd.Meteor.joinChannel(stream, 10);
+	}-*/;
 
 	public static void unRegister(String entryPoint, String stream) {
 		CometClient client = clients.get(entryPoint);
@@ -205,8 +209,8 @@ public class CometClient {
 	}
 
 	public native void leaveChannel(String stream) /*-{
-													$wnd.Meteor.leaveChannel(stream);
-													}-*/;
+		$wnd.Meteor.leaveChannel(stream);
+	}-*/;
 
 	private void removeListner(String stream, ICometListener listner) {
 		this.leaveChannel(stream);
