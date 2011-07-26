@@ -32,10 +32,12 @@ public class VATSummaryReportAction extends Action {
 		return Accounter.getFinanceMenuImages().reports();
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@SuppressWarnings({"unchecked"})
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
