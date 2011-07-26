@@ -206,34 +206,34 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 		super.setAction(action);
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public List<DynamicForm> getForms() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void onEdit() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void print() {
 		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void deleteFailed(Throwable caught) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
