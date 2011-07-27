@@ -34,8 +34,7 @@ public class NewItemTaxAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "newItemTax";
 	}
 
 }
