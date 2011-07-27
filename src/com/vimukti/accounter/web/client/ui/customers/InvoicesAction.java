@@ -86,13 +86,11 @@ public class InvoicesAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-
 		return "/images/invoices.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		if (viewType == null) {
 			return "invoices";
 		} else if (viewType.equals(InvoiceListView.OVER_DUE)) {
