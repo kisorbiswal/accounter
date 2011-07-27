@@ -67,8 +67,7 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 
 	@Override
 	public void updateInGrid(ClientTAXItem objectTobeModified) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
