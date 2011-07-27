@@ -38,10 +38,8 @@ public class PaySalesTaxEntries implements IAccounterServerCore, Lifecycle {
 	int version;
 
 	// int status = 0;
-	//	
+	//
 	// boolean isVoid;
-
-	
 
 	FinanceDate transactionDate;
 
@@ -96,7 +94,6 @@ public class PaySalesTaxEntries implements IAccounterServerCore, Lifecycle {
 	public void setTransactionDate(FinanceDate transactionDate) {
 		this.transactionDate = transactionDate;
 	}
-
 
 	/**
 	 * @param taxItem
@@ -161,7 +158,6 @@ public class PaySalesTaxEntries implements IAccounterServerCore, Lifecycle {
 		return taxAgency;
 	}
 
-
 	public double getAmount() {
 		return amount;
 	}
@@ -181,21 +177,19 @@ public class PaySalesTaxEntries implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
-
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return false;
 	}
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
@@ -211,7 +205,6 @@ public class PaySalesTaxEntries implements IAccounterServerCore, Lifecycle {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
