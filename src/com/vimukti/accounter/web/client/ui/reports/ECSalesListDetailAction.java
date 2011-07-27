@@ -24,6 +24,7 @@ public class ECSalesListDetailAction extends Action {
 
 	@Override
 	public ImageResource getBigImage() {
+		// NOTHING TO DO
 		return null;
 	}
 
@@ -73,7 +74,6 @@ public class ECSalesListDetailAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "ecSalesListDetail";
 	}
 
