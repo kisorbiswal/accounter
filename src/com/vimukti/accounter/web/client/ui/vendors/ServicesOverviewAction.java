@@ -23,6 +23,7 @@ public class ServicesOverviewAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -33,15 +34,18 @@ public class ServicesOverviewAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
 	public ImageResource getSmallImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
 	@Override
 	public String getImageUrl() {
+		// NOTHING TO DO.
 		return "";
 	}
 
