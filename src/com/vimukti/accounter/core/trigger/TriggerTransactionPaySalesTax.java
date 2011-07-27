@@ -99,9 +99,10 @@ public class TriggerTransactionPaySalesTax implements Trigger {
 			// Actual Updation part of Trigger Call
 			else if (!(oldIndex == null && newIndex != null)) {
 
-				ResultSet r = stat.executeQuery(new StringBuilder().append(
-						"SELECT M.IS_VOID FROM PAY_SALES_TAX M WHERE M.ID =")
-						.append(newTransactionId).toString());
+				ResultSet r = stat
+						.executeQuery(new StringBuilder()
+								.append("SELECT M.IS_VOID FROM PAY_SALES_TAX M WHERE M.ID =")
+								.append(newTransactionId).toString());
 				r.next();
 
 				if (r.getBoolean(1)) {
@@ -109,14 +110,13 @@ public class TriggerTransactionPaySalesTax implements Trigger {
 					// Deleting corresponding transaction rows from Account
 					// Transaction
 					// table
-					stat.execute(new StringBuilder().append(
-							"DELETE FROM ACCOUNT_TRANSACTION WHERE T_ID =")
+					stat.execute(new StringBuilder()
+							.append("DELETE FROM ACCOUNT_TRANSACTION WHERE T_ID =")
 							.append(newTransactionPaySalesTaxId).toString());
 
 					ResultSet rs = stat
 							.executeQuery(new StringBuilder()
-									.append(
-											"SELECT TA.ACCOUNT_ID FROM TAXAGENCY TA WHERE TA.ID= ")
+									.append("SELECT TA.ACCOUNT_ID FROM TAXAGENCY TA WHERE TA.ID= ")
 									.append(newTaxAgencyId).toString());
 
 					if (rs.next()) {
@@ -147,10 +147,10 @@ public class TriggerTransactionPaySalesTax implements Trigger {
 	private void updateTaxAgenciesAccountCurrentAndTotalBalances(
 			Statement stat, Double amountToPay, Long liabilityAccountId,
 			String symbol) throws SQLException {
-		stat.execute(new StringBuilder().append(
-				"UPDATE ACCOUNT A SET A.CURRENT_BALANCE = A.CURRENT_BALANCE ")
-				.append(symbol).append(" ").append(amountToPay).append(
-						", A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
+		stat.execute(new StringBuilder()
+				.append("UPDATE ACCOUNT A SET A.CURRENT_BALANCE = A.CURRENT_BALANCE ")
+				.append(symbol).append(" ").append(amountToPay)
+				.append(", A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
 				.append(" ").append(amountToPay).append(" WHERE A.ID =")
 				.append(liabilityAccountId).toString());
 	}
@@ -159,9 +159,9 @@ public class TriggerTransactionPaySalesTax implements Trigger {
 			throws SQLException {
 		boolean accountType = false;
 
-		ResultSet r = stat.executeQuery(new StringBuilder().append(
-				"SELECT A.IS_INCREASE FROM ACCOUNT A WHERE A.ID =").append(
-				depositInAccountId).toString());
+		ResultSet r = stat.executeQuery(new StringBuilder()
+				.append("SELECT A.IS_INCREASE FROM ACCOUNT A WHERE A.ID =")
+				.append(depositInAccountId).toString());
 
 		if (r.next()) {
 			accountType = r.getBoolean(1);
@@ -171,9 +171,10 @@ public class TriggerTransactionPaySalesTax implements Trigger {
 
 	private void updateTaxAgenciesBalances(Statement stat,
 			Double newAllTaxableLineTotal, String symbol) throws SQLException {
-		stat.execute(new StringBuilder().append(
-				"UPDATE TAXAGENCY A SET A.BALANCE = A.BALANCE ").append(symbol)
-				.append(" ").append(newAllTaxableLineTotal).toString());
+		stat.execute(new StringBuilder()
+				.append("UPDATE TAXAGENCY A SET A.BALANCE = A.BALANCE ")
+				.append(symbol).append(" ").append(newAllTaxableLineTotal)
+				.toString());
 
 	}
 
@@ -181,9 +182,9 @@ public class TriggerTransactionPaySalesTax implements Trigger {
 			Long liabilityAccountId, Long newTaxAgencyId, Double newAmountToPay)
 			throws SQLException {
 
-		ResultSet rs = stat.executeQuery(new StringBuilder().append(
-				"SELECT TA.ACCOUNT_ID FROM TAXAGENCY TA WHERE TA.ID= ").append(
-				newTaxAgencyId).toString());
+		ResultSet rs = stat.executeQuery(new StringBuilder()
+				.append("SELECT TA.ACCOUNT_ID FROM TAXAGENCY TA WHERE TA.ID= ")
+				.append(newTaxAgencyId).toString());
 
 		if (rs.next()) {
 			liabilityAccountId = rs.getLong(1);
@@ -206,16 +207,14 @@ public class TriggerTransactionPaySalesTax implements Trigger {
 		updateTaxAgenciesBalances(stat, newAmountToPay,
 				AccounterConstants.SYMBOL_MINUS);
 
-		stat
-				.execute(new StringBuilder()
-						.append(
-								"UPDATE PAY_SALES_TAX_ENTRIES PSE SET PSE.BALANCE = PSE.BALANCE - ")
-						.append(newAmountToPay).toString());
+		stat.execute(new StringBuilder()
+				.append("UPDATE PAY_SALES_TAX_ENTRIES PSE SET PSE.BALANCE = PSE.BALANCE - ")
+				.append(newAmountToPay).toString());
 	}
 
 	public void init(Connection arg0, String arg1, String arg2, String arg3,
 			boolean arg4, int arg5) throws SQLException {
-		// TODO Auto-generated method stub
+		// currently not using anywhere in the project.
 
 	}
 
