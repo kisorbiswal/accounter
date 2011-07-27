@@ -28,8 +28,7 @@ public class ItemsGrid extends BaseListGrid<ClientTransactionItem> {
 
 	@Override
 	protected void executeDelete(ClientTransactionItem object) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
@@ -59,22 +58,18 @@ public class ItemsGrid extends BaseListGrid<ClientTransactionItem> {
 		switch (item.getType()) {
 
 		case TYPE_ITEM:
-			ClientItem itm = getCompany().getItem(
-					item.getItem());
+			ClientItem itm = getCompany().getItem(item.getItem());
 			return itm != null ? itm.getName() : "";
 		case TYPE_ACCOUNT:
-			ClientAccount account = getCompany().getAccount(
-					item.getAccount());
+			ClientAccount account = getCompany().getAccount(item.getAccount());
 			return account != null ? account.getDisplayName() : "";
 		case TYPE_SALESTAX:
-			ClientTAXItem vatItem = getCompany().getTaxItem(
-					item.getVatItem());
+			ClientTAXItem vatItem = getCompany().getTaxItem(item.getVatItem());
 			return vatItem != null ? vatItem.getDisplayName() : "";
 		case TYPE_COMMENT:
 			return item.getDescription() != null ? item.getDescription() : "";
 		case TYPE_SERVICE:
-			ClientItem serviceItm = getCompany().getItem(
-					item.getItem());
+			ClientItem serviceItm = getCompany().getItem(item.getItem());
 			return serviceItm != null ? serviceItm.getName() : "";
 		default:
 			break;
@@ -84,13 +79,12 @@ public class ItemsGrid extends BaseListGrid<ClientTransactionItem> {
 
 	@Override
 	public void onDoubleClick(ClientTransactionItem obj) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
 	public boolean validateGrid() throws InvalidTransactionEntryException {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return false;
 	}
 
@@ -120,8 +114,7 @@ public class ItemsGrid extends BaseListGrid<ClientTransactionItem> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	public AccounterCoreType getType() {
