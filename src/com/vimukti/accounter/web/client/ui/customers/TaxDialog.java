@@ -116,7 +116,7 @@ public class TaxDialog extends BaseDialog {
 			@Override
 			public void onCancelClick() {
 				removeFromParent();
-				//Action.cancle();
+				// Action.cancle();
 			}
 		});
 
@@ -157,7 +157,7 @@ public class TaxDialog extends BaseDialog {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
+		// currently not using this method anywhere in the project.
 
 	}
 
