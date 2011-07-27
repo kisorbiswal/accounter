@@ -25,22 +25,18 @@
 //		groupDialogButtonHandler = new GroupDialogButtonsHandler() {
 //
 //			public void onCloseButtonClick() {
-//				// TODO Auto-generated method stub
 //
 //			}
 //
 //			public void onFirstButtonClick() {
-//				// TODO Auto-generated method stub
 //
 //			}
 //
 //			public void onSecondButtonClick() {
-//				// TODO Auto-generated method stub
 //
 //			}
 //
 //			public void onThirdButtonClick() {
-//				// TODO Auto-generated method stub
 //
 //			}
 //
@@ -80,4 +76,4 @@
 //	public void editCallBack() {
 //	}
 //
-//}
+// }
