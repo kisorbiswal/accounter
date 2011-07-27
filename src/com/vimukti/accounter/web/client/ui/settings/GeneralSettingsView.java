@@ -59,7 +59,6 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 	@Override
 	public void initData() {
-		// TODO Auto-generated method stub
 		super.initData();
 	}
 
