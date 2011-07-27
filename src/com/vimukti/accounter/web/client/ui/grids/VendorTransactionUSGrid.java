@@ -286,8 +286,8 @@ public class VendorTransactionUSGrid extends
 				if (column == getColumnsCount() - 1) {
 					if (!transactionView.isEdit()) {
 						deleteRecord(core);
-						if (!isPurchseOrderTransaction)
-							updateTotals();
+						// if (!isPurchseOrderTransaction)
+						updateTotals();
 					}
 					return true;
 				}
@@ -1082,8 +1082,8 @@ public class VendorTransactionUSGrid extends
 				case 2:
 					if (accountingType == ClientCompany.ACCOUNTING_TYPE_UK
 							&& item.getType() != ClientTransactionItem.TYPE_SALESTAX) {
-						AccounterValidator.validateGridItem(
-								this.getColumnValue(item,
+						AccounterValidator.validateGridItem(this
+								.getColumnValue(item,
 										this instanceof PurchaseOrderUKGrid ? 7
 												: 6), "Vat Code");
 						validationcount = 1;
