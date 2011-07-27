@@ -1,5 +1,6 @@
 package com.vimukti.accounter.servlets;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,7 +14,7 @@ public class BaseServlet extends HttpServlet {
 	public static final String USER_ID = "userID";
 	public static final String OUR_COOKIE = "_accounter_01_infinity_2711";
 
-	public static final String COMPANY_NAME = "company";
+	public static final String COMPANY_NAME = "companyName";
 	/**
 	 * 
 	 */
@@ -48,6 +49,14 @@ public class BaseServlet extends HttpServlet {
 	}
 
 	protected String getCookie(HttpServletRequest request, String ourCookie) {
+		Cookie[] clientCookies = request.getCookies();
+		if (clientCookies != null) {
+			for (Cookie cookie : clientCookies) {
+				if (cookie.getName().equals(ourCookie)) {
+					return cookie.getValue();
+				}
+			}
+		}
 		return null;
 	}
 
