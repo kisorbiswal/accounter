@@ -70,15 +70,15 @@ public class MakeDepositAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().makeDeposit();
 	}
+
 	@Override
 	public String getImageUrl() {
-		
+
 		return "/images/make_deposit.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "depositTransferFunds";
 	}
 }
