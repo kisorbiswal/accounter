@@ -380,8 +380,7 @@
 //
 //	@Override
 //	public void fitToSize(int height, int width) {
-//		// TODO Auto-generated method stub
-//
+//		super.fitToSize(height,width);
 //	}
 //
 //	@Override
@@ -436,7 +435,6 @@
 //
 //	@Override
 //	public void printPreview() {
-//		// TODO Auto-generated method stub
-//
+//// NOTHING TO DO.
 //	}
-//}
+// }
