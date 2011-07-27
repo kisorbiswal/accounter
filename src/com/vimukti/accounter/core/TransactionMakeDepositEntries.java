@@ -116,7 +116,7 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
+
 		return this.id;
 	}
 
@@ -187,19 +187,18 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		// TODO Auto-generated method stub
+
 		return true;
 	}
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
 
 	}
 
