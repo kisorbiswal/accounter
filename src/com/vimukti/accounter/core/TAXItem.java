@@ -167,13 +167,11 @@ public class TAXItem extends TAXItemGroup {
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-
 
 		if (this.vatReturnBox != null
 				&& (this.vatReturnBox.name
