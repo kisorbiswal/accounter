@@ -134,8 +134,6 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 	@ReffereredObject
 	JournalEntry journalEntry;
 
-	
-
 	String number;
 
 	private boolean isOnSaveProccessed;
@@ -143,7 +141,6 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 	public TransactionReceivePayment() {
 
 	}
-
 
 	public int getVersion() {
 		return version;
@@ -636,7 +633,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		// TODO Auto-generated method stub
+
 		return true;
 	}
 }
