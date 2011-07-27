@@ -67,6 +67,9 @@ public class LiveLoginServlet extends BaseServlet {
 	 */
 	private User getUser(HttpServletRequest request) {
 		String cookie = getCookie(request, OUR_COOKIE);
+		if (cookie == null) {
+			return null;
+		}
 		String[] params = cookie.split(",");
 		if (params == null || params.length != 3) {
 			return null;
@@ -74,24 +77,9 @@ public class LiveLoginServlet extends BaseServlet {
 		String id = params[0];
 		String password = params[1];
 		String companyName = params[2];
-		// Log.info("CheckCookiesLogin Method Called");
-		User user = null;
-		Session session = null;
-		if (isCompanyExits(companyName))
-			session = HibernateUtil.openSession(companyName);
-		else
-			return null;
-		if (id != null && password != null) {
 
-			user = (User) session
-					.getNamedQuery("getIDentity.from.id.and.password")
-					.setParameter("id", id)
-					.setParameter("password", password).uniqueResult();
-			if (user == null)
-				return null;
-			return user;
-		}
-		return null;
+		return getUser(id, password, companyName);
+
 	}
 
 	private void redirectLogin(ServletRequest request, ServletResponse response)
@@ -104,7 +92,6 @@ public class LiveLoginServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		Session session = null;
 		try {
 			User user = doLogin(request, response);
 			if (user != null) {
@@ -123,8 +110,6 @@ public class LiveLoginServlet extends BaseServlet {
 				dispatcher.forward(request, response);
 			}
 		} finally {
-			if (session != null)
-				session.close();
 		}
 	}
 
@@ -139,50 +124,51 @@ public class LiveLoginServlet extends BaseServlet {
 
 			request.setAttribute("success", true);
 
-			// identity.sendMyStatusToUsers(true);
-
 		} finally {
 		}
 	}
 
 	private User doLogin(HttpServletRequest request,
 			HttpServletResponse response) {
-		String emailId = request.getParameter("emailId").trim();
-		String password = request.getParameter("password").trim();
-		String companyName = request.getParameter(COMPANY_NAME).trim();
+		String emailId = request.getParameter("emailId");
+		String password = request.getParameter("password");
+		String companyName = request.getParameter(COMPANY_NAME);
 
-		if (emailId != null && password != null && !password.isEmpty()) {
-			password = HexUtil
-					.bytesToHex(Security.makeHash(emailId + password));
-			User user = getUser(emailId, password, companyName);
-			if (user != null && request.getParameter("staySignIn") != null
-					&& request.getParameter("staySignIn").equals("on")) {
-				setCookies(response, user);
-			}
-			return user;
+		User user = getUser(emailId, password, companyName);
+		if (user != null && request.getParameter("staySignIn") != null
+				&& request.getParameter("staySignIn").equals("on")) {
+			setCookies(response, user);
 		}
-
-		return null;
+		return user;
 	}
 
 	private User getUser(String emailId, String password, String companyName) {
-
+		if (emailId == null || password == null || companyName == null) {
+			return null;
+		}
+		emailId = emailId.trim();
+		password = HexUtil.bytesToHex(Security.makeHash(emailId
+				+ password.trim()));
+		companyName = companyName.trim();
 		Session session = HibernateUtil.openSession(companyName);
 		try {
 			User user = null;
 			Query query = session
-					.getNamedQuery("getIDentity.from.emailid.and.password");
+					.getNamedQuery("getuser.from.emailid.and.password");
 			query.setParameter("emailid", emailId);
 			query.setParameter("password", password);
 			user = (User) query.uniqueResult();
 			return user;
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			session.close();
 		}
+		return null;
 	}
 
 	private void setCookies(HttpServletResponse response, User user) {
-		Cookie cookie = new Cookie("_accounter_01_infinity_2711",
+		Cookie cookie = new Cookie(OUR_COOKIE,
 				new StringBuffer(user.getEmail()).append(",")
 						.append(user.getPasswordSha1Hash()).append(",")
 						.append(user.getCompany()).toString());
