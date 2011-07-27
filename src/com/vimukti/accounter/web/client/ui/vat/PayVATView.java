@@ -80,8 +80,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		// setTitle(UIUtils.title(FinanceApplication.getFinanceUIConstants()
 		// .payVAT()));
 
-		Label lab = new Label(Accounter.getFinanceUIConstants()
-				.payVAT());
+		Label lab = new Label(Accounter.getFinanceUIConstants().payVAT());
 		lab.removeStyleName("gwt-Label");
 		lab.setStyleName(Accounter.getVendorsMessages().lableTitle());
 		// lab.setHeight("35px");
@@ -107,8 +106,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 						initialEndingBalance = !DecimalUtil.isEquals(
 								selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
-								.getTotalBalance()
-								: 0D;
+								.getTotalBalance() : 0D;
 
 						calculateEndingBalance();
 					}
@@ -222,8 +220,8 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		listforms.add(balForm);
 
 		selectedPayFromAccount = payFromAccCombo.getSelectedValue();
-		initialEndingBalance = !DecimalUtil.isEquals(selectedPayFromAccount
-				.getTotalBalance(), 0) ? selectedPayFromAccount
+		initialEndingBalance = !DecimalUtil.isEquals(
+				selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
 				.getTotalBalance() : 0D;
 
 		calculateEndingBalance();
@@ -238,10 +236,10 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 		if (dueDateOnOrBefore != null) {
 			for (ClientPayVATEntries cont : filterList) {
-				ClientVATReturn clientVATReturn = Accounter
-						.getCompany().getVatReturn(cont.getVatReturn());
-				ClientFinanceDate date = new ClientFinanceDate(clientVATReturn
-						.getVATperiodEndDate());
+				ClientVATReturn clientVATReturn = Accounter.getCompany()
+						.getVatReturn(cont.getVatReturn());
+				ClientFinanceDate date = new ClientFinanceDate(
+						clientVATReturn.getVATperiodEndDate());
 				if (date.equals(dueDateOnOrBefore)
 						|| date.before(dueDateOnOrBefore))
 					tempList.add(cont);
@@ -277,8 +275,8 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		List<ClientTransactionPayVAT> filterRecords = new ArrayList<ClientTransactionPayVAT>();
 		String selectedagency = selectedVATAgency.getName();
 		for (ClientTransactionPayVAT payVAT : grid.getRecords()) {
-			String taxAgencyname = getCompany()
-					.getTaxAgency(payVAT.getTaxAgency()).getName();
+			String taxAgencyname = getCompany().getTaxAgency(
+					payVAT.getTaxAgency()).getName();
 			if (taxAgencyname.equals(selectedagency))
 				filterRecords.add(payVAT);
 		}
@@ -310,11 +308,9 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	@Override
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 		payVAT = (ClientPayVAT) transactionObject;
-		selectedPayFromAccount = getCompany().getAccount(
-				payVAT.getPayFrom());
+		selectedPayFromAccount = getCompany().getAccount(payVAT.getPayFrom());
 		payFromAccCombo.setComboItem(selectedPayFromAccount);
-		selectedVATAgency = getCompany().getTaxAgency(
-				payVAT.getVatAgency());
+		selectedVATAgency = getCompany().getTaxAgency(payVAT.getVatAgency());
 		if (selectedVATAgency != null)
 			taxAgencyCombo.setComboItem(selectedVATAgency);
 
@@ -373,8 +369,8 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 						} else {
 							Accounter
 									.showError("Failed to get the Transaction PayVAT List");
-							grid.addEmptyMessage(Accounter
-									.getVendorsMessages().norecordstoshow());
+							grid.addEmptyMessage(Accounter.getVendorsMessages()
+									.norecordstoshow());
 						}
 						return;
 
@@ -389,8 +385,8 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 						entries = result;
 						if (result.size() == 0) {
 							// Accounter.showInformation("No PayVAT list to show");
-							grid.addEmptyMessage(Accounter
-									.getVendorsMessages().norecordstoshow());
+							grid.addEmptyMessage(Accounter.getVendorsMessages()
+									.norecordstoshow());
 						} else {
 
 							// loadData(getfilterRecordsByDate(billsDue
@@ -571,7 +567,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 	@Override
 	public List<DynamicForm> getForms() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -629,8 +625,8 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 							if (payVAT != null) {
 								AccounterCoreType type = UIUtils
 										.getAccounterCoreType(payVAT.getType());
-								rpcDoSerivce.voidTransaction(type,
-										payVAT.id, callback);
+								rpcDoSerivce.voidTransaction(type, payVAT.id,
+										callback);
 							}
 
 						}
@@ -674,8 +670,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
