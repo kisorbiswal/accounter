@@ -60,8 +60,6 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 	 */
 	private double balance;
 
-	
-
 	public TransactionMakeDepositEntries() {
 
 	}
@@ -74,7 +72,6 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 		this.balance = amount;
 
 	}
-
 
 	/**
 	 * @return the type
@@ -213,7 +210,7 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
