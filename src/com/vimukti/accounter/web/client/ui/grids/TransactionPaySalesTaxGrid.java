@@ -218,13 +218,13 @@ public class TransactionPaySalesTaxGrid extends
 	@Override
 	public List<ClientTransactionItem> getallTransactions(
 			ClientTransaction object) throws InvalidEntryException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public void setTaxCode(long taxCode) {
-		// TODO Auto-generated method stub
+		// currently not using anywhere in the project.
 
 	}
 }
