@@ -409,7 +409,7 @@ public abstract class CompanyInitializer {
 
 	
 	
-	void initializeDefaultIncomeAccounts(){
+	public void initializeDefaultIncomeAccounts(){
 		
 		Account income_sales = new Account(Account.TYPE_EXPENSE, null,  AccounterConstants.INCOME_SALES, income, "", this.preferences.getPreventPostingBeforeDate());
 		session.save(income_sales);
@@ -478,7 +478,7 @@ public abstract class CompanyInitializer {
 		session.save(income_profit_loss_in_sales_of_assets);
 	}
 	
-	void initializeDefaultAssetsAccounts(){
+	public	void initializeDefaultAssetsAccounts(){
 				
 		Account assets_current = new Account(Account.TYPE_EXPENSE, null,  AccounterConstants.ASSETS_CURRENT, assets, "", this.preferences.getPreventPostingBeforeDate());
 		session.save(assets_current);
@@ -607,7 +607,7 @@ public abstract class CompanyInitializer {
 		
 	}
 	
-	void initializeDefaultlLiabilitiesAccounts(){
+	public void initializeDefaultlLiabilitiesAccounts(){
 
 
 		Account equity = new Account(Account.TYPE_EXPENSE, null,  AccounterConstants.EQUITY, liability, "", this.preferences.getPreventPostingBeforeDate());
