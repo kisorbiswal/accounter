@@ -185,7 +185,7 @@ public class TransactionJournalEntryGrid extends
 					// vendorCombo.setComboItem(FinanceApplication
 					// .getCompany().getVendor(core.getVendor()));
 					// }
-					// //  to be Implemented for VAT in UK else if
+					// // to be Implemented for VAT in UK else if
 					// else if (core.getType() == ClientEntry.TYPE_VAT) {
 					// if (core.getVendor() != null)
 					// accountsCombo
@@ -747,13 +747,12 @@ public class TransactionJournalEntryGrid extends
 	@Override
 	public List<ClientTransactionItem> getallTransactions(
 			ClientTransaction object) throws InvalidEntryException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public void setTaxCode(long taxCode) {
-		// TODO Auto-generated method stub
 
 	}
 
