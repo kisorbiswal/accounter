@@ -55,6 +55,12 @@ public abstract class CompanyInitializer {
 	public abstract Company getCompany();
 	
 	
+	
+	/**
+	 * initialize the default expenses accounts
+	 */
+	
+	
 	public void initializeDefaultExpenseAccounts(){
 		
 		Account advertising_and_marketing = new Account(Account.TYPE_EXPENSE, null, AccounterConstants.EXPENSE_CONSULTING_AND_ACCOUNTING, expense, "", this.preferences.getPreventPostingBeforeDate());
@@ -409,7 +415,10 @@ public abstract class CompanyInitializer {
 		session.save(lease_property_improvement_deprication);
 
 	}
-
+	
+	/**
+	 * initialize the default income accounts
+	 */
 	
 	
 	public void initializeDefaultIncomeAccounts(){
@@ -480,6 +489,11 @@ public abstract class CompanyInitializer {
 		Account income_profit_loss_in_sales_of_assets = new Account(Account.TYPE_EXPENSE, null,  AccounterConstants.INCOME_PROFIT_LOSS_IN_SALE_OF_ASSETS, income, "", this.preferences.getPreventPostingBeforeDate());
 		session.save(income_profit_loss_in_sales_of_assets);
 	}
+	
+	
+	/**
+	 * initialize the default assets accounts
+	 */
 	
 	public	void initializeDefaultAssetsAccounts(){
 				
@@ -609,6 +623,11 @@ public abstract class CompanyInitializer {
 		session.save(assets_cash_petty_cash);
 		
 	}
+	
+	
+	/**
+	 * initialize the default liabilities accounts
+	 */
 	
 	public void initializeDefaultlLiabilitiesAccounts(){
 
