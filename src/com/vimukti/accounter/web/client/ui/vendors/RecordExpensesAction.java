@@ -23,7 +23,7 @@ public class RecordExpensesAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
@@ -43,13 +43,13 @@ public class RecordExpensesAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
+
 		return "/images/record_expenses.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+
 		return "recordExpenses";
 	}
 
