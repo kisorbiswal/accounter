@@ -593,7 +593,6 @@ public class RecieveVATView extends
 
 	@Override
 	public void updateNonEditableItems() {
-		// TODO Auto-generated method stub
 
 	}
 
