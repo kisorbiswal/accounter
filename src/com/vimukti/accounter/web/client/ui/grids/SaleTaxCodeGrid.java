@@ -63,7 +63,7 @@ public class SaleTaxCodeGrid extends ListGrid<ClientTaxRates> {
 
 	@Override
 	protected String[] getSelectValues(ClientTaxRates obj, int col) {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -81,24 +81,23 @@ public class SaleTaxCodeGrid extends ListGrid<ClientTaxRates> {
 
 	@Override
 	public void onDoubleClick(ClientTaxRates obj) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
 	protected void onValueChange(ClientTaxRates obj, int col, Object value) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
 	protected int sort(ClientTaxRates obj1, ClientTaxRates obj2, int index) {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return 0;
 	}
 
 	@Override
 	public boolean validateGrid() {
+		// NOTHING TO DO.
 		return true;
 	}
 
