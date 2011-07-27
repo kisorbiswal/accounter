@@ -20,8 +20,7 @@ public class MakeDepositAccountCombo extends AccountCombo {
 	@Override
 	public List<ClientAccount> getAccounts() {
 		deposiInAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : getCompany()
-				.getActiveAccounts()) {
+		for (ClientAccount account : getCompany().getActiveAccounts()) {
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				if (Arrays.asList(ClientAccount.TYPE_BANK,
 						ClientAccount.TYPE_OTHER_CURRENT_ASSET,
@@ -49,10 +48,10 @@ public class MakeDepositAccountCombo extends AccountCombo {
 
 	public void setAccounts() {
 		deposiInAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : getCompany()
-				.getActiveAccounts()) {
+		for (ClientAccount account : getCompany().getActiveAccounts()) {
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				if (Arrays.asList(ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+				if (Arrays.asList(ClientAccount.TYPE_BANK,
+						ClientAccount.TYPE_OTHER_CURRENT_ASSET,
 						ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
 						ClientAccount.TYPE_EQUITY).contains(account.getType())) {
 
@@ -77,8 +76,7 @@ public class MakeDepositAccountCombo extends AccountCombo {
 	}
 
 	private void setDefaultDepositInAccount() {
-		List<ClientAccount> accounts = getCompany()
-				.getAccounts();
+		List<ClientAccount> accounts = getCompany().getAccounts();
 		for (ClientAccount account : accounts) {
 			if (account.getNumber().equals("1100")) {
 				this.addItemThenfireEvent(account);
@@ -97,7 +95,7 @@ public class MakeDepositAccountCombo extends AccountCombo {
 		NewAccountAction action = CompanyActionFactory.getNewAccountAction();
 		action.setActionSource(this);
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			action.setAccountTypes(Arrays.asList(
+			action.setAccountTypes(Arrays.asList(ClientAccount.TYPE_BANK,
 					ClientAccount.TYPE_OTHER_CURRENT_ASSET,
 					ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
 					ClientAccount.TYPE_EQUITY));
@@ -107,7 +105,6 @@ public class MakeDepositAccountCombo extends AccountCombo {
 					ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
 					ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY));
 		}
-		
 
 		action.run(null, true);
 
@@ -116,7 +113,8 @@ public class MakeDepositAccountCombo extends AccountCombo {
 	@Override
 	public void addItemThenfireEvent(ClientAccount obj) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			if (Arrays.asList(ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+			if (Arrays.asList(ClientAccount.TYPE_BANK,
+					ClientAccount.TYPE_OTHER_CURRENT_ASSET,
 					ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
 					ClientAccount.TYPE_EQUITY).contains(obj.getType())) {
 				super.addItemThenfireEvent(obj);
