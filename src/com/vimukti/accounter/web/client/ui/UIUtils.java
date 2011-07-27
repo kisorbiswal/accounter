@@ -670,7 +670,7 @@ public class UIUtils {
 			for (int type : accountTypes) {
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 					if (
-					// type == ClientAccount.TYPE_BANK
+					 type == ClientAccount.TYPE_BANK ||
 					// || type == ClientAccount.TYPE_CASH
 					type == ClientAccount.TYPE_OTHER_CURRENT_ASSET
 							|| type == ClientAccount.TYPE_CREDIT_CARD
@@ -691,7 +691,7 @@ public class UIUtils {
 		case AccountCombo.PAY_FROM_COMBO:
 			for (int type : accountTypes) {
 				if (
-				// type == ClientAccount.TYPE_BANK
+				 type == ClientAccount.TYPE_BANK ||
 				// || type == ClientAccount.TYPE_CASH
 				// ||
 				type == ClientAccount.TYPE_CREDIT_CARD
