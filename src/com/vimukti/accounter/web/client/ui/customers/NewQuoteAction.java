@@ -69,21 +69,22 @@ public class NewQuoteAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().newQuote();
 	}
+
 	@Override
 	public String getImageUrl() {
-		
+
 		return "/images/new_quote.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "newQuote";
 	}
 }
