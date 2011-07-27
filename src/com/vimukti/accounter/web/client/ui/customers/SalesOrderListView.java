@@ -216,13 +216,13 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
+		// Nothing to do
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
+		// Nothing to do
 
 	}
 
