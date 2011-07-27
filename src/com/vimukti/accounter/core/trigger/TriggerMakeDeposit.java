@@ -82,9 +82,9 @@ public class TriggerMakeDeposit implements Trigger {
 
 				// Deleting corresponding transaction rows from Account
 				// Transaction table
-				stat.execute(new StringBuilder().append(
-						"DELETE FROM ACCOUNT_TRANSACTION WHERE T_ID =").append(
-						newMakeDepositId).toString());
+				stat.execute(new StringBuilder()
+						.append("DELETE FROM ACCOUNT_TRANSACTION WHERE T_ID =")
+						.append(newMakeDepositId).toString());
 
 				// Updating the Bank Account
 
@@ -122,10 +122,10 @@ public class TriggerMakeDeposit implements Trigger {
 	private void updateCurrentAndTotalBalancesOfCashBackAccount(Statement stat,
 			Double cashBackAmount, Long cashBackAccountId, String symbol)
 			throws SQLException {
-		stat.execute(new StringBuilder().append(
-				"UPDATE ACCOUNT A SET CURRENT_BALANCE= CURRENT_BALANCE ")
-				.append(symbol).append(" ").append(cashBackAmount).append(
-						", A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
+		stat.execute(new StringBuilder()
+				.append("UPDATE ACCOUNT A SET CURRENT_BALANCE= CURRENT_BALANCE ")
+				.append(symbol).append(" ").append(cashBackAmount)
+				.append(", A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
 				.append(" ").append(cashBackAmount).append(" WHERE ID = ")
 				.append(cashBackAccountId).toString());
 
@@ -135,9 +135,9 @@ public class TriggerMakeDeposit implements Trigger {
 			Long cashBackAccountId) throws SQLException {
 
 		Boolean increase = Boolean.FALSE;
-		ResultSet rs1 = stat.executeQuery(new StringBuilder().append(
-				"SELECT A.IS_INCREASE FROM ACCOUNT A WHERE A.ID =").append(
-				cashBackAccountId).toString());
+		ResultSet rs1 = stat.executeQuery(new StringBuilder()
+				.append("SELECT A.IS_INCREASE FROM ACCOUNT A WHERE A.ID =")
+				.append(cashBackAccountId).toString());
 
 		if (rs1.next()) {
 			increase = rs1.getBoolean(1);
@@ -149,19 +149,19 @@ public class TriggerMakeDeposit implements Trigger {
 			Double total, Long depositInAccountId, String symbol)
 			throws SQLException {
 
-		stat.execute(new StringBuilder().append(
-				"UPDATE ACCOUNT A SET CURRENT_BALANCE= CURRENT_BALANCE ")
-				.append(symbol).append(" ").append(total).append(
-						", A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
-				.append(" ").append(total).append(" WHERE ID = ").append(
-						depositInAccountId).toString());
+		stat.execute(new StringBuilder()
+				.append("UPDATE ACCOUNT A SET CURRENT_BALANCE= CURRENT_BALANCE ")
+				.append(symbol).append(" ").append(total)
+				.append(", A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
+				.append(" ").append(total).append(" WHERE ID = ")
+				.append(depositInAccountId).toString());
 
 	}
 
 	@Override
 	public void init(Connection arg0, String arg1, String arg2, String arg3,
 			boolean arg4, int arg5) throws SQLException {
-		// TODO Auto-generated method stub
+		// currently not using anywhere in the project.
 
 	}
 
