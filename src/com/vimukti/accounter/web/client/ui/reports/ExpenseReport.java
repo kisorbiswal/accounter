@@ -65,11 +65,9 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 
 	}
 
-	/**
-	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
-	 */
 	@Override
 	public void printPreview() {
+		// NOTHING TO DO
 	}
 
 	public int sort(ExpenseList obj1, ExpenseList obj2, int col) {
