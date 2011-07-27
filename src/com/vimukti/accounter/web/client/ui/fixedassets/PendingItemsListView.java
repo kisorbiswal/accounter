@@ -73,13 +73,13 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
+		// Nothing to do
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
+		// NOTHING to do
 
 	}
 
