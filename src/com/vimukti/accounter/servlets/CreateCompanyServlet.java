@@ -302,7 +302,7 @@ public class CreateCompanyServlet extends BaseServlet {
 		// * Identifiers may begin with a digit but unless quoted may not
 		// consist solely of digits.
 		// * Database, table, and column names cannot end with space characters.
-		// * Database and table names cannot contain “/”, “\”, “.”, or
+		// * Database and table names cannot contain ï¿½/ï¿½, ï¿½\ï¿½, ï¿½.ï¿½, or
 		// characters that are not permitted in file names.
 
 		return false;
@@ -353,7 +353,7 @@ public class CreateCompanyServlet extends BaseServlet {
 			flag = false;
 		}
 
-		if (!(isValidDBName(companyId) && isValidSubDomainName(companyId))) {
+		if (!(isValidCompanyName(companyId))) {
 			if (!message.isEmpty())
 				message = message + ", Invalid Company ID";
 			else
@@ -406,6 +406,10 @@ public class CreateCompanyServlet extends BaseServlet {
 		// }
 		request.setAttribute("errormessage", message);
 		return flag;
+	}
+
+	private boolean isValidCompanyName(String companyId) {
+		return companyId.matches("^[a-z][a-z0-9]{5,}$");
 	}
 
 	// private void initializeBizantraUserPreference(CollaberIdentity identity)
