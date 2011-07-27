@@ -66,21 +66,21 @@ public class CustomerRefundAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO
 		return null;
 	}
 
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().newCustomerRefund();
 	}
+
 	@Override
 	public String getImageUrl() {
-		
 		return "/images/customer_refunds.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "customerRefund";
 	}
 }
