@@ -13,19 +13,18 @@ public class DisposingRegisteredItemAction extends Action {
 
 	public DisposingRegisteredItemAction(String text) {
 		super(text);
-		this.catagory = Accounter.getFixedAssetConstants()
-				.fixedAssets();
+		this.catagory = Accounter.getFixedAssetConstants().fixedAssets();
 	}
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO
 		return null;
 	}
 
 	@Override
 	public ImageResource getSmallImage() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO
 		return null;
 	}
 
@@ -68,8 +67,7 @@ public class DisposingRegisteredItemAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "disposingRegisteredItem";
 	}
 
 }
