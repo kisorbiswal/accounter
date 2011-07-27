@@ -27,7 +27,7 @@ public class SyncOnlinePayeesAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+		// its not using any where return null;
 		return null;
 	}
 
@@ -47,7 +47,6 @@ public class SyncOnlinePayeesAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "Sync";
 	}
 

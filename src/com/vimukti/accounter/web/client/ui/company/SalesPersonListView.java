@@ -134,25 +134,23 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 
 	@Override
 	public void updateInGrid(ClientPayee objectTobeModified) {
-		// TODO Auto-generated method stub
+		// its not using any where return null;
 
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
+		// its not using any where return null;
 
 	}
 

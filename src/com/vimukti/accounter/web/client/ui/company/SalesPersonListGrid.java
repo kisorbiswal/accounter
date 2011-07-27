@@ -139,7 +139,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 
 	@Override
 	public boolean validateGrid() {
-		// TODO Auto-generated method stub
+		// its not using any where return null;
 		return true;
 	}
 
@@ -260,8 +260,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
+		// its not using any where return null;
 	}
 
 	public AccounterCoreType getType() {
