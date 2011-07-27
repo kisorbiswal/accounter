@@ -19,7 +19,6 @@ public class WarehouseListGrid extends BaseListGrid<StockTransfer> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
