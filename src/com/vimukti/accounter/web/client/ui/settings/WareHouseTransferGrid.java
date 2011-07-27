@@ -99,7 +99,7 @@ public class WareHouseTransferGrid extends
 
 	@Override
 	protected boolean isEditable(ClientWarehouse obj, int row, int index) {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
