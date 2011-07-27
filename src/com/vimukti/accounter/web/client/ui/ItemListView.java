@@ -69,8 +69,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 			if (!DecimalUtil.isEquals(item.getSalesPrice(), 0))
 				total += item.getSalesPrice();
 		}
-		totalLabel.setText(Accounter.getCustomersMessages()
-				.totalSalesPrice()
+		totalLabel.setText(Accounter.getCustomersMessages().totalSalesPrice()
 				+ " = " + DataUtils.getAmountAsString(total));
 	}
 
@@ -85,10 +84,10 @@ public class ItemListView extends BaseListView<ClientItem> {
 				action = CustomersActionFactory.getNewItemAction();
 				action.setType(3);
 				return action;
-			} else if (this.catageory.equals(Accounter
-					.getVendorsMessages().supplier())
-					|| this.catageory.equals(Accounter
-							.getVendorsMessages().vendor())) {
+			} else if (this.catageory.equals(Accounter.getVendorsMessages()
+					.supplier())
+					|| this.catageory.equals(Accounter.getVendorsMessages()
+							.vendor())) {
 				action = VendorsActionFactory.getNewItemAction();
 				action.setType(3);
 				return action;
@@ -177,8 +176,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
