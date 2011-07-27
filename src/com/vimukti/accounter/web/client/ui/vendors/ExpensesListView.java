@@ -172,18 +172,14 @@ public class ExpensesListView extends BaseListView<BillsList> {
 
 	}
 
-	/**
-	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
-	 */
 	@Override
 	public void printPreview() {
+		// NOTHING TO DO
 	}
 
-	/**
-	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
-	 */
 	@Override
 	public void updateInGrid(BillsList objectTobeModified) {
+		// NOTHING TO DO
 	}
 
 	@Override
