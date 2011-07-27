@@ -89,8 +89,7 @@ public class TriggerTransactionCreditsAndPayments implements Trigger {
 				if (newTransactionReceivePaymentId != null) {
 					ResultSet r = stat
 							.executeQuery(new StringBuilder()
-									.append(
-											"SELECT TRP.IS_VOID FROM TRANSACTION_RECEIVE_PAYMENT TRP WHERE TRP.ID =")
+									.append("SELECT TRP.IS_VOID FROM TRANSACTION_RECEIVE_PAYMENT TRP WHERE TRP.ID =")
 									.append(newTransactionReceivePaymentId)
 									.toString());
 					r.next();
@@ -102,19 +101,16 @@ public class TriggerTransactionCreditsAndPayments implements Trigger {
 						// Pyaments for the entries to which the
 						// TransactionReceivePayment is match.
 
-						stat
-								.execute(new StringBuilder()
-										.append(
-												"UPDATE TRANSACTION_CREDITS_AND_PAYMENTS TCP SET TCP.AMOUNT_TO_USE = 0.0, TCP.IS_VOID = 'TRUE' WHERE TCP.TRANSACTION_RECEIVE_PAYMENT_ID = ")
-										.append(newTransactionReceivePaymentId)
-										.toString());
+						stat.execute(new StringBuilder()
+								.append("UPDATE TRANSACTION_CREDITS_AND_PAYMENTS TCP SET TCP.AMOUNT_TO_USE = 0.0, TCP.IS_VOID = 'TRUE' WHERE TCP.TRANSACTION_RECEIVE_PAYMENT_ID = ")
+								.append(newTransactionReceivePaymentId)
+								.toString());
 
 					}
 				} else if (newTransactionPayBillId != null) {
 					ResultSet r = stat
 							.executeQuery(new StringBuilder()
-									.append(
-											"SELECT TP.IS_VOID FROM TRANSACTION_PAYBILL TP WHERE TP.ID =")
+									.append("SELECT TP.IS_VOID FROM TRANSACTION_PAYBILL TP WHERE TP.ID =")
 									.append(newTransactionPayBillId).toString());
 					r.next();
 					if (r.getBoolean(1) && !newIsVoid) {
@@ -125,12 +121,9 @@ public class TriggerTransactionCreditsAndPayments implements Trigger {
 						// Pyaments for the entries to which the
 						// TransactionReceivePayment is match.
 
-						stat
-								.execute(new StringBuilder()
-										.append(
-												"UPDATE TRANSACTION_CREDITS_AND_PAYMENTS TCP SET TCP.AMOUNT_TO_USE = 0.0, TCP.IS_VOID = 'TRUE' WHERE TCP.TRANSACTION_PAYBILL_ID = ")
-										.append(newTransactionPayBillId)
-										.toString());
+						stat.execute(new StringBuilder()
+								.append("UPDATE TRANSACTION_CREDITS_AND_PAYMENTS TCP SET TCP.AMOUNT_TO_USE = 0.0, TCP.IS_VOID = 'TRUE' WHERE TCP.TRANSACTION_PAYBILL_ID = ")
+								.append(newTransactionPayBillId).toString());
 
 					}
 				}
@@ -171,17 +164,16 @@ public class TriggerTransactionCreditsAndPayments implements Trigger {
 
 		// Updating the balance of the corresponding Credit and Payment by the
 		// used amount in any Payment.
-		stat.execute(new StringBuilder().append(
-				"UPDATE CREDITS_AND_PAYMENTS CP SET CP.BALANCE= CP.BALANCE - ")
-				.append(newAmoutToUse).append(" WHERE CP.ID =").append(
-						newCreditsAndPaymentsId).toString());
+		stat.execute(new StringBuilder()
+				.append("UPDATE CREDITS_AND_PAYMENTS CP SET CP.BALANCE= CP.BALANCE - ")
+				.append(newAmoutToUse).append(" WHERE CP.ID =")
+				.append(newCreditsAndPaymentsId).toString());
 
 		// Query to retrieve the balance and the credit amount of the credit and
 		// payment used in this payment and the type of transaction .
 		ResultSet rs = stat
 				.executeQuery(new StringBuilder()
-						.append(
-								"SELECT CP.BALANCE, CP.CREDIT_AMOUNT,T.T_TYPE FROM CREDITS_AND_PAYMENTS CP JOIN TRANSACTION T ON CP.TRANSACTION_ID = T.ID WHERE CP.ID = ")
+						.append("SELECT CP.BALANCE, CP.CREDIT_AMOUNT,T.T_TYPE FROM CREDITS_AND_PAYMENTS CP JOIN TRANSACTION T ON CP.TRANSACTION_ID = T.ID WHERE CP.ID = ")
 						.append(newCreditsAndPaymentsId).toString());
 		if (rs.next()) {
 			Double balance = rs.getDouble(1);
@@ -195,29 +187,21 @@ public class TriggerTransactionCreditsAndPayments implements Trigger {
 
 				// To change the status of CCM or VCM as Partially Applied
 				if (balance > 0D && balance < creditAmount) {
-					stat
-							.execute(new StringBuilder()
-									.append(
-											"UPDATE TRANSACTION T SET T.STATUS = ")
-									.append(
-											Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED)
-									.append(" WHERE T.ID = ")
-									.append(
-											" SELECT CP.TRANSACTION_ID FROM CREDITS_AND_PAYMENTS CP WHERE CP.ID = ")
-									.append(newCreditsAndPaymentsId).toString());
+					stat.execute(new StringBuilder()
+							.append("UPDATE TRANSACTION T SET T.STATUS = ")
+							.append(Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED)
+							.append(" WHERE T.ID = ")
+							.append(" SELECT CP.TRANSACTION_ID FROM CREDITS_AND_PAYMENTS CP WHERE CP.ID = ")
+							.append(newCreditsAndPaymentsId).toString());
 				}
 				// To change the status of CCM or VCM as Applied
 				else if (balance == 0D) {
-					stat
-							.execute(new StringBuilder()
-									.append(
-											"UPDATE TRANSACTION T SET T.STATUS = ")
-									.append(
-											Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)
-									.append(" WHERE T.ID = ")
-									.append(
-											" SELECT CP.TRANSACTION_ID FROM CREDITS_AND_PAYMENTS CP WHERE CP.ID = ")
-									.append(newCreditsAndPaymentsId).toString());
+					stat.execute(new StringBuilder()
+							.append("UPDATE TRANSACTION T SET T.STATUS = ")
+							.append(Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)
+							.append(" WHERE T.ID = ")
+							.append(" SELECT CP.TRANSACTION_ID FROM CREDITS_AND_PAYMENTS CP WHERE CP.ID = ")
+							.append(newCreditsAndPaymentsId).toString());
 				}
 			}
 		}
@@ -227,7 +211,7 @@ public class TriggerTransactionCreditsAndPayments implements Trigger {
 	@Override
 	public void init(Connection arg0, String arg1, String arg2, String arg3,
 			boolean arg4, int arg5) throws SQLException {
-		// TODO Auto-generated method stub
+		// currently not using anywhere in the project.
 
 	}
 
