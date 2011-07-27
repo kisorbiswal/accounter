@@ -416,7 +416,7 @@ public class Invoice extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return false;
 	}
 
@@ -876,8 +876,6 @@ public class Invoice extends Transaction implements Lifecycle {
 	}
 
 	public boolean equals(Invoice in) {
-		// TODO Auto-generated method stub
-
 		if (this.getTotal() == in.getTotal()
 				&& this.transactionItems.size() == in.transactionItems.size()
 
