@@ -73,9 +73,9 @@ public class TriggerEnterBill implements Trigger {
 
 				// Deleting corresponding transaction rows from Account
 				// Transaction table
-				stat.execute(new StringBuilder().append(
-						"DELETE FROM ACCOUNT_TRANSACTION WHERE T_ID =").append(
-						newEnterBillId).toString());
+				stat.execute(new StringBuilder()
+						.append("DELETE FROM ACCOUNT_TRANSACTION WHERE T_ID =")
+						.append(newEnterBillId).toString());
 
 				// Reverse update the Accounts Payable Account with the
 				// EnterBill amount
@@ -89,8 +89,7 @@ public class TriggerEnterBill implements Trigger {
 				int count = 0;
 				ResultSet r = stat
 						.executeQuery(new StringBuilder()
-								.append(
-										"SELECT COUNT(*) FROM TRANSACTION_PAYBILL TP WHERE TP.ENTER_BILL_ID =  ")
+								.append("SELECT COUNT(*) FROM TRANSACTION_PAYBILL TP WHERE TP.ENTER_BILL_ID =  ")
 								.append(oldEnterBillId).toString());
 
 				if (r.next()) {
@@ -103,56 +102,40 @@ public class TriggerEnterBill implements Trigger {
 
 					// Increasing the Unused Payments amount of Pay Bill with
 					// the EnterBill amount in which it's being paid.
-					stat
-							.execute(new StringBuilder()
-									.append(
-											"UPDATE PAY_BILL PB SET PB.UNUSED_AMOUNT = PB.UNUSED_AMOUNT + (SELECT TRP.PAYMENT FROM TRANSACTION_PAYBILL TRP  WHERE TRP.TRANSACTION_ID = PB.ID AND TRP.ENTER_BILL_ID= ")
-									.append(oldEnterBillId)
-									.append(
-											") WHERE PB.ID IN (SELECT TRP1.TRANSACTION_ID FROM TRANSACTION_PAYBILL TRP1 WHERE TRP1.ENTER_BILL_ID = ")
-									.append(oldEnterBillId).append(")")
-									.toString());
+					stat.execute(new StringBuilder()
+							.append("UPDATE PAY_BILL PB SET PB.UNUSED_AMOUNT = PB.UNUSED_AMOUNT + (SELECT TRP.PAYMENT FROM TRANSACTION_PAYBILL TRP  WHERE TRP.TRANSACTION_ID = PB.ID AND TRP.ENTER_BILL_ID= ")
+							.append(oldEnterBillId)
+							.append(") WHERE PB.ID IN (SELECT TRP1.TRANSACTION_ID FROM TRANSACTION_PAYBILL TRP1 WHERE TRP1.ENTER_BILL_ID = ")
+							.append(oldEnterBillId).append(")").toString());
 
 					// Increase the Credits and payments balance by the amount
 					// used in this enter bill
-					stat
-							.execute(new StringBuilder()
-									.append(
-											"UPDATE CREDITS_AND_PAYMENTS CP SET CP.BALANCE = CP.BALANCE + (CASE WHEN (SELECT TRP1.APPLIED_CREDITS FROM TRANSACTION_PAYBILL TRP1 JOIN TRANSACTION_CREDITS_AND_PAYMENTS TCP1 ON TCP1.TRANSACTION_PAYBILL_ID = TRP1.ID JOIN CREDITS_AND_PAYMENTS CP1 ON TCP1.CREDITS_AND_PAYMENTS_ID= CP1.ID WHERE CP1.ID = CP.ID AND TRP1.ENTER_BILL_ID = ")
-									.append(oldEnterBillId)
-									.append(
-											")  > 0 THEN SELECT  TCP2.AMOUNT_TO_USE  FROM TRANSACTION_CREDITS_AND_PAYMENTS TCP2  JOIN CREDITS_AND_PAYMENTS CP2 ON TCP2.CREDITS_AND_PAYMENTS_ID = CP2.ID JOIN TRANSACTION_PAYBILL TRP2 ON TRP2.ID = TCP2.TRANSACTION_PAYBILL_ID WHERE CP2.ID = CP.ID AND TRP2.ENTER_BILL_ID =")
-									.append(oldEnterBillId)
-									.append(
-											" ELSE 0 END) WHERE CP.ID IN (SELECT CP1.ID FROM CREDITS_AND_PAYMENTS CP1 JOIN TRANSACTION_CREDITS_AND_PAYMENTS TCP ON CP1.ID = TCP.CREDITS_AND_PAYMENTS_ID JOIN TRANSACTION_PAYBILL TRP1 ON TCP.TRANSACTION_PAYBILL_ID = TRP1.ID WHERE TRP1.ENTER_BILL_ID = ")
-									.append(oldEnterBillId).append(")")
-									.toString());
+					stat.execute(new StringBuilder()
+							.append("UPDATE CREDITS_AND_PAYMENTS CP SET CP.BALANCE = CP.BALANCE + (CASE WHEN (SELECT TRP1.APPLIED_CREDITS FROM TRANSACTION_PAYBILL TRP1 JOIN TRANSACTION_CREDITS_AND_PAYMENTS TCP1 ON TCP1.TRANSACTION_PAYBILL_ID = TRP1.ID JOIN CREDITS_AND_PAYMENTS CP1 ON TCP1.CREDITS_AND_PAYMENTS_ID= CP1.ID WHERE CP1.ID = CP.ID AND TRP1.ENTER_BILL_ID = ")
+							.append(oldEnterBillId)
+							.append(")  > 0 THEN SELECT  TCP2.AMOUNT_TO_USE  FROM TRANSACTION_CREDITS_AND_PAYMENTS TCP2  JOIN CREDITS_AND_PAYMENTS CP2 ON TCP2.CREDITS_AND_PAYMENTS_ID = CP2.ID JOIN TRANSACTION_PAYBILL TRP2 ON TRP2.ID = TCP2.TRANSACTION_PAYBILL_ID WHERE CP2.ID = CP.ID AND TRP2.ENTER_BILL_ID =")
+							.append(oldEnterBillId)
+							.append(" ELSE 0 END) WHERE CP.ID IN (SELECT CP1.ID FROM CREDITS_AND_PAYMENTS CP1 JOIN TRANSACTION_CREDITS_AND_PAYMENTS TCP ON CP1.ID = TCP.CREDITS_AND_PAYMENTS_ID JOIN TRANSACTION_PAYBILL TRP1 ON TCP.TRANSACTION_PAYBILL_ID = TRP1.ID WHERE TRP1.ENTER_BILL_ID = ")
+							.append(oldEnterBillId).append(")").toString());
 
 					// Updating the Paybill to make the payments and the applied
 					// credits amounts as zero.
-					stat
-							.execute(new StringBuilder()
-									.append(
-											"UPDATE TRANSACTION_PAYBILL TRP SET TRP.PAYMENT = 0.0,TRP.APPLIED_CREDITS = 0.0 WHERE TRP.ENTER_BILL_ID = ")
-									.append(oldEnterBillId).toString());
+					stat.execute(new StringBuilder()
+							.append("UPDATE TRANSACTION_PAYBILL TRP SET TRP.PAYMENT = 0.0,TRP.APPLIED_CREDITS = 0.0 WHERE TRP.ENTER_BILL_ID = ")
+							.append(oldEnterBillId).toString());
 
 					// Update the corresponding TransactionCreditsAndPayments
 					// amount to use as zero.
-					stat
-							.execute(new StringBuilder()
-									.append(
-											"UPDATE TRANSACTION_CREDITS_AND_PAYMENTS TCP SET TCP.AMOUNT_TO_USE = 0.0 WHERE TCP.ID IN (SELECT TCP.ID FROM TRANSACTION_CREDITS_AND_PAYMENTS TCP JOIN TRANSACTION_PAYBILL TRP ON TCP.TRANSACTION_PAYBILL_ID = TRP.ID WHERE TRP.ENTER_BILL_ID = ")
-									.append(oldEnterBillId).append(")")
-									.toString());
+					stat.execute(new StringBuilder()
+							.append("UPDATE TRANSACTION_CREDITS_AND_PAYMENTS TCP SET TCP.AMOUNT_TO_USE = 0.0 WHERE TCP.ID IN (SELECT TCP.ID FROM TRANSACTION_CREDITS_AND_PAYMENTS TCP JOIN TRANSACTION_PAYBILL TRP ON TCP.TRANSACTION_PAYBILL_ID = TRP.ID WHERE TRP.ENTER_BILL_ID = ")
+							.append(oldEnterBillId).append(")").toString());
 
 				}
 
 				// Update the Enter Bill to make the it as paid.
-				stat
-						.execute(new StringBuilder()
-								.append(
-										"UPDATE ENTER_BILL EB SET EB.PAYMENTS = EB.TOTAL,EB.BALANCE_DUE = 0.0 WHERE EB.ID =")
-								.append(oldEnterBillId).toString());
+				stat.execute(new StringBuilder()
+						.append("UPDATE ENTER_BILL EB SET EB.PAYMENTS = EB.TOTAL,EB.BALANCE_DUE = 0.0 WHERE EB.ID =")
+						.append(oldEnterBillId).toString());
 
 			}
 
@@ -162,26 +145,26 @@ public class TriggerEnterBill implements Trigger {
 
 	private void updateVendorBalance(Statement stat, Double total,
 			Long vendorId, String symbol) throws SQLException {
-		stat.execute(new StringBuilder().append(
-				"UPDATE VENDOR V SET V.BALANCE = V.BALANCE ").append(symbol)
-				.append(" ").append(total).append(" WHERE V.ID = ").append(
-						vendorId).toString());
+		stat.execute(new StringBuilder()
+				.append("UPDATE VENDOR V SET V.BALANCE = V.BALANCE ")
+				.append(symbol).append(" ").append(total)
+				.append(" WHERE V.ID = ").append(vendorId).toString());
 	}
 
 	private void updateAccountsPayableAccount(Statement stat, Double total,
 			Long accountsPayableId, String symbol) throws SQLException {
-		stat.execute(new StringBuilder().append(
-				"UPDATE ACCOUNT A SET A.CURRENT_BALANCE = A.CURRENT_BALANCE ")
-				.append(symbol).append(" ").append(total).append(
-						", A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
-				.append(" ").append(total).append(" WHERE A.ID = ").append(
-						accountsPayableId).toString());
+		stat.execute(new StringBuilder()
+				.append("UPDATE ACCOUNT A SET A.CURRENT_BALANCE = A.CURRENT_BALANCE ")
+				.append(symbol).append(" ").append(total)
+				.append(", A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
+				.append(" ").append(total).append(" WHERE A.ID = ")
+				.append(accountsPayableId).toString());
 	}
 
 	@Override
 	public void init(Connection arg0, String arg1, String arg2, String arg3,
 			boolean arg4, int arg5) throws SQLException {
-		// TODO Auto-generated method stub
+		// currently not using anywhere in the project.
 
 	}
 
