@@ -33,7 +33,7 @@ public class TransactionReceiveVATGrid extends
 	@Override
 	public <E> CustomCombo<E> getCustomCombo(ClientTransactionReceiveVAT obj,
 			int colIndex) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
@@ -197,7 +197,7 @@ public class TransactionReceiveVATGrid extends
 
 	@Override
 	public void setTaxCode(long taxCode) {
-		// TODO Auto-generated method stub
+		// currently not using
 
 	}
 
