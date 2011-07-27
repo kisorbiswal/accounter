@@ -65,7 +65,7 @@
 			cascade="save-update" lazy="false" column="TRANSACTION_MAKE_DEPOSIT_ENTRY_ID">
 		</many-to-one>
 		<joined-subclass name="PaySalesTax" table="PAY_SALES_TAX">
-			<key column="id" />
+			<key column="ID" />
 			<property name="billsDueOnOrBefore" column="BILLS_DUE_ON_OR_BEFORE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<many-to-one name="payFrom" class="Account" lazy="false"
@@ -83,7 +83,7 @@
 			</list>
 		</joined-subclass>
 		<joined-subclass name="PayVAT" table="PAY_VAT">
-			<key column="id" />
+			<key column="ID" />
 			<property name="returnsDueOnOrBefore" column="RETURNS_DUE_ON_OR_BEFORE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<many-to-one name="payFrom" class="Account" lazy="false"
@@ -101,7 +101,7 @@
 			</list>
 		</joined-subclass>
 		<joined-subclass name="ReceiveVAT" table="RECEIVE_VAT">
-			<key column="id" />
+			<key column="ID" />
 			<property name="returnsDueOnOrBefore" column="RETURNS_DUE_ON_OR_BEFORE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<many-to-one name="depositIn" class="Account" lazy="false"
@@ -119,7 +119,7 @@
 			</list>
 		</joined-subclass>
 		<joined-subclass name="CashPurchase" table="CASH_PURCHASE">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="vendor" class="Vendor" lazy="false"
 				cascade="save-update" column="VENDOR_ID">
 			</many-to-one>
@@ -158,7 +158,7 @@
 			<property name="expenseStatus" column="EXPENSE_STATUS"></property>
 		</joined-subclass>
 		<joined-subclass name="CashSales" table="CASH_SALES">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="customer" class="Customer" lazy="false"
 				cascade="save-update" column="CUSTOMER_ID">
 			</many-to-one>
@@ -212,7 +212,7 @@
 			<property name="discountTotal" column="DISCOUNT_TOTAL"></property>
 		</joined-subclass>
 		<joined-subclass name="CreditCardCharge" table="CREDIT_CARD_CHARGES">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="vendor" class="Vendor" lazy="false"
 				cascade="save-update" column="VENDOR_ID">
 			</many-to-one>
@@ -241,7 +241,7 @@
 				type="com.vimukti.accounter.core.LongUseType"></property>
 		</joined-subclass>
 		<joined-subclass name="CustomerCreditMemo" table="CUSTOMER_CREDIT_MEMO">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="customer" class="Customer" lazy="false"
 				cascade="save-update" column="CUSTOMER_ID">
 			</many-to-one>
@@ -278,7 +278,7 @@
 		</joined-subclass>
 
 		<joined-subclass name="CustomerPrePayment" table="CUSTOMER_PREPAYMENT">
-			<key column="id"></key>
+			<key column="ID"></key>
 			<many-to-one name="depositIn" class="Account" lazy="false"
 				cascade="save-update" column="DEPOSITIN_ID"></many-to-one>
 			<many-to-one name="customer" class="Customer" lazy="false"
@@ -300,7 +300,7 @@
 		</joined-subclass>
 
 		<joined-subclass name="CustomerRefund" table="CUSTOMER_REFUND">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="payTo" class="Customer" lazy="false"
 				cascade="save-update" column="CUSTOMER_ID">
 			</many-to-one>
@@ -332,7 +332,7 @@
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
 		</joined-subclass>
 		<joined-subclass name="EnterBill" table="ENTER_BILL">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="vendor" class="Vendor" lazy="false"
 				cascade="save-update" column="VENDOR_ID">
 			</many-to-one>
@@ -380,7 +380,7 @@
 			</many-to-one>
 		</joined-subclass>
 		<joined-subclass name="Estimate" table="ESTIMATE">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="customer" class="Customer" lazy="false"
 				cascade="save-update" column="CUSTOMER_ID">
 			</many-to-one>
@@ -420,7 +420,7 @@
 			<property name="isTurnedToInvoiceOrSalesOrder" column="IS_TURNED_TO_INVOICE"></property>
 		</joined-subclass>
 		<joined-subclass name="Invoice" table="INVOICE">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="customer" class="Customer" lazy="false"
 				cascade="save-update" column="CUSTOMER_ID">
 			</many-to-one>
@@ -494,7 +494,7 @@
 			</set>
 		</joined-subclass>
 		<joined-subclass name="MakeDeposit" table="MAKE_DEPOSIT">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="depositIn" class="Account" lazy="false"
 				cascade="save-update" column="DEPOSIT_IN_ID">
 			</many-to-one>
@@ -511,7 +511,7 @@
 			</list>
 		</joined-subclass>
 		<joined-subclass name="PayBill" table="PAY_BILL">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="payFrom" class="Account" lazy="false"
 				cascade="save-update" column="PAYFROM_ID">
 			</many-to-one>
@@ -549,7 +549,7 @@
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
 		</joined-subclass>
 		<joined-subclass name="PurchaseOrder" table="PURCHASE_ORDER">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="vendor" class="Vendor" lazy="false"
 				cascade="save-update" column="VENDOR_ID">
 			</many-to-one>
@@ -613,7 +613,7 @@
 				<one-to-many class="ItemReceipt" /> </list> -->
 		</joined-subclass>
 		<joined-subclass name="ItemReceipt" table="ITEM_RECEIPT">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="vendor" class="Vendor" lazy="false"
 				cascade="save-update" column="VENDOR_ID">
 			</many-to-one>
@@ -677,7 +677,7 @@
 			<property name="balanceDue" column="BALANCE_DUE"></property>
 		</joined-subclass>
 		<joined-subclass name="ReceivePayment" table="RECEIVE_PAYMENT">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="customer" class="Customer" lazy="false"
 				cascade="save-update" column="CUSTOMER_ID">
 			</many-to-one>
@@ -707,7 +707,7 @@
 			</list>
 		</joined-subclass>
 		<joined-subclass name="SalesOrder" table="SALES_ORDER">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="customer" class="Customer" lazy="false"
 				cascade="save-update" column="CUSTOMER_ID">
 			</many-to-one>
@@ -771,7 +771,7 @@
 				class="Invoice" /> </list> -->
 		</joined-subclass>
 		<joined-subclass name="Expense" table="EXPENSE">
-			<key column="id" />
+			<key column="ID" />
 			<property name="billFrom" column="BILL_FROM"></property>
 			<property name="billDate" column="BILL_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
@@ -794,7 +794,7 @@
 			</list>
 		</joined-subclass>
 		<joined-subclass name="VendorCreditMemo" table="VENDOR_CREDIT_MEMO">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="vendor" class="Vendor" lazy="false"
 				cascade="save-update" column="VENDOR_ID">
 			</many-to-one>
@@ -809,7 +809,7 @@
 			<property name="balanceDue" column="BALANCE_DUE"></property>
 		</joined-subclass>
 		<joined-subclass name="PayExpense" table="PAY_EXPENSE">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="paidFrom" class="Account" lazy="false"
 				column="ACCOUNT_ID">
 			</many-to-one>
@@ -822,7 +822,7 @@
 			</list>
 		</joined-subclass>
 		<joined-subclass name="WriteCheck" table="WRITE_CHECKS">
-			<key column="id" />
+			<key column="ID" />
 			<property name="payToType" column="PAY_TO_TYPE"></property>
 			<many-to-one name="bankAccount" class="Account" lazy="false"
 				cascade="save-update" column="ACCOUNT_ID">
@@ -857,7 +857,7 @@
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
 		</joined-subclass>
 		<joined-subclass name="TransferFund" table="TRANSFER_FUND">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="transferFrom" class="Account" lazy="false"
 				cascade="save-update" column="TRANSFER_FROM">
 			</many-to-one>
@@ -866,7 +866,7 @@
 			</many-to-one>
 		</joined-subclass>
 		<joined-subclass name="IssuePayment" table="ISSUEPAYMENT">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="account" class="Account" lazy="false"
 				cascade="save-update" column="ACCOUNT_ID">
 			</many-to-one>
@@ -879,7 +879,7 @@
 			</list>
 		</joined-subclass>
 		<joined-subclass name="JournalEntry" table="JOURNAL_ENTRY">
-			<key column="id" />
+			<key column="ID" />
 			<property name="debitTotal" column="DEBIT_TOTAL"></property>
 			<property name="creditTotal" column="CREDIT_TOTAL"></property>
 			<property name="journalEntryType" column="JOURNAL_ENTRY_TYPE"></property>
@@ -904,7 +904,7 @@
 			</set>
 		</joined-subclass>
 		<joined-subclass name="VATReturn" table="VAT_RETURN">
-			<key column="id" />
+			<key column="ID" />
 			<property name="VATperiodStartDate" column="VAT_PERIOD_START_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="VATperiodEndDate" column="VAT_PERIOD_END_DATE"
@@ -923,7 +923,7 @@
 			<property name="balance" column="BALANCE"></property>
 		</joined-subclass>
 		<joined-subclass name="TAXAdjustment" table="TAX_ADJUSTMENT">
-			<key column="id" />
+			<key column="ID" />
 			<property name="increaseVATLine" column="INCREASE_VAT_LINE"></property>
 			<property name="isFiled" column="IS_FILED"></property>
 			<many-to-one name="adjustmentAccount" class="Account"
@@ -940,7 +940,7 @@
 			</many-to-one>
 		</joined-subclass>
 		<joined-subclass name="StockAdjustment" table="STOCK_ADJUSTMENT">
-			<key column="id" />
+			<key column="ID" />
 			<property name="completed" column="COMPLETED" />
 			<set name="adjustmentItems" table="STOCK_ADJUSTMENT_MAPPING">
 				<key column="STOCK_ADJUSTMENT" />
