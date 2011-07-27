@@ -30,6 +30,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
+import com.vimukti.accounter.web.client.ui.core.ReportsActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.VATBoxGrid;
@@ -99,7 +100,6 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 			public void onClick(ClickEvent event) {
 				canSaveFileVat = true;
 				reloadVatBoxes();
-				enableprintButton();
 			}
 		});
 
@@ -486,6 +486,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 
 			}
 		};
+		report.setAction(ReportsActionFactory.getVAT100ReportAction());
 		report.init();
 		report.initData();
 		report.makeReportRequest(selectedVatAgency.getID(),
