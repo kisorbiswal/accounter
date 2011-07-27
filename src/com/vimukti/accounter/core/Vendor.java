@@ -415,7 +415,7 @@ public class Vendor extends Payee implements Lifecycle {
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
+
 		return this.id;
 	}
 
