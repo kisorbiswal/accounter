@@ -73,13 +73,13 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
+		// currently not using
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
+		// currently not using
 
 	}
 
