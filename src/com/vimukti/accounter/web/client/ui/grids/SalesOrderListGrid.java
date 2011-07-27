@@ -55,7 +55,7 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 
 	@Override
 	protected void onClick(SalesOrdersList obj, int row, int col) {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
 		view.onClick(obj);
@@ -64,7 +64,7 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 
 	@Override
 	public boolean validateGrid() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return false;
 	}
 
@@ -87,8 +87,7 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 
 	@Override
 	protected void executeDelete(SalesOrdersList object) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
