@@ -138,7 +138,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 					Accounter.getReportsMessages().endThisFiscalQuarter())
 					&& dateRange.equals(Accounter.getReportsMessages()
 							.endThisFiscalQuarter())) {
-				// TODO changes are needed for calculating Fiscal Quarter,
+				// changes are needed for calculating Fiscal Quarter,
 				// according
 				// to user preferences.
 				int month = (date.getMonth()) % 3;
