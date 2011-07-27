@@ -14,8 +14,7 @@ public class SalesTaxItemsGrid extends BaseListGrid<ClientTAXItem> {
 
 	@Override
 	protected void executeDelete(ClientTAXItem object) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
@@ -37,8 +36,7 @@ public class SalesTaxItemsGrid extends BaseListGrid<ClientTAXItem> {
 
 	@Override
 	public void onDoubleClick(ClientTAXItem obj) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
