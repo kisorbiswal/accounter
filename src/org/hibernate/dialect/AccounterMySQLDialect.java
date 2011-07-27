@@ -18,7 +18,7 @@ public class AccounterMySQLDialect extends MySQLInnoDBDialect {
 
 	@Override
 	public boolean supportsIdentityColumns() {
-		boolean supportsIdentityColumns = supportsIdentityColumns();
-		return super.supportsIdentityColumns();
+		boolean supportsIdentityColumns = super.supportsIdentityColumns();
+		return supportsIdentityColumns;
 	}
 }
