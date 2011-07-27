@@ -17,6 +17,7 @@ public class ReceiveBooksTransferAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -27,10 +28,12 @@ public class ReceiveBooksTransferAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
 	public ImageResource getSmallImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
