@@ -183,7 +183,7 @@ public class TransactionReceiveVATGrid extends
 
 	@Override
 	public Double getTotal() {
-		// TODO Auto-generated method stub
+
 		return super.getTotal();
 	}
 
