@@ -26,7 +26,7 @@ public class CreditRatingListAction extends Action {
 
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO
 		return null;
 	}
 
