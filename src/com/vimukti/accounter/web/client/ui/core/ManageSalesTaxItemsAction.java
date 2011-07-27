@@ -58,7 +58,6 @@ public class ManageSalesTaxItemsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		if (Accounter.getUser().canDoInvoiceTransactions())
 			return "manageSalesTaxItems";
 		else
