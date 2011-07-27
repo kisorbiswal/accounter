@@ -73,8 +73,7 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 
 	@Override
 	public void updateInGrid(ClientJournalEntry objectTobeModified) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
@@ -90,8 +89,7 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 		listOfTypes.add(Accounter.getVendorsMessages().all());
 		currentView.initCombo(listOfTypes);
 		// currentView.setComboItem(FinanceApplication.getVendorsMessages().all());
-		currentView.setComboItem(Accounter.getCustomersMessages()
-				.all());
+		currentView.setComboItem(Accounter.getCustomersMessages().all());
 		currentView
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -185,8 +183,7 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
