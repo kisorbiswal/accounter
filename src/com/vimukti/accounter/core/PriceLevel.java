@@ -76,7 +76,6 @@ public class PriceLevel extends CreatableObject implements
 		return version;
 	}
 
-
 	/**
 	 * @return the name
 	 */
@@ -110,8 +109,7 @@ public class PriceLevel extends CreatableObject implements
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
@@ -128,7 +126,6 @@ public class PriceLevel extends CreatableObject implements
 		ChangeTracker.put(this);
 		return false;
 	}
-
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
