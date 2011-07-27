@@ -2562,7 +2562,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 	}
 
-	@Override
+	/*@Override
 	public void office_expense() {
 		// TODO Auto-generated method stub
 
@@ -2596,6 +2596,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 	public void other_direct_cost() {
 		// TODO Auto-generated method stub
 
-	}
+	}*/
 
 }

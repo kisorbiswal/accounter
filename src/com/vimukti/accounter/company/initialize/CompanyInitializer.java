@@ -189,7 +189,21 @@ public abstract class CompanyInitializer {
 		Account legal_fees = new Account(Account.TYPE_EXPENSE, null, "Legal Fees", indirect_costs, "", this.preferences.getPreventPostingBeforeDate());
 		Account bank_paid_interest = new Account(Account.TYPE_EXPENSE, null, "Bank Paid Interest", indirect_costs, "", this.preferences.getPreventPostingBeforeDate());
 		Account bank_charges = new Account(Account.TYPE_EXPENSE, null, "Bank Charges", indirect_costs, "", this.preferences.getPreventPostingBeforeDate());
-		Account credit_charges = new Account(Account.TYPE_EXPENSE, null, "Credit", indirect_costs, "", this.preferences.getPreventPostingBeforeDate());
+		Account credit_charges = new Account(Account.TYPE_EXPENSE, null, "Credit Charges", indirect_costs, "", this.preferences.getPreventPostingBeforeDate());
+		Account lease_payments = new Account(Account.TYPE_EXPENSE, null, "Lease Payments", indirect_costs, "", this.preferences.getPreventPostingBeforeDate());
+		Account Loan_interest_paid = new Account(Account.TYPE_EXPENSE, null, "Loan Interest Paid", indirect_costs, "", this.preferences.getPreventPostingBeforeDate());
+		Account currency_charges = new Account(Account.TYPE_EXPENSE, null, "Currency Charges", indirect_costs, "", this.preferences.getPreventPostingBeforeDate());
+		Account exchange_rate_variance = new Account(Account.TYPE_EXPENSE, null, "Exchange Rate Variance", indirect_costs, "", this.preferences.getPreventPostingBeforeDate());
+		Account bad_debut_provision = new Account(Account.TYPE_EXPENSE, null, "Bad Debut Provision", indirect_costs, "", this.preferences.getPreventPostingBeforeDate());
+		Account bad_debut_write_off = new Account(Account.TYPE_EXPENSE, null, "Bad Debut write off", indirect_costs, "", this.preferences.getPreventPostingBeforeDate());
+		Account deprication = new Account(Account.TYPE_EXPENSE, null, "Deprication", indirect_costs, "", this.preferences.getPreventPostingBeforeDate());
+		Account office_equipment_deprication = new Account(Account.TYPE_EXPENSE, null, "Office Equipment Deprication", indirect_costs, "", this.preferences.getPreventPostingBeforeDate());
+		Account it_equipment_deprication = new Account(Account.TYPE_EXPENSE, null, "IT Equipment Deprication", indirect_costs, "", this.preferences.getPreventPostingBeforeDate());
+		Account furniture_fixture_deprication = new Account(Account.TYPE_EXPENSE, null, "Furniture Fixture Deprication", indirect_costs, "", this.preferences.getPreventPostingBeforeDate());
+		Account plant_machinary_deprication = new Account(Account.TYPE_EXPENSE, null, "Plant/Machinary Deprication", indirect_costs, "", this.preferences.getPreventPostingBeforeDate());
+		Account veichel_deprication = new Account(Account.TYPE_EXPENSE, null, "Veichel Deprication", indirect_costs, "", this.preferences.getPreventPostingBeforeDate());
+		Account freehold_building_deprication = new Account(Account.TYPE_EXPENSE, null, "Freehold Building Deprication", indirect_costs, "", this.preferences.getPreventPostingBeforeDate());
+		Account lease_property_improvement_deprication = new Account(Account.TYPE_EXPENSE, null, "Lease Property Improvement Deprication", indirect_costs, "", this.preferences.getPreventPostingBeforeDate());
 		
 
 	}
