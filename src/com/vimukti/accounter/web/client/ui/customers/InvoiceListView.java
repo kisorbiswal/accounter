@@ -510,19 +510,16 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 	@Override
 	public void onEdit() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void print() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
