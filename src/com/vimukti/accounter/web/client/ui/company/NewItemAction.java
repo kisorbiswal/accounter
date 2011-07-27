@@ -32,7 +32,7 @@ public class NewItemAction extends Action {
 		super(text, iconString);
 		this.catagory = Accounter.getCompanyMessages().company();
 	}
-	
+
 	public NewItemAction(String text, String iconString,
 			boolean isGeneratedFromCustomer) {
 		super(text, iconString);
@@ -109,11 +109,12 @@ public class NewItemAction extends Action {
 
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -123,7 +124,6 @@ public class NewItemAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/new_item.png";
 	}
 
@@ -133,7 +133,6 @@ public class NewItemAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "newItem";
 	}
 }
