@@ -459,7 +459,6 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -21,15 +21,12 @@ public class Bank implements IAccounterServerCore {
 
 	int version;
 
-
 	public Bank() {
 	}
 
 	public int getVersion() {
 		return version;
 	}
-
-
 
 	/**
 	 * @param id
@@ -67,12 +64,9 @@ public class Bank implements IAccounterServerCore {
 	}
 
 	@Override
-	public long getID(){
-		// TODO Auto-generated method stub
-		return this.id;
+	public long getID() {
+		return id;
 	}
-
-
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

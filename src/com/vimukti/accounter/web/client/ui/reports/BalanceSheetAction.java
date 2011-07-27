@@ -56,7 +56,7 @@ public class BalanceSheetAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+		// its not using any where return null;
 		return this.report;
 	}
 
@@ -80,7 +80,6 @@ public class BalanceSheetAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "balanceSheet";
 	}
 
