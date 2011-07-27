@@ -8,9 +8,9 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
 
-public class WarehouseListView extends BaseListView<StockTransfer> {
+public class WarehouseTransferListView extends BaseListView<StockTransfer> {
 
-	private CustomersMessages customerConstants;
+	private Object customerConstants;
 
 	@Override
 	public void init() {
@@ -19,58 +19,14 @@ public class WarehouseListView extends BaseListView<StockTransfer> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
-
-	}
-
-	@Override
-	public void deleteSuccess(Boolean result) {
-
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.getSettingsMessages().warehouseList();
-	}
-
-	@Override
-	public void fitToSize(int height, int width) {
+	public void updateInGrid(StockTransfer objectTobeModified) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onEdit() {
-
-	}
-
-	@Override
-	public void printPreview() {
-
-	}
-
-	@Override
-	public void print() {
-
-	}
-
-	@Override
-	public void saveSuccess(IAccounterCore object) {
-		if (object != null) {
-			super.saveSuccess(object);
-			SettingsActionFactory.getInvoiceBrandingAction().run(null, false);
-		} else
-			saveFailed(new Exception(Accounter.getCompanyMessages().failed()));
-	}
-
-	@Override
 	protected void initGrid() {
-		grid = new WarehouseListGrid(false);
+		grid = new WarehouseTransferListGrid(false);
 		grid.init();
 	}
 
@@ -93,8 +49,35 @@ public class WarehouseListView extends BaseListView<StockTransfer> {
 	}
 
 	@Override
-	public void updateInGrid(StockTransfer objectTobeModified) {
-		// currently not using
+	protected String getViewTitle() {
+		return Accounter.getSettingsMessages().warehouseTransferList();
+	}
+
+	@Override
+	public void onEdit() {
+		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void printPreview() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void print() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void saveSuccess(IAccounterCore object) {
+		if (object != null) {
+			super.saveSuccess(object);
+			SettingsActionFactory.getInvoiceBrandingAction().run(null, false);
+		} else
+			saveFailed(new Exception(Accounter.getCompanyMessages().failed()));
+	}
+
 }

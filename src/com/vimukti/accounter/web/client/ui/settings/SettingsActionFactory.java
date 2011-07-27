@@ -82,4 +82,8 @@ public class SettingsActionFactory extends AbstractActionFactory {
 	public static WarehouseListAction getWarehouseListAction() {
 		return new WarehouseListAction(messages.warehouseList());
 	}
+
+	public static WarehouseTransferListAction getWarehouseTransferListAction() {
+		return new WarehouseTransferListAction(messages.warehouseTransferList());
+	}
 }

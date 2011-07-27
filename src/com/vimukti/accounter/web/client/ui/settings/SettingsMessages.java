@@ -439,4 +439,6 @@ public interface SettingsMessages extends FinanceMessages {
 
 	String warehouseList();
 
+	String warehouseTransferList();
+
 }

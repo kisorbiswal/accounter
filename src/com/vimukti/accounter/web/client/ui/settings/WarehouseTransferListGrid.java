@@ -6,9 +6,9 @@ import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-public class WarehouseListGrid extends BaseListGrid<StockTransfer> {
+public class WarehouseTransferListGrid extends BaseListGrid<StockTransfer> {
 
-	public WarehouseListGrid(boolean isMultiSelectionEnable) {
+	public WarehouseTransferListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
 	}
 
@@ -24,9 +24,6 @@ public class WarehouseListGrid extends BaseListGrid<StockTransfer> {
 		case 2:
 			return ListGrid.COLUMN_TYPE_TEXT;
 
-		case 3:
-			return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
-
 		default:
 			return 0;
 		}
@@ -34,43 +31,42 @@ public class WarehouseListGrid extends BaseListGrid<StockTransfer> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
+		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	protected int[] setColTypes() {
-		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT };
 	}
 
 	@Override
 	public boolean validateGrid() throws InvalidTransactionEntryException {
-		// currently not using
+		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { "Warehouse Name", "Item Name", "Available Items",
-				"Total Price" };
+		return new String[] { "From Warehouse", "To Warehouse", "Item Status" };
+	}
+
+	@Override
+	protected int[] setColTypes() {
+		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT };
 	}
 
 	@Override
 	protected void executeDelete(StockTransfer object) {
-		// currently not using
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected Object getColumnValue(StockTransfer obj, int index) {
-
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void onDoubleClick(StockTransfer obj) {
-		// currently not using
+		// TODO Auto-generated method stub
 
 	}
 
