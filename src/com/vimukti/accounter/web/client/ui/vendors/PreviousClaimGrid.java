@@ -33,8 +33,7 @@ public class PreviousClaimGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected void executeDelete(BillsList billsList) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
@@ -84,13 +83,13 @@ public class PreviousClaimGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	public void onDoubleClick(BillsList billsList) {
-		ReportsRPC.openTransactionView(billsList.getType(), billsList
-				.getTransactionId());
+		ReportsRPC.openTransactionView(billsList.getType(),
+				billsList.getTransactionId());
 	}
 
 	@Override
 	public boolean validateGrid() throws InvalidTransactionEntryException {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return false;
 	}
 
