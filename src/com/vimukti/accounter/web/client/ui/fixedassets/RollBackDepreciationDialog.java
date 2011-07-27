@@ -29,8 +29,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 	private ListBox dateBox;
 
 	public RollBackDepreciationDialog() {
-		super(Accounter.getFixedAssetConstants()
-				.rollBackDepreciation(), "");
+		super(Accounter.getFixedAssetConstants().rollBackDepreciation(), "");
 		getLastDepreciationDate();
 		// getAllDepreciationDates();
 		Timer timer = new Timer() {
@@ -53,9 +52,8 @@ public class RollBackDepreciationDialog extends BaseDialog {
 		if (lastDepreciationDate != null) {
 			String lastDepreciationDateString = UIUtils
 					.getDateByCompanyType(lastDepreciationDate);
-			Label introLabel = new Label(Accounter
-					.getFixedAssetConstants().lastDepreciation()
-					+ "  " + lastDepreciationDateString);
+			Label introLabel = new Label(Accounter.getFixedAssetConstants()
+					.lastDepreciation() + "  " + lastDepreciationDateString);
 			contentPanel.add(introLabel);
 		}
 		HTML prefixText = new HTML(Accounter.getFixedAssetConstants()
@@ -103,8 +101,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 			}
 
 		};
-		Accounter.createHomeService()
-				.getDepreciationLastDate(callBack);
+		Accounter.createHomeService().getDepreciationLastDate(callBack);
 
 	}
 
@@ -116,8 +113,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 	private void getAllDepreciationDates() {
 
 		ClientFinanceDate depreciationStartDate = new ClientFinanceDate(
-				getCompany().getpreferences()
-						.getDepreciationStartDate());
+				getCompany().getpreferences().getDepreciationStartDate());
 		ClientFinanceDate tempDate = new ClientFinanceDate(
 				depreciationStartDate.getTime());
 
@@ -131,7 +127,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 
 			while (!(tempDate.getDate() == tempLastDate.getDate()
 					&& tempDate.getMonth() == tempLastDate.getMonth() && tempDate
-					.getYear() == tempLastDate.getYear())) {
+						.getYear() == tempLastDate.getYear())) {
 
 				depreciationDate.add(new ClientFinanceDate(tempDate.getTime()));
 				int month = tempDate.getMonth();
@@ -177,8 +173,8 @@ public class RollBackDepreciationDialog extends BaseDialog {
 			}
 
 		};
-		Accounter.createHomeService().rollBackDepreciation(
-				date.getTime(), callBack);
+		Accounter.createHomeService().rollBackDepreciation(date.getTime(),
+				callBack);
 	}
 
 	protected void helpClick() {
@@ -208,7 +204,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
+		// currently not using this method anywhere.
 
 	}
 
@@ -217,7 +213,6 @@ public class RollBackDepreciationDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getFixedAssetConstants()
-				.rollBackDepreciation();
+		return Accounter.getFixedAssetConstants().rollBackDepreciation();
 	}
 }
