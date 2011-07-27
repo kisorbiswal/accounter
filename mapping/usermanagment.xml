@@ -44,12 +44,12 @@
 
 	<query name="user.by.userId">
 		<query-param name="userid" type="string" />
-		from User u where u.userid =:userid
+		from com.vimukti.accounter.core.User u where u.id=:userid
 	</query>
 	
 	<query name="user.by.emailid">
 		<query-param name="emailID" type="String" />
-		from User u where u.emailID =:emailID
+		from com.vimukti.accounter.core.User u where u.email=:emailID
 	</query>
 	
 	 <!-- full user count -->

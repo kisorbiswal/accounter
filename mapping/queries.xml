@@ -7,77 +7,20 @@
 	<query name="getuser.from.emailid.and.password">
 		<query-param name="emailid" type="string" />
 		<query-param name="password" type="string" />
-		from User user where user.emailID=:emailid and
-		user.password =:password
+		from com.vimukti.accounter.core.User user where user.email=:emailid and
+		user.passwordSha1Hash =:password
 	</query>
-	
-	<sql-query name="getIdentitySpaceMembers">
-		<return class="com.bizantra.server.workspace.internal.Member" />
-		<query-param name="IDENTITY_ID" type="string" />
-		SELECT * FROM MEMBER M INNER JOIN IDENTITY_SPACES S ON
-		M.SPACE_ID=S.SPACE_ID where S.IDENTITY_ID=:IDENTITY_ID group by
-		M.USER_ID,M.ID
-	</sql-query>
-
-	<sql-query name="get.Identity.Space.Member">
-		<return class="com.bizantra.server.workspace.internal.Member" />
-		<query-param name="IDENTITY_ID" type="string" />
-		<query-param name="MEMBER_ID" type="string" />
-		SELECT * FROM MEMBER M INNER JOIN IDENTITY_SPACES S ON
-		M.SPACE_ID=S.SPACE_ID where S.IDENTITY_ID=:IDENTITY_ID AND
-		M.USER_ID=:MEMBER_ID group by
-		M.USER_ID,M.ID
-	</sql-query>
-
-	<sql-query name="get.external.spaceids.of.user">
-		<query-param name="MEMBER_ID" type="string" />
-		SELECT M.SPACE_ID FROM MEMBER M join WORKSPACE W ON M.SPACE_ID
-		=W.SPACE_ID WHERE
-		W.IS_SYSTEM_SPACE =false and W.IS_PERSONAL_SPACE
-		=false and M.USER_ID=:MEMBER_ID and
-		M.IS_DELETED=false
-	</sql-query>
-
-
-
-	<sql-query name="getExternalIdentityRemoteId">
-		<query-param name="identityId" type="string" />
-		SELECT EI.REMOTE_ID,EI.COMPANYNAME FROM EXTERNAL_IDENTITYIES EI WHERE
-		EI.IDENTITY_ID IN (SELECT M.USER_ID FROM WORKSPACE W INNER JOIN
-		IDENTITY_SPACES S ON
-		W.SPACE_ID=S.SPACE_ID JOIN MEMBER M ON
-		M.SPACE_ID=W.SPACE_ID where
-		S.IDENTITY_ID=:identityId AND
-		W.IS_SYSTEM_SPACE =false and
-		W.IS_PERSONAL_SPACE=false)
-	</sql-query>
-	<query name="getCompanyName.is.unique">
-		<query-param name="companyName" type="string" />
-		from BizantraCompany company where
-		company.companyDomainName=:companyName
-	</query>
-
-	<query name="getCompanyName.using.domainName">
-		<query-param name="domainName" type="string" />
-		from BizantraCompany company where company.userDomain=:domainName
-	</query>
-
-	<query name="getHRTool">
-		<query-param name="toolName" type="string" />
-		from AbstractTool a where a.name =:toolName
-	</query>
-
 	<!-- <sql-query name="getDataSize"> SELECT SUM(CI.IDENTITYDATASIZE)+SUM(WS.DATA_SIZE) 
 		AS TOTAL_DATA_SIZE FROM COLLABERIDENTITY CI LEFT OUTER JOIN IDENTITY_SPACES 
 		IDS ON CI.ID=IDS.IDENTITY_ID LEFT OUTER JOIN WORKSPACE WS ON WS.SPACE_ID=IDS.SPACE_ID 
 		</sql-query> -->
 
 	<query name="get.all.companies">
-		from Company
+		from com.vimukti.accounter.core.Company
 	</query>
 
 	<query name="get.admin.users">
-		from User user where
+		from com.vimukti.accounter.core.User user where
 		user.userRole='Admin'
 	</query>
 
@@ -239,59 +182,59 @@
 	</sql-query>
 
 	<query name="getUsers.active">
-		from User user where user.isActive=true and user.userRole != 'Basic
+		from com.vimukti.accounter.core.User user where user.isActive=true and user.userRole != 'Basic
 		Employee'
 	</query>
 	
 	<query name="getPayBill.form.accountId.and.status">
-		<query-param name="accountId" type="number" />
-		<query-param name="status" type="number" />
-		from PayBill pst where pst.payFrom.id =:accountID and  pst.isVoid=false and pst.status =:status
+		<query-param name="accountId" type="integer" />
+		<query-param name="status" type="integer" />
+		from com.vimukti.accounter.core.PayBill pst where pst.payFrom.id =:accountID and  pst.isVoid=false and pst.status =:status
 	</query>
 	
 	<query name="getPayVAT.form.accountId.and.status">
-		<query-param name="accountId" type="number" />
-		<query-param name="status" type="number" />
-		from PayVAT pv where pv.payFrom.id =:accountId and pv.isVoid=false and pv.status =:status
+		<query-param name="accountId" type="integer" />
+		<query-param name="status" type="integer" />
+		from com.vimukti.accounter.core.PayVAT pv where pv.payFrom.id =:accountId and pv.isVoid=false and pv.status =:status
 	</query>
 	
 	<query name="getReceiveVAT.form.accountId.and.status">
-		<query-param name="accountId" type="number" />
-		<query-param name="status" type="number" />
-		from ReceiveVAT rv where rv.depositIn.id =:accountId and rv.isVoid=false and rv.status =:status
+		<query-param name="accountId" type="integer" />
+		<query-param name="status" type="integer" />
+		from com.vimukti.accounter.core.ReceiveVAT rv where rv.depositIn.id =:accountId and rv.isVoid=false and rv.status =:status
 	</query>
 	
 	<query name="getCreditCardCharge.form.accountId.and.status">
-		<query-param name="accountId" type="number" />
-		<query-param name="status" type="number" />
-		from CreditCardCharge pst where pst.payFrom.id =:accountId and pst.isVoid=false and pst.status =:status
+		<query-param name="accountId" type="integer" />
+		<query-param name="status" type="integer" />
+		from com.vimukti.accounter.core.CreditCardCharge pst where pst.payFrom.id =:accountId and pst.isVoid=false and pst.status =:status
 	</query>
 	
 	<query name="getCashPurchase.form.accountId.and.status">
-		<query-param name="accountId" type="number" />
-		<query-param name="status" type="number" />
-		from CashPurchase pst where pst.payFrom.id =:accountId and pst.isVoid=false and pst.status =:status
+		<query-param name="accountId" type="integer" />
+		<query-param name="status" type="integer" />
+		from com.vimukti.accounter.core.CashPurchase pst where pst.payFrom.id =:accountId and pst.isVoid=false and pst.status =:status
 	</query>
 	
 	<query name="getCustomerPrePayment.form.accountId.and.status">
-		<query-param name="accountId" type="number" />
-		<query-param name="status" type="number" />
-		from CustomerPrePayment cpp where  cpp.depositIn.id =:accountId and cpp.isVoid=false and cpp.status =:status
+		<query-param name="accountId" type="integer" />
+		<query-param name="status" type="integer" />
+		from com.vimukti.accounter.core.CustomerPrePayment cpp where  cpp.depositIn.id =:accountId and cpp.isVoid=false and cpp.status =:status
 	</query>
 	
 	<query name="getCashPurchase.form.status">
-		<query-param name="status" type="number" />
-		from CashPurchase cc where cc.status =:status
+		<query-param name="status" type="integer" />
+		from com.vimukti.accounter.core.CashPurchase cc where cc.status =:status
 	</query>
 	
 	<query name="getCreditCardCharge.form.status">
-		<query-param name="status" type="number" />
-		from CreditCardCharge cc where cc.status=:status
+		<query-param name="status" type="integer" />
+		from com.vimukti.accounter.core.CreditCardCharge cc where cc.status=:status
 	</query>
 	
 	<query name="getPayBill.form.status">
-		<query-param name="status" type="number" />
-		from PayBill pb where pb.status =:status
+		<query-param name="status" type="integer" />
+		from com.vimukti.accounter.core.PayBill pb where pb.status =:status
 	</query>
 	
 	

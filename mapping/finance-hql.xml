@@ -400,7 +400,7 @@
 		where
 		v.name=?</query>
 	<query name="unique.id.BrandingTheme">from com.vimukti.accounter.core.BrandingTheme bt
-		where bt.ID=?</query>
+		where bt.id=?</query>
 	<query name="unique.emailId.User">from com.vimukti.accounter.core.User u where u.email=?</query>
 	<query name="gettoken.by.id">from com.vimukti.accounter.core.ResetPasswordToken r where r.token=?</query>
 	<query name="gettokens.by.userid">from com.vimukti.accounter.core.ResetPasswordToken r where r.userId=?</query>
