@@ -64,26 +64,26 @@ public class NewCreditsAndRefundsAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().newCreditsAndRefunds();
 	}
+
 	@Override
 	public String getImageUrl() {
-		
 		return "/images/new_credit_and_refunds.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "newCredit";
 	}
 }
