@@ -40,7 +40,7 @@ public class VATReturn extends Transaction implements Lifecycle {
 	 * 
 	 */
 	TAXAgency taxAgency;
-	// 
+	//
 
 	List<Box> boxes = new ArrayList<Box>();
 
@@ -51,7 +51,6 @@ public class VATReturn extends Transaction implements Lifecycle {
 	public static final int VAT_RETURN_UK_VAT = 1;
 	public static final int VAT_RETURN_IRELAND = 2;
 	public static final int VAT_RETURN_NONE = 3;
-
 
 	/**
 	 * @return the id
@@ -89,7 +88,6 @@ public class VATReturn extends Transaction implements Lifecycle {
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
-
 
 	/**
 	 * @return the boxes
@@ -139,13 +137,13 @@ public class VATReturn extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onDelete(Session s) throws CallbackException {
-		// TODO Auto-generated method stub
+		// not using
 		return false;
 	}
 
 	@Override
 	public void onLoad(Session s, Serializable id) {
-		// TODO Auto-generated method stub
+		// not using
 
 	}
 
@@ -264,37 +262,37 @@ public class VATReturn extends Transaction implements Lifecycle {
 
 	@Override
 	public Account getEffectingAccount() {
-		// TODO Auto-generated method stub
+		// currently not using
 		return null;
 	}
 
 	@Override
 	public Payee getPayee() {
-		// TODO Auto-generated method stub
+		// currently not using
 		return null;
 	}
 
 	@Override
 	public int getTransactionCategory() {
-		// TODO Auto-generated method stub
+		// currently not using
 		return 0;
 	}
 
 	@Override
 	public boolean isDebitTransaction() {
-		// TODO Auto-generated method stub
+		// currently not using
 		return false;
 	}
 
 	@Override
 	public boolean isPositiveTransaction() {
-		// TODO Auto-generated method stub
+		// currently not using
 		return false;
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
+		// currently not using
 		return null;
 	}
 
@@ -318,7 +316,7 @@ public class VATReturn extends Transaction implements Lifecycle {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		// TODO Auto-generated method stub
+
 		return true;
 	}
 
