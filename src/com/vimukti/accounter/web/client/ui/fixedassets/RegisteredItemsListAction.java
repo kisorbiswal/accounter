@@ -24,8 +24,7 @@ public class RegisteredItemsListAction extends Action {
 	 */
 	public RegisteredItemsListAction(String text) {
 		super(text);
-		this.catagory = Accounter.getFixedAssetConstants()
-				.fixedAssets();
+		this.catagory = Accounter.getFixedAssetConstants().fixedAssets();
 	}
 
 	/*
@@ -89,7 +88,7 @@ public class RegisteredItemsListAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+
 		return "registeredItems";
 	}
 
