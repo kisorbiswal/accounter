@@ -1488,7 +1488,7 @@ public class FinanceTool implements IFinanceDAOService {
 							.setName(pst.getVendor() != null ? pst.getVendor()
 									.getName()
 									: (pst.getEmployee() != null ? pst
-											.getEmployee() : null));
+											.getEmployee().getName() : null));
 					issuePaymentTransaction.setMemo(pst.getMemo());
 					issuePaymentTransaction.setAmount(pst.getTotal());
 					issuePaymentTransaction.setPaymentMethod(pst
@@ -8690,7 +8690,7 @@ public class FinanceTool implements IFinanceDAOService {
 							vi.setName(cashPurchase.getCashExpenseAccount()
 									.getName());
 						else if (cashPurchase.getEmployee() != null)
-							vi.setName(cashPurchase.getEmployee());
+							vi.setName(cashPurchase.getEmployee().getName());
 					}
 
 					vi.setTransactionId(v.getTransactionItem().getTransaction()
@@ -11437,7 +11437,8 @@ public class FinanceTool implements IFinanceDAOService {
 			BillsList bills = new BillsList();
 			bills.setTransactionId(cp.getID());
 			bills.setOriginalAmount(cp.getTotal());
-			bills.setVendorName(cp.getEmployee());
+			bills.setVendorName(cp.getEmployee() != null ? cp.getEmployee()
+					.getName() : "");
 			bills.setDate(new ClientFinanceDate(cp.getDate().getTime()));
 			bills.setExpenseStatus(status);
 			bills.setType(Transaction.TYPE_EMPLOYEE_EXPENSE);
