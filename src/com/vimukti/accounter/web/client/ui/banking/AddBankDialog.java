@@ -84,7 +84,7 @@ public class AddBankDialog extends AbstractBaseDialog {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
+		// its not using any where
 
 	}
 	// bankingConstants.addBank()

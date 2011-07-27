@@ -87,8 +87,7 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 	protected void createBank() {
 		final ClientBank bank = new ClientBank();
 		bank.setName(UIUtils.toStr(bankNameText.getValue()));
-		if (Utility.isObjectExist(
-				getCompany().getTaxItems(), bank.getName())) {
+		if (Utility.isObjectExist(getCompany().getTaxItems(), bank.getName())) {
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
 		} else {
 			ViewManager.getInstance().createObject(bank, this);
@@ -108,14 +107,14 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 
 	@Override
 	public void saveFailed(Throwable exception) {
-		Accounter.showError(Accounter.getCompanyMessages()
-				.failedToCreateBank());
+		Accounter
+				.showError(Accounter.getCompanyMessages().failedToCreateBank());
 		super.saveFailed(exception);
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
+		// its not using any where
 
 	}
 

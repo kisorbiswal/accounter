@@ -23,7 +23,7 @@ public class AwaitingAuthorisationgrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected void executeDelete(BillsList object) {
-		// TODO Auto-generated method stub
+		// its not using any where
 
 	}
 
@@ -81,7 +81,7 @@ public class AwaitingAuthorisationgrid extends BaseListGrid<BillsList> {
 
 	@Override
 	public boolean validateGrid() throws InvalidTransactionEntryException {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return false;
 	}
 
@@ -92,7 +92,7 @@ public class AwaitingAuthorisationgrid extends BaseListGrid<BillsList> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
+		// its not using any where
 
 	}
 
