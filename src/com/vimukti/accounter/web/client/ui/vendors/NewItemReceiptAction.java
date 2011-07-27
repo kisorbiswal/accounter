@@ -15,27 +15,24 @@ public class NewItemReceiptAction extends Action {
 
 	public NewItemReceiptAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	public NewItemReceiptAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
 	@Override
 	public ImageResource getSmallImage() {
-		// TODO Auto-generated method stub
 		return Accounter.getFinanceMenuImages().itemReciept();
 	}
 
@@ -83,13 +80,11 @@ public class NewItemReceiptAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/item_Recpit.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "newItemReceipt";
 	}
 
