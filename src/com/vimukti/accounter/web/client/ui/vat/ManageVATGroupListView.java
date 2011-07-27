@@ -64,8 +64,7 @@ public class ManageVATGroupListView extends BaseListView<ClientTAXGroup> {
 
 	@Override
 	public void updateInGrid(ClientTAXGroup objectTobeModified) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
@@ -88,7 +87,7 @@ public class ManageVATGroupListView extends BaseListView<ClientTAXGroup> {
 
 	@Override
 	public void printPreview() {
-
+		// NOTHING TO DO.
 	}
 
 	@Override
