@@ -12,25 +12,25 @@ public class InviteUserAction extends Action {
 
 	public InviteUserAction(String text) {
 		super(text);
-		this.catagory = Accounter.getSettingsMessages().settings()
-				+ " > " + Accounter.getSettingsMessages().users();
+		this.catagory = Accounter.getSettingsMessages().settings() + " > "
+				+ Accounter.getSettingsMessages().users();
 	}
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
 	@Override
 	public ImageResource getSmallImage() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -47,7 +47,6 @@ public class InviteUserAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "inviteUser";
 	}
 
