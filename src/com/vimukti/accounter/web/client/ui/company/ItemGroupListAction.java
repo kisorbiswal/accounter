@@ -28,7 +28,7 @@ public class ItemGroupListAction extends Action {
 
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -50,9 +50,8 @@ public class ItemGroupListAction extends Action {
 				try {
 
 					ItemGroupListDialog dialog = new ItemGroupListDialog(
-							Accounter.getCompanyMessages()
-									.manageItemGroup(), Accounter
-									.getCompanyMessages().toAddItemGroup());
+							Accounter.getCompanyMessages().manageItemGroup(),
+							Accounter.getCompanyMessages().toAddItemGroup());
 					ViewManager viewManager = ViewManager.getInstance();
 					viewManager.setCurrentDialog(dialog);
 					// dialog.addCallBack(getViewConfiguration().getCallback());
@@ -69,21 +68,21 @@ public class ItemGroupListAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().items();
 	}
+
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/items.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "itemGroupList";
 	}
 
