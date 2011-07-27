@@ -47,7 +47,7 @@ public class SalesOpenOrderAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -71,7 +71,6 @@ public class SalesOpenOrderAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "salesOrderReport";
 	}
 
