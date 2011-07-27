@@ -86,26 +86,26 @@ public class TriggerAccount implements Trigger {
 		// Insertion
 		if (newRow != null && oldRow == null) {
 			//
-			//			
+			//
 			// // Making this account opening balance as un editable if the
 			// account fall under following type
-			//			
-			//			
+			//
+			//
 			// if(!newOpeningBalance.equals(0.0) || newAccountType ==
 			// Account.TYPE_INVENTORY_ASSET){
-			//				
-			//				
+			//
+			//
 			// stat
 			// .execute(new StringBuilder()
 			// .append(
 			// "UPDATE ACCOUNT A SET A.IS_OPENING_BALANCE_EDITABLE = 'FALSE' WHERE A.ID = ").append(newAccountId).toString());
-			//				
+			//
 			// }
 			//
-			//		
-			//			
-			//			
-			//			
+			//
+			//
+			//
+			//
 			// // Query to retrieve the Name of the New Account
 			// accountName = getName(stat, accountName, newAccountId);
 			//
@@ -129,10 +129,10 @@ public class TriggerAccount implements Trigger {
 			// // balance amount and the total balance amount of the
 			// // Opening Balances Account with the opening balance amount
 			// // of the Opening Balances Account
-			//					
+			//
 			// updateAllBalancesOfOpeningBalanceAccount(stat, newOpeningBalance,
 			// companyId,AccounterConstants.SYMBOL_PLUS);
-			//					
+			//
 			// // // inserting the corresponding rows into Account Transaction
 			// table
 			// // stat
@@ -153,7 +153,7 @@ public class TriggerAccount implements Trigger {
 			//
 			// }else{
 			//
-			//					
+			//
 			// // // inserting the corresponding rows into Account Transaction
 			// table
 			// // stat
@@ -187,10 +187,10 @@ public class TriggerAccount implements Trigger {
 			// // then we will change the opening balance amount
 			// // and current balance amount of Opening Balances
 			// // account.
-			//							
+			//
 			// updateOpeningAndCurrentBalanceOfOpeningBalancesAccount(stat,
 			// newOpeningBalance, companyId);
-			//							
+			//
 			//
 			// // Here we will change the total balance amount of
 			// // this new Account if it's parent is not Opening
@@ -203,7 +203,7 @@ public class TriggerAccount implements Trigger {
 			//
 			// updateTotalBalanceOfOpeningBalancesAccount(stat,
 			// newOpeningBalance, companyId);
-			//								
+			//
 			//
 			// }
 			//
@@ -213,11 +213,11 @@ public class TriggerAccount implements Trigger {
 			// // balance amount and the total balance amount of the
 			// // Opening Balances Account with the opening balance
 			// // amount of the New Account
-			//							
+			//
 			// updateAllBalancesOfOpeningBalanceAccount(stat, newOpeningBalance,
 			// companyId,AccounterConstants.SYMBOL_MINUS);
-			//							
-			//						
+			//
+			//
 			// }
 			//
 			// } else {
@@ -226,11 +226,11 @@ public class TriggerAccount implements Trigger {
 			// // balance amount and the total balance amount of the
 			// // Opening Balances Account with the opening balance
 			// // amount of the New Account
-			//						
+			//
 			// updateAllBalancesOfOpeningBalanceAccount(stat, newOpeningBalance,
 			// companyId,AccounterConstants.SYMBOL_MINUS);
-			//						
-			//					
+			//
+			//
 			// }
 			// }
 			//
@@ -243,11 +243,11 @@ public class TriggerAccount implements Trigger {
 			//
 			// // Query to Increase the total balance amount of the parent
 			// // Account with the total balance amount of the new Account
-			//				
+			//
 			// updateTotalBalanceOfParentAccount(stat,
 			// newTotalBalance,newParentId);
-			//				
-			//				
+			//
+			//
 			//
 			// }
 			//
@@ -264,11 +264,9 @@ public class TriggerAccount implements Trigger {
 				if (!(oldOpeningBalance.equals(newOpeningBalance))
 						&& oldIsOpeningBalanceEditable.equals(Boolean.TRUE)) {
 
-					stat
-							.execute(new StringBuilder()
-									.append(
-											"UPDATE ACCOUNT A SET A.IS_OPENING_BALANCE_EDITABLE = 'FALSE' WHERE A.ID = ")
-									.append(oldAccountId).toString());
+					stat.execute(new StringBuilder()
+							.append("UPDATE ACCOUNT A SET A.IS_OPENING_BALANCE_EDITABLE = 'FALSE' WHERE A.ID = ")
+							.append(oldAccountId).toString());
 
 				}
 
@@ -397,8 +395,8 @@ public class TriggerAccount implements Trigger {
 
 	private void updateTotalBalanceOfParentAccount(Statement stat,
 			Double amount, Long parentId) throws SQLException {
-		stat.execute(new StringBuilder().append(
-				"UPDATE ACCOUNT A SET A.TOTAL_BALANCE = A.TOTAL_BALANCE + ")
+		stat.execute(new StringBuilder()
+				.append("UPDATE ACCOUNT A SET A.TOTAL_BALANCE = A.TOTAL_BALANCE + ")
 				.append(amount).append("WHERE A.ID =" + parentId).toString());
 	}
 
@@ -410,50 +408,47 @@ public class TriggerAccount implements Trigger {
 			additionSymbol = AccounterConstants.SYMBOL_MINUS;
 		} else
 			additionSymbol = AccounterConstants.SYMBOL_PLUS;
-		stat.execute(new StringBuilder().append(
-				"UPDATE ACCOUNT A SET A.CURRENT_BALANCE = A.CURRENT_BALANCE ")
-				.append(symbol).append(" ").append(newOpeningBalance).append(
-						additionSymbol).append(oldOpeningBalance).append(
-						",A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
+		stat.execute(new StringBuilder()
+				.append("UPDATE ACCOUNT A SET A.CURRENT_BALANCE = A.CURRENT_BALANCE ")
+				.append(symbol).append(" ").append(newOpeningBalance)
+				.append(additionSymbol).append(oldOpeningBalance)
+				.append(",A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
 				.append(" ").append(newOpeningBalance).append(additionSymbol)
-				.append(oldOpeningBalance).append(" WHERE A.NAME = '").append(
-						AccounterConstants.OPENING_BALANCE).append("'").append(
-						" AND A.COMPANY_ID = ").append(companyId).toString());
+				.append(oldOpeningBalance).append(" WHERE A.NAME = '")
+				.append(AccounterConstants.OPENING_BALANCE).append("'")
+				.append(" AND A.COMPANY_ID = ").append(companyId).toString());
 	}
 
 	private void updateTotalBalanceOfOpeningBalancesAccount(Statement stat,
 			Double newOpeningBalance, Long companyId) throws SQLException {
-		stat.execute(new StringBuilder().append(
-				"UPDATE ACCOUNT A SET A.TOTAL_BALANCE = A.TOTAL_BALANCE - ")
-				.append(newOpeningBalance).append(" WHERE A.NAME = '").append(
-						AccounterConstants.OPENING_BALANCE).append("'").append(
-						" AND A.COMPANY_ID = ").append(companyId).toString());
+		stat.execute(new StringBuilder()
+				.append("UPDATE ACCOUNT A SET A.TOTAL_BALANCE = A.TOTAL_BALANCE - ")
+				.append(newOpeningBalance).append(" WHERE A.NAME = '")
+				.append(AccounterConstants.OPENING_BALANCE).append("'")
+				.append(" AND A.COMPANY_ID = ").append(companyId).toString());
 	}
 
 	private void updateOpeningAndCurrentBalanceOfOpeningBalancesAccount(
 			Statement stat, Double newOpeningBalance, Long companyId)
 			throws SQLException {
-		stat
-				.execute(new StringBuilder()
-						.append(
-								"UPDATE ACCOUNT A SET A.CURRENT_BALANCE = A.CURRENT_BALANCE - ")
-						.append(newOpeningBalance).append(" WHERE A.NAME = '")
-						.append(AccounterConstants.OPENING_BALANCE).append("'")
-						.append(" AND A.COMPANY_ID = ").append(companyId)
-						.toString());
+		stat.execute(new StringBuilder()
+				.append("UPDATE ACCOUNT A SET A.CURRENT_BALANCE = A.CURRENT_BALANCE - ")
+				.append(newOpeningBalance).append(" WHERE A.NAME = '")
+				.append(AccounterConstants.OPENING_BALANCE).append("'")
+				.append(" AND A.COMPANY_ID = ").append(companyId).toString());
 	}
 
 	private void updateAllBalancesOfOpeningBalanceAccount(Statement stat,
 			Double newOpeningBalance, Long companyId, String symbol)
 			throws SQLException {
-		stat.execute(new StringBuilder().append(
-				"UPDATE ACCOUNT A SET A.CURRENT_BALANCE = A.CURRENT_BALANCE ")
-				.append(symbol).append(" ").append(newOpeningBalance).append(
-						",A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
-				.append(" ").append(newOpeningBalance).append(
-						" WHERE A.NAME = '").append(
-						AccounterConstants.OPENING_BALANCE).append("'").append(
-						" AND A.COMPANY_ID = ").append(companyId).toString());
+		stat.execute(new StringBuilder()
+				.append("UPDATE ACCOUNT A SET A.CURRENT_BALANCE = A.CURRENT_BALANCE ")
+				.append(symbol).append(" ").append(newOpeningBalance)
+				.append(",A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
+				.append(" ").append(newOpeningBalance)
+				.append(" WHERE A.NAME = '")
+				.append(AccounterConstants.OPENING_BALANCE).append("'")
+				.append(" AND A.COMPANY_ID = ").append(companyId).toString());
 
 	}
 
@@ -478,9 +473,9 @@ public class TriggerAccount implements Trigger {
 
 	private String getName(Statement stat, String accountName, Long accountId)
 			throws SQLException {
-		ResultSet s = stat.executeQuery(new StringBuilder().append(
-				"SELECT A.NAME FROM ACCOUNT A WHERE A.ID =").append(accountId)
-				.toString());
+		ResultSet s = stat.executeQuery(new StringBuilder()
+				.append("SELECT A.NAME FROM ACCOUNT A WHERE A.ID =")
+				.append(accountId).toString());
 
 		if (s.next()) {
 			accountName = s.getString(1);
@@ -500,9 +495,9 @@ public class TriggerAccount implements Trigger {
 
 		// Query to get the Parent of the given Account
 		Long childParent = null;
-		ResultSet rs = stat.executeQuery(new StringBuilder().append(
-				"SELECT A.PARENT_ID FROM ACCOUNT A WHERE A.ID = ").append(
-				parentId).toString());
+		ResultSet rs = stat.executeQuery(new StringBuilder()
+				.append("SELECT A.PARENT_ID FROM ACCOUNT A WHERE A.ID = ")
+				.append(parentId).toString());
 
 		if (rs.next()) {
 			childParent = rs.getLong(1);
@@ -530,7 +525,7 @@ public class TriggerAccount implements Trigger {
 	@Override
 	public void init(Connection arg0, String arg1, String arg2, String arg3,
 			boolean arg4, int arg5) throws SQLException {
-		// TODO Auto-generated method stub
+		// currently not using anywhere in the project.
 
 	}
 
