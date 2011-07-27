@@ -93,7 +93,7 @@ public class TaxRates implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		// TODO Auto-generated method stub
+
 		return true;
 	}
 
