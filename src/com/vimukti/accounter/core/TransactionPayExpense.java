@@ -26,7 +26,6 @@ public class TransactionPayExpense implements Lifecycle {
 	 */
 	PayExpense payExpense;
 
-	
 	transient private boolean isOnSaveProccessed;
 
 	/**
@@ -89,7 +88,6 @@ public class TransactionPayExpense implements Lifecycle {
 		this.payExpense = payExpense;
 	}
 
-
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		// TODO Auto-generated method stub
@@ -125,7 +123,7 @@ public class TransactionPayExpense implements Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 }
