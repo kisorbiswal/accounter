@@ -48,7 +48,6 @@ public class VATReturnBox implements IAccounterServerCore, Lifecycle {
 		this.vatReturnType = vatReturnType;
 	}
 
-
 	/**
 	 * @return the name
 	 */
@@ -94,7 +93,6 @@ public class VATReturnBox implements IAccounterServerCore, Lifecycle {
 		this.totalBox = totalBox;
 	}
 
-	
 	transient private boolean isOnSaveProccessed;
 	private long id;
 
@@ -132,7 +130,7 @@ public class VATReturnBox implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		// TODO Auto-generated method stub
+
 		return true;
 	}
 
