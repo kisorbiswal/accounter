@@ -33,17 +33,18 @@ public class NewCompanyAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO
 		return null;
 	}
 
 	public ImageResource getSmallImage() {
+		// NOTHING TO DO
 		return null;
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "newCompany";
 	}
 
 }
