@@ -542,7 +542,9 @@ public class GraphPoints implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		return Accounter.getCompany().getName();
+		// return Accounter.getCompany().getName();
+		// TODO
+		return null;
 	}
 
 	@Override
