@@ -38,7 +38,6 @@ public class ManageCountryRegionDialog extends GroupDialog {
 			}
 
 			public void onFirstButtonClick() {
-				// TODO Auto-generated method stub
 				new CountryRegionDialog(Accounter.getCompanyMessages()
 						.addCountry(), Accounter.getCompanyMessages()
 						.enterNameOfCountry()).show();
@@ -46,7 +45,6 @@ public class ManageCountryRegionDialog extends GroupDialog {
 			}
 
 			public void onSecondButtonClick() {
-				// TODO Auto-generated method stub
 				new CountryRegionDialog(Accounter.getCompanyMessages()
 						.editCountry(), Accounter.getCompanyMessages()
 						.enterNameOfCountry()).show();
@@ -63,7 +61,7 @@ public class ManageCountryRegionDialog extends GroupDialog {
 
 	@Override
 	public Object getGridColumnValue(IsSerializable obj, int index) {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
