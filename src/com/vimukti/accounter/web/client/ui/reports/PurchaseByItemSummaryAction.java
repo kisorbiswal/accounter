@@ -52,6 +52,7 @@ public class PurchaseByItemSummaryAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -66,7 +67,6 @@ public class PurchaseByItemSummaryAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "purchaseByItemSummary";
 	}
 
