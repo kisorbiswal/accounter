@@ -95,11 +95,11 @@ public class TriggerFiscalYear implements Trigger {
 
 				// stat.execute(new
 				// StringBuilder().append("UPDATE FISCAL_YEAR SET  IS_CURRENT_FISCAL_YEAR = 'TRUE' WHERE ID = SELECT F.ID FROM FISCAL_YEAR F ").append(newFiscalYearId).toString());
-				//				
-				//				
+				//
+				//
 				// stat.execute(new
 				// StringBuilder().append("UPDATE FISCAL_YEAR SET  IS_CURRENT_FISCAL_YEAR = 'FALSE' WHERE ID = ").append(newFiscalYearId).toString());
-				//				
+				//
 
 			} else if (oldStatus == FiscalYear.STATUS_CLOSE
 					&& newStatus == FiscalYear.STATUS_OPEN) {
@@ -112,7 +112,7 @@ public class TriggerFiscalYear implements Trigger {
 	@Override
 	public void init(Connection arg0, String arg1, String arg2, String arg3,
 			boolean arg4, int arg5) throws SQLException {
-		// TODO Auto-generated method stub
+		// currently not using anywhere in the project.
 
 	}
 
