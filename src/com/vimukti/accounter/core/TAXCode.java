@@ -83,7 +83,6 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 		this.name = name;
 	}
 
-
 	/**
 	 * @param id
 	 *            the id to set
@@ -210,8 +209,7 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
