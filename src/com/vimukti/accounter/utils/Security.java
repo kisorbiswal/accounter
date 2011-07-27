@@ -461,7 +461,6 @@ public class Security {
 		return null;
 	}
 
-
 	/**
 	 * Should be used as password for database Orginal password should never be
 	 * used anyware
@@ -697,13 +696,10 @@ public class Security {
 
 	public static byte[] makeHash(String data) {
 		try {
-			MessageDigest sha = MessageDigest.getInstance("SHA", "BC"); //$NON-NLS-1$ //$NON-NLS-2$
+			MessageDigest sha = MessageDigest.getInstance("SHA"); //$NON-NLS-1$ //$NON-NLS-2$
 			sha.update(data.getBytes());
 			return sha.digest();
 		} catch (NoSuchAlgorithmException e) {
-			LOG.error("Exception: ", e);
-			LOG.error("Exception", e);
-		} catch (NoSuchProviderException e) {
 			LOG.error("Exception: ", e);
 			LOG.error("Exception", e);
 		}
