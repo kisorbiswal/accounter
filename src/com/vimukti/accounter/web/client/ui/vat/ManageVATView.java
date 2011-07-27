@@ -22,26 +22,22 @@ public class ManageVATView extends AbstractBaseView {
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
 		super.init();
 		createControls();
 	}
 
 	@Override
 	public void initData() {
-		// TODO Auto-generated method stub
 		super.initData();
 	}
 
 	@Override
 	public void saveAndUpdateView() throws Exception {
-		// TODO Auto-generated method stub
 		super.saveAndUpdateView();
 	}
 
 	@Override
 	public boolean validate() throws Exception {
-		// TODO Auto-generated method stub
 		return super.validate();
 	}
 
@@ -56,8 +52,8 @@ public class ManageVATView extends AbstractBaseView {
 				.getVATMessages().getStarted());
 		CaptionPanel capPayVatPanel = new CaptionPanel(Accounter
 				.getVATMessages().payVATOwing());
-		CaptionPanel capTaskPanel = new CaptionPanel(Accounter
-				.getVATMessages().relatedTask());
+		CaptionPanel capTaskPanel = new CaptionPanel(Accounter.getVATMessages()
+				.relatedTask());
 
 		vatButton = new AccounterButton(Accounter.getVATMessages()
 				.fileVATReturn());
@@ -69,8 +65,8 @@ public class ManageVATView extends AbstractBaseView {
 		final Image icon = new Image();
 		icon.setUrl("/images/justifyleft.gif");
 
-		Hyperlink assignlink = new Hyperlink(Accounter
-				.getVATMessages().assignVatCodesToItems(), "foo");
+		Hyperlink assignlink = new Hyperlink(Accounter.getVATMessages()
+				.assignVatCodesToItems(), "foo");
 		Hyperlink viewLink = new Hyperlink(Accounter.getVATMessages()
 				.viewVATItems(), "link1");
 		Hyperlink openLink = new Hyperlink(Accounter.getVATMessages()
@@ -162,8 +158,7 @@ public class ManageVATView extends AbstractBaseView {
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
