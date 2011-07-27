@@ -525,13 +525,11 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
