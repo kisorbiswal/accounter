@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 @SuppressWarnings("serial")
 public class ClientDepreciationFixedAsset implements IAccounterCore {
 
@@ -7,9 +9,6 @@ public class ClientDepreciationFixedAsset implements IAccounterCore {
 	String accountName;
 	double amount;
 	String accumulatedDepreciationAccount;
-
-
-
 
 	public String getAccountName() {
 		return accountName;
@@ -38,36 +37,32 @@ public class ClientDepreciationFixedAsset implements IAccounterCore {
 
 	@Override
 	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.getCompany().getDisplayName();
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.getCompany().getName();
 	}
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return AccounterCoreType.COMPANY_PREFERENCES;
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 	}
 
 }

@@ -299,7 +299,6 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -469,8 +468,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 	@Override
 	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
-
+		super.fitToSize(height, width);
 	}
 
 	@Override

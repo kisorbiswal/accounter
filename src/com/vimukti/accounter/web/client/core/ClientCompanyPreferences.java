@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 @SuppressWarnings("serial")
 public class ClientCompanyPreferences implements IAccounterCore {
 
@@ -460,7 +462,8 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	 * @param ageing
 	 *            the ageing to set
 	 */
-	public void setAgeingFromTransactionDateORDueDate(int ageingFromTransactionDateORDueDate) {
+	public void setAgeingFromTransactionDateORDueDate(
+			int ageingFromTransactionDateORDueDate) {
 		this.ageingFromTransactionDateORDueDate = ageingFromTransactionDateORDueDate;
 	}
 
@@ -566,14 +569,12 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.getCompany().getDisplayName();
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.getCompany().getName();
 	}
 
 	@Override
@@ -582,19 +583,18 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
+	public void setID(long id) {
 		// this.id=id;
 
 	}
 
 	@Override
 	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
 		return "ClientCompanyPreferences";
 	}
 }

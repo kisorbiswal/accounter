@@ -477,7 +477,6 @@ public class ClientAccount implements IAccounterCore {
 
 	@Override
 	public String getClientClassSimpleName() {
-
 		return "ClientAccount";
 	}
 

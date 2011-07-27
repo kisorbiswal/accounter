@@ -62,19 +62,18 @@ public class ClientCreditRating implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
 	@Override
 	public String getClientClassSimpleName() {
-
 		return "ClientCreditRating";
 	}
 
