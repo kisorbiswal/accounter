@@ -565,7 +565,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stuba
+
 		if (core.getID() == (this.expenseSelect.getSelectedValue().getID())) {
 			this.expenseSelect.addItemThenfireEvent((ClientAccount) core);
 		}
