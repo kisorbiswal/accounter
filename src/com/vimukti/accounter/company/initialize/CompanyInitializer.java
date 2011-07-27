@@ -48,6 +48,9 @@ public abstract class CompanyInitializer {
 		session.save(assets);
 		
 		initializeDefaultExpenseAccounts();
+		initializeDefaultAssetsAccounts();
+		initializeDefaultIncomeAccounts();
+		initializeDefaultlLiabilitiesAccounts();
 	}
 	public abstract Company getCompany();
 	
