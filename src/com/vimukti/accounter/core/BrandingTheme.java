@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
@@ -17,10 +16,10 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 
 /**
-*
-* @author Uday Kumar
-* 
-*/
+ * 
+ * @author Uday Kumar
+ * 
+ */
 @SuppressWarnings("serial")
 public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 
@@ -73,7 +72,6 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	String contactDetails;
 	String Terms_And_Payment_Advice;
 
-	
 	public transient boolean isOnSaveProccessed;
 
 	String createdBy;
@@ -489,10 +487,10 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		Session session = HibernateUtil
-				.getCurrentSession();
-		Query query = session.getNamedQuery("getBrandingTheme").setParameter(
-				"themeName", this.themeName).setParameter("id", this.id);
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("getBrandingTheme")
+				.setParameter("themeName", this.themeName)
+				.setParameter("id", this.id);
 		List list = query.list();
 
 		if (list != null || list.size() > 0 || list.get(0) != null) {
@@ -509,9 +507,6 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 		}
 		return true;
 	}
-
-
-
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
@@ -541,21 +536,17 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
-		// TODO Auto-generated method stub
 		if (isLogoAdded() == false)
 			this.setFileName(null);
 		return false;
 	}
 
-
-
 	/**
 	 * @return the id
 	 */
-	public long getID(){
+	public long getID() {
 		return id;
 	}
-
 
 	/**
 	 * @return the isOnSaveProccessed
@@ -571,7 +562,6 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	public void setOnSaveProccessed(boolean isOnSaveProccessed) {
 		this.isOnSaveProccessed = isOnSaveProccessed;
 	}
-
 
 	public boolean isDefault() {
 		return isDefault;

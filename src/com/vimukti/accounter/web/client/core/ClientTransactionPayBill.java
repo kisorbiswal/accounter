@@ -37,8 +37,6 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	Map<Integer, Object> tempCredits = new HashMap<Integer, Object>();
 	double remainingCreditBalance;
 	boolean isCreditsApplied;
-	
-	
 
 	public boolean isCreditsApplied() {
 		return isCreditsApplied;
@@ -309,36 +307,33 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	}
 
 	public void setAccountsPayable(Object accountsPayableAccount) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return AccounterCoreType.TRANSACTION_PAYBILL;
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
@@ -348,8 +343,8 @@ public class ClientTransactionPayBill implements IAccounterCore {
 		return "ClientTransactionPayBill";
 	}
 
-	public void setDummyDue(double amountDue){
-		this.dummyDue=amountDue;
+	public void setDummyDue(double amountDue) {
+		this.dummyDue = amountDue;
 	}
 
 	public double getDummyDue() {

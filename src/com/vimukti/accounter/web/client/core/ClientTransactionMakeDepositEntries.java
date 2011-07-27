@@ -92,13 +92,12 @@ public class ClientTransactionMakeDepositEntries implements IAccounterCore {
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -108,13 +107,13 @@ public class ClientTransactionMakeDepositEntries implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 	}
 
 }

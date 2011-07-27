@@ -81,14 +81,13 @@ public class ClientPayBill extends ClientTransaction {
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 
 	public void setPayBillType(int typePaybill) {

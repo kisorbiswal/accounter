@@ -73,7 +73,7 @@ public class ClientMakeDeposit extends ClientTransaction {
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 
