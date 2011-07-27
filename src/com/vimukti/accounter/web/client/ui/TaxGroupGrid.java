@@ -14,7 +14,6 @@ public class TaxGroupGrid extends BaseListGrid<ClientTAXGroup> {
 
 	@Override
 	protected void executeDelete(ClientTAXGroup object) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -30,7 +29,6 @@ public class TaxGroupGrid extends BaseListGrid<ClientTAXGroup> {
 
 	@Override
 	public void onDoubleClick(ClientTAXGroup obj) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -42,7 +40,7 @@ public class TaxGroupGrid extends BaseListGrid<ClientTAXGroup> {
 
 	@Override
 	public boolean validateGrid() throws InvalidTransactionEntryException {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
@@ -53,7 +51,7 @@ public class TaxGroupGrid extends BaseListGrid<ClientTAXGroup> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
+		// currently not using
 
 	}
 }
