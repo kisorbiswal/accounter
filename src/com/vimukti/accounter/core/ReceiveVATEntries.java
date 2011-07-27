@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
  * 
  * @author Chandan
  * 
+ * 
  */
 public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 
@@ -144,13 +145,12 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -164,14 +164,14 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		// TODO Auto-generated method stub
+
 		return true;
 	}
 }
