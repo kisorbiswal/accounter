@@ -2,9 +2,14 @@ package com.vimukti.accounter.web.client.core.Lists;
 
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class GraphPoints implements IAccounterCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	int type;
 	String accountName;
 	double firstPoint = 0D;
@@ -522,28 +527,27 @@ public class GraphPoints implements IAccounterCore {
 		this.thirtythPoint = thirtythPoint;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.getCompany().getDisplayName();
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.getCompany().getName();
 	}
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return AccounterCoreType.ACCOUNT;
 	}
 
 	@Override
