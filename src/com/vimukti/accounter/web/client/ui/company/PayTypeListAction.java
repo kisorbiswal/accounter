@@ -43,7 +43,7 @@ public class PayTypeListAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "payTypeListAction";
+		return "payTypeList";
 	}
 
 }
