@@ -295,13 +295,13 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
+		// not required
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
+		// not required
 
 	}
 
