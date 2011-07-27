@@ -17,17 +17,15 @@ public class CreditCardExpenseAction extends Action {
 
 	public CreditCardExpenseAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	public CreditCardExpenseAction(String text, String icon,
 			ClientVendor vendor, AsyncCallback<Object> callback) {
 		super(text, icon, vendor, callback);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	public void run(Object data, Boolean isDependent) {
@@ -74,18 +72,17 @@ public class CreditCardExpenseAction extends Action {
 
 	@Override
 	public ImageResource getBigImage() {
+		// NOTHING TO DO
 		return null;
 	}
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/credit_card_charge.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "creditCardExpense";
 	}
 }
