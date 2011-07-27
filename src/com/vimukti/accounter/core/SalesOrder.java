@@ -578,7 +578,6 @@ public class SalesOrder extends Transaction implements Lifecycle {
 
 	// @Override
 	// public boolean equals(SalesOrder so) {
-	// // TODO Auto-generated method stub
 	// if (this.id == so.id
 	// && (this.transactionDate != null && so.transactionDate != null) ?
 	// (this.transactionDate
