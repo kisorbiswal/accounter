@@ -16,8 +16,8 @@ public class ItemGroupGrid extends ListGrid<ClientItem> {
 			ClientItemGroup itemGroup) {
 		super(isMultiSelectionEnable);
 		this.itemGroup = itemGroup;
-		itemCombo = new ItemCombo(Accounter.getCustomersMessages()
-				.item(), 1, false);
+		itemCombo = new ItemCombo(Accounter.getCustomersMessages().item(), 1,
+				false);
 	}
 
 	@Override
@@ -65,20 +65,17 @@ public class ItemGroupGrid extends ListGrid<ClientItem> {
 
 	@Override
 	protected void onClick(ClientItem obj, int row, int index) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
 	public void onDoubleClick(ClientItem obj) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
 	protected void onValueChange(ClientItem obj, int index, Object value) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
@@ -96,7 +93,7 @@ public class ItemGroupGrid extends ListGrid<ClientItem> {
 
 	@Override
 	public boolean validateGrid() throws InvalidTransactionEntryException {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return false;
 	}
 
@@ -107,8 +104,7 @@ public class ItemGroupGrid extends ListGrid<ClientItem> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] {
-				Accounter.getFinanceUIConstants().name(),
+		return new String[] { Accounter.getFinanceUIConstants().name(),
 				Accounter.getFinanceUIConstants().price() };
 	}
 
