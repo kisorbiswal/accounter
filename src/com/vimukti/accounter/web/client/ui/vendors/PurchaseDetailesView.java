@@ -74,7 +74,7 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
+		// Nothing to do
 
 	}
 
