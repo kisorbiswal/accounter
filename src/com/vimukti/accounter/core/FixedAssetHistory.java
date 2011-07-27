@@ -28,7 +28,7 @@ public class FixedAssetHistory implements IAccounterServerCore, Lifecycle {
 	String actionType;
 	FinanceDate actionDate;
 	String details;
-	
+
 	String user;
 	JournalEntry postedJournalEntry;
 
@@ -36,7 +36,7 @@ public class FixedAssetHistory implements IAccounterServerCore, Lifecycle {
 
 	}
 
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
@@ -72,7 +72,6 @@ public class FixedAssetHistory implements IAccounterServerCore, Lifecycle {
 		this.user = user;
 	}
 
-
 	public JournalEntry getPostedJournalEntry() {
 		return postedJournalEntry;
 	}
@@ -88,18 +87,24 @@ public class FixedAssetHistory implements IAccounterServerCore, Lifecycle {
 		return true;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
 		return false;
