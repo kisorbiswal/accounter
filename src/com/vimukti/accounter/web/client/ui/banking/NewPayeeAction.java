@@ -32,7 +32,7 @@ public class NewPayeeAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -45,7 +45,7 @@ public class NewPayeeAction extends Action {
 	public void run(Object data, Boolean isDependent) {
 		runAsync(null, data, isDependent);
 
-	} 
+	}
 
 	private void runAsync(final FormItem actionSource, Object data,
 			Boolean isDependent) {
@@ -72,16 +72,17 @@ public class NewPayeeAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
 	public ImageResource getSmallImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "newPayee";
 	}
 
