@@ -379,7 +379,6 @@ public class TransactionReceivePaymentGrid extends
 
 			@Override
 			public void onCancelClick() {
-				// TODO Auto-generated method stub
 
 			}
 
