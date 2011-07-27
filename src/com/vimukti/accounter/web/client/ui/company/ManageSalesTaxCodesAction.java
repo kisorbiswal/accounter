@@ -68,7 +68,6 @@
 //	}
 //	@Override
 //	public String getImageUrl() {
-//		// TODO Auto-generated method stub
 //		return "/images/Sales Tax.png";
 //	}
 //
