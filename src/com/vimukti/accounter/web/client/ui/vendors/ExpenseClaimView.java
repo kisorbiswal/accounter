@@ -223,11 +223,9 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 		// TODO Auto-generated method stub
 	}
 
-	/**
-	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
-	 */
 	@Override
 	public void printPreview() {
+		// NOTHING TO DO
 	}
 
 	@Override
