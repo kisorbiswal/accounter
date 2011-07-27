@@ -20,8 +20,8 @@ public class CheckDetailReportView extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		ReportsRPC.openTransactionView(getType(record), record
-				.getTransactionId());
+		ReportsRPC.openTransactionView(getType(record),
+				record.getTransactionId());
 
 	}
 
@@ -45,17 +45,16 @@ public class CheckDetailReportView extends
 		return null;
 	}
 
-//	@Override
-//	public int[] getColumnTypes() {
-//		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER,
-//				COLUMN_TYPE_DATE, COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
-//				COLUMN_TYPE_AMOUNT };
-//	}
+	// @Override
+	// public int[] getColumnTypes() {
+	// return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER,
+	// COLUMN_TYPE_DATE, COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
+	// COLUMN_TYPE_AMOUNT };
+	// }
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "",
-				Accounter.getReportsMessages().number(),
+		return new String[] { "", Accounter.getReportsMessages().number(),
 				Accounter.getReportsMessages().date(),
 				Accounter.getReportsMessages().name(),
 				Accounter.getReportsMessages().acount(),
@@ -90,8 +89,8 @@ public class CheckDetailReportView extends
 	@Override
 	public void makeReportRequest(long paymentmethod,
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		Accounter.createReportService().getCheckDetailReport(
-				paymentmethod, startDate.getTime(), endDate.getTime(), this);
+		Accounter.createReportService().getCheckDetailReport(paymentmethod,
+				startDate.getTime(), endDate.getTime(), this);
 
 	}
 
@@ -126,38 +125,38 @@ public class CheckDetailReportView extends
 
 	@Override
 	public void processRecord(CheckDetailReport record) {
-//		if (sectionDepth == 0) {
-//			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-//					FinanceApplication.getReportsMessages().total() },
-//					new int[] { 5 });
-//		} else if (sectionDepth == 1) {
-//			this.sectionName = Utility.getTransactionName(getType(record));
-//			this.sectionID = record.getTransactionId();
-//			addSection(new String[] { sectionName }, new String[] { "" },
-//					new int[] { 5 });
-//		} else if (sectionDepth == 2) {
-//			// No need to do anything, just allow adding this record
-//			if (!sectionID.equals(record.getTransactionId())) {
-//				endSection();
-//			} else {
-//				return;
-//			}
-//		}
+		// if (sectionDepth == 0) {
+		// addSection(new String[] { "", "" }, new String[] { "", "", "", "",
+		// FinanceApplication.getReportsMessages().total() },
+		// new int[] { 5 });
+		// } else if (sectionDepth == 1) {
+		// this.sectionName = Utility.getTransactionName(getType(record));
+		// this.sectionID = record.getTransactionId();
+		// addSection(new String[] { sectionName }, new String[] { "" },
+		// new int[] { 5 });
+		// } else if (sectionDepth == 2) {
+		// // No need to do anything, just allow adding this record
+		// if (!sectionID.equals(record.getTransactionId())) {
+		// endSection();
+		// } else {
+		// return;
+		// }
+		// }
 		// Go on recursive calling if we reached this place
 		processRecord(record);
 	}
 
 	@Override
 	public int sort(CheckDetailReport obj1, CheckDetailReport obj2, int col) {
-		int ret = UIUtils.compareInt(obj1.getTransactionType(), obj2
-				.getTransactionType());
+		int ret = UIUtils.compareInt(obj1.getTransactionType(),
+				obj2.getTransactionType());
 		if (ret != 0) {
 			return ret;
 		}
 		switch (col) {
 		case 0:
-			return UIUtils.compareInt(obj1.getTransactionType(), obj2
-					.getTransactionType());
+			return UIUtils.compareInt(obj1.getTransactionType(),
+					obj2.getTransactionType());
 		case 1:
 			int num1 = UIUtils.isInteger(obj1.getNumber()) ? Integer
 					.parseInt(obj1.getNumber()) : 0;
@@ -184,7 +183,7 @@ public class CheckDetailReportView extends
 
 	@Override
 	public void resetVariables() {
-//		this.sectionDepth = 0;
+		// this.sectionDepth = 0;
 		this.sectionName = "";
 	}
 
@@ -335,8 +334,7 @@ public class CheckDetailReportView extends
 
 	@Override
 	public void onSuccess(List<CheckDetailReport> result) {
-		// TODO Auto-generated method stub
-		
+		// NOTHING TO DO
 	}
 
 }
