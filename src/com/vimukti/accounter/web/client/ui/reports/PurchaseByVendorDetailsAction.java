@@ -53,6 +53,7 @@ public class PurchaseByVendorDetailsAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -67,7 +68,6 @@ public class PurchaseByVendorDetailsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return UIUtils.getVendorString("purchaseBySupplierDetail",
 				"purchaseByVendorDetail");
 	}
