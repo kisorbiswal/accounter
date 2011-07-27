@@ -16,16 +16,13 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
  * 
  */
 @SuppressWarnings("serial")
-public class FixedAssetNote extends CreatableObject implements IAccounterServerCore,
-		Lifecycle {
+public class FixedAssetNote extends CreatableObject implements
+		IAccounterServerCore, Lifecycle {
 
 	private String note;
-	
 
 	public FixedAssetNote() {
 	}
-
-
 
 	/**
 	 * @param note
@@ -42,7 +39,6 @@ public class FixedAssetNote extends CreatableObject implements IAccounterServerC
 		return note;
 	}
 
-
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
@@ -50,18 +46,24 @@ public class FixedAssetNote extends CreatableObject implements IAccounterServerC
 		return true;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
 		return false;
