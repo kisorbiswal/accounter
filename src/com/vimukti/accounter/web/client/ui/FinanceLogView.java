@@ -312,7 +312,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
+
 	}
 
 	@Override
