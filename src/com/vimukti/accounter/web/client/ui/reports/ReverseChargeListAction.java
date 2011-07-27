@@ -35,7 +35,7 @@ public class ReverseChargeListAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+
 		return this.report;
 	}
 
@@ -73,7 +73,7 @@ public class ReverseChargeListAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
