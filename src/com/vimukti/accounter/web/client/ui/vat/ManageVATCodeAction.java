@@ -59,7 +59,7 @@ public class ManageVATCodeAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return "";
 	}
 
