@@ -239,7 +239,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
+		// currently not using this method anywhere
 
 	}
 
