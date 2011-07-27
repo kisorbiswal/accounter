@@ -468,7 +468,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 
 	@Override
 	public Object getGridColumnValue(IsSerializable obj, int index) {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
