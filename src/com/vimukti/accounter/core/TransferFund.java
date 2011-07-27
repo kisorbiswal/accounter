@@ -56,7 +56,7 @@ public class TransferFund extends Transaction implements Lifecycle {
 	@ReffereredObject
 	JournalEntry journalEntry;
 
-	// 
+	//
 
 	public TransferFund() {
 		setType(Transaction.TYPE_TRANSFER_FUND);
@@ -279,7 +279,6 @@ public class TransferFund extends Transaction implements Lifecycle {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		// TODO Auto-generated method stub
 
 		TransferFund transferFund = (TransferFund) clientObject;
 
