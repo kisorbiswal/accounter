@@ -17,17 +17,15 @@ public class EmployeeExpenseAction extends Action {
 
 	public EmployeeExpenseAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	public EmployeeExpenseAction(String text, String icon, ClientVendor vendor,
 			AsyncCallback<Object> callback) {
 		super(text, icon, vendor, callback);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	public void run(Object data, Boolean isDependent) {
@@ -68,24 +66,22 @@ public class EmployeeExpenseAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-
 		return this.view;
 	}
 
 	@Override
 	public ImageResource getBigImage() {
+		// NOTHING TO DO
 		return null;
 	}
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/new_cash_purchase.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "employeeExpense";
 	}
 
