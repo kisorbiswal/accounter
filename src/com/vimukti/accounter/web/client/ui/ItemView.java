@@ -974,8 +974,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 	@Override
 	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
-
+		super.fitToSize(height, width);
 	}
 
 	@Override
@@ -1044,8 +1043,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
