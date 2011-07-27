@@ -231,82 +231,10 @@ public class CreateCompanyServlet extends BaseServlet {
 		company.setCompanyFullName(companyFullName);
 		company.setCompanyID(companyId);
 
-		// company.setTotalNoOfUsers(Integer.parseInt(noOfUsers));
-		// company.setTotalNoOfLiteUsers(Integer.parseInt(noOfLiteUsers));
-		// company.setTotalSize(1024 * 1024 * 1024);
-		// company.setID(SecureUtils.createID());
-		// company.setCompanyDomainName(name);
-		// company.setCompanyDisplayName(name);
-		// company.setSubscriptionType("FULL");
-		// company.setInitialUsers(Integer.parseInt(noOfUsers));
-		// company.setInitialSize(1073741824);
-		// company.setTotalNoOfUsers(Integer.parseInt(noOfUsers));
-		// company.setBizantraVersion(Integer.parseInt(request
-		// .getParameter("companyType")));
-		// company.setAddress(address);
-		// company.setCity(city);
-		// company.setCountry(country);
-		// company.setZip(zip);
-		// company.setProvince(province);
-		// company.setDateStyle(2);
-		// if (company.getDateStyle() == 2) {
-		// company.setCountryCode("United Kingdom");
-		// } else {
-		// // TODO HAVE TO BE SET COUNTRY CODE BASE DON DATE STYLE PRESENT
-		// // GIVING DEFAULT ONE IS 'United Kingdom'
-		// company.setCountryCode("United Kingdom");
-		// }
-		// company.setTime("Y");
-		// company.setPeriod(1);
-		// company.setExpirationDate(company.getExpirationDateByDate("Y"));
-
-		// StringBuilder holidayStartString = new StringBuilder();
-		// holidayStartString.append(request.getParameter("startDateDate"));
-		// holidayStartString.append(", ");
-		// holidayStartString.append(request.getParameter("startDateMonth"));
-		// company.setHolidayStartDate(holidayStartString.toString());
-		//
-		// company.setSubsType(BizantraConstants.TRIAL_SUBSCRIPTION);
-		// company.setSubscriberEmail(request.getParameter("emailId")
-		// .toLowerCase().trim());
 
 		return company;
 	}
 
-	private boolean isValidSubDomainName(String companyId) {
-		// TODO Auto-generated method stub
-		// * it can only contain:
-		// o the 26 letter of the English alphabet (case-insensitive)
-		// o numbers (0-9)
-		// o hyphen/minus sign (-)
-		// * it must start and end with a letter or number, not a hyphen;
-		// * the labels must be between 1 and 63 characters long;
-		// * the entire hostname cannot exceed 255 characters
-
-		return false;
-	}
-
-	private boolean isValidDBName(String companyId) {
-		// TODO Auto-generated method stub
-		//http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
-		// * Permitted characters in unquoted identifiers:
-		// o ASCII: [0-9,a-z,A-Z$_] (basic Latin letters, digits 0-9, dollar,
-		// underscore)
-		// o Extended: U+0080 .. U+FFFF
-		// * Permitted characters in quoted identifiers include the full Unicode
-		// Basic Multilingual Plane (BMP), except U+0000:
-		// o ASCII: U+0001 .. U+007F
-		// o Extended: U+0080 .. U+FFFF
-		// * ASCII NUL (U+0000) and supplementary characters (U+10000 and
-		// higher) are not permitted in quoted or unquoted identifiers.
-		// * Identifiers may begin with a digit but unless quoted may not
-		// consist solely of digits.
-		// * Database, table, and column names cannot end with space characters.
-		// * Database and table names cannot contain �/�, �\�, �.�, or
-		// characters that are not permitted in file names.
-
-		return false;
-	}
 
 	public void dispatchView(HttpServletRequest request,
 			HttpServletResponse response, String view) {
