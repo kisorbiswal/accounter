@@ -425,7 +425,6 @@ public class EmployeeDetail extends CreatableObject implements
 		return true;
 	}
 
-
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
 		FinanceLogger.log("Employee with Name {0} has been deleted",
@@ -441,8 +440,7 @@ public class EmployeeDetail extends CreatableObject implements
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO
 	}
 
 	@Override
@@ -459,6 +457,5 @@ public class EmployeeDetail extends CreatableObject implements
 		ChangeTracker.put(this);
 		return false;
 	}
-
 
 }
