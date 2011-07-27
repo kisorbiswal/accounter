@@ -49,8 +49,6 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	VATReturn vatReturn;
 	private transient double vatValue;
 
-	
-
 	/**
 	 * This taxDue is used to know how much Vat Amount is remains to pay
 	 */
@@ -126,7 +124,6 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	public long getID() {
 		return id;
 	}
-
 
 	/**
 	 * @return the vatAgency
@@ -323,7 +320,6 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void onLoad(Session s, Serializable id) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -335,14 +331,14 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session s) throws CallbackException {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		// TODO Auto-generated method stub
+
 		return true;
 	}
 
