@@ -29,8 +29,8 @@ public class ItemDialogGrid extends ListGrid<ClientItem> {
 
 	public void createControls() {
 		boolean isAddNewRequired = false;
-		productItemCombo = new ProductCombo(Accounter
-				.getCustomersMessages().PRoduct(), 1, isAddNewRequired);
+		productItemCombo = new ProductCombo(Accounter.getCustomersMessages()
+				.PRoduct(), 1, isAddNewRequired);
 		productItemCombo.setGrid(this);
 		productItemCombo.setRequired(true);
 		IAccounterComboSelectionChangeHandler<ClientItem> changeHandler = new IAccounterComboSelectionChangeHandler<ClientItem>() {
@@ -96,7 +96,7 @@ public class ItemDialogGrid extends ListGrid<ClientItem> {
 
 	@Override
 	protected String[] getSelectValues(ClientItem obj, int index) {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -107,7 +107,7 @@ public class ItemDialogGrid extends ListGrid<ClientItem> {
 
 	@Override
 	protected void onClick(ClientItem obj, int row, int index) {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		switch (index) {
 		case 0:
 			// productItemCombo.setComboItem(obj);
@@ -129,19 +129,17 @@ public class ItemDialogGrid extends ListGrid<ClientItem> {
 
 	@Override
 	public void onDoubleClick(ClientItem obj) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
 	protected void onValueChange(ClientItem obj, int index, Object value) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
 	protected int sort(ClientItem obj1, ClientItem obj2, int index) {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return 0;
 	}
 
@@ -157,8 +155,7 @@ public class ItemDialogGrid extends ListGrid<ClientItem> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] {
-				Accounter.getFinanceUIConstants().itemName(),
+		return new String[] { Accounter.getFinanceUIConstants().itemName(),
 				Accounter.getFinanceUIConstants().price() };
 	}
 
