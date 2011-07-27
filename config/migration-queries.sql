@@ -347,11 +347,3 @@ CREATE TABLE  `accounter`.`stock_transfer` (
   CONSTRAINT `FKE77B4F142FACBE4C` FOREIGN KEY (`FROM_WAREHOUSE`) REFERENCES `warehouse` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `accounter`.`stock_adjustment`;
-CREATE TABLE  `accounter`.`stock_adjustment` (
-  `id` bigint(20) NOT NULL,
-  `COMPLETED` bit(1) default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `FKD2B15A56274BC854` (`id`),
-  CONSTRAINT `FKD2B15A56274BC854` FOREIGN KEY (`id`) REFERENCES `transaction` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
