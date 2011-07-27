@@ -50,10 +50,7 @@ public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
 
 	int version;
 
-	
-
 	transient private boolean isOnSaveProccessed;
-
 
 	/**
 	 * @return the id
@@ -137,7 +134,6 @@ public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
 		this.version = version;
 	}
 
-
 	/**
 	 * @return the payVAT
 	 */
@@ -155,13 +151,13 @@ public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onDelete(Session s) throws CallbackException {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
 	@Override
 	public void onLoad(Session s, Serializable id) {
-		// TODO Auto-generated method stub
+		// currently not using anywhere in the project.
 
 	}
 
@@ -234,7 +230,7 @@ public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		// TODO Auto-generated method stub
+
 		return true;
 	}
 
