@@ -25,7 +25,7 @@ public class ManageSalesTaxGroupsAction extends Action {
 
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -48,18 +48,18 @@ public class ManageSalesTaxGroupsAction extends Action {
 			public void onCreated() {
 				try {
 
-//					 SalesTaxGroupListDialog dialog = new
-//					 SalesTaxGroupListDialog(
-//					 FinanceApplication.getCompanyMessages()
-//					 .manageSalesTaxGroup(), FinanceApplication
-//					 .getCompanyMessages().toAddTaxGroup());
-//					 ViewManager viewManager = ViewManager.getInstance();
-//					 viewManager.setCurrentDialog(dialog);
+					// SalesTaxGroupListDialog dialog = new
+					// SalesTaxGroupListDialog(
+					// FinanceApplication.getCompanyMessages()
+					// .manageSalesTaxGroup(), FinanceApplication
+					// .getCompanyMessages().toAddTaxGroup());
+					// ViewManager viewManager = ViewManager.getInstance();
+					// viewManager.setCurrentDialog(dialog);
 					view = new SalesTaxGroupListView();
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, ManageSalesTaxGroupsAction.this);
 					// dialog.addCallBack(getViewConfiguration().getCallback());
-//					 dialog.show();
+					// dialog.show();
 
 				} catch (Throwable e) {
 					onCreateFailed(e);
@@ -81,18 +81,16 @@ public class ManageSalesTaxGroupsAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/Manage_Sales_Tax_Group.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		if (Accounter.getUser().canDoInvoiceTransactions())
 			return "manageSalesTaxGroups";
 		else
 			return "salesTaxGroups";
-		
+
 	}
 
 }
