@@ -41,7 +41,7 @@ public class ManageTAXCodesListAction extends Action {
 	 */
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -93,13 +93,11 @@ public class ManageTAXCodesListAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/Manage_Sales_Tax_Group.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "vatCodes";
 	}
 }
