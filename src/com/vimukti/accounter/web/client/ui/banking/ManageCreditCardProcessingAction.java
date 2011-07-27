@@ -32,7 +32,6 @@ public class ManageCreditCardProcessingAction extends Action {
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public ImageResource getBigImage() {
@@ -47,8 +46,7 @@ public class ManageCreditCardProcessingAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "manageCreditCardProcess";
 	}
 
 }
