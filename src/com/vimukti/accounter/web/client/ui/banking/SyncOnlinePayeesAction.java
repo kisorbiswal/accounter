@@ -27,7 +27,7 @@ public class SyncOnlinePayeesAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// its not using any where return null;
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -38,10 +38,12 @@ public class SyncOnlinePayeesAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
 	public ImageResource getSmallImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
