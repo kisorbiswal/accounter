@@ -37,7 +37,7 @@ public class WarehouseTransferListGrid extends BaseListGrid<StockTransfer> {
 
 	@Override
 	public boolean validateGrid() throws InvalidTransactionEntryException {
-		// TODO Auto-generated method stub
+		// currently not using this method anywhere
 		return false;
 	}
 
