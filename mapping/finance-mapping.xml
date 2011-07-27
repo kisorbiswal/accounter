@@ -1394,6 +1394,12 @@
 	 <class name="StockTransfer" table="STOCK_TRANSFER">
 		<id name="id" column="ID"/>
 		
+		<many-to-one name="createdBy" class="User" column="CREATED_BY" />
+		<many-to-one name="lastModifier" class="User" column="LAST_MODIFIER" />
+		<property name="createdDate" type="timestamp" column="CREATED_ON"/>
+		<property name="lastModifiedDate" type="timestamp" column="LAST_MODIFIED_ON"/>
+		
+		
 		<many-to-one name="fromWarehouse" column="FROM_WAREHOUSE"
 				class="Warehouse" lazy="false">
 			</many-to-one>
