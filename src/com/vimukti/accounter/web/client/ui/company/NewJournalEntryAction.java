@@ -13,8 +13,7 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 public class NewJournalEntryAction extends Action {
 
 	public NewJournalEntryAction(String text, String iconString) {
-		super(Accounter.getCompanyMessages().newJournalEntry(),
-				iconString);
+		super(Accounter.getCompanyMessages().newJournalEntry(), iconString);
 		this.catagory = Accounter.getCompanyMessages().company();
 	}
 
@@ -55,11 +54,12 @@ public class NewJournalEntryAction extends Action {
 
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -69,13 +69,11 @@ public class NewJournalEntryAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/new_journal_entry.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "newJournalEntry";
 	}
 }
