@@ -19,6 +19,10 @@ public class Measurement {
 	private String name;
 	private Set<Unit> units;
 
+	public void setUnits(Set<Unit> units) {
+		this.units = units;
+	}
+
 	public Measurement() {
 		units = new HashSet<Unit>();
 	}
