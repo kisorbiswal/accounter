@@ -761,7 +761,7 @@ public class CustomerRefundView extends
 
 	@Override
 	public void printPreview() {
-
+		// NOTHING TO DO
 	}
 
 	@Override
