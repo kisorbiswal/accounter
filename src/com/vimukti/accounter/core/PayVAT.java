@@ -50,7 +50,7 @@ public class PayVAT extends Transaction implements IAccounterServerCore,
 
 	List<TransactionPayVAT> transactionPayVAT;
 
-	// 
+	//
 
 	/**
 	 * @return the payFrom
@@ -157,18 +157,15 @@ public class PayVAT extends Transaction implements IAccounterServerCore,
 		this.transactionPayVAT = transactionPayVAT;
 	}
 
-
-
 	@Override
 	public boolean onDelete(Session s) throws CallbackException {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return false;
 	}
 
 	@Override
 	public void onLoad(Session s, Serializable id) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
