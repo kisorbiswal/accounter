@@ -309,13 +309,13 @@ public class VATPaymentView extends
 
 	@Override
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
-		// TODO Auto-generated method stub
+		// currently not using
 
 	}
 
 	@Override
 	public void updateNonEditableItems() {
-		// TODO Auto-generated method stub
+		// currently not using
 
 	}
 
