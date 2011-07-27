@@ -28,19 +28,19 @@ public class ReceiveVATAction extends Action {
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
+		// its not using any where return null;
 		return null;
 	}
 
 	@Override
 	public ImageResource getSmallImage() {
-		// TODO Auto-generated method stub
+		// its not using any where return null;
 		return null;
 	}
 
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stub
+		// its not using any where return null;
 		return null;
 	}
 
@@ -75,13 +75,12 @@ public class ReceiveVATAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
+		// its not using any where return null;
 		return "";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "receiveVat";
 	}
 
