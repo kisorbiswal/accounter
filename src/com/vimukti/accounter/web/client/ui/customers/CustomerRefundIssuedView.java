@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 @SuppressWarnings("unchecked")
+// // its not using any where
 public class CustomerRefundIssuedView extends AbstractBaseView {
 	CustomersMessages customerConstants = GWT.create(CustomersMessages.class);
 
@@ -60,8 +61,8 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		// payMethText.setWidth("*");
 		payMethText.setDisabled(true);
 
-		CheckboxItem printCheck = new CheckboxItem(customerConstants
-				.toBePrinted());
+		CheckboxItem printCheck = new CheckboxItem(
+				customerConstants.toBePrinted());
 
 		TextItem checkNoText = new TextItem();
 		checkNoText.setTitle(customerConstants.checkNo());
@@ -88,8 +89,8 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		leftVLay.add(custForm);
 		leftVLay.add(payForm);
 
-		AmountField endBalText = new AmountField(customerConstants
-				.endingBalance());
+		AmountField endBalText = new AmountField(
+				customerConstants.endingBalance());
 		// endBalText.setWidth("*");
 		endBalText.setDisabled(true);
 
@@ -106,13 +107,13 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		topHLay.add(leftVLay);
 		topHLay.add(balForm);
 
-		AccounterButton saveCloseButt = new AccounterButton(customerConstants
-				.saveAndClose());
+		AccounterButton saveCloseButt = new AccounterButton(
+				customerConstants.saveAndClose());
 		// saveCloseButt.setAutoFit(true);
 		// saveCloseButt.setLayoutAlign(Alignment.LEFT);
 
-		AccounterButton saveNewButt = new AccounterButton(customerConstants
-				.saveAndNew());
+		AccounterButton saveNewButt = new AccounterButton(
+				customerConstants.saveAndNew());
 		// saveNewButt.setAutoFit(true);
 		// saveNewButt.setLayoutAlign(Alignment.RIGHT);
 
@@ -138,7 +139,6 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 
 	@Override
 	protected void initConstants() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -161,43 +161,36 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 

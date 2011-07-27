@@ -50,16 +50,16 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 		case 8:
 			if (!customerRefund.isVoided())
 				return Accounter.getFinanceImages().notvoid();
-//				return "/images/not-void.png";
+			// return "/images/not-void.png";
 			else
 				return Accounter.getFinanceImages().voided();
-//				return "/images/voided.png";
-//		case 9:
-//			if (customerRefund.isDeleted())
-//				return FinanceApplication.getFinanceImages().delSuccess()
-//						.getURL();
-//			else
-//				return FinanceApplication.getFinanceImages().delete().getURL();
+			// return "/images/voided.png";
+			// case 9:
+			// if (customerRefund.isDeleted())
+			// return FinanceApplication.getFinanceImages().delSuccess()
+			// .getURL();
+			// else
+			// return FinanceApplication.getFinanceImages().delete().getURL();
 
 		default:
 			break;
@@ -75,8 +75,8 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 				customerConstants.issueDate(), customerConstants.name(),
 				customerConstants.type(), customerConstants.paymentMethod(),
 				customerConstants.amountPaid(), customerConstants.voided()
-//				, ""
-				};
+		// , ""
+		};
 	}
 
 	@Override
@@ -86,8 +86,8 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_IMAGE
-//				,ListGrid.COLUMN_TYPE_IMAGE 
-				};
+		// ,ListGrid.COLUMN_TYPE_IMAGE
+		};
 	}
 
 	@Override
@@ -100,12 +100,12 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 		if (col == 8 && !obj.isVoided()) {
 			showWarningDialog(obj, col);
 		}
-//		else if (col == 9) {
-//			if (!isDeleted)
-//				showWarningDialog(obj, col);
-//			else
-//				return;
-//		}
+		// else if (col == 9) {
+		// if (!isDeleted)
+		// showWarningDialog(obj, col);
+		// else
+		// return;
+		// }
 
 	}
 
@@ -115,16 +115,15 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 			msg = Accounter.getCustomersMessages()
 					.doyouwanttoVoidtheTransaction();
 		}
-//		else if (col == 9) {
-//			msg = "Do you want to Delete the Transaction";
-//
-//		}
+		// else if (col == 9) {
+		// msg = "Do you want to Delete the Transaction";
+		//
+		// }
 		Accounter.showWarning(msg, AccounterType.WARNING,
 				new ErrorDialogHandler() {
 
 					@Override
 					public boolean onCancelClick() throws InvalidEntryException {
-						// TODO Auto-generated method stub
 						return false;
 					}
 
@@ -137,8 +136,8 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 					public boolean onYesClick() throws InvalidEntryException {
 						if (col == 8)
 							voidTransaction(obj);
-//						else if (col == 9)
-//							deleteTransaction(obj);
+						// else if (col == 9)
+						// deleteTransaction(obj);
 						return true;
 					}
 
@@ -179,7 +178,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 
 	@Override
 	public boolean validateGrid() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return false;
 	}
 
@@ -187,14 +186,14 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 	protected int getCellWidth(int index) {
 		if (index == 8)
 			return 50;
-//		else if (index == 9)
-//			return 30;
+		// else if (index == 9)
+		// return 30;
 		return -1;
 	}
 
 	@Override
 	protected void executeDelete(CustomerRefundsList object) {
-		// TODO Auto-generated method stub
+		// its not using any where
 
 	}
 
@@ -235,8 +234,8 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 			break;
 
 		case 4:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 
 		case 5:
 			String type1 = Utility.getTransactionName((obj1.getType()))
@@ -246,8 +245,8 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 			return type1.compareTo(type2);
 
 		case 6:
-			return obj1.getPaymentMethod().toLowerCase().compareTo(
-					obj2.getPaymentMethod().toLowerCase());
+			return obj1.getPaymentMethod().toLowerCase()
+					.compareTo(obj2.getPaymentMethod().toLowerCase());
 
 		case 7:
 			return obj1.getAmountPaid().compareTo(obj2.getAmountPaid());
@@ -260,7 +259,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
+		// its not using any where
 
 	}
 

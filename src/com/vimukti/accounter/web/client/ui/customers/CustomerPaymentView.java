@@ -174,49 +174,49 @@
 //
 //	@Override
 //	protected void customerSelected(ClientCustomer customer) {
-//		// TODO Auto-generated method stub
+//		
 //
 //	}
 //
 //	@Override
 //	protected void salesPersonSelected(ClientSalesPerson person) {
-//		// TODO Auto-generated method stub
+//		
 //
 //	}
 //
 //	@Override
 //	protected void priceLevelSelected(ClientPriceLevel priceLevel) {
-//		// TODO Auto-generated method stub
+//		
 //
 //	}
 //
 //	@Override
 //	protected void taxGroupSelected(ClientTaxGroup taxGroup) {
-//		// TODO Auto-generated method stub
+//		
 //
 //	}
 //
 //	@Override
 //	protected void initTransactionViewData(ClientTransaction transactionObject) {
-//		// TODO Auto-generated method stub
+//		
 //
 //	}
 //
 //	@Override
 //	protected void initMemoAndReference() {
-//		// TODO Auto-generated method stub
+//		
 //
 //	}
 //
 //	@Override
 //	protected void initSalesTaxNonEditableItem() {
-//		// TODO Auto-generated method stub
+//		
 //
 //	}
 //
 //	@Override
 //	protected void initTransactionTotalNonEditableItem() {
-//		// TODO Auto-generated method stub
+//		
 //
 //	}
 //
@@ -235,4 +235,4 @@
 //
 //	}
 //
-//}
+// }

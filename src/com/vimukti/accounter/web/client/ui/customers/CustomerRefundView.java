@@ -630,7 +630,7 @@ public class CustomerRefundView extends
 	}
 
 	public List<DynamicForm> getForms() {
-
+		// its not using any where
 		return listforms;
 	}
 
@@ -644,20 +644,17 @@ public class CustomerRefundView extends
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
-
+		super.fitToSize(height, width);
 	}
 
 	@Override
@@ -759,13 +756,11 @@ public class CustomerRefundView extends
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 

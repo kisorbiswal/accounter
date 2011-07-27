@@ -27,12 +27,10 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 	protected List<CustomerRefundsList> transactions;
 	private List<CustomerRefundsList> listOfCustomerRefund;
 
-	private static String NOT_ISSUED = Accounter
-			.getCustomersMessages().notIssued();
-	private static String ISSUED = Accounter.getCustomersMessages()
-			.issued();
-	private static String VOID = Accounter.getVendorsMessages()
-			.Voided();
+	private static String NOT_ISSUED = Accounter.getCustomersMessages()
+			.notIssued();
+	private static String ISSUED = Accounter.getCustomersMessages().issued();
+	private static String VOID = Accounter.getVendorsMessages().Voided();
 	private static String ALL = Accounter.getCustomersMessages().all();
 	// private static String DELETED="Deleted";
 
@@ -88,7 +86,7 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 
 	@Override
 	public void updateInGrid(CustomerRefundsList objectTobeModified) {
-		// TODO Auto-generated method stub
+		// its not using any where
 
 	}
 
@@ -172,25 +170,22 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
+		// its not using any where
 
 	}
 

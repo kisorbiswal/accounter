@@ -103,8 +103,6 @@ public class CustomerCreditMemo extends Transaction implements
 	String phone;
 
 	SalesPerson salesPerson;
-
-	// TODO not using this property.
 	@ReffereredObject
 	Account account;
 
@@ -381,7 +379,6 @@ public class CustomerCreditMemo extends Transaction implements
 
 	// @Override
 	public boolean equals(CustomerCreditMemo ccm) {
-		// TODO Auto-generated method stub
 		if (DecimalUtil.isEquals(this.getTotal(), ccm.getTotal())
 				&& this.id == ccm.id
 				&& DecimalUtil.isEquals(this.total, ccm.total)
@@ -402,7 +399,7 @@ public class CustomerCreditMemo extends Transaction implements
 	// @Override
 	// public boolean canEdit(IAccounterServerCore clientObject)
 	// throws InvalidOperationException {
-	// // TODO Auto-generated method stub
+	// //
 	// return false;
 	// }
 

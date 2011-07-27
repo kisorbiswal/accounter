@@ -91,7 +91,8 @@ public class CreditsandPaymentsGrid extends
 	private void resetValidValue(ClientCreditsAndPayments creditsAndPayments) {
 		double balance = creditsAndPayments.getBalance();
 		double amountToUse = creditsAndPayments.getAmtTouse();
-		if (DecimalUtil.isGreaterThan(balance, 0) && DecimalUtil.isGreaterThan(amountToUse, 0)) {
+		if (DecimalUtil.isGreaterThan(balance, 0)
+				&& DecimalUtil.isGreaterThan(amountToUse, 0)) {
 			ClientCreditsAndPayments editRecord = creditsAndPayments;
 			// ClientCreditsAndPayments originalRecord = actualRecords
 			// .get(indexOf(creditsAndPayments));
@@ -127,9 +128,8 @@ public class CreditsandPaymentsGrid extends
 	public void resetValue(ClientCreditsAndPayments creditPayments) {
 		creditPayments
 				.setBalance(creditPayments.isRecordChanged() ? creditPayments
-						.getRemaoningBalance()
-						+ creditPayments.getAmtTouse() : creditPayments
-						.getAmtTouse());
+						.getRemaoningBalance() + creditPayments.getAmtTouse()
+						: creditPayments.getAmtTouse());
 		creditPayments.setAmtTouse(0.0D);
 		updateData(creditPayments);
 		updateAmountValues();
@@ -206,8 +206,7 @@ public class CreditsandPaymentsGrid extends
 
 			try {
 				Double amtTouse = Double.parseDouble(DataUtils
-						.getReformatedAmount(value.toString())
-						+ "");
+						.getReformatedAmount(value.toString()) + "");
 				// ClientCreditsAndPayments actualRecord = actualRecords
 				// .get(indexOf(item));
 
@@ -215,22 +214,25 @@ public class CreditsandPaymentsGrid extends
 				Double balance = item.getRemaoningBalance()
 						+ (item.getAmtTouse() - amtTouse);
 
-				if (DecimalUtil.isLessThan(amtTouse, 0) || DecimalUtil.isLessThan(balance, 0)) {
+				if (DecimalUtil.isLessThan(amtTouse, 0)
+						|| DecimalUtil.isLessThan(balance, 0)) {
 					// || balance != 0 ? ((amtTouse
 					// .compareTo(item.getActualAmt()) > 0) ? true : false)
 					// : false) {
 					Accounter
 							.showError(AccounterErrorType.RECEIVEPAYMET_APPLIED_CREDITS_AMOUNT);
-					setText(indexOf(item), 4, DataUtils.getAmountAsString(item
-							.getAmtTouse()));
+					setText(indexOf(item), 4,
+							DataUtils.getAmountAsString(item.getAmtTouse()));
 				} else {
-					if (DecimalUtil.isLessThan(amtTouse, item.getRemaoningBalance())
-							&& !DecimalUtil.isGreaterThan(amtTouse, item.getActualAmt())
+					if (DecimalUtil.isLessThan(amtTouse,
+							item.getRemaoningBalance())
+							&& !DecimalUtil.isGreaterThan(amtTouse,
+									item.getActualAmt())
 							&& DecimalUtil.isGreaterThan(amtTouse, balance)) {
 						Accounter
 								.showError(AccounterErrorType.RECEIVEPAYMET_APPLIED_CREDITS_AMOUNT);
-						setText(indexOf(item), 4, DataUtils
-								.getAmountAsString(item.getAmtTouse()));
+						setText(indexOf(item), 4,
+								DataUtils.getAmountAsString(item.getAmtTouse()));
 					} else {
 						editingRecord.setAmtTouse(amtTouse);
 						editingRecord.setBalance(balance);
@@ -358,7 +360,7 @@ public class CreditsandPaymentsGrid extends
 	@Override
 	public <E> CustomCombo<E> getCustomCombo(ClientCreditsAndPayments obj,
 			int colIndex) {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 
