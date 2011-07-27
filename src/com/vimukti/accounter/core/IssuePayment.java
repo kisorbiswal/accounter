@@ -70,25 +70,25 @@ public class IssuePayment extends Transaction {
 
 	@Override
 	public boolean isDebitTransaction() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return false;
 	}
 
 	@Override
 	public boolean isPositiveTransaction() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return false;
 	}
 
 	@Override
 	public Account getEffectingAccount() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
 	@Override
 	public Payee getPayee() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
