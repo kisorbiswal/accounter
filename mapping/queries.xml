@@ -10,27 +10,7 @@
 		from User user where user.emailID=:emailid and
 		user.password =:password
 	</query>
-	<query name="getidentity.from.stringID.and.password">
-		<query-param name="stringID" type="string" />
-		<query-param name="password" type="string" />
-		from CollaberIdentity identity where identity.id=:stringID and
-		identity.password =:password and identity.id in (select user.stringID
-		from com.vimukti.accounter.core.User user)
-	</query>
-	<query name="getidentity.from.StringID">
-		<query-param name="stringID" type="string" />
-		from CollaberIdentity identity where identity.id=:stringID
-	</query>
-	<query name="getidentity.from.emailid">
-		<query-param name="emailid" type="string" />
-		from CollaberIdentity identity where identity.emailID=:emailid
-	</query>
-
-	<query name="getspace.from.name">
-		<query-param name="name" type="string" />
-		from WorkSpace space where space.name=:name
-	</query>
-
+	
 	<sql-query name="getIdentitySpaceMembers">
 		<return class="com.bizantra.server.workspace.internal.Member" />
 		<query-param name="IDENTITY_ID" type="string" />
