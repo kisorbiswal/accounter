@@ -6,6 +6,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -72,8 +73,12 @@ public class ChangePasswordDialog extends BaseDialog {
 			@Override
 			public void onClick(ClickEvent event) {
 
-				MainFinanceWindow.getViewManager().closeCurrentView();
+				// MainFinanceWindow.getViewManager().closeCurrentView();
 				removeFromParent();
+				HistoryTokenUtils.setPresentToken(MainFinanceWindow
+						.getViewManager().getCurrentView().getAction(),
+						MainFinanceWindow.getViewManager().getCurrentView()
+								.getData());
 			}
 		});
 
