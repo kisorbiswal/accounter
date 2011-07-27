@@ -73,7 +73,6 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 	@Override
 	public void updateInGrid(ReceivePaymentsList objectTobeModified) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -128,7 +127,8 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 				continue;
 			}
 			if (text.equals(FULLY_APPLIED)) {
-				if (recievePayment.getStatus() == STATUS_APPLIED && !recievePayment.isVoided())
+				if (recievePayment.getStatus() == STATUS_APPLIED
+						&& !recievePayment.isVoided())
 					grid.addData(recievePayment);
 
 				continue;
