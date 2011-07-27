@@ -15,24 +15,25 @@ public class OpenSelectedItemsAction extends Action {
 
 	}
 
-
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
 	public ImageResource getSmallImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
