@@ -38,8 +38,7 @@ public class MergeFinancialAccountsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "mergeFinancialAccounts";
 	}
 
 }
