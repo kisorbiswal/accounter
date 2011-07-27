@@ -12,38 +12,38 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 public class PayTypeListAction extends Action {
 
 	public PayTypeListAction(String text) {
-		super( text);
+		super(text);
 	}
 
 	public PayTypeListAction(String text, String iconString) {
 		super(text, iconString);
 	}
 
-
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
 	public ImageResource getSmallImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "payTypeListAction";
 	}
 
 }
