@@ -96,13 +96,13 @@ public class UserPermissions implements IAccounterServerCore {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
+
 		return 0;
 	}
 
