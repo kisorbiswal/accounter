@@ -30,13 +30,13 @@ public class WareHouseViewAction extends Action {
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ImageResource getSmallImage() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
