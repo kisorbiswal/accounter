@@ -22,7 +22,7 @@ public class PurchaseClosedOrderAction extends Action {
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
+		// Nothing to do
 		return null;
 	}
 
@@ -34,7 +34,7 @@ public class PurchaseClosedOrderAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+		// Nothing to do
 		return null;
 	}
 
