@@ -537,7 +537,9 @@ public class AccounterConstants implements IsSerializable, Serializable {
 	public static final String VAT_ITEM_EC_SALES_GOODS_STANDARD = "EC Sales Goods Standard";
 	
 	
-	//acount names
+	/**
+	 * Expenses default accounts names constants 
+	 */
 	
 	public static final String EXPENSE_ADEVRTISING_AND_MARKETING = "Aderstising and Marketing";
 	public static final String EXPENSE_CONSULTING_AND_ACCOUNTING = "Consulting and Accounting";
@@ -605,4 +607,140 @@ public class AccounterConstants implements IsSerializable, Serializable {
 	public static final String EXPENSE_INDIRECT_COSTS = "Indirect Costs";
 
 
+	
+	/**
+	 * income default accounts names constants
+	 */
+	public static final String INCOME_SALES = "Sales";
+	public static final String INCOME_SALES_OF_PRODUCT_INCOME = "Sales of Product income";
+	public static final String INCOME_OTHER = "Other Income";
+	public static final String INCOME_GENERAL = "General Income";
+	public static final String INCOME_INTEREST = "Interest Income";
+	public static final String INCOME_LATE_FEE = "Late Fee Income";
+	public static final String INCOME_SHIPPING = "Shipping Income";
+	public static final String INCOME_REFUNDS_ALLOWANCE = "Refund Allowance";
+	public static final String INCOME_FEES_BILLED = "Fees Billed";
+	public static final String INCOME_SERVICES = "Services";
+	public static final String INCOME_SALES_TYPE_B = "Sales/Income Type B";
+	public static final String INCOME_SALES_TYPE_C = "Sales/Income Type C";
+	public static final String INCOME_SALES_TYPE_D = "Sales/Income Type D";
+	public static final String INCOME_SALES_TYPE_E = "Sales/Income Type E";
+	public static final String INCOME_MISCELLANEOUS = "Miscellaneous Income";
+	public static final String INCOME_DISTRIBUTION_CARRIAGES = "Distribution & Carriage";
+	public static final String INCOME_COMMISION_RECEIVED = "Commissions Received";
+	public static final String INCOME_CREDIT_CHARGES = "Credit Charges";
+	public static final String INCOME_INSURANCE_CLAIMS = "Insurance Claims";
+	public static final String INCOME_RENT = "Rent Income";
+	public static final String INCOME_ROYALTIES_RECEIVED = "Royalties Received";
+	public static final String INCOME_PROFIT_LOSS_IN_SALE_OF_ASSETS = "Profit/Loss on Sales of Assets";
+
+	/**
+	 * assets default accounts names constants
+	 */
+	public static final String ASSETS_CURRENT = "Current Assets";
+	public static final String ASSETS_ACCOUNTS_RECEIVABLES = "Accounts Receivables";
+	public static final String ASSETS_PREPAYMENTS = "Prepayments";
+	public static final String ASSETS_DEBTORS = "Debtors";
+	public static final String ASSETS_DEPOSITS = "Depositis";
+	public static final String ASSETS_BANK_CURRENT_ACCOUNT = "Bank Current Accounut";
+	public static final String ASSETS_BANK_DEPOSITE_ACCOUNT = "Bank Deposite Account";
+	public static final String ASSETS_UNDEPOSTITED_FUNDS = "Un Depostited Funds";
+	public static final String ASSETS_CURRENT_PETTY_CASH = "Peety Cash";
+	public static final String ASSETS_PRE_PAYMENTS = "Pre Payments";
+	public static final String ASSETS_ADVANCES_OF_EMPLOYEES = "Advances to Employees";
+	public static final String ASSETS_STOCKVALUES = "Stock values";
+	public static final String ASSETS_OFFICE_EQUIPMENTS = "Office Equipments";
+	public static final String ASSETS_LAD_OFFICE_EQUIPMENTS = "Less Accumulation Depriciation on Office Equipments";
+	public static final String ASSETS_COMPUTER_EQUIPMENTS = "Computer Equipments";
+	public static final String ASSETS_LAD_COMPUTER_EQUIPMENTS = "Less Accumulation Depriciation on Computer Equipments";
+	public static final String ASSETS_FREEHOLD_BUILDINGS = "Freehold buildings";
+	public static final String ASSETS_AF_BUILDING_DEPRICIATION = "Accumulated Freehold Building Depriciation";
+	public static final String ASSETS_LEASEHOLD_PROPERTY_IMPROVEMENTS = "Leasehold property improvements";
+	public static final String ASSETS_AL_PROPERTY_IMPROVEMENT_DEPRICIATION = "Accumulated Leasehold property improvements Depriciation";
+	public static final String ASSETS_IT_EQUIPMENTS = "IT Equipments";
+	public static final String ASSETS_A_OFFICE_EQUIPMENTS_DEPRICIATION = "Accumulated Office Equipments Depriciation";
+	public static final String ASSETS_A_IT_EQUIPMENTS_DEPRECIATION = "Accumulated IT Equipments Depriciations";
+	public static final String ASSETS_FURNITURES_FIXTURES = "Furnitures and Fixtures";
+	public static final String ASSETS_A_FURNITURE_FIXTURES_DEPRICIATION = "Accumulated Furniture and Fixture Depriciation";
+	public static final String ASSETS_PLANTS_mACHINARY = "Plant and Machinary";
+	public static final String ASSETS_A_PLANT_MACHINARY_DEPRICIATION = "Accumulated Plant & MAchinary Depriciation";
+	public static final String ASSETS_VEHICLES = "Veichles";
+	public static final String ASSETS_A_VEICHLES_DEPRICIATION = "Accumulted Vehicles Depriciations";
+	public static final String ASSETS_INTANGIBLES = "Intangibles";
+	public static final String ASSETS_FIXED = "Fixed Assets";
+	public static final String ASSETS_OTHER_CURRENT = "Other Current Assets";
+	public static final String ASSETS_CASH = "Cash";
+	public static final String ASSETS_BANK = "Bank";
+	public static final String ASSETS_ADVANCE_TAX = "Advance Tax";
+	public static final String ASSETS_INVENTORY = "Inventory Assets";
+	public static final String ASSETS_PREPAID_EXPENSES = "Prepaid Expenses";
+	public static final String ASSETS_UNDEPOSITED_FUNDS = "Undeposited Funds";
+	public static final String ASSETS_SERVICE_TAX_INCURED_ON_EXPENSES = "Service Tax incurred on Expenses";
+	public static final String ASSETS_UNDEPOSITIED_FUNDS = "Undeposited Funds";
+	public static final String ASSETS_CASH_PETTY_CASH = "Petty Cash";
+
+	/**
+	 * liabilities fault names constants
+	 */
+	public static final String EQUITY = "Equity";
+	public static final String EQUITY_RETAINED_EARINGS = "Retained Earnings";
+	public static final String EQUITY_OWNER_SHARE = "Owner a Share Capital";
+	public static final String EQUITY_OPENING_BALANCE_OFFSET = "Opening Balance Offset";
+	public static final String EQUITY_GAIN_LOSS_EXCHANGE = "Gain/Loss on Exchange";
+	public static final String EQUITY_ORDINARY_SHARES = "Ordinary Shares";
+	public static final String EQUITY_OPENING_BALANCE = "Opening Balance";
+	public static final String EQUITY_RESERVES = "Reservers";
+	public static final String EQUITY_YTD = "P&L Brought Forward/YTD";
+	public static final String EQUITY_DIVIDEND = "Dividends";
+
+	public static final String LIABLITY_SECURED_LOAN = "Secured Loans";
+	public static final String LIABLITY_UNSECURED_LOAN = "Unsecured Loans";
+	public static final String LIABLITY_LOAN = "Loans";
+	public static final String LIABLITY_NON_CURRENT = "Non Current Liabilities";
+	public static final String LIABLITY_CLIENT_CREDITS = "Client Credits";
+	public static final String LIABLITY_LONG_TERM = "Long Term Liabilities";
+	public static final String LIABLITY_LONG_TERM_LOANS = "Long Term Loans";
+	public static final String LIABLITY_HIRE_PURCHASE_CREDITORS = "Hire Purchase Creditors";
+	public static final String LIABLITY_DEFERRED_TAX = "Deffered TAx";
+	public static final String LIABLITY_OTHER_BALANCE_SHEET_CATEGORY = "Other Balance Sheet Category";
+	public static final String LIABLITY_BANK_REVALUATIONS = "Bank Revaluations";
+	public static final String LIABLITY_HISTORICAL_ADJUSTMENTS = "Historical Adjustments";
+	public static final String LIABLITY_REALISED_CURRENCY_GAINS = "Realised Currency gains";
+	public static final String LIABLITY_UNREALISED_CURRENCY_GAINS = "Unrealised Currency Gains";
+	public static final String LIABLITY_ROUNDINGS = "Roundings";
+	public static final String LIABLITY_VAT_ON_IMPORTS = "Vat on Import";
+	public static final String LIABLITY_SUSPENSES = "Suspenses";
+	
+	
+	public static final String LIABLITY_CURRENT = "Current Liabilities";
+	public static final String LIABLITY_TAXPAYABLE = "Tax Payables";
+	public static final String LIABLITY_VATPAYABLE = "VAT Payable";
+	public static final String LIABLITY_CSTPAYABLE = "CST Payable";
+	public static final String LIABLITY_EMPLOYEE_TAXPAYABLE = "Employee Tax Payable";
+	public static final String LIABLITY_OTHER_CURRENT_LIABILITIES = "Other Current Liablities";
+	public static final String LIABLITY_INCOME_TAX_PAYABLE = "Income Tax payables";
+	public static final String LIABLITY_SALES_TAX = "Sales Tax";
+	public static final String LIABLITY_WAGES_PAYABLE = "Wages Payables";
+	public static final String LIABLITY_ACCOUNTS_PAYABLE = "Accounts Payables";
+	public static final String LIABLITY_SUPPERANNATION_PAYABLE = "Supperannuations Payables";
+	public static final String LIABLITY_UNPAID_EXPENSES_CLAIMS = "Unpaid Expense Claims";
+	public static final String LIABLITY_TRACKING_TRANSFERS = "TYracking Transfers";
+	public static final String LIABLITY_OWNER_DRAWING = "Owner a Drawings";
+	public static final String LIABLITY_OWNER_FUND_INTRODUCED = "Owner a funds Introduced";
+	public static final String LIABLITY_CREDIT_CARD = "Credit Cards";
+	public static final String LIABLITY_SERVICE_TAXPAYABLE = "Service Tax Payable";
+	public static final String LIABLITY_CREDITORS = "Creditors";
+	public static final String LIABLITY_PAYEE = "Payee(Employment Tax)";
+	public static final String LIABLITY_NAT = "National Insurance Tax";
+	public static final String LIABLITY_SALESTAX_UNFILED = "Sales Tax(VAT)Unfiled";
+	public static final String LIABLITY_SALESTAX_FILLED = "Sales Tax(VAT)Filed";
+	public static final String LIABLITY_CORPORATIONTAX = "Corporation Tax";
+	public static final String LIABLITY_LOANS = "Loans";
+	public static final String LIABLITY_MORTGAGES = "Mortgages";
+	public static final String LIABLITY_ACCURALS = "Accurals";
+	public static final String LIABLITY_DIRECTORS_CURRENT_ACCOUNT = "Directors Current Account";
+	public static final String LIABLITY_NET_SALARIES = "Net Salaries";
+	public static final String LIABLITY_PENSIONS = "Pensions";
+
+	
 }
