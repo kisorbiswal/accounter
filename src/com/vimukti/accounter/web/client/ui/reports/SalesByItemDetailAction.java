@@ -52,7 +52,7 @@ public class SalesByItemDetailAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -62,6 +62,7 @@ public class SalesByItemDetailAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -76,7 +77,6 @@ public class SalesByItemDetailAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "salesByItemDetail";
 	}
 
