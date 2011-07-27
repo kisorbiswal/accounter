@@ -131,44 +131,38 @@ public class InviteUserView extends BaseView<ClientUser> {
 
 	@Override
 	public List<DynamicForm> getForms() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
 	@Override
 	public void onEdit() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void print() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
 	public void deleteFailed(Throwable caught) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void checkBoxClicked(RolePermissions obj) {
