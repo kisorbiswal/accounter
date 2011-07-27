@@ -54,12 +54,9 @@ public class TAXAgency extends Payee implements Lifecycle {
 
 	int VATReturn;
 
-	
-
 	public TAXAgency() {
 		setType(Payee.TYPE_TAX_AGENCY);
 	}
-
 
 	/**
 	 * @return the purchaseLiabilityAccount
@@ -174,8 +171,7 @@ public class TAXAgency extends Payee implements Lifecycle {
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
