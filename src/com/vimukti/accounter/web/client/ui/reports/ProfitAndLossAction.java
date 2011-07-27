@@ -82,7 +82,7 @@ public class ProfitAndLossAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+
 		return "profitAndLoss";
 	}
 
