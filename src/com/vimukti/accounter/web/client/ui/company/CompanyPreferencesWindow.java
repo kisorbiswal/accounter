@@ -60,7 +60,7 @@
 //			undepositedFoundscombo, bankChargecombo, retainedEarningsCombo,
 //			pendingItemrecicptsCombo, jobresellAccountCombo,
 //			writeOffAccountCombo, defaultCashCombo;
-//	// XXX NOT USED --Previously 'logspaceTxt' was FloatItem
+//	// 
 //	private FormItem logspaceTxt;
 //	private SelectItem logContentSelect, defautFileAsSettings;
 //	private boolean isCancel = false;
@@ -78,7 +78,7 @@
 //
 //	protected void initCompany() {
 //		ClientCompanyPreferences companyPreferences = company.getPreferences();
-//		// XXX NOT USED Call Back to get ClientCompanyPreferences Object of Company
+//		// 
 //		if (companyPreferences != null) {
 //
 //			dateItem.setValue(new Date(companyPreferences
@@ -118,7 +118,7 @@
 //
 //	@Override
 //	public void initData() {
-//		// TODO Auto-generated method stub
+//		// 
 //		super.initData();
 //	}
 //
@@ -571,7 +571,7 @@
 //		serviceMapForm.setGroupTitle(this.companyMessges.serviceMapping());
 //		// serviceMapForm.setPadding(10);
 //
-//		// XXX--Previusly 'mangeServiceMappingsBtn' is ButtonItem
+//		// 
 //		mangeServiceMappingsBtn = new Button();
 //		mangeServiceMappingsBtn.setTitle(this.companyMessges
 //				.manageServiceMappings());
@@ -591,12 +591,12 @@
 //		// supportLogging.setTop(20);
 //		// supportLogging.setPadding(20);
 //
-//		// XXX NOT USED --Previusly 'logspaceTxt' is FloatItem
+//		// 
 //		logspaceTxt = new FormItem() {
 //
 //			@Override
 //			public Widget getMainWidget() {
-//				// TODO Auto-generated method stub
+//				// 
 //				return null;
 //			}
 //		};
@@ -614,7 +614,7 @@
 //		supportLogging.setItems(logspaceTxt, logContentSelect);
 //		VerticalPanel suportLogPanel = new VerticalPanel();
 //		suportLogPanel.add(supportLogging);
-//		// XXX NOT IN USE
+//		// 
 //		suportLogPanel.add(clearlogBtn);
 //
 //		this.generalLayOut = new VerticalPanel();

@@ -31,11 +31,11 @@ public class CreditCardAccountView extends AbstractBaseView {
 		accTypeText.setValue(Accounter.getFinanceUIConstants()
 				.creditCardOrLineOfCredit());
 
-		TextItem numText = new TextItem(Accounter
-				.getFinanceUIConstants().accountNo());
+		TextItem numText = new TextItem(Accounter.getFinanceUIConstants()
+				.accountNo());
 		// numText.setWidth("*");
-		TextItem accNameText = new TextItem(Accounter
-				.getFinanceUIConstants().accountName());
+		TextItem accNameText = new TextItem(Accounter.getFinanceUIConstants()
+				.accountName());
 		// accNameText.setWidth("*");
 		accNameText.setRequired(true);
 		CheckboxItem activeCheck = new CheckboxItem(Accounter
@@ -43,25 +43,24 @@ public class CreditCardAccountView extends AbstractBaseView {
 		SelectItem cashFlowSelect = new SelectItem(Accounter
 				.getFinanceUIConstants().cashFlowcategory());
 		// cashFlowSelect.setWidth("*");
-		cashFlowSelect.setValue(Accounter.getFinanceUIConstants()
-				.operating());
+		cashFlowSelect.setValue(Accounter.getFinanceUIConstants().operating());
 		AmountField opBalText = new AmountField(Accounter
 				.getFinanceUIConstants().openingBalance());
 		// opBalText.setWidth("*");
-		DateItem asofDate = UIUtils.date(Accounter
-				.getFinanceUIConstants().asOf());
+		DateItem asofDate = UIUtils.date(Accounter.getFinanceUIConstants()
+				.asOf());
 		// asofDate.setWidth("*");
 
-		DynamicForm chartForm = UIUtils.form(Accounter
-				.getFinanceUIConstants().chartOfAccountsInformation());
+		DynamicForm chartForm = UIUtils.form(Accounter.getFinanceUIConstants()
+				.chartOfAccountsInformation());
 		chartForm.setFields(accTypeText, numText, accNameText, activeCheck,
 				cashFlowSelect, opBalText, asofDate);
 
 		CheckboxItem basisCheck = new CheckboxItem(Accounter
 				.getFinanceUIConstants().thisIsConsideredACashAccount());
 
-		DynamicForm basisForm = UIUtils.form(Accounter
-				.getFinanceUIConstants().cashBasisAccounting());
+		DynamicForm basisForm = UIUtils.form(Accounter.getFinanceUIConstants()
+				.cashBasisAccounting());
 		basisForm.setFields(basisCheck);
 
 		TextAreaItem commentsArea = new TextAreaItem();
@@ -78,8 +77,8 @@ public class CreditCardAccountView extends AbstractBaseView {
 		leftVLay.add(basisForm);
 		leftVLay.add(commentsForm);
 
-		TextItem bankName = new TextItem(Accounter
-				.getFinanceUIConstants().bankName());
+		TextItem bankName = new TextItem(Accounter.getFinanceUIConstants()
+				.bankName());
 		// bankName.setWidth("*");
 		AmountField limitText = new AmountField(Accounter
 				.getFinanceUIConstants().creditLimit());
@@ -88,8 +87,8 @@ public class CreditCardAccountView extends AbstractBaseView {
 				.getFinanceUIConstants().cardOrLoadNumber());
 		// cardNumText.setWidth("*");
 
-		DynamicForm creditForm = UIUtils.form(Accounter
-				.getFinanceUIConstants().creditCardAccountInformation());
+		DynamicForm creditForm = UIUtils.form(Accounter.getFinanceUIConstants()
+				.creditCardAccountInformation());
 		// creditForm.setWidth("*");
 		// creditForm.setAutoHeight();
 		creditForm.setFields(bankName, limitText, cardNumText);
@@ -152,43 +151,36 @@ public class CreditCardAccountView extends AbstractBaseView {
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -199,33 +199,27 @@ public class CreateUserDialog extends AbstractBaseDialog {
 
 	private void createControls() {
 
-		fullName = new TextItem(Accounter.getFinanceUIConstants()
-				.fullName());
+		fullName = new TextItem(Accounter.getFinanceUIConstants().fullName());
 		// fullName.setWidth("*");
 		fullName.setColSpan(3);
 
-		emailText = new EmailField(Accounter.getFinanceUIConstants()
-				.email());
+		emailText = new EmailField(Accounter.getFinanceUIConstants().email());
 		// emailText.setWidth("*");
 		emailText.setRequired(true);
 
-		pwdText = new PasswordItem(Accounter.getFinanceUIConstants()
-				.password());
+		pwdText = new PasswordItem(Accounter.getFinanceUIConstants().password());
 		// pwdText.setWidth("*");
 		pwdText.setRequired(true);
 
-		legalName = new TextItem(Accounter.getFinanceUIConstants()
-				.legalName());
+		legalName = new TextItem(Accounter.getFinanceUIConstants().legalName());
 		// legalName.setWidth("*");
 
 		lastLogin = new DateItem();
-		lastLogin
-				.setName(Accounter.getCustomersMessages().lastLogin());
+		lastLogin.setName(Accounter.getCustomersMessages().lastLogin());
 		// lastLogin.setUseTextField(true);
 
 		createDate = new DateItem();
-		createDate.setName(Accounter.getCustomersMessages()
-				.createDate());
+		createDate.setName(Accounter.getCustomersMessages().createDate());
 		// createDate.setUseTextField(true);
 
 		street1Text = new TextItem(Accounter.getFinanceUIConstants()
@@ -235,24 +229,19 @@ public class CreateUserDialog extends AbstractBaseDialog {
 				.streetAddress2());
 		// street2Text.setWidth("*");
 
-		cityText = new TextItem(Accounter.getFinanceUIConstants()
-				.city());
+		cityText = new TextItem(Accounter.getFinanceUIConstants().city());
 		// cityText.setWidth("*");
-		stateText = new TextItem(Accounter.getFinanceUIConstants()
-				.state());
+		stateText = new TextItem(Accounter.getFinanceUIConstants().state());
 		// stateText.setWidth("*");
-		zipText = new TextItem(Accounter.getFinanceUIConstants()
-				.postalCode());
+		zipText = new TextItem(Accounter.getFinanceUIConstants().postalCode());
 		// zipText.setWidth("*");
-		phoneText = new IntegerField(Accounter.getFinanceUIConstants()
-				.phone());
+		phoneText = new IntegerField(Accounter.getFinanceUIConstants().phone());
 		// phoneText.setWidth("*");
 
 		faxText = new TextItem(Accounter.getFinanceUIConstants().fax());
 		// faxText.setWidth("*");
 
-		websiteText = new TextItem(Accounter.getFinanceUIConstants()
-				.website());
+		websiteText = new TextItem(Accounter.getFinanceUIConstants().website());
 		// websiteText.setWidth("*");
 
 		userForm = new DynamicForm();
@@ -323,31 +312,27 @@ public class CreateUserDialog extends AbstractBaseDialog {
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void saveFailed(Throwable exception) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void saveSuccess(IAccounterCore object) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
+		// its not using any where
 
 	}
 

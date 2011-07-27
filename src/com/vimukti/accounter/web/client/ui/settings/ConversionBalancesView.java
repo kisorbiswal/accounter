@@ -48,12 +48,6 @@ public class ConversionBalancesView extends AbstractBaseView {
 	}
 
 	@Override
-	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void init() {
 		super.init();
 		createControls();
@@ -234,43 +228,42 @@ public class ConversionBalancesView extends AbstractBaseView {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// its not usiong any where
 	}
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected String getViewTitle() {
 		return Accounter.getSettingsMessages().conversionBalance();
+	}
+
+	@Override
+	public void fitToSize(int height, int width) {
+
 	}
 
 }

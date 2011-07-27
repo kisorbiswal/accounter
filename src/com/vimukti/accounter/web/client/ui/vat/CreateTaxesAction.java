@@ -20,7 +20,7 @@ public class CreateTaxesAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 
@@ -37,17 +37,15 @@ public class CreateTaxesAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().createTaxes();
 	}
-	
+
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/Creating_taxes.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "CraeteTaxes";
 	}
 
 }

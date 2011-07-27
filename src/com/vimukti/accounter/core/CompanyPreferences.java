@@ -33,13 +33,13 @@ public class CompanyPreferences implements IAccounterServerCore {
 	 * To confirm whether we can use Account Numbers or not.
 	 */
 	boolean useAccountNumbers = true;
-	// TODO property existed from our older QuickBooks Code
+	// property existed from our older QuickBooks Code
 	boolean useClasses = false;
-	// TODO property existed from our older QuickBooks Code
+	// property existed from our older QuickBooks Code
 	boolean useJobs = false;
-	// TODO property existed from our older QuickBooks Code
+	// property existed from our older QuickBooks Code
 	boolean useChangeLog = false;
-	//  property existed from our older QuickBooks Code
+	// property existed from our older QuickBooks Code
 	double logSpaceUsed = 0D;
 	/**
 	 * To Confirm whether we can allow duplicate {@link Transaction} Numbers or
@@ -61,13 +61,9 @@ public class CompanyPreferences implements IAccounterServerCore {
 	 */
 	boolean isAccuralBasis = true;
 
-	// TODO not using now.
 	FinanceDate startOfFiscalYear = new FinanceDate();
-	// TODO not using now.
 	FinanceDate endOfFiscalYear = new FinanceDate();
-	// TODO not yet decided.
 	boolean useForeignCurrency = true;
-	// TODO not yet decided.
 	boolean isMyAccountantWillrunPayroll = false;
 
 	FinanceDate startDate = new FinanceDate();
@@ -611,7 +607,6 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
 		return this.id;
 	}
 

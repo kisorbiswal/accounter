@@ -140,7 +140,7 @@ public class ContactGrid extends ListGrid<ClientContact> {
 
 	@Override
 	protected void onValueChange(ClientContact obj, int col, Object value) {
-		// TODO Auto-generated method stub
+		// it is not using any where
 
 	}
 

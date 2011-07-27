@@ -115,7 +115,7 @@ public class CreateTaxesDialog extends BaseDialog {
 
 		@Override
 		public String getClientClassSimpleName() {
-			// TODO Auto-generated method stub
+			// its not using any where
 			return null;
 		}
 
@@ -129,8 +129,7 @@ public class CreateTaxesDialog extends BaseDialog {
 
 		@Override
 		public String getDisplayName() {
-			// TODO Auto-generated method stub
-			return null;
+			return this.name;
 		}
 
 		@Override
@@ -163,7 +162,6 @@ public class CreateTaxesDialog extends BaseDialog {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 

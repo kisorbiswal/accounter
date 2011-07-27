@@ -19,14 +19,14 @@ public class CompanyInfoAction extends Action {
 
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stub
+		// its not usiong any where
 		return null;
 	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		new CompanyInfoDialog(Accounter.getCompanyMessages()
-				.companyInformation(),"").show();
+				.companyInformation(), "").show();
 	}
 
 	public ImageResource getBigImage() {
@@ -34,16 +34,16 @@ public class CompanyInfoAction extends Action {
 	}
 
 	public ImageResource getSmallImage() {
-		return  Accounter.getFinanceImages().companyInformation();
+		return Accounter.getFinanceImages().companyInformation();
 	}
-@Override
-public String getImageUrl() {
-	return "/images/information-icon-new.png";
-}
 
-@Override
-public String getHistoryToken() {
-	// TODO Auto-generated method stub
-	return null;
-}
+	@Override
+	public String getImageUrl() {
+		return "/images/information-icon-new.png";
+	}
+
+	@Override
+	public String getHistoryToken() {
+		return "CompanyInfo";
+	}
 }

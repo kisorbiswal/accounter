@@ -41,7 +41,6 @@ public class ConversionDateView extends AbstractBaseView {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -93,9 +92,9 @@ public class ConversionDateView extends AbstractBaseView {
 						bodycommentHtml.setVisible(true);
 						bodyFooterHtml.setHTML(bodyFooter
 								+ "<b>"
-								+ getPreviousMonth(monthCombo
-										.getSelectedValue(), yearCombo
-										.getSelectedValue())
+								+ getPreviousMonth(
+										monthCombo.getSelectedValue(),
+										yearCombo.getSelectedValue())
 								+ getYear(monthCombo.getSelectedValue(),
 										yearCombo.getSelectedValue())
 								+ "</b> </font></p>");
@@ -118,9 +117,9 @@ public class ConversionDateView extends AbstractBaseView {
 						bodycommentHtml.setVisible(true);
 						bodyFooterHtml.setHTML(bodyFooter
 								+ "<b>"
-								+ getPreviousMonth(monthCombo
-										.getSelectedValue(), yearCombo
-										.getSelectedValue())
+								+ getPreviousMonth(
+										monthCombo.getSelectedValue(),
+										yearCombo.getSelectedValue())
 								+ getYear(monthCombo.getSelectedValue(),
 										yearCombo.getSelectedValue())
 								+ "</b>  </font></p>");
@@ -141,10 +140,11 @@ public class ConversionDateView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				String endindDate = getPreviousMonth(monthCombo
-						.getSelectedValue(), yearCombo.getSelectedValue())
-						+ getYear(monthCombo.getSelectedValue(), yearCombo
-								.getSelectedValue());
+				String endindDate = getPreviousMonth(
+						monthCombo.getSelectedValue(),
+						yearCombo.getSelectedValue())
+						+ getYear(monthCombo.getSelectedValue(),
+								yearCombo.getSelectedValue());
 				SettingsActionFactory.getConversionBalancesAction().run(null,
 						false
 				/*
@@ -239,31 +239,26 @@ public class ConversionDateView extends AbstractBaseView {
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// it is not using any where
 	}
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 

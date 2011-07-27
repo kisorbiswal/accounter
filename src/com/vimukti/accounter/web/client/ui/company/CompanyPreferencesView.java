@@ -1346,26 +1346,23 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 	@Override
 	public List<DynamicForm> getForms() {
-		// TODO Auto-generated method stub
+		// its not usiong any where
 		return null;
 	}
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
-
+		super.fitToSize(height, width);
 	}
 
 	@Override
@@ -1485,19 +1482,16 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
