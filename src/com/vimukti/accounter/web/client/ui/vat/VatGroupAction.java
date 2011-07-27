@@ -19,17 +19,20 @@ public class VatGroupAction extends Action {
 
 	@Override
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
 	@Override
 	public ImageResource getSmallImage() {
+		// NOTHING TO DO.
 		return Accounter.getFinanceMenuImages().vatGroup();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
+		// NOTHING TO DO.
 		return null;
 	}
 
