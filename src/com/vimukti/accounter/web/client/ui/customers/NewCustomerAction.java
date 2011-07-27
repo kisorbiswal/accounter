@@ -63,6 +63,7 @@ public class NewCustomerAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -72,13 +73,11 @@ public class NewCustomerAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-
 		return "/images/new_customer.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "newCustomer";
 	}
 }
