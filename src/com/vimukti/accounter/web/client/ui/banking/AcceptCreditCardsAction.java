@@ -30,12 +30,10 @@ public class AcceptCreditCardsAction extends Action {
 	public void run(AsyncCallback<Object> asyncCallback) {
 	}
 
-	/**
-	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
-	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -44,17 +42,13 @@ public class AcceptCreditCardsAction extends Action {
 		// TODO Auto-generated method stub
 	}
 
-	/**
-	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
-	 */
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
-	/**
-	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
-	 */
 	public ImageResource getSmallImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
