@@ -38,7 +38,7 @@ public abstract class Server implements Runnable {
 	public static final int EXCEEDED_USAGE_LIMIT = 7;
 	public static final int SERVER_STATUS_DELETED_ACCOUNT = 8;
 	private static final long WAIT_TIME_FOR_PROCESS = 60 * 1000;
-	public static final String LOCAL_DATABASE = "bizantra";
+	public static final String LOCAL_DATABASE = "accounter";
 	public static final long TOTALSIZE = 1 * 1024 * 1024 * 1024;
 	public static final int SERVER_STATUS_ACCOUNT_LOCKED = 9;
 
@@ -104,11 +104,9 @@ public abstract class Server implements Runnable {
 		return null;
 	}
 
-
 	public boolean isUKVersion() {
 		return true;
 	}
-
 
 	public abstract void startServer();
 

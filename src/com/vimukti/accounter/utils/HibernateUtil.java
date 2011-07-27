@@ -80,7 +80,7 @@ public class HibernateUtil {
 		Configuration config = new Configuration();
 		config.configure();
 		if (createDB) {
-			config.setProperty("hibernate.hbm2ddl.auto", "update");
+			config.setProperty("hibernate.hbm2ddl.auto", "create");
 		} else {
 			config.setProperty("hibernate.hbm2ddl.auto", "none");
 		}

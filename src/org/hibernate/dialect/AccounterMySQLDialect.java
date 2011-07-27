@@ -2,8 +2,6 @@ package org.hibernate.dialect;
 
 import java.sql.Types;
 
-import org.hibernate.dialect.MySQLInnoDBDialect;
-
 public class AccounterMySQLDialect extends MySQLInnoDBDialect {
 
 	@Override
@@ -16,5 +14,11 @@ public class AccounterMySQLDialect extends MySQLInnoDBDialect {
 	public AccounterMySQLDialect() {
 		registerColumnType(Types.BIGINT, "bigint(20)");
 		registerHibernateType(Types.LONGVARCHAR, "longvarchar");
+	}
+
+	@Override
+	public boolean supportsIdentityColumns() {
+		boolean supportsIdentityColumns = supportsIdentityColumns();
+		return super.supportsIdentityColumns();
 	}
 }
