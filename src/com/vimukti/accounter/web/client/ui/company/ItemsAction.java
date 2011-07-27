@@ -21,7 +21,7 @@ public class ItemsAction extends Action {
 		this.catagory = Accounter.getCustomersMessages().customer();
 	}
 
-	public ItemsAction(String text, String iconString,String catageory) {
+	public ItemsAction(String text, String iconString, String catageory) {
 		super(text, iconString);
 		this.catagory = catageory;
 	}
@@ -56,7 +56,7 @@ public class ItemsAction extends Action {
 
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -72,15 +72,14 @@ public class ItemsAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().items();
 	}
+
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/items.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "items";
 	}
 
