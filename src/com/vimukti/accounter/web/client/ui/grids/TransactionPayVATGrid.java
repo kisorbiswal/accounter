@@ -33,7 +33,7 @@ public class TransactionPayVATGrid extends
 	@Override
 	public <E> CustomCombo<E> getCustomCombo(ClientTransactionPayVAT obj,
 			int colIndex) {
-		// TODO Auto-generated method stub
+		// currently not using anywhere in the project.
 		return null;
 	}
 
