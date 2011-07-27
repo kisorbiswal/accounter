@@ -19,8 +19,7 @@ public class PortletEvent extends GwtEvent<PortletEventHandler> {
 	 */
 	@Override
 	protected void dispatch(PortletEventHandler arg0) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	/*
