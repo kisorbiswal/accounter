@@ -76,8 +76,7 @@ public class MostProfitableCustomersAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "mergeProfitableCustomers";
 	}
 
 }
