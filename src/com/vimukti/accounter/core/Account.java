@@ -77,6 +77,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	public static final int TYPE_EXPENSE = 16;
 	public static final int TYPE_OTHER_INCOME = 17;
 	public static final int TYPE_OTHER_EXPENSE = 18;
+	public static final int TYPE_LIABILITY = 19;
+	public static final int TYPE_ASSET = 20;
 	
 	/**
 	 * Types of cash flow
@@ -373,12 +375,11 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	 * @return
 	 */
 	
-	public Account(int type,String number, String name,Account parent, double openingBalance,String comment,FinanceDate asOf){
+	public Account(int type,String number, String name,Account parent, String comment,FinanceDate asOf){
 		this.type = type;
 		this.number = number;
 		this.name = name;
 		this.parent = parent;
-		this.openingBalance = openingBalance;
 		this.comment = comment;
 		this.asOf = asOf;
 	}

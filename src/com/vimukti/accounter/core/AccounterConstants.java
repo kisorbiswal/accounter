@@ -535,4 +535,74 @@ public class AccounterConstants implements IsSerializable, Serializable {
 	public static final String VAT_ITEM_STANDARD_PURCHASES = "Standard Purchases";
 	public static final String VAT_ITEM_ZERO_RATED_PURCHASES = "Zero-Rated Purchases";
 	public static final String VAT_ITEM_EC_SALES_GOODS_STANDARD = "EC Sales Goods Standard";
+	
+	
+	//acount names
+	
+	public static final String EXPENSE_ADEVRTISING_AND_MARKETING = "Aderstising and Marketing";
+	public static final String EXPENSE_CONSULTING_AND_ACCOUNTING = "Consulting and Accounting";
+	public static final String EXPENSE_DEPRICATION = "Deprication";
+	public static final String EXPENSE_MEALS_AND_ENTERTAINMENT = "Meals & Entertainment";
+	public static final String EXPENSE_GENERAL_EXPENSE = "General Expense";
+	public static final String EXPENSE_INSURANCE = "Insurance";
+	public static final String EXPENSE_INTEREST_EXPENSE = "Interest Expense";
+	public static final String EXPENSE_LEGAL_EXPENSE = "Legal Expense";
+	
+	public static final String EXPENSE_MOTOR_VEICHLE = "Motor Veichle Expense";
+	public static final String EXPENSE_VEICHEL_FUEL = "Veichle Fuel/Gas Expense";
+	public static final String EXPENSE_VEICHLE_LEASE = "Veichle lease Expense";
+	public static final String EXPENSE_VEICHLE_REPAIR_MAINTAINANCE = "Veichle Repair and Maintainance Expense";
+	public static final String EXPENSE_WAGES_SALARIES = "Wages and Salaries";
+	public static final String EXPENSE_SUPERANNUATION = "Superannuation";
+	public static final String EXPENSE_SUBSCRIPTION = "Subscription";
+	public static final String EXPENSE_BANKREVALUATION = "Back Revaluation";
+	public static final String EXPENSE_UNREALISED_CURRENCY_GAIN = "Unrealized Currency Gains";
+	public static final String EXPENSE_REALISED_CURRENCY_GAIN = "Realized Currency Gains";
+	public static final String EXPENSE_INCOME_TAX_EXPENSE = "Income Tax Expenses";
+	public static final String EXPENSE_BAD_DEBIT = "Bad Debit";
+	public static final String EXPENSE_BANK_FEE_CHARGE = "Bank Fee Charges";
+	public static final String EXPENSE_CREDIT_CARD_CHARGE = "Credit card charges";
+	
+	public static final String EXPENSE_TRAVEL = "Travel Expenses";
+	public static final String EXPENSE_TRAVEL_INTERNATIONAL = "Travel-International";
+	public static final String EXPENSE_TRAVEL_NATIONAL = "Travel-National";
+	
+	public static final String EXPENSE_AUTOMOBILE = "Automobile Expense";
+	public static final String EXPENSE_POSTAGE = "Postage";
+	
+	public static final String EXPENSE_OTHER = "Other Expenses";
+	public static final String EXPENSE_GAIN_LOSS = "Explain Gain or Loss";
+	public static final String EXPENSE_MISCELLANEOUS = "Miscellaneous";
+	public static final String EXPENSE_PENALTIES_SETELLMENTS = "Penalties & Settelments";
+	
+	public static final String EXPENSE_UTILITIES = "Utilities";
+	public static final String EXPENSE_TAX_LISENSES = "Tax and Lisence";
+	
+	public static final String EXPENSE_COST_OF_GOODS_SOLDs = "Cost of Goods Sold";
+	public static final String EXPENSE_PRODUCT_PURCHASE_A = "Product/Material purchased Type-A";
+	public static final String EXPENSE_PRODUCT_PURCHASE_B = "Product/Material purchased Type-B";
+	public static final String EXPENSE_PRODUCT_PURCHASE_C = "Product/Material purchased Type-C";
+	public static final String EXPENSE_PRODUCT_PURCHASE_D = "Product/Material purchased Type-D";
+	public static final String EXPENSE_PRODUCT_PURCHASE_E = "Product/Material purchased Type-E";
+	public static final String EXPENSE_PRODUCT_PURCHASE_F = "Product/Material purchased Type-F";
+	public static final String EXPENSE_CARRIAGE = "Carriage";
+	public static final String EXPENSE_DISCOUNTS = "Discounts Taken";
+	public static final String EXPENSE_IMPORT_DUTY = "Import Duty";
+	public static final String EXPENSE_STOCK_VALUE_CHAGE = "Stock Value Change";
+	public static final String EXPENSE_FINISHED_GOOD_VALUE = "Fisnished Good Value change";
+	public static final String EXPENSE_WORK_IN_PROGRESS_VALUE = "Work in progress Value Change";
+	
+	public static final String EXPENSE_OTHER_DIRECT_COST = "Other Direct Costs";
+	public static final String EXPENSE_DIRECT_LABOUR = "Direct Labour";
+	public static final String EXPENSE_DIRECT_EMPLOYEE_NI = "Direct Employee NI";
+	public static final String EXPENSE_DIRECT_EMPLOYEE_RELATED_COSTS = "Other direct Employee Related costs";
+	public static final String EXPENSE_DIRECT = "Direct Expenses";
+	public static final String EXPENSE_DIRECT_TRAVEL = "Direct Travel";
+	public static final String EXPENSE_DIRECT_CONSUMABLE = "Direct Consumable";
+	public static final String EXPENSE_MERCHANY_ACCOUNT_FEES = "Merchant Account Fees";
+	public static final String EXPENSE_COMISSION_PAID = "Cosmission Paid";
+	
+	public static final String EXPENSE_INDIRECT_COSTS = "Indirect Costs";
+
+
 }
