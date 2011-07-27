@@ -465,11 +465,11 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 					tcp.amountToUse = 0.0;
 					session.saveOrUpdate(tcp);
 				}
-				this.appliedCredits = 0.0;
+				// this.appliedCredits = 0.0;
 			}
-			this.cashDiscount = 0.0;
-			this.writeOff = 0.0;
-			this.payment = 0.0;
+			// this.cashDiscount = 0.0;
+			// this.writeOff = 0.0;
+			// this.payment = 0.0;
 
 			if (this.getInvoice() != null) {
 				this.getInvoice().updatePaymentsAndBalanceDue(amount);

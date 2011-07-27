@@ -403,11 +403,11 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 							.onEditTransaction(-transactionCreditsAndPayments.amountToUse);
 
 				}
-				this.appliedCredits = 0.0;
+				// this.appliedCredits = 0.0;
 			}
 
-			this.cashDiscount = 0.0;
-			this.payment = 0.0;
+			// this.cashDiscount = 0.0;
+			// this.payment = 0.0;
 			if (this.enterBill != null) {
 
 				this.enterBill.updatePaymentsAndBalanceDue(amount);
