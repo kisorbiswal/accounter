@@ -71,8 +71,8 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 				vendorConstants.type(), UIUtils.getVendorString(Accounter
 						.getVendorsMessages().supplierName(), Accounter
 						.getVendorsMessages().vendorName()), vendorConstants
-						.total());
-		grid.setCellsWidth(60, 20, 90, -1, 60);
+						.total(), Accounter.getCustomersMessages().remainingTotal());
+		grid.setCellsWidth(60, 20, 90, -1, 60, 95);
 		grid.setView(this);
 		grid.init();
 
@@ -278,6 +278,8 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 				return record.getVendorName();
 			case 4:
 				return DataUtils.getAmountAsString(record.getTotal());
+			case 5:
+				return DataUtils.getAmountAsString(record.getRemainingTotal());
 			}
 		}
 		return null;
