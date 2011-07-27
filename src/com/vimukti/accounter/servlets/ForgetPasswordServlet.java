@@ -88,8 +88,7 @@ public class ForgetPasswordServlet extends BaseServlet {
 				user.getID());
 		session.save(token);
 
-		String link = new String();
-		link = "http://www.accounterlive.com/site/resetpassword?token="
+		String link = "https://www.accounterlive.com/site/resetpassword?token="
 				+ randomAttr + companyName;
 
 		UsersMailSendar.sendResetPasswordLinkToUser(link, user.getEmail());
