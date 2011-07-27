@@ -20,8 +20,7 @@ public class ReceivePaymentAction extends Action {
 	protected ReceivePaymentView view;
 
 	public ReceivePaymentAction(String text, String iconString) {
-		super(Accounter.getCustomersMessages().newReceivePayment(),
-				iconString);
+		super(Accounter.getCustomersMessages().newReceivePayment(), iconString);
 		this.catagory = Accounter.getCustomersMessages().customer();
 	}
 
@@ -69,21 +68,21 @@ public class ReceivePaymentAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().newReceivePayment();
 	}
+
 	@Override
 	public String getImageUrl() {
-		
 		return "/images/recive_payments.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "receivePayment";
 	}
 }
