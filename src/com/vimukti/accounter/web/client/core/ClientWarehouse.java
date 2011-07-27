@@ -21,6 +21,52 @@ public class ClientWarehouse implements IAccounterCore {
 	private String name;
 	private ClientContact contact;
 
+	private boolean isDefaultWarehouse;
+	private String DDINumber;
+	private String mobileNumber;
+	private String contactNumber;
+	private String phoneNumber;
+
+	public boolean isDefaultWarehouse() {
+		return isDefaultWarehouse;
+	}
+
+	public void setDefaultWarehouse(boolean isDefaultWarehouse) {
+		this.isDefaultWarehouse = isDefaultWarehouse;
+	}
+
+	public String getDDINumber() {
+		return DDINumber;
+	}
+
+	public void setDDINumber(String dDINumber) {
+		DDINumber = dDINumber;
+	}
+
+	public String getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
+
+	public String getContactNumber() {
+		return contactNumber;
+	}
+
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
 	public ClientWarehouse() {
 	}
 
