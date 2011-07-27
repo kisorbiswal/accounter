@@ -663,8 +663,7 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		//NOTHING TO DO
 	}
 
 	@Override
