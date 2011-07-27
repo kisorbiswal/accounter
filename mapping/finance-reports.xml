@@ -8,7 +8,7 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		
-		SELECT T.STRING_ID,
+		SELECT T.ID,
 			 T.T_TYPE, 
 			 T.T_DATE, 
 			 P.NAME, 
@@ -32,7 +32,7 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		
-		SELECT T.STRING_ID,
+		SELECT T.ID,
 			 T.T_TYPE, 
 			 T.T_DATE, 
 			 P.NAME, 
@@ -56,7 +56,7 @@
 		<query-param name="endDate" type="long" />
 		<query-param name="type" type="int" />
 		
-		<return-scalar column="STRING_ID" type="string" />
+		<return-scalar column="ID" type="long" />
 		<return-scalar column="T_TYPE" type="int" />
 		<return-scalar column="T_DATE" type="long" /> 
 		<return-scalar column="NUMBER" type="string" /> 	
@@ -66,7 +66,7 @@
 		
 	SELECT   
  
-		T.STRING_ID AS STRING_ID, 
+		T.ID AS ID, 
 		CASE 
 			WHEN T.T_TYPE = 26 OR T.T_TYPE = 27 OR T.T_TYPE = 28 THEN
 				T.T_TYPE
@@ -119,7 +119,7 @@
 		 
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		SELECT T.STRING_ID  ,
+		SELECT T.ID  ,
 			 T.T_TYPE  , 
 			 T.T_DATE  , 
 			 P.NAME  , 
@@ -143,7 +143,7 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		
-		SELECT T.STRING_ID,
+		SELECT T.ID,
 			 T.T_TYPE, 
 			 T.T_DATE, 
 			 P.NAME, 
@@ -167,7 +167,7 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		
-		SELECT T.STRING_ID,
+		SELECT T.ID,
 			 T.T_TYPE, 
 			 T.T_DATE, 
 			 P.NAME, 
@@ -191,7 +191,7 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		
-		SELECT T.STRING_ID  ,
+		SELECT T.ID  ,
 			 T.T_TYPE  , 
 			 T.T_DATE  , 
 			 P.NAME  , 
@@ -216,7 +216,7 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		
-		SELECT T.STRING_ID  ,
+		SELECT T.ID  ,
 			 T.T_TYPE  , 
 			 T.T_DATE  , 
 			 P.NAME  , 
@@ -239,7 +239,7 @@
 		 
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		SELECT T.STRING_ID  ,
+		SELECT T.ID  ,
 			 T.T_TYPE  , 
 			 T.T_DATE  , 
 			 P.NAME  , 
@@ -263,7 +263,7 @@
 		 
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		SELECT T.STRING_ID  ,
+		SELECT T.ID  ,
 			 T.T_TYPE  , 
 			 T.T_DATE  , 
 			 P.NAME  , 
@@ -285,7 +285,7 @@
 		 
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		SELECT T.STRING_ID  ,
+		SELECT T.ID  ,
 			 T.T_TYPE  , 
 			 T.T_DATE  , 
 			 P.NAME  , 
@@ -558,7 +558,7 @@
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="FLOW" type="string" />
 		SELECT 
-			A.STRING_ID as ID , 
+			A.ID as ID , 
 			A.NAME AS NAME , 
 			A.A_NUMBER AS NUMBER , 
 			A.A_TYPE AS TYPE , 
@@ -605,7 +605,7 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT
-			A.STRING_ID,
+			A.ID,
 			A.NAME,
 			A.A_NUMBER,
 			A.A_TYPE,
@@ -654,7 +654,7 @@
 		<query-param name="startDate1" type="long"/>
 		<query-param name="endDate1" type="long"/>
 		SELECT
-			A.STRING_ID,
+			A.ID,
 			A.NAME,
 			A.A_NUMBER,
 			A.A_TYPE,
@@ -779,7 +779,7 @@
 		<query-param name="start" type="long" />
 		<query-param name="end" type="long" />
 		SELECT
-			A.STRING_ID,
+			A.ID,
 			A.NAME,
 			A.A_NUMBER,
 			A.A_TYPE,
@@ -938,7 +938,7 @@
 				 WHEN T.T_TYPE =12 THEN -1 * T.TOTAL
 			END AS TOTAL, 
 			T.IS_VOID AS VOID, 
-			T.STRING_ID as TRANSACTION_ID,
+			T.ID as TRANSACTION_ID,
 			T.MEMO AS MEMO
 		FROM TRANSACTION T 
 		LEFT OUTER JOIN 
@@ -1029,7 +1029,7 @@
 				 WHEN T.T_TYPE= 10 THEN TMD.AMOUNT 
 			END AS TOTAL,
 			T.IS_VOID AS VOID, 
-			T.STRING_ID AS TRANSACTION_ID,
+			T.ID AS TRANSACTION_ID,
 			CASE 
 				WHEN T.T_TYPE = 11 AND PB.PAYBILL_TYPE = 2 THEN
 					'Supplier PrePayment'
@@ -1348,7 +1348,7 @@
 		<return-scalar column="void" type="boolean" />
 
 	select
-		t.STRING_ID as transaction_id,
+		t.ID as transaction_id,
 		p.name as payee_name,
 		p1.name as taxagency_name,
 		tig.name as taxItem_name,
@@ -1475,7 +1475,7 @@
 	
 	
 	select
-		t.STRING_ID as transaction_id,
+		t.ID as transaction_id,
 		p.name as payee_name,
 		p1.name as taxagency_name,
 		tig.name as taxItem_name,
@@ -1699,7 +1699,7 @@
 		END AS MEMO,
 		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 JOIN TRANSACTION T1 ON AT1.TRANSACTION_ID = T1.ID JOIN ACCOUNT A ON A.ID=AT1.ACCOUNT_ID WHERE A.ID=:accountId AND T1.T_DATE &lt;=T.T_DATE AND T1.STATUS != 3 ) 
 		AS BALANCE,
-		T.STRING_ID AS TRANSACTION_ID,
+		T.ID AS TRANSACTION_ID,
 		T.IS_VOID AS IS_VOIDED
 		FROM 
 			ACCOUNT_TRANSACTION AT 
@@ -1828,13 +1828,13 @@ END AS TRANSACTION_AMOUNT,
 		<return-scalar column="ITEM_ID" type="long"/>
 		<return-scalar column="ITEM_TYPE" type="int"/>
 		<return-scalar column="ITEM_NAME" type="string"/>
-		<return-scalar column="ITEM_STRING_ID" type="string"/>
+		<return-scalar column="ITEM_ID" type="string"/>
 		
 	select
 	DISTINCT(IT.ID) AS ITEM_ID,
 	IT.TYPE AS ITEM_TYPE,
 	IT.NAME AS ITEM_NAME,
-	DISTINCT(IT.STRING_ID) AS ITEM_STRING_ID
+	DISTINCT(IT.ID) AS ITEM_ID
    	from
         TRANSACTION T
    
@@ -1869,13 +1869,13 @@ END AS TRANSACTION_AMOUNT,
 		<return-scalar column="ITEM_ID" type="long"/>
 		<return-scalar column="ITEM_TYPE" type="int"/>
 		<return-scalar column="ITEM_NAME" type="string"/>
-		<return-scalar column="ITEM_STRING_ID" type="string"/>
+		<return-scalar column="ITEM_ID" type="string"/>
 		
 	select
 	DISTINCT(IT.ID) AS ITEM_ID,
 	IT.TYPE AS ITEM_TYPE,
 	IT.NAME AS ITEM_NAME,
-	DISTINCT(IT.STRING_ID) AS ITEM_STRING_ID
+	DISTINCT(IT.ID) AS ITEM_ID
    from
         TRANSACTION T
     left outer join
@@ -1908,12 +1908,12 @@ END AS TRANSACTION_AMOUNT,
 		
 		<return-scalar column="CUSTOMER_ID" type="long"/>
 		<return-scalar column="CUSTOMER_NAME" type="string"/>
-		<return-scalar column="CUSTOMER_STRING_ID" type="string"/>
+		<return-scalar column="CUSTOMER_ID" type="string"/>
 		
 	select
     DISTINCT(C.ID) AS CUSTOMER_ID,
 	P.NAME AS CUSTOMER_NAME,
-	 DISTINCT(P.STRING_ID) AS CUSTOMER_STRING_ID 
+	 DISTINCT(P.ID) AS CUSTOMER_ID 
     from
         TRANSACTION T 
     left outer join
@@ -1957,12 +1957,12 @@ order by P.NAME
 		
 		<return-scalar column="VENDOR_ID" type="string"/>
 		<return-scalar column="VENDOR_NAME" type="string"/>
-		<return-scalar column="VENDOR_STRING_ID" type="string"/>
+		<return-scalar column="VENDOR_ID" type="string"/>
 		
 	 select
         DISTINCT(V.ID) AS VENDOR_ID,
         P.NAME AS VENDOR_NAME,
-        P.STRING_ID AS VENDOR_STRING_ID
+        P.ID AS VENDOR_ID
     from
         TRANSACTION T
     left outer join
@@ -2025,7 +2025,7 @@ order by P.NAME
 				else
 					p.name
 			end AS payee_name,
-			t.STRING_ID AS transaction_id,
+			t.ID AS transaction_id,
 			t.t_type AS transaction_type,
 			t.t_date AS transaction_date,t.number AS transaction_number,at.amount AS amount,
 			CASE 
@@ -2121,7 +2121,7 @@ order by P.NAME
 	    		 else
 	    		 		p.name 		
 			end as payee_name,
-			t.STRING_ID as transaction_id,
+			t.ID as transaction_id,
 			t.t_type as transaction_type,
 			t.t_date as transaction_date,t.number as transaction_number,at.amount as amount,
 			CASE 
@@ -3395,7 +3395,7 @@ GROUP BY T_ITEM.ID, TRC.RATE ORDER BY TAXAGENCY_NAME,TIG.NAME
 	   		<query-param name="startDate" type="long"/>
 	   		<query-param name="endDate" type="long"/>
 	   		
-	   		<return-scalar column="STRING_ID" type="string"/>
+	   		<return-scalar column="ID" type="string"/>
 	   		<return-scalar column="TRANSACTION_TYPE" type="int"/>
 	   		<return-scalar column="TRANSACTION_NUMBER" type="string"/>
 	   		<return-scalar column="DATE" type="long"/>
@@ -3405,7 +3405,7 @@ GROUP BY T_ITEM.ID, TRC.RATE ORDER BY TAXAGENCY_NAME,TIG.NAME
 	   		
 	   		SELECT
 
- 				T.STRING_ID AS STRING_ID,
+ 				T.ID AS ID,
 				T.T_TYPE AS TRANSACTION_TYPE,
 				T.NUMBER AS TRANSACTION_NUMBER,
 				T.T_DATE AS DATE,
@@ -3511,7 +3511,7 @@ ORDER BY AT.ID
       <query-param name="endDate" type="long"/> 
       <query-param name="paymentmethod" type="string"/>
       
-      <return-scalar column="STRING_ID" type="string"/>
+      <return-scalar column="ID" type="string"/>
 	   		<return-scalar column="TYPE" type="int"/>
 	   		<return-scalar column="NUMBER" type="string"/>
 	   		<return-scalar column="DATE" type="long"/>
@@ -3522,7 +3522,7 @@ ORDER BY AT.ID
 	   		<return-scalar column="MEMO" type="string"/>	 		
   SELECT		
    T.T_TYPE AS TYPE, 				
-   T.STRING_ID AS STRING_ID, 				
+   T.ID AS ID, 				
    T.NUMBER AS NUMBER, 				
    T.T_DATE AS DATE, 				
    T.PAYMENT_METHOD AS PAYMENT_METHOD, 				
