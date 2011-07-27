@@ -31,7 +31,7 @@ public class TransactionDetailByTaxCodeAction extends Action {
 			public void onCreated() {
 
 				try {
-					//					
+					//
 					// AbstractReportView<TransactionDetailByTaxcode> report =
 					// new TransactionDetailByTaxCodeReport();
 					// MainFinanceWindow.getViewManager().showView(report, data,
@@ -54,7 +54,7 @@ public class TransactionDetailByTaxCodeAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+		// not required for this class
 		return null;
 	}
 
@@ -78,7 +78,7 @@ public class TransactionDetailByTaxCodeAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+
 		return "transactionDetailByTaxCode";
 	}
 
