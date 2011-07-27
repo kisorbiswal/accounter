@@ -10,7 +10,7 @@ import org.hibernate.classic.Lifecycle;
  * @author Srikanth J
  * 
  */
-public class StockTransfer{
+public class StockTransfer extends CreatableObject{
 	
 	/**
 	 * 
@@ -18,9 +18,7 @@ public class StockTransfer{
 	private static final long serialVersionUID = -4711393907542349978L;
 
 	private Warehouse fromWarehouse;
-	private Warehouse toWarehouse;
-
-	private long id;
+	private Warehouse toWarehouse;	
 	
 	private Set<StockTransferItem> stockTransferItems;
 
