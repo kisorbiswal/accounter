@@ -49,8 +49,7 @@ public class ImportBankFilesAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "importBankFiles";
 	}
 
 }
