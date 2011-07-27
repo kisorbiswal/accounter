@@ -736,7 +736,8 @@ public class ReceivePaymentView extends
 	private void distributeEnteredAmount(Double amount) {
 
 		Double unusedAmounts = 0.0;
-		// FIXME :: Presently not using this method, basically it has to distribute the amount entered by the customer over the invoices
+		// FIXME :: Presently not using this method, basically it has to
+		// distribute the amount entered by the customer over the invoices
 		//
 		// for (ClientTransactionReceivePayment record : this.gridView
 		// .getRecords()) {
@@ -821,7 +822,6 @@ public class ReceivePaymentView extends
 	@Override
 	protected void initSalesTaxNonEditableItem() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -1230,13 +1230,11 @@ public class ReceivePaymentView extends
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -1416,7 +1414,7 @@ public class ReceivePaymentView extends
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
+		// // its not using any where return null;
 
 	}
 

@@ -111,7 +111,6 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
 
 			}
 		};
@@ -211,20 +210,17 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// its not using any where return null;
 	}
 
 	@Override
@@ -246,7 +242,6 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
 				@Override
 				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
 
 				}
 			};
