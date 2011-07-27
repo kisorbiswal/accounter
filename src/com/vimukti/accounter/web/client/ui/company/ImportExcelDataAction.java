@@ -38,8 +38,7 @@ public class ImportExcelDataAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "importExcelData";
 	}
 
 }
