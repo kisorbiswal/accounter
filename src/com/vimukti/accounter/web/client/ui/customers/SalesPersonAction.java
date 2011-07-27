@@ -70,15 +70,14 @@ public class SalesPersonAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().customers();
 	}
+
 	@Override
 	public String getImageUrl() {
-		
 		return "/images/customers.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "salesPersons";
 	}
 }
