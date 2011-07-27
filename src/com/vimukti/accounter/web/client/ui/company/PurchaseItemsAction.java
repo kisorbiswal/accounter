@@ -52,7 +52,7 @@ public class PurchaseItemsAction extends Action {
 
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
@@ -71,13 +71,13 @@ public class PurchaseItemsAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
+
 		return "/images/items.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+
 		return "purchaseItems";
 	}
 }
