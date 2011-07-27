@@ -47,7 +47,7 @@ public class NewTimeEntryAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "newTimeEntryAction";
+		return "newTimeEntry";
 	}
 
 }
