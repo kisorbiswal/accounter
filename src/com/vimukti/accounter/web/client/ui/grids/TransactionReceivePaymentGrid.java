@@ -925,7 +925,7 @@ public class TransactionReceivePaymentGrid extends
 
 	@Override
 	public void setTaxCode(long taxCode) {
-		// TODO Auto-generated method stub
+		// currently not using anywhere in the project.
 
 	}
 }
