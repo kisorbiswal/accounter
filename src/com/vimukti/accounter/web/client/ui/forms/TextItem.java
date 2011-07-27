@@ -58,7 +58,7 @@ public class TextItem extends FormItem {
 	}
 
 	protected void onAttach() {
-		
+
 	}
 
 	public TextItem(String title) {
@@ -128,7 +128,7 @@ public class TextItem extends FormItem {
 	}
 
 	public void setDefaultValue(int i) {
-		// TODO Auto-generated method stub
+		// TODO currently not using this method
 
 	}
 
