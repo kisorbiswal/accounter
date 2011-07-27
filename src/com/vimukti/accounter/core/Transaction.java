@@ -1102,7 +1102,7 @@ public abstract class Transaction extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		// TODO Auto-generated method stub
+
 		if (((Transaction) clientObject).isVoid
 				|| ((Transaction) clientObject).isDeleted()) {
 			throw new InvalidOperationException(
