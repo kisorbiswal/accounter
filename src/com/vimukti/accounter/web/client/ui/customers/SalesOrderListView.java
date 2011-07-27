@@ -79,8 +79,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
 	@Override
 	public void updateInGrid(SalesOrdersList objectTobeModified) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
@@ -229,8 +228,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
