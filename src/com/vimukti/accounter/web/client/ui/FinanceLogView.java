@@ -333,11 +333,9 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 
 	}
 
-	/**
-	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
-	 */
 	@Override
 	public void printPreview() {
+		// NOTHING TO DO
 	}
 
 	@Override
