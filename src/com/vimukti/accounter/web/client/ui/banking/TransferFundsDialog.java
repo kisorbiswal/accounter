@@ -364,7 +364,7 @@ public class TransferFundsDialog extends BaseDialog {
 
 	@Override
 	public Object getGridColumnValue(IsSerializable obj, int index) {
-		// TODO Auto-generated method stub
+		// currently not using anywhere in the project.
 		return null;
 	}
 
