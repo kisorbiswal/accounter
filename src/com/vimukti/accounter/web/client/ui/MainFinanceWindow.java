@@ -162,7 +162,7 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	@SuppressWarnings("unused")
 	private Widget getSalesMenuBar() {
-		// TODO Auto-generated method stub
+		// currently not using anywhere
 		return null;
 	}
 
