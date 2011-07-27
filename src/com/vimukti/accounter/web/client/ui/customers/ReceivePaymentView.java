@@ -1419,7 +1419,7 @@ public class ReceivePaymentView extends
 
 	@Override
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO
 
 	}
 
