@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 public class ClientFinanceLogger implements IAccounterCore {
 
 	public ClientFinanceLogger() {
@@ -46,26 +48,24 @@ public class ClientFinanceLogger implements IAccounterCore {
 
 	@Override
 	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.getCompany().getName();
 	}
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return AccounterCoreType.FINANCELOG;
 	}
 
 	@Override

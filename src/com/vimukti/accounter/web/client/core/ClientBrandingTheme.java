@@ -72,13 +72,13 @@ public class ClientBrandingTheme implements IAccounterCore {
 
 	@Override
 	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 

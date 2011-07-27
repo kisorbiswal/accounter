@@ -1,7 +1,9 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 public class ClientPayVATEntries implements IAccounterCore {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	long vatAgency;
@@ -9,8 +11,10 @@ public class ClientPayVATEntries implements IAccounterCore {
 	double amount;
 
 	double balance;
-	
+
 	private long vatReturn;
+
+	private long id;
 
 	public long getVatAgency() {
 		return vatAgency;
@@ -38,37 +42,34 @@ public class ClientPayVATEntries implements IAccounterCore {
 
 	@Override
 	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.getCompany().getName();
 	}
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return AccounterCoreType.PAYVAT;
 	}
 
 	@Override
-	public long getID(){
-		// TODO Auto-generated method stub
-		return 0;
+	public long getID() {
+		return id;
 	}
 
 	@Override
-	public void setID(long id){
-		// TODO Auto-generated method stub
+	public void setID(long id) {
+		this.id = id;
 
 	}
 

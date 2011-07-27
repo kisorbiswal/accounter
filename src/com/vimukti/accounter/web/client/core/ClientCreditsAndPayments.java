@@ -130,7 +130,7 @@ public class ClientCreditsAndPayments implements IAccounterCore {
 
 	@Override
 	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 

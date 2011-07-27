@@ -94,7 +94,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	public void updateInGrid(ClientAccount objectTobeModified) {
-		// TODO Auto-generated method stub
+		// its not using any where
 
 	}
 

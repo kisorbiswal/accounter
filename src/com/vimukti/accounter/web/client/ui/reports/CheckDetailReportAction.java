@@ -65,8 +65,7 @@ public class CheckDetailReportAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "CheckDetailsReport";
 	}
 
 }
