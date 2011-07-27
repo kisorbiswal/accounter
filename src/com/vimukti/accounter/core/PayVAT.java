@@ -251,7 +251,7 @@ public class PayVAT extends Transaction implements IAccounterServerCore,
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
+
 		return AccounterConstants.TYPE_PAY_VAT;
 	}
 
