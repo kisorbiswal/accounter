@@ -17,9 +17,9 @@ import org.hibernate.util.StringHelper;
  *
  * @author Gavin King
  */
-public class MySQLDialect extends Dialect {
+public class MySQLDialect1 extends Dialect {
 
-	public MySQLDialect() {
+	public MySQLDialect1() {
 		super();
 		registerHibernateType(Types.LONGVARCHAR, "longvarchar");
 		registerColumnType( Types.BIT, "bit" );

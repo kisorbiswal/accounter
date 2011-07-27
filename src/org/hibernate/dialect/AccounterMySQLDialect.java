@@ -16,9 +16,4 @@ public class AccounterMySQLDialect extends MySQLInnoDBDialect {
 		registerHibernateType(Types.LONGVARCHAR, "longvarchar");
 	}
 
-	@Override
-	public boolean supportsIdentityColumns() {
-		boolean supportsIdentityColumns = super.supportsIdentityColumns();
-		return supportsIdentityColumns;
-	}
 }
