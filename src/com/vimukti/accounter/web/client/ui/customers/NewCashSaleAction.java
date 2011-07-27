@@ -74,21 +74,21 @@ public class NewCashSaleAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().newCashSale();
 	}
+
 	@Override
 	public String getImageUrl() {
-		
 		return "/images/new_cash_sale.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "newCashSale";
 	}
 }
