@@ -87,26 +87,20 @@ public class FixedAssetHistory implements IAccounterServerCore, Lifecycle {
 		return true;
 	}
 
-	/**
-	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
-	 */
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
+		// NOTHING TO DO
 		return false;
 	}
 
-	/**
-	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
-	 */
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
+		// NOTHING TO DO
 	}
 
-	/**
-	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
-	 */
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
+		// NOTHING TO DO
 		return false;
 	}
 
