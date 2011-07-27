@@ -52,43 +52,43 @@ public class StockTransfer extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean isPositiveTransaction() {
-		// TODO Auto-generated method stub
+		// Not required for this class
 		return false;
 	}
 
 	@Override
 	public boolean isDebitTransaction() {
-		// TODO Auto-generated method stub
+		// Not required for this class
 		return false;
 	}
 
 	@Override
 	public Account getEffectingAccount() {
-		// TODO Auto-generated method stub
+		// Not required for this class
 		return null;
 	}
 
 	@Override
 	public Payee getPayee() {
-		// TODO Auto-generated method stub
+		// Not required for this class
 		return null;
 	}
 
 	@Override
 	public int getTransactionCategory() {
-		// TODO Auto-generated method stub
+		// Not required for this class
 		return 0;
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
+		// Not required for this class
 		return null;
 	}
 
 	@Override
 	public Payee getInvolvedPayee() {
-		// TODO Auto-generated method stub
+		// Not required for this class
 		return null;
 	}
 
