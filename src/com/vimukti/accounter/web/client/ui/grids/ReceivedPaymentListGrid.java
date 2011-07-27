@@ -118,7 +118,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 
 					@Override
 					public boolean onCancelClick() throws InvalidEntryException {
-						// TODO Auto-generated method stub
+
 						return false;
 					}
 
@@ -174,7 +174,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 
 	@Override
 	public boolean validateGrid() {
-		// TODO Auto-generated method stub
+		// its not using any where return null;
 		return false;
 	}
 
@@ -191,7 +191,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 
 	@Override
 	protected void executeDelete(ReceivePaymentsList object) {
-		// TODO Auto-generated method stub
+		// its not using any where return null;
 
 	}
 
@@ -209,9 +209,11 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 			return paymentDate1.compareTo(paymentDate2);
 
 		case 2:
-			int num1 = UIUtils.isInteger(obj1.getNumber())?Integer.parseInt(obj1.getNumber()):0;
-			int num2 = UIUtils.isInteger(obj2.getNumber())?Integer.parseInt(obj2.getNumber()):0;
-			if (num1!=0 && num2!=0)
+			int num1 = UIUtils.isInteger(obj1.getNumber()) ? Integer
+					.parseInt(obj1.getNumber()) : 0;
+			int num2 = UIUtils.isInteger(obj2.getNumber()) ? Integer
+					.parseInt(obj2.getNumber()) : 0;
+			if (num1 != 0 && num2 != 0)
 				return UIUtils.compareInt(num1, num2);
 			else
 				return obj1.getNumber().compareTo(obj2.getNumber());
@@ -237,7 +239,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
+		// its not using any where return null;
 
 	}
 
