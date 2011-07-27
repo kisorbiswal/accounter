@@ -55,13 +55,11 @@ public class WarehouseTransferListView extends BaseListView<StockTransfer> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
