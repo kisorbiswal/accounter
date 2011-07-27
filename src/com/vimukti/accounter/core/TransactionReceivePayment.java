@@ -313,7 +313,6 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO currently not using
 
 	}
 
