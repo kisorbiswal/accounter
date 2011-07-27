@@ -90,7 +90,6 @@ public class HistoryListView extends BaseListView<ClientFixedAssetHistory> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
