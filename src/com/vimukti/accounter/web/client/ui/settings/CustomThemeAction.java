@@ -13,19 +13,19 @@ public class CustomThemeAction extends Action {
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO
 		return null;
 	}
 
 	@Override
 	public ImageResource getSmallImage() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO
 		return null;
 	}
 
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO
 		return null;
 	}
 
@@ -33,8 +33,7 @@ public class CustomThemeAction extends Action {
 	public void run(Object data, Boolean isDependent) {
 		try {
 			CustomThemeDialog customThemeDialog = new CustomThemeDialog(
-					Accounter.getSettingsMessages()
-							.newBrandThemeLabel(), "");
+					Accounter.getSettingsMessages().newBrandThemeLabel(), "");
 			customThemeDialog.show();
 			customThemeDialog.center();
 		} catch (Exception e) {
