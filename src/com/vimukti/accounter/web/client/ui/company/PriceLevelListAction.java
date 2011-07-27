@@ -73,13 +73,13 @@ public class PriceLevelListAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
+
 		return "/images/Price_Level_list.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+
 		return "priceLevels";
 	}
 }
