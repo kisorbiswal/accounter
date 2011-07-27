@@ -58,7 +58,7 @@ public class CashPurchase extends Transaction implements Lifecycle {
 	 */
 	Account cashExpenseAccount;
 
-	String employeeName;
+	User employee;
 	/**
 	 * The contact of the payee. (His alternate phone number, email, primary
 	 * address etc are entered
@@ -155,16 +155,16 @@ public class CashPurchase extends Transaction implements Lifecycle {
 	/**
 	 * @return the employee
 	 */
-	public String getEmployee() {
-		return employeeName;
+	public User getEmployee() {
+		return employee;
 	}
 
 	/**
 	 * @param employee
 	 *            the employee to set
 	 */
-	public void setEmployee(String employee) {
-		this.employeeName = employee;
+	public void setEmployee(User employee) {
+		this.employee = employee;
 	}
 
 	/**
@@ -374,8 +374,8 @@ public class CashPurchase extends Transaction implements Lifecycle {
 				: true)
 				&& ((this.cashExpenseAccount != null && obj.cashExpenseAccount != null) ? (this.cashExpenseAccount.id == obj.cashExpenseAccount.id)
 						: true)
-				&& ((this.employeeName != null && obj.employeeName != null) ? (this.employeeName
-						.equals(obj.employeeName))
+				&& ((this.employee != null && obj.employee != null) ? (this.employee
+						.equals(obj.employee))
 						: true)
 
 				&& ((this.payFrom != null && obj.payFrom != null) ? (this.payFrom
