@@ -70,15 +70,16 @@ public class ReceivedPaymentsAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().receivedPayments();
 	}
+
 	@Override
 	public String getImageUrl() {
-		
+
 		return "/images/recived_payment_list.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+
 		return "receivePayments";
 	}
 }
