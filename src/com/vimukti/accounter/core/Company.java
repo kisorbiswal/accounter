@@ -732,7 +732,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		this.accountingType = accountingType;
 	}
 	public void initialize(){
-		HibernateUtil.openSession(this.companyID);
+
 		CompanyInitializedFactory.getInitializer(this).init();
 		/*
 		 * Session session = HibernateUtil.getCurrentSession(); switch
