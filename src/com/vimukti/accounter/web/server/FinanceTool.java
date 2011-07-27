@@ -11511,7 +11511,7 @@ public class FinanceTool implements IFinanceDAOService {
 	 */
 	@Override
 	public List<SalesOrdersList> getSalesOrders(boolean orderByDate) {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 
@@ -11524,7 +11524,7 @@ public class FinanceTool implements IFinanceDAOService {
 	 */
 	@Override
 	public List<PurchaseOrdersList> getPurchaseOrders(boolean orderByDate) {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 
@@ -11537,7 +11537,7 @@ public class FinanceTool implements IFinanceDAOService {
 	 */
 	@Override
 	public List<SalesOrdersList> getSalesOrdersForCustomer(long customerID) {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 
@@ -11550,7 +11550,7 @@ public class FinanceTool implements IFinanceDAOService {
 	 */
 	@Override
 	public List<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID) {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 

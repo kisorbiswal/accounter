@@ -345,13 +345,13 @@ public class User implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
+		// its not using any where
 
 	}
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return false;
 	}
 

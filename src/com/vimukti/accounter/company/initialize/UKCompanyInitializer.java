@@ -92,7 +92,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -2551,7 +2550,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 	@Override
 	public Company getCompany() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
@@ -2562,40 +2561,36 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 	}
 
-	/*@Override
-	public void office_expense() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void motor_veichel_expense() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void travel_expenses() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void other_expenses() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void Cost_of_good_sold() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void other_direct_cost() {
-		// TODO Auto-generated method stub
-
-	}*/
+	/*
+	 * @Override public void office_expense() {
+	 * 
+	 * 
+	 * }
+	 * 
+	 * @Override public void motor_veichel_expense() {
+	 * 
+	 * 
+	 * }
+	 * 
+	 * @Override public void travel_expenses() {
+	 * 
+	 * 
+	 * }
+	 * 
+	 * @Override public void other_expenses() {
+	 * 
+	 * 
+	 * }
+	 * 
+	 * @Override public void Cost_of_good_sold() {
+	 * 
+	 * 
+	 * }
+	 * 
+	 * @Override public void other_direct_cost() {
+	 * 
+	 * 
+	 * }
+	 */
 
 }
