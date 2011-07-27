@@ -46,7 +46,7 @@ public class UserPreferences implements IAccounterServerCore {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		// TODO Auto-generated method stub
+
 		return true;
 	}
 
