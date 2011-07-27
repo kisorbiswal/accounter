@@ -52,7 +52,7 @@ public class SalesByCustomerDetailAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -76,7 +76,6 @@ public class SalesByCustomerDetailAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "salesByCustomerDetail";
 	}
 
