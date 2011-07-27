@@ -54,9 +54,7 @@ public class TransactionExpense implements IAccounterServerCore, Lifecycle {
 	 */
 	Expense expense;
 
-	
 	transient private boolean isOnSaveProccessed;
-
 
 	/**
 	 * @return the type
@@ -186,7 +184,6 @@ public class TransactionExpense implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void onLoad(Session session, Serializable id) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -236,14 +233,14 @@ public class TransactionExpense implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
+
 		return this.id;
 	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		// TODO Auto-generated method stub
+
 		return true;
 	}
 
