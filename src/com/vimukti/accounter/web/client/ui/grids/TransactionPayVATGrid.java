@@ -181,13 +181,12 @@ public class TransactionPayVATGrid extends
 
 	@Override
 	public Double getTotal() {
-		// TODO Auto-generated method stub
+
 		return super.getTotal();
 	}
 
 	@Override
 	public void setTaxCode(long taxCode) {
-		// TODO Auto-generated method stub
 
 	}
 }
