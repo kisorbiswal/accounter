@@ -158,8 +158,6 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore,
 		this.transactionReceiveVAT = transactionReceiveVAT;
 	}
 
-
-
 	@Override
 	public Account getEffectingAccount() {
 
@@ -203,13 +201,12 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore,
 
 	@Override
 	public boolean onDelete(Session s) throws CallbackException {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
 	@Override
 	public void onLoad(Session s, Serializable id) {
-		// TODO Auto-generated method stub
 
 	}
 
