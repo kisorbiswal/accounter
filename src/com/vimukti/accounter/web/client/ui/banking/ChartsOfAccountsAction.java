@@ -66,7 +66,6 @@ public class ChartsOfAccountsAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-
 		return "/images/chart_of_accounts.png";
 	}
 
