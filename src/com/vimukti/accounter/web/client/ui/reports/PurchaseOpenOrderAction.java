@@ -74,7 +74,7 @@ public class PurchaseOpenOrderAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+
 		return "purchaseOrderReport";
 	}
 
