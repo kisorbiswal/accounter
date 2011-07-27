@@ -77,7 +77,6 @@
 //
 //	@Override
 //	public boolean validateGrid() {
-//		// TODO Auto-generated method stub
 //		return true;
 //	}
 //
@@ -120,4 +119,4 @@
 //		return AccounterCoreType.TAX_CODE;
 //	}
 //
-//}
+// }
