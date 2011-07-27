@@ -73,8 +73,6 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	// TODO no use of this property.
 	int version;
 
-	
-
 	transient private boolean isOnSaveProccessed;
 
 	public CreditsAndPayments() {
@@ -87,7 +85,7 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 	public CreditsAndPayments(Transaction transaction) {
 		update(transaction);
-		
+
 	}
 
 	public void update(Transaction transaction) {
@@ -147,7 +145,6 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 		this.payee = (transactionMakeDeposit).getCustomer();
 
 	}
-
 
 	public String getMemo() {
 		return memo;
@@ -247,8 +244,7 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO
 	}
 
 	@Override
