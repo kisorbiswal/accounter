@@ -480,7 +480,7 @@
 		<property name="isPercentage" column="IS_PERCENTAGE"></property>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<joined-subclass name="TAXItem" table="TAX_ITEM">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="taxAgency" class="TAXAgency" column="TAX_AGENCY"
 				lazy="false">
 			</many-to-one>
@@ -490,7 +490,7 @@
 			</many-to-one>
 		</joined-subclass>
 		<joined-subclass name="TAXGroup" table="TAX_GROUP">
-			<key column="id" />
+			<key column="ID" />
 			<list name="taxItems" table="TAX_GROUP_TAX_ITEM" lazy="false"
 				cascade="save-update">
 				<key column="TAX_GROUP_ID"></key>
@@ -600,7 +600,7 @@
 		<property name="isOpeningBalanceEditable" column="IS_OPENING_BALANCE_EDITABLE"></property>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<joined-subclass name="Customer" table="CUSTOMER">
-			<key column="id" />
+			<key column="ID" />
 			<property name="balanceAsOf" column="BALANCE_AS_OF"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="number" unique="true" column="NUMBER"></property>
@@ -640,7 +640,7 @@
 			<property name="lifeTimeSales" column="LIFE_TIME_SALES"></property>
 		</joined-subclass>
 		<joined-subclass name="Vendor" table="VENDOR">
-			<key column="id" />
+			<key column="ID" />
 			<property name="accountNumber" column="ACCOUNT_NUMBER"></property>
 			<property name="balanceAsOf" column="BALANCE_AS_OF"
 				type="com.vimukti.accounter.core.LongUseType"></property>
@@ -670,7 +670,7 @@
 			<property name="lifeTimePurchases" column="LIFE_TIME_PURCHASES"></property>
 		</joined-subclass>
 		<joined-subclass name="SalesPerson" table="SALES_PERSON">
-			<key column="id" />
+			<key column="ID" />
 			<property name="title" column="TITLE"></property>
 			<property name="firstName" column="FIRST_NAME"></property>
 			<property name="middleName1" column="MIDDLE_NAME1"></property>
@@ -702,7 +702,7 @@
 			lazy="false"> </many-to-one> <property name="VATReturn" column="VAT_RETURN"></property> 
 			</joined-subclass> -->
 		<joined-subclass name="TAXAgency" table="TAXAGENCY">
-			<key column="id" />
+			<key column="ID" />
 			<many-to-one name="paymentTerm" class="PaymentTerms"
 				column="PAYMENT_TERM" cascade="save-update" lazy="false">
 			</many-to-one>
