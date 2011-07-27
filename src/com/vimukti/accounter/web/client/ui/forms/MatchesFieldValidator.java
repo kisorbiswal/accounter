@@ -3,13 +3,11 @@ package com.vimukti.accounter.web.client.ui.forms;
 public class MatchesFieldValidator implements Validator {
 
 	public void setOtherField(String string) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	public void setErrorMessage(String string) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
