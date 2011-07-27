@@ -71,9 +71,9 @@ public class TriggerWriteCheck implements Trigger {
 
 				// Deleting corresponding transaction rows from Account
 				// Transaction table
-				stat.execute(new StringBuilder().append(
-						"DELETE FROM ACCOUNT_TRANSACTION WHERE T_ID =").append(
-						newWriteCheckId).toString());
+				stat.execute(new StringBuilder()
+						.append("DELETE FROM ACCOUNT_TRANSACTION WHERE T_ID =")
+						.append(newWriteCheckId).toString());
 
 				accountType = getAccountType(stat, newAccountId);
 
@@ -106,21 +106,21 @@ public class TriggerWriteCheck implements Trigger {
 			Statement stat, Double amount, Long accountId, String symbol)
 			throws SQLException {
 
-		stat.execute(new StringBuilder().append(
-				"UPDATE ACCOUNT A SET A.CURRENT_BALANCE = A.CURRENT_BALANCE ")
-				.append(symbol).append(" ").append(amount).append(
-						", A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
-				.append(" ").append(amount).append(" WHERE A.ID =").append(
-						accountId).toString());
+		stat.execute(new StringBuilder()
+				.append("UPDATE ACCOUNT A SET A.CURRENT_BALANCE = A.CURRENT_BALANCE ")
+				.append(symbol).append(" ").append(amount)
+				.append(", A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
+				.append(" ").append(amount).append(" WHERE A.ID =")
+				.append(accountId).toString());
 	}
 
 	private int getAccountType(Statement stat, Long newAccountId)
 			throws SQLException {
 
 		int accountType = 0;
-		ResultSet r = stat.executeQuery(new StringBuilder().append(
-				"SELECT A.A_TYPE FROM ACCOUNT A WHERE A.ID =").append(
-				newAccountId).toString());
+		ResultSet r = stat.executeQuery(new StringBuilder()
+				.append("SELECT A.A_TYPE FROM ACCOUNT A WHERE A.ID =")
+				.append(newAccountId).toString());
 		if (r.next()) {
 			accountType = r.getInt(1);
 		}
@@ -130,7 +130,7 @@ public class TriggerWriteCheck implements Trigger {
 	@Override
 	public void init(Connection arg0, String arg1, String arg2, String arg3,
 			boolean arg4, int arg5) throws SQLException {
-		// TODO Auto-generated method stub
+		// currently not using anywhere
 
 	}
 
