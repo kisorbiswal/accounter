@@ -26,7 +26,6 @@ public class BankingHomeAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return this.view;
 	}
 
