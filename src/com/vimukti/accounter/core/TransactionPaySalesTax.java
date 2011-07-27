@@ -114,7 +114,6 @@ public class TransactionPaySalesTax implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
 
 	}
 
