@@ -23,25 +23,22 @@ public class NewCreditMemoAction extends Action {
 
 	public NewCreditMemoAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	public NewCreditMemoAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	public NewCreditMemoAction(String newCreditMemo, String string,
 			ClientVendorCreditMemo vendorCreditMemo,
 			AsyncCallback<Object> callBack) {
 		super(newCreditMemo, string, vendorCreditMemo, callBack);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	@Override
@@ -98,13 +95,11 @@ public class NewCreditMemoAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/new_credit_memo.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return UIUtils.getVendorString("supplierCredit", "vendorCredit");
 	}
 
