@@ -1414,8 +1414,7 @@ public class ReceivePaymentView extends
 
 	@Override
 	public void printPreview() {
-		// // its not using any where return null;
-
+		// NOTHING TO DO.
 	}
 
 	@Override
