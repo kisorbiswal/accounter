@@ -63,12 +63,14 @@ public class CustomersAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO
 		return null;
 	}
 
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().customers();
 	}
+
 	@Override
 	public String getImageUrl() {
 		return "/images/customers.png";
@@ -76,7 +78,6 @@ public class CustomersAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "customers";
 	}
 
