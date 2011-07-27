@@ -71,10 +71,9 @@ public class NominalCodeRange implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return 0;
 	}
-
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
@@ -85,18 +84,18 @@ public class NominalCodeRange implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return false;
 	}
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
+		// NOTHING TO DO.
 		return false;
 	}
 
