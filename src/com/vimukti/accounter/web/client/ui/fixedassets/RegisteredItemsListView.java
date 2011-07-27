@@ -45,8 +45,7 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 	 */
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.getFixedAssetConstants()
-				.registeredItemsList();
+		return Accounter.getFixedAssetConstants().registeredItemsList();
 	}
 
 	/*
@@ -96,19 +95,16 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
