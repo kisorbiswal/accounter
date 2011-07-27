@@ -33,10 +33,10 @@ public class WareHouseTransferView extends BaseView<ClientWarehouse> {
 	private void createControls() {
 		try {
 			mainPanel = new VerticalPanel();
-			fromCombo = new OtherAccountsCombo(Accounter
-					.getCustomersMessages().from());
-			toCombo = new OtherAccountsCombo(Accounter
-					.getCustomersMessages().to());
+			fromCombo = new OtherAccountsCombo(Accounter.getCustomersMessages()
+					.from());
+			toCombo = new OtherAccountsCombo(Accounter.getCustomersMessages()
+					.to());
 			commentArea = new TextAreaItem();
 			form = new DynamicForm();
 			form.setNumCols(2);
@@ -70,43 +70,41 @@ public class WareHouseTransferView extends BaseView<ClientWarehouse> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
+		// currently not using
 
 	}
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
+		// currently not using
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
+		// currently not using
 
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
+		// currently not using
 
 	}
 
 	@Override
 	public List getForms() {
-		// TODO Auto-generated method stub
+		// currently not using
 		return null;
 	}
 
