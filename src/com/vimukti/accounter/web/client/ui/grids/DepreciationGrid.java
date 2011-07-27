@@ -141,19 +141,18 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 
 	@Override
 	protected void onClick(ClientDepreciationDummyEntry obj, int row, int index) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO
 	}
 
 	@Override
 	public void onDoubleClick(ClientDepreciationDummyEntry obj) {
-
+		// NOTHING TO DO
 	}
 
 	@Override
 	protected void onValueChange(ClientDepreciationDummyEntry obj, int index,
 			Object value) {
-
+		// NOTHING TO DO
 	}
 
 	@SuppressWarnings("unchecked")
