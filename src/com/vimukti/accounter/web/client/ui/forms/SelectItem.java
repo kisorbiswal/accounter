@@ -58,8 +58,7 @@ public class SelectItem extends FormItem {
 	}
 
 	public void setHint(String string) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@SuppressWarnings("deprecation")
