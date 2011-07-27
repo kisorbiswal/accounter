@@ -23,7 +23,7 @@ public class StopOnlineSharingTransferAction extends Action {
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		// TODO Auto-generated method stub
+		// currently not required for this class
 
 	}
 
