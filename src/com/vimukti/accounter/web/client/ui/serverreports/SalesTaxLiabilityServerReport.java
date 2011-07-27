@@ -24,7 +24,7 @@ public class SalesTaxLiabilityServerReport extends
 		switch (columnIndex) {
 		case 0:
 			return record.getTaxItemName();
-//			return record.getTaxCodeName();
+			// return record.getTaxCodeName();
 		case 1:
 			return record.getTaxRate() + " %";
 		case 2:
@@ -97,7 +97,7 @@ public class SalesTaxLiabilityServerReport extends
 	}
 
 	public void print() {
-		// TODO Auto-generated method stub
+		// currently not required
 
 	}
 
