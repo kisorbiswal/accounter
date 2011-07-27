@@ -24,7 +24,7 @@ public class PaySalesTaxAction extends Action {
 
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -74,13 +74,11 @@ public class PaySalesTaxAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/Pay_Sales_Tax.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "paySalesTax";
 	}
 
