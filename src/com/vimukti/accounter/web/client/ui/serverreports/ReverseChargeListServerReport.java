@@ -13,7 +13,8 @@ public class ReverseChargeListServerReport extends
 		this.reportView = reportView;
 	}
 
-	public ReverseChargeListServerReport(long startDate, long endDate,int generationType) {
+	public ReverseChargeListServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -116,8 +117,8 @@ public class ReverseChargeListServerReport extends
 	public int sort(ReverseChargeList obj1, ReverseChargeList obj2, int col) {
 		switch (col) {
 		case 0:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 		case 1:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		}
@@ -131,7 +132,7 @@ public class ReverseChargeListServerReport extends
 
 	@Override
 	public ClientFinanceDate getEndDate(ReverseChargeList obj) {
-		// TODO Auto-generated method stub
+		// currently not using
 		return null;
 	}
 
