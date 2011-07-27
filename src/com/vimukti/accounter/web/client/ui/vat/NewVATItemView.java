@@ -491,8 +491,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 	@Override
 	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
-
+		super.fitToSize(height, width);
 	}
 
 	@Override
@@ -538,8 +537,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
