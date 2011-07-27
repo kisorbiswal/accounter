@@ -28,7 +28,7 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 
 	@Override
 	public boolean validateGrid() {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
@@ -38,8 +38,8 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 				Accounter.getVendorsMessages().Date(),
 				Accounter.getVendorsMessages().number(),
 				UIUtils.getVendorString(Accounter.getVendorsMessages()
-						.supplieRName(), Accounter
-						.getVendorsMessages().vendoRName()),
+						.supplieRName(), Accounter.getVendorsMessages()
+						.vendoRName()),
 				Accounter.getVendorsMessages().purchasePrice() };
 	}
 
@@ -64,8 +64,8 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 	@Override
 	public void onDoubleClick(PurchaseOrdersList obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(obj.getType(), obj
-					.getTransactionId());
+			ReportsRPC.openTransactionView(obj.getType(),
+					obj.getTransactionId());
 
 	}
 
@@ -88,13 +88,11 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 
 	@Override
 	protected void executeDelete(PurchaseOrdersList object) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
