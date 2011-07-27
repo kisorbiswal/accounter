@@ -91,7 +91,8 @@ public class CreditNoteTemplete extends TemplateBuilder implements ITemplate {
 						+ forNullValue(item.getDescription())
 						+ "</div></td><td style=\"padding: 6px;\" align=\"right\" class=\"qty\"><div>"
 						+ (forZeroAmounts(getDecimalsUsingMaxDecimals(item
-								.getQuantity().getValue(), null, maxDecimalPoints)))
+								.getQuantity().getValue(), null,
+								maxDecimalPoints)))
 						+ "</div></td><td style=\"padding: 6px;\" align=\"right\"><div class=\"cost\">"
 						+ (forZeroAmounts(largeAmountConversation(item
 								.getUnitPrice())))
@@ -140,7 +141,7 @@ public class CreditNoteTemplete extends TemplateBuilder implements ITemplate {
 			}
 		}
 
-		regAdd = (company.getName() + regAdd + ((company
+		regAdd = (company.geFulltName() + regAdd + ((company
 				.getRegistrationNumber() != null && !company
 				.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
 				+ company.getRegistrationNumber()

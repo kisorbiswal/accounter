@@ -228,13 +228,13 @@ public class CreateCompanyServlet extends BaseServlet {
 			company = new Company(Company.ACCOUNTING_TYPE_US);
 		else
 			company = new Company(Company.ACCOUNTING_TYPE_INDIA);
-		company.setCompanyFullName(companyFullName);
-		company.setCompanyID(companyId);
-
+		company.setFullName(companyFullName);
+		if (companyId != null) {
+			company.setCompanyID(companyId.toLowerCase());
+		}
 
 		return company;
 	}
-
 
 	public void dispatchView(HttpServletRequest request,
 			HttpServletResponse response, String view) {

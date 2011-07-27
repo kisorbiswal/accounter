@@ -38,7 +38,7 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 	// }
 	private StringBuffer getImage() {
 		StringBuffer original = new StringBuffer();
-//		String imagesDomain = "/do/downloadFileFromFile?";
+		// String imagesDomain = "/do/downloadFileFromFile?";
 		Session session = HibernateUtil.getCurrentSession();
 		Company Company = (Company) session.get(Company.class, 1L);
 		original.append("<img src='file:///");
@@ -50,8 +50,7 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 
 	private int getFontSize(int i) {
 		int size = Integer.valueOf(brandingTheme.getFontSize()
-				.replace("pt", ""))
-				+ i;
+				.replace("pt", "")) + i;
 		return size;
 	}
 
@@ -101,17 +100,13 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 		}
 
 		if (cmpAdd.equals("<br/><br/><br/><br/><br/>")) {
-			String contactDetails = brandingTheme.getContactDetails() != null ? brandingTheme.getContactDetails() : this.company.getName();
-			cmpAdd = ("<p style=\"font-family:"
-					+ brandingTheme.getFont()
-					+ "; font-size:"
-					+ getFontSize(6)
-					+ "pt;\"><strong> "
+			String contactDetails = brandingTheme.getContactDetails() != null ? brandingTheme
+					.getContactDetails() : this.company.geFulltName();
+			cmpAdd = ("<p style=\"font-family:" + brandingTheme.getFont()
+					+ "; font-size:" + getFontSize(6) + "pt;\"><strong> "
 					+ forNullValue(TemplateBuilder.getCmpName())
-					+ "</strong></font>"
-					+ "<table><tr><td>"
-					+ contactDetails.replace(",",
-							",</td></tr><tr><td>") + "</td></tr></table> </p>");
+					+ "</strong></font>" + "<table><tr><td>"
+					+ contactDetails.replace(",", ",</td></tr><tr><td>") + "</td></tr></table> </p>");
 		} else {
 			cmpAdd = ("<p style=\"font-family:" + brandingTheme.getFont()
 					+ "; font-size:" + getFontSize(6) + "pt;\"><strong> "
@@ -121,7 +116,9 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 
 		String header1 = "";
 		String imgCode = "<table width=\"100%\" cellpadding=\"25px\"><tr><td align=\""
-				+ getLogoAlignment() + "\">" + getImage()
+				+ getLogoAlignment()
+				+ "\">"
+				+ getImage()
 				+ "</td></tr></table>";
 		if (brandingTheme.isShowLogo) {
 			header1 = header1 + imgCode;
@@ -232,7 +229,8 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 						+ forNullValue(item.getDescription())
 						+ "</p></div></td><td style=\"padding: 6px;\" align=\"right\" class=\"qty\"><div><p class=\"fontSetting\">"
 						+ (forZeroAmounts(getDecimalsUsingMaxDecimals(item
-								.getQuantity().getValue(), null, maxDecimalPoints)))
+								.getQuantity().getValue(), null,
+								maxDecimalPoints)))
 						+ "</p></div></td><td style=\"padding: 6px;\" align=\"right\"><div class=\"cost\"><p class=\"fontSetting\">"
 						+ (forZeroAmounts(largeAmountConversation(item
 								.getUnitPrice())))
@@ -341,7 +339,7 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 			}
 		}
 
-		regAdd = (company.getName() + regAdd + ((company
+		regAdd = (company.geFulltName() + regAdd + ((company
 				.getRegistrationNumber() != null && !company
 				.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
 				+ company.getRegistrationNumber()

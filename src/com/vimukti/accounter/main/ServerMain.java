@@ -65,7 +65,7 @@ public class ServerMain extends Main {
 		}
 		Logger.getRootLogger().setLevel(Level.INFO);
 		Logger.getLogger("org.hibernate").setLevel(Level.INFO);
-		Logger.getLogger("com.bizantra").setLevel(Level.INFO);
+		Logger.getLogger("com.vimukti").setLevel(Level.INFO);
 
 	}
 }
