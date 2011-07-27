@@ -708,8 +708,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
