@@ -81,7 +81,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 						.getViewManager().getCurrentView().getAction(),
 						MainFinanceWindow.getViewManager().getCurrentView()
 								.getData());
-				//Action.cancle();
+				// Action.cancle();
 			}
 		});
 		initDataToFiscalYearList();
@@ -440,7 +440,6 @@ public class ManageFiscalYearDialog extends BaseDialog {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
