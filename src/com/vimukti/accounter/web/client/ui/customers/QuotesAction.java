@@ -71,15 +71,16 @@ public class QuotesAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().quotes();
 	}
+
 	@Override
 	public String getImageUrl() {
-		
+
 		return "/images/quotes.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+
 		return "quotes";
 	}
 }
