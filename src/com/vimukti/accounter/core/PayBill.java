@@ -520,7 +520,7 @@ public class PayBill extends Transaction {
 
 	@Override
 	public void onLoad(Session session, Serializable arg1) {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		super.onLoad(session, arg1);
 	}
 
