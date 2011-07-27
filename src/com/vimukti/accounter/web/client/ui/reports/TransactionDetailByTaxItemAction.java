@@ -55,7 +55,7 @@ public class TransactionDetailByTaxItemAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+		// not required for this view.
 		return null;
 	}
 
