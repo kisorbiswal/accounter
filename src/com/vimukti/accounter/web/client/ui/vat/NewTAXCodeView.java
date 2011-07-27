@@ -391,8 +391,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 	@Override
 	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
-
+		super.fitToSize(height, width);
 	}
 
 	@Override
@@ -442,13 +441,11 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	@Override
 	public void print() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
