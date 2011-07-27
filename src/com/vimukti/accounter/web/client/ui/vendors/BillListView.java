@@ -76,8 +76,7 @@ public class BillListView extends BaseListView<BillsList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getBillsAndItemReceiptList(
-				false, this);
+		Accounter.createHomeService().getBillsAndItemReceiptList(false, this);
 
 	}
 
@@ -117,8 +116,7 @@ public class BillListView extends BaseListView<BillsList> {
 		if (this.viewType != null && !viewType.equals(""))
 			currentView.setComboItem(viewType);
 		else {
-			currentView.setComboItem(Accounter.getCustomersMessages()
-					.all());
+			currentView.setComboItem(Accounter.getCustomersMessages().all());
 		}
 		currentView
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -211,20 +209,16 @@ public class BillListView extends BaseListView<BillsList> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

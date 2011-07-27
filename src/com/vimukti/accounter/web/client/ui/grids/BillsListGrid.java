@@ -74,10 +74,9 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 				vendorConstants.Date(),
 				vendorConstants.no(),
 				UIUtils.getVendorString(Accounter.getVendorsMessages()
-						.supplieRName(), Accounter
-						.getVendorsMessages().vendorName()),
-				vendorConstants.originalAmount(), vendorConstants.balance(),
-				vendorConstants.IsVoid()
+						.supplieRName(), Accounter.getVendorsMessages()
+						.vendorName()), vendorConstants.originalAmount(),
+				vendorConstants.balance(), vendorConstants.IsVoid()
 		// , ""
 		};
 	}
@@ -85,8 +84,8 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 	@Override
 	public void onDoubleClick(BillsList bills) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(bills.getType(), bills
-					.getTransactionId());
+			ReportsRPC.openTransactionView(bills.getType(),
+					bills.getTransactionId());
 
 	}
 
@@ -110,13 +109,15 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
 		if (col == 6 && !obj.isVoided()) {
-			
-			if (obj.getType()!=ClientTransaction.TYPE_EMPLOYEE_EXPENSE || 
-					(obj.getType()==ClientTransaction.TYPE_EMPLOYEE_EXPENSE && obj.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)) {
-				showWarningDialog(obj, this.getAccounterCoreType(obj), this
-						.getTransactionID(obj), col);
+
+			if (obj.getType() != ClientTransaction.TYPE_EMPLOYEE_EXPENSE
+					|| (obj.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE && obj
+							.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)) {
+				showWarningDialog(obj, this.getAccounterCoreType(obj),
+						this.getTransactionID(obj), col);
 			} else {
-				Accounter.showError("This Expense can't be void, because it is not Approved");
+				Accounter
+						.showError("This Expense can't be void, because it is not Approved");
 			}
 		}
 		// else if (col == 7) {
@@ -156,13 +157,11 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	public boolean validateGrid() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	protected void executeDelete(BillsList object) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -194,8 +193,8 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 			else
 				return obj1.getNumber().compareTo(obj2.getNumber());
 		case 3:
-			return obj1.getVendorName().toLowerCase().compareTo(
-					obj2.getVendorName().toLowerCase());
+			return obj1.getVendorName().toLowerCase()
+					.compareTo(obj2.getVendorName().toLowerCase());
 
 		case 4:
 			return obj1.getOriginalAmount().compareTo(obj2.getOriginalAmount());
@@ -213,7 +212,6 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 

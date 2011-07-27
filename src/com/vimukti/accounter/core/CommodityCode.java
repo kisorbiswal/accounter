@@ -11,7 +11,6 @@ public class CommodityCode implements IAccounterServerCore {
 	 */
 	String name;
 
-
 	public String getName() {
 		return name;
 	}
@@ -21,16 +20,13 @@ public class CommodityCode implements IAccounterServerCore {
 	}
 
 	@Override
-	public long getID(){
-		// TODO Auto-generated method stub
+	public long getID() {
 		return this.id;
 	}
-
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		// TODO Auto-generated method stub
 		return true;
 	}
 }

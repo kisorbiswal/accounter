@@ -81,7 +81,6 @@ public class ClientBox implements IAccounterCore {
 	 */
 	@Override
 	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -93,7 +92,6 @@ public class ClientBox implements IAccounterCore {
 	 */
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -104,7 +102,6 @@ public class ClientBox implements IAccounterCore {
 	 */
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return name;
 	}
 
@@ -115,7 +112,6 @@ public class ClientBox implements IAccounterCore {
 	 */
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
 		return AccounterCoreType.VATBOX;
 	}
 
@@ -125,21 +121,19 @@ public class ClientBox implements IAccounterCore {
 	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#getID()
 	 */
 	@Override
-	public long getID(){
-		// TODO Auto-generated method stub
+	public long getID() {
 		return this.id;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.vimukti.accounter.web.client.core.IAccounterCore#setID(java
+	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#setID(java
 	 * .lang.String)
 	 */
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 

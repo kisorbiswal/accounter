@@ -19,8 +19,6 @@ public class CanvasItem extends FormItem implements HasWidgets {
 
 	}
 
-	
-
 	@Override
 	public Widget getMainWidget() {
 
@@ -29,25 +27,21 @@ public class CanvasItem extends FormItem implements HasWidgets {
 
 	@Override
 	public void add(Widget w) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public Iterator<Widget> iterator() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean remove(Widget w) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
