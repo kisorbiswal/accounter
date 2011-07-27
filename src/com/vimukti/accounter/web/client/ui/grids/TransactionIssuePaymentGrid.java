@@ -94,14 +94,14 @@ public class TransactionIssuePaymentGrid extends
 
 	@Override
 	public void onDoubleClick(ClientTransactionIssuePayment obj) {
-		// TODO Auto-generated method stub
+		// not required for this class
 
 	}
 
 	@Override
 	public <E> CustomCombo<E> getCustomCombo(ClientTransactionIssuePayment obj,
 			int colIndex) {
-		// TODO Auto-generated method stub
+		// not required for this class
 		return null;
 	}
 
@@ -160,13 +160,13 @@ public class TransactionIssuePaymentGrid extends
 	@Override
 	public List<ClientTransactionItem> getallTransactions(
 			ClientTransaction object) throws InvalidEntryException {
-		// TODO Auto-generated method stub
+		// not required
 		return null;
 	}
 
 	@Override
 	public void setTaxCode(long taxCode) {
-		// TODO Auto-generated method stub
+		// not required for this class
 
 	}
 
