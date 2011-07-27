@@ -18,7 +18,7 @@ public class NewCompanyAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
