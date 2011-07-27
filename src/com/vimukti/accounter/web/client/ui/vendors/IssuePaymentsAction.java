@@ -25,36 +25,35 @@ public class IssuePaymentsAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		new IssuePaymentDialog(Accounter.getVendorsMessages()
-				.selectPaymentsToIssue(), Accounter
-				.getVendorsMessages().selectPaymentMethod()).show();
+				.selectPaymentsToIssue(), Accounter.getVendorsMessages()
+				.selectPaymentMethod()).show();
 		// MainFinanceWindow.getViewManager().showView(view, data, isDependent,
 		// IssuePaymentsAction.this);
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().issuePayment();
 	}
-	
+
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/issue_payment.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "issuePayments";
 	}
 
