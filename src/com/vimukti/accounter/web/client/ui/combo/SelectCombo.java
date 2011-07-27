@@ -15,7 +15,7 @@ public class SelectCombo extends CustomCombo<String> {
 		// } else if (type == FAX){
 		// initCombo(new ClientAddress().getAddressTypes());
 		// }else if (type==ADDRESS) {
-		//			
+		//
 		// }
 	}
 
@@ -71,13 +71,13 @@ public class SelectCombo extends CustomCombo<String> {
 
 	@Override
 	public SelectItemType getSelectItemType() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public void setValue(Object value) {
-		// TODO Auto-generated method stub
+
 		super.setValue(value);
 	}
 
