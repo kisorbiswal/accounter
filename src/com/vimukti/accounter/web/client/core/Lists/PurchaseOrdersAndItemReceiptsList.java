@@ -20,6 +20,8 @@ public class PurchaseOrdersAndItemReceiptsList implements IsSerializable,
 	String vendorName;
 
 	double total;
+	
+	private double remainingTotal;
 
 	/**
 	 * @return the transactionId
@@ -109,6 +111,14 @@ public class PurchaseOrdersAndItemReceiptsList implements IsSerializable,
 	 */
 	public void setVendorName(String vendorName) {
 		this.vendorName = vendorName;
+	}
+
+	public double getRemainingTotal() {
+		return remainingTotal;
+	}
+
+	public void setRemainingTotal(double remainingTotal) {
+		this.remainingTotal = remainingTotal;
 	}
 
 }
