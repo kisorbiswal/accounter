@@ -34,21 +34,21 @@ public class PreferencesAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().preferences();
 	}
+
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/preferences.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "companyPreferences";
 	}
 
