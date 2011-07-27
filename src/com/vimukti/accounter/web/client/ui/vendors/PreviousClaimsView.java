@@ -50,7 +50,8 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setStyleName("button-expense");
-		AccounterButton notShowInList = new AccounterButton("Don't Show in List");
+		AccounterButton notShowInList = new AccounterButton(
+				"Don't Show in List");
 		notShowInList.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -130,8 +131,8 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 		} else {
 			userName = null;
 		}
-		Accounter.createHomeService().getEmployeeExpensesByStatus(
-				userName, ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED,
+		Accounter.createHomeService().getEmployeeExpensesByStatus(userName,
+				ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED,
 				new AsyncCallback<List<BillsList>>() {
 
 					@Override
@@ -147,8 +148,8 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 					}
 				});
 
-		Accounter.createHomeService().getEmployeeExpensesByStatus(
-				userName, ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED,
+		Accounter.createHomeService().getEmployeeExpensesByStatus(userName,
+				ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED,
 				new AsyncCallback<List<BillsList>>() {
 
 					@Override
@@ -185,7 +186,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 
 	@Override
 	public List<DynamicForm> getForms() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -203,14 +204,12 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
 	public void deleteFailed(Throwable caught) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
