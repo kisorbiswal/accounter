@@ -63,6 +63,7 @@ public class SalesOrderListAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
