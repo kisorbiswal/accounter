@@ -89,8 +89,7 @@ public class ShippingTerms extends CreatableObject implements
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
