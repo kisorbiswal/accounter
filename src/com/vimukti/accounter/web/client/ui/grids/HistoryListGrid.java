@@ -123,14 +123,12 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 
 	@Override
 	protected void executeDelete(ClientFixedAssetHistory object) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO
 	}
 
 	public AccounterCoreType getType() {
