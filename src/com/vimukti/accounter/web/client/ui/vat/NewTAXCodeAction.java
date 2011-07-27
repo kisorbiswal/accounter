@@ -23,6 +23,7 @@ public class NewTAXCodeAction extends Action {
 
 	@Override
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -63,13 +64,11 @@ public class NewTAXCodeAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/Sales_Tax.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "newVatCode";
 	}
 
