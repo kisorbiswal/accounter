@@ -419,7 +419,7 @@ public class UsersMailSendar {
 		}
 
 		String content = propertyParser.getProperty("contentForInviteUser", "");
-		content = content.replaceAll("%USER%", user.getDisplayName());
+		content = content.replaceAll("%USER%", user.getFirstName());
 		content = content.replaceAll("%COMPANY%", companyName);
 		content = content.replaceAll("%PASSWORD%", password);
 		content = content.replaceAll("%EMAILID%", user.getEmail());
@@ -461,7 +461,7 @@ public class UsersMailSendar {
 
 		String content = propertyParser
 				.getProperty("contentForDefaultUser", "");
-		content = content.replaceAll("%USERNAME%", admin.getDisplayName());
+		content = content.replaceAll("%USERNAME%", admin.getFirstName());
 		content = content.replaceAll("%COMPANY%", companyName);
 
 		String subject = propertyParser
