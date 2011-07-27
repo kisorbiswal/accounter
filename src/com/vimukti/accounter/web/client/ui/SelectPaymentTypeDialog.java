@@ -57,7 +57,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 
 			public void onCancelClick() {
 				removeFromParent();
-				//Action.cancle();
+				// Action.cancle();
 			}
 
 			public boolean onOkClick() {
@@ -145,7 +145,6 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
