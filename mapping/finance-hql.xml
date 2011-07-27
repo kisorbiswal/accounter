@@ -33,7 +33,7 @@
 		b.name</query>
 	<query name="list.Budget">from com.vimukti.accounter.core.Budget</query>
 	<query name="list.Company">from com.vimukti.accounter.core.Company c order by
-		c.name</query>
+		c.fullName</query>
 	<query name="list.CreditRating">from com.vimukti.accounter.core.CreditRating cr order
 		by cr.name
 	</query>
