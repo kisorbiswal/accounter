@@ -10,8 +10,8 @@ import org.hibernate.classic.Lifecycle;
  * @author Srikanth J
  * 
  */
-public class StockTransfer extends Transaction implements Lifecycle {
-
+public class StockTransfer{
+	
 	/**
 	 * 
 	 */
@@ -20,6 +20,8 @@ public class StockTransfer extends Transaction implements Lifecycle {
 	private Warehouse fromWarehouse;
 	private Warehouse toWarehouse;
 
+	private long id;
+	
 	private Set<StockTransferItem> stockTransferItems;
 
 	public StockTransfer() {
@@ -49,47 +51,8 @@ public class StockTransfer extends Transaction implements Lifecycle {
 	public Set<StockTransferItem> getStockTransferItems() {
 		return stockTransferItems;
 	}
-
-	@Override
-	public boolean isPositiveTransaction() {
-		// Not required for this class
-		return false;
-	}
-
-	@Override
-	public boolean isDebitTransaction() {
-		// Not required for this class
-		return false;
-	}
-
-	@Override
-	public Account getEffectingAccount() {
-		// Not required for this class
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		// Not required for this class
-		return null;
-	}
-
-	@Override
-	public int getTransactionCategory() {
-		// Not required for this class
-		return 0;
-	}
-
-	@Override
-	public String toString() {
-		// Not required for this class
-		return null;
-	}
-
-	@Override
-	public Payee getInvolvedPayee() {
-		// Not required for this class
-		return null;
+	public long getId() {
+		return id;
 	}
 
 }
