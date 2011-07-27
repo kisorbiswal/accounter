@@ -30,8 +30,8 @@ public abstract class ClientPayee implements IAccounterCore {
 
 	long date;
 
-	double balance; 
-	
+	double balance;
+
 	String bankAccountNo;
 	String bankName;
 	String bankBranch;
@@ -196,9 +196,9 @@ public abstract class ClientPayee implements IAccounterCore {
 		return this != null && this instanceof ClientVendor;
 	}
 
-//	public boolean isTaxAgency() {
-//		return this != null && this instanceof ClientTaxAgency;
-//	}
+	// public boolean isTaxAgency() {
+	// return this != null && this instanceof ClientTaxAgency;
+	// }
 
 	public boolean isEmployee() {
 		return this != null && this instanceof ClientSalesPerson;
@@ -206,7 +206,7 @@ public abstract class ClientPayee implements IAccounterCore {
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 
@@ -295,12 +295,12 @@ public abstract class ClientPayee implements IAccounterCore {
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
@@ -327,6 +327,7 @@ public abstract class ClientPayee implements IAccounterCore {
 	public String getEmail() {
 		return email;
 	}
+
 	public String getBankAccountNo() {
 		return bankAccountNo;
 	}

@@ -67,18 +67,17 @@ public class ClientShippingMethod implements IAccounterCore {
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
 		return AccounterCoreType.SHIPPING_METHOD;
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 

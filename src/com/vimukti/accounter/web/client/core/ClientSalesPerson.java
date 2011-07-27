@@ -308,7 +308,6 @@ public class ClientSalesPerson extends ClientPayee {
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
 		return AccounterCoreType.SALES_PERSON;
 	}
 
@@ -328,7 +327,6 @@ public class ClientSalesPerson extends ClientPayee {
 
 	@Override
 	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
 		return "ClientSalesPerson";
 	}
 

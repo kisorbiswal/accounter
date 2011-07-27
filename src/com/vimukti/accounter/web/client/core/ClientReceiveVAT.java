@@ -33,7 +33,7 @@ public class ClientReceiveVAT extends ClientTransaction {
 
 	@Override
 	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 

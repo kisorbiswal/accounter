@@ -30,8 +30,6 @@ public class ClientTAXItemGroup implements IAccounterCore {
 	boolean isPercentage;
 	boolean isDefault;
 
-	
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -41,8 +39,8 @@ public class ClientTAXItemGroup implements IAccounterCore {
 	 */
 	@Override
 	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
-		return null;
+		// its not using any where
+		return "ClientTAXItemGroup";
 	}
 
 	/*
@@ -53,7 +51,6 @@ public class ClientTAXItemGroup implements IAccounterCore {
 	 */
 	@Override
 	public String getDisplayName() {
-
 		return name;
 	}
 
@@ -64,7 +61,6 @@ public class ClientTAXItemGroup implements IAccounterCore {
 	 */
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return this.name;
 	}
 
@@ -85,7 +81,7 @@ public class ClientTAXItemGroup implements IAccounterCore {
 	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#getID()
 	 */
 	@Override
-	public long getID(){
+	public long getID() {
 
 		return this.id;
 	}
@@ -93,13 +89,12 @@ public class ClientTAXItemGroup implements IAccounterCore {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.vimukti.accounter.web.client.core.IAccounterCore#setID(java
+	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#setID(java
 	 * .lang.String)
 	 */
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 

@@ -3,6 +3,8 @@
  */
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 /**
  * @author vimukti5
  * 
@@ -98,8 +100,7 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 	 */
 	@Override
 	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "ClientTAXAdjustment";
 	}
 
 	/*
@@ -110,7 +111,7 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 	 */
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return null;
 	}
 
@@ -121,8 +122,7 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 	 */
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.getCompany().getName();
 	}
 
 	/*
@@ -141,7 +141,7 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#getID()
 	 */
 	@Override
-	public long getID(){
+	public long getID() {
 
 		return this.id;
 	}
@@ -202,13 +202,12 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.vimukti.accounter.web.client.core.IAccounterCore#setID(java
+	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#setID(java
 	 * .lang.String)
 	 */
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
