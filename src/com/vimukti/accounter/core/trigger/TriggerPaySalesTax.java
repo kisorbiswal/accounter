@@ -128,9 +128,9 @@ public class TriggerPaySalesTax implements Trigger {
 
 				// Query for deleting corresponding transaction rows from
 				// AccountTransaction table
-				stat.execute(new StringBuilder().append(
-						"DELETE FROM ACCOUNT_TRANSACTION WHERE T_ID =").append(
-						newPaySalesTaxId).toString());
+				stat.execute(new StringBuilder()
+						.append("DELETE FROM ACCOUNT_TRANSACTION WHERE T_ID =")
+						.append(newPaySalesTaxId).toString());
 
 				// Query to retrieve the type of the Deposit In Account
 				isIncrease = getAccountIsIncrease(stat, oldPayFromAccountId);
@@ -163,23 +163,24 @@ public class TriggerPaySalesTax implements Trigger {
 			Long newPaymentMethodId, Long newPaySalesTaxId) throws SQLException {
 
 		Integer paymentMethodType = 0;
-		ResultSet rs = stat.executeQuery(new StringBuilder().append(
-				"SELECT PM.TYPE FROM PAYMENTMETHOD PM WHERE PM.ID = ").append(
-				newPaymentMethodId).toString());
+		ResultSet rs = stat.executeQuery(new StringBuilder()
+				.append("SELECT PM.TYPE FROM PAYMENTMETHOD PM WHERE PM.ID = ")
+				.append(newPaymentMethodId).toString());
 		if (rs.next()) {
 			paymentMethodType = rs.getInt(1);
 		}
 		if ((paymentMethodType).equals(AccounterConstants.PAYMENT_METHOD_CHECK)) {
-			stat.execute(new StringBuilder().append(
-					"UPDATE TRANSACTION T SET T.STATUS = ").append(
-					Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+			stat.execute(new StringBuilder()
+					.append("UPDATE TRANSACTION T SET T.STATUS = ")
+					.append(Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 					.append(" WHERE T.ID = ").append(newPaySalesTaxId)
 					.toString());
 		} else {
-			stat.execute(new StringBuilder().append(
-					"UPDATE TRANSACTION T SET T.STATUS = ").append(
-					Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED).append(
-					" WHERE T.ID = ").append(newPaySalesTaxId).toString());
+			stat.execute(new StringBuilder()
+					.append("UPDATE TRANSACTION T SET T.STATUS = ")
+					.append(Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)
+					.append(" WHERE T.ID = ").append(newPaySalesTaxId)
+					.toString());
 
 		}
 	}
@@ -188,21 +189,21 @@ public class TriggerPaySalesTax implements Trigger {
 			Long payFromAccountId, Double total, String symbol)
 			throws SQLException {
 
-		stat.execute(new StringBuilder().append(
-				"UPDATE ACCOUNT A SET A.CURRENT_BALANCE = A.CURRENT_BALANCE ")
-				.append(symbol).append(" ").append(total).append(
-						", A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
-				.append(" ").append(total).append(" WHERE A.ID =").append(
-						payFromAccountId).toString());
+		stat.execute(new StringBuilder()
+				.append("UPDATE ACCOUNT A SET A.CURRENT_BALANCE = A.CURRENT_BALANCE ")
+				.append(symbol).append(" ").append(total)
+				.append(", A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
+				.append(" ").append(total).append(" WHERE A.ID =")
+				.append(payFromAccountId).toString());
 	}
 
 	private boolean getAccountIsIncrease(Statement stat, Long depositInAccountId)
 			throws SQLException {
 		boolean accountType = false;
 
-		ResultSet r = stat.executeQuery(new StringBuilder().append(
-				"SELECT A.IS_INCREASE FROM ACCOUNT A WHERE A.ID =").append(
-				depositInAccountId).toString());
+		ResultSet r = stat.executeQuery(new StringBuilder()
+				.append("SELECT A.IS_INCREASE FROM ACCOUNT A WHERE A.ID =")
+				.append(depositInAccountId).toString());
 
 		if (r.next()) {
 			accountType = r.getBoolean(1);
@@ -213,7 +214,7 @@ public class TriggerPaySalesTax implements Trigger {
 	@Override
 	public void init(Connection arg0, String arg1, String arg2, String arg3,
 			boolean arg4, int arg5) throws SQLException {
-		// TODO Auto-generated method stub
+		// currently not using anywhere in the project.
 
 	}
 
