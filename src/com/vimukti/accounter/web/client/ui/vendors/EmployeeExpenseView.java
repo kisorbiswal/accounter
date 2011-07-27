@@ -1,8 +1,6 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
@@ -13,19 +11,20 @@ import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.HrEmployee;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.EmployeeCombo;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
-import com.vimukti.accounter.web.client.ui.forms.SuggestionItem;
 
 public class EmployeeExpenseView extends CashPurchaseView {
 
-	private SuggestionItem employee;
-	private List<String> hrEmployees = new ArrayList<String>();
+	private EmployeeCombo employee;
+	// private List<String> hrEmployees = new ArrayList<String>();
 	public int status;
 
 	public EmployeeExpenseView() {
@@ -47,7 +46,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		// Setting Type
 		cashPurchase.setType(ClientTransaction.TYPE_EMPLOYEE_EXPENSE);
 
-		cashPurchase.setEmployee(employee.getValue());
+		cashPurchase.setEmployee(employee.getSelectedValue());
 
 		// Setting Contact
 		if (contact != null)
@@ -98,34 +97,39 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		final MultiWordSuggestOracle employe = new MultiWordSuggestOracle();
 
-		titlelabel.setText(Accounter.getVendorsMessages()
-				.employeeExpense());
-		Accounter.createGETService().getHREmployees(
-				new AsyncCallback<List<HrEmployee>>() {
+		titlelabel.setText(Accounter.getVendorsMessages().employeeExpense());
+		// Accounter.createGETService().getHREmployees(
+		// new AsyncCallback<List<HrEmployee>>() {
+		//
+		// @Override
+		// public void onSuccess(List<HrEmployee> result) {
+		// for (HrEmployee emp : result) {
+		// employe.add(emp.getEmployeeName());
+		// hrEmployees.add(emp.getEmployeeName());
+		// }
+		// }
+		//
+		// @Override
+		// public void onFailure(Throwable caught) {
+		// Accounter
+		// .showInformation("Error Showing  Employees List");
+		// }
+		// });
 
-					@Override
-					public void onSuccess(List<HrEmployee> result) {
-						for (HrEmployee emp : result) {
-							employe.add(emp.getEmployeeName());
-							hrEmployees.add(emp.getEmployeeName());
-						}
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-						Accounter
-								.showInformation("Error Showing  Employees List");
-					}
-				});
-
-		employee = new SuggestionItem(employe, Accounter
-				.getVendorsMessages().employEe());
+		employee = new EmployeeCombo(Accounter.getVendorsMessages().employEe());
 		employee.getMainWidget();
 		employee.setHelpInformation(true);
 		employee.setRequired(true);
+		employee.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientUser>() {
+
+			@Override
+			public void selectedComboBoxItem(ClientUser selectItem) {
+
+			}
+		});
 		if (!Accounter.getUser().isAdminUser()) {
-			employee.setValue(Accounter.getUser().getName());
-			employee.setDisabledForSuggBox(true);
+			// employee.setValue(Accounter.getUser().getName());
+			employee.setAdmin(false);
 		}
 
 		String listString[] = new String[] {
@@ -164,9 +168,10 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		if (transactionObject != null) {
 			ClientCashPurchase cashPurchase = (ClientCashPurchase) transactionObject;
-			employee.setValue(cashPurchase.getEmployee());
+			employee.setComboItem(cashPurchase.getEmployee());
+			employee.setDisabled(true);
 			if (Accounter.getUser().isAdmin()) {
-				employee.setDisabledForSuggBox(true);
+				employee.setAdmin(true);
 			}
 			deliveryDateItem.setValue(new ClientFinanceDate(cashPurchase
 					.getDeliveryDate()));
@@ -188,15 +193,16 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		switch (this.validationCount) {
 		case 6:
-			if (Accounter.getUser().isAdmin()) {
-				if (!hrEmployees.contains(employee.getValue()))
-					throw new InvalidTransactionEntryException(
-							"Please Select An Employee.The Employee must be in  Accounter HR.");
-				if (!vendorForm.validate(false))
-					// throw new InvalidTransactionEntryException(
-					// AccounterErrorType.REQUIRED_FIELDS);
-					return true;
-			}
+			// if (Accounter.getUser().isAdmin()) {
+			// if (!hrEmployees.contains(employee.getValue()))
+			// throw new InvalidTransactionEntryException(
+			// "Please Select An Employee.The Employee must be in  Accounter HR.");
+			if (!vendorForm.validate(false))
+				// throw new InvalidTransactionEntryException(
+				// AccounterErrorType.REQUIRED_FIELDS);
+				return false;
+			// }
+			return true;
 		case 5:
 			return AccounterValidator.validateTransactionDate(transactionDate);
 		case 4:
@@ -247,26 +253,24 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id,
-				editCallBack);
+		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
 	}
 
 	@Override
 	protected void enableFormItems() {
 		super.enableFormItems();
+		employee.setDisabled(isEdit);
 		if (Accounter.getUser().isAdmin()) {
-			employee.setDisabledForSuggBox(false);
+			employee.setAdmin(true);
 		}
 	}
 
 	@Override
 	protected void showMenu(AccounterButton button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.getVendorsMessages()
-					.service());
+			setMenuItems(button, Accounter.getVendorsMessages().service());
 		else
-			setMenuItems(button, Accounter.getVendorsMessages()
-					.service());
+			setMenuItems(button, Accounter.getVendorsMessages().service());
 	}
 
 	@Override
