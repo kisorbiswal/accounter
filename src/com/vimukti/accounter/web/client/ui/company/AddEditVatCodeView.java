@@ -226,7 +226,7 @@
 //		//
 //		// }
 //		// });
-//		// XXX
+//		// 
 //		// gridView.setShowMenu(false);
 //		// gridView.setHeight("20%");
 //		// gridView.setGroupTitle("VAT Rate");
@@ -239,7 +239,7 @@
 //		// asOfField.setAlign(Alignment.CENTER);
 //
 //		// gridView.setDefaultValue(ATTR_RATE, "0%");
-//		// XXX--need to implement
+//		// 
 //		// gridView.addEditCompleteHandler(new
 //		// EditCompleteHandler<ClientTaxCode>() {
 //		// @Override
@@ -484,13 +484,11 @@
 //
 //	@Override
 //	public void deleteFailed(Throwable caught) {
-//		// TODO Auto-generated method stub
 //
 //	}
 //
 //	@Override
 //	public void deleteSuccess(Boolean result) {
-//		// TODO Auto-generated method stub
 //
 //	}
 //
@@ -510,7 +508,6 @@
 //
 //	@Override
 //	public void fitToSize(int height, int width) {
-//		// TODO Auto-generated method stub
 //
 //	}
 //

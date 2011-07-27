@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import org.h2.engine.User;
+
 import com.vimukti.accounter.web.client.InvalidOperationException;
 
 public class UserPermissions implements IAccounterServerCore {
@@ -26,7 +28,6 @@ public class UserPermissions implements IAccounterServerCore {
 	int typeOfLockDates;
 
 	User user;
-
 
 	public int getTypeOfBankReconcilation() {
 		return typeOfBankReconcilation;

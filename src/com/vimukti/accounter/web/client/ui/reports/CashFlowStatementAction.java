@@ -76,7 +76,6 @@ public class CashFlowStatementAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "cashFlowReport";
 	}
 

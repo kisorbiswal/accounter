@@ -13,13 +13,11 @@ public class BrandingThemeComboAction extends Action {
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ImageResource getSmallImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -34,16 +32,15 @@ public class BrandingThemeComboAction extends Action {
 
 	private void runAsync(Object data, Boolean isDependent) {
 		BrandingThemeComboDialog comboDialog = new BrandingThemeComboDialog(
-				Accounter.getSettingsMessages().selectThemes(),
-				"", (ClientTransaction) data);
+				Accounter.getSettingsMessages().selectThemes(), "",
+				(ClientTransaction) data);
 		comboDialog.show();
 		comboDialog.center();
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "BrandingThemeCombo";
 	}
 
 }

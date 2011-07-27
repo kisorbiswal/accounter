@@ -64,7 +64,6 @@ public class ChartOfAccountsAction extends Action {
 
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stub
 		return this.view;
 	}
 
@@ -88,7 +87,6 @@ public class ChartOfAccountsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		if (accountType == ClientAccount.TYPE_BANK) {
 			return "bankAccounts";
 		} else {

@@ -48,7 +48,6 @@ public class ChartsOfAccountsAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
 		return this.view;
 	}
 
@@ -67,13 +66,12 @@ public class ChartsOfAccountsAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		
+
 		return "/images/chart_of_accounts.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "ChartsOfAccount";
 	}
 }

@@ -82,8 +82,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 					}
 				});
 
-		dayText = new IntegerField(Accounter.getCompanyMessages()
-				.and());
+		dayText = new IntegerField(Accounter.getCompanyMessages().and());
 		dayText.setHelpInformation(true);
 		// dayText.setWidth(20);
 		dayText.setValidators(integerRangeValidator);
@@ -164,10 +163,9 @@ public class AddPaymentTermDialog extends BaseDialog {
 						.getValue().toString() : "");
 		paymentTerm
 				.setDescription(this.descText.getValue() != null ? this.descText
-						.getValue().toString()
-						: "");
-		paymentTerm.setIfPaidWithIn(UIUtils
-				.toInt(this.discText.getValue() != null ? this.discText
+						.getValue().toString() : "");
+		paymentTerm
+				.setIfPaidWithIn(UIUtils.toInt(this.discText.getValue() != null ? this.discText
 						.getValue().toString() : "0"));
 		paymentTerm.setDiscountPercent(UIUtils.toDbl(this.discDayText
 				.getValue() != null ? this.discDayText.getValue().toString()
@@ -183,16 +181,15 @@ public class AddPaymentTermDialog extends BaseDialog {
 						.getValue().toString() : "");
 		paymentTerm
 				.setDescription(this.descText.getValue() != null ? this.descText
-						.getValue().toString()
-						: "");
-		paymentTerm.setIfPaidWithIn(UIUtils
-				.toInt(this.discText.getValue() != null ? this.discText
+						.getValue().toString() : "");
+		paymentTerm
+				.setIfPaidWithIn(UIUtils.toInt(this.discText.getValue() != null ? this.discText
 						.getValue().toString() : "0"));
 		paymentTerm.setDiscountPercent(UIUtils.toDbl(this.discDayText
 				.getValue() != null ? this.discDayText.getValue().toString()
 				: "0"));
-		paymentTerm.setDueDays(UIUtils
-				.toInt(this.dayText.getValue() != null ? this.dayText
+		paymentTerm
+				.setDueDays(UIUtils.toInt(this.dayText.getValue() != null ? this.dayText
 						.getValue().toString() : "0"));
 
 		return paymentTerm;
@@ -200,7 +197,6 @@ public class AddPaymentTermDialog extends BaseDialog {
 
 	@Override
 	public void addInputDialogHandler(InputDialogHandler handler) {
-		// TODO Auto-generated method stub
 		super.addInputDialogHandler(handler);
 
 	}

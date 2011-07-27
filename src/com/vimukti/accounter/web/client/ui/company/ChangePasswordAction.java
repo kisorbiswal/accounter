@@ -33,8 +33,8 @@ public class ChangePasswordAction extends Action {
 	}
 
 	private void runAsync(Object data, Boolean isDependent) {
-		view = new ChangePasswordDialog(AbstractActionFactory.actionsConstants
-				.changePassword(), null);
+		view = new ChangePasswordDialog(
+				AbstractActionFactory.actionsConstants.changePassword(), null);
 		try {
 			view.show();
 			view.center();
@@ -44,7 +44,6 @@ public class ChangePasswordAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "changePassword";
 	}
 

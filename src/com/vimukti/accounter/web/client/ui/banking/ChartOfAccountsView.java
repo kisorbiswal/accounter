@@ -106,8 +106,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 		if (typeOfAccount == 0)
 			listOfAccounts = getCompany().getAccounts();
 		else
-			listOfAccounts = getCompany().getAccounts(
-					typeOfAccount);
+			listOfAccounts = getCompany().getAccounts(typeOfAccount);
 		filterList(true);
 	}
 
@@ -144,19 +143,16 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -166,8 +162,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 		if (core.getObjectType() == grid.getType()) {
 			List<ClientAccount> accountsList = grid.getRecords();
 
-			IAccounterCore obj = Utility.getObject(accountsList, core
-					.getID());
+			IAccounterCore obj = Utility.getObject(accountsList, core.getID());
 			switch (cmd) {
 			case AccounterCommand.CREATION_SUCCESS:
 			case AccounterCommand.UPDATION_SUCCESS:
