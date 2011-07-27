@@ -22,10 +22,10 @@ public class ServicesOverviewAction extends Action {
 	public void run(AsyncCallback<Object> asyncCallback) {
 	}
 
-	// its not using any where
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -36,10 +36,12 @@ public class ServicesOverviewAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
 	public ImageResource getSmallImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
