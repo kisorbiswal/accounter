@@ -138,7 +138,6 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -293,7 +292,7 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		// TODO Auto-generated method stub
+
 		return true;
 	}
 }
