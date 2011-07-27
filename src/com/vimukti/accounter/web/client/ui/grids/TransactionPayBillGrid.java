@@ -352,7 +352,6 @@ public class TransactionPayBillGrid extends
 
 			@Override
 			public void onCancelClick() {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -792,7 +791,7 @@ public class TransactionPayBillGrid extends
 			obj.setCashDiscount(0);
 			obj.setAppliedCredits(0);
 			this.rowFormatter.removeStyleName((Integer) indexOf(obj),
-			"selected");
+					"selected");
 			selectedValues.remove((Integer) indexOf(obj));
 			updateData(obj);
 		}
@@ -938,7 +937,7 @@ public class TransactionPayBillGrid extends
 	@Override
 	public List<ClientTransactionItem> getallTransactions(
 			ClientTransaction object) throws InvalidEntryException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
@@ -961,7 +960,6 @@ public class TransactionPayBillGrid extends
 
 	@Override
 	public void setTaxCode(long taxCode) {
-		// TODO Auto-generated method stub
 
 	}
 }
