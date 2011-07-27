@@ -313,7 +313,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
+		// TODO currently not using
 
 	}
 
@@ -551,13 +551,13 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
+
 		return this.id;
 	}
 
 	// @Override
 	public boolean equals(TransactionReceivePayment tr) {
-		// TODO Auto-generated method stub
+
 		ReceivePayment rp = tr.getReceivePayment();
 		if (this.receivePayment.id == rp.id
 				&& this.appliedCredits == tr.appliedCredits
