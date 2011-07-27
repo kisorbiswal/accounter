@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 @SuppressWarnings("serial")
 public class ClientDepreciationFixedAsset implements IAccounterCore {
@@ -42,12 +41,12 @@ public class ClientDepreciationFixedAsset implements IAccounterCore {
 
 	@Override
 	public String getDisplayName() {
-		return Accounter.getCompany().getDisplayName();
+		return null;
 	}
 
 	@Override
 	public String getName() {
-		return Accounter.getCompany().getName();
+		return null;
 	}
 
 	@Override

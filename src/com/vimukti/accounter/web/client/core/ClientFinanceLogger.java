@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ClientFinanceLogger implements IAccounterCore {
 
@@ -60,7 +59,7 @@ public class ClientFinanceLogger implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		return Accounter.getCompany().getName();
+		return null;
 	}
 
 	@Override

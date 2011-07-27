@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 @SuppressWarnings("serial")
 public class ClientTaxRates implements IAccounterCore {
@@ -74,12 +73,12 @@ public class ClientTaxRates implements IAccounterCore {
 	@Override
 	public String getDisplayName() {
 		// its not using any where
-		return Accounter.getCompany().getDisplayName();
+		return null;
 	}
 
 	@Override
 	public String getName() {
-		return Accounter.getCompany().getName();
+		return null;
 	}
 
 	@Override

@@ -80,7 +80,7 @@ public class ClientPhone implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		return getName();
+		return null;
 	}
 
 	@Override

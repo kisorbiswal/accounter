@@ -3,7 +3,6 @@
  */
 package com.vimukti.accounter.web.client.core;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author vimukti5
@@ -122,7 +121,7 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 	 */
 	@Override
 	public String getName() {
-		return Accounter.getCompany().getName();
+		return null;
 	}
 
 	/*

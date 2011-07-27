@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ClientReceiveVATEntries implements IAccounterCore {
 
@@ -54,7 +53,7 @@ public class ClientReceiveVATEntries implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		return Accounter.getCompany().getName();
+		return null;
 	}
 
 	@Override
