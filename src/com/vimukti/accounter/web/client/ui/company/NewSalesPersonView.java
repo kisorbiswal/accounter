@@ -548,13 +548,13 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
+		// Not required for thos class
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
+		// Not required for this class
 
 	}
 
@@ -573,13 +573,13 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
+		// Not required for this class.
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
+		// Not required for this class
 
 	}
 
@@ -588,7 +588,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	 */
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
+		// Not required for this class.
 
 	}
 
