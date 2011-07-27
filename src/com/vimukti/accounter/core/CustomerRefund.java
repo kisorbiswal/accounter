@@ -87,7 +87,7 @@ public class CustomerRefund extends Transaction implements
 	 */
 	double customerBalance = 0D;
 
-	//  we have used this at the Time we have used the Triggers.
+	// we have used this at the Time we have used the Triggers.
 	boolean isPaid = false;
 
 	/**
@@ -111,7 +111,7 @@ public class CustomerRefund extends Transaction implements
 	 */
 	public Set<TransactionReceivePayment> transactionReceivePayments = new HashSet<TransactionReceivePayment>();
 
-	// 
+	//
 
 	public CustomerRefund() {
 		setType(Transaction.TYPE_CUSTOMER_REFUNDS);
@@ -121,7 +121,6 @@ public class CustomerRefund extends Transaction implements
 		this.type = Transaction.TYPE_CUSTOMER_REFUNDS;
 
 	}
-
 
 	public Customer getPayTo() {
 		return payTo;
@@ -202,7 +201,7 @@ public class CustomerRefund extends Transaction implements
 			// update the status of the customer refund based on the selected
 			// payment method
 
-			if( (this.paymentMethod
+			if ((this.paymentMethod
 					.equals(AccounterConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
 					.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))
 					|| this.isToBePrinted) {
@@ -216,12 +215,12 @@ public class CustomerRefund extends Transaction implements
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-//		super.onUpdate(session);
-//
-//		if (isBecameVoid()) {
-//
-//			this.doVoidEffect(session);
-//		}
+		// super.onUpdate(session);
+		//
+		// if (isBecameVoid()) {
+		//
+		// this.doVoidEffect(session);
+		// }
 		return false;
 	}
 
@@ -296,7 +295,7 @@ public class CustomerRefund extends Transaction implements
 	}
 
 	public Set<TransactionReceivePayment> getTransactionReceivePayments() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO
 		return null;
 	}
 
@@ -310,7 +309,6 @@ public class CustomerRefund extends Transaction implements
 		return AccounterConstants.TYPE_CUSTOMER_REFUNDS;
 	}
 
-
 	@Override
 	public Payee getInvolvedPayee() {
 
@@ -319,7 +317,7 @@ public class CustomerRefund extends Transaction implements
 
 	// @Overridetrue
 	public boolean equals(CustomerRefund cr) {
-		
+
 		if (DecimalUtil.isEquals(this.getTotal(), cr.getTotal())
 				&& this.id == cr.id
 				// && this.transactionItems.size() == cr.transactionItems.size()
@@ -328,13 +326,11 @@ public class CustomerRefund extends Transaction implements
 				// true
 
 				&& ((this.paymentMethod != null && cr.paymentMethod != null) ? (this.paymentMethod
-						.equals(cr.paymentMethod))
-						: true)
+						.equals(cr.paymentMethod)) : true)
 				&& ((this.payTo != null && cr.payTo != null) ? (this.payTo
 						.equals(cr.payTo)) : true)
 				&& ((this.getPayFrom() != null && cr.getPayFrom() != null) ? (getPayFrom()
-						.equals(cr.getPayFrom()))
-						: true)) {
+						.equals(cr.getPayFrom())) : true)) {
 			// for (int i = 0; i < this.transactionItems.size(); i++) {
 			// if (!this.transactionItems.get(i).equals(
 			// cr.transactionItems.get(i)))
@@ -353,7 +349,7 @@ public class CustomerRefund extends Transaction implements
 		Session session = HibernateUtil.getCurrentSession();
 
 		/**
-		 *if present transaction is deleted,without voided & delete the
+		 * if present transaction is deleted,without voided & delete the
 		 * previous transaction then it is entered into the loop
 		 */
 		if ((this.isVoid && !customerRefund.isVoid)
@@ -391,7 +387,7 @@ public class CustomerRefund extends Transaction implements
 			// }
 			// }
 			this.updateTransactionReceivepayments();
-			
+
 			this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 
 			if ((customerRefund.paymentMethod
