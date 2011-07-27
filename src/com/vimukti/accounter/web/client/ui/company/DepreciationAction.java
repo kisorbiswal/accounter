@@ -18,32 +18,31 @@ public class DepreciationAction extends Action {
 
 	public DepreciationAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getFixedAssetConstants()
-		.fixedAssets();
+		this.catagory = Accounter.getFixedAssetConstants().fixedAssets();
 	}
 
 	public DepreciationAction(String text, String iconString,
 			Object editableObject, AsyncCallback<Object> callbackObject) {
 		super(text, iconString, editableObject, callbackObject);
-		this.catagory = Accounter.getFixedAssetConstants()
-		.fixedAssets();
+		this.catagory = Accounter.getFixedAssetConstants().fixedAssets();
 	}
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO
 		return null;
 	}
 
 	@Override
 	public ImageResource getSmallImage() {
-		// TODO Auto-generated method stub
 		return Accounter.getFinanceMenuImages().Depreciation();
 	}
-@Override
-public String getImageUrl() {
-	return "/images/Depreciation.png";
-}
+
+	@Override
+	public String getImageUrl() {
+		return "/images/Depreciation.png";
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
@@ -65,7 +64,6 @@ public String getImageUrl() {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "depreciation";
 	}
 
