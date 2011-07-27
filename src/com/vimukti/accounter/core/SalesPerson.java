@@ -101,11 +101,11 @@ public class SalesPerson extends Payee implements Lifecycle {
 	 */
 	FinanceDate dateOfRelease;
 
-	
 	String createdBy;
 	String lastModifier;
-//	String createdDate;
-//	String lastModifiedDate;
+
+	// String createdDate;
+	// String lastModifiedDate;
 
 	public SalesPerson() {
 		setType(Payee.TYPE_EMPLOYEE);
@@ -118,7 +118,6 @@ public class SalesPerson extends Payee implements Lifecycle {
 	public int getVersion() {
 		return version;
 	}
-
 
 	/**
 	 * @return the title
@@ -256,8 +255,7 @@ public class SalesPerson extends Payee implements Lifecycle {
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
@@ -276,10 +274,9 @@ public class SalesPerson extends Payee implements Lifecycle {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
-
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
