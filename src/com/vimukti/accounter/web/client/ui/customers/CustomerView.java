@@ -312,14 +312,13 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				}
 				throw new InvalidEntryException(
 						"A Customer already exists with this number");
-			} 
-			else if (checkIfNotNumber(customer.getNumber())) {
+			} else if (checkIfNotNumber(customer.getNumber())) {
 				throw new InvalidEntryException(
 						"A Customer number shouble be a number");
 			} else if (Integer.parseInt(customer.getNumber().toString()) < 1) {
 				throw new InvalidEntryException(
 						"A Customer number shouble be positive");
-			} 
+			}
 
 		}
 		return false;
@@ -1246,8 +1245,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	@Override
 	public void fitToSize(int height, int width) {
-		// super.fitToSize(height, width);
-
+		super.fitToSize(height, width);
 	}
 
 	@Override
@@ -1369,8 +1367,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO
 	}
 
 	@Override
