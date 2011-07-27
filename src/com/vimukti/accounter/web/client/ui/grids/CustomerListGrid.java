@@ -242,7 +242,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	public boolean validateGrid() {
-		// TODO Auto-generated method stub
+		//NOTHING TO DO
 		return true;
 	}
 
