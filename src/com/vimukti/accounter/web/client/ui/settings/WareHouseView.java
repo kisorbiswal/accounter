@@ -121,7 +121,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		warehouse.setMobileNumber(mobileNumberItem.getValue().toString());
 		warehouse.setDDINumber(DDINumberItem.getValue().toString());
 		warehouse.setDefaultWarehouse(getBooleanValue());
-		
+
 		return warehouse;
 	}
 
@@ -182,25 +182,22 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 
 	@Override
 	public List getForms() {
-		// TODO Auto-generated method stub
+		// currently not using
 		return null;
 	}
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
