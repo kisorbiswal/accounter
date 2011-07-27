@@ -36,10 +36,8 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 
 	private static String NOT_ISSUED = Accounter.getVendorsMessages()
 			.notIssued();
-	private static String ISSUED = Accounter.getVendorsMessages()
-			.issued();
-	private static String VOID = Accounter.getVendorsMessages()
-			.Voided();
+	private static String ISSUED = Accounter.getVendorsMessages().issued();
+	private static String VOID = Accounter.getVendorsMessages().Voided();
 	private static String ALL = Accounter.getVendorsMessages().all();
 	// private static String DELETED = "Deleted";
 
@@ -88,8 +86,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 
 	@Override
 	public void updateInGrid(PaymentsList objectTobeModified) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
@@ -196,8 +193,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
