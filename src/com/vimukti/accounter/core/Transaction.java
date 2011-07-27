@@ -1087,7 +1087,7 @@ public abstract class Transaction extends CreatableObject implements
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
+
 		return this.id;
 	}
 
