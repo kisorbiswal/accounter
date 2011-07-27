@@ -90,9 +90,9 @@ public class TriggerCustomerRefund implements Trigger {
 
 				// Deleting corresponding transaction rows from Account
 				// Transaction table
-				stat.execute(new StringBuilder().append(
-						"DELETE FROM ACCOUNT_TRANSACTION WHERE T_ID =").append(
-						newCustomerRefundId).toString());
+				stat.execute(new StringBuilder()
+						.append("DELETE FROM ACCOUNT_TRANSACTION WHERE T_ID =")
+						.append(newCustomerRefundId).toString());
 
 				// Reverse Updating the PayFrom Account balance with Refund
 				// Amount according to the IsIncrease value of payFrom Account
@@ -135,8 +135,7 @@ public class TriggerCustomerRefund implements Trigger {
 
 				ResultSet r1 = stat
 						.executeQuery(new StringBuilder()
-								.append(
-										"SELECT COUNT(*) FROM TRANSACTION_RECEIVE_PAYMENT TRP WHERE TRP.CUSTOMER_REFUND_ID =  ")
+								.append("SELECT COUNT(*) FROM TRANSACTION_RECEIVE_PAYMENT TRP WHERE TRP.CUSTOMER_REFUND_ID =  ")
 								.append(oldCustomerRefundId).toString());
 
 				if (r1.next()) {
@@ -150,51 +149,37 @@ public class TriggerCustomerRefund implements Trigger {
 					// Increasing the Unused payment of the ReceivePayment by
 					// the CustomerRefund amount in which this customer refund
 					// is being paid.
-					stat
-							.execute(new StringBuilder()
-									.append(
-											"UPDATE RECEIVE_PAYMENT RP SET RP.UNUSED_PAYMENTS = RP.UNUSED_PAYMENTS + (SELECT TRP.PAYMENT FROM TRANSACTION_RECEIVE_PAYMENT TRP  WHERE TRP.TRANSACTION_ID = RP.ID AND TRP.CUSTOMER_REFUND_ID= ")
-									.append(oldCustomerRefundId)
-									.append(
-											") WHERE RP.ID IN (SELECT TRP1.TRANSACTION_ID FROM TRANSACTION_RECEIVE_PAYMENT TRP1 WHERE TRP1.CUSTOMER_REFUND_ID = ")
-									.append(oldCustomerRefundId).append(")")
-									.toString());
+					stat.execute(new StringBuilder()
+							.append("UPDATE RECEIVE_PAYMENT RP SET RP.UNUSED_PAYMENTS = RP.UNUSED_PAYMENTS + (SELECT TRP.PAYMENT FROM TRANSACTION_RECEIVE_PAYMENT TRP  WHERE TRP.TRANSACTION_ID = RP.ID AND TRP.CUSTOMER_REFUND_ID= ")
+							.append(oldCustomerRefundId)
+							.append(") WHERE RP.ID IN (SELECT TRP1.TRANSACTION_ID FROM TRANSACTION_RECEIVE_PAYMENT TRP1 WHERE TRP1.CUSTOMER_REFUND_ID = ")
+							.append(oldCustomerRefundId).append(")").toString());
 
 					// Increasing the Balance if the CreditsAndPayments which we
 					// have used in this Customer Refund
-					stat
-							.execute(new StringBuilder()
-									.append(
-											"UPDATE CREDITS_AND_PAYMENTS CP SET CP.BALANCE = CP.BALANCE + (CASE WHEN (SELECT SUM(TRP1.APPLIED_CREDITS) FROM TRANSACTION_RECEIVE_PAYMENT TRP1 JOIN TRANSACTION_CREDITS_AND_PAYMENTS TCP1 ON TCP1.TRANSACTION_RECEIVE_PAYMENT_ID = TRP1.ID JOIN CREDITS_AND_PAYMENTS CP1 ON TCP1.CREDITS_AND_PAYMENTS_ID = CP1.ID WHERE CP1.ID = CP.ID AND TRP1.CUSTOMER_REFUND_ID = ")
-									.append(oldCustomerRefundId)
-									.append(
-											")  > 0 THEN SELECT  SUM(TCP2.AMOUNT_TO_USE)  FROM TRANSACTION_CREDITS_AND_PAYMENTS TCP2  JOIN CREDITS_AND_PAYMENTS CP2 ON TCP2.CREDITS_AND_PAYMENTS_ID = CP2.ID JOIN TRANSACTION_RECEIVE_PAYMENT TRP2 ON TRP2.ID = TCP2.TRANSACTION_RECEIVE_PAYMENT_ID WHERE CP2.ID = CP.ID AND TRP2.CUSTOMER_REFUND_ID =")
-									.append(oldCustomerRefundId)
-									.append(
-											" ELSE 0 END) WHERE CP.ID IN (SELECT CP1.ID FROM CREDITS_AND_PAYMENTS CP1 JOIN TRANSACTION_CREDITS_AND_PAYMENTS TCP ON CP1.ID = TCP.CREDITS_AND_PAYMENTS_ID JOIN TRANSACTION_RECEIVE_PAYMENT TRP1 ON TCP.TRANSACTION_RECEIVE_PAYMENT_ID = TRP1.ID WHERE TRP1.CUSTOMER_REFUND_ID = ")
-									.append(oldCustomerRefundId).append(")")
-									.toString());
+					stat.execute(new StringBuilder()
+							.append("UPDATE CREDITS_AND_PAYMENTS CP SET CP.BALANCE = CP.BALANCE + (CASE WHEN (SELECT SUM(TRP1.APPLIED_CREDITS) FROM TRANSACTION_RECEIVE_PAYMENT TRP1 JOIN TRANSACTION_CREDITS_AND_PAYMENTS TCP1 ON TCP1.TRANSACTION_RECEIVE_PAYMENT_ID = TRP1.ID JOIN CREDITS_AND_PAYMENTS CP1 ON TCP1.CREDITS_AND_PAYMENTS_ID = CP1.ID WHERE CP1.ID = CP.ID AND TRP1.CUSTOMER_REFUND_ID = ")
+							.append(oldCustomerRefundId)
+							.append(")  > 0 THEN SELECT  SUM(TCP2.AMOUNT_TO_USE)  FROM TRANSACTION_CREDITS_AND_PAYMENTS TCP2  JOIN CREDITS_AND_PAYMENTS CP2 ON TCP2.CREDITS_AND_PAYMENTS_ID = CP2.ID JOIN TRANSACTION_RECEIVE_PAYMENT TRP2 ON TRP2.ID = TCP2.TRANSACTION_RECEIVE_PAYMENT_ID WHERE CP2.ID = CP.ID AND TRP2.CUSTOMER_REFUND_ID =")
+							.append(oldCustomerRefundId)
+							.append(" ELSE 0 END) WHERE CP.ID IN (SELECT CP1.ID FROM CREDITS_AND_PAYMENTS CP1 JOIN TRANSACTION_CREDITS_AND_PAYMENTS TCP ON CP1.ID = TCP.CREDITS_AND_PAYMENTS_ID JOIN TRANSACTION_RECEIVE_PAYMENT TRP1 ON TCP.TRANSACTION_RECEIVE_PAYMENT_ID = TRP1.ID WHERE TRP1.CUSTOMER_REFUND_ID = ")
+							.append(oldCustomerRefundId).append(")").toString());
 
 					// Update Transactin ReceivePayment corresponding to this
 					// customer Refund to make the payments amount and the
 					// applied credits amount as zero.
 
-					stat
-							.execute(new StringBuilder()
-									.append(
-											"UPDATE TRANSACTION_RECEIVE_PAYMENT TRP SET TRP.PAYMENT = 0.0,TRP.APPLIED_CREDITS = 0.0 WHERE TRP.CUSTOMER_REFUND_ID = ")
-									.append(oldCustomerRefundId).toString());
+					stat.execute(new StringBuilder()
+							.append("UPDATE TRANSACTION_RECEIVE_PAYMENT TRP SET TRP.PAYMENT = 0.0,TRP.APPLIED_CREDITS = 0.0 WHERE TRP.CUSTOMER_REFUND_ID = ")
+							.append(oldCustomerRefundId).toString());
 
 					// Updating the Transaction Credits and Payments
 					// corresponding to this customer refund to make the amount
 					// to use as zero.
 
-					stat
-							.execute(new StringBuilder()
-									.append(
-											"UPDATE TRANSACTION_CREDITS_AND_PAYMENTS TCP SET TCP.AMOUNT_TO_USE = 0.0 WHERE TCP.ID IN (SELECT TCP.ID FROM TRANSACTION_CREDITS_AND_PAYMENTS TCP JOIN TRANSACTION_RECEIVE_PAYMENT TRP ON TCP.TRANSACTION_RECEIVE_PAYMENT_ID = TRP.ID WHERE TRP.CUSTOMER_REFUND_ID = ")
-									.append(oldCustomerRefundId).append(")")
-									.toString());
+					stat.execute(new StringBuilder()
+							.append("UPDATE TRANSACTION_CREDITS_AND_PAYMENTS TCP SET TCP.AMOUNT_TO_USE = 0.0 WHERE TCP.ID IN (SELECT TCP.ID FROM TRANSACTION_CREDITS_AND_PAYMENTS TCP JOIN TRANSACTION_RECEIVE_PAYMENT TRP ON TCP.TRANSACTION_RECEIVE_PAYMENT_ID = TRP.ID WHERE TRP.CUSTOMER_REFUND_ID = ")
+							.append(oldCustomerRefundId).append(")").toString());
 
 					// To Update the Status of the ReveivePayments as Un
 					// applied, in which this Customer Refund is participated.
@@ -203,11 +188,9 @@ public class TriggerCustomerRefund implements Trigger {
 				}
 
 				// updating the customer refund to make it as completly paid.
-				stat
-						.execute(new StringBuilder()
-								.append(
-										"UPDATE CUSTOMER_REFUND CR SET CR.PAYMENTS = CR.AMOUNT,CR.BALANCE_DUE = 0.0 WHERE CR.ID =")
-								.append(oldCustomerRefundId).toString());
+				stat.execute(new StringBuilder()
+						.append("UPDATE CUSTOMER_REFUND CR SET CR.PAYMENTS = CR.AMOUNT,CR.BALANCE_DUE = 0.0 WHERE CR.ID =")
+						.append(oldCustomerRefundId).toString());
 
 			}
 
@@ -217,14 +200,11 @@ public class TriggerCustomerRefund implements Trigger {
 
 	private void updateStatusOfOldCustomerRefund(Statement stat,
 			Long oldCustomerRefundId) throws SQLException {
-		stat
-				.execute(new StringBuilder()
-						.append("UPDATE TRANSACTION T SET T.STATUS = ")
-						.append(
-								Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
-						.append(
-								" WHERE T.ID IN (SELECT TRP1.TRANSACTION_ID FROM TRANSACTION_RECEIVE_PAYMENT TRP1 WHERE TRP1.CUSTOMER_REFUND_ID = ")
-						.append(oldCustomerRefundId).toString());
+		stat.execute(new StringBuilder()
+				.append("UPDATE TRANSACTION T SET T.STATUS = ")
+				.append(Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+				.append(" WHERE T.ID IN (SELECT TRP1.TRANSACTION_ID FROM TRANSACTION_RECEIVE_PAYMENT TRP1 WHERE TRP1.CUSTOMER_REFUND_ID = ")
+				.append(oldCustomerRefundId).toString());
 	}
 
 	@SuppressWarnings("unused")
@@ -233,62 +213,63 @@ public class TriggerCustomerRefund implements Trigger {
 			throws SQLException {
 
 		Integer paymentMethodType = 0;
-		ResultSet rs = stat.executeQuery(new StringBuilder().append(
-				"SELECT PM.TYPE FROM PAYMENTMETHOD PM WHERE PM.ID = ").append(
-				newPaymentMethodId).toString());
+		ResultSet rs = stat.executeQuery(new StringBuilder()
+				.append("SELECT PM.TYPE FROM PAYMENTMETHOD PM WHERE PM.ID = ")
+				.append(newPaymentMethodId).toString());
 		if (rs.next()) {
 			paymentMethodType = rs.getInt(1);
 		}
 		if ((paymentMethodType).equals(AccounterConstants.PAYMENT_METHOD_CHECK)) {
-			stat.execute(new StringBuilder().append(
-					"UPDATE TRANSACTION T SET T.STATUS = ").append(
-					Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+			stat.execute(new StringBuilder()
+					.append("UPDATE TRANSACTION T SET T.STATUS = ")
+					.append(Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 					.append(" WHERE T.ID = ").append(newCustomerRefundId)
 					.toString());
 		} else {
-			stat.execute(new StringBuilder().append(
-					"UPDATE TRANSACTION T SET T.STATUS = ").append(
-					Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED).append(
-					" WHERE T.ID = ").append(newCustomerRefundId).toString());
+			stat.execute(new StringBuilder()
+					.append("UPDATE TRANSACTION T SET T.STATUS = ")
+					.append(Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)
+					.append(" WHERE T.ID = ").append(newCustomerRefundId)
+					.toString());
 
 		}
 	}
 
 	private void updateCustomerBalance(Statement stat, Double amount,
 			Long customerId, String symbol) throws SQLException {
-		stat.execute(new StringBuilder().append(
-				"UPDATE CUSTOMER C SET C.BALANCE = C.BALANCE ").append(symbol)
-				.append(" ").append(amount).append(" WHERE C.ID = ").append(
-						customerId).toString());
+		stat.execute(new StringBuilder()
+				.append("UPDATE CUSTOMER C SET C.BALANCE = C.BALANCE ")
+				.append(symbol).append(" ").append(amount)
+				.append(" WHERE C.ID = ").append(customerId).toString());
 	}
 
 	private void updateAccountsReceivableAccount(Statement stat, Double amount,
 			Long accountsReceivableId, String symbol) throws SQLException {
-		stat.execute(new StringBuilder().append(
-				"UPDATE ACCOUNT A SET A.CURRENT_BALANCE = A.CURRENT_BALANCE ")
-				.append(symbol).append(" ").append(amount).append(
-						", A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
-				.append(" ").append(amount).append(" WHERE A.ID = ").append(
-						accountsReceivableId).toString());
+		stat.execute(new StringBuilder()
+				.append("UPDATE ACCOUNT A SET A.CURRENT_BALANCE = A.CURRENT_BALANCE ")
+				.append(symbol).append(" ").append(amount)
+				.append(", A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
+				.append(" ").append(amount).append(" WHERE A.ID = ")
+				.append(accountsReceivableId).toString());
 	}
 
 	private void updateCurrentAndTotalBalanceOfPayFromAccount(Statement stat,
 			Double amount, Long payFromAccountId, String symbol)
 			throws SQLException {
-		stat.execute(new StringBuilder().append(
-				"UPDATE ACCOUNT A SET A.CURRENT_BALANCE = A.CURRENT_BALANCE ")
-				.append(symbol).append(" ").append(amount).append(
-						", A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
-				.append(" ").append(amount).append(" WHERE A.ID =").append(
-						payFromAccountId).toString());
+		stat.execute(new StringBuilder()
+				.append("UPDATE ACCOUNT A SET A.CURRENT_BALANCE = A.CURRENT_BALANCE ")
+				.append(symbol).append(" ").append(amount)
+				.append(", A.TOTAL_BALANCE = A.TOTAL_BALANCE ").append(symbol)
+				.append(" ").append(amount).append(" WHERE A.ID =")
+				.append(payFromAccountId).toString());
 	}
 
 	private int getAccountType(Statement stat, Long payFromAccountId)
 			throws SQLException {
 		int accountType = 0;
-		ResultSet r = stat.executeQuery(new StringBuilder().append(
-				"SELECT A.A_TYPE FROM ACCOUNT A WHERE A.ID =").append(
-				payFromAccountId).toString());
+		ResultSet r = stat.executeQuery(new StringBuilder()
+				.append("SELECT A.A_TYPE FROM ACCOUNT A WHERE A.ID =")
+				.append(payFromAccountId).toString());
 		if (r.next()) {
 			accountType = r.getInt(1);
 		}
@@ -299,7 +280,7 @@ public class TriggerCustomerRefund implements Trigger {
 	@Override
 	public void init(Connection arg0, String arg1, String arg2, String arg3,
 			boolean arg4, int arg5) throws SQLException {
-		// TODO Auto-generated method stub
+		// currently not using anywhere in the project.
 
 	}
 
