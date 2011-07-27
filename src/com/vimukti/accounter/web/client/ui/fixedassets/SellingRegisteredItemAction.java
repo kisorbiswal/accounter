@@ -18,12 +18,13 @@ public class SellingRegisteredItemAction extends Action {
 
 	@Override
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
 	@Override
 	public ImageResource getSmallImage() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
