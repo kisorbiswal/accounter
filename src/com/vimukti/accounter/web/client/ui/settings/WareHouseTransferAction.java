@@ -13,10 +13,9 @@ public class WareHouseTransferAction extends Action {
 
 	private WareHouseTransferView view;
 
-
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
@@ -27,13 +26,13 @@ public class WareHouseTransferAction extends Action {
 
 	@Override
 	public ImageResource getSmallImage() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
