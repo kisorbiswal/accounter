@@ -52,7 +52,7 @@ public class TrialBalanceAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
