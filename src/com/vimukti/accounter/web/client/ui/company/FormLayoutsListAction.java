@@ -19,22 +19,30 @@ public class FormLayoutsListAction extends Action {
 		super(text, iconString);
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	public ImageResource getBigImage() {
 		return null;
 	}
 
+	/**
+	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
+	 */
 	public ImageResource getSmallImage() {
 		return null;
 	}
@@ -44,6 +52,5 @@ public class FormLayoutsListAction extends Action {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }
