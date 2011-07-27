@@ -511,7 +511,7 @@ public class TriggerTransactionReceivePayment implements Trigger {
 	@Override
 	public void init(Connection arg0, String arg1, String arg2, String arg3,
 			boolean arg4, int arg5) throws SQLException {
-		// TODO Auto-generated method stub
+		// currently not using anywhere in the project.
 
 	}
 
