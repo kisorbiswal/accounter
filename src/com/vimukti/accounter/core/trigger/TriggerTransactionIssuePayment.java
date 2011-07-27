@@ -72,25 +72,27 @@ public class TriggerTransactionIssuePayment implements Trigger {
 		if (newWriteCheckId != null) {
 
 			// Update the Status of Write Check as Issued
-			stat.execute(new StringBuilder().append(
-					"UPDATE TRANSACTION T SET T.STATUS = ").append(
-					Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED).append(
-					" WHERE T.ID = ").append(newWriteCheckId).toString());
+			stat.execute(new StringBuilder()
+					.append("UPDATE TRANSACTION T SET T.STATUS = ")
+					.append(Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)
+					.append(" WHERE T.ID = ").append(newWriteCheckId)
+					.toString());
 
 		} else if (newCustomerRefundId != null) {
 
 			// Update the Status of Customer Refund as Issued
-			stat.execute(new StringBuilder().append(
-					"UPDATE TRANSACTION T SET T.STATUS = ").append(
-					Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED).append(
-					" WHERE T.ID = ").append(newCustomerRefundId).toString());
+			stat.execute(new StringBuilder()
+					.append("UPDATE TRANSACTION T SET T.STATUS = ")
+					.append(Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)
+					.append(" WHERE T.ID = ").append(newCustomerRefundId)
+					.toString());
 		}
 	}
 
 	@Override
 	public void init(Connection arg0, String arg1, String arg2, String arg3,
 			boolean arg4, int arg5) throws SQLException {
-		// TODO Auto-generated method stub
+		// currently not using anywhere in the project.
 
 	}
 
