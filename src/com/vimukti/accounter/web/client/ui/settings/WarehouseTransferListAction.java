@@ -34,19 +34,19 @@ public class WarehouseTransferListAction extends Action {
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO
 		return null;
 	}
 
 	@Override
 	public ImageResource getSmallImage() {
-		// TODO Auto-generated method stub
+		// NOTHING To Do
 		return null;
 	}
 
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+		// NOTHING To Do
 		return null;
 	}
 
