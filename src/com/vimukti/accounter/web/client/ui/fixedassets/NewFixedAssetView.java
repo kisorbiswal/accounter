@@ -1104,14 +1104,11 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 	@Override
 	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
-
+		super.fitToSize(height, width);
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
 		switch (command) {
 		case AccounterCommand.CREATION_SUCCESS:
 
@@ -1152,8 +1149,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
