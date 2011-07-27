@@ -228,7 +228,6 @@ public class CustomersActionFactory extends AbstractActionFactory {
 	}
 
 	public static PaymentDialogAction getPaymentDialogAction() {
-		// TODO Auto-generated method stub
 		return new PaymentDialogAction(actionsConstants.payments());
 	}
 
