@@ -57,7 +57,7 @@ public class TransactionDetailByAccountAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+		// not required for this class
 		return null;
 	}
 
@@ -76,7 +76,7 @@ public class TransactionDetailByAccountAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+
 		return "transactionDetailByAccount";
 	}
 
