@@ -8,14 +8,12 @@ public class NewVendorItemAction extends NewItemAction {
 
 	public NewVendorItemAction(String text, String iconString) {
 		super(text, iconString, false);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return UIUtils.getVendorString("newSupplierItem", "newVendorItem");
 	}
 
