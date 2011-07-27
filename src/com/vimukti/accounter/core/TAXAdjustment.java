@@ -123,7 +123,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore,
 
 	@Override
 	public void onLoad(Session s, Serializable id) {
-		// TODO Auto-generated method stub
+		// currently not using anywhere in the project.
 
 	}
 
@@ -204,7 +204,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore,
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		// TODO Auto-generated method stub
+
 		return true;
 	}
 
