@@ -1083,7 +1083,9 @@ public class VendorTransactionUSGrid extends
 					if (accountingType == ClientCompany.ACCOUNTING_TYPE_UK
 							&& item.getType() != ClientTransactionItem.TYPE_SALESTAX) {
 						AccounterValidator.validateGridItem(
-								this.getColumnValue(item, 6), "Vat Code");
+								this.getColumnValue(item,
+										this instanceof PurchaseOrderUKGrid ? 7
+												: 6), "Vat Code");
 						validationcount = 1;
 					} else
 						validationcount = 1;
