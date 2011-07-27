@@ -82,9 +82,9 @@ public class TransactionItem extends CreatableObject implements
 	/**
 	 * The quantity of TransactionItem to be used.
 	 */
-	//int quantity;
+	// int quantity;
 	private Quantity quantity;
-	
+
 	/**
 	 * The unit price which is given to be multiplied with quantity and reduced
 	 * by discount which results in Line total
@@ -175,12 +175,9 @@ public class TransactionItem extends CreatableObject implements
 	 */
 	boolean isVoidBefore;
 
-	
-
 	TAXCode taxCode;
 	// TAXItem vatItem;
 	private boolean isOnSaveProccessed;
-
 
 	public TransactionItem() {
 
@@ -458,7 +455,7 @@ public class TransactionItem extends CreatableObject implements
 		 */
 		for (TAXRateCalculation vrc : this.taxRateCalculationEntriesList) {
 			if (this.isVoid && vrc.transactionItem == null) {
-//				vrcids.add(vrc.getID());
+				// vrcids.add(vrc.getID());
 
 				if (vrc1 == null)
 					vrc1 = vrc;
@@ -466,8 +463,8 @@ public class TransactionItem extends CreatableObject implements
 					vrc2 = vrc;
 
 			}
-//			else if (!this.isVoid)
-//				vrcids.add(vrc.getID());
+			// else if (!this.isVoid)
+			// vrcids.add(vrc.getID());
 		}
 
 		if (vrc1 != null)
@@ -730,7 +727,6 @@ public class TransactionItem extends CreatableObject implements
 		return null;
 	}
 
-
 	public void setType(int type) {
 		this.type = type;
 
@@ -811,7 +807,7 @@ public class TransactionItem extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		// TODO Auto-generated method stub
+
 		return true;
 	}
 
