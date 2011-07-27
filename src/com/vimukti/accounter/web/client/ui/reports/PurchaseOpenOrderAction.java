@@ -22,7 +22,7 @@ public class PurchaseOpenOrderAction extends Action {
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
