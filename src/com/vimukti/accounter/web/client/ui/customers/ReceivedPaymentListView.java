@@ -128,7 +128,7 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 				continue;
 			}
 			if (text.equals(FULLY_APPLIED)) {
-				if (recievePayment.getStatus() == STATUS_APPLIED)
+				if (recievePayment.getStatus() == STATUS_APPLIED && !recievePayment.isVoided())
 					grid.addData(recievePayment);
 
 				continue;
