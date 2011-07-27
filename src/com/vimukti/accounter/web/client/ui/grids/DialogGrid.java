@@ -257,13 +257,11 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 
 	// @Override
 	// public void addFooterValue(String value, int col) {
-	// // TODO Auto-generated method stub
 	// super.addFooterValue(value, col);
 	// }
 
 	// @Override
 	// public void addFooterValues(String... values) {
-	// // TODO Auto-generated method stub
 	// super.addFooterValues(values);
 	// }
 
@@ -293,7 +291,7 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 
 	@Override
 	public void onDoubleClick(IsSerializable obj) {
-
+		// NOTHING TO DO
 	}
 
 	@Override
@@ -323,7 +321,5 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 	public void setType(AccounterCoreType type) {
 		this.type = type;
 	}
-	
-	
 
 }
