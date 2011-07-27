@@ -131,6 +131,7 @@
 		</id>
 		<property name="accountingType" column="ACCOUNTING_TYPE"></property>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="companyID" column="COMPANY_ID"></property>
 		<set name="users" lazy="false" cascade="save-update,delete">
 			<key column="COMPANY_ID"></key>
 			<one-to-many class="User" />
