@@ -30,7 +30,6 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 	 * are called from constructor.
 	 */
 	protected void init() {
-		// TODO Auto-generated method stub
 		super.init();
 	}
 
