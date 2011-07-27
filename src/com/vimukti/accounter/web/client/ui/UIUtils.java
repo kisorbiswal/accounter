@@ -1785,7 +1785,7 @@ public class UIUtils {
 	}-*/;
 
 	public static String stringToDate(ClientFinanceDate date) {
-		// TODO Auto-generated method stub
+		// currently not using
 		return null;
 	}
 
