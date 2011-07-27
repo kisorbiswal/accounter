@@ -286,26 +286,27 @@ public class AgedDebtors extends BaseReport implements IsSerializable,
 	}
 
 	public double getAgeing1() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return 0.0;
 	}
 
 	public double getAgeing30() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return 0.0;
 	}
 
 	public double getAgeing60() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return 0.0;
 	}
 
 	public double getAgeing90() {
-		// TODO Auto-generated method stub
+		// its not using any where
 		return 0.0;
 	}
 
 	public double getOpenBalance() {
+		// its not using any where
 		return 0.0;
 	}
 
