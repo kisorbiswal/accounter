@@ -409,6 +409,34 @@ public interface SettingsMessages extends FinanceMessages {
 
 	String themeAlreadyExists();
 
+	String wareHouseTransfer();
+
+	String wareHouseTitle();
+
+	String wareName();
+
+	String contactName();
+
+	String contactNo();
+
+	String defaultWareHouse();
+
+	String address();
+
+	String streetName();
+
+	String city();
+
+	String state();
+
+	String country();
+
+	String postalCode();
+
+	String mobileNumber();
+
+	String DDINumber();
+
 	String warehouseList();
 
 }

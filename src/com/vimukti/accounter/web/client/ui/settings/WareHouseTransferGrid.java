@@ -1,0 +1,117 @@
+package com.vimukti.accounter.web.client.ui.settings;
+
+import java.util.List;
+
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ClientWarehouse;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
+import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
+import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
+import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
+import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+
+public class WareHouseTransferGrid extends
+		AbstractTransactionGrid<ClientWarehouse> {
+
+	private OtherAccountsCombo accountsCombo = new OtherAccountsCombo("");
+	private WareHouseTransferView view;
+
+	public WareHouseTransferGrid(boolean b) {
+		super(b);
+	}
+
+	@Override
+	public void init() {
+		super.init();
+		initTransactionData();
+	}
+
+	@Override
+	public <E> CustomCombo<E> getCustomCombo(ClientWarehouse obj, int colIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ClientTransactionItem> getallTransactions(
+			ClientTransaction object) throws InvalidEntryException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void initTransactionData() {
+		initAccountsCombo();
+	}
+
+	private void initAccountsCombo() {
+		List<ClientAccount> accounts = Accounter.getCompany()
+				.getActiveAccounts();
+		if (accounts != null) {
+			accountsCombo.initCombo(accounts);
+		}
+
+	}
+
+	@Override
+	protected int getColumnType(int col) {
+		switch (col) {
+		case 0:
+			return ListGrid.COLUMN_TYPE_IMAGE;
+		case 2:
+			return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
+		case 4:
+			return ListGrid.COLUMN_TYPE_IMAGE;
+		default:
+			return ListGrid.COLUMN_TYPE_TEXT;
+		}
+	}
+
+	public boolean validateGrid() throws InvalidTransactionEntryException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected String[] getColumns() {
+		return new String[] { "", "Name", "Quantity", "Comment", "Delete" };
+	}
+
+	public void setView(WareHouseTransferView view) {
+		this.view = view;
+	}
+
+	@Override
+	protected Object getColumnValue(ClientWarehouse obj, int index) {
+		switch (index) {
+		case 1:
+			obj.getName();
+		case 3:
+			obj.getItemStatuses();
+		default:
+			break;
+		}
+		return obj;
+	}
+
+	@Override
+	protected boolean isEditable(ClientWarehouse obj, int row, int index) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected int getCellWidth(int index) {
+		return -1;
+	}
+
+	@Override
+	public void setTaxCode(long taxCode) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

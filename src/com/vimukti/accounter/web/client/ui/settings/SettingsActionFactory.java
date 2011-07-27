@@ -71,6 +71,14 @@ public class SettingsActionFactory extends AbstractActionFactory {
 		return new CopyThemeAction(messages.copyTheme());
 	}
 
+	public static WareHouseViewAction getWareHouseViewAction() {
+		return new WareHouseViewAction("Ware House");
+	}
+
+	public static WareHouseTransferAction getWareHouseTransferAction() {
+		return new WareHouseTransferAction(messages.wareHouseTransfer());
+	}
+
 	public static WarehouseListAction getWarehouseListAction() {
 		return new WarehouseListAction(messages.warehouseList());
 	}

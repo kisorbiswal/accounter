@@ -2188,4 +2188,9 @@ public class ClientCompany implements IAccounterCore {
 		});
 	}
 
+	public List getWarehouses() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

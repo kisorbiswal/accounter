@@ -8,7 +8,7 @@ public class ClientWarehouse implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 32420869218969185L;
-	private String stringID;
+
 	private ClientAddress address;
 	private Set<ClientItemStatus> itemStatuses;
 
@@ -18,48 +18,6 @@ public class ClientWarehouse implements IAccounterCore {
 	private boolean isDefaultWarehouse;
 	private String DDINumber;
 	private String mobileNumber;
-	private String contactNumber;
-	private String phoneNumber;
-
-	public boolean isDefaultWarehouse() {
-		return isDefaultWarehouse;
-	}
-
-	public void setDefaultWarehouse(boolean isDefaultWarehouse) {
-		this.isDefaultWarehouse = isDefaultWarehouse;
-	}
-
-	public String getDDINumber() {
-		return DDINumber;
-	}
-
-	public void setDDINumber(String dDINumber) {
-		DDINumber = dDINumber;
-	}
-
-	public String getMobileNumber() {
-		return mobileNumber;
-	}
-
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
-	}
-
-	public String getContactNumber() {
-		return contactNumber;
-	}
-
-	public void setContactNumber(String contactNumber) {
-		this.contactNumber = contactNumber;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
 
 	public ClientWarehouse() {
 	}
@@ -90,6 +48,30 @@ public class ClientWarehouse implements IAccounterCore {
 
 	public ClientContact getContact() {
 		return contact;
+	}
+
+	public boolean isDefaultWarehouse() {
+		return isDefaultWarehouse;
+	}
+
+	public void setDefaultWarehouse(boolean isDefaultWarehouse) {
+		this.isDefaultWarehouse = isDefaultWarehouse;
+	}
+
+	public String getDDINumber() {
+		return DDINumber;
+	}
+
+	public void setDDINumber(String dDINumber) {
+		DDINumber = dDINumber;
+	}
+
+	public String getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
 	}
 
 	@Override

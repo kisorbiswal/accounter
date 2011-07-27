@@ -34,7 +34,9 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 
 	private String name;
 	private Contact contact;
+	private boolean isDefaultWarehouse;
 
+	
 	String createdBy;
 	String lastModifier;
 	FinanceDate createdDate;
@@ -120,5 +122,13 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 	 */
 	@Override
 	public void onLoad(Session s, Serializable id) {
+	}
+
+	public boolean isDefaultWarehouse() {
+		return isDefaultWarehouse;
+	}
+
+	public void setDefaultWarehouse(boolean isDefaultWarehouse) {
+		this.isDefaultWarehouse = isDefaultWarehouse;
 	}
 }

@@ -1,15 +1,14 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.core.client.GWT;
+import com.vimukti.accounter.core.StockTransfer;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
-import com.vimukti.accounter.web.client.ui.grids.CustomerListGrid;
 
-public class WarehouseListView extends BaseListView<PayeeList> {
+public class WarehouseListView extends BaseListView<StockTransfer> {
 
 	private CustomersMessages customerConstants;
 
@@ -100,7 +99,7 @@ public class WarehouseListView extends BaseListView<PayeeList> {
 	}
 
 	@Override
-	public void updateInGrid(PayeeList objectTobeModified) {
+	public void updateInGrid(StockTransfer objectTobeModified) {
 		// TODO Auto-generated method stub
 
 	}

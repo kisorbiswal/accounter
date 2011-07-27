@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
@@ -127,6 +128,9 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (selectedVatAgency != null) {
+					HistoryTokenUtils.setPresentToken(
+							VatActionFactory.getVatAdjustmentAction(),
+							selectedVatAgency);
 					VatActionFactory.getVatAdjustmentAction().run(
 							selectedVatAgency, true);
 				}
@@ -285,7 +289,6 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 
 	private void reloadVatBoxes() {
 		gridView.removeAllRecords();
-		gridView.addLoadingImagePanel();
 
 		if (this.selectedVatAgency == null) {
 			gridView.removeLoadingImage();
@@ -293,6 +296,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 			disableprintButton();
 			return;
 		}
+		gridView.addLoadingImagePanel();
 
 		this.rpcUtilService.getTAXReturn(this.selectedVatAgency, fromDate
 				.getDate().getTime(), toDate.getDate().getTime(),
