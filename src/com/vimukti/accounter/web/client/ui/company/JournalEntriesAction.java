@@ -59,6 +59,7 @@ public class JournalEntriesAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
