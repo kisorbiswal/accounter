@@ -23,24 +23,21 @@ public class NewCashPurchaseAction extends Action {
 
 	public NewCashPurchaseAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	public NewCashPurchaseAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	public NewCashPurchaseAction(String newCashPurchase, String string,
 			ClientCashPurchase cashPurchase, AsyncCallback<Object> callback) {
 		super(newCashPurchase, string, cashPurchase, callback);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	@Override
@@ -87,6 +84,7 @@ public class NewCashPurchaseAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO
 		return null;
 	}
 
@@ -96,13 +94,11 @@ public class NewCashPurchaseAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/new_cash_purchase.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "newCashPurchase";
 	}
 
