@@ -92,7 +92,7 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO
 
 	}
 
