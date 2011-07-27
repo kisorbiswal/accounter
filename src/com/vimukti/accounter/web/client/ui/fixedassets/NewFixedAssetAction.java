@@ -14,13 +14,12 @@ public class NewFixedAssetAction extends Action {
 
 	public NewFixedAssetAction(String text) {
 		super(text);
-		this.catagory = Accounter.getFixedAssetConstants()
-				.fixedAssets();
+		this.catagory = Accounter.getFixedAssetConstants().fixedAssets();
 	}
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -72,7 +71,6 @@ public class NewFixedAssetAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "newFixedAsset";
 	}
 
