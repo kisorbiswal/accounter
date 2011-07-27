@@ -43,13 +43,13 @@ public class FiscalYearListGrid extends ListGrid<ClientFiscalYear> {
 
 	@Override
 	protected String[] getSelectValues(ClientFiscalYear obj, int index) {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO
 		return null;
 	}
 
 	@Override
 	protected boolean isEditable(ClientFiscalYear obj, int row, int index) {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO
 		return false;
 	}
 
@@ -60,25 +60,23 @@ public class FiscalYearListGrid extends ListGrid<ClientFiscalYear> {
 
 	@Override
 	public void onDoubleClick(ClientFiscalYear obj) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO
 	}
 
 	@Override
 	protected void onValueChange(ClientFiscalYear obj, int index, Object value) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO
 	}
 
 	@Override
 	protected int sort(ClientFiscalYear obj1, ClientFiscalYear obj2, int index) {
-		// return obj1.getStartDate().compareTo(obj2.getStartDate());
+		// NOTHING TO DO
 		return 0;
 	}
 
 	@Override
 	public boolean validateGrid() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO
 		return false;
 	}
 
@@ -98,8 +96,7 @@ public class FiscalYearListGrid extends ListGrid<ClientFiscalYear> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] {
-				Accounter.getCompanyMessages().startDate(),
+		return new String[] { Accounter.getCompanyMessages().startDate(),
 				Accounter.getCompanyMessages().endDate(),
 				Accounter.getCompanyMessages().status() };
 	}
