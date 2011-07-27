@@ -44,19 +44,19 @@ public class WarehouseListGrid extends BaseListGrid<StockTransfer> {
 
 	@Override
 	protected void executeDelete(StockTransfer object) {
-		// TODO Auto-generated method stub
+		// currently not using
 
 	}
 
 	@Override
 	protected Object getColumnValue(StockTransfer obj, int index) {
-		
+
 		return null;
 	}
 
 	@Override
 	public void onDoubleClick(StockTransfer obj) {
-		// TODO Auto-generated method stub
+		// currently not using
 
 	}
 
