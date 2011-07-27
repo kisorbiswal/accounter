@@ -1265,14 +1265,12 @@ public class MakeDepositView extends
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	public void resetFormView() {
