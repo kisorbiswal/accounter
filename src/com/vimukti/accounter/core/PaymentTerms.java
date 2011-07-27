@@ -31,7 +31,6 @@ public class PaymentTerms extends CreatableObject implements
 
 	int version;
 
-
 	/**
 	 * Payment Term Name
 	 */
@@ -132,8 +131,7 @@ public class PaymentTerms extends CreatableObject implements
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
@@ -156,7 +154,6 @@ public class PaymentTerms extends CreatableObject implements
 	public long getID() {
 		return this.id;
 	}
-
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
