@@ -515,7 +515,7 @@
 //
 //			@Override
 //			public void onChange(ChangeEvent event) {
-//				// TODO Auto-generated method stub
+//				//  Auto-generated method stub
 //				TransactionItemRecord record = (TransactionItemRecord) getGrid()
 //						.getSelectedRecord();
 //
@@ -844,4 +844,4 @@
 //
 //	}
 //
-//}
+// }
