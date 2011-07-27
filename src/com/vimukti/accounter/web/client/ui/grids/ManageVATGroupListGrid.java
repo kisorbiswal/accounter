@@ -52,7 +52,7 @@ public class ManageVATGroupListGrid extends BaseListGrid<ClientTAXGroup> {
 
 	@Override
 	public boolean validateGrid() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return true;
 	}
 
