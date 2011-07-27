@@ -67,7 +67,6 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		// TODO Auto-generated method stub
 		switch (index) {
 		case 0:
 			return 150;
@@ -153,7 +152,7 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 
 					@Override
 					public boolean onCancelClick() throws InvalidEntryException {
-						// TODO Auto-generated method stub
+						// NOTHING TO DO.
 						return false;
 					}
 
@@ -228,14 +227,13 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 
 	@Override
 	public boolean validateGrid() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return false;
 	}
 
 	@Override
 	protected void executeDelete(ClientJournalEntry object) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
