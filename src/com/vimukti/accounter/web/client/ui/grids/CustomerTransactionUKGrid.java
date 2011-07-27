@@ -227,13 +227,16 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 		case ClientTransactionItem.TYPE_ACCOUNT:
 			switch (col) {
 			case 1:
-				return false;
 			case 2:
-				return false;
 			case 3:
+			case 5:
+				return false;
+			case 6:
+				return false;
+			case 7:
 				return false;
 
-			case 8:
+			case 10:
 				return false;
 
 			default:
@@ -241,51 +244,56 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 			}
 		case ClientTransactionItem.TYPE_COMMENT:
 			switch (col) {
-			case 2:
-				return true;
+//			case 2:
+//				return true;
 			default:
 				return false;
 			}
 		case ClientTransactionItem.TYPE_ITEM:
 			switch (col) {
-			case 6:
-				return false;
 			case 8:
+				return false;
+			case 10:
 				return false;
 			default:
 				return true;
 			}
 		case ClientTransactionItem.TYPE_SALESTAX:
 			switch (col) {
-			case 1:
-				return true;
-			case 2:
-				return true;
+//			case 1:
+//				return true;
 			case 4:
-				return false;
+				return true;
 			case 6:
+				return false;
+			case 8:
 				return true;
 			default:
 				return false;
 			}
 		case ClientTransactionItem.TYPE_SERVICE:
 			switch (col) {
-			case 1:
-				return true;
-			case 2:
-				return true;
+			case 0:
 			case 3:
-				return true;
-			case 4:
-				return true;
-			case 5:
-				return true;
-			case 6:
-				return true;
-			case 7:
-				return true;
-			default:
+			case 10:
+			case 11:
 				return false;
+//			case 2:
+//				return true;
+//			case 4:
+//				return true;
+//			case 5:
+//				return true;
+//			case 6:
+//				return true;
+//			case 7:
+//				return true;
+//			case 8:
+//				return true;
+//			case 9:
+//				return true;
+			default:
+				return true;
 			}
 
 		}
