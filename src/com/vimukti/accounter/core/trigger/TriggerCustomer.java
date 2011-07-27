@@ -33,17 +33,14 @@ public class TriggerCustomer implements Trigger {
 		if (newRow != null && oldRow == null) {
 
 			if (newBalance != 0.0) {
-				stat
-						.execute(new StringBuilder()
-								.append(
-										"UPDATE ACCOUNT A SET A.OPENING_BALANCE = A.OPENING_BALANCE + ")
-								.append(newBalance)
-								.append(
-										",A.CURRENT_BALANCE = A.CURRENT_BALANCE + ")
-								.append(newBalance)
-								.append(",A.TOTAL_BALANCE = A.TOTAL_BALANCE + ")
-								.append(newBalance).append(" WHERE A.ID = ")
-								.append(newAccountsReceivableId).toString());
+				stat.execute(new StringBuilder()
+						.append("UPDATE ACCOUNT A SET A.OPENING_BALANCE = A.OPENING_BALANCE + ")
+						.append(newBalance)
+						.append(",A.CURRENT_BALANCE = A.CURRENT_BALANCE + ")
+						.append(newBalance)
+						.append(",A.TOTAL_BALANCE = A.TOTAL_BALANCE + ")
+						.append(newBalance).append(" WHERE A.ID = ")
+						.append(newAccountsReceivableId).toString());
 			}
 		}
 		// Condition for checking whether this Trigger call is for Row Updation
@@ -56,7 +53,7 @@ public class TriggerCustomer implements Trigger {
 	@Override
 	public void init(Connection arg0, String arg1, String arg2, String arg3,
 			boolean arg4, int arg5) throws SQLException {
-		// TODO Auto-generated method stub
+		// currently not using anywhere in the project.
 
 	}
 
