@@ -183,7 +183,7 @@ public class AccounterService extends HibernateDaoSupport implements
 
 	public static boolean isCompanyExits(String companyID) {
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
-		Object uniqueResult = session.getNamedQuery("getCompanyName.is.unique")
+		Object uniqueResult = session.getNamedQuery("getCompany.by.CompanyID")
 				.setString(COMPANY_ID, companyID).uniqueResult();
 		session.close();
 		if (companyID == null || uniqueResult != null) {
