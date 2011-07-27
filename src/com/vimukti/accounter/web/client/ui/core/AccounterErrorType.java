@@ -68,7 +68,7 @@ public interface AccounterErrorType {
 	public static final String TOTAL_MUSTBE_SAME = "The Debit total and Credit totals must be same";
 	public static final String FAILED_GET_JOURNALENTRIES = "Failed to load journaln entries";
 	public static final String ZERO_AMOUNT = "The Sales Price is £0.00, do you want to continue?";
-	public static final String INVALID_EMAIL = "Invalid Characters in Email Given";
+	public static final String INVALID_EMAIL = "Invalid Characters Given in Email";
 
 	public static final String PURHASEDATESUDBEWITHINFISCALYEARRANGE = "Purchase Date Should within Opened Fiscal Year";
 
