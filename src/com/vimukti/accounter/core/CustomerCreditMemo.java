@@ -298,7 +298,7 @@ public class CustomerCreditMemo extends Transaction implements
 
 	@Override
 	public void onLoad(Session session, Serializable arg1) {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO
 		super.onLoad(session, arg1);
 	}
 
