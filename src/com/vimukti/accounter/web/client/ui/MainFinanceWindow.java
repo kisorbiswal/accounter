@@ -88,7 +88,7 @@ public class MainFinanceWindow extends VerticalPanel {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<String> event) {
-				// TODO Auto-generated method stub
+
 				if (shouldExecuteRun)
 					historyChanged(event.getValue());
 			}
@@ -139,7 +139,6 @@ public class MainFinanceWindow extends VerticalPanel {
 	private void createSalesControls() {
 
 		// setTitle(FinanceApplication.getFinanceUIConstants().bizantraSales());
-
 
 		VerticalPanel vlay = new VerticalPanel();
 		vlay.setSize("100%", "100%");
@@ -1378,7 +1377,6 @@ public class MainFinanceWindow extends VerticalPanel {
 		if (actions == null || value == null)
 			return;
 
-
 		String historyToken = null;
 		long id = 0;
 
@@ -1418,7 +1416,6 @@ public class MainFinanceWindow extends VerticalPanel {
 				};
 
 				accounter.createGETService().getObjectById(type, id, callback);
-
 
 			} else {
 				action.run(null, false);
