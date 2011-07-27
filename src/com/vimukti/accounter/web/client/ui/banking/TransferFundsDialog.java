@@ -63,8 +63,8 @@ public class TransferFundsDialog extends BaseDialog {
 	private AccounterButton editButton;
 
 	public TransferFundsDialog(Object data) {
-		super(Accounter.getBankingsMessages().transferFunds(),
-				Accounter.getBankingsMessages().toTransferFunds());
+		super(Accounter.getBankingsMessages().transferFunds(), Accounter
+				.getBankingsMessages().toTransferFunds());
 		createControls();
 		addAccountsNameToList();
 		addAccountsName2ToList();
@@ -92,8 +92,7 @@ public class TransferFundsDialog extends BaseDialog {
 		balanceFromText.setValue(DataUtils
 				.getAmountAsString(fromAccount != null ? fromAccount
 						.getTotalBalance() : 0.0));
-		ClientAccount toAccount = getCompany().getAccount(
-				data.getTransferTo());
+		ClientAccount toAccount = getCompany().getAccount(data.getTransferTo());
 		accountTo = toAccount;
 		accountComboTo.setSelected(toAccount != null ? accountComboTo
 				.getDisplayName(toAccount) : "");
@@ -124,8 +123,8 @@ public class TransferFundsDialog extends BaseDialog {
 
 		// Transfer From
 
-		accountComboFrom = new IncomeAndExpensesAccountCombo(bankingConstants
-				.fromAccount());
+		accountComboFrom = new IncomeAndExpensesAccountCombo(
+				bankingConstants.fromAccount());
 
 		accountComboFrom.setRequired(true);
 		// accountComboFrom.setWidth("*");
@@ -163,8 +162,8 @@ public class TransferFundsDialog extends BaseDialog {
 
 		// Transfer To
 
-		accountComboTo = new IncomeAndExpensesAccountCombo(bankingConstants
-				.toAccount());
+		accountComboTo = new IncomeAndExpensesAccountCombo(
+				bankingConstants.toAccount());
 		// accountComboTo.setAddNewCaptionTitle(CustomCombo.addNewBankAccount);
 
 		accountComboTo.setRequired(true);
@@ -202,14 +201,13 @@ public class TransferFundsDialog extends BaseDialog {
 						transferAmount = amountText.getAmount();
 						if (DecimalUtil.isLessThan(transferAmount, 0D)) {
 							transferAmount = 0D;
-							Accounter.showError(Accounter
-									.getBankingsMessages()
+							Accounter.showError(Accounter.getBankingsMessages()
 									.amountShouldNotBeNegative());
 						}
 
 					} catch (Exception e) {
-						Accounter.showError(Accounter
-								.getBankingsMessages().invalidAmount());
+						Accounter.showError(Accounter.getBankingsMessages()
+								.invalidAmount());
 						transferAmount = 0D;
 					} finally {
 						amountText.setAmount(transferAmount);
@@ -392,7 +390,7 @@ public class TransferFundsDialog extends BaseDialog {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
+		// currently not using anywhere in the project.
 
 	}
 
