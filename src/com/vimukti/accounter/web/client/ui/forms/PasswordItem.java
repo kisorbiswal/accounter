@@ -129,8 +129,7 @@ public class PasswordItem extends FormItem {
 	}
 
 	public void setDefaultValue(int i) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	// void helpimformationsetposition(){
