@@ -44,12 +44,10 @@ public class BaseServlet extends HttpServlet {
 	}
 
 	protected FinanceTool getFinanceTool(HttpServletRequest request) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	protected String getCookie(HttpServletRequest request, String ourCookie) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

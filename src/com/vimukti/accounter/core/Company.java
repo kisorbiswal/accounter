@@ -9,7 +9,6 @@ import java.util.Set;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.company.initialize.CompanyInitializedFactory;
-import com.vimukti.accounter.company.initialize.UKCompanyInitializer;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.ClientAddress;

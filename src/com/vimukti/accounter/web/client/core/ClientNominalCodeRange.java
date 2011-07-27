@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 @SuppressWarnings("serial")
 public class ClientNominalCodeRange implements IAccounterCore {
 
@@ -24,7 +26,7 @@ public class ClientNominalCodeRange implements IAccounterCore {
 	public static final int RANGE_OTHER_ASSET_MIN = 9500;
 	public static final int RANGE_OTHER_ASSET_MAX = 9999;
 
-	String id = "";
+	long id;
 
 	int accountSubBaseType;
 
@@ -58,38 +60,31 @@ public class ClientNominalCodeRange implements IAccounterCore {
 
 	@Override
 	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "ClientNominalCode";
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.getCompany().getDisplayName();
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.getCompany().getName();
 	}
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public long getID(){
-		// TODO Auto-generated method stub
-		return 0;
+	public long getID() {
+		return id;
 	}
 
 	@Override
-	public void setID(long id){
-		// TODO Auto-generated method stub
-
+	public void setID(long id) {
+		this.id = id;
 	}
-
 }

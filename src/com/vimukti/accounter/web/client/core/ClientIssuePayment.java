@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.core;
 import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 @SuppressWarnings("serial")
 public class ClientIssuePayment extends ClientTransaction implements
@@ -44,14 +45,12 @@ public class ClientIssuePayment extends ClientTransaction implements
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.getCompany().getName();
 	}
 
 	@Override

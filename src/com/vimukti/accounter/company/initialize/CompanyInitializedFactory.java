@@ -1,7 +1,6 @@
 package com.vimukti.accounter.company.initialize;
 
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.company.initialize.CompanyInitializer;
 public class CompanyInitializedFactory {
 
 	/**

@@ -30,7 +30,8 @@ public class APAgingDetailServerReport extends
 
 	}
 
-	public APAgingDetailServerReport(long startDate, long endDate,int generationType) {
+	public APAgingDetailServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -355,8 +356,8 @@ public class APAgingDetailServerReport extends
 		switch (col) {
 
 		case 0:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 		case 1:
 			return UIUtils.compareTo(obj1.getDate(), obj2.getDate());
 		case 2:

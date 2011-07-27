@@ -2,12 +2,6 @@ package com.vimukti.accounter.web.client.core;
 
 import java.util.Set;
 
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientAddress;
-import com.vimukti.accounter.web.client.core.ClientContact;
-import com.vimukti.accounter.web.client.core.ClientItemStatus;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
-
 public class ClientWarehouse implements IAccounterCore {
 
 	/**

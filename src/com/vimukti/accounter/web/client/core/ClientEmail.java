@@ -86,18 +86,16 @@ public class ClientEmail implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return 0;
 	}
 
 	@Override
-	public void setID(long id){
-
+	public void setID(long id) {
 	}
 
 	@Override
 	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
 		return "ClientEmail";
 	}
 
