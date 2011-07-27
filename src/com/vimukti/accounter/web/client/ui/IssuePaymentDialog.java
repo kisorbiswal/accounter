@@ -261,7 +261,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 			public void onCancelClick() {
 				removeFromParent();
-//				Action.cancle();
+				// Action.cancle();
 			}
 
 			public boolean onOkClick() {
@@ -608,7 +608,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 	@Override
 	public Object getGridColumnValue(IsSerializable obj, int index) {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
