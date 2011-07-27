@@ -37,20 +37,13 @@ public class EmailManager extends Thread {
 	private Logger log = Logger.getLogger(EmailManager.class);
 
 	public void run() {
-		try {
-
-			sleep(INTERVAL_TIME * 1);
-
-			while (!shutdown) {
-				try {
-					EMailJob mail = getQueue().take();
-					sendMail(mail);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		while (!shutdown) {
+			try {
+				EMailJob mail = getQueue().take();
+				sendMail(mail);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 	}
 
