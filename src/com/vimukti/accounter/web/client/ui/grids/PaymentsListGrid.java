@@ -275,7 +275,7 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
+		// Nothing To do
 
 	}
 
