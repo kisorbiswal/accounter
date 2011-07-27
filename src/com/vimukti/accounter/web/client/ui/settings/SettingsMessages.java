@@ -28,9 +28,9 @@ public interface SettingsMessages extends FinanceMessages {
 	String january01();
 
 	String generalSettingsLabel();
-	
+
 	String generalSettings();
-	
+
 	SafeHtml conversionBalanaceHeader();
 
 	SafeHtml addComparativeButton();
@@ -370,43 +370,45 @@ public interface SettingsMessages extends FinanceMessages {
 	String none();
 
 	String editBrandThemeLabel();
-	
+
 	String inviteUser();
 
 	String labelTitle();
-	
+
 	String stockSettings();
-	
+
 	String stockwarehouseCombo();
-	
+
 	String stockItemType();
-	
+
 	String stockItemName();
-	
+
 	String stockItemIncomeAccont();
-	
+
 	String stockItemExpenseAccount();
-	
+
 	String stockAdjustmentAccount();
-	
+
 	String stockItemAmount();
-	
+
 	String stockMemo();
-	
+
 	String stockAdjustmentQuantity();
-	
+
 	String numberForTopMarginField();
-	
+
 	String errorForTopMarginField();
-	
+
 	String numberForbottomMarginField();
-	
+
 	String errorForbottomMarginField();
-	
+
 	String numberForAddresspadField();
-	
+
 	String errorForaddresspadField();
 
 	String themeAlreadyExists();
+
+	String warehouseList();
 
 }

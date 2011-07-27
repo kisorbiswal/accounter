@@ -15,25 +15,25 @@ public class SettingsActionFactory extends AbstractActionFactory {
 	}
 
 	public static InventoryItemsAction getInventoryItemsAction() {
-		return new InventoryItemsAction(Accounter
-				.getSettingsMessages().inventoryItems());
+		return new InventoryItemsAction(Accounter.getSettingsMessages()
+				.inventoryItems());
 
 	}
 
 	public static ChartOfAccountsAction getChartOfAccountsAction() {
-		return new ChartOfAccountsAction(Accounter
-				.getSettingsMessages().chartOfAccounts());
+		return new ChartOfAccountsAction(Accounter.getSettingsMessages()
+				.chartOfAccounts());
 
 	}
 
 	public static ConversionBalancesAction getConversionBalancesAction() {
-		return new ConversionBalancesAction(Accounter
-				.getSettingsMessages().conversionBalance());
+		return new ConversionBalancesAction(Accounter.getSettingsMessages()
+				.conversionBalance());
 	}
 
 	public static InvoiceBrandingAction getInvoiceBrandingAction() {
-		return new InvoiceBrandingAction(Accounter
-				.getSettingsMessages().invoiceBranding());
+		return new InvoiceBrandingAction(Accounter.getSettingsMessages()
+				.invoiceBranding());
 	}
 
 	public static NewBrandThemeAction getNewBrandThemeAction() {
@@ -42,13 +42,13 @@ public class SettingsActionFactory extends AbstractActionFactory {
 	}
 
 	public static ConversionDateAction getConversionDateAction() {
-		return new ConversionDateAction(Accounter
-				.getSettingsMessages().conversionDate());
+		return new ConversionDateAction(Accounter.getSettingsMessages()
+				.conversionDate());
 	}
 
 	public static AutomaticSequenceAction getAutomaticSequenceAction() {
-		return new AutomaticSequenceAction(Accounter
-				.getSettingsMessages().automaticSequencing());
+		return new AutomaticSequenceAction(Accounter.getSettingsMessages()
+				.automaticSequencing());
 	}
 
 	public static CustomThemeAction getCustomThemeAction() {
@@ -69,5 +69,9 @@ public class SettingsActionFactory extends AbstractActionFactory {
 
 	public static CopyThemeAction getCopyThemeAction() {
 		return new CopyThemeAction(messages.copyTheme());
+	}
+
+	public static WarehouseListAction getWarehouseListAction() {
+		return new WarehouseListAction(messages.warehouseList());
 	}
 }
