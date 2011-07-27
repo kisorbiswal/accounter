@@ -20,19 +20,16 @@ public class WarehouseListView extends BaseListView<StockTransfer> {
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -100,7 +97,7 @@ public class WarehouseListView extends BaseListView<StockTransfer> {
 
 	@Override
 	public void updateInGrid(StockTransfer objectTobeModified) {
-		// TODO Auto-generated method stub
+		// currently not using
 
 	}
 }
