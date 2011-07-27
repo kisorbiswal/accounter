@@ -524,8 +524,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO
 	}
 
 	@Override
