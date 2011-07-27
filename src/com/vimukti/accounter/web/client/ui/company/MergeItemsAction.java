@@ -38,8 +38,7 @@ public class MergeItemsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "mergeItems";
 	}
 
 }
