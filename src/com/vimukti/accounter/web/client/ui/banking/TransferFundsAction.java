@@ -50,7 +50,7 @@ public class TransferFundsAction extends Action {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParentCanvas getView() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
@@ -61,15 +61,16 @@ public class TransferFundsAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().transerFunds();
 	}
+
 	@Override
 	public String getImageUrl() {
-		
+
 		return "/images/transfer_funds.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+
 		return "transferFunds";
 	}
 }
