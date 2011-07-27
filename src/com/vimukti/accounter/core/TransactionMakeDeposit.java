@@ -258,7 +258,6 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void onLoad(Session session, Serializable serializable) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -480,7 +479,7 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
+
 		return this.id;
 	}
 
