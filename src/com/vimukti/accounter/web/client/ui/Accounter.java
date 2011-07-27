@@ -178,7 +178,7 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 		footerleft = new HTML();
 		footerleft.addStyleName("footer-left");
 		feedback = new HTML(
-				"<div class='vimukti-name'>Vimukti Technologies Pvt Ltd. All rights reserved</div><div class='feedback-name'>Send your feedback to: <a href=''>support@accounterlive.com</a></div>");
+				"<div class='vimukti-name'><a href='http://www.vimukti.com/' target='/blank'>Vimukti Technologies Pvt Ltd.</a> All rights reserved</div><div class='feedback-name'>Send your feedback to: <a href='/site/support' target='_blank'>support@accounterlive.com</a></div>");
 		feedback.addStyleName("feedback-option");
 		footerright = new HTML();
 		footerright.addStyleName("footer-right");
