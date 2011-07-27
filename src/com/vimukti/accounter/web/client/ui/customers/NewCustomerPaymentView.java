@@ -786,8 +786,7 @@ public class NewCustomerPaymentView extends
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
