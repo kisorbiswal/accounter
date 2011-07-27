@@ -32,7 +32,6 @@ public class UnitOfMeasure implements IAccounterServerCore {
 		return version;
 	}
 
-
 	/**
 	 * @return the type
 	 */
@@ -56,14 +55,14 @@ public class UnitOfMeasure implements IAccounterServerCore {
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
+
 		return this.id;
 	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws InvalidOperationException {
-		// TODO Auto-generated method stub
+
 		return true;
 	}
 
