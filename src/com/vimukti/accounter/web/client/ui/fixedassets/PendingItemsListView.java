@@ -85,8 +85,7 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
