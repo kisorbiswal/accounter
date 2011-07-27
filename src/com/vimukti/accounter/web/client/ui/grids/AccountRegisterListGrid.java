@@ -250,27 +250,28 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 
 	@Override
 	public void onDoubleClick(AccountRegister obj) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
 	public boolean validateGrid() {
+		// NOTHING TO DO.
 		return true;
 	}
 
 	@Override
 	protected void executeDelete(AccountRegister object) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
+		// TODO
 
 	}
 
 	public AccounterCoreType getType() {
+		// TODO
 		return null;
 	}
 
