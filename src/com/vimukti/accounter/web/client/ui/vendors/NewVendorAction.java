@@ -29,19 +29,17 @@ public class NewVendorAction extends Action {
 
 	public NewVendorAction(String text, String iconString) {
 		super(UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.newSupplier(), Accounter.getVendorsMessages()
-				.newVendor()), iconString);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+				.newSupplier(), Accounter.getVendorsMessages().newVendor()),
+				iconString);
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	public NewVendorAction(String text, String iconString, ClientVendor vendor,
 			AsyncCallback<Object> callback) {
 		super(text, iconString, vendor, callback);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
+				.supplier(), Accounter.getVendorsMessages().vendor());
 	}
 
 	@Override
@@ -103,13 +101,11 @@ public class NewVendorAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/new_vendor.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return UIUtils.getVendorString("newSupplier", "newVendor");
 	}
 }
