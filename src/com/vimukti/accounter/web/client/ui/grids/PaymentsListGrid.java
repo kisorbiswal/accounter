@@ -133,7 +133,7 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 					@Override
 					public boolean onCancelClick() throws InvalidEntryException {
-						// TODO Auto-generated method stub
+						// NOTHING TO DO.
 						return false;
 					}
 
@@ -190,26 +190,24 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 			int currentCol) {
 		// ReportsRPC.openTransactionView(payments.getType(), payments
 		// .getTransactionId());
-		ReportsRPC.openTransactionView(getType(payments), payments
-				.getTransactionId());
+		ReportsRPC.openTransactionView(getType(payments),
+				payments.getTransactionId());
 	}
 
 	@Override
 	public boolean validateGrid() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return true;
 	}
 
 	@Override
 	public void onDoubleClick(PaymentsList obj) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
 	protected void executeDelete(PaymentsList object) {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
@@ -245,8 +243,8 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 				return issuedate1.compareTo(issuedate2);
 
 		case 4:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 
 		case 5:
 
