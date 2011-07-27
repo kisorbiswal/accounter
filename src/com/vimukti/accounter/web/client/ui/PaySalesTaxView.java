@@ -693,8 +693,7 @@ public class PaySalesTaxView extends
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 	@Override
