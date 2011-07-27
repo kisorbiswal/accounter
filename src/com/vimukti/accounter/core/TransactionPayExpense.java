@@ -90,13 +90,13 @@ public class TransactionPayExpense implements Lifecycle {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		// TODO Auto-generated method stub
+		//
+
 		return false;
 	}
 
 	@Override
 	public void onLoad(Session session, Serializable id) {
-		// TODO Auto-generated method stub
 
 	}
 
