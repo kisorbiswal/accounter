@@ -77,13 +77,11 @@ public class NewCheckAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/new_check.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "check";
 	}
 }
