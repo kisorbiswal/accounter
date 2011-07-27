@@ -70,7 +70,6 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 	@Override
 	public void initData() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -103,15 +102,13 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 		flexTable.clear();
 
 		Label orderNumberLabel = new Label();
-		orderNumberLabel.setText(Accounter.getVendorsMessages()
-				.orderNumber());
+		orderNumberLabel.setText(Accounter.getVendorsMessages().orderNumber());
 		orderNumberLabel.setStyleName("selectedview_labelstyle");
 
 		orderNumberField = new HTML();
 
 		Label conLabel = new Label();
-		conLabel.setText(Accounter.getVendorsMessages()
-				.purchaseOrderNumber());
+		conLabel.setText(Accounter.getVendorsMessages().purchaseOrderNumber());
 		conLabel.setStyleName("selectedview_labelstyle");
 
 		customerNumberField = new HTML();
@@ -133,8 +130,7 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 		itemsLabel.setStyleName("selectedview_labelstyle");
 
 		Label billingAddress = new Label();
-		billingAddress.setText(Accounter.getVendorsMessages()
-				.billingAddress());
+		billingAddress.setText(Accounter.getVendorsMessages().billingAddress());
 		billingAddress.setStyleName("selectedview_labelstyle");
 
 		Label shippingAddress = new Label();
@@ -181,8 +177,8 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 	 */
 	public void setEmptyMessage() {
 		flexTable.clear();
-		flexTable.setWidget(0, 0, new HTML(Accounter
-				.getVendorsMessages().selectaTaskNotetoseethedetails()));
+		flexTable.setWidget(0, 0, new HTML(Accounter.getVendorsMessages()
+				.selectaTaskNotetoseethedetails()));
 		cellFormatter.setHeight(0, 0, "300px");
 		cellFormatter.setAlignment(0, 0, ALIGN_CENTER, ALIGN_MIDDLE);
 	}
@@ -211,11 +207,9 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 		if (purchaseOrder.getStatus() == 101)
 			statusField.setText(Accounter.getVendorsMessages().open());
 		else if (purchaseOrder.getStatus() == 102)
-			statusField.setText(Accounter.getVendorsMessages()
-					.completed());
+			statusField.setText(Accounter.getVendorsMessages().completed());
 		else if (purchaseOrder.getStatus() == 103)
-			statusField.setText(Accounter.getVendorsMessages()
-					.cancelled());
+			statusField.setText(Accounter.getVendorsMessages().cancelled());
 
 		ClientAddress address = purchaseOrder.getVendorAddress();
 		if (address != null) {
@@ -276,7 +270,6 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 	@Override
 	public void fitToSize(int height, int width) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -323,8 +316,7 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
-
+		// NOTHING TO DO.
 	}
 
 }
