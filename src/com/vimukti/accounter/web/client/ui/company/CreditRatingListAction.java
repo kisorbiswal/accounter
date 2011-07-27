@@ -43,9 +43,8 @@ public class CreditRatingListAction extends Action {
 				try {
 
 					CreditRatingListDialog dialog = new CreditRatingListDialog(
-							Accounter.getCompanyMessages()
-									.creditRatingList(), Accounter
-									.getCompanyMessages().toAddCreditRating());
+							Accounter.getCompanyMessages().creditRatingList(),
+							Accounter.getCompanyMessages().toAddCreditRating());
 					ViewManager viewManager = ViewManager.getInstance();
 					viewManager.setCurrentDialog(dialog);
 
@@ -63,12 +62,14 @@ public class CreditRatingListAction extends Action {
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO
 		return null;
 	}
 
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().creditRatingList();
 	}
+
 	@Override
 	public String getImageUrl() {
 		return "/images/Creadit_rating_List.png";
@@ -76,7 +77,6 @@ public class CreditRatingListAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "creditRatingList";
 	}
 
