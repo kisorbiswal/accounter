@@ -17,18 +17,19 @@ public class ManageFiscalYearAction extends Action {
 
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		ManageFiscalYearDialog dialog = new ManageFiscalYearDialog(
-				Accounter.getCompanyMessages().manageFiscalYear(), "");
+		ManageFiscalYearDialog dialog = new ManageFiscalYearDialog(Accounter
+				.getCompanyMessages().manageFiscalYear(), "");
 		dialog.show();
 	}
 
 	public ImageResource getBigImage() {
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -38,13 +39,11 @@ public class ManageFiscalYearAction extends Action {
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
 		return "/images/manage_fiscal_year.png";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "manageFiscalYear";
 	}
 }
