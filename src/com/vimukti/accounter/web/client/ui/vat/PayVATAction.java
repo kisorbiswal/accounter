@@ -22,19 +22,19 @@ public class PayVATAction extends Action {
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
 	@Override
 	public ImageResource getSmallImage() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
 	@Override
 	public ParentCanvas<?> getView() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return null;
 	}
 
@@ -56,7 +56,8 @@ public class PayVATAction extends Action {
 
 				try {
 					MainFinanceWindow.getViewManager().showView(
-							new PayVATView(), data, isDependent, PayVATAction.this);
+							new PayVATView(), data, isDependent,
+							PayVATAction.this);
 				} catch (Throwable t) {
 					onCreateFailed(t);
 				}
@@ -65,16 +66,15 @@ public class PayVATAction extends Action {
 
 		});
 	}
-	
+
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
+		// NOTHING TO DO.
 		return "";
 	}
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "payVat";
 	}
 
