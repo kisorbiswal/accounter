@@ -79,7 +79,7 @@ public class TransactionDetailByTaxItemAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
+
 		return "transactionDetailByTaxItem";
 	}
 
