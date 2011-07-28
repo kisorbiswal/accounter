@@ -867,7 +867,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		else
 			// .constants().assetApdationFailed());
 			MainFinanceWindow.getViewManager().showError(
-					Accounter.constants().assetApdationFailed());
+					Accounter.constants().accountUpdationFailed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 	}
