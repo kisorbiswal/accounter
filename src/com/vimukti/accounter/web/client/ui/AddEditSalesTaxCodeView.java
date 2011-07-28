@@ -29,7 +29,7 @@ import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.SaleTaxCodeGrid;
 
 public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
-	static final String ATTR_RATE = Accounter.constants().Rate();
+	static final String ATTR_RATE = Accounter.constants().rate();
 	static final String ATTR_AS_OF = Accounter.constants().asOf();
 
 	TextItem taxCodeText;
@@ -565,7 +565,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	protected String getViewTitle() {
 		String constant;
 		if (getCompany().getAccountingType() == 1)
-			constant = Accounter.constants().newVatCode();
+			constant = Accounter.constants().newVATCode();
 		else
 			constant = Accounter.constants().newTaxCode();
 		return constant;

@@ -23,7 +23,7 @@ public class AddEditFiscalYearDialog extends BaseDialog {
 		// setWidth(400);
 
 		DateItem startDate = new DateItem();
-		startDate.setTitle(Accounter.constants().startofFiscalYear());
+		startDate.setTitle(Accounter.constants().startOfFiscalYear());
 		// startDate.setUseTextField(true);
 		// int firstMonth =
 		// FinanceApplication.getCompany().getFirstMonthOfFiscalYear();
