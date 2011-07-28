@@ -15,10 +15,13 @@
 		and
 		user.passwordSha1Hash =:password
 	</query>
-	<!-- <sql-query name="getDataSize"> SELECT SUM(CI.IDENTITYDATASIZE)+SUM(WS.DATA_SIZE) 
-		AS TOTAL_DATA_SIZE FROM COLLABERIDENTITY CI LEFT OUTER JOIN IDENTITY_SPACES 
-		IDS ON CI.ID=IDS.IDENTITY_ID LEFT OUTER JOIN WORKSPACE WS ON WS.SPACE_ID=IDS.SPACE_ID 
-		</sql-query> -->
+	<!--
+		<sql-query name="getDataSize"> SELECT
+		SUM(CI.IDENTITYDATASIZE)+SUM(WS.DATA_SIZE) AS TOTAL_DATA_SIZE FROM
+		COLLABERIDENTITY CI LEFT OUTER JOIN IDENTITY_SPACES IDS ON
+		CI.ID=IDS.IDENTITY_ID LEFT OUTER JOIN WORKSPACE WS ON
+		WS.SPACE_ID=IDS.SPACE_ID </sql-query>
+	-->
 
 	<query name="get.all.companies">
 		from com.vimukti.accounter.core.Company
@@ -186,6 +189,85 @@
 		select LASTCONNECTED as lastConnected from COLLABERIDENTITY
 	</sql-query>
 
+
+	<sql-query name="get.name.fromAccount.byId">
+			<query-param name="id" type="integer" />
+		select a.name from
+		com.vimukti.accounter.core.Account a where a.id=:id
+	</sql-query>
+	
+	<sql-query name="getDepreciation.from.depreciateFrom.byFixedassetId">
+		select d from com.vimukti.accounter.core.Depreciation d inner join d.fixedAsset where d.depreciateFrom >= ? and d.status=? and d.fixedAsset.id=?
+	</sql-query>
+	
+	<sql-query name="update.Entry.oldNameTo.newName">
+	<query-param name="newName" type="string" />
+	<query-param name="oldName" type="string" />
+		update com.vimukti.accounter.core.Entry set memo=:newName where memo=:oldName
+	</sql-query>
+	
+	<sql-query name="get.TransactionDate.from.TransactionbyDate">
+	<query-param name="date" type="com.vimukti.accounter.core.LongUseType" />
+		select t.transactionDate from com.vimukti.accounter.core.Transaction t where t.transactionDate   &lt;: date
+	</sql-query>
+	
+	<sql-query name="update.Entry.oldNameTo.newName">
+	<query-param name="newName" type="string" />
+	<query-param name="oldName" type="string" />
+		update com.vimukti.accounter.core.Entry set memo=:newName where memo=:oldName
+	</sql-query>
+	
+	<sql-query name="getFisaclId.andSum.fromAccountTransaction">
+	<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
+		select at.account.id as accountId, sum(at.amount) as amount from com.vimukti.accounter.core.AccountTransaction at where at.account.type in (14,15,16,17,18) and at.transaction.transactionDate between :startDate and :endDate group by at.account.id
+	</sql-query>
+
+	<sql-query name="getDepreciation.byFixedAsset.andWithDetails">
+		select d from com.vimukti.accounter.core.Depreciation d inner join d.fixedAsset where d.depreciateFrom >= ? and d.status=? and d.fixedAsset.id=? group by d.fixedAsset.id
+	</sql-query>
+	
+	
+	<sql-query name="getEntry.byId.andMax">
+		select e.voucherNumber from com.vimukti.accounter.core.Entry e where e.id = (select max(e1.id) from com.vimukti.accounter.core.Entry e1 )
+	</sql-query>
+	
+	<sql-query name="getCustomer.byId.andOrder">
+	select c.number from com.vimukti.accounter.core.Customer c order by c.id
+	</sql-query>
+	
+	<sql-query name="getassestNumber.from.FixedAsset">
+		<query-param name="status" type="integer" />
+		select f.assetNumber from com.vimukti.accounter.core.FixedAsset f
+	</sql-query>
+	
+	<sql-query name="getTransactionNumber.by.type">
+		<query-param name="transactionType" type="integer" />
+	select t.number from com.vimukti.accounter.core.Transaction t where t.type =:transactionType
+	</sql-query>
+	
+	<sql-query name="getPayeename.from.PayeebyId">
+		<query-param name="id" type="integer" />
+	select p.name from com.vimukti.accounter.core.Payee p where p.id=:id
+	</sql-query>
+	
+	<sql-query name="getTransactionNumber.by.type">
+		<query-param name="transactionType" type="integer" />
+	select t.number from com.vimukti.accounter.core.Transaction t where t.type =:transactionType
+	</sql-query>
+	
+	<sql-query name="getFlow.by.Id.from.Account">
+		<query-param name="transactionType" type="integer" />
+    select a.flow from Account a where a.id= (select max(a1.id) from Account a1 where a1.parent is null)
+	</sql-query>
+	
+	<sql-query name="getCount.from.Account.and.parent">
+    select count(*) from Account a where a.parent=:parent
+	</sql-query>
+	
+	
+
+
 	<query name="getUsers.active">
 		from com.vimukti.accounter.core.User user where
 		user.isActive=true and user.userRole != 'Basic
@@ -252,7 +334,205 @@
 		<query-param name="status" type="integer" />
 		from com.vimukti.accounter.core.PayBill pb where pb.status =:status
 	</query>
+	
+	<query name="getFlowList.form.Account.byId">
+		<query-param name="parent" type="Account" />
+		<query-param name="parent" type="String" />
+		from com.vimukti.accounter.core.Account a where a.parent=:parent and
+		a.flow !=:flow order by a.id
+	</query>
+	
+	<query name="getListofNames.from.customerGroup">
+		from com.vimukti.accounter.core.CustomerGroup C where C.name=?
+	</query>
+	
+	<query name="getNameofBank.from.Bank">
+		from com.vimukti.accounter.core.Bank B where B.name=?
+	</query>
+	
+	<query name="getMaxDepreciation.from.Depreciation.byStatus">
+		from com.vimukti.accounter.core.Depreciation d where d.id=((select max(d1.id) from com.vimukti.accounter.core.Depreciation d1 where d1.depreciationFor = ? and d1.status=?))
+	</query>
+	
+	<query name="getDepreciation.from.DepreciationFom.andStatus">
+		from com.vimukti.accounter.core.Depreciation d where d.depreciateFrom >= ? and d.status=? 
+	</query>
+	
+	<query name="getTransaction.by.Transactiondates">
+		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
+		from com.vimukti.accounter.core.Transaction t where t.transactionDate between :startDate and :endDate
+	</query>
+	
+	<query name="getFisacalyear.by.Startdate">
+		<query-param name="status" type="integer" />
+		from com.vimukti.accounter.core.FiscalYear f order by f.startDate
+	</query>
+	
+	<query name="getFiscalyear.byId.andDates">
+		<query-param name="status" type="integer" />
+			<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
+		from com.vimukti.accounter.core.FiscalYear f where f.id !=:id and f.startDate &lt; :startDate order by f.startDate desc
+	</query>
+	
+	<query name="getDepreciation.byDepreciationForm.andStatus">
+		from com.vimukti.accounter.core.Depreciation d where d.depreciateFrom >= ? and d.status=? 
+	</query>
+	
+	<query name="getItem.by.Name">
+		from com.vimukti.accounter.core.Item I where I.name=?
+	</query>
+	
+	<query name="getNameofAccount.by.Name">
+		from com.vimukti.accounter.core.Account a where a.name = ?
+	</query>
+	
+	<query name="get.Entry">
+		from com.vimukti.accounter.core.Entry e 
+	</query>
+	
+	<query name="getPaymentTerms.by.Name">
+	from com.vimukti.accounter.core.PaymentTerms P where P.name=?
+	</query>
+	
+	<query name="getName.by.SalesPerson">
+	from com.vimukti.accounter.core.SalesPerson S where S.name=?
+	</query>
+	
+	<query name="getShippingmethod.by.Name">
+		from com.vimukti.accounter.core.ShippingMethod S where S.name=?
+	</query>
+	
+	<query name="getShippingTerms.by.Name">
+		from com.vimukti.accounter.core.ShippingTerms S where S.name=?
+	</query>
+	
+	<query name="getTaxAgency.by.Name">
+		from com.vimukti.accounter.core.TAXAgency V where V.name=?
+	</query>
+	
+		<query name="getTaxCode.by.id">
+		<query-param name="id" type="long" />
+		from com.vimukti.accounter.core.TAXCode t where t.id =:id
+	</query>
+	
+		<query name="getTaxACode.inTaxitem.by.id">
+			<query-param name="id" type="long" />
+	    from com.vimukti.accounter.core.TAXCode t where t.id =:id
+	</query>
+	
+		<query name="getTaxrate.by.TransactioId.and.Vatreturn">
+		from com.vimukti.accounter.core.TAXRateCalculation vr where vr.transactionItem.transaction.id=? and vr.vatReturn is not null
+	</query>
+	
+	<query name="getTaxAdjustment.by.dates">
+		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
+			<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
+		from com.vimukti.accounter.core.TAXAdjustment v where v.transactionDate between :fromDate and :toDate and v.isFiled = false
+	</query>
+	
+	<query name="getTaxrateCalc.by.taxitem.and.details">
+	<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="vatAgency" type="long" />
+		from com.vimukti.accounter.core.TAXRateCalculation vr where vr.taxItem is not null and vr.taxAgency.id=:vatAgency and vr.transactionDate &lt;= :toDate and vr.vatReturn is null
+	</query>
+	
+	<query name="getTaxrateCalc.by.vatitem.and.details">
+	<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
+	<query-param name="vatAgency" type="long" />
+		from com.vimukti.accounter.core.TAXRateCalculation vr where vr.vatItem is not null and vr.vatItem.vatAgency.id=:vatAgency and vr.transactionDate > :toDate and vr.vatReturn is null
+	</query>
 
-
+   <query name="getVendor.by.name">
+	from com.vimukti.accounter.core.Vendor V where V.name=?
+	</query>
+	
+	<query name="getVendorGroup.by.name">
+		from com.vimukti.accounter.core.VendorGroup V where V.name=?
+	</query>
+	
+	<query name="getFixedAsset.by.statusAnd.purchaseDate">
+		from com.vimukti.accounter.core.FixedAsset f where f.status = 2 and f.purchaseDate <= ?
+	</query>
+	
+	<query name="getAccount.by.idInAccountList">
+		from com.vimukti.accounter.core.Account a where a.id in (:accountsList)
+	</query>
+	
+	<query name="getDepreciation.by.ToandStatus">
+		from com.vimukti.accounter.core.Depreciation d where d.depreciateTo >= ? and d.status=?
+	</query>
+	
+	<query name="getAccount.by.id">
+		from com.vimukti.accounter.core.Account a where a.id =?
+	</query>
+	
+	<query name="getTaxCalc.by.TaxAgencyId.and.withOtherDetails">
+	<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
+			<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
+			<query-param name="taxAgency" type="long" />
+		from com.vimukti.accounter.core.TAXRateCalculation vr where vr.taxItem.taxAgency.id=:taxAgency and  
+									vr.taxItem is not null and vr.transactionDate between :fromDate and :toDate group by vr.id,vr.transactionItem,vr.taxItem order by vr.transactionItem,vr.taxItem
+	</query>
+	
+		<query name="getTaxrateCalc.by.TaxAgencyandItem.and.Dates">
+		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
+			<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
+		from com.vimukti.accounter.core.TAXRateCalculation vr where 
+									 vr.taxItem is not null and vr.transactionDate between :fromDate and :toDate group by vr.id,vr.transactionItem,vr.taxItem order by vr.transactionItem,vr.taxItem
+	</query>
+	
+		<query name="getTaxadjustment.by.allDetails.withOrder">
+		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
+			<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
+			<query-param name="taxAgency" type="long" />
+		from com.vimukti.accounter.core.TAXAdjustment v where v.taxItem.taxAgency.id=:taxAgency and v.transactionDate between :fromDate and :toDate order by v.taxItem
+	</query>
+	
+		<query name="getTaxadjustment.by.betweenDates">
+		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
+			<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
+		from com.vimukti.accounter.core.TAXAdjustment v where v.transactionDate between :fromDate and :toDate order by v.taxItem
+	</query>
+	
+		<query name="getVat.by.taxAgency.and.VatPeriod">
+		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
+			<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
+			<query-param name="taxAgency" type="long" />
+		from com.vimukti.accounter.core.VATReturn v where v.taxAgency.id=:taxAgency and v.VATperiodEndDate between :fromDate and :toDate
+	</query>
+	
+		<query name="getVat.by.BetweenendDates">
+		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
+			<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
+		from com.vimukti.accounter.core.VATReturn v where v.VATperiodEndDate between :fromDate and :toDate
+	</query>
+	
+	<query name="getTaxAgency.by.liabilityAccountId">
+		from com.vimukti.accounter.core.TaxAgency ta where ta.liabilityAccount.id = ?
+	</query>
+	
+	<query name="getAccount.by.name.and.type">
+		from com.vimukti.accounter.core.Account a where and a.name = ? and a.type = ? 
+	</query>
+	
+	<query name="getAccount.by.id.and.type">
+		from com.vimukti.accounter.core.Account a a.id = ? and a.type = ? 
+	</query>
+	
+	<query name="getcreditandPayments.by.Payieeid.and.balance">
+	from com.vimukti.accounter.core.CreditsAndPayments cp where cp.payee.id = ? and cp.balance > 0.0  
+	</query>
+	
+	<query name="getFisacalyear">
+		from com.vimukti.accounter.core.FiscalYear fs 
+	</query>
+	
+	<query name="getFisacalyear.by.id.and.Startdate">
+	<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
+			<query-param name="id" type="long" />
+	from com.vimukti.accounter.core.FiscalYear f where f.id !=:id and f.startDate>=:startDate order by f.startDate
+	</query>
+	
 
 </hibernate-mapping>
