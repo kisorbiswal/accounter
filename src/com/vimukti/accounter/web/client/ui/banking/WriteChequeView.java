@@ -680,11 +680,11 @@ public class WriteChequeView extends
 		listforms = new ArrayList<DynamicForm>();
 
 		// setTitle(bankingConstants.writeCheck());
-		Label lab1 = new Label(bankingConstants.writeCheck() + "("
+		Label lab1 = new Label(Accounter.constants().writeCheck() + "("
 				+ getTransactionStatus() + ")");
 		lab1.addStyleName(Accounter.constants().lableTitle());
 		if (takenPaySalesTax != null)
-			lab1.setText(bankingConstants.taxAgentPayment());
+			lab1.setText(Accounter.constants().taxAgentPayment());
 
 		transactionNumber = createTransactionNumberItem();
 		// nText.setValue(bankingConstants.toBePrinted());
@@ -738,11 +738,12 @@ public class WriteChequeView extends
 		forms.add(numForm);
 		formItems.add(date);
 
-		balText = new AmountField(bankingConstants.balance());
+		balText = new AmountField(Accounter.constants().balance());
 		balText.setWidth(100);
 		balText.setDisabled(true);
 
-		bankAccSelect = new PayFromAccountsCombo(bankingConstants.bankAccount());
+		bankAccSelect = new PayFromAccountsCombo(Accounter.constants()
+				.bankAccount());
 		// bankAccSelect.setWidth(100);
 		bankAccSelect.setRequired(true);
 		bankAccSelect.setDisabled(isEdit);
@@ -768,7 +769,7 @@ public class WriteChequeView extends
 		bankAccForm.getCellFormatter().setWidth(0, 0, "232px");
 		forms.add(bankAccForm);
 
-		paytoSelect = new PayeeCombo(bankingConstants.payTo());
+		paytoSelect = new PayeeCombo(Accounter.constants().payTo());
 		// paytoSelect.setWidth(100);
 		paytoSelect.setRequired(true);
 		paytoSelect.setDisabled(isEdit);
@@ -813,7 +814,7 @@ public class WriteChequeView extends
 		billToCombo = createBillToComboItem();
 		// billToCombo.setWidth(100);
 
-		amtText = new AmountLabel(bankingConstants.amount());
+		amtText = new AmountLabel(Accounter.constants().amount());
 		amtText.setWidth(60);
 		amtText.setAmount(0.00);
 		amtText.setDisabled(isEdit);
@@ -840,7 +841,7 @@ public class WriteChequeView extends
 		memoForm.setFields(memoTextAreaItem);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		toprintCheck = new CheckboxItem(bankingConstants.toBePrinted());
+		toprintCheck = new CheckboxItem(Accounter.constants().toBePrinted());
 		toprintCheck.setDisabled(false);
 		toprintCheck.setValue(true);
 		// toprintCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -1198,18 +1199,16 @@ public class WriteChequeView extends
 			case ClientWriteCheck.TYPE_VENDOR:
 			case ClientWriteCheck.TYPE_TAX_AGENCY:
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-					setMenuItems(button, Accounter.constants()
-							.accounts(), Accounter.constants()
-							.product()
+					setMenuItems(button, Accounter.constants().accounts(),
+							Accounter.constants().product()
 					// FinanceApplication.constants().comment(),
 					// FinanceApplication.constants()
 					// .salesTax()
 					);
 				else
-					setMenuItems(button, Accounter.constants()
-							.accounts(), Accounter.constants()
-							.product(),
-					// FinanceApplication.constants().comment(),
+					setMenuItems(button, Accounter.constants().accounts(),
+							Accounter.constants().product(),
+							// FinanceApplication.constants().comment(),
 							Accounter.constants().VATItem());
 				// break;
 				// case ClientWriteCheck.TYPE_VENDOR:
@@ -1243,8 +1242,8 @@ public class WriteChequeView extends
 				// FinanceApplication.constants().comment());
 			}
 		} else
-			setMenuItems(button, Accounter.constants().accounts(),
-					Accounter.constants().product()
+			setMenuItems(button, Accounter.constants().accounts(), Accounter
+					.constants().product()
 			// FinanceApplication.constants().comment(),
 			// FinanceApplication.constants().salesTax()
 			);
@@ -1258,12 +1257,10 @@ public class WriteChequeView extends
 			if (payee.getType() == ClientWriteCheck.TYPE_CUSTOMER) {
 				if (item.equals(Accounter.constants().accounts())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-				} else if (item.equals(Accounter.constants()
-						.product())) {
+				} else if (item.equals(Accounter.constants().product())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 
-				} else if (item.equals(Accounter.constants()
-						.comment())) {
+				} else if (item.equals(Accounter.constants().comment())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);
 				} else if (item.equals("Sales Tax")) {
 					transactionItem
@@ -1274,11 +1271,9 @@ public class WriteChequeView extends
 					|| payee.getType() == ClientWriteCheck.TYPE_TAX_AGENCY) {
 				if (item.equals(Accounter.constants().accounts())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-				} else if (item.equals(Accounter.constants()
-						.product())) {
+				} else if (item.equals(Accounter.constants().product())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-				} else if (item.equals(Accounter.constants()
-						.comment())) {
+				} else if (item.equals(Accounter.constants().comment())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);
 				}
 				transactionVendorGrid.addData(transactionItem);
@@ -1290,8 +1285,7 @@ public class WriteChequeView extends
 				transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 			} else if (item.equals(Accounter.constants().comment())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);
-			} else if (item
-					.equals(Accounter.constants().salesTax())) {
+			} else if (item.equals(Accounter.constants().salesTax())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_SALESTAX);
 			}
 			transactionCustomerGrid.addData(transactionItem);
@@ -1319,13 +1313,11 @@ public class WriteChequeView extends
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		
 
 	}
 
@@ -1410,13 +1402,11 @@ public class WriteChequeView extends
 
 	@Override
 	public void print() {
-		
 
 	}
 
 	@Override
 	public void printPreview() {
-		
 
 	}
 
@@ -1447,6 +1437,6 @@ public class WriteChequeView extends
 
 	@Override
 	protected String getViewTitle() {
-		return bankingConstants.writeCheck();
+		return Accounter.constants().writeCheck();
 	}
 }
