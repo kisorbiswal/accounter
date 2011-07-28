@@ -56,10 +56,10 @@ public class CashFlowStatementAction extends Action {
 	}
 
 	
-	@Override
-	public ParentCanvas getView() {
-		return this.report;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		return this.report;
+//	}
 
 	public ImageResource getBigImage() {
 		return null;
@@ -69,10 +69,10 @@ public class CashFlowStatementAction extends Action {
 		return Accounter.getFinanceMenuImages().reports();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/reports.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/reports.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

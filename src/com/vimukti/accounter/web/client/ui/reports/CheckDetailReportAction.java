@@ -28,10 +28,10 @@ public class CheckDetailReportAction extends Action {
 	}
 
 	
-	@Override
-	public ParentCanvas getView() {
-		return this.report;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		return this.report;
+//	}
 
 	@Override
 	public void run(final Object data, final Boolean isDependent) {
@@ -58,10 +58,10 @@ public class CheckDetailReportAction extends Action {
 
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/reports.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/reports.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

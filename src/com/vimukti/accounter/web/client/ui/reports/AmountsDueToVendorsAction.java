@@ -28,10 +28,10 @@ public class AmountsDueToVendorsAction extends Action {
 	}
 
 	
-	@Override
-	public ParentCanvas getView() {
-		return this.report;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		return this.report;
+//	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallBack() {
@@ -68,10 +68,10 @@ public class AmountsDueToVendorsAction extends Action {
 		return Accounter.getFinanceMenuImages().reports();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/reports.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/reports.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

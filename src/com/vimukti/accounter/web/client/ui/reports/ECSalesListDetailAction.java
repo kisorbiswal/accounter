@@ -34,10 +34,10 @@ public class ECSalesListDetailAction extends Action {
 	}
 
 	
-	@Override
-	public ParentCanvas getView() {
-		return this.report;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		return this.report;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -67,10 +67,10 @@ public class ECSalesListDetailAction extends Action {
 
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/reports.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/reports.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

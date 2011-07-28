@@ -53,10 +53,10 @@ public class ExpenseReportAction extends Action {
 	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
 	 */
 	
-	@Override
-	public ParentCanvas getView() {
-		return null;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		return null;
+//	}
 
 	/**
 	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
@@ -72,10 +72,10 @@ public class ExpenseReportAction extends Action {
 		return Accounter.getFinanceMenuImages().reports();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/reports.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/reports.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {
