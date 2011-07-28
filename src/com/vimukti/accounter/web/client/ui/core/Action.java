@@ -1,13 +1,9 @@
 package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 
 /**
- * @author Raj Vimal
- * @modified by kumar kasimala
- * @modified by Fernandez
  */
 public abstract class Action {
 
@@ -24,8 +20,6 @@ public abstract class Action {
 	private String iconString;
 
 	
-	private AsyncCallback<Object> callbackObject;
-
 	public String catagory = "";
 
 	private FormItem formItemResponsibleForAction;
@@ -48,14 +42,6 @@ public abstract class Action {
 	public Action(String text, String iconString) {
 		setText(text);
 		setIcon(iconString);
-	}
-
-	public Action(String text, String iconString, Object editableObject,
-			AsyncCallback<Object> callbackObject) {
-		setText(text);
-		setIcon(iconString);
-		// this.editableObject = editableObject;
-		this.callbackObject = callbackObject;
 	}
 
 	/**
@@ -173,13 +159,6 @@ public abstract class Action {
 	public abstract ImageResource getBigImage();
 
 	public abstract ImageResource getSmallImage();
-
-	
-	public abstract ParentCanvas getView();
-
-	public String getImageUrl() {
-		return "";
-	}
 
 	public abstract String getHistoryToken();
 
