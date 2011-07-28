@@ -102,7 +102,7 @@ public class ApplyCreditDialog extends BaseDialog {
 		cashDiscText.setValue(cashDiscount);
 		cashDiscText.setDisabled(true);
 
-		totBalText = new AmountField(Accounter.constants().totalBal());
+		totBalText = new AmountField(Accounter.constants().totalBalance());
 		totBalText.setColSpan(1);
 		totBalText.setDisabled(true);
 

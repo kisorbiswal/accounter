@@ -2467,7 +2467,7 @@ public interface AccounterConstants extends Constants {
 
 	public String payBalSettings();
 
-	public String PayBill();
+	public String payBill();
 
 	public String payBills();
 

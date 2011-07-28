@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
 
-
 public class BaseHomeView extends AbstractBaseView {
 	private VerticalPanel widgetLayout;
 
@@ -37,8 +36,7 @@ public class BaseHomeView extends AbstractBaseView {
 		// secondImagePanel.setStyleName(FinanceApplication
 		// .constants().imageAction());
 		VerticalPanel imagePanel = new VerticalPanel();
-		imagePanel.setStyleName(Accounter.constants()
-				.imageActionContainer());
+		imagePanel.setStyleName(Accounter.constants().imageActionContainer());
 		imagePanel.setSpacing(5);
 		// imagePanel.setWidth("100%");
 		// imagePanel.add(firstImagePanel);
@@ -77,9 +75,8 @@ public class BaseHomeView extends AbstractBaseView {
 		HorizontalPanel firstRowPanel = new HorizontalPanel();
 		firstRowPanel.setWidth("100%");
 
-		ImageButton invoiceButton = new ImageButton(Accounter
-				.constants().enterInvoice(),
-				"/images/new_invoice.png");
+		ImageButton invoiceButton = new ImageButton(Accounter.constants()
+				.enterInvoice(), "/images/new_invoice.png");
 		invoiceButton.setAction(CustomersActionFactory.getNewInvoiceAction());
 
 		ImageButton receivePaymentButton = new ImageButton(Accounter
@@ -88,18 +85,16 @@ public class BaseHomeView extends AbstractBaseView {
 		receivePaymentButton.setAction(CustomersActionFactory
 				.getReceivePaymentAction());
 
-		ImageButton refundAnsCredits = new ImageButton(Accounter
-				.constants().customerCredit(),
-				"/images/customer_refunds_list.png");
+		ImageButton refundAnsCredits = new ImageButton(Accounter.constants()
+				.customerCredit(), "/images/customer_refunds_list.png");
 		refundAnsCredits.setAction(CustomersActionFactory
 				.getNewCreditsAndRefundsAction());
 
-		ImageButton bankDeposit = new ImageButton(Accounter
-				.constants().bankDeposite(),
-				"/images/make_deposit.png");
+		ImageButton bankDeposit = new ImageButton(Accounter.constants()
+				.bankDeposite(), "/images/make_deposit.png");
 		bankDeposit.setAction(BankingActionFactory.getMakeDepositAction());
-		ImageButton fileVat = new ImageButton(Accounter.constants()
-				.fileVAT(), "/images/File_vat.png");
+		ImageButton fileVat = new ImageButton(Accounter.constants().fileVAT(),
+				"/images/File_vat.png");
 		fileVat.setAction(VatActionFactory.getFileVatAction());
 
 		// ImageButton vat = new ImageButton(FinanceApplication
@@ -140,27 +135,24 @@ public class BaseHomeView extends AbstractBaseView {
 		HorizontalPanel secondRowPanel = new HorizontalPanel();
 		secondRowPanel.setWidth("100%");
 
-		ImageButton enterBillButton = new ImageButton(Accounter
-				.constants().enterBill(), "/images/enter_bills.png");
+		ImageButton enterBillButton = new ImageButton(Accounter.constants()
+				.enterBill(), "/images/enter_bills.png");
 		enterBillButton.setAction(VendorsActionFactory.getEnterBillsAction());
 
-		ImageButton payBill = new ImageButton(Accounter.constants()
-				.payBill(), "/images/pay_bills.png");
+		ImageButton payBill = new ImageButton(Accounter.constants().payBill(),
+				"/images/pay_bills.png");
 		payBill.setAction(VendorsActionFactory.getPayBillsAction());
 
 		ImageButton vendorcredit = new ImageButton(UIUtils.getVendorString(
-				Accounter.constants().supplierCredit(), Accounter
-						.constants().vendorCreditMemo()),
-				"/images/new_credit_memo.png");
+				Accounter.constants().supplierCredit(), Accounter.constants()
+						.vendorCreditMemo()), "/images/new_credit_memo.png");
 		vendorcredit.setAction(VendorsActionFactory.getNewCreditMemoAction());
 
-		ImageButton expenses = new ImageButton(Accounter
-				.constants().enterExpenses(),
-				"/images/record_expenses.png");
+		ImageButton expenses = new ImageButton(Accounter.constants()
+				.enterExpenses(), "/images/record_expenses.png");
 		expenses.setAction(VendorsActionFactory.getRecordExpensesAction());
-		ImageButton creditCardCharge = new ImageButton(Accounter
-				.constants().creaditCardCharges(),
-				"/images/credit_card_charge.png");
+		ImageButton creditCardCharge = new ImageButton(Accounter.constants()
+				.creaditCardCharges(), "/images/credit_card_charge.png");
 		creditCardCharge.setAction(BankingActionFactory
 				.getCreditCardChargeAction());
 
