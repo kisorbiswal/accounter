@@ -11,7 +11,8 @@ package com.vimukti.accounter.web.client.exception;
 public class AccounterException extends Exception {
 
 	protected int errorCode;
-	private long id;
+
+	// private long id;
 
 	/**
 	 * Creates new Instance
@@ -57,14 +58,14 @@ public class AccounterException extends Exception {
 	/**
 	 * @param id
 	 */
-	public void setID(long id) {
-		this.id = id;
-	}
+	// public void setID(long id) {
+	// this.id = id;
+	// }
 
 	/**
 	 * @return
 	 */
-	public long getID() {
-		return this.id;
-	}
+	// public long getID() {
+	// return this.id;
+	// }
 }

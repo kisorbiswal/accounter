@@ -221,7 +221,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 			@Override
 			public void onCancelClick() {
-				Accounter.stopExecution();
+				// Accounter.stopExecution();
 			}
 		});
 	}

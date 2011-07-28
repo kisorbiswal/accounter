@@ -31,7 +31,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	protected double total;
 	protected String viewType;
 
-	long id;
+	// long id;
 
 	BaseListView view;
 
@@ -235,15 +235,13 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 			Accounter.showError("Updation Failed!");
 	}
 
-	@Override
-	public long getID() {
-		return this.id;
-	}
-
-	@Override
-	public void setID(long id) {
-		this.id = id;
-	}
+	// public long getID() {
+	// return this.id;
+	// }
+	//
+	// public void setID(long id) {
+	// this.id = id;
+	// }
 
 	public void setTotal() {
 	}

@@ -132,7 +132,6 @@ public class UIUtils {
 			return false;
 	}
 
-	
 	public static boolean hasAlphaNumericCharacters(String string) {
 		if (string == null || string.equals(""))
 			return true;
@@ -514,7 +513,6 @@ public class UIUtils {
 		return formate;
 	}-*/;
 
-	
 	public static <T extends IAccounterCore> AsyncCallback<Boolean> getGeneralizedUpdateCallBack(
 			final AbstractBaseView view, final T object) {
 
@@ -529,7 +527,7 @@ public class UIUtils {
 					onFailure(new Exception("UnKnown Exception.... Got Null"));
 					return;
 				}
-				Accounter.stopExecution();
+				// Accounter.stopExecution();
 				view.saveSuccess(object);
 			}
 
@@ -539,7 +537,7 @@ public class UIUtils {
 
 	}
 
-	// 
+	//
 	// public static <T extends IAccounterCore> AsyncCallback<String>
 	// getGeneralizedSaveCallBack(
 	// final AbstractBaseView view, final T object) {
@@ -567,7 +565,6 @@ public class UIUtils {
 	//
 	// }
 
-	
 	public static AsyncCallback<Boolean> getGeneralizedDeleteCallBack(
 			final AbstractBaseView view) {
 
@@ -582,7 +579,7 @@ public class UIUtils {
 					onFailure(new Exception("UnKnown Exception.... Got Null"));
 					return;
 				}
-				Accounter.stopExecution();
+				// Accounter.stopExecution();
 				// view.updateCompany((IAccounterCore) result);
 				view.deleteSuccess(result);
 			}
@@ -593,7 +590,7 @@ public class UIUtils {
 
 	}
 
-	// 
+	//
 	// public static <T extends IAccounterCore> AsyncCallback<String>
 	// getGeneralizedSaveCallBack(
 	// final AbstractBaseDialog view, final T object) {
@@ -669,10 +666,10 @@ public class UIUtils {
 		case AccountCombo.DEPOSIT_IN_ACCOUNT:
 			for (int type : accountTypes) {
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-					if (
-					 type == ClientAccount.TYPE_BANK ||
-					// || type == ClientAccount.TYPE_CASH
-					type == ClientAccount.TYPE_OTHER_CURRENT_ASSET
+					if (type == ClientAccount.TYPE_BANK
+							||
+							// || type == ClientAccount.TYPE_CASH
+							type == ClientAccount.TYPE_OTHER_CURRENT_ASSET
 							|| type == ClientAccount.TYPE_CREDIT_CARD
 							|| type == ClientAccount.TYPE_FIXED_ASSET)
 						options.add(type);
@@ -690,11 +687,11 @@ public class UIUtils {
 
 		case AccountCombo.PAY_FROM_COMBO:
 			for (int type : accountTypes) {
-				if (
-				 type == ClientAccount.TYPE_BANK ||
-				// || type == ClientAccount.TYPE_CASH
-				// ||
-				type == ClientAccount.TYPE_CREDIT_CARD
+				if (type == ClientAccount.TYPE_BANK
+						||
+						// || type == ClientAccount.TYPE_CASH
+						// ||
+						type == ClientAccount.TYPE_CREDIT_CARD
 						|| type == ClientAccount.TYPE_LONG_TERM_LIABILITY
 						|| type == ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
 						|| type == ClientAccount.TYPE_FIXED_ASSET)
@@ -869,17 +866,14 @@ public class UIUtils {
 		List<String> listOfPaymentMethods = new ArrayList<String>();
 		listOfPaymentMethods.add(Accounter.constants().cash());
 		listOfPaymentMethods.add(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(Accounter
-						.constants().check()));
+				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
+						.check()));
 		listOfPaymentMethods.add(Accounter.constants().creditCard());
 		listOfPaymentMethods.add(Accounter.constants().directDebit());
 		listOfPaymentMethods.add(Accounter.constants().masterCard());
-		listOfPaymentMethods
-				.add(Accounter.constants().onlineBanking());
-		listOfPaymentMethods
-				.add(Accounter.constants().standingOrder());
-		listOfPaymentMethods
-				.add(Accounter.constants().switchMaestro());
+		listOfPaymentMethods.add(Accounter.constants().onlineBanking());
+		listOfPaymentMethods.add(Accounter.constants().standingOrder());
+		listOfPaymentMethods.add(Accounter.constants().switchMaestro());
 		selectCombo.initCombo(listOfPaymentMethods);
 
 		return selectCombo;
@@ -984,7 +978,7 @@ public class UIUtils {
 	}
 
 	public static void addStyleToElement(String name, Element element) {
-		
+
 		DynamicForm form = new DynamicForm();
 
 	}
@@ -1112,7 +1106,6 @@ public class UIUtils {
 			return ClientEmail.TYPE_EMAIL_1;
 	}
 
-	
 	public static String getDateStringFormat(ClientFinanceDate cFdate) {
 		Date date = cFdate.getDateAsObject();
 		String formate = "";
@@ -1792,8 +1785,7 @@ public class UIUtils {
 	public static String getpaymentMethodCheckBy_CompanyType(
 			String paymentMethod) {
 		if (paymentMethod.equals(Accounter.constants().cheque())
-				|| paymentMethod.equals(Accounter.constants()
-						.check())) {
+				|| paymentMethod.equals(Accounter.constants().check())) {
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 				return "Cheque";
 			else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
