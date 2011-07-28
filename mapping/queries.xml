@@ -452,7 +452,7 @@
 	</query>
 	
 	<query name="getFixedAsset.by.statusAnd.purchaseDate">
-		from com.vimukti.accounter.core.FixedAsset f where f.status = 2 and f.purchaseDate <= ?
+		from com.vimukti.accounter.core.FixedAsset f where f.status = 2 and f.purchaseDate  &lt;= ?
 	</query>
 	
 	<query name="getAccount.by.idInAccountList">
