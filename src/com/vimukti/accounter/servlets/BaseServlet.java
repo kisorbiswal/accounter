@@ -3,6 +3,7 @@ package com.vimukti.accounter.servlets;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
 
@@ -22,7 +23,7 @@ public class BaseServlet extends HttpServlet {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	protected static final long serialVersionUID = 1L;
 	protected static final String LOCAL_DATABASE = "accounter";
 
 	protected String getCompanyName(HttpServletRequest req) {
@@ -64,4 +65,20 @@ public class BaseServlet extends HttpServlet {
 		return null;
 	}
 
+	protected boolean isValidInputs(String... inputs) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	protected void redirect(HttpServletRequest req, HttpServletResponse resp,
+			String page) {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void dispatchMessage(String string, HttpServletRequest req,
+			HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+
+	}
 }
