@@ -23,10 +23,10 @@ public class DeleteThemeAction extends Action {
 	}
 
 	
-	@Override
-	public ParentCanvas getView() {
-		return null;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		return null;
+//	}
 
 	
 	@Override

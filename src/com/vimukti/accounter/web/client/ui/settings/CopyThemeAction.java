@@ -22,11 +22,11 @@ public class CopyThemeAction extends Action {
 		return null;
 	}
 
-	@SuppressWarnings("rawtypes")
-	@Override
-	public ParentCanvas getView() {
-		return null;
-	}
+//	@SuppressWarnings("rawtypes")
+//	@Override
+//	public ParentCanvas getView() {
+//		return null;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
