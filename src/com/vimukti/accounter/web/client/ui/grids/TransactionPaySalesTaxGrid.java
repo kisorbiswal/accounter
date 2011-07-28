@@ -2,21 +2,20 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPaySalesTax;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.PaySalesTaxView;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
-import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 
 public class TransactionPaySalesTaxGrid extends
 		AbstractTransactionGrid<ClientTransactionPaySalesTax> {
-	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
+	AccounterConstants companyConstants = Accounter.constants();
 	PaySalesTaxView paySalesTaxView;
 	private boolean canEdit;
 	private int[] columns = { ListGrid.COLUMN_TYPE_TEXT,

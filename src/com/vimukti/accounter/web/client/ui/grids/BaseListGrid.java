@@ -8,28 +8,25 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
-import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
-import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.IAccounterWidget;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
-import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
-import com.vimukti.accounter.web.client.ui.vendors.VendorsMessages;
 
 public abstract class BaseListGrid<T> extends ListGrid<T> implements
 		IAccounterWidget {
 
 	private List<Integer> cellsWidth = new ArrayList<Integer>();
 	protected IAccounterCRUDServiceAsync rpcDoSerivce;
-	protected CustomersMessages customerConstants;
-	protected CustomersMessages salesPersonConstants;
-	protected VendorsMessages vendorConstants;
-	protected BankingMessages bankingContants;
-	protected CompanyMessages companyConstants;
+	protected AccounterConstants customerConstants;
+	protected AccounterConstants salesPersonConstants;
+	protected AccounterConstants vendorConstants;
+	protected AccounterConstants bankingContants;
+	protected AccounterConstants companyConstants;
 	private int[] columnType;
 	protected double total;
 	protected String viewType;

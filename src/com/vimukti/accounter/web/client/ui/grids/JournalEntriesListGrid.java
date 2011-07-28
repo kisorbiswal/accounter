@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -12,7 +11,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -99,7 +97,7 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 
 	@Override
 	protected String[] getColumns() {
-		companyConstants = GWT.create(CompanyMessages.class);
+		companyConstants =Accounter.constants();
 		return new String[] { companyConstants.voucherNo(),
 				companyConstants.dateCreated(), companyConstants.memo(),
 				companyConstants.amount(), companyConstants.isVoided()

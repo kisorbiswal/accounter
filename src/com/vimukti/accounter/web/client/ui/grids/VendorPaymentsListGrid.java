@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -17,7 +16,6 @@ import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
-import com.vimukti.accounter.web.client.ui.vendors.VendorsMessages;
 
 public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
@@ -68,8 +66,7 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 	private void showWarningDialog(final PaymentsList obj, final int col) {
 		String msg = null;
 		if (col == 8 && !obj.isVoided()) {
-			msg = Accounter.constants()
-					.doyouwanttoVoidtheTransaction();
+			msg = Accounter.constants().doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 9) {
 		// msg = "Do you want to Delete the Transaction";
@@ -80,7 +77,7 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 					@Override
 					public boolean onCancelClick() throws InvalidEntryException {
-						
+
 						return false;
 					}
 
@@ -135,7 +132,7 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected String[] getColumns() {
-		vendorConstants = GWT.create(VendorsMessages.class);
+		vendorConstants = Accounter.constants();
 		return new String[] { vendorConstants.paymentDate(),
 				vendorConstants.paymentNo(), vendorConstants.status(),
 				vendorConstants.issueDate(), vendorConstants.name(),
@@ -205,13 +202,12 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	public boolean validateGrid() {
-	
+
 		return false;
 	}
 
 	@Override
 	protected void executeDelete(PaymentsList object) {
-		
 
 	}
 
@@ -274,7 +270,6 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		
 
 	}
 

@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -9,7 +8,6 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
 import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -54,7 +52,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	@Override
 	protected String[] getColumns() {
-		bankingContants = GWT.create(BankingMessages.class);
+		bankingContants = Accounter.constants();
 		return new String[] { bankingContants.active(), bankingContants.no(),
 				bankingContants.name(), bankingContants.type(),
 				bankingContants.balance(), bankingContants.register(), "" };

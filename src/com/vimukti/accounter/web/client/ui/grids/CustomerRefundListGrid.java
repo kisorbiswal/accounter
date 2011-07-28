@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -15,7 +14,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
-import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
@@ -69,7 +67,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 
 	@Override
 	protected String[] getColumns() {
-		customerConstants = GWT.create(CustomersMessages.class);
+		customerConstants = Accounter.constants();
 		return new String[] { customerConstants.paymentDate(),
 				customerConstants.paymentNo(), customerConstants.status(),
 				customerConstants.issueDate(), customerConstants.name(),

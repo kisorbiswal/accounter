@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import java.util.Set;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -20,7 +19,6 @@ import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
-import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
 
 public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
@@ -112,7 +110,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
 	@Override
 	protected String[] getColumns() {
-		customerConstants = GWT.create(CustomersMessages.class);
+		customerConstants = Accounter.constants();
 		return new String[] { customerConstants.date(), customerConstants.no(),
 				customerConstants.customeRName(), customerConstants.phone(),
 				customerConstants.salesPerson(),
@@ -158,8 +156,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	private void showWarningDialog(final ClientEstimate obj, final int col) {
 		String msg = null;
 		if (col == 8 && obj.getStatus() == ClientEstimate.STATUS_OPEN) {
-			msg = Accounter.constants()
-					.doyouwanttorejecttheEstimate();
+			msg = Accounter.constants().doyouwanttorejecttheEstimate();
 		}
 		// else if (col == 9) {
 		// msg = "Do you want to Delete the Transaction";
@@ -340,7 +337,8 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	public void processupdateView(IAccounterCore core, int command) {
 
 	}
-//this is not using any where
+
+	// this is not using any where
 	public AccounterCoreType getType() {
 		return null;
 	}

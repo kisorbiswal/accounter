@@ -5,12 +5,12 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -19,15 +19,13 @@ import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
-import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
 
 public class CreditsandPaymentsGrid extends
 		AbstractTransactionGrid<ClientCreditsAndPayments> {
 
 	private CustomerCreditsAndPaymentsDialiog dialog;
 	private boolean isCanEdit;
-	private CustomersMessages customerConstants = GWT
-			.create(CustomersMessages.class);
+	private AccounterConstants customerConstants = Accounter.constants();
 	List<Integer> selectedValues = new ArrayList<Integer>();
 	private List<ClientCreditsAndPayments> actualRecords, copyRecords;
 	private int columns[] = { ListGrid.COLUMN_TYPE_TEXT,

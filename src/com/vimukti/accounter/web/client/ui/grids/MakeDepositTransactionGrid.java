@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.grids;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -12,10 +11,10 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -479,7 +478,7 @@ public class MakeDepositTransactionGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		BankingMessages bankingConstants = GWT.create(BankingMessages.class);
+		AccounterConstants bankingConstants = Accounter.constants();
 		return new String[] { // bankingConstants.date(),
 				// bankingConstants.no(), bankingConstants.paymentMethod(),
 				bankingConstants.receivedFrom(),

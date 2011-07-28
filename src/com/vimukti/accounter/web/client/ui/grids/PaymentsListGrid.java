@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -13,7 +12,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -98,7 +96,7 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected String[] getColumns() {
-		bankingContants = GWT.create(BankingMessages.class);
+		bankingContants = Accounter.constants();
 		return new String[] { bankingContants.paymentDate(),
 				bankingContants.paymentNo(), bankingContants.status(),
 				bankingContants.issueDate(), bankingContants.name(),
@@ -121,8 +119,7 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 	private void showWarningDialog(final PaymentsList obj, final int col) {
 		String msg = null;
 		if (col == 8 && !obj.isVoided()) {
-			msg = Accounter.constants()
-					.doyouwanttoVoidtheTransaction();
+			msg = Accounter.constants().doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 9) {
 		// msg = "Do you want to Delete the Transaction";

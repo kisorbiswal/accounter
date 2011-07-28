@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
@@ -30,13 +29,13 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
-import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentView;
 import com.vimukti.accounter.web.client.ui.customers.WriteOffDialog;
 
 public class TransactionReceivePaymentGrid extends
 		AbstractTransactionGrid<ClientTransactionReceivePayment> {
-	CustomersMessages customerConstants = GWT.create(CustomersMessages.class);
+	com.vimukti.accounter.web.client.externalization.AccounterConstants customerConstants = Accounter
+			.constants();
 	ReceivePaymentView paymentView;
 	ClientCustomer customer;
 	List<Integer> selectedValues = new ArrayList<Integer>();

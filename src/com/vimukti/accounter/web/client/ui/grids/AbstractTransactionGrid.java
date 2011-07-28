@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.grids;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.FocusWidget;
@@ -11,8 +10,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
-import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
@@ -40,8 +40,7 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 	private RecordDoubleClickHandler<T> doubleClickHandler;
 	public boolean isItemRecieptView;
 
-	protected CompanyMessages companyConstants = GWT
-			.create(CompanyMessages.class);
+	protected AccounterConstants companyConstants = Accounter.constants();
 
 	public AbstractTransactionGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);

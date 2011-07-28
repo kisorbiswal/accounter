@@ -3,12 +3,12 @@
  */
 package com.vimukti.accounter.web.client.ui.grids;
 
-import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFinanceLogger;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.FinanceLogView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 
 /**
@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException
  */
 public class FinanceLogginGrid extends ListGrid<ClientFinanceLogger> {
 
-	CompanyMessages companyConstants;
+	AccounterConstants companyConstants;
 	private FinanceLogView financeLogView;
 
 	public FinanceLogginGrid() {
@@ -93,7 +93,7 @@ public class FinanceLogginGrid extends ListGrid<ClientFinanceLogger> {
 
 	@Override
 	protected String[] getColumns() {
-		CompanyMessages messages = GWT.create(CompanyMessages.class);
+		AccounterConstants messages =Accounter.constants();
 		return new String[] { messages.description(), messages.createdBy(),
 				messages.date() };
 	}

@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
@@ -13,7 +12,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
-import com.vimukti.accounter.web.client.ui.vendors.VendorsMessages;
 
 public class BillsListGrid extends BaseListGrid<BillsList> {
 
@@ -68,7 +66,7 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected String[] getColumns() {
-		vendorConstants = GWT.create(VendorsMessages.class);
+		vendorConstants = Accounter.constants();
 		return new String[] {
 				vendorConstants.type(),
 				vendorConstants.Date(),

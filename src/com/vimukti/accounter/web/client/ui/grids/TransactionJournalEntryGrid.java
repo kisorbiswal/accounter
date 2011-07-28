@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
@@ -16,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -25,7 +25,6 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
-import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -288,9 +287,8 @@ public class TransactionJournalEntryGrid extends
 			return new String[] {
 					"",
 					Accounter.constants().financialAccount(),
-					UIUtils.getVendorString(Accounter.constants()
-							.supplier(), Accounter.constants()
-							.vendor()),
+					UIUtils.getVendorString(Accounter.constants().supplier(),
+							Accounter.constants().vendor()),
 					Accounter.constants().customer() };
 		}
 
@@ -492,7 +490,7 @@ public class TransactionJournalEntryGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
+		AccounterConstants companyConstants = Accounter.constants();
 		// if (FinanceApplication.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_UK) {
 		// return new String[] { companyConstants.voucherNo(),

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -18,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CashDiscountDialog;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -30,14 +30,13 @@ import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
 import com.vimukti.accounter.web.client.ui.vendors.PayBillView;
-import com.vimukti.accounter.web.client.ui.vendors.VendorsMessages;
 
 public class TransactionPayBillGrid extends
 		AbstractTransactionGrid<ClientTransactionPayBill> {
 
 	private boolean canEdit;
 	public boolean isAlreadyOpened;
-	VendorsMessages vendorConstants = GWT.create(VendorsMessages.class);
+	AccounterConstants vendorConstants = Accounter.constants();
 	PayBillView paybillView;
 	ClientVendor vendor;
 	List<Integer> selectedValues = new ArrayList<Integer>();
