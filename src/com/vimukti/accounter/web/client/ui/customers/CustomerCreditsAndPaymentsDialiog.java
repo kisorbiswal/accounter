@@ -42,14 +42,12 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 
 	public CreditsandPaymentsGrid grid;
 
-	
 	private String amountDue;
-	
+
 	private String cashDiscount;
 
-	
 	private int key;
-	
+
 	private ClientCustomer customer;
 
 	public Double totalBalances = 0.0D;
@@ -71,7 +69,6 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 
 	private List<ClientCreditsAndPayments> updatedCreditsAndPayments;
 
-	
 	private ClientVendor vendor;
 
 	private ClientTransactionPayBill transactionPaybill;
@@ -82,11 +79,9 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 	public CustomerCreditsAndPaymentsDialiog(ClientCustomer customer,
 			List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments,
 			boolean canEdit, ClientTransactionReceivePayment record) {
-		super(Accounter.constants()
-				.applyCreditsAndPaymentsFor(),
+		super(Accounter.constants().applyCreditsAndPaymentsFor(),
 		// + (customer != null ? customer.getName() : ""),
-				Accounter.constants()
-						.applyCreditsAndPayments());
+				Accounter.constants().applyCreditsandPayments());
 		this.customer = customer;
 		this.canEdit = canEdit;
 		updatedCreditsAndPayments = updatedCustomerCreditsAndPayments;
@@ -100,11 +95,9 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 	public CustomerCreditsAndPaymentsDialiog(ClientVendor venddor,
 			List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments,
 			boolean canEdit, ClientTransactionPayBill record) {
-		super(Accounter.constants()
-				.applyCreditsAndPaymentsFor()
-				+ (venddor != null ? venddor.getName() : ""),
-				Accounter.constants()
-						.applyCreditsAndPayments());
+		super(Accounter.constants().applyCreditsAndPaymentsFor()
+				+ (venddor != null ? venddor.getName() : ""), Accounter
+				.constants().applyCreditsandPayments());
 		this.vendor = venddor;
 		this.canEdit = canEdit;
 		updatedCreditsAndPayments = updatedCustomerCreditsAndPayments;
@@ -121,8 +114,7 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 			int key,
 			LinkedHashMap<String, List<ClientTransactionCreditsAndPayments>> creditsAndPaymentsMap,
 			IGenericCallback<String> callback) {
-		super(Accounter.constants()
-				.applyCreditsAndPaymentsFor(), "");
+		super(Accounter.constants().applyCreditsAndPaymentsFor(), "");
 		this.key = key;
 		// this.creditsAndPaymentsMap = creditsAndPaymentsMap;
 
@@ -511,8 +503,7 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants()
-				.applyCreditsAndPaymentsFor();
+		return Accounter.constants().applyCreditsAndPaymentsFor();
 	}
 
 }

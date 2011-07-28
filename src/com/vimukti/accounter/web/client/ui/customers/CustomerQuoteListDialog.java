@@ -29,7 +29,6 @@ import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-
 public class CustomerQuoteListDialog extends AbstractBaseDialog {
 	public DialogGrid grid;
 	private InvoiceView invoiceView;
@@ -65,7 +64,7 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 
 		grid = new DialogGrid(false);
 		grid.addColumns(customerConstants.date(), customerConstants.no(),
-				customerConstants.type(), customerConstants.customeRName(),
+				customerConstants.type(), customerConstants.customerName(),
 				customerConstants.total(), customerConstants.remainingTotal());
 		grid.setView(this);
 		grid.setCellsWidth(70, 30, 80, -1, 60, 95);

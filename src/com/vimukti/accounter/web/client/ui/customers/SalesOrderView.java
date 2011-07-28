@@ -60,9 +60,8 @@ import com.vimukti.accounter.web.client.ui.grids.SalesOrderUSGrid;
 public class SalesOrderView extends
 		AbstractCustomerTransactionView<ClientSalesOrder> {
 
-	
 	private Double payments = 0.0;
-	
+
 	private Double balanceDue = 0.0;
 	private DateField dueDateItem;
 	private LabelItem quoteLabel;
@@ -94,8 +93,7 @@ public class SalesOrderView extends
 		lab1 = new Label(Accounter.constants().salesOrder());
 		lab1.setStyleName(Accounter.constants().lableTitle());
 		// lab1.setHeight("35px");
-		statusSelect = new SelectCombo(Accounter.constants()
-				.statuS());
+		statusSelect = new SelectCombo(Accounter.constants().statuS());
 
 		selectComboList = new ArrayList<String>();
 		selectComboList.add(OPEN);
@@ -141,8 +139,8 @@ public class SalesOrderView extends
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		customerCombo = new CustomerCombo(Accounter.constants()
-				.customeR(), true);
+		customerCombo = new CustomerCombo(Accounter.constants().customer(),
+				true);
 		customerCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
 
@@ -665,7 +663,6 @@ public class SalesOrderView extends
 
 	}
 
-	
 	private void initPayments() {
 
 		if (transactionObject != null) {
@@ -843,8 +840,7 @@ public class SalesOrderView extends
 
 	protected DateField createDueDateItem() {
 
-		DateField dateItem = new DateField(Accounter.constants()
-				.dueDate());
+		DateField dateItem = new DateField(Accounter.constants().dueDate());
 		dateItem.setTitle(Accounter.constants().dueDate());
 		dateItem.setColSpan(1);
 
@@ -916,8 +912,7 @@ public class SalesOrderView extends
 		if (this.rpcUtilService == null)
 			return;
 		if (customer == null) {
-			Accounter.showError(Accounter.constants()
-					.pleaseSelectCustomer());
+			Accounter.showError(Accounter.constants().pleaseSelectCustomer());
 		} else {
 			this.rpcUtilService.getEstimates(customer.getID(),
 					new AsyncCallback<List<ClientEstimate>>() {
