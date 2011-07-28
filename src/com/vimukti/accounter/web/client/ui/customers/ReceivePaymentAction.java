@@ -20,14 +20,14 @@ public class ReceivePaymentAction extends Action {
 	protected ReceivePaymentView view;
 
 	public ReceivePaymentAction(String text, String iconString) {
-		super(Accounter.getCustomersMessages().newReceivePayment(), iconString);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		super(Accounter.constants().newReceivePayment(), iconString);
+		this.catagory = Accounter.constants().customer();
 	}
 
 	public ReceivePaymentAction(String text, String iconString,
 			ClientReceivePayment receivePayment, AsyncCallback<Object> callback) {
 		super(text, iconString, receivePayment, callback);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	@Override

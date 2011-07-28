@@ -100,13 +100,13 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 
 	public void showAddEditGroupDialog(ClientCreditRating rec) {
 		creditRating = rec;
-		String creditRateString = Accounter.getFinanceUIConstants()
+		String creditRateString = Accounter.constants()
 				.creditRating();
-		inputDlg = new InputDialog(Accounter.getCustomersMessages()
+		inputDlg = new InputDialog(Accounter.constants()
 				.creditRating(), "", creditRateString) {
 			@Override
 			protected String getViewTitle() {
-				return Accounter.getCustomersMessages().creditRating();
+				return Accounter.constants().creditRating();
 			}
 		};
 
@@ -127,7 +127,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 						createCreditRatings();
 				} else {
 					// Accounter.showError(FinanceApplication
-					// .getCustomersMessages()
+					// .constants()
 					// .detailsHighlightedInRedMustBeEntered());
 					return false;
 				}
@@ -168,7 +168,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.getFinanceUIConstants().name() };
+		return new String[] { Accounter.constants().name() };
 	}
 
 	@Override
@@ -178,7 +178,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().creditRatingList();
+		return Accounter.constants().creditRatingList();
 	}
 
 }

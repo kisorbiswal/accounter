@@ -220,7 +220,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	}
 
 	public CheckboxItem getVATInclusiveCheckBox() {
-		vatinclusiveCheck = new CheckboxItem(Accounter.getVATMessages()
+		vatinclusiveCheck = new CheckboxItem(Accounter.constants()
 				.amountIncludesVat());
 		vatinclusiveCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -299,7 +299,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	protected DateField createTransactionDateItem() {
 
-		final DateField dateItem = new DateField(Accounter.getVendorsMessages()
+		final DateField dateItem = new DateField(Accounter.constants()
 				.date());
 		dateItem.setHelpInformation(true);
 		// if (this instanceof VendorBillView)
@@ -352,7 +352,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	protected TextItem createTransactionNumberItem() {
 
-		final TextItem item = new TextItem(Accounter.getVendorsMessages().no());
+		final TextItem item = new TextItem(Accounter.constants().no());
 		item.setHelpInformation(true);
 		item.setWidth(100);
 		item.setColSpan(1);
@@ -370,7 +370,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	protected TextItem createRefereceText() {
 
-		TextItem refText = new TextItem(Accounter.getVendorsMessages()
+		TextItem refText = new TextItem(Accounter.constants()
 				.reference());
 		refText.setHelpInformation(true);
 		formItems.add(refText);
@@ -381,7 +381,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	protected AmountField createNetAmountField() {
 		AmountField netAmountField = new AmountField(Accounter
-				.getVendorsMessages().netAmount());
+				.constants().netAmount());
 		netAmountField.setHelpInformation(true);
 		netAmountField.setDefaultValue("£0.00");
 		netAmountField.setDisabled(true);
@@ -390,8 +390,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	protected AmountLabel createNetAmountLabel() {
 		AmountLabel netAmountLabel = new AmountLabel(Accounter
-				.getVendorsMessages().netAmount());
-		netAmountLabel.setTitle(Accounter.getVendorsMessages().netAmount());
+				.constants().netAmount());
+		netAmountLabel.setTitle(Accounter.constants().netAmount());
 		netAmountLabel.setDefaultValue("£0.00");
 		return netAmountLabel;
 	}
@@ -399,7 +399,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	protected AmountLabel createTransactionTotalNonEditableLabelforPurchase() {
 
 		AmountLabel amountLabel = new AmountLabel(Accounter
-				.getCustomersMessages().total());
+				.constants().total());
 
 		return amountLabel;
 
@@ -407,7 +407,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	protected AmountLabel createVATTotalNonEditableLabelforPurchase() {
 		AmountLabel amountLabel = new AmountLabel(Accounter
-				.getCustomersMessages().vat());
+				.constants().vat());
 
 		return amountLabel;
 	}
@@ -420,7 +420,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 			memoArea.setMemo(true);
 		memoArea.setHelpInformation(true);
 
-		memoArea.setTitle(Accounter.getVendorsMessages().memo());
+		memoArea.setTitle(Accounter.constants().memo());
 		// memoArea.setRowSpan(2);
 		// memoArea.setColSpan(3);
 
@@ -549,7 +549,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	}
 
 	public AccounterButton createAddNewButton() {
-		menuButton = new AccounterButton(Accounter.getCompanyMessages()
+		menuButton = new AccounterButton(Accounter.constants()
 				.addNewItm());
 		menuButton.addClickHandler(new ClickHandler() {
 			@Override
@@ -621,28 +621,28 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		String paymentType = null;
 		payVatMethodList = new ArrayList<String>();
 		paymentType = UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-				.getCustomersMessages().check());
+				.constants().check());
 		String payVatMethodArray[] = new String[] {
-				Accounter.getVendorsMessages().cash(), paymentType,
-				Accounter.getVendorsMessages().creditCard(),
-				Accounter.getVendorsMessages().directDebit(),
-				Accounter.getVendorsMessages().masterCard(),
-				Accounter.getVendorsMessages().onlineBanking(),
-				Accounter.getVendorsMessages().standingOrder(),
-				Accounter.getVendorsMessages().switchMaestro() };
+				Accounter.constants().cash(), paymentType,
+				Accounter.constants().creditCard(),
+				Accounter.constants().directDebit(),
+				Accounter.constants().masterCard(),
+				Accounter.constants().onlineBanking(),
+				Accounter.constants().standingOrder(),
+				Accounter.constants().switchMaestro() };
 
 		for (int i = 0; i < payVatMethodArray.length; i++) {
 			payVatMethodList.add(payVatMethodArray[i]);
 		}
 
 		final SelectCombo paymentMethodSelect = new SelectCombo(Accounter
-				.getVendorsMessages().Paymentmethod());
+				.constants().Paymentmethod());
 		paymentMethodSelect.setHelpInformation(true);
 
 		paymentMethodSelect.setRequired(true);
 		paymentMethodSelect.initCombo(payVatMethodList);
 		paymentMethodSelect.setDefaultToFirstOption(true);
-		paymentMethod = Accounter.getVendorsMessages().cash();
+		paymentMethod = Accounter.constants().cash();
 
 		paymentMethodSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {

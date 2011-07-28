@@ -88,7 +88,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	}
 
 	private void createControls() {
-		Label lab = new Label(Accounter.getCompanyMessages()
+		Label lab = new Label(Accounter.constants()
 				.manageSalesTaxGroup());
 		lab.addStyleName("lable-title");
 
@@ -189,7 +189,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 				if (taxGroup != null) {
 					showAddEditTaxGroup(taxGroup);
 				} else {
-					Accounter.showError(Accounter.getFinanceUIConstants()
+					Accounter.showError(Accounter.constants()
 							.selectATaxGroup());
 					new Exception();
 				}
@@ -201,7 +201,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 				if (taxGroup != null) {
 					deleteObject(taxGroup);
 				} else
-					Accounter.showError(Accounter.getFinanceUIConstants()
+					Accounter.showError(Accounter.constants()
 							.selectATaxGroup());
 
 			}
@@ -253,12 +253,12 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 		if (taxGroup != null) {
 			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter
-					.getFinanceUIConstants().taxGroup(), Accounter
-					.getFinanceUIConstants().toAddOrRemoveTaxCode(), taxGroup);
+					.constants().taxGroup(), Accounter
+					.constants().toAddOrRemoveTaxCode(), taxGroup);
 		} else {
 			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter
-					.getFinanceUIConstants().taxGroup(), Accounter
-					.getFinanceUIConstants().toAddOrRemoveTaxCode(), null);
+					.constants().taxGroup(), Accounter
+					.constants().toAddOrRemoveTaxCode(), null);
 		}
 
 		salesTaxGroupDialog.addInputDialogHandler(new InputDialogHandler() {
@@ -283,7 +283,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 						}
 					} else {
 						// Accounter.showError(FinanceApplication
-						// .getFinanceUIConstants()
+						// .constants()
 						// .pleaseEnterTaxGroupName());
 						return false;
 					}
@@ -373,7 +373,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().vatgroupList();
+		return Accounter.constants().vatgroupList();
 	}
 
 }

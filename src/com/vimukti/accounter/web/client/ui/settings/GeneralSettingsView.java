@@ -290,7 +290,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getSettingsMessages().generalSettings();
+		return Accounter.constants().generalSettings();
 	}
 
 }

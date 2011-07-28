@@ -217,11 +217,11 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
 		String[] totalWidget = {
-				Accounter.getCustomersMessages().newCustomer(),
-				Accounter.getCustomersMessages().salesItem(),
-				Accounter.getCustomersMessages().paymentReceived(),
-				Accounter.getCustomersMessages().cashSales(),
-				Accounter.getCustomersMessages().creditAndRefunds() };
+				Accounter.constants().newCustomer(),
+				Accounter.constants().salesItem(),
+				Accounter.constants().paymentReceived(),
+				Accounter.constants().cashSales(),
+				Accounter.constants().creditAndRefunds() };
 		boolean isAvailable = false;
 
 		for (int i = 0; i < totalWidget.length; i++) {
@@ -285,6 +285,6 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().customersHome();
+		return Accounter.constants().customersHome();
 	}
 }

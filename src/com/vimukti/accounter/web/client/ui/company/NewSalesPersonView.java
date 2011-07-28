@@ -65,9 +65,9 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	protected String gender;
 	private List<String> listOfgenders;
 	private String[] genderTypes = {
-			Accounter.getCompanyMessages().unspecified(),
-			Accounter.getCompanyMessages().male(),
-			Accounter.getCompanyMessages().female() };
+			Accounter.constants().unspecified(),
+			Accounter.constants().male(),
+			Accounter.constants().female() };
 	private List<ClientAccount> listOfAccounts;
 
 	private ArrayList<DynamicForm> listforms;
@@ -128,7 +128,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		memoForm.setWidth("50%");
 		memoArea = new TextAreaItem();
 		memoArea.setWidth(100);
-		memoArea.setTitle(Accounter.getCompanyMessages().memo());
+		memoArea.setTitle(Accounter.constants().memo());
 		memoForm.setFields(memoArea);
 		memoForm.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
@@ -339,16 +339,16 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
 		if (takenSalesperson == null)
-			// BaseView.errordata.setHTML(FinanceApplication.getCompanyMessages()
+			// BaseView.errordata.setHTML(FinanceApplication.constants()
 			// .DuplicationOfSalesPesonNotAllowed());
 			MainFinanceWindow.getViewManager().showError(
-					Accounter.getCompanyMessages()
+					Accounter.constants()
 							.DuplicationOfSalesPesonNotAllowed());
 		else
-			// BaseView.errordata.setHTML(FinanceApplication.getCompanyMessages()
+			// BaseView.errordata.setHTML(FinanceApplication.constants()
 			// .salesPersonUpdationFailed());
 			MainFinanceWindow.getViewManager().showError(
-					Accounter.getCompanyMessages().salesPersonUpdationFailed());
+					Accounter.constants().salesPersonUpdationFailed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 	}
@@ -360,17 +360,17 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			// if (takenSalesperson == null)
 			// Accounter.showInformation(((ClientSalesPerson) result)
 			// .getFirstName()
-			// + FinanceApplication.getCompanyMessages()
+			// + FinanceApplication.constants()
 			// .isCreatedSuccessfully());
 			// else
 			// Accounter.showInformation(((ClientSalesPerson) result)
 			// .getFirstName()
-			// + FinanceApplication.getCompanyMessages()
+			// + FinanceApplication.constants()
 			// .isUpdatedSuccessfully());
 			super.saveSuccess(result);
 
 		} else
-			saveFailed(new Exception(Accounter.getCompanyMessages().failed()));
+			saveFailed(new Exception(Accounter.constants().failed()));
 
 	}
 
@@ -403,13 +403,13 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				if (dateOfBirth.getValue().getDateAsObject()
 						.after(new ClientFinanceDate().getDateAsObject())) {
 					throw new InvalidEntryException(Accounter
-							.getCompanyMessages().invalidDateOfBirth());
+							.constants().invalidDateOfBirth());
 
 				}
 				salesPerson.setDateOfBirth(UIUtils.toDate(dateOfBirth
 						.getValue()));
 			} catch (Exception e) {
-				throw new InvalidEntryException(Accounter.getCompanyMessages()
+				throw new InvalidEntryException(Accounter.constants()
 						.invalidDateOfBirth());
 			}
 		}
@@ -470,23 +470,23 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		addrsForm
 				.getCellFormatter()
 				.getElement(0, 0)
-				.setAttribute(Accounter.getCompanyMessages().width(),
+				.setAttribute(Accounter.constants().width(),
 						titlewidth + "");
 		addrsForm
 				.getCellFormatter()
 				.getElement(0, 1)
-				.setAttribute(Accounter.getCompanyMessages().width(),
+				.setAttribute(Accounter.constants().width(),
 						listBoxWidth + "");
 
 		fonFaxForm
 				.getCellFormatter()
 				.getElement(0, 0)
-				.setAttribute(Accounter.getCompanyMessages().width(),
+				.setAttribute(Accounter.constants().width(),
 						titlewidth + "");
 		fonFaxForm
 				.getCellFormatter()
 				.getElement(0, 1)
-				.setAttribute(Accounter.getCompanyMessages().width(),
+				.setAttribute(Accounter.constants().width(),
 						listBoxWidth + "");
 
 		salesPersonForm.getCellFormatter().getElement(0, 0).getStyle()
@@ -495,12 +495,12 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				.setAttribute("width", titlewidth + listBoxWidth + "");
 		memoForm.getCellFormatter()
 				.getElement(0, 0)
-				.setAttribute(Accounter.getCompanyMessages().width(),
+				.setAttribute(Accounter.constants().width(),
 						titlewidth + listBoxWidth + "");
 		emailForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.getCompanyMessages().width(), "");
+				.setAttribute(Accounter.constants().width(), "");
 		emailForm.getCellFormatter().getElement(0, 1)
-				.setAttribute(Accounter.getCompanyMessages().width(), "");
+				.setAttribute(Accounter.constants().width(), "");
 
 	}
 
@@ -594,6 +594,6 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().newSalesperson();
+		return Accounter.constants().newSalesperson();
 	}
 }

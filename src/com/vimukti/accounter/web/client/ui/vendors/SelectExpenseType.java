@@ -15,27 +15,27 @@ import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 @SuppressWarnings("unchecked")
 public class SelectExpenseType extends BaseDialog {
 	RadioGroupItem typeRadio;
-	private final String CHECK = Accounter.getVendorsMessages().check();
-	private final String CREDIT_CARD = Accounter.getVendorsMessages()
+	private final String CHECK = Accounter.constants().check();
+	private final String CREDIT_CARD = Accounter.constants()
 			.creditCard();
 
-	private final String CASH = Accounter.getVendorsMessages().cash();
-	private final String EMPLOYEE = Accounter.getVendorsMessages().employee();
+	private final String CASH = Accounter.constants().cash();
+	private final String EMPLOYEE = Accounter.constants().employee();
 	// private ViewConfiguration configuration;
 	private VendorsMessages vendorsConstants = GWT
 			.create(VendorsMessages.class);
 
 	public SelectExpenseType() {
-		super(Accounter.getVendorsMessages().recordExpenses(), "");
-		setText(Accounter.getVendorsMessages().recordExpenses());
+		super(Accounter.constants().recordExpenses(), "");
+		setText(Accounter.constants().recordExpenses());
 		createControls();
 		center();
 	}
 
 	public SelectExpenseType(AsyncCallback<IAccounterCore> callBack) {
-		super(Accounter.getVendorsMessages().recordExpenses(), "");
+		super(Accounter.constants().recordExpenses(), "");
 		this.callBack = callBack;
-		setText(Accounter.getVendorsMessages().recordExpenses());
+		setText(Accounter.constants().recordExpenses());
 		createControls();
 		center();
 	}
@@ -66,7 +66,7 @@ public class SelectExpenseType extends BaseDialog {
 							BankingActionFactory.getWriteChecksAction().run(
 									null, false);
 						} catch (Throwable e) {
-							Accounter.showError(Accounter.getVendorsMessages()
+							Accounter.showError(Accounter.constants()
 									.failedToloadWriteCheck()
 
 							);
@@ -78,7 +78,7 @@ public class SelectExpenseType extends BaseDialog {
 							VendorsActionFactory.CreditCardExpenseAction().run(
 									null, false);
 						} catch (Throwable e) {
-							Accounter.showError(Accounter.getVendorsMessages()
+							Accounter.showError(Accounter.constants()
 									.failedToLoadCreditCardCharg());
 							e.printStackTrace();
 
@@ -89,7 +89,7 @@ public class SelectExpenseType extends BaseDialog {
 							VendorsActionFactory.CashExpenseAction().run(null,
 									false);
 						} catch (Throwable e) {
-							Accounter.showError(Accounter.getVendorsMessages()
+							Accounter.showError(Accounter.constants()
 									.failedToLoadCashPurchase());
 							e.printStackTrace();
 						}
@@ -98,12 +98,12 @@ public class SelectExpenseType extends BaseDialog {
 							VendorsActionFactory.EmployeeExpenseAction().run(
 									null, false);
 						} catch (Throwable e) {
-							Accounter.showError(Accounter.getVendorsMessages()
+							Accounter.showError(Accounter.constants()
 									.failedToLoadCashPurchase());
 							e.printStackTrace();
 						}
 					} else {
-						Accounter.showError(Accounter.getVendorsMessages()
+						Accounter.showError(Accounter.constants()
 								.pleaseSelectExpenseType());
 					}
 
@@ -160,7 +160,7 @@ public class SelectExpenseType extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getVendorsMessages().recordExpenses();
+		return Accounter.constants().recordExpenses();
 	}
 
 	// setTitle(vendorsConstants.selectExpenseType());

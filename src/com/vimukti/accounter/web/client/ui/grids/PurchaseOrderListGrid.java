@@ -35,12 +35,12 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] {
-				Accounter.getVendorsMessages().Date(),
-				Accounter.getVendorsMessages().number(),
-				UIUtils.getVendorString(Accounter.getVendorsMessages()
-						.supplieRName(), Accounter.getVendorsMessages()
+				Accounter.constants().Date(),
+				Accounter.constants().number(),
+				UIUtils.getVendorString(Accounter.constants()
+						.supplieRName(), Accounter.constants()
 						.vendoRName()),
-				Accounter.getVendorsMessages().purchasePrice() };
+				Accounter.constants().purchasePrice() };
 	}
 
 	@Override

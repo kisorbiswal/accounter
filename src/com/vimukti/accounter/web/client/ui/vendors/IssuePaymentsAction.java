@@ -31,8 +31,8 @@ public class IssuePaymentsAction extends Action {
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		new IssuePaymentDialog(Accounter.getVendorsMessages()
-				.selectPaymentsToIssue(), Accounter.getVendorsMessages()
+		new IssuePaymentDialog(Accounter.constants()
+				.selectPaymentsToIssue(), Accounter.constants()
 				.selectPaymentMethod()).show();
 		// MainFinanceWindow.getViewManager().showView(view, data, isDependent,
 		// IssuePaymentsAction.this);

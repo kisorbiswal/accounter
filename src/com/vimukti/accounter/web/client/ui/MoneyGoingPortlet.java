@@ -41,7 +41,7 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 	@Override
 	public String getGoToText() {
-		return Accounter.getCompanyMessages().goToAccountsPayable();
+		return Accounter.constants().goToAccountsPayable();
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 		FlexTable fTable = new FlexTable();
 
 		AccounterButton addPayableInvoiceBtn = new AccounterButton(Accounter
-				.getCompanyMessages().addPayableInvoice());
+				.constants().addPayableInvoice());
 		addPayableInvoiceBtn.addStyleName("addButtonPortlet");
 		addPayableInvoiceBtn.addClickHandler(new ClickHandler() {
 
@@ -86,8 +86,8 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 			}
 		});
 
-		draftLabel = getLabel(Accounter.getCompanyMessages().draftInvoices());
-		overDueLabel = getLabel(Accounter.getCompanyMessages()
+		draftLabel = getLabel(Accounter.constants().draftInvoices());
+		overDueLabel = getLabel(Accounter.constants()
 				.overDueInvoices());
 		overDueLabel.getElement().getStyle().setMarginLeft(10, Unit.PX);
 
@@ -206,12 +206,12 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 				label.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
 				if (title
-						.equals(Accounter.getCompanyMessages().draftInvoices())) {
+						.equals(Accounter.constants().draftInvoices())) {
 					VendorsActionFactory.getBillsAction().run(null, true,
-							Accounter.getVendorsMessages().open());
+							Accounter.constants().open());
 				} else {
 					VendorsActionFactory.getBillsAction().run(null, true,
-							Accounter.getVendorsMessages().overDue());
+							Accounter.constants().overDue());
 				}
 			}
 		});

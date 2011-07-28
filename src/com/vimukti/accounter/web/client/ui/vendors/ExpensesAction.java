@@ -16,14 +16,14 @@ public class ExpensesAction extends Action {
 
 	public ExpensesAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.supplier(), Accounter.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor());
 	}
 
 	public ExpensesAction(String text, String iconString, String viewType) {
 		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.supplier(), Accounter.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor());
 		this.viewType = viewType;
 	}
 
@@ -92,11 +92,11 @@ public class ExpensesAction extends Action {
 	public String getHistoryToken() {
 		if (viewType == null) {
 			return "expenses";
-		} else if (viewType.equals(Accounter.getVendorsMessages().cash())) {
+		} else if (viewType.equals(Accounter.constants().cash())) {
 			return "cashExpenses";
-		} else if (viewType.equals(Accounter.getVendorsMessages().creditCard())) {
+		} else if (viewType.equals(Accounter.constants().creditCard())) {
 			return "creditCardExpenses";
-		} else if (viewType.equals(Accounter.getVendorsMessages().employee())) {
+		} else if (viewType.equals(Accounter.constants().employee())) {
 			return "employeeExpenses";
 		}
 		return "";

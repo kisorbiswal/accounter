@@ -123,7 +123,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	protected void showWarningDialog(T obj, final AccounterCoreType coreType,
 			final long transactionsID, final int col) {
 		String msg = null;
-		msg = Accounter.getCustomersMessages().doyouwanttoVoidtheTransaction();
+		msg = Accounter.constants().doyouwanttoVoidtheTransaction();
 		// else if (col == 7) {
 		// if (!viewType.equalsIgnoreCase("Deleted"))
 		// msg = "Do you want to Delete the Transaction";

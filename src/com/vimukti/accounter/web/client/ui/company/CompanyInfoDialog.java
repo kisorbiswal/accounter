@@ -212,7 +212,7 @@ public class CompanyInfoDialog extends BaseDialog {
 		faxText = new IntegerField(companyConstants.businessFax());
 		faxText.setHelpInformation(true);
 
-		emailText = new EmailField(Accounter.getCompanyMessages().email());
+		emailText = new EmailField(Accounter.constants().email());
 		emailText.setHelpInformation(true);
 
 		websiteText = new TextItem(companyConstants.webPageAddress());
@@ -227,11 +227,11 @@ public class CompanyInfoDialog extends BaseDialog {
 
 		bankAccountText = new TextItem();
 		bankAccountText
-				.setTitle(Accounter.getCompanyMessages().bankAccountNo());
+				.setTitle(Accounter.constants().bankAccountNo());
 		bankAccountText.setHelpInformation(true);
 
 		sortCodeText = new TextItem();
-		sortCodeText.setTitle(Accounter.getCompanyMessages().sortCode());
+		sortCodeText.setTitle(Accounter.constants().sortCode());
 		sortCodeText.setHelpInformation(true);
 
 		phoneAndFaxForm = UIUtils.form(companyConstants.phoneAndFaxNumbers());
@@ -369,7 +369,7 @@ public class CompanyInfoDialog extends BaseDialog {
 
 		});
 
-		okbtn.setText(Accounter.getCompanyMessages().update());
+		okbtn.setText(Accounter.constants().update());
 
 		mainHLay.setWidth("600");
 		mainHLay.setHeight("250");
@@ -485,7 +485,7 @@ public class CompanyInfoDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCompanyMessages().companyInformation();
+		return Accounter.constants().companyInformation();
 	}
 
 }

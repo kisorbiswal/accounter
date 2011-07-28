@@ -10,12 +10,12 @@ public class AcceptCreditCardsAction extends Action {
 
 	public AcceptCreditCardsAction(String text) {
 		super(text);
-		this.catagory = Accounter.getFinanceUIConstants().banking();
+		this.catagory = Accounter.constants().banking();
 	}
 
 	public AcceptCreditCardsAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getFinanceUIConstants().banking();
+		this.catagory = Accounter.constants().banking();
 	}
 
 	// @Override

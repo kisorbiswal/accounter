@@ -54,11 +54,11 @@ public class CheckDetailReportView extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", Accounter.getReportsMessages().number(),
-				Accounter.getReportsMessages().date(),
-				Accounter.getReportsMessages().name(),
-				Accounter.getReportsMessages().acount(),
-				Accounter.getReportsMessages().amount() };
+		return new String[] { "", Accounter.constants().number(),
+				Accounter.constants().date(),
+				Accounter.constants().name(),
+				Accounter.constants().acount(),
+				Accounter.constants().amount() };
 	}
 
 	@Override
@@ -73,12 +73,12 @@ public class CheckDetailReportView extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.getActionsConstants().checkDetail();
+		return Accounter.constants().checkDetail();
 	}
 
 	@Override
 	public String getDefaultDateRange() {
-		return Accounter.getReportsMessages().financialYearToDate();
+		return Accounter.constants().financialYearToDate();
 	}
 
 	@Override
@@ -127,7 +127,7 @@ public class CheckDetailReportView extends
 	public void processRecord(CheckDetailReport record) {
 		// if (sectionDepth == 0) {
 		// addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-		// FinanceApplication.getReportsMessages().total() },
+		// FinanceApplication.constants().total() },
 		// new int[] { 5 });
 		// } else if (sectionDepth == 1) {
 		// this.sectionName = Utility.getTransactionName(getType(record));

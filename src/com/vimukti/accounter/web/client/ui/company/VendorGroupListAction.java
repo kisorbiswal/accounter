@@ -43,14 +43,14 @@ public class VendorGroupListAction extends Action {
 
 					VendorGroupListDialog dialog = new VendorGroupListDialog(
 							UIUtils.getVendorString(
-									Accounter.getCompanyMessages()
+									Accounter.constants()
 											.manageSupplierGroup(), Accounter
-											.getCompanyMessages()
+											.constants()
 											.manageVendorGroup()), UIUtils
 									.getVendorString(Accounter
-											.getCompanyMessages()
+											.constants()
 											.toAddSupplierGroup(), Accounter
-											.getCompanyMessages()
+											.constants()
 											.toAddVendorGroup()));
 					ViewManager viewManager = ViewManager.getInstance();
 					viewManager.setCurrentDialog(dialog);

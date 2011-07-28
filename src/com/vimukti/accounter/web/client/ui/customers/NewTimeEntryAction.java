@@ -14,12 +14,12 @@ public class NewTimeEntryAction extends Action {
 
 	public NewTimeEntryAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	public NewTimeEntryAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	@SuppressWarnings("unchecked")

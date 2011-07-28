@@ -48,10 +48,10 @@ public class AccountRegisterOthersView extends
 	private final int FOOTER = 25;
 	private final int BORDER = 20;
 
-	String[] dateRangeArray = { Accounter.getBankingsMessages().all(),
-			Accounter.getBankingsMessages().today(),
-			Accounter.getBankingsMessages().last30Days(),
-			Accounter.getBankingsMessages().last45Days() };
+	String[] dateRangeArray = { Accounter.constants().all(),
+			Accounter.constants().today(),
+			Accounter.constants().last30Days(),
+			Accounter.constants().last45Days() };
 	private List<String> listOfDateRanges;
 
 	private ClientFinanceDate endDate;
@@ -60,8 +60,8 @@ public class AccountRegisterOthersView extends
 		super();
 		this.takenaccount = account2;
 
-		selectedDateRange = Accounter.getBankingsMessages().today();
-		selectedOption = Accounter.getBankingsMessages().all();
+		selectedDateRange = Accounter.constants().today();
+		selectedOption = Accounter.constants().all();
 	}
 
 	protected void createControls() {
@@ -82,7 +82,7 @@ public class AccountRegisterOthersView extends
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						if (!showTransactionSelect.getSelectedValue().equals(
-								Accounter.getBankingsMessages().custom()))
+								Accounter.constants().custom()))
 							dateRangeChanged();
 
 					}
@@ -96,7 +96,7 @@ public class AccountRegisterOthersView extends
 
 		lab1 = new Label(bankingConstants.accountRegister() + " - "
 				+ takenaccount.getName());
-		lab1.setStyleName(Accounter.getFinanceUIConstants().lableTitle());
+		lab1.setStyleName(Accounter.constants().lableTitle());
 		HorizontalPanel lableHpanel = new HorizontalPanel();
 		lableHpanel.setWidth("100%");
 		lableHpanel.add(lab1);
@@ -120,7 +120,7 @@ public class AccountRegisterOthersView extends
 		gridLayout.add(grid);
 
 		totalLabel = new Label();
-		totalLabel.setText(Accounter.getFinanceUIConstants()
+		totalLabel.setText(Accounter.constants()
 				.totalEndingBalance() + DataUtils.getAmountAsString(total));
 		mainVLay = new VerticalPanel();
 		mainVLay.setHeight("100%");
@@ -139,38 +139,38 @@ public class AccountRegisterOthersView extends
 	protected void dateRangeChanged() {
 		todaydate = new ClientFinanceDate();
 		selectedOption = showTransactionSelect.getSelectedValue();
-		if (!selectedDateRange.equals(Accounter.getBankingsMessages().all())
-				&& selectedOption.equals(Accounter.getBankingsMessages().all())) {
+		if (!selectedDateRange.equals(Accounter.constants().all())
+				&& selectedOption.equals(Accounter.constants().all())) {
 			startDate = Accounter.getStartDate();
 			endDate = Accounter.getCompany()
 					.getLastandOpenedFiscalYearEndDate();
 			if (endDate == null)
 				endDate = new ClientFinanceDate();
-			selectedDateRange = Accounter.getBankingsMessages().all();
+			selectedDateRange = Accounter.constants().all();
 
-		} else if (!selectedDateRange.equals(Accounter.getBankingsMessages()
+		} else if (!selectedDateRange.equals(Accounter.constants()
 				.today())
-				&& selectedOption.equals(Accounter.getBankingsMessages()
+				&& selectedOption.equals(Accounter.constants()
 						.today())) {
 			startDate = todaydate;
 			endDate = todaydate;
-			selectedDateRange = Accounter.getBankingsMessages().today();
+			selectedDateRange = Accounter.constants().today();
 
-		} else if (!selectedDateRange.equals(Accounter.getBankingsMessages()
+		} else if (!selectedDateRange.equals(Accounter.constants()
 				.last30Days())
-				&& selectedOption.equals(Accounter.getBankingsMessages()
+				&& selectedOption.equals(Accounter.constants()
 						.last30Days())) {
-			selectedDateRange = Accounter.getBankingsMessages().last30Days();
+			selectedDateRange = Accounter.constants().last30Days();
 			startDate = new ClientFinanceDate(todaydate.getYear(),
 					todaydate.getMonth() - 1, todaydate.getDate());
 			endDate = todaydate;
 
-		} else if (!selectedDateRange.equals(Accounter.getBankingsMessages()
+		} else if (!selectedDateRange.equals(Accounter.constants()
 				.last45Days())
-				&& selectedOption.equals(Accounter.getBankingsMessages()
+				&& selectedOption.equals(Accounter.constants()
 						.last45Days())) {
 
-			selectedDateRange = Accounter.getBankingsMessages().last45Days();
+			selectedDateRange = Accounter.constants().last45Days();
 			startDate = new ClientFinanceDate(todaydate.getYear(),
 					todaydate.getMonth() - 2, todaydate.getDate() + 16);
 			endDate = todaydate;
@@ -191,7 +191,7 @@ public class AccountRegisterOthersView extends
 				// this.total += accRegister.getBalance();
 			}
 		}
-		// grid.updateFooterValues(FinanceApplication.getCustomersMessages()
+		// grid.updateFooterValues(FinanceApplication.constants()
 		// .endingbalance(), 6);
 		// grid.addFooterValue(DataUtils.getAmountAsString(takenaccount
 		// .getCurrentBalance()), 7);
@@ -217,7 +217,7 @@ public class AccountRegisterOthersView extends
 									.showMessage("Your session expired, Please login again to continue");
 						} else {
 							Accounter.showError(Accounter
-									.getFinanceUIConstants()
+									.constants()
 									.failedtoGetListofAccounts()
 									+ takenaccount.getName());
 						}
@@ -308,7 +308,7 @@ public class AccountRegisterOthersView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().accountRegister();
+		return Accounter.constants().accountRegister();
 	}
 
 }

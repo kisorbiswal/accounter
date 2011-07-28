@@ -134,10 +134,10 @@
 //	public void saveFailed(Throwable exception) {
 //		super.saveFailed(exception);
 //		if (takenTaxAgency == null)
-//			Accounter.showError(FinanceApplication.getCompanyMessages()
+//			Accounter.showError(FinanceApplication.constants()
 //					.duplicationTaxAgencyNamesNotAllowed());
 //		else
-//			Accounter.showError(FinanceApplication.getCompanyMessages()
+//			Accounter.showError(FinanceApplication.constants()
 //					.failedToUpdate());
 //	}
 //
@@ -147,15 +147,15 @@
 //		if (taxAgency.getID() != null) {
 //			// if (takenTaxAgency == null)
 //			// Accounter.showInformation(taxAgency.getName()
-//			// + FinanceApplication.getCompanyMessages()
+//			// + FinanceApplication.constants()
 //			// .isCreatedSuccessfully());
 //			// else
 //			// Accounter.showInformation(taxAgency.getName()
-//			// + FinanceApplication.getCompanyMessages()
+//			// + FinanceApplication.constants()
 //			// .isUpdatedSuccessfully());
 //			super.saveSuccess(result);
 //		} else
-//			saveFailed(new Exception(FinanceApplication.getCompanyMessages()
+//			saveFailed(new Exception(FinanceApplication.constants()
 //					.failed()));
 //
 //	}
@@ -252,9 +252,9 @@
 //	}
 //
 //	private VerticalPanel getTopLayout() {
-//		Label lab = new Label(FinanceApplication.getCompanyMessages()
+//		Label lab = new Label(FinanceApplication.constants()
 //				.taxAgency());
-//		lab.addStyleName(FinanceApplication.getCompanyMessages().lableTitle());
+//		lab.addStyleName(FinanceApplication.constants().lableTitle());
 //		taxAgencyText = new TextItem(companyConstants.taxAgency());
 //		taxAgencyText.setWidth(100);
 //		taxAgencyText.setRequired(true);
@@ -327,7 +327,7 @@
 //		memoForm.setGroupTitle(companyConstants.memo());
 //		// 
 //		memoArea = new TextAreaItem();
-//		memoArea.setTitle(FinanceApplication.getCompanyMessages().memo());
+//		memoArea.setTitle(FinanceApplication.constants().memo());
 //		memoArea.setWidth(100);
 //
 //		@SuppressWarnings("unused")
@@ -338,7 +338,7 @@
 //		linksText.setShowTitle(false);
 //		// linksText.setWidth("*");
 //
-//		addButton = new Button(FinanceApplication.getCompanyMessages().add());
+//		addButton = new Button(FinanceApplication.constants().add());
 //		// addButton.setStyleName("addButton");
 //		addButton.addClickHandler(new ClickHandler() {
 //
@@ -528,32 +528,32 @@
 //	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 //
 //		addrsForm.getCellFormatter().getElement(0, 0).setAttribute(
-//				FinanceApplication.getCompanyMessages().width(),
+//				FinanceApplication.constants().width(),
 //				titlewidth + "");
 //		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
-//				FinanceApplication.getCompanyMessages().width(),
+//				FinanceApplication.constants().width(),
 //				listBoxWidth + "");
 //
 //		phoneFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
-//				FinanceApplication.getCompanyMessages().width(),
+//				FinanceApplication.constants().width(),
 //				titlewidth + "");
 //		phoneFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
-//				FinanceApplication.getCompanyMessages().width(),
+//				FinanceApplication.constants().width(),
 //				listBoxWidth + "");
 //
 //		taxAgencyForm.getCellFormatter().getElement(0, 0).getStyle().setWidth(
 //				titlewidth + listBoxWidth, Unit.PX);
 //		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
-//				FinanceApplication.getCompanyMessages().width(),
+//				FinanceApplication.constants().width(),
 //				titlewidth + titlewidth + "");
 //		emailForm.getCellFormatter().getElement(0, 1).setAttribute(
-//				FinanceApplication.getCompanyMessages().width(),
+//				FinanceApplication.constants().width(),
 //				listBoxWidth + "");
 //		accInfoForm.getCellFormatter().getElement(0, 0).setAttribute(
-//				FinanceApplication.getCompanyMessages().width(),
+//				FinanceApplication.constants().width(),
 //				listBoxWidth + "");
 //		memoForm.getCellFormatter().getElement(0, 0).setAttribute(
-//				FinanceApplication.getCompanyMessages().width(),
+//				FinanceApplication.constants().width(),
 //				titlewidth + "");
 //
 //	}

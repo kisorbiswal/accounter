@@ -15,12 +15,12 @@ public class ManageSalesTaxGroupsAction extends Action {
 
 	public ManageSalesTaxGroupsAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	public ManageSalesTaxGroupsAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	@Override
@@ -50,9 +50,9 @@ public class ManageSalesTaxGroupsAction extends Action {
 
 					// SalesTaxGroupListDialog dialog = new
 					// SalesTaxGroupListDialog(
-					// FinanceApplication.getCompanyMessages()
+					// FinanceApplication.constants()
 					// .manageSalesTaxGroup(), FinanceApplication
-					// .getCompanyMessages().toAddTaxGroup());
+					// .constants().toAddTaxGroup());
 					// ViewManager viewManager = ViewManager.getInstance();
 					// viewManager.setCurrentDialog(dialog);
 					view = new SalesTaxGroupListView();

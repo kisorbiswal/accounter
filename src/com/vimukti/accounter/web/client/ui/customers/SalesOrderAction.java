@@ -16,13 +16,13 @@ public class SalesOrderAction extends Action {
 
 	public SalesOrderAction(String text, String icon) {
 		super(text, icon);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	public SalesOrderAction(String text, String icon,
 			ClientSalesOrder salesOrder, AsyncCallback<Object> callback) {
 		super(text, icon, salesOrder, callback);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	@Override

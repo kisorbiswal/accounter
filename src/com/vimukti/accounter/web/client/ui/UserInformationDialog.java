@@ -49,7 +49,7 @@ public class UserInformationDialog extends AbstractBaseDialog {
 		@SuppressWarnings("unused")
 		final AsyncCallback<ClientUser> getUserCallBack = new AsyncCallback<ClientUser>() {
 			public void onFailure(Throwable caught) {
-				Accounter.showInformation(Accounter.getFinanceUIConstants()
+				Accounter.showInformation(Accounter.constants()
 						.getUserFailed());
 			}
 
@@ -89,7 +89,7 @@ public class UserInformationDialog extends AbstractBaseDialog {
 		};
 		// getService.getUser(emailText.getValue().toString(), getUserCallBack);
 		if (emailText.getValue() == null) {
-			UIUtils.say(Accounter.getFinanceUIConstants()
+			UIUtils.say(Accounter.constants()
 					.pleaseEnterUserEmail());
 		} else {
 			// getService
@@ -185,31 +185,31 @@ public class UserInformationDialog extends AbstractBaseDialog {
 	}
 
 	private void createControls() {
-		fullName = new TextItem(Accounter.getFinanceUIConstants().fullName());
-		emailText = new EmailField(Accounter.getFinanceUIConstants().email());
-		legalName = new TextItem(Accounter.getFinanceUIConstants().legalName());
+		fullName = new TextItem(Accounter.constants().fullName());
+		emailText = new EmailField(Accounter.constants().email());
+		legalName = new TextItem(Accounter.constants().legalName());
 
 		lastLogin = new DateItem();
-		lastLogin.setName(Accounter.getFinanceUIConstants().lastLogin());
+		lastLogin.setName(Accounter.constants().lastLogin());
 		// lastLogin.setUseTextField(true);
 
 		createDate = new DateItem();
-		createDate.setName(Accounter.getFinanceUIConstants().createDate());
+		createDate.setName(Accounter.constants().createDate());
 		// createDate.setUseTextField(true);
 
-		street1Text = new TextItem(Accounter.getFinanceUIConstants()
+		street1Text = new TextItem(Accounter.constants()
 				.streetAddress1());
-		street2Text = new TextItem(Accounter.getFinanceUIConstants()
+		street2Text = new TextItem(Accounter.constants()
 				.streetAddress2());
 
-		cityText = new TextItem(Accounter.getFinanceUIConstants().city());
-		stateText = new TextItem(Accounter.getFinanceUIConstants().state());
-		zipText = new TextItem(Accounter.getFinanceUIConstants().postalCode());
-		phoneText = new IntegerField(Accounter.getFinanceUIConstants().phone());
+		cityText = new TextItem(Accounter.constants().city());
+		stateText = new TextItem(Accounter.constants().state());
+		zipText = new TextItem(Accounter.constants().postalCode());
+		phoneText = new IntegerField(Accounter.constants().phone());
 
-		faxText = new TextItem(Accounter.getFinanceUIConstants().fax());
+		faxText = new TextItem(Accounter.constants().fax());
 
-		websiteText = new TextItem(Accounter.getFinanceUIConstants().website());
+		websiteText = new TextItem(Accounter.constants().website());
 
 		userForm = new DynamicForm();
 		// userForm.setSize("80%", "*");
@@ -222,13 +222,13 @@ public class UserInformationDialog extends AbstractBaseDialog {
 				phoneText, faxText, legalName, websiteText);
 
 		AccounterButton createUser = new AccounterButton(Accounter
-				.getFinanceUIConstants().createUser());
+				.constants().createUser());
 		AccounterButton getUser = new AccounterButton(Accounter
-				.getFinanceUIConstants().getUser());
+				.constants().getUser());
 		// createUser.setAlign(Alignment.LEFT);
 
 		AccounterButton canButt = new AccounterButton(Accounter
-				.getFinanceUIConstants().close());
+				.constants().close());
 		// canButt.setAlign(Alignment.RIGHT);
 
 		createUser.addClickHandler(new ClickHandler() {
@@ -262,8 +262,8 @@ public class UserInformationDialog extends AbstractBaseDialog {
 		vLay.setSize("100%", "100%");
 		vLay.add(userForm);
 		vLay.add(buttHLay);
-		vLay.setTitle(Accounter.getFinanceUIConstants().userDialog());
-		vLay.addStyleName(Accounter.getFinanceUIConstants().userDialog());
+		vLay.setTitle(Accounter.constants().userDialog());
+		vLay.addStyleName(Accounter.constants().userDialog());
 
 		setSize("600", "430");
 		add(vLay);

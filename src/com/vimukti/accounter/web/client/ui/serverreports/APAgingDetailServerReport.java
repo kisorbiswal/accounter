@@ -105,8 +105,8 @@ public class APAgingDetailServerReport extends
 			// return record.getReference();
 			// case 4:
 			// return record.getIsVoid() ?
-			// FinanceApplication.getReportsMessages()
-			// .yes() : FinanceApplication.getReportsMessages().no();
+			// FinanceApplication.constants()
+			// .yes() : FinanceApplication.constants().no();
 			// case 5:
 			// return record.getPaymentTermName();
 			// case 4:
@@ -127,7 +127,7 @@ public class APAgingDetailServerReport extends
 		// if (sectionDepth == 0) {
 		// // addSection(new String[] { "", "" }, new String[] { "", "", "",
 		// // "",
-		// // FinanceApplication.getReportsMessages().total() },
+		// // FinanceApplication.constants().total() },
 		// // new int[] { 5 });
 		// }else
 		if (precategory == 1001 || precategory == record.getCategory()) {
@@ -141,7 +141,7 @@ public class APAgingDetailServerReport extends
 			return;
 		}
 		// if (sectionDepth == 0) {
-		// addSection("", FinanceApplication.getReportsMessages().total(),
+		// addSection("", FinanceApplication.constants().total(),
 		// new int[] { 7, 8 });
 		// } else if (sectionDepth == 1) {
 		// // First time

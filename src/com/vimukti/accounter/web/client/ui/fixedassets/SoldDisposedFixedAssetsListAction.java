@@ -24,7 +24,7 @@ public class SoldDisposedFixedAssetsListAction extends Action {
 	 */
 	public SoldDisposedFixedAssetsListAction(String text) {
 		super(text);
-		this.catagory = Accounter.getFixedAssetConstants().fixedAssets();
+		this.catagory = Accounter.constants().fixedAssets();
 	}
 
 	/*

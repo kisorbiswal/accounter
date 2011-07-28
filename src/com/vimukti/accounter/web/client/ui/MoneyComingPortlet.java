@@ -42,7 +42,7 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 	@Override
 	public String getGoToText() {
-		return Accounter.getCompanyMessages().goToAccountReceivable();
+		return Accounter.constants().goToAccountReceivable();
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 		hPanel.setWidth("100%");
 
 		AccounterButton addReceivableInvoiceBtn = new AccounterButton(Accounter
-				.getCompanyMessages().addReceivableInvoice());
+				.constants().addReceivableInvoice());
 		addReceivableInvoiceBtn.addStyleName("addButtonPortlet");
 		addReceivableInvoiceBtn.addClickHandler(new ClickHandler() {
 
@@ -84,8 +84,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 			}
 		});
 
-		draftLabel = getLabel(Accounter.getCompanyMessages().draftInvoices());
-		overDueLabel = getLabel(Accounter.getCompanyMessages()
+		draftLabel = getLabel(Accounter.constants().draftInvoices());
+		overDueLabel = getLabel(Accounter.constants()
 				.overDueInvoices());
 		overDueLabel.getElement().getStyle().setMarginLeft(10, Unit.PX);
 
@@ -203,7 +203,7 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 				label.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
 				if (title
-						.equals(Accounter.getCompanyMessages().draftInvoices())) {
+						.equals(Accounter.constants().draftInvoices())) {
 					CustomersActionFactory.getInvoicesAction(null).run(null,
 							true);
 				} else {

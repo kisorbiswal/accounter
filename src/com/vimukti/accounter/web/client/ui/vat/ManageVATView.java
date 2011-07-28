@@ -43,35 +43,35 @@ public class ManageVATView extends AbstractBaseView {
 
 	private void createControls() {
 
-		Label stLabel = new Label(Accounter.getVATMessages()
+		Label stLabel = new Label(Accounter.constants()
 				.thisWndHelpYoyManageVATTasks());
-		Label vatLabel = new Label(Accounter.getVATMessages()
+		Label vatLabel = new Label(Accounter.constants()
 				.fileVATReturnNow());
 
 		CaptionPanel capAssignPanel = new CaptionPanel(Accounter
-				.getVATMessages().getStarted());
+				.constants().getStarted());
 		CaptionPanel capPayVatPanel = new CaptionPanel(Accounter
-				.getVATMessages().payVATOwing());
-		CaptionPanel capTaskPanel = new CaptionPanel(Accounter.getVATMessages()
+				.constants().payVATOwing());
+		CaptionPanel capTaskPanel = new CaptionPanel(Accounter.constants()
 				.relatedTask());
 
-		vatButton = new AccounterButton(Accounter.getVATMessages()
+		vatButton = new AccounterButton(Accounter.constants()
 				.fileVATReturn());
 		AccounterButton closeButton = new AccounterButton(Accounter
-				.getVATMessages().close());
+				.constants().close());
 		AccounterButton helpButton = new AccounterButton(Accounter
-				.getVATMessages().help());
+				.constants().help());
 
 		final Image icon = new Image();
 		icon.setUrl("/images/justifyleft.gif");
 
-		Hyperlink assignlink = new Hyperlink(Accounter.getVATMessages()
+		Hyperlink assignlink = new Hyperlink(Accounter.constants()
 				.assignVatCodesToItems(), "foo");
-		Hyperlink viewLink = new Hyperlink(Accounter.getVATMessages()
+		Hyperlink viewLink = new Hyperlink(Accounter.constants()
 				.viewVATItems(), "link1");
-		Hyperlink openLink = new Hyperlink(Accounter.getVATMessages()
+		Hyperlink openLink = new Hyperlink(Accounter.constants()
 				.openVATCodeList(), "link2");
-		Hyperlink adjLink = new Hyperlink(Accounter.getVATMessages()
+		Hyperlink adjLink = new Hyperlink(Accounter.constants()
 				.adjustVATDue(), "link3");
 
 		VerticalPanel vPanel = new VerticalPanel();
@@ -163,7 +163,7 @@ public class ManageVATView extends AbstractBaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().manageVatCodes();
+		return Accounter.constants().manageVatCodes();
 	}
 
 }

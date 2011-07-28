@@ -52,34 +52,34 @@ public class StartupDialog extends DialogBox {
 	}
 
 	private void createControls() {
-		setText(Accounter.getFinanceUIConstants().logIn());
+		setText(Accounter.constants().logIn());
 
-		userEmailText = new EmailField(Accounter.getFinanceUIConstants()
+		userEmailText = new EmailField(Accounter.constants()
 				.email());
 		userEmailText.setRequired(true);
 		// userEmailText.setWidth("*");
 		userEmailText.setValue("admin@accounter.com");
 
-		userPassText = new TextItem(Accounter.getFinanceUIConstants()
+		userPassText = new TextItem(Accounter.constants()
 				.password());
 		userPassText.setRequired(true);
 		// userPassText.setWidth("*");
-		userPassText.setValue(Accounter.getCompanyMessages().defbiz());
+		userPassText.setValue(Accounter.constants().defbiz());
 		// usrPassText.sett
 
 		form = new DynamicForm();
 		form.setFields(userEmailText, userPassText);
 
 		AccounterButton createButt = UIUtils.AccounterButton(Accounter
-				.getCompanyMessages().createUser(), "U");
+				.constants().createUser(), "U");
 		// createButt.setAutoFit(true);
 
 		AccounterButton loginButt = UIUtils.AccounterButton(Accounter
-				.getCompanyMessages().login(), "L");
+				.constants().login(), "L");
 		// loginButt.setAutoFit(true);
 
 		AccounterButton createCompButt = UIUtils.AccounterButton(Accounter
-				.getCompanyMessages().createCompany(), "C");
+				.constants().createCompany(), "C");
 		// createCompButt.setWidth("*");
 		// createCompButt.setAutoFit(true);
 		// createCompButt.setAlign(Alignment.CENTER);
@@ -123,12 +123,12 @@ public class StartupDialog extends DialogBox {
 		companyGrid = new DialogGrid(false);
 		// companyGrid.hide();
 		companyGrid.addColumns(new String[] {
-				Accounter.getCustomersMessages().Id(),
-				Accounter.getCustomersMessages().name(),
-				Accounter.getCustomersMessages().legalName() });
+				Accounter.constants().Id(),
+				Accounter.constants().name(),
+				Accounter.constants().legalName() });
 
 		AccounterButton closeButt = new AccounterButton(Accounter
-				.getCustomersMessages().close());
+				.constants().close());
 		// closeButt.setLayoutAlign(Alignment.RIGHT);
 
 		closeButt.addClickHandler(new ClickHandler() {

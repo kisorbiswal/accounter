@@ -70,7 +70,7 @@ public class ChangeStartDateDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCompanyMessages().changeStartDate();
+		return Accounter.constants().changeStartDate();
 	}
 
 }

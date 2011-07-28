@@ -85,11 +85,11 @@ public class RecieveVATView extends
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 
-		// setTitle(UIUtils.title(FinanceApplication.getFinanceUIConstants()
+		// setTitle(UIUtils.title(FinanceApplication.constants()
 		// .payVAT()));
 
-		Label lab = new Label(Accounter.getFinanceUIConstants().receiveVAT());
-		lab.setStyleName(Accounter.getVendorsMessages().lableTitle());
+		Label lab = new Label(Accounter.constants().receiveVAT());
+		lab.setStyleName(Accounter.constants().lableTitle());
 		// lab.setHeight("35px");
 		// date = new DateField(companyConstants.date());
 		// date.setHelpInformation(true);
@@ -99,7 +99,7 @@ public class RecieveVATView extends
 		transactionDateItem = createTransactionDateItem();
 
 		transNumber = createTransactionNumberItem();
-		transNumber.setTitle(Accounter.getCompanyMessages().no());
+		transNumber.setTitle(Accounter.constants().no());
 
 		depositInAccCombo = new DepositInAccountCombo(
 				companyConstants.depositIn());
@@ -707,7 +707,7 @@ public class RecieveVATView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getVATMessages().recieveVat();
+		return Accounter.constants().recieveVat();
 	}
 
 }

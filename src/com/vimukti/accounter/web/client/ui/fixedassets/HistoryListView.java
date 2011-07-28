@@ -49,7 +49,7 @@ public class HistoryListView extends BaseListView<ClientFixedAssetHistory> {
 	 */
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.getFixedAssetConstants().history();
+		return Accounter.constants().history();
 	}
 
 	/*
@@ -106,7 +106,7 @@ public class HistoryListView extends BaseListView<ClientFixedAssetHistory> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().historyList();
+		return Accounter.constants().historyList();
 	}
 
 }

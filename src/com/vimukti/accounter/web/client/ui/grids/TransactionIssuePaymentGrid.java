@@ -28,12 +28,12 @@ public class TransactionIssuePaymentGrid extends
 	@Override
 	protected String[] getColumns() {
 		// addFooterValue("Total", 3);
-		return new String[] { Accounter.getVendorsMessages().Date(),
-				Accounter.getVendorsMessages().number(),
-				Accounter.getVendorsMessages().name(),
-				Accounter.getVendorsMessages().memo(),
-				Accounter.getBankingsMessages().amount(),
-				Accounter.getVendorsMessages().paymentMethod() };
+		return new String[] { Accounter.constants().Date(),
+				Accounter.constants().number(),
+				Accounter.constants().name(),
+				Accounter.constants().memo(),
+				Accounter.constants().amount(),
+				Accounter.constants().paymentMethod() };
 	}
 
 	public boolean isSelected(ClientTransactionIssuePayment transactionList) {
@@ -81,7 +81,7 @@ public class TransactionIssuePaymentGrid extends
 			return DataUtils.getAmountAsString(issuepayment.getAmount());
 		case 5:
 			return issuepayment.getPaymentMethod() != null ? issuepayment
-					.getPaymentMethod() : Accounter.getVendorsMessages()
+					.getPaymentMethod() : Accounter.constants()
 					.check();
 		default:
 			return null;

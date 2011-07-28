@@ -32,7 +32,7 @@ public class CustomThemeDialog extends BaseDialog {
 
 	private void createControls() {
 		subTable = new FlexTable();
-		titleHTML = new HTML(Accounter.getSettingsMessages()
+		titleHTML = new HTML(Accounter.constants()
 				.yourTitle());
 		titleBox = new TextBox();
 		subTable.setWidget(0, 0, titleHTML);
@@ -76,6 +76,6 @@ public class CustomThemeDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getSettingsMessages().newBrandThemeLabel();
+		return Accounter.constants().newBrandThemeLabel();
 	}
 }

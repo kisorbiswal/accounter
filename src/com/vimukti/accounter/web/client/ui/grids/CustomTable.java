@@ -230,7 +230,7 @@ public abstract class CustomTable extends VerticalPanel {
 		imagePanel = new HorizontalPanel();
 		imagePanel.setStyleName("loading-panel");
 		imagePanel.add(new Image("/images/loader.gif"));
-		Label label = new Label(Accounter.getCustomersMessages()
+		Label label = new Label(Accounter.constants()
 				.pleasewaitdataisloading());
 		imagePanel.add(label);
 		imagePanel.setCellVerticalAlignment(label,

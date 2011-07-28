@@ -14,7 +14,7 @@ public class VatItemListAction extends Action {
 
 	public VatItemListAction(String text) {
 		super(text);
-		this.catagory = Accounter.getVATMessages().VAT();
+		this.catagory = Accounter.constants().VAT();
 	}
 
 	@Override

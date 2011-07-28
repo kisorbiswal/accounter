@@ -58,7 +58,7 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 		okButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if (!bankForm.validate(true)) {
-					// Accounter.showError(FinanceApplication.getCompanyMessages()
+					// Accounter.showError(FinanceApplication.constants()
 					// .youMustEnterBankName());
 					return;
 				}
@@ -99,7 +99,7 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 		if (callBack != null) {
 			callBack.onSuccess((ClientBank) object);
 		}
-		// Accounter.showInformation(FinanceApplication.getCompanyMessages()
+		// Accounter.showInformation(FinanceApplication.constants()
 		// .bankCreated());
 		removeFromParent();
 		super.saveSuccess(object);
@@ -108,7 +108,7 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		Accounter
-				.showError(Accounter.getCompanyMessages().failedToCreateBank());
+				.showError(Accounter.constants().failedToCreateBank());
 		super.saveFailed(exception);
 	}
 

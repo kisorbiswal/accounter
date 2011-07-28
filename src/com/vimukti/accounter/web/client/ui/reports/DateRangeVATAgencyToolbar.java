@@ -33,51 +33,51 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 	public DateRangeVATAgencyToolbar() {
 		createControls();
-		// selectedDateRange = FinanceApplication.getReportsMessages().all();
+		// selectedDateRange = FinanceApplication.constants().all();
 	}
 
 	private void createControls() {
 
-		String[] dateRangeArray = { Accounter.getReportsMessages().all(),
-				Accounter.getReportsMessages().thisWeek(),
-				Accounter.getReportsMessages().thisMonth(),
-				Accounter.getReportsMessages().lastWeek(),
-				Accounter.getReportsMessages().lastMonth(),
-				Accounter.getReportsMessages().thisFinancialYear(),
-				Accounter.getReportsMessages().lastFinancialYear(),
-				Accounter.getReportsMessages().thisFinancialQuarter(),
-				Accounter.getReportsMessages().lastFinancialQuarter(),
-				Accounter.getReportsMessages().financialYearToDate(),
-				// FinanceApplication.getReportsMessages().today(),
-				// FinanceApplication.getReportsMessages().endThisWeek(),
-				// FinanceApplication.getReportsMessages().endThisWeekToDate(),
-				// FinanceApplication.getReportsMessages().endThisMonth(),
-				// FinanceApplication.getReportsMessages().endThisMonthToDate(),
-				// FinanceApplication.getReportsMessages().endThisFiscalQuarter(),
-				// FinanceApplication.getReportsMessages()
+		String[] dateRangeArray = { Accounter.constants().all(),
+				Accounter.constants().thisWeek(),
+				Accounter.constants().thisMonth(),
+				Accounter.constants().lastWeek(),
+				Accounter.constants().lastMonth(),
+				Accounter.constants().thisFinancialYear(),
+				Accounter.constants().lastFinancialYear(),
+				Accounter.constants().thisFinancialQuarter(),
+				Accounter.constants().lastFinancialQuarter(),
+				Accounter.constants().financialYearToDate(),
+				// FinanceApplication.constants().today(),
+				// FinanceApplication.constants().endThisWeek(),
+				// FinanceApplication.constants().endThisWeekToDate(),
+				// FinanceApplication.constants().endThisMonth(),
+				// FinanceApplication.constants().endThisMonthToDate(),
+				// FinanceApplication.constants().endThisFiscalQuarter(),
+				// FinanceApplication.constants()
 				// .endThisFiscalQuarterToDate(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants()
 				// .endThisCalanderQuarter(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants()
 				// .endThisCalanderQuarterToDate(),
-				// FinanceApplication.getReportsMessages().endThisFiscalYear(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants().endThisFiscalYear(),
+				// FinanceApplication.constants()
 				// .endThisFiscalYearToDate(),
-				// FinanceApplication.getReportsMessages().endThisCalanderYear(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants().endThisCalanderYear(),
+				// FinanceApplication.constants()
 				// .endThisCalanderYearToDate(),
-				// FinanceApplication.getReportsMessages().endYesterday(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants().endYesterday(),
+				// FinanceApplication.constants()
 				// .endPreviousFiscalQuarter(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants()
 				// .endLastCalenderQuarter(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants()
 				// .previousFiscalYearSameDates(),
-				// FinanceApplication.getReportsMessages().lastCalenderYear(),
-				// FinanceApplication.getReportsMessages().previousCalenderYear(),
-				Accounter.getReportsMessages().custom() };
+				// FinanceApplication.constants().lastCalenderYear(),
+				// FinanceApplication.constants().previousCalenderYear(),
+				Accounter.constants().custom() };
 
-		vatAgencyCombo = new TAXAgencyCombo(Accounter.getReportsMessages()
+		vatAgencyCombo = new TAXAgencyCombo(Accounter.constants()
 				.chooseVATAgency(), false);
 		vatAgencyCombo.setHelpInformation(true);
 		vatAgencyCombo
@@ -105,7 +105,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 			}
 		}
 
-		dateRangeItem = new SelectCombo(Accounter.getReportsMessages()
+		dateRangeItem = new SelectCombo(Accounter.constants()
 				.dateRange());
 		dateRangeItem.setHelpInformation(true);
 		dateRangeItem.setValueMap(dateRangeArray);
@@ -114,7 +114,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeList.add(dateRangeArray[i]);
 		}
-		dateRangeItem.setComboItem(Accounter.getReportsMessages().all());
+		dateRangeItem.setComboItem(Accounter.constants().all());
 		dateRangeItem
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -136,11 +136,11 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
-		fromItem.setTitle(Accounter.getReportsMessages().from());
+		fromItem.setTitle(Accounter.constants().from());
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
-		toItem.setTitle(Accounter.getReportsMessages().to());
+		toItem.setTitle(Accounter.constants().to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -159,7 +159,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 			}
 		});
 
-		updateButton = new AccounterButton(Accounter.getReportsMessages()
+		updateButton = new AccounterButton(Accounter.constants()
 				.update());
 		updateButton.addClickHandler(new ClickHandler() {
 
@@ -178,9 +178,9 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 				// This will update the dates in the date range layout
 				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
 						startDate, endDate);
-				dateRangeItem.setDefaultValue(Accounter.getReportsMessages()
+				dateRangeItem.setDefaultValue(Accounter.constants()
 						.custom());
-				setSelectedDateRange(Accounter.getReportsMessages().custom());
+				setSelectedDateRange(Accounter.constants().custom());
 			}
 		});
 
@@ -192,7 +192,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 		// setDefaultDateRange(dateRangeArray);
 
 		AccounterButton printButton = new AccounterButton(Accounter
-				.getReportsMessages().print());
+				.constants().print());
 		printButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {

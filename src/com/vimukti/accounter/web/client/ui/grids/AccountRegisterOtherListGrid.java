@@ -86,15 +86,15 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.getCustomersMessages().date(),
-				Accounter.getCustomersMessages().type(),
-				Accounter.getCustomersMessages().documentNo(),
-				Accounter.getCustomersMessages().increase(),
-				Accounter.getCustomersMessages().reduce(),
-				Accounter.getCustomersMessages().account(),
-				Accounter.getCustomersMessages().memo(),
-				Accounter.getCustomersMessages().currentBalance(),
-				Accounter.getCustomersMessages().isVoided() };
+		return new String[] { Accounter.constants().date(),
+				Accounter.constants().type(),
+				Accounter.constants().documentNo(),
+				Accounter.constants().increase(),
+				Accounter.constants().reduce(),
+				Accounter.constants().account(),
+				Accounter.constants().memo(),
+				Accounter.constants().currentBalance(),
+				Accounter.constants().isVoided() };
 	}
 
 	@Override

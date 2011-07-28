@@ -17,15 +17,15 @@ public class CreditCardExpenseAction extends Action {
 
 	public CreditCardExpenseAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.supplier(), Accounter.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor());
 	}
 
 	public CreditCardExpenseAction(String text, String icon,
 			ClientVendor vendor, AsyncCallback<Object> callback) {
 		super(text, icon, vendor, callback);
-		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.supplier(), Accounter.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor());
 	}
 
 	public void run(Object data, Boolean isDependent) {

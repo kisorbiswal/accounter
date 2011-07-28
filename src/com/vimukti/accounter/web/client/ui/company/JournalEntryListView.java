@@ -67,8 +67,8 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 		super.onSuccess(result);
 		if (grid.getRecords().isEmpty())
 			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
-		// grid.setViewType(FinanceApplication.getVendorsMessages().all());
-		// filterList(FinanceApplication.getVendorsMessages().all());
+		// grid.setViewType(FinanceApplication.constants().all());
+		// filterList(FinanceApplication.constants().all());
 	}
 
 	@Override
@@ -81,15 +81,15 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 		currentView = new SelectCombo(null);
 		currentView.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
-		// listOfTypes.add(FinanceApplication.getVendorsMessages().nonVoided());
-		// listOfTypes.add(FinanceApplication.getVendorsMessages().Voided());
-		// listOfTypes.add(FinanceApplication.getVendorsMessages().cashBasis());
-		// listOfTypes.add(FinanceApplication.getVendorsMessages()
+		// listOfTypes.add(FinanceApplication.constants().nonVoided());
+		// listOfTypes.add(FinanceApplication.constants().Voided());
+		// listOfTypes.add(FinanceApplication.constants().cashBasis());
+		// listOfTypes.add(FinanceApplication.constants()
 		// .voidedCashBasis());
-		listOfTypes.add(Accounter.getVendorsMessages().all());
+		listOfTypes.add(Accounter.constants().all());
 		currentView.initCombo(listOfTypes);
-		// currentView.setComboItem(FinanceApplication.getVendorsMessages().all());
-		currentView.setComboItem(Accounter.getCustomersMessages().all());
+		// currentView.setComboItem(FinanceApplication.constants().all());
+		currentView.setComboItem(Accounter.constants().all());
 		currentView
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -188,7 +188,7 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().journalEntries();
+		return Accounter.constants().journalEntries();
 	}
 
 }

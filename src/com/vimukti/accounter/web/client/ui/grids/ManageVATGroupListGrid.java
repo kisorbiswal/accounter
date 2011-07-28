@@ -58,9 +58,9 @@ public class ManageVATGroupListGrid extends BaseListGrid<ClientTAXGroup> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.getVATMessages().active(),
-				Accounter.getVATMessages().VATGroup(),
-				Accounter.getVATMessages().description(), " " };
+		return new String[] { Accounter.constants().active(),
+				Accounter.constants().VATGroup(),
+				Accounter.constants().description(), " " };
 	}
 
 	@Override

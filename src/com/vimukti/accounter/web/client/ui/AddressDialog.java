@@ -27,7 +27,7 @@ public class AddressDialog extends BaseDialog {
 	public AddressDialog(String title, String description,
 			final TextAreaItem textAreaItem, final String addressType,
 			final LinkedHashMap<Integer, ClientAddress> allAddresses) {
-		super(Accounter.getCompanyMessages().address(), "");
+		super(Accounter.constants().address(), "");
 		createControls(addressType, textAreaItem, allAddresses);
 	}
 
@@ -41,35 +41,35 @@ public class AddressDialog extends BaseDialog {
 			add = allAddresses.get(UIUtils.getAddressType(addressType));
 		}
 		// final TextItem street = new TextItem(Accounter
-		// .getFinanceUIConstants().streetName());
+		// .constants().streetName());
 		final TextItem address1 = new TextItem(Accounter
-				.getFinanceUIConstants().address1());
+				.constants().address1());
 		address1.setHelpInformation(true);
 
 		final TextItem address2 = new TextItem(Accounter
-				.getFinanceUIConstants().address2());
+				.constants().address2());
 		address2.setHelpInformation(true);
 
 		final TextItem city = new TextItem(Accounter
-				.getFinanceUIConstants().city());
+				.constants().city());
 		city.setHelpInformation(true);
 
 		final TextItem state = new TextItem(Accounter
-				.getFinanceUIConstants().state());
+				.constants().state());
 		state.setHelpInformation(true);
 
 		final TextItem country = new TextItem(Accounter
-				.getFinanceUIConstants().country());
+				.constants().country());
 		country.setHelpInformation(true);
 
 		final TextItem zip = new TextItem(Accounter
-				.getFinanceUIConstants().postalCode());
+				.constants().postalCode());
 		zip.setHelpInformation(true);
 		// country.setWidth(100);
 
-		// country.setValueMap(Accounter.getFinanceUIConstants().uk(),
-		// Accounter.getFinanceUIConstants().india(),
-		// Accounter.getFinanceUIConstants().us());
+		// country.setValueMap(Accounter.constants().uk(),
+		// Accounter.constants().india(),
+		// Accounter.constants().us());
 		// Iterator itr=countryList.iterator();
 		// while(itr.hasNext())
 		// // country.setValue(itr.next());
@@ -77,7 +77,7 @@ public class AddressDialog extends BaseDialog {
 		// country.setCountryList();
 
 		// country.setValueMap(getCountryList());
-		// country.setDefaultValue(Accounter.getCompanyMessages().UK());
+		// country.setDefaultValue(Accounter.constants().UK());
 
 		if (add != null) {
 			if (add.getAddress1() != null)
@@ -244,39 +244,39 @@ public class AddressDialog extends BaseDialog {
 
 	public String[] getCountryList() {
 		// List list = new ArrayList();
-		String[] list = { Accounter.getCompanyMessages().australia(),
-				Accounter.getCompanyMessages().belgium(),
-				Accounter.getCompanyMessages().canada(),
-				Accounter.getCompanyMessages().cyprus(),
-				Accounter.getCompanyMessages().france(),
-				Accounter.getCompanyMessages().germany(),
-				Accounter.getCompanyMessages().greece(),
-				Accounter.getCompanyMessages().india(),
-				Accounter.getCompanyMessages().ireland(),
-				Accounter.getCompanyMessages().italy(),
-				Accounter.getCompanyMessages().kenya(),
-				Accounter.getCompanyMessages().malta(),
-				Accounter.getCompanyMessages().mauritius(),
-				Accounter.getCompanyMessages().mozabique(),
-				Accounter.getCompanyMessages().netherlands(),
-				Accounter.getCompanyMessages().newZeland(),
-				Accounter.getCompanyMessages().nigeria(),
-				Accounter.getCompanyMessages().pakistan(),
-				Accounter.getCompanyMessages().portugal(),
-				Accounter.getCompanyMessages().southAfrica(),
-				Accounter.getCompanyMessages().spain(),
-				Accounter.getCompanyMessages().switzerland(),
-				Accounter.getCompanyMessages().thailand(),
-				Accounter.getCompanyMessages().UK(),
-				Accounter.getCompanyMessages().USA(),
-				Accounter.getCompanyMessages().others() };
+		String[] list = { Accounter.constants().australia(),
+				Accounter.constants().belgium(),
+				Accounter.constants().canada(),
+				Accounter.constants().cyprus(),
+				Accounter.constants().france(),
+				Accounter.constants().germany(),
+				Accounter.constants().greece(),
+				Accounter.constants().india(),
+				Accounter.constants().ireland(),
+				Accounter.constants().italy(),
+				Accounter.constants().kenya(),
+				Accounter.constants().malta(),
+				Accounter.constants().mauritius(),
+				Accounter.constants().mozabique(),
+				Accounter.constants().netherlands(),
+				Accounter.constants().newZeland(),
+				Accounter.constants().nigeria(),
+				Accounter.constants().pakistan(),
+				Accounter.constants().portugal(),
+				Accounter.constants().southAfrica(),
+				Accounter.constants().spain(),
+				Accounter.constants().switzerland(),
+				Accounter.constants().thailand(),
+				Accounter.constants().UK(),
+				Accounter.constants().USA(),
+				Accounter.constants().others() };
 
 		return list;
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCompanyMessages().address();
+		return Accounter.constants().address();
 	}
 	
 	@Override

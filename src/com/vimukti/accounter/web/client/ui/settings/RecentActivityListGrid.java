@@ -45,8 +45,8 @@ public class RecentActivityListGrid extends ListGrid<ClientUser> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.getSettingsMessages().name(),
-				Accounter.getSettingsMessages().loginDate() };
+		return new String[] { Accounter.constants().name(),
+				Accounter.constants().loginDate() };
 	}
 
 	@Override

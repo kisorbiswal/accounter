@@ -208,7 +208,7 @@ public class TransactionPaySalesTaxGrid extends
 		for (ClientTransactionPaySalesTax record : records) {
 			footertotal += record.getAmountToPay();
 		}
-		// this.updateFooterValues(FinanceApplication.getVendorsMessages().total()
+		// this.updateFooterValues(FinanceApplication.constants().total()
 		// + DataUtils.getAmountAsString(footertotal), 3);
 		paySalesTaxView.totalAmount = footertotal;
 		paySalesTaxView.refreshAmounts();

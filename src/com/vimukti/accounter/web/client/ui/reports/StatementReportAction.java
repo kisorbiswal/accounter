@@ -14,13 +14,13 @@ public class StatementReportAction extends Action {
 
 	public StatementReportAction(String text) {
 		super(text);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 
 	}
 
 	public StatementReportAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

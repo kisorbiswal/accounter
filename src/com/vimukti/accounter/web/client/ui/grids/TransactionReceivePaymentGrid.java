@@ -69,12 +69,12 @@ public class TransactionReceivePaymentGrid extends
 	public void init() {
 		super.init();
 		this.header.setStyleName("gridHeader HEADER_GRID");
-		// this.addFooterValue(FinanceApplication.getVendorsMessages().subTotal(),
+		// this.addFooterValue(FinanceApplication.constants().subTotal(),
 		// 1);
 		// this.addFooterValue("" + UIUtils.getCurrencySymbol() + "0.0", 2);
 		// if (!paymentView.isEditMode())
 		// this.addFooterValue("" + UIUtils.getCurrencySymbol() + "0.0", 3);
-		// this.addFooterValue(FinanceApplication.getVATMessages().totalcolan()
+		// this.addFooterValue(FinanceApplication.constants().totalcolan()
 		// + UIUtils.getCurrencySymbol() + " 0.0", 8);
 	}
 

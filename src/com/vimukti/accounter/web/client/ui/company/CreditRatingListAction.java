@@ -43,8 +43,8 @@ public class CreditRatingListAction extends Action {
 				try {
 
 					CreditRatingListDialog dialog = new CreditRatingListDialog(
-							Accounter.getCompanyMessages().creditRatingList(),
-							Accounter.getCompanyMessages().toAddCreditRating());
+							Accounter.constants().creditRatingList(),
+							Accounter.constants().toAddCreditRating());
 					ViewManager viewManager = ViewManager.getInstance();
 					viewManager.setCurrentDialog(dialog);
 

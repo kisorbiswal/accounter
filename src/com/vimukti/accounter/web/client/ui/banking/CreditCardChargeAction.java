@@ -18,9 +18,9 @@ public class CreditCardChargeAction extends Action {
 	protected CreditCardChargeView view;
 
 	public CreditCardChargeAction(String text, String iconString) {
-		super(Accounter.getBankingsMessages().newCreditCardCharge(),
+		super(Accounter.constants().newCreditCardCharge(),
 				text);
-		this.catagory = Accounter.getBankingsMessages().banking();
+		this.catagory = Accounter.constants().banking();
 
 	}
 
@@ -28,7 +28,7 @@ public class CreditCardChargeAction extends Action {
 			ClientCreditCardCharge creditCardCharge,
 			AsyncCallback<Object> callback) {
 		super(text, iconString, creditCardCharge, callback);
-		this.catagory = Accounter.getBankingsMessages().banking();
+		this.catagory = Accounter.constants().banking();
 	}
 
 	@Override

@@ -177,6 +177,6 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return Accounter.getReportsMessages().all();
+		return Accounter.constants().all();
 	}
 }

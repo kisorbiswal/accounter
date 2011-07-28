@@ -94,7 +94,7 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().userDetails();
+		return Accounter.constants().userDetails();
 	}
 
 }

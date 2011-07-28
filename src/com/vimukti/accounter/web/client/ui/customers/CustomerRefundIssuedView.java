@@ -27,7 +27,7 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		// setCanDragReposition(true);
 		// setShowCloseButton(true);
 
-		Label lab1 = new Label(Accounter.getCustomersMessages()
+		Label lab1 = new Label(Accounter.constants()
 				.customerRefundIssued());
 		// lab1.setWrap(false);
 
@@ -194,7 +194,7 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 
 	}
 
-	// setTitle(FinanceApplication.getCustomersMessages().title());
+	// setTitle(FinanceApplication.constants().title());
 
 	@Override
 	protected String getViewTitle() {

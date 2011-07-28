@@ -6,7 +6,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.externalization.FinanceConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 public class AddBankDialog extends AbstractBaseDialog {
 
 	private BankingMessages bankingConstants;
-	private FinanceConstants financeConstants;
+	private AccounterConstants financeConstants;
 
 	public AddBankDialog(AbstractBaseView parent) {
 		super(parent);
@@ -27,7 +27,7 @@ public class AddBankDialog extends AbstractBaseDialog {
 	private void createControls() {
 
 		bankingConstants = GWT.create(BankingMessages.class);
-		financeConstants = GWT.create(FinanceConstants.class);
+		financeConstants = GWT.create(AccounterConstants.class);
 
 		final TextItem bankText = new TextItem(bankingConstants.bankName());
 		bankText.setRequired(true);

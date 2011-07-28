@@ -18,12 +18,12 @@ public class TransactionDetailByTaxItemAction extends Action {
 
 	public TransactionDetailByTaxItemAction(String text) {
 		super(text);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	public TransactionDetailByTaxItemAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

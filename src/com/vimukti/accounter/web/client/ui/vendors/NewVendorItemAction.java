@@ -8,8 +8,8 @@ public class NewVendorItemAction extends NewItemAction {
 
 	public NewVendorItemAction(String text, String iconString) {
 		super(text, iconString, false);
-		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.supplier(), Accounter.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor());
 	}
 
 	@Override

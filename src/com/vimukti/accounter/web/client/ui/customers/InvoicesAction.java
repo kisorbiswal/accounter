@@ -20,12 +20,12 @@ public class InvoicesAction extends Action {
 
 	public InvoicesAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	public InvoicesAction(String text, String iconString, String viewType) {
 		super(text, iconString);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 		this.viewType = viewType;
 	}
 

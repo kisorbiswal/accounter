@@ -237,7 +237,7 @@ public class MakeDepositView extends
 				if (DecimalUtil.isLessThan(cashBackAmount, 0.00)
 						|| DecimalUtil.isGreaterThan(cashBackAmount,
 								calculatedTotal)) {
-					Accounter.showError(Accounter.getFinanceUIConstants()
+					Accounter.showError(Accounter.constants()
 							.cashBackAmountErrorMsg());
 					cashBackAmount = 0.00;
 					// cashBackAmountText.setValue("$0.00");
@@ -259,7 +259,7 @@ public class MakeDepositView extends
 			// totText.setValue(UIUtils.format(diff));
 			totText.setAmount(diff);
 		} catch (Exception e) {
-			Accounter.showError(Accounter.getFinanceUIConstants()
+			Accounter.showError(Accounter.constants()
 					.enterValidAmount());
 			// cashBackAmountText.setValue("$0.00");
 			cashBackAmountText.setAmount(0.00);
@@ -279,7 +279,7 @@ public class MakeDepositView extends
 					Accounter
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
-					Accounter.showError(Accounter.getFinanceUIConstants()
+					Accounter.showError(Accounter.constants()
 							.makeDepostTransationsListFailed());
 					gridView.removeAllRecords();
 				}
@@ -298,7 +298,7 @@ public class MakeDepositView extends
 
 				} else if (!isEdit) {
 					gridView.removeAllRecords();
-					Accounter.showError(Accounter.getFinanceUIConstants()
+					Accounter.showError(Accounter.constants()
 							.noDepositsToShow());
 					// gridView.addEmptyMessage("No records to show");
 				}
@@ -345,7 +345,7 @@ public class MakeDepositView extends
 				&& selectedCashBackAccount == null) {
 
 			flag = false;
-			Accounter.showError(Accounter.getFinanceUIConstants()
+			Accounter.showError(Accounter.constants()
 					.cashBackAccountShouldBeSelected());
 
 		}
@@ -365,7 +365,7 @@ public class MakeDepositView extends
 		// calculatedTotal) {
 		if (DecimalUtil.isGreaterThan(cashBackAmountText.getAmount(),
 				calculatedTotal)) {
-			Accounter.showError(Accounter.getFinanceUIConstants()
+			Accounter.showError(Accounter.constants()
 					.cashBackAmountShouldnotBeGreaterthanDepositedAmount());
 			return false;
 		}
@@ -379,7 +379,7 @@ public class MakeDepositView extends
 		// FIXME-- check the condition,there is no possiblity of type/account to
 		// be '0'
 		if (rec.getType() == 0 || (rec.getAccount() == 0)) {
-			Accounter.showError(Accounter.getFinanceUIConstants()
+			Accounter.showError(Accounter.constants()
 					.pleaseChooseAnAccount());
 			return false;
 		}
@@ -432,13 +432,13 @@ public class MakeDepositView extends
 			if (DecimalUtil.isLessThan(enteredAmount, -1000000000000.00)
 					|| DecimalUtil.isGreaterThan(enteredAmount,
 							1000000000000.00)) {
-				Accounter.showError(Accounter.getFinanceUIConstants()
+				Accounter.showError(Accounter.constants()
 						.amountExceedsTheLimit());
 				enteredAmount = 0.00;
 			} else
 				selectedRecord.setAmount(enteredAmount);
 		} catch (Exception e) {
-			Accounter.showError(Accounter.getFinanceUIConstants()
+			Accounter.showError(Accounter.constants()
 					.invalidAmount());
 			selectedRecord.setAmount(0.00);
 		}
@@ -749,7 +749,7 @@ public class MakeDepositView extends
 	@Override
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
-		Label lab = new Label(Accounter.getFinanceUIConstants().makeDeposit());
+		Label lab = new Label(Accounter.constants().makeDeposit());
 		lab.removeStyleName("gwt-Label");
 		lab.addStyleName("lable-title");
 		// lab.setHeight("50px");
@@ -849,10 +849,10 @@ public class MakeDepositView extends
 		depoForm.setFields(depositInSelect);
 		depoForm.setWidth("40%");
 
-		// Label lab1 = new Label(FinanceApplication.getFinanceUIConstants()
+		// Label lab1 = new Label(FinanceApplication.constants()
 		// .paymentsReceived());
 
-		addButton = new AccounterButton(Accounter.getFinanceUIConstants().add());
+		addButton = new AccounterButton(Accounter.constants().add());
 
 		addButton.addClickHandler(new ClickHandler() {
 
@@ -1026,7 +1026,7 @@ public class MakeDepositView extends
 		super.setData(data);
 		if (isEdit && (!transactionObject.isMakeDeposit()))
 			try {
-				throw new Exception(Accounter.getFinanceUIConstants()
+				throw new Exception(Accounter.constants()
 						.unabletoLoadTheRequiredDeposit());
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -1286,6 +1286,6 @@ public class MakeDepositView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getBankingsMessages().makeDeposit();
+		return Accounter.constants().makeDeposit();
 	}
 }

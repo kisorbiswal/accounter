@@ -19,13 +19,13 @@ public class NewAccountAction extends Action {
 
 	public NewAccountAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	public NewAccountAction(String text, String iconString) {
 
 		super(text, iconString);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 
 	}
 

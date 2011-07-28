@@ -31,55 +31,55 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 	public DateRangeReportToolbar() {
 		createControls();
-		// selectedDateRange = FinanceApplication.getReportsMessages().all();
+		// selectedDateRange = FinanceApplication.constants().all();
 	}
 
 	private void createControls() {
 		@SuppressWarnings("unused")
-		String[] reportBasisArray = { Accounter.getReportsMessages().cash(),
-				Accounter.getReportsMessages().accrual() };
+		String[] reportBasisArray = { Accounter.constants().cash(),
+				Accounter.constants().accrual() };
 
-		String[] dateRangeArray = { Accounter.getReportsMessages().all(),
-				Accounter.getReportsMessages().thisWeek(),
-				Accounter.getReportsMessages().thisMonth(),
-				Accounter.getReportsMessages().lastWeek(),
-				Accounter.getReportsMessages().lastMonth(),
-				Accounter.getReportsMessages().thisFinancialYear(),
-				Accounter.getReportsMessages().lastFinancialYear(),
-				Accounter.getReportsMessages().thisFinancialQuarter(),
-				Accounter.getReportsMessages().lastFinancialQuarter(),
-				Accounter.getReportsMessages().financialYearToDate(),
-				// FinanceApplication.getReportsMessages().today(),
-				// FinanceApplication.getReportsMessages().endThisWeek(),
-				// FinanceApplication.getReportsMessages().endThisWeekToDate(),
-				// FinanceApplication.getReportsMessages().endThisMonth(),
-				// FinanceApplication.getReportsMessages().endThisMonthToDate(),
-				// FinanceApplication.getReportsMessages().endThisFiscalQuarter(),
-				// FinanceApplication.getReportsMessages()
+		String[] dateRangeArray = { Accounter.constants().all(),
+				Accounter.constants().thisWeek(),
+				Accounter.constants().thisMonth(),
+				Accounter.constants().lastWeek(),
+				Accounter.constants().lastMonth(),
+				Accounter.constants().thisFinancialYear(),
+				Accounter.constants().lastFinancialYear(),
+				Accounter.constants().thisFinancialQuarter(),
+				Accounter.constants().lastFinancialQuarter(),
+				Accounter.constants().financialYearToDate(),
+				// FinanceApplication.constants().today(),
+				// FinanceApplication.constants().endThisWeek(),
+				// FinanceApplication.constants().endThisWeekToDate(),
+				// FinanceApplication.constants().endThisMonth(),
+				// FinanceApplication.constants().endThisMonthToDate(),
+				// FinanceApplication.constants().endThisFiscalQuarter(),
+				// FinanceApplication.constants()
 				// .endThisFiscalQuarterToDate(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants()
 				// .endThisCalanderQuarter(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants()
 				// .endThisCalanderQuarterToDate(),
-				// FinanceApplication.getReportsMessages().endThisFiscalYear(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants().endThisFiscalYear(),
+				// FinanceApplication.constants()
 				// .endThisFiscalYearToDate(),
-				// FinanceApplication.getReportsMessages().endThisCalanderYear(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants().endThisCalanderYear(),
+				// FinanceApplication.constants()
 				// .endThisCalanderYearToDate(),
-				// FinanceApplication.getReportsMessages().endYesterday(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants().endYesterday(),
+				// FinanceApplication.constants()
 				// .endPreviousFiscalQuarter(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants()
 				// .endLastCalenderQuarter(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants()
 				// .previousFiscalYearSameDates(),
-				// FinanceApplication.getReportsMessages().lastCalenderYear(),
-				// FinanceApplication.getReportsMessages().previousCalenderYear(),
-				Accounter.getReportsMessages().custom() };
+				// FinanceApplication.constants().lastCalenderYear(),
+				// FinanceApplication.constants().previousCalenderYear(),
+				Accounter.constants().custom() };
 
 		LabelItem report = new LabelItem();
-		report.setTitle(Accounter.getReportsMessages().reportBasisAccrual());
+		report.setTitle(Accounter.constants().reportBasisAccrual());
 		// reportBasisItem = new ComboBoxItem();
 		// reportBasisItem.setTitle("Report Basis");
 		// reportBasisItem.setValueMap(reportBasisArray);
@@ -87,7 +87,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// // report basic is not yet implemented, so disable the feature.
 		// reportBasisItem.setDisabled(true);
 
-		dateRangeItemCombo = new SelectCombo(Accounter.getReportsMessages()
+		dateRangeItemCombo = new SelectCombo(Accounter.constants()
 				.dateRange());
 		dateRangeItemCombo.setHelpInformation(true);
 		dateRangeItemList = new ArrayList<String>();
@@ -95,7 +95,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 			dateRangeItemList.add(dateRangeArray[i]);
 		}
 		dateRangeItemCombo.initCombo(dateRangeItemList);
-		dateRangeItemCombo.setComboItem(Accounter.getReportsMessages().all());
+		dateRangeItemCombo.setComboItem(Accounter.constants().all());
 		// dateRangeItem.setDefaultValue(dateRangeArray[0]);
 		// dateRangeItem.addChangedHandler(new ChangeHandler() {
 		//
@@ -134,7 +134,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
-		fromItem.setTitle(Accounter.getReportsMessages().from());
+		fromItem.setTitle(Accounter.constants().from());
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
@@ -147,7 +147,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// else
 		// toItem.setDate(new Date());
 
-		toItem.setTitle(Accounter.getReportsMessages().to());
+		toItem.setTitle(Accounter.constants().to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -160,7 +160,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 			}
 		});
-		updateButton = new AccounterButton(Accounter.getReportsMessages()
+		updateButton = new AccounterButton(Accounter.constants()
 				.update());
 		updateButton.addClickHandler(new ClickHandler() {
 
@@ -173,8 +173,8 @@ public class DateRangeReportToolbar extends ReportToolbar {
 				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
 						fromItem.getDate(), toItem.getDate());
 				dateRangeItemCombo.setDefaultValue(Accounter
-						.getReportsMessages().custom());
-				setSelectedDateRange(Accounter.getReportsMessages().custom());
+						.constants().custom());
+				setSelectedDateRange(Accounter.constants().custom());
 			}
 		});
 
@@ -183,7 +183,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// updateButton.setEnabled(false);
 
 		AccounterButton printButton = new AccounterButton(Accounter
-				.getReportsMessages().print());
+				.constants().print());
 		// printButton.setTop(2);
 		// printButton.setWidth(40);
 		printButton.addClickHandler(new ClickHandler() {

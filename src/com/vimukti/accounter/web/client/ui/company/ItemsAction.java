@@ -18,7 +18,7 @@ public class ItemsAction extends Action {
 
 	public ItemsAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	public ItemsAction(String text, String iconString, String catageory) {

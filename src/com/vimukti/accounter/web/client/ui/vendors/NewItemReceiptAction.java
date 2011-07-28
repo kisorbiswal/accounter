@@ -15,14 +15,14 @@ public class NewItemReceiptAction extends Action {
 
 	public NewItemReceiptAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.supplier(), Accounter.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor());
 	}
 
 	public NewItemReceiptAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.supplier(), Accounter.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor());
 	}
 
 	@Override

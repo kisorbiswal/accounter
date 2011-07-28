@@ -13,7 +13,7 @@ public class DisposingRegisteredItemAction extends Action {
 
 	public DisposingRegisteredItemAction(String text) {
 		super(text);
-		this.catagory = Accounter.getFixedAssetConstants().fixedAssets();
+		this.catagory = Accounter.constants().fixedAssets();
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class DisposingRegisteredItemAction extends Action {
 			}
 
 			public void onCreateFailed(Throwable t) {
-				Accounter.showError(Accounter.getFixedAssetConstants()
+				Accounter.showError(Accounter.constants()
 						.failedToLoadDisposedFixedAssetView());
 			}
 		});

@@ -21,13 +21,13 @@ public class NewQuoteAction extends Action {
 
 	public NewQuoteAction(String text, String icon) {
 		super(text, icon);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	public NewQuoteAction(String text, String iconString, ClientEstimate quote,
 			AsyncCallback<Object> callback) {
 		super(text, iconString, quote, callback);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	@Override

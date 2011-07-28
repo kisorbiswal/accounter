@@ -15,18 +15,18 @@ public class CompanyHomeAction extends Action {
 
 	public CompanyHomeAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	public CompanyHomeAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	public CompanyHomeAction(String text, String iconString,
 			IsSerializable editableObject, AsyncCallback<Object> callbackObject) {
 		super(text, iconString, editableObject, callbackObject);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class CompanyHomeAction extends Action {
 			MainFinanceWindow.getViewManager()
 					.showView(view, null, false, this);
 		} catch (Exception e) {
-			Accounter.showError(Accounter.getCompanyMessages()
+			Accounter.showError(Accounter.constants()
 					.failedToLoadCompanyHome());
 		}
 	}

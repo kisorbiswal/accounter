@@ -48,7 +48,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 	@Override
 	public void deleteFailed(Throwable caught) {
 		super.deleteFailed(caught);
-		Accounter.showInformation(Accounter.getFinanceUIConstants()
+		Accounter.showInformation(Accounter.constants()
 				.youCantDeleteItem());
 	}
 
@@ -57,7 +57,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 		allItems.remove(toBeDeletedItem);
 		refreshTotal();
-		// Accounter.showInformation(FinanceApplication.getFinanceUIConstants()
+		// Accounter.showInformation(FinanceApplication.constants()
 		// .itemDeletedSuccessfully());
 
 	}
@@ -69,7 +69,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 			if (!DecimalUtil.isEquals(item.getSalesPrice(), 0))
 				total += item.getSalesPrice();
 		}
-		totalLabel.setText(Accounter.getCustomersMessages().totalSalesPrice()
+		totalLabel.setText(Accounter.constants().totalSalesPrice()
 				+ " = " + DataUtils.getAmountAsString(total));
 	}
 
@@ -79,14 +79,14 @@ public class ItemListView extends BaseListView<ClientItem> {
 			return null;
 		else {
 			NewItemAction action;
-			if (this.catageory.equals(Accounter.getCustomersMessages()
+			if (this.catageory.equals(Accounter.constants()
 					.customer())) {
 				action = CustomersActionFactory.getNewItemAction();
 				action.setType(3);
 				return action;
-			} else if (this.catageory.equals(Accounter.getVendorsMessages()
+			} else if (this.catageory.equals(Accounter.constants()
 					.supplier())
-					|| this.catageory.equals(Accounter.getVendorsMessages()
+					|| this.catageory.equals(Accounter.constants()
 							.vendor())) {
 				action = VendorsActionFactory.getNewItemAction();
 				action.setType(3);
@@ -109,7 +109,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.getVendorsMessages().productList();
+		return Accounter.constants().productList();
 	}
 
 	@Override
@@ -187,7 +187,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCustomersMessages().items();
+		return Accounter.constants().items();
 	}
 
 }

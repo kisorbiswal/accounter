@@ -19,12 +19,12 @@ public class ReceivedPaymentsAction extends Action {
 
 	public ReceivedPaymentsAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	public ReceivedPaymentsAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	@Override

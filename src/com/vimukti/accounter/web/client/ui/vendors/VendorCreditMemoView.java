@@ -111,29 +111,29 @@ public class VendorCreditMemoView extends
 	public void createControls() {
 
 		Label lab1 = new Label(UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplierCredit(), Accounter
-				.getVendorsMessages().vendorCredit())
+				.constants().supplierCredit(), Accounter
+				.constants().vendorCredit())
 				+ "(" + getTransactionStatus() + ")");
 
-		lab1.setStyleName(Accounter.getCustomersMessages().lableTitle());
+		lab1.setStyleName(Accounter.constants().lableTitle());
 		if (transactionObject == null
 				|| transactionObject.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 			lab1 = new Label(UIUtils.getVendorString(Accounter
-					.getVendorsMessages().supplierCredit(), Accounter
-					.getVendorsMessages().vendorCredit()));
+					.constants().supplierCredit(), Accounter
+					.constants().vendorCredit()));
 
 		else
 			lab1 = new Label(UIUtils.getVendorString(Accounter
-					.getVendorsMessages().supplierCredit(), Accounter
-					.getVendorsMessages().vendorCredit())
+					.constants().supplierCredit(), Accounter
+					.constants().vendorCredit())
 					+ "(" + getTransactionStatus() + ")");
 
-		lab1.setStyleName(Accounter.getCustomersMessages().lableTitle());
+		lab1.setStyleName(Accounter.constants().lableTitle());
 		// lab1.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
 
 		transactionNumber = createTransactionNumberItem();
-		transactionNumber.setTitle(Accounter.getVendorsMessages()
+		transactionNumber.setTitle(Accounter.constants()
 				.creditNoteNo());
 
 		listforms = new ArrayList<DynamicForm>();
@@ -157,8 +157,8 @@ public class VendorCreditMemoView extends
 		forms.add(dateNoForm);
 
 		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplierName(), Accounter
-				.getVendorsMessages().vendorName()));
+				.constants().supplierName(), Accounter
+				.constants().vendorName()));
 
 		contactCombo = createContactComboItem();
 
@@ -180,7 +180,7 @@ public class VendorCreditMemoView extends
 		}
 
 		forms.add(phoneForm);
-		netAmount = new AmountLabel(Accounter.getVendorsMessages().netAmount());
+		netAmount = new AmountLabel(Accounter.constants().netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 
@@ -208,7 +208,7 @@ public class VendorCreditMemoView extends
 		vendorForm
 				.getCellFormatter()
 				.getElement(0, 0)
-				.setAttribute(Accounter.getCustomersMessages().width(), "190px");
+				.setAttribute(Accounter.constants().width(), "190px");
 
 		leftVLay.add(vendorForm);
 
@@ -558,8 +558,8 @@ public class VendorCreditMemoView extends
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.supplierCredit(), Accounter.getVendorsMessages()
+		return UIUtils.getVendorString(Accounter.constants()
+				.supplierCredit(), Accounter.constants()
 				.vendorCredit());
 	}
 }

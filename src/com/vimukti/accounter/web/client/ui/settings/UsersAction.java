@@ -11,7 +11,7 @@ public class UsersAction extends Action {
 
 	public UsersAction(String text) {
 		super(text);
-		this.catagory = Accounter.getSettingsMessages().settings();
+		this.catagory = Accounter.constants().settings();
 	}
 
 	@Override

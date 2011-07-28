@@ -14,13 +14,13 @@ public class APAgingSummaryReportAction extends Action {
 
 	public APAgingSummaryReportAction(String text) {
 		super(text);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 
 	}
 
 	public APAgingSummaryReportAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	@Override

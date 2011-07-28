@@ -21,7 +21,7 @@ public class NoteDialog extends BaseDialog {
 
 	private void createControl() {
 		mainPanel.setSpacing(3);
-		Label noteLbl = new Label(Accounter.getFixedAssetConstants()
+		Label noteLbl = new Label(Accounter.constants()
 				.note());
 		noteArea = new TextAreaItem();
 		noteArea.setWidth(100);
@@ -65,7 +65,7 @@ public class NoteDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getFixedAssetConstants().addNote();
+		return Accounter.constants().addNote();
 	}
 
 }

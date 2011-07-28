@@ -85,31 +85,31 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	private void createControls() {
 
 		listforms = new ArrayList<DynamicForm>();
-		detailsLabel = new Label(Accounter.getFixedAssetConstants().details());
-		detailsLabel.setStyleName(Accounter.getFixedAssetConstants()
+		detailsLabel = new Label(Accounter.constants().details());
+		detailsLabel.setStyleName(Accounter.constants()
 				.lableTitle());
 
 		detailsForm = getDetailForm();
 
 		depriciationForFinancialyearLabel = new Label();
 		depriciationForFinancialyearLabel.setStyleName(Accounter
-				.getFixedAssetConstants().lableTitle());
+				.constants().lableTitle());
 
 		depriciationForFinancialyearLabel.setText(Accounter
-				.getFixedAssetConstants().depriciationForThe()
+				.constants().depriciationForThe()
 				+ yearValue
-				+ Accounter.getFixedAssetConstants().financialYear());
+				+ Accounter.constants().financialYear());
 
 		HorizontalPanel topPanel = new HorizontalPanel();
 		topPanel.add(detailsForm);
 
 		QuestionLabel = new Label();
-		QuestionLabel.setText(Accounter.getFixedAssetConstants()
+		QuestionLabel.setText(Accounter.constants()
 				.howMuchDepriciationShouldBeIcludedInThisFinancialYear());
 		QuestionItem = new RadioGroupItem();
-		noDepOption = Accounter.getFixedAssetConstants()
+		noDepOption = Accounter.constants()
 				.noDepreciationThisFinancialYear();
-		allDepOption = Accounter.getFixedAssetConstants()
+		allDepOption = Accounter.constants()
 				.allDepreciationUpToIncluding();
 		QuestionItem.setValues(new ClickHandler() {
 
@@ -122,7 +122,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 		DynamicForm radioForm = new DynamicForm();
 		radioForm.setFields(QuestionItem);
-		dateItemCombo = new SelectItem(Accounter.getFixedAssetConstants()
+		dateItemCombo = new SelectItem(Accounter.constants()
 				.date());
 		dateForm = new DynamicForm();
 		dateForm.setWidth("50%");
@@ -191,7 +191,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		accountCombo = createDebitAccountCombo();
 		accountCombo.setRequired(true);
 
-		salepriceText = new AmountField(Accounter.getFixedAssetConstants()
+		salepriceText = new AmountField(Accounter.constants()
 				.salepriceExcludingTax());
 		salepriceText.setRequired(true);
 		salepriceText.setWidth(100);
@@ -207,7 +207,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 	protected void openJournalDialog(
 			FixedAssetSellOrDisposeReviewJournal journalObject) {
-		dialog = new JournalViewDialog(Accounter.getFixedAssetConstants()
+		dialog = new JournalViewDialog(Accounter.constants()
 				.journalView(), "", journalObject);
 		dialog.addInputDialogHandler(new InputDialogHandler() {
 
@@ -297,9 +297,9 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		yearValue = String
 				.valueOf(getSoldorDisposedDateField().getYear() + 1900);
 		depriciationForFinancialyearLabel.setText(Accounter
-				.getFixedAssetConstants().depriciationForThe()
+				.constants().depriciationForThe()
 				+ yearValue
-				+ "     " + Accounter.getFixedAssetConstants().financialYear());
+				+ "     " + Accounter.constants().financialYear());
 		initDateCombo();
 	}
 
@@ -347,18 +347,18 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	}
 
 	private String[] getMonthStrings() {
-		return new String[] { Accounter.getCompanyMessages().JAN(),
-				Accounter.getCompanyMessages().FEB(),
-				Accounter.getCompanyMessages().MAR(),
-				Accounter.getCompanyMessages().APR(),
-				Accounter.getCompanyMessages().MAY(),
-				Accounter.getCompanyMessages().JUN(),
-				Accounter.getCompanyMessages().JUL(),
-				Accounter.getCompanyMessages().AUG(),
-				Accounter.getCompanyMessages().SEPT(),
-				Accounter.getCompanyMessages().OCT(),
-				Accounter.getCompanyMessages().NOV(),
-				Accounter.getCompanyMessages().DEC(), };
+		return new String[] { Accounter.constants().JAN(),
+				Accounter.constants().FEB(),
+				Accounter.constants().MAR(),
+				Accounter.constants().APR(),
+				Accounter.constants().MAY(),
+				Accounter.constants().JUN(),
+				Accounter.constants().JUL(),
+				Accounter.constants().AUG(),
+				Accounter.constants().SEPT(),
+				Accounter.constants().OCT(),
+				Accounter.constants().NOV(),
+				Accounter.constants().DEC(), };
 	}
 
 	private int[] getLastDateValues() {
@@ -422,7 +422,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 				return AccounterValidator.validateSellorDisposeDate(
 						new ClientFinanceDate(asset.getPurchaseDate()),
 						getSoldorDisposedDateField().getEnteredDate(),
-						Accounter.getFixedAssetConstants().datesold());
+						Accounter.constants().datesold());
 
 		default:
 			return true;
@@ -533,7 +533,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		ClientFixedAsset createdAsset = (ClientFixedAsset) result;
 		if (createdAsset.getID() != 0) {
 			// Accounter.showInformation(FinanceApplication
-			// .getFixedAssetConstants().fixedAssetItemHasBeenSold());
+			// .constants().fixedAssetItemHasBeenSold());
 			saveAndClose = true;
 			super.saveSuccess(result);
 			History.newItem(FixedAssetsActionFactory
@@ -541,7 +541,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			// FixedAssetsActionFactory.getSoldDisposedListAction().run(null,
 			// false);
 		} else
-			saveFailed(new Exception(Accounter.getFinanceUIConstants().failed()));
+			saveFailed(new Exception(Accounter.constants().failed()));
 
 	}
 
@@ -574,7 +574,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 	private DebitAccountCombo createDebitAccountCombo() {
 		DebitAccountCombo accountCombo = new DebitAccountCombo(Accounter
-				.getFixedAssetConstants().accountToDebitForSale());
+				.constants().accountToDebitForSale());
 
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -666,6 +666,6 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().sellingRegisteredItem();
+		return Accounter.constants().sellingRegisteredItem();
 	}
 }

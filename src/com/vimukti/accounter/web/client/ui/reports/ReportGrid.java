@@ -50,14 +50,14 @@ public class ReportGrid<R> extends CustomTable {
 		super(false, true);
 		this.columns = columns;
 		sinkEvents(Event.ONMOUSEOVER | Event.ONMOUSEOUT);
-		setStyleName(Accounter.getReportsMessages().reportGrid());
+		setStyleName(Accounter.constants().reportGrid());
 	}
 
 	public ReportGrid(String[] columns, boolean showFooter) {
 		super(false, showFooter);
 		this.columns = columns;
 		sinkEvents(Event.ONMOUSEOVER | Event.ONMOUSEOUT);
-		setStyleName(Accounter.getReportsMessages().reportGrid());
+		setStyleName(Accounter.constants().reportGrid());
 	}
 
 	/**
@@ -134,10 +134,10 @@ public class ReportGrid<R> extends CustomTable {
 	private void addDefaultStyleNames(int rowCount, boolean bold,
 			boolean underline) {
 		rowFormatter.addStyleName(rowCount, Accounter
-				.getReportsMessages().reportGridRow());
+				.constants().reportGridRow());
 		if (!bold && !underline) {
 			rowFormatter.addStyleName(rowCount, Accounter
-					.getReportsMessages().depth());
+					.constants().depth());
 		}
 	}
 
@@ -177,7 +177,7 @@ public class ReportGrid<R> extends CustomTable {
 				this.header.getCellFormatter().addStyleName(
 						rowCount,
 						i,
-						Accounter.getReportsMessages()
+						Accounter.constants()
 								.reportGridheaderStyle());
 				this.header.getCellFormatter().setAlignment(rowCount, i,
 						HasHorizontalAlignment.ALIGN_LEFT,
@@ -190,7 +190,7 @@ public class ReportGrid<R> extends CustomTable {
 			}
 		}
 		rowFormatter.addStyleName(rowCount, Accounter
-				.getReportsMessages().reportGridHeader());
+				.constants().reportGridHeader());
 
 	}
 
@@ -211,17 +211,17 @@ public class ReportGrid<R> extends CustomTable {
 
 		if (bold) {
 			cellFormatter.addStyleName(row, column, Accounter
-					.getReportsMessages().boldCell());
+					.constants().boldCell());
 		}
 
 		addDepthStyle(row, column, depth);
 
 		if (underline) {
 			cellFormatter.addStyleName(row, column, Accounter
-					.getReportsMessages().underline());
+					.constants().underline());
 		}
 		cellFormatter.addStyleName(row, column, Accounter
-				.getReportsMessages().reportGridcustomFont());
+				.constants().reportGridcustomFont());
 		cellFormatter.setAlignment(row, column,
 				HasHorizontalAlignment.ALIGN_LEFT,
 				HasVerticalAlignment.ALIGN_MIDDLE);
@@ -239,7 +239,7 @@ public class ReportGrid<R> extends CustomTable {
 		}
 		if (flag)
 			cellFormatter.addStyleName(row, column, Accounter
-					.getReportsMessages().depth()
+					.constants().depth()
 					+ depth);
 
 	}
@@ -324,7 +324,7 @@ public class ReportGrid<R> extends CustomTable {
 					}
 					Element cell = table.getCellFormatter().getElement(row, i);
 					parentWidth = parentWidth - cellWidth;
-					cell.setAttribute(Accounter.getReportsMessages()
+					cell.setAttribute(Accounter.constants()
 							.width(), "" + cellWidth);
 				}
 			}
@@ -335,14 +335,14 @@ public class ReportGrid<R> extends CustomTable {
 			// if (col != 0) {
 			// Element cell = table.getCellFormatter()
 			// .getElement(row, col);
-			// cell.setAttribute(FinanceApplication.getReportsMessages()
+			// cell.setAttribute(FinanceApplication.constants()
 			// .width(), "" + cellWidth);
 			// }
 			// }
 
 			if (isMultiSelectionEnable) {
 				table.getCellFormatter().getElement(row, 0).setAttribute(
-						Accounter.getReportsMessages().width(),
+						Accounter.constants().width(),
 						"" + 15);
 			}
 

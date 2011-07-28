@@ -14,7 +14,7 @@ public class CheckDetailReportAction extends Action {
 
 	public CheckDetailReportAction(String text, String string) {
 		super(text);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	@Override

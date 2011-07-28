@@ -37,7 +37,7 @@ public class CopyThemeDialog extends BaseDialog {
 	private void createControls() {
 
 		VerticalPanel copyPanel = new VerticalPanel();
-		Label yourLabel = new Label(Accounter.getSettingsMessages()
+		Label yourLabel = new Label(Accounter.constants()
 				.yourTitle());
 		nameBox = new TextBox();
 		okbtn.addClickHandler(new ClickHandler() {
@@ -135,6 +135,6 @@ public class CopyThemeDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getSettingsMessages().copyTheme();
+		return Accounter.constants().copyTheme();
 	}
 }

@@ -57,7 +57,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 		grid.setWidth("100%");
 		grid.setHeight("280px");
 		grid.setView(this);
-		Label label = new Label(Accounter.getCompanyMessages().detailedLog());
+		Label label = new Label(Accounter.constants().detailedLog());
 		label.addStyleName("bold");
 		messageTxtPnl = new ScrollPanel();
 		messageTxtPnl.addStyleName("logview-border");
@@ -133,7 +133,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 		datePanel.setWidth("100%");
 
 		dateItm = new DateItem();
-		dateItm.setTitle(Accounter.getCompanyMessages().getLogUpto());
+		dateItm.setTitle(Accounter.constants().getLogUpto());
 		DynamicForm dateForm = new DynamicForm();
 		dateForm.setFields(dateItm);
 		datePanel.add(dateForm);
@@ -141,7 +141,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		AccounterButton getLogByDateBtn = new AccounterButton();
-		getLogByDateBtn.setText(Accounter.getCompanyMessages().get());
+		getLogByDateBtn.setText(Accounter.constants().get());
 		getLogByDateBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -195,7 +195,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 					@Override
 					public void onFailure(Throwable caught) {
 						grid.clear();
-						grid.addEmptyMessage(Accounter.getCustomersMessages()
+						grid.addEmptyMessage(Accounter.constants()
 								.norecordstoshow());
 					}
 				});
@@ -236,7 +236,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 						firstRecordID = -1;
 						lastRecordID = -1;
 						grid.clear();
-						grid.addEmptyMessage(Accounter.getCustomersMessages()
+						grid.addEmptyMessage(Accounter.constants()
 								.norecordstoshow());
 					}
 				});
@@ -265,7 +265,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 						firstRecordID = lastRecordID;
 						nextHyprLnk.setEnabled(false);
 						grid.clear();
-						grid.addEmptyMessage(Accounter.getCustomersMessages()
+						grid.addEmptyMessage(Accounter.constants()
 								.norecordstoshow());
 					}
 				});
@@ -294,7 +294,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 						prvsHyprLink.setEnabled(false);
 						lastRecordID = firstRecordID;
 						grid.clear();
-						grid.addEmptyMessage(Accounter.getCustomersMessages()
+						grid.addEmptyMessage(Accounter.constants()
 								.norecordstoshow());
 					}
 				});
@@ -340,6 +340,6 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCompanyMessages().showLog();
+		return Accounter.constants().showLog();
 	}
 }

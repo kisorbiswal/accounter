@@ -160,7 +160,7 @@ public class TransactionJournalEntryGrid extends
 		//
 		// });
 
-		// this.addFooterValues(FinanceApplication.getVendorsMessages()
+		// this.addFooterValues(FinanceApplication.constants()
 		// .totalAmount(), "", "", "", "0.00", "0.00", "");
 		// this.addFooterValue("Total Amount", 0);
 
@@ -287,11 +287,11 @@ public class TransactionJournalEntryGrid extends
 		case 2:
 			return new String[] {
 					"",
-					Accounter.getVendorsMessages().financialAccount(),
-					UIUtils.getVendorString(Accounter.getVendorsMessages()
-							.supplier(), Accounter.getVendorsMessages()
+					Accounter.constants().financialAccount(),
+					UIUtils.getVendorString(Accounter.constants()
+							.supplier(), Accounter.constants()
 							.vendor()),
-					Accounter.getCustomersMessages().customer() };
+					Accounter.constants().customer() };
 		}
 
 		return null;
@@ -455,11 +455,11 @@ public class TransactionJournalEntryGrid extends
 	private String getTypeAsString(ClientEntry entry, int type) {
 		switch (type) {
 		case ClientEntry.TYPE_FINANCIAL_ACCOUNT:
-			return Accounter.getVendorsMessages().account();
+			return Accounter.constants().account();
 		case ClientEntry.TYPE_CUSTOMER:
-			return Accounter.getCustomersMessages().customer();
+			return Accounter.constants().customer();
 		case ClientEntry.TYPE_VENDOR:
-			return Accounter.getVendorsMessages().vendor();
+			return Accounter.constants().vendor();
 			// case ClientEntry.TYPE_VAT:
 			// return "VAT";
 		}

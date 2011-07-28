@@ -126,7 +126,7 @@ public class VendorTransactionUSGrid extends
 		setSize("100%", "200px");
 
 		// Passing 1 for Customer, 2 For Vendor For Item View- Raj Vimal
-		serviceItemCombo = new ServiceCombo(Accounter.getCustomersMessages()
+		serviceItemCombo = new ServiceCombo(Accounter.constants()
 				.item(), 2, isAddNewRequired);
 		serviceItemCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientItem>() {
@@ -164,7 +164,7 @@ public class VendorTransactionUSGrid extends
 				});
 		serviceItemCombo.setGrid(this);
 
-		productItemCombo = new ProductCombo(Accounter.getVendorsMessages()
+		productItemCombo = new ProductCombo(Accounter.constants()
 				.product(), 2, isAddNewRequired);
 		productItemCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientItem>() {
@@ -203,7 +203,7 @@ public class VendorTransactionUSGrid extends
 		productItemCombo.setGrid(this);
 
 		accountsCombo = new PurchaseAccountsCombo(Accounter
-				.getVendorsMessages().Accounts(), isAddNewRequired);
+				.constants().Accounts(), isAddNewRequired);
 		accountsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
@@ -225,15 +225,15 @@ public class VendorTransactionUSGrid extends
 		// accountsCombo.setWidth("600");
 		// if (!isBankingTransaction && !isPurchseOrderTransaction)
 		// this.addFooterValues(new String[] { "", "", "", "",
-		// FinanceApplication.getVendorsMessages().total(),
+		// FinanceApplication.constants().total(),
 		// DataUtils.getAmountAsString(0.00), });
 		// else if (isPurchseOrderTransaction) {
 		//
 		// this.addFooterValues(new String[] { "", "", "", "", "", "",
-		// FinanceApplication.getVATMessages().totalcolan(), "" });
+		// FinanceApplication.constants().totalcolan(), "" });
 		// } else {
 		// this.addFooterValues(new String[] { "", "", "",
-		// FinanceApplication.getVATMessages().totalcolan(), "" });
+		// FinanceApplication.constants().totalcolan(), "" });
 		// }
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			if (!isBankingTransaction && !isPurchseOrderTransaction) {
@@ -724,11 +724,11 @@ public class VendorTransactionUSGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { "", Accounter.getVendorsMessages().name(),
-				Accounter.getVATMessages().description(),
-				Accounter.getCustomersMessages().quantity(),
-				Accounter.getVendorsMessages().unitPrice(),
-				Accounter.getVendorsMessages().total(), " " };
+		return new String[] { "", Accounter.constants().name(),
+				Accounter.constants().description(),
+				Accounter.constants().quantity(),
+				Accounter.constants().unitPrice(),
+				Accounter.constants().total(), " " };
 	}
 
 	/*

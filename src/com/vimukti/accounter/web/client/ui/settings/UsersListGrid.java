@@ -65,11 +65,11 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 	@Override
 	protected String[] getColumns() {
 
-		return new String[] { Accounter.getSettingsMessages().name(),
-				Accounter.getSettingsMessages().permissions(),
-				// FinanceApplication.getSettingsMessages().status(),
-				Accounter.getSettingsMessages().lastLogin(),
-				Accounter.getSettingsMessages().loginCount(), "" };
+		return new String[] { Accounter.constants().name(),
+				Accounter.constants().permissions(),
+				// FinanceApplication.constants().status(),
+				Accounter.constants().lastLogin(),
+				Accounter.constants().loginCount(), "" };
 	}
 
 	public void setUsersView(UsersView usersView) {

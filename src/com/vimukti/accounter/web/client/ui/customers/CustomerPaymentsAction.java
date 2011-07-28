@@ -11,12 +11,12 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 public class CustomerPaymentsAction extends Action {
 	public CustomerPaymentsAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	public CustomerPaymentsAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	@Override

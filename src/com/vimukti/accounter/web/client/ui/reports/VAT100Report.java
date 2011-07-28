@@ -29,26 +29,26 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 	@Override
 	public void init() {
 		super.init();
-		toolbar.setDateRanageOptions(Accounter.getReportsMessages().all(),
-				Accounter.getReportsMessages().thisWeek(), Accounter
-						.getReportsMessages().thisMonth(), Accounter
-						.getReportsMessages().lastWeek(), Accounter
-						.getReportsMessages().lastMonth(), Accounter
-						.getReportsMessages().thisFinancialYear(), Accounter
-						.getReportsMessages().lastFinancialYear(), Accounter
-						.getReportsMessages().thisFinancialQuarter(), Accounter
-						.getReportsMessages().lastFinancialQuarter(), Accounter
-						.getReportsMessages().financialYearToDate(), Accounter
-						.getReportsMessages().lastVATQuarter(), Accounter
-						.getReportsMessages().lastVATQuarterToDate(), Accounter
-						.getReportsMessages().custom());
+		toolbar.setDateRanageOptions(Accounter.constants().all(),
+				Accounter.constants().thisWeek(), Accounter
+						.constants().thisMonth(), Accounter
+						.constants().lastWeek(), Accounter
+						.constants().lastMonth(), Accounter
+						.constants().thisFinancialYear(), Accounter
+						.constants().lastFinancialYear(), Accounter
+						.constants().thisFinancialQuarter(), Accounter
+						.constants().lastFinancialQuarter(), Accounter
+						.constants().financialYearToDate(), Accounter
+						.constants().lastVATQuarter(), Accounter
+						.constants().lastVATQuarterToDate(), Accounter
+						.constants().custom());
 
 		// Make rpc request for default VAT Agency and default DateRange
 		List<ClientTAXAgency> vatAgencies = Accounter.getCompany()
 				.getTaxAgencies();
 		for (ClientTAXAgency vatAgency : vatAgencies) {
 			if (vatAgency.getName().equalsIgnoreCase(
-					Accounter.getReportsMessages().hmCustomsExciseVAT())) {
+					Accounter.constants().hmCustomsExciseVAT())) {
 				ClientFinanceDate date = new ClientFinanceDate();
 				int month = (date.getMonth()) % 3;
 				int startMonth = date.getMonth() - month;

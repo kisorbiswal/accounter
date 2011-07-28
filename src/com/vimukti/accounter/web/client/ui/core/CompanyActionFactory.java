@@ -263,7 +263,7 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	}
 
 	public static DepreciationAction getDepriciationAction() {
-		return new DepreciationAction(Accounter.getFixedAssetConstants()
+		return new DepreciationAction(Accounter.constants()
 				.depreciation(), null);
 
 	}
@@ -271,16 +271,16 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	public static NewTAXAgencyAction getNewTAXAgencyAction() {
 		String flag;
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-			flag = Accounter.getVATMessages().newVATAgency();
+			flag = Accounter.constants().newVATAgency();
 
 		else
-			flag = Accounter.getCompanyMessages().newTAXAgency();
+			flag = Accounter.constants().newTAXAgency();
 
 		return new NewTAXAgencyAction(flag);
 	}
 
 	public static FinanceLogAction getFinanceLogAction() {
-		return new FinanceLogAction(Accounter.getCompanyMessages().showLog());
+		return new FinanceLogAction(Accounter.constants().showLog());
 	}
 
 	public static ManageSalesTaxItemsAction getManageSalesTaxItemsAction() {
@@ -293,7 +293,7 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	}
 
 	// public static NewTaxItemAction getTaxItemAction() {
-	// return new NewTaxItemAction(FinanceApplication.getCompanyMessages()
+	// return new NewTaxItemAction(FinanceApplication.constants()
 	// .newTaxItem());
 	// }
 

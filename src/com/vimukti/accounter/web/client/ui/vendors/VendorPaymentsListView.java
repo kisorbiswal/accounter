@@ -47,16 +47,16 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return UIUtils.getVendorString(Accounter.getVendorsMessages()
+		return UIUtils.getVendorString(Accounter.constants()
 				.addANewSupplierPayment(), Accounter
-				.getVendorsMessages().addANewVendorPayment());
+				.constants().addANewVendorPayment());
 	}
 
 	@Override
 	protected String getListViewHeading() {
 
-		return UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.supplierPaymentList(), Accounter.getVendorsMessages()
+		return UIUtils.getVendorString(Accounter.constants()
+				.supplierPaymentList(), Accounter.constants()
 				.vendorPaymentsList());
 	}
 
@@ -77,31 +77,31 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 	protected void initGrid() {
 		grid = new VendorPaymentsListGrid(false);
 		grid.init();
-		grid.setViewType(Accounter.getVendorsMessages().notIssued());
+		grid.setViewType(Accounter.constants().notIssued());
 	}
 
 	@Override
 	public void onSuccess(List<PaymentsList> result) {
 		super.onSuccess(result);
-		grid.setViewType(Accounter.getVendorsMessages().all());
-		filterList(Accounter.getVendorsMessages().all());
+		grid.setViewType(Accounter.constants().all());
+		filterList(Accounter.constants().all());
 	}
 
 	@Override
 	protected SelectCombo getSelectItem() {
-		currentView = new SelectCombo(Accounter.getVendorsMessages()
+		currentView = new SelectCombo(Accounter.constants()
 				.currentView());
 		currentView.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
-		listOfTypes.add(Accounter.getVendorsMessages().notIssued());
-		listOfTypes.add(Accounter.getVendorsMessages().issued());
-		listOfTypes.add(Accounter.getVendorsMessages().Voided());
-		listOfTypes.add(Accounter.getVendorsMessages().all());
+		listOfTypes.add(Accounter.constants().notIssued());
+		listOfTypes.add(Accounter.constants().issued());
+		listOfTypes.add(Accounter.constants().Voided());
+		listOfTypes.add(Accounter.constants().all());
 		currentView.initCombo(listOfTypes);
 		if (UIUtils.isMSIEBrowser())
 			currentView.setWidth("150px");
 
-		currentView.setComboItem(Accounter.getVendorsMessages().all());
+		currentView.setComboItem(Accounter.constants().all());
 		currentView
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -209,8 +209,8 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.supplierPayments(), Accounter.getVendorsMessages()
+		return UIUtils.getVendorString(Accounter.constants()
+				.supplierPayments(), Accounter.constants()
 				.vendorPayments());
 	}
 }

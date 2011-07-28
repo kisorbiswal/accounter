@@ -21,13 +21,13 @@ public class NewCreditsAndRefundsAction extends Action {
 
 	public NewCreditsAndRefundsAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	public NewCreditsAndRefundsAction(String text, String iconString,
 			ClientCustomerCreditMemo creditMemo, AsyncCallback<Object> callback) {
 		super(text, iconString, creditMemo, callback);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	@Override

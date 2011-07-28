@@ -106,7 +106,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 	private void showWarningDialog(final ReceivePaymentsList obj, final int col) {
 		String msg = null;
 		if (col == 6 && !obj.isVoided()) {
-			msg = Accounter.getCustomersMessages()
+			msg = Accounter.constants()
 					.doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 7) {

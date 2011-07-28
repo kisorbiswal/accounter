@@ -73,9 +73,9 @@ public class SalesOrderView extends
 	private TextItem customerOrderText;
 	private Label lab1;
 	private ArrayList<ClientEstimate> selectedSalesOrders;
-	private String OPEN = Accounter.getCustomersMessages().open();
-	private String COMPLETED = Accounter.getCustomersMessages().completed();
-	private String CANCELLED = Accounter.getCustomersMessages().cancelled();
+	private String OPEN = Accounter.constants().open();
+	private String COMPLETED = Accounter.constants().completed();
+	private String CANCELLED = Accounter.constants().cancelled();
 	private TextAreaItem billToTextArea;
 	private ShipToForm shipToAddress;
 
@@ -85,16 +85,16 @@ public class SalesOrderView extends
 
 	@Override
 	protected void createControls() {
-		// setTitle(UIUtils.title(FinanceApplication.getCustomersMessages()
+		// setTitle(UIUtils.title(FinanceApplication.constants()
 		// .salesOrder()));
 		LinkItem emptylabel = new LinkItem();
 		emptylabel.setLinkTitle("");
 		emptylabel.setShowTitle(false);
 
-		lab1 = new Label(Accounter.getCustomersMessages().salesOrder());
-		lab1.setStyleName(Accounter.getCustomersMessages().lableTitle());
+		lab1 = new Label(Accounter.constants().salesOrder());
+		lab1.setStyleName(Accounter.constants().lableTitle());
 		// lab1.setHeight("35px");
-		statusSelect = new SelectCombo(Accounter.getCustomersMessages()
+		statusSelect = new SelectCombo(Accounter.constants()
 				.statuS());
 
 		selectComboList = new ArrayList<String>();
@@ -119,7 +119,7 @@ public class SalesOrderView extends
 		transactionDateItem = createTransactionDateItem();
 
 		transactionNumber = createTransactionNumberItem();
-		transactionNumber.setTitle(Accounter.getVendorsMessages().orderNo());
+		transactionNumber.setTitle(Accounter.constants().orderNo());
 		transactionNumber.setWidth(50);
 
 		listforms = new ArrayList<DynamicForm>();
@@ -141,7 +141,7 @@ public class SalesOrderView extends
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		customerCombo = new CustomerCombo(Accounter.getCustomersMessages()
+		customerCombo = new CustomerCombo(Accounter.constants()
 				.customeR(), true);
 		customerCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
@@ -161,7 +161,7 @@ public class SalesOrderView extends
 
 		customerCombo.setWidth(100);
 		quoteLabel = new LabelItem();
-		quoteLabel.setValue(Accounter.getCustomersMessages().quotes());
+		quoteLabel.setValue(Accounter.constants().quotes());
 		quoteLabel.setWidth("100%");
 		quoteLabel.addStyleName("falseHyperlink");
 		quoteLabel.setShowTitle(false);
@@ -172,7 +172,7 @@ public class SalesOrderView extends
 
 		billToTextArea = new TextAreaItem();
 		billToTextArea.setWidth(100);
-		billToTextArea.setTitle(Accounter.getCustomersMessages().billTo());
+		billToTextArea.setTitle(Accounter.constants().billTo());
 		billToTextArea.setDisabled(true);
 
 		shipToCombo = createShipToComboItem();
@@ -209,7 +209,7 @@ public class SalesOrderView extends
 		custForm.getCellFormatter().setWidth(0, 0, "225px");
 		forms.add(custForm);
 
-		customerOrderText = new TextItem(Accounter.getCustomersMessages()
+		customerOrderText = new TextItem(Accounter.constants()
 				.customerOrderNo());
 		customerOrderText.setWidth(50);
 		customerOrderText.setColSpan(1);
@@ -218,7 +218,7 @@ public class SalesOrderView extends
 		salesPersonCombo = createSalesPersonComboItem();
 
 		// salesPersonCombo = new SalesPersonCombo(FinanceApplication
-		// .getCustomersMessages().salesPerson(), false);
+		// .constants().salesPerson(), false);
 		// salesPersonCombo.setDisabled(isEdit);
 		// salesPersonCombo
 		// .addSelectionChangeHandler(new
@@ -236,7 +236,7 @@ public class SalesOrderView extends
 		payTermsSelect = createPaymentTermsSelectItem();
 
 		// payTermsSelect = new PaymentTermsCombo(FinanceApplication
-		// .getCustomersMessages().paymentTerms(), false);
+		// .constants().paymentTerms(), false);
 		// payTermsSelect.setDisabled(isEdit);
 		// payTermsSelect
 		// .addSelectionChangeHandler(new
@@ -272,7 +272,7 @@ public class SalesOrderView extends
 		shippingMethodsCombo = createShippingMethodCombo();
 
 		// shippingMethodsCombo = new ShippingMethodsCombo(
-		// FinanceApplication.getCustomersMessages().shippingMethod(),false);
+		// FinanceApplication.constants().shippingMethod(),false);
 		// shippingMethodsCombo.setDisabled(isEdit);
 		// shippingMethodsCombo
 		// .addSelectionChangeHandler(new
@@ -843,9 +843,9 @@ public class SalesOrderView extends
 
 	protected DateField createDueDateItem() {
 
-		DateField dateItem = new DateField(Accounter.getCustomersMessages()
+		DateField dateItem = new DateField(Accounter.constants()
 				.dueDate());
-		dateItem.setTitle(Accounter.getCustomersMessages().dueDate());
+		dateItem.setTitle(Accounter.constants().dueDate());
 		dateItem.setColSpan(1);
 
 		dateItem.setDisabled(isEdit);
@@ -916,7 +916,7 @@ public class SalesOrderView extends
 		if (this.rpcUtilService == null)
 			return;
 		if (customer == null) {
-			Accounter.showError(Accounter.getCustomersMessages()
+			Accounter.showError(Accounter.constants()
 					.pleaseSelectCustomer());
 		} else {
 			this.rpcUtilService.getEstimates(customer.getID(),
@@ -924,7 +924,7 @@ public class SalesOrderView extends
 
 						public void onFailure(Throwable caught) {
 							// Accounter.showError(FinanceApplication
-							// .getCustomersMessages()
+							// .constants()
 							// .noQuotesForCustomer()
 							// + " " + customer.getName());
 							return;
@@ -1039,7 +1039,7 @@ public class SalesOrderView extends
 		// selectedEstimateId = selectedEstimate.getID();
 		//
 		// if (convertedSalesOrder == null) {
-		// Accounter.showError(FinanceApplication.getCustomersMessages()
+		// Accounter.showError(FinanceApplication.constants()
 		// .couldNotLoadQuote());
 		// return;
 		// }
@@ -1183,7 +1183,7 @@ public class SalesOrderView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCustomersMessages().salesOrder();
+		return Accounter.constants().salesOrder();
 	}
 
 }

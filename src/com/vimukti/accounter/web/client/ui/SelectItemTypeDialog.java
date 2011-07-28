@@ -25,8 +25,8 @@ public class SelectItemTypeDialog extends BaseDialog {
 
 	public SelectItemTypeDialog(NewItemAction action,
 			boolean isGeneratedFromCustomer) {
-		super(Accounter.getFinanceUIConstants().selectItemType(), Accounter
-				.getFinanceUIConstants().selectOneOfItem());
+		super(Accounter.constants().selectItemType(), Accounter
+				.constants().selectOneOfItem());
 		this.action = action;
 		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
 		createControls();
@@ -44,9 +44,9 @@ public class SelectItemTypeDialog extends BaseDialog {
 		// typeMap.put("service", "Service");
 		// typeMap.put("non-inventory", "Non-Inventory&nbsp;Item");
 
-		typeRadio.setValueMap(Accounter.getFinanceUIConstants().service(),
-				Accounter.getFinanceUIConstants().product());
-		typeRadio.setDefaultValue(Accounter.getFinanceUIConstants().service());
+		typeRadio.setValueMap(Accounter.constants().service(),
+				Accounter.constants().product());
+		typeRadio.setDefaultValue(Accounter.constants().service());
 
 		final DynamicForm typeForm = new DynamicForm();
 		typeForm.setFields(typeRadio);
@@ -62,7 +62,7 @@ public class SelectItemTypeDialog extends BaseDialog {
 			public boolean onOkClick() {
 				if (!typeForm.validate(true)) {
 					// Accounter.showError(FinanceApplication
-					// .getFinanceUIConstants().pleaseSelectItemType());
+					// .constants().pleaseSelectItemType());
 					return false;
 				}
 				@SuppressWarnings("unused")
@@ -70,7 +70,7 @@ public class SelectItemTypeDialog extends BaseDialog {
 
 				if (typeRadio.getValue() != null) {
 					String radio = typeRadio.getValue().toString();
-					if (radio.equals(Accounter.getFinanceUIConstants()
+					if (radio.equals(Accounter.constants()
 							.service())) {
 						try {
 							ItemView view = new ItemView(null, TYPE_SERVICE,
@@ -81,7 +81,7 @@ public class SelectItemTypeDialog extends BaseDialog {
 							// //UIUtils.logError("Failed...", e);
 
 						}
-					} else if (radio.equals(Accounter.getFinanceUIConstants()
+					} else if (radio.equals(Accounter.constants()
 							.product())) {
 
 						try {
@@ -125,6 +125,6 @@ public class SelectItemTypeDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getFinanceUIConstants().selectItemType();
+		return Accounter.constants().selectItemType();
 	}
 }

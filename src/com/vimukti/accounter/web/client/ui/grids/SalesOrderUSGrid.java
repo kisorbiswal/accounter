@@ -21,15 +21,15 @@ public class SalesOrderUSGrid extends CustomerTransactionUSGrid {
 	protected String[] getColumns() {
 
 		return new String[] { "",
-				Accounter.getCustomersMessages().name(),
-				Accounter.getCustomersMessages().description(),
-				Accounter.getCustomersMessages().quantity(),
-				Accounter.getCustomersMessages().unitPrice(),
-				Accounter.getCustomersMessages().discountPerc(),
+				Accounter.constants().name(),
+				Accounter.constants().description(),
+				Accounter.constants().quantity(),
+				Accounter.constants().unitPrice(),
+				Accounter.constants().discountPerc(),
 				// "Back Order",
-				Accounter.getCustomersMessages().total(),
-				Accounter.getVATMessages().tax(),
-				Accounter.getCustomersMessages().invoiced(), " " };
+				Accounter.constants().total(),
+				Accounter.constants().tax(),
+				Accounter.constants().invoiced(), " " };
 	}
 
 	@Override
@@ -78,8 +78,8 @@ public class SalesOrderUSGrid extends CustomerTransactionUSGrid {
 	protected String[] getSelectValues(ClientTransactionItem obj, int index) {
 		switch (index) {
 		case 9:
-			return new String[] { Accounter.getCustomersMessages().taxable(),
-					Accounter.getCustomersMessages().nonTaxable() };
+			return new String[] { Accounter.constants().taxable(),
+					Accounter.constants().nonTaxable() };
 
 		default:
 			break;
@@ -251,8 +251,8 @@ public class SalesOrderUSGrid extends CustomerTransactionUSGrid {
 		case 6:
 			return DataUtils.getAmountAsString(item.getLineTotal());
 		case 7:
-			return item.isTaxable() ? Accounter.getVATMessages().taxable()
-					: Accounter.getVATMessages().nonTaxable();
+			return item.isTaxable() ? Accounter.constants().taxable()
+					: Accounter.constants().nonTaxable();
 		case 8:
 			return DataUtils.getAmountAsString(item.getInvoiced());
 		case 9:

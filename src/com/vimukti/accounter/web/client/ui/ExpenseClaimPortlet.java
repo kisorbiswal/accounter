@@ -37,7 +37,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 	@Override
 	public String getGoToText() {
-		return Accounter.getCompanyMessages().goToExpenseCliams();
+		return Accounter.constants().goToExpenseCliams();
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 		FlexTable fTable = new FlexTable();
 
 		AccounterButton addExpenseBtn = new AccounterButton(Accounter
-				.getCompanyMessages().addExpenses());
+				.constants().addExpenses());
 		addExpenseBtn.addStyleName("addAccountPortlet");
 		addExpenseBtn.addClickHandler(new ClickHandler() {
 
@@ -76,14 +76,14 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 			}
 		});
 
-		Label allExpLabel = getLabel(Accounter.getCompanyMessages()
+		Label allExpLabel = getLabel(Accounter.constants()
 				.allExpenses());
-		Label cashExpLabel = getLabel(Accounter.getCompanyMessages()
+		Label cashExpLabel = getLabel(Accounter.constants()
 				.cashExpenses());
 		cashExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		Label empExpLabel = getLabel(Accounter.getCompanyMessages()
+		Label empExpLabel = getLabel(Accounter.constants()
 				.employeeExpenses());
-		Label ccExpLabel = getLabel(Accounter.getCompanyMessages()
+		Label ccExpLabel = getLabel(Accounter.constants()
 				.creditCardExpenses());
 		ccExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 
@@ -170,21 +170,21 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 			public void onClick(ClickEvent event) {
 				label.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
-				if (title.equals(Accounter.getCompanyMessages().cashExpenses())) {
+				if (title.equals(Accounter.constants().cashExpenses())) {
 					VendorsActionFactory.getExpensesAction(
-							Accounter.getVendorsMessages().cash()).run(null,
+							Accounter.constants().cash()).run(null,
 							true);
-				} else if (title.equals(Accounter.getCompanyMessages()
+				} else if (title.equals(Accounter.constants()
 						.creditCardExpenses())) {
 					VendorsActionFactory.getExpensesAction(
-							Accounter.getVendorsMessages().creditCard()).run(
+							Accounter.constants().creditCard()).run(
 							null, true);
-				} else if (title.equals(Accounter.getCompanyMessages()
+				} else if (title.equals(Accounter.constants()
 						.employeeExpenses())) {
 					VendorsActionFactory.getExpensesAction(
-							Accounter.getVendorsMessages().employee()).run(
+							Accounter.constants().employee()).run(
 							null, true);
-				} else if (title.equals(Accounter.getCompanyMessages()
+				} else if (title.equals(Accounter.constants()
 						.allExpenses())) {
 					VendorsActionFactory.getExpensesAction(null)
 							.run(null, true);

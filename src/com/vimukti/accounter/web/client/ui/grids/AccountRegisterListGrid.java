@@ -38,27 +38,27 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 	@Override
 	protected String[] getColumns() {
 		if (accountType == ClientAccount.TYPE_BANK)
-			return new String[] { Accounter.getCustomersMessages().date(),
-					Accounter.getCustomersMessages().type(),
-					(Accounter.getCustomersMessages().checkNo() + "."),
-					Accounter.getCustomersMessages().payTo(),
-					Accounter.getCustomersMessages().memo(),
-					Accounter.getCustomersMessages().account(),
-					Accounter.getCustomersMessages().payment(),
-					Accounter.getCustomersMessages().deposit(),
-					Accounter.getCustomersMessages().currentBalance(),
-					Accounter.getCustomersMessages().voided() };
+			return new String[] { Accounter.constants().date(),
+					Accounter.constants().type(),
+					(Accounter.constants().checkNo() + "."),
+					Accounter.constants().payTo(),
+					Accounter.constants().memo(),
+					Accounter.constants().account(),
+					Accounter.constants().payment(),
+					Accounter.constants().deposit(),
+					Accounter.constants().currentBalance(),
+					Accounter.constants().voided() };
 		else if (accountType == ClientAccount.TYPE_CREDIT_CARD)
-			return new String[] { Accounter.getCustomersMessages().date(),
-					Accounter.getCustomersMessages().type(),
-					Accounter.getCustomersMessages().documentNo(),
-					Accounter.getCustomersMessages().payTo(),
-					Accounter.getCustomersMessages().memo(),
-					Accounter.getCustomersMessages().account(),
-					Accounter.getCustomersMessages().charge(),
-					Accounter.getCustomersMessages().payment(),
-					Accounter.getCustomersMessages().currentBalance(),
-					Accounter.getCustomersMessages().voided() };
+			return new String[] { Accounter.constants().date(),
+					Accounter.constants().type(),
+					Accounter.constants().documentNo(),
+					Accounter.constants().payTo(),
+					Accounter.constants().memo(),
+					Accounter.constants().account(),
+					Accounter.constants().charge(),
+					Accounter.constants().payment(),
+					Accounter.constants().currentBalance(),
+					Accounter.constants().voided() };
 		return new String[0];
 	}
 

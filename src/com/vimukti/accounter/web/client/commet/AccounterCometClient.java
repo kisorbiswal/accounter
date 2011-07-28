@@ -18,7 +18,7 @@ public class AccounterCometClient {
 	public static void start() {
 		final SerializationStreamFactory ssf = GWT
 				.create(IAccounterGETService.class);
-		CometClient.register("", Accounter.getCustomersMessages().accounter(),
+		CometClient.register("", Accounter.constants().accounter(),
 				new ICometListener() {
 
 					public void onPayload(final Object obj) {
@@ -54,7 +54,7 @@ public class AccounterCometClient {
 
 	public static void cometStop() {
 		CometClient
-				.unRegister("", Accounter.getCustomersMessages().accounter());
+				.unRegister("", Accounter.constants().accounter());
 	}
 
 }

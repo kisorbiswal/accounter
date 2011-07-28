@@ -76,7 +76,7 @@ public class CashFlowStatementServerReport extends
 
 	@Override
 	public String getTitle() {
-		// return FinanceApplication.getReportsMessages().profitAndLoss();
+		// return FinanceApplication.constants().profitAndLoss();
 		return "Cash Flow Report";
 	}
 

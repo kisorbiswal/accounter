@@ -15,12 +15,12 @@
 //
 //	public ManageSalesTaxCodesAction(String text) {
 //		super(text);
-//		this.catagory = FinanceApplication.getCompanyMessages().company();
+//		this.catagory = FinanceApplication.constants().company();
 //	}
 //
 //	public ManageSalesTaxCodesAction(String text, String iconString) {
 //		super(text, iconString);
-//		this.catagory = FinanceApplication.getCompanyMessages().company();
+//		this.catagory = FinanceApplication.constants().company();
 //	}
 //
 //	@Override
@@ -46,7 +46,7 @@
 //			public void onCreated() {
 //				try {
 //					view = new SalesTaxCodesView(FinanceApplication
-//							.getCompanyMessages().tax());
+//							.constants().tax());
 //					MainFinanceWindow.getViewManager().showView(view, data,
 //							isDependent, ManageSalesTaxCodesAction.this);
 //				} catch (Throwable e) {

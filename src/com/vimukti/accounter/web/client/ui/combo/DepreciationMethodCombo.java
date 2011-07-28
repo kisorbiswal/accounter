@@ -56,8 +56,8 @@ public class DepreciationMethodCombo extends SelectItem {
 	public void initCombo() {
 		setValueMap(new String[] {
 				"",
-				Accounter.getAccounterComboConstants().straightLine(),
-				Accounter.getAccounterComboConstants()
+				Accounter.constants().straightLine(),
+				Accounter.constants()
 						.reducingBalance() });
 	}
 
@@ -77,10 +77,10 @@ public class DepreciationMethodCombo extends SelectItem {
 		case 0:
 			return "";
 		case 1:
-			return Accounter.getAccounterComboConstants()
+			return Accounter.constants()
 					.straightLine();
 		case 2:
-			return Accounter.getAccounterComboConstants()
+			return Accounter.constants()
 					.reducingBalance();
 		}
 		return "";

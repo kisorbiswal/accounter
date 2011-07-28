@@ -39,7 +39,7 @@ public class BrandingThemeComboDialog extends BaseDialog {
 
 	private void createControls() {
 		brandingThemeTypeCombo = new BrandingThemeCombo(Accounter
-				.getSettingsMessages().selectTheme());
+				.constants().selectTheme());
 		brandingTheme = new ClientBrandingTheme();
 		brandingThemeTypeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientBrandingTheme>() {
@@ -57,7 +57,7 @@ public class BrandingThemeComboDialog extends BaseDialog {
 			public void onClick(ClickEvent event) {
 				if (brandingThemeTypeCombo.getSelectedValue().equals(null)) {
 					brandingThemeTypeCombo.setSelected(Accounter
-							.getSettingsMessages().standardTheme());
+							.constants().standardTheme());
 				}
 				print();
 				hide();
@@ -90,6 +90,6 @@ public class BrandingThemeComboDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getSettingsMessages().selectThemes();
+		return Accounter.constants().selectThemes();
 	}
 }

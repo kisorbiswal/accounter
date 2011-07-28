@@ -14,7 +14,7 @@ public class VatGroupAction extends Action {
 
 	public VatGroupAction(String text) {
 		super(text);
-		this.catagory = Accounter.getVATMessages().VAT();
+		this.catagory = Accounter.constants().VAT();
 	}
 
 	@Override

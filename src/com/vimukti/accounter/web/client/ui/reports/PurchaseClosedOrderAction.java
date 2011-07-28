@@ -12,12 +12,12 @@ public class PurchaseClosedOrderAction extends Action {
 
 	public PurchaseClosedOrderAction(String text) {
 		super(text);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	public PurchaseClosedOrderAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	@Override

@@ -11,12 +11,12 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 public class VATItemSummaryReportAction extends Action {
 	public VATItemSummaryReportAction(String text) {
 		super(text);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	public VATItemSummaryReportAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	@Override

@@ -25,15 +25,15 @@ public class PurchaseOrderUKGrid extends VendorTransactionUKGrid {
 	protected String[] getColumns() {
 		return new String[] {
 				"",
-				Accounter.getVendorsMessages().name(),
-				Accounter.getCustomersMessages().description(),
-				Accounter.getCustomersMessages().quantity(),
-				Accounter.getVendorsMessages().unitPrice(),
+				Accounter.constants().name(),
+				Accounter.constants().description(),
+				Accounter.constants().quantity(),
+				Accounter.constants().unitPrice(),
 				// "On Hand",
-				Accounter.getVendorsMessages().total(),
-				Accounter.getVendorsMessages().billsReceived(),
-				Accounter.getVATMessages().newVATCode(),
-				Accounter.getVATMessages().VAT(), " " };
+				Accounter.constants().total(),
+				Accounter.constants().billsReceived(),
+				Accounter.constants().newVATCode(),
+				Accounter.constants().VAT(), " " };
 	}
 
 	@Override

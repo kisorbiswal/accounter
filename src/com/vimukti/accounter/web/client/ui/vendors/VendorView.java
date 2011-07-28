@@ -280,8 +280,8 @@ public class VendorView extends BaseView<ClientVendor> {
 	@SuppressWarnings("deprecation")
 	private VerticalPanel getGeneralTab() {
 		vendorNameText = new TextItem(UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplierName(), Accounter
-				.getVendorsMessages().vendorName()));
+				.constants().supplierName(), Accounter
+				.constants().vendorName()));
 		vendorNameText.setHelpInformation(true);
 		vendorNameText.setRequired(true);
 		vendorNameText.setWidth(100);
@@ -301,11 +301,11 @@ public class VendorView extends BaseView<ClientVendor> {
 		});
 
 		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor()));
+				.constants().supplier(), Accounter
+				.constants().vendor()));
 		vendorForm.setFields(vendorNameText);
 		vendorForm.setWidth("100%");
-		vendorForm.setStyleName(Accounter.getVendorsMessages().venderForm());
+		vendorForm.setStyleName(Accounter.constants().venderForm());
 		vendorForm.getCellFormatter().setWidth(0, 0, "245px");
 
 		accInfoForm = new DynamicForm();
@@ -317,8 +317,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		statusCheck.setValue(true);
 
 		vendorSinceDate = new DateField(UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplierSince(), Accounter
-				.getVendorsMessages().vendorSince()));
+				.constants().supplierSince(), Accounter
+				.constants().vendorSince()));
 		vendorSinceDate.setHelpInformation(true);
 		vendorSinceDate.setEnteredDate(new ClientFinanceDate());
 
@@ -349,10 +349,10 @@ public class VendorView extends BaseView<ClientVendor> {
 		accInfoForm.setFields(statusCheck, vendorSinceDate, balanceText,
 				balanceDate);
 
-		Label l1 = new Label(Accounter.getVendorsMessages().contacts());
+		Label l1 = new Label(Accounter.constants().contacts());
 
 		AccounterButton addButton = new AccounterButton(Accounter
-				.getVendorsMessages().add());
+				.constants().add());
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -407,7 +407,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			// Setting AddressForm
 			addrsForm = new AddressForm(takenVendor.getAddress());
 			addrsForm.setWidth("100%");
-			// addrsForm.setStyleName(FinanceApplication.getVendorsMessages()
+			// addrsForm.setStyleName(FinanceApplication.constants()
 			// .venderForm());
 			// Setting Phone Fax Form
 			fonFaxForm = new PhoneFaxForm(null, null);
@@ -448,7 +448,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		} else { // For Creating Vendor
 			addrsForm = new AddressForm(null);
 			addrsForm.setWidth("100%");
-			// addrsForm.setStyleName(FinanceApplication.getVendorsMessages()
+			// addrsForm.setStyleName(FinanceApplication.constants()
 			// .venderForm());
 			fonFaxForm = new PhoneFaxForm(null, null);
 			fonFaxForm.setWidth("100%");
@@ -544,8 +544,8 @@ public class VendorView extends BaseView<ClientVendor> {
 	private VerticalPanel getDetailsTab() {
 
 		Label lab = new Label(UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor()));
+				.constants().supplier(), Accounter
+				.constants().vendor()));
 
 		expenseAccountsSelect = new OtherAccountsCombo(
 				vendorConstants.account());
@@ -611,8 +611,8 @@ public class VendorView extends BaseView<ClientVendor> {
 				payTermsSelect, accountText, bankNameText, bankBranchText);
 
 		vendorGroupSelect = new VendorGroupCombo(UIUtils.getVendorString(
-				Accounter.getVendorsMessages().supplierGroup(), Accounter
-						.getVendorsMessages().vendorGroup()));
+				Accounter.constants().supplierGroup(), Accounter
+						.constants().vendorGroup()));
 		vendorGroupSelect.setHelpInformation(true);
 		// vendorGroupSelect.setWidth(100);
 		vendorGroupSelect
@@ -629,7 +629,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 			for (ClientVendorGroup vendorGroup : vendorGroupList) {
 				if (vendorGroup.getName().equals(
-						Accounter.getVendorsMessages().creditCardCompanies())) {
+						Accounter.constants().creditCardCompanies())) {
 					// vendorGroupSelect.setComboItem(vendorGroup);
 					vendorGroupSelect.addItemThenfireEvent(vendorGroup);
 					break;
@@ -659,15 +659,15 @@ public class VendorView extends BaseView<ClientVendor> {
 			vendorGrpForm.setFields(vendorGroupSelect);
 
 		vendorGrpForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.getVendorsMessages().width(), "136px");
+				.setAttribute(Accounter.constants().width(), "136px");
 
 		vatRegistrationNumber = new TextItem(
 				vendorConstants.vatRegistrationNumber());
 		vatRegistrationNumber.setHelpInformation(true);
 		vatRegistrationNumber.setWidth(100);
 		vendorTaxCode = new TAXCodeCombo(UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplierVatCode(), Accounter
-				.getVendorsMessages().vendorVatCode()), false);
+				.constants().supplierVatCode(), Accounter
+				.constants().vendorVatCode()), false);
 		vendorTaxCode.setHelpInformation(true);
 		vendorTaxCode.setWidth(100);
 		vendorTaxCode
@@ -777,23 +777,23 @@ public class VendorView extends BaseView<ClientVendor> {
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 
 		addrsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.getVendorsMessages().width(), "25px");
+				.setAttribute(Accounter.constants().width(), "25px");
 		addrsForm.getCellFormatter().getElement(0, 1)
-				.setAttribute(Accounter.getVendorsMessages().width(), "186px");
+				.setAttribute(Accounter.constants().width(), "186px");
 
 		fonFaxForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.getVendorsMessages().width(), "240px");
+				.setAttribute(Accounter.constants().width(), "240px");
 		// fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
-		// FinanceApplication.getVendorsMessages().width(), "185px");
+		// FinanceApplication.constants().width(), "185px");
 
 		vendorForm.getCellFormatter().getElement(0, 0).getStyle()
 				.setWidth(150, Unit.PX);
 		emailForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.getVendorsMessages().width(), "240px");
+				.setAttribute(Accounter.constants().width(), "240px");
 		// emailForm.getCellFormatter().getElement(0, 1).setAttribute(
-		// FinanceApplication.getVendorsMessages().width(), "");
+		// FinanceApplication.constants().width(), "");
 		accInfoForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.getVendorsMessages().width(), "150px");
+				.setAttribute(Accounter.constants().width(), "150px");
 
 	}
 
@@ -826,10 +826,10 @@ public class VendorView extends BaseView<ClientVendor> {
 		super.saveFailed(exception);
 		String msg;
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			msg = Accounter.getVendorsMessages()
+			msg = Accounter.constants()
 					.duplicationOfSupplierNameAreNotAllowed();
 		} else
-			msg = Accounter.getVendorsMessages()
+			msg = Accounter.constants()
 					.duplicationOfVendorNameAreNotAllowed();
 		// BaseView.errordata.setHTML(msg);
 		// BaseView.commentPanel.setVisible(true);
@@ -842,11 +842,11 @@ public class VendorView extends BaseView<ClientVendor> {
 		if (result != null) {
 			// if (takenVendor == null) {
 			// Accounter.showInformation(FinanceApplication
-			// .getVendorsMessages().newVendorCreated());
+			// .constants().newVendorCreated());
 			//
 			// } else {
 			// Accounter.showInformation(FinanceApplication
-			// .getVendorsMessages().vendorUpdatedSuccessfully());
+			// .constants().vendorUpdatedSuccessfully());
 			//
 			// }
 			super.saveSuccess(result);
@@ -1236,7 +1236,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.newSupplier(), Accounter.getVendorsMessages().newVendor());
+		return UIUtils.getVendorString(Accounter.constants()
+				.newSupplier(), Accounter.constants().newVendor());
 	}
 }

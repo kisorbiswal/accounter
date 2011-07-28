@@ -11,12 +11,12 @@ public class ManageItemTaxAction extends Action {
 
 	public ManageItemTaxAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	public ManageItemTaxAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	@Override

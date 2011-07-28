@@ -91,8 +91,8 @@ public class ItemCombo extends CustomCombo<ClientItem> {
 		case 0:
 			return object.getName();
 		case 1:
-			return object.getType() == ClientItem.TYPE_SERVICE ? Accounter.getCustomersMessages().service()
-					: Accounter.getCustomersMessages().PRoduct();
+			return object.getType() == ClientItem.TYPE_SERVICE ? Accounter.constants().service()
+					: Accounter.constants().PRoduct();
 		case 2:
 			return DataUtils.getAmountAsString(object.getSalesPrice());
 		default:

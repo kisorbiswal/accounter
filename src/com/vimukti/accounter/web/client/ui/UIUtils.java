@@ -865,21 +865,21 @@ public class UIUtils {
 		SelectCombo selectCombo = new SelectCombo(null);
 		selectCombo.setHelpInformation(true);
 		selectCombo.setTitle("Payment Method");
-		selectCombo.setComboItem(Accounter.getVendorsMessages().cash());
+		selectCombo.setComboItem(Accounter.constants().cash());
 		List<String> listOfPaymentMethods = new ArrayList<String>();
-		listOfPaymentMethods.add(Accounter.getVendorsMessages().cash());
+		listOfPaymentMethods.add(Accounter.constants().cash());
 		listOfPaymentMethods.add(UIUtils
 				.getpaymentMethodCheckBy_CompanyType(Accounter
-						.getCustomersMessages().check()));
-		listOfPaymentMethods.add(Accounter.getVendorsMessages().creditCard());
-		listOfPaymentMethods.add(Accounter.getVendorsMessages().directDebit());
-		listOfPaymentMethods.add(Accounter.getVendorsMessages().masterCard());
+						.constants().check()));
+		listOfPaymentMethods.add(Accounter.constants().creditCard());
+		listOfPaymentMethods.add(Accounter.constants().directDebit());
+		listOfPaymentMethods.add(Accounter.constants().masterCard());
 		listOfPaymentMethods
-				.add(Accounter.getVendorsMessages().onlineBanking());
+				.add(Accounter.constants().onlineBanking());
 		listOfPaymentMethods
-				.add(Accounter.getVendorsMessages().standingOrder());
+				.add(Accounter.constants().standingOrder());
 		listOfPaymentMethods
-				.add(Accounter.getVendorsMessages().switchMaestro());
+				.add(Accounter.constants().switchMaestro());
 		selectCombo.initCombo(listOfPaymentMethods);
 
 		return selectCombo;
@@ -1791,8 +1791,8 @@ public class UIUtils {
 
 	public static String getpaymentMethodCheckBy_CompanyType(
 			String paymentMethod) {
-		if (paymentMethod.equals(Accounter.getCustomersMessages().cheque())
-				|| paymentMethod.equals(Accounter.getCustomersMessages()
+		if (paymentMethod.equals(Accounter.constants().cheque())
+				|| paymentMethod.equals(Accounter.constants()
 						.check())) {
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 				return "Cheque";

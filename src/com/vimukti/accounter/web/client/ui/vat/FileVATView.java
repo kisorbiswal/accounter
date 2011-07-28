@@ -68,10 +68,10 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	}
 
 	private void createControls() {
-		Label infolabel = new Label(Accounter.getVATMessages().fileVAT());
+		Label infolabel = new Label(Accounter.constants().fileVAT());
 		infolabel.removeStyleName("gwt-Label");
-		infolabel.addStyleName(Accounter.getVendorsMessages().lableTitle());
-		taxAgencyCombo = new TAXAgencyCombo(Accounter.getVATMessages()
+		infolabel.addStyleName(Accounter.constants().lableTitle());
+		taxAgencyCombo = new TAXAgencyCombo(Accounter.constants()
 				.VATAgency());
 		taxAgencyCombo.setHelpInformation(true);
 		taxAgencyCombo.setRequired(true);
@@ -86,15 +86,15 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 					}
 				});
 		taxAgencyCombo.setWidth("200px");
-		fromDate = new DateItem(Accounter.getVATMessages().from());
+		fromDate = new DateItem(Accounter.constants().from());
 		fromDate.setHelpInformation(true);
 		fromDate.setWidth(100);
-		toDate = new DateItem(Accounter.getVATMessages().to());
+		toDate = new DateItem(Accounter.constants().to());
 		toDate.setHelpInformation(true);
 		toDate.setWidth(100);
 		listforms = new ArrayList<DynamicForm>();
 
-		updateButton = new AccounterButton(Accounter.getVATMessages().update());
+		updateButton = new AccounterButton(Accounter.constants().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -106,7 +106,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 
 		DynamicForm topForm = new DynamicForm();
 		topForm.setIsGroup(true);
-		topForm.setGroupTitle(Accounter.getVATMessages().top());
+		topForm.setGroupTitle(Accounter.constants().top());
 		topForm.setNumCols(6);
 		topForm.setFields(taxAgencyCombo, fromDate, toDate);
 		topForm.setWidth("100%");
@@ -114,14 +114,14 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		initListGrid();
 
 		HTML beforeLabel = new HTML("<string>"
-				+ Accounter.getVATMessages().beforeYouFile());
+				+ Accounter.constants().beforeYouFile());
 
 		HTML adjustLabel = new HTML("<strong>"
-				+ Accounter.getVATMessages().doYouNeedToMakeAnAdjustment()
+				+ Accounter.constants().doYouNeedToMakeAnAdjustment()
 				+ " </strong><br>"
-				+ Accounter.getVATMessages().useAdjustButton());
+				+ Accounter.constants().useAdjustButton());
 
-		adjustButton = new AccounterButton(Accounter.getVATMessages()
+		adjustButton = new AccounterButton(Accounter.constants()
 				.adjustVATReturn());
 		adjustButton.addClickHandler(new ClickHandler() {
 
@@ -151,11 +151,11 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		// "ibutton-right-image");
 		// }
 		HTML printLabel = new HTML("<strong>"
-				+ Accounter.getVATMessages().doYouWantPrintYourVATReturn()
+				+ Accounter.constants().doYouWantPrintYourVATReturn()
 				+ "</strong><br>"
-				+ Accounter.getVATMessages().youCanPrintVATReturn());
+				+ Accounter.constants().youCanPrintVATReturn());
 
-		printButton = new AccounterButton(Accounter.getVATMessages()
+		printButton = new AccounterButton(Accounter.constants()
 				.printVATReturn());
 		printButton.addClickHandler(new ClickHandler() {
 
@@ -305,9 +305,9 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 					@Override
 					public void onFailure(Throwable caught) {
 						// gridView.clear();
-						gridView.addEmptyMessage(Accounter.getVATMessages()
+						gridView.addEmptyMessage(Accounter.constants()
 								.norecordstoshowinbetweentheselecteddates());
-						// UIUtils.err(FinanceApplication.getVATMessages()
+						// UIUtils.err(FinanceApplication.constants()
 						// .failedToRetrieveVatBoxesForVATAgency()
 						// + FileVATView.this.selectedVatAgency.getName());
 						disableprintButton();
@@ -384,7 +384,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		}
 		// else {
 		//
-		// UIUtils.err(FinanceApplication.getVATMessages()
+		// UIUtils.err(FinanceApplication.constants()
 		// .pleaseSelectValidVATAgency());
 		// return;
 		// }
@@ -393,7 +393,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 
 	@Override
 	public void saveSuccess(IAccounterCore result) {
-		// Accounter.showInformation(FinanceApplication.getVATMessages()
+		// Accounter.showInformation(FinanceApplication.constants()
 		// .fileVATCreated());
 		super.saveSuccess(result);
 	}
@@ -511,15 +511,15 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 			if (this.selectedVatAgency == null && this.vatReturn == null) {
 				// BaseView.errordata.setHTML(BaseView.errordata.getHTML()
 				// + "<li> "
-				// + FinanceApplication.getVATMessages()
+				// + FinanceApplication.constants()
 				// .pleaseSelectValidVATAgency() + ".");
 				// BaseView.commentPanel.setVisible(true);
 				// AbstractBaseView.errorOccured = true;
 				MainFinanceWindow.getViewManager()
 						.appendError(
-								Accounter.getVATMessages()
+								Accounter.constants()
 										.pleaseSelectValidVATAgency());
-				// UIUtils.err(FinanceApplication.getVATMessages()
+				// UIUtils.err(FinanceApplication.constants()
 				// .pleaseSelectValidVATAgency());
 				return false;
 			} else
@@ -541,6 +541,6 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().fileVat();
+		return Accounter.constants().fileVat();
 	}
 }

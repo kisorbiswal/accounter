@@ -18,12 +18,12 @@ public class ItemGroupListAction extends Action {
 
 	public ItemGroupListAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	public ItemGroupListAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	@Override
@@ -50,8 +50,8 @@ public class ItemGroupListAction extends Action {
 				try {
 
 					ItemGroupListDialog dialog = new ItemGroupListDialog(
-							Accounter.getCompanyMessages().manageItemGroup(),
-							Accounter.getCompanyMessages().toAddItemGroup());
+							Accounter.constants().manageItemGroup(),
+							Accounter.constants().toAddItemGroup());
 					ViewManager viewManager = ViewManager.getInstance();
 					viewManager.setCurrentDialog(dialog);
 					// dialog.addCallBack(getViewConfiguration().getCallback());

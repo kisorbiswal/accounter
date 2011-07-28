@@ -26,7 +26,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.externalization.FinanceMessages;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectItemType;
 import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
@@ -144,7 +144,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 	};
 
 	protected CompanyMessages companyConstants;
-	protected FinanceMessages fixedAssetConstants;
+	protected AccounterMessages fixedAssetConstants;
 	protected VATMessages vatMessages;
 
 	protected CustomButton saveAndCloseButton;
@@ -270,13 +270,13 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 		try {
 
 			companyConstants = GWT.create(CompanyMessages.class);
-			fixedAssetConstants = GWT.create(FinanceMessages.class);
+			fixedAssetConstants = GWT.create(AccounterMessages.class);
 			vatMessages = GWT.create(VATMessages.class);
 
 		} catch (Exception e) {
 
 			// SC.logWarn(e.getMessage());
-			Accounter.showError(Accounter.getFinanceUIConstants()
+			Accounter.showError(Accounter.constants()
 					.failedToInitializeCompanyConstants());
 
 		}
@@ -398,7 +398,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 	// }
 	@Override
 	public String toString() {
-		return Accounter.getCustomersMessages().actionClassNameis()
+		return Accounter.constants().actionClassNameis()
 				+ this.getAction().getText();
 	}
 

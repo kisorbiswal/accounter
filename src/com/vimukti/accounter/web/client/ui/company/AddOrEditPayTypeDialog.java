@@ -56,9 +56,9 @@ public class AddOrEditPayTypeDialog extends BaseDialog {
 		type.setTitle(companyConstants.type());
 		// type.setType("comboBox");
 		type.setRequired(true);
-		type.setValueMap(Accounter.getCompanyMessages().earning(), Accounter
-				.getCompanyMessages().deduction());
-		type.setDefaultValue(Accounter.getCompanyMessages().earning());
+		type.setValueMap(Accounter.constants().earning(), Accounter
+				.constants().deduction());
+		type.setDefaultValue(Accounter.constants().earning());
 
 		// account = new AccountCombo(companyConstants.account());
 
@@ -112,6 +112,6 @@ public class AddOrEditPayTypeDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCompanyMessages().payType();
+		return Accounter.constants().payType();
 	}
 }

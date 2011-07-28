@@ -70,8 +70,8 @@
 //					.getDescription() : "");
 //			isActive.setValue(vat.isActive());
 //			taxableGroupRadio.setValue(vat.isTaxable() ? FinanceApplication
-//					.getVATMessages().taxable() : FinanceApplication
-//					.getVATMessages().taxExempt());
+//					.constants().taxable() : FinanceApplication
+//					.constants().taxExempt());
 //
 //			if (FinanceApplication.getCompany().getVATItem(
 //					vat.getVATItemGrpForPurchases()) != null) {
@@ -98,9 +98,9 @@
 //	}
 //
 //	private void createControls() {
-//		Label infoLabel = new Label(FinanceApplication.getVATMessages()
+//		Label infoLabel = new Label(FinanceApplication.constants()
 //				.newVATCode());
-//		infoLabel.setStyleName(FinanceApplication.getCustomersMessages()
+//		infoLabel.setStyleName(FinanceApplication.constants()
 //				.lableTitle());
 //
 //		listforms = new ArrayList<DynamicForm>();
@@ -110,23 +110,23 @@
 //		vatCodeTxt.setWidth(100);
 //		description = new TextAreaItem();
 //		description.setWidth(100);
-//		description.setTitle(FinanceApplication.getVATMessages().description());
+//		description.setTitle(FinanceApplication.constants().description());
 //
-//		isActive = new CheckboxItem(FinanceApplication.getVATMessages()
+//		isActive = new CheckboxItem(FinanceApplication.constants()
 //				.isActive());
 //		isActive.setValue((Boolean) true);
 //
 //		taxableGroupRadio = new RadioGroupItem(FinanceApplication
-//				.getVATMessages().tax());
+//				.constants().tax());
 //		taxableGroupRadio.setWidth(100);
 //		taxableGroupRadio.setValues(getClickHandler(), FinanceApplication
-//				.getVATMessages().taxable(), FinanceApplication
-//				.getVATMessages().taxExempt());
-//		taxableGroupRadio.setDefaultValue(FinanceApplication.getVATMessages()
+//				.constants().taxable(), FinanceApplication
+//				.constants().taxExempt());
+//		taxableGroupRadio.setDefaultValue(FinanceApplication.constants()
 //				.taxable());
 //
 //		vatItemComboForPurchases = new VATItemCombo(FinanceApplication
-//				.getVATMessages().VATItemForPurchases());
+//				.constants().VATItemForPurchases());
 //		vatItemComboForPurchases.initCombo(vatItemComboForPurchases
 //				.getPurchaseWithPrcntVATItems());
 //		vatItemComboForPurchases.setRequired(true);
@@ -141,7 +141,7 @@
 //				});
 //
 //		vatItemComboForSales = new VATItemCombo(FinanceApplication
-//				.getVATMessages().VATItemForSales());
+//				.constants().VATItemForSales());
 //		vatItemComboForSales.initCombo(vatItemComboForSales
 //				.getSalesWithPrcntVATItems());
 //		vatItemComboForSales.setRequired(true);
@@ -171,8 +171,8 @@
 //			isActive.setValue(editableVATCode.isActive());
 //			taxableGroupRadio
 //					.setValue(editableVATCode.isTaxable() ? FinanceApplication
-//							.getVATMessages().taxable() : FinanceApplication
-//							.getVATMessages().taxExempt());
+//							.constants().taxable() : FinanceApplication
+//							.constants().taxExempt());
 //			vatItemComboForPurchases.setValue(editableVATCode
 //					.getVATItemGrpForPurchases() != null ? FinanceApplication
 //					.getCompany().getVATItemGroup(
@@ -214,7 +214,7 @@
 //				vatItemComboForSales.getMainWidget().removeStyleName(
 //						"highlightedFormItem");
 //				String taxbl = taxableGroupRadio.getValue().toString();
-//				if (taxbl.equalsIgnoreCase(FinanceApplication.getVATMessages()
+//				if (taxbl.equalsIgnoreCase(FinanceApplication.constants()
 //						.taxable())) {
 //					isComboDisabled = false;
 //					vatItemComboForPurchases.setDisabled(false);
@@ -255,11 +255,11 @@
 //	public void saveSuccess(IAccounterCore result) {
 //		if (result != null) {
 //			// if (editableVATCode == null) {
-//			// Accounter.showInformation(FinanceApplication.getVATMessages()
+//			// Accounter.showInformation(FinanceApplication.constants()
 //			// .newVATCodeCreated());
 //			//
 //			// } else {
-//			// Accounter.showInformation(FinanceApplication.getVATMessages()
+//			// Accounter.showInformation(FinanceApplication.constants()
 //			// .VATCodeUpdatedSuccessfully());
 //			//
 //			// }

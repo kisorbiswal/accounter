@@ -241,7 +241,7 @@ public class ProfitAndLossServerReport extends
 					otherNetIncome2 = otherIncome2 - otherExpense2;
 					section.data[5] = otherNetIncome2;
 				}
-				// if (section.footer == FinanceApplication.getReportsMessages()
+				// if (section.footer == FinanceApplication.constants()
 				// .netIncome()) {
 				// section.data[1] = netIncome + otherNetIncome;
 				// }
@@ -270,12 +270,12 @@ public class ProfitAndLossServerReport extends
 	}
 
 	public void addOrdinaryIncomeOrExpenseTypes(TrialBalance record) {
-		// if (!sectiontypes.contains(FinanceApplication.getReportsMessages()
+		// if (!sectiontypes.contains(FinanceApplication.constants()
 		// .ordinaryIncomeOrExpense())) {
 		// closeAllSection();
-		// addTypeSection(FinanceApplication.getReportsMessages()
+		// addTypeSection(FinanceApplication.constants()
 		// .ordinaryIncomeOrExpense(), FinanceApplication
-		// .getReportsMessages().netOrdinaryIncome());
+		// .constants().netOrdinaryIncome());
 		// }
 		if (record.getAccountType() == ClientAccount.TYPE_INCOME
 				|| record.getAccountType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD) {
@@ -324,10 +324,10 @@ public class ProfitAndLossServerReport extends
 			addTypeSection("Other Income or Expense", "Net Other Income");
 		}
 		// if (record.getAccountType() == ClientAccount.TYPE_OTHER_INCOME) {
-		// if (!sectiontypes.contains(FinanceApplication.getReportsMessages()
+		// if (!sectiontypes.contains(FinanceApplication.constants()
 		// .otherIncome())) {
-		// addTypeSection(FinanceApplication.getReportsMessages()
-		// .otherIncome(), FinanceApplication.getReportsMessages()
+		// addTypeSection(FinanceApplication.constants()
+		// .otherIncome(), FinanceApplication.constants()
 		// .totalOtherIncome());
 		// }
 		// }

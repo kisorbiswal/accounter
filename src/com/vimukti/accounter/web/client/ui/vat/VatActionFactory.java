@@ -57,16 +57,16 @@ public class VatActionFactory extends AbstractActionFactory {
 	}
 
 	public static AdjustTAXAction getVatAdjustmentAction() {
-		return new AdjustTAXAction(Accounter.getVATMessages().VATAdjustment());
+		return new AdjustTAXAction(Accounter.constants().VATAdjustment());
 
 	}
 
 	public static PayVATAction getpayVATAction() {
-		return new PayVATAction(Accounter.getVATMessages().payVAT());
+		return new PayVATAction(Accounter.constants().payVAT());
 
 	}
 
 	public static Action getreceiveVATAction() {
-		return new ReceiveVATAction(Accounter.getVATMessages().recieveVat());
+		return new ReceiveVATAction(Accounter.constants().recieveVat());
 	}
 }

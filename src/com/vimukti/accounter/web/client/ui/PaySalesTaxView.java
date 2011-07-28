@@ -142,7 +142,7 @@ public class PaySalesTaxView extends
 							Accounter
 									.showError("Failed to get the TransactionPaySalesTaxList");
 							grid.addEmptyMessage(Accounter
-									.getCustomersMessages().norecordstoshow());
+									.constants().norecordstoshow());
 						}
 
 						return;
@@ -160,7 +160,7 @@ public class PaySalesTaxView extends
 							// Accounter
 							// .showInformation("No PaySalesTax list to show");
 							grid.addEmptyMessage(Accounter
-									.getCustomersMessages().norecordstoshow());
+									.constants().norecordstoshow());
 						} else {
 
 							// loadData(getfilterRecordsByDate(billsDue
@@ -223,7 +223,7 @@ public class PaySalesTaxView extends
 		grid.setDisabled(isEdit);
 		grid.setHeight("200px");
 		// if (!isEdit)
-		// grid.updateFooterValues(FinanceApplication.getVendorsMessages()
+		// grid.updateFooterValues(FinanceApplication.constants()
 		// .total()
 		// + DataUtils.getAmountAsString(totalAmount), 3);
 
@@ -306,8 +306,8 @@ public class PaySalesTaxView extends
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 
-		Label lab = new Label(Accounter.getFinanceUIConstants().paySalesTax());
-		lab.setStyleName(Accounter.getCustomersMessages().lableTitle());
+		Label lab = new Label(Accounter.constants().paySalesTax());
+		lab.setStyleName(Accounter.constants().lableTitle());
 
 		date = new DateField(null);
 		// date.setTitle(companyConstants.date());
@@ -508,7 +508,7 @@ public class PaySalesTaxView extends
 				count++;
 			}
 		}
-		// grid.updateFooterValues(FinanceApplication.getVendorsMessages().total()
+		// grid.updateFooterValues(FinanceApplication.constants().total()
 		// + DataUtils.getAmountAsString(paySalesTax.getTotal()), 2);
 
 	}
@@ -695,6 +695,6 @@ public class PaySalesTaxView extends
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.title(Accounter.getFinanceUIConstants().paySalesTax());
+		return UIUtils.title(Accounter.constants().paySalesTax());
 	}
 }

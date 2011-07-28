@@ -39,8 +39,8 @@ public class CashDiscountDialog extends BaseDialog {
 
 	public CashDiscountDialog(List<ClientAccount> allAccounts,
 			Double cashDiscountValue, IGenericCallback<String> callback) {
-		super(Accounter.getFinanceUIConstants().cashDiscount(), Accounter
-				.getFinanceUIConstants().cashDiscountPleaseAddDetails());
+		super(Accounter.constants().cashDiscount(), Accounter
+				.constants().cashDiscountPleaseAddDetails());
 		this.callback = callback;
 		this.allAccounts = allAccounts;
 		this.cashDiscountValue = cashDiscountValue;
@@ -49,15 +49,15 @@ public class CashDiscountDialog extends BaseDialog {
 	}
 
 	public CashDiscountDialog() {
-		super(Accounter.getFinanceUIConstants().cashDiscount(), Accounter
-				.getFinanceUIConstants().cashDiscountPleaseAddDetails());
+		super(Accounter.constants().cashDiscount(), Accounter
+				.constants().cashDiscountPleaseAddDetails());
 		createControls();
 	}
 
 	public CashDiscountDialog(boolean canEdit, Double discountValue,
 			ClientAccount account) {
-		super(Accounter.getFinanceUIConstants().cashDiscount(), Accounter
-				.getFinanceUIConstants().cashDiscountPleaseAddDetails());
+		super(Accounter.constants().cashDiscount(), Accounter
+				.constants().cashDiscountPleaseAddDetails());
 		this.cashDiscountValue = discountValue;
 		this.canEdit = canEdit;
 		this.selectedDiscountAccount = account;
@@ -88,7 +88,7 @@ public class CashDiscountDialog extends BaseDialog {
 	private void createControls() {
 
 		mainPanel.setSpacing(5);
-		discAccSelect = new OtherAccountsCombo(Accounter.getCustomersMessages()
+		discAccSelect = new OtherAccountsCombo(Accounter.constants()
 				.discountaccount(), false);
 
 		discAccSelect.setComboItem(selectedDiscountAccount);
@@ -103,7 +103,7 @@ public class CashDiscountDialog extends BaseDialog {
 				});
 		discAccSelect.setRequired(true);
 
-		discAmtText = new AmountField(Accounter.getFinanceUIConstants()
+		discAmtText = new AmountField(Accounter.constants()
 				.discountAmount());
 		discAmtText.setAmount(cashDiscountValue);
 
@@ -184,7 +184,7 @@ public class CashDiscountDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCompanyMessages().cashDiscount();
+		return Accounter.constants().cashDiscount();
 	}
 
 }

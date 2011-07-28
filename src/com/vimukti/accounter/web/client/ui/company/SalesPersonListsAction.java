@@ -16,7 +16,7 @@ public class SalesPersonListsAction extends Action {
 
 	public SalesPersonListsAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	@Override

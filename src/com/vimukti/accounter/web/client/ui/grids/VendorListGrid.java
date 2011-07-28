@@ -35,18 +35,18 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 		for (int index = 0; index < colArray.length; index++) {
 			switch (index) {
 			case 0:
-				colArray[index] = Accounter.getVATMessages().active();
+				colArray[index] = Accounter.constants().active();
 				break;
 			case 1:
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-					colArray[index] = Accounter.getVendorsMessages()
+					colArray[index] = Accounter.constants()
 							.vendorName();
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-					colArray[index] = Accounter.getVendorsMessages()
+					colArray[index] = Accounter.constants()
 							.supplieRName();
 				break;
 			case 2:
-				colArray[index] = Accounter.getCompanyMessages().currentMonth();
+				colArray[index] = Accounter.constants().currentMonth();
 				colsMap.put(2, getCurrentMonth());
 				break;
 			case 3:
@@ -70,10 +70,10 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 				colsMap.put(6, getCurrentMonth() - 5);
 				break;
 			case 8:
-				colArray[index] = Accounter.getCompanyMessages().yearToDate();
+				colArray[index] = Accounter.constants().yearToDate();
 				break;
 			case 9:
-				colArray[index] = Accounter.getVendorsMessages().balance();
+				colArray[index] = Accounter.constants().balance();
 				break;
 			case 10:
 				colArray[index] = "";

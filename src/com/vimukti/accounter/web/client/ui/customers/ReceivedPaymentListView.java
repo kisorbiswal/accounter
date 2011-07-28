@@ -26,11 +26,11 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 	private List<ReceivePaymentsList> listOfRecievePayments;
 
-	private static String ALL = Accounter.getCustomersMessages().all();
-	private static String OPEN = Accounter.getCustomersMessages().open();
-	private static String FULLY_APPLIED = Accounter.getCustomersMessages()
+	private static String ALL = Accounter.constants().all();
+	private static String OPEN = Accounter.constants().open();
+	private static String FULLY_APPLIED = Accounter.constants()
 			.fullyApplied();
-	private static String VOIDED = Accounter.getVendorsMessages().Voided();
+	private static String VOIDED = Accounter.constants().Voided();
 	// private static String DELETED="Deleted";
 
 	private static final int STATUS_UNAPPLIED = 0;
@@ -84,7 +84,7 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.getCustomersMessages()
+		viewSelect = new SelectCombo(Accounter.constants()
 				.currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
@@ -184,7 +184,7 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCustomersMessages().recievePayments();
+		return Accounter.constants().recievePayments();
 	}
 
 }

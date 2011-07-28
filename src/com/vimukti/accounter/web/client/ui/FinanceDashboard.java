@@ -33,7 +33,7 @@ public class FinanceDashboard extends BaseHomeView {
 
 	public FinanceDashboard() {
 		dashboard = this;
-		dashboardPreference = Accounter.getCompanyMessages()
+		dashboardPreference = Accounter.constants()
 				.WELCOMEBANKINGSUMMARY();
 		/*
 		 * FinanceApplication.getUser().getUserPreferences()
@@ -56,7 +56,7 @@ public class FinanceDashboard extends BaseHomeView {
 		// // addWidgetLinkLayout.setHeight(20);
 		//
 		// Label addWidgetLink = new Label(FinanceApplication
-		// .getFinanceUIConstants().addWidget());
+		// .constants().addWidget());
 		//
 		// addWidgetLink.addClickHandler(new ClickHandler() {
 		//
@@ -209,13 +209,13 @@ public class FinanceDashboard extends BaseHomeView {
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
 		String[] totalWidget = {
-				Accounter.getFinanceUIConstants().welcome(),
-				Accounter.getFinanceUIConstants().bankingSummary(),
-				Accounter.getFinanceUIConstants().profitAndLoss(),
-				Accounter.getFinanceUIConstants().creditOverview(),
-				Accounter.getFinanceUIConstants().debitOverview(),
-				Accounter.getFinanceUIConstants().latestQuote(),
-				Accounter.getFinanceUIConstants().expenses() };
+				Accounter.constants().welcome(),
+				Accounter.constants().bankingSummary(),
+				Accounter.constants().profitAndLoss(),
+				Accounter.constants().creditOverview(),
+				Accounter.constants().debitOverview(),
+				Accounter.constants().latestQuote(),
+				Accounter.constants().expenses() };
 
 		boolean isAvailable = false;
 

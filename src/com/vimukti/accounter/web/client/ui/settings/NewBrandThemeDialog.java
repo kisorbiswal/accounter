@@ -712,6 +712,6 @@ public class NewBrandThemeDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getSettingsMessages().editBrandThemeLabel();
+		return Accounter.constants().editBrandThemeLabel();
 	}
 }

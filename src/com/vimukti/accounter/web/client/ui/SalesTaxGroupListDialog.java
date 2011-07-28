@@ -76,7 +76,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 					showAddEditTaxGroup(taxGroup);
 				} else {
 					Accounter.showError(Accounter
-							.getFinanceUIConstants().selectATaxGroup());
+							.constants().selectATaxGroup());
 					new Exception();
 				}
 			}
@@ -89,7 +89,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 					deleteObject(taxGroup);
 				} else
 					Accounter.showError(Accounter
-							.getFinanceUIConstants().selectATaxGroup());
+							.constants().selectATaxGroup());
 
 			}
 		};
@@ -101,12 +101,12 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 
 		if (taxGroup != null) {
 			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter
-					.getFinanceUIConstants().taxGroup(), Accounter
-					.getFinanceUIConstants().toAddOrRemoveTaxCode(), taxGroup);
+					.constants().taxGroup(), Accounter
+					.constants().toAddOrRemoveTaxCode(), taxGroup);
 		} else {
 			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter
-					.getFinanceUIConstants().taxGroup(), Accounter
-					.getFinanceUIConstants().toAddOrRemoveTaxCode(), null);
+					.constants().taxGroup(), Accounter
+					.constants().toAddOrRemoveTaxCode(), null);
 		}
 
 		salesTaxGroupDialog.addInputDialogHandler(new InputDialogHandler() {
@@ -127,7 +127,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 						return true;
 					} else {
 						Accounter.showError(Accounter
-								.getFinanceUIConstants()
+								.constants()
 								.pleaseEnterTaxGroupName());
 						return false;
 					}
@@ -228,6 +228,6 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().salesTaxGroups();
+		return Accounter.constants().salesTaxGroups();
 	}
 }

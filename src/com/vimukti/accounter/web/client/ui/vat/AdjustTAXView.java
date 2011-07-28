@@ -83,29 +83,29 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		listforms = new ArrayList<DynamicForm>();
 		Label infoLabel;
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			infoLabel = new Label(Accounter.getVATMessages().taxAdjustment());
+			infoLabel = new Label(Accounter.constants().taxAdjustment());
 		else
-			infoLabel = new Label(Accounter.getVATMessages().VATAdjustment());
+			infoLabel = new Label(Accounter.constants().VATAdjustment());
 		infoLabel.removeStyleName("gwt-Label");
 
-		infoLabel.setStyleName(Accounter.getCustomersMessages().lableTitle());
+		infoLabel.setStyleName(Accounter.constants().lableTitle());
 		// infoLabel.setHeight("35px");
 		adjustDate = new DateItem(null);
 		adjustDate.setHelpInformation(true);
 		adjustDate.setDatethanFireEvent(new ClientFinanceDate());
 		// adjustDate.setWidth(100);
 
-		entryNo = new IntegerField(Accounter.getCustomersMessages().no());
+		entryNo = new IntegerField(Accounter.constants().no());
 		entryNo.setHelpInformation(true);
 		entryNo.setWidth(100);
 
-		taxAgencyCombo = new TAXAgencyCombo(Accounter.getVATMessages()
+		taxAgencyCombo = new TAXAgencyCombo(Accounter.constants()
 				.VATAgency());
 		taxAgencyCombo.setHelpInformation(true);
 		// taxAgencyCombo.setWidth(100);
 		taxAgencyCombo.setComboItem(taxAgency);
 
-		vatItemCombo = new VATItemCombo(Accounter.getVATMessages().VATItem(),
+		vatItemCombo = new VATItemCombo(Accounter.constants().VATItem(),
 				taxAgency);
 		vatItemCombo.setHelpInformation(true);
 		vatItemCombo.initCombo(vatItemCombo.getVATItmesByVATAgncy(taxAgency));
@@ -116,10 +116,10 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		}
 
 		vatLine = new LabelItem();
-		vatLine.setValue(Accounter.getVATMessages().VATLine());
+		vatLine.setValue(Accounter.constants().VATLine());
 
 		vatAccount = new LabelItem();
-		vatAccount.setValue(Accounter.getVATMessages().VATAccount());
+		vatAccount.setValue(Accounter.constants().VATAccount());
 
 		vatLinetxt = new LabelItem();
 		vatAccounttxt = new LabelItem();
@@ -182,41 +182,41 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		else
 			vatItemCombo.setRequired(true);
 
-		adjustAccountCombo = new OtherAccountsCombo(Accounter.getVATMessages()
+		adjustAccountCombo = new OtherAccountsCombo(Accounter.constants()
 				.adjustmentAccount());
 		adjustAccountCombo.setHelpInformation(true);
 		// adjustAccountCombo.setWidth(100);
 		adjustAccountCombo.setPopupWidth("600px");
 		adjustAccountCombo.setRequired(true);
-		amount = new AmountField(Accounter.getVATMessages().amount());
+		amount = new AmountField(Accounter.constants().amount());
 		amount.setHelpInformation(true);
 		amount.setRequired(true);
 		amount.setWidth(100);
 		typeRadio = new RadioGroupItem("");
 		// typeRadio.setRequired(true);
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			typeRadio.setValueMap(Accounter.getVATMessages().increaseVATLine(),
-					Accounter.getVATMessages().decreaseVATLine());
-			typeRadio.setDefaultValue(Accounter.getVATMessages()
+			typeRadio.setValueMap(Accounter.constants().increaseVATLine(),
+					Accounter.constants().decreaseVATLine());
+			typeRadio.setDefaultValue(Accounter.constants()
 					.increaseVATLine());
 		} else {
-			typeRadio.setValueMap(Accounter.getCompanyMessages()
-					.increaseTAXLine(), Accounter.getCompanyMessages()
+			typeRadio.setValueMap(Accounter.constants()
+					.increaseTAXLine(), Accounter.constants()
 					.decreaseTAXLine());
-			typeRadio.setDefaultValue(Accounter.getCompanyMessages()
+			typeRadio.setDefaultValue(Accounter.constants()
 					.increaseTAXLine());
 
 		}
 
-		memo = new TextAreaItem(Accounter.getVATMessages().memo());
+		memo = new TextAreaItem(Accounter.constants().memo());
 		memo.setMemo(false);
 		memo.setHelpInformation(true);
 		memo.setWidth(100);
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			taxAgencyCombo.setTitle(Accounter.getVATMessages().taxAgency());
-			vatItemCombo.setTitle(Accounter.getVATMessages().taxItem());
-			vatLine.setValue(Accounter.getVATMessages().taxLine());
-			vatAccount.setValue(Accounter.getVATMessages().taxAccount());
+			taxAgencyCombo.setTitle(Accounter.constants().taxAgency());
+			vatItemCombo.setTitle(Accounter.constants().taxItem());
+			vatLine.setValue(Accounter.constants().taxLine());
+			vatAccount.setValue(Accounter.constants().taxAccount());
 		}
 		DynamicForm dateForm = new DynamicForm();
 		dateForm.setNumCols(4);
@@ -269,7 +269,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 					Accounter
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
-					Accounter.showError(Accounter.getVATMessages()
+					Accounter.showError(Accounter.constants()
 							.FailedToGetTransactionNumber());
 				}
 			}
@@ -344,23 +344,23 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		// BaseView.errordata.setHTML(FinanceApplication.getVATMessages()
+		// BaseView.errordata.setHTML(FinanceApplication.constants()
 		// .failedToApplyChanges());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		MainFinanceWindow.getViewManager().showError(
-				Accounter.getVATMessages().failedToApplyChanges());
+				Accounter.constants().failedToApplyChanges());
 
 	}
 
 	public void saveSuccess(IAccounterCore result) {
 		if (taxAdjustment == null) {
-			// Accounter.showInformation(FinanceApplication.getVATMessages()
+			// Accounter.showInformation(FinanceApplication.constants()
 			// .VATAdjustmentSuccessfull());
 			removeFromParent();
 
 		} else {
-			// Accounter.showInformation(FinanceApplication.getVATMessages()
+			// Accounter.showInformation(FinanceApplication.constants()
 			// .VATItemUpdatedSuccessfully());
 		}
 		super.saveSuccess(result);
@@ -447,7 +447,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 		TAXadjust.setTotal(amount.getAmount());
 		if (typeRadio.getValue().equals(
-				Accounter.getVATMessages().increaseVATLine()))
+				Accounter.constants().increaseVATLine()))
 			TAXadjust.setIncreaseVATLine(true);
 		else
 			TAXadjust.setIncreaseVATLine(false);
@@ -531,7 +531,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().taxAdjustment();
+		return Accounter.constants().taxAdjustment();
 	}
 
 }

@@ -44,10 +44,10 @@ public class ExpenseClaims extends BaseView<BillsList> {
 		ExpenseClaimView expenseview = new ExpenseClaimView();
 		PreviousClaimsView claimsView = new PreviousClaimsView();
 
-		tabset.add(expenseview, Accounter.getVendorsMessages().presentClaims());
-		tabset.add(claimsView, Accounter.getVendorsMessages().previousClaims());
+		tabset.add(expenseview, Accounter.constants().presentClaims());
+		tabset.add(claimsView, Accounter.constants().previousClaims());
 		if (Accounter.getUser().canApproveExpences())
-			tabset.add(awaitingview, Accounter.getVendorsMessages()
+			tabset.add(awaitingview, Accounter.constants()
 					.awaitingAuthorisation());
 		setSize("100%", "100%");
 		mainPanel.add(tabset);
@@ -112,7 +112,7 @@ public class ExpenseClaims extends BaseView<BillsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getVendorsMessages().expenseClaims();
+		return Accounter.constants().expenseClaims();
 	}
 
 }

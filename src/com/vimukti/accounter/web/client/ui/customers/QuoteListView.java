@@ -28,13 +28,13 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	private List<ClientEstimate> listOfEstimates;
 
-	private static String OPEN = Accounter.getCustomersMessages().open();
-	private static String REJECTED = Accounter.getCustomersMessages()
+	private static String OPEN = Accounter.constants().open();
+	private static String REJECTED = Accounter.constants()
 			.rejected();
-	private static String ACCEPTED = Accounter.getCustomersMessages()
+	private static String ACCEPTED = Accounter.constants()
 			.accepted();
-	private static String EXPIRED = Accounter.getCustomersMessages().expired();
-	private static String ALL = Accounter.getCustomersMessages().all();
+	private static String EXPIRED = Accounter.constants().expired();
+	private static String ALL = Accounter.constants().all();
 	// private static String DELETED = "Deleted";
 
 	public static final int STATUS_OPEN = 0;
@@ -65,7 +65,7 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.getCustomersMessages().quotesList();
+		return Accounter.constants().quotesList();
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.getCustomersMessages()
+		viewSelect = new SelectCombo(Accounter.constants()
 				.currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
@@ -197,6 +197,6 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().quotes();
+		return Accounter.constants().quotes();
 	}
 }

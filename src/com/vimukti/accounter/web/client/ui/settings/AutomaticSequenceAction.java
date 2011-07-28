@@ -30,7 +30,7 @@ public class AutomaticSequenceAction extends Action {
 	public void run(Object data, Boolean isDependent) {
 		try {
 			AutomaticSequenceDialog automaticSequenceDialog = new AutomaticSequenceDialog(
-					Accounter.getSettingsMessages()
+					Accounter.constants()
 							.automaticSequencing(), "");
 			automaticSequenceDialog.show();
 			automaticSequenceDialog.center();

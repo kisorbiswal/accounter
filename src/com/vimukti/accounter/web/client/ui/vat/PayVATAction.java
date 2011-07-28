@@ -12,12 +12,12 @@ public class PayVATAction extends Action {
 
 	public PayVATAction(String text) {
 		super(text);
-		this.catagory = Accounter.getVATMessages().VAT();
+		this.catagory = Accounter.constants().VAT();
 	}
 
 	public PayVATAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getVATMessages().VAT();
+		this.catagory = Accounter.constants().VAT();
 	}
 
 	@Override

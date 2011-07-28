@@ -24,7 +24,7 @@ public class ManageFiscalYearAction extends Action {
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		ManageFiscalYearDialog dialog = new ManageFiscalYearDialog(Accounter
-				.getCompanyMessages().manageFiscalYear(), "");
+				.constants().manageFiscalYear(), "");
 		dialog.show();
 	}
 

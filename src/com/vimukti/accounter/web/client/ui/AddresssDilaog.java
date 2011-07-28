@@ -28,21 +28,21 @@ public class AddresssDilaog extends AbstractBaseDialog {
 		setModal(true);
 
 		streetText1 = new TextItem();
-		streetText1.setTitle(Accounter.getFinanceUIConstants()
+		streetText1.setTitle(Accounter.constants()
 				.streetAddress1());
 		streetText2 = new TextItem();
-		streetText2.setTitle(Accounter.getFinanceUIConstants()
+		streetText2.setTitle(Accounter.constants()
 				.streetAddress2());
 		cityText = new TextItem();
 
-		cityText.setTitle(Accounter.getFinanceUIConstants().city());
+		cityText.setTitle(Accounter.constants().city());
 		stateText = new TextItem();
-		stateText.setTitle(Accounter.getFinanceUIConstants().state());
+		stateText.setTitle(Accounter.constants().state());
 		TextItem zipText = new TextItem();
-		zipText.setTitle(Accounter.getFinanceUIConstants()
+		zipText.setTitle(Accounter.constants()
 				.postalCode());
 		countryText = new TextItem();
-		countryText.setTitle(Accounter.getFinanceUIConstants()
+		countryText.setTitle(Accounter.constants()
 				.country());
 
 		DynamicForm form = new DynamicForm();
@@ -50,18 +50,18 @@ public class AddresssDilaog extends AbstractBaseDialog {
 				countryText);
 
 		AccounterButton helpButt = new AccounterButton(Accounter
-				.getFinanceUIConstants().help());
+				.constants().help());
 		// helpButt.setLayoutAlign(Alignment.LEFT);
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		helpHLay.setWidth("50%");
 		helpHLay.add(helpButt);
 		helpButt.enabledButton();
 		AccounterButton okButt = new AccounterButton(Accounter
-				.getFinanceUIConstants().ok());
+				.constants().ok());
 		// okButt.setLayoutAlign(Alignment.RIGHT);
 
 		AccounterButton canButt = new AccounterButton(Accounter
-				.getFinanceUIConstants().cancel());
+				.constants().cancel());
 		// canButt.setLayoutAlign(Alignment.RIGHT);
 
 		HorizontalPanel buttHLay = new HorizontalPanel();
@@ -99,5 +99,5 @@ public class AddresssDilaog extends AbstractBaseDialog {
 		// TODO Auto-generated method stub
 
 	}
-	// FinanceApplication.getFinanceUIConstants().address();
+	// FinanceApplication.constants().address();
 }

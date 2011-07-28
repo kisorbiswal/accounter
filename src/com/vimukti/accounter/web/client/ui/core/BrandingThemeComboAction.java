@@ -32,7 +32,7 @@ public class BrandingThemeComboAction extends Action {
 
 	private void runAsync(Object data, Boolean isDependent) {
 		BrandingThemeComboDialog comboDialog = new BrandingThemeComboDialog(
-				Accounter.getSettingsMessages().selectThemes(), "",
+				Accounter.constants().selectThemes(), "",
 				(ClientTransaction) data);
 		comboDialog.show();
 		comboDialog.center();

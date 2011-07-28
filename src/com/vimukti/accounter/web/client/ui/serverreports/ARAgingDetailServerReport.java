@@ -44,10 +44,10 @@ public class ARAgingDetailServerReport extends
 	public String[] getColunms() {
 		return new String[] { "Name", "Date", " Type", "No.", "Ageing",
 				"Amount"
-		// FinanceApplication.getReportsMessages().reference(),
-		// FinanceApplication.getReportsMessages().Void(),
-		// FinanceApplication.getReportsMessages().dueDate(),
-		// FinanceApplication.getReportsMessages().total()
+		// FinanceApplication.constants().reference(),
+		// FinanceApplication.constants().Void(),
+		// FinanceApplication.constants().dueDate(),
+		// FinanceApplication.constants().total()
 		};
 	}
 
@@ -106,8 +106,8 @@ public class ARAgingDetailServerReport extends
 			// case 4:
 			// return getDateByCompanyType(record.getDueDate());
 			// return record.getIsVoid() ?
-			// FinanceApplication.getReportsMessages()
-			// .yes() : FinanceApplication.getReportsMessages().no();
+			// FinanceApplication.constants()
+			// .yes() : FinanceApplication.constants().no();
 		case 4:
 			return record.getAgeing();
 		case 5:
@@ -122,7 +122,7 @@ public class ARAgingDetailServerReport extends
 		// if (sectionDepth == 0) {
 		// // addSection(new String[] { "", "" }, new String[] { "", "", "",
 		// // "",
-		// // FinanceApplication.getReportsMessages().total() },
+		// // FinanceApplication.constants().total() },
 		// // new int[] { 5 });
 		// } else
 		if (precategory == 1001 || precategory == record.getCategory()) {
@@ -141,7 +141,7 @@ public class ARAgingDetailServerReport extends
 		// addCurrent(record);
 		// }
 		// if (sectionDepth == 0) {
-		// addSection("", FinanceApplication.getReportsMessages().total(),
+		// addSection("", FinanceApplication.constants().total(),
 		// new int[] { 6,7 });
 		// } else if (sectionDepth == 1) {
 		// this.sectionName = record.getName();

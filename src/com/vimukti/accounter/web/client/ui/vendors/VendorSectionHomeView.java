@@ -210,10 +210,10 @@ public class VendorSectionHomeView extends BaseHomeView {
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
 		String[] totalWidget = {
-				Accounter.getVendorsMessages().newVendor(),
-				Accounter.getVendorsMessages().itemPurchase(),
-				Accounter.getVendorsMessages().billPaid(),
-				Accounter.getVendorsMessages().cashPurchase() };
+				Accounter.constants().newVendor(),
+				Accounter.constants().itemPurchase(),
+				Accounter.constants().billPaid(),
+				Accounter.constants().cashPurchase() };
 
 		boolean isAvailable = false;
 
@@ -280,8 +280,8 @@ public class VendorSectionHomeView extends BaseHomeView {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.supplierhome(), Accounter.getVendorsMessages()
+		return UIUtils.getVendorString(Accounter.constants()
+				.supplierhome(), Accounter.constants()
 				.vendorHome());
 	}
 }

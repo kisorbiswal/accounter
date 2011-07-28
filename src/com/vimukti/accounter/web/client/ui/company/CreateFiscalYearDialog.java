@@ -31,7 +31,7 @@ public class CreateFiscalYearDialog extends BaseDialog {
 		this.listOfFiscalYear = listOfperiods;
 		createControls();
 		center();
-		if (title.equalsIgnoreCase(Accounter.getCompanyMessages()
+		if (title.equalsIgnoreCase(Accounter.constants()
 				.editFiscalYear())) {
 			initData();
 		} else {
@@ -94,21 +94,21 @@ public class CreateFiscalYearDialog extends BaseDialog {
 
 	private void createControls() {
 		createFiscalYearLabel = new HTML();
-		createFiscalYearLabel.setHTML(Accounter.getCompanyMessages()
+		createFiscalYearLabel.setHTML(Accounter.constants()
 				.createFascalYear());
 		descriptionLabel = new HTML();
-		descriptionLabel.setHTML(Accounter.getCompanyMessages()
+		descriptionLabel.setHTML(Accounter.constants()
 				.enterAppropriateFiscalYear());
 		startOfFiscalYear = new DateItem();
 		startOfFiscalYear.setHelpInformation(true);
 		startOfFiscalYear.setRequired(true);
 		// startOfFiscalYear.setDisabled(true);
-		startOfFiscalYear.setTitle(Accounter.getCompanyMessages()
+		startOfFiscalYear.setTitle(Accounter.constants()
 				.startOfFiscalYear());
 		endOfFiscalYear = new DateItem();
 		endOfFiscalYear.setRequired(true);
 		endOfFiscalYear.setHelpInformation(true);
-		endOfFiscalYear.setTitle(Accounter.getCompanyMessages()
+		endOfFiscalYear.setTitle(Accounter.constants()
 				.endOfFiscalYear());
 		dynamicForm = new DynamicForm();
 		dynamicForm.setFields(startOfFiscalYear, endOfFiscalYear);
@@ -141,13 +141,13 @@ public class CreateFiscalYearDialog extends BaseDialog {
 					return false;
 				}
 				if (title.equalsIgnoreCase(Accounter
-						.getCompanyMessages().editFiscalYear())) {
+						.constants().editFiscalYear())) {
 
 					final ClientFiscalYear updateFiscalYear = getEditFiscalYear();
 					ViewManager.getInstance().alterObject(updateFiscalYear,
 							CreateFiscalYearDialog.this);
 				} else if (title.equalsIgnoreCase(Accounter
-						.getCompanyMessages().createFascalYear())) {
+						.constants().createFascalYear())) {
 					final ClientFiscalYear fiscalYear = getNewFiscalYear();
 					ViewManager.getInstance().createObject(fiscalYear,
 							CreateFiscalYearDialog.this);
@@ -217,7 +217,7 @@ public class CreateFiscalYearDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCompanyMessages().fiscalYear();
+		return Accounter.constants().fiscalYear();
 	}
 
 }

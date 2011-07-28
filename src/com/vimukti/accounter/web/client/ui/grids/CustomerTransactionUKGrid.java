@@ -34,27 +34,27 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 	protected String[] getColumns() {
 		return new String[] {
 				"",
-				Accounter.getCustomersMessages().wareHouse(),
-				Accounter.getCustomersMessages().items(),
-				Accounter.getCustomersMessages().availableItems(),
-				// FinanceApplication.getCustomersMessages().name(),
-				Accounter.getCustomersMessages().description(),
-				Accounter.getCustomersMessages().quantity(),
-				Accounter.getCustomersMessages().unitPrice(),
-				Accounter.getCustomersMessages().discountPerc(),
-				Accounter.getCustomersMessages().total(),
-				Accounter.getCustomersMessages().VATCode(),
-				Accounter.getCustomersMessages().vat(), " " };
+				Accounter.constants().wareHouse(),
+				Accounter.constants().items(),
+				Accounter.constants().availableItems(),
+				// FinanceApplication.constants().name(),
+				Accounter.constants().description(),
+				Accounter.constants().quantity(),
+				Accounter.constants().unitPrice(),
+				Accounter.constants().discountPerc(),
+				Accounter.constants().total(),
+				Accounter.constants().VATCode(),
+				Accounter.constants().vat(), " " };
 	}
 
 	@Override
 	public String[] getColumnNamesForPrinting() {
-		return new String[] { Accounter.getCustomersMessages().description(),
-				Accounter.getCustomersMessages().quantity(),
-				Accounter.getCustomersMessages().unitPrice(),
-				Accounter.getCustomersMessages().totalPrice(),
-				Accounter.getVATMessages().vATRate(),
-				Accounter.getVATMessages().vATAmount() };
+		return new String[] { Accounter.constants().description(),
+				Accounter.constants().quantity(),
+				Accounter.constants().unitPrice(),
+				Accounter.constants().totalPrice(),
+				Accounter.constants().vATRate(),
+				Accounter.constants().vATAmount() };
 	}
 
 	@Override

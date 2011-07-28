@@ -45,7 +45,7 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 	 */
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.getFixedAssetConstants().registeredItemsList();
+		return Accounter.constants().registeredItemsList();
 	}
 
 	/*
@@ -110,7 +110,7 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().registeredItemsList();
+		return Accounter.constants().registeredItemsList();
 	}
 
 }

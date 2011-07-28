@@ -420,7 +420,7 @@ public class WriteChequeView extends
 	// AsyncCallback<String>() {
 	//
 	// public void onFailure(Throwable caught) {
-	// Accounter.showError(FinanceApplication.getBankingsMessages()
+	// Accounter.showError(FinanceApplication.constants()
 	// .failedToGetTransactionNumber());
 	//
 	// }
@@ -682,7 +682,7 @@ public class WriteChequeView extends
 		// setTitle(bankingConstants.writeCheck());
 		Label lab1 = new Label(bankingConstants.writeCheck() + "("
 				+ getTransactionStatus() + ")");
-		lab1.addStyleName(Accounter.getBankingsMessages().lableTitle());
+		lab1.addStyleName(Accounter.constants().lableTitle());
 		if (takenPaySalesTax != null)
 			lab1.setText(bankingConstants.taxAgentPayment());
 
@@ -896,7 +896,7 @@ public class WriteChequeView extends
 		vatPanel.setWidth("100%");
 		vatInclusiveCheck = getVATInclusiveCheckBox();
 		totalTxt = createTransactionTotalNonEditableLabel();
-		netAmount = new AmountLabel(Accounter.getBankingsMessages().netAmount());
+		netAmount = new AmountLabel(Accounter.constants().netAmount());
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setFields(totalTxt, netAmount);
 
@@ -1198,55 +1198,55 @@ public class WriteChequeView extends
 			case ClientWriteCheck.TYPE_VENDOR:
 			case ClientWriteCheck.TYPE_TAX_AGENCY:
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-					setMenuItems(button, Accounter.getCustomersMessages()
-							.accounts(), Accounter.getCustomersMessages()
+					setMenuItems(button, Accounter.constants()
+							.accounts(), Accounter.constants()
 							.product()
-					// FinanceApplication.getCustomersMessages().comment(),
-					// FinanceApplication.getCustomersMessages()
+					// FinanceApplication.constants().comment(),
+					// FinanceApplication.constants()
 					// .salesTax()
 					);
 				else
-					setMenuItems(button, Accounter.getCustomersMessages()
-							.accounts(), Accounter.getCustomersMessages()
+					setMenuItems(button, Accounter.constants()
+							.accounts(), Accounter.constants()
 							.product(),
-					// FinanceApplication.getCustomersMessages().comment(),
-							Accounter.getCustomersMessages().VATItem());
+					// FinanceApplication.constants().comment(),
+							Accounter.constants().VATItem());
 				// break;
 				// case ClientWriteCheck.TYPE_VENDOR:
 				// if (FinanceApplication.getCompany().getAccountingType() ==
 				// ClientCompany.ACCOUNTING_TYPE_US)
-				// setMenuItems(FinanceApplication.getVendorsMessages()
+				// setMenuItems(FinanceApplication.constants()
 				// .nominalCodeItem(), FinanceApplication
-				// .getCustomersMessages().product()
-				// // FinanceApplication.getVendorsMessages().comment()
+				// .constants().product()
+				// // FinanceApplication.constants().comment()
 				// );
 				// else
-				// setMenuItems(FinanceApplication.getVendorsMessages()
+				// setMenuItems(FinanceApplication.constants()
 				// .nominalCodeItem(), FinanceApplication
-				// .getCustomersMessages().product(),
-				// FinanceApplication.getVendorsMessages().VATItem(),
-				// FinanceApplication.getVendorsMessages().comment());
+				// .constants().product(),
+				// FinanceApplication.constants().VATItem(),
+				// FinanceApplication.constants().comment());
 				// break;
 				// case ClientWriteCheck.TYPE_TAX_AGENCY:
 				// if (FinanceApplication.getCompany().getAccountingType() ==
 				// ClientCompany.ACCOUNTING_TYPE_US)
-				// setMenuItems(FinanceApplication.getVendorsMessages()
+				// setMenuItems(FinanceApplication.constants()
 				// .nominalCodeItem(), FinanceApplication
-				// .getCustomersMessages().product()
-				// // FinanceApplication.getVendorsMessages().comment()
+				// .constants().product()
+				// // FinanceApplication.constants().comment()
 				// );
 				// else
-				// setMenuItems(FinanceApplication.getVendorsMessages()
+				// setMenuItems(FinanceApplication.constants()
 				// .nominalCodeItem(), FinanceApplication
-				// .getCustomersMessages().product(),
-				// FinanceApplication.getVendorsMessages().VATItem(),
-				// FinanceApplication.getVendorsMessages().comment());
+				// .constants().product(),
+				// FinanceApplication.constants().VATItem(),
+				// FinanceApplication.constants().comment());
 			}
 		} else
-			setMenuItems(button, Accounter.getCustomersMessages().accounts(),
-					Accounter.getCustomersMessages().product()
-			// FinanceApplication.getFinanceUIConstants().comment(),
-			// FinanceApplication.getFinanceUIConstants().salesTax()
+			setMenuItems(button, Accounter.constants().accounts(),
+					Accounter.constants().product()
+			// FinanceApplication.constants().comment(),
+			// FinanceApplication.constants().salesTax()
 			);
 
 	}
@@ -1256,13 +1256,13 @@ public class WriteChequeView extends
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 		if (payee != null) {
 			if (payee.getType() == ClientWriteCheck.TYPE_CUSTOMER) {
-				if (item.equals(Accounter.getCustomersMessages().accounts())) {
+				if (item.equals(Accounter.constants().accounts())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-				} else if (item.equals(Accounter.getCustomersMessages()
+				} else if (item.equals(Accounter.constants()
 						.product())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 
-				} else if (item.equals(Accounter.getFinanceUIConstants()
+				} else if (item.equals(Accounter.constants()
 						.comment())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);
 				} else if (item.equals("Sales Tax")) {
@@ -1272,26 +1272,26 @@ public class WriteChequeView extends
 				transactionCustomerGrid.addData(transactionItem);
 			} else if (payee.getType() == ClientWriteCheck.TYPE_VENDOR
 					|| payee.getType() == ClientWriteCheck.TYPE_TAX_AGENCY) {
-				if (item.equals(Accounter.getCustomersMessages().accounts())) {
+				if (item.equals(Accounter.constants().accounts())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-				} else if (item.equals(Accounter.getCustomersMessages()
+				} else if (item.equals(Accounter.constants()
 						.product())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-				} else if (item.equals(Accounter.getFinanceUIConstants()
+				} else if (item.equals(Accounter.constants()
 						.comment())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);
 				}
 				transactionVendorGrid.addData(transactionItem);
 			}
 		} else {
-			if (item.equals(Accounter.getCustomersMessages().accounts())) {
+			if (item.equals(Accounter.constants().accounts())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-			} else if (item.equals(Accounter.getCustomersMessages().product())) {
+			} else if (item.equals(Accounter.constants().product())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-			} else if (item.equals(Accounter.getFinanceUIConstants().comment())) {
+			} else if (item.equals(Accounter.constants().comment())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);
 			} else if (item
-					.equals(Accounter.getFinanceUIConstants().salesTax())) {
+					.equals(Accounter.constants().salesTax())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_SALESTAX);
 			}
 			transactionCustomerGrid.addData(transactionItem);

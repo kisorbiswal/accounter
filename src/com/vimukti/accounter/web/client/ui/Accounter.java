@@ -28,31 +28,20 @@ import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientUser;
-import com.vimukti.accounter.web.client.externalization.ActionsConstants;
-import com.vimukti.accounter.web.client.externalization.FinanceConstants;
-import com.vimukti.accounter.web.client.externalization.FinanceMessages;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.images.FinanceImages;
 import com.vimukti.accounter.web.client.images.FinanceMenuImages;
 import com.vimukti.accounter.web.client.theme.ThemeImages;
-import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
-import com.vimukti.accounter.web.client.ui.combo.AccounterComboConstants;
-import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.AccounterExecute;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
-import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
-import com.vimukti.accounter.web.client.ui.fixedassets.FixedAssetConstants;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
-import com.vimukti.accounter.web.client.ui.reports.ReportsMessages;
-import com.vimukti.accounter.web.client.ui.settings.SettingsMessages;
-import com.vimukti.accounter.web.client.ui.vat.VATMessages;
-import com.vimukti.accounter.web.client.ui.vendors.VendorsMessages;
 
 /**
  * 
- * @author kumar kasimala
  * 
  */
 public class Accounter extends VerticalPanel implements EntryPoint {
@@ -80,22 +69,11 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 	private static IAccounterHomeViewServiceAsync homeViewService;
 	private static IAccounterReportServiceAsync reportService;
 
-	private static CompanyMessages companyMessages;
-	private static FinanceMessages financeMessages;
-	private static VendorsMessages vendorsMessages;
-	private static CustomersMessages customersMessages;
-	private static FinanceConstants financeConstants;
-	private static ActionsConstants actionsConstants;
+	private static AccounterMessages messages;
+	private static AccounterConstants constants;
 	private static FinanceImages financeImages;
 	private static FinanceMenuImages financeMenuImages;
-	private static FinanceUIConstants financeUIConstants;
-	private static BankingMessages bankingMessages;
-	private static VATMessages vatMessages;
-	private static SettingsMessages settingsMessages;
 
-	private static AccounterComboConstants accounterComboConstants;
-	private static FixedAssetConstants fixedAssetConstants;
-	private static ReportsMessages reportsMessages;
 	private static boolean isSales;
 	private static boolean isPurchases;
 	private static ThemeImages themeImages;
@@ -162,12 +140,10 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 		getService.getCompany(getCompanyCallback);
 		// this.hide();
 		if (isSales)
-			loadingDialog = UIUtils.getLoadingDialog(Accounter
-					.getFinanceUIConstants().loadingSalesPleaseWait());
+			loadingDialog = UIUtils.getLoadingDialog(constants().loadingSalesPleaseWait());
 
 		else
-			loadingDialog = UIUtils.getLoadingDialog(Accounter
-					.getFinanceUIConstants().loadingPurchasePleaseWait());
+			loadingDialog = UIUtils.getLoadingDialog(constants().loadingPurchasePleaseWait());
 
 	}
 
@@ -303,8 +279,7 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 		getService.getCompany(getCompanyCallback);
 		// this.hide();
 		if (!GWT.isScript())
-			loadingDialog = UIUtils.getLoadingDialog(Accounter
-					.getFinanceUIConstants().loadingFinancePleaseWait());
+			loadingDialog = UIUtils.getLoadingDialog(constants().loadingFinancePleaseWait());
 
 	}
 
@@ -406,104 +381,35 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 	}
 
 	public static String getAppName() {
-		return Accounter.getCompanyMessages().accounter();
+		return Accounter.constants().accounter();
 	}
 
-	public static CompanyMessages getCompanyMessages() {
-		if (companyMessages == null) {
-			companyMessages = (CompanyMessages) GWT
-					.create(CompanyMessages.class);
+
+	public static AccounterMessages messages() {
+		if (messages == null) {
+			messages = (AccounterMessages) GWT
+					.create(AccounterMessages.class);
 		}
-		return companyMessages;
+		return messages;
 	}
-
-	public static FinanceMessages getFinanceMessages() {
-		if (financeMessages == null) {
-			financeMessages = (FinanceMessages) GWT
-					.create(FinanceMessages.class);
+	public static AccounterConstants constants() {
+		if (constants == null) {
+			constants = (AccounterConstants) GWT
+					.create(AccounterConstants.class);
 		}
-		return financeMessages;
+		return constants;
 	}
 
-	public static VendorsMessages getVendorsMessages() {
-		if (vendorsMessages == null) {
-			vendorsMessages = (VendorsMessages) GWT
-					.create(VendorsMessages.class);
+
+	public static AccounterConstants getFinanceConstants() {
+		if (constants == null) {
+			constants = (AccounterConstants) GWT
+					.create(AccounterConstants.class);
 		}
-		return vendorsMessages;
+		return constants;
 	}
 
-	public static CustomersMessages getCustomersMessages() {
-		if (customersMessages == null) {
-			customersMessages = (CustomersMessages) GWT
-					.create(CustomersMessages.class);
-		}
-		return customersMessages;
-	}
 
-	public static SettingsMessages getSettingsMessages() {
-		if (settingsMessages == null) {
-			settingsMessages = (SettingsMessages) GWT
-					.create(SettingsMessages.class);
-		}
-		return settingsMessages;
-	}
-
-	public static FixedAssetConstants getFixedAssetConstants() {
-		if (fixedAssetConstants == null) {
-			fixedAssetConstants = (FixedAssetConstants) GWT
-					.create(FixedAssetConstants.class);
-		}
-		return fixedAssetConstants;
-	}
-
-	public static FinanceConstants getFinanceConstants() {
-		if (financeConstants == null) {
-			financeConstants = (FinanceConstants) GWT
-					.create(FinanceConstants.class);
-		}
-		return financeConstants;
-	}
-
-	public static ActionsConstants getActionsConstants() {
-		if (actionsConstants == null) {
-			actionsConstants = (ActionsConstants) GWT
-					.create(ActionsConstants.class);
-		}
-		return actionsConstants;
-	}
-
-	public static FinanceUIConstants getFinanceUIConstants() {
-		if (financeUIConstants == null) {
-			financeUIConstants = (FinanceUIConstants) GWT
-					.create(FinanceUIConstants.class);
-		}
-		return financeUIConstants;
-	}
-
-	public static AccounterComboConstants getAccounterComboConstants() {
-		if (accounterComboConstants == null) {
-			accounterComboConstants = (AccounterComboConstants) GWT
-					.create(AccounterComboConstants.class);
-		}
-		return accounterComboConstants;
-
-	}
-
-	public static ReportsMessages getReportsMessages() {
-		if (reportsMessages == null) {
-			reportsMessages = (ReportsMessages) GWT
-					.create(ReportsMessages.class);
-		}
-		return reportsMessages;
-	}
-
-	public static VATMessages getVATMessages() {
-		if (vatMessages == null) {
-			vatMessages = (VATMessages) GWT.create(VATMessages.class);
-		}
-		return vatMessages;
-	}
 
 	public static FinanceImages getFinanceImages() {
 		if (financeImages == null) {
@@ -527,14 +433,6 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 		return themeImages;
 	}
 
-	public static BankingMessages getBankingsMessages() {
-
-		if (bankingMessages == null) {
-			bankingMessages = (BankingMessages) GWT
-					.create(BankingMessages.class);
-		}
-		return bankingMessages;
-	}
 
 	public void makeAllStaticInstancesNull() {
 		endDate = null;
@@ -544,20 +442,10 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 		getService = null;
 		homeViewService = null;
 		reportService = null;
-		companyMessages = null;
-		financeMessages = null;
-		vendorsMessages = null;
-		customersMessages = null;
-		financeConstants = null;
-		actionsConstants = null;
+		messages = null;
+		constants = null;
 		financeImages = null;
 		financeMenuImages = null;
-		financeUIConstants = null;
-		bankingMessages = null;
-		vatMessages = null;
-		accounterComboConstants = null;
-		fixedAssetConstants = null;
-		reportsMessages = null;
 	}
 
 	@Override

@@ -28,12 +28,12 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		Label lab1 = new Label(Accounter.getFinanceUIConstants()
+		Label lab1 = new Label(Accounter.constants()
 				.adjustSalesTax());
 		// lab1.setWrap(false);
 		// lab1.setAutoFit(true);
 
-		Label lab2 = new Label(Accounter.getFinanceUIConstants()
+		Label lab2 = new Label(Accounter.constants()
 				.selectDate());
 		lab2.setHeight("1");
 		// lab2.setOverflow(Overflow.VISIBLE);
@@ -41,31 +41,31 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 		lab2.setWidth("100%");
 
 		DateItem effectDate = UIUtils.date(Accounter
-				.getFinanceUIConstants().dateEffective());
+				.constants().dateEffective());
 		effectDate.setRequired(true);
 
 		IntegerField entryText = new IntegerField(Accounter
-				.getFinanceUIConstants().journalEntryNo());
+				.constants().journalEntryNo());
 
 		SelectItem incSelect = new SelectItem(Accounter
-				.getFinanceUIConstants().taxIncome());
+				.constants().taxIncome());
 		incSelect.setRequired(true);
 
 		SelectItem codeSelect = new SelectItem(Accounter
-				.getFinanceUIConstants().taxCodeAdjust());
+				.constants().taxCodeAdjust());
 		codeSelect.setRequired(true);
 
 		RadioGroupItem incDecRadio = new RadioGroupItem(Accounter
-				.getFinanceUIConstants().adjust());
+				.constants().adjust());
 
-		incDecRadio.setValueMap(Accounter.getFinanceUIConstants()
-				.increase(), Accounter.getFinanceUIConstants()
+		incDecRadio.setValueMap(Accounter.constants()
+				.increase(), Accounter.constants()
 				.decrease());
 
 		AmountField amtText = new AmountField(Accounter
-				.getFinanceUIConstants().amount());
+				.constants().amount());
 		TextItem memoText = new TextItem();
-		memoText.setTitle(Accounter.getFinanceUIConstants().memo());
+		memoText.setTitle(Accounter.constants().memo());
 
 		final DynamicForm taxForm = new DynamicForm();
 		taxForm.setFields(effectDate, entryText, incSelect, codeSelect,
@@ -129,6 +129,6 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getFinanceUIConstants().adjustSalesTax();
+		return Accounter.constants().adjustSalesTax();
 	}
 }

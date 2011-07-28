@@ -19,12 +19,12 @@ public class CashFlowStatementAction extends Action {
 
 	public CashFlowStatementAction(String text) {
 		super(text);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	public CashFlowStatementAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	@Override

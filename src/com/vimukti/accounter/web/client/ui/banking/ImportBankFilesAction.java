@@ -10,12 +10,12 @@ public class ImportBankFilesAction extends Action {
 
 	public ImportBankFilesAction(String text) {
 		super(text);
-		this.catagory = Accounter.getBankingsMessages().banking();
+		this.catagory = Accounter.constants().banking();
 	}
 
 	public ImportBankFilesAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getBankingsMessages().banking();
+		this.catagory = Accounter.constants().banking();
 	}
 
 	/**

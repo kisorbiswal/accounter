@@ -43,7 +43,7 @@ public class SalesByItemSummaryServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] { "Item",
-				// FinanceApplication.getReportsMessages().itemGroup(),
+				// FinanceApplication.constants().itemGroup(),
 				"Quantity", "Amount" };
 	}
 
@@ -135,7 +135,7 @@ public class SalesByItemSummaryServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { "Item",
-				// FinanceApplication.getReportsMessages().itemGroup(),
+				// FinanceApplication.constants().itemGroup(),
 				"Quantity", "Amount" };
 	}
 

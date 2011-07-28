@@ -147,12 +147,12 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		// BaseView.errordata.setHTML(FinanceApplication.getCompanyMessages()
+		// BaseView.errordata.setHTML(FinanceApplication.constants()
 		// .duplicationOfJournalEntriesNotAllowed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		MainFinanceWindow.getViewManager().showError(
-				Accounter.getCompanyMessages()
+				Accounter.constants()
 						.duplicationOfJournalEntriesNotAllowed());
 	}
 
@@ -161,7 +161,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		if (result != null) {
 			// if (takenJournalEntry != null)
 			// Accounter.showInformation(FinanceApplication
-			// .getCompanyMessages().journalUpdatedSuccessfully());
+			// .constants().journalUpdatedSuccessfully());
 			super.saveSuccess(result);
 			// if (saveAndClose) {
 			// save();
@@ -325,9 +325,9 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 
-		lab1 = new Label(Accounter.getCompanyMessages().journalEntryNew());
+		lab1 = new Label(Accounter.constants().journalEntryNew());
 		lab1.removeStyleName("gwt-Label");
-		lab1.addStyleName(Accounter.getCompanyMessages().lableTitle());
+		lab1.addStyleName(Accounter.constants().lableTitle());
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		jourNoText = new TextItem(companyConstants.no());
@@ -353,7 +353,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		initListGrid();
 		grid.initTransactionData();
 		gridPanel = new VerticalPanel();
-		addButton = new AccounterButton(Accounter.getCompanyMessages().add());
+		addButton = new AccounterButton(Accounter.constants().add());
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -531,7 +531,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 										.showMessage("Your session expired, Please login again to continue");
 							} else {
 								Accounter.showError(Accounter
-										.getCompanyMessages()
+										.constants()
 										.failedToGetTransactionNumber());
 							}
 						}
@@ -565,7 +565,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 					Accounter
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
-					Accounter.showError(Accounter.getCompanyMessages()
+					Accounter.showError(Accounter.constants()
 							.failedToGetVocherNumber());
 				}
 
@@ -713,6 +713,6 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCompanyMessages().journalEntry();
+		return Accounter.constants().journalEntry();
 	}
 }

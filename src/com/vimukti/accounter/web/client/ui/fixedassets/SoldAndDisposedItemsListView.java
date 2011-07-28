@@ -43,7 +43,7 @@ public class SoldAndDisposedItemsListView extends
 	 */
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.getFixedAssetConstants().soldAndDisposedItems();
+		return Accounter.constants().soldAndDisposedItems();
 	}
 
 	/*
@@ -105,7 +105,7 @@ public class SoldAndDisposedItemsListView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().soldDisposedItems();
+		return Accounter.constants().soldDisposedItems();
 	}
 
 }

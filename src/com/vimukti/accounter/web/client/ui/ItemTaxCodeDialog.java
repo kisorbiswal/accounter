@@ -24,12 +24,12 @@ public class ItemTaxCodeDialog extends DialogBox {
 
 	private void createControls() {
 
-		Label lab1 = new Label(Accounter.getFinanceUIConstants()
+		Label lab1 = new Label(Accounter.constants()
 				.itemTaxCode());
 		// lab1.setWrap(false);
 		// lab1.setAutoFit(true);
 
-		Label lab2 = new Label(Accounter.getFinanceUIConstants()
+		Label lab2 = new Label(Accounter.constants()
 				.toAddAnItemTax());
 		// lab2.setHeight("1");
 		// lab2.setOverflow(Overflow.VISIBLE);
@@ -56,14 +56,14 @@ public class ItemTaxCodeDialog extends DialogBox {
 			}
 		});
 		AccounterButton editButt = new AccounterButton(Accounter
-				.getFinanceUIConstants().edit());
+				.constants().edit());
 		AccounterButton remButt = new AccounterButton(Accounter
-				.getFinanceUIConstants().remove());
+				.constants().remove());
 
 		AccounterButton helpButt = new AccounterButton(Accounter
-				.getFinanceUIConstants().help());
+				.constants().help());
 		AccounterButton closeButt = new AccounterButton(Accounter
-				.getFinanceUIConstants().close());
+				.constants().close());
 
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		// helpHLay.setAlign(Alignment.LEFT);
@@ -106,26 +106,26 @@ public class ItemTaxCodeDialog extends DialogBox {
 
 	private void showAddEditDialog() {
 		TextItem taxText = new TextItem(Accounter
-				.getFinanceUIConstants().itemTax());
+				.constants().itemTax());
 		taxText.setColSpan(3);
 		RadioGroupItem taxableRadio = new RadioGroupItem();
 
 		taxableRadio.setColSpan(1);
 		taxableRadio.setShowTitle(false);
-		taxableRadio.setValueMap(Accounter.getFinanceUIConstants()
-				.taxable(), Accounter.getFinanceUIConstants()
+		taxableRadio.setValueMap(Accounter.constants()
+				.taxable(), Accounter.constants()
 				.nonTaxable());
 		DynamicForm form = new DynamicForm();
 		form.setNumCols(4);
 		form.setFields(taxText, taxableRadio);
 
 		AccounterButton helpButt = new AccounterButton(Accounter
-				.getFinanceUIConstants().help());
+				.constants().help());
 		// helpButt.setAutoFit(true);
 		AccounterButton okButt = new AccounterButton(Accounter
-				.getFinanceUIConstants().ok());// okButt.setAutoFit(true);
+				.constants().ok());// okButt.setAutoFit(true);
 		AccounterButton canButt = new AccounterButton(Accounter
-				.getFinanceUIConstants().cancel());// canButt.setAutoFit(true);
+				.constants().cancel());// canButt.setAutoFit(true);
 		HorizontalPanel helpHLay = new HorizontalPanel();
 
 		helpHLay.setWidth("50%");
@@ -147,10 +147,10 @@ public class ItemTaxCodeDialog extends DialogBox {
 		mainVLay.add(buttHLay);
 		DialogBox dlg = new DialogBox();
 		// dlg.setOverflow(Overflow.VISIBLE);
-		dlg.setTitle(Accounter.getFinanceUIConstants().itemTax());
+		dlg.setTitle(Accounter.constants().itemTax());
 		dlg.add(mainVLay);
 		dlg.setSize("320", "150");
 		dlg.show();
 	}
-	// setTitle(FinanceApplication.getFinanceUIConstants().manageItemTaxCode());
+	// setTitle(FinanceApplication.constants().manageItemTaxCode());
 }

@@ -28,8 +28,8 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	private AddPaymentTermDialog dialog;
 
 	public PaymentTermListDialog() {
-		super(Accounter.getFinanceUIConstants().managePaymentTerm(),
-				Accounter.getFinanceUIConstants()
+		super(Accounter.constants().managePaymentTerm(),
+				Accounter.constants()
 						.paymentTermDescription());
 		createControls();
 		center();
@@ -95,8 +95,8 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 	public void showAddEditTermDialog(ClientPaymentTerms rec) {
 		dialog = new AddPaymentTermDialog(Accounter
-				.getFinanceUIConstants().addPaymentTermTitle(),
-				Accounter.getFinanceUIConstants()
+				.constants().addPaymentTermTitle(),
+				Accounter.constants()
 						.addPaymentTermTitleDesc());
 
 		paymentTerm = rec;
@@ -129,7 +129,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 						createPaymentTerms();
 				} else {
 					// Accounter.showError(FinanceApplication
-					// .getCustomersMessages()
+					// .constants()
 					// .detailsHighlightedInRedMustBeEntered());
 					return false;
 				}
@@ -231,10 +231,10 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	@Override
 	public String[] setColumns() {
 		return new String[] {
-				Accounter.getFinanceUIConstants().Name(),
-				Accounter.getFinanceUIConstants().description(),
-				Accounter.getFinanceUIConstants().paidWithin(),
-				Accounter.getFinanceUIConstants().cashDiscount() };
+				Accounter.constants().Name(),
+				Accounter.constants().description(),
+				Accounter.constants().paidWithin(),
+				Accounter.constants().cashDiscount() };
 	}
 
 	@Override
@@ -245,6 +245,6 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getFinanceUIConstants().managePaymentTerm();
+		return Accounter.constants().managePaymentTerm();
 	}
 }

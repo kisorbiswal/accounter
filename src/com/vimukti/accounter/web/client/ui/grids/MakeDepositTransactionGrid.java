@@ -151,7 +151,7 @@ public class MakeDepositTransactionGrid extends
 		});
 
 		accountCombo = new MakeDepositAccountCombo(Accounter
-				.getBankingsMessages().accounts());
+				.constants().accounts());
 		accountCombo.setGrid(this);
 		// accountCombo.setWidth("600");
 		accountCombo
@@ -164,8 +164,8 @@ public class MakeDepositTransactionGrid extends
 					}
 				});
 		vendorsCombo = new VendorCombo(UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor()));
+				.constants().supplier(), Accounter
+				.constants().vendor()));
 		vendorsCombo.setGrid(this);
 		vendorsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -176,7 +176,7 @@ public class MakeDepositTransactionGrid extends
 						setText(currentRow, currentCol, selectItem.getName());
 					}
 				});
-		customersCombo = new CustomerCombo(Accounter.getCustomersMessages()
+		customersCombo = new CustomerCombo(Accounter.constants()
 				.customer());
 		customersCombo.setGrid(this);
 		customersCombo
@@ -198,7 +198,7 @@ public class MakeDepositTransactionGrid extends
 		//
 		// }
 		// });
-		// addFooterValues("", FinanceApplication.getBankingsMessages()
+		// addFooterValues("", FinanceApplication.constants()
 		// .totalAmount(), " ", "", "0.00");
 		// this.addFooterValue("Total Amount", 2);
 		addRecordDoubleClickHandler(new RecordDoubleClickHandler<ClientTransactionMakeDeposit>() {
@@ -269,14 +269,14 @@ public class MakeDepositTransactionGrid extends
 	private String getTypeAsString(int type) {
 		switch (type) {
 		case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
-			return Accounter.getCustomersMessages().account();
+			return Accounter.constants().account();
 		case ClientTransactionMakeDeposit.TYPE_VENDOR:
-			return UIUtils.getVendorString(Accounter.getVendorsMessages()
-					.supplier(), Accounter.getVendorsMessages().vendor());
+			return UIUtils.getVendorString(Accounter.constants()
+					.supplier(), Accounter.constants().vendor());
 		case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
-			return Accounter.getCustomersMessages().customer();
+			return Accounter.constants().customer();
 		default:
-			return Accounter.getCustomersMessages().type();
+			return Accounter.constants().type();
 		}
 	}
 
@@ -354,11 +354,11 @@ public class MakeDepositTransactionGrid extends
 			switch (obj.getType()) {
 			case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
 				// return "Financial Account";
-				return Accounter.getBankingsMessages().transfer();
+				return Accounter.constants().transfer();
 			case ClientTransactionMakeDeposit.TYPE_VENDOR:
-				return Accounter.getVendorsMessages().vendor();
+				return Accounter.constants().vendor();
 			case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
-				return Accounter.getCustomersMessages().customer();
+				return Accounter.constants().customer();
 			default:
 				return "";
 			}
@@ -440,15 +440,15 @@ public class MakeDepositTransactionGrid extends
 		case 0:
 			if (Accounter.getCompany().getAccountingType() == 1) {
 				return new String[] {
-						Accounter.getCustomersMessages().financialAccount(),
-						Accounter.getVendorsMessages().vendor(),
-						Accounter.getCustomersMessages().customer(),
-						Accounter.getVATMessages().VAT() };
+						Accounter.constants().financialAccount(),
+						Accounter.constants().vendor(),
+						Accounter.constants().customer(),
+						Accounter.constants().VAT() };
 			} else {
 				return new String[] {
-						Accounter.getCustomersMessages().financialAccount(),
-						Accounter.getVendorsMessages().vendor(),
-						Accounter.getCustomersMessages().customer() };
+						Accounter.constants().financialAccount(),
+						Accounter.constants().vendor(),
+						Accounter.constants().customer() };
 			}
 
 		}

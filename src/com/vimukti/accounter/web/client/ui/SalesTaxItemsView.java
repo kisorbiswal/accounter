@@ -24,7 +24,7 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.getVATMessages().addaNewTaxItem();
+			return Accounter.constants().addaNewTaxItem();
 		else
 			return "";
 	}
@@ -32,7 +32,7 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	@Override
 	protected String getListViewHeading() {
 
-		return Accounter.getVATMessages().taxItemsList();
+		return Accounter.constants().taxItemsList();
 	}
 
 	@Override
@@ -96,9 +96,9 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	protected String getViewTitle() {
 		String constant;
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			constant = Accounter.getActionsConstants().manageSalesItems();
+			constant = Accounter.constants().manageSalesItems();
 		else
-			constant = Accounter.getActionsConstants().salesTaxItems();
+			constant = Accounter.constants().salesTaxItems();
 		return constant;
 	}
 

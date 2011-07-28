@@ -130,7 +130,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 						createVendorGroups();
 				} else {
 					// Accounter.showError(FinanceApplication
-					// .getCustomersMessages()
+					// .constants()
 					// .detailsHighlightedInRedMustBeEntered());
 					return false;
 				}
@@ -171,7 +171,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.getVendorsMessages().name() };
+		return new String[] { Accounter.constants().name() };
 	}
 
 	@Override
@@ -181,8 +181,8 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.getCompanyMessages()
-				.manageSupplierGroup(), Accounter.getCompanyMessages()
+		return UIUtils.getVendorString(Accounter.constants()
+				.manageSupplierGroup(), Accounter.constants()
 				.manageVendorGroup());
 	}
 }

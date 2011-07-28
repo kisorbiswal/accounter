@@ -25,17 +25,17 @@ public class SelectPayeeDialog extends BaseDialog {
 	// private ClientCompany company;
 	@SuppressWarnings("unused")
 	private final String VENDOR_PAY = UIUtils.getVendorString(Accounter
-			.getVendorsMessages().supplierpay(), Accounter.getVendorsMessages()
+			.constants().supplierpay(), Accounter.constants()
 			.vendorpay());
 	@SuppressWarnings("unused")
-	private final String CUST_REFUND = Accounter.getVendorsMessages()
+	private final String CUST_REFUND = Accounter.constants()
 			.custrefund();
 	@SuppressWarnings("unused")
-	private final String EMP_REIMB = Accounter.getVendorsMessages().empreimb();
+	private final String EMP_REIMB = Accounter.constants().empreimb();
 
 	public SelectPayeeDialog(AbstractBaseView parent) {
-		super(Accounter.getBankingsMessages().selectPayeeType(), Accounter
-				.getBankingsMessages().selectOneOfFollowingPayee());
+		super(Accounter.constants().selectPayeeType(), Accounter
+				.constants().selectOneOfFollowingPayee());
 
 		// company = FinanceApplication.getCompany();
 		createControls();
@@ -44,8 +44,8 @@ public class SelectPayeeDialog extends BaseDialog {
 	}
 
 	public SelectPayeeDialog(AbstractBaseView parent, FormItem actionSource) {
-		super(Accounter.getBankingsMessages().selectPayeeType(), Accounter
-				.getBankingsMessages().selectOneOfFollowingPayee());
+		super(Accounter.constants().selectPayeeType(), Accounter
+				.constants().selectOneOfFollowingPayee());
 		this.actionSource = actionSource;
 		// company = FinanceApplication.getCompany();
 		createControls();
@@ -64,9 +64,9 @@ public class SelectPayeeDialog extends BaseDialog {
 		@SuppressWarnings("unused")
 		LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();
 
-		typeRadio.setValueMap(Accounter.getFinanceUIConstants().customer(),
-				Accounter.getFinanceUIConstants().supplier());
-		typeRadio.setDefaultValue(Accounter.getFinanceUIConstants().customer());
+		typeRadio.setValueMap(Accounter.constants().customer(),
+				Accounter.constants().supplier());
+		typeRadio.setDefaultValue(Accounter.constants().customer());
 
 		DynamicForm typeForm = new DynamicForm();
 		// typeForm.setIsGroup(true);
@@ -86,7 +86,7 @@ public class SelectPayeeDialog extends BaseDialog {
 					String radio = typeRadio.getValue().toString();
 					// FIXME--an action is required here
 					// okClick();
-					if (radio.equals(Accounter.getFinanceUIConstants()
+					if (radio.equals(Accounter.constants()
 							.supplier())) {
 						// new VendorPaymentsAction("Not Issued").run();
 
@@ -102,7 +102,7 @@ public class SelectPayeeDialog extends BaseDialog {
 							// e);
 						}
 
-					} else if (radio.equals(Accounter.getFinanceUIConstants()
+					} else if (radio.equals(Accounter.constants()
 							.customer())) {
 						try {
 							Action action = CustomersActionFactory
@@ -120,7 +120,7 @@ public class SelectPayeeDialog extends BaseDialog {
 
 					}
 				} else {
-					Accounter.showError(Accounter.getFinanceUIConstants()
+					Accounter.showError(Accounter.constants()
 							.pleaseSelecPaymentType());
 				}
 				return true;
@@ -168,6 +168,6 @@ public class SelectPayeeDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getBankingsMessages().selectPayeeType();
+		return Accounter.constants().selectPayeeType();
 	}
 }

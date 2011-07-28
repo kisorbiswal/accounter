@@ -13,7 +13,7 @@ public class SellingRegisteredItemAction extends Action {
 
 	public SellingRegisteredItemAction(String text) {
 		super(text);
-		this.catagory = Accounter.getFixedAssetConstants().fixedAssets();
+		this.catagory = Accounter.constants().fixedAssets();
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class SellingRegisteredItemAction extends Action {
 			}
 
 			public void onCreateFailed(Throwable t) {
-				Accounter.showError(Accounter.getFixedAssetConstants()
+				Accounter.showError(Accounter.constants()
 						.failedToLoadSellFixedAssetView());
 			}
 		});

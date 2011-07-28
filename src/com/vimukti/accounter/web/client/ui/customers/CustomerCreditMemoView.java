@@ -59,7 +59,7 @@ public class CustomerCreditMemoView extends
 	protected void createControls() {
 
 		Label lab1 = new Label(customerConstants.customerCreditNote());
-		lab1.setStyleName(Accounter.getCustomersMessages().lableTitle());
+		lab1.setStyleName(Accounter.constants().lableTitle());
 		// lab1.setHeight("35px");
 		listforms = new ArrayList<DynamicForm>();
 
@@ -89,7 +89,7 @@ public class CustomerCreditMemoView extends
 				});
 
 		transactionNumber = createTransactionNumberItem();
-		transactionNumber.setTitle(Accounter.getCustomersMessages().creditNo());
+		transactionNumber.setTitle(Accounter.constants().creditNo());
 
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(4);
@@ -116,7 +116,7 @@ public class CustomerCreditMemoView extends
 		billToTextArea = new TextAreaItem();
 		billToTextArea.setHelpInformation(true);
 		billToTextArea.setWidth(100);
-		billToTextArea.setTitle(Accounter.getCustomersMessages().creditTo());
+		billToTextArea.setTitle(Accounter.constants().creditTo());
 		billToTextArea.setDisabled(true);
 
 		custForm = UIUtils.form(customerConstants.customer());
@@ -124,7 +124,7 @@ public class CustomerCreditMemoView extends
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 		custForm.getCellFormatter()
 				.getElement(0, 0)
-				.setAttribute(Accounter.getCustomersMessages().width(), "190px");
+				.setAttribute(Accounter.constants().width(), "190px");
 		custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
 		forms.add(custForm);
@@ -146,7 +146,7 @@ public class CustomerCreditMemoView extends
 		Label lab2 = new Label(customerConstants.productAndService());
 
 		memoTextAreaItem = createMemoTextAreaItem();
-		memoTextAreaItem.setTitle(Accounter.getCustomersMessages()
+		memoTextAreaItem.setTitle(Accounter.constants()
 				.reasonForIssue());
 
 		taxCodeSelect = createTaxCodeSelectItem();
@@ -698,6 +698,6 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCustomersMessages().customerCreditNote();
+		return Accounter.constants().customerCreditNote();
 	}
 }

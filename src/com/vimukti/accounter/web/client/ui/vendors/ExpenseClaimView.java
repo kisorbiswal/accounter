@@ -46,7 +46,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 	private void createControls() {
 
 		VerticalPanel panel = new VerticalPanel();
-		HTML addNew = new HTML(Accounter.getVendorsMessages()
+		HTML addNew = new HTML(Accounter.constants()
 				.addNewEmployeeExpense());
 		addNew.setStyleName("add-new-expense");
 		addNew.getElement().getStyle().setMarginBottom(10, Unit.PX);
@@ -64,7 +64,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setStyleName("button-expense");
 		AccounterButton submitApproval = new AccounterButton(Accounter
-				.getVendorsMessages().submitForApproval());
+				.constants().submitForApproval());
 		submitApproval.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -79,7 +79,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 							records,
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL);
 				} else {
-					Accounter.showInformation(Accounter.getVendorsMessages()
+					Accounter.showInformation(Accounter.constants()
 							.norecordstoshow());
 				}
 
@@ -87,7 +87,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 		});
 
 		AccounterButton deleteButton = new AccounterButton(Accounter
-				.getVendorsMessages().delete());
+				.constants().delete());
 		deleteButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -99,7 +99,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 					updateSelectedRecords(records,
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
 				} else {
-					Accounter.showInformation(Accounter.getVendorsMessages()
+					Accounter.showInformation(Accounter.constants()
 							.norecordstoshow());
 				}
 			}
@@ -186,7 +186,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 							for (BillsList list : result)
 								grid.addData(list);
 						} else {
-							grid.addEmptyMessage(Accounter.getVendorsMessages()
+							grid.addEmptyMessage(Accounter.constants()
 									.norecordstoshow());
 						}
 
@@ -247,6 +247,6 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getVendorsMessages().expenseClaims();
+		return Accounter.constants().expenseClaims();
 	}
 }

@@ -22,18 +22,18 @@ public class ChartOfAccountsAction extends Action {
 
 	public ChartOfAccountsAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	public ChartOfAccountsAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	public ChartOfAccountsAction(String text, String iconString, int accountType) {
 		super(text, iconString);
 		this.accountType = accountType;
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

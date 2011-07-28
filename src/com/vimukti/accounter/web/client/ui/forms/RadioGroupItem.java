@@ -56,7 +56,7 @@ public class RadioGroupItem extends FormItem {
 
 		for (String string : buttonTitles) {
 			if (this.grouoName == null) {
-				this.grouoName = Accounter.getCompanyMessages()
+				this.grouoName = Accounter.constants()
 						.radioButtonGroup();
 			}
 			radioButton = new RadioButton(this.grouoName, string);
@@ -71,13 +71,13 @@ public class RadioGroupItem extends FormItem {
 
 	public void setValueMap(String title1, String title2) {
 
-		radioButton = new RadioButton(Accounter.getCompanyMessages()
+		radioButton = new RadioButton(Accounter.constants()
 				.radioButtonGroup(), title1);
 		if (this.clickHandler != null) {
 			this.radioButton.addClickHandler(clickHandler);
 		}
 		this.radioButtonList.add(radioButton);
-		radioButton = new RadioButton(Accounter.getCompanyMessages()
+		radioButton = new RadioButton(Accounter.constants()
 				.radioButtonGroup(), title2);
 		if (this.clickHandler != null) {
 			this.radioButton.addClickHandler(clickHandler);

@@ -37,10 +37,10 @@ public class PayFromAccountsCombo extends AccountCombo {
 			// ClientAccount.TYPE_FIXED_ASSET
 					).contains(account.getType()))
 				if (!account.getName().equalsIgnoreCase(
-						Accounter.getAccounterComboConstants()
+						Accounter.constants()
 								.pendingItemReceipts())
 						&& !account.getName().equalsIgnoreCase(
-								Accounter.getAccounterComboConstants()
+								Accounter.constants()
 										.salesTaxPayable())) {
 					payFromAccounts.add(account);
 				}
@@ -62,10 +62,10 @@ public class PayFromAccountsCombo extends AccountCombo {
 			// ClientAccount.TYPE_FIXED_ASSET
 					).contains(account.getType()))
 				if (!account.getName().equalsIgnoreCase(
-						Accounter.getAccounterComboConstants()
+						Accounter.constants()
 								.pendingItemReceipts())
 						&& !account.getName().equalsIgnoreCase(
-								Accounter.getAccounterComboConstants()
+								Accounter.constants()
 										.salesTaxPayable())) {
 
 					payFromAccounts.add(account);

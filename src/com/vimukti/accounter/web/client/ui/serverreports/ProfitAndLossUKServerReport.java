@@ -115,12 +115,12 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 	}
 
 	public void addOrdinaryIncomeOrExpenseTypes(TrialBalance record) {
-		// if (!sectiontypes.contains(FinanceApplication.getReportsMessages()
+		// if (!sectiontypes.contains(FinanceApplication.constants()
 		// .ordinaryIncomeOrExpense())) {
 		// closeAllSection();
-		// addTypeSection(FinanceApplication.getReportsMessages()
+		// addTypeSection(FinanceApplication.constants()
 		// .ordinaryIncomeOrExpense(), FinanceApplication
-		// .getReportsMessages().netOrdinaryIncome());
+		// .constants().netOrdinaryIncome());
 		// }
 		if (record.getAccountType() == ClientAccount.TYPE_INCOME
 				|| record.getAccountType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD) {

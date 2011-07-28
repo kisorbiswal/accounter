@@ -63,15 +63,15 @@ public class SalesOpenOrderServerReport extends
 	public String[] getColunms() {
 		// if (isSales)
 		return new String[] { "Order Date", "Customer",
-		// FinanceApplication.getReportsMessages().description(),
-				// FinanceApplication.getReportsMessages().quantity(),
+		// FinanceApplication.constants().description(),
+				// FinanceApplication.constants().quantity(),
 				"Amount" };
 
 		// else
 		// return new String[] {
-		// FinanceApplication.getReportsMessages().orderDate(),
-		// FinanceApplication.getReportsMessages().customer(),
-		// FinanceApplication.getReportsMessages().value() };
+		// FinanceApplication.constants().orderDate(),
+		// FinanceApplication.constants().customer(),
+		// FinanceApplication.constants().value() };
 	}
 
 	@Override
@@ -265,8 +265,8 @@ public class SalesOpenOrderServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { "Order Date", "Customer",
-		// FinanceApplication.getReportsMessages().description(),
-				// FinanceApplication.getReportsMessages().quantity(),
+		// FinanceApplication.constants().description(),
+				// FinanceApplication.constants().quantity(),
 				"Amount" };
 	}
 

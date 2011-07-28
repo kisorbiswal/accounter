@@ -199,49 +199,49 @@ public class CreateUserDialog extends AbstractBaseDialog {
 
 	private void createControls() {
 
-		fullName = new TextItem(Accounter.getFinanceUIConstants().fullName());
+		fullName = new TextItem(Accounter.constants().fullName());
 		// fullName.setWidth("*");
 		fullName.setColSpan(3);
 
-		emailText = new EmailField(Accounter.getFinanceUIConstants().email());
+		emailText = new EmailField(Accounter.constants().email());
 		// emailText.setWidth("*");
 		emailText.setRequired(true);
 
-		pwdText = new PasswordItem(Accounter.getFinanceUIConstants().password());
+		pwdText = new PasswordItem(Accounter.constants().password());
 		// pwdText.setWidth("*");
 		pwdText.setRequired(true);
 
-		legalName = new TextItem(Accounter.getFinanceUIConstants().legalName());
+		legalName = new TextItem(Accounter.constants().legalName());
 		// legalName.setWidth("*");
 
 		lastLogin = new DateItem();
-		lastLogin.setName(Accounter.getCustomersMessages().lastLogin());
+		lastLogin.setName(Accounter.constants().lastLogin());
 		// lastLogin.setUseTextField(true);
 
 		createDate = new DateItem();
-		createDate.setName(Accounter.getCustomersMessages().createDate());
+		createDate.setName(Accounter.constants().createDate());
 		// createDate.setUseTextField(true);
 
-		street1Text = new TextItem(Accounter.getFinanceUIConstants()
+		street1Text = new TextItem(Accounter.constants()
 				.streetAddress1());
 		// street1Text.setWidth("*");
-		street2Text = new TextItem(Accounter.getFinanceUIConstants()
+		street2Text = new TextItem(Accounter.constants()
 				.streetAddress2());
 		// street2Text.setWidth("*");
 
-		cityText = new TextItem(Accounter.getFinanceUIConstants().city());
+		cityText = new TextItem(Accounter.constants().city());
 		// cityText.setWidth("*");
-		stateText = new TextItem(Accounter.getFinanceUIConstants().state());
+		stateText = new TextItem(Accounter.constants().state());
 		// stateText.setWidth("*");
-		zipText = new TextItem(Accounter.getFinanceUIConstants().postalCode());
+		zipText = new TextItem(Accounter.constants().postalCode());
 		// zipText.setWidth("*");
-		phoneText = new IntegerField(Accounter.getFinanceUIConstants().phone());
+		phoneText = new IntegerField(Accounter.constants().phone());
 		// phoneText.setWidth("*");
 
-		faxText = new TextItem(Accounter.getFinanceUIConstants().fax());
+		faxText = new TextItem(Accounter.constants().fax());
 		// faxText.setWidth("*");
 
-		websiteText = new TextItem(Accounter.getFinanceUIConstants().website());
+		websiteText = new TextItem(Accounter.constants().website());
 		// websiteText.setWidth("*");
 
 		userForm = new DynamicForm();
@@ -255,15 +255,15 @@ public class CreateUserDialog extends AbstractBaseDialog {
 				websiteText);
 
 		AccounterButton createUser = new AccounterButton(Accounter
-				.getFinanceUIConstants().createUser());
+				.constants().createUser());
 		// createUser.setLayoutAlign(Alignment.LEFT);
 		AccounterButton getUser = new AccounterButton(Accounter
-				.getFinanceUIConstants().getUser());
+				.constants().getUser());
 		// getUser.setLayoutAlign(Alignment.RIGHT);
 		// createUser.setAlign(Alignment.LEFT);
 
 		AccounterButton canButt = new AccounterButton(Accounter
-				.getFinanceUIConstants().cancel());
+				.constants().cancel());
 		// canButt.setAlign(Alignment.RIGHT);
 
 		createUser.addClickHandler(new ClickHandler() {
@@ -300,7 +300,7 @@ public class CreateUserDialog extends AbstractBaseDialog {
 		vLay.add(userForm);
 		vLay.add(buttHLay);
 
-		vLay.setTitle(Accounter.getFinanceUIConstants().userDialog());
+		vLay.setTitle(Accounter.constants().userDialog());
 		vLay.addStyleName("User Dialog");
 
 		// vLay.setTop(50);
@@ -336,6 +336,6 @@ public class CreateUserDialog extends AbstractBaseDialog {
 
 	}
 
-	// FinanceApplication.getFinanceUIConstants().createNewUser()
+	// FinanceApplication.constants().createNewUser()
 
 }

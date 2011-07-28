@@ -43,7 +43,7 @@ public class DashBoardView extends BaseHomeView {
 
 	public DashBoardView() {
 		dashboard = this;
-		dashboardPreference = Accounter.getCompanyMessages()
+		dashboardPreference = Accounter.constants()
 				.WELCOMEBANKINGSUMMARY();
 		/*
 		 * FinanceApplication.getUser().getUserPreferences()
@@ -85,14 +85,14 @@ public class DashBoardView extends BaseHomeView {
 		gettingStartedPortlet = new GettingStartedPortlet(
 				"Getting Started using Accounter");
 
-		bankingPortlet = new BankingPortlet(Accounter.getCompanyMessages()
+		bankingPortlet = new BankingPortlet(Accounter.constants()
 				.bankAccounts());
 		moneyComingPortlet = new MoneyComingPortlet(Accounter
-				.getCompanyMessages().moneyComingIn());
+				.constants().moneyComingIn());
 		moneyGoingPortlet = new MoneyGoingPortlet(Accounter
-				.getCompanyMessages().moneyGoingOut());
+				.constants().moneyGoingOut());
 		expenseClaimsPortlet = new ExpenseClaimPortlet(Accounter
-				.getCompanyMessages().expenseClaims());
+				.constants().expenseClaims());
 		FlexTable fTable = new FlexTable();
 
 		fTable.setWidget(0, 0, bankingPortlet);
@@ -146,13 +146,13 @@ public class DashBoardView extends BaseHomeView {
 	}
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
-		String[] totalWidget = { Accounter.getFinanceUIConstants().welcome(),
-				Accounter.getFinanceUIConstants().bankingSummary(),
-				Accounter.getFinanceUIConstants().profitAndLoss(),
-				Accounter.getFinanceUIConstants().creditOverview(),
-				Accounter.getFinanceUIConstants().debitOverview(),
-				Accounter.getFinanceUIConstants().latestQuote(),
-				Accounter.getFinanceUIConstants().expenses() };
+		String[] totalWidget = { Accounter.constants().welcome(),
+				Accounter.constants().bankingSummary(),
+				Accounter.constants().profitAndLoss(),
+				Accounter.constants().creditOverview(),
+				Accounter.constants().debitOverview(),
+				Accounter.constants().latestQuote(),
+				Accounter.constants().expenses() };
 
 		boolean isAvailable = false;
 
@@ -283,6 +283,6 @@ public class DashBoardView extends BaseHomeView {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().home();
+		return Accounter.constants().home();
 	}
 }

@@ -77,17 +77,17 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 
-		// setTitle(UIUtils.title(FinanceApplication.getFinanceUIConstants()
+		// setTitle(UIUtils.title(FinanceApplication.constants()
 		// .payVAT()));
 
-		Label lab = new Label(Accounter.getFinanceUIConstants().payVAT());
+		Label lab = new Label(Accounter.constants().payVAT());
 		lab.removeStyleName("gwt-Label");
-		lab.setStyleName(Accounter.getVendorsMessages().lableTitle());
+		lab.setStyleName(Accounter.constants().lableTitle());
 		// lab.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 
 		transNumber = createTransactionNumberItem();
-		transNumber.setTitle(Accounter.getCustomersMessages().no());
+		transNumber.setTitle(Accounter.constants().no());
 
 		payFromAccCombo = new PayFromAccountsCombo(companyConstants.payFrom());
 		payFromAccCombo.setHelpInformation(true);
@@ -252,7 +252,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		loadData(filterList);
 		int size = grid.getRecords().size();
 		if (size == 0)
-			grid.addEmptyMessage(Accounter.getVendorsMessages()
+			grid.addEmptyMessage(Accounter.constants()
 					.norecordstoshow());
 	}
 
@@ -369,7 +369,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 						} else {
 							Accounter
 									.showError("Failed to get the Transaction PayVAT List");
-							grid.addEmptyMessage(Accounter.getVendorsMessages()
+							grid.addEmptyMessage(Accounter.constants()
 									.norecordstoshow());
 						}
 						return;
@@ -385,7 +385,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 						entries = result;
 						if (result.size() == 0) {
 							// Accounter.showInformation("No PayVAT list to show");
-							grid.addEmptyMessage(Accounter.getVendorsMessages()
+							grid.addEmptyMessage(Accounter.constants()
 									.norecordstoshow());
 						} else {
 
@@ -672,7 +672,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getVATMessages().payVAT();
+		return Accounter.constants().payVAT();
 	}
 
 }

@@ -14,12 +14,12 @@ public class PriceLevelAction extends Action {
 
 	public PriceLevelAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	public PriceLevelAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	@SuppressWarnings("unchecked")

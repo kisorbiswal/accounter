@@ -50,42 +50,42 @@ public class ExpensesListView extends BaseListView<BillsList> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.getVendorsMessages().addNewExpense();
+			return Accounter.constants().addNewExpense();
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.getVendorsMessages().expensesList();
+		return Accounter.constants().expensesList();
 	}
 
 	@Override
 	protected void initGrid() {
 		grid = new BillsListGrid(false);
 		grid.init();
-		grid.setViewType(Accounter.getVendorsMessages().all());
+		grid.setViewType(Accounter.constants().all());
 	}
 
 	@Override
 	protected SelectCombo getSelectItem() {
-		currentView = new SelectCombo(Accounter.getVendorsMessages()
+		currentView = new SelectCombo(Accounter.constants()
 				.currentView());
 		currentView.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
-		// listOfTypes.add(FinanceApplication.getVendorsMessages().open());
-		// listOfTypes.add(FinanceApplication.getVendorsMessages().overDue());
-		listOfTypes.add(Accounter.getVendorsMessages().cash());
-		listOfTypes.add(Accounter.getVendorsMessages().creditCard());
-		listOfTypes.add(Accounter.getVendorsMessages().employee());
-		listOfTypes.add(Accounter.getVendorsMessages().Voided());
-		listOfTypes.add(Accounter.getVendorsMessages().all());
+		// listOfTypes.add(FinanceApplication.constants().open());
+		// listOfTypes.add(FinanceApplication.constants().overDue());
+		listOfTypes.add(Accounter.constants().cash());
+		listOfTypes.add(Accounter.constants().creditCard());
+		listOfTypes.add(Accounter.constants().employee());
+		listOfTypes.add(Accounter.constants().Voided());
+		listOfTypes.add(Accounter.constants().all());
 		currentView.initCombo(listOfTypes);
 
 		if (UIUtils.isMSIEBrowser())
 			currentView.setWidth("150px");
 		if (this.viewType == null || this.viewType.equals(""))
-			currentView.setComboItem(Accounter.getCustomersMessages().all());
+			currentView.setComboItem(Accounter.constants().all());
 		else
 			currentView.setComboItem(this.viewType);
 		currentView
@@ -104,21 +104,21 @@ public class ExpensesListView extends BaseListView<BillsList> {
 
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		if (text.equalsIgnoreCase(Accounter.getVendorsMessages().employee())) {
+		if (text.equalsIgnoreCase(Accounter.constants().employee())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(Accounter.getVendorsMessages().cash())) {
+		} else if (text.equalsIgnoreCase(Accounter.constants().cash())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_CASH_EXPENSE)
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(Accounter.getVendorsMessages()
+		} else if (text.equalsIgnoreCase(Accounter.constants()
 				.creditCard())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
@@ -126,7 +126,7 @@ public class ExpensesListView extends BaseListView<BillsList> {
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(Accounter.getVendorsMessages()
+		} else if (text.equalsIgnoreCase(Accounter.constants()
 				.employee())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
@@ -184,7 +184,7 @@ public class ExpensesListView extends BaseListView<BillsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getVendorsMessages().expensesList();
+		return Accounter.constants().expensesList();
 	}
 
 }

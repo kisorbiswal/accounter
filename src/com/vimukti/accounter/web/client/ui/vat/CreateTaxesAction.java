@@ -14,7 +14,7 @@ public class CreateTaxesAction extends Action {
 
 	public CreateTaxesAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getVATMessages().VAT();
+		this.catagory = Accounter.constants().VAT();
 	}
 
 	@SuppressWarnings("unchecked")

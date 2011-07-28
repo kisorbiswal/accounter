@@ -21,13 +21,13 @@ public class CustomerRefundAction extends Action {
 
 	public CustomerRefundAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	public CustomerRefundAction(String text, String iconString,
 			ClientCustomerRefund customerRefund, AsyncCallback<Object> callBack) {
 		super(text, iconString, customerRefund, callBack);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	@Override

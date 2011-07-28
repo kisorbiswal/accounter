@@ -141,8 +141,8 @@ public abstract class CustomerTransactionGrid extends
 	protected String[] getSelectValues(ClientTransactionItem obj, int index) {
 		switch (index) {
 		case 7:
-			return new String[] { Accounter.getCustomersMessages().taxable(),
-					Accounter.getCustomersMessages().nonTaxable() };
+			return new String[] { Accounter.constants().taxable(),
+					Accounter.constants().nonTaxable() };
 
 		default:
 			break;
@@ -209,7 +209,7 @@ public abstract class CustomerTransactionGrid extends
 					}
 				});
 
-		productItemCombo = new ProductCombo(Accounter.getCustomersMessages()
+		productItemCombo = new ProductCombo(Accounter.constants()
 				.PRoduct(), 1, isAddNewRequired);
 		productItemCombo.setGrid(this);
 		productItemCombo.setRequired(true);
@@ -272,7 +272,7 @@ public abstract class CustomerTransactionGrid extends
 		//
 		// });
 
-		accountsCombo = new SalesAccountsCombo(Accounter.getCustomersMessages()
+		accountsCombo = new SalesAccountsCombo(Accounter.constants()
 				.accounts(), isAddNewRequired);
 		accountsCombo.setGrid(this);
 		accountsCombo.setRequired(true);
@@ -296,7 +296,7 @@ public abstract class CustomerTransactionGrid extends
 		// accountsCombo.setWidth("530");
 
 		// salesTaxCombo = new TaxCodeCombo(FinanceApplication
-		// .getCustomersMessages().salesTax(), isAddNewRequired);
+		// .constants().salesTax(), isAddNewRequired);
 		// salesTaxCombo.setGrid(this);
 		// salesTaxCombo.setRequired(true);
 		// salesTaxCombo
@@ -325,7 +325,7 @@ public abstract class CustomerTransactionGrid extends
 
 		if (!isBankingTransaction && !isSalesOrderTransaction) {
 			// this.addFooterValues(new String[] { "", "", "", "", "",
-			// FinanceApplication.getCustomersMessages().total(),
+			// FinanceApplication.constants().total(),
 			// DataUtils.getAmountAsString(0.00), });
 		} else if (isSalesOrderTransaction) {
 
@@ -339,7 +339,7 @@ public abstract class CustomerTransactionGrid extends
 		if (getCompany().getAccountingType() == 1) {
 			if (!isBankingTransaction)
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-					// this.addFooterValue(FinanceApplication.getVATMessages()
+					// this.addFooterValue(FinanceApplication.constants()
 					// .VAT(), 7);
 					// this.addFooterValue(DataUtils.getAmountAsString(0.00),
 					// 8);
@@ -494,8 +494,8 @@ public abstract class CustomerTransactionGrid extends
 		// case 6:
 		// return DataUtils.getAmountAsString(item.getLineTotal());
 		// case 7:
-		// return item.isTaxable() ? FinanceApplication.getCustomersMessages()
-		// .taxable() : FinanceApplication.getCustomersMessages()
+		// return item.isTaxable() ? FinanceApplication.constants()
+		// .taxable() : FinanceApplication.constants()
 		// .nonTaxable();
 		// case 8:
 		// return FinanceApplication.getFinanceMenuImages().delete();
@@ -1288,7 +1288,7 @@ public abstract class CustomerTransactionGrid extends
 
 	protected void createVATItemAndTaxCodeCombo() {
 
-		vatItemCombo = new VATItemCombo(Accounter.getVATMessages().VATItem(),
+		vatItemCombo = new VATItemCombo(Accounter.constants().VATItem(),
 				isAddNewRequired);
 		vatItemCombo.initCombo(getVatItems());
 		vatItemCombo.setGrid(this);
@@ -1310,7 +1310,7 @@ public abstract class CustomerTransactionGrid extends
 					}
 				});
 
-		taxCodeCombo = new TAXCodeCombo(Accounter.getVATMessages().vatCode(),
+		taxCodeCombo = new TAXCodeCombo(Accounter.constants().vatCode(),
 				isAddNewRequired, true);
 		taxCodeCombo.setGrid(this);
 		taxCodeCombo

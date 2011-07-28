@@ -89,9 +89,9 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		case 5:
 			return DataUtils.getAmountAsString(item.getBookValue());
 		case 6:
-			return Accounter.getFixedAssetConstants().showHistory();
+			return Accounter.constants().showHistory();
 		case 7:
-			return Accounter.getFixedAssetConstants().addNote();
+			return Accounter.constants().addNote();
 		case 8:
 			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
@@ -127,13 +127,13 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	private void openHistoryView(ClientFixedAsset obj) {
 		Action action = FixedAssetsActionFactory.getHistoryListAction();
-		action.catagory = Accounter.getFixedAssetConstants()
+		action.catagory = Accounter.constants()
 				.fixedAssetsPendingItemsList();
 		action.run(obj, true);
 	}
 
 	private void openNoteDialog(final ClientFixedAsset asset) {
-		noteDialog = new NoteDialog(Accounter.getFixedAssetConstants()
+		noteDialog = new NoteDialog(Accounter.constants()
 				.addNote(), "");
 		noteDialog.addInputDialogHandler(new InputDialogHandler() {
 
@@ -181,14 +181,14 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	 */
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.getFixedAssetConstants().item(),
-				Accounter.getFixedAssetConstants().assetNumber(),
-				Accounter.getFixedAssetConstants().account(),
-				Accounter.getFixedAssetConstants().purchaseDate(),
-				Accounter.getFixedAssetConstants().purchasePrice(),
-				Accounter.getFixedAssetConstants().bookValue(),
-				Accounter.getFixedAssetConstants().showHistory(),
-				Accounter.getFixedAssetConstants().addNote(), "" };
+		return new String[] { Accounter.constants().item(),
+				Accounter.constants().assetNumber(),
+				Accounter.constants().account(),
+				Accounter.constants().purchaseDate(),
+				Accounter.constants().purchasePrice(),
+				Accounter.constants().bookValue(),
+				Accounter.constants().showHistory(),
+				Accounter.constants().addNote(), "" };
 	}
 
 	@Override

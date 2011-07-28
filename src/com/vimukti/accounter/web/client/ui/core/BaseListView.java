@@ -125,15 +125,15 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		viewSelect = getSelectItem();
 
 		if (viewSelect == null) {
-			viewSelect = new SelectCombo(Accounter.getCustomersMessages()
+			viewSelect = new SelectCombo(Accounter.constants()
 					.currentView());
 			viewSelect.setHelpInformation(true);
 			viewSelect.setWidth("150px");
 			List<String> typeList = new ArrayList<String>();
-			typeList.add(Accounter.getCustomersMessages().active());
-			typeList.add(Accounter.getCustomersMessages().inActive());
+			typeList.add(Accounter.constants().active());
+			typeList.add(Accounter.constants().inActive());
 			viewSelect.initCombo(typeList);
-			viewSelect.setComboItem(Accounter.getCustomersMessages().active());
+			viewSelect.setComboItem(Accounter.constants().active());
 			viewSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -155,14 +155,14 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 		if (dateRangeSelector == null) {
 			dateRangeSelector = new SelectCombo(Accounter
-					.getCustomersMessages().date());
+					.constants().date());
 			dateRangeSelector.setHelpInformation(true);
 			dateRangeSelector.setWidth("150px");
 			List<String> typeList = new ArrayList<String>();
-			typeList.add(Accounter.getCustomersMessages().active());
-			typeList.add(Accounter.getCustomersMessages().inActive());
+			typeList.add(Accounter.constants().active());
+			typeList.add(Accounter.constants().inActive());
 			dateRangeSelector.initCombo(typeList);
-			dateRangeSelector.setDefaultValue(Accounter.getCustomersMessages()
+			dateRangeSelector.setDefaultValue(Accounter.constants()
 					.active());
 			dateRangeSelector.addChangeHandler(new ChangeHandler() {
 
@@ -178,16 +178,16 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
-		fromItem.setTitle(Accounter.getCustomersMessages().from());
+		fromItem.setTitle(Accounter.constants().from());
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
-		toItem.setTitle(Accounter.getCustomersMessages().to());
+		toItem.setTitle(Accounter.constants().to());
 		toItem.setDatethanFireEvent(Accounter.getCompany()
 				.getLastandOpenedFiscalYearEndDate());
 
-		updateButton = new AccounterButton(Accounter.getCustomersMessages()
+		updateButton = new AccounterButton(Accounter.constants()
 				.update());
 		updateButton.addClickHandler(new ClickHandler() {
 
@@ -195,7 +195,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			public void onClick(ClickEvent event) {
 
 				dateRangeSelector.setDefaultValue(Accounter
-						.getReportsMessages().custom());
+						.constants().custom());
 				customManage();
 
 			}

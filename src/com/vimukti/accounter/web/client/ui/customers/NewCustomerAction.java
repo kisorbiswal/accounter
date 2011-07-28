@@ -16,14 +16,14 @@ public class NewCustomerAction extends Action {
 
 	public NewCustomerAction(String text, String icon) {
 		super(text, icon);
-		this.catagory = Accounter.getCustomersMessages().customer();
-		super.setToolTip(Accounter.getCustomersMessages().customer());
+		this.catagory = Accounter.constants().customer();
+		super.setToolTip(Accounter.constants().customer());
 	}
 
 	public NewCustomerAction(String text, String icon, ClientCustomer customer,
 			AsyncCallback<Object> callback) {
 		super(text, icon, customer, callback);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	public void run(Object data, Boolean isDependent) {

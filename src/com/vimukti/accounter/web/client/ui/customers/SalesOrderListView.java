@@ -30,10 +30,10 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
 	private List<SalesOrdersList> listOfSalesOrder;
 
-	private static String OPEN = Accounter.getCustomersMessages().open();
-	private static String COMPLETED = Accounter.getCustomersMessages()
+	private static String OPEN = Accounter.constants().open();
+	private static String COMPLETED = Accounter.constants()
 			.completed();
-	private static String CANCELLED = Accounter.getCustomersMessages()
+	private static String CANCELLED = Accounter.constants()
 			.cancelled();
 	private List<String> listOfTypes;
 
@@ -53,13 +53,13 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		// return FinanceApplication.getCustomersMessages().newSalesOrder();
+		// return FinanceApplication.constants().newSalesOrder();
 		return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.getCustomersMessages().salesOrderList();
+		return Accounter.constants().salesOrderList();
 	}
 
 	@Override
@@ -123,7 +123,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.getCustomersMessages()
+		viewSelect = new SelectCombo(Accounter.constants()
 				.currentView());
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(OPEN);
@@ -261,7 +261,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().salesOrders();
+		return Accounter.constants().salesOrders();
 	}
 
 }

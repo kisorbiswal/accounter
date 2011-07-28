@@ -36,17 +36,17 @@ public class CreateStatementToolBar extends ReportToolbar {
 
 	public void createControls() {
 
-		String[] dateRangeArray = { Accounter.getReportsMessages().all(),
-				Accounter.getReportsMessages().thisWeek(),
-				Accounter.getReportsMessages().thisMonth(),
-				Accounter.getReportsMessages().lastWeek(),
-				Accounter.getReportsMessages().lastMonth(),
-				Accounter.getReportsMessages().thisFinancialYear(),
-				Accounter.getReportsMessages().lastFinancialYear(),
-				Accounter.getReportsMessages().thisFinancialQuarter(),
-				Accounter.getReportsMessages().lastFinancialQuarter(),
-				Accounter.getReportsMessages().financialYearToDate(),
-				Accounter.getReportsMessages().custom() };
+		String[] dateRangeArray = { Accounter.constants().all(),
+				Accounter.constants().thisWeek(),
+				Accounter.constants().thisMonth(),
+				Accounter.constants().lastWeek(),
+				Accounter.constants().lastMonth(),
+				Accounter.constants().thisFinancialYear(),
+				Accounter.constants().lastFinancialYear(),
+				Accounter.constants().thisFinancialQuarter(),
+				Accounter.constants().lastFinancialQuarter(),
+				Accounter.constants().financialYearToDate(),
+				Accounter.constants().custom() };
 
 		customerCombo = new CustomerCombo("Choose Customer", false);
 		statementReport = new StatementReport();
@@ -74,7 +74,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 		// customerCombo.setSelectedItem(1);
 		selectedCusotmer = customerCombo.getSelectedValue();
 		customerCombo.setComboItem(selectedCusotmer);
-		dateRangeItemCombo = new SelectCombo(Accounter.getReportsMessages()
+		dateRangeItemCombo = new SelectCombo(Accounter.constants()
 				.dateRange());
 		dateRangeItemCombo.setHelpInformation(true);
 		dateRangeItemList = new ArrayList<String>();
@@ -82,7 +82,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 			dateRangeItemList.add(dateRangeArray[i]);
 		}
 		dateRangeItemCombo.initCombo(dateRangeItemList);
-		dateRangeItemCombo.setComboItem(Accounter.getReportsMessages().all());
+		dateRangeItemCombo.setComboItem(Accounter.constants().all());
 		dateRangeItemCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -96,7 +96,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
-		fromItem.setTitle(Accounter.getReportsMessages().from());
+		fromItem.setTitle(Accounter.constants().from());
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
@@ -108,7 +108,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 		else
 			toItem.setDatethanFireEvent(new ClientFinanceDate());
 
-		toItem.setTitle(Accounter.getReportsMessages().to());
+		toItem.setTitle(Accounter.constants().to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -117,7 +117,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 				endDate = (ClientFinanceDate) toItem.getValue();
 			}
 		});
-		updateButton = new AccounterButton(Accounter.getReportsMessages()
+		updateButton = new AccounterButton(Accounter.constants()
 				.update());
 		updateButton.addClickHandler(new ClickHandler() {
 
@@ -128,14 +128,14 @@ public class CreateStatementToolBar extends ReportToolbar {
 				setEndDate(toItem.getDate());
 				changeDates(fromItem.getDate(), toItem.getDate());
 				dateRangeItemCombo.setDefaultValue(Accounter
-						.getReportsMessages().custom());
-				setSelectedDateRange(Accounter.getReportsMessages().custom());
+						.constants().custom());
+				setSelectedDateRange(Accounter.constants().custom());
 
 			}
 		});
 
 		AccounterButton printButton = new AccounterButton(Accounter
-				.getReportsMessages().print());
+				.constants().print());
 		printButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {

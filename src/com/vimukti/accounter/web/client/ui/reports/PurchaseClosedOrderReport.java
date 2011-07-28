@@ -18,13 +18,13 @@ public class PurchaseClosedOrderReport extends
 	@Override
 	public void init() {
 		super.init();
-		toolbar.setDateRanageOptions("", Accounter.getReportsMessages()
-				.present(), Accounter.getReportsMessages().lastMonth(),
-				Accounter.getReportsMessages().last3Months(), Accounter
-						.getReportsMessages().last6Months(), Accounter
-						.getReportsMessages().lastYear(), Accounter
-						.getReportsMessages().untilEndOfYear(), Accounter
-						.getReportsMessages().custom());
+		toolbar.setDateRanageOptions("", Accounter.constants()
+				.present(), Accounter.constants().lastMonth(),
+				Accounter.constants().last3Months(), Accounter
+						.constants().last6Months(), Accounter
+						.constants().lastYear(), Accounter
+						.constants().untilEndOfYear(), Accounter
+						.constants().custom());
 	}
 
 	@Override

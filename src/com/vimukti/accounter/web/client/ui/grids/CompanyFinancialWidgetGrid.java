@@ -12,9 +12,9 @@ import com.vimukti.accounter.web.client.ui.core.KeyFinancialIndicator;
 
 public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> {
 
-	String[] keys = { Accounter.getCompanyMessages().grossProfit(),
-			Accounter.getCompanyMessages().netProfit(),
-			Accounter.getCompanyMessages().bankAccounts() };
+	String[] keys = { Accounter.constants().grossProfit(),
+			Accounter.constants().netProfit(),
+			Accounter.constants().bankAccounts() };
 
 	Map<Integer, Integer> colsMap = new HashMap<Integer, Integer>();
 	private Double rowTotal = 0.0;
@@ -124,7 +124,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 				colArray[index] = "";
 				break;
 			case 1:
-				colArray[index] = Accounter.getCompanyMessages().currentMonth();
+				colArray[index] = Accounter.constants().currentMonth();
 				colsMap.put(1, getKeyValue(0));
 				break;
 			case 2:
@@ -148,7 +148,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 				colsMap.put(6, getKeyValue(5));
 				break;
 			case 7:
-				colArray[index] = Accounter.getCompanyMessages().yearToDate();
+				colArray[index] = Accounter.constants().yearToDate();
 				break;
 			default:
 				break;

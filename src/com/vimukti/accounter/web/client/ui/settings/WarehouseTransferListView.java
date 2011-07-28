@@ -50,7 +50,7 @@ public class WarehouseTransferListView extends BaseListView<StockTransfer> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getSettingsMessages().warehouseTransferList();
+		return Accounter.constants().warehouseTransferList();
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class WarehouseTransferListView extends BaseListView<StockTransfer> {
 			super.saveSuccess(object);
 			SettingsActionFactory.getInvoiceBrandingAction().run(null, false);
 		} else
-			saveFailed(new Exception(Accounter.getCompanyMessages().failed()));
+			saveFailed(new Exception(Accounter.constants().failed()));
 	}
 
 }

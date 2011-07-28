@@ -373,7 +373,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 	@Override
 	public String toString() {
-		return Accounter.getCustomersMessages().classNameis() + this.getText();
+		return Accounter.constants().classNameis() + this.getText();
 	}
 
 	@Override

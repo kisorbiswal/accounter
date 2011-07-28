@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 
 	public CustomerWidgetGrid() {
-		super(Accounter.getCustomersMessages().noDebitorstoShow());
+		super(Accounter.constants().noDebitorstoShow());
 	}
 
 	@Override
@@ -71,11 +71,11 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] { "",
-				Accounter.getCustomersMessages().Days3(),
-				Accounter.getCustomersMessages().Days2(),
-				Accounter.getCustomersMessages().Days1(),
-				Accounter.getCustomersMessages().older(),
-				Accounter.getCustomersMessages().totalBalance() };
+				Accounter.constants().Days3(),
+				Accounter.constants().Days2(),
+				Accounter.constants().Days1(),
+				Accounter.constants().older(),
+				Accounter.constants().totalBalance() };
 	}
 
 	@Override

@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
-import com.vimukti.accounter.web.client.externalization.FinanceConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -32,8 +32,8 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 	private ItemReceiptView itemReceiptView;
 	private List<PurchaseOrdersList> purchaseOrderList;
 	private VendorsMessages vendorConstants = GWT.create(VendorsMessages.class);
-	private FinanceConstants financeConstants = GWT
-			.create(FinanceConstants.class);
+	private AccounterConstants financeConstants = GWT
+			.create(AccounterConstants.class);
 	@SuppressWarnings("unused")
 	private PurchaseOrdersList selectedPurchaseOrder;
 	private DialogGrid grid;
@@ -43,7 +43,7 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 		super(view);
 		itemReceiptView = view;
 		this.purchaseOrderList = purchaseOrderList;
-		setText(Accounter.getVendorsMessages().purchaseOrderList());
+		setText(Accounter.constants().purchaseOrderList());
 		createControls();
 		setPurchaseOrderList(purchaseOrderList);
 		setWidth("600");
@@ -56,17 +56,17 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 		VerticalPanel mainLayout = new VerticalPanel();
 		mainLayout.setSize("100%", "100%");
 		mainLayout.setSpacing(3);
-		Label infoLabel = new Label(Accounter.getVendorsMessages()
+		Label infoLabel = new Label(Accounter.constants()
 				.selectPurchaseOrder()
-				+ Accounter.getVendorsMessages().selectDocument());
+				+ Accounter.constants().selectDocument());
 
 		mainLayout.add(infoLabel);
 
 		grid = new DialogGrid(false);
 		grid.addColumns(vendorConstants.Date(), vendorConstants.no(),
 				vendorConstants.type(), UIUtils.getVendorString(
-						Accounter.getVendorsMessages().supplierName(),
-						Accounter.getVendorsMessages().vendorName()),
+						Accounter.constants().supplierName(),
+						Accounter.constants().vendorName()),
 				vendorConstants.total());
 		grid.setView(this);
 		grid.init();
@@ -99,7 +99,7 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				Accounter.showError(Accounter.getVendorsMessages()
+				Accounter.showError(Accounter.constants()
 						.sorryNoHelp());
 
 			}
@@ -179,7 +179,7 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 					Accounter
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
-					Accounter.showError(Accounter.getVendorsMessages()
+					Accounter.showError(Accounter.constants()
 							.failedToGetPurchaseOrder());
 				}
 				return;
@@ -208,7 +208,7 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 			case 1:
 				return purchaseOrder.getNumber();
 			case 2:
-				return Accounter.getVendorsMessages().purchaseOrder();// purchaseOrder.getType();
+				return Accounter.constants().purchaseOrder();// purchaseOrder.getType();
 			case 3:
 				// return
 				// company.getVendor(purchaseOrder.getVendorName()).getName();
@@ -229,7 +229,7 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 	}
 
 	// protected String getViewTitle() {
-	// return FinanceApplication.getVendorsMessages().purchaseOrderList();
+	// return FinanceApplication.constants().purchaseOrderList();
 	// }
 
 }

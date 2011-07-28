@@ -93,9 +93,9 @@ public class TaxAgencyTransactionGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.getVATMessages().taxItem(),
-				Accounter.getVATMessages().taxAgency(),
-				Accounter.getVATMessages().amounttopay(), "" };
+		return new String[] { Accounter.constants().taxItem(),
+				Accounter.constants().taxAgency(),
+				Accounter.constants().amounttopay(), "" };
 	}
 
 	@Override
@@ -137,7 +137,7 @@ public class TaxAgencyTransactionGrid extends
 	}
 
 	private void createControls() {
-		taxItemCombo = new VATItemCombo(Accounter.getVATMessages().taxCode());
+		taxItemCombo = new VATItemCombo(Accounter.constants().taxCode());
 		taxItemCombo.setGrid(this);
 		addRecordDoubleClickHandler(new RecordDoubleClickHandler<ClientTransactionItem>() {
 
@@ -173,7 +173,7 @@ public class TaxAgencyTransactionGrid extends
 		// });
 		// taxItemCombo.initCombo(FinanceApplication.getCompany()
 		// .getActiveTaxItems());
-		// this.addFooterValue(FinanceApplication.getCustomersMessages().total(),
+		// this.addFooterValue(FinanceApplication.constants().total(),
 		// 2);
 
 	}
@@ -250,7 +250,7 @@ public class TaxAgencyTransactionGrid extends
 			totallinetotal += lineTotalAmt;
 		}
 
-		// this.updateFooterValues(FinanceApplication.getVATMessages()
+		// this.updateFooterValues(FinanceApplication.constants()
 		// .totalcolan()
 		// + DataUtils.getAmountAsString(totallinetotal), 2);
 		transactionView.updateNonEditableItems();

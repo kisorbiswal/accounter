@@ -34,11 +34,11 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 	BankingMessages bankingConstants = GWT.create(BankingMessages.class);
 	private List<PaymentsList> listOfPayments;
 
-	private static String NOT_ISSUED = Accounter.getVendorsMessages()
+	private static String NOT_ISSUED = Accounter.constants()
 			.notIssued();
-	private static String ISSUED = Accounter.getVendorsMessages().issued();
-	private static String VOID = Accounter.getVendorsMessages().Voided();
-	private static String ALL = Accounter.getVendorsMessages().all();
+	private static String ISSUED = Accounter.constants().issued();
+	private static String VOID = Accounter.constants().Voided();
+	private static String ALL = Accounter.constants().all();
 	// private static String DELETED = "Deleted";
 
 	private static final int STATUS_NOT_ISSUED = 0;
@@ -67,7 +67,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 	@Override
 	protected String getListViewHeading() {
 
-		return Accounter.getCompanyMessages().paymentsList();
+		return Accounter.constants().paymentsList();
 	}
 
 	@Override
@@ -98,7 +98,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.getBankingsMessages()
+		viewSelect = new SelectCombo(Accounter.constants()
 				.currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
@@ -198,7 +198,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getVendorsMessages().payments();
+		return Accounter.constants().payments();
 	}
 
 }

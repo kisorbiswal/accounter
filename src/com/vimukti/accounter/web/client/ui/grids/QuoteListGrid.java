@@ -158,7 +158,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	private void showWarningDialog(final ClientEstimate obj, final int col) {
 		String msg = null;
 		if (col == 8 && obj.getStatus() == ClientEstimate.STATUS_OPEN) {
-			msg = Accounter.getCustomersMessages()
+			msg = Accounter.constants()
 					.doyouwanttorejecttheEstimate();
 		}
 		// else if (col == 9) {

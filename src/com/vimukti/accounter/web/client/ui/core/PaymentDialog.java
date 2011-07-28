@@ -19,15 +19,15 @@ public class PaymentDialog extends BaseDialog {
 			.customerPrePayment();
 
 	public PaymentDialog() {
-		super(Accounter.getCustomersMessages().payments(), "");
-		setText(Accounter.getCustomersMessages().payments());
+		super(Accounter.constants().payments(), "");
+		setText(Accounter.constants().payments());
 		createControls();
 		center();
 	}
 
 	public PaymentDialog(AsyncCallback<IAccounterCore> callBack) {
-		super(Accounter.getCustomersMessages().payments(), "");
-		setText(Accounter.getCustomersMessages().payments());
+		super(Accounter.constants().payments(), "");
+		setText(Accounter.constants().payments());
 		createControls();
 		center();
 	}
@@ -60,7 +60,7 @@ public class PaymentDialog extends BaseDialog {
 							CustomersActionFactory.getReceivePaymentAction()
 									.run(null, false);
 						} catch (Throwable e) {
-							Accounter.showError(Accounter.getVendorsMessages()
+							Accounter.showError(Accounter.constants()
 									.failedToloadWriteCheck()
 
 							);
@@ -73,7 +73,7 @@ public class PaymentDialog extends BaseDialog {
 									.getNewCustomerPaymentAction().run(null,
 											false);
 						} catch (Throwable e) {
-							Accounter.showError(Accounter.getVendorsMessages()
+							Accounter.showError(Accounter.constants()
 									.failedToLoadCreditCardCharg());
 							e.printStackTrace();
 
@@ -128,6 +128,6 @@ public class PaymentDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCustomersMessages().payments();
+		return Accounter.constants().payments();
 	}
 }

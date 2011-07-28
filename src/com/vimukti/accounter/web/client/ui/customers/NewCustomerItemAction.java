@@ -7,7 +7,7 @@ public class NewCustomerItemAction extends NewItemAction {
 
 	public NewCustomerItemAction(String text, String iconString) {
 		super(text, iconString, true);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 	
 	@Override

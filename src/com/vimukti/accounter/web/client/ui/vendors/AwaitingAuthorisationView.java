@@ -47,7 +47,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 		buttonPanel.getElement().getStyle().setMarginTop(15, Unit.PX);
 
 		AccounterButton approve = new AccounterButton(Accounter
-				.getVendorsMessages().approveButton());
+				.constants().approveButton());
 		approve.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -63,10 +63,10 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED);
 					// else
 					if (records.size() != grid.getSelectedRecords().size())
-						Accounter.showError(Accounter.getVendorsMessages()
+						Accounter.showError(Accounter.constants()
 								.pleaseSelectPayFromAccount());
 				} else {
-					Accounter.showInformation(Accounter.getVendorsMessages()
+					Accounter.showInformation(Accounter.constants()
 							.norecordstoshow());
 				}
 
@@ -74,7 +74,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 		});
 
 		AccounterButton decline = new AccounterButton(Accounter
-				.getVendorsMessages().declineButton());
+				.constants().declineButton());
 		decline.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -87,14 +87,14 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 					updateRecords(grid.getSelectedRecords(),
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED);
 				} else {
-					Accounter.showInformation(Accounter.getVendorsMessages()
+					Accounter.showInformation(Accounter.constants()
 							.norecordstoshow());
 				}
 			}
 		});
 
 		AccounterButton delete = new AccounterButton(Accounter
-				.getVendorsMessages().delete());
+				.constants().delete());
 		delete.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -107,7 +107,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 					updateRecords(grid.getSelectedRecords(),
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
 				} else {
-					Accounter.showInformation(Accounter.getVendorsMessages()
+					Accounter.showInformation(Accounter.constants()
 							.norecordstoshow());
 				}
 			}
@@ -293,7 +293,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getVendorsMessages().awaitingAuthorisation();
+		return Accounter.constants().awaitingAuthorisation();
 	}
 
 }

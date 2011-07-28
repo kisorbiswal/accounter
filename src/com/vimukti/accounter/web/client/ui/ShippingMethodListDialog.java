@@ -104,13 +104,13 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 
 	public void showAddEditTermDialog(ClientShippingMethod rec) {
 		String arr[] = new String[2];
-		arr[0] = Accounter.getFinanceUIConstants().shippingMethod();
-		arr[1] = Accounter.getFinanceUIConstants().descriptioN();
-		inputDlg = new InputDialog(Accounter.getCustomersMessages()
+		arr[0] = Accounter.constants().shippingMethod();
+		arr[1] = Accounter.constants().descriptioN();
+		inputDlg = new InputDialog(Accounter.constants()
 				.shippingMethod(), "", arr) {
 			@Override
 			protected String getViewTitle() {
-				return Accounter.getCustomersMessages()
+				return Accounter.constants()
 						.shippingMethod();
 			}
 		};
@@ -136,7 +136,7 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 						editShippingMethod();
 				} else {
 					// Accounter.showError(FinanceApplication
-					// .getCustomersMessages().detailsHighlightedInRedMustBeEntered());
+					// .constants().detailsHighlightedInRedMustBeEntered());
 					return false;
 				}
 
@@ -179,8 +179,8 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 	@Override
 	public String[] setColumns() {
 		return new String[] {
-				Accounter.getFinanceUIConstants().Name(),
-				Accounter.getFinanceUIConstants().description() };
+				Accounter.constants().Name(),
+				Accounter.constants().description() };
 	}
 
 	@Override
@@ -191,13 +191,13 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 
 	@Override
 	public String toString() {
-		return Accounter.getFinanceUIConstants()
+		return Accounter.constants()
 				.shippingMethodListDialog();
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCompanyMessages()
+		return Accounter.constants()
 				.manageShippingMethodList();
 	}
 }

@@ -11,25 +11,25 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  */
 public enum CustomButtonType {
 
-	SAVE_AND_CLOSE(Accounter.getCustomersMessages().saveAndClose()),
+	SAVE_AND_CLOSE(Accounter.constants().saveAndClose()),
 
-	SAVE_AND_NEW(Accounter.getCustomersMessages().saveAndNew()),
+	SAVE_AND_NEW(Accounter.constants().saveAndNew()),
 
-	REGISTER(Accounter.getCustomersMessages().register()),
+	REGISTER(Accounter.constants().register()),
 
-	ADD(Accounter.getCustomersMessages().add()),
+	ADD(Accounter.constants().add()),
 
-	EDIT(Accounter.getCustomersMessages().edit()),
+	EDIT(Accounter.constants().edit()),
 
-	DELETE(Accounter.getCustomersMessages().delete()),
+	DELETE(Accounter.constants().delete()),
 
-	REVIEW_JOURNAL(Accounter.getCustomersMessages().reviewJournal()),
+	REVIEW_JOURNAL(Accounter.constants().reviewJournal()),
 
-	CANCEL(Accounter.getCompanyMessages().cancel()),
+	CANCEL(Accounter.constants().cancel()),
 
-	APPROVE(Accounter.getCompanyMessages().approve()),
+	APPROVE(Accounter.constants().approve()),
 
-	SUBMIT(Accounter.getCompanyMessages().submit());
+	SUBMIT(Accounter.constants().submit());
 
 	private String title;
 

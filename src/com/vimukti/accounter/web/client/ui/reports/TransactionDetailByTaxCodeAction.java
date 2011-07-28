@@ -16,12 +16,12 @@ public class TransactionDetailByTaxCodeAction extends Action {
 
 	public TransactionDetailByTaxCodeAction(String text) {
 		super(text);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	public TransactionDetailByTaxCodeAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

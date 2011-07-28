@@ -79,7 +79,7 @@ public class VATPaymentView extends
 	}
 
 	protected void createControls() {
-		Label lab = new Label(Accounter.getFinanceUIConstants().VATPayment());
+		Label lab = new Label(Accounter.constants().VATPayment());
 		// lab.setAutoHeight();
 		// lab.setWrap(false);
 
@@ -175,10 +175,10 @@ public class VATPaymentView extends
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setRequired(true);
 		// paymentMethodCombo.setWidth("*");
-		paymentMethodCombo.setDefaultValue(Accounter.getFinanceUIConstants()
+		paymentMethodCombo.setDefaultValue(Accounter.constants()
 				.check());
 
-		toBePrinted = new CheckboxItem(Accounter.getFinanceUIConstants()
+		toBePrinted = new CheckboxItem(Accounter.constants()
 				.toBePrinted());
 		// toBePrinted.setDefaultValue(true);
 		toBePrinted.addChangedHandler(new ChangeHandler() {
@@ -199,7 +199,7 @@ public class VATPaymentView extends
 		});
 		// printCheck.setShowDisabled(false);
 
-		checkNoText = new TextItem(Accounter.getFinanceUIConstants().checkNo());
+		checkNoText = new TextItem(Accounter.constants().checkNo());
 		// checkNoText.setWidth("*");
 
 		paymentMethodForm = new DynamicForm();
@@ -295,7 +295,7 @@ public class VATPaymentView extends
 	@Override
 	protected void paymentMethodSelected(String paymentmethod) {
 		super.paymentMethodSelected(paymentmethod);
-		if (paymentmethod.equalsIgnoreCase(Accounter.getFinanceUIConstants()
+		if (paymentmethod.equalsIgnoreCase(Accounter.constants()
 				.check())) {
 			toBePrinted.setDisabled(false);
 			toBePrinted.setValue(true);
@@ -324,11 +324,11 @@ public class VATPaymentView extends
 
 		if (!accountInformationForm.validate(false)) {
 			// throw new InvalidTransactionEntryException(FinanceApplication
-			// .getFinanceUIConstants().boldFieldsShouldFill());
+			// .constants().boldFieldsShouldFill());
 		}
 		if (!paymentMethodForm.validate(false)) {
 			// throw new InvalidTransactionEntryException(FinanceApplication
-			// .getFinanceUIConstants().blankTransIsNotAllowed());
+			// .constants().blankTransIsNotAllowed());
 		}
 
 		return true;
@@ -395,7 +395,7 @@ public class VATPaymentView extends
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.title(Accounter.getFinanceUIConstants().VATPayment());
+		return UIUtils.title(Accounter.constants().VATPayment());
 	}
 
 }

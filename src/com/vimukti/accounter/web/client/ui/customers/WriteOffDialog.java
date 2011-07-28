@@ -60,7 +60,7 @@ public class WriteOffDialog extends BaseDialog {
 	public WriteOffDialog(List<ClientAccount> allAccounts,
 			ClientTransactionReceivePayment record, boolean canEdit,
 			ClientAccount clientAccount) {
-		super(customerConstants.writeOff(), Accounter.getCustomersMessages()
+		super(customerConstants.writeOff(), Accounter.constants()
 				.WriteOffPleaseAddDetails());
 		this.record = record;
 		this.allAccounts = allAccounts;
@@ -75,7 +75,7 @@ public class WriteOffDialog extends BaseDialog {
 
 	public WriteOffDialog() {
 		super(customerConstants.cashDiscount(), Accounter
-				.getCustomersMessages().WriteOffPleaseAddDetails());
+				.constants().WriteOffPleaseAddDetails());
 
 		createControls();
 	}
@@ -208,6 +208,6 @@ public class WriteOffDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCustomersMessages().writeOff();
+		return Accounter.constants().writeOff();
 	}
 }

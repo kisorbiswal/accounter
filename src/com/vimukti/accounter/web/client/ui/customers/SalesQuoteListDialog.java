@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.externalization.FinanceConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -31,15 +31,15 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 	private ClientEstimate selectedEstimate;
 	private CustomersMessages customerConstants = GWT
 			.create(CustomersMessages.class);
-	private FinanceConstants financeConstants = GWT
-			.create(FinanceConstants.class);
+	private AccounterConstants financeConstants = GWT
+			.create(AccounterConstants.class);
 
 	public SalesQuoteListDialog(SalesOrderView parentView,
 			List<ClientEstimate> estimates) {
 		super(parentView);
 		salesView = parentView;
 		this.estimates = estimates;
-		setText(Accounter.getCustomersMessages().quoteList());
+		setText(Accounter.constants().quoteList());
 		createControl();
 		setWidth("600");
 		setQuoteList(estimates);
@@ -52,7 +52,7 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 		VerticalPanel mainLayout = new VerticalPanel();
 		mainLayout.setSize("100%", "100%");
 		mainLayout.setSpacing(3);
-		Label infoLabel = new Label(Accounter.getCustomersMessages()
+		Label infoLabel = new Label(Accounter.constants()
 				.selectQuote());
 
 		mainLayout.add(infoLabel);
@@ -82,7 +82,7 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 					removeFromParent();
 
 				} catch (Exception e) {
-					Accounter.showError(Accounter.getCustomersMessages()
+					Accounter.showError(Accounter.constants()
 							.errorLoadingQuote());
 				}
 
@@ -101,7 +101,7 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				Accounter.showError(Accounter.getCustomersMessages()
+				Accounter.showError(Accounter.constants()
 						.sorryNoHelp());
 
 			}
@@ -127,7 +127,7 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 					removeFromParent();
 
 				} catch (Exception e) {
-					Accounter.showError(Accounter.getCustomersMessages()
+					Accounter.showError(Accounter.constants()
 							.errorLoadingQuote());
 				}
 

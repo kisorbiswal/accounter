@@ -46,7 +46,7 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return Accounter.getAccounterComboConstants().addNewBrandingTheme();
+		return Accounter.constants().addNewBrandingTheme();
 	}
 
 	@Override

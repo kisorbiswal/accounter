@@ -112,11 +112,11 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 		String arr[] = new String[2];
 		arr[0] = "Shipping Term";
 		arr[1] = "Description";
-		inputDlg = new InputDialog(Accounter.getCompanyMessages()
+		inputDlg = new InputDialog(Accounter.constants()
 				.shippingTerm(), "", arr) {
 			@Override
 			protected String getViewTitle() {
-				return Accounter.getCompanyMessages().shippingTerm();
+				return Accounter.constants().shippingTerm();
 			}
 		};
 		inputDlg.getTextItems().get(1).setRequired(false);
@@ -141,7 +141,7 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 						createShippingTerms();
 				} else {
 					// Accounter.showError(FinanceApplication
-					// .getCustomersMessages()
+					// .constants()
 					// .detailsHighlightedInRedMustBeEntered());
 					return false;
 				}
@@ -170,8 +170,8 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 	@Override
 	public String[] setColumns() {
 		return new String[] {
-				Accounter.getFinanceUIConstants().Name(),
-				Accounter.getFinanceUIConstants().description() };
+				Accounter.constants().Name(),
+				Accounter.constants().description() };
 	}
 
 	@SuppressWarnings("unchecked")
@@ -182,7 +182,7 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCompanyMessages().manageShippingTermList();
+		return Accounter.constants().manageShippingTermList();
 	}
 
 }

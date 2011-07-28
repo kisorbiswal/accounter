@@ -59,8 +59,8 @@
 //	 */
 //	@Override
 //	protected String[] getColumns() {
-//		return new String[] { FinanceApplication.getVATMessages().taxCode(),
-//				FinanceApplication.getVATMessages().description(), "" };
+//		return new String[] { FinanceApplication.constants().taxCode(),
+//				FinanceApplication.constants().description(), "" };
 //	}
 //
 //	@Override

@@ -14,12 +14,12 @@ public class ChartsOfAccountsAction extends Action {
 
 	public ChartsOfAccountsAction(String text) {
 		super(text);
-		this.catagory = Accounter.getBankingsMessages().banking();
+		this.catagory = Accounter.constants().banking();
 	}
 
 	public ChartsOfAccountsAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getBankingsMessages().banking();
+		this.catagory = Accounter.constants().banking();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

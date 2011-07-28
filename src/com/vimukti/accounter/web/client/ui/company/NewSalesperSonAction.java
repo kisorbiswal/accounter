@@ -21,13 +21,13 @@ public class NewSalesperSonAction extends Action {
 	private boolean isEdit;
 
 	public NewSalesperSonAction(String icon) {
-		super(Accounter.getCompanyMessages().newSalesPerson(), icon);
-		this.catagory = Accounter.getCompanyMessages().company();
+		super(Accounter.constants().newSalesPerson(), icon);
+		this.catagory = Accounter.constants().company();
 	}
 
 	public NewSalesperSonAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	@Override

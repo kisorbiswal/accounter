@@ -22,15 +22,15 @@ public class NewCheckAction extends Action {
 	public NewCheckAction(String text) {
 		super(text);
 		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+				.constants().supplier(), Accounter
+				.constants().vendor());
 	}
 
 	public NewCheckAction(String text, String iconString) {
 		super(text, iconString);
 		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+				.constants().supplier(), Accounter
+				.constants().vendor());
 	}
 
 	@SuppressWarnings("unchecked")

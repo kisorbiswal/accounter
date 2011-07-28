@@ -44,10 +44,10 @@ public class DepreciationTreeGrid extends
 	@Override
 	protected String[] getColumns() {
 		return new String[] {
-				Accounter.getFixedAssetConstants().Account(),
-				Accounter.getFixedAssetConstants()
+				Accounter.constants().Account(),
+				Accounter.constants()
 						.AmounttobeDepreciated(),
-				Accounter.getFixedAssetConstants()
+				Accounter.constants()
 						.AccumulatedDepreciationAccount() };
 	}
 

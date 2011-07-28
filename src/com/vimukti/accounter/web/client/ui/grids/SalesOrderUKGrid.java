@@ -22,16 +22,16 @@ public class SalesOrderUKGrid extends CustomerTransactionUKGrid {
 
 		return new String[] {
 				"",
-				Accounter.getCustomersMessages().name(),
-				Accounter.getCustomersMessages().description(),
-				Accounter.getCustomersMessages().quantity(),
-				Accounter.getCustomersMessages().unitPrice(),
-				Accounter.getCustomersMessages().discountPerc(),
+				Accounter.constants().name(),
+				Accounter.constants().description(),
+				Accounter.constants().quantity(),
+				Accounter.constants().unitPrice(),
+				Accounter.constants().discountPerc(),
 				// "Back Order",
-				Accounter.getCustomersMessages().total(),
-				Accounter.getVATMessages().newVATCode(),
-				Accounter.getVATMessages().VAT(),
-				Accounter.getCustomersMessages().invoiced(), " " };
+				Accounter.constants().total(),
+				Accounter.constants().newVATCode(),
+				Accounter.constants().VAT(),
+				Accounter.constants().invoiced(), " " };
 	}
 
 	@Override

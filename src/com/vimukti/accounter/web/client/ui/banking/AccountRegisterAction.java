@@ -17,12 +17,12 @@ public class AccountRegisterAction extends Action {
 	public AccountRegisterAction(String text, String icon, ClientAccount account) {
 		super(text, icon);
 		this.account = account;
-		this.catagory = Accounter.getFinanceUIConstants().banking();
+		this.catagory = Accounter.constants().banking();
 	}
 
 	public AccountRegisterAction(String text, String icon) {
 		super(text, icon);
-		this.catagory = Accounter.getFinanceUIConstants().banking();
+		this.catagory = Accounter.constants().banking();
 	}
 
 	public void run() {

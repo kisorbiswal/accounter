@@ -167,7 +167,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		setWidth("80");
 		mainPanel.setSpacing(10);
 
-		payMethodSelect = new SelectItem(Accounter.getFinanceUIConstants()
+		payMethodSelect = new SelectItem(Accounter.constants()
 				.paymentMethod());
 		payMethodSelect.setRequired(true);
 		payMethodSelect.setValueMap(new String[] { "",
@@ -182,7 +182,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		});
 
 		accountCombo = new PayFromAccountsCombo(Accounter
-				.getFinanceUIConstants().account());
+				.constants().account());
 		accountCombo.setRequired(true);
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -200,7 +200,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		payForm.setFields(payMethodSelect, accountCombo);
 
 		Label label = new Label();
-		label.setText(Accounter.getFinanceUIConstants().PaymentsToBeIssued());
+		label.setText(Accounter.constants().PaymentsToBeIssued());
 		initListGrid();
 
 		addInputDialogHandler(new InputDialogHandler() {
@@ -285,7 +285,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 			setCheckNo(number);
 		} catch (NumberFormatException e) {
 			valid = false;
-			Accounter.showError(Accounter.getFinanceUIConstants()
+			Accounter.showError(Accounter.constants()
 					.invalidCheckNumber());
 		}
 
@@ -375,7 +375,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		grid.setHeight("200px");
 		// grid.setIssuePaymentView(this);
 		// grid.addFooterValues("", "", "", "", FinanceApplication
-		// .getVendorsMessages().total(), "0.0");
+		// .constants().total(), "0.0");
 
 		// bottomLabelLayOut = new HorizontalPanel();
 		// bottomLabelLayOut.setWidth("100%");
@@ -384,7 +384,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		emptyLabel.setWidth("25%");
 		totalLabel = new Label();
 		totalLabel.setWidth("30%");
-		totalLabel.setText(Accounter.getFinanceUIConstants().totalAmount());
+		totalLabel.setText(Accounter.constants().totalAmount());
 
 		amountLabel = new Label();
 		amountLabel.setText("" + UIUtils.getCurrencySymbol() + "0");
@@ -400,8 +400,8 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		if (!selectedpaymentMethod.isEmpty()) {
 			checkNoText = new TextItem(
 					getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-							.getFinanceUIConstants().startingCheckNo()
-							: Accounter.getFinanceUIConstants()
+							.constants().startingCheckNo()
+							: Accounter.constants()
 									.startingChequeNo());
 			checkNoText.setWidth(100);
 			checkNoText.setRequired(true);
@@ -485,10 +485,10 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 	@Override
 	public void saveSuccess(IAccounterCore object) {
 		//
-		// Accounter.showInformation(FinanceApplication.getFinanceUIConstants()
+		// Accounter.showInformation(FinanceApplication.constants()
 		// .issuePaymentWith()
 		// + transactionNumber
-		// + FinanceApplication.getFinanceUIConstants()
+		// + FinanceApplication.constants()
 		// .createdSuccessfully());
 		IssuePaymentView.this.removeFromParent();
 	}
@@ -525,7 +525,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getVendorsMessages().issuePayments();
+		return Accounter.constants().issuePayments();
 	}
 
 }

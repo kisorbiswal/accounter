@@ -107,8 +107,8 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 		addButton(changeButton);
 		changeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				new ChangeStartDateDialog(Accounter.getCompanyMessages()
-						.title(), Accounter.getCompanyMessages().description())
+				new ChangeStartDateDialog(Accounter.constants()
+						.title(), Accounter.constants().description())
 						.show();
 			}
 		});
@@ -121,14 +121,14 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 			}
 
 			public void onFirstButtonClick() {
-				showAddEditFiscalYear(Accounter.getCompanyMessages()
-						.createFascalYear(), Accounter.getCompanyMessages()
+				showAddEditFiscalYear(Accounter.constants()
+						.createFascalYear(), Accounter.constants()
 						.description(), null);
 			}
 
 			public void onSecondButtonClick() {
-				showAddEditFiscalYear(Accounter.getCompanyMessages()
-						.editFiscalYear(), Accounter.getCompanyMessages()
+				showAddEditFiscalYear(Accounter.constants()
+						.editFiscalYear(), Accounter.constants()
 						.description(), null);
 			}
 
@@ -174,7 +174,7 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCompanyMessages().fiscalYear();
+		return Accounter.constants().fiscalYear();
 	}
 
 }

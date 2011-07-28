@@ -24,7 +24,7 @@ public class RegisteredItemsListAction extends Action {
 	 */
 	public RegisteredItemsListAction(String text) {
 		super(text);
-		this.catagory = Accounter.getFixedAssetConstants().fixedAssets();
+		this.catagory = Accounter.constants().fixedAssets();
 	}
 
 	/*

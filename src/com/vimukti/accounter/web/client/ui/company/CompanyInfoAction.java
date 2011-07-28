@@ -9,12 +9,12 @@ public class CompanyInfoAction extends Action {
 
 	public CompanyInfoAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	public CompanyInfoAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class CompanyInfoAction extends Action {
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		new CompanyInfoDialog(Accounter.getCompanyMessages()
+		new CompanyInfoDialog(Accounter.constants()
 				.companyInformation(), "").show();
 	}
 

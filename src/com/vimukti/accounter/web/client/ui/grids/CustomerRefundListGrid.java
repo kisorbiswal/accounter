@@ -112,7 +112,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 	private void showWarningDialog(final CustomerRefundsList obj, final int col) {
 		String msg = null;
 		if (col == 8) {
-			msg = Accounter.getCustomersMessages()
+			msg = Accounter.constants()
 					.doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 9) {

@@ -40,18 +40,18 @@ public class VendorTransactionHistoryServerReport extends
 	public String[] getColunms() {
 		return new String[] { getVendorString("Supplier", "Vendor"), "Date",
 				"Type", "No",
-				// FinanceApplication.getReportsMessages().reference(),
+				// FinanceApplication.constants().reference(),
 				"Account", "Amount"
-		// FinanceApplication.getReportsMessages().transactionAmount(),
-		// FinanceApplication.getReportsMessages().paidAmount(),
-		// FinanceApplication.getReportsMessages().discount(),
-		// FinanceApplication.getReportsMessages().balance(),
-		// FinanceApplication.getReportsMessages().paymentSatus(),
-		// FinanceApplication.getReportsMessages().PONum(),
-		// FinanceApplication.getReportsMessages().memo(),
-		// FinanceApplication.getReportsMessages().dueDate(),
-		// FinanceApplication.getReportsMessages().debit(),
-		// FinanceApplication.getReportsMessages().credit()
+		// FinanceApplication.constants().transactionAmount(),
+		// FinanceApplication.constants().paidAmount(),
+		// FinanceApplication.constants().discount(),
+		// FinanceApplication.constants().balance(),
+		// FinanceApplication.constants().paymentSatus(),
+		// FinanceApplication.constants().PONum(),
+		// FinanceApplication.constants().memo(),
+		// FinanceApplication.constants().dueDate(),
+		// FinanceApplication.constants().debit(),
+		// FinanceApplication.constants().credit()
 		};
 
 		// "Aging(days)", "Payment Terms",
@@ -152,8 +152,8 @@ public class VendorTransactionHistoryServerReport extends
 		}
 		// else if (sectionDepth == 2) {
 		// // Inside fist section
-		// addSection(FinanceApplication.getReportsMessages()
-		// .beginingBalance(), FinanceApplication.getReportsMessages()
+		// addSection(FinanceApplication.constants()
+		// .beginingBalance(), FinanceApplication.constants()
 		// .endingBalance(), new int[] { 5 });
 		// }
 		else if (sectionDepth == 2) {

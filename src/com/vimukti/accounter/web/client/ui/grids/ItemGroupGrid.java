@@ -16,7 +16,7 @@ public class ItemGroupGrid extends ListGrid<ClientItem> {
 			ClientItemGroup itemGroup) {
 		super(isMultiSelectionEnable);
 		this.itemGroup = itemGroup;
-		itemCombo = new ItemCombo(Accounter.getCustomersMessages().item(), 1,
+		itemCombo = new ItemCombo(Accounter.constants().item(), 1,
 				false);
 	}
 
@@ -104,8 +104,8 @@ public class ItemGroupGrid extends ListGrid<ClientItem> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.getFinanceUIConstants().name(),
-				Accounter.getFinanceUIConstants().price() };
+		return new String[] { Accounter.constants().name(),
+				Accounter.constants().price() };
 	}
 
 	@Override

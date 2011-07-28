@@ -46,7 +46,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		Accounter.showInformation(Accounter.getBankingsMessages()
+		Accounter.showInformation(Accounter.constants()
 				.youCantDeleteThisAccount());
 
 	}
@@ -57,7 +57,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 		grid.deleteRecord(toBeDelete);
 		allAccounts.remove(toBeDelete);
 		// Accounter.showInformation(toBeDelete.getName()
-		// + FinanceApplication.getBankingsMessages()
+		// + FinanceApplication.constants()
 		// .isDeletedSuccessfully());
 	}
 
@@ -215,7 +215,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCompanyMessages().accounts();
+		return Accounter.constants().accounts();
 	}
 
 }

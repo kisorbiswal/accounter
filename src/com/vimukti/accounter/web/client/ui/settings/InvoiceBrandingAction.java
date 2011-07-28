@@ -17,7 +17,7 @@ public class InvoiceBrandingAction extends Action {
 
 	public InvoiceBrandingAction(String text) {
 		super(text);
-		this.catagory = Accounter.getSettingsMessages().settings();
+		this.catagory = Accounter.constants().settings();
 	}
 
 	@Override

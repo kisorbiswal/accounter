@@ -29,21 +29,21 @@ import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 public class ApplyCreditDialog extends BaseDialog {
 	@SuppressWarnings("unused")
 	private static final String ATTR_CREDIT_AMOUNT = Accounter
-			.getFinanceMessages().credit();
+			.messages().credit();
 	@SuppressWarnings("unused")
-	private final String ATTR_DATE = Accounter.getFinanceMessages()
+	private final String ATTR_DATE = Accounter.messages()
 			.date();
 	@SuppressWarnings("unused")
-	private final String ATTR_MEMO = Accounter.getFinanceMessages()
+	private final String ATTR_MEMO = Accounter.messages()
 			.memo();
 	@SuppressWarnings("unused")
-	private final String ATTR_BALANCE = Accounter.getFinanceMessages()
+	private final String ATTR_BALANCE = Accounter.messages()
 			.balance();
 	@SuppressWarnings("unused")
 	private final String ATTR_AMOUNT_TO_USE = Accounter
-			.getFinanceMessages().amounttouse();
+			.messages().amounttouse();
 	@SuppressWarnings("unused")
-	private final String ATTR_ID = Accounter.getFinanceMessages().Id();
+	private final String ATTR_ID = Accounter.messages().Id();
 	AmountField amtDueText, totCredAmtText, cashDiscText, totBalText,
 			adjPayText, totAmtUseText;
 	DialogGrid grid;
@@ -64,7 +64,7 @@ public class ApplyCreditDialog extends BaseDialog {
 
 	public ApplyCreditDialog() {
 		super(
-				Accounter.getFinanceMessages()
+				Accounter.messages()
 						.applyCreditsandPayments(), "");
 		createControls();
 		center();
@@ -78,7 +78,7 @@ public class ApplyCreditDialog extends BaseDialog {
 			LinkedHashMap<String, List<ClientTransactionCreditsAndPayments>> creditsAndPaymentsMap,
 			IGenericCallback<String> callback) {
 		super(
-				Accounter.getFinanceMessages()
+				Accounter.messages()
 						.applyCreditsandPayments(), "");
 		this.key = key;
 		this.creditsAndPaymentsMap = creditsAndPaymentsMap;
@@ -91,34 +91,34 @@ public class ApplyCreditDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		Label lab1 = new Label(Accounter.getFinanceUIConstants()
+		Label lab1 = new Label(Accounter.constants()
 				.applyCreditAndPayments());
 		lab1.setWidth("100%");
 		// lab1.setAutoHeight();
 
-		amtDueText = new AmountField(Accounter.getFinanceUIConstants()
+		amtDueText = new AmountField(Accounter.constants()
 				.amtDue());
 		amtDueText.setColSpan(1);
 		amtDueText.setValue(amountDue);
 		amtDueText.setDisabled(true);
 
 		totCredAmtText = new AmountField(Accounter
-				.getFinanceUIConstants().totalCreditAmount());
+				.constants().totalCreditAmount());
 		totCredAmtText.setColSpan(1);
 		totCredAmtText.setDisabled(true);
 
 		cashDiscText = new AmountField(Accounter
-				.getFinanceUIConstants().cashDiscount());
+				.constants().cashDiscount());
 		cashDiscText.setColSpan(1);
 		cashDiscText.setValue(cashDiscount);
 		cashDiscText.setDisabled(true);
 
-		totBalText = new AmountField(Accounter.getFinanceUIConstants()
+		totBalText = new AmountField(Accounter.constants()
 				.totalBal());
 		totBalText.setColSpan(1);
 		totBalText.setDisabled(true);
 
-		adjPayText = new AmountField(Accounter.getFinanceUIConstants()
+		adjPayText = new AmountField(Accounter.constants()
 				.adjustedPayment());
 		adjPayText.setColSpan(1);
 		adjPayText.setDisabled(true);
@@ -127,7 +127,7 @@ public class ApplyCreditDialog extends BaseDialog {
 				- DataUtils.getBalance(cashDiscount)));
 
 		totAmtUseText = new AmountField(Accounter
-				.getFinanceUIConstants().totalAmountToUse());
+				.constants().totalAmountToUse());
 		totAmtUseText.setColSpan(1);
 		totAmtUseText.setDisabled(true);
 		totAmtUseText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
@@ -327,10 +327,10 @@ public class ApplyCreditDialog extends BaseDialog {
 	protected void setGridFields() {
 		grid.addColumn(ListGrid.COLUMN_TYPE_CHECK, "");
 		grid.addColumns(new String[] { "Date",
-				Accounter.getFinanceUIConstants().memo(),
-				Accounter.getFinanceUIConstants().creditAmount(),
-				Accounter.getFinanceUIConstants().balance(),
-				Accounter.getFinanceUIConstants().amountToUse() });
+				Accounter.constants().memo(),
+				Accounter.constants().creditAmount(),
+				Accounter.constants().balance(),
+				Accounter.constants().amountToUse() });
 	}
 
 	@Override
@@ -384,7 +384,7 @@ public class ApplyCreditDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getSettingsMessages().applyCreditsandPayments();
+		return Accounter.constants().applyCreditsandPayments();
 	}
 
 }

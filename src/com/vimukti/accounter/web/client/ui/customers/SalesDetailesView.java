@@ -93,7 +93,7 @@ public class SalesDetailesView extends ParentCanvas<VerticalPanel> {
 
 		Label headerLabel = new Label();
 		headerLabel.setHeight("22px");
-		headerLabel.setText(Accounter.getCustomersMessages()
+		headerLabel.setText(Accounter.constants()
 				.salesOrderDetails());
 		headerLabel.setStylePrimaryName("headerlabel");
 		add(headerLabel);
@@ -101,40 +101,40 @@ public class SalesDetailesView extends ParentCanvas<VerticalPanel> {
 		flexTable.clear();
 
 		Label orderNumberLabel = new Label();
-		orderNumberLabel.setText(Accounter.getVendorsMessages().orderNumber());
+		orderNumberLabel.setText(Accounter.constants().orderNumber());
 		orderNumberLabel.setStyleName("selectedview_labelstyle");
 
 		orderNumberField = new HTML();
 
 		Label conLabel = new Label();
-		conLabel.setText(Accounter.getCustomersMessages().customerOrderNumber());
+		conLabel.setText(Accounter.constants().customerOrderNumber());
 		conLabel.setStyleName("selectedview_labelstyle");
 
 		customerNumberField = new HTML();
 
 		Label dueDate = new Label();
-		dueDate.setText(Accounter.getCustomersMessages().dueDate());
+		dueDate.setText(Accounter.constants().dueDate());
 		dueDate.setStyleName("selectedview_labelstyle");
 
 		dueDateField = new HTML();
 
 		Label statusLabel = new Label();
-		statusLabel.setText(Accounter.getCustomersMessages().status());
+		statusLabel.setText(Accounter.constants().status());
 		statusLabel.setStyleName("selectedview_labelstyle");
 
 		statusField = new HTML();
 
 		Label itemsLabel = new Label();
-		itemsLabel.setText(Accounter.getCustomersMessages().items());
+		itemsLabel.setText(Accounter.constants().items());
 		itemsLabel.setStyleName("selectedview_labelstyle");
 
 		Label billingAddress = new Label();
-		billingAddress.setText(Accounter.getCustomersMessages()
+		billingAddress.setText(Accounter.constants()
 				.billingAddress());
 		billingAddress.setStyleName("selectedview_labelstyle");
 
 		Label shippingAddress = new Label();
-		shippingAddress.setText(Accounter.getVendorsMessages()
+		shippingAddress.setText(Accounter.constants()
 				.shippingAddress());
 		shippingAddress.setStyleName("selectedview_textarea_label");
 
@@ -146,7 +146,7 @@ public class SalesDetailesView extends ParentCanvas<VerticalPanel> {
 
 		itemsGrid = new ItemsGrid(false);
 		itemsGrid.init();
-		itemsGrid.addEmptyMessage(Accounter.getVendorsMessages()
+		itemsGrid.addEmptyMessage(Accounter.constants()
 				.noProductstoshow());
 
 		flexTable.setWidget(1, 0, orderNumberLabel);
@@ -205,11 +205,11 @@ public class SalesDetailesView extends ParentCanvas<VerticalPanel> {
 				.getDateByCompanyType(new ClientFinanceDate(salesOrder
 						.getDueDate())));
 		if (salesOrder.getStatus() == 101)
-			statusField.setText(Accounter.getCustomersMessages().open());
+			statusField.setText(Accounter.constants().open());
 		else if (salesOrder.getStatus() == 102)
-			statusField.setText(Accounter.getCustomersMessages().completed());
+			statusField.setText(Accounter.constants().completed());
 		else if (salesOrder.getStatus() == 103)
-			statusField.setText(Accounter.getCustomersMessages().cancelled());
+			statusField.setText(Accounter.constants().cancelled());
 		ClientAddress address = salesOrder.getBillingAddress();
 		if (address != null) {
 			billingAdress.setHTML(addressInfo(address));

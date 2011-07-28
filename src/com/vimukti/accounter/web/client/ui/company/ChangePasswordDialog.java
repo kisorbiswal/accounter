@@ -30,12 +30,12 @@ public class ChangePasswordDialog extends BaseDialog {
 
 	private void createControls() {
 
-		oldPasswordTextItem = new PasswordItem(Accounter.getCompanyMessages()
+		oldPasswordTextItem = new PasswordItem(Accounter.constants()
 				.oldPassword());
-		newPasswordTextItem = new PasswordItem(Accounter.getCompanyMessages()
+		newPasswordTextItem = new PasswordItem(Accounter.constants()
 				.newPassword());
 		confirmNewPasswordTextItem = new PasswordItem(Accounter
-				.getCompanyMessages().confirmNewPassword());
+				.constants().confirmNewPassword());
 
 		oldPasswordTextItem.setRequired(true);
 		newPasswordTextItem.setRequired(true);
@@ -51,7 +51,7 @@ public class ChangePasswordDialog extends BaseDialog {
 				confirmNewPasswordTextItem);
 
 		mainPanel.add(textItemsForm);
-		okbtn.setText(Accounter.getSettingsMessages().saveButton());
+		okbtn.setText(Accounter.constants().saveButton());
 
 		setBodyLayout(mainPanel);
 
@@ -158,7 +158,7 @@ public class ChangePasswordDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().changePassword();
+		return Accounter.constants().changePassword();
 	}
 
 }

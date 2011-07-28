@@ -195,7 +195,7 @@ public class ViewManager extends DockPanel {
 			previousButton.setSize("20", "15");
 		else
 			previousButton.setSize("15", "15");
-		previousButton.setTitle(Accounter.getCustomersMessages().previous());
+		previousButton.setTitle(Accounter.constants().previous());
 		previousButton.setStyleName("previousButton");
 		previousButton
 				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
@@ -214,7 +214,7 @@ public class ViewManager extends DockPanel {
 			nextButton.setSize("20", "15");
 		else
 			nextButton.setSize("15", "15");
-		nextButton.setTitle(Accounter.getCustomersMessages().next());
+		nextButton.setTitle(Accounter.constants().next());
 		nextButton.setStyleName("nextButton");
 		nextButton.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		nextButton.addClickHandler(new ClickHandler() {
@@ -238,7 +238,7 @@ public class ViewManager extends DockPanel {
 		statusLayout.add(hlay);
 
 		closeButton = new Label();
-		closeButton.setTitle(Accounter.getCustomersMessages().close());
+		closeButton.setTitle(Accounter.constants().close());
 		if (UIUtils.isMSIEBrowser())
 			closeButton.setSize("20", "14");
 		else
@@ -300,7 +300,7 @@ public class ViewManager extends DockPanel {
 
 		print1Button = new Image("/images/Print1.png");
 		print1Button.setStyleName("print_button_icon");
-		print1Button.setTitle(Accounter.getCustomersMessages().print());
+		print1Button.setTitle(Accounter.constants().print());
 		print1Button.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -337,7 +337,7 @@ public class ViewManager extends DockPanel {
 
 		edit1Button = new Image("/images/Page_edit1.png");
 		edit1Button.setStyleName("edit_button_icon");
-		edit1Button.setTitle(Accounter.getCustomersMessages().edit());
+		edit1Button.setTitle(Accounter.constants().edit());
 		edit1Button.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -526,7 +526,7 @@ public class ViewManager extends DockPanel {
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			boolean enableEdit = input != null
 					&& !action.getCatagory().equals(
-							Accounter.getReportsMessages().report())
+							Accounter.constants().report())
 					&& (input instanceof ClientTransaction)
 					&& !(input instanceof ClientPayVAT)
 					&& !(input instanceof ClientReceiveVAT);
@@ -534,7 +534,7 @@ public class ViewManager extends DockPanel {
 		} else {
 			boolean enableEdit = input != null
 					&& !action.getCatagory().equals(
-							Accounter.getReportsMessages().report())
+							Accounter.constants().report())
 					&& (input instanceof ClientTransaction)
 					&& !(input instanceof ClientPaySalesTax);
 			edit1Button.setVisible(enableEdit);
@@ -542,11 +542,11 @@ public class ViewManager extends DockPanel {
 
 		boolean enablePrint = (input != null && (input instanceof ClientInvoice || input instanceof ClientCustomerCreditMemo))
 				|| action.getCatagory().equals(
-						Accounter.getReportsMessages().report());
+						Accounter.constants().report());
 
 		print1Button.setVisible(enablePrint);
 		exportButton.setVisible(action.getCatagory().equals(
-				Accounter.getReportsMessages().report()));
+				Accounter.constants().report()));
 
 		boolean enableClose = !(action instanceof CompanyHomeAction)
 				&& !(action instanceof PurchaseOrderListAction)
@@ -640,8 +640,8 @@ public class ViewManager extends DockPanel {
 		statusLabel.setText(action.catagory
 				+ " > "
 				+ (input == null ? action.getText() : action.getText().replace(
-						Accounter.getCustomersMessages().New(),
-						Accounter.getCustomersMessages().viewEdit())));
+						Accounter.constants().New(),
+						Accounter.constants().viewEdit())));
 		refreshStatusBar();
 	}
 
@@ -753,9 +753,9 @@ public class ViewManager extends DockPanel {
 									.getAction()
 									.getText()
 									.replace(
-											Accounter.getCustomersMessages()
+											Accounter.constants()
 													.New(),
-											Accounter.getCustomersMessages()
+											Accounter.constants()
 													.viewEdit()) : history
 									.getAction().getText()));
 			fitToSize(this.height, this.width);
@@ -1213,8 +1213,8 @@ public class ViewManager extends DockPanel {
 				+ (currentCanvas.isEditMode() ? history
 						.getAction()
 						.getText()
-						.replace(Accounter.getCustomersMessages().New(),
-								Accounter.getCustomersMessages().viewEdit())
+						.replace(Accounter.constants().New(),
+								Accounter.constants().viewEdit())
 						: history.getAction().getText()));
 		refreshStatusBar();
 	}
@@ -1463,7 +1463,7 @@ public class ViewManager extends DockPanel {
 			final P core, final IAccounterWidget widget) {
 
 		dialog = UIUtils.getLoadingMessageDialog(Accounter
-				.getCustomersMessages().processingRequest());
+				.constants().processingRequest());
 
 		dialog.center();
 
@@ -1504,13 +1504,13 @@ public class ViewManager extends DockPanel {
 
 		if (!((widget instanceof ExpenseClaimView) || (widget instanceof AwaitingAuthorisationView))) {
 			dialog = UIUtils.getLoadingMessageDialog(Accounter
-					.getCustomersMessages().processingRequest());
+					.constants().processingRequest());
 
 			dialog.center();
 		} else {
 			if (!isprocessingRequestAdd(widget)) {
 				dialog = UIUtils.getLoadingMessageDialog(Accounter
-						.getCustomersMessages().processingRequest());
+						.constants().processingRequest());
 
 				dialog.center();
 			}
@@ -1631,7 +1631,7 @@ public class ViewManager extends DockPanel {
 			final IAccounterWidget widget) {
 
 		dialog = UIUtils.getLoadingMessageDialog(Accounter
-				.getCustomersMessages().processingRequest());
+				.constants().processingRequest());
 
 		dialog.center();
 		currentrequestedWidget = widget;
@@ -1674,7 +1674,7 @@ public class ViewManager extends DockPanel {
 			final ClientCompanyPreferences preferences,
 			final IAccounterWidget widget) {
 		dialog = UIUtils.getLoadingMessageDialog(Accounter
-				.getCustomersMessages().processingRequest());
+				.constants().processingRequest());
 
 		dialog.center();
 		currentrequestedWidget = widget;
@@ -1717,7 +1717,7 @@ public class ViewManager extends DockPanel {
 			AccounterCoreType coreType, final IAccounterWidget widget) {
 
 		dialog = UIUtils.getLoadingMessageDialog(Accounter
-				.getCustomersMessages().processingRequest());
+				.constants().processingRequest());
 
 		dialog.center();
 		currentrequestedWidget = widget;

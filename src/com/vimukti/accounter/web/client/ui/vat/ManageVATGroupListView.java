@@ -20,12 +20,12 @@ public class ManageVATGroupListView extends BaseListView<ClientTAXGroup> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.getVATMessages().addNewVATGroup();
+		return Accounter.constants().addNewVATGroup();
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.getVATMessages().VATGroupList();
+		return Accounter.constants().VATGroupList();
 	}
 
 	@Override

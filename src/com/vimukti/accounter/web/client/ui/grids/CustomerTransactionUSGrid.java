@@ -24,30 +24,30 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 	@Override
 	protected String[] getColumns() {
 		if (transactionView instanceof WriteChequeView)
-			return new String[] { "", Accounter.getCustomersMessages().name(),
-					Accounter.getCustomersMessages().description(),
-					Accounter.getCustomersMessages().quantity(),
-					Accounter.getCustomersMessages().unitPrice(),
-					Accounter.getCustomersMessages().discountPerc(),
-					Accounter.getCustomersMessages().total(), " " };
+			return new String[] { "", Accounter.constants().name(),
+					Accounter.constants().description(),
+					Accounter.constants().quantity(),
+					Accounter.constants().unitPrice(),
+					Accounter.constants().discountPerc(),
+					Accounter.constants().total(), " " };
 		else
-			return new String[] { "", Accounter.getCustomersMessages().name(),
-					Accounter.getCustomersMessages().description(),
-					Accounter.getCustomersMessages().quantity(),
-					Accounter.getCustomersMessages().unitPrice(),
-					Accounter.getCustomersMessages().discountPerc(),
-					Accounter.getCustomersMessages().total(),
-					Accounter.getCustomersMessages().tax(), " " };
+			return new String[] { "", Accounter.constants().name(),
+					Accounter.constants().description(),
+					Accounter.constants().quantity(),
+					Accounter.constants().unitPrice(),
+					Accounter.constants().discountPerc(),
+					Accounter.constants().total(),
+					Accounter.constants().tax(), " " };
 	}
 
 	@Override
 	public String[] getColumnNamesForPrinting() {
-		return new String[] { Accounter.getCustomersMessages().quantity(),
-				Accounter.getCustomersMessages().item(),
-				Accounter.getCustomersMessages().description(),
-				Accounter.getCustomersMessages().rate(),
-				Accounter.getCustomersMessages().amount(),
-				Accounter.getCustomersMessages().isTaxable() };
+		return new String[] { Accounter.constants().quantity(),
+				Accounter.constants().item(),
+				Accounter.constants().description(),
+				Accounter.constants().rate(),
+				Accounter.constants().amount(),
+				Accounter.constants().isTaxable() };
 	}
 
 	@Override
@@ -73,8 +73,8 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 		case 4:
 			return DataUtils.getAmountAsString(item.getLineTotal());
 		case 5:
-			return item.isTaxable() ? Accounter.getCustomersMessages()
-					.taxable() : Accounter.getCustomersMessages().nonTaxable();
+			return item.isTaxable() ? Accounter.constants()
+					.taxable() : Accounter.constants().nonTaxable();
 		default:
 			return "";
 		}
@@ -183,8 +183,8 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 			if (transactionView instanceof WriteChequeView)
 				return Accounter.getFinanceMenuImages().delete();
 			else
-				return item.isTaxable() ? Accounter.getCustomersMessages()
-						.taxable() : Accounter.getCustomersMessages()
+				return item.isTaxable() ? Accounter.constants()
+						.taxable() : Accounter.constants()
 						.nonTaxable();
 
 		case 8:

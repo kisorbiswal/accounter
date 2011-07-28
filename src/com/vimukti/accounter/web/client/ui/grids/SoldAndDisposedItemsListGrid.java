@@ -95,9 +95,9 @@ public class SoldAndDisposedItemsListGrid extends
 			return DataUtils.getAmountAsString(asset.getLossOrGain());
 
 		case 6:
-			return Accounter.getFixedAssetConstants().showHistory();
+			return Accounter.constants().showHistory();
 		case 7:
-			return Accounter.getFixedAssetConstants().addNote();
+			return Accounter.constants().addNote();
 		case 8:
 			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
@@ -140,13 +140,13 @@ public class SoldAndDisposedItemsListGrid extends
 
 	private void openHistoryView(ClientFixedAsset obj) {
 		Action action = FixedAssetsActionFactory.getHistoryListAction();
-		action.catagory = Accounter.getFixedAssetConstants()
+		action.catagory = Accounter.constants()
 				.fixedAssetsPendingItemsList();
 		action.run(obj, true);
 	}
 
 	private void openNoteDialog(final ClientFixedAsset asset) {
-		noteDialog = new NoteDialog(Accounter.getFixedAssetConstants()
+		noteDialog = new NoteDialog(Accounter.constants()
 				.addNote(), "");
 		noteDialog.addInputDialogHandler(new InputDialogHandler() {
 
@@ -195,14 +195,14 @@ public class SoldAndDisposedItemsListGrid extends
 	 */
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.getFixedAssetConstants().item(),
-				Accounter.getFixedAssetConstants().assetNumber(),
-				Accounter.getFixedAssetConstants().account(),
-				Accounter.getFixedAssetConstants().disposalDate(),
-				Accounter.getFixedAssetConstants().disposalPrice(),
-				Accounter.getFixedAssetConstants().GainsOrLosses(),
-				Accounter.getFixedAssetConstants().showHistory(),
-				Accounter.getFixedAssetConstants().addNote(), "" };
+		return new String[] { Accounter.constants().item(),
+				Accounter.constants().assetNumber(),
+				Accounter.constants().account(),
+				Accounter.constants().disposalDate(),
+				Accounter.constants().disposalPrice(),
+				Accounter.constants().GainsOrLosses(),
+				Accounter.constants().showHistory(),
+				Accounter.constants().addNote(), "" };
 	}
 
 	@Override

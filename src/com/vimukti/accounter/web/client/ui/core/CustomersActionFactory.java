@@ -173,7 +173,7 @@ public class CustomersActionFactory extends AbstractActionFactory {
 	public static ItemsAction getItemsAction() {
 		return new ItemsAction(actionsConstants.items(),
 				"/images/icons/customers/items.png", Accounter
-						.getCustomersMessages().customer());
+						.constants().customer());
 	}
 
 	public static QuotesAction getQuotesAction() {

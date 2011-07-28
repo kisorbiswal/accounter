@@ -19,12 +19,12 @@ public class AmountsDueToVendorsAction extends Action {
 
 	public AmountsDueToVendorsAction(String text) {
 		super(text);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	public AmountsDueToVendorsAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	@SuppressWarnings("unchecked")

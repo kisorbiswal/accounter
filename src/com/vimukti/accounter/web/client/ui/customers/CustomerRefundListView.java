@@ -27,11 +27,11 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 	protected List<CustomerRefundsList> transactions;
 	private List<CustomerRefundsList> listOfCustomerRefund;
 
-	private static String NOT_ISSUED = Accounter.getCustomersMessages()
+	private static String NOT_ISSUED = Accounter.constants()
 			.notIssued();
-	private static String ISSUED = Accounter.getCustomersMessages().issued();
-	private static String VOID = Accounter.getVendorsMessages().Voided();
-	private static String ALL = Accounter.getCustomersMessages().all();
+	private static String ISSUED = Accounter.constants().issued();
+	private static String VOID = Accounter.constants().Voided();
+	private static String ALL = Accounter.constants().all();
 	// private static String DELETED="Deleted";
 
 	private static final int STATUS_NOT_ISSUED = 0;
@@ -91,7 +91,7 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.getCustomersMessages()
+		viewSelect = new SelectCombo(Accounter.constants()
 				.currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
@@ -191,6 +191,6 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCustomersMessages().customerRefunds();
+		return Accounter.constants().customerRefunds();
 	}
 }

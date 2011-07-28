@@ -13,7 +13,7 @@ public class BankingHomeAction extends Action {
 
 	public BankingHomeAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getBankingsMessages().banking();
+		this.catagory = Accounter.constants().banking();
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class BankingHomeAction extends Action {
 			MainFinanceWindow.getViewManager()
 					.showView(view, null, false, this);
 		} catch (Exception e) {
-			Accounter.showError(Accounter.getBankingsMessages()
+			Accounter.showError(Accounter.constants()
 					.failedToLoadBankingHome());
 		}
 	}

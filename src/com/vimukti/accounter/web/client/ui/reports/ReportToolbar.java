@@ -79,9 +79,9 @@ public abstract class ReportToolbar extends HorizontalPanel {
 		try {
 			ClientFinanceDate date = new ClientFinanceDate();
 			if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().all())
-					&& dateRange.equals(Accounter.getReportsMessages().all())) {
-				setSelectedDateRange(Accounter.getReportsMessages().all());
+					Accounter.constants().all())
+					&& dateRange.equals(Accounter.constants().all())) {
+				setSelectedDateRange(Accounter.constants().all());
 				// startDate = FinanceApplication.getStartDate();
 				// endDate = Utility.getLastandOpenedFiscalYearEndDate();
 				// if (endDate == null)
@@ -90,53 +90,53 @@ public abstract class ReportToolbar extends HorizontalPanel {
 				endDate = new ClientFinanceDate(0);
 
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().today())
-					&& dateRange.equals(Accounter.getReportsMessages().today())) {
+					Accounter.constants().today())
+					&& dateRange.equals(Accounter.constants().today())) {
 				startDate = new ClientFinanceDate();
 				endDate = Accounter.getCompany()
 						.getLastandOpenedFiscalYearEndDate();
-				setSelectedDateRange(Accounter.getReportsMessages().today());
+				setSelectedDateRange(Accounter.constants().today());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().endThisWeek())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().endThisWeek())
+					&& dateRange.equals(Accounter.constants()
 							.endThisWeek())) {
 				startDate = getWeekStartDate();
 				endDate = new ClientFinanceDate(new Date(
 						(long) getWeekEndDate()));
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.endThisWeek());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().endThisWeekToDate())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().endThisWeekToDate())
+					&& dateRange.equals(Accounter.constants()
 							.endThisWeekToDate())) {
 				startDate = getWeekStartDate();
 				endDate = new ClientFinanceDate();
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.endThisWeekToDate());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().endThisMonth())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().endThisMonth())
+					&& dateRange.equals(Accounter.constants()
 							.endThisMonth())) {
 				int lastDay = getMonthLastDate(date.getMonth(), date.getYear());
 				startDate = new ClientFinanceDate(date.getYear(),
 						date.getMonth(), 1);
 				endDate = new ClientFinanceDate(date.getYear(),
 						date.getMonth(), lastDay);
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.endThisMonth());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().endThisMonthToDate())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().endThisMonthToDate())
+					&& dateRange.equals(Accounter.constants()
 							.endThisMonthToDate())) {
 				startDate = new ClientFinanceDate(date.getYear(),
 						date.getMonth(), 1);
 				endDate = Accounter.getCompany()
 						.getLastandOpenedFiscalYearEndDate();
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.endThisMonthToDate());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().endThisFiscalQuarter())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().endThisFiscalQuarter())
+					&& dateRange.equals(Accounter.constants()
 							.endThisFiscalQuarter())) {
 				// changes are needed for calculating Fiscal Quarter,
 				// according
@@ -147,12 +147,12 @@ public abstract class ReportToolbar extends HorizontalPanel {
 				startDate = new ClientFinanceDate(date.getYear(), startMonth, 1);
 				endDate = new ClientFinanceDate(date.getYear(), endMonth,
 						getMonthLastDate(endMonth, date.getYear()));
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.endThisFiscalQuarter());
 			} else if (!getSelectedDateRange()
-					.equals(Accounter.getReportsMessages()
+					.equals(Accounter.constants()
 							.endThisFiscalQuarterToDate())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					&& dateRange.equals(Accounter.constants()
 							.endThisFiscalQuarterToDate())) {
 				int month = (date.getMonth()) % 3;
 				int startMonth = date.getMonth() - month;
@@ -161,11 +161,11 @@ public abstract class ReportToolbar extends HorizontalPanel {
 				startDate = new ClientFinanceDate(date.getYear(), startMonth, 1);
 				endDate = Accounter.getCompany()
 						.getLastandOpenedFiscalYearEndDate();
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.endThisFiscalQuarterToDate());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().endThisCalanderQuarter())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().endThisCalanderQuarter())
+					&& dateRange.equals(Accounter.constants()
 							.endThisCalanderQuarter())) {
 				int month = (date.getMonth()) % 3;
 				int startMonth = date.getMonth() - month;
@@ -173,59 +173,59 @@ public abstract class ReportToolbar extends HorizontalPanel {
 				startDate = new ClientFinanceDate(date.getYear(), startMonth, 1);
 				endDate = new ClientFinanceDate(date.getYear(), endMonth,
 						getMonthLastDate(endMonth, date.getYear()));
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.endThisCalanderQuarter());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages()
+					Accounter.constants()
 							.endThisCalanderQuarterToDate())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					&& dateRange.equals(Accounter.constants()
 							.endThisCalanderQuarterToDate())) {
 				int month = (date.getMonth()) % 3;
 				int startMonth = date.getMonth() - month;
 				startDate = new ClientFinanceDate(date.getYear(), startMonth, 1);
 				endDate = Accounter.getCompany()
 						.getLastandOpenedFiscalYearEndDate();
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.endThisCalanderQuarterToDate());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().endThisFiscalYear())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().endThisFiscalYear())
+					&& dateRange.equals(Accounter.constants()
 							.endThisFiscalYear())) {
 
 				startDate = new ClientFinanceDate(date.getYear(), 0, 1);
 				endDate = new ClientFinanceDate(date.getYear(), 11, 31);
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.endThisFiscalYear());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().endThisFiscalYearToDate())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().endThisFiscalYearToDate())
+					&& dateRange.equals(Accounter.constants()
 							.endThisFiscalYearToDate())) {
 				startDate = new ClientFinanceDate(date.getYear(), 0, 1);
 				endDate = Accounter.getCompany()
 						.getLastandOpenedFiscalYearEndDate();
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.endThisFiscalYearToDate());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().endThisCalanderYear())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().endThisCalanderYear())
+					&& dateRange.equals(Accounter.constants()
 							.endThisCalanderYear())) {
 				startDate = new ClientFinanceDate(date.getYear(), 0, 1);
 				endDate = new ClientFinanceDate(date.getYear(), 11, 31);
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.endThisCalanderYear());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().endThisCalanderYearToDate())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().endThisCalanderYearToDate())
+					&& dateRange.equals(Accounter.constants()
 							.endThisCalanderYearToDate())) {
 				startDate = new ClientFinanceDate(date.getYear(), 0, 1);
 				endDate = Accounter.getCompany()
 						.getLastandOpenedFiscalYearEndDate();
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.endThisCalanderYearToDate());
 				changeDates(startDate, endDate);
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().endYesterday())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().endYesterday())
+					&& dateRange.equals(Accounter.constants()
 							.endYesterday())) {
 				// startDate = new ClientFinanceDate(date.getYear(),
 				// date.getMonth(), date
@@ -235,40 +235,40 @@ public abstract class ReportToolbar extends HorizontalPanel {
 						.getLastandOpenedFiscalYearEndDate();
 				int day = endDate.getDay();
 				endDate.setDate(day - 1);
-				setSelectedDateRange((Accounter.getReportsMessages()
+				setSelectedDateRange((Accounter.constants()
 						.endYesterday()));
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().endPreviousFiscalQuarter())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().endPreviousFiscalQuarter())
+					&& dateRange.equals(Accounter.constants()
 							.endPreviousFiscalQuarter())) {
 				startDate = new ClientFinanceDate();
 				endDate = Accounter.getCompany()
 						.getLastandOpenedFiscalYearEndDate();
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.endPreviousFiscalQuarter());
 				getCurrentQuarter();
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().endLastCalenderQuarter())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().endLastCalenderQuarter())
+					&& dateRange.equals(Accounter.constants()
 							.endLastCalenderQuarter())) {
 				startDate = new ClientFinanceDate();
 				endDate = Accounter.getCompany()
 						.getLastandOpenedFiscalYearEndDate();
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.endLastCalenderQuarter());
 				getCurrentQuarter();
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages()
+					Accounter.constants()
 							.previousFiscalYearSameDates())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					&& dateRange.equals(Accounter.constants()
 							.previousFiscalYearSameDates())) {
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.previousFiscalYearSameDates());
 				getCurrentQuarter();
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages()
+					Accounter.constants()
 							.previousFiscalYearSameDates())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					&& dateRange.equals(Accounter.constants()
 							.previousFiscalYearSameDates())) {
 
 				startDate = new ClientFinanceDate(this.startDate.getYear() - 1,
@@ -277,20 +277,20 @@ public abstract class ReportToolbar extends HorizontalPanel {
 						this.endDate.getMonth(), this.endDate.getDate());
 				// startDate = new ClientFinanceDate(date.getYear() - 1, 0, 1);
 				// endDate = new ClientFinanceDate(date.getYear() - 1, 11, 1);
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.previousFiscalYearSameDates());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().lastCalenderYear())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().lastCalenderYear())
+					&& dateRange.equals(Accounter.constants()
 							.lastCalenderYear())) {
 				startDate = new ClientFinanceDate(date.getYear(), 0, 1);
 				endDate = new ClientFinanceDate(date.getYear(), 11, 31);
 
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.lastCalenderYear());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().previousCalenderYear())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().previousCalenderYear())
+					&& dateRange.equals(Accounter.constants()
 							.previousCalenderYear())) {
 				startDate = new ClientFinanceDate(date.getYear() - 1, 0, 1);
 				endDate = new ClientFinanceDate(date.getYear() - 1, 11, 31);
@@ -303,11 +303,11 @@ public abstract class ReportToolbar extends HorizontalPanel {
 				// .getMonth(), this.endDate.getDate());
 				// startDate.setYear(this.startDate.getYear() - 1);
 				// endDate.setYear(this.endDate.getYear() - 1);
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.previousCalenderYear());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().lastMonth())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().lastMonth())
+					&& dateRange.equals(Accounter.constants()
 							.lastMonth())) {
 				int day;
 				if (date.getMonth() == 0) {
@@ -321,10 +321,10 @@ public abstract class ReportToolbar extends HorizontalPanel {
 					endDate = new ClientFinanceDate(date.getYear(),
 							date.getMonth() - 1, day);
 				}
-				setSelectedDateRange(Accounter.getReportsMessages().lastMonth());
+				setSelectedDateRange(Accounter.constants().lastMonth());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().last3Months())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().last3Months())
+					&& dateRange.equals(Accounter.constants()
 							.last3Months())) {
 				int day;
 				if (date.getMonth() == 0) {
@@ -348,11 +348,11 @@ public abstract class ReportToolbar extends HorizontalPanel {
 					endDate = new ClientFinanceDate(date.getYear(),
 							date.getMonth() - 1, day);
 				}
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.last3Months());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().last6Months())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().last6Months())
+					&& dateRange.equals(Accounter.constants()
 							.last6Months())) {
 				int day;
 				if (date.getMonth() == 0) {
@@ -391,50 +391,50 @@ public abstract class ReportToolbar extends HorizontalPanel {
 					endDate = new ClientFinanceDate(date.getYear(),
 							date.getMonth() - 1, day);
 				}
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.last6Months());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().lastYear())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().lastYear())
+					&& dateRange.equals(Accounter.constants()
 							.lastYear())) {
 				startDate = new ClientFinanceDate(date.getYear() - 1, 0, 1);
 				endDate = new ClientFinanceDate(date.getYear() - 1, 11, 31);
-				setSelectedDateRange(Accounter.getReportsMessages().lastYear());
+				setSelectedDateRange(Accounter.constants().lastYear());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().present())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().present())
+					&& dateRange.equals(Accounter.constants()
 							.present())) {
 				startDate = new ClientFinanceDate();
 				endDate = new ClientFinanceDate();
-				setSelectedDateRange(Accounter.getReportsMessages().present());
+				setSelectedDateRange(Accounter.constants().present());
 
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().untilEndOfYear())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().untilEndOfYear())
+					&& dateRange.equals(Accounter.constants()
 							.untilEndOfYear())) {
 				startDate = new ClientFinanceDate();
 				endDate = new ClientFinanceDate(startDate.getYear(), 11, 31);
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.untilEndOfYear());
 
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().thisWeek())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().thisWeek())
+					&& dateRange.equals(Accounter.constants()
 							.thisWeek())) {
 				startDate = getWeekStartDate();
 				endDate = new ClientFinanceDate();
-				setSelectedDateRange(Accounter.getReportsMessages().thisWeek());
+				setSelectedDateRange(Accounter.constants().thisWeek());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().thisMonth())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().thisMonth())
+					&& dateRange.equals(Accounter.constants()
 							.thisMonth())) {
 				startDate = new ClientFinanceDate(date.getYear(),
 						date.getMonth(), 1);
 				endDate = new ClientFinanceDate();
-				setSelectedDateRange(Accounter.getReportsMessages().thisMonth());
+				setSelectedDateRange(Accounter.constants().thisMonth());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().lastWeek())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().lastWeek())
+					&& dateRange.equals(Accounter.constants()
 							.lastWeek())) {
 
 				endDate = getWeekStartDate();
@@ -442,117 +442,117 @@ public abstract class ReportToolbar extends HorizontalPanel {
 				startDate = new ClientFinanceDate(endDate.getTime());
 				startDate.setDate(startDate.getDate() - 6);
 
-				setSelectedDateRange(Accounter.getReportsMessages().lastWeek());
+				setSelectedDateRange(Accounter.constants().lastWeek());
 
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().thisFinancialYear())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().thisFinancialYear())
+					&& dateRange.equals(Accounter.constants()
 							.thisFinancialYear())) {
 				startDate = Accounter.getCompany()
 						.getCurrentFiscalYearStartDate();
 				endDate = Accounter.getCompany().getCurrentFiscalYearEndDate();
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.thisFinancialYear());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().lastFinancialYear())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().lastFinancialYear())
+					&& dateRange.equals(Accounter.constants()
 							.lastFinancialYear())) {
 				startDate = new ClientFinanceDate(date.getYear() - 1, 0, 1);
 				endDate = new ClientFinanceDate(date.getYear() - 1, 11, 31);
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.lastFinancialYear());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().thisFinancialQuarter())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().thisFinancialQuarter())
+					&& dateRange.equals(Accounter.constants()
 							.thisFinancialQuarter())) {
 				startDate = new ClientFinanceDate();
 				endDate = Accounter.getCompany()
 						.getLastandOpenedFiscalYearEndDate();
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.thisFinancialQuarter());
 				getCurrentQuarter();
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().lastFinancialQuarter())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().lastFinancialQuarter())
+					&& dateRange.equals(Accounter.constants()
 							.lastFinancialQuarter())) {
 				startDate = new ClientFinanceDate();
 				endDate = Accounter.getCompany()
 						.getLastandOpenedFiscalYearEndDate();
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.lastFinancialQuarter());
 				getCurrentQuarter();
 				startDate.setYear(startDate.getYear() - 1);
 				endDate.setYear(endDate.getYear() - 1);
 
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().financialYearToDate())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().financialYearToDate())
+					&& dateRange.equals(Accounter.constants()
 							.financialYearToDate())) {
 				startDate = Accounter.getCompany()
 						.getCurrentFiscalYearStartDate();
 				endDate = new ClientFinanceDate();
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.financialYearToDate());
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().thisVATQuarter())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().thisVATQuarter())
+					&& dateRange.equals(Accounter.constants()
 							.thisVATQuarter())) {
 				startDate = new ClientFinanceDate();
 				endDate = Accounter.getCompany().getCurrentFiscalYearEndDate();
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.thisVATQuarter());
 				getCurrentQuarter();
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().thisVATQuarterToDate())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().thisVATQuarterToDate())
+					&& dateRange.equals(Accounter.constants()
 							.thisVATQuarterToDate())) {
 				startDate = Accounter.getCompany()
 						.getCurrentFiscalYearStartDate();
 				endDate = new ClientFinanceDate();
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.thisVATQuarterToDate());
 				getCurrentQuarter();
 				endDate = new ClientFinanceDate();
 
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().lastVATQuarter())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().lastVATQuarter())
+					&& dateRange.equals(Accounter.constants()
 							.lastVATQuarter())) {
 				startDate = Accounter.getCompany()
 						.getCurrentFiscalYearStartDate();
 				endDate = new ClientFinanceDate();
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.lastVATQuarter());
 				getPreviousQuarter();
 
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().lastVATQuarterToDate())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().lastVATQuarterToDate())
+					&& dateRange.equals(Accounter.constants()
 							.lastVATQuarterToDate())) {
 				startDate = Accounter.getCompany()
 						.getCurrentFiscalYearStartDate();
 				endDate = new ClientFinanceDate();
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.lastVATQuarterToDate());
 				getPreviousQuarter();
 				endDate = new ClientFinanceDate();
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().nextVATQuarter())
-					&& dateRange.equals(Accounter.getReportsMessages()
+					Accounter.constants().nextVATQuarter())
+					&& dateRange.equals(Accounter.constants()
 							.nextVATQuarter())) {
 				startDate = Accounter.getCompany()
 						.getCurrentFiscalYearStartDate();
 				endDate = new ClientFinanceDate();
-				setSelectedDateRange(Accounter.getReportsMessages()
+				setSelectedDateRange(Accounter.constants()
 						.nextVATQuarter());
 				getNextQuarter();
 			} else if (!getSelectedDateRange().equals(
-					Accounter.getReportsMessages().custom())
+					Accounter.constants().custom())
 					&& dateRange
-							.equals(Accounter.getReportsMessages().custom())) {
+							.equals(Accounter.constants().custom())) {
 				startDate = this.getStartDate();
 				endDate = this.getEndDate();
-				setSelectedDateRange(Accounter.getReportsMessages().custom());
+				setSelectedDateRange(Accounter.constants().custom());
 			}
 			setStartDate(startDate);
 			setEndDate(endDate);

@@ -119,7 +119,7 @@ public class BalanceSheetServerReport extends
 		// {
 		// addLiablityTypes(record);
 		// } else if (record.getBaseType() == ClientAccount.BASETYPE_EQUITY) {
-		// if (!sectiontypes.contains(FinanceApplication.getReportsMessages()
+		// if (!sectiontypes.contains(FinanceApplication.constants()
 		// .equity())) {
 		// closeOtherSections();
 		// for (int i : new int[] { types.size() - 1, types.size() - 2 }) {
@@ -128,7 +128,7 @@ public class BalanceSheetServerReport extends
 		// if (!sectiontypes.contains("Liabilities and Equity")) {
 		// addTypeSection("Liabilities and Equity");
 		// }
-		// addTypeSection(FinanceApplication.getReportsMessages().equity());
+		// addTypeSection(FinanceApplication.constants().equity());
 		//
 		// }
 		// }
@@ -166,7 +166,7 @@ public class BalanceSheetServerReport extends
 	}
 
 	public void addAssetTypes(TrialBalance record) {
-		// if (!sectiontypes.contains(FinanceApplication.getReportsMessages()
+		// if (!sectiontypes.contains(FinanceApplication.constants()
 		// .asset())) {
 		// closeAllSection();
 		// addTypeSection("Asset");
@@ -185,9 +185,9 @@ public class BalanceSheetServerReport extends
 			}
 			// if (record.getGroupType() == ClientAccount.GROUPTYPE_CASH)
 			// if (!sectiontypes.contains(FinanceApplication
-			// .getReportsMessages().cash())) {
+			// .constants().cash())) {
 			// closeOtherSections();
-			// addTypeSection(FinanceApplication.getReportsMessages()
+			// addTypeSection(FinanceApplication.constants()
 			// .cash());
 			// }
 		}
@@ -197,16 +197,16 @@ public class BalanceSheetServerReport extends
 
 				closePrevSection("Current Assets");
 				// closeSection(types.indexOf(FinanceApplication
-				// .getReportsMessages().currentAssets()));
+				// .constants().currentAssets()));
 				addTypeSection("Current Liabilities");
 			}
 		}
 
-		// if (!sectiontypes.contains(FinanceApplication.getReportsMessages()
+		// if (!sectiontypes.contains(FinanceApplication.constants()
 		// .netCurrentAssets())) {
-		// addTypeSection(FinanceApplication.getReportsMessages()
+		// addTypeSection(FinanceApplication.constants()
 		// .netCurrentAssets(), "", FinanceApplication
-		// .getReportsMessages().netCurrentAssets());
+		// .constants().netCurrentAssets());
 		// }
 
 		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_FIXED_ASSET) {
@@ -214,14 +214,14 @@ public class BalanceSheetServerReport extends
 				// closeAllSection();
 				closePrevSection("Current Liabilities");
 				closePrevSection("Net Current Assets");
-				// closePrevSection(FinanceApplication.getReportsMessages()
+				// closePrevSection(FinanceApplication.constants()
 				// .currentAssets());
 				// closePrevSection()
 				// if (!sectiontypes.contains(FinanceApplication
-				// .getReportsMessages().netAssets())) {
-				// addTypeSection(FinanceApplication.getReportsMessages()
+				// .constants().netAssets())) {
+				// addTypeSection(FinanceApplication.constants()
 				// .netAssets(), "", FinanceApplication
-				// .getReportsMessages().netAssets());
+				// .constants().netAssets());
 				// }
 				// for (int i : new int[] { types.size() - 1, types.size() - 2
 				// }) {
@@ -272,10 +272,10 @@ public class BalanceSheetServerReport extends
 
 	// public void addAssetTypes(TrialBalance record) {
 	//
-	// if (!sectiontypes.contains(FinanceApplication.getReportsMessages()
+	// if (!sectiontypes.contains(FinanceApplication.constants()
 	// .netAssets())) {
-	// addTypeSection(FinanceApplication.getReportsMessages().netAssets(),
-	// "", FinanceApplication.getReportsMessages().netAssets());
+	// addTypeSection(FinanceApplication.constants().netAssets(),
+	// "", FinanceApplication.constants().netAssets());
 	// }
 	//
 	// }

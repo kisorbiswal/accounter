@@ -140,10 +140,10 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 	private void showWarningDialog(final ClientJournalEntry obj, final int col) {
 		String msg = null;
 		if (col == 4 && !obj.isVoid()) {
-			msg = Accounter.getCustomersMessages()
+			msg = Accounter.constants()
 					.doyouwanttoVoidtheTransaction();
 		} else if (col == 5) {
-			msg = Accounter.getCustomersMessages()
+			msg = Accounter.constants()
 					.doyouwanttoDeletetheTransaction();
 
 		}

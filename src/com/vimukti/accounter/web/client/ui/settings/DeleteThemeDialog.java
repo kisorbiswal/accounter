@@ -36,10 +36,10 @@ public class DeleteThemeDialog extends BaseDialog {
 
 		deleteHtml = new HTML("<p>Are you sure you want to delete <strong>"
 				+ brandingTheme.getThemeName() + "</strong> theme?</p>");
-		undoneHtml = new HTML(Accounter.getSettingsMessages()
+		undoneHtml = new HTML(Accounter.constants()
 				.undoneHtml());
 
-		okbtn.setText(Accounter.getSettingsMessages().deleteButton());
+		okbtn.setText(Accounter.constants().deleteButton());
 		okbtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -78,6 +78,6 @@ public class DeleteThemeDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getSettingsMessages().deleteThemeLabel();
+		return Accounter.constants().deleteThemeLabel();
 	}
 }

@@ -26,7 +26,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	public void deleteFailed(Throwable caught) {
 		super.deleteFailed(caught);
-		Accounter.showInformation(Accounter.getCustomersMessages()
+		Accounter.showInformation(Accounter.constants()
 				.youCantDeleteThisCustomer());
 
 	}
@@ -65,7 +65,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected HorizontalPanel getTotalLayout(BaseListGrid grid) {
-		// grid.addFooterValue(FinanceApplication.getCustomersMessages().total(),
+		// grid.addFooterValue(FinanceApplication.constants().total(),
 		// 8);
 		// grid.addFooterValue(DataUtils.getAmountAsString(grid.getTotal()) +
 		// "",
@@ -144,7 +144,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().customers();
+		return Accounter.constants().customers();
 	}
 
 }

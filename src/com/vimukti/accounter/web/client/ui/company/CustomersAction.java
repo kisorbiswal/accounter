@@ -20,12 +20,12 @@ public class CustomersAction extends Action {
 
 	public CustomersAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	public CustomersAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

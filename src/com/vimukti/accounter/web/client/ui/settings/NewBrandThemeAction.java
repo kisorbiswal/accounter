@@ -16,7 +16,7 @@ public class NewBrandThemeAction extends Action {
 
 	public NewBrandThemeAction(String text) {
 		super(text);
-		this.catagory = Accounter.getSettingsMessages().settings();
+		this.catagory = Accounter.constants().settings();
 	}
 
 	@Override
@@ -42,13 +42,13 @@ public class NewBrandThemeAction extends Action {
 		try {
 			if (data != null) {
 				newBrandThemeDialog = new NewBrandThemeDialog(Accounter
-						.getSettingsMessages().editBrandThemeLabel(), "",
+						.constants().editBrandThemeLabel(), "",
 						(ClientBrandingTheme) data);
 				newBrandThemeDialog.show();
 				newBrandThemeDialog.center();
 			} else {
 				newBrandThemeDialog = new NewBrandThemeDialog(Accounter
-						.getSettingsMessages().newBrandThemeLabel(), "");
+						.constants().newBrandThemeLabel(), "");
 				newBrandThemeDialog.show();
 				newBrandThemeDialog.center();
 			}

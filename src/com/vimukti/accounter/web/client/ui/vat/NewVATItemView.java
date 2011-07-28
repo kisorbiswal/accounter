@@ -64,44 +64,44 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		Label infolabel1 = null;
 		final int accounttype = getCompany().getAccountingType();
 		if (accounttype == 1) {
-			infoLabel = new Label(Accounter.getVATMessages().VATItem());
-			infoLabel.setStyleName(Accounter.getCustomersMessages()
+			infoLabel = new Label(Accounter.constants().VATItem());
+			infoLabel.setStyleName(Accounter.constants()
 					.lableTitle());
 			// infoLabel.setHeight("35px");
 		}
 
 		else {
-			infolabel1 = new Label(Accounter.getCompanyMessages().taxItem());
+			infolabel1 = new Label(Accounter.constants().taxItem());
 
-			infolabel1.setStyleName(Accounter.getCustomersMessages()
+			infolabel1.setStyleName(Accounter.constants()
 					.lableTitle());
 			// infolabel1.setHeight("50px");
 		}
 
 		listforms = new ArrayList<DynamicForm>();
 
-		vatItemNameText = new TextItem(Accounter.getVATMessages().VATItemName());
+		vatItemNameText = new TextItem(Accounter.constants().VATItemName());
 		vatItemNameText.setHelpInformation(true);
 		vatItemNameText.setWidth(80);
 		vatItemNameText.setRequired(true);
 
-		descriptionText = new TextAreaItem(Accounter.getVATMessages()
+		descriptionText = new TextAreaItem(Accounter.constants()
 				.description());
 		descriptionText.setHelpInformation(true);
 		descriptionText.setWidth(80);
 
-		vatRateText = new AmountField(Accounter.getVATMessages().VATAmount());
+		vatRateText = new AmountField(Accounter.constants().VATAmount());
 		vatRateText.setHelpInformation(true);
 		vatRateText.setWidth(80);
 		vatRateText.setRequired(true);
 
-		vatRateTextPerT = new PercentageField(Accounter.getVATMessages()
+		vatRateTextPerT = new PercentageField(Accounter.constants()
 				.VATRateInPerc());
 		vatRateTextPerT.setHelpInformation(true);
 		vatRateTextPerT.setWidth(80);
 		vatRateTextPerT.setRequired(true);
 
-		vatAgencyCombo = new TAXAgencyCombo(Accounter.getVATMessages()
+		vatAgencyCombo = new TAXAgencyCombo(Accounter.constants()
 				.VATAgency());
 		vatAgencyCombo.setHelpInformation(true);
 		vatAgencyCombo
@@ -120,7 +120,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		// Label label = new Label(
 		// "Assign This item to box of VAT agency's VAT Return");
 
-		vatReturnBoxCombo = new VatReturnBoxCombo(Accounter.getVATMessages()
+		vatReturnBoxCombo = new VatReturnBoxCombo(Accounter.constants()
 				.VATReturnBox());
 		vatReturnBoxCombo.setHelpInformation(true);
 		vatReturnBoxCombo.setRequired(true);
@@ -136,27 +136,27 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 				});
 		// vatReturnBoxCombo.setWidth(80);
 
-		statusCheck = new CheckboxItem(Accounter.getVATMessages()
+		statusCheck = new CheckboxItem(Accounter.constants()
 				.itemIsActive());
 		statusCheck.setValue(true);
 
-		final DynamicForm form1 = UIUtils.form(Accounter.getVATMessages()
+		final DynamicForm form1 = UIUtils.form(Accounter.constants()
 				.type());
 		form1.setWidth("80%");
 		form1.setIsGroup(true);
 
 		if (accounttype == 0) {
 
-			vatItemNameText.setTitle(Accounter.getCompanyMessages()
+			vatItemNameText.setTitle(Accounter.constants()
 					.taxItemName());
-			vatRateText.setTitle(Accounter.getCompanyMessages().taxAmount());
+			vatRateText.setTitle(Accounter.constants().taxAmount());
 
-			vatRateTextPerT.setTitle(Accounter.getCompanyMessages().taxRateP());
-			vatAgencyCombo.setTitle(Accounter.getCompanyMessages().taxAgency());
+			vatRateTextPerT.setTitle(Accounter.constants().taxRateP());
+			vatAgencyCombo.setTitle(Accounter.constants().taxAgency());
 
 		}
 
-		isPercentatateAmtCheck = new CheckboxItem(Accounter.getVATMessages()
+		isPercentatateAmtCheck = new CheckboxItem(Accounter.constants()
 				.isConsiderAsPercentange());
 		isPercentatateAmtCheck.setValue(true);
 
@@ -406,11 +406,11 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		if (result != null) {
 
 			// if (takenVATItem == null) {
-			// Accounter.showInformation(FinanceApplication.getVATMessages()
+			// Accounter.showInformation(FinanceApplication.constants()
 			// .newVATItemCreated());
 			//
 			// } else {
-			// Accounter.showInformation(FinanceApplication.getVATMessages()
+			// Accounter.showInformation(FinanceApplication.constants()
 			// .VATItemUpdatedSuccessfully());
 			//
 			// }
@@ -542,9 +542,9 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	protected String getViewTitle() {
 		String flag;
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-			flag = Accounter.getActionsConstants().newVatitem();
+			flag = Accounter.constants().newVatitem();
 		else
-			flag = Accounter.getActionsConstants().newTaxItem();
+			flag = Accounter.constants().newTaxItem();
 
 		return flag;
 	}

@@ -16,9 +16,9 @@ public class AdjustTAXAction extends Action {
 	public AdjustTAXAction(String text) {
 		super(text);
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			this.catagory = Accounter.getCompanyMessages().company();
+			this.catagory = Accounter.constants().company();
 		else
-			this.catagory = Accounter.getVATMessages().VAT();
+			this.catagory = Accounter.constants().VAT();
 	}
 
 	@Override

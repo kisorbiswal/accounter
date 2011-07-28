@@ -9,12 +9,12 @@ public class ManageCreditCardProcessingAction extends Action {
 
 	public ManageCreditCardProcessingAction(String text) {
 		super(text);
-		this.catagory = Accounter.getBankingsMessages().banking();
+		this.catagory = Accounter.constants().banking();
 	}
 
 	public ManageCreditCardProcessingAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getBankingsMessages().banking();
+		this.catagory = Accounter.constants().banking();
 	}
 
 	/**

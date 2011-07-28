@@ -97,7 +97,7 @@ public class CountryRegionDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().countryRegionList();
+		return Accounter.constants().countryRegionList();
 	}
 
 }

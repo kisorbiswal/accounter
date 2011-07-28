@@ -64,14 +64,14 @@ public class PurchaseOpenOrderServerReport extends
 	public String[] getColunms() {
 		// if (isPurchases)
 		return new String[] { "Order Date", "Supplier",
-		// FinanceApplication.getReportsMessages().description(),
-				// FinanceApplication.getReportsMessages().quantity(),
+		// FinanceApplication.constants().description(),
+				// FinanceApplication.constants().quantity(),
 				"Amount" };
 		// else
 		// return new String[] {
-		// FinanceApplication.getReportsMessages().orderDate(),
-		// FinanceApplication.getReportsMessages().supplier(),
-		// FinanceApplication.getReportsMessages().value() };
+		// FinanceApplication.constants().orderDate(),
+		// FinanceApplication.constants().supplier(),
+		// FinanceApplication.constants().value() };
 	}
 
 	@Override
@@ -248,8 +248,8 @@ public class PurchaseOpenOrderServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { "Order Date", "Supplier",
-		// FinanceApplication.getReportsMessages().description(),
-				// FinanceApplication.getReportsMessages().quantity(),
+		// FinanceApplication.constants().description(),
+				// FinanceApplication.constants().quantity(),
 				"Amount" };
 	}
 

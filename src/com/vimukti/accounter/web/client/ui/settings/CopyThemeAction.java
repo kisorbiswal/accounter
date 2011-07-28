@@ -32,7 +32,7 @@ public class CopyThemeAction extends Action {
 	public void run(Object data, Boolean isDependent) {
 		try {
 			CopyThemeDialog copyThemeDialog = new CopyThemeDialog(Accounter
-					.getSettingsMessages().copyTheme(), "",
+					.constants().copyTheme(), "",
 					(ClientBrandingTheme) data);
 			copyThemeDialog.center();
 			copyThemeDialog.show();

@@ -62,7 +62,7 @@ public class AddWidgetDialog extends AbstractBaseDialog {
 
 	private void createControl() {
 
-		setText(Accounter.getFinanceUIConstants().addWidget());
+		setText(Accounter.constants().addWidget());
 		setSize("650", "380");
 		// setIsModal(true);
 		// setShowModalMask(true);
@@ -79,10 +79,10 @@ public class AddWidgetDialog extends AbstractBaseDialog {
 		Label label = new Label();
 		// label.setWidth100();
 		if (addablePortletList.toArray().length > 0) {
-			label.setText(Accounter.getFinanceUIConstants()
+			label.setText(Accounter.constants()
 					.widgetsAvailable());
 		} else {
-			label.setText(Accounter.getFinanceUIConstants()
+			label.setText(Accounter.constants()
 					.widgetsAlreadyOnYourHomepageLabel());
 		}
 

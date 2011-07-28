@@ -16,7 +16,7 @@ public class ManageVATGroupListAction extends Action {
 	 */
 	public ManageVATGroupListAction(String text) {
 		super(text);
-		this.catagory = Accounter.getVATMessages().VAT();
+		this.catagory = Accounter.constants().VAT();
 	}
 
 	/**
@@ -25,7 +25,7 @@ public class ManageVATGroupListAction extends Action {
 	 */
 	public ManageVATGroupListAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getVATMessages().VAT();
+		this.catagory = Accounter.constants().VAT();
 	}
 
 	/*

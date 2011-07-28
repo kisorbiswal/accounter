@@ -92,7 +92,7 @@ public class CreditCardChargeView extends
 		super.setData(data);
 		if (isEdit && (!transactionObject.isCreditCardCharge()))
 			try {
-				throw new Exception(Accounter.getFinanceUIConstants()
+				throw new Exception(Accounter.constants()
 						.UnableToLoadRequiredCreditCardCharge());
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -319,7 +319,7 @@ public class CreditCardChargeView extends
 		addressList = null;
 		// billToCombo.setDisabled(isEdit);
 		paymentMethod = UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-				.getCustomersMessages().check());
+				.constants().check());
 		payFromAccount = 0;
 		// phoneSelect.setValueMap("");
 		setMemoTextAreaItem("");
@@ -330,10 +330,10 @@ public class CreditCardChargeView extends
 
 	@Override
 	protected void createControls() {
-		titlelabel = new Label(Accounter.getFinanceUIConstants()
+		titlelabel = new Label(Accounter.constants()
 				.creditCardCharge());
 		titlelabel.removeStyleName("gwt-Label");
-		titlelabel.addStyleName(Accounter.getFinanceUIConstants().lableTitle());
+		titlelabel.addStyleName(Accounter.constants().lableTitle());
 		// titlelabel.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
@@ -359,8 +359,8 @@ public class CreditCardChargeView extends
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
 
 		vendorNameSelect = new VendorCombo(UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplierName(), Accounter
-				.getVendorsMessages().vendorName()));
+				.constants().supplierName(), Accounter
+				.constants().vendorName()));
 		vendorNameSelect.setHelpInformation(true);
 		vendorNameSelect.setWidth(100);
 		vendorNameSelect.setRequired(true);
@@ -388,7 +388,7 @@ public class CreditCardChargeView extends
 		// contactNameSelect.setWidth(100);
 		formItems.add(contactNameSelect);
 		// billToCombo = createBillToComboItem();
-		billToAreaItem = new TextAreaItem(Accounter.getVendorsMessages()
+		billToAreaItem = new TextAreaItem(Accounter.constants()
 				.billTo());
 		billToAreaItem.setWidth(100);
 		billToAreaItem.setDisabled(true);
@@ -409,17 +409,17 @@ public class CreditCardChargeView extends
 		forms.add(vendorForm);
 
 		payMethSelect = createPaymentMethodSelectItem();
-		payMethSelect.setTitle(Accounter.getFinanceUIConstants()
+		payMethSelect.setTitle(Accounter.constants()
 				.paymentMethod());
 		payMethSelect.setWidth(90);
 		payMethSelect.setComboItem(UIUtils
 				.getpaymentMethodCheckBy_CompanyType(Accounter
-						.getCustomersMessages().check()));
+						.constants().check()));
 
 		payFrmSelect = createPayFromselectItem();
 		payFrmSelect.setWidth(90);
 		payFrmSelect.setPopupWidth("510px");
-		payFrmSelect.setTitle(Accounter.getFinanceUIConstants().payFrom());
+		payFrmSelect.setTitle(Accounter.constants().payFrom());
 		payFromAccount = 0;
 		payFrmSelect.setColSpan(0);
 		formItems.add(payFrmSelect);
@@ -444,7 +444,7 @@ public class CreditCardChargeView extends
 		termsForm
 				.getCellFormatter()
 				.getElement(0, 0)
-				.setAttribute(Accounter.getCustomersMessages().width(), "203px");
+				.setAttribute(Accounter.constants().width(), "203px");
 		forms.add(termsForm);
 
 		Label lab2 = new Label("Items and expenses");
@@ -452,7 +452,7 @@ public class CreditCardChargeView extends
 		AccounterButton addButton = createAddNewButton();// new
 		// Button(FinanceApplication
 
-		netAmount = new AmountLabel(Accounter.getBankingsMessages().netAmount());
+		netAmount = new AmountLabel(Accounter.constants().netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 
@@ -460,7 +460,7 @@ public class CreditCardChargeView extends
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
-		vatinclusiveCheck = new CheckboxItem(Accounter.getBankingsMessages()
+		vatinclusiveCheck = new CheckboxItem(Accounter.constants()
 				.amountincludesVat());
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
@@ -494,7 +494,7 @@ public class CreditCardChargeView extends
 		totalForm.setNumCols(2);
 		totalForm.setWidth("100%");
 		totalForm.setStyleName("invoice-total");
-		// totText = new AmountField(FinanceApplication.getFinanceUIConstants()
+		// totText = new AmountField(FinanceApplication.constants()
 		// .total());
 		// totText.setWidth(100);
 
@@ -850,9 +850,9 @@ public class CreditCardChargeView extends
 		transactionDateItem.setDisabled(isEdit);
 		transactionNumber.setDisabled(isEdit);
 		payMethSelect.setDisabled(isEdit);
-		if (paymentMethod.equals(Accounter.getVendorsMessages().check())
+		if (paymentMethod.equals(Accounter.constants().check())
 				|| paymentMethod
-						.equals(Accounter.getVendorsMessages().cheque())) {
+						.equals(Accounter.constants().cheque())) {
 			cheqNoText.setDisabled(isEdit);
 		} else {
 			cheqNoText.setDisabled(!isEdit);

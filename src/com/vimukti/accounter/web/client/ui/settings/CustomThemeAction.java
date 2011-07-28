@@ -33,7 +33,7 @@ public class CustomThemeAction extends Action {
 	public void run(Object data, Boolean isDependent) {
 		try {
 			CustomThemeDialog customThemeDialog = new CustomThemeDialog(
-					Accounter.getSettingsMessages().newBrandThemeLabel(), "");
+					Accounter.constants().newBrandThemeLabel(), "");
 			customThemeDialog.show();
 			customThemeDialog.center();
 		} catch (Exception e) {

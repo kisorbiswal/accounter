@@ -120,7 +120,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	private void showWarningDialog(final InvoicesList obj, final int col) {
 		String msg = null;
 		if (!obj.isVoided() && col == 8) {
-			msg = Accounter.getCustomersMessages()
+			msg = Accounter.constants()
 					.doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 9) {

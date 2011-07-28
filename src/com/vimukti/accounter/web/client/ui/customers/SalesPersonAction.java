@@ -15,12 +15,12 @@ public class SalesPersonAction extends Action {
 
 	public SalesPersonAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCustomersMessages().salesPerson();
+		this.catagory = Accounter.constants().salesPerson();
 	}
 
 	public SalesPersonAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCustomersMessages().salesPerson();
+		this.catagory = Accounter.constants().salesPerson();
 	}
 
 	@Override

@@ -165,11 +165,11 @@ public class ReceivePaymentView extends
 									.showMessage("Your session expired, Please login again to continue");
 						} else {
 							Accounter.showError(Accounter
-									.getCustomersMessages()
+									.constants()
 									.failedToGetRecievePayments()
 									+ selectedCustomer.getName());
 							gridView.addEmptyMessage(Accounter
-									.getCustomersMessages().norecordstoshow());
+									.constants().norecordstoshow());
 						}
 					}
 
@@ -184,7 +184,7 @@ public class ReceivePaymentView extends
 							addTransactionRecievePayments(result);
 						} else {
 							gridView.addEmptyMessage(Accounter
-									.getCustomersMessages().norecordstoshow());
+									.constants().norecordstoshow());
 							totalInoiceAmt = 0.00d;
 							totalDueAmt = 0.00d;
 							transactionTotal = 0.00d;
@@ -403,7 +403,7 @@ public class ReceivePaymentView extends
 			// ClientAccount cashAcc =
 			// FinanceApplication.getCompany().getAccount(
 			// gridView.getAttribute(FinanceApplication
-			// .getCustomersMessages().cashAccount(), gridView
+			// .constants().cashAccount(), gridView
 			// .indexOf(payment)));
 			// if (cashAcc != null)
 			// payment.setDiscountAccount(cashAcc.getID());
@@ -411,7 +411,7 @@ public class ReceivePaymentView extends
 			// ClientAccount wrrittoff = FinanceApplication.getCompany()
 			// .getAccount(
 			// gridView.getAttribute(FinanceApplication
-			// .getCustomersMessages().writeOff(),
+			// .constants().writeOff(),
 			// gridView.indexOf(payment)));
 			// if (wrrittoff != null)
 			// payment.setWriteOffAccount(wrrittoff.getID());
@@ -421,7 +421,7 @@ public class ReceivePaymentView extends
 			// List<ClientTransactionCreditsAndPayments> trpList =
 			// (List<ClientTransactionCreditsAndPayments>) gridView
 			// .getAttributeAsObject(FinanceApplication
-			// .getCustomersMessages().creditsAndPayments(),
+			// .constants().creditsAndPayments(),
 			// gridView.indexOf(payment));
 			if (gridView.creditsAndPaymentsDialiog != null) {
 				List<ClientTransactionCreditsAndPayments> tranCreditsandPayments = gridView.creditsAndPaymentsDialiog != null ? gridView.creditsAndPaymentsDialiog
@@ -456,7 +456,7 @@ public class ReceivePaymentView extends
 			// + getTransactionStatus() + ")");
 			lab = new Label(Utility.getTransactionName(transactionType));
 		}
-		lab.setStyleName(Accounter.getCustomersMessages().lableTitle());
+		lab.setStyleName(Accounter.constants().lableTitle());
 		// lab.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
@@ -517,7 +517,7 @@ public class ReceivePaymentView extends
 					paymentAmountChanged(amount);
 
 					if (DecimalUtil.isLessThan(amount, 0)) {
-						Accounter.showError(Accounter.getCustomersMessages()
+						Accounter.showError(Accounter.constants()
 								.noNegativeAmountsReceived());
 						setAmount(0.00D);
 
@@ -585,7 +585,7 @@ public class ReceivePaymentView extends
 		depoForm.getCellFormatter().setWidth(0, 0, "203px");
 		forms.add(depoForm);
 
-		Label lab1 = new Label(Accounter.getCustomersMessages().dueForPayment());
+		Label lab1 = new Label(Accounter.constants().dueForPayment());
 
 		initListGrid();
 
@@ -1368,7 +1368,7 @@ public class ReceivePaymentView extends
 		//
 		// public void onFailure(Throwable caught) {
 		// Accounter.showError(FinanceApplication
-		// .getCustomersMessages()
+		// .constants()
 		// .failedToGetRecievePayments()
 		// + customer.getName());
 		// }
@@ -1425,7 +1425,7 @@ public class ReceivePaymentView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCustomersMessages().receivePayment();
+		return Accounter.constants().receivePayment();
 	}
 
 }

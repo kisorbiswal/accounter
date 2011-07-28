@@ -21,23 +21,23 @@ public class SalesOpenOrderReport extends
 	public void init() {
 
 		super.init();
-		toolbar.setDateRanageOptions(Accounter.getReportsMessages().all(),
-				Accounter.getReportsMessages().thisWeek(), Accounter
-						.getReportsMessages().thisMonth(), Accounter
-						.getReportsMessages().lastWeek(), Accounter
-						.getReportsMessages().lastMonth(), Accounter
-						.getReportsMessages().thisFinancialYear(), Accounter
-						.getReportsMessages().lastFinancialYear(), Accounter
-						.getReportsMessages().thisFinancialQuarter(), Accounter
-						.getReportsMessages().lastFinancialQuarter(),
+		toolbar.setDateRanageOptions(Accounter.constants().all(),
+				Accounter.constants().thisWeek(), Accounter
+						.constants().thisMonth(), Accounter
+						.constants().lastWeek(), Accounter
+						.constants().lastMonth(), Accounter
+						.constants().thisFinancialYear(), Accounter
+						.constants().lastFinancialYear(), Accounter
+						.constants().thisFinancialQuarter(), Accounter
+						.constants().lastFinancialQuarter(),
 
 				// FinanceApplication
-				// .getReportsMessages().present(), FinanceApplication
-				// .getReportsMessages().last3Months(), FinanceApplication
-				// .getReportsMessages().last6Months(), FinanceApplication
-				// .getReportsMessages().lastYear(), FinanceApplication
-				// .getReportsMessages().untilEndOfYear(),
-				Accounter.getReportsMessages().custom());
+				// .constants().present(), FinanceApplication
+				// .constants().last3Months(), FinanceApplication
+				// .constants().last6Months(), FinanceApplication
+				// .constants().lastYear(), FinanceApplication
+				// .constants().untilEndOfYear(),
+				Accounter.constants().custom());
 	}
 
 	@Override

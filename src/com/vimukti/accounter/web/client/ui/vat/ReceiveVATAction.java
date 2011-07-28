@@ -18,12 +18,12 @@ public class ReceiveVATAction extends Action {
 
 	public ReceiveVATAction(String text) {
 		super(text);
-		this.catagory = Accounter.getVATMessages().VAT();
+		this.catagory = Accounter.constants().VAT();
 	}
 
 	public ReceiveVATAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getVATMessages().VAT();
+		this.catagory = Accounter.constants().VAT();
 	}
 
 	@Override

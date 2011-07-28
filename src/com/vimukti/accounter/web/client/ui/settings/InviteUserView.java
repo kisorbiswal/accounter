@@ -86,7 +86,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 
 		custForm.setFields(firstNametext, lastNametext, emailField);
 		custForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.getCompanyMessages().width(), "150px");
+				.setAttribute(Accounter.constants().width(), "150px");
 
 		vPanel.add(custForm);
 		vPanel.add(setPerLabel);
@@ -392,7 +392,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getSettingsMessages().inviteUser();
+		return Accounter.constants().inviteUser();
 	}
 
 }

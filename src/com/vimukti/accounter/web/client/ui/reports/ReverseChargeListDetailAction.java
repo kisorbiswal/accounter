@@ -14,12 +14,12 @@ public class ReverseChargeListDetailAction extends Action {
 
 	public ReverseChargeListDetailAction(String text) {
 		super(text);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	public ReverseChargeListDetailAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	@Override

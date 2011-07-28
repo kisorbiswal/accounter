@@ -23,22 +23,22 @@ public class NewCreditMemoAction extends Action {
 
 	public NewCreditMemoAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.supplier(), Accounter.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor());
 	}
 
 	public NewCreditMemoAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.supplier(), Accounter.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor());
 	}
 
 	public NewCreditMemoAction(String newCreditMemo, String string,
 			ClientVendorCreditMemo vendorCreditMemo,
 			AsyncCallback<Object> callBack) {
 		super(newCreditMemo, string, vendorCreditMemo, callBack);
-		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.supplier(), Accounter.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor());
 	}
 
 	@Override

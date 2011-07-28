@@ -26,10 +26,10 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 	private PurchaseDetailesView purchaseDetailView;
 	private List<PurchaseOrdersList> listOfPurchaseOrders;
 
-	private static String OPEN = Accounter.getVendorsMessages().open();
-	private static String COMPLETED = Accounter.getVendorsMessages()
+	private static String OPEN = Accounter.constants().open();
+	private static String COMPLETED = Accounter.constants()
 			.completed();
-	private static String CANCELLED = Accounter.getVendorsMessages()
+	private static String CANCELLED = Accounter.constants()
 			.cancelled();
 
 	// private static String CANCELLED = "Cancelled";
@@ -48,13 +48,13 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		// return FinanceApplication.getVendorsMessages().newPurchaseOrder();
+		// return FinanceApplication.constants().newPurchaseOrder();
 		return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.getVendorsMessages().purchaseOrderList();
+		return Accounter.constants().purchaseOrderList();
 	}
 
 	@Override
@@ -129,7 +129,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
 	protected SelectCombo getSelectItem() {
 		listOfTypes = new ArrayList<String>();
-		viewSelect = new SelectCombo(Accounter.getVendorsMessages()
+		viewSelect = new SelectCombo(Accounter.constants()
 				.currentView());
 		listOfTypes.add(OPEN);
 		listOfTypes.add(COMPLETED);
@@ -254,6 +254,6 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getVendorsMessages().purchaseOrders();
+		return Accounter.constants().purchaseOrders();
 	}
 }

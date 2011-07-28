@@ -40,14 +40,14 @@ public class DataUtils {
 
 	public static Validator emailValidator() {
 		RegExpValidator validator = new RegExpValidator();
-		validator.setExpression(Accounter.getFinanceUIConstants()
+		validator.setExpression(Accounter.constants()
 				.emailFormatExpr());
 		return validator;
 	}
 
 	public static Validator webValidator() {
 		RegExpValidator validator = new RegExpValidator();
-		validator.setExpression(Accounter.getFinanceUIConstants()
+		validator.setExpression(Accounter.constants()
 				.webFormatExpr());
 		return validator;
 	}

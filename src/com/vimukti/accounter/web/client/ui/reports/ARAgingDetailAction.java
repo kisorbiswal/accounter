@@ -19,13 +19,13 @@ public class ARAgingDetailAction extends Action {
 
 	public ARAgingDetailAction(String text) {
 		super(text);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 
 	}
 
 	public ARAgingDetailAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

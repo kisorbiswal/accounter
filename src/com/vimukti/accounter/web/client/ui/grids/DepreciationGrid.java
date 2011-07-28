@@ -39,7 +39,7 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 
 	private void createControls() {
 		accountsCombo = new FixedAssetAccountCombo(Accounter
-				.getCustomersMessages().accounts());
+				.constants().accounts());
 		accountsCombo.setGrid(this);
 		accountsCombo.setRequired(true);
 		accountsCombo
@@ -102,9 +102,9 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] {
-				Accounter.getFixedAssetConstants().account(),
-				Accounter.getFixedAssetConstants().AmounttobeDepreciated(),
-				Accounter.getFixedAssetConstants()
+				Accounter.constants().account(),
+				Accounter.constants().AmounttobeDepreciated(),
+				Accounter.constants()
 						.AccumulatedDepreciationAccount() };
 	}
 

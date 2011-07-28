@@ -63,7 +63,7 @@ public class ItemReceiptView extends
 	protected void createControls() {
 		// setTitle(UIUtils.title(vendorConstants.cashPurchase()));
 
-		HTML lab1 = new HTML(Accounter.getVendorsMessages().itemReceipt());
+		HTML lab1 = new HTML(Accounter.constants().itemReceipt());
 
 		listforms = new ArrayList<DynamicForm>();
 
@@ -99,11 +99,11 @@ public class ItemReceiptView extends
 		formItems.add(transactionNumber);
 
 		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplierName(), Accounter
-				.getVendorsMessages().vendorName()));
+				.constants().supplierName(), Accounter
+				.constants().vendorName()));
 		vendorCombo.setWidth(100);
 		purchaseLabel = new LinkItem();
-		purchaseLabel.setLinkTitle(Accounter.getVendorsMessages()
+		purchaseLabel.setLinkTitle(Accounter.constants()
 				.purchaseOrders());
 		purchaseLabel.setShowTitle(false);
 		purchaseLabel.setDisabled(isEdit);
@@ -185,7 +185,7 @@ public class ItemReceiptView extends
 		memoForm.setFields(memoTextAreaItem);
 		forms.add(memoForm);
 
-		transactionTotalItem = new AmountField(Accounter.getVendorsMessages()
+		transactionTotalItem = new AmountField(Accounter.constants()
 				.total());
 		transactionTotalItem.setDisabled(true);
 		DynamicForm amountForm = new DynamicForm();
@@ -270,7 +270,7 @@ public class ItemReceiptView extends
 	private PaymentTermsCombo createPaymentTermsSelectItem() {
 
 		PaymentTermsCombo comboItem = new PaymentTermsCombo(Accounter
-				.getVendorsMessages().paymentTerms());
+				.constants().paymentTerms());
 
 		comboItem
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
@@ -589,7 +589,7 @@ public class ItemReceiptView extends
 		case 3:
 			return AccounterValidator.validate_dueOrDelivaryDates(
 					deliveryDateItem.getEnteredDate(), this.transactionDate,
-					Accounter.getVendorsMessages().deliverydate());
+					Accounter.constants().deliverydate());
 		case 4:
 			return AccounterValidator.isBlankTransaction(vendorTransactionGrid);
 		case 5:
@@ -682,7 +682,7 @@ public class ItemReceiptView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCustomersMessages().itemReciepts();
+		return Accounter.constants().itemReciepts();
 	}
 
 }

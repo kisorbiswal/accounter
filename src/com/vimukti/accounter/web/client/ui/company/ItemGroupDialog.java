@@ -56,7 +56,7 @@ public class ItemGroupDialog extends BaseDialog {
 		VerticalPanel panel = new VerticalPanel();
 
 		dform = new DynamicForm();
-		itemGtext = new TextItem(Accounter.getFinanceUIConstants().itemGroup());
+		itemGtext = new TextItem(Accounter.constants().itemGroup());
 		itemGtext.setHelpInformation(true);
 		itemGtext.setRequired(true);
 		dform.setFields(itemGtext);
@@ -136,6 +136,6 @@ public class ItemGroupDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getFinanceUIConstants().itemGroup();
+		return Accounter.constants().itemGroup();
 	}
 }

@@ -11,12 +11,12 @@ public class DepositDetailAction extends Action {
 
 	public DepositDetailAction(String text) {
 		super(text);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	public DepositDetailAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

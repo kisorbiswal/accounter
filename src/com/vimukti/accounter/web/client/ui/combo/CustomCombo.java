@@ -47,7 +47,7 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 
 				if (!GWT.isScript()) {
 					caught.printStackTrace();
-					Accounter.showError(Accounter.getAccounterComboConstants()
+					Accounter.showError(Accounter.constants()
 							.sorryFailedToAdd());
 				}
 

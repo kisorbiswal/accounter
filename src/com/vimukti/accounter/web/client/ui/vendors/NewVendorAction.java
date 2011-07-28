@@ -28,18 +28,18 @@ public class NewVendorAction extends Action {
 	private int openedFrom;
 
 	public NewVendorAction(String text, String iconString) {
-		super(UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.newSupplier(), Accounter.getVendorsMessages().newVendor()),
+		super(UIUtils.getVendorString(Accounter.constants()
+				.newSupplier(), Accounter.constants().newVendor()),
 				iconString);
-		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.supplier(), Accounter.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor());
 	}
 
 	public NewVendorAction(String text, String iconString, ClientVendor vendor,
 			AsyncCallback<Object> callback) {
 		super(text, iconString, vendor, callback);
-		this.catagory = UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.supplier(), Accounter.getVendorsMessages().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor());
 	}
 
 	@Override

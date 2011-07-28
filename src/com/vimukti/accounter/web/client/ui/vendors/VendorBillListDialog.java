@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
-import com.vimukti.accounter.web.client.externalization.FinanceConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -36,8 +36,8 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 	private VendorsMessages vendorConstants = GWT.create(VendorsMessages.class);
 	// private CustomersMessages customerConstants = GWT
 	// .create(CustomersMessages.class);
-	private FinanceConstants financeConstants = GWT
-			.create(FinanceConstants.class);
+	private AccounterConstants financeConstants = GWT
+			.create(AccounterConstants.class);
 	private DialogGrid grid;
 	private List<PurchaseOrdersAndItemReceiptsList> list;
 	public ClientVendor preVendor;
@@ -48,7 +48,7 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 		this.view = view;
 		this.list = list;
 		// setTitle("");
-		setText(Accounter.getVendorsMessages().purchaseOrderList());
+		setText(Accounter.constants().purchaseOrderList());
 		createControls();
 		setWidth("600");
 		setQuoteList(list);
@@ -60,18 +60,18 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 		VerticalPanel mainLayout = new VerticalPanel();
 		mainLayout.setSize("100%", "100%");
 		mainLayout.setSpacing(3);
-		Label infoLabel = new Label(Accounter.getVendorsMessages()
+		Label infoLabel = new Label(Accounter.constants()
 				.selectPurchaseOrder()
-				+ Accounter.getVendorsMessages().selectDocument());
+				+ Accounter.constants().selectDocument());
 
 		mainLayout.add(infoLabel);
 
 		grid = new DialogGrid(false);
 		grid.addColumns(vendorConstants.Date(), vendorConstants.no(),
 				vendorConstants.type(), UIUtils.getVendorString(Accounter
-						.getVendorsMessages().supplierName(), Accounter
-						.getVendorsMessages().vendorName()), vendorConstants
-						.total(), Accounter.getCustomersMessages().remainingTotal());
+						.constants().supplierName(), Accounter
+						.constants().vendorName()), vendorConstants
+						.total(), Accounter.constants().remainingTotal());
 		grid.setCellsWidth(60, 20, 90, -1, 60, 95);
 		grid.setView(this);
 		grid.init();
@@ -113,7 +113,7 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				Accounter.showError(Accounter.getVendorsMessages()
+				Accounter.showError(Accounter.constants()
 						.sorryNoHelp());
 
 			}
@@ -203,7 +203,7 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 					Accounter
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
-					Accounter.showError(Accounter.getVendorsMessages()
+					Accounter.showError(Accounter.constants()
 							.errorLoadingItemReceipt());
 				}
 
@@ -231,7 +231,7 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 					Accounter
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
-					Accounter.showError(Accounter.getVendorsMessages()
+					Accounter.showError(Accounter.constants()
 							.errorLoadingPurchaseOrder());
 				}
 
@@ -260,7 +260,7 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 				grid.addData(rec);
 			}
 		} else
-			grid.addEmptyMessage(Accounter.getVendorsMessages()
+			grid.addEmptyMessage(Accounter.constants()
 					.norecordstoshow());
 	}
 

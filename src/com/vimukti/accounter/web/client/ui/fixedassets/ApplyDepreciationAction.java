@@ -9,7 +9,7 @@ public class ApplyDepreciationAction extends Action {
 
 	public ApplyDepreciationAction(String text) {
 		super(text);
-		this.catagory = Accounter.getFixedAssetConstants().fixedAssets();
+		this.catagory = Accounter.constants().fixedAssets();
 	}
 
 	@Override

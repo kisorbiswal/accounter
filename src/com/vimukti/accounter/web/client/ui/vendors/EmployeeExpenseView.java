@@ -97,7 +97,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		final MultiWordSuggestOracle employe = new MultiWordSuggestOracle();
 
-		titlelabel.setText(Accounter.getVendorsMessages().employeeExpense());
+		titlelabel.setText(Accounter.constants().employeeExpense());
 		// Accounter.createGETService().getHREmployees(
 		// new AsyncCallback<List<HrEmployee>>() {
 		//
@@ -116,7 +116,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		// }
 		// });
 
-		employee = new EmployeeCombo(Accounter.getVendorsMessages().employEe());
+		employee = new EmployeeCombo(Accounter.constants().employEe());
 		employee.getMainWidget();
 		employee.setHelpInformation(true);
 		employee.setRequired(true);
@@ -133,15 +133,15 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		}
 
 		String listString[] = new String[] {
-				Accounter.getVendorsMessages().cash(),
+				Accounter.constants().cash(),
 				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-						.getCustomersMessages().check()),
-				Accounter.getVendorsMessages().creditCard(),
-				Accounter.getVendorsMessages().directDebit(),
-				Accounter.getVendorsMessages().masterCard(),
-				Accounter.getVendorsMessages().onlineBanking(),
-				Accounter.getVendorsMessages().standingOrder(),
-				Accounter.getVendorsMessages().switchMaestro() };
+						.constants().check()),
+				Accounter.constants().creditCard(),
+				Accounter.constants().directDebit(),
+				Accounter.constants().masterCard(),
+				Accounter.constants().onlineBanking(),
+				Accounter.constants().standingOrder(),
+				Accounter.constants().switchMaestro() };
 		selectedComboList = new ArrayList<String>();
 		for (int i = 0; i < listString.length; i++) {
 			selectedComboList.add(listString[i]);
@@ -213,7 +213,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		case 3:
 			return AccounterValidator.validate_dueOrDelivaryDates(
 					deliveryDateItem.getEnteredDate(), this.transactionDate,
-					Accounter.getVendorsMessages().deliverydate());
+					Accounter.constants().deliverydate());
 		case 2:
 			return AccounterValidator.isBlankTransaction(vendorTransactionGrid);
 		case 1:
@@ -268,13 +268,13 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	@Override
 	protected void showMenu(AccounterButton button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.getVendorsMessages().service());
+			setMenuItems(button, Accounter.constants().service());
 		else
-			setMenuItems(button, Accounter.getVendorsMessages().service());
+			setMenuItems(button, Accounter.constants().service());
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getVendorsMessages().employeeExpense();
+		return Accounter.constants().employeeExpense();
 	}
 }

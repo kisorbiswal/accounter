@@ -138,10 +138,10 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			useVendorId.setValue(companyPreferences.getUseVendorId());
 			if (companyPreferences.getAgeingFromTransactionDateORDueDate() == CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE)
 				ageingFromTransactionDateORDueDate.setValue(Accounter
-						.getCompanyMessages().ageingforduedate());
+						.constants().ageingforduedate());
 			else
 				ageingFromTransactionDateORDueDate.setValue(Accounter
-						.getCompanyMessages().ageingfortransactiondate());
+						.constants().ageingfortransactiondate());
 
 			allowDocumentNos.setValue(companyPreferences
 					.getAllowDuplicateDocumentNumbers());
@@ -387,7 +387,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		faxText = new IntegerField(companyConstants.businessFax());
 		faxText.setHelpInformation(true);
 
-		emailText = new EmailField(Accounter.getCompanyMessages().email());
+		emailText = new EmailField(Accounter.constants().email());
 		emailText.setHelpInformation(true);
 
 		websiteText = new TextItem(companyConstants.webPageAddress());
@@ -400,13 +400,13 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		taxIDText = new TextItem(companyConstants.federalTaxId());
 		taxIDText.setHelpInformation(true);
 
-		bankAccountText = new IntegerField(Accounter.getCompanyMessages()
+		bankAccountText = new IntegerField(Accounter.constants()
 				.bankAccountNo());
 		// bankAccountText.setTitle();
 		bankAccountText.setHelpInformation(true);
 
 		sortCodeText = new TextItem();
-		sortCodeText.setTitle(Accounter.getCompanyMessages().sortCode());
+		sortCodeText.setTitle(Accounter.constants().sortCode());
 		sortCodeText.setHelpInformation(true);
 
 		phoneAndFaxForm = UIUtils.form(companyConstants.phoneAndFaxNumbers());
@@ -558,7 +558,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		//
 		// });
 
-		// okbtn.setText(FinanceApplication.getCompanyMessages().update());
+		// okbtn.setText(FinanceApplication.constants().update());
 
 		mainHLay.setWidth("100%");
 		mainHLay.setHeight("250");
@@ -627,7 +627,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 						.getValue()
 						.toString()
 						.equalsIgnoreCase(
-								Accounter.getCompanyMessages()
+								Accounter.constants()
 										.ageingforduedate()) ? CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE
 						: CompanyPreferencesView.TYPE_AGEING_FROM_TRANSACTIONDATE);
 		if (dateItem.getValue() != null) {
@@ -677,7 +677,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 						.getValue()
 						.toString()
 						.equalsIgnoreCase(
-								Accounter.getCompanyMessages()
+								Accounter.constants()
 										.ageingforduedate()) ? CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE
 						: CompanyPreferencesView.TYPE_AGEING_FROM_TRANSACTIONDATE);
 		if (dateItem.getValue() != null) {
@@ -746,7 +746,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			CompanyActionFactory.getCompanyHomeAction().run(null, false);
 
 		} else {
-			saveFailed(new Exception(Accounter.getCompanyMessages().failed()));
+			saveFailed(new Exception(Accounter.constants().failed()));
 		}
 
 	}
@@ -754,12 +754,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		// BaseView.errordata.setHTML(FinanceApplication.getCompanyMessages()
+		// BaseView.errordata.setHTML(FinanceApplication.constants()
 		// .failedToUpdate());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		MainFinanceWindow.getViewManager().showError(
-				Accounter.getCompanyMessages().failedToUpdate());
+				Accounter.constants().failedToUpdate());
 	}
 
 	private Double getDoubleValue(FormItem item) {
@@ -801,13 +801,13 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		useVendorId = new CheckboxItem();
 		useVendorId.setTitle(companyMessges.useVendorId());
 		ageingFromTransactionDateORDueDate = new RadioGroupItem(Accounter
-				.getCompanyMessages().ageingDetails());
+				.constants().ageingDetails());
 
 		ageingFromTransactionDateORDueDate.setValues(getClickHandler(),
-				Accounter.getCompanyMessages().ageingforduedate(), Accounter
-						.getCompanyMessages().ageingfortransactiondate());
+				Accounter.constants().ageingforduedate(), Accounter
+						.constants().ageingfortransactiondate());
 		// ageingFromTransactionDateORDueDate.setDefaultValue(FinanceApplication
-		// .getCompanyMessages().ageingfortransactiondate());
+		// .constants().ageingfortransactiondate());
 
 		allowDocumentNos = new CheckboxItem();
 		allowDocumentNos.setTitle(companyMessges.allowDocNos());
@@ -872,7 +872,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		// doupaySalesChecBox = new CheckboxItem();
 		// // doupaySalesChecBox.setColSpan("2");
-		// doupaySalesChecBox.setAttribute(FinanceApplication.getCompanyMessages()
+		// doupaySalesChecBox.setAttribute(FinanceApplication.constants()
 		// .vertical(), false);
 		// if (FinanceApplication.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_US) {
@@ -968,7 +968,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			public void onClick(ClickEvent event) {
 				String ageing = ageingFromTransactionDateORDueDate.getValue()
 						.toString();
-				if (ageing.equalsIgnoreCase(Accounter.getCompanyMessages()
+				if (ageing.equalsIgnoreCase(Accounter.constants()
 						.ageingforduedate())) {
 					ageingFromTransactionDateORDueDate
 							.setValue(CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE);
@@ -1138,12 +1138,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		defautFileAsSettings = new SelectItem();
 		// defautFileAsSettings.setWidth(200);
 		// defautFileAsSettings.setHeight("20");
-		defautFileAsSettings.setDefaultValue(Accounter.getCompanyMessages()
+		defautFileAsSettings.setDefaultValue(Accounter.constants()
 				.company());
 		defautFileAsSettings.setTitle(companyMessges.defaultFileAsSettings());
-		defautFileAsSettings.setValueMap(Accounter.getCompanyMessages()
-				.company(), Accounter.getCompanyMessages().firstLast(),
-				Accounter.getCompanyMessages().lastFirst());
+		defautFileAsSettings.setValueMap(Accounter.constants()
+				.company(), Accounter.constants().firstLast(),
+				Accounter.constants().lastFirst());
 		filingRecordNameForm.setItems(defautFileAsSettings);
 		// filingRecordNameForm.setPadding(10);
 
@@ -1190,12 +1190,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		logContentSelect = new SelectItem();
 		logContentSelect.setWidth(100);
 		logContentSelect.setTitle(companyMessges.logContent());
-		logContentSelect.setDefaultValue(Accounter.getCompanyMessages()
+		logContentSelect.setDefaultValue(Accounter.constants()
 				.doNotLog());
-		logContentSelect.setValueMap(Accounter.getCompanyMessages().doNotLog(),
-				Accounter.getCompanyMessages().criticalErrorsOnly(), Accounter
-						.getCompanyMessages().allErrors(), Accounter
-						.getCompanyMessages().allErrorsAndMessages());
+		logContentSelect.setValueMap(Accounter.constants().doNotLog(),
+				Accounter.constants().criticalErrorsOnly(), Accounter
+						.constants().allErrors(), Accounter
+						.constants().allErrorsAndMessages());
 
 		supportLogging.setItems(logspaceTxt, logContentSelect);
 		VerticalPanel suportLogPanel = new VerticalPanel();
@@ -1497,7 +1497,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCompanyMessages().companyPrefeTitle();
+		return Accounter.constants().companyPrefeTitle();
 	}
 
 }

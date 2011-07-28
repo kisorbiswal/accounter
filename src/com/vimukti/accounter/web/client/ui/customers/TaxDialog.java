@@ -18,36 +18,36 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorsMessages;
 @SuppressWarnings("unchecked")
 public class TaxDialog extends BaseDialog {
 	RadioGroupItem typeRadio;
-	private final String TAXGROUP = Accounter.getCustomersMessages().taxGroup();
-	private final String TAXITEM = Accounter.getCustomersMessages().taxItem();
+	private final String TAXGROUP = Accounter.constants().taxGroup();
+	private final String TAXITEM = Accounter.constants().taxItem();
 	private FormItem actionSource;
 	// private ViewConfiguration configuration;
 	private VendorsMessages vendorsConstants = GWT
 			.create(VendorsMessages.class);
 
 	public TaxDialog() {
-		super(Accounter.getCustomersMessages().tax(), Accounter
-				.getCompanyMessages().selectOneType());
-		setText(Accounter.getCustomersMessages().tax());
+		super(Accounter.constants().tax(), Accounter
+				.constants().selectOneType());
+		setText(Accounter.constants().tax());
 		createControls();
 		center();
 	}
 
 	public <T> TaxDialog(AsyncCallback<T> callBack) {
-		super(Accounter.getCustomersMessages().tax(), Accounter
-				.getCompanyMessages().selectOneType());
+		super(Accounter.constants().tax(), Accounter
+				.constants().selectOneType());
 		this.callBack = callBack;
-		setText(Accounter.getCustomersMessages().tax());
+		setText(Accounter.constants().tax());
 		createControls();
 		center();
 	}
 
 	public <T> TaxDialog(AsyncCallback<T> callBack, FormItem actionSource) {
-		super(Accounter.getCustomersMessages().tax(), Accounter
-				.getCompanyMessages().selectOneType());
+		super(Accounter.constants().tax(), Accounter
+				.constants().selectOneType());
 		this.callBack = callBack;
 		this.actionSource = actionSource;
-		setText(Accounter.getCustomersMessages().tax());
+		setText(Accounter.constants().tax());
 		createControls();
 		center();
 	}
@@ -79,7 +79,7 @@ public class TaxDialog extends BaseDialog {
 							action.run(null, true);
 						} catch (Throwable e) {
 							Accounter.showError(Accounter
-									.getCustomersMessages()
+									.constants()
 									.failedToloadTaxGroup()
 
 							);
@@ -97,14 +97,14 @@ public class TaxDialog extends BaseDialog {
 							// true);
 						} catch (Throwable e) {
 							Accounter.showError(Accounter
-									.getCustomersMessages()
+									.constants()
 									.failedToloadTaxItem());
 							e.printStackTrace();
 
 						}
 
 					} else {
-						Accounter.showError(Accounter.getCustomersMessages()
+						Accounter.showError(Accounter.constants()
 								.pleaseSelectTaxType());
 					}
 
@@ -163,7 +163,7 @@ public class TaxDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCustomersMessages().tax();
+		return Accounter.constants().tax();
 	}
 
 }

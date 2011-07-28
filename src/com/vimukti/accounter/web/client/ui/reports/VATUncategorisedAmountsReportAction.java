@@ -12,12 +12,12 @@ public class VATUncategorisedAmountsReportAction extends Action {
 
 	public VATUncategorisedAmountsReportAction(String text) {
 		super(text);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	public VATUncategorisedAmountsReportAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	/**

@@ -23,15 +23,15 @@ public class NewTAXAgencyAction extends Action {
 		super(text);
 		String flag;
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			flag = Accounter.getCompanyMessages().company();
+			flag = Accounter.constants().company();
 		else
-			flag = Accounter.getVATMessages().VAT();
+			flag = Accounter.constants().VAT();
 		this.catagory = flag;
 	}
 
 	public NewTAXAgencyAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	@Override

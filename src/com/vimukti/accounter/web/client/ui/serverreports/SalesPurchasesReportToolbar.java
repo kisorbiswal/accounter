@@ -34,7 +34,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 
 	public SalesPurchasesReportToolbar() {
 		createControls();
-		// selectedDateRange = FinanceApplication.getReportsMessages().all();
+		// selectedDateRange = FinanceApplication.constants().all();
 	}
 
 	private void createControls() {

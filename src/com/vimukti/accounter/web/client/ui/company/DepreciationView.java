@@ -81,12 +81,12 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setSize("100%", "");
 
-		Label titleLabel = new Label(Accounter.getCompanyMessages()
+		Label titleLabel = new Label(Accounter.constants()
 				.depreciation());
-		titleLabel.setStyleName(Accounter.getCustomersMessages().lableTitle());
+		titleLabel.setStyleName(Accounter.constants().lableTitle());
 		mainPanel.add(titleLabel);
 
-		startDateButton = new AccounterButton(Accounter.getCompanyMessages()
+		startDateButton = new AccounterButton(Accounter.constants()
 				.startDate());
 		startDateButton.addClickHandler(new ClickHandler() {
 
@@ -98,7 +98,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		});
 
 		AccounterButton rollBackDepreciation = new AccounterButton(Accounter
-				.getCompanyMessages().rollbackDepreciation());
+				.constants().rollbackDepreciation());
 		rollBackDepreciation.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -115,9 +115,9 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		rollBackDepreciation.enabledButton();
 		mainPanel.add(buttonPanel);
 
-		fromLabel = new Label(Accounter.getCompanyMessages().depricatiedFrom());
+		fromLabel = new Label(Accounter.constants().depricatiedFrom());
 
-		format = DateTimeFormat.getFormat(Accounter.getCompanyMessages()
+		format = DateTimeFormat.getFormat(Accounter.constants()
 				.ddMMMyyyy());
 		// fromLabel.setText("Depreciate from:  "
 		// + format.format(depreciationStartDate));
@@ -133,7 +133,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		});
 
 		AccounterButton updateButton = new AccounterButton(Accounter
-				.getCompanyMessages().update());
+				.constants().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -145,7 +145,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.setSpacing(10);
 		panel.add(fromLabel);
-		panel.add(new HTML(Accounter.getCompanyMessages().depreciateTo()));
+		panel.add(new HTML(Accounter.constants().depreciateTo()));
 		panel.add(depreciatedToCombo);
 		// panel.add(updateButton);
 		mainPanel.add(panel);
@@ -226,7 +226,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		// tempDate.getDate() - 1);
 		// int startMonth = startdate.getMonth();
 		// DateTimeFormat format = DateTimeFormat.getFormat(FinanceApplication
-		// .getCompanyMessages().ddMMMyyyy());
+		// .constants().ddMMMyyyy());
 		// String[] dateArray = new String[12];
 		// for (int i = startMonth, j = 0; i < 12; i++, j++) {
 		// int currentDate;
@@ -247,7 +247,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		// }
 
 		DateTimeFormat format = DateTimeFormat.getFormat(Accounter
-				.getCompanyMessages().ddMMMyyyy());
+				.constants().ddMMMyyyy());
 		List<String> dates = new ArrayList<String>();
 		Calendar fromDateCal = Calendar.getInstance();
 		fromDateCal.setTime(depreciationStartDate.getDateAsObject());
@@ -408,7 +408,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			String dateString = depreciatedToCombo.getValue(index).toString();
 
 			depreciationEndDate = UIUtils.stringToDate(dateString, Accounter
-					.getCompanyMessages().ddMMMyyyy());
+					.constants().ddMMMyyyy());
 
 			AsyncCallback<DepreciableFixedAssetsList> callBack = new AsyncCallback<DepreciableFixedAssetsList>() {
 
@@ -529,7 +529,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getVendorsMessages().depreciation();
+		return Accounter.constants().depreciation();
 	}
 
 }

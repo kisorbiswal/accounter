@@ -32,12 +32,12 @@ public class BaseHomeView extends AbstractBaseView {
 
 		// HorizontalPanel firstImagePanel = getFirstImagePanel();
 		// HorizontalPanel secondImagePanel = getSecondImagePanel();
-		// firstImagePanel.setStyleName(FinanceApplication.getFinanceUIConstants()
+		// firstImagePanel.setStyleName(FinanceApplication.constants()
 		// .imageAction());
 		// secondImagePanel.setStyleName(FinanceApplication
-		// .getFinanceUIConstants().imageAction());
+		// .constants().imageAction());
 		VerticalPanel imagePanel = new VerticalPanel();
-		imagePanel.setStyleName(Accounter.getFinanceUIConstants()
+		imagePanel.setStyleName(Accounter.constants()
 				.imageActionContainer());
 		imagePanel.setSpacing(5);
 		// imagePanel.setWidth("100%");
@@ -61,9 +61,9 @@ public class BaseHomeView extends AbstractBaseView {
 		// // tabSet.setWidth("100%");
 		// // tabSet.setHeight("100%");
 		//
-		// tabSet.add(getAddTab(), FinanceApplication.getFinanceUIConstants()
+		// tabSet.add(getAddTab(), FinanceApplication.constants()
 		// .add());
-		// tabSet.add(getFindTab(), FinanceApplication.getFinanceUIConstants()
+		// tabSet.add(getFindTab(), FinanceApplication.constants()
 		// .find());
 		// tabSet.selectTab(0);
 		// rightLayout.add(tabSet);
@@ -78,47 +78,47 @@ public class BaseHomeView extends AbstractBaseView {
 		firstRowPanel.setWidth("100%");
 
 		ImageButton invoiceButton = new ImageButton(Accounter
-				.getFinanceUIConstants().enterInvoice(),
+				.constants().enterInvoice(),
 				"/images/new_invoice.png");
 		invoiceButton.setAction(CustomersActionFactory.getNewInvoiceAction());
 
 		ImageButton receivePaymentButton = new ImageButton(Accounter
-				.getFinanceUIConstants().receivePayments(),
+				.constants().receivePayments(),
 				"/images/recived_payment_list.png");
 		receivePaymentButton.setAction(CustomersActionFactory
 				.getReceivePaymentAction());
 
 		ImageButton refundAnsCredits = new ImageButton(Accounter
-				.getCustomersMessages().customerCredit(),
+				.constants().customerCredit(),
 				"/images/customer_refunds_list.png");
 		refundAnsCredits.setAction(CustomersActionFactory
 				.getNewCreditsAndRefundsAction());
 
 		ImageButton bankDeposit = new ImageButton(Accounter
-				.getFinanceUIConstants().bankDeposite(),
+				.constants().bankDeposite(),
 				"/images/make_deposit.png");
 		bankDeposit.setAction(BankingActionFactory.getMakeDepositAction());
-		ImageButton fileVat = new ImageButton(Accounter.getVATMessages()
+		ImageButton fileVat = new ImageButton(Accounter.constants()
 				.fileVAT(), "/images/File_vat.png");
 		fileVat.setAction(VatActionFactory.getFileVatAction());
 
 		// ImageButton vat = new ImageButton(FinanceApplication
-		// .getFinanceUIConstants().vatItem(), images.Accounts());
+		// .constants().vatItem(), images.Accounts());
 		// vat.setAction(VatActionFactory.getNewVatItemAction());
 		// ImageButton newitem = new ImageButton(FinanceApplication
-		// .getFinanceUIConstants().newItem(), images.newItem());
+		// .constants().newItem(), images.newItem());
 		// newitem.setAction(CustomersActionFactory.getNewItemAction());
 
 		// statementButton.setAction(CustomersActionFactory.getNewInvoiceAction());
 
 		// ImageButton chartofAccounts = new ImageButton(FinanceApplication
-		// .getFinanceUIConstants().chartOfAccount(), images
+		// .constants().chartOfAccount(), images
 		// .cahrtOfAccounts());
 		// chartofAccounts.setAction(CompanyActionFactory
 		// .getChartOfAccountsAction());
 
 		// ImageButton statementButton = new ImageButton(FinanceApplication
-		// .getFinanceUIConstants().statements(), images.newBankAccount());
+		// .constants().statements(), images.newBankAccount());
 
 		firstRowPanel.add(invoiceButton.getImagePanel());
 		firstRowPanel.add(receivePaymentButton.getImagePanel());
@@ -141,25 +141,25 @@ public class BaseHomeView extends AbstractBaseView {
 		secondRowPanel.setWidth("100%");
 
 		ImageButton enterBillButton = new ImageButton(Accounter
-				.getFinanceUIConstants().enterBill(), "/images/enter_bills.png");
+				.constants().enterBill(), "/images/enter_bills.png");
 		enterBillButton.setAction(VendorsActionFactory.getEnterBillsAction());
 
-		ImageButton payBill = new ImageButton(Accounter.getFinanceUIConstants()
+		ImageButton payBill = new ImageButton(Accounter.constants()
 				.payBill(), "/images/pay_bills.png");
 		payBill.setAction(VendorsActionFactory.getPayBillsAction());
 
 		ImageButton vendorcredit = new ImageButton(UIUtils.getVendorString(
-				Accounter.getVendorsMessages().supplierCredit(), Accounter
-						.getVendorsMessages().vendorCreditMemo()),
+				Accounter.constants().supplierCredit(), Accounter
+						.constants().vendorCreditMemo()),
 				"/images/new_credit_memo.png");
 		vendorcredit.setAction(VendorsActionFactory.getNewCreditMemoAction());
 
 		ImageButton expenses = new ImageButton(Accounter
-				.getFinanceUIConstants().enterExpenses(),
+				.constants().enterExpenses(),
 				"/images/record_expenses.png");
 		expenses.setAction(VendorsActionFactory.getRecordExpensesAction());
 		ImageButton creditCardCharge = new ImageButton(Accounter
-				.getFinanceUIConstants().creaditCardCharges(),
+				.constants().creaditCardCharges(),
 				"/images/credit_card_charge.png");
 		creditCardCharge.setAction(BankingActionFactory
 				.getCreditCardChargeAction());
@@ -184,7 +184,7 @@ public class BaseHomeView extends AbstractBaseView {
 	// form.setNumCols(1);
 	//
 	// TextItem invoicetext = new TextItem(FinanceApplication
-	// .getFinanceUIConstants().invoice());
+	// .constants().invoice());
 	// // invoicetext.setWidth("100%");
 	// // invoicetext.setTitleOrientation(TitleOrientation.TOP);
 	//
@@ -193,14 +193,14 @@ public class BaseHomeView extends AbstractBaseView {
 	// // goButton1.setWidth("*");
 	//
 	// TextItem contactText = new TextItem(FinanceApplication
-	// .getFinanceUIConstants().contacts());
+	// .constants().contacts());
 	// // contactText.setWidth("100%");
 	// // contactText.setTitleOrientation(TitleOrientation.TOP);
 	// // Button goButton2= new Button("Go");
 	// // goButton2.setWidth("*");
 	//
 	// TextItem accountstext = new TextItem();
-	// accountstext.setTitle(FinanceApplication.getFinanceUIConstants()
+	// accountstext.setTitle(FinanceApplication.constants()
 	// .account());
 	// // accountstext.setColSpan(2);
 	// // accountstext.setWidth("100%");
@@ -234,7 +234,7 @@ public class BaseHomeView extends AbstractBaseView {
 	//
 	// Label newInvoiceButton = new Label();
 	// newInvoiceButton.setStyleName("newInvoice");
-	// newInvoiceButton.setText(FinanceApplication.getFinanceUIConstants()
+	// newInvoiceButton.setText(FinanceApplication.constants()
 	// .newInvoice());
 	// // newInvoiceButton.setSize("100%", "*");
 	// // newInvoiceButton.setCursor(Cursor.HAND);
@@ -257,7 +257,7 @@ public class BaseHomeView extends AbstractBaseView {
 	//
 	// Label newQuoteButton = new Label();
 	// newQuoteButton.setStyleName("newquote");
-	// newQuoteButton.setText(FinanceApplication.getFinanceUIConstants()
+	// newQuoteButton.setText(FinanceApplication.constants()
 	// .newQuote());
 	// // newQuoteButton.setAlign(Alignment.CENTER);
 	// // newQuoteButton.setSize("100%", "*");
@@ -277,7 +277,7 @@ public class BaseHomeView extends AbstractBaseView {
 	//
 	// Label newBillButton = new Label();
 	// newBillButton.setStyleName("newBill");
-	// newBillButton.setText(FinanceApplication.getFinanceUIConstants()
+	// newBillButton.setText(FinanceApplication.constants()
 	// .newBill());
 	// // newBillButton.setAlign(Alignment.CENTER);
 	// // newBillButton.setSize("100%", "*");
@@ -302,13 +302,13 @@ public class BaseHomeView extends AbstractBaseView {
 	// // form.setColWidths(1);
 	// form.setNumCols(1);
 	// form.setIsGroup(true);
-	// form.setGroupTitle(FinanceApplication.getFinanceUIConstants()
+	// form.setGroupTitle(FinanceApplication.constants()
 	// .addNewCustomer());
 	// // form.setBottom(1);
 	// // form.setWidth("100%");
 	//
 	// custNameText = new TextItem();
-	// custNameText.setTitle(FinanceApplication.getFinanceUIConstants().name());
+	// custNameText.setTitle(FinanceApplication.constants().name());
 	// // custNameText.setTitleOrientation(TitleOrientation.TOP);
 	// // custNameText.setWidth("100%");
 	// custNameText.setRequired(true);
@@ -316,19 +316,19 @@ public class BaseHomeView extends AbstractBaseView {
 	// // lastNameText.setWidth("50%");
 	// // lastNameText.setTitleOrientation(TitleOrientation.TOP);
 	// emailText = new TextItem();
-	// emailText.setTitle(FinanceApplication.getFinanceUIConstants().email());
+	// emailText.setTitle(FinanceApplication.constants().email());
 	// // emailText.setWidth("100%");
 	// // emailText.setColSpan(2);
 	// // emailText.setTitleOrientation(TitleOrientation.TOP);
 	// contactNoText = new TextItem();
-	// contactNoText.setTitle(FinanceApplication.getFinanceUIConstants().contactNumber());
+	// contactNoText.setTitle(FinanceApplication.constants().contactNumber());
 	// // contactNoText.setWidth("100%");
 	// // contactText.setColSpan(2);
 	// // contactNoText.setTitleOrientation(TitleOrientation.TOP);
 	//
 	// HorizontalPanel layout = new HorizontalPanel();
 	// Button addButton = new
-	// Button(FinanceApplication.getFinanceUIConstants().add());
+	// Button(FinanceApplication.constants().add());
 	// // addButton.setRight(5);
 	// addButton.addClickHandler(new ClickHandler() {
 	//

@@ -21,7 +21,7 @@ public class PendingItemsListAction extends Action {
 
 	public PendingItemsListAction(String text) {
 		super(text);
-		this.catagory = Accounter.getFixedAssetConstants()
+		this.catagory = Accounter.constants()
 				.fixedAssets();
 
 	}

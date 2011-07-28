@@ -68,7 +68,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 							.getSelection());
 				} else {
 					Accounter.showError(Accounter
-							.getCustomersMessages().selectTaxGroup());
+							.constants().selectTaxGroup());
 					new Exception();
 				}
 
@@ -103,10 +103,10 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 	public void showAddEditGroupDialog(ClientCustomerGroup rec) {
 		customerGroup = rec;
 		inputDlg = new InputDialog(customerConstants.customerGroup(), "",
-				Accounter.getCustomersMessages().customerGroup()) {
+				Accounter.constants().customerGroup()) {
 			@Override
 			protected String getViewTitle() {
-				return Accounter.getCustomersMessages()
+				return Accounter.constants()
 						.customerGroup();
 			}
 		};
@@ -129,7 +129,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 					}
 				} else {
 					// Accounter.showError(FinanceApplication
-					// .getCustomersMessages().detailsHighlightedInRedMustBeEntered());
+					// .constants().detailsHighlightedInRedMustBeEntered());
 					return false;
 				}
 				return true;
@@ -168,7 +168,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.getCustomersMessages().name() };
+		return new String[] { Accounter.constants().name() };
 	}
 
 	@Override
@@ -187,7 +187,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCustomersMessages().customerGroups();
+		return Accounter.constants().customerGroups();
 	}
 
 }

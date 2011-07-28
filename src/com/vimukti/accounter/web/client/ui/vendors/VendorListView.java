@@ -35,7 +35,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	public void deleteFailed(Throwable caught) {
 		super.deleteFailed(caught);
 
-		Accounter.showInformation(Accounter.getVendorsMessages()
+		Accounter.showInformation(Accounter.constants()
 				.youCantDelete());
 
 	}
@@ -54,8 +54,8 @@ public class VendorListView extends BaseListView<PayeeList> {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
 			return UIUtils.getVendorString(Accounter
-					.getVendorsMessages().addaNewSupplier(), Accounter
-					.getVendorsMessages().addANewVendor());
+					.constants().addaNewSupplier(), Accounter
+					.constants().addANewVendor());
 		else
 			return "";
 	}
@@ -63,8 +63,8 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getListViewHeading() {
 
-		return UIUtils.getVendorString(Accounter.getVendorsMessages()
-				.supplierList(), Accounter.getVendorsMessages()
+		return UIUtils.getVendorString(Accounter.constants()
+				.supplierList(), Accounter.constants()
 				.vendorList());
 	}
 
@@ -100,7 +100,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 			total += t.getBalance();
 		} else
 			total -= t.getBalance();
-		totalLabel.setText(Accounter.getVendorsMessages()
+		totalLabel.setText(Accounter.constants()
 				.totalOutStandingBalance()
 
 				+ DataUtils.getAmountAsString(total) + "");
@@ -110,7 +110,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	protected HorizontalPanel getTotalLayout(BaseListGrid grid) {
 
-		// grid.addFooterValue(FinanceApplication.getVendorsMessages().total(),
+		// grid.addFooterValue(FinanceApplication.constants().total(),
 		// 8);
 		// grid.addFooterValue(DataUtils.getAmountAsString(grid.getTotal()) +
 		// "",
@@ -197,8 +197,8 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getViewTitle() {
 		return UIUtils
-				.getVendorString(Accounter.getVendorsMessages()
-						.suppliers(), Accounter.getVendorsMessages()
+				.getVendorString(Accounter.constants()
+						.suppliers(), Accounter.constants()
 						.vendors());
 	}
 }

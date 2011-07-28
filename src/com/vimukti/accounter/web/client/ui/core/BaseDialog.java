@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.externalization.FinanceConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
@@ -38,7 +38,7 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 	protected HorizontalPanel bodyLayout;
 	protected HorizontalPanel footerLayout;
 	protected CompanyMessages companyMessges;
-	protected FinanceConstants constants;
+	protected AccounterConstants constants;
 	protected VATMessages vatMessages;
 
 	protected AccounterButton cancelBtn;
@@ -77,13 +77,13 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 			vatMessages = GWT.create(VATMessages.class);
 			this.companyMessges = (CompanyMessages) GWT
 					.create(CompanyMessages.class);
-			this.constants = (FinanceConstants) GWT
-					.create(FinanceConstants.class);
+			this.constants = (AccounterConstants) GWT
+					.create(AccounterConstants.class);
 
 		} catch (Exception e) {
 
 			// SC.logWarn(e.getMessage());
-			Accounter.showError(Accounter.getFinanceUIConstants()
+			Accounter.showError(Accounter.constants()
 					.failedToInitializeCompanyConstants());
 
 		}

@@ -36,7 +36,6 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	// private ClientTransaction bankingTransactionObject;
 
-	protected BankingMessages bankingConstants;
 	// protected CustomerTransactionUSGrid transactionCustomerGrid;
 	AbstractTransactionGrid<ClientTransactionItem> transactionVendorGrid,
 			transactionCustomerGrid;
@@ -84,7 +83,6 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	@Override
 	protected void initConstants() {
-		bankingConstants = GWT.create(BankingMessages.class);
 
 	}
 
@@ -123,7 +121,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	public AmountField createBalanceText() {
 
-		AmountField balText = new AmountField(Accounter.getBankingsMessages()
+		AmountField balText = new AmountField(Accounter.constants()
 				.balance());
 		// balText.setWidth("*");
 
@@ -136,20 +134,20 @@ public abstract class AbstractBankTransactionView<T> extends
 	@Override
 	protected void showMenu(AccounterButton button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.getVendorsMessages().accounts(),
-					Accounter.getVendorsMessages().service(), Accounter
-							.getVendorsMessages().product());
+			setMenuItems(button, Accounter.constants().accounts(),
+					Accounter.constants().service(), Accounter
+							.constants().product());
 		else
-			setMenuItems(button, Accounter.getVendorsMessages().accounts(),
-					Accounter.getVendorsMessages().service(), Accounter
-							.getVendorsMessages().product());
-		// FinanceApplication.getVendorsMessages().comment());
+			setMenuItems(button, Accounter.constants().accounts(),
+					Accounter.constants().service(), Accounter
+							.constants().product());
+		// FinanceApplication.constants().comment());
 
 	}
 
 	public AmountField createAmountText() {
 
-		AmountField amtText = new AmountField(Accounter.getFinanceUIConstants()
+		AmountField amtText = new AmountField(Accounter.constants()
 				.amount());
 		// amtText.setWidth("*");
 
@@ -166,7 +164,7 @@ public abstract class AbstractBankTransactionView<T> extends
 	protected AmountField createVATTotalNonEditableItem() {
 
 		AmountField amountItem = new AmountField(Accounter
-				.getCustomersMessages().vat());
+				.constants().vat());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -176,7 +174,7 @@ public abstract class AbstractBankTransactionView<T> extends
 	protected AmountLabel createVATTotalNonEditableLabel() {
 
 		AmountLabel amountItem = new AmountLabel(Accounter
-				.getCustomersMessages().vat());
+				.constants().vat());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -236,7 +234,7 @@ public abstract class AbstractBankTransactionView<T> extends
 	public AddressCombo createBillToComboItem() {
 
 		AddressCombo addressCombo = new AddressCombo(Accounter
-				.getFinanceUIConstants().billTo(), false);
+				.constants().billTo(), false);
 
 		addressCombo.setHelpInformation(true);
 
@@ -313,7 +311,7 @@ public abstract class AbstractBankTransactionView<T> extends
 	protected AmountField createTransactionTotalNonEditableItem() {
 
 		AmountField amountItem = new AmountField(Accounter
-				.getBankingsMessages().total());
+				.constants().total());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -323,7 +321,7 @@ public abstract class AbstractBankTransactionView<T> extends
 	protected AmountLabel createTransactionTotalNonEditableLabel() {
 
 		AmountLabel amountItem = new AmountLabel(Accounter
-				.getBankingsMessages().total());
+				.constants().total());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -332,7 +330,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	// protected void onAddNew(String menuItem) {
 	// ClientTransactionItem transactionItem = new ClientTransactionItem();
-	// if (menuItem.equals(FinanceApplication.getVendorsMessages().accounts()))
+	// if (menuItem.equals(FinanceApplication.constants().accounts()))
 	// {
 	// transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 	// if (FinanceApplication.getCompany().getAccountingType() ==
@@ -340,13 +338,13 @@ public abstract class AbstractBankTransactionView<T> extends
 	// transactionItem.setVatCode(vendor != null ? (vendor
 	// .getVATCode() != null ? vendor.getVATCode() : "") : "");
 	// }
-	// } else if (menuItem.equals(FinanceApplication.getVendorsMessages()
+	// } else if (menuItem.equals(FinanceApplication.constants()
 	// .items())) {
 	// transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-	// } else if (menuItem.equals(FinanceApplication.getVendorsMessages()
+	// } else if (menuItem.equals(FinanceApplication.constants()
 	// .comment())) {
 	// transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);
-	// } else if (menuItem.equals(FinanceApplication.getVendorsMessages()
+	// } else if (menuItem.equals(FinanceApplication.constants()
 	// .VATItem()))
 	// transactionItem.setType(ClientTransactionItem.TYPE_SALESTAX);
 	// vendorTransactionGrid.addData(transactionItem);
@@ -356,7 +354,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	protected void onAddNew(String menuItem) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
-		if (menuItem.equals(Accounter.getVendorsMessages().accounts())) {
+		if (menuItem.equals(Accounter.constants().accounts())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 					&& !getCompany().getpreferences().getDoYouPaySalesTax()) {
@@ -389,7 +387,7 @@ public abstract class AbstractBankTransactionView<T> extends
 								.getTAXCode() : svatCodeid) : 0);
 			}
 
-		} else if (menuItem.equals(Accounter.getVendorsMessages().product())) {
+		} else if (menuItem.equals(Accounter.constants().product())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 			if (getCompany().getpreferences().getDoYouPaySalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
@@ -405,7 +403,7 @@ public abstract class AbstractBankTransactionView<T> extends
 								.getTAXCode() : svatCodeid) : 0);
 			}
 
-		} else if (menuItem.equals(Accounter.getVendorsMessages().service())) {
+		} else if (menuItem.equals(Accounter.constants().service())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
 			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 			long zvatCodeid = 0;

@@ -37,11 +37,11 @@ public class CashExpenseView extends CashPurchaseView {
 
 	@Override
 	protected void initViewType() {
-		titlelabel.setText(Accounter.getVendorsMessages().cashExpense());
+		titlelabel.setText(Accounter.constants().cashExpense());
 		vendorForm.clear();
 		vendorForm.removeFromParent();
 		termsForm.clear();
-		petycash = new AccountCombo(Accounter.getVendorsMessages()
+		petycash = new AccountCombo(Accounter.constants()
 				.cashExpense()) {
 
 			@Override
@@ -68,15 +68,15 @@ public class CashExpenseView extends CashPurchaseView {
 		petycash.setRequired(true);
 		try {
 			String listString[] = new String[] {
-					Accounter.getVendorsMessages().cash(),
+					Accounter.constants().cash(),
 					UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-							.getCustomersMessages().check()),
-					Accounter.getVendorsMessages().creditCard(),
-					Accounter.getVendorsMessages().directDebit(),
-					Accounter.getVendorsMessages().masterCard(),
-					Accounter.getVendorsMessages().onlineBanking(),
-					Accounter.getVendorsMessages().standingOrder(),
-					Accounter.getVendorsMessages().switchMaestro() };
+							.constants().check()),
+					Accounter.constants().creditCard(),
+					Accounter.constants().directDebit(),
+					Accounter.constants().masterCard(),
+					Accounter.constants().onlineBanking(),
+					Accounter.constants().standingOrder(),
+					Accounter.constants().switchMaestro() };
 			selectedComboList = new ArrayList<String>();
 			for (int i = 0; i < listString.length; i++) {
 				selectedComboList.add(listString[i]);
@@ -171,7 +171,7 @@ public class CashExpenseView extends CashPurchaseView {
 		case 3:
 			return AccounterValidator.validate_dueOrDelivaryDates(
 					deliveryDateItem.getEnteredDate(), this.transactionDate,
-					Accounter.getVendorsMessages().deliverydate());
+					Accounter.constants().deliverydate());
 		case 2:
 			return AccounterValidator.isBlankTransaction(vendorTransactionGrid);
 		case 1:
@@ -219,15 +219,15 @@ public class CashExpenseView extends CashPurchaseView {
 	@Override
 	protected void showMenu(AccounterButton button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.getVendorsMessages().accounts(),
-					Accounter.getVendorsMessages().service());
+			setMenuItems(button, Accounter.constants().accounts(),
+					Accounter.constants().service());
 		else
-			setMenuItems(button, Accounter.getVendorsMessages().accounts(),
-					Accounter.getVendorsMessages().service());
+			setMenuItems(button, Accounter.constants().accounts(),
+					Accounter.constants().service());
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getVendorsMessages().cashExpense();
+		return Accounter.constants().cashExpense();
 	}
 }

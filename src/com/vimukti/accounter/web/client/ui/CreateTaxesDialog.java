@@ -21,8 +21,8 @@ public class CreateTaxesDialog extends BaseDialog {
 	int i = 0;
 
 	public CreateTaxesDialog(AbstractBaseView<?> parent) {
-		super(Accounter.getCustomersMessages().createTaxes(), "");
-		setText(Accounter.getCustomersMessages().createTaxes());
+		super(Accounter.constants().createTaxes(), "");
+		setText(Accounter.constants().createTaxes());
 		createControls();
 		center();
 	}
@@ -167,7 +167,7 @@ public class CreateTaxesDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCustomersMessages().createTaxes();
+		return Accounter.constants().createTaxes();
 	}
 
 }

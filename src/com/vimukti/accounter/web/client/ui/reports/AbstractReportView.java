@@ -79,7 +79,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 	public AbstractReportView() {
 		companyType = getCompany().getAccountingType();
 		ReportUtility.companyType = companyType;
-		emptyMsg = Accounter.getVendorsMessages().norecordstoshow();
+		emptyMsg = Accounter.constants().norecordstoshow();
 	}
 
 	public AbstractReportView(boolean showGridFooter, String emptyMsg) {
@@ -401,7 +401,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 		if (data != null) {
 			String dateRange = null;
 			dateRange = getPreviousReportDateRange(data);
-			if (dateRange.equals(Accounter.getReportsMessages().custom())) {
+			if (dateRange.equals(Accounter.constants().custom())) {
 				toolbar.setStartAndEndDates(getPreviousReportStartDate(data),
 						getPreviousReportEndDate(data));
 			}

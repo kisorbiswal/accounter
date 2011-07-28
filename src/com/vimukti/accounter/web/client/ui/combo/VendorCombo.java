@@ -21,8 +21,8 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 	@Override
 	public String getDefaultAddNewCaption() {
 		return UIUtils.getVendorString(Accounter
-				.getAccounterComboConstants().newSupplier(), Accounter
-				.getAccounterComboConstants().newVendor());
+				.constants().newSupplier(), Accounter
+				.constants().newVendor());
 
 	}
 

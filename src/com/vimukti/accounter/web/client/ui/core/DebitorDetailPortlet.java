@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.ui.Portlet;
 public class DebitorDetailPortlet extends Portlet {
 
 	public DebitorDetailPortlet() {
-		super(Accounter.getCustomersMessages().debtors());
+		super(Accounter.constants().debtors());
 	}
 
 	@Override

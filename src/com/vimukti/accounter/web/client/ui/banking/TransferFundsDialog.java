@@ -63,8 +63,8 @@ public class TransferFundsDialog extends BaseDialog {
 	private AccounterButton editButton;
 
 	public TransferFundsDialog(Object data) {
-		super(Accounter.getBankingsMessages().transferFunds(), Accounter
-				.getBankingsMessages().toTransferFunds());
+		super(Accounter.constants().transferFunds(), Accounter
+				.constants().toTransferFunds());
 		createControls();
 		addAccountsNameToList();
 		addAccountsName2ToList();
@@ -201,12 +201,12 @@ public class TransferFundsDialog extends BaseDialog {
 						transferAmount = amountText.getAmount();
 						if (DecimalUtil.isLessThan(transferAmount, 0D)) {
 							transferAmount = 0D;
-							Accounter.showError(Accounter.getBankingsMessages()
+							Accounter.showError(Accounter.constants()
 									.amountShouldNotBeNegative());
 						}
 
 					} catch (Exception e) {
-						Accounter.showError(Accounter.getBankingsMessages()
+						Accounter.showError(Accounter.constants()
 								.invalidAmount());
 						transferAmount = 0D;
 					} finally {
@@ -225,8 +225,8 @@ public class TransferFundsDialog extends BaseDialog {
 		transferToForm.setGroupTitle(bankingConstants.transferTo());
 
 		transferToForm.setFields(accountComboTo, balanceToText, amountText);
-		okbtn.setTitle(Accounter.getBankingsMessages().transfer());
-		cancelBtn.setTitle(Accounter.getBankingsMessages().cancel());
+		okbtn.setTitle(Accounter.constants().transfer());
+		cancelBtn.setTitle(Accounter.constants().cancel());
 
 		HorizontalPanel hlay = new HorizontalPanel();
 		hlay.setWidth("100%");
@@ -434,7 +434,7 @@ public class TransferFundsDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getBankingsMessages().transferFunds();
+		return Accounter.constants().transferFunds();
 	}
 
 }

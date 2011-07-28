@@ -35,13 +35,13 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 		// <li><a href=''><font color='green'>Create a budget</font></a> for
 		// your organisation so that you can compare with actual expenditure
 		// throughout the year.
-		accountReceivable = getAnchor(Accounter.getCompanyMessages()
+		accountReceivable = getAnchor(Accounter.constants()
 				.accountReceivable());
-		accountPayable = getAnchor(Accounter.getCompanyMessages()
+		accountPayable = getAnchor(Accounter.constants()
 				.accountPayable());
-		banking = getAnchor(Accounter.getCompanyMessages()
+		banking = getAnchor(Accounter.constants()
 				.bankingTransactions());
-		expences = getAnchor(Accounter.getCompanyMessages().expenseClaims());
+		expences = getAnchor(Accounter.constants().expenseClaims());
 		customer = getAnchor("customers");
 		vendor = getAnchor("vendors");
 		inviteUser = getAnchor("Invite Other User");
@@ -193,21 +193,21 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 			@Override
 			public void onClick(ClickEvent event) {
 
-				if (title.equals(Accounter.getCompanyMessages()
+				if (title.equals(Accounter.constants()
 						.accountReceivable())) {
 					if (Accounter.getUser().canDoInvoiceTransactions())
 						CustomersActionFactory.getNewInvoiceAction().run(null,
 								true);
-				} else if (title.equals(Accounter.getCompanyMessages()
+				} else if (title.equals(Accounter.constants()
 						.accountPayable())) {
 					if (Accounter.getUser().canDoInvoiceTransactions())
 						VendorsActionFactory.getEnterBillsAction().run(null,
 								true);
-				} else if (title.equals(Accounter.getCompanyMessages()
+				} else if (title.equals(Accounter.constants()
 						.bankingTransactions()))
 					CompanyActionFactory.getChartOfAccountsAction(
 							ClientAccount.TYPE_BANK).run(null, true);
-				else if (title.equals(Accounter.getCompanyMessages()
+				else if (title.equals(Accounter.constants()
 						.expenseClaims())) {
 					if (Accounter.getUser().canDoInvoiceTransactions())
 						VendorsActionFactory.getExpensesAction(null).run(null,

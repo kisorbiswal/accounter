@@ -295,15 +295,15 @@ public class VendorBillView extends
 		// if (transactionObject == null
 		// || transactionObject.getStatus() ==
 		// ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
-		lab1 = new Label(Accounter.getVendorsMessages().enterBill());
+		lab1 = new Label(Accounter.constants().enterBill());
 
 		// else
 		// lab1 = new Label("Enter Bill(" + getTransactionStatus() + ")");
 
-		lab1.setStyleName(Accounter.getVendorsMessages().lableTitle());
+		lab1.setStyleName(Accounter.constants().lableTitle());
 		// lab1.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
-		transactionDateItem.setTitle(Accounter.getVendorsMessages().billDate());
+		transactionDateItem.setTitle(Accounter.constants().billDate());
 		transactionDateItem
 				.addDateValueChangeHandler(new DateValueChangeHandler() {
 
@@ -319,7 +319,7 @@ public class VendorBillView extends
 		transactionNumber = createTransactionNumberItem();
 		// transactionNumber.setTitle(UIUtils.getVendorString("Supplier Bill no",
 		// "Vendor Bill No"));
-		transactionNumber.setTitle(Accounter.getVendorsMessages().INVno());
+		transactionNumber.setTitle(Accounter.constants().INVno());
 		listforms = new ArrayList<DynamicForm>();
 
 		DynamicForm dateNoForm = new DynamicForm();
@@ -341,11 +341,11 @@ public class VendorBillView extends
 		forms.add(dateNoForm);
 
 		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplierName(), Accounter
-				.getVendorsMessages().vendorName()));
+				.constants().supplierName(), Accounter
+				.constants().vendorName()));
 		// vendorCombo.setWidth(100);
 		// purchaseLabel = new LinkItem();
-		// purchaseLabel.setLinkTitle(FinanceApplication.getVendorsMessages()
+		// purchaseLabel.setLinkTitle(FinanceApplication.constants()
 		// .purchaseAndItemReceipt());
 		// purchaseLabel.setShowTitle(false);
 		// purchaseLabel.setDisabled(isEdit);
@@ -368,8 +368,8 @@ public class VendorBillView extends
 			billToCombo.setDisabled(true);
 
 		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor()));
+				.constants().supplier(), Accounter
+				.constants().vendor()));
 		vendorForm.setWidth("100%");
 		vendorForm.setNumCols(3);
 		vendorForm.setFields(vendorCombo, emptylabel, contactCombo, emptylabel
@@ -414,7 +414,7 @@ public class VendorBillView extends
 		// deliveryDateItem.setWidth(100);
 
 		DynamicForm termsForm = UIUtils.form(vendorConstants.terms());
-		termsForm.setStyleName(Accounter.getVendorsMessages().venderForm());
+		termsForm.setStyleName(Accounter.constants().venderForm());
 		termsForm.setWidth("75%");
 		// termsForm.setFields(phoneSelect, paymentTermsCombo);
 
@@ -425,7 +425,7 @@ public class VendorBillView extends
 				deliveryDateItem);
 		dateform.getCellFormatter().setWidth(0, 0, "200px");
 		forms.add(termsForm);
-		netAmount = new AmountLabel(Accounter.getVendorsMessages().netAmount());
+		netAmount = new AmountLabel(Accounter.constants().netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 
@@ -455,7 +455,7 @@ public class VendorBillView extends
 		// refText = createRefereceText();
 		// refText.setWidth(100);
 
-		// addLinksButton = new Button(FinanceApplication.getVendorsMessages()
+		// addLinksButton = new Button(FinanceApplication.constants()
 		// /addLinks());
 		// //FIXME--need to disable basing on the mode of the view being opened
 		// addLinksButton.setEnabled(isEdit);
@@ -703,12 +703,12 @@ public class VendorBillView extends
 		case 4:
 			return AccounterValidator.validate_dueOrDelivaryDates(
 					dueDateItem.getEnteredDate(), this.transactionDate,
-					Accounter.getVendorsMessages().dueDate());
+					Accounter.constants().dueDate());
 		case 3:
 			return true;
 			// return AccounterValidator.validate_dueOrDelivaryDates(
 			// deliveryDateItem.getEnteredDate(), this.transactionDate,
-			// FinanceApplication.getVendorsMessages().deliverydate());
+			// FinanceApplication.constants().deliverydate());
 		case 2:
 			return AccounterValidator.isBlankTransaction(vendorTransactionGrid);
 		case 1:
@@ -745,7 +745,7 @@ public class VendorBillView extends
 		if (this.rpcUtilService == null)
 			return;
 		if (vendor == null) {
-			Accounter.showError(Accounter.getVendorsMessages()
+			Accounter.showError(Accounter.constants()
 					.pleaseSelectTheVendor());
 		} else {
 
@@ -757,7 +757,7 @@ public class VendorBillView extends
 
 				@Override
 				public void onFailure(Throwable caught) {
-					// Accounter.showError(FinanceApplication.getVendorsMessages()
+					// Accounter.showError(FinanceApplication.constants()
 					// .noPurchaseOrderAndItemReceiptForVendor()
 					// + vendor.getName());
 					return;
@@ -1027,6 +1027,6 @@ public class VendorBillView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().enterBills();
+		return Accounter.constants().enterBills();
 	}
 }

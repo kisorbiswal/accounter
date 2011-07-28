@@ -38,7 +38,7 @@
 //	static final String ATTR_RATE = "rate";
 //	static final String ATTR_AS_OF = "asof";
 //
-//	String info = FinanceApplication.getCompanyMessages().addOrEditVAT();
+//	String info = FinanceApplication.constants().addOrEditVAT();
 //	PercentageField vatCodeText;
 //	TextItem descriptionText;
 //	CustomCombo<ClientVATAgency> vatAgencyCombo;
@@ -69,7 +69,7 @@
 //				.getID(), new AsyncCallback<ClientCompany>() {
 //
 //			public void onFailure(Throwable caught) {
-//				Accounter.showError(FinanceApplication.getCompanyMessages()
+//				Accounter.showError(FinanceApplication.constants()
 //						.failedToUpdateCompany());
 //				// SC.logWarn("Failed to Update the Company...");
 //
@@ -103,11 +103,11 @@
 //
 //		Label infolabel = new Label(info);
 //		vatCodeText = new PercentageField(FinanceApplication
-//				.getCompanyMessages().vatCode());
+//				.constants().vatCode());
 //		// vatCodeText.setWidth("100%");
 //		vatCodeText.setRequired(true);
 //
-//		descriptionText = new TextItem(FinanceApplication.getCompanyMessages()
+//		descriptionText = new TextItem(FinanceApplication.constants()
 //				.description());
 //		// descriptionText.setWidth("100%");
 //		//
@@ -126,19 +126,19 @@
 //		// }
 //		// });
 //
-//		statusCheck = new CheckboxItem(FinanceApplication.getCompanyMessages()
+//		statusCheck = new CheckboxItem(FinanceApplication.constants()
 //				.active());
 //		// statusCheck.setWidth("100%");
 //		statusCheck.setValue(true);
 //
 //		vatCodeForm = new DynamicForm();
-//		vatCodeForm = UIUtils.form(FinanceApplication.getCompanyMessages()
+//		vatCodeForm = UIUtils.form(FinanceApplication.constants()
 //				.vatCode());
 //		vatCodeForm.setFields(vatCodeText, descriptionText, statusCheck);
 //		// vatCodeForm.setWidth100();
 //		// vatCodeForm.setHeight100();
 //
-//		Label vatRates = new Label(FinanceApplication.getCompanyMessages()
+//		Label vatRates = new Label(FinanceApplication.constants()
 //				.fontWeigtht());
 //		// vatRates.setAutoFit(true);
 //		// vatRates.setWidth100();
@@ -155,7 +155,7 @@
 //		// buttonsLayout.setLayoutRightMargin(5);
 //
 //		Button button1 = new Button();
-//		button1.setTitle(FinanceApplication.getCompanyMessages().ok());
+//		button1.setTitle(FinanceApplication.constants().ok());
 //		button1.addClickHandler(new ClickHandler() {
 //
 //			public void onClick(ClickEvent event) {
@@ -164,7 +164,7 @@
 //		});
 //
 //		Button button2 = new Button();
-//		button2.setTitle(FinanceApplication.getCompanyMessages().cancel());
+//		button2.setTitle(FinanceApplication.constants().cancel());
 //		button2.addClickHandler(new ClickHandler() {
 //
 //			public void onClick(ClickEvent event) {
@@ -177,7 +177,7 @@
 //		});
 //
 //		Button button3 = new Button();
-//		button3.setTitle(FinanceApplication.getCompanyMessages().help());
+//		button3.setTitle(FinanceApplication.constants().help());
 //		button3.addClickHandler(new ClickHandler() {
 //
 //			public void onClick(ClickEvent event) {
@@ -297,7 +297,7 @@
 //											.getDate()) {
 //								Accounter.showError(invalidRatealert
 //										+ FinanceApplication
-//												.getCompanyMessages()
+//												.constants()
 //												.dateShouldBeUnique());
 //								// gridView.deleteRecord(selectedRecord);
 //								// isDeleted = true;
@@ -318,13 +318,13 @@
 //				}
 //			} else {
 //				Accounter.showError(invalidRatealert
-//						+ FinanceApplication.getCompanyMessages()
+//						+ FinanceApplication.constants()
 //								.dateShouldNotBeNull());
 //
 //			}
 //		} catch (Exception e) {
 //			Accounter.showError(invalidRatealert
-//					+ FinanceApplication.getCompanyMessages().invalidDate());
+//					+ FinanceApplication.constants().invalidDate());
 //			// gridView.deleteRecord(selectedRecord);
 //		}
 //	}
@@ -339,7 +339,7 @@
 //		try {
 //			Double rate = UIUtils.toDbl(selectedRecordRate);
 //			if (rate < 0.00 || rate > 100.00) {
-//				invalidRatealert = FinanceApplication.getCompanyMessages()
+//				invalidRatealert = FinanceApplication.constants()
 //						.VATRateShouldRange0to100();
 //				Accounter.showError(invalidRatealert);
 //			}
@@ -355,7 +355,7 @@
 //
 //		boolean isGridEmpty = false;
 //		if (gridView.getRecords().size() == 0) {
-//			Accounter.showError(FinanceApplication.getCompanyMessages()
+//			Accounter.showError(FinanceApplication.constants()
 //					.provideAtleastOneVATRate());
 //			isGridEmpty = true;
 //		}
@@ -501,7 +501,7 @@
 //
 //	@Override
 //	public void saveFailed(Throwable exception) {
-//		Accounter.showError(FinanceApplication.getCompanyMessages()
+//		Accounter.showError(FinanceApplication.constants()
 //				.duplicationVATCodeAreNotAllowed());
 //		super.saveFailed(exception);
 //	}

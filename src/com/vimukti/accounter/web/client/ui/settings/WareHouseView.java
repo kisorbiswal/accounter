@@ -174,7 +174,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getSettingsMessages().wareHouseTitle();
+		return Accounter.constants().wareHouseTitle();
 	}
 
 	@Override

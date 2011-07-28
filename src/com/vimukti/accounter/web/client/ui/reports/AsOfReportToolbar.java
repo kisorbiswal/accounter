@@ -26,65 +26,65 @@ public class AsOfReportToolbar extends ReportToolbar {
 
 	public AsOfReportToolbar() {
 		createControls();
-		// selectedDateRange = FinanceApplication.getReportsMessages().all();
+		// selectedDateRange = FinanceApplication.constants().all();
 	}
 
 	private void createControls() {
 		@SuppressWarnings("unused")
-		String[] reportBasisArray = { Accounter.getReportsMessages().cash(),
-				Accounter.getReportsMessages().accrual() };
-		String[] dateRangeArray = { Accounter.getReportsMessages().all(),
-				Accounter.getReportsMessages().thisWeek(),
-				Accounter.getReportsMessages().thisMonth(),
-				Accounter.getReportsMessages().lastWeek(),
-				Accounter.getReportsMessages().lastMonth(),
-				Accounter.getReportsMessages().thisFinancialYear(),
-				Accounter.getReportsMessages().lastFinancialYear(),
-				Accounter.getReportsMessages().thisFinancialQuarter(),
-				Accounter.getReportsMessages().lastFinancialQuarter(),
-				Accounter.getReportsMessages().financialYearToDate(),
+		String[] reportBasisArray = { Accounter.constants().cash(),
+				Accounter.constants().accrual() };
+		String[] dateRangeArray = { Accounter.constants().all(),
+				Accounter.constants().thisWeek(),
+				Accounter.constants().thisMonth(),
+				Accounter.constants().lastWeek(),
+				Accounter.constants().lastMonth(),
+				Accounter.constants().thisFinancialYear(),
+				Accounter.constants().lastFinancialYear(),
+				Accounter.constants().thisFinancialQuarter(),
+				Accounter.constants().lastFinancialQuarter(),
+				Accounter.constants().financialYearToDate(),
 
-				// FinanceApplication.getReportsMessages().today(),
-				// FinanceApplication.getReportsMessages().endThisWeek(),
-				// FinanceApplication.getReportsMessages().endThisWeekToDate(),
-				// FinanceApplication.getReportsMessages().endThisMonth(),
-				// FinanceApplication.getReportsMessages().endThisMonthToDate(),
-				// FinanceApplication.getReportsMessages().endThisFiscalQuarter(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants().today(),
+				// FinanceApplication.constants().endThisWeek(),
+				// FinanceApplication.constants().endThisWeekToDate(),
+				// FinanceApplication.constants().endThisMonth(),
+				// FinanceApplication.constants().endThisMonthToDate(),
+				// FinanceApplication.constants().endThisFiscalQuarter(),
+				// FinanceApplication.constants()
 				// .endThisFiscalQuarterToDate(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants()
 				// .endThisCalanderQuarter(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants()
 				// .endThisCalanderQuarterToDate(),
-				// FinanceApplication.getReportsMessages().endThisFiscalYear(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants().endThisFiscalYear(),
+				// FinanceApplication.constants()
 				// .endThisFiscalYearToDate(),
-				// FinanceApplication.getReportsMessages().endThisCalanderYear(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants().endThisCalanderYear(),
+				// FinanceApplication.constants()
 				// .endThisCalanderYearToDate(),
-				// FinanceApplication.getReportsMessages().endYesterday(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants().endYesterday(),
+				// FinanceApplication.constants()
 				// .endPreviousFiscalQuarter(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants()
 				// .endLastCalenderQuarter(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants()
 				// .previousFiscalYearSameDates(),
-				// FinanceApplication.getReportsMessages().lastCalenderYear(),
-				// FinanceApplication.getReportsMessages().previousCalenderYear(),
-				Accounter.getReportsMessages().custom() };
+				// FinanceApplication.constants().lastCalenderYear(),
+				// FinanceApplication.constants().previousCalenderYear(),
+				Accounter.constants().custom() };
 
 		LabelItem report = new LabelItem();
 		report.setTitle("Report Basis - Accrual");
 
 		// reportBasisItem = new ComboBoxItem();
-		// reportBasisItem.setTitle(FinanceApplication.getReportsMessages()
+		// reportBasisItem.setTitle(FinanceApplication.constants()
 		// .reportBasis());
 		// reportBasisItem.setValueMap(reportBasisArray);
 		// reportBasisItem.setDefaultValue(reportBasisArray[1]);
 		// // report basic is not yet implemented, so disable the feature.
 		// reportBasisItem.setDisabled(true);
 
-		dateRangeCombo = new SelectCombo(Accounter.getReportsMessages()
+		dateRangeCombo = new SelectCombo(Accounter.constants()
 				.dateRange());
 		dateRangeCombo.setHelpInformation(true);
 		dateRangeList = new ArrayList<String>();
@@ -93,7 +93,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 		}
 		dateRangeCombo.initCombo(dateRangeList);
 		dateRangeCombo.setDefaultValue(dateRangeArray[0]);
-		dateRangeCombo.setComboItem(Accounter.getReportsMessages().all());
+		dateRangeCombo.setComboItem(Accounter.constants().all());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -101,7 +101,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 					public void selectedComboBoxItem(String selectItem) {
 
 						// if (!dateRangeItem.getValue().toString().equals(
-						// FinanceApplication.getReportsMessages().custom())) {
+						// FinanceApplication.constants().custom())) {
 						dateRangeChanged(dateRangeCombo.getSelectedValue());
 						// customDate.setDisabled(true);
 						// updateButton.setEnabled(false);
@@ -127,14 +127,14 @@ public class AsOfReportToolbar extends ReportToolbar {
 
 				if (date != null) {
 					if (!date.after(startDate))
-						Accounter.showError(Accounter.getReportsMessages()
+						Accounter.showError(Accounter.constants()
 								.pleaseSelectDateAfterCompanyStartDate()
 								+ UIUtils.getDateStringByDate(startDate
 										.toString()));
 					else
 						changeDates(startDate, date);
 				} else {
-					Accounter.showError(Accounter.getReportsMessages()
+					Accounter.showError(Accounter.constants()
 							.pleaseSelectDate());
 				}
 
@@ -161,9 +161,9 @@ public class AsOfReportToolbar extends ReportToolbar {
 
 				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
 						startDate, customDate.getDate());
-				dateRangeCombo.setDefaultValue(Accounter.getReportsMessages()
+				dateRangeCombo.setDefaultValue(Accounter.constants()
 						.custom());
-				setSelectedDateRange(Accounter.getReportsMessages().custom());
+				setSelectedDateRange(Accounter.constants().custom());
 
 			}
 		});

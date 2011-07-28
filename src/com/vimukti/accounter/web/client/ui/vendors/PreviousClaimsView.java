@@ -43,7 +43,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 
 		VerticalPanel panel = new VerticalPanel();
 
-		Label previous = new Label(Accounter.getVendorsMessages()
+		Label previous = new Label(Accounter.constants()
 				.previousClaims());
 
 		initGrid();
@@ -224,7 +224,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getVendorsMessages().previousClaims();
+		return Accounter.constants().previousClaims();
 	}
 
 }

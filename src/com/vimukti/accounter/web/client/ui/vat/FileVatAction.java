@@ -12,7 +12,7 @@ public class FileVatAction extends Action {
 
 	public FileVatAction(String text) {
 		super(text);
-		this.catagory = Accounter.getVATMessages().VAT();
+		this.catagory = Accounter.constants().VAT();
 	}
 
 	/**

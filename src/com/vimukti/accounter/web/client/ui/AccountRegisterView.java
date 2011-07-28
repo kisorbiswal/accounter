@@ -86,7 +86,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 	protected void createControls() {
 
 		bankAccSelect = new DepositInAccountCombo(Accounter
-				.getFinanceUIConstants().bankaccount());
+				.constants().bankaccount());
 		bankAccSelect.setRequired(true);
 
 		bankAccSelect
@@ -208,11 +208,11 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 				}
 			}
 		}
-		// grid.updateFooterValues(FinanceApplication.getCustomersMessages()
+		// grid.updateFooterValues(FinanceApplication.constants()
 		// .endingbalance(), 7);
 		// grid.addFooterValue(DataUtils.getAmountAsString(this.account
 		// .getCurrentBalance()), 8);
-		// grid2.updateFooterValues(FinanceApplication.getCustomersMessages()
+		// grid2.updateFooterValues(FinanceApplication.constants()
 		// .endingbalance(), 7);
 		// grid2.addFooterValue(DataUtils.getAmountAsString(this.account
 		// .getCurrentBalance()), 8);
@@ -245,7 +245,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 									.showMessage("Your session expired, Please login again to continue");
 						} else {
 							Accounter.showError(Accounter
-									.getFinanceUIConstants()
+									.constants()
 									.failedtoGetListofAccounts()
 									+ takenaccount.getName());
 						}
@@ -341,6 +341,6 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().accountRegister();
+		return Accounter.constants().accountRegister();
 	}
 }

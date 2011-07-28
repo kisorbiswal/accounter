@@ -29,8 +29,8 @@ import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.SaleTaxCodeGrid;
 
 public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
-	static final String ATTR_RATE = Accounter.getCustomersMessages().Rate();
-	static final String ATTR_AS_OF = Accounter.getCustomersMessages().Asof();
+	static final String ATTR_RATE = Accounter.constants().Rate();
+	static final String ATTR_AS_OF = Accounter.constants().Asof();
 
 	TextItem taxCodeText;
 	TextItem descriptionText;
@@ -55,13 +55,13 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 	public AddEditSalesTaxCodeView(String title) {
 		this.title = title;
-		info = Accounter.getFinanceUIConstants().addorEdit() + " " + title;
+		info = Accounter.constants().addorEdit() + " " + title;
 		validationCount = 1;
-		// FinanceApplication.getFinanceUIConstants().codeToEnterNew()
+		// FinanceApplication.constants().codeToEnterNew()
 		// + title
-		// + FinanceApplication.getFinanceUIConstants()
+		// + FinanceApplication.constants()
 		// .typeTheRateAndSelectDateIn() + title
-		// + FinanceApplication.getFinanceUIConstants().settingsList();
+		// + FinanceApplication.constants().settingsList();
 	}
 
 	protected void initCompany() {
@@ -76,7 +76,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 				new AsyncCallback<ClientCompany>() {
 
 					public void onFailure(Throwable caught) {
-						Accounter.showError(Accounter.getFinanceUIConstants()
+						Accounter.showError(Accounter.constants()
 								.failedtoUpdatetheCompany());
 
 					}
@@ -110,10 +110,10 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 		taxCodeText.setRequired(true);
 		descriptionText = new TextItem();
 		descriptionText.setWidth(100);
-		descriptionText.setTitle(Accounter.getFinanceUIConstants()
+		descriptionText.setTitle(Accounter.constants()
 				.description());
 		// taxAgencyCombo = new TaxAgencyCombo(FinanceApplication
-		// .getFinanceUIConstants().taxAgency());
+		// .constants().taxAgency());
 		// taxAgencyCombo.setWidth(100);
 		// taxAgencyCombo.setRequired(true);
 
@@ -136,22 +136,22 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 			public void onClick(ClickEvent event) {
 				changedValue = typeRadio.getValue().toString();
 			}
-		}, Accounter.getFinanceUIConstants().taxable(), Accounter
-				.getFinanceUIConstants().nonTaxable());
-		typeRadio.setDefaultValue(Accounter.getFinanceUIConstants().taxable());
-		statusCheck = new CheckboxItem(Accounter.getFinanceUIConstants()
+		}, Accounter.constants().taxable(), Accounter
+				.constants().nonTaxable());
+		typeRadio.setDefaultValue(Accounter.constants().taxable());
+		statusCheck = new CheckboxItem(Accounter.constants()
 				.active());
 		statusCheck.setValue(true);
 
 		taxCodeForm = new DynamicForm();
 		taxCodeForm.setWidth("100%");
 		taxCodeForm = UIUtils.form(title
-				+ Accounter.getFinanceUIConstants().code());
+				+ Accounter.constants().code());
 		taxCodeForm.setFields(taxCodeText, descriptionText, typeRadio,
 				statusCheck);
 
 		Label taxRates = new Label(title + " "
-				+ Accounter.getFinanceUIConstants().rates());
+				+ Accounter.constants().rates());
 
 		// initListGrid();
 
@@ -160,7 +160,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 		AccounterButton button1 = new AccounterButton();
 		button1.setWidth("80%");
-		button1.setText(Accounter.getFinanceUIConstants().ok());
+		button1.setText(Accounter.constants().ok());
 
 		button1.addClickHandler(new ClickHandler() {
 
@@ -174,8 +174,8 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 		AccounterButton button2 = new AccounterButton();
 		button2.setWidth("80%");
-		button2.setTitle(Accounter.getFinanceUIConstants().cancel());
-		button2.setText(Accounter.getFinanceUIConstants().cancel());
+		button2.setTitle(Accounter.constants().cancel());
+		button2.setText(Accounter.constants().cancel());
 		button2.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -187,8 +187,8 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 		AccounterButton button3 = new AccounterButton();
 		button3.setWidth("80%");
-		button3.setTitle(Accounter.getFinanceUIConstants().help());
-		button3.setText(Accounter.getFinanceUIConstants().help());
+		button3.setTitle(Accounter.constants().help());
+		button3.setText(Accounter.constants().help());
 		button3.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -206,13 +206,13 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 		VerticalPanel bodyLayout = new VerticalPanel();
 		bodyLayout.setSize("100%", "100%");
 		bodyLayout.add(infolabel);
-		// bodyLayout.add(new Label(FinanceApplication.getFinanceUIConstants()
+		// bodyLayout.add(new Label(FinanceApplication.constants()
 		// .enterTaxCode()));
 
 		bodyLayout.add(taxCodeForm);
 		// bodyLayout.add(taxRates);
 		AccounterButton addButton = new AccounterButton(Accounter
-				.getFinanceUIConstants().addNew());
+				.constants().addNew());
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -264,7 +264,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 									taxRates.getAsOf());
 							if (compareDate(date, selectedRecordDate)) {
 								Accounter.showError(Accounter
-										.getFinanceUIConstants()
+										.constants()
 										.dateShouldbeUnique());
 								// setValidDate(new Date());
 								return false;
@@ -280,14 +280,14 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 					return true;
 				}
 			} else {
-				Accounter.showError(Accounter.getFinanceUIConstants()
+				Accounter.showError(Accounter.constants()
 						.dateShouldNotBeNull());
 				return false;
 
 			}
 		} catch (Exception e) {
 			Accounter
-					.showError(Accounter.getFinanceUIConstants().invalidDate());
+					.showError(Accounter.constants().invalidDate());
 			// setValidDate(new Date());
 			return false;
 		}
@@ -304,7 +304,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 			if (DecimalUtil.isLessThan(rate, 0.00)
 					|| DecimalUtil.isGreaterThan(rate, 100.00)) {
 				invalidRatealert = title
-						+ Accounter.getFinanceUIConstants()
+						+ Accounter.constants()
 								.rateRangeShould0to100();
 				Accounter.showError(invalidRatealert);
 				setValidRate(0.0);
@@ -313,7 +313,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 			setValidRate(rate);
 
 		} catch (Exception e) {
-			Accounter.showError(Accounter.getFinanceUIConstants()
+			Accounter.showError(Accounter.constants()
 					.invalidInput());
 			setValidRate(0.0);
 		}
@@ -340,7 +340,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 			return false;
 		}
 		// if (gridView.getRecords().size() == 0) {
-		// Accounter.showError(FinanceApplication.getFinanceUIConstants()
+		// Accounter.showError(FinanceApplication.constants()
 		// .provideAtleastOne()
 		// + title + "Rate!");
 		// return false;
@@ -374,8 +374,8 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 			// taxAgencyCombo.setComboItem(selectedTaxAgency);
 			statusCheck.setValue(takenTaxCode.isActive());
 			typeRadio.setValue(takenTaxCode.isTaxable() ? Accounter
-					.getFinanceUIConstants().taxable() : Accounter
-					.getFinanceUIConstants().nonTaxable());
+					.constants().taxable() : Accounter
+					.constants().nonTaxable());
 			// Set<ClientTaxRates> clientTaxRates = (Set<ClientTaxRates>)
 			// takenTaxCode
 			// .getTaxRates();
@@ -476,7 +476,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 		// Setting status check
 		taxCode.setTaxable(typeRadio.getValue().equals(
-				Accounter.getFinanceUIConstants().taxable()) ? true : false);
+				Accounter.constants().taxable()) ? true : false);
 		boolean isActive = (Boolean) statusCheck.getValue();
 		taxCode.setActive(isActive);
 
@@ -575,9 +575,9 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	protected String getViewTitle() {
 		String constant;
 		if (getCompany().getAccountingType() == 1)
-			constant = Accounter.getActionsConstants().newVatCode();
+			constant = Accounter.constants().newVatCode();
 		else
-			constant = Accounter.getActionsConstants().newTaxCode();
+			constant = Accounter.constants().newTaxCode();
 		return constant;
 	}
 

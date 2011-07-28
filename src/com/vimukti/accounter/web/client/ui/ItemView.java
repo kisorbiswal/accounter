@@ -140,26 +140,26 @@ public class ItemView extends BaseView<ClientItem> {
 	private void createControls() {
 
 		// setTitle(UIUtils.title("NEW ITEM"));
-		// setTitle(UIUtils.title(FinanceApplication.getFinanceUIConstants()
+		// setTitle(UIUtils.title(FinanceApplication.constants()
 		// .. .newServiceItem()));
 
 		listforms = new ArrayList<DynamicForm>();
 
-		Label lab1 = new Label(Accounter.getCustomersMessages().newProduct());
-		lab1.setStyleName(Accounter.getCustomersMessages().lableTitle());
+		Label lab1 = new Label(Accounter.constants().newProduct());
+		lab1.setStyleName(Accounter.constants().lableTitle());
 
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(lab1);
 
-		// nameText = new TextItem(FinanceApplication.getFinanceUIConstants()
+		// nameText = new TextItem(FinanceApplication.constants()
 		// .itemName());
 		nameText = new TextItem(this.type == TYPE_SERVICE ? Accounter
-				.getCustomersMessages().serviceName() : Accounter
-				.getCustomersMessages().productName());
+				.constants().serviceName() : Accounter
+				.constants().productName());
 		nameText.setHelpInformation(true);
 		nameText.setWidth(100);
 		nameText.setRequired(true);
-		isservice = new CheckboxItem(Accounter.getFinanceUIConstants()
+		isservice = new CheckboxItem(Accounter.constants()
 				.isService());
 		isservice.setValue(true);
 		isservice.setDisabled(true);
@@ -175,30 +175,30 @@ public class ItemView extends BaseView<ClientItem> {
 		skuText.setWidth(100);
 		skuText.setTitle("UPC/SKU");
 
-		weightText = new IntegerField(Accounter.getFinanceUIConstants()
+		weightText = new IntegerField(Accounter.constants()
 				.weight());
 		weightText.setHelpInformation(true);
 		weightText.setWidth(100);
 		weightText.setValidators(integerRangeValidator);
-		commodityCode = new ItemGroupCombo(Accounter.getFinanceUIConstants()
+		commodityCode = new ItemGroupCombo(Accounter.constants()
 				.commmodityCode());
 		commodityCode.setHelpInformation(true);
 		itemForm = new DynamicForm();
 		itemForm.setWidth("98%");
 		itemForm.setStyleName("item-form-view");
 		itemForm.setIsGroup(true);
-		itemForm.setGroupTitle(Accounter.getFinanceUIConstants().item());
+		itemForm.setGroupTitle(Accounter.constants().item());
 		if (isEdit)
 			this.type = takenItem.getType();
 		if (type == TYPE_SERVICE) {
-			lab1.setText(Accounter.getCustomersMessages().newService());
+			lab1.setText(Accounter.constants().newService());
 			if (getCompany().getAccountingType() == 1)
 				itemForm.setFields(nameText, isservice);
 			else
 
 				itemForm.setFields(nameText, isservice, skuText);
 		} else {
-			lab1.setText(Accounter.getCustomersMessages().newProduct());
+			lab1.setText(Accounter.constants().newProduct());
 			if (getCompany().getAccountingType() == 1)
 				itemForm.setFields(nameText, weightText);
 			else
@@ -208,10 +208,10 @@ public class ItemView extends BaseView<ClientItem> {
 		salesDescArea = new TextAreaItem();
 		salesDescArea.setHelpInformation(true);
 		salesDescArea.setWidth(100);
-		salesDescArea.setTitle(Accounter.getFinanceUIConstants()
+		salesDescArea.setTitle(Accounter.constants()
 				.salesDescription());
 
-		salesPriceText = new AmountField(Accounter.getFinanceUIConstants()
+		salesPriceText = new AmountField(Accounter.constants()
 				.salesPrice());
 		salesPriceText.setHelpInformation(true);
 		salesPriceText.setWidth(100);
@@ -219,7 +219,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// salesPriceText.setValidators(floatRangeValidator);
 		// salesPriceText.setValidateOnChange(true);
 
-		accountCombo = new SalesItemCombo(Accounter.getFinanceUIConstants()
+		accountCombo = new SalesItemCombo(Accounter.constants()
 				.incomeAccount());
 		accountCombo.setHelpInformation(true);
 		// accountCombo.setWidth(100);
@@ -245,18 +245,18 @@ public class ItemView extends BaseView<ClientItem> {
 						}
 					}
 				});
-		itemTaxCheck = new CheckboxItem(Accounter.getFinanceUIConstants()
+		itemTaxCheck = new CheckboxItem(Accounter.constants()
 				.taxable());
 		itemTaxCheck.setValue(true);
 
-		comCheck = new CheckboxItem(Accounter.getFinanceUIConstants()
+		comCheck = new CheckboxItem(Accounter.constants()
 				.commissionItem());
 
-		salesInfoForm = UIUtils.form(Accounter.getFinanceUIConstants()
+		salesInfoForm = UIUtils.form(Accounter.constants()
 				.salesInformation());
 		salesInfoForm.setWidth("98%");
 
-		stdCostText = new AmountField(Accounter.getFinanceUIConstants()
+		stdCostText = new AmountField(Accounter.constants()
 				.standardCost());
 		stdCostText.setHelpInformation(true);
 		stdCostText.setWidth(100);
@@ -264,14 +264,14 @@ public class ItemView extends BaseView<ClientItem> {
 		// stdCostText.setValidators(floatRangeValidator);
 		// stdCostText.setValidateOnChange(true);
 
-		// stdCostForm = UIUtils.form(FinanceApplication.getCustomersMessages()
+		// stdCostForm = UIUtils.form(FinanceApplication.constants()
 		// .standardcost());
 		// stdCostForm.setFields(stdCostText);
 		// stdCostForm.setWidth("95%");
 		// stdCostForm.getCellFormatter().setWidth(0, 0, "165");
 		// itemGroupCombo = new ItemGroupCombo(FinanceApplication
-		// .getFinanceUIConstants().itemGroup());
-		itemGroupCombo = new ItemGroupCombo(Accounter.getFinanceUIConstants()
+		// .constants().itemGroup());
+		itemGroupCombo = new ItemGroupCombo(Accounter.constants()
 				.itemGroup());
 		itemGroupCombo.setHelpInformation(true);
 		// itemGroupCombo.setWidth(100);
@@ -281,7 +281,7 @@ public class ItemView extends BaseView<ClientItem> {
 						selectItemGroup = selectItem;
 					}
 				});
-		taxCode = new TAXCodeCombo(Accounter.getFinanceUIConstants().vatCode(),
+		taxCode = new TAXCodeCombo(Accounter.constants().vatCode(),
 				isGeneratedFromCustomer);
 		taxCode.setHelpInformation(true);
 		taxCode.setRequired(true);
@@ -296,16 +296,16 @@ public class ItemView extends BaseView<ClientItem> {
 			}
 		});
 		taxCode.setDefaultValue("Z-0.0%");
-		activeCheck = new CheckboxItem(Accounter.getFinanceUIConstants()
+		activeCheck = new CheckboxItem(Accounter.constants()
 				.active());
 		activeCheck.setValue(true);
 		purchaseDescArea = new TextAreaItem();
 		purchaseDescArea.setHelpInformation(true);
 		purchaseDescArea.setWidth(100);
-		purchaseDescArea.setTitle(Accounter.getFinanceUIConstants()
+		purchaseDescArea.setTitle(Accounter.constants()
 				.purchaseDescription());
 
-		purchasePriceTxt = new AmountField(Accounter.getFinanceUIConstants()
+		purchasePriceTxt = new AmountField(Accounter.constants()
 				.purchasePrice());
 		purchasePriceTxt.setHelpInformation(true);
 		purchasePriceTxt.setWidth(100);
@@ -313,7 +313,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// purchasePriceTxt.setValidators(floatRangeValidator);
 		// purchasePriceTxt.setValidateOnChange(true);
 
-		expAccCombo = new PurchaseItemCombo(Accounter.getFinanceUIConstants()
+		expAccCombo = new PurchaseItemCombo(Accounter.constants()
 				.expenseAccount());
 		expAccCombo.setHelpInformation(true);
 		expAccCombo.setRequired(true);
@@ -338,8 +338,8 @@ public class ItemView extends BaseView<ClientItem> {
 				});
 		expAccCombo.setPopupWidth("500px");
 		prefVendorCombo = new VendorCombo(UIUtils.getVendorString(Accounter
-				.getCustomersMessages().preferredSupplier(), Accounter
-				.getCustomersMessages().preferredVendor()));
+				.constants().preferredSupplier(), Accounter
+				.constants().preferredVendor()));
 		prefVendorCombo.setHelpInformation(true);
 		prefVendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -349,20 +349,20 @@ public class ItemView extends BaseView<ClientItem> {
 				});
 		vendItemNumText = new IntegerField(
 				this.type != TYPE_SERVICE ? UIUtils.getVendorString(Accounter
-						.getCustomersMessages().supplierProductNo(), Accounter
-						.getCustomersMessages().vendorProductNo())
+						.constants().supplierProductNo(), Accounter
+						.constants().vendorProductNo())
 						: UIUtils.getVendorString(Accounter
-								.getCustomersMessages().supplierServiceNo(),
-								Accounter.getCustomersMessages()
+								.constants().supplierServiceNo(),
+								Accounter.constants()
 										.vendorServiceNo()));
 		vendItemNumText.setHelpInformation(true);
 		vendItemNumText.setWidth(100);
 
 		// isellCheck = new CheckboxItem(FinanceApplication
-		// .getFinanceUIConstants().iSellThisItem());
+		// .constants().iSellThisItem());
 		isellCheck = new CheckboxItem(this.type == TYPE_SERVICE ? Accounter
-				.getCustomersMessages().isellthisservice() : Accounter
-				.getCustomersMessages().isellthisproduct());
+				.constants().isellthisservice() : Accounter
+				.constants().isellthisproduct());
 		if (isGeneratedFromCustomer) {
 			isellCheck.setValue(isGeneratedFromCustomer);
 			isellCheck.setDisabled(!isGeneratedFromCustomer);
@@ -382,11 +382,11 @@ public class ItemView extends BaseView<ClientItem> {
 		});
 
 		// ibuyCheck = new
-		// CheckboxItem(FinanceApplication.getFinanceUIConstants()
+		// CheckboxItem(FinanceApplication.constants()
 		// .iBuyThisItem());
 		ibuyCheck = new CheckboxItem(this.type == TYPE_SERVICE ? Accounter
-				.getCustomersMessages().ibuythisservice() : Accounter
-				.getCustomersMessages().ibuythisproduct());
+				.constants().ibuythisservice() : Accounter
+				.constants().ibuythisproduct());
 		ibuyCheck.setValue(!isGeneratedFromCustomer);
 
 		ibuyCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -412,7 +412,7 @@ public class ItemView extends BaseView<ClientItem> {
 		salesInfoForm.getCellFormatter().setWidth(0, 0, "25%");
 		salesInfoForm.getCellFormatter().setWidth(3, 0, "25%");
 		salesInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
-		itemInfoForm = UIUtils.form(Accounter.getFinanceUIConstants()
+		itemInfoForm = UIUtils.form(Accounter.constants()
 				.itemInformation());
 		itemInfoForm.setWidth("97%");
 		if (getCompany().getAccountingType() == 1)
@@ -420,7 +420,7 @@ public class ItemView extends BaseView<ClientItem> {
 		else
 			itemInfoForm.setFields(itemGroupCombo, activeCheck);
 		itemInfoForm.getCellFormatter().setWidth(0, 0, "30%");
-		purchaseInfoForm = UIUtils.form(Accounter.getFinanceUIConstants()
+		purchaseInfoForm = UIUtils.form(Accounter.constants()
 				.purchaseInformation());
 		purchaseInfoForm.setNumCols(2);
 		purchaseInfoForm.setStyleName("purchase_info_form");
@@ -489,21 +489,21 @@ public class ItemView extends BaseView<ClientItem> {
 
 		VerticalPanel stockPanel = new VerticalPanel();
 		DynamicForm stockForm = new DynamicForm();
-		measurement = new SelectCombo(Accounter.getFinanceUIConstants()
+		measurement = new SelectCombo(Accounter.constants()
 				.measurement());
-		wareHouse = new SelectCombo(Accounter.getFinanceUIConstants()
+		wareHouse = new SelectCombo(Accounter.constants()
 				.warehouse());
-		minStock = new IntegerField(Accounter.getFinanceUIConstants()
+		minStock = new IntegerField(Accounter.constants()
 				.minStockAlertLevel());
-		maxStock = new IntegerField(Accounter.getFinanceUIConstants()
+		maxStock = new IntegerField(Accounter.constants()
 				.maxStockAlertLevel());
-		defaultSellPrice = new IntegerField(Accounter.getFinanceUIConstants()
+		defaultSellPrice = new IntegerField(Accounter.constants()
 				.defaultSellPrice());
 		defaultPurchasePrice = new IntegerField(Accounter
-				.getFinanceUIConstants().defaultPurchasePrice());
-		salesTaxRate = new IntegerField(Accounter.getFinanceUIConstants()
+				.constants().defaultPurchasePrice());
+		salesTaxRate = new IntegerField(Accounter.constants()
 				.salesTaxRate());
-		purcahseTaxRate = new IntegerField(Accounter.getFinanceUIConstants()
+		purcahseTaxRate = new IntegerField(Accounter.constants()
 				.purchaseTaxRate());
 		stockForm.setFields(measurement, wareHouse, minStock, maxStock,
 				defaultSellPrice, defaultPurchasePrice, salesTaxRate,
@@ -696,10 +696,10 @@ public class ItemView extends BaseView<ClientItem> {
 		} else {
 			// if (takenItem == null)
 			// Accounter.showInformation(FinanceApplication
-			// .getFinanceUIConstants().itemCreatedSuccessfully());
+			// .constants().itemCreatedSuccessfully());
 			// else
 			// Accounter.showInformation(FinanceApplication
-			// .getFinanceUIConstants().itemupdatedSuccessfully());
+			// .constants().itemupdatedSuccessfully());
 			NewItemAction action = (NewItemAction) this.getAction();
 			action.setType(type);
 			super.saveSuccess(result);
@@ -1046,6 +1046,6 @@ public class ItemView extends BaseView<ClientItem> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCustomersMessages().item();
+		return Accounter.constants().item();
 	}
 }

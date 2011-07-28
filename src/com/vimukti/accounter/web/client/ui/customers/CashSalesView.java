@@ -79,8 +79,8 @@ public class CashSalesView extends
 
 	@Override
 	protected void createControls() {
-		Label lab1 = new Label(Accounter.getCustomersMessages().newcashsale());
-		lab1.setStyleName(Accounter.getCustomersMessages().lableTitle());
+		Label lab1 = new Label(Accounter.constants().newcashsale());
+		lab1.setStyleName(Accounter.constants().lableTitle());
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
@@ -124,14 +124,14 @@ public class CashSalesView extends
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isEdit);
 
-		billToTextArea = new TextAreaItem(Accounter.getCustomersMessages()
+		billToTextArea = new TextAreaItem(Accounter.constants()
 				.billTo());
 		billToTextArea.setDisabled(true);
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
 		shipToAddress.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.getCustomersMessages().width(), "40px");
+				.setAttribute(Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -177,7 +177,7 @@ public class CashSalesView extends
 		termsForm
 				.getCellFormatter()
 				.getElement(0, 0)
-				.setAttribute(Accounter.getCustomersMessages().width(), "203px");
+				.setAttribute(Accounter.constants().width(), "203px");
 		forms.add(termsForm);
 
 		memoTextAreaItem = createMemoTextAreaItem();
@@ -481,7 +481,7 @@ public class CashSalesView extends
 		ClientCashSales cashSale = (ClientCashSales) transactionObject;
 		ClientCompany company = getCompany();
 		if (cashSale == null) {
-			UIUtils.err(Accounter.getCustomersMessages()
+			UIUtils.err(Accounter.constants()
 					.unableToLoadRequiredQuote());
 			return;
 		}
@@ -818,6 +818,6 @@ public class CashSalesView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().cashSales();
+		return Accounter.constants().cashSales();
 	}
 }

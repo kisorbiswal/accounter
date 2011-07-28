@@ -32,13 +32,13 @@
 //	@Override
 //	protected String getAddNewLabelString() {
 //
-//		return FinanceApplication.getVATMessages().addaNewTaxCode();
+//		return FinanceApplication.constants().addaNewTaxCode();
 //	}
 //
 //	@Override
 //	protected String getListViewHeading() {
 //
-//		return FinanceApplication.getVATMessages().taxCodesList();
+//		return FinanceApplication.constants().taxCodesList();
 //	}
 //
 //	@Override
@@ -145,13 +145,13 @@
 ////	@Override
 ////	protected String getAddNewLabelString() {
 ////
-////		return FinanceApplication.getVATMessages().addaNewTaxCode();
+////		return FinanceApplication.constants().addaNewTaxCode();
 ////	}
 ////
 ////	@Override
 ////	protected String getListViewHeading() {
 ////
-////		return FinanceApplication.getVATMessages().taxCodesList();
+////		return FinanceApplication.constants().taxCodesList();
 ////	}
 ////
 ////	@Override

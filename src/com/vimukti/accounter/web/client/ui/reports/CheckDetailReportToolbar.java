@@ -23,33 +23,33 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 
 	public CheckDetailReportToolbar() {
 		createControls();
-		// selectedDateRange = FinanceApplication.getReportsMessages().all();
+		// selectedDateRange = FinanceApplication.constants().all();
 	}
 
 	private void createControls() {
-		String[] statusArray = { Accounter.getVendorsMessages().cash(),
-				Accounter.getVendorsMessages().check(),
-				Accounter.getVendorsMessages().creditCard(),
-				Accounter.getVendorsMessages().directDebit(),
-				Accounter.getVendorsMessages().masterCard(),
-				Accounter.getVendorsMessages().onlineBanking(),
-				Accounter.getVendorsMessages().standingOrder(),
-				Accounter.getVendorsMessages().switchMaestro() };
+		String[] statusArray = { Accounter.constants().cash(),
+				Accounter.constants().check(),
+				Accounter.constants().creditCard(),
+				Accounter.constants().directDebit(),
+				Accounter.constants().masterCard(),
+				Accounter.constants().onlineBanking(),
+				Accounter.constants().standingOrder(),
+				Accounter.constants().switchMaestro() };
 
-		String[] dateRangeArray = { Accounter.getReportsMessages().all(),
-				Accounter.getReportsMessages().thisWeek(),
-				Accounter.getReportsMessages().thisMonth(),
-				Accounter.getReportsMessages().lastWeek(),
-				Accounter.getReportsMessages().lastMonth(),
-				Accounter.getReportsMessages().thisFinancialYear(),
-				Accounter.getReportsMessages().lastFinancialYear(),
-				Accounter.getReportsMessages().thisFinancialQuarter(),
-				Accounter.getReportsMessages().lastFinancialQuarter(),
-				Accounter.getReportsMessages().financialYearToDate(),
-				Accounter.getReportsMessages().custom() };
+		String[] dateRangeArray = { Accounter.constants().all(),
+				Accounter.constants().thisWeek(),
+				Accounter.constants().thisMonth(),
+				Accounter.constants().lastWeek(),
+				Accounter.constants().lastMonth(),
+				Accounter.constants().thisFinancialYear(),
+				Accounter.constants().lastFinancialYear(),
+				Accounter.constants().thisFinancialQuarter(),
+				Accounter.constants().lastFinancialQuarter(),
+				Accounter.constants().financialYearToDate(),
+				Accounter.constants().custom() };
 
 		checkDetailCombo = new ComboBoxItem();
-		checkDetailCombo.setTitle(Accounter.getVendorsMessages()
+		checkDetailCombo.setTitle(Accounter.constants()
 				.Paymentmethod());
 		checkDetailCombo.setValueMap(statusArray);
 		checkDetailCombo.setDefaultValue(statusArray[0]);
@@ -66,7 +66,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 		});
 
 		dateRangeItem = new ComboBoxItem();
-		dateRangeItem.setTitle(Accounter.getReportsMessages().dateRange());
+		dateRangeItem.setTitle(Accounter.constants().dateRange());
 		dateRangeItem.setValueMap(dateRangeArray);
 		dateRangeItem.setDefaultValue(dateRangeArray[0]);
 
@@ -82,7 +82,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 
 		fromItem = new DateItem();
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
-		fromItem.setTitle(Accounter.getReportsMessages().from());
+		fromItem.setTitle(Accounter.constants().from());
 
 		toItem = new DateItem();
 		ClientFinanceDate date = Accounter.getCompany()
@@ -93,7 +93,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 		else
 			toItem.setDatethanFireEvent(new ClientFinanceDate());
 
-		toItem.setTitle(Accounter.getReportsMessages().to());
+		toItem.setTitle(Accounter.constants().to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -102,7 +102,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 				endDate = (ClientFinanceDate) toItem.getValue();
 			}
 		});
-		updateButton = new AccounterButton(Accounter.getReportsMessages()
+		updateButton = new AccounterButton(Accounter.constants()
 				.update());
 		updateButton.addClickHandler(new ClickHandler() {
 
@@ -113,9 +113,9 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 				setEndDate(toItem.getDate());
 
 				changeDates(fromItem.getDate(), toItem.getDate());
-				dateRangeItem.setDefaultValue(Accounter.getReportsMessages()
+				dateRangeItem.setDefaultValue(Accounter.constants()
 						.custom());
-				setSelectedDateRange(Accounter.getReportsMessages().custom());
+				setSelectedDateRange(Accounter.constants().custom());
 
 			}
 		});
@@ -125,7 +125,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 		// updateButton.setEnabled(false);
 
 		AccounterButton printButton = new AccounterButton(Accounter
-				.getReportsMessages().print());
+				.constants().print());
 		// printButton.setTop(2);
 		// printButton.setWidth(40);
 		printButton.addClickHandler(new ClickHandler() {

@@ -103,8 +103,8 @@ public class VATBoxGrid extends ListGrid<ClientBox> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.getVATMessages().VATLine(),
-				Accounter.getVATMessages().amount() };
+		return new String[] { Accounter.constants().VATLine(),
+				Accounter.constants().amount() };
 	}
 
 }

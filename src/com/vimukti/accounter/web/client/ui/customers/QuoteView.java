@@ -208,9 +208,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	protected void createControls() {
 		// setTitle(UIUtils.title(customerConstants.quote()));
 
-		Label lab1 = new Label(Accounter.getCustomersMessages().newQuote());
+		Label lab1 = new Label(Accounter.constants().newQuote());
 		// + "(" + getTransactionStatus() + ")");
-		lab1.setStyleName(Accounter.getCustomersMessages().lableTitle());
+		lab1.setStyleName(Accounter.constants().lableTitle());
 		// lab1.setHeight("35px");
 
 		transactionDateItem = createTransactionDateItem();
@@ -245,11 +245,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		labeldateNoLayout.add(datepanel);
 
 		customerCombo = createCustomerComboItem(Accounter
-				.getCustomersMessages().customerName());
+				.constants().customerName());
 		contactCombo = createContactComboItem();
 		billToTextArea = new TextAreaItem();
 		billToTextArea.setWidth(100);
-		billToTextArea.setTitle(Accounter.getCustomersMessages().billTo());
+		billToTextArea.setTitle(Accounter.constants().billTo());
 		billToTextArea.setDisabled(true);
 
 		phoneSelect = new TextItem(customerConstants.phone());
@@ -291,7 +291,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		phoneForm
 				.getCellFormatter()
 				.getElement(0, 0)
-				.setAttribute(Accounter.getCustomersMessages().width(), "203px");
+				.setAttribute(Accounter.constants().width(), "203px");
 		forms.add(phoneForm);
 
 		Label lab2 = new Label(customerConstants.productAndService());
@@ -788,7 +788,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCustomersMessages().quote();
+		return Accounter.constants().quote();
 	}
 
 }

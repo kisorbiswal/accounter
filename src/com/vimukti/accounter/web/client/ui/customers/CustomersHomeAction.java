@@ -17,12 +17,12 @@ public class CustomersHomeAction extends Action {
 
 	public CustomersHomeAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	public CustomersHomeAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -38,7 +38,7 @@ public class CustomersHomeAction extends Action {
 			MainFinanceWindow.getViewManager().showView(view, null, false,
 					CustomersHomeAction.this);
 		} catch (Exception e) {
-			Accounter.showError(Accounter.getCustomersMessages()
+			Accounter.showError(Accounter.constants()
 					.failedToLoadCustomerHome());
 		}
 

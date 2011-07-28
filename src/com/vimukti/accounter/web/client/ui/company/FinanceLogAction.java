@@ -22,7 +22,7 @@ public class FinanceLogAction extends Action {
 
 	public FinanceLogAction(String text) {
 		super(text);
-		catagory = Accounter.getVendorsMessages().help();
+		catagory = Accounter.constants().help();
 	}
 
 	@Override

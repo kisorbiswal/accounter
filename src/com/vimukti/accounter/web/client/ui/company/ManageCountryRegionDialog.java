@@ -38,15 +38,15 @@ public class ManageCountryRegionDialog extends GroupDialog {
 			}
 
 			public void onFirstButtonClick() {
-				new CountryRegionDialog(Accounter.getCompanyMessages()
-						.addCountry(), Accounter.getCompanyMessages()
+				new CountryRegionDialog(Accounter.constants()
+						.addCountry(), Accounter.constants()
 						.enterNameOfCountry()).show();
 
 			}
 
 			public void onSecondButtonClick() {
-				new CountryRegionDialog(Accounter.getCompanyMessages()
-						.editCountry(), Accounter.getCompanyMessages()
+				new CountryRegionDialog(Accounter.constants()
+						.editCountry(), Accounter.constants()
 						.enterNameOfCountry()).show();
 
 			}
@@ -88,7 +88,7 @@ public class ManageCountryRegionDialog extends GroupDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCompanyMessages().countryRegion();
+		return Accounter.constants().countryRegion();
 	}
 
 }// end of ManageCountryRegionDialog

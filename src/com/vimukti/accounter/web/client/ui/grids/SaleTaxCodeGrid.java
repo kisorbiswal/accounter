@@ -57,8 +57,8 @@ public class SaleTaxCodeGrid extends ListGrid<ClientTaxRates> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.getVATMessages().rate(),
-				Accounter.getVATMessages().asof(), "" };
+		return new String[] { Accounter.constants().rate(),
+				Accounter.constants().asof(), "" };
 	}
 
 	@Override

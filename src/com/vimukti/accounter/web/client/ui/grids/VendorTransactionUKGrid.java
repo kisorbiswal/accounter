@@ -58,7 +58,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 	}
 
 	protected void createControls() {
-		vatItemCombo = new VATItemCombo(Accounter.getVATMessages().VATItem(),
+		vatItemCombo = new VATItemCombo(Accounter.constants().VATItem(),
 				isAddNewRequired);
 		List<ClientTAXItem> vendorVATItems = new ArrayList<ClientTAXItem>();
 		for (ClientTAXItem vatItem : Accounter.getCompany().getActiveTaxItems()) {
@@ -85,7 +85,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 				});
 		// taxCodeCombo.setGrid(this);
 
-		taxCodeCombo = new TAXCodeCombo(Accounter.getVATMessages().vatCode(),
+		taxCodeCombo = new TAXCodeCombo(Accounter.constants().vatCode(),
 				isAddNewRequired, false);
 		taxCodeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
@@ -173,13 +173,13 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { "", Accounter.getVendorsMessages().name(),
-				Accounter.getVATMessages().description(),
-				Accounter.getCustomersMessages().quantity(),
-				Accounter.getVendorsMessages().unitPrice(),
-				Accounter.getVendorsMessages().total(),
-				Accounter.getVATMessages().newVATCode(),
-				Accounter.getVATMessages().VAT(), " " };
+		return new String[] { "", Accounter.constants().name(),
+				Accounter.constants().description(),
+				Accounter.constants().quantity(),
+				Accounter.constants().unitPrice(),
+				Accounter.constants().total(),
+				Accounter.constants().newVATCode(),
+				Accounter.constants().VAT(), " " };
 	}
 
 	@Override

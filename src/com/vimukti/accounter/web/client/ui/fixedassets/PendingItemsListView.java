@@ -33,7 +33,7 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.getFixedAssetConstants().pendingItemsList();
+		return Accounter.constants().pendingItemsList();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -90,7 +90,7 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().pendingItemsList();
+		return Accounter.constants().pendingItemsList();
 	}
 
 }

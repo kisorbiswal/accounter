@@ -121,7 +121,7 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 	private void showWarningDialog(final PaymentsList obj, final int col) {
 		String msg = null;
 		if (col == 8 && !obj.isVoided()) {
-			msg = Accounter.getCustomersMessages()
+			msg = Accounter.constants()
 					.doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 9) {

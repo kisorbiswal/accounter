@@ -39,7 +39,7 @@ public class CustomerTransactionHistoryServerReport1 extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.getReportsMessages().customerTransactionHistory();
+		return Accounter.constants().customerTransactionHistory();
 	}
 
 	@Override
@@ -85,8 +85,8 @@ public class CustomerTransactionHistoryServerReport1 extends
 			addSection(sectionName, "", new int[0]);
 		} else if (sectionDepth == 2) {
 			// Inside fist section
-			addSection(Accounter.getReportsMessages().beginingBalance(),
-					Accounter.getReportsMessages().endingBalance(), new int[] {
+			addSection(Accounter.constants().beginingBalance(),
+					Accounter.constants().endingBalance(), new int[] {
 							3, 5, 8, 9 });
 		} else if (sectionDepth == 3) {
 			// No need to do anything, just allow adding this record

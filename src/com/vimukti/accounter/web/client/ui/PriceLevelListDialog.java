@@ -88,7 +88,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 
 	public void showAddEditPriceLevel(ClientPriceLevel rec) {
 		dialog = new AddPriceLevelDialog(Accounter
-				.getFinanceUIConstants().priceLevel(), "");
+				.constants().priceLevel(), "");
 		priceLevel = rec;
 		if (priceLevel != null) {
 
@@ -97,8 +97,8 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 
 			String increaseOrDecrease = priceLevel
 					.isPriceLevelDecreaseByThisPercentage() ? Accounter
-					.getFinanceUIConstants().decreasePriceLevelByThisPerc()
-					: Accounter.getFinanceUIConstants()
+					.constants().decreasePriceLevelByThisPerc()
+					: Accounter.constants()
 							.increasePriceLevelByThisPerc();
 
 			dialog.levelRadio.setValue(increaseOrDecrease);
@@ -120,7 +120,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 						createPriceLevels();
 				} else {
 					// Accounter.showError(FinanceApplication
-					// .getCustomersMessages()
+					// .constants()
 					// .detailsHighlightedInRedMustBeEntered());
 					return false;
 				}
@@ -151,7 +151,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 			String val = dialog.getIncrOrDecrPercentValue();
 			if (val != null) {
 				priceLevel.setPriceLevelDecreaseByThisPercentage(val
-						.equals(Accounter.getFinanceUIConstants()
+						.equals(Accounter.constants()
 								.decreasePriceLevelByThisPerc()));
 			}
 			alterObject(priceLevel);
@@ -176,7 +176,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 			String val = dialog.getIncrOrDecrPercentValue();
 			if (val != null) {
 				priceLevel.setPriceLevelDecreaseByThisPercentage(val
-						.equals(Accounter.getFinanceUIConstants()
+						.equals(Accounter.constants()
 								.decreasePriceLevelByThisPerc()));
 			}
 			createObject(priceLevel);
@@ -200,8 +200,8 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 	@Override
 	public String[] setColumns() {
 		return new String[] {
-				Accounter.getFinanceUIConstants().Name(),
-				Accounter.getFinanceUIConstants().percentage() };
+				Accounter.constants().Name(),
+				Accounter.constants().percentage() };
 	}
 
 	@Override
@@ -211,7 +211,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCompanyMessages()
+		return Accounter.constants()
 				.managePriceLevelListGroup();
 	}
 }

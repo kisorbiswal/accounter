@@ -91,7 +91,7 @@ public class AccounterDialog extends CustomDialog {
 			}
 
 			okButton = new AccounterButton(Accounter
-					.getCompanyMessages().ok());
+					.constants().ok());
 			okButton.setWidth("80px");
 
 			// buttonLayout.setAlign(Alignment.RIGHT);
@@ -112,10 +112,10 @@ public class AccounterDialog extends CustomDialog {
 			imageUrl = "/images/warn-icon.png";
 			setText("WARNING");
 			yesButton = new AccounterButton(Accounter
-					.getCompanyMessages().yes());
+					.constants().yes());
 			yesButton.setWidth("60");
 			noButton = new AccounterButton(Accounter
-					.getCompanyMessages().no());
+					.constants().no());
 			noButton.setWidth("60");
 			yesButton.addClickHandler(new ClickHandler() {
 
@@ -143,7 +143,7 @@ public class AccounterDialog extends CustomDialog {
 			// buttonLayout.setAlign(Alignment.RIGHT);
 			if (this.type.equals(AccounterType.WARNINGWITHCANCEL)) {
 				cancelButton = new AccounterButton(Accounter
-						.getCompanyMessages().cancel());
+						.constants().cancel());
 				buttonLayout.add(yesButton);
 				buttonLayout.add(noButton);
 				buttonLayout.add(cancelButton);

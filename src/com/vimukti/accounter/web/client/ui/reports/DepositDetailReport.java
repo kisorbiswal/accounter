@@ -57,7 +57,7 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return Accounter.getReportsMessages().financialYearToDate();
+		return Accounter.constants().financialYearToDate();
 	}
 
 	// @Override
@@ -69,16 +69,16 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", Accounter.getReportsMessages().number(),
-				Accounter.getReportsMessages().date(),
-				Accounter.getReportsMessages().name(),
-				Accounter.getReportsMessages().accountName(),
-				Accounter.getReportsMessages().amount() };
+		return new String[] { "", Accounter.constants().number(),
+				Accounter.constants().date(),
+				Accounter.constants().name(),
+				Accounter.constants().accountName(),
+				Accounter.constants().amount() };
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.getFinanceUIConstants().depositDetail();
+		return Accounter.constants().depositDetail();
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 	public void processRecord(DepositDetail record) {
 		// if (sectionDepth == 0) {
 		// addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-		// FinanceApplication.getReportsMessages().total() },
+		// FinanceApplication.constants().total() },
 		// new int[] { 5 });
 		// } else if (sectionDepth == 1) {
 		// this.sectionName = Utility.getTransactionName(getType(record));

@@ -13,18 +13,18 @@ public class DepreciationAction extends Action {
 
 	public DepreciationAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	public DepreciationAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getFixedAssetConstants().fixedAssets();
+		this.catagory = Accounter.constants().fixedAssets();
 	}
 
 	public DepreciationAction(String text, String iconString,
 			Object editableObject, AsyncCallback<Object> callbackObject) {
 		super(text, iconString, editableObject, callbackObject);
-		this.catagory = Accounter.getFixedAssetConstants().fixedAssets();
+		this.catagory = Accounter.constants().fixedAssets();
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class DepreciationAction extends Action {
 			MainFinanceWindow.getViewManager()
 					.showView(view, null, false, this);
 		} catch (Exception e) {
-			Accounter.showError(Accounter.getCompanyMessages()
+			Accounter.showError(Accounter.constants()
 					.failedToLoadCompanyHome());
 		}
 	}

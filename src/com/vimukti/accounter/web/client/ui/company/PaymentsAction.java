@@ -17,12 +17,12 @@ public class PaymentsAction extends Action {
 
 	public PaymentsAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCompanyMessages().banking();
+		this.catagory = Accounter.constants().banking();
 	}
 
 	public PaymentsAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCompanyMessages().banking();
+		this.catagory = Accounter.constants().banking();
 	}
 
 	@Override

@@ -17,7 +17,7 @@ public class NewBankAccountAction extends Action {
 	public NewBankAccountAction(String text, String iconString) {
 
 		super(text, iconString);
-		this.catagory = Accounter.getBankingsMessages().banking();
+		this.catagory = Accounter.constants().banking();
 
 	}
 

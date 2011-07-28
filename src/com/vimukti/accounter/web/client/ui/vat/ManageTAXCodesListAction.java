@@ -24,7 +24,7 @@ public class ManageTAXCodesListAction extends Action {
 	 */
 	public ManageTAXCodesListAction(String text) {
 		super(text);
-		this.catagory = Accounter.getVATMessages().VAT();
+		this.catagory = Accounter.constants().VAT();
 	}
 
 	/**
@@ -33,7 +33,7 @@ public class ManageTAXCodesListAction extends Action {
 	 */
 	public ManageTAXCodesListAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getVATMessages().VAT();
+		this.catagory = Accounter.constants().VAT();
 	}
 
 	/*

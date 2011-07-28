@@ -17,14 +17,14 @@ public class AddEditSalesTaxCodeAction extends Action {
 
 	public AddEditSalesTaxCodeAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCompanyMessages().company();
-		title = Accounter.getCompanyMessages().taxCode();
+		this.catagory = Accounter.constants().company();
+		title = Accounter.constants().taxCode();
 	}
 
 	public AddEditSalesTaxCodeAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCompanyMessages().company();
-		title = Accounter.getCompanyMessages().taxCode();
+		this.catagory = Accounter.constants().company();
+		title = Accounter.constants().taxCode();
 	}
 
 	@Override

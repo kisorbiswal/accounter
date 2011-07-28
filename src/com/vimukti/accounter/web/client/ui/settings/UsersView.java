@@ -93,7 +93,7 @@ public class UsersView extends BaseView<ClientUser> {
 
 		mainLayPanel = new VerticalPanel();
 		flexTable = new FlexTable();
-		generalSettingsHTML = new HTML(Accounter.getSettingsMessages()
+		generalSettingsHTML = new HTML(Accounter.constants()
 				.generalSettingsLabel());
 		generalSettingsHTML.addMouseOverHandler(new MouseOverHandler() {
 
@@ -121,10 +121,10 @@ public class UsersView extends BaseView<ClientUser> {
 						false);
 			}
 		});
-		titleLabel = new Label(Accounter.getSettingsMessages().usersTitle());
+		titleLabel = new Label(Accounter.constants().usersTitle());
 
 		titleLabel.removeStyleName("gwt-Label");
-		titleLabel.setStyleName(Accounter.getVendorsMessages().lableTitle());
+		titleLabel.setStyleName(Accounter.constants().lableTitle());
 
 		inviteUserButton = new AccounterButton("Invite a User");
 		inviteUserButton.addClickHandler(new ClickHandler() {
@@ -135,8 +135,8 @@ public class UsersView extends BaseView<ClientUser> {
 			}
 		});
 		tabPanel = new DecoratedTabPanel();
-		tabPanel.add(getUsersPanel(), Accounter.getSettingsMessages().users());
-		tabPanel.add(getRecentActivityPanel(), Accounter.getSettingsMessages()
+		tabPanel.add(getUsersPanel(), Accounter.constants().users());
+		tabPanel.add(getRecentActivityPanel(), Accounter.constants()
 				.recentActivity());
 		tabPanel.selectTab(0);
 
@@ -223,7 +223,7 @@ public class UsersView extends BaseView<ClientUser> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getSettingsMessages().users();
+		return Accounter.constants().users();
 	}
 
 }

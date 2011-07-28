@@ -82,7 +82,7 @@ public class InvoiceBrandingView<T> extends
 		titleLabel = new Label(messages.invoiceBrandingLabel());
 		titleLabel.removeStyleName("gwt-Label");
  
-		titleLabel.setStyleName(Accounter.getVendorsMessages().lableTitle());
+		titleLabel.setStyleName(Accounter.constants().lableTitle());
 		generalSettingsHTML.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -599,12 +599,12 @@ public class InvoiceBrandingView<T> extends
 			super.saveSuccess(object);
 			SettingsActionFactory.getInvoiceBrandingAction().run(null, false);
 		} else
-			saveFailed(new Exception(Accounter.getCompanyMessages().failed()));
+			saveFailed(new Exception(Accounter.constants().failed()));
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getSettingsMessages().invoiceBranding();
+		return Accounter.constants().invoiceBranding();
 	}
 
 }

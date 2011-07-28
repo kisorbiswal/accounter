@@ -338,10 +338,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		if (result != null) {
 			// if (takenCustomer == null)
 			// Accounter.showInformation(FinanceApplication
-			// .getCustomersMessages().newCustomerCreated());
+			// .constants().newCustomerCreated());
 			// else
 			// Accounter.showInformation(FinanceApplication
-			// .getCustomersMessages().customerUpdatedSuccessfully());
+			// .constants().customerUpdatedSuccessfully());
 
 			super.saveSuccess(result);
 
@@ -699,9 +699,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		accInfoForm.setFields(statusCheck, customerSinceDate, balanceText,
 				balanceDate);
 
-		Label l1 = new Label(Accounter.getCustomersMessages().contacts());
+		Label l1 = new Label(Accounter.constants().contacts());
 		AccounterButton addButton = new AccounterButton(Accounter
-				.getCustomersMessages().add());
+				.constants().add());
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -877,27 +877,27 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		addrsForm
 				.getCellFormatter()
 				.getElement(0, 1)
-				.setAttribute(Accounter.getCustomersMessages().width(), "185px");
+				.setAttribute(Accounter.constants().width(), "185px");
 
 		fonFaxForm
 				.getCellFormatter()
 				.getElement(0, 0)
-				.setAttribute(Accounter.getCustomersMessages().width(), "240px");
+				.setAttribute(Accounter.constants().width(), "240px");
 		// fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
-		// FinanceApplication.getCustomersMessages().width(), "185px");
+		// FinanceApplication.constants().width(), "185px");
 
 		customerForm.getCellFormatter().getElement(0, 0).getStyle()
 				.setWidth(150, Unit.PX);
 		emailForm
 				.getCellFormatter()
 				.getElement(0, 0)
-				.setAttribute(Accounter.getCustomersMessages().width(), "240px");
+				.setAttribute(Accounter.constants().width(), "240px");
 		// emailForm.getCellFormatter().getElement(0, 1).setAttribute(
-		// FinanceApplication.getCustomersMessages().width(), "");
+		// FinanceApplication.constants().width(), "");
 		accInfoForm
 				.getCellFormatter()
 				.getElement(0, 0)
-				.setAttribute(Accounter.getCustomersMessages().width(), "150px");
+				.setAttribute(Accounter.constants().width(), "150px");
 
 	}
 
@@ -1030,11 +1030,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 
-		vatregno = new TextItem(Accounter.getCustomersMessages()
+		vatregno = new TextItem(Accounter.constants()
 				.VATRegistrationNumber());
 		vatregno.setHelpInformation(true);
 		vatregno.setWidth(100);
-		custTaxCode = new TAXCodeCombo(Accounter.getCustomersMessages()
+		custTaxCode = new TAXCodeCombo(Accounter.constants()
 				.customerVATCode(), true);
 		custTaxCode.setHelpInformation(true);
 		custTaxCode
@@ -1370,6 +1370,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCustomersMessages().customer();
+		return Accounter.constants().customer();
 	}
 }

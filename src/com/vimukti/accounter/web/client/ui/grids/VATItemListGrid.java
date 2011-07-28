@@ -38,16 +38,16 @@ public class VATItemListGrid extends ListGrid<ClientTAXItem> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.getVATMessages().VATItem(),
-				Accounter.getVATMessages().rate(),
-				Accounter.getVATMessages().VATAgency(),
-				Accounter.getVATMessages().description(), " " };
+		return new String[] { Accounter.constants().VATItem(),
+				Accounter.constants().rate(),
+				Accounter.constants().VATAgency(),
+				Accounter.constants().description(), " " };
 	}
 
 	@Override
 	public void init() {
 		super.init();
-		// addFooterValues("", FinanceApplication.getVATMessages().groupRate()
+		// addFooterValues("", FinanceApplication.constants().groupRate()
 		// + groupRate + "%");
 		createControls();
 	}
@@ -116,7 +116,7 @@ public class VATItemListGrid extends ListGrid<ClientTAXItem> {
 		for (ClientTAXItem vatItem : vatItems) {
 			groupRate += vatItem.getTaxRate();
 		}
-		// updateFooterValues(FinanceApplication.getVATMessages().groupRate()
+		// updateFooterValues(FinanceApplication.constants().groupRate()
 		// + groupRate + "%", 1);
 		updateData(selectedObject);
 
@@ -239,7 +239,7 @@ public class VATItemListGrid extends ListGrid<ClientTAXItem> {
 
 	public void filterVATItems(String value) {
 		if (value != null
-				&& value.equalsIgnoreCase(Accounter.getVATMessages()
+				&& value.equalsIgnoreCase(Accounter.constants()
 						.purchaseType())) {
 			vatitemCombo.initCombo(vatitemCombo.getPurchaseWithPrcntVATItems());
 		} else {

@@ -13,14 +13,14 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 public class NewJournalEntryAction extends Action {
 
 	public NewJournalEntryAction(String text, String iconString) {
-		super(Accounter.getCompanyMessages().newJournalEntry(), iconString);
-		this.catagory = Accounter.getCompanyMessages().company();
+		super(Accounter.constants().newJournalEntry(), iconString);
+		this.catagory = Accounter.constants().company();
 	}
 
 	public NewJournalEntryAction(String text, String iconString,
 			ClientJournalEntry journalEntry, AsyncCallback<Object> callback) {
 		super(text, iconString, journalEntry, callback);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	@Override

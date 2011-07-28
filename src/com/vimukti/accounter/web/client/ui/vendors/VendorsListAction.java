@@ -19,15 +19,15 @@ public class VendorsListAction extends Action {
 	public VendorsListAction(String icon) {
 		super("Vendors", icon);
 		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+				.constants().supplier(), Accounter
+				.constants().vendor());
 	}
 
 	public VendorsListAction(String text, String iconString) {
 		super(text, iconString);
 		this.catagory = UIUtils.getVendorString(Accounter
-				.getVendorsMessages().supplier(), Accounter
-				.getVendorsMessages().vendor());
+				.constants().supplier(), Accounter
+				.constants().vendor());
 	}
 
 	@SuppressWarnings("unchecked")

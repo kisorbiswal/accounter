@@ -15,24 +15,24 @@ public class SettingsActionFactory extends AbstractActionFactory {
 	}
 
 	public static InventoryItemsAction getInventoryItemsAction() {
-		return new InventoryItemsAction(Accounter.getSettingsMessages()
+		return new InventoryItemsAction(Accounter.constants()
 				.inventoryItems());
 
 	}
 
 	public static ChartOfAccountsAction getChartOfAccountsAction() {
-		return new ChartOfAccountsAction(Accounter.getSettingsMessages()
+		return new ChartOfAccountsAction(Accounter.constants()
 				.chartOfAccounts());
 
 	}
 
 	public static ConversionBalancesAction getConversionBalancesAction() {
-		return new ConversionBalancesAction(Accounter.getSettingsMessages()
+		return new ConversionBalancesAction(Accounter.constants()
 				.conversionBalance());
 	}
 
 	public static InvoiceBrandingAction getInvoiceBrandingAction() {
-		return new InvoiceBrandingAction(Accounter.getSettingsMessages()
+		return new InvoiceBrandingAction(Accounter.constants()
 				.invoiceBranding());
 	}
 
@@ -42,12 +42,12 @@ public class SettingsActionFactory extends AbstractActionFactory {
 	}
 
 	public static ConversionDateAction getConversionDateAction() {
-		return new ConversionDateAction(Accounter.getSettingsMessages()
+		return new ConversionDateAction(Accounter.constants()
 				.conversionDate());
 	}
 
 	public static AutomaticSequenceAction getAutomaticSequenceAction() {
-		return new AutomaticSequenceAction(Accounter.getSettingsMessages()
+		return new AutomaticSequenceAction(Accounter.constants()
 				.automaticSequencing());
 	}
 

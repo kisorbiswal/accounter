@@ -29,17 +29,17 @@ public class ShipToForm extends DynamicForm {
 	public ShipToForm(Set<ClientAddress> addresses) {
 
 		@SuppressWarnings("unused")
-		Label l1 = new Label(Accounter.getFinanceUIConstants()
+		Label l1 = new Label(Accounter.constants()
 				.enterAddress());
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
 		setAddresses(addresses);
 		businessSelect = new SelectCombo(Accounter
-				.getFinanceUIConstants().shipTo());
+				.constants().shipTo());
 		businessSelect.setHelpInformation(true);
 		// businessSelect.setWidth(85);
 		businessSelect.getMainWidget().removeStyleName(
-				Accounter.getFinanceUIConstants().gwtListBox());
+				Accounter.constants().gwtListBox());
 		List<String> addressTypes = new ArrayList<String>();
 
 		addressTypes.addAll(new ClientAddress().getAddressTypes());
@@ -81,7 +81,7 @@ public class ShipToForm extends DynamicForm {
 			addrArea.setValue(toToSet);
 		} else
 			businessSelect.setDefaultToFirstOption(Boolean.TRUE);
-		setGroupTitle(Accounter.getFinanceUIConstants().addresses());
+		setGroupTitle(Accounter.constants().addresses());
 		setNumCols(3);
 		setFields(businessSelect, addrArea);
 	}

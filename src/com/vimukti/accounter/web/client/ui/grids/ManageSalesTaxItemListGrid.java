@@ -64,10 +64,10 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.getVATMessages().taxItem(),
-				Accounter.getVATMessages().description(),
-				Accounter.getVATMessages().taxRates(),
-				Accounter.getVATMessages().taxAgency(), "" };
+		return new String[] { Accounter.constants().taxItem(),
+				Accounter.constants().description(),
+				Accounter.constants().taxRates(),
+				Accounter.constants().taxAgency(), "" };
 	}
 
 	@Override

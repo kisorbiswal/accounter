@@ -44,7 +44,7 @@ public class BankingPortlet extends DashBoardPortlet {
 
 	@Override
 	public String getGoToText() {
-		return Accounter.getCompanyMessages().gotoBanking();
+		return Accounter.constants().gotoBanking();
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class BankingPortlet extends DashBoardPortlet {
 					ClientAccount.TYPE_BANK);
 		}
 		AccounterButton addAccount = new AccounterButton(Accounter
-				.getCompanyMessages().addBankAccount());
+				.constants().addBankAccount());
 		addAccount.addStyleName("addAccountPortlet");
 		if (Accounter.getUser().canDoBanking()) {
 			body.add(addAccount);

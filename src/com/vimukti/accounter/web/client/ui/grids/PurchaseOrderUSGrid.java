@@ -15,13 +15,13 @@ public class PurchaseOrderUSGrid extends VendorTransactionUSGrid {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { "", Accounter.getVendorsMessages().name(),
-				Accounter.getCustomersMessages().description(),
-				Accounter.getCustomersMessages().quantity(),
-				Accounter.getVendorsMessages().unitPrice(),
-				Accounter.getVendorsMessages().onHand(),
-				Accounter.getVendorsMessages().total(),
-				Accounter.getVendorsMessages().billsReceived(), " " };
+		return new String[] { "", Accounter.constants().name(),
+				Accounter.constants().description(),
+				Accounter.constants().quantity(),
+				Accounter.constants().unitPrice(),
+				Accounter.constants().onHand(),
+				Accounter.constants().total(),
+				Accounter.constants().billsReceived(), " " };
 	}
 
 	@Override

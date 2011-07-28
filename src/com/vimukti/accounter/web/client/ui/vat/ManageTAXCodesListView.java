@@ -27,12 +27,12 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.getVATMessages().addNewVATCode();
+		return Accounter.constants().addNewVATCode();
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.getVATMessages().VATCodeList();
+		return Accounter.constants().VATCodeList();
 	}
 
 	@Override
@@ -98,7 +98,7 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().vatCodeList();
+		return Accounter.constants().vatCodeList();
 	}
 
 }

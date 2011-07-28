@@ -46,9 +46,9 @@ public class ShippingMethodListAction extends Action {
 				try {
 
 					ShippingMethodListDialog dialog = new ShippingMethodListDialog(
-							Accounter.getCompanyMessages()
+							Accounter.constants()
 									.manageShippingMethodList(), Accounter
-									.getCompanyMessages().toAddShippingMethod());
+									.constants().toAddShippingMethod());
 					ViewManager viewManager = ViewManager.getInstance();
 					viewManager.setCurrentDialog(dialog);
 					// dialog.addCallBack(getViewConfiguration().getCallback());

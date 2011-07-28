@@ -12,12 +12,12 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 public class SalesClosedOrderAction extends Action {
 	public SalesClosedOrderAction(String text) {
 		super(text);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	public SalesClosedOrderAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getReportsMessages().report();
+		this.catagory = Accounter.constants().report();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

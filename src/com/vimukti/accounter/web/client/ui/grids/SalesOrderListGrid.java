@@ -79,10 +79,10 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.getCustomersMessages().date(),
-				Accounter.getCustomersMessages().orderNumber(),
-				Accounter.getCustomersMessages().customeRName(),
-				Accounter.getCustomersMessages().totalPrice() };
+		return new String[] { Accounter.constants().date(),
+				Accounter.constants().orderNumber(),
+				Accounter.constants().customeRName(),
+				Accounter.constants().totalPrice() };
 	}
 
 	@Override

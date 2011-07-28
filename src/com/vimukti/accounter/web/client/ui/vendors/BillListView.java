@@ -100,14 +100,14 @@ public class BillListView extends BaseListView<BillsList> {
 
 	@Override
 	protected SelectCombo getSelectItem() {
-		currentView = new SelectCombo(Accounter.getVendorsMessages()
+		currentView = new SelectCombo(Accounter.constants()
 				.currentView());
 		currentView.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
-		listOfTypes.add(Accounter.getVendorsMessages().open());
-		listOfTypes.add(Accounter.getVendorsMessages().Voided());
-		listOfTypes.add(Accounter.getVendorsMessages().overDue());
-		listOfTypes.add(Accounter.getVendorsMessages().all());
+		listOfTypes.add(Accounter.constants().open());
+		listOfTypes.add(Accounter.constants().Voided());
+		listOfTypes.add(Accounter.constants().overDue());
+		listOfTypes.add(Accounter.constants().all());
 		currentView.initCombo(listOfTypes);
 
 		if (UIUtils.isMSIEBrowser())
@@ -116,7 +116,7 @@ public class BillListView extends BaseListView<BillsList> {
 		if (this.viewType != null && !viewType.equals(""))
 			currentView.setComboItem(viewType);
 		else {
-			currentView.setComboItem(Accounter.getCustomersMessages().all());
+			currentView.setComboItem(Accounter.constants().all());
 		}
 		currentView
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -223,6 +223,6 @@ public class BillListView extends BaseListView<BillsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getActionsConstants().billsAndItemReceipts();
+		return Accounter.constants().billsAndItemReceipts();
 	}
 }

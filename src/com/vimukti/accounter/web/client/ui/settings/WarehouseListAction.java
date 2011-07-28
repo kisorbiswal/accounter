@@ -12,7 +12,7 @@ public class WarehouseListAction extends Action {
 
 	public WarehouseListAction(String text) {
 		super(text);
-		this.catagory = Accounter.getSettingsMessages().settings();
+		this.catagory = Accounter.constants().settings();
 	}
 
 	@Override

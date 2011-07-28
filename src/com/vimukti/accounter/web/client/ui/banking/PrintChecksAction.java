@@ -10,7 +10,7 @@ public class PrintChecksAction extends Action {
 
 	public PrintChecksAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getBankingsMessages().banking();
+		this.catagory = Accounter.constants().banking();
 	}
 
 	/**

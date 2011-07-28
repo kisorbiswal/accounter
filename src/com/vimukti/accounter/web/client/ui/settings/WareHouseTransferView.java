@@ -21,7 +21,7 @@ public class WareHouseTransferView extends BaseView<ClientWarehouse> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getSettingsMessages().wareHouseTransfer();
+		return Accounter.constants().wareHouseTransfer();
 	}
 
 	@Override
@@ -33,9 +33,9 @@ public class WareHouseTransferView extends BaseView<ClientWarehouse> {
 	private void createControls() {
 		try {
 			mainPanel = new VerticalPanel();
-			fromCombo = new OtherAccountsCombo(Accounter.getCustomersMessages()
+			fromCombo = new OtherAccountsCombo(Accounter.constants()
 					.from());
-			toCombo = new OtherAccountsCombo(Accounter.getCustomersMessages()
+			toCombo = new OtherAccountsCombo(Accounter.constants()
 					.to());
 			commentArea = new TextAreaItem();
 			form = new DynamicForm();

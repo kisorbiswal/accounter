@@ -11,7 +11,7 @@ public class PreferencesAction extends Action {
 
 	public PreferencesAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class PreferencesAction extends Action {
 			MainFinanceWindow.getViewManager().showView(view, null, true,
 					PreferencesAction.this);
 		} catch (Exception e) {
-			Accounter.showError(Accounter.getCompanyMessages()
+			Accounter.showError(Accounter.constants()
 					.failedToLoadCompanyPreferences());
 		}
 

@@ -97,7 +97,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 
 	public void showAddEditGroupDialog(ClientItemGroup rec) {
 		itemGroup = rec;
-		itemGroupDg = new ItemGroupDialog(Accounter.getFinanceUIConstants()
+		itemGroupDg = new ItemGroupDialog(Accounter.constants()
 				.itemGroup(), "", itemGroup);
 
 		InputDialogHandler dialogHandler = new InputDialogHandler() {
@@ -114,7 +114,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 						createItemSGroups();
 				} else {
 					// Accounter.showError(FinanceApplication
-					// .getCustomersMessages()
+					// .constants()
 					// .detailsHighlightedInRedMustBeEntered());
 					return false;
 				}
@@ -153,8 +153,8 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.getFinanceUIConstants().name(),
-		// FinanceApplication.getFinanceUIConstants().price()
+		return new String[] { Accounter.constants().name(),
+		// FinanceApplication.constants().price()
 		};
 	}
 
@@ -165,6 +165,6 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCompanyMessages().manageItemGroup();
+		return Accounter.constants().manageItemGroup();
 	}
 }

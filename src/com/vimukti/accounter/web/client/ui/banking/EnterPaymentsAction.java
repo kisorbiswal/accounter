@@ -10,7 +10,7 @@ public class EnterPaymentsAction extends Action {
 
 	public EnterPaymentsAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getBankingsMessages().banking();
+		this.catagory = Accounter.constants().banking();
 	}
 
 	/**

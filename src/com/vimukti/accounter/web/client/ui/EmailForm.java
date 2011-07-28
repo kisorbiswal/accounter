@@ -32,12 +32,12 @@ public class EmailForm extends DynamicForm {
 		allEmails = new LinkedHashMap<Integer, ClientEmail>();
 		setEmails(emails);
 		setIsGroup(true);
-		setGroupTitle(Accounter.getFinanceUIConstants()
+		setGroupTitle(Accounter.constants()
 				.emailAndInternet());
 		setNumCols(3);
 
 		businesEmailSelect = new SelectCombo(Accounter
-				.getFinanceUIConstants().email());
+				.constants().email());
 		businesEmailSelect.setHelpInformation(true);
 		// businesEmailSelect.setWidth(85);
 		businesEmailSelect.getMainWidget().removeStyleName("gwt-ListBox");
@@ -91,7 +91,7 @@ public class EmailForm extends DynamicForm {
 				}
 			}
 		});
-		webText = new TextItem(Accounter.getFinanceUIConstants()
+		webText = new TextItem(Accounter.constants()
 				.webPageAddress());
 		webText.setHelpInformation(true);
 		webText.setWidth(100);

@@ -42,11 +42,11 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 	@Override
 	protected void initViewType() {
 
-		titlelabel.setText(Accounter.getVendorsMessages().creditCardExpense());
+		titlelabel.setText(Accounter.constants().creditCardExpense());
 
 		vendorForm.clear();
 		termsForm.clear();
-		Ccard = new VendorCombo(Accounter.getVendorsMessages().cCCompany(),
+		Ccard = new VendorCombo(Accounter.constants().cCCompany(),
 				true) {
 			@Override
 			public void initCombo(List<ClientVendor> list) {
@@ -93,15 +93,15 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 		Ccard.setRequired(true);
 		String listString[] = new String[] {
-				Accounter.getVendorsMessages().cash(),
+				Accounter.constants().cash(),
 				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-						.getCustomersMessages().check()),
-				Accounter.getVendorsMessages().creditCard(),
-				Accounter.getVendorsMessages().directDebit(),
-				Accounter.getVendorsMessages().masterCard(),
-				Accounter.getVendorsMessages().onlineBanking(),
-				Accounter.getVendorsMessages().standingOrder(),
-				Accounter.getVendorsMessages().switchMaestro() };
+						.constants().check()),
+				Accounter.constants().creditCard(),
+				Accounter.constants().directDebit(),
+				Accounter.constants().masterCard(),
+				Accounter.constants().onlineBanking(),
+				Accounter.constants().standingOrder(),
+				Accounter.constants().switchMaestro() };
 
 		selectedComboList = new ArrayList<String>();
 		for (int i = 0; i < listString.length; i++) {
@@ -116,7 +116,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 		termsForm
 				.getCellFormatter()
 				.getElement(0, 0)
-				.setAttribute(Accounter.getCustomersMessages().width(), "203px");
+				.setAttribute(Accounter.constants().width(), "203px");
 		hPanel.add(termsForm);
 
 		if (transactionObject != null) {
@@ -276,15 +276,15 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 	@Override
 	protected void showMenu(AccounterButton button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.getVendorsMessages().accounts(),
-					Accounter.getVendorsMessages().service());
+			setMenuItems(button, Accounter.constants().accounts(),
+					Accounter.constants().service());
 		else
-			setMenuItems(button, Accounter.getVendorsMessages().accounts(),
-					Accounter.getVendorsMessages().service());
+			setMenuItems(button, Accounter.constants().accounts(),
+					Accounter.constants().service());
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getVendorsMessages().creditCardExpense();
+		return Accounter.constants().creditCardExpense();
 	}
 }

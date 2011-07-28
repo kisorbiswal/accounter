@@ -76,11 +76,11 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.getCustomersMessages().active(),
-				Accounter.getCustomersMessages().itemName(),
-				Accounter.getCustomersMessages().description(),
-				Accounter.getCustomersMessages().type(),
-				Accounter.getCustomersMessages().price(), "" };
+		return new String[] { Accounter.constants().active(),
+				Accounter.constants().itemName(),
+				Accounter.constants().description(),
+				Accounter.constants().type(),
+				Accounter.constants().price(), "" };
 	}
 
 	@Override

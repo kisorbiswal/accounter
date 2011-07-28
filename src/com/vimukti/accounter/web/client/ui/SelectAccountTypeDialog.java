@@ -46,7 +46,7 @@ public class SelectAccountTypeDialog extends BaseDialog {
 
 		incomeAndExpenseForm = new DynamicForm();
 		incomeAndExpenseForm.setIsGroup(true);
-		incomeAndExpenseForm.setGroupTitle(Accounter.getFinanceUIConstants()
+		incomeAndExpenseForm.setGroupTitle(Accounter.constants()
 				.incomeAndExpenseAccounts());
 		// incomeAndExpenseForm.setWrapItemTitles(false);
 		// incomeAndExpenseForm.setItemLayout(FormLayoutType.ABSOLUTE);

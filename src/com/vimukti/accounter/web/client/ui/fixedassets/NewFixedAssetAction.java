@@ -14,7 +14,7 @@ public class NewFixedAssetAction extends Action {
 
 	public NewFixedAssetAction(String text) {
 		super(text);
-		this.catagory = Accounter.getFixedAssetConstants().fixedAssets();
+		this.catagory = Accounter.constants().fixedAssets();
 	}
 
 	@Override

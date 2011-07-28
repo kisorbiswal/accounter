@@ -13,7 +13,7 @@ public class PurchaseItemsAction extends Action {
 
 	public PurchaseItemsAction(String text) {
 		super(text);
-		this.catagory = Accounter.getCustomersMessages().customer();
+		this.catagory = Accounter.constants().customer();
 	}
 
 	public PurchaseItemsAction(String text, String iconString, String catageory) {

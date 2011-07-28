@@ -264,7 +264,7 @@ public class ConversionDateView extends AbstractBaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getSettingsMessages().conversionDate();
+		return Accounter.constants().conversionDate();
 	}
 
 }

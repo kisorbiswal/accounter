@@ -33,8 +33,8 @@ public class PayTypeListDialog extends GroupDialog {
 		@SuppressWarnings("unused")
 		final String description;
 
-		title = Accounter.getCompanyMessages().addOrEditPayType();
-		description = Accounter.getCompanyMessages().toAddPayType();
+		title = Accounter.constants().addOrEditPayType();
+		description = Accounter.constants().toAddPayType();
 		DialogGrid grid = getGrid();
 		grid.addColumn(ListGrid.COLUMN_TYPE_TEXT, companyConstants.active());
 		grid.addColumn(ListGrid.COLUMN_TYPE_TEXT,
@@ -93,7 +93,7 @@ public class PayTypeListDialog extends GroupDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCompanyMessages().addOrEditPayType();
+		return Accounter.constants().addOrEditPayType();
 	}
 
 }

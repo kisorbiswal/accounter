@@ -35,46 +35,46 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 
 	public void createControls() {
 
-		String[] dateRangeArray = { Accounter.getReportsMessages().all(),
-				Accounter.getReportsMessages().thisWeek(),
-				Accounter.getReportsMessages().thisMonth(),
-				Accounter.getReportsMessages().lastWeek(),
-				Accounter.getReportsMessages().lastMonth(),
-				Accounter.getReportsMessages().thisFinancialYear(),
-				Accounter.getReportsMessages().lastFinancialYear(),
-				Accounter.getReportsMessages().thisFinancialQuarter(),
-				Accounter.getReportsMessages().lastFinancialQuarter(),
-				Accounter.getReportsMessages().financialYearToDate(),
-				// FinanceApplication.getReportsMessages().today(),
-				// FinanceApplication.getReportsMessages().endThisWeek(),
-				// FinanceApplication.getReportsMessages().endThisWeekToDate(),
-				// FinanceApplication.getReportsMessages().endThisMonth(),
-				// FinanceApplication.getReportsMessages().endThisMonthToDate(),
-				// FinanceApplication.getReportsMessages().endThisFiscalQuarter(),
-				// FinanceApplication.getReportsMessages()
+		String[] dateRangeArray = { Accounter.constants().all(),
+				Accounter.constants().thisWeek(),
+				Accounter.constants().thisMonth(),
+				Accounter.constants().lastWeek(),
+				Accounter.constants().lastMonth(),
+				Accounter.constants().thisFinancialYear(),
+				Accounter.constants().lastFinancialYear(),
+				Accounter.constants().thisFinancialQuarter(),
+				Accounter.constants().lastFinancialQuarter(),
+				Accounter.constants().financialYearToDate(),
+				// FinanceApplication.constants().today(),
+				// FinanceApplication.constants().endThisWeek(),
+				// FinanceApplication.constants().endThisWeekToDate(),
+				// FinanceApplication.constants().endThisMonth(),
+				// FinanceApplication.constants().endThisMonthToDate(),
+				// FinanceApplication.constants().endThisFiscalQuarter(),
+				// FinanceApplication.constants()
 				// .endThisFiscalQuarterToDate(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants()
 				// .endThisCalanderQuarter(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants()
 				// .endThisCalanderQuarterToDate(),
-				// FinanceApplication.getReportsMessages().endThisFiscalYear(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants().endThisFiscalYear(),
+				// FinanceApplication.constants()
 				// .endThisFiscalYearToDate(),
-				// FinanceApplication.getReportsMessages().endThisCalanderYear(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants().endThisCalanderYear(),
+				// FinanceApplication.constants()
 				// .endThisCalanderYearToDate(),
-				// FinanceApplication.getReportsMessages().endYesterday(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants().endYesterday(),
+				// FinanceApplication.constants()
 				// .endPreviousFiscalQuarter(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants()
 				// .endLastCalenderQuarter(),
-				// FinanceApplication.getReportsMessages()
+				// FinanceApplication.constants()
 				// .previousFiscalYearSameDates(),
-				// FinanceApplication.getReportsMessages().lastCalenderYear(),
-				// FinanceApplication.getReportsMessages().previousCalenderYear(),
-				Accounter.getReportsMessages().custom() };
+				// FinanceApplication.constants().lastCalenderYear(),
+				// FinanceApplication.constants().previousCalenderYear(),
+				Accounter.constants().custom() };
 
-		vatAgencyCombo = new TAXAgencyCombo(Accounter.getReportsMessages()
+		vatAgencyCombo = new TAXAgencyCombo(Accounter.constants()
 				.chooseVATAgency(), false);
 		vatAgencyCombo.setHelpInformation(true);
 		// vatAgencyCombo.setWidth(40);
@@ -92,7 +92,7 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 					}
 				});
 
-		dateRangeCombo = new SelectCombo(Accounter.getReportsMessages()
+		dateRangeCombo = new SelectCombo(Accounter.constants()
 				.dateRange());
 		dateRangeCombo.setHelpInformation(true);
 		dateRangeList = new ArrayList<String>();
@@ -100,21 +100,21 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 			dateRangeList.add(dateRangeArray[i]);
 		}
 		dateRangeCombo.initCombo(dateRangeList);
-		dateRangeCombo.setComboItem(Accounter.getReportsMessages().all());
-		dateRangeCombo.setName(Accounter.getReportsMessages().dateRange());
+		dateRangeCombo.setComboItem(Accounter.constants().all());
+		dateRangeCombo.setName(Accounter.constants().dateRange());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						if (!dateRangeCombo.getSelectedValue().equals(
-								Accounter.getReportsMessages().custom())) {
+								Accounter.constants().custom())) {
 							dateRangeChanged(dateRangeCombo.getSelectedValue());
 						}
 					}
 				});
 
-		endingDateCombo = new SelectCombo(Accounter.getReportsMessages()
+		endingDateCombo = new SelectCombo(Accounter.constants()
 				.chooseEndingDate());
 		endingDateCombo.setHelpInformation(true);
 		endingDateCombo

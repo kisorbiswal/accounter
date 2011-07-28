@@ -258,7 +258,7 @@ public class ConversionBalancesView extends AbstractBaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getSettingsMessages().conversionBalance();
+		return Accounter.constants().conversionBalance();
 	}
 
 	@Override

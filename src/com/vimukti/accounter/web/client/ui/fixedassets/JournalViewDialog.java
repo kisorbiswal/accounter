@@ -67,32 +67,32 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 
 	private void createControls() {
 		Label disposalSummarylabel = new Label(Accounter
-				.getFixedAssetConstants().disposalSummary());
-		disposalSummarylabel.setStyleName(Accounter.getFixedAssetConstants()
+				.constants().disposalSummary());
+		disposalSummarylabel.setStyleName(Accounter.constants()
 				.lableTitle());
 		disposalSummarylabel.addStyleName("title-color");
 		disposalSummaryForm = getDisposalSummaryForm();
 
 		disposalSummaryForm.setWidth("100%");
 		Label disposalJOurnallabel = new Label(Accounter
-				.getFixedAssetConstants().disposalJournal());
-		disposalJOurnallabel.setStyleName(Accounter.getFixedAssetConstants()
+				.constants().disposalJournal());
+		disposalJOurnallabel.setStyleName(Accounter.constants()
 				.lableTitle());
 		disposalJOurnallabel.addStyleName("title-color");
 		totalGainItem = createTotalGainCombo();
 		totalGainItem.setRequired(true);
 		lossOnDisposal = createLossorGainAccount(Accounter
-				.getFixedAssetConstants().lossOnDisposal());
+				.constants().lossOnDisposal());
 		lossOnDisposal.setRequired(true);
 		gainOnDisposal = createLossorGainAccount(Accounter
-				.getFixedAssetConstants().gainOnDisposal());
+				.constants().gainOnDisposal());
 		gainOnDisposal.setRequired(true);
 
 		disposalJournalForm = getDisposalJournalForm();
 
 		disposalJournalForm.setWidth("100%");
 
-		okbtn = new AccounterButton(Accounter.getFixedAssetConstants().post());
+		okbtn = new AccounterButton(Accounter.constants().post());
 		okbtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -214,14 +214,14 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 	@SuppressWarnings("unchecked")
 	private CustomCombo getCombo(String keyValue) {
 		if (keyValue
-				.equals(Accounter.getFixedAssetConstants().lossOnDisposal())) {
+				.equals(Accounter.constants().lossOnDisposal())) {
 			setLossorGainAmount(this.disposalJOurnal.get(keyValue));
 			return lossOnDisposal;
-		} else if (keyValue.equals(Accounter.getFixedAssetConstants()
+		} else if (keyValue.equals(Accounter.constants()
 				.gainOnDisposal())) {
 			setLossorGainAmount(this.disposalJOurnal.get(keyValue));
 			return gainOnDisposal;
-		} else if (keyValue.equals(Accounter.getFixedAssetConstants()
+		} else if (keyValue.equals(Accounter.constants()
 				.totalCapitalGain())) {
 			setTotalCapitalGainAmount(this.disposalJOurnal.get(keyValue));
 			return totalGainItem;
@@ -236,7 +236,7 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 	 */
 	private void setTotalLabelForm(DynamicForm form, int row) {
 		HTML totalLabel = new HTML();
-		totalLabel.setHTML(Accounter.getFixedAssetConstants().total());
+		totalLabel.setHTML(Accounter.constants().total());
 		String debittotal = "<strong>"
 				+ DataUtils.getAmountAsString(this.debitTotal) + "</strong>";
 		HTML debitValueLabel = new HTML(debittotal);
@@ -255,9 +255,9 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 
 	private void setCreditandDebitForm(DynamicForm form) {
 		HTML debitLabel = new HTML();
-		debitLabel.setHTML(Accounter.getFixedAssetConstants().debit());
+		debitLabel.setHTML(Accounter.constants().debit());
 		HTML creditLabel = new HTML();
-		creditLabel.setHTML(Accounter.getFixedAssetConstants().credit());
+		creditLabel.setHTML(Accounter.constants().credit());
 		form.setText(0, 0, "");
 		form.setWidth("100%");
 		form.setWidget(0, 1, debitLabel);
@@ -275,7 +275,7 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 
 	private RevenueAccountCombo createTotalGainCombo() {
 		RevenueAccountCombo revenueCombo = new RevenueAccountCombo(Accounter
-				.getFixedAssetConstants().totalCapitalGain(), false);
+				.constants().totalCapitalGain(), false);
 		revenueCombo.setWidth(80);
 		revenueCombo.setRequired(true);
 		revenueCombo
@@ -340,9 +340,9 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 
 	private String[] getComboNames() {
 		return new String[] {
-				Accounter.getFixedAssetConstants().lossOnDisposal(),
-				Accounter.getFixedAssetConstants().gainOnDisposal(),
-				Accounter.getFixedAssetConstants().totalCapitalGain() };
+				Accounter.constants().lossOnDisposal(),
+				Accounter.constants().gainOnDisposal(),
+				Accounter.constants().totalCapitalGain() };
 
 	}
 
@@ -410,6 +410,6 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getFixedAssetConstants().journalView();
+		return Accounter.constants().journalView();
 	}
 }

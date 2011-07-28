@@ -85,6 +85,6 @@ public class AutomaticSequenceDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getSettingsMessages().automaticSequencing();
+		return Accounter.constants().automaticSequencing();
 	}
 }

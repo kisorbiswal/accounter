@@ -14,13 +14,13 @@ public class WriteChecksAction extends Action {
 
 	public WriteChecksAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getBankingsMessages().banking();
+		this.catagory = Accounter.constants().banking();
 	}
 
 	public WriteChecksAction(String text, String iconString,
 			ClientWriteCheck writeCheck, AsyncCallback<Object> callback) {
 		super(text, iconString, writeCheck, callback);
-		this.catagory = Accounter.getBankingsMessages().banking();
+		this.catagory = Accounter.constants().banking();
 	}
 
 	@Override

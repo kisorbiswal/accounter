@@ -31,9 +31,9 @@ public class FiscalYearListGrid extends ListGrid<ClientFiscalYear> {
 			return UIUtils.getDateByCompanyType(obj.getEndDate());
 		case 2:
 			if (obj.getStatus() == 1) {
-				return Accounter.getCompanyMessages().open();
+				return Accounter.constants().open();
 			} else {
-				return Accounter.getCompanyMessages().close();
+				return Accounter.constants().close();
 			}
 
 		default:
@@ -96,9 +96,9 @@ public class FiscalYearListGrid extends ListGrid<ClientFiscalYear> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.getCompanyMessages().startDate(),
-				Accounter.getCompanyMessages().endDate(),
-				Accounter.getCompanyMessages().status() };
+		return new String[] { Accounter.constants().startDate(),
+				Accounter.constants().endDate(),
+				Accounter.constants().status() };
 	}
 
 	/*

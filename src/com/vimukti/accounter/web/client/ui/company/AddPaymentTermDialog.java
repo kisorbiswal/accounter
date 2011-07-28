@@ -35,10 +35,10 @@ public class AddPaymentTermDialog extends BaseDialog {
 	public DynamicForm nameDescForm;
 	public IntegerField dayText;
 	public String[] dueValues = {
-			Accounter.getCompanyMessages().currentMonth(),
-			Accounter.getCompanyMessages().currentQuarter(),
-			Accounter.getCompanyMessages().currentHalfYear(),
-			Accounter.getCompanyMessages().currentYear() };
+			Accounter.constants().currentMonth(),
+			Accounter.constants().currentQuarter(),
+			Accounter.constants().currentHalfYear(),
+			Accounter.constants().currentYear() };
 	private List<String> listOfDueValues;
 	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
 	private Label dayLabel;
@@ -82,13 +82,13 @@ public class AddPaymentTermDialog extends BaseDialog {
 					}
 				});
 
-		dayText = new IntegerField(Accounter.getCompanyMessages().and());
+		dayText = new IntegerField(Accounter.constants().and());
 		dayText.setHelpInformation(true);
 		// dayText.setWidth(20);
 		dayText.setValidators(integerRangeValidator);
 
 		dayLabel = new Label();
-		dayLabel.setText(Accounter.getCompanyMessages().days());
+		dayLabel.setText(Accounter.constants().days());
 
 		nameDescForm = new DynamicForm();
 		nameDescForm.setFields(payTermText, descText);
@@ -103,7 +103,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 		discDayText = new IntegerField("If paid within");
 		discDayText.setHelpInformation(true);
 		discDayText.setColSpan(1);
-		discDayText.setHint(Accounter.getCompanyMessages().days());
+		discDayText.setHint(Accounter.constants().days());
 		// discDayText.setWidth(20);
 
 		dueForm = new DynamicForm();
@@ -114,7 +114,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 		dueForm.setStyleName("due_form_table");
 
 		dayLabel = new Label();
-		dayLabel.setText(Accounter.getCompanyMessages().days());
+		dayLabel.setText(Accounter.constants().days());
 
 		HorizontalPanel duePanel = new HorizontalPanel();
 		// duePanel.setSize("100%", "100%");
@@ -133,7 +133,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 		discForm.setSize("100%", "100%");
 
 		Label label2 = new Label();
-		label2.setText(Accounter.getCompanyMessages().days());
+		label2.setText(Accounter.constants().days());
 
 		HorizontalPanel discountPanel = new HorizontalPanel();
 		// discountPanel.setSize("100%", "100%");
@@ -234,7 +234,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getCompanyMessages().paymentTerm();
+		return Accounter.constants().paymentTerm();
 	}
 
 }

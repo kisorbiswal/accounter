@@ -19,7 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
-import com.vimukti.accounter.web.client.externalization.FinanceConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -36,8 +36,8 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 	private List<EstimatesAndSalesOrdersList> estimatesAndSalesOrder;
 	private CustomersMessages customerConstants = GWT
 			.create(CustomersMessages.class);
-	private FinanceConstants financeConstants = GWT
-			.create(FinanceConstants.class);
+	private AccounterConstants financeConstants = GWT
+			.create(AccounterConstants.class);
 
 	public ClientCustomer preCustomer;
 
@@ -46,7 +46,7 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 		super(parentView);
 		invoiceView = parentView;
 		this.estimatesAndSalesOrder = estimatesAndSalesOrder;
-		setText(Accounter.getCustomersMessages()
+		setText(Accounter.constants()
 				.quoteAndSalesOrderList());
 		createControl();
 		setWidth("600");
@@ -60,7 +60,7 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 		VerticalPanel mainLayout = new VerticalPanel();
 		mainLayout.setSize("100%", "100%");
 		mainLayout.setSpacing(3);
-		Label infoLabel = new Label(Accounter.getCustomersMessages()
+		Label infoLabel = new Label(Accounter.constants()
 				.selectQuoteOrSalesOrder());
 
 		mainLayout.add(infoLabel);
@@ -98,7 +98,7 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				Accounter.showError(Accounter.getCustomersMessages()
+				Accounter.showError(Accounter.constants()
 						.sorryNoHelp());
 
 			}
@@ -175,7 +175,7 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
 					Accounter.showError(Accounter
-							.getCustomersMessages().errorLoadingSalesOrder());
+							.constants().errorLoadingSalesOrder());
 				}
 
 			}
@@ -203,7 +203,7 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
 					Accounter.showError(Accounter
-							.getCustomersMessages().errorLoadingQuote());
+							.constants().errorLoadingQuote());
 				}
 
 			}
@@ -242,9 +242,9 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 				return estimate.getTransactionNumber();
 			case 2:
 				if (estimate.getType() == ClientTransaction.TYPE_ESTIMATE) {
-					return Accounter.getCustomersMessages().quote();
+					return Accounter.constants().quote();
 				} else {
-					return Accounter.getCustomersMessages()
+					return Accounter.constants()
 							.salesOrder();
 				}
 			case 3:

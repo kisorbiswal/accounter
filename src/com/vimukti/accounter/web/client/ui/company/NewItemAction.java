@@ -30,13 +30,13 @@ public class NewItemAction extends Action {
 
 	public NewItemAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 	}
 
 	public NewItemAction(String text, String iconString,
 			boolean isGeneratedFromCustomer) {
 		super(text, iconString);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
 		// this.baseView = baseView;
 	}
@@ -44,7 +44,7 @@ public class NewItemAction extends Action {
 	public NewItemAction(String text, String iconString, ClientItem item,
 			AsyncCallback<Object> callback, boolean isGeneratedFromCustomer) {
 		super(text, iconString, item, callback);
-		this.catagory = Accounter.getCompanyMessages().company();
+		this.catagory = Accounter.constants().company();
 		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
 		// this.baseView = baseView;
 	}

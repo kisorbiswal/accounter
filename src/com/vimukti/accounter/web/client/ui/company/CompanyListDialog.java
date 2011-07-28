@@ -64,14 +64,14 @@ public class CompanyListDialog extends AbstractBaseDialog<ClientCompany> {
 					@Override
 					public void OnCellDoubleClick(ClientCompany core, int column) {
 						ClientCompany company = core;
-						UIUtils.say(Accounter.getCompanyMessages()
+						UIUtils.say(Accounter.constants()
 								.fetchingCompany()
 								+ company.getID()
 								+ "\n"
-								+ Accounter.getCompanyMessages().name()
+								+ Accounter.constants().name()
 								+ company.getName()
 								+ "\n"
-								+ Accounter.getCompanyMessages().legalName()
+								+ Accounter.constants().legalName()
 								+ company.getTradingName());
 
 					}
@@ -83,14 +83,14 @@ public class CompanyListDialog extends AbstractBaseDialog<ClientCompany> {
 					@Override
 					public void OnCellDoubleClick(ClientCompany core, int column) {
 						ClientCompany company = core;
-						UIUtils.say(Accounter.getCompanyMessages()
+						UIUtils.say(Accounter.constants()
 								.fetchingCompany()
 								+ company.getID()
 								+ "\n"
-								+ Accounter.getCompanyMessages().name()
+								+ Accounter.constants().name()
 								+ company.getName()
 								+ "\n"
-								+ Accounter.getCompanyMessages().legalName()
+								+ Accounter.constants().legalName()
 								+ company.getTradingName());
 
 					}

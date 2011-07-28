@@ -21,27 +21,27 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 	RadioGroupItem typeRadio;
 
 	public SelectPaymentTypeDialog() {
-		super(Accounter.getFinanceUIConstants().selectPaymentType(), Accounter
-				.getFinanceUIConstants().selectPaymentType());
+		super(Accounter.constants().selectPaymentType(), Accounter
+				.constants().selectPaymentType());
 		createControls();
 		center();
 
 	}
 
 	private void createControls() {
-		setText(Accounter.getFinanceUIConstants().selectPaymentType());
+		setText(Accounter.constants().selectPaymentType());
 
 		typeRadio = new RadioGroupItem();
 		typeRadio.setShowTitle(false);
 		typeRadio.setRequired(true);
 		String paymentType;
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			paymentType = Accounter.getFinanceUIConstants().vendorPayment();
+			paymentType = Accounter.constants().vendorPayment();
 		} else {
-			paymentType = Accounter.getFinanceUIConstants().supplierPayment();
+			paymentType = Accounter.constants().supplierPayment();
 		}
 
-		typeRadio.setValueMap(paymentType, Accounter.getFinanceUIConstants()
+		typeRadio.setValueMap(paymentType, Accounter.constants()
 				.customerRefund());
 
 		final DynamicForm typeForm = new DynamicForm();
@@ -49,7 +49,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		typeForm.setWidth("100%");
 
 		typeForm.setIsGroup(true);
-		typeForm.setGroupTitle(Accounter.getFinanceUIConstants()
+		typeForm.setGroupTitle(Accounter.constants()
 				.paymentDocuments());
 		typeForm.setFields(typeRadio);
 
@@ -63,7 +63,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 			public boolean onOkClick() {
 				if (!typeForm.validate(true)) {
 					// Accounter.showError(FinanceApplication
-					// .getFinanceUIConstants().pleaseSelecPaymentType());
+					// .constants().pleaseSelecPaymentType());
 					return false;
 				}
 				@SuppressWarnings("unused")
@@ -73,10 +73,10 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 					String radio = typeRadio.getValue().toString();
 					String paymentType;
 					if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-						paymentType = Accounter.getFinanceUIConstants()
+						paymentType = Accounter.constants()
 								.vendorPayment();
 					} else {
-						paymentType = Accounter.getFinanceUIConstants()
+						paymentType = Accounter.constants()
 								.supplierPayment();
 					}
 
@@ -89,7 +89,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 							// //UIUtils.logError("Failed...", e);
 
 						}
-					} else if (radio.equals(Accounter.getFinanceUIConstants()
+					} else if (radio.equals(Accounter.constants()
 							.customerRefund())) {
 
 						try {
@@ -150,6 +150,6 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.getFinanceUIConstants().selectPaymentType();
+		return Accounter.constants().selectPaymentType();
 	}
 }

@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.ui.Portlet;
 public class KeyFinancialDetailsPortlet extends Portlet {
 
 	public KeyFinancialDetailsPortlet() {
-		super(Accounter.getCompanyMessages().keyFinancialIndicators());
+		super(Accounter.constants().keyFinancialIndicators());
 	}
 
 	@Override

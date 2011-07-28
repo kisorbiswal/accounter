@@ -15,17 +15,17 @@ public class CustomMenuItem extends MenuItem {
 	public CustomMenuItem(String text, Command cmd) {
 		super(text, false, cmd);
 		this.getElement().addClassName(
-				Accounter.getFinanceUIConstants().menuItemImage());
+				Accounter.constants().menuItemImage());
 	}
 
 	public void setIcon(ImageResource image) {
 		if (image != null) {
 
 //			 this.getElement().getStyle().setProperty(
-//			 FinanceApplication.getFinanceUIConstants().background(),
+//			 FinanceApplication.constants().background(),
 //			 "url(" + image.getURL() + ")   no-repeat ");
 //			 this.getElement().addClassName(
-//			 FinanceApplication.getFinanceUIConstants().menuItemImage());
+//			 FinanceApplication.constants().menuItemImage());
 //			 this.getElement().getStyle().setBackgroundColor("");
 //
 //			
@@ -55,7 +55,7 @@ public class CustomMenuItem extends MenuItem {
 //			 div.setInnerText(title);
 //			 this.getElement().appendChild(div);
 //			 this.getElement().addClassName(
-//			 FinanceApplication.getFinanceUIConstants().menuItemImage());
+//			 FinanceApplication.constants().menuItemImage());
 		}
 	}
 
