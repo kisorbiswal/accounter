@@ -33,9 +33,9 @@ public class ServerMain extends Main {
 		Session session = HibernateUtil
 				.openSession(Server.LOCAL_DATABASE, true);
 		session.close();
-		LiveServer server = new LiveServer(true);
+		Server server = new Server();
 
-		server.startServer();
+		server.start();
 		// session.close();
 
 		CometManager.initStream("accounter", IAccounterDummyService.class);

@@ -126,6 +126,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
@@ -11493,13 +11494,17 @@ public class FinanceTool implements IFinanceDAOService {
 		return true;
 	}
 
-	public List<ClientUser> getAllUsers() {
+	public List<ClientUserInfo> getAllUsers() {
 		Session session = HibernateUtil.getCurrentSession();
 		List<User> financeUsers = session.getNamedQuery("list.User").list();
-		List<ClientUser> clientUsers = new ArrayList<ClientUser>();
+		List<ClientUserInfo> clientUsers = new ArrayList<ClientUserInfo>();
 		for (User user : financeUsers) {
-			clientUsers.add(new ClientConvertUtil().toClientObject(user,
-					ClientUser.class));
+			if (!user.isDeleted()) {
+				ClientUser clientUser = new ClientConvertUtil().toClientObject(
+						user, ClientUser.class);
+				ClientUserInfo userInfo = clientUser.toUserInfo();
+				clientUsers.add(userInfo);
+			}
 		}
 		return clientUsers;
 	}

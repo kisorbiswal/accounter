@@ -119,8 +119,8 @@ public class LiveLoginServlet extends BaseServlet {
 			request.getSession().setAttribute(USER_ID,
 					String.valueOf(user.getID()));
 			request.getSession().setAttribute(COMPANY_NAME, user.getCompany());
-			Server.getInstance().addSeesionIdOfIdentity(
-					String.valueOf(user.getID()), request.getSession().getId());
+			Server.addSeesionIdOfIdentity(String.valueOf(user.getID()), request
+					.getSession().getId());
 
 			request.setAttribute("success", true);
 
@@ -130,8 +130,8 @@ public class LiveLoginServlet extends BaseServlet {
 
 	private User doLogin(HttpServletRequest request,
 			HttpServletResponse response) {
-		String emailId = request.getParameter("emailId");
-		String password = request.getParameter("password");
+		String emailId = request.getParameter(EMAIL_ID);
+		String password = request.getParameter(PASSWORD);
 		String companyName = request.getParameter(COMPANY_NAME);
 
 		User user = getUser(emailId, password, companyName);

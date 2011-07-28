@@ -7,11 +7,10 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.mortbay.jetty.SessionIdManager;
 
-public abstract class Server implements Runnable {
+public class Server implements Runnable {
 
 	public static final int PROTOCOL_VERSION = 2;
 	private static Logger LOG = Logger.getLogger(Server.class);
-	protected static Server server;
 
 	private String serverID;
 
@@ -44,16 +43,7 @@ public abstract class Server implements Runnable {
 
 	public static ThreadLocal<Boolean> threadLocal = new ThreadLocal<Boolean>();
 
-	private Map<String, HashSet<String>> identitySessions = new HashMap<String, HashSet<String>>();
-
-	public Server() {
-		// server = this;
-	}
-
-	public Server(boolean create) throws Exception {
-		// server = this;
-		// initKeyStore();
-	}
+	private static Map<String, HashSet<String>> identitySessions = new HashMap<String, HashSet<String>>();
 
 	/**
 	 * This thread keeps monitoring the queue and increases or decreases Packet
@@ -95,26 +85,21 @@ public abstract class Server implements Runnable {
 		// + "-" + companyName;
 	}
 
-	public static Server getInstance() {
-		try {
-			return server;
-		} catch (Exception e) {
-			e.fillInStackTrace();
-		}
-		return null;
-	}
-
 	public boolean isUKVersion() {
 		return true;
 	}
 
-	public abstract void startServer();
+	public void start() {
+		Thread server = new Thread(this, "AccounterServer");
+		server.start();
+	}
 
 	public void onTerminate() {
 
 	}
 
-	public void addSeesionIdOfIdentity(String collaberId, String sessionId) {
+	public static void addSeesionIdOfIdentity(String collaberId,
+			String sessionId) {
 		HashSet<String> sessionIds;
 		if (identitySessions.containsKey(collaberId)) {
 			sessionIds = identitySessions.get(collaberId);
@@ -132,7 +117,7 @@ public abstract class Server implements Runnable {
 	 * 
 	 * @param collaberId
 	 */
-	public void invalidateAllSessionIds(String collaberId) {
+	public static void invalidateAllSessionIds(String collaberId) {
 		SessionIdManager sessionIdManager = JettyServer.jettyServer
 				.getSessionIdManager();
 		if (identitySessions.containsKey(collaberId)) {

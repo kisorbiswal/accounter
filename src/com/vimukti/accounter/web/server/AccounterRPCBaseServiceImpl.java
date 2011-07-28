@@ -39,7 +39,7 @@ public class AccounterRPCBaseServiceImpl extends RpcServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	protected Logger log = Logger.getLogger(this.getClass());
+	protected Logger log = Logger.getLogger(AccounterRPCBaseServiceImpl.class);
 
 	protected static final String USER_ID = "userId";
 

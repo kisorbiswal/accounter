@@ -45,8 +45,6 @@ public class ClientUser implements IAccounterCore {
 
 	int maxUserCount;
 
-	ClientCompany clientCompany;
-
 	// ClientUserPreferences userPreferences = new ClientUserPreferences();
 	// long userPreferencesId;
 
@@ -83,14 +81,6 @@ public class ClientUser implements IAccounterCore {
 
 	public void setUserRole(String userRole) {
 		this.userRole = userRole;
-	}
-
-	public ClientCompany getClientCompany() {
-		return clientCompany;
-	}
-
-	public void setCompany(ClientCompany company) {
-		this.clientCompany = company;
 	}
 
 	/**
@@ -441,5 +431,24 @@ public class ClientUser implements IAccounterCore {
 			return true;
 		else
 			return false;
+	}
+
+	/**
+	 * Converts ClientUser to ClientUserInfo
+	 */
+	public ClientUserInfo toUserInfo() {
+		ClientUserInfo userInfo = new ClientUserInfo();
+		userInfo.setId(id);
+		userInfo.setFirstName(firstName);
+		userInfo.setLastName(lastName);
+		userInfo.setFullName(fullName);
+		userInfo.setEmail(email);
+		userInfo.setUserRole(userRole);
+		userInfo.setPermissions(permissions);
+		userInfo.setCanDoUserManagement(canDoUserManagement);
+		userInfo.setAdmin(isAdmin);
+		userInfo.setLastLogin(lastLogin);
+		userInfo.setLoginCount(loginCount);
+		return userInfo;
 	}
 }

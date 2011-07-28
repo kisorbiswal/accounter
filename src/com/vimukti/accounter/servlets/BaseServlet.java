@@ -15,6 +15,10 @@ public class BaseServlet extends HttpServlet {
 	public static final String OUR_COOKIE = "_accounter_01_infinity_2711";
 
 	public static final String COMPANY_NAME = "companyName";
+
+	public static final String EMAIL_ID = "emailId";
+	public static final String PASSWORD = "password";
+
 	/**
 	 * 
 	 */

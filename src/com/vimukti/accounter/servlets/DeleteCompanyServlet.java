@@ -14,7 +14,6 @@ import org.hibernate.Transaction;
 import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.utils.HibernateUtil;
 
-
 /**
  * 
  * @author P.Praneeth
@@ -87,7 +86,7 @@ public class DeleteCompanyServlet extends BaseServlet {
 					.setString("companyName", domainName).list();
 			for (Object userId : list) {
 				String collaberId = (String) userId;
-				Server.getInstance().invalidateAllSessionIds(collaberId);
+				Server.invalidateAllSessionIds(collaberId);
 			}
 			tx.commit();
 			session.close();

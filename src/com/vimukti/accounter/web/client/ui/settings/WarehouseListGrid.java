@@ -1,12 +1,12 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
-import com.vimukti.accounter.core.StockTransfer;
+import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-public class WarehouseListGrid extends BaseListGrid<StockTransfer> {
+public class WarehouseListGrid extends BaseListGrid<ClientStockTransfer> {
 
 	public WarehouseListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
@@ -57,19 +57,19 @@ public class WarehouseListGrid extends BaseListGrid<StockTransfer> {
 	}
 
 	@Override
-	protected void executeDelete(StockTransfer object) {
+	protected void executeDelete(ClientStockTransfer object) {
 		// currently not using
 
 	}
 
 	@Override
-	protected Object getColumnValue(StockTransfer obj, int index) {
+	protected Object getColumnValue(ClientStockTransfer obj, int index) {
 
 		return null;
 	}
 
 	@Override
-	public void onDoubleClick(StockTransfer obj) {
+	public void onDoubleClick(ClientStockTransfer obj) {
 		// currently not using
 
 	}

@@ -36,7 +36,7 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
-import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
@@ -642,5 +642,5 @@ public interface IFinanceDAOService {
 	public boolean changeMyPassword(String emailId, String oldPassword,
 			String newPassword) throws DAOException;
 
-	public List<ClientUser> getAllUsers();
+	public List<ClientUserInfo> getAllUsers();
 }

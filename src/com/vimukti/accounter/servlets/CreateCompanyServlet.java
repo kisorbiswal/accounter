@@ -19,7 +19,9 @@ import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.AccounterService;
+import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
@@ -66,14 +68,29 @@ public class CreateCompanyServlet extends BaseServlet {
 		Transaction tx = session.beginTransaction();
 		try {
 			session.save(company);
+
 			User admin = new User();
-			admin.setFirstName(request.getParameter("firstName"));
-			admin.setLastName(request.getParameter("lastName"));
-			admin.setEmail(request.getParameter("emailId"));
-			admin.setPasswordSha1Hash(request.getParameter("password"));
 			admin.setPhoneNo(request.getParameter("phoneNumber"));
 			admin.setCountry(request.getParameter("country"));
 			admin.setUserRole(RolePermissions.ADMIN);
+
+			String emailID = request.getParameter("emailId");
+			String password = request.getParameter("password");
+			String firstName = request.getParameter("firstName");
+			String lastName = request.getParameter("lastName");
+
+			if (emailID != null && password != null) {
+				emailID = emailID.trim();
+				password = HexUtil.bytesToHex(Security.makeHash(emailID.trim()
+						+ password.trim()));
+			}
+			admin.setEmail(emailID);
+			admin.setPasswordSha1Hash(password);
+			admin.setFirstName(firstName);
+			admin.setLastName(lastName);
+			if (firstName != null && lastName != null) {
+				admin.setFullName(firstName + " " + lastName);
+			}
 
 			session.save(admin);
 
@@ -118,6 +135,8 @@ public class CreateCompanyServlet extends BaseServlet {
 			if (!file.exists()) {
 				file.mkdir();
 			}
+
+			company.initialize();
 
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -218,16 +237,20 @@ public class CreateCompanyServlet extends BaseServlet {
 		// String noOfUsers = request.getParameter("nooofusers");
 		// String noOfLiteUsers = request.getParameter("noofliteusers");
 		String companyId = request.getParameter("companyName");
-		String companyType = request.getParameter("companyType").toLowerCase()
-				.trim();
+		String companyType = request.getParameter("companyType");
 
 		Company company = null;
-		if (companyType.equals(Company.UK))
-			company = new Company(Company.ACCOUNTING_TYPE_UK);
-		else if (companyType.equals(Company.US))
-			company = new Company(Company.ACCOUNTING_TYPE_US);
-		else
-			company = new Company(Company.ACCOUNTING_TYPE_INDIA);
+		if (companyType != null) {
+			int type = Integer.parseInt(companyType);
+			if (type == Company.ACCOUNTING_TYPE_UK
+					|| type == Company.ACCOUNTING_TYPE_US) {
+				company = new Company(type);
+			} else {
+				company = new Company(Company.ACCOUNTING_TYPE_INDIA);
+			}
+		} else {
+			company = new Company();
+		}
 		company.setFullName(companyFullName);
 		if (companyId != null) {
 			company.setCompanyID(companyId.toLowerCase());

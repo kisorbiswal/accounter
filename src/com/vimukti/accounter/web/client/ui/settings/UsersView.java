@@ -21,14 +21,14 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
-public class UsersView extends BaseView<ClientUser> {
+public class UsersView extends BaseView<ClientUserInfo> {
 
 	private HTML generalSettingsHTML;
 	private Label titleLabel;
@@ -58,10 +58,10 @@ public class UsersView extends BaseView<ClientUser> {
 	public void initData() {
 		super.initData();
 		Accounter.createHomeService().getAllUsers(
-				new AsyncCallback<List<ClientUser>>() {
+				new AsyncCallback<List<ClientUserInfo>>() {
 
 					@Override
-					public void onSuccess(List<ClientUser> result) {
+					public void onSuccess(List<ClientUserInfo> result) {
 						usersListGrid.removeLoadingImage();
 						usersListGrid.removeAllRecords();
 						usersListGrid.setRecords(result);
