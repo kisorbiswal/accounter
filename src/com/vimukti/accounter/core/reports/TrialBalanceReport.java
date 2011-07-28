@@ -28,9 +28,7 @@ public class TrialBalanceReport extends AbstractReport<TrialBalance> {
 
 	@Override
 	public Query execute() {
-		return session
-				.createQuery(
-						"from AccountTransaction at where at.transaction.transactionDate between :startDate and :endDate order by at.account.number")
+		return session.getNamedQuery("gettransaction.by.dateand.AccountNumber")
 				.setParameter("startDate", startDate)
 				.setParameter("endDate", endDate).setReadOnly(true);
 	}
