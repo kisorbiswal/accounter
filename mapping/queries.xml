@@ -1216,8 +1216,8 @@
 	</query>
 
 	<query name="gettransaction.by.dateand.AccountNumber">
-		<query-param name="startDate" type="LongUseType" />
-		<query-param name="endDate" type="LongUseType" />
+		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		from AccountTransaction at where at.transaction.transactionDate
 		between :startDate and :endDate order by at.account.number
 	</query>
@@ -1358,7 +1358,7 @@
 
 
 	<query name="getTAXRateCalculations.by.taxAgencyIdand.Date">
-		<query-param name="toDate" type="LongUseType" />
+		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="vatAgency" type="integer" />
 		from com.vimukti.accounter.core.TAXRateCalculation vr where vr.taxItem
 		is not null and vr.taxItem.taxAgency.id=:vatAgency and
@@ -1381,8 +1381,8 @@
 	</query>
 
 	<query name="getTransactionDate.by.dates">
-		<query-param name="startDate" type="LongUseType" />
-		<query-param name="endDate" type="LongUseType" />
+		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.Transaction t where t.type in
 		(4,5,8,10) and t.transactionDate between :startDate and :endDate
 	</query>
@@ -1449,8 +1449,8 @@
 
 	<query
 		name="getTAXRateCalculation.by.check.taxItemandDates.orderBy.transactionItem">
-		<query-param name="startDate" type="LongUseType" />
-		<query-param name="endDate" type="LongUseType" />
+		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.TAXRateCalculation v
 		where v.taxItem is
 		not null and v.transactionDate between :startDate
@@ -1461,8 +1461,8 @@
 	</query>
 
 	<query name="getTAXRateCalculation.by.check.taxItemandDates">
-		<query-param name="startDate" type="LongUseType" />
-		<query-param name="endDate" type="LongUseType" />
+		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.TAXRateCalculation v where v.taxItem
 		is not null and v.transactionDate between :startDate and :endDate and
 		v.transactionItem.taxCode.isECSalesEntry = true group by v.id,
@@ -1551,14 +1551,14 @@
 	</query>
 
 	<query name="getVATReturn.by.taxagencyandenddate">
-		<query-parm name="taxAgency" type="integer" />
-		<query-parm name="endDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="taxAgency" type="integer" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.VATReturn vt where
 		vt.taxAgency.id=:taxAgency and vt.VATperiodEndDate=:endDate
 	</query>
 
 	<query name="getVATReturn.by.enddate">
-		<query-parm name="endDate" type="LongUseType" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.VATReturn v where v.VATperiodEndDate =
 		:endDate
 	</query>
@@ -1570,8 +1570,8 @@
 	</query>
 
 	<query name="getTAXRateCalculation.by.datesand.orderby.transactionItem">
-		<query-parm name="startDate" type="LongUseType" />
-		<query-parm name="endDate" type="LongUseType" />
+		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.TAXRateCalculation v
 		where v.vatItem is
 		not null and v.transactionDate between :startDate
@@ -1629,20 +1629,20 @@
 	</query>
 
 	<query name="getTAXAdjustment.checkingby.transactionDate">
-		<query-parm name="endDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.TAXAdjustment v where
 		v.transactionDate &lt;=:endDate
 	</query>
 
 	<query name="getTAXAdjustment.checkingby.VATperiodEndDate">
-		<query-parm name="endDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.VATReturn v where v.VATperiodEndDate
 		&lt;= :endDate
 	</query>
 
 	<query name="getTAXRateCalculation.by.datesand.vatReturn">
-		<query-param name="startDate" type="LongUseType" />
-		<query-param name="endDate" type="LongUseType" />
+		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.TAXRateCalculation v where v.taxItem
 		is not null and v.transactionDate between :startDate and :endDate and
 		v.vatReturn is null order by v.taxItem
@@ -1651,8 +1651,8 @@
 
 
 	<query name="getTAXRateCalculation.by.dates">
-		<query-param name="startDate" type="LongUseType" />
-		<query-param name="endDate" type="LongUseType" />
+		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.TAXRateCalculation v where v.taxItem
 		is not null and v.transactionDate between :startDate and :endDate
 		order by v.taxItem
@@ -1661,8 +1661,8 @@
 
 	<query name="getTAXAdjustment.by.taxAgencyidanddates">
 		<query-param name="taxAgency" type="integer" />
-		<query-param name="fromDate" type="LongUseType" />
-		<query-param name="toDate" type="LongUseType" />
+		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.TAXAdjustment v where
 		v.taxItem.taxAgency.id=:taxAgency and v.transactionDate between
 		:fromDate and :toDate and v.isFiled = false order by v.taxItem
@@ -1670,16 +1670,16 @@
 
 	<query
 		name="getTAXAdjustment.by.dates.orderby.taxItemNameand.TransactionDate">
-		<query-param name="startDate" type="LongUseType" />
-		<query-param name="endDate" type="LongUseType" />
+		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.TAXAdjustment v where
 		v.transactionDate between :startDate and :endDate order by
 		v.taxItem.name, v.journalEntry.transactionDate
 	</query>
 
 	<query name="getTAXRateCalculation.by.dates.groupedByIdtransactionItem">
-		<query-param name="startDate" type="LongUseType" />
-		<query-param name="endDate" type="LongUseType" />
+		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.TAXRateCalculation v where
 		v.taxItem.name=:taxItemName and v.transactionDate between :startDate
 		and :endDate group by v.id, v.transactionItem order by
@@ -1687,9 +1687,9 @@
 	</query>
 
 
-	<query name="getTAXRateCalculation.by.dates">
-		<query-param name="startDate" type="LongUseType" />
-		<query-param name="endDate" type="LongUseType" />
+	<query name="getTAXRateCalculation.by.dates.orderbytaxItem.name">
+		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.TAXRateCalculation v where v.taxItem
 		is not null and (v.isVATGroupEntry = true and v.taxItem != 4 and
 		v.taxItem != 12 and
@@ -1702,7 +1702,7 @@
 
 	<query name="getFixedAsset.by.purchaseDate">
 		from com.vimukti.accounter.core.FixedAsset fa where
-		fa.purchaseDate <=
+		fa.purchaseDate &lt;=
 		?
 	</query>
 
