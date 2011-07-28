@@ -43,7 +43,7 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 							.vendorName();
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 					colArray[index] = Accounter.constants()
-							.supplieRName();
+							.supplierName();
 				break;
 			case 2:
 				colArray[index] = Accounter.constants().currentMonth();

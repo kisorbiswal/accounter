@@ -85,7 +85,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 				});
 		// taxCodeCombo.setGrid(this);
 
-		taxCodeCombo = new TAXCodeCombo(Accounter.constants().vatCode(),
+		taxCodeCombo = new TAXCodeCombo(Accounter.constants().VATCode(),
 				isAddNewRequired, false);
 		taxCodeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {

@@ -210,7 +210,7 @@ public abstract class CustomerTransactionGrid extends
 				});
 
 		productItemCombo = new ProductCombo(Accounter.constants()
-				.PRoduct(), 1, isAddNewRequired);
+				.product(), 1, isAddNewRequired);
 		productItemCombo.setGrid(this);
 		productItemCombo.setRequired(true);
 		productItemCombo
@@ -1310,7 +1310,7 @@ public abstract class CustomerTransactionGrid extends
 					}
 				});
 
-		taxCodeCombo = new TAXCodeCombo(Accounter.constants().vatCode(),
+		taxCodeCombo = new TAXCodeCombo(Accounter.constants().VATCode(),
 				isAddNewRequired, true);
 		taxCodeCombo.setGrid(this);
 		taxCodeCombo

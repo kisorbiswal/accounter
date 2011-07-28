@@ -30,7 +30,7 @@ public class ItemDialogGrid extends ListGrid<ClientItem> {
 	public void createControls() {
 		boolean isAddNewRequired = false;
 		productItemCombo = new ProductCombo(Accounter.constants()
-				.PRoduct(), 1, isAddNewRequired);
+				.product(), 1, isAddNewRequired);
 		productItemCombo.setGrid(this);
 		productItemCombo.setRequired(true);
 		IAccounterComboSelectionChangeHandler<ClientItem> changeHandler = new IAccounterComboSelectionChangeHandler<ClientItem>() {

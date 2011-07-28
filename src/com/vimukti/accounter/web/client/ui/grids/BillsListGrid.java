@@ -71,7 +71,7 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 				vendorConstants.type(),
 				vendorConstants.date(),
 				vendorConstants.no(),
-				UIUtils.getVendorString(Accounter.constants().supplieRName(),
+				UIUtils.getVendorString(Accounter.constants().supplierName(),
 						Accounter.constants().vendorName()),
 				vendorConstants.originalAmount(), vendorConstants.balance(),
 				vendorConstants.isVoid()

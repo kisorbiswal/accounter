@@ -44,7 +44,7 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 				Accounter.constants().discountPerc(),
 				Accounter.constants().total(),
 				Accounter.constants().VATCode(),
-				Accounter.constants().vat(), " " };
+				Accounter.constants().VAT(), " " };
 	}
 
 	@Override
