@@ -1,19 +1,15 @@
 package com.vimukti.accounter.web.client.ui;
 
-import java.util.List;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -36,9 +32,7 @@ import com.vimukti.accounter.web.client.images.FinanceMenuImages;
 import com.vimukti.accounter.web.client.theme.ThemeImages;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
-import com.vimukti.accounter.web.client.ui.core.AccounterExecute;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
 /**
@@ -294,17 +288,8 @@ public class Accounter implements EntryPoint {
 		new AccounterDialog(msg, AccounterType.INFORMATION).show();
 	}
 
-	public static void stopExecution() {
-		if (timerExecution != null)
-			timerExecution.stop();
-	}
-
-	private static AccounterExecute timerExecution;
 	private static EventBus eventBus;
 
-	public static void setTimer(AccounterExecute execute) {
-		timerExecution = execute;
-	}
 
 	public static void showMessage(String message) {
 		if (expireDialog != null) {
