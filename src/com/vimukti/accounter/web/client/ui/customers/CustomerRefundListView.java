@@ -3,9 +3,9 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -23,12 +23,11 @@ import com.vimukti.accounter.web.client.ui.grids.CustomerRefundListGrid;
  * 
  */
 public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
-	CustomersMessages customerConstants = GWT.create(CustomersMessages.class);
+	AccounterConstants customerConstants = Accounter.constants();
 	protected List<CustomerRefundsList> transactions;
 	private List<CustomerRefundsList> listOfCustomerRefund;
 
-	private static String NOT_ISSUED = Accounter.constants()
-			.notIssued();
+	private static String NOT_ISSUED = Accounter.constants().notIssued();
 	private static String ISSUED = Accounter.constants().issued();
 	private static String VOID = Accounter.constants().Voided();
 	private static String ALL = Accounter.constants().all();
@@ -91,8 +90,7 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.constants()
-				.currentView());
+		viewSelect = new SelectCombo(Accounter.constants().currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(NOT_ISSUED);

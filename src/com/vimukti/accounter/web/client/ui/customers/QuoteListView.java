@@ -3,10 +3,10 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -19,8 +19,7 @@ import com.vimukti.accounter.web.client.ui.grids.QuoteListGrid;
 
 public class QuoteListView extends BaseListView<ClientEstimate> {
 
-	private CustomersMessages customerConstants = GWT
-			.create(CustomersMessages.class);
+	private AccounterConstants customerConstants = Accounter.constants();
 
 	protected List<ClientEstimate> estimates;
 

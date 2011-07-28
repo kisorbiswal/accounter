@@ -34,8 +34,7 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 	public DialogGrid grid;
 	private InvoiceView invoiceView;
 	private List<EstimatesAndSalesOrdersList> estimatesAndSalesOrder;
-	private CustomersMessages customerConstants = GWT
-			.create(CustomersMessages.class);
+	private AccounterConstants customerConstants = Accounter.constants();
 	private AccounterConstants financeConstants = GWT
 			.create(AccounterConstants.class);
 
@@ -46,8 +45,7 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 		super(parentView);
 		invoiceView = parentView;
 		this.estimatesAndSalesOrder = estimatesAndSalesOrder;
-		setText(Accounter.constants()
-				.quoteAndSalesOrderList());
+		setText(Accounter.constants().quoteAndSalesOrderList());
 		createControl();
 		setWidth("600");
 		show();
@@ -74,17 +72,17 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 		grid.init();
 		grid.setColumnTypes(ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT);
-		grid
-				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<EstimatesAndSalesOrdersList>() {
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				ListGrid.COLUMN_TYPE_DECIMAL_TEXT);
+		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<EstimatesAndSalesOrdersList>() {
 
-					@Override
-					public void OnCellDoubleClick(
-							EstimatesAndSalesOrdersList core, int column) {
-						setRecord(core);
+			@Override
+			public void OnCellDoubleClick(EstimatesAndSalesOrdersList core,
+					int column) {
+				setRecord(core);
 
-					}
-				});
+			}
+		});
 
 		// getGridData();
 		setQuoteList(estimatesAndSalesOrder);
@@ -93,13 +91,12 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 
 		HorizontalPanel helpButtonLayout = new HorizontalPanel();
 
-		AccounterButton helpButton = new AccounterButton(financeConstants
-				.help());
+		AccounterButton helpButton = new AccounterButton(
+				financeConstants.help());
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				Accounter.showError(Accounter.constants()
-						.sorryNoHelp());
+				Accounter.showError(Accounter.constants().sorryNoHelp());
 
 			}
 
@@ -124,8 +121,8 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 		});
 		okButtonLayout.add(okButton);
 		okButton.enabledButton();
-		AccounterButton cancelButton = new AccounterButton(financeConstants
-				.cancel());
+		AccounterButton cancelButton = new AccounterButton(
+				financeConstants.cancel());
 		cancelButton.setWidth("100px");
 		cancelButton.addClickHandler(new ClickHandler() {
 
@@ -174,8 +171,8 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 					Accounter
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
-					Accounter.showError(Accounter
-							.constants().errorLoadingSalesOrder());
+					Accounter.showError(Accounter.constants()
+							.errorLoadingSalesOrder());
 				}
 
 			}
@@ -189,8 +186,8 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.SALESORDER, record
-				.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.SALESORDER,
+				record.getTransactionId(), callback);
 	}
 
 	private void getEstimate(EstimatesAndSalesOrdersList record) {
@@ -202,8 +199,8 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 					Accounter
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
-					Accounter.showError(Accounter
-							.constants().errorLoadingQuote());
+					Accounter.showError(Accounter.constants()
+							.errorLoadingQuote());
 				}
 
 			}
@@ -217,8 +214,8 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.ESTIMATE, record
-				.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.ESTIMATE,
+				record.getTransactionId(), callback);
 
 	}
 
@@ -244,15 +241,15 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 				if (estimate.getType() == ClientTransaction.TYPE_ESTIMATE) {
 					return Accounter.constants().quote();
 				} else {
-					return Accounter.constants()
-							.salesOrder();
+					return Accounter.constants().salesOrder();
 				}
 			case 3:
 				return estimate.getCustomerName();
 			case 4:
 				return DataUtils.getAmountAsString(estimate.getTotal());
 			case 5:
-				return DataUtils.getAmountAsString(estimate.getRemainingTotal());
+				return DataUtils
+						.getAmountAsString(estimate.getRemainingTotal());
 			}
 		}
 		return null;

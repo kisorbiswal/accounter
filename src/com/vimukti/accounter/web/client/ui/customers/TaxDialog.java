@@ -1,9 +1,9 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
-import com.vimukti.accounter.web.client.ui.vendors.VendorsMessages;
 
 @SuppressWarnings("unchecked")
 public class TaxDialog extends BaseDialog {
@@ -22,8 +21,7 @@ public class TaxDialog extends BaseDialog {
 	private final String TAXITEM = Accounter.constants().taxItem();
 	private FormItem actionSource;
 	// private ViewConfiguration configuration;
-	private VendorsMessages vendorsConstants = GWT
-			.create(VendorsMessages.class);
+	private AccounterConstants vendorsConstants = Accounter.constants();
 
 	public TaxDialog() {
 		super(Accounter.constants().tax(), Accounter

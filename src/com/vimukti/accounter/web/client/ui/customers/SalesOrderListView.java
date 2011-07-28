@@ -3,13 +3,13 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -22,7 +22,7 @@ import com.vimukti.accounter.web.client.ui.grids.SalesOrderListGrid;
 
 public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
-	CustomersMessages customerConstants = GWT.create(CustomersMessages.class);
+	AccounterConstants customerConstants = Accounter.constants();
 
 	protected List<SalesOrdersList> salesList;
 
@@ -31,10 +31,8 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 	private List<SalesOrdersList> listOfSalesOrder;
 
 	private static String OPEN = Accounter.constants().open();
-	private static String COMPLETED = Accounter.constants()
-			.completed();
-	private static String CANCELLED = Accounter.constants()
-			.cancelled();
+	private static String COMPLETED = Accounter.constants().completed();
+	private static String CANCELLED = Accounter.constants().cancelled();
 	private List<String> listOfTypes;
 
 	// private static String CANCELLED = "Cancelled";
@@ -123,8 +121,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.constants()
-				.currentView());
+		viewSelect = new SelectCombo(Accounter.constants().currentView());
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(OPEN);
 		listOfTypes.add(COMPLETED);

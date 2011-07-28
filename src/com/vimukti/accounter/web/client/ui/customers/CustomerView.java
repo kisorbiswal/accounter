@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -36,7 +35,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.externalization.ActionsConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
@@ -136,9 +135,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	protected boolean isClose;
 	private boolean wait;
 
-	CustomersMessages customerConstants;
+	AccounterConstants customerConstants;
 	@SuppressWarnings("unused")
-	private static ActionsConstants actionsConstants;
+	private static AccounterConstants actionsConstants;
 	private ClientCompany company = getCompany();
 	private ArrayList<DynamicForm> listforms;
 	private TextItem custNoText;
@@ -700,8 +699,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				balanceDate);
 
 		Label l1 = new Label(Accounter.constants().contacts());
-		AccounterButton addButton = new AccounterButton(Accounter
-				.constants().add());
+		AccounterButton addButton = new AccounterButton(Accounter.constants()
+				.add());
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -874,29 +873,21 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		addrsForm.getCellFormatter().getElement(0, 0)
 				.setAttribute("width", titlewidth + "");
 
-		addrsForm
-				.getCellFormatter()
-				.getElement(0, 1)
+		addrsForm.getCellFormatter().getElement(0, 1)
 				.setAttribute(Accounter.constants().width(), "185px");
 
-		fonFaxForm
-				.getCellFormatter()
-				.getElement(0, 0)
+		fonFaxForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "240px");
 		// fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.constants().width(), "185px");
 
 		customerForm.getCellFormatter().getElement(0, 0).getStyle()
 				.setWidth(150, Unit.PX);
-		emailForm
-				.getCellFormatter()
-				.getElement(0, 0)
+		emailForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "240px");
 		// emailForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.constants().width(), "");
-		accInfoForm
-				.getCellFormatter()
-				.getElement(0, 0)
+		accInfoForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "150px");
 
 	}
@@ -1030,12 +1021,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 
-		vatregno = new TextItem(Accounter.constants()
-				.VATRegistrationNumber());
+		vatregno = new TextItem(Accounter.constants().VATRegistrationNumber());
 		vatregno.setHelpInformation(true);
 		vatregno.setWidth(100);
-		custTaxCode = new TAXCodeCombo(Accounter.constants()
-				.customerVATCode(), true);
+		custTaxCode = new TAXCodeCombo(Accounter.constants().customerVATCode(),
+				true);
 		custTaxCode.setHelpInformation(true);
 		custTaxCode
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
@@ -1147,8 +1137,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	@Override
 	protected void initConstants() {
 		super.initConstants();
-		customerConstants = GWT.create(CustomersMessages.class);
-		actionsConstants = GWT.create(ActionsConstants.class);
+		customerConstants = Accounter.constants();
+		actionsConstants = Accounter.constants();
 	}
 
 	@Override

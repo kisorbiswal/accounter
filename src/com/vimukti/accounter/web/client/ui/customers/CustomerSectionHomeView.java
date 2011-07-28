@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -11,6 +10,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddWidgetDialog;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
@@ -33,8 +33,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 	private Portlet[] portlet;
 	@SuppressWarnings("unused")
 	private WidgetCreator creator;
-	private CustomersMessages customerConstants = GWT
-			.create(CustomersMessages.class);
+	private AccounterConstants customerConstants = Accounter.constants();
 	private String[] secondColumn;
 
 	private String[] firstColumn;

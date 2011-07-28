@@ -3,9 +3,9 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -22,7 +22,7 @@ import com.vimukti.accounter.web.client.ui.grids.ReceivedPaymentListGrid;
  * 
  */
 public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
-	CustomersMessages customerConstants = GWT.create(CustomersMessages.class);
+	AccounterConstants customerConstants = Accounter.constants();
 
 	private List<ReceivePaymentsList> listOfRecievePayments;
 

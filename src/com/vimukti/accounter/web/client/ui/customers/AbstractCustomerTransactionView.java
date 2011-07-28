@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -25,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
@@ -65,7 +65,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	private AbstractCustomerTransactionView<T> customerTransactionViewInstance;
 
-	CustomersMessages customerConstants;
+	AccounterConstants customerConstants;
 
 	/**
 	 * 
@@ -432,14 +432,12 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	@Override
 	protected void showMenu(AccounterButton button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.constants().accounts(),
-					Accounter.constants().service(), Accounter
-							.constants().product());
+			setMenuItems(button, Accounter.constants().accounts(), Accounter
+					.constants().service(), Accounter.constants().product());
 		// FinanceApplication.constants().salesTax());
 		else
-			setMenuItems(button, Accounter.constants().accounts(),
-					Accounter.constants().service(), Accounter
-							.constants().product());
+			setMenuItems(button, Accounter.constants().accounts(), Accounter
+					.constants().service(), Accounter.constants().product());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().VATItem());
 
@@ -546,8 +544,8 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	public ContactCombo createContactComboItem() {
 
-		ContactCombo contactCombo = new ContactCombo(Accounter
-				.constants().contact());
+		ContactCombo contactCombo = new ContactCombo(Accounter.constants()
+				.contact());
 		contactCombo.setDefaultToFirstOption(false);
 		contactCombo.setHelpInformation(true);
 		contactCombo
@@ -570,8 +568,8 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	public AddressCombo createBillToComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(Accounter
-				.constants().billTo(), false);
+		AddressCombo addressCombo = new AddressCombo(Accounter.constants()
+				.billTo(), false);
 		addressCombo.setHelpInformation(true);
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -660,8 +658,8 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	public AddressCombo createShipToComboItem() {
 
-		AddressCombo shipToCombo = new AddressCombo(Accounter
-				.constants().shipTo());
+		AddressCombo shipToCombo = new AddressCombo(Accounter.constants()
+				.shipTo());
 		shipToCombo.setHelpInformation(true);
 		shipToCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -782,8 +780,8 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected DateField createTransactionDeliveryDateItem() {
 
-		final DateField dateItem = new DateField(Accounter
-				.constants().deliveryDate());
+		final DateField dateItem = new DateField(Accounter.constants()
+				.deliveryDate());
 		dateItem.setHelpInformation(true);
 		dateItem.setTitle(Accounter.constants().deliveryDate());
 		dateItem.setColSpan(1);
@@ -798,8 +796,8 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected TAXCodeCombo createTaxCodeSelectItem() {
 
-		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(Accounter
-				.constants().tax(), true);
+		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(Accounter.constants()
+				.tax(), true);
 		taxCodeCombo.setHelpInformation(true);
 		taxCodeCombo.setRequired(true);
 
@@ -878,8 +876,8 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected AmountField createSalesTaxNonEditableItem() {
 
-		AmountField amountItem = new AmountField(Accounter
-				.constants().salesTax());
+		AmountField amountItem = new AmountField(Accounter.constants()
+				.salesTax());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -888,8 +886,8 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected AmountLabel createSalesTaxNonEditableLabel() {
 
-		AmountLabel amountLabel = new AmountLabel(Accounter
-				.constants().salesTax());
+		AmountLabel amountLabel = new AmountLabel(Accounter.constants()
+				.salesTax());
 
 		return amountLabel;
 
@@ -897,8 +895,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected AmountField createTransactionTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(Accounter
-				.constants().total());
+		AmountField amountItem = new AmountField(Accounter.constants().total());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -907,8 +904,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected AmountLabel createTransactionTotalNonEditableLabel() {
 
-		AmountLabel amountLabel = new AmountLabel(Accounter
-				.constants().total());
+		AmountLabel amountLabel = new AmountLabel(Accounter.constants().total());
 
 		return amountLabel;
 
@@ -916,8 +912,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected AmountField createVATTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(Accounter
-				.constants().vat());
+		AmountField amountItem = new AmountField(Accounter.constants().vat());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -925,8 +920,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	}
 
 	protected AmountLabel createVATTotalNonEditableLabel() {
-		AmountLabel amountLabel = new AmountLabel(Accounter
-				.constants().vat());
+		AmountLabel amountLabel = new AmountLabel(Accounter.constants().vat());
 
 		return amountLabel;
 	}
@@ -939,8 +933,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	@Override
 	protected final void initConstants() {
-		customerConstants = GWT.create(CustomersMessages.class);
-
+		customerConstants = Accounter.constants();
 	}
 
 	@Override

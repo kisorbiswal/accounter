@@ -1,10 +1,10 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 @SuppressWarnings("unchecked")
 // // its not using any where
 public class CustomerRefundIssuedView extends AbstractBaseView {
-	CustomersMessages customerConstants = GWT.create(CustomersMessages.class);
+	AccounterConstants customerConstants = Accounter.constants();
 
 	public CustomerRefundIssuedView() {
 		createControls();

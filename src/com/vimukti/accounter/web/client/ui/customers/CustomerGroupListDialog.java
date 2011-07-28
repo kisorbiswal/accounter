@@ -2,12 +2,12 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
@@ -28,8 +28,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 	ClientCustomerGroup customerGroup;
 	List<ClientCustomerGroup> customterGroups;
 	private InputDialog inputDlg;
-	private CustomersMessages customerConstants = GWT
-			.create(CustomersMessages.class);
+	private AccounterConstants customerConstants = Accounter.constants();
 
 	public CustomerGroupListDialog(String title, String descript) {
 		super(title, descript);
@@ -67,8 +66,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 					showAddEditGroupDialog((ClientCustomerGroup) listGridView
 							.getSelection());
 				} else {
-					Accounter.showError(Accounter
-							.constants().selectTaxGroup());
+					Accounter.showError(Accounter.constants().selectTaxGroup());
 					new Exception();
 				}
 
@@ -88,8 +86,8 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 		ClientCustomerGroup customerGroup = new ClientCustomerGroup();
 		customerGroup.setName(inputDlg.getTextItems().get(0).getValue()
 				.toString());
-		if (Utility.isObjectExist(getCompany()
-				.getCustomerGroups(), customerGroup.getName())) {
+		if (Utility.isObjectExist(getCompany().getCustomerGroups(),
+				customerGroup.getName())) {
 			Accounter.showError("Customer Group Already Exists");
 		} else {
 			createObject(customerGroup);
@@ -106,8 +104,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 				Accounter.constants().customerGroup()) {
 			@Override
 			protected String getViewTitle() {
-				return Accounter.constants()
-						.customerGroup();
+				return Accounter.constants().customerGroup();
 			}
 		};
 
@@ -145,9 +142,10 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 
 		if (!(customerGroup.getName().equalsIgnoreCase(
 				UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
-						.toString())) ? true : (Utility.isObjectExist(company
-				.getCustomerGroups(), UIUtils.toStr(inputDlg.getTextItems()
-				.get(0).getValue().toString())) ? false : true))) {
+						.toString())) ? true : (Utility.isObjectExist(
+				company.getCustomerGroups(),
+				UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
+						.toString())) ? false : true))) {
 			Accounter.showError("Customer Group Already Exists");
 		} else {
 			customerGroup.setName(inputDlg.getTextValueByIndex(0));

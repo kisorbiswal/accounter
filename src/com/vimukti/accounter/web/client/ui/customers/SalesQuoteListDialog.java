@@ -29,8 +29,7 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 	public DialogGrid grid;
 	private List<ClientEstimate> estimates;
 	private ClientEstimate selectedEstimate;
-	private CustomersMessages customerConstants = GWT
-			.create(CustomersMessages.class);
+	private AccounterConstants customerConstants = Accounter.constants();
 	private AccounterConstants financeConstants = GWT
 			.create(AccounterConstants.class);
 
@@ -52,8 +51,7 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 		VerticalPanel mainLayout = new VerticalPanel();
 		mainLayout.setSize("100%", "100%");
 		mainLayout.setSpacing(3);
-		Label infoLabel = new Label(Accounter.constants()
-				.selectQuote());
+		Label infoLabel = new Label(Accounter.constants().selectQuote());
 
 		mainLayout.add(infoLabel);
 
@@ -101,8 +99,7 @@ public class SalesQuoteListDialog extends AbstractBaseDialog {
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				Accounter.showError(Accounter.constants()
-						.sorryNoHelp());
+				Accounter.showError(Accounter.constants().sorryNoHelp());
 
 			}
 

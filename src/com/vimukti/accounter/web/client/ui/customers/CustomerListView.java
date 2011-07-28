@@ -2,10 +2,10 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.ui.grids.CustomerListGrid;
 
 public class CustomerListView extends BaseListView<PayeeList> {
 
-	CustomersMessages customerConstants;
+	AccounterConstants customerConstants;
 	private List<PayeeList> listOfCustomers;
 
 	public CustomerListView() {
@@ -33,7 +33,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 
 	@Override
 	public void init() {
-		customerConstants = GWT.create(CustomersMessages.class);
+		customerConstants = Accounter.constants();
 		super.init();
 
 	}

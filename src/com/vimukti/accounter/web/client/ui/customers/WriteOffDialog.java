@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -10,6 +9,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
@@ -34,8 +34,7 @@ public class WriteOffDialog extends BaseDialog {
 	private Double writeOffAmount;
 	@SuppressWarnings("unused")
 	private ClientTransactionReceivePayment record;
-	private static CustomersMessages customerConstants = GWT
-			.create(CustomersMessages.class);
+	private static AccounterConstants customerConstants = Accounter.constants();
 	public DynamicForm form;
 	private boolean canEdit;
 	OtherAccountsCombo discAccSelect;
@@ -74,8 +73,8 @@ public class WriteOffDialog extends BaseDialog {
 	}
 
 	public WriteOffDialog() {
-		super(customerConstants.cashDiscount(), Accounter
-				.constants().WriteOffPleaseAddDetails());
+		super(customerConstants.cashDiscount(), Accounter.constants()
+				.WriteOffPleaseAddDetails());
 
 		createControls();
 	}
@@ -164,7 +163,7 @@ public class WriteOffDialog extends BaseDialog {
 
 	@Override
 	public Object getGridColumnValue(IsSerializable obj, int index) {
-		
+
 		return null;
 	}
 
