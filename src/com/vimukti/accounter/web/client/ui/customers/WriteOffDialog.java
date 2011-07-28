@@ -60,7 +60,7 @@ public class WriteOffDialog extends BaseDialog {
 			ClientTransactionReceivePayment record, boolean canEdit,
 			ClientAccount clientAccount) {
 		super(customerConstants.writeOff(), Accounter.constants()
-				.WriteOffPleaseAddDetails());
+				.writeOffPleaseAddDetails());
 		this.record = record;
 		this.allAccounts = allAccounts;
 		this.setSelectedWriteOffAccount(clientAccount);
@@ -74,7 +74,7 @@ public class WriteOffDialog extends BaseDialog {
 
 	public WriteOffDialog() {
 		super(customerConstants.cashDiscount(), Accounter.constants()
-				.WriteOffPleaseAddDetails());
+				.writeOffPleaseAddDetails());
 
 		createControls();
 	}
