@@ -26,14 +26,13 @@ import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-
 public class VendorPurchaseListDialog extends AbstractBaseDialog {
 
 	private ItemReceiptView itemReceiptView;
 	private List<PurchaseOrdersList> purchaseOrderList;
 	private AccounterConstants financeConstants = GWT
 			.create(AccounterConstants.class);
-	
+
 	private PurchaseOrdersList selectedPurchaseOrder;
 	private DialogGrid grid;
 
@@ -61,7 +60,7 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 		mainLayout.add(infoLabel);
 
 		grid = new DialogGrid(false);
-		grid.addColumns(Accounter.constants().Date(), Accounter.constants()
+		grid.addColumns(Accounter.constants().date(), Accounter.constants()
 				.no(), Accounter.constants().type(), UIUtils.getVendorString(
 				Accounter.constants().supplierName(), Accounter.constants()
 						.vendorName()), Accounter.constants().total());
