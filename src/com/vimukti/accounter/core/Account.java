@@ -79,14 +79,14 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	public static final int TYPE_OTHER_EXPENSE = 18;
 	public static final int TYPE_LIABILITY = 19;
 	public static final int TYPE_ASSET = 20;
-	
+
 	/**
 	 * Types of cash flow
 	 */
 	public static final int CASH_FLOW_CATEGORY_FINANCING = 1;
 	public static final int CASH_FLOW_CATEGORY_INVESTING = 2;
 	public static final int CASH_FLOW_CATEGORY_OPERATING = 3;
-	
+
 	/**
 	 * Types of bank
 	 */
@@ -185,9 +185,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	String comment;
 
-	Bank bank;// for Bank name
-	int bankAccountType;
-	String bankAccountNumber;
+	// Bank bank;// for Bank name
+	// int bankAccountType;
+	// String bankAccountNumber;
 
 	/**
 	 * For Credit Card Account
@@ -305,9 +305,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	 */
 	public Account(int type, String number, String name, boolean isActive,
 			Account parent, int cashFlowCategory, double openingBalance,
-			boolean isConsiderAsCashAccount, String comment, Bank bank,
-			int bankAccountType, String bankAccountNumber, double creditLimit,
-			String cardOrLoanNumber, boolean isIncrease,
+			boolean isConsiderAsCashAccount, String comment,
+			double creditLimit, String cardOrLoanNumber, boolean isIncrease,
 			boolean isOpeningBalanceEditable, Account openingBalanceAccount,
 			String flow, boolean isDefaultAccount, FinanceDate asOf) {
 
@@ -320,9 +319,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		this.openingBalance = openingBalance;
 		this.isConsiderAsCashAccount = isConsiderAsCashAccount;
 		this.comment = comment;
-		this.bank = bank;
-		this.bankAccountType = bankAccountType;
-		this.bankAccountNumber = bankAccountNumber;
+		// this.bank = bank;
+		// this.bankAccountType = bankAccountType;
+		// this.bankAccountNumber = bankAccountNumber;
 		this.creditLimit = creditLimit;
 		this.cardOrLoanNumber = cardOrLoanNumber;
 		this.isIncrease = isIncrease;
@@ -354,10 +353,11 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		}
 
 	}
-	
+
 	/**
 	 * 
-	 *  Constructor of Account class
+	 * Constructor of Account class
+	 * 
 	 * @param type
 	 * 
 	 * @param number
@@ -374,8 +374,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	 * 
 	 * @return
 	 */
-	
-	public Account(int type,String number, String name,Account parent, String comment,FinanceDate asOf){
+
+	public Account(int type, String number, String name, Account parent,
+			String comment, FinanceDate asOf) {
 		this.type = type;
 		this.number = number;
 		this.name = name;
@@ -624,9 +625,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	/**
 	 * @return the bankName
 	 */
-	public Bank getBank() {
-		return bank;
-	}
+	// public Bank getBank() {
+	// return bank;
+	// }
 
 	/**
 	 * @param bankName
@@ -638,9 +639,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	/**
 	 * @return the bankAccountType
 	 */
-	public int getBankAccountType() {
-		return bankAccountType;
-	}
+	// public int getBankAccountType() {
+	// return bankAccountType;
+	// }
 
 	/**
 	 * @param bankAccountType
@@ -652,9 +653,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	/**
 	 * @return the bankAccountNumber
 	 */
-	public String getBankAccountNumber() {
-		return bankAccountNumber;
-	}
+	// public String getBankAccountNumber() {
+	// return bankAccountNumber;
+	// }
 
 	/**
 	 * @param bankAccountNumber
@@ -1151,7 +1152,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				&& DecimalUtil.isEquals(this.openingBalance,
 						account.openingBalance)
 				&& this.isConsiderAsCashAccount == account.isConsiderAsCashAccount
-				&& this.bankAccountType == account.bankAccountType
+				// && this.bankAccountType == account.bankAccountType
 				&& this.cashFlowCategory == account.cashFlowCategory
 				&& DecimalUtil.isEquals(this.creditLimit, account.creditLimit)
 				&& this.isIncrease == account.isIncrease
@@ -1171,15 +1172,24 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 										.equals(account.asOf))
 										: true && (this.comment != null && account.comment != null) ? (this.comment
 												.equals(account.comment))
-												: true && (this.bank != null && account.bank != null) ? (this.bank
-														.equals(account.bank))
-														: true && (this.bankAccountNumber != null && account.bankAccountNumber != null) ? (this.bankAccountNumber
-																.equals(account.bankAccountNumber))
-																: true && (this.cardOrLoanNumber != null && account.cardOrLoanNumber != null) ? (this.cardOrLoanNumber
-																		.equals(account.cardOrLoanNumber))
-																		: true && (this.hierarchy != null && account.hierarchy != null) ? (this.hierarchy
-																				.equals(account.hierarchy))
-																				: true)
+												: true
+												// && (this.bank != null &&
+												// account.bank != null) ?
+												// (this.bank
+												// .equals(account.bank))
+												// : true &&
+												// (this.bankAccountNumber !=
+												// null &&
+												// account.bankAccountNumber !=
+												// null) ?
+												// (this.bankAccountNumber
+												// .equals(account.bankAccountNumber))
+												// : true
+												&& (this.cardOrLoanNumber != null && account.cardOrLoanNumber != null) ? (this.cardOrLoanNumber
+														.equals(account.cardOrLoanNumber))
+														: true && (this.hierarchy != null && account.hierarchy != null) ? (this.hierarchy
+																.equals(account.hierarchy))
+																: true)
 			return true;
 
 		return false;

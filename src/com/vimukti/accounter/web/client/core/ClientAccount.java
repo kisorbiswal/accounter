@@ -87,11 +87,11 @@ public class ClientAccount implements IAccounterCore {
 
 	String comment;
 
-	long bank;
+	// long bank;
 
-	int bankAccountType;
+	// int bankAccountType;
 
-	String bankAccountNumber;
+	// String bankAccountNumber;
 
 	double creditLimit;
 
@@ -314,32 +314,32 @@ public class ClientAccount implements IAccounterCore {
 	/**
 	 * @return the bankAccountType
 	 */
-	public int getBankAccountType() {
-		return bankAccountType;
-	}
+	// public int getBankAccountType() {
+	// return bankAccountType;
+	// }
 
 	/**
 	 * @param bankAccountType
 	 *            the bankAccountType to set
 	 */
-	public void setBankAccountType(int bankAccountType) {
-		this.bankAccountType = bankAccountType;
-	}
+	// public void setBankAccountType(int bankAccountType) {
+	// this.bankAccountType = bankAccountType;
+	// }
 
 	/**
 	 * @return the bankAccountNumber
 	 */
-	public String getBankAccountNumber() {
-		return bankAccountNumber;
-	}
+	// public String getBankAccountNumber() {
+	// return bankAccountNumber;
+	// }
 
 	/**
 	 * @param bankAccountNumber
 	 *            the bankAccountNumber to set
 	 */
-	public void setBankAccountNumber(String bankAccountNumber) {
-		this.bankAccountNumber = bankAccountNumber;
-	}
+	// public void setBankAccountNumber(String bankAccountNumber) {
+	// this.bankAccountNumber = bankAccountNumber;
+	// }
 
 	/**
 	 * @return the creditLimit
@@ -450,13 +450,13 @@ public class ClientAccount implements IAccounterCore {
 		return name;
 	}
 
-	public void setBank(long bank) {
-		this.bank = bank;
-	}
+	// public void setBank(long bank) {
+	// this.bank = bank;
+	// }
 
-	public long getBank() {
-		return bank;
-	}
+	// public long getBank() {
+	// return bank;
+	// }
 
 	@Override
 	public AccounterCoreType getObjectType() {

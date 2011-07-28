@@ -9114,8 +9114,7 @@ public class FinanceTool implements IFinanceDAOService {
 							String.valueOf(getNextNominalCode(Account.TYPE_OTHER_CURRENT_LIABILITY)),
 							AccounterConstants.VAT_LIABILITY_ACCOUNT_IR, true,
 							null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0,
-							false, "VAT Liability Account (IR)", null,
-							Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null,
+							false, "VAT Liability Account (IR)", 0.0, null,
 							true, true, Company.getCompany()
 									.getOpeningBalancesAccount(), null, true,
 							Company.getCompany().getPreferences()
@@ -9140,9 +9139,9 @@ public class FinanceTool implements IFinanceDAOService {
 							Account.TYPE_OTHER_CURRENT_LIABILITY, "2120",
 							AccounterConstants.SALES_TAX_VAT_UNFILED, true,
 							null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0,
-							false, "", null, Account.BANK_ACCCOUNT_TYPE_NONE,
-							null, 0.0, null, true, false, openingBalenceAcount,
-							"113", true, Company.getCompany().getPreferences()
+							false, "", 0.0, null, true, false,
+							openingBalenceAcount, "113", true, Company
+									.getCompany().getPreferences()
 									.getStartOfFiscalYear());
 
 					session.save(salesTaxVAT);

@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBank;
+import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -148,7 +149,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		bankNameSelect.initCombo(allBanks);
 
 		if (takenAccount != null
-				&& (selectedBank = getCompany().getBank(takenAccount.getBank())) != null) {
+				&& takenAccount instanceof ClientBankAccount
+				&& (selectedBank = getCompany().getBank(
+						((ClientBankAccount) takenAccount).getBank())) != null) {
 			bankNameSelect.setComboItem(selectedBank);
 		}
 
@@ -991,7 +994,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (takenAccount != null)
 			account = takenAccount;
 		else
-			account = new ClientAccount();
+			account = accountType != ClientAccount.TYPE_BANK ? new ClientAccount()
+					: new ClientBankAccount();
 		account.setType(accountType);
 		account.setNumber(accNoText.getNumber() != null ? accNoText.getNumber()
 				.toString() : "");
@@ -1011,7 +1015,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		switch (accountType) {
 		case ClientAccount.TYPE_BANK:
-			account.setBank(Utility.getID(selectedBank));
+			((ClientBankAccount) account).setBank(Utility.getID(selectedBank));
 			if (typeSelect.getSelectedValue() != null) {
 				int type = 0;
 				if (typeSelect.getSelectedValue().equals(
@@ -1023,13 +1027,14 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				else if (typeSelect.getSelectedValue().equals(
 						AccounterConstants.BANK_ACCCOUNT_TYPE_SAVING))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_SAVING;
-				account.setBankAccountType(type);
+				((ClientBankAccount) account).setBankAccountType(type);
 			}
-			account.setBankAccountNumber(bankAccNumText.getValue().toString());
+			((ClientBankAccount) account).setBankAccountNumber(bankAccNumText
+					.getValue().toString());
 			account.setIncrease(Boolean.FALSE);
 			break;
 		case ClientAccount.TYPE_CREDIT_CARD:
-			account.setBank(Utility.getID(selectedBank));
+			// account.setBank(Utility.getID(selectedBank));
 			if (limitText.getValue() != null)
 				account.setCreditLimit(getCreditLimit());
 			if (cardNumText.getValue() != null)
@@ -1127,11 +1132,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		commentsArea.setValue(takenAccount.getComment());
 		if (accountType == ClientAccount.TYPE_BANK) {
 
-			if (takenAccount.getBankAccountType() != 0) {
-				String type = getBankAccountType(takenAccount
+			if (((ClientBankAccount) takenAccount).getBankAccountType() != 0) {
+				String type = getBankAccountType(((ClientBankAccount) takenAccount)
 						.getBankAccountType());
 				typeSelect.setComboItem(type);
-				bankAccNumText.setValue(takenAccount.getBankAccountNumber());
+				bankAccNumText.setValue(((ClientBankAccount) takenAccount)
+						.getBankAccountNumber());
 			}
 
 		} else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {

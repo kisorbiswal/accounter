@@ -751,10 +751,13 @@ public class Utility {
 
 		while (iterator.hasNext()) {
 			Account account = (Account) iterator.next();
-			if (account.type == Account.TYPE_BANK
-					&& (account.bankAccountType == Account.BANK_ACCCOUNT_TYPE_CHECKING
-							|| account.bankAccountType == Account.BANK_ACCCOUNT_TYPE_MONEY_MARKET || account.bankAccountType == Account.BANK_ACCCOUNT_TYPE_SAVING)) {
-				bankingAccountSummary.add(account);
+			if (account.type == Account.TYPE_BANK) {
+				BankAccount bankAccount = (BankAccount) account;
+				if (bankAccount.getBankAccountType() == Account.BANK_ACCCOUNT_TYPE_CHECKING
+						|| bankAccount.getBankAccountType() == Account.BANK_ACCCOUNT_TYPE_MONEY_MARKET
+						|| bankAccount.getBankAccountType() == Account.BANK_ACCCOUNT_TYPE_SAVING) {
+					bankingAccountSummary.add(account);
+				}
 			}
 		}
 		return bankingAccountSummary;
