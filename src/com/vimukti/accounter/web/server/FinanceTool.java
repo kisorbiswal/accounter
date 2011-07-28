@@ -2378,8 +2378,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.CreditsAndPayments cp where cp.payee.id = ? and cp.balance > 0.0 ")
+				.getNamedQuery(
+						"getcreditandPayments.by.Payieeid.and.balance")
 				.setParameter(0, vendor);
 		List<CreditsAndPayments> list = query.list();
 
@@ -2458,8 +2458,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Query query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.Account a a.id = ? and a.type = ? ")
+					.getNamedQuery(
+							"getAccount.by.id.and.type")
 					.setParameter(0, accountId)
 					.setParameter(1, Account.TYPE_OTHER_CURRENT_LIABILITY);
 			List list = query.list();
@@ -2487,8 +2487,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Query query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.Account a where and a.name = ? and a.type = ? ")
+					.getNamedQuery(
+							"getAccount.by.name.and.type")
 					.setParameter(0, accountName)
 					.setParameter(1, Account.TYPE_OTHER_CURRENT_LIABILITY);
 			List list = query.list();
@@ -2515,8 +2515,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Query query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.TaxAgency ta where ta.liabilityAccount.id = ?")
+					.getNamedQuery(
+							"getTaxAgency.by.liabilityAccountId")
 					.setParameter(0, account);
 			List list = query.list();
 
@@ -3797,8 +3797,8 @@ public class FinanceTool implements IFinanceDAOService {
 			FixedAssetLinkedAccountMap linkedAccounts) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.FixedAsset f where f.status = 2 and f.purchaseDate <= ?")
+				.getNamedQuery(
+						"getFixedAsset.by.statusAnd.purchaseDate")
 				.setParameter(0, (new FinanceDate(depreciationTo)));
 		List<FixedAsset> fixedAssets = query.list();
 		org.hibernate.Transaction tx = session.beginTransaction();
@@ -3813,8 +3813,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		if (linkedAccounts != null && linkedAccounts.keySet().size() > 0) {
 			query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.Account a where a.id in (:accountsList)")
+					.getNamedQuery(
+							"getAccount.by.idInAccountList")
 					.setParameterList("accountsList", linkedAccounts.keySet());
 			List<Account> assetAccounts = query.list();
 			for (Account assetAccount : assetAccounts) {
@@ -3825,8 +3825,8 @@ public class FinanceTool implements IFinanceDAOService {
 					if (!(assetAccount
 							.getLinkedAccumulatedDepreciationAccount().getID() == (changedLinkedAccountID))) {
 						Account changedLinkedAccount = (Account) session
-								.createQuery(
-										"from com.vimukti.accounter.core.Account a where a.id =?")
+								.getNamedQuery(
+										"getAccount.by.id")
 								.setParameter(0, changedLinkedAccountID)
 								.uniqueResult();
 						assetAccount
@@ -3936,8 +3936,8 @@ public class FinanceTool implements IFinanceDAOService {
 			throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.Depreciation d where d.depreciateTo >= ? and d.status=?")
+				.getNamedQuery(
+						"getDepreciation.by.ToandStatus")
 				.setParameter(0, (rollBackDepreciationTo))
 				.setParameter(1, Depreciation.APPROVE);
 		List<Depreciation> list = query.list();
@@ -6869,7 +6869,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 
 		List<FiscalYear> fiscalYears = (List<FiscalYear>) session
-				.createQuery("from com.vimukti.accounter.core.FiscalYear fs ");
+				.getNamedQuery("getFisacalyear");
 		FinanceDate actualStartDate = new FinanceDate();
 		for (FiscalYear fs : fiscalYears) {
 			if (fs.getIsCurrentFiscalYear() == Boolean.TRUE) {
@@ -7274,17 +7274,15 @@ public class FinanceTool implements IFinanceDAOService {
 		// /getting entries from VATRAteCalculation
 		if (taxAgency != null) {
 			query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.TAXRateCalculation vr where vr.taxItem.taxAgency.id=:taxAgency and "
-									+ "vr.taxItem is not null and vr.transactionDate between :fromDate and :toDate group by vr.id,vr.transactionItem,vr.taxItem order by vr.transactionItem,vr.taxItem")
+					.getNamedQuery(
+							"getTaxCalc.by.TaxAgencyId.and.withOtherDetails")
 					.setParameter("taxAgency", taxAgency.getID())
 					.setParameter("fromDate", startDate)
 					.setParameter("toDate", endDate);
 		} else {
 			query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.TAXRateCalculation vr where "
-									+ "vr.taxItem is not null and vr.transactionDate between :fromDate and :toDate group by vr.id,vr.transactionItem,vr.taxItem order by vr.transactionItem,vr.taxItem")
+					.getNamedQuery(
+							"getTaxrateCalc.by.TaxAgencyandItem.and.Dates")
 					.setParameter("fromDate", startDate)
 					.setParameter("toDate", endDate);
 		}
@@ -7452,18 +7450,18 @@ public class FinanceTool implements IFinanceDAOService {
 			// getting entries from VATAdjustment
 			if (taxAgency != null) {
 				query = session
-						.createQuery(
+						.getNamedQuery(
 
-								"from com.vimukti.accounter.core.TAXAdjustment v where v.taxItem.taxAgency.id=:taxAgency and v.transactionDate between :fromDate and :toDate order by v.taxItem")
+								"getTaxadjustment.by.allDetails.withOrder")
 
 						.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate)
 						.setParameter("taxAgency", taxAgency.getID());
 			} else {
 				query = session
-						.createQuery(
+						.getNamedQuery(
 
-								"from com.vimukti.accounter.core.TAXAdjustment v where v.transactionDate between :fromDate and :toDate order by v.taxItem")
+								"getTaxadjustment.by.betweenDates")
 
 						.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate);
@@ -7561,18 +7559,18 @@ public class FinanceTool implements IFinanceDAOService {
 		{
 			if (taxAgency != null) {
 				query = session
-						.createQuery(
+						.getNamedQuery(
 
-								"from com.vimukti.accounter.core.VATReturn v where v.taxAgency.id=:taxAgency and v.VATperiodEndDate between :fromDate and :toDate")
+								"getVat.by.taxAgency.and.VatPeriod")
 
 						.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate)
 						.setParameter("taxAgency", taxAgency.getID());
 			} else {
 				query = session
-						.createQuery(
+						.getNamedQuery(
 
-								"from com.vimukti.accounter.core.VATReturn v where v.VATperiodEndDate between :fromDate and :toDate")
+								"getVat.by.BetweenendDates")
 
 						.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate);
