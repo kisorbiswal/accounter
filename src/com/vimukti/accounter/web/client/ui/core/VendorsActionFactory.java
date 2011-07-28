@@ -46,32 +46,30 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorsListAction;
 public class VendorsActionFactory extends AbstractActionFactory {
 
 	public static VendorsHomeAction getVendorsHomeAction() {
-		return new VendorsHomeAction(UIUtils.getVendorString(Accounter
-				.constants().supplierhome(), Accounter
-				.constants().vendorHome()),
+		return new VendorsHomeAction(
+				UIUtils.getVendorString(Accounter.constants().supplierhome(),
+						Accounter.constants().vendorHome()),
 				"/images/icons/vendors/vendor_home.png");
 	}
 
 	public static NewVendorAction getNewVendorAction() {
 		return new NewVendorAction(UIUtils.getVendorString(Accounter
-				.constants().newSupplier(), Accounter
-				.constants().newVendor()),
+				.constants().newSupplier(), Accounter.constants().newVendor()),
 				"/images/icons/vendors/new_vendor.png");
 	}
 
 	public static NewVendorAction getNewVendorAction(ClientVendor vendor,
 			AsyncCallback<Object> callback) {
 		return new NewVendorAction(UIUtils.getVendorString(Accounter
-				.constants().newSupplier(), Accounter
-				.constants().newVendor()),
+				.constants().newSupplier(), Accounter.constants().newVendor()),
 				"/images/icons/vendors/new_vendor.png", vendor, callback);
 	}
 
 	public static PurchaseItemsAction getItemsAction() {
 		return new PurchaseItemsAction(actionsConstants.items(),
 				"/images/icons/customers/items.png", UIUtils.getVendorString(
-						Accounter.constants().supplier(), Accounter
-								.constants().vendor()));
+						Accounter.constants().supplier(), Accounter.constants()
+								.vendor()));
 	}
 
 	// public static NewItemAction getNewItemAction() {
@@ -99,9 +97,8 @@ public class VendorsActionFactory extends AbstractActionFactory {
 
 	public static NewCreditMemoAction getNewCreditMemoAction() {
 		return new NewCreditMemoAction(UIUtils.getVendorString(Accounter
-				.constants().supplierCredit(), Accounter
-				.constants().vendorCredit()),
-				"/images/icons/vendors/new_credit_memo.png");
+				.constants().supplierCredit(), Accounter.constants()
+				.vendorCredit()), "/images/icons/vendors/new_credit_memo.png");
 	}
 
 	public static NewItemAction getNewItemAction() {
@@ -139,8 +136,8 @@ public class VendorsActionFactory extends AbstractActionFactory {
 
 	public static VendorPaymentsAction getNewVendorPaymentAction() {
 		return new VendorPaymentsAction(UIUtils.getVendorString(Accounter
-				.constants().supplierPrePayment(), Accounter
-				.constants().vendorPrePayment()),
+				.constants().supplierPrePayment(), Accounter.constants()
+				.vendorPrePayment()),
 				"/images/icons/vendors/vendor_payments.png");
 	}
 
@@ -160,8 +157,7 @@ public class VendorsActionFactory extends AbstractActionFactory {
 
 	public static VendorsListAction getVendorsAction() {
 		return new VendorsListAction(UIUtils.getVendorString(Accounter
-				.constants().suppliers(), Accounter
-				.constants().vendors()),
+				.constants().suppliers(), Accounter.constants().vendors()),
 				"/images/icons/vendors/vendors.png");
 	}
 
@@ -182,14 +178,13 @@ public class VendorsActionFactory extends AbstractActionFactory {
 	public static VendorPaymentsListAction getVendorPaymentsAction() {
 
 		return new VendorPaymentsListAction(UIUtils.getVendorString(Accounter
-				.constants().supplierPayments(), Accounter
-				.constants().vendorPayments()),
-				"/images/icons/vendors/vendor_payments.png");
+				.constants().supplierPayments(), Accounter.constants()
+				.vendorPayments()), "/images/icons/vendors/vendor_payments.png");
 	}
 
 	public static PurchaseOrderAction getPurchaseOrderAction() {
-		return new PurchaseOrderAction(Accounter.constants()
-				.purchaseOrder(), "/images/icons/vendors/vendor_payments.png");
+		return new PurchaseOrderAction(Accounter.constants().purchaseOrder(),
+				"/images/icons/vendors/vendor_payments.png");
 	}
 
 	public static PurchaseOrderListAction getPurchaseOrderListAction() {
@@ -199,8 +194,8 @@ public class VendorsActionFactory extends AbstractActionFactory {
 	}
 
 	public static NewItemReceiptAction getItemReceiptAction() {
-		return new NewItemReceiptAction(Accounter.constants()
-				.ItemReceipt(), "/images/icons/vendors/vendor_payments.png");
+		return new NewItemReceiptAction(Accounter.constants().itemReceipt(),
+				"/images/icons/vendors/vendor_payments.png");
 	}
 
 	public static CashExpenseAction CashExpenseAction() {
@@ -209,13 +204,13 @@ public class VendorsActionFactory extends AbstractActionFactory {
 	}
 
 	public static EmployeeExpenseAction EmployeeExpenseAction() {
-		return new EmployeeExpenseAction(Accounter.constants()
-				.employee(), "/images/icons/vendors/new_cash_purchase.png");
+		return new EmployeeExpenseAction(Accounter.constants().employee(),
+				"/images/icons/vendors/new_cash_purchase.png");
 	}
 
 	public static CreditCardExpenseAction CreditCardExpenseAction() {
-		return new CreditCardExpenseAction(Accounter.constants()
-				.CreditCard(), "/images/icons/vendors/new_cash_purchase.png");
+		return new CreditCardExpenseAction(Accounter.constants().creditCard(),
+				"/images/icons/vendors/new_cash_purchase.png");
 	}
 
 	public static AwaitingAuthorisationAction getAwaitingAuthorisationAction() {
@@ -225,14 +220,12 @@ public class VendorsActionFactory extends AbstractActionFactory {
 	}
 
 	public static PreviousClaimAction getPreviousClaimAction() {
-		return new PreviousClaimAction(Accounter.constants()
-				.previousClaims());
+		return new PreviousClaimAction(Accounter.constants().previousClaims());
 
 	}
 
 	public static ExpenseClaimsAction getExpenseClaimsAction(int selectedTab) {
-		return new ExpenseClaimsAction(Accounter.constants()
-				.expenseClaims(), "/images/icons/vendors/record_expense.png",
-				selectedTab);
+		return new ExpenseClaimsAction(Accounter.constants().expenseClaims(),
+				"/images/icons/vendors/record_expense.png", selectedTab);
 	}
 }

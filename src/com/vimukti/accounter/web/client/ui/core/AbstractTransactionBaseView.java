@@ -550,7 +550,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	public AccounterButton createAddNewButton() {
 		menuButton = new AccounterButton(Accounter.constants()
-				.addNewItm());
+				.addNewItem());
 		menuButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
