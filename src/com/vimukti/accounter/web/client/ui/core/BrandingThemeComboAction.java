@@ -21,10 +21,10 @@ public class BrandingThemeComboAction extends Action {
 		return null;
 	}
 
-	@Override
-	public ParentCanvas getView() {
-		return null;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		return null;
+//	}
 
 	public void run(Object data, Boolean isDependent) {
 		runAsync(data, isDependent);
