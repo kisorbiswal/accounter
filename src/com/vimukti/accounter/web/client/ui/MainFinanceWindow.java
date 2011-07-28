@@ -650,50 +650,7 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	private CustomMenuBar getSubMenu() {
 		CustomMenuBar subMenu = new CustomMenuBar();
-		// {
-		// private boolean isCanHide = true;
-		//
-		// public void onBrowserEvent(Event event) {
-		// super.onBrowserEvent(event);
-		// switch (DOM.eventGetType(event)) {
-		//
-		// case Event.ONMOUSEOVER: {
-		// MenuItem item = findItem(DOM.eventGetTarget(event));
-		// if (item != null) {
-		// itemOver(item, true);
-		// if (item.getSubMenu() != null
-		// && item.getSubMenu() == getShownChildMenu()) {
-		// isCanHide = false;
-		// } else {
-		// isCanHide = true;
-		// }
-		// }
-		//
-		// break;
-		// }
-		// case Event.ONMOUSEOUT:
-		// MenuItem item = findItem(DOM.eventGetTarget(event));
-		// if ((item != null && item.getSubMenu() != null)) {
-		// return;
-		// }
-		// if (item == null || !isCanHide) {
-		// return;
-		// }
-		// if (DOM.eventGetClientX(event) <= getAbsoluteLeft()) {
-		// closeAll();
-		// } else if (DOM.eventGetClientX(event) >= getAbsoluteLeft()
-		// + getOffsetWidth()) {
-		// closeAll();
-		// } else if (DOM.eventGetClientY(event) >= getAbsoluteTop()
-		// + getOffsetHeight()) {
-		// closeAll();
-		// }
-		// isCanHide = true;
-		// break;
-		// }
-		// }
-		//
-		// };
+		
 
 		return subMenu;
 	}
