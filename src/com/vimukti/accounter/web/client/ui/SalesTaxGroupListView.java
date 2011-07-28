@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
@@ -21,7 +20,6 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
-import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid.RecordClickHandler;
 
@@ -41,7 +39,6 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	private AccounterButton button3;
 	private GroupDialogButtonsHandler dialogButtonsHandler;
 	private InputDialogHandler dialogHandler;
-	CustomersMessages customersMessages = GWT.create(CustomersMessages.class);
 
 	public SalesTaxGroupListView() {
 	}
@@ -88,8 +85,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	}
 
 	private void createControls() {
-		Label lab = new Label(Accounter.constants()
-				.manageSalesTaxGroup());
+		Label lab = new Label(Accounter.constants().manageSalesTaxGroup());
 		lab.addStyleName("lable-title");
 
 		bodyLayout = new HorizontalPanel();
@@ -106,7 +102,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		buttonsLayout.setWidth("100");
 		buttonsLayout.setSpacing(5);
 
-		button1 = new AccounterButton(customersMessages.add());
+		button1 = new AccounterButton(Accounter.constants().add());
 		button1.setWidth("80");
 
 		button1.addClickHandler(new ClickHandler() {
@@ -118,7 +114,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 			}
 		});
 
-		button2 = new AccounterButton(customersMessages.edit());
+		button2 = new AccounterButton(Accounter.constants().edit());
 		button2.setEnabled(false);
 		button2.setWidth("80");
 		button2.addClickHandler(new ClickHandler() {
@@ -129,7 +125,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 			}
 		});
 
-		button3 = new AccounterButton(customersMessages.remove());
+		button3 = new AccounterButton(Accounter.constants().remove());
 		button3.setEnabled(false);
 		button3.setWidth("80");
 		button3.addClickHandler(new ClickHandler() {
@@ -189,8 +185,8 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 				if (taxGroup != null) {
 					showAddEditTaxGroup(taxGroup);
 				} else {
-					Accounter.showError(Accounter.constants()
-							.selectATaxGroup());
+					Accounter
+							.showError(Accounter.constants().selectATaxGroup());
 					new Exception();
 				}
 			}
@@ -201,8 +197,8 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 				if (taxGroup != null) {
 					deleteObject(taxGroup);
 				} else
-					Accounter.showError(Accounter.constants()
-							.selectATaxGroup());
+					Accounter
+							.showError(Accounter.constants().selectATaxGroup());
 
 			}
 		};
@@ -252,13 +248,13 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	public void showAddEditTaxGroup(final ClientTAXGroup taxGroup) {
 
 		if (taxGroup != null) {
-			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter
-					.constants().taxGroup(), Accounter
-					.constants().toAddOrRemoveTaxCode(), taxGroup);
+			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter.constants()
+					.taxGroup(), Accounter.constants().toAddOrRemoveTaxCode(),
+					taxGroup);
 		} else {
-			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter
-					.constants().taxGroup(), Accounter
-					.constants().toAddOrRemoveTaxCode(), null);
+			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter.constants()
+					.taxGroup(), Accounter.constants().toAddOrRemoveTaxCode(),
+					null);
 		}
 
 		salesTaxGroupDialog.addInputDialogHandler(new InputDialogHandler() {

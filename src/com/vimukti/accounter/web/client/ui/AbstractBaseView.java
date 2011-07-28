@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
@@ -26,17 +25,14 @@ import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectItemType;
-import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CustomButton;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
-import com.vimukti.accounter.web.client.ui.vat.VATMessages;
 
 /**
  * This Class serves as the Base Root Class for all the views, in Accounter GUI,
@@ -56,7 +52,6 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 		sinkEvents(Event.ONCHANGE | Event.KEYEVENTS);
 
 		initRPCService();
-		initConstants();
 		// setTitle(getViewTitle());
 		this.addStyleName("abstract_base_view");
 	}
@@ -142,10 +137,6 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 				return false;
 		};
 	};
-
-	protected CompanyMessages companyConstants;
-	protected AccounterMessages fixedAssetConstants;
-	protected VATMessages vatMessages;
 
 	protected CustomButton saveAndCloseButton;
 
@@ -266,22 +257,6 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 		// TODDO Refresh the View Data
 	}
 
-	protected void initConstants() {
-		try {
-
-			companyConstants = GWT.create(CompanyMessages.class);
-			fixedAssetConstants = GWT.create(AccounterMessages.class);
-			vatMessages = GWT.create(VATMessages.class);
-
-		} catch (Exception e) {
-
-			// SC.logWarn(e.getMessage());
-			Accounter.showError(Accounter.constants()
-					.failedToInitializeCompanyConstants());
-
-		}
-	}
-
 	@Override
 	public void initData() {
 
@@ -355,19 +330,21 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 	@SuppressWarnings("unchecked")
 	private void addComboItemToMap(CustomCombo comboItem) {
-		//FIXED --replaced comboItem.getComboType() with comboItem.getSelectItemType()
-		 if (comboItem == null)
-		 return;
-		
-		 List<CustomCombo> comboList = comboMap.get(comboItem.getSelectItemType());
-		
-		 if (comboList == null) {
-		 comboList = new ArrayList<CustomCombo>();
-		 }
-		
-		 comboList.add(comboItem);
-		
-		 comboMap.put(comboItem.getSelectItemType(), comboList);
+		// FIXED --replaced comboItem.getComboType() with
+		// comboItem.getSelectItemType()
+		if (comboItem == null)
+			return;
+
+		List<CustomCombo> comboList = comboMap.get(comboItem
+				.getSelectItemType());
+
+		if (comboList == null) {
+			comboList = new ArrayList<CustomCombo>();
+		}
+
+		comboList.add(comboItem);
+
+		comboMap.put(comboItem.getSelectItemType(), comboList);
 
 	}
 

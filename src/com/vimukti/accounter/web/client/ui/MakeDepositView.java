@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -29,7 +28,6 @@ import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
-import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.CashBackAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
@@ -101,8 +99,6 @@ public class MakeDepositView extends
 	private List<String> paymentMethods;
 	// protected Double totallinetotal;
 	private String selectedItemId;
-
-	BankingMessages bankingConstants = GWT.create(BankingMessages.class);
 
 	// private ClientAccount selectedAccount;
 
@@ -259,8 +255,7 @@ public class MakeDepositView extends
 			// totText.setValue(UIUtils.format(diff));
 			totText.setAmount(diff);
 		} catch (Exception e) {
-			Accounter.showError(Accounter.constants()
-					.enterValidAmount());
+			Accounter.showError(Accounter.constants().enterValidAmount());
 			// cashBackAmountText.setValue("$0.00");
 			cashBackAmountText.setAmount(0.00);
 
@@ -379,8 +374,7 @@ public class MakeDepositView extends
 		// FIXME-- check the condition,there is no possiblity of type/account to
 		// be '0'
 		if (rec.getType() == 0 || (rec.getAccount() == 0)) {
-			Accounter.showError(Accounter.constants()
-					.pleaseChooseAnAccount());
+			Accounter.showError(Accounter.constants().pleaseChooseAnAccount());
 			return false;
 		}
 		return true;
@@ -438,8 +432,7 @@ public class MakeDepositView extends
 			} else
 				selectedRecord.setAmount(enteredAmount);
 		} catch (Exception e) {
-			Accounter.showError(Accounter.constants()
-					.invalidAmount());
+			Accounter.showError(Accounter.constants().invalidAmount());
 			selectedRecord.setAmount(0.00);
 		}
 
@@ -753,7 +746,7 @@ public class MakeDepositView extends
 		lab.removeStyleName("gwt-Label");
 		lab.addStyleName("lable-title");
 		// lab.setHeight("50px");
-		date = UIUtils.date(bankingConstants.date());
+		date = UIUtils.date(Accounter.constants().date());
 
 		// set the transactionDate while creation
 		setTransactionDate(date.getValue());
@@ -778,8 +771,8 @@ public class MakeDepositView extends
 		datepanel.add(dateForm);
 		datepanel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
 
-		depositInSelect = new MakeDepositAccountCombo(
-				bankingConstants.depositIn());
+		depositInSelect = new MakeDepositAccountCombo(Accounter.constants()
+				.depositIn());
 		depositInSelect.setHelpInformation(true);
 		depositInSelect.setRequired(true);
 		// depositInSelect.setWidth(100);
@@ -833,7 +826,7 @@ public class MakeDepositView extends
 
 				});
 
-		memoText = new TextAreaItem(bankingConstants.memo());
+		memoText = new TextAreaItem(Accounter.constants().memo());
 		memoText.setMemo(true);
 		memoText.setHelpInformation(true);
 		memoText.setWidth(100);
@@ -845,7 +838,7 @@ public class MakeDepositView extends
 
 		depoForm = new DynamicForm();
 		depoForm.setIsGroup(true);
-		depoForm.setGroupTitle(bankingConstants.deposit());
+		depoForm.setGroupTitle(Accounter.constants().deposit());
 		depoForm.setFields(depositInSelect);
 		depoForm.setWidth("40%");
 
@@ -867,8 +860,8 @@ public class MakeDepositView extends
 			}
 		});
 
-		cashBackAccountSelect = new CashBackAccountsCombo(
-				bankingConstants.cashBackAccount());
+		cashBackAccountSelect = new CashBackAccountsCombo(Accounter.constants()
+				.cashBackAccount());
 		cashBackAccountSelect.setHelpInformation(true);
 		cashBackAccountSelect.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.CASH_BACK_ACCOUNTS_COMBO));
@@ -882,7 +875,7 @@ public class MakeDepositView extends
 
 				});
 
-		cashBackMemoText = new TextItem(bankingConstants.cashBackMemo());
+		cashBackMemoText = new TextItem(Accounter.constants().cashBackMemo());
 		cashBackMemoText.setHelpInformation(true);
 		cashBackMemoText.setWidth(100);
 
@@ -891,7 +884,8 @@ public class MakeDepositView extends
 		form1.getCellFormatter().setWidth(0, 0, "180px");
 		form1.setWidth("70%");
 
-		cashBackAmountText = new AmountField(bankingConstants.cashBackAmount());
+		cashBackAmountText = new AmountField(Accounter.constants()
+				.cashBackAmount());
 		cashBackAmountText.setHelpInformation(true);
 		cashBackAmountText.setWidth(100);
 		cashBackAmountText.setDefaultValue("" + UIUtils.getCurrencySymbol()
@@ -905,7 +899,7 @@ public class MakeDepositView extends
 			}
 		});
 
-		totText = new AmountLabel(bankingConstants.total());
+		totText = new AmountLabel(Accounter.constants().total());
 		totText.setWidth("100px");
 		totText.setDefaultValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		totText.setDisabled(true);
@@ -1277,11 +1271,6 @@ public class MakeDepositView extends
 		form1.getCellFormatter().setWidth(0, 1, "200px");
 		form2.getCellFormatter().setWidth(0, 1, "200px");
 		form2.getCellFormatter().setWidth(0, 1, "200px");
-	}
-
-	@Override
-	protected final void initConstants() {
-		bankingConstants = GWT.create(BankingMessages.class);
 	}
 
 	@Override

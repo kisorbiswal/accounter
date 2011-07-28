@@ -330,8 +330,7 @@ public class CreditCardChargeView extends
 
 	@Override
 	protected void createControls() {
-		titlelabel = new Label(Accounter.constants()
-				.creditCardCharge());
+		titlelabel = new Label(Accounter.constants().creditCardCharge());
 		titlelabel.removeStyleName("gwt-Label");
 		titlelabel.addStyleName(Accounter.constants().lableTitle());
 		// titlelabel.setHeight("35px");
@@ -358,9 +357,9 @@ public class CreditCardChargeView extends
 		labeldateNoLayout.add(regPanel);
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
 
-		vendorNameSelect = new VendorCombo(UIUtils.getVendorString(Accounter
-				.constants().supplierName(), Accounter
-				.constants().vendorName()));
+		vendorNameSelect = new VendorCombo(
+				UIUtils.getVendorString(Accounter.constants().supplierName(),
+						Accounter.constants().vendorName()));
 		vendorNameSelect.setHelpInformation(true);
 		vendorNameSelect.setWidth(100);
 		vendorNameSelect.setRequired(true);
@@ -383,23 +382,22 @@ public class CreditCardChargeView extends
 
 				});
 
-		contactNameSelect = new SelectCombo(bankingConstants.contactName());
+		contactNameSelect = new SelectCombo(Accounter.constants().contactName());
 		contactNameSelect.setHelpInformation(true);
 		// contactNameSelect.setWidth(100);
 		formItems.add(contactNameSelect);
 		// billToCombo = createBillToComboItem();
-		billToAreaItem = new TextAreaItem(Accounter.constants()
-				.billTo());
+		billToAreaItem = new TextAreaItem(Accounter.constants().billTo());
 		billToAreaItem.setWidth(100);
 		billToAreaItem.setDisabled(true);
 		formItems.add(billToCombo);
-		phoneSelect = new TextItem(bankingConstants.phone());
+		phoneSelect = new TextItem(Accounter.constants().phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		forms.add(phoneForm);
 		formItems.add(phoneSelect);
 
-		vendorForm = UIUtils.form(bankingConstants.Vendor());
+		vendorForm = UIUtils.form(Accounter.constants().Vendor());
 		vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorNameSelect, contactNameSelect, phoneSelect,
 				billToAreaItem);
@@ -409,12 +407,11 @@ public class CreditCardChargeView extends
 		forms.add(vendorForm);
 
 		payMethSelect = createPaymentMethodSelectItem();
-		payMethSelect.setTitle(Accounter.constants()
-				.paymentMethod());
+		payMethSelect.setTitle(Accounter.constants().paymentMethod());
 		payMethSelect.setWidth(90);
 		payMethSelect.setComboItem(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(Accounter
-						.constants().check()));
+				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
+						.check()));
 
 		payFrmSelect = createPayFromselectItem();
 		payFrmSelect.setWidth(90);
@@ -425,25 +422,24 @@ public class CreditCardChargeView extends
 		formItems.add(payFrmSelect);
 
 		cheqNoText = new TextItem(
-				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? bankingConstants
-						.chequeNo() : bankingConstants.checkNo());
+				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
+						.constants().chequeNo() : Accounter.constants()
+						.checkNo());
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isEdit);
 		cheqNoText.setWidth(100);
 		formItems.add(cheqNoText);
 
-		delivDate = new DateField(bankingConstants.deliveryDate());
+		delivDate = new DateField(Accounter.constants().deliveryDate());
 		delivDate.setHelpInformation(true);
 		delivDate.setColSpan(1);
 		delivDate.setValue(new ClientFinanceDate());
 		formItems.add(delivDate);
 
-		termsForm = UIUtils.form(bankingConstants.terms());
+		termsForm = UIUtils.form(Accounter.constants().terms());
 		termsForm.setWidth("100%");
 		termsForm.setFields(payMethSelect, payFrmSelect, cheqNoText, delivDate);
-		termsForm
-				.getCellFormatter()
-				.getElement(0, 0)
+		termsForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "203px");
 		forms.add(termsForm);
 
@@ -476,7 +472,7 @@ public class CreditCardChargeView extends
 		memoTextAreaItem.setWidth(100);
 		memoTextAreaItem.setDisabled(false);
 
-		// refText = new TextItem(bankingConstants.reference());
+		// refText = new TextItem(Accounter.constants().reference());
 		//
 		// refText.setWidth(100);
 		// refText.setDisabled(false);
@@ -851,8 +847,7 @@ public class CreditCardChargeView extends
 		transactionNumber.setDisabled(isEdit);
 		payMethSelect.setDisabled(isEdit);
 		if (paymentMethod.equals(Accounter.constants().check())
-				|| paymentMethod
-						.equals(Accounter.constants().cheque())) {
+				|| paymentMethod.equals(Accounter.constants().cheque())) {
 			cheqNoText.setDisabled(isEdit);
 		} else {
 			cheqNoText.setDisabled(!isEdit);
@@ -899,6 +894,6 @@ public class CreditCardChargeView extends
 
 	@Override
 	protected String getViewTitle() {
-		return bankingConstants.creditCardCharge();
+		return Accounter.constants().creditCardCharge();
 	}
 }

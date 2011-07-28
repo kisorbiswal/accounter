@@ -2,10 +2,8 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -24,7 +22,6 @@ public class ItemListView extends BaseListView<ClientItem> {
 	List<ClientItem> allItems;
 	private Double total = 0.00;
 	private ClientItem toBeDeletedItem;
-	private CompanyMessages messages = GWT.create(CompanyMessages.class);
 	private List<ClientItem> listOfItems;
 	@SuppressWarnings("unused")
 	private int actionType;
@@ -48,8 +45,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 	@Override
 	public void deleteFailed(Throwable caught) {
 		super.deleteFailed(caught);
-		Accounter.showInformation(Accounter.constants()
-				.youCantDeleteItem());
+		Accounter.showInformation(Accounter.constants().youCantDeleteItem());
 	}
 
 	@Override
@@ -69,8 +65,8 @@ public class ItemListView extends BaseListView<ClientItem> {
 			if (!DecimalUtil.isEquals(item.getSalesPrice(), 0))
 				total += item.getSalesPrice();
 		}
-		totalLabel.setText(Accounter.constants().totalSalesPrice()
-				+ " = " + DataUtils.getAmountAsString(total));
+		totalLabel.setText(Accounter.constants().totalSalesPrice() + " = "
+				+ DataUtils.getAmountAsString(total));
 	}
 
 	@Override
@@ -79,15 +75,12 @@ public class ItemListView extends BaseListView<ClientItem> {
 			return null;
 		else {
 			NewItemAction action;
-			if (this.catageory.equals(Accounter.constants()
-					.customer())) {
+			if (this.catageory.equals(Accounter.constants().customer())) {
 				action = CustomersActionFactory.getNewItemAction();
 				action.setType(3);
 				return action;
-			} else if (this.catageory.equals(Accounter.constants()
-					.supplier())
-					|| this.catageory.equals(Accounter.constants()
-							.vendor())) {
+			} else if (this.catageory.equals(Accounter.constants().supplier())
+					|| this.catageory.equals(Accounter.constants().vendor())) {
 				action = VendorsActionFactory.getNewItemAction();
 				action.setType(3);
 				return action;
@@ -102,7 +95,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return messages.addNewItem();
+			return Accounter.constants().addNewItem();
 		else
 			return "";
 	}

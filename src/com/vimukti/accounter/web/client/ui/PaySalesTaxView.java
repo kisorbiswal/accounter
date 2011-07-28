@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -27,7 +26,6 @@ import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
-import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -75,8 +73,6 @@ public class PaySalesTaxView extends
 	List<ClientTAXAgency> taxAgencies = new ArrayList<ClientTAXAgency>();
 	private ArrayList<DynamicForm> listforms;
 
-	private CompanyMessages companyConstants = GWT
-			.create(CompanyMessages.class);
 	private ClientPaySalesTax paySalesTax;
 	private TextItem transNumber;
 
@@ -141,8 +137,8 @@ public class PaySalesTaxView extends
 						} else {
 							Accounter
 									.showError("Failed to get the TransactionPaySalesTaxList");
-							grid.addEmptyMessage(Accounter
-									.constants().norecordstoshow());
+							grid.addEmptyMessage(Accounter.constants()
+									.norecordstoshow());
 						}
 
 						return;
@@ -159,8 +155,8 @@ public class PaySalesTaxView extends
 						if (result.size() == 0) {
 							// Accounter
 							// .showInformation("No PaySalesTax list to show");
-							grid.addEmptyMessage(Accounter
-									.constants().norecordstoshow());
+							grid.addEmptyMessage(Accounter.constants()
+									.norecordstoshow());
 						} else {
 
 							// loadData(getfilterRecordsByDate(billsDue
@@ -310,7 +306,7 @@ public class PaySalesTaxView extends
 		lab.setStyleName(Accounter.constants().lableTitle());
 
 		date = new DateField(null);
-		// date.setTitle(companyConstants.date());
+		// date.setTitle(Accounter.constants().date());
 		date.setEnteredDate(new ClientFinanceDate());
 		date.setDisabled(isEdit);
 		date.addValueChangeHandler(new ValueChangeHandler<String>() {
@@ -329,7 +325,8 @@ public class PaySalesTaxView extends
 		dateForm.setStyleName("datenumber-panel");
 		dateForm.setFields(date, transNumber);
 
-		payFromAccCombo = new PayFromAccountsCombo(companyConstants.payFrom());
+		payFromAccCombo = new PayFromAccountsCombo(Accounter.constants()
+				.payFrom());
 		payFromAccCombo.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.PAY_FROM_COMBO));
 		payFromAccCombo.setRequired(true);
@@ -353,8 +350,8 @@ public class PaySalesTaxView extends
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setRequired(true);
 		// paymentMethodCombo.setWidth(100);
-		billsDue = new DateField(companyConstants.billsDueOnOrBefore());
-		billsDue.setTitle(companyConstants.billsDueOnOrBefore());
+		billsDue = new DateField(Accounter.constants().billsDueOnOrBefore());
+		billsDue.setTitle(Accounter.constants().billsDueOnOrBefore());
 		// billsDue.setEnteredDate(new ClientFinanceDate());
 		// billsDue.setStartDate(new ClientFinanceDate());
 		billsDue.setValue(new ClientFinanceDate());
@@ -369,7 +366,7 @@ public class PaySalesTaxView extends
 			}
 		});
 		billsDue.setDisabled(isEdit);
-		taxAgencyCombo = new TAXAgencyCombo(companyConstants.taxAgency());
+		taxAgencyCombo = new TAXAgencyCombo(Accounter.constants().taxAgency());
 		taxAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
 
@@ -385,21 +382,22 @@ public class PaySalesTaxView extends
 		taxAgencyCombo.setDisabled(isEdit);
 		filterForm = new DynamicForm();
 		// filterForm.setWidth("100%");
-		filterForm = UIUtils.form(companyConstants.filter());
+		filterForm = UIUtils.form(Accounter.constants().filter());
 		filterForm.setFields(payFromAccCombo, paymentMethodCombo, billsDue,
 				taxAgencyCombo);
 		filterForm.getCellFormatter().setWidth(0, 0, "210px");
 
-		amountText = new AmountField(companyConstants.amount());
+		amountText = new AmountField(Accounter.constants().amount());
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		amountText.setDisabled(true);
 
-		endingBalanceText = new AmountField(companyConstants.endingBalance());
+		endingBalanceText = new AmountField(Accounter.constants()
+				.endingBalance());
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		endingBalanceText.setDisabled(true);
 
 		balForm = new DynamicForm();
-		balForm = UIUtils.form(companyConstants.balances());
+		balForm = UIUtils.form(Accounter.constants().balances());
 		balForm.setFields(amountText, endingBalanceText);
 		balForm.getCellFormatter().setWidth(0, 0, "222px");
 
@@ -415,7 +413,7 @@ public class PaySalesTaxView extends
 		topHLay.add(balForm);
 		topHLay.setCellHorizontalAlignment(balForm, ALIGN_RIGHT);
 
-		Label lab1 = new Label("" + companyConstants.billsToPay() + "");
+		Label lab1 = new Label("" + Accounter.constants().billsToPay() + "");
 
 		initListGrid();
 

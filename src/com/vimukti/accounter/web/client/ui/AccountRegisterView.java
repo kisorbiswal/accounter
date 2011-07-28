@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -15,7 +14,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
-import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
 import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayeeCombo;
@@ -32,7 +30,6 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 	private ClientAccount account;
 	protected List<AccountRegister> accountRegister;
 	private AccountRegister accRegister;
-	private BankingMessages bankingConstants;
 	private AccountRegisterListGrid grid2;
 	private VerticalPanel mainVLay;
 	private HorizontalPanel hlayTop, gridLayout;
@@ -46,7 +43,6 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 	public AccountRegisterView(ClientAccount account2) {
 		super();
 		this.takenaccount = account2;
-		bankingConstants = GWT.create(BankingMessages.class);
 
 	}
 
@@ -85,8 +81,8 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 	protected void createControls() {
 
-		bankAccSelect = new DepositInAccountCombo(Accounter
-				.constants().bankaccount());
+		bankAccSelect = new DepositInAccountCombo(Accounter.constants()
+				.bankaccount());
 		bankAccSelect.setRequired(true);
 
 		bankAccSelect
@@ -140,7 +136,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 		hlayTop.add(hlay);
 
-		lab1 = new Label(bankingConstants.accountRegister() + " - "
+		lab1 = new Label(Accounter.constants().accountRegister() + " - "
 				+ takenaccount.getName());
 
 		grid = new AccountRegisterListGrid(false, ClientAccount.TYPE_BANK);
@@ -244,8 +240,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 							Accounter
 									.showMessage("Your session expired, Please login again to continue");
 						} else {
-							Accounter.showError(Accounter
-									.constants()
+							Accounter.showError(Accounter.constants()
 									.failedtoGetListofAccounts()
 									+ takenaccount.getName());
 						}
