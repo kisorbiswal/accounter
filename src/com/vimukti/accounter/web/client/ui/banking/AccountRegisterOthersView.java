@@ -247,7 +247,6 @@ public class AccountRegisterOthersView extends
 	@Override
 	protected void initConstants() {
 		super.initConstants();
-		AccounterConstants constants = Accounter.constants();
 
 	}
 
