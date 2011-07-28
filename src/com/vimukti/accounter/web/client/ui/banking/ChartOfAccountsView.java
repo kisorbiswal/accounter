@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -27,7 +28,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	SelectCombo viewSelect;
 	Label addAccLabel, hierLabel, lab1;
 
-	BankingMessages bankingConstants = GWT.create(BankingMessages.class);
+	AccounterConstants bankingConstants = Accounter.constants();
 	protected List<ClientAccount> allAccounts;
 	private ClientAccount toBeDelete;
 	private List<ClientAccount> listOfAccounts;

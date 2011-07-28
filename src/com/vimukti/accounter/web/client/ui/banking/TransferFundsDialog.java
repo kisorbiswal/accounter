@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -55,8 +56,7 @@ public class TransferFundsDialog extends BaseDialog {
 	private CheckboxItem transferOnlineCheck;
 	protected boolean isClose;
 	protected ClientAccount accountFrom, accountTo;
-	BankingMessages bankingConstants = GWT.create(BankingMessages.class);
-	public boolean isValidatedTransferAmount = false;
+	AccounterConstants bankingConstants = Accounter.constants();
 	ClientTransferFund transferFund;
 
 	private Double transferAmount = 0D;

@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -39,7 +40,7 @@ public class AccountRegisterOthersView extends
 	private VerticalPanel mainVLay;
 	private HorizontalPanel hlayTop;
 	private Label lab1;
-	private BankingMessages bankingConstants;
+
 	private ClientFinanceDate startDate, todaydate;
 	private Label totalLabel;
 	private double total = 0.0;
@@ -49,8 +50,7 @@ public class AccountRegisterOthersView extends
 	private final int BORDER = 20;
 
 	String[] dateRangeArray = { Accounter.constants().all(),
-			Accounter.constants().today(),
-			Accounter.constants().last30Days(),
+			Accounter.constants().today(), Accounter.constants().last30Days(),
 			Accounter.constants().last45Days() };
 	private List<String> listOfDateRanges;
 
@@ -66,8 +66,8 @@ public class AccountRegisterOthersView extends
 
 	protected void createControls() {
 
-		showTransactionSelect = new SelectCombo(
-				bankingConstants.showTransactions());
+		showTransactionSelect = new SelectCombo(Accounter.constants()
+				.showTransactions());
 		listOfDateRanges = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			listOfDateRanges.add(dateRangeArray[i]);
@@ -94,7 +94,7 @@ public class AccountRegisterOthersView extends
 		hlayTop.add(form);
 		hlayTop.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 
-		lab1 = new Label(bankingConstants.accountRegister() + " - "
+		lab1 = new Label(Accounter.constants().accountRegister() + " - "
 				+ takenaccount.getName());
 		lab1.setStyleName(Accounter.constants().lableTitle());
 		HorizontalPanel lableHpanel = new HorizontalPanel();
@@ -120,8 +120,8 @@ public class AccountRegisterOthersView extends
 		gridLayout.add(grid);
 
 		totalLabel = new Label();
-		totalLabel.setText(Accounter.constants()
-				.totalEndingBalance() + DataUtils.getAmountAsString(total));
+		totalLabel.setText(Accounter.constants().totalEndingBalance()
+				+ DataUtils.getAmountAsString(total));
 		mainVLay = new VerticalPanel();
 		mainVLay.setHeight("100%");
 		mainVLay.setWidth("100%");
@@ -148,27 +148,23 @@ public class AccountRegisterOthersView extends
 				endDate = new ClientFinanceDate();
 			selectedDateRange = Accounter.constants().all();
 
-		} else if (!selectedDateRange.equals(Accounter.constants()
-				.today())
-				&& selectedOption.equals(Accounter.constants()
-						.today())) {
+		} else if (!selectedDateRange.equals(Accounter.constants().today())
+				&& selectedOption.equals(Accounter.constants().today())) {
 			startDate = todaydate;
 			endDate = todaydate;
 			selectedDateRange = Accounter.constants().today();
 
-		} else if (!selectedDateRange.equals(Accounter.constants()
-				.last30Days())
-				&& selectedOption.equals(Accounter.constants()
-						.last30Days())) {
+		} else if (!selectedDateRange
+				.equals(Accounter.constants().last30Days())
+				&& selectedOption.equals(Accounter.constants().last30Days())) {
 			selectedDateRange = Accounter.constants().last30Days();
 			startDate = new ClientFinanceDate(todaydate.getYear(),
 					todaydate.getMonth() - 1, todaydate.getDate());
 			endDate = todaydate;
 
-		} else if (!selectedDateRange.equals(Accounter.constants()
-				.last45Days())
-				&& selectedOption.equals(Accounter.constants()
-						.last45Days())) {
+		} else if (!selectedDateRange
+				.equals(Accounter.constants().last45Days())
+				&& selectedOption.equals(Accounter.constants().last45Days())) {
 
 			selectedDateRange = Accounter.constants().last45Days();
 			startDate = new ClientFinanceDate(todaydate.getYear(),
@@ -216,8 +212,7 @@ public class AccountRegisterOthersView extends
 							Accounter
 									.showMessage("Your session expired, Please login again to continue");
 						} else {
-							Accounter.showError(Accounter
-									.constants()
+							Accounter.showError(Accounter.constants()
 									.failedtoGetListofAccounts()
 									+ takenaccount.getName());
 						}
@@ -252,7 +247,7 @@ public class AccountRegisterOthersView extends
 	@Override
 	protected void initConstants() {
 		super.initConstants();
-		bankingConstants = GWT.create(BankingMessages.class);
+		AccounterConstants constants = Accounter.constants();
 
 	}
 
