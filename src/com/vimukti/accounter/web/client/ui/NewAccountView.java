@@ -165,7 +165,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// .createNewAccount()));
 		lab1 = new Label();
 		lab1.removeStyleName("gwt-Label");
-		lab1.addStyleName(Accounter.constants().lableTitle());
+		lab1.addStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("35px");
 		hierarchy = new String("");
 		accTypeSelect = new SelectCombo(Accounter.constants().accountType());

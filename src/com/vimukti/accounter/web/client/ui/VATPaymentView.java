@@ -91,14 +91,14 @@ public class VATPaymentView extends
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
 		forms.add(dateNoForm);
 
-		vatAgency = new TextItem(Accounter.constants().vatAgency());
+		vatAgency = new TextItem(Accounter.constants().VATAgency());
 		// vatAgency.setWidth("*");
 		vatAgency.setDisabled(true);
 		// vatAgency.setShowDisabled(false);
 
 		addressForm = new AddressForm(null);
 		vatAgencyForm = new DynamicForm();
-		vatAgencyForm = UIUtils.form(Accounter.constants().vatAgency());
+		vatAgencyForm = UIUtils.form(Accounter.constants().VATAgency());
 		vatAgencyForm.setWidth("100%");
 		// vatAgencyForm.setAutoHeight();
 		vatAgencyForm.setFields(vatAgency);

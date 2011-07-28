@@ -231,7 +231,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	@Override
 	public String[] setColumns() {
 		return new String[] {
-				Accounter.constants().Name(),
+				Accounter.constants().name(),
 				Accounter.constants().description(),
 				Accounter.constants().paidWithin(),
 				Accounter.constants().cashDiscount() };

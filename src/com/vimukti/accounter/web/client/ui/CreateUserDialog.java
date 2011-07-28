@@ -241,7 +241,7 @@ public class CreateUserDialog extends AbstractBaseDialog {
 		faxText = new TextItem(Accounter.constants().fax());
 		// faxText.setWidth("*");
 
-		websiteText = new TextItem(Accounter.constants().website());
+		websiteText = new TextItem(Accounter.constants().webSite());
 		// websiteText.setWidth("*");
 
 		userForm = new DynamicForm();

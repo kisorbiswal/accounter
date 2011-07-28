@@ -177,7 +177,7 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.constants().Name(),
+		return new String[] { Accounter.constants().name(),
 				Accounter.constants().description() };
 	}
 

@@ -75,8 +75,8 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 				if (taxGroup != null) {
 					showAddEditTaxGroup(taxGroup);
 				} else {
-					Accounter.showError(Accounter
-							.constants().selectATaxGroup());
+					Accounter
+							.showError(Accounter.constants().selectATaxGroup());
 					new Exception();
 				}
 			}
@@ -88,8 +88,8 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 				if (taxGroup != null) {
 					deleteObject(taxGroup);
 				} else
-					Accounter.showError(Accounter
-							.constants().selectATaxGroup());
+					Accounter
+							.showError(Accounter.constants().selectATaxGroup());
 
 			}
 		};
@@ -100,13 +100,13 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 	public void showAddEditTaxGroup(final ClientTAXGroup taxGroup) {
 
 		if (taxGroup != null) {
-			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter
-					.constants().taxGroup(), Accounter
-					.constants().toAddOrRemoveTaxCode(), taxGroup);
+			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter.constants()
+					.taxGroup(), Accounter.constants().toAddOrRemoveTaxCode(),
+					taxGroup);
 		} else {
-			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter
-					.constants().taxGroup(), Accounter
-					.constants().toAddOrRemoveTaxCode(), null);
+			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter.constants()
+					.taxGroup(), Accounter.constants().toAddOrRemoveTaxCode(),
+					null);
 		}
 
 		salesTaxGroupDialog.addInputDialogHandler(new InputDialogHandler() {
@@ -126,8 +126,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 						newTaxGroup();
 						return true;
 					} else {
-						Accounter.showError(Accounter
-								.constants()
+						Accounter.showError(Accounter.constants()
 								.pleaseEnterTaxGroupName());
 						return false;
 					}
@@ -164,7 +163,8 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 			item = getTaxItemByName(clientTaxItem.getName());
 			if (item != null) {
 				taxItems.add(item);
-				taxGroup.setGroupRate(taxGroup.getGroupRate()+item.getTaxRate());
+				taxGroup.setGroupRate(taxGroup.getGroupRate()
+						+ item.getTaxRate());
 
 			}// if
 		}// for
@@ -192,8 +192,8 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 		taxGroup.setTaxItems(getSelectedTaxItems(taxGroup));
 
 		if (Utility.isObjectExist(company.getTaxItems(), taxGroup.getName())
-				|| Utility.isObjectExist(company.getTaxGroups(), taxGroup
-						.getName())) {
+				|| Utility.isObjectExist(company.getTaxGroups(),
+						taxGroup.getName())) {
 
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
 		} else
@@ -218,7 +218,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 	@Override
 	public String[] setColumns() {
 
-		return new String[] { constants.Name() };
+		return new String[] { constants.name() };
 	}
 
 	@Override

@@ -78,8 +78,8 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 	}
 
 	public void createShippingTerms() {
-		if (Utility.isObjectExist(getCompany()
-				.getShippingTerms(), inputDlg.getTextValueByIndex(0))) {
+		if (Utility.isObjectExist(getCompany().getShippingTerms(),
+				inputDlg.getTextValueByIndex(0))) {
 			Accounter.showError("ShippingTerm  Already Exists");
 		} else {
 			ClientShippingTerms shippingTerm = new ClientShippingTerms();
@@ -112,8 +112,8 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 		String arr[] = new String[2];
 		arr[0] = "Shipping Term";
 		arr[1] = "Description";
-		inputDlg = new InputDialog(Accounter.constants()
-				.shippingTerm(), "", arr) {
+		inputDlg = new InputDialog(Accounter.constants().shippingTerm(), "",
+				arr) {
 			@Override
 			protected String getViewTitle() {
 				return Accounter.constants().shippingTerm();
@@ -169,12 +169,10 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] {
-				Accounter.constants().Name(),
+		return new String[] { Accounter.constants().name(),
 				Accounter.constants().description() };
 	}
 
-	
 	@Override
 	protected List getRecords() {
 		return getCompany().getShippingTerms();

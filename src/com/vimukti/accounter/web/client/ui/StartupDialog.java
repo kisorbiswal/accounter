@@ -54,14 +54,12 @@ public class StartupDialog extends DialogBox {
 	private void createControls() {
 		setText(Accounter.constants().logIn());
 
-		userEmailText = new EmailField(Accounter.constants()
-				.email());
+		userEmailText = new EmailField(Accounter.constants().email());
 		userEmailText.setRequired(true);
 		// userEmailText.setWidth("*");
 		userEmailText.setValue("admin@accounter.com");
 
-		userPassText = new TextItem(Accounter.constants()
-				.password());
+		userPassText = new TextItem(Accounter.constants().password());
 		userPassText.setRequired(true);
 		// userPassText.setWidth("*");
 		userPassText.setValue(Accounter.constants().defbiz());
@@ -75,7 +73,7 @@ public class StartupDialog extends DialogBox {
 		// createButt.setAutoFit(true);
 
 		AccounterButton loginButt = UIUtils.AccounterButton(Accounter
-				.constants().login(), "L");
+				.constants().logIn(), "L");
 		// loginButt.setAutoFit(true);
 
 		AccounterButton createCompButt = UIUtils.AccounterButton(Accounter
@@ -122,13 +120,13 @@ public class StartupDialog extends DialogBox {
 
 		companyGrid = new DialogGrid(false);
 		// companyGrid.hide();
-		companyGrid.addColumns(new String[] {
-				Accounter.constants().id(),
-				Accounter.constants().name(),
-				Accounter.constants().legalName() });
+		companyGrid
+				.addColumns(new String[] { Accounter.constants().id(),
+						Accounter.constants().name(),
+						Accounter.constants().legalName() });
 
-		AccounterButton closeButt = new AccounterButton(Accounter
-				.constants().close());
+		AccounterButton closeButt = new AccounterButton(Accounter.constants()
+				.close());
 		// closeButt.setLayoutAlign(Alignment.RIGHT);
 
 		closeButt.addClickHandler(new ClickHandler() {
@@ -298,7 +296,6 @@ public class StartupDialog extends DialogBox {
 	// // userEmailText.getValue().toString(), getUserCallBack);
 	// }
 
-	
 	private void getUserByEmail(String mail) {
 		final AsyncCallback<ClientUser> getUserCallBack = new AsyncCallback<ClientUser>() {
 			public void onFailure(Throwable caught) {
@@ -318,7 +315,6 @@ public class StartupDialog extends DialogBox {
 		// FinanceApplication.createGETService().getUser(mail, getUserCallBack);
 	}
 
-	
 	private void getCompanyList() {
 		AsyncCallback<List<ClientCompany>> getCompanyListCallback = new AsyncCallback<List<ClientCompany>>() {
 
@@ -342,7 +338,7 @@ public class StartupDialog extends DialogBox {
 	}
 
 	private void getCompany() {
-		
+
 		AsyncCallback<List<ClientCompany>> getCompanyListCallback = new AsyncCallback<List<ClientCompany>>() {
 
 			public void onFailure(Throwable caught) {
@@ -361,7 +357,6 @@ public class StartupDialog extends DialogBox {
 		// getCompanyListCallback);
 	}
 
-	
 	private void fillGrid(List<ClientCompany> result) {
 		// ListGridRecord[] records = new ListGridRecord[result.size()];
 		// ClientCompany c;

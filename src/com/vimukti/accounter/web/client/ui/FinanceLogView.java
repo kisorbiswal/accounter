@@ -196,7 +196,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 					public void onFailure(Throwable caught) {
 						grid.clear();
 						grid.addEmptyMessage(Accounter.constants()
-								.norecordstoshow());
+								.noRecordsToShow());
 					}
 				});
 	}
@@ -237,7 +237,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 						lastRecordID = -1;
 						grid.clear();
 						grid.addEmptyMessage(Accounter.constants()
-								.norecordstoshow());
+								.noRecordsToShow());
 					}
 				});
 	}
@@ -266,7 +266,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 						nextHyprLnk.setEnabled(false);
 						grid.clear();
 						grid.addEmptyMessage(Accounter.constants()
-								.norecordstoshow());
+								.noRecordsToShow());
 					}
 				});
 	}
@@ -295,7 +295,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 						lastRecordID = firstRecordID;
 						grid.clear();
 						grid.addEmptyMessage(Accounter.constants()
-								.norecordstoshow());
+								.noRecordsToShow());
 					}
 				});
 	}

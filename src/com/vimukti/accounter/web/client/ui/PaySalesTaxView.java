@@ -67,7 +67,6 @@ public class PaySalesTaxView extends
 	private List<ClientAccount> payFromAccounts;
 	private List<ClientTransactionPaySalesTax> filterByDateList;
 
-	
 	private List<ClientTAXItem> taxItems;
 	private List<ClientPaySalesTaxEntries> entries;
 	List<ClientTAXAgency> taxAgencies = new ArrayList<ClientTAXAgency>();
@@ -138,7 +137,7 @@ public class PaySalesTaxView extends
 							Accounter
 									.showError("Failed to get the TransactionPaySalesTaxList");
 							grid.addEmptyMessage(Accounter.constants()
-									.norecordstoshow());
+									.noRecordsToShow());
 						}
 
 						return;
@@ -156,7 +155,7 @@ public class PaySalesTaxView extends
 							// Accounter
 							// .showInformation("No PaySalesTax list to show");
 							grid.addEmptyMessage(Accounter.constants()
-									.norecordstoshow());
+									.noRecordsToShow());
 						} else {
 
 							// loadData(getfilterRecordsByDate(billsDue
@@ -303,7 +302,7 @@ public class PaySalesTaxView extends
 		listforms = new ArrayList<DynamicForm>();
 
 		Label lab = new Label(Accounter.constants().paySalesTax());
-		lab.setStyleName(Accounter.constants().lableTitle());
+		lab.setStyleName(Accounter.constants().labelTitle());
 
 		date = new DateField(null);
 		// date.setTitle(Accounter.constants().date());
@@ -447,7 +446,6 @@ public class PaySalesTaxView extends
 			}
 	}
 
-	
 	protected List<ClientPaySalesTaxEntries> getfilterRecordsByDate(
 			ClientFinanceDate fillterdate,
 			List<ClientPaySalesTaxEntries> entrylist) {

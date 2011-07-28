@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-
 public class UserInformationDialog extends AbstractBaseDialog {
 
 	TextItem fullName, legalName, street1Text, street2Text, cityText,
@@ -46,11 +45,10 @@ public class UserInformationDialog extends AbstractBaseDialog {
 		((ServiceDefTarget) getService)
 				.setServiceEntryPoint(Accounter.GET_SERVICE_ENTRY_POINT);
 
-		
 		final AsyncCallback<ClientUser> getUserCallBack = new AsyncCallback<ClientUser>() {
 			public void onFailure(Throwable caught) {
-				Accounter.showInformation(Accounter.constants()
-						.getUserFailed());
+				Accounter
+						.showInformation(Accounter.constants().getUserFailed());
 			}
 
 			public void onSuccess(ClientUser user) {
@@ -89,8 +87,7 @@ public class UserInformationDialog extends AbstractBaseDialog {
 		};
 		// getService.getUser(emailText.getValue().toString(), getUserCallBack);
 		if (emailText.getValue() == null) {
-			UIUtils.say(Accounter.constants()
-					.pleaseEnterUserEmail());
+			UIUtils.say(Accounter.constants().pleaseEnterUserEmail());
 		} else {
 			// getService
 			// .getUser(emailText.getValue().toString(), getUserCallBack);
@@ -140,7 +137,7 @@ public class UserInformationDialog extends AbstractBaseDialog {
 		if (createDate.getValue() != null) {
 			Object obj = createDate.getValue();
 			if (obj instanceof java.util.Date) {
-				
+
 				java.util.Date date = (java.util.Date) obj;
 
 			}
@@ -149,7 +146,7 @@ public class UserInformationDialog extends AbstractBaseDialog {
 		if (lastLogin.getValue() != null) {
 			Object obj = lastLogin.getValue();
 			if (obj instanceof java.util.Date) {
-				
+
 				java.util.Date date = (java.util.Date) obj;
 
 			}
@@ -197,10 +194,8 @@ public class UserInformationDialog extends AbstractBaseDialog {
 		createDate.setName(Accounter.constants().createDate());
 		// createDate.setUseTextField(true);
 
-		street1Text = new TextItem(Accounter.constants()
-				.streetAddress1());
-		street2Text = new TextItem(Accounter.constants()
-				.streetAddress2());
+		street1Text = new TextItem(Accounter.constants().streetAddress1());
+		street2Text = new TextItem(Accounter.constants().streetAddress2());
 
 		cityText = new TextItem(Accounter.constants().city());
 		stateText = new TextItem(Accounter.constants().state());
@@ -209,7 +204,7 @@ public class UserInformationDialog extends AbstractBaseDialog {
 
 		faxText = new TextItem(Accounter.constants().fax());
 
-		websiteText = new TextItem(Accounter.constants().website());
+		websiteText = new TextItem(Accounter.constants().webSite());
 
 		userForm = new DynamicForm();
 		// userForm.setSize("80%", "*");
@@ -221,14 +216,14 @@ public class UserInformationDialog extends AbstractBaseDialog {
 				street1Text, street2Text, cityText, stateText, zipText,
 				phoneText, faxText, legalName, websiteText);
 
-		AccounterButton createUser = new AccounterButton(Accounter
-				.constants().createUser());
-		AccounterButton getUser = new AccounterButton(Accounter
-				.constants().getUser());
+		AccounterButton createUser = new AccounterButton(Accounter.constants()
+				.createUser());
+		AccounterButton getUser = new AccounterButton(Accounter.constants()
+				.getUser());
 		// createUser.setAlign(Alignment.LEFT);
 
-		AccounterButton canButt = new AccounterButton(Accounter
-				.constants().close());
+		AccounterButton canButt = new AccounterButton(Accounter.constants()
+				.close());
 		// canButt.setAlign(Alignment.RIGHT);
 
 		createUser.addClickHandler(new ClickHandler() {

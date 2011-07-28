@@ -148,7 +148,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			menuitem = menuBar.addItem(Accounter.constants().vat(),
+			menuitem = menuBar.addItem(Accounter.constants().VAT(),
 					getVATMenu());
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
@@ -328,7 +328,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		// .banking(), getBankingSubMenu());
 		// }
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			reportMenuBar.addItem(Accounter.constants().vat(),
+			reportMenuBar.addItem(Accounter.constants().VAT(),
 					getVATReportMenu());
 		}
 		// reportMenuBar.addItem(FinanceApplication.constants()

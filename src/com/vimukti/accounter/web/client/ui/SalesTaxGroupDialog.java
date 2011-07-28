@@ -109,7 +109,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 	private void setAvailTaxItemsGridFields() {
 		availTaxItemsGrid.addColumns(new String[] {
-				Accounter.constants().Name(),
+				Accounter.constants().name(),
 				Accounter.constants().currentRate() });
 	}
 
@@ -119,7 +119,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 	private void setSelectedTaxItemsGridFields() {
 		selectTaxItemsGrid.addColumns(new String[] {
-				Accounter.constants().Name(),
+				Accounter.constants().name(),
 				Accounter.constants().currentRate() });
 
 	}

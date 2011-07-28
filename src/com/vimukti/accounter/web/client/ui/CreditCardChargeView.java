@@ -93,7 +93,7 @@ public class CreditCardChargeView extends
 		if (isEdit && (!transactionObject.isCreditCardCharge()))
 			try {
 				throw new Exception(Accounter.constants()
-						.UnableToLoadRequiredCreditCardCharge());
+						.unableToLoadRequiredCreditCardCharge());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -331,7 +331,7 @@ public class CreditCardChargeView extends
 	protected void createControls() {
 		titlelabel = new Label(Accounter.constants().creditCardCharge());
 		titlelabel.removeStyleName("gwt-Label");
-		titlelabel.addStyleName(Accounter.constants().lableTitle());
+		titlelabel.addStyleName(Accounter.constants().labelTitle());
 		// titlelabel.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
@@ -396,7 +396,7 @@ public class CreditCardChargeView extends
 		forms.add(phoneForm);
 		formItems.add(phoneSelect);
 
-		vendorForm = UIUtils.form(Accounter.constants().Vendor());
+		vendorForm = UIUtils.form(Accounter.constants().vendor());
 		vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorNameSelect, contactNameSelect, phoneSelect,
 				billToAreaItem);
