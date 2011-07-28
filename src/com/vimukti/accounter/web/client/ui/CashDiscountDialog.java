@@ -39,8 +39,8 @@ public class CashDiscountDialog extends BaseDialog {
 
 	public CashDiscountDialog(List<ClientAccount> allAccounts,
 			Double cashDiscountValue, IGenericCallback<String> callback) {
-		super(Accounter.constants().cashDiscount(), Accounter
-				.constants().cashDiscountPleaseAddDetails());
+		super(Accounter.constants().cashDiscount(), Accounter.constants()
+				.cashDiscountPleaseAddDetails());
 		this.callback = callback;
 		this.allAccounts = allAccounts;
 		this.cashDiscountValue = cashDiscountValue;
@@ -49,15 +49,15 @@ public class CashDiscountDialog extends BaseDialog {
 	}
 
 	public CashDiscountDialog() {
-		super(Accounter.constants().cashDiscount(), Accounter
-				.constants().cashDiscountPleaseAddDetails());
+		super(Accounter.constants().cashDiscount(), Accounter.constants()
+				.cashDiscountPleaseAddDetails());
 		createControls();
 	}
 
 	public CashDiscountDialog(boolean canEdit, Double discountValue,
 			ClientAccount account) {
-		super(Accounter.constants().cashDiscount(), Accounter
-				.constants().cashDiscountPleaseAddDetails());
+		super(Accounter.constants().cashDiscount(), Accounter.constants()
+				.cashDiscountPleaseAddDetails());
 		this.cashDiscountValue = discountValue;
 		this.canEdit = canEdit;
 		this.selectedDiscountAccount = account;
@@ -89,7 +89,7 @@ public class CashDiscountDialog extends BaseDialog {
 
 		mainPanel.setSpacing(5);
 		discAccSelect = new OtherAccountsCombo(Accounter.constants()
-				.discountaccount(), false);
+				.discountAccount(), false);
 
 		discAccSelect.setComboItem(selectedDiscountAccount);
 
@@ -103,8 +103,7 @@ public class CashDiscountDialog extends BaseDialog {
 				});
 		discAccSelect.setRequired(true);
 
-		discAmtText = new AmountField(Accounter.constants()
-				.discountAmount());
+		discAmtText = new AmountField(Accounter.constants().discountAmount());
 		discAmtText.setAmount(cashDiscountValue);
 
 		form = new DynamicForm();

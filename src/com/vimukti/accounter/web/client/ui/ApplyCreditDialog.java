@@ -83,11 +83,11 @@ public class ApplyCreditDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		Label lab1 = new Label(Accounter.constants().applyCreditAndPayments());
+		Label lab1 = new Label(Accounter.constants().applyCreditsandPayments());
 		lab1.setWidth("100%");
 		// lab1.setAutoHeight();
 
-		amtDueText = new AmountField(Accounter.constants().amtDue());
+		amtDueText = new AmountField(Accounter.constants().amountDue());
 		amtDueText.setColSpan(1);
 		amtDueText.setValue(amountDue);
 		amtDueText.setDisabled(true);

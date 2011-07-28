@@ -33,9 +33,9 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 	private AccountRegisterListGrid grid2;
 	private VerticalPanel mainVLay;
 	private HorizontalPanel hlayTop, gridLayout;
-	
+
 	private Label lab1;
-	
+
 	private List<ClientAccount> listOfAccounts;
 	private double total = 0.0;
 	private boolean isBankActGrid = true;
@@ -82,7 +82,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 	protected void createControls() {
 
 		bankAccSelect = new DepositInAccountCombo(Accounter.constants()
-				.bankaccount());
+				.bankAccount());
 		bankAccSelect.setRequired(true);
 
 		bankAccSelect

@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-
 public class CreditCardAccountView extends AbstractBaseView {
 
 	TextItem accTypeText;
@@ -24,31 +23,26 @@ public class CreditCardAccountView extends AbstractBaseView {
 
 	private void createControls() {
 
-		accTypeText = new TextItem(Accounter.constants()
-				.accountType());
+		accTypeText = new TextItem(Accounter.constants().accountType());
 		// accTypeText.setWidth("*");
 		accTypeText.setDisabled(true);
-		accTypeText.setValue(Accounter.constants()
-				.creditCardOrLineOfCredit());
+		accTypeText.setValue(Accounter.constants().creditCardOrLineOfCredit());
 
-		TextItem numText = new TextItem(Accounter.constants()
-				.accountNo());
+		TextItem numText = new TextItem(Accounter.constants().accountNo());
 		// numText.setWidth("*");
-		TextItem accNameText = new TextItem(Accounter.constants()
-				.accountName());
+		TextItem accNameText = new TextItem(Accounter.constants().accountName());
 		// accNameText.setWidth("*");
 		accNameText.setRequired(true);
-		CheckboxItem activeCheck = new CheckboxItem(Accounter
-				.constants().active());
-		SelectItem cashFlowSelect = new SelectItem(Accounter
-				.constants().cashFlowcategory());
+		CheckboxItem activeCheck = new CheckboxItem(Accounter.constants()
+				.active());
+		SelectItem cashFlowSelect = new SelectItem(Accounter.constants()
+				.cashFlowCategory());
 		// cashFlowSelect.setWidth("*");
 		cashFlowSelect.setValue(Accounter.constants().operating());
-		AmountField opBalText = new AmountField(Accounter
-				.constants().openingBalance());
+		AmountField opBalText = new AmountField(Accounter.constants()
+				.openingBalance());
 		// opBalText.setWidth("*");
-		DateItem asofDate = UIUtils.date(Accounter.constants()
-				.asOf());
+		DateItem asofDate = UIUtils.date(Accounter.constants().asOf());
 		// asofDate.setWidth("*");
 
 		DynamicForm chartForm = UIUtils.form(Accounter.constants()
@@ -56,8 +50,8 @@ public class CreditCardAccountView extends AbstractBaseView {
 		chartForm.setFields(accTypeText, numText, accNameText, activeCheck,
 				cashFlowSelect, opBalText, asofDate);
 
-		CheckboxItem basisCheck = new CheckboxItem(Accounter
-				.constants().thisIsConsideredACashAccount());
+		CheckboxItem basisCheck = new CheckboxItem(Accounter.constants()
+				.thisIsConsideredACashAccount());
 
 		DynamicForm basisForm = UIUtils.form(Accounter.constants()
 				.cashBasisAccounting());
@@ -67,8 +61,8 @@ public class CreditCardAccountView extends AbstractBaseView {
 		// commentsArea.setWidth("*");
 		commentsArea.setShowTitle(false);
 
-		DynamicForm commentsForm = UIUtils.form(Accounter
-				.constants().comments());
+		DynamicForm commentsForm = UIUtils.form(Accounter.constants()
+				.comments());
 		commentsForm.setFields(commentsArea);
 
 		VerticalPanel leftVLay = new VerticalPanel();
@@ -77,14 +71,13 @@ public class CreditCardAccountView extends AbstractBaseView {
 		leftVLay.add(basisForm);
 		leftVLay.add(commentsForm);
 
-		TextItem bankName = new TextItem(Accounter.constants()
-				.bankName());
+		TextItem bankName = new TextItem(Accounter.constants().bankName());
 		// bankName.setWidth("*");
-		AmountField limitText = new AmountField(Accounter
-				.constants().creditLimit());
+		AmountField limitText = new AmountField(Accounter.constants()
+				.creditLimit());
 		// limitText.setWidth("*");
-		IntegerField cardNumText = new IntegerField(Accounter
-				.constants().cardOrLoadNumber());
+		IntegerField cardNumText = new IntegerField(Accounter.constants()
+				.cardOrLoadNumber());
 		// cardNumText.setWidth("*");
 
 		DynamicForm creditForm = UIUtils.form(Accounter.constants()
@@ -103,8 +96,8 @@ public class CreditCardAccountView extends AbstractBaseView {
 		// saveCloseButt.setAutoFit(true);
 		// saveCloseButt.setLayoutAlign(Alignment.LEFT);
 
-		AccounterButton saveNewButt = new AccounterButton(Accounter
-				.constants().saveAndNew());
+		AccounterButton saveNewButt = new AccounterButton(Accounter.constants()
+				.saveAndNew());
 		// saveNewButt.setAutoFit(true);
 		// saveNewButt.setLayoutAlign(Alignment.RIGHT);
 

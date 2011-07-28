@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
-
 public class AddEditFiscalYearDialog extends BaseDialog {
 
 	public AddEditFiscalYearDialog(String title, String desc,
@@ -24,15 +23,13 @@ public class AddEditFiscalYearDialog extends BaseDialog {
 		// setWidth(400);
 
 		DateItem startDate = new DateItem();
-		startDate.setTitle(Accounter.constants()
-				.startofFiscalYear());
+		startDate.setTitle(Accounter.constants().startofFiscalYear());
 		// startDate.setUseTextField(true);
 		// int firstMonth =
 		// FinanceApplication.getCompany().getFirstMonthOfFiscalYear();
 
 		DateItem closeDate = new DateItem();
-		closeDate.setTitle(Accounter.constants()
-				.closeofFiscalYear());
+		closeDate.setTitle(Accounter.constants().closeOfFiscalYear());
 		// closeDate.setUseTextField(true);
 		VerticalPanel bodyLayout = new VerticalPanel();
 		DynamicForm form = new DynamicForm();

@@ -87,8 +87,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 	}
 
 	public void showAddEditPriceLevel(ClientPriceLevel rec) {
-		dialog = new AddPriceLevelDialog(Accounter
-				.constants().priceLevel(), "");
+		dialog = new AddPriceLevelDialog(Accounter.constants().priceLevel(), "");
 		priceLevel = rec;
 		if (priceLevel != null) {
 
@@ -99,7 +98,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 					.isPriceLevelDecreaseByThisPercentage() ? Accounter
 					.constants().decreasePriceLevelByThisPercentage()
 					: Accounter.constants()
-							.increasePriceLevelByThisPerc();
+							.increasePriceLevelByThisPercentage();
 
 			dialog.levelRadio.setValue(increaseOrDecrease);
 			dialog.setIncrOrDecrPercentValue(increaseOrDecrease);
@@ -135,19 +134,17 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 	protected void editPriceLevels() {
 		if (!(priceLevel.getName().equalsIgnoreCase(
 				UIUtils.toStr(dialog.levelText.getValue().toString())) ? true
-				: (Utility.isObjectExist(company.getPriceLevels(), UIUtils
-						.toStr(dialog.levelText.getValue().toString()))) ? false
+				: (Utility.isObjectExist(company.getPriceLevels(),
+						UIUtils.toStr(dialog.levelText.getValue().toString()))) ? false
 						: true)) {
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
 		} else {
 			priceLevel
 					.setName(dialog.levelText.getValue() != null ? dialog.levelText
-							.getValue().toString()
-							: "");
+							.getValue().toString() : "");
 			priceLevel
 					.setPercentage(dialog.percentText.getPercentage() != null ? dialog.percentText
-							.getPercentage()
-							: 0.0);
+							.getPercentage() : 0.0);
 			String val = dialog.getIncrOrDecrPercentValue();
 			if (val != null) {
 				priceLevel.setPriceLevelDecreaseByThisPercentage(val
@@ -159,20 +156,18 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 	}
 
 	private void createPriceLevels() {
-		if (Utility.isObjectExist(getCompany()
-				.getPriceLevels(), dialog.levelText.getValue().toString())) {
+		if (Utility.isObjectExist(getCompany().getPriceLevels(),
+				dialog.levelText.getValue().toString())) {
 			Accounter.showError("PriceLevel  Already Exists");
 		} else {
 			ClientPriceLevel priceLevel = new ClientPriceLevel();
 
 			priceLevel
 					.setName(dialog.levelText.getValue() != null ? dialog.levelText
-							.getValue().toString()
-							: "");
+							.getValue().toString() : "");
 			priceLevel
 					.setPercentage(dialog.percentText.getPercentage() != null ? dialog.percentText
-							.getPercentage()
-							: 0.0);
+							.getPercentage() : 0.0);
 			String val = dialog.getIncrOrDecrPercentValue();
 			if (val != null) {
 				priceLevel.setPriceLevelDecreaseByThisPercentage(val
@@ -199,8 +194,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] {
-				Accounter.constants().Name(),
+		return new String[] { Accounter.constants().Name(),
 				Accounter.constants().percentage() };
 	}
 
@@ -211,7 +205,6 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants()
-				.managePriceLevelListGroup();
+		return Accounter.constants().managePriceLevelListGroup();
 	}
 }

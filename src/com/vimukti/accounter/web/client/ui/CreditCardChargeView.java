@@ -52,7 +52,7 @@ public class CreditCardChargeView extends
 	protected TextItem phoneSelect;
 
 	VendorCombo vendorNameSelect;
-	
+
 	private TextAreaItem addrArea;
 
 	protected String selectPaymentMethod;
@@ -62,10 +62,10 @@ public class CreditCardChargeView extends
 	// protected ClientVendor selectedVendor;
 
 	private DynamicForm totForm;
-	
+
 	private HorizontalPanel botPanel, addLinkPanel;
 	HorizontalPanel totPanel;
-	
+
 	private VerticalPanel leftVLay, botVLay;
 
 	private ArrayList<DynamicForm> listforms;
@@ -266,7 +266,6 @@ public class CreditCardChargeView extends
 		}
 	}
 
-	
 	private void setDisableStaeForFormItems() {
 
 		for (FormItem formItem : formItems) {
@@ -457,7 +456,7 @@ public class CreditCardChargeView extends
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
 		vatinclusiveCheck = new CheckboxItem(Accounter.constants()
-				.amountincludesVat());
+				.amountIncludesVat());
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
 		vendorTransactionGrid = getGrid();// new VendorTransactionUKGrid();

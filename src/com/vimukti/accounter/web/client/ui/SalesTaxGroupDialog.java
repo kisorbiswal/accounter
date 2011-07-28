@@ -28,7 +28,6 @@ import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandl
  * 
  */
 
-
 public class SalesTaxGroupDialog extends BaseDialog {
 
 	protected InputDialogHandler addInputDialogHandler;
@@ -171,8 +170,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		form1 = new DynamicForm();
 		// form1.setHeight("100px");
 		taxGroupText = new TextItem();
-		taxGroupText.setTitle(Accounter.constants()
-				.selectedTaxGroupItem());
+		taxGroupText.setTitle(Accounter.constants().selectedTaxGroupItem());
 		taxGroupText.setRequired(true);
 
 		if (taxGroup != null)
@@ -189,8 +187,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		availTaxItemsGrid = new DialogGrid(false);
 		// availTaxCodesGrid.setCellsWidth(cellsWidth)
 
-		availTaxItemsGrid
-				.setName(Accounter.constants().available());
+		availTaxItemsGrid.setName(Accounter.constants().available());
 		setAvailTaxItemsGridFields();
 		setAvalableTCGridCellWidths();
 		availTaxItemsGrid.setView(SalesTaxGroupDialog.this);
@@ -213,8 +210,8 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		buttonsLayout.setSpacing(3);
 		// buttonsLayout.setMembersMargin(10);
 		// buttonsLayout.setLayoutMargin(10);
-		AccounterButton addButton = new AccounterButton(Accounter
-				.constants().Add());
+		AccounterButton addButton = new AccounterButton(Accounter.constants()
+				.add());
 		addButton.setWidth("80px");
 		addButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -270,8 +267,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		// DynamicForm selectForm = new DynamicForm();
 
 		selectTaxItemsGrid = new DialogGrid(false);
-		selectTaxItemsGrid
-				.setName(Accounter.constants().selected());
+		selectTaxItemsGrid.setName(Accounter.constants().selected());
 		setSelectedTaxItemsGridFields();
 		setSelectedTCGridCellWidths();
 		selectTaxItemsGrid.setView(SalesTaxGroupDialog.this);

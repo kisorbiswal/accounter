@@ -30,7 +30,7 @@ import com.vimukti.accounter.web.client.ui.grids.SaleTaxCodeGrid;
 
 public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	static final String ATTR_RATE = Accounter.constants().Rate();
-	static final String ATTR_AS_OF = Accounter.constants().Asof();
+	static final String ATTR_AS_OF = Accounter.constants().asOf();
 
 	TextItem taxCodeText;
 	TextItem descriptionText;
@@ -55,7 +55,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 	public AddEditSalesTaxCodeView(String title) {
 		this.title = title;
-		info = Accounter.constants().addorEdit() + " " + title;
+		info = Accounter.constants().addOrEdit() + " " + title;
 		validationCount = 1;
 		// FinanceApplication.constants().codeToEnterNew()
 		// + title
@@ -77,7 +77,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 					public void onFailure(Throwable caught) {
 						Accounter.showError(Accounter.constants()
-								.failedtoUpdatetheCompany());
+								.failedToUpdateCompany());
 
 					}
 
@@ -110,8 +110,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 		taxCodeText.setRequired(true);
 		descriptionText = new TextItem();
 		descriptionText.setWidth(100);
-		descriptionText.setTitle(Accounter.constants()
-				.description());
+		descriptionText.setTitle(Accounter.constants().description());
 		// taxAgencyCombo = new TaxAgencyCombo(FinanceApplication
 		// .constants().taxAgency());
 		// taxAgencyCombo.setWidth(100);
@@ -136,22 +135,18 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 			public void onClick(ClickEvent event) {
 				changedValue = typeRadio.getValue().toString();
 			}
-		}, Accounter.constants().taxable(), Accounter
-				.constants().nonTaxable());
+		}, Accounter.constants().taxable(), Accounter.constants().nonTaxable());
 		typeRadio.setDefaultValue(Accounter.constants().taxable());
-		statusCheck = new CheckboxItem(Accounter.constants()
-				.active());
+		statusCheck = new CheckboxItem(Accounter.constants().active());
 		statusCheck.setValue(true);
 
 		taxCodeForm = new DynamicForm();
 		taxCodeForm.setWidth("100%");
-		taxCodeForm = UIUtils.form(title
-				+ Accounter.constants().code());
+		taxCodeForm = UIUtils.form(title + Accounter.constants().code());
 		taxCodeForm.setFields(taxCodeText, descriptionText, typeRadio,
 				statusCheck);
 
-		Label taxRates = new Label(title + " "
-				+ Accounter.constants().rates());
+		Label taxRates = new Label(title + " " + Accounter.constants().rates());
 
 		// initListGrid();
 
@@ -211,8 +206,8 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 		bodyLayout.add(taxCodeForm);
 		// bodyLayout.add(taxRates);
-		AccounterButton addButton = new AccounterButton(Accounter
-				.constants().addNew());
+		AccounterButton addButton = new AccounterButton(Accounter.constants()
+				.addNew());
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -263,9 +258,8 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 							ClientFinanceDate date = new ClientFinanceDate(
 									taxRates.getAsOf());
 							if (compareDate(date, selectedRecordDate)) {
-								Accounter.showError(Accounter
-										.constants()
-										.dateShouldbeUnique());
+								Accounter.showError(Accounter.constants()
+										.dateShouldBeUnique());
 								// setValidDate(new Date());
 								return false;
 							}
@@ -280,14 +274,13 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 					return true;
 				}
 			} else {
-				Accounter.showError(Accounter.constants()
-						.dateShouldNotBeNull());
+				Accounter
+						.showError(Accounter.constants().dateShouldNotBeNull());
 				return false;
 
 			}
 		} catch (Exception e) {
-			Accounter
-					.showError(Accounter.constants().invalidDate());
+			Accounter.showError(Accounter.constants().invalidDate());
 			// setValidDate(new Date());
 			return false;
 		}
@@ -304,8 +297,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 			if (DecimalUtil.isLessThan(rate, 0.00)
 					|| DecimalUtil.isGreaterThan(rate, 100.00)) {
 				invalidRatealert = title
-						+ Accounter.constants()
-								.rateRangeShould0to100();
+						+ Accounter.constants().rateRangeShould0to100();
 				Accounter.showError(invalidRatealert);
 				setValidRate(0.0);
 				return;
@@ -313,8 +305,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 			setValidRate(rate);
 
 		} catch (Exception e) {
-			Accounter.showError(Accounter.constants()
-					.invalidInput());
+			Accounter.showError(Accounter.constants().invalidInput());
 			setValidRate(0.0);
 		}
 
@@ -373,9 +364,8 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 			// takenTaxCode.getTaxAgency());
 			// taxAgencyCombo.setComboItem(selectedTaxAgency);
 			statusCheck.setValue(takenTaxCode.isActive());
-			typeRadio.setValue(takenTaxCode.isTaxable() ? Accounter
-					.constants().taxable() : Accounter
-					.constants().nonTaxable());
+			typeRadio.setValue(takenTaxCode.isTaxable() ? Accounter.constants()
+					.taxable() : Accounter.constants().nonTaxable());
 			// Set<ClientTaxRates> clientTaxRates = (Set<ClientTaxRates>)
 			// takenTaxCode
 			// .getTaxRates();

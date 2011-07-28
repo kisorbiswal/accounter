@@ -81,8 +81,8 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 	}
 
 	public void createShippingMethod() {
-		if (Utility.isObjectExist(getCompany()
-				.getShippingMethods(), inputDlg.getTextValueByIndex(0))) {
+		if (Utility.isObjectExist(getCompany().getShippingMethods(),
+				inputDlg.getTextValueByIndex(0))) {
 			Accounter.showError("Shipping Method  Already Exists");
 		} else {
 
@@ -105,13 +105,12 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 	public void showAddEditTermDialog(ClientShippingMethod rec) {
 		String arr[] = new String[2];
 		arr[0] = Accounter.constants().shippingMethod();
-		arr[1] = Accounter.constants().descriptioN();
-		inputDlg = new InputDialog(Accounter.constants()
-				.shippingMethod(), "", arr) {
+		arr[1] = Accounter.constants().description();
+		inputDlg = new InputDialog(Accounter.constants().shippingMethod(), "",
+				arr) {
 			@Override
 			protected String getViewTitle() {
-				return Accounter.constants()
-						.shippingMethod();
+				return Accounter.constants().shippingMethod();
 			}
 		};
 		inputDlg.getTextItems().get(1).setRequired(false);
@@ -178,26 +177,22 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 
 	@Override
 	public String[] setColumns() {
-		return new String[] {
-				Accounter.constants().Name(),
+		return new String[] { Accounter.constants().Name(),
 				Accounter.constants().description() };
 	}
 
 	@Override
 	protected List<ClientShippingMethod> getRecords() {
-		return (List<ClientShippingMethod>) getCompany()
-				.getShippingMethods();
+		return (List<ClientShippingMethod>) getCompany().getShippingMethods();
 	}
 
 	@Override
 	public String toString() {
-		return Accounter.constants()
-				.shippingMethodListDialog();
+		return Accounter.constants().shippingMethodListDialog();
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants()
-				.manageShippingMethodList();
+		return Accounter.constants().manageShippingMethodList();
 	}
 }
