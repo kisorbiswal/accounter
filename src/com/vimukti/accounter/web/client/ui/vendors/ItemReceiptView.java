@@ -98,13 +98,12 @@ public class ItemReceiptView extends
 		formItems.add(transactionDateItem);
 		formItems.add(transactionNumber);
 
-		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
-				.constants().supplierName(), Accounter
-				.constants().vendorName()));
+		vendorCombo = createVendorComboItem(UIUtils
+				.getVendorString(Accounter.constants().supplierName(),
+						Accounter.constants().vendorName()));
 		vendorCombo.setWidth(100);
 		purchaseLabel = new LinkItem();
-		purchaseLabel.setLinkTitle(Accounter.constants()
-				.purchaseOrders());
+		purchaseLabel.setLinkTitle(Accounter.constants().purchaseOrders());
 		purchaseLabel.setShowTitle(false);
 		purchaseLabel.setDisabled(isEdit);
 		purchaseLabel.addClickHandler(new ClickHandler() {
@@ -123,14 +122,14 @@ public class ItemReceiptView extends
 		contactCombo.setWidth(100);
 		billToCombo = createBillToComboItem();
 		billToCombo.setWidth(100);
-		phoneSelect = new TextItem(vendorConstants.phone());
+		phoneSelect = new TextItem(Accounter.constants().phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(false);
 
 		formItems.add(phoneSelect);
 
-		vendorForm = UIUtils.form(vendorConstants.supplier());
+		vendorForm = UIUtils.form(Accounter.constants().supplier());
 		vendorForm.setNumCols(3);
 		vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorCombo, purchaseLabel, contactCombo,
@@ -155,8 +154,8 @@ public class ItemReceiptView extends
 
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
-		HTML lab2 = new HTML("<strong>" + vendorConstants.itemsAndExpenses()
-				+ "</strong>");
+		HTML lab2 = new HTML("<strong>"
+				+ Accounter.constants().itemsAndExpenses() + "</strong>");
 		menuButton = createAddNewButton();
 		vendorTransactionGrid = getGrid();
 		vendorTransactionGrid.setTransactionView(this);
@@ -185,8 +184,7 @@ public class ItemReceiptView extends
 		memoForm.setFields(memoTextAreaItem);
 		forms.add(memoForm);
 
-		transactionTotalItem = new AmountField(Accounter.constants()
-				.total());
+		transactionTotalItem = new AmountField(Accounter.constants().total());
 		transactionTotalItem.setDisabled(true);
 		DynamicForm amountForm = new DynamicForm();
 		amountForm.setFields(transactionTotalItem);

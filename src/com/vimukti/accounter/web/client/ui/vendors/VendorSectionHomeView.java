@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -34,7 +33,6 @@ public class VendorSectionHomeView extends BaseHomeView {
 	private Portlet[] portlet;
 	@SuppressWarnings("unused")
 	private WidgetCreator creator;
-	private VendorsMessages vendorConstants = GWT.create(VendorsMessages.class);
 	private String[] secondColumn;
 
 	private String[] firstColumn;
@@ -60,7 +58,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 		// addWidgetLinkLayout.setHeight(20);
 
 		LinkItem addWidgetLink = new LinkItem();
-		addWidgetLink.setLinkTitle(vendorConstants.addWidget());
+		addWidgetLink.setLinkTitle(Accounter.constants().addWidget());
 		addWidgetLink.setShowTitle(false);
 		// addWidgetLink.setAlign(Alignment.RIGHT);
 
@@ -209,8 +207,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 	}
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
-		String[] totalWidget = {
-				Accounter.constants().newVendor(),
+		String[] totalWidget = { Accounter.constants().newVendor(),
 				Accounter.constants().itemPurchase(),
 				Accounter.constants().billPaid(),
 				Accounter.constants().cashPurchase() };
@@ -280,8 +277,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.constants()
-				.supplierhome(), Accounter.constants()
-				.vendorHome());
+		return UIUtils.getVendorString(Accounter.constants().supplierhome(),
+				Accounter.constants().vendorHome());
 	}
 }

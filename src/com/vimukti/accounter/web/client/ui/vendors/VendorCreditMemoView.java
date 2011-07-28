@@ -110,22 +110,19 @@ public class VendorCreditMemoView extends
 	@Override
 	public void createControls() {
 
-		Label lab1 = new Label(UIUtils.getVendorString(Accounter
-				.constants().supplierCredit(), Accounter
-				.constants().vendorCredit())
+		Label lab1 = new Label(UIUtils.getVendorString(Accounter.constants()
+				.supplierCredit(), Accounter.constants().vendorCredit())
 				+ "(" + getTransactionStatus() + ")");
 
 		lab1.setStyleName(Accounter.constants().lableTitle());
 		if (transactionObject == null
 				|| transactionObject.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
-			lab1 = new Label(UIUtils.getVendorString(Accounter
-					.constants().supplierCredit(), Accounter
-					.constants().vendorCredit()));
+			lab1 = new Label(UIUtils.getVendorString(Accounter.constants()
+					.supplierCredit(), Accounter.constants().vendorCredit()));
 
 		else
-			lab1 = new Label(UIUtils.getVendorString(Accounter
-					.constants().supplierCredit(), Accounter
-					.constants().vendorCredit())
+			lab1 = new Label(UIUtils.getVendorString(Accounter.constants()
+					.supplierCredit(), Accounter.constants().vendorCredit())
 					+ "(" + getTransactionStatus() + ")");
 
 		lab1.setStyleName(Accounter.constants().lableTitle());
@@ -133,8 +130,7 @@ public class VendorCreditMemoView extends
 		transactionDateItem = createTransactionDateItem();
 
 		transactionNumber = createTransactionNumberItem();
-		transactionNumber.setTitle(Accounter.constants()
-				.creditNoteNo());
+		transactionNumber.setTitle(Accounter.constants().creditNoteNo());
 
 		listforms = new ArrayList<DynamicForm>();
 
@@ -156,9 +152,9 @@ public class VendorCreditMemoView extends
 
 		forms.add(dateNoForm);
 
-		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
-				.constants().supplierName(), Accounter
-				.constants().vendorName()));
+		vendorCombo = createVendorComboItem(UIUtils
+				.getVendorString(Accounter.constants().supplierName(),
+						Accounter.constants().vendorName()));
 
 		contactCombo = createContactComboItem();
 
@@ -168,11 +164,12 @@ public class VendorCreditMemoView extends
 
 			forms.add(vendorForm);
 
-		phoneSelect = new TextItem(vendorConstants.phone());
+		phoneSelect = new TextItem(Accounter.constants().phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 
-		DynamicForm phoneForm = UIUtils.form(vendorConstants.phonenumber());
+		DynamicForm phoneForm = UIUtils.form(Accounter.constants()
+				.phonenumber());
 		phoneForm.setFields(phoneSelect);
 		if (this.transactionObject != null) {
 			// FiXME--The form need to be disabled
@@ -188,7 +185,7 @@ public class VendorCreditMemoView extends
 
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
-		Label lab2 = new Label(vendorConstants.itemsAndExpenses());
+		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 		menuButton = createAddNewButton();
 		vendorTransactionGrid = getGrid();
 		vendorTransactionGrid.setTransactionView(this);
@@ -202,12 +199,10 @@ public class VendorCreditMemoView extends
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
 
-		vendorForm = UIUtils.form(vendorConstants.supplier());
+		vendorForm = UIUtils.form(Accounter.constants().supplier());
 		vendorForm.setWidth("50%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect);
-		vendorForm
-				.getCellFormatter()
-				.getElement(0, 0)
+		vendorForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "190px");
 
 		leftVLay.add(vendorForm);
@@ -461,13 +456,11 @@ public class VendorCreditMemoView extends
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		
 
 	}
 
@@ -536,13 +529,11 @@ public class VendorCreditMemoView extends
 
 	@Override
 	public void print() {
-		
 
 	}
 
 	@Override
 	public void printPreview() {
-		
 
 	}
 
@@ -558,8 +549,7 @@ public class VendorCreditMemoView extends
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.constants()
-				.supplierCredit(), Accounter.constants()
-				.vendorCredit());
+		return UIUtils.getVendorString(Accounter.constants().supplierCredit(),
+				Accounter.constants().vendorCredit());
 	}
 }

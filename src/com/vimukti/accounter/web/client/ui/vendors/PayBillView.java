@@ -186,8 +186,8 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 			tpbRecord.setPayBill(payBill);
 
 			ClientAccount cashAcc = getCompany().getAccountByName(
-					gridView.getAttribute(Accounter.constants()
-							.cashAccount(), gridView.indexOf(tpbRecord)));
+					gridView.getAttribute(Accounter.constants().cashAccount(),
+							gridView.indexOf(tpbRecord)));
 			if (cashAcc != null)
 				tpbRecord.setDiscountAccount(cashAcc.getID());
 
@@ -342,7 +342,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		lab.removeStyleName("gwt-Label");
 		lab.addStyleName(Accounter.constants().lableTitle());
 		// lab.setHeight("50px");
-		date = new DateField(vendorConstants.Date());
+		date = new DateField(Accounter.constants().Date());
 		date.setHelpInformation(true);
 		// date.setUseTextField(true);
 		date.setEnteredDate(new ClientFinanceDate());
@@ -370,9 +370,9 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		});
 		transactionNumber = createTransactionNumberItem();
 
-		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
-				.constants().supplierName(), Accounter
-				.constants().vendorName()));
+		vendorCombo = createVendorComboItem(UIUtils
+				.getVendorString(Accounter.constants().supplierName(),
+						Accounter.constants().vendorName()));
 		vendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
@@ -384,14 +384,15 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 					}
 				});
 
-		payFromCombo = createPayFromCombo(vendorConstants.Payfrom());
+		payFromCombo = createPayFromCombo(Accounter.constants().Payfrom());
 		payFromCombo.setPopupWidth("500px");
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		// paymentMethodCombo.setWidth(100);
 		paymentMethodCombo.setDefaultValue(Accounter.constants()
 				.onlineBanking());
 
-		dueDate = new DateField(vendorConstants.filterByBilldueonorbefore());
+		dueDate = new DateField(Accounter.constants()
+				.filterByBilldueonorbefore());
 		dueDate.setHelpInformation(true);
 		dueDate.setValue(new ClientFinanceDate());
 		// dueDate.setUseTextField(true);
@@ -433,7 +434,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 		// filterForm = new DynamicForm();
 		// filterForm.setIsGroup(true);
-		// filterForm.setGroupTitle(vendorConstants.Filter());
+		// filterForm.setGroupTitle(Accounter.constants().Filter());
 		// filterForm.setFields(dueDate);
 
 		DynamicForm dateForm = new DynamicForm();
@@ -449,16 +450,16 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		payForm = new DynamicForm();
 		payForm.setWidth("80%");
 		payForm.setIsGroup(true);
-		payForm.setGroupTitle(vendorConstants.Payment());
+		payForm.setGroupTitle(Accounter.constants().Payment());
 		payForm.setFields(vendorCombo, payFromCombo, paymentMethodCombo,
 				dueDate);
-		amtText = new AmountField(vendorConstants.Amount());
+		amtText = new AmountField(Accounter.constants().Amount());
 		amtText.setHelpInformation(true);
 		amtText.setWidth(100);
 		amtText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		amtText.setDisabled(true);
 
-		endBalText = new AmountField(vendorConstants.Endingbalance());
+		endBalText = new AmountField(Accounter.constants().Endingbalance());
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
@@ -467,7 +468,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		DynamicForm balForm = new DynamicForm();
 		balForm.setWidth("100%");
 		balForm.setIsGroup(true);
-		balForm.setGroupTitle(vendorConstants.Balances());
+		balForm.setGroupTitle(Accounter.constants().Balances());
 		balForm.setFields(amtText, endBalText);
 
 		Label lab1 = new Label(Accounter.constants().billsDue());
@@ -484,7 +485,8 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		memoForm.setFields(memoTextAreaItem);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		unUsedCreditsText = new AmountLabel(vendorConstants.unusedCredits());
+		unUsedCreditsText = new AmountLabel(Accounter.constants()
+				.unusedCredits());
 		unUsedCreditsText.setDisabled(true);
 
 		DynamicForm textForm = new DynamicForm();

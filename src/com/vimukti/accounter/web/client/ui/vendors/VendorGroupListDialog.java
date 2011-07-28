@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
@@ -29,7 +28,6 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	List<ClientVendorGroup> vendorGroups;
 	ClientVendorGroup vendorGroup;
 	private InputDialog inputDlg;
-	private VendorsMessages vendorConstants = GWT.create(VendorsMessages.class);
 
 	public VendorGroupListDialog(String title, String descript) {
 		super(title, descript);
@@ -101,15 +99,15 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 	public void showAddEditGroupDialog(ClientVendorGroup rec) {
 		vendorGroup = rec;
-		inputDlg = new InputDialog(
-				UIUtils.getVendorString(vendorConstants.supplierGroup(),
-						vendorConstants.vendorGroup()), "",
-				UIUtils.getVendorString(vendorConstants.supplieRGroup(),
-						vendorConstants.vendorGroup())) {
+		inputDlg = new InputDialog(UIUtils.getVendorString(Accounter
+				.constants().supplierGroup(), Accounter.constants()
+				.vendorGroup()), "", UIUtils.getVendorString(Accounter
+				.constants().supplieRGroup(), Accounter.constants()
+				.vendorGroup())) {
 			@Override
 			protected String getViewTitle() {
-				return UIUtils.getVendorString(vendorConstants.supplierGroup(),
-						vendorConstants.vendorGroup());
+				return UIUtils.getVendorString(Accounter.constants()
+						.supplierGroup(), Accounter.constants().vendorGroup());
 			}
 		};
 

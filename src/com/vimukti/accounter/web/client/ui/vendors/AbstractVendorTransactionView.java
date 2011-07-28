@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
@@ -53,7 +52,6 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 	protected AbstractVendorTransactionView<T> vendorTransactionViewInstance;
 
-	protected VendorsMessages vendorConstants;
 	protected String checkNumber = ClientWriteCheck.IS_TO_BE_PRINTED;
 
 	protected ClientAccount payFromAccount;
@@ -141,20 +139,13 @@ public abstract class AbstractVendorTransactionView<T> extends
 	protected abstract void initMemoAndReference();
 
 	@Override
-	protected final void initConstants() {
-		vendorConstants = GWT.create(VendorsMessages.class);
-	}
-
-	@Override
 	protected void showMenu(AccounterButton button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.constants().accounts(),
-					Accounter.constants().service(), Accounter
-							.constants().product());
+			setMenuItems(button, Accounter.constants().accounts(), Accounter
+					.constants().service(), Accounter.constants().product());
 		else
-			setMenuItems(button, Accounter.constants().accounts(),
-					Accounter.constants().service(), Accounter
-							.constants().product());
+			setMenuItems(button, Accounter.constants().accounts(), Accounter
+					.constants().service(), Accounter.constants().product());
 	}
 
 	protected void initVendors() {
@@ -198,8 +189,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 	protected AmountLabel createTransactionTotalNonEditableItem() {
 
-		AmountLabel amountItem = new AmountLabel(Accounter.constants()
-				.total());
+		AmountLabel amountItem = new AmountLabel(Accounter.constants().total());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -208,8 +198,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 	protected AmountLabel createVATTotalNonEditableItem() {
 
-		AmountLabel amountItem = new AmountLabel(Accounter
-				.constants().vat());
+		AmountLabel amountItem = new AmountLabel(Accounter.constants().vat());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -296,8 +285,8 @@ public abstract class AbstractVendorTransactionView<T> extends
 	public VendorCombo createVendorComboItem(String title) {
 
 		VendorCombo vendorCombo = new VendorCombo(title != null ? title
-				: UIUtils.getVendorString(Accounter.constants()
-						.supplier(), Accounter.constants().vendor()));
+				: UIUtils.getVendorString(Accounter.constants().supplier(),
+						Accounter.constants().vendor()));
 		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(true);
 		vendorCombo.setDisabled(isEdit);
@@ -321,8 +310,8 @@ public abstract class AbstractVendorTransactionView<T> extends
 	public VendorCombo createVendorComboItem(String title, boolean isRequired) {
 
 		VendorCombo vendorCombo = new VendorCombo(UIUtils.getVendorString(
-				Accounter.constants().supplier(), Accounter
-						.constants().vendor()));
+				Accounter.constants().supplier(), Accounter.constants()
+						.vendor()));
 		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(isRequired);
 		vendorCombo.setDisabled(isEdit);
@@ -344,8 +333,8 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 	public ContactCombo createContactComboItem() {
 
-		ContactCombo contactCombo = new ContactCombo(Accounter
-				.constants().contactName());
+		ContactCombo contactCombo = new ContactCombo(Accounter.constants()
+				.contactName());
 		contactCombo.setHelpInformation(true);
 		contactCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientContact>() {
@@ -365,8 +354,8 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 	public AddressCombo createBillToComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(Accounter
-				.constants().billTo(), false);
+		AddressCombo addressCombo = new AddressCombo(Accounter.constants()
+				.billTo(), false);
 		addressCombo.setDefaultToFirstOption(false);
 		addressCombo.setHelpInformation(true);
 		addressCombo

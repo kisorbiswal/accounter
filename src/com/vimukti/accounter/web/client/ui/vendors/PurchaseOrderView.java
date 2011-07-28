@@ -155,7 +155,8 @@ public class PurchaseOrderView extends
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabelforPurchase();
 
-		// vendorCombo = createVendorComboItem(vendorConstants.vendorName());
+		// vendorCombo =
+		// createVendorComboItem(Accounter.constants().vendorName());
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
@@ -199,8 +200,7 @@ public class PurchaseOrderView extends
 		}
 
 		vendorCombo = new VendorCombo(UIUtils.getVendorString(Accounter
-				.constants().supplieR(), Accounter
-				.constants().vendoR()), true);
+				.constants().supplieR(), Accounter.constants().vendoR()), true);
 		vendorCombo.setRequired(true);
 		vendorCombo.setHelpInformation(true);
 
@@ -222,8 +222,7 @@ public class PurchaseOrderView extends
 		// contactCombo.setWidth(100);
 		// billToCombo = createVendorAddressComboItem();
 		// billToCombo.setTitle(FinanceApplication.constants().billTo());
-		billtoAreaItem = new TextAreaItem(Accounter.constants()
-				.billTo());
+		billtoAreaItem = new TextAreaItem(Accounter.constants().billTo());
 		billtoAreaItem.setWidth("100%");
 		billtoAreaItem.setDisabled(true);
 		// shipToCombo = createShipToComboItem();
@@ -246,15 +245,14 @@ public class PurchaseOrderView extends
 					}
 				});
 
-		phoneSelect = new TextItem(vendorConstants.phone());
+		phoneSelect = new TextItem(Accounter.constants().phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setDisabled(false);
 
 		formItems.add(phoneSelect);
 
-		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter
-				.constants().supplier(), Accounter
-				.constants().vendor()));
+		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor()));
 		vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect,
 				billtoAreaItem);
@@ -266,8 +264,8 @@ public class PurchaseOrderView extends
 		formItems.add(billToCombo);
 
 		purchaseOrderText = new TextItem(UIUtils.getVendorString(Accounter
-				.constants().supplierOrderNo(), Accounter
-				.constants().vendorOrderNo()));
+				.constants().supplierOrderNo(), Accounter.constants()
+				.vendorOrderNo()));
 		purchaseOrderText.setWidth(50);
 		purchaseOrderText.setColSpan(1);
 		purchaseOrderText.setDisabled(isEdit);
@@ -278,7 +276,7 @@ public class PurchaseOrderView extends
 
 		shippingMethodsCombo = createShippingMethodCombo();
 
-		dueDateItem = new DateField(vendorConstants.dueDate());
+		dueDateItem = new DateField(Accounter.constants().dueDate());
 		dueDateItem.setDisabled(isEdit);
 		// dueDateItem.setWidth(100);
 		if (transactionObject != null) {
@@ -294,14 +292,13 @@ public class PurchaseOrderView extends
 							.getValue();
 					setDueDate(newDate.getTime());
 				} catch (Exception e) {
-					Accounter.showError(Accounter.constants()
-							.InvalidDueDate());
+					Accounter.showError(Accounter.constants().InvalidDueDate());
 				}
 
 			}
 
 		});
-		despatchDateItem = new DateField(vendorConstants.despatchDate());
+		despatchDateItem = new DateField(Accounter.constants().despatchDate());
 		despatchDateItem.setDisabled(isEdit);
 		if (transactionObject != null) {
 		} else
@@ -324,8 +321,7 @@ public class PurchaseOrderView extends
 		});
 
 		deliveryDateItem = createTransactionDeliveryDateItem();
-		deliveryDateItem
-				.setTitle(Accounter.constants().receivedDate());
+		deliveryDateItem.setTitle(Accounter.constants().receivedDate());
 
 		DynamicForm dateform = new DynamicForm();
 		dateform.setWidth("100%");
@@ -345,7 +341,7 @@ public class PurchaseOrderView extends
 		formItems.add(despatchDateItem);
 		formItems.add(deliveryDateItem);
 
-		// Label lab2 = new Label(vendorConstants.itemsAndExpenses());
+		// Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 		vendorTransactionGrid = getGrid();
 		vendorTransactionGrid.setTransactionView(this);
 		vendorTransactionGrid.setCanEdit(true);
@@ -357,7 +353,7 @@ public class PurchaseOrderView extends
 		memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
 		// refText.setWidth(100);
-		addLinksButton = new AccounterButton(vendorConstants.addLinks());
+		addLinksButton = new AccounterButton(Accounter.constants().addLinks());
 		// FIXME--need to disable basing on the mode of the view being opened
 
 		// addLinksButton.setEnabled(true);
@@ -538,8 +534,8 @@ public class PurchaseOrderView extends
 
 	protected AddressCombo createShipToComboItem() {
 
-		AddressCombo shipToCombo = new AddressCombo(Accounter
-				.constants().shipTo());
+		AddressCombo shipToCombo = new AddressCombo(Accounter.constants()
+				.shipTo());
 
 		shipToCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -562,8 +558,8 @@ public class PurchaseOrderView extends
 	public AddressCombo createVendorAddressComboItem() {
 
 		AddressCombo addressCombo = new AddressCombo(UIUtils.getVendorString(
-				Accounter.constants().supplierAddress(), Accounter
-						.constants().vendorAddress()));
+				Accounter.constants().supplierAddress(), Accounter.constants()
+						.vendorAddress()));
 
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -1069,7 +1065,7 @@ public class PurchaseOrderView extends
 		case 4:
 			return AccounterValidator.validate_dueOrDelivaryDates(
 					dueDateItem.getDate(), transactionDateItem.getDate(),
-					vendorConstants.dueDate());
+					Accounter.constants().dueDate());
 		case 3:
 			return AccounterValidator.validateForm(vendorForm, false);
 		case 2:

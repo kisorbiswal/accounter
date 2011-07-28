@@ -111,28 +111,26 @@ public class CashPurchaseView extends
 		formItems.add(transactionDateItem);
 		formItems.add(transactionNumber);
 
-		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
-				.constants().supplierName(), Accounter
-				.constants().vendorName()));
+		vendorCombo = createVendorComboItem(UIUtils
+				.getVendorString(Accounter.constants().supplierName(),
+						Accounter.constants().vendorName()));
 		vendorCombo.setHelpInformation(true);
 		// vendorCombo.setWidth(100);
 		contactCombo = createContactComboItem();
 		contactCombo.setHelpInformation(true);
 		// contactCombo.setWidth(100);
-		billToAreaItem = new TextAreaItem(Accounter.constants()
-				.billTo());
+		billToAreaItem = new TextAreaItem(Accounter.constants().billTo());
 		billToAreaItem.setHelpInformation(true);
 		billToAreaItem.setWidth(100);
 		billToAreaItem.setDisabled(true);
-		phoneSelect = new TextItem(vendorConstants.phone());
+		phoneSelect = new TextItem(Accounter.constants().phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		if (transactionObject != null)
 			phoneSelect.setDisabled(true);
 
-		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter
-				.constants().supplier(), Accounter
-				.constants().vendor()));
+		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor()));
 
 		vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect,
@@ -143,11 +141,11 @@ public class CashPurchaseView extends
 		formItems.add(contactCombo);
 		formItems.add(billToCombo);
 
-		payFromCombo = createPayFromCombo(vendorConstants.Payfrom());
+		payFromCombo = createPayFromCombo(Accounter.constants().Payfrom());
 		// payFromCombo.setWidth(100);
 		payFromCombo.setPopupWidth("500px");
-		checkNo = createCheckNumberItem(getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? vendorConstants
-				.chequeNo() : vendorConstants.checkno());
+		checkNo = createCheckNumberItem(getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
+				.constants().chequeNo() : Accounter.constants().checkno());
 		checkNo.setDisabled(true);
 		checkNo.setWidth(100);
 		deliveryDateItem = createTransactionDeliveryDateItem();
@@ -165,15 +163,13 @@ public class CashPurchaseView extends
 						if (paymentMethodCombo.getSelectedValue().equals(
 								Accounter.constants().check())
 								|| paymentMethodCombo.getSelectedValue()
-										.equals(Accounter.constants()
-												.cheque())) {
+										.equals(Accounter.constants().cheque())) {
 							checkNo.setDisabled(false);
 						} else {
 							checkNo.setDisabled(true);
 						}
 
-						if (paymentMethod.equals(Accounter.constants()
-								.check())
+						if (paymentMethod.equals(Accounter.constants().check())
 								&& transactionObject != null
 								&& payFromAccount != null) {
 							ClientCashPurchase cashPurchase = (ClientCashPurchase) transactionObject;
@@ -186,16 +182,14 @@ public class CashPurchaseView extends
 		termsForm.setWidth("100%");
 		termsForm.setFields(paymentMethodCombo, payFromCombo, checkNo,
 				deliveryDateItem);
-		termsForm
-				.getCellFormatter()
-				.getElement(0, 0)
+		termsForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "203px");
 
 		forms.add(termsForm);
 		formItems.add(checkNo);
 		formItems.add(deliveryDateItem);
 
-		Label lab2 = new Label(vendorConstants.itemsAndExpenses());
+		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 		menuButton = createAddNewButton();
 
 		netAmount = new AmountLabel(Accounter.constants().netAmount());
@@ -346,8 +340,8 @@ public class CashPurchaseView extends
 		if (account != null
 				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
 				.equalsIgnoreCase(Accounter.constants().cheque())
-				: paymentMethod.equalsIgnoreCase(Accounter.constants()
-						.check()) && transactionObject != null) {
+				: paymentMethod.equalsIgnoreCase(Accounter.constants().check())
+						&& transactionObject != null) {
 			ClientCashPurchase cashPurchase = (ClientCashPurchase) transactionObject;
 			checkNo.setValue(cashPurchase.getCheckNumber());
 			// setCheckNumber();
@@ -364,8 +358,7 @@ public class CashPurchaseView extends
 					public void onFailure(Throwable t) {
 						// //UIUtils.logError(
 						// "Failed to get the next check number!!", t);
-						checkNo.setValue(Accounter.constants()
-								.Tobeprinted());
+						checkNo.setValue(Accounter.constants().Tobeprinted());
 						return;
 					}
 
@@ -479,8 +472,7 @@ public class CashPurchaseView extends
 
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
 				.equalsIgnoreCase(Accounter.constants().cheque())
-				: paymentMethod.equalsIgnoreCase(Accounter.constants()
-						.check())) {
+				: paymentMethod.equalsIgnoreCase(Accounter.constants().check())) {
 			checkNo.setDisabled(false);
 		} else {
 			checkNo.setValue("");
@@ -490,8 +482,8 @@ public class CashPurchaseView extends
 		if (transactionObject != null) {
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
 					.equalsIgnoreCase(Accounter.constants().cheque())
-					: paymentMethod.equalsIgnoreCase(Accounter
-							.constants().check())) {
+					: paymentMethod.equalsIgnoreCase(Accounter.constants()
+							.check())) {
 				checkNo.setDisabled(false);
 			} else {
 				checkNo.setDisabled(true);
@@ -720,8 +712,7 @@ public class CashPurchaseView extends
 		transactionNumber.setDisabled(isEdit);
 		paymentMethodCombo.setDisabled(isEdit);
 		if (paymentMethod.equals(Accounter.constants().check())
-				|| paymentMethod
-						.equals(Accounter.constants().cheque())) {
+				|| paymentMethod.equals(Accounter.constants().cheque())) {
 			checkNo.setDisabled(isEdit);
 		} else {
 			checkNo.setDisabled(!isEdit);

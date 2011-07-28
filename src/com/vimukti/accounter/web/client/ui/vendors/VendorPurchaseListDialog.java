@@ -31,7 +31,6 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 
 	private ItemReceiptView itemReceiptView;
 	private List<PurchaseOrdersList> purchaseOrderList;
-	private VendorsMessages vendorConstants = GWT.create(VendorsMessages.class);
 	private AccounterConstants financeConstants = GWT
 			.create(AccounterConstants.class);
 	@SuppressWarnings("unused")
@@ -56,36 +55,32 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 		VerticalPanel mainLayout = new VerticalPanel();
 		mainLayout.setSize("100%", "100%");
 		mainLayout.setSpacing(3);
-		Label infoLabel = new Label(Accounter.constants()
-				.selectPurchaseOrder()
+		Label infoLabel = new Label(Accounter.constants().selectPurchaseOrder()
 				+ Accounter.constants().selectDocument());
 
 		mainLayout.add(infoLabel);
 
 		grid = new DialogGrid(false);
-		grid.addColumns(vendorConstants.Date(), vendorConstants.no(),
-				vendorConstants.type(), UIUtils.getVendorString(
-						Accounter.constants().supplierName(),
-						Accounter.constants().vendorName()),
-				vendorConstants.total());
+		grid.addColumns(Accounter.constants().Date(), Accounter.constants()
+				.no(), Accounter.constants().type(), UIUtils.getVendorString(
+				Accounter.constants().supplierName(), Accounter.constants()
+						.vendorName()), Accounter.constants().total());
 		grid.setView(this);
 		grid.init();
 		grid.setColumnTypes(ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT);
-		grid
-				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersList>() {
+		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersList>() {
 
-					@Override
-					public void OnCellDoubleClick(PurchaseOrdersList record,
-							int column) {
+			@Override
+			public void OnCellDoubleClick(PurchaseOrdersList record, int column) {
 
-						if (record != null)
-							getPurchaseOrder(record);
+				if (record != null)
+					getPurchaseOrder(record);
 
-					}
+			}
 
-				});
+		});
 
 		// getGridData();
 		setPurchaseOrderList(purchaseOrderList);
@@ -94,13 +89,12 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 
 		HorizontalPanel helpButtonLayout = new HorizontalPanel();
 
-		AccounterButton helpButton = new AccounterButton(financeConstants
-				.help());
+		AccounterButton helpButton = new AccounterButton(
+				financeConstants.help());
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				Accounter.showError(Accounter.constants()
-						.sorryNoHelp());
+				Accounter.showError(Accounter.constants().sorryNoHelp());
 
 			}
 
@@ -126,8 +120,8 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 		});
 		okButtonLayout.add(okButton);
 		okButton.enabledButton();
-		AccounterButton cancelButton = new AccounterButton(financeConstants
-				.cancel());
+		AccounterButton cancelButton = new AccounterButton(
+				financeConstants.cancel());
 		cancelButton.setWidth("100px");
 		cancelButton.addClickHandler(new ClickHandler() {
 
@@ -194,8 +188,8 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 
 			}
 		};
-		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER, record
-				.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
+				record.getTransactionId(), callback);
 
 	}
 
@@ -224,7 +218,6 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		
 
 	}
 

@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -16,14 +15,12 @@ import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 public class SelectExpenseType extends BaseDialog {
 	RadioGroupItem typeRadio;
 	private final String CHECK = Accounter.constants().check();
-	private final String CREDIT_CARD = Accounter.constants()
-			.creditCard();
+	private final String CREDIT_CARD = Accounter.constants().creditCard();
 
 	private final String CASH = Accounter.constants().cash();
 	private final String EMPLOYEE = Accounter.constants().employee();
+
 	// private ViewConfiguration configuration;
-	private VendorsMessages vendorsConstants = GWT
-			.create(VendorsMessages.class);
 
 	public SelectExpenseType() {
 		super(Accounter.constants().recordExpenses(), "");
@@ -49,7 +46,8 @@ public class SelectExpenseType extends BaseDialog {
 		typeForm.setWidth("100%");
 		typeForm.setIsGroup(true);
 
-		typeForm.setGroupTitle(vendorsConstants.selectHowYouPaidForExpense());
+		typeForm.setGroupTitle(Accounter.constants()
+				.selectHowYouPaidForExpense());
 		typeForm.setFields(typeRadio);
 
 		addInputDialogHandler(new InputDialogHandler() {

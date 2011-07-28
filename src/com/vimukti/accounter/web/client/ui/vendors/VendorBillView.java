@@ -290,7 +290,7 @@ public class VendorBillView extends
 	@Override
 	protected void createControls() {
 
-		// setTitle(UIUtils.title(vendorConstants.vendorBill()));
+		// setTitle(UIUtils.title(Accounter.constants().vendorBill()));
 		Label lab1;
 		// if (transactionObject == null
 		// || transactionObject.getStatus() ==
@@ -340,9 +340,9 @@ public class VendorBillView extends
 		labeldateNoLayout.add(datepanel);
 		forms.add(dateNoForm);
 
-		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
-				.constants().supplierName(), Accounter
-				.constants().vendorName()));
+		vendorCombo = createVendorComboItem(UIUtils
+				.getVendorString(Accounter.constants().supplierName(),
+						Accounter.constants().vendorName()));
 		// vendorCombo.setWidth(100);
 		// purchaseLabel = new LinkItem();
 		// purchaseLabel.setLinkTitle(FinanceApplication.constants()
@@ -367,9 +367,8 @@ public class VendorBillView extends
 		if (this.transactionObject != null)
 			billToCombo.setDisabled(true);
 
-		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter
-				.constants().supplier(), Accounter
-				.constants().vendor()));
+		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor()));
 		vendorForm.setWidth("100%");
 		vendorForm.setNumCols(3);
 		vendorForm.setFields(vendorCombo, emptylabel, contactCombo, emptylabel
@@ -381,14 +380,14 @@ public class VendorBillView extends
 		formItems.add(contactCombo);
 		formItems.add(billToCombo);
 
-		phoneSelect = new TextItem(vendorConstants.phone());
+		phoneSelect = new TextItem(Accounter.constants().phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(80);
 		phoneSelect.setDisabled(false);
 		formItems.add(phoneSelect);
 
-		paymentTermsCombo = new PaymentTermsCombo(
-				vendorConstants.paymentTerms());
+		paymentTermsCombo = new PaymentTermsCombo(Accounter.constants()
+				.paymentTerms());
 		paymentTermsCombo.setHelpInformation(true);
 		// paymentTermsCombo.setWidth(80);
 		paymentTermsCombo.setDisabled(isEdit);
@@ -403,17 +402,17 @@ public class VendorBillView extends
 
 				});
 
-		dueDateItem = new DateField(vendorConstants.dueDate());
+		dueDateItem = new DateField(Accounter.constants().dueDate());
 		dueDateItem.setHelpInformation(true);
 		dueDateItem.setEnteredDate(getTransactionDate());
 		dueDateItem.setColSpan(1);
-		dueDateItem.setTitle(vendorConstants.dueDate());
+		dueDateItem.setTitle(Accounter.constants().dueDate());
 		dueDateItem.setDisabled(isEdit);
 
 		deliveryDateItem = createTransactionDeliveryDateItem();
 		// deliveryDateItem.setWidth(100);
 
-		DynamicForm termsForm = UIUtils.form(vendorConstants.terms());
+		DynamicForm termsForm = UIUtils.form(Accounter.constants().terms());
 		termsForm.setStyleName(Accounter.constants().venderForm());
 		termsForm.setWidth("75%");
 		// termsForm.setFields(phoneSelect, paymentTermsCombo);
@@ -434,8 +433,8 @@ public class VendorBillView extends
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
-		balanceDueNonEditableText = new AmountField(
-				vendorConstants.balanceDue());
+		balanceDueNonEditableText = new AmountField(Accounter.constants()
+				.balanceDue());
 		balanceDueNonEditableText.setHelpInformation(true);
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
@@ -745,8 +744,7 @@ public class VendorBillView extends
 		if (this.rpcUtilService == null)
 			return;
 		if (vendor == null) {
-			Accounter.showError(Accounter.constants()
-					.pleaseSelectTheVendor());
+			Accounter.showError(Accounter.constants().pleaseSelectTheVendor());
 		} else {
 
 			if (dialog != null && dialog.preVendor != null
@@ -913,13 +911,11 @@ public class VendorBillView extends
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		
 
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		
 
 	}
 
@@ -1002,13 +998,11 @@ public class VendorBillView extends
 
 	@Override
 	public void print() {
-		
 
 	}
 
 	@Override
 	public void printPreview() {
-		
 
 	}
 

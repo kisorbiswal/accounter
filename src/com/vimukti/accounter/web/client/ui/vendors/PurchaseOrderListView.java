@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
@@ -22,15 +21,12 @@ import com.vimukti.accounter.web.client.ui.grids.PurchaseOrderListGrid;
 
 public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
-	VendorsMessages vendorConstants = GWT.create(VendorsMessages.class);
 	private PurchaseDetailesView purchaseDetailView;
 	private List<PurchaseOrdersList> listOfPurchaseOrders;
 
 	private static String OPEN = Accounter.constants().open();
-	private static String COMPLETED = Accounter.constants()
-			.completed();
-	private static String CANCELLED = Accounter.constants()
-			.cancelled();
+	private static String COMPLETED = Accounter.constants().completed();
+	private static String CANCELLED = Accounter.constants().cancelled();
 
 	// private static String CANCELLED = "Cancelled";
 
@@ -129,8 +125,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
 	protected SelectCombo getSelectItem() {
 		listOfTypes = new ArrayList<String>();
-		viewSelect = new SelectCombo(Accounter.constants()
-				.currentView());
+		viewSelect = new SelectCombo(Accounter.constants().currentView());
 		listOfTypes.add(OPEN);
 		listOfTypes.add(COMPLETED);
 		listOfTypes.add(CANCELLED);

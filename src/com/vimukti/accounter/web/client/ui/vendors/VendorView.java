@@ -6,7 +6,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -139,7 +138,6 @@ public class VendorView extends BaseView<ClientVendor> {
 	private ClientCompany company;
 	private boolean wait;
 
-	VendorsMessages vendorConstants;
 	private ArrayList<DynamicForm> listforms;
 
 	protected ClientTAXCode selectTaxCodeFromDetailsTab;
@@ -171,12 +169,12 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		// setTitle(UIUtils.title(vendorConstants.newVendor()));
+		// setTitle(UIUtils.title(Accounter.constants().newVendor()));
 		tabSet = new DecoratedTabPanel();
 		tabSet.setSize("100%", "100%");
 
-		tabSet.add(getGeneralTab(), vendorConstants.general());
-		tabSet.add(getDetailsTab(), vendorConstants.details());
+		tabSet.add(getGeneralTab(), Accounter.constants().general());
+		tabSet.add(getDetailsTab(), Accounter.constants().details());
 		tabSet.selectTab(0);
 		tabSet.setSize("100%", "100%");
 
@@ -279,14 +277,14 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	@SuppressWarnings("deprecation")
 	private VerticalPanel getGeneralTab() {
-		vendorNameText = new TextItem(UIUtils.getVendorString(Accounter
-				.constants().supplierName(), Accounter
-				.constants().vendorName()));
+		vendorNameText = new TextItem(
+				UIUtils.getVendorString(Accounter.constants().supplierName(),
+						Accounter.constants().vendorName()));
 		vendorNameText.setHelpInformation(true);
 		vendorNameText.setRequired(true);
 		vendorNameText.setWidth(100);
 
-		fileAsText = new TextItem(vendorConstants.fileAs());
+		fileAsText = new TextItem(Accounter.constants().fileAs());
 		fileAsText.setHelpInformation(true);
 		fileAsText.setWidth(100);
 
@@ -300,9 +298,8 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		});
 
-		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter
-				.constants().supplier(), Accounter
-				.constants().vendor()));
+		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor()));
 		vendorForm.setFields(vendorNameText);
 		vendorForm.setWidth("100%");
 		vendorForm.setStyleName(Accounter.constants().venderForm());
@@ -311,20 +308,20 @@ public class VendorView extends BaseView<ClientVendor> {
 		accInfoForm = new DynamicForm();
 		accInfoForm.setIsGroup(true);
 		accInfoForm.setWidth("100%");
-		accInfoForm.setGroupTitle(vendorConstants.accountinformation());
+		accInfoForm.setGroupTitle(Accounter.constants().accountinformation());
 
-		statusCheck = new CheckboxItem(vendorConstants.active());
+		statusCheck = new CheckboxItem(Accounter.constants().active());
 		statusCheck.setValue(true);
 
 		vendorSinceDate = new DateField(UIUtils.getVendorString(Accounter
-				.constants().supplierSince(), Accounter
-				.constants().vendorSince()));
+				.constants().supplierSince(), Accounter.constants()
+				.vendorSince()));
 		vendorSinceDate.setHelpInformation(true);
 		vendorSinceDate.setEnteredDate(new ClientFinanceDate());
 
-		balanceText = new AmountField(vendorConstants.balance());
+		balanceText = new AmountField(Accounter.constants().balance());
 		balanceText.setHelpInformation(true);
-		balanceDate = new DateField(vendorConstants.balanceasof());
+		balanceDate = new DateField(Accounter.constants().balanceasof());
 		balanceDate.setHelpInformation(true);
 		ClientFinanceDate todaydate = new ClientFinanceDate();
 		todaydate.setDate(todaydate.getDate());
@@ -336,7 +333,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				if (takenVendor == null) {
 					ClientFinanceDate vendSinceDate = vendorSinceDate.getDate();
 					if (date.before(vendSinceDate)) {
-						String msg = vendorConstants.msg();
+						String msg = Accounter.constants().msg();
 						// Accounter.showError(msg);
 					}
 				}
@@ -351,8 +348,8 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		Label l1 = new Label(Accounter.constants().contacts());
 
-		AccounterButton addButton = new AccounterButton(Accounter
-				.constants().add());
+		AccounterButton addButton = new AccounterButton(Accounter.constants()
+				.add());
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -395,7 +392,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		memoArea = new TextAreaItem();
 		memoArea.setHelpInformation(true);
 		memoArea.setWidth("400px");
-		memoArea.setTitle(vendorConstants.memo());
+		memoArea.setTitle(Accounter.constants().memo());
 
 		// For Editing Vendor
 		if (takenVendor != null) {
@@ -543,12 +540,11 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	private VerticalPanel getDetailsTab() {
 
-		Label lab = new Label(UIUtils.getVendorString(Accounter
-				.constants().supplier(), Accounter
-				.constants().vendor()));
+		Label lab = new Label(UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor()));
 
-		expenseAccountsSelect = new OtherAccountsCombo(
-				vendorConstants.account());
+		expenseAccountsSelect = new OtherAccountsCombo(Accounter.constants()
+				.account());
 		expenseAccountsSelect.setHelpInformation(true);
 		expenseAccountsSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -557,12 +553,12 @@ public class VendorView extends BaseView<ClientVendor> {
 					}
 				});
 
-		creditLimitText = new AmountField(vendorConstants.creditlimit());
+		creditLimitText = new AmountField(Accounter.constants().creditlimit());
 		creditLimitText.setHelpInformation(true);
 		creditLimitText.setWidth(100);
 
-		preferredShippingSelect = new ShippingMethodsCombo(
-				vendorConstants.preferredShippingMethod());
+		preferredShippingSelect = new ShippingMethodsCombo(Accounter
+				.constants().preferredShippingMethod());
 		preferredShippingSelect.setHelpInformation(true);
 		preferredShippingSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
@@ -585,7 +581,8 @@ public class VendorView extends BaseView<ClientVendor> {
 					}
 				});
 
-		payTermsSelect = new PaymentTermsCombo(vendorConstants.paymentTerms());
+		payTermsSelect = new PaymentTermsCombo(Accounter.constants()
+				.paymentTerms());
 		payTermsSelect.setHelpInformation(true);
 		payTermsSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
@@ -594,25 +591,26 @@ public class VendorView extends BaseView<ClientVendor> {
 						selectPaymentTermFromDetailsTab = selectItem;
 					}
 				});
-		accountText = new TextItem(vendorConstants.accountno());
+		accountText = new TextItem(Accounter.constants().accountno());
 		accountText.setHelpInformation(true);
 
-		bankNameText = new TextItem(vendorConstants.bankname());
+		bankNameText = new TextItem(Accounter.constants().bankname());
 		bankNameText.setHelpInformation(true);
-		bankBranchText = new TextItem(vendorConstants.bankBranch());
+		bankBranchText = new TextItem(Accounter.constants().bankBranch());
 		bankBranchText.setHelpInformation(true);
 
 		DynamicForm financeDetailsForm = new DynamicForm();
 		financeDetailsForm.setIsGroup(true);
 		financeDetailsForm.setWidth("100%");
-		financeDetailsForm.setGroupTitle(vendorConstants.financialDetails());
+		financeDetailsForm.setGroupTitle(Accounter.constants()
+				.financialDetails());
 		financeDetailsForm.setFields(expenseAccountsSelect, creditLimitText,
 				preferredShippingSelect, preferredPaymentSelect,
 				payTermsSelect, accountText, bankNameText, bankBranchText);
 
 		vendorGroupSelect = new VendorGroupCombo(UIUtils.getVendorString(
-				Accounter.constants().supplierGroup(), Accounter
-						.constants().vendorGroup()));
+				Accounter.constants().supplierGroup(), Accounter.constants()
+						.vendorGroup()));
 		vendorGroupSelect.setHelpInformation(true);
 		// vendorGroupSelect.setWidth(100);
 		vendorGroupSelect
@@ -637,7 +635,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			}
 		}
 
-		federalText = new TextItem(vendorConstants.federalTaxId());
+		federalText = new TextItem(Accounter.constants().federalTaxId());
 		federalText.setHelpInformation(true);
 		federalText.setWidth(100);
 
@@ -661,13 +659,13 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorGrpForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "136px");
 
-		vatRegistrationNumber = new TextItem(
-				vendorConstants.vatRegistrationNumber());
+		vatRegistrationNumber = new TextItem(Accounter.constants()
+				.vatRegistrationNumber());
 		vatRegistrationNumber.setHelpInformation(true);
 		vatRegistrationNumber.setWidth(100);
 		vendorTaxCode = new TAXCodeCombo(UIUtils.getVendorString(Accounter
-				.constants().supplierVatCode(), Accounter
-				.constants().vendorVatCode()), false);
+				.constants().supplierVatCode(), Accounter.constants()
+				.vendorVatCode()), false);
 		vendorTaxCode.setHelpInformation(true);
 		vendorTaxCode.setWidth(100);
 		vendorTaxCode
@@ -682,7 +680,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		DynamicForm vatform = new DynamicForm();
 		vatform.setIsGroup(true);
 		vatform.setWidth("50%");
-		vatform.setGroupTitle(vendorConstants.vatDetails());
+		vatform.setGroupTitle(Accounter.constants().vatDetails());
 		vatform.setFields(vatRegistrationNumber, vendorTaxCode);
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setSize("100%", "100%");
@@ -829,8 +827,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			msg = Accounter.constants()
 					.duplicationOfSupplierNameAreNotAllowed();
 		} else
-			msg = Accounter.constants()
-					.duplicationOfVendorNameAreNotAllowed();
+			msg = Accounter.constants().duplicationOfVendorNameAreNotAllowed();
 		// BaseView.errordata.setHTML(msg);
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
@@ -1069,13 +1066,6 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	@Override
-	protected void initConstants() {
-
-		super.initConstants();
-		vendorConstants = (VendorsMessages) GWT.create(VendorsMessages.class);
-	}
-
-	@Override
 	public void init() {
 		super.init();
 		createControls();
@@ -1236,7 +1226,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.constants()
-				.newSupplier(), Accounter.constants().newVendor());
+		return UIUtils.getVendorString(Accounter.constants().newSupplier(),
+				Accounter.constants().newVendor());
 	}
 }

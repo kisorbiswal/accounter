@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -26,7 +25,6 @@ import com.vimukti.accounter.web.client.ui.grids.VendorPaymentsListGrid;
 public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 
 	protected List<PaymentsList> allPayments;
-	private VendorsMessages vendorConstants = GWT.create(VendorsMessages.class);
 	private SelectCombo currentView;
 
 	private VendorPaymentsListView() {
@@ -48,8 +46,8 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 	@Override
 	protected String getAddNewLabelString() {
 		return UIUtils.getVendorString(Accounter.constants()
-				.addANewSupplierPayment(), Accounter
-				.constants().addANewVendorPayment());
+				.addANewSupplierPayment(), Accounter.constants()
+				.addANewVendorPayment());
 	}
 
 	@Override
@@ -69,7 +67,6 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 
 	@Override
 	public void updateInGrid(PaymentsList objectTobeModified) {
-		
 
 	}
 
@@ -89,8 +86,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected SelectCombo getSelectItem() {
-		currentView = new SelectCombo(Accounter.constants()
-				.currentView());
+		currentView = new SelectCombo(Accounter.constants().currentView());
 		currentView.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(Accounter.constants().notIssued());
@@ -185,32 +181,28 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		
 
 	}
 
 	@Override
 	public void onEdit() {
-		
 
 	}
 
 	@Override
 	public void print() {
-		
 
 	}
 
 	@Override
 	public void printPreview() {
-		
 
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.constants()
-				.supplierPayments(), Accounter.constants()
-				.vendorPayments());
+		return UIUtils.getVendorString(
+				Accounter.constants().supplierPayments(), Accounter.constants()
+						.vendorPayments());
 	}
 }

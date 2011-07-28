@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -33,8 +32,6 @@ public class BillListView extends BaseListView<BillsList> {
 	DynamicForm form;
 	Label lab1;
 	protected List<BillsList> allEnterBills;
-	private VendorsMessages vendorsConstants = GWT
-			.create(VendorsMessages.class);
 	private SelectCombo currentView;
 	public String viewType;
 	public int transactionType;
@@ -63,14 +60,14 @@ public class BillListView extends BaseListView<BillsList> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return vendorsConstants.addaNewBill();
+			return Accounter.constants().addaNewBill();
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return vendorsConstants.billsAndItemReceiptsList();
+		return Accounter.constants().billsAndItemReceiptsList();
 	}
 
 	@Override
@@ -100,8 +97,7 @@ public class BillListView extends BaseListView<BillsList> {
 
 	@Override
 	protected SelectCombo getSelectItem() {
-		currentView = new SelectCombo(Accounter.constants()
-				.currentView());
+		currentView = new SelectCombo(Accounter.constants().currentView());
 		currentView.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(Accounter.constants().open());

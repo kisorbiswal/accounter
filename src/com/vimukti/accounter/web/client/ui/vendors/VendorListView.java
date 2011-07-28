@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
@@ -24,7 +23,6 @@ import com.vimukti.accounter.web.client.ui.grids.VendorListGrid;
  */
 public class VendorListView extends BaseListView<PayeeList> {
 
-	private VendorsMessages vendorConstants = GWT.create(VendorsMessages.class);
 	private List<PayeeList> listOfPayees;
 
 	public VendorListView() {
@@ -35,8 +33,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	public void deleteFailed(Throwable caught) {
 		super.deleteFailed(caught);
 
-		Accounter.showInformation(Accounter.constants()
-				.youCantDelete());
+		Accounter.showInformation(Accounter.constants().youCantDelete());
 
 	}
 
@@ -53,9 +50,8 @@ public class VendorListView extends BaseListView<PayeeList> {
 	protected String getAddNewLabelString() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return UIUtils.getVendorString(Accounter
-					.constants().addaNewSupplier(), Accounter
-					.constants().addANewVendor());
+			return UIUtils.getVendorString(Accounter.constants()
+					.addaNewSupplier(), Accounter.constants().addANewVendor());
 		else
 			return "";
 	}
@@ -63,9 +59,8 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getListViewHeading() {
 
-		return UIUtils.getVendorString(Accounter.constants()
-				.supplierList(), Accounter.constants()
-				.vendorList());
+		return UIUtils.getVendorString(Accounter.constants().supplierList(),
+				Accounter.constants().vendorList());
 	}
 
 	// protected List<ClientPayee> getRecords() {
@@ -100,10 +95,9 @@ public class VendorListView extends BaseListView<PayeeList> {
 			total += t.getBalance();
 		} else
 			total -= t.getBalance();
-		totalLabel.setText(Accounter.constants()
-				.totalOutStandingBalance()
+		totalLabel.setText(Accounter.constants().totalOutStandingBalance()
 
-				+ DataUtils.getAmountAsString(total) + "");
+		+ DataUtils.getAmountAsString(total) + "");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -166,7 +160,6 @@ public class VendorListView extends BaseListView<PayeeList> {
 
 	@Override
 	public void updateInGrid(PayeeList objectTobeModified) {
-		
 
 	}
 
@@ -178,27 +171,22 @@ public class VendorListView extends BaseListView<PayeeList> {
 
 	@Override
 	public void onEdit() {
-		
 
 	}
 
 	@Override
 	public void print() {
-		
 
 	}
 
 	@Override
 	public void printPreview() {
-		
 
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils
-				.getVendorString(Accounter.constants()
-						.suppliers(), Accounter.constants()
-						.vendors());
+		return UIUtils.getVendorString(Accounter.constants().suppliers(),
+				Accounter.constants().vendors());
 	}
 }

@@ -33,7 +33,6 @@ import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHan
 public class VendorBillListDialog extends AbstractBaseDialog {
 
 	private VendorBillView view;
-	private VendorsMessages vendorConstants = GWT.create(VendorsMessages.class);
 	// private CustomersMessages customerConstants = GWT
 	// .create(CustomersMessages.class);
 	private AccounterConstants financeConstants = GWT
@@ -60,18 +59,17 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 		VerticalPanel mainLayout = new VerticalPanel();
 		mainLayout.setSize("100%", "100%");
 		mainLayout.setSpacing(3);
-		Label infoLabel = new Label(Accounter.constants()
-				.selectPurchaseOrder()
+		Label infoLabel = new Label(Accounter.constants().selectPurchaseOrder()
 				+ Accounter.constants().selectDocument());
 
 		mainLayout.add(infoLabel);
 
 		grid = new DialogGrid(false);
-		grid.addColumns(vendorConstants.Date(), vendorConstants.no(),
-				vendorConstants.type(), UIUtils.getVendorString(Accounter
-						.constants().supplierName(), Accounter
-						.constants().vendorName()), vendorConstants
-						.total(), Accounter.constants().remainingTotal());
+		grid.addColumns(Accounter.constants().Date(), Accounter.constants()
+				.no(), Accounter.constants().type(), UIUtils.getVendorString(
+				Accounter.constants().supplierName(), Accounter.constants()
+						.vendorName()), Accounter.constants().total(),
+				Accounter.constants().remainingTotal());
 		grid.setCellsWidth(60, 20, 90, -1, 60, 95);
 		grid.setView(this);
 		grid.init();
@@ -113,8 +111,7 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				Accounter.showError(Accounter.constants()
-						.sorryNoHelp());
+				Accounter.showError(Accounter.constants().sorryNoHelp());
 
 			}
 
@@ -260,8 +257,7 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 				grid.addData(rec);
 			}
 		} else
-			grid.addEmptyMessage(Accounter.constants()
-					.norecordstoshow());
+			grid.addEmptyMessage(Accounter.constants().norecordstoshow());
 	}
 
 	public Object getGridColumnValue(IsSerializable obj, int index) {
