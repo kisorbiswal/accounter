@@ -35,7 +35,7 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			return comboConstants.addNewItem();
 		else
-			return comboConstants.newVatCode();
+			return comboConstants.newVATCode();
 	}
 
 	@Override

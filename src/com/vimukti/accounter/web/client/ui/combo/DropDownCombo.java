@@ -588,7 +588,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			break;
 
 		case TAX_AGENCY:
-			string = comboConstants.newTaxAgency();
+			string = comboConstants.newTAXAgency();
 			break;
 
 		case TAX_CODE:
