@@ -10,18 +10,18 @@ public class VatActionFactory extends AbstractActionFactory {
 	public static NewVatItemAction getNewVatItemAction() {
 		String flag;
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-			flag = actionsConstants.newVatitem();
+			flag = actionsConstants.newVATItem();
 		else
 			flag = actionsConstants.newTaxItem();
 		return new NewVatItemAction(flag);
 	}
 
 	public static FileVatAction getFileVatAction() {
-		return new FileVatAction(actionsConstants.fileVat());
+		return new FileVatAction(actionsConstants.fileVAT());
 	}
 
 	public static AdjustTAXAction getAdjustTaxAction() {
-		return new AdjustTAXAction(actionsConstants.vatAdjustment());
+		return new AdjustTAXAction(actionsConstants.VATAdjustment());
 	}
 
 	public static VatItemListAction getVatItemListAction() {
@@ -29,15 +29,15 @@ public class VatActionFactory extends AbstractActionFactory {
 	}
 
 	public static VatGroupAction getVatGroupAction() {
-		return new VatGroupAction(actionsConstants.newvatGroup());
+		return new VatGroupAction(actionsConstants.newVATGroup());
 	}
 
 	public static Action getTAXCodeListAction() {
-		return new ManageTAXCodesListAction(actionsConstants.vatCodeList());
+		return new ManageTAXCodesListAction(actionsConstants.VATCodeList());
 	}
 
 	public static Action getNewTAXCodeAction() {
-		return new NewTAXCodeAction(actionsConstants.newVatCode());
+		return new NewTAXCodeAction(actionsConstants.newVATCode());
 	}
 
 	public static Action getCreateTaxesAction() {
@@ -49,11 +49,11 @@ public class VatActionFactory extends AbstractActionFactory {
 	// }
 
 	public static NewTAXAgencyAction getNewTAXAgencyAction() {
-		return new NewTAXAgencyAction(actionsConstants.newvatAgency());
+		return new NewTAXAgencyAction(actionsConstants.newVATAgency());
 	}
 
 	public static ManageVATGroupListAction getManageVATGroupListAction() {
-		return new ManageVATGroupListAction(actionsConstants.vatgroupList());
+		return new ManageVATGroupListAction(actionsConstants.VATGroupList());
 	}
 
 	public static AdjustTAXAction getVatAdjustmentAction() {
@@ -67,6 +67,6 @@ public class VatActionFactory extends AbstractActionFactory {
 	}
 
 	public static Action getreceiveVATAction() {
-		return new ReceiveVATAction(Accounter.constants().recieveVat());
+		return new ReceiveVATAction(Accounter.constants().receiveVAT());
 	}
 }

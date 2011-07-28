@@ -70,7 +70,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	private void createControls() {
 		Label infolabel = new Label(Accounter.constants().fileVAT());
 		infolabel.removeStyleName("gwt-Label");
-		infolabel.addStyleName(Accounter.constants().lableTitle());
+		infolabel.addStyleName(Accounter.constants().labelTitle());
 		taxAgencyCombo = new TAXAgencyCombo(Accounter.constants()
 				.VATAgency());
 		taxAgencyCombo.setHelpInformation(true);
@@ -541,6 +541,6 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().fileVat();
+		return Accounter.constants().fileVAT();
 	}
 }

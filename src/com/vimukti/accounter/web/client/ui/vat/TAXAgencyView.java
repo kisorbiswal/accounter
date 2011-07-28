@@ -48,17 +48,16 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ContactGrid;
 
-
 public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	AccounterConstants companyConstants = Accounter.constants();
 
 	private final String ATTR_PRIMARY = Accounter.constants().primary();
 	private final String ATTR_CONTACT_NAME = Accounter.constants()
-			.contactname();
+			.contactName();
 	private final String ATTR_TITLE = Accounter.constants().title();
 	private final String ATTR_BUSINESS_PHONE = Accounter.constants()
-			.businessphone();
+			.businessPhone();
 	private final String ATTR_EMAIL = Accounter.constants().email();
 
 	TextItem taxAgencyText, fileAsText;
@@ -309,17 +308,16 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	private VerticalPanel getTopLayout() {
 		Label lab;
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			lab = new Label(Accounter.constants().VatAgency());
+			lab = new Label(Accounter.constants().VATAgency());
 			taxAgencyText = new TextItem(Accounter.constants().VATAgency());
 			taxAgencyText.setHelpInformation(true);
 		} else {
 			lab = new Label(Accounter.constants().taxAgency());
-			taxAgencyText = new TextItem(Accounter.constants()
-					.taxAgency());
+			taxAgencyText = new TextItem(Accounter.constants().taxAgency());
 			taxAgencyText.setHelpInformation(true);
 		}
 		lab.removeStyleName("gwt-Label");
-		lab.addStyleName(Accounter.constants().lableTitle());
+		lab.addStyleName(Accounter.constants().labelTitle());
 		lab.setHeight("35px");
 		taxAgencyText.setWidth(100);
 		taxAgencyText.setRequired(true);
@@ -373,7 +371,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		vatReturnCombo.setHelpInformation(true);
 		vatReturnCombo.setRequired(true);
 		vatReturnList = new ArrayList<String>();
-		vatReturnList.add(Accounter.constants().UKVAT());
+		vatReturnList.add(Accounter.constants().uKVAT());
 		vatReturnList.add(Accounter.constants().vAT3Ireland());
 		vatReturnCombo.initCombo(vatReturnList);
 		vatReturnCombo
@@ -525,8 +523,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			else if (takenVATAgency.getVATReturn() == ClientTAXAgency.RETURN_TYPE_UK_VAT)
 				vatReturnCombo.setComboItem(Accounter.constants().uKVAT());
 			else
-				vatReturnCombo.setComboItem(Accounter.constants()
-						.vAT3Ireland());
+				vatReturnCombo
+						.setComboItem(Accounter.constants().vAT3Ireland());
 
 			if (takenVATAgency.getSalesLiabilityAccount() != 0) {
 				ClientAccount account = getCompany().getAccount(
@@ -855,8 +853,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.constants()
-				.vatAgency(), Accounter.constants().taxAgency());
+		return UIUtils.getVendorString(Accounter.constants().VATAgency(),
+				Accounter.constants().taxAgency());
 	}
 
 }

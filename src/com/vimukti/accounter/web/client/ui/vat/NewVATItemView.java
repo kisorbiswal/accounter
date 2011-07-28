@@ -65,16 +65,14 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		final int accounttype = getCompany().getAccountingType();
 		if (accounttype == 1) {
 			infoLabel = new Label(Accounter.constants().VATItem());
-			infoLabel.setStyleName(Accounter.constants()
-					.lableTitle());
+			infoLabel.setStyleName(Accounter.constants().labelTitle());
 			// infoLabel.setHeight("35px");
 		}
 
 		else {
 			infolabel1 = new Label(Accounter.constants().taxItem());
 
-			infolabel1.setStyleName(Accounter.constants()
-					.lableTitle());
+			infolabel1.setStyleName(Accounter.constants().labelTitle());
 			// infolabel1.setHeight("50px");
 		}
 
@@ -85,8 +83,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		vatItemNameText.setWidth(80);
 		vatItemNameText.setRequired(true);
 
-		descriptionText = new TextAreaItem(Accounter.constants()
-				.description());
+		descriptionText = new TextAreaItem(Accounter.constants().description());
 		descriptionText.setHelpInformation(true);
 		descriptionText.setWidth(80);
 
@@ -101,8 +98,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		vatRateTextPerT.setWidth(80);
 		vatRateTextPerT.setRequired(true);
 
-		vatAgencyCombo = new TAXAgencyCombo(Accounter.constants()
-				.VATAgency());
+		vatAgencyCombo = new TAXAgencyCombo(Accounter.constants().VATAgency());
 		vatAgencyCombo.setHelpInformation(true);
 		vatAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
@@ -136,19 +132,16 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 				});
 		// vatReturnBoxCombo.setWidth(80);
 
-		statusCheck = new CheckboxItem(Accounter.constants()
-				.itemIsActive());
+		statusCheck = new CheckboxItem(Accounter.constants().itemIsActive());
 		statusCheck.setValue(true);
 
-		final DynamicForm form1 = UIUtils.form(Accounter.constants()
-				.type());
+		final DynamicForm form1 = UIUtils.form(Accounter.constants().type());
 		form1.setWidth("80%");
 		form1.setIsGroup(true);
 
 		if (accounttype == 0) {
 
-			vatItemNameText.setTitle(Accounter.constants()
-					.taxItemName());
+			vatItemNameText.setTitle(Accounter.constants().taxItemName());
 			vatRateText.setTitle(Accounter.constants().taxAmount());
 
 			vatRateTextPerT.setTitle(Accounter.constants().taxRateP());
@@ -542,7 +535,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	protected String getViewTitle() {
 		String flag;
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-			flag = Accounter.constants().newVatitem();
+			flag = Accounter.constants().newVATItem();
 		else
 			flag = Accounter.constants().newTaxItem();
 

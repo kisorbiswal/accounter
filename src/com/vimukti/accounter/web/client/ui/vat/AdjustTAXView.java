@@ -53,7 +53,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 	private ClientTAXAgency clientTAXAgency;
 
 	private ClientTAXAdjustment taxAdjustment;
-	
+
 	private AsyncCallback<Boolean> refreshFileVat;
 	private ClientTAXAgency taxAgency;
 	// private static TextItem vatLine, vatLinetxt, vatAccounttxt, vatAccount;
@@ -88,7 +88,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 			infoLabel = new Label(Accounter.constants().VATAdjustment());
 		infoLabel.removeStyleName("gwt-Label");
 
-		infoLabel.setStyleName(Accounter.constants().lableTitle());
+		infoLabel.setStyleName(Accounter.constants().labelTitle());
 		// infoLabel.setHeight("35px");
 		adjustDate = new DateItem(null);
 		adjustDate.setHelpInformation(true);
@@ -99,8 +99,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		entryNo.setHelpInformation(true);
 		entryNo.setWidth(100);
 
-		taxAgencyCombo = new TAXAgencyCombo(Accounter.constants()
-				.VATAgency());
+		taxAgencyCombo = new TAXAgencyCombo(Accounter.constants().VATAgency());
 		taxAgencyCombo.setHelpInformation(true);
 		// taxAgencyCombo.setWidth(100);
 		taxAgencyCombo.setComboItem(taxAgency);
@@ -197,14 +196,11 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			typeRadio.setValueMap(Accounter.constants().increaseVATLine(),
 					Accounter.constants().decreaseVATLine());
-			typeRadio.setDefaultValue(Accounter.constants()
-					.increaseVATLine());
+			typeRadio.setDefaultValue(Accounter.constants().increaseVATLine());
 		} else {
-			typeRadio.setValueMap(Accounter.constants()
-					.increaseTAXLine(), Accounter.constants()
-					.decreaseTAXLine());
-			typeRadio.setDefaultValue(Accounter.constants()
-					.increaseTAXLine());
+			typeRadio.setValueMap(Accounter.constants().increaseTAXLine(),
+					Accounter.constants().decreaseTAXLine());
+			typeRadio.setDefaultValue(Accounter.constants().increaseTAXLine());
 
 		}
 
@@ -270,7 +266,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
 					Accounter.showError(Accounter.constants()
-							.FailedToGetTransactionNumber());
+							.failedToGetTransactionNumber());
 				}
 			}
 
@@ -305,7 +301,6 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 	protected void refreshVatAccountLabel(LabelItem vatAccountLabel,
 			ClientTAXItem selectItem) {
 
-		
 		String str = "";
 		if (this.clientTAXAgency != null) {
 
@@ -446,8 +441,8 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 				.getID());
 
 		TAXadjust.setTotal(amount.getAmount());
-		if (typeRadio.getValue().equals(
-				Accounter.constants().increaseVATLine()))
+		if (typeRadio.getValue()
+				.equals(Accounter.constants().increaseVATLine()))
 			TAXadjust.setIncreaseVATLine(true);
 		else
 			TAXadjust.setIncreaseVATLine(false);

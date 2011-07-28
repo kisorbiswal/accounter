@@ -60,7 +60,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 	private void createControls() {
 
 		Label infoLabel = new Label(Accounter.constants().newVATGroup());
-		infoLabel.setStyleName(Accounter.constants().lableTitle());
+		infoLabel.setStyleName(Accounter.constants().labelTitle());
 
 		listforms = new ArrayList<DynamicForm>();
 
@@ -314,6 +314,6 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().newvatGroup();
+		return Accounter.constants().newVATGroup();
 	}
 }

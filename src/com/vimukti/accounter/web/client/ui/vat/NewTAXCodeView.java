@@ -102,12 +102,12 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 	private void createControls() {
 		Label infoLabel = new Label(Accounter.constants().newVATCode());
-		infoLabel.setStyleName(Accounter.constants().lableTitle());
+		infoLabel.setStyleName(Accounter.constants().labelTitle());
 		// infoLabel.setHeight("35px");
 		listforms = new ArrayList<DynamicForm>();
 
 		AccounterConstants vatMessages = Accounter.constants();
-		vatCodeTxt = new TextItem(vatMessages.vatCode());
+		vatCodeTxt = new TextItem(vatMessages.VATCode());
 		vatCodeTxt.setHelpInformation(true);
 		vatCodeTxt.setRequired(true);
 		vatCodeTxt.setWidth(100);
@@ -448,7 +448,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.constants().vatCode(),
+		return UIUtils.getVendorString(Accounter.constants().VATCode(),
 				Accounter.constants().taxCode());
 	}
 }

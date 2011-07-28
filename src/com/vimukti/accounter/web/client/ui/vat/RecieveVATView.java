@@ -74,7 +74,7 @@ public class RecieveVATView extends
 	private ArrayList<ClientReceiveVATEntries> filterList;
 	private ArrayList<ClientReceiveVATEntries> tempList;
 	private ClientFinanceDate dueDateOnOrBefore;
-	
+
 	private DynamicForm fileterForm;
 	private TextItem transNumber;
 	private AccounterConstants companyConstants = Accounter.constants();
@@ -91,7 +91,7 @@ public class RecieveVATView extends
 		// .payVAT()));
 
 		Label lab = new Label(Accounter.constants().receiveVAT());
-		lab.setStyleName(Accounter.constants().lableTitle());
+		lab.setStyleName(Accounter.constants().labelTitle());
 		// lab.setHeight("35px");
 		// date = new DateField(companyConstants.date());
 		// date.setHelpInformation(true);
@@ -304,7 +304,7 @@ public class RecieveVATView extends
 		grid = new TransactionReceiveVATGrid(!isEdit, true) {
 			@Override
 			protected String[] getColumns() {
-				return new String[] { companyConstants.vatAgency(),
+				return new String[] { companyConstants.VATAgency(),
 						companyConstants.taxDue(),
 						companyConstants.amountToReceive() };
 			}
@@ -709,7 +709,7 @@ public class RecieveVATView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().recieveVat();
+		return Accounter.constants().receiveVAT();
 	}
 
 }

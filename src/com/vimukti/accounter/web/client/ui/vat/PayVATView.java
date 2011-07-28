@@ -84,7 +84,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 		Label lab = new Label(Accounter.constants().payVAT());
 		lab.removeStyleName("gwt-Label");
-		lab.setStyleName(Accounter.constants().lableTitle());
+		lab.setStyleName(Accounter.constants().labelTitle());
 		// lab.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 
@@ -254,7 +254,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		loadData(filterList);
 		int size = grid.getRecords().size();
 		if (size == 0)
-			grid.addEmptyMessage(Accounter.constants().norecordstoshow());
+			grid.addEmptyMessage(Accounter.constants().noRecordsToShow());
 	}
 
 	private void calculateEndingBalance() {
@@ -371,7 +371,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 							Accounter
 									.showError("Failed to get the Transaction PayVAT List");
 							grid.addEmptyMessage(Accounter.constants()
-									.norecordstoshow());
+									.noRecordsToShow());
 						}
 						return;
 
@@ -387,7 +387,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 						if (result.size() == 0) {
 							// Accounter.showInformation("No PayVAT list to show");
 							grid.addEmptyMessage(Accounter.constants()
-									.norecordstoshow());
+									.noRecordsToShow());
 						} else {
 
 							// loadData(getfilterRecordsByDate(billsDue
