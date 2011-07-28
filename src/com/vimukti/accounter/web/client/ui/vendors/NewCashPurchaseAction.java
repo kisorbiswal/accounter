@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 /**
  * 
@@ -35,7 +34,7 @@ public class NewCashPurchaseAction extends Action {
 
 	public NewCashPurchaseAction(String newCashPurchase, String string,
 			ClientCashPurchase cashPurchase, AsyncCallback<Object> callback) {
-		super(newCashPurchase, string, cashPurchase, callback);
+		super(newCashPurchase, string);
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
 	}
@@ -77,11 +76,10 @@ public class NewCashPurchaseAction extends Action {
 
 	}
 
-	
-	@Override
-	public ParentCanvas getView() {
-		return this.view;
-	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.view;
+	// }
 
 	public ImageResource getBigImage() {
 		// NOTHING TO DO
@@ -92,10 +90,10 @@ public class NewCashPurchaseAction extends Action {
 		return Accounter.getFinanceMenuImages().newCashPurchage();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/new_cash_purchase.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/new_cash_purchase.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

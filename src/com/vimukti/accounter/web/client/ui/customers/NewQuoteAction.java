@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 /**
  * 
@@ -26,7 +25,7 @@ public class NewQuoteAction extends Action {
 
 	public NewQuoteAction(String text, String iconString, ClientEstimate quote,
 			AsyncCallback<Object> callback) {
-		super(text, iconString, quote, callback);
+		super(text, iconString);
 		this.catagory = Accounter.constants().customer();
 	}
 
@@ -62,11 +61,10 @@ public class NewQuoteAction extends Action {
 
 	}
 
-	
-	@Override
-	public ParentCanvas getView() {
-		return this.view;
-	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.view;
+	// }
 
 	public ImageResource getBigImage() {
 		// NOTHING TO DO.
@@ -77,11 +75,11 @@ public class NewQuoteAction extends Action {
 		return Accounter.getFinanceMenuImages().newQuote();
 	}
 
-	@Override
-	public String getImageUrl() {
-
-		return "/images/new_quote.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	//
+	// return "/images/new_quote.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

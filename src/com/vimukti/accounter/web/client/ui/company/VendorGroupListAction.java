@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.vendors.VendorGroupListDialog;
 
@@ -20,11 +19,11 @@ public class VendorGroupListAction extends Action {
 		super(text, iconString);
 	}
 
-	// its not using any where
-	@Override
-	public ParentCanvas<?> getView() {
-		return null;
-	}
+	// // its not using any where
+	// @Override
+	// public ParentCanvas<?> getView() {
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -42,16 +41,12 @@ public class VendorGroupListAction extends Action {
 				try {
 
 					VendorGroupListDialog dialog = new VendorGroupListDialog(
-							UIUtils.getVendorString(
-									Accounter.constants()
-											.manageSupplierGroup(), Accounter
-											.constants()
-											.manageVendorGroup()), UIUtils
-									.getVendorString(Accounter
-											.constants()
+							UIUtils.getVendorString(Accounter.constants()
+									.manageSupplierGroup(), Accounter
+									.constants().manageVendorGroup()), UIUtils
+									.getVendorString(Accounter.constants()
 											.toAddSupplierGroup(), Accounter
-											.constants()
-											.toAddVendorGroup()));
+											.constants().toAddVendorGroup()));
 					ViewManager viewManager = ViewManager.getInstance();
 					viewManager.setCurrentDialog(dialog);
 					// dialog.addCallBack(getViewConfiguration().getCallback());
@@ -76,10 +71,10 @@ public class VendorGroupListAction extends Action {
 		return Accounter.getFinanceMenuImages().vendors();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/vendors.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/vendors.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

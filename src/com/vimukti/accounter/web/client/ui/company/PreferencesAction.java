@@ -4,7 +4,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class PreferencesAction extends Action {
 	private CompanyPreferencesView view;
@@ -28,10 +27,10 @@ public class PreferencesAction extends Action {
 
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-		return this.view;
-	}
+	// @Override
+	// public ParentCanvas<?> getView() {
+	// return this.view;
+	// }
 
 	public ImageResource getBigImage() {
 		// NOTHING TO DO.
@@ -42,10 +41,10 @@ public class PreferencesAction extends Action {
 		return Accounter.getFinanceMenuImages().preferences();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/preferences.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/preferences.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

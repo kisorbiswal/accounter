@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 /**
  * @author Murali.A
@@ -32,11 +31,10 @@ public class NewTAXCodeAction extends Action {
 		return Accounter.getFinanceMenuImages().salesTaxCode();
 	}
 
-	
-	@Override
-	public ParentCanvas getView() {
-		return this.view;
-	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.view;
+	// }
 
 	@Override
 	public void run(final Object data, final Boolean isDependent) {
@@ -62,10 +60,10 @@ public class NewTAXCodeAction extends Action {
 		});
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/Sales_Tax.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/Sales_Tax.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

@@ -4,7 +4,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class UsersAction extends Action {
 	private UsersView view;
@@ -24,10 +23,10 @@ public class UsersAction extends Action {
 		return null;
 	}
 
-	@Override
-	public ParentCanvas getView() {
-		return null;
-	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

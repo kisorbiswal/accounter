@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 /**
  * 
@@ -30,11 +29,11 @@ public class VendorPaymentsListAction extends Action {
 	/**
 	 * THIS METHOD NOT USING ANY WHERE IN THE PROJECT.
 	 */
-	
-	@Override
-	public ParentCanvas getView() {
-		return null;
-	}
+
+	// @Override
+	// public ParentCanvas getView() {
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -77,11 +76,11 @@ public class VendorPaymentsListAction extends Action {
 		return Accounter.getFinanceMenuImages().vendorpayments();
 	}
 
-	@Override
-	public String getImageUrl() {
-
-		return "/images/vendor_payments.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	//
+	// return "/images/vendor_payments.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

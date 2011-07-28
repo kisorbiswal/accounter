@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 /**
  * 
@@ -20,12 +19,11 @@ public class RecordExpensesAction extends Action {
 		super(text, iconString);
 	}
 
-	
-	@Override
-	public ParentCanvas getView() {
-
-		return null;
-	}
+	// @Override
+	// public ParentCanvas getView() {
+	//
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -41,11 +39,11 @@ public class RecordExpensesAction extends Action {
 		return Accounter.getFinanceMenuImages().recordExpenses();
 	}
 
-	@Override
-	public String getImageUrl() {
-
-		return "/images/record_expenses.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	//
+	// return "/images/record_expenses.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

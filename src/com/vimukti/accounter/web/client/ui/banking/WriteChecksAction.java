@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class WriteChecksAction extends Action {
 
@@ -19,7 +18,7 @@ public class WriteChecksAction extends Action {
 
 	public WriteChecksAction(String text, String iconString,
 			ClientWriteCheck writeCheck, AsyncCallback<Object> callback) {
-		super(text, iconString, writeCheck, callback);
+		super(text, iconString);
 		this.catagory = Accounter.constants().banking();
 	}
 
@@ -57,12 +56,11 @@ public class WriteChecksAction extends Action {
 		super.setToolTip(toolTip);
 	}
 
-	
-	@Override
-	public ParentCanvas getView() {
-		
-		return null;
-	}
+	// @Override
+	// public ParentCanvas getView() {
+	//
+	// return null;
+	// }
 
 	public ImageResource getBigImage() {
 		return null;
@@ -72,15 +70,15 @@ public class WriteChecksAction extends Action {
 		return Accounter.getFinanceMenuImages().newCheck();
 	}
 
-	@Override
-	public String getImageUrl() {
-
-		return "/images/new_check.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	//
+	// return "/images/new_check.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {
-		
+
 		return "writeCheck";
 	}
 }

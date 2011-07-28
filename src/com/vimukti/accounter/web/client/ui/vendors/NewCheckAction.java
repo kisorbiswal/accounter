@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.ui.banking.WriteChequeView;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 /**
  * 
@@ -21,23 +20,21 @@ public class NewCheckAction extends Action {
 
 	public NewCheckAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.constants().supplier(), Accounter
-				.constants().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor());
 	}
 
 	public NewCheckAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.constants().supplier(), Accounter
-				.constants().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor());
 	}
 
-	
-	@Override
-	public ParentCanvas getView() {
-		return null;
-	}
+	//
+	// @Override
+	// public ParentCanvas getView() {
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isEditable) {
@@ -75,10 +72,10 @@ public class NewCheckAction extends Action {
 		return Accounter.getFinanceMenuImages().newCheck();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/new_check.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/new_check.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.banking;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class SetUpOnlineBankingAction extends Action {
 
@@ -22,12 +21,11 @@ public class SetUpOnlineBankingAction extends Action {
 	public void run(AsyncCallback<Object> asyncCallback) {
 	}
 
-	
-	@Override
-	public ParentCanvas getView() {
-		// NOTHING TO DO.
-		return null;
-	}
+	// @Override
+	// public ParentCanvas getView() {
+	// // NOTHING TO DO.
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

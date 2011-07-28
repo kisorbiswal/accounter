@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class NewFixedAssetAction extends Action {
 
@@ -28,11 +27,10 @@ public class NewFixedAssetAction extends Action {
 		return Accounter.getFinanceMenuImages().newFixedAsset();
 	}
 
-	
-	@Override
-	public ParentCanvas getView() {
-		return this.view;
-	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.view;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -64,10 +62,10 @@ public class NewFixedAssetAction extends Action {
 
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/New Fixed Asset.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/New Fixed Asset.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

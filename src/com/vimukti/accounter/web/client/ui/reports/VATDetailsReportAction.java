@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 /**
  * @author Murali.A
@@ -34,11 +33,10 @@ public class VATDetailsReportAction extends Action {
 		return Accounter.getFinanceMenuImages().reports();
 	}
 
-	
-	@Override
-	public ParentCanvas getView() {
-		return this.report;
-	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.report;
+	// }
 
 	public void runAsync(final Object data, final Boolean dependent) {
 
@@ -68,10 +66,10 @@ public class VATDetailsReportAction extends Action {
 		runAsync(data, isDependent);
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/reports.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/reports.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

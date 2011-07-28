@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 /**
  * @modified by Ravi kiran.G
@@ -17,16 +16,14 @@ public class VendorPaymentsAction extends Action {
 
 	public VendorPaymentsAction(String text, String iconString) {
 		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.constants().supplier(), Accounter
-				.constants().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor());
 	}
 
 	public VendorPaymentsAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter
-				.constants().supplier(), Accounter
-				.constants().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor());
 	}
 
 	@Override
@@ -65,12 +62,11 @@ public class VendorPaymentsAction extends Action {
 
 	}
 
-	
-	@Override
-	public ParentCanvas getView() {
-		//  currently not using
-		return null;
-	}
+	// @Override
+	// public ParentCanvas getView() {
+	// // currently not using
+	// return null;
+	// }
 
 	public ImageResource getBigImage() {
 		return null;
@@ -80,15 +76,15 @@ public class VendorPaymentsAction extends Action {
 		return Accounter.getFinanceMenuImages().newVendorPayment();
 	}
 
-	@Override
-	public String getImageUrl() {
-		
-		return "/images/vendor_payments.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	//
+	// return "/images/vendor_payments.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {
-		
+
 		return UIUtils
 				.getVendorString("supplierPrePayment", "vendorPrePayment");
 	}

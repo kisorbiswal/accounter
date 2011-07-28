@@ -4,7 +4,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class WarehouseTransferListAction extends Action {
 
@@ -40,12 +39,6 @@ public class WarehouseTransferListAction extends Action {
 
 	@Override
 	public ImageResource getSmallImage() {
-		// NOTHING To Do
-		return null;
-	}
-
-	@Override
-	public ParentCanvas getView() {
 		// NOTHING To Do
 		return null;
 	}

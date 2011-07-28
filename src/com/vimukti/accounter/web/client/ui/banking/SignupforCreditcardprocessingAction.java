@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.banking;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class SignupforCreditcardprocessingAction extends Action {
 
@@ -23,11 +22,11 @@ public class SignupforCreditcardprocessingAction extends Action {
 	}
 
 	// its not using any where
-	
-	@Override
-	public ParentCanvas getView() {
-		return null;
-	}
+
+	// @Override
+	// public ParentCanvas getView() {
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

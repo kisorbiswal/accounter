@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.ui.PriceLevelListDialog;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 /**
@@ -24,11 +23,11 @@ public class PriceLevelListAction extends Action {
 		super(text, iconString);
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-
-		return null;
-	}
+	// @Override
+	// public ParentCanvas<?> getView() {
+	//
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -46,8 +45,8 @@ public class PriceLevelListAction extends Action {
 				try {
 
 					PriceLevelListDialog dialog = new PriceLevelListDialog(
-							Accounter.constants()
-									.managePriceLevelListGroup(), " ");
+							Accounter.constants().managePriceLevelListGroup(),
+							" ");
 					ViewManager viewManager = ViewManager.getInstance();
 					viewManager.setCurrentDialog(dialog);
 					// dialog.addCallBack(getViewConfiguration().getCallback());
@@ -71,11 +70,11 @@ public class PriceLevelListAction extends Action {
 		return Accounter.getFinanceMenuImages().priceLevelList();
 	}
 
-	@Override
-	public String getImageUrl() {
-
-		return "/images/Price_Level_list.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	//
+	// return "/images/Price_Level_list.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.ui.VATPaymentView;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class PaySalesTaxAction extends Action {
 
@@ -22,11 +21,11 @@ public class PaySalesTaxAction extends Action {
 		this.catagory = Accounter.constants().company();
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-		// NOTHING TO DO.
-		return null;
-	}
+	// @Override
+	// public ParentCanvas<?> getView() {
+	// // NOTHING TO DO.
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -72,10 +71,10 @@ public class PaySalesTaxAction extends Action {
 		return Accounter.getFinanceMenuImages().paySalesTax();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/Pay_Sales_Tax.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/Pay_Sales_Tax.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

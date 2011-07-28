@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 /**
  * 
@@ -26,7 +25,7 @@ public class NewCreditsAndRefundsAction extends Action {
 
 	public NewCreditsAndRefundsAction(String text, String iconString,
 			ClientCustomerCreditMemo creditMemo, AsyncCallback<Object> callback) {
-		super(text, iconString, creditMemo, callback);
+		super(text, iconString);
 		this.catagory = Accounter.constants().customer();
 	}
 
@@ -61,12 +60,11 @@ public class NewCreditsAndRefundsAction extends Action {
 		});
 	}
 
-	
-	@Override
-	public ParentCanvas getView() {
-		// NOTHING TO DO.
-		return null;
-	}
+	// @Override
+	// public ParentCanvas getView() {
+	// // NOTHING TO DO.
+	// return null;
+	// }
 
 	public ImageResource getBigImage() {
 		// NOTHING TO DO.
@@ -77,10 +75,10 @@ public class NewCreditsAndRefundsAction extends Action {
 		return Accounter.getFinanceMenuImages().newCreditsAndRefunds();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/new_credit_and_refunds.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/new_credit_and_refunds.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 /**
  * 
@@ -58,11 +57,11 @@ public class QuotesAction extends Action {
 
 	}
 
-	
-	@Override
-	public ParentCanvas getView() {
-		return this.view;
-	}
+	//
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.view;
+	// }
 
 	public ImageResource getBigImage() {
 		return null;
@@ -72,11 +71,11 @@ public class QuotesAction extends Action {
 		return Accounter.getFinanceMenuImages().quotes();
 	}
 
-	@Override
-	public String getImageUrl() {
-
-		return "/images/quotes.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	//
+	// return "/images/quotes.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

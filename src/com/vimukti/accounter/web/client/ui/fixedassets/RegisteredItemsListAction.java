@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 /**
  * @author Murali.A
@@ -46,11 +45,11 @@ public class RegisteredItemsListAction extends Action {
 	/*
 	 * @see com.vimukti.accounter.web.client.ui.core.Action#getView()
 	 */
-	
-	@Override
-	public ParentCanvas getView() {
-		return this.view;
-	}
+
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.view;
+	// }
 
 	/*
 	 * @see
@@ -81,10 +80,10 @@ public class RegisteredItemsListAction extends Action {
 		});
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/Registered_Items_List.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/Registered_Items_List.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

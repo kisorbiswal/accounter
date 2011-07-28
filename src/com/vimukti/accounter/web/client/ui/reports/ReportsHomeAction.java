@@ -4,7 +4,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 /**
  * 
@@ -22,12 +21,11 @@ public class ReportsHomeAction extends Action {
 		super(text, iconString);
 	}
 
-	
-	@Override
-	public ParentCanvas getView() {
-
-		return null;
-	}
+	// @Override
+	// public ParentCanvas getView() {
+	//
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -49,10 +47,10 @@ public class ReportsHomeAction extends Action {
 		return Accounter.getFinanceMenuImages().reportsHome();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/report_home.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/report_home.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

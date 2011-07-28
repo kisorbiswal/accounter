@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 import com.vimukti.accounter.web.client.ui.vat.TAXAgencyView;
 
 /**
@@ -66,11 +65,11 @@ public class NewTAXAgencyAction extends Action {
 
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-		// NOTHING TO DO.
-		return view;
-	}
+	// @Override
+	// public ParentCanvas<?> getView() {
+	// // NOTHING TO DO.
+	// return view;
+	// }
 
 	public ImageResource getBigImage() {
 		// NOTHING TO DO.
@@ -81,10 +80,10 @@ public class NewTAXAgencyAction extends Action {
 		return Accounter.getFinanceMenuImages().newTaxAgency();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/New_Tax_Agency.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/New_Tax_Agency.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

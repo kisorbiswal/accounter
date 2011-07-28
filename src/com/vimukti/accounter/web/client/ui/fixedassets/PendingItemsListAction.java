@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 /**
  * @author Murali.A
@@ -21,8 +20,7 @@ public class PendingItemsListAction extends Action {
 
 	public PendingItemsListAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants()
-				.fixedAssets();
+		this.catagory = Accounter.constants().fixedAssets();
 
 	}
 
@@ -36,11 +34,10 @@ public class PendingItemsListAction extends Action {
 		return Accounter.getFinanceMenuImages().pendingItemsList();
 	}
 
-	
-	@Override
-	public ParentCanvas getView() {
-		return this.view;
-	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.view;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -66,10 +63,10 @@ public class PendingItemsListAction extends Action {
 		});
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/pending_items_list.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/pending_items_list.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

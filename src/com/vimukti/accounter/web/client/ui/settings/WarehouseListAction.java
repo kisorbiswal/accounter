@@ -4,7 +4,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class WarehouseListAction extends Action {
 
@@ -43,11 +42,11 @@ public class WarehouseListAction extends Action {
 		return null;
 	}
 
-	@Override
-	public ParentCanvas getView() {
-
-		return null;
-	}
+	// @Override
+	// public ParentCanvas getView() {
+	//
+	// return null;
+	// }
 
 	@Override
 	public String getHistoryToken() {

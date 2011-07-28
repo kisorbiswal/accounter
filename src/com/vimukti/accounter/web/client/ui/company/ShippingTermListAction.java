@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.ui.ShippingTermListDialog;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 /**
@@ -24,10 +23,10 @@ public class ShippingTermListAction extends Action {
 		super(text, iconString);
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-		return null;
-	}
+	// @Override
+	// public ParentCanvas<?> getView() {
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -46,9 +45,8 @@ public class ShippingTermListAction extends Action {
 				try {
 
 					ShippingTermListDialog dialog = new ShippingTermListDialog(
-							Accounter.constants()
-									.manageShippingTermList(), Accounter
-									.constants().toAddShippingTerm());
+							Accounter.constants().manageShippingTermList(),
+							Accounter.constants().toAddShippingTerm());
 					ViewManager viewManager = ViewManager.getInstance();
 					viewManager.setCurrentDialog(dialog);
 					// dialog.addCallBack(getViewConfiguration().getCallback());
@@ -72,10 +70,10 @@ public class ShippingTermListAction extends Action {
 		return Accounter.getFinanceMenuImages().shippingTermList();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/Shipping_term_icon.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/Shipping_term_icon.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.ui.PaymentTermListDialog;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class PaymentTermListAction extends Action {
@@ -18,11 +17,11 @@ public class PaymentTermListAction extends Action {
 		super(text, iconString);
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-		// NOTHING TO DO.
-		return null;
-	}
+	// @Override
+	// public ParentCanvas<?> getView() {
+	// // NOTHING TO DO.
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -64,10 +63,10 @@ public class PaymentTermListAction extends Action {
 		return Accounter.getFinanceMenuImages().paymentTermsList();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/Payment_term.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/Payment_term.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.company;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class UserDetailsAction extends Action {
 
@@ -26,10 +25,10 @@ public class UserDetailsAction extends Action {
 	}
 
 	// its not using any where
-	@Override
-	public ParentCanvas getView() {
-		return null;
-	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

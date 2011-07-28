@@ -5,36 +5,31 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 
 public class NewPayeeAction extends Action {
 
-	
 	private boolean isEdit;
-	
+
 	private AbstractBaseView baseView;
 
-	
 	public NewPayeeAction(String text, AbstractBaseView baseView) {
 		super(text);
 		this.baseView = baseView;
 
 	}
 
-	
 	public NewPayeeAction(String text, String iconString,
 			AbstractBaseView baseView) {
 		super(text, iconString);
 
 	}
 
-	
-	@Override
-	public ParentCanvas getView() {
-		// NOTHING TO DO.
-		return null;
-	}
+	// @Override
+	// public ParentCanvas getView() {
+	// // NOTHING TO DO.
+	// return null;
+	// }
 
 	public void run(FormItem actionSource, Object data, Boolean isDependent) {
 		runAsync(actionSource, data, isDependent);

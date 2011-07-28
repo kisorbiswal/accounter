@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class NewJournalEntryAction extends Action {
 
@@ -19,7 +18,7 @@ public class NewJournalEntryAction extends Action {
 
 	public NewJournalEntryAction(String text, String iconString,
 			ClientJournalEntry journalEntry, AsyncCallback<Object> callback) {
-		super(text, iconString, journalEntry, callback);
+		super(text, iconString);
 		this.catagory = Accounter.constants().company();
 	}
 
@@ -52,11 +51,11 @@ public class NewJournalEntryAction extends Action {
 		});
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-		// NOTHING TO DO.
-		return null;
-	}
+	// @Override
+	// public ParentCanvas<?> getView() {
+	// // NOTHING TO DO.
+	// return null;
+	// }
 
 	public ImageResource getBigImage() {
 		// NOTHING TO DO.
@@ -67,10 +66,10 @@ public class NewJournalEntryAction extends Action {
 		return Accounter.getFinanceMenuImages().newJournalEntry();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/new_journal_entry.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/new_journal_entry.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

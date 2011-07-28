@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class PayBillsAction extends Action {
 
@@ -64,11 +63,10 @@ public class PayBillsAction extends Action {
 
 	}
 
-	
-	@Override
-	public ParentCanvas getView() {
-		return this.view;
-	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.view;
+	// }
 
 	public ImageResource getBigImage() {
 		// NOTHING TO DO.
@@ -79,10 +77,10 @@ public class PayBillsAction extends Action {
 		return Accounter.getFinanceMenuImages().payBill();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/pay_bills.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/pay_bills.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

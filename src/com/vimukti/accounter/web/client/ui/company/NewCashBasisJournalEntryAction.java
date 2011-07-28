@@ -5,12 +5,11 @@ import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class NewCashBasisJournalEntryAction extends Action {
-	
+
 	private ClientJournalEntry journalEntry;
-	
+
 	private boolean isEdit;
 
 	public NewCashBasisJournalEntryAction(String text) {
@@ -23,11 +22,11 @@ public class NewCashBasisJournalEntryAction extends Action {
 		this.catagory = Accounter.constants().company();
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-		// NOTHING TO DO.
-		return null;
-	}
+	// @Override
+	// public ParentCanvas<?> getView() {
+	// // NOTHING TO DO.
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

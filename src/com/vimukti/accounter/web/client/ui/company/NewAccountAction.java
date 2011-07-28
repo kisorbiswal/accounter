@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.ui.NewAccountView;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class NewAccountAction extends Action {
 
@@ -77,10 +76,10 @@ public class NewAccountAction extends Action {
 		this.accountTypes = accountTypes;
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-		return view;
-	}
+	// @Override
+	// public ParentCanvas<?> getView() {
+	// return view;
+	// }
 
 	public ImageResource getBigImage() {
 		return null;
@@ -90,10 +89,10 @@ public class NewAccountAction extends Action {
 		return Accounter.getFinanceMenuImages().newAccount();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/new_account.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/new_account.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

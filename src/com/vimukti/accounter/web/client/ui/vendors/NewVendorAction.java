@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 /**
  * 
@@ -18,9 +17,8 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class NewVendorAction extends Action {
 
-	
 	private boolean isEdit;
-	
+
 	private ClientVendor vendor;
 	protected VendorView view;
 	public final static int FROM_CREDIT_CARD_EXPENSE = 119;
@@ -28,16 +26,15 @@ public class NewVendorAction extends Action {
 	private int openedFrom;
 
 	public NewVendorAction(String text, String iconString) {
-		super(UIUtils.getVendorString(Accounter.constants()
-				.newSupplier(), Accounter.constants().newVendor()),
-				iconString);
+		super(UIUtils.getVendorString(Accounter.constants().newSupplier(),
+				Accounter.constants().newVendor()), iconString);
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
 	}
 
 	public NewVendorAction(String text, String iconString, ClientVendor vendor,
 			AsyncCallback<Object> callback) {
-		super(text, iconString, vendor, callback);
+		super(text, iconString);
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
 	}
@@ -74,11 +71,10 @@ public class NewVendorAction extends Action {
 
 	}
 
-	
-	@Override
-	public ParentCanvas getView() {
-		return this.view;
-	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.view;
+	// }
 
 	public ImageResource getBigImage() {
 		return null;
@@ -99,10 +95,10 @@ public class NewVendorAction extends Action {
 		return openedFrom;
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/new_vendor.png";
-	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/new_vendor.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class PreviousClaimAction extends Action {
 
@@ -26,11 +25,11 @@ public class PreviousClaimAction extends Action {
 		return null;
 	}
 
-	@Override
-	public ParentCanvas getView() {
-
-		return null;
-	}
+	// @Override
+	// public ParentCanvas getView() {
+	//
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
