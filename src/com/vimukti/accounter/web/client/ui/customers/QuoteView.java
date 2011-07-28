@@ -210,7 +210,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		Label lab1 = new Label(Accounter.constants().newQuote());
 		// + "(" + getTransactionStatus() + ")");
-		lab1.setStyleName(Accounter.constants().lableTitle());
+		lab1.setStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("35px");
 
 		transactionDateItem = createTransactionDateItem();
@@ -244,8 +244,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		customerCombo = createCustomerComboItem(Accounter
-				.constants().customerName());
+		customerCombo = createCustomerComboItem(Accounter.constants()
+				.customerName());
 		contactCombo = createContactComboItem();
 		billToTextArea = new TextAreaItem();
 		billToTextArea.setWidth(100);
@@ -288,9 +288,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		phoneForm.setFields(salesPersonCombo, payTermsSelect, quoteExpiryDate,
 				deliveryDate);
 		phoneForm.setStyleName("align-form");
-		phoneForm
-				.getCellFormatter()
-				.getElement(0, 0)
+		phoneForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "203px");
 		forms.add(phoneForm);
 

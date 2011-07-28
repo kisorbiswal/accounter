@@ -29,7 +29,7 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 
 	private static String NOT_ISSUED = Accounter.constants().notIssued();
 	private static String ISSUED = Accounter.constants().issued();
-	private static String VOID = Accounter.constants().Voided();
+	private static String VOID = Accounter.constants().voided();
 	private static String ALL = Accounter.constants().all();
 	// private static String DELETED="Deleted";
 
@@ -119,7 +119,6 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 		return viewSelect;
 	}
 
-	
 	private void filterList(String text) {
 
 		grid.removeAllRecords();

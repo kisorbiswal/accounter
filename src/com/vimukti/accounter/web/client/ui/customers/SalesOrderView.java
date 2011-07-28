@@ -91,9 +91,9 @@ public class SalesOrderView extends
 		emptylabel.setShowTitle(false);
 
 		lab1 = new Label(Accounter.constants().salesOrder());
-		lab1.setStyleName(Accounter.constants().lableTitle());
+		lab1.setStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("35px");
-		statusSelect = new SelectCombo(Accounter.constants().statuS());
+		statusSelect = new SelectCombo(Accounter.constants().status());
 
 		selectComboList = new ArrayList<String>();
 		selectComboList.add(OPEN);

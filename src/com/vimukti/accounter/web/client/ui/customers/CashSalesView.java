@@ -79,8 +79,8 @@ public class CashSalesView extends
 
 	@Override
 	protected void createControls() {
-		Label lab1 = new Label(Accounter.constants().newcashsale());
-		lab1.setStyleName(Accounter.constants().lableTitle());
+		Label lab1 = new Label(Accounter.constants().newCashSale());
+		lab1.setStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
@@ -124,8 +124,7 @@ public class CashSalesView extends
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isEdit);
 
-		billToTextArea = new TextAreaItem(Accounter.constants()
-				.billTo());
+		billToTextArea = new TextAreaItem(Accounter.constants().billTo());
 		billToTextArea.setDisabled(true);
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
@@ -174,9 +173,7 @@ public class CashSalesView extends
 				depositInCombo, shippingTermsCombo, shippingMethodsCombo,
 				deliveryDate);
 		termsForm.setStyleName("align-form");
-		termsForm
-				.getCellFormatter()
-				.getElement(0, 0)
+		termsForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "203px");
 		forms.add(termsForm);
 
@@ -481,8 +478,7 @@ public class CashSalesView extends
 		ClientCashSales cashSale = (ClientCashSales) transactionObject;
 		ClientCompany company = getCompany();
 		if (cashSale == null) {
-			UIUtils.err(Accounter.constants()
-					.unableToLoadRequiredQuote());
+			UIUtils.err(Accounter.constants().unableToLoadRequiredQuote());
 			return;
 		}
 

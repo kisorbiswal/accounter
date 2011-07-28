@@ -87,7 +87,6 @@ public class ReceivePaymentView extends
 
 	protected Boolean vatInclude = false;
 
-	
 	private boolean gotCreditsAndPayments;
 
 	private ArrayList<DynamicForm> listforms;
@@ -164,12 +163,11 @@ public class ReceivePaymentView extends
 							Accounter
 									.showMessage("Your session expired, Please login again to continue");
 						} else {
-							Accounter.showError(Accounter
-									.constants()
+							Accounter.showError(Accounter.constants()
 									.failedToGetRecievePayments()
 									+ selectedCustomer.getName());
-							gridView.addEmptyMessage(Accounter
-									.constants().norecordstoshow());
+							gridView.addEmptyMessage(Accounter.constants()
+									.noRecordsToShow());
 						}
 					}
 
@@ -183,8 +181,8 @@ public class ReceivePaymentView extends
 							gridView.initCreditsAndPayments(selectedCustomer);
 							addTransactionRecievePayments(result);
 						} else {
-							gridView.addEmptyMessage(Accounter
-									.constants().norecordstoshow());
+							gridView.addEmptyMessage(Accounter.constants()
+									.noRecordsToShow());
 							totalInoiceAmt = 0.00d;
 							totalDueAmt = 0.00d;
 							transactionTotal = 0.00d;
@@ -339,7 +337,6 @@ public class ReceivePaymentView extends
 		return null;
 	}
 
-	
 	private void adjustPaymentValue(ClientTransactionReceivePayment rec) {
 		Double amountDue = rec.getAmountDue();
 		Double cashDiscount = rec.getCashDiscount();
@@ -456,7 +453,7 @@ public class ReceivePaymentView extends
 			// + getTransactionStatus() + ")");
 			lab = new Label(Utility.getTransactionName(transactionType));
 		}
-		lab.setStyleName(Accounter.constants().lableTitle());
+		lab.setStyleName(Accounter.constants().labelTitle());
 		// lab.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
@@ -634,7 +631,6 @@ public class ReceivePaymentView extends
 		topHLay.setCellWidth(leftVLay, "50%");
 		topHLay.setCellWidth(rightVLay, "39%");
 
-		
 		VerticalPanel gridAndBalances = new VerticalPanel();
 
 		// HorizontalPanel hLay2 = new HorizontalPanel();
@@ -697,9 +693,9 @@ public class ReceivePaymentView extends
 	 */
 	public void calculateVatFraction(Double amount) {
 		if (selectedTaxCode != null) {
-			
+
 			ClientTAXCode code = (ClientTAXCode) selectedTaxCode;
-			
+
 			double amt = 0.0d;
 			try {
 				amt = DataUtils.getAmountStringAsDouble(amtText.getValue()
@@ -732,7 +728,6 @@ public class ReceivePaymentView extends
 
 	}
 
-	
 	private void distributeEnteredAmount(Double amount) {
 
 		Double unusedAmounts = 0.0;

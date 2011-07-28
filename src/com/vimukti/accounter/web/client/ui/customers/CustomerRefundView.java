@@ -52,7 +52,7 @@ public class CustomerRefundView extends
 	private AmountField endBalText, custBalText;
 	private TextItem checkNoText;
 	private CheckboxItem printCheck;
-	
+
 	private Double refundAmount;
 	private Double endingBalance;
 	private boolean isChecked = false;
@@ -120,8 +120,8 @@ public class CustomerRefundView extends
 			this.paymentMethod = paymentMethod;
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
 					.equalsIgnoreCase(Accounter.constants().cheque())
-					: paymentMethod.equalsIgnoreCase(Accounter
-							.constants().check())) {
+					: paymentMethod.equalsIgnoreCase(Accounter.constants()
+							.check())) {
 
 				printCheck.setDisabled(false);
 				checkNoText.setDisabled(false);
@@ -141,7 +141,7 @@ public class CustomerRefundView extends
 		// Label lab1 = new Label(Utility.getTransactionName(transactionType)
 		// + "(" + getTransactionStatus() + ")");
 		Label lab1 = new Label(Utility.getTransactionName(transactionType));
-		lab1.setStyleName(Accounter.constants().lableTitle());
+		lab1.setStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
@@ -222,8 +222,7 @@ public class CustomerRefundView extends
 						// .noNegativeAmounts() + ".");
 						// BaseView.commentPanel.setVisible(true);
 						MainFinanceWindow.getViewManager().showError(
-								Accounter.constants()
-										.noNegativeAmounts());
+								Accounter.constants().noNegativeAmounts());
 						// Accounter.showError(FinanceApplication
 						// .constants().noNegativeAmounts());
 						setRefundAmount(0.00D);
@@ -254,8 +253,8 @@ public class CustomerRefundView extends
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		// paymentMethodCombo.setWidth(100);
 		paymentMethodCombo.setComboItem(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(Accounter
-						.constants().check()));
+				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
+						.check()));
 
 		printCheck = new CheckboxItem(customerConstants.toBePrinted());
 		printCheck.setValue(true);
@@ -272,8 +271,8 @@ public class CustomerRefundView extends
 						checkNoText.setDisabled(true);
 					} else {
 						if (payFromSelect.getValue() == null)
-							checkNoText.setValueField(Accounter
-									.constants().Tobeprinted());
+							checkNoText.setValueField(Accounter.constants()
+									.toBePrinted());
 						else if (transactionObject != null) {
 							checkNoText
 									.setValue(((ClientCustomerPrePayment) transactionObject)
@@ -450,16 +449,14 @@ public class CustomerRefundView extends
 		if (!isEdit) {
 			if (checkNoText.getValue().equals(
 					Accounter.constants().toBePrinted())) {
-				value = String.valueOf(Accounter.constants()
-						.Tobeprinted());
+				value = String.valueOf(Accounter.constants().toBePrinted());
 
 			} else
 				value = String.valueOf(checkNoText.getValue());
 		} else {
 			String checknumber;
 			checknumber = this.checkNumber;
-			if (checknumber
-					.equals(Accounter.constants().Tobeprinted()))
+			if (checknumber.equals(Accounter.constants().toBePrinted()))
 				value = Accounter.constants().toBePrinted();
 			else
 				value = String.valueOf(checknumber);
@@ -565,8 +562,7 @@ public class CustomerRefundView extends
 		if (customerRefundTobeEdited.getCheckNumber() != null) {
 			if (customerRefundTobeEdited.getCheckNumber().equals(
 					Accounter.constants().toBePrinted())) {
-				checkNoText.setValue(Accounter.constants()
-						.toBePrinted());
+				checkNoText.setValue(Accounter.constants().toBePrinted());
 				printCheck.setValue(true);
 			} else {
 				checkNoText.setValue(customerRefundTobeEdited.getCheckNumber());
@@ -733,8 +729,7 @@ public class CustomerRefundView extends
 		paymentMethodCombo.setDisabled(isEdit);
 		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
-			checkNoText
-					.setValue(Accounter.constants().toBePrinted());
+			checkNoText.setValue(Accounter.constants().toBePrinted());
 			checkNoText.setDisabled(true);
 		}
 		// paymentMethodSelected(paymentMethodCombo.getValue().toString());

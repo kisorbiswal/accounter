@@ -160,7 +160,6 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected ClientAccount depositInAccount;
 
-	
 	private List<ClientShippingMethod> shippingMethods;
 
 	protected ClientShippingMethod shippingMethod;
@@ -590,7 +589,6 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	}
 
-	
 	protected void initShipToCombo() {
 
 		if (shipToCombo == null || addressListOfCustomer == null)
@@ -621,7 +619,6 @@ public abstract class AbstractCustomerTransactionView<T> extends
 		return null;
 	}
 
-	
 	protected void initBillToCombo() {
 
 		if (billToCombo == null || addressListOfCustomer == null)
@@ -912,7 +909,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected AmountField createVATTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(Accounter.constants().vat());
+		AmountField amountItem = new AmountField(Accounter.constants().VAT());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -920,7 +917,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	}
 
 	protected AmountLabel createVATTotalNonEditableLabel() {
-		AmountLabel amountLabel = new AmountLabel(Accounter.constants().vat());
+		AmountLabel amountLabel = new AmountLabel(Accounter.constants().VAT());
 
 		return amountLabel;
 	}

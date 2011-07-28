@@ -58,9 +58,8 @@ public class NewCustomerPaymentView extends
 	Double toBeSetCustomerBalance;
 	protected boolean isClose;
 	protected String paymentMethod = UIUtils
-			.getpaymentMethodCheckBy_CompanyType(Accounter
-					.constants().check());
-	
+			.getpaymentMethodCheckBy_CompanyType(Accounter.constants().check());
+
 	private CheckboxItem thisisVATinclusive;
 
 	private ArrayList<DynamicForm> listforms;
@@ -132,8 +131,8 @@ public class NewCustomerPaymentView extends
 		this.addressListOfCustomer = null;
 		this.depositInAccount = null;
 		this.paymentMethod = UIUtils
-				.getpaymentMethodCheckBy_CompanyType(Accounter
-						.constants().check());
+				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
+						.check());
 		amountText.setAmount(0D);
 		endBalText.setAmount(0D);
 		customerBalText.setAmount(0D);
@@ -164,13 +163,9 @@ public class NewCustomerPaymentView extends
 
 			if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
 				String value;
-				if (checkNo
-						.getValue()
-						.toString()
-						.equalsIgnoreCase(
-								Accounter.constants().toBePrinted())) {
-					value = String.valueOf(Accounter.constants()
-							.Tobeprinted());
+				if (checkNo.getValue().toString()
+						.equalsIgnoreCase(Accounter.constants().toBePrinted())) {
+					value = String.valueOf(Accounter.constants().toBePrinted());
 				} else {
 					value = String.valueOf(checkNo.getValue());
 				}
@@ -325,8 +320,7 @@ public class NewCustomerPaymentView extends
 				new AsyncCallback<Long>() {
 
 					public void onFailure(Throwable t) {
-						checkNo.setValue(Accounter.constants()
-								.toBePrinted());
+						checkNo.setValue(Accounter.constants().toBePrinted());
 						return;
 					}
 
@@ -356,9 +350,8 @@ public class NewCustomerPaymentView extends
 
 	@Override
 	protected void createControls() {
-		Label lab1 = new Label(Accounter.constants()
-				.customerPrePayment());
-		lab1.setStyleName(Accounter.constants().lableTitle());
+		Label lab1 = new Label(Accounter.constants().customerPrePayment());
+		lab1.setStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 
@@ -420,8 +413,7 @@ public class NewCustomerPaymentView extends
 		// paymentMethodCombo.setDefaultValue(UIUtils
 		// .getpaymentMethodCheckBy_CompanyType(FinanceApplication
 		// .constants().check()));
-		paymentMethodCombo.setComboItem(Accounter.constants()
-				.cheque());
+		paymentMethodCombo.setComboItem(Accounter.constants().cheque());
 		printCheck = new CheckboxItem(customerConstants.toBePrinted());
 		printCheck.setValue(true);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -432,13 +424,12 @@ public class NewCustomerPaymentView extends
 				if (isChecked) {
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
-						checkNo.setValue(Accounter.constants()
-								.toBePrinted());
+						checkNo.setValue(Accounter.constants().toBePrinted());
 						checkNo.setDisabled(true);
 					} else {
 						if (depositInAccount == null)
-							checkNo.setValueField(Accounter
-									.constants().Tobeprinted());
+							checkNo.setValueField(Accounter.constants()
+									.toBePrinted());
 						else if (transactionObject != null) {
 							checkNo.setValue(((ClientCustomerPrePayment) transactionObject)
 									.getCheckNumber());
@@ -532,8 +523,8 @@ public class NewCustomerPaymentView extends
 	}
 
 	private AddressCombo createBillToComboItem(String address) {
-		AddressCombo addressCombo = new AddressCombo(Accounter
-				.constants().address(), false);
+		AddressCombo addressCombo = new AddressCombo(Accounter.constants()
+				.address(), false);
 		addressCombo.setHelpInformation(true);
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -631,8 +622,8 @@ public class NewCustomerPaymentView extends
 			this.paymentMethod = paymentMethod;
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
 					.equalsIgnoreCase(Accounter.constants().cheque())
-					: paymentMethod.equalsIgnoreCase(Accounter
-							.constants().check())) {
+					: paymentMethod.equalsIgnoreCase(Accounter.constants()
+							.check())) {
 
 				printCheck.setDisabled(false);
 				checkNo.setDisabled(false);

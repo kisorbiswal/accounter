@@ -59,7 +59,7 @@ public class CustomerCreditMemoView extends
 	protected void createControls() {
 
 		Label lab1 = new Label(customerConstants.customerCreditNote());
-		lab1.setStyleName(Accounter.constants().lableTitle());
+		lab1.setStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("35px");
 		listforms = new ArrayList<DynamicForm>();
 
@@ -122,8 +122,7 @@ public class CustomerCreditMemoView extends
 		custForm = UIUtils.form(customerConstants.customer());
 		custForm.setFields(customerCombo, contactCombo, billToTextArea);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
-		custForm.getCellFormatter()
-				.getElement(0, 0)
+		custForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "190px");
 		custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
@@ -142,12 +141,10 @@ public class CustomerCreditMemoView extends
 		phoneForm.setStyleName("align-form");
 		forms.add(phoneForm);
 
-		
 		Label lab2 = new Label(customerConstants.productAndService());
 
 		memoTextAreaItem = createMemoTextAreaItem();
-		memoTextAreaItem.setTitle(Accounter.constants()
-				.reasonForIssue());
+		memoTextAreaItem.setTitle(Accounter.constants().reasonForIssue());
 
 		taxCodeSelect = createTaxCodeSelectItem();
 
@@ -497,7 +494,7 @@ public class CustomerCreditMemoView extends
 			}
 		}
 
-		//  this.paymentsNonEditableText.setValue(transactionGrid.);
+		// this.paymentsNonEditableText.setValue(transactionGrid.);
 
 		// this.balanceDueNonEditableText.setValue(""+UIUtils.getCurrencySymbol()
 		// +"0.00");
@@ -663,7 +660,7 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	public void printPreview() {
-		//NOTHING TO DO
+		// NOTHING TO DO
 	}
 
 	@Override

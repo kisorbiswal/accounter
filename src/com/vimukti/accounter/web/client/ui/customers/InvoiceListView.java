@@ -30,7 +30,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 
 	public static String OPEN = Accounter.constants().open();
 	public static String OVER_DUE = Accounter.constants().overDue();
-	public static String VOID = Accounter.constants().Voided();
+	public static String VOID = Accounter.constants().voided();
 	public static String ALL = Accounter.constants().all();
 	// private static String DELETE = "Deleted";
 	protected ClientFinanceDate startDate;
@@ -115,8 +115,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 			Accounter.constants().custom() };
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.constants()
-				.currentView());
+		viewSelect = new SelectCombo(Accounter.constants().currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(OPEN);
@@ -151,8 +150,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 	}
 
 	protected SelectCombo getDateRangeSelectItem() {
-		dateRangeSelector = new SelectCombo(Accounter.constants()
-				.date());
+		dateRangeSelector = new SelectCombo(Accounter.constants().date());
 		dateRangeList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeList.add(dateRangeArray[i]);
@@ -175,8 +173,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 					public void selectedComboBoxItem(String selectItem) {
 						if (dateRangeSelector.getValue() != null
 								&& !dateRangeSelector.getValue().equals(
-										Accounter.constants()
-												.custom())) {
+										Accounter.constants().custom())) {
 							dateRangeChanged(dateRangeSelector
 									.getSelectedValue());
 							grid.setViewType(dateRangeSelector
@@ -189,7 +186,6 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 		return dateRangeSelector;
 	}
 
-	
 	private void filterList(String text) {
 
 		grid.removeAllRecords();
@@ -275,32 +271,27 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 						date.getMonth() - 1, day);
 			}
 		}
-		if (dateRange.equals(Accounter.constants()
-				.thisFinancialYear())) {
+		if (dateRange.equals(Accounter.constants().thisFinancialYear())) {
 			startDate = getCompany().getCurrentFiscalYearStartDate();
 			endDate = getCompany().getCurrentFiscalYearEndDate();
 		}
-		if (dateRange.equals(Accounter.constants()
-				.lastFinancialYear())) {
+		if (dateRange.equals(Accounter.constants().lastFinancialYear())) {
 			startDate = new ClientFinanceDate(date.getYear() - 1, 0, 1);
 			endDate = new ClientFinanceDate(date.getYear() - 1, 11, 31);
 		}
-		if (dateRange.equals(Accounter.constants()
-				.thisFinancialQuarter())) {
+		if (dateRange.equals(Accounter.constants().thisFinancialQuarter())) {
 			startDate = new ClientFinanceDate();
 			endDate = getCompany().getLastandOpenedFiscalYearEndDate();
 			getCurrentQuarter();
 		}
-		if (dateRange.equals(Accounter.constants()
-				.lastFinancialQuarter())) {
+		if (dateRange.equals(Accounter.constants().lastFinancialQuarter())) {
 			startDate = new ClientFinanceDate();
 			endDate = getCompany().getLastandOpenedFiscalYearEndDate();
 			getCurrentQuarter();
 			startDate.setYear(startDate.getYear() - 1);
 			endDate.setYear(endDate.getYear() - 1);
 		}
-		if (dateRange.equals(Accounter.constants()
-				.financialYearToDate())) {
+		if (dateRange.equals(Accounter.constants().financialYearToDate())) {
 			startDate = getCompany().getCurrentFiscalYearStartDate();
 			endDate = new ClientFinanceDate();
 		}
@@ -392,7 +383,6 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 		}
 	}
 
-	
 	public void getPreviousQuarter() {
 
 		ClientFinanceDate date = new ClientFinanceDate();

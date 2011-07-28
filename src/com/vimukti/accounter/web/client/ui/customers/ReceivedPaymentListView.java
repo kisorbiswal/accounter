@@ -28,9 +28,8 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 	private static String ALL = Accounter.constants().all();
 	private static String OPEN = Accounter.constants().open();
-	private static String FULLY_APPLIED = Accounter.constants()
-			.fullyApplied();
-	private static String VOIDED = Accounter.constants().Voided();
+	private static String FULLY_APPLIED = Accounter.constants().fullyApplied();
+	private static String VOIDED = Accounter.constants().voided();
 	// private static String DELETED="Deleted";
 
 	private static final int STATUS_UNAPPLIED = 0;
@@ -84,8 +83,7 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.constants()
-				.currentView());
+		viewSelect = new SelectCombo(Accounter.constants().currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(ALL);
@@ -114,7 +112,6 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 		return viewSelect;
 	}
 
-	
 	private void filterList(String text) {
 
 		grid.removeAllRecords();
