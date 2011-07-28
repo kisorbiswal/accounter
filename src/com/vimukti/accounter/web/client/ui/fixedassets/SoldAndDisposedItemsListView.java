@@ -33,7 +33,7 @@ public class SoldAndDisposedItemsListView extends
 	 */
 	@Override
 	protected String getAddNewLabelString() {
-		return fixedAssetConstants.addNewAsset();
+		return Accounter.constants().addNewAsset();
 	}
 
 	/*

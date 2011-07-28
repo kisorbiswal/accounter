@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
@@ -35,7 +36,7 @@ public class DisposingRegisteredItemView extends SellingRegisteredItemView {
 	 */
 	@Override
 	protected DynamicForm getDetailForm() {
-		dateDisposed = new DateField(fixedAssetConstants.dateDisposed());
+		dateDisposed = new DateField(Accounter.constants().dateDisposed());
 		dateDisposed.setEnteredDate(new ClientFinanceDate());
 		yearValue = String.valueOf(dateDisposed.getYear() + 1900);
 		dateDisposed.addDateValueChangeHandler(new DateValueChangeHandler() {

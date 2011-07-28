@@ -28,7 +28,7 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return fixedAssetConstants.addNewAsset();
+		return Accounter.constants().addNewAsset();
 	}
 
 	@Override

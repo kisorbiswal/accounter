@@ -86,17 +86,16 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 		listforms = new ArrayList<DynamicForm>();
 		detailsLabel = new Label(Accounter.constants().details());
-		detailsLabel.setStyleName(Accounter.constants()
-				.lableTitle());
+		detailsLabel.setStyleName(Accounter.constants().lableTitle());
 
 		detailsForm = getDetailForm();
 
 		depriciationForFinancialyearLabel = new Label();
-		depriciationForFinancialyearLabel.setStyleName(Accounter
-				.constants().lableTitle());
+		depriciationForFinancialyearLabel.setStyleName(Accounter.constants()
+				.lableTitle());
 
-		depriciationForFinancialyearLabel.setText(Accounter
-				.constants().depriciationForThe()
+		depriciationForFinancialyearLabel.setText(Accounter.constants()
+				.depriciationForThe()
 				+ yearValue
 				+ Accounter.constants().financialYear());
 
@@ -107,10 +106,8 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		QuestionLabel.setText(Accounter.constants()
 				.howMuchDepriciationShouldBeIcludedInThisFinancialYear());
 		QuestionItem = new RadioGroupItem();
-		noDepOption = Accounter.constants()
-				.noDepreciationThisFinancialYear();
-		allDepOption = Accounter.constants()
-				.allDepreciationUpToIncluding();
+		noDepOption = Accounter.constants().noDepreciationThisFinancialYear();
+		allDepOption = Accounter.constants().allDepreciationUpToIncluding();
 		QuestionItem.setValues(new ClickHandler() {
 
 			@Override
@@ -122,8 +119,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 		DynamicForm radioForm = new DynamicForm();
 		radioForm.setFields(QuestionItem);
-		dateItemCombo = new SelectItem(Accounter.constants()
-				.date());
+		dateItemCombo = new SelectItem(Accounter.constants().date());
 		dateForm = new DynamicForm();
 		dateForm.setWidth("50%");
 		dateForm.setFields(dateItemCombo);
@@ -143,7 +139,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 		notesArea = new TextAreaItem();
 		notesArea.setWidth(100);
-		notesArea.setTitle(fixedAssetConstants.notes());
+		notesArea.setTitle(Accounter.constants().notes());
 
 		textAreaForm = new DynamicForm();
 		textAreaForm.setWidth("100%");
@@ -177,7 +173,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	 * @return
 	 */
 	protected DynamicForm getDetailForm() {
-		datesold = new DateField(fixedAssetConstants.datesold());
+		datesold = new DateField(Accounter.constants().datesold());
 		datesold.setEnteredDate(new ClientFinanceDate());
 		yearValue = String.valueOf(datesold.getYear() + 1900);
 		datesold.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -207,8 +203,8 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 	protected void openJournalDialog(
 			FixedAssetSellOrDisposeReviewJournal journalObject) {
-		dialog = new JournalViewDialog(Accounter.constants()
-				.journalView(), "", journalObject);
+		dialog = new JournalViewDialog(Accounter.constants().journalView(), "",
+				journalObject);
 		dialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
@@ -296,10 +292,11 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	protected void dateSelected() {
 		yearValue = String
 				.valueOf(getSoldorDisposedDateField().getYear() + 1900);
-		depriciationForFinancialyearLabel.setText(Accounter
-				.constants().depriciationForThe()
+		depriciationForFinancialyearLabel.setText(Accounter.constants()
+				.depriciationForThe()
 				+ yearValue
-				+ "     " + Accounter.constants().financialYear());
+				+ "     "
+				+ Accounter.constants().financialYear());
 		initDateCombo();
 	}
 
@@ -348,16 +345,11 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 	private String[] getMonthStrings() {
 		return new String[] { Accounter.constants().JAN(),
-				Accounter.constants().FEB(),
-				Accounter.constants().MAR(),
-				Accounter.constants().APR(),
-				Accounter.constants().MAY(),
-				Accounter.constants().JUN(),
-				Accounter.constants().JUL(),
-				Accounter.constants().AUG(),
-				Accounter.constants().SEPT(),
-				Accounter.constants().OCT(),
-				Accounter.constants().NOV(),
+				Accounter.constants().FEB(), Accounter.constants().MAR(),
+				Accounter.constants().APR(), Accounter.constants().MAY(),
+				Accounter.constants().JUN(), Accounter.constants().JUL(),
+				Accounter.constants().AUG(), Accounter.constants().SEPT(),
+				Accounter.constants().OCT(), Accounter.constants().NOV(),
 				Accounter.constants().DEC(), };
 	}
 
