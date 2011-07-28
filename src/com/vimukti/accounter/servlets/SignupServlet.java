@@ -26,8 +26,9 @@ public class SignupServlet extends BaseServlet {
 		String emailId = req.getParameter("emailId").trim().toLowerCase();
 		String firstName = req.getParameter("firstName").trim().toLowerCase();
 		String lastName = req.getParameter("lastName").trim().toLowerCase();
-		if (!isValidInputs(firstName, lastName) || !isValidEmailId(emailId)) {
-			dispatchMessage("Given Inputs are wrong.", req, resp);
+		if (!isValidInputs(NAME, firstName, lastName)
+				|| !isValidInputs(MAIL_ID, emailId)) {
+			dispatchMessage("Given Inputs are wrong.", req, resp, "");
 			return;
 		}
 		// Have to check UserExistence
@@ -59,11 +60,6 @@ public class SignupServlet extends BaseServlet {
 			redirect(req, resp, "");
 		}
 
-	}
-
-	private boolean isValidEmailId(String emailId) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	private void sendActivationEmail(String emailId, String tocken) {

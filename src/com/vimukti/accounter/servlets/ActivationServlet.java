@@ -59,7 +59,7 @@ public class ActivationServlet extends BaseServlet {
 			throws ServletException, IOException {
 		HttpSession session = req.getSession();
 		if (session == null) {
-			dispatchMessage("Token has expired.", req, resp);
+			dispatchMessage("Token has expired.", req, resp, "");
 			return;
 		}
 
@@ -70,7 +70,7 @@ public class ActivationServlet extends BaseServlet {
 		// if it is null
 		if (activation == null) {
 			// dispatch withr "Token has expired".
-			dispatchMessage("Token has expired.", req, resp);
+			dispatchMessage("Token has expired.", req, resp, "");
 			return;
 		}
 		// otherwise
@@ -81,7 +81,7 @@ public class ActivationServlet extends BaseServlet {
 		// compare if not equal send error message
 		// otherwise
 		if (!password.equals(confirm)) {
-			dispatchMessage("Passwords are not matched.", req, resp);
+			dispatchMessage("Passwords are not matched.", req, resp, "");
 			return;
 		}
 
