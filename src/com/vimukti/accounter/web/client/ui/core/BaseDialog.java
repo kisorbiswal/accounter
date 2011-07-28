@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.core;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -20,8 +19,6 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.company.CompanyMessages;
-import com.vimukti.accounter.web.client.ui.vat.VATMessages;
 
 /**
  * Base Dialog is abstract class which provides common ground for all small
@@ -37,9 +34,7 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 	private String description;
 	protected HorizontalPanel bodyLayout;
 	protected HorizontalPanel footerLayout;
-	protected CompanyMessages companyMessges;
 	protected AccounterConstants constants;
-	protected VATMessages vatMessages;
 
 	protected AccounterButton cancelBtn;
 	protected AccounterButton okbtn;
@@ -73,12 +68,7 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 
 	protected void initConstants() {
 		try {
-
-			vatMessages = GWT.create(VATMessages.class);
-			this.companyMessges = (CompanyMessages) GWT
-					.create(CompanyMessages.class);
-			this.constants = (AccounterConstants) GWT
-					.create(AccounterConstants.class);
+			this.constants = Accounter.constants();
 
 		} catch (Exception e) {
 

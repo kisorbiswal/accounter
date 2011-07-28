@@ -1,19 +1,17 @@
 package com.vimukti.accounter.web.client.ui.core;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
 @SuppressWarnings("unchecked")
 public class PaymentDialog extends BaseDialog {
 	RadioGroupItem typeRadio;
-	private CustomersMessages customerConstants = GWT
-			.create(CustomersMessages.class);
+	private AccounterConstants customerConstants = Accounter.constants();
 	private final String RECEIVE_PAYMENT = customerConstants.receivePayment();
 	private final String CUSTOMER_PREPAYMENT = customerConstants
 			.customerPrePayment();

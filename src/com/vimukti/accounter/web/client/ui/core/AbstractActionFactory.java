@@ -1,9 +1,8 @@
 package com.vimukti.accounter.web.client.ui.core;
 
-import com.google.gwt.core.client.GWT;
-import com.vimukti.accounter.web.client.externalization.ActionsConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class AbstractActionFactory {
-	public static ActionsConstants actionsConstants = GWT
-			.create(ActionsConstants.class);
+	public static AccounterConstants actionsConstants = Accounter.constants();
 }
