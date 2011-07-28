@@ -682,7 +682,7 @@ public class WriteChequeView extends
 		// setTitle(bankingConstants.writeCheck());
 		Label lab1 = new Label(Accounter.constants().writeCheck() + "("
 				+ getTransactionStatus() + ")");
-		lab1.addStyleName(Accounter.constants().lableTitle());
+		lab1.addStyleName(Accounter.constants().labelTitle());
 		if (takenPaySalesTax != null)
 			lab1.setText(Accounter.constants().taxAgentPayment());
 

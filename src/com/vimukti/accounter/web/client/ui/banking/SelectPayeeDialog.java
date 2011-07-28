@@ -17,25 +17,22 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
-
 public class SelectPayeeDialog extends BaseDialog {
 
 	FormItem actionSource;
 	RadioGroupItem typeRadio;
 	// private ClientCompany company;
-	
+
 	private final String VENDOR_PAY = UIUtils.getVendorString(Accounter
-			.constants().supplierpay(), Accounter.constants()
-			.vendorpay());
-	
-	private final String CUST_REFUND = Accounter.constants()
-			.custRefund();
-	
+			.constants().supplierPay(), Accounter.constants().vendorpay());
+
+	private final String CUST_REFUND = Accounter.constants().custRefund();
+
 	private final String EMP_REIMB = Accounter.constants().empreimb();
 
 	public SelectPayeeDialog(AbstractBaseView parent) {
-		super(Accounter.constants().selectPayeeType(), Accounter
-				.constants().selectOneOfFollowingPayee());
+		super(Accounter.constants().selectPayeeType(), Accounter.constants()
+				.selectOneOfFollowingPayee());
 
 		// company = FinanceApplication.getCompany();
 		createControls();
@@ -44,8 +41,8 @@ public class SelectPayeeDialog extends BaseDialog {
 	}
 
 	public SelectPayeeDialog(AbstractBaseView parent, FormItem actionSource) {
-		super(Accounter.constants().selectPayeeType(), Accounter
-				.constants().selectOneOfFollowingPayee());
+		super(Accounter.constants().selectPayeeType(), Accounter.constants()
+				.selectOneOfFollowingPayee());
 		this.actionSource = actionSource;
 		// company = FinanceApplication.getCompany();
 		createControls();
@@ -61,11 +58,10 @@ public class SelectPayeeDialog extends BaseDialog {
 		typeRadio.setShowTitle(false);
 		typeRadio.setRequired(true);
 
-		
 		LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();
 
-		typeRadio.setValueMap(Accounter.constants().customer(),
-				Accounter.constants().supplier());
+		typeRadio.setValueMap(Accounter.constants().customer(), Accounter
+				.constants().supplier());
 		typeRadio.setDefaultValue(Accounter.constants().customer());
 
 		DynamicForm typeForm = new DynamicForm();
@@ -86,8 +82,7 @@ public class SelectPayeeDialog extends BaseDialog {
 					String radio = typeRadio.getValue().toString();
 					// FIXME--an action is required here
 					// okClick();
-					if (radio.equals(Accounter.constants()
-							.supplier())) {
+					if (radio.equals(Accounter.constants().supplier())) {
 						// new VendorPaymentsAction("Not Issued").run();
 
 						try {
@@ -102,8 +97,7 @@ public class SelectPayeeDialog extends BaseDialog {
 							// e);
 						}
 
-					} else if (radio.equals(Accounter.constants()
-							.customer())) {
+					} else if (radio.equals(Accounter.constants().customer())) {
 						try {
 							Action action = CustomersActionFactory
 									.getNewCustomerAction();

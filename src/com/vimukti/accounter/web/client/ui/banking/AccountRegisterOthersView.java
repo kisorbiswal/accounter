@@ -96,7 +96,7 @@ public class AccountRegisterOthersView extends
 
 		lab1 = new Label(Accounter.constants().accountRegister() + " - "
 				+ takenaccount.getName());
-		lab1.setStyleName(Accounter.constants().lableTitle());
+		lab1.setStyleName(Accounter.constants().labelTitle());
 		HorizontalPanel lableHpanel = new HorizontalPanel();
 		lableHpanel.setWidth("100%");
 		lableHpanel.add(lab1);
