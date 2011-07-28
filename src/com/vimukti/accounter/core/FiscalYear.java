@@ -218,8 +218,8 @@ public class FiscalYear extends CreatableObject implements
 				netIncome = list.get(0) == null ? 0.0 : (Double) list.get(0);
 
 				Query q = session
-						.createQuery(
-								"select at.account.id as accountId, sum(at.amount) as amount from com.vimukti.accounter.core.AccountTransaction at where at.account.type in (14,15,16,17,18) and at.transaction.transactionDate between :startDate and :endDate group by at.account.id")
+						.getNamedQuery(
+								"getFisaclId.andSum.fromAccountTransaction")
 						.setParameter("startDate", this.previousStartDate)
 						.setParameter("endDate", this.endDate);
 
@@ -417,8 +417,8 @@ public class FiscalYear extends CreatableObject implements
 			throws InvalidOperationException {
 		Session session = HibernateUtil.getCurrentSession();
 		List list = session
-				.createQuery(
-						"from com.vimukti.accounter.core.Transaction t where t.transactionDate between :startDate and :endDate")
+				.getNamedQuery(
+						"getTransaction.by.Transactiondates")
 				.setParameter("startDate", object.getStartDate())
 				.setParameter("endDate", object.getEndDate()).list();
 		if (list != null && list.size() != 0)
@@ -431,8 +431,8 @@ public class FiscalYear extends CreatableObject implements
 		modifyFiscalYears(presentFiscalYear);
 		Session session = HibernateUtil.getCurrentSession();
 		List transactionDates = session
-				.createQuery(
-						"select t.transactionDate from com.vimukti.accounter.core.Transaction t where t.transactionDate<:date")
+				.getNamedQuery(
+						"get.TransactionDate.from.TransactionbyDate")
 				.setParameter("date", this.getStartDate()).list();
 		Iterator it = transactionDates.iterator();
 		while (it.hasNext()) {
@@ -444,8 +444,8 @@ public class FiscalYear extends CreatableObject implements
 	private void modifyFiscalYears(FiscalYear presentFiscalYear) {
 		Session s = HibernateUtil.getCurrentSession();
 		List<FiscalYear> beforeFYs = s
-				.createQuery(
-						"from com.vimukti.accounter.core.FiscalYear f where f.id !=:id and f.startDate<:startDate order by f.startDate desc")
+				.getNamedQuery(
+						"getFiscalyear.byId.andDates")
 				.setParameter("id", this.getID())
 				.setParameter("startDate", this.getStartDate()).list();
 		Calendar tempCal = Calendar.getInstance();
@@ -465,8 +465,8 @@ public class FiscalYear extends CreatableObject implements
 			tempCal.setTime(startDate.getAsDateObject());
 		}
 		List<FiscalYear> afterFYs = s
-				.createQuery(
-						"from com.vimukti.accounter.core.FiscalYear f where f.id !=:id and f.startDate>=:startDate order by f.startDate")
+				.getNamedQuery(
+						"getFisacalyear.by.id.and.Startdate")
 				.setParameter("id", this.id)
 				.setParameter("startDate", this.getStartDate()).list();
 		tempCal.setTime(this.getStartDate().getAsDateObject());
@@ -504,7 +504,7 @@ public class FiscalYear extends CreatableObject implements
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session
-				.createQuery("from com.vimukti.accounter.core.FiscalYear f order by f.startDate");
+				.getNamedQuery("getFisacalyear.by.Startdate");
 		List list = query.list();
 		// Object[] object = (Object[]) list.get(0);
 

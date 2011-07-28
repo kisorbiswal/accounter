@@ -179,8 +179,8 @@ public class VATReturn extends Transaction implements Lifecycle {
 			// this.taxAgency.purchaseLiabilityAccount.onUpdate(session);
 
 			Query query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.TAXAdjustment v where v.transactionDate between :fromDate and :toDate and v.isFiled = false")
+					.getNamedQuery(
+							"getTaxAdjustment.by.dates")
 					.setParameter("fromDate", this.VATperiodStartDate)
 					.setParameter("toDate", this.VATperiodEndDate);
 
@@ -193,8 +193,8 @@ public class VATReturn extends Transaction implements Lifecycle {
 			}
 
 			query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.TAXRateCalculation vr where vr.taxItem is not null and vr.taxAgency.id=:vatAgency and vr.transactionDate <= :toDate and vr.vatReturn is null")
+					.getNamedQuery(
+							"getTaxrateCalc.by.taxitem.and.details")
 					.setParameter("toDate", this.VATperiodEndDate)
 					.setParameter("vatAgency", taxAgency.getID());
 
@@ -242,8 +242,8 @@ public class VATReturn extends Transaction implements Lifecycle {
 			// .getAmount()));
 			//
 			Query query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.TAXRateCalculation vr where vr.vatItem is not null and vr.vatItem.vatAgency.id=:vatAgency and vr.transactionDate > :toDate and vr.vatReturn is null")
+					.getNamedQuery(
+							"getTaxrateCalc.by.vatitem.and.details")
 					.setParameter("toDate", this.VATperiodEndDate)
 					.setParameter("vatAgency", taxAgency.getID());
 

@@ -21,8 +21,8 @@ public class NumberUtils {
 
 		Query query = HibernateUtil
 				.getCurrentSession()
-				.createQuery(
-						"select t.number from com.vimukti.accounter.core.Transaction t where t.type =:transactionType")
+				.getNamedQuery(
+						"getTransactionNumber.by.type")
 				.setParameter("transactionType", transactionType);
 
 		List list = query.list();
@@ -52,7 +52,7 @@ public class NumberUtils {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session
-				.createQuery("from com.vimukti.accounter.core.Entry e ");
+				.getNamedQuery("get.Entry");
 		List list1 = query.list();
 
 		if (list1.size() <= 0) {
@@ -61,7 +61,7 @@ public class NumberUtils {
 		}
 
 		query = session
-				.createQuery("select e.voucherNumber from com.vimukti.accounter.core.Entry e where e.id = (select max(e1.id) from com.vimukti.accounter.core.Entry e1 )");
+				.getNamedQuery("getEntry.byId.andMax");
 		List list = query.list();
 
 		if (list != null) {
@@ -80,7 +80,7 @@ public class NumberUtils {
 	private static String getPreviousFixedAssetNumber() {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session
-				.createQuery("select f.assetNumber from com.vimukti.accounter.core.FixedAsset f");
+				.getNamedQuery("getassestNumber.from.FixedAsset");
 		List<?> list = query.list();
 		if (list.size() == 0) {
 			return "0";
@@ -106,8 +106,8 @@ public class NumberUtils {
 
 		Query query = HibernateUtil
 				.getCurrentSession()
-				.createQuery(
-						"select c.number from com.vimukti.accounter.core.Customer c order by c.id");
+				.getNamedQuery(
+						"getCustomer.byId.andOrder");
 
 		List list = query.list();
 		if ((list.size() == 0)) {

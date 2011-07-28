@@ -469,8 +469,8 @@ public class Vendor extends Payee implements Lifecycle {
 			throws InvalidOperationException {
 		Session session = HibernateUtil.getCurrentSession();
 		Vendor vendor = (Vendor) clientObject;
-		Query query = session.createQuery(
-				"from com.vimukti.accounter.core.Vendor V where V.name=?")
+		Query query = session.getNamedQuery(
+				"getVendor.by.name")
 				.setParameter(0, vendor.name);
 		List list = query.list();
 		if (list != null && list.size() > 0) {

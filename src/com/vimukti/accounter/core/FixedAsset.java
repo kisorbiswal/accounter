@@ -1256,8 +1256,8 @@ public class FixedAsset extends CreatableObject implements Lifecycle,
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.Depreciation d where d.depreciateFrom >= ? and d.status=? ")
+				.getNamedQuery(
+						"getDepreciation.byDepreciationForm.andStatus")
 				.setParameter(0, rollBackDepreciationTo)
 				.setParameter(1, Depreciation.APPROVE);
 		List<Depreciation> list = query.list();
@@ -1562,8 +1562,8 @@ public class FixedAsset extends CreatableObject implements Lifecycle,
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 
 		Query query = session
-				.createQuery(
-						"select d from com.vimukti.accounter.core.Depreciation d inner join d.fixedAsset where d.depreciateFrom >= ? and d.status=? and d.fixedAsset.id=? group by d.fixedAsset.id")
+				.getNamedQuery(
+						"getDepreciation.byFixedAsset.andWithDetails")
 				.setParameter(0, rollBackDepreciationTo)
 				.setParameter(1, Depreciation.APPROVE)
 				.setParameter(2, fixedAssetID);

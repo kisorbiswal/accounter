@@ -389,8 +389,8 @@ public abstract class Payee extends CreatableObject implements
 	protected void updateEntryMemo(Session session) {
 
 		Query query = session
-				.createQuery(
-						"select p.name from com.vimukti.accounter.core.Payee p where p.id=:id")
+				.getNamedQuery(
+						"getPayeename.from.PayeebyId")
 				.setParameter("id", this.getID());
 		String payeeName = (String) query.uniqueResult();
 

@@ -395,9 +395,8 @@ public class ObjectConvertUtil {
 			if (id == -1)
 				return null;
 
-			List<Object> list = session
-					.getNamedQuery("unique.id." + serverClassName)
-					.setLong(0, id).list();
+			List<Object> list = session.getNamedQuery(
+					"unique.id." + serverClassName).setLong(0, id).list();
 
 			// String hql = "from " + serverClassName + " where id = ?";
 			//
@@ -419,17 +418,27 @@ public class ObjectConvertUtil {
 		return null;
 	}
 
-	public long getLongIdForGivenid(Class<?> cls, String account) {
+	public long getLongIdForGivenid(Class<?> cls, long account) {
 
 		Session session = HibernateUtil.getCurrentSession();
-		String hqlQuery = "select entity.id from " + cls.getName()
-				+ " entity where entity.id=?";
-		Query query = session.createQuery(hqlQuery).setString(0, account);
-		List<?> l = query.list();
-		if (l != null && !l.isEmpty() && l.get(0) != null) {
-			return (Long) l.get(0);
-		} else
+		String namedQuery = "unique.id." + cls.getName();
+		// String hqlQuery = "select entity.id from " + cls.getName()
+		// + " entity where entity.id=?";
+		Query query = session.getNamedQuery(namedQuery).setParameter(0, account);
+		IAccounterServerCore core = query.uniqueResult() instanceof IAccounterServerCore ? (IAccounterServerCore) query
+				.uniqueResult()
+				: null;
+		// Query query = session.createQuery(hqlQuery).setString(0, account);
+		// List<?> l = query.list();
+		// if (l != null && !l.isEmpty() && l.get(0) != null) {
+		// return (Long) l.get(0);
+		// } else
+		// return 0;
+		if (core != null) {
+			return core.getID();
+		} else {
 			return 0;
+		}
 
 	}
 
