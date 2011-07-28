@@ -2,13 +2,15 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.core.Measurement;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 public class UnitsListGird extends ListGrid<Measurement> {
 
 	MesurementListView view;
-	SettingsMessages messages = GWT.create(SettingsMessages.class);
+	AccounterConstants messages = Accounter.constants();
 
 	public UnitsListGird(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);

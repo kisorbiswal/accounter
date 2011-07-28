@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
@@ -67,7 +68,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 	private FlexTable textBoxTable;
 	private List<String> listOfFontNames, listOfFontSizes;
 	private ClientBrandingTheme takenTheme;
-	private SettingsMessages messages;
+	private AccounterConstants messages=Accounter.constants();
 	private Label addLogoLabel;
 	private ValueCallBack<ClientBrandingTheme> callback;
 	private String[] fileTypes;
@@ -83,7 +84,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 	@Override
 	protected void initConstants() {
 		super.initConstants();
-		messages = GWT.create(SettingsMessages.class);
+		
 	}
 
 	public NewBrandThemeDialog(String title, String desc,

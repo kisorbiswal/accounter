@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -31,7 +32,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	private LabelItem titleItem;
 	private boolean wait;
 
-	public SettingsMessages settingsConstants;
+	public AccounterConstants settingsConstants;
 
 	@Override
 	public void init() {
@@ -46,7 +47,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	@Override
 	protected void initConstants() {
 		super.initConstants();
-		settingsConstants = GWT.create(SettingsMessages.class);
+		settingsConstants = Accounter.constants();
 	}
 
 	private void createControls() {

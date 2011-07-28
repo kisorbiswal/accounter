@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
@@ -46,7 +47,7 @@ public class InvoiceBrandingView<T> extends
 			contactDetailsPanel, vPanel;
 	private AccounterButton newBrandButton, automaticButton;
 	private HorizontalPanel buttonPanel, showPanel, allPanel, nameAndMenuPanel;
-	private SettingsMessages messages = GWT.create(SettingsMessages.class);
+	private AccounterConstants messages = Accounter.constants();
 
 	@Override
 	public void setData(ClientBrandingTheme data) {
@@ -81,7 +82,7 @@ public class InvoiceBrandingView<T> extends
 		});
 		titleLabel = new Label(messages.invoiceBrandingLabel());
 		titleLabel.removeStyleName("gwt-Label");
- 
+
 		titleLabel.setStyleName(Accounter.constants().lableTitle());
 		generalSettingsHTML.addClickHandler(new ClickHandler() {
 

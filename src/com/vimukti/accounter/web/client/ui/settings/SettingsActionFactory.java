@@ -1,22 +1,21 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.core.client.GWT;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
 import com.vimukti.accounter.web.client.ui.core.AbstractActionFactory;
 import com.vimukti.accounter.web.client.ui.core.InventoryItemsAction;
 
 public class SettingsActionFactory extends AbstractActionFactory {
-	private static SettingsMessages messages = GWT
-			.create(SettingsMessages.class);
+	private static AccounterConstants messages = Accounter.constants();
 
 	public static GeneralSettingsAction getGeneralSettingsAction() {
 		return new GeneralSettingsAction(messages.labelTitle());
 	}
 
 	public static InventoryItemsAction getInventoryItemsAction() {
-		return new InventoryItemsAction(Accounter.constants()
-				.inventoryItems());
+		return new InventoryItemsAction(Accounter.constants().inventoryItems());
 
 	}
 
@@ -42,8 +41,7 @@ public class SettingsActionFactory extends AbstractActionFactory {
 	}
 
 	public static ConversionDateAction getConversionDateAction() {
-		return new ConversionDateAction(Accounter.constants()
-				.conversionDate());
+		return new ConversionDateAction(Accounter.constants().conversionDate());
 	}
 
 	public static AutomaticSequenceAction getAutomaticSequenceAction() {

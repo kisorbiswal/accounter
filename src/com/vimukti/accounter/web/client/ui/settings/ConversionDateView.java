@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -31,7 +32,7 @@ public class ConversionDateView extends AbstractBaseView {
 	private List<String> monthList;
 	private List<String> yearList;
 	private AccounterButton saveButton, cancelButton;
-	private SettingsMessages messages = GWT.create(SettingsMessages.class);
+	private AccounterConstants messages = Accounter.constants();
 
 	@Override
 	public void fitToSize(int height, int width) {

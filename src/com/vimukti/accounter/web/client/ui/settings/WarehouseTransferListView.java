@@ -3,18 +3,18 @@ package com.vimukti.accounter.web.client.ui.settings;
 import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.core.StockTransfer;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
-import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
 
 public class WarehouseTransferListView extends BaseListView<StockTransfer> {
 
-	private Object customerConstants;
+	private AccounterConstants customerConstants;
 
 	@Override
 	public void init() {
-		customerConstants = GWT.create(CustomersMessages.class);
+		customerConstants = Accounter.constants();
 		super.init();
 	}
 

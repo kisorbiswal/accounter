@@ -8,6 +8,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 
@@ -15,8 +17,7 @@ public class MesurementListView extends BaseView {
 
 	private UnitsListGird grid;
 	private VerticalPanel mesurementPanel;
-	private SettingsMessages settingsMessages = GWT
-			.create(SettingsMessages.class);
+	private AccounterConstants settingsMessages = Accounter.constants();
 
 	@Override
 	public void deleteFailed(Throwable caught) {

@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
@@ -29,7 +30,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 			invoiceCommentHtml, titleHtml, userHtml, userCommentHtml,
 			companySettingsHtml, companyCommentHtml;
 	private Image conversationImage, usersImage, invoiceImage, companyImage;
-	private SettingsMessages messages = GWT.create(SettingsMessages.class);
+	private AccounterConstants messages = Accounter.constants();
 
 	@Override
 	public void fitToSize(int height, int width) {

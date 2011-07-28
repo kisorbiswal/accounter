@@ -11,6 +11,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -26,8 +28,7 @@ public class AddMeasurementView extends BaseView {
 	private SelectCombo defaultItem;
 	private AddUnitsGrid addUnitsGrid;
 	private DynamicForm addMeasurmentForm, defaultForm;
-	private SettingsMessages settingsMessages = GWT
-			.create(SettingsMessages.class);
+	private AccounterConstants settingsMessages = Accounter.constants();
 	private Measurement measurment;
 	private List defaultList;
 	private AddUnitsListGridData addUnitsListGridData;
