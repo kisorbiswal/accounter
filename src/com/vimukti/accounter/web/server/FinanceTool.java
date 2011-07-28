@@ -510,7 +510,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	// 
+	//
 	// private Company toServerCompany(Company company, ClientCompany
 	// clientCompany) {
 	// company.setName(clientCompany.getName());
@@ -611,7 +611,6 @@ public class FinanceTool implements IFinanceDAOService {
 		return null;
 	}
 
-	
 	@Override
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
 			long id) throws DAOException {
@@ -660,7 +659,6 @@ public class FinanceTool implements IFinanceDAOService {
 		return clazz;
 	}
 
-	
 	@Override
 	public <T extends IAccounterCore> T getObjectByName(AccounterCoreType type,
 			String name) throws DAOException {
@@ -691,7 +689,6 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	
 	public <T extends IAccounterCore> T getServerObjectByName(
 			AccounterCoreType type, String name) throws DAOException {
 
@@ -719,7 +716,6 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	
 	@Override
 	public <T extends IAccounterCore> List<T> getObjects(AccounterCoreType type)
 			throws DAOException {
@@ -972,7 +968,6 @@ public class FinanceTool implements IFinanceDAOService {
 	 * =====================
 	 */
 
-	
 	@Override
 	public List<EnterBill> getBillsOwed() throws DAOException {
 		// Session session = getSessionFactory().openSession();
@@ -1009,7 +1004,6 @@ public class FinanceTool implements IFinanceDAOService {
 		return null;
 	}
 
-	
 	@Override
 	public List<BillsList> getBillsList(boolean isExpensesList)
 			throws DAOException {
@@ -1061,7 +1055,6 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	
 	@Override
 	public List<IssuePaymentTransactionsList> getChecks() throws DAOException {
 
@@ -1235,7 +1228,6 @@ public class FinanceTool implements IFinanceDAOService {
 					null));
 	}
 
-	
 	@Override
 	public List<IssuePaymentTransactionsList> getChecks(long account)
 			throws DAOException {
@@ -1533,7 +1525,6 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	
 	@Override
 	public List<CreditCardCharge> getCreditCardChargesThisMonth(final long date)
 			throws DAOException {
@@ -1571,7 +1562,6 @@ public class FinanceTool implements IFinanceDAOService {
 		return list;
 	}
 
-	
 	@Override
 	public List<CreditsAndPayments> getCustomerCreditsAndPayments(long customer)
 			throws DAOException {
@@ -1593,7 +1583,6 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	
 	@Override
 	public List<CustomerRefundsList> getCustomerRefundsList()
 			throws DAOException {
@@ -1670,7 +1659,6 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	
 	@Override
 	public List<Entry> getEntries(long journalEntryId) throws DAOException {
 		try {
@@ -1691,7 +1679,6 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	
 	@Override
 	public List<Estimate> getEstimates() throws DAOException {
 		try {
@@ -1710,7 +1697,6 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	
 	@Override
 	public List<Estimate> getEstimates(long customer) throws DAOException {
 		try {
@@ -1731,7 +1717,6 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	
 	@Override
 	public List<InvoicesList> getInvoiceList() throws DAOException {
 		try {
@@ -1778,7 +1763,6 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	
 	@Override
 	public List<JournalEntry> getJournalEntries() throws DAOException {
 		try {
@@ -1798,7 +1782,6 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	
 	@Override
 	public JournalEntry getJournalEntry(long journalEntryId)
 			throws DAOException {
@@ -1820,7 +1803,6 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	
 	@Override
 	public List<Estimate> getLatestQuotes() throws DAOException {
 		// SELECT E1.* FROM ESTIMATE E1 WHERE 10>(SELECT COUNT(*) FROM
@@ -1860,7 +1842,6 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	
 	@Override
 	public Long getNextIssuePaymentCheckNumber(long account)
 			throws DAOException {
@@ -1882,7 +1863,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	// 
+	//
 	// @Override
 	// public Long getNextTransactionNumber(int transactionType)
 	// throws DAOException {
@@ -1903,7 +1884,6 @@ public class FinanceTool implements IFinanceDAOService {
 	// }
 	// }
 
-	
 	@Override
 	public String getNextFixedAssetNumber() throws DAOException {
 		// try {
@@ -1924,7 +1904,6 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	
 	@Override
 	public String getNextVoucherNumber() throws DAOException {
 		// try {
@@ -1955,7 +1934,6 @@ public class FinanceTool implements IFinanceDAOService {
 		return NumberUtils.getNextVoucherNumber();
 	}
 
-	
 	@Override
 	public List<OverDueInvoicesList> getOverDueInvoices() throws DAOException {
 		// try {
@@ -2020,7 +1998,6 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	
 	@Override
 	public List<PaymentsList> getPaymentsList() throws DAOException {
 		List<PaymentsList> queryResult = new ArrayList<PaymentsList>();
@@ -2072,7 +2049,6 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	
 	@Override
 	public List<Item> getPurchaseItems() throws DAOException {
 
@@ -2094,7 +2070,6 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	
 	@Override
 	public List<Item> getSalesItems() throws DAOException {
 
@@ -2116,7 +2091,6 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	
 	@Override
 	public List<PayBillTransactionList> getTransactionPayBills()
 			throws DAOException {
@@ -2181,7 +2155,6 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	
 	@Override
 	public List<PayBillTransactionList> getTransactionPayBills(
 			final long vendorId) throws DAOException {
@@ -2255,7 +2228,6 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	
 	@Override
 	public List<ReceivePaymentTransactionList> getTransactionReceivePayments(
 			long customerId, long paymentDate1) throws DAOException,
@@ -2347,16 +2319,14 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	
 	@Override
 	public List<CreditsAndPayments> getVendorCreditsAndPayments(long vendor)
 			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session
-				.getNamedQuery(
-						"getcreditandPayments.by.Payieeid.and.balance")
-				.setParameter(0, vendor);
+		Query query = session.getNamedQuery(
+				"getcreditandPayments.by.Payieeid.and.balance").setParameter(0,
+				vendor);
 		List<CreditsAndPayments> list = query.list();
 
 		// if (list != null) {
@@ -2367,7 +2337,6 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	
 	@Override
 	public List<PaymentsList> getVendorPaymentsList() throws DAOException {
 		try {
@@ -2426,16 +2395,13 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	
 	@Override
 	public boolean isSalesTaxPayableAccount(long accountId) throws DAOException {
 
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session
-					.getNamedQuery(
-							"getAccount.by.id.and.type")
+			Query query = session.getNamedQuery("getAccount.by.id.and.type")
 					.setParameter(0, accountId)
 					.setParameter(1, Account.TYPE_OTHER_CURRENT_LIABILITY);
 			List list = query.list();
@@ -2454,7 +2420,6 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	
 	@Override
 	public boolean isSalesTaxPayableAccountByName(String accountName)
 			throws DAOException {
@@ -2462,9 +2427,7 @@ public class FinanceTool implements IFinanceDAOService {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session
-					.getNamedQuery(
-							"getAccount.by.name.and.type")
+			Query query = session.getNamedQuery("getAccount.by.name.and.type")
 					.setParameter(0, accountName)
 					.setParameter(1, Account.TYPE_OTHER_CURRENT_LIABILITY);
 			List list = query.list();
@@ -2483,17 +2446,15 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	
 	@Override
 	public boolean isTaxAgencyAccount(long account) throws DAOException {
 
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session
-					.getNamedQuery(
-							"getTaxAgency.by.liabilityAccountId")
-					.setParameter(0, account);
+			Query query = session.getNamedQuery(
+					"getTaxAgency.by.liabilityAccountId").setParameter(0,
+					account);
 			List list = query.list();
 
 			if (list != null) {
@@ -2510,7 +2471,6 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	
 	@Override
 	public boolean canVoidOrEdit(long invoiceOrVendorBillId)
 			throws DAOException {
@@ -3197,7 +3157,6 @@ public class FinanceTool implements IFinanceDAOService {
 	// }
 	// }
 
-	
 	@Override
 	public List<InvoicesList> getLatestInvoices() throws DAOException {
 		try {
@@ -3241,7 +3200,6 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	
 	@Override
 	public List<Item> getLatestPurchaseItems() throws DAOException {
 
@@ -3267,7 +3225,6 @@ public class FinanceTool implements IFinanceDAOService {
 					null));
 	}
 
-	
 	@Override
 	public List<ReceivePayment> getLatestReceivePayments() throws DAOException {
 
@@ -3298,7 +3255,6 @@ public class FinanceTool implements IFinanceDAOService {
 					null));
 	}
 
-	
 	@Override
 	public List<Item> getLatestSalesItems() throws DAOException {
 
@@ -3327,7 +3283,6 @@ public class FinanceTool implements IFinanceDAOService {
 					null));
 	}
 
-	
 	@Override
 	public List<PaymentsList> getLatestVendorPayments() throws DAOException {
 		try {
@@ -3390,7 +3345,6 @@ public class FinanceTool implements IFinanceDAOService {
 		// }
 	}
 
-	
 	@Override
 	public List<PaySalesTaxEntries> getTransactionPaySalesTaxEntriesList(
 			long billsDueOnOrBefore) throws DAOException {
@@ -3537,7 +3491,6 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	
 	@Override
 	public List<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
 			long customerId) throws DAOException {
@@ -3570,7 +3523,6 @@ public class FinanceTool implements IFinanceDAOService {
 		return esl;
 	}
 
-	
 	@Override
 	public List<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
 			long vendorId) throws DAOException {
@@ -3604,7 +3556,6 @@ public class FinanceTool implements IFinanceDAOService {
 		return pil;
 	}
 
-	
 	public List<SalesOrdersList> getSalesOrdersList() throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -3636,7 +3587,6 @@ public class FinanceTool implements IFinanceDAOService {
 		return esl;
 	}
 
-	
 	public List<PurchaseOrdersList> getPurchaseOrdersList() throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -3668,7 +3618,6 @@ public class FinanceTool implements IFinanceDAOService {
 		return pil;
 	}
 
-	
 	@Override
 	public List<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
 			long vendorID) throws DAOException {
@@ -3701,7 +3650,6 @@ public class FinanceTool implements IFinanceDAOService {
 		return pil;
 	}
 
-	
 	@Override
 	public List<FixedAssetList> getFixedAssets(int status) throws DAOException {
 
@@ -3764,10 +3712,9 @@ public class FinanceTool implements IFinanceDAOService {
 	public void runDepreciation(long depreciationFrom, long depreciationTo,
 			FixedAssetLinkedAccountMap linkedAccounts) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session
-				.getNamedQuery(
-						"getFixedAsset.by.statusAnd.purchaseDate")
-				.setParameter(0, (new FinanceDate(depreciationTo)));
+		Query query = session.getNamedQuery(
+				"getFixedAsset.by.statusAnd.purchaseDate").setParameter(0,
+				(new FinanceDate(depreciationTo)));
 		List<FixedAsset> fixedAssets = query.list();
 		org.hibernate.Transaction tx = session.beginTransaction();
 		for (FixedAsset fixedAsset : fixedAssets) {
@@ -3780,9 +3727,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 
 		if (linkedAccounts != null && linkedAccounts.keySet().size() > 0) {
-			query = session
-					.getNamedQuery(
-							"getAccount.by.idInAccountList")
+			query = session.getNamedQuery("getAccount.by.idInAccountList")
 					.setParameterList("accountsList", linkedAccounts.keySet());
 			List<Account> assetAccounts = query.list();
 			for (Account assetAccount : assetAccounts) {
@@ -3793,8 +3738,7 @@ public class FinanceTool implements IFinanceDAOService {
 					if (!(assetAccount
 							.getLinkedAccumulatedDepreciationAccount().getID() == (changedLinkedAccountID))) {
 						Account changedLinkedAccount = (Account) session
-								.getNamedQuery(
-										"getAccount.by.id")
+								.getNamedQuery("getAccount.by.id")
 								.setParameter(0, changedLinkedAccountID)
 								.uniqueResult();
 						assetAccount
@@ -3902,9 +3846,7 @@ public class FinanceTool implements IFinanceDAOService {
 	public void rollBackDepreciation(FinanceDate rollBackDepreciationTo)
 			throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session
-				.getNamedQuery(
-						"getDepreciation.by.ToandStatus")
+		Query query = session.getNamedQuery("getDepreciation.by.ToandStatus")
 				.setParameter(0, (rollBackDepreciationTo))
 				.setParameter(1, Depreciation.APPROVE);
 		List<Depreciation> list = query.list();
@@ -4809,7 +4751,6 @@ public class FinanceTool implements IFinanceDAOService {
 	 * ================
 	 */
 
-	
 	@Override
 	public List<AccountBalance> getAccountBalances() throws DAOException {
 		try {
@@ -4848,7 +4789,6 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	
 	@Override
 	public List<TrialBalance> getTrialBalance(final long startDate,
 			final long endDate) throws DAOException {
@@ -4915,7 +4855,6 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	
 	@Override
 	public List<SalesByCustomerDetail> getSalesByCustomerDetailReport(
 			final long startDate, final long endDate) throws DAOException {
@@ -5803,7 +5742,6 @@ public class FinanceTool implements IFinanceDAOService {
 		return queryResult;
 	}
 
-	
 	@Override
 	public List<MostProfitableCustomers> getMostProfitableCustomers(
 			final long startDate, final long endDate) throws DAOException {
@@ -5875,7 +5813,6 @@ public class FinanceTool implements IFinanceDAOService {
 		return queryResult;
 	}
 
-	
 	public List<MostProfitableCustomers> getProfitabilityByCustomerDetail(
 			final long customer, long startDate, long endDate)
 			throws DAOException {
@@ -7391,21 +7328,19 @@ public class FinanceTool implements IFinanceDAOService {
 
 			// getting entries from VATAdjustment
 			if (taxAgency != null) {
-				query = session
-						.getNamedQuery(
+				query = session.getNamedQuery(
 
-								"getTaxadjustment.by.allDetails.withOrder")
+				"getTaxadjustment.by.allDetails.withOrder")
 
-						.setParameter("fromDate", startDate)
+				.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate)
 						.setParameter("taxAgency", taxAgency.getID());
 			} else {
-				query = session
-						.getNamedQuery(
+				query = session.getNamedQuery(
 
-								"getTaxadjustment.by.betweenDates")
+				"getTaxadjustment.by.betweenDates")
 
-						.setParameter("fromDate", startDate)
+				.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate);
 			}
 
@@ -7500,21 +7435,19 @@ public class FinanceTool implements IFinanceDAOService {
 		// Getting journal entries from VATReturn
 		{
 			if (taxAgency != null) {
-				query = session
-						.getNamedQuery(
+				query = session.getNamedQuery(
 
-								"getVat.by.taxAgency.and.VatPeriod")
+				"getVat.by.taxAgency.and.VatPeriod")
 
-						.setParameter("fromDate", startDate)
+				.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate)
 						.setParameter("taxAgency", taxAgency.getID());
 			} else {
-				query = session
-						.getNamedQuery(
+				query = session.getNamedQuery(
 
-								"getVat.by.BetweenendDates")
+				"getVat.by.BetweenendDates")
 
-						.setParameter("fromDate", startDate)
+				.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate);
 			}
 
@@ -8693,7 +8626,9 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 
 		// Getting entries from VATRateCalculation
-		Query query = session.getNamedQuery("getTAXRateCalculation.by.dates")
+		Query query = session
+				.getNamedQuery(
+						"getTAXRateCalculation.by.dates.orderbytaxItem.name")
 				.setParameter("startDate", (new FinanceDate(fromDate)))
 				.setParameter("endDate", (new FinanceDate(toDate)));
 
@@ -10321,7 +10256,6 @@ public class FinanceTool implements IFinanceDAOService {
 				.executeUpdate();
 	}
 
-	
 	@Override
 	public List<PayeeList> getPayeeList(int transactionCategory)
 			throws DAOException {
@@ -10756,7 +10690,6 @@ public class FinanceTool implements IFinanceDAOService {
 		return;
 	}
 
-	
 	@Override
 	public List<PayeeStatementsList> getPayeeStatementsList(long id,
 			long transactionDate, long fromDate, long toDate, int noOfDays,
@@ -10844,7 +10777,6 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	
 	@Override
 	public List<Double> getGraphPointsforAccount(int chartType, long accountNo)
 			throws DAOException {
@@ -11332,7 +11264,6 @@ public class FinanceTool implements IFinanceDAOService {
 		session.saveOrUpdate(this);
 	}
 
-	
 	@Override
 	public List<BillsList> getEmployeeExpensesByStatus(String employeeName,
 			int status) throws DAOException {
@@ -11377,7 +11308,6 @@ public class FinanceTool implements IFinanceDAOService {
 		return billsList;
 	}
 
-	
 	@Override
 	public boolean changeMyPassword(String emailId, String oldPassword,
 			String newPassword) throws DAOException {
