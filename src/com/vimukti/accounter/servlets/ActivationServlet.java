@@ -7,9 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Session;
+
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.utils.HexUtil;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
 
 public class ActivationServlet extends BaseServlet {
@@ -25,20 +28,29 @@ public class ActivationServlet extends BaseServlet {
 		// get the token
 		String token = req.getParameter("code");
 		// get activation record
-		Activation activation = getActivation(token);
-		// If it is null
-		if (activation == null) {
-			// set Error "Token has expired"
-			req.setAttribute("error", "Token has expired.");
-		} else {
-			// otherwise
-			// set token in session.
-			HttpSession session = req.getSession(true);
-			session.setAttribute("activationToken", token);
-			req.setAttribute("emailId", activation.getEmailId());
+
+		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
+		try {
+			Activation activation = getActivation(token);
+			// If it is null
+			if (activation == null) {
+				// set Error "Token has expired"
+				req.setAttribute("error", "Token has expired.");
+			} else {
+				// otherwise
+				// set token in session.
+				HttpSession session = req.getSession(true);
+				session.setAttribute("activationToken", token);
+				req.setAttribute("emailId", activation.getEmailId());
+			}
+			// redirect To ActivationPage.
+			redirect(req, resp, "");
+		} catch (Exception e) {
+		} finally {
+			if (hibernateSession != null) {
+				hibernateSession.close();
+			}
 		}
-		// redirect To ActivationPage.
-		redirect(req, resp, "");
 
 	}
 
@@ -81,15 +93,26 @@ public class ActivationServlet extends BaseServlet {
 				.getEmailId() + password.trim())));
 		// and save Client, delete activation record
 		saveEntry(client);
-		deleteEntry(activation);
+		deleteActivationTokens(activation.getEmailId());
 
 		// Send to login page with emailId
 		redirect(req, resp, "");
 	}
 
-	private Activation getActivation(String token) {
-		// TODO Auto-generated method stub
-		return null;
+	private void deleteActivationTokens(String emailId) {
+		Session session = HibernateUtil.getCurrentSession();
+		session.getNamedQuery("delete.activation.by.emailId")
+				.setParameter(0, emailId).executeUpdate();
 	}
 
+	private Activation getActivation(String token) {
+		Session session = HibernateUtil.getCurrentSession();
+		if (session != null) {
+			return (Activation) session
+					.getNamedQuery("get.activation.by.token")
+					.setParameter(0, token).uniqueResult();
+
+		}
+		return null;
+	}
 }

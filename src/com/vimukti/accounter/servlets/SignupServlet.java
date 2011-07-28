@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ServerCompany;
+import com.vimukti.accounter.utils.SecureUtils;
 
 public class SignupServlet extends BaseServlet {
 	/**
@@ -25,18 +26,18 @@ public class SignupServlet extends BaseServlet {
 		String emailId = req.getParameter("emailId").trim().toLowerCase();
 		String firstName = req.getParameter("firstName").trim().toLowerCase();
 		String lastName = req.getParameter("lastName").trim().toLowerCase();
-		if (!isValidInputs(emailId, firstName, lastName)) {
+		if (!isValidInputs(firstName, lastName) || !isValidEmailId(emailId)) {
 			dispatchMessage("Given Inputs are wrong.", req, resp);
 			return;
 		}
 		// Have to check UserExistence
-		if (isUserExist(emailId)) {
+		if (getClient(emailId) != null) {
 			// If Exists then send to login password with username
 			redirect(req, resp, "/sites/login.jsp");
 		} else {
 			// else
 			// Generate Token and create Activation and save. then send
-			String tocken = generateActivationToken();
+			String tocken = SecureUtils.createID();
 			Activation activation = new Activation();
 			activation.setEmailId(emailId);
 			activation.setTocken(tocken);
@@ -60,17 +61,13 @@ public class SignupServlet extends BaseServlet {
 
 	}
 
+	private boolean isValidEmailId(String emailId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	private void sendActivationEmail(String emailId, String tocken) {
 		// TODO Auto-generated method stub
 
-	}
-
-	private String generateActivationToken() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private boolean isUserExist(String emailId) {
-		return getClient(emailId) != null;
 	}
 }

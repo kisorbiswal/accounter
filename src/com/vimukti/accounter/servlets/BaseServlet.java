@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -85,11 +84,6 @@ public class BaseServlet extends HttpServlet {
 	}
 
 	protected void saveEntry(Object object) {
-		// TODO Auto-generated method stub
-
-	}
-
-	protected void deleteEntry(Activation activation) {
 		// TODO Auto-generated method stub
 
 	}
