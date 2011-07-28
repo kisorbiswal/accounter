@@ -71,12 +71,13 @@ public class BaseServlet extends HttpServlet {
 		return null;
 	}
 
-	protected boolean isValidInputs(int inputType, String... value) {
+	protected boolean isValidInputs(int inputType, String value) {
 		switch(inputType){
-		case MAIL_ID: //TODO
-			break;
-		case NAME: //TODO
-			break;
+		case MAIL_ID: 
+				return value.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$");
+			
+		case NAME: 
+				return value.matches("^[a-zA-Z]+$");
 			
 		}
 		return false;
