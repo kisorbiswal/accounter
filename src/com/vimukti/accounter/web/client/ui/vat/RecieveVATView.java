@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceiveVAT;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -76,6 +77,7 @@ public class RecieveVATView extends
 	@SuppressWarnings("unused")
 	private DynamicForm fileterForm;
 	private TextItem transNumber;
+	private AccounterConstants companyConstants = Accounter.constants();
 
 	public RecieveVATView() {
 		super(ClientTransaction.TYPE_PAY_SALES_TAX, RECEIVEVAT_TRANSACTION_GRID);

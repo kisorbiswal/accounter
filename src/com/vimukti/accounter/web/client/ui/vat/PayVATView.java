@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayVAT;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -67,6 +68,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	private ClientFinanceDate dueDateOnOrBefore;
 	private DynamicForm fileterForm;
 	private TextItem transNumber;
+	private AccounterConstants companyConstants = Accounter.constants();
 
 	public PayVATView() {
 		super(ClientTransaction.TYPE_PAY_SALES_TAX, PAYVAT_TRANSACTION_GRID);
@@ -252,8 +254,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		loadData(filterList);
 		int size = grid.getRecords().size();
 		if (size == 0)
-			grid.addEmptyMessage(Accounter.constants()
-					.norecordstoshow());
+			grid.addEmptyMessage(Accounter.constants().norecordstoshow());
 	}
 
 	private void calculateEndingBalance() {
