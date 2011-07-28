@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Activation {
 	private String emailId;
-	private String tocken;
+	private String token;
 	private Date signUpDate;
 
 	public String getEmailId() {
@@ -16,11 +16,11 @@ public class Activation {
 	}
 
 	public String getTocken() {
-		return tocken;
+		return token;
 	}
 
 	public void setTocken(String tocken) {
-		this.tocken = tocken;
+		this.token = tocken;
 	}
 
 	public Date getSignUpDate() {
