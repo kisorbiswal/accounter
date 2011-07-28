@@ -24,11 +24,6 @@
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="isConsiderAsCashAccount" column="IS_CASH_ACCOUNT"></property>
 		<property name="comment" column="COMMENT"></property>
-		<many-to-one name="bank" column="BANK_ID" class="Bank"
-			lazy="false">
-		</many-to-one>
-		<property name="bankAccountType" column="BANK_ACCOUNT_TYPE"></property>
-		<property name="bankAccountNumber" column="BANK_ACCOUNT_NUMBER"></property>
 		<property name="creditLimit" column="CREDIT_LIMIT"></property>
 		<property name="cardOrLoanNumber" column="CARD_NUMBER"></property>
 		<property name="isIncrease" column="IS_INCREASE"></property>
@@ -62,6 +57,16 @@
 			<index column="month" type="int"></index>
 			<element column="amount" type="double"></element>
 		</map>
+		<joined-subclass name="BankAccount" table="BANK_ACCOUNT">
+			<key column="ID" />
+			<many-to-one name="bank" column="BANK_ID" class="Bank"
+				lazy="false">
+			</many-to-one>
+			<property name="bankAccountType" column="BANK_ACCOUNT_TYPE"></property>
+			<property name="bankAccountNumber" column="BANK_ACCOUNT_NUMBER"></property>
+			<property name="lastReconcilationDate" column="LAST_RECONCILATION_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
+		</joined-subclass>
 	</class>
 	<class name="CommodityCode" table="COMMODITY_CODE">
 		<id name="id" column="ID">
